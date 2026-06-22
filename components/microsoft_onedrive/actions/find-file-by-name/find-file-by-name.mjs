@@ -4,7 +4,7 @@ import httpRequest from "../../common/httpRequest.mjs";
 export default {
   key: "microsoft_onedrive-find-file-by-name",
   name: "Find File by Name",
-  description: "Find a file or folder by a case-insensitive name match across a OneDrive drive. Defaults to the authenticated user's personal drive; select a **Drive** to target a different one. Paginates through all result pages before matching. [See the documentation](https://learn.microsoft.com/en-us/graph/api/driveitem-search?view=graph-rest-1.0&tabs=http)",
+  description: "Search for a file or folder by name. [See the documentation](https://learn.microsoft.com/en-us/onedrive/developer/rest-api/api/driveitem_search)",
   version: "0.1.1",
   annotations: {
     destructiveHint: false,
@@ -19,18 +19,18 @@ export default {
         onedrive,
         "drive",
       ],
+      description: "The drive to search. Defaults to the connected account's personal OneDrive. To search a different drive, pass that drive's ID here (you can get it from the **List My Drives** action).",
     },
     name: {
       type: "string",
       label: "File Name",
-      description: "The file name (or partial name) to match. Matching is case-insensitive and applied across all paginated results (e.g. `cegesautoflotta.xlsx`).",
+      description: "The name of the file or folder to search for",
     },
     excludeFolders: {
       propDefinition: [
         onedrive,
         "excludeFolders",
       ],
-      description: "When `true`, folder items are excluded from the results and only files are returned.",
     },
   },
   methods: {
@@ -42,20 +42,12 @@ export default {
     const escapedName = this.name.replace(/'/g, "''");
     const encodedName = encodeURIComponent(escapedName);
 
-    let currentUrl = `${drivePath}/search(q='${encodedName}')`;
+    const response = await this.httpRequest({
+      url: `${drivePath}/search(q='${encodedName}')`,
+      useSharedDrive: true,
+    });
 
-    let allValues = [];
-    while (currentUrl) {
-      const response = await this.httpRequest({
-        $,
-        url: currentUrl,
-        useSharedDrive: true,
-      });
-      allValues = allValues.concat(response.value ?? []);
-      currentUrl = response["@odata.nextLink"];
-    }
-
-    let values = allValues.filter(
+    let values = response.value.filter(
       ({ name }) => name.toLowerCase().includes(this.name.toLowerCase()),
     );
 
@@ -71,7 +63,11 @@ export default {
       ? `file${plural}`
       : `file${plural} and/or folder${plural}`;
 
-    $.export("$summary", `Found ${values.length} matching ${type}`);
+    const scope = this.drive
+      ? `drive ${this.drive}`
+      : "your personal OneDrive";
+
+    $.export("$summary", `Found ${values.length} matching ${type} in ${scope}`);
 
     return values;
   },
