@@ -1,10 +1,10 @@
-import { parseObject } from "../../common/utils.mjs";
+import { ENTITY_KEYS } from "../../common/constants.mjs";
 import nutshell from "../../nutshell.app.mjs";
 
 export default {
   key: "nutshell-create-lead",
   name: "Create Lead",
-  description: "Initiates a new lead within Nutshell. [See the documentation](https://developers.nutshell.com)",
+  description: "Create a new lead in Nutshell. [See the documentation](https://developers.nutshell.com/reference/7d9961f8fbd457ba5670721926517135)",
   version: "0.0.4",
   annotations: {
     destructiveHint: false,
@@ -14,17 +14,10 @@ export default {
   type: "action",
   props: {
     nutshell,
-    marketId: {
-      propDefinition: [
-        nutshell,
-        "marketId",
-      ],
-      optional: true,
-    },
-    tags: {
-      type: "string[]",
-      label: "Tags",
-      description: "A list of tags.",
+    description: {
+      type: "string",
+      label: "Description",
+      description: "Lead description / title.",
       optional: true,
     },
     companyId: {
@@ -32,7 +25,6 @@ export default {
         nutshell,
         "companyId",
       ],
-      type: "string[]",
       optional: true,
     },
     contactId: {
@@ -40,78 +32,60 @@ export default {
         nutshell,
         "contactId",
       ],
-      type: "string[]",
       optional: true,
     },
-    description: {
-      propDefinition: [
-        nutshell,
-        "description",
-      ],
-      reloadProps: true,
+    value: {
+      type: "string",
+      label: "Value",
+      description: "Manual lead value as a string amount (maps to `leads/0/manualValue`).",
+      optional: true,
     },
-  },
-  async additionalProps() {
-    const { result: { Leads: fields } } = await this.getCustomFields();
-    const props = {};
-    let i = 0;
-    for (const field of fields) {
-      i++;
-      props[`customField_${i}`] = {
-        type: "string",
-        label: field.name,
-        description: `Custom field ${i}.`,
-        optional: true,
-      };
-    }
-    return props;
-  },
-  methods: {
-    async getCustomFields() {
-      return await this.nutshell.post({
-        method: "findCustomFields",
-      });
-    },
-    async parseCustomFields(props) {
-      const customFields = {};
-      const { result: { Leads } } = await this.getCustomFields();
-
-      let i = 0;
-      for (const field of Leads) {
-        i++;
-        if (props[`customField_${i}`]) {
-          customFields[field.name] = props[`customField_${i}`];
-        }
-      }
-      return customFields;
+    customFields: {
+      type: "object",
+      label: "Custom Fields",
+      description: "Custom field name->value pairs, e.g. `{\"Deal source\":\"Referral\"}`.",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const customFields = await this.parseCustomFields(this);
-    const response = await this.nutshell.post({
+    const links = {
+      ...(this.companyId
+        ? {
+          accounts: [
+            this.companyId,
+          ],
+        }
+        : {}),
+      ...(this.contactId
+        ? {
+          contacts: [
+            this.contactId,
+          ],
+        }
+        : {}),
+    };
+
+    const leadData = {
+      description: this.description,
+      manualValue: this.value,
+      customFields: this.customFields,
+      ...(Object.keys(links).length
+        ? {
+          links,
+        }
+        : {}),
+    };
+
+    const lead = await this.nutshell.createLead({
       $,
-      method: "newLead",
       data: {
-        params: {
-          lead: {
-            market: this.marketId && {
-              id: this.marketId,
-            },
-            tags: this.tags && parseObject(this.tags),
-            description: this.description,
-            accounts: this.companyId && this.companyId.map((company) => ({
-              id: company,
-            })),
-            contacts: this.contactId && this.contactId.map((contact) => ({
-              id: contact,
-            })),
-            customFields,
-          },
-        },
+        [ENTITY_KEYS.LEADS]: [
+          leadData,
+        ],
       },
     });
-    $.export("$summary", `Successfully created lead with Id: ${response.result?.id}`);
 
-    return response;
+    $.export("$summary", `Successfully created lead (ID: ${lead?.id}, status: ${lead?.status ?? "unknown"})`);
+    return this.nutshell.formatLead(lead);
   },
 };

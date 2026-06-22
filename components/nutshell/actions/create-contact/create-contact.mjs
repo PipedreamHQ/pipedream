@@ -1,10 +1,11 @@
 import { parseObject } from "../../common/utils.mjs";
+import { ENTITY_KEYS } from "../../common/constants.mjs";
 import nutshell from "../../nutshell.app.mjs";
 
 export default {
   key: "nutshell-create-contact",
   name: "Create Contact",
-  description: "Creates a new contact. [See the documentation](https://developers.nutshell.com/detail/class_core.html#a4b40d4fe9c7b8ddfd7231aca65cd1556)",
+  description: "Create a new contact (person) in Nutshell. [See the documentation](https://developers.nutshell.com/reference/376a09558c05d3d4d273459f15a57326)",
   version: "0.0.6",
   annotations: {
     destructiveHint: false,
@@ -14,31 +15,33 @@ export default {
   type: "action",
   props: {
     nutshell,
-    name: {
+    firstName: {
       type: "string",
-      label: "Name",
-      description: "The name to the contact.",
+      label: "First Name",
+      description: "Contact first name.",
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "Contact last name.",
+      optional: true,
+    },
+    email: {
+      type: "string[]",
+      label: "Email",
+      description: "Array of email objects as JSON strings, e.g. `{\"isPrimary\":true,\"value\":\"jane@acme.com\"}`.",
       optional: true,
     },
     phone: {
-      propDefinition: [
-        nutshell,
-        "phone",
-      ],
-      description: "The phone numbers of the contact.",
+      type: "string[]",
+      label: "Phone",
+      description: "Array of phone objects as JSON strings, e.g. `{\"isPrimary\":true,\"value\":\"+15125551234\"}`.",
+      optional: true,
     },
-    email: {
-      propDefinition: [
-        nutshell,
-        "email",
-      ],
-      description: "The email address of the contact.",
-    },
-    address: {
-      propDefinition: [
-        nutshell,
-        "address",
-      ],
+    jobTitle: {
+      type: "string",
+      label: "Job Title",
+      description: "Contact job title.",
       optional: true,
     },
     companyId: {
@@ -46,107 +49,56 @@ export default {
         nutshell,
         "companyId",
       ],
-      type: "string[]",
-      description: "The company ID for the contact.",
       optional: true,
-    },
-    leadId: {
-      propDefinition: [
-        nutshell,
-        "leadId",
-      ],
-      optional: true,
-    },
-    territoryId: {
-      propDefinition: [
-        nutshell,
-        "territoryId",
-      ],
-      description: "The territory of the contact.",
-      optional: true,
-    },
-    audienceId: {
-      propDefinition: [
-        nutshell,
-        "audienceId",
-      ],
-      optional: true,
-    },
-    description: {
-      propDefinition: [
-        nutshell,
-        "description",
-      ],
-      description: "A description to identify the new contact.",
-      reloadProps: true,
-    },
-  },
-  async additionalProps() {
-    const { result: { Contacts: fields } } = await this.getCustomFields();
-    const props = {};
-    let i = 0;
-    for (const field of fields) {
-      i++;
-      props[`customField_${i}`] = {
-        type: "string",
-        label: field.name,
-        description: `Custom field ${i}.`,
-        optional: true,
-      };
-    }
-    return props;
-  },
-  methods: {
-    async getCustomFields() {
-      return await this.nutshell.post({
-        method: "findCustomFields",
-      });
-    },
-    async parseCustomFields(props) {
-      const customFields = {};
-      const { result: { Contacts } } = await this.getCustomFields();
-
-      let i = 0;
-      for (const field of Contacts) {
-        i++;
-        if (props[`customField_${i}`]) {
-          customFields[field.name] = props[`customField_${i}`];
-        }
-      }
-      return customFields;
     },
   },
   async run({ $ }) {
-    const customFields = await this.parseCustomFields(this);
-    const response = await this.nutshell.post({
-      $,
-      method: "newContact",
-      data: {
-        params: {
-          contact: {
-            name: this.name,
-            description: this.description,
-            phone: this.phone && parseObject(this.phone),
-            email: this.email && parseObject(this.email),
-            address: this.address && parseObject(this.address),
-            leads: this.leadId && this.leadId.map((lead) => ({
-              id: lead,
-            })),
-            accounts: this.companyId && this.companyId.map((company) => ({
-              id: company,
-            })),
-            territoryId: this.territoryId,
-            audienceId: this.audienceId && this.audienceId.map((audience) => ({
-              id: audience,
-            })),
-            customFields,
+    const contactData = {
+      name: {
+        givenName: this.firstName,
+        familyName: this.lastName,
+      },
+      title: this.jobTitle,
+      ...(this.email
+        ? {
+          email: parseObject(this.email),
+        }
+        : {}),
+      ...(this.phone
+        ? {
+          phone: parseObject(this.phone),
+        }
+        : {}),
+      ...(this.companyId
+        ? {
+          links: {
+            accounts: [
+              this.companyId,
+            ],
           },
-        },
+        }
+        : {}),
+    };
+
+    const contact = await this.nutshell.createContact({
+      $,
+      data: {
+        [ENTITY_KEYS.CONTACTS]: [
+          contactData,
+        ],
       },
     });
 
-    $.export("$summary", `New contact created with Id: ${response.result?.id}`);
+    const displayName = typeof contact?.name === "object"
+      ? ((contact.name?.displayName
+        ?? [
+          contact.name?.givenName,
+          contact.name?.familyName,
+        ].filter(Boolean).join(" "))
+        || contact?.id)
+      : (contact?.name ?? contact?.id);
 
-    return response;
+    $.export("$summary", `New contact created: "${displayName}" (ID: ${contact?.id})`);
+    return this.nutshell.formatContact(contact);
   },
 };

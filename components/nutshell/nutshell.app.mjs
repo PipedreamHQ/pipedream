@@ -1,8 +1,15 @@
 import { axios } from "@pipedream/platform";
+import {
+  BASE_URL,
+  ENDPOINTS,
+  ENTITY_KEYS,
+  PAGINATION,
+} from "./common/constants.mjs";
 import { formatContact as formatContactForOutput } from "./common/contact-output.mjs";
 import { formatCompany as formatCompanyForOutput } from "./common/company-output.mjs";
 import {
-  formatLead as formatLeadForOutput, formatSearchLeadResult,
+  formatLead as formatLeadForOutput,
+  formatSearchLeadResult as formatSearchLeadResultFn,
 } from "./common/lead-output.mjs";
 
 export default {
@@ -14,17 +21,13 @@ export default {
       label: "Company ID",
       description: "The company (account) ID.",
       async options({ page }) {
-        const { result } = await this.post({
-          method: "findAccounts",
-          data: {
-            params: {
-              page: page + 1,
-              orderBy: "name",
-            },
+        const items = await this.listAccounts({
+          params: {
+            [PAGINATION.PAGE_PARAM]: page,
+            [PAGINATION.LIMIT_PARAM]: PAGINATION.DEFAULT_LIMIT,
           },
         });
-
-        return result.map(({
+        return items.map(({
           id: value, name: label,
         }) => ({
           label,
@@ -34,20 +37,11 @@ export default {
     },
     accountTypeId: {
       type: "string",
-      label: "Account Type Id",
-      description: "The account type the company.",
-      async options({ page }) {
-        const { result } = await this.post({
-          method: "findAccountTypes",
-          data: {
-            params: {
-              page: page + 1,
-              orderBy: "name",
-            },
-          },
-        });
-
-        return result.map(({
+      label: "Account Type ID",
+      description: "The account type of the company.",
+      async options() {
+        const items = await this.listAccountTypes({});
+        return items.map(({
           id: value, name: label,
         }) => ({
           label,
@@ -58,23 +52,15 @@ export default {
     address: {
       type: "string[]",
       label: "Address",
-      description: "A list of address objects. E.g. `{\"address_1\":\"100 Second St.\",\"address_2\":\"Apt. 4\",\"address_3\":\"c/o Barclay Fowler\",\"city\":\"Ann Arbor\",\"state\":\"MI\",\"postalCode\": \"48103\",\"country\": \"US\"}`",
+      description: "A list of address objects. Each item is a JSON string, e.g. `{\"name\":\"HQ\",\"address_1\":\"123 Main St\",\"city\":\"Austin\",\"state\":\"TX\",\"country\":\"US\"}`.",
     },
     audienceId: {
       type: "string[]",
-      label: "Audience Id",
-      description: "The audience's Id to the Contact.",
-      async options({ page }) {
-        const { result } = await this.post({
-          method: "findAudiences",
-          data: {
-            params: {
-              page: page + 1,
-            },
-          },
-        });
-
-        return result.map(({
+      label: "Audience ID",
+      description: "The audience IDs.",
+      async options() {
+        const items = await this.listAudiences({});
+        return items.map(({
           id: value, name: label,
         }) => ({
           label,
@@ -84,25 +70,29 @@ export default {
     },
     contactId: {
       type: "string",
-      label: "Contact Id",
-      description: "The contact's Id to the lead.",
+      label: "Contact ID",
+      description: "The contact ID.",
       async options({ page }) {
-        const { result } = await this.post({
-          method: "findContacts",
-          data: {
-            params: {
-              page: page + 1,
-              orderBy: "name",
-            },
+        const items = await this.listContacts({
+          params: {
+            [PAGINATION.PAGE_PARAM]: page,
+            [PAGINATION.LIMIT_PARAM]: PAGINATION.DEFAULT_LIMIT,
           },
         });
-
-        return result.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
+        return items.map((c) => {
+          const label = typeof c.name === "object"
+            ? (c.name?.displayName
+              || [
+                c.name?.givenName,
+                c.name?.familyName,
+              ].filter(Boolean).join(" ")
+              || c.id)
+            : (c.name ?? c.id);
+          return {
+            label,
+            value: c.id,
+          };
+        });
       },
     },
     companyName: {
@@ -113,24 +103,15 @@ export default {
     description: {
       type: "string",
       label: "Description",
-      description: "A description to identify the new lead.",
+      description: "A description to identify the lead.",
     },
     industryId: {
       type: "string",
-      label: "Industry Id",
+      label: "Industry ID",
       description: "The industry the company belongs to.",
-      async options({ page }) {
-        const { result } = await this.post({
-          method: "findIndustries",
-          data: {
-            params: {
-              page: page + 1,
-              orderBy: "name",
-            },
-          },
-        });
-
-        return result.map(({
+      async options() {
+        const items = await this.listIndustries({});
+        return items.map(({
           id: value, name: label,
         }) => ({
           label,
@@ -143,52 +124,37 @@ export default {
       label: "Lead ID",
       description: "The lead's ID.",
       async options({ page }) {
-        const { result } = await this.post({
-          method: "findLeads",
-          data: {
-            params: {
-              page: page + 1,
-              query: {
-                filter: 2,
-              },
-            },
+        const items = await this.listLeads({
+          params: {
+            [PAGINATION.PAGE_PARAM]: page,
+            [PAGINATION.LIMIT_PARAM]: PAGINATION.DEFAULT_LIMIT,
           },
         });
-
-        return result.map((item) => {
-          const value = item.id;
-          const name = item.name ?? "";
-          const primaryAccountName = item.primaryAccountName ?? item.primaryAccount?.name ?? "";
-          const primaryContactName = item.primaryContactName ?? item.primaryContact?.name ?? "";
-          const accountAndContact = [
-            primaryAccountName,
-            primaryContactName,
+        return items.map((lead) => {
+          const name = lead.name ?? lead.description ?? lead.id;
+          const primaryAccount = lead.primaryAccount?.name ?? lead.primaryAccountName ?? "";
+          const primaryContact = lead.primaryContact?.name ?? lead.primaryContactName ?? "";
+          const context = [
+            primaryAccount,
+            primaryContact,
           ].filter(Boolean).join(", ");
-          const label = (name && accountAndContact)
-            ? `${name}: ${accountAndContact}`
-            : (name || accountAndContact || String(value));
+          const label = (name && context)
+            ? `${name}: ${context}`
+            : (name || context || String(lead.id));
           return {
             label,
-            value,
+            value: lead.id,
           };
         });
       },
     },
     marketId: {
       type: "string",
-      label: "Market Id",
-      description: "The market's Id of the lead.",
-      async options({ page }) {
-        const { result } = await this.post({
-          method: "findMarkets",
-          data: {
-            params: {
-              page: page + 1,
-            },
-          },
-        });
-
-        return result.map(({
+      label: "Market ID",
+      description: "The market's ID of the lead.",
+      async options() {
+        const items = await this.listMarkets({});
+        return items.map(({
           id: value, name: label,
         }) => ({
           label,
@@ -199,24 +165,16 @@ export default {
     phone: {
       type: "string[]",
       label: "Phones",
-      description: "The phone numbers of the company.",
+      description: "The phone numbers. Each item is a JSON string, e.g. `{\"isPrimary\":true,\"value\":\"+15125551234\"}`.",
       optional: true,
     },
     territoryId: {
       type: "string",
-      label: "Territory Id",
+      label: "Territory ID",
       description: "The territory of the company.",
-      async options({ page }) {
-        const { result } = await this.post({
-          method: "findTerritories",
-          data: {
-            params: {
-              page: page + 1,
-            },
-          },
-        });
-
-        return result.map(({
+      async options() {
+        const items = await this.listTerritories({});
+        return items.map(({
           id: value, name: label,
         }) => ({
           label,
@@ -227,7 +185,7 @@ export default {
     email: {
       type: "string[]",
       label: "Email",
-      description: "The email address of the company.",
+      description: "The email addresses. Each item is a JSON string, e.g. `{\"isPrimary\":true,\"value\":\"info@acme.com\"}`.",
     },
     firstName: {
       type: "string",
@@ -247,358 +205,412 @@ export default {
       description: "The job title of the person.",
       optional: true,
     },
+    query: {
+      type: "string",
+      label: "Query",
+      description: "Free-text search string mapped to the REST `q` query parameter.",
+      optional: true,
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Maximum number of records to return (min 1, max 1000).",
+      min: 1,
+      max: 1000,
+      optional: true,
+    },
   },
   methods: {
-    _baseUrl() {
-      return `https://${this.$auth.api_url}/api/v1/json`;
-    },
-    _auth() {
-      return {
-        username: this.$auth.email,
-        password: this.$auth.api_key,
-      };
-    },
+    /**
+     * Central HTTP request helper using @pipedream/platform axios.
+     * HTTP Basic auth: username=email, password=api_key (unchanged from JSON-RPC auth).
+     * Undefined values in data/params are stripped automatically by the platform axios.
+     */
     _makeRequest({
-      $ = this, data = {}, ...opts
+      $ = this, path, headers, ...args
     }) {
       return axios($, {
-        url: this._baseUrl(),
-        auth: this._auth(),
-        data: {
-          ...data,
-          jsonrpc: "2.0",
-          id: this.$auth.id,
+        url: `${BASE_URL}${path}`,
+        auth: {
+          username: this.$auth.email,
+          password: this.$auth.api_key,
         },
-        ...opts,
+        headers,
+        ...args,
       });
     },
+
+    // ── Accounts (Companies) ──────────────────────────────────────────────────
+
     /**
-     * Send a JSON-RPC POST request to the Nutshell API.
-     *
-     * @param {Object} opts - Request options
-     * @param {string} opts.method - The RPC method name (e.g. getLead, findLeads)
-     * @param {Object} [opts.data={}] - Additional request payload (e.g. params)
-     * @param {Object} [opts.$=this] - Pipedream context for the request
-     * @returns {Promise<Object>} The API response
-     */
-    post({
-      method, data, ...opts
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        data: {
-          ...data,
-          method,
-        },
-        ...opts,
-      });
-    },
-    /**
-     * Get a company (account) by ID.
-     *
-     * @param {Object} opts - Options
-     * @param {Object} [opts.$=this] - Pipedream context
-     * @param {string} opts.companyId - The company (account) ID
-     * @returns {Promise<Object>} The account object
+     * GET /rest/accounts/{id}
+     * Returns the account object. REST may return it directly or wrapped.
      */
     async getAccount({
-      $ = this, companyId,
+      $, companyId,
     }) {
-      const { result } = await this.post({
+      const response = await this._makeRequest({
         $,
-        method: "getAccount",
-        data: {
-          params: {
-            accountId: parseInt(companyId, 10),
-          },
+        path: `${ENDPOINTS.ACCOUNTS}/${companyId}`,
+      });
+      return Array.isArray(response?.[ENTITY_KEYS.ACCOUNTS])
+        ? response[ENTITY_KEYS.ACCOUNTS][0]
+        : response;
+    },
+
+    /**
+     * GET /rest/accounts
+     * Returns array of account stubs.
+     */
+    async listAccounts({
+      $, params,
+    }) {
+      const response = await this._makeRequest({
+        $,
+        path: ENDPOINTS.ACCOUNTS,
+        params,
+      });
+      return response?.[ENTITY_KEYS.ACCOUNTS] ?? (Array.isArray(response)
+        ? response
+        : []);
+    },
+
+    /**
+     * POST /rest/accounts
+     * Body: { accounts: [accountData] }
+     * Returns the created account.
+     */
+    async createAccount({
+      $, data,
+    }) {
+      const response = await this._makeRequest({
+        $,
+        method: "POST",
+        path: ENDPOINTS.ACCOUNTS,
+        data,
+      });
+      return Array.isArray(response?.[ENTITY_KEYS.ACCOUNTS])
+        ? response[ENTITY_KEYS.ACCOUNTS][0]
+        : response;
+    },
+
+    /**
+     * PATCH /rest/accounts/{id} with JSON Patch array (returns 204).
+     * Issues a follow-up GET to return the updated account.
+     */
+    async updateAccount({
+      $, companyId, patches,
+    }) {
+      await this._makeRequest({
+        $,
+        method: "PATCH",
+        path: `${ENDPOINTS.ACCOUNTS}/${companyId}`,
+        data: patches,
+        headers: {
+          "Content-Type": "application/json-patch+json",
         },
       });
-      return result;
+      return this.getAccount({
+        $,
+        companyId,
+      });
     },
+
+    // ── Contacts ─────────────────────────────────────────────────────────────
+
     /**
-     * Get a contact by ID.
-     *
-     * @param {Object} opts - Options
-     * @param {Object} [opts.$=this] - Pipedream context
-     * @param {string} opts.contactId - The contact ID
-     * @returns {Promise<Object>} The contact object
+     * GET /rest/contacts/{id}
      */
     async getContact({
-      $ = this, contactId,
+      $, contactId,
     }) {
-      const { result } = await this.post({
+      const response = await this._makeRequest({
         $,
-        method: "getContact",
-        data: {
-          params: {
-            contactId: parseInt(contactId, 10),
-          },
-        },
+        path: `${ENDPOINTS.CONTACTS}/${contactId}`,
       });
-      return result;
+      return Array.isArray(response?.[ENTITY_KEYS.CONTACTS])
+        ? response[ENTITY_KEYS.CONTACTS][0]
+        : response;
     },
+
     /**
-     * Search contacts by string (matches names, emails, etc.).
-     *
-     * @param {Object} opts - Options
-     * @param {Object} [opts.$=this] - Pipedream context
-     * @param {string} opts.string - Search string
-     * @param {number} [opts.limit=1000] - Maximum number of results
-     * @returns {Promise<Array>} Array of contact stubs
+     * GET /rest/contacts
+     * Returns array of contact stubs.
      */
-    async searchContacts({
-      $ = this, string, limit = 1000,
+    async listContacts({
+      $, params,
     }) {
-      const { result } = await this.post({
+      const response = await this._makeRequest({
         $,
-        method: "searchContacts",
-        data: {
-          params: {
-            string,
-            limit: limit ?? 1000,
-          },
-        },
+        path: ENDPOINTS.CONTACTS,
+        params,
       });
-      return result ?? [];
+      return response?.[ENTITY_KEYS.CONTACTS] ?? (Array.isArray(response)
+        ? response
+        : []);
     },
+
     /**
-     * Search companies (accounts) by string (matches company names, etc.).
-     *
-     * @param {Object} opts - Options
-     * @param {Object} [opts.$=this] - Pipedream context
-     * @param {string} opts.string - Search string
-     * @param {number} [opts.limit=1000] - Maximum number of results
-     * @returns {Promise<Array>} Array of account stubs
+     * POST /rest/contacts
+     * Body: { contacts: [contactData] }
+     * Returns the created contact.
      */
-    async searchCompanies({
-      $ = this, string, limit = 1000,
+    async createContact({
+      $, data,
     }) {
-      const { result } = await this.post({
+      const response = await this._makeRequest({
         $,
-        method: "searchAccounts",
-        data: {
-          params: {
-            string,
-            limit: limit ?? 1000,
-          },
-        },
+        method: "POST",
+        path: ENDPOINTS.CONTACTS,
+        data,
       });
-      return result ?? [];
+      return Array.isArray(response?.[ENTITY_KEYS.CONTACTS])
+        ? response[ENTITY_KEYS.CONTACTS][0]
+        : response;
     },
+
     /**
-     * Search leads by string (matches lead names, descriptions, etc.).
-     *
-     * @param {Object} opts - Options
-     * @param {Object} [opts.$=this] - Pipedream context
-     * @param {string} opts.string - Search string
-     * @param {number} [opts.limit=1000] - Maximum number of results
-     * @returns {Promise<Array>} Array of formatted lead results
+     * PATCH /rest/contacts/{id} with JSON Patch array (returns 204).
+     * Issues a follow-up GET to return the updated contact.
      */
-    async searchLeads({
-      $ = this, string, limit = 1000,
+    async updateContact({
+      $, contactId, patches,
     }) {
-      const { result } = await this.post({
+      await this._makeRequest({
         $,
-        method: "searchLeads",
-        data: {
-          params: {
-            string,
-            limit: limit ?? 1000,
-          },
+        method: "PATCH",
+        path: `${ENDPOINTS.CONTACTS}/${contactId}`,
+        data: patches,
+        headers: {
+          "Content-Type": "application/json-patch+json",
         },
       });
-      return (result ?? []).map(formatSearchLeadResult);
+      return this.getContact({
+        $,
+        contactId,
+      });
     },
+
+    // ── Leads ─────────────────────────────────────────────────────────────────
+
     /**
-     * Get a lead by ID.
-     *
-     * @param {Object} opts - Options
-     * @param {Object} [opts.$=this] - Pipedream context
-     * @param {string} opts.leadId - The lead ID
-     * @returns {Promise<Object|null>} The lead object or null
+     * GET /rest/leads/{id}
+     * status field is a STRING in REST (e.g. "open", "won", "lost").
      */
     async getLead({
-      $ = this, leadId,
+      $, leadId,
     }) {
-      const { result } = await this.post({
+      const response = await this._makeRequest({
         $,
-        method: "getLead",
-        data: {
-          params: {
-            leadId: parseInt(leadId, 10),
-          },
+        path: `${ENDPOINTS.LEADS}/${leadId}`,
+      });
+      return Array.isArray(response?.[ENTITY_KEYS.LEADS])
+        ? response[ENTITY_KEYS.LEADS][0]
+        : response;
+    },
+
+    /**
+     * GET /rest/leads
+     * Returns array of lead stubs.
+     */
+    async listLeads({
+      $, params,
+    }) {
+      const response = await this._makeRequest({
+        $,
+        path: ENDPOINTS.LEADS,
+        params,
+      });
+      return response?.[ENTITY_KEYS.LEADS] ?? (Array.isArray(response)
+        ? response
+        : []);
+    },
+
+    /**
+     * POST /rest/leads
+     * Body: { leads: [leadData] }
+     * Returns the created lead (status is a STRING).
+     */
+    async createLead({
+      $, data,
+    }) {
+      const response = await this._makeRequest({
+        $,
+        method: "POST",
+        path: ENDPOINTS.LEADS,
+        data,
+      });
+      return Array.isArray(response?.[ENTITY_KEYS.LEADS])
+        ? response[ENTITY_KEYS.LEADS][0]
+        : response;
+    },
+
+    /**
+     * PATCH /rest/leads/{id} with JSON Patch array (returns 204).
+     * Issues a follow-up GET to return the updated lead.
+     */
+    async updateLead({
+      $, leadId, patches,
+    }) {
+      await this._makeRequest({
+        $,
+        method: "PATCH",
+        path: `${ENDPOINTS.LEADS}/${leadId}`,
+        data: patches,
+        headers: {
+          "Content-Type": "application/json-patch+json",
         },
       });
-      return result;
-    },
-    /**
-     * Update an existing contact.
-     *
-     * @param {Object} opts - Options
-     * @param {Object} [opts.$=this] - Pipedream context
-     * @param {string} opts.contactId - The contact ID to update
-     * @param {string|null} [opts.rev=null] - Revision for optimistic locking
-     * @param {Object} opts.contact - Contact fields to update
-     * @returns {Promise<Object>} The updated contact
-     */
-    async editContact({
-      $ = this, contactId, rev, contact,
-    }) {
-      const { result } = await this.post({
+      return this.getLead({
         $,
-        method: "editContact",
-        data: {
-          params: {
-            contactId: parseInt(contactId, 10),
-            rev: rev ?? null,
-            contact,
-          },
-        },
+        leadId,
       });
-      return result;
     },
+
+    // ── List helpers ──────────────────────────────────────────────────────────
+
     /**
-     * Update an existing company (account).
-     *
-     * @param {Object} opts - Options
-     * @param {Object} [opts.$=this] - Pipedream context
-     * @param {string} opts.companyId - The company (account) ID to update
-     * @param {string|null} [opts.rev=null] - Revision for optimistic locking
-     * @param {Object} opts.account - Account fields to update
-     * @returns {Promise<Object>} The updated account
+     * GET /rest/accounttypes
+     * Returns array of {id, name} pairs.
      */
-    async editAccount({
-      $ = this, companyId, rev, account,
-    }) {
-      const { result } = await this.post({
+    async listAccountTypes({ $ }) {
+      const response = await this._makeRequest({
         $,
-        method: "editAccount",
-        data: {
-          params: {
-            accountId: parseInt(companyId, 10),
-            rev: rev ?? null,
-            account,
-          },
-        },
+        path: ENDPOINTS.ACCOUNT_TYPES,
       });
-      return result;
+      return response?.accountTypes
+        ?? response?.accounttypes
+        ?? (Array.isArray(response)
+          ? response
+          : []);
     },
+
     /**
-     * Update an existing lead.
-     *
-     * @param {Object} opts - Options
-     * @param {Object} [opts.$=this] - Pipedream context
-     * @param {string} opts.leadId - The lead ID to update
-     * @param {string|null} [opts.rev=null] - Revision for optimistic locking
-     * @param {Object} opts.lead - Lead fields to update
-     * @returns {Promise<Object>} The updated lead
+     * GET /rest/industries
+     * Returns array of {id, name} pairs.
      */
-    async editLead({
-      $ = this, leadId, rev, lead,
-    }) {
-      const { result } = await this.post({
+    async listIndustries({ $ }) {
+      const response = await this._makeRequest({
         $,
-        method: "editLead",
-        data: {
-          params: {
-            leadId: parseInt(leadId, 10),
-            rev: rev ?? null,
-            lead,
-          },
-        },
+        path: ENDPOINTS.INDUSTRIES,
       });
-      return result;
+      return response?.industries ?? (Array.isArray(response)
+        ? response
+        : []);
     },
+
     /**
-     * Format a contact for component output (id, name, emails, phones, etc.).
-     *
-     * @param {Object} contact - Raw contact from the API
-     * @returns {Object} Formatted contact object
+     * GET /rest/markets
+     * The endpoint returns an object keyed by ID, so normalize to array.
      */
+    async listMarkets({ $ }) {
+      const response = await this._makeRequest({
+        $,
+        path: ENDPOINTS.MARKETS,
+      });
+      const raw = response?.markets ?? response ?? {};
+      if (Array.isArray(raw)) {
+        return raw;
+      }
+      return Object.entries(raw).map(([
+        id,
+        market,
+      ]) => ({
+        id,
+        name: market?.name ?? market,
+      }));
+    },
+
+    /**
+     * GET /rest/territories
+     * Returns array of {id, name} pairs.
+     */
+    async listTerritories({ $ }) {
+      const response = await this._makeRequest({
+        $,
+        path: ENDPOINTS.TERRITORIES,
+      });
+      return response?.territories ?? (Array.isArray(response)
+        ? response
+        : []);
+    },
+
+    /**
+     * GET /rest/audiences
+     * Returns array of {id, name} pairs.
+     */
+    async listAudiences({ $ }) {
+      const response = await this._makeRequest({
+        $,
+        path: ENDPOINTS.AUDIENCES,
+      });
+      return response?.audiences ?? (Array.isArray(response)
+        ? response
+        : []);
+    },
+
+    // ── Formatters ────────────────────────────────────────────────────────────
+
     formatContact(contact) {
       return formatContactForOutput(contact);
     },
-    /**
-     * Format a company (account) for component output, including nested contacts.
-     *
-     * @param {Object} company - Raw account from the API
-     * @param {Function} [formatContact=formatContactForOutput] - Contact formatter
-     * @returns {Object} Formatted company object
-     */
+
     formatCompany(company) {
       return formatCompanyForOutput(company, formatContactForOutput);
     },
-    /**
-     * Format a lead for component output (id, description, status, primary company/contact, etc.).
-     *
-     * @param {Object} lead - Raw lead from the API
-     * @param {Function} [formatContact=formatContactForOutput] - Contact formatter
-     * @returns {Object} Formatted lead object
-     */
+
     formatLead(lead) {
       return formatLeadForOutput(lead, formatContactForOutput);
     },
-    /**
-     * Get a lead by its display number (e.g. 1000 for Lead-1000).
-     *
-     * @param {Object} opts - Options
-     * @param {Object} [opts.$=this] - Pipedream context
-     * @param {string} opts.leadNumber - The lead number shown in the Nutshell UI
-     * @returns {Promise<Object|null>} The lead object or null
-     */
-    async getLeadByNumber({
-      $ = this, leadNumber,
-    }) {
-      const { result } = await this.post({
-        $,
-        method: "findLeads",
-        data: {
-          params: {
-            query: {
-              number: parseInt(leadNumber, 10),
-            },
-            page: 1,
-            limit: 1,
-            stubResponses: false,
-          },
-        },
-      });
-      return result?.[0] ?? null;
+
+    formatSearchLeadResult(lead) {
+      return formatSearchLeadResultFn(lead);
     },
+
+    // ── Pagination generator for polling sources ───────────────────────────────
+
     /**
-     * Paginate through a find* RPC method (e.g. findLeads, findContacts).
-     * Yields items page by page in descending ID order.
+     * Async generator that pages through a REST list endpoint.
+     * Yields items one at a time, newest first (via sort=-id).
      *
-     * @param {Object} opts - Options
-     * @param {string} opts.method - The RPC method name (e.g. findLeads)
-     * @param {Object} [opts.query={}] - Query params for the find method
-     * @yields {Object} Each item from the result set
+     * @param {string} path - REST endpoint path (e.g. "/leads")
+     * @param {string} [entityKey] - Top-level response key holding the items array
+     * @param {Object} [params={}] - Extra query params (e.g. status filter)
+     * @param {number} [pageSize] - Items per page (default 100)
      */
     async *paginate({
-      method, query,
+      path, entityKey, params = {}, pageSize = PAGINATION.DEFAULT_LIMIT,
     }) {
-      let hasMore = false;
       let page = 0;
+      let hasMore = true;
 
-      do {
-        const { result } = await this.post({
-          method,
-          data: {
-            params: {
-              query,
-              page: ++page,
-              orderBy: "id",
-              orderDirection: "DESC",
-            },
+      while (hasMore) {
+        const response = await this._makeRequest({
+          path,
+          params: {
+            ...params,
+            [PAGINATION.PAGE_PARAM]: page,
+            [PAGINATION.LIMIT_PARAM]: pageSize,
           },
         });
 
-        for (const d of result) {
-          yield d;
+        let items;
+        if (entityKey && Array.isArray(response?.[entityKey])) {
+          items = response[entityKey];
+        } else if (Array.isArray(response)) {
+          items = response;
+        } else {
+          // Fallback: find the first array value in the response object
+          items = Object.values(response ?? {}).find((v) => Array.isArray(v)) ?? [];
         }
 
-        hasMore = result.length;
-      } while (hasMore);
+        for (const item of items) {
+          yield item;
+        }
+
+        hasMore = items.length >= pageSize;
+        page++;
+      }
     },
   },
 };

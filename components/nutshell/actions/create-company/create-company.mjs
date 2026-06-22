@@ -1,10 +1,11 @@
 import { parseObject } from "../../common/utils.mjs";
+import { ENTITY_KEYS } from "../../common/constants.mjs";
 import nutshell from "../../nutshell.app.mjs";
 
 export default {
   key: "nutshell-create-company",
   name: "Create Company",
-  description: "Creates a new company within Nutshell. [See the documentation](https://developers-rpc.nutshell.com/detail/class_core.html#a491d4330ca35e5403edd48a2cfd3b275)",
+  description: "Create a new company (account) in Nutshell. [See the documentation](https://developers.nutshell.com/reference/0e0199fef8e93c05437d3a33104886d1)",
   version: "0.0.4",
   annotations: {
     destructiveHint: false,
@@ -14,6 +15,11 @@ export default {
   type: "action",
   props: {
     nutshell,
+    name: {
+      type: "string",
+      label: "Company Name",
+      description: "The name of the company/account.",
+    },
     industryId: {
       propDefinition: [
         nutshell,
@@ -35,99 +41,96 @@ export default {
       ],
       optional: true,
     },
-    url: {
+    address: {
       type: "string[]",
-      label: "URLs",
-      description: "The URLs of the company.",
+      label: "Address",
+      description: "Array of address objects. Each item is a JSON string, e.g. `{\"name\":\"HQ\",\"address_1\":\"123 Main St\",\"city\":\"Austin\"}`.",
       optional: true,
     },
     email: {
-      propDefinition: [
-        nutshell,
-        "email",
-      ],
+      type: "string[]",
+      label: "Email",
+      description: "Array of email objects. Each item is a JSON string, e.g. `{\"isPrimary\":true,\"value\":\"info@acme.com\"}`.",
       optional: true,
     },
     phone: {
-      propDefinition: [
-        nutshell,
-        "phone",
-      ],
-    },
-    address: {
-      propDefinition: [
-        nutshell,
-        "address",
-      ],
+      type: "string[]",
+      label: "Phone",
+      description: "Array of phone objects. Each item is a JSON string, e.g. `{\"isPrimary\":true,\"value\":\"+15125551234\"}`.",
       optional: true,
     },
-    companyName: {
-      propDefinition: [
-        nutshell,
-        "companyName",
-      ],
-      reloadProps: true,
+    url: {
+      type: "string[]",
+      label: "URLs",
+      description: "Array of URL objects. Each item is a JSON string, e.g. `{\"value\":\"https://acme.com\"}`.",
+      optional: true,
     },
-  },
-  async additionalProps() {
-    const { result: { Accounts: fields } } = await this.getCustomFields();
-    const props = {};
-    let i = 0;
-    for (const field of fields) {
-      i++;
-      props[`customField_${i}`] = {
-        type: "string",
-        label: field.name,
-        description: `Custom field ${i}.`,
-        optional: true,
-      };
-    }
-    return props;
-  },
-  methods: {
-    async getCustomFields() {
-      return await this.nutshell.post({
-        method: "findCustomFields",
-      });
-    },
-    async parseCustomFields(props) {
-      const customFields = {};
-      const { result: { Accounts } } = await this.getCustomFields();
-
-      let i = 0;
-      for (const field of Accounts) {
-        i++;
-        if (props[`customField_${i}`]) {
-          customFields[field.name] = props[`customField_${i}`];
-        }
-      }
-      return customFields;
+    customFields: {
+      type: "object",
+      label: "Custom Fields",
+      description: "Custom field name->value pairs, e.g. `{\"Customer tier\":\"Gold\"}`.",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const customFields = await this.parseCustomFields(this);
-    const response = await this.nutshell.post({
+    const links = {
+      ...(this.industryId
+        ? {
+          industry: this.industryId,
+        }
+        : {}),
+      ...(this.accountTypeId
+        ? {
+          accountType: this.accountTypeId,
+        }
+        : {}),
+      ...(this.territoryId
+        ? {
+          territory: this.territoryId,
+        }
+        : {}),
+    };
+
+    const accountData = {
+      name: this.name,
+      customFields: this.customFields,
+      ...(Object.keys(links).length
+        ? {
+          links,
+        }
+        : {}),
+      ...(this.email
+        ? {
+          email: parseObject(this.email),
+        }
+        : {}),
+      ...(this.phone
+        ? {
+          phone: parseObject(this.phone),
+        }
+        : {}),
+      ...(this.url
+        ? {
+          url: parseObject(this.url),
+        }
+        : {}),
+      ...(this.address
+        ? {
+          addresses: parseObject(this.address),
+        }
+        : {}),
+    };
+
+    const account = await this.nutshell.createAccount({
       $,
-      method: "newAccount",
       data: {
-        params: {
-          account: {
-            name: this.companyName,
-            industryId: this.industryId,
-            accountTypeId: this.accountTypeId,
-            territoryId: this.territoryId,
-            location: this.location,
-            url: this.url && parseObject(this.url),
-            email: this.email && parseObject(this.email),
-            phone: this.phone && parseObject(this.phone),
-            address: this.address && parseObject(this.address),
-            customFields,
-          },
-        },
+        [ENTITY_KEYS.ACCOUNTS]: [
+          accountData,
+        ],
       },
     });
-    $.export("$summary", `Successfully created company with Id: ${response.result?.id}`);
 
-    return response;
+    $.export("$summary", `Successfully created company "${account?.name ?? this.name}" (ID: ${account?.id})`);
+    return this.nutshell.formatCompany(account);
   },
 };

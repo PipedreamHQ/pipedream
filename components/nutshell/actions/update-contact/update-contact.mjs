@@ -1,11 +1,12 @@
 import { parseObject } from "../../common/utils.mjs";
-import nutshell from "../../nutshell.app.mjs";
+import { PATCH_OPS } from "../../common/constants.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import nutshell from "../../nutshell.app.mjs";
 
 export default {
   key: "nutshell-update-contact",
   name: "Update Contact",
-  description: "Update an existing contact. Only provided fields are updated. Custom fields from your Nutshell pipeline can be set below or passed via the Custom Fields (Object) prop. [See the documentation](https://developers-rpc.nutshell.com/detail/class_core.html#a98db326321fb32ec79cff2112999dc1f)",
+  description: "Update an existing contact (person) in Nutshell. [See the documentation](https://developers.nutshell.com/reference/cb995ae09d7e0e99e91b122bcc9358ed)",
   version: "0.0.2",
   annotations: {
     destructiveHint: false,
@@ -20,186 +21,101 @@ export default {
         nutshell,
         "contactId",
       ],
-      label: "Contact ID",
-      description: "The ID of the contact to update.",
     },
-    name: {
+    firstName: {
       type: "string",
-      label: "Name",
-      description: "The name of the contact.",
+      label: "First Name",
+      description: "Updated first name. **Note:** the name patch replaces the entire name object, so if you provide only First Name the existing Last Name will be cleared. Provide both First Name and Last Name together to preserve the full name.",
       optional: true,
     },
-    phone: {
-      propDefinition: [
-        nutshell,
-        "phone",
-      ],
-      description: "The phone numbers of the contact.",
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "Updated last name. **Note:** the name patch replaces the entire name object, so if you provide only Last Name the existing First Name will be cleared. Provide both First Name and Last Name together to preserve the full name.",
       optional: true,
     },
     email: {
-      propDefinition: [
-        nutshell,
-        "email",
-      ],
-      description: "The email address of the contact.",
-      optional: true,
-    },
-    address: {
-      propDefinition: [
-        nutshell,
-        "address",
-      ],
-      optional: true,
-    },
-    companyId: {
-      propDefinition: [
-        nutshell,
-        "companyId",
-      ],
       type: "string[]",
-      description: "The company IDs for the contact.",
+      label: "Email",
+      description: "Array of email objects as JSON strings (see Create Contact).",
       optional: true,
     },
-    leadId: {
-      propDefinition: [
-        nutshell,
-        "leadId",
-        ({ companyId }) => ({
-          companyId,
-        }),
-      ],
+    phone: {
+      type: "string[]",
+      label: "Phone",
+      description: "Array of phone objects as JSON strings (see Create Contact).",
       optional: true,
     },
-    territoryId: {
-      propDefinition: [
-        nutshell,
-        "territoryId",
-      ],
-      description: "The territory of the contact.",
+    jobTitle: {
+      type: "string",
+      label: "Job Title",
+      description: "Updated job title.",
       optional: true,
-    },
-    audienceId: {
-      propDefinition: [
-        nutshell,
-        "audienceId",
-      ],
-      optional: true,
-    },
-    description: {
-      propDefinition: [
-        nutshell,
-        "description",
-      ],
-      description: "A description for the contact.",
-      optional: true,
-    },
-    customFields: {
-      type: "object",
-      label: "Custom Fields (Object)",
-      description: "Optional object of custom field names to values, e.g. { \"Field Name\": \"value\" }. You can pass this from a previous step. Merged with any individual custom field inputs below.",
-      optional: true,
-    },
-  },
-  async additionalProps() {
-    const { result: { Contacts: fields } } = await this.getCustomFields();
-    const props = {};
-    for (const field of fields ?? []) {
-      const key = `customField_${field?.id}`;
-      props[key] = {
-        type: "string",
-        label: field?.name,
-        description: `Custom field ${field?.name}.`,
-        optional: true,
-      };
-    }
-    return props;
-  },
-  methods: {
-    async getCustomFields() {
-      return await this.nutshell.post({
-        method: "findCustomFields",
-      });
-    },
-    async parseCustomFields(props, customFieldsResult) {
-      const customFields = {};
-      const { result: { Contacts } } = customFieldsResult ?? await this.getCustomFields();
-      for (const field of Contacts ?? []) {
-        const key = `customField_${field?.id}`;
-        if (Object.prototype.hasOwnProperty.call(props, key)) {
-          customFields[field.name] = props[key];
-        }
-      }
-      return customFields;
     },
   },
   async run({ $ }) {
-    const existing = await this.nutshell.getContact({
-      $,
-      contactId: this.contactId,
-    });
-    if (!existing) {
-      throw new ConfigurationError(`Contact not found: ${this.contactId}`);
-    }
-    const rev = existing.rev ?? null;
+    const patches = [];
 
-    const contact = {};
-    if (this.name != null && this.name !== "") contact.name = this.name;
-    if (this.description != null && this.description !== "") contact.description = this.description;
-    if (this.phone != null) contact.phone = parseObject(this.phone);
-    if (this.email != null) contact.email = parseObject(this.email);
-    if (this.address != null) contact.address = parseObject(this.address);
-    if (this.territoryId != null) contact.territoryId = this.territoryId;
-    if (this.audienceId != null) {
-      contact.audiences = this.audienceId.map((id) => ({
-        id,
-      }));
-    }
-    if (this.companyId != null && this.companyId.length) {
-      contact.accounts = this.companyId.map((id) => ({
-        id,
-      }));
-    }
-    if (this.leadId != null && this.leadId.length) {
-      contact.leads = this.leadId.map((id) => ({
-        id,
-      }));
-    }
-    const customFieldsData = await this.getCustomFields();
-    const customFieldsFromProps = await this.parseCustomFields(this, customFieldsData);
-    const customFieldsObject = this.customFields
-      ? parseObject(this.customFields)
-      : {};
-
-    const hasCustomFields = Object.keys(customFieldsFromProps).length > 0
-      || Object.keys(customFieldsObject).length > 0;
-    if (hasCustomFields) {
-      contact.customFields = {
-        ...(existing.customFields ?? {}),
-        ...customFieldsObject,
-        ...customFieldsFromProps,
+    // Build name patch only if at least one name field is provided
+    if (this.firstName || this.lastName) {
+      const nameValue = {
+        ...(this.firstName
+          ? {
+            givenName: this.firstName,
+          }
+          : {}),
+        ...(this.lastName
+          ? {
+            familyName: this.lastName,
+          }
+          : {}),
       };
+      patches.push({
+        op: PATCH_OPS.REPLACE,
+        path: "/contacts/0/name",
+        value: nameValue,
+      });
+    }
+    if (this.jobTitle) {
+      patches.push({
+        op: PATCH_OPS.REPLACE,
+        path: "/contacts/0/title",
+        value: this.jobTitle,
+      });
+    }
+    if (this.email) {
+      patches.push({
+        op: PATCH_OPS.REPLACE,
+        path: "/contacts/0/email",
+        value: parseObject(this.email),
+      });
+    }
+    if (this.phone) {
+      patches.push({
+        op: PATCH_OPS.REPLACE,
+        path: "/contacts/0/phone",
+        value: parseObject(this.phone),
+      });
     }
 
-    if (Object.keys(contact).length === 0) {
+    if (!patches?.length) {
       throw new ConfigurationError("Please provide at least one field to update.");
     }
 
-    const updated = await this.nutshell.editContact({
+    const updated = await this.nutshell.updateContact({
       $,
       contactId: this.contactId,
-      rev,
-      contact,
+      patches,
     });
 
-    let displayName = null;
-    if (typeof updated.name === "object") {
-      displayName = updated.name.displayName;
-    } else if (typeof updated.name === "string") {
-      displayName = updated.name;
-    } else {
-      displayName = this.contactId;
-    }
+    const displayName = typeof updated?.name === "object"
+      ? (updated.name?.displayName
+        || [
+          updated.name?.givenName,
+          updated.name?.familyName,
+        ].filter(Boolean).join(" ")
+        || this.contactId)
+      : (updated?.name ?? this.contactId);
 
     $.export("$summary", `Successfully updated contact "${displayName}"`);
     return this.nutshell.formatContact(updated);

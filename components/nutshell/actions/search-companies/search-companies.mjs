@@ -3,7 +3,7 @@ import nutshell from "../../nutshell.app.mjs";
 export default {
   key: "nutshell-search-companies",
   name: "Search Companies",
-  description: "Search companies (accounts) by string. Returns raw API results (array of account stubs). [See the documentation](https://developers-rpc.nutshell.com/detail/class_core.html#a3c7830301c59b470e5947754cac32ad9)",
+  description: "Search companies (accounts) in Nutshell. Returns records in the existing company output format. [See the documentation](https://developers.nutshell.com/reference/ee7a9535ab7ae30da91d6d9cebe2ed85)",
   version: "0.0.2",
   annotations: {
     destructiveHint: false,
@@ -13,26 +13,38 @@ export default {
   type: "action",
   props: {
     nutshell,
-    searchString: {
-      type: "string",
-      label: "Search String",
-      description: "The string to search for (matches company names, etc.).",
+    query: {
+      propDefinition: [
+        nutshell,
+        "query",
+      ],
     },
     limit: {
-      type: "integer",
-      label: "Limit",
-      description: "Maximum number of companies to return.",
-      default: 1000,
-      optional: true,
+      propDefinition: [
+        nutshell,
+        "limit",
+      ],
     },
   },
   async run({ $ }) {
-    const companies = await this.nutshell.searchCompanies({
+    const params = {
+      ...(this.query
+        ? {
+          q: this.query,
+        }
+        : {}),
+      ...(this.limit
+        ? {
+          "page[limit]": this.limit,
+        }
+        : {}),
+    };
+    const companies = await this.nutshell.listAccounts({
       $,
-      string: this.searchString,
-      limit: this.limit ?? 1000,
-    }) ?? [];
+      params,
+    });
+
     $.export("$summary", `Found ${companies.length} company(ies)`);
-    return companies;
+    return companies.map((c) => this.nutshell.formatCompany(c));
   },
 };

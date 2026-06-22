@@ -3,7 +3,7 @@ import nutshell from "../../nutshell.app.mjs";
 export default {
   key: "nutshell-search-leads",
   name: "Search Leads",
-  description: "Search leads by string. Returns formatted results: id, description, status, completion, value, primaryCompanyName, primaryContactName, isOverdue, lastContactDate, dueTime. [See the documentation](https://developers-rpc.nutshell.com/detail/class_core.html#a9e841c85b13b24f819f10bca0df837c3)",
+  description: "Search leads in Nutshell. Returns records in the existing lead output format. [See the documentation](https://developers.nutshell.com/reference/132e65861bebcb3781c3d37e66aff309)",
   version: "0.0.2",
   annotations: {
     destructiveHint: false,
@@ -13,26 +13,38 @@ export default {
   type: "action",
   props: {
     nutshell,
-    searchString: {
-      type: "string",
-      label: "Search String",
-      description: "The string to search for (matches lead names, descriptions, etc.).",
+    query: {
+      propDefinition: [
+        nutshell,
+        "query",
+      ],
     },
     limit: {
-      type: "integer",
-      label: "Limit",
-      description: "Maximum number of leads to return.",
-      default: 1000,
-      optional: true,
+      propDefinition: [
+        nutshell,
+        "limit",
+      ],
     },
   },
   async run({ $ }) {
-    const leads = await this.nutshell.searchLeads({
+    const params = {
+      ...(this.query
+        ? {
+          q: this.query,
+        }
+        : {}),
+      ...(this.limit
+        ? {
+          "page[limit]": this.limit,
+        }
+        : {}),
+    };
+    const leads = await this.nutshell.listLeads({
       $,
-      string: this.searchString,
-      limit: this.limit ?? 1000,
+      params,
     });
+
     $.export("$summary", `Found ${leads.length} lead(s)`);
-    return leads;
+    return leads.map((l) => this.nutshell.formatSearchLeadResult(l));
   },
 };
