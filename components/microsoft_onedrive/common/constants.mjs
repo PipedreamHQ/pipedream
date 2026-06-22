@@ -70,9 +70,19 @@ const HTML_CONVERTIBLE_FORMATS = [
   "wbtx",
 ];
 
+// Search path for the signed-in user's default drive (no driveId supplied).
+// The non-shared httpRequest baseURL already ends in `/me/drive`, so this is
+// appended to it as `/me/drive/root` - do NOT re-add `/me/drive` here.
+const DEFAULT_DRIVE_PATH = "/root";
+
+// Graph API path prefix for drive-scoped requests; concatenated with a normalised driveId
+const DRIVES_PATH_PREFIX = "/drives/";
+
 export default {
   SHARING_LINK_TYPE_OPTIONS,
   SHARING_LINK_SCOPE_OPTIONS,
   PDF_CONVERTIBLE_FORMATS,
   HTML_CONVERTIBLE_FORMATS,
+  DEFAULT_DRIVE_PATH,
+  DRIVES_PATH_PREFIX,
 };
