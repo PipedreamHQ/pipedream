@@ -63,7 +63,7 @@ export default {
     downloadFilesToTmp: {
       type: "boolean",
       label: "Download Output Files to /tmp",
-      description: "Set to `true` to download completed output files to the workflow's `/tmp` directory when storage URLs are returned.",
+      description: "Set to `true` to download completed output files to the `/tmp` directory when storage URLs are returned.",
       optional: true,
     },
     syncDir: {

@@ -1,37 +1,17 @@
-import renderio from "../../renderio.app.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import {
-  getTimestamp,
-  normalizeList,
-} from "../../common/utils.mjs";
+import common from "../common/base.mjs";
+import { getTimestamp } from "../../common/utils.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "renderio-new-stored-file",
   name: "New Stored File",
   description: "Emit new event when a new file is uploaded to the account. [See the documentation](https://renderio.dev/docs/api-reference/files/list-files)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    renderio,
-    db: "$.service.db",
-    timer: {
-      label: "Polling interval",
-      description: "Pipedream will poll the RenderIO API on this schedule.",
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-  },
   methods: {
-    _getLastTs() {
-      return this.db.get("lastTs") || 0;
-    },
-    _setLastTs(ts) {
-      this.db.set("lastTs", ts);
-    },
+    ...common.methods,
     generateMeta(file) {
       return {
         id: file.file_id,
@@ -39,55 +19,12 @@ export default {
         ts: getTimestamp(file),
       };
     },
-    async processEvent(max) {
-      const lastTs = this._getLastTs();
-      const limit = 100;
-      const maxPages = 1000;
-      let offset = 0;
-      let files = [];
-
-      for (let page = 0; page < maxPages; page++) {
-        const response = await this.renderio.listFiles({
-          params: {
-            limit,
-            offset,
-          },
-        });
-        const pageFiles = normalizeList(response, "files");
-
-        for (const file of pageFiles) {
-          const ts = getTimestamp(file);
-          if (ts >= lastTs) {
-            files.push(file);
-          }
-        }
-
-        if (pageFiles.length < limit) break;
-        offset += limit;
-      }
-
-      files.sort((a, b) => getTimestamp(a) - getTimestamp(b));
-
-      if (max && files.length > max) {
-        files = files.slice(-max);
-      }
-
-      for (const file of files) {
-        this.$emit(file, this.generateMeta(file));
-      }
-
-      if (files.length > 0) {
-        this._setLastTs(getTimestamp(files[files.length - 1]));
-      }
+    getFn() {
+      return this.renderio.listFiles;
     },
-  },
-  hooks: {
-    async deploy() {
-      await this.processEvent(25);
+    getListKey() {
+      return "files";
     },
-  },
-  async run() {
-    await this.processEvent();
   },
   sampleEmit,
 };
