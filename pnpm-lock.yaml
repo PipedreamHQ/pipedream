@@ -1023,8 +1023,7 @@ importers:
 
   components/apex_27: {}
 
-  components/apexverify:
-    specifiers: {}
+  components/apexverify: {}
 
   components/api2convert: {}
 
@@ -4644,8 +4643,7 @@ importers:
         specifier: ^2.0.2
         version: 2.0.2
 
-  components/dpd_connect:
-    specifiers: {}
+  components/dpd_connect: {}
 
   components/dpd_shipping: {}
 
@@ -8718,11 +8716,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/layerone_docx:
-    specifiers: {}
+  components/layerone_docx: {}
 
-  components/layerone_sign:
-    specifiers: {}
+  components/layerone_sign: {}
 
   components/lead_identity_check: {}
 
@@ -12782,8 +12778,7 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/quadratic:
-    specifiers: {}
+  components/quadratic: {}
 
   components/qualaroo:
     dependencies:
@@ -13237,7 +13232,11 @@ importers:
 
   components/renderio: {}
 
-  components/rendex: {}
+  components/rendex:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/rendi:
     dependencies:
@@ -39738,7 +39737,7 @@ snapshots:
   '@grpc/grpc-js@1.8.22':
     dependencies:
       '@grpc/proto-loader': 0.7.15
-      '@types/node': 20.19.41
+      '@types/node': 20.19.43
 
   '@grpc/proto-loader@0.7.15':
     dependencies:
@@ -44603,7 +44602,7 @@ snapshots:
   '@types/rimraf@3.0.2':
     dependencies:
       '@types/glob': 8.1.0
-      '@types/node': 20.19.41
+      '@types/node': 20.19.43
 
   '@types/sax@1.2.7':
     dependencies:
@@ -54408,7 +54407,7 @@ snapshots:
       minimist: 1.2.8
       protobufjs: 7.2.6
       semver: 7.8.4
-      tmp: 0.2.5
+      tmp: 0.2.7
       uglify-js: 3.19.3
 
   protobufjs@7.2.6:
@@ -54423,7 +54422,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 20.19.41
+      '@types/node': 20.19.43
       long: 5.3.2
 
   protobufjs@7.5.4:
