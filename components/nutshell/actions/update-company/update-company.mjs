@@ -52,25 +52,25 @@ export default {
     address: {
       type: "string[]",
       label: "Address",
-      description: "Array of address objects as JSON strings (see Create Company).",
+      description: "Array of address objects as JSON strings, e.g. `{\"name\":\"HQ\",\"address_1\":\"123 Main St\",\"city\":\"Austin\"}`. Each object must include a `name` label (required on update).",
       optional: true,
     },
     email: {
       type: "string[]",
       label: "Email",
-      description: "Array of email objects as JSON strings (see Create Company).",
+      description: "Array of email objects as JSON strings, e.g. `{\"isPrimary\":true,\"name\":\"work\",\"value\":\"info@acme.com\"}`. Each object must include a `name` label (required on update).",
       optional: true,
     },
     phone: {
       type: "string[]",
       label: "Phone",
-      description: "Array of phone objects as JSON strings (see Create Company).",
+      description: "Array of phone objects as JSON strings, e.g. `{\"isPrimary\":true,\"name\":\"main\",\"value\":\"+15125551234\"}`. Each object must include a `name` label (required on update).",
       optional: true,
     },
     url: {
       type: "string[]",
       label: "URLs",
-      description: "Array of URL objects as JSON strings (see Create Company).",
+      description: "Array of URL objects as JSON strings, e.g. `{\"name\":\"website\",\"value\":\"https://acme.com\"}`. Each object must include a `name` label (required on update).",
       optional: true,
     },
     customFields: {

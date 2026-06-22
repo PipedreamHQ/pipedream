@@ -37,13 +37,13 @@ export default {
     email: {
       type: "string[]",
       label: "Email",
-      description: "Array of email objects as JSON strings (see Create Contact).",
+      description: "Array of email objects as JSON strings, e.g. `{\"isPrimary\":true,\"name\":\"work\",\"value\":\"jane@acme.com\"}`. Each object must include a `name` label (required on update).",
       optional: true,
     },
     phone: {
       type: "string[]",
       label: "Phone",
-      description: "Array of phone objects as JSON strings (see Create Contact).",
+      description: "Array of phone objects as JSON strings, e.g. `{\"isPrimary\":true,\"name\":\"mobile\",\"value\":\"+15125551234\"}`. Each object must include a `name` label (required on update).",
       optional: true,
     },
     jobTitle: {
