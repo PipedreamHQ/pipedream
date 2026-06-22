@@ -1,4 +1,5 @@
 import app from "../../eppo.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "eppo-toggle-feature-flag",
@@ -35,17 +36,31 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.updateFlagEnvironmentStatus({
-      $,
-      flagId: this.flagId,
-      environmentId: this.environmentId,
-      data: {
-        enabled: this.enabled,
-      },
-    });
     const status = this.enabled
       ? "enabled"
       : "disabled";
+    let response;
+    try {
+      response = await this.app.updateFlagEnvironmentStatus({
+        $,
+        flagId: this.flagId,
+        environmentId: this.environmentId,
+        data: {
+          enabled: this.enabled,
+        },
+      });
+    } catch (err) {
+      const msg = err?.response?.data?.message ?? err?.message ?? "";
+      const alreadyInState = /already (ON|OFF)/i.test(msg);
+      if (alreadyInState) {
+        $.export("$summary", `Flag ${this.flagId} is already ${status} in environment ${this.environmentId}`);
+        return {
+          enabled: this.enabled,
+          already_in_state: true,
+        };
+      }
+      throw err;
+    }
     $.export("$summary", `Flag ${this.flagId} ${status} in environment ${this.environmentId}`);
     return response;
   },

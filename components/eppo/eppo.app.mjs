@@ -29,10 +29,10 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "Limit the number of items in response",
+      description: "Maximum number of items to return. The experiments endpoint caps at 250; other endpoints may have lower limits.",
       optional: true,
       default: 50,
-      max: 100,
+      max: 250,
       min: 1,
     },
     offset: {

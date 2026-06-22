@@ -104,7 +104,9 @@ export default {
         updated_since: this.updatedSince,
         created_since: this.createdSince,
         tag_names: this.tagNames,
-        limit: this.limit,
+        limit: this.limit !== undefined
+          ? Math.min(this.limit, 250)
+          : 50,
         offset: this.offset,
       },
     });
