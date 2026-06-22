@@ -248,6 +248,11 @@ export default {
         })) || [];
       },
     },
+    folderId: {
+      type: "string",
+      label: "Folder ID",
+      description: "The ID of the mail folder to retrieve. Use the **List Folders** action to get the list of folders.",
+    },
     maxResults: {
       type: "integer",
       label: "Max Results",
@@ -618,13 +623,43 @@ export default {
       const foldersArray = [];
       for (const folder of value) {
         foldersArray.push(folder);
+        const {
+        // eslint-disable-next-line no-unused-vars
+          $skip, $top, ...childParams
+        } = params;
         foldersArray.push(...await this.listSharedFolders({
           userId,
           parentFolderId: folder.id,
+          params: childParams,
         }));
       }
 
       return foldersArray;
+    },
+    async listSharedFoldersPaged({
+      userId, params = {}, nextLink,
+    } = {}) {
+      if (nextLink) {
+        return await this.client().api(nextLink)
+          .get();
+      }
+      return await this.client().api(`/users/${userId}/mailFolders`)
+        .query(pickBy(params))
+        .get();
+    },
+    async getFolderById({
+      folderId, params = {},
+    } = {}) {
+      return this.client().api(`/me/mailFolders/${folderId}`)
+        .query(pickBy(params))
+        .get();
+    },
+    async getSharedFolderById({
+      userId, folderId, params = {},
+    } = {}) {
+      return this.client().api(`/users/${userId}/mailFolders/${folderId}`)
+        .query(pickBy(params))
+        .get();
     },
     async *paginate({
       fn, args = {}, max, meta,
