@@ -1,18 +1,24 @@
 import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 
 export default {
-  key: "microsoft_outlook-list-folders",
-  name: "List Folders",
-  description: "Retrieves mail folders for the authenticated user. Returns each folder's `id`, `displayName`, `parentFolderId`, `childFolderCount`, `totalItemCount`, and `unreadItemCount`. **Use this action to resolve a folder display name to its ID** — set `Display Name` to filter by exact name. Use **Get Folder** instead when you already have the folder ID. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-mailfolders?view=graph-rest-1.0&tabs=http)",
-  version: "0.1.0",
+  key: "microsoft_outlook-list-shared-folders",
+  name: "List Shared Folders",
+  description: "Retrieves mail folders from a shared or delegated mailbox. Returns each folder's `id`, `displayName`, `parentFolderId`, `childFolderCount`, `totalItemCount`, and `unreadItemCount`. **Use this action to resolve a shared mailbox folder display name to its ID** — set `Display Name` to filter by exact name. Use **Get Shared Folder** instead when you already have the folder ID. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-mailfolders?view=graph-rest-1.0&tabs=http)",
+  version: "0.0.1",
+  type: "action",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
-  type: "action",
   props: {
     microsoftOutlook,
+    userId: {
+      propDefinition: [
+        microsoftOutlook,
+        "userId",
+      ],
+    },
     displayName: {
       type: "string",
       label: "Display Name",
@@ -43,8 +49,10 @@ export default {
   },
   async run({ $ }) {
     let folders = [];
+
     if (this.includeSubfolders) {
-      folders = await this.microsoftOutlook.listAllFolders({
+      folders = await this.microsoftOutlook.listSharedFolders({
+        userId: this.userId,
         params: {
           $top: 999,
           includeHiddenFolders: this.includeHiddenFolders,
@@ -58,9 +66,10 @@ export default {
       }
     } else {
       const items = this.microsoftOutlook.paginate({
-        fn: this.microsoftOutlook.listFolders,
+        fn: this.microsoftOutlook.listSharedFoldersPaged,
         args: {
           $,
+          userId: this.userId,
           params: {
             ...(this.displayName && {
               $filter: `displayName eq '${this.displayName.replace(/'/g, "''")}'`,
