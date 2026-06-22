@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "emboss",
+  app: "apexverify",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
