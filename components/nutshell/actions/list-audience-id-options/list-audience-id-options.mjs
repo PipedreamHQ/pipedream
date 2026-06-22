@@ -4,7 +4,7 @@ export default {
   key: "nutshell-list-audience-id-options",
   name: "List Audience Id Options",
   description: "Retrieves available options for the Audience Id field.",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,

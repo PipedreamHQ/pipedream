@@ -4,7 +4,7 @@ export default {
   key: "nutshell-list-industry-id-options",
   name: "List Industry Id Options",
   description: "Retrieves available options for the Industry Id field.",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,

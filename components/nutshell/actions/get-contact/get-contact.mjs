@@ -4,7 +4,7 @@ export default {
   key: "nutshell-get-contact",
   name: "Get Contact",
   description: "Retrieve a single contact (person) from Nutshell. [See the documentation](https://developers.nutshell.com/reference/8a291bf9a1a7e4a7fd1ca0cabfdaa8a7)",
-  version: "0.0.2",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

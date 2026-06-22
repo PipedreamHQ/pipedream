@@ -6,7 +6,7 @@ export default {
   key: "nutshell-update-lead",
   name: "Update Lead",
   description: "Update an existing lead in Nutshell. Use `leads/0/manualValue` for value updates. [See the documentation](https://developers.nutshell.com/reference/5a47a634e21ffbad6a5c268af67a63ae)",
-  version: "0.0.2",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

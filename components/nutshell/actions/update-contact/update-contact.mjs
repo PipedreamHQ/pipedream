@@ -7,7 +7,7 @@ export default {
   key: "nutshell-update-contact",
   name: "Update Contact",
   description: "Update an existing contact (person) in Nutshell. [See the documentation](https://developers.nutshell.com/reference/cb995ae09d7e0e99e91b122bcc9358ed)",
-  version: "0.0.2",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -86,14 +86,14 @@ export default {
     if (this.email) {
       patches.push({
         op: PATCH_OPS.REPLACE,
-        path: "/contacts/0/email",
+        path: "/contacts/0/emails",
         value: parseObject(this.email),
       });
     }
     if (this.phone) {
       patches.push({
         op: PATCH_OPS.REPLACE,
-        path: "/contacts/0/phone",
+        path: "/contacts/0/phones",
         value: parseObject(this.phone),
       });
     }

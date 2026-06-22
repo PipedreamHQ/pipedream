@@ -7,7 +7,7 @@ export default {
   key: "nutshell-update-company",
   name: "Update Company",
   description: "Update an existing company (account) in Nutshell. [See the documentation](https://developers.nutshell.com/reference/48bf7b1de74805c35713fb7b3a9f1e52)",
-  version: "0.0.2",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -114,21 +114,21 @@ export default {
     if (this.email) {
       patches.push({
         op: PATCH_OPS.REPLACE,
-        path: "/accounts/0/email",
+        path: "/accounts/0/emails",
         value: parseObject(this.email),
       });
     }
     if (this.phone) {
       patches.push({
         op: PATCH_OPS.REPLACE,
-        path: "/accounts/0/phone",
+        path: "/accounts/0/phones",
         value: parseObject(this.phone),
       });
     }
     if (this.url) {
       patches.push({
         op: PATCH_OPS.REPLACE,
-        path: "/accounts/0/url",
+        path: "/accounts/0/urls",
         value: parseObject(this.url),
       });
     }

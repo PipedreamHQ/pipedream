@@ -4,7 +4,7 @@ export default {
   key: "nutshell-search-leads",
   name: "Search Leads",
   description: "Search leads in Nutshell. Returns records in the existing lead output format. [See the documentation](https://developers.nutshell.com/reference/132e65861bebcb3781c3d37e66aff309)",
-  version: "0.0.2",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

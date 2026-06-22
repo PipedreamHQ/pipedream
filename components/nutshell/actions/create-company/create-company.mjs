@@ -6,7 +6,7 @@ export default {
   key: "nutshell-create-company",
   name: "Create Company",
   description: "Create a new company (account) in Nutshell. [See the documentation](https://developers.nutshell.com/reference/0e0199fef8e93c05437d3a33104886d1)",
-  version: "0.0.4",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -101,17 +101,17 @@ export default {
         : {}),
       ...(this.email
         ? {
-          email: parseObject(this.email),
+          emails: parseObject(this.email),
         }
         : {}),
       ...(this.phone
         ? {
-          phone: parseObject(this.phone),
+          phones: parseObject(this.phone),
         }
         : {}),
       ...(this.url
         ? {
-          url: parseObject(this.url),
+          urls: parseObject(this.url),
         }
         : {}),
       ...(this.address

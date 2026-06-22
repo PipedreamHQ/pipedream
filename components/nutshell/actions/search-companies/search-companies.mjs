@@ -4,7 +4,7 @@ export default {
   key: "nutshell-search-companies",
   name: "Search Companies",
   description: "Search companies (accounts) in Nutshell. Returns records in the existing company output format. [See the documentation](https://developers.nutshell.com/reference/ee7a9535ab7ae30da91d6d9cebe2ed85)",
-  version: "0.0.2",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

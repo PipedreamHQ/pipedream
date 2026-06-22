@@ -4,7 +4,7 @@ export default {
   key: "nutshell-list-account-type-id-options",
   name: "List Account Type Id Options",
   description: "Retrieves available options for the Account Type Id field.",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,

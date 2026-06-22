@@ -4,7 +4,7 @@ export default {
   key: "nutshell-search-contacts",
   name: "Search Contacts",
   description: "Search contacts (people) in Nutshell. Returns records in the existing contact output format. [See the documentation](https://developers.nutshell.com/reference/cde301caba6b033521a71e6bed772a58)",
-  version: "0.0.2",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

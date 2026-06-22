@@ -4,7 +4,7 @@ export default {
   key: "nutshell-get-lead",
   name: "Get Lead",
   description: "Retrieve a single lead from Nutshell. [See the documentation](https://developers.nutshell.com/reference/8e55836889bb7d432d5fe3d9bfe608b7)",
-  version: "0.0.2",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

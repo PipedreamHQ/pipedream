@@ -9,7 +9,7 @@ export default {
   key: "nutshell-new-person",
   name: "New Person Profile Created",
   description: "Emit new event when a new person profile is created. [See the documentation](https://developers.nutshell.com/reference/cde301caba6b033521a71e6bed772a58)",
-  version: "0.0.3",
+  version: "1.0.0",
   type: "source",
   dedupe: "unique",
   methods: {

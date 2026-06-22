@@ -4,7 +4,7 @@ export default {
   key: "nutshell-list-territory-id-options",
   name: "List Territory Id Options",
   description: "Retrieves available options for the Territory Id field.",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,

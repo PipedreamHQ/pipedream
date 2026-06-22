@@ -4,7 +4,7 @@ export default {
   key: "nutshell-list-market-id-options",
   name: "List Market Id Options",
   description: "Retrieves available options for the Market Id field.",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,

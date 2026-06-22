@@ -6,7 +6,7 @@ export default {
   key: "nutshell-create-contact",
   name: "Create Contact",
   description: "Create a new contact (person) in Nutshell. [See the documentation](https://developers.nutshell.com/reference/376a09558c05d3d4d273459f15a57326)",
-  version: "0.0.6",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -61,12 +61,12 @@ export default {
       title: this.jobTitle,
       ...(this.email
         ? {
-          email: parseObject(this.email),
+          emails: parseObject(this.email),
         }
         : {}),
       ...(this.phone
         ? {
-          phone: parseObject(this.phone),
+          phones: parseObject(this.phone),
         }
         : {}),
       ...(this.companyId
