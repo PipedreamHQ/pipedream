@@ -1,5 +1,4 @@
 import app from "../../eppo.app.mjs";
-import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "eppo-toggle-feature-flag",
