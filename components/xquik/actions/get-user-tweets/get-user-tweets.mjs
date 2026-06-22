@@ -4,7 +4,7 @@ export default {
   key: "xquik-get-user-tweets",
   name: "Get User Tweets",
   description: "List recent public X/Twitter posts from a user with Xquik. [See the documentation](https://docs.xquik.com/api-reference/x/user-tweets)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

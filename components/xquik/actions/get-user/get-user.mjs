@@ -4,7 +4,7 @@ export default {
   key: "xquik-get-user",
   name: "Get User",
   description: "Get a public X/Twitter user profile by username or ID with Xquik. [See the documentation](https://docs.xquik.com/api-reference/x/get-user)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -4,7 +4,7 @@ export default {
   key: "strava-activity-updated",
   name: "New Activity Updated Event",
   description: "Emit new event when an activity is updated",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   props: {
     strava,
