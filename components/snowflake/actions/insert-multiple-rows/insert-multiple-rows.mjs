@@ -6,7 +6,7 @@ export default {
   key: "snowflake-insert-multiple-rows",
   name: "Insert Multiple Rows",
   description: "Insert multiple rows into a table",
-  version: "0.1.5",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -15,39 +15,24 @@ export default {
   props: {
     snowflake,
     database: {
-      propDefinition: [
-        snowflake,
-        "database",
-      ],
+      type: "string",
+      label: "Database",
+      description: "The database to use. Run **List Database Options** to find available databases.",
     },
     schema: {
-      propDefinition: [
-        snowflake,
-        "schema",
-        (c) =>  ({
-          database: c.database,
-        }),
-      ],
+      type: "string",
+      label: "Schema",
+      description: "The schema to use. Run **List Schema Options** to find available schemas.",
     },
     tableName: {
-      propDefinition: [
-        snowflake,
-        "tableName",
-        (c) => ({
-          database: c.database,
-          schema: c.schema,
-        }),
-      ],
-      description: "The table where you want to add rows",
+      type: "string",
+      label: "Table Name",
+      description: "The table where you want to add rows. Run **List Table Options** to find available tables.",
     },
     columns: {
-      propDefinition: [
-        snowflake,
-        "columns",
-        (c) => ({
-          tableName: c.tableName,
-        }),
-      ],
+      type: "string[]",
+      label: "Columns",
+      description: "The columns you want to insert data into. Run **List Column Options** to find available columns.",
     },
     values: {
       propDefinition: [
@@ -82,6 +67,7 @@ export default {
     },
   },
   async run({ $ }) {
+    const tableName = `${this.database}.${this.schema}.${this.tableName}`;
     let rows = this.values;
 
     let inputValidated = true;
@@ -132,7 +118,7 @@ export default {
 
     try {
       const response = await this.snowflake.insertRows(
-        this.tableName,
+        tableName,
         this.columns,
         rows,
         batchOptions,
@@ -142,7 +128,7 @@ export default {
       if (response.summary) {
         // Batched response
         const { summary } = response;
-        $.export("$summary", `Successfully inserted ${summary.totalRowsProcessed} rows into ${this.tableName} using ${summary.totalBatches} batches`);
+        $.export("$summary", `Successfully inserted ${summary.totalRowsProcessed} rows into ${tableName} using ${summary.totalBatches} batches`);
 
         // Export detailed batch information
         $.export("batchDetails", {
@@ -161,7 +147,7 @@ export default {
 
       } else {
         // Single insert response (small dataset or batching disabled)
-        $.export("$summary", `Successfully inserted ${rows.length} rows into ${this.tableName}`);
+        $.export("$summary", `Successfully inserted ${rows.length} rows into ${tableName}`);
         return response;
       }
 
