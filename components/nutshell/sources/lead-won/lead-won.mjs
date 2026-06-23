@@ -21,8 +21,14 @@ export default {
       return ENTITY_KEYS.LEADS;
     },
     getParams() {
+      // Filter to won leads server-side (verified: filter[status]=won returns only
+      // won leads) so we page through the won subset instead of every lead in the
+      // account. closedTime can't drive an early break here: open leads carry a
+      // null closedTime that interleaves under -closedTime sort, so the client-side
+      // closedTime watermark in prepareData still does the final ordering/cutoff.
       return {
-        sort: "-closedTime",
+        "filter[status]": LEAD_WON_STATUS,
+        "sort": "-closedTime",
       };
     },
     getSummary(item) {
