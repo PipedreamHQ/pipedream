@@ -8556,6 +8556,9 @@ importers:
 
   components/kommo: {}
 
+  components/komos:
+    specifiers: {}
+
   components/konfhub:
     dependencies:
       '@pipedream/platform':
@@ -10287,6 +10290,9 @@ importers:
         version: 3.1.1
 
   components/mslm_cloud: {}
+
+  components/muapi:
+    specifiers: {}
 
   components/mumara: {}
 
