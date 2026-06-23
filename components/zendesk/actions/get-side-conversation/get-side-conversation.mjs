@@ -4,7 +4,7 @@ export default {
   key: "zendesk-get-side-conversation",
   name: "Get Side Conversation",
   description: "Retrieve a single Zendesk side conversation by ID (UUID, e.g. `8566255a-ece5-11e8-857d-493066fa7b17`). Use **List Side Conversations** to discover IDs for a given ticket. Set `includeEvents` to `true` to sideload the conversation's events (creation, replies, state changes). [See the documentation](https://developer.zendesk.com/api-reference/ticketing/side_conversation/side_conversation/#show-side-conversation).",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

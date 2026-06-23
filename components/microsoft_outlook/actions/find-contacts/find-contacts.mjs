@@ -1,22 +1,30 @@
 import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 
 export default {
-  type: "action",
   key: "microsoft_outlook-find-contacts",
-  version: "0.0.29",
+  name: "Find Contacts",
+  description:
+    "Search and list contacts in the authenticated user's Outlook contacts."
+    + " Omit `searchString` to return all contacts up to `maxResults`."
+    + " When `searchString` is provided, filters contacts by displayName, givenName, surname, or email address (case-sensitive substring match)."
+    + " Example: `find-contacts(searchString=\"George Costanza\")` → returns contact record with `displayName`, `id`, `emailAddresses`, `businessPhones`."
+    + " Example: `find-contacts(searchString=\"george@vandelay.com\")` → matches by email address."
+    + " Use the returned contact `id` with **Save Contact** to update the contact."
+    + " [See the documentation](https://docs.microsoft.com/en-us/graph/api/user-list-contacts)",
+  version: "0.1.0",
+  type: "action",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
-  name: "Find Contacts",
-  description: "Finds contacts with the given search string. [See the documentation](https://docs.microsoft.com/en-us/graph/api/user-list-contacts)",
   props: {
     microsoftOutlook,
     searchString: {
-      label: "Search string",
-      description: "Provide email address, given name, surname or display name (case sensitive)",
+      label: "Search String",
+      description: "Optional substring to match against displayName, givenName, surname, or email address. Case-sensitive. Omit to return all contacts.",
       type: "string",
+      optional: true,
     },
     maxResults: {
       propDefinition: [
@@ -28,30 +36,27 @@ export default {
   async run({ $ }) {
     const contacts = this.microsoftOutlook.paginate({
       fn: this.microsoftOutlook.listContacts,
-      args: {
-        $,
-      },
+      args: {},
     });
 
-    const relatedContacts = [];
+    const results = [];
     for await (const contact of contacts) {
-      if (
-        contact?.displayName?.includes(this.searchString) ||
-        contact?.givenName?.includes(this.searchString) ||
-        contact?.surname?.includes(this.searchString) ||
-        contact?.emailAddresses?.find(
-          (e) => e?.address == this.searchString || e?.name?.includes(this.searchString),
-        )
-      ) {
-        relatedContacts.push(contact);
-        if (this.maxResults && relatedContacts.length >= this.maxResults) {
-          break;
-        }
+      const matches = !this.searchString
+        || contact?.displayName?.includes(this.searchString)
+        || contact?.givenName?.includes(this.searchString)
+        || contact?.surname?.includes(this.searchString)
+        || contact?.emailAddresses?.find(
+          (e) => e?.address === this.searchString || e?.name?.includes(this.searchString),
+        );
+      if (matches) {
+        results.push(contact);
+        if (this.maxResults && results.length >= this.maxResults) break;
       }
     }
 
-    // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `${relatedContacts.length} matching contact${relatedContacts.length != 1 ? "s" : ""} found`);
-    return relatedContacts;
+    $.export("$summary", `Found ${results.length} contact${results.length !== 1
+      ? "s"
+      : ""}`);
+    return results;
   },
 };

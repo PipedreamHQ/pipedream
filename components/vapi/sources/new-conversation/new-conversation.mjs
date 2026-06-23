@@ -6,7 +6,7 @@ export default {
   key: "vapi-new-conversation",
   name: "New Conversation Started",
   description: "Emit new event when a voicebot starts a conversation.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

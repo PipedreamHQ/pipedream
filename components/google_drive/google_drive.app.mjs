@@ -32,9 +32,8 @@ export default {
     watchedDrive: {
       type: "string",
       label: "Drive",
-      description: "Defaults to `My Drive`. To select a [Shared Drive](https://support.google.com/a/users/answer/9310351) instead, select it from this list.",
+      description: "Select a specific drive to search. Defaults to **All Drives** (My Drive and all Shared Drives you have access to) when no selection is made. To limit to your personal drive or a [Shared Drive](https://support.google.com/a/users/answer/9310351), select it from this list.",
       optional: true,
-      default: MY_DRIVE_VALUE,
       async options({ prevContext }) {
         const { nextPageToken } = prevContext;
         return this._listDriveOptions(nextPageToken);

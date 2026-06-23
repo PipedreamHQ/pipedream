@@ -1210,8 +1210,14 @@ export default {
       })) || [];
     },
     async searchCRM({
-      object, ...opts
+      object, version, ...opts
     }) {
+      // When `version` is set, target the date-versioned CRM objects API
+      // (e.g. /crm/2026-03/objects/{type}/search); otherwise keep the default
+      // /crm/v3 path so existing callers are unaffected.
+      const api = version
+        ? `/crm/${version}`
+        : API_PATH.CRMV3;
       // Adding retry logic here since the search endpoint specifically has a per-second rate limit
       const MAX_RETRIES = 5;
       const BASE_RETRY_DELAY = 500;
@@ -1220,7 +1226,7 @@ export default {
       while (!success) {
         try {
           const response = await this.makeRequest({
-            api: API_PATH.CRMV3,
+            api,
             method: "POST",
             endpoint: `/objects/${object}/search`,
             ...opts,

@@ -4,7 +4,7 @@ export default {
   key: "jira-get-board",
   name: "Get Board",
   description: "Returns the board for the given board ID. [See the documentation](https://developer.atlassian.com/cloud/jira/software/rest/api-group-board/#api-rest-agile-1-0-board-boardid-get)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,
