@@ -28,16 +28,8 @@ export default {
   },
   async run({ $ }) {
     const params = {
-      ...(this.query
-        ? {
-          q: this.query,
-        }
-        : {}),
-      ...(this.limit
-        ? {
-          "page[limit]": this.limit,
-        }
-        : {}),
+      "q": this.query,
+      "page[limit]": this.limit,
     };
     const contacts = await this.nutshell.listContacts({
       $,
