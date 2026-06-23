@@ -73,9 +73,13 @@ export default {
       if (parsed == null || parsed === "") {
         return undefined;
       }
-      return Array.isArray(parsed)
-        ? parsed.join(",")
-        : String(parsed);
+      if (Array.isArray(parsed)) {
+        const values = parsed.filter((item) => item != null && item !== "");
+        return values.length
+          ? values.join(",")
+          : undefined;
+      }
+      return String(parsed);
     },
     _getParams() {
       return {
