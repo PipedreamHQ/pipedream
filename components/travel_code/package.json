@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/travel_code",
+  "version": "0.0.1",
+  "description": "Pipedream Travel Code Components",
+  "main": "travel_code.app.mjs",
+  "keywords": [
+    "pipedream",
+    "travel_code"
+  ],
+  "homepage": "https://pipedream.com/apps/travel_code",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -4,7 +4,7 @@ export default {
   key: "google_slides-delete-table-row",
   name: "Delete Table Row",
   description: "Delete row from a table. [See the documentation](https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations/request#DeleteTableRowRequest)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

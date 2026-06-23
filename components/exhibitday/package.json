@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/exhibitday",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Pipedream ExhibitDay Components",
   "main": "exhibitday.app.mjs",
   "keywords": [
