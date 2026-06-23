@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/komos",
+  "version": "0.0.1",
+  "description": "Pipedream Komos Components",
+  "main": "komos.app.mjs",
+  "keywords": [
+    "pipedream",
+    "komos"
+  ],
+  "homepage": "https://pipedream.com/apps/komos",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
