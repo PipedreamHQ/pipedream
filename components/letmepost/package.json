@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/letmepost",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Components for letmepost",
   "main": "letmepost.app.mjs",
   "keywords": [
