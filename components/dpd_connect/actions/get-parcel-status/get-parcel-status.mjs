@@ -25,8 +25,11 @@ export default {
       parcelNumber: this.parcelNumber,
     });
 
-    if (response?.shipmentInfo?.status) {
+    const status = response?.shipmentInfo?.status;
+    if (status) {
       $.export("$summary", `Successfully retrieved parcel status for ${this.parcelNumber}`);
+    } else {
+      $.export("$summary", `Failed to retrieve parcel status for ${this.parcelNumber}`);
     }
     return response;
   },
