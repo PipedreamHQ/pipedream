@@ -3332,7 +3332,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/codex: {}
+  components/codex:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/cody:
     dependencies:
@@ -4670,7 +4674,11 @@ importers:
 
   components/drchrono: {}
 
-  components/dreamdata: {}
+  components/dreamdata:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.0
+        version: 3.4.0
 
   components/dreamhost: {}
 
@@ -8556,8 +8564,7 @@ importers:
 
   components/kommo: {}
 
-  components/komos:
-    specifiers: {}
+  components/komos: {}
 
   components/konfhub:
     dependencies:
@@ -8850,7 +8857,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/letmepost: {}
+  components/letmepost:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.4.0
 
   components/letterdrop:
     dependencies:
@@ -10291,8 +10302,7 @@ importers:
 
   components/mslm_cloud: {}
 
-  components/muapi:
-    specifiers: {}
+  components/muapi: {}
 
   components/mumara: {}
 
@@ -42389,6 +42399,7 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
+      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.62.0)':
     dependencies:
