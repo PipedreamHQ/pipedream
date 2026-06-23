@@ -10290,6 +10290,9 @@ importers:
 
   components/mslm_cloud: {}
 
+  components/muapi:
+    specifiers: {}
+
   components/mumara: {}
 
   components/mumble:
