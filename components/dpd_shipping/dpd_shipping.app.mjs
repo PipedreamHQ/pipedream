@@ -20,10 +20,12 @@ export default {
         ...args,
       });
     },
-    getAuth({
+    // Exchange the connected account's credentials for a 24h authToken.
+    // DPD requires this login before any data call.
+    async _getAuthToken({
       $, messageLanguage, useTestEnvironment,
     }) {
-      return this._makeRequest({
+      const { getAuthResponse } = await this._makeRequest({
         $,
         useTestEnvironment,
         path: constants.LOGIN_SERVICE_PATH,
@@ -33,20 +35,47 @@ export default {
           messageLanguage,
         },
       });
+      return getAuthResponse?.return?.authToken;
     },
-    getTrackingData({
-      $, authToken, messageLanguage, parcelLabelNumber, useTestEnvironment,
+    // Single entry point for every authenticated DPD call: mints a token, wraps
+    // the operation payload in DPD's `authentication` envelope, and POSTs. New
+    // actions add a thin wrapper that calls this with a path + data; they never
+    // touch the token.
+    async _authenticatedRequest({
+      $,
+      path,
+      data,
+      messageLanguage = constants.DEFAULT_MESSAGE_LANGUAGE,
+      useTestEnvironment,
     }) {
+      const authToken = await this._getAuthToken({
+        $,
+        messageLanguage,
+        useTestEnvironment,
+      });
       return this._makeRequest({
         $,
         useTestEnvironment,
-        path: constants.PARCEL_LIFECYCLE_SERVICE_PATH,
+        path,
         data: {
           authentication: {
             delisId: this.$auth.api_username,
             authToken,
             messageLanguage,
           },
+          ...data,
+        },
+      });
+    },
+    getTrackingData({
+      $, messageLanguage, parcelLabelNumber, useTestEnvironment,
+    }) {
+      return this._authenticatedRequest({
+        $,
+        messageLanguage,
+        useTestEnvironment,
+        path: constants.PARCEL_LIFECYCLE_SERVICE_PATH,
+        data: {
           getTrackingData: {
             parcelLabelNumber,
           },

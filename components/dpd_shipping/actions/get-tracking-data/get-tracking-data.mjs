@@ -1,6 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../dpd_shipping.app.mjs";
-import constants from "../../common/constants.mjs";
 
 export default {
   key: "dpd_shipping-get-tracking-data",
@@ -39,31 +38,11 @@ export default {
       throw new ConfigurationError(`Parcel label number must be exactly 14 characters (received ${this.parcelLabelNumber.length}).`);
     }
 
-    const messageLanguage = this.messageLanguage ?? constants.DEFAULT_MESSAGE_LANGUAGE;
-    const useTestEnvironment = this.useTestEnvironment;
-
-    // DPD's authToken is valid for 24h and the API forbids refreshing it on
-    // every request. We mint it once per invocation here (one login + one
-    // tracking call) rather than per request. A stateless action has no store
-    // to cache the token across invocations, and a module-level cache would
-    // leak tokens across connected accounts, so re-deriving per run is the
-    // correct trade-off for this read-only lookup.
-    const { getAuthResponse } = await this.app.getAuth({
-      $,
-      messageLanguage,
-      useTestEnvironment,
-    });
-    const authToken = getAuthResponse?.return?.authToken;
-    if (!authToken) {
-      throw new Error("DPD authentication response did not include an authToken.");
-    }
-
     const result = await this.app.getTrackingData({
       $,
-      authToken,
-      messageLanguage,
+      messageLanguage: this.messageLanguage,
       parcelLabelNumber: this.parcelLabelNumber,
-      useTestEnvironment,
+      useTestEnvironment: this.useTestEnvironment,
     });
 
     const statusInfo = result.getTrackingDataResponse?.trackingResult?.statusInfo;
