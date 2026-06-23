@@ -59,18 +59,30 @@ export default {
     },
   },
   methods: {
-    _getLastSubmittedAt() {
-      return this.db.get("lastSubmittedAt");
+    _getCursor() {
+      return this.db.get("cursor") ?? {
+        submittedAt: this.db.get("lastSubmittedAt"),
+        ids: [],
+      };
     },
-    _setLastSubmittedAt(value) {
-      this.db.set("lastSubmittedAt", value);
+    _setCursor(cursor) {
+      this.db.set("cursor", cursor);
+    },
+    _toCsv(value) {
+      const parsed = parseObject(value);
+      if (parsed == null || parsed === "") {
+        return undefined;
+      }
+      return Array.isArray(parsed)
+        ? parsed.join(",")
+        : String(parsed);
     },
     _getParams() {
       return {
-        channels: parseObject(this.channelId)?.join(","),
-        type: parseObject(this.type)?.join(","),
-        status: parseObject(this.status)?.join(","),
-        rating: parseObject(this.rating)?.join(","),
+        channels: this._toCsv(this.channelId),
+        type: this._toCsv(this.type),
+        status: this._toCsv(this.status),
+        rating: this._toCsv(this.rating),
         ignoreStatements: this.ignoreStatements,
         orderBy: "submittedAt",
       };
@@ -99,6 +111,13 @@ export default {
         ts: this._getTs(review),
       });
     },
+    _getSubmittedAfter(cursor) {
+      if (!cursor?.submittedAt) {
+        return undefined;
+      }
+
+      return new Date(Date.parse(cursor.submittedAt) - 1).toISOString();
+    },
     async _getReviews({
       maxResults,
       submittedAfter,
@@ -118,18 +137,72 @@ export default {
       }
       return reviews;
     },
+    _isNewReview(review, cursor) {
+      if (!cursor?.submittedAt) {
+        return true;
+      }
+
+      const submittedAt = this._getSubmittedAt(review);
+      if (!submittedAt) {
+        return true;
+      }
+
+      const reviewTs = Date.parse(submittedAt);
+      const cursorTs = Date.parse(cursor.submittedAt);
+      if (reviewTs > cursorTs) {
+        return true;
+      }
+      if (reviewTs < cursorTs) {
+        return false;
+      }
+
+      return !cursor.ids?.includes(review.id);
+    },
+    _sortBySubmittedAt(reviews) {
+      return reviews.sort((a, b) => this._getTs(a) - this._getTs(b));
+    },
+    _getNextCursor(reviews, cursor) {
+      const withSubmittedAt = reviews.filter((review) => this._getSubmittedAt(review));
+      if (!withSubmittedAt.length) {
+        return cursor;
+      }
+
+      const newestSubmittedAt = withSubmittedAt.reduce((max, review) => {
+        const submittedAt = this._getSubmittedAt(review);
+        return !max || Date.parse(submittedAt) > Date.parse(max)
+          ? submittedAt
+          : max;
+      }, null);
+      const ids = withSubmittedAt
+        .filter((review) => this._getSubmittedAt(review) === newestSubmittedAt)
+        .map((review) => review.id);
+
+      if (cursor?.submittedAt === newestSubmittedAt) {
+        ids.push(...(cursor.ids ?? []));
+      }
+
+      return {
+        submittedAt: newestSubmittedAt,
+        ids: [
+          ...new Set(ids),
+        ],
+      };
+    },
     _processReviews(reviews) {
       if (!reviews.length) {
         return;
       }
 
-      const newestSubmittedAt = this._getSubmittedAt(reviews[0]);
-      for (const review of reviews.reverse()) {
+      const cursor = this._getCursor();
+      const newReviews = reviews.filter((review) => this._isNewReview(review, cursor));
+      const nextCursor = this._getNextCursor(reviews, cursor);
+
+      for (const review of this._sortBySubmittedAt(newReviews)) {
         this._emitReview(review);
       }
 
-      if (newestSubmittedAt) {
-        this._setLastSubmittedAt(newestSubmittedAt);
+      if (nextCursor?.submittedAt) {
+        this._setCursor(nextCursor);
       }
     },
   },
@@ -142,8 +215,9 @@ export default {
     },
   },
   async run() {
+    const cursor = this._getCursor();
     const reviews = await this._getReviews({
-      submittedAfter: this._getLastSubmittedAt(),
+      submittedAfter: this._getSubmittedAfter(cursor),
     });
     this._processReviews(reviews);
   },
