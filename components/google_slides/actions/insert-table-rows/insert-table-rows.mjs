@@ -4,7 +4,7 @@ export default {
   key: "google_slides-insert-table-rows",
   name: "Insert Table Rows",
   description: "Insert new rows into a table. [See the documentation](https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations/request#InsertTableRowsRequest)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

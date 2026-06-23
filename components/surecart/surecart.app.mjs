@@ -211,6 +211,19 @@ export default {
         ...opts,
       });
     },
+    listPrices(opts = {}) {
+      return this._makeRequest({
+        path: "/prices",
+        ...opts,
+      });
+    },
+    createPrice(opts = {}) {
+      return this._makeRequest({
+        path: "/prices",
+        method: "POST",
+        ...opts,
+      });
+    },
     listProducts(opts = {}) {
       return this._makeRequest({
         path: "/products",
@@ -236,6 +249,12 @@ export default {
     }) {
       return this._makeRequest({
         path: `/abandoned_checkouts/${abandonedCheckoutId}`,
+        ...opts,
+      });
+    },
+    listCharges(opts = {}) {
+      return this._makeRequest({
+        path: "/charges",
         ...opts,
       });
     },
@@ -524,6 +543,15 @@ export default {
       return this._makeRequest({
         path: "/line_items",
         method: "POST",
+        ...opts,
+      });
+    },
+    updateLineItem({
+      lineItemId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/line_items/${lineItemId}`,
+        method: "PATCH",
         ...opts,
       });
     },

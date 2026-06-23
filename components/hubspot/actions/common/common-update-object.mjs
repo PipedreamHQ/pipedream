@@ -9,6 +9,7 @@ export default {
       type: "string[]",
       label: "Property Groups",
       reloadProps: true,
+      optional: true,
       async options() {
         const { results: groups } = await this.hubspot.getPropertyGroups({
           objectType: this.getObjectType(),
@@ -22,7 +23,7 @@ export default {
     objectProperties: {
       type: "object",
       label: "Object Properties",
-      description: "Enter the object properties to update as a JSON object",
+      description: "Enter the object properties to update as a JSON object. Example: {\"firstname\": \"Alice\", \"lastname\": \"Smith\"}. This will overwrite any properties entered individually.",
     },
   },
   methods: {

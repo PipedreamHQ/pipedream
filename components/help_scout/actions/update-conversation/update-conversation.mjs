@@ -5,7 +5,7 @@ export default {
   key: "help_scout-update-conversation",
   name: "Update Conversation",
   description: "Updates a conversation. [See the documentation](https://developer.helpscout.com/mailbox-api/endpoints/conversations/update/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: true,

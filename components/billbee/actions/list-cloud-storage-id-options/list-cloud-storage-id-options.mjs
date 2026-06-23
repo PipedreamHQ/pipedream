@@ -4,7 +4,7 @@ export default {
   key: "billbee-list-cloud-storage-id-options",
   name: "List Cloud Storage ID Options",
   description: "Retrieves available options for the Cloud Storage ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -6,7 +6,7 @@ export default {
   key: "teamwork_desk-ticket-created",
   type: "source",
   description: "Emit new event when a new ticket is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   methods: {
     ...common.methods,
     getWebhookEvents() {

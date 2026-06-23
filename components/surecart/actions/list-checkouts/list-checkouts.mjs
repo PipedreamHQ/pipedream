@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-checkouts",
   name: "List Checkouts",
   description: "Return a list of checkouts. [See the documentation](https://developer.surecart.com/api-reference/checkouts/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
