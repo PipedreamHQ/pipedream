@@ -3761,8 +3761,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/crowdstrike_falcon:
-    specifiers: {}
+  components/crowdstrike_falcon: {}
 
   components/crunchbase:
     dependencies:
@@ -8561,8 +8560,7 @@ importers:
 
   components/kommo: {}
 
-  components/komos:
-    specifiers: {}
+  components/komos: {}
 
   components/konfhub:
     dependencies:
@@ -8856,7 +8854,10 @@ importers:
         version: 3.1.1
 
   components/letmepost:
-    specifiers: {}
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.4.0
 
   components/letterdrop:
     dependencies:
@@ -10297,8 +10298,7 @@ importers:
 
   components/mslm_cloud: {}
 
-  components/muapi:
-    specifiers: {}
+  components/muapi: {}
 
   components/mumara: {}
 
