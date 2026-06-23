@@ -35,10 +35,10 @@ export default {
   props: {
     app,
     profileId: {
-      type: "string",
-      label: "Profile ID",
-      description: "Filter to posts attributed to a specific profile.",
-      optional: true,
+      propDefinition: [
+        app,
+        "profileId",
+      ],
     },
     platform: {
       type: "string[]",
@@ -69,13 +69,13 @@ export default {
     after: {
       type: "string",
       label: "Created After",
-      description: "ISO-8601 lower bound on `createdAt` (exclusive).",
+      description: "ISO-8601 lower bound on `createdAt` (exclusive). Example: `2024-01-01T00:00:00Z`.",
       optional: true,
     },
     before: {
       type: "string",
       label: "Created Before",
-      description: "ISO-8601 upper bound on `createdAt` (exclusive).",
+      description: "ISO-8601 upper bound on `createdAt` (exclusive). Example: `2024-12-31T23:59:59Z`.",
       optional: true,
     },
     limit: {

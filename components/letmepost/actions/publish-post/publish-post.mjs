@@ -51,10 +51,10 @@ export default {
       optional: true,
     },
     profileId: {
-      type: "string",
-      label: "Profile ID",
-      description: "Optional profile to attribute this post to.",
-      optional: true,
+      propDefinition: [
+        app,
+        "profileId",
+      ],
     },
     idempotencyKey: {
       type: "string",

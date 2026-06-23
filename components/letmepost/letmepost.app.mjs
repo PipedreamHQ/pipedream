@@ -4,6 +4,12 @@ export default {
   type: "app",
   app: "letmepost",
   propDefinitions: {
+    profileId: {
+      type: "string",
+      label: "Profile ID",
+      description: "UUID of a letmepost profile. Example: `550e8400-e29b-41d4-a716-446655440000`. Discover valid values from the `profileId` field on posts returned by **List Posts** or **Get Post**.",
+      optional: true,
+    },
     accounts: {
       type: "string[]",
       label: "Accounts",
