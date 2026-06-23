@@ -8554,6 +8554,9 @@ importers:
 
   components/kommo: {}
 
+  components/komos:
+    specifiers: {}
+
   components/konfhub:
     dependencies:
       '@pipedream/platform':
