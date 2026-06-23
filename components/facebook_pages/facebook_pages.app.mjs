@@ -104,7 +104,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://graph.facebook.com";
+      return "https://graph.facebook.com/v25.0";
     },
     _headers() {
       return {
