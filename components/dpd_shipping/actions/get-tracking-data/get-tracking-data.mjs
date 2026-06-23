@@ -55,7 +55,7 @@ export default {
     });
     const authToken = getAuthResponse?.return?.authToken;
     if (!authToken) {
-      throw new ConfigurationError("DPD authentication failed: no authToken was returned. Verify the connected account's credentials.");
+      throw new Error("DPD authentication response did not include an authToken.");
     }
 
     const result = await this.app.getTrackingData({
