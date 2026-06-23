@@ -11,7 +11,7 @@ export default {
     + " Example: `find-contacts(searchString=\"george@vandelay.com\")` → matches by email address."
     + " Use the returned contact `id` with **Save Contact** to update the contact."
     + " [See the documentation](https://docs.microsoft.com/en-us/graph/api/user-list-contacts)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   annotations: {
     destructiveHint: false,

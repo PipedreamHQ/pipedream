@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/crowdstrike_falcon",
+  "version": "0.0.1",
+  "description": "Pipedream CrowdStrike Falcon Components",
+  "main": "crowdstrike_falcon.app.mjs",
+  "keywords": [
+    "pipedream",
+    "crowdstrike_falcon"
+  ],
+  "homepage": "https://pipedream.com/apps/crowdstrike_falcon",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
