@@ -187,24 +187,6 @@ export default {
       label: "Email",
       description: "The email addresses. Each item is a JSON string, e.g. `{\"isPrimary\":true,\"value\":\"info@acme.com\"}`.",
     },
-    firstName: {
-      type: "string",
-      label: "First Name",
-      description: "The first name of the person.",
-      optional: true,
-    },
-    lastName: {
-      type: "string",
-      label: "Last Name",
-      description: "The last name of the person.",
-      optional: true,
-    },
-    jobTitle: {
-      type: "string",
-      label: "Job Title",
-      description: "The job title of the person.",
-      optional: true,
-    },
     query: {
       type: "string",
       label: "Query",
@@ -567,11 +549,10 @@ export default {
       return formatSearchLeadResultFn(lead);
     },
 
-    // ── Pagination generator for polling sources ───────────────────────────────
-
     /**
      * Async generator that pages through a REST list endpoint.
-     * Yields items one at a time, newest first (via sort=-id).
+     * Yields items one at a time in the order returned by the API; callers pass a
+     * `sort` param to control ordering.
      *
      * @param {Object} [$] - Execution context threaded to _makeRequest (defaults to the app).
      * @param {string} path - REST endpoint path (e.g. "/leads")

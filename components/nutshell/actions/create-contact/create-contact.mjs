@@ -15,16 +15,10 @@ export default {
   type: "action",
   props: {
     nutshell,
-    firstName: {
+    name: {
       type: "string",
-      label: "First Name",
-      description: "Contact first name.",
-    },
-    lastName: {
-      type: "string",
-      label: "Last Name",
-      description: "Contact last name.",
-      optional: true,
+      label: "Name",
+      description: "The contact's full name, e.g. `Jane Doe`.",
     },
     email: {
       type: "string[]",
@@ -38,12 +32,6 @@ export default {
       description: "Array of phone objects as JSON strings, e.g. `{\"isPrimary\":true,\"value\":\"+15125551234\"}`.",
       optional: true,
     },
-    jobTitle: {
-      type: "string",
-      label: "Job Title",
-      description: "Contact job title.",
-      optional: true,
-    },
     companyId: {
       propDefinition: [
         nutshell,
@@ -54,11 +42,7 @@ export default {
   },
   async run({ $ }) {
     const contactData = {
-      name: {
-        givenName: this.firstName,
-        familyName: this.lastName,
-      },
-      title: this.jobTitle,
+      name: this.name,
       ...(this.email
         ? {
           emails: parseObject(this.email),
@@ -89,14 +73,7 @@ export default {
       },
     });
 
-    const displayName = typeof contact?.name === "object"
-      ? ((contact.name?.displayName
-        ?? [
-          contact.name?.givenName,
-          contact.name?.familyName,
-        ].filter(Boolean).join(" "))
-        || contact?.id)
-      : (contact?.name ?? contact?.id);
+    const displayName = contact?.name ?? this.name ?? contact?.id;
 
     $.export("$summary", `New contact created: "${displayName}" (ID: ${contact?.id})`);
     return this.nutshell.formatContact(contact);
