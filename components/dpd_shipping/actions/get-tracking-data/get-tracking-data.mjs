@@ -5,7 +5,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "dpd_shipping-get-tracking-data",
   name: "Get Tracking Data",
-  description: "Retrieve parcel shipping status and lifecycle events from the DPD ParcelLifeCycleService REST API. Provide the 14-character parcel label number to look up. This action authenticates automatically via the DPD LoginService on each invocation, then issues a POST to the ParcelLifeCycleService getTrackingData endpoint. [See the documentation](https://integrations.dpd.nl/dpd-shipper/dpd-shipper-webservices-rest-api/parcellifecycle-service-rest-api/)",
+  description: "Track the current status and history of individual parcels during transit and after delivery. Provide the 14-character parcel label number to look up. [See the documentation](https://integrations.dpd.nl/dpd-shipper/dpd-shipper-webservices-rest-api/parcellifecycle-service-rest-api/)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -18,18 +18,18 @@ export default {
     parcelLabelNumber: {
       type: "string",
       label: "Parcel Label Number",
-      description: "The DPD parcel label number to track. Free-form string, exactly 14 characters (e.g. `01234567890123`). Maps to the API `parcelLabelNumber` field.",
+      description: "The DPD parcel label number to track. Free-form string, exactly 14 characters (e.g. `01234567890123`).",
     },
     messageLanguage: {
       type: "string",
       label: "Message Language",
-      description: "Language for response messages as a 5-character locale code (e.g. `nl_NL` or `en_US`). Defaults to `en_US` if omitted. See the DPD documentation for supported locales.",
+      description: "Language for response messages as a 5-character locale code (e.g. `nl_NL` or `en_US`). Defaults to `en_US` if omitted.",
       optional: true,
     },
     useTestEnvironment: {
       type: "boolean",
       label: "Use Test Environment",
-      description: "Send the request to the DPD staging environment (`wsshippertest.dpd.nl`) instead of production (`wsshipper.dpd.nl`). Requires separate DPD stage credentials. Defaults to `false` (production).",
+      description: "Send the request to the DPD staging environment (`wsshippertest.dpd.nl`) instead of production (`wsshipper.dpd.nl`). Defaults to `false` (production).",
       optional: true,
       default: false,
     },
