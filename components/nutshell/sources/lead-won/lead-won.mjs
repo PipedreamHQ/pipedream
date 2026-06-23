@@ -22,9 +22,7 @@ export default {
     },
     getParams() {
       return {
-        // REST status is a STRING; legacy JSON-RPC used integer 10
-        status: LEAD_WON_STATUS,
-        sort: "-id",
+        sort: "-closedTime",
       };
     },
     getSummary(item) {
@@ -58,7 +56,6 @@ export default {
       }
 
       // lastData is the last closedTime stored (0 when never run).
-      // The REST `status=won` query param is ignored server-side, and a
       // closedTime alone also matches *lost* leads, so guard on status here.
       const lastTs = Number(lastData) || 0;
       responseArray = responseArray

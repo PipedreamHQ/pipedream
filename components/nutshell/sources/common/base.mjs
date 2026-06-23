@@ -53,13 +53,10 @@ export default {
       throw new Error("getEntityKey() must be implemented by the child source");
     },
     /**
-     * Extra REST query params (e.g. { status: "won" }).
-     * Child classes may override.
+     * Extra REST query params.
      */
     getParams() {
-      return {
-        sort: "-id",
-      };
+      return {};
     },
     async prepareData({
       lastData, maxResults,

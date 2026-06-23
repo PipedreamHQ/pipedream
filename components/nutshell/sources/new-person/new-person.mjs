@@ -20,6 +20,11 @@ export default {
     getEntityKey() {
       return ENTITY_KEYS.CONTACTS;
     },
+    getParams() {
+      return {
+        sort: "-createdTime",
+      };
+    },
     getSummary(item) {
       const name = typeof item.name === "object"
         ? (item.name?.displayName
