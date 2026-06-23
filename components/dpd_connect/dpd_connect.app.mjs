@@ -1,11 +1,31 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "dpd_connect",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return "https://api.dpdconnect.nl/api/connect/v1";
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
+      return axios($, {
+        url: `${this._baseUrl()}${path}`,
+        headers: {
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        },
+        ...opts,
+      });
+    },
+    getParcelStatus({
+      parcelNumber, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/parcel/status/${parcelNumber}`,
+        ...opts,
+      });
     },
   },
 };
