@@ -51,23 +51,8 @@ export default {
     discountId: {
       type: "string",
       label: "Discount",
-      description: "Select a discount or provide a custom Discount ID (UUID). Search by discount name or Discount ID (UUID).",
+      description: "Select a discount or provide a custom Discount ID (UUID).",
       optional: true,
-      useQuery: true,
-      async options(opts) {
-        return this._fetchListOptions(
-          (client, params) => client.discounts.list(params),
-          ({
-            id, name, code,
-          }) => ({
-            label: code
-              ? `${name} (${code})`
-              : name,
-            value: id,
-          }),
-          opts,
-        );
-      },
     },
   },
   methods: {
@@ -175,18 +160,6 @@ export default {
       } = params;
       return this._listWithAutoPagination(
         (client, p) => client.products.list(p),
-        {
-          ...rest,
-          organizationId,
-        },
-      );
-    },
-    async listDiscounts(params = {}) {
-      const {
-        organizationId, ...rest
-      } = params;
-      return this._listWithAutoPagination(
-        (client, p) => client.discounts.list(p),
         {
           ...rest,
           organizationId,
