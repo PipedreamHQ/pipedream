@@ -7,7 +7,7 @@ export default {
     accounts: {
       type: "string[]",
       label: "Accounts",
-      description: "The connected accounts to publish to",
+      description: "The connected accounts to publish to. **List Accounts** action can be used to discover account IDs.",
       async options() {
         const { data } = await this.listAccounts();
         return data.map((account) => ({
@@ -19,7 +19,7 @@ export default {
     postId: {
       type: "string",
       label: "Post ID",
-      description: "The ID of the post to retrieve",
+      description: "The ID of the post to retrieve. **List Posts** action can be used to discover post IDs.",
       async options({ prevContext }) {
         const params = {
           limit: 50,
