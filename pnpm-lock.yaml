@@ -4649,7 +4649,11 @@ importers:
         specifier: ^2.0.2
         version: 2.0.2
 
-  components/dpd_connect: {}
+  components/dpd_connect:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/dpd_shipping: {}
 
@@ -46247,7 +46251,7 @@ snapshots:
 
   bare-stream@2.13.0(bare-events@2.8.3):
     dependencies:
-      streamx: 2.25.0
+      streamx: 2.28.0
       teex: 1.0.1
     optionalDependencies:
       bare-events: 2.8.3
