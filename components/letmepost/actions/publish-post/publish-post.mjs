@@ -3,7 +3,7 @@ import app from "../../letmepost.app.mjs";
 export default {
   key: "letmepost-publish-post",
   name: "Publish a Post",
-  description: "Publish or schedule a post to one or more connected accounts. [See the documentation](https://letmepost.dev/docs/)",
+  description: "Publish or schedule a post to one or more connected accounts. [See the documentation](https://docs.letmepost.dev/api-reference/posts/publish-or-schedule-a-multi-target-post)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -83,7 +83,9 @@ export default {
     }
 
     const body = {
-      targets: accounts.map((accountId) => ({ accountId })),
+      targets: accounts.map((accountId) => ({
+        accountId,
+      })),
       publishNow: publishImmediately,
     };
 
@@ -92,9 +94,13 @@ export default {
     }
     if (media?.length) {
       body.media = media
-        .map((item) => (typeof item === "string" ? JSON.parse(item) : item))
+        .map((item) => (typeof item === "string"
+          ? JSON.parse(item)
+          : item))
         .map((item) => {
-          const cleaned = { kind: item.kind };
+          const cleaned = {
+            kind: item.kind,
+          };
           if (item.url) {
             cleaned.url = item.url;
           }
@@ -108,7 +114,9 @@ export default {
         });
     }
     if (firstComment) {
-      body.firstComment = { text: firstComment };
+      body.firstComment = {
+        text: firstComment,
+      };
     }
     if (!publishImmediately && scheduledAt) {
       body.scheduledAt = scheduledAt;
@@ -121,7 +129,9 @@ export default {
       $,
       data: body,
       headers: idempotencyKey
-        ? { "Idempotency-Key": idempotencyKey }
+        ? {
+          "Idempotency-Key": idempotencyKey,
+        }
         : undefined,
     });
 

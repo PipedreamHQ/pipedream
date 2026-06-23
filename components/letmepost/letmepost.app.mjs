@@ -21,17 +21,25 @@ export default {
       label: "Post ID",
       description: "The ID of the post to retrieve",
       async options({ prevContext }) {
-        const params = { limit: 50 };
+        const params = {
+          limit: 50,
+        };
         if (prevContext?.cursor) {
           params.cursor = prevContext.cursor;
         }
-        const { data, nextCursor } = await this.listPosts({ params });
+        const {
+          data, nextCursor,
+        } = await this.listPosts({
+          params,
+        });
         return {
           options: data.map((post) => ({
             label: `${post.platform}: ${(post.text ?? "").slice(0, 40)} (${post.status})`,
             value: post.id,
           })),
-          context: { cursor: nextCursor },
+          context: {
+            cursor: nextCursor,
+          },
         };
       },
     },
@@ -62,7 +70,9 @@ export default {
         ...args,
       });
     },
-    getPost({ postId, ...args } = {}) {
+    getPost({
+      postId, ...args
+    } = {}) {
       return this._makeRequest({
         path: `/v1/posts/${encodeURIComponent(postId)}`,
         ...args,
@@ -93,7 +103,9 @@ export default {
         ...args,
       });
     },
-    deleteWebhookEndpoint({ endpointId, ...args } = {}) {
+    deleteWebhookEndpoint({
+      endpointId, ...args
+    } = {}) {
       return this._makeRequest({
         method: "DELETE",
         path: `/v1/webhook-endpoints/${endpointId}`,

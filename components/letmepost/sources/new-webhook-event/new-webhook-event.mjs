@@ -20,7 +20,7 @@ const EVENT_TYPES = [
 export default {
   key: "letmepost-new-webhook-event",
   name: "New Webhook Event (Instant)",
-  description: "Emit new events the moment a post changes state or a token or version event fires. [See the documentation](https://letmepost.dev/docs/webhooks/)",
+  description: "Emit new events the moment a post changes state or a token or version event fires. [See the documentation](https://docs.letmepost.dev/api-reference/webhooks/register-a-webhook-endpoint)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -54,7 +54,9 @@ export default {
     async deactivate() {
       const endpointId = this._getEndpointId();
       if (endpointId) {
-        await this.app.deleteWebhookEndpoint({ endpointId });
+        await this.app.deleteWebhookEndpoint({
+          endpointId,
+        });
       }
     },
   },
