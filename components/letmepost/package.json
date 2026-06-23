@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/letmepost",
+  "version": "0.0.1",
+  "description": "Pipedream letmepost Components",
+  "main": "letmepost.app.mjs",
+  "keywords": [
+    "pipedream",
+    "letmepost"
+  ],
+  "homepage": "https://pipedream.com/apps/letmepost",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
