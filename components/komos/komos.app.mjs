@@ -7,12 +7,12 @@ export default {
     taskId: {
       type: "string",
       label: "Task ID",
-      description: "The Komos task ID to run. Example: `komos:task:abc123`.",
+      description: "The Komos task ID to run. Example: `3c90c3cc-0d44-4b50-8888-8dd25736052a`. Use the **List Tasks** action to discover task IDs.",
     },
     runId: {
       type: "string",
       label: "Run ID",
-      description: "The Komos task run ID. Example: `run-0001`.",
+      description: "The Komos task run ID. Example: `220a501c-82f4-43e2-8107-3d8e0c0f4c1b`. Use the **List Task Runs** action to discover run IDs.",
     },
     inputs: {
       type: "object",
@@ -71,6 +71,20 @@ export default {
         $,
         path: `/task-runs/${runId}`,
         method: "GET",
+      });
+    },
+    listTasks(opts = {}) {
+      return this._request({
+        path: "/tasks",
+        ...opts,
+      });
+    },
+    listTaskRuns({
+      taskId, ...opts
+    }) {
+      return this._request({
+        path: `/tasks/${taskId}/runs`,
+        ...opts,
       });
     },
   },
