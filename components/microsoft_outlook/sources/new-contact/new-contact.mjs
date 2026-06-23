@@ -5,7 +5,7 @@ export default {
   key: "microsoft_outlook-new-contact",
   name: "New Contact Event (Instant)",
   description: "Emit new event when a new Contact is created",
-  version: "0.0.31",
+  version: "0.0.32",
   type: "source",
   hooks: {
     ...common.hooks,

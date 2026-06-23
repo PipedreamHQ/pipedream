@@ -7,7 +7,7 @@ export default {
   key: "microsoft_outlook-new-email-in-shared-folder",
   name: "New Email in Shared Folder Event",
   description: "Emit new event when an email is received in specified shared folders.",
-  version: "0.0.16",
+  version: "0.0.18",
   type: "source",
   dedupe: "unique",
   props: {
@@ -48,8 +48,8 @@ export default {
         fn: this.microsoftOutlook.listSharedFolderMessages,
         args: {
           params: {
-            $orderBy: "sentDateTime desc",
-            $filter: `sentDateTime gt ${lastDate}`,
+            $orderBy: "receivedDateTime desc",
+            $filter: `receivedDateTime gt ${lastDate}`,
           },
           sharedFolderId: this.sharedFolderId,
           userId: this.userId,
@@ -62,20 +62,26 @@ export default {
       for await (const item of items) {
         responseArray.push(item);
       }
-      if (responseArray.length) {
-        this._setLastDate(responseArray[0].sentDateTime);
-      }
-
-      for (const item of responseArray.reverse()) {
-        const ts = Date.parse(item.sentDateTime);
-        this.$emit(
-          item,
-          {
-            id: md5(item.id),
-            summary: `A new email with subject ${item.subject} was received!`,
-            ts,
-          },
-        );
+      let newLastDate;
+      try {
+        for (const item of responseArray.reverse()) {
+          const ts = Date.parse(item.receivedDateTime);
+          this.$emit(
+            item,
+            {
+              id: md5(item.id),
+              summary: `A new email with subject ${item.subject} was received!`,
+              ts,
+            },
+          );
+          // advance the checkpoint only after a successful emit, so a failed
+          // emit doesn't silently skip un-emitted events on the next poll
+          newLastDate = item.receivedDateTime;
+        }
+      } finally {
+        if (newLastDate) {
+          this._setLastDate(newLastDate);
+        }
       }
     },
   },
