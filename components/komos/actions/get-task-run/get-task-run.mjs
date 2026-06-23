@@ -14,7 +14,10 @@ export default {
   props: {
     komos,
     runId: {
-      propDefinition: [komos, "runId"],
+      propDefinition: [
+        komos,
+        "runId",
+      ],
     },
   },
   async run({ $ }) {

@@ -14,13 +14,22 @@ export default {
   props: {
     komos,
     taskId: {
-      propDefinition: [komos, "taskId"],
+      propDefinition: [
+        komos,
+        "taskId",
+      ],
     },
     inputs: {
-      propDefinition: [komos, "inputs"],
+      propDefinition: [
+        komos,
+        "inputs",
+      ],
     },
     clientRequestId: {
-      propDefinition: [komos, "clientRequestId"],
+      propDefinition: [
+        komos,
+        "clientRequestId",
+      ],
     },
   },
   async run({ $ }) {
@@ -32,7 +41,9 @@ export default {
     });
 
     const runId = response.id ?? response.run?.id;
-    $.export("$summary", runId ? `Queued Komos task run ${runId}` : "Queued Komos task run");
+    $.export("$summary", runId
+      ? `Queued Komos task run ${runId}`
+      : "Queued Komos task run");
     return response;
   },
 };

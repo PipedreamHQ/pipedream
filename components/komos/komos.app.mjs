@@ -34,29 +34,39 @@ export default {
     },
     _headers() {
       return {
-        Authorization: `Bearer ${this.$auth.api_key}`,
+        "Authorization": `Bearer ${this.$auth.api_key}`,
         "Content-Type": "application/json",
       };
     },
-    _request({ $, path, ...opts }) {
+    _request({
+      $, path, ...opts
+    }) {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
         headers: this._headers(),
         ...opts,
       });
     },
-    queueTaskRun({ $, taskId, inputs = {}, clientRequestId }) {
+    queueTaskRun({
+      $, taskId, inputs = {}, clientRequestId,
+    }) {
       return this._request({
         $,
         path: `/tasks/${taskId}/runs`,
         method: "POST",
         data: {
           inputs,
-          ...(clientRequestId ? { clientRequestId } : {}),
+          ...(clientRequestId
+            ? {
+              clientRequestId,
+            }
+            : {}),
         },
       });
     },
-    getTaskRun({ $, runId }) {
+    getTaskRun({
+      $, runId,
+    }) {
       return this._request({
         $,
         path: `/task-runs/${runId}`,
