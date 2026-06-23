@@ -13,18 +13,9 @@ export default {
   },
   props: {
     nutshell,
-    page: {
-      type: "integer",
-      label: "Page",
-      description: "The page of results to retrieve.",
-      min: 0,
-      default: 0,
-    },
   },
   async run({ $ }) {
-    const options = await nutshell.propDefinitions.industryId.options.call(this.nutshell, {
-      page: this.page,
-    });
+    const options = await nutshell.propDefinitions.industryId.options.call(this.nutshell);
     $.export("$summary", `Successfully retrieved ${options.length} option${options.length === 1
       ? ""
       : "s"}`);
