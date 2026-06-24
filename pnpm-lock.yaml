@@ -16104,6 +16104,9 @@ importers:
         specifier: ^3.2.5
         version: 3.3.0
 
+  components/the_colony:
+    specifiers: {}
+
   components/the_events_calendar: {}
 
   components/the_magic_drip:
