@@ -16223,6 +16223,9 @@ importers:
 
   components/tidyhq: {}
 
+  components/tiktok_ads_manager:
+    specifiers: {}
+
   components/tilda:
     dependencies:
       '@pipedream/platform':
