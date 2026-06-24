@@ -1,4 +1,5 @@
 import app from "../../dpd_connect.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   name: "Get Parcel Status",
@@ -20,6 +21,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.parcelNumber.length !== 14) {
+      throw new ConfigurationError("Parcel number must be 14 digits long");
+    }
+
     const response = await this.app.getParcelStatus({
       $,
       parcelNumber: this.parcelNumber,
@@ -28,8 +33,6 @@ export default {
     const status = response?.shipmentInfo?.status;
     if (status) {
       $.export("$summary", `Successfully retrieved parcel status for ${this.parcelNumber}`);
-    } else {
-      $.export("$summary", `Failed to retrieve parcel status for ${this.parcelNumber}`);
     }
     return response;
   },
