@@ -28,12 +28,7 @@ const INCIDENT_SEVERITY_OPTIONS = [
 const SERVICE_CATALOG_BASE_PATH = "/api/sn_sc/servicecatalog";
 const KNOWLEDGE_BASE_PATH = "/api/sn_km_api/knowledge";
 const SYS_USER_TABLE = "sys_user";
-const SYSAPPROVAL_APPROVER_TABLE = "sysapproval_approver";
 const SC_REQUEST_TABLE = "sc_request";
-const APPROVAL_STATE = {
-  APPROVED: "approved",
-  REJECTED: "rejected",
-};
 const MAX_LIMIT = 1000;
 
 export default {
@@ -42,8 +37,6 @@ export default {
   SERVICE_CATALOG_BASE_PATH,
   KNOWLEDGE_BASE_PATH,
   SYS_USER_TABLE,
-  SYSAPPROVAL_APPROVER_TABLE,
   SC_REQUEST_TABLE,
-  APPROVAL_STATE,
   MAX_LIMIT,
 };

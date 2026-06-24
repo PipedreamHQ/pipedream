@@ -1,7 +1,4 @@
 import servicenow from "../../servicenow.app.mjs";
-import constants from "../../common/constants.mjs";
-
-const { MAX_LIMIT } = constants;
 
 export default {
   key: "servicenow-search-knowledge-base",
@@ -26,7 +23,6 @@ export default {
         servicenow,
         "limit",
       ],
-      description: `Maximum number of articles to return (maps to \`limit\`). Min 1, max ${MAX_LIMIT}.`,
     },
   },
   async run({ $ }) {

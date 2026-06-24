@@ -5,7 +5,6 @@ const {
   SERVICE_CATALOG_BASE_PATH,
   KNOWLEDGE_BASE_PATH,
   SYS_USER_TABLE,
-  SYSAPPROVAL_APPROVER_TABLE,
   SC_REQUEST_TABLE,
   MAX_LIMIT,
 } = constants;
@@ -122,7 +121,7 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: `Maximum number of results to return. Min 1, max ${MAX_LIMIT}.`,
+      description: `Maximum number of results to return (1-${MAX_LIMIT}).`,
       min: 1,
       max: MAX_LIMIT,
       optional: true,
@@ -149,13 +148,8 @@ export default {
     requestedFor: {
       type: "string",
       label: "Requested For",
-      description: "Optional `sys_id` of the user this item is requested for (maps to `sysparm_requested_for`). Run **Lookup User by Name** or **Get User by Email** to find it.",
+      description: "Optional `sys_id` of the user this item is requested for (maps to `sysparm_requested_for`). Run **Find Users** to find it.",
       optional: true,
-    },
-    approvalSysId: {
-      type: "string",
-      label: "Approval Sys ID",
-      description: "The `sys_id` of the `sysapproval_approver` record. Use **Get Table Records** on `sysapproval_approver` to find pending approvals.",
     },
   },
   methods: {
@@ -304,6 +298,16 @@ export default {
         ...args,
       });
     },
+    async emptyCart({
+      cartSysId, ...args
+    }) {
+      return this._makeRequest({
+        method: "delete",
+        baseURL: `${this._instanceBaseUrl()}${SERVICE_CATALOG_BASE_PATH}`,
+        url: `/cart/${cartSysId}/empty`,
+        ...args,
+      });
+    },
     async orderNow({
       catalogItemSysId, ...args
     }) {
@@ -340,15 +344,6 @@ export default {
     async listUsers({ ...args }) {
       return this.getTableRecords({
         table: SYS_USER_TABLE,
-        ...args,
-      });
-    },
-    async updateApproval({
-      approvalSysId, ...args
-    }) {
-      return this.updateTableRecord({
-        table: SYSAPPROVAL_APPROVER_TABLE,
-        recordId: approvalSysId,
         ...args,
       });
     },
