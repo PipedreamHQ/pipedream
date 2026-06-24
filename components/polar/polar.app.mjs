@@ -8,7 +8,7 @@ export default {
     organizationId: {
       type: "string",
       label: "Organization ID",
-      description: "Provide the organization ID (UUID). Find it in [Settings → General](https://polar.sh/dashboard/getalong/settings) under **Identifier**.",
+      description: "Filter by organization ID (UUID). Optional — omit to return results across all organizations. Find it in [Settings → General](https://polar.sh/dashboard/getalong/settings) under **Identifier**.",
     },
     productId: {
       type: "string",
@@ -32,21 +32,27 @@ export default {
     customerId: {
       type: "string",
       label: "Customer",
-      description: "Select a customer or provide a custom Customer ID (UUID). Search by name, or Customer ID (UUID).",
+      description: "Select a customer or provide a custom Customer ID (UUID). Search by name, email, or Customer ID (UUID).",
       optional: true,
       useQuery: true,
       async options(opts) {
         return this._fetchListOptions(
           (client, params) => client.customers.list(params),
           ({
-            id, name,
+            id, name, email,
           }) => ({
-            label: name,
+            label: name || email || id,
             value: id,
           }),
           opts,
         );
       },
+    },
+    discountId: {
+      type: "string",
+      label: "Discount",
+      description: "Select a discount or provide a custom Discount ID (UUID).",
+      optional: true,
     },
   },
   methods: {
@@ -148,6 +154,30 @@ export default {
         },
       );
     },
+    async listProducts(params = {}) {
+      const {
+        organizationId, ...rest
+      } = params;
+      return this._listWithAutoPagination(
+        (client, p) => client.products.list(p),
+        {
+          ...rest,
+          organizationId,
+        },
+      );
+    },
+    async listCustomers(params = {}) {
+      const {
+        organizationId, ...rest
+      } = params;
+      return this._listWithAutoPagination(
+        (client, p) => client.customers.list(p),
+        {
+          ...rest,
+          organizationId,
+        },
+      );
+    },
     async listSubscriptions(params = {}) {
       const {
         organizationId, ...rest
@@ -159,6 +189,18 @@ export default {
           organizationId,
         },
       );
+    },
+    async createCheckout(params = {}) {
+      const checkoutParams = {
+        ...params,
+      };
+      delete checkoutParams.$;
+      const client = this._getClient();
+      try {
+        return await client.checkouts.create(checkoutParams);
+      } finally {
+        if (client.close) await client.close();
+      }
     },
   },
 };
