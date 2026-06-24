@@ -3,7 +3,7 @@ import cloudflare from "../../cloudflare_api_key.app.mjs";
 export default {
   key: "cloudflare_api_key-purge-files-by-url",
   type: "action",
-  version: "0.1.1",
+  version: "0.1.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -145,11 +145,11 @@ export default {
     },
     getClient() {
       const authOptions = {};
-      
+
       if (this.$auth.api_token || this.$auth.apiToken) {
         authOptions.apiToken = this.$auth.api_token || this.$auth.apiToken;
       } else if (
-        (this.$auth.api_key || this.$auth.API_Key) && 
+        (this.$auth.api_key || this.$auth.API_Key) &&
         (this.$auth.email || this.$auth.Email)
       ) {
         authOptions.apiKey = this.$auth.api_key || this.$auth.API_Key;

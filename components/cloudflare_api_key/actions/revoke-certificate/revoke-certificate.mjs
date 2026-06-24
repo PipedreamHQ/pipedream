@@ -4,7 +4,7 @@ export default {
   key: "cloudflare_api_key-revoke-certificate",
   name: "Revoke Certificate",
   description: "Revoke an existing Origin CA certificate by its serial number. [See the documentation](https://developers.cloudflare.com/api/node/resources/origin_ca_certificates/methods/delete/)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
