@@ -25,13 +25,6 @@ export default {
       description: "Language for response messages as a 5-character locale code (e.g. `nl_NL` or `en_US`). Defaults to `en_US` if omitted.",
       optional: true,
     },
-    useTestEnvironment: {
-      type: "boolean",
-      label: "Use Test Environment",
-      description: "Send the request to the DPD staging environment (`wsshippertest.dpd.nl`) instead of production (`wsshipper.dpd.nl`). Defaults to `false` (production).",
-      optional: true,
-      default: false,
-    },
   },
   async run({ $ }) {
     if (this.parcelLabelNumber.length !== 14) {
@@ -42,7 +35,6 @@ export default {
       $,
       messageLanguage: this.messageLanguage,
       parcelLabelNumber: this.parcelLabelNumber,
-      useTestEnvironment: this.useTestEnvironment,
     });
 
     const statusInfo = result.getTrackingDataResponse?.trackingResult?.statusInfo;
