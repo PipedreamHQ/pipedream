@@ -7,7 +7,7 @@ export default {
   key: "databricks-query-vector-search-index",
   name: "Query Vector Search Index",
   description: "Query a specific vector search index in Databricks. Returns up to **Max Results** items; when the result set spans more than one 1000-item page, the action automatically follows `next_page_token` to collect the rest. [See the documentation](https://docs.databricks.com/api/workspace/vectorsearchindexes/queryindex)",
-  version: "0.1.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
