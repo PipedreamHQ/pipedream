@@ -26,14 +26,14 @@ export default {
 
     do {
       const {
-        endpoints, next_page_token,
+        endpoints = [], next_page_token,
       } = await this.databricks.listEndpoints({
         params,
         $,
       });
 
       allEndpoints.push(...endpoints);
-      if (!next_page_token) break;
+      if (!next_page_token || !endpoints.length) break;
       params.page_token = next_page_token;
     } while (allEndpoints.length < this.maxResults);
 
