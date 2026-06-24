@@ -2,7 +2,7 @@ import scrapeAutopilot from "../../scrape_autopilot.app.mjs";
 
 export default {
   name: "Get Balance",
-  description: "Check your Scrape Autopilot credit balance to keep cost-efficient scraping workflows under control.",
+  description: "Check your Scrape Autopilot credit balance to keep cost-efficient scraping workflows under control. [See the documentation](https://www.scrappilot.com/docs)",
   key: "scrape_autopilot-get-balance",
   version: "0.0.1",
   annotations: {

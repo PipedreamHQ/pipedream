@@ -2,7 +2,7 @@ import scrapeAutopilot from "../../scrape_autopilot.app.mjs";
 
 export default {
   name: "Scrape URL",
-  description: "Cost-efficiently scrape one public URL and return Markdown, HTML, or text.",
+  description: "Cost-efficiently scrape one public URL and return Markdown, HTML, or text. [See the documentation](https://www.scrappilot.com/docs)",
   key: "scrape_autopilot-scrape-url",
   version: "0.0.1",
   annotations: {

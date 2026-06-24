@@ -5,7 +5,7 @@ const MAX_URLS = 10;
 
 export default {
   name: "Scrape URLs",
-  description: "Cost-efficiently scrape up to 10 public URLs and return one result per URL.",
+  description: "Cost-efficiently scrape up to 10 public URLs and return one result per URL. [See the documentation](https://www.scrappilot.com/docs)",
   key: "scrape_autopilot-scrape-urls",
   version: "0.0.1",
   annotations: {
