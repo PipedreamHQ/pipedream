@@ -21,10 +21,13 @@ const T2I_MODELS = {
 
 export default {
   name: "Generate Image",
-  version: "0.1.0",
+  version: "0.0.1",
   key: "muapi-generate-image",
   description: "Generate an image from a text prompt using 15+ models including Flux, Midjourney, GPT-4o, Imagen 4, and more. [See the documentation](https://docs.muapi.ai)",
   type: "action",
+  annotations: {
+    openWorldHint: true,
+  },
   props: {
     muapi,
     model: {
