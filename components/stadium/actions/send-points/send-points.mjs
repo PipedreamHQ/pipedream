@@ -56,16 +56,16 @@ export default {
     },
     paymentMethod: {
       type: "string[]",
-      label: "Payment Method",
-      description: "Payment method(s) to use",
+      label: "Payment Methods",
+      description: "Payment method(s) to use. Pass one or both: `use_global_point`, `use_wallet_money`",
       options: [
-        {
-          label: "Use Wallet Money",
-          value: "use_wallet_money",
-        },
         {
           label: "Use Global Points",
           value: "use_global_point",
+        },
+        {
+          label: "Use Wallet Money",
+          value: "use_wallet_money",
         },
       ],
       optional: true,

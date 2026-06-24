@@ -42,21 +42,6 @@ export default {
       default: 25,
       min: 1,
     },
-    paymentMethod: {
-      type: "string",
-      label: "Payment Method",
-      description: "Payment method to use for checkout",
-      options: [
-        {
-          label: "Use Global Points",
-          value: "use_global_point",
-        },
-        {
-          label: "Use Wallet Money",
-          value: "use_wallet_money",
-        },
-      ],
-    },
   },
   methods: {
     /**

@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import stadium from "../../stadium.app.mjs";
 
 export default {
@@ -73,9 +74,18 @@ export default {
     },
   },
   async run({ $ }) {
-    const products = typeof this.products === "string"
-      ? JSON.parse(this.products)
-      : this.products;
+    let products;
+    if (typeof this.products === "string") {
+      try {
+        products = JSON.parse(this.products);
+      } catch (error) {
+        throw new ConfigurationError(
+          `Products must be valid JSON array. Each item needs \`id\` (variant ID, e.g., \`10/1/9\`), \`quantity\`, and \`product_type\` (e.g., \`Spree::Product\`). Example: [{"id":"10/1/9","quantity":1,"product_type":"Spree::Product"}]. Parse error: ${error.message}`,
+        );
+      }
+    } else {
+      products = this.products;
+    }
 
     const response = await this.stadium.createOrder({
       $,
