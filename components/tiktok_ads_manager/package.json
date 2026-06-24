@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/tiktok_ads_manager",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream TikTok Ads Manager Components",
   "main": "tiktok_ads_manager.app.mjs",
   "keywords": [
