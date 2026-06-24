@@ -1,4 +1,3 @@
-import { axios } from "@pipedream/platform";
 import servicenow from "../../servicenow.app.mjs";
 
 export default {
@@ -16,31 +15,30 @@ export default {
     servicenow,
   },
   async run({ $ }) {
-    const sessionInfo = await axios($, {
-      url: `${this.servicenow.baseUrl()}/api/now/ui/user/current_user`,
-      headers: this.servicenow.authHeaders(),
+    const sessionInfo = await this.servicenow._makeRequest({
+      $,
+      url: "/ui/user/current_user",
     });
 
-    const userSysId = sessionInfo.result?.user_sys_id;
+    const userSysId = sessionInfo?.sys_id;
 
     if (!userSysId) {
       throw new Error("Unable to determine current user from session");
     }
 
-    const userResponse = await axios($, {
-      url: `${this.servicenow.baseUrl()}/api/now/table/sys_user/${userSysId}`,
-      headers: this.servicenow.authHeaders(),
+    const user = await this.servicenow._makeRequest({
+      $,
+      url: `/table/sys_user/${userSysId}`,
       params: {
         sysparm_fields: "sys_id,user_name,name,email,title,department,location",
       },
     });
 
-    const user = userResponse.result;
     const summaryName = user.name || user.user_name || user.sys_id;
     $.export("$summary", `Retrieved user ${summaryName}`);
 
     return {
-      instance_url: this.servicenow.baseUrl(),
+      instance_url: `https://${this.servicenow.$auth.instance_name}.service-now.com`,
       sys_id: user.sys_id,
       user_name: user.user_name,
       name: user.name,
