@@ -13,7 +13,7 @@ export default {
     accountId: {
       type: "string",
       label: "Account ID",
-      description: "The ID of the account",
+      description: "The ID of the Returnista account",
     },
     limit: {
       type: "integer",
@@ -36,13 +36,13 @@ export default {
     filter: {
       type: "string",
       label: "Filter",
-      description: "A filter to apply to the results. Supports filtering by purchaseOrderNumber, status, createdAt, updatedAt, store, and other fields. For date filters, use operators: >, <, >=, <= (e.g., createdAt>2024-05-24T12:05:15.264Z). For other filters, use colon format (e.g., purchaseOrderNumber:12345)",
+      description: "A filter to apply to the results. Supports filtering by purchaseOrderNumber, status, createdAt, updatedAt, store, and other fields. For date filters, use operators: >, <, >=, <= (e.g., `createdAt>2024-05-24T12:05:15.264Z`). For other filters, use colon format (e.g., `purchaseOrderNumber:12345` or `status:draft`)",
       optional: true,
     },
     search: {
       type: "string",
       label: "Search",
-      description: "A search string to filter the results. Searches across purchase order numbers, consumer first name, last name, email, and consumer full name. Examples: search=12345 ┃ search=john@example.com",
+      description: "A search string to filter the results. Searches across purchase order numbers, consumer first name, last name, email, and consumer full name. Examples: `search=12345` | `search=john@example.com`",
       optional: true,
     },
     sortBy: {
@@ -68,7 +68,7 @@ export default {
     returnOrderId: {
       type: "string",
       label: "Return Order ID",
-      description: "The ID of the return order",
+      description: "The ID of the return order. Use **Get Return Orders** to find IDs.",
       async options({ accountId }) {
         const { data } = await this.getReturnOrders({
           accountId,
@@ -78,6 +78,22 @@ export default {
           value: id,
         }));
       },
+    },
+    draftReturnOrderId: {
+      type: "string",
+      label: "Draft Return Order ID",
+      description: "The ID of the draft return order. Use **Get Return Orders** with `filter: \"status:draft\"` to find draft order IDs.",
+    },
+    expand: {
+      type: "string[]",
+      label: "Expand",
+      description: "Related objects to inline in the response. Select one or more to enrich the result without additional API calls.",
+      options: [
+        "consumer",
+        "shipments",
+        "returnRequests",
+      ],
+      optional: true,
     },
     name: {
       type: "string",
@@ -97,7 +113,8 @@ export default {
     suffix: {
       type: "string",
       label: "Suffix",
-      description: "The suffix of the return location",
+      description: "The suffix of the return location address",
+      optional: true,
     },
     city: {
       type: "string",
@@ -112,38 +129,41 @@ export default {
     countryCode: {
       type: "string",
       label: "Country Code",
-      description: "The country code of the return location",
+      description: "The ISO 3166-1 alpha-2 country code of the return location (e.g., `NL`, `DE`, `GB`, `US`)",
       options: COUNTRY_CODE_OPTIONS,
     },
     stateProvinceCode: {
       type: "string",
-      label: "State Province Code",
-      description: "The state province code of the return location",
+      label: "State/Province Code",
+      description: "The state or province code of the return location",
+      optional: true,
     },
     companyName: {
       type: "string",
       label: "Company Name",
-      description: "The company name associated with the Return Location",
+      description: "The company name associated with the return location",
     },
     attention: {
       type: "string",
       label: "Attention",
-      description: "The attention line for the Return Location. This is typically used to direct the return to a specific department or individual within the organization",
+      description: "The attention line for the return location, typically used to direct the return to a specific department or individual",
+      optional: true,
     },
     phoneNumber: {
       type: "string",
       label: "Phone Number",
-      description: "The phone number associated with the Return Location",
+      description: "The phone number associated with the return location (e.g., `+31201234567`)",
     },
     contactName: {
       type: "string",
       label: "Contact Name",
-      description: "A contact name associated with the Return Location",
+      description: "A contact person's name associated with the return location",
+      optional: true,
     },
     returnLocationId: {
       type: "string",
       label: "Return Location ID",
-      description: "The ID of the return location to get",
+      description: "The ID of the return location. Use **Get Return Locations** to find IDs.",
       async options({ accountId }) {
         const { data: returnLocations = [] } = await this.getReturnLocations({
           accountId,
@@ -159,7 +179,7 @@ export default {
     returnRequestId: {
       type: "string",
       label: "Return Request ID",
-      description: "The ID of the return request to get",
+      description: "The ID of the return request. Use **Get Return Requests** to find IDs.",
       async options({ accountId }) {
         const { data: returnRequests = [] } = await this.getReturnRequests({
           accountId,
@@ -173,6 +193,54 @@ export default {
           value: id,
         }));
       },
+    },
+    purchaseId: {
+      type: "string",
+      label: "Purchase ID",
+      description: "The ID of the purchase to return. Use **Get Consumer Purchases** to find purchase IDs.",
+    },
+    returnReasonId: {
+      type: "string",
+      label: "Return Reason ID",
+      description: "The UUID of the return reason. Use **Get Return Reasons** to find available IDs. Leave blank to submit without a reason (sends `null`).",
+      optional: true,
+    },
+    returnReasonComment: {
+      type: "string",
+      label: "Return Reason Comment",
+      description: "An optional free-text comment explaining the return reason.",
+      optional: true,
+    },
+    resolutionType: {
+      type: "string",
+      label: "Resolution Type",
+      description: "The desired resolution type for the return.",
+      options: [
+        "Refund",
+        "Exchange",
+        "StoreCredit",
+      ],
+      optional: true,
+    },
+    exchangeProductId: {
+      type: "string",
+      label: "Exchange Product ID",
+      description: "The ID of the shipping product to exchange for. Typically required when `resolutionType` is `Exchange`. Use **List Shipping Products** to find available product IDs.",
+      optional: true,
+    },
+    exchangeOptionSku: {
+      type: "string",
+      label: "Exchange Option SKU",
+      description: "The SKU of the product variant to exchange for. Typically required when `resolutionType` is `Exchange`.",
+      optional: true,
+    },
+    answers: {
+      type: "string[]",
+      label: "Answers",
+      description: "Array of form field answers for the return questionnaire. Each entry is a stringified JSON object with `formField` and `answer`. "
+        + "Example entry: `{\"formField\":{\"id\":\"uuid-here\",\"type\":\"SingleChoice\",\"required\":true},\"answer\":\"value\"}`. "
+        + "`answer` can also be an array of strings (MultiChoice) or an array of file objects: `[{\"mimeType\":\"image/jpeg\",\"url\":\"https://...\"}]`.",
+      optional: true,
     },
   },
   methods: {
@@ -203,6 +271,15 @@ export default {
         ...opts,
       });
     },
+    createDraftReturnOrder({
+      consumerId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/consumer/${consumerId}/draft-return-order`,
+        ...opts,
+      });
+    },
     getDraftReturnOrders({
       accountId, ...opts
     }) {
@@ -224,6 +301,14 @@ export default {
     }) {
       return this._makeRequest({
         path: `/account/${accountId}/return-order/${returnOrderId}/emails`,
+        ...opts,
+      });
+    },
+    resendConfirmationEmail({
+      accountId, returnOrderId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/account/${accountId}/return-order/${returnOrderId}/resend-confirmation-email`,
         ...opts,
       });
     },
@@ -267,6 +352,12 @@ export default {
         ...opts,
       });
     },
+    getShippingProducts(opts = {}) {
+      return this._makeRequest({
+        path: "/shipping-products",
+        ...opts,
+      });
+    },
     getReturnRequests({
       accountId, ...opts
     }) {
@@ -280,6 +371,15 @@ export default {
     }) {
       return this._makeRequest({
         path: `/account/${accountId}/return-request/${returnRequestId}`,
+        ...opts,
+      });
+    },
+    processDraftReturnOrder({
+      accountId, draftReturnOrderId, action, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/account/${accountId}/draft-return-order/${draftReturnOrderId}/${action}`,
         ...opts,
       });
     },

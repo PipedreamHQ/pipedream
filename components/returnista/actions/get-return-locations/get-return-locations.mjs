@@ -4,7 +4,7 @@ export default {
   key: "returnista-get-return-locations",
   name: "Get Return Locations",
   description: "Gets a list of return locations for the given account. [See the documentation](https://platform.returnista.com/reference/rest-api/#get-/account/-accountId/return-locations)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
