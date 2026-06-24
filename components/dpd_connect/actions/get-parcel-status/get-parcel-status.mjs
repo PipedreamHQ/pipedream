@@ -21,7 +21,7 @@ export default {
     },
   },
   async run({ $ }) {
-    if (this.parcelNumber.length !== 14) {
+    if (!/^\d{14}$/.test(this.parcelNumber)) {
       throw new ConfigurationError("Parcel number must be 14 digits long");
     }
 
