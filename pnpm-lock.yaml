@@ -4581,8 +4581,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/docutray:
-    specifiers: {}
+  components/docutray: {}
 
   components/docuwriter_ai:
     dependencies:
@@ -4652,7 +4651,11 @@ importers:
         specifier: ^2.0.2
         version: 2.0.2
 
-  components/dpd_connect: {}
+  components/dpd_connect:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/dpd_shipping: {}
 
@@ -12334,8 +12337,7 @@ importers:
         specifier: ^3.4.0
         version: 3.4.0
 
-  components/polydoc:
-    specifiers: {}
+  components/polydoc: {}
 
   components/polygon:
     dependencies:
@@ -16107,8 +16109,7 @@ importers:
         specifier: ^3.2.5
         version: 3.3.0
 
-  components/the_colony:
-    specifiers: {}
+  components/the_colony: {}
 
   components/the_events_calendar: {}
 
@@ -16224,7 +16225,10 @@ importers:
   components/tidyhq: {}
 
   components/tiktok_ads_manager:
-    specifiers: {}
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/tilda:
     dependencies:
