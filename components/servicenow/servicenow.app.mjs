@@ -242,7 +242,7 @@ export default {
     }) {
       return this._makeRequest({
         baseURL: `${this._instanceBaseUrl()}${SERVICE_CATALOG_BASE_PATH}`,
-        url: `/items/${catalogItemSysId}/variables`,
+        url: `/items/${catalogItemSysId}`,
         ...args,
       });
     },

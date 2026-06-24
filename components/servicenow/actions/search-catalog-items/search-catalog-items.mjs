@@ -22,13 +22,13 @@ export default {
     catalogSysId: {
       type: "string",
       label: "Catalog Sys ID",
-      description: "Optional catalog `sys_id` to restrict results to a single catalog (maps to `sysparm_catalog`).",
+      description: "Optional catalog `sys_id` to restrict results to a single catalog. Find it via **Get Table Records** on the `sc_catalog` table. Example: `e0d08b13c3330100c8b837659bba8fb4`.",
       optional: true,
     },
     categorySysId: {
       type: "string",
       label: "Category Sys ID",
-      description: "Optional category `sys_id` to restrict results to a single category (maps to `sysparm_category`).",
+      description: "Optional category `sys_id` to restrict results to a single category. Find it via **Get Table Records** on the `sc_category` table. Example: `d258b953c611227a0146101fb1be7c31`.",
       optional: true,
     },
     limit: {

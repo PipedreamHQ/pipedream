@@ -31,6 +31,6 @@ export default {
       : (response?.variables ?? []);
     $.export("$summary", `Successfully retrieved ${variables.length} variable(s) for catalog item ${this.catalogItemSysId}`);
 
-    return response;
+    return variables;
   },
 };

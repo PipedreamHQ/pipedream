@@ -28,6 +28,12 @@ export default {
       ],
       description: "JSON object of variable name-value pairs for the record producer. Run **Get Catalog Item Variables** to discover valid names. Example: `{\"short_description\": \"laptop broken\"}`.",
     },
+    sysparmView: {
+      type: "string",
+      label: "View",
+      description: "Optional UI view used to render the response. Example: `ess`.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.servicenow.submitRecordProducer({
@@ -36,6 +42,11 @@ export default {
       data: {
         variables: parseObject(this.variables),
       },
+      ...(this.sysparmView && {
+        params: {
+          sysparm_view: this.sysparmView,
+        },
+      }),
     });
 
     const recordId = response?.sys_id ?? response?.record_id;
