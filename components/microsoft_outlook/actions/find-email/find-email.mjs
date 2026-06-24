@@ -22,7 +22,7 @@ export default {
     + " Example: `find-email(isRead=false, folderScope=\"inbox\", countOnly=true)` → `{ count: 47 }` for unread inbox count."
     + " Example: `find-email(search=\"Eval-Festivus\", folderScope=\"inbox\", maxResults=5)` → array of messages with `id`, `subject`, `from`, `receivedDateTime`, `isRead` (no body — call Get Message next for body)."
     + " [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-messages)",
-  version: "0.4.0",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -106,6 +106,7 @@ export default {
         microsoftOutlook,
         "search",
       ],
+      description: "Search for an email in Microsoft Outlook. Can search for specific message properties such as `\"to:example@example.com\"` or `\"subject:example\"`. If the property is excluded, the search targets the default properties `from`, `subject`, and `body`. For example, `\"pizza\"` will search for messages with the word `pizza` in the subject, body, or from address, but `\"to:example@example.com\"` will only search for messages to `example@example.com`. Not for use with `$filter` or `$orderby`. Response will not include total message count if `search` is used.",
     },
     filter: {
       propDefinition: [
@@ -242,9 +243,7 @@ export default {
 
     const listFn = this.sharedFolderId
       ? this.microsoftOutlook.listSharedFolderMessages
-      : this.folderScope === "inbox"
-        ? this.microsoftOutlook.listInboxMessages
-        : this.microsoftOutlook.listMessages;
+      : this.microsoftOutlook.listMessages;
 
     const fnArgs = {
       userId: this.userId,
@@ -257,6 +256,7 @@ export default {
     };
 
     let emails = [];
+    let count = 0;
 
     if (hasSearch) {
       const { value } = await listFn({
@@ -270,6 +270,7 @@ export default {
       });
       emails = value || [];
     } else {
+      const meta = {};
       const items = this.microsoftOutlook.paginate({
         fn: listFn,
         args: {
@@ -277,20 +278,33 @@ export default {
           params: {
             "$filter": combinedFilter,
             "$orderby": this.orderBy,
+            "$count": "true",
             ...selectParam,
             ...expandParam,
           },
         },
         max: this.maxResults,
+        meta,
       });
       for await (const item of items) {
         emails.push(item);
       }
+      count = meta["@odata.count"];
     }
 
-    $.export("$summary", `Found ${emails.length} message${emails.length !== 1
-      ? "s"
-      : ""}`);
-    return emails;
+    if (count != null) {
+      $.export("$summary", `Found ${count} total message${count !== 1
+        ? "s"
+        : ""}`);
+      return {
+        count,
+        emails,
+      };
+    } else {
+      $.export("$summary", "Found messages matching criteria");
+      return {
+        emails,
+      };
+    }
   },
 };
