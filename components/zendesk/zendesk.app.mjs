@@ -424,6 +424,7 @@ export default {
       type: "string[]",
       label: "Attachments",
       description: "File paths or URLs to attach to the ticket. Multiple files can be attached.",
+      format: "file-ref",
       optional: true,
     },
     ticketTags: {
@@ -712,7 +713,7 @@ export default {
       const fileBinary = await this.streamToBuffer(stream);
 
       if (!filename) {
-        filename = path.basename(filePath);
+        filename = metadata.name || path.basename(filePath);
       }
 
       return this.makeRequest({
