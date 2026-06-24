@@ -120,10 +120,6 @@ export default {
     let pageToken = response?.next_page_token;
     let lastPageCount = dataArray.length;
 
-    // Each call returns at most VECTOR_SEARCH_PAGE_LIMIT (1000) items plus a
-    // next_page_token while more remain. Keep paging through the dedicated
-    // query-next-page endpoint until we have maxResults items, the token runs
-    // out, or a short page (< 1000) signals the end of results.
     while (pageToken
       && (dataArray.length < maxResults)
       && (lastPageCount >= VECTOR_SEARCH_PAGE_LIMIT)
@@ -142,7 +138,8 @@ export default {
       pageToken = nextResponse?.next_page_token;
     }
 
-    if (dataArray.length > maxResults) {
+    const truncated = dataArray.length > maxResults;
+    if (truncated) {
       dataArray.length = maxResults;
     }
 
@@ -152,10 +149,15 @@ export default {
         ...response?.result,
         data_array: dataArray,
       },
-      next_page_token: pageToken || "",
+      next_page_token: truncated
+        ? ""
+        : (pageToken || ""),
     };
-
-    $.export("$summary", `Retrieved ${dataArray.length} results from index ${this.indexName}`);
+    let summaryMsg = `Retrieved ${dataArray.length} results from index ${this.indexName}`;
+    if (truncated) {
+      summaryMsg += " (truncated, increase `maxResults` to retrieve more)";
+    }
+    $.export("$summary", summaryMsg);
 
     return result;
   },
