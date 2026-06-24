@@ -461,12 +461,14 @@ export default {
     } = {}) {
       if (nextLink) {
         return await this.client().api(nextLink)
+          .header("ConsistencyLevel", "eventual")
           .get();
       }
       const path = folderScope
         ? `${this._userPath(userId)}/mailFolders/${folderScope}/messages`
         : `${this._userPath(userId)}/messages`;
       return await this.client().api(path)
+        .header("ConsistencyLevel", "eventual")
         .query(pickBy(params))
         .get();
     },
@@ -518,9 +520,11 @@ export default {
     } = {}) {
       if (nextLink) {
         return await this.client().api(nextLink)
+          .header("ConsistencyLevel", "eventual")
           .get();
       }
       return await this.client().api(`/users/${userId}/mailFolders/${sharedFolderId}/messages`)
+        .header("ConsistencyLevel", "eventual")
         .query(pickBy(params))
         .get();
     },
@@ -658,7 +662,7 @@ export default {
         .get();
     },
     async *paginate({
-      fn, args = {}, max,
+      fn, args = {}, max, meta,
     }) {
       const limit = DEFAULT_LIMIT;
       args = {
@@ -683,6 +687,9 @@ export default {
             }
             : {}),
         });
+        if (meta && response?.["@odata.count"] !== undefined) {
+          meta["@odata.count"] = response["@odata.count"];
+        }
         const { value } = response;
         for (const item of value) {
           yield item;
