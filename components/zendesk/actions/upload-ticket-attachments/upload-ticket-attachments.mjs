@@ -26,6 +26,12 @@ export default {
         "customSubdomain",
       ],
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $: step }) {
     const {

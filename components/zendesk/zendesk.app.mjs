@@ -425,6 +425,7 @@ export default {
       type: "string[]",
       label: "Attachments",
       description: "File paths or URLs to attach to the ticket. Multiple files can be attached.",
+      format: "file-ref",
       optional: true,
     },
     ticketTags: {
