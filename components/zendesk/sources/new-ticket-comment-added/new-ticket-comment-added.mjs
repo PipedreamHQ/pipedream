@@ -7,7 +7,7 @@ export default {
   key: "zendesk-new-ticket-comment-added",
   type: "source",
   description: "Emit new event when a ticket comment has been added",
-  version: "0.1.8",
+  version: "0.1.9",
   dedupe: "unique",
   props: {
     app,
