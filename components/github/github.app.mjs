@@ -722,9 +722,9 @@ export default {
     async getReviewsForPullRequest({
       repoFullname, pullNumber,
     }) {
-      const response = await this._client().request(`GET /repos/${repoFullname}/pulls/${pullNumber}/reviews`, {});
-
-      return response.data;
+      return this._client().paginate(`GET /repos/${repoFullname}/pulls/${pullNumber}/reviews`, {
+        per_page: 100,
+      });
     },
     async getCommits({
       repoFullname, ...data

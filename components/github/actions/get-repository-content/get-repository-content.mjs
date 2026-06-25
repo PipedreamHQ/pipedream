@@ -4,7 +4,7 @@ export default {
   key: "github-get-repository-content",
   name: "Get Repository Content",
   description: "Read a file's contents or list a directory in a repository. For a file, the base64 payload is decoded for you and returned as plain text in the `content` field. For a directory, returns the list of entries (name, path, type). Provide the repository as an `owner/repo` string and the `path` to the file or directory (omit `path` for the repo root). Use **Get Repository** first if you need to know the default branch. [See the documentation](https://docs.github.com/en/rest/repos/contents#get-repository-content)",
-  version: "0.2.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

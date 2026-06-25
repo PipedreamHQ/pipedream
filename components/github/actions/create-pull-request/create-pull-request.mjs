@@ -4,7 +4,7 @@ export default {
   key: "github-create-pull-request",
   name: "Create Pull Request",
   description: "Open a pull request proposing to merge one branch into another within a repository. Provide the repository as an `owner/repo` string, the `head` branch (the source containing your changes) and the `base` branch (the target, e.g. `main`), plus a title. The head and base branches must already exist and differ. For a cross-fork PR, set `head` to `username:branch`. Use **Create or Update File Contents** to push changes to a branch before opening the PR. [See the documentation](https://docs.github.com/en/rest/pulls/pulls#create-a-pull-request)",
-  version: "0.2.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

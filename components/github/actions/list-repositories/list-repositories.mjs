@@ -5,7 +5,7 @@ export default {
   key: "github-list-repositories",
   name: "List Repositories",
   description: "List repositories the authenticated user can access, or — when `org` is provided — the repositories of a specific organization. Use this to discover a repo's `owner/repo` name before calling **Get Repository**, **Get Repository Content**, or **List Commits**. To find repos by name, set the `name` substring filter. [See the documentation](https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#list-repositories-for-the-authenticated-user)",
-  version: "0.1.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -85,32 +85,47 @@ export default {
       throw new ConfigurationError("`type` cannot be used with `visibility`.");
     }
 
-    let response = this.org
-      ? await this.github.getOrgRepos({
-        org: this.org,
+    const perPage = Math.min(this.maxResults || 100, 100);
+    const endpoint = this.org
+      ? `GET /orgs/${this.org}/repos`
+      : "GET /user/repos";
+    const params = this.org
+      ? {
         type: this.type,
         sort: this.sort,
         direction: this.direction,
-      })
-      : await this.github._client().paginate("GET /user/repos", {
+        per_page: perPage,
+      }
+      : {
         visibility: this.visibility,
         type: this.type,
         sort: this.sort,
         direction: this.direction,
-      });
+        per_page: perPage,
+      };
+
+    // Stop paginating once we have enough results. When a name filter is set we
+    // must walk every page, since a match can appear on any page.
+    let repos = [];
+    for await (const { data } of this.github._client().paginate.iterator(endpoint, params)) {
+      repos.push(...data);
+      if (!this.name && this.maxResults && repos.length >= this.maxResults) {
+        break;
+      }
+    }
 
     if (this.name) {
       const nameLower = this.name.toLowerCase();
-      response = response.filter((repo) => repo.name.toLowerCase().includes(nameLower));
+      repos = repos.filter((repo) => repo.name.toLowerCase().includes(nameLower));
     }
 
-    if (this.maxResults && response.length > this.maxResults) {
-      response = response.slice(0, this.maxResults);
+    if (this.maxResults && repos.length > this.maxResults) {
+      repos = repos.slice(0, this.maxResults);
     }
 
-    $.export("$summary", `Successfully listed ${response.length} repositor${response.length === 1
+    $.export("$summary", `Successfully listed ${repos.length} repositor${repos.length === 1
       ? "y"
       : "ies"}`);
-    return response;
+    return repos;
   },
 };
