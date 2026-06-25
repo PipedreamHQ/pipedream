@@ -7,7 +7,7 @@ export default {
   type: "action",
   version: "0.3.0",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -145,11 +145,16 @@ export default {
       ? {
         html_body: ticketCommentBody,
       }
-      : {
-        body: ticketCommentBody,
-      };
+      : (
+        ticketCommentBody
+          ? {
+            body: ticketCommentBody,
+          }
+          : {} );
 
-    ticketComment.public = ticketCommentPublic;
+    if (ticketCommentBody) {
+      ticketComment.public = ticketCommentPublic;
+    }
 
     // Upload attachments if provided
     if (attachments && attachments.length > 0) {
