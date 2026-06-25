@@ -4006,8 +4006,8 @@ importers:
   components/databricks_oauth:
     dependencies:
       '@pipedream/databricks':
-        specifier: ^0.5.2
-        version: 0.5.2
+        specifier: ^0.6.0
+        version: 0.6.0
       '@pipedream/platform':
         specifier: ^3.4.0
         version: 3.4.0
@@ -22265,8 +22265,8 @@ packages:
   '@pipedream/clio@0.1.1':
     resolution: {integrity: sha512-IbnvVIWiAjS6P03WmDkLLnKxFwM+WgjwZZ6TmEbYmyX9zUDfVbohnniqdAcJh++pH2GcCS8aCOVNBosjwKzJbQ==}
 
-  '@pipedream/databricks@0.5.2':
-    resolution: {integrity: sha512-1cFMsRiva10hlPI/tme5kZYXHMys5q6mlaLpTYXhy//51H0mm2P5CcQG+UpbWtSBfX+s9/n5D9wdzbvfAxltrg==}
+  '@pipedream/databricks@0.6.0':
+    resolution: {integrity: sha512-C+Ic1dn+0ty5hWlmQCFQcfZCdM1xqHde83/zGMUYrLh9lMk6juiS/jzA6bmyAbRlK6xDJ/VxZOJgrm0dhaDAVw==}
 
   '@pipedream/docusign@0.2.2':
     resolution: {integrity: sha512-nwyW+rjoT94827wGXkV9jZpdCNGeSJsZfa00p5e1rYOpQ91hqfQJIUe0s84R6gOPGsI6rtn7pAbfrOoz0cRELg==}
@@ -41454,7 +41454,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@pipedream/databricks@0.5.2':
+  '@pipedream/databricks@0.6.0':
     dependencies:
       '@pipedream/platform': 3.4.0
     transitivePeerDependencies:
