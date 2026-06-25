@@ -1,4 +1,5 @@
 import servicenow from "../../servicenow.app.mjs";
+import { assertSafeQueryValue } from "../../common/utils.mjs";
 
 export default {
   key: "servicenow-check-order-status",
@@ -27,6 +28,9 @@ export default {
     },
   },
   async run({ $ }) {
+    assertSafeQueryValue(this.requestNumber, "Request Number");
+    assertSafeQueryValue(this.requestedFor, "Requested For");
+
     const queryParts = [
       `number=${this.requestNumber}`,
     ];

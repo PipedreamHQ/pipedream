@@ -1,4 +1,5 @@
 import servicenow from "../../servicenow.app.mjs";
+import { assertSafeQueryValue } from "../../common/utils.mjs";
 
 export default {
   key: "servicenow-find-users",
@@ -42,6 +43,8 @@ export default {
     },
   },
   async run({ $ }) {
+    assertSafeQueryValue(this.searchValue, "Search Value");
+
     const operator = this.searchField === "name"
       ? "LIKE"
       : "=";
