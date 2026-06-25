@@ -49,7 +49,7 @@ export default {
     budgetMode: {
       type: "string",
       label: "Budget Mode",
-      description: "`BUDGET_MODE_DAY` for a daily cap; `BUDGET_MODE_TOTAL` for a lifetime total; `BUDGET_MODE_DYNAMIC_DAILY_BUDGET` for an average daily budget over a week (ad groups only).",
+      description: "`BUDGET_MODE_DAY` for a daily cap; `BUDGET_MODE_TOTAL` for a lifetime total; `BUDGET_MODE_DYNAMIC_DAILY_BUDGET` for an average daily budget over a week (ad groups only); `BUDGET_MODE_INFINITE` for no budget cap (non-CBO campaigns only).",
       options: [
         "BUDGET_MODE_DAY",
         "BUDGET_MODE_TOTAL",

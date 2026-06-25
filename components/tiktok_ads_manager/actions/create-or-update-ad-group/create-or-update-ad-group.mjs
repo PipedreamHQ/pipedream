@@ -191,7 +191,9 @@ export default {
       placement_type: this.placementType,
       placements: this.placements,
       budget_mode: this.budgetMode,
-      budget: parseFloat(this.budget),
+      budget: this.budget
+        ? parseFloat(this.budget)
+        : undefined,
       schedule_type: this.scheduleType,
       schedule_start_time: this.scheduleStartTime,
       schedule_end_time: this.scheduleEndTime,

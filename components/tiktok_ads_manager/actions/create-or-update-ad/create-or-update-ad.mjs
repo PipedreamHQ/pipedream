@@ -136,26 +136,22 @@ export default {
       creative.ad_id = this.adId;
     }
 
+    const data = {
+      advertiser_id: this.advertiserId,
+      adgroup_id: this.adgroupId,
+      creatives: [
+        creative,
+      ],
+    };
+
     const response = await (isUpdate
       ? this.app.updateAd({
         $,
-        data: {
-          advertiser_id: this.advertiserId,
-          adgroup_id: this.adgroupId,
-          creatives: [
-            creative,
-          ],
-        },
+        data,
       })
       : this.app.createAd({
         $,
-        data: {
-          advertiser_id: this.advertiserId,
-          adgroup_id: this.adgroupId,
-          creatives: [
-            creative,
-          ],
-        },
+        data,
       }));
 
     const adId = response?.data?.ad_ids?.[0];

@@ -1,6 +1,8 @@
 import crypto from "crypto";
 import { Readable } from "stream";
-import { getFileStreamAndMetadata } from "@pipedream/platform";
+import {
+  getFileStreamAndMetadata, ConfigurationError,
+} from "@pipedream/platform";
 import FormData from "form-data";
 import app from "../../tiktok_ads_manager.app.mjs";
 
@@ -81,6 +83,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!this.identifiers?.length && !this.filePath) {
+      throw new ConfigurationError("Provide either `identifiers` or `file_path`.");
+    }
+
     let fileBuffer;
     let fileName = "audience.csv";
 

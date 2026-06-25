@@ -13,8 +13,8 @@ export default {
     + " Provide a publicly accessible URL or a `/tmp` file path."
     + " Returns `image_id` for images and `video_id` for videos."
     + " Supported image formats: JPG, JPEG, PNG. Supported video formats: MP4, MOV, MPEG, AVI."
-    + " For images, see [documentation](https://business-api.tiktok.com/portal/docs/upload-an-image-reference/v1.3)."
-    + " For videos, see [documentation](https://business-api.tiktok.com/portal/docs/upload-a-video/v1.3).",
+    + " For images, see [See the documentation](https://business-api.tiktok.com/portal/docs/upload-an-image-reference/v1.3)."
+    + " For videos, see [See the documentation](https://business-api.tiktok.com/portal/docs/upload-a-video/v1.3).",
   version: "0.0.1",
   type: "action",
   annotations: {

@@ -28,6 +28,12 @@ export default {
       optional: true,
       description: "Required for BASIC, AUDIENCE, PLAYABLE_MATERIAL, CATALOG, and TT_SHOP reports. Not used for BC reports — use `bc_id` instead.",
     },
+    bcId: {
+      type: "string",
+      label: "Business Center ID",
+      description: "Required when `report_type` is `BC`. ID of the Business Center to report on. Use `/bc/get/` to find your Business Center IDs.",
+      optional: true,
+    },
     reportType: {
       type: "string",
       label: "Report Type",
@@ -66,8 +72,12 @@ export default {
     metrics: {
       type: "string[]",
       label: "Metrics",
-      description: "Metrics to return. Defaults to `[\"spend\", \"impressions\"]` when not specified. Example: `[\"impressions\", \"clicks\", \"spend\", \"cpc\", \"ctr\"]`.",
+      description: "Metrics to return. Example: `[\"impressions\", \"clicks\", \"spend\", \"cpc\", \"ctr\"]`.",
       optional: true,
+      default: [
+        "spend",
+        "impressions",
+      ],
     },
     startDate: {
       type: "string",
@@ -137,13 +147,12 @@ export default {
       $,
       params: {
         advertiser_id: this.advertiserId,
+        bc_id: this.bcId,
         report_type: this.reportType,
         data_level: this.dataLevel,
         service_type: this.serviceType,
         dimensions: JSON.stringify(this.dimensions),
-        metrics: this.metrics?.length
-          ? JSON.stringify(this.metrics)
-          : undefined,
+        metrics: JSON.stringify(this.metrics),
         start_date: this.startDate,
         end_date: this.endDate,
         query_lifetime: this.queryLifetime,

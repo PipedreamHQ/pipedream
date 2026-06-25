@@ -7,7 +7,7 @@ export default {
     "Identity tool — call this first when a user references 'my account' or 'my campaigns'."
     + " Returns account details (name, currency, timezone, status) for the given advertiser ID."
     + " Find your advertiser ID in the TikTok Ads Manager URL after `aadvid=`."
-    + " For account details, see [documentation](https://business-api.tiktok.com/portal/docs/get-authorized-ad-accounts/v1.3).",
+    + " [See the documentation](https://business-api.tiktok.com/portal/docs/get-authorized-ad-accounts/v1.3).",
   version: "0.0.1",
   type: "action",
   annotations: {
