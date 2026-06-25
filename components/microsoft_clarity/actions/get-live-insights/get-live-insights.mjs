@@ -7,7 +7,7 @@ export default {
     "Fetch real-time analytics metrics for your Microsoft Clarity project, optionally broken down by up to three dimensions."
     + " Returns an array of metric objects (e.g. Traffic, Scroll Depth, Engagement Time, Dead Clicks, Rage Clicks, Script Errors)"
     + " each with a `metricName` and an `information` array of data points."
-    + " Use `dimension1`, `dimension2`, and `dimension3` to segment data by Browser, Device, Country, OS, Source, Medium, Campaign, Channel, or URL."
+    + " Use `dimension1`, `dimension2`, and `dimension3` to segment data by Browser, Device, Country/Region, OS, Source, Medium, Campaign, Channel, or URL."
     + " **Rate limit: 10 requests per project per day — combine all desired dimensions into a single call rather than issuing multiple requests.**"
     + " Results are limited to 1,000 rows with no pagination."
     + " [See the documentation](https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-data-export-api)",

@@ -26,12 +26,12 @@ export default {
     dimension: {
       type: "string",
       label: "Dimension",
-      description: "A dimension to group the analytics data by. Valid values: `Browser`, `Device`, `Country`, `OS`, `Source`, `Medium`, `Campaign`, `Channel`, `URL`.",
+      description: "A dimension to group the analytics data by. Valid values: `Browser`, `Device`, `Country/Region`, `OS`, `Source`, `Medium`, `Campaign`, `Channel`, `URL`.",
       optional: true,
       options: [
         "Browser",
         "Device",
-        "Country",
+        "Country/Region",
         "OS",
         "Source",
         "Medium",
@@ -46,12 +46,14 @@ export default {
       return "https://www.clarity.ms/export-data/api/v1";
     },
     _makeRequest({
-      $ = this, path, ...opts
+      $ = this, path, headers: callerHeaders = {}, ...opts
     }) {
       return axios($, {
-        url: `${this._baseUrl()}${path}`,
+        baseURL: this._baseUrl(),
+        url: path,
         headers: {
           Authorization: `Bearer ${this.$auth.api_token}`,
+          ...callerHeaders,
         },
         ...opts,
       });
