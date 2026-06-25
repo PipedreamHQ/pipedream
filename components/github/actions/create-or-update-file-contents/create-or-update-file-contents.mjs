@@ -3,8 +3,8 @@ import github from "../../github.app.mjs";
 export default {
   key: "github-create-or-update-file-contents",
   name: "Create or Update File Contents",
-  description: "Create or update a file in a repository. [See the documentation](https://docs.github.com/en/rest/repos/contents#create-or-update-file-contents)",
-  version: "0.1.7",
+  description: "Create a new file or overwrite an existing one in a repository with a single commit. Provide the repository as an `owner/repo` string, the file `path`, the raw text `content` (passed as-is — do not base64-encode it yourself), and a commit message. If the file already exists on the target branch it is overwritten; the required blob SHA is resolved for you automatically. Defaults to the repository's default branch unless `branch` is set. [See the documentation](https://docs.github.com/en/rest/repos/contents#create-or-update-file-contents)",
+  version: "0.2.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -16,46 +16,39 @@ export default {
     repoFullname: {
       propDefinition: [
         github,
-        "repoFullname",
+        "repoFullnameStatic",
       ],
     },
     path: {
       label: "Path",
-      description:
-        "The full path of the file to create. *If the file already exists, it will be updated.* Example: `path/to/file.txt`",
+      description: "The full path of the file, e.g. `docs/notes.md`. If the file already exists it will be overwritten.",
       type: "string",
     },
-    fileContent: {
-      label: "File content",
-      description: "The raw contents of the file. *If the file already exists, the entire file will be overwritten.*",
+    content: {
+      label: "Content",
+      description: "The raw text contents of the file (plain text, not base64). If the file already exists, the entire file is overwritten with this content.",
       type: "string",
     },
-    commitMessage: {
-      label: "Commit message",
+    message: {
+      label: "Commit Message",
       description: "The commit message for this change.",
       type: "string",
-      default: "Pipedream - {{steps.trigger.context.workflow_name}} ({{steps.trigger.context.workflow_id}})",
     },
     branch: {
-      propDefinition: [
-        github,
-        "branch",
-        (c) => ({
-          repoFullname: c.repoFullname,
-        }),
-      ],
-      description:
-        "The branch to use. Defaults to the repository's default branch (usually `main` or `master`)",
+      label: "Branch",
+      description: "The branch to commit to, e.g. `main`. Defaults to the repository's default branch.",
+      type: "string",
       optional: true,
     },
   },
   async run({ $ }) {
-    const {
-      github, branch, ...data
-    } = this;
-    const response = await github.createOrUpdateFileContent({
-      ...data,
-      branch: branch && branch.split("/")[1],
+    const repoFullname = await this.github._resolveRepoFullname(this.repoFullname);
+    const response = await this.github.createOrUpdateFileContent({
+      repoFullname,
+      path: this.path,
+      fileContent: this.content,
+      commitMessage: this.message,
+      branch: this.branch,
     });
 
     $.export("$summary", `Successfully set contents of ${this.path}${this.branch
