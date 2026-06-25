@@ -4661,7 +4661,11 @@ importers:
         specifier: ^3.4.0
         version: 3.4.0
 
-  components/dpd_shipping: {}
+  components/dpd_shipping:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/draftable:
     dependencies:
