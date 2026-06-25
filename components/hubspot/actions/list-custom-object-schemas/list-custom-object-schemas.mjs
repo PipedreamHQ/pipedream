@@ -10,7 +10,7 @@ export default {
     + " Call this first before any other custom object operation to obtain the correct objectType identifier."
     + " Standard object types (contacts, companies, deals, tickets) do NOT appear here."
     + " [See the documentation](https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/get-schemas)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
