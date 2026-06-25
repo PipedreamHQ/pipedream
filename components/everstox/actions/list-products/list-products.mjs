@@ -3,7 +3,7 @@ import everstox from "../../everstox.app.mjs";
 export default {
   key: "everstox-list-products",
   name: "List Products",
-  description: "List products in an Everstox shop. [See the documentation](https://api.staging.everstox.com/api/v1/ui/#/Product/district_core.api.shops.products.products.Products.index)",
+  description: "List products in an Everstox shop. Use this to browse or audit the product catalog, check inventory by SKU or name, or filter by warehouse. Filter dates must be in `YYYY-MM-DD` format (e.g. `2021-02-23`). Results default to 10 per page — use `limit` and `offset` together to paginate through large catalogs. [See the documentation](https://api.staging.everstox.com/api/v1/ui/#/Product/district_core.api.shops.products.products.Products.index)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -60,12 +60,14 @@ export default {
       type: "integer",
       label: "Limit",
       description: "The number of products to return (default 10)",
+      min: 1,
       optional: true,
     },
     offset: {
       type: "integer",
       label: "Offset",
       description: "The number of products to skip before starting to collect the result set",
+      min: 0,
       optional: true,
     },
   },
