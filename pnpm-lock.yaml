@@ -3434,7 +3434,11 @@ importers:
 
   components/commcare: {}
 
-  components/commerce_tools: {}
+  components/commerce_tools:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/commercehq: {}
 
@@ -42351,7 +42355,6 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
-      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.62.0)':
     dependencies:
