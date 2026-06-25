@@ -85,7 +85,12 @@ export default {
       throw new ConfigurationError("`type` cannot be used with `visibility`.");
     }
 
-    const perPage = Math.min(this.maxResults || 100, 100);
+    // When a name filter forces a full scan, use the max page size to minimize
+    // round-trips; maxResults is applied after filtering. Otherwise size the page
+    // to maxResults so a single page usually suffices.
+    const perPage = this.name
+      ? 100
+      : Math.min(this.maxResults || 100, 100);
     const endpoint = this.org
       ? `GET /orgs/${this.org}/repos`
       : "GET /user/repos";
