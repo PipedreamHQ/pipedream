@@ -38,11 +38,12 @@ export default {
       $,
       path,
       data,
-      messageLanguage = constants.DEFAULT_MESSAGE_LANGUAGE,
+      messageLanguage,
     }) {
+      const language = messageLanguage || constants.DEFAULT_MESSAGE_LANGUAGE;
       const authToken = await this._getAuthToken({
         $,
-        messageLanguage,
+        messageLanguage: language,
       });
       return this._makeRequest({
         $,
@@ -51,7 +52,7 @@ export default {
           authentication: {
             delisId: this.$auth.api_username,
             authToken,
-            messageLanguage,
+            messageLanguage: language,
           },
           ...data,
         },
