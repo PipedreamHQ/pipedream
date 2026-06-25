@@ -10,7 +10,7 @@ export default {
     + " Use **List Custom Object Schemas** to get the correct `objectType` identifier."
     + " Max 100 IDs per request."
     + " [See the documentation](https://developers.hubspot.com/docs/api-reference/latest/crm/objects/objects/batch/get-objects)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
