@@ -12,7 +12,7 @@ export default {
     ...common.methods,
     getTriggers() {
       return [
-        "conversation.join",
+        "conversation:join",
       ];
     },
   },

@@ -16,7 +16,7 @@ export default {
     types: {
       type: "string",
       label: "Types",
-      description: "Comma-separated list of types to return. If omitted, all types are returned.",
+      description: "Comma-separated list of types to return. If omitted, all types are returned. Example: `custom,messenger,whatsapp`",
       optional: true,
     },
   },

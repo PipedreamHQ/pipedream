@@ -38,6 +38,7 @@ export default {
         target: this.http.endpoint,
         triggers: this.getTriggers(),
         includeFullUser: this.includeFullUser,
+        includeFullSource: this.includeFullSource,
       };
 
       let id;
