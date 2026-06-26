@@ -16125,7 +16125,11 @@ importers:
         specifier: ^3.2.5
         version: 3.3.0
 
-  components/the_colony: {}
+  components/the_colony:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.4.0
 
   components/the_events_calendar: {}
 
@@ -16149,12 +16153,6 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
-
-  components/thecolony:
-    dependencies:
-      '@pipedream/platform':
-        specifier: ^3.1.0
-        version: 3.4.0
 
   components/thehive: {}
 
