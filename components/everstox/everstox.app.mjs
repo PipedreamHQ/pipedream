@@ -131,5 +131,20 @@ export default {
         ...opts,
       });
     },
+    createFulfillmentUpdateRequest({
+      fulfillmentId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/fulfillment/${fulfillmentId}/update-requests`,
+        ...opts,
+      });
+    },
+    listProducts(opts = {}) {
+      return this._makeRequest({
+        path: "/products",
+        ...opts,
+      });
+    },
   },
 };
