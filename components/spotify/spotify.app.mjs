@@ -269,14 +269,14 @@ export default {
       return await this.retry($, config);
     },
     // Retry axios request if not successful
-    async retry($, config, retries = 0) {
+    async retry($, config, retries = 1) {
       try {
         return await axios($, {
           ...config,
           returnFullResponse: true,
         });
       } catch (err) {
-        if (err?.status !== 429 || retries >= 3) {
+        if (err?.status !== 429 || retries > 3) {
           $?.export?.("response", err);
           throw new Error("Error response exported in the \"response\" object");
         }
