@@ -4,7 +4,7 @@ export default {
   key: "github-list-organizations",
   name: "List Organizations",
   description: "List all organizations in the authenticated user's account. [See the documentation](https://docs.github.com/en/rest/orgs/orgs?apiVersion=2026-03-10#list-organizations-for-the-authenticated-user)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
