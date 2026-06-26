@@ -78,15 +78,35 @@ export default {
     },
   },
   methods: {
+    /**
+     * Return the Super Carl API base URL.
+     *
+     * @returns {string} Super Carl API base URL.
+     */
     _baseUrl() {
       return "https://api.supercarl.ai";
     },
+    /**
+     * Build authenticated request headers.
+     *
+     * @param {Object} [headers={}] Additional request headers.
+     * @returns {Object} Request headers with the Super Carl API key.
+     */
     _headers(headers = {}) {
       return {
         ...headers,
         "X-API-Key": this.$auth.api_key,
       };
     },
+    /**
+     * Make an authenticated request to the Super Carl API.
+     *
+     * @param {Object} opts Request options.
+     * @param {Object} [opts.$=this] Pipedream step context.
+     * @param {string} opts.path API path beginning with `/`.
+     * @param {Object} [opts.headers] Additional request headers.
+     * @returns {Promise<Object>} API response.
+     */
     _makeRequest({
       $ = this, path, headers, ...opts
     }) {
@@ -96,12 +116,25 @@ export default {
         ...opts,
       });
     },
+    /**
+     * Get network sync and graph-readiness metadata.
+     *
+     * @param {Object} [opts={}] Request options.
+     * @returns {Promise<Object>} Network summary response.
+     */
     getNetworkSummary(opts = {}) {
       return this._makeRequest({
         path: "/api/v1/network/summary",
         ...opts,
       });
     },
+    /**
+     * Search Super Carl people profiles.
+     *
+     * @param {Object} [opts={}] Request options.
+     * @param {boolean} [opts.preview=true] Whether to use the preview endpoint.
+     * @returns {Promise<Object>} People search response.
+     */
     searchPeople({
       preview = true, ...opts
     } = {}) {
@@ -113,6 +146,12 @@ export default {
         ...opts,
       });
     },
+    /**
+     * Search companies in Super Carl.
+     *
+     * @param {Object} [opts={}] Request options.
+     * @returns {Promise<Object>} Company search response.
+     */
     searchCompanies(opts = {}) {
       return this._makeRequest({
         method: "POST",
@@ -120,6 +159,13 @@ export default {
         ...opts,
       });
     },
+    /**
+     * Search jobs in Super Carl.
+     *
+     * @param {Object} [opts={}] Request options.
+     * @param {boolean} [opts.withPeople=false] Whether to include people at each hiring company.
+     * @returns {Promise<Object>} Job search response.
+     */
     searchJobs({
       withPeople = false, ...opts
     } = {}) {
@@ -131,6 +177,14 @@ export default {
         ...opts,
       });
     },
+    /**
+     * Search posts and activity signals in Super Carl.
+     *
+     * @param {Object} [opts={}] Request options.
+     * @param {boolean} [opts.withPeople=false] Whether to include deduped people
+     * from matching activity.
+     * @returns {Promise<Object>} Post search response.
+     */
     searchPosts({
       withPeople = false, ...opts
     } = {}) {
@@ -142,6 +196,12 @@ export default {
         ...opts,
       });
     },
+    /**
+     * Remove empty values from a request payload.
+     *
+     * @param {Object} [payload={}] Request payload.
+     * @returns {Object} Payload without empty values.
+     */
     cleanPayload(payload = {}) {
       return cleanObject(payload);
     },
