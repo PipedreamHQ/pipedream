@@ -4,7 +4,7 @@ import { cleanObject } from "../../common/utils.mjs";
 export default {
   key: "super_carl-get-network-summary",
   name: "Get Network Summary",
-  description: "Check Super Carl network readiness, including LinkedIn sync and available network filters. [See the documentation](https://supercarl.ai/docs)",
+  description: "Check Super Carl network readiness before running people, jobs, or warm-intro searches. Use this to inspect LinkedIn/Gmail/Super Carl graph sync status for the API key owner or a delegated team-seat user via Delegate User ID; low or unsynced counts can explain weak network-aware results. [See the documentation](https://supercarl.ai/docs/endpoints)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

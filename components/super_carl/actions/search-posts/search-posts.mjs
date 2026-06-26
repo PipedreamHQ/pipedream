@@ -9,7 +9,7 @@ import {
 export default {
   key: "super_carl-search-posts",
   name: "Search Posts",
-  description: "Search posts, comments, likes, reactions, company mentions, and public activity signals. [See the documentation](https://supercarl.ai/docs)",
+  description: "Search Super Carl post and activity signals, including authored posts, comments, likes, reactions, company mentions, and engagement. Use this before Search People when the workflow is anchored on someone posting or engaging with content; enable With People to return deduped actors from matching activity. [See the documentation](https://supercarl.ai/docs/endpoints)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -39,12 +39,12 @@ export default {
       default: false,
     },
     previewLimit: {
-      type: "integer",
-      label: "Preview Limit",
+      propDefinition: [
+        superCarl,
+        "previewLimit",
+      ],
       description: "Maximum number of post or activity rows to return.",
-      optional: true,
       default: 10,
-      min: 1,
       max: 50,
     },
     offset: {

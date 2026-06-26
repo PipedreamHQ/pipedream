@@ -40,14 +40,14 @@ export default {
     resolveOnly: {
       type: "boolean",
       label: "Resolve Only",
-      description: "Return only company disambiguation metadata for a named company, domain, or LinkedIn company URL.",
+      description: "Return only company disambiguation metadata for a named company, domain, or LinkedIn company URL. Example query values: `stripe.com`, `https://www.linkedin.com/company/stripe`, or `Stripe`.",
       optional: true,
       default: false,
     },
     resultMode: {
       type: "string",
       label: "Result Mode",
-      description: "Level of company-row detail to return.",
+      description: "Level of company-row detail to return. Use `preview` for fast, compact rows, or `detailed` when the workflow needs richer company metadata.",
       optional: true,
       default: "preview",
       options: [
@@ -58,7 +58,7 @@ export default {
     rankMode: {
       type: "string",
       label: "Rank Mode",
-      description: "Optional ranking mode. `llm` uses a deeper retrieval pool and LLM reranking.",
+      description: "Optional ranking mode. Use `default` for normal search order, or `llm` to use a deeper retrieval pool and LLM reranking when company fit matters more than speed.",
       optional: true,
       options: [
         "default",

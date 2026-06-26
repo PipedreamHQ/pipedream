@@ -9,7 +9,7 @@ import {
 export default {
   key: "super_carl-search-people",
   name: "Search People",
-  description: "Search people by role, company history, expertise, location, network relationship, or recent activity. [See the documentation](https://supercarl.ai/docs)",
+  description: "Search people by role, company history, expertise, location, network relationship, or recent activity. Keep Preview enabled for fast counts and lightweight rows; disable Preview when you need full rows and Evidence Format, since Evidence Format is ignored during preview. Use Search Companies first when a named employer is ambiguous. [See the documentation](https://supercarl.ai/docs/endpoints)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

@@ -31,18 +31,44 @@ export const isEmptyValue = (value) => {
     return value.trim().length === 0;
   }
   if (Array.isArray(value)) {
-    return value.length === 0;
+    return value.length === 0 || value.every(isEmptyValue);
   }
   if (typeof value === "object") {
-    return Object.keys(value).length === 0;
+    return Object.keys(value).length === 0 || Object.values(value).every(isEmptyValue);
   }
   return false;
 };
 
+export const cleanValue = (value) => {
+  if (Array.isArray(value)) {
+    return value
+      .map(cleanValue)
+      .filter((item) => !isEmptyValue(item));
+  }
+
+  if (value && typeof value === "object") {
+    return cleanObject(value);
+  }
+
+  return value;
+};
+
 export const cleanObject = (object = {}) => Object.fromEntries(
-  Object.entries(object).filter(([
-    , value,
-  ]) => !isEmptyValue(value)),
+  Object.entries(object)
+    .map((entry) => {
+      const [
+        key,
+        value,
+      ] = entry;
+
+      return [
+        key,
+        cleanValue(value),
+      ];
+    })
+    .filter(([
+      , value,
+    ]) => !isEmptyValue(value)),
 );
 
 export const requireQueryOrFilters = ({

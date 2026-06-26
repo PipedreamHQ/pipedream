@@ -15,13 +15,13 @@ export default {
     filters: {
       type: "object",
       label: "Filters",
-      description: "Optional Super Carl AdvancedFilters JSON object. Use this for structured title, company, location, network, post, or company-search filters.",
+      description: "Optional Super Carl AdvancedFilters JSON object for structured constraints. Example: `{ \"job_titles\": { \"include\": [\"Head of Growth\"], \"current_only\": true }, \"locations\": { \"include\": [\"New York\"] }, \"connection_degrees\": [\"1st\"] }`.",
       optional: true,
     },
     delegateUserId: {
       type: "string",
       label: "Delegate User ID",
-      description: "Optional team-seat user ID to search as. The API key owner must be allowed to delegate to this user.",
+      description: "Optional Super Carl team-seat user ID to search as. Use the user record ID for a teammate the API key owner can delegate to, for example `usr_abc123`.",
       optional: true,
     },
     limit: {
@@ -53,7 +53,7 @@ export default {
     evidenceFormat: {
       type: "string",
       label: "Evidence Format",
-      description: "Evidence detail to return for full people search results.",
+      description: "`none` returns compact rows, `reasons` adds match reasons, `text` adds profile prose, `json` adds structured evidence, and `both` returns text plus JSON. Applies only when Preview is disabled.",
       optional: true,
       default: "reasons",
       options: [
@@ -67,7 +67,7 @@ export default {
     relationshipDetail: {
       type: "string",
       label: "Relationship Detail",
-      description: "Relationship detail to return for people search results.",
+      description: "`none` omits relationship data, `summary` includes social proximity and mutual counts, and `intro_paths` includes warm-intro path details when available.",
       optional: true,
       default: "none",
       options: [
@@ -111,7 +111,8 @@ export default {
       $ = this, path, headers, ...opts
     }) {
       return axios($, {
-        url: `${this._baseUrl()}${path}`,
+        baseURL: this._baseUrl(),
+        url: path,
         headers: this._headers(headers),
         ...opts,
       });

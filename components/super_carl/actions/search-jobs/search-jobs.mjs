@@ -9,7 +9,7 @@ import {
 export default {
   key: "super_carl-search-jobs",
   name: "Search Jobs",
-  description: "Search jobs and optionally include warm-path people at each hiring company. [See the documentation](https://supercarl.ai/docs)",
+  description: "Search jobs when the workflow needs hiring-company opportunities, role fit, or warm paths into employers. Use Search People for candidate/advisor discovery, and enable With People when the workflow should return 1st/2nd-degree contacts at each hiring company. [See the documentation](https://supercarl.ai/docs/endpoints)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
