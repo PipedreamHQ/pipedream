@@ -4,7 +4,7 @@ export default {
   key: "databricks-cancel-all-runs",
   name: "Cancel All Runs",
   description: "Cancel all active runs for a job. The runs are canceled asynchronously, so it doesn't prevent new runs from being started. [See the documentation](https://docs.databricks.com/api/workspace/jobs/cancelallruns)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

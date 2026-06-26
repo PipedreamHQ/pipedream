@@ -27,6 +27,7 @@ const API_PATH = {
   CONTENT: "/content/api/v2",
   COMMUNICATION_PREFERENCES: "/communication-preferences/v4",
   CONVERSATIONS: "/conversations/v3",
+  SCHEDULER: "/scheduler/v3",
 };
 
 /** Association categories for association types, as defined by the [Hubspot API
@@ -425,6 +426,23 @@ const LANGUAGE_OPTIONS = [
   },
 ];
 
+// Meeting link types accepted by the Scheduler `meeting-links` API.
+// https://developers.hubspot.com/docs/api-reference/legacy/scheduler/guide#list-meeting-scheduling-pages
+const MEETING_LINK_TYPES = [
+  {
+    label: "Personal Link",
+    value: "PERSONAL_LINK",
+  },
+  {
+    label: "Group Calendar",
+    value: "GROUP_CALENDAR",
+  },
+  {
+    label: "Round Robin Calendar",
+    value: "ROUND_ROBIN_CALENDAR",
+  },
+];
+
 export {
   API_PATH,
   ASSOCIATION_CATEGORY,
@@ -446,6 +464,7 @@ export {
   ENGAGEMENT_TYPE_OPTIONS,
   HUBSPOT_OWNER,
   LANGUAGE_OPTIONS,
+  MEETING_LINK_TYPES,
   OBJECT_TYPE,
   OBJECT_TYPES,
   SEARCHABLE_OBJECT_TYPES,
