@@ -3,8 +3,8 @@ import github from "../../github.app.mjs";
 export default {
   key: "github-list-commits",
   name: "List Commits",
-  description: "List commits in a GitHub repo. [See the documentation](https://docs.github.com/en/rest/commits/commits?apiVersion=2022-11-28#list-commits)",
-  version: "0.0.5",
+  description: "List commits in a repository, most recent first. Optionally scope to a branch or starting SHA, a file path, an author, or a date range. Provide the repository as an `owner/repo` string. Use **Get Repository** to find the default branch name if needed. [See the documentation](https://docs.github.com/en/rest/commits/commits?apiVersion=2022-11-28#list-commits)",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,18 +16,13 @@ export default {
     repoFullname: {
       propDefinition: [
         github,
-        "repoFullname",
+        "repoFullnameStatic",
       ],
     },
     sha: {
-      propDefinition: [
-        github,
-        "branchSha",
-        (c) => ({
-          repoFullname: c.repoFullname,
-        }),
-      ],
-      description: "SHA or branch to start listing commits from. Default: the repository's default branch (usually main).",
+      type: "string",
+      label: "Branch or SHA",
+      description: "Branch name (e.g. `main`) or commit SHA to start listing commits from. Defaults to the repository's default branch.",
       optional: true,
     },
     path: {
@@ -69,8 +64,9 @@ export default {
     },
   },
   async run({ $ }) {
+    const repoFullname = await this.github._resolveRepoFullname(this.repoFullname);
     const commits = await this.github.listCommits({
-      repoFullname: this.repoFullname,
+      repoFullname,
       sha: this.sha,
       path: this.path,
       author: this.author,

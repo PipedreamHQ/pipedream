@@ -355,6 +355,7 @@ export default {
       type: "string",
       label: "Comment body",
       description: "The body of the comment.",
+      optional: true,
     },
     ticketCommentBodyIsHTML: {
       type: "boolean",

@@ -35,6 +35,20 @@ export default {
         return repositories.map((repository) => repository.full_name);
       },
     },
+    // Static, MCP-friendly variants of `repoFullname` / `issueNumber`. These omit
+    // the `async options()` dropdowns above so AI-optimized actions resolve in a
+    // single call instead of dragging in configure_component/retrieve_options
+    // round-trips. GitHub identifiers are human-readable, so dropdowns add no value.
+    repoFullnameStatic: {
+      label: "Repository",
+      description: "The repository in `owner/repo` format, for example `PipedreamHQ/pipedream` (not case sensitive). If you pass just a repository name with no owner (e.g. `my-repo`), the authenticated user is assumed as the owner — convenient for \"my repo\" requests.",
+      type: "string",
+    },
+    issueNumberStatic: {
+      label: "Issue Number",
+      description: "The issue number — the `#N` shown in the GitHub UI, not the global issue ID. Use **Search Issues and Pull Requests** or **Get Issue** to find it when you only know the title.",
+      type: "integer",
+    },
     repoOrg: {
       label: "Organization Repository",
       description: "The repository in a organization",
@@ -570,6 +584,29 @@ export default {
 
       return response.data;
     },
+    // AI-optimization: accept a bare repo name (no owner). When the model is told
+    // "my repo X" it often passes just `X`; GitHub needs `owner/repo`, so we
+    // assume the authenticated user as the owner when no `/` is present.
+    async _resolveRepoFullname(repoFullname) {
+      if (typeof repoFullname === "string" && repoFullname && !repoFullname.includes("/")) {
+        const { login } = await this.getAuthenticatedUser();
+        return `${login}/${repoFullname}`;
+      }
+      return repoFullname;
+    },
+    // Same fix for the search DSL: `repo:my-repo` is invalid (needs owner/repo).
+    // Rewrite any slash-less `repo:` qualifier to `repo:{login}/{name}`.
+    async _resolveSearchQuery(query) {
+      const bareRepo = /repo:([^\s/]+)(?=\s|$)/;
+      if (typeof query === "string" && bareRepo.test(query)) {
+        const { login } = await this.getAuthenticatedUser();
+        return query.replace(
+          new RegExp(bareRepo.source, "g"),
+          (match, name) => `repo:${login}/${name}`,
+        );
+      }
+      return query;
+    },
     async getFromUrl({ url }) {
       const response = await this._client().request(`GET ${url.replace(this._baseApiUrl(), "")}`, {});
 
@@ -669,6 +706,12 @@ export default {
       const response = await this._client().request(`GET /repos/${repoFullname}/pulls`, args ?? {});
       return response.data;
     },
+    async getPullRequest({
+      repoFullname, pullNumber,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/pulls/${pullNumber}`, {});
+      return response.data;
+    },
     async getPullRequestForCommit({
       repoFullname, sha,
     }) {
@@ -679,9 +722,9 @@ export default {
     async getReviewsForPullRequest({
       repoFullname, pullNumber,
     }) {
-      const response = await this._client().request(`GET /repos/${repoFullname}/pulls/${pullNumber}/reviews`, {});
-
-      return response.data;
+      return this._client().paginate(`GET /repos/${repoFullname}/pulls/${pullNumber}/reviews`, {
+        per_page: 100,
+      });
     },
     async getCommits({
       repoFullname, ...data
