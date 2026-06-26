@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/docugenerate",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Pipedream DocuGenerate Components",
   "main": "docugenerate.app.mjs",
   "keywords": [
@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.1"
+    "@pipedream/platform": "^3.1.1",
+    "form-data": "^4.0.4"
   }
 }

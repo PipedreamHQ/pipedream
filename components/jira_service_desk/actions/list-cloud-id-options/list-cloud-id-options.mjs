@@ -4,7 +4,7 @@ export default {
   key: "jira_service_desk-list-cloud-id-options",
   name: "List Cloud ID Options",
   description: "Retrieves available options for the Cloud ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

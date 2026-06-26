@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sms8",
+  "version": "0.0.1",
+  "description": "Pipedream SMS8 Components",
+  "main": "sms8.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sms8"
+  ],
+  "homepage": "https://pipedream.com/apps/sms8",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

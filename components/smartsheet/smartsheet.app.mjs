@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { DEFAULT_MAX_ITEMS } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -37,40 +38,35 @@ export default {
     templateId: {
       type: "integer",
       label: "Template",
-      description: "Select a template",
+      description: "Select a template from a workspace. Use the **List Workspace Templates** action to find template IDs. Example: `1122334455667788`.",
       async options() {
-        const params = {
-          includeAll: true,
-        };
-        const { data: userCreatedTemplates } = await this.listUserCreatedTemplates({
-          params,
-        });
-        const { data: publicTemplates } = await this.listPublicTemplates({
-          params,
-        });
-        const templates = [
-          ...userCreatedTemplates,
-          ...publicTemplates,
-        ];
-        return templates?.map(({
-          id, name,
-        }) => ({
-          label: name,
-          value: id,
-        })) || [];
+        const { data: workspaces } = await this.listAllWorkspaces();
+        const templates = [];
+        for (const ws of workspaces || []) {
+          const { data: children } = await this.listAllWorkspaceChildren(ws.id, {
+            params: {
+              childrenResourceTypes: "sheets,templates",
+            },
+          });
+          for (const child of children || []) {
+            if (child.resourceType === "template") {
+              templates.push({
+                label: `${child.name} (${ws.name})`,
+                value: child.id,
+              });
+            }
+          }
+        }
+        return templates;
       },
     },
     workspaceId: {
       type: "integer",
       label: "Workspace",
-      description: "Select a workspace",
+      description: "Select a workspace. Use the **List Workspace Options** action to find workspace IDs. Example: `1234567890123456`.",
       optional: true,
-      async options({ page }) {
-        const { data } = await this.listWorkspaces({
-          params: {
-            page: page + 1,
-          },
-        });
+      async options() {
+        const { data } = await this.listAllWorkspaces();
         return data?.map(({
           id, name,
         }) => ({
@@ -82,12 +78,15 @@ export default {
     folderId: {
       type: "integer",
       label: "Folder",
-      description: "Select a folder",
+      description: "Select a folder from a workspace. Use the **List Folder Options** action with a workspace ID to find folder IDs. Example: `9876543210987654`.",
       optional: true,
-      async options({ page }) {
-        const { data } = await this.listFolders({
+      async options({ workspaceId }) {
+        if (!workspaceId) {
+          return [];
+        }
+        const { data } = await this.listAllWorkspaceChildren(workspaceId, {
           params: {
-            page: page + 1,
+            childrenResourceTypes: "folders",
           },
         });
         return data?.map(({
@@ -114,11 +113,15 @@ export default {
     async _makeRequest({
       $ = this,
       path,
+      headers = {},
       ...args
     }) {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
-        headers: this._headers(),
+        headers: {
+          ...this._headers(),
+          ...headers,
+        },
         ...args,
       });
     },
@@ -191,36 +194,56 @@ export default {
         ...args,
       });
     },
-    listUserCreatedTemplates(args = {}) {
-      return this._makeRequest({
-        path: "/templates",
-        ...args,
-      });
+    async listAllWorkspaces(args = {}) {
+      const allData = [];
+      let lastKey;
+      do {
+        const params = {
+          paginationType: "token",
+          maxItems: DEFAULT_MAX_ITEMS,
+          ...args.params,
+        };
+        if (lastKey) {
+          params.lastKey = lastKey;
+        }
+        const response = await this._makeRequest({
+          path: "/workspaces",
+          ...args,
+          params,
+        });
+        if (response.data) {
+          allData.push(...response.data);
+        }
+        lastKey = response.lastKey;
+      } while (lastKey);
+      return {
+        data: allData,
+      };
     },
-    listPublicTemplates(args = {}) {
-      return this._makeRequest({
-        path: "/templates/public",
-        ...args,
-      });
-    },
-    listFolders(args = {}) {
-      return this._makeRequest({
-        path: "/home/folders",
-        ...args,
-      });
-    },
-    listWorkspaces(args = {}) {
-      return this._makeRequest({
-        path: "/workspaces",
-        ...args,
-      });
-    },
-    createSheet(args = {}) {
-      return this._makeRequest({
-        path: "/sheets",
-        method: "POST",
-        ...args,
-      });
+    async listAllWorkspaceChildren(workspaceId, args = {}) {
+      const allData = [];
+      let lastKey;
+      do {
+        const params = {
+          maxItems: DEFAULT_MAX_ITEMS,
+          ...args.params,
+        };
+        if (lastKey) {
+          params.lastKey = lastKey;
+        }
+        const response = await this._makeRequest({
+          path: `/workspaces/${workspaceId}/children`,
+          ...args,
+          params,
+        });
+        if (response.data) {
+          allData.push(...response.data);
+        }
+        lastKey = response.lastKey;
+      } while (lastKey);
+      return {
+        data: allData,
+      };
     },
     createSheetInFolder(folderId, args = {}) {
       return this._makeRequest({
@@ -249,6 +272,138 @@ export default {
         method: "PUT",
         ...args,
       });
+    },
+    getCurrentUser(args = {}) {
+      return this._makeRequest({
+        path: "/users/me",
+        ...args,
+      });
+    },
+    searchAll(args = {}) {
+      return this._makeRequest({
+        path: "/search",
+        ...args,
+      });
+    },
+    searchSheet(sheetId, args = {}) {
+      return this._makeRequest({
+        path: `/search/sheets/${sheetId}`,
+        ...args,
+      });
+    },
+    deleteRows(sheetId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/rows`,
+        method: "DELETE",
+        ...args,
+      });
+    },
+    deleteSheet(sheetId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}`,
+        method: "DELETE",
+        ...args,
+      });
+    },
+    updateSheetProperties(sheetId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}`,
+        method: "PUT",
+        ...args,
+      });
+    },
+    copySheet(sheetId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/copy`,
+        method: "POST",
+        ...args,
+      });
+    },
+    moveSheet(sheetId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/move`,
+        method: "POST",
+        ...args,
+      });
+    },
+    importSheetInWorkspace(workspaceId, args = {}) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/sheets/import`,
+        method: "POST",
+        ...args,
+      });
+    },
+    importSheetInFolder(folderId, args = {}) {
+      return this._makeRequest({
+        path: `/folders/${folderId}/sheets/import`,
+        method: "POST",
+        ...args,
+      });
+    },
+    emailSheet(sheetId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/emails`,
+        method: "POST",
+        ...args,
+      });
+    },
+    copyRows(sheetId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/rows/copy`,
+        method: "POST",
+        ...args,
+      });
+    },
+    moveRows(sheetId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/rows/move`,
+        method: "POST",
+        ...args,
+      });
+    },
+    addColumn(sheetId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/columns`,
+        method: "POST",
+        ...args,
+      });
+    },
+    updateColumn(sheetId, columnId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/columns/${columnId}`,
+        method: "PUT",
+        ...args,
+      });
+    },
+    deleteColumn(sheetId, columnId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/columns/${columnId}`,
+        method: "DELETE",
+        ...args,
+      });
+    },
+    async getColumnMap(sheetId, args = {}) {
+      const { data } = await this.listColumns(sheetId, {
+        ...args,
+        params: {
+          includeAll: true,
+          ...args.params,
+        },
+      });
+      const byName = {};
+      const byId = {};
+      for (const col of data || []) {
+        const key = col.title.toLowerCase();
+        if (byName[key] !== undefined && byName[key] !== col.id) {
+          throw new Error(`Ambiguous column name "${col.title}" in sheet ${sheetId}: matches multiple column IDs (${byName[key]}, ${col.id}). Reference these columns by ID instead.`);
+        }
+        byName[key] = col.id;
+        byId[col.id] = col.title;
+      }
+      return {
+        byName,
+        byId,
+      };
     },
   },
 };

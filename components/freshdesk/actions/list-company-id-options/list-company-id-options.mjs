@@ -1,0 +1,24 @@
+import freshdesk from "../../freshdesk.app.mjs";
+
+export default {
+  key: "freshdesk-list-company-id-options",
+  name: "List Company ID Options",
+  description: "Retrieves available options for the Company ID field.",
+  version: "0.0.2",
+  type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
+  props: {
+    freshdesk,
+  },
+  async run({ $ }) {
+    const options = await freshdesk.propDefinitions.companyId.options.call(this.freshdesk);
+    $.export("$summary", `Successfully retrieved ${options.length} option${options.length === 1
+      ? ""
+      : "s"}`);
+    return options;
+  },
+};

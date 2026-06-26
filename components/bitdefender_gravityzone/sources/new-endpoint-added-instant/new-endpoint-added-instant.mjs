@@ -6,7 +6,7 @@ export default {
   key: "bitdefender_gravityzone-new-endpoint-added-instant",
   name: "New Endpoint Added (Instant)",
   description: "Emit new event when a new endpoint is registered in Bitdefender GravityZone.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/liveagent",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Liveagent Components",
   "main": "liveagent.app.mjs",
   "keywords": [

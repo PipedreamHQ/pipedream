@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mailwizz",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Pipedream Mailwizz Components",
   "main": "mailwizz.app.mjs",
   "keywords": [
@@ -14,6 +14,6 @@
   },
   "dependencies": {
     "@pipedream/platform": "^3.1.1",
-    "qs": "^6.14.2"
+    "qs": "^6.15.2"
   }
 }

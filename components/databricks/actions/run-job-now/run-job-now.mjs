@@ -4,7 +4,7 @@ export default {
   key: "databricks-run-job-now",
   name: "Run Job Now",
   description: "Run a job now and return the id of the triggered run. [See the documentation](https://docs.databricks.com/api/workspace/jobs/runnow)",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
