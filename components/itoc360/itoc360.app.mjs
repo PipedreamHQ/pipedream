@@ -6,7 +6,7 @@ export default {
   propDefinitions: {},
   methods: {
     _baseUrl() {
-      return "https://api.itoc360.app/functions/v1/events";
+      return "https://api.itoc360.app";
     },
     /**
      * The per-source token used to authenticate inbound events. Configured as
@@ -18,9 +18,9 @@ export default {
       return this.$auth.source_token;
     },
     /**
-     * Performs an authenticated request against the ITOC360 inbound events API.
-     * The source token is read from the connected account and sent as a query
-     * parameter. Caller-supplied headers are merged on top of the defaults.
+     * Performs an authenticated request against the ITOC360 API. The source
+     * token is read from the connected account and sent as a query parameter.
+     * Caller-supplied headers are merged on top of the defaults.
      *
      * @param {object} opts - Axios-style request options. `$` may be passed for
      * the Pipedream step context; `headers` are merged with the defaults.
@@ -30,8 +30,8 @@ export default {
       $ = this, headers, ...opts
     } = {}) {
       return axios($, {
+        baseURL: this._baseUrl(),
         ...opts,
-        url: this._baseUrl(),
         params: {
           token: this._sourceToken(),
           ...opts.params,
@@ -54,6 +54,7 @@ export default {
       data, ...opts
     } = {}) {
       return this._makeRequest({
+        url: "/functions/v1/events",
         method: "POST",
         data,
         ...opts,
