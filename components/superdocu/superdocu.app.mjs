@@ -15,17 +15,17 @@ export default {
     contactId: {
       type: "string",
       label: "Contact ID",
-      description: "The ID of the contact. Run **List Contacts** first to obtain a valid contact ID.",
+      description: "The numeric ID of the contact, as a string (e.g. `\"56031\"`). Run **List Contacts** first to obtain a valid contact ID — it is the `id` field on each returned contact (do NOT pass the contact's email here).",
     },
     contactWorkflowId: {
       type: "string",
       label: "Dossier ID (Contact Workflow ID)",
-      description: "The ID of the dossier (contact workflow). Run **List Dossiers** for the relevant contact first to obtain a valid ID.",
+      description: "The numeric ID of the dossier (contact workflow), as a string (e.g. `\"88748\"`). Run **List Dossiers** for the relevant contact first to obtain a valid ID — it is the `id` field on each returned dossier.",
     },
     workflowId: {
       type: "integer",
       label: "Workflow ID",
-      description: "The integer ID of the workflow template. Run **List Templates** first to obtain a valid workflow ID.",
+      description: "The integer ID of the workflow template (e.g. `5740`). Run **List Templates** first to obtain a valid workflow ID — it is the numeric `id` on each returned template.",
     },
     limit: {
       type: "integer",
@@ -38,7 +38,7 @@ export default {
     after: {
       type: "string",
       label: "After Cursor",
-      description: "Cursor for forward pagination. Pass the `meta.next_cursor` value from a previous response to fetch the next page.",
+      description: "Cursor for forward pagination — an opaque string returned by the API (e.g. `\"eyJpZCI6MTAwfQ==\"`). Pass the `meta.next_cursor` value from a previous response verbatim to fetch the next page. Leave empty to start from the first page.",
       optional: true,
     },
   },

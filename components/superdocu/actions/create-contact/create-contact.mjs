@@ -96,7 +96,7 @@ export default {
         tracking_params: this.trackingParams,
       },
     });
-    $.export("$summary", `Successfully created contact ${response.data?.id} (${this.email})`);
+    $.export("$summary", `Successfully created contact ${response.data?.id}`);
     return response;
   },
 };

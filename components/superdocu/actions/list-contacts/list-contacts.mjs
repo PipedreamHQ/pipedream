@@ -7,7 +7,7 @@ import {
 export default {
   key: "superdocu-list-contacts",
   name: "List Contacts",
-  description: "List contacts in Superdocu. Returns an array of contact objects, each with an `id` and `email` usable as the **contactId** input to **List Dossiers**, **Create Dossier**, **Get Dossier**, **Delete Dossier**, and **Send Dossier**. Supports filtering by status, free-text query, tag, and assignee. [See the documentation](https://developers.superdocu.com/api/index.html).",
+  description: "List contacts in Superdocu. Returns an array of contact objects, each with a numeric `id` (e.g. `\"56031\"`) — this `id` (not the email) is the value to pass as **contactId** to **List Dossiers**, **Create Dossier**, **Get Dossier**, **Delete Dossier**, and **Invite Contact**. The `email` field is for reference/display only; downstream tools do not accept it. Supports filtering by status, free-text query, tag, and assignee. [See the documentation](https://developers.superdocu.com/api/index.html).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -33,13 +33,13 @@ export default {
     tagIds: {
       type: "string[]",
       label: "Tag IDs",
-      description: "Filter by tag IDs (integer IDs). Multiple values are sent as a CSV `filter[tag_id]`.",
+      description: "Filter by tag IDs. Each value is the numeric tag ID as a string (e.g. `\"12\"`). Tag IDs are managed in the Superdocu UI under **Settings → Tags** — this MCP tool set does not expose a list-tags endpoint, so the caller must already know the ID. Multiple values are sent as a CSV via `filter[tag_id]`.",
       optional: true,
     },
     assignedTo: {
       type: "string",
       label: "Assigned To",
-      description: "Filter by the ID of the user the contact is assigned to (maps to `filter[assigned_to]`).",
+      description: "Filter by the ID of the Superdocu user (team member) the contact is assigned to. The value is the numeric user ID as a string (e.g. `\"42\"`); obtain it from the Superdocu UI under **Settings → Team** — this MCP tool set does not expose a list-users endpoint. Maps to `filter[assigned_to]`.",
       optional: true,
     },
     limit: {
