@@ -63,6 +63,11 @@ export default {
         }));
       },
     },
+    traceId: {
+      type: "string",
+      label: "Trace ID",
+      description: "The ID of a trace. Use the **List Observations** action to discover valid trace IDs.",
+    },
   },
   methods: {
     getUrl(path) {
@@ -90,6 +95,7 @@ export default {
         headers: {
           "Content-Type": "application/json",
         },
+        debug: true,
       });
     },
     post(args = {}) {
@@ -101,6 +107,14 @@ export default {
     listProjects(args = {}) {
       return this._makeRequest({
         path: "/projects",
+        ...args,
+      });
+    },
+    getTrace({
+      traceId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/traces/${traceId}`,
         ...args,
       });
     },
@@ -116,9 +130,21 @@ export default {
         ...args,
       });
     },
+    listScoresV2(args = {}) {
+      return this._makeRequest({
+        path: "/v2/scores",
+        ...args,
+      });
+    },
     listObservations(args = {}) {
       return this._makeRequest({
         path: "/observations",
+        ...args,
+      });
+    },
+    listObservationsV2(args = {}) {
+      return this._makeRequest({
+        path: "/v2/observations",
         ...args,
       });
     },
