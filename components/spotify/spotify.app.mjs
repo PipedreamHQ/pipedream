@@ -452,6 +452,11 @@ export default {
           },
         });
         for (const album of data.albums) {
+          // Spotify returns `null` placeholders for unavailable or
+          // market-restricted album IDs; skip them.
+          if (!album) {
+            continue;
+          }
           tracks.push(...await this.getAlbumTracks({
             $,
             album,
