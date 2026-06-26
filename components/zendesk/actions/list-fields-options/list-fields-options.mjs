@@ -4,7 +4,7 @@ export default {
   key: "zendesk-list-fields-options",
   name: "List Fields Options",
   description: "Retrieves available options for the Fields field.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   annotations: {
     destructiveHint: false,

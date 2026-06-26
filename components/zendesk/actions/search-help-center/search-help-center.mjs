@@ -6,7 +6,7 @@ export default {
   name: "Search Help Center",
   description: "Searches across knowledge base articles, community posts, and external records using the Zendesk unified Guide search. [See the documentation](https://developer.zendesk.com/api-reference/help_center/help-center-api/search/).",
   type: "action",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
