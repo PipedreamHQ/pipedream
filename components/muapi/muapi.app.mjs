@@ -24,7 +24,7 @@ export default {
     _apiKey() {
       return this.$auth.api_key;
     },
-    async _makeRequest($, { method = "GET", path, data } = {}) {
+    async _makeRequest($, { method = "GET", path, data, ...opts } = {}) {
       return axios($, {
         method,
         url: `${BASE_URL}/${path}`,
@@ -33,6 +33,7 @@ export default {
           "Content-Type": "application/json",
         },
         data,
+        ...opts,
       });
     },
     async post($, endpoint, data) {
