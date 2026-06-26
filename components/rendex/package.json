@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/rendex",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Rendex Components",
   "main": "rendex.app.mjs",
   "keywords": [
