@@ -46,6 +46,14 @@ export default {
       description: "Filter by MIC code, i.e.: `XNGS`",
       optional: true,
     },
+    freq: {
+      type: "string",
+      label: "Frequency",
+      description: "Frequency of the estimates. Use `annual` for yearly estimates or `quarterly` for quarterly estimates.",
+      options: constants.FREQUENCIES,
+      optional: true,
+      default: "annual",
+    },
   },
   methods: {
     _baseUrl() {
@@ -92,6 +100,11 @@ export default {
         ...args,
       });
     },
-
+    async getEbitdaEstimate(args = {}) {
+      return this._makeRequest({
+        path: "/stock/ebitda-estimate",
+        ...args,
+      });
+    },
   },
 };
