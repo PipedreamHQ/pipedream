@@ -95,7 +95,6 @@ export default {
         headers: {
           "Content-Type": "application/json",
         },
-        debug: true,
       });
     },
     post(args = {}) {
