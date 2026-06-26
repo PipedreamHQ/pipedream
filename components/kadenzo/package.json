@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/kadenzo",
+  "version": "0.0.1",
+  "description": "Pipedream Components for Kadenzo",
+  "main": "kadenzo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "kadenzo"
+  ],
+  "homepage": "https://pipedream.com/apps/kadenzo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}
