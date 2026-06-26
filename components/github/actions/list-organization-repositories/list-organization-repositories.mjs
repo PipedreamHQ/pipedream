@@ -4,7 +4,7 @@ export default {
   key: "github-list-organization-repositories",
   name: "List Organization Repositories",
   description: "List repositories for an organization. [See the documentation](https://docs.github.com/en/rest/repos/repos?apiVersion=2026-03-10#list-organization-repositories)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

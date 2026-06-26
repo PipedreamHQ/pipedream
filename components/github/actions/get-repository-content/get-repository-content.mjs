@@ -3,8 +3,8 @@ import github from "../../github.app.mjs";
 export default {
   key: "github-get-repository-content",
   name: "Get Repository Content",
-  description: "Get the content of a file or directory in a specific repository. [See the documentation](https://docs.github.com/en/rest/repos/contents#get-repository-content)",
-  version: "0.1.7",
+  description: "Read a file's contents or list a directory in a repository. For a file, the base64 payload is decoded for you and returned as plain text in the `content` field. For a directory, returns the list of entries (name, path, type). Provide the repository as an `owner/repo` string and the `path` to the file or directory (omit `path` for the repo root). Use **Get Repository** first if you need to know the default branch. [See the documentation](https://docs.github.com/en/rest/repos/contents#get-repository-content)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,61 +16,51 @@ export default {
     repoFullname: {
       propDefinition: [
         github,
-        "repoFullname",
+        "repoFullnameStatic",
       ],
     },
     path: {
       label: "Path",
-      description: "The file path or directory to retrieve. Defaults to the repository's root directory.",
+      description: "The file path or directory to retrieve, e.g. `src/index.js` or `docs/`. Defaults to the repository's root directory.",
       type: "string",
       default: "",
       optional: true,
     },
-    mediaType: {
-      label: "Media Type",
-      description: "The media type of the response. [See the documentation](https://docs.github.com/en/rest/repos/contents?apiVersion=2022-11-28#get-repository-content) for more information.",
+    ref: {
+      label: "Ref",
+      description: "The branch name, tag, or commit SHA to read from. Defaults to the repository's default branch (usually `main` or `master`).",
       type: "string",
-      options: [
-        {
-          value: "application/vnd.github.raw+json",
-          label: "Returns the raw file contents for files and symlinks",
-        },
-        {
-          value: "application/vnd.github.html+json",
-          label: "Returns the file contents in HTML",
-        },
-        {
-          value: "application/vnd.github.object+json",
-          label: "Returns the contents in a consistent object format regardless of the content type",
-        },
-      ],
-      optional: true,
-    },
-    branch: {
-      propDefinition: [
-        github,
-        "branch",
-        (c) => ({
-          repoFullname: c.repoFullname,
-        }),
-      ],
-      description:
-        "The branch to use. Defaults to the repository's default branch (usually `main` or `master`)",
       optional: true,
     },
   },
   async run({ $ }) {
+    const repoFullname = await this.github._resolveRepoFullname(this.repoFullname);
     const response = await this.github.getRepoContent({
-      repoFullname: this.repoFullname,
+      repoFullname,
       path: this.path,
-      mediaType: this.mediaType,
-      params: {
-        ref: this.branch?.split?.("/")[0],
-      },
+      ...(this.ref && {
+        params: {
+          ref: this.ref,
+        },
+      }),
     });
 
-    $.export("$summary", "Successfully retrieved repository content.");
+    // Directory listing — response is an array of entries.
+    if (Array.isArray(response)) {
+      $.export("$summary", `Listed ${response.length} entries in ${this.path || "the repository root"}`);
+      return response;
+    }
 
-    return response;
+    // Single file — decode the base64 payload into readable text.
+    const decoded = response.encoding === "base64" && response.content
+      ? Buffer.from(response.content, "base64").toString("utf-8")
+      : response.content;
+
+    $.export("$summary", `Retrieved file ${response.path}`);
+
+    return {
+      ...response,
+      content: decoded,
+    };
   },
 };
