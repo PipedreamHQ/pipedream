@@ -51,12 +51,17 @@ export default {
   },
   async run({ $ }) {
     const repoFullname = await this.github._resolveRepoFullname(this.repoFullname);
-    let comments = this.comments;
-    if (typeof comments === "string") {
+    let comments;
+    if (this.comments) {
       try {
-        comments = JSON.parse(comments);
+        comments = typeof this.comments === "string"
+          ? JSON.parse(this.comments)
+          : this.comments;
       } catch {
         throw new ConfigurationError("`comments` must be a valid JSON array, e.g. `[{\"path\": \"file.js\", \"line\": 3, \"body\": \"...\"}]`");
+      }
+      if (!Array.isArray(comments)) {
+        throw new ConfigurationError("`comments` must be a JSON array, e.g. `[{\"path\": \"file.js\", \"line\": 3, \"body\": \"...\"}]`");
       }
     }
 

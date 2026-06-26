@@ -83,21 +83,25 @@ export default {
   },
   async run({ $ }) {
     const repoFullname = await this.github._resolveRepoFullname(this.repoFullname);
-    const pullRequest = await this.github.getPullRequest({
-      repoFullname,
-      pullNumber: this.pullNumber,
-    });
-
-    const headSha = pullRequest.head?.sha;
     const [
+      pullRequest,
       reviews,
-      combinedStatus,
-      checkRuns,
     ] = await Promise.all([
+      this.github.getPullRequest({
+        repoFullname,
+        pullNumber: this.pullNumber,
+      }),
       this.github.getReviewsForPullRequest({
         repoFullname,
         pullNumber: this.pullNumber,
       }),
+    ]);
+
+    const headSha = pullRequest.head?.sha;
+    const [
+      combinedStatus,
+      checkRuns,
+    ] = await Promise.all([
       headSha
         ? this.github.getCommitStatus({
           repoFullname,

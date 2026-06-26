@@ -71,6 +71,10 @@ export default {
       }
 
       runs = runs.concat(workflowRuns);
+
+      if (workflowRuns.length < perPage) {
+        break;
+      }
       page += 1;
     }
 
