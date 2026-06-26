@@ -6,7 +6,7 @@ export default {
   key: "zendesk-new-ticket",
   type: "source",
   description: "Emit new event when a ticket is created",
-  version: "0.2.17",
+  version: "0.2.18",
   dedupe: "unique",
   methods: {
     ...common.methods,
