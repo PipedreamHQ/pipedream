@@ -18,6 +18,7 @@ export default {
         app,
         "traceId",
       ],
+      optional: true,
     },
     userId: {
       type: "string",
