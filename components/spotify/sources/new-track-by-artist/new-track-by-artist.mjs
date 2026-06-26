@@ -12,7 +12,7 @@ export default {
   type: "source",
   key: "spotify-new-track-by-artist",
   name: "New Track by Artist",
-  description: "Emit new event for each new Spotify track related with an artist. [see docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-multiple-albums)",
+  description: "Emit new event for each new Spotify track related with an artist. [See the documentation](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-multiple-albums)",
   version: "0.1.6",
   props: {
     ...common.props,
@@ -43,6 +43,18 @@ export default {
         ts: Date.now(),
       };
     },
+    _getLastCheckedAt() {
+      return this.db.get("lastCheckedAt") ?? 0;
+    },
+    _setLastCheckedAt(lastCheckedAt) {
+      this.db.set("lastCheckedAt", lastCheckedAt);
+    },
+    _getAlbumTrackCounts() {
+      return this.db.get("albumTrackCounts") ?? {};
+    },
+    _setAlbumTrackCounts(albumTrackCounts) {
+      this.db.set("albumTrackCounts", albumTrackCounts);
+    },
   },
   async run() {
     const {
@@ -51,8 +63,8 @@ export default {
     } = this;
 
     const now = Date.now();
-    const lastCheckedAt = this.db.get("lastCheckedAt") ?? 0;
-    const trackCounts = this.db.get("albumTrackCounts") ?? {};
+    const lastCheckedAt = this._getLastCheckedAt();
+    const trackCounts = this._getAlbumTrackCounts();
 
     // The album listing is cheap, so fetch it every run to detect new albums and
     // track-count changes immediately.
@@ -92,11 +104,11 @@ export default {
         album.total_tracks,
       ]),
     );
-    this.db.set("albumTrackCounts", updatedTrackCounts);
+    this._setAlbumTrackCounts(updatedTrackCounts);
 
     // Only advance the sweep timer when a full sweep actually ran.
     if (dueForFullSweep) {
-      this.db.set("lastCheckedAt", now);
+      this._setLastCheckedAt(now);
     }
   },
 };

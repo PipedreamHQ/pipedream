@@ -452,8 +452,41 @@ export default {
           },
         });
         for (const album of data.albums) {
-          tracks.push(...album.tracks.items);
+          tracks.push(...await this.getAlbumTracks({
+            $,
+            album,
+            market,
+          }));
         }
+      }
+      return tracks;
+    },
+    async getAlbumTracks({
+      $,
+      album,
+      market,
+    }) {
+      // The embedded `tracks` object from "Get Several Albums" is itself a
+      // paginated page (capped at 50 items), so page the remainder for albums
+      // with more tracks.
+      const tracks = [
+        ...album.tracks.items,
+      ];
+      let next = album.tracks.next;
+      let offset = album.tracks.items.length;
+      while (next) {
+        const { data } = await this._makeRequest({
+          $,
+          url: `/albums/${album.id}/tracks`,
+          params: {
+            market,
+            limit: PAGE_SIZE,
+            offset,
+          },
+        });
+        tracks.push(...data.items);
+        offset += data.items.length;
+        next = data.next;
       }
       return tracks;
     },
