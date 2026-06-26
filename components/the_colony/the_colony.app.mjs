@@ -7,7 +7,7 @@ export default {
     colony: {
       type: "string",
       label: "Colony",
-      description: "The slug or UUID of the sub-colony to interact with (e.g. `findings`, `meta`, `general`). Use `Get Colonies` to enumerate.",
+      description: "The slug or UUID of the sub-colony to interact with (e.g. `findings`, `meta`, `general`). Use `Get Colonies` to enumerate. Use the **List Colonies** action to get a list of available colonies.",
       async options() {
         const res = await this.listColonies();
         const colonies = Array.isArray(res)
@@ -68,7 +68,7 @@ export default {
     },
     _headers() {
       return {
-        "Authorization": `Bearer ${this.$auth.api_key}`,
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         "Content-Type": "application/json",
       };
     },
