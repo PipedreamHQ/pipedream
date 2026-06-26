@@ -6,14 +6,13 @@ export default {
   description: "Creates or resolves an alert in ITOC360. Use status `trigger` to open an alert, and `resolve` (with the same Deduplication ID) to close it. [See the documentation](https://docs.itoc360.com/integrations/inbound-integrations/workflow-and-automation/zapier-integration).",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     itoc360,
-    sourceToken: {
-      type: "string",
-      label: "Source Token",
-      description: "The token for your ITOC360 source. In ITOC360, go to **Sources → Create Source → Zapier** (or any custom source) and copy the generated token.",
-      secret: true,
-    },
     title: {
       type: "string",
       label: "Title",
@@ -32,7 +31,7 @@ export default {
     id: {
       type: "string",
       label: "Deduplication ID",
-      description: "A unique identifier used to correlate and de-duplicate alerts. Send the same ID with status `resolve` to close the alert. If omitted, the title is used.",
+      description: "A unique identifier used to correlate and de-duplicate alerts. Send the same ID with status `resolve` to close the alert opened with `trigger` (e.g. `server-42-disk-full` or `prod-us-east-1-api-latency`). If omitted, the title is used.",
       optional: true,
     },
     severity: {
@@ -57,7 +56,6 @@ export default {
   async run({ $ }) {
     const {
       itoc360,
-      sourceToken,
       title,
       status,
       id,
@@ -67,7 +65,6 @@ export default {
 
     const response = await itoc360.sendEvent({
       $,
-      sourceToken,
       data: {
         title,
         status,

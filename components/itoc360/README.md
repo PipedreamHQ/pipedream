@@ -19,13 +19,13 @@ and incident workflows.
 
 ## Generating a Source Token
 
-To authenticate requests, you need an ITOC360 source token:
+To connect your ITOC360 account in Pipedream you need a source token:
 
 1. Sign in to [ITOC360](https://www.itoc360.com).
-2. Go to **Sources → Create Source** and choose a source type (for example,
-   "Zapier").
-3. Copy the generated token. You will paste it into the **Source Token** field on
-   the action.
+2. Go to **Sources -> Create Source** and choose a source type (the "Zapier"
+   source uses the same inbound API and works with this integration).
+3. Copy the generated token and paste it in when connecting your ITOC360 account
+   in Pipedream.
 
 Each token is scoped to a single source, so you can create separate tokens for
 separate Pipedream workflows.
