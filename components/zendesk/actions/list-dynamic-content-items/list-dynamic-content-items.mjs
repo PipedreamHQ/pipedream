@@ -5,7 +5,7 @@ export default {
   key: "zendesk-list-dynamic-content-items",
   name: "List Dynamic Content Items",
   description: "Retrieves a list of dynamic content items. Note: Dynamic content is available only on the Professional plan and above. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/ticket-management/dynamic_content/#list-items).",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
