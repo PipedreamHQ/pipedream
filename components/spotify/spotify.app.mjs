@@ -269,14 +269,14 @@ export default {
       return await this.retry($, config);
     },
     // Retry axios request if not successful
-    async retry($, config, retries = 0) {
+    async retry($, config, retries = 1) {
       try {
         return await axios($, {
           ...config,
           returnFullResponse: true,
         });
       } catch (err) {
-        if (err?.status !== 429 || retries >= 3) {
+        if (err?.status !== 429 || retries > 3) {
           $?.export?.("response", err);
           throw new Error("Error response exported in the \"response\" object");
         }
@@ -392,12 +392,14 @@ export default {
       });
       return data;
     },
-    async fetchChunksOfAlbumsIds({
+    async getArtistAlbums({
       $,
       artistId,
       market,
     }) {
-      const albums = [];
+      // Paginate the (cheap) album listing, deduping by album ID since
+      // `include_groups=album,single` can surface the same album more than once.
+      const albumsById = new Map();
       let page = 0;
       let next = undefined;
       do {
@@ -411,39 +413,87 @@ export default {
             include_groups: "album,single",
           },
         });
-        albums.push([
-          ...data.items.map((album) => album.id),
-        ]);
+        for (const album of data.items) {
+          if (!albumsById.has(album.id)) {
+            albumsById.set(album.id, {
+              id: album.id,
+              total_tracks: album.total_tracks,
+            });
+          }
+        }
         next = data.next;
         page++;
       } while (next);
-      return albums;
+      return [
+        ...albumsById.values(),
+      ];
     },
-    async getAllTracksByChunksOfAlbumIds({
+    async getAllTracksByAlbumIds({
       $,
-      chunksOfAlbumIds,
+      albumIds,
       market,
     }) {
+      // Spotify's "Get Several Albums" endpoint accepts max 20 IDs per request.
+      // Flatten + dedupe all IDs first, then chunk globally by 20 so we don't
+      // waste calls on partial batches at page boundaries.
+      const MAX_ALBUMS_PER_REQUEST = 20;
+      const uniqueIds = [
+        ...new Set(albumIds),
+      ];
       const tracks = [];
-      for (const albumIds of chunksOfAlbumIds) {
-        // Spotify /albums endpoint accepts max 20 IDs per request
-        const maxAlbumsPerRequest = 20;
-        for (let i = 0; i < albumIds.length; i += maxAlbumsPerRequest) {
-          const albumIdsChunk = albumIds.slice(i, i + maxAlbumsPerRequest);
-          const { data } = await this._makeRequest({
+      for (let i = 0; i < uniqueIds.length; i += MAX_ALBUMS_PER_REQUEST) {
+        const idsChunk = uniqueIds.slice(i, i + MAX_ALBUMS_PER_REQUEST);
+        const { data } = await this._makeRequest({
+          $,
+          url: "/albums",
+          params: {
+            market,
+            ids: idsChunk.join(","),
+          },
+        });
+        for (const album of data.albums) {
+          // Spotify returns `null` placeholders for unavailable or
+          // market-restricted album IDs; skip them.
+          if (!album) {
+            continue;
+          }
+          tracks.push(...await this.getAlbumTracks({
             $,
-            url: "/albums",
-            params: {
-              market,
-              ids: albumIdsChunk.join(","),
-            },
-          });
-          tracks.push([
-            ...data.albums.map((album) => album.tracks.items).flat(),
-          ]);
+            album,
+            market,
+          }));
         }
       }
-      return tracks.flat();
+      return tracks;
+    },
+    async getAlbumTracks({
+      $,
+      album,
+      market,
+    }) {
+      // The embedded `tracks` object from "Get Several Albums" is itself a
+      // paginated page (capped at 50 items), so page the remainder for albums
+      // with more tracks.
+      const tracks = [
+        ...album.tracks.items,
+      ];
+      let next = album.tracks.next;
+      let offset = album.tracks.items.length;
+      while (next) {
+        const { data } = await this._makeRequest({
+          $,
+          url: `/albums/${album.id}/tracks`,
+          params: {
+            market,
+            limit: PAGE_SIZE,
+            offset,
+          },
+        });
+        tracks.push(...data.items);
+        offset += data.items.length;
+        next = data.next;
+      }
+      return tracks;
     },
   },
 };
