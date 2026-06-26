@@ -1033,10 +1033,9 @@ export default {
     async getCheckRunsForRef({
       repoFullname, ref,
     }) {
-      const response = await this._client().request(`GET /repos/${repoFullname}/commits/${ref}/check-runs`, {
+      return this._client().paginate(`GET /repos/${repoFullname}/commits/${ref}/check-runs`, {
         per_page: 100,
       });
-      return response.data;
     },
     async getRef({
       repoFullname, ref,

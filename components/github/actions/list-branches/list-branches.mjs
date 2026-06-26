@@ -35,11 +35,32 @@ export default {
   },
   async run({ $ }) {
     const repoFullname = await this.github._resolveRepoFullname(this.repoFullname);
-    const branches = await this.github.getBranches({
-      repoFullname,
-      protected: this.protected,
-      per_page: this.maxResults,
-    });
+
+    let page = 1;
+    const perPage = 100;
+    let branches = [];
+
+    while (branches.length < this.maxResults) {
+      const batch = await this.github.getBranches({
+        repoFullname,
+        protected: this.protected,
+        per_page: perPage,
+        page,
+      });
+
+      if (!batch?.length) {
+        break;
+      }
+
+      branches = branches.concat(batch);
+
+      if (batch.length < perPage) {
+        break;
+      }
+      page += 1;
+    }
+
+    branches = branches.slice(0, this.maxResults);
 
     $.export("$summary", `Successfully fetched ${branches.length} branch(es)`);
 

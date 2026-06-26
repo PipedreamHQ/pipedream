@@ -4,7 +4,7 @@ export default {
   key: "github-list-commits",
   name: "List Commits",
   description: "List commits in a repository, most recent first. Optionally scope to a branch or starting SHA, a file path, an author, or a date range. Provide the repository as an `owner/repo` string. Use **Get Repository** to find the default branch name if needed. [See the documentation](https://docs.github.com/en/rest/commits/commits?apiVersion=2022-11-28#list-commits)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

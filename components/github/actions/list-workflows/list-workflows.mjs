@@ -29,11 +29,31 @@ export default {
   },
   async run({ $ }) {
     const repoFullname = await this.github._resolveRepoFullname(this.repoFullname);
-    const { workflows } = await this.github.listWorkflows({
-      repoFullname,
-      perPage: this.maxResults,
-      page: 1,
-    });
+
+    let page = 1;
+    const perPage = 100;
+    let workflows = [];
+
+    while (workflows.length < this.maxResults) {
+      const { workflows: batch } = await this.github.listWorkflows({
+        repoFullname,
+        perPage,
+        page,
+      });
+
+      if (!batch?.length) {
+        break;
+      }
+
+      workflows = workflows.concat(batch);
+
+      if (batch.length < perPage) {
+        break;
+      }
+      page += 1;
+    }
+
+    workflows = workflows.slice(0, this.maxResults);
 
     $.export("$summary", `Retrieved ${workflows.length} workflow(s)`);
 

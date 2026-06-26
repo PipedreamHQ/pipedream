@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import github from "../../github.app.mjs";
 
 export default {
@@ -50,9 +51,14 @@ export default {
   },
   async run({ $ }) {
     const repoFullname = await this.github._resolveRepoFullname(this.repoFullname);
-    const comments = typeof this.comments === "string"
-      ? JSON.parse(this.comments)
-      : this.comments;
+    let comments = this.comments;
+    if (typeof comments === "string") {
+      try {
+        comments = JSON.parse(comments);
+      } catch {
+        throw new ConfigurationError("`comments` must be a valid JSON array, e.g. `[{\"path\": \"file.js\", \"line\": 3, \"body\": \"...\"}]`");
+      }
+    }
 
     const data = {
       event: this.event,

@@ -30,8 +30,10 @@ export default {
     summarizeChecks(combinedStatus, checkRuns) {
       // Combined commit status (legacy statuses API)
       const statuses = combinedStatus?.statuses ?? [];
-      // Check runs (GitHub Actions / Checks API)
-      const runs = checkRuns?.check_runs ?? [];
+      // Check runs (GitHub Actions / Checks API) — paginated to a flat array
+      const runs = Array.isArray(checkRuns)
+        ? checkRuns
+        : checkRuns?.check_runs ?? [];
 
       const counts = {
         success: 0,
