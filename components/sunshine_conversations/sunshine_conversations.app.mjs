@@ -78,6 +78,40 @@ export default {
         ...opts,
       });
     },
+    createWebhook({
+      integrationId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/integrations/${integrationId}/webhooks`,
+        ...opts,
+      });
+    },
+    updateWebhook({
+      integrationId, webhookId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PATCH",
+        path: `/integrations/${integrationId}/webhooks/${webhookId}`,
+        ...opts,
+      });
+    },
+    deleteWebhook({
+      integrationId, webhookId,
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/integrations/${integrationId}/webhooks/${webhookId}`,
+      });
+    },
+    listWebhooks({
+      integrationId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/integrations/${integrationId}/webhooks`,
+        ...opts,
+      });
+    },
     listUsers(opts = {}) {
       return this._makeRequest({
         path: "/users",
@@ -89,6 +123,20 @@ export default {
     }) {
       return this._makeRequest({
         path: `/conversations/${conversationId}/messages`,
+        ...opts,
+      });
+    },
+    listIntegrations(opts = {}) {
+      return this._makeRequest({
+        path: "/integrations",
+        ...opts,
+      });
+    },
+    getIntegration({
+      integrationId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/integrations/${integrationId}`,
         ...opts,
       });
     },
