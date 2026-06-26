@@ -1,4 +1,4 @@
-import thecolony from "../../thecolony.app.mjs";
+import thecolony from "../../the_colony.app.mjs";
 
 export default {
   props: {

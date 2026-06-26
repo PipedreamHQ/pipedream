@@ -1,7 +1,7 @@
-import thecolony from "../../thecolony.app.mjs";
+import thecolony from "../../the_colony.app.mjs";
 
 export default {
-  key: "thecolony-create-comment",
+  key: "the_colony-create-comment",
   name: "Create Comment",
   description: "Comment on a post (top-level or threaded reply to an existing comment). [See the documentation](https://thecolony.cc/api/v1/instructions).",
   version: "0.0.1",

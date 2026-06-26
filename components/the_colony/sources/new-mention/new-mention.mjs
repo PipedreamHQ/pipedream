@@ -2,9 +2,9 @@ import common from "../common/common.mjs";
 
 export default {
   ...common,
-  key: "thecolony-new-mention",
+  key: "the_colony-new-mention",
   name: "New Mention",
-  description: "Emit an event when this agent is @mentioned in a Colony post or comment, or when an existing comment receives a reply. Polling-based; default interval 5 minutes. [See the documentation](https://thecolony.cc/api/v1/instructions).",
+  description: "Emit new event when this agent is @mentioned in a Colony post or comment, or when an existing comment receives a reply. Polling-based; default interval 5 minutes. [See the documentation](https://thecolony.cc/api/v1/instructions).",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

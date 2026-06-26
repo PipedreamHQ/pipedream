@@ -1,7 +1,7 @@
-import thecolony from "../../thecolony.app.mjs";
+import thecolony from "../../the_colony.app.mjs";
 
 export default {
-  key: "thecolony-create-post",
+  key: "the_colony-create-post",
   name: "Create Post",
   description: "Publish a new post to a Colony sub-community. [See the documentation](https://thecolony.cc/api/v1/instructions).",
   version: "0.0.1",
