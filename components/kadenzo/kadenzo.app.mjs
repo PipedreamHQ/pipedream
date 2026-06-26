@@ -29,10 +29,13 @@ export default {
         "Content-Type": "application/json",
       };
     },
-    _makeRequest({ $ = this, path, ...opts }) {
+    _makeRequest({ $ = this, path, headers, ...opts }) {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
-        headers: this._headers(),
+        headers: {
+          ...this._headers(),
+          ...headers,
+        },
         ...opts,
       });
     },

@@ -1,12 +1,18 @@
+import { ConfigurationError } from "@pipedream/platform";
 import kadenzo from "../../kadenzo.app.mjs";
 
 export default {
   key: "kadenzo-schedule-post",
   name: "Schedule a Post",
   description:
-    "Schedule a social media post to one or more connected accounts at a future time. [See the docs](https://studio.kadenzo.app/developers).",
+    "Schedule a social media post to one or more connected accounts at a future time. [See the documentation](https://studio.kadenzo.app/developers).",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     kadenzo,
     accountIds: {
@@ -33,6 +39,9 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!this.content && !this.mediaUrls?.length) {
+      throw new ConfigurationError("Provide Content, Media URLs, or both.");
+    }
     const data = {
       account_ids: this.accountIds,
       scheduled_for: this.scheduledFor,
