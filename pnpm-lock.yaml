@@ -15409,6 +15409,12 @@ importers:
 
   components/stackshare_api: {}
 
+  components/stadium:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.3.0
+
   components/stammer_ai:
     dependencies:
       '@pipedream/platform':
