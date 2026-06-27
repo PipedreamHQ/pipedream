@@ -41,7 +41,7 @@ export default {
   async run({ $ }) {
     const response = await this.app.getWeatherData({
       $,
-      validdatetime: this.validDateTime.join("--"),
+      validdatetime: this.validDateTime.join(","),
       parameters: this.parameters.join(","),
       locations: this.locations,
       format: this.format,
