@@ -161,7 +161,9 @@ export default {
         viewportWidth: this.viewportWidth,
         viewportHeight: this.viewportHeight,
         devicePixelRatio: this.devicePixelRatio,
-        encoding: wantBase64 ? "base64" : undefined,
+        encoding: wantBase64
+          ? "base64"
+          : undefined,
       },
     };
 

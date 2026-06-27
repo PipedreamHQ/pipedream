@@ -33,21 +33,24 @@ export function mergeDeep(target, source) {
   return out;
 }
 
-/** Map the source type and inputs to the API `source` string (a URL, raw HTML, or a `[template:id]` reference). */
+/** Map the source type and inputs to the API `source`
+ * string (a URL, raw HTML, or a `[template:id]`
+ * reference). */
 function resolveSource(params) {
   switch (params.sourceType) {
-    case "url":
-      return params.url ?? "";
-    case "html":
-      return params.html ?? "";
-    case "template":
-      return `[template:${params.templateId ?? ""}]`;
-    default:
-      return "";
+  case "url":
+    return params.url ?? "";
+  case "html":
+    return params.html ?? "";
+  case "template":
+    return `[template:${params.templateId ?? ""}]`;
+  default:
+    return "";
   }
 }
 
-/** Collect the set PDF layout options into the API `layout` object, or undefined when none were set. */
+/** Collect the set PDF layout options into the API `layout` object,
+ * or undefined when none were set. */
 function buildLayout(opts) {
   const layout = {};
   if (typeof opts.format === "string" && opts.format !== "") {
@@ -84,10 +87,13 @@ function buildLayout(opts) {
       left: opts.marginLeft ?? "0",
     };
   }
-  return Object.keys(layout).length > 0 ? layout : undefined;
+  return Object.keys(layout).length > 0
+    ? layout
+    : undefined;
 }
 
-/** Collect the set screenshot options into the API `screenshot` object, or undefined when none were set. */
+/** Collect the set screenshot options into the API `screenshot` object, or
+ *  undefined when none were set. */
 function buildScreenshot(opts) {
   const shot = {};
   if (typeof opts.imageType === "string" && opts.imageType !== "") {
@@ -112,7 +118,9 @@ function buildScreenshot(opts) {
     }
     shot.viewport = viewport;
   }
-  return Object.keys(shot).length > 0 ? shot : undefined;
+  return Object.keys(shot).length > 0
+    ? shot
+    : undefined;
 }
 
 /**
@@ -197,7 +205,9 @@ export function buildRequestBody(params) {
 /** Default output filename when the user did not set one. */
 export function defaultFilename(operation, imageType) {
   if (operation === "screenshot") {
-    const ext = imageType === "jpeg" ? "jpg" : (imageType ?? "png");
+    const ext = imageType === "jpeg"
+      ? "jpg"
+      : (imageType ?? "png");
     return `screenshot.${ext}`;
   }
   return "document.pdf";

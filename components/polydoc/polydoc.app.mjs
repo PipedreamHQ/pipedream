@@ -252,7 +252,9 @@ export default {
       return {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${this.$auth.api_key}`,
-        "X-Sandbox": this.$auth.sandbox ? "true" : "false",
+        "X-Sandbox": this.$auth.sandbox
+          ? "true"
+          : "false",
         ...extra,
       };
     },

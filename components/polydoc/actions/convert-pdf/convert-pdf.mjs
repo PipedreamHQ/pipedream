@@ -187,7 +187,9 @@ export default {
         pageRanges: this.pageRanges,
         outline: this.outline,
         tagged: this.tagged,
-        scale: Number.isFinite(scaleNum) ? scaleNum : undefined,
+        scale: Number.isFinite(scaleNum)
+          ? scaleNum
+          : undefined,
         marginTop: this.marginTop,
         marginRight: this.marginRight,
         marginBottom: this.marginBottom,
