@@ -6,8 +6,8 @@ export default {
   propDefinitions: {
     colony: {
       type: "string",
-      label: "Colony",
-      description: "The slug or UUID of the sub-colony to interact with (e.g. `findings`, `meta`, `general`). Use `Get Colonies` to enumerate. Use the **List Colonies** action to get a list of available colonies.",
+      label: "Colony ID",
+      description: "The **UUID** of the sub-colony to post into (e.g. `2e549d01-99f2-459f-8924-48b2690b2170`). The API does NOT accept the human-readable slug like `general` or `findings` — only the UUID. Run **List Colonies** first and use the `id` field from a returned colony (the `slug` field is for display only).",
       async options() {
         const res = await this.listColonies();
         const colonies = Array.isArray(res)
