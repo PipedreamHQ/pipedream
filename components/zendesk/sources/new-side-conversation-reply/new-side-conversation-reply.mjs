@@ -7,7 +7,7 @@ export default {
   name: "New Side Conversation Reply",
   type: "source",
   description: "Emit new event when a reply is added to an existing side conversation on a ticket. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/side_conversation/side_conversation_event/)",
-  version: "0.0.3",
+  version: "0.0.5",
   dedupe: "unique",
   methods: {
     ...common.methods,
