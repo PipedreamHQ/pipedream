@@ -3,8 +3,8 @@ import googleDocs from "../../google_docs.app.mjs";
 export default {
   key: "google_docs-insert-page-break",
   name: "Insert Page Break",
-  description: "Insert a page break into a document. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/request#insertpagebreakrequest)",
-  version: "0.0.4",
+  description: "Insert a page break into a Google Doc at the beginning, end, or a specific character index. Use **Find Document** to resolve a document's name to its ID. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#InsertPageBreakRequest)",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,38 +13,23 @@ export default {
   type: "action",
   props: {
     googleDocs,
-    docId: {
+    documentId: {
       propDefinition: [
         googleDocs,
-        "docId",
+        "documentId",
       ],
     },
-    index: {
-      type: "integer",
-      label: "Index",
-      description: "The index to insert the page break at",
-      default: 1,
-      optional: true,
-    },
-    tabId: {
+    position: {
       propDefinition: [
         googleDocs,
-        "tabId",
-        (c) => ({
-          documentId: c.docId,
-        }),
+        "position",
       ],
     },
   },
   async run({ $ }) {
-    const pageBreak = {
-      location: {
-        index: this.index,
-        tabId: this.tabId,
-      },
-    };
-    await this.googleDocs.insertPageBreak(this.docId, pageBreak);
-    $.export("$summary", "Successfully inserted page break");
-    return this.googleDocs.getDocument(this.docId, !!this.tabId);
+    const request = this.googleDocs._buildRequestForPosition({}, this.position);
+    await this.googleDocs._batchUpdate(this.documentId, "insertPageBreak", request);
+    $.export("$summary", `Inserted page break into document ${this.documentId}`);
+    return this.googleDocs.getDocument(this.documentId);
   },
 };

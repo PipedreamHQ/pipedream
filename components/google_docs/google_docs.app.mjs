@@ -1,5 +1,6 @@
 import docs from "@googleapis/docs";
 import googleDrive from "@pipedream/google_drive";
+import { ConfigurationError } from "@pipedream/platform";
 import utils from "./common/utils.mjs";
 import markdownParser from "./common/markdown-parser.mjs";
 
@@ -8,6 +9,28 @@ export default {
   app: "google_docs",
   propDefinitions: {
     ...googleDrive.propDefinitions,
+    // Static, MCP-compatible document identifier. Prefer this over `docId`
+    // (which carries an `async options()` dropdown invisible to MCP).
+    documentId: {
+      type: "string",
+      label: "Document ID",
+      description: "The ID of the Google Doc. This is the long string in the document's URL: `https://docs.google.com/document/d/{DOCUMENT_ID}/edit`. Use **Find Document** to resolve a document's name to its ID.",
+    },
+    // Static insert position shared by insert-text/table/image/page-break.
+    position: {
+      type: "string",
+      label: "Position",
+      description: "Where to insert the content: `end` to append to the end of the document (default), `beginning` to insert at the start, or a numeric character index (e.g., `1`) for a specific location.",
+      optional: true,
+      default: "end",
+    },
+    // Static folder selector (overrides the inherited Drive `folderId` async dropdown).
+    folderId: {
+      type: "string",
+      label: "Folder ID",
+      description: "The ID of the Drive folder to place the new document in (the string after `/folders/` in a Drive folder URL). If omitted, the document is created in the root of My Drive.",
+      optional: true,
+    },
     docId: {
       type: "string",
       label: "Document",
@@ -103,6 +126,25 @@ export default {
       return atBeginning
         ? this._insertAtBeginning(requestObj)
         : this._insertAtEnd(requestObj);
+    },
+    // Resolve a static `position` value (`beginning` | `end` | numeric index) into the
+    // location field a batchUpdate insert request expects.
+    _buildRequestForPosition(requestObj, position) {
+      if (position == null || position === "end") {
+        return this._insertAtEnd(requestObj);
+      }
+      const index = position === "beginning"
+        ? 1
+        : parseInt(position, 10);
+      if (!Number.isInteger(index) || index < 1) {
+        throw new ConfigurationError(`Invalid position "${position}". Use "beginning", "end", or a numeric index >= 1.`);
+      }
+      return {
+        ...requestObj,
+        location: {
+          index,
+        },
+      };
     },
     _batchUpdate(documentId, requestName, request) {
       return this.docs().documents.batchUpdate({

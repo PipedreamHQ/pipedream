@@ -3,8 +3,8 @@ import googleDocs from "../../google_docs.app.mjs";
 export default {
   key: "google_docs-insert-text",
   name: "Insert Text",
-  description: "Insert text into a document. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/request#inserttextrequest)",
-  version: "0.0.4",
+  description: "Insert text into a Google Doc at the beginning, end, or a specific character index. Use **Find Document** to resolve a document's name to its ID. To append text to the end of a doc, use `position: end` (the default). [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#InsertTextRequest)",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,45 +13,30 @@ export default {
   type: "action",
   props: {
     googleDocs,
-    docId: {
+    documentId: {
       propDefinition: [
         googleDocs,
-        "docId",
+        "documentId",
       ],
     },
     text: {
+      type: "string",
+      label: "Text",
+      description: "The text to insert.",
+    },
+    position: {
       propDefinition: [
         googleDocs,
-        "text",
-      ],
-    },
-    index: {
-      type: "integer",
-      label: "Index",
-      description: "The index to insert the text at",
-      default: 1,
-      optional: true,
-    },
-    tabId: {
-      propDefinition: [
-        googleDocs,
-        "tabId",
-        (c) => ({
-          documentId: c.docId,
-        }),
+        "position",
       ],
     },
   },
   async run({ $ }) {
-    const text = {
+    const request = this.googleDocs._buildRequestForPosition({
       text: this.text,
-      location: {
-        index: this.index,
-        tabId: this.tabId,
-      },
-    };
-    await this.googleDocs._batchUpdate(this.docId, "insertText", text);
-    $.export("$summary", "Successfully inserted text");
-    return this.googleDocs.getDocument(this.docId, !!this.tabId);
+    }, this.position);
+    await this.googleDocs._batchUpdate(this.documentId, "insertText", request);
+    $.export("$summary", `Inserted text into document ${this.documentId}`);
+    return this.googleDocs.getDocument(this.documentId);
   },
 };
