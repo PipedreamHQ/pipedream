@@ -133,11 +133,15 @@ export default {
       if (position == null || position === "end") {
         return this._insertAtEnd(requestObj);
       }
+      // Only accept "beginning", "end", or a string of pure digits — parseInt would
+      // otherwise silently accept "1.5"/"1abc" as 1 and target the wrong index.
       const index = position === "beginning"
         ? 1
-        : parseInt(position, 10);
+        : (/^\d+$/.test(String(position))
+          ? parseInt(position, 10)
+          : NaN);
       if (!Number.isInteger(index) || index < 1) {
-        throw new ConfigurationError(`Invalid position "${position}". Use "beginning", "end", or a numeric index >= 1.`);
+        throw new ConfigurationError(`Invalid position "${position}". Use "beginning", "end", or a positive integer index.`);
       }
       return {
         ...requestObj,
@@ -157,6 +161,37 @@ export default {
           ],
         },
       });
+    },
+    batchUpdate(documentId, requests) {
+      return this.docs().documents.batchUpdate({
+        documentId,
+        requestBody: {
+          requests,
+        },
+      });
+    },
+    async findDocuments({
+      query, limit = 25,
+    } = {}) {
+      let q = "mimeType='application/vnd.google-apps.document' and trashed=false";
+      if (query) {
+        const escaped = query.replace(/'/g, "\\'");
+        q += ` and (name contains '${escaped}' or fullText contains '${escaped}')`;
+      }
+      const { data } = await this.drive().files.list({
+        q,
+        pageSize: limit,
+        fields: "files(id,name,modifiedTime,webViewLink)",
+        orderBy: "modifiedTime desc",
+        supportsAllDrives: true,
+        includeItemsFromAllDrives: true,
+      });
+      return (data.files || []).map((f) => ({
+        id: f.id,
+        name: f.name,
+        url: f.webViewLink || `https://docs.google.com/document/d/${f.id}/edit`,
+        modifiedTime: f.modifiedTime,
+      }));
     },
     async getDocument(documentId, includeTabsContent = false) {
       const { data } = await this.docs().documents.get({

@@ -1,10 +1,11 @@
+import { ConfigurationError } from "@pipedream/platform";
 import googleDocs from "../../google_docs.app.mjs";
 
 export default {
   key: "google_docs-create-document-from-template",
   name: "Create Document From Template",
   description: "Create a new Google Doc by copying a template document and substituting `{{placeholder}}` tokens with values. Use **Find Document** to resolve the template's name to its ID. Returns `{documentId, title, url}`. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#ReplaceAllTextRequest)",
-  version: "0.1.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -52,9 +53,17 @@ export default {
     });
     const documentId = copy.id;
 
-    const variables = typeof this.variables === "string"
-      ? JSON.parse(this.variables)
-      : (this.variables || {});
+    let variables = this.variables ?? {};
+    if (typeof variables === "string") {
+      try {
+        variables = JSON.parse(variables);
+      } catch {
+        throw new ConfigurationError("`variables` must be a valid JSON object, e.g. `{\"species\": \"Velociraptor\"}`.");
+      }
+    }
+    if (typeof variables !== "object" || variables === null || Array.isArray(variables)) {
+      throw new ConfigurationError("`variables` must be a JSON object mapping placeholder tokens to values, e.g. `{\"species\": \"Velociraptor\"}`.");
+    }
 
     const requests = Object.entries(variables).map(([
       key,
@@ -70,12 +79,7 @@ export default {
     }));
 
     if (requests.length) {
-      await this.googleDocs.docs().documents.batchUpdate({
-        documentId,
-        requestBody: {
-          requests,
-        },
-      });
+      await this.googleDocs.batchUpdate(documentId, requests);
     }
 
     const url = `https://docs.google.com/document/d/${documentId}/edit`;
