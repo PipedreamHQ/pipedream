@@ -5,7 +5,7 @@ export default {
   key: "rendex-create-render-link",
   name: "Create Render Link",
   description: "Mint a signed, hosted render URL for a page or HTML — ideal for `og:image` tags. The returned URL serves the rendered image/PDF directly. [See the documentation](https://rendex.dev/docs/api-reference).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -50,6 +50,132 @@ export default {
         "fullPage",
       ],
     },
+    quality: {
+      propDefinition: [
+        rendex,
+        "quality",
+      ],
+    },
+    delay: {
+      propDefinition: [
+        rendex,
+        "delay",
+      ],
+    },
+    darkMode: {
+      propDefinition: [
+        rendex,
+        "darkMode",
+      ],
+    },
+    deviceScaleFactor: {
+      propDefinition: [
+        rendex,
+        "deviceScaleFactor",
+      ],
+    },
+    device: {
+      propDefinition: [
+        rendex,
+        "device",
+      ],
+    },
+    selector: {
+      propDefinition: [
+        rendex,
+        "selector",
+      ],
+    },
+    hideSelectors: {
+      propDefinition: [
+        rendex,
+        "hideSelectors",
+      ],
+    },
+    blockAds: {
+      propDefinition: [
+        rendex,
+        "blockAds",
+      ],
+    },
+    blockCookieBanners: {
+      propDefinition: [
+        rendex,
+        "blockCookieBanners",
+      ],
+    },
+    timeout: {
+      propDefinition: [
+        rendex,
+        "timeout",
+      ],
+    },
+    waitUntil: {
+      propDefinition: [
+        rendex,
+        "waitUntil",
+      ],
+    },
+    bestAttempt: {
+      propDefinition: [
+        rendex,
+        "bestAttempt",
+      ],
+    },
+    css: {
+      propDefinition: [
+        rendex,
+        "css",
+      ],
+    },
+    js: {
+      propDefinition: [
+        rendex,
+        "js",
+      ],
+    },
+    userAgent: {
+      propDefinition: [
+        rendex,
+        "userAgent",
+      ],
+    },
+    cookies: {
+      propDefinition: [
+        rendex,
+        "cookies",
+      ],
+    },
+    headers: {
+      propDefinition: [
+        rendex,
+        "headers",
+      ],
+    },
+    pdfFormat: {
+      propDefinition: [
+        rendex,
+        "pdfFormat",
+      ],
+    },
+    pdfLandscape: {
+      propDefinition: [
+        rendex,
+        "pdfLandscape",
+      ],
+    },
+    pdfPrintBackground: {
+      propDefinition: [
+        rendex,
+        "pdfPrintBackground",
+      ],
+    },
+    pdfScale: {
+      propDefinition: [
+        rendex,
+        "pdfScale",
+      ],
+    },
     expiresIn: {
       propDefinition: [
         rendex,
@@ -64,6 +190,22 @@ export default {
       throw new ConfigurationError("Provide exactly one of `html` or `url`.");
     }
 
+    // `cookies` is a string[] of JSON objects (Pipedream has no array-of-object
+    // type); parse each into the object shape the API expects.
+    let cookies;
+    if (this.cookies?.length) {
+      try {
+        cookies = this.cookies.map((cookie) =>
+          typeof cookie === "string"
+            ? JSON.parse(cookie)
+            : cookie);
+      } catch {
+        throw new ConfigurationError("Each cookie must be a JSON object, e.g. {\"name\":\"session\",\"value\":\"abc\"}.");
+      }
+    }
+
+    // undefined keys are dropped by JSON.stringify, so unset optional params are
+    // omitted from the request body.
     const response = await this.rendex.createRenderLink({
       $,
       data: {
@@ -77,6 +219,31 @@ export default {
         width: this.width,
         height: this.height,
         fullPage: this.fullPage,
+        quality: this.quality,
+        delay: this.delay,
+        darkMode: this.darkMode,
+        deviceScaleFactor: this.deviceScaleFactor !== undefined
+          ? Number(this.deviceScaleFactor)
+          : undefined,
+        device: this.device,
+        selector: this.selector,
+        hideSelectors: this.hideSelectors,
+        blockAds: this.blockAds,
+        blockCookieBanners: this.blockCookieBanners,
+        timeout: this.timeout,
+        waitUntil: this.waitUntil,
+        bestAttempt: this.bestAttempt,
+        css: this.css,
+        js: this.js,
+        userAgent: this.userAgent,
+        cookies,
+        headers: this.headers,
+        pdfFormat: this.pdfFormat,
+        pdfLandscape: this.pdfLandscape,
+        pdfPrintBackground: this.pdfPrintBackground,
+        pdfScale: this.pdfScale !== undefined
+          ? Number(this.pdfScale)
+          : undefined,
         expiresIn: this.expiresIn,
       },
     });

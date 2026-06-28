@@ -4,7 +4,7 @@ export default {
   key: "rendex-create-watch",
   name: "Create Watch",
   description: "Create a watch that monitors a page for visual or text changes. [See the documentation](https://rendex.dev/docs/watch).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -60,6 +60,65 @@ export default {
         "paused",
       ],
     },
+    renderFullPage: {
+      propDefinition: [
+        rendex,
+        "renderFullPage",
+      ],
+    },
+    renderSelector: {
+      propDefinition: [
+        rendex,
+        "renderSelector",
+      ],
+    },
+    ignoreText: {
+      propDefinition: [
+        rendex,
+        "ignoreText",
+      ],
+    },
+    minTextChars: {
+      propDefinition: [
+        rendex,
+        "minTextChars",
+      ],
+    },
+    suppressWhilePresent: {
+      propDefinition: [
+        rendex,
+        "suppressWhilePresent",
+      ],
+    },
+    uaMode: {
+      propDefinition: [
+        rendex,
+        "uaMode",
+      ],
+    },
+  },
+  methods: {
+    // Assemble the watch's stored render knobs from the render* props. Returns
+    // undefined when every field is empty so the body omits `renderParams` and
+    // the API keeps its defaults (notably fullPage: true). Field names match
+    // the API watch schema (schemas/watch-params.ts → WatchRenderParams).
+    buildRenderParams() {
+      const renderParams = {
+        fullPage: this.renderFullPage,
+        selector: this.renderSelector,
+        ignoreText: this.ignoreText?.length
+          ? this.ignoreText
+          : undefined,
+        minTextChars: this.minTextChars,
+        suppressWhilePresent: this.suppressWhilePresent?.length
+          ? this.suppressWhilePresent
+          : undefined,
+        uaMode: this.uaMode,
+      };
+      return Object.values(renderParams).some((value) => value !== undefined)
+        ? renderParams
+        : undefined;
+    },
   },
   async run({ $ }) {
     const response = await this.rendex.createWatch({
@@ -75,6 +134,7 @@ export default {
         webhookUrl: this.webhookUrl,
         notifyEmail: this.notifyEmail,
         paused: this.paused,
+        renderParams: this.buildRenderParams(),
       },
     });
 

@@ -4,7 +4,7 @@ export default {
   key: "rendex-update-watch",
   name: "Update Watch",
   description: "Update a watch, including pausing or resuming it. Only the fields you set are changed. [See the documentation](https://rendex.dev/docs/watch).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -67,6 +67,65 @@ export default {
         "paused",
       ],
     },
+    renderFullPage: {
+      propDefinition: [
+        rendex,
+        "renderFullPage",
+      ],
+    },
+    renderSelector: {
+      propDefinition: [
+        rendex,
+        "renderSelector",
+      ],
+    },
+    ignoreText: {
+      propDefinition: [
+        rendex,
+        "ignoreText",
+      ],
+    },
+    minTextChars: {
+      propDefinition: [
+        rendex,
+        "minTextChars",
+      ],
+    },
+    suppressWhilePresent: {
+      propDefinition: [
+        rendex,
+        "suppressWhilePresent",
+      ],
+    },
+    uaMode: {
+      propDefinition: [
+        rendex,
+        "uaMode",
+      ],
+    },
+  },
+  methods: {
+    // Assemble the render knobs to PATCH from the render* props. Returns undefined
+    // when every field is empty so the body omits `renderParams` and leaves the
+    // watch's stored params untouched. Field names match the API watch schema
+    // (schemas/watch-params.ts → WatchRenderParams).
+    buildRenderParams() {
+      const renderParams = {
+        fullPage: this.renderFullPage,
+        selector: this.renderSelector,
+        ignoreText: this.ignoreText?.length
+          ? this.ignoreText
+          : undefined,
+        minTextChars: this.minTextChars,
+        suppressWhilePresent: this.suppressWhilePresent?.length
+          ? this.suppressWhilePresent
+          : undefined,
+        uaMode: this.uaMode,
+      };
+      return Object.values(renderParams).some((value) => value !== undefined)
+        ? renderParams
+        : undefined;
+    },
   },
   async run({ $ }) {
     const response = await this.rendex.updateWatch(this.watchId, {
@@ -82,6 +141,7 @@ export default {
         webhookUrl: this.webhookUrl,
         notifyEmail: this.notifyEmail,
         paused: this.paused,
+        renderParams: this.buildRenderParams(),
       },
     });
 
