@@ -6,6 +6,11 @@ export default {
   description: "Extract the readable content of a page as Markdown, JSON, or HTML. [See the documentation](https://rendex.dev/docs/api-reference).",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     rendex,
     url: {

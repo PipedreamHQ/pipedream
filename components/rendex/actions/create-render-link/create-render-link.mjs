@@ -7,6 +7,11 @@ export default {
   description: "Mint a signed, hosted render URL for a page or HTML — ideal for `og:image` tags. The returned URL serves the rendered image/PDF directly. [See the documentation](https://rendex.dev/docs/api-reference).",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     rendex,
     url: {

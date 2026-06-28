@@ -6,6 +6,11 @@ export default {
   description: "Update a watch, including pausing or resuming it. Only the fields you set are changed. [See the documentation](https://rendex.dev/docs/watch).",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     rendex,
     watchId: {

@@ -6,6 +6,11 @@ export default {
   description: "Create a watch that monitors a page for visual or text changes. [See the documentation](https://rendex.dev/docs/watch).",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     rendex,
     url: {

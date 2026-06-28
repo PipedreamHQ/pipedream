@@ -6,6 +6,11 @@ export default {
   description: "Retrieve a single watch by its ID. [See the documentation](https://rendex.dev/docs/watch).",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     rendex,
     watchId: {

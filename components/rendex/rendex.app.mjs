@@ -39,19 +39,31 @@ export default {
       type: "string",
       label: "Watch",
       description: "The watch to act on.",
-      async options() {
+      async options({ prevContext }) {
+        // Cursor-based load-more: GET /v1/watches returns `nextCursor` (null on the
+        // last page). A null cursor in prevContext means we already paged to the end.
+        const cursor = prevContext?.cursor;
+        if (cursor === null) {
+          return [];
+        }
         const { data } = await this.listWatches({
           params: {
             status: "all",
             limit: 100,
+            cursor,
           },
         });
-        return (data?.items ?? []).map((watch) => ({
-          label: watch.name
-            ? `${watch.name} (${watch.url})`
-            : watch.url,
-          value: watch.id,
-        }));
+        return {
+          options: (data?.items ?? []).map((watch) => ({
+            label: watch.name
+              ? `${watch.name} (${watch.url})`
+              : watch.url,
+            value: watch.id,
+          })),
+          context: {
+            cursor: data?.nextCursor ?? null,
+          },
+        };
       },
     },
     name: {

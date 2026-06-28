@@ -5,7 +5,7 @@ export default {
   key: "rendex-render-to-image",
   name: "Render to Image",
   description: "Render an HTML string or a page URL to an image (or PDF) via Rendex. Returns base64-encoded image data with metadata. [See the documentation](https://rendex.dev/docs/api-reference#post-screenshot-json).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

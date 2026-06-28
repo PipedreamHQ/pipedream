@@ -4,7 +4,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 export default {
   key: "rendex-new-change-detected",
   name: "New Change Detected",
-  description: "Emit a new event each time a Rendex watch run detects a change. [See the documentation](https://rendex.dev/docs/watch#how-you-get-alerted).",
+  description: "Emit new event each time a Rendex watch run detects a change. [See the documentation](https://rendex.dev/docs/watch#how-you-get-alerted).",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -42,24 +42,52 @@ export default {
           this.watchId,
         ];
       }
-      const { data } = await this.rendex.listWatches({
-        params: {
-          status: "all",
-          limit: 100,
-        },
-      });
-      return (data?.items ?? []).map((watch) => watch.id);
+      // Page through every watch via `nextCursor` (null on the last page) so accounts
+      // with more than one page are fully covered.
+      const ids = [];
+      let cursor;
+      do {
+        const { data } = await this.rendex.listWatches({
+          params: {
+            status: "all",
+            limit: 100,
+            cursor,
+          },
+        });
+        for (const watch of data?.items ?? []) {
+          ids.push(watch.id);
+        }
+        cursor = data?.nextCursor;
+      } while (cursor);
+      return ids;
     },
-    async _changedRuns() {
-      const watchIds = await this._watchIds();
+    // Walk one watch's run history (newest-first) collecting changed runs newer than
+    // `since`, and track the newest run timestamp seen (changed or not). A watch
+    // checks sequentially, so once we hit a run at/before `since` every later run is
+    // older too and we can stop. `maxPages` caps the deploy sample to one page.
+    // Returns { runs, maxTs } where maxTs is the high-water mark for the cursor.
+    async _scanWatch(watchId, since, maxPages) {
       const runs = [];
-      for (const watchId of watchIds) {
+      let maxTs = since;
+      let cursor;
+      let pages = 0;
+      let reachedOld = false;
+      do {
         const { data } = await this.rendex.listRuns(watchId, {
           params: {
             limit: 100,
+            cursor,
           },
         });
         for (const run of data?.items ?? []) {
+          const ts = this._runTs(run);
+          if (ts <= since) {
+            reachedOld = true;
+            break;
+          }
+          if (ts > maxTs) {
+            maxTs = ts;
+          }
           if (run.status === "completed" && run.changed === true) {
             runs.push({
               ...run,
@@ -67,8 +95,32 @@ export default {
             });
           }
         }
+        pages += 1;
+        cursor = reachedOld || (maxPages && pages >= maxPages)
+          ? null
+          : data?.nextCursor;
+      } while (cursor);
+      return {
+        runs,
+        maxTs,
+      };
+    },
+    // Scan every watch and aggregate changed runs plus the global high-water mark.
+    async _scanChanges(since, maxPages) {
+      const watchIds = await this._watchIds();
+      const runs = [];
+      let maxTs = since;
+      for (const watchId of watchIds) {
+        const scanned = await this._scanWatch(watchId, since, maxPages);
+        runs.push(...scanned.runs);
+        if (scanned.maxTs > maxTs) {
+          maxTs = scanned.maxTs;
+        }
       }
-      return runs;
+      return {
+        runs,
+        maxTs,
+      };
     },
     emitRun(run) {
       const detail = run.diffScore != null
@@ -83,30 +135,29 @@ export default {
   },
   hooks: {
     async deploy() {
-      // Surface up to the 5 most recent changes as sample events on deploy.
-      const runs = (await this._changedRuns())
+      // Catch the cursor up to the newest run and surface up to the 5 most recent
+      // changes as samples. One page per watch is enough for a sample.
+      const {
+        runs, maxTs,
+      } = await this._scanChanges(0, 1);
+      runs
         .sort((a, b) => this._runTs(b) - this._runTs(a))
         .slice(0, 5)
-        .reverse();
-      let maxTs = this._getLastTs();
-      for (const run of runs) {
-        this.emitRun(run);
-        maxTs = Math.max(maxTs, this._runTs(run));
-      }
+        .reverse()
+        .forEach((run) => this.emitRun(run));
       this._setLastTs(maxTs);
     },
   },
   async run() {
     const lastTs = this._getLastTs();
-    const runs = (await this._changedRuns())
-      .filter((run) => this._runTs(run) > lastTs)
-      .sort((a, b) => this._runTs(a) - this._runTs(b));
-
-    let maxTs = lastTs;
-    for (const run of runs) {
-      this.emitRun(run);
-      maxTs = Math.max(maxTs, this._runTs(run));
-    }
+    // _scanChanges only returns runs newer than lastTs and reports the newest run
+    // timestamp seen, so the cursor advances past quiet runs without re-scanning them.
+    const {
+      runs, maxTs,
+    } = await this._scanChanges(lastTs);
+    runs
+      .sort((a, b) => this._runTs(a) - this._runTs(b))
+      .forEach((run) => this.emitRun(run));
     this._setLastTs(maxTs);
   },
 };

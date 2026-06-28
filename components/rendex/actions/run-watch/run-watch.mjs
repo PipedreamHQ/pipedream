@@ -6,6 +6,11 @@ export default {
   description: "Trigger an immediate check for a watch. The run is queued and its diff result is produced asynchronously — poll **List Watch Runs** for the completed run. [See the documentation](https://rendex.dev/docs/watch).",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     rendex,
     watchId: {

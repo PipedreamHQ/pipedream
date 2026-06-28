@@ -6,6 +6,11 @@ export default {
   description: "Delete a watch and its run history. [See the documentation](https://rendex.dev/docs/watch).",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     rendex,
     watchId: {
