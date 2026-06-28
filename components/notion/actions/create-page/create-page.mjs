@@ -14,7 +14,7 @@ export default {
     + " When the parent is a database, set `properties` to a flat JSON object of column-name → value (e.g. `{ \"Status\": \"Active\", \"ThreatLevel\": 9 }`); call **Retrieve Database Schema** first to learn the exact column names and valid select options."
     + " `content` is the page body as Markdown (headings, bullet lists, paragraphs, etc.)."
     + " [See the documentation](https://developers.notion.com/reference/post-page)",
-  version: "0.4.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -52,10 +52,16 @@ export default {
     const { content } = this;
 
     // Determine whether the parent is a data source (database) or a page.
+    // Only the "not a data source" lookup failure (404 / object_not_found)
+    // means "treat the parent as a page" — re-throw auth, permission,
+    // rate-limit, and network errors instead of silently falling back.
     let dataSource = null;
     try {
       dataSource = await this.notion.retrieveDataSource(parentId);
-    } catch {
+    } catch (error) {
+      if (error?.status !== 404 && error?.code !== "object_not_found") {
+        throw error;
+      }
       dataSource = null;
     }
 
@@ -96,9 +102,14 @@ export default {
         remaining = remaining.slice(MAX_BLOCKS);
       }
     } else {
-      // Create a subpage under a parent page.
+      // Create a subpage under a parent page. Create with the title first,
+      // then append content in MAX_BLOCKS chunks so large Markdown bodies
+      // don't exceed Notion's per-request block limit.
+      const children = content?.trim()
+        ? this.createBlocks(content)
+        : [];
+
       response = await this.buildPageFromDataSource({
-        pageContent: content,
         parentPageId: parentId,
         properties: [
           {
@@ -108,6 +119,12 @@ export default {
           },
         ],
       });
+
+      let remaining = children;
+      while (remaining.length > 0) {
+        await this.notion.appendBlock(response.id, remaining.slice(0, MAX_BLOCKS));
+        remaining = remaining.slice(MAX_BLOCKS);
+      }
     }
 
     $.export("$summary", `Created page${this.title

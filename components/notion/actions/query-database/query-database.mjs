@@ -11,7 +11,7 @@ export default {
     + " The condition key matches the property type — e.g. `select`, `status`, `multi_select`, `number` (`{ \"greater_than\": 5 }`), `checkbox` (`{ \"equals\": true }`), `rich_text`/`title` (`{ \"contains\": \"...\" }`), `date`."
     + " Omit `filter` to return all rows."
     + " Provide the **data source ID** (use **Search** with `filter: data_source` to resolve a database name)."
-    + " [See the filter documentation](https://developers.notion.com/reference/filter-data-source-entries)",
+    + " [See the documentation](https://developers.notion.com/reference/filter-data-source-entries)",
   version: "1.1.0",
   annotations: {
     destructiveHint: false,
@@ -34,8 +34,8 @@ export default {
     },
     sorts: {
       label: "Sorts",
-      description: "Sort order as a JSON array. Example: `[ { \"property\": \"Name\", \"direction\": \"ascending\" } ]`. [See the documentation](https://developers.notion.com/reference/sort-data-source-entries).",
-      type: "string[]",
+      description: "Sort order as a JSON array string. Example: `[ { \"property\": \"Name\", \"direction\": \"ascending\" } ]`. [See the documentation](https://developers.notion.com/reference/sort-data-source-entries).",
+      type: "string",
       optional: true,
     },
     pageSize: {
@@ -43,6 +43,13 @@ export default {
         notion,
         "pageSize",
       ],
+    },
+    startCursor: {
+      propDefinition: [
+        notion,
+        "startCursor",
+      ],
+      description: "Pagination cursor from a previous response's `next_cursor`. Omit for the first page.",
     },
   },
   async run({ $ }) {
@@ -54,13 +61,15 @@ export default {
     // `sorts: null` / `filter: null` (must be an array/object or undefined).
     const params = {
       page_size: this.pageSize || undefined,
+      start_cursor: this.startCursor || undefined,
     };
     const parsedFilter = utils.parseStringToJSON(filter, undefined);
     if (parsedFilter) {
       params.filter = parsedFilter;
     }
-    if (sorts?.length) {
-      params.sorts = utils.parseObject(sorts);
+    const parsedSorts = utils.parseStringToJSON(sorts, undefined);
+    if (Array.isArray(parsedSorts) && parsedSorts.length) {
+      params.sorts = parsedSorts;
     }
 
     const dataSourceId = utils.extractNotionId(this.dataSourceId);

@@ -92,11 +92,18 @@ function parsePropertiesObject(properties) {
     return undefined;
   }
   if (typeof properties === "string") {
+    let parsedString;
     try {
-      return JSON.parse(properties);
+      parsedString = JSON.parse(properties);
     } catch {
       throw new Error("Could not parse `properties` as a JSON object");
     }
+    if (!parsedString || typeof parsedString !== "object" || Array.isArray(parsedString)) {
+      throw new Error("`properties` must be a JSON object");
+    }
+    properties = parsedString;
+  } else if (typeof properties !== "object" || Array.isArray(properties)) {
+    throw new Error("`properties` must be a JSON object");
   }
   const parsed = {};
   for (const [
@@ -125,9 +132,21 @@ function parsePropertiesObject(properties) {
  * @returns {object|undefined}
  */
 function normalizeDatabaseSchema(properties) {
-  const parsed = parseObject(properties);
-  if (!parsed || typeof parsed !== "object") {
-    return parsed;
+  let parsed;
+  if (typeof properties === "string") {
+    try {
+      parsed = JSON.parse(properties);
+    } catch {
+      throw new Error("Could not parse database schema as a JSON object");
+    }
+  } else {
+    parsed = parseObject(properties);
+  }
+  if (!parsed) {
+    return undefined;
+  }
+  if (typeof parsed !== "object" || Array.isArray(parsed)) {
+    throw new Error("Database schema must be a JSON object");
   }
   return Object.fromEntries(Object.entries(parsed).map(([
     key,

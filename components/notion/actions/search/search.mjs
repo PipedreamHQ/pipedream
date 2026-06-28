@@ -9,7 +9,7 @@ export default {
     + " Leave `query` blank to list everything the integration can access."
     + " Set `filter` to `data_source` to find databases or `page` to find pages — on the current Notion API a database is returned as a `data_source` object, and its `id` is the **data source ID** you pass to the database tools."
     + " [See the documentation](https://developers.notion.com/reference/post-search)",
-  version: "0.2.0",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -40,10 +40,18 @@ export default {
         "pageSize",
       ],
     },
+    startCursor: {
+      propDefinition: [
+        notion,
+        "startCursor",
+      ],
+      description: "Pagination cursor from a previous response's `next_cursor`. Omit for the first page.",
+    },
   },
   async run({ $ }) {
     const params = {
       page_size: this.pageSize || undefined,
+      start_cursor: this.startCursor || undefined,
     };
     if (this.filter) {
       params.filter = {

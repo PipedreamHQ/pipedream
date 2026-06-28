@@ -10,7 +10,7 @@ export default {
     + " `properties` is a JSON object of changes: to **add** a column, use a new name → type (e.g. `{ \"Location\": \"rich_text\" }`); to **rename/retype** an existing column, key it by its current name/ID."
     + " Each value is a [property schema object](https://developers.notion.com/reference/property-schema-object) or a shorthand type name."
     + " [See the documentation](https://developers.notion.com/reference/update-a-data-source)",
-  version: "1.1.0",
+  version: "2.0.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

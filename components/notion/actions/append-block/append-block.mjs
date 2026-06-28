@@ -14,7 +14,7 @@ export default {
     + " Provide the page ID or URL (use **Search** to resolve a page name into an ID)."
     + " To change a database row's property values instead, use **Update Page**."
     + " [See the documentation](https://developers.notion.com/reference/patch-block-children)",
-  version: "0.5.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -31,7 +31,7 @@ export default {
     content: {
       type: "string",
       label: "Content",
-      description: "The Markdown content to append. [Markdown reference](https://www.notion.com/help/writing-and-editing-basics#markdown-and-shortcuts).",
+      description: "The Markdown content to append. Supports headings, bullet/numbered lists, to-dos, quotes, and code. Example: `## Notes\\n- First item\\n- Second item`.",
     },
   },
   async run({ $ }) {

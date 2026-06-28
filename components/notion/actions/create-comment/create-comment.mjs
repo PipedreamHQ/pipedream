@@ -27,7 +27,7 @@ export default {
     discussionId: {
       type: "string",
       label: "Discussion ID",
-      description: "The ID of an existing discussion thread to reply to. [See the documentation](https://developers.notion.com/docs/working-with-comments#retrieving-a-discussion-id). Provide this or a Page ID.",
+      description: "The ID of an existing discussion thread to reply to — the `discussion_id` Notion returns for a thread, a UUID like `f1c5e8a0-...`. Provide this or a Page ID.",
       optional: true,
     },
     comment: {
