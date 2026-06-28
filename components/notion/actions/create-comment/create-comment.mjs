@@ -1,11 +1,15 @@
 import { ConfigurationError } from "@pipedream/platform";
 import notion from "../../notion.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "notion-create-comment",
   name: "Create Comment",
-  description: "Create a comment in a page or existing discussion thread. [See the documentation](https://developers.notion.com/reference/create-a-comment)",
-  version: "0.0.10",
+  description:
+    "Add a comment to a Notion page, or reply to an existing discussion thread."
+    + " Provide **either** a page ID/URL (use **Search** to resolve a page name) **or** a discussion ID — not both."
+    + " [See the documentation](https://developers.notion.com/reference/create-a-comment)",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -14,28 +18,22 @@ export default {
   type: "action",
   props: {
     notion,
-    infoLabel: {
-      type: "alert",
-      alertType: "info",
-      content: "Provide either a Page ID or a Discussion ID to create the comment under.",
-    },
     pageId: {
-      propDefinition: [
-        notion,
-        "pageId",
-      ],
+      type: "string",
+      label: "Page ID or URL",
+      description: "The ID (or Notion URL) of the page to comment on. Use **Search** to resolve a page name into an ID. Provide this or a Discussion ID.",
       optional: true,
     },
     discussionId: {
       type: "string",
       label: "Discussion ID",
-      description: "The ID of a discussion thread. [See the documentation](https://developers.notion.com/docs/working-with-comments#retrieving-a-discussion-id) for more information",
+      description: "The ID of an existing discussion thread to reply to. [See the documentation](https://developers.notion.com/docs/working-with-comments#retrieving-a-discussion-id). Provide this or a Page ID.",
       optional: true,
     },
     comment: {
       type: "string",
       label: "Comment",
-      description: "The comment text",
+      description: "The comment text.",
     },
   },
   async run({ $ }) {
@@ -43,9 +41,13 @@ export default {
       throw new ConfigurationError("Provide either a page ID or a discussion thread ID to create the comment under");
     }
 
+    const pageId = this.pageId
+      ? utils.extractNotionId(this.pageId)
+      : undefined;
+
     const response = await this.notion._getNotionClient().comments.create({
-      parent: this.pageId && {
-        page_id: this.pageId,
+      parent: pageId && {
+        page_id: pageId,
       },
       discussion_id: this.discussionId,
       rich_text: [
