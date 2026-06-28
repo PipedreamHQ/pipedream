@@ -286,7 +286,7 @@ export default {
     headers: {
       type: "object",
       label: "Headers",
-      description: "Extra HTTP request headers to send with the page load, as key–value pairs. Requires a Starter plan or higher.",
+      description: "Extra HTTP request headers to send with the page load, as a JSON object of key–value pairs, e.g. `{ \"Accept-Language\": \"de-DE\", \"X-Debug\": \"1\" }`. Requires a Starter plan or higher.",
       optional: true,
     },
     pdfFormat: {

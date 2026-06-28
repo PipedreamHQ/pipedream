@@ -113,13 +113,9 @@ export default {
       const renderParams = {
         fullPage: this.renderFullPage,
         selector: this.renderSelector,
-        ignoreText: this.ignoreText?.length
-          ? this.ignoreText
-          : undefined,
+        ignoreText: this.ignoreText,
         minTextChars: this.minTextChars,
-        suppressWhilePresent: this.suppressWhilePresent?.length
-          ? this.suppressWhilePresent
-          : undefined,
+        suppressWhilePresent: this.suppressWhilePresent,
         uaMode: this.uaMode,
       };
       return Object.values(renderParams).some((value) => value !== undefined)

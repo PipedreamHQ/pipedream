@@ -209,10 +209,15 @@ export default {
     let cookies;
     if (this.cookies?.length) {
       try {
-        cookies = this.cookies.map((cookie) =>
-          typeof cookie === "string"
+        cookies = this.cookies.map((cookie) => {
+          const parsed = typeof cookie === "string"
             ? JSON.parse(cookie)
-            : cookie);
+            : cookie;
+          if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+            throw new Error("Invalid cookie shape");
+          }
+          return parsed;
+        });
       } catch {
         throw new ConfigurationError("Each cookie must be a JSON object, e.g. {\"name\":\"session\",\"value\":\"abc\"}.");
       }
