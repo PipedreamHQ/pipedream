@@ -18,7 +18,7 @@ export default {
     type: {
       type: "string",
       label: "Data Type",
-      description: "Select whether you are verifying an email address or a phone number.",
+      description: "Which kind of contact data is being verified. Allowed values: `email` (verify an email address) or `phone` (verify a phone number). The value of `unit` must match this type — pass `email` here when `unit` is an email address, and `phone` when `unit` is a phone number.",
       options: [
         {
           label: "Email Address",
@@ -33,7 +33,7 @@ export default {
     unit: {
       type: "string",
       label: "Email or Phone to Verify",
-      description: "Enter the email address or phone number to verify.",
+      description: "The single email address or phone number to verify. Format must match `type`: for `type=email`, pass a full RFC 5322 email like `jane.doe@example.com`. For `type=phone`, pass a number in E.164 format with the leading `+` and country code — e.g. `+14155552671` (US) or `+442071234567` (UK). Hyphens and spaces are tolerated but not required. Only one address/number per call.",
     },
     targetCountry: {
       type: "string",
