@@ -7,7 +7,7 @@ export default {
     + "Build the `query` from space-separated qualifiers: `repo:owner/name` to scope to one repo (a bare `repo:name` with no owner is auto-resolved to your own account), `is:issue`/`is:pr`, `is:open`/`is:closed`, `label:bug`, `author:octocat`, `assignee:octocat`, `in:title`/`in:body`, and free-text keywords. "
     + "Example: `repo:PipedreamHQ/pipedream is:issue is:open label:bug raptor`. "
     + "Returns matching items (each with `number`, `title`, `state`, `labels`, `html_url`); feed a result's `number` into **Get Issue**, **Get Pull Request**, or **Create Issue Comment**. [See the query syntax](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests)",
-  version: "0.3.0",
+  version: "0.3.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

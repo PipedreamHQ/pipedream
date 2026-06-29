@@ -4,7 +4,7 @@ export default {
   key: "github-create-issue-comment",
   name: "Create Issue Comment",
   description: "Add a comment to an existing issue **or pull request** (GitHub treats PRs as issues for comments, so the same `number` works for both). Provide the repository as an `owner/repo` string, the issue/PR number, and the comment body. If you only know the issue/PR by title, call **Search Issues and Pull Requests** first to resolve its number. [See the documentation](https://docs.github.com/en/rest/issues/comments#create-an-issue-comment)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
