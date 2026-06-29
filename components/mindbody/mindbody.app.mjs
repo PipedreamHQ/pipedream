@@ -136,5 +136,17 @@ export default {
         ...opts,
       });
     },
+    getClientVisits(opts = {}) {
+      return this._makeRequest({
+        path: "/client/clientvisits",
+        ...opts,
+      });
+    },
+    getClientPurchases(opts = {}) {
+      return this._makeRequest({
+        path: "/client/clientpurchases",
+        ...opts,
+      });
+    },
   },
 };
