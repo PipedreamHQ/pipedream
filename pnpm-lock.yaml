@@ -1023,7 +1023,11 @@ importers:
 
   components/apex_27: {}
 
-  components/apexverify: {}
+  components/apexverify:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/api2convert: {}
 
@@ -41406,7 +41410,7 @@ snapshots:
   '@pipedream/apify@0.4.0':
     dependencies:
       '@apify/consts': 2.47.0
-      '@pipedream/platform': 3.3.1
+      '@pipedream/platform': 3.4.0
       apify-client: 2.19.0
     transitivePeerDependencies:
       - debug

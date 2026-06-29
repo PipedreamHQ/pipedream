@@ -12,7 +12,7 @@ export default {
     _headers() {
       return {
         "X-API-Key": this.$auth.api_key,
-        Accept: "application/json",
+        "Accept": "application/json",
       };
     },
 
