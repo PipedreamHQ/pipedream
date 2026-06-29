@@ -65,7 +65,6 @@ export default {
         headers: this._headers(),
         params,
         data,
-        debug: true,
       });
     },
     getSiteInfo(opts = {}) {
