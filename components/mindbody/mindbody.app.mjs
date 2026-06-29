@@ -18,7 +18,9 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "Maximum number of results to return. Defaults to 100.",
+      description: "Maximum number of results to return per page. Minimum 1, maximum 1000. Defaults to 100.",
+      min: 1,
+      max: 1000,
       default: 100,
       optional: true,
     },
