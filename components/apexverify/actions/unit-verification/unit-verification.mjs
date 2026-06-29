@@ -118,16 +118,9 @@ export default {
       }
     });
 
-    const response = await this.apexverify._makeRequest($, {
-      method: "POST",
-      path: "/v1/unit",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: payload,
-    });
+    const response = await this.apexverify.verifyUnit($, payload);
 
-    $.export("$summary", `Successfully verified ${this.type}: ${this.unit}`);
+    $.export("$summary", `Successfully verified ${this.type}`);
 
     return response;
   },

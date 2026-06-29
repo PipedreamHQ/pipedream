@@ -41,5 +41,16 @@ export default {
         path: "/v1/account/credits",
       });
     },
+
+    async verifyUnit($, payload) {
+      return this._makeRequest($, {
+        method: "POST",
+        path: "/v1/unit",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: payload,
+      });
+    },
   },
 };
