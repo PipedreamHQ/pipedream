@@ -5,8 +5,8 @@ import base from "../common/base-page-builder.mjs";
 export default {
   ...base,
   key: "notion-duplicate-page",
-  name: "Duplicate Page",
-  description: "Create a new page copied from an existing page block. [See the documentation](https://developers.notion.com/reference/post-page)",
+  name: "Copy Page From Template",
+  description: "Copy an EXISTING page (template) into a new page with a new title. Use this ONLY when the user is reusing the structure of an existing page as a template (e.g. \"copy this offer letter template for a new candidate\"). Do NOT use to create a new page with original content — for that, use **Create Page**. The source page must already exist in Notion and is identified by its page ID. [See the documentation](https://developers.notion.com/reference/post-page)",
   version: "0.0.26",
   annotations: {
     destructiveHint: false,

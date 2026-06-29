@@ -26,7 +26,7 @@ export default {
     parent: {
       type: "string",
       label: "Parent (Page or Data Source ID)",
-      description: "ID or URL of the parent **page** (creates a subpage) or **data source** (creates a database row). Use **Search** to resolve a name into an ID.",
+      description: "**REQUIRED — must be a real UUID.** Notion has no \"workspace root\", so every new page must have a parent page or data source. The value must be either (a) the UUID of an existing page (creates a subpage), (b) the UUID of an existing data source (creates a database row), or (c) a Notion URL containing such a UUID. If the user gave a parent name instead of an ID, call **Search** first to resolve the name into an ID, then pass the ID here. Do NOT pass empty, `\"root\"`, `\"workspace\"`, or any non-UUID placeholder — the API will reject it.",
     },
     title: {
       propDefinition: [

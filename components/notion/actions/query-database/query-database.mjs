@@ -28,7 +28,7 @@ export default {
     },
     filter: {
       label: "Filter",
-      description: "A JSON object describing the filter. Example: `{ \"property\": \"Status\", \"select\": { \"equals\": \"Escaped\" } }`. Omit to return all rows. [See the documentation](https://developers.notion.com/reference/filter-data-source-entries).",
+      description: "A JSON object describing the filter. **A single-condition filter MUST include both a `property` key (the column name from the database schema) and a type-specific operator key** — e.g. `{ \"property\": \"Status\", \"select\": { \"equals\": \"Escaped\" } }`. Filtering by title needs `{ \"property\": \"<title-column-name>\", \"title\": { \"contains\": \"...\" } }` — call **Retrieve Database Schema** first if you don't already know the title column's exact name. Compound filters use `{ \"and\": [ ... ] }` or `{ \"or\": [ ... ] }`. Omit this prop to return all rows. [See the documentation](https://developers.notion.com/reference/filter-data-source-entries).",
       type: "string",
       optional: true,
     },
@@ -63,10 +63,21 @@ export default {
       page_size: this.pageSize || undefined,
       start_cursor: this.startCursor || undefined,
     };
-    const parsedFilter = utils.parseStringToJSON(filter, undefined);
-    if (parsedFilter) {
-      params.filter = parsedFilter;
-    }
+    // Notion's data-source query API rejects requests without a non-empty
+    // `filter` body field (returns "body.filter.or should be defined…"). To
+    // honor the "omit filter to return all rows" affordance, send a no-op
+    // `{ "and": [] }` when the caller hasn't supplied one.
+    //
+    // Don't use `parseStringToJSON(filter, undefined)` — the helper has a
+    // `defaultValue = {}` default param that kicks in when the second arg
+    // is `undefined`, so we'd silently get `{}` (empty filter, rejected by
+    // the API) instead of `undefined`.
+    const parsedFilter = typeof filter === "string" && filter.length > 0
+      ? JSON.parse(filter)
+      : undefined;
+    params.filter = parsedFilter ?? {
+      and: [],
+    };
     const parsedSorts = utils.parseStringToJSON(sorts, undefined);
     if (Array.isArray(parsedSorts) && parsedSorts.length) {
       params.sorts = parsedSorts;
