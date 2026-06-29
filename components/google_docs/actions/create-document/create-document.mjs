@@ -27,7 +27,7 @@ export default {
     folderId: {
       propDefinition: [
         googleDocs,
-        "folderId",
+        "documentFolderId",
       ],
     },
   },

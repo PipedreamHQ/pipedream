@@ -24,8 +24,10 @@ export default {
       optional: true,
       default: "end",
     },
-    // Static folder selector (overrides the inherited Drive `folderId` async dropdown).
-    folderId: {
+    // Static, MCP-compatible folder selector for the create actions. Kept as a
+    // separate key so the inherited Drive `folderId` (async dropdown) stays
+    // available to out-of-scope consumers like the sources/triggers.
+    documentFolderId: {
       type: "string",
       label: "Folder ID",
       description: "The ID of the Drive folder to place the new document in (the string after `/folders/` in a Drive folder URL). If omitted, the document is created in the root of My Drive.",
