@@ -3,8 +3,8 @@ import github from "../../github.app.mjs";
 export default {
   key: "github-list-workflow-runs",
   name: "List Workflow Runs",
-  description: "List workflowRuns for a repository [See the documentation](https://docs.github.com/en/rest/actions/workflow-runs?apiVersion=2022-11-28#list-workflow-runs-for-a-repository)",
-  version: "0.0.7",
+  description: "List GitHub Actions workflow runs for a repository, most recent first. Optionally filter by `branch` or `status` (e.g. `completed`, `in_progress`, `failure`, `success`). Returns each run's `id`, workflow name, `status`, `conclusion`, branch, and timestamps. Use this to triage CI — find a failing run, then pass its `id` to **Get Workflow Run** for job details or to **Run Workflow** to re-run its failed jobs. Provide the repository as an `owner/repo` string. [See the documentation](https://docs.github.com/en/rest/actions/workflow-runs#list-workflow-runs-for-a-repository)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,40 +16,72 @@ export default {
     repoFullname: {
       propDefinition: [
         github,
-        "repoFullname",
+        "repoFullnameStatic",
       ],
     },
-    limit: {
+    branch: {
+      type: "string",
+      label: "Branch",
+      description: "Only return runs associated with this branch, e.g. `main`.",
+      optional: true,
+    },
+    status: {
+      type: "string",
+      label: "Status",
+      description: "Filter runs by status or conclusion.",
+      options: [
+        "queued",
+        "in_progress",
+        "completed",
+        "success",
+        "failure",
+        "cancelled",
+        "skipped",
+        "timed_out",
+        "action_required",
+      ],
+      optional: true,
+    },
+    maxResults: {
       type: "integer",
-      label: "Limit",
-      description: "The maximum quantity to be returned.",
+      label: "Max Results",
+      description: "The maximum number of workflow runs to return. Defaults: `100`",
       default: 100,
+      optional: true,
     },
   },
   async run({ $ }) {
+    const repoFullname = await this.github._resolveRepoFullname(this.repoFullname);
+
     let page = 1;
     const perPage = 100;
-    let allWorkflowRuns = [];
-    let count = 0;
+    let runs = [];
 
-    while (count < this.limit) {
+    while (runs.length < this.maxResults) {
       const { workflow_runs: workflowRuns } = await this.github.listWorkflowRuns({
-        repoFullname: this.repoFullname,
-        perPage: perPage,
-        page: page,
+        repoFullname,
+        perPage,
+        page,
+        branch: this.branch,
+        status: this.status,
       });
 
-      if (workflowRuns.length === 0) {
+      if (!workflowRuns?.length) {
         break;
       }
 
-      allWorkflowRuns = allWorkflowRuns.concat(workflowRuns);
-      count += workflowRuns.length;
+      runs = runs.concat(workflowRuns);
+
+      if (workflowRuns.length < perPage) {
+        break;
+      }
       page += 1;
     }
 
-    $.export("$summary", `Successfully retrieved ${allWorkflowRuns.length} workflow runs.`);
+    runs = runs.slice(0, this.maxResults);
 
-    return allWorkflowRuns;
+    $.export("$summary", `Successfully retrieved ${runs.length} workflow run(s)`);
+
+    return runs;
   },
 };

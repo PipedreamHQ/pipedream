@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/apexverify",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Pipedream ApexVerify Components",
   "main": "apexverify.app.mjs",
   "keywords": [

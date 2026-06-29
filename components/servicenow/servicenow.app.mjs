@@ -1,4 +1,13 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
+
+const {
+  SERVICE_CATALOG_BASE_PATH,
+  KNOWLEDGE_BASE_PATH,
+  SYS_USER_TABLE,
+  SC_REQUEST_TABLE,
+  MAX_LIMIT,
+} = constants;
 
 export default {
   type: "app",
@@ -109,6 +118,39 @@ export default {
       description: "If true, allows access to data across domains (if authorized)",
       optional: true,
     },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: `Maximum number of results to return (1-${MAX_LIMIT}).`,
+      min: 1,
+      max: MAX_LIMIT,
+      optional: true,
+    },
+    catalogItemSysId: {
+      type: "string",
+      label: "Catalog Item Sys ID",
+      description: "The `sys_id` of the catalog item. Run **Search Catalog Items** first to find this value. Example: `e8d3d2f1c0a8016400e6b9e0f6e6f6e6`.",
+    },
+    quantity: {
+      type: "integer",
+      label: "Quantity",
+      description: "Quantity to submit (maps to `sysparm_quantity`). Min 1. Example: `1`.",
+      min: 1,
+      default: 1,
+      optional: true,
+    },
+    variables: {
+      type: "object",
+      label: "Variables",
+      description: "JSON object of variable name-value pairs for the item. Run **Get Catalog Item Variables** to discover valid names. Example: `{\"justification\": \"new hire\"}`.",
+      optional: true,
+    },
+    requestedFor: {
+      type: "string",
+      label: "Requested For",
+      description: "Optional `sys_id` of the user this item is requested for (maps to `sysparm_requested_for`). Run **Find Users** to find it.",
+      optional: true,
+    },
   },
   methods: {
     async _makeRequest({
@@ -182,6 +224,132 @@ export default {
     }) {
       return this._makeRequest({
         url: `/stats/${table}`,
+        ...args,
+      });
+    },
+    _instanceBaseUrl() {
+      return `https://${this.$auth.instance_name}.service-now.com`;
+    },
+    async searchCatalogItems({ ...args }) {
+      return this._makeRequest({
+        baseURL: `${this._instanceBaseUrl()}${SERVICE_CATALOG_BASE_PATH}`,
+        url: "/items",
+        ...args,
+      });
+    },
+    async getCatalogItemVariables({
+      catalogItemSysId, ...args
+    }) {
+      return this._makeRequest({
+        baseURL: `${this._instanceBaseUrl()}${SERVICE_CATALOG_BASE_PATH}`,
+        url: `/items/${catalogItemSysId}`,
+        ...args,
+      });
+    },
+    async addItemToCart({
+      catalogItemSysId, ...args
+    }) {
+      return this._makeRequest({
+        method: "post",
+        baseURL: `${this._instanceBaseUrl()}${SERVICE_CATALOG_BASE_PATH}`,
+        url: `/items/${catalogItemSysId}/add_to_cart`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        ...args,
+      });
+    },
+    async checkoutCart({ ...args }) {
+      return this._makeRequest({
+        method: "post",
+        baseURL: `${this._instanceBaseUrl()}${SERVICE_CATALOG_BASE_PATH}`,
+        url: "/cart/checkout",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        ...args,
+      });
+    },
+    async submitOrder({ ...args }) {
+      return this._makeRequest({
+        method: "post",
+        baseURL: `${this._instanceBaseUrl()}${SERVICE_CATALOG_BASE_PATH}`,
+        url: "/cart/submit_order",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        ...args,
+      });
+    },
+    async getCart({ ...args }) {
+      return this._makeRequest({
+        baseURL: `${this._instanceBaseUrl()}${SERVICE_CATALOG_BASE_PATH}`,
+        url: "/cart",
+        ...args,
+      });
+    },
+    async deleteCartItem({
+      cartItemId, ...args
+    }) {
+      return this._makeRequest({
+        method: "delete",
+        baseURL: `${this._instanceBaseUrl()}${SERVICE_CATALOG_BASE_PATH}`,
+        url: `/cart/${cartItemId}`,
+        ...args,
+      });
+    },
+    async emptyCart({
+      cartSysId, ...args
+    }) {
+      return this._makeRequest({
+        method: "delete",
+        baseURL: `${this._instanceBaseUrl()}${SERVICE_CATALOG_BASE_PATH}`,
+        url: `/cart/${cartSysId}/empty`,
+        ...args,
+      });
+    },
+    async orderNow({
+      catalogItemSysId, ...args
+    }) {
+      return this._makeRequest({
+        method: "post",
+        baseURL: `${this._instanceBaseUrl()}${SERVICE_CATALOG_BASE_PATH}`,
+        url: `/items/${catalogItemSysId}/order_now`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        ...args,
+      });
+    },
+    async submitRecordProducer({
+      catalogItemSysId, ...args
+    }) {
+      return this._makeRequest({
+        method: "post",
+        baseURL: `${this._instanceBaseUrl()}${SERVICE_CATALOG_BASE_PATH}`,
+        url: `/items/${catalogItemSysId}/submit_producer`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        ...args,
+      });
+    },
+    async searchKnowledgeArticles({ ...args }) {
+      return this._makeRequest({
+        baseURL: `${this._instanceBaseUrl()}${KNOWLEDGE_BASE_PATH}`,
+        url: "/articles",
+        ...args,
+      });
+    },
+    async listUsers({ ...args }) {
+      return this.getTableRecords({
+        table: SYS_USER_TABLE,
+        ...args,
+      });
+    },
+    async getRequests({ ...args }) {
+      return this.getTableRecords({
+        table: SC_REQUEST_TABLE,
         ...args,
       });
     },
