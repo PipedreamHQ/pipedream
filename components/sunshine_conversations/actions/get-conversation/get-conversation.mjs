@@ -4,7 +4,7 @@ export default {
   key: "sunshine_conversations-get-conversation",
   name: "Get Conversation",
   description: "Get a conversation. [See the documentation](https://developer.zendesk.com/api-reference/conversations/#tag/Conversations/operation/GetConversation)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

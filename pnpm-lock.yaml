@@ -9844,7 +9844,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0(encoding@0.1.13)
 
-  components/microsoft_clarity: {}
+  components/microsoft_clarity:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/microsoft_dataverse: {}
 
@@ -12345,7 +12349,11 @@ importers:
         specifier: ^3.4.0
         version: 3.4.0
 
-  components/polydoc: {}
+  components/polydoc:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/polygon:
     dependencies:
@@ -13296,7 +13304,11 @@ importers:
         specifier: 4.0.4
         version: 4.0.4
 
-  components/rendex: {}
+  components/rendex:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/rendi:
     dependencies:
@@ -16117,7 +16129,11 @@ importers:
         specifier: ^3.2.5
         version: 3.3.0
 
-  components/the_colony: {}
+  components/the_colony:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.4.0
 
   components/the_events_calendar: {}
 

@@ -4,7 +4,7 @@ export default {
   name: "Get All Tracks by Artist",
   description: "Get Spotify tracks information related with an artist's. [see docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-multiple-albums).",
   key: "spotify-get-all-tracks-by-artist",
-  version: "0.1.6",
+  version: "0.1.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -32,15 +32,15 @@ export default {
       market,
     } = this;
 
-    const chunksOfAlbumIds = await this.spotify.fetchChunksOfAlbumsIds({
+    const albums = await this.spotify.getArtistAlbums({
       $,
       artistId,
       market,
     });
 
-    const tracks = await this.spotify.getAllTracksByChunksOfAlbumIds({
+    const tracks = await this.spotify.getAllTracksByAlbumIds({
       $,
-      chunksOfAlbumIds,
+      albumIds: albums.map((album) => album.id),
       market,
     });
 
