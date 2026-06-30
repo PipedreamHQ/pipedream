@@ -17,14 +17,23 @@ export default {
       description: "Aspect ratio of the output (e.g. 16:9, 9:16, 1:1, 4:3, 3:4, 21:9).",
       optional: true,
       default: "1:1",
-      options: ["1:1", "16:9", "9:16", "4:3", "3:4", "21:9"],
+      options: [
+        "1:1",
+        "16:9",
+        "9:16",
+        "4:3",
+        "3:4",
+        "21:9",
+      ],
     },
   },
   methods: {
     _apiKey() {
       return this.$auth.api_key;
     },
-    async _makeRequest($, { method = "GET", path, data, ...opts } = {}) {
+    async _makeRequest($, {
+      method = "GET", path, data, ...opts
+    } = {}) {
       return axios($, {
         method,
         url: `${BASE_URL}/${path}`,
