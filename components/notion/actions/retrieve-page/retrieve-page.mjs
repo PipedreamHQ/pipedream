@@ -1,10 +1,15 @@
 import notion from "../../notion.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "notion-retrieve-page",
-  name: "Retrieve Page Metadata",
-  description: "Get details of a page. [See the documentation](https://developers.notion.com/reference/retrieve-a-page)",
-  version: "0.0.14",
+  name: "Get Page",
+  description:
+    "Retrieve a Notion page: both its property values **and** its body content rendered as Markdown."
+    + " Use this to read what a page says or to inspect a database row's fields."
+    + " Provide a page ID or a Notion page URL (use **Search** to resolve a page name into an ID)."
+    + " [See the documentation](https://developers.notion.com/reference/retrieve-a-page)",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,24 +18,26 @@ export default {
   type: "action",
   props: {
     notion,
-    infoLabel: {
-      type: "alert",
-      alertType: "info",
-      content: "If you need to retrieve page content or block objects, use the **Retrieve Page Content** action instead.",
-    },
     pageId: {
-      propDefinition: [
-        notion,
-        "pageId",
-      ],
+      type: "string",
+      label: "Page ID or URL",
+      description: "The ID of the page (or its Notion URL). Use **Search** to resolve a page name into an ID.",
     },
   },
   async run({ $ }) {
-    const response = await this.notion.retrievePage(this.pageId);
-    const title = response?.properties?.Name?.title[0]?.plain_text;
-    $.export("$summary", `Successfully retrieved page${title
+    const pageId = utils.extractNotionId(this.pageId);
+
+    const page = await this.notion.retrievePage(pageId);
+    const content = await this.notion.getPageAsMarkdown(pageId, false);
+
+    const title = this.notion.extractPageTitle(page);
+    $.export("$summary", `Retrieved page${title
       ? ` "${title}"`
       : ""}`);
-    return response;
+
+    return {
+      page,
+      content,
+    };
   },
 };
