@@ -22,10 +22,11 @@ export default {
     },
   },
   async run({ $ }) {
-    await this.superdocu.inviteContact({
+    const response = await this.superdocu.inviteContact({
       $,
       contactId: this.contactId,
     });
     $.export("$summary", `Successfully sent invitation to contact ${this.contactId}`);
+    return response;
   },
 };

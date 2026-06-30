@@ -27,11 +27,12 @@ export default {
     },
   },
   async run({ $ }) {
-    await this.superdocu.deleteContactWorkflow({
+    const response = await this.superdocu.deleteContactWorkflow({
       $,
       contactId: this.contactId,
       wid: this.contactWorkflowId,
     });
     $.export("$summary", `Successfully deleted dossier ${this.contactWorkflowId} from contact ${this.contactId}`);
+    return response;
   },
 };

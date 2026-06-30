@@ -17,12 +17,12 @@ export default {
     firstName: {
       type: "string",
       label: "First Name",
-      description: "The contact's first name (maps to `first_name`).",
+      description: "The contact's first name.",
     },
     lastName: {
       type: "string",
       label: "Last Name",
-      description: "The contact's last name (maps to `last_name`).",
+      description: "The contact's last name.",
     },
     email: {
       type: "string",
@@ -38,19 +38,19 @@ export default {
     companyName: {
       type: "string",
       label: "Company Name",
-      description: "Company name (maps to `company_name`).",
+      description: "The contact's company name.",
       optional: true,
     },
     companySiret: {
       type: "string",
       label: "Company SIRET",
-      description: "Company SIRET identifier (maps to `company_siret`).",
+      description: "Company SIRET identifier.",
       optional: true,
     },
     companySiren: {
       type: "string",
       label: "Company SIREN",
-      description: "Company SIREN identifier (maps to `company_siren`).",
+      description: "Company SIREN identifier.",
       optional: true,
     },
     locale: {
@@ -69,13 +69,13 @@ export default {
     tagIds: {
       type: "string[]",
       label: "Tag IDs",
-      description: "Tag IDs (integer IDs) to assign to the contact (maps to `tag_ids`).",
+      description: "Tag IDs (integer IDs) to assign to the contact.",
       optional: true,
     },
     trackingParams: {
       type: "object",
       label: "Tracking Params",
-      description: "Arbitrary tracking parameters as a JSON object, e.g. `{\"utm_source\": \"newsletter\"}` (maps to `tracking_params`).",
+      description: "Arbitrary tracking parameters as a JSON object, e.g. `{\"utm_source\": \"newsletter\"}`.",
       optional: true,
     },
   },
@@ -92,7 +92,7 @@ export default {
         company_siren: this.companySiren,
         locale: this.locale,
         notes: this.notes,
-        tag_ids: this.tagIds,
+        tag_ids: this.tagIds?.map(Number),
         tracking_params: this.trackingParams,
       },
     });

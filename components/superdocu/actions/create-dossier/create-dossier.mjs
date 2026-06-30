@@ -30,6 +30,7 @@ export default {
       label: "Notify",
       description: "When `true`, sends an invitation email to the contact upon assignment. Defaults to `false`.",
       optional: true,
+      default: false,
     },
   },
   async run({ $ }) {
