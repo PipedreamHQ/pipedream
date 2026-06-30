@@ -1,11 +1,10 @@
-import { ConfigurationError } from "@pipedream/platform";
 import github from "../../github.app.mjs";
 
 export default {
   key: "github-create-branch",
   name: "Create Branch",
-  description: "Create a new branch in a GitHub repo. [See the documentation](https://docs.github.com/en/rest/git/refs?apiVersion=2022-11-28#create-a-reference)",
-  version: "0.0.21",
+  description: "Create a new branch in a repository, pointing at the tip of a source branch. Provide the repository as an `owner/repo` string, the new `branchName`, and optionally the `sourceBranch` to branch from (defaults to the repository's default branch). Use **Create or Update File Contents** to add commits to the new branch, then **Create Pull Request** to open a PR. [See the documentation](https://docs.github.com/en/rest/git/refs#create-a-reference)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -17,53 +16,43 @@ export default {
     repoFullname: {
       propDefinition: [
         github,
-        "repoFullname",
+        "repoFullnameStatic",
       ],
     },
     branchName: {
       label: "Branch Name",
-      description: "The name of the new branch that will be created",
+      description: "The name of the new branch to create, e.g. `feature/new-paddock`.",
       type: "string",
     },
-    branchSha: {
+    sourceBranch: {
       label: "Source Branch",
-      description: "The source branch that will be used to create the new branch. Defaults to the repository's default branch (usually `main` or `master`)",
-      propDefinition: [
-        github,
-        "branch",
-        (c) => ({
-          repoFullname: c.repoFullname,
-        }),
-      ],
+      description: "The existing branch to create the new branch from. Defaults to the repository's default branch (usually `main` or `master`).",
+      type: "string",
       optional: true,
     },
   },
   async run({ $ }) {
-    if (this.branchSha) {
-      this.branchSha = this.branchSha.split("/")[0];
-    } else {
-      const branches = await this.github.getBranches({
-        repoFullname: this.repoFullname,
-      });
+    const repoFullname = await this.github._resolveRepoFullname(this.repoFullname);
 
-      const masterBranch = branches.filter((branch) => branch.name === "master" || branch.name === "main");
+    const sourceBranch = this.sourceBranch
+      ?? (await this.github.getRepo({
+        repoFullname,
+      })).default_branch;
 
-      if (masterBranch.length) this.branchSha = masterBranch[0].commit.sha;
-    }
-
-    if (!this.branchSha) {
-      throw new ConfigurationError("Is required to select one source branch");
-    }
+    const ref = await this.github.getRef({
+      repoFullname,
+      ref: `heads/${sourceBranch}`,
+    });
 
     const response = await this.github.createBranch({
-      repoFullname: this.repoFullname,
+      repoFullname,
       data: {
         ref: `refs/heads/${this.branchName}`,
-        sha: this.branchSha,
+        sha: ref.object.sha,
       },
     });
 
-    $.export("$summary", `Successfully created branch with ID ${response.object.sha}.`);
+    $.export("$summary", `Successfully created branch \`${this.branchName}\` from \`${sourceBranch}\``);
 
     return response;
   },
