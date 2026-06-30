@@ -6,7 +6,7 @@ export default {
   key: "social_fetch-get-credit-balance",
   name: "Get Credit Balance",
   description: "Returns the current API credit balance for your Social Fetch account. [See the documentation](https://www.socialfetch.dev/docs/api/v1/balance)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
