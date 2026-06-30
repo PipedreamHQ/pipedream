@@ -18,9 +18,9 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "Maximum number of results to return per page. Minimum 1, maximum 1000. Defaults to 100.",
+      description: "Maximum number of results to return per page. Minimum 1, maximum 200. Defaults to 100.",
       min: 1,
-      max: 1000,
+      max: 200,
       default: 100,
       optional: true,
     },
@@ -29,6 +29,7 @@ export default {
       label: "Offset",
       description: "Number of results to skip for pagination. Defaults to 0.",
       default: 0,
+      min: 0,
       optional: true,
     },
     startDate: {

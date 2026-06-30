@@ -9,6 +9,7 @@ export default {
     + " Requires the client's numeric ID - use **Search Clients** first to look up the ID by name or email."
     + " Note: **Get Client Details** may already surface scalar visit-summary fields; use this action when you need the full per-visit history for precise date math or milestone detection."
     + " Iterate `offset` to page through the full history."
+    + " IMPORTANT: the API defaults `startDate` to today and `endDate` to end of today, so for true lifetime spend you MUST set `startDate` to an early date (e.g. `2000-01-01`) and page through all results via `offset`."
     + " [See the documentation](https://developers.mindbodyonline.com/ui/documentation/public-api#/http/api-endpoints/client/get-client-visits)",
   version: "0.0.1",
   type: "action",
