@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import shopify from "../../shopify.app.mjs";
 
 export default {
@@ -38,13 +39,20 @@ export default {
     },
   },
   async run({ $ }) {
+    let refundLineItems;
+    if (this.refundLineItems) {
+      try {
+        refundLineItems = JSON.parse(this.refundLineItems);
+      } catch {
+        throw new ConfigurationError("**Refund Line Items** must be a valid JSON array, e.g. `[{\"lineItemId\":\"gid://shopify/LineItem/866550311766439020\",\"quantity\":1,\"restockType\":\"RETURN\"}]`");
+      }
+    }
+
     const input = {
       orderId: this.orderId,
       notify: this.notify,
       note: this.note,
-      refundLineItems: this.refundLineItems
-        ? JSON.parse(this.refundLineItems)
-        : undefined,
+      refundLineItems,
     };
 
     const response = await this.shopify.createRefund({
