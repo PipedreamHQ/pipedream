@@ -66,7 +66,22 @@ export default {
     traceId: {
       type: "string",
       label: "Trace ID",
-      description: "The ID of a trace. Use the **List Observations** action to discover valid trace IDs.",
+      description: "The ID of a trace, for example trace-cm123abc456def789. Use the **List Observations** action to discover valid trace IDs.",
+    },
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "The page number to retrieve (1-based). Defaults to the first page.",
+      min: 1,
+      optional: true,
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "The number of items to return per page. Min: 1, Max: 100.",
+      min: 1,
+      max: 100,
+      optional: true,
     },
   },
   methods: {
@@ -113,7 +128,7 @@ export default {
       traceId, ...args
     }) {
       return this._makeRequest({
-        path: `/traces/${traceId}`,
+        path: `/traces/${encodeURIComponent(traceId)}`,
         ...args,
       });
     },

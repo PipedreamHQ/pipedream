@@ -41,7 +41,12 @@ export default {
     source: {
       type: "string",
       label: "Source",
-      description: "Filter scores by source. Accepted values include `API`, `REVIEW`, `ANNOTATION`, and `LLM`.",
+      description: "Filter scores by source. Accepted values include `ANNOTATION`, `API`, and `EVAL`.",
+      options: [
+        "ANNOTATION",
+        "API",
+        "EVAL",
+      ],
       optional: true,
     },
     fromTimestamp: {
@@ -57,18 +62,16 @@ export default {
       optional: true,
     },
     page: {
-      type: "integer",
-      label: "Page",
-      description: "The page number to retrieve (1-based). Defaults to the first page.",
-      optional: true,
+      propDefinition: [
+        app,
+        "page",
+      ],
     },
     limit: {
-      type: "integer",
-      label: "Limit",
-      description: "The number of scores to return per page. Min: 1, Max: 1000.",
-      min: 1,
-      max: 1000,
-      optional: true,
+      propDefinition: [
+        app,
+        "limit",
+      ],
     },
   },
   async run({ $ }) {
