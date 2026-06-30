@@ -1,11 +1,10 @@
 import nutshell from "../../nutshell.app.mjs";
-import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "nutshell-get-company",
   name: "Get Company",
-  description: "Get an account (company) by ID. [See the documentation](https://developers-rpc.nutshell.com/detail/class_core.html#a25045510b0896a45e561fafb9ec266bd)",
-  version: "0.0.2",
+  description: "Retrieve a single company (account) from Nutshell. [See the documentation](https://developers.nutshell.com/reference/e011fe1a74d2ca75e6294040b98423f1)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,7 +18,6 @@ export default {
         nutshell,
         "companyId",
       ],
-      description: "The ID of the company (account) to retrieve.",
     },
   },
   async run({ $ }) {
@@ -27,10 +25,6 @@ export default {
       $,
       companyId: this.companyId,
     });
-
-    if (!company) {
-      throw new ConfigurationError(`Company not found: ${this.companyId}`);
-    }
 
     $.export("$summary", `Successfully retrieved company "${company?.name ?? this.companyId}"`);
     return this.nutshell.formatCompany(company);

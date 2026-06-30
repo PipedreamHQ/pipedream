@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/postman",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Pipedream Postman Components",
   "main": "postman.app.mjs",
   "keywords": [

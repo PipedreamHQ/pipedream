@@ -4,7 +4,7 @@ export default {
   key: "zendesk-list-side-conversations",
   name: "List Side Conversations",
   description: "Retrieve all side conversations on a Zendesk ticket. Side conversations are collaboration threads attached to a ticket (email, Slack, Microsoft Teams, or linked child tickets). Use **Get Side Conversation** to fetch a single side conversation by ID. Set `includeEvents` to `true` to sideload each conversation's events (creation, replies, state changes). [See the documentation](https://developer.zendesk.com/api-reference/ticketing/side_conversation/side_conversation/#list-side-conversations).",
-  version: "0.0.1",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
