@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import {
   API_BASE_URL,
   CONTENT_TYPE_OPTIONS,
@@ -8,11 +10,16 @@ import {
   TRANSCRIPT_PLATFORMS,
 } from "./common/constants.mjs";
 import {
+  normalizeHashtag,
+  normalizeRegion,
+  normalizeSubreddit,
   profileLabel,
   resolveGetPostRoute,
   resolveGetProfileRoute,
   resolveGetTranscriptRoute,
   resolveListProfilePostsRoute,
+  stripVideoDetails,
+  trimCursor,
 } from "./common/routing.mjs";
 
 /**
@@ -34,6 +41,21 @@ function formatApiError(status, body) {
   return requestId
     ? `${message} (requestId: ${requestId})`
     : message;
+}
+
+/**
+ * Build an Error that surfaces a friendly message but keeps the original
+ * axios error reachable via `cause` (status / headers / body).
+ */
+function wrapApiError(originalError) {
+  const status = originalError?.response?.status;
+  const body = originalError?.response?.data;
+  if (!status) return originalError;
+  const err = new Error(formatApiError(status, body), {
+    cause: originalError,
+  });
+  err.status = status;
+  return err;
 }
 
 export default {
@@ -107,6 +129,11 @@ export default {
       description: "Pagination cursor from a previous response (`data.page.nextCursor`).",
       optional: true,
     },
+    searchQuery: {
+      type: "string",
+      label: "Query",
+      description: "Free-form search term. Plain string, no dropdown.",
+    },
   },
   methods: {
     /** @returns {Record<string, string>} */
@@ -126,9 +153,11 @@ export default {
       headers = {},
       ...opts
     } = {}) {
-      let response;
       try {
-        response = await axios($, {
+        // `...opts` first so the request shape (url / params / headers) we
+        // build below can't be silently overwritten by a caller-supplied opt.
+        return await axios($, {
+          ...opts,
           baseURL: API_BASE_URL,
           url: path,
           headers: {
@@ -136,18 +165,10 @@ export default {
             ...headers,
           },
           params,
-          ...opts,
         });
       } catch (error) {
-        const status = error?.response?.status;
-        const body = error?.response?.data;
-        if (status) {
-          throw new Error(formatApiError(status, body));
-        }
-        throw error;
+        throw wrapApiError(error);
       }
-
-      return response;
     },
     /** @param {Record<string, unknown>} [opts] */
     getCreditBalance(opts = {}) {
@@ -231,6 +252,221 @@ export default {
       return profileLabel(platform, {
         handle,
         profileUrl,
+      });
+    },
+    /** @param {{ query?: string; cursor?: string; [key: string]: unknown }} [args] */
+    searchTiktokUsers({
+      query, cursor, ...opts
+    } = {}) {
+      return this._makeRequest({
+        path: "/v1/tiktok/users/search",
+        params: {
+          query,
+          cursor: trimCursor(cursor),
+        },
+        ...opts,
+      });
+    },
+    /** @param {{ query?: string; cursor?: string; [key: string]: unknown }} [args] */
+    async searchTiktokContent({
+      query, cursor, ...opts
+    } = {}) {
+      const response = await this._makeRequest({
+        path: "/v1/tiktok/search",
+        params: {
+          query,
+          cursor: trimCursor(cursor),
+        },
+        ...opts,
+      });
+      return stripVideoDetails(response);
+    },
+    /** @param {{ hashtag?: string; cursor?: string; [key: string]: unknown }} [args] */
+    async searchTiktokHashtags({
+      hashtag, cursor, ...opts
+    } = {}) {
+      const response = await this._makeRequest({
+        path: "/v1/tiktok/search/hashtags",
+        params: {
+          hashtag: normalizeHashtag(hashtag),
+          cursor: trimCursor(cursor),
+        },
+        ...opts,
+      });
+      return stripVideoDetails(response);
+    },
+    /** @param {{ region?: string; [key: string]: unknown }} [args] */
+    getTiktokTrendingFeed({
+      region, ...opts
+    } = {}) {
+      return this._makeRequest({
+        path: "/v1/tiktok/feed/trending",
+        params: {
+          region: normalizeRegion(region),
+        },
+        ...opts,
+      });
+    },
+    /** @param {{ query?: string; page?: number; [key: string]: unknown }} [args] */
+    searchTiktokShopProducts({
+      query, page, ...opts
+    } = {}) {
+      return this._makeRequest({
+        path: "/v1/tiktok/shop/products/search",
+        params: {
+          query,
+          page,
+        },
+        ...opts,
+      });
+    },
+    /** @param {{ query?: string; page?: number; [key: string]: unknown }} [args] */
+    searchInstagramReels({
+      query, page, ...opts
+    } = {}) {
+      return this._makeRequest({
+        path: "/v1/instagram/search/reels",
+        params: {
+          query,
+          page,
+        },
+        ...opts,
+      });
+    },
+    /** @param {{ query?: string; cursor?: string; [key: string]: unknown }} [args] */
+    searchTwitterContent({
+      query, cursor, ...opts
+    } = {}) {
+      return this._makeRequest({
+        path: "/v1/twitter/search",
+        params: {
+          query,
+          cursor: trimCursor(cursor),
+        },
+        ...opts,
+      });
+    },
+    /** @param {{ hashtag?: string; cursor?: string; [key: string]: unknown }} [args] */
+    searchTwitterHashtags({
+      hashtag, cursor, ...opts
+    } = {}) {
+      return this._makeRequest({
+        path: "/v1/twitter/hashtags",
+        params: {
+          hashtag: normalizeHashtag(hashtag),
+          cursor: trimCursor(cursor),
+        },
+        ...opts,
+      });
+    },
+    /** @param {{ query?: string; cursor?: string; [key: string]: unknown }} [args] */
+    searchYoutubeContent({
+      query, cursor, ...opts
+    } = {}) {
+      return this._makeRequest({
+        path: "/v1/youtube/search",
+        params: {
+          query,
+          cursor: trimCursor(cursor),
+        },
+        ...opts,
+      });
+    },
+    /** @param {{ hashtag?: string; cursor?: string; [key: string]: unknown }} [args] */
+    searchYoutubeHashtags({
+      hashtag, cursor, ...opts
+    } = {}) {
+      return this._makeRequest({
+        path: "/v1/youtube/search/hashtags",
+        params: {
+          hashtag: normalizeHashtag(hashtag),
+          cursor: trimCursor(cursor),
+        },
+        ...opts,
+      });
+    },
+    /** @param {Record<string, unknown>} [opts] */
+    getYoutubeTrendingShorts(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/youtube/shorts/trending",
+        ...opts,
+      });
+    },
+    /**
+		 * @param {{ firstName?: string; lastName?: string;
+		 *   [key: string]: unknown }} [args]
+		 */
+    searchLinkedinPeople({
+      firstName, lastName, ...opts
+    } = {}) {
+      const first = firstName?.trim();
+      const last = lastName?.trim();
+      if (!first && !last) {
+        throw new ConfigurationError("At least one of First Name or Last Name is required.");
+      }
+      return this._makeRequest({
+        path: "/v1/linkedin/people/search",
+        params: {
+          firstName: first,
+          lastName: last,
+        },
+        ...opts,
+      });
+    },
+    /**
+		 * @param {{ subreddit?: string; query?: string; cursor?: string;
+		 *   [key: string]: unknown }} [args]
+		 */
+    searchRedditSubreddits({
+      subreddit, query, cursor, ...opts
+    } = {}) {
+      return this._makeRequest({
+        path: "/v1/reddit/subreddits/search",
+        params: {
+          subreddit: normalizeSubreddit(subreddit),
+          query,
+          cursor: trimCursor(cursor),
+        },
+        ...opts,
+      });
+    },
+    /** @param {{ query?: string; cursor?: string; [key: string]: unknown }} [args] */
+    searchRedditContent({
+      query, cursor, ...opts
+    } = {}) {
+      return this._makeRequest({
+        path: "/v1/reddit/search",
+        params: {
+          query,
+          cursor: trimCursor(cursor),
+        },
+        ...opts,
+      });
+    },
+    /** @param {{ query?: string; cursor?: string; [key: string]: unknown }} [args] */
+    searchThreadsContent({
+      query, cursor, ...opts
+    } = {}) {
+      return this._makeRequest({
+        path: "/v1/threads/search",
+        params: {
+          query,
+          cursor: trimCursor(cursor),
+        },
+        ...opts,
+      });
+    },
+    /** @param {{ query?: string; cursor?: string; [key: string]: unknown }} [args] */
+    searchThreadsUsers({
+      query, cursor, ...opts
+    } = {}) {
+      return this._makeRequest({
+        path: "/v1/threads/users/search",
+        params: {
+          query,
+          cursor: trimCursor(cursor),
+        },
+        ...opts,
       });
     },
   },

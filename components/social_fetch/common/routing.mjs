@@ -14,6 +14,52 @@ export function withCursor(query, cursor) {
   }
 }
 
+/** @param {string | undefined} cursor */
+export function trimCursor(cursor) {
+  const trimmed = cursor?.trim();
+  return trimmed
+    ? trimmed
+    : undefined;
+}
+
+/** Strip a leading `#` if the user typed one — the description says it's optional. */
+export function normalizeHashtag(hashtag) {
+  return hashtag?.trim().replace(/^#+/, "") || undefined;
+}
+
+/** Strip a leading `r/` (or `/r/`) so users pasting `r/programming` work. */
+export function normalizeSubreddit(subreddit) {
+  return subreddit?.trim().replace(/^\/?r\//i, "") || undefined;
+}
+
+/**
+ * Two-letter ISO country code, upper-cased. Throws a clear error on bad
+ * input rather than letting the API return a generic 400.
+ */
+export function normalizeRegion(region) {
+  const r = region?.trim().toUpperCase();
+  if (!r || !/^[A-Z]{2}$/.test(r)) {
+    throw new Error("Region must be a two-letter country code (e.g. US, GB, DE).");
+  }
+  return r;
+}
+
+/**
+ * TikTok search endpoints include a per-video `details` field that is the
+ * raw upstream API payload (~30-80 KB per video — internal flags, music
+ * metadata, base64 thumbnails). 16 videos × 80 KB easily exceeds the input
+ * window of any current LLM, making the response unusable for an AI agent.
+ * Strip it so the cleaner top-level fields (id, caption, stats, author,
+ * media) come through. Mutates and returns the response for ergonomics.
+ */
+export function stripVideoDetails(response) {
+  const videos = response?.data?.videos;
+  if (Array.isArray(videos)) {
+    for (const v of videos) delete v.details;
+  }
+  return response;
+}
+
 /**
  * @param {string} platform
  * @param {{ handle?: string; profileUrl?: string }} input
