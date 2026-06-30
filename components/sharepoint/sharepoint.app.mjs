@@ -267,10 +267,14 @@ export default {
         return response.value
           ?.filter(({ folder }) => !folder)
           .map(({
-            id, name,
+            id, name, parentReference,
           }) => ({
             label: name,
-            value: id,
+            value: JSON.stringify({
+              id,
+              name,
+              driveId: parentReference?.driveId,
+            }),
           })) || [];
       },
     },
@@ -369,7 +373,7 @@ export default {
             driveId: resolvedDriveId,
           });
         return response.value?.map(({
-          id, name, folder, size, lastModifiedDateTime, webUrl, description,
+          id, name, folder, size, lastModifiedDateTime, webUrl, description, parentReference,
         }) => ({
           value: JSON.stringify({
             id,
@@ -380,6 +384,7 @@ export default {
             lastModifiedDateTime,
             webUrl,
             description,
+            driveId: parentReference?.driveId,
           }),
           label: name,
         })) || [];
