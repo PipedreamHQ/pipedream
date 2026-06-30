@@ -251,10 +251,21 @@ export default {
       }
       return this.listFilesOptions(pageToken, request);
     },
-    async getPresentation(presentationId) {
+    getPresentationId(idOrUrl) {
+      // Accept a plain presentation ID or a full Slides URL
+      // (e.g. https://docs.google.com/presentation/d/{ID}/edit).
+      const match = String(idOrUrl).match(/\/presentation\/d\/([a-zA-Z0-9-_]+)/);
+      return match
+        ? match[1]
+        : idOrUrl;
+    },
+    async getPresentation(presentationId, fields) {
       const slides = this.slides();
       const request = {
         presentationId,
+        ...fields && {
+          fields,
+        },
       };
       return (await slides.presentations.get(request)).data;
     },
