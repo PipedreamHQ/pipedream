@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/returnista",
-  "version": "1.0.0",
+  "version": "0.3.0",
   "description": "Pipedream Returnista Components",
   "main": "returnista.app.mjs",
   "keywords": [
