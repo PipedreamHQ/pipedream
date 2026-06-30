@@ -3,14 +3,17 @@ import returnista from "../../returnista.app.mjs";
 export default {
   key: "returnista-get-consumer-purchases",
   name: "Get Consumer Purchases",
-  description: "Get consumer purchases. [See the documentation](https://platform.returnista.com/reference/rest-api/#get-/consumer/-consumerId/purchases)",
-  version: "0.0.1",
+  description: "Gets the purchase history for a consumer by their consumer ID."
+    + " Useful for support workflows to understand what a consumer has purchased before they initiated a return."
+    + " To find a consumer ID, use **Get Return Orders** with `expand: [\"consumer\"]` on a related return order — the consumer object will include the ID."
+    + " [See the documentation](https://platform.returnista.com/reference/rest-api/#get-/consumer/-consumerId/purchases)",
+  version: "0.0.2",
+  type: "action",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
-  type: "action",
   props: {
     returnista,
     consumerId: {
@@ -21,11 +24,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const { data: response } = await this.returnista.getConsumerPurchases({
+    const response = await this.returnista.getConsumerPurchases({
       $,
       consumerId: this.consumerId,
     });
-    $.export("$summary", `Successfully retrieved ${response.length} consumer purchases`);
-    return response;
+    const purchases = response?.data ?? (Array.isArray(response)
+      ? response
+      : []);
+    $.export("$summary", `Retrieved ${purchases.length} purchase(s) for consumer ${this.consumerId}`);
+    return purchases;
   },
 };
