@@ -62,10 +62,13 @@ export default {
       while (Date.now() < deadline) {
         const result = await this.getResult($, requestId);
         if (result.status === "completed") return result.outputs;
-        if (result.status === "failed") throw new Error(result.error || "Generation failed");
+        if (result.status === "failed") {
+          const msg = result.error ?? `Generation failed (request_id: ${requestId})`;
+          throw new Error(msg);
+        }
         await new Promise((r) => setTimeout(r, intervalMs));
       }
-      throw new Error(`Generation timed out after ${timeoutMs / 1000}s`);
+      throw new Error(`Generation timed out after ${timeoutMs / 1000}s (request_id: ${requestId})`);
     },
   },
 };

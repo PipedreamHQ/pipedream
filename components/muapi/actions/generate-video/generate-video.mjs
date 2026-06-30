@@ -21,7 +21,7 @@ export default {
   name: "Generate Video",
   version: "0.0.1",
   key: "muapi-generate-video",
-  description: "Generate a video from a text prompt using 14+ models including Veo3, Veo4, Kling, Wan, Seedance, Runway, Sora, and more. [See the documentation](https://docs.muapi.ai)",
+  description: "Generate a video from a text prompt using 14+ models including Veo3, Veo4, Kling, Wan, Seedance, Runway, Sora, and more. [See the documentation](https://muapi.ai/docs/api-reference/video-generation)",
   type: "action",
   annotations: {
     openWorldHint: true,

@@ -23,7 +23,7 @@ export default {
   name: "Generate Image",
   version: "0.0.1",
   key: "muapi-generate-image",
-  description: "Generate an image from a text prompt using 15+ models including Flux, Midjourney, GPT-4o, Imagen 4, and more. [See the documentation](https://docs.muapi.ai)",
+  description: "Generate an image from a text prompt using 15+ models including Flux, Midjourney, GPT-4o, Imagen 4, and more. [See the documentation](https://muapi.ai/docs/api-reference/image-generation)",
   type: "action",
   annotations: {
     openWorldHint: true,
@@ -57,7 +57,6 @@ export default {
   },
   async run({ $ }) {
     const endpoint = T2I_MODELS[this.model];
-    if (!endpoint) throw new Error(`Unknown model: ${this.model}`);
 
     const { request_id } = await this.muapi.post($, endpoint, {
       prompt: this.prompt,
@@ -65,7 +64,7 @@ export default {
     });
 
     const outputs = await this.muapi.pollResult($, request_id);
-    $.export("$summary", `Successfully generated ${outputs.length} image(s) with ${this.model}`);
+    $.export("$summary", `Generated ${outputs.length} image${outputs.length === 1 ? "" : "s"} with ${this.model} (request_id: ${request_id})`);
     return {
       request_id,
       outputs,
