@@ -62,9 +62,15 @@ export default {
   },
   methods: {
     // Filename lives at different paths per document type: resumes nest it under
-    // `file`, files expose it at the top level, offers have neither — fall back to id.
+    // `file`, files expose it at the top level, and offers carry it on the nested
+    // `signedDocument`/`sentDocument` objects (prefer the signed/executed copy);
+    // fall back to a type-and-id name only when none is present.
     documentName(resource, item) {
-      const raw = item.file?.name ?? item.name ?? `${resource.replace(/s$/, "")}-${item.id}`;
+      const raw = item.file?.name
+        ?? item.name
+        ?? item.signedDocument?.fileName
+        ?? item.sentDocument?.fileName
+        ?? `${resource.replace(/s$/, "")}-${item.id}`;
       // Sanitize so the value can never escape the stash directory or break the
       // write: collapse path separators, drop control/reserved characters, and
       // strip leading dots that could form a `..` traversal or hidden file.

@@ -118,7 +118,7 @@ export default {
       const total = Array.isArray(data)
         ? data.length
         : undefined;
-      $.export("$summary", `Found ${total} opportunit${total === 1
+      $.export("$summary", `Found ${total ?? 0} opportunit${total === 1
         ? "y"
         : "ies"}`);
       return response;
