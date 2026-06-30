@@ -44,13 +44,13 @@ export default {
     companySiret: {
       type: "string",
       label: "Company SIRET",
-      description: "Company SIRET identifier.",
+      description: "14-digit SIRET identifier for the contact's company, e.g. `73282932000074`. Find the SIRET on a company's detail page in Superdocu or from an official business registry.",
       optional: true,
     },
     companySiren: {
       type: "string",
       label: "Company SIREN",
-      description: "Company SIREN identifier.",
+      description: "9-digit SIREN identifier for the contact's company, e.g. `732829320` (the first 9 digits of the SIRET). Find the SIREN on a company's detail page in Superdocu or from an official business registry.",
       optional: true,
     },
     locale: {
@@ -69,7 +69,7 @@ export default {
     tagIds: {
       type: "string[]",
       label: "Tag IDs",
-      description: "Tag IDs (integer IDs) to assign to the contact.",
+      description: "Integer IDs of tags to assign to the contact, e.g. `[123, 456]`. Find tag IDs in the Tags section of your Superdocu account settings.",
       optional: true,
     },
     trackingParams: {
@@ -92,7 +92,9 @@ export default {
         company_siren: this.companySiren,
         locale: this.locale,
         notes: this.notes,
-        tag_ids: this.tagIds?.map(Number),
+        tag_ids: this.tagIds
+          ?.filter((id) => /^\d+$/.test(String(id).trim()))
+          .map(Number),
         tracking_params: this.trackingParams,
       },
     });
