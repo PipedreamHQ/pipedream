@@ -1023,7 +1023,11 @@ importers:
 
   components/apex_27: {}
 
-  components/apexverify: {}
+  components/apexverify:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/api2convert: {}
 
@@ -9844,7 +9848,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0(encoding@0.1.13)
 
-  components/microsoft_clarity: {}
+  components/microsoft_clarity:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/microsoft_dataverse: {}
 
@@ -12345,7 +12353,11 @@ importers:
         specifier: ^3.4.0
         version: 3.4.0
 
-  components/polydoc: {}
+  components/polydoc:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/polygon:
     dependencies:
@@ -13296,7 +13308,11 @@ importers:
         specifier: 4.0.4
         version: 4.0.4
 
-  components/rendex: {}
+  components/rendex:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/rendi:
     dependencies:
@@ -16123,7 +16139,11 @@ importers:
         specifier: ^3.2.5
         version: 3.3.0
 
-  components/the_colony: {}
+  components/the_colony:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.4.0
 
   components/the_events_calendar: {}
 
@@ -16238,7 +16258,11 @@ importers:
 
   components/tidyhq: {}
 
-  components/tiktok_ads_manager: {}
+  components/tiktok_ads_manager:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/tilda:
     dependencies:
@@ -41396,7 +41420,7 @@ snapshots:
   '@pipedream/apify@0.4.0':
     dependencies:
       '@apify/consts': 2.47.0
-      '@pipedream/platform': 3.3.1
+      '@pipedream/platform': 3.4.0
       apify-client: 2.19.0
     transitivePeerDependencies:
       - debug
