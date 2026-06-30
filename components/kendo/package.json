@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/kendo",
+  "version": "0.1.0",
+  "description": "Pipedream Kendo AI components",
+  "main": "kendo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "kendo",
+    "kendoai"
+  ],
+  "homepage": "https://pipedream.com/apps/kendo",
+  "author": "Sambot <0xsambot@pm.me> (https://kendo.ai)",
+  "dependencies": {
+    "@pipedream/sdk": "^2.4.7"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
