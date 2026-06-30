@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import slides from "@googleapis/slides";
 import googleDrive from "@pipedream/google_drive";
 
@@ -252,12 +253,19 @@ export default {
       return this.listFilesOptions(pageToken, request);
     },
     getPresentationId(idOrUrl) {
+      const input = String(idOrUrl);
+      // Published presentations use /presentation/d/e/{token}/pub and have no
+      // editable ID that presentations.get accepts, so reject them explicitly
+      // rather than extracting the literal "e" segment as the ID.
+      if (/\/presentation\/d\/e\//.test(input)) {
+        throw new ConfigurationError("Published presentation URLs (`/presentation/d/e/...`) are not supported. Provide the presentation's ID or its editable URL (`https://docs.google.com/presentation/d/{ID}/edit`).");
+      }
       // Accept a plain presentation ID or a full Slides URL
       // (e.g. https://docs.google.com/presentation/d/{ID}/edit).
-      const match = String(idOrUrl).match(/\/presentation\/d\/([a-zA-Z0-9-_]+)/);
+      const match = input.match(/\/presentation\/d\/([a-zA-Z0-9-_]+)/);
       return match
         ? match[1]
-        : idOrUrl;
+        : input;
     },
     async getPresentation(presentationId, fields) {
       const slides = this.slides();
