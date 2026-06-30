@@ -4,7 +4,7 @@ export default {
   key: "nutshell-list-contact-id-options",
   name: "List Contact Id Options",
   description: "Retrieves available options for the Contact Id field.",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
