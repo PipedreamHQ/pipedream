@@ -32,7 +32,7 @@ export default {
     resources: {
       type: "string[]",
       label: "Document Types",
-      description: "Which document types to download from. Select one or more.",
+      description: "Which document types to download from (one or more of `resumes`, `files` and `others`",
       options: [
         "resumes",
         "files",
