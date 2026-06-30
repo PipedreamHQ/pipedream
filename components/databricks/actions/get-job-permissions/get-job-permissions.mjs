@@ -4,7 +4,7 @@ export default {
   key: "databricks-get-job-permissions",
   name: "Get Job Permissions",
   description: "Get permissions of a job. [See the documentation](https://docs.databricks.com/api/workspace/jobs/getpermissions)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
