@@ -433,6 +433,66 @@ const UPDATE_ORDER = `
   }
 `;
 
+const REFUND_CREATE = `
+  mutation refundCreate($input: RefundInput!) {
+    refundCreate(input: $input) {
+      refund {
+        id
+        order {
+          id
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const ORDER_CANCEL = `
+  mutation orderCancel(
+    $orderId: ID!,
+    $reason: OrderCancelReason!,
+    $restock: Boolean!,
+    $notifyCustomer: Boolean,
+    $staffNote: String
+  ) {
+    orderCancel(
+      orderId: $orderId,
+      reason: $reason,
+      restock: $restock,
+      notifyCustomer: $notifyCustomer,
+      staffNote: $staffNote
+    ) {
+      job {
+        id
+        done
+      }
+      orderCancelUserErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const FULFILLMENT_ORDER_SUBMIT_CANCELLATION_REQUEST = `
+  mutation fulfillmentOrderSubmitCancellationRequest($id: ID!, $message: String) {
+    fulfillmentOrderSubmitCancellationRequest(id: $id, message: $message) {
+      fulfillmentOrder {
+        id
+        status
+        requestStatus
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
 export default {
   CREATE_WEBHOOK,
   DELETE_WEBHOOK,
@@ -458,4 +518,7 @@ export default {
   DELETE_PAGE,
   DELETE_METAFIELD,
   UPDATE_ORDER,
+  REFUND_CREATE,
+  ORDER_CANCEL,
+  FULFILLMENT_ORDER_SUBMIT_CANCELLATION_REQUEST,
 };
