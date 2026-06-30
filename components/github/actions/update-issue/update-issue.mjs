@@ -4,7 +4,7 @@ export default {
   key: "github-update-issue",
   name: "Update Issue",
   description: "Update an existing issue: change its title, body, state (open/closed), labels, assignees, or milestone. Provide the repository as an `owner/repo` string and the issue number. Setting `labels` **replaces** the full label set (it does not append), so include any existing labels you want to keep. Closing an issue is done here by setting `state` to `closed`. Use **Get Issue** first if you need the current values. [See the documentation](https://docs.github.com/en/rest/issues/issues#update-an-issue)",
-  version: "0.3.0",
+  version: "0.3.1",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

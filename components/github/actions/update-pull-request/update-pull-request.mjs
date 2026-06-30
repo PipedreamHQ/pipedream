@@ -3,8 +3,8 @@ import github from "../../github.app.mjs";
 export default {
   key: "github-update-pull-request",
   name: "Update Pull Request",
-  description: "Updates an existing pull request with new title, body, state, or base branch. [See the documentation](https://docs.github.com/en/rest/pulls/pulls#update-a-pull-request)",
-  version: "0.0.3",
+  description: "Update an existing pull request's title, body, state (`open`/`closed`), or base branch. Only the fields you provide are changed. Provide the repository as an `owner/repo` string and the PR number. If you only know the PR by title, call **Get Pull Request** or **Search Issues and Pull Requests** with `is:pr` first to resolve its number. To merge a PR, use **Merge Pull Request**; to comment on it, use **Create Issue Comment**. [See the documentation](https://docs.github.com/en/rest/pulls/pulls#update-a-pull-request)",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: true,
@@ -16,37 +16,30 @@ export default {
     repoFullname: {
       propDefinition: [
         github,
-        "repoFullname",
+        "repoFullnameStatic",
       ],
-      label: "Repository",
-      description: "The repository where the pull request exists.",
     },
     pullNumber: {
       propDefinition: [
         github,
-        "pullNumber",
-        (c) => ({
-          repoFullname: c.repoFullname,
-        }),
+        "pullNumberStatic",
       ],
-      label: "Pull Request Number",
-      description: "The number of the pull request to update.",
     },
     title: {
       label: "Title",
-      description: "The title of the pull request.",
+      description: "The new title of the pull request.",
       type: "string",
       optional: true,
     },
     body: {
       label: "Body",
-      description: "The contents of the pull request body. Supports markdown.",
+      description: "The new contents of the pull request body. Supports GitHub-flavored Markdown.",
       type: "string",
       optional: true,
     },
     state: {
       label: "State",
-      description: "The desired state of the pull request.",
+      description: "The desired state of the pull request. Set to `closed` to close it without merging, or `open` to reopen.",
       type: "string",
       optional: true,
       options: [
@@ -55,68 +48,28 @@ export default {
       ],
     },
     base: {
-      propDefinition: [
-        github,
-        "branch",
-        (c) => ({
-          repoFullname: c.repoFullname,
-        }),
-      ],
       label: "Base Branch",
-      description: "The name of the branch you want your changes pulled into. This should be an existing branch on the current repository.",
-      optional: true,
-    },
-    maintainerCanModify: {
-      label: "Maintainers Can Modify",
-      description: "Indicates whether [maintainers can modify](https://docs.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request.",
-      type: "boolean",
+      description: "The name of the branch you want the changes pulled into, e.g. `main`. Must be an existing branch in the repository.",
+      type: "string",
       optional: true,
     },
   },
   async run({ $ }) {
-    const {
-      github,
+    const repoFullname = await this.github._resolveRepoFullname(this.repoFullname);
+    const data = {
+      title: this.title,
+      body: this.body,
+      state: this.state,
+      base: this.base,
+    };
+
+    const response = await this.github.updatePullRequest({
       repoFullname,
-      pullNumber,
-      title,
-      body,
-      state,
-      base,
-      maintainerCanModify,
-    } = this;
-
-    const data = {};
-
-    if (title) {
-      data.title = title;
-    }
-
-    if (body) {
-      data.body = body;
-    }
-
-    if (state) {
-      data.state = state;
-    }
-
-    if (base) {
-      // Extract branch name from the branch prop format (sha/branchname)
-      data.base = base.split("/")[1];
-    }
-
-    // Only include maintainer_can_modify if explicitly set to true
-    // This field only applies to cross-repo pull requests (from forks)
-    if (maintainerCanModify === true) {
-      data.maintainer_can_modify = maintainerCanModify;
-    }
-
-    const response = await github.updatePullRequest({
-      repoFullname,
-      pullNumber,
+      pullNumber: this.pullNumber,
       data,
     });
 
-    $.export("$summary", `Successfully updated pull request with ID \`${response.id}\``);
+    $.export("$summary", `Successfully updated pull request #${this.pullNumber}`);
 
     return response;
   },
