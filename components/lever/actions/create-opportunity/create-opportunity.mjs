@@ -114,13 +114,19 @@ export default {
       ]
       : undefined;
     const tags = this.tags
-      ? this.tags.split(",").map((t) => t.trim())
+      ? this.tags.split(",")
+        .map((t) => t.trim())
+        .filter(Boolean)
       : undefined;
     const sources = this.sources
-      ? this.sources.split(",").map((s) => s.trim())
+      ? this.sources.split(",")
+        .map((s) => s.trim())
+        .filter(Boolean)
       : undefined;
     const links = this.links
-      ? this.links.split(",").map((l) => l.trim())
+      ? this.links.split(",")
+        .map((l) => l.trim())
+        .filter(Boolean)
       : undefined;
 
     const body = {
@@ -132,9 +138,9 @@ export default {
     if (postings) body.postings = postings;
     if (this.stageId) body.stage = this.stageId;
     if (this.origin) body.origin = this.origin;
-    if (tags) body.tags = tags;
-    if (sources) body.sources = sources;
-    if (links) body.links = links;
+    if (tags?.length) body.tags = tags;
+    if (sources?.length) body.sources = sources;
+    if (links?.length) body.links = links;
 
     const response = await this.app.createOpportunity({
       $,

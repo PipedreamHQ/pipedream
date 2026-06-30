@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../lever.app.mjs";
 
 export default {
@@ -100,6 +101,10 @@ export default {
       .map((id) => ({
         id,
       }));
+
+    if (!interviewers.length) {
+      throw new ConfigurationError("At least one interviewer user ID is required.");
+    }
 
     const body = {
       panel: this.panelId,

@@ -108,6 +108,10 @@ export default {
       perform_as: this.performAs,
     };
 
+    if (this.team && !this.department) {
+      throw new ConfigurationError("A `team` must be supplied together with its parent `department` — Lever rejects a team on its own as 'not a valid subset'.");
+    }
+
     const categories = {};
     if (this.team) categories.team = this.team;
     if (this.department) categories.department = this.department;
@@ -117,11 +121,19 @@ export default {
     const content = {};
     if (this.descriptionHtml) content.descriptionHtml = this.descriptionHtml;
     if (this.lists) {
+      let parsed;
       try {
-        content.lists = JSON.parse(this.lists);
+        parsed = JSON.parse(this.lists);
       } catch {
         throw new ConfigurationError("Content Lists must be a valid JSON array. Example: [{\"text\": \"Responsibilities\", \"content\": \"<li>Build features</li>\"}]");
       }
+      const isValidShape = Array.isArray(parsed) && parsed.every((item) =>
+        item && typeof item === "object" && !Array.isArray(item)
+        && typeof item.text === "string" && typeof item.content === "string");
+      if (!isValidShape) {
+        throw new ConfigurationError("Content Lists must be a JSON array of objects, each with string `text` and `content` fields. Example: [{\"text\": \"Responsibilities\", \"content\": \"<li>Build features</li>\"}]");
+      }
+      content.lists = parsed;
     }
     if (this.closingHtml) content.closingPostingHtml = this.closingHtml;
 

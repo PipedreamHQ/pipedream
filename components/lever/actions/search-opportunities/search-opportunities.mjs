@@ -8,7 +8,7 @@ export default {
     + " This is the primary tool for finding candidates — use it whenever asked to find, list, or filter candidates or applications."
     + " Supports filtering by job posting, pipeline stage, tag, origin, email, and archived status."
     + " Use **List Postings** to find posting IDs, **List Stages** to find stage IDs."
-    + " The Lever API has no name or owner filter. To find a candidate **by name**, pass the name in `email`: when the value isn't a valid email address this tool lists opportunities and matches them by name/email locally (it does not send an invalid `email` to the API)."
+    + " The Lever API has no name or owner filter. To find a candidate **by name**, pass the name in `email`: when the value isn't a valid email address this tool lists opportunities and matches them by name/email locally (it does not send an invalid `email` to the API). The local name match sweeps up to the first several pages of results; if that cap is reached the `$summary` says so and the response `next` cursor lets you continue."
     + " When the user says 'my candidates', note that the API does not support filtering by owner directly — search by posting or stage and identify relevant records from the results."
     + " Set expand to include related objects inline (e.g. `stage`, `owner`, `contact`) and avoid follow-up calls."
     + " Returns cursor-paginated results; use the `next` field in the response to fetch subsequent pages."
@@ -101,46 +101,87 @@ export default {
     // If `email` isn't a valid address, treat it as a name/keyword query: omit it
     // server-side and match locally on name/email, instead of letting Lever reject it.
     const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const nameQuery = this.email && !EMAIL_RE.test(this.email)
-      ? this.email.trim().toLowerCase()
+    const email = this.email?.trim();
+    const nameQuery = email && !EMAIL_RE.test(email)
+      ? email.toLowerCase()
       : null;
-    if (this.email && !nameQuery) params.email = this.email;
+    if (email && !nameQuery) params.email = email;
 
     const response = await this.app.listOpportunities({
       $,
       params,
     });
 
-    let opportunities = response.data ?? response;
-    if (nameQuery && Array.isArray(opportunities)) {
-      opportunities = opportunities.filter((o) => {
-        const name = (o.name ?? "").toLowerCase();
-        const emails = (o.emails ?? []).join(" ").toLowerCase();
-        return name.includes(nameQuery) || emails.includes(nameQuery);
+    // No name query: return Lever's response (single page) as-is.
+    if (!nameQuery) {
+      const data = response.data ?? response;
+      const total = Array.isArray(data)
+        ? data.length
+        : undefined;
+      $.export("$summary", `Found ${total} opportunit${total === 1
+        ? "y"
+        : "ies"}`);
+      return response;
+    }
+
+    // Name query: Lever has no server-side name filter, so sweep across pages and
+    // match locally. Bound the sweep with a page cap to avoid timeouts / excessive
+    // calls on very large accounts; surface in the summary when the cap is hit.
+    const MAX_PAGES = 10;
+    const matchesNameQuery = (o) => {
+      const name = (o.name ?? "").toLowerCase();
+      const emails = (o.emails ?? []).join(" ").toLowerCase();
+      return name.includes(nameQuery) || emails.includes(nameQuery);
+    };
+
+    const matches = [];
+    let scanned = 0;
+    let pages = 0;
+    let current = response;
+    let continuation;
+    for (;;) {
+      const data = current.data ?? current;
+      if (Array.isArray(data)) {
+        scanned += data.length;
+        matches.push(...data.filter(matchesNameQuery));
+      }
+      pages += 1;
+      const next = Array.isArray(data)
+        ? current.next
+        : undefined;
+      if (!next) break;
+      if (pages >= MAX_PAGES) {
+        continuation = next;
+        break;
+      }
+      current = await this.app.listOpportunities({
+        $,
+        params: {
+          ...params,
+          offset: next,
+        },
       });
     }
 
-    const count = Array.isArray(opportunities)
-      ? opportunities.length
-      : undefined;
-    $.export("$summary", nameQuery
-      ? `Found ${count} opportunit${count === 1
-        ? "y"
-        : "ies"} matching "${this.email}"`
-      : `Found ${count} opportunit${count === 1
-        ? "y"
-        : "ies"}`);
+    const count = matches.length;
+    $.export("$summary", `Found ${count} opportunit${count === 1
+      ? "y"
+      : "ies"} matching "${email}" (searched ${scanned} record${scanned === 1
+      ? ""
+      : "s"}${continuation
+      ? `; stopped at ${MAX_PAGES}-page cap, more may exist`
+      : ""})`);
 
-    // For a local name match, return the filtered set in Lever's response envelope
-    // (preserving `next`/pagination fields) so downstream sees only relevant records.
-    if (nameQuery) {
-      return response && typeof response === "object" && Array.isArray(response.data)
-        ? {
-          ...response,
-          data: opportunities,
-        }
-        : opportunities;
+    // Return the aggregated matches in Lever's response envelope. `next` reflects
+    // the real continuation cursor: the unfetched page when capped, otherwise none.
+    if (response && typeof response === "object" && Array.isArray(response.data)) {
+      return {
+        ...response,
+        data: matches,
+        next: continuation,
+        hasNext: Boolean(continuation),
+      };
     }
-    return response;
+    return matches;
   },
 };

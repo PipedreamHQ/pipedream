@@ -9,7 +9,8 @@ export default {
     + " Set `resource` to choose which: `notes` (recruiter notes), `feedback` (interview scorecards — each with panel id, interviewer, and score), `interviews` (scheduled interviews — each with panel id, date, interviewers), `resumes` (parsed resumes — each with a resume id), `files` (other attached documents — each with file id, name, extension), or `offers` (offer details)."
     + " Use **Search Opportunities** to find the opportunity ID first."
     + " The panel IDs returned by `interviews`/`feedback` are used by **Submit Feedback**; the `resumes` resource returns each resume's parsed data inline (status, file info, and extracted fields)."
-    + " Returns one page (up to `limit`); if the response's `hasNext` is true, pass its `next` value to `offset` to fetch the following page."
+    + " For `notes`, `feedback`, `interviews`, and `offers` this returns one page (up to `limit`); if the response's `hasNext` is true, pass its `next` value to `offset` to fetch the following page."
+    + " Gotcha: `resumes` and `files` are **not** paginated — Lever returns the full set in a single payload with no `hasNext`/`next` cursor, and `limit`/`offset` are ignored, so do not expect cursor metadata for them."
     + " Example: to read a candidate's interview feedback, call with opportunityId=\"<id>\", resource=\"feedback\" → returns feedback records each with panel id, interviewer, score, and completed form fields."
     + " [See the documentation](https://hire.lever.co/developer/documentation#opportunities)",
   version: "0.0.1",

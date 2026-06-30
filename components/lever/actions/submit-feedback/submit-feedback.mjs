@@ -76,11 +76,16 @@ export default {
     if (this.panelId) body.panel = this.panelId;
     if (this.interviewId) body.interview = this.interviewId;
     if (this.fieldValues) {
+      let parsed;
       try {
-        body.fieldValues = JSON.parse(this.fieldValues);
+        parsed = JSON.parse(this.fieldValues);
       } catch {
         throw new ConfigurationError("Field Values must be a valid JSON array. Example: [{\"id\": \"abc123\", \"value\": \"Strong communicator\"}]");
       }
+      if (!Array.isArray(parsed)) {
+        throw new ConfigurationError("Field Values must be a JSON array. Example: [{\"id\": \"abc123\", \"value\": \"Strong communicator\"}]");
+      }
+      body.fieldValues = parsed;
     }
 
     const response = await this.app.submitFeedback(this.opportunityId, {

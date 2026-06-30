@@ -1,5 +1,4 @@
 import fs from "fs";
-import { ConfigurationError } from "@pipedream/platform";
 import app from "../../lever.app.mjs";
 
 export default {
@@ -65,7 +64,40 @@ export default {
     // Filename lives at different paths per document type: resumes nest it under
     // `file`, files expose it at the top level, offers have neither — fall back to id.
     documentName(resource, item) {
-      return item.file?.name ?? item.name ?? `${resource.replace(/s$/, "")}-${item.id}`;
+      const raw = item.file?.name ?? item.name ?? `${resource.replace(/s$/, "")}-${item.id}`;
+      // Sanitize so the value can never escape the stash directory or break the
+      // write: collapse path separators, drop control/reserved characters, and
+      // strip leading dots that could form a `..` traversal or hidden file.
+      const sanitized = raw
+        .replace(/[/\\]+/g, "_")
+        // eslint-disable-next-line no-control-regex
+        .replace(/[\x00-\x1f<>:"|?*]/g, "")
+        .replace(/^\.+/, "")
+        .trim();
+      return sanitized || `${resource.replace(/s$/, "")}-${item.id}`;
+    },
+    // Make `name` unique within the batch so a later document with the same name
+    // does not overwrite an earlier one. Preserves the extension if present.
+    uniqueName(name, usedNames) {
+      if (!usedNames.has(name)) {
+        usedNames.add(name);
+        return name;
+      }
+      const dot = name.lastIndexOf(".");
+      const base = dot > 0
+        ? name.slice(0, dot)
+        : name;
+      const ext = dot > 0
+        ? name.slice(dot)
+        : "";
+      let counter = 1;
+      let candidate = `${base}-${counter}${ext}`;
+      while (usedNames.has(candidate)) {
+        counter += 1;
+        candidate = `${base}-${counter}${ext}`;
+      }
+      usedNames.add(candidate);
+      return candidate;
     },
   },
   async run({ $ }) {
@@ -76,6 +108,7 @@ export default {
 
     const files = [];
     const errors = [];
+    const usedNames = new Set();
 
     for (const resource of this.resources) {
       const listResponse = await this.app.listOpportunityItems(this.opportunityId, resource, {
@@ -95,12 +128,13 @@ export default {
               $,
             },
           );
-          const filePath = `${process.env.STASH_DIR || "/tmp"}/${name}`;
+          const uniqueFileName = this.uniqueName(name, usedNames);
+          const filePath = `${process.env.STASH_DIR || "/tmp"}/${uniqueFileName}`;
           fs.writeFileSync(filePath, Buffer.from(data));
           files.push({
             resource,
             id: item.id,
-            name,
+            name: uniqueFileName,
             file_path: filePath,
           });
         } catch (err) {
@@ -116,7 +150,9 @@ export default {
 
     if (!files.length && errors.length) {
       const detail = errors.map((e) => `${e.name} (${e.error})`).join("; ");
-      throw new ConfigurationError(`Failed to download ${errors.length} file(s): ${detail}`);
+      // These are runtime download/API failures, not user-config errors — use a
+      // plain Error so the platform treats it as a (potentially retryable) failure.
+      throw new Error(`Failed to download ${errors.length} file(s): ${detail}`);
     }
 
     $.export("$summary", `Downloaded ${files.length} file${files.length === 1
