@@ -4,7 +4,7 @@ export default {
   name: "Remove Items from a Playlist",
   description: "Remove one or more items from a user's playlist. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/remove-tracks-playlist)",
   key: "spotify-remove-items-from-playlist",
-  version: "0.1.6",
+  version: "0.1.7",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
