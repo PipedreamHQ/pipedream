@@ -79,6 +79,25 @@ export const requireQueryOrFilters = ({
   }
 };
 
+export const requireCommunicationTarget = (payload = {}) => {
+  const targetKeys = [
+    "target_user_id",
+    "linkedin_profile_url",
+    "linkedin_username",
+    "x_profile_url",
+    "x_username",
+    "instagram_profile_url",
+    "instagram_username",
+    "recipient_email",
+  ];
+
+  if (targetKeys.every((key) => isEmptyValue(payload[key]))) {
+    throw new ConfigurationError(
+      "Provide at least one target identifier, such as Target User ID, LinkedIn Profile URL, X Username, Instagram Username, or Recipient Email.",
+    );
+  }
+};
+
 export const countSummary = ({
   total, rows, rowLabel,
 }) => {

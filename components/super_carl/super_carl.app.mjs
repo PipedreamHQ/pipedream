@@ -2,6 +2,16 @@ import { axios } from "@pipedream/platform";
 
 import { cleanObject } from "./common/utils.mjs";
 
+const COMMUNICATION_CHANNEL_OPTIONS = [
+  "supercarl_direct_message",
+  "supercarl_invite",
+  "supercarl_referral_request",
+  "gmail_send",
+  "linkedin_send_message",
+  "x_send_message",
+  "instagram_send_message",
+];
+
 export default {
   type: "app",
   app: "super_carl",
@@ -74,6 +84,121 @@ export default {
         "none",
         "summary",
         "intro_paths",
+      ],
+    },
+    communicationChannel: {
+      type: "string",
+      label: "Channel",
+      description: "Outbound channel. Use `gmail_send` for email, `linkedin_send_message` for LinkedIn, `x_send_message` for X, `instagram_send_message` for Instagram, or a `supercarl_*` channel for in-product Super Carl messaging.",
+      options: COMMUNICATION_CHANNEL_OPTIONS,
+    },
+    communicationChannels: {
+      type: "string[]",
+      label: "Channels",
+      description: "Optional channels to check. Example: `[\"gmail_send\", \"linkedin_send_message\"]`. Leave blank to check every supported channel.",
+      options: COMMUNICATION_CHANNEL_OPTIONS,
+      optional: true,
+    },
+    communicationId: {
+      type: "string",
+      label: "Communication ID",
+      description: "ID returned by Create Communication Draft or Send Communication, for example `communication_123`.",
+    },
+    targetUserId: {
+      type: "string",
+      label: "Target User ID",
+      description: "Optional Super Carl person/user ID for the communication target, for example `usr_abc123`.",
+      optional: true,
+    },
+    linkedinProfileUrl: {
+      type: "string",
+      label: "LinkedIn Profile URL",
+      description: "Optional LinkedIn profile URL for the communication target, for example `https://www.linkedin.com/in/target-person/`.",
+      optional: true,
+    },
+    linkedinUsername: {
+      type: "string",
+      label: "LinkedIn Username",
+      description: "Optional LinkedIn public identifier when a full profile URL is not available.",
+      optional: true,
+    },
+    xProfileUrl: {
+      type: "string",
+      label: "X Profile URL",
+      description: "Optional X profile URL for the communication target, for example `https://x.com/username`.",
+      optional: true,
+    },
+    xUsername: {
+      type: "string",
+      label: "X Username",
+      description: "Optional X username without the `@` symbol.",
+      optional: true,
+    },
+    instagramProfileUrl: {
+      type: "string",
+      label: "Instagram Profile URL",
+      description: "Optional Instagram profile URL for the communication target.",
+      optional: true,
+    },
+    instagramUsername: {
+      type: "string",
+      label: "Instagram Username",
+      description: "Optional Instagram username without the `@` symbol.",
+      optional: true,
+    },
+    recipientEmail: {
+      type: "string",
+      label: "Recipient Email",
+      description: "Recipient email address for Gmail sends, or a returned email option from Check Communication Capabilities.",
+      optional: true,
+    },
+    connectorUserId: {
+      type: "string",
+      label: "Connector User ID",
+      description: "Required only for `supercarl_referral_request`. Use an ID from `supercarl.candidate_connectors` returned by Check Communication Capabilities.",
+      optional: true,
+    },
+    message: {
+      type: "string",
+      label: "Message",
+      description: "Message body to save or send. For draft flows, `[JoinLink]` macros may be expanded by Super Carl.",
+    },
+    subject: {
+      type: "string",
+      label: "Subject",
+      description: "Email subject. Required when Channel is `gmail_send`.",
+      optional: true,
+    },
+    context: {
+      type: "object",
+      label: "Context",
+      description: "Optional structured context JSON for communication generation or audit metadata.",
+      optional: true,
+    },
+    idempotencyKey: {
+      type: "string",
+      label: "Idempotency Key",
+      description: "Optional key to prevent duplicate sends when retrying a workflow step.",
+      optional: true,
+    },
+    waitMs: {
+      type: "integer",
+      label: "Wait Milliseconds",
+      description: "Optional wait time for communication progress, capped by Super Carl at 30000 ms.",
+      optional: true,
+      default: 0,
+      min: 0,
+      max: 30000,
+    },
+    waitUntil: {
+      type: "string",
+      label: "Wait Until",
+      description: "Wait condition when Wait Milliseconds is set. Use `terminal` for completed/failed/cancelled status, or `first_progress` for the first new event.",
+      optional: true,
+      default: "terminal",
+      options: [
+        "terminal",
+        "first_progress",
       ],
     },
   },
@@ -194,6 +319,76 @@ export default {
         path: withPeople
           ? "/api/v1/search/posts/with-people"
           : "/api/v1/search/posts/preview",
+        ...opts,
+      });
+    },
+    /**
+     * Check target-specific communication channel readiness.
+     *
+     * @param {Object} [opts={}] Request options.
+     * @returns {Promise<Object>} Communication capabilities response.
+     */
+    getCommunicationCapabilities(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/api/v1/communications/capabilities",
+        ...opts,
+      });
+    },
+    /**
+     * Create, draft, dry-run, or send a communication.
+     *
+     * @param {Object} [opts={}] Request options.
+     * @returns {Promise<Object>} Communication response.
+     */
+    createCommunication(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/api/v1/communications",
+        ...opts,
+      });
+    },
+    /**
+     * Fetch communication status and recent events.
+     *
+     * @param {Object} [opts={}] Request options.
+     * @param {string} opts.communicationId Communication ID.
+     * @returns {Promise<Object>} Communication detail response.
+     */
+    getCommunication({
+      communicationId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/api/v1/communications/${communicationId}`,
+        ...opts,
+      });
+    },
+    /**
+     * Cancel a queued or in-progress communication.
+     *
+     * @param {Object} [opts={}] Request options.
+     * @param {string} opts.communicationId Communication ID.
+     * @returns {Promise<Object>} Cancelled communication response.
+     */
+    cancelCommunication({
+      communicationId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/api/v1/communications/${communicationId}/cancel`,
+        ...opts,
+      });
+    },
+    /**
+     * Fetch communication history for a target.
+     *
+     * @param {Object} [opts={}] Request options.
+     * @returns {Promise<Object>} Communication history response.
+     */
+    getCommunicationHistory(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/api/v1/communications/history",
         ...opts,
       });
     },
