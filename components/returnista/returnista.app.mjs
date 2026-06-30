@@ -8,7 +8,7 @@ export default {
     consumerId: {
       type: "string",
       label: "Consumer ID",
-      description: "The unique identifier of the consumer in Returnista.",
+      description: "The unique identifier of the consumer in Returnista. To find a consumer ID, use **Get Return Orders** or **Get Return Order** — the consumer ID is included directly in the response.",
     },
     accountId: {
       type: "string",
