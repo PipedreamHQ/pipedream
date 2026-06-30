@@ -7,7 +7,7 @@ export default {
   description: "Updates an existing return location for an account."
     + " All fields are optional — provide only the ones you want to change."
     + " At least one field must be provided."
-    + " To find the return location ID, use **List Return Locations**."
+    + " To find the return location ID, use **Get Return Locations**."
     + " Use a two-letter ISO 3166-1 alpha-2 country code for `countryCode` (e.g., `NL`, `DE`, `GB`, `US`)."
     + " [See the documentation](https://platform.returnista.com/reference/rest-api/#patch-/account/-accountId/return-location/-returnLocationId)",
   version: "0.0.2",

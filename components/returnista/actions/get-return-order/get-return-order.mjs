@@ -5,7 +5,7 @@ export default {
   name: "Get Return Order",
   description: "Gets the full details of a single return order by ID."
     + " Use `expand` to inline related objects (consumer, shipments, returnRequests) in one call instead of making separate requests."
-    + " To find a return order ID, use **List Return Orders** first."
+    + " To find a return order ID, use **Get Return Orders** first."
     + " To view the email communications for a return order, use **Get Return Order Emails**."
     + " [See the documentation](https://platform.returnista.com/reference/rest-api/#get-/account/-accountId/return-order/-id)",
   version: "0.1.0",

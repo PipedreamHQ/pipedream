@@ -6,7 +6,7 @@ export default {
   description: "Accepts or rejects a draft return order."
     + " Draft return orders are created when a consumer initiates a return and are pending merchant review."
     + " Set `action` to `accept` to approve the return (this triggers shipment label creation) or `reject` to decline it."
-    + " Use **List Return Orders** with `filter: \"status:draft\"` to find draft order IDs."
+    + " Use **Get Return Orders** with `filter: \"status:draft\"` to find draft order IDs."
     + " [See the documentation](https://platform.returnista.com/reference/rest-api/#put-/account/-accountId/draft-return-order/-id/accept)",
   version: "0.0.1",
   type: "action",
