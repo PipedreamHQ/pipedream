@@ -6,7 +6,7 @@ export default {
   key: "returnista-new-shipment-label-created-instant",
   name: "New Shipment Label Created (Instant)",
   description: "Emit new event when a new shipment label is created. [See the documentation](https://platform.returnista.com/reference/rest-api/#post-/account/-accountId/webhook-subscription)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
