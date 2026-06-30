@@ -32,21 +32,12 @@ export default {
         }),
       ],
     },
-    expand: {
-      propDefinition: [
-        returnista,
-        "expand",
-      ],
-    },
   },
   async run({ $ }) {
     const response = await this.returnista.getReturnOrder({
       $,
       accountId: this.accountId,
       returnOrderId: this.returnOrderId,
-      params: {
-        expand: this.expand,
-      },
     });
     $.export("$summary", `Successfully retrieved return order ${this.returnOrderId}`);
     return response;

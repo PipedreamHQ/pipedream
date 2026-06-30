@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import returnista from "../../returnista.app.mjs";
 
 export default {
@@ -67,7 +68,13 @@ export default {
   },
   async run({ $ }) {
     const answers = Array.isArray(this.answers)
-      ? this.answers.map((a) => JSON.parse(a))
+      ? this.answers.map((a, index) => {
+        try {
+          return JSON.parse(a);
+        } catch {
+          throw new ConfigurationError(`answers[${index}] must be valid JSON: ${a}`);
+        }
+      })
       : undefined;
     const response = await this.returnista.createDraftReturnOrder({
       $,

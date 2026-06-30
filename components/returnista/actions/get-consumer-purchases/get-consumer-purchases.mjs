@@ -32,6 +32,6 @@ export default {
       ? response
       : []);
     $.export("$summary", `Retrieved ${purchases.length} purchase(s) for consumer ${this.consumerId}`);
-    return response;
+    return purchases;
   },
 };

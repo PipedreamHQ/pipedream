@@ -42,6 +42,6 @@ export default {
       ? response
       : []);
     $.export("$summary", `Retrieved ${emails.length} email(s) for return order ${this.returnOrderId}`);
-    return response;
+    return emails;
   },
 };

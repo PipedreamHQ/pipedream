@@ -23,6 +23,6 @@ export default {
       ? response
       : []);
     $.export("$summary", `Retrieved ${products.length} shipping product(s)`);
-    return response;
+    return products;
   },
 };

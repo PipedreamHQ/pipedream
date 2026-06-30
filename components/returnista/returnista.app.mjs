@@ -8,12 +8,12 @@ export default {
     consumerId: {
       type: "string",
       label: "Consumer ID",
-      description: "The ID of the consumer",
+      description: "The unique identifier of the consumer in Returnista.",
     },
     accountId: {
       type: "string",
       label: "Account ID",
-      description: "The ID of the Returnista account",
+      description: "The unique identifier of your Returnista account. Find this in the Returnista dashboard under account settings.",
     },
     limit: {
       type: "integer",
@@ -42,7 +42,7 @@ export default {
     search: {
       type: "string",
       label: "Search",
-      description: "A search string to filter the results. Searches across purchase order numbers, consumer first name, last name, email, and consumer full name. Examples: `search=12345` | `search=john@example.com`",
+      description: "A search string to filter the results. Searches across purchase order numbers, consumer first name, last name, email, and consumer full name. Examples: `12345` | `john@example.com`",
       optional: true,
     },
     sortBy: {
