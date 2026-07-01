@@ -5,7 +5,7 @@ export default {
   key: "vapi-create-call",
   name: "Create Call",
   description: "Starts a new conversation with an assistant. [See the documentation](https://docs.vapi.ai/api-reference/calls/create)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

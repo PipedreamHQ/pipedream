@@ -46,11 +46,10 @@ export default {
       default: [],
     },
     changesPageSize: {
-      type: "integer",
-      label: "Changes Page Size",
-      description: "Maximum number of changes to fetch per API call. Lower values reduce the risk of execution timeouts on active drives.",
-      default: 1000,
-      optional: true,
+      propDefinition: [
+        googleDrive,
+        "changesPageSize",
+      ],
     },
   },
   hooks: {
@@ -151,7 +150,6 @@ export default {
       this.googleDrive.listChanges(pageToken, driveId, this.changesPageSize);
 
     for await (const changedFilesPage of changedFilesStream) {
-      console.log("Changed files page:", changedFilesPage);
       const {
         changedFiles,
         nextPageToken,

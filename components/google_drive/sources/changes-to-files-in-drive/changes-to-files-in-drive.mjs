@@ -132,8 +132,6 @@ export default {
     },
     async processChanges(changedFiles, headers) {
       console.log(`Processing ${changedFiles.length} changed files`);
-      console.log(`Changed files: ${JSON.stringify(changedFiles, null, 2)}!!!`);
-      console.log(`Files: ${this.files}!!!`);
 
       const filteredFiles = this.checkMinimumInterval(changedFiles);
       for (const file of filteredFiles) {

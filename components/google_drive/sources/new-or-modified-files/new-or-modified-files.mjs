@@ -155,8 +155,6 @@ export default {
           fields: "parents",
         })).parents;
 
-        console.log(file); // see what file was processed
-
         if (!this.shouldProcess(file)) {
           console.log(`Skipping file ${file.name}`);
           continue;

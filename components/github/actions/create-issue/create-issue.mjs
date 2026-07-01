@@ -4,7 +4,7 @@ export default {
   key: "github-create-issue",
   name: "Create Issue",
   description: "Create a new issue in a repository, optionally with labels, assignees, and a milestone. Provide the repository as an `owner/repo` string. Labels and assignees are passed by name/login (e.g. `bug`, `octocat`) — setting them requires push access to the repo. To comment on an existing issue instead, use **Create Issue Comment**; to change an existing issue, use **Update Issue**. [See the documentation](https://docs.github.com/en/rest/issues/issues#create-an-issue)",
-  version: "0.4.0",
+  version: "0.4.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
