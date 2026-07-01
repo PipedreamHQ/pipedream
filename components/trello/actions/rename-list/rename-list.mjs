@@ -5,9 +5,9 @@ export default {
   key: "trello-rename-list",
   name: "Rename List",
   description: "Renames an existing list. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-lists/#api-lists-id-put).",
-  version: "0.1.5",
+  version: "0.2.0",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -19,6 +19,7 @@ export default {
         common.props.app,
         "board",
       ],
+      optional: true,
     },
     listId: {
       propDefinition: [
