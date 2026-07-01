@@ -1,12 +1,10 @@
-import { checkPushPermission } from "../../common/utils.mjs";
 import github from "../../github.app.mjs";
-import asyncProps from "../common/asyncProps.mjs";
 
 export default {
   key: "github-create-issue",
   name: "Create Issue",
-  description: "Create a new issue in a GitHub repo. [See the documentation](https://docs.github.com/en/rest/issues/issues#create-an-issue)",
-  version: "0.3.8",
+  description: "Create a new issue in a repository, optionally with labels, assignees, and a milestone. Provide the repository as an `owner/repo` string. Labels and assignees are passed by name/login (e.g. `bug`, `octocat`) — setting them requires push access to the repo. To comment on an existing issue instead, use **Create Issue Comment**; to change an existing issue, use **Update Issue**. [See the documentation](https://docs.github.com/en/rest/issues/issues#create-an-issue)",
+  version: "0.4.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -18,52 +16,55 @@ export default {
     repoFullname: {
       propDefinition: [
         github,
-        "repoFullname",
+        "repoFullnameStatic",
       ],
-      reloadProps: true,
     },
     title: {
       label: "Title",
-      description: "The title of the issue",
+      description: "The title of the issue.",
       type: "string",
     },
     body: {
       label: "Body",
-      description: "The text body of the issue",
+      description: "The text body of the issue. Supports GitHub-flavored Markdown.",
       type: "string",
       optional: true,
     },
-  },
-  methods: {
-    checkPushPermission,
-  },
-  async additionalProps() {
-    const canPush = await this.checkPushPermission();
-    return canPush
-      ? {
-        assignees: asyncProps.assignees,
-        labels: asyncProps.labels,
-        milestoneNumber: asyncProps.milestoneNumber,
-      }
-      : {
-        infoBox: {
-          type: "alert",
-          alertType: "info",
-          content: "Labels, assignees and milestones can only be set by users with push access to the repository.",
-        },
-      };
+    labels: {
+      label: "Labels",
+      description: "Label names to add to the issue, e.g. `[\"bug\", \"enhancement\"]`. Labels must already exist in the repository. Requires push access.",
+      type: "string[]",
+      optional: true,
+    },
+    assignees: {
+      label: "Assignees",
+      description: "GitHub logins to assign to the issue, e.g. `[\"octocat\"]`. Requires push access.",
+      type: "string[]",
+      optional: true,
+    },
+    milestoneNumber: {
+      label: "Milestone Number",
+      description: "The number of an existing milestone to associate with the issue.",
+      type: "integer",
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const { // eslint-disable-next-line no-unused-vars
-      github, repoFullname, infoBox, ...data
-    } = this;
+    const data = {
+      title: this.title,
+      body: this.body,
+      labels: this.labels,
+      assignees: this.assignees,
+      milestone: this.milestoneNumber,
+    };
 
-    const response = await github.createIssue({
+    const repoFullname = await this.github._resolveRepoFullname(this.repoFullname);
+    const response = await this.github.createIssue({
       repoFullname,
       data,
     });
 
-    $.export("$summary", `Successfully created issue (ID: ${response.id})`);
+    $.export("$summary", `Successfully created issue #${response.number}: ${response.title}`);
 
     return response;
   },

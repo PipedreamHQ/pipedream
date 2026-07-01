@@ -4,7 +4,7 @@ export default {
   key: "hubspot-get-thread",
   name: "Get Thread",
   description: "Retrieves a single thread's metadata, including status, assignee, associations, and latest-message info. [See the documentation](https://developers.hubspot.com/docs/reference/api/conversations/inbox-and-messages#retrieve-threads)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
