@@ -4,7 +4,7 @@ export default {
   key: "trello-get-list",
   name: "Get List",
   description: "Get information about a List. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-lists/#api-lists-id-get).",
-  version: "0.1.5",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -18,6 +18,7 @@ export default {
         app,
         "board",
       ],
+      optional: true,
     },
     listId: {
       type: "string",

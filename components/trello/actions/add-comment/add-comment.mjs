@@ -4,7 +4,7 @@ export default {
   key: "trello-add-comment",
   name: "Add Comment",
   description: "Create a new comment on a specific card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-actions-comments-post).",
-  version: "0.2.5",
+  version: "0.3.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -18,6 +18,7 @@ export default {
         app,
         "board",
       ],
+      optional: true,
     },
     cardId: {
       type: "string",
