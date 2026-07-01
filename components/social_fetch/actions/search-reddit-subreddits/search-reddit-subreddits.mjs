@@ -24,7 +24,6 @@ export default {
         app,
         "searchQuery",
       ],
-      description: "Optional free-form search term to filter posts within the subreddit. Plain string, no dropdown.",
       optional: true,
     },
     cursor: {

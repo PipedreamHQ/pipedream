@@ -18,14 +18,12 @@ export default {
         app,
         "searchQuery",
       ],
-      description: "Free-form product search term, e.g. `phone case`. Plain string, no dropdown.",
     },
     page: {
-      type: "integer",
-      label: "Page",
-      description: "1-based page number for pagination (integer). Defaults to page 1 when omitted.",
-      optional: true,
-      min: 1,
+      propDefinition: [
+        app,
+        "page",
+      ],
     },
   },
   async run({ $ }) {

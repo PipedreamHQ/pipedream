@@ -18,7 +18,6 @@ export default {
         app,
         "searchQuery",
       ],
-      description: "Free-form search term to find TikTok users, e.g. `nasa`. Plain string, no dropdown.",
     },
     cursor: {
       propDefinition: [

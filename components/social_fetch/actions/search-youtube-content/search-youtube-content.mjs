@@ -18,7 +18,6 @@ export default {
         app,
         "searchQuery",
       ],
-      description: "Free-form search term to find YouTube videos, e.g. `space documentary`. Plain string, no dropdown.",
     },
     cursor: {
       propDefinition: [

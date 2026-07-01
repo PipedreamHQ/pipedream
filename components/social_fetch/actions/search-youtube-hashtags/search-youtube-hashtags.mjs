@@ -16,10 +16,8 @@ export default {
     hashtag: {
       propDefinition: [
         app,
-        "searchQuery",
+        "hashtag",
       ],
-      label: "Hashtag",
-      description: "Hashtag to search, e.g. `science` (leading `#` is optional). Plain string, no dropdown.",
     },
     cursor: {
       propDefinition: [

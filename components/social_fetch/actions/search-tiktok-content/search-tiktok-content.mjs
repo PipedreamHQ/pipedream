@@ -18,7 +18,6 @@ export default {
         app,
         "searchQuery",
       ],
-      description: "Free-form search term to find TikTok content, e.g. `space exploration`. Plain string, no dropdown.",
     },
     cursor: {
       propDefinition: [

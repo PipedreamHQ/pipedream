@@ -134,6 +134,18 @@ export default {
       label: "Query",
       description: "Free-form search term. Plain string, no dropdown.",
     },
+    hashtag: {
+      type: "string",
+      label: "Hashtag",
+      description: "Hashtag to search (leading `#` is optional). Plain string, no dropdown.",
+    },
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "1-based page number for pagination (integer). Defaults to page 1 when omitted.",
+      optional: true,
+      min: 1,
+    },
   },
   methods: {
     /** @returns {Record<string, string>} */
@@ -156,13 +168,15 @@ export default {
       try {
         // `...opts` first so the request shape (url / params / headers) we
         // build below can't be silently overwritten by a caller-supplied opt.
+        // Within headers, `_headers()` is spread last so the auth header
+        // (`x-api-key`) always wins over caller-supplied headers.
         return await axios($, {
           ...opts,
           baseURL: API_BASE_URL,
           url: path,
           headers: {
-            ...this._headers(),
             ...headers,
+            ...this._headers(),
           },
           params,
         });
@@ -173,8 +187,8 @@ export default {
     /** @param {Record<string, unknown>} [opts] */
     getCreditBalance(opts = {}) {
       return this._makeRequest({
-        path: "/v1/balance",
         ...opts,
+        path: "/v1/balance",
       });
     },
     /**
@@ -189,9 +203,9 @@ export default {
         profileUrl,
       });
       return this._makeRequest({
+        ...opts,
         path: route.path,
         params: route.params,
-        ...opts,
       });
     },
     /** @param {{ platform?: string; postUrl?: string; [key: string]: unknown }} [args] */
@@ -202,9 +216,9 @@ export default {
         postUrl,
       });
       return this._makeRequest({
+        ...opts,
         path: route.path,
         params: route.params,
-        ...opts,
       });
     },
     /**
@@ -225,9 +239,9 @@ export default {
         cursor,
       });
       return this._makeRequest({
+        ...opts,
         path: route.path,
         params: route.params,
-        ...opts,
       });
     },
     /** @param {{ platform?: string; mediaUrl?: string; [key: string]: unknown }} [args] */
@@ -238,9 +252,9 @@ export default {
         mediaUrl,
       });
       return this._makeRequest({
+        ...opts,
         path: route.path,
         params: route.params,
-        ...opts,
       });
     },
     /**
@@ -259,12 +273,12 @@ export default {
       query, cursor, ...opts
     } = {}) {
       return this._makeRequest({
+        ...opts,
         path: "/v1/tiktok/users/search",
         params: {
           query,
           cursor: trimCursor(cursor),
         },
-        ...opts,
       });
     },
     /** @param {{ query?: string; cursor?: string; [key: string]: unknown }} [args] */
@@ -272,12 +286,12 @@ export default {
       query, cursor, ...opts
     } = {}) {
       const response = await this._makeRequest({
+        ...opts,
         path: "/v1/tiktok/search",
         params: {
           query,
           cursor: trimCursor(cursor),
         },
-        ...opts,
       });
       return stripVideoDetails(response);
     },
@@ -286,12 +300,12 @@ export default {
       hashtag, cursor, ...opts
     } = {}) {
       const response = await this._makeRequest({
+        ...opts,
         path: "/v1/tiktok/search/hashtags",
         params: {
           hashtag: normalizeHashtag(hashtag),
           cursor: trimCursor(cursor),
         },
-        ...opts,
       });
       return stripVideoDetails(response);
     },
@@ -300,11 +314,11 @@ export default {
       region, ...opts
     } = {}) {
       return this._makeRequest({
+        ...opts,
         path: "/v1/tiktok/feed/trending",
         params: {
           region: normalizeRegion(region),
         },
-        ...opts,
       });
     },
     /** @param {{ query?: string; page?: number; [key: string]: unknown }} [args] */
@@ -312,12 +326,12 @@ export default {
       query, page, ...opts
     } = {}) {
       return this._makeRequest({
+        ...opts,
         path: "/v1/tiktok/shop/products/search",
         params: {
           query,
           page,
         },
-        ...opts,
       });
     },
     /** @param {{ query?: string; page?: number; [key: string]: unknown }} [args] */
@@ -325,12 +339,12 @@ export default {
       query, page, ...opts
     } = {}) {
       return this._makeRequest({
+        ...opts,
         path: "/v1/instagram/search/reels",
         params: {
           query,
           page,
         },
-        ...opts,
       });
     },
     /** @param {{ query?: string; cursor?: string; [key: string]: unknown }} [args] */
@@ -338,12 +352,12 @@ export default {
       query, cursor, ...opts
     } = {}) {
       return this._makeRequest({
+        ...opts,
         path: "/v1/twitter/search",
         params: {
           query,
           cursor: trimCursor(cursor),
         },
-        ...opts,
       });
     },
     /** @param {{ hashtag?: string; cursor?: string; [key: string]: unknown }} [args] */
@@ -351,12 +365,12 @@ export default {
       hashtag, cursor, ...opts
     } = {}) {
       return this._makeRequest({
+        ...opts,
         path: "/v1/twitter/hashtags",
         params: {
           hashtag: normalizeHashtag(hashtag),
           cursor: trimCursor(cursor),
         },
-        ...opts,
       });
     },
     /** @param {{ query?: string; cursor?: string; [key: string]: unknown }} [args] */
@@ -364,12 +378,12 @@ export default {
       query, cursor, ...opts
     } = {}) {
       return this._makeRequest({
+        ...opts,
         path: "/v1/youtube/search",
         params: {
           query,
           cursor: trimCursor(cursor),
         },
-        ...opts,
       });
     },
     /** @param {{ hashtag?: string; cursor?: string; [key: string]: unknown }} [args] */
@@ -377,19 +391,19 @@ export default {
       hashtag, cursor, ...opts
     } = {}) {
       return this._makeRequest({
+        ...opts,
         path: "/v1/youtube/search/hashtags",
         params: {
           hashtag: normalizeHashtag(hashtag),
           cursor: trimCursor(cursor),
         },
-        ...opts,
       });
     },
     /** @param {Record<string, unknown>} [opts] */
     getYoutubeTrendingShorts(opts = {}) {
       return this._makeRequest({
-        path: "/v1/youtube/shorts/trending",
         ...opts,
+        path: "/v1/youtube/shorts/trending",
       });
     },
     /**
@@ -405,12 +419,12 @@ export default {
         throw new ConfigurationError("At least one of First Name or Last Name is required.");
       }
       return this._makeRequest({
+        ...opts,
         path: "/v1/linkedin/people/search",
         params: {
           firstName: first,
           lastName: last,
         },
-        ...opts,
       });
     },
     /**
@@ -421,13 +435,13 @@ export default {
       subreddit, query, cursor, ...opts
     } = {}) {
       return this._makeRequest({
+        ...opts,
         path: "/v1/reddit/subreddits/search",
         params: {
           subreddit: normalizeSubreddit(subreddit),
           query,
           cursor: trimCursor(cursor),
         },
-        ...opts,
       });
     },
     /** @param {{ query?: string; cursor?: string; [key: string]: unknown }} [args] */
@@ -435,12 +449,12 @@ export default {
       query, cursor, ...opts
     } = {}) {
       return this._makeRequest({
+        ...opts,
         path: "/v1/reddit/search",
         params: {
           query,
           cursor: trimCursor(cursor),
         },
-        ...opts,
       });
     },
     /** @param {{ query?: string; cursor?: string; [key: string]: unknown }} [args] */
@@ -448,12 +462,12 @@ export default {
       query, cursor, ...opts
     } = {}) {
       return this._makeRequest({
+        ...opts,
         path: "/v1/threads/search",
         params: {
           query,
           cursor: trimCursor(cursor),
         },
-        ...opts,
       });
     },
     /** @param {{ query?: string; cursor?: string; [key: string]: unknown }} [args] */
@@ -461,12 +475,12 @@ export default {
       query, cursor, ...opts
     } = {}) {
       return this._makeRequest({
+        ...opts,
         path: "/v1/threads/users/search",
         params: {
           query,
           cursor: trimCursor(cursor),
         },
-        ...opts,
       });
     },
   },
