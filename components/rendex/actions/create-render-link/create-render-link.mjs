@@ -2,10 +2,10 @@ import { ConfigurationError } from "@pipedream/platform";
 import rendex from "../../rendex.app.mjs";
 
 export default {
-  key: "rendex-render-to-image",
-  name: "Render to Image",
-  description: "Render an HTML string or a page URL to an image (or PDF) via Rendex. Returns base64-encoded image data with metadata. [See the documentation](https://rendex.dev/docs/api-reference#post-screenshot-json).",
-  version: "0.0.3",
+  key: "rendex-create-render-link",
+  name: "Create Render Link",
+  description: "Mint a signed, hosted render URL for a page or HTML — ideal for `og:image` tags. The returned URL serves the rendered image/PDF directly. [See the documentation](https://rendex.dev/docs/api-reference).",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -14,16 +14,16 @@ export default {
   },
   props: {
     rendex,
+    url: {
+      type: "string",
+      label: "URL",
+      description: "The page URL to render. Provide either `url` or `html`.",
+      optional: true,
+    },
     html: {
       propDefinition: [
         rendex,
         "html",
-      ],
-    },
-    url: {
-      propDefinition: [
-        rendex,
-        "url",
       ],
     },
     format: {
@@ -176,28 +176,14 @@ export default {
         "pdfScale",
       ],
     },
-    geo: {
+    expiresIn: {
       propDefinition: [
         rendex,
-        "geo",
-      ],
-    },
-    geoCity: {
-      propDefinition: [
-        rendex,
-        "geoCity",
-      ],
-    },
-    geoState: {
-      propDefinition: [
-        rendex,
-        "geoState",
+        "expiresIn",
       ],
     },
   },
   async run({ $ }) {
-    // Rendex requires exactly one of `html` or `url` per request, so reject both
-    // (not just neither) rather than silently dropping `url`.
     const hasHtml = Boolean(this.html);
     const hasUrl = Boolean(this.url);
     if (hasHtml === hasUrl) {
@@ -225,53 +211,50 @@ export default {
 
     // undefined keys are dropped by JSON.stringify, so unset optional params are
     // omitted from the request body.
-    const data = {
-      format: this.format || "png",
-      width: this.width,
-      height: this.height,
-      fullPage: this.fullPage,
-      quality: this.quality,
-      delay: this.delay,
-      darkMode: this.darkMode,
-      deviceScaleFactor: this.deviceScaleFactor !== undefined
-        ? Number(this.deviceScaleFactor)
-        : undefined,
-      device: this.device,
-      selector: this.selector,
-      hideSelectors: this.hideSelectors,
-      blockAds: this.blockAds,
-      blockCookieBanners: this.blockCookieBanners,
-      timeout: this.timeout,
-      waitUntil: this.waitUntil,
-      bestAttempt: this.bestAttempt,
-      css: this.css,
-      js: this.js,
-      userAgent: this.userAgent,
-      cookies,
-      headers: this.headers,
-      pdfFormat: this.pdfFormat,
-      pdfLandscape: this.pdfLandscape,
-      pdfPrintBackground: this.pdfPrintBackground,
-      pdfScale: this.pdfScale !== undefined
-        ? Number(this.pdfScale)
-        : undefined,
-      geo: this.geo,
-      geoCity: this.geoCity,
-      geoState: this.geoState,
-    };
-    if (hasHtml) {
-      data.html = this.html;
-    } else {
-      data.url = this.url;
-    }
-
-    const response = await this.rendex.renderJson({
+    const response = await this.rendex.createRenderLink({
       $,
-      data,
+      data: {
+        url: hasUrl
+          ? this.url
+          : undefined,
+        html: hasHtml
+          ? this.html
+          : undefined,
+        format: this.format,
+        width: this.width,
+        height: this.height,
+        fullPage: this.fullPage,
+        quality: this.quality,
+        delay: this.delay,
+        darkMode: this.darkMode,
+        deviceScaleFactor: this.deviceScaleFactor !== undefined
+          ? Number(this.deviceScaleFactor)
+          : undefined,
+        device: this.device,
+        selector: this.selector,
+        hideSelectors: this.hideSelectors,
+        blockAds: this.blockAds,
+        blockCookieBanners: this.blockCookieBanners,
+        timeout: this.timeout,
+        waitUntil: this.waitUntil,
+        bestAttempt: this.bestAttempt,
+        css: this.css,
+        js: this.js,
+        userAgent: this.userAgent,
+        cookies,
+        headers: this.headers,
+        pdfFormat: this.pdfFormat,
+        pdfLandscape: this.pdfLandscape,
+        pdfPrintBackground: this.pdfPrintBackground,
+        pdfScale: this.pdfScale !== undefined
+          ? Number(this.pdfScale)
+          : undefined,
+        expiresIn: this.expiresIn,
+      },
     });
 
-    const result = response.data;
-    $.export("$summary", `Successfully rendered ${result?.format || "image"} (${result?.bytesSize ?? "unknown"} bytes)`);
-    return result;
+    const data = response.data;
+    $.export("$summary", `Created render link (expires ${data?.expiresAt})`);
+    return data;
   },
 };
