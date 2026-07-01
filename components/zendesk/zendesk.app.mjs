@@ -1067,5 +1067,25 @@ export default {
         ...args,
       });
     },
+    listDynamicContentItems(args = {}) {
+      return this.makeRequest({
+        path: "/dynamic_content/items",
+        ...args,
+      });
+    },
+    getDynamicContentItem({
+      itemId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/dynamic_content/items/${itemId}`,
+        ...args,
+      });
+    },
+    showManyDynamicContentItems(args = {}) {
+      return this.makeRequest({
+        path: "/dynamic_content/items/show_many",
+        ...args,
+      });
+    },
   },
 };
