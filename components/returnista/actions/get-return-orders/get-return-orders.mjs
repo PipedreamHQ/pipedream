@@ -4,7 +4,7 @@ export default {
   key: "returnista-get-return-orders",
   name: "Get Return Orders",
   description: "Gets a list of return orders for the given account. [See the documentation](https://platform.returnista.com/reference/rest-api/#get-/account/-accountId/return-orders)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

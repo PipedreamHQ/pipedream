@@ -5,7 +5,7 @@ export default {
   key: "polar-new-benefit-created",
   name: "New Benefit Created",
   description: "Emit new event when a new benefit is created. [See the API docs](https://polar.sh/docs/api-reference/webhooks/endpoints/create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   methods: {
     ...common.methods,

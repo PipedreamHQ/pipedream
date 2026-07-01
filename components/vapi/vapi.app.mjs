@@ -82,9 +82,11 @@ export default {
         const lastItem = phoneNumbers[phoneNumbers.length - 1];
         return {
           options: phoneNumbers.map(({
-            id: value, name: label,
+            id: value, name, number,
           }) => ({
-            label,
+            label: (name && number)
+              ? `${name} (${number})`
+              : (name ?? number ?? value),
             value,
           })),
           context: {

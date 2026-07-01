@@ -4,7 +4,7 @@ export default {
   key: "easybroker-get-contact",
   name: "Get Contact",
   description: "Get details of a contact. [See the documentation](https://dev.easybroker.com/reference/get_contacts-contact-id)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

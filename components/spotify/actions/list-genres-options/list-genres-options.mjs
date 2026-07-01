@@ -4,7 +4,7 @@ export default {
   key: "spotify-list-genres-options",
   name: "List Seed Genres Options",
   description: "Retrieves available options for the Seed Genres field.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
