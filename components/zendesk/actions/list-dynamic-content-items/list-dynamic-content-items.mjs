@@ -26,7 +26,7 @@ export default {
     after: {
       type: "string",
       label: "After",
-      description: "Cursor for the next page of results.",
+      description: "Cursor for the next page of results. Obtain this value from the meta.after_cursor field of the previous response.",
       optional: true,
     },
     sort: {
@@ -46,7 +46,8 @@ export default {
         "sort": this.sort,
       },
     });
-    $.export("$summary", `Successfully retrieved ${response?.items?.length ?? 0} dynamic content item${response?.items?.length === 1
+    const itemCount = response?.items?.length ?? 0;
+    $.export("$summary", `Successfully retrieved ${itemCount} dynamic content item${itemCount === 1
       ? ""
       : "s"}`);
     return response;
