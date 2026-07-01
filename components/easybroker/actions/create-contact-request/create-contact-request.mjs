@@ -5,7 +5,7 @@ export default {
   key: "easybroker-create-contact-request",
   name: "Create Contact Request",
   description: "Creates or updates a new lead in EasyBroker that is interested in the provided property. [See the documentation](https://dev.easybroker.com/reference/post_contact-requests)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
