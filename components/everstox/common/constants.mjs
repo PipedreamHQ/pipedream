@@ -42,6 +42,17 @@ const CANCELLATION_STATE_OPTIONS = [
   "completed",
 ];
 
+const STATUS_OPTIONS = [
+  "all",
+  "active",
+  "inactive",
+];
+
+const FIELD_SET_OPTIONS = [
+  "full",
+  "minimal",
+];
+
 export default {
   LIMIT,
   ORDER_BY_OPTIONS,
@@ -49,4 +60,6 @@ export default {
   FULFILLMENT_STATEGROUP_OPTIONS,
   STATEGROUP_OPTIONS,
   CANCELLATION_STATE_OPTIONS,
+  STATUS_OPTIONS,
+  FIELD_SET_OPTIONS,
 };
