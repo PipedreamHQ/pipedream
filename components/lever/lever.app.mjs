@@ -140,6 +140,18 @@ export default {
       });
     },
     /**
+     * Retrieves a single job posting by ID.
+     * @param {string} postingId - The posting ID.
+     * @param {Object} [opts] - Request options (e.g. `params`).
+     * @returns {Promise<Object>} The posting record.
+     */
+    getPosting(postingId, opts = {}) {
+      return this._makeRequest({
+        path: `/postings/${postingId}`,
+        ...opts,
+      });
+    },
+    /**
      * Creates a job posting.
      * @param {Object} [opts] - Request options (`params`, `data`).
      * @returns {Promise<Object>} The created posting.
