@@ -5,7 +5,7 @@ export default {
   key: "shopify-get-fulfillment",
   name: "Get Fulfillment",
   description: "Retrieve a fulfillment, including tracking info, status, and delivery timestamps. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/fulfillment)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
