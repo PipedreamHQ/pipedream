@@ -24,7 +24,7 @@ export default {
   key: "sharepoint-get-file-contents",
   name: "Get File Contents",
   description: "Retrieves a Microsoft SharePoint file and returns its contents as extracted plain text or markdown. Supports plain text formats, HTML, DOCX, PDF, and other Office documents convertible to PDF (xlsx, pptx, etc.). [See the documentation](https://learn.microsoft.com/en-us/graph/api/driveitem-get-content?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

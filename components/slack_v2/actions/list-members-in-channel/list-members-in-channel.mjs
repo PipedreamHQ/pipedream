@@ -4,7 +4,7 @@ export default {
   key: "slack_v2-list-members-in-channel",
   name: "List Members in Channel",
   description: "Retrieve members of a channel. [See the documentation](https://api.slack.com/methods/conversations.members)",
-  version: "0.0.28",
+  version: "0.0.29",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -22,7 +22,7 @@ export default {
     returnUsernames: {
       type: "boolean",
       label: "Return Usernames",
-      description: "Optionally, return usernames in addition to IDs",
+      description: "Optionally, return usernames in addition to IDs. The username may be `null` for members whose name cannot be resolved, such as external (Slack Connect) users.",
       optional: true,
     },
     pageSize: {
@@ -59,7 +59,7 @@ export default {
       const usernames = await this.slack.userNameLookup(channelMembers);
       channelMembers = channelMembers?.map((id) => ({
         id,
-        username: usernames[id],
+        username: usernames[id] ?? null,
       })) || [];
     }
 

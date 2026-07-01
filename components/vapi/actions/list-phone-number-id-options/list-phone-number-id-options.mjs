@@ -4,7 +4,7 @@ export default {
   key: "vapi-list-phone-number-id-options",
   name: "List Phone Number ID Options",
   description: "Retrieves available options for the Phone Number ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

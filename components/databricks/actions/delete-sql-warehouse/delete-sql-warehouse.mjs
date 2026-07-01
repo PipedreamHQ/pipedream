@@ -4,7 +4,7 @@ export default {
   key: "databricks-delete-sql-warehouse",
   name: "Delete SQL Warehouse",
   description: "Deletes a SQL Warehouse by ID. [See the documentation](https://docs.databricks.com/api/workspace/warehouses/delete)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

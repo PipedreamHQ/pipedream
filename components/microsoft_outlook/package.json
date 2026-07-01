@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/microsoft_outlook",
-  "version": "1.13.0",
+  "version": "1.15.1",
   "description": "Pipedream Microsoft Outlook Components",
   "main": "microsoft_outlook.app.mjs",
   "keywords": [
@@ -15,7 +15,7 @@
     "@microsoft/microsoft-graph-client": "^3.0.7",
     "@pipedream/platform": "^3.1.1",
     "@sparticuz/chromium": "^143.0.4",
-    "axios": "^1.15.2",
+    "axios": "^1.16.1",
     "js-base64": "^3.7.2",
     "lodash.pickby": "^4.6.0",
     "mammoth": "^1.11.0",

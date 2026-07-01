@@ -3,8 +3,8 @@ import linkly from "../../linkly.app.mjs";
 export default {
   key: "linkly-create-link",
   name: "Create Link",
-  description: "Creates a new Linkly link using the provided URL. [See the documentation](https://app.linklyhq.com/swaggerui#/API/create_or_update)",
-  version: "0.0.2",
+  description: "Create a new short link via `POST /api/v1/link`. [See the documentation](https://app.linklyhq.com/swaggerui#/Links/createOrUpdateLink).",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -14,9 +14,28 @@ export default {
   props: {
     linkly,
     url: {
-      type: "string",
-      label: "URL",
-      description: "The URL to shorten",
+      propDefinition: [
+        linkly,
+        "url",
+      ],
+    },
+    name: {
+      propDefinition: [
+        linkly,
+        "name",
+      ],
+    },
+    domain: {
+      propDefinition: [
+        linkly,
+        "domain",
+      ],
+    },
+    slug: {
+      propDefinition: [
+        linkly,
+        "slug",
+      ],
     },
   },
   async run({ $ }) {
@@ -24,6 +43,9 @@ export default {
       data: {
         url: this.url,
         workspace_id: this.linkly.workspaceId(),
+        name: this.name,
+        domain: this.domain,
+        slug: this.slug,
       },
       $,
     });

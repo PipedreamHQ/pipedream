@@ -248,6 +248,11 @@ export default {
         })) || [];
       },
     },
+    folderId: {
+      type: "string",
+      label: "Folder ID",
+      description: "The ID of the mail folder to retrieve. Use the **List Folders** action to get the list of folders.",
+    },
     maxResults: {
       type: "integer",
       label: "Max Results",
@@ -452,13 +457,18 @@ export default {
         .get();
     },
     async listMessages({
-      userId, params = {}, nextLink,
+      userId, folderScope, params = {}, nextLink,
     } = {}) {
       if (nextLink) {
         return await this.client().api(nextLink)
+          .header("ConsistencyLevel", "eventual")
           .get();
       }
-      return await this.client().api(`${this._userPath(userId)}/messages`)
+      const path = folderScope
+        ? `${this._userPath(userId)}/mailFolders/${folderScope}/messages`
+        : `${this._userPath(userId)}/messages`;
+      return await this.client().api(path)
+        .header("ConsistencyLevel", "eventual")
         .query(pickBy(params))
         .get();
     },
@@ -485,14 +495,36 @@ export default {
         .query(pickBy(params))
         .get();
     },
+    async countMessages({
+      userId, folderScope, sharedFolderId, filter,
+    } = {}) {
+      let path;
+      if (sharedFolderId && userId) {
+        path = `/users/${userId}/mailFolders/${sharedFolderId}/messages`;
+      } else if (folderScope) {
+        path = `${this._userPath(userId)}/mailFolders/${folderScope}/messages`;
+      } else {
+        path = `${this._userPath(userId)}/messages`;
+      }
+      return await this.client().api(path)
+        .header("ConsistencyLevel", "eventual")
+        .query(pickBy({
+          $count: "true",
+          $top: 1,
+          $filter: filter || undefined,
+        }))
+        .get();
+    },
     async listSharedFolderMessages({
       userId, sharedFolderId, params = {}, nextLink,
     } = {}) {
       if (nextLink) {
         return await this.client().api(nextLink)
+          .header("ConsistencyLevel", "eventual")
           .get();
       }
       return await this.client().api(`/users/${userId}/mailFolders/${sharedFolderId}/messages`)
+        .header("ConsistencyLevel", "eventual")
         .query(pickBy(params))
         .get();
     },
@@ -591,16 +623,46 @@ export default {
       const foldersArray = [];
       for (const folder of value) {
         foldersArray.push(folder);
+        const {
+        // eslint-disable-next-line no-unused-vars
+          $skip, $top, ...childParams
+        } = params;
         foldersArray.push(...await this.listSharedFolders({
           userId,
           parentFolderId: folder.id,
+          params: childParams,
         }));
       }
 
       return foldersArray;
     },
+    async listSharedFoldersPaged({
+      userId, params = {}, nextLink,
+    } = {}) {
+      if (nextLink) {
+        return await this.client().api(nextLink)
+          .get();
+      }
+      return await this.client().api(`/users/${userId}/mailFolders`)
+        .query(pickBy(params))
+        .get();
+    },
+    async getFolderById({
+      folderId, params = {},
+    } = {}) {
+      return this.client().api(`/me/mailFolders/${folderId}`)
+        .query(pickBy(params))
+        .get();
+    },
+    async getSharedFolderById({
+      userId, folderId, params = {},
+    } = {}) {
+      return this.client().api(`/users/${userId}/mailFolders/${folderId}`)
+        .query(pickBy(params))
+        .get();
+    },
     async *paginate({
-      fn, args = {}, max,
+      fn, args = {}, max, meta,
     }) {
       const limit = DEFAULT_LIMIT;
       args = {
@@ -625,6 +687,9 @@ export default {
             }
             : {}),
         });
+        if (meta && response?.["@odata.count"] !== undefined) {
+          meta["@odata.count"] = response["@odata.count"];
+        }
         const { value } = response;
         for (const item of value) {
           yield item;
