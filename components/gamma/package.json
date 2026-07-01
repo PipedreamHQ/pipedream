@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/gamma",
+  "version": "0.0.1",
+  "description": "Pipedream Gamma Components",
+  "main": "gamma.app.mjs",
+  "keywords": [
+    "pipedream",
+    "gamma"
+  ],
+  "homepage": "https://pipedream.com/apps/gamma",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

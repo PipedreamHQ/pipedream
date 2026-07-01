@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/layerone_sign",
+  "version": "0.0.1",
+  "description": "Pipedream LayerOne Sign Components",
+  "main": "layerone_sign.app.mjs",
+  "keywords": [
+    "pipedream",
+    "layerone_sign"
+  ],
+  "homepage": "https://pipedream.com/apps/layerone_sign",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,15 +1,21 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios,
+  ConfigurationError,
+} from "@pipedream/platform";
 
 export default {
   propDefinitions: {
     account: {
       type: "string",
       label: "Account",
-      description: "Docusign Account",
+      description: "Your DocuSign account. Leave blank to automatically use your default account, or provide an Account ID (you can use **List Accounts** to retrieve available accounts).",
+      optional: true,
       async options() {
         const { accounts } = await this.getUserInfo({});
         return accounts.map((account) => ({
-          label: account.account_name,
+          label: account.is_default
+            ? `${account.account_name} (default)`
+            : account.account_name,
           value: account.account_id,
         }));
       },
@@ -79,10 +85,6 @@ export default {
       async options({
         account, prevContext,
       }) {
-        if (!account) {
-          return [];
-        }
-
         const baseUri = await this.getBaseUri({
           accountId: account,
         });
@@ -127,7 +129,7 @@ export default {
       async options({
         account, envelopeId,
       }) {
-        if (!account || !envelopeId) {
+        if (!envelopeId) {
           return [];
         }
 
@@ -170,10 +172,6 @@ export default {
       async options({
         account, prevContext,
       }) {
-        if (!account) {
-          return [];
-        }
-
         const baseUri = await this.getBaseUri({
           accountId: account,
         });
@@ -238,11 +236,50 @@ export default {
       return axios($ ?? this, config);
     },
     /**
+     * Resolve which DocuSign account ID to use for a request.
+     *
+     * If an account is explicitly provided, it is used as-is. Otherwise the
+     * connected user's accounts are inspected: the sole account is used when
+     * there is only one, falling back to the default account when there are
+     * several. A ConfigurationError is thrown when no account can be resolved
+     * unambiguously.
+     *
+     * @param {object} args - Request arguments.
+     * @param {object} args.$ - Pipedream step context.
+     * @param {string} [args.account] - Explicitly selected DocuSign account ID.
+     * @param {object[]} [args.accounts] - Pre-fetched accounts to avoid an extra request.
+     * @returns {Promise<string>} The resolved DocuSign account ID.
+     */
+    async resolveAccountId({
+      $, account, accounts,
+    }) {
+      if (account) {
+        return account;
+      }
+      const resolvedAccounts = accounts
+        ?? (await this.getUserInfo({
+          $,
+        })).accounts
+        ?? [];
+      if (resolvedAccounts.length === 1) {
+        return resolvedAccounts[0].account_id;
+      }
+      const defaultAccount = resolvedAccounts.find((a) =>
+        a.is_default === true || a.is_default === "true");
+      if (defaultAccount) {
+        return defaultAccount.account_id;
+      }
+      throw new ConfigurationError(
+        "Unable to determine which DocuSign account to use. Please select an **Account** for this step. Run the **List Accounts** action to see the accounts available to your connected user.",
+      );
+    },
+    /**
      * Resolve the account-specific eSignature REST base URI.
      *
      * @param {object} args - Request arguments.
      * @param {object} args.$ - Pipedream step context.
-     * @param {string} args.accountId - DocuSign account ID.
+     * @param {string} [args.accountId] - DocuSign account ID. When omitted, the
+     * account is resolved automatically via {@link resolveAccountId}.
      * @returns {Promise<string>} Account-scoped REST API base URI.
      */
     async getBaseUri({
@@ -251,12 +288,17 @@ export default {
       const { accounts } = await this.getUserInfo({
         $,
       });
-      const account = accounts.find((a) => a.account_id === accountId);
+      const resolvedId = await this.resolveAccountId({
+        $,
+        account: accountId,
+        accounts,
+      });
+      const account = accounts.find((a) => a.account_id === resolvedId);
       if (!account) {
-        throw new Error(`Unable to resolve DocuSign account for accountId: ${accountId}`);
+        throw new ConfigurationError(`Unable to resolve DocuSign account for accountId: ${resolvedId}`);
       }
       const { base_uri: baseUri } = account;
-      return `${baseUri}/restapi/v2.1/accounts/${accountId}/`;
+      return `${baseUri}/restapi/v2.1/accounts/${resolvedId}/`;
     },
     /**
      * List envelope templates.

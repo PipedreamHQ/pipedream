@@ -5,7 +5,7 @@ export default {
   key: "databricks-create-job",
   name: "Create Job",
   description: "Create a job. [See the documentation](https://docs.databricks.com/api/workspace/jobs/create)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -6,7 +6,7 @@ export default {
   key: "google_drive-new-access-proposal",
   name: "New Access Proposal",
   description: "Emit new event when a new access proposal is requested in Google Drive",
-  version: "0.0.13",
+  version: "0.0.14",
   type: "source",
   dedupe: "unique",
   props: {

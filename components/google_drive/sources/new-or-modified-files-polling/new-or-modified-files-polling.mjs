@@ -9,7 +9,7 @@ export default {
   key: "google_drive-new-or-modified-files-polling",
   name: "New or Modified Files (Polling)",
   description: "Emit new event when a file in the selected Drive is created, modified or trashed. [See the documentation](https://developers.google.com/drive/api/v3/reference/changes/list)",
-  version: "0.0.9",
+  version: "0.0.11",
   type: "source",
   dedupe: "unique",
   props: {
@@ -67,11 +67,10 @@ export default {
       optional: true,
     },
     changesPageSize: {
-      type: "integer",
-      label: "Changes Page Size",
-      description: "Maximum number of changes to fetch per API call. Lower values reduce the risk of execution timeouts on active drives.",
-      default: 1000,
-      optional: true,
+      propDefinition: [
+        googleDrive,
+        "changesPageSize",
+      ],
     },
   },
   hooks: {
@@ -189,7 +188,6 @@ export default {
       this.googleDrive.listChanges(pageToken, driveId, this.changesPageSize);
 
     for await (const changedFilesPage of changedFilesStream) {
-      console.log("Changed files page:", changedFilesPage);
       const {
         changedFiles,
         nextPageToken,

@@ -5,7 +5,7 @@ export default {
   key: "google_slides-create-slide",
   name: "Create Slide",
   description: "Create a new slide in a presentation. [See the documentation](https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations/request#CreateSlideRequest)",
-  version: "0.0.3",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

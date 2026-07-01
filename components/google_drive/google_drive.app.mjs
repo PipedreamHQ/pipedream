@@ -32,9 +32,8 @@ export default {
     watchedDrive: {
       type: "string",
       label: "Drive",
-      description: "Defaults to `My Drive`. To select a [Shared Drive](https://support.google.com/a/users/answer/9310351) instead, select it from this list.",
+      description: "Select a specific drive to search. Defaults to **All Drives** (My Drive and all Shared Drives you have access to) when no selection is made. To limit to your personal drive or a [Shared Drive](https://support.google.com/a/users/answer/9310351), select it from this list.",
       optional: true,
-      default: MY_DRIVE_VALUE,
       async options({ prevContext }) {
         const { nextPageToken } = prevContext;
         return this._listDriveOptions(nextPageToken);
@@ -156,6 +155,15 @@ export default {
         in addition to changes to content. **Defaults to \`false\`, watching only for changes to content**.`,
       optional: true,
       default: false,
+    },
+    changesPageSize: {
+      type: "integer",
+      label: "Changes Page Size",
+      description: "Maximum number of changes to fetch per API call (1-1000). Lower values reduce memory usage and the risk of execution timeouts or out-of-memory errors on active drives.",
+      min: 1,
+      max: 1000,
+      default: 100,
+      optional: true,
     },
     filePath: {
       type: "string",

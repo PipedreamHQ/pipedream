@@ -4,7 +4,7 @@ export default {
   key: "gmail-list-delegate-options",
   name: "List Send as a Delegate Options",
   description: "Retrieves available options for the Send as a Delegate field.",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

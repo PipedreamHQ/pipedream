@@ -19,7 +19,7 @@ export default {
     },
     workspaces: {
       label: "Workspaces",
-      description: "List of workspaces. This field uses the workspace GID.",
+      description: "List of workspaces. Use the **List Workspaces** action to retrieve available workspace GIDs.",
       type: "string[]",
       async options({ prevContext }) {
         const params = {
@@ -47,7 +47,7 @@ export default {
     },
     teams: {
       label: "Teams",
-      description: "List of teams. This field uses the team GID.",
+      description: "List of teams. Use the **List Teams** action to retrieve available team GIDs.",
       type: "string[]",
       async options({ workspace }) {
         const teams = await this.getTeams(workspace);
@@ -121,7 +121,7 @@ export default {
     },
     users: {
       label: "Users",
-      description: "List of users. This field uses the user GID.",
+      description: "List of users. Use the **List Users** action to retrieve available user GIDs.",
       type: "string[]",
       async options({
         prevContext, workspace,
@@ -272,6 +272,26 @@ export default {
         };
       },
     },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum total number of results to return across all paginated API calls. Each page fetches up to 100 items (Asana's maximum); this cap is applied after auto-pagination completes.",
+      default: 100,
+      min: 1,
+      max: 9999,
+      optional: true,
+    },
+    optFields: {
+      type: "string[]",
+      label: "Opt Fields",
+      description: "Optional properties to include in the response, as a list of field paths. Nested paths are allowed (e.g. `owner.name`, `custom_fields.name`); `gid` is always returned. [See the documentation](https://developers.asana.com/docs/inputoutput-options)",
+      optional: true,
+    },
+    portfolioId: {
+      type: "string",
+      label: "Portfolio",
+      description: "The portfolio GID. Use the **List Portfolios** action to find available portfolio GIDs.",
+    },
   },
   methods: {
     /**
@@ -371,7 +391,9 @@ export default {
      * @returns {string} An Asana Organizations list.
      */
     async getOrganizations() {
-      const params = {};
+      const params = {
+        opt_fields: "is_organization",
+      };
       const workspaces = [];
       do {
         const {
@@ -383,13 +405,7 @@ export default {
         params.offset = next?.offset;
       } while (params.offset);
 
-      const organizations = workspaces.filter(async (workspace) => {
-        const { data } = await this.getWorkspace({
-          workspaceId: workspace.gid,
-        });
-        return data?.is_organization;
-      });
-      return organizations;
+      return workspaces.filter((workspace) => workspace.is_organization);
     },
     /**
      * Get an Asana Project.
@@ -414,6 +430,47 @@ export default {
     getProjects(opts = {}) {
       return this._makeRequest({
         path: "projects",
+        ...opts,
+      });
+    },
+    /**
+     * Get an Asana Portfolio.
+     *
+     * @param {string} portfolioId - The portfolio GID.
+     *
+     * @returns {string} An Asana Portfolio.
+     */
+    getPortfolio({
+      portfolioId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `portfolios/${portfolioId}`,
+        ...opts,
+      });
+    },
+    /**
+     * Get an Asana Portfolio list.
+     *
+     * @returns {string} An Asana Portfolio list.
+     */
+    getPortfolios(opts = {}) {
+      return this._makeRequest({
+        path: "portfolios",
+        ...opts,
+      });
+    },
+    /**
+     * Get the items in an Asana Portfolio.
+     *
+     * @param {string} portfolioId - The portfolio GID.
+     *
+     * @returns {string} An Asana Project list.
+     */
+    getPortfolioItems({
+      portfolioId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `portfolios/${portfolioId}/items`,
         ...opts,
       });
     },
@@ -633,6 +690,14 @@ export default {
       return this._makeRequest({
         path: `user_task_lists/${taskList.gid}/tasks`,
         $,
+      });
+    },
+    getTasksForUserTaskList({
+      userTaskListId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `user_task_lists/${userTaskListId}/tasks`,
+        ...opts,
       });
     },
     listTaskTemplates(opts = {}) {

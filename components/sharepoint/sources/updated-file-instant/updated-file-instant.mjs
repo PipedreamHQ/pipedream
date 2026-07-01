@@ -9,7 +9,7 @@ export default {
   key: "sharepoint-updated-file-instant",
   name: "File Updated or Deleted (Instant)",
   description: "Emit a new event when specific files are updated or deleted in a SharePoint document library",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   props: {

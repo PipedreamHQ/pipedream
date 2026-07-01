@@ -1,4 +1,5 @@
 import newFilesInstant from "../../../google_drive/sources/new-files-instant/new-files-instant.mjs";
+import googleSlides from "../../google_slides.app.mjs";
 
 export default {
   ...newFilesInstant,
@@ -6,7 +7,7 @@ export default {
   type: "source",
   name: "New Presentation (Instant)",
   description: "Emit new event each time a new presentation is created in a drive.",
-  version: "0.0.4",
+  version: "0.0.6",
   hooks: {
     ...newFilesInstant.hooks,
     async deploy() {
@@ -24,6 +25,7 @@ export default {
   },
   props: {
     ...newFilesInstant.props,
+    googleSlides,
     folders: {
       ...newFilesInstant.props.folders,
       description:
