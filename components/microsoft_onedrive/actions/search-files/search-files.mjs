@@ -5,7 +5,7 @@ export default {
   key: "microsoft_onedrive-search-files",
   name: "Search Files",
   description: "Search for files and folders in Microsoft OneDrive. [See the documentation](https://learn.microsoft.com/en-us/graph/api/driveitem-search)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,6 +19,7 @@ export default {
         onedrive,
         "drive",
       ],
+      description: "The drive to search. Defaults to the connected account's personal OneDrive. To search a different drive, pass that drive's ID here (you can get it from the **List My Drives** action).",
     },
     q: {
       type: "string",
@@ -60,7 +61,11 @@ export default {
       ? `file${plural}`
       : `file${plural} and/or folder${plural}`;
 
-    $.export("$summary", `Found ${values.length} matching ${type}`);
+    const scope = this.drive
+      ? `drive ${this.drive}`
+      : "your personal OneDrive";
+
+    $.export("$summary", `Found ${values.length} matching ${type} in ${scope}`);
 
     return values;
   },
