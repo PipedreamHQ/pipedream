@@ -76,7 +76,7 @@ export default {
     let cursor;
     do {
       const {
-        agents, next_cursor: nextCursor,
+        agents = [], next_cursor: nextCursor,
       } = await elevenlabs.listAgents({
         $,
         params: {
