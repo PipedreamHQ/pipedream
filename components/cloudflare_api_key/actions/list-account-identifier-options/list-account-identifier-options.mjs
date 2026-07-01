@@ -4,7 +4,7 @@ export default {
   key: "cloudflare_api_key-list-account-identifier-options",
   name: "List Account ID Options",
   description: "Retrieves available options for the Account ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
