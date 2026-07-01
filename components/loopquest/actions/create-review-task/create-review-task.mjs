@@ -3,9 +3,14 @@ import app from "../../loopquest.app.mjs";
 export default {
   key: "loopquest-create-review-task",
   name: "Create Review Task",
-  description: "Send AI/automation output to a human. Gate a downstream action until it's approved, or monitor quality in the background. [See the docs](https://loopquest.tomphillips.uk/docs).",
+  description: "Send AI/automation output to a human. Gate a downstream action until it's approved, or monitor quality in the background. [See the documentation](https://loopquest.tomphillips.uk/docs).",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
   props: {
     loopquest: app,
     content: { propDefinition: [app, "content"] },
