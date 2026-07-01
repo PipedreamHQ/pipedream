@@ -21,7 +21,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const options = await vapi.propDefinitions.squadId.options.call(this.vapi, {
+    const {
+      options, context,
+    } = await vapi.propDefinitions.squadId.options.call(this.vapi, {
       prevContext: {
         createdAtLt: this.createdAtLt,
       },
@@ -29,6 +31,9 @@ export default {
     $.export("$summary", `Successfully retrieved ${options?.length ?? 0} option${options?.length === 1
       ? ""
       : "s"}`);
-    return options;
+    return {
+      options,
+      context,
+    };
   },
 };

@@ -10,29 +10,16 @@ export default {
       label: "Assistant ID",
       description: "ID of the assistant to start a conversation with or update",
       async options({ prevContext }) {
-        const params = {
-          limit: LIMIT,
-        };
-        if (prevContext?.createdAtLt) {
-          params.createdAtLt = prevContext.createdAtLt;
-        }
-        const assistants = await this.listAssistants({
-          params,
-        });
-        const lastItem = assistants[assistants.length - 1];
-        return {
-          options: assistants.map(({
+        return this._paginatedOptions({
+          fetchFn: (opts) => this.listAssistants(opts),
+          prevContext,
+          mapFn: ({
             id: value, name: label,
           }) => ({
             label,
             value,
-          })),
-          context: {
-            createdAtLt: assistants.length === LIMIT
-              ? lastItem?.createdAt
-              : undefined,
-          },
-        };
+          }),
+        });
       },
     },
     squadId: {
@@ -40,29 +27,16 @@ export default {
       label: "Squad ID",
       description: "ID of the squad to assign to the conversation",
       async options({ prevContext }) {
-        const params = {
-          limit: LIMIT,
-        };
-        if (prevContext?.createdAtLt) {
-          params.createdAtLt = prevContext.createdAtLt;
-        }
-        const squads = await this.listSquads({
-          params,
-        });
-        const lastItem = squads[squads.length - 1];
-        return {
-          options: squads.map(({
+        return this._paginatedOptions({
+          fetchFn: (opts) => this.listSquads(opts),
+          prevContext,
+          mapFn: ({
             id: value, name: label,
           }) => ({
             label,
             value,
-          })),
-          context: {
-            createdAtLt: squads.length === LIMIT
-              ? lastItem?.createdAt
-              : undefined,
-          },
-        };
+          }),
+        });
       },
     },
     phoneNumberId: {
@@ -70,35 +44,44 @@ export default {
       label: "Phone Number ID",
       description: "ID of the phone number to use for the conversation",
       async options({ prevContext }) {
-        const params = {
-          limit: LIMIT,
-        };
-        if (prevContext?.createdAtLt) {
-          params.createdAtLt = prevContext.createdAtLt;
-        }
-        const phoneNumbers = await this.listPhoneNumbers({
-          params,
-        });
-        const lastItem = phoneNumbers[phoneNumbers.length - 1];
-        return {
-          options: phoneNumbers.map(({
+        return this._paginatedOptions({
+          fetchFn: (opts) => this.listPhoneNumbers(opts),
+          prevContext,
+          mapFn: ({
             id: value, name, number,
           }) => ({
             label: (name && number)
               ? `${name} (${number})`
               : (name ?? number ?? value),
             value,
-          })),
-          context: {
-            createdAtLt: phoneNumbers.length === LIMIT
-              ? lastItem?.createdAt
-              : undefined,
-          },
-        };
+          }),
+        });
       },
     },
   },
   methods: {
+    async _paginatedOptions({
+      fetchFn, prevContext, mapFn,
+    }) {
+      const params = {
+        limit: LIMIT,
+      };
+      if (prevContext?.createdAtLt) {
+        params.createdAtLt = prevContext.createdAtLt;
+      }
+      const items = await fetchFn({
+        params,
+      });
+      const lastItem = items[items.length - 1];
+      return {
+        options: items.map(mapFn),
+        context: {
+          createdAtLt: items.length === LIMIT
+            ? lastItem?.createdAt
+            : undefined,
+        },
+      };
+    },
     _baseUrl() {
       return "https://api.vapi.ai";
     },
