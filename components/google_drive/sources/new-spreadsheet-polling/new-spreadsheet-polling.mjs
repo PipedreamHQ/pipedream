@@ -8,7 +8,7 @@ export default {
   key: "google_drive-new-spreadsheet-polling",
   name: "New Spreadsheet (Polling)",
   description: "Emit new event when a new spreadsheet is created in a drive.",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "source",
   dedupe: "unique",
   props: {
@@ -45,11 +45,10 @@ export default {
       optional: true,
     },
     changesPageSize: {
-      type: "integer",
-      label: "Changes Page Size",
-      description: "Maximum number of changes to fetch per API call. Lower values reduce the risk of execution timeouts on active drives.",
-      default: 1000,
-      optional: true,
+      propDefinition: [
+        googleDrive,
+        "changesPageSize",
+      ],
     },
   },
   hooks: {
@@ -149,7 +148,6 @@ export default {
       this.googleDrive.listChanges(pageToken, driveId, this.changesPageSize);
 
     for await (const changedFilesPage of changedFilesStream) {
-      console.log("Changed files page:", changedFilesPage);
       const {
         changedFiles,
         nextPageToken,

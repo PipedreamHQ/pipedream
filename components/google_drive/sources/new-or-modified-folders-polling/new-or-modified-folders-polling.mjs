@@ -12,7 +12,7 @@ export default {
   key: "google_drive-new-or-modified-folders-polling",
   name: "New or Modified Folders (Polling)",
   description: "Emit new event when a folder is created or modified in the selected Drive",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "source",
   dedupe: "unique",
   props: {
@@ -51,11 +51,10 @@ export default {
       optional: true,
     },
     changesPageSize: {
-      type: "integer",
-      label: "Changes Page Size",
-      description: "Maximum number of changes to fetch per API call. Lower values reduce the risk of execution timeouts on active drives.",
-      default: 1000,
-      optional: true,
+      propDefinition: [
+        googleDrive,
+        "changesPageSize",
+      ],
     },
   },
   hooks: {
@@ -192,7 +191,6 @@ export default {
       this.googleDrive.listChanges(pageToken, driveId, this.changesPageSize);
 
     for await (const changedFilesPage of changedFilesStream) {
-      console.log("Changed files page:", changedFilesPage);
       const {
         changedFiles,
         nextPageToken,

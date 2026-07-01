@@ -26,7 +26,7 @@ export default {
   key: "google_drive-new-or-modified-files",
   name: "New or Modified Files (Instant)",
   description: "Emit new event when a file in the selected Drive is created, modified or trashed.",
-  version: "0.4.10",
+  version: "0.4.11",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
@@ -154,8 +154,6 @@ export default {
         file.parents = (await this.googleDrive.getFile(file.id, {
           fields: "parents",
         })).parents;
-
-        console.log(file); // see what file was processed
 
         if (!this.shouldProcess(file)) {
           console.log(`Skipping file ${file.name}`);
