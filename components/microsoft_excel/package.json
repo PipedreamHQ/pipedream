@@ -16,7 +16,7 @@
     "@microsoft/microsoft-graph-client": "^3.0.7",
     "@pipedream/platform": "^3.1.1",
     "isomorphic-fetch": "^3.0.0",
-    "json-2-csv": "^5.5.9",
+    "json-2-csv": "^5.5.11",
     "moment": "^2.29.4"
   }
 }
