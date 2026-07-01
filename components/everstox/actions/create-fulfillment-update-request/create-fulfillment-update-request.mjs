@@ -32,6 +32,7 @@ export default {
         + " Omit `id` when adding a new item; include it when updating an existing one."
         + " Each item requires a `product.sku` and a `price_set` with at least one entry."
         + " Example: `[{\"id\": \"550e8400-e29b-41d4-a716-446655440000\", \"quantity\": 2, \"product\": {\"sku\": \"PROD-001\"}, \"price_set\": [{\"quantity\": 2, \"currency\": \"EUR\", \"price_net_after_discount\": \"19.99\", \"tax_amount\": \"3.80\", \"tax_rate\": \"0.19\"}]}]`",
+      optional: true,
     },
     shippingAddress: {
       type: "string",
