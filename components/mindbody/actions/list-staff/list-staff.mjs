@@ -8,7 +8,7 @@ export default {
     + " Use this to discover `staffId` values needed by **Book Appointment** and **Get Classes**."
     + " Filter by `filters` to find staff with a specific role (e.g., `AppointmentInstructor`)."
     + " [See the documentation](https://developers.mindbodyonline.com/ui/documentation/public-api#/http/api-endpoints/staff/get-staff)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

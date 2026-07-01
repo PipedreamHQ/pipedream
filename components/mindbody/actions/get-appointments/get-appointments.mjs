@@ -10,7 +10,7 @@ export default {
     + " Date formats: `YYYY-MM-DD` (e.g., `2026-07-01`)."
     + " Without date filters, returns appointments from the current date forward (up to `limit`)."
     + " [See the documentation](https://developers.mindbodyonline.com/ui/documentation/public-api#/http/api-endpoints/appointment/get-staff-appointments)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
