@@ -1,9 +1,9 @@
 import elevenlabs from "../../elevenlabs.app.mjs";
 
 export default {
-  key: "elevenlabs-list-agent-id-options",
-  name: "List Agent ID Options",
-  description: "Retrieves available options for the Agent ID field. [See the documentation](https://elevenlabs.io/docs/eleven-agents/api-reference/agents/list)",
+  key: "elevenlabs-list-agents",
+  name: "List Agents",
+  description: "Retrieves a list of agents. [See the documentation](https://elevenlabs.io/docs/eleven-agents/api-reference/agents/list)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -72,7 +72,7 @@ export default {
       sortBy,
       sortDirection,
     } = this;
-    const options = [];
+    const results = [];
     let cursor;
     do {
       const {
@@ -89,17 +89,12 @@ export default {
           cursor,
         },
       });
-      options.push(...(agents?.map(({
-        agent_id: value, name: label,
-      }) => ({
-        label,
-        value,
-      })) || []));
+      results.push(...agents);
       cursor = nextCursor;
     } while (cursor);
-    $.export("$summary", `Successfully retrieved ${options.length} option${options.length === 1
+    $.export("$summary", `Successfully retrieved ${results.length} agent${results.length === 1
       ? ""
       : "s"}`);
-    return options;
+    return results;
   },
 };
