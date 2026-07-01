@@ -137,7 +137,7 @@ export default {
     hashtag: {
       type: "string",
       label: "Hashtag",
-      description: "Hashtag to search (leading `#` is optional). Plain string, no dropdown.",
+      description: "Single hashtag to search, e.g. `nasa` or `space_exploration`. Pass just the tag text — the leading `#` is optional and will be stripped if present.",
     },
     page: {
       type: "integer",
