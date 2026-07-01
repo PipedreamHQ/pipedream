@@ -563,6 +563,10 @@ export default {
     getFulfillment(variables) {
       return this._makeGraphQlRequest(queries.GET_FULFILLMENT, variables);
     },
+    cancelFulfillment(variables) {
+      return this._makeGraphQlRequest(mutations.FULFILLMENT_CANCEL, variables);
+
+    },
     getFulfillmentOrder(variables) {
       return this._makeGraphQlRequest(queries.GET_FULFILLMENT_ORDER, variables);
     },

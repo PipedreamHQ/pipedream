@@ -433,6 +433,22 @@ const UPDATE_ORDER = `
   }
 `;
 
+const FULFILLMENT_CANCEL = `
+mutation fullfillmentCancel($id: ID!){
+fulfillmentCancel(id: $id) {
+      fulfillment {
+        id
+        status
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+}
+
+`;
+
 export default {
   CREATE_WEBHOOK,
   DELETE_WEBHOOK,
@@ -458,4 +474,5 @@ export default {
   DELETE_PAGE,
   DELETE_METAFIELD,
   UPDATE_ORDER,
+  FULFILLMENT_CANCEL,
 };
