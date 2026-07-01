@@ -1,0 +1,100 @@
+import { ConfigurationError } from "@pipedream/platform";
+import app from "../../lever.app.mjs";
+
+export default {
+  key: "lever-submit-feedback",
+  name: "Submit Feedback",
+  description:
+    "Submits an interview feedback form (scorecard) for an opportunity."
+    + " Use this after an interview to record the interviewer's assessment."
+    + " `baseTemplateId` is required — it identifies which feedback form template to submit against. Use **List Feedback Templates** to resolve the template id and its field IDs."
+    + " `panel` and `interview` are optional but linked: if you specify one, you must specify the other. Use **List Opportunity Items** (resource=interviews) to find panel and interview IDs."
+    + " Use **List Opportunity Items** (resource=feedback) to check if feedback has already been submitted for this panel."
+    + " `fieldValues` is a JSON array of `{\"id\": \"<field_id>\", \"value\": \"<answer>\"}` objects; the field IDs and valid values come from the template returned by **List Feedback Templates**."
+    + " Perform As is required — feedback is attributed to this user. Use **List Users** to find user IDs."
+    + " Example: call with opportunityId=\"<id>\", performAs=\"<userId>\", baseTemplateId=\"<templateId>\", fieldValues=`[{\"id\": \"<fieldId>\", \"value\": \"strong_yes\"}]` → submits the scorecard and returns the created feedback record."
+    + " [See the documentation](https://hire.lever.co/developer/documentation#create-a-feedback-form)",
+  version: "0.0.1",
+  type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
+  props: {
+    app,
+    opportunityId: {
+      propDefinition: [
+        app,
+        "opportunityId",
+      ],
+      description: "The ID of the opportunity. Use **Search Opportunities** to find opportunity IDs.",
+    },
+    performAs: {
+      propDefinition: [
+        app,
+        "performAs",
+      ],
+      description: "User ID of the interviewer submitting feedback — feedback is attributed to this user. Use **List Users** to find user IDs.",
+    },
+    baseTemplateId: {
+      type: "string",
+      label: "Feedback Template ID",
+      description: "UID of the feedback form template to submit. Obtain from your Lever account's feedback template list.",
+    },
+    panelId: {
+      type: "string",
+      label: "Panel ID",
+      description: "Interview panel UID. Required if Interview ID is specified. Use **List Opportunity Items** (resource=interviews) to find panel IDs.",
+      optional: true,
+    },
+    interviewId: {
+      type: "string",
+      label: "Interview ID",
+      description: "Interview UID within the panel. Required if Panel ID is specified. Use **List Opportunity Items** (resource=interviews) to find interview IDs.",
+      optional: true,
+    },
+    fieldValues: {
+      type: "string",
+      label: "Field Values (JSON)",
+      description: "JSON array of field responses. Each item must have an `id` (field UID from the template) and a `value`. Example: `[{\"id\": \"abc123\", \"value\": \"Strong communicator\"}, {\"id\": \"def456\", \"value\": \"3 - Hire\"}]`",
+      optional: true,
+    },
+  },
+  async run({ $ }) {
+    if (!!this.panelId !== !!this.interviewId) {
+      throw new ConfigurationError("Panel ID and Interview ID must both be provided or both omitted.");
+    }
+
+    const params = {
+      perform_as: this.performAs,
+    };
+
+    const body = {
+      baseTemplateId: this.baseTemplateId,
+    };
+    if (this.panelId) body.panel = this.panelId;
+    if (this.interviewId) body.interview = this.interviewId;
+    if (this.fieldValues) {
+      let parsed;
+      try {
+        parsed = JSON.parse(this.fieldValues);
+      } catch {
+        throw new ConfigurationError("Field Values must be a valid JSON array. Example: [{\"id\": \"abc123\", \"value\": \"Strong communicator\"}]");
+      }
+      if (!Array.isArray(parsed)) {
+        throw new ConfigurationError("Field Values must be a JSON array. Example: [{\"id\": \"abc123\", \"value\": \"Strong communicator\"}]");
+      }
+      body.fieldValues = parsed;
+    }
+
+    const response = await this.app.submitFeedback(this.opportunityId, {
+      $,
+      params,
+      data: body,
+    });
+    const result = response.data ?? response;
+    $.export("$summary", `Submitted feedback for opportunity ${this.opportunityId}`);
+    return result;
+  },
+};

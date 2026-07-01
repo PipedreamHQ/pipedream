@@ -4,9 +4,9 @@ import sampleEmit from "./test-event.mjs";
 export default {
   ...common,
   key: "returnista-sales-order-approved-or-denied-instant",
-  name: "Sales Order Approved or Denied (Instant)",
+  name: "New Sales Order Approved or Denied (Instant)",
   description: "Emit new event when a sales order is approved or denied. [See the documentation](https://platform.returnista.com/reference/rest-api/#post-/account/-accountId/webhook-subscription)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
