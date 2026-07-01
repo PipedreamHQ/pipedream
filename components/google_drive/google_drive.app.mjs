@@ -156,6 +156,15 @@ export default {
       optional: true,
       default: false,
     },
+    changesPageSize: {
+      type: "integer",
+      label: "Changes Page Size",
+      description: "Maximum number of changes to fetch per API call (1-1000). Lower values reduce memory usage and the risk of execution timeouts or out-of-memory errors on active drives.",
+      min: 1,
+      max: 1000,
+      default: 100,
+      optional: true,
+    },
     filePath: {
       type: "string",
       label: "File Path or URL",
