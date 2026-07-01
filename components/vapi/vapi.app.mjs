@@ -65,10 +65,8 @@ export default {
     }) {
       const params = {
         limit: LIMIT,
+        createdAtLt: prevContext?.createdAtLt,
       };
-      if (prevContext?.createdAtLt) {
-        params.createdAtLt = prevContext.createdAtLt;
-      }
       const items = await fetchFn({
         params,
       });
