@@ -1,4 +1,5 @@
 import everstox from "../../everstox.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "everstox-create-fulfillment-update-request",
@@ -62,6 +63,13 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!this.fulfillmentItems
+      && !this.shippingAddress
+      && !this.billingAddress
+      && !this.fulfillmentPriority) {
+      throw new ConfigurationError("At least one of `fulfillmentItems`, `shippingAddress`, `billingAddress`, or `fulfillmentPriority` must be provided.");
+    }
+
     const fulfillmentItems = this.fulfillmentItems
       ? JSON.parse(this.fulfillmentItems)
       : undefined;
