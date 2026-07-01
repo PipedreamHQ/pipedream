@@ -6,7 +6,7 @@ export default {
   app: "loopquest",
   propDefinitions: {
     content: { type: "string", label: "Content", description: "The AI/automation output a human should review." },
-    title: { type: "string", label: "Title", optional: true },
+    title: { type: "string", label: "Title", optional: true, description: "Optional heading shown on the review card." },
     module: {
       type: "string",
       label: "Game",
@@ -44,8 +44,8 @@ export default {
     source: { type: "string", label: "Source", optional: true, default: "pipedream", description: "A label for where this came from." },
     externalId: { type: "string", label: "External ID", optional: true, description: "Your own id for the item — echoed back in the verdict so you can correlate it." },
     callbackUrl: { type: "string", label: "Callback URL", optional: true, description: "Optional. A single webhook for this task's verdict. Leave blank if you use the New Verdict trigger." },
-    reviewsRequired: { type: "integer", label: "Reviewers Required", optional: true },
-    taskId: { type: "string", label: "Task ID" },
+    reviewsRequired: { type: "integer", label: "Reviewers Required", optional: true, description: "How many people must review before the verdict resolves. Defaults to 1." },
+    taskId: { type: "string", label: "Task ID", description: "The task id returned by **Create Review Task** — used by **Get Task Status**." },
   },
   methods: {
     _baseUrl() {
@@ -54,36 +54,26 @@ export default {
     _headers() {
       return { authorization: `Bearer ${this.$auth.api_key}`, "content-type": "application/json" };
     },
-    async createTask({ $, props }) {
+    // Single place that constructs the axios call — every method delegates here.
+    _makeRequest({ $, path, ...opts }) {
       return axios($, {
-        method: "POST",
-        url: `${this._baseUrl()}/api/v1/tasks`,
+        url: `${this._baseUrl()}${path}`,
         headers: this._headers(),
-        data: buildTaskBody(props),
+        ...opts,
       });
+    },
+    async createTask({ $, props }) {
+      return this._makeRequest({ $, method: "POST", path: "/api/v1/tasks", data: buildTaskBody(props) });
     },
     async getTask({ $, taskId }) {
-      return axios($, {
-        method: "GET",
-        url: `${this._baseUrl()}/api/v1/tasks/${taskId}`,
-        headers: this._headers(),
-      });
+      return this._makeRequest({ $, method: "GET", path: `/api/v1/tasks/${taskId}` });
     },
     // Verdict subscriptions — power the New Verdict source (REST-hook style).
-    async subscribeVerdicts($, url) {
-      return axios($, {
-        method: "POST",
-        url: `${this._baseUrl()}/api/v1/hooks`,
-        headers: this._headers(),
-        data: { url },
-      });
+    async subscribeVerdicts({ $, url }) {
+      return this._makeRequest({ $, method: "POST", path: "/api/v1/hooks", data: { url } });
     },
-    async unsubscribeVerdicts($, id) {
-      return axios($, {
-        method: "DELETE",
-        url: `${this._baseUrl()}/api/v1/hooks/${id}`,
-        headers: this._headers(),
-      });
+    async unsubscribeVerdicts({ $, id }) {
+      return this._makeRequest({ $, method: "DELETE", path: `/api/v1/hooks/${id}` });
     },
   },
 };
