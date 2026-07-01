@@ -144,16 +144,23 @@ export default {
       throw new ConfigurationError(errorMessage);
     },
     getClient() {
-      const {
-        Email: apiEmail,
-        API_Key: apiKey,
-      } = this.$auth;
+      const authOptions = {};
 
-      const client = new Cloudflare({
-        apiEmail,
-        apiKey,
-      });
-      return client;
+      if (this.$auth.api_token || this.$auth.apiToken) {
+        authOptions.apiToken = this.$auth.api_token || this.$auth.apiToken;
+      } else if (
+        (this.$auth.api_key || this.$auth.API_Key) &&
+        (this.$auth.email || this.$auth.Email)
+      ) {
+        authOptions.apiKey = this.$auth.api_key || this.$auth.API_Key;
+        authOptions.apiEmail = this.$auth.email || this.$auth.Email;
+      }
+
+      if (Object.keys(authOptions).length === 0) {
+        throw new ConfigurationError("Missing or invalid Cloudflare authentication credentials. Please configure either an API Token, or a Global API Key with Email.");
+      }
+
+      return new Cloudflare(authOptions);
     },
     async getZones(args = {}) {
       const client = this.getClient();
