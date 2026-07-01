@@ -3,12 +3,13 @@ import {
   getListFilesOpts, isMyDrive,
 } from "../../common/utils.mjs";
 import googleDrive from "../../google_drive.app.mjs";
+import { PAGINATION_TOKEN_FIELD } from "../../common/constants.mjs";
 
 export default {
   key: "google_drive-list-files",
   name: "List Files",
   description: "List files from a specific folder. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/list) for more information",
-  version: "0.3.0",
+  version: "0.3.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -46,7 +47,7 @@ export default {
     fields: {
       type: "string",
       label: "Fields",
-      description: "The fields you want included in the response [(see the documentation for available fields)](https://developers.google.com/drive/api/reference/rest/v3/files). If not specified, the response includes a default set of fields specific to this method. For development you can use the special value `*` to return all fields, but you'll achieve greater performance by only selecting the fields you need.\n\n**eg:** `files(id,mimeType,name,webContentLink,webViewLink)`",
+      description: "The fields you want included in the response [(see the documentation for available fields)](https://developers.google.com/drive/api/reference/rest/v3/files). If not specified, the response includes a default set of fields specific to this method. For development you can use the special value `*` to return all fields, but you'll achieve greater performance by only selecting the fields you need.\n\n**Important:** when supplying a custom mask scoped to `files(...)`, the top-level `nextPageToken` field must also be present (e.g. `nextPageToken,files(id,name)`) or pagination silently stops after the first page. This action automatically prepends `nextPageToken` to your mask when it is absent so all pages are returned.\n\n**eg:** `files(id,mimeType,name,createdTime,modifiedTime)`",
       optional: true,
     },
     filterText: {
@@ -103,7 +104,13 @@ export default {
         : ""}trashed=${this.trashed}`;
     }
     if (this.fields) {
-      opts.fields = this.fields;
+      // Auto-append nextPageToken at the top level when the user's custom mask
+      // omits it; without it the do/while loop exits after the first page.
+      let fieldsValue = this.fields;
+      if (!fieldsValue.includes(PAGINATION_TOKEN_FIELD)) {
+        fieldsValue = `${PAGINATION_TOKEN_FIELD},${fieldsValue}`;
+      }
+      opts.fields = fieldsValue;
     }
     const allFiles = [];
     let pageToken;

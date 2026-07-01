@@ -8,7 +8,7 @@ export default {
   key: "google_drive-new-spreadsheet-polling",
   name: "New Spreadsheet (Polling)",
   description: "Emit new event when a new spreadsheet is created in a drive.",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "source",
   dedupe: "unique",
   props: {
