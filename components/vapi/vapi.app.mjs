@@ -9,60 +9,77 @@ export default {
       type: "string",
       label: "Assistant ID",
       description: "ID of the assistant to start a conversation with or update",
-      async options() {
-        const assistants = await this.listAssistants({
-          params: {
-            limit: LIMIT,
-          },
+      async options({ prevContext }) {
+        return this._paginatedOptions({
+          fetchFn: (opts) => this.listAssistants(opts),
+          prevContext,
+          mapFn: ({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
+          }),
         });
-        return assistants.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
       },
     },
     squadId: {
       type: "string",
       label: "Squad ID",
       description: "ID of the squad to assign to the conversation",
-      async options() {
-        const squads = await this.listSquads({
-          params: {
-            limit: LIMIT,
-          },
+      async options({ prevContext }) {
+        return this._paginatedOptions({
+          fetchFn: (opts) => this.listSquads(opts),
+          prevContext,
+          mapFn: ({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
+          }),
         });
-        return squads.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
       },
     },
     phoneNumberId: {
       type: "string",
       label: "Phone Number ID",
       description: "ID of the phone number to use for the conversation",
-      async options() {
-        const phoneNumbers = await this.listPhoneNumbers({
-          params: {
-            limit: LIMIT,
-          },
+      async options({ prevContext }) {
+        return this._paginatedOptions({
+          fetchFn: (opts) => this.listPhoneNumbers(opts),
+          prevContext,
+          mapFn: ({
+            id: value, name, number,
+          }) => ({
+            label: (name && number)
+              ? `${name} (${number})`
+              : (name ?? number ?? value),
+            value,
+          }),
         });
-        return phoneNumbers.map(({
-          id: value, name, number,
-        }) => ({
-          label: (name && number)
-            ? `${name} (${number})`
-            : (name ?? number ?? value),
-          value,
-        }));
       },
     },
   },
   methods: {
+    async _paginatedOptions({
+      fetchFn, prevContext, mapFn,
+    }) {
+      const params = {
+        limit: LIMIT,
+        createdAtLt: prevContext?.createdAtLt,
+      };
+      const items = await fetchFn({
+        params,
+      });
+      const lastItem = items[items.length - 1];
+      return {
+        options: items.map(mapFn),
+        context: {
+          createdAtLt: items.length === LIMIT
+            ? lastItem?.createdAt
+            : undefined,
+        },
+      };
+    },
     _baseUrl() {
       return "https://api.vapi.ai";
     },
