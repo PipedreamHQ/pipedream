@@ -1,4 +1,25 @@
 /**
+ * Truncate top-level arrays in a response `data` object to keep step exports
+ * manageable, flagging any array that was shortened.
+ *
+ * @param {Record<string, unknown> | undefined} data
+ * @param {number} max
+ */
+export function truncateArrays(data, max) {
+  if (!data || typeof data !== "object") {
+    return data;
+  }
+  for (const key of Object.keys(data)) {
+    if (Array.isArray(data[key]) && data[key].length > max) {
+      const total = data[key].length;
+      data[key] = data[key].slice(0, max);
+      data._truncated = `${key} truncated to ${max} of ${total} items`;
+    }
+  }
+  return data;
+}
+
+/**
  * Recursively compare two objects and return a structured diff map.
  *
  * @param {Record<string, unknown>} obj1
