@@ -5,7 +5,7 @@ export default {
   key: "easybroker-new-contact-request-created",
   name: "New Contact Request Created",
   description: "Emit new event when a new contact request is created. [See the documentation](https://dev.easybroker.com/reference/get_contact-requests)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
