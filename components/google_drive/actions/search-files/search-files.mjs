@@ -22,7 +22,7 @@ export default {
     + "\n\nWhen the user says 'my files', use **Get User Details** first to get the owner email."
     + " To scope to a shared drive, pass the `driveId` from **List Shared Drives**."
     + " [See the documentation](https://developers.google.com/drive/api/v3/search-files)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
