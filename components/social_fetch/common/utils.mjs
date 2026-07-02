@@ -9,12 +9,16 @@ export function truncateArrays(data, max) {
   if (!data || typeof data !== "object") {
     return data;
   }
+  const notices = [];
   for (const key of Object.keys(data)) {
     if (Array.isArray(data[key]) && data[key].length > max) {
       const total = data[key].length;
       data[key] = data[key].slice(0, max);
-      data._truncated = `${key} truncated to ${max} of ${total} items`;
+      notices.push(`${key} truncated to ${max} of ${total} items`);
     }
+  }
+  if (notices.length) {
+    data._truncated = notices;
   }
   return data;
 }

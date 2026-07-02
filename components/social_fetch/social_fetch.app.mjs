@@ -10,6 +10,7 @@ import {
   TRANSCRIPT_PLATFORMS,
 } from "./common/constants.mjs";
 import {
+  normalizeSubreddit,
   profileLabel,
   resolveGetPostRoute,
   resolveGetProfileRoute,
@@ -125,7 +126,8 @@ export default {
     sort: {
       type: "string",
       label: "Sort",
-      description: "Sort order for the returned posts (string).",
+      description:
+				`Sort order for the returned posts (string). One of: ${SUBREDDIT_POST_SORT_OPTIONS.map((v) => `\`${v}\``).join(", ")}.`,
       options: SUBREDDIT_POST_SORT_OPTIONS,
       optional: true,
     },
@@ -133,7 +135,7 @@ export default {
       type: "string",
       label: "Timeframe",
       description:
-				"Timeframe used with time-based sort orders such as `top` (string).",
+				`Timeframe used with time-based sort orders such as \`top\` (string). One of: ${SUBREDDIT_POST_TIMEFRAME_OPTIONS.map((v) => `\`${v}\``).join(", ")}.`,
       options: SUBREDDIT_POST_TIMEFRAME_OPTIONS,
       optional: true,
     },
@@ -291,7 +293,7 @@ export default {
     listSubredditPosts({
       subreddit, sort, timeframe, cursor, ...opts
     } = {}) {
-      const value = subreddit?.trim();
+      const value = normalizeSubreddit(subreddit);
       if (!value) {
         throw new Error("Subreddit is required.");
       }
