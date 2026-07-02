@@ -6,7 +6,7 @@ export default {
   key: "returnista-new-return-order-created-instant",
   name: "New Return Order Created (Instant)",
   description: "Emit new event when a new return order is created. [See the documentation](https://platform.returnista.com/reference/rest-api/#post-/account/-accountId/webhook-subscription)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
