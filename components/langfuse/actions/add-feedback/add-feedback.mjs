@@ -5,7 +5,7 @@ export default {
   key: "langfuse-add-feedback",
   name: "Add Feedback",
   description: "Attach user feedback to an existing trace in Langfuse. [See the documentation](https://api.reference.langfuse.com/#tag/comments/POST/api/public/comments).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

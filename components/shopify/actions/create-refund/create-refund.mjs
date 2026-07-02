@@ -46,6 +46,9 @@ export default {
       } catch {
         throw new ConfigurationError("**Refund Line Items** must be a valid JSON array, e.g. `[{\"lineItemId\":\"gid://shopify/LineItem/866550311766439020\",\"quantity\":1,\"restockType\":\"RETURN\"}]`");
       }
+      if (!Array.isArray(refundLineItems)) {
+        throw new ConfigurationError("**Refund Line Items** must be a valid JSON array, e.g. `[{\"lineItemId\":\"gid://shopify/LineItem/866550311766439020\",\"quantity\":1,\"restockType\":\"RETURN\"}]`");
+      }
     }
 
     const input = {

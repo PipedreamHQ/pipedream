@@ -6,7 +6,7 @@ export default {
   key: "returnista-tracking-update-delivered-instant",
   name: "New Tracking Update Delivered (Instant)",
   description: "Emit new event when a tracking update is received and the shipment status changes to delivered. [See the documentation](https://platform.returnista.com/reference/webhooks/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
