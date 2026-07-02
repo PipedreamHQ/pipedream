@@ -134,6 +134,13 @@ export default {
         ...args,
       });
     },
+    /**
+     * Subscribes a Speak AI webhook so events are delivered to the given callback URL.
+     * @param {object} [opts={}] - Options for the request.
+     * @param {object} opts.data - Subscription payload merged over the defaults
+     * (`source`, `description`); must include `callbackUrl` and `events`.
+     * @returns {Promise<object>} The API response containing the created `webhookId`.
+     */
     subscribeWebhook({
       data, ...args
     } = {}) {
@@ -147,6 +154,12 @@ export default {
         ...args,
       });
     },
+    /**
+     * Removes a previously created Speak AI webhook subscription.
+     * @param {object} [opts={}] - Options for the request.
+     * @param {string} opts.webhookId - The ID of the webhook to delete.
+     * @returns {Promise<object>} The API response for the delete request.
+     */
     unsubscribeWebhook({
       webhookId, ...args
     } = {}) {
@@ -155,24 +168,44 @@ export default {
         ...args,
       });
     },
+    /**
+     * Retrieves media insights (transcripts, sentiment, media items) from the apps endpoint.
+     * @param {object} [args={}] - Request options such as `params` and `$`.
+     * @returns {Promise<object|object[]>} The insights response for the requested media.
+     */
     getInsights(args = {}) {
       return this._makeRequest({
         path: "/apps/insights",
         ...args,
       });
     },
+    /**
+     * Retrieves exported media assets (e.g. SRT/VTT captions) from the apps endpoint.
+     * @param {object} [args={}] - Request options such as `params`, `headers`, and `$`.
+     * @returns {Promise<object|object[]>} The export response for the requested media.
+     */
     getExport(args = {}) {
       return this._makeRequest({
         path: "/apps/export",
         ...args,
       });
     },
+    /**
+     * Retrieves the Magic Prompt response history from the apps endpoint.
+     * @param {object} [args={}] - Request options such as `params`, `headers`, and `$`.
+     * @returns {Promise<object>} The response containing the prompt history list.
+     */
     getPromptsHistory(args = {}) {
       return this._makeRequest({
         path: "/apps/prompts/history",
         ...args,
       });
     },
+    /**
+     * Runs a Speak AI Magic Prompt against a folder and/or specific media.
+     * @param {object} [args={}] - Request options; `data` carries the prompt payload.
+     * @returns {Promise<object>} The API response for the submitted prompt.
+     */
     runPrompt(args = {}) {
       return this.post({
         path: "/prompt",

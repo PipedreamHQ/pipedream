@@ -30,6 +30,7 @@ export default {
       label: "Assistant Type",
       description: "The assistant type to use for the prompt (e.g. `researcher`, `marketer`, `sales`, `general`, `recruiter`)",
       optional: true,
+      default: "general",
     },
     assistantTemplateId: {
       type: "string",
