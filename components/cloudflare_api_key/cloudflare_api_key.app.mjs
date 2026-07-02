@@ -36,7 +36,6 @@ export default {
           page: page + 1,
           ["account.id"]: accountIdentifier,
         });
-        console.log("response!!!", JSON.stringify(response, null, 2));
 
         return response.result.map(({
           id: value,
@@ -145,8 +144,8 @@ export default {
     },
     getClient() {
       const {
-        Email: apiEmail,
-        API_Key: apiKey,
+        email: apiEmail,
+        api_key: apiKey,
       } = this.$auth;
 
       const client = new Cloudflare({
