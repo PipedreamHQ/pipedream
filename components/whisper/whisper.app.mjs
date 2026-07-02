@@ -1,7 +1,7 @@
 import { axios, ConfigurationError } from "@pipedream/platform";
 
-// Canonical public endpoints (see docs/packaging/CONTROL_API.md — the client-facing
-// contract, reverse-engineered from the `whisper` CLI reference implementation).
+// Canonical public endpoints (matching the open-source `whisper` CLI, the
+// reference implementation of this client contract).
 //   - graph.whisper.security is the ONE keyed control endpoint (the whisper.agents verb).
 //   - rdap.whisper.online is the keyless, anonymous public identity API.
 const CONTROL_URL = "https://graph.whisper.security/api/query";
@@ -54,6 +54,46 @@ export default {
       type: "string",
       label: "Agent",
       description: "Select the agent by its id (e.g. `agent-ae3b051ff3bf7f478`) or its `/128` address.",
+    },
+    connectAgent: {
+      type: "string",
+      label: "Agent",
+      description: "The agent to bind the egress to — its id or `/128` address. Leave blank to reuse your most recently allocated agent.",
+      optional: true,
+    },
+    tier: {
+      type: "string",
+      label: "Tier",
+      description: "The egress mechanism. `SOCKS5` (default) is a hosted SOCKS5/HTTP proxy source-bound to the agent's `/128`; `WireGuard` is a routed tunnel (bring your own client public key).",
+      options: [
+        {
+          label: "SOCKS5",
+          value: "socks5",
+        },
+        {
+          label: "WireGuard",
+          value: "wireguard",
+        },
+        {
+          label: "AnyIP",
+          value: "anyip",
+        },
+      ],
+      default: "socks5",
+      optional: true,
+    },
+    publicKey: {
+      type: "string",
+      label: "WireGuard Public Key",
+      description: "Your WireGuard client's base64 public key. Required for the `WireGuard` tier; ignored otherwise.",
+      optional: true,
+    },
+    includeSecrets: {
+      type: "boolean",
+      label: "Include Secrets",
+      description: "Off by default (recommended): the returned config is **stripped of its secrets** — the proxy credential URLs and any private key — so no bearer token lands in your workflow's step exports or logs. Turn on only if a downstream step must consume the credentials directly, and treat the step export as sensitive.",
+      default: false,
+      optional: true,
     },
     policyDefault: {
       type: "string",
@@ -201,6 +241,12 @@ export default {
         ...args,
       });
     },
+    async getEgressIp(args = {}) {
+      return this._rdapRequest({
+        path: "/egress-ip",
+        ...args,
+      });
+    },
 
     // ================================================================================
     // Control tier — the keyed control plane (graph.whisper.security). One Cypher verb,
@@ -309,7 +355,7 @@ export default {
         result,
       ];
     },
-    // Accepts BOTH wire shapes the control plane returns (CONTROL_API.md section 2):
+    // Accepts BOTH wire shapes the control plane may return:
     //   A. the live procedure-row table: {columns, rows:[{op,ok,status,result,error}]}
     //   B. the dev-guide flat envelope:  {ok, status, result, error}
     //   + a bare {columns, rows:[[…]]} table, and a bare problem object.
@@ -398,6 +444,85 @@ export default {
       return this._agents({
         $,
         op: "register",
+        args,
+      });
+    },
+    async allocateIdentity({
+      $ = this, label, contactEmail,
+    }) {
+      const args = {
+        label,
+      };
+      if (contactEmail) {
+        args.contact_email = contactEmail;
+      }
+      return this._agents({
+        $,
+        op: "identity",
+        args,
+      });
+    },
+    async connectEgress({
+      $ = this, agent, tier, publicKey,
+    }) {
+      const args = {};
+      if (agent) {
+        args.agent = agent;
+      }
+      if (tier) {
+        args.tier = tier;
+      }
+      if (publicKey) {
+        args.public_key = publicKey;
+      }
+      return this._agents({
+        $,
+        op: "connect",
+        args,
+      });
+    },
+    // The connect result embeds live credentials (a bearer inside the proxy URLs, and —
+    // on the zero-key WireGuard path — a client private key). Integrations that don't
+    // consume them directly must strip them so no secret lands in step exports or logs.
+    stripEgressSecrets(record) {
+      const SECRET_FIELDS = [
+        "http_proxy",
+        "https_proxy",
+        "connection_string",
+        "socks5_endpoint",
+        "client_private_key",
+        "wireguard_config",
+      ];
+      const out = {
+        ...record,
+      };
+      const stripped = [];
+      for (const f of SECRET_FIELDS) {
+        if (out[f] !== undefined && out[f] !== null) {
+          delete out[f];
+          stripped.push(f);
+        }
+      }
+      if (stripped.length) {
+        out.secrets_stripped = stripped;
+      }
+      return out;
+    },
+    async getAgent({
+      $ = this, agent,
+    }) {
+      // The control plane keys the lookup by `agent` (an id) or `address` (a /128) —
+      // liberal-accept: anything containing a colon is an address.
+      const args = String(agent).includes(":")
+        ? {
+          address: agent,
+        }
+        : {
+          agent,
+        };
+      return this._agents({
+        $,
+        op: "agent",
         args,
       });
     },
