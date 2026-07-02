@@ -5,7 +5,7 @@ export default {
   key: "trello-create-label",
   name: "Create Label",
   description: "Creates a new label on the specified board. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-labels/#api-labels-post).",
-  version: "0.2.6",
+  version: "0.2.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -17,7 +17,7 @@ export default {
     idBoard: {
       type: "string",
       label: "Board ID",
-      description: "The ID of the board to create the label on. Example: `5abbe4b7ddc1b351ef961414`.",
+      description: "The ID of the board to create the label on.",
       propDefinition: [
         app,
         "board",

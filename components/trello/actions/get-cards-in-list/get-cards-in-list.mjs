@@ -4,7 +4,7 @@ export default {
   key: "trello-get-cards-in-list",
   name: "Get Cards In A List",
   description: "List the cards in a list. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-lists/#api-lists-id-cards-get).",
-  version: "0.1.0",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -20,7 +20,6 @@ export default {
       ],
       label: "Board ID",
       description: "The ID of the board containing the list",
-      optional: true,
     },
     listId: {
       propDefinition: [
