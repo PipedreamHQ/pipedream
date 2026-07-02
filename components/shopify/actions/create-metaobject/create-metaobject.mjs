@@ -7,7 +7,7 @@ export default {
   key: "shopify-create-metaobject",
   name: "Create Metaobject",
   description: "Creates a metaobject. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/metaobjectCreate)",
-  version: "0.0.11",
+  version: "0.0.12",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

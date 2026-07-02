@@ -4,7 +4,7 @@ export default {
   key: "zendesk-list-macro-category-options",
   name: "List Macro Category Options",
   description: "Retrieves available options for the Macro Category field.",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   annotations: {
     destructiveHint: false,

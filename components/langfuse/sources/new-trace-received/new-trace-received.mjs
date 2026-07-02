@@ -6,7 +6,7 @@ export default {
   key: "langfuse-new-trace-received",
   name: "New Trace Received",
   description: "Emit new event when a new trace is recorded in Langfuse. [See the documentation](https://api.reference.langfuse.com/#tag/trace/GET/api/public/traces).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
