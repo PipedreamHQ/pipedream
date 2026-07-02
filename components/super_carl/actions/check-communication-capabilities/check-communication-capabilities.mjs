@@ -7,7 +7,7 @@ import {
 export default {
   key: "super_carl-check-communication-capabilities",
   name: "Check Communication Capabilities",
-  description: "Check which Super Carl communication channels are available for a target before creating a draft or sending a message. Use this to select **Create Communication Draft** or **Send Communication** inputs, including channel, recipient email, and connector user IDs. [See the documentation](https://supercarl.ai/docs/endpoints)",
+  description: "Check which Super Carl communication channels are available for a target before sending a message. Returns the list of channels with their `can_send` status, recipient email, and connector user IDs. [See the documentation](https://supercarl.ai/docs/endpoints)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
