@@ -58,6 +58,17 @@ export default {
         }));
       },
     },
+    prompt: {
+      type: "string",
+      label: "Prompt",
+      description: "The instruction or question to run against your folder and/or media",
+    },
+    mediaIds: {
+      type: "string[]",
+      label: "Media IDs",
+      description: "One or more media identifiers to include as context for the prompt",
+      optional: true,
+    },
   },
   methods: {
     getUrl(path) {
@@ -120,6 +131,51 @@ export default {
     } = {}) {
       return this._makeRequest({
         path: `/text/insight/${mediaId}`,
+        ...args,
+      });
+    },
+    subscribeWebhook({
+      data, ...args
+    } = {}) {
+      return this.post({
+        path: "/webhook",
+        data: {
+          source: "pipedream",
+          description: "Pipedream integration",
+          ...data,
+        },
+        ...args,
+      });
+    },
+    unsubscribeWebhook({
+      webhookId, ...args
+    } = {}) {
+      return this.delete({
+        path: `/webhook/${webhookId}`,
+        ...args,
+      });
+    },
+    getInsights(args = {}) {
+      return this._makeRequest({
+        path: "/apps/insights",
+        ...args,
+      });
+    },
+    getExport(args = {}) {
+      return this._makeRequest({
+        path: "/apps/export",
+        ...args,
+      });
+    },
+    getPromptsHistory(args = {}) {
+      return this._makeRequest({
+        path: "/apps/prompts/history",
+        ...args,
+      });
+    },
+    runPrompt(args = {}) {
+      return this.post({
+        path: "/prompt",
         ...args,
       });
     },
