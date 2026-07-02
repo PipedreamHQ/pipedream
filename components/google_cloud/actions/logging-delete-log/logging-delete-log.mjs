@@ -15,7 +15,7 @@ export default {
     googleCloud,
     logName: {
       label: "Log name",
-      description: "The name of the log to delete. Run the **List Logs** action to find valid log names.",
+      description: "The name of the log to delete. Run the **Logging - List Logs** action to find valid log names.",
       type: "string",
     },
   },

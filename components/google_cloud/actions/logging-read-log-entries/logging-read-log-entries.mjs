@@ -17,7 +17,7 @@ export default {
     googleCloud,
     logName: {
       label: "Log name",
-      description: "Restrict results to a single log. Run the **List Logs** action to find valid log names. Leave empty to read across all logs in the project.",
+      description: "Restrict results to a single log. Run the **Logging - List Logs** action to find valid log names. Leave empty to read across all logs in the project.",
       type: "string",
       optional: true,
     },
@@ -44,11 +44,12 @@ export default {
     },
     maxResults: {
       label: "Max Results",
-      description: "The maximum number of entries to return across all pages. Default is 100.",
+      description: "The maximum number of entries to return across all pages (max 10000). Default is 100.",
       type: "integer",
       optional: true,
       default: 100,
       min: 1,
+      max: 10000,
     },
   },
   async run({ $ }) {
