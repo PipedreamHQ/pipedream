@@ -1,4 +1,4 @@
-export const BASE_URL = "https://beta.workflowy.com";
+export const BASE_URL = "https://workflowy.com";
 export const VERSION_PATH = "/api/v1";
 export const LAYOUT_MODES = [
   "bullets",
