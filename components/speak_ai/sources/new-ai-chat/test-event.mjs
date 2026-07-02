@@ -32,7 +32,8 @@ export default {
           "link": "",
           "score": 0.84037739
         }
-      ]
+      ],
+      "score": 0.84037739
     }
   ]
 };
