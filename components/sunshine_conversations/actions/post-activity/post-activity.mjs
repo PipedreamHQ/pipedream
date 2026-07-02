@@ -1,9 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
 import sunshineConversations from "../../sunshine_conversations.app.mjs";
-import {
-  ACTIVITY_TYPES,
-  AUTHOR_TYPES,
-} from "../../common/constants.mjs";
+import { ACTIVITY_TYPES } from "../../common/constants.mjs";
 
 export default {
   key: "sunshine_conversations-post-activity",
@@ -36,10 +33,11 @@ export default {
       ],
     },
     authorType: {
-      type: "string",
-      label: "Author Type",
+      propDefinition: [
+        sunshineConversations,
+        "authorType",
+      ],
       description: "The type of the activity author. Use `business` to post on behalf of the business, or `user` to post on behalf of a user. Note: when `user` is selected, only the `conversation:read` activity type is supported by the API.",
-      options: AUTHOR_TYPES,
     },
     activityType: {
       type: "string",
@@ -51,6 +49,10 @@ export default {
   async run({ $ }) {
     if (this.authorType === "user" && !this.userId) {
       throw new ConfigurationError("`userId` is required when `Author Type` is `user`.");
+    }
+
+    if (this.authorType === "user" && this.activityType !== "conversation:read") {
+      throw new ConfigurationError("When `Author Type` is `user`, only the `conversation:read` activity type is supported.");
     }
 
     const author = {

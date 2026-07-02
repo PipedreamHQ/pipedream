@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import jwt from "jsonwebtoken";
+import { AUTHOR_TYPES } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -9,6 +10,12 @@ export default {
       type: "string",
       label: "User ID",
       description: "The ID of the user received from your Conversations Webhook to filter conversations.",
+    },
+    authorType: {
+      type: "string",
+      label: "Author Type",
+      description: "The author type. Either `user` or `business`.",
+      options: AUTHOR_TYPES,
     },
     conversationId: {
       type: "string",

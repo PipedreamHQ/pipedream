@@ -1,7 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
 import { parseObject } from "../../common/utils.mjs";
 import sunshineConversations from "../../sunshine_conversations.app.mjs";
-import { AUTHOR_TYPES } from "../../common/constants.mjs";
 
 export default {
   key: "sunshine_conversations-post-text-message",
@@ -34,10 +33,10 @@ export default {
       ],
     },
     authorType: {
-      type: "string",
-      label: "Author Type",
-      description: "The author type. Either `user` or `business`.",
-      options: AUTHOR_TYPES,
+      propDefinition: [
+        sunshineConversations,
+        "authorType",
+      ],
     },
     subtypes: {
       type: "string[]",
@@ -132,6 +131,20 @@ export default {
       throw new ConfigurationError("Either `text`, `htmlText`, `markdownText`, or `actions` is required");
     }
 
+    const parsedActions = hasActions
+      ? parseObject(this.actions)
+      : undefined;
+    if (parsedActions) {
+      if (parsedActions.length > 10) {
+        throw new ConfigurationError("A message can contain at most 10 `actions`.");
+      }
+      const hasReply = parsedActions.some((action) => action?.type === "reply");
+      const hasNonReply = parsedActions.some((action) => action?.type !== "reply");
+      if (hasReply && hasNonReply) {
+        throw new ConfigurationError("`reply` actions cannot be mixed with other action types.");
+      }
+    }
+
     const author = {
       type: this.authorType,
       subtypes: parseObject(this.subtypes),
@@ -154,9 +167,7 @@ export default {
           blockChatInput: this.blockChatInput,
           markdownText: this.markdownText,
           payload: this.payload,
-          actions: hasActions
-            ? parseObject(this.actions)
-            : undefined,
+          actions: parsedActions,
         },
         metadata: parseObject(this.metadata),
       },
