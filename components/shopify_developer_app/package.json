@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@pipedream/platform": "^3.1.1",
-    "@pipedream/shopify": "^0.7.0",
+    "@pipedream/shopify": "^0.10.0",
     "shopify-api-node": "^3.14.2"
   }
 }
