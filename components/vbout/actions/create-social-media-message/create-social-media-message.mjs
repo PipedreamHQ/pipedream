@@ -1,6 +1,7 @@
 import moment from "moment";
 import common from "../common/base.mjs";
 import { parseChannelOptions } from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   ...common,
@@ -65,6 +66,9 @@ export default {
         const channels = await this.getChannels();
         const options = parseChannelOptions(channels);
         const channelOption = options.find((option) => option.value === channel);
+        if (!channelOption) {
+          throw new ConfigurationError(`Channel "${channel}" not found.`);
+        }
         label = channelOption?.label;
       }
       return label.split(" - ")[0];
