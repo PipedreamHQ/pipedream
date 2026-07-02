@@ -10,7 +10,7 @@ export default {
   "mediaIds": [],
   "folderId": "27c6e4a90e32",
   "state": "completed",
-  "link": "https://app.speakai.co/media/list?dialog=magic_prompt&tab=history",
+  "link": "https://app.speakai.co/media/list?dialog=chat&tab=history",
   "references": [
     {
       "companyId": "5e21c8dd2d77242c64214816",
@@ -32,8 +32,7 @@ export default {
           "link": "",
           "score": 0.84037739
         }
-      ],
-      "score": 0.84037739
+      ]
     }
   ]
 };
