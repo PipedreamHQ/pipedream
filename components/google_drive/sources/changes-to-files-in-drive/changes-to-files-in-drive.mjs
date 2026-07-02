@@ -14,7 +14,7 @@ export default {
   key: "google_drive-changes-to-files-in-drive",
   name: "Changes to Files in Drive",
   description: "Emit new event when a change is made to one of the specified files. [See the documentation](https://developers.google.com/drive/api/v3/reference/changes/watch)",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "source",
   dedupe: "unique",
   props: {
@@ -132,8 +132,6 @@ export default {
     },
     async processChanges(changedFiles, headers) {
       console.log(`Processing ${changedFiles.length} changed files`);
-      console.log(`Changed files: ${JSON.stringify(changedFiles, null, 2)}!!!`);
-      console.log(`Files: ${this.files}!!!`);
 
       const filteredFiles = this.checkMinimumInterval(changedFiles);
       for (const file of filteredFiles) {
