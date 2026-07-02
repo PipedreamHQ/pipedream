@@ -10,7 +10,6 @@ export default {
   dedupe: "unique",
   props: {
     leadboxer,
-    db: "$.service.db",
     timer: {
       type: "$.interface.timer",
       default: {
