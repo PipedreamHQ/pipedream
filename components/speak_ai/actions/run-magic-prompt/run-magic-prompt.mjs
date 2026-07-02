@@ -66,7 +66,10 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully ran Magic Prompt \`${response?.data?.promptId || ""}\`.`);
+    const promptId = response?.data?.promptId;
+    $.export("$summary", promptId
+      ? `Successfully ran Magic Prompt \`${promptId}\`.`
+      : "Successfully ran Magic Prompt.");
     return response;
   },
 };
