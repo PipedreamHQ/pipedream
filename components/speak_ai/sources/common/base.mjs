@@ -45,9 +45,9 @@ export default {
     },
     generateMeta(resource, data) {
       return {
-        id: resource.deliveryId || resource.mediaId || resource.messageId,
+        id: resource.deliveryId || resource.mediaId || resource.messageId || resource.promptId,
         summary: this.getSummary(resource, data),
-        ts: Date.now(),
+        ts: Date.parse(resource.createdAt) || Date.now(),
       };
     },
     async processResource(resource) {
