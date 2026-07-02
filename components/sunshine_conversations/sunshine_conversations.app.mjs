@@ -17,6 +17,12 @@ export default {
       async options({
         userId, prevContext,
       }) {
+        if (!userId) {
+          return {
+            options: [],
+          };
+        }
+
         const { conversations } = await this.getConversations({
           params: {
             page: {
@@ -138,6 +144,15 @@ export default {
     }) {
       return this._makeRequest({
         path: `/conversations/${conversationId}/participants`,
+        ...opts,
+      });
+    },
+    postActivity({
+      conversationId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/conversations/${conversationId}/activity`,
         ...opts,
       });
     },

@@ -1,11 +1,12 @@
 import { ConfigurationError } from "@pipedream/platform";
 import { parseObject } from "../../common/utils.mjs";
 import sunshineConversations from "../../sunshine_conversations.app.mjs";
+import { AUTHOR_TYPES } from "../../common/constants.mjs";
 
 export default {
   key: "sunshine_conversations-post-text-message",
   name: "Post Text Message",
-  description: "Post a text message. [See the documentation](https://developer.zendesk.com/api-reference/conversations/#tag/Messages/operation/PostMessage)",
+  description: "Post a text message, optionally with action buttons. [See the documentation](https://developer.zendesk.com/api-reference/conversations/#tag/Messages/operation/PostMessage)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -20,6 +21,8 @@ export default {
         sunshineConversations,
         "userId",
       ],
+      description: "The ID of the user on whose behalf the message is posted. Required when **Author Type** is `user`. Also filters the **Conversation ID** dropdown; leave blank for a business post and enter the conversation ID directly.",
+      optional: true,
     },
     conversationId: {
       propDefinition: [
@@ -33,11 +36,8 @@ export default {
     authorType: {
       type: "string",
       label: "Author Type",
-      description: "The author type. Either \"user\" (representing the end user) or \"business\" (sent on behalf of the business)",
-      options: [
-        "business",
-        "user",
-      ],
+      description: "The author type. Either `user` or `business`.",
+      options: AUTHOR_TYPES,
     },
     subtypes: {
       type: "string[]",
@@ -78,7 +78,7 @@ export default {
     text: {
       type: "string",
       label: "Text",
-      description: "The text content of the message. Required unless actions, htmlText or markdownText is provided",
+      description: "The text content of the message. Required unless `actions`, `htmlText`, or `markdownText` is provided",
       optional: true,
     },
     htmlText: {
@@ -105,6 +105,12 @@ export default {
       description: "The payload of a [reply button](https://developer.zendesk.com/documentation/conversations/messaging-platform/programmable-conversations/structured-messages/#reply-buttons) response message",
       optional: true,
     },
+    actions: {
+      type: "string[]",
+      label: "Actions",
+      description: "An array of action-button objects to embed in the message. Each item must be a JSON object, for example: `{\"type\":\"link\",\"text\":\"Visit site\",\"uri\":\"https://example.com\"}` or `{\"type\":\"reply\",\"text\":\"Yes\",\"payload\":\"confirm_yes\"}`. Valid action types: `link`, `reply`, `webview`, `postback`. Max 10 per message; `reply` actions cannot be mixed with other action types. Required unless `text`, `htmlText`, or `markdownText` is provided.",
+      optional: true,
+    },
     metadata: {
       type: "object",
       label: "Metadata",
@@ -113,12 +119,17 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.authorType === "user" && !this.userId) {
+      throw new ConfigurationError("`userId` is required when `Author Type` is `user`.");
+    }
+
     if (this.htmlText && this.markdownText) {
       throw new ConfigurationError("`htmlText` and `markdownText` cannot be used together");
     }
 
-    if (!this.text && !this.htmlText && !this.markdownText) {
-      throw new ConfigurationError("Either `text`, `htmlText`, or `markdownText` is required");
+    const hasActions = this.actions && this.actions.length;
+    if (!this.text && !this.htmlText && !this.markdownText && !hasActions) {
+      throw new ConfigurationError("Either `text`, `htmlText`, `markdownText`, or `actions` is required");
     }
 
     const author = {
@@ -144,6 +155,9 @@ export default {
           blockChatInput: this.blockChatInput,
           markdownText: this.markdownText,
           payload: this.payload,
+          actions: hasActions
+            ? parseObject(this.actions)
+            : undefined,
         },
         metadata: parseObject(this.metadata),
       },
