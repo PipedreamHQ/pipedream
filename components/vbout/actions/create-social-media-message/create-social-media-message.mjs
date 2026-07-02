@@ -1,12 +1,13 @@
 import moment from "moment";
 import common from "../common/base.mjs";
+import { parseChannelOptions } from "../common/utils.mjs";
 
 export default {
   ...common,
   key: "vbout-create-social-media-message",
   name: "Create Social Media Message",
-  description: "This action creates a new post on social media. [See the docs here](https://developers.vbout.com/docs#socialmedia_addpost)",
-  version: "0.0.2",
+  description: "This action creates a new post on social media. [See the documentation](https://developers.vbout.com/docs/?r=developers/docs#tag/Social-Media/operation/post-SocialMedia-AddPost)",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -58,6 +59,16 @@ export default {
     },
   },
   methods: {
+    async getChannelName(channel) {
+      let label = channel?.label;
+      if (!label) {
+        const channels = await this.getChannels();
+        const options = parseChannelOptions(channels);
+        const channelOption = options.find((option) => option.value === channel);
+        label = channelOption?.label;
+      }
+      return label.split(" - ")[0];
+    },
     async processEvent($) {
       const {
         message,
@@ -73,8 +84,8 @@ export default {
         $,
         params: {
           message,
-          channel: channel && (channel.label.split(" - "))[0],
-          channelid: channel && channel.value,
+          channel: await this.getChannelName(channel),
+          channelid: channel?.value || channel,
           photo,
           isscheduled: isScheduled,
           scheduleddate: dateTime && dateTime.format("YYYY-MM-DD"),
