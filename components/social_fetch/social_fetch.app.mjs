@@ -22,42 +22,6 @@ import {
   trimCursor,
 } from "./common/routing.mjs";
 
-/**
- * @param {number} status
- * @param {{ error?: { message?: string; requestId?: string };
- *   meta?: { requestId?: string } } | undefined} body
- */
-function formatApiError(status, body) {
-  const message =
-		typeof body?.error?.message === "string"
-		  ? body.error.message
-		  : `Request failed with status ${status}.`;
-  const requestId =
-		typeof body?.error?.requestId === "string"
-		  ? body.error.requestId
-		  : typeof body?.meta?.requestId === "string"
-		    ? body.meta.requestId
-		    : undefined;
-  return requestId
-    ? `${message} (requestId: ${requestId})`
-    : message;
-}
-
-/**
- * Build an Error that surfaces a friendly message but keeps the original
- * axios error reachable via `cause` (status / headers / body).
- */
-function wrapApiError(originalError) {
-  const status = originalError?.response?.status;
-  const body = originalError?.response?.data;
-  if (!status) return originalError;
-  const err = new Error(formatApiError(status, body), {
-    cause: originalError,
-  });
-  err.status = status;
-  return err;
-}
-
 export default {
   type: "app",
   app: "social_fetch",
@@ -158,31 +122,23 @@ export default {
 		 * @param {{ $?: unknown; path: string; params?: Record<string, string>;
 		 *   headers?: Record<string, string>; [key: string]: unknown }} [args]
 		 */
-    async _makeRequest({
+    _makeRequest({
       $ = this,
       path,
       params,
       headers = {},
       ...opts
     } = {}) {
-      try {
-        // `...opts` first so the request shape (url / params / headers) we
-        // build below can't be silently overwritten by a caller-supplied opt.
-        // Within headers, `_headers()` is spread last so the auth header
-        // (`x-api-key`) always wins over caller-supplied headers.
-        return await axios($, {
-          ...opts,
-          baseURL: API_BASE_URL,
-          url: path,
-          headers: {
-            ...headers,
-            ...this._headers(),
-          },
-          params,
-        });
-      } catch (error) {
-        throw wrapApiError(error);
-      }
+      return axios($, {
+        ...opts,
+        baseURL: API_BASE_URL,
+        url: path,
+        headers: {
+          ...headers,
+          ...this._headers(),
+        },
+        params,
+      });
     },
     /** @param {Record<string, unknown>} [opts] */
     getCreditBalance(opts = {}) {
