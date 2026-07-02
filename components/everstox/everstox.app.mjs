@@ -94,6 +94,12 @@ export default {
         headers: {
           "everstox-shop-api-token": `${this.$auth.api_token}`,
         },
+        // Everstox's API rejects `key[]=value` bracket notation (returns HTTP
+        // 500 for `sku`, 400 for `fields`). Serialize array-valued params as
+        // repeated `key=value` pairs instead of the axios default.
+        paramsSerializer: {
+          indexes: null,
+        },
         ...opts,
       });
     },
