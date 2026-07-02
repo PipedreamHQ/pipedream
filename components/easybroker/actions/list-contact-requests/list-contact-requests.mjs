@@ -4,7 +4,7 @@ export default {
   key: "easybroker-list-contact-requests",
   name: "List Contact Requests",
   description: "List all contact requests. [See the documentation](https://dev.easybroker.com/reference/get_contact-requests)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
