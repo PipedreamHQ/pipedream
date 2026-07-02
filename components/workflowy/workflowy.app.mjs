@@ -9,6 +9,17 @@ export default {
   type: "app",
   app: "workflowy",
   propDefinitions: {
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The main text of the node.",
+    },
+    note: {
+      type: "string",
+      label: "Note",
+      description: "Optional note (secondary text) for the node.",
+      optional: true,
+    },
     layoutMode: {
       type: "string",
       label: "Layout Mode",
@@ -50,15 +61,6 @@ export default {
         method: "POST",
         path: `/nodes/${nodeId}`,
         data,
-      });
-    },
-    getNode({
-      $, nodeId,
-    }) {
-      return this._makeRequest({
-        $,
-        method: "GET",
-        path: `/nodes/${nodeId}`,
       });
     },
     exportNodes({ $ }) {

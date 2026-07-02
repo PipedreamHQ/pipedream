@@ -4,7 +4,7 @@ import { POSITIONS } from "../../common/constants.mjs";
 export default {
   key: "workflowy-create-node",
   name: "Create Node",
-  description: "Creates a new bullet node in WorkFlowy via the beta API (POST /api/v1/nodes). Use this to add a top-level node or a child under an existing parent. To create a child node, first run **Search Nodes** to obtain a valid parent node ID and pass it as `parentNodeId`. Returns the newly created node's ID. [See the documentation](https://beta.workflowy.com/api-reference/).",
+  description: "Creates a new bullet node in WorkFlowy via the beta API (POST /api/v1/nodes). Use this to add a top-level node or a child under an existing parent. To create a child node, first run **Search Nodes** to obtain a valid parent node ID and pass it as `parentNodeId`. Returns the newly created node's ID. [See the documentation](https://beta.workflowy.com/api-reference/#nodes-create).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -15,15 +15,16 @@ export default {
   props: {
     workflowy,
     name: {
-      type: "string",
-      label: "Name",
-      description: "The main text of the new node.",
+      propDefinition: [
+        workflowy,
+        "name",
+      ],
     },
     note: {
-      type: "string",
-      label: "Note",
-      description: "Optional note (secondary text) for the node.",
-      optional: true,
+      propDefinition: [
+        workflowy,
+        "note",
+      ],
     },
     parentNodeId: {
       type: "string",
