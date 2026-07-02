@@ -6,7 +6,7 @@ export default {
   key: "sunshine_conversations-post-text-message",
   name: "Post Text Message",
   description: "Post a text message. [See the documentation](https://developer.zendesk.com/api-reference/conversations/#tag/Messages/operation/PostMessage)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

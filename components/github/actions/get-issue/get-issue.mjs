@@ -4,7 +4,7 @@ export default {
   key: "github-get-issue",
   name: "Get Issue",
   description: "Get the full details of a single issue: title, body, state, labels, assignees, milestone, comment count, and timestamps. Provide the repository as an `owner/repo` string and the issue number. If you only know the issue by title or topic, call **Search Issues and Pull Requests** first to resolve its number. [See the documentation](https://docs.github.com/en/rest/issues/issues?apiVersion=2022-11-28#get-an-issue)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

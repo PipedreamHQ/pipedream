@@ -13,3 +13,9 @@ export function parseObject(value) {
 
   return value;
 }
+
+export function assertSafeQueryValue(value, label) {
+  if (typeof value === "string" && value.includes("^")) {
+    throw new ConfigurationError(`\`${label}\` cannot contain the \`^\` character, which is reserved by ServiceNow's encoded-query syntax.`);
+  }
+}

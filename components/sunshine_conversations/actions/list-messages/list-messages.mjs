@@ -4,7 +4,7 @@ export default {
   key: "sunshine_conversations-list-messages",
   name: "List Messages",
   description: "List messages. [See the documentation](https://docs.sunshine-conversations.com/reference/listmessages)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

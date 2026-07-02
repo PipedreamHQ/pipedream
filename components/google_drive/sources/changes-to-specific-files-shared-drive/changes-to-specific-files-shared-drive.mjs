@@ -29,7 +29,7 @@ export default {
   key: "google_drive-changes-to-specific-files-shared-drive",
   name: "Changes to Specific Files (Shared Drive)",
   description: "Watches for changes to specific files in a shared drive, emitting an event when a change is made to one of those files",
-  version: "0.3.10",
+  version: "0.3.11",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
@@ -137,8 +137,6 @@ export default {
     },
     async processChanges(changedFiles, headers) {
       console.log(`Processing ${changedFiles.length} changed files`);
-      console.log(`Changed files: ${JSON.stringify(changedFiles, null, 2)}!!!`);
-      console.log(`Files: ${this.files}!!!`);
 
       const filteredFiles = this.checkMinimumInterval(changedFiles);
       for (const file of filteredFiles) {
