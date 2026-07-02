@@ -15628,6 +15628,12 @@ importers:
 
   components/supadata: {}
 
+  components/super_carl:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.4.0
+
   components/supercast:
     dependencies:
       '@pipedream/platform':
