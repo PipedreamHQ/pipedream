@@ -4,9 +4,9 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "speak_ai-new-magic-prompt",
-  name: "New Magic Prompt Response (Instant)",
-  description: "Emit new event when a Speak AI Magic Prompt response is ready (`chat.status`). [See the documentation](https://docs.speakai.co/).",
+  key: "speak_ai-new-ai-chat",
+  name: "New AI Chat Response (Instant)",
+  description: "Emit new event when a Speak AI Chat response is ready (`chat.status`). [See the documentation](https://docs.speakai.co/).",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -18,7 +18,7 @@ export default {
       ];
     },
     getSummary(resource) {
-      return `New Magic Prompt response ${resource.messageId || resource.promptId || ""}`.trim();
+      return `New AI Chat response ${resource.messageId || resource.promptId || ""}`.trim();
     },
     async hydrate(resource) {
       const res = await this.app.getPromptsHistory({

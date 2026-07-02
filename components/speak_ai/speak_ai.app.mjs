@@ -191,7 +191,7 @@ export default {
       });
     },
     /**
-     * Retrieves the Magic Prompt response history from the apps endpoint.
+     * Retrieves the AI Chat response history from the apps endpoint.
      * @param {object} [args={}] - Request options such as `params`, `headers`, and `$`.
      * @returns {Promise<object>} The response containing the prompt history list.
      */
@@ -202,7 +202,7 @@ export default {
       });
     },
     /**
-     * Runs a Speak AI Magic Prompt against a folder and/or specific media.
+     * Runs a Speak AI Chat against a folder and/or specific media.
      * @param {object} [args={}] - Request options; `data` carries the prompt payload.
      * @returns {Promise<object>} The API response for the submitted prompt.
      */

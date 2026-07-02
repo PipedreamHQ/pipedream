@@ -1,9 +1,9 @@
 import app from "../../speak_ai.app.mjs";
 
 export default {
-  key: "speak_ai-run-magic-prompt",
-  name: "Run Magic Prompt",
-  description: "Run a Speak AI Magic Prompt against a folder and/or specific media. [See the documentation](https://docs.speakai.co/).",
+  key: "speak_ai-run-ai-chat",
+  name: "Run AI Chat",
+  description: "Run a Speak AI Chat against a folder and/or specific media. [See the documentation](https://docs.speakai.co/).",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -68,8 +68,8 @@ export default {
 
     const promptId = response?.data?.promptId;
     $.export("$summary", promptId
-      ? `Successfully ran Magic Prompt \`${promptId}\`.`
-      : "Successfully ran Magic Prompt.");
+      ? `Successfully ran AI Chat \`${promptId}\`.`
+      : "Successfully ran AI Chat.");
     return response;
   },
 };
