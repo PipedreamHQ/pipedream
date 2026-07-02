@@ -28,6 +28,26 @@ interface AccountLocation {
   location: string;
 }
 
+export interface ListAccountsParams extends PdAxiosRequest {
+  params?: {
+    parentAccount?: string;
+    pageSize?: number;
+    pageToken?: string;
+    filter?: string;
+  };
+}
+
+export interface ListLocationsParams extends PdAxiosRequest {
+  account: string;
+  params?: {
+    pageSize?: number;
+    pageToken?: string;
+    filter?: string;
+    orderBy?: string;
+    readMask?: string;
+  };
+}
+
 export interface ListPostsParams extends PaginatedRequest, AccountLocation { }
 export interface ListReviewsParams extends PaginatedRequest, AccountLocation { }
 

@@ -2,9 +2,9 @@ import googleDocs from "../../google_docs.app.mjs";
 
 export default {
   key: "google_docs-create-document",
-  name: "Create a New Document",
-  description: "Create a new document. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/create)",
-  version: "0.2.1",
+  name: "Create Document",
+  description: "Create a new Google Doc with an optional body. The body is rendered as Markdown, so you can include headings (`# Title`), bold/italic, bullet/numbered lists, links, and code. Optionally place the doc in a specific Drive folder. Returns `{documentId, title, url}`. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/create)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,63 +16,43 @@ export default {
     title: {
       type: "string",
       label: "Title",
-      description: "Title of the new document",
+      description: "Title of the new document.",
     },
-    text: {
-      propDefinition: [
-        googleDocs,
-        "text",
-      ],
-      optional: true,
-    },
-    useMarkdown: {
-      type: "boolean",
-      label: "Use Markdown Format",
-      description: "Enable markdown formatting support. When enabled, the text will be parsed as markdown and converted to Google Docs formatting (headings, bold, italic, lists, etc.)",
+    content: {
+      type: "string",
+      label: "Content",
+      description: "Optional body content, written in Markdown. Example: `# Survey\\n- First point\\n- Second point`.",
       optional: true,
     },
     folderId: {
       propDefinition: [
         googleDocs,
-        "folderId",
+        "documentFolderId",
       ],
-      optional: true,
     },
   },
   async run({ $ }) {
-    // Create Doc
     const { documentId } = await this.googleDocs.createEmptyDoc(this.title);
 
-    // Insert text
-    if (this.text) {
-      if (this.useMarkdown) {
-        // Use markdown formatting
-        await this.googleDocs.insertMarkdownText(documentId, this.text);
-      } else {
-        // Use plain text
-        await this.googleDocs.insertText(documentId, {
-          text: this.text,
-        });
-      }
+    if (this.content) {
+      await this.googleDocs.insertMarkdownText(documentId, this.content);
     }
 
-    // Move file
     if (this.folderId) {
-      // Get file to get parents to remove
       const file = await this.googleDocs.getFile(documentId);
-
-      // Move file, removing old parents, adding new parent folder
       await this.googleDocs.updateFile(documentId, {
         fields: "*",
-        removeParents: file.parents.join(","),
+        removeParents: (file.parents || []).join(","),
         addParents: this.folderId,
       });
     }
 
-    // Get updated doc resource to return
-    const doc = await this.googleDocs.getDocument(documentId);
-
-    $.export("$summary", `Successfully created document with ID: ${documentId}`);
-    return doc;
+    const url = `https://docs.google.com/document/d/${documentId}/edit`;
+    $.export("$summary", `Created document "${this.title}" (${documentId})`);
+    return {
+      documentId,
+      title: this.title,
+      url,
+    };
   },
 };

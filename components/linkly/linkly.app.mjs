@@ -23,6 +23,33 @@ export default {
         })) || [];
       },
     },
+    domain: {
+      type: "string",
+      label: "Domain",
+      description: "Custom domain to use for the short URL (e.g. `links.example.com`). Leave empty to use the default Linkly domain. A custom slug requires a custom domain.",
+      optional: true,
+      async options() {
+        const { domains } = await this.listDomains();
+        return domains?.map(({ name }) => name) || [];
+      },
+    },
+    url: {
+      type: "string",
+      label: "URL",
+      description: "The destination URL the short link should redirect to",
+    },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Nickname for the link, shown in your Linkly dashboard",
+      optional: true,
+    },
+    slug: {
+      type: "string",
+      label: "Slug",
+      description: "Custom slug for the short URL (e.g. `summer-sale`). Requires a custom **Domain** to be set; leave empty to auto-generate.",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
@@ -71,10 +98,66 @@ export default {
         path: "/link",
       });
     },
+    updateLink({
+      linkId, data, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        method: "POST",
+        path: "/link",
+        data: {
+          ...data,
+          id: linkId,
+        },
+      });
+    },
+    deleteLink({
+      linkId, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        method: "DELETE",
+        path: `/workspace/${this.workspaceId()}/links/${linkId}`,
+      });
+    },
+    listDomains(opts = {}) {
+      return this._makeRequest({
+        ...opts,
+        path: `/workspace/${this.workspaceId()}/domains`,
+      });
+    },
+    listWorkspaces(opts = {}) {
+      return this._makeRequest({
+        ...opts,
+        path: "/workspaces",
+      });
+    },
+    subscribeWorkspaceWebhook({
+      url, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        method: "POST",
+        path: `/workspace/${this.workspaceId()}/webhooks`,
+        data: {
+          url,
+        },
+      });
+    },
+    unsubscribeWorkspaceWebhook({
+      url, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        method: "DELETE",
+        path: `/workspace/${this.workspaceId()}/webhooks/${encodeURIComponent(url)}`,
+      });
+    },
     async *paginate({
       resourceFn,
       params = {},
       resourceType,
+      $,
     }) {
       params = {
         ...params,
@@ -85,6 +168,7 @@ export default {
       do {
         const response = await resourceFn({
           params,
+          $,
         });
         const items = response[resourceType];
         for (const item of items) {

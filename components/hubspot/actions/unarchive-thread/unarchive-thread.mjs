@@ -4,7 +4,7 @@ export default {
   key: "hubspot-unarchive-thread",
   name: "Unarchive Thread",
   description: "Restores a previously-archived thread, returning it to the active inbox. Sends `PATCH` with body `{ archived: false }`, the only restore path HubSpot's API supports. The Thread ID dropdown lists archived threads. [See the documentation](https://developers.hubspot.com/docs/reference/api/conversations/inbox-and-messages#update-or-restore-threads)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

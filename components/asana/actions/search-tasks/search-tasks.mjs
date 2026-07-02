@@ -6,7 +6,7 @@ export default {
   key: "asana-search-tasks",
   name: "Search Tasks",
   description: "Searches for a Task by name within a Project. [See the documentation](https://developers.asana.com/docs/get-multiple-tasks)",
-  version: "0.3.7",
+  version: "0.5.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -62,6 +62,20 @@ export default {
       description: "Only return tasks that have been modified since the given time. ISO 8601 date string",
       optional: true,
     },
+    optFields: {
+      propDefinition: [
+        asana,
+        "optFields",
+      ],
+      description: "Optional task properties to include in the response (e.g. `created_at`, `due_on`, `custom_fields`). Nested paths are allowed; `gid` is always returned. [See the documentation](https://developers.asana.com/docs/get-multiple-tasks)",
+      optional: true,
+    },
+    maxResults: {
+      propDefinition: [
+        asana,
+        "maxResults",
+      ],
+    },
   },
   async run({ $ }) {
     if (!this.project && !this.section && !this.assignee) {
@@ -72,9 +86,24 @@ export default {
       throw new ConfigurationError("Must specify only one of Assignee, Project, or Project + Section");
     }
 
+    const optFields = Array.isArray(this.optFields)
+      ? [
+        ...this.optFields,
+      ]
+      : [];
+    if (optFields.length && !optFields.includes("name")) {
+      // the name filter below needs task.name present in the response
+      optFields.push("name");
+    }
+
+    let hasMore, count = 0;
     const params = {
       completed_since: this.completedSince,
       modified_since: this.modifiedSince,
+      opt_fields: optFields.length
+        ? optFields.join(",")
+        : undefined,
+      limit: 100,
     };
 
     if (this.assignee) {
@@ -86,14 +115,36 @@ export default {
       params.project = this.project;
     }
 
-    const { data: tasks } = await this.asana.getTasks({
-      params,
-      $,
-    });
+    const results = [];
 
-    $.export("$summary", "Successfully retrieved tasks");
+    do {
+      const {
+        data, next_page: next,
+      } = await this.asana.getTasks({
+        params,
+        $,
+      });
 
-    if (this.name) return tasks.filter((task) => task.name.includes(this.name));
-    else return tasks;
+      hasMore = next;
+      params.offset = next?.offset;
+
+      if (data.length === 0) break;
+
+      for (const task of data) {
+        if (!task.name.includes(this.name)) continue;
+        results.push(task);
+        if (++count >= this.maxResults) {
+          hasMore = false;
+          break;
+        }
+      }
+    } while (hasMore);
+
+    $.export("$summary", `${results.length} task${results.length !== 1
+      ? "s"
+      : ""} retrieved${results.length >= this.maxResults
+      ? " (maxResults reached)"
+      : ""}`);
+    return results;
   },
 };

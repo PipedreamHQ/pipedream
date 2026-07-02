@@ -5,9 +5,9 @@ export default {
   name: "Update Ticket",
   description: "Updates a ticket. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/tickets/tickets/#update-ticket).",
   type: "action",
-  version: "0.2.8",
+  version: "0.3.0",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -66,6 +66,12 @@ export default {
         app,
         "attachments",
       ],
+    },
+    uploadTokens: {
+      type: "string[]",
+      label: "Upload Tokens",
+      description: "An array of pre-obtained Zendesk upload tokens to attach to the comment without re-uploading files (e.g. `4bLLKSOU63CPqaIeOMXYyXzUh`). Deduplicated with any tokens from `attachments`.",
+      optional: true,
     },
     ticketTags: {
       propDefinition: [
@@ -128,6 +134,7 @@ export default {
       ticketCommentPublic,
       customSubdomain,
       attachments,
+      uploadTokens,
       ticketTags,
       tagAction,
       assigneeId,
@@ -138,28 +145,44 @@ export default {
       ? {
         html_body: ticketCommentBody,
       }
-      : {
-        body: ticketCommentBody,
-      };
+      : (
+        ticketCommentBody
+          ? {
+            body: ticketCommentBody,
+          }
+          : {} );
 
-    ticketComment.public = ticketCommentPublic;
+    if (ticketCommentBody) {
+      ticketComment.public = ticketCommentPublic;
+    }
 
     // Upload attachments if provided
     if (attachments && attachments.length > 0) {
       try {
-        const uploadTokens = await this.app.uploadFiles({
+        const fileTokens = await this.app.uploadFiles({
           attachments,
           customSubdomain,
           step,
         });
 
-        if (uploadTokens.length > 0) {
-          ticketComment.uploads = uploadTokens;
+        if (fileTokens.length > 0) {
+          ticketComment.uploads = fileTokens;
         }
       } catch (error) {
         step.export("$summary", `Failed to upload attachments: ${error.message}`);
         throw error;
       }
+    }
+
+    // Merge pre-obtained upload tokens with any file-upload tokens, deduplicating
+    const mergedTokens = [
+      ...new Set([
+        ...(ticketComment.uploads ?? []),
+        ...(uploadTokens ?? []),
+      ]),
+    ];
+    if (mergedTokens.length > 0) {
+      ticketComment.uploads = mergedTokens;
     }
 
     // Build ticket data object

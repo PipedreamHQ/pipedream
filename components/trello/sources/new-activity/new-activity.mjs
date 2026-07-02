@@ -6,7 +6,7 @@ export default {
   key: "trello-new-activity",
   name: "New Board Activity (Instant)",
   description: "Emit new event for new activity on a board.",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "source",
   props: {
     ...common.props,

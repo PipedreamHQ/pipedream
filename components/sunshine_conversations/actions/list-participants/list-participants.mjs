@@ -4,7 +4,7 @@ export default {
   key: "sunshine_conversations-list-participants",
   name: "List Participants",
   description: "List participants of a conversation. [See the documentation](https://developer.zendesk.com/api-reference/conversations/#tag/Participants/operation/ListParticipants)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

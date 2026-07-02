@@ -1,16 +1,10 @@
-import createIssue from "../create-issue/create-issue.mjs";
-
-const {
-  props: {
-    github, repoFullname, ...props
-  }, additionalProps, methods,
-} = createIssue;
+import github from "../../github.app.mjs";
 
 export default {
   key: "github-update-issue",
   name: "Update Issue",
-  description: "Update a new issue in a GitHub repo. [See the documentation](https://docs.github.com/en/rest/issues/issues#update-an-issue)",
-  version: "0.2.8",
+  description: "Update an existing issue: change its title, body, state (open/closed), labels, assignees, or milestone. Provide the repository as an `owner/repo` string and the issue number. Setting `labels` **replaces** the full label set (it does not append), so include any existing labels you want to keep. Closing an issue is done here by setting `state` to `closed`. Use **Get Issue** first if you need the current values. [See the documentation](https://docs.github.com/en/rest/issues/issues#update-an-issue)",
+  version: "0.3.1",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -19,34 +13,77 @@ export default {
   type: "action",
   props: {
     github,
-    repoFullname,
-    issueNumber: {
-      label: "Issue Number",
-      description: "The number that identifies the issue.",
-      type: "integer",
+    repoFullname: {
       propDefinition: [
         github,
-        "issueNumber",
-        (c) => ({
-          repoFullname: c.repoFullname,
-        }),
+        "repoFullnameStatic",
       ],
     },
-    ...props,
+    issueNumber: {
+      propDefinition: [
+        github,
+        "issueNumberStatic",
+      ],
+    },
+    title: {
+      label: "Title",
+      description: "The new title of the issue.",
+      type: "string",
+      optional: true,
+    },
+    body: {
+      label: "Body",
+      description: "The new text body of the issue. Supports GitHub-flavored Markdown.",
+      type: "string",
+      optional: true,
+    },
+    state: {
+      label: "State",
+      description: "Set the issue to `open` or `closed`.",
+      type: "string",
+      options: [
+        "open",
+        "closed",
+      ],
+      optional: true,
+    },
+    labels: {
+      label: "Labels",
+      description: "Label names for the issue, e.g. `[\"bug\", \"enhancement\"]`. This **replaces** the existing labels — include any you want to keep. Labels must already exist in the repository.",
+      type: "string[]",
+      optional: true,
+    },
+    assignees: {
+      label: "Assignees",
+      description: "GitHub logins to assign to the issue, e.g. `[\"octocat\"]`. Replaces the existing assignees.",
+      type: "string[]",
+      optional: true,
+    },
+    milestoneNumber: {
+      label: "Milestone Number",
+      description: "The number of an existing milestone to associate with the issue.",
+      type: "integer",
+      optional: true,
+    },
   },
-  additionalProps,
-  methods,
   async run({ $ }) {
-    const { // eslint-disable-next-line no-unused-vars
-      github, repoFullname, issueNumber, infoBox, ...data
-    } = this;
+    const data = {
+      title: this.title,
+      body: this.body,
+      state: this.state,
+      labels: this.labels,
+      assignees: this.assignees,
+      milestone: this.milestoneNumber,
+    };
+
+    const repoFullname = await this.github._resolveRepoFullname(this.repoFullname);
     const response = await this.github.updateIssue({
       repoFullname,
-      issueNumber,
+      issueNumber: this.issueNumber,
       data,
     });
 
-    $.export("$summary", `Successfully updated issue #${issueNumber}`);
+    $.export("$summary", `Successfully updated issue #${this.issueNumber}`);
 
     return response;
   },

@@ -6,7 +6,7 @@ export default {
   key: "copper-new-person-instant",
   name: "New Person (Instant)",
   description: "Emit new event when a person object is newly created in Copper",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/emboss",
+  "version": "0.0.1",
+  "description": "Pipedream Emboss Components",
+  "main": "emboss.app.mjs",
+  "keywords": [
+    "pipedream",
+    "emboss"
+  ],
+  "homepage": "https://pipedream.com/apps/emboss",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

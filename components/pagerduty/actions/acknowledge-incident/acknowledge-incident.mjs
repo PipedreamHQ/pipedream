@@ -4,11 +4,11 @@ import pagerduty from "../../pagerduty.app.mjs";
 export default {
   key: "pagerduty-acknowledge-incident",
   name: "Acknowledge Incident",
-  description: "Acknowledge an incident. [See the docs here](https://developer.pagerduty.com/api-reference/b3A6Mjc0ODE0Mg-update-an-incident)",
+  description: "**Deprecated** — use **Update Incident** instead. Acknowledge an incident. [See the documentation](https://developer.pagerduty.com/api-reference/8a0e1aa2ec666-update-an-incident)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

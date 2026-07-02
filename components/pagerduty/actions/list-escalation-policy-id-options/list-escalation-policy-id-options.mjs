@@ -4,7 +4,7 @@ export default {
   key: "pagerduty-list-escalation-policy-id-options",
   name: "List Escalation Policy ID Options",
   description: "Retrieves available options for the Escalation Policy ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -4,7 +4,7 @@ export default {
   key: "databricks-delete-vector-search-index",
   name: "Delete Vector Search Index",
   description: "Deletes a vector search index in Databricks. [See the documentation](https://docs.databricks.com/api/workspace/vectorsearchindexes/deleteindex)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

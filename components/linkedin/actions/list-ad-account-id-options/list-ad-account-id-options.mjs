@@ -4,7 +4,7 @@ export default {
   key: "linkedin-list-ad-account-id-options",
   name: "List Ad Account Id Options",
   description: "Retrieves available options for the Ad Account Id field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
