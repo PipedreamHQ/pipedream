@@ -7,7 +7,7 @@ export default {
   key: "sunshine_conversations-post-text-message",
   name: "Post Text Message",
   description: "Post a text message, optionally with action buttons. [See the documentation](https://developer.zendesk.com/api-reference/conversations/#tag/Messages/operation/PostMessage)",
-  version: "0.0.1",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -137,11 +137,10 @@ export default {
       subtypes: parseObject(this.subtypes),
       displayName: this.displayName,
       avatarUrl: this.avatarUrl,
+      ...(this.authorType === "user" && {
+        userId: this.userId,
+      }),
     };
-
-    if (this.authorType === "user") {
-      author.userId = this.userId;
-    }
 
     const response = await this.sunshineConversations.postMessage({
       $,

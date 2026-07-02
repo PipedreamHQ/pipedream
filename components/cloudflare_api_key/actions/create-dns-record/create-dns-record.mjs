@@ -4,7 +4,7 @@ export default {
   key: "cloudflare_api_key-create-dns-record",
   name: "Create DNS Record",
   description: "Creates a DNS Record given its zone id",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

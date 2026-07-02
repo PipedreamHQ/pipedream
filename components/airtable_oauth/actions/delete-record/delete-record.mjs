@@ -5,7 +5,7 @@ export default {
   key: "airtable_oauth-delete-record",
   name: "Delete Record",
   description: "Delete a selected record from a table. [See the documentation](https://airtable.com/developers/web/api/delete-record)",
-  version: "0.0.13",
+  version: "0.0.14",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -21,8 +21,8 @@ export default {
         ({
           baseId, tableId,
         }) => ({
-          baseId: baseId.value,
-          tableId: tableId.value,
+          baseId: baseId?.value ?? baseId,
+          tableId: tableId?.value ?? tableId,
         }),
       ],
     },

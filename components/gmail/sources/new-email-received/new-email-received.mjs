@@ -5,6 +5,7 @@ import {
   DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
 } from "@pipedream/platform";
 import { v4 as uuidv4 } from "uuid";
+import utils from "../../common/utils.mjs";
 import gmail from "../../gmail.app.mjs";
 import common from "../common/polling-history.mjs";
 import verifyClient from "../common/verify-client-id.mjs";
@@ -15,7 +16,7 @@ export default {
   name: "New Email Received",
   description: "Emit new event when a new email is received.",
   type: "source",
-  version: "0.3.4",
+  version: "0.3.6",
   dedupe: "unique",
   props: {
     gmail,
@@ -563,7 +564,7 @@ export default {
     generateMeta(message) {
       return {
         id: message.id,
-        summary: message.snippet,
+        summary: utils.decodeHtmlEntities(message.snippet),
         ts: +message.internalDate,
       };
     },

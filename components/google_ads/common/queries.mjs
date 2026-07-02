@@ -1,3 +1,5 @@
+import { sanitizeGaqlString } from "./utils.mjs";
+
 function listCustomerClients(query) {
   const fields = [
     "client_customer",
@@ -10,7 +12,7 @@ function listCustomerClients(query) {
     .join(", ");
 
   const condition = query
-    ? `customer_client.descriptive_name LIKE '%${query}%'`
+    ? `customer_client.descriptive_name LIKE '%${sanitizeGaqlString(query)}%'`
     : "customer_client.level <= 3";
 
   return `SELECT ${fields} FROM customer_client WHERE ${condition}`;
@@ -105,7 +107,7 @@ function listResources(resource, query) {
 
   let result = `SELECT ${fieldResource}.id, ${fieldResource}.${name} FROM ${resource}`;
   if (query) {
-    result += ` WHERE ${fieldResource}.${name} LIKE '%${query}%'`;
+    result += ` WHERE ${fieldResource}.${name} LIKE '%${sanitizeGaqlString(query)}%'`;
   }
   return result;
 }

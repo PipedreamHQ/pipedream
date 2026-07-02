@@ -3,14 +3,17 @@ import returnista from "../../returnista.app.mjs";
 export default {
   key: "returnista-get-return-order-emails",
   name: "Get Return Order Emails",
-  description: "Returns emails related to a return order. [See the documentation](https://platform.returnista.com/reference/rest-api/#get-/account/-accountId/return-orders/emails)",
-  version: "0.0.1",
+  description: "Gets all email communications associated with a return order."
+    + " Useful for support and audit workflows to see what emails were sent to the consumer during the return process."
+    + " To find a return order ID, use **Get Return Orders** first."
+    + " [See the documentation](https://platform.returnista.com/reference/rest-api/#get-/account/-accountId/return-order/-id/emails)",
+  version: "0.0.2",
+  type: "action",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
-  type: "action",
   props: {
     returnista,
     accountId: {
@@ -23,20 +26,22 @@ export default {
       propDefinition: [
         returnista,
         "returnOrderId",
-        ({ accountId }) => ({
-          accountId,
+        (c) => ({
+          accountId: c.accountId,
         }),
       ],
     },
   },
   async run({ $ }) {
-    const { data: response } = await this.returnista.getReturnOrderEmails({
+    const response = await this.returnista.getReturnOrderEmails({
       $,
       accountId: this.accountId,
       returnOrderId: this.returnOrderId,
     });
-
-    $.export("$summary", `Successfully retrieved ${response.length} return order emails`);
-    return response;
+    const emails = response?.data ?? (Array.isArray(response)
+      ? response
+      : []);
+    $.export("$summary", `Retrieved ${emails.length} email(s) for return order ${this.returnOrderId}`);
+    return emails;
   },
 };

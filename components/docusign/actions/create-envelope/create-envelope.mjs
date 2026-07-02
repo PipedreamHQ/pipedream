@@ -8,7 +8,7 @@ export default {
   key: "docusign-create-envelope",
   name: "Create Envelope",
   description: "Create a DocuSign envelope from a full envelope definition JSON payload. Use this for advanced cases such as multiple documents, multiple recipients, composite templates, custom tabs, or eventNotification webhooks. For a simpler single-document flow, use **Create Envelope From File**. [See the documentation](https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

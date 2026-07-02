@@ -11,7 +11,7 @@ export default {
     },
     async saveAdditionalData() {
       const tableData = await this.airtable.listTables({
-        baseId: this.baseId,
+        baseId: this.baseId?.value ?? this.baseId,
       });
       const filteredData = tableData?.tables?.map(({
         id, name, fields,

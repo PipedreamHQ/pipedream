@@ -5,7 +5,7 @@ export default {
   key: "github-new-mention",
   name: "New Mention",
   description: "Emit new event when you are @mentioned in a new commit, comment, issue or pull request. [See the documentation](https://docs.github.com/en/rest/activity/notifications?apiVersion=20.2.71-28#list-notifications-for-the-authenticated-user)",
-  version: "0.2.7",
+  version: "0.2.9",
   type: "source",
   dedupe: "unique",
   methods: {

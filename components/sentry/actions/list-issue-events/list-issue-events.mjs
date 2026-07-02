@@ -4,11 +4,11 @@ export default {
   key: "sentry-list-issue-events",
   name: "List Issue Events",
   description: "Return a list of events bound to an issue. [See the docs here](https://docs.sentry.io/api/events/list-an-issues-events/)",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: false,
+    readOnlyHint: true,
   },
   type: "action",
   props: {

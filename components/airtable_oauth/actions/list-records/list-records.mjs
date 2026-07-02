@@ -6,7 +6,7 @@ export default {
   name: "List Records",
   description: "Retrieve records from a table, optionally sorting and filtering results. [See the documentation](https://airtable.com/developers/web/api/list-records)",
   type: "action",
-  version: "0.0.13",
+  version: "0.0.14",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

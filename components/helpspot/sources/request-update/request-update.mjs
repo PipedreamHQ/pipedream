@@ -6,7 +6,7 @@ export default {
   key: "helpspot-request-update",
   name: "New Request Updated",
   description: "Emit new event when a request is updated.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

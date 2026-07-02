@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-list-role-ids-options",
   name: "List Role IDs Options",
   description: "Retrieves available options for the Role IDs field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

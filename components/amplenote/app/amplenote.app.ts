@@ -7,7 +7,7 @@ export default defineApp({
   propDefinitions: {
     noteId: {
       label: "Note ID",
-      description: "ID of the note",
+      description: "ID of the Note. Use the **List Notes** action to get the ID of a note.",
       type: "string",
       async options() {
         const notes = await this.getNotes();
@@ -35,9 +35,12 @@ export default defineApp({
         ...options,
       });
     },
-    async getNotes({ $ = this } = {}) {
+    async getNotes({
+      $ = this, params = {},
+    } = {}) {
       const response = await this._makeRequest("notes", {
         method: "GET",
+        params,
       }, $);
 
       return response.notes;

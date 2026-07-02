@@ -8,7 +8,7 @@ export default {
   name: "Query Custom Analytics",
   description:
     "Execute a custom analytics query using specified metrics, dimensions, filters, and date ranges. Requires query parameters to configure. [See the documentation](https://developers.google.com/youtube/analytics/reference/reports/query).",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -20,10 +20,9 @@ export default {
     metrics: propsFragments.metrics,
     filters: propsFragments.filters,
   },
-  additionalProps() {
-    return this.getIdsProps();
-  },
   async run({ $ }) {
+    this.validateIds();
+
     const {
       app,
       getIdsParam,

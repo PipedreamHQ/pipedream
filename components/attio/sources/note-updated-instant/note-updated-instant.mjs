@@ -5,8 +5,8 @@ export default {
   ...common,
   key: "attio-note-updated-instant",
   name: "New Note Updated (Instant)",
-  description: "Emit new event when the title of a note is modified. Body updates do not currently trigger webhooks.",
-  version: "0.0.4",
+  description: "Emit new event when a note is updated. Fires when the title is modified (`note.updated`) and when the body content is edited (`note-content.updated`).",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -15,6 +15,10 @@ export default {
       return [
         {
           event_type: "note.updated",
+          filter: null,
+        },
+        {
+          event_type: "note-content.updated",
           filter: null,
         },
       ];
