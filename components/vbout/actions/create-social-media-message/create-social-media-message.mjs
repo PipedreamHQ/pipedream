@@ -1,6 +1,6 @@
 import moment from "moment";
 import common from "../common/base.mjs";
-import { parseChannelOptions } from "../common/utils.mjs";
+import { parseChannelOptions } from "../../common/utils.mjs";
 
 export default {
   ...common,
