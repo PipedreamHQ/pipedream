@@ -29,10 +29,7 @@ export default {
           pageSize: 1,
         },
       });
-      const media = Array.isArray(results)
-        ? results[0]
-        : results;
-      return media || resource;
+      return this.app.firstResult(results, resource);
     },
   },
   sampleEmit,

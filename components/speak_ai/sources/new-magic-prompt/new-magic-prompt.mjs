@@ -26,7 +26,7 @@ export default {
           Accept: "application/json",
         },
         params: {
-          pageSize: 25,
+          pageSize: 100,
         },
       });
       const history = res?.data?.history || [];

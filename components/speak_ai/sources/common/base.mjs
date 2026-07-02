@@ -56,6 +56,10 @@ export default {
     },
   },
   async run({ body }) {
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      console.log("Skipping event: webhook body is missing or not a resource object.");
+      return;
+    }
     await this.processResource(body);
   },
 };

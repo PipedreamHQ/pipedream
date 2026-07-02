@@ -44,10 +44,7 @@ export default {
           fileType: this.fileType.toLowerCase(),
         },
       });
-      const captions = Array.isArray(results)
-        ? results[0]
-        : results;
-      return captions || resource;
+      return this.app.firstResult(results, resource);
     },
   },
   sampleEmit,

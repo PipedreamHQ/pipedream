@@ -61,12 +61,12 @@ export default {
     prompt: {
       type: "string",
       label: "Prompt",
-      description: "The instruction or question to run against your folder and/or media",
+      description: "The instruction or question to run against your selected folder and/or media, e.g. `Summarize the key action items from this transcript`.",
     },
     mediaIds: {
       type: "string[]",
       label: "Media IDs",
-      description: "One or more media identifiers to include as context for the prompt",
+      description: "One or more Speak AI media IDs to include as context for the prompt. Each is the media item's unique ID — get it from the **Find Media** action, the `mediaId` field on a media webhook event, or the media item in the Speak AI app.",
       optional: true,
     },
   },
@@ -211,6 +211,19 @@ export default {
         path: "/prompt",
         ...args,
       });
+    },
+    /**
+     * Normalizes an apps-endpoint response (insights/export) to a single resource.
+     * These endpoints may return either an array of results or a single object.
+     * @param {object|object[]} results - The raw response from an apps endpoint.
+     * @param {object} [fallback] - Value returned when no result is present.
+     * @returns {object} The first available result, or `fallback` when none exists.
+     */
+    firstResult(results, fallback) {
+      const first = Array.isArray(results)
+        ? results[0]
+        : results;
+      return first || fallback;
     },
   },
 };
