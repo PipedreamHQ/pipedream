@@ -17,7 +17,7 @@ export default {
     googleCloud,
     logName: {
       label: "Log name",
-      description: "Restrict results to a single log. Run the **Logging - List Logs** action to find valid log names. Leave empty to read across all logs in the project.",
+      description: "Restrict results to a single log, e.g. `my-log`. Run the **Logging - List Logs** action to find valid log names. Leave empty to read across all logs in the project.",
       type: "string",
       optional: true,
     },
@@ -64,10 +64,12 @@ export default {
       ? logging.log(this.logName)
       : logging;
 
+    const pageSize = (remaining) => Math.min(remaining, constants.LOG_ENTRIES_MAX_PAGE_SIZE);
+
     const entries = [];
     let query = {
       autoPaginate: false,
-      pageSize: Math.min(this.maxResults, constants.LOG_ENTRIES_MAX_PAGE_SIZE),
+      pageSize: pageSize(this.maxResults),
       orderBy: this.orderBy,
       ...(filterParts.length && {
         filter: filterParts.join(" AND "),
@@ -83,7 +85,7 @@ export default {
       query = nextQuery && {
         ...nextQuery,
         autoPaginate: false,
-        pageSize: Math.min(this.maxResults - entries.length, constants.LOG_ENTRIES_MAX_PAGE_SIZE),
+        pageSize: pageSize(this.maxResults - entries.length),
       };
     } while (query && entries.length < this.maxResults);
 

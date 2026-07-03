@@ -16,9 +16,18 @@ const LOG_ENTRY_ORDER_BY = {
 // Max entries the Logging entries.list API returns per page
 const LOG_ENTRIES_MAX_PAGE_SIZE = 1000;
 
+// See: https://cloud.google.com/nodejs/docs/reference/storage/latest/storage/getsignedurlconfig
+const SIGNED_URL_ACTION = {
+  READ: "read",
+  WRITE: "write",
+  DELETE: "delete",
+  RESUMABLE: "resumable",
+};
+
 export default {
   WRITE_DISPOSITION,
   DATA_SOURCE_ID,
   LOG_ENTRY_ORDER_BY,
   LOG_ENTRIES_MAX_PAGE_SIZE,
+  SIGNED_URL_ACTION,
 };
