@@ -1,5 +1,6 @@
 import leadboxer from "../../leadboxer.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "leadboxer-new-lead-added",
@@ -32,4 +33,5 @@ export default {
       });
     }
   },
+  sampleEmit,
 };

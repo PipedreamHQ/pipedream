@@ -26,6 +26,7 @@ export default {
       description: "Number of rows to return in the response.",
       optional: true,
       default: 50,
+      min: 1,
     },
     locale: {
       type: "string",
