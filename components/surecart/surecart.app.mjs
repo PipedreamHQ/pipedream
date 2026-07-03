@@ -1,4 +1,7 @@
 import { axios } from "@pipedream/platform";
+import {
+  BASE_URL, DEFAULT_LIMIT,
+} from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -97,14 +100,16 @@ export default {
     ids: {
       type: "string[]",
       label: "IDs",
-      description: "Filter by specific IDs. Example: `[\"id_abc123\", \"id_def456\"]`",
+      description: "Filter by specific IDs. Example: `[\"b47ca4c2-6cd2-41d5-aefb-4dc459642c56\", \"8f1e2d3c-4b5a-6789-0c1d-2e3f4a5b6c7d\"]`",
       optional: true,
     },
-    limit: {
+    maxResults: {
       type: "integer",
-      label: "Limit",
-      description: "Number of results to return per page (1-100). Example: `25`",
+      label: "Max Results",
+      description: "The maximum total number of results to return across all pages. Example: `100`",
+      min: 1,
       optional: true,
+      default: DEFAULT_LIMIT,
     },
     liveMode: {
       type: "boolean",
@@ -112,16 +117,10 @@ export default {
       description: "Filter by live mode (`true`) or test mode (`false`).",
       optional: true,
     },
-    page: {
-      type: "integer",
-      label: "Page",
-      description: "Page number for pagination. Example: `1`",
-      optional: true,
-    },
   },
   methods: {
     _baseUrl() {
-      return "https://api.surecart.com/v1";
+      return BASE_URL;
     },
     _makeRequest({
       $ = this, path, headers, ...opts
@@ -134,6 +133,37 @@ export default {
         },
         ...opts,
       });
+    },
+    async *paginate({
+      fn, args, max,
+    }) {
+      args = {
+        ...args,
+        params: {
+          ...args?.params,
+          limit: DEFAULT_LIMIT,
+          page: 1,
+        },
+      };
+
+      let count = 0, fetched = 0, total = 0;
+      do {
+        const {
+          data, pagination,
+        } = await fn(args);
+        total = pagination?.count ?? 0;
+        fetched += data.length;
+        for (const item of data) {
+          yield item;
+          if (max && ++count >= max) {
+            return count;
+          }
+        }
+        if (!data.length) {
+          return count;
+        }
+        args.params.page += 1;
+      } while (fetched < total);
     },
     createWebhook(opts = {}) {
       return this._makeRequest({
@@ -224,6 +254,14 @@ export default {
         ...opts,
       });
     },
+    getPrice({
+      priceId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/prices/${priceId}`,
+        ...opts,
+      });
+    },
     listProducts(opts = {}) {
       return this._makeRequest({
         path: "/products",
@@ -255,6 +293,14 @@ export default {
     listCharges(opts = {}) {
       return this._makeRequest({
         path: "/charges",
+        ...opts,
+      });
+    },
+    getCharge({
+      chargeId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/charges/${chargeId}`,
         ...opts,
       });
     },

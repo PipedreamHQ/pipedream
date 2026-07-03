@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-orders",
   name: "List Orders",
   description: "Return a list of orders. [See the documentation](https://developer.surecart.com/api-reference/orders/list)",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -16,13 +16,13 @@ export default {
     checkoutIds: {
       type: "string[]",
       label: "Checkout IDs",
-      description: "Filter by checkout IDs. Use **List Checkouts** to find checkout IDs. Example: `[\"ch_abc123\"]`",
+      description: "Filter by checkout IDs. Use **List Checkouts** to find checkout IDs. Example: `[\"b47ca4c2-6cd2-41d5-aefb-4dc459642c56\"]`",
       optional: true,
     },
     customerIds: {
       type: "string[]",
       label: "Customer IDs",
-      description: "Filter by customer IDs. Use **List Customers** to find customer IDs. Example: `[\"cus_abc123\"]`",
+      description: "Filter by customer IDs. Use **List Customers** to find customer IDs. Example: `[\"b47ca4c2-6cd2-41d5-aefb-4dc459642c56\"]`",
       optional: true,
     },
     fulfillmentStatus: {
@@ -37,10 +37,10 @@ export default {
         "ids",
       ],
     },
-    limit: {
+    maxResults: {
       propDefinition: [
         surecart,
-        "limit",
+        "maxResults",
       ],
     },
     liveMode: {
@@ -55,16 +55,10 @@ export default {
       description: "Filter orders by type. Example: `[\"renewal\"]`",
       optional: true,
     },
-    page: {
-      propDefinition: [
-        surecart,
-        "page",
-      ],
-    },
     productIds: {
       type: "string[]",
       label: "Product IDs",
-      description: "Filter by product IDs. Use **List Products** to find product IDs. Example: `[\"prod_abc123\"]`",
+      description: "Filter by product IDs. Use **List Products** to find product IDs. Example: `[\"b47ca4c2-6cd2-41d5-aefb-4dc459642c56\"]`",
       optional: true,
     },
     query: {
@@ -93,25 +87,33 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.surecart.listOrders({
-      $,
-      params: {
-        "checkout_ids[]": this.checkoutIds,
-        "customer_ids[]": this.customerIds,
-        "fulfillment_status[]": this.fulfillmentStatus,
-        "ids[]": this.ids,
-        "limit": this.limit,
-        "live_mode": this.liveMode,
-        "order_type[]": this.orderType,
-        "page": this.page,
-        "product_ids[]": this.productIds,
-        "query": this.query,
-        "return_status[]": this.returnStatus,
-        "shipment_status[]": this.shipmentStatus,
-        "status[]": this.status,
+    const results = this.surecart.paginate({
+      fn: this.surecart.listOrders,
+      args: {
+        $,
+        params: {
+          "checkout_ids[]": this.checkoutIds,
+          "customer_ids[]": this.customerIds,
+          "fulfillment_status[]": this.fulfillmentStatus,
+          "ids[]": this.ids,
+          "live_mode": this.liveMode,
+          "order_type[]": this.orderType,
+          "product_ids[]": this.productIds,
+          "query": this.query,
+          "return_status[]": this.returnStatus,
+          "shipment_status[]": this.shipmentStatus,
+          "status[]": this.status,
+        },
       },
+      max: this.maxResults,
     });
-    $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} order(s)`);
-    return response;
+
+    const orders = [];
+    for await (const order of results) {
+      orders.push(order);
+    }
+
+    $.export("$summary", `Successfully retrieved ${orders.length} order(s)`);
+    return orders;
   },
 };
