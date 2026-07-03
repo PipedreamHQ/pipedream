@@ -9,7 +9,7 @@ export default {
     readOnlyHint: false,
   },
   key: "google_cloud-delete-object",
-  description: "Permanently delete an object from a Google Cloud Storage bucket. This cannot be undone. [See the documentation](https://cloud.google.com/nodejs/docs/reference/storage/latest/storage/file#_google_cloud_storage_File_delete_member_1_)",
+  description: "Permanently delete an object from a Google Cloud Storage bucket. [See the documentation](https://cloud.google.com/nodejs/docs/reference/storage/latest/storage/file#_google_cloud_storage_File_delete_member_1_)",
   type: "action",
   props: {
     googleCloud,
