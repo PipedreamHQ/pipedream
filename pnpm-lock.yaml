@@ -14596,8 +14596,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       '@pipedream/shopify':
-        specifier: ^0.7.0
-        version: 0.7.2
+        specifier: ^0.10.0
+        version: 0.10.0
       shopify-api-node:
         specifier: ^3.14.2
         version: 3.15.0
@@ -22414,8 +22414,8 @@ packages:
   '@pipedream/sharepoint@0.10.0':
     resolution: {integrity: sha512-IuY7EhBNjMEWrKgm7xKxvREyQvyomSrui0lrfQ216wV/L8ogntG3Q4OwnZXoK6fGqT/pUBdiaIsAPVT3a8Z3rg==}
 
-  '@pipedream/shopify@0.7.2':
-    resolution: {integrity: sha512-/tIBZjObqp/eo6AL16MeNXFiByxceF9OOBR7+0Z3hSpbmm28mXZ003e7MIyun7WwBtFZlRvCYNOrsj/C9mxIoA==}
+  '@pipedream/shopify@0.10.0':
+    resolution: {integrity: sha512-5x05OL9I7kv3peTpUSROsoWq5vJ+xExA7q/rfPtn5Ij6FZARd915512S1vHKzSKHkvyiuHisSNkW8FQdSjALjQ==}
 
   '@pipedream/slack@0.10.3':
     resolution: {integrity: sha512-pvgrmv8BHYx9uCrAc4X2mQU7UK9KpWqM268CrN3/lavHByer4Ljvy9SVFRFokRg7gbOTs1i/kfNPfOtqSCJ7XQ==}
@@ -39968,7 +39968,7 @@ snapshots:
       lodash.camelcase: 4.3.0
       long: 5.3.2
       protobufjs: 7.2.6
-      yargs: 17.7.2
+      yargs: 17.7.3
 
   '@grpc/proto-loader@0.8.0':
     dependencies:
@@ -41841,7 +41841,7 @@ snapshots:
       - encoding
       - stream-browserify
 
-  '@pipedream/shopify@0.7.2':
+  '@pipedream/shopify@0.10.0':
     dependencies:
       '@pipedream/platform': 3.4.0
       async-retry: 1.3.3
@@ -42422,6 +42422,7 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
+      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1))(rollup@4.62.0)':
     dependencies:
