@@ -4,7 +4,7 @@ export default {
   key: "sunshine_conversations-join-conversation",
   name: "Join Conversation",
   description: "Join a conversation. [See the documentation](https://developer.zendesk.com/api-reference/conversations/#tag/Conversations/operation/JoinConversation)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
