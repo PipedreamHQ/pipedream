@@ -33,7 +33,7 @@ export default {
       $,
     });
     const nodes = response?.nodes ?? [];
-    const lowerQuery = this.query.toLowerCase();
+    const lowerQuery = String(this.query).toLowerCase();
     const maxResults = this.maxResults ?? 100;
 
     const matches = nodes

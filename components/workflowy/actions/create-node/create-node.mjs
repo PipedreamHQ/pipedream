@@ -58,7 +58,7 @@ export default {
         position: this.position,
       },
     });
-    const nodeId = response?.item_id ?? response?.id ?? "unknown";
+    const nodeId = response?.item_id ?? "unknown";
     $.export("$summary", `Created node "${this.name}" with ID ${nodeId}`);
     return response;
   },
