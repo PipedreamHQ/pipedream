@@ -14,17 +14,20 @@ export default {
   props: {
     app,
     query: {
-      type: "string",
+      propDefinition: [
+        app,
+        "query",
+      ],
       label: "Product Description",
       description: "A plain-English product, e.g. `coffee`.",
     },
     limit: {
-      type: "integer",
-      label: "Max Results",
+      propDefinition: [
+        app,
+        "limit",
+      ],
       description: "Maximum number of results (1-30).",
-      optional: true,
       default: 15,
-      min: 1,
       max: 30,
     },
   },

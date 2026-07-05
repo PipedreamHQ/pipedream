@@ -3,7 +3,21 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "codeclassify",
-  propDefinitions: {},
+  propDefinitions: {
+    query: {
+      type: "string",
+      label: "Search Query",
+      description: "A plain-English description to classify.",
+    },
+    limit: {
+      type: "integer",
+      label: "Max Results",
+      description: "Maximum number of results to return.",
+      optional: true,
+      default: 15,
+      min: 1,
+    },
+  },
   methods: {
     _baseUrl() {
       // Production API host for CodeClassify (single source of truth for the base URL).

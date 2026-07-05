@@ -14,17 +14,20 @@ export default {
   props: {
     app,
     query: {
-      type: "string",
+      propDefinition: [
+        app,
+        "query",
+      ],
       label: "Business Description",
-      description: "A plain-English activity, e.g. `software publishers`.",
+      description: "A plain-English business activity, e.g. `software publishers`.",
     },
     limit: {
-      type: "integer",
-      label: "Max Results",
+      propDefinition: [
+        app,
+        "limit",
+      ],
       description: "Maximum number of results (1-25).",
-      optional: true,
       default: 10,
-      min: 1,
       max: 25,
     },
   },
