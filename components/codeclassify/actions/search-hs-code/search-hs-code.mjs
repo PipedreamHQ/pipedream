@@ -6,6 +6,11 @@ export default {
   description: "Find Harmonized System (HS) customs codes from a plain-English product description. [See the docs](https://code-classify.com/api/).",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: true,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
   props: {
     app,
     query: {
@@ -19,6 +24,8 @@ export default {
       description: "Maximum number of results (1-30).",
       optional: true,
       default: 15,
+      min: 1,
+      max: 30,
     },
   },
   async run({ $ }) {

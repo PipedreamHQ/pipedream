@@ -6,6 +6,11 @@ export default {
   description: "Validate one or more GTIN/UPC/EAN barcodes with the GS1 Mod-10 check digit. [See the docs](https://code-classify.com/api/).",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: true,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
   props: {
     app,
     codes: {

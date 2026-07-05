@@ -6,6 +6,9 @@ export default {
   propDefinitions: {},
   methods: {
     _baseUrl() {
+      // Production API host for CodeClassify (single source of truth for the base URL).
+      // The human-facing API docs live at https://code-classify.com/api/ ; the API itself
+      // is served from this Cloudflare Worker origin.
       return "https://codeclassify-api.rosariovitale0096.workers.dev";
     },
     _headers() {

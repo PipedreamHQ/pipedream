@@ -6,6 +6,11 @@ export default {
   description: "Find NAICS 2022 industry codes from a plain-English business description. [See the docs](https://code-classify.com/api/).",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: true,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
   props: {
     app,
     query: {
@@ -19,6 +24,8 @@ export default {
       description: "Maximum number of results (1-25).",
       optional: true,
       default: 10,
+      min: 1,
+      max: 25,
     },
   },
   async run({ $ }) {
