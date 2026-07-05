@@ -1,0 +1,62 @@
+import { axios } from "@pipedream/platform";
+
+export default {
+  type: "app",
+  app: "codeclassify",
+  propDefinitions: {},
+  methods: {
+    _baseUrl() {
+      return "https://codeclassify-api.rosariovitale0096.workers.dev";
+    },
+    _headers() {
+      return {
+        "X-Api-Key": `${this.$auth.api_key}`,
+        "Content-Type": "application/json",
+      };
+    },
+    async _makeRequest({
+      $ = this, path, ...opts
+    }) {
+      return axios($, {
+        url: `${this._baseUrl()}${path}`,
+        headers: this._headers(),
+        ...opts,
+      });
+    },
+    async validateVat(args = {}) {
+      return this._makeRequest({
+        path: "/v1/vat/validate",
+        method: "POST",
+        ...args,
+      });
+    },
+    async validateGtin(args = {}) {
+      return this._makeRequest({
+        path: "/v1/gtin/validate",
+        method: "POST",
+        ...args,
+      });
+    },
+    async validateIban(args = {}) {
+      return this._makeRequest({
+        path: "/v1/iban/validate",
+        method: "POST",
+        ...args,
+      });
+    },
+    async searchNaics(args = {}) {
+      return this._makeRequest({
+        path: "/v1/naics/search",
+        method: "GET",
+        ...args,
+      });
+    },
+    async searchHsCode(args = {}) {
+      return this._makeRequest({
+        path: "/v1/hs/search",
+        method: "GET",
+        ...args,
+      });
+    },
+  },
+};
