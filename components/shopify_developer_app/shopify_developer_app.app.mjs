@@ -217,5 +217,14 @@ export default {
     sendOrderInvoice(variables) {
       return this._makeGraphQlRequest(mutations.ORDER_INVOICE_SEND, variables);
     },
+    cancelOrder(variables) {
+      return this._makeGraphQlRequest(mutations.ORDER_CANCEL, variables);
+    },
+    submitFulfillmentOrderCancellationRequest(variables) {
+      return this._makeGraphQlRequest(
+        mutations.FULFILLMENT_ORDER_SUBMIT_CANCELLATION_REQUEST,
+        variables,
+      );
+    },
   },
 };

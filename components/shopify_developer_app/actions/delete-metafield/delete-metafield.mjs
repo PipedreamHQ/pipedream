@@ -9,7 +9,7 @@ const {
 export default {
   ...others,
   key: "shopify_developer_app-delete-metafield",
-  version: "0.0.15",
+  version: "0.0.16",
   name,
   description,
   type,
