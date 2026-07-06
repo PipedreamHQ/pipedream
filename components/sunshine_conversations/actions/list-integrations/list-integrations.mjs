@@ -4,7 +4,7 @@ export default {
   key: "sunshine_conversations-list-integrations",
   name: "List Integrations",
   description: "List integrations for the authenticated user. [See the documentation](https://developer.zendesk.com/api-reference/conversations/#tag/Integrations/operation/ListIntegrations)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

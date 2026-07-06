@@ -4,7 +4,7 @@ export default {
   key: "everstox-list-return-id-options",
   name: "List Return ID Options",
   description: "Retrieves available options for the Return ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
