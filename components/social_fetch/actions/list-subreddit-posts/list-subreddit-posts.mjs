@@ -49,7 +49,7 @@ export default {
       cursor: this.cursor,
     });
     truncateArrays(response?.data, MAX_POSTS);
-    $.export("$summary", "Successfully listed subreddit posts");
+    $.export("$summary", `Successfully listed ${response?.data?.length ?? 0} subreddit posts`);
     return response;
   },
 };
