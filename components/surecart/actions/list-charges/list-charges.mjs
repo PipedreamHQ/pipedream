@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-charges",
   name: "List Charges",
   description: "Return a list of charges. [See the documentation](https://developer.surecart.com/api-reference/charges/list)",
-  version: "0.0.2",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
