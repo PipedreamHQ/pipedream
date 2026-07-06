@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import crowdstrikeFalcon from "../../crowdstrike_falcon.app.mjs";
 import {
   GET_ALERT_ID_BODY_FIELD,
@@ -25,7 +26,7 @@ export default {
   },
   async run({ $ }) {
     if (this.alertIds.length > MAX_IDS_PER_REQUEST_ALERTS) {
-      throw new Error(`A maximum of ${MAX_IDS_PER_REQUEST_ALERTS} alert IDs can be requested at once (received ${this.alertIds.length}).`);
+      throw new ConfigurationError(`A maximum of ${MAX_IDS_PER_REQUEST_ALERTS} alert IDs can be requested at once (received ${this.alertIds.length}).`);
     }
     const response = await this.crowdstrikeFalcon.getAlerts({
       $,

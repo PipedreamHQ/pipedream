@@ -75,6 +75,9 @@ export default {
     });
 
     const cloudRequestId = commandResponse.resources?.[0]?.cloud_request_id;
+    if (!cloudRequestId) {
+      throw new Error(`Failed to dispatch RTR command: ${JSON.stringify(commandResponse)}`);
+    }
 
     $.export("$summary", `RTR command '${this.baseCommand}' dispatched on device ${this.deviceId} (session: ${sessionId})`);
 

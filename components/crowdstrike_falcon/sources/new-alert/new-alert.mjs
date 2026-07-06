@@ -6,7 +6,7 @@ export default {
   ...common,
   key: "crowdstrike_falcon-new-alert",
   name: "New Alert",
-  description: "Emit a new event for each CrowdStrike Falcon alert created since the last run. Polls GET /alerts/queries/alerts/v1 (GetQueriesAlertsV2) for alert IDs newer than the stored `created_timestamp` checkpoint, then hydrates them via POST /alerts/entities/alerts/v1 (PostEntitiesAlertsV2, body field `composite_ids`). Use the optional FQL filter to narrow to specific alert products (e.g. legacy endpoint detections, now surfaced through the Alerts API). [See the documentation](https://developer.crowdstrike.com/api-reference/collections/alerts/).",
+  description: "Emit new event for each CrowdStrike Falcon alert created since the last run. Polls GET /alerts/queries/alerts/v1 (GetQueriesAlertsV2) for alert IDs newer than the stored `created_timestamp` checkpoint, then hydrates them via POST /alerts/entities/alerts/v1 (PostEntitiesAlertsV2, body field `composite_ids`). Use the optional FQL filter to narrow to specific alert products (e.g. legacy endpoint detections, now surfaced through the Alerts API). [See the documentation](https://developer.crowdstrike.com/api-reference/collections/alerts/).",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
