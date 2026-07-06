@@ -5,7 +5,7 @@ export default {
   key: "everstox-search-orders",
   name: "Search Orders by Order Number",
   description: "Search orders from Everstox. [See the documentation](https://api.everstox.com/api/v1/ui/#/Order/district_core.api.shops.orders.orders.Orders.index)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
