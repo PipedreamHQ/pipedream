@@ -15,14 +15,22 @@ export default {
   props: {
     googleCloud,
     bucketName: {
-      label: "Bucket name",
-      description: "The name of the bucket that contains the object, e.g. `my-bucket`. Run the **List Buckets** action to find valid bucket names.",
-      type: "string",
+      propDefinition: [
+        googleCloud,
+        "bucketName",
+      ],
     },
     fileName: {
       label: "File name",
-      description: "The name of the object to generate a URL for, e.g. `path/to/file.txt`. Run the **Search Objects** action to find valid object names.",
+      description: "The name of the object to generate a URL for. You can also run the **Search Objects** action to find object names.",
       type: "string",
+      propDefinition: [
+        googleCloud,
+        "fileNames",
+        (configuredProps) => ({
+          bucketName: configuredProps.bucketName,
+        }),
+      ],
     },
     action: {
       label: "Action",
