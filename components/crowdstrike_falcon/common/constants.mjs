@@ -9,16 +9,6 @@ export const HOST_ACTION_NAMES = {
   UNHIDE_HOST: "unhide_host",
 };
 
-// Fields accepted in the sort param for alert query endpoints.
-export const ALERT_SORT_FIELDS = [
-  "timestamp",
-  "created_timestamp",
-  "updated_timestamp",
-  "status",
-  "severity",
-  "aggregate_id",
-];
-
 export const DEFAULT_LIMIT = 100;
 export const LIMIT_MAX_DEFAULT = 1000;
 

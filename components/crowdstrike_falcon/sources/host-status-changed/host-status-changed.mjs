@@ -29,9 +29,20 @@ export default {
         ts: Date.parse(device.modified_timestamp),
       };
     },
+    _buildFilter(checkpoint) {
+      const parts = [];
+      if (checkpoint) {
+        parts.push(`modified_timestamp:>'${checkpoint}'`);
+      }
+      if (this.fqlFilter) {
+        parts.push(this.fqlFilter);
+      }
+      return parts.join("+") || undefined;
+    },
     async processEvents(max) {
       const deviceLastModified = this._getLastTimestamp();
       let maxTs = deviceLastModified;
+      const filter = this._buildFilter(deviceLastModified);
 
       let offset;
       let done = false;
@@ -40,7 +51,7 @@ export default {
       do {
         const response = await this.crowdstrikeFalcon.searchHosts({
           params: {
-            filter: this.fqlFilter,
+            filter,
             limit: BATCH_LIMIT,
             offset,
           },
@@ -66,7 +77,9 @@ export default {
         }
 
         const total = response.meta?.pagination?.total;
-        offset += devices.length;
+        offset = offset
+          ? offset + devices.length
+          : devices.length;
         if (!total || offset >= total) {
           done = true;
           break;

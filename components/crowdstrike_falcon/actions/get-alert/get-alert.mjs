@@ -24,6 +24,9 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.alertIds.length > MAX_IDS_PER_REQUEST_ALERTS) {
+      throw new Error(`A maximum of ${MAX_IDS_PER_REQUEST_ALERTS} alert IDs can be requested at once (received ${this.alertIds.length}).`);
+    }
     const response = await this.crowdstrikeFalcon.getAlerts({
       $,
       data: {

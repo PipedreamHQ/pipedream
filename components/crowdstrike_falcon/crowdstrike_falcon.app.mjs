@@ -19,6 +19,7 @@ export default {
       label: "Limit",
       description: `Maximum number of results to return (1-${LIMIT_MAX_DEFAULT}). Default: ${DEFAULT_LIMIT}.`,
       optional: true,
+      default: DEFAULT_LIMIT,
       min: 1,
       max: LIMIT_MAX_DEFAULT,
     },

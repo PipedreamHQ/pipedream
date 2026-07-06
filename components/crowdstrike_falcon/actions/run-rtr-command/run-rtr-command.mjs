@@ -60,6 +60,9 @@ export default {
     });
 
     const sessionId = sessionResponse.resources?.[0]?.session_id;
+    if (!sessionId) {
+      throw new Error(`Failed to initiate RTR session: ${JSON.stringify(sessionResponse)}`);
+    }
 
     // Step 2: Execute the command within the session.
     const commandResponse = await this.crowdstrikeFalcon.executeRtrCommand({
