@@ -31,10 +31,11 @@ export default {
       ],
     },
     boardId: {
-      type: "string",
-      label: "Board ID",
+      propDefinition: [
+        pipedriveApp,
+        "projectBoardId",
+      ],
       description: "The ID of the board this project belongs to. Run **List Project Boards** first to obtain a valid board ID.",
-      optional: true,
     },
     phaseId: {
       propDefinition: [
@@ -44,9 +45,12 @@ export default {
       description: "The ID of the phase this project belongs to. Run **List Project Phases** (with the chosen board ID) first to obtain a valid phase ID.",
     },
     ownerId: {
-      type: "string",
+      propDefinition: [
+        pipedriveApp,
+        "userId",
+      ],
       label: "Owner ID",
-      description: "The user ID of the project owner. Run **List User ID Options** to obtain a valid user ID.",
+      description: "The user ID of the project owner.",
       optional: true,
     },
     startDate: {

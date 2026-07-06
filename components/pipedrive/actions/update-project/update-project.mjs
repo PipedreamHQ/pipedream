@@ -38,10 +38,11 @@ export default {
       description: "The updated status of the project. One of: open, completed, canceled, deleted.",
     },
     boardId: {
-      type: "string",
-      label: "Board ID",
+      propDefinition: [
+        pipedriveApp,
+        "projectBoardId",
+      ],
       description: "The ID of the board. Run **List Project Boards** first to obtain a valid board ID.",
-      optional: true,
     },
     phaseId: {
       propDefinition: [
@@ -51,9 +52,12 @@ export default {
       description: "The ID of the phase. Run **List Project Phases** first to obtain a valid phase ID.",
     },
     ownerId: {
-      type: "string",
+      propDefinition: [
+        pipedriveApp,
+        "userId",
+      ],
       label: "Owner ID",
-      description: "The user ID of the project owner. Use **List Users** to obtain a valid user ID.",
+      description: "The user ID of the project owner.",
       optional: true,
     },
     startDate: {

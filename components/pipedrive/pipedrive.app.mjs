@@ -172,6 +172,12 @@ export default {
       description: "The ID of the project phase. Run **List Project Phases** first to obtain a valid phase ID.",
       optional: true,
     },
+    projectBoardId: {
+      type: "string",
+      label: "Board ID",
+      description: "The ID of the project board. Run **List Project Boards** first to obtain a valid board ID.",
+      optional: true,
+    },
     dealId: {
       type: "string",
       label: "Deal ID",
