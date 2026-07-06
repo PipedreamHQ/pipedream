@@ -5,7 +5,7 @@ export default {
   key: "social_fetch-list-reddit-post-comments",
   name: "List Reddit Post Comments",
   description: "List the comments and nested replies on a specific Reddit post. Use this after locating a post via **List Subreddit Posts** when you need its discussion thread. Provide the full post URL (e.g. `https://www.reddit.com/r/pics/comments/abc123/title/`). Enable **Trim** for a lighter response shape, and page through long threads with the cursor. [See the documentation](https://app.socialfetch.dev/playground?path=/v1/reddit/posts/comments&method=GET)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
