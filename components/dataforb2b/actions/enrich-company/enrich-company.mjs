@@ -4,7 +4,7 @@ export default {
   key: "dataforb2b-enrich-company",
   name: "Enrich Company",
   description: "Get detailed company data including funding, growth signals, headcount, and more from a company identifier. [See the documentation](https://docs.dataforb2b.ai/api-reference/enrich-company)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
