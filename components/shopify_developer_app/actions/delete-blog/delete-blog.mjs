@@ -11,7 +11,7 @@ const props = adjustPropDefinitions(others.props, shopify);
 export default {
   ...others,
   key: "shopify_developer_app-delete-blog",
-  version: "0.0.16",
+  version: "0.0.17",
   name,
   description,
   type,

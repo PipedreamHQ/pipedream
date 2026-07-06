@@ -4,7 +4,7 @@ export default {
   key: "cloudflare_api_key-change-ssl-setting",
   name: "Change Zone's SSL Setting",
   description: "Choose the appropriate SSL setting for your zone. [See the docs here](https://api.cloudflare.com/#zone-settings-change-ssl-setting)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

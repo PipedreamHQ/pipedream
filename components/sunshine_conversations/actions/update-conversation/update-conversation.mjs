@@ -5,7 +5,7 @@ export default {
   key: "sunshine_conversations-update-conversation",
   name: "Update Conversation",
   description: "Update a conversation. [See the documentation](https://developer.zendesk.com/api-reference/conversations/#tag/Conversations/operation/UpdateConversation)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

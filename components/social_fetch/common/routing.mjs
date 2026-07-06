@@ -4,6 +4,28 @@ import {
 } from "./constants.mjs";
 
 /**
+ * Extract the canonical subreddit name from a bare name, an `r/`-prefixed
+ * name, or a full Reddit subreddit URL, so it can be safely used as a single
+ * path segment. Reddit's exact casing is preserved.
+ *
+ * @param {string | undefined} input
+ * @returns {string}
+ */
+export function normalizeSubreddit(input) {
+  const value = input?.trim();
+  if (!value) {
+    return "";
+  }
+  const urlMatch = value.match(/reddit\.com\/r\/([^/?#]+)/i);
+  if (urlMatch) {
+    return urlMatch[1];
+  }
+  return value
+    .replace(/^\/?r\//i, "")
+    .split(/[/?#]/)[0];
+}
+
+/**
  * @param {Record<string, string | undefined>} query
  * @param {string | undefined} cursor
  */
@@ -25,11 +47,6 @@ export function trimCursor(cursor) {
 /** Strip a leading `#` if the user typed one — the description says it's optional. */
 export function normalizeHashtag(hashtag) {
   return hashtag?.trim().replace(/^#+/, "") || undefined;
-}
-
-/** Strip a leading `r/` (or `/r/`) so users pasting `r/programming` work. */
-export function normalizeSubreddit(subreddit) {
-  return subreddit?.trim().replace(/^\/?r\//i, "") || undefined;
 }
 
 /**
