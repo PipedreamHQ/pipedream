@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import {
   API_BASE_URL,
   CONTENT_TYPE_OPTIONS,
@@ -295,7 +297,7 @@ export default {
     } = {}) {
       const value = normalizeSubreddit(subreddit);
       if (!value) {
-        throw new Error("Subreddit is required.");
+        throw new ConfigurationError("Subreddit is required.");
       }
       return this._makeRequest({
         path: `/v1/reddit/subreddits/${encodeURIComponent(value)}/posts`,
