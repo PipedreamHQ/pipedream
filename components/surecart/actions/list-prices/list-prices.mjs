@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-prices",
   name: "List Prices",
   description: "Return a list of prices. [See the documentation](https://developer.surecart.com/api-reference/prices/list)",
-  version: "0.1.0",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -38,10 +38,10 @@ export default {
       ],
     },
     productIds: {
-      type: "string[]",
-      label: "Product IDs",
-      description: "Filter by product IDs. Use **List Products** to find product IDs. Example: `[\"b47ca4c2-6cd2-41d5-aefb-4dc459642c56\"]`",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "productIds",
+      ],
     },
     sort: {
       type: "string",

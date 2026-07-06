@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-line-items",
   name: "List Line Items",
   description: "Retrieves a paginated list of line items from SureCart. Use to inspect items added to checkouts, audit configurations, or filter by checkout or line item IDs; to find valid checkout IDs, use **List Checkouts**; returns up to 100 items per page and supports pagination parameters. [See the documentation](https://developer.surecart.com/api-reference/line-items/list)",
-  version: "0.1.0",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -14,10 +14,10 @@ export default {
   props: {
     surecart,
     checkoutIds: {
-      type: "string[]",
-      label: "Checkout IDs",
-      description: "Filter by checkout IDs. Use **List Checkouts** to find checkout IDs. Example: `[\"b47ca4c2-6cd2-41d5-aefb-4dc459642c56\"]`",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "checkoutIds",
+      ],
     },
     ids: {
       propDefinition: [

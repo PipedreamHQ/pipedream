@@ -118,6 +118,24 @@ export default {
       description: "Filter by specific IDs. Example: `[\"b47ca4c2-6cd2-41d5-aefb-4dc459642c56\", \"8f1e2d3c-4b5a-6789-0c1d-2e3f4a5b6c7d\"]`",
       optional: true,
     },
+    checkoutIds: {
+      type: "string[]",
+      label: "Checkout IDs",
+      description: "Filter by checkout IDs. Use **List Checkouts** to find checkout IDs. Example: `[\"b47ca4c2-6cd2-41d5-aefb-4dc459642c56\"]`",
+      optional: true,
+    },
+    customerIds: {
+      type: "string[]",
+      label: "Customer IDs",
+      description: "Filter by customer IDs. Use **List Customers** to find customer IDs. Example: `[\"b47ca4c2-6cd2-41d5-aefb-4dc459642c56\"]`",
+      optional: true,
+    },
+    productIds: {
+      type: "string[]",
+      label: "Product IDs",
+      description: "Filter by product IDs. Use **List Products** to find product IDs. Example: `[\"b47ca4c2-6cd2-41d5-aefb-4dc459642c56\"]`",
+      optional: true,
+    },
     maxResults: {
       type: "integer",
       label: "Max Results",
@@ -156,7 +174,9 @@ export default {
         ...args,
         params: {
           ...args?.params,
-          limit: DEFAULT_LIMIT,
+          limit: max
+            ? Math.min(max, DEFAULT_LIMIT)
+            : DEFAULT_LIMIT,
           page: 1,
         },
       };

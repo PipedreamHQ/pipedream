@@ -95,7 +95,7 @@ export default {
     metadata: {
       type: "object",
       label: "Metadata",
-      description: "Additional key-value metadata.",
+      description: "Additional key-value metadata. Example: `{ \"internal_id\": \"123\" }`",
       optional: true,
     },
   },

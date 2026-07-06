@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-abandoned-checkouts",
   name: "List Abandoned Checkouts",
   description: "Return a list of abandoned checkouts. [See the documentation](https://developer.surecart.com/api-reference/abandonded-checkouts/list)",
-  version: "0.1.0",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -14,10 +14,10 @@ export default {
   props: {
     surecart,
     customerIds: {
-      type: "string[]",
-      label: "Customer IDs",
-      description: "Filter by customer IDs. Use **List Customers** to find customer IDs. Example: `[\"b47ca4c2-6cd2-41d5-aefb-4dc459642c56\"]`",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "customerIds",
+      ],
     },
     ids: {
       propDefinition: [

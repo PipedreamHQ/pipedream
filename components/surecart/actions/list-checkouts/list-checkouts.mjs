@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-checkouts",
   name: "List Checkouts",
   description: "Return a list of checkouts. [See the documentation](https://developer.surecart.com/api-reference/checkouts/list)",
-  version: "0.1.0",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -14,10 +14,10 @@ export default {
   props: {
     surecart,
     customerIds: {
-      type: "string[]",
-      label: "Customer IDs",
-      description: "Filter by customer IDs. Use **List Customers** to find customer IDs. Example: `[\"b47ca4c2-6cd2-41d5-aefb-4dc459642c56\"]`",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "customerIds",
+      ],
     },
     groupKeys: {
       type: "string[]",
@@ -44,10 +44,10 @@ export default {
       ],
     },
     productIds: {
-      type: "string[]",
-      label: "Product IDs",
-      description: "Filter by product IDs. Use **List Products** to find product IDs. Example: `[\"b47ca4c2-6cd2-41d5-aefb-4dc459642c56\"]`",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "productIds",
+      ],
     },
     status: {
       type: "string[]",
