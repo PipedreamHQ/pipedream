@@ -1,11 +1,10 @@
-import _ from "lodash";
 import asana from "../../asana.app.mjs";
 
 export default {
   key: "asana-search-user-projects",
   name: "Get list of user projects",
   description: "Return list of projects given the user and workspace gid. [See the documentation](https://developers.asana.com/docs/get-multiple-projects)",
-  version: "0.5.6",
+  version: "0.6.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,7 +15,7 @@ export default {
     asana,
     workspace: {
       label: "Workspace",
-      description: "Gid of a workspace.",
+      description: "The workspace GID. Use the **List Workspaces** action to find available workspace GIDs.",
       type: "string",
       propDefinition: [
         asana,
@@ -35,28 +34,71 @@ export default {
         }),
       ],
     },
+    optFields: {
+      propDefinition: [
+        asana,
+        "optFields",
+      ],
+      description: "Optional project properties to include in the response (e.g. `created_at`, `start_on`, `due_on`, `archived`, `custom_fields`). Nested paths are allowed; `gid` is always returned. [See the documentation](https://developers.asana.com/docs/get-multiple-projects)",
+      optional: true,
+    },
+    maxResults: {
+      propDefinition: [
+        asana,
+        "maxResults",
+      ],
+    },
   },
   async run({ $ }) {
-    let { data: projects } = await this.asana.getProjects({
-      params: {
-        workspace: this.workspace,
-      },
-      $,
-    });
+    // membership filtering below reads project.members, so always request the
+    // base fields; merge in any user-requested opt_fields on top.
+    const optFields = new Set([
+      "gid",
+      "name",
+      "resource_type",
+      "members",
+    ]);
+    if (Array.isArray(this.optFields)) {
+      for (const field of this.optFields) {
+        optFields.add(field);
+      }
+    }
 
-    projects = projects.filter(async (project) => {
-      const { data } = await this.asana.getProject({
-        projectId: project.gid,
+    let hasMore, count = 0;
+    const params = {
+      workspace: this.workspace,
+      opt_fields: [
+        ...optFields,
+      ].join(","),
+      limit: 100,
+    };
+    const allProjects = [];
+
+    do {
+      const {
+        data, next_page: next,
+      } = await this.asana.getProjects({
+        params,
         $,
       });
 
-      return data.members && !!_.find(data.members, {
-        gid: this.user,
-      });
-    });
+      hasMore = next;
+      params.offset = next?.offset;
+
+      if (data.length === 0) break;
+
+      for (const project of data) {
+        const isMember = project.members && project.members.some((m) => m.gid === this.user);
+        if (!isMember) continue;
+        allProjects.push(project);
+        if (++count >= this.maxResults) {
+          hasMore = false;
+          break;
+        }
+      }
+    } while (hasMore);
 
     $.export("$summary", "Successfully retrieved projects of user");
-
-    return projects;
+    return allProjects;
   },
 };

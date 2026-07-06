@@ -8,6 +8,13 @@ const VERSION_PATH = {
 
 const DEFAULT_LIMIT = 100;
 
+// Databricks Vector Search returns query results in pages of at most 1000 items;
+// a next_page_token is issued whenever a full 1000-item page is returned.
+export const VECTOR_SEARCH_PAGE_LIMIT = 1000;
+
+// Documented maximum total results a Vector Search query can return overall.
+export const VECTOR_SEARCH_MAX_RESULTS = 10000;
+
 export const CLUSTER_SIZES = [
   "2X-Small",
   "X-Small",
@@ -26,4 +33,6 @@ export default {
   BASE_URL,
   VERSION_PATH,
   DEFAULT_LIMIT,
+  VECTOR_SEARCH_PAGE_LIMIT,
+  VECTOR_SEARCH_MAX_RESULTS,
 };

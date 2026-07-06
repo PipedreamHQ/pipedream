@@ -5,7 +5,7 @@ export default {
   key: "microsoft_365_planner-update-task",
   name: "Update Task",
   description: "Updates a task in Microsoft 365 Planner. [See the documentation](https://learn.microsoft.com/en-us/graph/api/plannertask-update?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -135,13 +135,12 @@ export default {
       }), {});
     },
     updateTask({
-      taskId, ...args
-    } = {}) {
-      return this.app._makeRequest({
-        method: "PATCH",
-        path: `/planner/tasks/${taskId}`,
-        ...args,
-      });
+      taskId, etag, data = {},
+    }) {
+      return this.app.client().api(`/planner/tasks/${taskId}`)
+        .header("If-Match", etag)
+        .header("Prefer", "return=representation")
+        .patch(data);
     },
   },
   async run({ $ }) {
@@ -164,18 +163,12 @@ export default {
     } = this;
 
     const { ["@odata.etag"]: etag } = await app.getTask({
-      $,
       taskId,
     });
 
     const response = await updateTask({
-      $,
       taskId,
-      headers: {
-        "Content-Type": "application/json",
-        "If-Match": etag,
-        "Prefer": "return=representation",
-      },
+      etag,
       data: {
         title,
         priority,

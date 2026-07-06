@@ -1,0 +1,82 @@
+import app from "../../peakon_employee_voice.app.mjs";
+
+export default {
+  key: "peakon_employee_voice-update-employee",
+  name: "Update Employee",
+  description:
+    "Partially updates an existing employee's attributes using their internal ID. "
+    + "Only the fields you provide will be updated — omitted fields are left unchanged. "
+    + "Use **List Employees** to find the employee's `id` first. "
+    + "Standard fields: `firstName`, `lastName`, `identifier`, `employmentStatus`. "
+    + "Custom HR attributes (Department, Region, Job Level, etc.) can be updated via `customAttributes` "
+    + "as a JSON object — e.g. `{\"Department\": \"Engineering\"}`. "
+    + "Enum attribute values are accepted as plain strings; Peakon resolves option IDs internally. "
+    + "[See the Peakon API documentation](https://developer.peakon.com/reference/patch_employees-employeeid)",
+  version: "0.0.1",
+  type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
+  props: {
+    app,
+    employeeId: {
+      propDefinition: [
+        app,
+        "employeeId",
+      ],
+    },
+    firstName: {
+      propDefinition: [
+        app,
+        "firstName",
+      ],
+      optional: true,
+    },
+    lastName: {
+      propDefinition: [
+        app,
+        "lastName",
+      ],
+      optional: true,
+    },
+    identifier: {
+      propDefinition: [
+        app,
+        "identifier",
+      ],
+      optional: true,
+    },
+    employmentStatus: {
+      propDefinition: [
+        app,
+        "employmentStatus",
+      ],
+    },
+    customAttributes: {
+      propDefinition: [
+        app,
+        "customAttributes",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const custom = this.customAttributes
+      ? JSON.parse(this.customAttributes)
+      : {};
+    const response = await this.app.updateEmployee({
+      $,
+      employeeId: this.employeeId,
+      attributes: {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        identifier: this.identifier,
+        employmentStatus: this.employmentStatus,
+        ...custom,
+      },
+    });
+    $.export("$summary", `Updated employee ${this.employeeId}`);
+    return response;
+  },
+};

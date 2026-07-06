@@ -6,7 +6,7 @@ export default {
   key: "twilio-make-phone-call",
   name: "Make a Phone Call",
   description: "Make a phone call passing text, a URL, or an application that Twilio will use to handle the call. [See the documentation](https://www.twilio.com/docs/voice/api/call-resource#create-a-call-resource)",
-  version: "0.1.7",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -27,44 +27,25 @@ export default {
         "to",
       ],
     },
-    callType: {
-      type: "string",
-      label: "Call Type",
-      description: "Whether to use `text`, a `URL`, or an `application` to handle the call",
-      options: [
-        {
-          label: "Enter text for Twilio to speak when the user picks up the phone",
-          value: "text",
-        },
-        {
-          label: "Enter a URL that returns the TwiML instructions for the call",
-          value: "url",
-        },
-        {
-          label: "Enter the SID of an Application resource that will handle the call",
-          value: "application",
-        },
-      ],
-      reloadProps: true,
-    },
     text: {
       label: "Text",
       type: "string",
-      description: "The text you'd like Twilio to speak to the user when they pick up the phone.",
-      hidden: true,
+      description: "Plain text for Twilio to speak when the user picks up the phone. For TwiML or SSML, use the **URL** field instead. Provide exactly **one** of **Text**, **URL**, or **Application SID**.",
+      optional: true,
     },
     url: {
       type: "string",
       label: "URL",
-      description: "The absolute URL that returns the TwiML instructions for the call",
-      hidden: true,
+      description: "The absolute URL that returns the TwiML instructions for the call. Provide exactly **one** of **Text**, **URL**, or **Application SID**.",
+      optional: true,
     },
     applicationSid: {
       propDefinition: [
         twilio,
         "applicationSid",
       ],
-      hidden: true,
+      description: "The SID of an Application resource that will handle the call. You can use **List Application SID Options** to get a list of available options. Provide exactly **one** of **Text**, **URL**, or **Application SID**.",
+      optional: true,
     },
     timeout: {
       type: "integer",
@@ -77,46 +58,46 @@ export default {
       label: "Record",
       description: "Whether to record the call",
       optional: true,
-      reloadProps: true,
+    },
+    trim: {
+      type: "string",
+      label: "Trim",
+      description: "Whether to trim any leading and trailing silence from the recording. Only applies when **Record** is enabled.",
+      options: [
+        "trim-silence",
+        "do-not-trim",
+      ],
+      optional: true,
+    },
+    recordingTrack: {
+      type: "string",
+      label: "Recording Track",
+      description: "The audio track to record for the call. Default is `both`. Only applies when **Record** is enabled.",
+      options: [
+        "inbound",
+        "outbound",
+        "both",
+      ],
+      optional: true,
+    },
+    recordingCallbackUrl: {
+      type: "string",
+      label: "Recording Callback URL",
+      description: "The URL that we call when the recording is available to be accessed. Only applies when **Record** is enabled.",
+      optional: true,
     },
   },
-  async additionalProps(existingProps) {
-    const props = {};
-    existingProps.text.hidden = !(this.callType === "text");
-    existingProps.url.hidden = !(this.callType === "url");
-    existingProps.applicationSid.hidden = !(this.callType === "application");
-    if (this.record) {
-      props.trim = {
-        type: "string",
-        label: "Trim",
-        description: "Whether to trim any leading and trailing silence from the recording",
-        options: [
-          "trim-silence",
-          "do-not-trim",
-        ],
-        optional: true,
-      };
-      props.recordingTrack = {
-        type: "string",
-        label: "Recording Track",
-        description: "The audio track to record for the call. Default is `both`.",
-        options: [
-          "inbound",
-          "outbound",
-          "both",
-        ],
-        optional: true,
-      };
-      props.recordingCallbackUrl = {
-        type: "string",
-        label: "Recording Callback URL",
-        description: "The URL that we call when the recording is available to be accessed",
-        optional: true,
-      };
-    }
-    return props;
-  },
   async run({ $ }) {
+    // Exactly one of the call handlers (text, URL, or application) must be provided
+    const handlers = [
+      this.text,
+      this.url,
+      this.applicationSid,
+    ].filter((handler) => handler != null && handler !== "");
+    if (handlers.length !== 1) {
+      throw new Error("You must provide exactly one of **Text**, **URL**, or **Application SID** to handle the call.");
+    }
+
     // Parse the given number into its E.164 equivalent
     // The E.164 phone number will be included in the first element
     // of the array, but the array will be empty if parsing fails.

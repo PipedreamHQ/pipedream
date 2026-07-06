@@ -1,4 +1,4 @@
-import sharepoint from "../sharepoint/sharepoint.app.mjs";
+import sharepoint from "@pipedream/sharepoint";
 
 export default {
   ...sharepoint,

@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@pipedream/platform": "^1.6.8",
-    "@babel/core": "^7.0.0-0",
+    "@babel/core": "^7.29.6",
     "sendbird-platform-sdk": "^0.0.14"
   }
 }

@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-list-from-email-options",
   name: "List From Email Options",
   description: "Retrieves available options for the From Email field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

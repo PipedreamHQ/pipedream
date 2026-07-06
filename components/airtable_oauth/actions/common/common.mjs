@@ -20,7 +20,7 @@ export default {
         airtable,
         "tableId",
         ({ baseId }) => ({
-          baseId: baseId.value,
+          baseId: baseId?.value ?? baseId,
         }),
       ],
       withLabel: true,

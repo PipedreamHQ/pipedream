@@ -199,6 +199,19 @@ export default {
       optional: true,
       min: 1,
     },
+    comment: {
+      label: "Comment",
+      description: "An optional message to include with the RSVP response sent to the organizer.",
+      type: "string",
+      optional: true,
+    },
+    sendResponse: {
+      label: "Send Response to Organizer",
+      description: "Whether to send an email response to the organizer (default `true`).",
+      type: "boolean",
+      optional: true,
+      default: true,
+    },
   },
   methods: {
     client() {
@@ -298,6 +311,24 @@ export default {
         request = request.header("Prefer", `outlook.timezone="${timeZone}"`);
       }
       return await request.post(data);
+    },
+    async acceptCalendarEvent({
+      eventId, data = {},
+    } = {}) {
+      return await this.client().api(`/me/events/${eventId}/accept`)
+        .post(data);
+    },
+    async declineCalendarEvent({
+      eventId, data = {},
+    } = {}) {
+      return await this.client().api(`/me/events/${eventId}/decline`)
+        .post(data);
+    },
+    async tentativelyAcceptCalendarEvent({
+      eventId, data = {},
+    } = {}) {
+      return await this.client().api(`/me/events/${eventId}/tentativelyAccept`)
+        .post(data);
     },
   },
 };

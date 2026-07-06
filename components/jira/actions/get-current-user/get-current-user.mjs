@@ -4,7 +4,7 @@ export default {
   key: "jira-get-current-user",
   name: "Get Current User",
   description: "Returns the authenticated Jira user's account ID, display name, email, and active status. Call this first when the user says 'my issues', 'assigned to me', or needs their Jira identity. Use the returned `accountId` with **Search Issues with JQL** (e.g. `assignee = '{accountId}'`) or **Assign Issue**. Requires a Cloud ID to identify the Jira site. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-myself/#api-rest-api-3-myself-get).",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

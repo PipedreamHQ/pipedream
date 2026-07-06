@@ -48,23 +48,46 @@ function getListFilesOpts(drive, baseOpts = {}) {
   // empty or is "My Drive". Otherwise, use the "drive" corpus and include
   // `supportsAllDrives` param.
 
-  const opts = (!drive || isMyDrive(drive))
-    ? {
-      ...baseOpts,
+  const {
+    limitToMyDrive, ...rest
+  } = baseOpts;
+
+  if (drive && isMyDrive(drive)) {
+    return {
+      ...rest,
+      corpora: "user",
       supportsAllDrives: true,
-    }
-    : {
+    };
+  }
+
+  if (drive && !isMyDrive(drive)) {
+    return {
       // Google's `files.list` API requires `includeItemsFromAllDrives: true`
       // whenever `driveId` is set or `corpora` is `drive`/`allDrives`.
       // Placed before the spread so callers (e.g. list-files's
       // `limitToMyDrive` toggle) can still override.
       includeItemsFromAllDrives: true,
-      ...baseOpts,
+      ...rest,
       corpora: "drive",
       driveId: getDriveId(drive),
       supportsAllDrives: true,
     };
-  return opts;
+  }
+
+  if (limitToMyDrive) {
+    return {
+      ...rest,
+      supportsAllDrives: true,
+    };
+  }
+
+  // No specific drive selected — search across all drives by default.
+  return {
+    includeItemsFromAllDrives: true,
+    ...rest,
+    corpora: "allDrives",
+    supportsAllDrives: true,
+  };
 }
 
 function streamToBuffer(stream) {

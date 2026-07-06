@@ -98,5 +98,18 @@ export default {
         ...opts,
       });
     },
+    createProperty(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/properties",
+        ...opts,
+      });
+    },
+    listPropertyTypes(opts = {}) {
+      return this._makeRequest({
+        path: "/property_types",
+        ...opts,
+      });
+    },
   },
 };

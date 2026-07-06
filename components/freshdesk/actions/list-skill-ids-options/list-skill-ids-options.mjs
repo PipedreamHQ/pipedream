@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-list-skill-ids-options",
   name: "List Skill IDs Options",
   description: "Retrieves available options for the Skill IDs field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
