@@ -94,6 +94,12 @@ export default {
         headers: {
           "everstox-shop-api-token": `${this.$auth.api_token}`,
         },
+        // Everstox's API rejects `key[]=value` bracket notation (returns HTTP
+        // 500 for `sku`, 400 for `fields`). Serialize array-valued params as
+        // repeated `key=value` pairs instead of the axios default.
+        paramsSerializer: {
+          indexes: null,
+        },
         ...opts,
       });
     },
@@ -128,6 +134,21 @@ export default {
     listWarehouses(opts = {}) {
       return this._makeRequest({
         path: "/warehouses",
+        ...opts,
+      });
+    },
+    createFulfillmentUpdateRequest({
+      fulfillmentId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/fulfillment/${fulfillmentId}/update-requests`,
+        ...opts,
+      });
+    },
+    listProducts(opts = {}) {
+      return this._makeRequest({
+        path: "/products",
         ...opts,
       });
     },

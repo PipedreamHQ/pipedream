@@ -5,7 +5,7 @@ export default {
   key: "sunshine_conversations-conversation-joined",
   name: "Conversation Joined (Instant)",
   description: "Emit new event when a conversation is joined. [See the documentation](https://developer.zendesk.com/api-reference/conversations/#tag/Webhooks/operation/CreateWebhook)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
