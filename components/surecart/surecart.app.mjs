@@ -97,6 +97,21 @@ export default {
       label: "Tracking ID",
       description: "The unique identifier of the tracking record. Use **List Trackings** to retrieve a list of available tracking records.",
     },
+    couponId: {
+      type: "string",
+      label: "Coupon ID",
+      description: "The unique identifier of the coupon. Use **List Coupons** to retrieve a list of available coupons.",
+    },
+    promotionId: {
+      type: "string",
+      label: "Promotion ID",
+      description: "The unique identifier of the promotion. Use **List Promotions** to retrieve a list of available promotions.",
+    },
+    variantId: {
+      type: "string",
+      label: "Variant ID",
+      description: "The unique identifier of the variant. Use **List Variants** to retrieve a list of available variants.",
+    },
     ids: {
       type: "string[]",
       label: "IDs",
@@ -273,6 +288,148 @@ export default {
     }) {
       return this._makeRequest({
         path: `/products/${productId}`,
+        ...opts,
+      });
+    },
+    createProduct(opts = {}) {
+      return this._makeRequest({
+        path: "/products",
+        method: "POST",
+        ...opts,
+      });
+    },
+    updateProduct({
+      productId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/products/${productId}`,
+        method: "PATCH",
+        ...opts,
+      });
+    },
+    deleteProduct({
+      productId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/products/${productId}`,
+        method: "DELETE",
+        ...opts,
+      });
+    },
+    listCoupons(opts = {}) {
+      return this._makeRequest({
+        path: "/coupons",
+        ...opts,
+      });
+    },
+    getCoupon({
+      couponId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/coupons/${couponId}`,
+        ...opts,
+      });
+    },
+    createCoupon(opts = {}) {
+      return this._makeRequest({
+        path: "/coupons",
+        method: "POST",
+        ...opts,
+      });
+    },
+    updateCoupon({
+      couponId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/coupons/${couponId}`,
+        method: "PATCH",
+        ...opts,
+      });
+    },
+    deleteCoupon({
+      couponId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/coupons/${couponId}`,
+        method: "DELETE",
+        ...opts,
+      });
+    },
+    listPromotions(opts = {}) {
+      return this._makeRequest({
+        path: "/promotions",
+        ...opts,
+      });
+    },
+    getPromotion({
+      promotionId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/promotions/${promotionId}`,
+        ...opts,
+      });
+    },
+    createPromotion(opts = {}) {
+      return this._makeRequest({
+        path: "/promotions",
+        method: "POST",
+        ...opts,
+      });
+    },
+    updatePromotion({
+      promotionId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/promotions/${promotionId}`,
+        method: "PATCH",
+        ...opts,
+      });
+    },
+    deletePromotion({
+      promotionId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/promotions/${promotionId}`,
+        method: "DELETE",
+        ...opts,
+      });
+    },
+    listVariants(opts = {}) {
+      return this._makeRequest({
+        path: "/variants",
+        ...opts,
+      });
+    },
+    getVariant({
+      variantId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/variants/${variantId}`,
+        ...opts,
+      });
+    },
+    createVariant(opts = {}) {
+      return this._makeRequest({
+        path: "/variants",
+        method: "POST",
+        ...opts,
+      });
+    },
+    updateVariant({
+      variantId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/variants/${variantId}`,
+        method: "PATCH",
+        ...opts,
+      });
+    },
+    deleteVariant({
+      variantId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/variants/${variantId}`,
+        method: "DELETE",
         ...opts,
       });
     },
