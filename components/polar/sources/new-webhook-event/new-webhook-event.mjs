@@ -6,7 +6,7 @@ export default {
   key: "polar-new-webhook-event",
   name: "New Webhook Event",
   description: "Emit new event when the selected webhook event occurs. [See the API docs](https://polar.sh/docs/api-reference/webhooks/endpoints/create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     ...common.props,

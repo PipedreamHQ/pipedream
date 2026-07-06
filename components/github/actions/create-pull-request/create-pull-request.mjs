@@ -1,11 +1,10 @@
-import { ConfigurationError } from "@pipedream/platform";
 import github from "../../github.app.mjs";
 
 export default {
   key: "github-create-pull-request",
   name: "Create Pull Request",
-  description: "Creates a new pull request for a specified repository. [See the documentation](https://docs.github.com/en/rest/pulls/pulls#create-a-pull-request)",
-  version: "0.1.7",
+  description: "Open a pull request proposing to merge one branch into another within a repository. Provide the repository as an `owner/repo` string, the `head` branch (the source containing your changes) and the `base` branch (the target, e.g. `main`), plus a title. The head and base branches must already exist and differ. For a cross-fork PR, set `head` to `username:branch`. Use **Create or Update File Contents** to push changes to a branch before opening the PR. [See the documentation](https://docs.github.com/en/rest/pulls/pulls#create-a-pull-request)",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -17,107 +16,53 @@ export default {
     repoFullname: {
       propDefinition: [
         github,
-        "repoFullname",
+        "repoFullnameStatic",
       ],
-      label: "Base Repository",
-      description: "The base repository, where the pull request will be created.",
-    },
-    base: {
-      propDefinition: [
-        github,
-        "branch",
-        (c) => ({
-          repoFullname: c.repoFullname,
-        }),
-      ],
-      label: "Base Branch",
-      description: "The base branch, where the changes will be received.",
-    },
-    headRepo: {
-      propDefinition: [
-        github,
-        "repoFullname",
-      ],
-      label: "Head Repository",
-      description: "The head repository, where the changes originate from. This can, but does not have to, be the same repository.",
     },
     head: {
-      propDefinition: [
-        github,
-        "branch",
-        (c) => ({
-          repoFullname: c.headRepo,
-        }),
-      ],
+      type: "string",
       label: "Head Branch",
-      description: "The head branch, where the changes originate from",
+      description: "The source branch containing the changes, e.g. `feature/new-paddock`. For a cross-fork PR, use `username:branch`.",
+    },
+    base: {
+      type: "string",
+      label: "Base Branch",
+      description: "The target branch the changes will be merged into, e.g. `main`.",
+    },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "The title of the pull request.",
     },
     body: {
-      label: "Body",
-      description: "The text description of the pull request.",
       type: "string",
-      optional: true,
-    },
-    maintainerCanModify: {
-      label: "Maintainers Can Modify",
-      description: "Indicates whether [maintainers can modify](https://docs.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request.",
-      type: "boolean",
+      label: "Body",
+      description: "The text description of the pull request. Supports GitHub-flavored Markdown.",
       optional: true,
     },
     draft: {
-      label: "Is Draft",
-      description: "Indicates whether the pull request is a draft. See \"[Draft Pull Requests](https://docs.github.com/articles/about-pull-requests#draft-pull-requests)\" in the GitHub Help documentation to learn more.",
       type: "boolean",
-      optional: true,
-    },
-    title: {
-      label: "Title",
-      description: "The title of the pull request.",
-      type: "string",
-      optional: true,
-    },
-    issue: {
-      propDefinition: [
-        github,
-        "issueNumber",
-        (c) => ({
-          repoFullname: c.repoFullname,
-        }),
-      ],
-      label: "Issue",
-      description: "An issue in the repository to convert to a pull request. The issue title, body, and comments will become the title, body, and comments on the new pull request.",
-      min: 1,
+      label: "Is Draft",
+      description: "Whether to open the pull request as a [draft](https://docs.github.com/articles/about-pull-requests#draft-pull-requests).",
       optional: true,
     },
   },
   async run({ $ }) {
-
-    if (!this.issue && !this.title) {
-      throw new ConfigurationError("Title is required if Issue is unspecified. You can either specify a new pull request with Title or convert an existing issue to a pull request with Issue.");
-    }
-
-    if (this.issue && this.title) {
-      throw new ConfigurationError("You can't specify both Title and Issue at the same time.");
-    }
-
     const data = {
       title: this.title,
-      head: this.head.split("/")[1],
-      base: this.base.split("/")[1],
-      head_repo: this.headRepo,
+      head: this.head,
+      base: this.base,
       body: this.body,
-      maintainer_can_modify: this.maintainerCanModify,
       draft: this.draft,
-      issue: this.issue,
     };
 
+    const repoFullname = await this.github._resolveRepoFullname(this.repoFullname);
     const response = await this.github.createPullRequest({
-      owner: this.owner,
-      repoFullname: this.repoFullname,
-      data: data,
+      repoFullname,
+      data,
     });
 
-    $.export("$summary", `Successfully created pull request: ${response.title}.`);
+    $.export("$summary", `Successfully created pull request #${response.number}: ${response.title}`);
 
     return response;
   },

@@ -4,7 +4,7 @@ export default {
   key: "hubspot-list-object-schema-options",
   name: "List Object Schema Options",
   description: "Retrieves available options for the Object Schema field.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,

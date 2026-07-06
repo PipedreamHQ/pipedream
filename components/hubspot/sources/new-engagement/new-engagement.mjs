@@ -38,7 +38,7 @@ export default {
   + " [Postal Mail](https://developers.hubspot.com/docs/api-reference/latest/crm/activities/postal-mail/search/search-postal-mail)"
   + " [Tasks](https://developers.hubspot.com/docs/api-reference/latest/crm/activities/tasks/search/search-tasks)"
   + " [See the documentation](https://developers.hubspot.com/docs/api-reference/latest/crm/using-object-apis)",
-  version: "0.0.48",
+  version: "0.0.49",
   dedupe: "unique",
   type: "source",
   props: {

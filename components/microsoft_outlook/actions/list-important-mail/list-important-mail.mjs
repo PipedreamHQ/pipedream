@@ -4,7 +4,7 @@ export default {
   key: "microsoft_outlook-list-important-mail",
   name: "List Important Mail",
   description: "Get the most important mail from the user's Inbox. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-messages?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.3",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

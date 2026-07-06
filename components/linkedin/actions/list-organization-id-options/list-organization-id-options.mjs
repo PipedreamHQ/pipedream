@@ -4,7 +4,7 @@ export default {
   key: "linkedin-list-organization-id-options",
   name: "List Organization Id Options",
   description: "Retrieves available options for the Organization Id field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

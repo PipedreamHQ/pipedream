@@ -5,7 +5,7 @@ export default {
   key: "polar-new-subscription-updated",
   name: "New Subscription Updated",
   description: "Emit new event when a subscription is updated. [See the API docs](https://polar.sh/docs/api-reference/webhooks/endpoints/create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   methods: {
     ...common.methods,

@@ -5,7 +5,7 @@ export default {
   key: "polar-new-subscription-created",
   name: "New Subscription Created",
   description: "Emit new event when a new subscription is created. [See the API docs](https://polar.sh/docs/api-reference/webhooks/endpoints/create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   methods: {
     ...common.methods,
