@@ -6,7 +6,7 @@ export default {
   key: "social_fetch-get-transcript",
   name: "Get Transcript",
   description: "Fetches a transcript for a video or post URL. [See the documentation](https://www.socialfetch.dev/docs/api)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

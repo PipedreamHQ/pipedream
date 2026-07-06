@@ -1,13 +1,18 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import {
   API_BASE_URL,
   CONTENT_TYPE_OPTIONS,
   LIST_PROFILE_POSTS_PLATFORMS,
   POST_PLATFORMS,
   PROFILE_PLATFORMS,
+  SUBREDDIT_POST_SORT_OPTIONS,
+  SUBREDDIT_POST_TIMEFRAME_OPTIONS,
   TRANSCRIPT_PLATFORMS,
 } from "./common/constants.mjs";
 import {
+  normalizeSubreddit,
   profileLabel,
   resolveGetPostRoute,
   resolveGetProfileRoute,
@@ -105,6 +110,54 @@ export default {
       type: "string",
       label: "Cursor",
       description: "Pagination cursor from a previous response (`data.page.nextCursor`).",
+      optional: true,
+    },
+    subreddit: {
+      type: "string",
+      label: "Subreddit",
+      description:
+				"Subreddit name, optional `r/` prefix, or Reddit subreddit URL (string). Must match Reddit's exact casing. E.g. `pics`, `r/pics`, or `https://www.reddit.com/r/pics`.",
+    },
+    subredditUrl: {
+      type: "string",
+      label: "Subreddit URL",
+      description:
+				"Optional full subreddit URL (string, https://). E.g. `https://www.reddit.com/r/pics`.",
+      optional: true,
+    },
+    sort: {
+      type: "string",
+      label: "Sort",
+      description:
+				`Sort order for the returned posts (string). One of: ${SUBREDDIT_POST_SORT_OPTIONS.map((v) => `\`${v}\``).join(", ")}.`,
+      options: SUBREDDIT_POST_SORT_OPTIONS,
+      optional: true,
+    },
+    timeframe: {
+      type: "string",
+      label: "Timeframe",
+      description:
+				`Timeframe used with time-based sort orders such as \`top\` (string). One of: ${SUBREDDIT_POST_TIMEFRAME_OPTIONS.map((v) => `\`${v}\``).join(", ")}.`,
+      options: SUBREDDIT_POST_TIMEFRAME_OPTIONS,
+      optional: true,
+    },
+    redditPostUrl: {
+      type: "string",
+      label: "Post URL",
+      description:
+				"Link to the Reddit post (string, https://). E.g. `https://www.reddit.com/r/pics/comments/abc123/title/`.",
+    },
+    trim: {
+      type: "boolean",
+      label: "Trim",
+      description: "When enabled, requests a lighter response shape when available.",
+      optional: true,
+    },
+    language: {
+      type: "string",
+      label: "Language",
+      description:
+				"Optional ISO 639-1 language code (two letters) to prefer when multiple caption tracks exist. E.g. `en`.",
       optional: true,
     },
   },
@@ -219,6 +272,70 @@ export default {
       return this._makeRequest({
         path: route.path,
         params: route.params,
+        ...opts,
+      });
+    },
+    /** @param {{ subreddit?: string; url?: string; [key: string]: unknown }} [args] */
+    getSubreddit({
+      subreddit, url, ...opts
+    } = {}) {
+      return this._makeRequest({
+        path: "/v1/reddit/subreddits",
+        params: {
+          subreddit,
+          url,
+        },
+        ...opts,
+      });
+    },
+    /**
+		 * @param {{ subreddit?: string; sort?: string; timeframe?: string;
+		 *   cursor?: string; [key: string]: unknown }} [args]
+		 */
+    listSubredditPosts({
+      subreddit, sort, timeframe, cursor, ...opts
+    } = {}) {
+      const value = normalizeSubreddit(subreddit);
+      if (!value) {
+        throw new ConfigurationError("Subreddit is required.");
+      }
+      return this._makeRequest({
+        path: `/v1/reddit/subreddits/${encodeURIComponent(value)}/posts`,
+        params: {
+          sort,
+          timeframe,
+          cursor,
+        },
+        ...opts,
+      });
+    },
+    /**
+		 * @param {{ url?: string; cursor?: string; trim?: boolean;
+		 *   [key: string]: unknown }} [args]
+		 */
+    listPostComments({
+      url, cursor, trim, ...opts
+    } = {}) {
+      return this._makeRequest({
+        path: "/v1/reddit/posts/comments",
+        params: {
+          url,
+          cursor,
+          trim,
+        },
+        ...opts,
+      });
+    },
+    /** @param {{ url?: string; language?: string; [key: string]: unknown }} [args] */
+    getPostTranscript({
+      url, language, ...opts
+    } = {}) {
+      return this._makeRequest({
+        path: "/v1/reddit/posts/transcript",
+        params: {
+          url,
+          language,
+        },
         ...opts,
       });
     },

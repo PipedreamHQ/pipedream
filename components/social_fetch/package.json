@@ -1,6 +1,6 @@
 {
 	"name": "@pipedream/social_fetch",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"description": "Pipedream Social Fetch Components",
 	"main": "social_fetch.app.mjs",
 	"keywords": [
