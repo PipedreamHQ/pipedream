@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import slides from "@googleapis/slides";
 import googleDrive from "@pipedream/google_drive";
 
@@ -226,7 +227,7 @@ export default {
       });
       return presentation.data;
     },
-    async listPresentationsOptions(driveId, pageToken = null) {
+    async listPresentationsOptions(driveId, pageToken = null, limitToMyDrive = false) {
       const q = "mimeType='application/vnd.google-apps.presentation'";
       let request = {
         q,
@@ -240,13 +241,42 @@ export default {
           includeItemsFromAllDrives: true,
           supportsAllDrives: true,
         };
+      } else if (!limitToMyDrive) {
+        request = {
+          ...request,
+          corpora: "allDrives",
+          pageToken,
+          includeItemsFromAllDrives: true,
+          supportsAllDrives: true,
+        };
       }
       return this.listFilesOptions(pageToken, request);
     },
-    async getPresentation(presentationId) {
+    getPresentationId(idOrUrl) {
+      const input = String(idOrUrl).trim();
+      if (!input) {
+        throw new ConfigurationError("Presentation ID is required.");
+      }
+      // Published presentations use /presentation/d/e/{token}/pub and have no
+      // editable ID that presentations.get accepts, so reject them explicitly
+      // rather than extracting the literal "e" segment as the ID.
+      if (/\/presentation\/d\/e\//.test(input)) {
+        throw new ConfigurationError("Published presentation URLs (`/presentation/d/e/...`) are not supported. Provide the presentation's ID or its editable URL (`https://docs.google.com/presentation/d/{ID}/edit`).");
+      }
+      // Accept a plain presentation ID or a full Slides URL
+      // (e.g. https://docs.google.com/presentation/d/{ID}/edit).
+      const match = input.match(/\/presentation\/d\/([a-zA-Z0-9-_]+)/);
+      return match
+        ? match[1]
+        : input;
+    },
+    async getPresentation(presentationId, fields) {
       const slides = this.slides();
       const request = {
         presentationId,
+        ...fields && {
+          fields,
+        },
       };
       return (await slides.presentations.get(request)).data;
     },

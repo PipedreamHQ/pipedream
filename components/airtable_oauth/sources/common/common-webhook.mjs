@@ -20,7 +20,7 @@ export default {
         airtable,
         "tableId",
         (c) => ({
-          baseId: c.baseId,
+          baseId: c.baseId?.value ?? c.baseId,
         }),
       ],
       description: "If specified, events will only be emitted for the selected Table",
@@ -31,8 +31,8 @@ export default {
         airtable,
         "viewId",
         (c) => ({
-          baseId: c.baseId,
-          tableId: c.tableId,
+          baseId: c.baseId?.value ?? c.baseId,
+          tableId: c.tableId?.value ?? c.tableId,
         }),
       ],
       description: "If specified, events will only be emitted for the selected View",
@@ -48,8 +48,10 @@ export default {
   },
   hooks: {
     async activate() {
+      const baseId = this.baseId?.value ?? this.baseId;
+      const tableId = this.tableId?.value ?? this.tableId;
       const { id } = await this.airtable.createWebhook({
-        baseId: this.baseId,
+        baseId,
         data: {
           notificationUrl: `${this.http.endpoint}/`,
           specification: {
@@ -57,8 +59,8 @@ export default {
               filters: {
                 recordChangeScope: this.viewId
                   ? this.viewId
-                  : this.tableId
-                    ? this.tableId
+                  : tableId
+                    ? tableId
                     : undefined,
                 dataTypes: this.getDataTypes(),
                 changeTypes: this.getChangeTypes(),
@@ -81,7 +83,7 @@ export default {
       const webhookId = this._getHookId();
       if (webhookId) {
         await this.airtable.deleteWebhook({
-          baseId: this.baseId,
+          baseId: this.baseId?.value ?? this.baseId,
           webhookId,
         });
       }
@@ -170,7 +172,7 @@ export default {
       const {
         cursor, mightHaveMore, payloads,
       } = await this.airtable.listWebhookPayloads({
-        baseId: this.baseId,
+        baseId: this.baseId?.value ?? this.baseId,
         webhookId,
         params,
       });

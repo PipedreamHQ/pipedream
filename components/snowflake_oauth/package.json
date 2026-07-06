@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/snowflake_oauth",
+  "version": "0.1.0",
+  "description": "Pipedream Snowflake (OAuth) Components",
+  "main": "snowflake_oauth.app.mjs",
+  "keywords": [
+    "pipedream",
+    "snowflake_oauth"
+  ],
+  "homepage": "https://pipedream.com/apps/snowflake_oauth",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.3.0",
+    "@pipedream/snowflake": "^0.14.0"
+  }
+}

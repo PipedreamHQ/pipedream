@@ -4,7 +4,7 @@ export default {
   key: "google_ads-list-customer-clients",
   name: "List Customer Clients",
   description: "List all customer clients for a given account. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v21/GoogleAdsService/Search?transport=rest)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

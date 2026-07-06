@@ -216,6 +216,49 @@ mutation OrderInvoiceSend($id: ID!, $email: EmailInput) {
 }
 `;
 
+const ORDER_CANCEL = `
+  mutation orderCancel(
+    $orderId: ID!,
+    $reason: OrderCancelReason!,
+    $restock: Boolean!,
+    $notifyCustomer: Boolean,
+    $staffNote: String
+  ) {
+    orderCancel(
+      orderId: $orderId,
+      reason: $reason,
+      restock: $restock,
+      notifyCustomer: $notifyCustomer,
+      staffNote: $staffNote
+    ) {
+      job {
+        id
+        done
+      }
+      orderCancelUserErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const FULFILLMENT_ORDER_SUBMIT_CANCELLATION_REQUEST = `
+  mutation fulfillmentOrderSubmitCancellationRequest($id: ID!, $message: String) {
+    fulfillmentOrderSubmitCancellationRequest(id: $id, message: $message) {
+      fulfillmentOrder {
+        id
+        status
+        requestStatus
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
 export default {
   CREATE_ORDER,
   CREATE_CUSTOMER,
@@ -225,4 +268,6 @@ export default {
   UPDATE_FULFILLMENT_TRACKING_INFO,
   CREATE_FULFILLMENT,
   ORDER_INVOICE_SEND,
+  ORDER_CANCEL,
+  FULFILLMENT_ORDER_SUBMIT_CANCELLATION_REQUEST,
 };

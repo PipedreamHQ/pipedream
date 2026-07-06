@@ -4,7 +4,7 @@ export default {
   key: "hippo_video-list-list-ids-options",
   name: "List List Ids Options",
   description: "Retrieves available options for the List Ids field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -4,7 +4,7 @@ export default {
   key: "cloudflare_api_key-update-zone-security-level",
   name: "Update Zone Security Level",
   description: "Choose the appropriate security profile for your website, which will automatically adjust each of the security settings. [See the documentation](https://developers.cloudflare.com/api/node/resources/zones/subresources/settings/methods/edit/)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

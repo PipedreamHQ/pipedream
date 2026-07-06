@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/excalidraw",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Excalidraw Components",
   "main": "excalidraw.app.mjs",
   "keywords": [
@@ -9,6 +9,9 @@
   ],
   "homepage": "https://pipedream.com/apps/excalidraw",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  },
   "publishConfig": {
     "access": "public"
   }

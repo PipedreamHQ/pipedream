@@ -1,12 +1,13 @@
 import { parseObject } from "../../common/utils.mjs";
-import nutshell from "../../nutshell.app.mjs";
+import { PATCH_OPS } from "../../common/constants.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import nutshell from "../../nutshell.app.mjs";
 
 export default {
   key: "nutshell-update-company",
   name: "Update Company",
-  description: "Update an existing company (account). Only provided fields are updated. Custom fields from your Nutshell pipeline can be set below or passed via the Custom Fields (Object) prop. [See the documentation](https://developers-rpc.nutshell.com/detail/class_core.html#a0800d52996b40c90db3f475f88aaceb3)",
-  version: "0.0.2",
+  description: "Update an existing company (account) in Nutshell. [See the documentation](https://developers.nutshell.com/reference/48bf7b1de74805c35713fb7b3a9f1e52)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -20,14 +21,11 @@ export default {
         nutshell,
         "companyId",
       ],
-      label: "Company ID",
-      description: "The ID of the company (account) to update.",
-      reloadProps: true,
     },
-    companyName: {
+    name: {
       type: "string",
       label: "Company Name",
-      description: "The name of the company.",
+      description: "Updated company name.",
       optional: true,
     },
     industryId: {
@@ -51,118 +49,114 @@ export default {
       ],
       optional: true,
     },
-    url: {
+    address: {
       type: "string[]",
-      label: "URLs",
-      description: "The URLs of the company.",
+      label: "Address",
+      description: "Array of address objects as JSON strings, e.g. `{\"name\":\"HQ\",\"address_1\":\"123 Main St\",\"city\":\"Austin\"}`. Each object must include a `name` label (required on update).",
       optional: true,
     },
     email: {
-      propDefinition: [
-        nutshell,
-        "email",
-      ],
+      type: "string[]",
+      label: "Email",
+      description: "Array of email objects as JSON strings, e.g. `{\"isPrimary\":true,\"name\":\"work\",\"value\":\"info@acme.com\"}`. Each object must include a `name` label (required on update).",
       optional: true,
     },
     phone: {
-      propDefinition: [
-        nutshell,
-        "phone",
-      ],
+      type: "string[]",
+      label: "Phone",
+      description: "Array of phone objects as JSON strings, e.g. `{\"isPrimary\":true,\"name\":\"main\",\"value\":\"+15125551234\"}`. Each object must include a `name` label (required on update).",
       optional: true,
     },
-    address: {
-      propDefinition: [
-        nutshell,
-        "address",
-      ],
+    url: {
+      type: "string[]",
+      label: "URLs",
+      description: "Array of URL objects as JSON strings, e.g. `{\"name\":\"website\",\"value\":\"https://acme.com\"}`. Each object must include a `name` label (required on update).",
       optional: true,
     },
     customFields: {
       type: "object",
-      label: "Custom Fields (Object)",
-      description: "Optional object of custom field names to values, e.g. { \"Field Name\": \"value\" }. You can pass this from a previous step. Merged with any individual custom field inputs below.",
+      label: "Custom Fields",
+      description: "Custom field name->value pairs, e.g. `{\"Customer tier\":\"Gold\"}`.",
       optional: true,
     },
   },
-  async additionalProps() {
-    const { result: { Accounts: fields = [] } = {} } = await this.getCustomFields();
-    const props = {};
-    let i = 0;
-    for (const field of fields) {
-      i++;
-      props[`customField_${i}`] = {
-        type: "string",
-        label: field.name,
-        description: `Custom field ${i}.`,
-        optional: true,
-      };
-    }
-    return props;
-  },
-  methods: {
-    async getCustomFields() {
-      return await this.nutshell.post({
-        method: "findCustomFields",
-      });
-    },
-    async parseCustomFields(props) {
-      const customFields = {};
-      const { result: { Accounts = [] } = {} } = await this.getCustomFields();
-      let i = 0;
-      for (const field of Accounts) {
-        i++;
-        if (props[`customField_${i}`]) {
-          customFields[field.name] = props[`customField_${i}`];
-        }
-      }
-      return customFields;
-    },
-  },
   async run({ $ }) {
-    const existing = await this.nutshell.getAccount({
-      $,
-      companyId: this.companyId,
-    });
-    if (!existing) {
-      throw new ConfigurationError(`Company not found: ${this.companyId}`);
+    const patches = [];
+
+    if (this.name) {
+      patches.push({
+        op: PATCH_OPS.REPLACE,
+        path: "/accounts/0/name",
+        value: this.name,
+      });
     }
-    const rev = existing.rev ?? null;
-
-    const account = {};
-    if (this.companyName != null && this.companyName !== "") account.name = this.companyName;
-    if (this.industryId != null) account.industryId = this.industryId;
-    if (this.accountTypeId != null) account.accountTypeId = this.accountTypeId;
-    if (this.territoryId != null) account.territoryId = this.territoryId;
-    if (this.url != null) account.url = parseObject(this.url);
-    if (this.email != null) account.email = parseObject(this.email);
-    if (this.phone != null) account.phone = parseObject(this.phone);
-    if (this.address != null) account.address = parseObject(this.address);
-    const customFieldsFromProps = await this.parseCustomFields(this);
-    const customFieldsObject = this.customFields
-      ? parseObject(this.customFields)
-      : {};
-
-    const hasCustomFields = Object.keys(customFieldsFromProps).length > 0
-      || Object.keys(customFieldsObject).length > 0;
-    if (hasCustomFields) {
-      account.customFields = {
-        ...(existing.customFields ?? {}),
-        ...customFieldsObject,
-        ...customFieldsFromProps,
-      };
+    if (this.industryId) {
+      patches.push({
+        op: PATCH_OPS.REPLACE,
+        path: "/accounts/0/links/industry",
+        value: this.industryId,
+      });
+    }
+    if (this.accountTypeId) {
+      patches.push({
+        op: PATCH_OPS.REPLACE,
+        path: "/accounts/0/links/accountType",
+        value: this.accountTypeId,
+      });
+    }
+    if (this.territoryId) {
+      patches.push({
+        op: PATCH_OPS.REPLACE,
+        path: "/accounts/0/links/territory",
+        value: this.territoryId,
+      });
+    }
+    if (this.email) {
+      patches.push({
+        op: PATCH_OPS.REPLACE,
+        path: "/accounts/0/emails",
+        value: parseObject(this.email),
+      });
+    }
+    if (this.phone) {
+      patches.push({
+        op: PATCH_OPS.REPLACE,
+        path: "/accounts/0/phones",
+        value: parseObject(this.phone),
+      });
+    }
+    if (this.url) {
+      patches.push({
+        op: PATCH_OPS.REPLACE,
+        path: "/accounts/0/urls",
+        value: parseObject(this.url),
+      });
+    }
+    if (this.address) {
+      patches.push({
+        op: PATCH_OPS.REPLACE,
+        path: "/accounts/0/addresses",
+        value: parseObject(this.address),
+      });
+    }
+    if (this.customFields) {
+      patches.push({
+        op: PATCH_OPS.REPLACE,
+        path: "/accounts/0/customFields",
+        value: this.customFields,
+      });
     }
 
-    if (Object.keys(account).length === 0) {
+    if (!patches?.length) {
       throw new ConfigurationError("Please provide at least one field to update.");
     }
 
-    const updated = await this.nutshell.editAccount({
+    const updated = await this.nutshell.updateAccount({
       $,
       companyId: this.companyId,
-      rev,
-      account,
+      patches,
     });
+
     $.export("$summary", `Successfully updated company "${updated?.name ?? this.companyId}"`);
     return this.nutshell.formatCompany(updated);
   },

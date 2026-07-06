@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/woovi",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Pipedream Woovi Components",
   "main": "woovi.app.mjs",
   "keywords": [

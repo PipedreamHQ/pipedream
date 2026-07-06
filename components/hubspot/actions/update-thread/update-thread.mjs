@@ -4,7 +4,7 @@ export default {
   key: "hubspot-update-thread",
   name: "Update Thread",
   description: "Updates an existing thread's status. To archive a thread, use the **Archive Thread** action; to restore an archived thread, use the **Unarchive Thread** action. HubSpot's PATCH endpoint does not support either operation via a status change. [See the documentation](https://developers.hubspot.com/docs/reference/api/conversations/inbox-and-messages#update-or-restore-threads)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

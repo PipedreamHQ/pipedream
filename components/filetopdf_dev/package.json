@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/filetopdf_dev",
+  "version": "0.1.0",
+  "description": "Pipedream FileToPDF.dev Components",
+  "main": "filetopdf_dev.app.mjs",
+  "keywords": [
+    "pipedream",
+    "filetopdf_dev"
+  ],
+  "homepage": "https://pipedream.com/apps/filetopdf_dev",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^3.4.0",
+    "form-data": "^4.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

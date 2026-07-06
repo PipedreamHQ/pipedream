@@ -4,7 +4,7 @@ export default {
   key: "hippo_video-list-video-id-options",
   name: "List Video ID Options",
   description: "Retrieves available options for the Video ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
