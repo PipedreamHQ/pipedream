@@ -1,4 +1,5 @@
 import pd from "pipedrive";
+import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -743,6 +744,89 @@ export default {
       const notesApi = this.api("NotesApi");
       return notesApi.deleteNote({
         id: noteId,
+      });
+    },
+    listProjects(opts = {}) {
+      const projectApi = this.api("ProjectsApi", "v2");
+      return projectApi.getProjects(opts);
+    },
+    addProject(opts = {}) {
+      const projectApi = this.api("ProjectsApi", "v2");
+      return projectApi.addProject({
+        AddProjectRequest: opts,
+      });
+    },
+    getProject(projectId) {
+      const projectApi = this.api("ProjectsApi", "v2");
+      return projectApi.getProject({
+        id: projectId,
+      });
+    },
+    updateProject({
+      projectId, ...opts
+    }) {
+      const projectApi = this.api("ProjectsApi", "v2");
+      return projectApi.updateProject({
+        id: projectId,
+        UpdateProjectRequest: opts,
+      });
+    },
+    deleteProject(projectId) {
+      const projectApi = this.api("ProjectsApi", "v2");
+      return projectApi.deleteProject({
+        id: projectId,
+      });
+    },
+    getProjectBoards({ $ }) {
+      return axios($, {
+        url: `${this.$auth.api_domain}/api/v2/boards`,
+        headers: {
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        },
+      });
+    },
+    getProjectPhases({
+      boardId, $,
+    }) {
+      return axios($, {
+        url: `${this.$auth.api_domain}/api/v2/phases`,
+        headers: {
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        },
+        params: {
+          board_id: boardId,
+        },
+      });
+    },
+    listTasks(opts = {}) {
+      const taskApi = this.api("TasksApi", "v2");
+      return taskApi.getTasks(opts);
+    },
+    addTask(opts = {}) {
+      const taskApi = this.api("TasksApi", "v2");
+      return taskApi.addTask({
+        AddTaskRequest: opts,
+      });
+    },
+    getTask(taskId) {
+      const taskApi = this.api("TasksApi", "v2");
+      return taskApi.getTask({
+        id: taskId,
+      });
+    },
+    updateTask({
+      taskId, ...opts
+    }) {
+      const taskApi = this.api("TasksApi", "v2");
+      return taskApi.updateTask({
+        id: taskId,
+        UpdateTaskRequest: opts,
+      });
+    },
+    deleteTask(taskId) {
+      const taskApi = this.api("TasksApi", "v2");
+      return taskApi.deleteTask({
+        id: taskId,
       });
     },
     getPerson(personId) {
