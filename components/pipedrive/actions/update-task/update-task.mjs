@@ -59,9 +59,12 @@ export default {
       optional: true,
     },
     assigneeId: {
-      type: "string",
+      propDefinition: [
+        pipedriveApp,
+        "userId",
+      ],
       label: "Assignee ID",
-      description: "The user ID of the task assignee. Run **List User ID Options** to obtain a valid user ID.",
+      description: "The user ID of the task assignee.",
       optional: true,
     },
     priority: {

@@ -1,5 +1,4 @@
 import pipedriveApp from "../../pipedrive.app.mjs";
-import constants from "../../common/constants.mjs";
 
 export default {
   key: "pipedrive-create-project",
@@ -26,11 +25,10 @@ export default {
       optional: true,
     },
     status: {
-      type: "string",
-      label: "Status",
-      description: "The status of the project. One of: open, completed, canceled, deleted.",
-      options: constants.PROJECT_STATUS_OPTIONS,
-      optional: true,
+      propDefinition: [
+        pipedriveApp,
+        "projectStatus",
+      ],
     },
     boardId: {
       type: "string",
@@ -39,10 +37,11 @@ export default {
       optional: true,
     },
     phaseId: {
-      type: "string",
-      label: "Phase ID",
+      propDefinition: [
+        pipedriveApp,
+        "projectPhaseId",
+      ],
       description: "The ID of the phase this project belongs to. Run **List Project Phases** (with the chosen board ID) first to obtain a valid phase ID.",
-      optional: true,
     },
     ownerId: {
       type: "string",
@@ -83,7 +82,7 @@ export default {
     labelIds: {
       type: "string[]",
       label: "Label IDs",
-      description: "Array of label IDs to associate with the project.",
+      description: "Array of numeric project-label IDs to associate with the project. Project labels are managed in Pipedrive under **Settings → Labels** — copy the numeric ID for each label you want to apply.",
       optional: true,
     },
   },

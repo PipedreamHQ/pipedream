@@ -1,5 +1,4 @@
 import pipedriveApp from "../../pipedrive.app.mjs";
-import constants from "../../common/constants.mjs";
 
 export default {
   key: "pipedrive-list-projects",
@@ -15,17 +14,18 @@ export default {
   props: {
     pipedriveApp,
     status: {
-      type: "string",
-      label: "Status",
+      propDefinition: [
+        pipedriveApp,
+        "projectStatus",
+      ],
       description: "Filter by project status. One of: open, completed, canceled, deleted (deleted excluded by default).",
-      options: constants.PROJECT_STATUS_OPTIONS,
-      optional: true,
     },
     phaseId: {
-      type: "string",
-      label: "Phase ID",
+      propDefinition: [
+        pipedriveApp,
+        "projectPhaseId",
+      ],
       description: "Filter by phase ID. Run **List Project Phases** first to obtain a valid phase ID.",
-      optional: true,
     },
     dealId: {
       type: "string",
@@ -55,9 +55,9 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "For pagination, the number of entries to return. Min 1, max 1000. Note: the API enforces a server-side cap of 500. Defaults to 100 if omitted.",
+      description: "For pagination, the number of entries to return. Min 1, max 500 (server-side cap). Defaults to 100 if omitted.",
       min: 1,
-      max: 1000,
+      max: 500,
       optional: true,
     },
     cursor: {

@@ -20,15 +20,18 @@ export default {
       optional: true,
     },
     assigneeId: {
-      type: "string",
+      propDefinition: [
+        pipedriveApp,
+        "userId",
+      ],
       label: "Assignee ID",
-      description: "Filter tasks by assignee (user) ID. Run **List User ID Options** to obtain a valid user ID.",
+      description: "Filter tasks by assignee (user) ID.",
       optional: true,
     },
     parentTaskId: {
       type: "string",
       label: "Parent Task ID",
-      description: "Filter by parent task ID. Omit for root-level tasks only; provide an integer to return subtasks of that task.",
+      description: "Filter by parent task ID. Omit to return all tasks (default); provide an integer to return only subtasks of that specific task. (Note: the API also accepts `null` to return only root-level tasks, but this prop cannot represent a null value — use a downstream filter step to restrict to root-level tasks.)",
       optional: true,
     },
     isDone: {

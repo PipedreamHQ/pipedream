@@ -1,5 +1,4 @@
 import pipedriveApp from "../../pipedrive.app.mjs";
-import constants from "../../common/constants.mjs";
 
 export default {
   key: "pipedrive-update-project",
@@ -32,11 +31,11 @@ export default {
       optional: true,
     },
     status: {
-      type: "string",
-      label: "Status",
+      propDefinition: [
+        pipedriveApp,
+        "projectStatus",
+      ],
       description: "The updated status of the project. One of: open, completed, canceled, deleted.",
-      options: constants.PROJECT_STATUS_OPTIONS,
-      optional: true,
     },
     boardId: {
       type: "string",
@@ -45,10 +44,11 @@ export default {
       optional: true,
     },
     phaseId: {
-      type: "string",
-      label: "Phase ID",
+      propDefinition: [
+        pipedriveApp,
+        "projectPhaseId",
+      ],
       description: "The ID of the phase. Run **List Project Phases** first to obtain a valid phase ID.",
-      optional: true,
     },
     ownerId: {
       type: "string",

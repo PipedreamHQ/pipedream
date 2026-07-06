@@ -159,6 +159,19 @@ export default {
       optional: true,
       options: constants.STATUS_OPTIONS,
     },
+    projectStatus: {
+      type: "string",
+      label: "Status",
+      description: "The status of the project. One of: open, completed, canceled, deleted.",
+      options: constants.PROJECT_STATUS_OPTIONS,
+      optional: true,
+    },
+    projectPhaseId: {
+      type: "string",
+      label: "Phase ID",
+      description: "The ID of the project phase. Run **List Project Phases** first to obtain a valid phase ID.",
+      optional: true,
+    },
     dealId: {
       type: "string",
       label: "Deal ID",
