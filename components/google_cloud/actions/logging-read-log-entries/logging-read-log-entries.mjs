@@ -44,12 +44,12 @@ export default {
     },
     maxResults: {
       label: "Max Results",
-      description: "The maximum number of entries to return across all pages (max 10000). Default is 100.",
+      description: "The maximum number of entries to return.",
       type: "integer",
       optional: true,
       default: 100,
       min: 1,
-      max: 10000,
+      max: 99999,
     },
   },
   async run({ $ }) {
@@ -64,7 +64,7 @@ export default {
       ? logging.log(this.logName)
       : logging;
 
-    const pageSize = (remaining) => Math.min(remaining, constants.LOG_ENTRIES_MAX_PAGE_SIZE);
+    const pageSize = (remaining) => Math.min(remaining, constants.MAX_PAGE_SIZE);
 
     const entries = [];
     let query = {

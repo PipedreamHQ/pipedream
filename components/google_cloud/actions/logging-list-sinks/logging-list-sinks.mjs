@@ -1,4 +1,5 @@
 import googleCloud from "../../google_cloud.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   name: "Logging - List Log Sinks",
@@ -13,13 +14,40 @@ export default {
   type: "action",
   props: {
     googleCloud,
+    maxResults: {
+      label: "Max Results",
+      description: "The maximum number of log sinks to return.",
+      type: "integer",
+      optional: true,
+      default: 100,
+      min: 1,
+      max: 99999,
+    },
   },
   async run({ $ }) {
     const logging = this.googleCloud.loggingClient();
-    const [
-      sinks,
-    ] = await logging.getSinks();
-    const metadata = sinks.map((sink) => sink.metadata);
+    const pageSize = (remaining) => Math.min(remaining, constants.MAX_PAGE_SIZE);
+
+    const sinks = [];
+    let query = {
+      autoPaginate: false,
+      pageSize: pageSize(this.maxResults),
+    };
+
+    do {
+      const [
+        pageSinks,
+        nextQuery,
+      ] = await logging.getSinks(query);
+      sinks.push(...pageSinks);
+      query = nextQuery && {
+        ...nextQuery,
+        autoPaginate: false,
+        pageSize: pageSize(this.maxResults - sinks.length),
+      };
+    } while (query && sinks.length < this.maxResults);
+
+    const metadata = sinks.slice(0, this.maxResults).map((sink) => sink.metadata);
     $.export("$summary", `Found ${metadata.length} log sink${metadata.length === 1
       ? ""
       : "s"}`);

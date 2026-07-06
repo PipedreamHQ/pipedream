@@ -13,8 +13,8 @@ const LOG_ENTRY_ORDER_BY = {
   TIMESTAMP_ASC: "timestamp asc",
 };
 
-// Max entries the Logging entries.list API returns per page
-const LOG_ENTRIES_MAX_PAGE_SIZE = 1000;
+// Max results requested per page when manually paginating list calls
+const MAX_PAGE_SIZE = 1000;
 
 // See: https://cloud.google.com/nodejs/docs/reference/storage/latest/storage/getsignedurlconfig
 const SIGNED_URL_ACTION = {
@@ -28,6 +28,6 @@ export default {
   WRITE_DISPOSITION,
   DATA_SOURCE_ID,
   LOG_ENTRY_ORDER_BY,
-  LOG_ENTRIES_MAX_PAGE_SIZE,
+  MAX_PAGE_SIZE,
   SIGNED_URL_ACTION,
 };

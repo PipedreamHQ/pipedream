@@ -1,4 +1,5 @@
 import googleCloud from "../../google_cloud.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   name: "Logging - List Logs",
@@ -13,13 +14,40 @@ export default {
   type: "action",
   props: {
     googleCloud,
+    maxResults: {
+      label: "Max Results",
+      description: "The maximum number of log names to return.",
+      type: "integer",
+      optional: true,
+      default: 100,
+      min: 1,
+      max: 99999,
+    },
   },
   async run({ $ }) {
     const logging = this.googleCloud.loggingClient();
-    const [
-      logs,
-    ] = await logging.getLogs();
-    const logNames = logs.map((log) => log.name);
+    const pageSize = (remaining) => Math.min(remaining, constants.MAX_PAGE_SIZE);
+
+    const logs = [];
+    let query = {
+      autoPaginate: false,
+      pageSize: pageSize(this.maxResults),
+    };
+
+    do {
+      const [
+        pageLogs,
+        nextQuery,
+      ] = await logging.getLogs(query);
+      logs.push(...pageLogs);
+      query = nextQuery && {
+        ...nextQuery,
+        autoPaginate: false,
+        pageSize: pageSize(this.maxResults - logs.length),
+      };
+    } while (query && logs.length < this.maxResults);
+
+    const logNames = logs.slice(0, this.maxResults).map((log) => log.name);
     $.export("$summary", `Found ${logNames.length} log${logNames.length === 1
       ? ""
       : "s"}`);
