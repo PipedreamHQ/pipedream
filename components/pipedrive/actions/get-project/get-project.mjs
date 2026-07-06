@@ -20,7 +20,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.pipedriveApp.getProject(this.projectId);
+    const response = await this.pipedriveApp.getProject({
+      $,
+      projectId: this.projectId,
+    });
     $.export("$summary", `Successfully retrieved project ${this.projectId}`);
     return response;
   },

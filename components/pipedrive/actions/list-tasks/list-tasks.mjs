@@ -63,6 +63,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.pipedriveApp.listTasks({
+      $,
       project_id: this.projectId,
       assignee_id: this.assigneeId,
       parent_task_id: this.parentTaskId,

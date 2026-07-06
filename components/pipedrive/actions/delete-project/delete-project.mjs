@@ -20,7 +20,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.pipedriveApp.deleteProject(this.projectId);
+    const response = await this.pipedriveApp.deleteProject({
+      $,
+      projectId: this.projectId,
+    });
     $.export("$summary", `Successfully deleted project ${this.projectId}`);
     return response;
   },

@@ -69,6 +69,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.pipedriveApp.listProjects({
+      $,
       status: this.status,
       phase_id: this.phaseId,
       deal_id: this.dealId,

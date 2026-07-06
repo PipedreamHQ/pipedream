@@ -20,7 +20,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.pipedriveApp.getTask(this.taskId);
+    const response = await this.pipedriveApp.getTask({
+      $,
+      taskId: this.taskId,
+    });
     $.export("$summary", `Successfully retrieved task ${this.taskId}`);
     return response;
   },

@@ -88,6 +88,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.pipedriveApp.addProject({
+      $,
       title: this.title,
       description: this.description,
       status: this.status,

@@ -20,7 +20,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.pipedriveApp.deleteTask(this.taskId);
+    const response = await this.pipedriveApp.deleteTask({
+      $,
+      taskId: this.taskId,
+    });
     $.export("$summary", `Successfully deleted task ${this.taskId}`);
     return response;
   },

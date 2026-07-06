@@ -77,6 +77,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.pipedriveApp.updateTask({
+      $,
       taskId: this.taskId,
       title: this.title,
       description: this.description,

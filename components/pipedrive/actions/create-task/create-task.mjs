@@ -82,6 +82,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.pipedriveApp.addTask({
+      $,
       title: this.title,
       project_id: this.projectId,
       parent_task_id: this.parentTaskId,

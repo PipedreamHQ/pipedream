@@ -759,87 +759,130 @@ export default {
         id: noteId,
       });
     },
-    listProjects(opts = {}) {
-      const projectApi = this.api("ProjectsApi", "v2");
-      return projectApi.getProjects(opts);
-    },
-    addProject(opts = {}) {
-      const projectApi = this.api("ProjectsApi", "v2");
-      return projectApi.addProject({
-        AddProjectRequest: opts,
+    // Projects, project boards + phases, and Tasks live on Pipedrive's
+    // /api/v2/* REST endpoints but the JS SDK's v2 exports don't include
+    // ProjectsApi, TasksApi, BoardsApi, or PhasesApi. Route through raw
+    // axios with a small helper that stamps the auth header + baseURL.
+    _v2Request({
+      $, path, method = "GET", params, data,
+    }) {
+      return axios($, {
+        method,
+        url: `${this.$auth.api_domain}/api/v2${path}`,
+        headers: {
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        },
+        params,
+        data,
       });
     },
-    getProject(projectId) {
-      const projectApi = this.api("ProjectsApi", "v2");
-      return projectApi.getProject({
-        id: projectId,
+    listProjects({
+      $, ...params
+    } = {}) {
+      return this._v2Request({
+        $,
+        path: "/projects",
+        params,
+      });
+    },
+    addProject({
+      $, ...data
+    } = {}) {
+      return this._v2Request({
+        $,
+        method: "POST",
+        path: "/projects",
+        data,
+      });
+    },
+    getProject({
+      $, projectId,
+    }) {
+      return this._v2Request({
+        $,
+        path: `/projects/${projectId}`,
       });
     },
     updateProject({
-      projectId, ...opts
+      $, projectId, ...data
     }) {
-      const projectApi = this.api("ProjectsApi", "v2");
-      return projectApi.updateProject({
-        id: projectId,
-        UpdateProjectRequest: opts,
+      return this._v2Request({
+        $,
+        method: "PATCH",
+        path: `/projects/${projectId}`,
+        data,
       });
     },
-    deleteProject(projectId) {
-      const projectApi = this.api("ProjectsApi", "v2");
-      return projectApi.deleteProject({
-        id: projectId,
+    deleteProject({
+      $, projectId,
+    }) {
+      return this._v2Request({
+        $,
+        method: "DELETE",
+        path: `/projects/${projectId}`,
       });
     },
-    getProjectBoards({ $ }) {
-      return axios($, {
-        url: `${this.$auth.api_domain}/api/v2/boards`,
-        headers: {
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+    getProjectBoards({ $ } = {}) {
+      return this._v2Request({
+        $,
+        path: "/boards",
       });
     },
     getProjectPhases({
-      boardId, $,
+      $, boardId,
     }) {
-      return axios($, {
-        url: `${this.$auth.api_domain}/api/v2/phases`,
-        headers: {
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+      return this._v2Request({
+        $,
+        path: "/phases",
         params: {
           board_id: boardId,
         },
       });
     },
-    listTasks(opts = {}) {
-      const taskApi = this.api("TasksApi", "v2");
-      return taskApi.getTasks(opts);
-    },
-    addTask(opts = {}) {
-      const taskApi = this.api("TasksApi", "v2");
-      return taskApi.addTask({
-        AddTaskRequest: opts,
+    listTasks({
+      $, ...params
+    } = {}) {
+      return this._v2Request({
+        $,
+        path: "/tasks",
+        params,
       });
     },
-    getTask(taskId) {
-      const taskApi = this.api("TasksApi", "v2");
-      return taskApi.getTask({
-        id: taskId,
+    addTask({
+      $, ...data
+    } = {}) {
+      return this._v2Request({
+        $,
+        method: "POST",
+        path: "/tasks",
+        data,
+      });
+    },
+    getTask({
+      $, taskId,
+    }) {
+      return this._v2Request({
+        $,
+        path: `/tasks/${taskId}`,
       });
     },
     updateTask({
-      taskId, ...opts
+      $, taskId, ...data
     }) {
-      const taskApi = this.api("TasksApi", "v2");
-      return taskApi.updateTask({
-        id: taskId,
-        UpdateTaskRequest: opts,
+      return this._v2Request({
+        $,
+        method: "PATCH",
+        path: `/tasks/${taskId}`,
+        data,
       });
     },
-    deleteTask(taskId) {
-      const taskApi = this.api("TasksApi", "v2");
-      return taskApi.deleteTask({
-        id: taskId,
+    deleteTask({
+      $, taskId,
+    }) {
+      return this._v2Request({
+        $,
+        method: "DELETE",
+        path: `/tasks/${taskId}`,
       });
     },
     getPerson(personId) {
