@@ -56,7 +56,7 @@ export default {
     },
   },
   async run({ $ }) {
-    if (this.answers && !this.sessionId) {
+    if (this.answers && Object.keys(this.answers).length > 0 && !this.sessionId) {
       throw new ConfigurationError("Session ID is required when providing answers to reasoning engine questions.");
     }
 
