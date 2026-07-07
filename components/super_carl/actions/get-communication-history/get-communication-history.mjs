@@ -5,9 +5,9 @@ import {
 } from "../../common/utils.mjs";
 
 export default {
-  key: "super_carl-check-communication-capabilities",
-  name: "Check Communication Capabilities",
-  description: "Check which Super Carl communication channels are available for a target before sending a message. Returns the list of channels with their `can_send` status, recipient email, and connector user IDs. [See the documentation](https://supercarl.ai/docs/endpoints)",
+  key: "super_carl-get-communication-history",
+  name: "Get Communication History",
+  description: "Fetch prior Super Carl communication history for a target before drafting or sending. Use this to avoid duplicate outreach and to inspect recent Gmail, LinkedIn, X, Instagram, and Super Carl sends. [See the documentation](https://supercarl.ai/docs/endpoints)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -65,11 +65,43 @@ export default {
         "recipientEmail",
       ],
     },
-    channels: {
+    channel: {
+      type: "string",
+      label: "History Channel",
+      description: "Optional history filter. Use `all` for every channel or a specific channel such as `linkedin` or `gmail`.",
+      optional: true,
+      default: "all",
+      options: [
+        "all",
+        "email",
+        "gmail",
+        "super_carl",
+        "linkedin",
+        "x",
+        "instagram",
+      ],
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Maximum history rows to return.",
+      optional: true,
+      default: 12,
+      min: 1,
+      max: 50,
+    },
+    offset: {
       propDefinition: [
         superCarl,
-        "communicationChannels",
+        "offset",
       ],
+    },
+    historyFresh: {
+      type: "boolean",
+      label: "Refresh LinkedIn History",
+      description: "When true, request a fresh LinkedIn history refresh if the target resolves to a Super Carl user.",
+      optional: true,
+      default: false,
     },
     delegateUserId: {
       propDefinition: [
@@ -88,20 +120,20 @@ export default {
       instagram_profile_url: this.instagramProfileUrl,
       instagram_username: this.instagramUsername,
       recipient_email: this.recipientEmail,
-      channels: this.channels,
+      channel: this.channel,
+      limit: this.limit,
+      offset: this.offset,
+      history_fresh: this.historyFresh,
       delegate_user_id: this.delegateUserId,
     });
     requireCommunicationTarget(data);
 
-    const response = await this.superCarl.getCommunicationCapabilities({
+    const response = await this.superCarl.getCommunicationHistory({
       $,
       data,
     });
 
-    const readyChannels = Array.isArray(response?.channels)
-      ? response.channels.filter((channel) => channel?.can_send === true)
-      : [];
-    $.export("$summary", `Found ${readyChannels.length} ready communication channels.`);
+    $.export("$summary", `Found ${response?.total_count || 0} prior communications.`);
     return response;
   },
 };
