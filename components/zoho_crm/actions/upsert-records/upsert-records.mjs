@@ -21,7 +21,7 @@ export default {
       ],
     },
     data: {
-      type: "any",
+      type: "string",
       label: "Data",
       description: "An array of record objects to insert or update (maximum 100). Use Field API names as keys (e.g., `Last_Name`, `Email`). Each record may include `$append_values` for multi-select picklists. Use the **List Fields** action to get available field API names.",
     },
