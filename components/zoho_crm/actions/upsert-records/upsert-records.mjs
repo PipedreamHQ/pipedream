@@ -78,7 +78,11 @@ export default {
   async run({ $ }) {
     let records = this.data;
     if (typeof records === "string") {
-      records = JSON.parse(records);
+      try {
+        records = JSON.parse(records);
+      } catch {
+        throw new ConfigurationError("Data must be valid JSON (a single record object or an array of record objects).");
+      }
     }
     if (!Array.isArray(records)) {
       records = [
