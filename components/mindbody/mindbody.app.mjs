@@ -18,7 +18,9 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "Maximum number of results to return. Defaults to 100.",
+      description: "Maximum number of results to return per page. Minimum 1, maximum 200. Defaults to 100.",
+      min: 1,
+      max: 200,
       default: 100,
       optional: true,
     },
@@ -27,6 +29,7 @@ export default {
       label: "Offset",
       description: "Number of results to skip for pagination. Defaults to 0.",
       default: 0,
+      min: 0,
       optional: true,
     },
     startDate: {
@@ -63,7 +66,6 @@ export default {
         headers: this._headers(),
         params,
         data,
-        debug: true,
       });
     },
     getSiteInfo(opts = {}) {
@@ -133,6 +135,18 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "/appointment/updateappointment",
+        ...opts,
+      });
+    },
+    getClientVisits(opts = {}) {
+      return this._makeRequest({
+        path: "/client/clientvisits",
+        ...opts,
+      });
+    },
+    getClientPurchases(opts = {}) {
+      return this._makeRequest({
+        path: "/client/clientpurchases",
         ...opts,
       });
     },

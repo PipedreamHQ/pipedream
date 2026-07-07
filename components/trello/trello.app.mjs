@@ -32,21 +32,25 @@ export default {
       async options({
         board, list, checklistCardsOnly,
       }) {
-        let cards = await this.getCards({
-          boardId: board,
-        });
-        if (list) {
-          cards = cards.filter(({ idList }) => idList === list);
+        let formattedCards = [];
+        if (board) {
+          let cards = await this.getCards({
+            boardId: board,
+          });
+          if (list) {
+            cards = cards.filter(({ idList }) => idList === list);
+          }
+          if (checklistCardsOnly) {
+            cards = cards.filter(({ idChecklists }) => idChecklists?.length);
+          }
+          formattedCards = cards.map(({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
+          }));
         }
-        if (checklistCardsOnly) {
-          cards = cards.filter(({ idChecklists }) => idChecklists?.length);
-        }
-        return cards.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
+        return formattedCards;
       },
     },
     boardFields: {

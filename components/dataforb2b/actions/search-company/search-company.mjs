@@ -4,7 +4,7 @@ export default {
   key: "dataforb2b-search-company",
   name: "Search Company",
   description: "Search companies using advanced filters by size, funding stage, industry, investor, and more. [See the documentation](https://docs.dataforb2b.ai/api-reference/search-company)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
