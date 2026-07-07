@@ -4,7 +4,7 @@ export default {
   key: "zoho_crm-list-attachments",
   name: "List Attachments",
   description: "Gets the list of attachments for a record. [See the documentation](https://www.zoho.com/crm/developer/docs/api/v8/get-attachments.html)",
-  version: "0.7.{{ts}}",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -5,7 +5,7 @@ export default {
   key: "zoho_crm-upsert-records",
   name: "Upsert Records",
   description: "Inserts new records or updates existing ones based on duplicate check field values. [See the documentation](https://www.zoho.com/crm/developer/docs/api/v8/upsert-records.html)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
