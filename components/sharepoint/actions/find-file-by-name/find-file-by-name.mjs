@@ -16,7 +16,7 @@ export default {
     + "\n- **Search and Filter Files** for OData `$filter` against a list/document library"
     + "\n\n"
     + "[See the documentation](https://learn.microsoft.com/en-us/graph/api/driveitem-search?view=graph-rest-1.0&tabs=http)",
-  version: "0.1.7",
+  version: "0.1.8",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -187,10 +187,16 @@ export const filePickerMethods = {
             $expand: LIST_ITEM_FIELDS_EXPAND,
           };
 
+        // Use the per-item driveId (from parentReference) when available so files
+        // that live in a different drive than the top-level driveId prop resolve
+        // correctly. Falls back to the top-level driveId; when that is also absent,
+        // getDriveItem uses the /sites/{siteId}/drive/items/{id} default-drive path.
+        const resolvedDriveId = selected.driveId || driveId;
+
         const file = await this.sharepoint.getDriveItem({
           $,
           siteId,
-          driveId,
+          driveId: resolvedDriveId,
           fileId: selected.id,
           params,
         });
@@ -205,7 +211,7 @@ export const filePickerMethods = {
           }),
           _meta: {
             siteId,
-            driveId,
+            driveId: resolvedDriveId,
             fileId: selected.id,
           },
         };

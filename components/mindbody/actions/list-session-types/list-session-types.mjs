@@ -8,7 +8,7 @@ export default {
     + " Use this to discover the `sessionTypeId` values needed by **Book Appointment**."
     + " Optionally filter by `programIds` to narrow results to a specific program category."
     + " [See the documentation](https://developers.mindbodyonline.com/ui/documentation/public-api#/http/api-endpoints/site/get-session-types)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
