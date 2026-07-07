@@ -33,26 +33,22 @@ export default {
     },
   },
   async run({ $ }) {
-    const max = this.totalResults;
-    const messages = [];
-    let cursor;
-    let page = [];
-
-    do {
-      const { data } = await this.app.getConversationMessages({
+    const messages = await this.app.paginate({
+      max: this.totalResults,
+      requestPage: ({
+        next, count,
+      }) => this.app.getConversationMessages({
         $,
         accountId: this.accountId,
         params: {
           conversation_id: this.conversationId,
-          count: max - messages.length,
-          cursor,
+          count,
+          cursor: next,
         },
-      });
-
-      page = data?.messages || [];
-      messages.push(...page);
-      cursor = data?.next_cursor;
-    } while (cursor && page.length && messages.length < max);
+      }),
+      getItems: (res) => res.data?.messages,
+      getNext: (res) => res.data?.next_cursor,
+    });
 
     $.export("$summary", `Successfully retrieved ${messages.length} message${messages.length === 1
       ? ""

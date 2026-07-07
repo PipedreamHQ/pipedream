@@ -27,27 +27,23 @@ export default {
     },
   },
   async run({ $ }) {
-    const max = this.totalResults;
-    const invitations = [];
-    let offset = 0;
-    let page = [];
-    let hasMore = false;
-
-    do {
-      const { data } = await this.app.getInvitations({
+    const invitations = await this.app.paginate({
+      max: this.totalResults,
+      requestPage: ({
+        next, count,
+      }) => this.app.getInvitations({
         $,
         accountId: this.accountId,
         params: {
-          count: max - invitations.length,
-          offset,
+          count,
+          offset: next || 0,
         },
-      });
-
-      page = data?.invitations || [];
-      invitations.push(...page);
-      offset += page.length;
-      hasMore = data?.pagination?.has_more;
-    } while (page.length && invitations.length < max && hasMore);
+      }),
+      getItems: (res) => res.data?.invitations,
+      getNext: (res) => res.data?.pagination?.has_more
+        ? res.data?.pagination?.next_offset
+        : null,
+    });
 
     $.export("$summary", `Successfully retrieved ${invitations.length} received invitation${invitations.length === 1
       ? ""

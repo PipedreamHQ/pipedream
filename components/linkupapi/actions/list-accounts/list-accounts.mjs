@@ -22,27 +22,26 @@ export default {
     },
   },
   async run({ $ }) {
-    const max = this.totalResults;
-    const accounts = [];
-    let offset = 0;
-    let items = [];
-    let total = 0;
-
-    do {
-      const limit = Math.min(ACCOUNTS_MAX_PAGE_SIZE, max - accounts.length);
-      const { data } = await this.app.listAccounts({
+    const accounts = await this.app.paginate({
+      max: this.totalResults,
+      requestPage: ({
+        next, count,
+      }) => this.app.listAccounts({
         $,
         params: {
-          limit,
-          offset,
+          limit: Math.min(ACCOUNTS_MAX_PAGE_SIZE, count),
+          offset: next || 0,
         },
-      });
-
-      items = data?.items || [];
-      accounts.push(...items);
-      offset += items.length;
-      total = data?.total || 0;
-    } while (items.length && accounts.length < max && offset < total);
+      }),
+      getItems: (res) => res.data?.items,
+      getNext: (res) => {
+        const data = res.data || {};
+        const nextOffset = (data.offset || 0) + (data.items?.length || 0);
+        return nextOffset < (data.total || 0)
+          ? nextOffset
+          : null;
+      },
+    });
 
     $.export("$summary", `Successfully retrieved ${accounts.length} account${accounts.length === 1
       ? ""

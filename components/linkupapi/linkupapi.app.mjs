@@ -152,6 +152,23 @@ export default {
         },
       });
     },
+    async paginate({
+      requestPage, getItems, getNext, max,
+    }) {
+      const results = [];
+      let next;
+      let page = [];
+      do {
+        const response = await requestPage({
+          next,
+          count: max - results.length,
+        });
+        page = getItems(response) || [];
+        results.push(...page.slice(0, max - results.length));
+        next = getNext(response);
+      } while (next && page.length && results.length < max);
+      return results;
+    },
     connectAccount(opts = {}) {
       return this._post({
         path: ENDPOINTS.LOGIN,

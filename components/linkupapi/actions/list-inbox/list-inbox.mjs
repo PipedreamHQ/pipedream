@@ -3,7 +3,7 @@ import app from "../../linkupapi.app.mjs";
 export default {
   key: "linkupapi-list-inbox",
   name: "List Inbox",
-  description: "List conversations from the connected account's LinkedIn inbox, each with its `conversation_id` to use with **Get Conversation Messages**. Paginates automatically up to **Total Results**. [See the documentation](https://docs.linkupapi.com/api-reference/v2/messages/list-inbox)",
+  description: "List conversations from the LinkedIn inbox, each with its `conversation_id` to use with **Get Conversation Messages**. [See the documentation](https://docs.linkupapi.com/api-reference/v2/messages/list-inbox)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -27,25 +27,21 @@ export default {
     },
   },
   async run({ $ }) {
-    const max = this.totalResults;
-    const conversations = [];
-    let cursor;
-    let page = [];
-
-    do {
-      const { data } = await this.app.listInbox({
+    const conversations = await this.app.paginate({
+      max: this.totalResults,
+      requestPage: ({
+        next, count,
+      }) => this.app.listInbox({
         $,
         accountId: this.accountId,
         params: {
-          count: max - conversations.length,
-          cursor,
+          count,
+          cursor: next,
         },
-      });
-
-      page = data?.conversations || [];
-      conversations.push(...page);
-      cursor = data?.next_cursor;
-    } while (cursor && page.length && conversations.length < max);
+      }),
+      getItems: (res) => res.data?.conversations,
+      getNext: (res) => res.data?.next_cursor,
+    });
 
     $.export("$summary", `Successfully retrieved ${conversations.length} conversation${conversations.length === 1
       ? ""
