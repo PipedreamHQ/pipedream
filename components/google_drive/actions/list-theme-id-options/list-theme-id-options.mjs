@@ -4,7 +4,7 @@ export default {
   key: "google_drive-list-theme-id-options",
   name: "List Theme ID Options",
   description: "Retrieves available options for the Theme ID field.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

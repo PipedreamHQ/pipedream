@@ -4,7 +4,7 @@ export default {
   key: "dataforb2b-enrich-profile",
   name: "Enrich Profile",
   description: "Enrich a person's profile with verified work email, personal email, phone number, and GitHub data. [See the documentation](https://docs.dataforb2b.ai/api-reference/enrich-profile)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

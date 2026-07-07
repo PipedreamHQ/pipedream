@@ -551,6 +551,18 @@ export default {
     updateOrder(variables) {
       return this._makeGraphQlRequest(mutations.UPDATE_ORDER, variables);
     },
+    createRefund(variables) {
+      return this._makeGraphQlRequest(mutations.REFUND_CREATE, variables);
+    },
+    cancelOrder(variables) {
+      return this._makeGraphQlRequest(mutations.ORDER_CANCEL, variables);
+    },
+    submitFulfillmentOrderCancellationRequest(variables) {
+      return this._makeGraphQlRequest(
+        mutations.FULFILLMENT_ORDER_SUBMIT_CANCELLATION_REQUEST,
+        variables,
+      );
+    },
     getCustomer(variables) {
       return this._makeGraphQlRequest(queries.GET_CUSTOMER, variables);
     },

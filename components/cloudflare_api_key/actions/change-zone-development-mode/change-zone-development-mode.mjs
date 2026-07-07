@@ -4,7 +4,7 @@ export default {
   key: "cloudflare_api_key-change-zone-development-mode",
   name: "Change Development Mode",
   description: "Development Mode temporarily allows you to enter development mode for your websites if you need to make changes to your site. This will bypass Cloudflare's accelerated cache and slow down your site. [See the documentation](https://developers.cloudflare.com/api/node/resources/zones/subresources/settings/methods/edit/)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
