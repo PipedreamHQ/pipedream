@@ -55,16 +55,6 @@ export default {
         "detailed",
       ],
     },
-    rankMode: {
-      type: "string",
-      label: "Rank Mode",
-      description: "Optional ranking mode. Use `default` for normal search order, or `llm` to use a deeper retrieval pool and LLM reranking when company fit matters more than speed.",
-      optional: true,
-      options: [
-        "default",
-        "llm",
-      ],
-    },
     includeEvidenceText: {
       type: "boolean",
       label: "Include Evidence Text",
@@ -94,9 +84,6 @@ export default {
         preview_limit: this.previewLimit,
         resolve_only: this.resolveOnly,
         result_mode: this.resultMode,
-        rank_mode: this.rankMode === "default"
-          ? undefined
-          : this.rankMode,
         include_evidence_text: this.includeEvidenceText,
         delegate_user_id: this.delegateUserId,
       }),

@@ -86,14 +86,12 @@ export const requireCommunicationTarget = (payload = {}) => {
     "linkedin_username",
     "x_profile_url",
     "x_username",
-    "instagram_profile_url",
-    "instagram_username",
     "recipient_email",
   ];
 
   if (targetKeys.every((key) => isEmptyValue(payload[key]))) {
     throw new ConfigurationError(
-      "Provide at least one target identifier, such as Target User ID, LinkedIn Profile URL, X Username, Instagram Username, or Recipient Email.",
+      "Provide at least one target identifier, such as Target User ID, LinkedIn Profile URL, X Username, or Recipient Email.",
     );
   }
 };

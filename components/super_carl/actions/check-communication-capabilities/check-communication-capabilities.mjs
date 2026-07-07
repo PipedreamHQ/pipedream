@@ -47,18 +47,6 @@ export default {
         "xUsername",
       ],
     },
-    instagramProfileUrl: {
-      propDefinition: [
-        superCarl,
-        "instagramProfileUrl",
-      ],
-    },
-    instagramUsername: {
-      propDefinition: [
-        superCarl,
-        "instagramUsername",
-      ],
-    },
     recipientEmail: {
       propDefinition: [
         superCarl,
@@ -85,8 +73,6 @@ export default {
       linkedin_username: this.linkedinUsername,
       x_profile_url: this.xProfileUrl,
       x_username: this.xUsername,
-      instagram_profile_url: this.instagramProfileUrl,
-      instagram_username: this.instagramUsername,
       recipient_email: this.recipientEmail,
       channels: this.channels,
       delegate_user_id: this.delegateUserId,

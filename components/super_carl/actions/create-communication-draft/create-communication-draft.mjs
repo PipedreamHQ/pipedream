@@ -1,7 +1,6 @@
 import superCarl from "../../super_carl.app.mjs";
 import {
   cleanObject,
-  parseObjectProp,
   requireCommunicationTarget,
 } from "../../common/utils.mjs";
 
@@ -28,12 +27,6 @@ export default {
       propDefinition: [
         superCarl,
         "message",
-      ],
-    },
-    subject: {
-      propDefinition: [
-        superCarl,
-        "subject",
       ],
     },
     targetUserId: {
@@ -66,18 +59,6 @@ export default {
         "xUsername",
       ],
     },
-    instagramProfileUrl: {
-      propDefinition: [
-        superCarl,
-        "instagramProfileUrl",
-      ],
-    },
-    instagramUsername: {
-      propDefinition: [
-        superCarl,
-        "instagramUsername",
-      ],
-    },
     recipientEmail: {
       propDefinition: [
         superCarl,
@@ -88,12 +69,6 @@ export default {
       propDefinition: [
         superCarl,
         "connectorUserId",
-      ],
-    },
-    context: {
-      propDefinition: [
-        superCarl,
-        "context",
       ],
     },
     idempotencyKey: {
@@ -110,23 +85,18 @@ export default {
     },
   },
   async run({ $ }) {
-    const context = parseObjectProp(this.context, "Context");
     const data = cleanObject({
       mode: "draft",
       draft: true,
       channel: this.channel,
       message: this.message,
-      subject: this.subject,
       target_user_id: this.targetUserId,
       linkedin_profile_url: this.linkedinProfileUrl,
       linkedin_username: this.linkedinUsername,
       x_profile_url: this.xProfileUrl,
       x_username: this.xUsername,
-      instagram_profile_url: this.instagramProfileUrl,
-      instagram_username: this.instagramUsername,
       recipient_email: this.recipientEmail,
       connector_user_id: this.connectorUserId,
-      context,
       idempotency_key: this.idempotencyKey,
       delegate_user_id: this.delegateUserId,
     });

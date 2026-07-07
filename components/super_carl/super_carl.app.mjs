@@ -9,7 +9,6 @@ const COMMUNICATION_CHANNEL_OPTIONS = [
   "gmail_send",
   "linkedin_send_message",
   "x_send_message",
-  "instagram_send_message",
 ];
 
 export default {
@@ -89,7 +88,7 @@ export default {
     communicationChannel: {
       type: "string",
       label: "Channel",
-      description: "Outbound channel. Use `gmail_send` for email, `linkedin_send_message` for LinkedIn, `x_send_message` for X, `instagram_send_message` for Instagram, or a `supercarl_*` channel for in-product Super Carl messaging.",
+      description: "Outbound channel. Use `gmail_send` for email, `linkedin_send_message` for LinkedIn, `x_send_message` for X, or a `supercarl_*` channel for in-product Super Carl messaging.",
       options: COMMUNICATION_CHANNEL_OPTIONS,
     },
     communicationChannels: {
@@ -134,18 +133,6 @@ export default {
       description: "Optional X username without the `@` symbol.",
       optional: true,
     },
-    instagramProfileUrl: {
-      type: "string",
-      label: "Instagram Profile URL",
-      description: "Optional Instagram profile URL for the communication target.",
-      optional: true,
-    },
-    instagramUsername: {
-      type: "string",
-      label: "Instagram Username",
-      description: "Optional Instagram username without the `@` symbol.",
-      optional: true,
-    },
     recipientEmail: {
       type: "string",
       label: "Recipient Email",
@@ -163,43 +150,11 @@ export default {
       label: "Message",
       description: "Message body to save or send. For draft flows, `[JoinLink]` macros may be expanded by Super Carl.",
     },
-    subject: {
-      type: "string",
-      label: "Subject",
-      description: "Email subject. Required when Channel is `gmail_send`.",
-      optional: true,
-    },
-    context: {
-      type: "object",
-      label: "Context",
-      description: "Optional structured context JSON for communication generation or audit metadata.",
-      optional: true,
-    },
     idempotencyKey: {
       type: "string",
       label: "Idempotency Key",
       description: "Optional key to prevent duplicate sends when retrying a workflow step.",
       optional: true,
-    },
-    waitMs: {
-      type: "integer",
-      label: "Wait Milliseconds",
-      description: "Optional wait time for communication progress, capped by Super Carl at 30000 ms.",
-      optional: true,
-      default: 0,
-      min: 0,
-      max: 30000,
-    },
-    waitUntil: {
-      type: "string",
-      label: "Wait Until",
-      description: "Wait condition when Wait Milliseconds is set. Use `terminal` for completed/failed/cancelled status, or `first_progress` for the first new event.",
-      optional: true,
-      default: "terminal",
-      options: [
-        "terminal",
-        "first_progress",
-      ],
     },
   },
   methods: {
@@ -360,35 +315,6 @@ export default {
     }) {
       return this._makeRequest({
         path: `/api/v1/communications/${communicationId}`,
-        ...opts,
-      });
-    },
-    /**
-     * Cancel a queued or in-progress communication.
-     *
-     * @param {Object} [opts={}] Request options.
-     * @param {string} opts.communicationId Communication ID.
-     * @returns {Promise<Object>} Cancelled communication response.
-     */
-    cancelCommunication({
-      communicationId, ...opts
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/api/v1/communications/${communicationId}/cancel`,
-        ...opts,
-      });
-    },
-    /**
-     * Fetch communication history for a target.
-     *
-     * @param {Object} [opts={}] Request options.
-     * @returns {Promise<Object>} Communication history response.
-     */
-    getCommunicationHistory(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/api/v1/communications/history",
         ...opts,
       });
     },
