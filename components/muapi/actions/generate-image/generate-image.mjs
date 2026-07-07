@@ -64,7 +64,9 @@ export default {
     });
 
     const outputs = await this.muapi.pollResult($, request_id);
-    $.export("$summary", `Generated ${outputs.length} image${outputs.length === 1 ? "" : "s"} with ${this.model} (request_id: ${request_id})`);
+    $.export("$summary", `Generated ${outputs.length} image${outputs.length === 1
+      ? ""
+      : "s"} with ${this.model} (request_id: ${request_id})`);
     return {
       request_id,
       outputs,
