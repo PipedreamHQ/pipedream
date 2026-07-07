@@ -40,6 +40,22 @@ export const TRANSCRIPT_PLATFORMS = [
   "youtube",
 ];
 
+export const SUBREDDIT_POST_SORT_OPTIONS = [
+  "best",
+  "hot",
+  "new",
+  "top",
+  "rising",
+];
+
+export const SUBREDDIT_POST_TIMEFRAME_OPTIONS = [
+  "all",
+  "day",
+  "week",
+  "month",
+  "year",
+];
+
 export const CONTENT_TYPE_OPTIONS = [
   {
     label: "Videos",

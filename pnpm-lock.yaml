@@ -17907,7 +17907,11 @@ importers:
         specifier: ^0.6.2
         version: 0.6.2
 
-  components/workflowy: {}
+  components/workflowy:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.4.0
 
   components/workiom:
     dependencies:
