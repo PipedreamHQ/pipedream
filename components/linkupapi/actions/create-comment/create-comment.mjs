@@ -1,9 +1,10 @@
-import linkupapi from "../../linkupapi.app.mjs";
+import app from "../../linkupapi.app.mjs";
+import { ACTIONS } from "../../common/constants.mjs";
 
 export default {
   key: "linkupapi-create-comment",
   name: "Create Comment",
-  description: "Create a comment on a post. [See the documentation](https://docs.linkupapi.com/api-reference/linkup/posts/comment)",
+  description: "Post a comment on LinkedIn content. [See the documentation](https://docs.linkupapi.com/api-reference/v2/content/comment)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -12,50 +13,42 @@ export default {
     readOnlyHint: false,
   },
   props: {
-    linkupapi,
-    postUrl: {
-      type: "string",
-      label: "Post URL",
-      description: "LinkedIn post URL to comment on (must contain a valid activity URN)",
-    },
-    message: {
-      type: "string",
-      label: "Message",
-      description: "Text content of the comment to post",
-    },
-    loginToken: {
+    app,
+    accountId: {
       propDefinition: [
-        linkupapi,
-        "loginToken",
+        app,
+        "accountId",
       ],
     },
-    country: {
+    linkedinUrl: {
       propDefinition: [
-        linkupapi,
-        "country",
+        app,
+        "linkedinUrl",
       ],
+      description: "LinkedIn post URL to comment on, sent as `post_url`. Eg. `https://www.linkedin.com/feed/update/urn:li:activity:1234567890/`.",
     },
-    companyUrl: {
+    messageText: {
       propDefinition: [
-        linkupapi,
-        "companyUrl",
+        app,
+        "messageText",
       ],
+      description: "Comment text content.",
     },
   },
   async run({ $ }) {
-    const response = await this.linkupapi.createComment({
+    const response = await this.app.content({
       $,
       data: {
-        post_url: this.postUrl,
-        message: this.message,
-        login_token: this.loginToken,
-        country: this.country,
-        company_url: this.companyUrl,
+        account_id: this.accountId,
+        action: ACTIONS.COMMENT,
+        params: {
+          post_url: this.linkedinUrl,
+          comment_text: this.messageText,
+        },
       },
     });
 
-    $.export("$summary", "Successfully created comment");
-
+    $.export("$summary", `Successfully created comment on ${this.linkedinUrl}`);
     return response;
   },
 };

@@ -1,57 +1,37 @@
 import app from "../../linkupapi.app.mjs";
+import { ACTIONS } from "../../common/constants.mjs";
 
 export default {
   type: "action",
   key: "linkupapi-get-invitations-status",
   name: "Get Invitations Status",
-  description: "Check the status of connection invitations for a LinkedIn profile. [See the documentation](https://docs.linkupapi.com/api-reference/linkup/Network/get_invitations_status)",
+  description: "List pending connection invitations **received** by the connected account. Note: this returns invitations received, not ones you have sent. [See the documentation](https://docs.linkupapi.com/api-reference/v2/network/list-invitations)",
   version: "0.0.2",
-  props: {
-    app,
-    linkedinUrl: {
-      propDefinition: [
-        app,
-        "linkedinUrl",
-      ],
-    },
-    loginToken: {
-      propDefinition: [
-        app,
-        "loginToken",
-      ],
-    },
-    country: {
-      propDefinition: [
-        app,
-        "country",
-      ],
-    },
-  },
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,
     openWorldHint: true,
-    idempotentHint: true,
+  },
+  props: {
+    app,
+    accountId: {
+      propDefinition: [
+        app,
+        "accountId",
+      ],
+    },
   },
   async run({ $ }) {
-    const {
-      app,
-      linkedinUrl,
-      loginToken,
-      country,
-    } = this;
-
-    const response = await app.getInvitationsStatus({
+    const response = await this.app.network({
       $,
       data: {
-        linkedin_url: linkedinUrl,
-        login_token: loginToken,
-        country,
+        account_id: this.accountId,
+        action: ACTIONS.LIST_INVITATIONS,
+        params: {},
       },
     });
 
     $.export("$summary", "Successfully retrieved invitation status");
-
     return response;
   },
 };

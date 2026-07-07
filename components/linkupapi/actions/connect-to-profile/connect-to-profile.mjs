@@ -1,65 +1,53 @@
 import app from "../../linkupapi.app.mjs";
+import { ACTIONS } from "../../common/constants.mjs";
 
 export default {
   type: "action",
   key: "linkupapi-connect-to-profile",
-  name: "Connect to Profile",
-  description: "Send a connection request to a LinkedIn profile. [See the documentation](https://docs.linkupapi.com/api-reference/linkup/Network/connect)",
+  name: "Connect To Profile",
+  description: "Send a connection invitation to a LinkedIn profile. [See the documentation](https://docs.linkupapi.com/api-reference/v2/network/invite)",
   version: "0.0.2",
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
   props: {
     app,
+    accountId: {
+      propDefinition: [
+        app,
+        "accountId",
+      ],
+    },
     linkedinUrl: {
       propDefinition: [
         app,
         "linkedinUrl",
       ],
-    },
-    loginToken: {
-      propDefinition: [
-        app,
-        "loginToken",
-      ],
+      description: "LinkedIn profile URL. Eg. `https://www.linkedin.com/in/john-doe/`.",
     },
     message: {
       type: "string",
       label: "Message",
-      description: "Optional custom message to include with connection request",
+      description: "Optional note to include with the connection request (max 300 chars).",
       optional: true,
     },
-    country: {
-      propDefinition: [
-        app,
-        "country",
-      ],
-    },
-  },
-  annotations: {
-    readOnlyHint: false,
-    destructiveHint: true,
-    openWorldHint: true,
-    idempotentHint: false,
   },
   async run({ $ }) {
-    const {
-      app,
-      linkedinUrl,
-      loginToken,
-      message,
-      country,
-    } = this;
-
-    const response = await app.connectToProfile({
+    const response = await this.app.network({
       $,
       data: {
-        linkedin_url: linkedinUrl,
-        login_token: loginToken,
-        message_text: message,
-        country,
+        account_id: this.accountId,
+        action: ACTIONS.INVITE,
+        params: {
+          profile_url: this.linkedinUrl,
+          message: this.message,
+        },
       },
     });
 
-    $.export("$summary", "Successfully sent connection request");
-
+    $.export("$summary", `Successfully sent connection invitation to ${this.linkedinUrl}`);
     return response;
   },
 };

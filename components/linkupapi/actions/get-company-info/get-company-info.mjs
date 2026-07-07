@@ -1,56 +1,46 @@
 import app from "../../linkupapi.app.mjs";
+import { ACTIONS } from "../../common/constants.mjs";
 
 export default {
   type: "action",
   key: "linkupapi-get-company-info",
   name: "Get Company Info",
-  description: "Extract detailed information about a company from LinkedIn. [See the documentation](https://docs.linkupapi.com/api-reference/linkup/Companies/company-info)",
+  description: "Fetch details for a LinkedIn company. [See the documentation](https://docs.linkupapi.com/api-reference/v2/profiles/get-company)",
   version: "0.0.2",
-  props: {
-    app,
-    companyUrl: {
-      type: "string",
-      label: "Company URL",
-      description: "LinkedIn company URLs. Eg. `https://www.linkedin.com/company/stripe/`",
-      optional: true,
-    },
-    loginToken: {
-      propDefinition: [
-        app,
-        "loginToken",
-      ],
-    },
-    country: {
-      propDefinition: [
-        app,
-        "country",
-      ],
-    },
-  },
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,
     openWorldHint: true,
-    idempotentHint: true,
+  },
+  props: {
+    app,
+    accountId: {
+      propDefinition: [
+        app,
+        "accountId",
+      ],
+    },
+    linkedinUrl: {
+      propDefinition: [
+        app,
+        "linkedinUrl",
+      ],
+      description: "LinkedIn company URL. Eg. `https://www.linkedin.com/company/stripe/`.",
+    },
   },
   async run({ $ }) {
-    const {
-      app,
-      companyUrl,
-      loginToken,
-      country,
-    } = this;
-
-    const response = await app.getCompanyInfo({
+    const response = await this.app.profiles({
       $,
       data: {
-        company_url: companyUrl,
-        login_token: loginToken,
-        country,
+        account_id: this.accountId,
+        action: ACTIONS.GET_COMPANY,
+        params: {
+          company_url: this.linkedinUrl,
+        },
       },
     });
 
-    $.export("$summary", "Successfully retrieved company information");
+    $.export("$summary", `Successfully retrieved company information for ${this.linkedinUrl}`);
     return response;
   },
 };

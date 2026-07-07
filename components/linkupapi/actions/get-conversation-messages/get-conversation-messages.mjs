@@ -1,83 +1,45 @@
-import { ConfigurationError } from "@pipedream/platform";
 import app from "../../linkupapi.app.mjs";
+import { ACTIONS } from "../../common/constants.mjs";
 
 export default {
   type: "action",
   key: "linkupapi-get-conversation-messages",
   name: "Get Conversation Messages",
-  description: "Retrieve messages from a LinkedIn conversation. [See the documentation](https://docs.linkupapi.com/api-reference/linkup/Messages/conversation)",
+  description: "Retrieve messages from a LinkedIn conversation. [See the documentation](https://docs.linkupapi.com/api-reference/v2/messages/get-conversation)",
   version: "0.0.2",
+  annotations: {
+    readOnlyHint: true,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
   props: {
     app,
-    loginToken: {
+    accountId: {
       propDefinition: [
         app,
-        "loginToken",
+        "accountId",
       ],
-    },
-    linkedinUrl: {
-      propDefinition: [
-        app,
-        "linkedinUrl",
-      ],
-      optional: true,
-      description: "LinkedIn URL of the other party (required if **Conversation ID** is not provided)",
     },
     conversationId: {
       propDefinition: [
         app,
         "conversationId",
-        ({ loginToken }) => ({
-          loginToken,
-        }),
-      ],
-      optional: true,
-      description: "LinkedIn conversation ID (required if **LinkedIn URL** is not provided)",
-    },
-    totalResults: {
-      type: "integer",
-      label: "Total Results",
-      description: "Number of messages to retrieve when not in pagination mode (default: 10)",
-      optional: true,
-    },
-    country: {
-      propDefinition: [
-        app,
-        "country",
       ],
     },
-  },
-  annotations: {
-    readOnlyHint: true,
-    destructiveHint: false,
-    openWorldHint: true,
-    idempotentHint: true,
   },
   async run({ $ }) {
-    const {
-      loginToken,
-      linkedinUrl,
-      conversationId,
-      totalResults,
-      country,
-    } = this;
-
-    if (!linkedinUrl && !conversationId) {
-      throw new ConfigurationError("Either **LinkedIn URL** or **Conversation ID** is required");
-    }
-
-    const response = await this.app.getConversationMessages({
+    const response = await this.app.messages({
       $,
       data: {
-        login_token: loginToken,
-        linkedin_url: linkedinUrl,
-        conversation_id: conversationId,
-        country,
-        total_results: totalResults,
+        account_id: this.accountId,
+        action: ACTIONS.GET_CONVERSATION,
+        params: {
+          conversation_id: this.conversationId,
+        },
       },
     });
 
-    $.export("$summary", "Successfully retrieved conversation messages");
+    $.export("$summary", `Successfully retrieved messages for conversation ${this.conversationId}`);
     return response;
   },
 };

@@ -1,57 +1,46 @@
 import app from "../../linkupapi.app.mjs";
+import { ACTIONS } from "../../common/constants.mjs";
 
 export default {
   type: "action",
   key: "linkupapi-get-profile-info",
   name: "Get Profile Info",
-  description: "Extract information from a LinkedIn profile. [See the documentation](https://docs.linkupapi.com/api-reference/linkup/Profile/profile-info)",
+  description: "Fetch details for a LinkedIn profile. [See the documentation](https://docs.linkupapi.com/api-reference/v2/profiles/get-profile)",
   version: "0.0.2",
+  annotations: {
+    readOnlyHint: true,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
   props: {
     app,
+    accountId: {
+      propDefinition: [
+        app,
+        "accountId",
+      ],
+    },
     linkedinUrl: {
       propDefinition: [
         app,
         "linkedinUrl",
       ],
+      description: "LinkedIn profile URL. Eg. `https://www.linkedin.com/in/john-doe/`.",
     },
-    loginToken: {
-      propDefinition: [
-        app,
-        "loginToken",
-      ],
-    },
-    country: {
-      propDefinition: [
-        app,
-        "country",
-      ],
-    },
-  },
-  annotations: {
-    readOnlyHint: true,
-    destructiveHint: false,
-    openWorldHint: true,
-    idempotentHint: true,
   },
   async run({ $ }) {
-    const {
-      app,
-      linkedinUrl,
-      loginToken,
-      country,
-    } = this;
-
-    const response = await app.getProfileInfo({
+    const response = await this.app.profiles({
       $,
       data: {
-        linkedin_url: linkedinUrl,
-        login_token: loginToken,
-        country,
+        account_id: this.accountId,
+        action: ACTIONS.GET,
+        params: {
+          profile_url: this.linkedinUrl,
+        },
       },
     });
 
-    $.export("$summary", "Successfully retrieved profile information");
-
+    $.export("$summary", `Successfully retrieved profile information for ${this.linkedinUrl}`);
     return response;
   },
 };

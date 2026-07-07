@@ -1,4 +1,8 @@
 import { axios } from "@pipedream/platform";
+import {
+  BASE_URL,
+  ENDPOINTS,
+} from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -7,18 +11,20 @@ export default {
     email: {
       type: "string",
       label: "Email",
-      description: "Email address for LinkedIn account",
+      description: "Email address for the LinkedIn account.",
+      optional: true,
     },
     password: {
       type: "string",
       label: "Password",
-      description: "Password for LinkedIn account",
+      description: "Password for the LinkedIn account.",
       secret: true,
+      optional: true,
     },
     country: {
       type: "string",
       label: "Country",
-      description: "Country code for proxy selection",
+      description: "Country code for proxy selection (e.g. `US`, `UK`, `FR`). Defaults to `FR` server-side.",
       optional: true,
       options: [
         "US",
@@ -34,16 +40,15 @@ export default {
         "IN",
       ],
     },
-    loginToken: {
+    accountId: {
       type: "string",
-      label: "Login Token",
-      description: "LinkedIn authentication token obtained from login/verify process",
-      secret: true,
+      label: "Account ID",
+      description: "The persistent account identifier (e.g. `acc_abc123`). Run **Connect Account** to create one, or **List Accounts** to look up existing account IDs.",
     },
     code: {
       type: "string",
       label: "Verification Code",
-      description: "Verification code received via email",
+      description: "Verification code received via email or challenge.",
     },
     linkedinUrl: {
       type: "string",
@@ -53,61 +58,41 @@ export default {
     conversationId: {
       type: "string",
       label: "Conversation ID",
-      description: "LinkedIn conversation identifier",
-      async options({
-        prevContext, loginToken,
-      }) {
-        if (!loginToken || prevContext?.nextCursor === null) {
-          return [];
-        }
-        const {
-          data: {
-            conversations,
-            next_cursor,
-          },
-        } = await this.getConversations({
-          data: {
-            login_token: loginToken,
-            next_cursor: prevContext?.nextCursor,
-          },
-        });
-        return {
-          options: conversations.map(({
-            conversation_id: value,
-            last_message: { text },
-            participant: { name },
-          }) => ({
-            label: `${name || "Unknown"} - ${text?.substring(0, 50) || "No message"}`,
-            value,
-          })),
-          context: {
-            nextCursor: next_cursor,
-          },
-        };
-      },
+      description: "LinkedIn conversation identifier (free-form string).",
     },
     messageText: {
       type: "string",
       label: "Message Text",
-      description: "Message content",
+      description: "Message content.",
     },
     location: {
       type: "string[]",
       label: "Locations",
-      description: "Geographic locations to filter",
+      description: "Geographic locations to filter (passed as an array of strings in V2).",
       optional: true,
     },
     companyUrl: {
       type: "string[]",
       label: "Company URLs",
-      description: "LinkedIn company URLs. Eg. `https://www.linkedin.com/company/stripe/`",
+      description: "LinkedIn company URLs to filter (passed as an array). Eg. `https://www.linkedin.com/company/stripe/`",
       optional: true,
+    },
+    keyword: {
+      type: "string",
+      label: "Keyword",
+      description: "Free-text keyword to search by.",
+      optional: true,
+    },
+    totalResults: {
+      type: "integer",
+      label: "Total Results",
+      description: "Maximum number of results to return.",
+      optional: true,
+      min: 1,
+      default: 50,
     },
   },
   methods: {
-    getUrl(path) {
-      return `https://api.linkupapi.com/v1${path}`;
-    },
     _getHeaders() {
       return {
         "x-api-key": this.$auth.api_key,
@@ -119,7 +104,7 @@ export default {
     } = {}) {
       return axios($, {
         ...opts,
-        url: this.getUrl(path),
+        url: `${BASE_URL}${path}`,
         headers: this._getHeaders(),
       });
     },
@@ -129,75 +114,53 @@ export default {
         ...opts,
       });
     },
-    login(opts = {}) {
+    connectAccount(opts = {}) {
       return this.post({
-        path: "/auth/login",
+        path: ENDPOINTS.LOGIN,
         ...opts,
       });
     },
-    verify(opts = {}) {
+    verifyCheckpoint(opts = {}) {
       return this.post({
-        path: "/auth/verify",
+        path: ENDPOINTS.CHECKPOINT,
         ...opts,
       });
     },
-    getProfileInfo(opts = {}) {
-      return this.post({
-        path: "/profile/info",
+    listAccounts(opts = {}) {
+      return this._makeRequest({
+        path: ENDPOINTS.ACCOUNTS,
         ...opts,
       });
     },
-    searchProfiles(opts = {}) {
-      return this.post({
-        path: "/profile/search",
+    getAccountDetails({
+      accountId, ...opts
+    } = {}) {
+      return this._makeRequest({
+        path: `${ENDPOINTS.ACCOUNTS}/${accountId}`,
         ...opts,
       });
     },
-    searchCompanies(opts = {}) {
+    profiles(opts = {}) {
       return this.post({
-        path: "/companies/search",
+        path: ENDPOINTS.PROFILES,
         ...opts,
       });
     },
-    getCompanyInfo(opts = {}) {
+    network(opts = {}) {
       return this.post({
-        path: "/companies/info",
+        path: ENDPOINTS.NETWORK,
         ...opts,
       });
     },
-    connectToProfile(opts = {}) {
+    messages(opts = {}) {
       return this.post({
-        path: "/network/connect",
+        path: ENDPOINTS.MESSAGES,
         ...opts,
       });
     },
-    getInvitationsStatus(opts = {}) {
+    content(opts = {}) {
       return this.post({
-        path: "/network/invitations",
-        ...opts,
-      });
-    },
-    sendMessage(opts = {}) {
-      return this.post({
-        path: "/messages/send-message",
-        ...opts,
-      });
-    },
-    getConversationMessages(opts = {}) {
-      return this.post({
-        path: "/messages/conversation",
-        ...opts,
-      });
-    },
-    getConversations(opts = {}) {
-      return this.post({
-        path: "/messages/inbox",
-        ...opts,
-      });
-    },
-    createComment(opts = {}) {
-      return this.post({
-        path: "/posts/comment",
+        path: ENDPOINTS.CONTENT,
         ...opts,
       });
     },
