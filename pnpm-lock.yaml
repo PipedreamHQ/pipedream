@@ -15636,6 +15636,9 @@ importers:
 
   components/supadata: {}
 
+  components/super_carl:
+    specifiers: {}
+
   components/supercast:
     dependencies:
       '@pipedream/platform':
