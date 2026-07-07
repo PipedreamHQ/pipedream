@@ -20,47 +20,47 @@ export default {
       ],
     },
     coupon: {
-      type: "string",
-      label: "Coupon ID",
-      description: "The UUID of the coupon this promotion applies. Use **List Coupons** to find coupon IDs.",
+      propDefinition: [
+        surecart,
+        "promotionCoupon",
+      ],
       optional: true,
     },
     code: {
-      type: "string",
-      label: "Code",
-      description: "The customer-facing code. Auto-generated if omitted. Must be unique across the account. Example: `SUMMER10`",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "promotionCode",
+      ],
     },
     maxRedemptions: {
-      type: "integer",
-      label: "Max Redemptions",
-      description: "Max total redemptions across all customers.",
-      min: 1,
-      optional: true,
+      propDefinition: [
+        surecart,
+        "promotionMaxRedemptions",
+      ],
     },
     redeemBy: {
-      type: "integer",
-      label: "Redeem By",
-      description: "Unix timestamp after which the code can no longer be redeemed.",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "promotionRedeemBy",
+      ],
     },
     customer: {
-      type: "string",
-      label: "Customer ID",
-      description: "Restrict the promotion to a specific customer UUID.",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "promotionCustomer",
+      ],
     },
     archived: {
-      type: "boolean",
-      label: "Archived",
-      description: "Set to `true` to archive the promotion.",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "promotionArchived",
+      ],
     },
     metadata: {
-      type: "object",
-      label: "Metadata",
-      description: "Additional key-value metadata. Example: `{ \"internal_id\": \"123\" }`",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "promotionMetadata",
+      ],
     },
   },
   async run({ $ }) {
