@@ -19,13 +19,10 @@ export default {
         "accountId",
       ],
     },
-    linkedinUrl: {
-      propDefinition: [
-        app,
-        "linkedinUrl",
-      ],
+    postUrl: {
+      type: "string",
       label: "LinkedIn Post URL",
-      description: "LinkedIn post URL to comment on, sent as `post_url`. Eg. `https://www.linkedin.com/feed/update/urn:li:activity:1234567890/`.",
+      description: "LinkedIn post URL to comment on. Eg. `https://www.linkedin.com/feed/update/urn:li:activity:1234567890/`.",
     },
     messageText: {
       propDefinition: [
@@ -40,12 +37,12 @@ export default {
       $,
       accountId: this.accountId,
       params: {
-        post_url: this.linkedinUrl,
+        post_url: this.postUrl,
         comment_text: this.messageText,
       },
     });
 
-    $.export("$summary", `Successfully created comment on ${this.linkedinUrl}`);
+    $.export("$summary", `Successfully created comment on ${this.postUrl}`);
     return response;
   },
 };

@@ -25,8 +25,10 @@ export default {
     const max = this.totalResults;
     const accounts = [];
     let offset = 0;
+    let items = [];
+    let total = 0;
 
-    while (true) {
+    do {
       const limit = Math.min(ACCOUNTS_MAX_PAGE_SIZE, max - accounts.length);
       const { data } = await this.app.listAccounts({
         $,
@@ -36,15 +38,11 @@ export default {
         },
       });
 
-      const items = data?.items || [];
+      items = data?.items || [];
       accounts.push(...items);
       offset += items.length;
-
-      const total = data?.total || 0;
-      if (!items.length || accounts.length >= max || offset >= total) {
-        break;
-      }
-    }
+      total = data?.total || 0;
+    } while (items.length && accounts.length < max && offset < total);
 
     $.export("$summary", `Successfully retrieved ${accounts.length} account${accounts.length === 1
       ? ""

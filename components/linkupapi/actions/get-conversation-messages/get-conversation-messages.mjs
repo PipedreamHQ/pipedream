@@ -25,17 +25,38 @@ export default {
         "conversationId",
       ],
     },
+    totalResults: {
+      propDefinition: [
+        app,
+        "totalResults",
+      ],
+    },
   },
   async run({ $ }) {
-    const response = await this.app.getConversationMessages({
-      $,
-      accountId: this.accountId,
-      params: {
-        conversation_id: this.conversationId,
-      },
-    });
+    const max = this.totalResults;
+    const messages = [];
+    let cursor;
+    let page = [];
 
-    $.export("$summary", `Successfully retrieved messages for conversation ${this.conversationId}`);
-    return response;
+    do {
+      const { data } = await this.app.getConversationMessages({
+        $,
+        accountId: this.accountId,
+        params: {
+          conversation_id: this.conversationId,
+          count: max - messages.length,
+          cursor,
+        },
+      });
+
+      page = data?.messages || [];
+      messages.push(...page);
+      cursor = data?.next_cursor;
+    } while (cursor && page.length && messages.length < max);
+
+    $.export("$summary", `Successfully retrieved ${messages.length} message${messages.length === 1
+      ? ""
+      : "s"} for conversation ${this.conversationId}`);
+    return messages;
   },
 };

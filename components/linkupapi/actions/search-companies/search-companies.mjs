@@ -50,7 +50,10 @@ export default {
       },
     });
 
-    $.export("$summary", "Successfully retrieved companies");
+    const count = response.data?.companies?.length || 0;
+    $.export("$summary", `Successfully retrieved ${count} compan${count === 1
+      ? "y"
+      : "ies"}`);
     return response;
   },
 };

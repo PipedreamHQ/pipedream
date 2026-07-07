@@ -19,6 +19,7 @@ export const ACTIONS = {
   LIST_INVITATIONS: "list_invitations",
   SEND: "send",
   GET_CONVERSATION: "get_conversation",
+  LIST_INBOX: "list_inbox",
   COMMENT: "comment",
 };
 

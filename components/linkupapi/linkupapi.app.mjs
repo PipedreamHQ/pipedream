@@ -59,7 +59,30 @@ export default {
     conversationId: {
       type: "string",
       label: "Conversation ID",
-      description: "LinkedIn conversation identifier (free-form string).",
+      description: "LinkedIn conversation identifier. Pick from your inbox, or run **List Inbox** to find one.",
+      async options({
+        prevContext, accountId,
+      }) {
+        if (!accountId || prevContext?.nextCursor === null) {
+          return [];
+        }
+        const { data } = await this.listInbox({
+          accountId,
+          params: {
+            cursor: prevContext?.nextCursor,
+          },
+        });
+        const conversations = data?.conversations || [];
+        return {
+          options: conversations.map((conversation) => ({
+            label: `${conversation.participant?.name || "Unknown"} - ${conversation.last_message?.text?.slice(0, 50) || "No message"}`,
+            value: conversation.conversation_id,
+          })),
+          context: {
+            nextCursor: data?.next_cursor || null,
+          },
+        };
+      },
     },
     messageText: {
       type: "string",
@@ -208,6 +231,13 @@ export default {
       return this._action({
         path: ENDPOINTS.MESSAGES,
         action: ACTIONS.GET_CONVERSATION,
+        ...opts,
+      });
+    },
+    listInbox(opts = {}) {
+      return this._action({
+        path: ENDPOINTS.MESSAGES,
+        action: ACTIONS.LIST_INBOX,
         ...opts,
       });
     },

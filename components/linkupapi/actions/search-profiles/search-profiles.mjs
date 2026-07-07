@@ -57,7 +57,10 @@ export default {
       },
     });
 
-    $.export("$summary", "Successfully retrieved profiles");
+    const count = response.data?.profiles?.length || 0;
+    $.export("$summary", `Successfully retrieved ${count} profile${count === 1
+      ? ""
+      : "s"}`);
     return response;
   },
 };

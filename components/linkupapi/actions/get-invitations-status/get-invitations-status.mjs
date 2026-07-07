@@ -19,15 +19,39 @@ export default {
         "accountId",
       ],
     },
+    totalResults: {
+      propDefinition: [
+        app,
+        "totalResults",
+      ],
+    },
   },
   async run({ $ }) {
-    const response = await this.app.getInvitations({
-      $,
-      accountId: this.accountId,
-      params: {},
-    });
+    const max = this.totalResults;
+    const invitations = [];
+    let offset = 0;
+    let page = [];
+    let hasMore = false;
 
-    $.export("$summary", "Successfully retrieved invitation status");
-    return response;
+    do {
+      const { data } = await this.app.getInvitations({
+        $,
+        accountId: this.accountId,
+        params: {
+          count: max - invitations.length,
+          offset,
+        },
+      });
+
+      page = data?.invitations || [];
+      invitations.push(...page);
+      offset += page.length;
+      hasMore = data?.pagination?.has_more;
+    } while (page.length && invitations.length < max && hasMore);
+
+    $.export("$summary", `Successfully retrieved ${invitations.length} received invitation${invitations.length === 1
+      ? ""
+      : "s"}`);
+    return invitations;
   },
 };
