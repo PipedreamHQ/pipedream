@@ -126,12 +126,12 @@ export default {
     const results = res.data || [];
     const successes = results.filter(({ code }) => code === "SUCCESS");
     const failures = results.filter(({ code }) => code !== "SUCCESS");
+    const formatFailure = (error) => error.code === "INVALID_DATA"
+      ? `Invalid data for field '${error.details.api_name}' (expected ${error.details.expected_data_type})`
+      : error.message;
 
     if (failures.length && !successes.length) {
-      const messages = failures.map((error) => error.code === "INVALID_DATA"
-        ? `Invalid data for field '${error.details.api_name}' (expected ${error.details.expected_data_type})`
-        : error.message);
-      throw new ConfigurationError(messages.join("; "));
+      throw new ConfigurationError(failures.map(formatFailure).join("; "));
     }
 
     const summaries = successes.map((result) => {
@@ -140,8 +140,9 @@ export default {
         : "inserted";
       return `${action} ID ${result.details.id}`;
     });
+    const failureMessages = failures.map(formatFailure).join("; ");
     const summary = failures.length
-      ? `Successfully ${summaries.join(", ")}. ${failures.length} record(s) failed.`
+      ? `Successfully ${summaries.join(", ")}. Failed: ${failureMessages}`
       : summaries.length
         ? `Successfully ${summaries.join(", ")}.`
         : "No records were processed.";
