@@ -6,7 +6,7 @@ export default {
   key: "linkupapi-get-company-info",
   name: "Get Company Info",
   description: "Fetch details for a LinkedIn company. [See the documentation](https://docs.linkupapi.com/api-reference/v2/profiles/get-company)",
-  version: "0.0.2",
+  version: "1.0.0",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

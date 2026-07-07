@@ -6,7 +6,7 @@ export default {
   key: "linkupapi-search-profiles",
   name: "Search Profiles",
   description: "Search for LinkedIn people. [See the documentation](https://docs.linkupapi.com/api-reference/v2/profiles/search-people)",
-  version: "0.0.2",
+  version: "1.0.0",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

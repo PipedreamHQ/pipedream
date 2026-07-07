@@ -6,7 +6,7 @@ export default {
   key: "linkupapi-search-companies",
   name: "Search Companies",
   description: "Search for LinkedIn companies. [See the documentation](https://docs.linkupapi.com/api-reference/v2/profiles/search-companies)",
-  version: "0.0.2",
+  version: "1.0.0",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

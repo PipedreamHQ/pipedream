@@ -6,7 +6,7 @@ export default {
   key: "linkupapi-send-message",
   name: "Send Message",
   description: "Send a message to a LinkedIn profile. Make sure you are already connected to the recipient. [See the documentation](https://docs.linkupapi.com/api-reference/v2/messages/send)",
-  version: "0.0.2",
+  version: "1.0.0",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

@@ -6,7 +6,7 @@ export default {
   key: "linkupapi-get-invitations-status",
   name: "Get Invitations Status",
   description: "List pending connection invitations **received** by the connected account. Note: this returns invitations received, not ones you have sent. [See the documentation](https://docs.linkupapi.com/api-reference/v2/network/list-invitations)",
-  version: "0.0.2",
+  version: "1.0.0",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

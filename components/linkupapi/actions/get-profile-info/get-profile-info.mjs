@@ -6,7 +6,7 @@ export default {
   key: "linkupapi-get-profile-info",
   name: "Get Profile Info",
   description: "Fetch details for a LinkedIn profile. [See the documentation](https://docs.linkupapi.com/api-reference/v2/profiles/get-profile)",
-  version: "0.0.2",
+  version: "1.0.0",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,
