@@ -8,14 +8,12 @@ export default {
     modelName: {
       type: "string",
       label: "Model Name",
-      description: "The technical name of the Odoo model to interact with (e.g. `res.partner`, `helpdesk.ticket`, `sale.order`, `crm.lead`).",
+      description: "The technical name of the Odoo model to interact with (e.g. `res.partner`, `helpdesk.ticket`, `sale.order`, `crm.lead`). Use the **List Models** action to get the model name.",
       default: "res.partner",
-      options: [
-        "res.partner",
-        "helpdesk.ticket",
-        "sale.order",
-        "crm.lead",
-      ],
+      async options() {
+        const models = await this.listModels();
+        return models?.map(({ model }) => model);
+      },
     },
     fields: {
       type: "string[]",
@@ -148,6 +146,14 @@ export default {
           id,
         ],
       ]);
+    },
+    listModels() {
+      return this.makeRequest("ir.model", "search_read", [], {
+        fields: [
+          "name",
+          "model",
+        ],
+      });
     },
   },
 };
