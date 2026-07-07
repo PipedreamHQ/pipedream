@@ -125,23 +125,27 @@ export default {
 
     const results = res.data || [];
     const successes = results.filter(({ code }) => code === "SUCCESS");
-    if (successes.length) {
-      const summaries = successes.map((result) => {
-        const action = result.action === "update"
-          ? "updated"
-          : "inserted";
-        return `${action} ID ${result.details.id}`;
-      });
-      $.export("$summary", `Successfully ${summaries.join(", ")}.`);
+    const failures = results.filter(({ code }) => code !== "SUCCESS");
+
+    if (failures.length && !successes.length) {
+      const messages = failures.map((error) => error.code === "INVALID_DATA"
+        ? `Invalid data for field '${error.details.api_name}' (expected ${error.details.expected_data_type})`
+        : error.message);
+      throw new ConfigurationError(messages.join("; "));
     }
 
-    const error = results.find(({ code }) => code !== "SUCCESS");
-    if (error) {
-      if (error.code === "INVALID_DATA") {
-        throw new ConfigurationError(`Error: Invalid data for field '${error.details.api_name}'. Expected data type: ${error.details.expected_data_type}`);
-      }
-      throw new ConfigurationError(error.message);
-    }
+    const summaries = successes.map((result) => {
+      const action = result.action === "update"
+        ? "updated"
+        : "inserted";
+      return `${action} ID ${result.details.id}`;
+    });
+    const summary = failures.length
+      ? `Successfully ${summaries.join(", ")}. ${failures.length} record(s) failed.`
+      : summaries.length
+        ? `Successfully ${summaries.join(", ")}.`
+        : "No records were processed.";
+    $.export("$summary", summary);
 
     return res;
   },
