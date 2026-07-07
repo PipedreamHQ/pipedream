@@ -14,159 +14,142 @@ export default {
   props: {
     surecart,
     name: {
-      type: "string",
-      label: "Name",
-      description: "The product name, shown to customers. Example: `Premium Plan`",
+      propDefinition: [
+        surecart,
+        "productName",
+      ],
     },
     description: {
-      type: "string",
-      label: "Description",
-      description: "The product description, shown to customers.",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "productDescription",
+      ],
     },
     status: {
-      type: "string",
-      label: "Status",
-      description: "The status of the product.",
-      optional: true,
-      options: [
-        "draft",
-        "published",
+      propDefinition: [
+        surecart,
+        "productStatus",
       ],
     },
     sku: {
-      type: "string",
-      label: "SKU",
-      description: "The stock keeping unit for this product. Example: `PLAN-001`",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "productSku",
+      ],
     },
     slug: {
-      type: "string",
-      label: "Slug",
-      description: "A unique, URL-friendly identifier. Auto-generated from the name if omitted. Example: `premium-plan`",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "productSlug",
+      ],
     },
     recurring: {
-      type: "boolean",
-      label: "Recurring",
-      description: "Set to `true` for a subscription product, `false` for a one-time purchase.",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "productRecurring",
+      ],
     },
     featured: {
-      type: "boolean",
-      label: "Featured",
-      description: "Set to `true` to mark the product as featured.",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "productFeatured",
+      ],
     },
     taxEnabled: {
-      type: "boolean",
-      label: "Tax Enabled",
-      description: "Set to `true` to make this product taxable.",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "productTaxEnabled",
+      ],
     },
     taxCategory: {
-      type: "string",
-      label: "Tax Category",
-      description: "The tax category that matches this product.",
-      optional: true,
-      options: [
-        "digital",
-        "tangible",
-        "service",
-        "saas",
+      propDefinition: [
+        surecart,
+        "productTaxCategory",
       ],
     },
     shippingEnabled: {
-      type: "boolean",
-      label: "Shipping Enabled",
-      description: "Set to `true` to require a full shipping address at checkout.",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "productShippingEnabled",
+      ],
     },
     weight: {
-      type: "string",
-      label: "Weight",
-      description: "The product weight, used for shipping calculations. Accepts decimals. Example: `1.5`",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "productWeight",
+      ],
     },
     weightUnit: {
-      type: "string",
-      label: "Weight Unit",
-      description: "The weight unit for this product.",
-      optional: true,
-      options: [
-        "lb",
-        "oz",
-        "kg",
-        "g",
+      propDefinition: [
+        surecart,
+        "productWeightUnit",
       ],
     },
     stockEnabled: {
-      type: "boolean",
-      label: "Stock Enabled",
-      description: "Set to `true` to track stock for this product.",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "productStockEnabled",
+      ],
     },
     stockAdjustment: {
-      type: "integer",
-      label: "Stock Adjustment",
-      description: "Amount to adjust the stock by (positive or negative). Example: `100`",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "productStockAdjustment",
+      ],
     },
     allowOutOfStockPurchases: {
-      type: "boolean",
-      label: "Allow Out Of Stock Purchases",
-      description: "Set to `true` to allow purchases when stock runs out.",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "productAllowOutOfStockPurchases",
+      ],
     },
     purchaseLimit: {
-      type: "integer",
-      label: "Purchase Limit",
-      description: "Max number of times a customer can purchase this product. Example: `5`",
-      min: 1,
-      optional: true,
+      propDefinition: [
+        surecart,
+        "productPurchaseLimit",
+      ],
     },
     reviewsEnabled: {
-      type: "boolean",
-      label: "Reviews Enabled",
-      description: "Set to `true` to enable reviews for this product.",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "productReviewsEnabled",
+      ],
     },
     licensingEnabled: {
-      type: "boolean",
-      label: "Licensing Enabled",
-      description: "Set to `true` to enable licensing for this product.",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "productLicensingEnabled",
+      ],
     },
     licenseActivationLimit: {
-      type: "integer",
-      label: "License Activation Limit",
-      description: "Max activations allowed per license. Leave empty for unlimited. Example: `5`",
-      min: 1,
-      optional: true,
+      propDefinition: [
+        surecart,
+        "productLicenseActivationLimit",
+      ],
     },
     productGroup: {
-      type: "string",
-      label: "Product Group ID",
-      description: "The UUID of the product group to assign this product to.",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "productProductGroup",
+      ],
     },
     shippingProfile: {
-      type: "string",
-      label: "Shipping Profile ID",
-      description: "The UUID of the shipping profile to assign this product to.",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "productShippingProfile",
+      ],
     },
     productCollections: {
-      type: "string[]",
-      label: "Product Collection IDs",
-      description: "UUIDs of the product collections this product belongs to.",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "productProductCollections",
+      ],
     },
     metadata: {
-      type: "object",
-      label: "Metadata",
-      description: "Additional key-value metadata. Example: `{ \"internal_id\": \"123\" }`",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "productMetadata",
+      ],
     },
   },
   async run({ $ }) {

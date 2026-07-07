@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-prices",
   name: "List Prices",
   description: "Return a list of prices. [See the documentation](https://developer.surecart.com/api-reference/prices/list)",
-  version: "0.0.2",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,

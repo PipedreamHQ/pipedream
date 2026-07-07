@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-refunds",
   name: "List Refunds",
   description: "Return a list of refunds. [See the documentation](https://developer.surecart.com/api-reference/refunds/list)",
-  version: "0.0.3",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,

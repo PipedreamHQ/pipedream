@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-invoices",
   name: "List Invoices",
   description: "Return a list of invoices. [See the documentation](https://developer.surecart.com/api-reference/invoices/list)",
-  version: "0.0.3",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
