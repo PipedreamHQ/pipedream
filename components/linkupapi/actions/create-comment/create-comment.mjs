@@ -1,5 +1,4 @@
 import app from "../../linkupapi.app.mjs";
-import { ACTIONS } from "../../common/constants.mjs";
 
 export default {
   key: "linkupapi-create-comment",
@@ -25,6 +24,7 @@ export default {
         app,
         "linkedinUrl",
       ],
+      label: "LinkedIn Post URL",
       description: "LinkedIn post URL to comment on, sent as `post_url`. Eg. `https://www.linkedin.com/feed/update/urn:li:activity:1234567890/`.",
     },
     messageText: {
@@ -36,15 +36,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.content({
+    const response = await this.app.createComment({
       $,
-      data: {
-        account_id: this.accountId,
-        action: ACTIONS.COMMENT,
-        params: {
-          post_url: this.linkedinUrl,
-          comment_text: this.messageText,
-        },
+      accountId: this.accountId,
+      params: {
+        post_url: this.linkedinUrl,
+        comment_text: this.messageText,
       },
     });
 

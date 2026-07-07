@@ -1,5 +1,4 @@
 import app from "../../linkupapi.app.mjs";
-import { ACTIONS } from "../../common/constants.mjs";
 
 export default {
   type: "action",
@@ -22,13 +21,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.network({
+    const response = await this.app.getInvitations({
       $,
-      data: {
-        account_id: this.accountId,
-        action: ACTIONS.LIST_INVITATIONS,
-        params: {},
-      },
+      accountId: this.accountId,
+      params: {},
     });
 
     $.export("$summary", "Successfully retrieved invitation status");

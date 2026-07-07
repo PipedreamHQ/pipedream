@@ -1,5 +1,4 @@
 import app from "../../linkupapi.app.mjs";
-import { ACTIONS } from "../../common/constants.mjs";
 
 export default {
   type: "action",
@@ -41,16 +40,13 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.profiles({
+    const response = await this.app.searchCompanies({
       $,
-      data: {
-        account_id: this.accountId,
-        action: ACTIONS.SEARCH_COMPANIES,
-        params: {
-          keyword: this.keyword,
-          location: this.location,
-          total_results: this.totalResults,
-        },
+      accountId: this.accountId,
+      params: {
+        keyword: this.keyword,
+        location: this.location,
+        total_results: this.totalResults,
       },
     });
 

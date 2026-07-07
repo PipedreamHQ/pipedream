@@ -1,5 +1,4 @@
 import app from "../../linkupapi.app.mjs";
-import { ACTIONS } from "../../common/constants.mjs";
 
 export default {
   type: "action",
@@ -35,15 +34,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.network({
+    const response = await this.app.connectToProfile({
       $,
-      data: {
-        account_id: this.accountId,
-        action: ACTIONS.INVITE,
-        params: {
-          profile_url: this.linkedinUrl,
-          message: this.message,
-        },
+      accountId: this.accountId,
+      params: {
+        profile_url: this.linkedinUrl,
+        message: this.message,
       },
     });
 

@@ -1,5 +1,4 @@
 import app from "../../linkupapi.app.mjs";
-import { ACTIONS } from "../../common/constants.mjs";
 
 export default {
   type: "action",
@@ -35,15 +34,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.messages({
+    const response = await this.app.sendMessage({
       $,
-      data: {
-        account_id: this.accountId,
-        action: ACTIONS.SEND,
-        params: {
-          profile_url: this.linkedinUrl,
-          message_text: this.messageText,
-        },
+      accountId: this.accountId,
+      params: {
+        profile_url: this.linkedinUrl,
+        message_text: this.messageText,
       },
     });
 

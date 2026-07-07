@@ -1,5 +1,4 @@
 import app from "../../linkupapi.app.mjs";
-import { ACTIONS } from "../../common/constants.mjs";
 
 export default {
   type: "action",
@@ -25,18 +24,16 @@ export default {
         app,
         "linkedinUrl",
       ],
+      label: "LinkedIn Company URL",
       description: "LinkedIn company URL. Eg. `https://www.linkedin.com/company/stripe/`.",
     },
   },
   async run({ $ }) {
-    const response = await this.app.profiles({
+    const response = await this.app.getCompanyInfo({
       $,
-      data: {
-        account_id: this.accountId,
-        action: ACTIONS.GET_COMPANY,
-        params: {
-          company_url: this.linkedinUrl,
-        },
+      accountId: this.accountId,
+      params: {
+        company_url: this.linkedinUrl,
       },
     });
 

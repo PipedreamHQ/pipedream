@@ -1,5 +1,4 @@
 import app from "../../linkupapi.app.mjs";
-import { ACTIONS } from "../../common/constants.mjs";
 
 export default {
   type: "action",
@@ -28,14 +27,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.messages({
+    const response = await this.app.getConversationMessages({
       $,
-      data: {
-        account_id: this.accountId,
-        action: ACTIONS.GET_CONVERSATION,
-        params: {
-          conversation_id: this.conversationId,
-        },
+      accountId: this.accountId,
+      params: {
+        conversation_id: this.conversationId,
       },
     });
 

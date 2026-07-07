@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import {
+  ACTIONS,
   BASE_URL,
   ENDPOINTS,
 } from "./common/constants.mjs";
@@ -108,20 +109,34 @@ export default {
         headers: this._getHeaders(),
       });
     },
-    post(opts = {}) {
+    _post(opts = {}) {
       return this._makeRequest({
         method: "POST",
         ...opts,
       });
     },
+    // Shared wrapper for the V2 action envelope: { account_id, action, params }.
+    _action({
+      path, action, accountId, params, ...opts
+    } = {}) {
+      return this._post({
+        ...opts,
+        path,
+        data: {
+          account_id: accountId,
+          action,
+          params,
+        },
+      });
+    },
     connectAccount(opts = {}) {
-      return this.post({
+      return this._post({
         path: ENDPOINTS.LOGIN,
         ...opts,
       });
     },
     verifyCheckpoint(opts = {}) {
-      return this.post({
+      return this._post({
         path: ENDPOINTS.CHECKPOINT,
         ...opts,
       });
@@ -140,27 +155,66 @@ export default {
         ...opts,
       });
     },
-    profiles(opts = {}) {
-      return this.post({
+    getProfileInfo(opts = {}) {
+      return this._action({
         path: ENDPOINTS.PROFILES,
+        action: ACTIONS.GET,
         ...opts,
       });
     },
-    network(opts = {}) {
-      return this.post({
+    searchProfiles(opts = {}) {
+      return this._action({
+        path: ENDPOINTS.PROFILES,
+        action: ACTIONS.SEARCH_PEOPLE,
+        ...opts,
+      });
+    },
+    searchCompanies(opts = {}) {
+      return this._action({
+        path: ENDPOINTS.PROFILES,
+        action: ACTIONS.SEARCH_COMPANIES,
+        ...opts,
+      });
+    },
+    getCompanyInfo(opts = {}) {
+      return this._action({
+        path: ENDPOINTS.PROFILES,
+        action: ACTIONS.GET_COMPANY,
+        ...opts,
+      });
+    },
+    connectToProfile(opts = {}) {
+      return this._action({
         path: ENDPOINTS.NETWORK,
+        action: ACTIONS.INVITE,
         ...opts,
       });
     },
-    messages(opts = {}) {
-      return this.post({
+    getInvitations(opts = {}) {
+      return this._action({
+        path: ENDPOINTS.NETWORK,
+        action: ACTIONS.LIST_INVITATIONS,
+        ...opts,
+      });
+    },
+    sendMessage(opts = {}) {
+      return this._action({
         path: ENDPOINTS.MESSAGES,
+        action: ACTIONS.SEND,
         ...opts,
       });
     },
-    content(opts = {}) {
-      return this.post({
+    getConversationMessages(opts = {}) {
+      return this._action({
+        path: ENDPOINTS.MESSAGES,
+        action: ACTIONS.GET_CONVERSATION,
+        ...opts,
+      });
+    },
+    createComment(opts = {}) {
+      return this._action({
         path: ENDPOINTS.CONTENT,
+        action: ACTIONS.COMMENT,
         ...opts,
       });
     },
