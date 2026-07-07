@@ -5,7 +5,7 @@ export default {
   key: "odoo-update-record",
   name: "Update Record",
   description: "Update an existing record in Odoo. [See the documentation](https://www.odoo.com/documentation/18.0/developer/reference/external_api.html#update-records)",
-  version: "0.1.1",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

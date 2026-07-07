@@ -21,8 +21,6 @@ export default {
     },
     recordIds: {
       type: "integer[]",
-      label: "Record IDs",
-      description: "The IDs of the records to get. Use the **Search and Read Records** action to get the record IDs.",
       propDefinition: [
         odoo,
         "recordId",

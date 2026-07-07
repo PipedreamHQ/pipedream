@@ -10,9 +10,12 @@ export default {
       label: "Model Name",
       description: "The technical name of the Odoo model to interact with (e.g. `res.partner`, `helpdesk.ticket`, `sale.order`, `crm.lead`). Use the **List Models** action to get the model name.",
       default: "res.partner",
-      async options() {
-        const models = await this.listModels();
-        return models?.map(({ model }) => model);
+      async options({ page }) {
+        const models = await this.listModels({
+          limit: DEFAULT_LIMIT,
+          offset: page * DEFAULT_LIMIT,
+        });
+        return models?.map(({ model }) => model) || [];
       },
     },
     fields: {

@@ -9,7 +9,7 @@ export default {
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
-    readOnlyHint: true,
+    readOnlyHint: false,
   },
   props: {
     odoo,
