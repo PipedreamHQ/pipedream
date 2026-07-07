@@ -10949,6 +10949,9 @@ importers:
 
   components/odoo:
     dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
       xmlrpc:
         specifier: ^1.3.2
         version: 1.3.2
