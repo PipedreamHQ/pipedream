@@ -19,11 +19,8 @@ export default {
         "accountId",
       ],
     },
-    linkedinUrl: {
-      propDefinition: [
-        app,
-        "linkedinUrl",
-      ],
+    companyUrl: {
+      type: "string",
       label: "LinkedIn Company URL",
       description: "LinkedIn company URL. Eg. `https://www.linkedin.com/company/stripe/`.",
     },
@@ -33,11 +30,11 @@ export default {
       $,
       accountId: this.accountId,
       params: {
-        company_url: this.linkedinUrl,
+        company_url: this.companyUrl,
       },
     });
 
-    $.export("$summary", `Successfully retrieved company information for ${this.linkedinUrl}`);
+    $.export("$summary", `Successfully retrieved company information for ${this.companyUrl}`);
     return response;
   },
 };
