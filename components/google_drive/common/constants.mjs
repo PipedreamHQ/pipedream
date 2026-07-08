@@ -142,6 +142,14 @@ const WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS =
 const MAX_FILE_OPTION_PATH_SEGMENTS = 3;
 
 /**
+ * The API response field name that carries the cursor to the next page of results in a
+ * `files.list` response. When a caller supplies a custom partial-response `fields` mask
+ * (e.g. `files(id,name)`) this field must also be present at the top level of the mask or
+ * the do/while pagination loop silently exits after the first page.
+ */
+const PAGINATION_TOKEN_FIELD = "nextPageToken";
+
+/**
  * The MIME type prefix of Google Drive MIME types as defined by the [Google
  * Drive API docs](https://developers.google.com/drive/api/v3/mime-types)
  */
@@ -241,6 +249,7 @@ export {
   WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS,
   WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
   MAX_FILE_OPTION_PATH_SEGMENTS,
+  PAGINATION_TOKEN_FIELD,
   GOOGLE_DRIVE_MIME_TYPE_PREFIX,
   GOOGLE_DRIVE_FOLDER_MIME_TYPE,
   GOOGLE_DRIVE_UPLOAD_TYPES,

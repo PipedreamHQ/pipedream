@@ -10,7 +10,7 @@ export default {
     + " Use this tool when the user asks 'who has access to this file?' or needs to audit sharing."
     + " Pass permission IDs from this response to **Remove Sharing** to revoke access."
     + " [See the documentation](https://developers.google.com/drive/api/v3/reference/permissions/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
