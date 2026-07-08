@@ -83,8 +83,11 @@ export default {
       });
 
       try {
-        await provider.forceFlush();
-        await provider.shutdown();
+        try {
+          await provider.forceFlush();
+        } finally {
+          await provider.shutdown();
+        }
       } finally {
         setGlobalErrorHandler(loggingErrorHandler());
       }

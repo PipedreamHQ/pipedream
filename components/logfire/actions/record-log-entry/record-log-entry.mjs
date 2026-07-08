@@ -74,6 +74,9 @@ export default {
       } catch (error) {
         throw new ConfigurationError("Syntax error in `Attributes` property");
       }
+      if (typeof attributes !== "object" || attributes === null || Array.isArray(attributes)) {
+        throw new ConfigurationError("`Attributes` property must be a JSON object");
+      }
     }
 
     const result = await this.app.recordLogEntry({
