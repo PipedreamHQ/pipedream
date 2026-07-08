@@ -64,9 +64,9 @@ export default {
 
         for (const device of devices) {
           const ts = Date.parse(device.modified_timestamp);
-          if (ts > Date.parse(deviceLastModified)) {
+          if (!deviceLastModified || ts > Date.parse(deviceLastModified)) {
             results.push(device);
-            if (ts > Date.parse(maxTs)) {
+            if (!maxTs || ts > Date.parse(maxTs)) {
               maxTs = device.modified_timestamp;
             }
             if (max && results.length >= max) {

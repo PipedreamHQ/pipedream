@@ -6,7 +6,7 @@ import {
 export default {
   key: "crowdstrike_falcon-search-alerts",
   name: "Search Alerts",
-  description: "Search CrowdStrike Falcon alerts and return their IDs via GET /alerts/queries/alerts/v1. Detections are now delivered through the Alerts API (the legacy /detects/* collection was decommissioned), so filter on the alert product to retrieve endpoint detections. Use **Get Alert** to hydrate the returned IDs into full records. [See the documentation](https://developer.crowdstrike.com/api-reference/collections/alerts/).",
+  description: "Search CrowdStrike Falcon alerts and return their IDs via GET /alerts/queries/alerts/v2. Detections are now delivered through the Alerts API (the legacy /detects/* collection was decommissioned), so filter on the alert product to retrieve endpoint detections. Use **Get Alert** to hydrate the returned IDs into full records. [See the documentation](https://developer.crowdstrike.com/api-reference/collections/alerts/#getqueriesalertsv2).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -30,6 +30,12 @@ export default {
       ],
       description: `Maximum number of alert IDs to return (1-${LIMIT_MAX_DEFAULT}). Default: ${DEFAULT_LIMIT}.`,
     },
+    offset: {
+      propDefinition: [
+        crowdstrikeFalcon,
+        "offset",
+      ],
+    },
     sort: {
       propDefinition: [
         crowdstrikeFalcon,
@@ -44,6 +50,7 @@ export default {
       params: {
         filter: this.fqlFilter,
         limit: this.limit ?? DEFAULT_LIMIT,
+        offset: this.offset,
         sort: this.sort,
       },
     });

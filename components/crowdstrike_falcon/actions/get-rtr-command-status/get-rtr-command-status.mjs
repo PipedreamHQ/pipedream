@@ -3,7 +3,7 @@ import crowdstrikeFalcon from "../../crowdstrike_falcon.app.mjs";
 export default {
   key: "crowdstrike_falcon-get-rtr-command-status",
   name: "Get RTR Command Status",
-  description: "Retrieve the status and output of a Real-Time Response command via GET /real-time-response/entities/command/v1, returning stdout, stderr and completion status. Provide the cloud_request_id returned by **Run RTR Command**. Requires an RTR entitlement. [See the documentation](https://developer.crowdstrike.com/api-reference/collections/real-time-response/).",
+  description: "Retrieve the status and output of a Real-Time Response command via GET /real-time-response/entities/command/v1, returning stdout, stderr and completion status. Provide the cloud_request_id returned by **Run RTR Command**. Requires an RTR entitlement. [See the documentation](https://developer.crowdstrike.com/api-reference/collections/real-time-response/#rtr_checkcommandstatus).",
   version: "0.0.1",
   type: "action",
   annotations: {

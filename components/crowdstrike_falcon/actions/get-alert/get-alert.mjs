@@ -8,7 +8,7 @@ import {
 export default {
   key: "crowdstrike_falcon-get-alert",
   name: "Get Alert",
-  description: `Retrieve full CrowdStrike Falcon alert records for one or more alert composite IDs via POST /alerts/entities/alerts/v1 (max ${MAX_IDS_PER_REQUEST_ALERTS} per request). Use **Search Alerts** to find alert IDs first. [See the documentation](https://developer.crowdstrike.com/api-reference/collections/alerts/).`,
+  description: `Retrieve full CrowdStrike Falcon alert records for one or more alert composite IDs via POST /alerts/entities/alerts/v1 (max ${MAX_IDS_PER_REQUEST_ALERTS} per request). Use **Search Alerts** to find alert IDs first. [See the documentation](https://developer.crowdstrike.com/api-reference/collections/alerts/#postentitiesalertsv2).`,
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -23,6 +23,12 @@ export default {
       label: "Alert IDs",
       description: `Alert composite IDs to retrieve (max ${MAX_IDS_PER_REQUEST_ALERTS}). Run **Search Alerts** to obtain these IDs. Sent as \`${GET_ALERT_ID_BODY_FIELD}\` in the request body.`,
     },
+    includeHidden: {
+      type: "boolean",
+      label: "Include Hidden",
+      description: "Allows previously hidden alerts to be retrieved",
+      optional: true,
+    },
   },
   async run({ $ }) {
     if (this.alertIds.length > MAX_IDS_PER_REQUEST_ALERTS) {
@@ -32,6 +38,7 @@ export default {
       $,
       data: {
         [GET_ALERT_ID_BODY_FIELD]: this.alertIds,
+        include_hidden: this.includeHidden,
       },
     });
     const alerts = response.resources ?? [];

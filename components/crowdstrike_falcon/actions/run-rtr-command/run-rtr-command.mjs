@@ -2,12 +2,13 @@ import crowdstrikeFalcon from "../../crowdstrike_falcon.app.mjs";
 import {
   RTR_DEFAULT_SESSION_TIMEOUT,
   RTR_MAX_SESSION_TIMEOUT,
+  RTR_BASE_COMMANDS,
 } from "../../common/constants.mjs";
 
 export default {
   key: "crowdstrike_falcon-run-rtr-command",
   name: "Run RTR Command",
-  description: "Initiate a Real-Time Response (RTR) session on a host and execute a read-only responder command. Calls POST /real-time-response/entities/sessions/v1 to open the session, then POST /real-time-response/entities/command/v1 to run the command; returns the session_id and cloud_request_id. Use **Get RTR Command Status** with the returned cloud_request_id to fetch results. Requires an RTR entitlement. [See the documentation](https://developer.crowdstrike.com/api-reference/collections/real-time-response/).",
+  description: "Initiate a Real-Time Response (RTR) session on a host and execute a read-only responder command. Calls POST /real-time-response/entities/sessions/v1 to open the session, then POST /real-time-response/entities/command/v1 to run the command; returns the session_id and cloud_request_id. Use **Get RTR Command Status** with the returned cloud_request_id to fetch results. Requires an RTR entitlement. [See the documentation](https://developer.crowdstrike.com/api-reference/collections/real-time-response/#rtr_checkcommandstatus).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -26,6 +27,7 @@ export default {
       type: "string",
       label: "Base Command",
       description: "The RTR base command to run, e.g. `ls`, `ps`, `cat`. Must match the leading token of Command String.",
+      options: RTR_BASE_COMMANDS,
     },
     commandString: {
       type: "string",
@@ -46,6 +48,13 @@ export default {
       optional: true,
       min: 1,
       max: RTR_MAX_SESSION_TIMEOUT,
+    },
+    persist: {
+      type: "boolean",
+      label: "Persist",
+      description: "Flag indicating if this command should be executed when the host returns to service.",
+      optional: true,
+      default: false,
     },
   },
   async run({ $ }) {
@@ -71,6 +80,7 @@ export default {
         base_command: this.baseCommand,
         command_string: this.commandString,
         session_id: sessionId,
+        persist: this.persist,
       },
     });
 

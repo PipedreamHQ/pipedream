@@ -14,7 +14,7 @@ export default {
   },
   methods: {
     _getLastTimestamp() {
-      return this.db.get("lastCreatedTimestamp") || 0;
+      return this.db.get("lastCreatedTimestamp");
     },
     _setLastTimestamp(ts) {
       this.db.set("lastCreatedTimestamp", ts);

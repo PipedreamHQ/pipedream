@@ -73,9 +73,9 @@ export default {
         const alerts = entityResponse.resources ?? [];
         for (const alert of alerts) {
           const ts = Date.parse(alert.created_timestamp);
-          if (ts > Date.parse(checkpoint)) {
+          if (!checkpoint || ts > Date.parse(checkpoint)) {
             results.push(alert);
-            if (ts > Date.parse(maxTs)) {
+            if (!maxTs || ts > Date.parse(maxTs)) {
               maxTs = alert.created_timestamp;
             }
             if (max && results.length >= max) {

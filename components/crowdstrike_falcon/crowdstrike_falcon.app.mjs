@@ -23,6 +23,15 @@ export default {
       min: 1,
       max: LIMIT_MAX_DEFAULT,
     },
+    offset: {
+      type: "integer",
+      label: "Offset",
+      description: "Offset for pagination. Default: 0.",
+      optional: true,
+      default: 0,
+      min: 0,
+      max: LIMIT_MAX_DEFAULT,
+    },
     sort: {
       type: "string",
       label: "Sort",
@@ -63,14 +72,14 @@ export default {
     // Alerts - GET /alerts/queries/alerts/v1 (returns composite_ids)
     async searchAlerts(args = {}) {
       return this._makeRequest({
-        path: "/alerts/queries/alerts/v1",
+        path: "/alerts/queries/alerts/v2",
         ...args,
       });
     },
     // Alerts - POST /alerts/entities/alerts/v1 (body: composite_ids -> full records)
     async getAlerts(args = {}) {
       return this._makeRequest({
-        path: "/alerts/entities/alerts/v1",
+        path: "/alerts/entities/alerts/v2",
         method: "POST",
         ...args,
       });
