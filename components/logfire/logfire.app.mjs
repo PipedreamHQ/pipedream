@@ -5,7 +5,9 @@ import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions";
 import { SpanStatusCode } from "@opentelemetry/api";
-import { setGlobalErrorHandler } from "@opentelemetry/core";
+import {
+  loggingErrorHandler, setGlobalErrorHandler,
+} from "@opentelemetry/core";
 import { axios } from "@pipedream/platform";
 import { LEVEL_NUMBERS } from "./common/constants.mjs";
 
@@ -72,14 +74,20 @@ export default {
       // SimpleSpanProcessor swallows export failures via OTel's global error
       // handler instead of rejecting forceFlush()/shutdown(), so without this
       // hook a failed write (bad token, 429, network error) would silently
-      // report success.
+      // report success. setGlobalErrorHandler mutates process-wide state, so
+      // restore the SDK's own default once this call is done to avoid
+      // leaking the closure into later invocations of a warm container.
       let exportError;
       setGlobalErrorHandler((err) => {
         exportError = err;
       });
 
-      await provider.forceFlush();
-      await provider.shutdown();
+      try {
+        await provider.forceFlush();
+        await provider.shutdown();
+      } finally {
+        setGlobalErrorHandler(loggingErrorHandler());
+      }
 
       if (exportError) {
         throw exportError;

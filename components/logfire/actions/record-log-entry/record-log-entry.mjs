@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import { LEVEL_NUMBERS } from "../../common/constants.mjs";
 import app from "../../logfire.app.mjs";
 
@@ -66,9 +67,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const attributes = this.attributes
-      ? JSON.parse(this.attributes)
-      : {};
+    let attributes = {};
+    if (this.attributes) {
+      try {
+        attributes = JSON.parse(this.attributes);
+      } catch (error) {
+        throw new ConfigurationError("Syntax error in `Attributes` property");
+      }
+    }
 
     const result = await this.app.recordLogEntry({
       message: this.message,
