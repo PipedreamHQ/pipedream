@@ -1,10 +1,3 @@
-import {
-  BasicTracerProvider, SimpleSpanProcessor,
-} from "@opentelemetry/sdk-trace-base";
-import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
-import { resourceFromAttributes } from "@opentelemetry/resources";
-import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions";
-import { SpanStatusCode } from "@opentelemetry/api";
 import { LEVEL_NUMBERS } from "../../common/constants.mjs";
 import app from "../../logfire.app.mjs";
 
@@ -73,65 +66,24 @@ export default {
     },
   },
   async run({ $ }) {
-    const level = this.level || "info";
-    const serviceName = this.serviceName || "pipedream";
     const attributes = this.attributes
       ? JSON.parse(this.attributes)
       : {};
-    const isException = Boolean(this.exceptionType || this.exceptionMessage);
 
-    const exporter = new OTLPTraceExporter({
-      url: `${this.app._baseUrl()}/v1/traces`,
-      headers: {
-        Authorization: `Bearer ${this.app._writeToken()}`,
-      },
+    const result = await this.app.recordLogEntry({
+      message: this.message,
+      level: this.level || "info",
+      spanName: this.spanName,
+      serviceName: this.serviceName || "pipedream",
+      attributes,
+      exceptionType: this.exceptionType,
+      exceptionMessage: this.exceptionMessage,
     });
 
-    const provider = new BasicTracerProvider({
-      resource: resourceFromAttributes({
-        [ATTR_SERVICE_NAME]: serviceName,
-      }),
-      spanProcessors: [
-        new SimpleSpanProcessor(exporter),
-      ],
-    });
-
-    const tracer = provider.getTracer("pipedream-logfire-record-log-entry");
-    const span = tracer.startSpan(this.spanName || this.message);
-
-    span.setAttribute("logfire.msg", this.message);
-    span.setAttribute("logfire.level_num", LEVEL_NUMBERS[level]);
-    for (const [
-      key,
-      value,
-    ] of Object.entries(attributes)) {
-      span.setAttribute(key, value);
-    }
-
-    if (isException) {
-      span.recordException({
-        name: this.exceptionType || "Error",
-        message: this.exceptionMessage || "",
-      });
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: this.exceptionMessage || this.message,
-      });
-    }
-
-    span.end();
-    await provider.forceFlush();
-    await provider.shutdown();
-
-    $.export("$summary", `Recorded ${level} log entry: "${this.message}"${isException
+    $.export("$summary", `Recorded ${result.level} log entry: "${result.message}"${result.isException
       ? " (flagged as an exception)"
       : ""}`);
 
-    return {
-      message: this.message,
-      level,
-      serviceName,
-      isException,
-    };
+    return result;
   },
 };
