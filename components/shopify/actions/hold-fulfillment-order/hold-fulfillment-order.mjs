@@ -4,7 +4,7 @@ import { FULFILLMENT_HOLD_REASONS } from "../../common/constants.mjs";
 export default {
   key: "shopify-hold-fulfillment-order",
   name: "Hold Fulfillment Order",
-  description: "Places a fulfillment order on hold. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/fulfillmentOrderHold).",
+  description: "Places a fulfillment order on hold. Run **Search for Orders** and inspect the order's fulfillment orders to obtain the fulfillment order GID. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/fulfillmentOrderHold).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -23,7 +23,7 @@ export default {
     reason: {
       type: "string",
       label: "Reason",
-      description: "The reason for the hold.",
+      description: "The reason for the hold. One of the Shopify `FulfillmentHoldReason` values, e.g. `AWAITING_PAYMENT`, `INCORRECT_ADDRESS`, or `INVENTORY_OUT_OF_STOCK`.",
       options: FULFILLMENT_HOLD_REASONS,
     },
     reasonNotes: {

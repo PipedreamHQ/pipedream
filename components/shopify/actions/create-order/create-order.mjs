@@ -56,11 +56,11 @@ export default {
       : undefined;
 
     const order = {
+      ...(this.additionalOrderFields || {}),
       lineItems,
       email: this.email,
       currency: this.currency,
       tags,
-      ...(this.additionalOrderFields || {}),
     };
 
     const response = await this.shopify.createOrder({

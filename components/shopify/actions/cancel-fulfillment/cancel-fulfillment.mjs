@@ -19,7 +19,7 @@ export default {
         "orderId",
       ],
       optional: true,
-      description: "Optionally select an order to populate the **Fulfillment ID** dropdown with that order's fulfillments. Retrieve order GIDs via the **Search for Orders** action.",
+      description: "When an order GID is provided, the available fulfillments are scoped to that order's fulfillments. Retrieve order GIDs via the **Search for Orders** action.",
     },
     fulfillmentId: {
       propDefinition: [
@@ -29,7 +29,7 @@ export default {
           orderId,
         }),
       ],
-      description: "The fulfillment GID to cancel, in the format `gid://shopify/Fulfillment/444`. Select an order above to populate this dropdown, or paste the GID directly (obtain it via the **Search for Orders** action's fulfillments field).",
+      description: "The fulfillment GID to cancel, in the format `gid://shopify/Fulfillment/444`. Obtain it from the order's fulfillments via the **Search for Orders** action. If an Order ID is provided, the available fulfillments are scoped to that order.",
     },
   },
   async run({ $ }) {

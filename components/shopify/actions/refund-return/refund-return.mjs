@@ -9,7 +9,7 @@ export default {
   type: "action",
   annotations: {
     readOnlyHint: false,
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
   },
   props: {
