@@ -4,7 +4,7 @@ export default {
   key: "zoho_crm-search-objects",
   name: "Search Objects",
   description: "Retrieves the records that match your search criteria.",
-  version: "0.2.2",
+  version: "0.2.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

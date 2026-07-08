@@ -1,18 +1,12 @@
 import { ConfigurationError } from "@pipedream/platform";
 import odoo from "../../odoo.app.mjs";
-import { parseObject } from "../../common/utils.mjs";
-
-const LOGICAL_OPERATORS = {
-  "&": 2,
-  "|": 2,
-  "!": 1,
-};
+import { normalizeDomain } from "../../common/utils.mjs";
 
 export default {
   key: "odoo-search-read-records",
   name: "Search and Read Records",
   description: "Search and read records from Odoo. [See the documentation](https://www.odoo.com/documentation/18.0/developer/reference/external_api.html#search-and-read)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -63,26 +57,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const domain = parseObject(this.domain) ?? [];
-    if (typeof domain === "string" || !Array.isArray(domain)) {
-      throw new ConfigurationError("Domain must be a valid JSON array.");
-    }
-    const isFullDomain = Array.isArray(domain[0]) || LOGICAL_OPERATORS[domain[0]];
-    const normalizedDomain = !domain.length || isFullDomain
-      ? domain
-      : [
-        domain,
-      ];
-    if (normalizedDomain.length) {
-      let expectedCriteria = 1;
-      for (const token of normalizedDomain) {
-        if (expectedCriteria === 0) expectedCriteria = 1;
-        expectedCriteria += (LOGICAL_OPERATORS[token] ?? 0) - 1;
-      }
-      if (expectedCriteria !== 0) {
-        throw new ConfigurationError("Domain logical operators apply to the criteria that follow them. For a two-condition OR, use [\"|\", [\"name\", \"ilike\", \"25\"], [\"name\", \"ilike\", \"55\"]].");
-      }
-    }
+    const normalizedDomain = normalizeDomain(this.domain);
     if (!this.fields?.length) {
       throw new ConfigurationError("Fields is required.");
     }
