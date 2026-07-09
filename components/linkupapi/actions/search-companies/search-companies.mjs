@@ -32,6 +32,18 @@ export default {
         "location",
       ],
     },
+    sector: {
+      type: "string[]",
+      label: "Sector",
+      description: "Industry sectors to filter by, passed as an array of strings.",
+      optional: true,
+    },
+    companySize: {
+      type: "string[]",
+      label: "Company Size",
+      description: "Company size ranges to filter by, passed as an array of strings, e.g. `[\"11-50\", \"51-200\"]`.",
+      optional: true,
+    },
     totalResults: {
       propDefinition: [
         app,
@@ -46,6 +58,8 @@ export default {
       params: {
         keyword: this.keyword,
         location: this.location,
+        sector: this.sector,
+        company_size: this.companySize,
         total_results: this.totalResults,
       },
     });

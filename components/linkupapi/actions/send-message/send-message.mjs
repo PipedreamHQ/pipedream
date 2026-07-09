@@ -32,6 +32,12 @@ export default {
         "messageText",
       ],
     },
+    mediaLink: {
+      type: "string",
+      label: "Media Link",
+      description: "URL of a media attachment (image, document, etc.) to include with the message.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.app.sendMessage({
@@ -40,6 +46,7 @@ export default {
       params: {
         profile_url: this.linkedinUrl,
         message_text: this.messageText,
+        media_link: this.mediaLink,
       },
     });
 

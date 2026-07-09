@@ -31,6 +31,12 @@ export default {
       ],
       description: "Comment text content.",
     },
+    companyUrl: {
+      type: "string",
+      label: "Company URL",
+      description: "Comment as a company page instead of your personal profile, by providing the company's LinkedIn URL. Eg. `https://www.linkedin.com/company/stripe/`.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.app.createComment({
@@ -39,6 +45,7 @@ export default {
       params: {
         post_url: this.postUrl,
         comment_text: this.messageText,
+        company_url: this.companyUrl,
       },
     });
 

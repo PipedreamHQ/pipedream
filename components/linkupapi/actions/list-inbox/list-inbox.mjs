@@ -25,9 +25,23 @@ export default {
         "totalResults",
       ],
     },
+    category: {
+      type: "string",
+      label: "Category",
+      description: "Filter conversations by category.",
+      optional: true,
+      options: [
+        "INBOX",
+        "UNREAD",
+        "MY_CONNECTIONS",
+        "INMAIL",
+        "STARRED",
+      ],
+      default: "INBOX",
+    },
   },
   async run({ $ }) {
-    const conversations = await this.app.paginate({
+    const conversations = await this.app._paginate({
       max: this.totalResults,
       requestPage: ({
         next, count,
@@ -37,6 +51,7 @@ export default {
         params: {
           count,
           cursor: next,
+          category: this.category,
         },
       }),
       getItems: (res) => res.data?.conversations,

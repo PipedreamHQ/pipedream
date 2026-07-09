@@ -92,7 +92,7 @@ export default {
     location: {
       type: "string[]",
       label: "Locations",
-      description: "Geographic locations to filter (passed as an array of strings in V2).",
+      description: "Geographic locations to filter, passed as an array of strings, e.g. `[\"San Francisco, CA\", \"Paris, France\"]`.",
       optional: true,
     },
     companyUrl: {
@@ -114,6 +114,18 @@ export default {
       optional: true,
       min: 1,
       default: 50,
+    },
+    identifier: {
+      type: "string",
+      label: "Identifier",
+      description: "LinkedIn public identifier (public ID) of the target profile.",
+      optional: true,
+    },
+    profileUrn: {
+      type: "string",
+      label: "Profile URN",
+      description: "LinkedIn profile URN of the target (e.g. `ACoAAB...`).",
+      optional: true,
     },
   },
   methods: {
@@ -152,7 +164,7 @@ export default {
         },
       });
     },
-    async paginate({
+    async _paginate({
       requestPage, getItems, getNext, max,
     }) {
       const results = [];
@@ -191,7 +203,7 @@ export default {
       accountId, ...opts
     } = {}) {
       return this._makeRequest({
-        path: `${ENDPOINTS.ACCOUNTS}/${accountId}`,
+        path: `${ENDPOINTS.ACCOUNTS}/${encodeURIComponent(accountId)}`,
         ...opts,
       });
     },

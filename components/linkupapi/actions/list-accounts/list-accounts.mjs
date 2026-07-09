@@ -4,7 +4,7 @@ import { ACCOUNTS_MAX_PAGE_SIZE } from "../../common/constants.mjs";
 export default {
   key: "linkupapi-list-accounts",
   name: "List Accounts",
-  description: "List the LinkupAPI accounts connected to your API key, each with its persistent `account_id` to use in other actions. Paginates automatically up to **Total Results**. [See the documentation](https://docs.linkupapi.com/api-reference/v2/accounts/list-accounts)",
+  description: "List the LinkupAPI accounts connected to your API key, each with its persistent `account_id` to use in other actions. [See the documentation](https://docs.linkupapi.com/api-reference/v2/accounts/list-accounts)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -22,7 +22,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const accounts = await this.app.paginate({
+    const accounts = await this.app._paginate({
       max: this.totalResults,
       requestPage: ({
         next, count,

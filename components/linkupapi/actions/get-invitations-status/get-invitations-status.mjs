@@ -25,9 +25,15 @@ export default {
         "totalResults",
       ],
     },
+    invitationType: {
+      type: "string",
+      label: "Invitation Type",
+      description: "Filter received invitations by type (e.g. `CONNECTION`). Omit for all types.",
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const invitations = await this.app.paginate({
+    const invitations = await this.app._paginate({
       max: this.totalResults,
       requestPage: ({
         next, count,
@@ -37,6 +43,7 @@ export default {
         params: {
           count,
           offset: next || 0,
+          invitation_type: this.invitationType,
         },
       }),
       getItems: (res) => res.data?.invitations,
