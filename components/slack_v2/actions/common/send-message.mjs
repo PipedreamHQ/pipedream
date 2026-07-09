@@ -9,6 +9,24 @@ export default {
         "as_user",
       ],
     },
+    link_names: {
+      propDefinition: [
+        slack,
+        "link_names",
+      ],
+    },
+    parse: {
+      propDefinition: [
+        slack,
+        "parse",
+      ],
+    },
+    attachments: {
+      propDefinition: [
+        slack,
+        "attachments",
+      ],
+    },
     addToChannel: {
       propDefinition: [
         slack,
