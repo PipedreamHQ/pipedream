@@ -3,7 +3,7 @@ import app from "../../caesar.app.mjs";
 export default {
   key: "caesar-search-web",
   name: "Search Web",
-  description: "Search the web with Caesar. Free and anonymous, with no API key required. [See the documentation](https://docs.trycaesar.com)",
+  description: "Search the web with Caesar. [See the documentation](https://docs.trycaesar.com)",
   version: "0.0.1",
   type: "action",
   annotations: {

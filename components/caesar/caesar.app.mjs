@@ -56,14 +56,14 @@ export default {
   },
   methods: {
     /**
-     * Creates a Caesar SDK client. The API key is optional: when it is unset,
-     * the client uses Caesar's free anonymous tier.
+     * Creates a Caesar SDK client authenticated with the connected account's
+     * API key. Caesar requires a key on every request.
      * @returns {Caesar} A configured Caesar client.
      */
     _client() {
       if (!this._caesarClient) {
         this._caesarClient = new Caesar({
-          apiKey: this.$auth?.api_key,
+          apiKey: this.$auth.api_key,
         });
       }
       return this._caesarClient;

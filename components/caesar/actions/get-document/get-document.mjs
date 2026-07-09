@@ -4,7 +4,7 @@ import app from "../../caesar.app.mjs";
 export default {
   key: "caesar-get-document",
   name: "Get Document",
-  description: "Read a document as clean markdown by Caesar `doc_id` or canonical URL. Free and anonymous, with no API key required. [See the documentation](https://docs.trycaesar.com)",
+  description: "Read a document as clean markdown by Caesar `doc_id` or canonical URL. [See the documentation](https://docs.trycaesar.com)",
   version: "0.0.1",
   type: "action",
   annotations: {
