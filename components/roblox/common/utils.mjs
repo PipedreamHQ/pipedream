@@ -16,14 +16,18 @@ export function parseObject(value) {
 
 /**
  * Builds the CEL `filter` expression used by the data store list endpoints to
- * match resources whose ID starts with a prefix. Escapes backslashes and double
- * quotes so a prefix containing those characters can't produce a malformed
- * expression. Returns undefined when no prefix is provided.
+ * match resources whose ID starts with a prefix. The data store filtering API
+ * doesn't support a `startsWith` function, so the prefix is instead matched
+ * with an anchored regex via `matches`. Prefix characters that have special
+ * meaning in a regex are escaped so they're matched literally, and the
+ * resulting regex is then escaped for embedding in a CEL string literal.
+ * Returns undefined when no prefix is provided.
  */
 export function idPrefixFilter(prefix) {
   if (!prefix) {
     return undefined;
   }
-  const escaped = prefix.replace(/\\/g, "\\\\").replace(/"/g, "\\\"");
-  return `id.startsWith("${escaped}")`;
+  const regexEscaped = prefix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const celEscaped = regexEscaped.replace(/\\/g, "\\\\").replace(/"/g, "\\\"");
+  return `id.matches("^${celEscaped}")`;
 }
