@@ -17,7 +17,7 @@ export default {
   propDefinitions: {},
   methods: {
     _baseUrl() {
-      return this.$auth.api_url || "https://logfire-us.pydantic.dev";
+      return this.$auth.api_url;
     },
     _readToken() {
       return this.$auth.read_token;

@@ -10,7 +10,7 @@ export default {
     + " Use this whenever the user wants to log, record, or note an event, deployment, incident, or error — this is Logfire's equivalent of calling `logfire.info()`/`logfire.error()` from the SDK."
     + " This creates a single point-in-time entry, not a full distributed trace with parent/child spans."
     + " Setting `exceptionType`/`exceptionMessage` marks the entry as an exception (`is_exception = true` when later queried)."
-    + " After recording, use **Run SQL Query** to confirm what was written (e.g. `SELECT * FROM records WHERE message LIKE '%...%' ORDER BY start_timestamp DESC LIMIT 1`). [See the documentation](https://pydantic.dev/docs/logfire/typescript-sdk/packages/browser/)",
+    + " After recording, use **Run SQL Query** to confirm what was written (e.g. `SELECT * FROM records WHERE message LIKE '%...%' ORDER BY start_timestamp DESC LIMIT 1`). [See the documentation](https://pydantic.dev/docs/logfire/reference/sql/)",
   version: "0.0.1",
   type: "action",
   annotations: {
