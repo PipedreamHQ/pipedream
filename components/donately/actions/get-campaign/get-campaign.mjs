@@ -18,6 +18,7 @@ export default {
         donately,
         "campaignId",
       ],
+      optional: false,
     },
   },
   async run({ $ }) {

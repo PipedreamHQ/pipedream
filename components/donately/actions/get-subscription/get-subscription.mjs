@@ -14,10 +14,10 @@ export default {
   props: {
     donately,
     subscriptionId: {
-      propDefinition: [
-        donately,
-        "subscriptionId",
-      ],
+      type: "string",
+      label: "Subscription ID",
+      description: "The ID of the subscription to get. Use the **List Subscriptions** action to get a list of subscription IDs.",
+      optional: false,
     },
   },
   async run({ $ }) {

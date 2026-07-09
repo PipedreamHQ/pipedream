@@ -37,6 +37,8 @@ export default {
       $,
       params: {
         account_id: this.accountId,
+        limit: this.limit,
+        offset: this.offset,
       },
     });
     const count = response?.data?.length ?? 0;

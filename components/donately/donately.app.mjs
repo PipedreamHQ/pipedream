@@ -101,6 +101,14 @@ export default {
         ...opts,
       });
     },
+    getSubscription({
+      subscriptionId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/subscriptions/${subscriptionId}`,
+        ...opts,
+      });
+    },
     listAccounts(opts = {}) {
       return this._makeRequest({
         path: "/accounts",
