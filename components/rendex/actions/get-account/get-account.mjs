@@ -3,7 +3,7 @@ import rendex from "../../rendex.app.mjs";
 export default {
   key: "rendex-get-account",
   name: "Get Account",
-  description: "Get your Rendex plan and this month's usage (credits used/limit/remaining), rate limit, and recommended upgrade. Read-only and free (no credits charged). [See the documentation](https://rendex.dev/docs/api-reference).",
+  description: "Get your Rendex plan and this month's usage (credits used/limit/remaining), rate limit, and recommended upgrade. Read-only and free (no credits charged). [See the documentation](https://rendex.dev/docs/api-reference#get-account).",
   version: "0.0.1",
   type: "action",
   annotations: {

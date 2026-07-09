@@ -3,8 +3,8 @@ import rendex from "../../rendex.app.mjs";
 export default {
   key: "rendex-update-watch",
   name: "Update Watch",
-  description: "Update a watch, including pausing or resuming it. Only the fields you set are changed. [See the documentation](https://rendex.dev/docs/watch).",
-  version: "0.0.2",
+  description: "Update a watch, including pausing or resuming it. Only the fields you set are changed. [See the documentation](https://rendex.dev/docs/watch#endpoints).",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

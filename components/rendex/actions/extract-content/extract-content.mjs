@@ -3,7 +3,7 @@ import rendex from "../../rendex.app.mjs";
 export default {
   key: "rendex-extract-content",
   name: "Extract Content",
-  description: "Extract the readable content of a page as Markdown, JSON, or HTML. [See the documentation](https://rendex.dev/docs/api-reference).",
+  description: "Extract the readable content of a page as Markdown, JSON, or HTML. [See the documentation](https://rendex.dev/docs/api-reference#post-extract).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -24,11 +24,17 @@ export default {
         "extractFormat",
       ],
     },
-    waitForSelector: {
-      type: "string",
-      label: "Wait For Selector",
-      description: "Wait until this CSS selector is present before extracting.",
-      optional: true,
+    waitUntil: {
+      propDefinition: [
+        rendex,
+        "waitUntil",
+      ],
+    },
+    delay: {
+      propDefinition: [
+        rendex,
+        "delay",
+      ],
     },
     timeout: {
       type: "integer",
@@ -45,7 +51,8 @@ export default {
       data: {
         url: this.url,
         extractFormat: this.extractFormat,
-        waitForSelector: this.waitForSelector,
+        waitUntil: this.waitUntil,
+        delay: this.delay,
         timeout: this.timeout,
       },
     });

@@ -3,7 +3,7 @@ import rendex from "../../rendex.app.mjs";
 export default {
   key: "rendex-list-watches",
   name: "List Watches",
-  description: "List the watches on your Rendex account, optionally filtered by status. [See the documentation](https://rendex.dev/docs/watch).",
+  description: "List the watches on your Rendex account, optionally filtered by status. [See the documentation](https://rendex.dev/docs/watch#endpoints).",
   version: "0.0.1",
   type: "action",
   annotations: {

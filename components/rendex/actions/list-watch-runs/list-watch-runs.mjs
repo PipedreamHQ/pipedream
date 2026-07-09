@@ -3,7 +3,7 @@ import rendex from "../../rendex.app.mjs";
 export default {
   key: "rendex-list-watch-runs",
   name: "List Watch Runs",
-  description: "List the run history for a watch (most recent first). [See the documentation](https://rendex.dev/docs/watch).",
+  description: "List the run history for a watch (most recent first). [See the documentation](https://rendex.dev/docs/watch#reading-run-history).",
   version: "0.0.1",
   type: "action",
   annotations: {

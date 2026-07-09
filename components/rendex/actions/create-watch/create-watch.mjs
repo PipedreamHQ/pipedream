@@ -3,8 +3,8 @@ import rendex from "../../rendex.app.mjs";
 export default {
   key: "rendex-create-watch",
   name: "Create Watch",
-  description: "Create a watch that monitors a page for visual or text changes. [See the documentation](https://rendex.dev/docs/watch).",
-  version: "0.0.2",
+  description: "Create a watch that monitors a page for visual or text changes. [See the documentation](https://rendex.dev/docs/watch#create-a-watch).",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

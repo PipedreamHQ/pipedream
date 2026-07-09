@@ -152,14 +152,18 @@ export default {
     width: {
       type: "integer",
       label: "Width",
-      description: "Viewport width in pixels.",
+      description: "Viewport width in pixels (320–3840). Defaults to `1280`.",
       optional: true,
+      min: 320,
+      max: 3840,
     },
     height: {
       type: "integer",
       label: "Height",
-      description: "Viewport height in pixels.",
+      description: "Viewport height in pixels (240–2160). Defaults to `800`.",
       optional: true,
+      min: 240,
+      max: 2160,
     },
     fullPage: {
       type: "boolean",

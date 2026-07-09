@@ -3,7 +3,7 @@ import rendex from "../../rendex.app.mjs";
 export default {
   key: "rendex-get-watch",
   name: "Get Watch",
-  description: "Retrieve a single watch by its ID. [See the documentation](https://rendex.dev/docs/watch).",
+  description: "Retrieve a single watch by its ID. [See the documentation](https://rendex.dev/docs/watch#endpoints).",
   version: "0.0.1",
   type: "action",
   annotations: {

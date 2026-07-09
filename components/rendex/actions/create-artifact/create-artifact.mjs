@@ -3,7 +3,7 @@ import rendex from "../../rendex.app.mjs";
 export default {
   key: "rendex-create-artifact",
   name: "Create Artifact",
-  description: "Turn Markdown or HTML plus a small branding theme into a branded PDF + PNG and a hosted share page in one call. Returns `pdfUrl`, `pngUrl`, `shareUrl`, and `expiresAt`. [See the documentation](https://rendex.dev/docs/api-reference).",
+  description: "Turn Markdown or HTML plus a small branding theme into a branded PDF + PNG and a hosted share page in one call. Returns `pdfUrl`, `pngUrl`, `shareUrl`, and `expiresAt`. [See the documentation](https://rendex.dev/docs/api-reference#post-artifact).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -78,12 +78,10 @@ export default {
         rendex,
         "expiresIn",
       ],
+      description: "Seconds until the hosted artifact URLs expire (3600–2592000). Defaults to `86400` (24 hours).",
     },
   },
   async run({ $ }) {
-    // The API nests branding in a `branding` object (logo/accentColor/header/footer),
-    // not flat top-level fields — assemble it from the flat props and omit it when
-    // empty. The API exposes a single header line, so brandName wins over title.
     const branding = {
       logo: this.logoUrl,
       accentColor: this.accentColor,
