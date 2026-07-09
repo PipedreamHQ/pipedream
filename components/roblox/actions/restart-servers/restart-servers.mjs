@@ -46,7 +46,7 @@ export default {
     },
   },
   async run({ $ }) {
-    if (this.bleedOffServers && !this.bleedOffDurationMinutes) {
+    if (this.bleedOffServers && this.bleedOffDurationMinutes === undefined) {
       throw new ConfigurationError("**Bleed Off Duration (Minutes)** is required if **Bleed Off Servers** is `true`.");
     }
 
