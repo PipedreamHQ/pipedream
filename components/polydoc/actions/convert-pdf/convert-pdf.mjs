@@ -11,7 +11,7 @@ export default {
   key: "polydoc-convert-pdf",
   name: "Convert to PDF",
   description: "Convert a URL, inline HTML, or a saved template to a PDF. [See the documentation](https://docs.polydoc.tech).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
