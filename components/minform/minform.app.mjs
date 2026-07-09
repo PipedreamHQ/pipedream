@@ -7,7 +7,7 @@ export default {
     formId: {
       type: "string",
       label: "Form ID",
-      description: "The ID of the form to get submissions for. Use the **List Forms** action to get the form ID.",
+      description: "The slug (identifier) of the form to get submissions for (e.g., `4efJ8WM`). Use the **List Forms** action to find the form's slug.",
     },
   },
   methods: {
