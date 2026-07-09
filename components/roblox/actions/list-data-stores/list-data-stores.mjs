@@ -1,4 +1,5 @@
 import app from "../../roblox.app.mjs";
+import { idPrefixFilter } from "../../common/utils.mjs";
 
 export default {
   key: "roblox-list-data-stores",
@@ -24,7 +25,6 @@ export default {
         app,
         "prefix",
       ],
-      description: "Only return data stores whose ID starts with this prefix.",
     },
     maxResults: {
       propDefinition: [
@@ -42,9 +42,7 @@ export default {
       }),
       args: {
         params: {
-          filter: this.prefix
-            ? `id.startsWith("${this.prefix}")`
-            : undefined,
+          filter: idPrefixFilter(this.prefix),
         },
       },
       resourceKey: "dataStores",

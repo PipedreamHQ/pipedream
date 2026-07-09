@@ -13,3 +13,17 @@ export function parseObject(value) {
     return value;
   }
 }
+
+/**
+ * Builds the CEL `filter` expression used by the data store list endpoints to
+ * match resources whose ID starts with a prefix. Escapes backslashes and double
+ * quotes so a prefix containing those characters can't produce a malformed
+ * expression. Returns undefined when no prefix is provided.
+ */
+export function idPrefixFilter(prefix) {
+  if (!prefix) {
+    return undefined;
+  }
+  const escaped = prefix.replace(/\\/g, "\\\\").replace(/"/g, "\\\"");
+  return `id.startsWith("${escaped}")`;
+}
