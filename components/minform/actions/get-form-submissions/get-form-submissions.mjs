@@ -3,7 +3,7 @@ import minform from "../../minform.app.mjs";
 export default {
   key: "minform-get-form-submissions",
   name: "Get Form Submissions",
-  description: "Get submissions for a form",
+  description: "Returns the 10 most recent submissions for a form. [See the documentation](https://minform-pipedream-api-docs.solutionportal.workers.dev/submissions/)",
   version: "0.0.1",
   type: "action",
   annotations: {

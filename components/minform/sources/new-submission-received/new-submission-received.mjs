@@ -1,9 +1,10 @@
 import minform from "../../minform.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "minform-new-submission-received",
-  name: "New Submission Received",
-  description: "Emit new event when a new form submission is received",
+  name: "New Submission Received (Instant)",
+  description: "Emit new event when a new form submission is received. [See the documentation](https://minform-pipedream-api-docs.solutionportal.workers.dev/webhooks/)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -11,15 +12,22 @@ export default {
     minform,
     db: "$.service.db",
     http: "$.interface.http",
+    formId: {
+      propDefinition: [
+        minform,
+        "formId",
+      ],
+    },
   },
   hooks: {
     async activate() {
       const response = await this.minform.createWebhook({
         data: {
-          url: this.http.endpoint,
+          formId: this.formId,
+          targetUrl: this.http.endpoint,
         },
       });
-      this._setHookId(response.id);
+      this._setHookId(response?.id);
     },
     async deactivate() {
       const hookId = this._getHookId();
@@ -41,18 +49,20 @@ export default {
     },
     generateMeta(submission) {
       return {
-        id: submission.submissionId,
-        summary: `New submission received for form ${submission.formName}`,
-        ts: Date.parse(submission.submittedAt),
+        id: submission.id,
+        summary: `New submission received for form ${submission.form_name}`,
+        ts: Date.parse(submission.created_at),
       };
     },
   },
   async run(event) {
     const { body } = event;
-    if (!body) {
+    if (!body?.length) {
       return;
     }
-    const meta = this.generateMeta(body);
-    this.$emit(body, meta);
+    const submission = body[0];
+    const meta = this.generateMeta(submission);
+    this.$emit(submission, meta);
   },
+  sampleEmit,
 };
