@@ -5,7 +5,7 @@ export default {
   key: "linkupapi-send-message",
   name: "Send Message",
   description: "Send a message to a LinkedIn profile. [See the documentation](https://docs.linkupapi.com/api-reference/linkup/Messages/send)",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     app,
     // eslint-disable-next-line pipedream/props-label, pipedream/props-description
@@ -18,6 +18,13 @@ export default {
       propDefinition: [
         app,
         "loginToken",
+      ],
+      optional: true,
+    },
+    accountId: {
+      propDefinition: [
+        app,
+        "accountId",
       ],
     },
     linkedinUrl: {
@@ -51,8 +58,28 @@ export default {
       linkedinUrl,
       messageText,
       loginToken,
+      accountId,
       country,
     } = this;
+
+    if (accountId) {
+      const response = await app.postV2({
+        $,
+        path: "/messages",
+        data: {
+          account_id: accountId,
+          action: "send",
+          params: {
+            profile_url: linkedinUrl,
+            message_text: messageText,
+          },
+        },
+      });
+
+      $.export("$summary", "Successfully sent message request");
+
+      return response;
+    }
 
     try {
       const response = await app.sendMessage({

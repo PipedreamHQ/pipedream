@@ -37,8 +37,15 @@ export default {
     loginToken: {
       type: "string",
       label: "Login Token",
-      description: "LinkedIn authentication token obtained from login/verify process",
+      description: "LinkedIn authentication token obtained from login/verify process (V1). Not required if using Account ID (V2).",
       secret: true,
+      optional: true,
+    },
+    accountId: {
+      type: "string",
+      label: "Account ID",
+      description: "Connected account ID for V2 API. Obtain this by connecting your account via the V2 login endpoint. Not required if using Login Token (V1).",
+      optional: true,
     },
     code: {
       type: "string",
@@ -108,6 +115,9 @@ export default {
     getUrl(path) {
       return `https://api.linkupapi.com/v1${path}`;
     },
+    getUrlV2(path) {
+      return `https://api.linkupapi.com/v2${path}`;
+    },
     _getHeaders() {
       return {
         "x-api-key": this.$auth.api_key,
@@ -123,8 +133,23 @@ export default {
         headers: this._getHeaders(),
       });
     },
+    _makeRequestV2({
+      $ = this, path, ...opts
+    } = {}) {
+      return axios($, {
+        ...opts,
+        url: this.getUrlV2(path),
+        headers: this._getHeaders(),
+      });
+    },
     post(opts = {}) {
       return this._makeRequest({
+        method: "POST",
+        ...opts,
+      });
+    },
+    postV2(opts = {}) {
+      return this._makeRequestV2({
         method: "POST",
         ...opts,
       });
@@ -198,6 +223,18 @@ export default {
     createComment(opts = {}) {
       return this.post({
         path: "/posts/comment",
+        ...opts,
+      });
+    },
+    loginV2(opts = {}) {
+      return this.postV2({
+        path: "/login",
+        ...opts,
+      });
+    },
+    checkpointV2(opts = {}) {
+      return this.postV2({
+        path: "/checkpoint",
         ...opts,
       });
     },
