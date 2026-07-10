@@ -48,6 +48,8 @@ export default {
       const nextIds = new Set(previousIds.filter((id) => currentIds.has(id)));
       let amountEmits = 0;
 
+      this._setActiveReviewRequestIds(Array.from(nextIds));
+
       for (const item of items) {
         const itemId = this.getItemId(item);
         if (previousIdSet.has(itemId)) {
@@ -55,6 +57,7 @@ export default {
         }
         if (maxEmits && amountEmits >= maxEmits) {
           nextIds.add(itemId);
+          this._setActiveReviewRequestIds(Array.from(nextIds));
           continue;
         }
 
@@ -66,10 +69,9 @@ export default {
           ...this.getItemMetadata(item),
         });
         nextIds.add(itemId);
+        this._setActiveReviewRequestIds(Array.from(nextIds));
         amountEmits++;
       }
-
-      this._setActiveReviewRequestIds(Array.from(nextIds));
     },
     getItemMetadata(item) {
       return {
