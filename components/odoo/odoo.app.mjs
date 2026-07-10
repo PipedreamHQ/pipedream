@@ -1,4 +1,5 @@
 import xmlrpc from "xmlrpc";
+const DEFAULT_LIMIT = 20;
 
 export default {
   type: "app",
@@ -7,14 +8,15 @@ export default {
     modelName: {
       type: "string",
       label: "Model Name",
-      description: "The technical name of the Odoo model to interact with (e.g. `res.partner`, `helpdesk.ticket`, `sale.order`, `crm.lead`).",
+      description: "The technical name of the Odoo model to interact with (e.g. `res.partner`, `helpdesk.ticket`, `sale.order`, `crm.lead`). Use the **List Models** action to get the model name.",
       default: "res.partner",
-      options: [
-        "res.partner",
-        "helpdesk.ticket",
-        "sale.order",
-        "crm.lead",
-      ],
+      async options({ page }) {
+        const models = await this.listModels({
+          limit: DEFAULT_LIMIT,
+          offset: page * DEFAULT_LIMIT,
+        });
+        return models?.map(({ model }) => model) || [];
+      },
     },
     fields: {
       type: "string[]",
@@ -30,6 +32,29 @@ export default {
         return Object.keys(fields)?.map((key) => ({
           value: key,
           label: fields[key].string,
+        })) || [];
+      },
+    },
+    recordId: {
+      type: "integer",
+      label: "Record ID",
+      description: "The ID of the record to interact with. Use the **Search and Read Records** action to get the record ID.",
+      async options({
+        modelName, page,
+      }) {
+        const records = await this.searchAndReadRecords(modelName, [], {
+          fields: [
+            "id",
+            "display_name",
+          ],
+          limit: DEFAULT_LIMIT,
+          offset: page * DEFAULT_LIMIT,
+        });
+        return records?.map(({
+          id: value, display_name: label,
+        }) => ({
+          value,
+          label,
         })) || [];
       },
     },
@@ -105,11 +130,33 @@ export default {
         filter,
       ], args);
     },
+    readRecords(model, ids, fields) {
+      return this.makeRequest(model, "read", [
+        ids,
+      ], {
+        fields,
+      });
+    },
     createRecord(model, data) {
       return this.makeRequest(model, "create", data);
     },
     updateRecord(model, data) {
       return this.makeRequest(model, "write", data);
+    },
+    deleteRecord(model, id) {
+      return this.makeRequest(model, "unlink", [
+        [
+          id,
+        ],
+      ]);
+    },
+    listModels() {
+      return this.makeRequest("ir.model", "search_read", [], {
+        fields: [
+          "name",
+          "model",
+        ],
+      });
     },
   },
 };
