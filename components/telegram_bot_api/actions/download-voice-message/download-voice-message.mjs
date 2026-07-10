@@ -6,16 +6,21 @@ import { axios } from "@pipedream/platform";
 export default {
   key: "telegram_bot_api-download-voice-message",
   name: "Download Voice Message",
-  description: "Downloads a voice message to the /tmp directory. [See the docs](https://core.telegram.org/bots/api#getfile) for more information",
+  description: "Downloads a Telegram voice message to the \`/tmp\` directory using its \`file_id\`. Use this after receiving a voice message update to persist the audio locally. [See the documentation](https://core.telegram.org/bots/api#getfile)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: true,
+    readOnlyHint: false,
   },
   type: "action",
   props: {
     telegramBotApi,
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
+    },
     fileId: {
       type: "string",
       label: "File ID",
@@ -39,7 +44,7 @@ export default {
       ? `${this.filename}${ext}`
       : path.basename(file.file_path);
 
-    const tmpPath = path.join("/tmp", fileName);
+    const tmpPath = path.join(process.env.STASH_DIR || "/tmp", fileName);
 
     const response = await axios(this, {
       url: fileLink,
