@@ -37,7 +37,7 @@ export default {
     parameters: {
       type: "object",
       label: "Parameters",
-      description: "A map of parameters used to render placeholders in the notification string template. Each value must be an object with a `string_value`. For example, given a template `Your {egg_name} just hatched.`, pass `{ \"egg_name\": { \"string_value\": \"royal egg\" } }`.",
+      description: "A map of parameters used to render placeholders in the notification string template. Each value must be an object with a `stringValue`. For example, given a template `Your {egg_name} just hatched.`, pass `{ \"egg_name\": { \"stringValue\": \"royal egg\" } }`.",
       optional: true,
     },
     launchData: {

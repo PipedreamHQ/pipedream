@@ -3,7 +3,7 @@ import app from "../../roblox.app.mjs";
 export default {
   key: "roblox-get-data-store-entry",
   name: "Get Data Store Entry",
-  description: "Get the value and metadata of a Roblox data store entry. [See the documentation](https://create.roblox.com/docs/cloud/reference/DataStoreEntry#Cloud_GetDataStoreEntry)",
+  description: "Get the value and metadata of a Roblox data store entry. [See the documentation](https://create.roblox.com/docs/cloud/reference/features/storage#Cloud_GetDataStoreEntry__Using_Universes_DataStores)",
   version: "0.0.1",
   type: "action",
   annotations: {

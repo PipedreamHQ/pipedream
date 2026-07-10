@@ -4,7 +4,7 @@ import { idPrefixFilter } from "../../common/utils.mjs";
 export default {
   key: "roblox-list-data-store-entries",
   name: "List Data Store Entries",
-  description: "List the entries (keys) in a Roblox data store. [See the documentation](https://create.roblox.com/docs/cloud/reference/DataStoreEntry#Cloud_ListDataStoreEntries)",
+  description: "List the entries (keys) in a Roblox data store. [See the documentation](https://create.roblox.com/docs/cloud/reference/features/storage#Cloud_ListDataStoreEntries__Using_Universes_DataStores)",
   version: "0.0.1",
   type: "action",
   annotations: {
