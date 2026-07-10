@@ -62,10 +62,11 @@ export default {
     maxResults: {
       type: "integer",
       label: "Max Results",
-      description: "The maximum number of results to return.",
+      description: "The maximum number of results to return (1-99999).",
       optional: true,
       default: constants.DEFAULT_MAX,
       min: 1,
+      max: constants.MAX_RESULTS,
     },
   },
   methods: {

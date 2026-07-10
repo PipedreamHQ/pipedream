@@ -1,8 +1,8 @@
 const BASE_URL = "https://apis.roblox.com";
 const CLOUD_PATH = "/cloud/v2";
 
-// Default and cap for the number of items paginated list actions return.
 const DEFAULT_MAX = 100;
+const MAX_RESULTS = 99999;
 // The API caps maxPageSize at 100 for most list endpoints.
 const MAX_PAGE_SIZE = 100;
 
@@ -42,6 +42,7 @@ export default {
   BASE_URL,
   CLOUD_PATH,
   DEFAULT_MAX,
+  MAX_RESULTS,
   MAX_PAGE_SIZE,
   THUMBNAIL_FORMATS,
   THUMBNAIL_SHAPES,

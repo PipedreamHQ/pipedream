@@ -1,4 +1,5 @@
 import app from "../../roblox.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
@@ -62,6 +63,48 @@ export default {
       description: "Whether players can join the experience via VR.",
       optional: true,
     },
+    facebookSocialLink: {
+      type: "object",
+      label: "Facebook Social Link",
+      description: "The experience's Facebook social link, as an object with `title` and `uri`. Example: `{ \"title\": \"Follow us\", \"uri\": \"https://facebook.com/example\" }`.",
+      optional: true,
+    },
+    twitterSocialLink: {
+      type: "object",
+      label: "Twitter Social Link",
+      description: "The experience's Twitter social link, as an object with `title` and `uri`.",
+      optional: true,
+    },
+    youtubeSocialLink: {
+      type: "object",
+      label: "YouTube Social Link",
+      description: "The experience's YouTube social link, as an object with `title` and `uri`.",
+      optional: true,
+    },
+    twitchSocialLink: {
+      type: "object",
+      label: "Twitch Social Link",
+      description: "The experience's Twitch social link, as an object with `title` and `uri`.",
+      optional: true,
+    },
+    discordSocialLink: {
+      type: "object",
+      label: "Discord Social Link",
+      description: "The experience's Discord social link, as an object with `title` and `uri`.",
+      optional: true,
+    },
+    robloxGroupSocialLink: {
+      type: "object",
+      label: "Roblox Group Social Link",
+      description: "The experience's Roblox group social link, as an object with `title` and `uri`.",
+      optional: true,
+    },
+    guildedSocialLink: {
+      type: "object",
+      label: "Guilded Social Link",
+      description: "The experience's Guilded social link, as an object with `title` and `uri`.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const fields = {
@@ -72,6 +115,13 @@ export default {
       tabletEnabled: this.tabletEnabled,
       consoleEnabled: this.consoleEnabled,
       vrEnabled: this.vrEnabled,
+      facebookSocialLink: parseObject(this.facebookSocialLink),
+      twitterSocialLink: parseObject(this.twitterSocialLink),
+      youtubeSocialLink: parseObject(this.youtubeSocialLink),
+      twitchSocialLink: parseObject(this.twitchSocialLink),
+      discordSocialLink: parseObject(this.discordSocialLink),
+      robloxGroupSocialLink: parseObject(this.robloxGroupSocialLink),
+      guildedSocialLink: parseObject(this.guildedSocialLink),
     };
     const data = Object.fromEntries(Object.entries(fields).filter(([
       , value,
