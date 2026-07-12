@@ -747,7 +747,24 @@ export default {
     completeChecklistItem({
       cardId, checklistItemId, ...args
     } = {}) {
+      return this.updateChecklistItem({
+        cardId,
+        checklistItemId,
+        ...args,
+      });
+    },
+    updateChecklistItem({
+      cardId, checklistItemId, ...args
+    } = {}) {
       return this.put({
+        path: `/cards/${cardId}/checkItem/${checklistItemId}`,
+        ...args,
+      });
+    },
+    deleteChecklistItem({
+      cardId, checklistItemId, ...args
+    } = {}) {
+      return this.delete({
         path: `/cards/${cardId}/checkItem/${checklistItemId}`,
         ...args,
       });

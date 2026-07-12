@@ -5,7 +5,7 @@ export default {
   key: "trello-get-card",
   name: "Get Card",
   description: "Gets a card by its ID. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-get).",
-  version: "0.3.0",
+  version: "0.5.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -40,14 +40,75 @@ export default {
         "customFieldItems",
       ],
     },
+    actions: {
+      propDefinition: [
+        common.props.app,
+        "actions",
+      ],
+    },
+    checklists: {
+      type: "string",
+      label: "Checklists",
+      description: "Specify whether to include checklists in the response. One of: `all`, `none`.",
+      optional: true,
+      options: [
+        "all",
+        "none",
+      ],
+    },
+    checklistFields: {
+      type: "string[]",
+      label: "Checklist Fields",
+      description: "Fields to include on each checklist. `all` or a list of: `idBoard`, `idCard`, `name`, `pos`.",
+      optional: true,
+      options: [
+        "all",
+        "idBoard",
+        "idCard",
+        "name",
+        "pos",
+      ],
+    },
+  },
+  methods: {
+    getCommaSeparatedString(array) {
+      return Array.isArray(array)
+        ? array.join(",")
+        : array;
+    },
   },
   async run({ $ }) {
+    const {
+      cardId,
+      customFieldItems,
+      actions,
+      checklists,
+      checklistFields,
+      getCommaSeparatedString,
+    } = this;
+
+    const params = {
+      customFieldItems,
+    };
+
+    const actionsParam = getCommaSeparatedString(actions);
+    if (actionsParam) {
+      params.actions = actionsParam;
+    }
+
+    if (checklists) {
+      params.checklists = checklists;
+    }
+
+    const checklistFieldsParam = getCommaSeparatedString(checklistFields);
+    if (checklistFieldsParam) {
+      params.checklist_fields = checklistFieldsParam;
+    }
+
     const res = await this.app.getCard({
       $,
-      cardId: this.cardId,
-      params: {
-        customFieldItems: this.customFieldItems,
-      },
+      cardId,
+      params,
     });
     $.export("$summary", `Successfully retrieved card ${this.cardId}`);
     return res;
