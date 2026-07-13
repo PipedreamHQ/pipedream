@@ -6,7 +6,7 @@ export default {
   key: "linkupapi-connect-to-profile",
   name: "Connect To Profile",
   description: "Send a connection invitation to a LinkedIn profile. [See the documentation](https://docs.linkupapi.com/api-reference/v2/network/invite)",
-  version: "0.0.1",
+  version: "1.0.0",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,
