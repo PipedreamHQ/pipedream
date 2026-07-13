@@ -11,7 +11,7 @@ export default {
   key: "polydoc-convert-screenshot",
   name: "Capture Screenshot",
   description: "Capture a screenshot of a URL, inline HTML, or a saved template. [See the documentation](https://docs.polydoc.tech).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
