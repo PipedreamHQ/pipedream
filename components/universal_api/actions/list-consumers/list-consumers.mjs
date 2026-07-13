@@ -14,10 +14,24 @@ export default {
   },
   props: {
     app,
+    cursor: {
+      propDefinition: [
+        app,
+        "cursor",
+      ],
+    },
+    limit: {
+      propDefinition: [
+        app,
+        "limit",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.app.listConsumers({
       $,
+      cursor: this.cursor,
+      limit: this.limit,
     });
     $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} consumer(s)`);
     return response;

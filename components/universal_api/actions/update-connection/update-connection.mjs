@@ -26,7 +26,7 @@ export default {
         app,
         "serviceId",
       ],
-      description: "Optional `x-uapi-service-id` header to pick the integration when a consumer has multiple active connections. One of: `kandji`, `jamf`, `teamtailor`.",
+      description: "Optional `x-uapi-service-id` header to pick the integration when a consumer has multiple active connections. Examples include `kandji`, `jamf`, `teamtailor`.",
       options: CONNECTION_SERVICE_IDS,
     },
     apiKey: {

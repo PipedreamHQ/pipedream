@@ -5,7 +5,7 @@ export default {
   key: "universal_api-track-shipment",
   name: "Track Shipment",
   description:
-    "Retrieve tracking statuses for a shipment by tracking ID from the Shipment API on Universal API. Provide `serviceId` to restrict to specific carriers; defaults to `postnord,fedex,posti,bring`. [See the documentation](https://docs.universalapi.io/reference/track-shipment).",
+    "Retrieve tracking statuses for a shipment by tracking ID from the Shipment API on Universal API. Provide `serviceId` to pick the carrier when a consumer has multiple active shipment integrations. [See the documentation](https://docs.universalapi.io/reference/track-shipment).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -28,7 +28,7 @@ export default {
       ],
       options: SHIPMENT_SERVICE_IDS,
       description:
-        "Optional `x-uapi-service-id` header selecting carriers. Comma-separated values from `postnord`, `fedex`, `posti`, `bring`. Defaults to `postnord,fedex,posti,bring`.",
+        "Optional `x-uapi-service-id` header to pick the carrier when a consumer has multiple active shipment integrations. One of: `postnord`, `fedex`, `posti`, `bring`.",
     },
   },
   async run({ $ }) {

@@ -1,5 +1,4 @@
 import app from "../../universal_api.app.mjs";
-import { SSO_SERVICE_IDS } from "../../common/constants.mjs";
 
 export default {
   key: "universal_api-get-sso-profile",
@@ -18,10 +17,8 @@ export default {
     serviceId: {
       propDefinition: [
         app,
-        "serviceId",
+        "ssoServiceId",
       ],
-      description: "Optional `x-uapi-service-id` header to pick the integration when a consumer has multiple active SSO integrations. One of: `google-saml`, `azure-saml`, `google-oidc`, `azure-oidc`.",
-      options: SSO_SERVICE_IDS,
     },
   },
   async run({ $ }) {

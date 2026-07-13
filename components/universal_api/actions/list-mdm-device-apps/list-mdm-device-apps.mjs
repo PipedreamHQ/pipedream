@@ -17,7 +17,7 @@ export default {
     deviceId: {
       type: "string",
       label: "Device ID",
-      description: "The ID of the device to list apps for. Use the `List MDM Devices` action to get a device ID.",
+      description: "The ID of the device to list apps for. Use the **List MDM Devices** action to get a device ID.",
     },
   },
   async run({ $ }) {

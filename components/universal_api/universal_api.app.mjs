@@ -2,7 +2,9 @@ import { axios } from "@pipedream/platform";
 import {
   HEADER_SERVICE_ID,
   MAX_LIMIT,
+  MDM_SERVICE_IDS,
   MIN_LIMIT,
+  SSO_SERVICE_IDS,
   UNIVERSAL_APIS,
 } from "./common/constants.mjs";
 
@@ -38,6 +40,18 @@ export default {
       description:
         "Optional `x-uapi-service-id` header value to select a specific integration.",
     },
+    mdmServiceId: {
+      type: "string",
+      label: "Service ID",
+      description: "Optional `x-uapi-service-id` header to pick the integration when a consumer has multiple active MDM integrations. One of: `kandji`, `jamf`, `microsoft-intune`.",
+      options: MDM_SERVICE_IDS,
+    },
+    ssoServiceId: {
+      type: "string",
+      label: "Service ID",
+      description: "Optional `x-uapi-service-id` header to pick the integration when a consumer has multiple active SSO integrations. One of: `google-saml`, `azure-saml`, `google-oidc`, `azure-oidc`.",
+      options: SSO_SERVICE_IDS,
+    },
     consumerId: {
       type: "string",
       label: "Consumer ID",
@@ -67,12 +81,6 @@ export default {
       label: "VPP Token ID",
       description:
         "The VPP token ID. Run **List MDM VPP Tokens** first to find valid IDs.",
-    },
-    apnCertId: {
-      type: "string",
-      label: "APN Certificate ID",
-      description:
-        "The APN certificate ID. Run **List MDM APN Certificates** first to find valid IDs.",
     },
     productId: {
       type: "string",
@@ -328,7 +336,7 @@ export default {
     },
     // Distributors
     listDistributorProducts({
-      $, cursor, limit,
+      $, serviceId, cursor, limit,
     }) {
       return this._makeRequest({
         $,
@@ -336,6 +344,11 @@ export default {
         params: {
           cursor,
           limit,
+        },
+        headers: {
+          ...(serviceId && {
+            [HEADER_SERVICE_ID]: serviceId,
+          }),
         },
       });
     },
@@ -378,10 +391,16 @@ export default {
         data,
       });
     },
-    listConsumers({ $ }) {
+    listConsumers({
+      $, cursor, limit,
+    }) {
       return this._makeRequest({
         $,
         url: "/api/consumers",
+        params: {
+          cursor,
+          limit,
+        },
       });
     },
     createConsumer({
