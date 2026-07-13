@@ -38,7 +38,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.paginate({
+    const {
+      data, hasMore,
+    } = await this.app.paginate({
       fn: this.app.listHrisEmployees,
       args: {
         $,
@@ -47,7 +49,10 @@ export default {
       },
       maxResults: this.maxResults,
     });
-    $.export("$summary", `Successfully retrieved ${response.length} HRIS employee(s)`);
-    return response;
+    $.export("$summary", `Successfully retrieved ${data.length} HRIS employee(s)`);
+    return {
+      data,
+      hasMore,
+    };
   },
 };

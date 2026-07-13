@@ -118,9 +118,9 @@ export default {
     }) {
       const data = [];
       let offset = 0;
-      let hasMore = true;
+      let hasMore = false;
 
-      while (hasMore) {
+      while (true) {
         const limit = maxResults
           ? Math.min(maxResults - data.length, MAX_LIMIT)
           : MAX_LIMIT;
@@ -134,12 +134,22 @@ export default {
         data.push(...page);
         offset += limit;
 
-        hasMore = page.length === limit && (!maxResults || data.length < maxResults);
+        const pageWasFull = page.length === limit;
+
+        if (maxResults && data.length >= maxResults) {
+          // A full last page means more results likely exist beyond maxResults.
+          hasMore = pageWasFull;
+          break;
+        }
+        if (!pageWasFull) {
+          break;
+        }
       }
 
-      return maxResults
-        ? data.slice(0, maxResults)
-        : data;
+      return {
+        data,
+        hasMore,
+      };
     },
     // HRIS
     listHrisEmployees({

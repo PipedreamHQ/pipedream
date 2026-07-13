@@ -22,14 +22,19 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.paginate({
+    const {
+      data, hasMore,
+    } = await this.app.paginate({
       fn: this.app.listConsumers,
       args: {
         $,
       },
       maxResults: this.maxResults,
     });
-    $.export("$summary", `Successfully retrieved ${response.length} consumer(s)`);
-    return response;
+    $.export("$summary", `Successfully retrieved ${data.length} consumer(s)`);
+    return {
+      data,
+      hasMore,
+    };
   },
 };

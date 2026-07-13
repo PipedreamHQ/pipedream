@@ -31,7 +31,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.paginate({
+    const {
+      data, hasMore,
+    } = await this.app.paginate({
       fn: this.app.listDistributorOrders,
       args: {
         $,
@@ -39,7 +41,10 @@ export default {
       },
       maxResults: this.maxResults,
     });
-    $.export("$summary", `Successfully retrieved ${response.length} distributor order(s)`);
-    return response;
+    $.export("$summary", `Successfully retrieved ${data.length} distributor order(s)`);
+    return {
+      data,
+      hasMore,
+    };
   },
 };

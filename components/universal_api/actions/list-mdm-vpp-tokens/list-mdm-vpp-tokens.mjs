@@ -31,7 +31,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.paginate({
+    const {
+      data, hasMore,
+    } = await this.app.paginate({
       fn: this.app.listMdmVppTokens,
       args: {
         $,
@@ -39,7 +41,10 @@ export default {
       },
       maxResults: this.maxResults,
     });
-    $.export("$summary", `Successfully retrieved ${response.length} MDM VPP token(s)`);
-    return response;
+    $.export("$summary", `Successfully retrieved ${data.length} MDM VPP token(s)`);
+    return {
+      data,
+      hasMore,
+    };
   },
 };

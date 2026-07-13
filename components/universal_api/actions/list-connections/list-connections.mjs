@@ -36,7 +36,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.paginate({
+    const {
+      data, hasMore,
+    } = await this.app.paginate({
       fn: this.app.listConnections,
       args: {
         $,
@@ -45,7 +47,10 @@ export default {
       },
       maxResults: this.maxResults,
     });
-    $.export("$summary", `Successfully retrieved ${response.length} connection(s)`);
-    return response;
+    $.export("$summary", `Successfully retrieved ${data.length} connection(s)`);
+    return {
+      data,
+      hasMore,
+    };
   },
 };
