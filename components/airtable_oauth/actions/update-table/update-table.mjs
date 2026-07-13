@@ -4,7 +4,7 @@ export default {
   key: "airtable_oauth-update-table",
   name: "Update Table",
   description: "Update an existing table. [See the documentation](https://airtable.com/developers/web/api/update-table)",
-  version: "0.0.13",
+  version: "0.0.14",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -35,8 +35,8 @@ export default {
       data.description = this.description;
     }
     const response = await this.airtable.updateTable({
-      baseId: this.baseId.value,
-      tableId: this.tableId.value,
+      baseId: this.baseId?.value ?? this.baseId,
+      tableId: this.tableId?.value ?? this.tableId,
       data,
       $,
     });

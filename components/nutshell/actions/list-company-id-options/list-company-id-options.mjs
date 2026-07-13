@@ -4,7 +4,7 @@ export default {
   key: "nutshell-list-company-id-options",
   name: "List Company ID Options",
   description: "Retrieves available options for the Company ID field.",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,

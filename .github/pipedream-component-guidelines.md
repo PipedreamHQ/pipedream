@@ -35,7 +35,7 @@ export default {
   key: "app-action-name",       // globally unique; kebab-case; prefixed with app slug
   name: "Human Readable Name",  // shown in UI and as the MCP tool name
   description: "...",           // shown in UI and used as MCP tool documentation
-  version: "0.0.1",            // semantic versioning; must be incremented on every change
+  version: "0.0.1",            // semantic versioning; increment when the component's own behavior, interface, or implementation changes
   type: "action",               // or "source"
   props: { ... },              // configuration inputs
   async run({ $ }) { ... },    // execution entry point (signature differs for sources)
@@ -49,8 +49,9 @@ values are **semantically correct**, not whether properties exist.
 
 ## Versioning
 
-Every component has a `version` field that must be incremented on every change. New
-components always start at `0.0.1`. Follow semantic versioning:
+Every component has a `version` field that must be incremented whenever the component's
+own behavior, interface, or implementation changes. New components always start at
+`0.0.1`. Follow semantic versioning:
 
 | Change type | Version segment | Examples |
 |---|---|---|
@@ -62,12 +63,35 @@ The app's `package.json` must also be bumped by the same or greater segment when
 component in that app changes — patch for patch, minor for minor (or higher), major for
 major (or higher).
 
+### CI version check and false positives
+
+A CI workflow flags components whose files — or whose shared dependency files — were
+modified without a corresponding version bump. This check is **advisory**: it is not
+required to pass for a PR to merge.
+
+The check can produce false positives. For example, adding a new constant to a shared
+constants file does not affect existing consumers, so those components do not strictly
+need a version bump. In cases like this, a **patch bump is always acceptable** as a
+way to satisfy the workflow — reviewers should not block a PR solely because a component
+received a patch bump that was not otherwise necessary. Conversely, do not require
+authors to bump versions for components that are only transitively touched by a
+non-behavioral shared-file change; the CI warning is informational in those cases.
+
 ---
 
 ## Naming Conventions
 
 All prop names, method names, and local variables must use **camelCase**. This applies
 throughout component files and app files alike.
+
+Module-level constants (values that are fixed at import time and reused across the file)
+must use **`UPPER_SNAKE_CASE`**:
+
+```javascript
+const DEFAULT_LIMIT = 100;
+const MAX_RETRIES = 3;
+const EVENT_TYPES = Object.freeze(["created", "updated", "deleted"]);
+```
 
 The only exception is API request parameters — use whatever casing the API itself
 requires (often `snake_case` or `PascalCase`). Map prop values to API parameter names

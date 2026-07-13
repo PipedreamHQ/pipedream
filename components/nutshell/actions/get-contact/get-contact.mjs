@@ -1,11 +1,10 @@
-import { ConfigurationError } from "@pipedream/platform";
 import nutshell from "../../nutshell.app.mjs";
 
 export default {
   key: "nutshell-get-contact",
   name: "Get Contact",
-  description: "Get a contact by ID. [See the documentation](https://developers-rpc.nutshell.com/detail/class_core.html#ae2873af072fb636ea2eae1403653da8e)",
-  version: "0.0.2",
+  description: "Retrieve a single contact (person) from Nutshell. [See the documentation](https://developers.nutshell.com/reference/8a291bf9a1a7e4a7fd1ca0cabfdaa8a7)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -15,12 +14,10 @@ export default {
   props: {
     nutshell,
     contactId: {
-      label: "Contact ID",
       propDefinition: [
         nutshell,
         "contactId",
       ],
-      description: "The ID of the contact to retrieve.",
     },
   },
   async run({ $ }) {
@@ -28,10 +25,17 @@ export default {
       $,
       contactId: this.contactId,
     });
-    if (!contact) {
-      throw new ConfigurationError(`Contact not found: ${this.contactId}`);
-    }
-    $.export("$summary", `Successfully retrieved contact "${contact?.name?.displayName ?? this.contactId}"`);
+
+    const displayName = typeof contact?.name === "object"
+      ? (contact.name?.displayName
+        || [
+          contact.name?.givenName,
+          contact.name?.familyName,
+        ].filter(Boolean).join(" ")
+        || this.contactId)
+      : (contact?.name ?? this.contactId);
+
+    $.export("$summary", `Successfully retrieved contact "${displayName}"`);
     return this.nutshell.formatContact(contact);
   },
 };

@@ -4,7 +4,7 @@ export default {
   key: "pagerduty-list-service-id-options",
   name: "List Service ID Options",
   description: "Retrieves available options for the Service ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

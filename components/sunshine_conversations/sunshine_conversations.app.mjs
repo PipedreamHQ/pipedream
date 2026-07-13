@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import jwt from "jsonwebtoken";
+import { AUTHOR_TYPES } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -10,6 +11,12 @@ export default {
       label: "User ID",
       description: "The ID of the user received from your Conversations Webhook to filter conversations.",
     },
+    authorType: {
+      type: "string",
+      label: "Author Type",
+      description: "The author type. Either `user` or `business`.",
+      options: AUTHOR_TYPES,
+    },
     conversationId: {
       type: "string",
       label: "Conversation ID",
@@ -17,6 +24,12 @@ export default {
       async options({
         userId, prevContext,
       }) {
+        if (!userId) {
+          return {
+            options: [],
+          };
+        }
+
         const { conversations } = await this.getConversations({
           params: {
             page: {
@@ -78,6 +91,40 @@ export default {
         ...opts,
       });
     },
+    createWebhook({
+      integrationId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/integrations/${integrationId}/webhooks`,
+        ...opts,
+      });
+    },
+    updateWebhook({
+      integrationId, webhookId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PATCH",
+        path: `/integrations/${integrationId}/webhooks/${webhookId}`,
+        ...opts,
+      });
+    },
+    deleteWebhook({
+      integrationId, webhookId,
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/integrations/${integrationId}/webhooks/${webhookId}`,
+      });
+    },
+    listWebhooks({
+      integrationId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/integrations/${integrationId}/webhooks`,
+        ...opts,
+      });
+    },
     listUsers(opts = {}) {
       return this._makeRequest({
         path: "/users",
@@ -89,6 +136,20 @@ export default {
     }) {
       return this._makeRequest({
         path: `/conversations/${conversationId}/messages`,
+        ...opts,
+      });
+    },
+    listIntegrations(opts = {}) {
+      return this._makeRequest({
+        path: "/integrations",
+        ...opts,
+      });
+    },
+    getIntegration({
+      integrationId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/integrations/${integrationId}`,
         ...opts,
       });
     },
@@ -138,6 +199,15 @@ export default {
     }) {
       return this._makeRequest({
         path: `/conversations/${conversationId}/participants`,
+        ...opts,
+      });
+    },
+    postActivity({
+      conversationId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/conversations/${conversationId}/activity`,
         ...opts,
       });
     },

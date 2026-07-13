@@ -7,7 +7,7 @@ export default {
   key: "hippo_video-new-triggered-event-instant",
   name: "New Event Triggered (Instant)",
   description: "Emit new event when any of the selected events are triggered.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

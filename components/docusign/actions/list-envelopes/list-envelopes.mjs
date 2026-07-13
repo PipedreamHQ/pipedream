@@ -8,7 +8,7 @@ export default {
   key: "docusign-list-envelopes",
   name: "List Envelopes",
   description: "Search for DocuSign envelopes by date, status, email, text, or folder filters. Use this to find envelope IDs for **Get Envelope**, **List Recipients**, **List Documents**, **Send Envelope**, **Void Envelope**, or **Create Recipient View**. [See the documentation](https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/liststatuschanges/)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

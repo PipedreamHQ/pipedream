@@ -6,7 +6,7 @@ export default {
   key: "hippo_video-create-contact",
   name: "Create Contact",
   description: "Creates a new contact in Hippo Video. [See the documentation](https://documenter.getpostman.com/view/5278433/Tz5naxpW#a4d73ffe-a2b6-4d68-a1ee-9fbc1417a955)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
