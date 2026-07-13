@@ -8,7 +8,7 @@ import {
 export default {
   key: "crowdstrike_falcon-get-alert",
   name: "Get Alert",
-  description: `Retrieve full CrowdStrike Falcon alert records for one or more alert composite IDs via POST /alerts/entities/alerts/v1 (max ${MAX_IDS_PER_REQUEST_ALERTS} per request). Use **Search Alerts** to find alert IDs first. [See the documentation](https://developer.crowdstrike.com/api-reference/collections/alerts/#postentitiesalertsv2).`,
+  description: `Retrieve full CrowdStrike Falcon alert records for one or more alert composite IDs via GET /alerts/entities/alerts/v1 (max ${MAX_IDS_PER_REQUEST_ALERTS} per request). Use **Search Alerts** to find alert IDs first. [See the documentation](https://developer.crowdstrike.com/api-reference/collections/alerts/#postentitiesalertsv2).`,
   version: "0.0.1",
   type: "action",
   annotations: {
