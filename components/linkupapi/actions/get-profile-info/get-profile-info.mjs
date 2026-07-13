@@ -55,7 +55,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully retrieved profile information for ${this.linkedinUrl}`);
+    $.export("$summary", `Successfully retrieved profile information for ${this.linkedinUrl || this.identifier || this.profileUrn}`);
     return response;
   },
 };

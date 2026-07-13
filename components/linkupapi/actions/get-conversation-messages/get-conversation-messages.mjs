@@ -67,7 +67,7 @@ export default {
 
     $.export("$summary", `Successfully retrieved ${messages.length} message${messages.length === 1
       ? ""
-      : "s"} for conversation ${this.conversationId}`);
+      : "s"} for conversation ${this.conversationId || this.linkedinUrl}`);
     return messages;
   },
 };
