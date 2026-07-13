@@ -776,7 +776,7 @@ importers:
   components/algodocs:
     dependencies:
       '@pipedream/platform':
-        specifier: '*'
+        specifier: ^3.4.0
         version: 3.4.0
       form-data:
         specifier: 4.0.4
