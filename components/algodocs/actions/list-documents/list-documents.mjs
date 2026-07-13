@@ -1,5 +1,6 @@
 import app from "../../algodocs.app.mjs";
 import { DEFAULT_LIST_LIMIT } from "../../common/constants.mjs";
+import { normalizeRecords } from "../../common/polling.mjs";
 
 export default {
   key: "algodocs-list-documents",
@@ -49,9 +50,7 @@ export default {
       },
     });
 
-    const records = Array.isArray(response)
-      ? response
-      : (response?.data ?? []);
+    const records = normalizeRecords(response);
     const sliced = records.slice(0, limit);
 
     const seenDocumentIds = new Set();
