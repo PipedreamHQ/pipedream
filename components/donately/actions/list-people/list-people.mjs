@@ -25,30 +25,22 @@ export default {
       description: "Search by name or email",
       optional: true,
     },
-    limit: {
+    maxResults: {
       propDefinition: [
         donately,
-        "limit",
-      ],
-    },
-    offset: {
-      propDefinition: [
-        donately,
-        "offset",
+        "maxResults",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.donately.listPeople({
+    const response = await this.donately.getPaginatedResources(this.donately.listPeople, {
       $,
       params: {
         account_id: this.accountId,
         keyword: this.keyword,
-        limit: this.limit,
-        offset: this.offset,
       },
-    });
-    const count = response?.data?.length ?? 0;
+    }, this.maxResults);
+    const count = response?.length ?? 0;
     $.export("$summary", `Found ${count} person${count === 1
       ? ""
       : "s"}`);

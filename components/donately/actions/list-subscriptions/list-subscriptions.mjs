@@ -19,29 +19,21 @@ export default {
         "accountId",
       ],
     },
-    limit: {
+    maxResults: {
       propDefinition: [
         donately,
-        "limit",
-      ],
-    },
-    offset: {
-      propDefinition: [
-        donately,
-        "offset",
+        "maxResults",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.donately.listSubscriptions({
+    const response = await this.donately.getPaginatedResources(this.donately.listSubscriptions, {
       $,
       params: {
         account_id: this.accountId,
-        limit: this.limit,
-        offset: this.offset,
       },
-    });
-    const count = response?.data?.length ?? 0;
+    }, this.maxResults);
+    const count = response?.length ?? 0;
     $.export("$summary", `Found ${count} subscription${count === 1
       ? ""
       : "s"}`);

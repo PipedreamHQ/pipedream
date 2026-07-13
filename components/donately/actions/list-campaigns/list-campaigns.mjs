@@ -52,16 +52,10 @@ export default {
       description: "Filter to campaigns with fundraisers.",
       optional: true,
     },
-    limit: {
+    maxResults: {
       propDefinition: [
         donately,
-        "limit",
-      ],
-    },
-    offset: {
-      propDefinition: [
-        donately,
-        "offset",
+        "maxResults",
       ],
     },
     sort: {
@@ -78,7 +72,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.donately.listCampaigns({
+    const response = await this.donately.getPaginatedResources(this.donately.listCampaigns, {
       $,
       params: {
         account_id: this.accountId,
@@ -86,13 +80,11 @@ export default {
         type: this.campaignType,
         keyword: this.keyword,
         has_fundraisers: this.hasFundraisers,
-        limit: this.limit,
-        offset: this.offset,
         sort: this.sort,
         order_by: this.orderBy,
       },
-    });
-    const count = response?.data?.length ?? 0;
+    }, this.maxResults);
+    const count = response?.length ?? 0;
     $.export("$summary", `Found ${count} campaign${count === 1
       ? ""
       : "s"}`);

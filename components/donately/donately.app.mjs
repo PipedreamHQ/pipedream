@@ -20,21 +20,12 @@ export default {
       description: "The ID of a campaign. Use the **List Campaigns** action to get a list of campaign IDs.",
       optional: true,
     },
-    limit: {
+    maxResults: {
       type: "integer",
-      label: "Limit",
-      description: "The number of results to get per page. The default is 100.",
+      label: "Max Results",
+      description: "The maximum number of results to get.",
       default: 100,
       min: 1,
-      max: 100,
-      optional: true,
-    },
-    offset: {
-      type: "integer",
-      label: "Offset",
-      description: "The pagination offset. The default is 0.",
-      default: 0,
-      min: 0,
       optional: true,
     },
     sort: {
@@ -144,6 +135,39 @@ export default {
         path: "/subscriptions",
         ...opts,
       });
+    },
+    async *paginate(fn, opts = {}, max) {
+      opts = {
+        ...opts,
+        params: {
+          ...opts.params,
+          limit: 100,
+          offset: 0,
+        },
+      };
+      let total = 0;
+      let count = 0;
+      do {
+        const { data } = await fn(opts);
+        total = data?.length;
+        if (!total) {
+          return;
+        }
+        for (const item of data) {
+          yield item;
+          if (max && ++count >= max) {
+            return;
+          }
+        }
+        opts.params.offset += opts.params.limit;
+      } while (total === opts.params.limit);
+    },
+    async getPaginatedResources(fn, opts = {}, max) {
+      const results = [];
+      for await (const result of this.paginate(fn, opts, max)) {
+        results.push(result);
+      }
+      return results;
     },
   },
 };

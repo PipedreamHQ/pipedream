@@ -25,30 +25,22 @@ export default {
         "campaignId",
       ],
     },
-    limit: {
+    maxResults: {
       propDefinition: [
         donately,
-        "limit",
-      ],
-    },
-    offset: {
-      propDefinition: [
-        donately,
-        "offset",
+        "maxResults",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.donately.listFundraisers({
+    const response = await this.donately.getPaginatedResources(this.donately.listFundraisers, {
       $,
       params: {
         account_id: this.accountId,
         campaign_id: this.campaignId,
-        limit: this.limit,
-        offset: this.offset,
       },
-    });
-    const count = response?.data?.length ?? 0;
+    }, this.maxResults);
+    const count = response?.length ?? 0;
     $.export("$summary", `Found ${count} fundraiser${count === 1
       ? ""
       : "s"}`);

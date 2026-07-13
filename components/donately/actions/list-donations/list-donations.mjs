@@ -102,16 +102,10 @@ export default {
       description: "Date range filter for when donations were updated. Use `gt` and/or `lt` with Unix timestamps (e.g. `{\"gt\": 1704067200, \"lt\": 1706745600}`).",
       optional: true,
     },
-    limit: {
+    maxResults: {
       propDefinition: [
         donately,
-        "limit",
-      ],
-    },
-    offset: {
-      propDefinition: [
-        donately,
-        "offset",
+        "maxResults",
       ],
     },
     sort: {
@@ -128,7 +122,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.donately.listDonations({
+    const response = await this.donately.getPaginatedResources(this.donately.listDonations, {
       $,
       params: {
         account_id: this.accountId,
@@ -144,13 +138,11 @@ export default {
         amount_in_cents: this.amountInCents,
         created: parseJson(this.created),
         updated: parseJson(this.updated),
-        limit: this.limit,
-        offset: this.offset,
         sort: this.sort,
         order_by: this.orderBy,
       },
-    });
-    const count = response?.data?.length ?? 0;
+    }, this.maxResults);
+    const count = response?.length ?? 0;
     $.export("$summary", `Found ${count} donation${count === 1
       ? ""
       : "s"}`);
