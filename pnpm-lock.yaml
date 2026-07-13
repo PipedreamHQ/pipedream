@@ -15639,8 +15639,7 @@ importers:
 
   components/supadata: {}
 
-  components/super_carl:
-    specifiers: {}
+  components/super_carl: {}
 
   components/supercast:
     dependencies:
@@ -16922,7 +16921,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/universal_api: {}
+  components/universal_api:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.4.0
 
   components/universal_summarizer_by_kagi:
     dependencies:
