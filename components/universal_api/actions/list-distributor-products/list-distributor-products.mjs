@@ -1,5 +1,4 @@
 import app from "../../universal_api.app.mjs";
-import { DISTRIBUTOR_SERVICE_IDS } from "../../common/constants.mjs";
 
 export default {
   key: "universal_api-list-distributor-products",
@@ -18,10 +17,8 @@ export default {
     serviceId: {
       propDefinition: [
         app,
-        "serviceId",
+        "distributorServiceId",
       ],
-      description: "Optional `x-uapi-service-id` header to pick the integration when a consumer has multiple active Distributor integrations. One of: `webmercs`, `netset`.",
-      options: DISTRIBUTOR_SERVICE_IDS,
     },
   },
   async run({ $ }) {

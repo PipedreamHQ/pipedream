@@ -4,7 +4,7 @@ export default {
   key: "universal_api-get-sso-profile",
   name: "Get SSO Profile",
   description:
-    "Retrieve the SSO profile from the connected SSO integration on Universal API. [See the documentation](https://docs.universalapi.io/reference/profile-model).",
+    "Retrieve the SSO profile from the connected SSO integration on Universal API. [See the documentation](https://docs.universalapi.io/reference/get-profile).",
   version: "0.0.1",
   type: "action",
   annotations: {

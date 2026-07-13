@@ -1,5 +1,4 @@
 import app from "../../universal_api.app.mjs";
-import { HRIS_SERVICE_IDS } from "../../common/constants.mjs";
 
 export default {
   key: "universal_api-list-hris-employees",
@@ -18,11 +17,8 @@ export default {
     serviceId: {
       propDefinition: [
         app,
-        "serviceId",
+        "hrisServiceId",
       ],
-      description:
-        "Optional `x-uapi-service-id` header to pick the integration when a consumer has multiple active HRIS integrations. One of: `bamboohr`, `google-workspace`, `azure-active-directory`, `catalyst-one`, `haileyhr`, `deel`, `sap`.",
-      options: HRIS_SERVICE_IDS,
     },
     group: {
       type: "string",

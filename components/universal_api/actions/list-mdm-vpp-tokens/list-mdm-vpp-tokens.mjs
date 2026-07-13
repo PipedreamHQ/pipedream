@@ -1,5 +1,4 @@
 import app from "../../universal_api.app.mjs";
-import { MDM_SERVICE_IDS } from "../../common/constants.mjs";
 
 export default {
   key: "universal_api-list-mdm-vpp-tokens",
@@ -18,10 +17,8 @@ export default {
     serviceId: {
       propDefinition: [
         app,
-        "serviceId",
+        "mdmServiceId",
       ],
-      description: "Optional `x-uapi-service-id` header to pick the integration when a consumer has multiple active MDM integrations. One of: `kandji`, `jamf`, `microsoft-intune`.",
-      options: MDM_SERVICE_IDS,
     },
   },
   async run({ $ }) {

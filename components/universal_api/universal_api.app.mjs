@@ -1,6 +1,8 @@
 import { axios } from "@pipedream/platform";
 import {
+  DISTRIBUTOR_SERVICE_IDS,
   HEADER_SERVICE_ID,
+  HRIS_SERVICE_IDS,
   MAX_LIMIT,
   MDM_SERVICE_IDS,
   MIN_LIMIT,
@@ -46,6 +48,21 @@ export default {
       label: "Service ID",
       description: "Optional `x-uapi-service-id` header to pick the integration when a consumer has multiple active SSO integrations. One of: `google-saml`, `azure-saml`, `google-oidc`, `azure-oidc`.",
       options: SSO_SERVICE_IDS,
+      optional: true,
+    },
+    hrisServiceId: {
+      type: "string",
+      label: "Service ID",
+      description:
+        "Optional `x-uapi-service-id` header to pick the integration when a consumer has multiple active HRIS integrations. One of: `bamboohr`, `google-workspace`, `azure-active-directory`, `catalyst-one`, `haileyhr`, `deel`, `sap`.",
+      options: HRIS_SERVICE_IDS,
+      optional: true,
+    },
+    distributorServiceId: {
+      type: "string",
+      label: "Service ID",
+      description: "Optional `x-uapi-service-id` header to pick the integration when a consumer has multiple active Distributor integrations. One of: `webmercs`, `netset`.",
+      options: DISTRIBUTOR_SERVICE_IDS,
       optional: true,
     },
     consumerId: {
