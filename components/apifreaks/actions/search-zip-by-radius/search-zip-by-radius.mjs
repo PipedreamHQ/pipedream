@@ -15,22 +15,22 @@ export default {
       optional: true,
     },
     lat: {
-      type: "string",
-      label: "Lat",
-      description: "Latitude coordinate for the base location.",
-      optional: true,
+      propDefinition: [
+        app,
+        "lat",
+      ],
     },
     long: {
-      type: "string",
-      label: "Long",
-      description: "Longitude coordinate for the base location.",
-      optional: true,
+      propDefinition: [
+        app,
+        "long",
+      ],
     },
     country: {
-      type: "string",
-      label: "Country",
-      description: "Country code in ISO 3166-1 alpha-2 format. Required only when using the code parameter.",
-      optional: true,
+      propDefinition: [
+        app,
+        "country",
+      ],
     },
     radius: {
       type: "string",
@@ -46,10 +46,10 @@ export default {
       options: ["m","km","mi","ft","yd","in"],
     },
     page: {
-      type: "string",
-      label: "Page",
-      description: "Page no. to retrieve paginated results.",
-      optional: true,
+      propDefinition: [
+        app,
+        "page",
+      ],
     },
   },
   async run({ $ }) {

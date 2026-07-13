@@ -21,10 +21,10 @@ export default {
       optional: true,
     },
     ip: {
-      type: "string",
-      label: "Ip",
-      description: "IP address of the email address",
-      optional: true,
+      propDefinition: [
+        app,
+        "ip",
+      ],
     },
   },
   async run({ $ }) {

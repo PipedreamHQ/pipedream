@@ -15,10 +15,10 @@ export default {
       optional: false,
     },
     country: {
-      type: "string",
-      label: "Country",
-      description: "Country code in ISO 3166-1 alpha-2 format. If not provided, search results will be returned from all countries.",
-      optional: true,
+      propDefinition: [
+        app,
+        "country",
+      ],
     },
   },
   async run({ $ }) {

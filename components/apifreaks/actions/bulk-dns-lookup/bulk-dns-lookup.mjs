@@ -3,7 +3,7 @@ import app from "../../apifreaks.app.mjs";
 export default {
   key: "apifreaks-bulk-dns-lookup",
   name: "Bulk DNS Lookup",
-  description: "Perform DNS lookups for multiple hostnames in a single request. Supports up to \`100 host-names per request\` and returns DNS records including A, AAAA, MX, NS, SOA, SPF, TXT, and CNAME records. [See the documentation](https://apifreaks.com/docs).",
+  description: "Perform DNS lookups for multiple hostnames in a single request. Supports up to `100 host-names per request` and returns DNS records including A, AAAA, MX, NS, SOA, SPF, TXT, and CNAME records. [See the documentation](https://apifreaks.com/docs).",
   version: "0.0.1",
   type: "action",
   props: {

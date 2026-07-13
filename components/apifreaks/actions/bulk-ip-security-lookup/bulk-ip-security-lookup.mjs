@@ -3,22 +3,22 @@ import app from "../../apifreaks.app.mjs";
 export default {
   key: "apifreaks-bulk-ip-security-lookup",
   name: "Bulk IP Security Lookup",
-  description: "The Bulk IP Security Lookup API allows you to retrieve security details for up to \`50,000\` IP-addresses in a single request. [See the documentation](https://apifreaks.com/docs).",
+  description: "The Bulk IP Security Lookup API allows you to retrieve security details for up to `50,000` IP-addresses in a single request. [See the documentation](https://apifreaks.com/docs).",
   version: "0.0.1",
   type: "action",
   props: {
     app,
     fields: {
-      type: "string",
-      label: "Fields",
-      description: "Comma-separated list of fields to return. Supports dot notation (e.g. security.threat_score).",
-      optional: true,
+      propDefinition: [
+        app,
+        "fields",
+      ],
     },
     excludes: {
-      type: "string",
-      label: "Excludes",
-      description: "Comma-separated list of fields to remove from the response. Supports dot notation (e.g. security.is_tor).",
-      optional: true,
+      propDefinition: [
+        app,
+        "excludes",
+      ],
     },
     ips: {
       type: "string",

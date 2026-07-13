@@ -9,10 +9,10 @@ export default {
   props: {
     app,
     ip: {
-      type: "string",
-      label: "Ip",
-      description: "IPv4 or IPv6 address to extract timezone information.",
-      optional: true,
+      propDefinition: [
+        app,
+        "ip",
+      ],
     },
     tz: {
       type: "string",
@@ -21,22 +21,22 @@ export default {
       optional: true,
     },
     location: {
-      type: "string",
-      label: "Location",
-      description: "Location string (preferably city and country) to extract timezone.",
-      optional: true,
+      propDefinition: [
+        app,
+        "location",
+      ],
     },
     lat: {
-      type: "string",
-      label: "Lat",
-      description: "Latitude for geolocation lookup.",
-      optional: true,
+      propDefinition: [
+        app,
+        "lat",
+      ],
     },
     long: {
-      type: "string",
-      label: "Long",
-      description: "Longitude for geolocation lookup.",
-      optional: true,
+      propDefinition: [
+        app,
+        "long",
+      ],
     },
     lang: {
       type: "string",

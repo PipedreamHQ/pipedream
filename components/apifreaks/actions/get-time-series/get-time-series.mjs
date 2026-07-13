@@ -15,10 +15,10 @@ export default {
       optional: false,
     },
     endDate: {
-      type: "string",
-      label: "Enddate",
-      description: "End date in `YYYY-MM-DD` format. Defaults to yesterday.",
-      optional: true,
+      propDefinition: [
+        app,
+        "endDate",
+      ],
     },
     base: {
       type: "string",
@@ -27,10 +27,10 @@ export default {
       optional: true,
     },
     symbols: {
-      type: "string",
-      label: "Symbols",
-      description: "Comma-separated currency codes. Omit to get all available rates.",
-      optional: true,
+      propDefinition: [
+        app,
+        "symbols",
+      ],
     },
   },
   async run({ $ }) {

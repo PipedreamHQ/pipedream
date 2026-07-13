@@ -3,7 +3,7 @@ import app from "../../apifreaks.app.mjs";
 export default {
   key: "apifreaks-post-domain-availability",
   name: "Bulk Domain Availability Check",
-  description: "Perform Bulk Domain Availability checks using a list of domains. Supports upto \`100 Domains Per Request\`. [See the documentation](https://apifreaks.com/docs).",
+  description: "Perform Bulk Domain Availability checks using a list of domains. Supports upto `100 Domains Per Request`. [See the documentation](https://apifreaks.com/docs).",
   version: "0.0.1",
   type: "action",
   props: {

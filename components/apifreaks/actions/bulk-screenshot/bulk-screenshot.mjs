@@ -3,7 +3,7 @@ import app from "../../apifreaks.app.mjs";
 export default {
   key: "apifreaks-bulk-screenshot",
   name: "Capture Screenshots of Multiple Websites",
-  description: "Our Bulk Screenshot API allows you to capture screenshots of multiple webpages simultaneously, saving you time and effort. Instead of manually capturing each page one by one, you can batch process URLs and receive high-quality screenshots in the format you choose.  Maximum \`50 URLs\` per request. [See the documentation](https://apifreaks.com/docs).",
+  description: "Our Bulk Screenshot API allows you to capture screenshots of multiple webpages simultaneously, saving you time and effort. Instead of manually capturing each page one by one, you can batch process URLs and receive high-quality screenshots in the format you choose. Maximum `50 URLs` per request. [See the documentation](https://apifreaks.com/docs).",
   version: "0.0.1",
   type: "action",
   props: {

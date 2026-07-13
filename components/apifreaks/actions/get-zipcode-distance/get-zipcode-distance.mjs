@@ -3,7 +3,7 @@ import app from "../../apifreaks.app.mjs";
 export default {
   key: "apifreaks-get-zipcode-distance",
   name: "Get Distance Between Postal Codes",
-  description: "Get distance between postal codes. Maximum \`100\` postal codes per request. [See the documentation](https://apifreaks.com/docs).",
+  description: "Get distance between postal codes. Maximum `100` postal codes per request. [See the documentation](https://apifreaks.com/docs).",
   version: "0.0.1",
   type: "action",
   props: {
@@ -21,16 +21,16 @@ export default {
       optional: true,
     },
     lat: {
-      type: "string",
-      label: "Lat",
-      description: "Latitude coordinate for the base location.",
-      optional: true,
+      propDefinition: [
+        app,
+        "lat",
+      ],
     },
     long: {
-      type: "string",
-      label: "Long",
-      description: "Longitude coordinate for the base location.",
-      optional: true,
+      propDefinition: [
+        app,
+        "long",
+      ],
     },
     country: {
       type: "string",

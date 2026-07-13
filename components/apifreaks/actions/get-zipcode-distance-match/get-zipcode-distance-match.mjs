@@ -3,7 +3,7 @@ import app from "../../apifreaks.app.mjs";
 export default {
   key: "apifreaks-get-zipcode-distance-match",
   name: "Get Matching Zip/Postal Code Pairs Within a Distance",
-  description: "Get matching ZIP/postal code pairs within a specified distance. Maximum \`100\` postal codes per request. [See the documentation](https://apifreaks.com/docs).",
+  description: "Get matching ZIP/postal code pairs within a specified distance. Maximum `100` postal codes per request. [See the documentation](https://apifreaks.com/docs).",
   version: "0.0.1",
   type: "action",
   props: {

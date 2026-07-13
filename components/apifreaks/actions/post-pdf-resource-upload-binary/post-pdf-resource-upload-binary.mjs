@@ -11,7 +11,7 @@ export default {
     fileName: {
       type: "string",
       label: "File Name",
-      description: "The desired name for the uploaded PDF file. This name will be used for storage on the server.    **NOTE**: Please ensure file_name has extension `.pdf`.",
+      description: "The desired name for the uploaded PDF file. This name will be used for storage on the server. **NOTE**: Please ensure file_name has extension `.pdf`.",
       optional: false,
     },
   },

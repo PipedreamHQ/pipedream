@@ -3,7 +3,7 @@ import app from "../../apifreaks.app.mjs";
 export default {
   key: "apifreaks-post-email-validation-bulk",
   name: "Validate Multiple Email Addresses",
-  description: "Validates a bulk of email addresses and returns result for each. Maximum \`100\` email addresses per request. [See the documentation](https://apifreaks.com/docs).",
+  description: "Validates a bulk of email addresses and returns result for each. Maximum `100` email addresses per request. [See the documentation](https://apifreaks.com/docs).",
   version: "0.0.1",
   type: "action",
   props: {

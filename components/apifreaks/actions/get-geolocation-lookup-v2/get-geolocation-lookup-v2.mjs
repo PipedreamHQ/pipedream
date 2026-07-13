@@ -9,10 +9,10 @@ export default {
   props: {
     app,
     ip: {
-      type: "string",
-      label: "Ip",
-      description: "IPv4, IPv6, or hostname for geolocation lookup",
-      optional: true,
+      propDefinition: [
+        app,
+        "ip",
+      ],
     },
     lang: {
       type: "string",
@@ -22,16 +22,16 @@ export default {
       options: ["en","de","ru","ja","fr","cn","es","cs","it","ko","fa","pt"],
     },
     fields: {
-      type: "string",
-      label: "Fields",
-      description: "Comma separated list of fields to include in response",
-      optional: true,
+      propDefinition: [
+        app,
+        "fields",
+      ],
     },
     excludes: {
-      type: "string",
-      label: "Excludes",
-      description: "Comma separated list of fields to exclude from response",
-      optional: true,
+      propDefinition: [
+        app,
+        "excludes",
+      ],
     },
     include: {
       type: "string",

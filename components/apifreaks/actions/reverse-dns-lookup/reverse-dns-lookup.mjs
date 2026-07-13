@@ -28,10 +28,10 @@ export default {
       optional: true,
     },
     page: {
-      type: "string",
-      label: "Page",
-      description: "Page number to paginate through results (defaults to 1).",
-      optional: true,
+      propDefinition: [
+        app,
+        "page",
+      ],
     },
   },
   async run({ $ }) {

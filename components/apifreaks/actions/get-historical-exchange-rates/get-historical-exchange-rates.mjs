@@ -15,10 +15,10 @@ export default {
       optional: true,
     },
     symbols: {
-      type: "string",
-      label: "Symbols",
-      description: "Comma-separated currency codes. Omit to get all available rates.",
-      optional: true,
+      propDefinition: [
+        app,
+        "symbols",
+      ],
     },
     date: {
       type: "string",

@@ -3,7 +3,7 @@ import app from "../../apifreaks.app.mjs";
 export default {
   key: "apifreaks-bulk-ip-lookup-v2",
   name: "Bulk IP Geolocation Lookup (V2.0)",
-  description: "Retrieve detailed geolocation data for multiple IP addresses in a single request. Supports up to \`50,000\` IP-addresses/host-names per request. - v2.0 response format. [See the documentation](https://apifreaks.com/docs).",
+  description: "Retrieve detailed geolocation data for multiple IP addresses in a single request. Supports up to `50,000` IP-addresses/host-names per request. - v2.0 response format. [See the documentation](https://apifreaks.com/docs).",
   version: "0.0.1",
   type: "action",
   props: {
@@ -16,16 +16,16 @@ export default {
       options: ["en","de","ru","ja","fr","cn","es","cs","it","ko","fa","pt"],
     },
     fields: {
-      type: "string",
-      label: "Fields",
-      description: "Comma-separated list of fields to include in the response. Can include \"geo\".",
-      optional: true,
+      propDefinition: [
+        app,
+        "fields",
+      ],
     },
     excludes: {
-      type: "string",
-      label: "Excludes",
-      description: "Comma-separated list of fields to exclude from the response (except \"ip\").",
-      optional: true,
+      propDefinition: [
+        app,
+        "excludes",
+      ],
     },
     include: {
       type: "string",

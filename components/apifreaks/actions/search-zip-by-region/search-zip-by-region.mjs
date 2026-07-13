@@ -21,10 +21,10 @@ export default {
       optional: false,
     },
     page: {
-      type: "string",
-      label: "Page",
-      description: "Page no. to retrieve paginated results.",
-      optional: true,
+      propDefinition: [
+        app,
+        "page",
+      ],
     },
   },
   async run({ $ }) {

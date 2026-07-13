@@ -9,16 +9,16 @@ export default {
   props: {
     app,
     fileId: {
-      type: "string",
-      label: "File Id",
-      description: "The unique ID of a PDF file already uploaded to the API Freaks server. Use this as an alternative to uploading a new file directly.",
-      optional: true,
+      propDefinition: [
+        app,
+        "fileId",
+      ],
     },
     destroy: {
-      type: "string",
-      label: "Destroy",
-      description: "If set to `true`, the input file(s) will be permanently deleted from the server immediately after the output PDF is generated.",
-      optional: true,
+      propDefinition: [
+        app,
+        "destroy",
+      ],
     },
     output: {
       type: "string",
@@ -27,22 +27,22 @@ export default {
       optional: true,
     },
     pages: {
-      type: "string",
-      label: "Pages",
-      description: "Specifies the pages or ranges at which to split the PDF. Accepts individual page numbers (e.g., '1') and/or page ranges (e.g., '4-2', 'last'). Ranges can be ascending or descending. Use commas to separate entries and hyphens for ranges. Alternatively",
-      optional: true,
+      propDefinition: [
+        app,
+        "pages",
+      ],
     },
     resolution: {
-      type: "string",
-      label: "Resolution",
-      description: "Specifies the resolution (in DPI) for the output images. Acceptable Range is from 20 to 1200.",
-      optional: true,
+      propDefinition: [
+        app,
+        "resolution",
+      ],
     },
     imageSmoothing: {
-      type: "string",
-      label: "Image Smoothing",
-      description: "Determines the smoothing options to apply during image conversion. Valid values are 'none', 'all' or a combination of 'text', 'line', and 'image' (comma-separated).If not provided, no smoothing will be applied.",
-      optional: true,
+      propDefinition: [
+        app,
+        "imageSmoothing",
+      ],
     },
     profile: {
       type: "string",
@@ -52,16 +52,16 @@ export default {
       options: ["bw","gray","rgb","4-bit","8-bit"],
     },
     webhookUrl: {
-      type: "string",
-      label: "Webhook Url",
-      description: "The URL to which the webhook notification will be sent after the task is completed.",
-      optional: true,
+      propDefinition: [
+        app,
+        "webhookUrl",
+      ],
     },
     webhookFailureNotification: {
-      type: "string",
-      label: "Webhook Failure Notification",
-      description: "If true, a notification will also be sent by email in case the webhook request fails all the retries.  The email notification will be sent to the requesting user or their organization’s admin if part of one.",
-      optional: true,
+      propDefinition: [
+        app,
+        "webhookFailureNotification",
+      ],
     },
   },
   async run({ $ }) {

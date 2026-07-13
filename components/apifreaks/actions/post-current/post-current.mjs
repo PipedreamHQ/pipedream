@@ -3,16 +3,16 @@ import app from "../../apifreaks.app.mjs";
 export default {
   key: "apifreaks-post-current",
   name: "Get Current Weather for Multiple Locations",
-  description: "Retrieve current weather conditions for up to \`50 locations\` in a single request. A maximum of 50 locations (city names, IP addresses, or geographic coordinates) can be included in the request body. [See the documentation](https://apifreaks.com/docs).",
+  description: "Retrieve current weather conditions for up to `50 locations` in a single request. A maximum of 50 locations (city names, IP addresses, or geographic coordinates) can be included in the request body. [See the documentation](https://apifreaks.com/docs).",
   version: "0.0.1",
   type: "action",
   props: {
     app,
     timezone: {
-      type: "string",
-      label: "Timezone",
-      description: "Timezone for the results.",
-      optional: true,
+      propDefinition: [
+        app,
+        "timezone",
+      ],
     },
   },
   async run({ $ }) {

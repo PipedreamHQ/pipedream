@@ -3,7 +3,7 @@ import app from "../../apifreaks.app.mjs";
 export default {
   key: "apifreaks-post-domain-whois-live",
   name: "Bulk Domain WHOIS Lookup",
-  description: "Retrieve WHOIS information for \`100 Domains per Request\`. [See the documentation](https://apifreaks.com/docs).",
+  description: "Retrieve WHOIS information for `100 Domains per Request`. [See the documentation](https://apifreaks.com/docs).",
   version: "0.0.1",
   type: "action",
   props: {

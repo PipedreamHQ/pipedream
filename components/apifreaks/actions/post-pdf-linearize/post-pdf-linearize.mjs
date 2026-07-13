@@ -9,16 +9,16 @@ export default {
   props: {
     app,
     fileId: {
-      type: "string",
-      label: "File Id",
-      description: "The unique ID of a PDF file already uploaded to the API Freaks server. Use this as an alternative to uploading a new file directly.",
-      optional: true,
+      propDefinition: [
+        app,
+        "fileId",
+      ],
     },
     destroy: {
-      type: "string",
-      label: "Destroy",
-      description: "If set to `true`, the input file(s) will be permanently deleted from the server immediately after the output PDF is generated.",
-      optional: true,
+      propDefinition: [
+        app,
+        "destroy",
+      ],
     },
     output: {
       type: "string",
@@ -27,16 +27,16 @@ export default {
       optional: true,
     },
     webhookUrl: {
-      type: "string",
-      label: "Webhook Url",
-      description: "The URL to which the webhook notification will be sent after the task is completed.",
-      optional: true,
+      propDefinition: [
+        app,
+        "webhookUrl",
+      ],
     },
     webhookFailureNotification: {
-      type: "string",
-      label: "Webhook Failure Notification",
-      description: "If true, a notification will also be sent by email in case the webhook request fails all the retries.  The email notification will be sent to the requesting user or their organization’s admin if part of one.",
-      optional: true,
+      propDefinition: [
+        app,
+        "webhookFailureNotification",
+      ],
     },
   },
   async run({ $ }) {

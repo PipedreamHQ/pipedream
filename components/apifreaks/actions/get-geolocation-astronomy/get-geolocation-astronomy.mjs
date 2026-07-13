@@ -9,28 +9,28 @@ export default {
   props: {
     app,
     location: {
-      type: "string",
-      label: "Location",
-      description: "Extract astronomy information using location (preferably city)",
-      optional: true,
+      propDefinition: [
+        app,
+        "location",
+      ],
     },
     lat: {
-      type: "string",
-      label: "Lat",
-      description: "Latitude to extract astronomy information using location coordinates",
-      optional: true,
+      propDefinition: [
+        app,
+        "lat",
+      ],
     },
     long: {
-      type: "string",
-      label: "Long",
-      description: "Longitude to extract astronomy information using location coordinates",
-      optional: true,
+      propDefinition: [
+        app,
+        "long",
+      ],
     },
     ip: {
-      type: "string",
-      label: "Ip",
-      description: "IPv4 or IPv6 address to extract astronomy information using IP address",
-      optional: true,
+      propDefinition: [
+        app,
+        "ip",
+      ],
     },
     lang: {
       type: "string",
@@ -40,10 +40,10 @@ export default {
       options: ["en","de","ru","ja","fr","cn","es","cs","it","ko","fa","pt"],
     },
     date: {
-      type: "string",
-      label: "Date",
-      description: "Specific date (format YYYY-MM-DD) for which astronomy data is required",
-      optional: true,
+      propDefinition: [
+        app,
+        "date",
+      ],
     },
     elevation: {
       type: "string",

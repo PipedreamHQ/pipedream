@@ -15,28 +15,28 @@ export default {
       optional: false,
     },
     location: {
-      type: "string",
-      label: "Location",
-      description: "City name, place name, or full address.",
-      optional: true,
+      propDefinition: [
+        app,
+        "location",
+      ],
     },
     lat: {
-      type: "string",
-      label: "Lat",
-      description: "Latitude of the location.",
-      optional: true,
+      propDefinition: [
+        app,
+        "lat",
+      ],
     },
     long: {
-      type: "string",
-      label: "Long",
-      description: "Longitude of the location.",
-      optional: true,
+      propDefinition: [
+        app,
+        "long",
+      ],
     },
     ip: {
-      type: "string",
-      label: "Ip",
-      description: "IP(v4 or v6) address for location inference.",
-      optional: true,
+      propDefinition: [
+        app,
+        "ip",
+      ],
     },
     precision: {
       type: "string",
@@ -46,10 +46,10 @@ export default {
       options: ["daily","hourly"],
     },
     timezone: {
-      type: "string",
-      label: "Timezone",
-      description: "Timezone for the results.",
-      optional: true,
+      propDefinition: [
+        app,
+        "timezone",
+      ],
     },
   },
   async run({ $ }) {

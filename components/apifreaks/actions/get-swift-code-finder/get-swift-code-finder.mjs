@@ -9,10 +9,10 @@ export default {
   props: {
     app,
     country: {
-      type: "string",
-      label: "Country",
-      description: "Country name (accepts full name, e.g., Pakistan, United States). If only the country parameter is supplied, lists all banks in the country.",
-      optional: true,
+      propDefinition: [
+        app,
+        "country",
+      ],
     },
     bank: {
       type: "string",

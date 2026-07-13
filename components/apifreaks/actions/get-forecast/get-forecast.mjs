@@ -9,16 +9,16 @@ export default {
   props: {
     app,
     startDate: {
-      type: "string",
-      label: "Startdate",
-      description: "Start date for the forecast in YYYY-MM-DD format. Forecast dates must be current or future dates only. Past dates are not allowed for forecast data. The difference between startDate and endDate must not exceed 16 days.",
-      optional: true,
+      propDefinition: [
+        app,
+        "startDate",
+      ],
     },
     endDate: {
-      type: "string",
-      label: "Enddate",
-      description: "End date for the forecast in YYYY-MM-DD format. Forecast dates must be current or future dates only. Past dates are not allowed for forecast data. The difference between startDate and endDate must not exceed 16 days.",
-      optional: true,
+      propDefinition: [
+        app,
+        "endDate",
+      ],
     },
     forecastDays: {
       type: "string",
@@ -27,28 +27,28 @@ export default {
       optional: true,
     },
     location: {
-      type: "string",
-      label: "Location",
-      description: "City name, place name, or full address.",
-      optional: true,
+      propDefinition: [
+        app,
+        "location",
+      ],
     },
     lat: {
-      type: "string",
-      label: "Lat",
-      description: "Latitude of the location.",
-      optional: true,
+      propDefinition: [
+        app,
+        "lat",
+      ],
     },
     long: {
-      type: "string",
-      label: "Long",
-      description: "Longitude of the location.",
-      optional: true,
+      propDefinition: [
+        app,
+        "long",
+      ],
     },
     ip: {
-      type: "string",
-      label: "Ip",
-      description: "IP(v4 or v6) address for location inference.",
-      optional: true,
+      propDefinition: [
+        app,
+        "ip",
+      ],
     },
     precision: {
       type: "string",
@@ -58,10 +58,10 @@ export default {
       options: ["daily","hourly","minutely"],
     },
     timezone: {
-      type: "string",
-      label: "Timezone",
-      description: "Timezone for the results.",
-      optional: true,
+      propDefinition: [
+        app,
+        "timezone",
+      ],
     },
   },
   async run({ $ }) {

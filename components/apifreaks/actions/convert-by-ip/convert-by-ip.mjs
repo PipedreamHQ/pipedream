@@ -15,10 +15,10 @@ export default {
       optional: false,
     },
     ip: {
-      type: "string",
-      label: "Ip",
-      description: "IPv4 or IPv6 address. Defaults to the request IP.",
-      optional: true,
+      propDefinition: [
+        app,
+        "ip",
+      ],
     },
     amount: {
       type: "string",

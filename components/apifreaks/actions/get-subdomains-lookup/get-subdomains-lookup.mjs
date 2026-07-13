@@ -34,10 +34,10 @@ export default {
       options: ["active","inactive"],
     },
     page: {
-      type: "string",
-      label: "Page",
-      description: "Page number for paginated results.",
-      optional: true,
+      propDefinition: [
+        app,
+        "page",
+      ],
     },
   },
   async run({ $ }) {

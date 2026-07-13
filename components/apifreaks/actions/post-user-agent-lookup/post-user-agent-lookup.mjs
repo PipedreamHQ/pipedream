@@ -3,7 +3,7 @@ import app from "../../apifreaks.app.mjs";
 export default {
   key: "apifreaks-post-user-agent-lookup",
   name: "Bulk User Agent Lookup",
-  description: "Parse up to \`50,000 User-Agent strings\` at once in a single request. [See the documentation](https://apifreaks.com/docs).",
+  description: "Parse up to `50,000 User-Agent strings` at once in a single request. [See the documentation](https://apifreaks.com/docs).",
   version: "0.0.1",
   type: "action",
   props: {
