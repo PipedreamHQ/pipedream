@@ -80,7 +80,6 @@ export default {
     async getAlerts(args = {}) {
       return this._makeRequest({
         path: "/alerts/entities/alerts/v2",
-        method: "POST",
         ...args,
       });
     },
@@ -95,7 +94,6 @@ export default {
     async getHosts(args = {}) {
       return this._makeRequest({
         path: "/devices/entities/devices/v2",
-        method: "POST",
         ...args,
       });
     },

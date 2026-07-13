@@ -6,7 +6,7 @@ export default {
   ...common,
   key: "crowdstrike_falcon-host-status-changed",
   name: "Host Status Changed",
-  description: "Emit new event for each host matching a user-supplied FQL filter that has not been emitted in a prior run. Polls GET /devices/combined/devices/v1 (returns full device records including `status`/containment status and sensor-health fields) and deduplicates on a `deviceId-modified_timestamp` composite so only genuinely changed hosts emit. Covers both sensor-health and containment-status scenarios via the filter prop. [See the documentation](https://developer.crowdstrike.com/api-reference/collections/hosts/).",
+  description: "Emit new event for each host matching a user-supplied FQL filter that has not been emitted in a prior run. Polls GET /devices/combined/devices/v1 (returns full device records including `status`/containment status and sensor-health fields) and deduplicates on a `deviceId-modified_timestamp` composite so only genuinely changed hosts emit. Covers both sensor-health and containment-status scenarios via the filter prop. [See the documentation](https://developer.crowdstrike.com/api-reference/collections/hosts/#combineddevicesbyfilter).",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

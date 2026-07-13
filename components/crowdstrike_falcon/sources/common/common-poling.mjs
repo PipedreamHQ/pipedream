@@ -26,6 +26,6 @@ export default {
     },
   },
   async run() {
-    await this.processEvents();
+    await this.processEvents(100);
   },
 };

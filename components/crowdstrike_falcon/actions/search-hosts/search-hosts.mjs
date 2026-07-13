@@ -44,7 +44,7 @@ export default {
       description: "Optional sort in `field.direction` form, e.g. `hostname.asc` or `status.desc`.",
     },
     fields: {
-      type: "string[]",
+      type: "string",
       label: "Fields",
       description: "The fields to return, comma delimited.",
       optional: true,
@@ -58,7 +58,9 @@ export default {
         limit: this.limit ?? DEFAULT_LIMIT,
         offset: this.offset,
         sort: this.sort,
-        fields: this.fields,
+        fields: this.fields
+          ? this.fields.join(",")
+          : undefined,
       },
     });
     const devices = response.resources ?? [];
