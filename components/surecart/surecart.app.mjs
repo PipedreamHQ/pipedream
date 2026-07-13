@@ -575,7 +575,7 @@ export default {
       do {
         const {
           data, pagination,
-        } = await fn(args);
+        } = await fn.call(this, args);
         total = pagination?.count ?? 0;
         fetched += data.length;
         for (const item of data) {
