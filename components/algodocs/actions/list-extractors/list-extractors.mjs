@@ -19,10 +19,7 @@ export default {
     const extractors = await this.algodocs.listExtractors({
       $,
     });
-    const items = Array.isArray(extractors)
-      ? extractors
-      : (extractors?.data ?? []);
-    $.export("$summary", `Retrieved ${items.length} extractor(s)`);
-    return items;
+    $.export("$summary", `Retrieved ${extractors.length} extractor(s)`);
+    return extractors;
   },
 };

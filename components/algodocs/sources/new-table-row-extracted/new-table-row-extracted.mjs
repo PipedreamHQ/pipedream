@@ -1,11 +1,14 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import app from "../../algodocs.app.mjs";
+import {
+  lastTsMethods, pollForNewItems,
+} from "../../common/polling.mjs";
 
 export default {
   key: "algodocs-new-table-row-extracted",
   name: "New Table Row Extracted",
   description:
-    "Emit a new event for each individual table row extracted from an AlgoDocs document (polls GET /v1/extracted_data/{documentId}). Unlike **New Extracted Data** which emits one event per extraction record, this source emits one event per row within the extracted `data` array. Requires a document ID — run **List Documents** to find one. An optional filter narrows emissions to rows whose JSON representation contains a specified substring. [See the documentation](https://api.algodocs.com/).",
+    "Emit new event for each individual table row extracted from an AlgoDocs document (polls GET /v1/extracted_data/{documentId}). AlgoDocs represents a record's extracted `data` as a flat object, with any table/repeating field appearing as an array-valued property (e.g. `data.LineItems`). Unlike **New Extracted Data** which emits one event per extraction record, this source emits one event per row within each such array field; records with no array-valued field in `data` produce no events. Requires a document ID — run **List Documents** to find one. An optional filter narrows emissions to rows whose JSON representation contains a specified substring. [See the documentation](https://api.algodocs.com/).",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -33,94 +36,38 @@ export default {
     },
   },
   methods: {
-    _getLastTs() {
-      return this.db.get("lastTs");
-    },
-    _setLastTs(ts) {
-      this.db.set("lastTs", ts);
-    },
+    ...lastTsMethods,
   },
   async run() {
-    const response = await this.algodocs.getExtractedDataByDocument({
-      documentId: this.documentId,
+    await pollForNewItems({
+      component: this,
+      fetchResponse: () => this.algodocs.getExtractedDataByDocument({
+        $: this,
+        documentId: this.documentId,
+      }),
+      // A "table row" is an element of any array-valued field within `data`
+      // (e.g. `data.LineItems`). Records without such a field yield no rows.
+      extractItems: (record, ts) => {
+        const tableFields = record.data != null
+          ? Object.entries(record.data).filter(([
+            , value,
+          ]) => Array.isArray(value))
+          : [];
+
+        return tableFields.flatMap(([
+          field,
+          rows,
+        ]) =>
+          rows.map((row, rowIndex) => ({
+            id: `${record.id}-${field}-${rowIndex}`,
+            payload: row,
+            summary: `New table row from document ${this.documentId} (record ${record.id})`,
+            ts,
+            filterText: JSON.stringify(row),
+          })));
+      },
+      matchesFilter: (entry) =>
+        !this.tableRowFilter || entry.filterText.includes(this.tableRowFilter),
     });
-
-    const records = Array.isArray(response)
-      ? response
-      : (response?.data ?? []);
-
-    if (!records.length) {
-      return;
-    }
-
-    const lastTs = this._getLastTs();
-    const isFirstRun = lastTs == null;
-
-    // Collect (id, row, recordId, ts) tuples from qualifying records.
-    // The API returns records newest-first, so we iterate in that order.
-    const rowEntries = [];
-    for (const record of records) {
-      const rawTs = record.processedAt || record.uploadedAt;
-      const ts = rawTs
-        ? Date.parse(rawTs)
-        : Date.now();
-
-      // On subsequent runs skip records strictly older than last-seen timestamp.
-      // Records at exactly lastTs are re-evaluated so same-timestamp newcomers
-      // with different IDs are not missed; dedupe: "unique" prevents re-emitting.
-      if (!isFirstRun && ts < lastTs) {
-        continue;
-      }
-
-      const rows = Array.isArray(record.data)
-        ? record.data
-        : (record.data != null
-          ? [
-            record.data,
-          ]
-          : []);
-
-      rows.forEach((row, rowIndex) => {
-        rowEntries.push({
-          id: `${record.id}-${rowIndex}`,
-          row,
-          recordId: record.id,
-          ts,
-        });
-      });
-    }
-
-    // On first run, cap to 25 rows to avoid flooding.
-    // API returns newest-first so the first 25 entries are the most recent.
-    const candidates = isFirstRun
-      ? rowEntries.slice(0, 25)
-      : rowEntries;
-
-    let maxTs = lastTs ?? 0;
-
-    for (const {
-      id, row, recordId, ts,
-    } of candidates) {
-      if (this.tableRowFilter) {
-        const rowStr = JSON.stringify(row);
-        if (!rowStr.includes(this.tableRowFilter)) {
-          continue;
-        }
-      }
-
-      this.$emit(row, {
-        id,
-        summary: `New table row from document ${this.documentId} (record ${recordId})`,
-        ts,
-      });
-
-      if (ts > maxTs) {
-        maxTs = ts;
-      }
-    }
-
-    if (maxTs > (lastTs ?? 0)) {
-      this._setLastTs(maxTs);
-    }
   },
 };
