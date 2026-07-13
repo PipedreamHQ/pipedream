@@ -1,0 +1,41 @@
+import app from "../../universal_api.app.mjs";
+import { LIST_CONNECTION_SERVICE_IDS } from "../../common/constants.mjs";
+
+export default {
+  key: "universal_api-list-connections",
+  name: "List Connections",
+  description:
+    "List connections from the Platform API on Universal API. Returns a cursor-paginated array; use the returned IDs with **Get Connection**, **Update Connection**, or **Delete Connection**. [See the documentation](https://docs.universalapi.io/reference/list-connections).",
+  version: "0.0.1",
+  type: "action",
+  annotations: {
+    readOnlyHint: true,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
+  props: {
+    app,
+    universalApi: {
+      propDefinition: [
+        app,
+        "universalApi",
+      ],
+    },
+    serviceId: {
+      propDefinition: [
+        app,
+        "serviceId",
+      ],
+      options: LIST_CONNECTION_SERVICE_IDS,
+    },
+  },
+  async run({ $ }) {
+    const response = await this.app.listConnections({
+      $,
+      universalApi: this.universalApi,
+      serviceId: this.serviceId,
+    });
+    $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} connection(s)`);
+    return response;
+  },
+};

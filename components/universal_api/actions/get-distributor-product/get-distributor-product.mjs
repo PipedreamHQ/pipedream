@@ -1,0 +1,32 @@
+import app from "../../universal_api.app.mjs";
+
+export default {
+  key: "universal_api-get-distributor-product",
+  name: "Get Distributor Product",
+  description:
+    "Retrieve a single distributor product by ID from Universal API. Run **List Distributor Products** first to discover valid IDs. [See the documentation](https://docs.universalapi.io/reference/get-product).",
+  version: "0.0.1",
+  type: "action",
+  annotations: {
+    readOnlyHint: true,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
+  props: {
+    app,
+    productId: {
+      propDefinition: [
+        app,
+        "productId",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const response = await this.app.getDistributorProduct({
+      $,
+      productId: this.productId,
+    });
+    $.export("$summary", `Successfully retrieved distributor product ${this.productId}`);
+    return response;
+  },
+};
