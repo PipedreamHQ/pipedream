@@ -214,7 +214,7 @@ export default {
     couponProductIds: {
       type: "string[]",
       label: "Product IDs",
-      description: "Restrict the coupon to specific product UUIDs.",
+      description: "Restrict the coupon to specific product UUIDs. Use **List Products** to find product IDs.",
       optional: true,
     },
     couponRedeemBy: {
@@ -495,7 +495,7 @@ export default {
     variantImage: {
       type: "string",
       label: "Image ID",
-      description: "The UUID of the media image for this variant.",
+      description: "The UUID of the media image for this variant. Use **List Media** to find media IDs.",
       optional: true,
     },
     promotionCoupon: {
@@ -525,7 +525,7 @@ export default {
     promotionCustomer: {
       type: "string",
       label: "Customer ID",
-      description: "Restrict the promotion to a specific customer UUID.",
+      description: "Restrict the promotion to a specific customer UUID. Use **List Customers** to find customer IDs.",
       optional: true,
     },
     promotionArchived: {
