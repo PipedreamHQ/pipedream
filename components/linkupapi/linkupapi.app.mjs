@@ -1,4 +1,9 @@
 import { axios } from "@pipedream/platform";
+import {
+  ACTIONS,
+  BASE_URL,
+  ENDPOINTS,
+} from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -7,18 +12,20 @@ export default {
     email: {
       type: "string",
       label: "Email",
-      description: "Email address for LinkedIn account",
+      description: "Email address for the LinkedIn account.",
+      optional: true,
     },
     password: {
       type: "string",
       label: "Password",
-      description: "Password for LinkedIn account",
+      description: "Password for the LinkedIn account.",
       secret: true,
+      optional: true,
     },
     country: {
       type: "string",
       label: "Country",
-      description: "Country code for proxy selection",
+      description: "Country code for proxy selection (e.g. `US`, `UK`, `FR`). Defaults to `FR` server-side.",
       optional: true,
       options: [
         "US",
@@ -34,16 +41,15 @@ export default {
         "IN",
       ],
     },
-    loginToken: {
+    accountId: {
       type: "string",
-      label: "Login Token",
-      description: "LinkedIn authentication token obtained from login/verify process",
-      secret: true,
+      label: "Account ID",
+      description: "The persistent account identifier (e.g. `acc_abc123`). Run **Connect Account** to create one, or **List Accounts** to look up existing account IDs.",
     },
     code: {
       type: "string",
       label: "Verification Code",
-      description: "Verification code received via email",
+      description: "Verification code received via email or challenge.",
     },
     linkedinUrl: {
       type: "string",
@@ -53,35 +59,27 @@ export default {
     conversationId: {
       type: "string",
       label: "Conversation ID",
-      description: "LinkedIn conversation identifier",
+      description: "LinkedIn conversation identifier. Pick from your inbox, or run **List Inbox** to find one.",
       async options({
-        prevContext, loginToken,
+        prevContext, accountId,
       }) {
-        if (!loginToken || prevContext?.nextCursor === null) {
+        if (!accountId || prevContext?.nextCursor === null) {
           return [];
         }
-        const {
-          data: {
-            conversations,
-            next_cursor,
-          },
-        } = await this.getConversations({
-          data: {
-            login_token: loginToken,
-            next_cursor: prevContext?.nextCursor,
+        const { data } = await this.listInbox({
+          accountId,
+          params: {
+            cursor: prevContext?.nextCursor,
           },
         });
+        const conversations = data?.conversations || [];
         return {
-          options: conversations.map(({
-            conversation_id: value,
-            last_message: { text },
-            participant: { name },
-          }) => ({
-            label: `${name || "Unknown"} - ${text?.substring(0, 50) || "No message"}`,
-            value,
+          options: conversations.map((conversation) => ({
+            label: `${conversation.participant?.name || "Unknown"} - ${conversation.last_message?.text?.slice(0, 50) || "No message"}`,
+            value: conversation.conversation_id,
           })),
           context: {
-            nextCursor: next_cursor,
+            nextCursor: data?.next_cursor || null,
           },
         };
       },
@@ -89,25 +87,48 @@ export default {
     messageText: {
       type: "string",
       label: "Message Text",
-      description: "Message content",
+      description: "Message content.",
     },
     location: {
       type: "string[]",
       label: "Locations",
-      description: "Geographic locations to filter",
+      description: "Geographic locations to filter, passed as an array of strings, e.g. `[\"San Francisco, CA\", \"Paris, France\"]`.",
       optional: true,
     },
     companyUrl: {
       type: "string[]",
       label: "Company URLs",
-      description: "LinkedIn company URLs. Eg. `https://www.linkedin.com/company/stripe/`",
+      description: "LinkedIn company URLs to filter (passed as an array). Eg. `https://www.linkedin.com/company/stripe/`",
+      optional: true,
+    },
+    keyword: {
+      type: "string",
+      label: "Keyword",
+      description: "Free-text keyword to search by.",
+      optional: true,
+    },
+    totalResults: {
+      type: "integer",
+      label: "Total Results",
+      description: "Maximum number of results to return.",
+      optional: true,
+      min: 1,
+      default: 50,
+    },
+    identifier: {
+      type: "string",
+      label: "Identifier",
+      description: "LinkedIn public identifier (public ID) of the target profile.",
+      optional: true,
+    },
+    profileUrn: {
+      type: "string",
+      label: "Profile URN",
+      description: "LinkedIn profile URN of the target (e.g. `ACoAAB...`).",
       optional: true,
     },
   },
   methods: {
-    getUrl(path) {
-      return `https://api.linkupapi.com/v1${path}`;
-    },
     _getHeaders() {
       return {
         "x-api-key": this.$auth.api_key,
@@ -119,85 +140,140 @@ export default {
     } = {}) {
       return axios($, {
         ...opts,
-        url: this.getUrl(path),
+        url: `${BASE_URL}${path}`,
         headers: this._getHeaders(),
       });
     },
-    post(opts = {}) {
+    _post(opts = {}) {
       return this._makeRequest({
         method: "POST",
         ...opts,
       });
     },
-    login(opts = {}) {
-      return this.post({
-        path: "/auth/login",
+    // Shared wrapper for the V2 action envelope: { account_id, action, params }.
+    _action({
+      path, action, accountId, params, ...opts
+    } = {}) {
+      return this._post({
+        ...opts,
+        path,
+        data: {
+          account_id: accountId,
+          action,
+          params,
+        },
+      });
+    },
+    async _paginate({
+      requestPage, getItems, getNext, max,
+    }) {
+      const results = [];
+      let next;
+      let page = [];
+      do {
+        const response = await requestPage({
+          next,
+          count: max - results.length,
+        });
+        page = getItems(response) || [];
+        results.push(...page.slice(0, max - results.length));
+        next = getNext(response);
+      } while (next && page.length && results.length < max);
+      return results;
+    },
+    connectAccount(opts = {}) {
+      return this._post({
+        path: ENDPOINTS.LOGIN,
         ...opts,
       });
     },
-    verify(opts = {}) {
-      return this.post({
-        path: "/auth/verify",
+    verifyCheckpoint(opts = {}) {
+      return this._post({
+        path: ENDPOINTS.CHECKPOINT,
+        ...opts,
+      });
+    },
+    listAccounts(opts = {}) {
+      return this._makeRequest({
+        path: ENDPOINTS.ACCOUNTS,
+        ...opts,
+      });
+    },
+    getAccountDetails({
+      accountId, ...opts
+    } = {}) {
+      return this._makeRequest({
+        path: `${ENDPOINTS.ACCOUNTS}/${encodeURIComponent(accountId)}`,
         ...opts,
       });
     },
     getProfileInfo(opts = {}) {
-      return this.post({
-        path: "/profile/info",
+      return this._action({
+        path: ENDPOINTS.PROFILES,
+        action: ACTIONS.GET,
         ...opts,
       });
     },
     searchProfiles(opts = {}) {
-      return this.post({
-        path: "/profile/search",
+      return this._action({
+        path: ENDPOINTS.PROFILES,
+        action: ACTIONS.SEARCH_PEOPLE,
         ...opts,
       });
     },
     searchCompanies(opts = {}) {
-      return this.post({
-        path: "/companies/search",
+      return this._action({
+        path: ENDPOINTS.PROFILES,
+        action: ACTIONS.SEARCH_COMPANIES,
         ...opts,
       });
     },
     getCompanyInfo(opts = {}) {
-      return this.post({
-        path: "/companies/info",
+      return this._action({
+        path: ENDPOINTS.PROFILES,
+        action: ACTIONS.GET_COMPANY,
         ...opts,
       });
     },
     connectToProfile(opts = {}) {
-      return this.post({
-        path: "/network/connect",
+      return this._action({
+        path: ENDPOINTS.NETWORK,
+        action: ACTIONS.INVITE,
         ...opts,
       });
     },
-    getInvitationsStatus(opts = {}) {
-      return this.post({
-        path: "/network/invitations",
+    getInvitations(opts = {}) {
+      return this._action({
+        path: ENDPOINTS.NETWORK,
+        action: ACTIONS.LIST_INVITATIONS,
         ...opts,
       });
     },
     sendMessage(opts = {}) {
-      return this.post({
-        path: "/messages/send-message",
+      return this._action({
+        path: ENDPOINTS.MESSAGES,
+        action: ACTIONS.SEND,
         ...opts,
       });
     },
     getConversationMessages(opts = {}) {
-      return this.post({
-        path: "/messages/conversation",
+      return this._action({
+        path: ENDPOINTS.MESSAGES,
+        action: ACTIONS.GET_CONVERSATION,
         ...opts,
       });
     },
-    getConversations(opts = {}) {
-      return this.post({
-        path: "/messages/inbox",
+    listInbox(opts = {}) {
+      return this._action({
+        path: ENDPOINTS.MESSAGES,
+        action: ACTIONS.LIST_INBOX,
         ...opts,
       });
     },
     createComment(opts = {}) {
-      return this.post({
-        path: "/posts/comment",
+      return this._action({
+        path: ENDPOINTS.CONTENT,
+        action: ACTIONS.COMMENT,
         ...opts,
       });
     },
