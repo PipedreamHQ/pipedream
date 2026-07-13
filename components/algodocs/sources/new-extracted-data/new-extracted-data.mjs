@@ -27,9 +27,9 @@ export default {
         "documentId",
       ],
     },
-    tableRowFilter: {
+    extractedDataFilter: {
       type: "string",
-      label: "Table Row Filter",
+      label: "Extracted Data Filter",
       description:
         "Optional. A free-form substring matched client-side against the extracted `data` of each record; only matching records are emitted. Leave blank to emit every new extraction record. Example: `InvoiceNumber` or `Acme`.",
       optional: true,
@@ -55,7 +55,7 @@ export default {
         },
       ],
       matchesFilter: (entry) =>
-        !this.tableRowFilter || entry.filterText.includes(this.tableRowFilter),
+        !this.extractedDataFilter || entry.filterText.includes(this.extractedDataFilter),
     });
   },
 };

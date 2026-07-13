@@ -6,11 +6,19 @@ export function normalizeRecords(response) {
     : (response?.data ?? []);
 }
 
+// Returns the record's epoch ms timestamp, or `null` if `processedAt`/`uploadedAt`
+// is missing or unparseable. Never falls back to the current wall-clock time:
+// doing so would give the same record a different timestamp on every poll and
+// could advance the `lastTs` watermark past records that are still processing.
 export function getRecordTimestamp(record) {
   const rawTs = record.processedAt || record.uploadedAt;
-  return rawTs
-    ? Date.parse(rawTs)
-    : Date.now();
+  if (!rawTs) {
+    return null;
+  }
+  const ts = Date.parse(rawTs);
+  return Number.isNaN(ts)
+    ? null
+    : ts;
 }
 
 export const lastTsMethods = {
@@ -45,6 +53,11 @@ export async function pollForNewItems({
   for (const record of records) {
     const ts = getRecordTimestamp(record);
 
+    if (ts == null) {
+      console.error(`Skipping AlgoDocs record ${record.id}: missing or unparseable processedAt/uploadedAt timestamp`);
+      continue;
+    }
+
     // On subsequent runs skip records strictly older than last-seen timestamp.
     // Records at exactly lastTs are re-evaluated so same-timestamp newcomers
     // with different IDs are not missed; dedupe: "unique" prevents re-emitting.
@@ -60,9 +73,20 @@ export async function pollForNewItems({
     ? entries.slice(0, FIRST_RUN_LIMIT)
     : entries;
 
-  let maxTs = lastTs ?? 0;
+  // On first run, everything below the oldest examined (capped) candidate is
+  // intentionally never looked at again. On later runs, every examined entry
+  // advances the watermark, matched or not, so an unmatched entry isn't
+  // rescanned forever and a matched-but-older entry is never skipped.
+  let watermark = lastTs ?? 0;
+  if (isFirstRun && candidates.length) {
+    watermark = Math.min(...candidates.map((entry) => entry.ts));
+  }
 
   for (const entry of candidates) {
+    if (!isFirstRun && entry.ts > watermark) {
+      watermark = entry.ts;
+    }
+
     if (!matchesFilter(entry)) {
       continue;
     }
@@ -72,13 +96,9 @@ export async function pollForNewItems({
       summary: entry.summary,
       ts: entry.ts,
     });
-
-    if (entry.ts > maxTs) {
-      maxTs = entry.ts;
-    }
   }
 
-  if (maxTs > (lastTs ?? 0)) {
-    component._setLastTs(maxTs);
+  if (watermark > (lastTs ?? 0)) {
+    component._setLastTs(watermark);
   }
 }

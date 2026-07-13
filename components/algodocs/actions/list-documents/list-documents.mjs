@@ -44,7 +44,7 @@ export default {
       $,
       extractorId: this.extractorId,
       params: {
-        folder_id: this.folderId,
+        folderId: this.folderId,
         limit,
       },
     });
