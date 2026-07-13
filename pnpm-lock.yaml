@@ -3297,6 +3297,9 @@ importers:
 
   components/codeberg: {}
 
+  components/codeclassify:
+    specifiers: {}
+
   components/codefresh: {}
 
   components/codegpt: {}
