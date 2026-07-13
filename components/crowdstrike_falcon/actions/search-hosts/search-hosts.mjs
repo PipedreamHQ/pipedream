@@ -58,9 +58,7 @@ export default {
         limit: this.limit ?? DEFAULT_LIMIT,
         offset: this.offset,
         sort: this.sort,
-        fields: this.fields
-          ? this.fields.join(",")
-          : undefined,
+        fields: this.fields,
       },
     });
     const devices = response.resources ?? [];
