@@ -29,10 +29,11 @@ export default {
       optional: true,
     },
     identifier: {
-      type: "string",
-      label: "Identifier",
+      propDefinition: [
+        app,
+        "identifier",
+      ],
       description: "Unique identifier of the person to invite. Required unless **LinkedIn URL** is provided.",
-      optional: true,
     },
     message: {
       type: "string",
