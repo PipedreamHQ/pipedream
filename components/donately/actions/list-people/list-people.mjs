@@ -22,7 +22,7 @@ export default {
     keyword: {
       type: "string",
       label: "Keyword",
-      description: "	Search by name or email",
+      description: "Search by name or email",
       optional: true,
     },
     limit: {
