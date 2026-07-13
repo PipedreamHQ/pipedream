@@ -137,7 +137,9 @@ export default {
         hasMore = page.length === limit && (!maxResults || data.length < maxResults);
       }
 
-      return maxResults ? data.slice(0, maxResults) : data;
+      return maxResults
+        ? data.slice(0, maxResults)
+        : data;
     },
     // HRIS
     listHrisEmployees({
