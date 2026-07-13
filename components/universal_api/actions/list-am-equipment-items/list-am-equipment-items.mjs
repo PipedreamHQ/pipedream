@@ -4,7 +4,7 @@ export default {
   key: "universal_api-list-am-equipment-items",
   name: "List Asset Management Equipment Items",
   description:
-    "List equipment items from the Asset Management (AM) API on Universal API. Returns a cursor-paginated array of equipment item objects. [See the documentation](https://docs.universalapi.io/reference/list-equipment-items).",
+    "List equipment items from the Asset Management (AM) API on Universal API. Returns an array of equipment item objects (paginated internally, up to `maxResults`). [See the documentation](https://docs.universalapi.io/reference/list-equipment-items).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -14,26 +14,22 @@ export default {
   },
   props: {
     app,
-    cursor: {
+    maxResults: {
       propDefinition: [
         app,
-        "cursor",
-      ],
-    },
-    limit: {
-      propDefinition: [
-        app,
-        "limit",
+        "maxResults",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.app.listAmEquipmentItems({
-      $,
-      cursor: this.cursor,
-      limit: this.limit,
+    const response = await this.app.paginate({
+      fn: this.app.listAmEquipmentItems,
+      args: {
+        $,
+      },
+      maxResults: this.maxResults,
     });
-    $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} equipment item(s)`);
+    $.export("$summary", `Successfully retrieved ${response.length} equipment item(s)`);
     return response;
   },
 };

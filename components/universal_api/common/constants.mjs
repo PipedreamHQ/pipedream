@@ -1,6 +1,5 @@
 export const HEADER_SERVICE_ID = "x-uapi-service-id";
 
-export const SHIPMENT_DEFAULT_SERVICE_IDS = "postnord,fedex,posti,bring";
 export const MIN_LIMIT = 1;
 export const MAX_LIMIT = 1000;
 

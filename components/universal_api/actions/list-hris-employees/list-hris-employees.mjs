@@ -5,7 +5,7 @@ export default {
   key: "universal_api-list-hris-employees",
   name: "List HRIS Employees",
   description:
-    "List employees from the connected HRIS integration on Universal API. Returns a cursor-paginated array of employee objects; use the returned IDs with **Get HRIS Employee**. Provide `serviceId` only when the consumer has multiple active HRIS integrations. [See the documentation](https://docs.universalapi.io/reference/list-employees).",
+    "List employees from the connected HRIS integration on Universal API. Returns an array of employee objects (paginated internally, up to `maxResults`); use the returned IDs with **Get HRIS Employee**. Provide `serviceId` only when the consumer has multiple active HRIS integrations. [See the documentation](https://docs.universalapi.io/reference/list-employees).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -30,28 +30,24 @@ export default {
       description: "Filter employees by group name.",
       optional: true,
     },
-    cursor: {
+    maxResults: {
       propDefinition: [
         app,
-        "cursor",
-      ],
-    },
-    limit: {
-      propDefinition: [
-        app,
-        "limit",
+        "maxResults",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.app.listHrisEmployees({
-      $,
-      serviceId: this.serviceId,
-      group: this.group,
-      cursor: this.cursor,
-      limit: this.limit,
+    const response = await this.app.paginate({
+      fn: this.app.listHrisEmployees,
+      args: {
+        $,
+        serviceId: this.serviceId,
+        group: this.group,
+      },
+      maxResults: this.maxResults,
     });
-    $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} HRIS employee(s)`);
+    $.export("$summary", `Successfully retrieved ${response.length} HRIS employee(s)`);
     return response;
   },
 };

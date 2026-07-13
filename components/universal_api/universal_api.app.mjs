@@ -19,17 +19,10 @@ export default {
         "The Universal API to use.",
       options: UNIVERSAL_APIS,
     },
-    cursor: {
-      type: "string",
-      label: "Cursor",
-      description:
-        "Pagination cursor taken from a previous response's `meta.next`. Omit for the first page.",
-      optional: true,
-    },
-    limit: {
+    maxResults: {
       type: "integer",
-      label: "Limit",
-      description: `Maximum number of items to return. Between ${MIN_LIMIT} and ${MAX_LIMIT}.`,
+      label: "Max Results",
+      description: `The maximum number of results to return across all pages. Between ${MIN_LIMIT} and ${MAX_LIMIT}. Omit to return all available results.`,
       optional: true,
       min: MIN_LIMIT,
       max: MAX_LIMIT,
@@ -106,33 +99,58 @@ export default {
       return this.$auth.server_url;
     },
     async _makeRequest({
-      $ = this, headers, ...args
+      $ = this, headers, serviceId, ...args
     }) {
       return axios($, {
         baseURL: this._baseUrl(),
         headers: {
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          ...(serviceId && {
+            [HEADER_SERVICE_ID]: serviceId,
+          }),
           ...headers,
         },
         ...args,
       });
     },
+    async paginate({
+      fn, args = {}, maxResults,
+    }) {
+      const data = [];
+      let offset = 0;
+      let hasMore = true;
+
+      while (hasMore) {
+        const limit = maxResults
+          ? Math.min(maxResults - data.length, MAX_LIMIT)
+          : MAX_LIMIT;
+
+        const response = await fn({
+          ...args,
+          limit,
+          offset,
+        });
+        const page = response?.data ?? [];
+        data.push(...page);
+        offset += limit;
+
+        hasMore = page.length === limit && (!maxResults || data.length < maxResults);
+      }
+
+      return data;
+    },
     // HRIS
     listHrisEmployees({
-      $, serviceId, group, cursor, limit,
+      $, serviceId, group, limit, offset,
     }) {
       return this._makeRequest({
         $,
+        serviceId,
         url: "/api/hris/employees",
         params: {
           group,
-          cursor,
           limit,
-        },
-        headers: {
-          ...(serviceId && {
-            [HEADER_SERVICE_ID]: serviceId,
-          }),
+          offset,
         },
       });
     },
@@ -141,71 +159,59 @@ export default {
     }) {
       return this._makeRequest({
         $,
+        serviceId,
         url: `/api/hris/employees/${employeeId}`,
-        headers: {
-          ...(serviceId && {
-            [HEADER_SERVICE_ID]: serviceId,
-          }),
-        },
       });
     },
     listAmEmployees({
-      $, cursor, limit,
+      $, limit, offset,
     }) {
       return this._makeRequest({
         $,
+        serviceId: "velory",
         url: "/api/am/employees",
         params: {
-          cursor,
           limit,
-        },
-        headers: {
-          [HEADER_SERVICE_ID]: "velory",
+          offset,
         },
       });
     },
     listAmEquipmentItems({
-      $, cursor, limit,
+      $, limit, offset,
     }) {
       return this._makeRequest({
         $,
+        serviceId: "velory",
         url: "/api/am/equipment-items",
         params: {
-          cursor,
           limit,
-        },
-        headers: {
-          [HEADER_SERVICE_ID]: "velory",
+          offset,
         },
       });
     },
     listAmOrders({
-      $, cursor, limit,
+      $, limit, offset,
     }) {
       return this._makeRequest({
         $,
+        serviceId: "velory",
         url: "/api/am/orders",
         params: {
-          cursor,
           limit,
-        },
-        headers: {
-          [HEADER_SERVICE_ID]: "velory",
+          offset,
         },
       });
     },
     listAmBudgets({
-      $, cursor, limit,
+      $, limit, offset,
     }) {
       return this._makeRequest({
         $,
+        serviceId: "velory",
         url: "/api/am/budgets",
         params: {
-          cursor,
           limit,
-        },
-        headers: {
-          [HEADER_SERVICE_ID]: "velory",
+          offset,
         },
       });
     },
@@ -214,24 +220,20 @@ export default {
     }) {
       return this._makeRequest({
         $,
+        serviceId,
         url: "/api/sso/profile",
-        headers: {
-          ...(serviceId && {
-            [HEADER_SERVICE_ID]: serviceId,
-          }),
-        },
       });
     },
     listMdmDevices({
-      $, serviceId,
+      $, serviceId, limit, offset,
     }) {
       return this._makeRequest({
         $,
+        serviceId,
         url: "/api/mdm/devices",
-        headers: {
-          ...(serviceId && {
-            [HEADER_SERVICE_ID]: serviceId,
-          }),
+        params: {
+          limit,
+          offset,
         },
       });
     },
@@ -244,15 +246,15 @@ export default {
       });
     },
     listMdmDepTokens({
-      $, serviceId,
+      $, serviceId, limit, offset,
     }) {
       return this._makeRequest({
         $,
+        serviceId,
         url: "/api/mdm/dep-tokens",
-        headers: {
-          ...(serviceId && {
-            [HEADER_SERVICE_ID]: serviceId,
-          }),
+        params: {
+          limit,
+          offset,
         },
       });
     },
@@ -261,24 +263,20 @@ export default {
     }) {
       return this._makeRequest({
         $,
+        serviceId,
         url: `/api/mdm/dep-tokens/${depTokenId}`,
-        headers: {
-          ...(serviceId && {
-            [HEADER_SERVICE_ID]: serviceId,
-          }),
-        },
       });
     },
     listMdmVppTokens({
-      $, serviceId,
+      $, serviceId, limit, offset,
     }) {
       return this._makeRequest({
         $,
+        serviceId,
         url: "/api/mdm/vpp-tokens",
-        headers: {
-          ...(serviceId && {
-            [HEADER_SERVICE_ID]: serviceId,
-          }),
+        params: {
+          limit,
+          offset,
         },
       });
     },
@@ -287,24 +285,20 @@ export default {
     }) {
       return this._makeRequest({
         $,
+        serviceId,
         url: `/api/mdm/vpp-tokens/${vppTokenId}`,
-        headers: {
-          ...(serviceId && {
-            [HEADER_SERVICE_ID]: serviceId,
-          }),
-        },
       });
     },
     listMdmApnCerts({
-      $, serviceId,
+      $, serviceId, limit, offset,
     }) {
       return this._makeRequest({
         $,
+        serviceId,
         url: "/api/mdm/apn-certs",
-        headers: {
-          ...(serviceId && {
-            [HEADER_SERVICE_ID]: serviceId,
-          }),
+        params: {
+          limit,
+          offset,
         },
       });
     },
@@ -313,12 +307,8 @@ export default {
     }) {
       return this._makeRequest({
         $,
+        serviceId,
         url: "/api/mdm/apn-cert",
-        headers: {
-          ...(serviceId && {
-            [HEADER_SERVICE_ID]: serviceId,
-          }),
-        },
       });
     },
     trackShipment({
@@ -326,29 +316,21 @@ export default {
     }) {
       return this._makeRequest({
         $,
+        serviceId,
         url: `/api/shipment/track/id/${trackingId}/statuses`,
-        headers: {
-          ...(serviceId && {
-            [HEADER_SERVICE_ID]: serviceId,
-          }),
-        },
       });
     },
     // Distributors
     listDistributorProducts({
-      $, serviceId, cursor, limit,
+      $, serviceId, limit, offset,
     }) {
       return this._makeRequest({
         $,
+        serviceId,
         url: "/api/distributors/products",
         params: {
-          cursor,
           limit,
-        },
-        headers: {
-          ...(serviceId && {
-            [HEADER_SERVICE_ID]: serviceId,
-          }),
+          offset,
         },
       });
     },
@@ -361,15 +343,15 @@ export default {
       });
     },
     listDistributorOrders({
-      $, serviceId,
+      $, serviceId, limit, offset,
     }) {
       return this._makeRequest({
         $,
+        serviceId,
         url: "/api/distributors/orders",
-        headers: {
-          ...(serviceId && {
-            [HEADER_SERVICE_ID]: serviceId,
-          }),
+        params: {
+          limit,
+          offset,
         },
       });
     },
@@ -392,14 +374,14 @@ export default {
       });
     },
     listConsumers({
-      $, cursor, limit,
+      $, limit, offset,
     }) {
       return this._makeRequest({
         $,
         url: "/api/consumers",
         params: {
-          cursor,
           limit,
+          offset,
         },
       });
     },
@@ -423,11 +405,15 @@ export default {
       });
     },
     listConnections({
-      $, universalApi, serviceId,
+      $, universalApi, serviceId, limit, offset,
     }) {
       return this._makeRequest({
         $,
         url: `/connections/${universalApi}/${serviceId}`,
+        params: {
+          limit,
+          offset,
+        },
       });
     },
     getConnection({

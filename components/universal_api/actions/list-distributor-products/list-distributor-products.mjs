@@ -5,7 +5,7 @@ export default {
   key: "universal_api-list-distributor-products",
   name: "List Distributor Products",
   description:
-    "List products from the Distributors API on Universal API. Returns a cursor-paginated array; use the returned IDs with **Get Distributor Product**. [See the documentation](https://docs.universalapi.io/reference/list-products).",
+    "List products from the Distributors API on Universal API. Returns an array (paginated internally, up to `maxResults`). [See the documentation](https://docs.universalapi.io/reference/list-products).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -23,13 +23,23 @@ export default {
       description: "Optional `x-uapi-service-id` header to pick the integration when a consumer has multiple active Distributor integrations. One of: `webmercs`, `netset`.",
       options: DISTRIBUTOR_SERVICE_IDS,
     },
+    maxResults: {
+      propDefinition: [
+        app,
+        "maxResults",
+      ],
+    },
   },
   async run({ $ }) {
-    const response = await this.app.listDistributorProducts({
-      $,
-      serviceId: this.serviceId,
+    const response = await this.app.paginate({
+      fn: this.app.listDistributorProducts,
+      args: {
+        $,
+        serviceId: this.serviceId,
+      },
+      maxResults: this.maxResults,
     });
-    $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} distributor product(s)`);
+    $.export("$summary", `Successfully retrieved ${response.length} distributor product(s)`);
     return response;
   },
 };

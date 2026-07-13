@@ -4,7 +4,7 @@ export default {
   key: "universal_api-list-consumers",
   name: "List Consumers",
   description:
-    "List consumers from the Platform API on Universal API. Returns a cursor-paginated array; use the returned IDs with **Delete Consumer**. [See the documentation](https://docs.universalapi.io/reference/get-consumer).",
+    "List consumers from the Platform API on Universal API. Returns an array (paginated internally, up to `maxResults`); use the returned IDs with **Delete Consumer**. [See the documentation](https://docs.universalapi.io/reference/get-consumer).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -14,26 +14,22 @@ export default {
   },
   props: {
     app,
-    cursor: {
+    maxResults: {
       propDefinition: [
         app,
-        "cursor",
-      ],
-    },
-    limit: {
-      propDefinition: [
-        app,
-        "limit",
+        "maxResults",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.app.listConsumers({
-      $,
-      cursor: this.cursor,
-      limit: this.limit,
+    const response = await this.app.paginate({
+      fn: this.app.listConsumers,
+      args: {
+        $,
+      },
+      maxResults: this.maxResults,
     });
-    $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} consumer(s)`);
+    $.export("$summary", `Successfully retrieved ${response.length} consumer(s)`);
     return response;
   },
 };

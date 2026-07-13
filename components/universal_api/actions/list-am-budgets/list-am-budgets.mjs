@@ -4,7 +4,7 @@ export default {
   key: "universal_api-list-am-budgets",
   name: "List Asset Management Budgets",
   description:
-    "List budgets from the Asset Management (AM) API on Universal API. Returns a cursor-paginated array of budget objects. [See the documentation](https://docs.universalapi.io/reference/list-budgets).",
+    "List budgets from the Asset Management (AM) API on Universal API. Returns an array of budget objects (paginated internally, up to `maxResults`). [See the documentation](https://docs.universalapi.io/reference/list-budgets).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -14,26 +14,22 @@ export default {
   },
   props: {
     app,
-    cursor: {
+    maxResults: {
       propDefinition: [
         app,
-        "cursor",
-      ],
-    },
-    limit: {
-      propDefinition: [
-        app,
-        "limit",
+        "maxResults",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.app.listAmBudgets({
-      $,
-      cursor: this.cursor,
-      limit: this.limit,
+    const response = await this.app.paginate({
+      fn: this.app.listAmBudgets,
+      args: {
+        $,
+      },
+      maxResults: this.maxResults,
     });
-    $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} budget(s)`);
+    $.export("$summary", `Successfully retrieved ${response.length} budget(s)`);
     return response;
   },
 };

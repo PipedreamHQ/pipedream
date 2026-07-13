@@ -4,7 +4,7 @@ export default {
   key: "universal_api-list-am-orders",
   name: "List Asset Management Orders",
   description:
-    "List orders from the Asset Management (AM) API on Universal API. Returns a cursor-paginated array of AM order objects. This hits a different endpoint than **List Distributor Orders**. [See the documentation](https://docs.universalapi.io/reference/list-orders)",
+    "List orders from the Asset Management (AM) API on Universal API. Returns an array of AM order objects (paginated internally, up to `maxResults`). This hits a different endpoint than **List Distributor Orders**. [See the documentation](https://docs.universalapi.io/reference/list-orders)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -14,26 +14,22 @@ export default {
   },
   props: {
     app,
-    cursor: {
+    maxResults: {
       propDefinition: [
         app,
-        "cursor",
-      ],
-    },
-    limit: {
-      propDefinition: [
-        app,
-        "limit",
+        "maxResults",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.app.listAmOrders({
-      $,
-      cursor: this.cursor,
-      limit: this.limit,
+    const response = await this.app.paginate({
+      fn: this.app.listAmOrders,
+      args: {
+        $,
+      },
+      maxResults: this.maxResults,
     });
-    $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} AM order(s)`);
+    $.export("$summary", `Successfully retrieved ${response.length} AM order(s)`);
     return response;
   },
 };
