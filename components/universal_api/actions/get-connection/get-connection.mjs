@@ -5,7 +5,7 @@ export default {
   key: "universal_api-get-connection",
   name: "Get Connection",
   description:
-    "Retrieve a single connection by ID from the Platform API on Universal API. Run **List Connections** first to discover valid IDs. [See the documentation](https://docs.universalapi.io/reference/get-connection).",
+    "Retrieve a single connection identified by `universalApi` and `serviceId` from the Platform API on Universal API. Run **List Connections** first to find the correct `serviceId`. [See the documentation](https://docs.universalapi.io/reference/get-connection).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -26,6 +26,8 @@ export default {
         app,
         "serviceId",
       ],
+      description: "The service ID that, together with `universalApi`, identifies the connection (e.g. `kandji`, `jamf`, `teamtailor`).",
+      optional: false,
       options: CONNECTION_SERVICE_IDS,
     },
   },

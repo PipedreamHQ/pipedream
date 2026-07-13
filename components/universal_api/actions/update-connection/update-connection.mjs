@@ -5,7 +5,7 @@ export default {
   key: "universal_api-update-connection",
   name: "Update Connection",
   description:
-    "Update a connection by ID via the Platform API on Universal API (PATCH; only supplied fields are changed). Run **List Connections** first to find the connection ID. [See the documentation](https://docs.universalapi.io/reference/update-connection).",
+    "Update a connection identified by `universalApi` and `serviceId` via the Platform API on Universal API (PATCH; only supplied fields are changed). Run **List Connections** first to find the correct `serviceId`. [See the documentation](https://docs.universalapi.io/reference/update-connection).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -26,7 +26,8 @@ export default {
         app,
         "serviceId",
       ],
-      description: "Optional `x-uapi-service-id` header to pick the integration when a consumer has multiple active connections. Examples include `kandji`, `jamf`, `teamtailor`.",
+      description: "The service ID that, together with `universalApi`, identifies the connection (e.g. `kandji`, `jamf`, `teamtailor`).",
+      optional: false,
       options: CONNECTION_SERVICE_IDS,
     },
     apiKey: {
