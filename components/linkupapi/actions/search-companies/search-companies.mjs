@@ -1,28 +1,32 @@
 import app from "../../linkupapi.app.mjs";
-import utils from "../../common/utils.mjs";
 
 export default {
   type: "action",
   key: "linkupapi-search-companies",
   name: "Search Companies",
-  description: "Search for companies on LinkedIn based on criteria. [See the documentation](https://docs.linkupapi.com/api-reference/linkup/Companies/search)",
-  version: "0.0.2",
+  description: "Search for LinkedIn companies. [See the documentation](https://docs.linkupapi.com/api-reference/v2/profiles/search-companies)",
+  version: "1.0.0",
+  annotations: {
+    readOnlyHint: true,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
   props: {
     app,
-    loginToken: {
+    accountId: {
       propDefinition: [
         app,
-        "loginToken",
+        "accountId",
       ],
     },
     keyword: {
-      type: "string",
-      label: "Keyword",
-      description: "Search keyword for company filtering",
-      optional: true,
+      propDefinition: [
+        app,
+        "keyword",
+      ],
+      description: "Free-text keyword to search companies by (e.g. company name or industry).",
     },
     location: {
-      description: "Geographic locations to filter companies",
       propDefinition: [
         app,
         "location",
@@ -31,69 +35,39 @@ export default {
     sector: {
       type: "string[]",
       label: "Sector",
-      description: "Industry sector you can [find the label here](https://learn.microsoft.com/en-us/linkedin/shared/references/reference-tables/industry-codes-v2)",
+      description: "Industry sectors to filter by, passed as an array of strings.",
       optional: true,
     },
     companySize: {
-      type: "string",
+      type: "string[]",
       label: "Company Size",
-      description: "Employee count range: 1-10 employees 11-50 employees 51-200 employees 201-500 employees 501-1000 employees 1001-5000 employees 5001-10000 employees 10001+ employees",
+      description: "Company size ranges to filter by, passed as an array of strings, e.g. `[\"11-50\", \"51-200\"]`.",
       optional: true,
-      options: [
-        "1-10",
-        "11-50",
-        "51-200",
-        "201-500",
-        "501-1000",
-        "1001-5000",
-        "5001-10000",
-        "10001+",
-      ],
     },
     totalResults: {
-      type: "integer",
-      label: "Total Results",
-      description: "Number of companies to retrieve when not in pagination mode (default: 10)",
-      optional: true,
-    },
-    country: {
       propDefinition: [
         app,
-        "country",
+        "totalResults",
       ],
     },
   },
-  annotations: {
-    readOnlyHint: true,
-    destructiveHint: false,
-    openWorldHint: true,
-    idempotentHint: true,
-  },
   async run({ $ }) {
-    const {
-      loginToken,
-      country,
-      keyword,
-      location,
-      sector,
-      companySize,
-      totalResults,
-    } = this;
-
     const response = await this.app.searchCompanies({
       $,
-      data: {
-        login_token: loginToken,
-        country,
-        keyword,
-        location: utils.getOptionalProp(location),
-        sector: utils.getOptionalProp(sector),
-        company_size: companySize,
-        total_results: totalResults,
+      accountId: this.accountId,
+      params: {
+        keyword: this.keyword,
+        location: this.location,
+        sector: this.sector,
+        company_size: this.companySize,
+        total_results: this.totalResults,
       },
     });
 
-    $.export("$summary", "Successfully retrieved companies");
+    const count = response.data?.companies?.length || 0;
+    $.export("$summary", `Successfully retrieved ${count} compan${count === 1
+      ? "y"
+      : "ies"}`);
     return response;
   },
 };
