@@ -30,7 +30,7 @@ export default {
   name: "New Table Row Extracted",
   description:
     "Emit new event for each individual table row extracted from an AlgoDocs document (polls GET /v1/extracted_data/{documentId}). AlgoDocs represents a record's extracted `data` as a flat object, with any table/repeating field appearing as an array-valued property (e.g. `data.LineItems`). Unlike **New Extracted Data** which emits one event per extraction record, this source emits one event per row within each such array field; records with no array-valued field in `data` produce no events. Requires a document ID — run **List Documents** to find one. An optional filter narrows emissions to rows whose JSON representation contains a specified substring. [See the documentation](https://api.algodocs.com/).",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
