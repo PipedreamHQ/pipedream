@@ -141,7 +141,9 @@ export default {
         ...opts,
         params: {
           ...opts.params,
-          limit: 100,
+          limit: max
+            ? Math.min(max, 100)
+            : 100,
           offset: 0,
         },
       };
