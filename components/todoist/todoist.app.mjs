@@ -3,6 +3,7 @@ import querystring from "query-string";
 import { v4 as uuid } from "uuid";
 import colors, { numericToString } from "./common/colors.mjs";
 import resourceTypes from "./common/resource-types.mjs";
+import { ACTIVITIES } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -821,6 +822,28 @@ export default {
       return this._makeRestRequest({
         $,
         path: "/tasks/completed/by_completion_date",
+        method: "GET",
+        params,
+      });
+    },
+    /**
+     * Get activity log events from the Todoist v1 Activity Log endpoint.
+     * Supports filtering by object_event_types (e.g. ["item:completed"]),
+     * a date_from/date_to ISO 8601 window, cursor-based pagination, and a
+     * limit (1-200, default 50).
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} [opts.params = {}] - Query params: object_event_types (JSON-stringified
+     * array), date_from, date_to (ISO 8601), cursor, limit
+     * @returns {Object} JSON object with a results array and optional next_cursor
+     */
+    async getActivityLogs(opts) {
+      const {
+        $,
+        params = {},
+      } = opts;
+      return this._makeRestRequest({
+        $,
+        path: ACTIVITIES,
         method: "GET",
         params,
       });
