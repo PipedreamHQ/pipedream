@@ -98,7 +98,6 @@ export default {
         maxTs,
       };
     },
-    // Scan every watch and aggregate changed runs plus the global high-water mark.
     async _scanChanges(since, maxPages) {
       const watchIds = await this._watchIds();
       const runs = [];
