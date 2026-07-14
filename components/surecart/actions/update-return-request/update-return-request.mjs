@@ -4,7 +4,7 @@ export default {
   key: "surecart-update-return-request",
   name: "Update Return Request",
   description: "Update an existing return request. [See the documentation](https://developer.surecart.com/api-reference/return-requests/update)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

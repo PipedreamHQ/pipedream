@@ -4,7 +4,7 @@ export default {
   key: "surecart-create-subscription",
   name: "Create Subscription",
   description: "Create a new subscription for a customer. [See the documentation](https://developer.surecart.com/api-reference/subscriptions/create)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

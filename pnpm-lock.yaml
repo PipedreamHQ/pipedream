@@ -6733,6 +6733,9 @@ importers:
       '@pipedream/google_drive':
         specifier: ^1.4.1
         version: 1.4.1(encoding@0.1.13)
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.4.0
       markdown-it:
         specifier: ^14.2.0
         version: 14.2.0
