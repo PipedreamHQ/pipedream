@@ -37,7 +37,10 @@ export default {
       universalApi: this.universalApi,
       serviceId: this.serviceId,
     });
-    $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} connection(s)`);
+    const count = response.data?.id
+      ? 1
+      : response.data?.length ?? 0;
+    $.export("$summary", `Successfully retrieved ${count} connection(s)`);
     return response;
   },
 };
