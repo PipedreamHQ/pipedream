@@ -185,9 +185,7 @@ export default {
         ...(hasEntries(metadata) && {
           metadata,
         }),
-        ...(this.enabled !== undefined && {
-          enabled: this.enabled,
-        }),
+        enabled: this.enabled,
       },
     });
     $.export("$summary", `Successfully updated connection ${this.universalApi} ${this.serviceId}`);
