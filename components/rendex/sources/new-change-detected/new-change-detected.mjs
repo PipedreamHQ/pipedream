@@ -127,8 +127,6 @@ export default {
   },
   hooks: {
     async deploy() {
-      // Catch the cursor up to the newest run and surface up to the 5 most recent
-      // changes as samples. One page per watch is enough for a sample.
       const {
         runs, maxTs,
       } = await this._scanChanges(0, 1);
