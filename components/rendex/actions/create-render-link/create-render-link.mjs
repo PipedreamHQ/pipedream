@@ -190,8 +190,6 @@ export default {
       throw new ConfigurationError("Provide exactly one of `html` or `url`.");
     }
 
-    // `cookies` is a string[] of JSON objects (Pipedream has no array-of-object
-    // type); parse each into the object shape the API expects.
     let cookies;
     if (this.cookies?.length) {
       try {
