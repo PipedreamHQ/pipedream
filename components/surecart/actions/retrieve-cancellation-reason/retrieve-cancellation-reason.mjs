@@ -4,7 +4,7 @@ export default {
   key: "surecart-retrieve-cancellation-reason",
   name: "Retrieve Cancellation Reason",
   description: "Retrieve a cancellation reason by ID. [See the documentation](https://developer.surecart.com/api-reference/cancellation-reasons/retrieve)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

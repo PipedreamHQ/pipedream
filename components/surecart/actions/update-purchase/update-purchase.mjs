@@ -4,7 +4,7 @@ export default {
   key: "surecart-update-purchase",
   name: "Update Purchase",
   description: "Update an existing purchase, such as scheduling a revocation. [See the documentation](https://developer.surecart.com/api-reference/purchases/update)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
