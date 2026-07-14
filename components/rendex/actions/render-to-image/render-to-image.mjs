@@ -221,8 +221,6 @@ export default {
       }
     }
 
-    // undefined keys are dropped by JSON.stringify, so unset optional params are
-    // omitted from the request body.
     const data = {
       format: this.format || "png",
       width: this.width,
