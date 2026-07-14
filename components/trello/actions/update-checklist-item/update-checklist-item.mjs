@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import constants from "../../common/constants.mjs";
 import app from "../../trello.app.mjs";
 
@@ -135,7 +136,7 @@ export default {
     );
 
     if (!Object.keys(filteredParams).length) {
-      throw new Error("At least one field to update must be provided (name, state, pos, due, dueReminder, or idMember).");
+      throw new ConfigurationError("At least one field to update must be provided (name, state, pos, due, dueReminder, or idMember).");
     }
 
     const response = await this.app.updateChecklistItem({
