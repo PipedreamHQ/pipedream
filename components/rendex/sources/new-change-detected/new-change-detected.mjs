@@ -42,8 +42,6 @@ export default {
           this.watchId,
         ];
       }
-      // Page through every watch via `nextCursor` (null on the last page) so accounts
-      // with more than one page are fully covered.
       const ids = [];
       let cursor;
       do {
