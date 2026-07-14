@@ -4,7 +4,7 @@ export default {
   key: "surecart-retrieve-fulfillment",
   name: "Retrieve Fulfillment",
   description: "Retrieve a fulfillment by ID. [See the documentation](https://developer.surecart.com/api-reference/fulfillments/retrieve)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

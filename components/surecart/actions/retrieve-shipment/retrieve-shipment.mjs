@@ -4,7 +4,7 @@ export default {
   key: "surecart-retrieve-shipment",
   name: "Retrieve Shipment",
   description: "Retrieve a shipment by ID. [See the documentation](https://developer.surecart.com/api-reference/shipments/retrieve)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

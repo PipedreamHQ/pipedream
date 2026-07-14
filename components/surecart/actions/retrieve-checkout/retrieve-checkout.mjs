@@ -4,7 +4,7 @@ export default {
   key: "surecart-retrieve-checkout",
   name: "Retrieve Checkout",
   description: "Retrieve a checkout by ID. [See the documentation](https://developer.surecart.com/api-reference/checkouts/retrieve)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
