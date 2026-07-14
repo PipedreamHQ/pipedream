@@ -1,5 +1,4 @@
 import app from "../../universal_api.app.mjs";
-import { CONNECTION_SERVICE_IDS } from "../../common/constants.mjs";
 
 export default {
   key: "universal_api-get-connection",
@@ -24,11 +23,8 @@ export default {
     serviceId: {
       propDefinition: [
         app,
-        "serviceId",
+        "connectionServiceId",
       ],
-      description: "The service ID that, together with `universalApi`, identifies the connection (e.g. `kandji`, `jamf`, `teamtailor`).",
-      optional: false,
-      options: CONNECTION_SERVICE_IDS,
     },
   },
   async run({ $ }) {

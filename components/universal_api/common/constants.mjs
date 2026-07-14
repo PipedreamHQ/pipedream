@@ -1,4 +1,5 @@
 export const HEADER_SERVICE_ID = "x-uapi-service-id";
+export const VELORY_SERVICE_ID = "velory";
 
 export const MIN_LIMIT = 1;
 export const MAX_LIMIT = 1000;

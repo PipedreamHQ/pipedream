@@ -1,5 +1,5 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../universal_api.app.mjs";
-import { CONNECTION_SERVICE_IDS } from "../../common/constants.mjs";
 
 export default {
   key: "universal_api-update-connection",
@@ -24,11 +24,8 @@ export default {
     serviceId: {
       propDefinition: [
         app,
-        "serviceId",
+        "connectionServiceId",
       ],
-      description: "The service ID that, together with `universalApi`, identifies the connection (e.g. `kandji`, `jamf`, `teamtailor`).",
-      optional: false,
-      options: CONNECTION_SERVICE_IDS,
     },
     apiKey: {
       type: "string",
@@ -168,6 +165,9 @@ export default {
       spEntityId: this.spEntityId,
     };
     const hasEntries = (obj) => Object.values(obj).some((value) => value !== undefined);
+    if (!hasEntries(settings) && !hasEntries(metadata)) {
+      throw new ConfigurationError("Provide at least one settings or metadata field to update");
+    }
     const response = await this.app.updateConnection({
       $,
       universalApi: this.universalApi,

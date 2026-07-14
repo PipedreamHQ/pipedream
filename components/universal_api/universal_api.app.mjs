@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import {
+  CONNECTION_SERVICE_IDS,
   DISTRIBUTOR_SERVICE_IDS,
   HEADER_SERVICE_ID,
   HRIS_SERVICE_IDS,
@@ -8,6 +9,7 @@ import {
   MIN_LIMIT,
   SSO_SERVICE_IDS,
   UNIVERSAL_APIS,
+  VELORY_SERVICE_ID,
 } from "./common/constants.mjs";
 
 export default {
@@ -57,6 +59,13 @@ export default {
         "Optional `x-uapi-service-id` header to pick the integration when a consumer has multiple active HRIS integrations. One of: `bamboohr`, `google-workspace`, `azure-active-directory`, `catalyst-one`, `haileyhr`, `deel`, `sap`.",
       options: HRIS_SERVICE_IDS,
       optional: true,
+    },
+    connectionServiceId: {
+      type: "string",
+      label: "Service ID",
+      description: "The service ID that, together with `universalApi`, identifies the connection (e.g. `kandji`, `jamf`, `teamtailor`).",
+      options: CONNECTION_SERVICE_IDS,
+      optional: false,
     },
     distributorServiceId: {
       type: "string",
@@ -191,7 +200,7 @@ export default {
     }) {
       return this._makeRequest({
         $,
-        serviceId: "velory",
+        serviceId: VELORY_SERVICE_ID,
         url: "/api/am/employees",
         params: {
           limit,
@@ -204,7 +213,7 @@ export default {
     }) {
       return this._makeRequest({
         $,
-        serviceId: "velory",
+        serviceId: VELORY_SERVICE_ID,
         url: "/api/am/equipment-items",
         params: {
           limit,
@@ -215,14 +224,14 @@ export default {
     listAmOrders({ $ }) {
       return this._makeRequest({
         $,
-        serviceId: "velory",
+        serviceId: VELORY_SERVICE_ID,
         url: "/api/am/orders",
       });
     },
     listAmBudgets({ $ }) {
       return this._makeRequest({
         $,
-        serviceId: "velory",
+        serviceId: VELORY_SERVICE_ID,
         url: "/api/am/budgets",
       });
     },
