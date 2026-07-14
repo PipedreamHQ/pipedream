@@ -4,7 +4,7 @@ export default {
   key: "surecart-retrieve-subscription",
   name: "Retrieve Subscription",
   description: "Retrieve a subscription by ID. [See the documentation](https://developer.surecart.com/api-reference/subscriptions/retrieve)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
