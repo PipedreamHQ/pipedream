@@ -9,7 +9,7 @@ export function normalizeRecords(response) {
 // doing so would give the same record a different timestamp on every poll and
 // could advance the `lastTs` watermark past records that are still processing.
 export function getRecordTimestamp(record) {
-  const rawTs = record.processedAt || record.uploadedAt;
+  const rawTs = record?.processedAt || record?.uploadedAt;
   if (!rawTs) {
     return null;
   }

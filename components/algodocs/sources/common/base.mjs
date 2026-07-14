@@ -31,10 +31,10 @@ export default {
     },
   },
   methods: {
-    getLastTs() {
+    _getLastTs() {
       return this.db.get("lastTs");
     },
-    setLastTs(ts) {
+    _setLastTs(ts) {
       this.db.set("lastTs", ts);
     },
     async processEvent() {
@@ -47,7 +47,7 @@ export default {
         return;
       }
 
-      const lastTs = this.getLastTs();
+      const lastTs = this._getLastTs();
       const isFirstRun = lastTs == null;
 
       // The API returns records newest-first, so we iterate in that order.
@@ -56,7 +56,7 @@ export default {
         const ts = getRecordTimestamp(record);
 
         if (ts == null) {
-          console.error(`Skipping AlgoDocs record ${record.id}: missing or unparseable processedAt/uploadedAt timestamp`);
+          console.error(`Skipping AlgoDocs record ${record?.id}: missing or unparseable processedAt/uploadedAt timestamp`);
           continue;
         }
 
@@ -101,7 +101,7 @@ export default {
       }
 
       if (watermark > (lastTs ?? 0)) {
-        this.setLastTs(watermark);
+        this._setLastTs(watermark);
       }
     },
   },
