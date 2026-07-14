@@ -470,8 +470,8 @@ const GIFT_CARD_CREATE = `
 `;
 
 const ORDER_CREATE = `
-  mutation orderCreate($order: OrderCreateOrderInput!) {
-    orderCreate(order: $order) {
+  mutation orderCreate($order: OrderCreateOrderInput!, $options: OrderCreateOptionsInput) {
+    orderCreate(order: $order, options: $options) {
       order {
         id
         name

@@ -41,9 +41,9 @@ export default {
     }
 
     const returnInput = {
+      ...(this.additionalReturnFields || {}),
       orderId: this.orderId,
       returnLineItems,
-      ...(this.additionalReturnFields || {}),
     };
 
     const response = await this.shopify.createReturn({
@@ -51,7 +51,7 @@ export default {
     });
 
     if (response.returnCreate?.userErrors?.length > 0) {
-      throw new Error(response.returnCreate.userErrors[0].message);
+      throw new Error(response.returnCreate.userErrors.map(({ message }) => message).join(", "));
     }
 
     const createdReturn = response.returnCreate?.return;

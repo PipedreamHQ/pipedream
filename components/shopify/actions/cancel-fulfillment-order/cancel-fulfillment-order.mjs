@@ -27,7 +27,7 @@ export default {
     });
 
     if (response.fulfillmentOrderCancel?.userErrors?.length > 0) {
-      throw new Error(response.fulfillmentOrderCancel.userErrors[0].message);
+      throw new Error(response.fulfillmentOrderCancel.userErrors.map(({ message }) => message).join(", "));
     }
 
     const { fulfillmentOrder } = response.fulfillmentOrderCancel ?? {};

@@ -63,7 +63,7 @@ export default {
     });
 
     if (response.refundCreate.userErrors?.length) {
-      throw new Error(response.refundCreate.userErrors[0].message);
+      throw new Error(response.refundCreate.userErrors.map(({ message }) => message).join(", "));
     }
 
     $.export("$summary", `Successfully created refund ${response.refundCreate.refund.id} on order ${this.orderId}`);

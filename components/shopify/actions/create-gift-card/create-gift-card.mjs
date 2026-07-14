@@ -63,7 +63,7 @@ export default {
     });
 
     if (response.giftCardCreate?.userErrors?.length > 0) {
-      throw new Error(response.giftCardCreate.userErrors[0].message);
+      throw new Error(response.giftCardCreate.userErrors.map(({ message }) => message).join(", "));
     }
 
     const { giftCard } = response.giftCardCreate ?? {};

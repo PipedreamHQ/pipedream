@@ -1,5 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
 import shopify from "../../shopify.app.mjs";
+import { ORDER_CREATE_INVENTORY_BEHAVIORS } from "../../common/constants.mjs";
 
 export default {
   key: "shopify-create-order",
@@ -37,6 +38,26 @@ export default {
       description: "Comma-separated tags to apply to the order (e.g. `vip,priority`).",
       optional: true,
     },
+    inventoryBehaviour: {
+      type: "string",
+      label: "Inventory Behaviour",
+      description: "How inventory is claimed for the order. One of `BYPASS` (do not claim inventory), `DECREMENT_IGNORING_POLICY` (claim inventory, ignoring the variant's inventory policy), or `DECREMENT_OBEYING_POLICY` (claim inventory, obeying the variant's inventory policy). Defaults to `BYPASS`.",
+      options: ORDER_CREATE_INVENTORY_BEHAVIORS,
+      optional: true,
+      default: "BYPASS",
+    },
+    sendReceipt: {
+      type: "boolean",
+      label: "Send Receipt",
+      description: "Whether to send an order confirmation to the customer.",
+      optional: true,
+    },
+    sendFulfillmentReceipt: {
+      type: "boolean",
+      label: "Send Fulfillment Receipt",
+      description: "Whether to send a shipping confirmation to the customer.",
+      optional: true,
+    },
     additionalOrderFields: {
       type: "object",
       label: "Additional Order Fields",
@@ -65,10 +86,15 @@ export default {
 
     const response = await this.shopify.createOrder({
       order,
+      options: {
+        inventoryBehaviour: this.inventoryBehaviour,
+        sendReceipt: this.sendReceipt,
+        sendFulfillmentReceipt: this.sendFulfillmentReceipt,
+      },
     });
 
     if (response.orderCreate?.userErrors?.length > 0) {
-      throw new Error(response.orderCreate.userErrors[0].message);
+      throw new Error(response.orderCreate.userErrors.map(({ message }) => message).join(", "));
     }
 
     const { order: createdOrder } = response.orderCreate ?? {};

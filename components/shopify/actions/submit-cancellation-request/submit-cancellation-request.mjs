@@ -32,7 +32,7 @@ export default {
     });
 
     if (response.fulfillmentOrderSubmitCancellationRequest.userErrors?.length) {
-      throw new Error(response.fulfillmentOrderSubmitCancellationRequest.userErrors[0].message);
+      throw new Error(response.fulfillmentOrderSubmitCancellationRequest.userErrors.map(({ message }) => message).join(", "));
     }
 
     $.export("$summary", `Successfully submitted cancellation request for fulfillment order ${this.fulfillmentOrderId}`);

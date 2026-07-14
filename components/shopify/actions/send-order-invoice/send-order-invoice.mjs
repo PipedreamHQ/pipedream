@@ -65,7 +65,7 @@ export default {
     });
 
     if (response.orderInvoiceSend?.userErrors?.length > 0) {
-      throw new Error(response.orderInvoiceSend.userErrors[0].message);
+      throw new Error(response.orderInvoiceSend.userErrors.map(({ message }) => message).join(", "));
     }
 
     const { order } = response.orderInvoiceSend ?? {};

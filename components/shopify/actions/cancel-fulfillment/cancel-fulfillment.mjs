@@ -38,7 +38,7 @@ export default {
     });
 
     if (response.fulfillmentCancel?.userErrors?.length > 0) {
-      throw new Error(response.fulfillmentCancel.userErrors[0].message);
+      throw new Error(response.fulfillmentCancel.userErrors.map(({ message }) => message).join(", "));
     }
 
     const { fulfillment } = response.fulfillmentCancel ?? {};

@@ -51,7 +51,7 @@ export default {
     });
 
     if (response.fulfillmentOrderHold?.userErrors?.length > 0) {
-      throw new Error(response.fulfillmentOrderHold.userErrors[0].message);
+      throw new Error(response.fulfillmentOrderHold.userErrors.map(({ message }) => message).join(", "));
     }
 
     const { fulfillmentOrder } = response.fulfillmentOrderHold ?? {};

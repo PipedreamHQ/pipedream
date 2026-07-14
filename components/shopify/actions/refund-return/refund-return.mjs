@@ -47,10 +47,10 @@ export default {
     }
 
     const returnRefundInput = {
+      ...(this.additionalRefundFields || {}),
       returnId: this.returnId,
       returnRefundLineItems,
       notifyCustomer: this.notifyCustomer,
-      ...(this.additionalRefundFields || {}),
     };
 
     const response = await this.shopify.refundReturn({
@@ -58,7 +58,7 @@ export default {
     });
 
     if (response.returnRefund?.userErrors?.length > 0) {
-      throw new Error(response.returnRefund.userErrors[0].message);
+      throw new Error(response.returnRefund.userErrors.map(({ message }) => message).join(", "));
     }
 
     const { refund } = response.returnRefund ?? {};
