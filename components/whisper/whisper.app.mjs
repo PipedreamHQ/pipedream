@@ -7,6 +7,506 @@ import { axios, ConfigurationError } from "@pipedream/platform";
 const CONTROL_URL = "https://graph.whisper.security/api/query";
 const RDAP_URL = "https://rdap.whisper.online";
 
+// The whisper.security intelligence graph. GRAPH_URL is the same keyed query endpoint as
+// CONTROL_URL (one host); FLOW_RUN_URL runs a multi-step catalog flow by slug and streams
+// its steps back as Server-Sent Events. Docs pages hang off GRAPH_DOCS_BASE.
+const GRAPH_URL = "https://graph.whisper.security/api/query";
+const FLOW_RUN_URL = "https://console.whisper.security/api/gallery/run";
+const GRAPH_DOCS_BASE = "https://www.whisper.security";
+
+// BEGIN GENERATED: graph catalog (from the whisper catalog SSOT, catalog.json) - do not
+// edit by hand. 14 direct procedures (their Cypher runs as-is on /api/query) + 15 multi-
+// step flows (run by slug on the console gallery/run endpoint, SSE). `docsUrl` is the docs
+// page (GRAPH_DOCS_BASE + the catalog docPath).
+const GRAPH_CATALOG = [
+  {
+    "id": "anycast-dns-root-sovereignty",
+    "title": "Anycast DNS-Root Sovereignty",
+    "mode": "flow",
+    "docsUrl": "https://www.whisper.security/docs/recipes/compliance",
+    "inputs": [
+      {
+        "id": "country",
+        "paramName": "country",
+        "optional": false,
+      },
+    ],
+    "slug": "anycast-dns-root-sovereignty",
+    "params": [
+      "instanceType",
+    ],
+  },
+  {
+    "id": "attack-path",
+    "title": "Attack Path & Connection Finder",
+    "mode": "flow",
+    "docsUrl": "https://www.whisper.security/docs/recipes/attack-path",
+    "inputs": [
+      {
+        "id": "asset",
+        "paramName": "value",
+        "optional": false,
+      },
+      {
+        "id": "other",
+        "paramName": "other",
+        "optional": false,
+      },
+    ],
+    "slug": "attack-path",
+    "params": [
+      "level",
+    ],
+  },
+  {
+    "id": "attack-surface",
+    "title": "Attack-Surface Mapper",
+    "mode": "flow",
+    "docsUrl": "https://www.whisper.security/docs/recipes/pentest-recon",
+    "inputs": [
+      {
+        "id": "domain",
+        "paramName": "domain",
+        "optional": false,
+      },
+    ],
+    "slug": "attack-surface",
+    "params": [
+      "level",
+    ],
+  },
+  {
+    "id": "bgp-hijack-exposure",
+    "title": "BGP Hijack & Routing-Hygiene Audit",
+    "mode": "flow",
+    "docsUrl": "https://www.whisper.security/docs/recipes/bgp-routing",
+    "inputs": [
+      {
+        "id": "asn",
+        "paramName": "value",
+        "optional": false,
+      },
+    ],
+    "slug": "bgp-hijack-exposure",
+    "params": [],
+  },
+  {
+    "id": "blast-radius",
+    "title": "Dependency Blast Radius",
+    "mode": "flow",
+    "docsUrl": "https://www.whisper.security/docs/recipes/soc",
+    "inputs": [
+      {
+        "id": "asset",
+        "paramName": "indicator",
+        "optional": false,
+      },
+    ],
+    "slug": "blast-radius",
+    "params": [
+      "depth",
+    ],
+  },
+  {
+    "id": "build-takedown-evidence-package",
+    "title": "Takedown Evidence Package",
+    "mode": "flow",
+    "docsUrl": "https://www.whisper.security/docs/recipes/threat-intel",
+    "inputs": [
+      {
+        "id": "domain",
+        "paramName": "domain",
+        "optional": false,
+      },
+    ],
+    "slug": "build-takedown-evidence-package",
+    "params": [],
+  },
+  {
+    "id": "discover-ai-agent-infrastructure",
+    "title": "AI / Agent Infrastructure Discovery",
+    "mode": "flow",
+    "docsUrl": "https://www.whisper.security/docs/recipes/pentest-recon",
+    "inputs": [
+      {
+        "id": "domain",
+        "paramName": "value",
+        "optional": false,
+      },
+    ],
+    "slug": "discover-ai-agent-infrastructure",
+    "params": [],
+  },
+  {
+    "id": "indicator",
+    "title": "Threat Investigation",
+    "mode": "flow",
+    "docsUrl": "https://www.whisper.security/docs/recipes/soc",
+    "inputs": [
+      {
+        "id": "indicator",
+        "paramName": "indicator",
+        "optional": false,
+      },
+    ],
+    "slug": "indicator",
+    "params": [],
+  },
+  {
+    "id": "indicator-enrichment",
+    "title": "Indicator Enrichment",
+    "mode": "flow",
+    "docsUrl": "https://www.whisper.security/docs/recipes/dns-email",
+    "inputs": [
+      {
+        "id": "domain",
+        "paramName": "value",
+        "optional": false,
+      },
+    ],
+    "slug": "indicator-enrichment",
+    "params": [],
+  },
+  {
+    "id": "infrastructure-mapping",
+    "title": "Digital Infrastructure Mapping",
+    "mode": "flow",
+    "docsUrl": "https://www.whisper.security/docs/recipes/compliance",
+    "inputs": [
+      {
+        "id": "target",
+        "paramName": "value",
+        "optional": false,
+      },
+    ],
+    "slug": "infrastructure-mapping",
+    "params": [
+      "level",
+    ],
+  },
+  {
+    "id": "map-supply-chain-concentration",
+    "title": "Infrastructure Concentration & Resilience",
+    "mode": "flow",
+    "docsUrl": "https://www.whisper.security/docs/recipes/compliance",
+    "inputs": [
+      {
+        "id": "domain",
+        "paramName": "domain",
+        "optional": false,
+      },
+    ],
+    "slug": "map-supply-chain-concentration",
+    "params": [],
+  },
+  {
+    "id": "nameserver-hijack-dns-consistency",
+    "title": "Nameserver & DNS Delegation Audit",
+    "mode": "flow",
+    "docsUrl": "https://www.whisper.security/docs/recipes/dns-email",
+    "inputs": [
+      {
+        "id": "domain",
+        "paramName": "value",
+        "optional": false,
+      },
+    ],
+    "slug": "nameserver-hijack-dns-consistency",
+    "params": [],
+  },
+  {
+    "id": "route-health",
+    "title": "Network & Routing Report",
+    "mode": "flow",
+    "docsUrl": "https://www.whisper.security/docs/recipes/bgp-routing",
+    "inputs": [
+      {
+        "id": "target",
+        "paramName": "target",
+        "optional": false,
+      },
+    ],
+    "slug": "route-health",
+    "params": [],
+  },
+  {
+    "id": "subdomain-takeover",
+    "title": "Subdomain Takeover Detection",
+    "mode": "flow",
+    "docsUrl": "https://www.whisper.security/docs/recipes/pentest-recon",
+    "inputs": [
+      {
+        "id": "domain",
+        "paramName": "value",
+        "optional": false,
+      },
+    ],
+    "slug": "subdomain-takeover",
+    "params": [],
+  },
+  {
+    "id": "typosquat",
+    "title": "Typosquat & Brand-Impersonation Scanner",
+    "mode": "flow",
+    "docsUrl": "https://www.whisper.security/docs/recipes/brand-protection",
+    "inputs": [
+      {
+        "id": "domain",
+        "paramName": "domain",
+        "optional": false,
+      },
+    ],
+    "slug": "typosquat",
+    "params": [],
+  },
+  {
+    "id": "identify",
+    "title": "Vendor / Operator Identity (whisper.identify)",
+    "mode": "direct",
+    "docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/identify",
+    "inputs": [
+      {
+        "id": "value",
+        "paramName": "v",
+        "optional": false,
+      },
+    ],
+    "cypher": "CALL whisper.identify([$v]) YIELD host, vendor_id, canonical_name, category, roles, host_class, band",
+  },
+  {
+    "id": "assess",
+    "title": "Threat Posture (whisper.assess)",
+    "mode": "direct",
+    "docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures",
+    "inputs": [
+      {
+        "id": "value",
+        "paramName": "v",
+        "optional": false,
+      },
+    ],
+    "cypher": "CALL whisper.assess([$v]) YIELD host, label, band, sub_labels, coverage, evidence",
+  },
+  {
+    "id": "variants",
+    "title": "Typosquat Variant Generator (whisper.variants)",
+    "mode": "direct",
+    "docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/variants",
+    "inputs": [
+      {
+        "id": "value",
+        "paramName": "v",
+        "optional": false,
+      },
+    ],
+    "cypher": "CALL whisper.variants($v) YIELD variant, method, exists, confidence",
+  },
+  {
+    "id": "walk",
+    "title": "Vendor Attribution Walk (whisper.walk)",
+    "mode": "direct",
+    "docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures",
+    "inputs": [
+      {
+        "id": "value",
+        "paramName": "v",
+        "optional": false,
+      },
+    ],
+    "cypher": "CALL whisper.walk($v) YIELD coverage, host, nearest_known_vendors, no_atlas_match, siblings",
+  },
+  {
+    "id": "explain",
+    "title": "Threat-Feed Explainer (whisper.explain / explain)",
+    "mode": "direct",
+    "docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/explain",
+    "inputs": [
+      {
+        "id": "value",
+        "paramName": "v",
+        "optional": false,
+      },
+    ],
+    "cypher": "CALL whisper.explain($v) YIELD indicator, score, level, explanation, sources",
+  },
+  {
+    "id": "psl-tldplusone",
+    "title": "Registrable Apex (whisper.psl.tldPlusOne)",
+    "mode": "direct",
+    "docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/helpers",
+    "inputs": [
+      {
+        "id": "value",
+        "paramName": "v",
+        "optional": false,
+      },
+    ],
+    "cypher": "CALL whisper.psl.tldPlusOne($v) YIELD apex",
+  },
+  {
+    "id": "psl-affiliation",
+    "title": "PSL Private-Suffix Affiliation (whisper.psl.affiliation)",
+    "mode": "direct",
+    "docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/helpers",
+    "inputs": [
+      {
+        "id": "value",
+        "paramName": "v",
+        "optional": false,
+      },
+    ],
+    "cypher": "CALL whisper.psl.affiliation($v) YIELD found, suffix, submitterOrg, submitterLogin, evidenceKind, confidence",
+  },
+  {
+    "id": "origins",
+    "title": "CDN-Origin De-cloaker (whisper.origins)",
+    "mode": "direct",
+    "docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/origins",
+    "inputs": [
+      {
+        "id": "value",
+        "paramName": "v",
+        "optional": false,
+      },
+    ],
+    "cypher": "CALL whisper.origins($v) YIELD ip, confidence, methods, asn, asnName, kind",
+  },
+  {
+    "id": "history",
+    "title": "WHOIS History Timeline (whisper.history)",
+    "mode": "direct",
+    "docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/history",
+    "inputs": [
+      {
+        "id": "value",
+        "paramName": "v",
+        "optional": false,
+      },
+    ],
+    "cypher": "CALL whisper.history($v)",
+  },
+  {
+    "id": "history-whois",
+    "title": "WHOIS History (projection) (whisper.history.whois)",
+    "mode": "direct",
+    "docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/history",
+    "inputs": [
+      {
+        "id": "value",
+        "paramName": "v",
+        "optional": false,
+      },
+    ],
+    "cypher": "CALL whisper.history.whois($v) YIELD queryTime, createDate, updateDate, expiryDate, registrar, registrant, country, nameServers",
+  },
+  {
+    "id": "asset",
+    "title": "AS-SET Membership (whisper.asSet)",
+    "mode": "direct",
+    "docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures",
+    "inputs": [
+      {
+        "id": "value",
+        "paramName": "v",
+        "optional": false,
+      },
+    ],
+    "cypher": "CALL whisper.asSet($v) YIELD asSetName, memberAsn, sourceRir",
+  },
+  {
+    "id": "lookup-tor-relay",
+    "title": "Tor Exit-Relay Lookup (whisper.lookupTorRelay)",
+    "mode": "direct",
+    "docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/helpers",
+    "inputs": [
+      {
+        "id": "value",
+        "paramName": "v",
+        "optional": false,
+      },
+    ],
+    "cypher": "CALL whisper.lookupTorRelay($v) YIELD indicator, found, fingerprint, exitAddressCount, source, ingestedAt",
+  },
+  {
+    "id": "db-schema",
+    "title": "Graph Schema Catalog (db.schema)",
+    "mode": "direct",
+    "docsUrl": "https://www.whisper.security/docs/whisper-graph/schema",
+    "inputs": [],
+    "cypher": "CALL db.schema()",
+  },
+  {
+    "id": "submit",
+    "title": "Submit Observation / Feedback (whisper.submit)",
+    "mode": "direct",
+    "docsUrl": "https://www.whisper.security/docs/cypher-api",
+    "inputs": [
+      {
+        "id": "kind",
+        "paramName": "kind",
+        "optional": false,
+      },
+      {
+        "id": "identifierKind",
+        "paramName": "identifier_kind",
+        "optional": false,
+      },
+      {
+        "id": "value",
+        "paramName": "value",
+        "optional": false,
+      },
+      {
+        "id": "observationId",
+        "paramName": "observation_id",
+        "optional": true,
+      },
+      {
+        "id": "confidence",
+        "paramName": "confidence",
+        "optional": true,
+      },
+      {
+        "id": "firstSeen",
+        "paramName": "first_seen",
+        "optional": true,
+      },
+      {
+        "id": "provenance",
+        "paramName": "provenance",
+        "optional": true,
+      },
+      {
+        "id": "query",
+        "paramName": "query",
+        "optional": true,
+      },
+      {
+        "id": "results",
+        "paramName": "results",
+        "optional": true,
+      },
+      {
+        "id": "comment",
+        "paramName": "comment",
+        "optional": true,
+      },
+      {
+        "id": "severity",
+        "paramName": "severity",
+        "optional": true,
+      },
+      {
+        "id": "v",
+        "paramName": "v",
+        "optional": true,
+      },
+    ],
+    "map": "whisper.submit",
+  },
+];
+// END GENERATED: graph catalog
+
 export default {
   type: "app",
   app: "whisper",
@@ -469,6 +969,344 @@ export default {
           agent,
         },
       });
+    },
+
+    // ================================================================================
+    // Graph tier - the keyed intelligence graph (graph.whisper.security/api/query). Raw
+    // Cypher plus the named catalog recipes: 14 direct procedures run their Cypher as-is
+    // and 15 multi-step flows run by slug on the console gallery/run endpoint (SSE). Reuses
+    // the same X-API-Key auth as the control plane. Every recipe links its docs page.
+    // See https://www.whisper.security/docs/cypher-api
+    // ================================================================================
+    _graphUrl() {
+      return GRAPH_URL;
+    },
+    _flowRunUrl() {
+      return FLOW_RUN_URL;
+    },
+    _graphDocsBase() {
+      return GRAPH_DOCS_BASE;
+    },
+    // The full recipe catalog (14 direct + 15 flow); each entry carries its docsUrl.
+    graphCatalog() {
+      return GRAPH_CATALOG;
+    },
+    _graphEntry(id) {
+      const entry = GRAPH_CATALOG.find((e) => e.id === id);
+      if (!entry) {
+        throw new ConfigurationError(`Unknown graph recipe "${id}".`);
+      }
+      return entry;
+    },
+    // Normalise the /api/query reply into {columns, rows, statistics}. Per the contract rows
+    // are OBJECTS keyed by column name; a positional-array row (aligned to columns) also
+    // decodes, so a liberal server shape still works. Never throws on shape.
+    _normalizeGraph(body) {
+      if (!body || typeof body !== "object") {
+        return {
+          columns: [],
+          rows: [],
+          statistics: null,
+        };
+      }
+      const columns = Array.isArray(body.columns)
+        ? body.columns
+        : [];
+      const rawRows = Array.isArray(body.rows)
+        ? body.rows
+        : [];
+      const rows = rawRows.map((row) => {
+        if (Array.isArray(row)) {
+          const out = {};
+          columns.forEach((c, i) => {
+            if (i < row.length) {
+              out[c] = row[i];
+            }
+          });
+          return out;
+        }
+        return row && typeof row === "object"
+          ? row
+          : {
+            value: row,
+          };
+      });
+      return {
+        columns,
+        rows,
+        statistics: body.statistics || null,
+      };
+    },
+    // The one place that talks to the graph query API. POSTs {query, parameters} with the
+    // account key in X-API-Key and, on an HTTP>=400 or an RFC-7807 problem body, throws a
+    // clear error carrying the server's detail (Postel: a helpful message, never a 500).
+    async _graphPost({
+      $ = this, query, parameters,
+    }) {
+      const apiKey = this._requireApiKey();
+      const response = await axios($, {
+        method: "POST",
+        url: this._graphUrl(),
+        headers: {
+          "X-API-Key": apiKey,
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        data: {
+          query,
+          parameters: parameters || {},
+        },
+        returnFullResponse: true,
+        validateStatus: () => true,
+      });
+      const body = response.data;
+      const hasTable = body && typeof body === "object"
+        && (Array.isArray(body.columns) || Array.isArray(body.rows));
+      const problem = body && typeof body === "object"
+        && (body.error || (!hasTable && (body.detail || body.title || body.type)));
+      if (response.status >= 400 || problem) {
+        const e = (body && (body.error || body)) || {};
+        throw new Error(
+          e.detail || e.title || e.message || e.type
+            || `graph query returned status ${response.status}`,
+        );
+      }
+      return this._normalizeGraph(body);
+    },
+    // Raw Cypher escape hatch: returns the full {columns, rows, statistics}. Bind user input
+    // as $parameters (never string-concatenate it) so a query is always injection-safe.
+    // @see https://www.whisper.security/docs/cypher-api
+    async graphQuery({
+      $ = this, cypher, params,
+    }) {
+      if (!cypher || `${cypher}`.trim() === "") {
+        throw new ConfigurationError("Run Cypher needs a Cypher query string.");
+      }
+      return this._graphPost({
+        $,
+        query: cypher,
+        parameters: params || {},
+      });
+    },
+    // Coerce one catalog value: reject a missing required input with a clear message, and
+    // treat an empty/blank value as absent (so an optional field is simply omitted).
+    _graphInputValue(entry, input, values) {
+      const v = values[input.id];
+      const present = v !== undefined && v !== null && `${v}`.trim() !== "";
+      if (!present && !input.optional) {
+        throw new ConfigurationError(
+          `Graph recipe "${entry.id}" needs a value for "${input.id}".`,
+        );
+      }
+      return present
+        ? v
+        : undefined;
+    },
+    // Run a named catalog recipe by its id. `values` is keyed by the catalog input/param id;
+    // the wire names come from the catalog, so a caller never has to know them. Direct
+    // procedures bind their inputs as $parameters and run the catalog Cypher; the submit
+    // map-call builds an injection-safe map; flows run by slug on the gallery/run endpoint.
+    async runGraphRecipe({
+      $ = this, id, values = {},
+    }) {
+      const entry = this._graphEntry(id);
+      if (entry.mode === "flow") {
+        const inputs = {};
+        const params = {};
+        for (const input of entry.inputs) {
+          const v = this._graphInputValue(entry, input, values);
+          if (v !== undefined) {
+            inputs[input.paramName] = v;
+          }
+        }
+        for (const name of (entry.params || [])) {
+          const v = values[name];
+          if (v !== undefined && v !== null && `${v}`.trim() !== "") {
+            params[name] = v;
+          }
+        }
+        return this.runGraphFlow({
+          $,
+          slug: entry.slug,
+          inputs,
+          params,
+        });
+      }
+      if (entry.map) {
+        return this._runGraphSubmit({
+          $,
+          entry,
+          values,
+        });
+      }
+      const parameters = {};
+      for (const input of entry.inputs) {
+        const v = this._graphInputValue(entry, input, values);
+        if (v !== undefined) {
+          parameters[input.paramName] = v;
+        }
+      }
+      const { rows } = await this._graphPost({
+        $,
+        query: entry.cypher,
+        parameters,
+      });
+      return rows;
+    },
+    // whisper.submit map-call: each provided field becomes one entry of a Cypher map with
+    // its value bound as its own $parameter (injection-safe), keys in SORTED order so the
+    // query is byte-stable. Field names are the catalog wire names (validated identifiers).
+    async _runGraphSubmit({
+      $ = this, entry, values,
+    }) {
+      const parameters = {};
+      const pairs = [];
+      for (const input of entry.inputs) {
+        const v = this._graphInputValue(entry, input, values);
+        if (v === undefined) {
+          continue;
+        }
+        if (!/^[A-Za-z_][A-Za-z0-9_]*$/.test(input.paramName)) {
+          throw new ConfigurationError(`Invalid submit field "${input.paramName}".`);
+        }
+        parameters[input.paramName] = v;
+        pairs.push(`${input.paramName}:$${input.paramName}`);
+      }
+      pairs.sort();
+      const query = `CALL ${entry.map}({${pairs.join(",")}})`;
+      const { rows } = await this._graphPost({
+        $,
+        query,
+        parameters,
+      });
+      return rows;
+    },
+    // Parse an SSE stream body into [{event, data}]; data is JSON-decoded when possible,
+    // else kept as the raw string. Never throws on shape.
+    _parseSse(text) {
+      const events = [];
+      const records = String(text)
+        .replace(/\r\n/g, "\n")
+        .split("\n\n");
+      for (const rec of records) {
+        if (rec.trim() === "") {
+          continue;
+        }
+        let event = "message";
+        const dataLines = [];
+        for (const line of rec.split("\n")) {
+          if (line.startsWith("event:")) {
+            event = line.slice(6).trim();
+          } else if (line.startsWith("data:")) {
+            dataLines.push(line.slice(5).replace(/^ /, ""));
+          }
+        }
+        let data = dataLines.join("\n");
+        try {
+          data = JSON.parse(data);
+        } catch {
+          // not JSON - keep the raw string
+        }
+        events.push({
+          event,
+          data,
+        });
+      }
+      return events;
+    },
+    _firstSseError(text) {
+      const errEv = this._parseSse(text)
+        .find((ev) => ev.event === "error");
+      if (!errEv) {
+        return null;
+      }
+      const d = errEv.data;
+      return d && typeof d === "object"
+        ? (d.detail || d.message || d.error || null)
+        : `${d}`;
+    },
+    // Run a multi-step flow by slug on the gallery/run endpoint (keyed). POSTs {slug, inputs,
+    // params}, consumes the Server-Sent-Events stream (buffered as text) and returns the
+    // collected { slug, steps, complete, events }. Flows are multi-step, so the timeout is
+    // generous; a liberal server that answers plain JSON is accepted too.
+    async runGraphFlow({
+      $ = this, slug, inputs = {}, params = {}, timeout = 300000,
+    }) {
+      const apiKey = this._requireApiKey();
+      const response = await axios($, {
+        method: "POST",
+        url: this._flowRunUrl(),
+        headers: {
+          "X-API-Key": apiKey,
+          "Content-Type": "application/json",
+          "Accept": "text/event-stream",
+        },
+        data: {
+          slug,
+          inputs,
+          params,
+        },
+        responseType: "text",
+        timeout,
+        returnFullResponse: true,
+        validateStatus: () => true,
+      });
+      if (response.status >= 400) {
+        const b = response.data;
+        let detail = `the workflow runner returned status ${response.status}`;
+        if (b && typeof b === "object") {
+          detail = b.detail || b.message || b.title || detail;
+        } else if (typeof b === "string" && b.trim() !== "") {
+          detail = this._firstSseError(b) || detail;
+        }
+        throw new Error(detail);
+      }
+      const events = typeof response.data === "string"
+        ? this._parseSse(response.data)
+        : [];
+      if (events.length === 0 && response.data && typeof response.data === "object") {
+        return {
+          slug,
+          steps: [],
+          complete: response.data,
+          events: [],
+        };
+      }
+      const steps = events
+        .filter((ev) => ev.event === "step")
+        .map((ev) => ev.data);
+      const completeEv = events.findLast((ev) => ev.event === "complete");
+      const complete = completeEv && typeof completeEv.data === "object"
+        ? completeEv.data
+        : null;
+      const errEv = events.find((ev) => ev.event === "error");
+      if (errEv && !complete && steps.length === 0) {
+        const d = errEv.data;
+        const msg = d && typeof d === "object"
+          ? (d.detail || d.message || d.error)
+          : `${d}`;
+        throw new Error(msg || `graph flow "${slug}" failed on the workflow runner`);
+      }
+      return {
+        slug,
+        steps,
+        complete,
+        events,
+      };
+    },
+    // A friendly one-line summary for either shape a recipe returns (rows or flow steps).
+    graphSummary(id, result) {
+      if (Array.isArray(result)) {
+        return `Ran graph recipe "${id}": ${result.length} row${result.length === 1
+          ? ""
+          : "s"}`;
+      }
+      if (result && Array.isArray(result.steps)) {
+        return `Ran graph flow "${id}": ${result.steps.length} step${result.steps.length === 1
+          ? ""
+          : "s"}`;
+      }
+      return `Ran graph recipe "${id}"`;
     },
   },
 };
