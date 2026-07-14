@@ -140,8 +140,6 @@ export default {
   },
   async run() {
     const lastTs = this._getLastTs();
-    // _scanChanges only returns runs newer than lastTs and reports the newest run
-    // timestamp seen, so the cursor advances past quiet runs without re-scanning them.
     const {
       runs, maxTs,
     } = await this._scanChanges(lastTs);
