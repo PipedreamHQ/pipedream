@@ -59,11 +59,6 @@ export default {
       } while (cursor);
       return ids;
     },
-    // Walk one watch's run history (newest-first) collecting changed runs newer than
-    // `since`, and track the newest run timestamp seen (changed or not). A watch
-    // checks sequentially, so once we hit a run at/before `since` every later run is
-    // older too and we can stop. `maxPages` caps the deploy sample to one page.
-    // Returns { runs, maxTs } where maxTs is the high-water mark for the cursor.
     async _scanWatch(watchId, since, maxPages) {
       const runs = [];
       let maxTs = since;
