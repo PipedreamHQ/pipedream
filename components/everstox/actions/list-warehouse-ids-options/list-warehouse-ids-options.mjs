@@ -4,7 +4,7 @@ export default {
   key: "everstox-list-warehouse-ids-options",
   name: "List Warehouse IDs Options",
   description: "Retrieves available options for the Warehouse IDs field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

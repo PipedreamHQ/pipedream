@@ -4,7 +4,7 @@ export default {
   key: "surecart-update-subscription",
   name: "Update Subscription",
   description: "Update an existing subscription. [See the documentation](https://developer.surecart.com/api-reference/subscriptions/update)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

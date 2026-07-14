@@ -4,6 +4,28 @@ import {
 } from "./constants.mjs";
 
 /**
+ * Extract the canonical subreddit name from a bare name, an `r/`-prefixed
+ * name, or a full Reddit subreddit URL, so it can be safely used as a single
+ * path segment. Reddit's exact casing is preserved.
+ *
+ * @param {string | undefined} input
+ * @returns {string}
+ */
+export function normalizeSubreddit(input) {
+  const value = input?.trim();
+  if (!value) {
+    return "";
+  }
+  const urlMatch = value.match(/reddit\.com\/r\/([^/?#]+)/i);
+  if (urlMatch) {
+    return urlMatch[1];
+  }
+  return value
+    .replace(/^\/?r\//i, "")
+    .split(/[/?#]/)[0];
+}
+
+/**
  * @param {Record<string, string | undefined>} query
  * @param {string | undefined} cursor
  */
@@ -12,6 +34,47 @@ export function withCursor(query, cursor) {
   if (trimmed) {
     query.cursor = trimmed;
   }
+}
+
+/** @param {string | undefined} cursor */
+export function trimCursor(cursor) {
+  const trimmed = cursor?.trim();
+  return trimmed
+    ? trimmed
+    : undefined;
+}
+
+/** Strip a leading `#` if the user typed one — the description says it's optional. */
+export function normalizeHashtag(hashtag) {
+  return hashtag?.trim().replace(/^#+/, "") || undefined;
+}
+
+/**
+ * Two-letter ISO country code, upper-cased. Throws a clear error on bad
+ * input rather than letting the API return a generic 400.
+ */
+export function normalizeRegion(region) {
+  const r = region?.trim().toUpperCase();
+  if (!r || !/^[A-Z]{2}$/.test(r)) {
+    throw new Error("Region must be a two-letter country code (e.g. US, GB, DE).");
+  }
+  return r;
+}
+
+/**
+ * TikTok search endpoints include a per-video `details` field that is the
+ * raw upstream API payload (~30-80 KB per video — internal flags, music
+ * metadata, base64 thumbnails). 16 videos × 80 KB easily exceeds the input
+ * window of any current LLM, making the response unusable for an AI agent.
+ * Strip it so the cleaner top-level fields (id, caption, stats, author,
+ * media) come through. Mutates and returns the response for ergonomics.
+ */
+export function stripVideoDetails(response) {
+  const videos = response?.data?.videos;
+  if (Array.isArray(videos)) {
+    for (const v of videos) delete v.details;
+  }
+  return response;
 }
 
 /**

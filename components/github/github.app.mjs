@@ -49,6 +49,11 @@ export default {
       description: "The issue number — the `#N` shown in the GitHub UI, not the global issue ID. Use **Search Issues and Pull Requests** or **Get Issue** to find it when you only know the title.",
       type: "integer",
     },
+    pullNumberStatic: {
+      label: "Pull Request Number",
+      description: "The pull request number — the `#N` shown in the GitHub UI. Use **Search Issues and Pull Requests** with `is:pr` or **Get Pull Request** to find it when you only know the title.",
+      type: "integer",
+    },
     repoOrg: {
       label: "Organization Repository",
       description: "The repository in a organization",
@@ -831,10 +836,12 @@ export default {
       repoFullname,
       perPage,
       page,
+      ...args
     }) {
       const response = await this._client().request(`GET /repos/${repoFullname}/actions/runs`, {
         per_page: perPage,
         page: page,
+        ...args,
       });
 
       return response.data;
@@ -996,6 +1003,57 @@ export default {
       repoFullname, ...args
     }) {
       const response = await this._client().request(`GET /repos/${repoFullname}/commits`, args);
+      return response.data;
+    },
+    async mergePullRequest({
+      repoFullname, pullNumber, data,
+    }) {
+      const response = await this._client().request(`PUT /repos/${repoFullname}/pulls/${pullNumber}/merge`, data);
+      return response.data;
+    },
+    async createPullRequestReview({
+      repoFullname, pullNumber, data,
+    }) {
+      const response = await this._client().request(`POST /repos/${repoFullname}/pulls/${pullNumber}/reviews`, data);
+      return response.data;
+    },
+    async getPullRequestFiles({
+      repoFullname, pullNumber,
+    }) {
+      return this._client().paginate(`GET /repos/${repoFullname}/pulls/${pullNumber}/files`, {
+        per_page: 100,
+      });
+    },
+    async getCommitStatus({
+      repoFullname, ref,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/commits/${ref}/status`, {});
+      return response.data;
+    },
+    async getCheckRunsForRef({
+      repoFullname, ref,
+    }) {
+      return this._client().paginate(`GET /repos/${repoFullname}/commits/${ref}/check-runs`, {
+        per_page: 100,
+      });
+    },
+    async getRef({
+      repoFullname, ref,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/git/ref/${ref}`, {});
+      return response.data;
+    },
+    async getWorkflowRunJobs({
+      repoFullname, workflowRunId,
+    }) {
+      return this._client().paginate(`GET /repos/${repoFullname}/actions/runs/${workflowRunId}/jobs`, {
+        per_page: 100,
+      });
+    },
+    async rerunFailedJobs({
+      repoFullname, workflowRunId,
+    }) {
+      const response = await this._client().request(`POST /repos/${repoFullname}/actions/runs/${workflowRunId}/rerun-failed-jobs`, {});
       return response.data;
     },
   },

@@ -4,7 +4,7 @@ export default {
   key: "dataforb2b-search-people",
   name: "Search People",
   description: "Search professional profiles using advanced filters or a lookalike profile. Returns matching people with their details. [See the documentation](https://docs.dataforb2b.ai/api-reference/search-people)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

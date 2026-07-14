@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-purchases",
   name: "List Purchases",
   description: "Return a list of purchases. [See the documentation](https://developer.surecart.com/api-reference/purchases/list)",
-  version: "0.0.2",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -14,10 +14,10 @@ export default {
   props: {
     surecart,
     checkoutIds: {
-      type: "string[]",
-      label: "Checkout IDs",
-      description: "Filter by checkout IDs. Use **List Checkouts** to find checkout IDs. Example: `[\"ch_abc123\"]`",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "checkoutIds",
+      ],
     },
     createdAtGt: {
       type: "integer",
@@ -44,10 +44,10 @@ export default {
       optional: true,
     },
     customerIds: {
-      type: "string[]",
-      label: "Customer IDs",
-      description: "Filter by customer IDs. Use **List Customers** to find customer IDs. Example: `[\"cus_abc123\"]`",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "customerIds",
+      ],
     },
     downloadable: {
       type: "boolean",
@@ -64,13 +64,13 @@ export default {
     licenseIds: {
       type: "string[]",
       label: "License IDs",
-      description: "Filter by license IDs. Example: `[\"lic_abc123\"]`",
+      description: "Filter by license IDs. Example: `[\"b47ca4c2-6cd2-41d5-aefb-4dc459642c56\"]`",
       optional: true,
     },
-    limit: {
+    maxResults: {
       propDefinition: [
         surecart,
-        "limit",
+        "maxResults",
       ],
     },
     liveMode: {
@@ -82,20 +82,14 @@ export default {
     orderIds: {
       type: "string[]",
       label: "Order IDs",
-      description: "Filter by order IDs. Use **List Orders** to find order IDs. Example: `[\"ord_abc123\"]`",
+      description: "Filter by order IDs. Use **List Orders** to find order IDs. Example: `[\"b47ca4c2-6cd2-41d5-aefb-4dc459642c56\"]`",
       optional: true,
-    },
-    page: {
-      propDefinition: [
-        surecart,
-        "page",
-      ],
     },
     productIds: {
-      type: "string[]",
-      label: "Product IDs",
-      description: "Filter by product IDs. Use **List Products** to find product IDs. Example: `[\"prod_abc123\"]`",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "productIds",
+      ],
     },
     revoked: {
       type: "boolean",
@@ -106,37 +100,41 @@ export default {
     subscriptionIds: {
       type: "string[]",
       label: "Subscription IDs",
-      description: "Filter by subscription IDs. Use **List Subscriptions** to find subscription IDs. Example: `[\"sub_abc123\"]`",
+      description: "Filter by subscription IDs. Use **List Subscriptions** to find subscription IDs. Example: `[\"b47ca4c2-6cd2-41d5-aefb-4dc459642c56\"]`",
       optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.surecart.listPurchases({
-      $,
-      params: {
-        "checkout_ids[]": this.checkoutIds,
-        "created_at": (this.createdAtGt !== undefined || this.createdAtGte !== undefined || this.createdAtLt !== undefined || this.createdAtLte !== undefined)
-          ? {
-            gt: this.createdAtGt,
-            gte: this.createdAtGte,
-            lt: this.createdAtLt,
-            lte: this.createdAtLte,
-          }
-          : undefined,
-        "customer_ids[]": this.customerIds,
-        "downloadable": this.downloadable,
-        "ids[]": this.ids,
-        "license_ids[]": this.licenseIds,
-        "limit": this.limit,
-        "live_mode": this.liveMode,
-        "order_ids[]": this.orderIds,
-        "page": this.page,
-        "product_ids[]": this.productIds,
-        "revoked": this.revoked,
-        "subscription_ids[]": this.subscriptionIds,
+    const results = this.surecart.paginate({
+      fn: this.surecart.listPurchases,
+      args: {
+        $,
+        params: {
+          "checkout_ids[]": this.checkoutIds,
+          "created_at[gt]": this.createdAtGt,
+          "created_at[gte]": this.createdAtGte,
+          "created_at[lt]": this.createdAtLt,
+          "created_at[lte]": this.createdAtLte,
+          "customer_ids[]": this.customerIds,
+          "downloadable": this.downloadable,
+          "ids[]": this.ids,
+          "license_ids[]": this.licenseIds,
+          "live_mode": this.liveMode,
+          "order_ids[]": this.orderIds,
+          "product_ids[]": this.productIds,
+          "revoked": this.revoked,
+          "subscription_ids[]": this.subscriptionIds,
+        },
       },
+      max: this.maxResults,
     });
-    $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} purchase(s)`);
-    return response;
+
+    const purchases = [];
+    for await (const purchase of results) {
+      purchases.push(purchase);
+    }
+
+    $.export("$summary", `Successfully retrieved ${purchases.length} purchase(s)`);
+    return purchases;
   },
 };
