@@ -3,7 +3,7 @@ import app from "../../whisper.app.mjs";
 export default {
   key: "whisper-allocate-identity",
   name: "Allocate Identity",
-  description: "Allocate a routable IPv6 `/128` identity to **your own** caller account (`op:identity`) — unlike **Register Agent**, no new agent or API key is minted; the address, FQDN and PTR are bound to the calling key itself. Requires a connected Whisper account (your `whisper_live_` key). [See the documentation](https://whisper.online/platform)",
+  description: "Allocate a routable IPv6 `/128` identity to **your own** caller account (`op:identity`) - unlike **Register Agent**, no new agent or API key is minted; the address, FQDN and PTR are bound to the calling key itself. Requires a connected Whisper account (your `whisper_live_` key). [See the documentation](https://whisper.online/platform)",
   version: "0.0.1",
   type: "action",
   annotations: {

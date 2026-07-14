@@ -3,7 +3,7 @@ import app from "../../whisper.app.mjs";
 export default {
   key: "whisper-get-agent",
   name: "Get Agent",
-  description: "Fetch one agent's full detail and live counters (`op:agent`) — id, address, FQDN, PTR, label, state, allocation time, last-seen, DNS query/block counts, traffic bytes and connection counters. Select the agent by its id or its `/128` address. Requires a connected Whisper account (your `whisper_live_` key). [See the documentation](https://whisper.online/platform)",
+  description: "Fetch one agent's full detail and live counters (`op:agent`) - id, address, FQDN, PTR, label, state, allocation time, last-seen, DNS query/block counts, traffic bytes and connection counters. Select the agent by its id or its `/128` address. Requires a connected Whisper account (your `whisper_live_` key). [See the documentation](https://whisper.online/platform)",
   version: "0.0.1",
   type: "action",
   annotations: {

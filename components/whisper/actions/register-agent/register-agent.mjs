@@ -3,7 +3,7 @@ import app from "../../whisper.app.mjs";
 export default {
   key: "whisper-register-agent",
   name: "Register Agent",
-  description: "Mint a brand-new Whisper agent with its own routable IPv6 `/128` identity **and** its own API key (`op:register`). Returns the agent id, address, FQDN, PTR, state, and the new agent's `api_key` — which is shown **once**, so capture it now. Requires a connected Whisper account (your `whisper_live_` key with the `admin:dns` scope). [See the documentation](https://whisper.online/platform)",
+  description: "Mint a brand-new Whisper agent with its own routable IPv6 `/128` identity **and** its own API key (`op:register`). Returns the agent id, address, FQDN, PTR, state, and the new agent's `api_key` - which is shown **once**, so capture it now. Requires a connected Whisper account (your `whisper_live_` key with the `admin:dns` scope). [See the documentation](https://whisper.online/platform)",
   version: "0.0.1",
   type: "action",
   annotations: {
