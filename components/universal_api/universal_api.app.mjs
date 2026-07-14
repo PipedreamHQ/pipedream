@@ -6,7 +6,6 @@ import {
   MAX_LIMIT,
   MDM_SERVICE_IDS,
   MIN_LIMIT,
-  SSO_SERVICE_IDS,
   UNIVERSAL_APIS,
 } from "./common/constants.mjs";
 
@@ -41,12 +40,6 @@ export default {
       label: "Service ID",
       description: "`x-uapi-service-id` header identifying which MDM integration to use (required by the API for this endpoint). One of: `kandji`, `jamf`, `microsoft-intune`.",
       options: MDM_SERVICE_IDS,
-    },
-    ssoServiceId: {
-      type: "string",
-      label: "Service ID",
-      description: "`x-uapi-service-id` header identifying which SSO integration to retrieve the profile from (required by the API for this endpoint). One of: `google-saml`, `azure-saml`, `google-oidc`, `azure-oidc`.",
-      options: SSO_SERVICE_IDS,
     },
     hrisServiceId: {
       type: "string",
@@ -251,16 +244,6 @@ export default {
         consumerId,
         serviceId: "velory",
         url: "/api/am/budgets",
-      });
-    },
-    getSsoProfile({
-      $, consumerId, serviceId,
-    }) {
-      return this._makeRequest({
-        $,
-        consumerId,
-        serviceId,
-        url: "/api/sso/profile",
       });
     },
     listMdmDevices({

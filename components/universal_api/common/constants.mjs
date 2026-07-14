@@ -65,13 +65,6 @@ export const MDM_SERVICE_IDS = [
   "microsoft-intune",
 ];
 
-export const SSO_SERVICE_IDS = [
-  "google-saml",
-  "azure-saml",
-  "google-oidc",
-  "azure-oidc",
-];
-
 export const DISTRIBUTOR_SERVICE_IDS = [
   "webmercs",
   "netset",
