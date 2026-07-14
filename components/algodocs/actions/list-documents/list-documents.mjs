@@ -1,6 +1,6 @@
 import app from "../../algodocs.app.mjs";
 import { DEFAULT_LIST_LIMIT } from "../../common/constants.mjs";
-import { normalizeRecords } from "../../common/polling.mjs";
+import { normalizeRecords } from "../../common/utils.mjs";
 
 export default {
   key: "algodocs-list-documents",

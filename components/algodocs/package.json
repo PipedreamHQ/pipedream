@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/algodocs",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream AlgoDocs Components",
   "main": "algodocs.app.mjs",
   "keywords": [

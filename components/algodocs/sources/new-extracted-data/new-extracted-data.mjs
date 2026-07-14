@@ -1,10 +1,7 @@
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import app from "../../algodocs.app.mjs";
-import {
-  lastTsMethods, pollForNewItems,
-} from "../../common/polling.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "algodocs-new-extracted-data",
   name: "New Extracted Data",
   description:
@@ -13,20 +10,7 @@ export default {
   type: "source",
   dedupe: "unique",
   props: {
-    algodocs: app,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-    documentId: {
-      propDefinition: [
-        app,
-        "documentId",
-      ],
-    },
+    ...common.props,
     extractedDataFilter: {
       type: "string",
       label: "Extracted Data Filter",
@@ -36,16 +20,9 @@ export default {
     },
   },
   methods: {
-    ...lastTsMethods,
-  },
-  async run() {
-    await pollForNewItems({
-      component: this,
-      fetchResponse: () => this.algodocs.getExtractedDataByDocument({
-        $: this,
-        documentId: this.documentId,
-      }),
-      extractItems: (record, ts) => [
+    ...common.methods,
+    extractItems(record, ts) {
+      return [
         {
           id: record.id,
           payload: record,
@@ -53,9 +30,10 @@ export default {
           ts,
           filterText: JSON.stringify(record.data ?? record),
         },
-      ],
-      matchesFilter: (entry) =>
-        !this.extractedDataFilter || entry.filterText.includes(this.extractedDataFilter),
-    });
+      ];
+    },
+    matchesFilter(entry) {
+      return !this.extractedDataFilter || entry.filterText.includes(this.extractedDataFilter);
+    },
   },
 };
