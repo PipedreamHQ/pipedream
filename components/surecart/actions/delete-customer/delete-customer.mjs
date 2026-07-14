@@ -4,7 +4,7 @@ export default {
   key: "surecart-delete-customer",
   name: "Delete Customer",
   description: "Delete a customer by ID. [See the documentation](https://developer.surecart.com/api-reference/customers/delete)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: true,
