@@ -5,79 +5,69 @@ export default {
   type: "action",
   key: "linkupapi-get-conversation-messages",
   name: "Get Conversation Messages",
-  description: "Retrieve messages from a LinkedIn conversation. [See the documentation](https://docs.linkupapi.com/api-reference/linkup/Messages/conversation)",
-  version: "0.0.2",
+  description: "Retrieve messages from a LinkedIn conversation. Identify the conversation by its ID or by the recipient's profile URL. [See the documentation](https://docs.linkupapi.com/api-reference/v2/messages/get-conversation)",
+  version: "1.0.0",
+  annotations: {
+    readOnlyHint: true,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
   props: {
     app,
-    loginToken: {
+    accountId: {
       propDefinition: [
         app,
-        "loginToken",
+        "accountId",
       ],
+    },
+    conversationId: {
+      propDefinition: [
+        app,
+        "conversationId",
+      ],
+      optional: true,
+      description: "LinkedIn conversation identifier. Provide this or a **LinkedIn URL**. Pick from your inbox, or run **List Inbox** to find one.",
     },
     linkedinUrl: {
       propDefinition: [
         app,
         "linkedinUrl",
       ],
+      description: "LinkedIn profile URL of the other participant; the conversation with that user is resolved automatically. Provide this or a **Conversation ID**.",
       optional: true,
-      description: "LinkedIn URL of the other party (required if **Conversation ID** is not provided)",
-    },
-    conversationId: {
-      propDefinition: [
-        app,
-        "conversationId",
-        ({ loginToken }) => ({
-          loginToken,
-        }),
-      ],
-      optional: true,
-      description: "LinkedIn conversation ID (required if **LinkedIn URL** is not provided)",
     },
     totalResults: {
-      type: "integer",
-      label: "Total Results",
-      description: "Number of messages to retrieve when not in pagination mode (default: 10)",
-      optional: true,
-    },
-    country: {
       propDefinition: [
         app,
-        "country",
+        "totalResults",
       ],
     },
   },
-  annotations: {
-    readOnlyHint: true,
-    destructiveHint: false,
-    openWorldHint: true,
-    idempotentHint: true,
-  },
   async run({ $ }) {
-    const {
-      loginToken,
-      linkedinUrl,
-      conversationId,
-      totalResults,
-      country,
-    } = this;
-
-    if (!linkedinUrl && !conversationId) {
-      throw new ConfigurationError("Either **LinkedIn URL** or **Conversation ID** is required");
+    if (!this.conversationId && !this.linkedinUrl) {
+      throw new ConfigurationError("Provide a **Conversation ID** or a **LinkedIn URL** to identify the conversation.");
     }
-
-    const response = await this.app.getConversationMessages({
-      $,
-      data: {
-        login_token: loginToken,
-        linkedin_url: linkedinUrl,
-        conversation_id: conversationId,
-        country,
-        total_results: totalResults,
-      },
+    const messages = await this.app._paginate({
+      max: this.totalResults,
+      requestPage: ({
+        next, count,
+      }) => this.app.getConversationMessages({
+        $,
+        accountId: this.accountId,
+        params: {
+          conversation_id: this.conversationId,
+          profile_url: this.linkedinUrl,
+          count,
+          cursor: next,
+        },
+      }),
+      getItems: (res) => res.data?.messages,
+      getNext: (res) => res.data?.next_cursor,
     });
 
-    $.export("$summary", "Successfully retrieved conversation messages");
-    return response;
+    $.export("$summary", `Successfully retrieved ${messages.length} message${messages.length === 1
+      ? ""
+      : "s"} for conversation ${this.conversationId || this.linkedinUrl}`);
+    return messages;
   },
 };
