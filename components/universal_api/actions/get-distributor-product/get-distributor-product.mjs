@@ -14,6 +14,12 @@ export default {
   },
   props: {
     app,
+    consumerId: {
+      propDefinition: [
+        app,
+        "consumerId",
+      ],
+    },
     productId: {
       propDefinition: [
         app,
@@ -24,6 +30,7 @@ export default {
   async run({ $ }) {
     const response = await this.app.getDistributorProduct({
       $,
+      consumerId: this.consumerId,
       productId: this.productId,
     });
     $.export("$summary", `Successfully retrieved distributor product ${this.productId}`);

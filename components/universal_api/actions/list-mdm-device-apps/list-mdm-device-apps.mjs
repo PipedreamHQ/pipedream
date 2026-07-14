@@ -14,6 +14,12 @@ export default {
   },
   props: {
     app,
+    consumerId: {
+      propDefinition: [
+        app,
+        "consumerId",
+      ],
+    },
     deviceId: {
       type: "string",
       label: "Device ID",
@@ -23,6 +29,7 @@ export default {
   async run({ $ }) {
     const response = await this.app.listMdmDeviceApps({
       $,
+      consumerId: this.consumerId,
       deviceId: this.deviceId,
     });
     $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} MDM device app(s)`);

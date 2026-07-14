@@ -14,6 +14,12 @@ export default {
   },
   props: {
     app,
+    consumerId: {
+      propDefinition: [
+        app,
+        "consumerId",
+      ],
+    },
     depTokenId: {
       propDefinition: [
         app,
@@ -30,6 +36,7 @@ export default {
   async run({ $ }) {
     const response = await this.app.getMdmDepToken({
       $,
+      consumerId: this.consumerId,
       depTokenId: this.depTokenId,
       serviceId: this.serviceId,
     });

@@ -14,6 +14,12 @@ export default {
   },
   props: {
     app,
+    consumerId: {
+      propDefinition: [
+        app,
+        "consumerId",
+      ],
+    },
     contactEmail: {
       type: "string",
       label: "Contact Email",
@@ -61,6 +67,7 @@ export default {
     const orderItems = JSON.parse(this.orderItems);
     const response = await this.app.createDistributorOrder({
       $,
+      consumerId: this.consumerId,
       data: {
         contactEmail: this.contactEmail,
         customerIdentifier: this.customerIdentifier,

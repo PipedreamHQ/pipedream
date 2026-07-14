@@ -15,6 +15,12 @@ export default {
   },
   props: {
     app,
+    consumerId: {
+      propDefinition: [
+        app,
+        "consumerId",
+      ],
+    },
     universalApi: {
       propDefinition: [
         app,
@@ -34,6 +40,7 @@ export default {
   async run({ $ }) {
     const response = await this.app.listConnections({
       $,
+      consumerId: this.consumerId,
       universalApi: this.universalApi,
       serviceId: this.serviceId,
     });

@@ -14,6 +14,12 @@ export default {
   },
   props: {
     app,
+    consumerId: {
+      propDefinition: [
+        app,
+        "consumerId",
+      ],
+    },
     vppTokenId: {
       propDefinition: [
         app,
@@ -30,6 +36,7 @@ export default {
   async run({ $ }) {
     const response = await this.app.getMdmVppToken({
       $,
+      consumerId: this.consumerId,
       vppTokenId: this.vppTokenId,
       serviceId: this.serviceId,
     });

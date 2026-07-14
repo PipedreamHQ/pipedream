@@ -15,6 +15,12 @@ export default {
   },
   props: {
     app,
+    consumerId: {
+      propDefinition: [
+        app,
+        "consumerId",
+      ],
+    },
     trackingId: {
       propDefinition: [
         app,
@@ -27,13 +33,15 @@ export default {
         "serviceId",
       ],
       options: SHIPMENT_SERVICE_IDS,
+      optional: false,
       description:
-        "Optional `x-uapi-service-id` header to pick the carrier when a consumer has multiple active shipment integrations. One of: `postnord`, `fedex`, `posti`, `bring`.",
+        "`x-uapi-service-id` header identifying which carrier to use (required by the API for this endpoint). One of: `postnord`, `fedex`, `posti`, `bring`.",
     },
   },
   async run({ $ }) {
     const response = await this.app.trackShipment({
       $,
+      consumerId: this.consumerId,
       trackingId: this.trackingId,
       serviceId: this.serviceId,
     });

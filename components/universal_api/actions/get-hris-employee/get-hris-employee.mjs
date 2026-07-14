@@ -14,6 +14,12 @@ export default {
   },
   props: {
     app,
+    consumerId: {
+      propDefinition: [
+        app,
+        "consumerId",
+      ],
+    },
     employeeId: {
       propDefinition: [
         app,
@@ -30,6 +36,7 @@ export default {
   async run({ $ }) {
     const response = await this.app.getHrisEmployee({
       $,
+      consumerId: this.consumerId,
       employeeId: this.employeeId,
       serviceId: this.serviceId,
     });

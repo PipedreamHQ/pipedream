@@ -14,6 +14,12 @@ export default {
   },
   props: {
     app,
+    consumerId: {
+      propDefinition: [
+        app,
+        "consumerId",
+      ],
+    },
     maxResults: {
       propDefinition: [
         app,
@@ -28,6 +34,7 @@ export default {
       fn: this.app.listAmEmployees,
       args: {
         $,
+        consumerId: this.consumerId,
       },
       maxResults: this.maxResults,
     });

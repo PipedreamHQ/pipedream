@@ -14,6 +14,12 @@ export default {
   },
   props: {
     app,
+    consumerId: {
+      propDefinition: [
+        app,
+        "consumerId",
+      ],
+    },
     serviceId: {
       propDefinition: [
         app,
@@ -40,6 +46,7 @@ export default {
       fn: this.app.listHrisEmployees,
       args: {
         $,
+        consumerId: this.consumerId,
         serviceId: this.serviceId,
         group: this.group,
       },

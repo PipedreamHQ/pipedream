@@ -1,6 +1,5 @@
 import { axios } from "@pipedream/platform";
 import {
-  CONNECTION_SERVICE_IDS,
   DISTRIBUTOR_SERVICE_IDS,
   HEADER_SERVICE_ID,
   HRIS_SERVICE_IDS,
@@ -9,7 +8,6 @@ import {
   MIN_LIMIT,
   SSO_SERVICE_IDS,
   UNIVERSAL_APIS,
-  VELORY_SERVICE_ID,
 } from "./common/constants.mjs";
 
 export default {
@@ -41,38 +39,27 @@ export default {
     mdmServiceId: {
       type: "string",
       label: "Service ID",
-      description: "Optional `x-uapi-service-id` header to pick the integration when a consumer has multiple active MDM integrations. One of: `kandji`, `jamf`, `microsoft-intune`.",
+      description: "`x-uapi-service-id` header identifying which MDM integration to use (required by the API for this endpoint). One of: `kandji`, `jamf`, `microsoft-intune`.",
       options: MDM_SERVICE_IDS,
-      optional: true,
     },
     ssoServiceId: {
       type: "string",
       label: "Service ID",
-      description: "Optional `x-uapi-service-id` header to pick the integration when a consumer has multiple active SSO integrations. One of: `google-saml`, `azure-saml`, `google-oidc`, `azure-oidc`.",
+      description: "`x-uapi-service-id` header identifying which SSO integration to retrieve the profile from (required by the API for this endpoint). One of: `google-saml`, `azure-saml`, `google-oidc`, `azure-oidc`.",
       options: SSO_SERVICE_IDS,
-      optional: true,
     },
     hrisServiceId: {
       type: "string",
       label: "Service ID",
       description:
-        "Optional `x-uapi-service-id` header to pick the integration when a consumer has multiple active HRIS integrations. One of: `bamboohr`, `google-workspace`, `azure-active-directory`, `catalyst-one`, `haileyhr`, `deel`, `sap`.",
+        "`x-uapi-service-id` header identifying which HRIS integration to use (required by the API for this endpoint). One of: `bamboohr`, `google-workspace`, `azure-active-directory`, `catalyst-one`, `haileyhr`, `deel`, `sap`.",
       options: HRIS_SERVICE_IDS,
-      optional: true,
-    },
-    connectionServiceId: {
-      type: "string",
-      label: "Service ID",
-      description: "The service ID that, together with `universalApi`, identifies the connection (e.g. `kandji`, `jamf`, `teamtailor`).",
-      options: CONNECTION_SERVICE_IDS,
-      optional: false,
     },
     distributorServiceId: {
       type: "string",
       label: "Service ID",
-      description: "Optional `x-uapi-service-id` header to pick the integration when a consumer has multiple active Distributor integrations. One of: `webmercs`, `netset`.",
+      description: "`x-uapi-service-id` header identifying which Distributor integration to use (required by the API for this endpoint). One of: `webmercs`, `netset`.",
       options: DISTRIBUTOR_SERVICE_IDS,
-      optional: true,
     },
     consumerId: {
       type: "string",
@@ -121,13 +108,34 @@ export default {
     _baseUrl() {
       return this.$auth.server_url;
     },
-    async _makeRequest({
-      $ = this, headers, serviceId, ...args
+    async _getScopedToken({
+      $, scope, consumerId,
     }) {
+      const response = await axios($, {
+        baseURL: this._baseUrl(),
+        method: "POST",
+        url: "/api/auth",
+        data: {
+          apiKey: this.$auth.api_key,
+          applicationId: this.$auth.application_id,
+          consumerId,
+          scope,
+        },
+      });
+      return response?.accessToken ?? response?.data?.accessToken;
+    },
+    async _makeRequest({
+      $ = this, headers, serviceId, scope = "consumer", consumerId, ...args
+    }) {
+      const token = await this._getScopedToken({
+        $,
+        scope,
+        consumerId,
+      });
       return axios($, {
         baseURL: this._baseUrl(),
         headers: {
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          Authorization: `Bearer ${token}`,
           ...(serviceId && {
             [HEADER_SERVICE_ID]: serviceId,
           }),
@@ -173,10 +181,11 @@ export default {
     },
     // HRIS
     listHrisEmployees({
-      $, serviceId, group, limit, cursor,
+      $, consumerId, serviceId, group, limit, cursor,
     }) {
       return this._makeRequest({
         $,
+        consumerId,
         serviceId,
         url: "/api/hris/employees",
         params: {
@@ -187,20 +196,22 @@ export default {
       });
     },
     getHrisEmployee({
-      $, employeeId, serviceId,
+      $, consumerId, employeeId, serviceId,
     }) {
       return this._makeRequest({
         $,
+        consumerId,
         serviceId,
         url: `/api/hris/employees/${employeeId}`,
       });
     },
     listAmEmployees({
-      $, limit, cursor,
+      $, consumerId, limit, cursor,
     }) {
       return this._makeRequest({
         $,
-        serviceId: VELORY_SERVICE_ID,
+        consumerId,
+        serviceId: "velory",
         url: "/api/am/employees",
         params: {
           limit,
@@ -209,11 +220,12 @@ export default {
       });
     },
     listAmEquipmentItems({
-      $, limit, cursor,
+      $, consumerId, limit, cursor,
     }) {
       return this._makeRequest({
         $,
-        serviceId: VELORY_SERVICE_ID,
+        consumerId,
+        serviceId: "velory",
         url: "/api/am/equipment-items",
         params: {
           limit,
@@ -221,149 +233,170 @@ export default {
         },
       });
     },
-    listAmOrders({ $ }) {
+    listAmOrders({
+      $, consumerId,
+    }) {
       return this._makeRequest({
         $,
-        serviceId: VELORY_SERVICE_ID,
+        consumerId,
+        serviceId: "velory",
         url: "/api/am/orders",
       });
     },
-    listAmBudgets({ $ }) {
+    listAmBudgets({
+      $, consumerId,
+    }) {
       return this._makeRequest({
         $,
-        serviceId: VELORY_SERVICE_ID,
+        consumerId,
+        serviceId: "velory",
         url: "/api/am/budgets",
       });
     },
     getSsoProfile({
-      $, serviceId,
+      $, consumerId, serviceId,
     }) {
       return this._makeRequest({
         $,
+        consumerId,
         serviceId,
         url: "/api/sso/profile",
       });
     },
     listMdmDevices({
-      $, serviceId,
+      $, consumerId, serviceId,
     }) {
       return this._makeRequest({
         $,
+        consumerId,
         serviceId,
         url: "/api/mdm/devices",
       });
     },
     listMdmDeviceApps({
-      $, deviceId,
+      $, consumerId, deviceId,
     }) {
       return this._makeRequest({
         $,
+        consumerId,
         url: `/api/mdm/devices/${deviceId}/apps`,
       });
     },
     listMdmDepTokens({
-      $, serviceId,
+      $, consumerId, serviceId,
     }) {
       return this._makeRequest({
         $,
+        consumerId,
         serviceId,
         url: "/api/mdm/dep-tokens",
       });
     },
     getMdmDepToken({
-      $, depTokenId, serviceId,
+      $, consumerId, depTokenId, serviceId,
     }) {
       return this._makeRequest({
         $,
+        consumerId,
         serviceId,
         url: `/api/mdm/dep-tokens/${depTokenId}`,
       });
     },
     listMdmVppTokens({
-      $, serviceId,
+      $, consumerId, serviceId,
     }) {
       return this._makeRequest({
         $,
+        consumerId,
         serviceId,
         url: "/api/mdm/vpp-tokens",
       });
     },
     getMdmVppToken({
-      $, vppTokenId, serviceId,
+      $, consumerId, vppTokenId, serviceId,
     }) {
       return this._makeRequest({
         $,
+        consumerId,
         serviceId,
         url: `/api/mdm/vpp-tokens/${vppTokenId}`,
       });
     },
     listMdmApnCerts({
-      $, serviceId,
+      $, consumerId, serviceId,
     }) {
       return this._makeRequest({
         $,
+        consumerId,
         serviceId,
         url: "/api/mdm/apn-certs",
       });
     },
     getMdmApnCert({
-      $, serviceId,
+      $, consumerId, serviceId,
     }) {
       return this._makeRequest({
         $,
+        consumerId,
         serviceId,
         url: "/api/mdm/apn-cert",
       });
     },
     trackShipment({
-      $, trackingId, serviceId,
+      $, consumerId, trackingId, serviceId,
     }) {
       return this._makeRequest({
         $,
+        consumerId,
         serviceId,
         url: `/api/shipment/track/id/${trackingId}/statuses`,
       });
     },
     // Distributors
     listDistributorProducts({
-      $, serviceId,
+      $, consumerId, serviceId,
     }) {
       return this._makeRequest({
         $,
+        consumerId,
         serviceId,
         url: "/api/distributors/products",
       });
     },
     getDistributorProduct({
-      $, productId,
+      $, consumerId, productId,
     }) {
       return this._makeRequest({
         $,
+        consumerId,
         url: `/api/distributors/products/${productId}`,
       });
     },
     listDistributorOrders({
-      $, serviceId,
+      $, consumerId, serviceId,
     }) {
       return this._makeRequest({
         $,
+        consumerId,
         serviceId,
         url: "/api/distributors/orders",
       });
     },
     getDistributorOrder({
-      $, orderId,
+      $, consumerId, orderId,
     }) {
       return this._makeRequest({
         $,
+        consumerId,
         url: `/api/distributors/orders/${orderId}`,
       });
     },
     createDistributorOrder({
-      $, data,
+      $, consumerId, data,
     }) {
       return this._makeRequest({
         $,
+        consumerId,
         method: "POST",
         url: "/api/distributors/orders",
         data,
@@ -374,6 +407,7 @@ export default {
     }) {
       return this._makeRequest({
         $,
+        scope: "application",
         url: "/api/consumers",
         params: {
           limit,
@@ -386,6 +420,7 @@ export default {
     }) {
       return this._makeRequest({
         $,
+        scope: "application",
         method: "POST",
         url: "/api/consumers",
         data,
@@ -396,41 +431,46 @@ export default {
     }) {
       return this._makeRequest({
         $,
+        scope: "application",
         method: "DELETE",
         url: `/consumers/${consumerId}`,
       });
     },
     listConnections({
-      $, universalApi, serviceId,
+      $, consumerId, universalApi, serviceId,
     }) {
       return this._makeRequest({
         $,
-        url: `/connections/${universalApi}/${serviceId}`,
+        consumerId,
+        url: `/api/connections/${universalApi}/${serviceId}`,
       });
     },
     getConnection({
-      $, universalApi, serviceId,
+      $, consumerId, universalApi, serviceId,
     }) {
       return this._makeRequest({
         $,
+        consumerId,
         url: `/api/connections/${universalApi}/${serviceId}`,
       });
     },
     updateConnection({
-      $, universalApi, serviceId, data,
+      $, consumerId, universalApi, serviceId, data,
     }) {
       return this._makeRequest({
         $,
+        consumerId,
         method: "PATCH",
         url: `/api/connections/${universalApi}/${serviceId}`,
         data,
       });
     },
     deleteConnection({
-      $, universalApi, serviceId,
+      $, consumerId, universalApi, serviceId,
     }) {
       return this._makeRequest({
         $,
+        consumerId,
         method: "DELETE",
         url: `/api/connections/${universalApi}/${serviceId}`,
       });

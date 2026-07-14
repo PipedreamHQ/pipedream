@@ -14,6 +14,12 @@ export default {
   },
   props: {
     app,
+    consumerId: {
+      propDefinition: [
+        app,
+        "consumerId",
+      ],
+    },
     serviceId: {
       propDefinition: [
         app,
@@ -24,6 +30,7 @@ export default {
   async run({ $ }) {
     const response = await this.app.getSsoProfile({
       $,
+      consumerId: this.consumerId,
       serviceId: this.serviceId,
     });
     $.export("$summary", "Successfully retrieved SSO profile");

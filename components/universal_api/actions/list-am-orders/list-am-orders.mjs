@@ -14,10 +14,17 @@ export default {
   },
   props: {
     app,
+    consumerId: {
+      propDefinition: [
+        app,
+        "consumerId",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.app.listAmOrders({
       $,
+      consumerId: this.consumerId,
     });
     $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} AM order(s)`);
     return response;
