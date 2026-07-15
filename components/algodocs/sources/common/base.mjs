@@ -39,7 +39,6 @@ export default {
     },
     async processEvent() {
       const response = await this.algodocs.getExtractedDataByDocument({
-        $: this,
         documentId: this.documentId,
       });
       const records = normalizeRecords(response);
@@ -60,31 +59,27 @@ export default {
           continue;
         }
 
-        // On subsequent runs skip records strictly older than last-seen timestamp.
-        // Records at exactly lastTs are re-evaluated so same-timestamp newcomers
-        // with different IDs are not missed; dedupe: "unique" prevents re-emitting.
-        if (!isFirstRun && ts < lastTs) {
-          continue;
+        // Records are sorted newest-first (see above), so once we reach one at
+        // or before lastTs (subsequent runs), or hit the first-run cap, every
+        // remaining record is either already seen or beyond the limit - stop.
+        if ((!isFirstRun && ts < lastTs) || (isFirstRun && entries.length === FIRST_RUN_LIMIT)) {
+          break;
         }
 
         entries.push(...this.extractItems(record, ts));
       }
 
-      // On first run, cap to the most recent entries to avoid flooding.
-      const candidates = isFirstRun
-        ? entries.slice(0, FIRST_RUN_LIMIT)
-        : entries;
-
-      // On first run, everything below the oldest examined (capped) candidate is
+      // On first run, everything below the oldest examined (capped) entry is
       // intentionally never looked at again. On later runs, every examined entry
       // advances the watermark, matched or not, so an unmatched entry isn't
       // rescanned forever and a matched-but-older entry is never skipped.
+      // Entries are still newest-first, so the oldest examined one is the last.
       let watermark = lastTs ?? 0;
-      if (isFirstRun && candidates.length) {
-        watermark = Math.min(...candidates.map((entry) => entry.ts));
+      if (isFirstRun && entries.length) {
+        watermark = entries[entries.length - 1].ts;
       }
 
-      for (const entry of candidates) {
+      for (const entry of entries) {
         if (!isFirstRun && entry.ts > watermark) {
           watermark = entry.ts;
         }

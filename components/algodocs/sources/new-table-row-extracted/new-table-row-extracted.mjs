@@ -1,5 +1,6 @@
 import { createHash } from "crypto";
 import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 const MAX_ID_LENGTH = 64;
 
@@ -67,4 +68,5 @@ export default {
       return !this.tableRowFilter || entry.filterText.includes(this.tableRowFilter);
     },
   },
+  sampleEmit,
 };
