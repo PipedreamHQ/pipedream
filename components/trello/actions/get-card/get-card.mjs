@@ -5,7 +5,7 @@ export default {
   key: "trello-get-card",
   name: "Get Card",
   description: "Gets a card by its ID. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-get).",
-  version: "0.5.0",
+  version: "0.4.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
