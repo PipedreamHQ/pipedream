@@ -46,7 +46,6 @@ export default {
           $count: COUNT_QUERY_PARAM,
         },
       },
-      max: this.maxResults,
       meta,
     });
 
@@ -61,6 +60,9 @@ export default {
         );
       if (matches) {
         results.push(contact);
+        if (this.maxResults && results.length >= this.maxResults) {
+          break;
+        }
       }
     }
 

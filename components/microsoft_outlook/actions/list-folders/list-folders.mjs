@@ -56,10 +56,10 @@ export default {
       if (this.displayName) {
         folders = folders.filter(({ displayName }) => displayName === this.displayName);
       }
+      count = folders.length;
       if (folders.length > this.maxResults) {
         folders = folders.slice(0, this.maxResults);
       }
-      count = folders.length;
     } else {
       const meta = {};
       const items = this.microsoftOutlook.paginate({
