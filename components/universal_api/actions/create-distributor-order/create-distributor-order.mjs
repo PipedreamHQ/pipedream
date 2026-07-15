@@ -78,8 +78,8 @@ export default {
         orderItems,
       },
     });
-    $.export("$summary", `Successfully created distributor order${response.id
-      ? ` ${response.id}`
+    $.export("$summary", `Successfully created distributor order${response.data?.id
+      ? ` ${response.data.id}`
       : ""}`);
     return response;
   },

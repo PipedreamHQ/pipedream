@@ -25,12 +25,20 @@ export default {
       label: "Device ID",
       description: "The ID of the device to list apps for. Use the **List MDM Devices** action to get a device ID.",
     },
+    mdmServiceId: {
+      propDefinition: [
+        app,
+        "mdmServiceId",
+      ],
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.app.listMdmDeviceApps({
       $,
       consumerId: this.consumerId,
       deviceId: this.deviceId,
+      serviceId: this.mdmServiceId,
     });
     $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} MDM device app(s)`);
     return response;

@@ -26,12 +26,20 @@ export default {
         "orderId",
       ],
     },
+    distributorServiceId: {
+      propDefinition: [
+        app,
+        "distributorServiceId",
+      ],
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.app.getDistributorOrder({
       $,
       consumerId: this.consumerId,
       orderId: this.orderId,
+      serviceId: this.distributorServiceId,
     });
     $.export("$summary", `Successfully retrieved distributor order ${this.orderId}`);
     return response;

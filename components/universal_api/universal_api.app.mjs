@@ -7,6 +7,7 @@ import {
   MDM_SERVICE_IDS,
   MIN_LIMIT,
   UNIVERSAL_APIS,
+  VELORY_SERVICE_ID,
 } from "./common/constants.mjs";
 
 export default {
@@ -204,7 +205,7 @@ export default {
       return this._makeRequest({
         $,
         consumerId,
-        serviceId: "velory",
+        serviceId: VELORY_SERVICE_ID,
         url: "/api/am/employees",
         params: {
           limit,
@@ -218,7 +219,7 @@ export default {
       return this._makeRequest({
         $,
         consumerId,
-        serviceId: "velory",
+        serviceId: VELORY_SERVICE_ID,
         url: "/api/am/equipment-items",
         params: {
           limit,
@@ -232,7 +233,7 @@ export default {
       return this._makeRequest({
         $,
         consumerId,
-        serviceId: "velory",
+        serviceId: VELORY_SERVICE_ID,
         url: "/api/am/orders",
       });
     },
@@ -242,7 +243,7 @@ export default {
       return this._makeRequest({
         $,
         consumerId,
-        serviceId: "velory",
+        serviceId: VELORY_SERVICE_ID,
         url: "/api/am/budgets",
       });
     },
@@ -257,11 +258,12 @@ export default {
       });
     },
     listMdmDeviceApps({
-      $, consumerId, deviceId,
+      $, consumerId, deviceId, serviceId,
     }) {
       return this._makeRequest({
         $,
         consumerId,
+        serviceId,
         url: `/api/mdm/devices/${deviceId}/apps`,
       });
     },
@@ -347,11 +349,12 @@ export default {
       });
     },
     getDistributorProduct({
-      $, consumerId, productId,
+      $, consumerId, productId, serviceId,
     }) {
       return this._makeRequest({
         $,
         consumerId,
+        serviceId,
         url: `/api/distributors/products/${productId}`,
       });
     },
@@ -366,11 +369,12 @@ export default {
       });
     },
     getDistributorOrder({
-      $, consumerId, orderId,
+      $, consumerId, orderId, serviceId,
     }) {
       return this._makeRequest({
         $,
         consumerId,
+        serviceId,
         url: `/api/distributors/orders/${orderId}`,
       });
     },
@@ -420,15 +424,6 @@ export default {
       });
     },
     listConnections({
-      $, consumerId, universalApi, serviceId,
-    }) {
-      return this._makeRequest({
-        $,
-        consumerId,
-        url: `/api/connections/${universalApi}/${serviceId}`,
-      });
-    },
-    getConnection({
       $, consumerId, universalApi, serviceId,
     }) {
       return this._makeRequest({

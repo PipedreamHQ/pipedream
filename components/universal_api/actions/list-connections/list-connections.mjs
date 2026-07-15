@@ -1,5 +1,7 @@
 import app from "../../universal_api.app.mjs";
-import { LIST_CONNECTION_SERVICE_IDS } from "../../common/constants.mjs";
+import {
+  UNIVERSAL_APIS, LIST_CONNECTION_SERVICE_IDS,
+} from "../../common/constants.mjs";
 
 export default {
   key: "universal_api-list-connections",
@@ -26,6 +28,7 @@ export default {
         app,
         "universalApi",
       ],
+      options: UNIVERSAL_APIS.filter((api) => api !== "shipment"),
     },
     serviceId: {
       propDefinition: [

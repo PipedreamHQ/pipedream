@@ -27,8 +27,8 @@ export default {
         name: this.name,
       },
     });
-    $.export("$summary", `Successfully created consumer${response.id
-      ? ` ${response.id}`
+    $.export("$summary", `Successfully created consumer${response.data?.id
+      ? ` ${response.data.id}`
       : ""}: ${this.name}`);
     return response;
   },
