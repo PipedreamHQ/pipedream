@@ -16,17 +16,22 @@ export default {
   hooks: {
     async deploy() {
       // Emit a small, capped sample of pre-existing ("retroactive") events on
-      // deploy and advance the cursor, so that run() only ever emits genuinely
-      // new events. Emitting here (rather than on the first run()) is what lets
-      // the platform honor the user's deploy-time opt-out, where $emit is a
-      // no-op only during deploy().
+      // deploy, so that run() only ever emits genuinely new events. Emitting
+      // here (rather than on the first run()) is what lets the platform honor
+      // the user's deploy-time opt-out, where $emit is a no-op only during
+      // deploy().
+      const deployTs = Date.now();
       const params = await this.getParams(null);
       await this.processResults(null, params);
-      // Guarantee the cursor advances even when there were no events to emit, so
-      // the first run() is never treated as an initial (emit-everything) run.
-      if (this._getAfter() == null) {
-        this._setAfter(Date.now());
-      }
+      // Pin the cursor to deploy time, regardless of what the sample pass stored.
+      // Every pre-existing event has a timestamp <= deployTs, so this can never
+      // suppress a genuinely new event, and it guarantees run() never emits a
+      // pre-deploy event even when the underlying endpoint returns results
+      // oldest-first (e.g. the CRM v3 GET list endpoints used by notes/tasks),
+      // where the sample's max timestamp is NOT the newest existing record. It
+      // also covers the "no events to sample" case, where processResults would
+      // otherwise leave the cursor unset (or at 0).
+      this._setAfter(deployTs);
     },
   },
   methods: {
@@ -219,6 +224,14 @@ export default {
   },
   async run() {
     const after = this._getAfter();
+    // Safety net for instances that somehow reach run() without a cursor (e.g. a
+    // deploy() that never completed): never emit retroactively from run(); just
+    // establish the cursor so the next run() is new-events-only. deploy()
+    // normally sets this already.
+    if (after == null) {
+      this._setAfter(Date.now());
+      return;
+    }
     const params = await this.getParams(after);
     await this.processResults(after, params);
   },
