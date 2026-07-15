@@ -62,25 +62,14 @@ export default {
         // Records are sorted newest-first (see above), so once we reach one at
         // or before lastTs (subsequent runs), or hit the first-run cap, every
         // remaining record is either already seen or beyond the limit - stop.
-        if ((!isFirstRun && ts < lastTs) || (isFirstRun && entries.length === FIRST_RUN_LIMIT)) {
+        if ((!isFirstRun && ts < lastTs) || (isFirstRun && entries.length >= FIRST_RUN_LIMIT)) {
           break;
         }
-
         entries.push(...this.extractItems(record, ts));
       }
-
-      // On first run, everything below the oldest examined (capped) entry is
-      // intentionally never looked at again. On later runs, every examined entry
-      // advances the watermark, matched or not, so an unmatched entry isn't
-      // rescanned forever and a matched-but-older entry is never skipped.
-      // Entries are still newest-first, so the oldest examined one is the last.
       let watermark = lastTs ?? 0;
-      if (isFirstRun && entries.length) {
-        watermark = entries[entries.length - 1].ts;
-      }
-
       for (const entry of entries) {
-        if (!isFirstRun && entry.ts > watermark) {
+        if (entry.ts > watermark) {
           watermark = entry.ts;
         }
 
