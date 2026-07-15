@@ -39,8 +39,9 @@ export default {
       const emailIdentifier = identifiers.find(({ type }) => type === "email");
       return emailIdentifier?.id?.toLowerCase() === normalizedEmail;
     });
+    const matchedEmailId = contact?.identifiers?.find(({ type }) => type === "email")?.id;
 
-    if (!contact) {
+    if (!contact || !matchedEmailId) {
       throw new ConfigurationError(`No Omnisend contact was found for ${email}.`);
     }
 
@@ -51,7 +52,7 @@ export default {
         identifiers: [
           {
             type: "email",
-            id: email,
+            id: matchedEmailId,
             channels: {
               email: {
                 status: "unsubscribed",
