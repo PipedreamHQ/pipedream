@@ -4,7 +4,7 @@ export default {
   key: "surecart-update-shipment",
   name: "Update Shipment",
   description: "Update an existing shipment. [See the documentation](https://developer.surecart.com/api-reference/shipments/update)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -1,10 +1,10 @@
-import linkupapi from "../../linkupapi.app.mjs";
+import app from "../../linkupapi.app.mjs";
 
 export default {
   key: "linkupapi-create-comment",
   name: "Create Comment",
-  description: "Create a comment on a post. [See the documentation](https://docs.linkupapi.com/api-reference/linkup/posts/comment)",
-  version: "0.0.1",
+  description: "Post a comment on LinkedIn content. [See the documentation](https://docs.linkupapi.com/api-reference/v2/content/comment)",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -12,50 +12,44 @@ export default {
     readOnlyHint: false,
   },
   props: {
-    linkupapi,
+    app,
+    accountId: {
+      propDefinition: [
+        app,
+        "accountId",
+      ],
+    },
     postUrl: {
       type: "string",
-      label: "Post URL",
-      description: "LinkedIn post URL to comment on (must contain a valid activity URN)",
+      label: "LinkedIn Post URL",
+      description: "LinkedIn post URL to comment on. Eg. `https://www.linkedin.com/feed/update/urn:li:activity:1234567890/`.",
     },
-    message: {
-      type: "string",
-      label: "Message",
-      description: "Text content of the comment to post",
-    },
-    loginToken: {
+    messageText: {
       propDefinition: [
-        linkupapi,
-        "loginToken",
+        app,
+        "messageText",
       ],
-    },
-    country: {
-      propDefinition: [
-        linkupapi,
-        "country",
-      ],
+      description: "Comment text content.",
     },
     companyUrl: {
-      propDefinition: [
-        linkupapi,
-        "companyUrl",
-      ],
+      type: "string",
+      label: "Company URL",
+      description: "Comment as a company page instead of your personal profile, by providing the company's LinkedIn URL. Eg. `https://www.linkedin.com/company/stripe/`.",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.linkupapi.createComment({
+    const response = await this.app.createComment({
       $,
-      data: {
+      accountId: this.accountId,
+      params: {
         post_url: this.postUrl,
-        message: this.message,
-        login_token: this.loginToken,
-        country: this.country,
+        comment_text: this.messageText,
         company_url: this.companyUrl,
       },
     });
 
-    $.export("$summary", "Successfully created comment");
-
+    $.export("$summary", `Successfully created comment on ${this.postUrl}`);
     return response;
   },
 };

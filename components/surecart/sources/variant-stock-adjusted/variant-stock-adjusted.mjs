@@ -5,7 +5,7 @@ export default {
   key: "surecart-variant-stock-adjusted",
   name: "Variant Stock Adjusted (Instant)",
   description: "Emit new event when a product variant's stock is adjusted. [See the documentation](https://developer.surecart.com/api-reference/webhook-endpoints/create)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {
