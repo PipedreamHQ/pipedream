@@ -1,11 +1,12 @@
 import gorgiasOauth from "../../gorgias_oauth.app.mjs";
+import constants from "../../common/constants.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "gorgias_oauth-create-ticket-message",
   name: "Create Ticket Message",
   description: "Create a message for a ticket in the Gorgias system. [See the documentation](https://developers.gorgias.com/reference/create-ticket-message)",
-  version: "0.1.1",
+  version: "0.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -110,6 +111,13 @@ export default {
       ],
       optional: false,
     },
+    sourceType: {
+      type: "string",
+      label: "Source Type",
+      description: "How the message was sent or received",
+      options: constants.sourceTypes,
+      optional: true,
+    },
     subject: {
       propDefinition: [
         gorgiasOauth,
@@ -146,6 +154,7 @@ export default {
     props.fromName.hidden = isInternalNote;
     props.toAddress.hidden = isInternalNote;
     props.toName.hidden = isInternalNote;
+    props.sourceType.hidden = isInternalNote;
     return {};
   },
   methods: {
@@ -242,6 +251,9 @@ export default {
     // Only add source and receiver for non-internal notes
     if (!isInternalNote) {
       messageData.source = {
+        ...(this.sourceType && {
+          type: this.sourceType,
+        }),
         from: {
           address: this.fromAddress ?? await this.getEmail($, fromId, "from"),
           ...(this.fromName && {
