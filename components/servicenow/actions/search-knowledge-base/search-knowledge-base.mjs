@@ -31,10 +31,11 @@ export default {
       ],
     },
     fields: {
-      type: "string[]",
-      label: "Fields",
-      description: "Additional `kb_knowledge` fields to return under `fields` for each article (maps to `fields`). Example: `short_description`, `sys_class_name`.",
-      optional: true,
+      propDefinition: [
+        servicenow,
+        "fields",
+      ],
+      description: "Additional `kb_knowledge` fields to return under `fields` for each article. Example: `short_description`, `sys_class_name`.",
     },
   },
   async run({ $ }) {

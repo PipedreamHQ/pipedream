@@ -127,6 +127,12 @@ export default {
       max: MAX_LIMIT,
       optional: true,
     },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "Additional `kb_knowledge` fields to return under `fields`. Example: `short_description`, `sys_class_name`.",
+      optional: true,
+    },
     catalogItemSysId: {
       type: "string",
       label: "Catalog Item Sys ID",

@@ -19,10 +19,10 @@ export default {
       description: "The `sys_id` or the KB number of the article to retrieve. **Search Knowledge Base** returns both: use its `number` (example: `KB0000017`), or the `sys_id` portion of its `id` (an `id` of `kb_knowledge:3b07857187032100deddb882a2e3ec20` means a `sys_id` of `3b07857187032100deddb882a2e3ec20`).",
     },
     fields: {
-      type: "string[]",
-      label: "Fields",
-      description: "Additional `kb_knowledge` fields to return under `fields`. Example: `short_description`, `sys_class_name`.",
-      optional: true,
+      propDefinition: [
+        servicenow,
+        "fields",
+      ],
     },
   },
   async run({ $ }) {
