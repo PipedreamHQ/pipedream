@@ -8,7 +8,7 @@ export default {
   key: "hubspot-new-event",
   name: "New Events",
   description: "Emit new event for each new Hubspot event. Note: Only available for Marketing Hub Enterprise, Sales Hub Enterprise, Service Hub Enterprise, or CMS Hub Enterprise accounts",
-  version: "0.0.47",
+  version: "0.0.48",
   dedupe: "unique",
   type: "source",
   props: {
@@ -42,6 +42,14 @@ export default {
         throw new ConfigurationError(
           "Error occurred. Please verify that your Hubspot account is one of: Marketing Hub Enterprise, Sales Hub Enterprise, Service Hub Enterprise, or CMS Hub Enterprise",
         );
+      }
+      // Emit a small, capped sample of pre-existing events on deploy and advance
+      // the cursor, so run() only ever emits genuinely new events (and the
+      // user's deploy-time opt-out is honored).
+      const params = await this.getParams(null);
+      await this.processResults(null, params);
+      if (this._getAfter() == null) {
+        this._setAfter(Date.now());
       }
     },
   },

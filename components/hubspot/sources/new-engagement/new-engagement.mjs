@@ -38,7 +38,7 @@ export default {
   + " [Postal Mail](https://developers.hubspot.com/docs/api-reference/latest/crm/activities/postal-mail/search/search-postal-mail)"
   + " [Tasks](https://developers.hubspot.com/docs/api-reference/latest/crm/activities/tasks/search/search-tasks)"
   + " [See the documentation](https://developers.hubspot.com/docs/api-reference/latest/crm/using-object-apis)",
-  version: "0.0.49",
+  version: "0.0.50",
   dedupe: "unique",
   type: "source",
   props: {
@@ -150,34 +150,51 @@ export default {
         this.emitEvent(engagement);
       }
     },
+    async collectEngagements(after) {
+      const types = this.getSelectedTypes();
+      const perType = await Promise.all(
+        types.map((objectType) => this.fetchEngagementsByType(objectType, after)),
+      );
+      return perType
+        .flat()
+        .sort((a, b) => this.getTs(b) - this.getTs(a));
+    },
   },
-  async run() {
-    const after = this._getAfter();
-    const types = this.getSelectedTypes();
-
-    const perType = await Promise.all(
-      types.map((objectType) => this.fetchEngagementsByType(objectType, after)),
-    );
-    const engagements = perType
-      .flat()
-      .sort((a, b) => this.getTs(b) - this.getTs(a));
-
-    if (!engagements.length) {
-      return;
-    }
-
-    if (!after) {
+  hooks: {
+    async deploy() {
       // First deployment: emit only the most recent engagements as a sample,
-      // newest-first.
+      // newest-first, then advance the cursor so run() is new-events-only. This
+      // lives in deploy() (not run()) so the user's deploy-time opt-out is
+      // honored (where $emit is a no-op).
+      const engagements = await this.collectEngagements(null);
+      if (!engagements.length) {
+        // No events to sample, but still advance the cursor so the first run()
+        // is not treated as an initial (emit-everything) run.
+        this._setAfter(Date.now());
+        return;
+      }
       const initial = engagements.slice(0, MAX_INITIAL_EVENTS);
       this.emitEngagements(initial);
       const oldestEmittedTs = this.getTs(initial[initial.length - 1]);
       this._setAfter(oldestEmittedTs - 1);
+    },
+  },
+  async run() {
+    const after = this._getAfter();
+    if (after == null) {
+      // Safety net for instances that somehow reach run() without a cursor:
+      // never emit retroactively from run(); just establish the cursor.
+      this._setAfter(Date.now());
       return;
     }
 
     // Subsequent runs: every engagement was already filtered to created > cursor,
     // so emit them all and advance the cursor to the newest created timestamp.
+    const engagements = await this.collectEngagements(after);
+    if (!engagements.length) {
+      return;
+    }
+
     let maxTs = after;
     for (const engagement of engagements) {
       const ts = this.getTs(engagement);

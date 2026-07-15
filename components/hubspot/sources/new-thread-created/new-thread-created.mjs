@@ -1,11 +1,12 @@
 import common from "../common/common.mjs";
+import { MAX_INITIAL_EVENTS } from "../../common/constants.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-thread-created",
   name: "New Thread Created",
   description: "Emit new event when a new thread is created. [See the documentation](https://developers.hubspot.com/docs/api-reference/conversations-conversations-inbox-&-messages-v3/public-thread/get-conversations-v3-conversations-threads)",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -41,7 +42,7 @@ export default {
   },
   hooks: {
     async deploy() {
-      await this.processEvent(25);
+      await this.processEvent(MAX_INITIAL_EVENTS);
     },
   },
   async run() {

@@ -40,7 +40,9 @@ const ASSOCIATION_CATEGORY = {
 };
 
 const DEFAULT_LIMIT = 100;
-const MAX_INITIAL_EVENTS = 25;
+// Cap for the retroactive sample emitted from a source's deploy() hook, so users
+// see a small representative set of pre-existing events without a full backfill.
+const MAX_INITIAL_EVENTS = 10;
 
 // HubSpot date-based API version for the dated CRM objects endpoints
 // (e.g. /crm/2026-03/objects/{type}/search).

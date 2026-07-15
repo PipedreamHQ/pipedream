@@ -1,5 +1,6 @@
 import hubspot from "../../hubspot.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import { MAX_INITIAL_EVENTS } from "../../common/constants.mjs";
 
 export default {
   props: {
@@ -10,6 +11,22 @@ export default {
       default: {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
+    },
+  },
+  hooks: {
+    async deploy() {
+      // Emit a small, capped sample of pre-existing ("retroactive") events on
+      // deploy and advance the cursor, so that run() only ever emits genuinely
+      // new events. Emitting here (rather than on the first run()) is what lets
+      // the platform honor the user's deploy-time opt-out, where $emit is a
+      // no-op only during deploy().
+      const params = await this.getParams(null);
+      await this.processResults(null, params);
+      // Guarantee the cursor advances even when there were no events to emit, so
+      // the first run() is never treated as an initial (emit-everything) run.
+      if (this._getAfter() == null) {
+        this._setAfter(Date.now());
+      }
     },
   },
   methods: {
@@ -53,12 +70,17 @@ export default {
     },
     async processEvents(resources, after) {
       let maxTs = after || 0;
+      let initialEmitted = 0;
       for (const result of resources) {
         if (!after || await this.isRelevant(result, after)) {
           this.emitEvent(result);
           const ts = this.getTs(result);
           if (ts > maxTs) {
             maxTs = ts;
+          }
+          // Initial (deploy) run: emit only a small capped sample.
+          if (!after && ++initialEmitted >= MAX_INITIAL_EVENTS) {
+            break;
           }
         }
       }
@@ -67,6 +89,7 @@ export default {
     async paginate(params, resourceFn, resultType = null, after = null) {
       let results = null;
       let maxTs = after || 0;
+      let initialEmitted = 0;
       while (!results || params.after) {
         results = await resourceFn(params);
         if (results.paging) {
@@ -89,6 +112,10 @@ export default {
             if (ts > maxTs) {
               maxTs = ts;
               this._setAfter(ts);
+            }
+            // Initial (deploy) run: emit only a small capped sample.
+            if (!after && ++initialEmitted >= MAX_INITIAL_EVENTS) {
+              return;
             }
           } else {
             return;
@@ -113,6 +140,7 @@ export default {
       let results, items;
       let count = 0;
       let maxTs = after || 0;
+      let initialEmitted = 0;
       while (hasMore && (!limitRequest || count < limitRequest)) {
         count++;
         results = await resourceFn(params);
@@ -132,6 +160,10 @@ export default {
             if (ts > maxTs) {
               maxTs = ts;
               this._setAfter(ts);
+            }
+            // Initial (deploy) run: emit only a small capped sample.
+            if (!after && ++initialEmitted >= MAX_INITIAL_EVENTS) {
+              return;
             }
           }
         }

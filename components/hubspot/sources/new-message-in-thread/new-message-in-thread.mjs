@@ -1,11 +1,12 @@
 import common from "../common/common.mjs";
+import { MAX_INITIAL_EVENTS } from "../../common/constants.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-message-in-thread",
   name: "New Message in Thread",
   description: "Emit new event when a new message is added to a thread. [See the documentation](https://developers.hubspot.com/docs/api-reference/conversations-conversations-inbox-&-messages-v3/public-message/get-conversations-v3-conversations-threads-threadId-messages)",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
   dedupe: "unique",
   props: {
@@ -51,7 +52,7 @@ export default {
   },
   hooks: {
     async deploy() {
-      await this.processEvent(25);
+      await this.processEvent(MAX_INITIAL_EVENTS);
     },
   },
   async run() {
