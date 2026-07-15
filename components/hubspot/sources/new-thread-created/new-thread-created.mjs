@@ -90,10 +90,11 @@ export default {
         newest = latest;
       }
     }
-    // Advance to the newest activity actually seen; only fall back to now when
-    // nothing came back, so an item created mid-fetch is not skipped.
-    this._setAfter(newest > after
-      ? newest
-      : Date.now());
+    // Advance only to the newest activity actually observed. When nothing new
+    // came back, `newest` still equals `after`, so the cursor stays put rather
+    // than jumping to wall-clock time — otherwise a thread created mid-fetch
+    // (timestamped before the cursor write but returned after it) would be
+    // skipped permanently.
+    this._setAfter(newest);
   },
 };

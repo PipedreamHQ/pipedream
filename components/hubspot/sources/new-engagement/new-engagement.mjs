@@ -38,7 +38,7 @@ export default {
   + " [Postal Mail](https://developers.hubspot.com/docs/api-reference/latest/crm/activities/postal-mail/search/search-postal-mail)"
   + " [Tasks](https://developers.hubspot.com/docs/api-reference/latest/crm/activities/tasks/search/search-tasks)"
   + " [See the documentation](https://developers.hubspot.com/docs/api-reference/latest/crm/using-object-apis)",
-  version: "0.0.50",
+  version: "0.0.51",
   dedupe: "unique",
   type: "source",
   props: {
@@ -163,20 +163,18 @@ export default {
   hooks: {
     async deploy() {
       // First deployment: emit only the most recent engagements as a sample,
-      // newest-first, then advance the cursor so run() is new-events-only. This
-      // lives in deploy() (not run()) so the user's deploy-time opt-out is
-      // honored (where $emit is a no-op).
+      // newest-first, then pin the cursor to deploy time so run() is
+      // new-events-only. This lives in deploy() (not run()) so the user's
+      // deploy-time opt-out is honored (where $emit is a no-op). Pinning to
+      // deployTs (rather than the oldest sampled timestamp) is what prevents
+      // run() from re-fetching and re-emitting the sampled engagements, which
+      // would otherwise bypass the opt-out. Every pre-existing engagement was
+      // created <= deployTs, and anything created during collection has
+      // createdAt > deployTs, so run() still catches genuinely new events.
+      const deployTs = Date.now();
       const engagements = await this.collectEngagements(null);
-      if (!engagements.length) {
-        // No events to sample, but still advance the cursor so the first run()
-        // is not treated as an initial (emit-everything) run.
-        this._setAfter(Date.now());
-        return;
-      }
-      const initial = engagements.slice(0, MAX_INITIAL_EVENTS);
-      this.emitEngagements(initial);
-      const oldestEmittedTs = this.getTs(initial[initial.length - 1]);
-      this._setAfter(oldestEmittedTs - 1);
+      this.emitEngagements(engagements.slice(0, MAX_INITIAL_EVENTS));
+      this._setAfter(deployTs);
     },
   },
   async run() {

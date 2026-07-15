@@ -86,10 +86,11 @@ export default {
         newest = ts;
       }
     }
-    // Advance to the newest message actually seen; only fall back to now when
-    // nothing came back, so a message created mid-fetch is not skipped.
-    this._setAfter(newest > after
-      ? newest
-      : Date.now());
+    // Advance only to the newest message actually observed. When nothing new
+    // came back, `newest` still equals `after`, so the cursor stays put rather
+    // than jumping to wall-clock time — otherwise a message created mid-fetch
+    // (timestamped before the cursor write but returned after it) would be
+    // skipped permanently.
+    this._setAfter(newest);
   },
 };
