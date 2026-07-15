@@ -4,7 +4,7 @@ import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 export default {
   type: "action",
   key: "microsoft_outlook-create-draft-email",
-  version: "0.0.31",
+  version: "0.0.32",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
