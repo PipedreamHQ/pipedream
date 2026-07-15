@@ -4,53 +4,37 @@ export default {
   type: "action",
   key: "linkupapi-get-company-info",
   name: "Get Company Info",
-  description: "Extract detailed information about a company from LinkedIn. [See the documentation](https://docs.linkupapi.com/api-reference/linkup/Companies/company-info)",
-  version: "0.0.2",
-  props: {
-    app,
-    companyUrl: {
-      type: "string",
-      label: "Company URL",
-      description: "LinkedIn company URLs. Eg. `https://www.linkedin.com/company/stripe/`",
-      optional: true,
-    },
-    loginToken: {
-      propDefinition: [
-        app,
-        "loginToken",
-      ],
-    },
-    country: {
-      propDefinition: [
-        app,
-        "country",
-      ],
-    },
-  },
+  description: "Fetch details for a LinkedIn company. [See the documentation](https://docs.linkupapi.com/api-reference/v2/profiles/get-company)",
+  version: "1.0.0",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,
     openWorldHint: true,
-    idempotentHint: true,
+  },
+  props: {
+    app,
+    accountId: {
+      propDefinition: [
+        app,
+        "accountId",
+      ],
+    },
+    companyUrl: {
+      type: "string",
+      label: "LinkedIn Company URL",
+      description: "LinkedIn company URL. Eg. `https://www.linkedin.com/company/stripe/`.",
+    },
   },
   async run({ $ }) {
-    const {
-      app,
-      companyUrl,
-      loginToken,
-      country,
-    } = this;
-
-    const response = await app.getCompanyInfo({
+    const response = await this.app.getCompanyInfo({
       $,
-      data: {
-        company_url: companyUrl,
-        login_token: loginToken,
-        country,
+      accountId: this.accountId,
+      params: {
+        company_url: this.companyUrl,
       },
     });
 
-    $.export("$summary", "Successfully retrieved company information");
+    $.export("$summary", `Successfully retrieved company information for ${this.companyUrl}`);
     return response;
   },
 };

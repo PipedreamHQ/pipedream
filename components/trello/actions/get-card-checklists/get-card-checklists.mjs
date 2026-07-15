@@ -73,13 +73,6 @@ export default {
       ],
     },
   },
-  methods: {
-    getCommaSeparatedString(array) {
-      return Array.isArray(array)
-        ? array.join(",")
-        : array;
-    },
-  },
   async run({ $ }) {
     const {
       cardId,
