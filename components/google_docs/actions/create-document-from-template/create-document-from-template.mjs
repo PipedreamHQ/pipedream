@@ -1,62 +1,93 @@
-import app from "../../google_docs.app.mjs";
-import common from "@pipedream/google_drive/actions/create-file-from-template/create-file-from-template.mjs";
-
-import utils from "../../common/utils.mjs";
-
-const {
-  // eslint-disable-next-line no-unused-vars
-  name, description, type, ...others
-} = common;
-const props = utils.adjustPropDefinitions(others.props, app);
+import { ConfigurationError } from "@pipedream/platform";
+import googleDocs from "../../google_docs.app.mjs";
 
 export default {
-  ...others,
   key: "google_docs-create-document-from-template",
-  name: "Create New Document From Template",
-  version: "0.0.8",
-  description,
-  type,
+  name: "Create Document From Template",
+  description: "Create a new Google Doc by copying a template document and substituting `{{placeholder}}` tokens with values. Use **Find Document** to resolve the template's name to its ID. Returns `{documentId, title, url}`. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#ReplaceAllTextRequest)",
+  version: "1.0.0",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
+  type: "action",
   props: {
-    googleDrive: app,
-    ...props,
-    drive: {
-      propDefinition: [
-        app,
-        "watchedDrive",
-      ],
-      optional: true,
-    },
+    googleDocs,
     templateId: {
       propDefinition: [
-        app,
-        "docId",
-        (c) => ({
-          driveId: app.methods.getDriveId(c.drive),
-        }),
+        googleDocs,
+        "documentId",
       ],
-      label: "Template",
-      description:
-        "Select the template document you'd like to use as the template, or use a custom expression to reference a document ID from a previous step. Template documents should contain placeholders in the format `{{xyz}}`.",
+      label: "Template ID",
+      description: "The ID of the template document to copy. The template should contain placeholders like `{{name}}`. Use **Find Document** to resolve a template's name to its ID.",
     },
-    destinationDrive: {
-      propDefinition: [
-        app,
-        "watchedDrive",
-      ],
-      label: "Destination Drive",
+    title: {
+      type: "string",
+      label: "Title",
+      description: "Title of the new document.",
+    },
+    variables: {
+      type: "string",
+      label: "Variables",
+      description: "JSON object mapping placeholder tokens to their replacement values. Tokens are matched as `{{key}}` in the template. Example: `{\"species\": \"Velociraptor\", \"location\": \"Paddock 11\"}`.",
       optional: true,
     },
     folderId: {
       propDefinition: [
-        app,
-        "folderId",
-        (c) => ({
-          drive: c.destinationDrive,
-        }),
+        googleDocs,
+        "documentFolderId",
       ],
-      description:
-        "Select the folder of the newly created Google Doc and/or PDF, or use a custom expression to reference a folder ID from a previous step.",
-      optional: true,
     },
+  },
+  async run({ $ }) {
+    const copy = await this.googleDocs.copyFile(this.templateId, {
+      requestBody: {
+        name: this.title,
+        parents: this.folderId
+          ? [
+            this.folderId,
+          ]
+          : undefined,
+      },
+    });
+    const documentId = copy.id;
+
+    let variables = this.variables ?? {};
+    if (typeof variables === "string") {
+      try {
+        variables = JSON.parse(variables);
+      } catch {
+        throw new ConfigurationError("`variables` must be a valid JSON object, e.g. `{\"species\": \"Velociraptor\"}`.");
+      }
+    }
+    if (typeof variables !== "object" || variables === null || Array.isArray(variables)) {
+      throw new ConfigurationError("`variables` must be a JSON object mapping placeholder tokens to values, e.g. `{\"species\": \"Velociraptor\"}`.");
+    }
+
+    const requests = Object.entries(variables).map(([
+      key,
+      value,
+    ]) => ({
+      replaceAllText: {
+        containsText: {
+          text: `{{${key}}}`,
+          matchCase: true,
+        },
+        replaceText: String(value),
+      },
+    }));
+
+    if (requests.length) {
+      await this.googleDocs.batchUpdate(documentId, requests);
+    }
+
+    const url = `https://docs.google.com/document/d/${documentId}/edit`;
+    $.export("$summary", `Created document "${this.title}" from template (${documentId})`);
+    return {
+      documentId,
+      title: this.title,
+      url,
+    };
   },
 };

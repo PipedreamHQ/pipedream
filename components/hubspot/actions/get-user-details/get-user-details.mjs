@@ -10,7 +10,7 @@ export default {
     + " (e.g. 'my deals' requires filtering by `hubspot_owner_id`)."
     + " Also returns available CRM object types for the account."
     + " [See the documentation](https://developers.hubspot.com/docs/api/oauth/tokens)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

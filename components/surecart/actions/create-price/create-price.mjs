@@ -4,7 +4,7 @@ export default {
   key: "surecart-create-price",
   name: "Create Price",
   description: "Create a new price for a product. [See the documentation](https://developer.surecart.com/api-reference/prices/create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

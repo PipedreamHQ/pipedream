@@ -355,6 +355,7 @@ export default {
       type: "string",
       label: "Comment body",
       description: "The body of the comment.",
+      optional: true,
     },
     ticketCommentBodyIsHTML: {
       type: "boolean",
@@ -424,6 +425,7 @@ export default {
       type: "string[]",
       label: "Attachments",
       description: "File paths or URLs to attach to the ticket. Multiple files can be attached.",
+      format: "file-ref",
       optional: true,
     },
     ticketTags: {
@@ -1062,6 +1064,26 @@ export default {
         data: {
           tags,
         },
+        ...args,
+      });
+    },
+    listDynamicContentItems(args = {}) {
+      return this.makeRequest({
+        path: "/dynamic_content/items",
+        ...args,
+      });
+    },
+    getDynamicContentItem({
+      itemId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/dynamic_content/items/${itemId}`,
+        ...args,
+      });
+    },
+    showManyDynamicContentItems(args = {}) {
+      return this.makeRequest({
+        path: "/dynamic_content/items/show_many",
         ...args,
       });
     },

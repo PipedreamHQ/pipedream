@@ -83,13 +83,18 @@ export default {
      *            - value: the property value inputted by the user
      */
     _filterProps(properties = {}) {
+      // Check key presence (not truthiness) so valid falsy values — 0, false,
+      // "" — are preserved rather than silently dropped.
       return Object.keys(properties)
         .filter((property) => this[property] != null
-          || (this.properties && this.properties[property]))
+          || (this.properties
+            && Object.prototype.hasOwnProperty.call(this.properties, property)))
         .map((property) => ({
           type: properties[property]?.type ?? property,
           label: properties[property]?.id || property,
-          value: this[property] || this.properties?.[property],
+          value: this[property] != null
+            ? this[property]
+            : this.properties?.[property],
           name: properties[property]?.name || property,
         }));
     },

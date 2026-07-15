@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/muapi",
+  "version": "0.1.0",
+  "description": "Pipedream MuAPI Components",
+  "main": "muapi.app.mjs",
+  "keywords": [
+    "pipedream",
+    "muapi"
+  ],
+  "homepage": "https://pipedream.com/apps/muapi",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  }
+}

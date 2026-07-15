@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-shipments",
   name: "List Shipments",
   description: "Return a list of shipments. [See the documentation](https://developer.surecart.com/api-reference/shipments/list)",
-  version: "0.0.2",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -16,7 +16,7 @@ export default {
     fulfillmentIds: {
       type: "string[]",
       label: "Fulfillment IDs",
-      description: "Filter by fulfillment IDs. Use **List Fulfillments** to find fulfillment IDs. Example: `[\"ful_abc123\"]`",
+      description: "Filter by fulfillment IDs. Use **List Fulfillments** to find fulfillment IDs. Example: `[\"b47ca4c2-6cd2-41d5-aefb-4dc459642c56\"]`",
       optional: true,
     },
     ids: {
@@ -25,16 +25,10 @@ export default {
         "ids",
       ],
     },
-    limit: {
+    maxResults: {
       propDefinition: [
         surecart,
-        "limit",
-      ],
-    },
-    page: {
-      propDefinition: [
-        surecart,
-        "page",
+        "maxResults",
       ],
     },
     status: {
@@ -51,17 +45,25 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.surecart.listShipments({
-      $,
-      params: {
-        "fulfillment_ids[]": this.fulfillmentIds,
-        "ids[]": this.ids,
-        "limit": this.limit,
-        "page": this.page,
-        "status[]": this.status,
+    const results = this.surecart.paginate({
+      fn: this.surecart.listShipments,
+      args: {
+        $,
+        params: {
+          "fulfillment_ids[]": this.fulfillmentIds,
+          "ids[]": this.ids,
+          "status[]": this.status,
+        },
       },
+      max: this.maxResults,
     });
-    $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} shipment(s)`);
-    return response;
+
+    const shipments = [];
+    for await (const shipment of results) {
+      shipments.push(shipment);
+    }
+
+    $.export("$summary", `Successfully retrieved ${shipments.length} shipment(s)`);
+    return shipments;
   },
 };
