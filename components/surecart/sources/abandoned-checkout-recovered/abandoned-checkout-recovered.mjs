@@ -5,7 +5,7 @@ export default {
   key: "surecart-abandoned-checkout-recovered",
   name: "New Abandoned Checkout Recovered (Instant)",
   description: "Emit new event when an abandoned checkout is recovered. [See the documentation](https://developer.surecart.com/api-reference/webhook-endpoints/create)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-media",
   name: "List Media",
   description: "Return a list of media items. [See the documentation](https://developer.surecart.com/api-reference/medias/list)",
-  version: "0.0.2",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -19,16 +19,10 @@ export default {
         "ids",
       ],
     },
-    limit: {
+    maxResults: {
       propDefinition: [
         surecart,
-        "limit",
-      ],
-    },
-    page: {
-      propDefinition: [
-        surecart,
-        "page",
+        "maxResults",
       ],
     },
     publicAccess: {
@@ -39,16 +33,24 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.surecart.listMedia({
-      $,
-      params: {
-        "ids[]": this.ids,
-        "limit": this.limit,
-        "page": this.page,
-        "public_access": this.publicAccess,
+    const results = this.surecart.paginate({
+      fn: this.surecart.listMedia,
+      args: {
+        $,
+        params: {
+          "ids[]": this.ids,
+          "public_access": this.publicAccess,
+        },
       },
+      max: this.maxResults,
     });
-    $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} media item(s)`);
-    return response;
+
+    const mediaItems = [];
+    for await (const mediaItem of results) {
+      mediaItems.push(mediaItem);
+    }
+
+    $.export("$summary", `Successfully retrieved ${mediaItems.length} media item(s)`);
+    return mediaItems;
   },
 };

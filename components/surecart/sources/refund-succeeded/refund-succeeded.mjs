@@ -5,7 +5,7 @@ export default {
   key: "surecart-refund-succeeded",
   name: "Refund Succeeded (Instant)",
   description: "Emit new event when a refund succeeds. [See the documentation](https://developer.surecart.com/api-reference/webhook-endpoints/create)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {
