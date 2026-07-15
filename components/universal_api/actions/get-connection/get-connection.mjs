@@ -38,7 +38,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.listConnections({
+    const response = await this.app.getConnection({
       $,
       consumerId: this.consumerId,
       universalApi: this.universalApi,

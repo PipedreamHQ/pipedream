@@ -429,6 +429,15 @@ export default {
       return this._makeRequest({
         $,
         consumerId,
+        url: `/connections/${universalApi}/${serviceId}`,
+      });
+    },
+    getConnection({
+      $, consumerId, universalApi, serviceId,
+    }) {
+      return this._makeRequest({
+        $,
+        consumerId,
         url: `/api/connections/${universalApi}/${serviceId}`,
       });
     },
