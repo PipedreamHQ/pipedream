@@ -4,7 +4,7 @@ import { COUNT_QUERY_PARAM } from "../../common/constants.mjs";
 export default {
   type: "action",
   key: "microsoft_outlook-list-contacts",
-  version: "0.0.32",
+  version: "0.0.33",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
