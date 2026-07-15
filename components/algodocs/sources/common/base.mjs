@@ -51,6 +51,7 @@ export default {
 
       // The API returns records newest-first, so we iterate in that order.
       const entries = [];
+      let watermark = lastTs ?? 0;
       for (const record of records) {
         const ts = getRecordTimestamp(record);
 
@@ -65,14 +66,14 @@ export default {
         if ((!isFirstRun && ts < lastTs) || (isFirstRun && entries.length >= FIRST_RUN_LIMIT)) {
           break;
         }
-        entries.push(...this.extractItems(record, ts));
-      }
-      let watermark = lastTs ?? 0;
-      for (const entry of entries) {
-        if (entry.ts > watermark) {
-          watermark = entry.ts;
+
+        if (ts > watermark) {
+          watermark = ts;
         }
 
+        entries.push(...this.extractItems(record, ts));
+      }
+      for (const entry of entries) {
         if (!this.matchesFilter(entry)) {
           continue;
         }
