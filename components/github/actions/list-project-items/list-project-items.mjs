@@ -34,8 +34,9 @@ export default {
     maxResults: {
       type: "integer",
       label: "Max Results",
-      description: "The maximum number of items to return. Defaults: `100`",
+      description: "The maximum number of items to return (the most recent items). GitHub caps this at `100` per request. Defaults: `100`",
       default: 100,
+      max: 100,
       optional: true,
     },
   },
@@ -48,7 +49,8 @@ export default {
       repoOwner,
       repoName,
       project,
-      amount: maxResults,
+      // GitHub GraphQL connections reject last/first > 100, so cap it.
+      amount: Math.min(maxResults, 100),
     }) ?? [];
 
     $.export("$summary", `Found ${items.length} item(s) in project #${project}`);

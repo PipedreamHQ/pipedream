@@ -30,11 +30,10 @@ export default {
   async run({ $ }) {
     const repoFullname = await this.github._resolveRepoFullname(this.repoFullname);
 
-    let labels = await this.github.getRepositoryLabels({
+    const labels = await this.github.getRepositoryLabels({
       repoFullname,
+      maxResults: this.maxResults,
     });
-
-    labels = labels.slice(0, this.maxResults);
 
     $.export("$summary", `Found ${labels.length} label(s) in ${repoFullname}`);
 

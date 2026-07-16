@@ -30,11 +30,10 @@ export default {
   async run({ $ }) {
     const repoFullname = await this.github._resolveRepoFullname(this.repoFullname);
 
-    let collaborators = await this.github.getRepositoryCollaborators({
+    const collaborators = await this.github.getRepositoryCollaborators({
       repoFullname,
+      maxResults: this.maxResults,
     });
-
-    collaborators = collaborators.slice(0, this.maxResults);
 
     $.export("$summary", `Found ${collaborators.length} collaborator(s) in ${repoFullname}`);
 

@@ -487,11 +487,33 @@ export default {
         ...args,
       });
     },
-    async getRepositoryLabels({ repoFullname }) {
-      return this._client().paginate(`GET /repos/${repoFullname}/labels`, {});
+    // Paginate but stop early once `maxResults` rows are collected, so callers
+    // that only want a bounded slice don't pull every page. When `maxResults`
+    // is omitted (e.g. the propDefinition option loaders), all pages are
+    // fetched — preserving the previous behavior.
+    async _paginateWithLimit(route, maxResults) {
+      const results = [];
+      for await (const { data } of this._client().paginate.iterator(route, {
+        per_page: 100,
+      })) {
+        results.push(...data);
+        if (maxResults && results.length >= maxResults) {
+          break;
+        }
+      }
+      return maxResults
+        ? results.slice(0, maxResults)
+        : results;
     },
-    async getRepositoryCollaborators({ repoFullname }) {
-      return this._client().paginate(`GET /repos/${repoFullname}/collaborators`, {});
+    async getRepositoryLabels({
+      repoFullname, maxResults,
+    }) {
+      return this._paginateWithLimit(`GET /repos/${repoFullname}/labels`, maxResults);
+    },
+    async getRepositoryCollaborators({
+      repoFullname, maxResults,
+    }) {
+      return this._paginateWithLimit(`GET /repos/${repoFullname}/collaborators`, maxResults);
     },
     async getRepositoryIssues({
       repoFullname, ...args
