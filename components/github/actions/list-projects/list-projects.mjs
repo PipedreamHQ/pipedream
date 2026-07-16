@@ -35,7 +35,7 @@ export default {
     cursor: {
       type: "string",
       label: "Cursor",
-      description: "Pagination cursor to fetch the next page of results. Omit for the first page; to get more, pass the `nextCursor` value returned by a previous call.",
+      description: "Pagination cursor to fetch the next page of results. Omit for the first page; to get more, pass the `nextCursor` value returned by a previous call. Note: results are fetched in pages of 10, so for cursor continuation to work set **Max Results** to a multiple of 10 — a value that lands mid-page returns a null `nextCursor` on the final (partial) page, and the remaining items can only be reached by raising **Max Results**.",
       optional: true,
     },
   },

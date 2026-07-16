@@ -3,7 +3,7 @@ import github from "../../github.app.mjs";
 export default {
   key: "github-list-project-items",
   name: "List Project Items",
-  description: "List the items in a Project (V2), returning each item's id, type, and title. Use the returned item id with **Update Project (V2) Item Status** to change an item's status. Get the project number from **List Projects** and its valid statuses from **List Project Statuses**. Discover organization logins with **List Organizations**. [See the documentation](https://docs.github.com/en/graphql/reference/projects#object-projectv2item)",
+  description: "List the items in a Project (V2). Each item has an `id`, a `type`, and its title under `fieldValueByName.text` (not a flat `title` field). Use the returned item `id` with **Update Project (V2) Item Status** to change an item's status. Get the project number from **List Projects** and its valid statuses from **List Project Statuses**. Discover organization logins with **List Organizations**. [See the documentation](https://docs.github.com/en/graphql/reference/projects#object-projectv2item)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -34,7 +34,7 @@ export default {
     maxResults: {
       type: "integer",
       label: "Max Results",
-      description: "The maximum number of items to return (the most recent items). GitHub caps this at `100` per request. Defaults: `100`",
+      description: "The maximum number of items to return. GitHub caps this at `100` per request. Defaults: `100`",
       default: 100,
       max: 100,
       optional: true,

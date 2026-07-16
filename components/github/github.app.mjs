@@ -491,7 +491,7 @@ export default {
     // that only want a bounded slice don't pull every page. When `maxResults`
     // is omitted (e.g. the propDefinition option loaders), all pages are
     // fetched — preserving the previous behavior.
-    async _paginateWithLimit(route, maxResults) {
+    async _paginateWithLimit(route, maxResults, params = {}) {
       const results = [];
       // A defined, non-positive limit means "no rows" — return before paging.
       if (maxResults != null && maxResults <= 0) {
@@ -499,6 +499,7 @@ export default {
       }
       for await (const { data } of this._client().paginate.iterator(route, {
         per_page: 100,
+        ...params,
       })) {
         results.push(...data);
         if (maxResults != null && results.length >= maxResults) {
@@ -1013,18 +1014,17 @@ export default {
       return response.data;
     },
     async getRepositoryMilestones({
-      repoFullname, ...args
+      repoFullname, maxResults, ...args
     }) {
-      // Defaults come first so caller-supplied `state`/`per_page` (spread via
-      // `...args`) can override them. Without state, GitHub defaults to `open`,
-      // which preserves the behavior the `milestoneNumber` propDefinition relies on.
-      const response = await this._client().request(`GET /repos/${repoFullname}/milestones`, {
-        per_page: 100,
+      // Paginate (bounded by maxResults) rather than a single page, so large
+      // milestone sets are reachable. `state` default comes first so a
+      // caller-supplied `state` (spread via `...args`) overrides it; without
+      // one, GitHub defaults to `open`, which the `milestoneNumber`
+      // propDefinition relies on (it passes no maxResults, so all are fetched).
+      return this._paginateWithLimit(`GET /repos/${repoFullname}/milestones`, maxResults, {
         state: "open",
         ...args,
       });
-
-      return response.data;
     },
     async getRepositoryStargazers({
       repoFullname, ...args

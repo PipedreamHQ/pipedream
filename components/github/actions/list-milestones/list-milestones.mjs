@@ -42,12 +42,11 @@ export default {
   async run({ $ }) {
     const repoFullname = await this.github._resolveRepoFullname(this.repoFullname);
 
-    let milestones = await this.github.getRepositoryMilestones({
+    const milestones = await this.github.getRepositoryMilestones({
       repoFullname,
       state: this.state,
+      maxResults: this.maxResults,
     });
-
-    milestones = milestones.slice(0, this.maxResults);
 
     $.export("$summary", `Found ${milestones.length} ${this.state} milestone(s) in ${repoFullname}`);
 
