@@ -56,6 +56,16 @@ describe("file-stream", () => {
       } else if (req.url === "/error") {
         res.writeHead(404, "Not Found");
         res.end();
+      } else if (req.url === "/aws-error") {
+        res.writeHead(400, "Bad Request", {
+          "Content-Type": "application/xml",
+        });
+        res.end(`
+          <Error>
+            <Code>SignatureDoesNotMatch</Code>
+            <Message>The request signature we calculated does not match the signature you provided.</Message>
+          </Error>
+        `);
       } else {
         res.writeHead(404, "Not Found");
         res.end();
@@ -100,6 +110,11 @@ describe("file-stream", () => {
     it("should throw error for invalid URL", async () => {
       await expect(getFileStream(`http://localhost:${testPort}/error`))
         .rejects.toThrow("Failed to fetch");
+    });
+
+    it("should include response details for a failed remote request", async () => {
+      await expect(getFileStream(`http://localhost:${testPort}/aws-error`))
+        .rejects.toThrow("Response body: <Error> <Code>SignatureDoesNotMatch</Code> <Message>The request signature we calculated does not match the signature you provided.</Message> </Error>");
     });
 
     it("should throw error for non-existent local file", async () => {
@@ -158,6 +173,11 @@ describe("file-stream", () => {
     it("should throw error for invalid remote URL", async () => {
       await expect(getFileStreamAndMetadata(`http://localhost:${testPort}/error`))
         .rejects.toThrow("Failed to fetch");
+    });
+
+    it("should include response details for a failed remote request", async () => {
+      await expect(getFileStreamAndMetadata(`http://localhost:${testPort}/aws-error`))
+        .rejects.toThrow("Response body: <Error> <Code>SignatureDoesNotMatch</Code> <Message>The request signature we calculated does not match the signature you provided.</Message> </Error>");
     });
   });
 

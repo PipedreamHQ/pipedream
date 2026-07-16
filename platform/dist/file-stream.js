@@ -9,6 +9,7 @@ const path_1 = require("path");
 const promises_1 = require("stream/promises");
 const uuid_1 = require("uuid");
 const mime = require("mime-types");
+const MAX_ERROR_RESPONSE_BODY_LENGTH = 1024;
 /**
  * @param pathOrUrl - a file path or a URL
  * @returns a Readable stream of the file content
@@ -20,7 +21,7 @@ async function getFileStream(pathOrUrl) {
     else if (isUrl(pathOrUrl)) {
         const response = await fetch(pathOrUrl);
         if (!response.ok || !response.body) {
-            throw new Error(`Failed to fetch ${pathOrUrl}: ${response.status} ${response.statusText}`);
+            throw await getFetchError(pathOrUrl, response);
         }
         return stream_1.Readable.fromWeb(response.body);
     }
@@ -28,6 +29,22 @@ async function getFileStream(pathOrUrl) {
         await safeStat(pathOrUrl);
         return (0, fs_1.createReadStream)(pathOrUrl);
     }
+}
+async function getFetchError(pathOrUrl, response) {
+    let responseDetails = "";
+    try {
+        const responseBody = (await response.text()).trim().replace(/\s+/g, " ");
+        if (responseBody) {
+            const truncatedBody = responseBody.length > MAX_ERROR_RESPONSE_BODY_LENGTH
+                ? `${responseBody.slice(0, MAX_ERROR_RESPONSE_BODY_LENGTH)}...`
+                : responseBody;
+            responseDetails = `\nResponse body: ${truncatedBody}`;
+        }
+    }
+    catch (_a) {
+        // Preserve the status-only error when the response body cannot be read.
+    }
+    return new Error(`Failed to fetch ${pathOrUrl}: ${response.status} ${response.statusText}${responseDetails}`);
 }
 /**
  * @param pathOrUrl - a file path or a URL
@@ -145,7 +162,7 @@ async function getLocalFileStreamAndMetadata(filePath) {
 async function getRemoteFileStreamAndMetadata(url) {
     const response = await fetch(url);
     if (!response.ok || !response.body) {
-        throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
+        throw await getFetchError(url, response);
     }
     const headers = response.headers;
     const contentLength = headers.get("content-length");
