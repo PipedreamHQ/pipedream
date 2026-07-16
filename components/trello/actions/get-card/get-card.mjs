@@ -5,7 +5,7 @@ export default {
   key: "trello-get-card",
   name: "Get Card",
   description: "Gets a card by its ID. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-get).",
-  version: "0.4.0",
+  version: "0.5.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -57,16 +57,9 @@ export default {
       ],
     },
     checklistFields: {
-      type: "string[]",
-      label: "Checklist Fields",
-      description: "Fields to include on each checklist. `all` or a list of: `idBoard`, `idCard`, `name`, `pos`.",
-      optional: true,
-      options: [
-        "all",
-        "idBoard",
-        "idCard",
-        "name",
-        "pos",
+      propDefinition: [
+        common.props.app,
+        "checklistFields",
       ],
     },
   },

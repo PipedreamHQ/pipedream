@@ -5,7 +5,7 @@ import app from "../../trello.app.mjs";
 export default {
   key: "trello-update-checklist-item",
   name: "Update Checklist Item",
-  description: "Updates an existing checklist item on a card, including renaming, completing, or uncompleting the item. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-checkitem-idcheckitem-put).",
+  description: "Updates an existing checklist item on a card, including renaming, completing, or uncompleting the item. Updates to `due`, `dueReminder`, and `idMember` require [Trello Premium](https://support.atlassian.com/trello/docs/advanced-checklists/) (advanced checklists) and may not persist on free workspaces. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-checkitem-idcheckitem-put).",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -43,6 +43,7 @@ export default {
           card: cardId,
         }),
       ],
+      description: "The ID of the checklist",
     },
     checklistItemId: {
       propDefinition: [
@@ -76,10 +77,11 @@ export default {
       ],
     },
     due: {
-      type: "string",
-      label: "Due Date",
+      propDefinition: [
+        app,
+        "due",
+      ],
       description: "A due date for the checklist item. **Format: YYYY-MM-DDThh:mm:ss.sssZ**",
-      optional: true,
     },
     dueReminder: {
       type: "string",

@@ -371,6 +371,19 @@ export default {
       optional: true,
       options: actions,
     },
+    checklistFields: {
+      type: "string[]",
+      label: "Checklist Fields",
+      description: "Fields to include on each checklist. `all` or a list of: `idBoard`, `idCard`, `name`, `pos`.",
+      optional: true,
+      options: [
+        "all",
+        "idBoard",
+        "idCard",
+        "name",
+        "pos",
+      ],
+    },
     labels: {
       type: "string[]",
       label: "Labels",

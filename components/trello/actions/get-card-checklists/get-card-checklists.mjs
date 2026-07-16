@@ -60,16 +60,9 @@ export default {
       ],
     },
     fields: {
-      type: "string[]",
-      label: "Checklist Fields",
-      description: "Fields to include on each checklist. `all` or a list of: `idBoard`, `idCard`, `name`, `pos`.",
-      optional: true,
-      options: [
-        "all",
-        "idBoard",
-        "idCard",
-        "name",
-        "pos",
+      propDefinition: [
+        common.props.app,
+        "checklistFields",
       ],
     },
   },

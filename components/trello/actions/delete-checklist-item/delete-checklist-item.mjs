@@ -41,6 +41,7 @@ export default {
           card: cardId,
         }),
       ],
+      description: "The ID of the checklist",
     },
     checklistItemId: {
       propDefinition: [
