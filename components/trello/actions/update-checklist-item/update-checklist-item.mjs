@@ -125,19 +125,19 @@ export default {
       pos,
       due,
       dueReminder: dueReminder
-        ? parseInt(dueReminder)
+        ? parseInt(dueReminder, 10)
         : undefined,
       idMember,
     };
 
-    const filteredParams = Object.fromEntries(
-      Object.entries(params).filter((entry) => {
-        const value = entry[1];
-        return value !== undefined && value !== null && value !== "";
-      }),
-    );
-
-    if (!Object.keys(filteredParams).length) {
+    if (![
+      name,
+      state,
+      pos,
+      due,
+      dueReminder,
+      idMember,
+    ].some((val) => val !== undefined && val !== null && val !== "")) {
       throw new ConfigurationError("At least one field to update must be provided (name, state, pos, due, dueReminder, or idMember).");
     }
 
@@ -145,7 +145,7 @@ export default {
       $,
       cardId,
       checklistItemId,
-      params: filteredParams,
+      params,
     });
 
     $.export("$summary", `Successfully updated checklist item with ID: ${checklistItemId}`);
