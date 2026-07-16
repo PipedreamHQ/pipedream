@@ -10,6 +10,7 @@ const organizationProjectsQuery = `
         }
         pageInfo {
           endCursor
+          hasNextPage
         }
       }
     }
@@ -26,6 +27,7 @@ const projectsQuery = `
         }
         pageInfo {
           endCursor
+          hasNextPage
         }
       }
     }

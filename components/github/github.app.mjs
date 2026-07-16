@@ -54,6 +54,26 @@ export default {
       description: "The pull request number — the `#N` shown in the GitHub UI. Use **Search Issues and Pull Requests** with `is:pr` or **Get Pull Request** to find it when you only know the title.",
       type: "integer",
     },
+    // Static, MCP-friendly props for the Projects (V2) discovery chain
+    // (List Projects → List Project Statuses / List Project Items). No
+    // `async options()` dropdowns — Projects V2 are addressed by their
+    // human-readable org login + number. User-owned Projects are not supported.
+    projectOwnerStatic: {
+      label: "Owner",
+      description: "The account that owns the Project (V2). Provide an organization login (e.g. `my-org`) to list organization-owned projects, or a repository owner when **Repository** is also set. Discover org logins with **List Organizations**. User-owned Projects are not supported.",
+      type: "string",
+    },
+    projectRepoStatic: {
+      label: "Repository",
+      description: "Optional. The repository name **without** the owner (e.g. `my-repo`, not `my-org/my-repo`) when the Project (V2) is repository-scoped. Leave blank to target an organization-owned Project.",
+      type: "string",
+      optional: true,
+    },
+    projectNumberStatic: {
+      label: "Project Number",
+      description: "The Project (V2) number as shown in the project URL and UI (e.g. `5` in `/orgs/my-org/projects/5`) — not the node ID. Get it from **List Projects**.",
+      type: "integer",
+    },
     repoOrg: {
       label: "Organization Repository",
       description: "The repository in a organization",
@@ -495,11 +515,13 @@ export default {
         repoName,
         cursor,
       });
+      const pageInfo = response?.repository?.projectsV2?.pageInfo ??
+        response?.organization?.projectsV2?.pageInfo;
       return {
         projects: response?.repository?.projectsV2?.nodes ??
           response?.organization?.projectsV2?.nodes,
-        nextCursor: response?.repository?.projectsV2?.pageInfo?.endCursor ??
-          response?.organization?.projectsV2?.pageInfo?.endCursor,
+        nextCursor: pageInfo?.endCursor,
+        hasNextPage: pageInfo?.hasNextPage ?? false,
       };
     },
     async getProjectV2StatusField({
@@ -966,10 +988,13 @@ export default {
     async getRepositoryMilestones({
       repoFullname, ...args
     }) {
+      // Defaults come first so caller-supplied `state`/`per_page` (spread via
+      // `...args`) can override them. Without state, GitHub defaults to `open`,
+      // which preserves the behavior the `milestoneNumber` propDefinition relies on.
       const response = await this._client().request(`GET /repos/${repoFullname}/milestones`, {
-        ...args,
         per_page: 100,
         state: "open",
+        ...args,
       });
 
       return response.data;
