@@ -4,7 +4,7 @@ export default {
   key: "surecart-retrieve-purchase",
   name: "Retrieve Purchase",
   description: "Retrieve a purchase by ID. [See the documentation](https://developer.surecart.com/api-reference/purchases/retrieve)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
