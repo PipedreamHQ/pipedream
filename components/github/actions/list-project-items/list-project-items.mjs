@@ -49,8 +49,9 @@ export default {
       repoOwner,
       repoName,
       project,
-      // GitHub GraphQL connections reject last/first > 100, so cap it.
-      amount: Math.min(maxResults, 100),
+      // Fall back to 100 when unset, then cap: GitHub GraphQL connections
+      // reject last/first > 100, and an undefined value would yield NaN.
+      amount: Math.min(maxResults ?? 100, 100),
     }) ?? [];
 
     $.export("$summary", `Found ${items.length} item(s) in project #${project}`);

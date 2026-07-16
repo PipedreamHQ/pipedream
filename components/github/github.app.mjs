@@ -493,15 +493,20 @@ export default {
     // fetched — preserving the previous behavior.
     async _paginateWithLimit(route, maxResults) {
       const results = [];
+      // A defined, non-positive limit means "no rows" — return before paging.
+      if (maxResults != null && maxResults <= 0) {
+        return results;
+      }
       for await (const { data } of this._client().paginate.iterator(route, {
         per_page: 100,
       })) {
         results.push(...data);
-        if (maxResults && results.length >= maxResults) {
+        if (maxResults != null && results.length >= maxResults) {
           break;
         }
       }
-      return maxResults
+      // Only `undefined`/`null` means unlimited; slice for any defined limit.
+      return maxResults != null
         ? results.slice(0, maxResults)
         : results;
     },
