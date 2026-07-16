@@ -44,7 +44,11 @@ export default {
       attachmentSysId: this.attachmentSysId,
     });
 
-    const filePath = path.join("/tmp", path.basename(this.fileName || this.attachmentSysId));
+    const requestedName = path.basename(this.fileName || "");
+    const isUnsafeName = !requestedName || requestedName === "." || requestedName === "..";
+    const filePath = path.join("/tmp", isUnsafeName
+      ? this.attachmentSysId
+      : requestedName);
     await fs.promises.writeFile(filePath, content);
 
     $.export("$summary", `Successfully downloaded attachment to \`${filePath}\``);
