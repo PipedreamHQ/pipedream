@@ -75,7 +75,13 @@ export default {
       cursor = endCursor;
     }
 
-    projects = projects.slice(0, maxResults);
+    if (projects.length > maxResults) {
+      // The final page overshot maxResults. The discarded items sit between the
+      // last returned project and nextCursor, so handing back nextCursor would
+      // silently skip them. Clear it — better to stop than to skip results.
+      projects = projects.slice(0, maxResults);
+      nextCursor = null;
+    }
 
     $.export("$summary", `Found ${projects.length} project(s) for ${repoName
       ? `${repoOwner}/${repoName}`
