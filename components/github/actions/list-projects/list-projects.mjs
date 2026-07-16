@@ -41,8 +41,12 @@ export default {
   },
   async run({ $ }) {
     const {
-      github, owner: repoOwner, repo: repoName, maxResults,
+      github, owner: repoOwner, repo: repoName,
     } = this;
+    // Fall back to the prop default so an undefined limit doesn't make
+    // `projects.length < maxResults` false on the first iteration (which would
+    // skip the loop and return nothing).
+    const maxResults = this.maxResults ?? 100;
 
     let projects = [];
     let cursor = this.cursor ?? null;

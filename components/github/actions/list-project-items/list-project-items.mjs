@@ -3,7 +3,7 @@ import github from "../../github.app.mjs";
 export default {
   key: "github-list-project-items",
   name: "List Project Items",
-  description: "List the items in a Project (V2). Each item has an `id`, a `type`, and its title under `fieldValueByName.text` (not a flat `title` field). Use the returned item `id` with **Update Project (V2) Item Status** to change an item's status. Get the project number from **List Projects** and its valid statuses from **List Project Statuses**. Discover organization logins with **List Organizations**. [See the documentation](https://docs.github.com/en/graphql/reference/projects#object-projectv2item)",
+  description: "List the items in a Project (V2). Each item has an `id`, a `type`, and its title under `fieldValueByName.text` (not a flat `title` field). Use the returned item `id` with **Update Project (V2) Item Status** to change an item's status. Get the project number from **List Projects** and its valid statuses from **List Project Statuses**. Discover organization logins with **List Organizations**. Returns at most 100 items with no pagination — a project with more than 100 items exposes only the last 100 (the tail of the item connection, in the connection's own order), so earlier items can't be retrieved. [See the documentation](https://docs.github.com/en/graphql/reference/projects#object-projectv2item)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
