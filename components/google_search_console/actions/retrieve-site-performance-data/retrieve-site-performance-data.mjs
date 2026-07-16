@@ -3,9 +3,9 @@ import { trimIfString } from "../../common/utils.mjs";
 
 export default {
   name: "Retrieve Site Performance Data",
-  description: "Fetches search analytics from Google Search Console for a verified site.",
+  description: "Fetches search analytics from Google Search Console for a verified site. [See the documentation](https://developers.google.com/webmaster-tools/v1/searchanalytics/query)",
   key: "google_search_console-retrieve-site-performance-data",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -121,7 +121,7 @@ export default {
       type: "object",
       label: "Advanced Dimension Filters",
       optional: true,
-      description: "For advanced use cases: custom dimension filter groups following Search Console API structure.",
+      description: "Custom dimension filter groups following the Search Console API structure. Example: `[{\"groupType\":\"and\",\"filters\":[{\"dimension\":\"page\",\"operator\":\"contains\",\"expression\":\"https://www.example.com/docs\"}]}]`. Used only when Subdomain Filter is empty.",
     },
     dataState: {
       type: "string",
@@ -159,19 +159,18 @@ export default {
 
     if (subdomainFilter) {
       // If user provided a subdomain filter, create the filter structure
-      dimensionFilterGroups = {
-        filterGroups: [
-          {
-            filters: [
-              {
-                dimension: filterDimension || "page",
-                operator: filterOperator || "contains",
-                expression: subdomainFilter,
-              },
-            ],
-          },
-        ],
-      };
+      dimensionFilterGroups = [
+        {
+          groupType: "and",
+          filters: [
+            {
+              dimension: filterDimension || "page",
+              operator: filterOperator || "contains",
+              expression: trimIfString(subdomainFilter),
+            },
+          ],
+        },
+      ];
     } else if (advancedDimensionFilters) {
       // If user provided advanced filters, use those
       dimensionFilterGroups = googleSearchConsole.parseIfJsonString(advancedDimensionFilters);
@@ -207,4 +206,3 @@ export default {
     return response;
   },
 };
-
