@@ -14649,7 +14649,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       '@pipedream/shopify':
-        specifier: ^0.11.0
+        specifier: ^0.11.1
         version: 0.11.1
       shopify-api-node:
         specifier: ^3.14.2
@@ -42717,7 +42717,6 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
-      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2))(rollup@4.62.0)':
     dependencies:
