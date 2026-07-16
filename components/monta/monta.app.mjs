@@ -89,5 +89,13 @@ export default {
         ...opts,
       });
     },
+    listProductStockChanges({
+      updatedSince, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/product/updated_since/${encodeURIComponent(updatedSince)}`,
+        ...opts,
+      });
+    },
   },
 };
