@@ -450,6 +450,97 @@ const REFUND_CREATE = `
   }
 `;
 
+const GIFT_CARD_CREATE = `
+  mutation giftCardCreate($input: GiftCardCreateInput!) {
+    giftCardCreate(input: $input) {
+      giftCard {
+        id
+        maskedCode
+        lastCharacters
+        expiresOn
+        note
+      }
+      giftCardCode
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const ORDER_CREATE = `
+  mutation orderCreate($order: OrderCreateOrderInput!, $options: OrderCreateOptionsInput) {
+    orderCreate(order: $order, options: $options) {
+      order {
+        id
+        name
+        email
+        totalPriceSet {
+          shopMoney {
+            amount
+            currencyCode
+          }
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const ORDER_INVOICE_SEND = `
+  mutation orderInvoiceSend($id: ID!, $email: EmailInput) {
+    orderInvoiceSend(id: $id, email: $email) {
+      order {
+        id
+        name
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const RETURN_CREATE = `
+  mutation returnCreate($returnInput: ReturnInput!) {
+    returnCreate(returnInput: $returnInput) {
+      return {
+        id
+        status
+        order {
+          id
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const RETURN_REFUND = `
+  mutation returnRefund($returnRefundInput: ReturnRefundInput!) {
+    returnRefund(returnRefundInput: $returnRefundInput) {
+      refund {
+        id
+        order {
+          id
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
 const ORDER_CANCEL = `
   mutation orderCancel(
     $orderId: ID!,
@@ -493,6 +584,55 @@ const FULFILLMENT_ORDER_SUBMIT_CANCELLATION_REQUEST = `
   }
 `;
 
+const FULFILLMENT_CANCEL = `
+  mutation fulfillmentCancel($id: ID!) {
+    fulfillmentCancel(id: $id) {
+      fulfillment {
+        id
+        status
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const FULFILLMENT_ORDER_CANCEL = `
+  mutation fulfillmentOrderCancel($id: ID!) {
+    fulfillmentOrderCancel(id: $id) {
+      fulfillmentOrder {
+        id
+        status
+      }
+      replacementFulfillmentOrder {
+        id
+        status
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const FULFILLMENT_ORDER_HOLD = `
+  mutation fulfillmentOrderHold($fulfillmentHold: FulfillmentOrderHoldInput!, $id: ID!) {
+    fulfillmentOrderHold(fulfillmentHold: $fulfillmentHold, id: $id) {
+      fulfillmentOrder {
+        id
+        status
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
 export default {
   CREATE_WEBHOOK,
   DELETE_WEBHOOK,
@@ -521,4 +661,12 @@ export default {
   REFUND_CREATE,
   ORDER_CANCEL,
   FULFILLMENT_ORDER_SUBMIT_CANCELLATION_REQUEST,
+  GIFT_CARD_CREATE,
+  ORDER_CREATE,
+  ORDER_INVOICE_SEND,
+  RETURN_CREATE,
+  RETURN_REFUND,
+  FULFILLMENT_CANCEL,
+  FULFILLMENT_ORDER_CANCEL,
+  FULFILLMENT_ORDER_HOLD,
 };

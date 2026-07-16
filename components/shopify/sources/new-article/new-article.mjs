@@ -7,7 +7,7 @@ export default {
   name: "New Article",
   type: "source",
   description: "Emit new event for each new article in a blog.",
-  version: "0.0.24",
+  version: "0.0.25",
   dedupe: "unique",
   props: {
     ...common.props,
