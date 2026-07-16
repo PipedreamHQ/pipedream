@@ -4,7 +4,7 @@ export default {
   key: "surecart-retrieve-refund",
   name: "Retrieve Refund",
   description: "Retrieve a refund by ID. [See the documentation](https://developer.surecart.com/api-reference/refunds/retrieve)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -4,7 +4,7 @@ export default {
   key: "surecart-create-fulfillment",
   name: "Create Fulfillment",
   description: "Create a new fulfillment for an order. [See the documentation](https://developer.surecart.com/api-reference/fulfillments/create)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

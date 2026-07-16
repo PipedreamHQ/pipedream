@@ -4,7 +4,7 @@ export default {
   key: "surecart-expose-customer-media",
   name: "Expose Customer Media",
   description: "Retrieve a temporary signed URL granting a customer access to a private media file. [See the documentation](https://developer.surecart.com/api-reference/customers/expose-media)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

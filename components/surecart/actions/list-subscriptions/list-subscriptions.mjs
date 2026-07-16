@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-subscriptions",
   name: "List Subscriptions",
   description: "Return a list of subscriptions. [See the documentation](https://developer.surecart.com/api-reference/subscriptions/list)",
-  version: "0.0.2",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -14,16 +14,16 @@ export default {
   props: {
     surecart,
     checkoutIds: {
-      type: "string[]",
-      label: "Checkout IDs",
-      description: "Filter by checkout IDs. Use **List Checkouts** to find checkout IDs. Example: `[\"ch_abc123\"]`",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "checkoutIds",
+      ],
     },
     customerIds: {
-      type: "string[]",
-      label: "Customer IDs",
-      description: "Filter by customer IDs. Use **List Customers** to find customer IDs. Example: `[\"cus_abc123\"]`",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "customerIds",
+      ],
     },
     finite: {
       type: "boolean",
@@ -37,10 +37,10 @@ export default {
         "ids",
       ],
     },
-    limit: {
+    maxResults: {
       propDefinition: [
         surecart,
-        "limit",
+        "maxResults",
       ],
     },
     liveMode: {
@@ -49,28 +49,22 @@ export default {
         "liveMode",
       ],
     },
-    page: {
-      propDefinition: [
-        surecart,
-        "page",
-      ],
-    },
     priceIds: {
       type: "string[]",
       label: "Price IDs",
-      description: "Filter by price IDs. Example: `[\"price_abc123\"]`",
+      description: "Filter by price IDs. Example: `[\"b47ca4c2-6cd2-41d5-aefb-4dc459642c56\"]`",
       optional: true,
     },
     productIds: {
-      type: "string[]",
-      label: "Product IDs",
-      description: "Filter by product IDs. Use **List Products** to find product IDs. Example: `[\"prod_abc123\"]`",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "productIds",
+      ],
     },
     purchaseIds: {
       type: "string[]",
       label: "Purchase IDs",
-      description: "Filter by purchase IDs. Use **List Purchases** to find purchase IDs. Example: `[\"pur_abc123\"]`",
+      description: "Filter by purchase IDs. Use **List Purchases** to find purchase IDs. Example: `[\"b47ca4c2-6cd2-41d5-aefb-4dc459642c56\"]`",
       optional: true,
     },
     query: {
@@ -95,24 +89,32 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.surecart.listSubscriptions({
-      $,
-      params: {
-        "checkout_ids[]": this.checkoutIds,
-        "customer_ids[]": this.customerIds,
-        "finite": this.finite,
-        "ids[]": this.ids,
-        "limit": this.limit,
-        "live_mode": this.liveMode,
-        "page": this.page,
-        "price_ids[]": this.priceIds,
-        "product_ids[]": this.productIds,
-        "purchase_ids[]": this.purchaseIds,
-        "query": this.query,
-        "status[]": this.status,
+    const results = this.surecart.paginate({
+      fn: this.surecart.listSubscriptions,
+      args: {
+        $,
+        params: {
+          "checkout_ids[]": this.checkoutIds,
+          "customer_ids[]": this.customerIds,
+          "finite": this.finite,
+          "ids[]": this.ids,
+          "live_mode": this.liveMode,
+          "price_ids[]": this.priceIds,
+          "product_ids[]": this.productIds,
+          "purchase_ids[]": this.purchaseIds,
+          "query": this.query,
+          "status[]": this.status,
+        },
       },
+      max: this.maxResults,
     });
-    $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} subscription(s)`);
-    return response;
+
+    const subscriptions = [];
+    for await (const subscription of results) {
+      subscriptions.push(subscription);
+    }
+
+    $.export("$summary", `Successfully retrieved ${subscriptions.length} subscription(s)`);
+    return subscriptions;
   },
 };

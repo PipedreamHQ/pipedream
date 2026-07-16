@@ -5,7 +5,7 @@ export default {
   key: "surecart-fulfillment-created",
   name: "New Fulfillment Created (Instant)",
   description: "Emit new event when a fulfillment is created. [See the documentation](https://developer.surecart.com/api-reference/webhook-endpoints/create)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {
