@@ -25,7 +25,7 @@ export default {
         microsoftOutlook,
         "maxResults",
       ],
-      description: "Maximum number of contacts to return. Min 1, max 1000.",
+      description: "Maximum number of contacts to return.",
     },
   },
   async run({ $ }) {

@@ -34,7 +34,7 @@ export default {
         microsoftOutlook,
         "maxResults",
       ],
-      description: "Maximum number of contacts to fetch from Graph before applying the client-side filter. Min 1, max 1000. Contacts beyond this window will not be searched.",
+      description: "Maximum number of contacts to fetch from Graph before applying the client-side filter. Contacts beyond this window will not be searched.",
     },
   },
   async run({ $ }) {
@@ -46,6 +46,7 @@ export default {
           $count: COUNT_QUERY_PARAM,
         },
       },
+      max: this.maxResults,
       meta,
     });
 
@@ -60,9 +61,6 @@ export default {
         );
       if (matches) {
         results.push(contact);
-        if (this.maxResults && results.length >= this.maxResults) {
-          break;
-        }
       }
     }
 
