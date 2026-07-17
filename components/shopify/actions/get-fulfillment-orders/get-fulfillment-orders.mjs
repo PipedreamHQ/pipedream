@@ -4,7 +4,7 @@ export default {
   key: "shopify-get-fulfillment-orders",
   name: "Get Fulfillment Orders",
   description: "Retrieve a list of fulfillment orders. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/fulfillmentorders)",
-  version: "0.0.9",
+  version: "0.0.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

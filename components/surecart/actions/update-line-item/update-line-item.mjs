@@ -4,7 +4,7 @@ export default {
   key: "surecart-update-line-item",
   name: "Update Line Item",
   description: "Update an existing line item. [See the documentation](https://developer.surecart.com/api-reference/line-items/update)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
