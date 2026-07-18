@@ -4,7 +4,7 @@ export default {
   key: "microsoft_outlook-list-folder-ids-options",
   name: "List Folder IDs to Monitor Options",
   description: "Retrieves available options for the Folder IDs to Monitor field.",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   annotations: {
     destructiveHint: false,
