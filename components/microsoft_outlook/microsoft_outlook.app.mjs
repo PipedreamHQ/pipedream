@@ -433,15 +433,21 @@ export default {
       filterAddress, params = {}, nextLink,
     } = {}) {
       if (nextLink) {
-        return await this.client().api(nextLink)
-          .get();
+        const request = this.client().api(nextLink);
+        if (params?.$count) {
+          request.header("ConsistencyLevel", "eventual");
+        }
+        return await request.get();
       }
       if (filterAddress) {
         params["$filter"] = `emailAddresses/any(a:a/address eq '${filterAddress}')`;
       }
-      return await this.client().api("/me/contacts")
-        .query(pickBy(params))
-        .get();
+      const request = this.client().api("/me/contacts")
+        .query(pickBy(params));
+      if (params?.$count) {
+        request.header("ConsistencyLevel", "eventual");
+      }
+      return await request.get();
     },
     async updateContact({
       contactId, data = {},
@@ -487,13 +493,19 @@ export default {
       userId, params = {}, nextLink,
     } = {}) {
       if (nextLink) {
-        return await this.client().api(nextLink)
-          .get();
+        const request = this.client().api(nextLink);
+        if (params?.$count) {
+          request.header("ConsistencyLevel", "eventual");
+        }
+        return await request.get();
       }
 
-      return await this.client().api(`${this._userPath(userId)}/mailFolders/inbox/messages`)
-        .query(pickBy(params))
-        .get();
+      const request = this.client().api(`${this._userPath(userId)}/mailFolders/inbox/messages`)
+        .query(pickBy(params));
+      if (params?.$count) {
+        request.header("ConsistencyLevel", "eventual");
+      }
+      return await request.get();
     },
     async countMessages({
       userId, folderScope, sharedFolderId, filter,
