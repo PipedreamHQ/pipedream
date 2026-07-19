@@ -11,7 +11,7 @@ export default {
   ...common,
   key: "todoist-completed-task",
   name: "New Completed Task",
-  description: "Emit new event for each completed Todoist task, including recurring task completions. Non-recurring completions are polled via `GET /tasks/completed/by_completion_date`, which is available on every plan. Recurring completions don't appear there - Todoist reschedules a recurring task instead of marking it completed there - so they're additionally polled via the v1 Activity Log (`GET /api/v1/activities`), detected as an `item:completed` event with `extra_data.is_recurring` set to `true`. **Recurring task completions require a Todoist premium/business plan** - the Activity Log endpoint returns a 403 (\"Premium only feature\") for free-plan accounts, so on a free plan this source still emits non-recurring completions normally, just without any recurring-task entries. Respects the Projects filter. [See the documentation](https://developer.todoist.com/api/v1#tag/Sync/Overview/Read-resources).",
+  description: "Emit new event for each completed Todoist task, including recurring task completions. Non-recurring completions are polled via `GET /tasks/completed/by_completion_date`, which is available on every plan. Recurring completions don't appear there - Todoist reschedules a recurring task instead of marking it completed there - so they're additionally polled via the v1 Activity Log (`GET /api/v1/activities`), detected as an `item:completed` event with `extra_data.is_recurring` set to `true`. **Recurring task completions require a Todoist premium/business plan** - the Activity Log endpoint returns a 403 (\"Premium only feature\") for free-plan accounts, so on a free plan this source still emits non-recurring completions normally, just without any recurring-task entries. Respects the Projects filter. [See the documentation](https://developer.todoist.com/api/v1/#tag/Activity/operation/get_activity_logs_api_v1_activities_get).",
   version: "2.0.0",
   type: "source",
   dedupe: "unique",
@@ -92,8 +92,11 @@ export default {
             raw: entry,
           }));
       } catch (err) {
-        console.error("Activity Log unavailable (likely a premium-only feature restriction) - skipping recurring task completions", err);
-        return [];
+        if (err.response?.status === 403) {
+          console.error("Activity Log unavailable (premium-only feature restriction) - skipping recurring task completions this poll", err);
+          return [];
+        }
+        throw err;
       }
     },
     async getSyncResult() {
@@ -125,11 +128,11 @@ export default {
         ...nonRecurring,
         ...recurring,
       ];
-      // Matches the 20-item cap hooks.deploy() applies before emitting (see
-      // sources/common.mjs), so the watermark computed below always lines up
-      // with what's actually emitted, whether this call originated from
-      // deploy() or a regular scheduled run().
-      allResults.sort((a, b) => b.ts - a.ts);
+      // Sort oldest-first so that, when a window has more than
+      // MAX_RESULTS_PER_POLL events, we keep the OLDEST unprocessed ones and
+      // advance the watermark only past those - capping to the most recent
+      // N would otherwise permanently skip everything older than the cut.
+      allResults.sort((a, b) => a.ts - b.ts);
       const capped = allResults.slice(0, MAX_RESULTS_PER_POLL);
 
       // Don't persist the new watermark yet - state must only update after

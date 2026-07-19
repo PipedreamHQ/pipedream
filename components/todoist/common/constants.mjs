@@ -12,16 +12,17 @@ export const ACTIVITY_LOG_DEFAULT_LIMIT = 200;
 // test in the workflow builder would always see zero events.
 export const FIRST_RUN_LOOKBACK_MS = 24 * 60 * 60 * 1000;
 
-// Never advance the polling watermark all the way to the exact current
+// Never advance date_to (and therefore the next poll's date_from, since it's
+// carried over as the stored watermark) all the way to the exact current
 // instant - Todoist can take a moment to index a just-logged activity event
 // (recurring completions especially, since they write both a completion
-// snapshot and a due-date reschedule). This buffer is also subtracted behind
-// the stored watermark on every subsequent poll, so each poll deliberately
-// re-scans a small overlap with the previous one: if an event was still
-// indexing at the moment of the previous poll, it gets a second chance
-// instead of being permanently stranded behind an ever-advancing,
-// non-overlapping watermark. dedupe: "unique" (keyed on object_id +
-// event_date) safely filters out anything in that overlap already emitted.
+// snapshot and a due-date reschedule). This buffer only applies to date_to;
+// date_from is the previous poll's date_to as-is, with no additional overlap
+// subtracted from it. Continuity across polls comes from that carry-over
+// (each poll's window picks up exactly where the last one's left off), not
+// from re-scanning a deliberate overlap - an event still indexing when a
+// poll's (buffered) date_to is computed will simply fall after that
+// boundary and be picked up on the next poll instead.
 export const POLL_SAFETY_BUFFER_MS = 60 * 1000;
 
 // Matches the 20-item cap hooks.deploy() applies before emitting (see
