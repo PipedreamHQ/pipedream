@@ -61,7 +61,7 @@ export default {
         repoOwner,
         repoName,
         cursor,
-        first: remaining,
+        first: Math.min(remaining, 100),
       });
 
       if (!batch?.length) {
