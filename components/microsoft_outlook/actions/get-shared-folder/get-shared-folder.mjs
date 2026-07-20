@@ -4,7 +4,7 @@ export default {
   key: "microsoft_outlook-get-shared-folder",
   name: "Get Shared Folder",
   description: "Retrieve a single folder from a shared mailbox by its ID. Returns the folder's `id`, `displayName`, `parentFolderId`, `childFolderCount`, `totalItemCount`, and `unreadItemCount`. If you only have a display name and need the ID, use **List Shared Folders** first. [See the documentation](https://learn.microsoft.com/en-us/graph/api/mailfolder-get?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

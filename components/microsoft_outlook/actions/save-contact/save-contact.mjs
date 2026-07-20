@@ -11,7 +11,7 @@ export default {
     + " Example (update): `save-contact(contactId=\"AQMk...\", businessPhones=[\"+1-555-0100\"])` → patches the existing contact."
     + " [See the create documentation](https://docs.microsoft.com/en-us/graph/api/user-post-contacts)"
     + " [See the update documentation](https://docs.microsoft.com/en-us/graph/api/contact-update)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,
