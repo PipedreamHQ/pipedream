@@ -371,6 +371,19 @@ export default {
       optional: true,
       options: actions,
     },
+    checklistFields: {
+      type: "string[]",
+      label: "Checklist Fields",
+      description: "Fields to include on each checklist. `all` or a list of: `idBoard`, `idCard`, `name`, `pos`.",
+      optional: true,
+      options: [
+        "all",
+        "idBoard",
+        "idCard",
+        "name",
+        "pos",
+      ],
+    },
     labels: {
       type: "string[]",
       label: "Labels",
@@ -747,7 +760,24 @@ export default {
     completeChecklistItem({
       cardId, checklistItemId, ...args
     } = {}) {
+      return this.updateChecklistItem({
+        cardId,
+        checklistItemId,
+        ...args,
+      });
+    },
+    updateChecklistItem({
+      cardId, checklistItemId, ...args
+    } = {}) {
       return this.put({
+        path: `/cards/${cardId}/checkItem/${checklistItemId}`,
+        ...args,
+      });
+    },
+    deleteChecklistItem({
+      cardId, checklistItemId, ...args
+    } = {}) {
+      return this.delete({
         path: `/cards/${cardId}/checkItem/${checklistItemId}`,
         ...args,
       });

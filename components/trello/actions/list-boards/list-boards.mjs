@@ -4,7 +4,7 @@ export default {
   key: "trello-list-boards",
   name: "List Boards",
   description: "Lists the boards that the user is a member of. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-members/#api-members-id-boards-get)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
