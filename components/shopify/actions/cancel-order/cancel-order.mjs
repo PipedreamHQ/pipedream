@@ -6,7 +6,7 @@ export default {
   key: "shopify-cancel-order",
   name: "Cancel Order",
   description: "Cancel an existing order. Run **Search for Orders** first to obtain the order GID. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderCancel)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: true,

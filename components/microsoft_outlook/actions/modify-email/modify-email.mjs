@@ -15,7 +15,7 @@ export default {
     + " Example: `modify-email(messageId=\"AAMk...\", isRead=true)` → marks the message as read."
     + " Example: `modify-email(messageId=\"AAMk...\", addCategories=[\"Eval-Seinfeld\"], destinationFolderId=\"archive\")` → adds a category AND moves to archive in a single call."
     + " [See the documentation](https://learn.microsoft.com/en-us/graph/api/message-update)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,
