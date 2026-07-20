@@ -22,11 +22,13 @@ export default {
       type: "string",
     },
     maxResults: {
+      propDefinition: [
+        github,
+        "maxResults",
+      ],
       label: "Maximum Results",
       description: "The maximum number of items to retrieve. Defaults to `30`.",
-      type: "integer",
       default: 30,
-      optional: true,
     },
   },
   async run({ $ }) {

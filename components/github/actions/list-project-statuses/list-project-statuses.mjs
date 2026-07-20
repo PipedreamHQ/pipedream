@@ -37,6 +37,7 @@ export default {
       github, owner: repoOwner, repo: repoName, project,
     } = this;
 
+    // queries the project's ProjectV2SingleSelectField (Status field)
     const field = await github.getProjectV2StatusField({
       repoOwner,
       repoName,

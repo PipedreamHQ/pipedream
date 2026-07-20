@@ -32,12 +32,12 @@ export default {
       ],
     },
     maxResults: {
-      type: "integer",
-      label: "Max Results",
+      propDefinition: [
+        github,
+        "maxResults",
+      ],
       description: "The maximum number of items to return. GitHub caps this at `100` per request. Defaults: `100`",
-      default: 100,
       max: 100,
-      optional: true,
     },
   },
   async run({ $ }) {

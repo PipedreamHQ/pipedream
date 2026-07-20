@@ -74,6 +74,13 @@ export default {
       description: "The Project (V2) number as shown in the project URL and UI (e.g. `5` in `/orgs/my-org/projects/5`) — not the node ID. Get it from **List Projects**.",
       type: "integer",
     },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum number of results to return. Defaults to `100`.",
+      default: 100,
+      optional: true,
+    },
     repoOrg: {
       label: "Organization Repository",
       description: "The repository in a organization",
@@ -534,7 +541,7 @@ export default {
       return this._client().paginate(`GET /repos/${repoFullname}/projects`, {});
     },
     async getProjectsV2({
-      repoOwner, repoName, cursor,
+      repoOwner, repoName, cursor, first = 10,
     }) {
       const response = await this.graphql(repoName
         ? queries.projectsQuery
@@ -542,6 +549,7 @@ export default {
         repoOwner,
         repoName,
         cursor,
+        first,
       });
       const pageInfo = response?.repository?.projectsV2?.pageInfo ??
         response?.organization?.projectsV2?.pageInfo;

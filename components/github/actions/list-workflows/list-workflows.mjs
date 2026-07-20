@@ -20,11 +20,10 @@ export default {
       ],
     },
     maxResults: {
-      type: "integer",
-      label: "Max Results",
-      description: "The maximum number of workflows to return. Defaults: `100`",
-      default: 100,
-      optional: true,
+      propDefinition: [
+        github,
+        "maxResults",
+      ],
     },
   },
   async run({ $ }) {

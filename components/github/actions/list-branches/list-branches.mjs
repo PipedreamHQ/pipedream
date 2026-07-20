@@ -26,11 +26,10 @@ export default {
       optional: true,
     },
     maxResults: {
-      type: "integer",
-      label: "Max Results",
-      description: "The maximum number of branches to return. Defaults: `100`",
-      default: 100,
-      optional: true,
+      propDefinition: [
+        github,
+        "maxResults",
+      ],
     },
   },
   async run({ $ }) {

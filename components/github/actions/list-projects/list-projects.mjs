@@ -4,7 +4,7 @@ export default {
   key: "github-list-projects",
   name: "List Projects",
   description: "List the Projects (V2) owned by an organization, or scoped to a specific repository (returns each project's number and title). This is the entry point for the Projects (V2) discovery chain: use the returned project **number** with **List Project Statuses**, **List Project Items**, or **Update Project (V2) Item Status**. Discover organization logins with **List Organizations**. Note: user-owned Projects are not supported. Returns `{ projects, nextCursor }`; when `nextCursor` is non-null there are more results — pass it back as **Cursor** to fetch the next page. [See the documentation](https://docs.github.com/en/graphql/reference/projects#object-projectv2)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -26,16 +26,15 @@ export default {
       ],
     },
     maxResults: {
-      type: "integer",
-      label: "Max Results",
-      description: "The maximum number of projects to return. Defaults: `100`",
-      default: 100,
-      optional: true,
+      propDefinition: [
+        github,
+        "maxResults",
+      ],
     },
     cursor: {
       type: "string",
       label: "Cursor",
-      description: "Pagination cursor to fetch the next page of results. Omit for the first page; to get more, pass the `nextCursor` value returned by a previous call. Note: results are fetched in pages of 10, so for cursor continuation to work set **Max Results** to a multiple of 10 — a value that lands mid-page returns a null `nextCursor` on the final (partial) page, and the remaining items can only be reached by raising **Max Results**.",
+      description: "Pagination cursor to fetch the next page of results. Omit for the first page; to get more, pass the `nextCursor` value returned by a previous call.",
       optional: true,
     },
   },
@@ -55,36 +54,34 @@ export default {
     let nextCursor = null;
 
     while (projects.length < maxResults) {
+      const remaining = maxResults - projects.length;
       const {
         projects: batch, nextCursor: endCursor, hasNextPage,
       } = await github.getProjectsV2({
         repoOwner,
         repoName,
         cursor,
+        first: remaining,
       });
 
       if (!batch?.length) {
-        nextCursor = null;
         break;
       }
 
       projects = projects.concat(batch);
-      nextCursor = hasNextPage
-        ? endCursor
-        : null;
 
       if (!hasNextPage) {
+        nextCursor = null;
         break;
       }
-      cursor = endCursor;
-    }
 
-    if (projects.length > maxResults) {
-      // The final page overshot maxResults. The discarded items sit between the
-      // last returned project and nextCursor, so handing back nextCursor would
-      // silently skip them. Clear it — better to stop than to skip results.
-      projects = projects.slice(0, maxResults);
-      nextCursor = null;
+      nextCursor = endCursor;
+
+      if (projects.length >= maxResults) {
+        break;
+      }
+
+      cursor = endCursor;
     }
 
     $.export("$summary", `Found ${projects.length} project(s) for ${repoName
