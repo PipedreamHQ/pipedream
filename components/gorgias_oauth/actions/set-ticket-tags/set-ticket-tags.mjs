@@ -4,7 +4,7 @@ export default {
   key: "gorgias_oauth-set-ticket-tags",
   name: "Set Ticket Tags",
   description: "Set tags on a ticket. [See the documentation](https://developers.gorgias.com/reference/update-ticket-tags)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: true,

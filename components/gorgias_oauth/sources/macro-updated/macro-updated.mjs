@@ -6,7 +6,7 @@ export default {
   key: "gorgias_oauth-macro-updated",
   name: "Macro Updated",
   description: "Emit new event when a macro is updated. [See the documentation](https://developers.gorgias.com/reference/the-event-object)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   methods: {
