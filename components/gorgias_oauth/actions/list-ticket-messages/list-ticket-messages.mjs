@@ -4,7 +4,7 @@ export default {
   name: "List Ticket Messages",
   description: "List all messages for a specific ticket. [See the documentation](https://developers.gorgias.com/reference/list-ticket-messages)",
   key: "gorgias_oauth-list-ticket-messages",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,

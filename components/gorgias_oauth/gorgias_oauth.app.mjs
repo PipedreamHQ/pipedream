@@ -125,6 +125,13 @@ export default {
       default: "help-center",
       options: constants.vias,
     },
+    sourceType: {
+      type: "string",
+      label: "Source Type",
+      description: "How the message was sent or received. E.g. `whatsapp-message`, `email`",
+      options: constants.sourceTypes,
+      optional: true,
+    },
     externalId: {
       type: "string",
       label: "External ID",
