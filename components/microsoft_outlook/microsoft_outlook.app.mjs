@@ -212,8 +212,9 @@ export default {
         if (prevContext?.nextLink) {
           args.url = prevContext.nextLink;
         } else if (query) {
+          const escaped = query.replace(/[\\"]/g, "\\$&");
           args.params = {
-            $search: `"displayName:${query}" OR "mail:${query}" OR "userPrincipalName:${query}"`,
+            $search: `"displayName:${escaped}" OR "mail:${escaped}" OR "userPrincipalName:${escaped}"`,
           };
         }
         const response = await this.listUsers(args);
