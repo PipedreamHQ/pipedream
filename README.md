@@ -58,9 +58,9 @@ Workflows are sequences of linear [steps](https://pipedream.com/docs/workflows/s
 
 [Event Sources](https://pipedream.com/docs/sources/) watch for new data from services like GitHub, Slack, Airtable, RSS and [more](https://pipedream.com/apps). When a source finds a new event, it emits it, triggering any linked workflows.
 
-You can also consume events emitted by sources using [Pipedream's REST API](https://pipedream.com/docs/api/rest/) or a private, real-time [SSE stream](https://pipedream.com/docs/api/sse/).
+You can also consume events emitted by sources using [Pipedream's REST API](http://web.archive.org/web/20251130190139/https://pipedream.com/docs/api/rest) or a private, real-time [SSE stream](http://web.archive.org/web/20251120060519/https://pipedream.com/docs/api/sse).
 
-When a pre-built source doesn't exist for your use case, [you can build your own](https://pipedream.com/docs/components/quickstart/nodejs/sources/). Here is the simplest event source: it exposes an HTTP endpoint you can send any request to, and prints the contents of the request when invoked:
+When a pre-built source doesn't exist for your use case, [you can build your own](http://web.archive.org/web/20230922153304/https://pipedream.com/docs/components/quickstart/nodejs/sources/). Here is the simplest event source: it exposes an HTTP endpoint you can send any request to, and prints the contents of the request when invoked:
 
 ```javascript
 export default {
@@ -81,9 +81,9 @@ You can find the code for all pre-built sources in [the `components` directory](
 
 ### Actions
 
-[Actions](https://pipedream.com/docs/components/actions/) are pre-built code steps that you can use in a workflow to perform common operations across Pipedream's 500+ API integrations. For example, you can use actions to send email, add a row to a Google Sheet, [and more](https://pipedream.com/apps).
+[Actions](http://web.archive.org/web/20251124054838/https://pipedream.com/docs/components/actions) are pre-built code steps that you can use in a workflow to perform common operations across Pipedream's 500+ API integrations. For example, you can use actions to send email, add a row to a Google Sheet, [and more](https://pipedream.com/apps).
 
-You can [create your own actions](https://pipedream.com/docs/components/quickstart/nodejs/actions/), which you can re-use across workflows. You can also [publish actions to the entire Pipedream community](https://pipedream.com/docs/components/guidelines/), making them available for anyone to use.
+You can [create your own actions](http://web.archive.org/web/20231210063813/https://pipedream.com/docs/components/quickstart/nodejs/actions), which you can re-use across workflows. You can also [publish actions to the entire Pipedream community](https://pipedream.com/docs/components/guidelines/), making them available for anyone to use.
 
 Here's an action that accepts a `name` as input and prints it to the workflow's logs:
 
