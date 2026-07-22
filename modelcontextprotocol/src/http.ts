@@ -30,7 +30,6 @@ app.get("/v1/:uuid/sessions", async (req: Request, res: Response) => {
     req.body,
     req.params,
     req.url,
-    req.headers,
     req.query
   )
   const mcpSessions = userMcpSessions[req.params.uuid] || []
@@ -240,7 +239,6 @@ app.get("/:uuid", async (req: Request, res: Response) => {
     req.body,
     req.params,
     req.url,
-    req.headers,
     req.query
   )
 
@@ -289,7 +287,6 @@ app.get("/:uuid/:app", async (req: Request, res: Response) => {
     req.body,
     req.params,
     req.url,
-    req.headers,
     req.query
   )
 
@@ -395,7 +392,6 @@ process.on("unhandledRejection", (reason, promise) => {
 // Log all requests for debugging
 app.use((req, res, next) => {
   console.log(`Received ${req.method} request for ${req.url}`)
-  console.log("Headers:", req.headers)
   next()
 })
 

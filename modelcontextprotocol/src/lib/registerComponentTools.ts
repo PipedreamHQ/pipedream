@@ -78,9 +78,7 @@ export async function registerComponentTools({
           },
           externalUserId: uuid,
         }
-        console.log(">> Running action", requestOpts)
         const response = await pd.runAction(requestOpts)
-        console.log(">> Action response", response)
         return {
           content: [
             {

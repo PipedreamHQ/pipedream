@@ -34,7 +34,7 @@ export const runActionTool = async ({
       inputSchema: z.object(fullSchema),
       isActive: (stage: ToolConfigState["stage"]) => stage === "APPS_SELECTED",
       callback: async (_args) => {
-        console.log(">> tool_callback", _args)
+        console.log(">> tool_callback", component.key)
         const appName = componentAppName(component)
 
         if (!appName) {

@@ -62,7 +62,7 @@ export class DynamicToolMcpServer {
         const tools = await this.getTools()
         const tool = tools[request.params.name]
 
-        console.log(">> Tool", request.params.name, request.params.arguments)
+        console.log(">> Tool", request.params.name)
 
         if (!tool) {
           throw new McpError(
