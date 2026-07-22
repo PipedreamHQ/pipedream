@@ -93,11 +93,12 @@ export class DynamicToolMcpServer {
           }
           return await tool.callback(extra)
         } catch (error) {
+          console.error(`Error calling tool ${request.params.name}:`, error)
           return {
             content: [
               {
                 type: "text",
-                text: `An error occurred while calling the tool: ${error}`, // XXX Do we need to sanitize this?
+                text: `An error occurred while calling the tool ${request.params.name}. Check the server logs for details.`,
               },
             ],
           }
