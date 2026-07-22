@@ -3,7 +3,7 @@ import adanos from "../../adanos.app.mjs";
 export default {
   key: "adanos-get-stock-sentiment",
   name: "Get Stock Sentiment",
-  description: "Get sentiment and attention metrics for one stock from Reddit, X / FinTwit, financial news, or Polymarket. [See the documentation](https://api.adanos.org/docs)",
+  description: "Use this action to retrieve sentiment and attention metrics for one stock. Provide a ticker, select Reddit, X / FinTwit, financial news, or Polymarket as the source, and optionally set an inclusive UTC date window in YYYY-MM-DD format. [See the documentation](https://api.adanos.org/docs)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

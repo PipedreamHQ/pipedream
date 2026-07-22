@@ -3,7 +3,7 @@ import adanos from "../../adanos.app.mjs";
 export default {
   key: "adanos-get-market-sentiment",
   name: "Get Market Sentiment",
-  description: "Get an aggregate sentiment overview for stocks or crypto. [See the documentation](https://api.adanos.org/docs)",
+  description: "Use this action to retrieve an aggregate sentiment overview for the stock or crypto market. Select a source for stock requests and optionally set an inclusive UTC date window in YYYY-MM-DD format. Crypto market sentiment uses Reddit, so the stock source is ignored for crypto. [See the documentation](https://api.adanos.org/docs)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

@@ -52,6 +52,41 @@ test("stock and crypto detail methods use the documented API paths", async () =>
   ]);
 });
 
+test("trending assets route stock and crypto requests correctly", async () => {
+  const {
+    app,
+    calls,
+  } = appWithRequestSpy();
+
+  await app.getTrendingAssets({
+    assetType: "stock",
+    source: "polymarket",
+    limit: 5,
+  });
+  await app.getTrendingAssets({
+    assetType: "crypto",
+    source: "news",
+    limit: 10,
+  });
+
+  assert.deepEqual(calls, [
+    {
+      $: undefined,
+      url: "/polymarket/stocks/v1/trending",
+      params: {
+        limit: 5,
+      },
+    },
+    {
+      $: undefined,
+      url: "/reddit/crypto/v1/trending",
+      params: {
+        limit: 10,
+      },
+    },
+  ]);
+});
+
 test("compare method selects the correct endpoint and query key", async () => {
   const {
     app,

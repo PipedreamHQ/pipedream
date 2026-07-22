@@ -3,7 +3,7 @@ import adanos from "../../adanos.app.mjs";
 export default {
   key: "adanos-compare-assets",
   name: "Compare Assets",
-  description: "Compare sentiment and attention metrics for up to 10 stocks or crypto assets. [See the documentation](https://api.adanos.org/docs)",
+  description: "Use this action to compare sentiment and attention metrics for up to 10 stocks or crypto assets. Provide stock tickers such as AAPL or crypto symbols such as BTC, select a source for stocks, and optionally set an inclusive UTC date window in YYYY-MM-DD format. Crypto comparisons use Reddit, so the stock source is ignored for crypto. [See the documentation](https://api.adanos.org/docs)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

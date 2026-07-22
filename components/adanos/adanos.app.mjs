@@ -102,7 +102,7 @@ export default {
         params: buildWindow(fromDate, toDate),
       });
     },
-    getTrending({
+    getTrendingAssets({
       $, assetType, source, limit, fromDate, toDate,
     }) {
       const normalizedAssetType = normalizeAssetType(assetType);

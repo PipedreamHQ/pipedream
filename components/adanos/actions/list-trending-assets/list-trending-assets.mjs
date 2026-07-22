@@ -3,7 +3,7 @@ import adanos from "../../adanos.app.mjs";
 export default {
   key: "adanos-list-trending-assets",
   name: "List Trending Assets",
-  description: "List stocks or crypto assets ranked by Adanos buzz score. [See the documentation](https://api.adanos.org/docs)",
+  description: "Use this action to list stocks or crypto assets ranked by Adanos buzz score. Choose 1 to 100 results, select a source for stocks, and optionally set an inclusive UTC date window in YYYY-MM-DD format. Crypto rankings use Reddit, so the stock source is ignored for crypto. [See the documentation](https://api.adanos.org/docs)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -48,7 +48,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.adanos.getTrending({
+    const response = await this.adanos.getTrendingAssets({
       $,
       assetType: this.assetType,
       source: this.source,
