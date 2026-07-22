@@ -4,6 +4,8 @@ import {
   createReadStream, createWriteStream, promises as fs, Stats,
 } from "fs";
 import { tmpdir } from "os";
+import { promises as dns } from "dns";
+import { isIP } from "net";
 import {
   join, basename,
 } from "path";
@@ -27,6 +29,7 @@ export async function getFileStream(pathOrUrl: string): Promise<Readable> {
   if (isDataUrl(pathOrUrl)) {
     return getDataUrlStream(pathOrUrl);
   } else if (isUrl(pathOrUrl)) {
+    await assertSafeRemoteUrl(pathOrUrl);
     const response = await fetch(pathOrUrl);
     if (!response.ok || !response.body) {
       throw new Error(`Failed to fetch ${pathOrUrl}: ${response.status} ${response.statusText}`);
@@ -49,6 +52,44 @@ export async function getFileStreamAndMetadata(pathOrUrl: string): Promise<{ str
     return await getRemoteFileStreamAndMetadata(pathOrUrl);
   } else {
     return await getLocalFileStreamAndMetadata(pathOrUrl);
+  }
+}
+
+const ALLOWED_PROTOCOLS = new Set(["http:", "https:"]);
+
+function isPrivateOrReservedIp(ip: string): boolean {
+  if (isIP(ip) === 4) {
+    const [
+      a, b,
+    ] = ip.split(".").map(Number);
+    if (a === 10) return true; // 10.0.0.0/8
+    if (a === 127) return true; // loopback
+    if (a === 169 && b === 254) return true; // link-local, includes cloud metadata (169.254.169.254)
+    if (a === 172 && b >= 16 && b <= 31) return true; // 172.16.0.0/12
+    if (a === 192 && b === 168) return true; // 192.168.0.0/16
+    if (a === 0) return true; // 0.0.0.0/8
+    return false;
+  }
+  if (isIP(ip) === 6) {
+    const lower = ip.toLowerCase();
+    if (lower === "::1") return true; // loopback
+    if (lower.startsWith("fe80:")) return true; // link-local
+    if (lower.startsWith("fc") || lower.startsWith("fd")) return true; // unique local
+    const mapped = lower.match(/^::ffff:(\d+\.\d+\.\d+\.\d+)$/);
+    if (mapped) return isPrivateOrReservedIp(mapped[1]);
+    return false;
+  }
+  return true; // not a resolvable literal IP -- treat as unsafe by default
+}
+
+async function assertSafeRemoteUrl(rawUrl: string): Promise<void> {
+  const parsed = new URL(rawUrl);
+  if (!ALLOWED_PROTOCOLS.has(parsed.protocol)) {
+    throw new Error(`Refusing to fetch unsupported URL protocol: ${parsed.protocol}`);
+  }
+  const { address } = await dns.lookup(parsed.hostname);
+  if (isPrivateOrReservedIp(address)) {
+    throw new Error(`Refusing to fetch from a private or reserved address (${address}) for ${parsed.hostname}`);
   }
 }
 
@@ -174,6 +215,7 @@ async function getLocalFileStreamAndMetadata(
 }
 
 async function getRemoteFileStreamAndMetadata(url: string): Promise<{ stream: Readable; metadata: FileMetadata }> {
+  await assertSafeRemoteUrl(url);
   const response = await fetch(url);
   if (!response.ok || !response.body) {
     throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
