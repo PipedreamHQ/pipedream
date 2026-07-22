@@ -1,12 +1,12 @@
 import app from "../../trello.app.mjs";
 
 export default {
-  key: "trello-complete-checklist-item",
-  name: "Complete a Checklist Item",
-  description: "Completes an existing checklist item in a card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-checkitem-idcheckitem-put).",
-  version: "0.2.7",
+  key: "trello-delete-checklist-item",
+  name: "Delete Checklist Item",
+  description: "Deletes a checklist item from a card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-checkitem-idcheckitem-delete).",
+  version: "0.0.1",
   annotations: {
-    destructiveHint: false,
+    destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -41,6 +41,7 @@ export default {
           card: cardId,
         }),
       ],
+      description: "The ID of the checklist",
     },
     checklistItemId: {
       propDefinition: [
@@ -58,17 +59,12 @@ export default {
       checklistItemId,
     } = this;
 
-    const response = await this.app.completeChecklistItem({
+    await this.app.deleteChecklistItem({
       $,
       cardId,
       checklistItemId,
-      params: {
-        state: "complete",
-      },
     });
 
-    $.export("$summary", `Successfully completed checklist item with ID: ${checklistItemId}`);
-
-    return response;
+    $.export("$summary", `Successfully deleted checklist item with ID: ${checklistItemId}`);
   },
 };
