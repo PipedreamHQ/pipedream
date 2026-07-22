@@ -308,14 +308,29 @@ export class ToolConfigStateMachine {
   }
 
   async getComponent(key: string) {
+    // Cache hits are only trusted when the component's app is among this
+    // session's selectedApps -- these caches are shared module-wide across
+    // ALL sessions/uuids, so without this check a session could fetch a
+    // component belonging to an app it never selected, as long as some other
+    // session had it cached within the last 12 hours.
+    const selectedApps = this.hasAppsSelected()
+      ? this.state.selectedApps
+      : undefined
+
     // Check single component cache first
     const cachedComponent = singleComponentCache[key]
     if (cachedComponent && isValidCache(cachedComponent.timestamp)) {
-      return cachedComponent.component
+      const cachedApp = componentAppName(cachedComponent.component)
+      if (!selectedApps || (cachedApp && selectedApps.includes(cachedApp))) {
+        return cachedComponent.component
+      }
     }
 
     // If not in cache, try to find in app components cache first
-    for (const appCache of Object.values(componentsCache)) {
+    for (const [
+      app, appCache,
+    ] of Object.entries(componentsCache)) {
+      if (selectedApps && !selectedApps.includes(app)) continue
       if (isValidCache(appCache.timestamp)) {
         const component = appCache.components.find((c) => c.key === key)
         if (component) {
