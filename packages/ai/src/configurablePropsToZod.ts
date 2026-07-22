@@ -16,7 +16,7 @@ export const configurablePropsToZod = (
     configurableProps?: ConfigurableProps;
   },
 ) => {
-  const schema: ZodRawShape = {};
+  const schema: ZodRawShape = Object.create(null) as ZodRawShape;
 
   for (const cp of options?.configurableProps ||
     (component.configurable_props as ConfigurableProps)) {
