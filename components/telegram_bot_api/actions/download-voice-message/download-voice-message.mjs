@@ -1,7 +1,7 @@
 import telegramBotApi from "../../telegram_bot_api.app.mjs";
 import fs from "fs";
 import path from "path";
-import { axios, ConfigurationError } from "@pipedream/platform";
+import { axios } from "@pipedream/platform";
 
 export default {
   key: "telegram_bot_api-download-voice-message",
@@ -39,7 +39,7 @@ export default {
     const file = await this.telegramBotApi.getFile(this.fileId);
 
     if (!file.file_path) {
-      throw new ConfigurationError("Telegram did not return a file path. The file may exceed the 20MB download limit.");
+      throw new Error("Telegram did not return a file path. The file may exceed the 20MB download limit.");
     }
 
     const fileLink = await this.telegramBotApi.getFileLink(this.fileId);
