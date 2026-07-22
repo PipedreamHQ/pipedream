@@ -583,6 +583,23 @@ export default {
         ...args,
       });
     },
+    getAttachmentMetadata({
+      attachmentId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/attachment/${attachmentId}`,
+        ...args,
+      });
+    },
+    getAttachmentContent({
+      attachmentId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/attachment/content/${attachmentId}`,
+        responseType: "arraybuffer",
+        ...args,
+      });
+    },
     addCommentToIssue({
       issueIdOrKey, ...args
     } = {}) {
