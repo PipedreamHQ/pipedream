@@ -16,9 +16,11 @@ type Tool = {
 export class CoreTools {
   userId: string;
   tools: Tool[] = [];
+  connectWebhookUri?: string;
 
-  constructor(userId: string) {
+  constructor(userId: string, options?: { connectWebhookUri?: string }) {
     this.userId = userId;
+    this.connectWebhookUri = options?.connectWebhookUri;
   }
 
   async getTools(options?: { app?: string; query?: string }) {
@@ -90,7 +92,7 @@ export class CoreTools {
     if (!authProvision) {
       const token = await pd.createConnectToken({
         external_user_id: uuid,
-        webhook_uri: "https://eokyfjps7uqmmrk.m.pipedream.net", // https://pipedream.com/@pd/p_G6Ck6Mk/
+        ...(this.connectWebhookUri && { webhook_uri: this.connectWebhookUri }),
       });
       return `
   The user MUST be shown the following URL so they can click on it to connect their account and you MUST NOT modify the URL or it will break: https://pipedream.com/_static/connect.html?token=${token.token}&connectLink=true&app=${encodeURIComponent(app)}

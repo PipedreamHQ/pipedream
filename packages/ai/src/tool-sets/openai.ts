@@ -8,8 +8,8 @@ import { CoreTools } from "./core";
 
 export class OpenAiTools {
   core: CoreTools;
-  constructor(userId: string) {
-    this.core = new CoreTools(userId);
+  constructor(userId: string, options?: { connectWebhookUri?: string }) {
+    this.core = new CoreTools(userId, options);
   }
 
   async getTools(options?: {

@@ -4,9 +4,11 @@ import { Account } from "@pipedream/sdk"
 export const getAuthProvision = async ({
   app,
   uuid,
+  webhookUri,
 }: {
   app: string
   uuid: string
+  webhookUri?: string
 }): Promise<Account | string> => {
   const authProvisions = await pd.getAccounts({
     external_user_id: uuid,
@@ -19,7 +21,7 @@ export const getAuthProvision = async ({
   if (!authProvision) {
     const token = await pd.createConnectToken({
       external_user_id: uuid,
-      webhook_uri: "https://eokyfjps7uqmmrk.m.pipedream.net", // https://pipedream.com/@pd/p_G6Ck6Mk/
+      ...(webhookUri && { webhook_uri: webhookUri }),
     })
     return `
 Go to: https://pipedream.com/_static/connect.html?token=${token.token}&connectLink=true&app=${encodeURIComponent(app)} to connect your account.
