@@ -1,3 +1,4 @@
+import { createHash } from "crypto";
 import common from "../common-task.mjs";
 import {
   OBJECT_EVENT_TYPE_ITEM_COMPLETED,
@@ -6,6 +7,23 @@ import {
   POLL_SAFETY_BUFFER_MS,
   MAX_RESULTS_PER_POLL,
 } from "../../common/constants.mjs";
+
+const MAX_DEDUPE_ID_LENGTH = 64;
+
+// Builds a dedupe id guaranteed to stay within Pipedream's dedupe length
+// limit (deduplication silently stops working past MAX_DEDUPE_ID_LENGTH
+// characters - see pipedream-source-guidelines.md). Readable when the parts
+// fit; falls back to a stable SHA-256 hex digest (exactly 64 characters) of
+// the same parts when they don't, so a longer future ID format or a longer
+// timestamp representation can never silently break deduplication.
+function buildDedupeId(...parts) {
+  const readableId = parts.join("-");
+  if (readableId.length <= MAX_DEDUPE_ID_LENGTH) {
+    return readableId;
+  }
+  return createHash("sha256").update(readableId)
+    .digest("hex");
+}
 
 export default {
   ...common,
@@ -42,9 +60,13 @@ export default {
 
       return allTasks.map((task) => ({
         projectId: task.project_id,
-        ts: Date.parse(task.date_completed),
+        ts: Date.parse(task.completed_at),
         summary: `Completed task: ${task.content ?? task.id}`,
-        dedupeId: `${task.id}-completed`,
+        // task.id alone isn't unique per real-world event: reopening and
+        // re-completing the same task would produce the same id, and the
+        // later completion would be silently dropped as a dedupe collision.
+        // completed_at makes each individual completion distinct.
+        dedupeId: buildDedupeId(task.id, task.completed_at),
         raw: task,
       }));
     },
@@ -88,7 +110,7 @@ export default {
             projectId: entry.parent_project_id,
             ts: Date.parse(entry.event_date),
             summary: `Completed task: ${entry.extra_data?.content ?? entry.object_id}`,
-            dedupeId: `${entry.object_id}-${entry.event_date}`,
+            dedupeId: buildDedupeId(entry.object_id, entry.event_date),
             raw: entry,
           }));
       } catch (err) {
