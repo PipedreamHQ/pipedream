@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-checkouts",
   name: "List Checkouts",
   description: "Return a list of checkouts. [See the documentation](https://developer.surecart.com/api-reference/checkouts/list)",
-  version: "0.0.2",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -14,10 +14,10 @@ export default {
   props: {
     surecart,
     customerIds: {
-      type: "string[]",
-      label: "Customer IDs",
-      description: "Filter by customer IDs. Use **List Customers** to find customer IDs. Example: `[\"cus_abc123\"]`",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "customerIds",
+      ],
     },
     groupKeys: {
       type: "string[]",
@@ -31,10 +31,10 @@ export default {
         "ids",
       ],
     },
-    limit: {
+    maxResults: {
       propDefinition: [
         surecart,
-        "limit",
+        "maxResults",
       ],
     },
     liveMode: {
@@ -43,17 +43,11 @@ export default {
         "liveMode",
       ],
     },
-    page: {
+    productIds: {
       propDefinition: [
         surecart,
-        "page",
+        "productIds",
       ],
-    },
-    productIds: {
-      type: "string[]",
-      label: "Product IDs",
-      description: "Filter by product IDs. Use **List Products** to find product IDs. Example: `[\"prod_abc123\"]`",
-      optional: true,
     },
     status: {
       type: "string[]",
@@ -63,20 +57,28 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.surecart.listCheckouts({
-      $,
-      params: {
-        "customer_ids[]": this.customerIds,
-        "group_keys[]": this.groupKeys,
-        "ids[]": this.ids,
-        "limit": this.limit,
-        "live_mode": this.liveMode,
-        "page": this.page,
-        "product_ids[]": this.productIds,
-        "status[]": this.status,
+    const results = this.surecart.paginate({
+      fn: this.surecart.listCheckouts,
+      args: {
+        $,
+        params: {
+          "customer_ids[]": this.customerIds,
+          "group_keys[]": this.groupKeys,
+          "ids[]": this.ids,
+          "live_mode": this.liveMode,
+          "product_ids[]": this.productIds,
+          "status[]": this.status,
+        },
       },
+      max: this.maxResults,
     });
-    $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} checkout(s)`);
-    return response;
+
+    const checkouts = [];
+    for await (const checkout of results) {
+      checkouts.push(checkout);
+    }
+
+    $.export("$summary", `Successfully retrieved ${checkouts.length} checkout(s)`);
+    return checkouts;
   },
 };

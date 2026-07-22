@@ -5,7 +5,7 @@ export default {
   key: "surecart-purchase-updated",
   name: "Purchase Updated (Instant)",
   description: "Emit new event when a purchase is updated. [See the documentation](https://developer.surecart.com/api-reference/webhook-endpoints/create)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {
