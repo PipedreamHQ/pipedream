@@ -4,7 +4,7 @@ export default {
   key: "microsoft_outlook-get-current-user",
   name: "Get Current User",
   description: "Returns the authenticated Microsoft user's ID, display name, email, and principal name via Microsoft Graph. Call this first when the user says 'my emails', 'my inbox', or needs identity context. Use the returned `id` to scope queries in **Find Email** or identify the sender in email results. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-get).",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   annotations: {
     destructiveHint: false,

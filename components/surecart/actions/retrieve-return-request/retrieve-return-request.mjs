@@ -4,7 +4,7 @@ export default {
   key: "surecart-retrieve-return-request",
   name: "Retrieve Return Request",
   description: "Retrieve a return request by ID. [See the documentation](https://developer.surecart.com/api-reference/return-requests/retrieve)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

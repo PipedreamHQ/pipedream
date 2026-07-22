@@ -22,7 +22,7 @@ export default {
     + " Set `convertToPdf: true` to convert images, HTML, plain text, or DOCX files to PDF."
     + " For text attachments (text/*, JSON), the response includes `fileContent` with the decoded text (truncated at 100 KB, flagged by `contentTruncated`), so the content can be read directly without fetching the file."
     + " [See the documentation](https://learn.microsoft.com/en-us/graph/api/attachment-get)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   annotations: {
     destructiveHint: false,

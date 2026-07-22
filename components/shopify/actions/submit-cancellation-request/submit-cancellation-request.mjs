@@ -4,7 +4,7 @@ export default {
   key: "shopify-submit-cancellation-request",
   name: "Submit Cancellation Request",
   description: "Request cancellation of a fulfillment order. This is a fulfillment-service workflow distinct from cancelling the order itself. Run **Get Fulfillment Orders** first to obtain the fulfillment order GID. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/fulfillmentOrderSubmitCancellationRequest)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -32,7 +32,7 @@ export default {
     });
 
     if (response.fulfillmentOrderSubmitCancellationRequest.userErrors?.length) {
-      throw new Error(response.fulfillmentOrderSubmitCancellationRequest.userErrors[0].message);
+      throw new Error(response.fulfillmentOrderSubmitCancellationRequest.userErrors.map(({ message }) => message).join(", "));
     }
 
     $.export("$summary", `Successfully submitted cancellation request for fulfillment order ${this.fulfillmentOrderId}`);

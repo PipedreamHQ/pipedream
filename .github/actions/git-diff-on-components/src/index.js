@@ -43,6 +43,22 @@ async function execGitDiffContents(filePath) {
   return execCmd("git", args);
 }
 
+async function getFileContentsAtCommit(commit, filePath) {
+  let output = "";
+  const exitCode = await exec("git", ["show", `${commit}:${filePath}`], {
+    silent: true,
+    ignoreReturnCode: true,
+    listeners: {
+      stdout: (data) => {
+        output += data.toString();
+      },
+    },
+  });
+  return exitCode === 0
+    ? output
+    : null;
+}
+
 function getFilteredFilePaths({ allFilePaths = [], allowOtherFiles } = {}) {
   return allFilePaths
     .filter((filePath) => {
@@ -104,6 +120,71 @@ function increaseVersion(version) {
   ++versions[2]
 
   return versions.join('.')
+}
+
+// Numeric semver comparison of two "x.y.z" strings.
+// Returns 1 if a > b, -1 if a < b, 0 if equal.
+function compareVersions(a, b) {
+  const partsA = a.split(".").map(Number);
+  const partsB = b.split(".").map(Number);
+  for (let i = 0; i < 3; i++) {
+    if (partsA[i] > partsB[i]) {
+      return 1;
+    }
+    if (partsA[i] < partsB[i]) {
+      return -1;
+    }
+  }
+  return 0;
+}
+
+function getNextPublishableVersion(inFileVersion, baseVersion) {
+  const reference = baseVersion && compareVersions(baseVersion, inFileVersion) > 0
+    ? baseVersion
+    : inFileVersion;
+  return increaseVersion(reference);
+}
+
+// Builds copy-paste sed commands that rewrite each file's in-file version to its
+// next publishable version. `currentVersion` is the value literally present in
+// the file (what sed matches); `targetVersion` is what it becomes.
+function buildVersionFixCommands(entries = []) {
+  let linuxCommand = "";
+  let macCommand = "";
+  for (const { displayPath, currentVersion, targetVersion } of entries) {
+    linuxCommand += `${linuxCommand.length ? " && " : ""}sed -i 0,/${currentVersion}/{s/${currentVersion}/${targetVersion}/} ${displayPath}`;
+    macCommand += `${macCommand.length ? " && " : ""}sed -i '' 's/${currentVersion}/${targetVersion}/' ${displayPath}`;
+  }
+  return {
+    linuxCommand,
+    macCommand,
+  };
+}
+
+async function getComponentsWithVersionDowngrade(filePaths = []) {
+  const results = await Promise.all(
+    filePaths.map(async (filePath) => {
+      const headContents = await readFile(filePath, "utf-8").catch(() => null);
+      if (!headContents || !includesVersion(headContents)) {
+        return null;
+      }
+      const baseContents = await getFileContentsAtCommit(baseCommit, filePath);
+      if (!baseContents || !includesVersion(baseContents)) {
+        return null;
+      }
+      const headVersion = getVersion(headContents);
+      const baseVersion = getVersion(baseContents);
+      const compareVersionsResult = compareVersions(headVersion, baseVersion);
+      return compareVersionsResult < 0
+        ? {
+          filePath,
+          baseVersion,
+          headVersion,
+        }
+        : null;
+    })
+  );
+  return results.filter(Boolean);
 }
 
 function getPackageJsonFilePath(filePaths) {
@@ -332,6 +413,7 @@ async function run() {
   const existingFilePaths = await getExistingFilePaths(filteredFilePaths);
   existingFilePaths.push(...getPackageJsonFilePath(existingFilePaths));
   const componentsThatDidNotModifyVersion = await processFiles({ filePaths: existingFilePaths });
+  const componentsWithVersionDowngrade = await getComponentsWithVersionDowngrade(existingFilePaths);
   const filteredWithOtherFilePaths = getFilteredFilePaths({ allFilePaths: allFiles, allowOtherFiles: true });
   const otherFiles = difference(filteredWithOtherFilePaths, existingFilePaths);
 
@@ -347,35 +429,53 @@ async function run() {
     componentsDiffContents = await checkVersionModification(componentsPendingForGitDiff, componentsThatDidNotModifyVersion);
   }
 
-  if (componentsDiffContents.length) {
-    let linuxCommand = ''
-    let macCommand = ''
+  // Files that need a version fix, collected from every failing path so a single
+  // corrected suggestion command covers all of them.
+  const fixEntries = [];
 
+  if (componentsDiffContents.length) {
     for ({ componentFilePath } of componentsDiffContents) {
       try {
-        const content = await readFile(componentFilePath, "utf-8")
-        const currentVersion = getVersion(content)
-        const increasedVersion = increaseVersion(currentVersion)
-
-        linuxCommand += `${linuxCommand.length ? " && " : ""}sed -i 0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/} ${getComponentFilePath(componentFilePath)}`
-        macCommand += `${macCommand.length ? " && " : ""}sed -i '' 's/${currentVersion}/${increasedVersion}/' ${getComponentFilePath(componentFilePath)}`
+        const displayPath = getComponentFilePath(componentFilePath);
+        const content = await readFile(componentFilePath, "utf-8");
+        const currentVersion = getVersion(content);
+        const baseContents = await getFileContentsAtCommit(baseCommit, displayPath);
+        const baseVersion = baseContents && includesVersion(baseContents)
+          ? getVersion(baseContents)
+          : null;
+        fixEntries.push({
+          displayPath,
+          currentVersion,
+          targetVersion: getNextPublishableVersion(currentVersion, baseVersion),
+        });
       } catch (error) {
         console.error(`❌ Error checking component diff of ${getComponentFilePath(componentFilePath)}: ${error}`);
       }
     };
+  }
 
-    core.setFailed(`❌ Version of ${componentsDiffContents.length} dependencies needs to be increased.`)
-    core.setFailed(`🚀 To fix the versions, in your terminal go to project root path and run the command below:`)
+  if (componentsWithVersionDowngrade.length) {
+    componentsWithVersionDowngrade.forEach(({ filePath, baseVersion, headVersion }) => {
+      console.log(`❌ ${filePath}: version was changed from ${baseVersion} to ${headVersion}, but the new version must be greater than the version on the base branch. ${baseVersion} (or lower) has already been published to the registry and cannot be republished.`);
+      fixEntries.push({
+        displayPath: filePath,
+        currentVersion: headVersion,
+        targetVersion: getNextPublishableVersion(headVersion, baseVersion),
+      });
+    });
+  }
 
+  if (fixEntries.length) {
+    core.setFailed(`❌ Version of ${componentsDiffContents.length + componentsWithVersionDowngrade.length} file(s) needs to be modified. Please see https://pipedream.com/docs/components/guidelines/#versioning for more information.`);
+    core.setFailed(`🚀 To fix the versions, in your terminal go to project root path and run the command below:`);
+    const { linuxCommand, macCommand } = buildVersionFixCommands(fixEntries);
     console.log(`\n# Linux
 ${linuxCommand}
 \n
 # MacOS
 ${macCommand}\n`
-    )
+    );
   }
-
-
 
   const totalErrors = componentsThatDidNotModifyVersion.length;
   let counter = 1;

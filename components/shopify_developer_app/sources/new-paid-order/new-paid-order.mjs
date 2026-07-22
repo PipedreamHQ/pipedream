@@ -6,7 +6,7 @@ export default {
   name: "New Paid Order (Instant)",
   type: "source",
   description: "Emit new event each time a new order is paid.",
-  version: "0.0.19",
+  version: "0.0.20",
   dedupe: "unique",
   methods: {
     ...common.methods,

@@ -4,7 +4,7 @@ export default {
   key: "google_docs-create-document",
   name: "Create Document",
   description: "Create a new Google Doc with an optional body. The body is rendered as Markdown, so you can include headings (`# Title`), bold/italic, bullet/numbered lists, links, and code. Optionally place the doc in a specific Drive folder. Returns `{documentId, title, url}`. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/create)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

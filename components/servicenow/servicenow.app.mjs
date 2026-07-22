@@ -6,6 +6,7 @@ const {
   KNOWLEDGE_BASE_PATH,
   SYS_USER_TABLE,
   SC_REQUEST_TABLE,
+  KNOWLEDGE_BASE_TABLE,
   MAX_LIMIT,
 } = constants;
 
@@ -126,6 +127,12 @@ export default {
       max: MAX_LIMIT,
       optional: true,
     },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "Additional `kb_knowledge` fields to return under `fields`. Example: `short_description`, `sys_class_name`.",
+      optional: true,
+    },
     catalogItemSysId: {
       type: "string",
       label: "Catalog Item Sys ID",
@@ -153,12 +160,12 @@ export default {
     },
   },
   methods: {
-    async _makeRequest({
+    async _makeRawRequest({
       $ = this,
       headers,
       ...args
     }) {
-      const response = await axios($, {
+      return axios($, {
         baseURL: `https://${this.$auth.instance_name}.service-now.com/api/now`,
         headers: {
           ...headers,
@@ -166,6 +173,9 @@ export default {
         },
         ...args,
       });
+    },
+    async _makeRequest({ ...args }) {
+      const response = await this._makeRawRequest(args);
       return response.result;
     },
     async createTableRecord({
@@ -338,6 +348,36 @@ export default {
       return this._makeRequest({
         baseURL: `${this._instanceBaseUrl()}${KNOWLEDGE_BASE_PATH}`,
         url: "/articles",
+        ...args,
+      });
+    },
+    async getKnowledgeArticle({
+      articleId, ...args
+    }) {
+      return this._makeRequest({
+        baseURL: `${this._instanceBaseUrl()}${KNOWLEDGE_BASE_PATH}`,
+        url: `/articles/${articleId}`,
+        ...args,
+      });
+    },
+    // Returns the attachment file itself, not a `{ result }` envelope, so this
+    // bypasses _makeRequest's `.result` extraction.
+    async getKnowledgeArticleAttachment({
+      articleSysId, attachmentSysId, ...args
+    }) {
+      return this._makeRawRequest({
+        baseURL: `${this._instanceBaseUrl()}${KNOWLEDGE_BASE_PATH}`,
+        url: `/articles/${articleSysId}/attachments/${attachmentSysId}`,
+        responseType: "arraybuffer",
+        headers: {
+          Accept: "*/*",
+        },
+        ...args,
+      });
+    },
+    async listKnowledgeBases({ ...args }) {
+      return this.getTableRecords({
+        table: KNOWLEDGE_BASE_TABLE,
         ...args,
       });
     },
