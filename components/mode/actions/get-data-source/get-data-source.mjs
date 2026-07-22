@@ -16,7 +16,7 @@ export default {
     dataSourceToken: {
       type: "string",
       label: "Data Source Token",
-      description: "The token (string) of the data source to retrieve. Run the **List Data Sources** action to find available data source tokens.",
+      description: "The token (string) of the data source to retrieve, e.g. `9fabcf384694`. Run the **List Data Sources** action to find available data source tokens (the `token` field).",
     },
   },
   async run({ $ }) {

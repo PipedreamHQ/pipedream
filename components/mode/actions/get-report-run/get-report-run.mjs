@@ -22,7 +22,7 @@ export default {
     runToken: {
       type: "string",
       label: "Run Token",
-      description: "The token of the run to retrieve, returned by the **Run Report** action or **List Report Runs**.",
+      description: "The token of the run to retrieve, e.g. `9fabcf384694`. Returned in the `token` field by the **Run Report** action or **List Report Runs**.",
     },
   },
   async run({ $ }) {

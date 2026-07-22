@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../mode.app.mjs";
 
 export default {
@@ -47,6 +48,12 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.dataSourceId === undefined && this.rawQuery === undefined
+      && this.name === undefined) {
+      throw new ConfigurationError(
+        "Provide at least one of Data Source ID, Raw Query, or Name to update.",
+      );
+    }
     const response = await this.app.updateQuery({
       $,
       reportToken: this.reportToken,

@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../mode.app.mjs";
 
 export default {
@@ -41,6 +42,12 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.name === undefined && this.description === undefined
+      && this.spaceToken === undefined) {
+      throw new ConfigurationError(
+        "Provide at least one of Name, Description, or Space Token to update.",
+      );
+    }
     const response = await this.app.updateReport({
       $,
       reportToken: this.reportToken,
