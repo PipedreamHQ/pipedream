@@ -24,7 +24,6 @@ export default {
         app,
         "dataSourceId",
       ],
-      description: "The integer id of the data source to run the query against, e.g. `1234567` (the `id` field, NOT the token). Run the **List Data Sources** action to find available data source ids.",
     },
     rawQuery: {
       type: "string",

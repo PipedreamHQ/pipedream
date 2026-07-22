@@ -27,7 +27,7 @@ export default {
     dataSourceId: {
       type: "integer",
       label: "Data Source ID",
-      description: "The integer `id` of the data source (NOT the string token). Run the **List Data Sources** action to find available data source ids.",
+      description: "The integer id of the data source, e.g. `1234567` (the `id` field, NOT the token). Run the **List Data Sources** action to find available data source ids.",
     },
   },
   methods: {
