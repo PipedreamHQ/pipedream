@@ -1,5 +1,24 @@
 import microsoft from "../../microsoft_dynamics_365_sales.app.mjs";
 
+const GUID_REGEX =
+  /^\{?[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\}?$/;
+
+/**
+ * Validate a Dynamics record identifier and return the trimmed GUID.
+ * @param {unknown} value Raw prop value
+ * @param {string} label Human-readable field name for the error message
+ * @returns {string} Trimmed GUID
+ */
+function assertGuid(value, label) {
+  const trimmed = typeof value === "string"
+    ? value.trim()
+    : "";
+  if (!trimmed || !GUID_REGEX.test(trimmed)) {
+    throw new Error(`${label} must be a valid GUID (for example \`00000000-0000-0000-0000-000000000001\`)`);
+  }
+  return trimmed;
+}
+
 export default {
   key: "microsoft_dynamics_365_sales-update-account",
   name: "Update Account",
@@ -115,6 +134,8 @@ export default {
     },
   },
   async run({ $ }) {
+    const accountId = assertGuid(this.accountId, "Account ID");
+
     const patchBody = {
       ...(this.additionalProperties ?? {}),
     };
@@ -152,7 +173,8 @@ export default {
     }
 
     if (this.primaryContactId !== undefined) {
-      patchBody["primarycontactid@odata.bind"] = `/contacts(${this.primaryContactId})`;
+      const contactId = assertGuid(this.primaryContactId, "Primary Contact");
+      patchBody["primarycontactid@odata.bind"] = `/contacts(${contactId})`;
     }
 
     if (!Object.keys(patchBody).length) {
@@ -161,11 +183,11 @@ export default {
 
     const account = await this.microsoft.patchAccount({
       $,
-      accountId: this.accountId,
+      accountId,
       data: patchBody,
     });
 
-    $.export("$summary", `Updated account ${this.accountId}`);
+    $.export("$summary", `Updated account ${accountId}`);
 
     return account;
   },
