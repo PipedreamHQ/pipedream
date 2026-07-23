@@ -226,5 +226,23 @@ export default {
         variables,
       );
     },
+    createGiftCard(variables) {
+      return this._makeGraphQlRequest(mutations.GIFT_CARD_CREATE, variables);
+    },
+    createReturn(variables) {
+      return this._makeGraphQlRequest(mutations.RETURN_CREATE, variables);
+    },
+    refundReturn(variables) {
+      return this._makeGraphQlRequest(mutations.RETURN_REFUND, variables);
+    },
+    cancelFulfillment(variables) {
+      return this._makeGraphQlRequest(mutations.FULFILLMENT_CANCEL, variables);
+    },
+    cancelFulfillmentOrder(variables) {
+      return this._makeGraphQlRequest(mutations.FULFILLMENT_ORDER_CANCEL, variables);
+    },
+    holdFulfillmentOrder(variables) {
+      return this._makeGraphQlRequest(mutations.FULFILLMENT_ORDER_HOLD, variables);
+    },
   },
 };

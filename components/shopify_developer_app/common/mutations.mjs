@@ -259,6 +259,109 @@ const FULFILLMENT_ORDER_SUBMIT_CANCELLATION_REQUEST = `
   }
 `;
 
+const GIFT_CARD_CREATE = `
+mutation giftCardCreate($input: GiftCardCreateInput!) {
+  giftCardCreate(input: $input) {
+    giftCard {
+      id
+      maskedCode
+      lastCharacters
+      expiresOn
+      note
+    }
+    giftCardCode
+    userErrors {
+      field
+      message
+    }
+  }
+}
+`;
+
+const RETURN_CREATE = `
+mutation returnCreate($returnInput: ReturnInput!) {
+  returnCreate(returnInput: $returnInput) {
+    return {
+      id
+      status
+      order {
+        id
+      }
+    }
+    userErrors {
+      field
+      message
+    }
+  }
+}
+`;
+
+const RETURN_REFUND = `
+mutation returnRefund($returnRefundInput: ReturnRefundInput!) {
+  returnRefund(returnRefundInput: $returnRefundInput) {
+    refund {
+      id
+      order {
+        id
+      }
+    }
+    userErrors {
+      field
+      message
+    }
+  }
+}
+`;
+
+const FULFILLMENT_CANCEL = `
+mutation fulfillmentCancel($id: ID!) {
+  fulfillmentCancel(id: $id) {
+    fulfillment {
+      id
+      status
+    }
+    userErrors {
+      field
+      message
+    }
+  }
+}
+`;
+
+const FULFILLMENT_ORDER_CANCEL = `
+mutation fulfillmentOrderCancel($id: ID!) {
+  fulfillmentOrderCancel(id: $id) {
+    fulfillmentOrder {
+      id
+      status
+    }
+    replacementFulfillmentOrder {
+      id
+      status
+    }
+    userErrors {
+      field
+      message
+    }
+  }
+}
+`;
+
+const FULFILLMENT_ORDER_HOLD = `
+mutation fulfillmentOrderHold($fulfillmentHold: FulfillmentOrderHoldInput!, $id: ID!) {
+  fulfillmentOrderHold(fulfillmentHold: $fulfillmentHold, id: $id) {
+    fulfillmentOrder {
+      id
+      status
+    }
+    userErrors {
+      field
+      message
+    }
+  }
+}
+`;
+
 export default {
   CREATE_ORDER,
   CREATE_CUSTOMER,
@@ -270,4 +373,10 @@ export default {
   ORDER_INVOICE_SEND,
   ORDER_CANCEL,
   FULFILLMENT_ORDER_SUBMIT_CANCELLATION_REQUEST,
+  GIFT_CARD_CREATE,
+  RETURN_CREATE,
+  RETURN_REFUND,
+  FULFILLMENT_CANCEL,
+  FULFILLMENT_ORDER_CANCEL,
+  FULFILLMENT_ORDER_HOLD,
 };
