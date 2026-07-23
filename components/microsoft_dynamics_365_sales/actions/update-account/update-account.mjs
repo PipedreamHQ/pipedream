@@ -104,7 +104,7 @@ export default {
         "contactId",
       ],
       label: "Primary Contact",
-      description: "Contact to set as the primary contact for the account. Select a contact from the list, or provide the contact's GUID (for example `00000000-0000-0000-0000-000000000001`) — the `contactid` value copied from the contact record in Dynamics or returned by the **Find Contact** action.",
+      description: "Contact to set as the primary contact for the account. Provide the contact's GUID (for example `00000000-0000-0000-0000-000000000001`) — the `contactid` value copied from the contact record in Dynamics or returned by the **Find Contact** action.",
       optional: true,
     },
     additionalProperties: {
