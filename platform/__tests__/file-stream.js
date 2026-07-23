@@ -194,6 +194,20 @@ describe("file-stream", () => {
         .rejects.toThrow(/private or reserved/);
       expect(mockFetch).not.toHaveBeenCalled();
     });
+
+    it("should reject a redirect to a private or reserved address", async () => {
+      mockRemoteResponse(null, {
+        status: 302,
+        statusText: "Found",
+        headers: {
+          Location: "http://169.254.169.254/latest/meta-data",
+        },
+      });
+
+      await expect(getFileStream("https://example.com/redirect"))
+        .rejects.toThrow(/private or reserved/);
+      expect(mockFetch).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe("temporary file cleanup", () => {
