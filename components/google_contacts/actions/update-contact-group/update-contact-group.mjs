@@ -7,7 +7,7 @@ export default {
   name: "Update Contact Group",
   description:
     "Updates the name of an existing contact group. [See the documentation](https://developers.google.com/people/api/rest/v1/contactGroups/update)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     "destructiveHint": false,
     "openWorldHint": true,
@@ -30,10 +30,16 @@ export default {
   },
   methods: {
     async processResults(client) {
+      // contactGroups.update requires the group's current etag for optimistic
+      // concurrency, so fetch it first (mirrors how update-contact works).
+      const { etag } = await this.googleContacts.getContactGroup(client, {
+        resourceName: this.resourceName,
+      });
       return this.googleContacts.updateContactGroup(client, {
         resourceName: this.resourceName,
         requestBody: {
           contactGroup: {
+            etag,
             name: this.name,
           },
           updateGroupFields: "name",

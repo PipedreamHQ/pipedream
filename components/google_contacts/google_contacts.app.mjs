@@ -107,6 +107,10 @@ export default {
       const { data } = await client.contactGroups.create(params);
       return data;
     },
+    async getContactGroup(client, params) {
+      const { data } = await client.contactGroups.get(params);
+      return data;
+    },
     async updateContactGroup(client, params) {
       const { data } = await client.contactGroups.update(params);
       return data;
