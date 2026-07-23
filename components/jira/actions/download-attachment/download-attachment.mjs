@@ -2,7 +2,6 @@ import path from "path";
 import fs from "fs";
 import stream from "stream";
 import { promisify } from "util";
-import { ConfigurationError } from "@pipedream/platform";
 import jira from "../../jira.app.mjs";
 
 const pipeline = promisify(stream.pipeline);
@@ -56,7 +55,7 @@ export default {
 
     const safeFilename = path.basename(metadata.filename ?? "");
     if (!safeFilename || safeFilename === "." || safeFilename === "..") {
-      throw new ConfigurationError(`Invalid attachment filename "${metadata.filename}" returned by Jira.`);
+      throw new Error(`Invalid attachment filename "${metadata.filename}" returned by Jira.`);
     }
     const savedFilename = `${this.attachmentId}-${safeFilename}`;
     const downloadedFilepath = `/tmp/${savedFilename}`;
