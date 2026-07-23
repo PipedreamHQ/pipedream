@@ -12,7 +12,6 @@ export default {
     "destructiveHint": false,
     "openWorldHint": true,
     "readOnlyHint": false,
-    "x-pd-ai": 1,
   },
   type: "action",
   props: {

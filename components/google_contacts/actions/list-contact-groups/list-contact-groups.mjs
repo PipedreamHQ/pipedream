@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import common from "../common/base.mjs";
 
 export default {
@@ -10,7 +11,6 @@ export default {
     "destructiveHint": false,
     "openWorldHint": true,
     "readOnlyHint": true,
-    "x-pd-ai": 1,
   },
   type: "action",
   props: {

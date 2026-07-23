@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import common from "../common/base.mjs";
 
@@ -12,7 +13,6 @@ export default {
     "destructiveHint": false,
     "openWorldHint": true,
     "readOnlyHint": false,
-    "x-pd-ai": 1,
   },
   type: "action",
   props: {
