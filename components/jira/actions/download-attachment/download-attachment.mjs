@@ -47,6 +47,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!/^\d+$/.test(this.attachmentId)) {
+      throw new Error(`Invalid attachment ID "${this.attachmentId}". Attachment IDs must be numeric.`);
+    }
+
     const metadata = await this.jira.getAttachmentMetadata({
       $,
       cloudId: this.cloudId,
