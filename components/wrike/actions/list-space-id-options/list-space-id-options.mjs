@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import wrike from "../../wrike.app.mjs";
 
 export default {
   key: "wrike-list-space-id-options",
   name: "List Space ID Options",
-  description: "Retrieves available options for the Space ID field.",
-  version: "0.0.1",
+  description: "Retrieves available spaces so callers can copy an ID into another action's free-form spaceId or folderId prop. [See the documentation](https://developers.wrike.com/reference/getspaces)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -15,8 +16,14 @@ export default {
     wrike,
   },
   async run({ $ }) {
-    const options = await wrike.propDefinitions.spaceId.options.call(this.wrike);
-    $.export("$summary", `Successfully retrieved ${options.length} option${options.length === 1
+    const spaces = await this.wrike.listSpaces({
+      $,
+    });
+    const options = spaces.map((space) => ({
+      label: space.title,
+      value: space.id,
+    }));
+    $.export("$summary", `Successfully retrieved ${options.length} space${options.length === 1
       ? ""
       : "s"}`);
     return options;

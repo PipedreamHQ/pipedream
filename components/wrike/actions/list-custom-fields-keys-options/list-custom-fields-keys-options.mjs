@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import wrike from "../../wrike.app.mjs";
 
 export default {
   key: "wrike-list-custom-fields-keys-options",
   name: "List Custom Fields Keys Options",
-  description: "Retrieves available options for the Custom Fields Keys field.",
-  version: "0.0.1",
+  description: "Retrieves available custom fields so callers can copy field IDs into free-form customFields props in other actions. [See the documentation](https://developers.wrike.com/reference/getcustomfields)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -15,8 +16,14 @@ export default {
     wrike,
   },
   async run({ $ }) {
-    const options = await wrike.propDefinitions.customFieldsKeys.options.call(this.wrike);
-    $.export("$summary", `Successfully retrieved ${options.length} option${options.length === 1
+    const customFields = await this.wrike.listCustomFields({
+      $,
+    });
+    const options = customFields.map((field) => ({
+      label: field.title,
+      value: field.id,
+    }));
+    $.export("$summary", `Successfully retrieved ${options.length} custom field${options.length === 1
       ? ""
       : "s"}`);
     return options;

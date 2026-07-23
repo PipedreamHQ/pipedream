@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import wrike from "../../wrike.app.mjs";
 
 export default {
   key: "wrike-list-contact-id-options",
   name: "List Contact ID Options",
-  description: "Retrieves available options for the Contact ID field.",
-  version: "0.0.1",
+  description: "Retrieves available contacts so callers can copy an ID into free-form responsibles or contactId props in other actions. [See the documentation](https://developers.wrike.com/reference/getcontacts)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -15,8 +16,14 @@ export default {
     wrike,
   },
   async run({ $ }) {
-    const options = await wrike.propDefinitions.contactId.options.call(this.wrike);
-    $.export("$summary", `Successfully retrieved ${options.length} option${options.length === 1
+    const contacts = await this.wrike.listContacts({
+      $,
+    });
+    const options = contacts.map((contact) => ({
+      label: `${contact.firstName} ${contact.lastName}`,
+      value: contact.id,
+    }));
+    $.export("$summary", `Successfully retrieved ${options.length} contact${options.length === 1
       ? ""
       : "s"}`);
     return options;
