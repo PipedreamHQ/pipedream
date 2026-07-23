@@ -15,15 +15,15 @@ export default {
   props: {
     wrike,
     taskId: {
-      type: "string",
-      label: "Task ID",
-      description: "The ID of the task to retrieve, e.g. `IEAASDF3KQAAAAAA`. Run the **Find Tasks** action to look up task IDs within a folder. Comma-separate multiple IDs to fetch several tasks at once.",
+      type: "string[]",
+      label: "Task IDs",
+      description: "The IDs of the tasks to retrieve, e.g. `IEAASDF3KQAAAAAA`. Run the **Find Tasks** action to look up task IDs within a folder. Provide multiple IDs as separate values to fetch several tasks at once.",
     },
   },
   async run({ $ }) {
     const tasks = await this.wrike.getTasks({
       $,
-      taskIds: this.taskId,
+      taskIds: this.taskId.join(","),
     });
     $.export("$summary", `Successfully retrieved ${tasks.length} task${tasks.length === 1
       ? ""

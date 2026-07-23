@@ -9,7 +9,7 @@ export default {
   key: "wrike-list-space-id-options",
   name: "List Space ID Options",
   description: "Retrieves available spaces so callers can copy an ID into another action's free-form spaceId or folderId prop. [See the documentation](https://developers.wrike.com/reference/getspacesempty)",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "action",
   annotations: {
     destructiveHint: false,

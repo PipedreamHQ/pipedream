@@ -12,7 +12,7 @@ export default {
   key: "wrike-list-custom-fields-keys-options",
   name: "List Custom Fields Keys Options",
   description: "Retrieves available custom fields so callers can copy field IDs into free-form customFields props in other actions. [See the documentation](https://developers.wrike.com/reference/getcustomfieldsempty)",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "action",
   annotations: {
     destructiveHint: false,

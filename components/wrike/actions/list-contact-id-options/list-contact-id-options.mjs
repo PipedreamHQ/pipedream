@@ -9,7 +9,7 @@ export default {
   key: "wrike-list-contact-id-options",
   name: "List Contact ID Options",
   description: "Retrieves available contacts so callers can copy an ID into free-form responsibles or contactId props in other actions. [See the documentation](https://developers.wrike.com/reference/getcontactsempty)",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -27,7 +27,7 @@ export default {
     metadata: {
       type: "object",
       label: "Metadata",
-      description: "Metadata filter, exact match for metadata key or key-value pair.",
+      description: "Metadata filter, exact match for metadata key or key-value pair, e.g. `{ \"key\": \"database-id\" }` (key only) or `{ \"key\": \"database-id\", \"value\": \"42\" }` (key-value pair).",
       optional: true,
     },
     deleted: {
@@ -39,7 +39,7 @@ export default {
     customFields: {
       type: "object",
       label: "Custom Fields",
-      description: "Custom field filter. JSON array of custom field objects.",
+      description: "Custom field filter. JSON array of custom field objects, e.g. `[{ \"id\": \"IEAAAAAAJ4AAAAAA\", \"value\": \"High\" }]`.",
       optional: true,
     },
     emails: {

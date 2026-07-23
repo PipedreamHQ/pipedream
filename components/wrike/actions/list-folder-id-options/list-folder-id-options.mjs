@@ -5,7 +5,7 @@ export default {
   key: "wrike-list-folder-id-options",
   name: "List Folder ID Options",
   description: "Retrieves available folders so callers can copy an ID into another action's free-form folderId prop. [See the documentation](https://developers.wrike.com/reference/getfoldersempty)",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -29,6 +29,7 @@ export default {
   },
   async run({ $ }) {
     const folders = await this.wrike.listFolders({
+      $,
       spaceId: this.spaceId,
       folderId: this.folderId,
     });
