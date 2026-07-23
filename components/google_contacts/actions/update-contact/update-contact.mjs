@@ -9,9 +9,10 @@ export default {
   description: "Updates a contact. Provide at least one of the optional fields (name, email, phone, etc.) to update. [See the documentation](https://developers.google.com/people/api/rest/v1/people/updateContact)",
   version: "0.1.4",
   annotations: {
-    destructiveHint: false,
-    openWorldHint: true,
-    readOnlyHint: false,
+    "destructiveHint": false,
+    "openWorldHint": true,
+    "readOnlyHint": false,
+    "x-pd-ai": 1,
   },
   type: "action",
   props: {

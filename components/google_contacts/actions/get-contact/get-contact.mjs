@@ -7,9 +7,10 @@ export default {
   description: "Get information about a contact. [See the documentation](https://developers.google.com/people/api/rest/v1/people/get)",
   version: "0.0.8",
   annotations: {
-    destructiveHint: false,
-    openWorldHint: true,
-    readOnlyHint: true,
+    "destructiveHint": false,
+    "openWorldHint": true,
+    "readOnlyHint": false,
+    "x-pd-ai": 1,
   },
   type: "action",
   props: {

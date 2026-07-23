@@ -8,9 +8,10 @@ export default {
   description: "Lists all contacts of the authenticated user. [See the documentation](https://developers.google.com/people/api/rest/v1/people.connections/list)",
   version: "0.0.9",
   annotations: {
-    destructiveHint: false,
-    openWorldHint: true,
-    readOnlyHint: true,
+    "destructiveHint": false,
+    "openWorldHint": true,
+    "readOnlyHint": true,
+    "x-pd-ai": 1,
   },
   type: "action",
   props: {

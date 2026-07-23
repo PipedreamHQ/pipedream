@@ -7,9 +7,10 @@ export default {
   description: "Deletes a contact. [See the documentation](https://developers.google.com/people/api/rest/v1/people/deleteContact)",
   version: "0.0.8",
   annotations: {
-    destructiveHint: true,
-    openWorldHint: true,
-    readOnlyHint: false,
+    "destructiveHint": true,
+    "openWorldHint": true,
+    "readOnlyHint": false,
+    "x-pd-ai": 1,
   },
   type: "action",
   props: {
