@@ -142,10 +142,13 @@ export default {
       const { id: selfEmail } = await this.googleCalendar.getCalendar({
         calendarId: "primary",
       });
-      if (selfEmail && !attendees.some(({ email }) => email === selfEmail)) {
+      const selfEmailLower = selfEmail?.toLowerCase();
+      const alreadyAttendee = attendees.some(
+        ({ email }) => email?.toLowerCase() === selfEmailLower,
+      );
+      if (selfEmail && !alreadyAttendee) {
         attendees.push({
           email: selfEmail,
-          organizer: true,
           responseStatus: "accepted",
         });
       }
