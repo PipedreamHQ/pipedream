@@ -68,7 +68,7 @@ export default {
     contactGroupResourceName: {
       type: "string",
       label: "Contact Group",
-      description: "The contact group to use",
+      description: "Select a contact group (for example, contactGroups/abc123). Use the List Contact Groups action to discover available groups.",
       async options({ prevContext }) {
         const { nextPageToken: pageToken } = prevContext;
         const params = {

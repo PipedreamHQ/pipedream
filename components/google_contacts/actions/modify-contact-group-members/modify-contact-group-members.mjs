@@ -9,7 +9,7 @@ export default {
     "Adds contacts to or removes contacts from a contact group. [See the documentation](https://developers.google.com/people/api/rest/v1/contactGroups.members/modify)",
   version: "0.0.1",
   annotations: {
-    "destructiveHint": true,
+    "destructiveHint": false,
     "openWorldHint": true,
     "readOnlyHint": false,
     "x-pd-ai": 1,
@@ -40,8 +40,13 @@ export default {
   },
   methods: {
     async processResults(client) {
-      if (!this.resourceNamesToAdd?.length && !this.resourceNamesToRemove?.length) {
-        throw new ConfigurationError("Provide at least one contact to add or remove.");
+      if (
+        !this.resourceNamesToAdd?.length &&
+        !this.resourceNamesToRemove?.length
+      ) {
+        throw new ConfigurationError(
+          "Provide at least one contact to add or remove.",
+        );
       }
       return this.googleContacts.modifyContactGroupMembers(client, {
         resourceName: this.resourceName,
@@ -51,13 +56,25 @@ export default {
         },
       });
     },
-    emitSummary($) {
-      const added = this.resourceNamesToAdd?.length || 0;
-      const removed = this.resourceNamesToRemove?.length || 0;
+    emitSummary($, results) {
+      const requestedAdded = this.resourceNamesToAdd?.length || 0;
+      const requestedRemoved = this.resourceNamesToRemove?.length || 0;
+
+      const unresolved =
+        (results?.notFoundResourceNames?.length || 0) +
+        (results?.canNotRemoveLastContactGroupResourceNames?.length || 0);
+
+      const processed = requestedAdded + requestedRemoved - unresolved;
 
       $.export(
         "$summary",
-        `Successfully added ${added} and removed ${removed} contacts`,
+        `Processed ${processed} contact membership change${
+          processed === 1
+            ? ""
+            : "s"
+        }${unresolved
+          ? ` (${unresolved} could not be completed)`
+          : ""}.`,
       );
     },
   },

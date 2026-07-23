@@ -8,7 +8,7 @@ export default {
     "Deletes an existing contact group. [See the documentation](https://developers.google.com/people/api/rest/v1/contactGroups/delete)",
   version: "0.0.1",
   annotations: {
-    "destructiveHint": false,
+    "destructiveHint": true,
     "openWorldHint": true,
     "readOnlyHint": false,
     "x-pd-ai": 1,
