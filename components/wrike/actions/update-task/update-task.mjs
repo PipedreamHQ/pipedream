@@ -3,6 +3,7 @@ import wrike from "../../wrike.app.mjs";
 import {
   TASK_STATUS_OPTIONS, TASK_IMPORTANCE_OPTIONS,
 } from "../../common/constants.mjs";
+import { parseJson } from "../../common/utils.mjs";
 
 export default {
   key: "wrike-update-task",
@@ -80,13 +81,6 @@ export default {
     },
   },
   async run({ $ }) {
-    const dates = this.dates
-      ? JSON.parse(this.dates)
-      : undefined;
-    const customFields = this.customFields
-      ? JSON.parse(this.customFields)
-      : undefined;
-
     const task = await this.wrike.updateTask({
       $,
       taskId: this.taskId,
@@ -97,9 +91,9 @@ export default {
         importance: this.importance,
         addResponsibles: this.addResponsibles,
         removeResponsibles: this.removeResponsibles,
-        dates,
+        dates: parseJson(this.dates),
         customStatus: this.customStatus,
-        customFields,
+        customFields: parseJson(this.customFields),
       },
     });
 
