@@ -4,6 +4,11 @@ export const TERMINAL_STATUSES = new Set([
   "STOPPED",
 ]);
 
+export const JOB_TIMEOUT_MS = 10 * 60 * 1000;
+export const MAX_BUFFER_BYTES = 50 * 1024 * 1024;
+export const RESULTS_RETRY_MS = 2 * 1000;
+export const TRANSFER_TIMEOUT_MS = 2 * 60 * 1000;
+
 export const buildStages = ({
   strategy,
   languages,
@@ -28,8 +33,52 @@ export const buildStages = ({
   return stages;
 };
 
-export const streamToBuffer = async (stream) => {
+const formatByteLimit = (bytes) => bytes % (1024 * 1024) === 0
+  ? `${bytes / (1024 * 1024)} MB`
+  : `${bytes} bytes`;
+
+export const assertWithinBufferLimit = (
+  size,
+  {
+    label = "File",
+    maxBytes = MAX_BUFFER_BYTES,
+  } = {},
+) => {
+  if (size > maxBytes) {
+    throw new Error(`${label} exceeds the ${formatByteLimit(maxBytes)} limit`);
+  }
+};
+
+export const withTransferTimeout = async (
+  operation,
+  timeoutMs = TRANSFER_TIMEOUT_MS,
+) => {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await operation(controller.signal);
+  } finally {
+    clearTimeout(timeout);
+  }
+};
+
+export const streamToBuffer = async (
+  stream,
+  {
+    label = "File",
+    maxBytes = MAX_BUFFER_BYTES,
+  } = {},
+) => {
   const chunks = [];
-  for await (const chunk of stream) chunks.push(Buffer.from(chunk));
+  let totalBytes = 0;
+  for await (const chunk of stream) {
+    const buffer = Buffer.from(chunk);
+    totalBytes += buffer.length;
+    assertWithinBufferLimit(totalBytes, {
+      label,
+      maxBytes,
+    });
+    chunks.push(buffer);
+  }
   return Buffer.concat(chunks);
 };

@@ -4,22 +4,34 @@ import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/
 
 const TRANSFORM_MCP_URL = "https://mcp.transform.unstructured.io";
 
-const toolPayload = (result) => {
-  if (result.isError) {
-    const message = result.content?.find(({ type }) => type === "text")?.text
-      || "Transform MCP tool call failed";
-    throw new Error(message);
+class TransformToolError extends Error {
+  constructor(error) {
+    super(error.message || JSON.stringify(error));
+    this.code = error.code;
   }
+}
 
+const toolPayload = (result) => {
+  const text = result.content?.find(({ type }) => type === "text")?.text;
   let payload = result.structuredContent?.result ?? result.structuredContent;
-  if (!payload) {
-    const text = result.content?.find(({ type }) => type === "text")?.text;
-    if (!text) throw new Error("Transform MCP returned no content");
-    payload = JSON.parse(text);
+  if (!payload && text) {
+    try {
+      payload = JSON.parse(text);
+    } catch {
+      if (result.isError) throw new Error(text);
+      throw new Error("Transform MCP returned invalid JSON content");
+    }
   }
-  if (payload.error) {
-    throw new Error(payload.error.message || JSON.stringify(payload.error));
+  if (payload?.error) {
+    throw new TransformToolError(payload.error);
   }
+  if (result.isError) {
+    if (payload?.code || payload?.message) {
+      throw new TransformToolError(payload);
+    }
+    throw new Error(text || "Transform MCP tool call failed");
+  }
+  if (!payload) throw new Error("Transform MCP returned no content");
   return payload;
 };
 
@@ -50,7 +62,7 @@ export default {
         ...opts,
       });
     },
-    async withTransformClient(callback) {
+    async _withTransformClient(callback) {
       const client = new Client({
         name: "pipedream-unstructured",
         version: "1.0.0",
@@ -73,11 +85,48 @@ export default {
         await client.close();
       }
     },
-    async callTransformTool(client, name, args) {
-      return toolPayload(await client.callTool({
-        name,
-        arguments: args,
-      }));
+    async _callTransformTool(name, args) {
+      return this._withTransformClient(async (client) =>
+        toolPayload(await client.callTool({
+          name,
+          arguments: args,
+        })));
+    },
+    /**
+     * Requests a signed upload URL for a Transform source file.
+     *
+     * @param {object} args - Upload metadata.
+     * @returns {Promise<object>} Upload URL, headers, and file reference.
+     */
+    requestTransformUpload(args) {
+      return this._callTransformTool("request_file_upload_url", args);
+    },
+    /**
+     * Starts an asynchronous Transform job.
+     *
+     * @param {object} args - Source file references and Transform stages.
+     * @returns {Promise<object>} Transform job metadata.
+     */
+    startTransformJob(args) {
+      return this._callTransformTool("start_transform_job", args);
+    },
+    /**
+     * Gets the current status of a Transform job.
+     *
+     * @param {object} args - Transform job identifier.
+     * @returns {Promise<object>} Current Transform job status.
+     */
+    checkTransformJobStatus(args) {
+      return this._callTransformTool("check_job_status", args);
+    },
+    /**
+     * Gets the materialized results for a completed Transform job.
+     *
+     * @param {object} args - Transform job identifier and output options.
+     * @returns {Promise<object>} Transform output files.
+     */
+    getTransformJobResults(args) {
+      return this._callTransformTool("get_job_results", args);
     },
   },
 };
