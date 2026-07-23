@@ -1,10 +1,18 @@
+jest.mock("undici", () => {
+  const actual = jest.requireActual("undici");
+  return {
+    ...actual,
+    fetch: jest.fn((...args) => actual.fetch(...args)),
+  };
+});
+
 const {
   getFileStream, getFileStreamAndMetadata,
 } = require("../dist");
 const fs = require("fs");
 const path = require("path");
-const http = require("http");
 const os = require("os");
+const { fetch: mockFetch } = require("undici");
 
 // Helper function to read content from a readable stream
 async function readStreamContent(stream) {
@@ -27,43 +35,26 @@ async function waitForStreamCleanup(stream) {
   });
 }
 
+// The remote-URL tests below mock the fetch transport rather than hitting a real
+// server, since fetching from `localhost` is exactly what the SSRF guard in
+// file-stream.ts is meant to reject (see the "SSRF protection" tests).
+function mockRemoteResponse(body, {
+  status = 200, statusText = "OK", headers = {},
+} = {}) {
+  mockFetch.mockResolvedValueOnce(new Response(body, {
+    status,
+    statusText,
+    headers,
+  }));
+}
+
 describe("file-stream", () => {
   let testFilePath;
-  let server;
-  const testPort = 3892;
 
   beforeAll(() => {
     // Create a test file
     testFilePath = path.join(__dirname, "test-file.txt");
     fs.writeFileSync(testFilePath, "test content for file stream");
-
-    // Create a simple HTTP server for testing remote files
-    server = http.createServer((req, res) => {
-      if (req.url === "/test-file.txt") {
-        res.writeHead(200, {
-          "Content-Type": "text/plain",
-          "Content-Length": "28",
-          "Last-Modified": new Date().toUTCString(),
-          "ETag": "\"test-etag\"",
-        });
-        res.end("test content for file stream");
-      } else if (req.url === "/no-content-length") {
-        res.writeHead(200, {
-          "Content-Type": "application/json",
-          "Last-Modified": new Date().toUTCString(),
-        });
-        res.end("{\"test\": \"data\"}");
-      } else if (req.url === "/error") {
-        res.writeHead(404, "Not Found");
-        res.end();
-      } else {
-        res.writeHead(404, "Not Found");
-        res.end();
-      }
-    });
-
-    return new Promise((resolve) =>
-      server.listen(testPort, resolve));
   });
 
   afterAll(() => {
@@ -71,11 +62,10 @@ describe("file-stream", () => {
     if (fs.existsSync(testFilePath)) {
       fs.unlinkSync(testFilePath);
     }
+  });
 
-    if (server) {
-      return new Promise((resolve) =>
-        server.close(resolve));
-    }
+  afterEach(() => {
+    mockFetch.mockClear();
   });
 
   describe("getFileStream", () => {
@@ -89,7 +79,13 @@ describe("file-stream", () => {
     });
 
     it("should return readable stream for remote URL", async () => {
-      const stream = await getFileStream(`http://localhost:${testPort}/test-file.txt`);
+      mockRemoteResponse("test content for file stream", {
+        headers: {
+          "Content-Type": "text/plain",
+        },
+      });
+
+      const stream = await getFileStream("https://example.com/test-file.txt");
       expect(stream).toBeDefined();
       expect(typeof stream.read).toBe("function");
 
@@ -98,7 +94,12 @@ describe("file-stream", () => {
     });
 
     it("should throw error for invalid URL", async () => {
-      await expect(getFileStream(`http://localhost:${testPort}/error`))
+      mockRemoteResponse(null, {
+        status: 404,
+        statusText: "Not Found",
+      });
+
+      await expect(getFileStream("https://example.com/error"))
         .rejects.toThrow("Failed to fetch");
     });
 
@@ -124,7 +125,16 @@ describe("file-stream", () => {
     });
 
     it("should return stream and metadata for remote file with content-length", async () => {
-      const result = await getFileStreamAndMetadata(`http://localhost:${testPort}/test-file.txt`);
+      mockRemoteResponse("test content for file stream", {
+        headers: {
+          "Content-Type": "text/plain",
+          "Content-Length": "28",
+          "Last-Modified": new Date().toUTCString(),
+          "ETag": "\"test-etag\"",
+        },
+      });
+
+      const result = await getFileStreamAndMetadata("https://example.com/test-file.txt");
 
       expect(result.stream).toBeDefined();
       expect(typeof result.stream.read).toBe("function");
@@ -140,7 +150,14 @@ describe("file-stream", () => {
     });
 
     it("should handle remote file without content-length", async () => {
-      const result = await getFileStreamAndMetadata(`http://localhost:${testPort}/no-content-length`);
+      mockRemoteResponse("{\"test\": \"data\"}", {
+        headers: {
+          "Content-Type": "application/json",
+          "Last-Modified": new Date().toUTCString(),
+        },
+      });
+
+      const result = await getFileStreamAndMetadata("https://example.com/no-content-length");
 
       expect(result.stream).toBeDefined();
       expect(typeof result.stream.read).toBe("function");
@@ -156,16 +173,54 @@ describe("file-stream", () => {
     });
 
     it("should throw error for invalid remote URL", async () => {
-      await expect(getFileStreamAndMetadata(`http://localhost:${testPort}/error`))
+      mockRemoteResponse(null, {
+        status: 404,
+        statusText: "Not Found",
+      });
+
+      await expect(getFileStreamAndMetadata("https://example.com/error"))
         .rejects.toThrow("Failed to fetch");
+    });
+  });
+
+  describe("SSRF protection", () => {
+    it("should reject remote URLs pointing at localhost", async () => {
+      await expect(getFileStream("http://localhost:65535/"))
+        .rejects.toThrow(/private or reserved/);
+    });
+
+    it("should reject remote URLs pointing at a private or reserved literal IP", async () => {
+      await expect(getFileStreamAndMetadata("http://169.254.169.254/latest/meta-data"))
+        .rejects.toThrow(/private or reserved/);
+      expect(mockFetch).not.toHaveBeenCalled();
+    });
+
+    it("should reject a redirect to a private or reserved address", async () => {
+      mockRemoteResponse(null, {
+        status: 302,
+        statusText: "Found",
+        headers: {
+          Location: "http://169.254.169.254/latest/meta-data",
+        },
+      });
+
+      await expect(getFileStream("https://example.com/redirect"))
+        .rejects.toThrow(/private or reserved/);
+      expect(mockFetch).toHaveBeenCalledTimes(1);
     });
   });
 
   describe("temporary file cleanup", () => {
     it("should clean up temporary files after stream ends", async () => {
+      mockRemoteResponse("{\"test\": \"data\"}", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
       const tmpDir = os.tmpdir();
       const tempFilesBefore = fs.readdirSync(tmpDir);
-      const result = await getFileStreamAndMetadata(`http://localhost:${testPort}/no-content-length`);
+      const result = await getFileStreamAndMetadata("https://example.com/no-content-length");
 
       const content = await readStreamContent(result.stream);
       // Wait for cleanup to complete by listening to close event
@@ -178,11 +233,17 @@ describe("file-stream", () => {
     });
 
     it("should clean up temporary files on stream error", async () => {
+      mockRemoteResponse("{\"test\": \"data\"}", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
       // Check temp files before
       const tmpDir = os.tmpdir();
       const tempFilesBefore = fs.readdirSync(tmpDir);
 
-      const result = await getFileStreamAndMetadata(`http://localhost:${testPort}/no-content-length`);
+      const result = await getFileStreamAndMetadata("https://example.com/no-content-length");
 
       // Trigger an error and wait for cleanup
       result.stream.destroy(new Error("Test error"));
