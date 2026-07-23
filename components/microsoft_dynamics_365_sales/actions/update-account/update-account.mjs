@@ -3,7 +3,7 @@ import microsoft from "../../microsoft_dynamics_365_sales.app.mjs";
 export default {
   key: "microsoft_dynamics_365_sales-update-account",
   name: "Update Account",
-  description: "Update an existing account; only the fields you supply are sent. [See the documentation](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/update-delete-entities-using-web-api) and the [account entity reference](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/reference/account)",
+  description: "Update an existing account; only the fields you supply are sent. See the [account entity reference](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/reference/account) for the full list of updatable fields. [See the documentation](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/update-delete-entities-using-web-api)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -104,7 +104,7 @@ export default {
         "contactId",
       ],
       label: "Primary Contact",
-      description: "Contact to set as the primary contact for the account",
+      description: "Contact to set as the primary contact for the account. Select a contact from the list, or provide the contact's GUID (for example `00000000-0000-0000-0000-000000000001`) — the `contactid` value copied from the contact record in Dynamics or returned by the **Find Contact** action.",
       optional: true,
     },
     additionalProperties: {
@@ -143,8 +143,9 @@ export default {
     }
 
     if (this.revenue !== undefined) {
-      const revenue = Number(this.revenue);
-      if (!Number.isFinite(revenue)) {
+      const revenueValue = this.revenue.trim();
+      const revenue = Number(revenueValue);
+      if (!revenueValue || !Number.isFinite(revenue)) {
         throw new Error("Annual Revenue must be a valid number");
       }
       patchBody.revenue = revenue;
