@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import common from "../common/base.mjs";
 
 export default {
@@ -9,7 +10,7 @@ export default {
   annotations: {
     "destructiveHint": false,
     "openWorldHint": true,
-    "readOnlyHint": false,
+    "readOnlyHint": true,
   },
   type: "action",
   props: {

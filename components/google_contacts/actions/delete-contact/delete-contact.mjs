@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import common from "../common/base.mjs";
 
 export default {
