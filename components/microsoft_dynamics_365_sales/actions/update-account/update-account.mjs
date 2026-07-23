@@ -1,22 +1,27 @@
 import microsoft from "../../microsoft_dynamics_365_sales.app.mjs";
 
 const GUID_REGEX =
-  /^\{?[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\}?$/;
+  /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 
 /**
- * Validate a Dynamics record identifier and return the trimmed GUID.
+ * Validate a Dynamics record identifier and return the bare GUID.
+ * A single balanced surrounding brace pair (`{...}`) is accepted and
+ * stripped; unmatched braces or otherwise malformed values are rejected.
  * @param {unknown} value Raw prop value
  * @param {string} label Human-readable field name for the error message
- * @returns {string} Trimmed GUID
+ * @returns {string} Bare GUID (no surrounding braces)
  */
 function assertGuid(value, label) {
-  const trimmed = typeof value === "string"
+  let guid = typeof value === "string"
     ? value.trim()
     : "";
-  if (!trimmed || !GUID_REGEX.test(trimmed)) {
+  if (guid.startsWith("{") && guid.endsWith("}")) {
+    guid = guid.slice(1, -1);
+  }
+  if (!GUID_REGEX.test(guid)) {
     throw new Error(`${label} must be a valid GUID (for example \`00000000-0000-0000-0000-000000000001\`)`);
   }
-  return trimmed;
+  return guid;
 }
 
 export default {
