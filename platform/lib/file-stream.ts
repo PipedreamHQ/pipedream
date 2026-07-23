@@ -11,6 +11,8 @@ import { pipeline } from "stream/promises";
 import { v4 as uuidv4 } from "uuid";
 import * as mime from "mime-types";
 
+const MAX_ERROR_RESPONSE_BODY_LENGTH = 1024;
+
 export interface FileMetadata {
   size: number;
   contentType?: string;
@@ -29,13 +31,30 @@ export async function getFileStream(pathOrUrl: string): Promise<Readable> {
   } else if (isUrl(pathOrUrl)) {
     const response = await fetch(pathOrUrl);
     if (!response.ok || !response.body) {
-      throw new Error(`Failed to fetch ${pathOrUrl}: ${response.status} ${response.statusText}`);
+      throw await getFetchError(pathOrUrl, response);
     }
     return Readable.fromWeb(response.body as ReadableStream<Uint8Array>);
   } else {
     await safeStat(pathOrUrl);
     return createReadStream(pathOrUrl);
   }
+}
+
+async function getFetchError(pathOrUrl: string, response: Response): Promise<Error> {
+  let responseDetails = "";
+  try {
+    const responseBody = (await response.text()).trim().replace(/\s+/g, " ");
+    if (responseBody) {
+      const truncatedBody = responseBody.length > MAX_ERROR_RESPONSE_BODY_LENGTH
+        ? `${responseBody.slice(0, MAX_ERROR_RESPONSE_BODY_LENGTH)}...`
+        : responseBody;
+      responseDetails = `\nResponse body: ${truncatedBody}`;
+    }
+  } catch {
+    // Preserve the status-only error when the response body cannot be read.
+  }
+
+  return new Error(`Failed to fetch ${pathOrUrl}: ${response.status} ${response.statusText}${responseDetails}`);
 }
 
 /**
@@ -176,7 +195,7 @@ async function getLocalFileStreamAndMetadata(
 async function getRemoteFileStreamAndMetadata(url: string): Promise<{ stream: Readable; metadata: FileMetadata }> {
   const response = await fetch(url);
   if (!response.ok || !response.body) {
-    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
+    throw await getFetchError(url, response);
   }
 
   const headers = response.headers;
