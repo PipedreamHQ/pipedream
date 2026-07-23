@@ -71,7 +71,14 @@ export default {
       cloudId: this.cloudId,
       attachmentId: this.attachmentId,
     });
-    await PIPELINE(contentStream, fs.createWriteStream(downloadedFilepath));
+    try {
+      await PIPELINE(contentStream, fs.createWriteStream(downloadedFilepath));
+    } catch (error) {
+      await fs.promises.rm(downloadedFilepath, {
+        force: true,
+      }).catch(() => {});
+      throw error;
+    }
 
     const filedata = [
       savedFilename,
