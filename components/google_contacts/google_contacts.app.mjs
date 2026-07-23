@@ -70,27 +70,6 @@ export default {
       type: "string",
       label: "Contact Group",
       description: "Select a contact group (for example, contactGroups/abc123). Use the **List Contact Groups** action to discover available groups.",
-      async options({ prevContext }) {
-        const { nextPageToken: pageToken } = prevContext;
-        const params = {
-          pageToken,
-        };
-        const client = await this.getClient();
-        const {
-          contactGroups = [], nextPageToken,
-        } =
-          await this.listContactGroups(client, params);
-
-        return {
-          options: contactGroups.map((group) => ({
-            label: group.name || group.resourceName,
-            value: group.resourceName,
-          })),
-          context: {
-            nextPageToken,
-          },
-        };
-      },
     },
   },
   methods: {
