@@ -1470,8 +1470,8 @@ importers:
         specifier: ^3.2.5
         version: 3.3.0
       adm-zip:
-        specifier: ^0.5.10
-        version: 0.5.16
+        specifier: ^0.6.0
+        version: 0.6.0
       dedent:
         specifier: ^1.5.1
         version: 1.7.0(babel-plugin-macros@3.1.0)
@@ -25540,6 +25540,10 @@ packages:
     resolution: {integrity: sha512-lUI3ZSNsfQXNYNzGjt68MdxzCs0eW29lgL74y/Y2h4nARgHmH3poFWuK3LonvFbNHFt4dTb2X/QQ4c1ZUWWsJw==}
     engines: {node: '>=6.0'}
 
+  adm-zip@0.6.0:
+    resolution: {integrity: sha512-XleryMhbuksdKtofnWZ9Sk+4CUTbms4Mb/EU32SZwToAyZ5RgVos/ki8n+yr0LWHOGKuakbXTuuYNHLQjhddgg==}
+    engines: {node: '>=14.0'}
+
   aes-js@4.0.0-beta.5:
     resolution: {integrity: sha512-G965FqalsNyrPqgEGON7nIx1e/OVENSgiEIzyC63haUMuvNnwIgIjMs52hlTCKhkBny7A2ORNlfY9Zu+jmGk1Q==}
 
@@ -45907,6 +45911,8 @@ snapshots:
   adm-zip@0.5.16: {}
 
   adm-zip@0.5.2: {}
+
+  adm-zip@0.6.0: {}
 
   aes-js@4.0.0-beta.5: {}
 
