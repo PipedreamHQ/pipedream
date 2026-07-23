@@ -66,7 +66,7 @@ export default {
       $ = this, path, ...args
     }) {
       return axios($, {
-        url: `${this._apiUrl()}/api/v2${path}`,
+        url: `https://cliq.${this._apiUrl()}/api/v2${path}`,
         headers: {
           "Authorization": `Zoho-oauthtoken ${this._accessToken()}`,
         },
