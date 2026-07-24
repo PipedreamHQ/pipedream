@@ -551,6 +551,42 @@ export default {
     updateOrder(variables) {
       return this._makeGraphQlRequest(mutations.UPDATE_ORDER, variables);
     },
+    createRefund(variables) {
+      return this._makeGraphQlRequest(mutations.REFUND_CREATE, variables);
+    },
+    cancelOrder(variables) {
+      return this._makeGraphQlRequest(mutations.ORDER_CANCEL, variables);
+    },
+    submitFulfillmentOrderCancellationRequest(variables) {
+      return this._makeGraphQlRequest(
+        mutations.FULFILLMENT_ORDER_SUBMIT_CANCELLATION_REQUEST,
+        variables,
+      );
+    },
+    createGiftCard(variables) {
+      return this._makeGraphQlRequest(mutations.GIFT_CARD_CREATE, variables);
+    },
+    createOrder(variables) {
+      return this._makeGraphQlRequest(mutations.ORDER_CREATE, variables);
+    },
+    sendOrderInvoice(variables) {
+      return this._makeGraphQlRequest(mutations.ORDER_INVOICE_SEND, variables);
+    },
+    createReturn(variables) {
+      return this._makeGraphQlRequest(mutations.RETURN_CREATE, variables);
+    },
+    refundReturn(variables) {
+      return this._makeGraphQlRequest(mutations.RETURN_REFUND, variables);
+    },
+    cancelFulfillment(variables) {
+      return this._makeGraphQlRequest(mutations.FULFILLMENT_CANCEL, variables);
+    },
+    cancelFulfillmentOrder(variables) {
+      return this._makeGraphQlRequest(mutations.FULFILLMENT_ORDER_CANCEL, variables);
+    },
+    holdFulfillmentOrder(variables) {
+      return this._makeGraphQlRequest(mutations.FULFILLMENT_ORDER_HOLD, variables);
+    },
     getCustomer(variables) {
       return this._makeGraphQlRequest(queries.GET_CUSTOMER, variables);
     },

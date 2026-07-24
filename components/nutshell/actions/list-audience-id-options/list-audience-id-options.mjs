@@ -4,7 +4,7 @@ export default {
   key: "nutshell-list-audience-id-options",
   name: "List Audience Id Options",
   description: "Retrieves available options for the Audience Id field.",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -13,18 +13,9 @@ export default {
   },
   props: {
     nutshell,
-    page: {
-      type: "integer",
-      label: "Page",
-      description: "The page of results to retrieve.",
-      min: 0,
-      default: 0,
-    },
   },
   async run({ $ }) {
-    const options = await nutshell.propDefinitions.audienceId.options.call(this.nutshell, {
-      page: this.page,
-    });
+    const options = await nutshell.propDefinitions.audienceId.options.call(this.nutshell);
     $.export("$summary", `Successfully retrieved ${options.length} option${options.length === 1
       ? ""
       : "s"}`);

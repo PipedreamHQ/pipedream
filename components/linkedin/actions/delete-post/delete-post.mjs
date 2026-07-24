@@ -4,7 +4,7 @@ export default {
   key: "linkedin-delete-post",
   name: "Delete Post",
   description: "Removes a post from user's wall. [See the documentation](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/share-api?tabs=http#delete-shares) for more information",
-  version: "0.0.11",
+  version: "0.0.12",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

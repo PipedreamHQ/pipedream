@@ -4,7 +4,7 @@ export default {
   key: "dataforb2b-agent-search",
   name: "Agentic Search",
   description: "Use natural language to search people or companies. The AI interprets your query and applies filters automatically. [See the documentation](https://docs.dataforb2b.ai/api-reference/agent-search)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

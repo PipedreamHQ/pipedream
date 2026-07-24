@@ -31,7 +31,7 @@ export default {
     + "Do **not** use **Create Engagement** for this workflow. "
     + "For every writable note property or non-contact associations, use **Create Note** instead. "
     + "[See the documentation](https://developers.hubspot.com/docs/api/crm/objects/notes)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

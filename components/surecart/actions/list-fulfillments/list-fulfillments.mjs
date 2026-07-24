@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-fulfillments",
   name: "List Fulfillments",
   description: "Return a list of fulfillments. [See the documentation](https://developer.surecart.com/api-reference/fulfillments/list)",
-  version: "0.0.2",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -15,27 +15,21 @@ export default {
     surecart,
 
     ids: {
-      type: "string[]",
-      label: "IDs",
-      description: "Filter by specific IDs. Example: `[\"id_abc123\", \"id_def456\"]`",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "ids",
+      ],
     },
-    limit: {
-      type: "integer",
-      label: "Limit",
-      description: "Number of results to return per page (1-100). Example: `25`",
-      optional: true,
+    maxResults: {
+      propDefinition: [
+        surecart,
+        "maxResults",
+      ],
     },
     orderIds: {
       type: "string[]",
       label: "Order IDs",
-      description: "Filter by order IDs. Use **List Orders** to find order IDs. Example: `[\"ord_abc123\"]`",
-      optional: true,
-    },
-    page: {
-      type: "integer",
-      label: "Page",
-      description: "Page number for pagination. Example: `1`",
+      description: "Filter by order IDs. Use **List Orders** to find order IDs. Example: `[\"b47ca4c2-6cd2-41d5-aefb-4dc459642c56\"]`",
       optional: true,
     },
     shipmentStatus: {
@@ -46,17 +40,25 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.surecart.listFulfillments({
-      $,
-      params: {
-        "ids[]": this.ids,
-        "limit": this.limit,
-        "order_ids[]": this.orderIds,
-        "page": this.page,
-        "shipment_status[]": this.shipmentStatus,
+    const results = this.surecart.paginate({
+      fn: this.surecart.listFulfillments,
+      args: {
+        $,
+        params: {
+          "ids[]": this.ids,
+          "order_ids[]": this.orderIds,
+          "shipment_status[]": this.shipmentStatus,
+        },
       },
+      max: this.maxResults,
     });
-    $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} fulfillment(s)`);
-    return response;
+
+    const fulfillments = [];
+    for await (const fulfillment of results) {
+      fulfillments.push(fulfillment);
+    }
+
+    $.export("$summary", `Successfully retrieved ${fulfillments.length} fulfillment(s)`);
+    return fulfillments;
   },
 };

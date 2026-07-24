@@ -158,6 +158,12 @@ export default {
         ...args,
       });
     },
+    reasoningSearch(args = {}) {
+      return this._makeRequest({
+        path: "/search/reasoning",
+        ...args,
+      });
+    },
     textToFilters(args = {}) {
       return this._makeRequest({
         path: "/search/llm/filters",

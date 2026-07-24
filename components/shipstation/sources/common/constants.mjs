@@ -16,5 +16,13 @@ export default {
       label: "On Items Shipped",
       value: "ITEM_SHIP_NOTIFY",
     },
+    {
+      label: "On Fulfillment Shipped",
+      value: "FULFILLMENT_SHIPPED",
+    },
+    {
+      label: "On Fulfillment Rejected",
+      value: "FULFILLMENT_REJECTED",
+    },
   ],
 };

@@ -4,7 +4,7 @@ export default {
   key: "surecart-retrieve-line-item",
   name: "Retrieve Line Item",
   description: "Retrieve a line item by ID. [See the documentation](https://developer.surecart.com/api-reference/line-items/retrieve)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

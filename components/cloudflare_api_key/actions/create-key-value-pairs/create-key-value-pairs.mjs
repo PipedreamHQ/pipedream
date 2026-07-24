@@ -4,7 +4,7 @@ export default {
   key: "cloudflare_api_key-create-key-value-pairs",
   name: "Create Key/Value Pairs",
   description: "Create new Key/Value pairs in a Namespace. [See the documentation](https://developers.cloudflare.com/api/node/resources/kv/subresources/namespaces/methods/bulk_update/)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

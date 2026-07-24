@@ -4,7 +4,7 @@ export default {
   key: "surecart-update-checkout",
   name: "Update Checkout",
   description: "Update an existing checkout session. [See the documentation](https://developer.surecart.com/api-reference/checkouts/update)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

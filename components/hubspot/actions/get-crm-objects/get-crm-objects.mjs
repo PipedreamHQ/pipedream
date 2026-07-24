@@ -13,7 +13,7 @@ export default {
     + " Supports standard object types only."
     + " For custom objects, use **Get Custom Object** instead."
     + " [See the documentation](https://developers.hubspot.com/docs/api/crm/objects)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
