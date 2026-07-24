@@ -182,7 +182,9 @@ export default defineAction({
           endDate: this.endDate,
           approvedAfter: this.approvedAfter,
           markedAsExported: this.markedAsExported,
-          policyIDList: this.policyIds || undefined,
+          policyIDList: this.policyIds
+            ? this.policyIds.join(",")
+            : undefined,
         },
         reportState: this.reportStates
           ? this.reportStates.join(",")

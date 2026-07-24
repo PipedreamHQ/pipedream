@@ -9,10 +9,19 @@ export default defineApp({
   app: "expensify",
   propDefinitions: {
     policyExportIds: {
-      type: "string",
+      type: "string[]",
       label: "Policy IDs",
-      description: "Comma-separated policy IDs to filter by. Run **List Policies** first to obtain valid IDs.",
+      description: "The IDs of the policies to filter by. Run **List Policies** first to obtain valid IDs.",
       optional: true,
+      async options() {
+        const { policyList } = await this.listPolicies();
+        return policyList?.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        })) || [];
+      },
     },
     employeeEmail: {
       type: "string",
