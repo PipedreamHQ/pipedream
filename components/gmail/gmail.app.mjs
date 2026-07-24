@@ -361,14 +361,16 @@ export default {
           opts.inReplyTo = inReplyTo;
           opts.references = inReplyTo;
           opts.threadId = repliedMessage.threadId;
+          const header = (name) => repliedMessage.payload.headers
+            .find((h) => h.name.toLowerCase() === name)?.value;
+          const originalSender = header("reply-to") ?? header("from");
+
           if (props.replyAll) {
-            const from = repliedMessage.payload.headers.find(({ name }) => name.toLowerCase() === "from");
-            const to = repliedMessage.payload.headers.find(({ name }) => name.toLowerCase() === "to");
-            const cc = repliedMessage.payload.headers.find(({ name }) => name.toLowerCase() === "cc");
-            const bcc = repliedMessage.payload.headers.find(({ name }) => name.toLowerCase() === "bcc");
+            const cc = header("cc");
+            const bcc = header("bcc");
             opts.to = [
-              ...this.parseEmailAddresses(from.value),
-              ...this.parseEmailAddresses(to.value),
+              ...this.parseEmailAddresses(header("from") ?? ""),
+              ...this.parseEmailAddresses(header("to") ?? ""),
             ];
 
             // Filter out the current user's email address
@@ -386,11 +388,23 @@ export default {
               ...new Set(opts.to),
             ];
             if (cc) {
-              opts.cc = this.parseEmailAddresses(cc.value);
+              opts.cc = this.parseEmailAddresses(cc);
             }
             if (bcc) {
-              opts.bcc = this.parseEmailAddresses(bcc.value);
+              opts.bcc = this.parseEmailAddresses(bcc);
             }
+            // Replying to a thread the user is the only participant in (a note to
+            // self) filters the recipient list down to nothing. Fall back to the
+            // original sender rather than sending with no recipient.
+            if (!opts.to.length && originalSender) {
+              opts.to = this.parseEmailAddresses(originalSender);
+            }
+          } else if (!opts.to?.length && originalSender) {
+            // Plain reply with no explicit `to`: address the original sender, which
+            // is what the tool descriptions promise. Without this the message is
+            // built with no recipient and the API rejects it with
+            // "Recipient address required" (HTTP 400).
+            opts.to = this.parseEmailAddresses(originalSender);
           }
         } catch (err) {
           const status = err?.status ?? err?.code ?? err?.response?.status;

@@ -7,6 +7,10 @@ export default {
   description:
     "Add and/or remove labels on one or more Gmail messages in a single call."
     + " In Gmail, most inbox-state operations are label mutations under the hood, so this one tool covers archive / trash / untrash / star / unstar / mark-read / mark-unread / apply-label / remove-label."
+    + "\n\n**Use this whenever the user asks you to star, unstar, flag, archive, file, sort, label, tag, categorise, move, trash, delete, restore, or mark mail as read or unread** — there is no separate tool for any of those. Pair it with **Find Emails** to turn a description of the mail (\"the invoice from billing\", \"everything from last week\") into the `messageIds` this tool needs."
+    + " Apply it even when some messages already carry the target state: the operation is idempotent, and the user asked for an outcome, not a diff."
+    + "\n\n**Do NOT use this to set up filters, rules, or any automation that applies to mail that has not arrived yet.** This tool labels messages that already exist, one batch at a time. Gmail filters, auto-forwarding, and the vacation responder are settings-level features with no action in this set — if the user asks to \"automatically label incoming mail\", \"skip the inbox from now on\", or \"set up a rule\", say so outright rather than gathering criteria you cannot act on, and point them at Gmail's own settings."
+    + "\n\n⚠️ **Trashing is destructive — confirm before you do it.** Adding `TRASH` removes mail from the mailbox, and nothing in this tool set can permanently delete or restore in bulk beyond untrashing. When the request would trash mail the user did not enumerate individually (\"trash everything from X\", \"clear out this label\", \"delete the old ones\"), first say how many messages match and what they are, and get explicit confirmation. Every other operation here is safely reversible and needs no confirmation."
     + "\n\nCommon recipes (pass these in `addLabels` / `removeLabels`):"
     + "\n- **Archive** → `removeLabels: [\"INBOX\"]`"
     + "\n- **Move to trash** → `addLabels: [\"TRASH\"]`"
@@ -20,7 +24,7 @@ export default {
     + "\n\n`addLabels` and `removeLabels` accept either raw label IDs (system labels like `INBOX`, `STARRED`, `UNREAD`, `TRASH`) or user-visible label names — names are resolved via **List Labels** before the API call."
     + " Use **Create Label** first if you need to apply a brand-new label that doesn't yet exist."
     + " [See the documentation](https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.messages/batchModify).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
