@@ -18929,6 +18929,9 @@ importers:
       querystring:
         specifier: ^0.2.1
         version: 0.2.1
+      undici:
+        specifier: ^6.22.0
+        version: 6.22.0
       uuid:
         specifier: ^11.1.0
         version: 11.1.0
