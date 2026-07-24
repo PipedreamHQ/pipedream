@@ -1,25 +1,18 @@
+// x-pd-ai: optimized
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import qs from "qs";
+import { REPORT_STATES } from "../common/constants";
 
 export default defineApp({
   type: "app",
   app: "expensify",
   propDefinitions: {
     policyExportIds: {
-      type: "string[]",
+      type: "string",
       label: "Policy IDs",
-      description: "The IDs of the policies to export",
+      description: "Comma-separated policy IDs to filter by. Run **List Policies** first to obtain valid IDs.",
       optional: true,
-      async options() {
-        const { policyList } = await this.listPolicies();
-        return policyList?.map(({
-          id, name,
-        }) => ({
-          label: name,
-          value: id,
-        })) || [];
-      },
     },
     employeeEmail: {
       type: "string",
@@ -29,18 +22,27 @@ export default defineApp({
     policyId: {
       type: "string",
       label: "Policy ID",
-      description: "Select the policy where the report will be created",
-      async options({ userEmail }) {
-        const { policyList } = await this.getPolicyList({
-          userEmail,
-        });
-        return policyList?.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
-        })) || [];
-      },
+      description: "The ID of the policy. Run **List Policies** first to obtain valid IDs.",
+      optional: true,
+    },
+    reportState: {
+      type: "string",
+      label: "Report State",
+      description: "Filter by report state. Valid values: OPEN, SUBMITTED, APPROVED, REIMBURSED, ARCHIVED.",
+      options: REPORT_STATES,
+      optional: true,
+    },
+    startDate: {
+      type: "string",
+      label: "Start Date",
+      description: "Filter to reports on or after this date, formatted yyyy-mm-dd (e.g. `2026-01-01`).",
+      optional: true,
+    },
+    endDate: {
+      type: "string",
+      label: "End Date",
+      description: "Filter to reports on or before this date, formatted yyyy-mm-dd (e.g. `2026-07-24`). Required by the API when the date range exceeds one year.",
+      optional: true,
     },
   },
   methods: {
@@ -189,6 +191,50 @@ export default defineApp({
           fileSystem: "integrationServer",
         },
         responseType: "arraybuffer",
+      }, $);
+    },
+    async exportData({
+      $, template, inputSettings,
+    }) {
+      return this._makeRequest({
+        method: "post",
+        data: {
+          type: "file",
+          onReceive: {
+            immediateResponse: [
+              "returnRandomFileName",
+            ],
+          },
+          inputSettings: {
+            type: "combinedReportData",
+            ...inputSettings,
+          },
+          outputSettings: {
+            fileExtension: "json",
+            fileSystem: "integrationServer",
+          },
+        },
+        extraFormUrlencodedData: {
+          template,
+        },
+      }, $);
+    },
+    async updateReportStatus({
+      $, reportIDList, status, paymentSource,
+    }) {
+      return this._makeRequest({
+        method: "post",
+        data: {
+          type: "update",
+          inputSettings: {
+            type: "reportStatus",
+            filters: {
+              reportIDList,
+            },
+            status,
+            paymentSource,
+          },
+        },
       }, $);
     },
   },
