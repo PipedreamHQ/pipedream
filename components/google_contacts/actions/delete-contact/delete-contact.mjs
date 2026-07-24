@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import common from "../common/base.mjs";
 
 export default {
@@ -5,11 +6,11 @@ export default {
   key: "google_contacts-delete-contact",
   name: "Delete Contact",
   description: "Deletes a contact. [See the documentation](https://developers.google.com/people/api/rest/v1/people/deleteContact)",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
-    destructiveHint: true,
-    openWorldHint: true,
-    readOnlyHint: false,
+    "destructiveHint": true,
+    "openWorldHint": true,
+    "readOnlyHint": false,
   },
   type: "action",
   props: {

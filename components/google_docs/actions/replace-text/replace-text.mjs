@@ -4,7 +4,7 @@ export default {
   key: "google_docs-replace-text",
   name: "Replace Text",
   description: "Find and replace all occurrences of a string in a Google Doc. Use **Find Document** to resolve a document's name to its ID. Returns the number of replacements made. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#ReplaceAllTextRequest)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

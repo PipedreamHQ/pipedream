@@ -1,4 +1,5 @@
 import common from "../common/common.mjs";
+import { MAX_INITIAL_EVENTS } from "../../common/constants.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
@@ -6,7 +7,7 @@ export default {
   key: "hubspot-new-form-submission",
   name: "New Form Submission",
   description: "Emit new event for each new submission of a form.",
-  version: "0.0.49",
+  version: "0.0.50",
   dedupe: "unique",
   type: "source",
   props: {
@@ -24,6 +25,7 @@ export default {
     async paginate(params, resourceFn, resultType = null, after = null) {
       let results = null;
       let maxTs = after || 0;
+      let initialEmitted = 0;
       while (!results || params.after) {
         results = await resourceFn(params);
         if (results.paging) {
@@ -56,9 +58,18 @@ export default {
               maxTs = ts;
               this._setAfter(ts);
             }
+            // Initial (deploy) run: emit only a small capped sample per form.
+            if (!after && ++initialEmitted >= MAX_INITIAL_EVENTS) {
+              return;
+            }
           } else {
             return;
           }
+        }
+
+        // first run, get only the first page
+        if (!after) {
+          return;
         }
       }
     },
