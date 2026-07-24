@@ -1,5 +1,5 @@
 import shopify from "../../shopify_developer_app.app.mjs";
-import common from "@pipedream/shopify/actions/create-product/create-product.mjs";
+import common from "@pipedream/shopify/actions/list-discount-codes/list-discount-codes.mjs";
 
 import { adjustPropDefinitions } from "../../common/utils.mjs";
 
@@ -10,8 +10,8 @@ const props = adjustPropDefinitions(others.props, shopify);
 
 export default {
   ...others,
-  key: "shopify_developer_app-create-product",
-  version: "0.0.17",
+  key: "shopify_developer_app-list-discount-codes",
+  version: "0.0.1",
   name,
   description,
   type,
