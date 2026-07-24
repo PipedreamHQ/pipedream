@@ -4,7 +4,7 @@ import expensify from "../../app/expensify.app";
 
 export default defineAction({
   key: "expensify-create-expense",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,7 +5,7 @@ import fs from "fs";
 
 export default defineAction({
   key: "expensify-export-report-to-pdf",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
