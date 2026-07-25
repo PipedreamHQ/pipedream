@@ -967,10 +967,15 @@ export default {
     assistantSearch(args = {}) {
       args.count ||= constants.LIMIT;
       // Uses apiCall directly since assistant.search.context is not exposed as
-      // a method on WebClient
-      return this.sdk().apiCall("assistant.search.context", {
+      // a method on WebClient — but it must STILL go through _withRetries. Calling
+      // apiCall bare was the one path in this app that skipped the retry wrapper, and
+      // the client is built with `rejectRateLimitedCalls: true`, so a 429 rejected
+      // instantly instead of backing off. assistant.search.context rate-limits readily
+      // (Slack returns retryAfter: 60), which surfaced to agents as a hard tool error
+      // on 8 of 12 search calls in one eval run.
+      return this._withRetries(() => this.sdk().apiCall("assistant.search.context", {
         ...args,
-      });
+      }));
     },
     /**
      * Lists reactions made by a user.
@@ -1204,6 +1209,39 @@ export default {
      * @param {string} input - Channel ID or channel name
      * @returns {Promise<string>} The resolved channel ID
      */
+    /**
+     * Accept a user ID, an email, or a display/real name and return the user ID.
+     * Agents naturally pass whatever identifier the user said — an email in
+     * "invite dylan@pipedream.com" — and the raw API answers `user_not_found`,
+     * which reads as a broken tool rather than a wrong-shaped argument.
+     */
+    async resolveUserId(input) {
+      if (/^[UW][A-Z0-9]{6,}$/i.test(input)) return input;
+      if (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(input)) {
+        const { user } = await this.makeRequest({
+          method: "users.lookupByEmail",
+          email: input,
+        });
+        return user.id;
+      }
+      const name = input.replace(/^@/, "").toLowerCase();
+      let cursor;
+      do {
+        const { members, response_metadata: metadata } = await this.makeRequest({
+          method: "users.list",
+          limit: 200,
+          cursor,
+        });
+        const match = members.find((m) => [
+          m.name,
+          m.real_name,
+          m.profile?.display_name,
+        ].filter(Boolean).some((n) => String(n).toLowerCase() === name));
+        if (match) return match.id;
+        cursor = metadata?.next_cursor;
+      } while (cursor);
+      throw new ConfigurationError(`User "${input}" not found. Provide a user ID, an email address, or an exact display name.`);
+    },
     async resolveChannelId(input) {
       if (/^[CDGU][A-Z0-9]{8,}$/i.test(input)) return input;
       const name = input.replace(/^#/, "").toLowerCase();
