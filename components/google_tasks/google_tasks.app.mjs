@@ -73,6 +73,12 @@ export default {
       description: "Due date of the task (as a [RFC 3339](https://en.wikipedia.org/wiki/ISO_8601) timestamp). Optional. The due date only records date information; the time portion of the timestamp is discarded when setting the due date. It isn't possible to read or write the time that a task is due via the API.",
       optional: true,
     },
+    keyword: {
+      type: "string",
+      label: "Keyword",
+      description: "Searches task titles and notes for the specified keyword.",
+      optional: true,
+    },
     alert: {
       type: "alert",
       alertType: "info",
@@ -146,11 +152,12 @@ export default {
         method: "DELETE",
       }));
     },
-    async insertTask(ctx = this, taskListId, data) {
+    async insertTask(ctx = this, taskListId, data, params = {}) {
       return axios(ctx, this._getRequestParams({
         path: `/lists/${taskListId}/tasks`,
         method: "POST",
         data,
+        params,
       }));
     },
     async getTasks(ctx = this, params, taskListId) {
@@ -171,6 +178,13 @@ export default {
       return axios(ctx, this._getRequestParams({
         path: `/lists/${taskListId}/tasks/${taskId}`,
         method: "DELETE",
+      }));
+    },
+    async moveTask(ctx = this, taskListId, taskId, params = {}) {
+      return axios(ctx, this._getRequestParams({
+        path: `/lists/${taskListId}/tasks/${taskId}/move`,
+        method: "POST",
+        params,
       }));
     },
   },
