@@ -74,7 +74,7 @@ export default {
       type: "string",
       label: "Due",
       description:
-        "Due date of the task (as a [RFC 3339](https://en.wikipedia.org/wiki/ISO_8601) timestamp). Optional. The due date only records date information; the time portion of the timestamp is discarded when setting the due date. It isn't possible to read or write the time that a task is due via the API.",
+        "Due date of the task (as a [RFC 3339](https://en.wikipedia.org/wiki/ISO_8601) timestamp, for example `2026-07-26T00:00:00Z`). Optional. The due date only records date information; the time portion of the timestamp is discarded when setting the due date. It isn't possible to read or write the time that a task is due via the API.",
       optional: true,
     },
     keyword: {
