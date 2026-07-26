@@ -5,7 +5,7 @@ export default {
   key: "google_tasks-complete-task",
   name: "Complete Task",
   description:
-    "Marks a task as completed. [See the docs here](https://developers.google.com/workspace/tasks/reference/rest/v1/tasks/update)",
+    "Marks an existing task as completed by setting its status to `completed`. Use this action when you want to complete a task without changing its title, notes, due date, or other properties. To modify those fields, use the Update Task action instead. [See the docs here](https://developers.google.com/workspace/tasks/reference/rest/v1/tasks/patch)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -32,17 +32,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = {
-      id: this.taskId,
+    const res = await this.app.patchTask($, this.taskListId, this.taskId, {
       status: "completed",
-    };
-
-    const res = await this.app.updateTask(
-      $,
-      this.taskListId,
-      this.taskId,
-      data,
-    );
+    });
 
     $.export("$summary", "Task successfully completed");
 

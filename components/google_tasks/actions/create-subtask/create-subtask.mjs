@@ -5,7 +5,7 @@ export default {
   key: "google_tasks-create-subtask",
   name: "Create Subtask",
   description:
-    "Creates a subtask under an existing task. [See the docs here](https://developers.google.com/workspace/tasks/reference/rest/v1/tasks/insert)",
+    "Creates a new subtask under an existing parent task. Use this action when you want to organize related work into a task hierarchy while keeping the parent task unchanged. To create a top-level task instead, use the Create Task action. [See the docs here](https://developers.google.com/workspace/tasks/reference/rest/v1/tasks/insert)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -83,12 +83,7 @@ export default {
       params.previous = this.previous;
     }
 
-    const res = await this.app.insertTask(
-      $,
-      this.taskListId,
-      data,
-      params,
-    );
+    const res = await this.app.insertTask($, this.taskListId, data, params);
 
     $.export("$summary", "Subtask successfully created");
 

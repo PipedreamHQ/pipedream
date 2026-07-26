@@ -5,7 +5,7 @@ export default {
   key: "google_tasks-move-task",
   name: "Move Task",
   description:
-    "Moves a task to another position, parent task, or task list. [See the docs here](https://developers.google.com/workspace/tasks/reference/rest/v1/tasks/move)",
+    "Moves an existing task to a different position, parent task, or task list. Use this action to reorganize your task hierarchy or reorder tasks without modifying the task's title, notes, due date, or completion status. To update those properties, use the Update Task action instead. [See the docs here](https://developers.google.com/workspace/tasks/reference/rest/v1/tasks/move)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -70,12 +70,6 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.destinationTasklist && !this.parent && !this.previous) {
-      throw new Error(
-        "Specify at least one of Destination Task List, Parent Task, or Place After Task.",
-      );
-    }
-
     const params = {};
 
     if (this.destinationTasklist) {

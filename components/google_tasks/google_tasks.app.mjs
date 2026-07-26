@@ -45,12 +45,15 @@ export default {
       label: "Task",
       description: "The ID of the task.",
       async options({
-        prevContext,
-        taskListId,
+        prevContext, taskListId,
       }) {
-        const res = await this.getTasks(this, {
-          pageToken: prevContext.nextPageToken,
-        }, taskListId);
+        const res = await this.getTasks(
+          this,
+          {
+            pageToken: prevContext.nextPageToken,
+          },
+          taskListId,
+        );
         return {
           context: {
             nextPageToken: res.nextPageToken,
@@ -70,7 +73,8 @@ export default {
     due: {
       type: "string",
       label: "Due",
-      description: "Due date of the task (as a [RFC 3339](https://en.wikipedia.org/wiki/ISO_8601) timestamp). Optional. The due date only records date information; the time portion of the timestamp is discarded when setting the due date. It isn't possible to read or write the time that a task is due via the API.",
+      description:
+        "Due date of the task (as a [RFC 3339](https://en.wikipedia.org/wiki/ISO_8601) timestamp). Optional. The due date only records date information; the time portion of the timestamp is discarded when setting the due date. It isn't possible to read or write the time that a task is due via the API.",
       optional: true,
     },
     keyword: {
@@ -82,7 +86,8 @@ export default {
     alert: {
       type: "alert",
       alertType: "info",
-      content: "Please note that this component is not able to use tasks created from Google Docs, as this is a limitation with the Google Task APIs. For more information, please visit [Google's Issue Tracker](https://issuetracker.google.com/issues/244387279).",
+      content:
+        "Please note that this component is not able to use tasks created from Google Docs, as this is a limitation with the Google Task APIs. For more information, please visit [Google's Issue Tracker](https://issuetracker.google.com/issues/244387279).",
     },
   },
   methods: {
@@ -111,11 +116,15 @@ export default {
       const TOTAL_MAX_RESULTS = Math.min(params.maxResults, 1000);
       const ITEMS_PER_PAGE = Math.min(params.maxResults, 50);
       do {
-        const pageResult = await fn(this, {
-          ...params,
-          maxResults: ITEMS_PER_PAGE,
-          pageToken: nextPageToken,
-        }, ...rest);
+        const pageResult = await fn(
+          this,
+          {
+            ...params,
+            maxResults: ITEMS_PER_PAGE,
+            pageToken: nextPageToken,
+          },
+          ...rest,
+        );
         nextPageToken = pageResult.nextPageToken;
         data.push(...pageResult.items);
         if (data.length >= TOTAL_MAX_RESULTS) {
@@ -126,66 +135,103 @@ export default {
       return data;
     },
     async getTaskLists(ctx = this, params = {}) {
-      return axios(ctx, this._getRequestParams({
-        path: "/users/@me/lists",
-        method: "GET",
-        params,
-      }));
+      return axios(
+        ctx,
+        this._getRequestParams({
+          path: "/users/@me/lists",
+          method: "GET",
+          params,
+        }),
+      );
     },
     async insertTaskList(ctx = this, data) {
-      return axios(ctx, this._getRequestParams({
-        path: "/users/@me/lists",
-        method: "POST",
-        data,
-      }));
+      return axios(
+        ctx,
+        this._getRequestParams({
+          path: "/users/@me/lists",
+          method: "POST",
+          data,
+        }),
+      );
     },
     async updateTaskList(ctx = this, data) {
-      return axios(ctx, this._getRequestParams({
-        path: `/users/@me/lists/${data.id}`,
-        method: "PUT",
-        data,
-      }));
+      return axios(
+        ctx,
+        this._getRequestParams({
+          path: `/users/@me/lists/${data.id}`,
+          method: "PUT",
+          data,
+        }),
+      );
     },
     async deleteTaskList(ctx = this, id) {
-      return axios(ctx, this._getRequestParams({
-        path: `/users/@me/lists/${id}`,
-        method: "DELETE",
-      }));
+      return axios(
+        ctx,
+        this._getRequestParams({
+          path: `/users/@me/lists/${id}`,
+          method: "DELETE",
+        }),
+      );
     },
     async insertTask(ctx = this, taskListId, data, params = {}) {
-      return axios(ctx, this._getRequestParams({
-        path: `/lists/${taskListId}/tasks`,
-        method: "POST",
-        data,
-        params,
-      }));
+      return axios(
+        ctx,
+        this._getRequestParams({
+          path: `/lists/${taskListId}/tasks`,
+          method: "POST",
+          data,
+          params,
+        }),
+      );
     },
     async getTasks(ctx = this, params, taskListId) {
-      return axios(ctx, this._getRequestParams({
-        path: `/lists/${taskListId}/tasks`,
-        method: "GET",
-        params,
-      }));
+      return axios(
+        ctx,
+        this._getRequestParams({
+          path: `/lists/${taskListId}/tasks`,
+          method: "GET",
+          params,
+        }),
+      );
     },
     async updateTask(ctx = this, taskListId, taskId, data) {
-      return axios(ctx, this._getRequestParams({
-        path: `/lists/${taskListId}/tasks/${taskId}`,
-        method: "PUT",
-        data,
-      }));
+      return axios(
+        ctx,
+        this._getRequestParams({
+          path: `/lists/${taskListId}/tasks/${taskId}`,
+          method: "PUT",
+          data,
+        }),
+      );
+    },
+    async patchTask(ctx = this, taskListId, taskId, data) {
+      return axios(
+        ctx,
+        this._getRequestParams({
+          path: `/lists/${taskListId}/tasks/${taskId}`,
+          method: "PATCH",
+          data,
+        }),
+      );
     },
     async deleteTask(ctx = this, taskListId, taskId) {
-      return axios(ctx, this._getRequestParams({
-        path: `/lists/${taskListId}/tasks/${taskId}`,
-        method: "DELETE",
-      }));
+      return axios(
+        ctx,
+        this._getRequestParams({
+          path: `/lists/${taskListId}/tasks/${taskId}`,
+          method: "DELETE",
+        }),
+      );
     },
     async moveTask(ctx = this, taskListId, taskId, params = {}) {
-      return axios(ctx, this._getRequestParams({
-        path: `/lists/${taskListId}/tasks/${taskId}/move`,
-        method: "POST",
-        params,
-      }));
+      return axios(
+        ctx,
+        this._getRequestParams({
+          path: `/lists/${taskListId}/tasks/${taskId}/move`,
+          method: "POST",
+          params,
+        }),
+      );
     },
   },
 };
