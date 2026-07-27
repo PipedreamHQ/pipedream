@@ -49,15 +49,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.calendly._makeRequest({
-      path: "/organization_memberships",
-      params: {
-        organization: this.organization,
-        email: this.email,
-        role: this.role,
-        paginate: this.paginate,
-        maxResults: this.maxResults,
-      },
+    const response = await this.calendly.listOrganizationMembers({
+      organization: this.organization,
+      email: this.email,
+      role: this.role,
+      paginate: this.paginate,
+      maxResults: this.maxResults,
     }, $);
 
     $.export("$summary", `Found ${response.pagination.count} organization membership(s)`);

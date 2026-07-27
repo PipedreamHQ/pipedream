@@ -52,14 +52,11 @@ export default {
         ? await this.calendly.defaultUser($)
         : undefined);
 
-    const response = await this.calendly._makeRequest({
-      path: "/event_types",
-      params: {
-        organization: this.organization,
-        user: userUri,
-        paginate: this.paginate,
-        maxResults: this.maxResults,
-      },
+    const response = await this.calendly.listEventTypes({
+      organization: this.organization,
+      user: userUri,
+      paginate: this.paginate,
+      maxResults: this.maxResults,
     }, $);
 
     // The Calendly API returns `uri` but not a top-level `uuid` field.

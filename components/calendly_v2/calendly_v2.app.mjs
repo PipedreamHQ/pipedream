@@ -239,15 +239,9 @@ export default {
         params,
       };
 
-      return axios(
-        $ ?? this,
-        this._makeRequestOpts(opts),
-      );
+      return this._makeRequest(opts, $);
     },
-    async listEvents(params, uuid, $) {
-      if (uuid) {
-        params.user = this._buildUserUri(uuid);
-      }
+    async listEvents(params, $) {
       if (params.group) {
         params.group = this._buildGroupUri(params.group);
       }
@@ -309,10 +303,7 @@ export default {
     async listEventTypes(params, $) {
       const opts = {
         path: "/event_types",
-        params: {
-          user: await this.defaultUser($),
-          ...params,
-        },
+        params,
       };
 
       return this._makeRequest(opts, $);

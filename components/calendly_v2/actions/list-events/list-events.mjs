@@ -105,9 +105,10 @@ export default {
       max_start_time: this.maxStartTime,
       organization,
       group,
+      user,
     };
 
-    const response = await this.calendly.listEvents(params, user, $);
+    const response = await this.calendly.listEvents(params, $);
     $.export("$summary", `Found ${response.pagination.count} event(s)`);
     return response;
   },
