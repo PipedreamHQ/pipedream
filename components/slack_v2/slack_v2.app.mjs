@@ -1227,7 +1227,9 @@ export default {
       const name = input.replace(/^@/, "").toLowerCase();
       let cursor;
       do {
-        const { members, response_metadata: metadata } = await this.makeRequest({
+        const {
+          members, response_metadata: metadata,
+        } = await this.makeRequest({
           method: "users.list",
           limit: 200,
           cursor,

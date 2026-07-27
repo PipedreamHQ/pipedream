@@ -72,7 +72,9 @@ export default {
     const requested = Array.isArray(this.fields)
       ? this.fields
       : (typeof this.fields === "string" && this.fields.length
-        ? this.fields.split(",").map((f) => f.trim()).filter(Boolean)
+        ? this.fields.split(",")
+          .map((f) => f.trim())
+          .filter(Boolean)
         : null);
 
     $.export("$summary", `Retrieved ${replyCount} repl${replyCount === 1

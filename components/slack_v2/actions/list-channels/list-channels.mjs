@@ -114,7 +114,9 @@ export default {
     const fields = Array.isArray(this.fields)
       ? this.fields
       : (typeof this.fields === "string" && this.fields.length
-        ? this.fields.split(",").map((f) => f.trim()).filter(Boolean)
+        ? this.fields.split(",")
+          .map((f) => f.trim())
+          .filter(Boolean)
         : null);
     const channels = fields?.length
       ? allChannels.map((c) => this.pickFields(c, fields))
@@ -134,7 +136,11 @@ export default {
     return {
       channels,
       has_more: hasMore,
-      ...(hasMore ? { next_cursor: nextCursor } : {}),
+      ...(hasMore
+        ? {
+          next_cursor: nextCursor,
+        }
+        : {}),
     };
   },
 };
