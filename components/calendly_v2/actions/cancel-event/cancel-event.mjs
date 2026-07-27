@@ -6,7 +6,7 @@ export default {
   key: "calendly_v2-cancel-event",
   name: "Cancel Event",
   description: "Cancel a scheduled Calendly event. Posts to `POST /scheduled_events/{uuid}/cancellation`. Run **List Events** first to obtain the event UUID. [See the documentation](https://developer.calendly.com/api-docs/afb2e9fe3a0a0-cancel-event).",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

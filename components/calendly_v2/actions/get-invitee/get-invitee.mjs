@@ -5,7 +5,7 @@ export default {
   key: "calendly_v2-get-invitee",
   name: "Get Event Invitee",
   description: "Retrieve the full invitee resource (including `email`, `name`, `status`, `reschedule_url`, and `no_show`) via `GET /scheduled_events/{event_uuid}/invitees/{invitee_uuid}`. Use the returned `reschedule_url` to direct an invitee to self-reschedule. Run **List Events** to find event UUIDs. [See the documentation](https://developer.calendly.com/api-docs/8305c0ccfac70-get-event-invitee).",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
