@@ -3,7 +3,7 @@ import app from "../../mode.app.mjs";
 export default {
   key: "mode-create-query",
   name: "Create Query",
-  description: "Create a new query in a report. Sent as `{ query: { data_source_id, raw_query, name } }`. `data_source_id` is the integer id (NOT the token) - use **List Data Sources** to find it. Use **List Reports** to find the report token. [See the documentation](https://mode.com/developer/api-reference/analytics/queries/#createQueryInReport)",
+  description: "Create a new query in a report. [See the documentation](https://mode.com/developer/api-reference/analytics/queries/#createQueryInReport)",
   version: "0.0.1",
   type: "action",
   annotations: {

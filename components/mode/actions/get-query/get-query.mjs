@@ -3,7 +3,7 @@ import app from "../../mode.app.mjs";
 export default {
   key: "mode-get-query",
   name: "Get Query",
-  description: "Retrieve a single query within a report by its token. Use **List Queries** to find the query token. [See the documentation](https://mode.com/developer/api-reference/analytics/queries/#getQueryInReport)",
+  description: "Retrieve a single query within a report. [See the documentation](https://mode.com/developer/api-reference/analytics/queries/#getQueryInReport)",
   version: "0.0.1",
   type: "action",
   annotations: {

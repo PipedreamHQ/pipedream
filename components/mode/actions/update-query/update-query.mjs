@@ -4,7 +4,7 @@ import app from "../../mode.app.mjs";
 export default {
   key: "mode-update-query",
   name: "Update Query",
-  description: "Update an existing query in a report. Sent as `{ query: { data_source_id, raw_query, name } }`. `data_source_id` is the integer id (NOT the token) - use **List Data Sources** to find it. Use **List Queries** to find the query token. [See the documentation](https://mode.com/developer/api-reference/analytics/queries/#updateQueryInReport)",
+  description: "Update an existing query in a report. [See the documentation](https://mode.com/developer/api-reference/analytics/queries/#updateQueryInReport)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -31,7 +31,6 @@ export default {
         app,
         "dataSourceId",
       ],
-      description: "The integer id of the data source (the `id` field, NOT the token). Run the **List Data Sources** action to find available data source ids.",
       optional: true,
     },
     rawQuery: {
@@ -48,8 +47,7 @@ export default {
     },
   },
   async run({ $ }) {
-    if (this.dataSourceId === undefined && this.rawQuery === undefined
-      && this.name === undefined) {
+    if (!this.dataSourceId && !this.rawQuery && !this.name) {
       throw new ConfigurationError(
         "Provide at least one of Data Source ID, Raw Query, or Name to update.",
       );

@@ -3,7 +3,7 @@ import app from "../../mode.app.mjs";
 export default {
   key: "mode-get-data-source",
   name: "Get Data Source",
-  description: "Retrieve a single data source by its token. The URL parameter is the data source token string (not the integer id). Use **List Data Sources** to find both the token and the integer id. [See the documentation](https://mode.com/developer/api-reference/management/data-sources/#getDataSource)",
+  description: "Retrieve a single data source by its token. [See the documentation](https://mode.com/developer/api-reference/management/data-sources/#getDataSource)",
   version: "0.0.1",
   type: "action",
   annotations: {

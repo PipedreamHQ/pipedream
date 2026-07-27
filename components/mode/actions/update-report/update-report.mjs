@@ -4,7 +4,7 @@ import app from "../../mode.app.mjs";
 export default {
   key: "mode-update-report",
   name: "Update Report",
-  description: "Update a report's name, description, or move it to a different space. Sent to the API as `{ report: { name, description, space_token } }`. Use **List Reports** to find the report token and **List Spaces** to find a destination space token. [See the documentation](https://mode.com/developer/api-reference/analytics/reports/#updateReport)",
+  description: "Update a report's name, description, or move it to a different space. [See the documentation](https://mode.com/developer/api-reference/analytics/reports/#updateReport)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -42,8 +42,7 @@ export default {
     },
   },
   async run({ $ }) {
-    if (this.name === undefined && this.description === undefined
-      && this.spaceToken === undefined) {
+    if (!this.name && !this.description && !this.spaceToken) {
       throw new ConfigurationError(
         "Provide at least one of Name, Description, or Space Token to update.",
       );

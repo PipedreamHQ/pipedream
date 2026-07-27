@@ -3,7 +3,7 @@ import app from "../../mode.app.mjs";
 export default {
   key: "mode-list-reports",
   name: "List Reports",
-  description: "List the reports belonging to a specific space. The Mode API has no top-level list-all-reports endpoint, so a `space_token` is required. Use **List Spaces** to resolve a space token first. Use this tool to find `report_token` values for other report and query actions. [See the documentation](https://mode.com/developer/api-reference/analytics/reports/#listReportsInSpace)",
+  description: "List the reports belonging to a specific space. [See the documentation](https://mode.com/developer/api-reference/analytics/reports/#listReportsInSpace)",
   version: "0.0.1",
   type: "action",
   annotations: {

@@ -3,7 +3,7 @@ import app from "../../mode.app.mjs";
 export default {
   key: "mode-list-report-runs",
   name: "List Report Runs",
-  description: "List the runs for a given report. Use **List Reports** to find the report token. [See the documentation](https://mode.com/developer/api-reference/analytics/report-runs/#listReportRuns)",
+  description: "List the runs for a given report. [See the documentation](https://mode.com/developer/api-reference/analytics/report-runs/#listReportRuns)",
   version: "0.0.1",
   type: "action",
   annotations: {

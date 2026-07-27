@@ -3,7 +3,7 @@ import app from "../../mode.app.mjs";
 export default {
   key: "mode-delete-query",
   name: "Delete Query",
-  description: "Permanently delete a query from a report. This is irreversible. Use **List Queries** to find the query token. [See the documentation](https://mode.com/developer/api-reference/analytics/queries/#deleteQueryInReport)",
+  description: "Permanently delete a query from a report. [See the documentation](https://mode.com/developer/api-reference/analytics/queries/#deleteQueryInReport)",
   version: "0.0.1",
   type: "action",
   annotations: {

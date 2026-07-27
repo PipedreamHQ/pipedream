@@ -7,7 +7,7 @@ import {
 export default {
   key: "mode-list-spaces",
   name: "List Spaces",
-  description: "List the spaces (called Collections in the Mode UI) visible to the authenticated user. This is the canonical lookup tool to resolve a `space_token` before passing it to other actions such as **List Reports**. [See the documentation](https://mode.com/developer/api-reference/management/collections/#listCollections)",
+  description: "List the spaces (called Collections in the Mode UI) visible to the authenticated user. [See the documentation](https://mode.com/developer/api-reference/management/collections/#listCollections)",
   version: "0.0.1",
   type: "action",
   annotations: {
