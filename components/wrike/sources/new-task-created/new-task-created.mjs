@@ -38,7 +38,7 @@ export default {
     async deploy() {
       console.log("Retrieving historical events...");
       const tasks = await this.wrike.listTasks({
-        folderId: this.folder,
+        folderId: this.folderId,
         spaceId: this.spaceId,
         params: {
           sortOrder: "desc",

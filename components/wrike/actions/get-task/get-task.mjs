@@ -17,7 +17,7 @@ export default {
     taskId: {
       type: "string[]",
       label: "Task IDs",
-      description: "The IDs of the tasks to retrieve, e.g. `IEAASDF3KQAAAAAA`. Run the **Find Tasks** action to look up task IDs within a folder. Provide multiple IDs as separate values to fetch several tasks at once.",
+      description: "The IDs of the tasks to retrieve, e.g. `IEAASDF3KQAAAAAA`. Run the **Find Tasks** action to look up task IDs within a folder. Provide multiple IDs as separate values to fetch several tasks at once. Limit: 1000 tasks per request.",
     },
   },
   async run({ $ }) {

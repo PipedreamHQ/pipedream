@@ -32,6 +32,11 @@ export default {
       $,
       spaceId: this.spaceId,
       folderId: this.folderId,
+      params: !this.folderId
+        ? {
+          deleted: false,
+        }
+        : undefined,
     });
     $.export("$summary", `Successfully retrieved ${folders.length} folder${folders.length === 1
       ? ""
