@@ -16,9 +16,10 @@ export default {
   props: {
     calendly,
     organization: {
-      type: "string",
-      label: "Organization URI",
-      description: "Organization URI to filter memberships by (e.g. `https://api.calendly.com/organizations/AAAAAAAAAAAAAAAA`). Defaults to the authenticated user's organization when omitted.",
+      propDefinition: [
+        calendly,
+        "organization",
+      ],
       optional: true,
     },
     email: {

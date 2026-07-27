@@ -1,4 +1,5 @@
 // x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import calendly from "../../calendly_v2.app.mjs";
 
 export default {
@@ -15,15 +16,17 @@ export default {
   props: {
     calendly,
     organization: {
-      type: "string",
-      label: "Organization URI",
-      description: "Organization URI to filter event types by (e.g. `https://api.calendly.com/organizations/AAAAAAAAAAAAAAAA`). Run **List Organization Memberships** to find valid organization URIs. Provide either this or User.",
+      propDefinition: [
+        calendly,
+        "organization",
+      ],
       optional: true,
     },
     user: {
-      type: "string",
-      label: "User URI",
-      description: "User URI to filter event types by (e.g. `https://api.calendly.com/users/AAAAAAAAAAAAAAAA`). Run **List Organization Memberships** to find valid user URIs. Provide either this or Organization; defaults to the authenticated user when both are omitted.",
+      propDefinition: [
+        calendly,
+        "user",
+      ],
       optional: true,
     },
     paginate: {
@@ -40,6 +43,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.organization && this.user) {
+      throw new ConfigurationError("Provide either Organization or User, not both.");
+    }
+
     const userUri = this.user ||
       (!this.organization
         ? await this.calendly.defaultUser($)

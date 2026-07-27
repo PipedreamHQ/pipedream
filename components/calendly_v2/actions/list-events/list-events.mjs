@@ -5,7 +5,7 @@ import calendly from "../../calendly_v2.app.mjs";
 export default {
   key: "calendly_v2-list-events",
   name: "List Events",
-  description: "List events for an user. [See the documentation](https://calendly.stoplight.io/docs/api-docs/b3A6NTkxNDEy-list-events)",
+  description: "List scheduled Calendly events. Scope the results by providing at most one of Organization URI, User URI, or Group UUID; if none is provided, events for the authenticated user are returned (supplying more than one raises a configuration error). Narrow the results further with an invitee email to return only events scheduled with that invitee. Filter by date range using `Min Start Time` and/or `Max Start Time`, both ISO 8601 datetimes in UTC (e.g. `2026-08-01T00:00:00Z`). Each returned event includes a `uri`; the trailing UUID segment is the event UUID used by downstream actions such as **Get Event**, **List Event Invitees**, **Get Event Invitee**, and **Cancel Event**. [See the documentation](https://calendly.stoplight.io/docs/api-docs/b3A6NTkxNDEy-list-events)",
   version: "0.0.8",
   annotations: {
     destructiveHint: false,

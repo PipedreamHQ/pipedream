@@ -202,6 +202,12 @@ export default {
         throw new Error(`${error.response.data.title} - ${error.response.data.message}`);
       }
     },
+    async _makeSingleRequest(opts, $) {
+      return axios(
+        $ ?? this,
+        this._makeRequestOpts(opts),
+      );
+    },
     async getUserInfo(user, $) {
       const opts = {
         path: `/users/${user || "me"}`,
@@ -289,26 +295,16 @@ export default {
       return this._makeRequest(opts, $);
     },
     async getInvitee(eventUuid, inviteeUuid, $) {
-      const opts = {
+      return this._makeSingleRequest({
         path: `/scheduled_events/${eventUuid}/invitees/${inviteeUuid}`,
-      };
-
-      return axios(
-        $ ?? this,
-        this._makeRequestOpts(opts),
-      );
+      }, $);
     },
     async cancelEvent(eventUuid, data, $) {
-      const opts = {
+      return this._makeSingleRequest({
         method: "POST",
         path: `/scheduled_events/${eventUuid}/cancellation`,
         data,
-      };
-
-      return axios(
-        $ ?? this,
-        this._makeRequestOpts(opts),
-      );
+      }, $);
     },
     async listEventTypes(params, $) {
       const opts = {
