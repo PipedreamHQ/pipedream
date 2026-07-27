@@ -1,11 +1,9 @@
-import utils from "../../common/utils.mjs";
+import utils, { MAX_RESPONSE_CHARS } from "../../common/utils.mjs";
 import gmail from "../../gmail.app.mjs";
 
-// Same ceiling as Find Emails: an MCP client may spill an oversized result to a file
-// and hand the model a path, so a result over the limit is worse than a trimmed one —
-// the model sees none of it. This action already degrades before dropping (full →
-// metadata → tail), so it needs the lower cap, not a `fields` prop.
-const MAX_RESPONSE_CHARS = 30_000;
+// Shares Find Emails' client-imposed ceiling (see utils.MAX_RESPONSE_CHARS). This action
+// already degrades before dropping (full → metadata → tail), so it needs the cap rather
+// than a `fields` projection.
 
 export default {
   key: "gmail-list-thread-messages",

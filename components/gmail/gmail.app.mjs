@@ -361,8 +361,17 @@ export default {
           opts.inReplyTo = inReplyTo;
           opts.references = inReplyTo;
           opts.threadId = repliedMessage.threadId;
-          const header = (name) => repliedMessage.payload.headers
-            .find((h) => h.name.toLowerCase() === name)?.value;
+          // Treats a present-but-blank header as absent: `??` alone would accept an
+          // empty `Reply-To`, leaving originalSender = "" and the recipient fallback
+          // below dead — which is the HTTP 400 "Recipient address required" this whole
+          // block exists to prevent.
+          const header = (name) => {
+            const value = repliedMessage.payload.headers
+              .find((h) => h.name.toLowerCase() === name)?.value;
+            return value?.trim()
+              ? value
+              : undefined;
+          };
           const originalSender = header("reply-to") ?? header("from");
 
           if (props.replyAll) {
@@ -375,7 +384,7 @@ export default {
 
             // Filter out the current user's email address
             const currentUserEmail = email.toLowerCase().trim();
-            opts.to = opts.to.filter((addr) => {
+            const withoutSelf = (addresses) => addresses.filter((addr) => {
               // Extract email from possible format like "Name <email@example.com>"
               const match = addr.match(/<(.+?)>/) || [
                 null,
@@ -385,10 +394,14 @@ export default {
             });
 
             opts.to = [
-              ...new Set(opts.to),
+              ...new Set(withoutSelf(opts.to)),
             ];
             if (cc) {
-              opts.cc = this.parseEmailAddresses(cc);
+              // Same self-filter as `to`: replying-all to a thread the user was Cc'd on
+              // would otherwise Cc them on their own reply.
+              opts.cc = [
+                ...new Set(withoutSelf(this.parseEmailAddresses(cc))),
+              ];
             }
             if (bcc) {
               opts.bcc = this.parseEmailAddresses(bcc);

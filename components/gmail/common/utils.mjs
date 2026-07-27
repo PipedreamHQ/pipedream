@@ -110,6 +110,21 @@ function pluckFields(message, fields, always = [
 }
 
 /**
+ * Ceiling for a single tool response, shared by every action that returns messages.
+ *
+ * Sized to stay under a typical MCP client's per-result token limit (Claude Code
+ * truncates at 25k tokens; message JSON runs ~1.7 chars/token, so the previous 100k was
+ * ~2.4x over). Going over is not merely verbose — the client may spill the result to a
+ * file and hand the model a path, so the model sees NOTHING. Measured: a 56-message
+ * search returned 42k chars and was spilled.
+ *
+ * It lives here because the limit is a property of the CLIENT, not of any one action:
+ * every action returning messages has to respect the same number, and two copies would
+ * drift.
+ */
+export const MAX_RESPONSE_CHARS = 30_000;
+
+/**
  * Decoded plain-text body of a message, HTML converted to text, attachments skipped.
  * A fraction of the size of the raw `payload` tree, which carries base64 `data` for
  * every part plus the MIME scaffolding around it (measured 934 vs 1962 chars on a

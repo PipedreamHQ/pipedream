@@ -1,13 +1,7 @@
-import utils from "../../common/utils.mjs";
+import utils, { MAX_RESPONSE_CHARS } from "../../common/utils.mjs";
 import gmail from "../../gmail.app.mjs";
 
 const DEFAULT_MAX_RESULTS = 25;
-// Sized to stay under a typical MCP client's per-result token ceiling (Claude Code
-// truncates at 25k tokens; message JSON runs ~1.7 chars/token, so 100k chars was ~2.4x
-// over). An oversized result is not merely verbose — the client may spill it to a file
-// and hand the model a path, so the model sees NOTHING. Measured: a 56-message search
-// returned 42k chars and was spilled.
-const MAX_RESPONSE_CHARS = 30_000;
 // Applied only when a response busts the budget AND the caller named no `fields` of its
 // own: keeps every message but strips it to what callers reason about, so counts stay
 // correct. Never applied over an explicit `fields` choice — see utils.fitToBudget.
@@ -152,7 +146,11 @@ export default {
     // asking for it upgrades the fetch. The caller shouldn't have to know that.
     const wantsBodyText = Boolean(fields?.includes("bodyText"));
     const wantsPayload = format === "full" || Boolean(fields?.includes("payload"));
-    const fetchFull = wantsBodyText || format === "full";
+    // Asking for `payload` has to force a full fetch too. A metadata fetch returns a
+    // payload carrying only headers — no `parts`, no `body.attachmentId` — so a caller
+    // that requested `fields: ["payload"]` without also setting `format: "full"` would
+    // get a payload-shaped object with none of the attachment data it asked for.
+    const fetchFull = wantsBodyText || wantsPayload;
 
     const { messages = [] } = await this.gmail.listMessages({
       q: this.q,
