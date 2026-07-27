@@ -5,7 +5,7 @@ export default {
   key: "surecart-update-fulfillment",
   name: "Update Fulfillment",
   description: "Update an existing fulfillment. [See the documentation](https://developer.surecart.com/api-reference/fulfillments/update)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

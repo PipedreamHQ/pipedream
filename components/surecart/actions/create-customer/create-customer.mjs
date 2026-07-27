@@ -4,7 +4,7 @@ export default {
   key: "surecart-create-customer",
   name: "Create Customer",
   description: "Create a new customer. [See the documentation](https://developer.surecart.com/api-reference/customers/create)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
