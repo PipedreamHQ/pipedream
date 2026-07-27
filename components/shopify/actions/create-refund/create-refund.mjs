@@ -5,7 +5,7 @@ export default {
   key: "shopify-create-refund",
   name: "Create Refund",
   description: "Create a refund on an existing order. Run **Search for Orders** first to obtain the order GID and the line item GIDs to refund. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/refundCreate)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

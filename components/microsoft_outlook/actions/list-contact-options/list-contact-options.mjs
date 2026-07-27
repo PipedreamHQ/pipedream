@@ -4,7 +4,7 @@ export default {
   key: "microsoft_outlook-list-contact-options",
   name: "List Contact Options",
   description: "Retrieves available options for the Contact field.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   annotations: {
     destructiveHint: false,
