@@ -14653,8 +14653,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       '@pipedream/shopify':
-        specifier: ^0.11.1
-        version: 0.11.1
+        specifier: ^0.12.0
+        version: 0.12.0
       shopify-api-node:
         specifier: ^3.14.2
         version: 3.15.0
@@ -22388,8 +22388,8 @@ packages:
   '@pipedream/sharepoint@0.10.0':
     resolution: {integrity: sha512-IuY7EhBNjMEWrKgm7xKxvREyQvyomSrui0lrfQ216wV/L8ogntG3Q4OwnZXoK6fGqT/pUBdiaIsAPVT3a8Z3rg==}
 
-  '@pipedream/shopify@0.11.1':
-    resolution: {integrity: sha512-3JjTCJ3URN9R537bYqe4lWqgP7DKla2Y/edrEmECEi/ecLAxHZRYksoZyZv9ieWmvC6iluqILisV/N7BGDarwQ==}
+  '@pipedream/shopify@0.12.0':
+    resolution: {integrity: sha512-nKLMmxBiqlpZ5SZDu8uqRyObkdlMaoHjHBoghRiQ2fw0FIPQltdmWQ6pzUk2M5pUcRjCvjTCXm0FX2Y/6/RGoQ==}
 
   '@pipedream/slack@0.10.3':
     resolution: {integrity: sha512-pvgrmv8BHYx9uCrAc4X2mQU7UK9KpWqM268CrN3/lavHByer4Ljvy9SVFRFokRg7gbOTs1i/kfNPfOtqSCJ7XQ==}
@@ -41702,7 +41702,7 @@ snapshots:
       - stream-browserify
       - supports-color
 
-  '@pipedream/shopify@0.11.1':
+  '@pipedream/shopify@0.12.0':
     dependencies:
       '@pipedream/platform': 3.4.0
       async-retry: 1.3.3
