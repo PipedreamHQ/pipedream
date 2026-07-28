@@ -83,11 +83,11 @@ export default {
       description: "Cash Account",
       optional: true,
       async options() {
-        const res = await this.getCashAccounts();
-        return res.data.items?.map((item) => ({
+        const { items } = await this.listCashAccounts();
+        return items?.map((item) => ({
           label: item.name,
           value: item.id,
-        }));
+        })) ?? [];
       },
     },
     cardId: {
@@ -121,10 +121,60 @@ export default {
       options: options.cardStatus,
       optional: true,
     },
+    cardActionReason: {
+      type: "string",
+      label: "Reason",
+      description: "Why the card is being changed. Brex requires a reason and records it against the card.",
+      options: options.cardActionReason,
+      default: "OTHER",
+    },
+    cardActionDescription: {
+      type: "string",
+      label: "Description",
+      description: "An optional free-text note stored alongside the reason.",
+      optional: true,
+    },
     email: {
       type: "string",
       label: "Email",
       description: "Return only the user with this exact email address, e.g. `jane@acme.com`. Brex supports a single email at a time, not a list.",
+      optional: true,
+    },
+    userIds: {
+      type: "string[]",
+      label: "Users",
+      description: "Return only records belonging to these users. Use **List Users** to find a user ID by email address.",
+      optional: true,
+      async options({ prevContext }) {
+        const LIMIT = 100;
+        const res = await this.getUsers(prevContext.cursor, LIMIT);
+        return {
+          options: res.data.items?.map((item) => ({
+            label: `${item.first_name} ${item.last_name} <${item.email}>`,
+            value: item.id,
+          })) ?? [],
+          context: {
+            cursor: res.data.next_cursor,
+          },
+        };
+      },
+    },
+    merchantQuery: {
+      type: "string",
+      label: "Merchant",
+      description: "Case-insensitive substring match on the merchant descriptor, e.g. `amazon` matches `AMAZON WEB SERVICES`. Brex has no server-side merchant filter, so this is applied after fetching.",
+      optional: true,
+    },
+    minAmount: {
+      type: "integer",
+      label: "Min Amount",
+      description: "Only return records of at least this amount, in the currency's smallest denomination — `700` is $7.00 in USD. Applied after fetching, like Merchant.",
+      optional: true,
+    },
+    maxAmount: {
+      type: "integer",
+      label: "Max Amount",
+      description: "Only return records of at most this amount, in the currency's smallest denomination — `700` is $7.00 in USD. Applied after fetching, like Merchant.",
       optional: true,
     },
     maxResults: {
@@ -146,11 +196,34 @@ export default {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
+    /**
+     * Serializes query params, emitting array values as repeated keys with the key left
+     * exactly as written. Brex spells its repeatable params differently per endpoint
+     * (`expand[]`, `user_id[]`, `user_ids`), and axios' default would append a second
+     * `[]` to keys that already carry one.
+     *
+     * @param {Object} params - The query parameters to serialize.
+     * @returns {string} The URL-encoded query string.
+     */
+    _paramsSerializer(params) {
+      return Object.entries(params)
+        .filter(([
+          , value,
+        ]) => value !== undefined && value !== null)
+        .flatMap(([
+          key,
+          value,
+        ]) => (Array.isArray(value)
+          ? value.map((item) => `${encodeURIComponent(key)}=${encodeURIComponent(item)}`)
+          : `${encodeURIComponent(key)}=${encodeURIComponent(value)}`))
+        .join("&");
+    },
     _getAxiosParams(opts = {}) {
       const res = {
         ...opts,
         url: this._getBaseUrl() + opts.path,
         headers: this._getHeaders(),
+        paramsSerializer: this._paramsSerializer,
       };
       return res;
     },
@@ -278,6 +351,63 @@ export default {
         filter,
       });
     },
+    async lockCard({
+      $, cardId, data,
+    }) {
+      return this._request({
+        $,
+        method: "POST",
+        path: `/v2/cards/${cardId}/lock`,
+        data,
+      });
+    },
+    async unlockCard({
+      $, cardId,
+    }) {
+      return this._request({
+        $,
+        method: "POST",
+        path: `/v2/cards/${cardId}/unlock`,
+      });
+    },
+    async terminateCard({
+      $, cardId, data,
+    }) {
+      return this._request({
+        $,
+        method: "POST",
+        path: `/v2/cards/${cardId}/terminate`,
+        data,
+      });
+    },
+    async updateCard({
+      $, cardId, data,
+    }) {
+      return this._request({
+        $,
+        method: "PUT",
+        path: `/v2/cards/${cardId}`,
+        data,
+      });
+    },
+    async getUser({
+      $, userId,
+    }) {
+      return this._request({
+        $,
+        method: "GET",
+        path: `/v2/users/${userId}`,
+      });
+    },
+    async getUserLimit({
+      $, userId,
+    }) {
+      return this._request({
+        $,
+        method: "GET",
+        path: `/v2/users/${userId}/limit`,
+      });
+    },
     async listUsersPaginated({
       $, params, max, filter,
     }) {
@@ -287,6 +417,52 @@ export default {
         params,
         max,
         filter,
+      });
+    },
+    async getExpense({
+      $, expenseId, params,
+    }) {
+      return this._request({
+        $,
+        method: "GET",
+        path: `/v1/expenses/${expenseId}`,
+        params,
+      });
+    },
+    async listExpensesPaginated({
+      $, params, max, filter,
+    }) {
+      return this._paginateItems({
+        $,
+        path: "/v1/expenses",
+        params,
+        max,
+        filter,
+      });
+    },
+    async listCardTransactionsPaginated({
+      $, params, max, filter,
+    }) {
+      return this._paginateItems({
+        $,
+        path: "/v2/transactions/card/primary",
+        params,
+        max,
+        filter,
+      });
+    },
+    async listCardAccounts({ $ } = {}) {
+      return this._request({
+        $,
+        method: "GET",
+        path: "/v2/accounts/card",
+      });
+    },
+    async listCashAccounts({ $ } = {}) {
+      return this._request({
+        $,
+        method: "GET",
+        path: "/v2/accounts/cash",
       });
     },
     async getLocations(cursor, limit) {
@@ -319,13 +495,6 @@ export default {
           cursor,
           limit,
         },
-        returnFullResponse: true,
-      }));
-    },
-    async getCashAccounts() {
-      return axios(this, this._getAxiosParams({
-        method: "GET",
-        path: "/v2/accounts/cash",
         returnFullResponse: true,
       }));
     },

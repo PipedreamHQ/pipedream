@@ -1,20 +1,11 @@
-// x-pd-ai: optimized
 import brexApp from "../../brex.app.mjs";
+import { formatSearchSummary } from "../../utils.mjs";
 
 export default {
   key: "brex-list-cards",
   name: "List Cards",
-  description: "List the cards in the Brex account. Returns the full record for each card, "
-    + "including status, last four digits, cardholder, and — for vendor cards — the spend "
-    + "limit and remaining available balance."
-    + " This is the tool for discovering card IDs; pass one to **Get Card** for a single"
-    + " card's full record."
-    + " Leave Cardholder empty to list every card in the account, or set it to scope results"
-    + " to one person — use **List Users** to turn an email address into a user ID first."
-    + " Brex has no server-side status filter, so the Status filter is applied after fetching;"
-    + " when a status is set, the summary reports how many records were scanned."
-    + " [See the documentation](https://developer.brex.com/openapi/team_api/cards/listcardsbyuserid)",
-  version: "0.0.1",
+  description: "Lists the cards in the Brex account with their status, last four digits, cardholder, and spend limit. This is how you find the card ID that **Get Card**, **Freeze Card**, **Cancel Card**, and **Update Card Limit** require. [See the documentation](https://developer.brex.com/openapi/team_api/cards/listcardsbyuserid)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     readOnlyHint: true,
@@ -29,7 +20,7 @@ export default {
         "user",
       ],
       label: "Cardholder",
-      description: "Return only cards owned by this user. Omit to list every card in the account. Use **List Users** to find a user ID by email address.",
+      description: "Return only cards owned by this person. Omit to list every card in the account. Use **List Users** to find a user ID by email address.",
     },
     status: {
       propDefinition: [
@@ -58,17 +49,14 @@ export default {
         : undefined,
     });
 
-    const scope = this.status
-      ? `${this.status} card(s)`
-      : "card(s)";
-    const scanNote = this.status
-      ? ` (scanned ${scanned})`
-      : "";
-    const moreNote = truncated
-      ? ", more available — raise Max Results to fetch them"
-      : "";
-
-    $.export("$summary", `Found ${items.length} ${scope}${scanNote}${moreNote}`);
+    $.export("$summary", formatSearchSummary({
+      count: items.length,
+      noun: this.status
+        ? `${this.status} card(s)`
+        : "card(s)",
+      scanned,
+      truncated,
+    }));
 
     return items;
   },
