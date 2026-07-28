@@ -14,17 +14,11 @@ export default {
   props: {
     ringba,
     accountId: {
-      type: "string",
+      ...ringba.propDefinitions.accountId,
       label: "Account ID",
       description: "The ID of the Ringba account whose campaigns should be retrieved.",
     },
-    includeStats: {
-      type: "boolean",
-      label: "Include Stats",
-      description: "Whether to include campaign statistics in the response.",
-      optional: true,
-      default: false,
-    },
+    includeStats: ringba.propDefinitions.includeStats,
   },
   async run({ $ }) {
     const response = await this.ringba.listCampaigns({
@@ -38,17 +32,15 @@ export default {
     const campaigns = Array.isArray(response)
       ? response
       : response?.campaigns;
-    const count = campaigns?.length;
 
-    $.export(
-      "$summary",
-      count === undefined
-        ? `Successfully retrieved campaigns for account ${this.accountId}.`
-        : `Successfully retrieved ${count} campaign${count === 1
-          ? ""
-          : "s"}.`,
-    );
+    if (!Array.isArray(campaigns)) {
+      throw new Error("Ringba returned an unexpected campaigns response.");
+    }
 
-    return response;
+    $.export("$summary", `Successfully retrieved ${campaigns.length} campaign${campaigns.length === 1
+      ? ""
+      : "s"}.`);
+
+    return campaigns;
   },
 };
