@@ -8,7 +8,7 @@ export default {
   key: "telegram_bot_api-edit-media-message",
   name: "Edit a Media Message",
   description: "Edits photo or video messages. [See the docs](https://core.telegram.org/bots/api#editmessagemedia) for more information",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
