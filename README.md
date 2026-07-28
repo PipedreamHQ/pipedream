@@ -1,3 +1,5 @@
+[![MCP Toplist](https://mcptoplist.com/badge/glama%2FPipedreamHQ%2Fpipedream.svg)](https://mcptoplist.com/server/glama%2FPipedreamHQ%2Fpipedream)
+
 ![pipedream](https://i.ibb.co/LPhXtH1/logo.png)
 
 <p align="center">
