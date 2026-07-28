@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import calendar from "@googleapis/calendar";
 import timezones from "moment-timezone";
 
@@ -5,6 +6,11 @@ export default {
   type: "app",
   app: "google_meet",
   propDefinitions: {
+    eventId: {
+      label: "Meeting ID",
+      type: "string",
+      description: "The ID of the meeting (Google Calendar event ID), e.g. `abc123def456ghi789`. Run **List Meetings** first to find the ID of the meeting you want to reference.",
+    },
     calendarId: {
       label: "Calendar ID",
       type: "string",
@@ -134,6 +140,34 @@ export default {
       return this.requestHandler({
         api: "events",
         method: "insert",
+        args,
+      });
+    },
+    listEvents(args = {}) {
+      return this.requestHandler({
+        api: "events",
+        method: "list",
+        args,
+      });
+    },
+    getEvent(args = {}) {
+      return this.requestHandler({
+        api: "events",
+        method: "get",
+        args,
+      });
+    },
+    updateEvent(args = {}) {
+      return this.requestHandler({
+        api: "events",
+        method: "patch",
+        args,
+      });
+    },
+    deleteEvent(args = {}) {
+      return this.requestHandler({
+        api: "events",
+        method: "delete",
         args,
       });
     },

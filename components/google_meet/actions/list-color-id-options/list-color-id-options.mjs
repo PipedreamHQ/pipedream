@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import google_meet from "../../google_meet.app.mjs";
 
 export default {
   key: "google_meet-list-color-id-options",
   name: "List Color ID Options",
   description: "Retrieves available options for the Color ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
