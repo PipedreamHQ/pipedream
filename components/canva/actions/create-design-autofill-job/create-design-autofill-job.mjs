@@ -38,7 +38,7 @@ export default {
         canva,
         "designId",
       ],
-      description: "The ID of the source design to autofill from. Required when type is `create_from_design`.",
+      description: "The ID of the source design to autofill from (e.g. `DAFq1234abcd`), taken from the `id` returned by **Get Design**. Required when type is `create_from_design`.",
       optional: true,
     },
     data: {
