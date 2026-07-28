@@ -72,10 +72,16 @@ export default {
       const pdfServices = this.getPDFServices();
 
       const readStream = fs.createReadStream(filePath);
-      const inputAsset = await pdfServices.upload({
-        readStream,
-        mimeType: MimeType.PDF,
-      });
+      let inputAsset;
+      try {
+        inputAsset = await pdfServices.upload({
+          readStream,
+          mimeType: MimeType.PDF,
+        });
+      } catch (uploadErr) {
+        readStream.destroy();
+        throw uploadErr;
+      }
 
       const outputPath = `/tmp/${filename.endsWith(".zip")
         ? filename
