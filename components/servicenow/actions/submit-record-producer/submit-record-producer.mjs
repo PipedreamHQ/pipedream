@@ -5,7 +5,7 @@ export default {
   key: "servicenow-submit-record-producer",
   name: "Submit Record Producer",
   description: "Submit a ServiceNow record producer to create the target record (e.g. an incident or RITM) from catalog variables. Run **Search Catalog Items** to find the record producer `sys_id` and **Get Catalog Item Variables** to learn which variable names to supply. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     readOnlyHint: false,

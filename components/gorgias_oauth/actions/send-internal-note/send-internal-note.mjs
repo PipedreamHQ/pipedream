@@ -5,7 +5,7 @@ export default {
   key: "gorgias_oauth-send-internal-note",
   name: "Send Internal Note",
   description: "Post an internal note to a ticket on behalf of an agent. [See the documentation](https://developers.gorgias.com/reference/create-ticket-message)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "gorgias_oauth-retrieve-customer",
   name: "Retrieve a Customer",
   description: "Retrieve a customer. [See the docs](https://developers.gorgias.com/reference/get_api-customers-id-)",
-  version: "0.0.11",
+  version: "0.0.12",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

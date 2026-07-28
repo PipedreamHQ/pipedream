@@ -1,5 +1,6 @@
 import hubspot from "../../hubspot.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import { MAX_INITIAL_EVENTS } from "../../common/constants.mjs";
 
 export default {
   props: {
@@ -10,6 +11,27 @@ export default {
       default: {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
+    },
+  },
+  hooks: {
+    async deploy() {
+      // Emit a small, capped sample of pre-existing ("retroactive") events on
+      // deploy, so that run() only ever emits genuinely new events. Emitting
+      // here (rather than on the first run()) is what lets the platform honor
+      // the user's deploy-time opt-out, where $emit is a no-op only during
+      // deploy().
+      const deployTs = Date.now();
+      const params = await this.getParams(null);
+      await this.processResults(null, params);
+      // Pin the cursor to deploy time, regardless of what the sample pass stored.
+      // Every pre-existing event has a timestamp <= deployTs, so this can never
+      // suppress a genuinely new event, and it guarantees run() never emits a
+      // pre-deploy event even when the underlying endpoint returns results
+      // oldest-first (e.g. the CRM v3 GET list endpoints used by notes/tasks),
+      // where the sample's max timestamp is NOT the newest existing record. It
+      // also covers the "no events to sample" case, where processResults would
+      // otherwise leave the cursor unset (or at 0).
+      this._setAfter(deployTs);
     },
   },
   methods: {
@@ -53,12 +75,17 @@ export default {
     },
     async processEvents(resources, after) {
       let maxTs = after || 0;
+      let initialEmitted = 0;
       for (const result of resources) {
         if (!after || await this.isRelevant(result, after)) {
           this.emitEvent(result);
           const ts = this.getTs(result);
           if (ts > maxTs) {
             maxTs = ts;
+          }
+          // Initial (deploy) run: emit only a small capped sample.
+          if (!after && ++initialEmitted >= MAX_INITIAL_EVENTS) {
+            break;
           }
         }
       }
@@ -67,6 +94,7 @@ export default {
     async paginate(params, resourceFn, resultType = null, after = null) {
       let results = null;
       let maxTs = after || 0;
+      let initialEmitted = 0;
       while (!results || params.after) {
         results = await resourceFn(params);
         if (results.paging) {
@@ -89,6 +117,10 @@ export default {
             if (ts > maxTs) {
               maxTs = ts;
               this._setAfter(ts);
+            }
+            // Initial (deploy) run: emit only a small capped sample.
+            if (!after && ++initialEmitted >= MAX_INITIAL_EVENTS) {
+              return;
             }
           } else {
             return;
@@ -113,6 +145,7 @@ export default {
       let results, items;
       let count = 0;
       let maxTs = after || 0;
+      let initialEmitted = 0;
       while (hasMore && (!limitRequest || count < limitRequest)) {
         count++;
         results = await resourceFn(params);
@@ -132,6 +165,10 @@ export default {
             if (ts > maxTs) {
               maxTs = ts;
               this._setAfter(ts);
+            }
+            // Initial (deploy) run: emit only a small capped sample.
+            if (!after && ++initialEmitted >= MAX_INITIAL_EVENTS) {
+              return;
             }
           }
         }
@@ -187,6 +224,14 @@ export default {
   },
   async run() {
     const after = this._getAfter();
+    // Safety net for instances that somehow reach run() without a cursor (e.g. a
+    // deploy() that never completed): never emit retroactively from run(); just
+    // establish the cursor so the next run() is new-events-only. deploy()
+    // normally sets this already.
+    if (after == null) {
+      this._setAfter(Date.now());
+      return;
+    }
     const params = await this.getParams(after);
     await this.processResults(after, params);
   },

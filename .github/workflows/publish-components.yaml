@@ -19,7 +19,7 @@ jobs:
           version: 10.28.2
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: 20
           cache: 'pnpm'
@@ -119,7 +119,7 @@ jobs:
           version: 10.28.2
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: 20
           cache: 'pnpm'
