@@ -5,7 +5,7 @@ export default {
   key: "microsoft_outlook-list-shared-folders",
   name: "List Shared Folders",
   description: "Retrieves mail folders from a shared or delegated mailbox (routes to `/users/{userId}/mailFolders`). Returns `{ count, folders }` where `folders` contains each folder's `id`, `displayName`, `parentFolderId`, `childFolderCount`, `totalItemCount`, and `unreadItemCount`. The `count` field reflects the true API total when Microsoft Graph returns `@odata.count`; when `Include Subfolders` is `true` or Graph does not return `@odata.count` for the requested filter, `count` equals the number of folders actually retrieved. **Use this action to resolve a shared mailbox folder display name to its ID** — set `Display Name` to filter by exact name. Use **Get Shared Folder** instead when you already have the folder ID. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-mailfolders?view=graph-rest-1.0&tabs=http)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -32,7 +32,7 @@
     "@aws-sdk/signature-v4-crt": "^3.731.0",
     "@pipedream/helper_functions": "^0.3.6",
     "@pipedream/platform": "^3.2.5",
-    "adm-zip": "^0.5.10",
+    "adm-zip": "^0.6.0",
     "dedent": "^1.5.1",
     "file-type": "^21.3.2",
     "mailparser": "^3.9.3",

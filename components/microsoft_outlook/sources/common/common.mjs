@@ -1,11 +1,14 @@
 import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 
-const getRenewalInterval = (period) => {
-  let day = 24 * 60 * 60;
-  return period ?
-    day * 2.5 * 1000 :// Subscription expiration can only be 4230 minutes in the future.
-    day * 2;
-};
+const DAY_SECONDS = 24 * 60 * 60;
+// Renew daily while requesting a 2.5-day expiry. Graph's max subscription length
+// varies by account type (lower for consumer mailboxes), so we stay at the
+// 2.5 days rather than push toward the cap. Two renewals land before
+// a subscription would lapse, so a single transient failure recovers on the next
+// tick. If a renewal still 404s because Graph already deleted the subscription,
+// run() re-creates it.
+const RENEWAL_INTERVAL_SECONDS = DAY_SECONDS;
+const EXPIRATION_MS = DAY_SECONDS * 2.5 * 1000;
 
 export default {
   props: {
@@ -18,9 +21,9 @@ export default {
     timer: {
       type: "$.interface.timer",
       label: "Webhook renewal timer",
-      description: "Graph API expires Outlook notifications in 3 days, we auto-renew them in 2 days, [see](https://docs.microsoft.com/en-us/graph/api/resources/subscription?view=graph-rest-1.0#maximum-length-of-subscription-per-resource-type)",
+      description: "Graph API expires Outlook notifications in ~3 days; we request a 2.5-day expiration and auto-renew daily, [See the documentation](https://docs.microsoft.com/en-us/graph/api/resources/subscription?view=graph-rest-1.0#maximum-length-of-subscription-per-resource-type)",
       default: {
-        intervalSeconds: getRenewalInterval(),
+        intervalSeconds: RENEWAL_INTERVAL_SECONDS,
       },
     },
   },
@@ -39,7 +42,7 @@ export default {
   },
   methods: {
     getIntervalEnd() {
-      return new Date(Date.now() + getRenewalInterval(true));
+      return new Date(Date.now() + EXPIRATION_MS);
     },
     randomString() {
       return `${Math.random().toString(36)
@@ -77,12 +80,25 @@ export default {
       emitFn,
     } = {}) {
       if (event.interval_seconds || event.cron) {
-        await this.microsoftOutlook.renewHook({
-          hookId: this.db.get("hookId"),
-          data: {
-            expirationDateTime: this.getIntervalEnd(),
-          },
-        });
+        try {
+          await this.microsoftOutlook.renewHook({
+            hookId: this.db.get("hookId"),
+            data: {
+              expirationDateTime: this.getIntervalEnd(),
+            },
+          });
+        } catch (error) {
+          // Graph returns 404 ResourceNotFound ("The object was not found.") when the
+          // subscription no longer exists on its side, e.g. it lapsed after a transient
+          // renewal failure and Graph deleted it. Re-create it so the trigger self-heals
+          // instead of retrying a doomed renewal forever. Re-throw anything else so real
+          // failures still surface.
+          if (error?.statusCode === 404 || error?.code === "ResourceNotFound") {
+            await this.activate(this.getSubscriptionConfig());
+          } else {
+            throw error;
+          }
+        }
         return;
       }
       if (event.query && event.query.validationToken) {

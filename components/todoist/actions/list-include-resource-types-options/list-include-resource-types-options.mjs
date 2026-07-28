@@ -4,7 +4,7 @@ export default {
   key: "todoist-list-include-resource-types-options",
   name: "List Resource Types Options",
   description: "Retrieves available options for the Resource Types field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
