@@ -44,7 +44,7 @@ export default {
 
     const fileLink = await this.telegramBotApi.getFileLink(this.fileId);
 
-    const ext = path.extname(file.file_path) || ".ogg";
+    const ext = path.extname(file.file_path) || ".oga";
     const fileName = this.filename
       ? path.extname(this.filename)
         ? this.filename
