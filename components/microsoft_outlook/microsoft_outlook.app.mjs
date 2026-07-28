@@ -205,24 +205,31 @@ export default {
       label: "User ID",
       description: "The ID of the user to get messages for",
       useQuery: true,
-      async options({ query }) {
-        const args = query
-          ? {
-            params: {
-              $search: `"${encodeURIComponent("displayName:" + query)}" OR "${encodeURIComponent("mail:" + query)}" OR "${encodeURIComponent("userPrincipalName:" + query)}"`,
-            },
-            headers: {
-              "ConsistencyLevel": "eventual",
-            },
-          }
-          : {};
-        const { value: users } = await this.listUsers(args);
-        return users?.map(({
+      async options({
+        query, prevContext,
+      }) {
+        const args = {};
+        if (prevContext?.nextLink) {
+          args.url = prevContext.nextLink;
+        } else if (query) {
+          const escaped = query.replace(/[\\"]/g, "\\$&");
+          args.params = {
+            $search: `"displayName:${escaped}" OR "mail:${escaped}" OR "userPrincipalName:${escaped}"`,
+          };
+        }
+        const response = await this.listUsers(args);
+        const options = response.value?.map(({
           id: value, displayName, mail,
         }) => ({
           value,
           label: `${displayName} (${mail})`,
         })) || [];
+        return {
+          options,
+          context: {
+            nextLink: response["@odata.nextLink"],
+          },
+        };
       },
     },
     sharedFolderId: {
@@ -618,10 +625,18 @@ export default {
         .query(pickBy(params))
         .get();
     },
-    async listUsers({ params = {} } = {}) {
-      return await this.client().api("/users")
-        .query(pickBy(params))
-        .get();
+    async listUsers({
+      url, params = {},
+    } = {}) {
+      const client = this.client();
+      return url
+        ? client.api(url)
+          .header("ConsistencyLevel", "eventual")
+          .get()
+        : client.api("/users")
+          .header("ConsistencyLevel", "eventual")
+          .query(pickBy(params))
+          .get();
     },
     async listSharedFolders({
       userId, parentFolderId, params = {},
