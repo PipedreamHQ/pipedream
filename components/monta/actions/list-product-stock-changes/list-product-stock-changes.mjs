@@ -18,7 +18,7 @@ export default {
       type: "string",
       label: "Updated Since",
       description:
-        "The start date and time in ISO 8601 format. Monta accepts a maximum lookback of 7 days.",
+        "The start date and time in ISO 8601 format (eg. `2026-07-24T00:00:00Z`). Monta accepts a maximum lookback of 7 days.",
     },
   },
   async run({ $ }) {
