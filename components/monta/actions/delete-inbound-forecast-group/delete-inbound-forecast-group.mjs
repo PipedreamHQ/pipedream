@@ -3,7 +3,7 @@ import monta from "../../monta.app.mjs";
 export default {
   key: "monta-delete-inbound-forecast-group",
   name: "Delete Inbound Forecast Group",
-  description: "Delete an inbound forecast group, or a single SKU within it when a SKU is provided. Find references with **List Inbound Forecast Groups**. [See the documentation](https://api-v6.monta.nl/index.html#tag/InboundForecast/paths/~1inboundforecast~1group~1%7Breference%7D/delete)",
+  description: "Delete an inbound forecast group, or a single SKU within it when a SKU is provided. [See the documentation](https://api-v6.monta.nl/index.html#tag/InboundForecast/paths/~1inboundforecast~1group~1%7Breference%7D/delete)",
   version: "0.0.1",
   type: "action",
   annotations: {

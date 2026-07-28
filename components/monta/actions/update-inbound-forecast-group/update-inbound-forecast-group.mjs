@@ -4,7 +4,7 @@ import { parseJsonObjects } from "../../common/utils.mjs";
 export default {
   key: "monta-update-inbound-forecast-group",
   name: "Update Inbound Forecast Group",
-  description: "Update an existing inbound forecast group by its reference. Find references with **List Inbound Forecast Groups** and inspect a group with **Get Inbound Forecast Group**. [See the documentation](https://api-v6.monta.nl/index.html#tag/InboundForecast/paths/~1inboundforecast~1group~1%7Breference%7D/put)",
+  description: "Update an existing inbound forecast group by its reference. [See the documentation](https://api-v6.monta.nl/index.html#tag/InboundForecast/paths/~1inboundforecast~1group~1%7Breference%7D/put)",
   version: "0.0.1",
   type: "action",
   annotations: {

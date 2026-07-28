@@ -3,7 +3,7 @@ import monta from "../../monta.app.mjs";
 export default {
   key: "monta-list-order-returns",
   name: "List Order Returns",
-  description: "List the return records for an order. Use this to see all returns registered against an order, then call **Get Return** for the full details of a single return. [See the documentation](https://api-v6.monta.nl/index.html#tag/Order/paths/~1order~1%7Bwebshoporderid%7D~1return/get)",
+  description: "List the return records for an order. Use this to see all returns registered against an order. [See the documentation](https://api-v6.monta.nl/index.html#tag/Order/paths/~1order~1%7Bwebshoporderid%7D~1return/get)",
   version: "0.0.1",
   type: "action",
   annotations: {

@@ -3,7 +3,7 @@ import monta from "../../monta.app.mjs";
 export default {
   key: "monta-approve-inbound-forecasts",
   name: "Approve Inbound Forecasts",
-  description: "Approve multiple inbound forecasts at once by their IDs. Obtain forecast IDs from **List Inbound Forecasts by Product SKU** or **Get Inbound Forecast Group** (the `InboundForecastId` field). [See the documentation](https://api-v6.monta.nl/index.html#tag/InboundForecast/paths/~1inboundforecast~1approve/post)",
+  description: "Approve multiple inbound forecasts at once by their IDs. [See the documentation](https://api-v6.monta.nl/index.html#tag/InboundForecast/paths/~1inboundforecast~1approve/post)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -16,7 +16,7 @@ export default {
     inboundForecastIds: {
       type: "integer[]",
       label: "Inbound Forecast IDs",
-      description: "The IDs of the inbound forecasts to approve (e.g. `[123, 456]`)",
+      description: "The IDs of the inbound forecasts to approve (e.g. `[123, 456]`). Obtained from **List Inbound Forecasts by Product SKU** or **Get Inbound Forecast Group** (the `InboundForecastId` field).",
     },
   },
   async run({ $ }) {

@@ -4,7 +4,7 @@ import monta from "../../monta.app.mjs";
 export default {
   key: "monta-download-shipping-label",
   name: "Download Shipping Label",
-  description: "Download a single shipping label file for an order and save it to the `/tmp` directory. Get the file name from **List Shipping Labels**, or generate labels first with **Create Shipping Label**. [See the documentation](https://api-v6.monta.nl/index.html#tag/Order/paths/~1order~1%7Bwebshoporderid%7D~1shippinglabels~1%7Bfilename%7D/get)",
+  description: "Download a single shipping label file for an order and save it to the `/tmp` directory. [See the documentation](https://api-v6.monta.nl/index.html#tag/Order/paths/~1order~1%7Bwebshoporderid%7D~1shippinglabels~1%7Bfilename%7D/get)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -23,7 +23,7 @@ export default {
     filename: {
       type: "string",
       label: "Filename",
-      description: "The shipping label file name. Use the **List Shipping Labels** action to find available file names.",
+      description: "The shipping label file name. Use the **List Shipping Labels** action to find available file names, or generate labels first with **Create Shipping Label**.",
     },
     syncDir: {
       type: "dir",

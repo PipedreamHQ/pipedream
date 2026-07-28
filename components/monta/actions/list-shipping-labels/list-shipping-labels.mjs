@@ -3,7 +3,7 @@ import monta from "../../monta.app.mjs";
 export default {
   key: "monta-list-shipping-labels",
   name: "List Shipping Labels",
-  description: "List the shipping labels of an order. Use this to retrieve the label file names, which serve as inputs to the **Download Shipping Label** action, typically after generating labels with **Create Shipping Label**. [See the documentation](https://api-v6.monta.nl/index.html#tag/Order/paths/~1order~1%7Bwebshoporderid%7D~1shippinglabels/get)",
+  description: "List the shipping labels of an order. Use this to retrieve the label file names, typically after generating labels with **Create Shipping Label**. [See the documentation](https://api-v6.monta.nl/index.html#tag/Order/paths/~1order~1%7Bwebshoporderid%7D~1shippinglabels/get)",
   version: "0.0.1",
   type: "action",
   annotations: {

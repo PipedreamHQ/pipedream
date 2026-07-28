@@ -3,7 +3,7 @@ import monta from "../../monta.app.mjs";
 export default {
   key: "monta-get-inbound-forecast-group",
   name: "Get Inbound Forecast Group",
-  description: "Retrieve an inbound forecast group and its forecasts by reference. Find references with **List Inbound Forecast Groups**. [See the documentation](https://api-v6.monta.nl/index.html#tag/InboundForecast/paths/~1inboundforecast~1group~1%7Breference%7D/get)",
+  description: "Retrieve an inbound forecast group and its forecasts by reference. [See the documentation](https://api-v6.monta.nl/index.html#tag/InboundForecast/paths/~1inboundforecast~1group~1%7Breference%7D/get)",
   version: "0.0.1",
   type: "action",
   annotations: {

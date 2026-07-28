@@ -3,7 +3,7 @@ import monta from "../../monta.app.mjs";
 export default {
   key: "monta-list-inbound-forecasts-by-product-sku",
   name: "List Inbound Forecasts by Product SKU",
-  description: "List all inbound forecasts for a given product SKU across groups. Use this to check expected incoming stock for a SKU, then approve entries with **Approve Inbound Forecasts** or inspect one with **Get Inbound Forecast**. [See the documentation](https://api-v6.monta.nl/index.html#tag/InboundForecast/paths/~1inboundforecast~1group~1byproductsku~1%7Bproductsku%7D/get)",
+  description: "List all inbound forecasts for a given product SKU across groups. Use this to check expected incoming stock for a SKU. [See the documentation](https://api-v6.monta.nl/index.html#tag/InboundForecast/paths/~1inboundforecast~1group~1byproductsku~1%7Bproductsku%7D/get)",
   version: "0.0.1",
   type: "action",
   annotations: {
