@@ -1,5 +1,10 @@
 import { axios } from "@pipedream/platform";
 import { v4 as uuidv4 } from "uuid";
+import options from "./options.mjs";
+
+const MAX_LIMIT_PER_PAGE = 100;
+const DEFAULT_MAX_RESULTS = 100;
+const MAX_PAGES = 20;
 
 export default {
   propDefinitions: {
@@ -85,6 +90,50 @@ export default {
         }));
       },
     },
+    cardId: {
+      type: "string",
+      label: "Card ID",
+      description: "The unique ID of the card. Use **List Cards** to find a card ID by cardholder, name, or last four digits.",
+      async options({ prevContext }) {
+        const {
+          items, next_cursor: nextCursor,
+        } = await this.listCards({
+          params: {
+            cursor: prevContext.cursor,
+            limit: MAX_LIMIT_PER_PAGE,
+          },
+        });
+        return {
+          options: items?.map((item) => ({
+            label: `${item.card_name} ••${item.last_four} (${item.status})`,
+            value: item.id,
+          })) ?? [],
+          context: {
+            cursor: nextCursor,
+          },
+        };
+      },
+    },
+    cardStatus: {
+      type: "string",
+      label: "Status",
+      description: "Only return cards with this status. Brex has no server-side status filter, so results are filtered after being fetched.",
+      options: options.cardStatus,
+      optional: true,
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "Return only the user with this exact email address, e.g. `jane@acme.com`. Brex supports a single email at a time, not a list.",
+      optional: true,
+    },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum number of records to return. Defaults to `100`.",
+      optional: true,
+      min: 1,
+    },
   },
   methods: {
     _getBaseUrl() {
@@ -137,6 +186,108 @@ export default {
       } while (items.length < TOTAL_LIMIT && cursor);
 
       return items;
+    },
+    async _request({
+      $ = this, ...opts
+    }) {
+      return axios($, this._getAxiosParams(opts));
+    },
+    /**
+     * Walks a cursor-paginated Brex list endpoint, optionally applying a predicate that
+     * the API cannot express server-side.
+     *
+     * @returns {Promise<{items: object[], scanned: number, truncated: boolean}>} `scanned`
+     * counts every record fetched and `truncated` is true when records remain unread, so
+     * callers can distinguish "no matches" from "stopped looking".
+     */
+    async _paginateItems({
+      $, path, params, max = DEFAULT_MAX_RESULTS, filter,
+    }) {
+      const items = [];
+      let cursor;
+      let pages = 0;
+      let scanned = 0;
+      let unreadInPage = false;
+
+      do {
+        const res = await this._request({
+          $,
+          method: "GET",
+          path,
+          params: {
+            ...params,
+            cursor,
+            // A predicate needs full pages to scan, since matches may be sparse.
+            limit: filter
+              ? MAX_LIMIT_PER_PAGE
+              : Math.min(MAX_LIMIT_PER_PAGE, max),
+          },
+        });
+
+        const page = res.items ?? [];
+        scanned += page.length;
+
+        for (let i = 0; i < page.length; i++) {
+          if (filter && !filter(page[i])) {
+            continue;
+          }
+          items.push(page[i]);
+          if (items.length >= max) {
+            unreadInPage = i < page.length - 1;
+            break;
+          }
+        }
+
+        cursor = res.next_cursor;
+        pages++;
+      } while (cursor && items.length < max && pages < MAX_PAGES);
+
+      return {
+        items,
+        scanned,
+        truncated: Boolean(cursor) || unreadInPage,
+      };
+    },
+    async getCard({
+      $, cardId,
+    }) {
+      return this._request({
+        $,
+        method: "GET",
+        path: `/v2/cards/${cardId}`,
+      });
+    },
+    async listCards({
+      $, params,
+    } = {}) {
+      return this._request({
+        $,
+        method: "GET",
+        path: "/v2/cards",
+        params,
+      });
+    },
+    async listCardsPaginated({
+      $, params, max, filter,
+    }) {
+      return this._paginateItems({
+        $,
+        path: "/v2/cards",
+        params,
+        max,
+        filter,
+      });
+    },
+    async listUsersPaginated({
+      $, params, max, filter,
+    }) {
+      return this._paginateItems({
+        $,
+        path: "/v2/users",
+        params,
+        max,
+        filter,
+      });
     },
     async getLocations(cursor, limit) {
       return axios(this, this._getAxiosParams({
