@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { google } from "googleapis";
 import constants from "./common/constants.mjs";
 
@@ -25,9 +26,11 @@ export default {
         };
         const client = await this.getClient();
         const {
-          connections,
-          nextPageToken,
-        } = await this.listContacts(client, params);
+          connections, nextPageToken,
+        } = await this.listContacts(
+          client,
+          params,
+        );
         if (!connections) {
           return [];
         }
@@ -63,6 +66,11 @@ export default {
       description: "Contact sections to update",
       options: constants.UPDATE_PERSON_FIELD_OPTIONS,
     },
+    contactGroupResourceName: {
+      type: "string",
+      label: "Contact Group",
+      description: "Select a contact group (for example, contactGroups/abc123). Use the **List Contact Groups** action to discover available groups.",
+    },
   },
   methods: {
     getClient() {
@@ -79,12 +87,40 @@ export default {
       const { data } = await client.people.connections.list(params);
       return data;
     },
+    async searchContacts(client, params) {
+      const { data } = await client.people.searchContacts(params);
+      return data;
+    },
     async listDirectoryContacts(client, params) {
       const { data } = await client.people.listDirectoryPeople(params);
       return data;
     },
+    async searchDirectoryPeople(client, params) {
+      const { data } = await client.people.searchDirectoryPeople(params);
+      return data;
+    },
     async listContactGroups(client, params) {
       const { data } = await client.contactGroups.list(params);
+      return data;
+    },
+    async createContactGroup(client, params) {
+      const { data } = await client.contactGroups.create(params);
+      return data;
+    },
+    async getContactGroup(client, params) {
+      const { data } = await client.contactGroups.get(params);
+      return data;
+    },
+    async updateContactGroup(client, params) {
+      const { data } = await client.contactGroups.update(params);
+      return data;
+    },
+    async deleteContactGroup(client, params) {
+      const { data } = await client.contactGroups.delete(params);
+      return data;
+    },
+    async modifyContactGroupMembers(client, params) {
+      const { data } = await client.contactGroups.members.modify(params);
       return data;
     },
     async getContact(client, params) {

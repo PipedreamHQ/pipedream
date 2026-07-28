@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-customers",
   name: "List Customers",
   description: "Return a list of customers. [See the documentation](https://developer.surecart.com/api-reference/customers/list)",
-  version: "0.0.2",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -28,25 +28,19 @@ export default {
     licenseIds: {
       type: "string[]",
       label: "License IDs",
-      description: "Filter by license IDs. Example: `[\"lic_abc123\"]`",
+      description: "Filter by license IDs. Example: `[\"b47ca4c2-6cd2-41d5-aefb-4dc459642c56\"]`",
       optional: true,
     },
-    limit: {
+    maxResults: {
       propDefinition: [
         surecart,
-        "limit",
+        "maxResults",
       ],
     },
     liveMode: {
       propDefinition: [
         surecart,
         "liveMode",
-      ],
-    },
-    page: {
-      propDefinition: [
-        surecart,
-        "page",
       ],
     },
     query: {
@@ -69,20 +63,28 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.surecart.listCustomers({
-      $,
-      params: {
-        "email": this.email,
-        "ids[]": this.ids,
-        "license_ids[]": this.licenseIds,
-        "limit": this.limit,
-        "live_mode": this.liveMode,
-        "page": this.page,
-        "query": this.query,
-        "sort": this.sort,
+    const results = this.surecart.paginate({
+      fn: this.surecart.listCustomers,
+      args: {
+        $,
+        params: {
+          "email": this.email,
+          "ids[]": this.ids,
+          "license_ids[]": this.licenseIds,
+          "live_mode": this.liveMode,
+          "query": this.query,
+          "sort": this.sort,
+        },
       },
+      max: this.maxResults,
     });
-    $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} customer(s)`);
-    return response;
+
+    const customers = [];
+    for await (const customer of results) {
+      customers.push(customer);
+    }
+
+    $.export("$summary", `Successfully retrieved ${customers.length} customer(s)`);
+    return customers;
   },
 };
