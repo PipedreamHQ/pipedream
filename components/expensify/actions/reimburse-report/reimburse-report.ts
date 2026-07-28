@@ -1,4 +1,5 @@
 // x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import { defineAction } from "@pipedream/types";
 import expensify from "../../app/expensify.app";
 import { REIMBURSED_STATUS } from "../../common/constants";
@@ -29,6 +30,13 @@ export default defineAction({
     },
   },
   async run({ $ }) {
+    if (
+      this.paymentSource != null &&
+      (this.paymentSource.length < 1 || this.paymentSource.length > 100)
+    ) {
+      throw new ConfigurationError("Payment Source must be between 1 and 100 characters.");
+    }
+
     const response = await this.expensify.updateReportStatus({
       $,
       reportIDList: this.reportId,
