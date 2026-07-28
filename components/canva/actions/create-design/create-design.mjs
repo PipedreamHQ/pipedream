@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import canva from "../../canva.app.mjs";
 import constants from "../../common/constants.mjs";
 
@@ -5,7 +6,7 @@ export default {
   key: "canva-create-design",
   name: "Create Design",
   description: "Creates a new Canva design. [See the documentation](https://www.canva.dev/docs/connect/api-reference/designs/create-design/)",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -18,8 +19,26 @@ export default {
       type: "string",
       label: "Design Type",
       description: "The desired design type",
-      reloadProps: true,
       options: constants.DESIGN_TYPE_OPTIONS,
+    },
+    name: {
+      type: "string",
+      label: "Design Type Name",
+      description: "The name of the design type. Only applies when Design Type is `preset`.",
+      optional: true,
+      options: constants.DESIGN_TYPE_NAME_OPTIONS,
+    },
+    width: {
+      type: "integer",
+      label: "Width",
+      description: "The width of the design (in pixels). Minimum 40px, maximum 8000px. Only applies when Design Type is `custom`.",
+      optional: true,
+    },
+    height: {
+      type: "integer",
+      label: "Height",
+      description: "The height of the design (in pixels). Minimum 40px, maximum 8000px. Only applies when Design Type is `custom`.",
+      optional: true,
     },
     title: {
       propDefinition: [
@@ -34,33 +53,6 @@ export default {
       description: "The ID of the asset to add to the new design",
       optional: true,
     },
-  },
-  async additionalProps() {
-    const props = {};
-    if (!this.designType) {
-      return props;
-    }
-    if (this.designType === "preset") {
-      props.name = {
-        type: "string",
-        label: "Design Type Name",
-        description: "The name of the design type",
-        options: constants.DESIGN_TYPE_NAME_OPTIONS,
-      };
-    }
-    if (this.designType === "custom") {
-      props.width = {
-        type: "integer",
-        label: "Width",
-        description: "The width of the design (in pixels). Minimum 40px, maximum 8000px",
-      };
-      props.height = {
-        type: "integer",
-        label: "Height",
-        description: "The height of the design (in pixels). Minimum 40px, maximum 8000px",
-      };
-    }
-    return props;
   },
   async run({ $ }) {
     const response = await this.canva.createDesign({

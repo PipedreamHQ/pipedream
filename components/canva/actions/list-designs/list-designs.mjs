@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import canva from "../../canva.app.mjs";
 import constants from "../../common/constants.mjs";
 
@@ -5,7 +6,7 @@ export default {
   key: "canva-list-designs",
   name: "List Designs",
   description: "List all designs in Canva. [See the documentation](https://www.canva.dev/docs/connect/api-reference/designs/list-designs/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

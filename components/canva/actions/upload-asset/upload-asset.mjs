@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import canva from "../../canva.app.mjs";
 import { getFileStreamAndMetadata } from "@pipedream/platform";
 
@@ -5,7 +6,7 @@ export default {
   key: "canva-upload-asset",
   name: "Upload Asset",
   description: "Uploads an asset to Canva. [See the documentation](https://www.canva.dev/docs/connect/api-reference/assets/create-asset-upload-job/)",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

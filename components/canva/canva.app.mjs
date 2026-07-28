@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -7,30 +8,7 @@ export default {
     designId: {
       type: "string",
       label: "Design ID",
-      description: "The ID of the design",
-      async options({ prevContext }) {
-        const params = prevContext?.continuation
-          ? {
-            continuation: prevContext.continuation,
-          }
-          : {};
-        const {
-          items, continuation,
-        } = await this.listDesigns({
-          params,
-        });
-        return {
-          options: items?.map(({
-            id: value, title: label,
-          }) => ({
-            value,
-            label,
-          })) || [],
-          context: {
-            continuation,
-          },
-        };
-      },
+      description: "The ID of the design (e.g. `DAFq1234abcd`). Run **List Designs** first to obtain design IDs.",
     },
     title: {
       type: "string",
@@ -48,6 +26,21 @@ export default {
       label: "Wait for Completion",
       description: "Set to `true` to poll the API in 3-second intervals until the job is completed",
       optional: true,
+    },
+    assetId: {
+      type: "string",
+      label: "Asset ID",
+      description: "The ID of the asset (e.g. `Abc12345xyz`). Obtain asset IDs from **Upload Asset** or **List Folder Items**.",
+    },
+    folderId: {
+      type: "string",
+      label: "Folder ID",
+      description: "The ID of the folder (e.g. `FABc5678efgh`). Use `root` for top-level or discover sub-folder IDs via **List Folder Items**.",
+    },
+    brandTemplateId: {
+      type: "string",
+      label: "Brand Template ID",
+      description: "The ID of the brand template (e.g. `BT1234abcd`). Discover IDs via **List Brand Templates**.",
     },
   },
   methods: {
@@ -79,6 +72,14 @@ export default {
         ...opts,
       });
     },
+    getDesign({
+      designId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/designs/${designId}`,
+        ...opts,
+      });
+    },
     getUploadJob({
       jobId, ...opts
     }) {
@@ -91,6 +92,32 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "/asset-uploads",
+        ...opts,
+      });
+    },
+    getAsset({
+      assetId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/assets/${assetId}`,
+        ...opts,
+      });
+    },
+    updateAsset({
+      assetId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PATCH",
+        path: `/assets/${assetId}`,
+        ...opts,
+      });
+    },
+    deleteAsset({
+      assetId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/assets/${assetId}`,
         ...opts,
       });
     },
@@ -128,6 +155,91 @@ export default {
     }) {
       return this._makeRequest({
         path: `/exports/${exportId}`,
+        ...opts,
+      });
+    },
+    createFolder(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/folders",
+        ...opts,
+      });
+    },
+    getFolder({
+      folderId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/folders/${folderId}`,
+        ...opts,
+      });
+    },
+    updateFolder({
+      folderId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PATCH",
+        path: `/folders/${folderId}`,
+        ...opts,
+      });
+    },
+    deleteFolder({
+      folderId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/folders/${folderId}`,
+        ...opts,
+      });
+    },
+    listFolderItems({
+      folderId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/folders/${folderId}/items`,
+        ...opts,
+      });
+    },
+    moveFolderItem(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/folders/move",
+        ...opts,
+      });
+    },
+    listBrandTemplates(opts = {}) {
+      return this._makeRequest({
+        path: "/brand-templates",
+        ...opts,
+      });
+    },
+    getBrandTemplate({
+      brandTemplateId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/brand-templates/${brandTemplateId}`,
+        ...opts,
+      });
+    },
+    getBrandTemplateDataset({
+      brandTemplateId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/brand-templates/${brandTemplateId}/dataset`,
+        ...opts,
+      });
+    },
+    createAutofillJob(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/autofills",
+        ...opts,
+      });
+    },
+    getAutofillJob({
+      jobId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/autofills/${jobId}`,
         ...opts,
       });
     },

@@ -94,6 +94,62 @@ const SORT_BY_OPTIONS = [
   },
 ];
 
+const FOLDER_ITEM_TYPE_OPTIONS = [
+  "design",
+  "folder",
+  "image",
+  "brand_template",
+];
+
+const FOLDER_ITEM_SORT_BY_OPTIONS = [
+  "modified_descending",
+  "modified_ascending",
+  "created_descending",
+  "created_ascending",
+  "title_ascending",
+  "title_descending",
+];
+
+const PIN_STATUS_OPTIONS = [
+  "any",
+  "pinned",
+];
+
+const BRAND_TEMPLATE_OWNERSHIP_OPTIONS = [
+  "any",
+  "owned",
+  "shared",
+];
+
+const BRAND_TEMPLATE_SORT_BY_OPTIONS = [
+  "relevance",
+  "modified_descending",
+  "modified_ascending",
+  "title_descending",
+  "title_ascending",
+];
+
+const BRAND_TEMPLATE_DATASET_OPTIONS = [
+  "any",
+  "non_empty",
+];
+
+const AUTOFILL_TYPE_OPTIONS = [
+  "create_from_brand_template",
+  "create_from_design",
+];
+
+const PARENT_FOLDER_SPECIAL_VALUES = [
+  "root",
+  "uploads",
+];
+
+const JOB_STATUS = {
+  IN_PROGRESS: "in_progress",
+  SUCCESS: "success",
+  FAILED: "failed",
+};
+
 export default {
   DESIGN_TYPE_OPTIONS,
   DESIGN_TYPE_NAME_OPTIONS,
@@ -103,4 +159,13 @@ export default {
   PAPER_SIZE,
   OWNERSHIP_OPTIONS,
   SORT_BY_OPTIONS,
+  FOLDER_ITEM_TYPE_OPTIONS,
+  FOLDER_ITEM_SORT_BY_OPTIONS,
+  PIN_STATUS_OPTIONS,
+  BRAND_TEMPLATE_OWNERSHIP_OPTIONS,
+  BRAND_TEMPLATE_SORT_BY_OPTIONS,
+  BRAND_TEMPLATE_DATASET_OPTIONS,
+  AUTOFILL_TYPE_OPTIONS,
+  PARENT_FOLDER_SPECIAL_VALUES,
+  JOB_STATUS,
 };
