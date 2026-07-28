@@ -7,7 +7,7 @@ export default {
     accountId: {
       type: "string",
       label: "Account ID",
-      description: "The ID of the Ringba account.",
+      description: "The Ringba account ID, which starts with `RA` followed by 32 characters (for example, `RA999x99xx99x999x9xx9xxx9999x9x999`). In Ringba, click the person icon above the company name, then click the copy icon next to the company name.",
     },
     includeStats: {
       type: "boolean",

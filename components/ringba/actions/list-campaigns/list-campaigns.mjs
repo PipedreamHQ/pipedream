@@ -3,7 +3,7 @@ import ringba from "../../ringba.app.mjs";
 export default {
   key: "ringba-list-campaigns",
   name: "List Campaigns",
-  description: "Retrieve all active campaigns for a Ringba account. See the [documentation](https://developers.ringba.com/).",
+  description: "Retrieve active campaigns for the specified Ringba Account ID. Set Include Stats to true only when campaign statistics are needed because the response may be larger. [See the documentation](https://developers.ringba.com/)",
   type: "action",
   version: "0.0.1",
   annotations: {
@@ -13,11 +13,7 @@ export default {
   },
   props: {
     ringba,
-    accountId: {
-      ...ringba.propDefinitions.accountId,
-      label: "Account ID",
-      description: "The ID of the Ringba account whose campaigns should be retrieved.",
-    },
+    accountId: ringba.propDefinitions.accountId,
     includeStats: ringba.propDefinitions.includeStats,
   },
   async run({ $ }) {
