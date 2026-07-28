@@ -15,8 +15,10 @@ export default {
   props: {
     wrike,
     taskId: {
-      type: "string",
-      label: "Task ID",
+      propDefinition: [
+        wrike,
+        "taskId",
+      ],
       description: "The ID of the task to comment on, e.g. `IEAASDF3KQAAAAAA`. Run **Find Tasks** to look up task IDs.",
     },
     text: {

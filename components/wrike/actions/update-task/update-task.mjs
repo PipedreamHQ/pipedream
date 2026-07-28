@@ -19,8 +19,10 @@ export default {
   props: {
     wrike,
     taskId: {
-      type: "string",
-      label: "Task ID",
+      propDefinition: [
+        wrike,
+        "taskId",
+      ],
       description: "The ID of the task to update, e.g. `IEAASDF3KQAAAAAA`. Run the **Find Tasks** action to look up task IDs.",
     },
     title: {
@@ -50,12 +52,20 @@ export default {
       options: TASK_IMPORTANCE_OPTIONS,
     },
     addResponsibles: {
+      propDefinition: [
+        wrike,
+        "contactId",
+      ],
       type: "string[]",
       label: "Add Responsibles",
       description: "Contact IDs to add as assignees, e.g. `KUABCDEF` (the intake 'responsibles' input maps here; Wrike PUT has no flat responsibles field). Run **List Contact ID Options** to look up IDs.",
       optional: true,
     },
     removeResponsibles: {
+      propDefinition: [
+        wrike,
+        "contactId",
+      ],
       type: "string[]",
       label: "Remove Responsibles",
       description: "Contact IDs to remove as assignees. Run **List Contact ID Options** to look up IDs.",

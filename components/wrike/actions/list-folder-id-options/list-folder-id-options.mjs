@@ -38,9 +38,14 @@ export default {
         }
         : undefined,
     });
-    $.export("$summary", `Successfully retrieved ${folders.length} folder${folders.length === 1
+    // Server-side `deleted: false` only applies to the account-level list; when
+    // `folderId` is provided the endpoint returns that folder's children as-is,
+    // so a Recycle Bin parent would leak trashed folders. `scope` marks each
+    // resource's zone — drop anything living under the RB.
+    const filtered = folders.filter((f) => f.scope !== "RbFolder" && f.scope !== "RbRoot");
+    $.export("$summary", `Successfully retrieved ${filtered.length} folder${filtered.length === 1
       ? ""
       : "s"}`);
-    return folders;
+    return filtered;
   },
 };

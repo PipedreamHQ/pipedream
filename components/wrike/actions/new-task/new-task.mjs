@@ -19,8 +19,10 @@ export default {
   props: {
     wrike,
     folderId: {
-      type: "string",
-      label: "Folder ID",
+      propDefinition: [
+        wrike,
+        "folderId",
+      ],
       description: "The ID of the folder to create the task in, e.g. `IEAASDF3`. Run **List Folder ID Options** to look up folder IDs.",
     },
     title: {
@@ -49,6 +51,10 @@ export default {
       options: TASK_IMPORTANCE_OPTIONS,
     },
     responsibles: {
+      propDefinition: [
+        wrike,
+        "contactId",
+      ],
       type: "string[]",
       label: "Responsibles",
       description: "Contact IDs to make responsible for the task, e.g. `KUABCDEF`. Run **List Contact ID Options** to look up IDs.",

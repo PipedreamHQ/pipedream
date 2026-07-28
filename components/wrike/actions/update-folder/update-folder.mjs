@@ -16,8 +16,10 @@ export default {
   props: {
     wrike,
     folderId: {
-      type: "string",
-      label: "Folder ID",
+      propDefinition: [
+        wrike,
+        "folderId",
+      ],
       description: "The ID of the folder or project to update, e.g. `IEAASDF3`. Run **List Folder ID Options** to look up IDs.",
     },
     title: {
@@ -39,12 +41,20 @@ export default {
       optional: true,
     },
     addParents: {
+      propDefinition: [
+        wrike,
+        "folderId",
+      ],
       type: "string[]",
       label: "Add Parents",
       description: "Folder IDs to add as parents. Run **List Folder ID Options** to look up IDs.",
       optional: true,
     },
     removeParents: {
+      propDefinition: [
+        wrike,
+        "folderId",
+      ],
       type: "string[]",
       label: "Remove Parents",
       description: "Folder IDs to remove as parents.",

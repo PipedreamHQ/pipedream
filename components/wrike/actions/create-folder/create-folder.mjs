@@ -16,7 +16,10 @@ export default {
   props: {
     wrike,
     parentFolderId: {
-      type: "string",
+      propDefinition: [
+        wrike,
+        "folderId",
+      ],
       label: "Parent Folder ID",
       description: "The ID of the parent folder to create under (path param, e.g. `IEAASDF3`); use the account root folder ID to create at the root. Run **List Folder ID Options** to look up IDs.",
     },
@@ -38,6 +41,10 @@ export default {
       optional: true,
     },
     shareds: {
+      propDefinition: [
+        wrike,
+        "contactId",
+      ],
       type: "string[]",
       label: "Shareds",
       description: "Contact IDs to share the folder with. Run **List Contact ID Options** to look up IDs.",

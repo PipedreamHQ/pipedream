@@ -19,8 +19,10 @@ export default {
   props: {
     wrike,
     folderId: {
-      type: "string",
-      label: "Folder ID",
+      propDefinition: [
+        wrike,
+        "folderId",
+      ],
       description: "The ID of the folder or project whose tasks to query, e.g. `IEAASDF3`. Run the **List Folder ID Options** action to look up folder IDs.",
     },
     status: {
@@ -50,6 +52,10 @@ export default {
       optional: true,
     },
     responsibles: {
+      propDefinition: [
+        wrike,
+        "contactId",
+      ],
       type: "string[]",
       label: "Responsibles",
       description: "Filter by assignee contact IDs, e.g. `KUABCDEF`. Run the **List Contact ID Options** action to look up contact IDs.",
