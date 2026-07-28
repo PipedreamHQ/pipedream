@@ -1,4 +1,6 @@
 import fs from "fs";
+import path from "path";
+import { pipeline } from "node:stream/promises";
 import {
   ExtractElementType,
   ExtractPDFJob,
@@ -63,6 +65,9 @@ export default {
       if (!filename) {
         throw new Error("filename is required");
       }
+      if (path.basename(filename) !== filename) {
+        throw new Error("filename must be a plain file name with no path separators or \"..\" segments");
+      }
 
       const pdfServices = this.getPDFServices();
 
@@ -72,41 +77,42 @@ export default {
         mimeType: MimeType.PDF,
       });
 
-      const params = type === "text"
-        ? this.buildExtractPDFParamsText()
-        : this.buildExtractPDFParamsTextAndTables();
-      const job = new ExtractPDFJob({
-        inputAsset,
-        params,
-      });
-
-      const pollingURL = await pdfServices.submit({
-        job,
-      });
-      const pdfServicesResponse = await pdfServices.getJobResult({
-        pollingURL,
-        resultType: ExtractPDFResult,
-      });
-
-      const resultAsset = pdfServicesResponse.result.resource;
-      const streamAsset = await pdfServices.getContent({
-        asset: resultAsset,
-      });
-
       const outputPath = `/tmp/${filename.endsWith(".zip")
         ? filename
         : `${filename}.zip`}`;
-      await new Promise((resolve, reject) => {
-        const writeStream = fs.createWriteStream(outputPath);
-        streamAsset.readStream
-          .pipe(writeStream)
-          .on("finish", resolve)
-          .on("error", reject);
-      });
 
-      await pdfServices.deleteAsset({
-        asset: inputAsset,
-      });
+      try {
+        const params = type === "text"
+          ? this.buildExtractPDFParamsText()
+          : this.buildExtractPDFParamsTextAndTables();
+        const job = new ExtractPDFJob({
+          inputAsset,
+          params,
+        });
+
+        const pollingURL = await pdfServices.submit({
+          job,
+        });
+        const pdfServicesResponse = await pdfServices.getJobResult({
+          pollingURL,
+          resultType: ExtractPDFResult,
+        });
+
+        const resultAsset = pdfServicesResponse.result.resource;
+        const streamAsset = await pdfServices.getContent({
+          asset: resultAsset,
+        });
+
+        await pipeline(streamAsset.readStream, fs.createWriteStream(outputPath));
+      } finally {
+        try {
+          await pdfServices.deleteAsset({
+            asset: inputAsset,
+          });
+        } catch (cleanupErr) {
+          console.error("Failed to delete uploaded Adobe PDF Services input asset during cleanup:", cleanupErr);
+        }
+      }
 
       return outputPath;
     },
