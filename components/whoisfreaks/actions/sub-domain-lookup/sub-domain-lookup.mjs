@@ -31,7 +31,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.whoisfreaks.subDomainLookup({
+    const response = await this.whoisfreaks.lookupSubDomain({
       $,
       params: {
         domain: this.domainName,

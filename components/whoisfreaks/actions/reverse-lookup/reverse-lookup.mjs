@@ -55,12 +55,19 @@ export default {
     },
   },
   async run({ $ }) {
-    const lookupValues = [this.keyword, this.email, this.owner, this.company];
-    const activeCount = lookupValues.filter((v) => {
-      if (v === undefined || v === null) return false;
-      if (typeof v === "string" && v.trim() === "") return false;
-      return true;
-    }).length;
+    const normalize = (v) =>
+      typeof v === "string" && v.trim() === ""
+        ? undefined
+        : v;
+
+    const keyword = normalize(this.keyword);
+    const email = normalize(this.email);
+    const owner = normalize(this.owner);
+    const company = normalize(this.company);
+
+    const activeCount = [
+      keyword, email, owner, company,
+    ].filter((v) => v !== undefined && v !== null).length;
 
     if (activeCount !== 1) {
       throw new ConfigurationError(
@@ -68,14 +75,13 @@ export default {
       );
     }
 
-
     const response = await this.whoisfreaks.domainLookup({
       $,
       params: {
-        keyword: this.keyword,
-        email: this.email,
-        owner: this.owner,
-        company: this.company,
+        keyword,
+        email,
+        owner,
+        company,
         whois: "reverse",
         format: this.format,
         page: this.page || 1,

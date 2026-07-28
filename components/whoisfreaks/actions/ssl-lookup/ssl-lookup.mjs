@@ -22,7 +22,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.whoisfreaks.sslLookup({
+    const response = await this.whoisfreaks.lookupSsl({
       $,
       params: {
         domainName: this.domainName,

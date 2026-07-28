@@ -18,7 +18,7 @@ export default {
         },
     },
     async run({ $ }) {
-        const response = await this.whoisfreaks.domainSecurityLookup({
+        const response = await this.whoisfreaks.lookupDomainReputation({
             $,
             params: {
                 domainName: this.domainName,

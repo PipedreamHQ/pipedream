@@ -23,7 +23,7 @@ export default {
     },
     async run({ $ }) {
         const domainNames = parseObject(this.domainNames);
-        const response = await this.whoisfreaks.bulkWhoisLookup({
+        const response = await this.whoisfreaks.lookupBulkWhois({
             $,
             params: {
                 format: this.format,

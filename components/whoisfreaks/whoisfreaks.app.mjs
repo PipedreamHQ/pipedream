@@ -73,61 +73,61 @@ export default {
         ...opts,
       });
     },
-    domainAvailabilityLookup(opts = {}) {
+    lookupDomainAvailability(opts = {}) {
       return this._makeRequest({
         path: "/v1.0/domain/availability",
         ...opts,
       });
     },
-    sslLookup(opts = {}) {
+    lookupSsl(opts = {}) {
       return this._makeRequest({
         path: "/v1.0/ssl/live",
         ...opts,
       });
     },
-    ipGeolocationLookup(opts = {}) {
+    lookupIpGeolocation(opts = {}) {
       return this._makeRequest({
         path: "/v1.0/geolocation",
         ...opts,
       });
     },
-    subDomainLookup(opts = {}) {
+    lookupSubDomain(opts = {}) {
       return this._makeRequest({
         path: "/v1.0/subdomains",
         ...opts,
       });
     },
-    lookupDomainAvailability(opts = {}) {
+    lookupDomainReputation(opts = {}) {
       return this._makeRequest({
         path: "/v1/domain/security",
         ...opts,
       });
     },
-    ipReputationLookup(opts = {}) {
+    lookupIpReputation(opts = {}) {
       return this._makeRequest({
         path: "/v1.0/security",
         ...opts,
       });
     },
-    bulkWhoisLookup(opts = {}) {
+    lookupBulkWhois(opts = {}) {
       return this._makePostRequest({
         path: "/v2.0/bulkwhois/live",
         ...opts
       });
     },
-    bulkDnsDomainLookup(opts = {}) {
+    lookupBulkDnsDomain(opts = {}) {
       return this._makePostRequest({
         path: "/v2.0/dns/bulk/live",
         ...opts
       });
     },
-    bulkIpGeolocationLookup(opts = {}) {
+    lookupBulkIpGeolocation(opts = {}) {
       return this._makePostRequest({
         path: "/v1.0/geolocation",
         ...opts
       });
     },
-    bulkIpReputationLookup(opts = {}) {
+    lookupBulkIpReputation(opts = {}) {
       return this._makePostRequest({
         path: "/v1.0/security",
         ...opts

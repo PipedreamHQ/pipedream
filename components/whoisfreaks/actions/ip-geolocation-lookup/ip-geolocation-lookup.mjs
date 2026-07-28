@@ -19,7 +19,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.whoisfreaks.ipGeolocationLookup({
+    const response = await this.whoisfreaks.lookupIpGeolocation({
       $,
       params: {
         ip: this.ip,

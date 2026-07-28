@@ -1,10 +1,11 @@
 import whoisfreaks from "../../whoisfreaks.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "whoisfreaks-bulk-dns-domain-lookup",
   name: "Bulk DNS Domain Lookup",
-  description: "Retrieve DNS records (A, AAAA, MX, NS, CNAME, TXT, PTR, SPF, DKIM, DMARC, SRV, SOA) for up to 100 domains or IP addresses in a single request. Use this action for bulk DNS auditing, infrastructure mapping, or automated monitoring. Accepts domain names and/or IP addresses; returns JSON or XML output.",
+  description: "Retrieve DNS records (A, AAAA, MX, NS, CNAME, TXT, PTR, SPF, DKIM, DMARC, SRV, SOA) for up to 100 domains or IP addresses in a single request. Use this action for bulk DNS auditing, infrastructure mapping, or automated monitoring. Accepts domain names and/or IP addresses; returns JSON or XML output. [See the documentation](https://whoisfreaks.com/documentation/dns-checker-api#bulk-domain-lookup)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -37,12 +38,12 @@ export default {
       : [];
 
     if (!domainNames.length && !ipAddresses.length) {
-      throw new Error(
+      throw new ConfigurationError(
         "Please provide at least one domain name or IP address."
       );
     }
 
-    const response = await this.whoisfreaks.bulkDnsDomainLookup({
+    const response = await this.whoisfreaks.lookupBulkDnsDomain({
       $,
       params: {
         format: this.format,

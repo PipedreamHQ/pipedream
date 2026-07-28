@@ -24,7 +24,7 @@ export default {
     },
     async run({ $ }) {
         const ipAddresses = parseObject(this.ipAddresses);
-        const response = await this.whoisfreaks.bulkIpReputationLookup({
+        const response = await this.whoisfreaks.lookupBulkIpReputation({
             $,
             params: {
                 format: this.format,

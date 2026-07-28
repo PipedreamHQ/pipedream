@@ -18,7 +18,7 @@ export default {
         },
     },
     async run({ $ }) {
-        const response = await this.whoisfreaks.ipReputationLookup({
+        const response = await this.whoisfreaks.lookupIpReputation({
             $,
             params: {
                 ip: this.ipAddress,
