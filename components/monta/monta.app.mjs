@@ -100,8 +100,8 @@ export default {
       updatedSince, ...opts
     }) {
       return this._makeRequest({
-        path: `/product/updated_since/${encodeURIComponent(updatedSince)}`,
         ...opts,
+        path: `/product/updated_since/${encodeURIComponent(updatedSince)}`,
       });
     },
   },
