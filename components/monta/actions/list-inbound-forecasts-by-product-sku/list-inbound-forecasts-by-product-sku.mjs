@@ -16,7 +16,7 @@ export default {
     productSku: {
       type: "string",
       label: "Product SKU",
-      description: "The product SKU to list inbound forecasts for",
+      description: "The exact product SKU as registered in your Monta product catalog (e.g. `SKU-12345`)",
     },
   },
   async run({ $ }) {

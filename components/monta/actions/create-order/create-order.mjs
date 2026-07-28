@@ -17,7 +17,7 @@ export default {
     webshopOrderId: {
       type: "string",
       label: "Webshop Order ID",
-      description: "The unique ID of the order in your webshop",
+      description: "The unique order ID assigned by your webshop (not Monta's internal order ID), e.g. `WEB-12345`",
     },
     b2b: {
       type: "boolean",

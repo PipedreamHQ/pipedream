@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import monta from "../../monta.app.mjs";
 
 function cleanObject(obj) {
@@ -142,6 +143,25 @@ export default {
     },
   },
   async run({ $ }) {
+    const addressProvided = [
+      this.street,
+      this.houseNumber,
+      this.houseNumberAddition,
+      this.postalCode,
+      this.city,
+      this.state,
+      this.countryCode,
+      this.company,
+      this.firstName,
+      this.middleName,
+      this.lastName,
+      this.phoneNumber,
+      this.emailAddress,
+    ].some((value) => value !== undefined);
+    if (addressProvided && (!this.street || !this.city || !this.countryCode)) {
+      throw new ConfigurationError("To change the delivery address, provide Street, City, and Country Code together, since Monta replaces the entire address and a partial update would clear the other fields.");
+    }
+
     const deliveryAddress = cleanObject({
       Street: this.street,
       HouseNumber: this.houseNumber,
