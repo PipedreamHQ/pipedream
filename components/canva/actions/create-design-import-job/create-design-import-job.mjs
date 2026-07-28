@@ -1,6 +1,10 @@
 // x-pd-ai: optimized
 import canva from "../../canva.app.mjs";
+import constants from "../../common/constants.mjs";
 import { getFileStreamAndMetadata } from "@pipedream/platform";
+
+const POLL_INTERVAL_MS = 3000;
+const MAX_POLL_ATTEMPTS = 40; // ~2 minutes at 3s intervals
 
 export default {
   key: "canva-create-design-import-job",
@@ -60,16 +64,21 @@ export default {
 
     if (this.waitForCompletion) {
       const timer = (ms) => new Promise((res) => setTimeout(res, ms));
-      const importId = response.job_id;
-      while (!response?.status || response.status?.state === "importing") {
+      const importId = response.job?.id;
+      let attempts = 0;
+      while (response.job?.status === constants.JOB_STATUS.IN_PROGRESS) {
+        if (attempts >= MAX_POLL_ATTEMPTS) {
+          throw new Error(`Import job "${importId}" did not complete after ~${(MAX_POLL_ATTEMPTS * POLL_INTERVAL_MS) / 1000}s.`);
+        }
+        attempts += 1;
+        await timer(POLL_INTERVAL_MS);
         response = await this.canva.getDesignImportJob({
           $,
           importId,
         });
-        if (response.status.error) {
-          throw new Error(response.status.error.message);
+        if (response.job?.status === constants.JOB_STATUS.FAILED) {
+          throw new Error(response.job?.error?.message ?? "Design import job failed");
         }
-        await timer(3000);
       }
     }
 

@@ -4,7 +4,7 @@ import canva from "../../canva.app.mjs";
 export default {
   key: "canva-create-folder",
   name: "Create Folder",
-  description: "Create a new folder via POST /folders. Optionally nest it under a parent folder. [See the documentation](https://www.canva.dev/docs/connect/api-reference/folders/create-folder/).",
+  description: "Create a new folder via POST /folders. Optionally nest it under a parent folder. [See the documentation](https://www.canva.dev/docs/connect/api-reference/folders/create-folder/)",
   version: "0.0.1",
   type: "action",
   annotations: {

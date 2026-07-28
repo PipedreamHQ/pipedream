@@ -5,7 +5,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "canva-list-brand-templates",
   name: "List Brand Templates",
-  description: "List brand templates available to the authenticated user via GET /brand-templates, with pagination and filters. [See the documentation](https://www.canva.dev/docs/connect/api-reference/brand-templates/list-brand-templates/).",
+  description: "List brand templates available to the authenticated user via GET /brand-templates, with pagination and filters. [See the documentation](https://www.canva.dev/docs/connect/api-reference/brand-templates/list-brand-templates/)",
   version: "0.0.1",
   type: "action",
   annotations: {

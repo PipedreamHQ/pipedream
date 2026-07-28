@@ -17,7 +17,7 @@ export default {
     jobId: {
       type: "string",
       label: "Job ID",
-      description: "The ID of the autofill job. Run **Create Design Autofill Job** first to obtain it.",
+      description: "The ID of the autofill job (e.g. `450dcc4c-9f5a-4b3e-8d2a-1c6f0e7a2b34`). Run **Create Design Autofill Job** first to obtain it.",
     },
   },
   async run({ $ }) {
@@ -25,7 +25,7 @@ export default {
       $,
       jobId: this.jobId,
     });
-    $.export("$summary", `Autofill job "${this.jobId}" status: ${response.job?.status?.state ?? "unknown"}`);
+    $.export("$summary", `Autofill job "${this.jobId}" status: ${response.job?.status ?? "unknown"}`);
     return response;
   },
 };

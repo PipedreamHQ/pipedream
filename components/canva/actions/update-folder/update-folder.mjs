@@ -1,4 +1,5 @@
 // x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import canva from "../../canva.app.mjs";
 
 export default {
@@ -23,10 +24,14 @@ export default {
     name: {
       type: "string",
       label: "Name",
-      description: "New folder name (max 255 characters).",
+      description: "New folder name. Valid names contain 1–255 characters.",
     },
   },
   async run({ $ }) {
+    if (this.name.length < 1 || this.name.length > 255) {
+      throw new ConfigurationError("Name must contain 1–255 characters.");
+    }
+
     const response = await this.canva.updateFolder({
       $,
       folderId: this.folderId,

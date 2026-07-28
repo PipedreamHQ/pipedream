@@ -40,7 +40,7 @@ export default {
     brandTemplateId: {
       type: "string",
       label: "Brand Template ID",
-      description: "The ID of the brand template (e.g. `BT1234abcd`). Discover IDs via **List Brand Templates**.",
+      description: "The ID of the brand template (e.g. `DEMzWSwy3BI`). Discover IDs via **List Brand Templates**.",
     },
   },
   methods: {

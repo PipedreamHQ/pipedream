@@ -4,7 +4,7 @@ import canva from "../../canva.app.mjs";
 export default {
   key: "canva-move-folder-item",
   name: "Move Folder Item",
-  description: "Move an item (design, asset, folder, or brand template) into a target folder via POST /folders/move. [See the documentation](https://www.canva.dev/docs/connect/api-reference/folders/move-folder-item/).",
+  description: "Move an item (design, image asset, folder, or brand template) into a target folder via POST /folders/move. Video assets are not supported by this endpoint and will be rejected. [See the documentation](https://www.canva.dev/docs/connect/api-reference/folders/move-folder-item/)",
   version: "0.0.1",
   type: "action",
   annotations: {

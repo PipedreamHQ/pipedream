@@ -4,12 +4,12 @@ import canva from "../../canva.app.mjs";
 export default {
   key: "canva-delete-asset",
   name: "Delete Asset",
-  description: "Permanently delete an asset via DELETE /assets/{assetId}. This is irreversible. [See the documentation](https://www.canva.dev/docs/connect/api-reference/assets/delete-asset/).",
+  description: "Move an asset to Trash via DELETE /assets/{assetId}. The asset is moved to the Canva Trash and can be recovered from there — it is not permanently deleted. [See the documentation](https://www.canva.dev/docs/connect/api-reference/assets/delete-asset/)",
   version: "0.0.1",
   type: "action",
   annotations: {
     readOnlyHint: false,
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
   },
   props: {

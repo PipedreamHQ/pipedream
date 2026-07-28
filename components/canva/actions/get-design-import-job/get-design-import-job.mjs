@@ -25,7 +25,7 @@ export default {
       $,
       importId: this.importId,
     });
-    $.export("$summary", `Import job "${this.importId}" status: ${response.status?.state ?? "unknown"}`);
+    $.export("$summary", `Import job "${this.importId}" status: ${response.job?.status ?? "unknown"}`);
     return response;
   },
 };

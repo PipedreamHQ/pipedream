@@ -20,7 +20,6 @@ export default {
         canva,
         "folderId",
       ],
-      description: "The ID of the folder to list items from. Use `root` to list top-level items, or discover sub-folder IDs via **List Folder Items**.",
     },
     itemTypes: {
       type: "string[]",
@@ -63,7 +62,9 @@ export default {
       $,
       folderId: this.folderId,
       params: {
-        item_types: this.itemTypes,
+        item_types: this.itemTypes?.length
+          ? this.itemTypes.join(",")
+          : undefined,
         sort_by: this.sortBy,
         pin_status: this.pinStatus,
         limit: this.limit,
