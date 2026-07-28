@@ -89,5 +89,20 @@ export default {
         ...opts,
       });
     },
+    /**
+     * Lists products whose stock changed since the provided date and time.
+     *
+     * @param {object} args - Request arguments
+     * @param {string} args.updatedSince - ISO 8601 start date and time
+     * @returns {Promise<object>} The Monta response containing updated products
+     */
+    listProductStockChanges({
+      updatedSince, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        path: `/product/updated_since/${encodeURIComponent(updatedSince)}`,
+      });
+    },
   },
 };
