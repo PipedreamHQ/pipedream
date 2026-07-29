@@ -7,7 +7,7 @@ export default {
     domainName: {
       type: "string",
       label: "Domain Name",
-      description: "The domain name to lookup",
+      description: "The domain name to lookup (e.g. `example.com`)",
     },
     domainNames: {
       type: "string[]",

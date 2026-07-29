@@ -1,13 +1,16 @@
+const splitCommaSeparated = (value) =>
+  value.split(",").map((v) => v.trim()).filter(Boolean);
+
 export const parseObject = (obj) => {
   if (!obj) return undefined;
 
   if (Array.isArray(obj)) {
-    return obj.map((item) => {
+    return obj.flatMap((item) => {
       if (typeof item === "string") {
         try {
           return JSON.parse(item);
         } catch (e) {
-          return item;
+          return splitCommaSeparated(item);
         }
       }
       return item;
@@ -17,7 +20,7 @@ export const parseObject = (obj) => {
     try {
       return JSON.parse(obj);
     } catch (e) {
-      return obj;
+      return splitCommaSeparated(obj);
     }
   }
   return obj;
