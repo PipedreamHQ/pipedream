@@ -1,155 +1,230 @@
+// x-pd-ai: optimized
 import app from "../../gong.app.mjs";
+import constants from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "gong-retrieve-transcripts-of-calls",
-  name: "Retrieve Transcripts Of Calls",
-  description: "Retrieve transcripts of calls. [See the documentation](https://us-66463.app.gong.io/settings/api/documentation#post-/v2/calls/transcript)",
+  name: "Get Call Transcripts",
+  description: `Retrieve the full spoken transcript of one or more calls. Returns an array of \`{ callId, speakers, transcript }\` objects, where each transcript entry carries the speaker, the topic Gong assigned to that stretch of the call, and the sentences with their \`hh:mm:ss\` offset from the start of the call.
+
+Pass **Call IDs** to transcribe specific calls (use **List Calls** or **Search Calls** to find them), or a date range to transcribe everything recorded in that window. Speaker IDs are resolved to participant names automatically, so you can tell the rep and the customer apart.
+
+To find where a word or phrase was said without pulling whole transcripts back, use **Search Call Transcripts** instead. For summaries, topics, and next steps, use **Search Calls**.
+
+Transcripts exist only for calls Gong has processed; a recently uploaded call may return nothing. Results are paginated internally, so one run returns up to **Limit** transcripts. [See the documentation](${constants.DOCS_URL}#post-/v2/calls/transcript)`,
   type: "action",
-  version: "0.0.7",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: false,
+    readOnlyHint: true,
   },
   props: {
     app,
     fromDateTime: {
-      optional: true,
       propDefinition: [
         app,
         "fromDateTime",
       ],
+      description: "Only transcribe calls that started on or after this date and time, in ISO-8601 format (e.g. `2026-01-01T00:00:00Z`).",
+      optional: true,
     },
     toDateTime: {
-      optional: true,
       propDefinition: [
         app,
         "toDateTime",
       ],
+      description: "Only transcribe calls that started before this date and time, in ISO-8601 format (e.g. `2026-04-01T00:00:00Z`). The bound is exclusive.",
+      optional: true,
     },
     workspaceId: {
-      optional: true,
       propDefinition: [
         app,
         "workspaceId",
       ],
+      description: "Only transcribe calls belonging to this workspace. Use the **List Workspace ID Options** action to discover workspace IDs.",
+      optional: true,
     },
     callIds: {
       propDefinition: [
         app,
         "callIds",
       ],
+      description: "Transcribe only these calls. Use **List Calls** to discover call IDs.",
+      optional: true,
+    },
+    resolveSpeakerNames: {
+      type: "boolean",
+      label: "Resolve Speaker Names",
+      description: "Whether to look up each speaker's name, email, and `Internal` or `External` affiliation. Costs one extra request per batch of calls. Turn off to return raw speaker IDs only.",
+      default: true,
+      optional: true,
     },
     returnSimplifiedTranscript: {
       type: "boolean",
       label: "Return Simplified Transcript",
-      description: "If true, returns a simplified version of the transcript with normalized speaker IDs and formatted timestamps",
-      optional: true,
+      description: "Whether to return one readable text block per call instead of the structured sentence arrays. Easier to read, but drops the per-sentence timing.",
       default: false,
+      optional: true,
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: `Maximum number of call transcripts to return. Min ${constants.MIN_LIMIT}, max ${constants.MAX_LIMIT}.`,
+      min: constants.MIN_LIMIT,
+      max: constants.MAX_LIMIT,
+      default: constants.DEFAULT_LIMIT,
+      optional: true,
     },
   },
   methods: {
-    retrieveTranscriptsOfCalls(args = {}) {
-      return this.app.post({
-        path: "/calls/transcript",
-        ...args,
+    /**
+     * Builds a `speakerId -> party` index for the given calls. Gong's transcript
+     * payload identifies a speaker only by `speakerId`, which is distinct from
+     * the party's `userId`, so the parties block of /calls/extensive is the only
+     * way to attach a name to what was said.
+     */
+    async getSpeakersByCallId({
+      step, callIds,
+    }) {
+      const calls = await this.app.paginate({
+        resourceFn: (args) => this.app.listCallsExtensive(args),
+        resourceFnArgs: {
+          step,
+          data: {
+            filter: {
+              callIds,
+            },
+            contentSelector: {
+              exposedFields: {
+                parties: true,
+              },
+            },
+          },
+        },
+        resourceName: "calls",
+        max: callIds.length,
+        cursorIn: "data",
       });
+
+      return Object.fromEntries((calls || []).map((call) => [
+        call.metaData?.id,
+        Object.fromEntries((call.parties || [])
+          .filter(({ speakerId }) => speakerId)
+          .map(({
+            speakerId, name, emailAddress, affiliation, userId,
+          }) => [
+            speakerId,
+            {
+              name,
+              emailAddress,
+              affiliation,
+              userId,
+            },
+          ])),
+      ]));
     },
-
-    millisToTimestamp(millis) {
-      const totalSeconds = Math.floor(millis / 1000);
-      const minutes = Math.floor(totalSeconds / 60);
-      const seconds = totalSeconds % 60;
-
-      return `[${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}]`;
+    formatTranscript({
+      transcript, speakers,
+    }) {
+      return (transcript || []).map(({
+        speakerId, topic, sentences,
+      }) => ({
+        speakerId,
+        speaker: speakers?.[speakerId],
+        topic,
+        sentences: sentences?.map((sentence) => ({
+          ...sentence,
+          startTimestamp: utils.millisToTimestamp(sentence.start),
+        })),
+      }));
     },
+    simplifyTranscript({
+      transcript, speakers,
+    }) {
+      const lines = [];
+      let currentTopic;
 
-    simplifyTranscript(originalResponse) {
-      const simplified = {
-        ...originalResponse,
-        callTranscripts: originalResponse.callTranscripts.map((callTranscript) => {
-          // Create a map of unique speaker IDs to simplified names
-          const speakerMap = new Map();
-          let speakerCounter = 1;
-          let currentSpeaker = null;
-          let currentTopic = null;
-          let formattedTranscript = "";
+      for (const {
+        speakerId, topic, sentences,
+      } of transcript || []) {
+        if (topic && topic !== currentTopic) {
+          currentTopic = topic;
+          lines.push(`\nTopic: ${topic}\n-------------------`);
+        }
 
-          // Process each sentence maintaining chronological order
-          const allSentences = [];
-          callTranscript.transcript.forEach((segment) => {
-            segment.sentences.forEach((sentence) => {
-              allSentences.push({
-                ...sentence,
-                speakerId: segment.speakerId,
-                topic: segment.topic,
-              });
-            });
-          });
+        const speaker = speakers?.[speakerId]?.name || `Speaker ${speakerId}`;
+        const text = (sentences || []).map(({ text }) => text).join(" ");
 
-          // Sort by start time
-          allSentences.sort((a, b) => a.start - b.start);
+        lines.push(`[${utils.millisToTimestamp(sentences?.[0]?.start)}] ${speaker}: ${text}`);
+      }
 
-          // Process sentences
-          allSentences.forEach((sentence) => {
-            // Map speaker ID to simplified name
-            if (!speakerMap.has(sentence.speakerId)) {
-              speakerMap.set(sentence.speakerId, `Speaker ${speakerCounter}`);
-              speakerCounter++;
-            }
-
-            const speaker = speakerMap.get(sentence.speakerId);
-            const timestamp = this.millisToTimestamp(sentence.start);
-
-            // Handle topic changes
-            if (sentence.topic !== currentTopic) {
-              currentTopic = sentence.topic;
-              if (currentTopic) {
-                formattedTranscript += `\nTopic: ${currentTopic}\n-------------------\n\n`;
-              }
-            }
-
-            // Add speaker name only if it changes
-            if (speaker !== currentSpeaker) {
-              currentSpeaker = speaker;
-              formattedTranscript += `\n${speaker}:\n`;
-            }
-
-            // Add timestamp and text
-            formattedTranscript += `${timestamp} ${sentence.text}\n`;
-          });
-
-          return {
-            callId: callTranscript.callId,
-            formattedTranscript: formattedTranscript.trim(),
-          };
-        }),
-      };
-
-      return simplified;
+      return lines.join("\n").trim();
     },
   },
-
   async run({ $: step }) {
     const {
-      retrieveTranscriptsOfCalls,
+      app,
+      fromDateTime,
+      toDateTime,
+      workspaceId,
+      callIds,
+      resolveSpeakerNames,
       returnSimplifiedTranscript,
-      simplifyTranscript,
-      ...filter
+      limit,
     } = this;
 
-    const response = await retrieveTranscriptsOfCalls({
-      step,
-      data: {
-        filter,
+    // Built explicitly rather than by spreading the rest of `this`, which would
+    // also sweep this component's methods into the request body.
+    const filter = {
+      fromDateTime,
+      toDateTime,
+      workspaceId,
+      callIds,
+    };
+
+    const callTranscripts = await app.paginate({
+      resourceFn: (args) => app.listCallTranscripts(args),
+      resourceFnArgs: {
+        step,
+        data: {
+          filter,
+        },
       },
-      summary: (response) => `Successfully retrieved transcripts of calls with request ID \`${response.requestId}\`.`,
+      resourceName: "callTranscripts",
+      max: limit,
+      cursorIn: "data",
     });
 
-    if (returnSimplifiedTranscript) {
-      return simplifyTranscript(response);
-    }
+    const speakersByCallId = resolveSpeakerNames && callTranscripts.length
+      ? await this.getSpeakersByCallId({
+        step,
+        callIds: callTranscripts.map(({ callId }) => callId),
+      })
+      : {};
 
-    return response;
+    const results = callTranscripts.map(({
+      callId, transcript,
+    }) => {
+      const speakers = speakersByCallId[callId];
+      return {
+        callId,
+        speakers,
+        transcript: returnSimplifiedTranscript
+          ? this.simplifyTranscript({
+            transcript,
+            speakers,
+          })
+          : this.formatTranscript({
+            transcript,
+            speakers,
+          }),
+      };
+    });
+
+    step.export("$summary", `Retrieved ${utils.pluralize(results.length, "call transcript")}`);
+
+    return results;
   },
 };

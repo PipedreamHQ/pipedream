@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import app from "../../gong.app.mjs";
 import LANGS from "../../common/languages.mjs";
 import constants from "../../common/constants.mjs";
@@ -6,9 +7,9 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "gong-add-new-call",
   name: "Add New Call",
-  description: "Add a new call. [See the documentation](https://us-66463.app.gong.io/settings/api/documentation#post-/v2/calls)",
+  description: `Upload a call recording. Returns the new call's ID. [See the documentation](${constants.DOCS_URL}#post-/v2/calls)`,
   type: "action",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -43,7 +44,7 @@ export default {
     parties: {
       type: "string[]",
       label: "Parties",
-      description: "A list of the call's participants. A party must be provided for the **Primary User**. Each party can have a JSON stucture like this example: `{ \"phoneNumber\": \"123123\", \"emailAddress\": \"email@example.com\", \"name\": \"Name\", \"mediaChannelId\": \"1\" }`",
+      description: "A list of the call's participants, each a JSON object, e.g. `{ \"name\": \"Name\", \"emailAddress\": \"email@example.com\", \"phoneNumber\": \"123123\", \"mediaChannelId\": 1 }`. Set `userId` on the one party who is the internal Gong user hosting the call, e.g. `{ \"name\": \"Rep Name\", \"userId\": \"123456789\" }`; leave it off everyone else so external attendees are not recorded as employees. If no party sets `userId`, the **Primary User** is attached to the first party, since Gong requires a party for the primary user.",
     },
     title: {
       type: "string",
@@ -129,14 +130,22 @@ export default {
         parties,
       } = this;
 
-      return utils.parseArray(parties)
-        .map((party) => {
-          const parsed = utils.parse(party);
-          return {
-            ...parsed,
-            userId: primaryUser,
-          };
-        });
+      const parsed = utils.parseArray(parties).map((party) => utils.parse(party));
+
+      // `userId` identifies which party is a Gong user, so it must not be
+      // stamped onto every party: that would mark the customer as the rep. Gong
+      // require a primary user, so when no party claims the primary user,
+      // attach it to the first party that is not already someone else.
+      const hasPrimaryUser = parsed.some(({ userId }) => userId === primaryUser);
+
+      if (!hasPrimaryUser) {
+        const unattributed = parsed.find(({ userId }) => !userId);
+        if (unattributed) {
+          unattributed.userId = primaryUser;
+        }
+      }
+
+      return parsed;
     },
   },
   run({ $: step }) {
