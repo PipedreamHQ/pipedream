@@ -114,10 +114,17 @@ export default {
         };
       },
     },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum number of results to return",
+      default: 100,
+      optional: true,
+    },
     widgetId: {
       type: "string",
       label: "Widget ID",
-      description: "Unique identifiers of the widget",
+      description: "Unique identifier of the widget",
       optional: true,
       async options({
         muralId, type, prevContext,
@@ -216,6 +223,95 @@ export default {
         path: `/murals/${muralId}/widgets/sticky-note`,
         ...opts,
       });
+    },
+    searchMurals({
+      workspaceId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/search/${workspaceId}/murals`,
+        ...opts,
+      });
+    },
+    createTextbox({
+      muralId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/murals/${muralId}/widgets/textbox`,
+        ...opts,
+      });
+    },
+    createShape({
+      muralId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/murals/${muralId}/widgets/shape`,
+        ...opts,
+      });
+    },
+    createAssetUrl({
+      muralId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/murals/${muralId}/assets`,
+        ...opts,
+      });
+    },
+    uploadAsset({
+      $ = this,
+      url,
+      headers,
+      data,
+    }) {
+      return axios($, {
+        method: "PUT",
+        url,
+        headers,
+        data,
+      });
+    },
+    createImage({
+      muralId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/murals/${muralId}/widgets/image`,
+        ...opts,
+      });
+    },
+    updateSticky({
+      muralId, widgetId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PATCH",
+        path: `/murals/${muralId}/widgets/sticky-note/${widgetId}`,
+        ...opts,
+      });
+    },
+    createRoom(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/rooms",
+        ...opts,
+      });
+    },
+    inviteToMural({
+      muralId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/murals/${muralId}/users/invite`,
+        ...opts,
+      });
+    },
+    async getPaginatedResults(opts) {
+      const results = [];
+      for await (const item of this.paginate(opts)) {
+        results.push(item);
+      }
+      return results;
     },
     async *paginate({
       fn,
