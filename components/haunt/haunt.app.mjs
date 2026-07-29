@@ -7,7 +7,7 @@ export default {
     url: {
       type: "string",
       label: "URL",
-      description: "The public web page URL to read",
+      description: "A publicly reachable absolute HTTP(S) URL, for example `https://example.com/product/123`",
     },
     prompt: {
       type: "string",
@@ -50,7 +50,7 @@ export default {
         ...opts,
       });
     },
-    extract(opts = {}) {
+    extractData(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/v1/extract",

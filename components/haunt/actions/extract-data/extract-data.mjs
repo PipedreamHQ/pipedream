@@ -4,7 +4,7 @@ export default {
   key: "haunt-extract-data",
   name: "Extract Data",
   description:
-    "Extracts structured data or clean text from a public web page using a plain-language prompt. When a page cannot be read, the response carries an honest `error_code` (such as `access_denied`, `login_required`, `not_found`) instead of invented content, so your workflow can branch on it. Failed reads are not charged. [See the documentation](https://hauntapi.com/docs?utm_source=pipedream&utm_medium=integration&utm_campaign=sweep-2026-07)",
+    "Extracts structured data or clean text from a public web page using a plain-language prompt. Page-level failures include an `error_code` such as `access_denied`, `login_required`, or `not_found`, so the workflow can choose another path. Failed extractions are not charged. [See the documentation](https://hauntapi.com/docs?utm_source=pipedream&utm_medium=integration&utm_campaign=haunt-component)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -41,7 +41,7 @@ export default {
     if (this.responseFormat) {
       data.response_format = this.responseFormat;
     }
-    const response = await this.haunt.extract({
+    const response = await this.haunt.extractData({
       $,
       data,
     });
