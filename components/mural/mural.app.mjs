@@ -283,8 +283,8 @@ export default {
     },
     uploadAsset(opts = {}) {
       return this._uploadRequest({
-        method: "PUT",
         ...opts,
+        method: "PUT",
       });
     },
     createImage({
