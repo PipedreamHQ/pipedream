@@ -3,7 +3,7 @@ import mural from "../../mural.app.mjs";
 export default {
   key: "mural-update-sticky",
   name: "Update Sticky",
-  description: "Update or move a sticky note on a mural. [See the documentation](https://developers.mural.co/public/reference/updatestickynote)",
+  description: "Update or move an existing sticky note on a mural. Every field except the mural and widget is optional, and only the fields you set are sent, so you can reposition a note by supplying just **X Position** and **Y Position** or reword it by supplying just **Text**. [See the documentation](https://developers.mural.co/public/reference/updatestickynote)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -48,7 +48,7 @@ export default {
     htmlText: {
       type: "string",
       label: "HTML Text",
-      description: "The text in the widget with inline HTML formatting. When set, takes priority over the Text property.",
+      description: "The text in the widget with inline HTML formatting, for example `<p><strong>Blocked</strong> on <em>vendor review</em></p>`. Supports `<strong>`, `<em>`, `<u>`, `<s>`, `<ul>`, `<ol>`, and `<li>`. When set, this takes priority over **Text**, and these tags override the widget's bold, italic, underline, and strike style properties.",
       optional: true,
     },
     xPosition: {
@@ -106,7 +106,7 @@ export default {
         }),
       ],
       label: "Parent ID",
-      description: "The ID of the area widget that contains the widget",
+      description: "The ID of the area widget that should contain this sticky note, for example `0-1619509853818`. When set, **X Position** and **Y Position** are measured from the area's top-left corner instead of the mural's.",
       optional: true,
     },
   },

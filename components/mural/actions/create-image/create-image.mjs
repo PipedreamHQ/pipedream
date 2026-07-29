@@ -1,11 +1,34 @@
 import mural from "../../mural.app.mjs";
-import { getFileStreamAndMetadata } from "@pipedream/platform";
+import {
+  ConfigurationError, getFileStreamAndMetadata,
+} from "@pipedream/platform";
 import path from "path";
+
+const ALLOWED_EXTENSIONS = [
+  "bmp",
+  "ico",
+  "gif",
+  "jpeg",
+  "jpg",
+  "png",
+  "webp",
+];
+
+const CONTENT_TYPE_EXTENSIONS = {
+  "image/png": "png",
+  "image/jpeg": "jpeg",
+  "image/jpg": "jpg",
+  "image/gif": "gif",
+  "image/webp": "webp",
+  "image/bmp": "bmp",
+  "image/x-icon": "ico",
+  "image/vnd.microsoft.icon": "ico",
+};
 
 export default {
   key: "mural-create-image",
   name: "Create Image",
-  description: "Upload an image and create an image widget on a mural. [See the documentation](https://developers.mural.co/public/reference/createimage)",
+  description: "Upload an image and create an image widget on a mural. The image is uploaded to Mural's storage first and the widget is created from the uploaded asset, so the file must be reachable when the action runs. Only `bmp`, `ico`, `gif`, `jpeg`, `jpg`, `png`, and `webp` files are accepted; the format is detected from the file extension, falling back to the content type. [See the documentation](https://developers.mural.co/public/reference/createimage)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -102,7 +125,7 @@ export default {
         }),
       ],
       label: "Parent ID",
-      description: "The ID of the area widget that contains the widget",
+      description: "The ID of the area widget that should contain this image, for example `0-1619509853818`. When set, **X Position** and **Y Position** are measured from the area's top-left corner instead of the mural's.",
       optional: true,
     },
   },
@@ -111,32 +134,14 @@ export default {
       const ext = path.extname(metadata?.name || filePath || "")
         .replace(/^\./, "")
         .toLowerCase();
-      const allowed = [
-        "bmp",
-        "ico",
-        "gif",
-        "jpeg",
-        "jpg",
-        "png",
-        "webp",
-      ];
-      if (allowed.includes(ext)) {
-        return ext === "jpeg"
-          ? "jpeg"
-          : ext;
+      if (ALLOWED_EXTENSIONS.includes(ext)) {
+        return ext;
       }
-      const contentType = metadata?.contentType || "";
-      const typeMap = {
-        "image/png": "png",
-        "image/jpeg": "jpeg",
-        "image/jpg": "jpg",
-        "image/gif": "gif",
-        "image/webp": "webp",
-        "image/bmp": "bmp",
-        "image/x-icon": "ico",
-        "image/vnd.microsoft.icon": "ico",
-      };
-      return typeMap[contentType] || "png";
+      const mappedExtension = CONTENT_TYPE_EXTENSIONS[metadata?.contentType];
+      if (mappedExtension) {
+        return mappedExtension;
+      }
+      throw new ConfigurationError(`Unsupported image format. Mural accepts ${ALLOWED_EXTENSIONS.join(", ")}, but the file "${metadata?.name || filePath}" resolved to extension "${ext || "none"}" and content type "${metadata?.contentType || "none"}".`);
     },
   },
   async run({ $ }) {

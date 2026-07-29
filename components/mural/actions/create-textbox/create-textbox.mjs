@@ -3,7 +3,7 @@ import mural from "../../mural.app.mjs";
 export default {
   key: "mural-create-textbox",
   name: "Create Textbox",
-  description: "Create a new textbox widget within a given mural. [See the documentation](https://developers.mural.co/public/reference/createtextbox)",
+  description: "Create a new textbox widget within a given mural. Use a textbox for section headings, instructions, or longer prose that should read as plain text on the canvas rather than as a sticky note. Position is set in pixels and, unless **Parent ID** is given, is measured from the top-left corner of the mural. [See the documentation](https://developers.mural.co/public/reference/createtextbox)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -77,7 +77,7 @@ export default {
         }),
       ],
       label: "Parent ID",
-      description: "The ID of the area widget that contains the widget",
+      description: "The ID of the area widget that should contain this textbox, for example `0-1619509853818`. When set, **X Position** and **Y Position** are measured from the area's top-left corner instead of the mural's.",
       optional: true,
     },
   },

@@ -22,7 +22,7 @@ export default {
     sortBy: {
       type: "string",
       label: "Sort By",
-      description: "Sort order for the murals",
+      description: "Sort order for the murals. `lastCreated` returns the most recently created murals first, `lastModified` (for example, to find murals with recent activity) returns the most recently edited first, and `oldest` returns the least recently created first.",
       options: [
         "lastCreated",
         "lastModified",

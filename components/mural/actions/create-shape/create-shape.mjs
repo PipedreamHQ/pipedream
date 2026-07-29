@@ -3,7 +3,7 @@ import mural from "../../mural.app.mjs";
 export default {
   key: "mural-create-shape",
   name: "Create Shape",
-  description: "Create a new shape widget within a given mural. [See the documentation](https://developers.mural.co/public/reference/createshapewidget)",
+  description: "Create a new shape widget within a given mural, useful for diagram nodes, callouts, and arrows drawn on the canvas. Shape names are the API's own enum values rather than display names, so a triangle is `triangle_smart` and a diamond is `rhombus_smart`. The legacy values `circle`, `diamond`, `hexagon`, `pentagon`, `square`, and `triangle` still work but are deprecated in favor of `ellipse`, `rhombus_smart`, `hexagon_smart`, `pentagon_smart`, `rectangle`, and `triangle_smart`. [See the documentation](https://developers.mural.co/public/reference/createshapewidget)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -107,7 +107,7 @@ export default {
         }),
       ],
       label: "Parent ID",
-      description: "The ID of the area widget that contains the widget",
+      description: "The ID of the area widget that should contain this shape, for example `0-1619509853818`. When set, **X Position** and **Y Position** are measured from the area's top-left corner instead of the mural's.",
       optional: true,
     },
   },

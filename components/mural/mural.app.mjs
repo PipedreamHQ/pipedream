@@ -119,12 +119,13 @@ export default {
       label: "Max Results",
       description: "The maximum number of results to return",
       default: 100,
+      min: 1,
       optional: true,
     },
     widgetId: {
       type: "string",
       label: "Widget ID",
-      description: "Unique identifier of the widget",
+      description: "The `id` of a widget, as returned by the **List Widgets** action.",
       optional: true,
       async options({
         muralId, type, prevContext,

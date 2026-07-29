@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "mural-invite-to-mural",
   name: "Invite to Mural",
-  description: "Invite users to a mural. [See the documentation](https://developers.mural.co/public/reference/inviteuserstomural)",
+  description: "Share a mural by inviting a user to it. Supply either **Email** or **Username**: an email invitation must be accepted by the recipient before they gain access, while inviting by username adds the user to the mural immediately. Users invited to a mural without being members of its room become restricted members, meaning they can open only that mural and cannot create murals in the room. [See the documentation](https://developers.mural.co/public/reference/inviteuserstomural)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -44,7 +44,7 @@ export default {
     editPermission: {
       type: "string",
       label: "Edit Permission",
-      description: "The level of access granted to the invited user",
+      description: "The level of access granted to the invited user. Use `edit` (the default) to let them add and change widgets, as you would for a collaborator contributing to a workshop. Use `view` for read-only access, as you would when sharing results with a stakeholder who should not alter the mural.",
       options: [
         "view",
         "edit",

@@ -31,7 +31,7 @@ export default {
     type: {
       type: "string[]",
       label: "Widget Types",
-      description: "Filter by widget types. When not specified, returns all widget types.",
+      description: "Filter by widget types, passed as an array such as `[\"sticky notes\", \"images\"]`. When not specified, returns all widget types.",
       options: [
         "sticky notes",
         "textbox",
@@ -55,7 +55,7 @@ export default {
         }),
       ],
       label: "Parent ID",
-      description: "Filter widgets by the ID of the parent area widget",
+      description: "Return only widgets contained in this area. Must be the `id` of an area widget, as returned by this action when filtering on the `areas` type",
       optional: true,
     },
     maxResults: {
