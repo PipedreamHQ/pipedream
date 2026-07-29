@@ -660,8 +660,10 @@ export default {
         // Common LLM mistake: duplicating the repo name into the owner slot
         // (e.g. "my-repo/my-repo") when the owner is unknown. Treat the doubled
         // form as a bare name and assume the authenticated user as the owner.
+        // GitHub owner/repo names are case-insensitive, so compare accordingly
+        // (e.g. "My-Repo/my-repo" is also a doubled name).
         const parts = repoFullname.split("/");
-        if (parts.length === 2 && parts[0] && parts[0] === parts[1]) {
+        if (parts.length === 2 && parts[0] && parts[0].toLowerCase() === parts[1].toLowerCase()) {
           const { login } = await this.getAuthenticatedUser();
           return `${login}/${parts[1]}`;
         }
