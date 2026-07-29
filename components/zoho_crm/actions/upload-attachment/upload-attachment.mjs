@@ -6,7 +6,7 @@ export default {
   key: "zoho_crm-upload-attachment",
   name: "Upload Attachment",
   description: "Uploads an attachment file to Zoho CRM from a URL or file path. [See the documentation](https://www.zoho.com/crm/developer/docs/api/v3/upload-attachment.html)",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

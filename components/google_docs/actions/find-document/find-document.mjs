@@ -4,7 +4,7 @@ export default {
   key: "google_docs-find-document",
   name: "Find Document",
   description: "Search for Google Docs by name or full-text content. Returns a list of `{id, name, url, modifiedTime}`. Use this first to resolve a document's name to its ID, then pass the `id` to **Get Document**, **Export Document**, or any of the insert/replace tools. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/list)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

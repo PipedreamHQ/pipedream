@@ -5,7 +5,7 @@ export default {
   key: "surecart-invoice-paid",
   name: "New Invoice Paid (Instant)",
   description: "Emit new event when an invoice is paid. [See the documentation](https://developer.surecart.com/api-reference/webhook-endpoints/create)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {
