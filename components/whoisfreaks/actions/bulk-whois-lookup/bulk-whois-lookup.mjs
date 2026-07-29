@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import whoisfreaks from "../../whoisfreaks.app.mjs";
 import { parseObject } from "../../common/utils.mjs";
 

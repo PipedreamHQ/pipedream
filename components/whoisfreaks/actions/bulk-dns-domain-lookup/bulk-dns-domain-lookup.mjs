@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import whoisfreaks from "../../whoisfreaks.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import { parseObject } from "../../common/utils.mjs";
