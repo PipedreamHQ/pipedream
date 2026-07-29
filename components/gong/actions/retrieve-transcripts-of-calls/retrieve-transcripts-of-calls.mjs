@@ -1,4 +1,5 @@
 // x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../gong.app.mjs";
 import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
@@ -43,7 +44,7 @@ Transcripts exist only for calls Gong has processed; a recently uploaded call ma
         app,
         "workspaceId",
       ],
-      description: "Only transcribe calls belonging to this workspace. Use the **List Workspace ID Options** action to discover workspace IDs.",
+      description: "Only transcribe calls belonging to this workspace. Cannot be combined with **Call IDs**. Use the **List Workspace ID Options** action to discover workspace IDs.",
       optional: true,
     },
     callIds: {
@@ -51,7 +52,7 @@ Transcripts exist only for calls Gong has processed; a recently uploaded call ma
         app,
         "callIds",
       ],
-      description: "Transcribe only these calls. Use **List Calls** to discover call IDs.",
+      description: "Transcribe only these calls. Cannot be combined with **Workspace ID**. Use **List Calls** to discover call IDs.",
       optional: true,
     },
     resolveSpeakerNames: {
@@ -174,6 +175,12 @@ Transcripts exist only for calls Gong has processed; a recently uploaded call ma
       returnSimplifiedTranscript,
       limit,
     } = this;
+
+    // Gong rejects this combination on /v2/calls/transcript with
+    // "filter.workspaceId: must not provide both callIds and workspaceId".
+    if (workspaceId && callIds?.length) {
+      throw new ConfigurationError("Must not provide both `Call IDs` and `Workspace ID`");
+    }
 
     // Built explicitly rather than by spreading the rest of `this`, which would
     // also sweep this component's methods into the request body.
