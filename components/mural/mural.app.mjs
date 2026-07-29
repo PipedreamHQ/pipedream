@@ -171,6 +171,27 @@ export default {
         },
       });
     },
+    /**
+     * PUT to a presigned asset storage URL (returned by createAssetUrl).
+     * Cannot use _makeRequest: that helper always targets the Mural API base URL
+     * and injects a Bearer token. Storage uploads use an absolute third-party URL
+     * and the headers provided in the asset response (e.g. x-ms-blob-type).
+     */
+    _uploadRequest(opts = {}) {
+      const {
+        $ = this,
+        url,
+        headers,
+        data,
+        ...otherOpts
+      } = opts;
+      return axios($, {
+        ...otherOpts,
+        url,
+        headers,
+        data,
+      });
+    },
     listWorkspaces(opts = {}) {
       return this._makeRequest({
         path: "/workspaces",
@@ -260,17 +281,10 @@ export default {
         ...opts,
       });
     },
-    uploadAsset({
-      $ = this,
-      url,
-      headers,
-      data,
-    }) {
-      return axios($, {
+    uploadAsset(opts = {}) {
+      return this._uploadRequest({
         method: "PUT",
-        url,
-        headers,
-        data,
+        ...opts,
       });
     },
     createImage({
