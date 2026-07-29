@@ -41,7 +41,7 @@ export default {
     // round-trips. GitHub identifiers are human-readable, so dropdowns add no value.
     repoFullnameStatic: {
       label: "Repository",
-      description: "The repository in `owner/repo` format, for example `PipedreamHQ/pipedream` (not case sensitive). If you pass just a repository name with no owner (e.g. `my-repo`), the authenticated user is assumed as the owner — convenient for \"my repo\" requests.",
+      description: "The repository in `owner/repo` format, for example `PipedreamHQ/pipedream` (not case sensitive). If you pass just a repository name with no owner (e.g. `my-repo`), the authenticated user is assumed as the owner — convenient for \"my repo\" requests. Do NOT repeat the repository name as the owner (e.g. `my-repo/my-repo`); if you don't know the owner, pass only the name or run **List Repositories** to find it.",
       type: "string",
     },
     issueNumberStatic: {
@@ -60,7 +60,7 @@ export default {
     // human-readable org login + number. User-owned Projects are not supported.
     projectOwnerStatic: {
       label: "Owner",
-      description: "The account that owns the Project (V2). Provide an organization login (e.g. `my-org`) to list organization-owned projects, or a repository owner when **Repository** is also set. Discover org logins with **List Organizations**. User-owned Projects are not supported.",
+      description: "The account that owns the Project (V2) — an organization login (e.g. `my-org`), or a repository owner when **Repository** is also set. **Required, and it must come from the user.** If the user has not said which owner/organization the project belongs to, ask them — do NOT guess an owner or enumerate organizations to find one. If they named an organization but you need its exact login, use **List Organizations**. User-owned Projects are not supported.",
       type: "string",
     },
     projectRepoStatic: {
@@ -71,7 +71,7 @@ export default {
     },
     projectNumberStatic: {
       label: "Project Number",
-      description: "The Project (V2) number as shown in the project URL and UI (e.g. `5` in `/orgs/my-org/projects/5`) — not the node ID. Get it from **List Projects**.",
+      description: "The Project (V2) number as shown in the project URL and UI (e.g. `5` in `/orgs/my-org/projects/5`) — not the node ID. **Required.** If the user has not provided it, ask them — do NOT guess. Once you know the owner, you can look up numbers with **List Projects**.",
       type: "integer",
     },
     maxResults: {
@@ -651,9 +651,20 @@ export default {
     // "my repo X" it often passes just `X`; GitHub needs `owner/repo`, so we
     // assume the authenticated user as the owner when no `/` is present.
     async _resolveRepoFullname(repoFullname) {
-      if (typeof repoFullname === "string" && repoFullname && !repoFullname.includes("/")) {
-        const { login } = await this.getAuthenticatedUser();
-        return `${login}/${repoFullname}`;
+      if (typeof repoFullname === "string" && repoFullname) {
+        // Bare repo name (no owner) → assume the authenticated user.
+        if (!repoFullname.includes("/")) {
+          const { login } = await this.getAuthenticatedUser();
+          return `${login}/${repoFullname}`;
+        }
+        // Common LLM mistake: duplicating the repo name into the owner slot
+        // (e.g. "my-repo/my-repo") when the owner is unknown. Treat the doubled
+        // form as a bare name and assume the authenticated user as the owner.
+        const parts = repoFullname.split("/");
+        if (parts.length === 2 && parts[0] && parts[0] === parts[1]) {
+          const { login } = await this.getAuthenticatedUser();
+          return `${login}/${parts[1]}`;
+        }
       }
       return repoFullname;
     },

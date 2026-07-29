@@ -3,7 +3,7 @@ import github from "../../github.app.mjs";
 export default {
   key: "github-list-projects",
   name: "List Projects",
-  description: "List the Projects (V2) owned by an organization, or scoped to a specific repository (returns each project's number and title). This is the entry point for the Projects (V2) discovery chain: use the returned project **number** with **List Project Statuses**, **List Project Items**, or **Update Project (V2) Item Status**. Discover organization logins with **List Organizations**. Note: user-owned Projects are not supported. Returns `{ projects, nextCursor }`; when `nextCursor` is non-null there are more results — pass it back as **Cursor** to fetch the next page. [See the documentation](https://docs.github.com/en/graphql/reference/projects#object-projectv2)",
+  description: "List the Projects (V2) owned by an organization, or scoped to a specific repository (returns each project's number and title). This is the entry point for the Projects (V2) discovery chain: use the returned project **number** with **List Project Statuses**, **List Project Items**, or **Update Project (V2) Item Status**. Discover organization logins with **List Organizations**. Note: user-owned Projects are not supported. Returns `{ projects, nextCursor }`; when `nextCursor` is non-null there are more results — pass it back as **Cursor** to fetch the next page. Do NOT call this with a guessed or assumed **Owner**: if the user hasn't named the organization/owner, ask them first rather than trying multiple organizations. [See the documentation](https://docs.github.com/en/graphql/reference/projects#object-projectv2)",
   version: "0.0.2",
   annotations: {
     destructiveHint: false,
