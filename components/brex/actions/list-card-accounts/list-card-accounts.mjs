@@ -1,5 +1,5 @@
 import brexApp from "../../brex.app.mjs";
-import { formatMoney } from "../../utils.mjs";
+import { formatMoney } from "../../common/utils.mjs";
 
 export default {
   key: "brex-list-card-accounts",

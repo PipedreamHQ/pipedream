@@ -1,7 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
 import brexApp from "../../brex.app.mjs";
-import options from "../../options.mjs";
-import { formatSearchSummary } from "../../utils.mjs";
+import options from "../../common/options.mjs";
+import { formatSearchSummary } from "../../common/utils.mjs";
 
 export default {
   key: "brex-search-expenses",

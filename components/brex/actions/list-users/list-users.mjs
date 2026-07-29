@@ -1,5 +1,5 @@
 import brexApp from "../../brex.app.mjs";
-import { formatSearchSummary } from "../../utils.mjs";
+import { formatSearchSummary } from "../../common/utils.mjs";
 
 export default {
   key: "brex-list-users",

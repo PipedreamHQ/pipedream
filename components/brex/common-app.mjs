@@ -1,6 +1,6 @@
 import { axios } from "@pipedream/platform";
 import { v4 as uuidv4 } from "uuid";
-import options from "./options.mjs";
+import options from "./common/options.mjs";
 
 const MAX_LIMIT_PER_PAGE = 100;
 const DEFAULT_MAX_RESULTS = 100;
