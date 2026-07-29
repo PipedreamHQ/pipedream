@@ -336,7 +336,7 @@ export default {
     sideConversationRecipients: {
       type: "string",
       label: "Recipients",
-      description: "JSON array of participant objects. For example, use `[{\"email\":\"person@example.com\",\"name\":\"Person\"}]` for email, `[{\"user_id\":123}]` for a Zendesk agent, `[{\"slack_workspace_id\":\"T123\",\"slack_channel_id\":\"C456\"}]` for Slack, `[{\"support_group_id\":123,\"support_agent_id\":456}]` for a child ticket, or `[{\"msteams_channel_id\":\"19:channel-id\"}]` for Microsoft Teams. Do not mix participant types.",
+      description: "JSON array of participant objects. Use `[{\"email\":\"person@example.com\",\"name\":\"Person\"}]` for an external email recipient, `[{\"user_id\":123}]` for an existing Zendesk agent (the agent's numeric user ID, found in Zendesk under Admin Center > People > Team members), `[{\"slack_workspace_id\":\"T123\",\"slack_channel_id\":\"C456\"}]` for Slack (both IDs come from your Zendesk Slack integration settings), `[{\"support_group_id\":123,\"support_agent_id\":456}]` for a child ticket (`support_agent_id` is optional), or `[{\"msteams_channel_id\":\"19:channel-id\"}]` for Microsoft Teams (the channel ID from your Zendesk Microsoft Teams integration settings). Do not mix participant types in the same array.",
     },
     macroId: {
       type: "string",

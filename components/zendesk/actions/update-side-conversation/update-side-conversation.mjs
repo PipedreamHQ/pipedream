@@ -1,10 +1,11 @@
 import { ConfigurationError } from "@pipedream/platform";
+import constants from "../../common/constants.mjs";
 import zendesk from "../../zendesk.app.mjs";
 
 export default {
   key: "zendesk-update-side-conversation",
   name: "Update Side Conversation",
-  description: "Update the state or subject of a Zendesk side conversation. Use **List Side Conversations** to discover conversation IDs. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/side_conversation/side_conversation/#update-side-conversation).",
+  description: "Update the state or subject of a Zendesk side conversation. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/side_conversation/side_conversation/#update-side-conversation)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -35,11 +36,8 @@ export default {
     state: {
       type: "string",
       label: "State",
-      description: "The new state of the side conversation.",
-      options: [
-        "open",
-        "closed",
-      ],
+      description: "The new state of the side conversation. One of `open` or `closed`, e.g. `closed` to close the conversation.",
+      options: constants.SIDE_CONVERSATION_STATE_OPTIONS,
       optional: true,
     },
     subject: {

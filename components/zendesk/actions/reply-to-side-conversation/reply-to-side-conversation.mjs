@@ -3,7 +3,7 @@ import zendesk from "../../zendesk.app.mjs";
 export default {
   key: "zendesk-reply-to-side-conversation",
   name: "Reply to Side Conversation",
-  description: "Reply to an existing Zendesk side conversation. Use **List Side Conversations** to discover conversation IDs. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/side_conversation/side_conversation/#reply-to-side-conversation).",
+  description: "Reply to an existing Zendesk side conversation. Zendesk requires recipients on every reply, so pass the participants the reply should go to. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/side_conversation/side_conversation/#reply-to-side-conversation)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -31,13 +31,6 @@ export default {
         }),
       ],
     },
-    subject: {
-      propDefinition: [
-        zendesk,
-        "sideConversationSubject",
-      ],
-      optional: true,
-    },
     body: {
       propDefinition: [
         zendesk,
@@ -49,6 +42,14 @@ export default {
         zendesk,
         "sideConversationRecipients",
       ],
+      description: "Recipients for this reply, as a JSON array of participant objects. Zendesk requires this on every reply, and returns `Invalid parameter: to is required` when it is omitted, so repeat the participants the reply should go to (read them with **Get Side Conversation**). Use `[{\"email\":\"person@example.com\",\"name\":\"Person\"}]` for an external email recipient or `[{\"user_id\":123}]` for an existing Zendesk agent. Do not mix participant types in the same array.",
+    },
+    subject: {
+      propDefinition: [
+        zendesk,
+        "sideConversationSubject",
+      ],
+      optional: true,
     },
     customSubdomain: {
       propDefinition: [

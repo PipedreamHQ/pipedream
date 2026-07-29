@@ -3,7 +3,7 @@ import zendesk from "../../zendesk.app.mjs";
 export default {
   key: "zendesk-create-side-conversation",
   name: "Create Side Conversation",
-  description: "Create a side conversation on a Zendesk ticket using email, Slack, Microsoft Teams, or child-ticket participants. Use **List Side Conversations** to inspect existing conversations. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/side_conversation/side_conversation/#create-side-conversation).",
+  description: "Create a side conversation on a Zendesk ticket using email, Zendesk agent, Slack, Microsoft Teams, or child-ticket participants. Requires the Zendesk Collaboration add-on. Use **List Side Conversations** to inspect existing conversations. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/side_conversation/side_conversation/#create-side-conversation)",
   version: "0.0.1",
   type: "action",
   annotations: {
