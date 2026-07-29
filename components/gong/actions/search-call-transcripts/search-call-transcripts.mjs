@@ -56,7 +56,7 @@ export default {
         app,
         "workspaceId",
       ],
-      description: "Only search calls belonging to this workspace. Use the **List Workspace ID Options** action to discover workspace IDs.",
+      description: "Only search calls belonging to this workspace. Cannot be combined with **Call IDs**. Use the **List Workspace ID Options** action to discover workspace IDs.",
       optional: true,
     },
     callIds: {
@@ -64,7 +64,7 @@ export default {
         app,
         "callIds",
       ],
-      description: "Only search these calls. Use **List Calls** to discover call IDs.",
+      description: "Only search these calls. Cannot be combined with **Workspace ID**. Use **List Calls** to discover call IDs.",
       optional: true,
     },
     maxCalls: {
@@ -160,6 +160,12 @@ export default {
 
     if (!keyword?.trim()) {
       throw new ConfigurationError("`Keyword` must not be blank");
+    }
+
+    // Gong rejects this combination on /v2/calls/transcript with
+    // "filter.workspaceId: must not provide both callIds and workspaceId".
+    if (workspaceId && callIds?.length) {
+      throw new ConfigurationError("Must not provide both `Call IDs` and `Workspace ID`");
     }
 
     const callTranscripts = await app.paginate({
