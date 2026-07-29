@@ -1,6 +1,11 @@
 // x-pd-ai: optimized
 import googleMeet from "../../google_meet.app.mjs";
 
+// Page size for the underlying Calendar events.list request. Fetched pages are
+// filtered down to Meet events, so this is decoupled from the user's Max Results
+// (the target count of filtered meetings). Matches the Calendar API default.
+const PAGE_SIZE = 250;
+
 export default {
   key: "google_meet-list-meetings",
   name: "List Meetings",
@@ -65,7 +70,7 @@ export default {
         timeMin,
         timeMax: this.timeMax || undefined,
         q: this.q || undefined,
-        maxResults: this.maxResults,
+        maxResults: PAGE_SIZE,
         singleEvents: true,
         orderBy: "startTime",
         pageToken,
