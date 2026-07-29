@@ -5,7 +5,7 @@ export default {
   key: "mural-new-area",
   name: "New Area Created",
   description: "Emit new event when a new area is created in the user's mural",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

@@ -4,7 +4,7 @@ export default {
   key: "mural-create-sticky",
   name: "Create Sticky",
   description: "Create a new sticky note within a given mural. [See the documentation](https://developers.mural.co/public/reference/createstickynote)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
