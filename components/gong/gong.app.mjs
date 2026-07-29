@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import {
   axios, ConfigurationError,
 } from "@pipedream/platform";
@@ -132,6 +133,12 @@ export default {
         ...args,
       });
     },
+    listUsersExtensive(args = {}) {
+      return this.post({
+        path: "/users/extensive",
+        ...args,
+      });
+    },
     listWorkspaces(args = {}) {
       return this.makeRequest({
         path: "/workspaces",
@@ -141,6 +148,30 @@ export default {
     listCalls(args = {}) {
       return this.makeRequest({
         path: "/calls",
+        ...args,
+      });
+    },
+    listCallsExtensive(args = {}) {
+      return this.post({
+        path: "/calls/extensive",
+        ...args,
+      });
+    },
+    listCallTranscripts(args = {}) {
+      return this.post({
+        path: "/calls/transcript",
+        ...args,
+      });
+    },
+    listLibraryFolders(args = {}) {
+      return this.makeRequest({
+        path: "/library/folders",
+        ...args,
+      });
+    },
+    listLibraryFolderContent(args = {}) {
+      return this.makeRequest({
+        path: "/library/folder-content",
         ...args,
       });
     },
@@ -166,7 +197,9 @@ export default {
             },
           });
         } catch (error) {
-          if (error.response.status === 404) {
+          // Gong answers a filter that matches nothing with a 404, which is a
+          // normal empty result here rather than a failure.
+          if (error?.response?.status === 404) {
             console.log("No more resources");
             return;
           }
