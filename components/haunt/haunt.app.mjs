@@ -52,9 +52,9 @@ export default {
     },
     extractData(opts = {}) {
       return this._makeRequest({
+        ...opts,
         method: "POST",
         path: "/v1/extract",
-        ...opts,
       });
     },
   },
