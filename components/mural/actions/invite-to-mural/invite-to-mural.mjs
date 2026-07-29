@@ -41,6 +41,16 @@ export default {
       description: "The username of the user to invite. When inviting by username, the user is immediately added to the mural.",
       optional: true,
     },
+    editPermission: {
+      type: "string",
+      label: "Edit Permission",
+      description: "The level of access granted to the invited user",
+      options: [
+        "view",
+        "edit",
+      ],
+      default: "edit",
+    },
     message: {
       type: "string",
       label: "Message",
@@ -60,7 +70,9 @@ export default {
       throw new ConfigurationError("Either Email or Username must be provided.");
     }
 
-    const invitation = {};
+    const invitation = {
+      editPermission: this.editPermission,
+    };
     if (this.email) {
       invitation.email = this.email;
     }
