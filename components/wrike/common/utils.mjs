@@ -15,7 +15,10 @@ export const parseJson = (json) => {
 };
 
 export const stringifyJson = (json) => {
-  if (!json) return undefined;
+  // Treat empty arrays as absent: an optional array prop the agent left effectively
+  // empty (e.g. accessTypes: []) must not become the literal query param "[]", which
+  // Wrike rejects with HTTP 400. `[]` is truthy, so the `!json` guard alone misses it.
+  if (!json || (Array.isArray(json) && json.length === 0)) return undefined;
 
   if (typeof json === "object" || Array.isArray(json)) {
     return JSON.stringify(json);
