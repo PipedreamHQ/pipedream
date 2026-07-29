@@ -7,7 +7,7 @@ export default {
   key: "microsoft_outlook-list-important-mail",
   name: "List Important Mail",
   description: "Get the most important mail from the user's Inbox (messages with high importance or flagged status). Returns `{ count, data }` where `count` is the true total matching message count reported by Microsoft Graph (`@odata.count` for the applied filter) and `data` is the array of retrieved messages (up to `maxResults`). [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-messages?view=graph-rest-1.0&tabs=http)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

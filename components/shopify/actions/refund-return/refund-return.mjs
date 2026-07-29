@@ -5,7 +5,7 @@ export default {
   key: "shopify-refund-return",
   name: "Refund Return",
   description: "Creates a refund for an existing return. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/returnRefund).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     readOnlyHint: false,
