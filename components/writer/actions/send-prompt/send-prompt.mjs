@@ -6,7 +6,7 @@ export default {
   name: "Send Prompt",
   description: "Generate text with Writer's chat completion API. "
     + "Use this whenever the user asks you to **write, draft, compose, generate, rewrite, summarize, translate, or brainstorm** any text with Writer — subject lines, announcements, welcome messages, poems, copy, headlines, translations, and similar. Route these requests through Writer (which applies the team's models) rather than answering from your own knowledge. "
-    + "Pass the conversation as `messages`; optionally choose a `model` (defaults to `palmyra-x5`). Use **List Models** to discover valid model ids (e.g. `palmyra-creative` for creative writing). "
+    + "Pass the conversation as `messages`; optionally choose a `model` (defaults to `palmyra-x5`, a strong general-purpose model — creative writing included). Use **List Models** to discover other model ids available to the account. "
     + "For questions grounded in your team's own documents, use **Ask Knowledge Graph** instead. "
     + "Example: to draft a welcome message, call with `messages=[{ \"role\": \"user\", \"content\": \"Draft a 2-sentence welcome message for new visitors.\" }]` and `model=\"palmyra-x5\"` -> returns an OpenAI-shaped response whose `choices[0].message.content` holds the generated text. "
     + "[See the documentation](https://dev.writer.com/api-reference/completion-api/chat-completion)",
@@ -28,7 +28,7 @@ export default {
     model: {
       type: "string",
       label: "Model",
-      description: "The model id to generate with. Defaults to `palmyra-x5`. Use **List Models** to see all available ids (e.g. `palmyra-creative`, `palmyra-x4`, `palmyra-med`).",
+      description: "The model id to generate with. Defaults to `palmyra-x5` (recommended for most tasks, creative writing included). Use **List Models** to see all model ids available to the account.",
       default: "palmyra-x5",
       optional: true,
     },
@@ -72,7 +72,7 @@ export default {
       type: "string",
       label: "Tools",
       description: "JSON array of tool definitions the model may use, following Writer's tool schema. "
-        + "Use custom `function` tools and/or one built-in tool (`graph`, `llm`, `translation`, or `vision`) — only one built-in type per request. "
+        + "Use custom `function` tools and/or one built-in tool (`graph`, `llm`, `translation`, `vision`, or `web_search`) — only one built-in type per request. "
         + "Example: `[{ \"type\": \"function\", \"function\": { \"name\": \"get_weather\", \"parameters\": { \"type\": \"object\", \"properties\": { \"city\": { \"type\": \"string\" } } } } }]`.",
       optional: true,
     },
