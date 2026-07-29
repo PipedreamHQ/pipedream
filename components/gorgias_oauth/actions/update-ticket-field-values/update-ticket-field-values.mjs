@@ -4,7 +4,7 @@ export default {
   key: "gorgias_oauth-update-ticket-field-values",
   name: "Update Ticket Field Values",
   description: "Update field values for a ticket. [See the documentation](https://developers.gorgias.com/reference/update-ticket-custom-fields)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: true,

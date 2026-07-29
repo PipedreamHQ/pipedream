@@ -16,6 +16,6 @@
     "@pipedream/platform": "^1.6.8",
     "lodash.get": "^4.4.2",
     "lodash.sortby": "^4.7.0",
-    "nanoid": "^4.0.1"
+    "nanoid": "^5.0.9"
   }
 }
