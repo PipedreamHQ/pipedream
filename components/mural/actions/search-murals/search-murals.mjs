@@ -57,6 +57,7 @@ export default {
         params,
       },
       max: this.maxResults,
+      limit: null,
     });
 
     $.export("$summary", `Successfully found ${murals.length} mural${murals.length === 1

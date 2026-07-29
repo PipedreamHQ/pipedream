@@ -332,12 +332,15 @@ export default {
       fn,
       args,
       max,
+      limit = 100,
     }) {
       args = {
         ...args,
         params: {
           ...args?.params,
-          limit: 100,
+          ...(limit && {
+            limit,
+          }),
         },
       };
       let count = 0;
