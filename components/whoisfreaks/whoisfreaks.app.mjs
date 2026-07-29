@@ -17,13 +17,13 @@ export default {
     ipAddresses: {
       type: "string[]",
       label: "IP Addresses",
-      description: "IP addresses to look up (e.g. `8.8.8.8`, `1.1.1.1`). Add one or more values. Supports IPv4 and IPv6, up to 100 IPs per request.",
+      description: "IP addresses to look up. Must be valid IPv4 or IPv6 addresses (e.g. `8.8.8.8`, `1.1.1.1`). Add one or more values. Supports up to 100 IPs per request.",
       optional: true,
     },
     ip: {
       type: "string",
       label: "IP Address",
-      description: "The IP address to look up. Supports both IPv4 (e.g. 8.8.8.8) and IPv6 (e.g. 2001:4860:4860::8888).",
+      description: "The IP address to look up. Must be a valid IPv4 (e.g. `8.8.8.8`) or IPv6 (e.g. `2001:4860:4860::8888`) address.",
     },
     format: {
       type: "string",
