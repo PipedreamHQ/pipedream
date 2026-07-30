@@ -3,27 +3,17 @@ import {
   ConfigurationError, getFileStreamAndMetadata,
 } from "@pipedream/platform";
 import path from "path";
-
-const ALLOWED_EXTENSIONS = [
-  "bmp",
-  "ico",
-  "gif",
-  "jpeg",
-  "jpg",
-  "png",
-  "webp",
-];
-
-const CONTENT_TYPE_EXTENSIONS = {
-  "image/png": "png",
-  "image/jpeg": "jpeg",
-  "image/jpg": "jpg",
-  "image/gif": "gif",
-  "image/webp": "webp",
-  "image/bmp": "bmp",
-  "image/x-icon": "ico",
-  "image/vnd.microsoft.icon": "ico",
-};
+import {
+  CONTENT_TYPE_EXTENSIONS,
+  IMAGE_EXTENSIONS,
+} from "../../common/constants.mjs";
+import {
+  height,
+  hidden,
+  width,
+  xPosition,
+  yPosition,
+} from "../../common/props.mjs";
 
 export default {
   key: "mural-create-image",
@@ -65,25 +55,15 @@ export default {
       sync: true,
       optional: true,
     },
-    xPosition: {
-      type: "integer",
-      label: "X Position",
-      description: "The horizontal position of the widget in px. This is the distance from the left of the parent widget, such as an area. If the widget has no parent widget, this is the distance from the left of the mural.",
-    },
-    yPosition: {
-      type: "integer",
-      label: "Y Position",
-      description: "The vertical position of the widget in px. This is the distance from the top of the parent widget, such as an area. If the widget has no parent widget, this is the distance from the top of the mural.",
-    },
+    xPosition,
+    yPosition,
     width: {
-      type: "integer",
-      label: "Width",
-      description: "The width of the widget in px",
+      ...width,
+      optional: false,
     },
     height: {
-      type: "integer",
-      label: "Height",
-      description: "The height of the widget in px",
+      ...height,
+      optional: false,
     },
     caption: {
       type: "string",
@@ -109,12 +89,7 @@ export default {
       description: "When `true`, captions will be displayed for the image widget",
       optional: true,
     },
-    hidden: {
-      type: "boolean",
-      label: "Hidden",
-      description: "If `true`, the widget is hidden from non-facilitators. Applies only when the widget is in the outline",
-      optional: true,
-    },
+    hidden,
     parentId: {
       propDefinition: [
         mural,
@@ -134,14 +109,14 @@ export default {
       const ext = path.extname(metadata?.name || filePath || "")
         .replace(/^\./, "")
         .toLowerCase();
-      if (ALLOWED_EXTENSIONS.includes(ext)) {
+      if (IMAGE_EXTENSIONS.includes(ext)) {
         return ext;
       }
       const mappedExtension = CONTENT_TYPE_EXTENSIONS[metadata?.contentType];
       if (mappedExtension) {
         return mappedExtension;
       }
-      throw new ConfigurationError(`Unsupported image format. Mural accepts ${ALLOWED_EXTENSIONS.join(", ")}, but the file "${metadata?.name || filePath}" resolved to extension "${ext || "none"}" and content type "${metadata?.contentType || "none"}".`);
+      throw new ConfigurationError(`Unsupported image format. Mural accepts ${IMAGE_EXTENSIONS.join(", ")}, but the file "${metadata?.name || filePath}" resolved to extension "${ext || "none"}" and content type "${metadata?.contentType || "none"}".`);
     },
   },
   async run({ $ }) {

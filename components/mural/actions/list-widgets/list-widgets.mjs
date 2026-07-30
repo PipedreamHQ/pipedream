@@ -1,4 +1,5 @@
 import mural from "../../mural.app.mjs";
+import { WIDGET_TYPES } from "../../common/constants.mjs";
 
 export default {
   key: "mural-list-widgets",
@@ -32,17 +33,7 @@ export default {
       type: "string[]",
       label: "Widget Types",
       description: "Filter by widget types, passed as an array such as `[\"sticky notes\", \"images\"]`. When not specified, returns all widget types.",
-      options: [
-        "sticky notes",
-        "textbox",
-        "shapes",
-        "images",
-        "areas",
-        "arrows",
-        "connectors",
-        "files",
-        "tables",
-      ],
+      options: WIDGET_TYPES,
       optional: true,
     },
     parentId: {

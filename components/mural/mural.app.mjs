@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { MAX_DEFAULT_LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -118,7 +119,7 @@ export default {
       type: "integer",
       label: "Max Results",
       description: "The maximum number of results to return",
-      default: 100,
+      default: MAX_DEFAULT_LIMIT,
       min: 1,
       optional: true,
     },
@@ -332,7 +333,7 @@ export default {
       fn,
       args,
       max,
-      limit = 100,
+      limit = MAX_DEFAULT_LIMIT,
     }) {
       args = {
         ...args,
