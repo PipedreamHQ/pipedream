@@ -1,9 +1,10 @@
+// x-pd-ai: optimized
 import pipedriveApp from "../../pipedrive.app.mjs";
 
 export default {
   key: "pipedrive-create-task",
   name: "Create Task",
-  description: "Creates a new task under a project (BETA). Run **List Projects** first to obtain a valid project ID. Use **List User ID Options** for the assignee ID. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Tasks#addTask)",
+  description: "Creates a new task under a project (BETA). Run **List Projects** first to obtain a valid project ID. Use **List User ID Options** for the assignee ID. Example: to add a task to a project, call with `title=\"Draft kickoff agenda\"` and `projectId=\"7\"` -> returns the created task with its numeric `id`. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Tasks#addTask)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -87,11 +88,19 @@ export default {
       project_id: this.projectId,
       parent_task_id: this.parentTaskId,
       description: this.description,
-      done: this.done,
-      milestone: this.milestone,
+      is_done: this.done === undefined
+        ? undefined
+        : Boolean(Number(this.done)),
+      is_milestone: this.milestone === undefined
+        ? undefined
+        : Boolean(Number(this.milestone)),
       due_date: this.dueDate,
       start_date: this.startDate,
-      assignee_id: this.assigneeId,
+      assignee_ids: this.assigneeId === undefined
+        ? undefined
+        : [
+          this.assigneeId,
+        ],
       priority: this.priority,
     });
     $.export("$summary", `Successfully created task ${response.data?.id}: ${this.title}`);

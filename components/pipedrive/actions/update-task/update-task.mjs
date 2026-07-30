@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import pipedriveApp from "../../pipedrive.app.mjs";
 
 export default {
@@ -81,11 +82,19 @@ export default {
       taskId: this.taskId,
       title: this.title,
       description: this.description,
-      done: this.done,
-      milestone: this.milestone,
+      is_done: this.done === undefined
+        ? undefined
+        : Boolean(Number(this.done)),
+      is_milestone: this.milestone === undefined
+        ? undefined
+        : Boolean(Number(this.milestone)),
       due_date: this.dueDate,
       start_date: this.startDate,
-      assignee_id: this.assigneeId,
+      assignee_ids: this.assigneeId === undefined
+        ? undefined
+        : [
+          this.assigneeId,
+        ],
       priority: this.priority,
     });
     $.export("$summary", `Successfully updated task ${this.taskId}`);

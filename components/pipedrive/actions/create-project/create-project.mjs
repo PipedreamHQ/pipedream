@@ -1,9 +1,10 @@
+// x-pd-ai: optimized
 import pipedriveApp from "../../pipedrive.app.mjs";
 
 export default {
   key: "pipedrive-create-project",
   name: "Create Project",
-  description: "Creates a new project in Pipedrive. Use **List Project Boards** to obtain a valid Board ID and **List Project Phases** to obtain a valid Phase ID before running this action. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Projects#addProject)",
+  description: "Creates a new project in Pipedrive. Use **List Project Boards** to obtain a valid Board ID and **List Project Phases** to obtain a valid Phase ID before running this action. Example: to open a project on the first board/phase, call with `title=\"Q3 Website Redesign\"`, `status=\"open\"`, `boardId=\"1\"`, `phaseId=\"1\"` -> returns the created project with its numeric `id`. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Projects#addProject)",
   version: "0.0.1",
   type: "action",
   annotations: {

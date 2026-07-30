@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import pd from "pipedrive";
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
@@ -782,6 +783,48 @@ export default {
         data,
       });
     },
+    // The v2 REST API rejects string ids with "body/<field> must be integer".
+    // Props (and propDefinitions with async options) surface ids as strings, and
+    // *Ids props as string[], so coerce the known numeric fields to integers
+    // before sending. Non-numeric or absent values are left untouched.
+    _coerceV2Ids(data = {}) {
+      const INT_FIELDS = [
+        "board_id",
+        "phase_id",
+        "owner_id",
+        "project_id",
+        "parent_task_id",
+        "priority",
+        "stage_id",
+      ];
+      const INT_ARRAY_FIELDS = [
+        "deal_ids",
+        "person_ids",
+        "org_ids",
+        "label_ids",
+        "assignee_ids",
+      ];
+      const toInt = (v) => {
+        const n = Number(v);
+        return Number.isNaN(n)
+          ? v
+          : n;
+      };
+      const out = {
+        ...data,
+      };
+      for (const f of INT_FIELDS) {
+        if (out[f] !== undefined && out[f] !== null && out[f] !== "") out[f] = toInt(out[f]);
+      }
+      for (const f of INT_ARRAY_FIELDS) {
+        if (Array.isArray(out[f])) {
+          out[f] = out[f]
+            .filter((v) => v !== undefined && v !== null && v !== "")
+            .map(toInt);
+        }
+      }
+      return out;
+    },
     listProjects({
       $, ...params
     } = {}) {
@@ -798,7 +841,7 @@ export default {
         $,
         method: "POST",
         path: "/projects",
-        data,
+        data: this._coerceV2Ids(data),
       });
     },
     getProject({
@@ -816,7 +859,7 @@ export default {
         $,
         method: "PATCH",
         path: `/projects/${projectId}`,
-        data,
+        data: this._coerceV2Ids(data),
       });
     },
     deleteProject({
@@ -861,7 +904,7 @@ export default {
         $,
         method: "POST",
         path: "/tasks",
-        data,
+        data: this._coerceV2Ids(data),
       });
     },
     getTask({
@@ -879,7 +922,7 @@ export default {
         $,
         method: "PATCH",
         path: `/tasks/${taskId}`,
-        data,
+        data: this._coerceV2Ids(data),
       });
     },
     deleteTask({
