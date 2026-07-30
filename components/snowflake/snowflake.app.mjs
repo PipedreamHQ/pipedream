@@ -243,7 +243,15 @@ export default {
         }
         return rows;
       } catch (err) {
-        if (this._restoredSession && /session|token|expired|terminated|authenticat/i.test(err.message)) {
+        // Snowflake GS error codes: 390112 session token expired, 390113 master
+        // token not found, 390114 auth token expired, 390115 session no longer exists
+        const sessionErrorCodes = [
+          390112,
+          390113,
+          390114,
+          390115,
+        ];
+        if (this._restoredSession && sessionErrorCodes.includes(Number(err.code))) {
           throw new ConfigurationError(`Session expired or invalid (${err.message}). Re-run the Start SQL Session action to create a new session.`);
         }
         throw err;

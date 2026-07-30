@@ -49,6 +49,9 @@ export default {
   },
   async additionalProps() {
     const props = {};
+    if (this.session) {
+      this.snowflake.restoreSession(this.session);
+    }
     // Once a user selects the table, display the columns as additional props
     if (this.tableName) {
       const fields = await this.snowflake.listFieldsForTable(this.tableName);
