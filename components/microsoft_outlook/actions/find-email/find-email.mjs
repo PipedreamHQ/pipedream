@@ -9,19 +9,12 @@ export default {
   key: "microsoft_outlook-find-email",
   name: "Find Email",
   description:
-    "Search and filter email messages in Microsoft Outlook."
-    + " Returns metadata only (subject, from, date, isRead, hasAttachments, etc.) — body is excluded from list results."
-    + " Use **Get Message** to fetch the full body or attachment details for a specific message ID."
-    + " Use **Get Current User** first when the user says 'my email' to confirm identity."
-    + " Set `isRead: false` to find unread messages — builds the OData filter automatically, no filter syntax required."
-    + " Set `folderScope: \"inbox\"` to restrict results to the inbox only, preventing Sent/Drafts/Junk from inflating counts."
-    + " Set `countOnly: true` to return `{ count: N }` in a single API call without paginating — ideal for 'how many unread' queries."
-    + " `search` and `isRead` can be used together — when both are set, `search` is automatically converted to `contains(subject,...)` so both constraints are applied (Graph cannot combine KQL `$search` with OData `$filter` natively). Note: this narrows the match scope to subject only, whereas a bare `$search` also matches body and from."
-    + " `countOnly` cannot be combined with `search`."
-    + " For shared mailboxes, set both `userId` and `sharedFolderId`."
-    + " Example: `find-email(isRead=false, folderScope=\"inbox\", countOnly=true)` → `{ count: 47 }` for unread inbox count."
-    + " Example: `find-email(search=\"Eval-Festivus\", folderScope=\"inbox\", maxResults=5)` → array of messages with `id`, `subject`, `from`, `receivedDateTime`, `isRead` (no body — call Get Message next for body)."
-    + " [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-messages)",
+    "Find (search, list, or count) email messages in a Microsoft Outlook mailbox via Microsoft Graph."
+    + " By default a search or list request (Count Only = false) scans the WHOLE mailbox (`/me/messages`, all folders including Sent, Archive, etc.), matching what you see when searching in Outlook;"
+    + " a count-only request (Count Only = true) with no explicit Folder Scope stays inbox-scoped (`/me/mailFolders/inbox/messages`) so the count matches Outlook's unread inbox badge."
+    + " Set Folder Scope explicitly to override this behavior for either mode."
+    + " To search a shared mailbox folder instead, use **Find Shared Folder Email**."
+    + " [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-messages?view=graph-rest-1.0)",
   version: "1.0.0",
   type: "action",
   annotations: {
@@ -35,6 +28,12 @@ export default {
       type: "boolean",
       label: "Is Read",
       description: "Filter by read/unread status. `false` finds unread messages; `true` finds read messages. Adds `isRead eq {value}` to the OData filter automatically. Can be combined with `search` — when both are set, `search` is automatically converted to a `contains(subject,...)` filter and joined with the `isRead` condition.",
+      optional: true,
+    },
+    subject: {
+      type: "string",
+      label: "Subject",
+      description: "Filter messages whose subject contains this text. Example: `project update`. Adds `contains(subject,'...')` to the OData filter. Cannot be combined with `search`.",
       optional: true,
     },
     from: {
@@ -81,7 +80,7 @@ export default {
     folderScope: {
       type: "string",
       label: "Folder Scope",
-      description: "Scope the search. Default is `inbox`, which limits results to the inbox only and prevents Sent/Drafts/Junk from inflating counts. Set to `all` to search across all mail folders. Can be one of `all`, `inbox`, `sentitems`, `drafts`, `deleteditems`, `junkemail`, `archive`, or a folder ID. Use the **List Folders** action to get folder IDs. Not for use with `sharedFolderId`.",
+      description: "Which mailbox folder to scope the query to. Leave blank to use intent-based defaulting: a search/list request (Count Only = false) scans the WHOLE mailbox (all folders); a count-only request (Count Only = true) is scoped to the inbox so the count matches Outlook's unread inbox badge. Set explicitly to override: `all` scans the whole mailbox regardless of Count Only, or pick a well-known folder (`inbox`, `sentitems`, `drafts`, `deleteditems`, `junkemail`, `archive`). Closed option set; no value is removed or renamed.",
       options: [
         "all",
         "inbox",
@@ -91,7 +90,6 @@ export default {
         "junkemail",
         "archive",
       ],
-      default: "inbox",
       optional: true,
     },
     countOnly: {
@@ -172,6 +170,7 @@ export default {
     }
     const hasFilterProps = this.filter
       || this.from
+      || this.subject
       || this.receivedAfter
       || this.receivedBefore
       || this.importance
@@ -179,7 +178,7 @@ export default {
       || hasHasAttachments;
 
     if (hasSearch && (hasFilterProps || this.orderBy)) {
-      throw new ConfigurationError("`search` cannot be combined with `filter`, `from`, `receivedAfter`, `receivedBefore`, `importance`, `flagged`, `hasAttachments`, or `orderBy` — Graph does not support `$search` with `$filter` or `$orderby`. Use filter props alone, or remove them when using `search`.");
+      throw new ConfigurationError("`search` cannot be combined with `filter`, `subject`, `from`, `receivedAfter`, `receivedBefore`, `importance`, `flagged`, `hasAttachments`, or `orderBy` — Graph does not support `$search` with `$filter` or `$orderby`. Use filter props alone, or remove them when using `search`.");
     }
     if (this.sharedFolderId && !this.userId) {
       throw new ConfigurationError("`sharedFolderId` requires `userId` to be set — provide the UPN or object ID of the shared mailbox owner.");
@@ -191,6 +190,7 @@ export default {
     const filterParts = [];
     if (hasIsRead) filterParts.push(`isRead eq ${this.isRead}`);
     if (this.from) filterParts.push(`from/emailAddress/address eq '${this.from.replace(/'/g, "''")}'`);
+    if (this.subject) filterParts.push(`contains(subject,'${this.subject.replace(/'/g, "''")}')`);
     if (this.receivedAfter) filterParts.push(`receivedDateTime ge ${this.receivedAfter}`);
     if (this.receivedBefore) filterParts.push(`receivedDateTime le ${this.receivedBefore}`);
     if (this.importance) filterParts.push(`importance eq '${this.importance}'`);
@@ -209,9 +209,20 @@ export default {
     }
     const combinedFilter = filterParts.join(" and ") || undefined;
 
-    const folderScope = this.folderScope === "all"
-      ? undefined
-      : this.folderScope;
+    // Derive effective folderScope at call time:
+    // - explicit value: use as-is ("all" maps to undefined for whole-mailbox, backward-compat)
+    // - not set + countOnly: default to "inbox" so the count matches Outlook's inbox badge
+    // - not set + search/list: undefined → whole-mailbox (/me/messages, all folders)
+    let folderScope;
+    if (this.folderScope) {
+      folderScope = this.folderScope === "all"
+        ? undefined
+        : this.folderScope;
+    } else if (this.countOnly) {
+      folderScope = "inbox";
+    } else {
+      folderScope = undefined;
+    }
 
     if (this.countOnly) {
       const result = await this.microsoftOutlook.countMessages({
@@ -256,7 +267,7 @@ export default {
     };
 
     let emails = [];
-    let count = 0;
+    let count;
 
     if (hasSearch) {
       const { value } = await listFn({
