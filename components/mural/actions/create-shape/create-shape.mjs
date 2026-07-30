@@ -61,7 +61,7 @@ export default {
         }),
       ],
       label: "Parent ID",
-      description: "The ID of the area widget that should contain this shape, for example `0-1619509853818`. When set, **X Position** and **Y Position** are measured from the area's top-left corner instead of the mural's.",
+      description: "The ID of the area widget that should contain this shape, for example `0-12345`. When set, **X Position** and **Y Position** are measured from the area's top-left corner instead of the mural's.",
       optional: true,
     },
   },

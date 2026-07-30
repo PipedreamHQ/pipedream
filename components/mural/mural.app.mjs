@@ -126,7 +126,7 @@ export default {
     widgetId: {
       type: "string",
       label: "Widget ID",
-      description: "The `id` of a widget, as returned by the **List Widgets** action.",
+      description: "The `id` of a widget, as returned by the **List Widgets** action (e.g. `0-12345`).",
       optional: true,
       async options({
         muralId, type, prevContext,

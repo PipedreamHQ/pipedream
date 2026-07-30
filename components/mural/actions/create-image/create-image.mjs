@@ -100,7 +100,7 @@ export default {
         }),
       ],
       label: "Parent ID",
-      description: "The ID of the area widget that should contain this image, for example `0-1619509853818`. When set, **X Position** and **Y Position** are measured from the area's top-left corner instead of the mural's.",
+      description: "The ID of the area widget that should contain this image, for example `0-12345`. When set, **X Position** and **Y Position** are measured from the area's top-left corner instead of the mural's.",
       optional: true,
     },
   },
@@ -133,6 +133,10 @@ export default {
         fileExtension,
       },
     });
+
+    if (!assetResponse?.value) {
+      throw new ConfigurationError("Mural did not return the asset upload details.");
+    }
 
     const {
       url,
