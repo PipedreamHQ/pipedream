@@ -12,7 +12,7 @@ export default {
     domainNames: {
       type: "string[]",
       label: "Domain Names",
-      description: "Domain names to look up (e.g. `example.com`, `google.com`). Add one or more values. Supports up to 100 domains per request.",
+      description: "Domain names to look up (e.g. `example.com`, `google.com`). Add one or more values. Supports up to 100 domains per request."
     },
     ipAddresses: {
       type: "string[]",
@@ -30,10 +30,7 @@ export default {
       label: "Format",
       description:
         "Two formats are available JSON, XML. If you don't specify the 'format' parameter, the default format will be JSON.",
-      options: [
-        "JSON",
-        "XML",
-      ],
+      options: ["JSON", "XML"],
       default: "JSON",
       optional: true,
     },
@@ -42,9 +39,7 @@ export default {
     _baseUrl() {
       return "https://api.whoisfreaks.com";
     },
-    _makeRequest({
-      $ = this, path, params, ...opts
-    }) {
+    _makeRequest({ $ = this, path, params, ...opts }) {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
         params: {
@@ -54,9 +49,7 @@ export default {
         ...opts,
       });
     },
-    _makePostRequest({
-      $ = this, path, params, body, ...opts
-    }) {
+    _makePostRequest({ $ = this, path, params, body, ...opts }) {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
         method: "POST",
@@ -119,25 +112,25 @@ export default {
     lookupBulkWhois(opts = {}) {
       return this._makePostRequest({
         path: "/v2.0/bulkwhois/live",
-        ...opts,
+        ...opts
       });
     },
     lookupBulkDnsDomain(opts = {}) {
       return this._makePostRequest({
         path: "/v2.0/dns/bulk/live",
-        ...opts,
+        ...opts
       });
     },
     lookupBulkIpGeolocation(opts = {}) {
       return this._makePostRequest({
         path: "/v1.0/geolocation",
-        ...opts,
+        ...opts
       });
     },
     lookupBulkIpReputation(opts = {}) {
       return this._makePostRequest({
         path: "/v1.0/security",
-        ...opts,
+        ...opts
       });
     },
   },

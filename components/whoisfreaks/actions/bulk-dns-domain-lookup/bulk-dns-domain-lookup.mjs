@@ -17,24 +17,15 @@ export default {
   props: {
     whoisfreaks,
     domainNames: {
-      propDefinition: [
-        whoisfreaks,
-        "domainNames",
-      ],
+      propDefinition: [whoisfreaks, "domainNames"],
       optional: true,
     },
     ipAddresses: {
-      propDefinition: [
-        whoisfreaks,
-        "ipAddresses",
-      ],
+      propDefinition: [whoisfreaks, "ipAddresses"],
       optional: true,
     },
     format: {
-      propDefinition: [
-        whoisfreaks,
-        "format",
-      ],
+      propDefinition: [whoisfreaks, "format"],
     },
   },
 
@@ -49,7 +40,7 @@ export default {
 
     if (!domainNames.length && !ipAddresses.length) {
       throw new ConfigurationError(
-        "Please provide at least one domain name or IP address.",
+        "Please provide at least one domain name or IP address."
       );
     }
 
@@ -60,12 +51,8 @@ export default {
         type: "all",
       },
       body: {
-        ...(domainNames.length && {
-          domainNames,
-        }),
-        ...(ipAddresses.length && {
-          ipAddresses,
-        }),
+        ...(domainNames.length && { domainNames }),
+        ...(ipAddresses.length && { ipAddresses }),
       },
     });
 
@@ -73,7 +60,7 @@ export default {
       "$summary",
       `Successfully fetched bulk DNS data for ${
         domainNames.length + ipAddresses.length
-      } input(s)`,
+      } input(s)`
     );
 
     return response;

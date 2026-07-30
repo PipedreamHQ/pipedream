@@ -1,6 +1,5 @@
 const splitCommaSeparated = (value) =>
-  value.split(",").map((v) => v.trim())
-    .filter(Boolean);
+  value.split(",").map((v) => v.trim()).filter(Boolean);
 
 export const parseObject = (obj) => {
   if (!obj) return undefined;

@@ -1,3 +1,3 @@
 module.exports = {
-  name: "ctions-dom-in-lookup-mjs",
-};
+	name: "ctions-dom-in-lookup-mjs",
+}
