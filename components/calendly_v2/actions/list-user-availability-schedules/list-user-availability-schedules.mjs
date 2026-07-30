@@ -5,7 +5,7 @@ export default {
   key: "calendly_v2-list-user-availability-schedules",
   name: "List User Availability Schedules",
   description: "List the availability schedules of the given user via `GET /user_availability_schedules`. Run **List Organization Memberships** first to obtain a user URI. Example: call with `user` set to `https://api.calendly.com/users/AAAAAAAAAAAAAAAA` to return that user's named availability schedules (e.g. `Working Hours`) with their weekly rules. [See the documentation](https://developer.calendly.com/api-docs/8098de44af94c-list-user-availability-schedules)",
-  version: "0.0.5",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

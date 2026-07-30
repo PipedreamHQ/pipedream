@@ -6,7 +6,7 @@ export default {
   key: "calendly_v2-list-webhook-subscriptions",
   name: "List Webhook Subscriptions",
   description: "Get a list of Webhook Subscriptions for an Organization or User via `GET /webhook_subscriptions`. Requires both `scope` and `organization_uri`; add `user_uri` when `scope` is `user`. Run **List Organization Memberships** first to obtain an organization or user URI. Example: call with `scope` set to `organization` and `organization_uri` set to `https://api.calendly.com/organizations/AAAAAAAAAAAAAAAA` to return that organization's webhook subscriptions. [See the documentation](https://developer.calendly.com/docs/api-docs/reference/calendly-api/openapi.yaml/paths/~1webhook_subscriptions/get)",
-  version: "0.1.8",
+  version: "0.1.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

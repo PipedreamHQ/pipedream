@@ -6,7 +6,7 @@ export default {
   key: "calendly_v2-list-organization-members",
   name: "List Organization Memberships",
   description: "List the members of a Calendly organization via `GET /organization_memberships`, returning each membership's user URI, role, and email. Use this as the companion lookup action for user and organization URIs consumed by other tools. Supports optional `role` and `email` filters plus pagination. Example: called with no props, returns the authenticated user's memberships such as `{ user: { name: \"Jane Doe\", uri: \"https://api.calendly.com/users/AAAAAAAAAAAAAAAA\" }, organization: \"https://api.calendly.com/organizations/BBBBBBBBBBBBBBBB\", role: \"owner\" }` — pass those URIs as the `user`/`organization` props in other actions. [See the documentation](https://developer.calendly.com/api-docs/eaed2e61a6bc3-list-organization-memberships).",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,

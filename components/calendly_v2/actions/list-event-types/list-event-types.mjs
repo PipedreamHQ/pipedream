@@ -6,7 +6,7 @@ export default {
   key: "calendly_v2-list-event-types",
   name: "List Event Types",
   description: "Retrieve the event types available to a user or organization via `GET /event_types`. Use this to discover valid event type URIs and UUIDs for scheduling flows. Provide either an Organization URI or a User URI; if neither is provided the authenticated user is used. Use **List Organization Memberships** to find user and organization URIs. Example: called with no props, returns the authenticated user's event types such as `{ name: \"30 Minute Meeting\", uuid: \"AAAAAAAAAAAAAAAA\" }` — pass that `uuid` as the `owner` prop in **Create a Scheduling Link**. [See the documentation](https://developer.calendly.com/api-docs/25a4ece03c1bc-list-user-s-event-types).",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
