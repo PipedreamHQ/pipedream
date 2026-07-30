@@ -5,7 +5,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "calendly_v2-list-webhook-subscriptions",
   name: "List Webhook Subscriptions",
-  description: "Get a list of Webhook Subscriptions for an Organization or User via `GET /webhook_subscriptions`. Requires both `scope` and `organization_uri`; add `user_uri` when `scope` is `user`. Run **List Organization Memberships** first to obtain an organization or user URI. Example: call with `scope` set to `organization` and `organization_uri` set to `https://api.calendly.com/organizations/AAAAAAAAAAAAAAAA` to return that organization's webhook subscriptions. [See the documentation](https://calendly.stoplight.io/docs/api-docs/faac832d7c57d-list-webhook-subscriptions)",
+  description: "Get a list of Webhook Subscriptions for an Organization or User via `GET /webhook_subscriptions`. Requires `organizationUri` when `scope` is `organization`, or `userUri` when `scope` is `user`. Run **List Organization Memberships** first to obtain an organization or user URI. Example: call with `scope` set to `organization` and `organizationUri` set to `https://api.calendly.com/organizations/AAAAAAAAAAAAAAAA` to return that organization's webhook subscriptions. [See the documentation](https://calendly.stoplight.io/docs/api-docs/faac832d7c57d-list-webhook-subscriptions)",
   version: "0.1.7",
   annotations: {
     destructiveHint: false,
@@ -27,7 +27,8 @@ export default {
     organizationUri: {
       type: "string",
       label: "Organization URI",
-      description: "Filters the results by organization URI, such as `https://api.calendly.com/organizations/012345678901234567890`. Run **List Organization Memberships** first to obtain a valid organization URI.",
+      description: "Filters the results by organization URI, such as `https://api.calendly.com/organizations/012345678901234567890`. Required when `scope` is `organization`. Run **List Organization Memberships** first to obtain a valid organization URI.",
+      optional: true,
     },
     userUri: {
       type: "string",
@@ -59,8 +60,14 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.scope || !this.organizationUri) {
-      throw new ConfigurationError("Must provide scope, and organization_uri parameters.");
+    if (!this.scope) {
+      throw new ConfigurationError("Must provide a scope parameter.");
+    }
+    if (this.scope === "organization" && !this.organizationUri) {
+      throw new ConfigurationError("Must provide organizationUri when scope is organization.");
+    }
+    if (this.scope === "user" && !this.userUri) {
+      throw new ConfigurationError("Must provide userUri when scope is user.");
     }
 
     const response = await this.calendly.listWebhookSubscriptions({
