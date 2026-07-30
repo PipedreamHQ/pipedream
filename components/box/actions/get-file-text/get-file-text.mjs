@@ -5,7 +5,7 @@ export default {
   name: "Get File Text",
   description: "Extracts text from a file in Box. [See the documentation](https://developer.box.com/guides/representations/text)",
   key: "box-get-file-text",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
