@@ -195,15 +195,21 @@ export default {
         modifiedTime: f.modifiedTime,
       }));
     },
-    async getDocument(documentId, includeTabsContent = false) {
-      const { data } = await this.docs().documents.get({
+    async getDocument(documentId, includeTabsContent = false, fields) {
+      const params = {
         documentId,
         includeTabsContent,
-      });
-      const doc = includeTabsContent
-        ? data
-        : utils.addTextContentToDocument(data);
-      return doc;
+      };
+      if (fields) {
+        params.fields = fields;
+      }
+      const { data } = await this.docs().documents.get(params);
+      // A field mask can return a body-less document; skip the textContent
+      // enrichment in that case so the response is returned as-is.
+      if (!fields && !includeTabsContent) {
+        return utils.addTextContentToDocument(data);
+      }
+      return data;
     },
     async createEmptyDoc(title) {
       const { data: createdDoc } = await this.docs().documents.create({

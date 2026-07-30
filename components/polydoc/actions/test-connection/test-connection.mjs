@@ -5,7 +5,7 @@ export default {
   key: "polydoc-test-connection",
   name: "Test Connection",
   description: "Validate the connected PolyDoc API key with a tiny sandbox screenshot. [See the documentation](https://docs.polydoc.tech).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

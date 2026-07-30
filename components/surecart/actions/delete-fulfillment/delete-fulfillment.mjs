@@ -4,7 +4,7 @@ export default {
   key: "surecart-delete-fulfillment",
   name: "Delete Fulfillment",
   description: "Delete a fulfillment by ID. [See the documentation](https://developer.surecart.com/api-reference/fulfillments/delete)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: true,

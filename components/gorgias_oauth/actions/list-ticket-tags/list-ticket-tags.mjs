@@ -4,7 +4,7 @@ export default {
   key: "gorgias_oauth-list-ticket-tags",
   name: "List Ticket Tags",
   description: "List tags for a ticket. [See the documentation](https://developers.gorgias.com/reference/get_api-tickets-ticket-id-tags)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -4,14 +4,14 @@ import {
   extractApiErrorMessage, handleResponse,
 } from "../../common/output.mjs";
 import {
-  commonParams, validateParams,
+  coerceObject, commonParams, validateParams,
 } from "../../common/params.mjs";
 
 export default {
   key: "polydoc-generate-einvoice",
   name: "Generate E-Invoice",
   description: "Generate a ZUGFeRD or Factur-X hybrid PDF/A-3 e-invoice (EN 16931). [See the documentation](https://docs.polydoc.tech).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -137,7 +137,7 @@ export default {
       eInvoiceStandard: this.eInvoiceStandard,
       eInvoiceProfile: this.eInvoiceProfile,
       eInvoiceVerify: this.eInvoiceVerify,
-      invoice: this.invoice,
+      invoice: coerceObject(this.invoice, "Invoice"),
     };
 
     const {

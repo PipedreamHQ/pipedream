@@ -4,7 +4,7 @@ export default {
   key: "surecart-create-checkout",
   name: "Create Checkout",
   description: "Create a new checkout session. [See the documentation](https://developer.surecart.com/api-reference/checkouts/create)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
