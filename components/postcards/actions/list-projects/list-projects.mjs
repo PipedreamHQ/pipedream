@@ -3,7 +3,7 @@ import postcards from "../../postcards.app.mjs";
 export default {
   key: "postcards-list-projects",
   name: "List Projects",
-  description: "List projects in the authenticated team, ordered by most-recently edited. [See the docs](https://help.designmodo.com/article/537-api-getting-started).",
+  description: "List projects in the authenticated team, ordered by most-recently edited. [See the documentation](https://help.designmodo.com/article/537-api-getting-started).",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -27,16 +27,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {};
-    if (this.folderId) {
-      params.folder_id = this.folderId;
-    }
-    const projects = await this.postcards.getResources({
-      resourceFn: (opts) => this.postcards.listProjects({
-        $,
-        ...opts,
-      }),
-      params,
+    const projects = await this.postcards.getProjects({
+      $,
+      params: {
+        folder_id: this.folderId,
+      },
       max: this.maxResults,
     });
     $.export("$summary", `Listed ${projects.length} project(s)`);

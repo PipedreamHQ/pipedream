@@ -3,7 +3,7 @@ import postcards from "../../postcards.app.mjs";
 export default {
   key: "postcards-get-folder",
   name: "Get Folder",
-  description: "Get a single folder and the first page of projects directly inside it. [See the docs](https://help.designmodo.com/article/537-api-getting-started).",
+  description: "Get a single folder and the first page of projects directly inside it. [See the documentation](https://help.designmodo.com/article/537-api-getting-started).",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -19,7 +19,6 @@ export default {
         "folderId",
       ],
       optional: false,
-      description: "Numeric `id` or `obfuscated_id` of the folder.",
     },
   },
   async run({ $ }) {

@@ -34,7 +34,7 @@ export default {
     folderId: {
       type: "string",
       label: "Folder ID",
-      description: "Numeric `id` or `obfuscated_id`.",
+      description: "Numeric `id` (e.g. `512`) or `obfuscated_id` (e.g. `a1b2c3d4`) of a folder. Get IDs from **List Folders**.",
       optional: true,
       async options({ page }) {
         const { data } = await this.listFolders({
@@ -54,6 +54,7 @@ export default {
       label: "Max Results",
       description: "Maximum number of items to return.",
       optional: true,
+      min: 1,
       default: DEFAULT_MAX,
     },
   },
@@ -119,7 +120,7 @@ export default {
         ...args,
       });
     },
-    async *paginate({
+    async *_paginate({
       resourceFn, params = {}, max = DEFAULT_MAX,
     }) {
       let page = 1;
@@ -149,18 +150,35 @@ export default {
         page += 1;
       }
     },
-    async getResources({
-      resourceFn, params, max,
-    }) {
+    async _collect(iterator) {
       const results = [];
-      for await (const item of this.paginate({
-        resourceFn,
-        params,
-        max,
-      })) {
+      for await (const item of iterator) {
         results.push(item);
       }
       return results;
+    },
+    getProjects({
+      $ = this, params, max,
+    } = {}) {
+      return this._collect(this._paginate({
+        resourceFn: (opts) => this.listProjects({
+          $,
+          ...opts,
+        }),
+        params,
+        max,
+      }));
+    },
+    getFolders({
+      $ = this, max,
+    } = {}) {
+      return this._collect(this._paginate({
+        resourceFn: (opts) => this.listFolders({
+          $,
+          ...opts,
+        }),
+        max,
+      }));
     },
   },
 };

@@ -1,11 +1,12 @@
 import { ConfigurationError } from "@pipedream/platform";
+import { randomUUID } from "node:crypto";
 import fs from "fs";
 import postcards from "../../postcards.app.mjs";
 
 export default {
   key: "postcards-export-project",
   name: "Export Project",
-  description: "Export a project to HTML or ZIP. With Image Hosting off, writes a ZIP to the `/tmp` directory and returns its path; with it on, returns hosted HTML. Counts against the monthly export quota. [See the docs](https://help.designmodo.com/article/537-api-getting-started).",
+  description: "Export a project to HTML or ZIP. With Image Hosting off, writes a ZIP to the `/tmp` directory and returns its path; with it on, returns hosted HTML. Counts against the monthly export quota. [See the documentation](https://help.designmodo.com/article/537-api-getting-started).",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -38,6 +39,7 @@ export default {
     minify: {
       type: "boolean",
       label: "Minify HTML",
+      description: "Strip whitespace and comments from the exported HTML to reduce its size.",
       optional: true,
       default: false,
     },
@@ -55,7 +57,7 @@ export default {
     variables: {
       type: "object",
       label: "Variables",
-      description: "Map of `{{key}}` placeholder substitutions. Values must be scalar (string, number, boolean).",
+      description: "Map of `{{key}}` placeholder substitutions. Values must be scalar (string, number, boolean). Example: `{ \"{{firstName}}\": \"Ada\", \"{{discount}}\": 15 }`.",
       optional: true,
     },
     syncDir: {
@@ -94,7 +96,7 @@ export default {
       const buffer = Buffer.isBuffer(response)
         ? response
         : Buffer.from(response);
-      const filePath = `/tmp/postcards-${this.id}.zip`;
+      const filePath = `/tmp/postcards-${randomUUID()}.zip`;
       fs.writeFileSync(filePath, buffer);
       $.export("$summary", `Exported project ${this.id} as ZIP`);
       return {

@@ -3,7 +3,7 @@ import postcards from "../../postcards.app.mjs";
 export default {
   key: "postcards-list-folders",
   name: "List Folders",
-  description: "List all folders in the authenticated team. [See the docs](https://help.designmodo.com/article/537-api-getting-started).",
+  description: "List all folders in the authenticated team. [See the documentation](https://help.designmodo.com/article/537-api-getting-started).",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -21,11 +21,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const folders = await this.postcards.getResources({
-      resourceFn: (opts) => this.postcards.listFolders({
-        $,
-        ...opts,
-      }),
+    const folders = await this.postcards.getFolders({
+      $,
       max: this.maxResults,
     });
     $.export("$summary", `Listed ${folders.length} folder(s)`);
