@@ -4,7 +4,7 @@ export default {
   key: "surecart-list-products",
   name: "List Products",
   description: "Return a list of products. [See the documentation](https://developer.surecart.com/api-reference/products/list)",
-  version: "0.0.2",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -38,33 +38,27 @@ export default {
       optional: true,
     },
     ids: {
-      type: "string[]",
-      label: "IDs",
-      description: "Filter by specific IDs. Example: `[\"id_abc123\", \"id_def456\"]`",
-      optional: true,
+      propDefinition: [
+        surecart,
+        "ids",
+      ],
     },
-    limit: {
-      type: "integer",
-      label: "Limit",
-      description: "Number of results to return per page (1-100). Example: `25`",
-      optional: true,
-    },
-    page: {
-      type: "integer",
-      label: "Page",
-      description: "Page number for pagination. Example: `1`",
-      optional: true,
+    maxResults: {
+      propDefinition: [
+        surecart,
+        "maxResults",
+      ],
     },
     productCollectionIds: {
       type: "string[]",
       label: "Product Collection IDs",
-      description: "Filter products by collection IDs. Example: `[\"pc_abc123\"]`",
+      description: "Filter products by collection IDs. Example: `[\"b47ca4c2-6cd2-41d5-aefb-4dc459642c56\"]`",
       optional: true,
     },
     productGroupIds: {
       type: "string[]",
       label: "Product Group IDs",
-      description: "Filter products by group IDs. Example: `[\"pg_abc123\"]`",
+      description: "Filter products by group IDs. Example: `[\"b47ca4c2-6cd2-41d5-aefb-4dc459642c56\"]`",
       optional: true,
     },
     query: {
@@ -88,7 +82,7 @@ export default {
     shippingProfileIds: {
       type: "string[]",
       label: "Shipping Profile IDs",
-      description: "Filter products by shipping profile IDs. Example: `[\"sp_abc123\"]`",
+      description: "Filter products by shipping profile IDs. Example: `[\"b47ca4c2-6cd2-41d5-aefb-4dc459642c56\"]`",
       optional: true,
     },
     status: {
@@ -111,27 +105,35 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.surecart.listProducts({
-      $,
-      params: {
-        "ad_hoc": this.adHoc,
-        "archived": this.archived,
-        "downloadable": this.downloadable,
-        "featured": this.featured,
-        "ids[]": this.ids,
-        "limit": this.limit,
-        "page": this.page,
-        "product_collection_ids[]": this.productCollectionIds,
-        "product_group_ids[]": this.productGroupIds,
-        "query": this.query,
-        "recurring": this.recurring,
-        "shipping_enabled": this.shippingEnabled,
-        "shipping_profile_ids[]": this.shippingProfileIds,
-        "status[]": this.status,
-        "sort": this.sort,
+    const results = this.surecart.paginate({
+      fn: this.surecart.listProducts,
+      args: {
+        $,
+        params: {
+          "ad_hoc": this.adHoc,
+          "archived": this.archived,
+          "downloadable": this.downloadable,
+          "featured": this.featured,
+          "ids[]": this.ids,
+          "product_collection_ids[]": this.productCollectionIds,
+          "product_group_ids[]": this.productGroupIds,
+          "query": this.query,
+          "recurring": this.recurring,
+          "shipping_enabled": this.shippingEnabled,
+          "shipping_profile_ids[]": this.shippingProfileIds,
+          "status[]": this.status,
+          "sort": this.sort,
+        },
       },
+      max: this.maxResults,
     });
-    $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} product(s)`);
-    return response;
+
+    const products = [];
+    for await (const product of results) {
+      products.push(product);
+    }
+
+    $.export("$summary", `Successfully retrieved ${products.length} product(s)`);
+    return products;
   },
 };

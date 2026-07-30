@@ -5,7 +5,7 @@ export default {
   key: "google_docs-create-document-from-template",
   name: "Create Document From Template",
   description: "Create a new Google Doc by copying a template document and substituting `{{placeholder}}` tokens with values. Use **Find Document** to resolve the template's name to its ID. Returns `{documentId, title, url}`. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#ReplaceAllTextRequest)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

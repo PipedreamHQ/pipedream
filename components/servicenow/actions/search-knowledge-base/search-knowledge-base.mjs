@@ -3,8 +3,8 @@ import servicenow from "../../servicenow.app.mjs";
 export default {
   key: "servicenow-search-knowledge-base",
   name: "Search Knowledge Base",
-  description: "Search ServiceNow knowledge base articles via the Knowledge Management API. Returns matching articles with snippets; retrieve a full article body by its id with **Get Table Records** on `kb_knowledge` or the article detail endpoint. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/knowledge-api.html)",
-  version: "0.0.1",
+  description: "Search ServiceNow knowledge base articles via the Knowledge Management API. Returns matching articles with snippets only; use **Get Article** to fetch an article's full HTML body. Optionally restrict the search to specific knowledge bases (run **List Knowledge Bases** to find their `sys_id`s). Requires the Knowledge API (`sn_km_api`) plugin, which is not active by default. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/knowledge-api.html)",
+  version: "0.1.0",
   type: "action",
   annotations: {
     readOnlyHint: true,
@@ -18,6 +18,12 @@ export default {
       label: "Query",
       description: "Free-text search term to match knowledge articles (maps to `query`). Example: `vpn setup`.",
     },
+    knowledgeBaseIds: {
+      type: "string[]",
+      label: "Knowledge Base IDs",
+      description: "Restrict the search to these knowledge bases, by `sys_id` (maps to `kb`). Run **List Knowledge Bases** to find them. Leave empty to search every knowledge base the connected account can see. Example: `d6f5f5e2c0a80163014dc5657dc3ae90`.",
+      optional: true,
+    },
     limit: {
       propDefinition: [
         servicenow,
@@ -25,10 +31,11 @@ export default {
       ],
     },
     fields: {
-      type: "string[]",
-      label: "Fields",
-      description: "Optional list of additional article fields to return (maps to repeated `fields` query params). Example: `short_description`, `sys_class_name`.",
-      optional: true,
+      propDefinition: [
+        servicenow,
+        "fields",
+      ],
+      description: "Additional `kb_knowledge` fields to return under `fields` for each article. Example: `short_description`, `sys_class_name`.",
     },
   },
   async run({ $ }) {
@@ -36,19 +43,13 @@ export default {
       $,
       params: {
         query: this.query,
+        kb: this.knowledgeBaseIds?.join(","),
         limit: this.limit,
-        fields: this.fields?.length
-          ? this.fields
-          : undefined,
-      },
-      paramsSerializer: {
-        indexes: null,
+        fields: this.fields?.join(","),
       },
     });
 
-    const articles = Array.isArray(response)
-      ? response
-      : (response?.articles ?? []);
+    const articles = response?.articles ?? [];
     $.export("$summary", `Found ${articles.length} knowledge article(s) matching "${this.query}"`);
 
     return response;

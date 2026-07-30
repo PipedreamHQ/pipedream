@@ -4,7 +4,7 @@ export default {
   key: "trello-get-member",
   name: "Get Member",
   description: "Gets a member by their ID. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-members/#api-members-id-get)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
