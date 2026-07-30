@@ -11,11 +11,11 @@ export default {
   description:
     "Find (search, list, or count) email messages in a Microsoft Outlook mailbox via Microsoft Graph."
     + " By default a search or list request (Count Only = false) scans the WHOLE mailbox (`/me/messages`, all folders including Sent, Archive, etc.), matching what you see when searching in Outlook;"
-    + " a count-only request (Count Only = true) with no explicit Folder Scope stays inbox-scoped (`/me/mailFolders/inbox/messages`) so the count matches Outlook's unread inbox badge."
+    + " a count-only request (Count Only = true) with no explicit Folder Scope stays inbox-scoped (`/me/mailFolders/inbox/messages`) and counts ALL inbox messages by default, not just unread ones — also set `Is Read` to `false` to count only unread messages (matching Outlook's unread inbox badge)."
     + " Set Folder Scope explicitly to override this behavior for either mode."
     + " To search a shared mailbox folder instead, use **Find Shared Folder Email**."
     + " [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-messages?view=graph-rest-1.0)",
-  version: "1.0.0",
+  version: "1.1.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -33,7 +33,7 @@ export default {
     subject: {
       type: "string",
       label: "Subject",
-      description: "Filter messages whose subject contains this text. Example: `project update`. Adds `contains(subject,'...')` to the OData filter. Cannot be combined with `search`.",
+      description: "Filter messages whose subject contains this text. Example: `project update`. Adds `contains(subject,'...')` to the OData filter. Cannot be combined with `search` or `orderBy` — Graph does not support sorting alongside a `contains()` filter.",
       optional: true,
     },
     from: {
@@ -80,7 +80,7 @@ export default {
     folderScope: {
       type: "string",
       label: "Folder Scope",
-      description: "Which mailbox folder to scope the query to. Leave blank to use intent-based defaulting: a search/list request (Count Only = false) scans the WHOLE mailbox (all folders); a count-only request (Count Only = true) is scoped to the inbox so the count matches Outlook's unread inbox badge. Set explicitly to override: `all` scans the whole mailbox regardless of Count Only, or pick a well-known folder (`inbox`, `sentitems`, `drafts`, `deleteditems`, `junkemail`, `archive`). Closed option set; no value is removed or renamed.",
+      description: "Which mailbox folder to scope the query to. Leave blank to use intent-based defaulting: a search/list request (Count Only = false) scans the WHOLE mailbox (all folders); a count-only request (Count Only = true) is scoped to the inbox and counts all inbox messages by default (add `Is Read: false` for an unread-only count matching Outlook's unread inbox badge). Set explicitly to override: `all` scans the whole mailbox regardless of Count Only, or pick a well-known folder (`inbox`, `sentitems`, `drafts`, `deleteditems`, `junkemail`, `archive`). Closed option set; no value is removed or renamed.",
       options: [
         "all",
         "inbox",
@@ -95,7 +95,7 @@ export default {
     countOnly: {
       type: "boolean",
       label: "Count Only",
-      description: "When `true`, returns `{ count: N }` using a single `$count` API call instead of paginating. Ideal for 'how many unread emails' queries. Cannot be combined with `search`.",
+      description: "When `true`, returns `{ count: N }` using a single `$count` API call instead of paginating. Counts all messages in scope by default (inbox-scoped unless `Folder Scope` is set) — also set `Is Read` to `false` for an unread-only count (e.g. to match Outlook's unread inbox badge). Cannot be combined with `search`.",
       optional: true,
       default: false,
     },
@@ -179,6 +179,9 @@ export default {
 
     if (hasSearch && (hasFilterProps || this.orderBy)) {
       throw new ConfigurationError("`search` cannot be combined with `filter`, `subject`, `from`, `receivedAfter`, `receivedBefore`, `importance`, `flagged`, `hasAttachments`, or `orderBy` — Graph does not support `$search` with `$filter` or `$orderby`. Use filter props alone, or remove them when using `search`.");
+    }
+    if (this.subject && this.orderBy) {
+      throw new ConfigurationError("`subject` cannot be combined with `orderBy` — Microsoft Graph does not support sorting results when a `contains()` filter (used by `subject`) is applied. Remove `orderBy`, or filter without `subject` (e.g. use `filter` on an indexed property such as `receivedDateTime` instead).");
     }
     if (this.sharedFolderId && !this.userId) {
       throw new ConfigurationError("`sharedFolderId` requires `userId` to be set — provide the UPN or object ID of the shared mailbox owner.");
