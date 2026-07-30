@@ -344,5 +344,96 @@ export default {
         ...args,
       });
     },
+    async createFolder(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/folders",
+        ...args,
+      });
+    },
+    async updateFolder({
+      folderId,
+      ...args
+    } = {}) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/folders/${folderId}`,
+        ...args,
+      });
+    },
+    async deleteFolder({
+      folderId,
+      ...args
+    } = {}) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/folders/${folderId}`,
+        ...args,
+      });
+    },
+    async updateFile({
+      fileId,
+      ...args
+    } = {}) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/files/${fileId}`,
+        ...args,
+      });
+    },
+    async listFileVersions({
+      fileId,
+      ...args
+    } = {}) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/files/${fileId}/versions`,
+        ...args,
+      });
+    },
+    async createCollaboration(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/collaborations",
+        ...args,
+      });
+    },
+    async deleteCollaboration({
+      collaborationId,
+      ...args
+    } = {}) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/collaborations/${collaborationId}`,
+        ...args,
+      });
+    },
+    async listFileCollaborations({
+      fileId,
+      ...args
+    } = {}) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/files/${fileId}/collaborations`,
+        ...args,
+      });
+    },
+    async listFolderCollaborations({
+      folderId,
+      ...args
+    } = {}) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/folders/${folderId}/collaborations`,
+        ...args,
+      });
+    },
+    async createComment(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/comments",
+        ...args,
+      });
+    },
   },
 };
