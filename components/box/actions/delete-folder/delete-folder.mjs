@@ -1,9 +1,10 @@
+// x-pd-ai: optimized
 import app from "../../box.app.mjs";
 
 export default {
   key: "box-delete-folder",
   name: "Delete Folder",
-  description: "Deletes a folder, either permanently or by moving it to the trash. Set `recursive` to `true` to delete non-empty folders. [See the documentation](https://developer.box.com/reference/delete-folders-id/).",
+  description: "Deletes a folder by moving it to trash (or permanently when enterprise settings require). Set Recursive to `true` to delete non-empty folders and all contents; without it, deleting a non-empty folder fails. This cannot be undone from this action — use **List Folder Items** to verify contents first. [See the documentation](https://developer.box.com/reference/delete-folders-id/).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -19,7 +20,7 @@ export default {
         "parentId",
       ],
       label: "Folder",
-      description: "The folder to delete",
+      description: "The folder to delete (e.g. `123456789`). Cannot delete the root folder (`0`).",
       optional: false,
     },
     recursive: {

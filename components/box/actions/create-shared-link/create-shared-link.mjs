@@ -1,10 +1,12 @@
+// x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../box.app.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
   key: "box-create-shared-link",
   name: "Create Shared Link",
-  description: "Creates or updates a shared link for a file or folder. [See the documentation](https://developer.box.com/guides/shared-links/create-or-update/).",
+  description: "Creates or updates a shared link for a file or folder. Access levels: `open`, `company`, or `collaborators`. Password and download permission apply only when access is `open` or `company`. A resource can have only one shared link at a time. [See the documentation](https://developer.box.com/guides/shared-links/create-or-update/).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -17,7 +19,7 @@ export default {
     itemType: {
       type: "string",
       label: "Item Type",
-      description: "The type of item to create a shared link for",
+      description: "The type of item to create a shared link for. Valid values: `file` or `folder`.",
       options: constants.itemTypes,
     },
     folderId: {
@@ -37,13 +39,13 @@ export default {
         }),
       ],
       label: "File",
-      description: "The file to share. Only used when item type is File.",
+      description: "The file to share (e.g. `123456789`). Only used when item type is File.",
       optional: true,
     },
     access: {
       type: "string",
       label: "Access Level",
-      description: "The access level for the shared link. If not set, the enterprise default is used.",
+      description: "The access level for the shared link. If not set, the enterprise default is used. Valid values: `open`, `company`, `collaborators`.",
       optional: true,
       options: constants.sharedLinkAccessLevels,
     },
@@ -91,7 +93,7 @@ export default {
     let response;
     if (this.itemType === "file") {
       if (!this.fileId) {
-        throw new Error("File ID is required when item type is File.");
+        throw new ConfigurationError("File ID is required when item type is File.");
       }
       response = await this.app.updateFile({
         $,
@@ -103,7 +105,7 @@ export default {
       });
     } else {
       if (!this.folderId) {
-        throw new Error("Folder ID is required when item type is Folder.");
+        throw new ConfigurationError("Folder ID is required when item type is Folder.");
       }
       response = await this.app.updateFolder({
         $,

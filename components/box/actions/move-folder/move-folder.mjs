@@ -1,9 +1,10 @@
+// x-pd-ai: optimized
 import app from "../../box.app.mjs";
 
 export default {
   key: "box-move-folder",
   name: "Move Folder",
-  description: "Moves a folder to a new parent folder. Optionally rename the folder while moving. [See the documentation](https://developer.box.com/reference/put-folders-id/).",
+  description: "Moves a folder to a new parent folder. Optionally rename the folder while moving. Provide the source folder ID and destination parent folder ID (`0` for root). Cannot move a folder into itself or one of its descendants. Use **Create Folder** to create a destination first if needed. [See the documentation](https://developer.box.com/reference/put-folders-id/).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -19,7 +20,7 @@ export default {
         "parentId",
       ],
       label: "Folder",
-      description: "The folder to move",
+      description: "The folder to move (e.g. `123456789`)",
       optional: false,
     },
     destinationFolderId: {
@@ -34,7 +35,7 @@ export default {
     name: {
       type: "string",
       label: "New Name",
-      description: "Optionally rename the folder while moving",
+      description: "Optionally rename the folder while moving. Cannot contain `/` or `\\`.",
       optional: true,
     },
     fields: {

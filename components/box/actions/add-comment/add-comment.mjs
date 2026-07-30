@@ -1,9 +1,11 @@
+// x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../box.app.mjs";
 
 export default {
   key: "box-add-comment",
   name: "Add Comment",
-  description: "Adds a comment to a file. [See the documentation](https://developer.box.com/reference/post-comments/).",
+  description: "Adds a comment to a Box file. Provide either Message or Tagged Message (with `@` mentions). Use **Get Comments** to read existing comments on a file. [See the documentation](https://developer.box.com/reference/post-comments/).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -19,7 +21,7 @@ export default {
         "parentId",
       ],
       label: "Parent Folder",
-      description: "Use this option to select your File ID from a dropdown list.",
+      description: "The parent folder of the file to comment on. Use `0` for the root folder.",
     },
     fileId: {
       propDefinition: [
@@ -30,12 +32,13 @@ export default {
         }),
       ],
       label: "File",
-      description: "The file to add a comment to",
+      description: "The file to add a comment to (e.g. `123456789`)",
     },
     message: {
       type: "string",
       label: "Message",
       description: "The text of the comment",
+      optional: true,
     },
     taggedMessage: {
       type: "string",
@@ -45,6 +48,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!this.message && !this.taggedMessage) {
+      throw new ConfigurationError("Either Message or Tagged Message is required.");
+    }
+
     const data = {
       item: {
         type: "file",

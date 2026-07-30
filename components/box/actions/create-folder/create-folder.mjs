@@ -1,9 +1,10 @@
+// x-pd-ai: optimized
 import app from "../../box.app.mjs";
 
 export default {
   key: "box-create-folder",
   name: "Create Folder",
-  description: "Creates a new empty folder within the specified parent folder. [See the documentation](https://developer.box.com/reference/post-folders/).",
+  description: "Creates a new empty folder within the specified parent folder. Parent folder ID `0` is the root (All Files). Folder names cannot contain `/` or `\\` and must be unique within the parent. Use **List Folder Items** to inspect contents, or **Move Folder** / **Delete Folder** to reorganize afterward. [See the documentation](https://developer.box.com/reference/post-folders/).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -20,12 +21,11 @@ export default {
       ],
       label: "Parent Folder",
       description: "The parent folder to create the new folder in. Use `0` for the root folder.",
-      optional: false,
     },
     name: {
       type: "string",
       label: "Folder Name",
-      description: "The name of the new folder",
+      description: "The name of the new folder. Cannot contain `/` or `\\`.",
     },
     fields: {
       propDefinition: [

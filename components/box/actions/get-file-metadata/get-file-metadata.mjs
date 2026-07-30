@@ -1,9 +1,10 @@
+// x-pd-ai: optimized
 import app from "../../box.app.mjs";
 
 export default {
   key: "box-get-file-metadata",
   name: "Get File Metadata",
-  description: "Retrieves metadata for a file. [See the documentation](https://developer.box.com/reference/get-files-id/).",
+  description: "Retrieves metadata for a file (name, size, timestamps, path, and more). Optionally request specific fields. Use **List File Versions** for version history, or **Download File** for content. [See the documentation](https://developer.box.com/reference/get-files-id/).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -19,7 +20,7 @@ export default {
         "parentId",
       ],
       label: "Parent Folder",
-      description: "Use this option to select your File ID from a dropdown list.",
+      description: "The parent folder of the file. Use `0` for the root folder.",
     },
     fileId: {
       propDefinition: [
@@ -30,7 +31,7 @@ export default {
         }),
       ],
       label: "File",
-      description: "The file to retrieve metadata for",
+      description: "The file to retrieve metadata for (e.g. `123456789`)",
     },
     fields: {
       propDefinition: [
@@ -54,7 +55,8 @@ export default {
       params,
     });
 
-    $.export("$summary", `Successfully retrieved metadata for file "${response.name}"`);
+    const label = response.name || response.id || this.fileId;
+    $.export("$summary", `Successfully retrieved metadata for file "${label}"`);
     return response;
   },
 };

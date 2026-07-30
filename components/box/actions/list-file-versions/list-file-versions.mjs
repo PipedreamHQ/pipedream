@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import app from "../../box.app.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
   key: "box-list-file-versions",
   name: "List File Versions",
-  description: "Lists all versions of a file. [See the documentation](https://developer.box.com/reference/get-files-id-versions/).",
+  description: "Lists prior versions of a file (does not include the current version). Use **Get File Metadata** for current file details, or **Upload File Version** to create a new version. [See the documentation](https://developer.box.com/reference/get-files-id-versions/).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -20,7 +21,7 @@ export default {
         "parentId",
       ],
       label: "Parent Folder",
-      description: "Use this option to select your File ID from a dropdown list.",
+      description: "The parent folder of the file. Use `0` for the root folder.",
     },
     fileId: {
       propDefinition: [
@@ -31,7 +32,7 @@ export default {
         }),
       ],
       label: "File",
-      description: "The file to list versions for",
+      description: "The file to list versions for (e.g. `123456789`)",
     },
     fields: {
       propDefinition: [
@@ -45,13 +46,13 @@ export default {
       label: "Limit",
       description: "The maximum number of versions to return per page (max 1000)",
       optional: true,
-      default: 100,
+      default: constants.pageSize,
       max: 1000,
     },
   },
   async run({ $ }) {
     const params = {
-      limit: this.limit || constants.pageSize,
+      limit: this.limit,
     };
     if (this.fields?.length) {
       params.fields = Array.isArray(this.fields)
