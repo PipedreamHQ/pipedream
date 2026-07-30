@@ -5,7 +5,7 @@ export default {
   key: "surecart-order-payment-failed",
   name: "New Order Payment Failed (Instant)",
   description: "Emit new event when an order payment fails. [See the documentation](https://developer.surecart.com/api-reference/webhook-endpoints/create)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

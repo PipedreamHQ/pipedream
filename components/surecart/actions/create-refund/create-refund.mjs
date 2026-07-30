@@ -4,7 +4,7 @@ export default {
   key: "surecart-create-refund",
   name: "Create Refund",
   description: "Create a new refund for a charge. [See the documentation](https://developer.surecart.com/api-reference/refunds/create)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

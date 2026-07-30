@@ -5,7 +5,7 @@ export default {
   key: "servicenow-add-item-to-cart",
   name: "Add Item to Cart",
   description: "Add a ServiceNow catalog item to the current user's cart. Run **Search Catalog Items** to find the item `sys_id` and **Get Catalog Item Variables** to learn which variable names to supply. After adding items, use **View Cart**, then **Checkout Cart** or **Submit Cart Order** to submit. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     readOnlyHint: false,
