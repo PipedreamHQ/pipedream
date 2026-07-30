@@ -89,6 +89,12 @@ export default {
         return options.map((i) => i.login_name);
       },
     },
+    session: {
+      type: "string",
+      label: "Session",
+      description: "A serialized session created by the **Start SQL Session** action, e.g. `{{steps.start_sql_session.$return_value.session}}`. When provided, this action runs in that session, preserving session state such as temporary tables, `USE` context, and session parameters. Sessions expire server-side after ~4 hours or your account's idle timeout.",
+      optional: true,
+    },
   },
   methods: {
     ...sqlProxy.methods,
@@ -210,16 +216,38 @@ export default {
         binds,
       };
     },
+    async serializeSession() {
+      const connection = await this._getConnection();
+      return snowflake.serializeConnection(connection);
+    },
+    restoreSession(serializedSession) {
+      try {
+        this.connection = snowflake.deserializeConnection(
+          this.getClientConfiguration(),
+          serializedSession,
+        );
+        this._restoredSession = true;
+      } catch (err) {
+        throw new ConfigurationError(`Could not restore session: ${err.message}. Re-run the Start SQL Session action to create a new session.`);
+      }
+    },
     async executeQuery(statement) {
       const connection = await this._getConnection();
-      const executedStatement = connection.execute(statement);
+      try {
+        const executedStatement = connection.execute(statement);
 
-      const rowStream = await executedStatement.streamRows();
-      const rows = [];
-      for await (const row of rowStream) {
-        rows.push(row);
+        const rowStream = await executedStatement.streamRows();
+        const rows = [];
+        for await (const row of rowStream) {
+          rows.push(row);
+        }
+        return rows;
+      } catch (err) {
+        if (this._restoredSession && /session|token|expired|terminated|authenticat/i.test(err.message)) {
+          throw new ConfigurationError(`Session expired or invalid (${err.message}). Re-run the Start SQL Session action to create a new session.`);
+        }
+        throw err;
       }
-      return rows;
     },
     async listTables({
       database, schema,

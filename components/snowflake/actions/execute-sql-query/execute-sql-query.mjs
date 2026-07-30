@@ -2,7 +2,7 @@ import snowflake from "../../snowflake.app.mjs";
 
 export default {
   name: "Execute SQL Query",
-  version: "0.2.3",
+  version: "0.3.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -21,8 +21,18 @@ export default {
       },
       label: "SQL Query",
     },
+    session: {
+      propDefinition: [
+        snowflake,
+        "session",
+      ],
+    },
   },
   async run({ $ }) {
+    if (this.session) {
+      this.snowflake.restoreSession(this.session);
+    }
+
     const args = this.snowflake.executeQueryAdapter(this.sql);
 
     const data = await this.snowflake.executeQuery(args);
