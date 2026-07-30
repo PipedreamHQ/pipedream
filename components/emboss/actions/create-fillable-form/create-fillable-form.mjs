@@ -11,7 +11,7 @@ const MAX_RETRIES = 144;
 export default {
   key: "emboss-create-fillable-form",
   name: "Create Fillable Form",
-  description: "Turn a flat (non-fillable) PDF into a fillable form. Emboss detects text fields, checkboxes, signatures, and tables, and returns a fillable PDF plus a form ID. Use **Fill Existing Form** to fill it later, or **Fill PDF From Context** to detect and fill in one step. Polls up to ~12 minutes for large documents. [See the documentation](https://getemboss.ai/docs)",
+  description: "Turn a flat (non-fillable) PDF into a fillable form. Emboss detects text fields, checkboxes, signatures, and tables, and returns a fillable PDF plus a form ID. Use **Fill Existing Form** to fill it later, or **Fill PDF From Context** to detect and fill in one step. Polls up to ~12 minutes for large documents. [See the documentation](https://getemboss.ai/docs/reference/create-form)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -27,10 +27,23 @@ export default {
       description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/form.pdf`).",
       format: "file-ref",
     },
+    idempotencyKey: {
+      type: "string",
+      label: "Idempotency Key",
+      description: "A unique string (e.g. a UUID) to safely retry this request. If a previous request with the same key already started a job, Emboss returns that original job instead of starting a new one. Scoped to your account; valid 24 hours.",
+      optional: true,
+    },
+    callbackUrl: {
+      type: "string",
+      label: "Callback URL",
+      description: "A public HTTPS URL Emboss will `POST` the job result to when it finishes (`ready` or `failed`), signed with `X-Emboss-Signature`. Optional — this action already polls until the job completes.",
+      optional: true,
+    },
     syncDir: {
       type: "dir",
       accessMode: "read-write",
       sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {
@@ -48,9 +61,17 @@ export default {
         contentType: "application/pdf",
         knownLength: f.size,
       });
+      if (this.callbackUrl) {
+        form.append("callback_url", this.callbackUrl);
+      }
+      const headers = form.getHeaders(this.idempotencyKey
+        ? {
+          "Idempotency-Key": this.idempotencyKey,
+        }
+        : undefined);
       const created = await this.emboss.createForm({
         $,
-        headers: form.getHeaders(),
+        headers,
         data: form,
         maxBodyLength: Infinity,
       });
@@ -66,7 +87,7 @@ export default {
       formId,
     });
     if (status.status === "failed") {
-      throw new Error(`Emboss create failed: ${errorDetail(status.error)}`);
+      throw new ConfigurationError(`Emboss form detection failed: ${errorDetail(status.error)}`);
     }
     if (status.status !== "ready") {
       if (runs >= MAX_RETRIES) {

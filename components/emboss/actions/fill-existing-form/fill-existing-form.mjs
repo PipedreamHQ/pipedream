@@ -11,7 +11,7 @@ const MAX_RETRIES = 144;
 export default {
   key: "emboss-fill-existing-form",
   name: "Fill Existing Form",
-  description: "Fill a form you previously created in Emboss, using context text and/or a context file; Emboss populates the detected fields from your context and returns the completed PDF. Create the form first with **Create Fillable Form**. Provide at least one context input. Polls up to ~12 minutes. [See the documentation](https://getemboss.ai/docs)",
+  description: "Fill a form you previously created in Emboss, using context text and/or a context file; Emboss populates the detected fields from your context and returns the completed PDF. Create the form first with **Create Fillable Form**. Provide at least one context input. Polls up to ~12 minutes. [See the documentation](https://getemboss.ai/docs/reference/fill-with-context)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -40,10 +40,23 @@ export default {
       format: "file-ref",
       optional: true,
     },
+    idempotencyKey: {
+      type: "string",
+      label: "Idempotency Key",
+      description: "A unique string (e.g. a UUID) to safely retry this request. If a previous request with the same key already started a job, Emboss returns that original job instead of starting a new one. Scoped to your account; valid 24 hours.",
+      optional: true,
+    },
+    callbackUrl: {
+      type: "string",
+      label: "Callback URL",
+      description: "A public HTTPS URL Emboss will `POST` the job result to when it finishes (`ready` or `failed`), signed with `X-Emboss-Signature`. Optional — this action already polls until the job completes.",
+      optional: true,
+    },
     syncDir: {
       type: "dir",
       accessMode: "read-write",
       sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {
@@ -63,10 +76,18 @@ export default {
           knownLength: p.knownLength,
         });
       }
+      if (this.callbackUrl) {
+        form.append("callback_url", this.callbackUrl);
+      }
+      const headers = form.getHeaders(this.idempotencyKey
+        ? {
+          "Idempotency-Key": this.idempotencyKey,
+        }
+        : undefined);
       const created = await this.emboss.fillExistingForm({
         $,
         formId: this.formId,
-        headers: form.getHeaders(),
+        headers,
         data: form,
         maxBodyLength: Infinity,
       });
@@ -82,7 +103,7 @@ export default {
       jobId,
     });
     if (status.status === "failed") {
-      throw new Error(`Emboss fill failed: ${errorDetail(status.error)}`);
+      throw new ConfigurationError(`Emboss fill failed: ${errorDetail(status.error)}`);
     }
     if (status.status !== "ready") {
       if (runs >= MAX_RETRIES) {
@@ -94,10 +115,6 @@ export default {
       $.export("$summary", `Still filling (check ${runs} of ${MAX_RETRIES})`);
       return;
     }
-    await this.emboss.fillSession({
-      $,
-      sessionId: status.session_id,
-    });
     const pdf = await this.emboss.getSessionPdf({
       $,
       sessionId: status.session_id,

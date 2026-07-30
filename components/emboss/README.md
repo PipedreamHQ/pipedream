@@ -3,9 +3,12 @@
 [Emboss](https://getemboss.ai) turns flat PDFs into fillable forms and fills
 them with AI. The Emboss API detects the fields on any flat PDF — text
 fields, checkboxes, signatures, tables — and can pre-fill them from context
-documents you provide. These components wrap the three core operations:
-create a fillable form, fill a PDF from context in one step, and fill a form
-you already created.
+documents you provide. These components wrap the core operations: create a
+fillable form, fill a PDF from context in one step, fill a form you already
+created, and list your account's forms.
+
+Use **List Forms** to look up a `form_id`, or copy the one returned by
+**Create Fillable Form**, then paste it into **Fill Existing Form**.
 
 # Example Use Cases
 

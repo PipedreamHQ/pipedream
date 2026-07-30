@@ -1,29 +1,20 @@
 import { axios } from "@pipedream/platform";
 
+const BASE_URL = "https://api.getemboss.ai";
+
 export default {
   type: "app",
   app: "emboss",
   propDefinitions: {
     formId: {
       type: "string",
-      label: "Form",
-      description: "A ready Emboss form to fill.",
-      async options({ page }) {
-        const { forms = [] } = await this.listForms({
-          params: {
-            page,
-          },
-        });
-        return forms.map((f) => ({
-          label: f.title || f.id,
-          value: f.id,
-        }));
-      },
+      label: "Form ID",
+      description: "The ID of a previously created, ready Emboss form. Use the **List Forms** action to look up available forms, or copy the `form_id` returned by **Create Fillable Form**, e.g. `6c47f7f5-f921-4698-910f-95dd7d81310b`.",
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.getemboss.ai";
+      return BASE_URL;
     },
     _headers(headers = {}) {
       return {
@@ -48,18 +39,7 @@ export default {
       });
     },
     /**
-     * List the account's ready forms.
-     * @param {object} [opts] - Extra request options (e.g. `params.page`).
-     * @returns {Promise<object>} `{ forms: [...] }`.
-     */
-    listForms(opts = {}) {
-      return this._makeRequest({
-        path: "/forms",
-        ...opts,
-      });
-    },
-    /**
-     * Create a fillable form from a flat PDF (async job).
+     * Create a form by uploading a flat PDF (async field detection).
      * @param {object} opts - Request options carrying the multipart body.
      * @returns {Promise<object>} `{ form_id, status }`.
      */
@@ -71,16 +51,27 @@ export default {
       });
     },
     /**
-     * Get a form's processing status.
+     * Get a form's detection status.
      * @param {object} opts - Request options.
      * @param {string} opts.formId - The form ID.
-     * @returns {Promise<object>} `{ status, error?, ... }`.
+     * @returns {Promise<object>} `{ id, status, title, schema_version, error? }`.
      */
     getForm({
       formId, ...opts
     }) {
       return this._makeRequest({
         path: `/forms/${formId}`,
+        ...opts,
+      });
+    },
+    /**
+     * List the account's forms.
+     * @param {object} [opts] - Extra request options (e.g. `params.page`).
+     * @returns {Promise<object>} `{ forms: [{ id, title, status }] }`.
+     */
+    listForms(opts = {}) {
+      return this._makeRequest({
+        path: "/forms",
         ...opts,
       });
     },
@@ -130,7 +121,7 @@ export default {
      * Get a context-fill job's status.
      * @param {object} opts - Request options.
      * @param {string} opts.jobId - The job ID.
-     * @returns {Promise<object>} `{ status, session_id?, report?, error? }`.
+     * @returns {Promise<object>} `{ status, session_id?, error? }`.
      */
     getContextJob({
       jobId, ...opts
@@ -141,22 +132,7 @@ export default {
       });
     },
     /**
-     * Render a ready session's filled PDF (required before downloading it).
-     * @param {object} opts - Request options.
-     * @param {string} opts.sessionId - The session ID.
-     * @returns {Promise<object>} `{ session_id, status }`.
-     */
-    fillSession({
-      sessionId, ...opts
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/sessions/${sessionId}/fill`,
-        ...opts,
-      });
-    },
-    /**
-     * Download a filled session's PDF.
+     * Download a completed session's rendered PDF.
      * @param {object} opts - Request options.
      * @param {string} opts.sessionId - The session ID.
      * @returns {Promise<ArrayBuffer>} The PDF bytes.

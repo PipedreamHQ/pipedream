@@ -46,14 +46,14 @@ export function contextParts(contextText, contextFile) {
 }
 
 /**
- * Write PDF bytes to `/tmp` and return `{ filepath }` (the registry
- * convention for file outputs; the syncDir prop exposes it via File Stash).
+ * Write PDF bytes to the File Stash directory and return `{ filepath }`
+ * (the registry convention for file outputs; the syncDir prop exposes it).
  * The name is sanitized (path separators replaced) so the file always lands
- * directly in `/tmp`.
+ * directly in the stash directory.
  */
 export async function writePdf(buffer, name) {
   const safeName = String(name).replace(/[/\\]/g, "_");
-  const filepath = `/tmp/${safeName}`;
+  const filepath = `${process.env.STASH_DIR || "/tmp"}/${safeName}`;
   await fs.promises.writeFile(filepath, buffer);
   return {
     filepath,
