@@ -4,7 +4,7 @@ export default {
   key: "surecart-retrieve-cancellation-act",
   name: "Retrieve Cancellation Act",
   description: "Retrieve a cancellation act by ID. [See the documentation](https://developer.surecart.com/api-reference/cancellation-acts/retrieve)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

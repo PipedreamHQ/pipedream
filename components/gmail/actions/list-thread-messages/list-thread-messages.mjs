@@ -1,7 +1,9 @@
-import utils from "../../common/utils.mjs";
+import utils, { MAX_RESPONSE_CHARS } from "../../common/utils.mjs";
 import gmail from "../../gmail.app.mjs";
 
-const MAX_RESPONSE_CHARS = 100_000;
+// Shares Find Emails' client-imposed ceiling (see utils.MAX_RESPONSE_CHARS). This action
+// already degrades before dropping (full → metadata → tail), so it needs the cap rather
+// than a `fields` projection.
 
 export default {
   key: "gmail-list-thread-messages",
@@ -10,9 +12,9 @@ export default {
     "Fetch an entire Gmail thread (conversation) by thread ID — returns every message in order with headers, decoded body text, and attachment metadata."
     + " Use this after **Find Emails** when the user wants the full conversation rather than a single message. Each result from **Find Emails** includes a `threadId` you can pass here."
     + " With `format: full` (default) each message includes decoded `text`/`html` bodies and attachment metadata. Use `format: metadata` to skip bodies and get only headers + labelIds — useful for large threads."
-    + " Responses are hard-capped at 100k characters — oversized threads fall back to `metadata`-level detail (or are further truncated from the tail) with a `[truncated]` marker so the caller knows to narrow the request."
+    + " Responses are capped — oversized threads fall back to `metadata`-level detail (or are further truncated from the tail) with a `[truncated]` marker so the caller knows to narrow the request."
     + " [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.threads/get).",
-  version: "0.1.1",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

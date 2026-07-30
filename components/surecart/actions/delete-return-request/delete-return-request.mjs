@@ -4,7 +4,7 @@ export default {
   key: "surecart-delete-return-request",
   name: "Delete Return Request",
   description: "Delete a return request by ID. [See the documentation](https://developer.surecart.com/api-reference/return-requests/delete)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: true,

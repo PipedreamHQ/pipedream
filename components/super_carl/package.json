@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/super_carl",
+  "version": "0.0.1",
+  "description": "Pipedream Super Carl Components",
+  "main": "super_carl.app.mjs",
+  "keywords": [
+    "pipedream",
+    "super_carl"
+  ],
+  "homepage": "https://pipedream.com/apps/super_carl",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
