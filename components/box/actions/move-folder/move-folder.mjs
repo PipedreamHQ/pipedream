@@ -4,7 +4,7 @@ import app from "../../box.app.mjs";
 export default {
   key: "box-move-folder",
   name: "Move Folder",
-  description: "Moves a folder to a new parent folder. Optionally rename the folder while moving. Provide the source folder ID and destination parent folder ID (`0` for root). Cannot move a folder into itself or one of its descendants. Use **Create Folder** to create a destination first if needed. [See the documentation](https://developer.box.com/reference/put-folders-id/).",
+  description: "Moves a folder to a new parent folder. Optionally rename the folder while moving. Provide the source folder ID and destination parent folder ID (`0` for root). Cannot move a folder into itself or one of its descendants. When renaming, the new name must be 1-255 characters, use only Unicode Basic Multilingual Plane (BMP) characters, and cannot contain non-printable characters, `/` or `\\`, leading or trailing spaces, or be `.` or `..`. Use **Create Folder** to create a destination first if needed. [See the documentation](https://developer.box.com/reference/put-folders-id/). [See folder name restrictions](https://support.box.com/hc/en-us/articles/360044196773-Troubleshooting-Uploads-to-Box).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -35,7 +35,7 @@ export default {
     name: {
       type: "string",
       label: "New Name",
-      description: "Optionally rename the folder while moving. Cannot contain `/` or `\\`.",
+      description: "Optionally rename the folder while moving. Must be 1-255 characters and use only Unicode Basic Multilingual Plane (BMP) characters. Cannot contain non-printable characters, `/` or `\\`, leading or trailing spaces, or be `.` or `..`. [See folder name restrictions](https://support.box.com/hc/en-us/articles/360044196773-Troubleshooting-Uploads-to-Box).",
       optional: true,
     },
     fields: {

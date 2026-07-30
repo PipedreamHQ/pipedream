@@ -4,7 +4,7 @@ import app from "../../box.app.mjs";
 export default {
   key: "box-create-folder",
   name: "Create Folder",
-  description: "Creates a new empty folder within the specified parent folder. Parent folder ID `0` is the root (All Files). Folder names cannot contain `/` or `\\` and must be unique within the parent. Use **List Folder Items** to inspect contents, or **Move Folder** / **Delete Folder** to reorganize afterward. [See the documentation](https://developer.box.com/reference/post-folders/).",
+  description: "Creates a new empty folder within the specified parent folder. Parent folder ID `0` is the root (All Files). Folder names must be 1-255 characters, use only Unicode Basic Multilingual Plane (BMP) characters, and cannot contain non-printable characters, `/` or `\\`, leading or trailing spaces, or be `.` or `..`. Names must be unique within the parent (case-insensitive). Use **List Folder Items** to inspect contents, or **Move Folder** / **Delete Folder** to reorganize afterward. [See the documentation](https://developer.box.com/reference/post-folders/). [See folder name restrictions](https://support.box.com/hc/en-us/articles/360044196773-Troubleshooting-Uploads-to-Box).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -25,7 +25,7 @@ export default {
     name: {
       type: "string",
       label: "Folder Name",
-      description: "The name of the new folder. Cannot contain `/` or `\\`.",
+      description: "The name of the new folder. Must be 1-255 characters and use only Unicode Basic Multilingual Plane (BMP) characters. Cannot contain non-printable characters, `/` or `\\`, leading or trailing spaces, or be `.` or `..`. [See folder name restrictions](https://support.box.com/hc/en-us/articles/360044196773-Troubleshooting-Uploads-to-Box).",
     },
     fields: {
       propDefinition: [
