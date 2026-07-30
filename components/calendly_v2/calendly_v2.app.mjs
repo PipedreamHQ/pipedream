@@ -316,6 +316,14 @@ export default {
 
       return this._makeRequest(opts, $);
     },
+    async listWebhookSubscriptions(params, $) {
+      const opts = {
+        path: "/webhook_subscriptions",
+        params,
+      };
+
+      return this._makeRequest(opts, $);
+    },
     async createSchedulingLink(params, $) {
       params.owner = this._buildEventType(params.owner);
 
