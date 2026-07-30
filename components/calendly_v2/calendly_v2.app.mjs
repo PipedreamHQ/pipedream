@@ -29,7 +29,7 @@ export default {
     groupId: {
       type: "string",
       label: "Group UUID",
-      description: "The UUID of the group. Query `GET /groups` (Calendly API) to obtain group UUIDs.",
+      description: "The UUID of the group. Run **List Groups** first to obtain group UUIDs.",
     },
     inviteeEmail: {
       type: "string",

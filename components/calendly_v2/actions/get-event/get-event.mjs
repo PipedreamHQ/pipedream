@@ -6,8 +6,8 @@ import calendly from "../../calendly_v2.app.mjs";
 export default {
   key: "calendly_v2-get-event",
   name: "Get Event",
-  description: "Gets information about an Event associated with a URI. [See the documentation](https://developer.calendly.com/api-docs/e2f95ebd44914-get-event).",
-  version: "0.1.8",
+  description: "Gets information about a scheduled event via `GET /scheduled_events/{uuid}`. Provide either the Event UUID (from **List Events**) or the full Event URL. Example: with `eventId` set to `a1b2c3d4-e5f6-7890-abcd-ef1234567890`, returns the event's name, start/end times, status, and location. If you are using a Calendly Source in the same workflow, you would use `{{steps.trigger.event.payload.event}}` as the Event URL. [See the documentation](https://developer.calendly.com/api-docs/e2f95ebd44914-get-event).",
+  version: "0.1.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,8 +5,8 @@ import { axios } from "@pipedream/platform";
 export default {
   key: "calendly_v2-list-webhook-subscriptions",
   name: "List Webhook Subscriptions",
-  description: "Get a list of Webhook Subscriptions for an Organization or User with a UUID.",
-  version: "0.1.7",
+  description: "Get a list of Webhook Subscriptions for an Organization or User via `GET /webhook_subscriptions`. Requires both `scope` and `organization_uri`; add `user_uri` when `scope` is `user`. Run **List Organization Memberships** first to obtain an organization or user URI. Example: call with `scope` set to `organization` and `organization_uri` set to `https://api.calendly.com/organizations/AAAAAAAAAAAAAAAA` to return that organization's webhook subscriptions. [See the documentation](https://developer.calendly.com/docs/api-docs/reference/calendly-api/openapi.yaml/paths/~1webhook_subscriptions/get)",
+  version: "0.1.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -28,11 +28,11 @@ export default {
     },
     organization_uri: {
       type: "string",
-      description: "Indicates if the results should be filtered by organization, by entering an organization 's URI, such as `https://api.calendly.com/organizations/012345678901234567890`.",
+      description: "Filters the results by organization URI, such as `https://api.calendly.com/organizations/012345678901234567890`. Run **List Organization Memberships** first to obtain a valid organization URI.",
     },
     user_uri: {
       type: "string",
-      description: "Indicates if the results should be filtered by user, by entering a user's URI, such as `https://api.calendly.com/users/CAFHCZWDQLKQ73HX`. You can use the [Get User](https://developer.calendly.com/docs/api-docs/reference/calendly-api/openapi.yaml/paths/~1users~1me/get) endpoint to find a user's URI.",
+      description: "Filters the results by user URI, such as `https://api.calendly.com/users/CAFHCZWDQLKQ73HX`. Required when `scope` is `user`. Run **List Organization Memberships** first to obtain a valid user URI.",
       optional: true,
     },
     count: {
