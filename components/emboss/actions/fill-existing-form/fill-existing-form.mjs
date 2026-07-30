@@ -60,9 +60,14 @@ export default {
     },
   },
   async run({ $ }) {
+    const run = $.context
+      ? $.context.run
+      : {
+        runs: 1,
+      };
     const {
       runs, context,
-    } = $.context.run;
+    } = run;
     if (runs === 1) {
       if (!this.contextText && !this.contextFile) {
         throw new ConfigurationError("Provide Context (Text) and/or a Context File — at least one is required to fill the form.");

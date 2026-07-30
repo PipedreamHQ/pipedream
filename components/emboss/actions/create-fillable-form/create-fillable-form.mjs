@@ -47,9 +47,14 @@ export default {
     },
   },
   async run({ $ }) {
+    const run = $.context
+      ? $.context.run
+      : {
+        runs: 1,
+      };
     const {
       runs, context,
-    } = $.context.run;
+    } = run;
     if (runs === 1) {
       if (!this.file) {
         throw new ConfigurationError("File Path Or Url is required.");
