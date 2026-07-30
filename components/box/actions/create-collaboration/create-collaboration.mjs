@@ -19,6 +19,7 @@ export default {
       label: "Item Type",
       description: "The type of item to share",
       options: constants.itemTypes,
+      reloadProps: true,
     },
     folderId: {
       propDefinition: [
@@ -26,37 +27,31 @@ export default {
         "parentId",
       ],
       label: "Folder",
-      description: "The folder containing the file, or the folder to share (when item type is Folder)",
-    },
-    fileId: {
-      propDefinition: [
-        app,
-        "fileId",
-        (c) => ({
-          folderId: c.folderId,
-        }),
-      ],
-      label: "File",
-      description: "The file to share. Only used when item type is File.",
-      optional: true,
+      description: "The folder to share, or the parent folder used to select a file when Item Type is File",
+      optional: false,
     },
     accessibleByType: {
       type: "string",
       label: "Collaborator Type",
       description: "The type of collaborator to invite",
       options: constants.accessibleByTypes,
+      reloadProps: true,
     },
-    login: {
+    identifyBy: {
       type: "string",
-      label: "Email",
-      description: "The email address of the user to invite. Use this or Collaborator ID.",
-      optional: true,
-    },
-    accessibleById: {
-      type: "string",
-      label: "Collaborator ID",
-      description: "The ID of the user or group to invite. Use this or Email.",
-      optional: true,
+      label: "Identify By",
+      description: "How to identify the collaborator. Users can be invited by email or ID; groups must be invited by ID.",
+      options: [
+        {
+          label: "Email",
+          value: "email",
+        },
+        {
+          label: "ID",
+          value: "id",
+        },
+      ],
+      reloadProps: true,
     },
     role: {
       type: "string",
@@ -78,11 +73,40 @@ export default {
       optional: true,
     },
   },
-  async run({ $ }) {
-    if (!this.login && !this.accessibleById) {
-      throw new Error("Either Email or Collaborator ID is required.");
+  async additionalProps() {
+    const props = {};
+
+    if (this.itemType === "file") {
+      props.fileId = {
+        propDefinition: [
+          app,
+          "fileId",
+          (c) => ({
+            folderId: c.folderId,
+          }),
+        ],
+        label: "File",
+        description: "The file to share",
+      };
     }
 
+    if (this.identifyBy === "email") {
+      props.login = {
+        type: "string",
+        label: "Email",
+        description: "The email address of the user to invite",
+      };
+    } else if (this.identifyBy === "id") {
+      props.accessibleById = {
+        type: "string",
+        label: "Collaborator ID",
+        description: `The ID of the ${this.accessibleByType || "user or group"} to invite`,
+      };
+    }
+
+    return props;
+  },
+  async run({ $ }) {
     const itemId = this.itemType === "file"
       ? this.fileId
       : this.folderId;
@@ -95,10 +119,9 @@ export default {
     const accessibleBy = {
       type: this.accessibleByType,
     };
-    if (this.login) {
+    if (this.identifyBy === "email") {
       accessibleBy.login = this.login;
-    }
-    if (this.accessibleById) {
+    } else {
       accessibleBy.id = this.accessibleById;
     }
 
