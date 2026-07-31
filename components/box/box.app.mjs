@@ -2,6 +2,7 @@ import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 
 const MAX_LIMIT = 1000;
+const MIN_LIMIT = 1;
 
 export default {
   type: "app",
@@ -19,6 +20,7 @@ export default {
       description: "The maximum number of results to return per page (max 1000)",
       optional: true,
       default: constants.pageSize,
+      min: MIN_LIMIT,
       max: MAX_LIMIT,
     },
     fields: {

@@ -58,7 +58,7 @@ export default {
         id: this.destinationFolderId,
       },
     };
-    if (this.name) {
+    if (this.name !== undefined) {
       data.name = this.name;
     }
 

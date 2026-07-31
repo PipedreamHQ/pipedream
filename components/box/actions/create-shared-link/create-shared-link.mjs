@@ -21,7 +21,6 @@ export default {
         app,
         "itemType",
       ],
-      reloadProps: true,
     },
     item: {
       propDefinition: [
