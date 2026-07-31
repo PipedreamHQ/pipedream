@@ -23,6 +23,53 @@ function doubleEncode(value) {
   return value;
 }
 
+const FILE_SIZE_UNITS = [
+  "B",
+  "KB",
+  "MB",
+  "GB",
+];
+
+function formatFileSize(bytes) {
+  if (!Number.isFinite(bytes)) {
+    return "unknown size";
+  }
+  let value = bytes;
+  let unit = 0;
+  while (value >= 1024 && unit < FILE_SIZE_UNITS.length - 1) {
+    value /= 1024;
+    unit += 1;
+  }
+  return `${value.toFixed(unit === 0
+    ? 0
+    : 1)} ${FILE_SIZE_UNITS[unit]}`;
+}
+
+// Ordered preference used when the caller doesn't name a specific recording file.
+// A single meeting usually yields 5+ files (speaker-view MP4, audio-only M4A, chat
+// TXT, transcript VTT, timeline JSON); "the recording" almost always means the video.
+const FILE_PREFERENCE = [
+  (file) => file.file_type === "MP4" && file.recording_type === "shared_screen_with_speaker_view",
+  (file) => file.file_type === "MP4",
+  (file) => file.file_type === "M4A",
+];
+
+function selectRecordingFile(files = [], recordingFileId) {
+  const completed = files.filter(({ status }) => status === "completed");
+
+  if (recordingFileId) {
+    return completed.find(({ id }) => id === recordingFileId);
+  }
+
+  for (const predicate of FILE_PREFERENCE) {
+    const matches = completed.filter(predicate);
+    if (matches.length) {
+      return matches.sort((a, b) => (b.file_size ?? 0) - (a.file_size ?? 0))[0];
+    }
+  }
+  return undefined;
+}
+
 function parseArray(value) {
   if (!value) {
     return undefined;
@@ -45,5 +92,7 @@ export default {
   streamIterator,
   summaryEnd,
   doubleEncode,
+  formatFileSize,
+  selectRecordingFile,
   parseArray,
 };
