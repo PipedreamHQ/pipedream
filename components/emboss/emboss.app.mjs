@@ -11,6 +11,45 @@ export default {
       label: "Form ID",
       description: "The ID of a previously created, ready Emboss form. Use the **List Forms** action to look up available forms, or copy the `form_id` returned by **Create Fillable Form**, e.g. `6c47f7f5-f921-4698-910f-95dd7d81310b`.",
     },
+    file: {
+      type: "string",
+      label: "File Path Or Url",
+      description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/form.pdf`).",
+      format: "file-ref",
+    },
+    contextText: {
+      type: "string",
+      label: "Context (Text)",
+      description: "Information to fill the form with, e.g. `Applicant: Jane Doe, 38 Birchwood Court, Mooresville, IN — phone (317) 555-0126`.",
+      optional: true,
+    },
+    contextFile: {
+      type: "string",
+      label: "Context File",
+      description: "A URL or `/tmp` path to a context document (PDF, DOCX, CSV, image, or text), e.g. `/tmp/customer-data.pdf` or `https://example.com/invoice.pdf`.",
+      format: "file-ref",
+      optional: true,
+    },
+    idempotencyKey: {
+      type: "string",
+      label: "Idempotency Key",
+      description: "A unique string (e.g. a UUID) to safely retry this request. If a previous request with the same key already started a job, Emboss returns that original job instead of starting a new one. Scoped to your account; valid 24 hours.",
+      optional: true,
+    },
+    callbackUrl: {
+      type: "string",
+      label: "Callback URL",
+      description: "A public HTTPS URL Emboss will `POST` the job result to when it finishes (`ready` or `failed`), signed with `X-Emboss-Signature`, e.g. `https://example.com/webhooks/emboss`. Optional — this action already polls until the job completes.",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      label: "Sync Directory",
+      description: "The File Stash directory the output PDF is written to. Defaults to `/tmp`.",
+      accessMode: "read-write",
+      sync: true,
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {

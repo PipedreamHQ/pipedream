@@ -22,39 +22,36 @@ export default {
   props: {
     emboss,
     file: {
-      type: "string",
-      label: "File Path Or Url",
-      description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/form.pdf`).",
-      format: "file-ref",
+      propDefinition: [
+        emboss,
+        "file",
+      ],
     },
     idempotencyKey: {
-      type: "string",
-      label: "Idempotency Key",
-      description: "A unique string (e.g. a UUID) to safely retry this request. If a previous request with the same key already started a job, Emboss returns that original job instead of starting a new one. Scoped to your account; valid 24 hours.",
-      optional: true,
+      propDefinition: [
+        emboss,
+        "idempotencyKey",
+      ],
     },
     callbackUrl: {
-      type: "string",
-      label: "Callback URL",
-      description: "A public HTTPS URL Emboss will `POST` the job result to when it finishes (`ready` or `failed`), signed with `X-Emboss-Signature`. Optional — this action already polls until the job completes.",
-      optional: true,
+      propDefinition: [
+        emboss,
+        "callbackUrl",
+      ],
     },
     syncDir: {
-      type: "dir",
-      accessMode: "read-write",
-      sync: true,
-      optional: true,
+      propDefinition: [
+        emboss,
+        "syncDir",
+      ],
     },
   },
   async run({ $ }) {
-    const run = $.context
-      ? $.context.run
-      : {
-        runs: 1,
-      };
     const {
       runs, context,
-    } = run;
+    } = $.context?.run ?? {
+      runs: 1,
+    };
     if (runs === 1) {
       if (!this.file) {
         throw new ConfigurationError("File Path Or Url is required.");
@@ -92,7 +89,7 @@ export default {
       formId,
     });
     if (status.status === "failed") {
-      throw new ConfigurationError(`Emboss form detection failed: ${errorDetail(status.error)}`);
+      throw new Error(`Emboss form detection failed: ${errorDetail(status.error)}`);
     }
     if (status.status !== "ready") {
       if (runs >= MAX_RETRIES) {
