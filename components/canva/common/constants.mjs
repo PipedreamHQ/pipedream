@@ -22,6 +22,10 @@ const DESIGN_TYPE_NAME_OPTIONS = [
     label: "Presentation: Lets you create and collaborate for presenting to an audience",
     value: "presentation",
   },
+  {
+    label: "Email: A design for an email",
+    value: "email",
+  },
 ];
 
 const EXPORT_TYPES = [

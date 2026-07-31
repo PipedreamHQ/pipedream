@@ -9,7 +9,7 @@ const MAX_POLL_ATTEMPTS = 40; // ~2 minutes at 3s intervals
 export default {
   key: "canva-create-design-autofill-job",
   name: "Create Design Autofill Job",
-  description: "Start an autofill job via POST /autofills to generate a design from a brand template (or another design) using a data payload. Use **Get Brand Template Dataset** to learn valid field names/types, then poll status with **Get Design Autofill Job**. [See the documentation](https://www.canva.dev/docs/connect/api-reference/autofills/create-design-autofill-job/).",
+  description: "Start an autofill job via POST /autofills to generate a design from a brand template (or another design) using a data payload. To learn valid field names/types for the `data` payload, use **Get Brand Template Dataset** when autofilling from a brand template (`create_from_brand_template`) or **Get Design Dataset** when autofilling from a design (`create_from_design`). Then poll status with **Get Design Autofill Job**. [See the documentation](https://www.canva.dev/docs/connect/api-reference/autofills/create-design-autofill-job/).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -44,7 +44,7 @@ export default {
     data: {
       type: "string",
       label: "Data",
-      description: "JSON object of DatasetValues keyed by field name; each value has a `type` and type-specific fields. Example: `{\"headline\":{\"type\":\"text\",\"text\":\"Hello World\"}}`. Use **Get Brand Template Dataset** to discover valid field names.",
+      description: "JSON object of DatasetValues keyed by field name; each value has a `type` and type-specific fields. Example: `{\"headline\":{\"type\":\"text\",\"text\":\"Hello World\"}}`. Use **Get Brand Template Dataset** (for `create_from_brand_template`) or **Get Design Dataset** (for `create_from_design`) to discover valid field names.",
     },
     waitForCompletion: {
       propDefinition: [

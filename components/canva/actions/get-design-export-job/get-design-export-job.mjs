@@ -17,7 +17,7 @@ export default {
     exportId: {
       type: "string",
       label: "Export Job ID",
-      description: "The ID of the design export job (e.g. `exp_def456uvw`). Run **Export Design** first to obtain it.",
+      description: "The ID of the design export job (e.g. `14dea714-5be5-45e4-beb9-8a35f6912026`). Run **Export Design** first to obtain it.",
     },
   },
   async run({ $ }) {

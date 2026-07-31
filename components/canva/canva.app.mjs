@@ -30,7 +30,7 @@ export default {
     assetId: {
       type: "string",
       label: "Asset ID",
-      description: "The ID of the asset (e.g. `Abc12345xyz`). Obtain asset IDs from **Upload Asset** or **List Folder Items**.",
+      description: "The ID of the asset (e.g. `MAHQxwKNGg0`). Obtain asset IDs from **Upload Asset** or **List Folder Items**.",
     },
     folderId: {
       type: "string",
@@ -77,6 +77,14 @@ export default {
     }) {
       return this._makeRequest({
         path: `/designs/${designId}`,
+        ...opts,
+      });
+    },
+    getDesignDataset({
+      designId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/designs/${designId}/dataset`,
         ...opts,
       });
     },

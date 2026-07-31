@@ -17,7 +17,7 @@ export default {
     importId: {
       type: "string",
       label: "Import Job ID",
-      description: "The ID of the design import job (e.g. `imp_abc123xyz`). Run **Create Design Import Job** first to obtain it. Maps to path param jobId.",
+      description: "The ID of the design import job (e.g. `2d77a1ba-462b-459b-8d3a-cf937d349e87`). Run **Create Design Import Job** first to obtain it. Maps to path param jobId.",
     },
   },
   async run({ $ }) {
