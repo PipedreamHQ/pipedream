@@ -1,5 +1,4 @@
 // x-pd-ai: optimized
-import { ConfigurationError } from "@pipedream/platform";
 import zoom from "../../zoom.app.mjs";
 
 const DEFAULT_TTL = 900;
@@ -81,7 +80,7 @@ export default {
     // Zoom mints the token at the meeting level, not per file.
     const token = recordings?.download_access_token;
     if (!token) {
-      throw new ConfigurationError(
+      throw new Error(
         "Zoom did not return a download access token for this meeting. Cloud recording downloads "
         + "may be restricted by an account-level setting.",
       );
