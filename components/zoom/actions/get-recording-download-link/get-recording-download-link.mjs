@@ -69,6 +69,15 @@ export default {
       },
     });
 
+    // On-premise recordings can come back without a `download_url`, and there is nothing
+    // to sign a token against — fail rather than return `undefined?access_token=...`.
+    if (!file?.download_url) {
+      throw new Error(
+        `Zoom returned no download URL for the ${file?.file_type ?? "selected"} recording file. `
+        + "Files stored on-premise cannot be downloaded through the cloud recording API.",
+      );
+    }
+
     // Zoom mints the token at the meeting level, not per file.
     const token = recordings?.download_access_token;
     if (!token) {

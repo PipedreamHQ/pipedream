@@ -95,10 +95,12 @@ export default {
     emitEvent(file, meeting, downloadToken = null) {
       this.$emit(
         {
-          // Only compose the pre-signed URL when a token is actually present. The
-          // `deploy()` backfill has no token, and emitting `?access_token=null` there
-          // produced a URL that looked usable but always failed.
-          ...(downloadToken && {
+          // Only compose the pre-signed URL when both a token and a download URL are
+          // present. The `deploy()` backfill has no token, and on-premise recordings can
+          // omit `download_url` — either case produced a URL that looked usable but
+          // always failed. `download_token` is always emitted separately, for consumers
+          // that use the recommended `Authorization: Bearer <download_token>` header.
+          ...(downloadToken && file.download_url && {
             download_url_with_token: `${file.download_url}?access_token=${downloadToken}`,
           }),
           download_token: downloadToken,
