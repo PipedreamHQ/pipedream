@@ -10,10 +10,10 @@ export default {
   name: "Find Email",
   description:
     "Find (search, list, or count) email messages in a Microsoft Outlook mailbox via Microsoft Graph."
-    + " By default a search or list request (Count Only = false) scans the WHOLE mailbox (`/me/messages`, all folders including Sent, Archive, etc.), matching what you see when searching in Outlook;"
-    + " a count-only request (Count Only = true) with no explicit Folder Scope stays inbox-scoped (`/me/mailFolders/inbox/messages`) and counts ALL inbox messages by default, not just unread ones — also set `Is Read` to `false` to count only unread messages (matching Outlook's unread inbox badge)."
-    + " Set Folder Scope explicitly to override this behavior for either mode."
-    + " To search a shared mailbox folder instead, use **Find Shared Folder Email**."
+    + " By default a search or list request (`countOnly` = false) scans the WHOLE mailbox (all folders including Sent, Archive, etc.), matching what you see when searching in Outlook;"
+    + " a count-only request (`countOnly` = true) with no explicit `folderScope` stays inbox-scoped and counts ALL inbox messages by default, not just unread ones — also set `isRead` to `false` to count only unread messages (matching Outlook's unread inbox badge)."
+    + " Set `folderScope` explicitly to override this behavior for either mode."
+    + " To search a shared mailbox, set `userId` (the mailbox owner's UPN or ID); add `sharedFolderId` to target a specific folder within it."
     + " [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-messages?view=graph-rest-1.0)",
   version: "1.1.0",
   type: "action",
@@ -33,7 +33,7 @@ export default {
     subject: {
       type: "string",
       label: "Subject",
-      description: "Filter messages whose subject contains this text. Example: `project update`. Adds `contains(subject,'...')` to the OData filter. Cannot be combined with `search` or `orderBy` — Graph does not support sorting alongside a `contains()` filter.",
+      description: "Filter messages whose subject contains this text. Example: `project update`. Adds `contains(subject,'...')` to the OData filter. Cannot be combined with `search`. Can be combined with `orderBy`, but Graph requires the sort property to also be filtered — see `Order By`.",
       optional: true,
     },
     from: {
@@ -111,13 +111,14 @@ export default {
         microsoftOutlook,
         "filter",
       ],
-      description: "OData filter expression. Example: `contains(subject, 'meeting')` or `receivedDateTime ge 2024-01-01T00:00:00Z`. When combined with `isRead`, filters are joined with `and`. Cannot be combined with `search`. [See filter documentation](https://learn.microsoft.com/en-us/graph/filter-query-parameter).",
+      description: "OData filter expression. Example: `contains(subject, 'meeting')` or `receivedDateTime ge 2024-01-01T00:00:00Z`. When combined with `isRead`, filters are joined with `and`. Cannot be combined with `search`. When combined with `orderBy`, Graph's filter/orderby ordering rules are your responsibility — this action cannot introspect a raw filter to reorder it. [See filter documentation](https://learn.microsoft.com/en-us/graph/filter-query-parameter).",
     },
     orderBy: {
       propDefinition: [
         microsoftOutlook,
         "orderBy",
       ],
+      description: "Order results by a message property. Example: `receivedDateTime desc` (newest first). Microsoft Graph requires every property in `$orderby` to also appear in `$filter`, before any properties that don't — this action arranges the filter automatically, so pair `orderBy` with a matching filter (e.g. sort by `receivedDateTime` together with a `Received After`/`Received Before` value). Sorting by a property that isn't filtered returns an `InefficientFilter` error. Cannot be combined with `search`.",
     },
     maxResults: {
       propDefinition: [
@@ -158,6 +159,14 @@ export default {
       const escaped = cleaned.replace(/"/g, "\\\"");
       return `"${escaped}"`;
     },
+    // Normalize an `$orderby` property token to the internal key used to tag the
+    // generated filter conditions, so we can match a sort property to its filter.
+    canonicalOrderKey(prop) {
+      const p = (prop || "").toLowerCase();
+      if (p === "from" || p.startsWith("from/")) return "from";
+      if (p === "flag" || p.startsWith("flag/")) return "flag/flagstatus";
+      return p || undefined;
+    },
   },
   async run({ $ }) {
     let hasSearch = Boolean(this.search);
@@ -180,37 +189,113 @@ export default {
     if (hasSearch && (hasFilterProps || this.orderBy)) {
       throw new ConfigurationError("`search` cannot be combined with `filter`, `subject`, `from`, `receivedAfter`, `receivedBefore`, `importance`, `flagged`, `hasAttachments`, or `orderBy` — Graph does not support `$search` with `$filter` or `$orderby`. Use filter props alone, or remove them when using `search`.");
     }
-    if (this.subject && this.orderBy) {
-      throw new ConfigurationError("`subject` cannot be combined with `orderBy` — Microsoft Graph does not support sorting results when a `contains()` filter (used by `subject`) is applied. Remove `orderBy`, or filter without `subject` (e.g. use `filter` on an indexed property such as `receivedDateTime` instead).");
-    }
     if (this.sharedFolderId && !this.userId) {
       throw new ConfigurationError("`sharedFolderId` requires `userId` to be set — provide the UPN or object ID of the shared mailbox owner.");
     }
-    if (this.folderScope && this.folderScope !== "inbox" && this.sharedFolderId) {
+    if (this.folderScope && this.sharedFolderId) {
       throw new ConfigurationError("`folderScope` and `sharedFolderId` cannot be used together — use one or the other.");
     }
 
+    // Structured filter conditions, each tagged with the message property it
+    // constrains, so the $orderby-ordering rules below can match/reorder them.
     const filterParts = [];
-    if (hasIsRead) filterParts.push(`isRead eq ${this.isRead}`);
-    if (this.from) filterParts.push(`from/emailAddress/address eq '${this.from.replace(/'/g, "''")}'`);
-    if (this.subject) filterParts.push(`contains(subject,'${this.subject.replace(/'/g, "''")}')`);
-    if (this.receivedAfter) filterParts.push(`receivedDateTime ge ${this.receivedAfter}`);
-    if (this.receivedBefore) filterParts.push(`receivedDateTime le ${this.receivedBefore}`);
-    if (this.importance) filterParts.push(`importance eq '${this.importance}'`);
-    if (hasFlagged) filterParts.push(`flag/flagStatus eq '${this.flagged
-      ? "flagged"
-      : "notFlagged"}'`);
-    if (hasHasAttachments) filterParts.push(`hasAttachments eq ${this.hasAttachments}`);
-    if (this.filter) filterParts.push(`(${this.filter})`);
+    if (hasIsRead) filterParts.push({
+      key: "isread",
+      expr: `isRead eq ${this.isRead}`,
+    });
+    if (this.from) filterParts.push({
+      key: "from",
+      expr: `from/emailAddress/address eq '${this.from.replace(/'/g, "''")}'`,
+    });
+    if (this.subject) filterParts.push({
+      key: "subject",
+      expr: `contains(subject,'${this.subject.replace(/'/g, "''")}')`,
+    });
+    if (this.receivedAfter) filterParts.push({
+      key: "receiveddatetime",
+      expr: `receivedDateTime ge ${this.receivedAfter}`,
+    });
+    if (this.receivedBefore) filterParts.push({
+      key: "receiveddatetime",
+      expr: `receivedDateTime le ${this.receivedBefore}`,
+    });
+    if (this.importance) filterParts.push({
+      key: "importance",
+      expr: `importance eq '${this.importance}'`,
+    });
+    if (hasFlagged) filterParts.push({
+      key: "flag/flagstatus",
+      expr: `flag/flagStatus eq '${this.flagged
+        ? "flagged"
+        : "notFlagged"}'`,
+    });
+    if (hasHasAttachments) filterParts.push({
+      key: "hasattachments",
+      expr: `hasAttachments eq ${this.hasAttachments}`,
+    });
 
     // Graph cannot combine $search with $filter (which isRead generates).
     // Auto-convert to a subject contains() filter so both constraints are honoured.
     if (hasSearch && hasIsRead) {
       const escaped = this.search.replace(/'/g, "''");
-      filterParts.push(`contains(subject,'${escaped}')`);
+      filterParts.push({
+        key: "subject",
+        expr: `contains(subject,'${escaped}')`,
+      });
       hasSearch = false;
     }
-    const combinedFilter = filterParts.join(" and ") || undefined;
+
+    // A raw user `filter` is opaque — we can't tell which properties it references.
+    const rawFilter = this.filter
+      ? `(${this.filter})`
+      : undefined;
+
+    // Enforce Graph's rules for using $filter and $orderby together (list mode only;
+    // $orderby is not sent for count requests). See
+    // https://learn.microsoft.com/en-us/graph/api/user-list-messages :
+    //   1. Every property in $orderby must also appear in $filter.
+    //   2. Shared properties appear in the same order in both.
+    //   3. $orderby properties appear in $filter before any that aren't.
+    // Failing these returns InefficientFilter ("...too complex for this operation.").
+    // We can only introspect the structured conditions above, so when a raw `filter`
+    // is present we skip validation/reordering and defer entirely to Graph.
+    if (this.orderBy && !this.countOnly && !rawFilter) {
+      const orderKeys = this.orderBy
+        .split(",")
+        .map((clause) => {
+          const label = clause.trim().split(/\s+/)[0];
+          return {
+            label,
+            key: this.canonicalOrderKey(label),
+          };
+        })
+        .filter(({ key }) => key);
+
+      const missing = orderKeys.find(({ key }) => !filterParts.some((p) => p.key === key));
+      if (missing) {
+        throw new ConfigurationError(`\`orderBy\` sorts by \`${missing.label}\`, but Microsoft Graph requires every property in \`$orderby\` to also be filtered (otherwise it returns \`InefficientFilter\`). Add a matching filter on \`${missing.label}\` (e.g. a \`Received After\`/\`Received Before\` value for \`receivedDateTime\`) or remove \`orderBy\`.`);
+      }
+
+      // Reorder so the sorted properties lead the filter, in $orderby order (rules 2 & 3).
+      const leading = [];
+      for (const { key } of orderKeys) {
+        for (const part of filterParts) {
+          if (part.key === key && !leading.includes(part)) leading.push(part);
+        }
+      }
+      const rest = filterParts.filter((part) => !leading.includes(part));
+      filterParts.length = 0;
+      filterParts.push(...leading, ...rest);
+    }
+
+    const combinedFilter = [
+      ...filterParts.map((part) => part.expr),
+      ...(rawFilter
+        ? [
+          rawFilter,
+        ]
+        : []),
+    ].join(" and ") || undefined;
 
     // Derive effective folderScope at call time:
     // - explicit value: use as-is ("all" maps to undefined for whole-mailbox, backward-compat)
