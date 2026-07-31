@@ -1,14 +1,15 @@
+// x-pd-ai: optimized
 import calendly from "../../calendly_v2.app.mjs";
 
 export default {
   key: "calendly_v2-list-event-invitees",
   name: "List Event Invitees",
-  description: "List invitees for an event. [See the documentation](https://calendly.stoplight.io/docs/api-docs/b3A6NTkxNDEx-list-event-invitees)",
-  version: "0.0.7",
+  description: "List the invitees for a scheduled event via `GET /scheduled_events/{uuid}/invitees`. Run **List Events** first to obtain the event UUID. Example: call with `eventId` set to `a1b2c3d4-e5f6-7890-abcd-ef1234567890` and `status` set to `active` to return only that event's non-canceled invitees, each with a `uri` whose trailing segment is the invitee UUID used by **Get Event Invitee** and **Create Invitee No Show**. [See the documentation](https://calendly.stoplight.io/docs/api-docs/b3A6NTkxNDEx-list-event-invitees)",
+  version: "0.0.8",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: false,
+    readOnlyHint: true,
   },
   type: "action",
   props: {
