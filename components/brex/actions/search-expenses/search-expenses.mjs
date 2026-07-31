@@ -1,7 +1,10 @@
+// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import brexApp from "../../brex.app.mjs";
 import options from "../../common/options.mjs";
-import { formatSearchSummary } from "../../common/utils.mjs";
+import {
+  formatSearchSummary, matchesAmountAndMerchant,
+} from "../../common/utils.mjs";
 
 export default {
   key: "brex-search-expenses",
@@ -86,25 +89,17 @@ export default {
       throw new ConfigurationError("Min Amount cannot be greater than Max Amount.");
     }
 
-    const merchantQuery = this.merchantQuery?.toLowerCase();
-    const hasLocalFilter = Boolean(merchantQuery)
+    const hasLocalFilter = Boolean(this.merchantQuery)
       || this.minAmount != null
       || this.maxAmount != null;
 
-    const matches = (expense) => {
-      const descriptor = expense.merchant?.raw_descriptor?.toLowerCase() ?? "";
-      if (merchantQuery && !descriptor.includes(merchantQuery)) {
-        return false;
-      }
-      const amount = expense.billing_amount?.amount;
-      if (this.minAmount != null && !(amount >= this.minAmount)) {
-        return false;
-      }
-      if (this.maxAmount != null && !(amount <= this.maxAmount)) {
-        return false;
-      }
-      return true;
-    };
+    const matches = (expense) => matchesAmountAndMerchant({
+      descriptor: expense.merchant?.raw_descriptor,
+      amount: expense.billing_amount?.amount,
+      merchantQuery: this.merchantQuery,
+      minAmount: this.minAmount,
+      maxAmount: this.maxAmount,
+    });
 
     const {
       items, scanned, truncated,

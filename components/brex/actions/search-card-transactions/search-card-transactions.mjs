@@ -1,6 +1,9 @@
+// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import brexApp from "../../brex.app.mjs";
-import { formatSearchSummary } from "../../common/utils.mjs";
+import {
+  formatSearchSummary, matchesAmountAndMerchant,
+} from "../../common/utils.mjs";
 
 export default {
   key: "brex-search-card-transactions",
@@ -65,7 +68,6 @@ export default {
       throw new ConfigurationError("Min Amount cannot be greater than Max Amount.");
     }
 
-    const merchantQuery = this.merchantQuery?.toLowerCase();
     const postedAtEnd = this.postedAtEnd
       ? new Date(this.postedAtEnd)
       : undefined;
@@ -74,29 +76,22 @@ export default {
       throw new ConfigurationError("Posted At End is not a valid date-time.");
     }
 
-    const hasLocalFilter = Boolean(merchantQuery)
+    const hasLocalFilter = Boolean(this.merchantQuery)
       || Boolean(postedAtEnd)
       || this.minAmount != null
       || this.maxAmount != null;
 
     const matches = (transaction) => {
-      const descriptor = transaction.merchant?.raw_descriptor?.toLowerCase()
-        ?? transaction.description?.toLowerCase()
-        ?? "";
-      if (merchantQuery && !descriptor.includes(merchantQuery)) {
-        return false;
-      }
       if (postedAtEnd && new Date(transaction.posted_at_date) > postedAtEnd) {
         return false;
       }
-      const amount = transaction.amount?.amount;
-      if (this.minAmount != null && !(amount >= this.minAmount)) {
-        return false;
-      }
-      if (this.maxAmount != null && !(amount <= this.maxAmount)) {
-        return false;
-      }
-      return true;
+      return matchesAmountAndMerchant({
+        descriptor: transaction.merchant?.raw_descriptor ?? transaction.description,
+        amount: transaction.amount?.amount,
+        merchantQuery: this.merchantQuery,
+        minAmount: this.minAmount,
+        maxAmount: this.maxAmount,
+      });
     };
 
     const {

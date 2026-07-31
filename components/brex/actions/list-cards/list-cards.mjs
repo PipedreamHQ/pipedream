@@ -20,7 +20,7 @@ export default {
         "user",
       ],
       label: "Cardholder",
-      description: "Return only cards owned by this person. Omit to list every card in the account. Use **List Users** to find a user ID by email address.",
+      description: "Return only cards owned by this person, as a Brex user ID, e.g. `cuuser_ckze72soa117f01pkmf1wcpl3`. Omit to list every card in the account. Use **List Users** to find a user ID by email address.",
     },
     status: {
       propDefinition: [

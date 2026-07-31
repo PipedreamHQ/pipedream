@@ -1,3 +1,4 @@
+import brexApp from "../../brex.app.mjs";
 import options from "../../common/options.mjs";
 import { axios } from "@pipedream/platform";
 
@@ -40,10 +41,8 @@ export default {
         optional: true,
       },
       spendDuration: {
-        type: "string",
-        label: "Spend Duration",
-        description: "Spend limit refresh frequency.",
-        options: options.spendDuration,
+        ...brexApp.propDefinitions.spendDuration,
+        optional: false,
       },
       reason: {
         type: "string",

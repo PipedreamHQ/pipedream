@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import brexApp from "../../brex.app.mjs";
 import { formatSearchSummary } from "../../common/utils.mjs";
 

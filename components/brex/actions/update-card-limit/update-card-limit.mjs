@@ -1,5 +1,4 @@
 import brexApp from "../../brex.app.mjs";
-import options from "../../common/options.mjs";
 import { formatMoney } from "../../common/utils.mjs";
 
 export default {
@@ -33,11 +32,11 @@ export default {
       optional: true,
     },
     spendDuration: {
-      type: "string",
-      label: "Spend Duration",
+      propDefinition: [
+        brexApp,
+        "spendDuration",
+      ],
       description: "How often the limit refreshes. Omit to leave the card's current duration unchanged.",
-      options: options.spendDuration,
-      optional: true,
     },
     reason: {
       type: "string",

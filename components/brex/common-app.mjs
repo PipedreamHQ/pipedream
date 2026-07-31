@@ -134,6 +134,13 @@ export default {
       description: "An optional free-text note stored alongside the reason.",
       optional: true,
     },
+    spendDuration: {
+      type: "string",
+      label: "Spend Duration",
+      description: "Spend limit refresh frequency.",
+      options: options.spendDuration,
+      optional: true,
+    },
     email: {
       type: "string",
       label: "Email",

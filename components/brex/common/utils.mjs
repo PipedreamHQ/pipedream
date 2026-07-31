@@ -37,3 +37,31 @@ export function formatSearchSummary({
     : "";
   return `Found ${count} ${noun}${scope}${scanNote}${moreNote}`;
 }
+
+/**
+ * Applies the merchant and amount filters that Brex cannot express server-side, shared by
+ * every search action so a query behaves identically across transactions and expenses.
+ *
+ * @param {Object} opts
+ * @param {string} [opts.descriptor] - The record's merchant descriptor, matched case-insensitively.
+ * @param {number} [opts.amount] - The record's amount, in the currency's smallest denomination.
+ * @param {string} [opts.merchantQuery] - Substring the descriptor must contain.
+ * @param {number} [opts.minAmount] - Inclusive lower bound on the amount.
+ * @param {number} [opts.maxAmount] - Inclusive upper bound on the amount.
+ * @returns {boolean} Whether the record satisfies every filter that was provided.
+ */
+export function matchesAmountAndMerchant({
+  descriptor, amount, merchantQuery, minAmount, maxAmount,
+}) {
+  if (merchantQuery
+    && !(descriptor ?? "").toLowerCase().includes(merchantQuery.toLowerCase())) {
+    return false;
+  }
+  if (minAmount != null && !(amount >= minAmount)) {
+    return false;
+  }
+  if (maxAmount != null && !(amount <= maxAmount)) {
+    return false;
+  }
+  return true;
+}

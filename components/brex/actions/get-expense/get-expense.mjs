@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import brexApp from "../../brex.app.mjs";
 import options from "../../common/options.mjs";
 import { formatMoney } from "../../common/utils.mjs";
