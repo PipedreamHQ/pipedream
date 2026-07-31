@@ -9,7 +9,7 @@ const MAX_POLL_ATTEMPTS = 40; // ~2 minutes at 3s intervals
 export default {
   key: "canva-create-design-autofill-job",
   name: "Create Design Autofill Job",
-  description: "Start an autofill job via POST /autofills to generate a design from a brand template (or another design) using a data payload. To learn valid field names/types for the `data` payload, use **Get Brand Template Dataset** when autofilling from a brand template (`create_from_brand_template`) or **Get Design Dataset** when autofilling from a design (`create_from_design`). Then poll status with **Get Design Autofill Job**. [See the documentation](https://www.canva.dev/docs/connect/api-reference/autofills/create-design-autofill-job/).",
+  description: "Start an autofill job via POST /autofills to generate a design from a brand template (or another design) using a data payload. To learn valid field names/types for the `data` payload, use **Get Brand Template Dataset** when autofilling from a brand template (`create_from_brand_template`) or **Get Design Dataset** when autofilling from a design (`create_from_design`). Then poll status with **Get Design Autofill Job**. [See the documentation](https://www.canva.dev/docs/connect/api-reference/autofills/create-design-autofill-job/)",
   version: "0.0.1",
   type: "action",
   annotations: {
