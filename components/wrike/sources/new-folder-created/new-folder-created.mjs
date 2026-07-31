@@ -7,7 +7,7 @@ export default {
   name: "New Folder Created",
   description: "Emit new event when a folder is created",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     ...base.props,
     folderId: {
