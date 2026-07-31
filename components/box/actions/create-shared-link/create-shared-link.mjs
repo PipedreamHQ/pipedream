@@ -21,26 +21,18 @@ export default {
         app,
         "itemType",
       ],
+      reloadProps: true,
     },
-    folderId: {
+    item: {
       propDefinition: [
         app,
-        "parentId",
-      ],
-      label: "Folder",
-      description: "The folder containing the file, or the folder to share (when item type is Folder)",
-    },
-    fileId: {
-      propDefinition: [
-        app,
-        "fileId",
+        "webhookTarget",
         (c) => ({
-          folderId: c.folderId,
+          type: c.itemType,
         }),
       ],
-      label: "File",
-      description: "The file to share (e.g. `123456789`). Only used when item type is File.",
-      optional: true,
+      label: "File or Folder",
+      description: "The Box file or folder to share. The available items are filtered by Item Type (e.g. `123456789`).",
     },
     access: {
       type: "string",
@@ -70,6 +62,29 @@ export default {
     },
   },
   async run({ $ }) {
+    let selectedItem;
+    try {
+      const parsedItem = JSON.parse(this.item);
+      selectedItem = typeof parsedItem === "object"
+        ? parsedItem
+        : {
+          id: String(parsedItem),
+          type: this.itemType,
+        };
+    } catch {
+      selectedItem = {
+        id: this.item,
+        type: this.itemType,
+      };
+    }
+
+    if (!selectedItem?.id) {
+      throw new ConfigurationError("A file or folder is required.");
+    }
+    if (selectedItem.type && selectedItem.type !== this.itemType) {
+      throw new ConfigurationError("The selected item must match Item Type.");
+    }
+
     const sharedLink = {};
     if (this.access) {
       sharedLink.access = this.access;
@@ -92,24 +107,18 @@ export default {
 
     let response;
     if (this.itemType === "file") {
-      if (!this.fileId) {
-        throw new ConfigurationError("File ID is required when item type is File.");
-      }
       response = await this.app.updateFile({
         $,
-        fileId: this.fileId,
+        fileId: selectedItem.id,
         params,
         data: {
           shared_link: sharedLink,
         },
       });
     } else {
-      if (!this.folderId) {
-        throw new ConfigurationError("Folder ID is required when item type is Folder.");
-      }
       response = await this.app.updateFolder({
         $,
-        folderId: this.folderId,
+        folderId: selectedItem.id,
         params,
         data: {
           shared_link: sharedLink,
