@@ -4,7 +4,7 @@ export default {
   key: "github-get-pull-request",
   name: "Get Pull Request",
   description: "Get the full details of a single pull request along with its reviews and a CI/merge readiness summary. Returns PR metadata (title, body, state, head/base branches, draft flag, timestamps), the `mergeable`/`mergeable_state` flags, a `checksSummary` rollup of CI status for the head commit (combined commit status + check runs, summarized to an overall state and pass/fail counts), the list of reviews, and a deduplicated list of reviewers with their review states (e.g. `APPROVED`, `CHANGES_REQUESTED`). Use this to answer \"can I merge this?\" and \"is CI green?\" before calling **Merge Pull Request**. Provide the repository as an `owner/repo` string and the PR number. If you only know the PR by title, call **Search Issues and Pull Requests** with `is:pr` first to resolve its number. [See the documentation](https://docs.github.com/en/rest/pulls/pulls#get-a-pull-request)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
