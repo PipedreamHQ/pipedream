@@ -5,7 +5,7 @@ export default {
   key: "github-run-workflow",
   name: "Run Workflow",
   description: "Trigger a GitHub Actions workflow run, or re-run the failed jobs of a previous run. To start a new run, provide `workflow` (the workflow file name, e.g. `ci.yml`, its display name, or its numeric ID) and optionally `ref` (the branch or tag to run on — defaults to the repository's default branch) and `inputs` (for `workflow_dispatch` workflows). To re-run only the failed jobs of an existing run instead, provide `rerunFailedRunId`. The workflow must already have a `workflow_dispatch` trigger to be dispatchable. Use **List Workflows** to find the workflow file name and **List Workflow Runs** to find a run ID. Provide the repository as an `owner/repo` string. [See the documentation](https://docs.github.com/en/rest/actions/workflows#create-a-workflow-dispatch-event)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
