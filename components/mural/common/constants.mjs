@@ -52,13 +52,13 @@ export const CONTENT_TYPE_EXTENSIONS = {
 };
 
 export const WIDGET_TYPES = [
-  "sticky notes",
-  "textbox",
-  "shapes",
-  "images",
   "areas",
   "arrows",
-  "connectors",
+  "comments",
   "files",
-  "tables",
+  "sticky notes",
+  "texts",
+  "icons",
+  "images",
+  "shapes",
 ];
