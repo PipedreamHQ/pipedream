@@ -17,10 +17,10 @@ export default {
   props: {
     app,
     itemType: {
-      type: "string",
-      label: "Item Type",
-      description: "The type of item to share. Valid values: `file` or `folder`.",
-      options: constants.itemTypes,
+      propDefinition: [
+        app,
+        "itemType",
+      ],
       reloadProps: true,
     },
     folderId: {

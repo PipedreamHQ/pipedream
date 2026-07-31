@@ -1,5 +1,4 @@
 import app from "../../box.app.mjs";
-import constants from "../../common/constants.mjs";
 
 export default {
   key: "box-list-folder-items",
@@ -71,17 +70,16 @@ export default {
       ],
     },
     limit: {
-      type: "integer",
-      label: "Limit",
+      propDefinition: [
+        app,
+        "limit",
+      ],
       description: "The maximum number of items to return per page (max 1000)",
-      optional: true,
-      default: 100,
-      max: 1000,
     },
   },
   async run({ $ }) {
     const params = {
-      limit: this.limit || constants.pageSize,
+      limit: this.limit,
       usemarker: true,
     };
 

@@ -43,7 +43,7 @@ export default {
     taggedMessage: {
       type: "string",
       label: "Tagged Message",
-      description: "The text of the comment with `@` mentions. Use this instead of Message when mentioning another user.",
+      description: "The text of the comment with mentions in the format `@[user_id:name]` (e.g. `@[1234:John] Review completed!`). Use this instead of Message when mentioning another user.",
       optional: true,
     },
   },

@@ -1,6 +1,5 @@
 // x-pd-ai: optimized
 import app from "../../box.app.mjs";
-import constants from "../../common/constants.mjs";
 
 export default {
   key: "box-list-file-versions",
@@ -42,12 +41,11 @@ export default {
       description: "A comma-separated list of attributes to include in the response. [See available fields](https://developer.box.com/reference/get-files-id-versions/#param-fields).",
     },
     limit: {
-      type: "integer",
-      label: "Limit",
+      propDefinition: [
+        app,
+        "limit",
+      ],
       description: "The maximum number of versions to return per page (max 1000)",
-      optional: true,
-      default: constants.pageSize,
-      max: 1000,
     },
   },
   async run({ $ }) {

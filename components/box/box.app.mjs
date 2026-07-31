@@ -1,10 +1,26 @@
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 
+const MAX_LIMIT = 1000;
+
 export default {
   type: "app",
   app: "box",
   propDefinitions: {
+    itemType: {
+      type: "string",
+      label: "Item Type",
+      description: "The type of Box item. Valid values: `file` or `folder`.",
+      options: constants.itemTypes,
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "The maximum number of results to return per page (max 1000)",
+      optional: true,
+      default: constants.pageSize,
+      max: MAX_LIMIT,
+    },
     fields: {
       type: "string[]",
       label: "Fields",

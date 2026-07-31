@@ -17,10 +17,10 @@ export default {
   props: {
     app,
     itemType: {
-      type: "string",
-      label: "Item Type",
-      description: "The type of item to create a shared link for. Valid values: `file` or `folder`.",
-      options: constants.itemTypes,
+      propDefinition: [
+        app,
+        "itemType",
+      ],
     },
     folderId: {
       propDefinition: [
