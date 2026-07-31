@@ -63,7 +63,7 @@ export default {
     recordingFileId: {
       type: "string",
       label: "Recording File",
-      description: "The specific recording file to act on. Select a meeting first. Leave empty to use the meeting's main video recording (falls back to the largest MP4, then the audio-only file).",
+      description: "The specific recording file to act on. Leave empty to use the meeting's main video recording (falls back to the largest MP4, then the audio-only file). To choose a file explicitly, select a meeting first, or call **Get Meeting Recordings** and pass one of the `recording_files[].id` values it returns.",
       optional: true,
       async options({ meetingId }) {
         if (!meetingId) {

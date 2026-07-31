@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import zoom from "../../zoom.app.mjs";
 
@@ -6,7 +7,14 @@ const DEFAULT_TTL = 900;
 export default {
   key: "zoom-get-recording-download-link",
   name: "Get Recording Download Link",
-  description: "Generate a temporary, pre-signed download link for one Zoom cloud recording file. **This link contains a credential — anyone who has it can download the file without logging in to Zoom, until it expires.** [See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/cloud-recording/get/meetings/{meetingId}/recordings)",
+  description: "Generate a temporary, pre-signed download link for one Zoom cloud recording file."
+    + " Use to download, fetch, or share a recording."
+    + " Call **Get Meeting Recordings** first to list a meeting's files and pass the `id` of the one you want, or omit **Recording File** to get the meeting's main video recording automatically."
+    + " Returns `downloadUrl`, `expiresAt`, `expiresInSeconds`, and the file's `recordingId`, `fileType`, `fileExtension`, `fileSize`, and recording start/end timestamps."
+    + " **This link contains a credential — anyone who has it can download the file without logging in to Zoom, until it expires.**"
+    + " Example: call with meetingId=`84598792483` and no recording file → returns"
+    + " `{ downloadUrl: \"https://us02web.zoom.us/rec/download/abc123?access_token=eyJ...\", expiresInSeconds: 900, fileType: \"MP4\", fileSize: 148203910 }`."
+    + " [See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/cloud-recording/get/meetings/{meetingId}/recordings)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -39,10 +47,10 @@ export default {
     ttl: {
       type: "integer",
       label: "TTL (seconds)",
-      description: `How long the link stays valid, in seconds. Defaults to 15 minutes (${DEFAULT_TTL}). Zoom allows up to \`604800\` (7 days).`,
+      description: `How long the link stays valid, in seconds. Defaults to 15 minutes (${DEFAULT_TTL}). Minimum \`60\` (1 minute), maximum \`604800\` (7 days).`,
       optional: true,
       default: DEFAULT_TTL,
-      min: 0,
+      min: 60,
       max: 604800,
     },
   },
