@@ -31,10 +31,12 @@ export default {
       optional: true,
     },
     subject: {
-      type: "string",
+      propDefinition: [
+        microsoftOutlook,
+        "subject",
+      ],
       label: "Subject",
       description: "Filter messages whose subject contains this text. Example: `project update`. Adds `contains(subject,'...')` to the OData filter. Cannot be combined with `search`. Can be combined with `orderBy`, but Graph requires the sort property to also be filtered — see `Order By`.",
-      optional: true,
     },
     from: {
       type: "string",
