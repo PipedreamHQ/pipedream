@@ -60,7 +60,7 @@ export default {
 
     const safeFilename = path.basename(metadata.filename ?? "");
     if (!safeFilename || safeFilename === "." || safeFilename === "..") {
-      throw new ConfigurationError(`Invalid attachment filename "${metadata.filename}" returned by Jira.`);
+      throw new Error(`Invalid attachment filename "${metadata.filename}" returned by Jira.`);
     }
     const savedFilename = `${this.attachmentId}-${safeFilename}`;
     const stashDir = process.env.STASH_DIR || "/tmp";
