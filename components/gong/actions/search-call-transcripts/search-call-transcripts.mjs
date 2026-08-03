@@ -68,22 +68,19 @@ export default {
       optional: true,
     },
     maxCalls: {
-      type: "integer",
+      propDefinition: [
+        app,
+        "limit",
+      ],
       label: "Max Calls To Search",
       description: `Maximum number of call transcripts to scan. Min ${constants.MIN_LIMIT}, max ${constants.MAX_LIMIT}. Raise this to widen the search.`,
-      min: constants.MIN_LIMIT,
-      max: constants.MAX_LIMIT,
-      default: constants.DEFAULT_LIMIT,
-      optional: true,
     },
     limit: {
-      type: "integer",
-      label: "Limit",
+      propDefinition: [
+        app,
+        "limit",
+      ],
       description: `Maximum number of matching sentences to return. Min ${constants.MIN_LIMIT}, max ${constants.MAX_LIMIT}.`,
-      min: constants.MIN_LIMIT,
-      max: constants.MAX_LIMIT,
-      default: constants.DEFAULT_LIMIT,
-      optional: true,
     },
   },
   methods: {

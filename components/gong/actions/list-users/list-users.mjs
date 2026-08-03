@@ -6,7 +6,7 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "gong-list-users",
   name: "List Users",
-  description: `List the Gong users in your company and return an array of user objects. Use this to fetch the user ID by using a rep's name or email. [See the documentation](${constants.DOCS_URL}#post-/v2/users/extensive)`,
+  description: `List the Gong users in your company and return an array of user objects. Gong cannot search users by name or email, so to resolve a rep to their user ID, list users and match the returned \`firstName\`/\`lastName\`/\`emailAddress\` fields yourself; that ID is what **Search Calls** needs for **Primary User IDs**. Pass a single value in **User IDs** to fetch one known user. Gong has no teams endpoint: set **Manager ID** to list that manager's direct reports, filtered here rather than by the API. Returns at most **Limit** users. [See the documentation](${constants.DOCS_URL}#post-/v2/users/extensive)`,
   type: "action",
   version: "0.0.1",
   annotations: {
@@ -56,13 +56,11 @@ export default {
       optional: true,
     },
     limit: {
-      type: "integer",
-      label: "Limit",
+      propDefinition: [
+        app,
+        "limit",
+      ],
       description: `Maximum number of users to return. Min ${constants.MIN_LIMIT}, max ${constants.MAX_LIMIT}.`,
-      min: constants.MIN_LIMIT,
-      max: constants.MAX_LIMIT,
-      default: constants.DEFAULT_LIMIT,
-      optional: true,
     },
   },
   async run({ $: step }) {
@@ -76,14 +74,11 @@ export default {
       limit,
     } = this;
 
-    // Gong cannot filter by manager, so that filter runs here. Applying `limit`
-    // to the fetched page first would drop reports that live on later pages, so
-    // scan up to MAX_LIMIT users and only then trim to `limit` matches.
-    const max = managerId
-      ? constants.MAX_LIMIT
-      : limit;
-
-    const users = await app.paginate({
+    // Gong cannot filter by manager, so that filter runs here. Capping the
+    // fetch first and filtering afterwards would silently drop reports that sit
+    // on later pages, so walk the cursor and count only matches, stopping as
+    // soon as `limit` of them are found or Gong runs out of users.
+    const stream = app.getResourcesStream({
       resourceFn: (args) => app.listUsersExtensive(args),
       resourceFnArgs: {
         step,
@@ -97,15 +92,30 @@ export default {
         },
       },
       resourceName: "users",
-      max,
+      max: Number.MAX_SAFE_INTEGER,
       cursorIn: "data",
     });
 
-    const results = managerId
-      ? users.filter((user) => user.managerId === managerId).slice(0, limit)
-      : users;
+    const results = [];
+    let scanned = 0;
 
-    step.export("$summary", `Found ${utils.pluralize(results.length, "user")}`);
+    for await (const user of stream) {
+      scanned += 1;
+
+      if (managerId && user.managerId !== managerId) {
+        continue;
+      }
+
+      results.push(user);
+
+      if (results.length >= limit) {
+        break;
+      }
+    }
+
+    step.export("$summary", managerId
+      ? `Found ${utils.pluralize(results.length, "user")} reporting to manager \`${managerId}\` (scanned ${utils.pluralize(scanned, "user")})`
+      : `Found ${utils.pluralize(results.length, "user")}`);
 
     return results;
   },
