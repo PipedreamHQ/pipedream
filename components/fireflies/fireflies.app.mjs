@@ -102,7 +102,7 @@ export default {
     responseLanguage: {
       type: "string",
       label: "Response Language",
-      description: "Language for the AI's response. Defaults to English.",
+      description: "Language code for the AI's response, e.g. `en` or `es`. Defaults to English.",
       optional: true,
       options: constants.RESPONSE_LANGUAGE_OPTIONS,
     },
