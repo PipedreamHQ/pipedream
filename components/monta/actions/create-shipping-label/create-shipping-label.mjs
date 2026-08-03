@@ -23,7 +23,7 @@ export default {
     labelFileType: {
       type: "string",
       label: "Label File Type",
-      description: "The file type to generate the label in",
+      description: "The file type to generate the label in (`pdf` or `zpl`)",
       options: constants.LABEL_FILE_TYPES,
     },
   },

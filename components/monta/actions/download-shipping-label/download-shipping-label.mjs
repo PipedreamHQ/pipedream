@@ -23,7 +23,7 @@ export default {
     filename: {
       type: "string",
       label: "Filename",
-      description: "The shipping label file name. Use the **List Shipping Labels** action to find available file names, or generate labels first with **Create Shipping Label**.",
+      description: "The exact shipping label file name as returned by **List Shipping Labels** (e.g. `label_12345.pdf`), or generate labels first with **Create Shipping Label**.",
     },
     syncDir: {
       type: "dir",

@@ -13,7 +13,7 @@ function cleanObject(obj) {
 export default {
   key: "monta-update-order",
   name: "Update Order",
-  description: "Update an order, for example to correct a customer's delivery address before it is picked. Validate a new address first with **Validate Address** if needed. When changing the delivery address, supply the full address (at least Street, City, and Country Code), since Monta replaces the entire address. Monta rejects address changes once picking has started (error 17) or after the order has shipped (error 19). [See the documentation](https://api-v6.monta.nl/index.html#tag/Order/paths/~1order~1%7Bwebshoporderid%7D/put)",
+  description: "Change an existing order by its ID, for example to correct a customer's delivery address before it is picked. Call this directly with the order ID and the fields to change. When changing the delivery address, first read the current address with **Get Order**, then call this with the full address plus your change, since Monta replaces the entire address (it needs at least Street, City, and Country Code). Monta rejects address changes once picking has started (error 17) or after the order has shipped (error 19). [See the documentation](https://api-v6.monta.nl/index.html#tag/Order/paths/~1order~1%7Bwebshoporderid%7D/put)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -178,9 +178,10 @@ export default {
       EmailAddress: this.emailAddress,
     });
 
+    const additionalConsumerDetails = this.additionalFields?.ConsumerDetails;
     const consumerDetails = cleanObject({
-      ...this.additionalFields?.ConsumerDetails,
-      DeliveryAddress: deliveryAddress,
+      ...additionalConsumerDetails,
+      DeliveryAddress: deliveryAddress ?? additionalConsumerDetails?.DeliveryAddress,
     });
 
     const data = cleanObject({

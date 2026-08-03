@@ -22,7 +22,7 @@ export default {
     status: {
       type: "string",
       label: "Status",
-      description: "Filter orders by their deleted status",
+      description: "Filter orders by deleted status. `NonDeleted` returns only non-deleted orders; `Deleted` returns only orders deleted since the given time. Omit to return both.",
       options: constants.ORDER_UPDATED_SINCE_STATUSES,
       optional: true,
     },

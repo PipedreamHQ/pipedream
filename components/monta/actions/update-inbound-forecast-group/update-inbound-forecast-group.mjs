@@ -4,7 +4,7 @@ import { parseJsonObjects } from "../../common/utils.mjs";
 export default {
   key: "monta-update-inbound-forecast-group",
   name: "Update Inbound Forecast Group",
-  description: "Update an existing inbound forecast group by its reference. [See the documentation](https://api-v6.monta.nl/index.html#tag/InboundForecast/paths/~1inboundforecast~1group~1%7Breference%7D/put)",
+  description: "Change an existing inbound forecast group by its reference, for example to adjust its forecasts, supplier, or comment. To change a forecast's quantity, first read the group with **Get Inbound Forecast Group** to get its current forecasts, then call this with the full updated `Inbound Forecasts` list. [See the documentation](https://api-v6.monta.nl/index.html#tag/InboundForecast/paths/~1inboundforecast~1group~1%7Breference%7D/put)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -63,13 +63,6 @@ export default {
       ],
       optional: true,
     },
-    deliveryDate: {
-      propDefinition: [
-        monta,
-        "deliveryDate",
-      ],
-      optional: true,
-    },
     additionalFields: {
       propDefinition: [
         monta,
@@ -96,7 +89,6 @@ export default {
         WarehouseDisplayName: this.warehouseDisplayName,
         AllocateStockOnDelivery: this.allocateStockOnDelivery,
         ExpectedDeliveryDate: this.expectedDeliveryDate,
-        DeliveryDate: this.deliveryDate,
       },
     });
 

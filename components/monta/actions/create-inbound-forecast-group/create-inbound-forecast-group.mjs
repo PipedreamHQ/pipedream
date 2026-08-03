@@ -62,13 +62,6 @@ export default {
       ],
       optional: true,
     },
-    deliveryDate: {
-      propDefinition: [
-        monta,
-        "deliveryDate",
-      ],
-      optional: true,
-    },
     additionalFields: {
       propDefinition: [
         monta,
@@ -92,7 +85,6 @@ export default {
         WarehouseDisplayName: this.warehouseDisplayName,
         AllocateStockOnDelivery: this.allocateStockOnDelivery,
         ExpectedDeliveryDate: this.expectedDeliveryDate,
-        DeliveryDate: this.deliveryDate,
       },
     });
 

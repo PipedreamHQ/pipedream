@@ -7,7 +7,7 @@ export default {
     orderId: {
       type: "string",
       label: "Order ID",
-      description: "The ID of an order",
+      description: "The ID of an order. Use the **List Order ID Options** action to discover order IDs.",
       async options({ page }) {
         const orders = await this.listOrders({
           params: {
@@ -23,7 +23,7 @@ export default {
     returnId: {
       type: "string",
       label: "Return ID",
-      description: "The ID of a return",
+      description: "The ID of a return. Use the **List Order Returns** action to discover return IDs.",
       async options({ orderId }) {
         const { Returns: returns } = await this.listReturns({
           orderId,
@@ -73,11 +73,6 @@ export default {
       type: "string",
       label: "Expected Delivery Date",
       description: "The expected delivery date in ISO 8601 format (e.g. `2026-07-24T14:30:00Z`)",
-    },
-    deliveryDate: {
-      type: "string",
-      label: "Delivery Date",
-      description: "The delivery date in ISO 8601 format (e.g. `2026-07-24T14:30:00Z`)",
     },
     street: {
       type: "string",
@@ -147,7 +142,7 @@ export default {
     additionalFields: {
       type: "object",
       label: "Additional Fields",
-      description: "Additional properties to send in the request body, using Monta's request-body casing",
+      description: "Additional properties to merge into the request body, using Monta's PascalCase request-body casing (e.g. `{ \"Origin\": \"Webshop\" }`). Explicit props above take precedence over keys set here.",
     },
   },
   methods: {
