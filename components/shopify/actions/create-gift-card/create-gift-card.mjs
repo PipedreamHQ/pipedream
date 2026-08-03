@@ -4,7 +4,7 @@ export default {
   key: "shopify-create-gift-card",
   name: "Create Gift Card",
   description: "Creates a new gift card. To supply an optional customer, run **Get Customers** first to retrieve the customer GID. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/giftCardCreate).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     readOnlyHint: false,

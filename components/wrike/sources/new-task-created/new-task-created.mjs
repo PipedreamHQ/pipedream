@@ -7,7 +7,7 @@ export default {
   name: "New Task Created",
   description: "Emit new event when a task is created",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     ...base.props,
     folderId: {
@@ -38,7 +38,7 @@ export default {
     async deploy() {
       console.log("Retrieving historical events...");
       const tasks = await this.wrike.listTasks({
-        folderId: this.folder,
+        folderId: this.folderId,
         spaceId: this.spaceId,
         params: {
           sortOrder: "desc",

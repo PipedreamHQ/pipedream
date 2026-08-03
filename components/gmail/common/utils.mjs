@@ -88,6 +88,99 @@ function decodeHtmlEntities(str) {
   });
 }
 
+/**
+ * Keep only `fields` on each message, plus the keys in `always` (ids the caller needs
+ * to chain into other tools). Returns the object untouched when no fields are named,
+ * so an omitted `fields` prop reproduces the tool's previous output exactly.
+ */
+function pluckFields(message, fields, always = [
+  "id",
+  "threadId",
+]) {
+  if (!fields?.length) return message;
+  const keep = new Set([
+    ...always,
+    ...fields,
+  ]);
+  return Object.fromEntries(
+    Object.entries(message).filter(([
+      key,
+    ]) => keep.has(key)),
+  );
+}
+
+/**
+ * Ceiling for a single tool response, shared by every action that returns messages.
+ *
+ * Sized to stay under a typical MCP client's per-result token limit (Claude Code
+ * truncates at 25k tokens; message JSON runs ~1.7 chars/token, so the previous 100k was
+ * ~2.4x over). Going over is not merely verbose — the client may spill the result to a
+ * file and hand the model a path, so the model sees NOTHING. Measured: a 56-message
+ * search returned 42k chars and was spilled.
+ *
+ * It lives here because the limit is a property of the CLIENT, not of any one action:
+ * every action returning messages has to respect the same number, and two copies would
+ * drift.
+ */
+export const MAX_RESPONSE_CHARS = 30_000;
+
+/**
+ * Decoded plain-text body of a message, HTML converted to text, attachments skipped.
+ * A fraction of the size of the raw `payload` tree, which carries base64 `data` for
+ * every part plus the MIME scaffolding around it (measured 934 vs 1962 chars on a
+ * one-page email).
+ */
+function getBodyText(payload) {
+  if (!payload) return "";
+  if (Array.isArray(payload.parts)) return extractTextFromParts(payload.parts).trim();
+  if (payload.body?.data) return decodeBase64Url(payload.body.data).trim();
+  return "";
+}
+
+/**
+ * Shrink an array of messages until it serializes under `maxChars`.
+ *
+ * Which axis to shrink depends on WHO CHOSE THE SHAPE:
+ *
+ * - The caller named `fields`: never reshape the record. Removing a field it explicitly
+ *   asked for produces a confident wrong answer — a digest written from snippets reads
+ *   exactly like one written from bodies, so nothing downstream can tell. Drop whole
+ *   MESSAGES instead and report the shortfall: "showing 12 of 50" is visible and
+ *   recoverable, because the caller can narrow the query and retry.
+ * - The caller named nothing: project every message onto `compactFields`. That keeps the
+ *   result COMPLETE, so "how many match?" stays correct, and the caller lost only detail
+ *   it never asked for.
+ *
+ * The ceiling exists because an MCP client that receives an oversized result may spill it
+ * to a file and hand the model a path instead of the data, in which case the model sees
+ * nothing at all. A trimmed result it can read beats a complete one it cannot.
+ */
+function fitToBudget(messages, maxChars, {
+  compactFields, callerChoseFields = false,
+}) {
+  const size = (m) => JSON.stringify(m).length;
+  if (size(messages) <= maxChars) {
+    return {
+      messages,
+      compacted: false,
+      dropped: 0,
+    };
+  }
+
+  const compacted = !callerChoseFields;
+  let kept = compacted
+    ? messages.map((m) => pluckFields(m, compactFields))
+    : messages;
+  while (kept.length > 0 && size(kept) > maxChars) {
+    kept = kept.slice(0, -1);
+  }
+  return {
+    messages: kept,
+    compacted,
+    dropped: messages.length - kept.length,
+  };
+}
+
 export default {
   parseArray,
   decodeBase64Url,
@@ -96,4 +189,7 @@ export default {
   attachTextToParts,
   validateTextPayload,
   getHeader,
+  pluckFields,
+  getBodyText,
+  fitToBudget,
 };

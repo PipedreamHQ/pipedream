@@ -7,7 +7,7 @@ export default {
   key: "google_calendar-create-event",
   name: "Create Event",
   description: "Create a new event on a Google Calendar — a single or recurring appointment at a specific date/time (optionally with attendees, location, and description). Use this whenever the user wants to add something to their calendar. This creates calendar EVENTS only: do NOT use it to configure calendar settings, working hours, availability, or default preferences, and do NOT use it to create a new calendar — no tool exposes those capabilities, so decline such requests rather than representing them as an event. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/insert)",
-  version: "1.0.5",
+  version: "1.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -54,6 +54,13 @@ export default {
       type: "string[]",
       description: "An array of email addresses (e.g., `[\"alice@example.com\", \"bob@example.com\"]`)",
       optional: true,
+    },
+    addSelfAsAttendee: {
+      type: "boolean",
+      label: "Add Self as Attendee",
+      description: "Whether to add the authenticated user (the event organizer) to the guest list. Default is `true`, which mirrors the Google Calendar web UI behavior of adding the creator as an attendee.",
+      optional: true,
+      default: true,
     },
     colorId: {
       propDefinition: [
@@ -130,6 +137,23 @@ export default {
   async run({ $ }) {
     const timeZone = await this.getTimeZone(this.timeZone);
     const attendees = this.formatAttendees(this.attendees);
+
+    if (this.addSelfAsAttendee) {
+      const { id: selfEmail } = await this.googleCalendar.getCalendar({
+        calendarId: "primary",
+      });
+      const selfEmailLower = selfEmail?.toLowerCase();
+      const alreadyAttendee = attendees.some(
+        ({ email }) => email?.toLowerCase() === selfEmailLower,
+      );
+      if (selfEmail && !alreadyAttendee) {
+        attendees.push({
+          email: selfEmail,
+          responseStatus: "accepted",
+        });
+      }
+    }
+
     const recurrence = this.formatRecurrence({
       repeatFrequency: this.repeatFrequency,
       repeatInterval: this.repeatInterval,
