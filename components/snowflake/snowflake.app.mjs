@@ -94,6 +94,7 @@ export default {
       label: "Session",
       description: "A serialized session created by the **Start SQL Session** action, e.g. `{{steps.start_sql_session.$return_value.session}}`. When provided, this action runs in that session, preserving session state such as temporary tables, `USE` context, and session parameters. Sessions expire server-side after ~4 hours or your account's idle timeout.",
       optional: true,
+      secret: true,
     },
   },
   methods: {
