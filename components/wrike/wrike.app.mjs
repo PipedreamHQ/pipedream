@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -7,67 +8,27 @@ export default {
     folderId: {
       type: "string",
       label: "Folder ID",
-      description: "The ID of the folder",
-      async options() {
-        const folders = await this.listFolders();
-        return folders.map((folder) => ({
-          label: folder.title,
-          value: folder.id,
-        }));
-      },
+      description: "The ID of the folder. Run **List Folder ID Options** to look up folder IDs.",
     },
     spaceId: {
       type: "string",
       label: "Space ID",
-      description: "The ID of the space",
-      async options() {
-        const spaces = await this.listSpaces();
-        return spaces.map((space) => ({
-          label: space.title,
-          value: space.id,
-        }));
-      },
+      description: "The ID of the space. Run **List Space ID Options** to look up space IDs.",
     },
     contactId: {
       type: "string",
       label: "Contact ID",
-      description: "The contact of a user in the current account",
-      async options() {
-        const contacts = await this.listContacts();
-        return contacts.map((contact) => ({
-          label: `${contact.firstName} ${contact.lastName}`,
-          value: contact.id,
-        }));
-      },
+      description: "The contact ID of a user in the current account. Run **List Contact ID Options** to look up contact IDs.",
     },
     taskId: {
       type: "string",
       label: "Task ID",
-      description: "The ID of the task",
-      async options({
-        folderId, spaceId,
-      }) {
-        const tasks = await this.listTasks({
-          folderId,
-          spaceId,
-        });
-        return tasks.map((task) => ({
-          label: task.title,
-          value: task.id,
-        }));
-      },
+      description: "The ID of the task. Run **Find Tasks** or **Get Task** to look up task IDs.",
     },
     customFieldsKeys: {
       type: "string[]",
       label: "Custom Fields Keys",
-      description: "The custom field keys to set on the task",
-      async options() {
-        const customFields = await this.listCustomFields();
-        return customFields.map((customField) => ({
-          label: customField.title,
-          value: customField.id,
-        }));
-      },
+      description: "The custom field IDs to set on the task. Run **List Custom Fields Keys Options** to discover valid field IDs.",
     },
   },
   methods: {
@@ -226,6 +187,45 @@ export default {
       });
 
       return this._extractResources(response);
+    },
+    async getTasks({
+      taskIds, ...opts
+    }) {
+      const response = await this._makeRequest({
+        path: `/tasks/${taskIds}`,
+        ...opts,
+      });
+      return this._extractResources(response);
+    },
+    async createComment({
+      taskId, ...opts
+    }) {
+      const response = await this._makeRequest({
+        path: `/tasks/${taskId}/comments`,
+        method: "post",
+        ...opts,
+      });
+      return this._extractFirstResource(response);
+    },
+    async createFolder({
+      folderId, ...opts
+    }) {
+      const response = await this._makeRequest({
+        path: `/folders/${folderId}/folders`,
+        method: "post",
+        ...opts,
+      });
+      return this._extractFirstResource(response);
+    },
+    async updateFolder({
+      folderId, ...opts
+    }) {
+      const response = await this._makeRequest({
+        path: `/folders/${folderId}`,
+        method: "put",
+        ...opts,
+      });
+      return this._extractFirstResource(response);
     },
   },
 };
