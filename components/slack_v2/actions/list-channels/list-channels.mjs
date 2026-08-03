@@ -1,3 +1,4 @@
+import utils from "../../common/utils.mjs";
 import slack from "../../slack_v2.app.mjs";
 
 export default {
@@ -71,19 +72,6 @@ export default {
       optional: true,
     },
   },
-  methods: {
-    /**
-     * Keep only the requested properties. Unknown names are ignored rather than
-     * returned as undefined, so a typo shrinks the payload instead of corrupting it.
-     */
-    pickFields(channel, fields) {
-      const out = {};
-      for (const field of fields) {
-        if (channel[field] !== undefined) out[field] = channel[field];
-      }
-      return out;
-    },
-  },
   async run({ $ }) {
     const allChannels = [];
     const types = Array.isArray(this.channelTypes)
@@ -111,16 +99,7 @@ export default {
     // returned, so existing workflows are unaffected. Supplied, it plucks per channel —
     // the difference between ~1KB and ~40 bytes per row, which is what decides whether
     // an agent receives the data or a "result too large" file path.
-    const fields = Array.isArray(this.fields)
-      ? this.fields
-      : (typeof this.fields === "string" && this.fields.length
-        ? this.fields.split(",")
-          .map((f) => f.trim())
-          .filter(Boolean)
-        : null);
-    const channels = fields?.length
-      ? allChannels.map((c) => this.pickFields(c, fields))
-      : allChannels;
+    const channels = utils.projectFields(allChannels, this.fields);
 
     // Truncation must be VISIBLE. numPages defaults to 1, so the previous version
     // silently dropped every channel past the first page and the caller had no way to

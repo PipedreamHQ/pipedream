@@ -1,3 +1,4 @@
+import utils from "../../common/utils.mjs";
 import slack from "../../slack_v2.app.mjs";
 
 export default {
@@ -53,16 +54,6 @@ export default {
       optional: true,
     },
   },
-  methods: {
-    /** Keep only the requested properties; unknown names are ignored, not emitted as undefined. */
-    pickFields(message, fields) {
-      const out = {};
-      for (const field of fields) {
-        if (message[field] !== undefined) out[field] = message[field];
-      }
-      return out;
-    },
-  },
   async run({ $ }) {
     const channelId = await this.slack.resolveChannelId(this.channel);
     const response = await this.slack.conversationsHistory({
@@ -74,23 +65,13 @@ export default {
     });
     const messages = response.messages || [];
 
-    // `fields` is ADDITIVE: omitted returns exactly what this action always returned.
-    // Measured at 17k chars average (worst 49k) without it.
-    const requested = Array.isArray(this.fields)
-      ? this.fields
-      : (typeof this.fields === "string" && this.fields.length
-        ? this.fields.split(",")
-          .map((f) => f.trim())
-          .filter(Boolean)
-        : null);
-
     $.export("$summary", `Retrieved ${messages.length} message${messages.length === 1
       ? ""
       : "s"} from channel`);
     return {
-      messages: requested?.length
-        ? messages.map((m) => this.pickFields(m, requested))
-        : messages,
+      // `fields` is ADDITIVE: omitted returns exactly what this action always returned.
+      // Measured at 17k chars average (worst 49k) without it.
+      messages: utils.projectFields(messages, this.fields),
     };
   },
 };
