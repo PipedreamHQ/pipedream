@@ -58,14 +58,21 @@ export default {
     // copy that survives is the existing one, so its responseStatus is not reset to
     // needsAction.
     const existingAttendees = currentEvent?.attendees ?? [];
-    const existingEmails = new Set(
+    const seenEmails = new Set(
       existingAttendees
         .map((a) => a.email?.toLowerCase())
         .filter(Boolean),
     );
-    const attendeesToAdd = newAttendees.filter(
-      (a) => !existingEmails.has(a.email.toLowerCase()),
-    );
+    // Dedup new attendees against the existing list AND against each other
+    // (case-insensitive) so the added-count reported below is accurate.
+    const attendeesToAdd = newAttendees.reduce((acc, a) => {
+      const email = a.email.toLowerCase();
+      if (!seenEmails.has(email)) {
+        seenEmails.add(email);
+        acc.push(a);
+      }
+      return acc;
+    }, []);
     const attendees = [
       ...attendeesToAdd,
       ...existingAttendees,
