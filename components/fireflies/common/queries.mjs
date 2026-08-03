@@ -1,10 +1,10 @@
 export default {
   listTranscripts: `
-    query Transcripts { 
-      transcripts { 
-        id 
+    query Transcripts($limit: Int, $skip: Int) {
+      transcripts(limit: $limit, skip: $skip) {
+        id
         title
-      } 
+      }
     }
   `,
   listTranscriptsByDate: `
@@ -72,12 +72,38 @@ export default {
     }
   `,
   getUser: `
-    query User($userId: String!) { 
-      user(id: $userId) { 
-        name 
+    query User($userId: String!) {
+      user(id: $userId) {
+        name
         user_id
         recent_meeting
-      } 
+      }
+    }
+  `,
+  userGroups: `
+    query UserGroups($mine: Boolean) {
+      user_groups(mine: $mine) {
+        id
+        name
+        handle
+        members {
+          user_id
+          first_name
+          last_name
+          email
+        }
+      }
+    }
+  `,
+  askfredThreads: `
+    query AskfredThreads($transcriptId: String) {
+      askfred_threads(transcript_id: $transcriptId) {
+        id
+        title
+        transcript_id
+        user_id
+        created_at
+      }
     }
   `,
 };
