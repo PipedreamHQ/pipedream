@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import monta from "../../monta.app.mjs";
 import constants from "../../common/constants.mjs";
 
@@ -17,7 +18,7 @@ export default {
     updatedSince: {
       type: "string",
       label: "Updated Since",
-      description: "The start date and time in ISO 8601 format (e.g. `2026-07-24T00:00:00Z`)",
+      description: "The start date and time in ISO 8601 format (e.g. `2026-07-24T00:00:00Z`). Must be within the last 7 days; Monta rejects earlier dates.",
     },
     status: {
       type: "string",

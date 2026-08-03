@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import monta from "../../monta.app.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
   key: "monta-list-inbound-forecast-groups",
   name: "List Inbound Forecast Groups",
-  description: "List inbound forecast groups matching the provided filters. Use this to find group references for **Get Inbound Forecast Group**, **Update Inbound Forecast Group**, or **Delete Inbound Forecast Group**. [See the documentation](https://api-v6.monta.nl/index.html#tag/InboundForecast/paths/~1inboundforecast~1group/get)",
+  description: "List inbound forecast groups matching the provided filters. You must supply at least one filter (Created Since, Created Until, Approved, SKU, or Reference). Use this to find group references for **Get Inbound Forecast Group**, **Update Inbound Forecast Group**, or **Delete Inbound Forecast Group**. [See the documentation](https://api-v6.monta.nl/index.html#tag/InboundForecast/paths/~1inboundforecast~1group/get)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -58,7 +59,7 @@ export default {
     pageSize: {
       type: "integer",
       label: "Page Size",
-      description: `The number of groups to return per page (Monta's default is ${constants.DEFAULT_PAGE_SIZE})`,
+      description: `The number of groups to return per page (${constants.MIN_PAGE_SIZE}-${constants.MAX_PAGE_SIZE}; Monta's default is ${constants.DEFAULT_PAGE_SIZE})`,
       min: constants.MIN_PAGE_SIZE,
       max: constants.MAX_PAGE_SIZE,
       default: constants.DEFAULT_PAGE_SIZE,

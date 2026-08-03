@@ -4,7 +4,8 @@ const ORDER_UPDATED_SINCE_STATUSES = [
 ];
 
 const MIN_PAGE_SIZE = 1;
-const MAX_PAGE_SIZE = 1000;
+// Monta's inbound-forecast-group listing rejects page_size above 30.
+const MAX_PAGE_SIZE = 30;
 const DEFAULT_PAGE_SIZE = 30;
 
 const LABEL_FILE_TYPES = [
