@@ -8,7 +8,7 @@ export default {
   key: "fireflies-new-meeting-created",
   name: "New Meeting Created",
   description: "Emit new event when a meeting with transcripts is created",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {
