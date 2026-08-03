@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import { defineAction } from "@pipedream/types";
 import app from "../../app/expensify.app";
 import utils from "../../common/utils";
 
 export default defineAction({
   key: "expensify-create-report",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -26,9 +27,6 @@ export default defineAction({
       propDefinition: [
         app,
         "policyId",
-        ({ employeeEmail }) => ({
-          userEmail: employeeEmail,
-        }),
       ],
     },
     reportTitle: {
@@ -39,28 +37,19 @@ export default defineAction({
     expenses: {
       type: "string[]",
       label: "Expenses",
-      description: `Array of expense objects to include in the report. Each expense should be a JSON object with the following required fields:
+      description: `The report's expense line items, as an **array of strings** where **each array element is a JSON string** describing one expense (do NOT pass raw JSON objects — each item must be a JSON-encoded string).
 
-- \`date\`: The date the expense was made (format yyyy-mm-dd)
-- \`currency\`: Three-letter currency code (e.g., "USD", "EUR", "CAD")
-- \`merchant\`: The name of the merchant
-- \`amount\`: The amount in cents (e.g., 2500 for $25.00)
+Each expense has these required fields:
+- \`date\`: the expense date (format yyyy-mm-dd)
+- \`currency\`: three-letter currency code (e.g. "USD", "EUR", "CAD")
+- \`merchant\`: the merchant name
+- \`amount\`: the amount in **integer cents** (e.g. 2500 = $25.00)
 
-**Example:**
+**Example** (array of two JSON strings):
 \`\`\`json
 [
-  {
-    "date": "2024-01-15",
-    "currency": "USD", 
-    "merchant": "Hotel ABC",
-    "amount": 15000
-  },
-  {
-    "date": "2024-01-16",
-    "currency": "USD",
-    "merchant": "Restaurant XYZ", 
-    "amount": 5000
-  }
+  "{\\"date\\":\\"2024-01-15\\",\\"currency\\":\\"USD\\",\\"merchant\\":\\"Hotel ABC\\",\\"amount\\":15000}",
+  "{\\"date\\":\\"2024-01-16\\",\\"currency\\":\\"USD\\",\\"merchant\\":\\"Restaurant XYZ\\",\\"amount\\":5000}"
 ]
 \`\`\``,
     },
