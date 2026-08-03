@@ -1,4 +1,5 @@
 // x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import monta from "../../monta.app.mjs";
 import constants from "../../common/constants.mjs";
 
@@ -67,6 +68,16 @@ export default {
     },
   },
   async run({ $ }) {
+    if (
+      !this.createdSince
+      && !this.createdUntil
+      && this.approved === undefined
+      && !this.sku
+      && !this.reference
+    ) {
+      throw new ConfigurationError("Provide at least one filter: Created Since, Created Until, Approved, SKU, or Reference.");
+    }
+
     const groups = await this.monta.listInboundForecastGroups({
       $,
       params: {
