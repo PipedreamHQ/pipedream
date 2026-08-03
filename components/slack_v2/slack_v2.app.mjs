@@ -1198,18 +1198,6 @@ export default {
       return input.replace(/^#/, "");
     },
     /**
-     * Resolves a channel name (e.g. "general", "#general") to its ID.
-     * If the input already looks like an ID (starts with C/D/G/U + 8+ alphanums),
-     * returns it as-is. Fetches up to 999 channels per page (the Slack API max)
-     * to minimize API calls.
-     *
-     * Note: chat.postMessage and chat.update accept channel names directly —
-     * use normalizeChannel() instead for those methods.
-     *
-     * @param {string} input - Channel ID or channel name
-     * @returns {Promise<string>} The resolved channel ID
-     */
-    /**
      * Accept a user ID, an email, or a display/real name and return the user ID.
      * Agents naturally pass whatever identifier the user said — an email in
      * "invite dylan@pipedream.com" — and the raw API answers `user_not_found`,
@@ -1270,6 +1258,18 @@ export default {
       }
       return ids.join(",");
     },
+    /**
+     * Resolves a channel name (e.g. "general", "#general") to its ID.
+     * If the input already looks like an ID (starts with C/D/G/U + 8+ alphanums),
+     * returns it as-is. Fetches up to 999 channels per page (the Slack API max)
+     * to minimize API calls.
+     *
+     * Note: chat.postMessage and chat.update accept channel names directly —
+     * use normalizeChannel() instead for those methods.
+     *
+     * @param {string} input - Channel ID or channel name
+     * @returns {Promise<string>} The resolved channel ID
+     */
     async resolveChannelId(input) {
       if (/^[CDGU][A-Z0-9]{8,}$/i.test(input)) return input;
       const name = input.replace(/^#/, "").toLowerCase();
