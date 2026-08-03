@@ -63,22 +63,8 @@ export default {
     recordingFileId: {
       type: "string",
       label: "Recording File",
-      description: "The specific recording file to act on. Leave empty to use the meeting's main video recording (falls back to the largest MP4, then the audio-only file). To choose a file explicitly, select a meeting first, or call **Get Meeting Recordings** and pass one of the `recording_files[].id` values it returns.",
+      description: "The specific recording file to act on. Leave empty to use the meeting's main video recording (falls back to the largest MP4, then the audio-only file). To choose a file explicitly, call **Get Meeting Recordings** for the same meeting and pass one of the `recording_files[].id` values it returns (only files with `status` `completed` can be used).",
       optional: true,
-      async options({ meetingId }) {
-        if (!meetingId) {
-          return [];
-        }
-        const { recording_files: files = [] } = await this.getMeetingRecordings({
-          meetingId,
-        });
-        return files
-          .filter(({ status }) => status === "completed")
-          .map((file) => ({
-            label: `${file.recording_type ?? file.file_type} — ${file.file_type} (${utils.formatFileSize(file.file_size)})`,
-            value: file.id,
-          }));
-      },
     },
     occurrenceId: {
       type: "string",

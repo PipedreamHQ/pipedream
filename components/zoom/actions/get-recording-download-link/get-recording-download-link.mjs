@@ -38,9 +38,6 @@ export default {
       propDefinition: [
         zoom,
         "recordingFileId",
-        ({ meetingId }) => ({
-          meetingId,
-        }),
       ],
     },
     ttl: {
