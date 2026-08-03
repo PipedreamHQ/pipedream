@@ -1,6 +1,7 @@
 // x-pd-ai: optimized
 import fireflies from "../../fireflies.app.mjs";
 import mutations from "../../common/mutations.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "fireflies-create-meeting-soundbite",
@@ -43,9 +44,11 @@ export default {
       },
     });
 
-    $.export("$summary", createLiveSoundbite.success
-      ? `Created soundbite for meeting ${this.meetingId}`
-      : `Failed to create soundbite for meeting ${this.meetingId}`);
+    if (!createLiveSoundbite.success) {
+      throw new ConfigurationError(`Failed to create soundbite for meeting ${this.meetingId}`);
+    }
+
+    $.export("$summary", `Created soundbite for meeting ${this.meetingId}`);
     return createLiveSoundbite;
   },
 };

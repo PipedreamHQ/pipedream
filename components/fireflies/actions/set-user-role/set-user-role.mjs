@@ -25,7 +25,7 @@ export default {
     role: {
       type: "string",
       label: "Role",
-      description: "The role to assign to the user.",
+      description: "The role to assign to the user. Accepted values are `admin` or `user`.",
       options: [
         {
           label: "Admin",

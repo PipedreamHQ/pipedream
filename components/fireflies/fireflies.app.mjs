@@ -99,6 +99,22 @@ export default {
         })) || [];
       },
     },
+    responseLanguage: {
+      type: "string",
+      label: "Response Language",
+      description: "Language code for the AI's response, e.g. `en` or `es`. Defaults to English.",
+      optional: true,
+    },
+    formatMode: {
+      type: "string",
+      label: "Format Mode",
+      description: "How the answer should be formatted.",
+      optional: true,
+      options: [
+        "markdown",
+        "plaintext",
+      ],
+    },
   },
   methods: {
     _baseUrl() {

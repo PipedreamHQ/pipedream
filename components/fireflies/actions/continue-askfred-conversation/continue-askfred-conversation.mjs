@@ -29,19 +29,15 @@ export default {
       description: "The follow-up question to ask in this thread, e.g. `Can you provide more detail on the budget discussion?`.",
     },
     responseLanguage: {
-      type: "string",
-      label: "Response Language",
-      description: "Language code for the AI's response, e.g. `en` or `es`. Defaults to English.",
-      optional: true,
+      propDefinition: [
+        fireflies,
+        "responseLanguage",
+      ],
     },
     formatMode: {
-      type: "string",
-      label: "Format Mode",
-      description: "How the answer should be formatted.",
-      optional: true,
-      options: [
-        "markdown",
-        "plaintext",
+      propDefinition: [
+        fireflies,
+        "formatMode",
       ],
     },
   },

@@ -6,7 +6,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "fireflies-update-meeting",
   name: "Update Meeting",
-  description: "Update a meeting's title, privacy level, and/or channel in a single call. Set only the fields you want to change — unset fields are left untouched. Updating the title requires admin privileges on the Fireflies team. [See the documentation](https://docs.fireflies.ai/graphql-api/mutation/update-meeting-title)",
+  description: "Update a meeting's title, privacy level, and/or channel. Each selected field is applied through a separate, sequential mutation rather than a single atomic call — if a later update fails, earlier successful changes remain applied. Set only the fields you want to change — unset fields are left untouched. Updating the title requires admin privileges on the Fireflies team. [See the documentation](https://docs.fireflies.ai/graphql-api/mutation/update-meeting-title)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
