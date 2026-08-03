@@ -66,8 +66,12 @@ export default {
       customSubdomain: this.customSubdomain,
       data: {
         side_conversation: {
-          state: this.state,
-          subject: this.subject,
+          ...(this.state && {
+            state: this.state,
+          }),
+          ...(this.subject && {
+            subject: this.subject,
+          }),
         },
       },
     });

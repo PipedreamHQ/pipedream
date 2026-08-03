@@ -66,7 +66,9 @@ export default {
       customSubdomain: this.customSubdomain,
       data: {
         message: {
-          subject: this.subject,
+          ...(this.subject && {
+            subject: this.subject,
+          }),
           body: this.body,
           to: this.zendesk.parseSideConversationRecipients(this.recipients),
         },
