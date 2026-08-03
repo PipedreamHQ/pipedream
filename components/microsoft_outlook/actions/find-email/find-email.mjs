@@ -264,25 +264,16 @@ export default {
     if (this.orderBy && !this.countOnly && !rawFilter) {
       const orderKeys = this.orderBy
         .split(",")
-        .map((clause) => {
-          const label = clause.trim().split(/\s+/)[0];
-          return {
-            label,
-            key: this.canonicalOrderKey(label),
-          };
-        })
-        .filter(({ key }) => key);
+        .map((clause) => this.canonicalOrderKey(clause.trim().split(/\s+/)[0]))
+        .filter(Boolean);
 
-      const missing = orderKeys.find(({ key }) => !filterParts.some((p) => p.key === key));
-      if (missing) {
-        throw new ConfigurationError(`\`orderBy\` sorts by \`${missing.label}\`, but Microsoft Graph requires every property in \`$orderby\` to also be filtered (otherwise it returns \`InefficientFilter\`). Add a matching filter on \`${missing.label}\` (e.g. a \`Received After\`/\`Received Before\` value for \`receivedDateTime\`) or remove \`orderBy\`.`);
-      }
-
-      // Reorder so the sorted properties lead the filter, in $orderby order (rules 2 & 3).
+      // Reorder so the sorted properties lead the filter, in $orderby order.
       const leading = [];
-      for (const { key } of orderKeys) {
+      for (const key of orderKeys) {
         for (const part of filterParts) {
-          if (part.key === key && !leading.includes(part)) leading.push(part);
+          if (part.key === key && !leading.includes(part)) {
+            leading.push(part);
+          }
         }
       }
       const rest = filterParts.filter((part) => !leading.includes(part));
