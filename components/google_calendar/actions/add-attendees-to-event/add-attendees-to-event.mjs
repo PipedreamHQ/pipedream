@@ -51,6 +51,12 @@ export default {
     // Merge the requested attendees into the event's existing list. PATCH replaces
     // the `attendees` array wholesale, so we must send existing + new together;
     // existing attendee objects are preserved verbatim to keep their responseStatus.
+    //
+    // Order is deliberately NEW-FIRST, matching what this action has always returned —
+    // callers read `attendees[0]` to get the invitee they just added. Only the duplicates
+    // change: an address already on the event is no longer appended a second time, and the
+    // copy that survives is the existing one, so its responseStatus is not reset to
+    // needsAction.
     const existingAttendees = currentEvent?.attendees ?? [];
     const existingEmails = new Set(
       existingAttendees
@@ -61,8 +67,8 @@ export default {
       (a) => !existingEmails.has(a.email.toLowerCase()),
     );
     const attendees = [
-      ...existingAttendees,
       ...attendeesToAdd,
+      ...existingAttendees,
     ];
 
     // PATCH (not UPDATE/PUT) so we only touch `attendees` — avoids echoing back
