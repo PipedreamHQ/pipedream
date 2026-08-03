@@ -5,7 +5,7 @@ export default {
   key: "snowflake-insert-row",
   name: "Insert Single Row",
   description: "Insert a row into a table",
-  version: "1.2.0",
+  version: "1.1.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -40,18 +40,9 @@ export default {
       description: "The table where you want to add a new row",
       reloadProps: true,
     },
-    session: {
-      propDefinition: [
-        snowflake,
-        "session",
-      ],
-    },
   },
   async additionalProps() {
     const props = {};
-    if (this.session) {
-      this.snowflake.restoreSession(this.session);
-    }
     // Once a user selects the table, display the columns as additional props
     if (this.tableName) {
       const fields = await this.snowflake.listFieldsForTable(this.tableName);
@@ -69,10 +60,6 @@ export default {
     return props;
   },
   async run({ $ }) {
-    if (this.session) {
-      this.snowflake.restoreSession(this.session);
-    }
-
     const response = await this.snowflake.insertRow(this.tableName, this.values);
     $.export("$summary", `Successfully inserted row in ${this.tableName}`);
     return response;

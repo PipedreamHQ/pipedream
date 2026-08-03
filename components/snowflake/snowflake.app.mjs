@@ -234,9 +234,36 @@ export default {
     },
     async executeQuery(statement) {
       const connection = await this._getConnection();
+      const executedStatement = connection.execute(statement);
+
+      const rowStream = await executedStatement.streamRows();
+      const rows = [];
+      for await (const row of rowStream) {
+        rows.push(row);
+      }
+      return rows;
+    },
+    /**
+     * Executes a statement directly on the current snowflake-sdk connection.
+     *
+     * This exists specifically for restored sessions. When the account uses the
+     * shared static IP (`use_pd_sql_proxy`), the platform routes `executeQuery`
+     * through the SQL proxy, which is stateless — it opens a NEW Snowflake
+     * session for every request and therefore cannot see a restored session's
+     * temporary tables, `USE` context, or session parameters. Running on the
+     * deserialized connection here bypasses the proxy so session state persists.
+     * (Named differently from `executeQuery` so the proxy routing does not
+     * replace this implementation.)
+     *
+     * Trade-off: queries sent this way do NOT egress from the shared static IP,
+     * so session reuse is incompatible with IP-allowlist-only Snowflake network
+     * policies. Session reuse fundamentally needs a persistent connection, which
+     * the stateless proxy cannot provide.
+     */
+    async executeQueryDirect(statement) {
+      const connection = await this._getConnection();
       try {
         const executedStatement = connection.execute(statement);
-
         const rowStream = await executedStatement.streamRows();
         const rows = [];
         for await (const row of rowStream) {

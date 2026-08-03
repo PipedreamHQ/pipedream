@@ -6,7 +6,7 @@ export default {
   key: "snowflake-insert-multiple-rows",
   name: "Insert Multiple Rows",
   description: "Insert multiple rows into a table",
-  version: "0.2.0",
+  version: "0.1.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -80,18 +80,8 @@ export default {
       optional: true,
       default: true,
     },
-    session: {
-      propDefinition: [
-        snowflake,
-        "session",
-      ],
-    },
   },
   async run({ $ }) {
-    if (this.session) {
-      this.snowflake.restoreSession(this.session);
-    }
-
     let rows = this.values;
 
     let inputValidated = true;
