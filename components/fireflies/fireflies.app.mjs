@@ -102,13 +102,14 @@ export default {
     responseLanguage: {
       type: "string",
       label: "Response Language",
-      description: "Language code for the AI's response, e.g. `en` or `es`. Defaults to English.",
+      description: "Language for the AI's response. Defaults to English.",
       optional: true,
+      options: constants.RESPONSE_LANGUAGE_OPTIONS,
     },
     formatMode: {
       type: "string",
       label: "Format Mode",
-      description: "How the answer should be formatted.",
+      description: "How the answer should be formatted. Accepted values are `markdown` or `plaintext`.",
       optional: true,
       options: [
         "markdown",
