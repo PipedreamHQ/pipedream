@@ -32,7 +32,7 @@ export default {
     sort: {
       type: "string",
       label: "Sort",
-      description: "Defines the attribute by which items are sorted",
+      description: "Defines the attribute by which items are sorted. Valid values: `id`, `name`, `date`, `size` (e.g. `name`).",
       optional: true,
       options: [
         {
@@ -56,7 +56,7 @@ export default {
     direction: {
       type: "string",
       label: "Direction",
-      description: "The direction to sort results in",
+      description: "The direction to sort results in. Valid values: `ASC` (ascending) or `DESC` (descending) (e.g. `ASC`).",
       optional: true,
       options: [
         {
@@ -76,6 +76,12 @@ export default {
       ],
       description: "The maximum number of folders to return per page (max 1000)",
     },
+    marker: {
+      type: "string",
+      label: "Marker",
+      description: "The marker to use for retrieving the next page of results. Pass the `next_marker` value returned in a previous run of this action to continue listing beyond the first page.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const params = {
@@ -93,6 +99,9 @@ export default {
     }
     if (this.direction) {
       params.direction = this.direction;
+    }
+    if (this.marker) {
+      params.marker = this.marker;
     }
 
     const response = await this.app.getItems({
