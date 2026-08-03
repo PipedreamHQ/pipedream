@@ -1,14 +1,5 @@
 import mural from "../../mural.app.mjs";
 import { STICKY_SHAPE_OPTIONS } from "../../common/constants.mjs";
-import {
-  height,
-  hidden,
-  text,
-  title,
-  width,
-  xPosition,
-  yPosition,
-} from "../../common/props.mjs";
 
 export default {
   key: "mural-create-sticky",
@@ -44,16 +35,49 @@ export default {
       description: "The shape of the sticky note widget",
       options: STICKY_SHAPE_OPTIONS,
     },
-    xPosition,
-    yPosition,
+    xPosition: {
+      propDefinition: [
+        mural,
+        "xPosition",
+      ],
+    },
+    yPosition: {
+      propDefinition: [
+        mural,
+        "yPosition",
+      ],
+    },
     text: {
-      ...text,
+      propDefinition: [
+        mural,
+        "text",
+      ],
       optional: false,
     },
-    title,
-    height,
-    width,
-    hidden,
+    title: {
+      propDefinition: [
+        mural,
+        "title",
+      ],
+    },
+    height: {
+      propDefinition: [
+        mural,
+        "height",
+      ],
+    },
+    width: {
+      propDefinition: [
+        mural,
+        "width",
+      ],
+    },
+    hidden: {
+      propDefinition: [
+        mural,
+        "hidden",
+      ],
+    },
     tagIds: {
       propDefinition: [
         mural,
@@ -73,7 +97,8 @@ export default {
         }),
       ],
       label: "Parent ID",
-      description: "The ID of the area widget that contains the widget",
+      description: "The ID of the area widget that should contain this sticky note, for example `0-12345`. When set, **X Position** and **Y Position** are measured from the area's top-left corner instead of the mural's.",
+      optional: true,
     },
   },
   async run({ $ }) {

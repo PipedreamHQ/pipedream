@@ -7,13 +7,6 @@ import {
   CONTENT_TYPE_EXTENSIONS,
   IMAGE_EXTENSIONS,
 } from "../../common/constants.mjs";
-import {
-  height,
-  hidden,
-  width,
-  xPosition,
-  yPosition,
-} from "../../common/props.mjs";
 
 export default {
   key: "mural-create-image",
@@ -55,14 +48,30 @@ export default {
       sync: true,
       optional: true,
     },
-    xPosition,
-    yPosition,
+    xPosition: {
+      propDefinition: [
+        mural,
+        "xPosition",
+      ],
+    },
+    yPosition: {
+      propDefinition: [
+        mural,
+        "yPosition",
+      ],
+    },
     width: {
-      ...width,
+      propDefinition: [
+        mural,
+        "width",
+      ],
       optional: false,
     },
     height: {
-      ...height,
+      propDefinition: [
+        mural,
+        "height",
+      ],
       optional: false,
     },
     caption: {
@@ -89,7 +98,12 @@ export default {
       description: "When `true`, captions will be displayed for the image widget",
       optional: true,
     },
-    hidden,
+    hidden: {
+      propDefinition: [
+        mural,
+        "hidden",
+      ],
+    },
     parentId: {
       propDefinition: [
         mural,

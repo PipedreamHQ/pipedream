@@ -1,13 +1,4 @@
 import mural from "../../mural.app.mjs";
-import {
-  height,
-  hidden,
-  text,
-  title,
-  width,
-  xPosition,
-  yPosition,
-} from "../../common/props.mjs";
 
 export default {
   key: "mural-create-textbox",
@@ -37,16 +28,49 @@ export default {
         }),
       ],
     },
-    xPosition,
-    yPosition,
+    xPosition: {
+      propDefinition: [
+        mural,
+        "xPosition",
+      ],
+    },
+    yPosition: {
+      propDefinition: [
+        mural,
+        "yPosition",
+      ],
+    },
     text: {
-      ...text,
+      propDefinition: [
+        mural,
+        "text",
+      ],
       optional: false,
     },
-    title,
-    height,
-    width,
-    hidden,
+    title: {
+      propDefinition: [
+        mural,
+        "title",
+      ],
+    },
+    height: {
+      propDefinition: [
+        mural,
+        "height",
+      ],
+    },
+    width: {
+      propDefinition: [
+        mural,
+        "width",
+      ],
+    },
+    hidden: {
+      propDefinition: [
+        mural,
+        "hidden",
+      ],
+    },
     parentId: {
       propDefinition: [
         mural,

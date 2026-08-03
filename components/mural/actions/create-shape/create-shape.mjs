@@ -1,14 +1,5 @@
 import mural from "../../mural.app.mjs";
 import { SHAPE_OPTIONS } from "../../common/constants.mjs";
-import {
-  height,
-  hidden,
-  text,
-  title,
-  width,
-  xPosition,
-  yPosition,
-} from "../../common/props.mjs";
 
 export default {
   key: "mural-create-shape",
@@ -44,13 +35,48 @@ export default {
       description: "The shape of the shape widget",
       options: SHAPE_OPTIONS,
     },
-    xPosition,
-    yPosition,
-    text,
-    title,
-    height,
-    width,
-    hidden,
+    xPosition: {
+      propDefinition: [
+        mural,
+        "xPosition",
+      ],
+    },
+    yPosition: {
+      propDefinition: [
+        mural,
+        "yPosition",
+      ],
+    },
+    text: {
+      propDefinition: [
+        mural,
+        "text",
+      ],
+    },
+    title: {
+      propDefinition: [
+        mural,
+        "title",
+      ],
+    },
+    height: {
+      propDefinition: [
+        mural,
+        "height",
+      ],
+    },
+    width: {
+      propDefinition: [
+        mural,
+        "width",
+      ],
+    },
+    hidden: {
+      propDefinition: [
+        mural,
+        "hidden",
+      ],
+    },
     parentId: {
       propDefinition: [
         mural,

@@ -1,17 +1,10 @@
 import mural from "../../mural.app.mjs";
-import {
-  height,
-  hidden,
-  title,
-  updateXPosition,
-  updateYPosition,
-  width,
-} from "../../common/props.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "mural-update-sticky",
   name: "Update Sticky",
-  description: "Update or move an existing sticky note on a mural. Every field except the mural and widget is optional, and only the fields you set are sent, so you can reposition a note by supplying just **X Position** and **Y Position** or reword it by supplying just **Text**. [See the documentation](https://developers.mural.co/public/reference/updatestickynote)",
+  description: "Update or move an existing sticky note on a mural. Every field except the mural and widget is optional, and only the fields you set are sent, so you can reposition a note by supplying just **X Position** and **Y Position** or reword it by supplying just **Text**. At least one updatable field must be set. [See the documentation](https://developers.mural.co/public/reference/updatestickynote)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -59,12 +52,46 @@ export default {
       description: "The text in the widget with inline HTML formatting, for example `<p><strong>Blocked</strong> on <em>vendor review</em></p>`. Supports `<strong>`, `<em>`, `<u>`, `<s>`, `<ul>`, `<ol>`, and `<li>`. When set, this takes priority over **Text**, and these tags override the widget's bold, italic, underline, and strike style properties.",
       optional: true,
     },
-    xPosition: updateXPosition,
-    yPosition: updateYPosition,
-    title,
-    height,
-    width,
-    hidden,
+    xPosition: {
+      propDefinition: [
+        mural,
+        "xPosition",
+      ],
+      description: "The horizontal position of the widget in px (e.g. `100`)",
+      optional: true,
+    },
+    yPosition: {
+      propDefinition: [
+        mural,
+        "yPosition",
+      ],
+      description: "The vertical position of the widget in px (e.g. `100`)",
+      optional: true,
+    },
+    title: {
+      propDefinition: [
+        mural,
+        "title",
+      ],
+    },
+    height: {
+      propDefinition: [
+        mural,
+        "height",
+      ],
+    },
+    width: {
+      propDefinition: [
+        mural,
+        "width",
+      ],
+    },
+    hidden: {
+      propDefinition: [
+        mural,
+        "hidden",
+      ],
+    },
     tagIds: {
       propDefinition: [
         mural,
@@ -115,6 +142,10 @@ export default {
       if (value !== undefined) {
         data[key] = value;
       }
+    }
+
+    if (Object.keys(data).length === 0) {
+      throw new ConfigurationError("Set at least one field to update.");
     }
 
     const response = await this.mural.updateSticky({
