@@ -120,7 +120,9 @@ export default {
   },
   methods: {
     getFileExtension(filePath, metadata) {
-      const ext = path.extname(metadata?.name || filePath || "")
+      const rawName = metadata?.name || filePath || "";
+      const cleanName = rawName.split("?")[0].split("#")[0];
+      const ext = path.extname(cleanName)
         .replace(/^\./, "")
         .toLowerCase();
       if (IMAGE_EXTENSIONS.includes(ext)) {
@@ -161,7 +163,10 @@ export default {
     await this.mural.uploadAsset({
       $,
       url,
-      headers,
+      headers: {
+        ...headers,
+        "Content-Length": metadata.size,
+      },
       data: stream,
     });
 
