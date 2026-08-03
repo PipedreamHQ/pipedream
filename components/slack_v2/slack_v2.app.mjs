@@ -1244,6 +1244,32 @@ export default {
       } while (cursor);
       throw new ConfigurationError(`User "${input}" not found. Provide a user ID, an email address, or an exact display name.`);
     },
+    /**
+     * Resolve one OR MORE user identifiers to the comma-separated `users` string Slack's
+     * conversations.* methods accept.
+     *
+     * The list form has to keep working: `users` is documented as comma-separated, the prop
+     * is a plain string, and callers that predate resolveUserId() pass "U123,U456" straight
+     * through. Resolving the whole string as a single identifier would send it to an
+     * exhaustive users.list scan that cannot match, then throw.
+     *
+     * @param {string|string[]} input - id / email / display name, or a comma-separated list
+     *   or array of them
+     * @returns {Promise<string>} Comma-separated user IDs
+     */
+    async resolveUserIds(input) {
+      const raw = Array.isArray(input)
+        ? input
+        : String(input).split(",");
+      const tokens = raw
+        .map((t) => String(t).trim())
+        .filter(Boolean);
+      const ids = [];
+      for (const token of tokens) {
+        ids.push(await this.resolveUserId(token));
+      }
+      return ids.join(",");
+    },
     async resolveChannelId(input) {
       if (/^[CDGU][A-Z0-9]{8,}$/i.test(input)) return input;
       const name = input.replace(/^#/, "").toLowerCase();

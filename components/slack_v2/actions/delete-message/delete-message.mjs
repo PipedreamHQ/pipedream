@@ -53,12 +53,20 @@ export default {
       as_user,
     });
 
+    // makeRequest() routes to the bot token on `as_user === false` and to the user token for
+    // anything else, so the "other identity" is a flip between exactly those two values.
+    // Deriving it with `!this.as_user` made the fallback a no-op whenever as_user arrived
+    // nullish: undefined and true both route to the user token, so it retried as the same
+    // identity that had just been refused. Attempt 1 still passes the configured value
+    // verbatim, so a working call is byte-identical to before.
+    const other = this.as_user === false;
+
     let response;
     try {
       response = await attempt(this.as_user);
     } catch (error) {
       if (!`${error}`.includes("cant_delete_message")) throw error;
-      response = await attempt(!this.as_user);
+      response = await attempt(other);
     }
 
     $.export("$summary", "Successfully deleted message.");

@@ -3,7 +3,7 @@ import slack from "../../slack_v2.app.mjs";
 export default {
   key: "slack_v2-invite-user-to-channel",
   name: "Invite User to Channel",
-  description: "Invite a user to an existing channel. Accepts a channel ID or NAME, and a user ID, EMAIL address or display name — all resolved automatically. [See the documentation](https://api.slack.com/methods/conversations.invite)",
+  description: "Invite one or more users to an existing channel. Accepts a channel ID or NAME, and a user ID, EMAIL address or display name — all resolved automatically. Pass several users as a comma-separated list. [See the documentation](https://api.slack.com/methods/conversations.invite)",
   version: "0.1.0",
   annotations: {
     destructiveHint: false,
@@ -31,8 +31,11 @@ export default {
     // dylan@pipedream.com", a "#channel-name" lifted from the prompt. The raw API answers
     // user_not_found / channel_not_found, which reads as a broken tool rather than a
     // wrong-shaped argument. Every AI-optimized tool in this app resolves names already.
+    //
+    // resolveUserIds (plural) so the comma-separated list Slack has always accepted here
+    // keeps working — each token is resolved independently.
     const channel = await this.slack.resolveChannelId(this.conversation);
-    const user = await this.slack.resolveUserId(this.user);
+    const user = await this.slack.resolveUserIds(this.user);
     try {
       const response = await this.slack.inviteToConversation({
         channel,
