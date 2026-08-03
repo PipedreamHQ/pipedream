@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import {
   axios, ConfigurationError,
 } from "@pipedream/platform";
@@ -36,14 +37,14 @@ export default {
       label: "User ID",
       description: "The unique identifier for the user.",
       async options({ page }) {
-        const limit = constants.DEFAULT_LIMIT;
+        // The Fireflies `users` query doesn't accept limit/skip arguments —
+        // the full list is always returned in one call.
+        if (page > 0) {
+          return [];
+        }
         const { data: { users } } = await this.query({
           data: {
             query: queries.listUsers,
-            variables: {
-              limit,
-              skip: page * limit,
-            },
           },
         });
         return users?.map(({
@@ -51,6 +52,50 @@ export default {
         }) => ({
           value,
           label,
+        })) || [];
+      },
+    },
+    channelId: {
+      type: "string",
+      label: "Channel ID",
+      description: "The unique identifier for a channel (a Fireflies \"user group\"). Used to route or filter meetings by team or topic. Use **List Channel ID Options** to browse available channels.",
+      async options({ page }) {
+        // The Fireflies `user_groups` query doesn't accept limit/skip arguments.
+        if (page > 0) {
+          return [];
+        }
+        const { data: { user_groups: userGroups } } = await this.query({
+          data: {
+            query: queries.userGroups,
+          },
+        });
+        return userGroups?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    askfredThreadId: {
+      type: "string",
+      label: "AskFred Thread ID",
+      description: "The unique identifier of an existing AskFred conversation thread. Returned as `thread_id` by **Ask Question About Meeting**, or browsable via **List AskFred Thread ID Options**.",
+      async options({ page }) {
+        // The Fireflies `askfred_threads` query doesn't accept limit/skip arguments.
+        if (page > 0) {
+          return [];
+        }
+        const { data: { askfred_threads: askfredThreads } } = await this.query({
+          data: {
+            query: queries.askfredThreads,
+          },
+        });
+        return askfredThreads?.map(({
+          id: value, title: label,
+        }) => ({
+          value,
+          label: label || value,
         })) || [];
       },
     },
