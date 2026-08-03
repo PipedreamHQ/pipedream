@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { axios } from "@pipedream/platform";
 import { v4 as uuidv4 } from "uuid";
 import options from "./common/options.mjs";
@@ -94,25 +95,6 @@ export default {
       type: "string",
       label: "Card ID",
       description: "The unique ID of the card. Use **List Cards** to find a card ID by cardholder, name, or last four digits.",
-      async options({ prevContext }) {
-        const {
-          items, next_cursor: nextCursor,
-        } = await this.listCards({
-          params: {
-            cursor: prevContext.cursor,
-            limit: MAX_LIMIT_PER_PAGE,
-          },
-        });
-        return {
-          options: items?.map((item) => ({
-            label: `${item.card_name} ••${item.last_four} (${item.status})`,
-            value: item.id,
-          })) ?? [],
-          context: {
-            cursor: nextCursor,
-          },
-        };
-      },
     },
     cardStatus: {
       type: "string",
@@ -137,7 +119,7 @@ export default {
     spendDuration: {
       type: "string",
       label: "Spend Duration",
-      description: "Spend limit refresh frequency.",
+      description: "How often the spend limit refreshes: `MONTHLY`, `QUARTERLY`, or `YEARLY` to refresh on that cadence, or `ONE_TIME` for a limit that never refreshes.",
       options: options.spendDuration,
       optional: true,
     },
@@ -152,19 +134,6 @@ export default {
       label: "Users",
       description: "Return only records belonging to these users. Use **List Users** to find a user ID by email address.",
       optional: true,
-      async options({ prevContext }) {
-        const LIMIT = 100;
-        const res = await this.getUsers(prevContext.cursor, LIMIT);
-        return {
-          options: res.data.items?.map((item) => ({
-            label: `${item.first_name} ${item.last_name} <${item.email}>`,
-            value: item.id,
-          })) ?? [],
-          context: {
-            cursor: res.data.next_cursor,
-          },
-        };
-      },
     },
     merchantQuery: {
       type: "string",

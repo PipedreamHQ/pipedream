@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import brexApp from "../../brex.app.mjs";
 import { formatSearchSummary } from "../../common/utils.mjs";
 
@@ -5,7 +6,7 @@ export default {
   key: "brex-list-cards",
   name: "List Cards",
   description: "Lists the cards in the Brex account with their status, last four digits, cardholder, and spend limit. This is how you find the card ID that **Get Card**, **Freeze Card**, **Cancel Card**, and **Update Card Limit** require. [See the documentation](https://developer.brex.com/openapi/team_api/cards/listcardsbyuserid)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     readOnlyHint: true,

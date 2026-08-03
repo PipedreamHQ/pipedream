@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import brexApp from "../../brex.app.mjs";
 import { formatSearchSummary } from "../../common/utils.mjs";
 
@@ -5,7 +6,7 @@ export default {
   key: "brex-list-users",
   name: "List Users",
   description: "Lists the people in the Brex account with their ID, name, email, status, manager, department, and location. This is how you turn an email address into the user ID that the card and limit tools require. [See the documentation](https://developer.brex.com/openapi/team_api/users/listusers)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   annotations: {
     readOnlyHint: true,

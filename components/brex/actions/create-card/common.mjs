@@ -41,7 +41,10 @@ export default {
         optional: true,
       },
       spendDuration: {
-        ...brexApp.propDefinitions.spendDuration,
+        propDefinition: [
+          brexApp,
+          "spendDuration",
+        ],
         optional: false,
       },
       reason: {
