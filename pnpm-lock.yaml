@@ -4183,12 +4183,6 @@ importers:
 
   components/degreed: {}
 
-  components/delay:
-    dependencies:
-      '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
-
   components/delighted:
     dependencies:
       delighted:
@@ -5118,8 +5112,6 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
-
-  components/end: {}
 
   components/endorsal:
     dependencies:
@@ -7897,15 +7889,6 @@ importers:
         version: 3.3.0
 
   components/imgix: {}
-
-  components/imgur:
-    dependencies:
-      '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
-      form-data:
-        specifier: 4.0.4
-        version: 4.0.4
 
   components/imperva_waf: {}
 
