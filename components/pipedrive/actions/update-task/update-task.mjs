@@ -95,7 +95,11 @@ export default {
         : [
           this.assigneeId,
         ],
-      priority: this.priority,
+      priority: this.priority === undefined
+        ? undefined
+        : {
+          id: this.priority,
+        },
     });
     $.export("$summary", `Successfully updated task ${this.taskId}`);
     return response;
