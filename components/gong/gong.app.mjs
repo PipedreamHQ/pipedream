@@ -82,6 +82,15 @@ export default {
         }));
       },
     },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: `Maximum number of results to return. Min ${constants.MIN_LIMIT}, max ${constants.MAX_LIMIT}.`,
+      min: constants.MIN_LIMIT,
+      max: constants.MAX_LIMIT,
+      default: constants.DEFAULT_LIMIT,
+      optional: true,
+    },
   },
   methods: {
     exportSummary(step) {

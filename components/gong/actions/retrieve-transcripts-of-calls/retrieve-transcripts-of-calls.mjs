@@ -70,13 +70,11 @@ Transcripts exist only for calls Gong has processed; a recently uploaded call ma
       optional: true,
     },
     limit: {
-      type: "integer",
-      label: "Limit",
+      propDefinition: [
+        app,
+        "limit",
+      ],
       description: `Maximum number of call transcripts to return. Min ${constants.MIN_LIMIT}, max ${constants.MAX_LIMIT}.`,
-      min: constants.MIN_LIMIT,
-      max: constants.MAX_LIMIT,
-      default: constants.DEFAULT_LIMIT,
-      optional: true,
     },
   },
   methods: {
