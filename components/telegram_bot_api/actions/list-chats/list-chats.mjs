@@ -4,7 +4,7 @@ export default {
   key: "telegram_bot_api-list-chats",
   name: "List Chats",
   description: "List available Telegram chats. [See the docs](https://core.telegram.org/bots/api#getupdates) for more information",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   name: "Get Ticket Message",
   description: "Get a specific message from a ticket. [See the documentation](https://developers.gorgias.com/reference/get-ticket-message)",
   key: "gorgias_oauth-get-ticket-message",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,

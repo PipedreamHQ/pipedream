@@ -4,7 +4,7 @@ export default {
   key: "github-create-branch",
   name: "Create Branch",
   description: "Create a new branch in a repository, pointing at the tip of a source branch. Provide the repository as an `owner/repo` string, the new `branchName`, and optionally the `sourceBranch` to branch from (defaults to the repository's default branch). Use **Create or Update File Contents** to add commits to the new branch, then **Create Pull Request** to open a PR. [See the documentation](https://docs.github.com/en/rest/git/refs#create-a-reference)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
