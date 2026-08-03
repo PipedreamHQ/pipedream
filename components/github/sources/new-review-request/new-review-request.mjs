@@ -7,7 +7,7 @@ export default {
   key: "github-new-review-request",
   name: "New Review Request",
   description: "Emit new events when you or a team you're a member of are requested to review a pull request across repositories accessible to the connected account. [See the documentation](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-by-pull-request-review-status-and-reviewer)",
-  version: "0.2.10",
+  version: "0.2.11",
   type: "source",
   dedupe: "unique",
   methods: {
