@@ -21,21 +21,67 @@ export default {
         app,
         "itemType",
       ],
-      reloadProps: true,
     },
     folderId: {
       propDefinition: [
         app,
         "parentId",
       ],
+      label: "Folder",
+      description: "The folder to add a collaboration to when Item Type is `folder`. When Item Type is `file`, this instead scopes the File dropdown to a parent folder. Use `0` for the root folder. Use the **List Folders** action to retrieve folder IDs.",
       optional: false,
+    },
+    fileId: {
+      propDefinition: [
+        app,
+        "fileId",
+        (c) => ({
+          folderId: c.folderId,
+        }),
+      ],
+      label: "File",
+      description: "The file to add a collaboration to (e.g. `123456789`). Required when Item Type is `file`. Use the **List Folder Items** action to retrieve file IDs.",
+      optional: true,
+    },
+    canViewPath: {
+      type: "boolean",
+      label: "Can View Path",
+      description: "Whether the collaborator can view the parent path to the folder. Only applicable when Item Type is `folder`.",
+      optional: true,
     },
     accessibleByType: {
       type: "string",
       label: "Collaborator Type",
       description: "The type of collaborator to invite. Valid values: `user` or `group`. Groups must be identified by ID (not email).",
       options: constants.accessibleByTypes,
-      reloadProps: true,
+    },
+    identifyBy: {
+      type: "string",
+      label: "Identify By",
+      description: "How to identify the user collaborator: by email or by ID. Only applicable when Collaborator Type is `user` (groups are always identified by ID via Collaborator ID).",
+      optional: true,
+      options: [
+        {
+          label: "Email",
+          value: "email",
+        },
+        {
+          label: "ID",
+          value: "id",
+        },
+      ],
+    },
+    login: {
+      type: "string",
+      label: "Email",
+      description: "The email address of the user to invite (e.g. `user@example.com`). Required when Collaborator Type is `user` and Identify By is `email`.",
+      optional: true,
+    },
+    accessibleById: {
+      type: "string",
+      label: "Collaborator ID",
+      description: "The ID of the user or group to invite (e.g. `123456789`). Required when Collaborator Type is `group`, or when Collaborator Type is `user` and Identify By is `id`.",
+      optional: true,
     },
     role: {
       type: "string",
@@ -51,71 +97,6 @@ export default {
       default: true,
     },
   },
-  async additionalProps() {
-    const props = {};
-
-    if (this.itemType === "file") {
-      props.fileId = {
-        propDefinition: [
-          app,
-          "fileId",
-          (c) => ({
-            folderId: c.folderId,
-          }),
-        ],
-      };
-    }
-
-    if (this.itemType === "folder") {
-      props.canViewPath = {
-        type: "boolean",
-        label: "Can View Path",
-        description: "Whether the collaborator can view the parent path to the folder. Only applicable for folder collaborations.",
-        optional: true,
-      };
-    }
-
-    if (this.accessibleByType === "group") {
-      props.accessibleById = {
-        type: "string",
-        label: "Collaborator ID",
-        description: "The ID of the group to invite (e.g. `123456789`). Groups cannot be invited by email.",
-      };
-    } else if (this.accessibleByType === "user") {
-      props.identifyBy = {
-        type: "string",
-        label: "Identify By",
-        description: "How to identify the user collaborator. Users can be invited by email or ID.",
-        options: [
-          {
-            label: "Email",
-            value: "email",
-          },
-          {
-            label: "ID",
-            value: "id",
-          },
-        ],
-        reloadProps: true,
-      };
-
-      if (this.identifyBy === "email") {
-        props.login = {
-          type: "string",
-          label: "Email",
-          description: "The email address of the user to invite (e.g. `user@example.com`)",
-        };
-      } else if (this.identifyBy === "id") {
-        props.accessibleById = {
-          type: "string",
-          label: "Collaborator ID",
-          description: "The ID of the user to invite (e.g. `123456789`)",
-        };
-      }
-    }
-
-    return props;
-  },
   async run({ $ }) {
     const itemId = this.itemType === "file"
       ? this.fileId
@@ -126,23 +107,38 @@ export default {
         : "Folder"} ID is required.`);
     }
 
-    if (this.accessibleByType === "group" && this.identifyBy === "email") {
-      throw new ConfigurationError("Groups must be invited by Collaborator ID, not email.");
-    }
-
-    const accessibleBy = {
-      type: this.accessibleByType,
-    };
-    if (this.accessibleByType === "group" || this.identifyBy === "id") {
+    let accessibleBy;
+    if (this.accessibleByType === "group") {
       if (!this.accessibleById) {
-        throw new ConfigurationError("Collaborator ID is required.");
+        throw new ConfigurationError("Collaborator ID is required when Collaborator Type is `group`.");
       }
-      accessibleBy.id = this.accessibleById;
+      accessibleBy = {
+        type: "group",
+        id: this.accessibleById,
+      };
+    } else if (this.accessibleByType === "user") {
+      if (!this.identifyBy) {
+        throw new ConfigurationError("Identify By is required when Collaborator Type is `user`.");
+      }
+      if (this.identifyBy === "email") {
+        if (!this.login) {
+          throw new ConfigurationError("Email is required when Identify By is `email`.");
+        }
+        accessibleBy = {
+          type: "user",
+          login: this.login,
+        };
+      } else {
+        if (!this.accessibleById) {
+          throw new ConfigurationError("Collaborator ID is required when Identify By is `id`.");
+        }
+        accessibleBy = {
+          type: "user",
+          id: this.accessibleById,
+        };
+      }
     } else {
-      if (!this.login) {
-        throw new ConfigurationError("Email is required when identifying by email.");
-      }
-      accessibleBy.login = this.login;
+      throw new ConfigurationError("Collaborator Type is required.");
     }
 
     const data = {

@@ -20,7 +20,7 @@ export default {
         "parentId",
       ],
       label: "Parent Folder",
-      description: "The parent folder of the file. Use `0` for the root folder.",
+      description: "The parent folder of the file. Use `0` for the root folder. Use the **List Folders** action to retrieve folder IDs.",
     },
     fileId: {
       propDefinition: [
@@ -31,7 +31,7 @@ export default {
         }),
       ],
       label: "File",
-      description: "The file to retrieve metadata for (e.g. `123456789`)",
+      description: "The file to retrieve metadata for (e.g. `123456789`). Use the **List Folder Items** action to retrieve file IDs.",
     },
     fields: {
       propDefinition: [
