@@ -22,7 +22,7 @@ export default {
     type: {
       type: "string",
       label: "Type",
-      description: "Autofill source type. Valid values: `create_from_brand_template`, `create_from_design`.",
+      description: "Autofill source type.",
       options: constants.AUTOFILL_TYPE_OPTIONS,
     },
     brandTemplateId: {
