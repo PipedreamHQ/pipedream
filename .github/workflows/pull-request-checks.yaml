@@ -36,7 +36,7 @@ jobs:
         done
 
         echo "files=${files}" >> $GITHUB_ENV
-    - uses: rojopolis/spellcheck-github-actions@0.63.0
+    - uses: rojopolis/spellcheck-github-actions@0.64.0
       name: Spellcheck
       if: ${{ env.files }}
       with:
@@ -64,7 +64,7 @@ jobs:
           version: 10.28.2
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: 20
           cache: 'pnpm'

@@ -583,6 +583,39 @@ export default {
         ...args,
       });
     },
+    /**
+     * Get the metadata for an attachment
+     * @param {object} args - Arguments object
+     * @param {string} args.attachmentId - The ID of the attachment
+     * @param {string} [args.cloudId] - The cloud ID of the Jira site
+     * @param {object} [args.$] - Pipedream step object, for request/response debug info
+     * @returns {Promise<object>} The attachment metadata (e.g. `id`, `filename`, `mimeType`)
+     */
+    getAttachmentMetadata({
+      attachmentId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/attachment/${attachmentId}`,
+        ...args,
+      });
+    },
+    /**
+     * Get the binary content of an attachment
+     * @param {object} args - Arguments object
+     * @param {string} args.attachmentId - The ID of the attachment
+     * @param {string} [args.cloudId] - The cloud ID of the Jira site
+     * @param {object} [args.$] - Pipedream step object, for request/response debug info
+     * @returns {Promise<import("stream").Readable>} A readable stream of the attachment content
+     */
+    getAttachmentContent({
+      attachmentId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/attachment/content/${attachmentId}`,
+        responseType: "stream",
+        ...args,
+      });
+    },
     addCommentToIssue({
       issueIdOrKey, ...args
     } = {}) {

@@ -11,8 +11,6 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import js from "@eslint/js";
 import { FlatCompat } from "@eslint/eslintrc";
-import nextPlugin from "@next/eslint-plugin-next";
-import reactPlugin from "eslint-plugin-react";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -330,35 +328,6 @@ export default [
         "error",
         "always",
       ],
-    },
-  },
-  {
-    files: [
-      "docs-v2/**/*.{js,jsx,ts,tsx}",
-    ],
-    plugins: {
-      "@next": nextPlugin,
-      "react": reactPlugin,
-    },
-    languageOptions: {
-      parser: tsParser,
-      parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
-        ecmaVersion: 2020,
-        sourceType: "module",
-      },
-      globals: {
-        ...globals.browser,
-        React: true,
-        JSX: true,
-      },
-    },
-    settings: {
-      react: {
-        version: "detect",
-      },
     },
   },
 ];

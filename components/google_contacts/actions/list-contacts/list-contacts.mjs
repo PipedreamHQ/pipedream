@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import common from "../common/base.mjs";
 import constants from "../../common/constants.mjs";
 
@@ -6,11 +7,11 @@ export default {
   key: "google_contacts-list-contacts",
   name: "List Contacts",
   description: "Lists all contacts of the authenticated user. [See the documentation](https://developers.google.com/people/api/rest/v1/people.connections/list)",
-  version: "0.0.9",
+  version: "0.0.10",
   annotations: {
-    destructiveHint: false,
-    openWorldHint: true,
-    readOnlyHint: true,
+    "destructiveHint": false,
+    "openWorldHint": true,
+    "readOnlyHint": true,
   },
   type: "action",
   props: {

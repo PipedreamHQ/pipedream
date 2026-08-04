@@ -89,6 +89,13 @@ export default {
         return options.map((i) => i.login_name);
       },
     },
+    session: {
+      type: "string",
+      label: "Session",
+      description: "A serialized session created by the **Start SQL Session** action, e.g. `{{steps.start_sql_session.$return_value.session}}`. When provided, this action runs in that session, preserving session state such as temporary tables, `USE` context, and session parameters. Sessions expire server-side after ~4 hours or your account's idle timeout.",
+      optional: true,
+      secret: true,
+    },
   },
   methods: {
     ...sqlProxy.methods,
@@ -210,6 +217,21 @@ export default {
         binds,
       };
     },
+    async serializeSession() {
+      const connection = await this._getConnection();
+      return snowflake.serializeConnection(connection);
+    },
+    restoreSession(serializedSession) {
+      try {
+        this.connection = snowflake.deserializeConnection(
+          this.getClientConfiguration(),
+          serializedSession,
+        );
+        this._restoredSession = true;
+      } catch (err) {
+        throw new ConfigurationError(`Could not restore session: ${err.message}. Re-run the Start SQL Session action to create a new session.`);
+      }
+    },
     async executeQuery(statement) {
       const connection = await this._getConnection();
       const executedStatement = connection.execute(statement);
@@ -220,6 +242,48 @@ export default {
         rows.push(row);
       }
       return rows;
+    },
+    /**
+     * Executes a statement directly on the current snowflake-sdk connection.
+     *
+     * This exists specifically for restored sessions. When the account uses the
+     * shared static IP (`use_pd_sql_proxy`), the platform routes `executeQuery`
+     * through the SQL proxy, which is stateless — it opens a NEW Snowflake
+     * session for every request and therefore cannot see a restored session's
+     * temporary tables, `USE` context, or session parameters. Running on the
+     * deserialized connection here bypasses the proxy so session state persists.
+     * (Named differently from `executeQuery` so the proxy routing does not
+     * replace this implementation.)
+     *
+     * Trade-off: queries sent this way do NOT egress from the shared static IP,
+     * so session reuse is incompatible with IP-allowlist-only Snowflake network
+     * policies. Session reuse fundamentally needs a persistent connection, which
+     * the stateless proxy cannot provide.
+     */
+    async executeQueryDirect(statement) {
+      const connection = await this._getConnection();
+      try {
+        const executedStatement = connection.execute(statement);
+        const rowStream = await executedStatement.streamRows();
+        const rows = [];
+        for await (const row of rowStream) {
+          rows.push(row);
+        }
+        return rows;
+      } catch (err) {
+        // Snowflake GS error codes: 390112 session token expired, 390113 master
+        // token not found, 390114 auth token expired, 390115 session no longer exists
+        const sessionErrorCodes = [
+          390112,
+          390113,
+          390114,
+          390115,
+        ];
+        if (this._restoredSession && sessionErrorCodes.includes(Number(err.code))) {
+          throw new ConfigurationError(`Session expired or invalid (${err.message}). Re-run the Start SQL Session action to create a new session.`);
+        }
+        throw err;
+      }
     },
     async listTables({
       database, schema,

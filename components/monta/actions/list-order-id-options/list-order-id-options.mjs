@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import monta from "../../monta.app.mjs";
 
 export default {
   key: "monta-list-order-id-options",
   name: "List Order ID Options",
   description: "Retrieves available options for the Order ID field.",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

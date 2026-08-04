@@ -5,7 +5,7 @@ export default {
   key: "shopify-create-return",
   name: "Create Return",
   description: "Creates a return for an order. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/returnCreate).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     readOnlyHint: false,
