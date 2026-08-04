@@ -25,22 +25,34 @@ export default {
         "destination",
       ],
     },
-    departureDate: {
+    dateFrom: {
       propDefinition: [
         app,
-        "departureDate",
+        "dateFrom",
       ],
     },
-    returnDate: {
+    returnFrom: {
       propDefinition: [
         app,
-        "returnDate",
+        "returnFrom",
       ],
     },
     adults: {
       propDefinition: [
         app,
         "adults",
+      ],
+    },
+    children: {
+      propDefinition: [
+        app,
+        "children",
+      ],
+    },
+    cabinClass: {
+      propDefinition: [
+        app,
+        "cabinClass",
       ],
     },
   },
@@ -50,16 +62,18 @@ export default {
       data: {
         origin: this.origin,
         destination: this.destination,
-        departure_date: this.departureDate,
-        return_date: this.returnDate,
+        date_from: this.dateFrom,
+        return_from: this.returnFrom,
         adults: this.adults,
+        children: this.children,
+        cabin_class: this.cabinClass,
       },
     });
 
-    const count = response?.offers?.length ?? 0;
+    const count = response?.total_results ?? response?.offers?.length ?? 0;
     $.export("$summary", `Found ${count} flight offer${count === 1
       ? ""
-      : "s"} for ${this.origin} to ${this.destination}`);
+      : "s"} from ${this.origin} to ${this.destination}`);
 
     return response;
   },
