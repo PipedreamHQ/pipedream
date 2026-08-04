@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import microsoft from "../../microsoft_dynamics_365_sales.app.mjs";
 
 const GUID_REGEX =
@@ -19,7 +20,7 @@ function assertGuid(value, label) {
     guid = guid.slice(1, -1);
   }
   if (!GUID_REGEX.test(guid)) {
-    throw new Error(`${label} must be a valid GUID (for example \`00000000-0000-0000-0000-000000000001\`)`);
+    throw new ConfigurationError(`${label} must be a valid GUID (for example \`00000000-0000-0000-0000-000000000001\`)`);
   }
   return guid;
 }
@@ -172,7 +173,7 @@ export default {
       const revenueValue = this.revenue.trim();
       const revenue = Number(revenueValue);
       if (!revenueValue || !Number.isFinite(revenue)) {
-        throw new Error("Annual Revenue must be a valid number");
+        throw new ConfigurationError("Annual Revenue must be a valid number");
       }
       patchBody.revenue = revenue;
     }
@@ -183,7 +184,7 @@ export default {
     }
 
     if (!Object.keys(patchBody).length) {
-      throw new Error("Provide at least one field to update");
+      throw new ConfigurationError("Provide at least one field to update");
     }
 
     const account = await this.microsoft.patchAccount({
