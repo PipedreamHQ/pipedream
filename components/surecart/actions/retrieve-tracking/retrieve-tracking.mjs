@@ -4,7 +4,7 @@ export default {
   key: "surecart-retrieve-tracking",
   name: "Retrieve Tracking",
   description: "Retrieve a tracking record by ID. [See the documentation](https://developer.surecart.com/api-reference/trackings/retrieve)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

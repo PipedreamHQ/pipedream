@@ -4,7 +4,7 @@ export default {
   key: "trello-search-cards",
   name: "Search Cards",
   description: "Searches for cards matching the specified query. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-search/#api-search-get).",
-  version: "0.2.6",
+  version: "0.2.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

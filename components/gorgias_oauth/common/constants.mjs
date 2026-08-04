@@ -17,6 +17,7 @@ const channels = [
   "sms",
   "twitter",
   "twitter-direct-message",
+  "whatsapp",
   "yotpo-review",
 ];
 

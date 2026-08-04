@@ -4,7 +4,7 @@ export default {
   key: "surecart-retrieve-invoice",
   name: "Retrieve Invoice",
   description: "Retrieve an invoice by ID. [See the documentation](https://developer.surecart.com/api-reference/invoices/retrieve)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

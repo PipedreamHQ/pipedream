@@ -41,7 +41,21 @@ export function extractApiErrorMessage(error) {
     }
   }
   if (payload && typeof payload === "object" && !Array.isArray(payload)) {
-    return payload.message ?? payload.error ?? undefined;
+    const base = payload.message ?? payload.error ?? undefined;
+    if (Array.isArray(payload.details) && payload.details.length > 0) {
+      const detail = payload.details
+        .map((d) => (d?.path
+          ? `${d.path}: ${d.message}`
+          : d?.message))
+        .filter(Boolean)
+        .join("; ");
+      if (detail) {
+        return base
+          ? `${base} (${detail})`
+          : detail;
+      }
+    }
+    return base;
   }
   return undefined;
 }

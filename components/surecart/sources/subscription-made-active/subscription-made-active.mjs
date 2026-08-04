@@ -5,7 +5,7 @@ export default {
   key: "surecart-subscription-made-active",
   name: "Subscription Made Active (Instant)",
   description: "Emit new event when a subscription is made active. [See the documentation](https://developer.surecart.com/api-reference/webhook-endpoints/create)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

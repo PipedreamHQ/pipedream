@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import jwt from "jsonwebtoken";
+import { AUTHOR_TYPES } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -10,6 +11,12 @@ export default {
       label: "User ID",
       description: "The ID of the user received from your Conversations Webhook to filter conversations.",
     },
+    authorType: {
+      type: "string",
+      label: "Author Type",
+      description: "The author type. Either `user` or `business`.",
+      options: AUTHOR_TYPES,
+    },
     conversationId: {
       type: "string",
       label: "Conversation ID",
@@ -17,6 +24,12 @@ export default {
       async options({
         userId, prevContext,
       }) {
+        if (!userId) {
+          return {
+            options: [],
+          };
+        }
+
         const { conversations } = await this.getConversations({
           params: {
             page: {
@@ -186,6 +199,15 @@ export default {
     }) {
       return this._makeRequest({
         path: `/conversations/${conversationId}/participants`,
+        ...opts,
+      });
+    },
+    postActivity({
+      conversationId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/conversations/${conversationId}/activity`,
         ...opts,
       });
     },

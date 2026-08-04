@@ -4,20 +4,19 @@ export default {
   type: "action",
   key: "linkupapi-send-message",
   name: "Send Message",
-  description: "Send a message to a LinkedIn profile. [See the documentation](https://docs.linkupapi.com/api-reference/linkup/Messages/send)",
-  version: "0.0.2",
+  description: "Send a message to a LinkedIn profile. Make sure you are already connected to the recipient. [See the documentation](https://docs.linkupapi.com/api-reference/v2/messages/send)",
+  version: "1.0.0",
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
   props: {
     app,
-    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
-    info: {
-      type: "alert",
-      alertType: "info",
-      content: "Make sure you previously connected to the LinkedIn profile you want to send a message to.",
-    },
-    loginToken: {
+    accountId: {
       propDefinition: [
         app,
-        "loginToken",
+        "accountId",
       ],
     },
     linkedinUrl: {
@@ -25,6 +24,7 @@ export default {
         app,
         "linkedinUrl",
       ],
+      description: "LinkedIn profile URL of the recipient. Eg. `https://www.linkedin.com/in/john-doe/`.",
     },
     messageText: {
       propDefinition: [
@@ -32,47 +32,25 @@ export default {
         "messageText",
       ],
     },
-    country: {
-      propDefinition: [
-        app,
-        "country",
-      ],
+    mediaLink: {
+      type: "string",
+      label: "Media Link",
+      description: "URL of a media attachment (image, document, etc.) to include with the message.",
+      optional: true,
     },
   },
-  annotations: {
-    readOnlyHint: false,
-    destructiveHint: true,
-    openWorldHint: true,
-    idempotentHint: false,
-  },
   async run({ $ }) {
-    const {
-      app,
-      linkedinUrl,
-      messageText,
-      loginToken,
-      country,
-    } = this;
+    const response = await this.app.sendMessage({
+      $,
+      accountId: this.accountId,
+      params: {
+        profile_url: this.linkedinUrl,
+        message_text: this.messageText,
+        media_link: this.mediaLink,
+      },
+    });
 
-    try {
-      const response = await app.sendMessage({
-        $,
-        data: {
-          linkedin_url: linkedinUrl,
-          message_text: messageText,
-          login_token: loginToken,
-          country,
-        },
-      });
-
-      $.export("$summary", "Successfully sent message request");
-
-      return response;
-    } catch (error) {
-      if (error.response?.data?.data === "Invalid parameter") {
-        throw new Error("Invalid parameter. Make sure you previously connected to the LinkedIn profile you want to send a message to.");
-      }
-      throw error;
-    }
+    $.export("$summary", `Successfully sent message to ${this.linkedinUrl}`);
+    return response;
   },
 };

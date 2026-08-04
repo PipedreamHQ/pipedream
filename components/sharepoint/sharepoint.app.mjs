@@ -595,7 +595,7 @@ export default {
     } = {}) {
       return this.client().api(`/drives/${driveId}/items/${fileId}/content`)
         .query(pickBy(params))
-        .get();
+        .getStream();
     },
     createList({
       siteId, data = {},
