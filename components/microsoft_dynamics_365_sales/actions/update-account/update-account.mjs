@@ -93,31 +93,31 @@ export default {
       description: "Annual revenue for the account, in the base currency (numeric, for example `1500000`)",
       optional: true,
     },
-    address1_line1: {
+    address1Line1: {
       type: "string",
       label: "Address: Street 1",
       description: "First line of the primary address",
       optional: true,
     },
-    address1_city: {
+    address1City: {
       type: "string",
       label: "Address: City",
       description: "City of the primary address",
       optional: true,
     },
-    address1_stateorprovince: {
+    address1Stateorprovince: {
       type: "string",
       label: "Address: State/Province",
       description: "State or province of the primary address",
       optional: true,
     },
-    address1_postalcode: {
+    address1Postalcode: {
       type: "string",
       label: "Address: ZIP/Postal Code",
       description: "ZIP or postal code of the primary address",
       optional: true,
     },
-    address1_country: {
+    address1Country: {
       type: "string",
       label: "Address: Country/Region",
       description: "Country or region of the primary address",
@@ -154,11 +154,11 @@ export default {
       fax: this.fax,
       description: this.description,
       numberofemployees: this.numberofemployees,
-      address1_line1: this.address1_line1,
-      address1_city: this.address1_city,
-      address1_stateorprovince: this.address1_stateorprovince,
-      address1_postalcode: this.address1_postalcode,
-      address1_country: this.address1_country,
+      address1_line1: this.address1Line1,
+      address1_city: this.address1City,
+      address1_stateorprovince: this.address1Stateorprovince,
+      address1_postalcode: this.address1Postalcode,
+      address1_country: this.address1Country,
     };
     for (const [
       field,
