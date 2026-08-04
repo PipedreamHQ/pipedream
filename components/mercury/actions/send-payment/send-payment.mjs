@@ -77,19 +77,22 @@ export default {
     }
 
     let purpose;
-    if (this.paymentMethod === "domesticWire" || this.purpose !== undefined) {
+    if (this.paymentMethod === "domesticWire") {
       if (this.purpose === undefined) {
         throw new ConfigurationError("**Purpose** is required when **Payment Method** is `domesticWire`.");
       }
       const category = this.purpose?.simple?.category;
       const additionalInfo = this.purpose?.simple?.additionalInfo;
+      const additionalInfoValid = typeof additionalInfo === "string" && additionalInfo.trim() !== "";
       if (!category || !PURPOSE_CATEGORIES.includes(category)) {
         throw new ConfigurationError(`**Purpose** must include \`simple.category\` set to one of: ${PURPOSE_CATEGORIES.join(", ")}.`);
       }
-      if (PURPOSE_ADDITIONAL_INFO_REQUIRED.includes(category) && !additionalInfo) {
-        throw new ConfigurationError(`**Purpose** \`simple.additionalInfo\` is required for category \`${category}\`.`);
+      if (PURPOSE_ADDITIONAL_INFO_REQUIRED.includes(category) && !additionalInfoValid) {
+        throw new ConfigurationError(`**Purpose** \`simple.additionalInfo\` is required (non-empty text) for category \`${category}\`.`);
       }
       purpose = this.purpose;
+    } else if (this.purpose !== undefined) {
+      throw new ConfigurationError("**Purpose** is only valid for `domesticWire` payments; remove it for `ach` and `check`.");
     }
 
     const idempotencyKey = this.idempotencyKey || randomUUID();
