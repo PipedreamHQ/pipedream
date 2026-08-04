@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import monta from "../../monta.app.mjs";
 
 export default {
@@ -5,7 +6,7 @@ export default {
   name: "List Product Stock Changes",
   description:
     "List products whose stock changed since a specified date and time. [See the documentation](https://api-v6.monta.nl/index.html#tag/Product/paths/~1product~1updated_since~1%7BupdatedSince%7D/get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
