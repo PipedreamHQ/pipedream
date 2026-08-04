@@ -32,21 +32,25 @@ export default {
       async options({
         board, list, checklistCardsOnly,
       }) {
-        let cards = await this.getCards({
-          boardId: board,
-        });
-        if (list) {
-          cards = cards.filter(({ idList }) => idList === list);
+        let formattedCards = [];
+        if (board) {
+          let cards = await this.getCards({
+            boardId: board,
+          });
+          if (list) {
+            cards = cards.filter(({ idList }) => idList === list);
+          }
+          if (checklistCardsOnly) {
+            cards = cards.filter(({ idChecklists }) => idChecklists?.length);
+          }
+          formattedCards = cards.map(({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
+          }));
         }
-        if (checklistCardsOnly) {
-          cards = cards.filter(({ idChecklists }) => idChecklists?.length);
-        }
-        return cards.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
+        return formattedCards;
       },
     },
     boardFields: {
@@ -366,6 +370,19 @@ export default {
       description: "This is a nested resource. Specify what actions to include in the response. Default is `all`.",
       optional: true,
       options: actions,
+    },
+    checklistFields: {
+      type: "string[]",
+      label: "Checklist Fields",
+      description: "Fields to include on each checklist. `all` or a list of: `idBoard`, `idCard`, `name`, `pos`.",
+      optional: true,
+      options: [
+        "all",
+        "idBoard",
+        "idCard",
+        "name",
+        "pos",
+      ],
     },
     labels: {
       type: "string[]",
@@ -743,7 +760,24 @@ export default {
     completeChecklistItem({
       cardId, checklistItemId, ...args
     } = {}) {
+      return this.updateChecklistItem({
+        cardId,
+        checklistItemId,
+        ...args,
+      });
+    },
+    updateChecklistItem({
+      cardId, checklistItemId, ...args
+    } = {}) {
       return this.put({
+        path: `/cards/${cardId}/checkItem/${checklistItemId}`,
+        ...args,
+      });
+    },
+    deleteChecklistItem({
+      cardId, checklistItemId, ...args
+    } = {}) {
+      return this.delete({
         path: `/cards/${cardId}/checkItem/${checklistItemId}`,
         ...args,
       });

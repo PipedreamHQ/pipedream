@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
       name: Checkout
     - uses: Ana06/get-changed-files@v2.3.0
       id: changed_files
@@ -36,7 +36,7 @@ jobs:
         done
 
         echo "files=${files}" >> $GITHUB_ENV
-    - uses: rojopolis/spellcheck-github-actions@0.60.0
+    - uses: rojopolis/spellcheck-github-actions@0.64.0
       name: Spellcheck
       if: ${{ env.files }}
       with:
@@ -49,7 +49,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           # Fetch enough history to find merge-base with master
           # 300 commits handles most long-running feature branches
@@ -64,7 +64,7 @@ jobs:
           version: 10.28.2
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: 20
           cache: 'pnpm'

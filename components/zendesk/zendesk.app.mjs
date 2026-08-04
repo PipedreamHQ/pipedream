@@ -1,5 +1,5 @@
 import {
-  axios, getFileStreamAndMetadata,
+  axios, ConfigurationError, getFileStreamAndMetadata,
 } from "@pipedream/platform";
 import path from "path";
 import constants from "./common/constants.mjs";
@@ -322,6 +322,21 @@ export default {
           value: id,
         }));
       },
+    },
+    sideConversationSubject: {
+      type: "string",
+      label: "Subject",
+      description: "The subject of the side conversation message.",
+    },
+    sideConversationBody: {
+      type: "string",
+      label: "Message Body",
+      description: "The plain-text body of the side conversation message.",
+    },
+    sideConversationRecipients: {
+      type: "string",
+      label: "Recipients",
+      description: "JSON array of participant objects. Use `[{\"email\":\"person@example.com\",\"name\":\"Person\"}]` for an external email recipient, `[{\"user_id\":123}]` for an existing Zendesk agent (the agent's numeric user ID, found in Zendesk under Admin Center > People > Team members), `[{\"slack_workspace_id\":\"T123\",\"slack_channel_id\":\"C456\"}]` for Slack (both IDs come from your Zendesk Slack integration settings), `[{\"support_group_id\":123,\"support_agent_id\":456}]` for a child ticket (`support_agent_id` is optional), or `[{\"msteams_channel_id\":\"19:channel-id\"}]` for Microsoft Teams (the channel ID from your Zendesk Microsoft Teams integration settings). Do not mix participant types in the same array.",
     },
     macroId: {
       type: "string",
@@ -799,6 +814,86 @@ export default {
         ...args,
       });
     },
+    /**
+     * Create a side conversation on a ticket.
+     *
+     * @param {object} args - Request arguments
+     * @param {string} args.ticketId - Parent ticket ID
+     * @param {string} [args.customSubdomain] - Optional Zendesk subdomain override
+     * @returns {Promise<object>} Created side conversation and event
+     */
+    createSideConversation({
+      ticketId, customSubdomain, ...args
+    }) {
+      return this.makeRequest({
+        method: "POST",
+        path: `/tickets/${ticketId}/side_conversations`,
+        customSubdomain,
+        ...args,
+      });
+    },
+    /**
+     * Update a side conversation's state or subject.
+     *
+     * @param {object} args - Request arguments
+     * @param {string} args.ticketId - Parent ticket ID
+     * @param {string} args.sideConversationId - Side conversation ID
+     * @param {string} [args.customSubdomain] - Optional Zendesk subdomain override
+     * @returns {Promise<object>} Updated side conversation
+     */
+    updateSideConversation({
+      ticketId, sideConversationId, customSubdomain, ...args
+    }) {
+      return this.makeRequest({
+        method: "PUT",
+        path: `/tickets/${ticketId}/side_conversations/${sideConversationId}`,
+        customSubdomain,
+        ...args,
+      });
+    },
+    /**
+     * Reply to a side conversation.
+     *
+     * @param {object} args - Request arguments
+     * @param {string} args.ticketId - Parent ticket ID
+     * @param {string} args.sideConversationId - Side conversation ID
+     * @param {string} [args.customSubdomain] - Optional Zendesk subdomain override
+     * @returns {Promise<object>} Updated side conversation
+     */
+    replyToSideConversation({
+      ticketId, sideConversationId, customSubdomain, ...args
+    }) {
+      return this.makeRequest({
+        method: "POST",
+        path: `/tickets/${ticketId}/side_conversations/${sideConversationId}/reply`,
+        customSubdomain,
+        ...args,
+      });
+    },
+    /**
+     * Parse and validate side conversation recipients.
+     *
+     * @param {string|object[]} value - JSON string or participant array
+     * @returns {object[]} Parsed participant array
+     */
+    parseSideConversationRecipients(value) {
+      let recipients = value;
+      if (typeof value === "string") {
+        try {
+          recipients = JSON.parse(value);
+        } catch {
+          throw new ConfigurationError("Recipients must be a valid JSON array of participant objects.");
+        }
+      }
+      if (!Array.isArray(recipients)
+        || recipients.length === 0
+        || recipients.some((recipient) => !recipient
+          || typeof recipient !== "object"
+          || Array.isArray(recipient))) {
+        throw new ConfigurationError("Recipients must be a non-empty JSON array of participant objects.");
+      }
+      return recipients;
+    },
     listSideConversationEvents({
       startTime, nextPageUrl, ...args
     } = {}) {
@@ -1064,6 +1159,26 @@ export default {
         data: {
           tags,
         },
+        ...args,
+      });
+    },
+    listDynamicContentItems(args = {}) {
+      return this.makeRequest({
+        path: "/dynamic_content/items",
+        ...args,
+      });
+    },
+    getDynamicContentItem({
+      itemId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/dynamic_content/items/${itemId}`,
+        ...args,
+      });
+    },
+    showManyDynamicContentItems(args = {}) {
+      return this.makeRequest({
+        path: "/dynamic_content/items/show_many",
         ...args,
       });
     },

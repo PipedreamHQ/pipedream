@@ -4,7 +4,7 @@ export default {
   key: "spotify-list-saved-user-tracks-id-options",
   name: "List Track ID Options",
   description: "Retrieves available options for the Track ID field.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

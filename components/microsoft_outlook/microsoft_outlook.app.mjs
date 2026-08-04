@@ -205,24 +205,31 @@ export default {
       label: "User ID",
       description: "The ID of the user to get messages for",
       useQuery: true,
-      async options({ query }) {
-        const args = query
-          ? {
-            params: {
-              $search: `"${encodeURIComponent("displayName:" + query)}" OR "${encodeURIComponent("mail:" + query)}" OR "${encodeURIComponent("userPrincipalName:" + query)}"`,
-            },
-            headers: {
-              "ConsistencyLevel": "eventual",
-            },
-          }
-          : {};
-        const { value: users } = await this.listUsers(args);
-        return users?.map(({
+      async options({
+        query, prevContext,
+      }) {
+        const args = {};
+        if (prevContext?.nextLink) {
+          args.url = prevContext.nextLink;
+        } else if (query) {
+          const escaped = query.replace(/[\\"]/g, "\\$&");
+          args.params = {
+            $search: `"displayName:${escaped}" OR "mail:${escaped}" OR "userPrincipalName:${escaped}"`,
+          };
+        }
+        const response = await this.listUsers(args);
+        const options = response.value?.map(({
           id: value, displayName, mail,
         }) => ({
           value,
           label: `${displayName} (${mail})`,
         })) || [];
+        return {
+          options,
+          context: {
+            nextLink: response["@odata.nextLink"],
+          },
+        };
       },
     },
     sharedFolderId: {
@@ -433,15 +440,21 @@ export default {
       filterAddress, params = {}, nextLink,
     } = {}) {
       if (nextLink) {
-        return await this.client().api(nextLink)
-          .get();
+        const request = this.client().api(nextLink);
+        if (params?.$count) {
+          request.header("ConsistencyLevel", "eventual");
+        }
+        return await request.get();
       }
       if (filterAddress) {
         params["$filter"] = `emailAddresses/any(a:a/address eq '${filterAddress}')`;
       }
-      return await this.client().api("/me/contacts")
-        .query(pickBy(params))
-        .get();
+      const request = this.client().api("/me/contacts")
+        .query(pickBy(params));
+      if (params?.$count) {
+        request.header("ConsistencyLevel", "eventual");
+      }
+      return await request.get();
     },
     async updateContact({
       contactId, data = {},
@@ -487,13 +500,19 @@ export default {
       userId, params = {}, nextLink,
     } = {}) {
       if (nextLink) {
-        return await this.client().api(nextLink)
-          .get();
+        const request = this.client().api(nextLink);
+        if (params?.$count) {
+          request.header("ConsistencyLevel", "eventual");
+        }
+        return await request.get();
       }
 
-      return await this.client().api(`${this._userPath(userId)}/mailFolders/inbox/messages`)
-        .query(pickBy(params))
-        .get();
+      const request = this.client().api(`${this._userPath(userId)}/mailFolders/inbox/messages`)
+        .query(pickBy(params));
+      if (params?.$count) {
+        request.header("ConsistencyLevel", "eventual");
+      }
+      return await request.get();
     },
     async countMessages({
       userId, folderScope, sharedFolderId, filter,
@@ -606,10 +625,18 @@ export default {
         .query(pickBy(params))
         .get();
     },
-    async listUsers({ params = {} } = {}) {
-      return await this.client().api("/users")
-        .query(pickBy(params))
-        .get();
+    async listUsers({
+      url, params = {},
+    } = {}) {
+      const client = this.client();
+      return url
+        ? client.api(url)
+          .header("ConsistencyLevel", "eventual")
+          .get()
+        : client.api("/users")
+          .header("ConsistencyLevel", "eventual")
+          .query(pickBy(params))
+          .get();
     },
     async listSharedFolders({
       userId, parentFolderId, params = {},

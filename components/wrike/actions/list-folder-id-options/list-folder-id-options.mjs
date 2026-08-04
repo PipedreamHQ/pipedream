@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import wrike from "../../wrike.app.mjs";
 
 export default {
   key: "wrike-list-folder-id-options",
   name: "List Folder ID Options",
-  description: "Retrieves available options for the Folder ID field.",
-  version: "0.0.1",
+  description: "Retrieves available folders so callers can copy an ID into another action's free-form folderId prop. [See the documentation](https://developers.wrike.com/reference/getfoldersempty)",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -13,12 +14,38 @@ export default {
   },
   props: {
     wrike,
+    spaceId: {
+      type: "string",
+      label: "Space ID",
+      description: "Filter by space ID.",
+      optional: true,
+    },
+    folderId: {
+      type: "string",
+      label: "Folder ID",
+      description: "Filter by folder ID.",
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const options = await wrike.propDefinitions.folderId.options.call(this.wrike);
-    $.export("$summary", `Successfully retrieved ${options.length} option${options.length === 1
+    const folders = await this.wrike.listFolders({
+      $,
+      spaceId: this.spaceId,
+      folderId: this.folderId,
+      params: !this.folderId
+        ? {
+          deleted: false,
+        }
+        : undefined,
+    });
+    // Server-side `deleted: false` only applies to the account-level list; when
+    // `folderId` is provided the endpoint returns that folder's children as-is,
+    // so a Recycle Bin parent would leak trashed folders. `scope` marks each
+    // resource's zone — drop anything living under the RB.
+    const filtered = folders.filter((f) => f.scope !== "RbFolder" && f.scope !== "RbRoot");
+    $.export("$summary", `Successfully retrieved ${filtered.length} folder${filtered.length === 1
       ? ""
       : "s"}`);
-    return options;
+    return filtered;
   },
 };

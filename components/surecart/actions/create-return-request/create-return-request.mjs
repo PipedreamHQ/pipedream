@@ -4,7 +4,7 @@ export default {
   key: "surecart-create-return-request",
   name: "Create Return Request",
   description: "Create a new return request for an order. [See the documentation](https://developer.surecart.com/api-reference/return-requests/create)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

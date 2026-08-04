@@ -4,7 +4,7 @@ export default {
   key: "github-list-commits",
   name: "List Commits",
   description: "List commits in a repository, most recent first. Optionally scope to a branch or starting SHA, a file path, an author, or a date range. Provide the repository as an `owner/repo` string. Use **Get Repository** to find the default branch name if needed. [See the documentation](https://docs.github.com/en/rest/commits/commits?apiVersion=2022-11-28#list-commits)",
-  version: "0.1.0",
+  version: "0.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -56,11 +56,10 @@ export default {
       optional: true,
     },
     maxResults: {
-      type: "integer",
-      label: "Max Results",
-      description: "The maximum number of results to return. Defaults: `100`",
-      default: 100,
-      optional: true,
+      propDefinition: [
+        github,
+        "maxResults",
+      ],
     },
   },
   async run({ $ }) {

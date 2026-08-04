@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/supabase",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Pipedream Supabase Components",
   "main": "supabase.app.mjs",
   "keywords": [
@@ -16,6 +16,6 @@
     "@pipedream/platform": "^3.2.5",
     "@supabase/supabase-js": "^2.45.6",
     "csv-parse": "^5.5.6",
-    "ws": "^8.18.0"
+    "ws": "^8.21.0"
   }
 }
