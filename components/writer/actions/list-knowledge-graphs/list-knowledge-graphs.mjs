@@ -31,11 +31,18 @@ export default {
         + `Defaults to: ${GRAPH_DEFAULT_FIELDS.join(", ")}. `
         + "Available fields include `name`, `description`, `type`, `file_status`, `created_at`, `urls`. Pass only what you need to keep responses small.",
     },
+    maxResults: {
+      propDefinition: [
+        app,
+        "maxResults",
+      ],
+    },
   },
   async run({ $ }) {
     const results = await this.app.paginate({
       $,
       resourceFn: this.app.listKnowledgeGraphs,
+      max: this.maxResults,
     });
 
     const fields = this.fields?.length

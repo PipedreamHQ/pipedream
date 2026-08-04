@@ -25,6 +25,14 @@ export default {
       label: "Application ID",
       description: "The UUID of a no-code application (agent). Discover ids with **List Applications**; inspect an agent's required input schema with **Get Application** before running it.",
     },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "Maximum number of results to return.",
+      optional: true,
+      default: MAX_RESULTS,
+      min: 1,
+    },
   },
   methods: {
     _baseUrl() {

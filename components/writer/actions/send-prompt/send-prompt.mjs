@@ -1,5 +1,6 @@
 // x-pd-ai: optimized
 import app from "../../writer.app.mjs";
+import { parseFloatProp } from "../../common/utils.mjs";
 
 export default {
   key: "writer-send-prompt",
@@ -107,12 +108,8 @@ export default {
         model,
         messages: JSON.parse(this.messages),
         max_tokens: this.maxTokens,
-        temperature: this.temperature !== undefined
-          ? parseFloat(this.temperature)
-          : undefined,
-        top_p: this.topP !== undefined
-          ? parseFloat(this.topP)
-          : undefined,
+        temperature: parseFloatProp(this.temperature, "Temperature"),
+        top_p: parseFloatProp(this.topP, "Top P"),
         n: this.n,
         stop: this.stop,
         logprobs: this.logprobs,

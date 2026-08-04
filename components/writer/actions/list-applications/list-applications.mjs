@@ -42,6 +42,12 @@ export default {
         + `Defaults to: ${APPLICATION_DEFAULT_FIELDS.join(", ")}. `
         + "Available fields include `name`, `type`, `status`, `created_at`, `updated_at`. Pass only what you need to keep responses small.",
     },
+    maxResults: {
+      propDefinition: [
+        app,
+        "maxResults",
+      ],
+    },
   },
   async run({ $ }) {
     const results = await this.app.paginate({
@@ -50,6 +56,7 @@ export default {
       params: {
         type: this.type,
       },
+      max: this.maxResults,
     });
 
     const fields = this.fields?.length
