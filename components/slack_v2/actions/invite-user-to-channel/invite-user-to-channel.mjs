@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import slack from "../../slack_v2.app.mjs";
 
 export default {
@@ -36,7 +37,11 @@ export default {
     // keeps working — each token is resolved independently.
     const channel = await this.slack.resolveChannelId(this.conversation);
     const user = await this.slack.resolveUserIds(this.user);
-    const userIds = user.split(",");
+    const userIds = user.split(",").filter(Boolean);
+
+    if (!userIds.length) {
+      throw new ConfigurationError(`No valid user was resolved from "${this.user}". Provide a user ID, an email address, or a display name.`);
+    }
 
     if (userIds.length === 1) {
       try {
