@@ -29,7 +29,7 @@ export default {
     _getLastRunTime() {
       return this.db.get("lastRunTime")
         ? new Date(this.db.get("lastRunTime"))
-        : this.mercury.daysAgo(1);
+        : this.mercury.getDateDaysAgo(1);
     },
     _setLastRunTime(lastRunTime) {
       this.db.set("lastRunTime", lastRunTime);

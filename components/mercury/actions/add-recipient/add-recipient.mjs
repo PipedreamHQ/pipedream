@@ -1,4 +1,5 @@
 // x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import mercury from "../../mercury.app.mjs";
 import { ELECTRONIC_ACCOUNT_TYPES } from "../../common/constants.mjs";
 
@@ -76,7 +77,17 @@ export default {
     },
   },
   async run({ $ }) {
-    const electronicRoutingInfo = this.accountNumber
+    const achFields = [
+      this.accountNumber,
+      this.routingNumber,
+      this.electronicAccountType,
+      this.address,
+    ];
+    const providedAch = achFields.filter((v) => v !== undefined && v !== null && v !== "").length;
+    if (providedAch > 0 && providedAch < achFields.length) {
+      throw new ConfigurationError("ACH routing requires **Account Number**, **Routing Number**, **Electronic Account Type**, and **Address** together — provide all four or none.");
+    }
+    const electronicRoutingInfo = providedAch === achFields.length
       ? {
         accountNumber: this.accountNumber,
         routingNumber: this.routingNumber,

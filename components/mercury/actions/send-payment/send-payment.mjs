@@ -1,12 +1,13 @@
 // x-pd-ai: optimized
 import { randomUUID } from "crypto";
+import { ConfigurationError } from "@pipedream/platform";
 import mercury from "../../mercury.app.mjs";
 import { PAYMENT_METHODS } from "../../common/constants.mjs";
 
 export default {
   key: "mercury-send-payment",
   name: "Send Payment",
-  description: "Send money from a Mercury account to an existing recipient via ACH, check, or domestic wire. This endpoint requires the connected account's IP to be whitelisted and sends immediately. Run **List Accounts** for the account ID and **List Recipients** for the recipient ID. NOTE: this endpoint has no scheduling parameter; scheduled/approval flows are a separate Mercury endpoint. Duplicate payments (same recipient, account, and amount within 24h) are rejected with HTTP 400. Example: call with `accountId=\"acc_9f2a...\"`, `recipientId=\"rec_1a2b...\"`, `amount=\"10.00\"`, and `paymentMethod=\"ach\"` -> returns the created transaction `{ id: \"txn_4b8c...\", status: \"pending\" }`. [See the documentation](https://docs.mercury.com/reference/createtransaction)",
+  description: "Create a payment transaction from a Mercury account to an existing recipient via ACH, check, or domestic wire. This endpoint requires the connected account's IP to be whitelisted; the transaction is created immediately (there is no scheduling parameter) and is returned in a `pending` or `sent` state — check the returned `status`. Run **List Accounts** for the account ID and **List Recipients** for the recipient ID. NOTE: scheduled/approval flows are a separate Mercury endpoint. Duplicate payments (same recipient, account, and amount within 24h) are rejected with HTTP 400. Example: call with `accountId=\"acc_9f2a...\"`, `recipientId=\"rec_1a2b...\"`, `amount=\"10.00\"`, and `paymentMethod=\"ach\"` -> returns the created transaction `{ id: \"txn_4b8c...\", status: \"pending\" }`. [See the documentation](https://docs.mercury.com/reference/createtransaction)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -66,13 +67,17 @@ export default {
     },
   },
   async run({ $ }) {
+    const amount = parseFloat(this.amount);
+    if (!/^\d+(\.\d+)?$/.test(this.amount.trim()) || !Number.isFinite(amount) || amount < 0.01) {
+      throw new ConfigurationError(`**Amount** must be a decimal number of at least 0.01 (e.g. \`10.00\`), got \`${this.amount}\``);
+    }
     const idempotencyKey = this.idempotencyKey || randomUUID();
     const response = await this.mercury.createTransaction({
       $,
       accountId: this.accountId,
       data: {
         recipientId: this.recipientId,
-        amount: parseFloat(this.amount),
+        amount,
         paymentMethod: this.paymentMethod,
         note: this.note,
         externalMemo: this.externalMemo,
@@ -80,7 +85,7 @@ export default {
         idempotencyKey,
       },
     });
-    $.export("$summary", `Successfully sent payment of ${this.amount} to recipient ${this.recipientId} (transaction ${response.id})`);
+    $.export("$summary", `Created payment of ${this.amount} to recipient ${this.recipientId} (transaction ${response.id}, status: ${response.status})`);
     return response;
   },
 };

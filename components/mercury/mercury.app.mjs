@@ -37,10 +37,10 @@ export default {
         data,
       });
     },
-    daysAgo(days) {
-      const daysAgo = new Date();
-      daysAgo.setDate(daysAgo.getDate() - days);
-      return daysAgo;
+    getDateDaysAgo(days) {
+      const date = new Date();
+      date.setDate(date.getDate() - days);
+      return date;
     },
     getAccounts({
       $, params,
