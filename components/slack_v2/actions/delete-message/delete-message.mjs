@@ -61,11 +61,17 @@ export default {
     // verbatim, so a working call is byte-identical to before.
     const other = this.as_user === false;
 
+    // The fallback only reaches a genuinely different identity when a bot token exists:
+    // that's the only case where flipping as_user changes which token makeRequest() picks.
+    // Without a bot token both attempts hit the same user token, so retrying just repeats
+    // the same cant_delete_message failure.
+    const hasBotToken = Boolean(this.slack.getBotToken());
+
     let response;
     try {
       response = await attempt(this.as_user);
     } catch (error) {
-      if (!`${error}`.includes("cant_delete_message")) throw error;
+      if (!hasBotToken || !`${error}`.includes("cant_delete_message")) throw error;
       response = await attempt(other);
     }
 

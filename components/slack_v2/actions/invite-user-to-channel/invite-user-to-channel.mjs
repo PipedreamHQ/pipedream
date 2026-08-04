@@ -36,19 +36,57 @@ export default {
     // keeps working — each token is resolved independently.
     const channel = await this.slack.resolveChannelId(this.conversation);
     const user = await this.slack.resolveUserIds(this.user);
-    try {
-      const response = await this.slack.inviteToConversation({
-        channel,
-        users: user,
-      });
-      $.export("$summary", `Successfully invited user ${this.user} to channel with ID ${channel}`);
-      return response;
-    } catch (error) {
-      if (`${error}`.includes("already_in_channel")) {
-        $.export("$summary", `The user ${this.user} is already in the channel`);
-        return;
+    const userIds = user.split(",");
+
+    if (userIds.length === 1) {
+      try {
+        const response = await this.slack.inviteToConversation({
+          channel,
+          users: user,
+        });
+        $.export("$summary", `Successfully invited user ${this.user} to channel with ID ${channel}`);
+        return response;
+      } catch (error) {
+        if (`${error}`.includes("already_in_channel")) {
+          $.export("$summary", `The user ${this.user} is already in the channel`);
+          return;
+        }
+        throw error;
       }
-      throw error;
     }
+
+    // already_in_channel can only be safely swallowed for a single-user request. For
+    // multiple users, one bad token turning the whole request into "success" would hide
+    // that the others were never invited, so each user is invited individually and
+    // reported on its own.
+    const results = [];
+    for (const userId of userIds) {
+      try {
+        await this.slack.inviteToConversation({
+          channel,
+          users: userId,
+        });
+        results.push({
+          user: userId,
+          status: "invited",
+        });
+      } catch (error) {
+        results.push({
+          user: userId,
+          status: `${error}`.includes("already_in_channel")
+            ? "already_in_channel"
+            : "error",
+          error: `${error}`,
+        });
+      }
+    }
+
+    const invited = results.filter(({ status }) => status === "invited").length;
+    const failed = results.filter(({ status }) => status === "error").length;
+    const failedSuffix = failed
+      ? ` (${failed} failed)`
+      : "";
+    $.export("$summary", `Invited ${invited} of ${userIds.length} user(s) to channel with ID ${channel}${failedSuffix}`);
+    return results;
   },
 };

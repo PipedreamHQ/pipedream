@@ -1213,6 +1213,7 @@ export default {
         return user.id;
       }
       const name = input.replace(/^@/, "").toLowerCase();
+      const matches = [];
       let cursor;
       do {
         const {
@@ -1222,14 +1223,20 @@ export default {
           limit: 200,
           cursor,
         });
-        const match = members.find((m) => [
-          m.name,
-          m.real_name,
-          m.profile?.display_name,
-        ].filter(Boolean).some((n) => String(n).toLowerCase() === name));
-        if (match) return match.id;
+        for (const member of members) {
+          const isMatch = [
+            member.name,
+            member.real_name,
+            member.profile?.display_name,
+          ].filter(Boolean).some((n) => String(n).toLowerCase() === name);
+          if (isMatch) matches.push(member);
+        }
         cursor = metadata?.next_cursor;
       } while (cursor);
+      if (matches.length === 1) return matches[0].id;
+      if (matches.length > 1) {
+        throw new ConfigurationError(`Multiple users match "${input}". Provide a user ID or an email address instead.`);
+      }
       throw new ConfigurationError(`User "${input}" not found. Provide a user ID, an email address, or an exact display name.`);
     },
     /**
