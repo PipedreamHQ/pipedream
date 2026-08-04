@@ -4,7 +4,7 @@ import fireflies from "../../fireflies.app.mjs";
 export default {
   key: "fireflies-list-askfred-thread-id-options",
   name: "List AskFred Thread ID Options",
-  description: "Retrieves available options for the AskFred Thread ID field.",
+  description: "Retrieves available options for the AskFred Thread ID field. [See the documentation](https://docs.fireflies.ai/graphql-api/query/askfred-threads)",
   version: "0.0.1",
   type: "action",
   annotations: {
