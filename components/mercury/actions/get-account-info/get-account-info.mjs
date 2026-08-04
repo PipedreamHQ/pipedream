@@ -1,9 +1,12 @@
+// x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import mercury from "../../mercury.app.mjs";
+import { MAX_LIMIT } from "../../common/constants.mjs";
 
 export default {
   key: "mercury-get-account-info",
   name: "Get Account Information",
-  description: "Retrieve information about a specific account. [See the documentation](https://docs.mercury.com/reference/accountsid)",
+  description: "Retrieve information (including balances) about a specific Mercury account by its ID. Mercury has no get-account-by-ID endpoint, so this pages through **List Accounts** and returns the account whose `id` matches. Run **List Accounts** first to obtain a valid account ID. Example: call with `account=\"acc_9f2a...\"` -> returns that account's full record `{ id, name, currentBalance, availableBalance, type, ... }`. [See the documentation](https://docs.mercury.com/reference/getaccounts)",
   version: "0.0.2",
   annotations: {
     destructiveHint: false,
@@ -21,11 +24,32 @@ export default {
     },
   },
   async run({ $ }) {
-    const accountInfo = await this.mercury.getAccountInfo({
-      ctx: $,
-      accountId: this.account,
-    });
+    let startAfter;
+    let match;
+
+    // Mercury exposes no /account/{id} lookup; page through /accounts (cursor is
+    // the last account's id) until we find a match or run out of pages.
+    while (!match) {
+      const response = await this.mercury.getAccounts({
+        $,
+        params: {
+          limit: MAX_LIMIT,
+          startAfter,
+        },
+      });
+      const accounts = response?.accounts ?? [];
+      match = accounts.find((account) => account.id === this.account);
+      if (match || accounts.length < MAX_LIMIT) {
+        break;
+      }
+      startAfter = accounts[accounts.length - 1].id;
+    }
+
+    if (!match) {
+      throw new ConfigurationError(`No account found with ID \`${this.account}\`. Run **List Accounts** to see valid account IDs.`);
+    }
+
     $.export("$summary", `Successfully retrieved information for account: ${this.account}`);
-    return accountInfo;
+    return match;
   },
 };
