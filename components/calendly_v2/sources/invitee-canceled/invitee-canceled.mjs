@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import common from "../common/common.mjs";
 
 export default {
@@ -5,7 +6,7 @@ export default {
   key: "calendly_v2-invitee-canceled",
   name: "New Invitee Canceled",
   description: "Emit new event when an event is canceled.",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {
