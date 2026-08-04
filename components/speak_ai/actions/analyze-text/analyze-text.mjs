@@ -3,8 +3,8 @@ import app from "../../speak_ai.app.mjs";
 export default {
   key: "speak_ai-analyze-text",
   name: "Analyze Text",
-  description: "Analyzes a block of text for key insights, sentiment, and keyword extraction using Speak Ai's NLP engine. [See the documentation](https://docs.speakai.co/#d65573c9-98ad-4089-93ad-9d0a173fdeea).",
-  version: "0.0.2",
+  description: "Analyzes a block of text for key insights, sentiment, and keyword extraction using Speak Ai's NLP engine. [See the documentation](https://docs.speakai.co/api/text/#get-text-insight-media-id).",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

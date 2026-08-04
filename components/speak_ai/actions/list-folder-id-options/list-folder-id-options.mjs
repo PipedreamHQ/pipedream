@@ -4,7 +4,7 @@ export default {
   key: "speak_ai-list-folder-id-options",
   name: "List Folder ID Options",
   description: "Retrieves available options for the Folder ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

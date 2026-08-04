@@ -1,12 +1,13 @@
-import common from "../common/base.mjs";
+import common from "../common/webhook.mjs";
 import events from "../common/events.mjs";
+import constants from "../../common/constants.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "speak_ai-new-captions",
   name: "New Captions (Instant)",
-  description: "Emit new event with caption files (SRT or VTT) when Speak AI finishes analyzing a media file (`media.analyzed`, `media.reanalyzed`). [See the documentation](https://docs.speakai.co/).",
+  description: "Emit new event with the caption file (SRT or VTT) when Speak AI finishes analyzing a media file (`media.analyzed`, `media.reanalyzed`). [See the documentation](https://docs.speakai.co/api/exports/#post-media-export-media-id-file-type).",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -15,12 +16,27 @@ export default {
     fileType: {
       type: "string",
       label: "Caption File Type",
-      description: "The caption format to fetch",
-      options: [
-        "SRT",
-        "VTT",
-      ],
-      default: "SRT",
+      description: "The caption format to export",
+      options: constants.CAPTION_FILE_TYPES,
+      default: "srt",
+    },
+    isSpeakerNames: {
+      type: "boolean",
+      label: "Include Speaker Names",
+      description: "Label each caption with the name of the speaker",
+      optional: true,
+    },
+    isTimeStamps: {
+      type: "boolean",
+      label: "Include Timestamps",
+      description: "Include timestamps in the exported captions",
+      optional: true,
+    },
+    isRedacted: {
+      type: "boolean",
+      label: "Redacted",
+      description: "Export the redacted version of the captions",
+      optional: true,
     },
   },
   methods: {
@@ -31,20 +47,31 @@ export default {
         events.MEDIA_REANALYZED,
       ];
     },
-    getSummary(resource) {
-      return `New ${this.fileType} captions for media ${resource.mediaId}`;
-    },
-    async hydrate(resource) {
-      const results = await this.app.getExport({
-        headers: {
-          Accept: "application/json",
-        },
+    getData(resource) {
+      const {
+        app,
+        fileType,
+        isSpeakerNames,
+        isTimeStamps,
+        isRedacted,
+      } = this;
+
+      return app.exportMedia({
+        mediaId: resource.mediaId,
+        fileType,
         params: {
-          mediaId: resource.mediaId,
-          fileType: this.fileType.toLowerCase(),
+          isSpeakerNames,
+          isTimeStamps,
+          isRedacted,
         },
       });
-      return this.app.firstResult(results, resource);
+    },
+    generateMeta(resource) {
+      return {
+        id: this.getEventId(resource),
+        summary: `New Captions: ${resource.mediaId}`,
+        ts: Date.now(),
+      };
     },
   },
   sampleEmit,

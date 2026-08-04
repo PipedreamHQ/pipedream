@@ -37,37 +37,23 @@ export default {
     mediaId: {
       type: "string",
       label: "Media ID",
-      description: "The ID of the media file to retrieve the full transcription for",
-      async options({
-        page, folderId, mediaType,
-      }) {
-        const { data: { mediaList } } = await this.listMedia({
-          params: {
-            page,
-            pageSize: constants.DEFAULT_LIMIT,
-            folderId,
-            mediaType,
-          },
-        });
-        return mediaList.map(({
-          mediaId: value,
-          name: label,
-        }) => ({
-          label,
-          value,
-        }));
+      description: "The media file to act on",
+      options(opts) {
+        return this.listMediaOptions(opts);
       },
     },
     prompt: {
       type: "string",
       label: "Prompt",
-      description: "The instruction or question to run against your selected folder and/or media, e.g. `Summarize the key action items from this transcript`.",
+      description: "The instruction or question to run against the selected media, e.g. `Summarize the key action items from this transcript`. Be as descriptive as possible to get an accurate answer",
     },
     mediaIds: {
       type: "string[]",
       label: "Media IDs",
-      description: "One or more Speak AI media IDs to include as context for the prompt. Each is the media item's unique ID — get it from the **Find Media** action, the `mediaId` field on a media webhook event, or the media item in the Speak AI app.",
-      optional: true,
+      description: "One or more media files to use as the context for the prompt",
+      options(opts) {
+        return this.listMediaOptions(opts);
+      },
     },
   },
   methods: {
@@ -135,76 +121,49 @@ export default {
       });
     },
     /**
-     * Subscribes a Speak AI webhook so events are delivered to the given callback URL.
+     * Retrieves the transcript of a processed media file.
      * @param {object} [opts={}] - Options for the request.
-     * @param {object} opts.data - Subscription payload merged over the defaults
-     * (`source`, `description`); must include `callbackUrl` and `events`.
-     * @returns {Promise<object>} The API response containing the created `webhookId`.
+     * @param {string} opts.mediaId - The ID of the media file to transcribe.
+     * @returns {Promise<object>} The response wrapping the transcript in `data`.
      */
-    subscribeWebhook({
-      data, ...args
+    getTranscript({
+      mediaId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/media/transcript/${mediaId}`,
+        ...args,
+      });
+    },
+    /**
+     * Exports a media file in the requested format (e.g. `srt`, `vtt`, `pdf`).
+     * @param {object} [opts={}] - Options for the request.
+     * @param {string} opts.mediaId - The ID of the media file to export.
+     * @param {string} opts.fileType - The export format to generate.
+     * @returns {Promise<string|object>} The exported file contents.
+     */
+    exportMedia({
+      mediaId, fileType, ...args
     } = {}) {
       return this.post({
-        path: "/webhook",
-        data: {
-          source: "pipedream",
-          description: "Pipedream integration",
-          ...data,
-        },
+        path: `/media/export/${mediaId}/${fileType}`,
         ...args,
       });
     },
     /**
-     * Removes a previously created Speak AI webhook subscription.
-     * @param {object} [opts={}] - Options for the request.
-     * @param {string} opts.webhookId - The ID of the webhook to delete.
-     * @returns {Promise<object>} The API response for the delete request.
+     * Lists the AI Chat prompts that have already run in the account.
+     * @param {object} [args={}] - Request options such as `$`.
+     * @returns {Promise<object>} The response wrapping the prompt history in `data.history`.
      */
-    unsubscribeWebhook({
-      webhookId, ...args
-    } = {}) {
-      return this.delete({
-        path: `/webhook/${webhookId}`,
-        ...args,
-      });
-    },
-    /**
-     * Retrieves media insights (transcripts, sentiment, media items) from the apps endpoint.
-     * @param {object} [args={}] - Request options such as `params` and `$`.
-     * @returns {Promise<object|object[]>} The insights response for the requested media.
-     */
-    getInsights(args = {}) {
+    listPrompts(args = {}) {
       return this._makeRequest({
-        path: "/apps/insights",
+        path: "/prompt",
         ...args,
       });
     },
     /**
-     * Retrieves exported media assets (e.g. SRT/VTT captions) from the apps endpoint.
-     * @param {object} [args={}] - Request options such as `params`, `headers`, and `$`.
-     * @returns {Promise<object|object[]>} The export response for the requested media.
-     */
-    getExport(args = {}) {
-      return this._makeRequest({
-        path: "/apps/export",
-        ...args,
-      });
-    },
-    /**
-     * Retrieves the AI Chat response history from the apps endpoint.
-     * @param {object} [args={}] - Request options such as `params`, `headers`, and `$`.
-     * @returns {Promise<object>} The response containing the prompt history list.
-     */
-    getPromptsHistory(args = {}) {
-      return this._makeRequest({
-        path: "/apps/prompts/history",
-        ...args,
-      });
-    },
-    /**
-     * Runs a Speak AI Chat against a folder and/or specific media.
+     * Runs a Speak AI Chat prompt against one or more media files.
      * @param {object} [args={}] - Request options; `data` carries the prompt payload.
-     * @returns {Promise<object>} The API response for the submitted prompt.
+     * @returns {Promise<object>} The API response containing the answer in `data`.
      */
     runPrompt(args = {}) {
       return this.post({
@@ -213,17 +172,31 @@ export default {
       });
     },
     /**
-     * Normalizes an apps-endpoint response (insights/export) to a single resource.
-     * These endpoints may return either an array of results or a single object.
-     * @param {object|object[]} results - The raw response from an apps endpoint.
-     * @param {object} [fallback] - Value returned when no result is present.
-     * @returns {object} The first available result, or `fallback` when none exists.
+     * Lists the media files in the account as prop options.
+     * @param {object} [opts={}] - The options context provided by the prop.
+     * @param {number} opts.page - The page of media files to list.
+     * @param {string} [opts.folderId] - Restricts the list to a single folder.
+     * @param {string} [opts.mediaType] - Restricts the list to `audio`, `video` or `text`.
+     * @returns {Promise<object[]>} Label/value pairs for each media file.
      */
-    firstResult(results, fallback) {
-      const first = Array.isArray(results)
-        ? results[0]
-        : results;
-      return first || fallback;
+    async listMediaOptions({
+      page, folderId, mediaType,
+    } = {}) {
+      const { data: { mediaList } } = await this.listMedia({
+        params: {
+          page,
+          pageSize: constants.DEFAULT_LIMIT,
+          folderId,
+          mediaType,
+        },
+      });
+      return mediaList.map(({
+        mediaId: value,
+        name: label,
+      }) => ({
+        label,
+        value,
+      }));
     },
   },
 };

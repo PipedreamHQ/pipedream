@@ -1,4 +1,4 @@
-import common from "../common/base.mjs";
+import common from "../common/webhook.mjs";
 import events from "../common/events.mjs";
 import sampleEmit from "./test-event.mjs";
 
@@ -6,7 +6,7 @@ export default {
   ...common,
   key: "speak_ai-new-transcription",
   name: "New Automated Transcription (Instant)",
-  description: "Emit new event when Speak AI finishes transcribing and analyzing a media file (`media.analyzed`, `media.reanalyzed`). [See the documentation](https://docs.speakai.co/).",
+  description: "Emit new event when Speak AI finishes transcribing a media file (`media.analyzed`, `media.reanalyzed`). [See the documentation](https://docs.speakai.co/api/media/#get-media-transcript-media-id).",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -18,18 +18,18 @@ export default {
         events.MEDIA_REANALYZED,
       ];
     },
-    getSummary(resource) {
-      return `New transcription for media ${resource.mediaId}`;
-    },
-    async hydrate(resource) {
-      const results = await this.app.getInsights({
-        params: {
-          insightType: "transcript",
-          mediaId: resource.mediaId,
-          pageSize: 1,
-        },
+    async getData(resource) {
+      const { data } = await this.app.getTranscript({
+        mediaId: resource.mediaId,
       });
-      return this.app.firstResult(results, resource);
+      return data;
+    },
+    generateMeta(resource) {
+      return {
+        id: this.getEventId(resource),
+        summary: `New Transcription: ${resource.mediaId}`,
+        ts: Date.now(),
+      };
     },
   },
   sampleEmit,
