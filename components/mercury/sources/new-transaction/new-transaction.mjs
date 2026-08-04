@@ -5,7 +5,7 @@ export default {
   key: "mercury-new-transaction",
   name: "New Transaction",
   description: "Emit new event for each transaction in an account. [See the documentation](https://docs.mercury.com/reference/listaccounttransactions)",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   type: "source",
   props: {
