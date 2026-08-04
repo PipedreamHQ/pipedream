@@ -41,6 +41,12 @@ export default {
       description: "Include CRM matches for each meeting. Only returns data from your or your team's linked CRM.",
       optional: true,
     },
+    teamName: {
+      type: "string",
+      label: "Team",
+      description: "Filter by team name, e.g. `Sales`. Use **List Teams** to find valid team names.",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
@@ -94,6 +100,47 @@ export default {
     }) {
       return this._makeRequest({
         path: `/recordings/${recordingId}/transcript`,
+        ...opts,
+      });
+    },
+    listTeams(opts = {}) {
+      return this._makeRequest({
+        path: "/teams",
+        ...opts,
+      });
+    },
+    listTeamMembers(opts = {}) {
+      return this._makeRequest({
+        path: "/team_members",
+        ...opts,
+      });
+    },
+    listMeetingTypes(opts = {}) {
+      return this._makeRequest({
+        path: "/meeting_types",
+        ...opts,
+      });
+    },
+    listUsers(opts = {}) {
+      return this._makeRequest({
+        path: "/users",
+        ...opts,
+      });
+    },
+    requestRecordingDownload({
+      recordingId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/recordings/${recordingId}/download`,
+        method: "POST",
+        ...opts,
+      });
+    },
+    getRecordingDownloadStatus({
+      recordingId, downloadId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/recordings/${recordingId}/downloads/${downloadId}`,
         ...opts,
       });
     },
