@@ -26,3 +26,25 @@ export const ORDER = [
   "asc",
   "desc",
 ];
+// Valid `purpose.simple.category` values for domestic-wire payments.
+export const PURPOSE_CATEGORIES = [
+  "employee",
+  "landlord",
+  "vendor",
+  "contractor",
+  "subsidiary",
+  "transferToMyExternalAccount",
+  "familyMemberOrFriend",
+  "forGoodsOrServices",
+  "angelInvestment",
+  "savingsOrInvestments",
+  "expenses",
+  "travel",
+  "other",
+];
+// Categories that require `purpose.simple.additionalInfo`.
+export const PURPOSE_ADDITIONAL_INFO_REQUIRED = [
+  "vendor",
+  "contractor",
+  "other",
+];

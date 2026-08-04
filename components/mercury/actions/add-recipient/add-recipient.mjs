@@ -77,11 +77,15 @@ export default {
     },
   },
   async run({ $ }) {
+    const accountNumber = this.accountNumber?.trim();
+    const routingNumber = this.routingNumber?.trim();
+    const electronicAccountType = this.electronicAccountType?.trim();
+    const address = this.address;
     const achFields = [
-      this.accountNumber,
-      this.routingNumber,
-      this.electronicAccountType,
-      this.address,
+      accountNumber,
+      routingNumber,
+      electronicAccountType,
+      address,
     ];
     const providedAch = achFields.filter((v) => v !== undefined && v !== null && v !== "").length;
     if (providedAch > 0 && providedAch < achFields.length) {
@@ -89,10 +93,10 @@ export default {
     }
     const electronicRoutingInfo = providedAch === achFields.length
       ? {
-        accountNumber: this.accountNumber,
-        routingNumber: this.routingNumber,
-        electronicAccountType: this.electronicAccountType,
-        address: this.address,
+        accountNumber,
+        routingNumber,
+        electronicAccountType,
+        address,
       }
       : undefined;
 

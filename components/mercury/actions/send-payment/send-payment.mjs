@@ -2,12 +2,16 @@
 import { randomUUID } from "crypto";
 import { ConfigurationError } from "@pipedream/platform";
 import mercury from "../../mercury.app.mjs";
-import { PAYMENT_METHODS } from "../../common/constants.mjs";
+import {
+  PAYMENT_METHODS,
+  PURPOSE_CATEGORIES,
+  PURPOSE_ADDITIONAL_INFO_REQUIRED,
+} from "../../common/constants.mjs";
 
 export default {
   key: "mercury-send-payment",
   name: "Send Payment",
-  description: "Create a payment transaction from a Mercury account to an existing recipient via ACH, check, or domestic wire. This endpoint requires the connected account's IP to be whitelisted; the transaction is created immediately (there is no scheduling parameter) and is returned in a `pending` or `sent` state — check the returned `status`. Run **List Accounts** for the account ID and **List Recipients** for the recipient ID. NOTE: scheduled/approval flows are a separate Mercury endpoint. Duplicate payments (same recipient, account, and amount within 24h) are rejected with HTTP 400. Example: call with `accountId=\"acc_9f2a...\"`, `recipientId=\"rec_1a2b...\"`, `amount=\"10.00\"`, and `paymentMethod=\"ach\"` -> returns the created transaction `{ id: \"txn_4b8c...\", status: \"pending\" }`. [See the documentation](https://docs.mercury.com/reference/createtransaction)",
+  description: "Create a payment transaction from a Mercury account to an existing recipient via ACH, check, or domestic wire. This endpoint requires the connected account's IP to be whitelisted; the transaction is submitted immediately (there is no scheduling parameter), but is returned in a `pending` state when the account's policy requires approval (otherwise `sent`) — check the returned `status`. Run **List Accounts** for the account ID and **List Recipients** for the recipient ID. NOTE: this only submits the payment; submitting a separate approval request is a different Mercury operation (`requestSendMoney`). Duplicate payments (same recipient, account, and amount within 24h) are rejected with HTTP 400. Example: call with `accountId=\"acc_9f2a...\"`, `recipientId=\"rec_1a2b...\"`, `amount=\"10.00\"`, and `paymentMethod=\"ach\"` -> returns the created transaction `{ id: \"txn_4b8c...\", status: \"pending\" }`. [See the documentation](https://docs.mercury.com/reference/createtransaction)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -56,7 +60,7 @@ export default {
     purpose: {
       type: "object",
       label: "Purpose",
-      description: "Wire purpose object, required only when `paymentMethod` is `domesticWire`. Example: `{\"code\":\"SVB_BUSINESS_PAYMENT\"}`.",
+      description: "Wire purpose, required when `paymentMethod` is `domesticWire`. Shape: `{ \"simple\": { \"category\": <one of employee, landlord, vendor, contractor, subsidiary, transferToMyExternalAccount, familyMemberOrFriend, forGoodsOrServices, angelInvestment, savingsOrInvestments, expenses, travel, other>, \"additionalInfo\": <string> } }`. `additionalInfo` is required for `vendor` (vendor name), `contractor` (contractor name), and `other` (payment description); optional for `subsidiary`; not accepted otherwise. Example: `{\"simple\":{\"category\":\"vendor\",\"additionalInfo\":\"Acme Supplies\"}}`.",
       optional: true,
     },
     idempotencyKey: {
@@ -71,6 +75,23 @@ export default {
     if (!/^\d+(\.\d+)?$/.test(this.amount.trim()) || !Number.isFinite(amount) || amount < 0.01) {
       throw new ConfigurationError(`**Amount** must be a decimal number of at least 0.01 (e.g. \`10.00\`), got \`${this.amount}\``);
     }
+
+    let purpose;
+    if (this.paymentMethod === "domesticWire" || this.purpose !== undefined) {
+      if (this.purpose === undefined) {
+        throw new ConfigurationError("**Purpose** is required when **Payment Method** is `domesticWire`.");
+      }
+      const category = this.purpose?.simple?.category;
+      const additionalInfo = this.purpose?.simple?.additionalInfo;
+      if (!category || !PURPOSE_CATEGORIES.includes(category)) {
+        throw new ConfigurationError(`**Purpose** must include \`simple.category\` set to one of: ${PURPOSE_CATEGORIES.join(", ")}.`);
+      }
+      if (PURPOSE_ADDITIONAL_INFO_REQUIRED.includes(category) && !additionalInfo) {
+        throw new ConfigurationError(`**Purpose** \`simple.additionalInfo\` is required for category \`${category}\`.`);
+      }
+      purpose = this.purpose;
+    }
+
     const idempotencyKey = this.idempotencyKey || randomUUID();
     const response = await this.mercury.createTransaction({
       $,
@@ -81,7 +102,7 @@ export default {
         paymentMethod: this.paymentMethod,
         note: this.note,
         externalMemo: this.externalMemo,
-        purpose: this.purpose,
+        purpose,
         idempotencyKey,
       },
     });
