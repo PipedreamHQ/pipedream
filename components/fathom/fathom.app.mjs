@@ -47,6 +47,12 @@ export default {
       description: "Filter by team name, e.g. `Sales`. Use **List Teams** to find valid team names.",
       optional: true,
     },
+    cursor: {
+      type: "string",
+      label: "Cursor",
+      description: "Opaque pagination cursor for fetching the next page of results. Use the `next_cursor` value returned in the previous response, e.g. `eyJwYWdlX251bSI6Mn0=`. Omit to fetch the first page.",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {

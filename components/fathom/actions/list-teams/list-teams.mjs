@@ -15,10 +15,10 @@ export default {
   props: {
     fathom,
     cursor: {
-      type: "string",
-      label: "Cursor",
-      description: "If continuing a previous request, the cursor to start from",
-      optional: true,
+      propDefinition: [
+        fathom,
+        "cursor",
+      ],
     },
   },
   async run({ $ }) {
