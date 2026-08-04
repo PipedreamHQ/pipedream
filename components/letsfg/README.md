@@ -13,9 +13,8 @@ terms.
 
 - **Fare watch to Slack** — Schedule → **Search Flights** → filter on price →
   post the cheapest offer to a channel when it drops below a threshold.
-- **Trip brief from a form** — HTTP trigger → **Resolve Location** →
-  **Search Flights** → **Resolve Hotel City** → **Search Hotels** → send one
-  email with both.
+- **Trip brief from a form** — HTTP trigger → **Search Flights** →
+  **Resolve Hotel City** → **Search Hotels** → send one email with both.
 - **Hotel availability sweep** — Schedule → **Search Hotels** across several
   cities → append rows to Google Sheets to track price movement for a date.
 - **Booking follow-up** — **Get Hotel Booking** on a stored job id → when it
@@ -37,6 +36,8 @@ terms.
 - **`401 Unauthorized`** — the key is missing or wrong. LetsFG also issues a
   free Bearer token for its CLI and agent path; that token does **not** work
   here. Use a Developer API key.
+- **Flights take IATA codes.** `LON`, `WAW`, `JFK`. City codes expand to every
+  airport in that city.
 - **`402 Payment Required`** on any hotel action — no payment method on file.
   Add a card to your LetsFG account; this applies to hotel search too, not only
   booking.
