@@ -4,11 +4,6 @@ export default {
   type: "app",
   app: "letsfg",
   propDefinitions: {
-    query: {
-      type: "string",
-      label: "Query",
-      description: "City or airport name to resolve, e.g. `London` or `Heathrow`.",
-    },
     origin: {
       type: "string",
       label: "Origin",
@@ -17,14 +12,14 @@ export default {
     destination: {
       type: "string",
       label: "Destination",
-      description: "Destination IATA code.",
+      description: "Destination IATA code, e.g. `BCN` or `NYC`.",
     },
-    departureDate: {
+    dateFrom: {
       type: "string",
       label: "Departure Date",
       description: "Departure date in `YYYY-MM-DD` format.",
     },
-    returnDate: {
+    returnFrom: {
       type: "string",
       label: "Return Date",
       description: "Return date in `YYYY-MM-DD` format. Leave empty for a one-way search.",
@@ -37,20 +32,62 @@ export default {
       optional: true,
       default: 1,
     },
+    children: {
+      type: "integer",
+      label: "Children",
+      description: "Number of child passengers.",
+      optional: true,
+      default: 0,
+    },
+    cabinClass: {
+      type: "string",
+      label: "Cabin Class",
+      description: "Preferred cabin.",
+      optional: true,
+      options: [
+        {
+          label: "Economy",
+          value: "M",
+        },
+        {
+          label: "Premium Economy",
+          value: "W",
+        },
+        {
+          label: "Business",
+          value: "C",
+        },
+        {
+          label: "First",
+          value: "F",
+        },
+      ],
+    },
     hotelText: {
       type: "string",
       label: "Place",
       description: "Place name to resolve to a supplier city id, e.g. `Warsaw`.",
     },
-    cityId: {
-      type: "integer",
-      label: "City ID",
-      description: "Supplier city id. Use the **Resolve Hotel City** action and take `Id` from the first result.",
-    },
-    cityName: {
+    city: {
       type: "string",
-      label: "City Name",
-      description: "City name as returned by **Resolve Hotel City**, e.g. `Warsaw, Poland`.",
+      label: "City",
+      description: "Start typing a place name to search. The supplier needs both an id and a name, so the value carries both as `id|Name` — you can also enter that form directly, e.g. `148614|Warsaw, Poland`.",
+      async options({ query }) {
+        if (!query) {
+          return [];
+        }
+        const { results = [] } = await this.resolveHotelCity({
+          data: {
+            text: query,
+          },
+        });
+        return results.map(({
+          Id: id, Name: name,
+        }) => ({
+          label: name,
+          value: `${id}|${name}`,
+        }));
+      },
     },
     checkIn: {
       type: "string",
@@ -101,14 +138,16 @@ export default {
         ...opts,
       });
     },
-    resolveLocation({
-      query, ...opts
-    }) {
-      return this._makeRequest({
-        path: `/flights/locations/${encodeURIComponent(query)}`,
-        ...opts,
-      });
-    },
+    /**
+     * Search flights across hundreds of airlines and the major booking sites.
+     *
+     * @param {object} opts - Request options.
+     * @param {object} opts.data - Search body: `origin`, `destination`,
+     * `date_from`, and optionally `return_from`, `adults`, `children`,
+     * `cabin_class`.
+     * @returns {Promise<object>} `search_id`, `offers[]`, `total_results`,
+     * `airlines_summary`.
+     */
     searchFlights(opts = {}) {
       return this._makeRequest({
         method: "POST",
@@ -120,6 +159,13 @@ export default {
         ...opts,
       });
     },
+    /**
+     * Resolve a place name to the supplier city id hotel search needs.
+     *
+     * @param {object} opts - Request options.
+     * @param {object} opts.data - Body with `text`, the place name.
+     * @returns {Promise<object>} `results[]`, each with `Id` and `Name`.
+     */
     resolveHotelCity(opts = {}) {
       return this._makeRequest({
         method: "POST",
@@ -127,6 +173,15 @@ export default {
         ...opts,
       });
     },
+    /**
+     * Search bookable hotel inventory. Only free-cancellation, pay-later rates
+     * are returned, so every result can actually be booked on those terms.
+     *
+     * @param {object} opts - Request options.
+     * @param {object} opts.data - Search body: `city_id`, `city_name`,
+     * `check_in`, `check_out`, and optionally `adults`, `nationality`, `limit`.
+     * @returns {Promise<object>} `session_id`, `currency`, `count`, `hotels[]`.
+     */
     searchHotels(opts = {}) {
       return this._makeRequest({
         method: "POST",
@@ -137,6 +192,14 @@ export default {
         ...opts,
       });
     },
+    /**
+     * Retrieve a hotel booking by the job id returned when it was started.
+     *
+     * @param {object} opts - Request options.
+     * @param {string} opts.bookingJobId - The `booking_job_id` to look up.
+     * @returns {Promise<object>} `status`, and once settled `confirmation`,
+     * `reservation_fee_charged`, `pay_link`, `balance_due`, `balance_due_by`.
+     */
     getHotelBooking({
       bookingJobId, ...opts
     }) {
