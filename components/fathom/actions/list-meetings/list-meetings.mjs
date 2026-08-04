@@ -4,7 +4,7 @@ export default {
   key: "fathom-list-meetings",
   name: "List Meetings",
   description: "List meetings. [See the documentation](https://developers.fathom.ai/api-reference/meetings/list-meetings)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
