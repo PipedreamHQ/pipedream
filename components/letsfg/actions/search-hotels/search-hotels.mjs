@@ -13,16 +13,10 @@ export default {
   type: "action",
   props: {
     app,
-    cityId: {
+    city: {
       propDefinition: [
         app,
-        "cityId",
-      ],
-    },
-    cityName: {
-      propDefinition: [
-        app,
-        "cityName",
+        "city",
       ],
     },
     checkIn: {
@@ -58,11 +52,21 @@ export default {
     },
   },
   async run({ $ }) {
+    // The supplier needs a numeric id AND the display name, so the option
+    // value carries both. Split on the first separator only — city names
+    // legitimately contain punctuation.
+    const separatorIndex = this.city.indexOf("|");
+    if (separatorIndex < 1) {
+      throw new Error("City must be in the form `id|Name`, e.g. `148614|Warsaw, Poland`. Pick a city from the dropdown, or use the Resolve Hotel City action to look one up.");
+    }
+    const cityId = parseInt(this.city.slice(0, separatorIndex), 10);
+    const cityName = this.city.slice(separatorIndex + 1);
+
     const response = await this.app.searchHotels({
       $,
       data: {
-        city_id: this.cityId,
-        city_name: this.cityName,
+        city_id: cityId,
+        city_name: cityName,
         check_in: this.checkIn,
         check_out: this.checkOut,
         adults: this.adults,
@@ -74,7 +78,7 @@ export default {
     const count = response?.count ?? 0;
     $.export("$summary", `Found ${count} bookable hotel${count === 1
       ? ""
-      : "s"} in ${this.cityName}`);
+      : "s"} in ${cityName}`);
 
     return response;
   },
