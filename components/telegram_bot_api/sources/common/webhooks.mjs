@@ -1,6 +1,9 @@
 import telegramBotApi from "../../telegram_bot_api.app.mjs";
 import constants from "./constants.mjs";
 import { v4 as uuid } from "uuid";
+import { ConfigurationError } from "@pipedream/platform";
+
+const PIPEDREAM_WEBHOOK_DOMAIN = "pipedream.net";
 
 export default {
   props: {
@@ -16,18 +19,24 @@ export default {
   hooks: {
     async deploy() {
       /**
-       * Telegram only supports a single webhook per bot. If a stale webhook
-       * from a previous deployment exists (e.g. the source was deleted without
-       * cleanly deactivating), remove it so this source can register its own.
-       * Without this cleanup, redeployment silently fails: activate() registers
-       * a new webhook URL and secret, but the old Pipedream source endpoint may
-       * still be alive with a different secret, causing the secret-token check
-       * in run() to reject every subsequent event.
+       * Telegram supports only one webhook per bot. If a stale Pipedream-owned
+       * webhook survives from a prior deploy (e.g. the source was removed with
+       * ignoreHookErrors so deactivate() never ran), clear it before registering
+       * the new one — otherwise activate() registers a new endpoint + secret while
+       * the old source endpoint stays alive with the old secret, causing run() to
+       * silently reject every incoming event.
+       *
+       * Non-Pipedream webhooks are left intact: the original ConfigurationError is
+       * preserved so users are warned before an external integration is disrupted.
        */
       const { result } = await this.telegramBotApi.getWebhookInfo();
       if (result.url?.length > 0) {
-        console.log(`Removing existing webhook (${result.url}) before deploying...`);
-        await this.telegramBotApi.deleteHook();
+        if (result.url.includes(PIPEDREAM_WEBHOOK_DOMAIN)) {
+          console.log(`Removing stale Pipedream webhook (${result.url}) before deploying...`);
+          await this.telegramBotApi.deleteHook();
+        } else {
+          throw new ConfigurationError("[Telegram only supports](https://core.telegram.org/bots/api#setwebhook) a single webhook at a time, for a given Bot. To get around this, you can reuse an existing Telegram Bot source or disable the active source and try again. [View all your sources here](https://pipedream.com/sources).");
+        }
       }
       /**
        * From the docs: https://core.telegram.org/bots/api#getting-updates
@@ -50,11 +59,16 @@ export default {
     async activate() {
       const secret = uuid();
       this.setSecret(secret);
-      // Delete any existing webhook first so activate() is idempotent.
-      // If a previous source sharing this bot token was not cleanly deactivated
-      // (e.g. deleted with ignoreHookErrors), its webhook survives and the
-      // new secret registered here will never match incoming requests.
-      await this.telegramBotApi.deleteHook();
+      /**
+       * Clear any stale Pipedream-owned webhook before registering the new one.
+       * This ensures the new secret is always authoritative. Non-Pipedream webhooks
+       * are not explicitly deleted here — deploy() guards that path — and Telegram's
+       * setWebhook call below replaces whatever is registered regardless.
+       */
+      const { result } = await this.telegramBotApi.getWebhookInfo();
+      if (!result.url?.length || result.url.includes(PIPEDREAM_WEBHOOK_DOMAIN)) {
+        await this.telegramBotApi.deleteHook();
+      }
       await this.telegramBotApi.createHook(this.http.endpoint, this.getEventTypes(), secret);
     },
     async deactivate() {
