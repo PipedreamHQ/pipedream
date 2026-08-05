@@ -68,11 +68,17 @@ export default {
         "includeArchived",
       ],
     },
-    fields: fields.fieldsProp({
-      resource: "workflow states",
-      compact: COMPACT_FIELDS,
-      guidance: "The nested `team` object is repeated on every state and is the bulk of an unfiltered response; request it only when you need to know which team a state belongs to.",
-    }),
+    fields: {
+      propDefinition: [
+        linearApp,
+        "fields",
+      ],
+      description: fields.fieldsDescription({
+        resource: "workflow states",
+        compact: COMPACT_FIELDS,
+        guidance: "The nested `team` object is repeated on every state and is the bulk of an unfiltered response; request it only when you need to know which team a state belongs to.",
+      }),
+    },
   },
   async run({ $ }) {
     const variables = {

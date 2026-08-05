@@ -81,11 +81,17 @@ export default {
       description: "The cursor to return the next page of projects",
       optional: true,
     },
-    fields: fields.fieldsProp({
-      resource: "projects",
-      compact: COMPACT_FIELDS,
-      guidance: "The `*History` arrays (`issueCountHistory`, `scopeHistory`, `completedScopeHistory`, `completedIssueCountHistory`, `inProgressScopeHistory`) are the bulk of the response — request them only when charting a project's progress over time.",
-    }),
+    fields: {
+      propDefinition: [
+        linearApp,
+        "fields",
+      ],
+      description: fields.fieldsDescription({
+        resource: "projects",
+        compact: COMPACT_FIELDS,
+        guidance: "The `*History` arrays (`issueCountHistory`, `scopeHistory`, `completedScopeHistory`, `completedIssueCountHistory`, `inProgressScopeHistory`) are the bulk of the response — request them only when charting a project's progress over time.",
+      }),
+    },
   },
   async run({ $ }) {
     const variables = utils.buildVariables(this.after, {

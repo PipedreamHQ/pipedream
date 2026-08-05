@@ -98,11 +98,17 @@ export default {
       ],
       description: "Maximum issues to return across all pages. Defaults to 25 when a `query` is given and 20 when it is not. Raise it only when you genuinely need more, and pair a raised limit with `fields: \"compact\"` — full-width issues in the hundreds will not fit in an AI agent's tool result.",
     },
-    fields: fields.fieldsProp({
-      resource: "issues",
-      compact: fieldSets.issue.compact,
-      guidance: fieldSets.issue.guidance,
-    }),
+    fields: {
+      propDefinition: [
+        linearApp,
+        "fields",
+      ],
+      description: fields.fieldsDescription({
+        resource: "issues",
+        compact: fieldSets.issue.compact,
+        guidance: fieldSets.issue.guidance,
+      }),
+    },
   },
   async run({ $ }) {
     const issues = [];

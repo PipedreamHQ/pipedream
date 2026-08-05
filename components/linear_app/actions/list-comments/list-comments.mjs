@@ -86,11 +86,17 @@ export default {
       description: "The cursor to return the next page of comments",
       optional: true,
     },
-    fields: fields.fieldsProp({
-      resource: "comments",
-      compact: COMPACT_FIELDS,
-      guidance: "The nested `issue` object and `reactionData` are repeated on every comment; request them only when you need more than the thread itself.",
-    }),
+    fields: {
+      propDefinition: [
+        linearApp,
+        "fields",
+      ],
+      description: fields.fieldsDescription({
+        resource: "comments",
+        compact: COMPACT_FIELDS,
+        guidance: "The nested `issue` object and `reactionData` are repeated on every comment; request them only when you need more than the thread itself.",
+      }),
+    },
   },
   async run({ $ }) {
     const variables = {

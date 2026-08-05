@@ -45,11 +45,17 @@ export default {
       description: "The cursor to return the next page of issues",
       optional: true,
     },
-    fields: fields.fieldsProp({
-      resource: "issues",
-      compact: fieldSets.issue.compact,
-      guidance: fieldSets.issue.guidance,
-    }),
+    fields: {
+      propDefinition: [
+        linearApp,
+        "fields",
+      ],
+      description: fields.fieldsDescription({
+        resource: "issues",
+        compact: fieldSets.issue.compact,
+        guidance: fieldSets.issue.guidance,
+      }),
+    },
   },
   async run({ $ }) {
     const { filterData } = await this.linearApp.getCustomView(this.viewId);

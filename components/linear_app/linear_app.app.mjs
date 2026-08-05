@@ -8,6 +8,20 @@ export default {
   type: "app",
   app: "linear_app",
   propDefinitions: {
+    // Shared by every action that returns a collection of records. The schema lives
+    // here because a prop used by more than one component belongs in the app file;
+    // each action overrides `description` with its own resource's compact set and
+    // expensive fields (built by common/fields.mjs `fieldsDescription`).
+    //
+    // No `options()`: the valid values differ per resource and are enumerated in the
+    // per-action description, and an async options call would not be reachable over
+    // MCP anyway.
+    fields: {
+      type: "string",
+      label: "Fields",
+      description: "Which fields to return for each record, as a comma-separated list. Shorthand: `compact` returns a small curated set. The `id` is always returned. Leave blank to return every field (the default, and the largest possible response).",
+      optional: true,
+    },
     teamId: {
       type: "string",
       label: "Team",

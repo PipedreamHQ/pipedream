@@ -25,20 +25,19 @@ import { ConfigurationError } from "@pipedream/platform";
 /**
  * Build the `fields` prop for an action.
  *
+ * The prop SCHEMA lives in the app file's `propDefinitions` (shared by every action
+ * that returns a record collection); this builds only the per-resource description
+ * that overrides it, naming that resource's compact set and its expensive fields.
+ *
  * @param {object} options
  * @param {string} options.resource - plural resource name used in the description ("teams")
  * @param {string[]} options.compact - what `compact` expands to
  * @param {string} options.guidance - one sentence naming this resource's expensive fields
  */
-function fieldsProp({
+function fieldsDescription({
   resource, compact, guidance,
 }) {
-  return {
-    type: "string",
-    label: "Fields",
-    description: `Which fields to return for each of the ${resource}, as a comma-separated list (e.g. \`${compact.slice(0, 3).join(",")}\`) — use this to keep the response small enough to work with. Shorthand: \`compact\` returns \`${compact.join(",")}\`, which is what most questions about ${resource} need. ${guidance} The \`id\` is always returned, so the record can still be referenced by later actions without listing again. **Leave blank to return every field** (the default, and the largest possible response).`,
-    optional: true,
-  };
+  return `Which fields to return for each of the ${resource}, as a comma-separated list (e.g. \`${compact.slice(0, 3).join(",")}\`) — use this to keep the response small enough to work with. Shorthand: \`compact\` returns \`${compact.join(",")}\`, which is what most questions about ${resource} need. ${guidance} The \`id\` is always returned, so the record can still be referenced by later actions without listing again. **Leave blank to return every field** (the default, and the largest possible response).`;
 }
 
 /** Parse the raw prop value into a field list, or undefined when blank. */
@@ -122,7 +121,7 @@ function projectRecords(records, raw, {
 }
 
 export default {
-  fieldsProp,
+  fieldsDescription,
   parseFields,
   projectRecords,
 };

@@ -75,11 +75,17 @@ export default {
       description: "The cursor to return the next page of initiatives",
       optional: true,
     },
-    fields: fields.fieldsProp({
-      resource: "initiatives",
-      compact: COMPACT_FIELDS,
-      guidance: "`content` is the initiative's full markdown body and is usually the largest field; request it only when the initiative's write-up is what you need.",
-    }),
+    fields: {
+      propDefinition: [
+        linearApp,
+        "fields",
+      ],
+      description: fields.fieldsDescription({
+        resource: "initiatives",
+        compact: COMPACT_FIELDS,
+        guidance: "`content` is the initiative's full markdown body and is usually the largest field; request it only when the initiative's write-up is what you need.",
+      }),
+    },
   },
   async run({ $ }) {
     const variables = {
