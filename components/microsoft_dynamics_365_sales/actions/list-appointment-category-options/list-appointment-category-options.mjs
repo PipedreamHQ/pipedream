@@ -4,7 +4,7 @@ export default {
   key: "microsoft_dynamics_365_sales-list-appointment-category-options",
   name: "List Appointment Category Options",
   description: "Retrieves available options for the Category of appointment field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
