@@ -72,11 +72,17 @@ export default {
       description: "The cursor to return the next page of views",
       optional: true,
     },
-    fields: fields.fieldsProp({
-      resource: "views",
-      compact: COMPACT_FIELDS,
-      guidance: "`filterData`, `projectFilterData` and `filters` are serialized filter definitions and are the bulk of the response; request them only when inspecting how a view is configured.",
-    }),
+    fields: {
+      propDefinition: [
+        linearApp,
+        "fields",
+      ],
+      description: fields.fieldsDescription({
+        resource: "views",
+        compact: COMPACT_FIELDS,
+        guidance: "`filterData`, `projectFilterData` and `filters` are serialized filter definitions and are the bulk of the response; request them only when inspecting how a view is configured.",
+      }),
+    },
   },
   async run({ $ }) {
     const variables = {

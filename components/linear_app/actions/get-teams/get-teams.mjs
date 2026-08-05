@@ -64,11 +64,17 @@ export default {
       ],
       description: "Maximum number of teams to return. Defaults to 20 if not specified.",
     },
-    fields: fields.fieldsProp({
-      resource: "teams",
-      compact: COMPACT_FIELDS,
-      guidance: "Cycle settings (`cycleDuration`, `cycleCooldownTime`, `cycleStartDay`, …) and the auto-archive/auto-close periods are what make this response large; request them only when the question is about a team's configuration.",
-    }),
+    fields: {
+      propDefinition: [
+        linearApp,
+        "fields",
+      ],
+      description: fields.fieldsDescription({
+        resource: "teams",
+        compact: COMPACT_FIELDS,
+        guidance: "Cycle settings (`cycleDuration`, `cycleCooldownTime`, `cycleStartDay`, …) and the auto-archive/auto-close periods are what make this response large; request them only when the question is about a team's configuration.",
+      }),
+    },
   },
   async run({ $ }) {
     // Use the specified limit or default to a reasonable number
