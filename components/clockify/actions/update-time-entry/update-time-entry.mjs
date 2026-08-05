@@ -94,7 +94,7 @@ export default {
       && !this.taskId
       && !this.start
       && !this.end
-      && !this.timeEntryDescription
+      && this.timeEntryDescription === undefined
       && this.billable === undefined
       && !this.tagIds
       && !this.timeEntryType) {
@@ -116,7 +116,7 @@ export default {
         end: this.end || entry.timeInterval?.end,
         projectId: this.projectId || entry.projectId,
         taskId: this.taskId || entry.taskId,
-        description: this.timeEntryDescription || entry.description,
+        description: this.timeEntryDescription ?? entry.description,
         billable: this.billable ?? entry.billable,
         tagIds: this.tagIds || entry.tagIds,
         type: this.timeEntryType,

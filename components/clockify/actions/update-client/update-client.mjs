@@ -57,7 +57,10 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.name && !this.address && !this.note && this.archived === undefined) {
+    if (this.name === undefined
+      && this.address === undefined
+      && this.note === undefined
+      && this.archived === undefined) {
       throw new ConfigurationError("Set at least one field to update.");
     }
 

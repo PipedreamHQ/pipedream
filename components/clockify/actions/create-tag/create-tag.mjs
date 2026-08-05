@@ -4,7 +4,7 @@ import clockify from "../../clockify.app.mjs";
 export default {
   key: "clockify-create-tag",
   name: "Create Tag",
-  description: "Creates a new tag in a Clockify workspace. [See the documentation](https://docs.clockify.me/#tag/Tag)",
+  description: "Creates a new tag in a Clockify workspace. Requires the tag name. [See the documentation](https://docs.clockify.me/#tag/Tag)",
   version: "0.0.1",
   type: "action",
   annotations: {
