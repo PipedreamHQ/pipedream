@@ -5,6 +5,22 @@ import { ConfigurationError } from "@pipedream/platform";
 
 const PIPEDREAM_WEBHOOK_DOMAIN = "pipedream.net";
 
+/**
+ * Returns true only when `url` is hosted on a pipedream.net subdomain or
+ * exactly on pipedream.net itself. Parsing the hostname prevents path-based
+ * spoofing (e.g. https://evil.com/pipedream.net would pass a naive .includes()
+ * check but fails here because the hostname is evil.com).
+ */
+function isPipedreamWebhook(url) {
+  try {
+    const { hostname } = new URL(url);
+    return hostname === PIPEDREAM_WEBHOOK_DOMAIN
+      || hostname.endsWith(`.${PIPEDREAM_WEBHOOK_DOMAIN}`);
+  } catch {
+    return false;
+  }
+}
+
 export default {
   props: {
     telegramBotApi,
@@ -31,7 +47,7 @@ export default {
        */
       const { result } = await this.telegramBotApi.getWebhookInfo();
       if (result.url?.length > 0) {
-        if (result.url.includes(PIPEDREAM_WEBHOOK_DOMAIN)) {
+        if (isPipedreamWebhook(result.url)) {
           console.log(`Removing stale Pipedream webhook (${result.url}) before deploying...`);
           await this.telegramBotApi.deleteHook();
         } else {
@@ -61,13 +77,17 @@ export default {
       this.setSecret(secret);
       /**
        * Clear any stale Pipedream-owned webhook before registering the new one.
-       * This ensures the new secret is always authoritative. Non-Pipedream webhooks
-       * are not explicitly deleted here — deploy() guards that path — and Telegram's
-       * setWebhook call below replaces whatever is registered regardless.
+       * If the existing webhook belongs to an external (non-Pipedream) service,
+       * throw ConfigurationError — Telegram's setWebhook would overwrite it
+       * otherwise, silently breaking the external integration.
        */
       const { result } = await this.telegramBotApi.getWebhookInfo();
-      if (!result.url?.length || result.url.includes(PIPEDREAM_WEBHOOK_DOMAIN)) {
-        await this.telegramBotApi.deleteHook();
+      if (result.url?.length > 0) {
+        if (isPipedreamWebhook(result.url)) {
+          await this.telegramBotApi.deleteHook();
+        } else {
+          throw new ConfigurationError("[Telegram only supports](https://core.telegram.org/bots/api#setwebhook) a single webhook at a time, for a given Bot. To get around this, you can reuse an existing Telegram Bot source or disable the active source and try again. [View all your sources here](https://pipedream.com/sources).");
+        }
       }
       await this.telegramBotApi.createHook(this.http.endpoint, this.getEventTypes(), secret);
     },
