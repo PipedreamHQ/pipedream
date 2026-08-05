@@ -110,6 +110,12 @@ export default {
         headers: this._getHeaders(),
       };
     },
+    _makeRequest(ctx, opts) {
+      return axios(
+        ctx,
+        this._getRequestParams(opts),
+      );
+    },
     async paginate(fn, params, ...rest) {
       let data = [];
       let nextPageToken = null;
@@ -135,103 +141,73 @@ export default {
       return data;
     },
     async getTaskLists(ctx = this, params = {}) {
-      return axios(
-        ctx,
-        this._getRequestParams({
-          path: "/users/@me/lists",
-          method: "GET",
-          params,
-        }),
-      );
+      return this._makeRequest(ctx, {
+        path: "/users/@me/lists",
+        method: "GET",
+        params,
+      });
     },
     async insertTaskList(ctx = this, data) {
-      return axios(
-        ctx,
-        this._getRequestParams({
-          path: "/users/@me/lists",
-          method: "POST",
-          data,
-        }),
-      );
+      return this._makeRequest(ctx, {
+        path: "/users/@me/lists",
+        method: "POST",
+        data,
+      });
     },
     async updateTaskList(ctx = this, data) {
-      return axios(
-        ctx,
-        this._getRequestParams({
-          path: `/users/@me/lists/${data.id}`,
-          method: "PUT",
-          data,
-        }),
-      );
+      return this._makeRequest(ctx, {
+        path: `/users/@me/lists/${data.id}`,
+        method: "PUT",
+        data,
+      });
     },
     async deleteTaskList(ctx = this, id) {
-      return axios(
-        ctx,
-        this._getRequestParams({
-          path: `/users/@me/lists/${id}`,
-          method: "DELETE",
-        }),
-      );
+      return this._makeRequest(ctx, {
+        path: `/users/@me/lists/${id}`,
+        method: "DELETE",
+      });
     },
     async insertTask(ctx = this, taskListId, data, params = {}) {
-      return axios(
-        ctx,
-        this._getRequestParams({
-          path: `/lists/${taskListId}/tasks`,
-          method: "POST",
-          data,
-          params,
-        }),
-      );
+      return this._makeRequest(ctx, {
+        path: `/lists/${taskListId}/tasks`,
+        method: "POST",
+        data,
+        params,
+      });
     },
     async getTasks(ctx = this, params, taskListId) {
-      return axios(
-        ctx,
-        this._getRequestParams({
-          path: `/lists/${taskListId}/tasks`,
-          method: "GET",
-          params,
-        }),
-      );
+      return this._makeRequest(ctx, {
+        path: `/lists/${taskListId}/tasks`,
+        method: "GET",
+        params,
+      });
     },
     async updateTask(ctx = this, taskListId, taskId, data) {
-      return axios(
-        ctx,
-        this._getRequestParams({
-          path: `/lists/${taskListId}/tasks/${taskId}`,
-          method: "PUT",
-          data,
-        }),
-      );
+      return this._makeRequest(ctx, {
+        path: `/lists/${taskListId}/tasks/${taskId}`,
+        method: "PUT",
+        data,
+      });
     },
     async patchTask(ctx = this, taskListId, taskId, data) {
-      return axios(
-        ctx,
-        this._getRequestParams({
-          path: `/lists/${taskListId}/tasks/${taskId}`,
-          method: "PATCH",
-          data,
-        }),
-      );
+      return this._makeRequest(ctx, {
+        path: `/lists/${taskListId}/tasks/${taskId}`,
+        method: "PATCH",
+        data,
+      });
     },
     async deleteTask(ctx = this, taskListId, taskId) {
-      return axios(
-        ctx,
-        this._getRequestParams({
-          path: `/lists/${taskListId}/tasks/${taskId}`,
-          method: "DELETE",
-        }),
-      );
+      return this._makeRequest(ctx, {
+        path: `/lists/${taskListId}/tasks/${taskId}`,
+        method: "DELETE",
+      });
     },
     async moveTask(ctx = this, taskListId, taskId, params = {}) {
-      return axios(
-        ctx,
-        this._getRequestParams({
-          path: `/lists/${taskListId}/tasks/${taskId}/move`,
-          method: "POST",
-          params,
-        }),
-      );
+      return this._makeRequest(ctx, {
+        path: `/lists/${taskListId}/tasks/${taskId}/move`,
+        method: "POST",
+        params,
+      });
     },
   },
 };
