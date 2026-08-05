@@ -6,7 +6,7 @@ export default {
   key: "google_tasks-search-tasks",
   name: "Search Tasks",
   description:
-    "Searches tasks across all task lists using a keyword, due date, or both. Use this action to find tasks that match specific criteria without modifying them. To create, update, complete, or move tasks, use the corresponding task actions instead. [See the docs here](https://developers.google.com/workspace/tasks/reference/rest)",
+    "Searches tasks across all task lists using a keyword, due date, or both. Use this action to find tasks that match specific criteria without modifying them. To create, update, complete, or move tasks, use the **Create Task**, **Update Task**, **Complete Task**, or **Move Task** actions. [See the documentation](https://developers.google.com/workspace/tasks/reference/rest/v1/tasks/list)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -57,6 +57,7 @@ export default {
     const params = {
       maxResults: this.maxResults,
       showCompleted: this.showCompleted,
+      showHidden: this.showCompleted,
       showDeleted: this.showDeleted,
     };
 
