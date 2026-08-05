@@ -100,15 +100,22 @@ function projectRecords(records, raw, {
     for (const field of fields) {
       if (field === "id") continue;
       const value = record?.[field];
-      if (value === undefined) continue;
-      // Skip @linear/sdk lazy relation getters. On an SDK model, `comment.user` is a
-      // getter returning a LinearFetch promise, not the user — projecting it emits a
-      // pending promise where the caller expects data. The serialized response carries
-      // those relations under `_user` / `_issue` instead, so a caller who wants them
-      // should name those. Measured: `user` in the comment compact set came back as an
-      // unresolved promise while the bare response had no `user` key at all.
-      if (typeof value?.then === "function" || typeof value === "function") continue;
-      projected[field] = value;
+      // Resolve @linear/sdk lazy relation getters. On an SDK model, `comment.user` is
+      // a getter returning a LinearFetch promise rather than the user, so projecting
+      // it directly emits a pending promise where the caller expects data. The
+      // serialized record carries the same relation under `_user` / `_issue`, so fall
+      // back to that and return it under the name the caller asked for.
+      //
+      // Falling back rather than skipping matters: the field lists accept `user`, so
+      // skipping made `fields: "user"` validate happily and then return records
+      // containing nothing but an id — a silent wrong answer, which is exactly the
+      // failure mode this whole prop exists to prevent.
+      const lazy = typeof value?.then === "function" || typeof value === "function";
+      const resolved = lazy
+        ? record?.[`_${field}`]
+        : value;
+      if (resolved === undefined) continue;
+      projected[field] = resolved;
     }
     return projected;
   });

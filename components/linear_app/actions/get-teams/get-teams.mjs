@@ -47,7 +47,7 @@ const COMPACT_FIELDS = [
 export default {
   key: "linear_app-get-teams",
   name: "Get Teams",
-  description: "Retrieves all teams in your Linear workspace. Returns array of team objects with details like ID, name, and key. Supports pagination with configurable limit. Uses API Key authentication. **Response size matters here:** by default every field of every team is returned — cycle configuration, auto-archive periods, invite hashes — which runs ~1.5 KB per team, so a workspace with a few dozen teams can overflow an AI agent's context window. Most callers want a team's `id` to pass to a team-scoped action: `fields: \"compact\"` returns just `id,name,key,description`. See Linear docs for additional info [here](https://linear.app/developers/graphql).",
+  description: "Retrieves all teams in your Linear workspace. Returns array of team objects with details like ID, name, and key. Supports pagination with configurable limit. Uses API Key authentication. **Response size matters here:** by default every field of every team is returned — cycle configuration, auto-archive periods, invite hashes — which runs ~1.5 KB per team, so a workspace with a few dozen teams can overflow an AI agent's context window. Most callers want a team's `id` to pass to a team-scoped action: `fields: \"compact\"` returns just `id,name,key,description`. [See the documentation](https://linear.app/developers/graphql)",
   version: "0.3.0",
   annotations: {
     destructiveHint: false,

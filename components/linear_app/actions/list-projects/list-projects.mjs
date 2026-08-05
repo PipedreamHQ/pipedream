@@ -43,7 +43,7 @@ const COMPACT_FIELDS = [
 export default {
   key: "linear_app-list-projects",
   name: "List Projects",
-  description: "List projects in Linear. **Response size matters here:** by default every field of every project is returned, including five per-project time-series arrays (`issueCountHistory`, `scopeHistory`, `completedScopeHistory`, `completedIssueCountHistory`, `inProgressScopeHistory`) that dominate the payload — measured at ~1 KB per project, so even a handful of projects can crowd out an AI agent's context. `fields: \"compact\"` returns `id,name,description,state,status,progress`, which is what a question about projects normally needs. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/ProjectConnection?query=projects).",
+  description: "List projects in Linear. **Response size matters here:** by default every field of every project is returned, including five per-project time-series arrays (`issueCountHistory`, `scopeHistory`, `completedScopeHistory`, `completedIssueCountHistory`, `inProgressScopeHistory`) that dominate the payload — measured at ~1 KB per project, so even a handful of projects can crowd out an AI agent's context. `fields: \"compact\"` returns `id,name,description,state,status,progress`, which is what a question about projects normally needs. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/ProjectConnection?query=projects)",
   type: "action",
   version: "0.2.0",
   annotations: {

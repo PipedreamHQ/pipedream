@@ -20,20 +20,20 @@ const COMMENT_FIELDS = [
   "user",
 ];
 
-// Enough to read a discussion thread. Deliberately NOT `user`: on the SDK model that
-// is a lazy relation getter, and the serialized response exposes the author under
-// `_user` instead — naming `user` here produced an unresolved promise in the output.
+// Enough to read a discussion thread and know who said what. `user` is an SDK lazy
+// relation getter; projectRecords resolves it from the serialized `_user` so it comes
+// back as the author object rather than a pending promise.
 const COMPACT_FIELDS = [
   "id",
   "body",
+  "user",
   "createdAt",
-  "url",
 ];
 
 export default {
   key: "linear_app-list-comments",
   name: "List Comments",
-  description: "List comments in Linear. **Pass `issueId` to read one issue's discussion** — resolve the issue first with **Search Issues** or **Get Issue**. Without it this searches comments across the ENTIRE workspace, and a `body` search alone will surface unrelated comments from other teams that happen to share a word. **Response size matters here:** comment bodies are free text and each comment carries nested `user`, `issue` and `reactionData`; pass `fields: \"compact\"` (`id,body,createdAt,url`) to read a thread without the surrounding metadata. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=comments)",
+  description: "List comments in Linear. **Pass `issueId` to read one issue's discussion** — resolve the issue first with **Search Issues** or **Get Issue**. Without it this searches comments across the ENTIRE workspace, and a `body` search alone will surface unrelated comments from other teams that happen to share a word. **Response size matters here:** comment bodies are free text and each comment carries nested `user`, `issue` and `reactionData`; pass `fields: \"compact\"` (`id,body,user,createdAt`) to read a thread without the surrounding metadata. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=comments)",
   version: "0.2.2",
   type: "action",
   annotations: {

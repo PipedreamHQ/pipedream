@@ -26,7 +26,7 @@ const COMPACT_FIELDS = [
 export default {
   key: "linear_app-list-workflow-states",
   name: "List Workflow States",
-  description: "List workflow states (statuses) in Linear. Returns state IDs, names, types (e.g. backlog, started, completed, cancelled), and team info. Optionally filter by team (use the **Get Teams** action to discover valid team IDs, e.g. `4e80f53c-da9e-4dee-b14e-2cab3e2e8716`). **Response size matters here:** every state carries a nested `team` object, so an unfiltered call returns states × teams and grows with the size of the workspace — measured at 22 KB on a real one. Filter by `teamId` when you know the team, and pass `fields: \"compact\"` (`id,name,type`) when you just need a state id to move an issue to. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=workflowStates).",
+  description: "List workflow states (statuses) in Linear. Returns state IDs, names, types (e.g. backlog, started, completed, cancelled), and team info. Optionally filter by team (use the **Get Teams** action to discover valid team IDs, e.g. `4e80f53c-da9e-4dee-b14e-2cab3e2e8716`). **Response size matters here:** every state carries a nested `team` object, so an unfiltered call returns states × teams and grows with the size of the workspace — measured at 22 KB on a real one. Filter by `teamId` when you know the team, and pass `fields: \"compact\"` (`id,name,type`) when you just need a state id to move an issue to. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=workflowStates)",
   version: "0.2.0",
   type: "action",
   annotations: {
