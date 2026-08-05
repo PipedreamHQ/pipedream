@@ -17,7 +17,7 @@ export default {
     statusId: {
       type: "string",
       label: "Status ID",
-      description: "The status ID returned by **Trigger Update** or **Trigger Preview Deployment**.",
+      description: "The opaque status ID returned by **Trigger Update** or **Trigger Preview Deployment**, e.g. `status-123abc`.",
     },
   },
   async run({ $ }) {
