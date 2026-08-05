@@ -45,13 +45,13 @@ export default {
     issueDate: {
       type: "string",
       label: "Issue Date",
-      description: "Issue date of the invoice, in `YYYY-MM-DD` format. Example: `2024-01-15`",
+      description: "Issue date of the invoice, in ISO 8601 format. Example: `2024-01-15T00:00:00Z`",
       optional: true,
     },
     dueDate: {
       type: "string",
       label: "Due Date",
-      description: "Due date of the invoice, in `YYYY-MM-DD` format. Example: `2024-02-15`",
+      description: "Due date of the invoice, in ISO 8601 format. Example: `2024-02-15T00:00:00Z`",
       optional: true,
     },
     currency: {
