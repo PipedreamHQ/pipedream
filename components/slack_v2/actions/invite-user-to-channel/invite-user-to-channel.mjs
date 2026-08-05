@@ -5,7 +5,7 @@ export default {
   key: "slack_v2-invite-user-to-channel",
   name: "Invite User to Channel",
   description: "Invite one or more users to an existing channel. Accepts a channel ID or NAME, and a user ID, EMAIL address or display name — all resolved automatically. Pass several users as a comma-separated list. [See the documentation](https://api.slack.com/methods/conversations.invite)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -43,6 +43,12 @@ export default {
       throw new ConfigurationError(`No valid user was resolved from "${this.user}". Provide a user ID, an email address, or a display name.`);
     }
 
+    // already_in_channel means the invite is a no-op because the user's already a member.
+    // cant_invite_self means the resolved user IS the calling identity — Slack refuses to
+    // let an identity invite itself, which reads the same way to the caller: the user is
+    // already effectively "in" the channel via that identity, no action needed.
+    const isNoopOutcome = (error) => `${error}`.includes("already_in_channel") || `${error}`.includes("cant_invite_self");
+
     if (userIds.length === 1) {
       try {
         const response = await this.slack.inviteToConversation({
@@ -52,7 +58,7 @@ export default {
         $.export("$summary", `Successfully invited user ${this.user} to channel with ID ${channel}`);
         return response;
       } catch (error) {
-        if (`${error}`.includes("already_in_channel")) {
+        if (isNoopOutcome(error)) {
           $.export("$summary", `The user ${this.user} is already in the channel`);
           return;
         }
@@ -60,10 +66,10 @@ export default {
       }
     }
 
-    // already_in_channel can only be safely swallowed for a single-user request. For
-    // multiple users, one bad token turning the whole request into "success" would hide
-    // that the others were never invited, so each user is invited individually and
-    // reported on its own.
+    // already_in_channel/cant_invite_self can only be safely swallowed for a single-user
+    // request. For multiple users, one bad token turning the whole request into "success"
+    // would hide that the others were never invited, so each user is invited individually
+    // and reported on its own.
     const results = [];
     for (const userId of userIds) {
       try {
@@ -78,7 +84,7 @@ export default {
       } catch (error) {
         results.push({
           user: userId,
-          status: `${error}`.includes("already_in_channel")
+          status: isNoopOutcome(error)
             ? "already_in_channel"
             : "error",
           error: `${error}`,

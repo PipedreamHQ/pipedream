@@ -7,10 +7,11 @@ export default {
     "Permanently delete a message. **This cannot be undone — confirm the exact message with the"
     + " user before calling it.** Identify the message first with **Get Channel History** or"
     + " **Search** and quote its text back, rather than deleting by position ('the last one')."
-    + " Slack only lets an identity delete its own messages, so this deletes as whichever"
-    + " identity posted: it retries automatically with the other identity if the first attempt"
-    + " returns `cant_delete_message`. [See the documentation](https://api.slack.com/methods/chat.delete)",
-  version: "0.2.0",
+    + " Accepts a channel ID or NAME for the conversation, resolved automatically. Slack only"
+    + " lets an identity delete its own messages, so this deletes as whichever identity posted:"
+    + " it retries automatically with the other identity if the first attempt returns"
+    + " `cant_delete_message`. [See the documentation](https://api.slack.com/methods/chat.delete)",
+  version: "0.2.1",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -40,6 +41,11 @@ export default {
     },
   },
   async run({ $ }) {
+    // conversation accepts a channel name as well as an ID (like every other AI-optimized
+    // action in this app) — resolve it once up front so both delete attempts below reuse
+    // the same ID instead of re-resolving (or silently failing on a name) per attempt.
+    const channel = await this.slack.resolveChannelId(this.conversation);
+
     // Slack refuses `chat.delete` unless the calling identity authored the message, and
     // this app picks the token from `as_user`: false routes to the BOT token, true/unset
     // to the USER token. post-message sends no as_user, so it posts as the USER — meaning
@@ -48,7 +54,7 @@ export default {
     // time with cant_delete_message. Rather than flip the default (a behaviour change for
     // existing workflows), try the configured identity and fall back to the other one.
     const attempt = (as_user) => this.slack.deleteMessage({
-      channel: this.conversation,
+      channel,
       ts: this.timestamp,
       as_user,
     });
