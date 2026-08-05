@@ -59,7 +59,7 @@ export default {
         clockify,
         "start",
       ],
-      description: "Start date and time of the timer, in ISO 8601 format. Example: `2024-01-01T09:00:00Z`. Defaults to the current time if left blank.",
+      description: "Start date and time of the timer, in ISO 8601 format. Example: `2026-08-05T09:00:00Z`. Defaults to the current time if left blank.",
     },
     timeEntryDescription: {
       propDefinition: [

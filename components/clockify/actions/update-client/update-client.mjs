@@ -49,9 +49,15 @@ export default {
       description: "New note about the client",
       optional: true,
     },
+    archived: {
+      type: "boolean",
+      label: "Archived",
+      description: "Archive or unarchive the client. Note: an active (non-archived) client can't be deleted.",
+      optional: true,
+    },
   },
   async run({ $ }) {
-    if (!this.name && !this.address && !this.note) {
+    if (!this.name && !this.address && !this.note && this.archived === undefined) {
       throw new ConfigurationError("Set at least one field to update.");
     }
 
@@ -63,6 +69,7 @@ export default {
         name: this.name,
         address: this.address,
         note: this.note,
+        archived: this.archived,
       },
     });
 

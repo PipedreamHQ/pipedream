@@ -168,13 +168,13 @@ export default {
     start: {
       type: "string",
       label: "Start",
-      description: "Start date and time of the time entry, in ISO 8601 format. Example: `2024-01-01T09:00:00Z`",
+      description: "Start date and time of the time entry, in ISO 8601 format. Example: `2026-08-05T09:00:00Z`",
       optional: true,
     },
     end: {
       type: "string",
       label: "End",
-      description: "End date and time of the time entry, in ISO 8601 format. Example: `2024-01-01T17:00:00Z`",
+      description: "End date and time of the time entry, in ISO 8601 format. Example: `2026-08-05T17:00:00Z`",
       optional: true,
     },
     timeEntryDescription: {
@@ -340,6 +340,14 @@ export default {
         ...args,
       });
     },
+    getTimeEntry({
+      workspaceId, timeEntryId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/time-entries/${timeEntryId}`,
+        ...args,
+      });
+    },
     updateTimeEntry({
       workspaceId, timeEntryId, ...args
     }) {
@@ -418,6 +426,14 @@ export default {
       return this._makeRequest({
         path: `/workspaces/${workspaceId}/invoices`,
         method: "POST",
+        ...args,
+      });
+    },
+    getInvoice({
+      workspaceId, invoiceId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/invoices/${invoiceId}`,
         ...args,
       });
     },

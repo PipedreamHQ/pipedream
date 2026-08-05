@@ -42,17 +42,15 @@ export default {
       description: "Invoice number. Example: `INV-001`",
       optional: true,
     },
-    issueDate: {
+    issuedDate: {
       type: "string",
       label: "Issue Date",
-      description: "Issue date of the invoice, in ISO 8601 format. Example: `2024-01-15T00:00:00Z`",
-      optional: true,
+      description: "Issue date of the invoice, in ISO 8601 format. Example: `2026-08-05T00:00:00Z`",
     },
     dueDate: {
       type: "string",
       label: "Due Date",
-      description: "Due date of the invoice, in ISO 8601 format. Example: `2024-02-15T00:00:00Z`",
-      optional: true,
+      description: "Due date of the invoice, in ISO 8601 format. Example: `2026-09-05T00:00:00Z`",
     },
     currency: {
       type: "string",
@@ -93,7 +91,7 @@ export default {
         clientId: this.clientId,
         name: this.name,
         number: this.number,
-        issueDate: this.issueDate,
+        issuedDate: this.issuedDate,
         dueDate: this.dueDate,
         currency: this.currency,
         taxId: this.taxId,

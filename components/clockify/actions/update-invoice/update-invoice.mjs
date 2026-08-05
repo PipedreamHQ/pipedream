@@ -5,7 +5,7 @@ import clockify from "../../clockify.app.mjs";
 export default {
   key: "clockify-update-invoice",
   name: "Update Invoice",
-  description: "Updates the metadata of an existing invoice in a Clockify workspace. Use **List Invoices** to find the ID of the invoice to update. [See the documentation](https://docs.clockify.me/#tag/Invoice/operation/updateInvoice)",
+  description: "Updates the metadata of an existing invoice in a Clockify workspace. Clockify's update endpoint replaces the entire invoice, so this action first fetches the current invoice and merges your changes into it before saving — fields you don't set are left unchanged. Use **List Invoices** to find the ID of the invoice to update. [See the documentation](https://docs.clockify.me/#tag/Invoice/operation/updateInvoice)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -42,16 +42,16 @@ export default {
       description: "New invoice number. Example: `INV-001`",
       optional: true,
     },
-    issueDate: {
+    issuedDate: {
       type: "string",
       label: "Issue Date",
-      description: "New issue date of the invoice, in ISO 8601 format. Example: `2024-01-15T00:00:00Z`",
+      description: "New issue date of the invoice, in ISO 8601 format. Example: `2026-08-05T00:00:00Z`",
       optional: true,
     },
     dueDate: {
       type: "string",
       label: "Due Date",
-      description: "New due date of the invoice, in ISO 8601 format. Example: `2024-02-15T00:00:00Z`",
+      description: "New due date of the invoice, in ISO 8601 format. Example: `2026-09-05T00:00:00Z`",
       optional: true,
     },
     currency: {
@@ -84,13 +84,19 @@ export default {
   async run({ $ }) {
     if (!this.clientId
       && !this.number
-      && !this.issueDate
+      && !this.issuedDate
       && !this.dueDate
       && !this.currency
       && !this.note
       && !this.status) {
       throw new ConfigurationError("Set at least one field to update.");
     }
+
+    const invoice = await this.clockify.getInvoice({
+      $,
+      workspaceId: this.workspaceId,
+      invoiceId: this.invoiceId,
+    });
 
     const response = await this.clockify.updateInvoice({
       $,
@@ -101,13 +107,13 @@ export default {
           ? {
             id: this.clientId,
           }
-          : undefined,
-        number: this.number,
-        issueDate: this.issueDate,
-        dueDate: this.dueDate,
-        currency: this.currency,
-        note: this.note,
-        status: this.status,
+          : invoice.client,
+        number: this.number || invoice.invoiceNumber,
+        issuedDate: this.issuedDate || invoice.issuedDate || invoice.issueDate,
+        dueDate: this.dueDate || invoice.dueDate,
+        currency: this.currency || invoice.currency,
+        note: this.note || invoice.note,
+        status: this.status || invoice.status,
       },
     });
 

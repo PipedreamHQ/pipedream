@@ -5,7 +5,7 @@ import clockify from "../../clockify.app.mjs";
 export default {
   key: "clockify-update-time-entry",
   name: "Update Time Entry",
-  description: "Updates an existing time entry in Clockify — change its start/end time, project, task, description, billable status, tags, or type. Use **List Time Entries** to find the ID of the entry to update. [See the documentation](https://docs.clockify.me/#tag/Time-entry)",
+  description: "Updates an existing time entry in Clockify — change its start/end time, project, task, description, billable status, or tags. Clockify's update endpoint replaces the entire entry, so this action first fetches the current entry and merges your changes into it before saving — fields you don't set are left unchanged. Use **List Time Entries** to find the ID of the entry to update. [See the documentation](https://docs.clockify.me/#tag/Time-entry)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -101,18 +101,24 @@ export default {
       throw new ConfigurationError("Set at least one field to update.");
     }
 
+    const entry = await this.clockify.getTimeEntry({
+      $,
+      workspaceId: this.workspaceId,
+      timeEntryId: this.timeEntryId,
+    });
+
     const response = await this.clockify.updateTimeEntry({
       $,
       workspaceId: this.workspaceId,
       timeEntryId: this.timeEntryId,
       data: {
-        start: this.start,
-        end: this.end,
-        projectId: this.projectId,
-        taskId: this.taskId,
-        description: this.timeEntryDescription,
-        billable: this.billable,
-        tagIds: this.tagIds,
+        start: this.start || entry.timeInterval?.start,
+        end: this.end || entry.timeInterval?.end,
+        projectId: this.projectId || entry.projectId,
+        taskId: this.taskId || entry.taskId,
+        description: this.timeEntryDescription || entry.description,
+        billable: this.billable ?? entry.billable,
+        tagIds: this.tagIds || entry.tagIds,
         type: this.timeEntryType,
       },
     });

@@ -37,7 +37,7 @@ export default {
         clockify,
         "end",
       ],
-      description: "Date and time to stop the timer at, in ISO 8601 format. Example: `2024-01-01T17:00:00Z`. Defaults to the current time if left blank.",
+      description: "Date and time to stop the timer at, in ISO 8601 format. Example: `2026-08-05T17:00:00Z`. Defaults to the current time if left blank.",
     },
   },
   async run({ $ }) {
