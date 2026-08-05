@@ -5,7 +5,7 @@ export default {
   key: "google_tasks-create-subtask",
   name: "Create Subtask",
   description:
-    "Creates a new subtask under an existing parent task. Use this action when you want to organize related work into a task hierarchy while keeping the parent task unchanged. To create a top-level task instead, use the Create Task action. [See the docs here](https://developers.google.com/workspace/tasks/reference/rest/v1/tasks/insert)",
+    "Creates a new subtask under an existing parent task. Use this action when you want to organize related work into a task hierarchy while keeping the parent task unchanged. To create a top-level task instead, use the **Create Task** action. [See the documentation](https://developers.google.com/workspace/tasks/reference/rest/v1/tasks/insert)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -30,7 +30,8 @@ export default {
         }),
       ],
       label: "Parent Task",
-      description: "The parent task under which the subtask will be created.",
+      description:
+        "The ID of the parent task under which the subtask will be created (for example, `MDQ5MjE4NzQ2OTM0NjYxNzA6MDow`). You can obtain this ID using the **List Tasks** action.",
     },
     previous: {
       propDefinition: [
@@ -42,7 +43,7 @@ export default {
       ],
       label: "Place After Task",
       description:
-        "Optional. Place the new subtask immediately after another subtask.",
+        "Optional. The ID of the sibling task after which the new subtask should be inserted (for example, `MDQ5MjE4NzQ2OTM0NjYxNzA6MDox`). You can obtain this ID using the **List Tasks** action.",
       optional: true,
     },
     title: {
@@ -85,7 +86,7 @@ export default {
 
     const res = await this.app.insertTask($, this.taskListId, data, params);
 
-    $.export("$summary", "Subtask successfully created");
+    $.export("$summary", `Created subtask: ${this.title}`);
 
     return res;
   },
