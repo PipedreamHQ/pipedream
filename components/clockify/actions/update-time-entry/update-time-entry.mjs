@@ -1,0 +1,124 @@
+// x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
+import clockify from "../../clockify.app.mjs";
+
+export default {
+  key: "clockify-update-time-entry",
+  name: "Update Time Entry",
+  description: "Updates an existing time entry in Clockify — change its start/end time, project, task, description, billable status, tags, or type. Use **List Time Entries** to find the ID of the entry to update. [See the documentation](https://docs.clockify.me/#tag/Time-entry)",
+  version: "0.0.1",
+  type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
+  props: {
+    clockify,
+    workspaceId: {
+      propDefinition: [
+        clockify,
+        "workspaceId",
+      ],
+    },
+    timeEntryId: {
+      propDefinition: [
+        clockify,
+        "timeEntryId",
+      ],
+    },
+    projectId: {
+      propDefinition: [
+        clockify,
+        "projectId",
+        (c) => ({
+          workspaceId: c.workspaceId,
+        }),
+      ],
+      optional: true,
+    },
+    taskId: {
+      propDefinition: [
+        clockify,
+        "taskId",
+        (c) => ({
+          workspaceId: c.workspaceId,
+          projectId: c.projectId,
+        }),
+      ],
+      optional: true,
+    },
+    start: {
+      propDefinition: [
+        clockify,
+        "start",
+      ],
+    },
+    end: {
+      propDefinition: [
+        clockify,
+        "end",
+      ],
+    },
+    timeEntryDescription: {
+      propDefinition: [
+        clockify,
+        "timeEntryDescription",
+      ],
+    },
+    billable: {
+      propDefinition: [
+        clockify,
+        "billable",
+      ],
+    },
+    tagIds: {
+      propDefinition: [
+        clockify,
+        "tagIds",
+        (c) => ({
+          workspaceId: c.workspaceId,
+        }),
+      ],
+      optional: true,
+    },
+    timeEntryType: {
+      propDefinition: [
+        clockify,
+        "timeEntryType",
+      ],
+    },
+  },
+  async run({ $ }) {
+    if (!this.projectId
+      && !this.taskId
+      && !this.start
+      && !this.end
+      && !this.timeEntryDescription
+      && this.billable === undefined
+      && !this.tagIds
+      && !this.timeEntryType) {
+      throw new ConfigurationError("Set at least one field to update.");
+    }
+
+    const response = await this.clockify.updateTimeEntry({
+      $,
+      workspaceId: this.workspaceId,
+      timeEntryId: this.timeEntryId,
+      data: {
+        start: this.start,
+        end: this.end,
+        projectId: this.projectId,
+        taskId: this.taskId,
+        description: this.timeEntryDescription,
+        billable: this.billable,
+        tagIds: this.tagIds,
+        type: this.timeEntryType,
+      },
+    });
+
+    $.export("$summary", `Successfully updated time entry with ID ${this.timeEntryId}`);
+
+    return response;
+  },
+};

@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import clockify from "../../clockify.app.mjs";
 
 export default {
   key: "clockify-add-task-to-project",
   name: "Add Task To Project",
   description: "Adds a task to a project in Clockify. [See the documentation](https://docs.clockify.me/#tag/Task/operation/create_7)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

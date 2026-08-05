@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import clockify from "../../clockify.app.mjs";
 
 export default {
   key: "clockify-list-time-entries",
   name: "List Time Entries",
   description: "List all time entries in a Clockify workspace. [See the documentation](https://docs.clockify.me/#tag/Time-entry/operation/getTimeEntries)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
