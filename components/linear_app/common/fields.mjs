@@ -98,9 +98,17 @@ function projectRecords(records, raw, {
       id: record?.id,
     };
     for (const field of fields) {
-      if (field !== "id" && record?.[field] !== undefined) {
-        projected[field] = record[field];
-      }
+      if (field === "id") continue;
+      const value = record?.[field];
+      if (value === undefined) continue;
+      // Skip @linear/sdk lazy relation getters. On an SDK model, `comment.user` is a
+      // getter returning a LinearFetch promise, not the user — projecting it emits a
+      // pending promise where the caller expects data. The serialized response carries
+      // those relations under `_user` / `_issue` instead, so a caller who wants them
+      // should name those. Measured: `user` in the comment compact set came back as an
+      // unresolved promise while the bare response had no `user` key at all.
+      if (typeof value?.then === "function" || typeof value === "function") continue;
+      projected[field] = value;
     }
     return projected;
   });
