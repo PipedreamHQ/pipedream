@@ -60,6 +60,12 @@ export default {
       showDeleted: this.showDeleted,
     };
 
+    if (this.due) {
+      const dueDate = this.due.split("T")[0];
+      params.dueMin = `${dueDate}T00:00:00.000Z`;
+      params.dueMax = `${dueDate}T23:59:59.999Z`;
+    }
+
     const taskLists = await this.app.paginate(
       this.app.getTaskLists.bind(this),
       {
@@ -86,24 +92,16 @@ export default {
     }
 
     const keyword = this.keyword?.toLowerCase();
-    const dueDate = this.due?.split("T")[0];
 
     const results = tasks.filter((task) => {
-      let matches = true;
-
-      if (keyword) {
-        const title = task.title?.toLowerCase() ?? "";
-        const notes = task.notes?.toLowerCase() ?? "";
-
-        matches =
-          matches && (title.includes(keyword) || notes.includes(keyword));
+      if (!keyword) {
+        return true;
       }
 
-      if (dueDate) {
-        matches = matches && task.due?.split("T")[0] === dueDate;
-      }
+      const title = task.title?.toLowerCase() ?? "";
+      const notes = task.notes?.toLowerCase() ?? "";
 
-      return matches;
+      return title.includes(keyword) || notes.includes(keyword);
     });
 
     $.export(
