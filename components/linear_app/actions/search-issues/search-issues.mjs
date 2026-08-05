@@ -1,13 +1,68 @@
 import linearApp from "../../linear_app.app.mjs";
 import utils from "../../common/utils.mjs";
 import constants from "../../common/constants.mjs";
+import fields from "../../common/fields.mjs";
+
+// Documented Issue fields (the `issue` GraphQL fragment), used to validate `fields`.
+const ISSUE_FIELDS = [
+  "archivedAt",
+  "assignee",
+  "autoArchivedAt",
+  "autoClosedAt",
+  "botActor",
+  "branchName",
+  "canceledAt",
+  "completedAt",
+  "createdAt",
+  "creator",
+  "customerTicketCount",
+  "cycle",
+  "description",
+  "dueDate",
+  "estimate",
+  "favorite",
+  "id",
+  "identifier",
+  "labelIds",
+  "lastAppliedTemplate",
+  "number",
+  "parent",
+  "previousIdentifiers",
+  "priority",
+  "priorityLabel",
+  "project",
+  "projectMilestone",
+  "snoozedBy",
+  "snoozedUntilAt",
+  "sortOrder",
+  "startedAt",
+  "startedTriageAt",
+  "state",
+  "subIssueSortOrder",
+  "team",
+  "title",
+  "trashed",
+  "triagedAt",
+  "updatedAt",
+  "url",
+];
+
+// Enough to identify an issue, report its status, and act on it afterwards.
+const COMPACT_FIELDS = [
+  "id",
+  "identifier",
+  "title",
+  "state",
+  "assignee",
+  "priorityLabel",
+];
 
 export default {
   key: "linear_app-search-issues",
   name: "Search Issues",
-  description: "Searches Linear issues by team, project, assignee, labels, state, or text query. Supports pagination, ordering, and archived issues. Returns array of matching issues. Uses API Key authentication. See Linear docs for additional info [here](https://linear.app/developers/graphql).",
+  description: "Searches Linear issues by team, project, assignee, labels, state, or text query. Supports pagination, ordering, and archived issues. Returns array of matching issues. Uses API Key authentication. **Response size matters here:** by default every field of every matching issue is returned, including the full `description` body and nested `team`, `project`, `cycle` and `parent` objects — measured at 20-34 KB for a single search on a real workspace, enough to exceed an AI agent's tool-output ceiling. `fields: \"compact\"` returns `id,identifier,title,state,assignee,priorityLabel`, which answers most \"find the issue about X\" questions; fetch the body with **Get Issue** once you know which one you want. See Linear docs for additional info [here](https://linear.app/developers/graphql).",
   type: "action",
-  version: "0.2.20",
+  version: "0.3.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -74,6 +129,11 @@ export default {
         "limit",
       ],
     },
+    fields: fields.fieldsProp({
+      resource: "issues",
+      compact: COMPACT_FIELDS,
+      guidance: "`description` (the issue body) and the nested `team`, `project`, `cycle` and `parent` objects are what make this response large; request them only when you need more than the issue's identity and status.",
+    }),
   },
   async run({ $ }) {
     const issues = [];
@@ -130,6 +190,9 @@ export default {
 
     $.export("$summary", `Found ${issues.length} issues`);
 
-    return issues;
+    return fields.projectRecords(issues, this.fields, {
+      compact: COMPACT_FIELDS,
+      known: ISSUE_FIELDS,
+    });
   },
 };
