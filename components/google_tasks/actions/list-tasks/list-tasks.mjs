@@ -45,6 +45,7 @@ export default {
       showDeleted: this.showDeleted,
     };
     const res = await this.app.paginate(
+      $,
       this.app.getTasks.bind(this),
       params,
       this.taskListId,

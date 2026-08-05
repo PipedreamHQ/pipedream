@@ -25,6 +25,7 @@ export default {
       maxResults: this.maxResults,
     };
     const res = await this.app.paginate(
+      $,
       this.app.getTaskLists.bind(this),
       params,
     );

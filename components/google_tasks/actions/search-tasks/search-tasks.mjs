@@ -68,6 +68,7 @@ export default {
     }
 
     const taskLists = await this.app.paginate(
+      $,
       this.app.getTaskLists.bind(this),
       {
         maxResults: this.maxResults,
@@ -78,6 +79,7 @@ export default {
 
     for (const taskList of taskLists) {
       const listTasks = await this.app.paginate(
+        $,
         this.app.getTasks.bind(this),
         params,
         taskList.id,

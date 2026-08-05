@@ -116,14 +116,14 @@ export default {
         this._getRequestParams(opts),
       );
     },
-    async paginate(fn, params, ...rest) {
+    async paginate(ctx, fn, params, ...rest) {
       let data = [];
       let nextPageToken = null;
       const TOTAL_MAX_RESULTS = Math.min(params.maxResults, 1000);
       const ITEMS_PER_PAGE = Math.min(params.maxResults, 50);
       do {
         const pageResult = await fn(
-          this,
+          ctx,
           {
             ...params,
             maxResults: ITEMS_PER_PAGE,
