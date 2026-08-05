@@ -1,7 +1,6 @@
 import telegramBotApi from "../../telegram_bot_api.app.mjs";
 import constants from "./constants.mjs";
 import { v4 as uuid } from "uuid";
-import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   props: {
@@ -16,13 +15,19 @@ export default {
   },
   hooks: {
     async deploy() {
-      /*
-       *  Telegram only supports a single webhook at a time for a given Bot. If a webhook
-       *  for this Bot already exists, display configuration error.
+      /**
+       * Telegram only supports a single webhook per bot. If a stale webhook
+       * from a previous deployment exists (e.g. the source was deleted without
+       * cleanly deactivating), remove it so this source can register its own.
+       * Without this cleanup, redeployment silently fails: activate() registers
+       * a new webhook URL and secret, but the old Pipedream source endpoint may
+       * still be alive with a different secret, causing the secret-token check
+       * in run() to reject every subsequent event.
        */
       const { result } = await this.telegramBotApi.getWebhookInfo();
       if (result.url?.length > 0) {
-        throw new ConfigurationError("[Telegram only supports](https://core.telegram.org/bots/api#setwebhook) a single webhook at a time, for a given Bot. To get around this, you can reuse an existing Telegram Bot source or disable the active source and try again. [View all your sources here](https://pipedream.com/sources).");
+        console.log(`Removing existing webhook (${result.url}) before deploying...`);
+        await this.telegramBotApi.deleteHook();
       }
       /**
        * From the docs: https://core.telegram.org/bots/api#getting-updates
@@ -45,6 +50,11 @@ export default {
     async activate() {
       const secret = uuid();
       this.setSecret(secret);
+      // Delete any existing webhook first so activate() is idempotent.
+      // If a previous source sharing this bot token was not cleanly deactivated
+      // (e.g. deleted with ignoreHookErrors), its webhook survives and the
+      // new secret registered here will never match incoming requests.
+      await this.telegramBotApi.deleteHook();
       await this.telegramBotApi.createHook(this.http.endpoint, this.getEventTypes(), secret);
     },
     async deactivate() {
