@@ -5,7 +5,7 @@ export default {
   key: "google_tasks-move-task",
   name: "Move Task",
   description:
-    "Moves an existing task to a different position, parent task, or task list. Use this action to reorganize your task hierarchy or reorder tasks without modifying the task's title, notes, due date, or completion status. To update those properties, use the Update Task action instead. [See the docs here](https://developers.google.com/workspace/tasks/reference/rest/v1/tasks/move)",
+    "Moves an existing task to a different position, parent task, or task list. Use this action to reorganize your task hierarchy or reorder tasks without modifying the task's title, notes, due date, or completion status. To update those properties, use the **Update Task** action instead. [See the documentation](https://developers.google.com/workspace/tasks/reference/rest/v1/tasks/move)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -37,7 +37,7 @@ export default {
       ],
       label: "Destination Task List",
       description:
-        "Optional. The destination task list. If omitted, the task is moved within its current task list.",
+        "Optional. The ID of the destination task list (for example, `MDQ5MjE4NzQ2OTM0NjYxNzA6MDow`). You can obtain this ID using the **List Task Lists** action. If omitted, the task is moved within its current task list.",
       optional: true,
     },
     parent: {
@@ -51,7 +51,8 @@ export default {
         }),
       ],
       label: "Parent Task",
-      description: "Optional. Move the task under another task as a subtask.",
+      description:
+        "Optional. The ID of the parent task under which the task will be moved (for example, `MDQ5MjE4NzQ2OTM0NjYxNzA6MDow`). You can obtain this ID using the **List Tasks** action.",
       optional: true,
     },
     previous: {
@@ -65,7 +66,8 @@ export default {
         }),
       ],
       label: "Place After Task",
-      description: "Optional. Place the task immediately after another task.",
+      description:
+        "Optional. The ID of the sibling task after which the task should be placed (for example, `MDQ5MjE4NzQ2OTM0NjYxNzA6MDox`). You can obtain this ID using the **List Tasks** action.",
       optional: true,
     },
   },
@@ -91,7 +93,7 @@ export default {
       params,
     );
 
-    $.export("$summary", "Task successfully moved");
+    $.export("$summary", `Moved task ${this.taskId}`);
 
     return res;
   },
