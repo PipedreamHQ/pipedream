@@ -117,6 +117,13 @@ export default {
         "plaintext",
       ],
     },
+    page: {
+      type: "integer",
+      label: "Page",
+      description: `The page of results to retrieve, starting at \`0\`. Each page returns up to ${constants.DEFAULT_LIMIT} results.`,
+      min: 0,
+      default: 0,
+    },
   },
   methods: {
     _baseUrl() {

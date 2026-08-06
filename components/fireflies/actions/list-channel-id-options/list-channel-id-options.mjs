@@ -4,7 +4,7 @@ import fireflies from "../../fireflies.app.mjs";
 export default {
   key: "fireflies-list-channel-id-options",
   name: "List Channel ID Options",
-  description: "Retrieves available options for the Channel ID field. [See the documentation](https://docs.fireflies.ai/graphql-api/query/channels)",
+  description: "List the channels accessible to the authenticated user as ID/title pairs, to discover a valid Channel ID. Call this first when you know a channel by name but need its ID for **Update Meeting**. Includes public channels on the team plus private channels you belong to. Fireflies returns every channel in a single response, so pagination does not apply. [See the documentation](https://docs.fireflies.ai/graphql-api/query/channels)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -15,11 +15,11 @@ export default {
   props: {
     fireflies,
     page: {
-      type: "integer",
-      label: "Page",
-      description: "The page of results to retrieve.",
-      min: 0,
-      default: 0,
+      propDefinition: [
+        fireflies,
+        "page",
+      ],
+      description: "The page of results to retrieve. The Fireflies `channels` query is not paginated — the full list is always returned on page `0`, and any higher page returns an empty list.",
     },
   },
   async run({ $ }) {
