@@ -20,7 +20,7 @@ export default {
         "parentId",
       ],
       label: "Parent Folder",
-      description: "The parent folder to create the new folder in. Use `0` for the root folder.",
+      description: "The parent folder to create the new folder in. Use `0` for the root folder. Use the **List Folders** action to retrieve folder IDs.",
     },
     name: {
       type: "string",

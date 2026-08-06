@@ -45,7 +45,7 @@ export default {
         app,
         "limit",
       ],
-      description: "The maximum number of versions to return per page (max 1000)",
+      description: "The maximum number of results to return per page. Use an integer from 1 through 1000.",
     },
   },
   async run({ $ }) {

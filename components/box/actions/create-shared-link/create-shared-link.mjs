@@ -84,21 +84,16 @@ export default {
       throw new ConfigurationError("The selected item must match Item Type.");
     }
 
-    const sharedLink = {};
-    if (this.access) {
-      sharedLink.access = this.access;
-    }
-    if (this.password) {
-      sharedLink.password = this.password;
-    }
-    if (this.unsharedAt) {
-      sharedLink.unshared_at = this.unsharedAt;
-    }
-    if (this.canDownload !== undefined) {
-      sharedLink.permissions = {
-        can_download: this.canDownload,
-      };
-    }
+    const sharedLink = {
+      access: this.access,
+      password: this.password,
+      unshared_at: this.unsharedAt,
+      ...(this.canDownload !== undefined && {
+        permissions: {
+          can_download: this.canDownload,
+        },
+      }),
+    };
 
     const params = {
       fields: "shared_link",

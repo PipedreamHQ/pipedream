@@ -17,7 +17,7 @@ export default {
     collaborationId: {
       type: "string",
       label: "Collaboration ID",
-      description: "The ID of the collaboration to delete (e.g. `123456789`). Obtain this from the **Create Collaboration** action response.",
+      description: "The ID of the collaboration to delete (e.g. `123456789`). Obtain this from the **Create Collaboration** action response. Use the **List Collaborations** action to retrieve collaboration IDs.",
     },
   },
   async run({ $ }) {

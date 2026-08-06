@@ -59,6 +59,8 @@ export default {
     const pipeline = promisify(stream.pipeline);
     await pipeline(fileStream, fs.createWriteStream(filePath));
 
+    $.export("$summary", `Successfully downloaded file to \`${filePath}\``);
+
     return {
       filePath,
     };

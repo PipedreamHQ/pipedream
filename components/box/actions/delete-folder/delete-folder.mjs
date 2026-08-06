@@ -20,7 +20,7 @@ export default {
         "parentId",
       ],
       label: "Folder",
-      description: "The folder to delete (e.g. `123456789`). Cannot delete the root folder (`0`).",
+      description: "The folder to delete (e.g. `123456789`). Cannot delete the root folder (`0`). Use the **List Folders** action to retrieve folder IDs.",
       optional: false,
     },
     recursive: {

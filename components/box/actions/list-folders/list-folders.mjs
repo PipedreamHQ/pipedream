@@ -1,3 +1,5 @@
+// x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../box.app.mjs";
 
 export default {
@@ -32,7 +34,7 @@ export default {
     sort: {
       type: "string",
       label: "Sort",
-      description: "Defines the attribute by which items are sorted. Valid values: `id`, `name`, `date`, `size` (e.g. `name`).",
+      description: "Defines the attribute by which items are sorted. Valid values: `id`, `name`, `date`, `size` (e.g. `name`). Not supported for the root folder (`0`) — Box does not allow sorting root-folder results with marker-based pagination.",
       optional: true,
       options: [
         {
@@ -79,11 +81,15 @@ export default {
     marker: {
       type: "string",
       label: "Marker",
-      description: "The marker to use for retrieving the next page of results. Pass the `next_marker` value returned in a previous run of this action to continue listing beyond the first page.",
+      description: "The position marker at which to begin returning results. Pass the `next_marker` value returned by a previous run of this action to continue listing beyond the first page, e.g. `JV9IRGZmieiBasejOG9yDCRNgd2ymoZIbjsxbJMjIs3kioVii`.",
       optional: true,
     },
   },
   async run({ $ }) {
+    if (this.sort && String(this.folderId) === "0") {
+      throw new ConfigurationError("Box does not support `Sort` on the root folder (`0`). Remove Sort, or choose a non-root folder.");
+    }
+
     const params = {
       limit: this.limit,
       usemarker: true,

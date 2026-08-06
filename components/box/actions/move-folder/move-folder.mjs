@@ -20,7 +20,7 @@ export default {
         "parentId",
       ],
       label: "Folder",
-      description: "The folder to move (e.g. `123456789`)",
+      description: "The folder to move (e.g. `123456789`). Use the **List Folders** action to retrieve folder IDs.",
       optional: false,
     },
     destinationFolderId: {
@@ -29,7 +29,7 @@ export default {
         "parentId",
       ],
       label: "Destination Folder",
-      description: "The destination parent folder. Use `0` for the root folder.",
+      description: "The destination parent folder. Use `0` for the root folder. Use the **List Folders** action to retrieve folder IDs.",
       optional: false,
     },
     name: {
