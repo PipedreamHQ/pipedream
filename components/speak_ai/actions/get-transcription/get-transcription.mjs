@@ -27,7 +27,7 @@ export default {
           folderId,
         }),
       ],
-      description: "The media file to retrieve the full transcription for",
+      description: "The media file to retrieve the full transcription for. A Speak AI media ID, e.g. `f8eb3c22bec3`, returned as `mediaId` by **Upload Media** and by every media trigger in this app",
     },
   },
   async run({ $ }) {
