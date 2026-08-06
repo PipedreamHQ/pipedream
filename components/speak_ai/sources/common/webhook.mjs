@@ -67,6 +67,21 @@ export default {
     getEventId(resource) {
       return resource.deliveryId;
     },
+    /**
+     * The time the event itself happened, taken from the hydrated payload so a
+     * delayed delivery or a retry keeps the original time rather than the time
+     * this source happened to receive it. Speak AI does not put a timestamp on
+     * the webhook body, so this reads the resource fetched in `getData`.
+     * @param {object|string} [data] - The hydrated payload for this delivery.
+     * @returns {number} An epoch milliseconds timestamp, falling back to now
+     * when the payload carries no usable date, as with a caption export.
+     */
+    getEventTs(data) {
+      const ts = Date.parse(data?.updatedAt ?? data?.createdAt ?? "");
+      return Number.isNaN(ts)
+        ? Date.now()
+        : ts;
+    },
     async getData(resource) {
       return resource;
     },

@@ -25,11 +25,11 @@ export default {
         || (resource.messageId && messageId === resource.messageId));
       return match || resource;
     },
-    generateMeta(resource) {
+    generateMeta(resource, data) {
       return {
         id: this.getEventId(resource),
         summary: `New AI Chat Response: ${resource.messageId || resource.promptId}`,
-        ts: Date.now(),
+        ts: this.getEventTs(data),
       };
     },
   },

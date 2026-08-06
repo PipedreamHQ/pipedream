@@ -23,11 +23,11 @@ export default {
       });
       return data;
     },
-    generateMeta(resource) {
+    generateMeta(resource, data) {
       return {
         id: this.getEventId(resource),
         summary: `New Media Created: ${resource.mediaId}`,
-        ts: Date.now(),
+        ts: this.getEventTs(data),
       };
     },
   },

@@ -18,7 +18,7 @@ export default {
         app,
         "mediaId",
       ],
-      description: "The media file to look up. A Speak AI media ID, e.g. `f8eb3c22bec3`, returned as `mediaId` by **Upload Media** and by every media trigger in this app",
+      description: "A Speak AI media ID, for example `b4994aa1267c`. Get it from the `mediaId` field returned by Speak AI.",
     },
     userId: {
       type: "string",
