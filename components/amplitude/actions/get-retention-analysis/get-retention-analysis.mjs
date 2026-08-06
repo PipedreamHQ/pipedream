@@ -1,4 +1,5 @@
 // x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../amplitude.app.mjs";
 import {
   RETENTION_MODES,
@@ -94,6 +95,20 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.retentionMode === "bracket") {
+      if (!this.brackets) {
+        throw new ConfigurationError("**Brackets** is required when Retention Mode is `bracket`. Example: `[[0,5]]`.");
+      }
+      let parsedBrackets;
+      try {
+        parsedBrackets = JSON.parse(this.brackets);
+      } catch {
+        throw new ConfigurationError("**Brackets** must be valid JSON, e.g. `[[0,5]]`.");
+      }
+      if (!Array.isArray(parsedBrackets)) {
+        throw new ConfigurationError("**Brackets** must be a JSON-encoded array, e.g. `[[0,5]]`.");
+      }
+    }
     const response = await this.app.getRetentionAnalysis({
       $,
       params: {

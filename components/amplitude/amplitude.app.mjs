@@ -20,7 +20,7 @@ export default {
       }
       return `https://${this.$auth.region}`;
     },
-    analyticsBaseUrl() {
+    _analyticsBaseUrl() {
       if (this.$auth.region && this.$auth.region.startsWith("https://analytics.eu")) {
         return ANALYTICS_EU_BASE_URL;
       }
@@ -36,11 +36,11 @@ export default {
       };
       return axios($, config);
     },
-    analyticsRequest({
+    _analyticsRequest({
       $, path, ...opts
     }) {
       return axios($, {
-        url: `${this.analyticsBaseUrl()}${path}`,
+        url: `${this._analyticsBaseUrl()}${path}`,
         auth: {
           username: this.$auth.api_key,
           password: this.$auth.api_secret,
@@ -63,7 +63,7 @@ export default {
     getEventSegmentation({
       $, params,
     }) {
-      return this.analyticsRequest({
+      return this._analyticsRequest({
         $,
         path: "/api/2/events/segmentation",
         params,
@@ -72,7 +72,7 @@ export default {
     getFunnelAnalysis({
       $, params,
     }) {
-      return this.analyticsRequest({
+      return this._analyticsRequest({
         $,
         path: "/api/2/funnels",
         params,
@@ -81,7 +81,7 @@ export default {
     getRetentionAnalysis({
       $, params,
     }) {
-      return this.analyticsRequest({
+      return this._analyticsRequest({
         $,
         path: "/api/2/retention",
         params,
@@ -90,7 +90,7 @@ export default {
     searchUsers({
       $, params,
     }) {
-      return this.analyticsRequest({
+      return this._analyticsRequest({
         $,
         path: "/api/2/usersearch",
         params,
@@ -114,7 +114,7 @@ export default {
       let truncated = false;
       while (events.length < desired) {
         const requested = Math.min(LIMIT_MAX, desired - events.length);
-        const page = await this.analyticsRequest({
+        const page = await this._analyticsRequest({
           $,
           path: "/api/2/useractivity",
           params: {
@@ -143,7 +143,7 @@ export default {
     listCohorts({
       $, params,
     }) {
-      return this.analyticsRequest({
+      return this._analyticsRequest({
         $,
         path: "/api/3/cohorts",
         params,
@@ -152,7 +152,7 @@ export default {
     getCohort({
       $, cohortId,
     }) {
-      return this.analyticsRequest({
+      return this._analyticsRequest({
         $,
         path: `/api/3/cohorts/${cohortId}`,
       });
@@ -160,7 +160,7 @@ export default {
     createCohort({
       $, data,
     }) {
-      return this.analyticsRequest({
+      return this._analyticsRequest({
         $,
         method: "POST",
         path: "/api/3/cohorts/upload",
