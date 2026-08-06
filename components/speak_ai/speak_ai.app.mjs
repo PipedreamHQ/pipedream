@@ -8,7 +8,7 @@ export default {
     folderId: {
       type: "string",
       label: "Folder ID",
-      description: "The ID of the folder to upload or retrieve files from",
+      description: "A Speak AI folder ID, e.g. `905c208f1c07`. The folder to upload to, or to retrieve files from. Returned as `folderId` by **List Folder ID Options**",
       async options({ page }) {
         const { data: { folders } } = await this.listFolders({
           params: {
@@ -57,9 +57,19 @@ export default {
     },
   },
   methods: {
+    /**
+     * Builds the absolute URL for a versioned API path.
+     * @param {string} path - The path below the version prefix, e.g. `/media`.
+     * @returns {string} The absolute request URL.
+     */
     getUrl(path) {
       return `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
     },
+    /**
+     * Adds the account's auth headers to a request.
+     * @param {object} [headers] - Caller supplied headers to merge.
+     * @returns {object} The headers to send.
+     */
     getHeaders(headers) {
       const {
         api_key: apiKey,
@@ -71,6 +81,14 @@ export default {
         "x-access-token": accessToken,
       };
     },
+    /**
+     * Issues an authenticated request against the Speak AI API.
+     * @param {object} [opts={}] - Axios options plus `path` and an optional `$`.
+     * @param {object} [opts.$] - The step context. Defaults to `this`, which is
+     * what a source passes, while an action passes its own `$`.
+     * @param {string} opts.path - The path below the version prefix.
+     * @returns {Promise<object>} The parsed response body.
+     */
     _makeRequest({
       $ = this, path, headers, ...args
     } = {}) {
@@ -80,30 +98,56 @@ export default {
         headers: this.getHeaders(headers),
       });
     },
+    /**
+     * Issues a POST request.
+     * @param {object} [args={}] - Request options such as `path`, `data` and `$`.
+     * @returns {Promise<object>} The parsed response body.
+     */
     post(args = {}) {
       return this._makeRequest({
         method: "post",
         ...args,
       });
     },
+    /**
+     * Issues a DELETE request.
+     * @param {object} [args={}] - Request options such as `path` and `$`.
+     * @returns {Promise<object>} The parsed response body.
+     */
     delete(args = {}) {
       return this._makeRequest({
         method: "delete",
         ...args,
       });
     },
+    /**
+     * Lists the folders in the account.
+     * @param {object} [args={}] - Request options; `params` carries paging.
+     * @returns {Promise<object>} The response wrapping the folders in `data.folders`.
+     */
     listFolders(args = {}) {
       return this._makeRequest({
         path: "/folder",
         ...args,
       });
     },
+    /**
+     * Lists the media files in the account.
+     * @param {object} [args={}] - Request options; `params` carries paging and filters.
+     * @returns {Promise<object>} The response wrapping the files in `data.mediaList`.
+     */
     listMedia(args = {}) {
       return this._makeRequest({
         path: "/media",
         ...args,
       });
     },
+    /**
+     * Retrieves the stored analysis for one media file.
+     * @param {object} [opts={}] - Options for the request.
+     * @param {string} opts.mediaId - The media file to look up.
+     * @returns {Promise<object>} The response wrapping the media record in `data`.
+     */
     getInsight({
       mediaId, ...args
     } = {}) {
@@ -112,6 +156,12 @@ export default {
         ...args,
       });
     },
+    /**
+     * Retrieves the stored analysis for one text note.
+     * @param {object} [opts={}] - Options for the request.
+     * @param {string} opts.mediaId - The text note to look up.
+     * @returns {Promise<object>} The response wrapping the text record in `data`.
+     */
     getTextInsight({
       mediaId, ...args
     } = {}) {

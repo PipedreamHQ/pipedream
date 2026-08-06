@@ -27,7 +27,7 @@ export default {
           folderId,
         }),
       ],
-      description: "The media file to retrieve the full transcription for",
+      description: "A Speak AI media ID, for example `b4994aa1267c`. Get it from the `mediaId` field returned by Speak AI.",
     },
   },
   async run({ $ }) {
@@ -41,7 +41,11 @@ export default {
       mediaId,
     });
 
-    $.export("$summary", `Successfully retrieved transcription for media ID \`${response.data.mediaId}\`.`);
-    return response.data.insight.transcript;
+    const transcribedId = response?.data?.mediaId;
+    $.export("$summary", transcribedId
+      ? `Successfully retrieved transcription for media ID \`${transcribedId}\`.`
+      : "Successfully retrieved transcription.");
+    // A media file that has not finished analyzing carries no transcript yet.
+    return response?.data?.insight?.transcript ?? [];
   },
 };
