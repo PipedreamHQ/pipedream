@@ -37,7 +37,7 @@ export default {
     mediaId: {
       type: "string",
       label: "Media ID",
-      description: "A Speak AI media ID, e.g. `f8eb3c22bec3`. Returned as `mediaId` by Upload Media, by the media webhook triggers, and by the media list endpoint",
+      description: "A Speak AI media ID, e.g. `f8eb3c22bec3`. Returned as `mediaId` by **Upload Media** and by every media trigger in this app",
       options(opts) {
         return this.listMediaOptions(opts);
       },
@@ -50,7 +50,7 @@ export default {
     mediaIds: {
       type: "string[]",
       label: "Media IDs",
-      description: "One or more Speak AI media IDs to answer the prompt from, e.g. `f8eb3c22bec3`. Returned as `mediaId` by Upload Media, by the media webhook triggers, and by the media list endpoint",
+      description: "One or more Speak AI media IDs to answer the prompt from, e.g. `f8eb3c22bec3`. Returned as `mediaId` by **Upload Media** and by every media trigger in this app",
       options(opts) {
         return this.listMediaOptions(opts);
       },
