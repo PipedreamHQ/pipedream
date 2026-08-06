@@ -8,7 +8,7 @@ export default {
     folderId: {
       type: "string",
       label: "Folder ID",
-      description: "The ID of the folder to upload or retrieve files from",
+      description: "A Speak AI folder ID, e.g. `905c208f1c07`. The folder to upload to, or to retrieve files from. Returned as `folderId` by **List Folder ID Options**",
       async options({ page }) {
         const { data: { folders } } = await this.listFolders({
           params: {

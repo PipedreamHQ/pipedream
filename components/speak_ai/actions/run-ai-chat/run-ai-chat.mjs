@@ -26,7 +26,7 @@ export default {
         app,
         "folderId",
       ],
-      description: "Answer the prompt from every media file in this folder. Set this, **Media IDs**, or both",
+      description: "Answer the prompt from every media file in this folder, rather than from named files. A Speak AI folder ID, e.g. `905c208f1c07`, returned as `folderId` by **List Folder ID Options**. Set this, `mediaIds`, or both",
       optional: true,
     },
     mediaIds: {
