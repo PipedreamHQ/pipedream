@@ -6,7 +6,7 @@ export default {
   key: "google_tasks-search-tasks",
   name: "Search Tasks",
   description:
-    "Searches tasks across all task lists using a keyword, due date, or both. Use this action to find tasks that match specific criteria without modifying them. To create, update, complete, or move tasks, use the **Create Task**, **Update Task**, **Complete Task**, or **Move Task** actions. [See the documentation](https://developers.google.com/workspace/tasks/reference/rest/v1/tasks/list)",
+    "Searches tasks across all task lists using a keyword, due date, or both - at least one of Keyword or Due Date must be provided. Keyword matches against both the task title and notes. Completed and deleted tasks are excluded unless Show Completed / Show Deleted are set. Use this action to find tasks that match specific criteria without modifying them. To create, update, complete, or move tasks, use the **Create Task**, **Update Task**, **Complete Task**, or **Move Task** actions. [See the documentation](https://developers.google.com/workspace/tasks/reference/rest/v1/tasks/list)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -48,7 +48,9 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.keyword && !this.due) {
+    const keyword = this.keyword?.trim().toLowerCase();
+
+    if (!keyword && !this.due) {
       throw new ConfigurationError(
         "Please specify at least one search criterion: Keyword or Due Date.",
       );
@@ -93,8 +95,6 @@ export default {
         })),
       );
     }
-
-    const keyword = this.keyword?.toLowerCase();
 
     const results = tasks.filter((task) => {
       if (!keyword) {

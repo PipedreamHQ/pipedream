@@ -47,6 +47,7 @@ export default {
   },
   async run() {
     const tasks = await this.googleTasks.paginate(
+      this,
       this.googleTasks.getTasks.bind(this),
       this.getParams(),
       this.taskListId,
