@@ -37,6 +37,7 @@ export default {
         app,
         "completed",
       ],
+      optional: true,
     },
     due: {
       propDefinition: [
