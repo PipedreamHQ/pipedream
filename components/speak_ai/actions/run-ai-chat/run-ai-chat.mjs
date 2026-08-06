@@ -26,7 +26,7 @@ export default {
         app,
         "folderId",
       ],
-      description: "A Speak AI folder ID, for example `905c208f1c07`. Get it from the `folderId` field returned by Speak AI. Answer the prompt from every media file in this folder. Set this, `mediaIds`, or both.",
+      description: "A Speak AI folder ID, for example `905c208f1c07`. Get it from the `folderId` field returned by Speak AI. Answer the prompt from every media file in this folder. Set this, **Media IDs**, or both.",
       optional: true,
     },
     mediaIds: {
