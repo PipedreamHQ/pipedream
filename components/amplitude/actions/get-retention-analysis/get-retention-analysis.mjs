@@ -50,7 +50,7 @@ export default {
     brackets: {
       type: "string",
       label: "Brackets",
-      description: "Bracket ranges as a JSON-encoded array, required only when Retention Mode is `bracket` (the `rb` param). Example: `[[0,5]]`.",
+      description: "Bracket day-ranges as a JSON-encoded array of `[start, end]` integer pairs, required only when Retention Mode is `bracket` (the `rb` param). Each pair is a day offset range (`start` must be ≤ `end`; Amplitude returns a 500 for a reversed range). Example: `[[0,4]]` for a single 0-4 day bracket, or `[[0,4],[5,9]]` for two brackets.",
       optional: true,
     },
     interval: {
@@ -103,10 +103,20 @@ export default {
       try {
         parsedBrackets = JSON.parse(this.brackets);
       } catch {
-        throw new ConfigurationError("**Brackets** must be valid JSON, e.g. `[[0,5]]`.");
+        throw new ConfigurationError("**Brackets** must be valid JSON, e.g. `[[0,4]]`.");
       }
-      if (!Array.isArray(parsedBrackets)) {
-        throw new ConfigurationError("**Brackets** must be a JSON-encoded array, e.g. `[[0,5]]`.");
+      if (!Array.isArray(parsedBrackets) || parsedBrackets.length === 0) {
+        throw new ConfigurationError("**Brackets** must be a non-empty JSON-encoded array of `[start, end]` pairs, e.g. `[[0,4]]`.");
+      }
+      for (const range of parsedBrackets) {
+        const isValidPair = Array.isArray(range) && range.length === 2
+          && Number.isInteger(range[0]) && Number.isInteger(range[1]);
+        if (!isValidPair) {
+          throw new ConfigurationError(`**Brackets** entry ${JSON.stringify(range)} must be a two-integer \`[start, end]\` pair, e.g. \`[0,4]\`.`);
+        }
+        if (range[0] > range[1]) {
+          throw new ConfigurationError(`**Brackets** entry ${JSON.stringify(range)} has \`start\` greater than \`end\` — Amplitude returns a 500 for a reversed range, not a clean error.`);
+        }
       }
     }
     const response = await this.app.getRetentionAnalysis({
