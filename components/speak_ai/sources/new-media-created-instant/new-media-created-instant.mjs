@@ -6,8 +6,8 @@ export default {
   ...common,
   key: "speak_ai-new-media-created-instant",
   name: "New Media Created (Instant)",
-  description: "Emit new event when a new media file is created. Useful for initiating workflows based on new media intake. [See the documentation](https://docs.speakai.co/#5777a89c-a6c3-4d0e-aab1-d33fdec5cbe8).",
-  version: "0.0.1",
+  description: "Emit new event when a new media file is created. Useful for initiating workflows based on new media intake. [See the documentation](https://docs.speakai.co/api/webhooks/#post-webhook).",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -25,7 +25,7 @@ export default {
     },
     generateMeta(resource) {
       return {
-        id: resource.mediaId,
+        id: this.getEventId(resource),
         summary: `New Media Created: ${resource.mediaId}`,
         ts: Date.now(),
       };

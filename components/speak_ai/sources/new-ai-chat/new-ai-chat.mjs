@@ -1,4 +1,4 @@
-import common from "../common/base.mjs";
+import common from "../common/webhook.mjs";
 import events from "../common/events.mjs";
 import sampleEmit from "./test-event.mjs";
 
@@ -6,7 +6,7 @@ export default {
   ...common,
   key: "speak_ai-new-ai-chat",
   name: "New AI Chat Response (Instant)",
-  description: "Emit new event when a Speak AI Chat response is ready (`chat.status`). [See the documentation](https://docs.speakai.co/).",
+  description: "Emit new event when a Speak AI Chat response is ready (`chat.status`). [See the documentation](https://docs.speakai.co/api/ai-chat/#get-prompt).",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -17,29 +17,19 @@ export default {
         events.CHAT_STATUS,
       ];
     },
-    getSummary(resource) {
-      return `New AI Chat response ${resource.messageId || resource.promptId || ""}`.trim();
+    async getData(resource) {
+      const { data: { history } } = await this.app.listPrompts();
+      const match = history.find(({
+        promptId, messageId,
+      }) => (resource.promptId && promptId === resource.promptId)
+        || (resource.messageId && messageId === resource.messageId));
+      return match || resource;
     },
-    async hydrate(resource) {
-      const res = await this.app.getPromptsHistory({
-        headers: {
-          Accept: "application/json",
-        },
-        params: {
-          pageSize: 100,
-        },
-      });
-      const history = res?.data?.history || [];
-      const match = history.find((item) =>
-        (resource.messageId && item.messageId === resource.messageId)
-        || (resource.promptId && item.promptId === resource.promptId));
-      return match || {
-        promptId: resource.promptId,
-        messageId: resource.messageId,
-        prompt: resource.prompt,
-        answer: resource.answer,
-        mediaIds: resource.mediaIds,
-        folderId: resource.folderId,
+    generateMeta(resource) {
+      return {
+        id: this.getEventId(resource),
+        summary: `New AI Chat Response: ${resource.messageId || resource.promptId}`,
+        ts: Date.now(),
       };
     },
   },

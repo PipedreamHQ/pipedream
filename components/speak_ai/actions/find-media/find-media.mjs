@@ -3,7 +3,7 @@ import app from "../../speak_ai.app.mjs";
 export default {
   key: "speak_ai-find-media",
   name: "Find Media",
-  description: "Find an existing Speak AI media item by its Media ID. [See the documentation](https://docs.speakai.co/).",
+  description: "Find a media file in Speak AI by its ID, and return the analysis stored against it. [See the documentation](https://docs.speakai.co/api/media/#get-media-insight-media-id).",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -13,40 +13,36 @@ export default {
   type: "action",
   props: {
     app,
-    folderId: {
-      propDefinition: [
-        app,
-        "folderId",
-      ],
-    },
     mediaId: {
       propDefinition: [
         app,
         "mediaId",
-        ({ folderId }) => ({
-          folderId,
-        }),
       ],
+      description: "The media file to look up",
+    },
+    userId: {
+      type: "string",
+      label: "User ID",
+      description: "Look the media file up on behalf of another user in the account. Enterprise accounts only; ignored otherwise",
+      optional: true,
     },
   },
   async run({ $ }) {
     const {
       app,
       mediaId,
+      userId,
     } = this;
 
-    const results = await app.getInsights({
+    const response = await app.getInsight({
       $,
+      mediaId,
       params: {
-        mediaId,
-        pageSize: 1,
+        userId,
       },
     });
-    const media = app.firstResult(results);
 
-    $.export("$summary", media
-      ? `Found media \`${mediaId}\`.`
-      : `No media found for \`${mediaId}\`.`);
-    return media;
+    $.export("$summary", `Successfully found media \`${response.data.mediaId}\``);
+    return response;
   },
 };

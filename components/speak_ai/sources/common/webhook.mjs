@@ -25,12 +25,13 @@ export default {
           },
         });
 
-      setWebhookId(response.data.webhookId);
+      setWebhookId(response.data._id);
     },
     async deactivate() {
       const {
         deleteWebhook,
         getWebhookId,
+        setWebhookId,
       } = this;
 
       const webhookId = getWebhookId();
@@ -38,6 +39,7 @@ export default {
         await deleteWebhook({
           webhookId,
         });
+        setWebhookId(null);
       }
     },
   },
@@ -54,6 +56,9 @@ export default {
     getEvents() {
       throw new ConfigurationError("getEvents is not implemented");
     },
+    getEventId(resource) {
+      return resource.deliveryId;
+    },
     async getData(resource) {
       return resource;
     },
@@ -62,12 +67,17 @@ export default {
       this.$emit({
         ...resource,
         data,
-      }, this.generateMeta(resource));
+      }, this.generateMeta(resource, data));
     },
-    createWebhook(args = {}) {
+    createWebhook({
+      data, ...args
+    } = {}) {
       return this.app.post({
-        debug: true,
         path: "/webhook",
+        data: {
+          description: constants.WEBHOOK_DESCRIPTION,
+          ...data,
+        },
         ...args,
       });
     },
@@ -75,13 +85,16 @@ export default {
       webhookId, ...args
     } = {}) {
       return this.app.delete({
-        debug: true,
         path: `/webhook/${webhookId}`,
         ...args,
       });
     },
   },
   async run({ body }) {
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      console.log("Skipping delivery: the webhook body is missing or is not an event object.");
+      return;
+    }
     await this.processResource(body);
   },
 };
