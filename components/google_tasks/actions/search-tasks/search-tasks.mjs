@@ -49,7 +49,9 @@ export default {
   },
   async run({ $ }) {
     const keyword = this.keyword != null
-      ? String(this.keyword).trim().toLowerCase()
+      ? String(this.keyword)
+        .trim()
+        .toLowerCase()
       : undefined;
 
     if (!keyword && !this.due) {
