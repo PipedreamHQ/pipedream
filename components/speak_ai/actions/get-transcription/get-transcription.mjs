@@ -41,7 +41,11 @@ export default {
       mediaId,
     });
 
-    $.export("$summary", `Successfully retrieved transcription for media ID \`${response.data.mediaId}\`.`);
-    return response.data.insight.transcript;
+    const transcribedId = response?.data?.mediaId;
+    $.export("$summary", transcribedId
+      ? `Successfully retrieved transcription for media ID \`${transcribedId}\`.`
+      : "Successfully retrieved transcription.");
+    // A media file that has not finished analyzing carries no transcript yet.
+    return response?.data?.insight?.transcript ?? [];
   },
 };

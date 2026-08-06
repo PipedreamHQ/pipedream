@@ -81,7 +81,10 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully uploaded media with ID \`${response.data.mediaId}\`.`);
+    const mediaId = response?.data?.mediaId;
+    $.export("$summary", mediaId
+      ? `Successfully uploaded media with ID \`${mediaId}\`.`
+      : "Successfully uploaded media.");
     return response;
   },
 };

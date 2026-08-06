@@ -42,7 +42,10 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully found media \`${response.data.mediaId}\``);
+    const foundId = response?.data?.mediaId;
+    $.export("$summary", foundId
+      ? `Successfully found media \`${foundId}\``
+      : "Successfully found media");
     return response;
   },
 };
