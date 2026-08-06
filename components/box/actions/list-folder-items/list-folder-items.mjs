@@ -1,4 +1,5 @@
-import { ConfigurationError } from "@pipedream/platform";
+// x-pd-ai: optimized
+import { ConfigurationError } from "`@pipedream/platform`";
 import app from "../../box.app.mjs";
 
 export default {
