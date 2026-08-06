@@ -4,7 +4,7 @@ export default {
   key: "pipedrive-list-lead-label-ids-options",
   name: "List Lead Label IDs Options",
   description: "Retrieves available options for the Lead Label IDs field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

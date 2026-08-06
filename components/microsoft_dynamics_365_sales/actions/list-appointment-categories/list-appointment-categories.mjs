@@ -4,7 +4,7 @@ export default {
   key: "microsoft_dynamics_365_sales-list-appointment-categories",
   name: "List Appointment Categories",
   description: "List Category of Appointment options for the custom attribute used by create/update appointment actions (loaded from metadata or distinct values on existing rows). [See the documentation](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/query-metadata-web-api)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
