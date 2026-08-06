@@ -1,10 +1,12 @@
+// x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../amplitude.app.mjs";
 
 export default {
   key: "amplitude-send-event-data",
   name: "Send Event Data",
-  description: "Sends user event data to Amplitude for analytics. [See the documentation](https://www.docs.developers.amplitude.com/analytics/apis/http-v2-api/#keys-for-the-event-argument)",
-  version: "0.0.2",
+  description: "Record a single analytics event for a user via Amplitude's HTTP V2 API. Use this to send product-usage events (page views, feature use, purchases) as they happen, rather than the Dashboard REST actions in this app, which only read existing data back. Identify the user with `userId` and/or `deviceId` — Amplitude requires at least one. Example: call with `userId=\"user_123\"`, `eventType=\"Purchase\"`, `eventProperties={\"item\":\"Pro Plan\",\"price\":29.99}` -> returns `{code: 200, events_ingested: 1, payload_size_bytes: 148, server_upload_time: 1722873600000}`. [See the documentation](https://www.docs.developers.amplitude.com/analytics/apis/http-v2-api/#keys-for-the-event-argument)",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,12 +18,14 @@ export default {
     userId: {
       type: "string",
       label: "User ID",
-      description: "A unique identifier for a user.",
+      description: "A unique identifier for a user. Amplitude requires either this or Device ID (or both) — omitting both fails the request.",
+      optional: true,
     },
     deviceId: {
       type: "string",
       label: "Device ID",
-      description: "A unique identifier for a device.",
+      description: "A unique identifier for a device. Amplitude requires either this or User ID (or both) — omitting both fails the request.",
+      optional: true,
     },
     eventType: {
       type: "string",
@@ -245,6 +249,9 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!this.userId && !this.deviceId) {
+      throw new ConfigurationError("Provide at least one of **User ID** or **Device ID** — Amplitude rejects events with neither.");
+    }
     const eventData = {
       user_id: this.userId,
       device_id: this.deviceId,
@@ -295,7 +302,9 @@ export default {
       },
     });
 
-    $.export("$summary", "Successfully sent new event data");
+    $.export("$summary", `Successfully sent "${this.eventType}" event for ${this.userId
+      ? `user ${this.userId}`
+      : `device ${this.deviceId}`}`);
     return response;
   },
 };
