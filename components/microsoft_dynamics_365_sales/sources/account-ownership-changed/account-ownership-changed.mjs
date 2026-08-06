@@ -5,7 +5,7 @@ export default {
   key: "microsoft_dynamics_365_sales-account-ownership-changed",
   name: "Account Ownership Changed",
   description: "Emit new event when the ownership of an account changes.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {

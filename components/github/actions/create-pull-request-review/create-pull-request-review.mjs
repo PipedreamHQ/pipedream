@@ -5,7 +5,7 @@ export default {
   key: "github-create-pull-request-review",
   name: "Create Pull Request Review",
   description: "Submit a review on a pull request: approve it, request changes, or leave a general comment. Set `event` to `APPROVE`, `REQUEST_CHANGES`, or `COMMENT` — a `body` is required for `REQUEST_CHANGES` and `COMMENT`. Optionally attach inline `comments` tied to specific lines of the diff. GitHub forbids approving your own pull request, so use `COMMENT` to leave feedback on PRs you authored. Provide the repository as an `owner/repo` string and the PR number. Use **Get Pull Request Files** to find the file paths and lines to comment on, and **Search Issues and Pull Requests** with `is:pr` to resolve the PR number from a title. [See the documentation](https://docs.github.com/en/rest/pulls/reviews#create-a-review-for-a-pull-request)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
