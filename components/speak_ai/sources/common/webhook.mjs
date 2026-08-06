@@ -22,10 +22,18 @@ export default {
           data: {
             callbackUrl,
             events: getEvents(),
+            source: constants.WEBHOOK_SOURCE,
           },
         });
 
-      setWebhookId(response.data._id);
+      // `POST /v1/webhook` returns the new id as `data.webhookId`. `data._id` is
+      // read as a fallback only because an older API doc example showed it.
+      const webhookId = response?.data?.webhookId ?? response?.data?._id;
+      if (!webhookId) {
+        throw new ConfigurationError("Speak AI did not return a webhook ID, so this source could not be enabled.");
+      }
+
+      setWebhookId(webhookId);
     },
     async deactivate() {
       const {

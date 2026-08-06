@@ -45,7 +45,7 @@ export default {
     prompt: {
       type: "string",
       label: "Prompt",
-      description: "The instruction or question to run against the selected media, e.g. `Summarize the key action items from this transcript`. Be as descriptive as possible to get an accurate answer",
+      description: "The question or instruction for the AI to answer about the media, e.g. `Summarize the key action items from this transcript`. Be as descriptive as possible to get an accurate answer",
     },
     mediaIds: {
       type: "string[]",
