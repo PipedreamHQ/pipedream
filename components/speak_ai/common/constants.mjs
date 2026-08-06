@@ -7,6 +7,11 @@ const WEBHOOK_ID = "webhookId";
 
 const WEBHOOK_DESCRIPTION = "Created by Pipedream";
 
+// Attributes the subscription to Pipedream in Speak AI. The API defaults this to
+// `speak` when omitted, which makes Pipedream sources indistinguishable from
+// webhooks a user created by hand.
+const WEBHOOK_SOURCE = "pipedream";
+
 const ASSISTANT_TYPES = [
   "general",
   "researcher",
@@ -26,6 +31,7 @@ export default {
   DEFAULT_LIMIT,
   WEBHOOK_ID,
   WEBHOOK_DESCRIPTION,
+  WEBHOOK_SOURCE,
   ASSISTANT_TYPES,
   CAPTION_FILE_TYPES,
 };

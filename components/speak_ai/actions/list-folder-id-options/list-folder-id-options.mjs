@@ -3,7 +3,7 @@ import speak_ai from "../../speak_ai.app.mjs";
 export default {
   key: "speak_ai-list-folder-id-options",
   name: "List Folder ID Options",
-  description: "Retrieves available options for the Folder ID field.",
+  description: "Retrieves available options for the Folder ID field. [See the documentation](https://docs.speakai.co/api/folders/#get-folder).",
   version: "0.0.2",
   type: "action",
   annotations: {
