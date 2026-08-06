@@ -4,7 +4,7 @@ export default {
   key: "github-get-workflow-run",
   name: "Get Workflow Run",
   description: "Get the details of a single GitHub Actions workflow run, including its per-job conclusions and a link to the run's logs. Returns the run's `status`/`conclusion` and timestamps plus a `jobs` array (each job's name, status, conclusion, and `logsUrl`) so you can see exactly which job failed. Provide the repository as an `owner/repo` string and the run ID. Use **List Workflow Runs** to find a run ID, then **Run Workflow** to re-run the failed jobs. [See the documentation](https://docs.github.com/en/rest/actions/workflow-runs#get-a-workflow-run)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

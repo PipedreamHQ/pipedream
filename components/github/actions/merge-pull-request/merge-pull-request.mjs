@@ -4,7 +4,7 @@ export default {
   key: "github-merge-pull-request",
   name: "Merge Pull Request",
   description: "Merge an open pull request into its base branch. Choose the `mergeMethod`: `merge` (a merge commit, the default), `squash` (combine all commits into one), or `rebase`. The merge fails if the PR is not mergeable (conflicts, failing required checks, or required reviews missing) — check mergeable state and CI with **Get Pull Request** first. Provide the repository as an `owner/repo` string and the PR number. To create the PR first, use **Create Pull Request**. [See the documentation](https://docs.github.com/en/rest/pulls/pulls#merge-a-pull-request)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

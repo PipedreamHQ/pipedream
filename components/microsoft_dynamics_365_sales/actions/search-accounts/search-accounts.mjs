@@ -4,7 +4,7 @@ export default {
   key: "microsoft_dynamics_365_sales-search-accounts",
   name: "Search Accounts",
   description: "Search accounts by company name using `contains(name, …)`. [See the documentation](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/query/filter-rows)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

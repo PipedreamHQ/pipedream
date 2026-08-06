@@ -4,7 +4,7 @@ export default {
   key: "github-list-branches",
   name: "List Branches",
   description: "List the branches in a repository. Provide the repository as an `owner/repo` string. Optionally filter to only protected (or only unprotected) branches. If you need to discover repository names first, use **List Repositories**. [See the documentation](https://docs.github.com/en/rest/branches/branches#list-branches)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -26,11 +26,10 @@ export default {
       optional: true,
     },
     maxResults: {
-      type: "integer",
-      label: "Max Results",
-      description: "The maximum number of branches to return. Defaults: `100`",
-      default: 100,
-      optional: true,
+      propDefinition: [
+        github,
+        "maxResults",
+      ],
     },
   },
   async run({ $ }) {
