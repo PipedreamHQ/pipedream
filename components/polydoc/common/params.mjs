@@ -6,6 +6,27 @@
  */
 
 /**
+ * Object-typed props (Invoice, Template Data, Webhook Options, Advanced) arrive
+ * as a JSON string when set through the Pipedream UI rather than bound from an
+ * expression. Parse those back to objects; pass real objects through untouched.
+ * Throws a labelled error on malformed JSON so the user sees which field is bad.
+ */
+export function coerceObject(value, label) {
+  if (typeof value !== "string") {
+    return value;
+  }
+  const trimmed = value.trim();
+  if (trimmed === "") {
+    return undefined;
+  }
+  try {
+    return JSON.parse(trimmed);
+  } catch {
+    throw new Error(`${label} must be valid JSON.`);
+  }
+}
+
+/**
  * Enforce the source and delivery field requirements that n8n expressed with
  * displayOptions. Throws once with every missing-field message joined.
  */
@@ -43,7 +64,7 @@ function deliveryFromProps(props) {
   if (mode === "webhook") {
     delivery.webhook = {
       url: props.webhookUrl,
-      ...props.webhookOptions ?? {},
+      ...coerceObject(props.webhookOptions, "Webhook Options") ?? {},
     };
   }
   return delivery;
@@ -56,11 +77,11 @@ export function commonParams(props) {
     url: props.url,
     html: props.html,
     templateId: props.templateId,
-    templateData: props.templateData,
+    templateData: coerceObject(props.templateData, "Template Data"),
     filename: props.filename,
     tag: props.tag,
     timeout: props.timeout,
-    advanced: props.advanced,
+    advanced: coerceObject(props.advanced, "Advanced (JSON)"),
     delivery: deliveryFromProps(props),
   };
 }

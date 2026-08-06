@@ -4,7 +4,7 @@ export default {
   key: "surecart-retrieve-abandoned-checkout",
   name: "Retrieve Abandoned Checkout",
   description: "Retrieve an abandoned checkout by ID. [See the documentation](https://developer.surecart.com/api-reference/abandoned-checkouts/retrieve)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

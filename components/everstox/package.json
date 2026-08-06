@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/everstox",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Pipedream Everstox Components",
   "main": "everstox.app.mjs",
   "keywords": [

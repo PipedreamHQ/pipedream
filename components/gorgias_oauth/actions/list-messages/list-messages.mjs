@@ -4,7 +4,7 @@ export default {
   name: "List Messages",
   description: "List all messages. [See the documentation](https://developers.gorgias.com/reference/list-messages)",
   key: "gorgias_oauth-list-messages",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,

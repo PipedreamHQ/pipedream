@@ -4,7 +4,7 @@ export default {
   key: "github-update-pull-request",
   name: "Update Pull Request",
   description: "Update an existing pull request's title, body, state (`open`/`closed`), or base branch. Only the fields you provide are changed. Provide the repository as an `owner/repo` string and the PR number. If you only know the PR by title, call **Get Pull Request** or **Search Issues and Pull Requests** with `is:pr` first to resolve its number. To merge a PR, use **Merge Pull Request**; to comment on it, use **Create Issue Comment**. [See the documentation](https://docs.github.com/en/rest/pulls/pulls#update-a-pull-request)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   annotations: {
     destructiveHint: true,

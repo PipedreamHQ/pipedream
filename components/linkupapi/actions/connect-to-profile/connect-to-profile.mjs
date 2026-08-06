@@ -1,65 +1,67 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../linkupapi.app.mjs";
 
 export default {
   type: "action",
   key: "linkupapi-connect-to-profile",
-  name: "Connect to Profile",
-  description: "Send a connection request to a LinkedIn profile. [See the documentation](https://docs.linkupapi.com/api-reference/linkup/Network/connect)",
-  version: "0.0.2",
+  name: "Connect To Profile",
+  description: "Send a connection invitation to a LinkedIn profile. [See the documentation](https://docs.linkupapi.com/api-reference/v2/network/invite)",
+  version: "1.0.0",
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
   props: {
     app,
+    accountId: {
+      propDefinition: [
+        app,
+        "accountId",
+      ],
+    },
     linkedinUrl: {
       propDefinition: [
         app,
         "linkedinUrl",
       ],
+      description: "LinkedIn profile URL. Eg. `https://www.linkedin.com/in/john-doe/`. Required unless **Identifier** is provided.",
+      optional: true,
     },
-    loginToken: {
+    identifier: {
       propDefinition: [
         app,
-        "loginToken",
+        "identifier",
       ],
+      description: "Unique identifier of the person to invite. Required unless **LinkedIn URL** is provided.",
     },
     message: {
       type: "string",
       label: "Message",
-      description: "Optional custom message to include with connection request",
+      description: "Message to include with the connection request (max 300 chars).",
       optional: true,
     },
-    country: {
-      propDefinition: [
-        app,
-        "country",
-      ],
-    },
-  },
-  annotations: {
-    readOnlyHint: false,
-    destructiveHint: true,
-    openWorldHint: true,
-    idempotentHint: false,
   },
   async run({ $ }) {
-    const {
-      app,
-      linkedinUrl,
-      loginToken,
-      message,
-      country,
-    } = this;
+    if (!this.linkedinUrl && !this.identifier) {
+      throw new ConfigurationError("Provide either a **LinkedIn URL** or an **Identifier** to invite.");
+    }
 
-    const response = await app.connectToProfile({
+    if (this.message && this.message.length > 300) {
+      throw new ConfigurationError("Message must be less than 300 characters.");
+    }
+
+    const response = await this.app.connectToProfile({
       $,
-      data: {
-        linkedin_url: linkedinUrl,
-        login_token: loginToken,
-        message_text: message,
-        country,
+      accountId: this.accountId,
+      params: {
+        profile_url: this.linkedinUrl,
+        identifier: this.identifier,
+        message: this.message,
       },
     });
 
-    $.export("$summary", "Successfully sent connection request");
-
+    $.export("$summary", `Successfully sent connection invitation to ${this.linkedinUrl || this.identifier}`);
     return response;
   },
 };
