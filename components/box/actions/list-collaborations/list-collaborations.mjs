@@ -27,7 +27,7 @@ export default {
         "parentId",
       ],
       label: "Folder",
-      description: "The folder to list collaborations for when Item Type is `folder`. When Item Type is `file`, this instead scopes the File dropdown to a parent folder. Use `0` for the root folder. Use the **List Folders** action to retrieve folder IDs.",
+      description: "The folder to list collaborations for when Item Type is `folder`. When Item Type is `file`, use this as the parent folder ID to scope available file IDs. Use `0` for the root folder. Use the **List Folders** action to retrieve folder IDs.",
       optional: false,
     },
     fileId: {
