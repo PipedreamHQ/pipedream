@@ -4,7 +4,7 @@ export default {
   key: "search_api-google-search",
   name: "Google Search API",
   description: "Google Search API uses /api/v1/search?engine=google API endpoint to scrape real-time results. [See the documentation](https://www.searchapi.io/docs/google)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
