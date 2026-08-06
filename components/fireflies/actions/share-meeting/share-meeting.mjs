@@ -1,6 +1,7 @@
 // x-pd-ai: optimized
 import fireflies from "../../fireflies.app.mjs";
 import mutations from "../../common/mutations.mjs";
+import constants from "../../common/constants.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
@@ -31,16 +32,17 @@ export default {
     expiryDays: {
       type: "integer",
       label: "Expiry Days",
-      description: "Number of days after which shared access expires. Omit for access that doesn't expire.",
+      description: "Number of days after which shared access expires. Must be one of `7`, `14`, or `30`. Omit for access that doesn't expire.",
       optional: true,
+      options: constants.SHARE_EXPIRY_DAYS_OPTIONS,
     },
   },
   async run({ $ }) {
     if (!this.emails?.length) {
       throw new ConfigurationError("At least one email is required.");
     }
-    if (this.emails.length > 50) {
-      throw new ConfigurationError("A maximum of 50 emails can be shared at once.");
+    if (this.emails.length > constants.MAX_SHARE_EMAILS) {
+      throw new ConfigurationError(`A maximum of ${constants.MAX_SHARE_EMAILS} emails can be shared at once.`);
     }
 
     const { data: { shareMeeting } } = await this.fireflies.query({

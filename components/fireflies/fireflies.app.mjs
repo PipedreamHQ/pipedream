@@ -58,19 +58,20 @@ export default {
     channelId: {
       type: "string",
       label: "Channel ID",
-      description: "The unique identifier for a channel (a Fireflies \"user group\"). Used to route or filter meetings by team or topic. Use **List Channel ID Options** to browse available channels.",
+      description: "The unique identifier for a Fireflies channel, used to group meetings by team or topic. Use **List Channel ID Options** to browse available channels.",
       async options({ page }) {
-        // The Fireflies `user_groups` query doesn't accept limit/skip arguments.
+        // The Fireflies `channels` query doesn't accept limit/skip arguments —
+        // the full list is always returned in one call.
         if (page > 0) {
           return [];
         }
-        const { data: { user_groups: userGroups } } = await this.query({
+        const { data: { channels } } = await this.query({
           data: {
-            query: queries.userGroups,
+            query: queries.channels,
           },
         });
-        return userGroups?.map(({
-          id: value, name: label,
+        return channels?.map(({
+          id: value, title: label,
         }) => ({
           value,
           label,

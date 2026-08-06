@@ -4,7 +4,7 @@ import fireflies from "../../fireflies.app.mjs";
 export default {
   key: "fireflies-list-channel-id-options",
   name: "List Channel ID Options",
-  description: "Retrieves available options for the Channel ID field. [See the documentation](https://docs.fireflies.ai/graphql-api/query/user-groups)",
+  description: "Retrieves available options for the Channel ID field. [See the documentation](https://docs.fireflies.ai/graphql-api/query/channels)",
   version: "0.0.1",
   type: "action",
   annotations: {

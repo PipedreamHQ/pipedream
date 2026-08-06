@@ -20,7 +20,7 @@ export default {
         fireflies,
         "userId",
       ],
-      description: "The user whose role should change. Use **Find Recent Meeting** or **List User ID Options** to look up a user ID.",
+      description: "The user whose role should change. Use **List User ID Options** to look up a user ID.",
     },
     role: {
       type: "string",
@@ -52,7 +52,9 @@ export default {
       },
     });
 
-    $.export("$summary", `Set ${setUserRole.name}'s role to "${setUserRole.role}"`);
+    // The `User` type exposes `is_admin` rather than a `role` field, so echo
+    // back the requested role in the summary.
+    $.export("$summary", `Set ${setUserRole.name}'s role to "${this.role}"`);
     return setUserRole;
   },
 };

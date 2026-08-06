@@ -1,6 +1,8 @@
 // x-pd-ai: optimized
 import fireflies from "../../fireflies.app.mjs";
 import mutations from "../../common/mutations.mjs";
+import constants from "../../common/constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "fireflies-continue-askfred-conversation",
@@ -26,7 +28,7 @@ export default {
     query: {
       type: "string",
       label: "Follow-up Question",
-      description: "The follow-up question to ask in this thread, e.g. `Can you provide more detail on the budget discussion?`.",
+      description: "The follow-up question to ask in this thread, e.g. `Can you provide more detail on the budget discussion?`. Maximum 2000 characters.",
     },
     responseLanguage: {
       propDefinition: [
@@ -42,6 +44,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.query.length > constants.MAX_QUESTION_LENGTH) {
+      throw new ConfigurationError(`Question exceeds the ${constants.MAX_QUESTION_LENGTH} character limit.`);
+    }
+
     const { data: { continueAskFredThread } } = await this.fireflies.query({
       $,
       data: {

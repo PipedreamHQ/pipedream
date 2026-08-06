@@ -80,18 +80,12 @@ export default {
       }
     }
   `,
-  userGroups: `
-    query UserGroups($mine: Boolean) {
-      user_groups(mine: $mine) {
+  channels: `
+    {
+      channels {
         id
-        name
-        handle
-        members {
-          user_id
-          first_name
-          last_name
-          email
-        }
+        title
+        is_private
       }
     }
   `,

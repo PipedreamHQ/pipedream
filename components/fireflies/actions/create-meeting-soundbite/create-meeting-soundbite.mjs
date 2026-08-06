@@ -1,6 +1,8 @@
 // x-pd-ai: optimized
 import fireflies from "../../fireflies.app.mjs";
 import mutations from "../../common/mutations.mjs";
+import constants from "../../common/constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "fireflies-create-meeting-soundbite",
@@ -26,10 +28,15 @@ export default {
     prompt: {
       type: "string",
       label: "Prompt",
-      description: "A natural language description of the soundbite to create, e.g. `Create a soundbite from the last 2 minutes`.",
+      description: "A natural language description of the soundbite to create, e.g. `Create a soundbite from the last 2 minutes`. Must be between 5 and 255 characters.",
     },
   },
   async run({ $ }) {
+    if (this.prompt.length < constants.MIN_SOUNDBITE_PROMPT_LENGTH
+      || this.prompt.length > constants.MAX_SOUNDBITE_PROMPT_LENGTH) {
+      throw new ConfigurationError(`Prompt must be between ${constants.MIN_SOUNDBITE_PROMPT_LENGTH} and ${constants.MAX_SOUNDBITE_PROMPT_LENGTH} characters.`);
+    }
+
     const { data: { createLiveSoundbite } } = await this.fireflies.query({
       $,
       data: {

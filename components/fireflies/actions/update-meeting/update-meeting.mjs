@@ -1,12 +1,13 @@
 // x-pd-ai: optimized
 import fireflies from "../../fireflies.app.mjs";
 import mutations from "../../common/mutations.mjs";
+import constants from "../../common/constants.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "fireflies-update-meeting",
   name: "Update Meeting",
-  description: "Update a meeting's title, privacy level, and/or channel. Each selected field is applied through a separate, sequential mutation rather than a single atomic call — if a later update fails, earlier successful changes remain applied. Set only the fields you want to change — unset fields are left untouched. Updating the title requires admin privileges on the Fireflies team. [See the documentation](https://docs.fireflies.ai/graphql-api/mutation/update-meeting-title)",
+  description: "Update a meeting's title, privacy level, and/or channel. Each selected field is applied through a separate, sequential mutation rather than a single atomic call — if a later update fails, earlier successful changes remain applied. Set only the fields you want to change — unset fields are left untouched. Updating the title requires admin privileges on the Fireflies team. See the documentation for [Update Meeting Title](https://docs.fireflies.ai/graphql-api/mutation/update-meeting-title), [Update Meeting Privacy](https://docs.fireflies.ai/graphql-api/mutation/update-meeting-privacy) and [Update Meeting Channel](https://docs.fireflies.ai/graphql-api/mutation/update-meeting-channel)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -26,7 +27,7 @@ export default {
     title: {
       type: "string",
       label: "Title",
-      description: "The new title for the meeting.",
+      description: "The new title for the meeting, e.g. `Q3 Budget Review`. Must be between 5 and 256 characters and should not contain special characters.",
       optional: true,
     },
     privacy: {
@@ -62,13 +63,18 @@ export default {
         fireflies,
         "channelId",
       ],
-      description: "Move the meeting into this channel (Fireflies \"user group\"). Use **List Channel ID Options** to browse available channels.",
+      description: "Move the meeting into this channel. Use **List Channel ID Options** to browse available channels.",
       optional: true,
     },
   },
   async run({ $ }) {
     if (!this.title && !this.privacy && !this.channelId) {
       throw new ConfigurationError("Set at least one of Title, Privacy, or Channel ID to update.");
+    }
+    if (this.title
+      && (this.title.length < constants.MIN_MEETING_TITLE_LENGTH
+        || this.title.length > constants.MAX_MEETING_TITLE_LENGTH)) {
+      throw new ConfigurationError(`Title must be between ${constants.MIN_MEETING_TITLE_LENGTH} and ${constants.MAX_MEETING_TITLE_LENGTH} characters.`);
     }
 
     const changed = [];

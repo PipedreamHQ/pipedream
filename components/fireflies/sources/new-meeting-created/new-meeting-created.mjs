@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import fireflies from "../../fireflies.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import constants from "../../common/constants.mjs";
@@ -7,7 +8,7 @@ import sampleEmit from "./test-event.mjs";
 export default {
   key: "fireflies-new-meeting-created",
   name: "New Meeting Created",
-  description: "Emit new event when a meeting with transcripts is created",
+  description: "Emit new event when a meeting has finished transcribing, with the full transcript (summary, sentence-level text, duration, audio/video URLs) in the event payload. Polls on a timer rather than using webhooks, so a meeting appears only once Fireflies has finished processing it — not the moment the call ends. [See the documentation](https://docs.fireflies.ai/graphql-api/query/transcripts)",
   version: "0.0.5",
   type: "source",
   dedupe: "unique",

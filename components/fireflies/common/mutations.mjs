@@ -91,10 +91,9 @@ export default {
   setUserRole: `
     mutation SetUserRole($userId: String!, $role: Role!) {
       setUserRole(user_id: $userId, role: $role) {
-        id
+        user_id
         name
         email
-        role
         is_admin
       }
     }

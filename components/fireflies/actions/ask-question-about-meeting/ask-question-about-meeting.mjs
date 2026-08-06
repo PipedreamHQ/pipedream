@@ -1,6 +1,7 @@
 // x-pd-ai: optimized
 import fireflies from "../../fireflies.app.mjs";
 import mutations from "../../common/mutations.mjs";
+import constants from "../../common/constants.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
@@ -49,8 +50,8 @@ export default {
     },
   },
   async run({ $ }) {
-    if (this.query.length > 2000) {
-      throw new ConfigurationError("Question exceeds the 2000 character limit.");
+    if (this.query.length > constants.MAX_QUESTION_LENGTH) {
+      throw new ConfigurationError(`Question exceeds the ${constants.MAX_QUESTION_LENGTH} character limit.`);
     }
 
     const { data: { createAskFredThread } } = await this.fireflies.query({

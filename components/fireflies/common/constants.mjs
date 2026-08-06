@@ -1,5 +1,24 @@
 const DEFAULT_LIMIT = 50;
 
+// https://docs.fireflies.ai/schema/input/share-meeting-input
+const MAX_SHARE_EMAILS = 50;
+const SHARE_EXPIRY_DAYS_OPTIONS = [
+  7,
+  14,
+  30,
+];
+
+// https://docs.fireflies.ai/schema/input/continue-askfred-thread-input
+const MAX_QUESTION_LENGTH = 2000;
+
+// https://docs.fireflies.ai/schema/input/update-meeting-title-input
+const MIN_MEETING_TITLE_LENGTH = 5;
+const MAX_MEETING_TITLE_LENGTH = 256;
+
+// https://docs.fireflies.ai/schema/input/create-live-soundbite-input
+const MIN_SOUNDBITE_PROMPT_LENGTH = 5;
+const MAX_SOUNDBITE_PROMPT_LENGTH = 255;
+
 // https://docs.fireflies.ai/miscellaneous/language-codes
 const RESPONSE_LANGUAGE_OPTIONS = [
   {
@@ -154,5 +173,12 @@ const RESPONSE_LANGUAGE_OPTIONS = [
 
 export default {
   DEFAULT_LIMIT,
+  MAX_SHARE_EMAILS,
+  SHARE_EXPIRY_DAYS_OPTIONS,
+  MAX_QUESTION_LENGTH,
+  MIN_MEETING_TITLE_LENGTH,
+  MAX_MEETING_TITLE_LENGTH,
+  MIN_SOUNDBITE_PROMPT_LENGTH,
+  MAX_SOUNDBITE_PROMPT_LENGTH,
   RESPONSE_LANGUAGE_OPTIONS,
 };
