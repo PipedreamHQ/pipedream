@@ -2,11 +2,11 @@ import FormData from "form-data";
 import { ConfigurationError } from "@pipedream/platform";
 import emboss from "../../emboss.app.mjs";
 import {
-  resolveFileRef, writePdf, errorDetail,
+  resolveFileRef, writePdf, errorDetail, sleep,
 } from "../../common/utils.mjs";
 
 const POLL_DELAY_MS = 5000;
-const MAX_RETRIES = 144;
+const POLL_TIMEOUT_MS = 12 * 60 * 1000;
 
 export default {
   key: "emboss-create-fillable-form",
@@ -47,60 +47,48 @@ export default {
     },
   },
   async run({ $ }) {
-    const {
-      runs, context,
-    } = $.context?.run ?? {
-      runs: 1,
-    };
-    if (runs === 1) {
-      if (!this.file) {
-        throw new ConfigurationError("File Path Or Url is required.");
-      }
-      const f = await resolveFileRef(this.file, "form.pdf");
-      const form = new FormData();
-      form.append("file", f.stream, {
-        filename: f.filename,
-        contentType: "application/pdf",
-        knownLength: f.size,
-      });
-      if (this.callbackUrl) {
-        form.append("callback_url", this.callbackUrl);
-      }
-      const headers = form.getHeaders(this.idempotencyKey
-        ? {
-          "Idempotency-Key": this.idempotencyKey,
-        }
-        : undefined);
-      const created = await this.emboss.createForm({
-        $,
-        headers,
-        data: form,
-        maxBodyLength: Infinity,
-      });
-      $.flow.rerun(POLL_DELAY_MS, {
-        form_id: created.form_id,
-      }, MAX_RETRIES);
-      $.export("$summary", `Processing PDF — Emboss form \`${created.form_id}\` queued`);
-      return;
+    if (!this.file) {
+      throw new ConfigurationError("File Path Or Url is required.");
     }
-    const { form_id: formId } = context;
-    const status = await this.emboss.getForm({
-      $,
-      formId,
+    const f = await resolveFileRef(this.file, "form.pdf");
+    const form = new FormData();
+    form.append("file", f.stream, {
+      filename: f.filename,
+      contentType: "application/pdf",
+      knownLength: f.size,
     });
-    if (status.status === "failed") {
-      throw new Error(`Emboss form detection failed: ${errorDetail(status.error)}`);
+    if (this.callbackUrl) {
+      form.append("callback_url", this.callbackUrl);
     }
-    if (status.status !== "ready") {
-      if (runs >= MAX_RETRIES) {
-        throw new Error("Emboss job still processing after the polling limit (~12 minutes) — re-run with a smaller PDF or check the job in your Emboss dashboard.");
+    const headers = form.getHeaders(this.idempotencyKey
+      ? {
+        "Idempotency-Key": this.idempotencyKey,
       }
-      $.flow.rerun(POLL_DELAY_MS, {
-        form_id: formId,
-      }, MAX_RETRIES);
-      $.export("$summary", `Still processing form \`${formId}\` (check ${runs} of ${MAX_RETRIES})`);
-      return;
+      : undefined);
+    const created = await this.emboss.createForm({
+      $,
+      headers,
+      data: form,
+      maxBodyLength: Infinity,
+    });
+
+    const { form_id: formId } = created;
+    const deadline = Date.now() + POLL_TIMEOUT_MS;
+    let status = created;
+    while (status.status !== "ready") {
+      if (status.status === "failed") {
+        throw new Error(`Emboss form detection failed: ${errorDetail(status.error)}`);
+      }
+      if (Date.now() >= deadline) {
+        throw new Error(`Emboss form \`${formId}\` is still processing after the polling limit (~12 minutes) — re-run with a smaller PDF or check the job in your Emboss dashboard.`);
+      }
+      await sleep(POLL_DELAY_MS);
+      status = await this.emboss.getForm({
+        $,
+        formId,
+      });
     }
+
     const pdf = await this.emboss.getFillablePdf({
       $,
       formId,

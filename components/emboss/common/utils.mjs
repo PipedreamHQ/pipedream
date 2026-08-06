@@ -66,3 +66,8 @@ export function errorDetail(e) {
     ? e
     : (e && (e.message || e.code)) || "no detail";
 }
+
+/** Resolve after `ms` milliseconds — used to space out in-process polling. */
+export function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
