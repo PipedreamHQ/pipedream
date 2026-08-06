@@ -3,7 +3,7 @@ import app from "../../speak_ai.app.mjs";
 export default {
   key: "speak_ai-analyze-text",
   name: "Analyze Text",
-  description: "Retrieve the insights Speak AI generated for a text note: sentiment, keywords and named entities. The note must already exist in Speak AI; select it with the Media ID prop. [See the documentation](https://docs.speakai.co/api/text/#get-text-insight-media-id).",
+  description: "Retrieve the insights Speak AI generated for a text note: sentiment, keywords and named entities. Takes the media ID of a text note that already exists in Speak AI. [See the documentation](https://docs.speakai.co/api/text/#get-text-insight-media-id).",
   version: "0.0.3",
   annotations: {
     destructiveHint: false,

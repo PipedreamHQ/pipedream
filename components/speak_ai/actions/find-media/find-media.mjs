@@ -23,7 +23,7 @@ export default {
     userId: {
       type: "string",
       label: "User ID",
-      description: "Look the media file up on behalf of another user in the account. Enterprise accounts only; ignored otherwise",
+      description: "A Speak AI user ID, e.g. `6a708504253783a639e51914`, returned as `userId` on any media record. Looks the media file up on behalf of that user. Enterprise accounts only; ignored otherwise",
       optional: true,
     },
   },

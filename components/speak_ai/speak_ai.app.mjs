@@ -37,7 +37,7 @@ export default {
     mediaId: {
       type: "string",
       label: "Media ID",
-      description: "The media file to act on. Select from the list, or set a Speak AI media ID from an earlier step, e.g. `f8eb3c22bec3`",
+      description: "A Speak AI media ID, e.g. `f8eb3c22bec3`. Returned as `mediaId` by Upload Media, by the media webhook triggers, and by the media list endpoint",
       options(opts) {
         return this.listMediaOptions(opts);
       },
@@ -50,7 +50,7 @@ export default {
     mediaIds: {
       type: "string[]",
       label: "Media IDs",
-      description: "One or more media files to use as the context for the prompt. Select from the list, or set Speak AI media IDs from an earlier step, e.g. `f8eb3c22bec3`",
+      description: "One or more Speak AI media IDs to answer the prompt from, e.g. `f8eb3c22bec3`. Returned as `mediaId` by Upload Media, by the media webhook triggers, and by the media list endpoint",
       options(opts) {
         return this.listMediaOptions(opts);
       },
