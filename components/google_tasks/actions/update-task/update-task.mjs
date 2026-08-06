@@ -6,7 +6,7 @@ export default {
   description: "Updates the authenticated user's specified task. [See the docs here](https://developers.google.com/tasks/reference/rest/v1/tasks/update)",
   version: "0.0.5",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

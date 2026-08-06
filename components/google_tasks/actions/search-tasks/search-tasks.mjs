@@ -48,7 +48,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const keyword = this.keyword?.trim().toLowerCase();
+    const keyword = this.keyword != null
+      ? String(this.keyword).trim().toLowerCase()
+      : undefined;
 
     if (!keyword && !this.due) {
       throw new ConfigurationError(
@@ -64,7 +66,13 @@ export default {
     };
 
     if (this.due) {
-      const dueDate = this.due.split("T")[0];
+      const due = String(this.due);
+      if (Number.isNaN(new Date(due).getTime())) {
+        throw new ConfigurationError(
+          `Due must be a valid RFC 3339 date, for example \`2026-07-26T00:00:00Z\`. Received: \`${due}\`.`,
+        );
+      }
+      const dueDate = due.split("T")[0];
       params.dueMin = `${dueDate}T00:00:00.000Z`;
       params.dueMax = `${dueDate}T23:59:59.999Z`;
     }
