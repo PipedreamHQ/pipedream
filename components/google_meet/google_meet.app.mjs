@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import calendar from "@googleapis/calendar";
 import timezones from "moment-timezone";
 
@@ -5,10 +6,15 @@ export default {
   type: "app",
   app: "google_meet",
   propDefinitions: {
+    eventId: {
+      label: "Meeting ID",
+      type: "string",
+      description: "The ID of the meeting (Google Calendar event ID), e.g. `abc123def456ghi789`. Run **List Meetings** first to find the ID of the meeting you want to reference.",
+    },
     calendarId: {
       label: "Calendar ID",
       type: "string",
-      description: "Optionally select the calendar, defaults to the primary calendar for the logged-in user",
+      description: "The calendar to use, identified by its calendar ID (e.g. `primary`, or an ID like `en.indian#holiday@group.v.calendar.google.com`). Defaults to the connected account's primary calendar. Use **List Calendars** to find the ID of a specific calendar.",
       default: "primary",
       optional: true,
       async options({ prevContext }) {
@@ -66,7 +72,7 @@ export default {
     colorId: {
       label: "Color ID",
       type: "string",
-      description: "The color of the event. This is an ID referring to an entry in the event section of the colors definition (see the colors endpoint).",
+      description: "The color of the event, given as a color ID (e.g. `11` for Tomato). Use **List Color ID Options** to look up the valid color IDs and their background/foreground hex values.",
       optional: true,
       async options() {
         const response = await this.listColors();
@@ -134,6 +140,34 @@ export default {
       return this.requestHandler({
         api: "events",
         method: "insert",
+        args,
+      });
+    },
+    listEvents(args = {}) {
+      return this.requestHandler({
+        api: "events",
+        method: "list",
+        args,
+      });
+    },
+    getEvent(args = {}) {
+      return this.requestHandler({
+        api: "events",
+        method: "get",
+        args,
+      });
+    },
+    updateEvent(args = {}) {
+      return this.requestHandler({
+        api: "events",
+        method: "patch",
+        args,
+      });
+    },
+    deleteEvent(args = {}) {
+      return this.requestHandler({
+        api: "events",
+        method: "delete",
         args,
       });
     },
