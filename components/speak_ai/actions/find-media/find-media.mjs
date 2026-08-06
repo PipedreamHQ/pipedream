@@ -3,7 +3,7 @@ import app from "../../speak_ai.app.mjs";
 export default {
   key: "speak_ai-find-media",
   name: "Find Media",
-  description: "Find a media file in Speak AI by its ID, and return the analysis stored against it. [See the documentation](https://docs.speakai.co/api/media/#get-media-insight-media-id).",
+  description: "Look up a single Speak AI media file by its ID and return everything stored against it: transcript, sentiment, keywords, topics and metadata. Use **Get Transcription** instead when only the transcript is needed. [See the documentation](https://docs.speakai.co/api/media/#get-media-insight-media-id).",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

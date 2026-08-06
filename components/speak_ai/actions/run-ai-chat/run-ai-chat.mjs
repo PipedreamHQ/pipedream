@@ -4,7 +4,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "speak_ai-run-ai-chat",
   name: "Run AI Chat",
-  description: "Ask a question about one or more media files in Speak AI and get the answer back. [See the documentation](https://docs.speakai.co/api/ai-chat/#post-prompt).",
+  description: "Ask a question about one or more Speak AI media files and get the answer back. Requires at least one media file, and answers are only as good as the prompt, so be specific about the output wanted. Media must finish analyzing first. [See the documentation](https://docs.speakai.co/api/ai-chat/#post-prompt).",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

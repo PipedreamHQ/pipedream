@@ -37,7 +37,7 @@ export default {
     mediaId: {
       type: "string",
       label: "Media ID",
-      description: "The media file to act on",
+      description: "The media file to act on. Select from the list, or set a Speak AI media ID from an earlier step, e.g. `f8eb3c22bec3`",
       options(opts) {
         return this.listMediaOptions(opts);
       },
@@ -50,7 +50,7 @@ export default {
     mediaIds: {
       type: "string[]",
       label: "Media IDs",
-      description: "One or more media files to use as the context for the prompt",
+      description: "One or more media files to use as the context for the prompt. Select from the list, or set Speak AI media IDs from an earlier step, e.g. `f8eb3c22bec3`",
       options(opts) {
         return this.listMediaOptions(opts);
       },

@@ -20,24 +20,6 @@ export default {
       options: constants.CAPTION_FILE_TYPES,
       default: "srt",
     },
-    isSpeakerNames: {
-      type: "boolean",
-      label: "Include Speaker Names",
-      description: "Label each caption with the name of the speaker",
-      optional: true,
-    },
-    isTimeStamps: {
-      type: "boolean",
-      label: "Include Timestamps",
-      description: "Include timestamps in the exported captions",
-      optional: true,
-    },
-    isRedacted: {
-      type: "boolean",
-      label: "Redacted",
-      description: "Export the redacted version of the captions",
-      optional: true,
-    },
   },
   methods: {
     ...common.methods,
@@ -48,22 +30,9 @@ export default {
       ];
     },
     getData(resource) {
-      const {
-        app,
-        fileType,
-        isSpeakerNames,
-        isTimeStamps,
-        isRedacted,
-      } = this;
-
-      return app.exportMedia({
+      return this.app.exportMedia({
         mediaId: resource.mediaId,
-        fileType,
-        params: {
-          isSpeakerNames,
-          isTimeStamps,
-          isRedacted,
-        },
+        fileType: this.fileType,
       });
     },
     generateMeta(resource) {
