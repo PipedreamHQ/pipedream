@@ -1,9 +1,10 @@
+// x-pd-ai: optimized
 import emboss from "../../emboss.app.mjs";
 
 export default {
   key: "emboss-list-forms",
   name: "List Forms",
-  description: "List the forms in your Emboss account (id, title, status). Use this to look up a `form_id` for **Fill Existing Form**, instead of typing it in by hand. [See the documentation](https://getemboss.ai/docs/reference/create-form)",
+  description: "List the forms in your Emboss account. Each form is returned with its `id`, `title` and `status` — pass a returned `id` as the Form ID for **Fill Existing Form**, instead of typing it in by hand. [See the documentation](https://getemboss.ai/docs/reference/create-form)",
   version: "0.0.1",
   type: "action",
   annotations: {

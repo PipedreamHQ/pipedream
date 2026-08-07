@@ -1,12 +1,10 @@
+// x-pd-ai: optimized
 import FormData from "form-data";
 import { ConfigurationError } from "@pipedream/platform";
 import emboss from "../../emboss.app.mjs";
 import {
-  resolveFileRef, contextParts, writePdf, errorDetail, sleep,
+  resolveFileRef, contextParts, writePdf, pollUntilReady,
 } from "../../common/utils.mjs";
-
-const POLL_DELAY_MS = 5000;
-const POLL_TIMEOUT_MS = 12 * 60 * 1000;
 
 export default {
   key: "emboss-fill-existing-form",
@@ -88,21 +86,15 @@ export default {
     });
 
     const { job_id: jobId } = created;
-    const deadline = Date.now() + POLL_TIMEOUT_MS;
-    let status = created;
-    while (status.status !== "ready") {
-      if (status.status === "failed") {
-        throw new Error(`Emboss fill failed: ${errorDetail(status.error)}`);
-      }
-      if (Date.now() >= deadline) {
-        throw new Error("Emboss job still processing after the polling limit (~12 minutes) — re-run with a smaller PDF or check the job in your Emboss dashboard.");
-      }
-      await sleep(POLL_DELAY_MS);
-      status = await this.emboss.getContextJob({
+    const status = await pollUntilReady({
+      initial: created,
+      getStatus: () => this.emboss.getContextJob({
         $,
         jobId,
-      });
-    }
+      }),
+      failedPrefix: "Emboss fill failed",
+      timeoutMessage: "Emboss job still processing after the polling limit (~12 minutes) — re-run with a smaller PDF or check the job in your Emboss dashboard.",
+    });
 
     const pdf = await this.emboss.getSessionPdf({
       $,

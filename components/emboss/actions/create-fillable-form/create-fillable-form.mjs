@@ -1,12 +1,10 @@
+// x-pd-ai: optimized
 import FormData from "form-data";
 import { ConfigurationError } from "@pipedream/platform";
 import emboss from "../../emboss.app.mjs";
 import {
-  resolveFileRef, writePdf, errorDetail, sleep,
+  resolveFileRef, writePdf, pollUntilReady,
 } from "../../common/utils.mjs";
-
-const POLL_DELAY_MS = 5000;
-const POLL_TIMEOUT_MS = 12 * 60 * 1000;
 
 export default {
   key: "emboss-create-fillable-form",
@@ -73,21 +71,15 @@ export default {
     });
 
     const { form_id: formId } = created;
-    const deadline = Date.now() + POLL_TIMEOUT_MS;
-    let status = created;
-    while (status.status !== "ready") {
-      if (status.status === "failed") {
-        throw new Error(`Emboss form detection failed: ${errorDetail(status.error)}`);
-      }
-      if (Date.now() >= deadline) {
-        throw new Error(`Emboss form \`${formId}\` is still processing after the polling limit (~12 minutes) — re-run with a smaller PDF or check the job in your Emboss dashboard.`);
-      }
-      await sleep(POLL_DELAY_MS);
-      status = await this.emboss.getForm({
+    await pollUntilReady({
+      initial: created,
+      getStatus: () => this.emboss.getForm({
         $,
         formId,
-      });
-    }
+      }),
+      failedPrefix: "Emboss form detection failed",
+      timeoutMessage: `Emboss form \`${formId}\` is still processing after the polling limit (~12 minutes) — re-run with a smaller PDF or check the job in your Emboss dashboard.`,
+    });
 
     const pdf = await this.emboss.getFillablePdf({
       $,
