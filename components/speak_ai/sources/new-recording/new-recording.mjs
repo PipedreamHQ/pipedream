@@ -4,17 +4,17 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "speak_ai-new-media-created-instant",
-  name: "New Media Created (Instant)",
-  description: "Emit new event when a new media file is created. Useful for initiating workflows based on new media intake. [See the documentation](https://docs.speakai.co/api/webhooks/#post-webhook).",
-  version: "0.0.2",
+  key: "speak_ai-new-recording",
+  name: "New Recording Captured (Instant)",
+  description: "Emit new event when a recording is captured through a Speak AI embed recorder (`embed_recorder.recording_received`). [See the documentation](https://docs.speakai.co/api/media/#get-media-insight-media-id).",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getEvents() {
       return [
-        events.MEDIA_CREATED,
+        events.EMBED_RECORDER_RECORDING_RECEIVED,
       ];
     },
     async getData(resource) {
@@ -26,7 +26,7 @@ export default {
     generateMeta(resource) {
       return {
         id: this.getEventId(resource),
-        summary: `New Media Created: ${resource.mediaId}`,
+        summary: `New Recording Captured: ${resource.mediaId}`,
         ts: Date.now(),
       };
     },

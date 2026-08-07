@@ -37,25 +37,22 @@ export default {
     mediaId: {
       type: "string",
       label: "Media ID",
-      description: "The ID of the media file to retrieve the full transcription for",
-      async options({
-        page, folderId, mediaType,
-      }) {
-        const { data: { mediaList } } = await this.listMedia({
-          params: {
-            page,
-            pageSize: constants.DEFAULT_LIMIT,
-            folderId,
-            mediaType,
-          },
-        });
-        return mediaList.map(({
-          mediaId: value,
-          name: label,
-        }) => ({
-          label,
-          value,
-        }));
+      description: "A Speak AI media ID, e.g. `f8eb3c22bec3`. Returned as `mediaId` by **Upload Media** and by every media trigger in this app",
+      options(opts) {
+        return this.listMediaOptions(opts);
+      },
+    },
+    prompt: {
+      type: "string",
+      label: "Prompt",
+      description: "The question or instruction for the AI to answer about the media, e.g. `Summarize the key action items from this transcript`. Be as descriptive as possible to get an accurate answer",
+    },
+    mediaIds: {
+      type: "string[]",
+      label: "Media IDs",
+      description: "One or more Speak AI media IDs to answer the prompt from, e.g. `f8eb3c22bec3`. Returned as `mediaId` by **Upload Media** and by every media trigger in this app",
+      options(opts) {
+        return this.listMediaOptions(opts);
       },
     },
   },
@@ -122,6 +119,84 @@ export default {
         path: `/text/insight/${mediaId}`,
         ...args,
       });
+    },
+    /**
+     * Retrieves the transcript of a processed media file.
+     * @param {object} [opts={}] - Options for the request.
+     * @param {string} opts.mediaId - The ID of the media file to transcribe.
+     * @returns {Promise<object>} The response wrapping the transcript in `data`.
+     */
+    getTranscript({
+      mediaId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/media/transcript/${mediaId}`,
+        ...args,
+      });
+    },
+    /**
+     * Exports a media file in the requested format (e.g. `srt`, `vtt`, `pdf`).
+     * @param {object} [opts={}] - Options for the request.
+     * @param {string} opts.mediaId - The ID of the media file to export.
+     * @param {string} opts.fileType - The export format to generate.
+     * @returns {Promise<string|object>} The exported file contents.
+     */
+    exportMedia({
+      mediaId, fileType, ...args
+    } = {}) {
+      return this.post({
+        path: `/media/export/${mediaId}/${fileType}`,
+        ...args,
+      });
+    },
+    /**
+     * Lists the AI Chat prompts that have already run in the account.
+     * @param {object} [args={}] - Request options such as `$`.
+     * @returns {Promise<object>} The response wrapping the prompt history in `data.history`.
+     */
+    listPrompts(args = {}) {
+      return this._makeRequest({
+        path: "/prompt",
+        ...args,
+      });
+    },
+    /**
+     * Runs a Speak AI Chat prompt against one or more media files.
+     * @param {object} [args={}] - Request options; `data` carries the prompt payload.
+     * @returns {Promise<object>} The API response containing the answer in `data`.
+     */
+    runPrompt(args = {}) {
+      return this.post({
+        path: "/prompt",
+        ...args,
+      });
+    },
+    /**
+     * Lists the media files in the account as prop options.
+     * @param {object} [opts={}] - The options context provided by the prop.
+     * @param {number} opts.page - The page of media files to list.
+     * @param {string} [opts.folderId] - Restricts the list to a single folder.
+     * @param {string} [opts.mediaType] - Restricts the list to `audio`, `video` or `text`.
+     * @returns {Promise<object[]>} Label/value pairs for each media file.
+     */
+    async listMediaOptions({
+      page, folderId, mediaType,
+    } = {}) {
+      const { data: { mediaList } } = await this.listMedia({
+        params: {
+          page,
+          pageSize: constants.DEFAULT_LIMIT,
+          folderId,
+          mediaType,
+        },
+      });
+      return mediaList.map(({
+        mediaId: value,
+        name: label,
+      }) => ({
+        label,
+        value,
+      }));
     },
   },
 };

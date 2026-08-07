@@ -3,8 +3,8 @@ import app from "../../speak_ai.app.mjs";
 export default {
   key: "speak_ai-upload-media",
   name: "Upload Media",
-  description: "Upload an audio or video file for transcription and natural language processing into Speak AI. [See the documentation](https://docs.speakai.co/#c6106a66-6a3d-4b05-b4a2-4a68a4c1e95d).",
-  version: "0.0.2",
+  description: "Upload an audio or video file to Speak AI for transcription and analysis, from a publicly reachable URL or an AWS signed URL. Processing is asynchronous, so use the **New Automated Transcription (Instant)** trigger to act on the result. [See the documentation](https://docs.speakai.co/api/media/#post-media-upload).",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
