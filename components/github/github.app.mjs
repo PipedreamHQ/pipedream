@@ -41,7 +41,7 @@ export default {
     // round-trips. GitHub identifiers are human-readable, so dropdowns add no value.
     repoFullnameStatic: {
       label: "Repository",
-      description: "The repository in `owner/repo` format, for example `PipedreamHQ/pipedream` (not case sensitive). If you pass just a repository name with no owner (e.g. `my-repo`), the authenticated user is assumed as the owner — convenient for \"my repo\" requests.",
+      description: "The repository in `owner/repo` format, for example `PipedreamHQ/pipedream` (not case sensitive). If you pass just a repository name with no owner (e.g. `my-repo`), the authenticated user is assumed as the owner — convenient for \"my repo\" requests. Do NOT repeat the repository name as the owner (e.g. `my-repo/my-repo`); if you don't know the owner, pass only the name or run **List Repositories** to find it.",
       type: "string",
     },
     issueNumberStatic: {
@@ -53,6 +53,33 @@ export default {
       label: "Pull Request Number",
       description: "The pull request number — the `#N` shown in the GitHub UI. Use **Search Issues and Pull Requests** with `is:pr` or **Get Pull Request** to find it when you only know the title.",
       type: "integer",
+    },
+    // Static, MCP-friendly props for the Projects (V2) discovery chain
+    // (List Projects → List Project Statuses / List Project Items). No
+    // `async options()` dropdowns — Projects V2 are addressed by their
+    // human-readable org login + number. User-owned Projects are not supported.
+    projectOwnerStatic: {
+      label: "Owner",
+      description: "The account that owns the Project (V2) — an organization login (e.g. `my-org`), or a repository owner when **Repository** is also set. **Required, and it must come from the user.** If the user has not said which owner/organization the project belongs to, ask them — do NOT guess an owner or enumerate organizations to find one. If they named an organization but you need its exact login, use **List Organizations**. User-owned Projects are not supported.",
+      type: "string",
+    },
+    projectRepoStatic: {
+      label: "Repository",
+      description: "Optional. The repository name **without** the owner (e.g. `my-repo`, not `my-org/my-repo`) when the Project (V2) is repository-scoped. Leave blank to target an organization-owned Project.",
+      type: "string",
+      optional: true,
+    },
+    projectNumberStatic: {
+      label: "Project Number",
+      description: "The Project (V2) number as shown in the project URL and UI (e.g. `5` in `/orgs/my-org/projects/5`) — not the node ID. **Required.** If the user has not provided it, ask them — do NOT guess. Once you know the owner, you can look up numbers with **List Projects**.",
+      type: "integer",
+    },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum number of results to return. Defaults to `100`.",
+      default: 100,
+      optional: true,
     },
     repoOrg: {
       label: "Organization Repository",
@@ -467,11 +494,39 @@ export default {
         ...args,
       });
     },
-    async getRepositoryLabels({ repoFullname }) {
-      return this._client().paginate(`GET /repos/${repoFullname}/labels`, {});
+    // Paginate but stop early once `maxResults` rows are collected, so callers
+    // that only want a bounded slice don't pull every page. When `maxResults`
+    // is omitted (e.g. the propDefinition option loaders), all pages are
+    // fetched — preserving the previous behavior.
+    async _paginateWithLimit(route, maxResults, params = {}) {
+      const results = [];
+      // A defined, non-positive limit means "no rows" — return before paging.
+      if (maxResults != null && maxResults <= 0) {
+        return results;
+      }
+      for await (const { data } of this._client().paginate.iterator(route, {
+        per_page: 100,
+        ...params,
+      })) {
+        results.push(...data);
+        if (maxResults != null && results.length >= maxResults) {
+          break;
+        }
+      }
+      // Only `undefined`/`null` means unlimited; slice for any defined limit.
+      return maxResults != null
+        ? results.slice(0, maxResults)
+        : results;
     },
-    async getRepositoryCollaborators({ repoFullname }) {
-      return this._client().paginate(`GET /repos/${repoFullname}/collaborators`, {});
+    async getRepositoryLabels({
+      repoFullname, maxResults,
+    }) {
+      return this._paginateWithLimit(`GET /repos/${repoFullname}/labels`, maxResults);
+    },
+    async getRepositoryCollaborators({
+      repoFullname, maxResults,
+    }) {
+      return this._paginateWithLimit(`GET /repos/${repoFullname}/collaborators`, maxResults);
     },
     async getRepositoryIssues({
       repoFullname, ...args
@@ -486,7 +541,7 @@ export default {
       return this._client().paginate(`GET /repos/${repoFullname}/projects`, {});
     },
     async getProjectsV2({
-      repoOwner, repoName, cursor,
+      repoOwner, repoName, cursor, first = 10,
     }) {
       const response = await this.graphql(repoName
         ? queries.projectsQuery
@@ -494,12 +549,15 @@ export default {
         repoOwner,
         repoName,
         cursor,
+        first,
       });
+      const pageInfo = response?.repository?.projectsV2?.pageInfo ??
+        response?.organization?.projectsV2?.pageInfo;
       return {
         projects: response?.repository?.projectsV2?.nodes ??
           response?.organization?.projectsV2?.nodes,
-        nextCursor: response?.repository?.projectsV2?.pageInfo?.endCursor ??
-          response?.organization?.projectsV2?.pageInfo?.endCursor,
+        nextCursor: pageInfo?.endCursor,
+        hasNextPage: pageInfo?.hasNextPage ?? false,
       };
     },
     async getProjectV2StatusField({
@@ -593,9 +651,22 @@ export default {
     // "my repo X" it often passes just `X`; GitHub needs `owner/repo`, so we
     // assume the authenticated user as the owner when no `/` is present.
     async _resolveRepoFullname(repoFullname) {
-      if (typeof repoFullname === "string" && repoFullname && !repoFullname.includes("/")) {
-        const { login } = await this.getAuthenticatedUser();
-        return `${login}/${repoFullname}`;
+      if (typeof repoFullname === "string" && repoFullname) {
+        // Bare repo name (no owner) → assume the authenticated user.
+        if (!repoFullname.includes("/")) {
+          const { login } = await this.getAuthenticatedUser();
+          return `${login}/${repoFullname}`;
+        }
+        // Common LLM mistake: duplicating the repo name into the owner slot
+        // (e.g. "my-repo/my-repo") when the owner is unknown. Treat the doubled
+        // form as a bare name and assume the authenticated user as the owner.
+        // GitHub owner/repo names are case-insensitive, so compare accordingly
+        // (e.g. "My-Repo/my-repo" is also a doubled name).
+        const parts = repoFullname.split("/");
+        if (parts.length === 2 && parts[0] && parts[0].toLowerCase() === parts[1].toLowerCase()) {
+          const { login } = await this.getAuthenticatedUser();
+          return `${login}/${parts[1]}`;
+        }
       }
       return repoFullname;
     },
@@ -964,15 +1035,17 @@ export default {
       return response.data;
     },
     async getRepositoryMilestones({
-      repoFullname, ...args
+      repoFullname, maxResults, ...args
     }) {
-      const response = await this._client().request(`GET /repos/${repoFullname}/milestones`, {
-        ...args,
-        per_page: 100,
+      // Paginate (bounded by maxResults) rather than a single page, so large
+      // milestone sets are reachable. `state` default comes first so a
+      // caller-supplied `state` (spread via `...args`) overrides it; without
+      // one, GitHub defaults to `open`, which the `milestoneNumber`
+      // propDefinition relies on (it passes no maxResults, so all are fetched).
+      return this._paginateWithLimit(`GET /repos/${repoFullname}/milestones`, maxResults, {
         state: "open",
+        ...args,
       });
-
-      return response.data;
     },
     async getRepositoryStargazers({
       repoFullname, ...args

@@ -1,4 +1,3 @@
-import constants from "../../common/constants.mjs";
 import base from "../common/base.mjs";
 import eventTypes from "../common/event-types.mjs";
 import sampleEmit from "./test-event.mjs";
@@ -8,7 +7,7 @@ export default {
   key: "gorgias_oauth-ticket-message-created",
   name: "New Ticket Message",
   description: "Emit new event when a ticket message is created. [See the documentation](https://developers.gorgias.com/reference/the-event-object)",
-  version: "0.1.12",
+  version: "0.1.13",
   type: "source",
   props: {
     ...base.props,
@@ -28,11 +27,10 @@ export default {
       optional: true,
     },
     sourceType: {
-      type: "string",
-      label: "Source Type",
-      description: "How the message was sent/received",
-      options: constants.sourceTypes,
-      optional: true,
+      propDefinition: [
+        base.props.gorgias_oauth,
+        "sourceType",
+      ],
     },
     sender: {
       type: "string",

@@ -6,7 +6,7 @@ export default {
   key: "gorgias_oauth-new-macro-created",
   name: "New Macro Created",
   description: "Emit new event when a macro is created. [See the documentation](https://developers.gorgias.com/reference/the-event-object)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   methods: {
