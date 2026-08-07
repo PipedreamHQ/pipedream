@@ -19,6 +19,21 @@ const MAX_MEETING_TITLE_LENGTH = 256;
 const MIN_SOUNDBITE_PROMPT_LENGTH = 5;
 const MAX_SOUNDBITE_PROMPT_LENGTH = 255;
 
+// https://docs.fireflies.ai/graphql-api/mutation/create-bite
+const MAX_BITE_NAME_LENGTH = 256;
+const MAX_BITE_SUMMARY_LENGTH = 500;
+
+// https://docs.fireflies.ai/schema/bite
+const BITE_MEDIA_TYPE_OPTIONS = [
+  "video",
+  "audio",
+];
+const BITE_PRIVACY_OPTIONS = [
+  "public",
+  "team",
+  "participants",
+];
+
 // https://docs.fireflies.ai/miscellaneous/language-codes
 const RESPONSE_LANGUAGE_OPTIONS = [
   {
@@ -180,5 +195,9 @@ export default {
   MAX_MEETING_TITLE_LENGTH,
   MIN_SOUNDBITE_PROMPT_LENGTH,
   MAX_SOUNDBITE_PROMPT_LENGTH,
+  MAX_BITE_NAME_LENGTH,
+  MAX_BITE_SUMMARY_LENGTH,
+  BITE_MEDIA_TYPE_OPTIONS,
+  BITE_PRIVACY_OPTIONS,
   RESPONSE_LANGUAGE_OPTIONS,
 };

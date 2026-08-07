@@ -5,9 +5,9 @@ import constants from "../../common/constants.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
-  key: "fireflies-create-meeting-soundbite",
-  name: "Create Meeting Soundbite",
-  description: "Create a soundbite clip from a meeting that is currently live/in-progress, based on a natural language description of the moment to capture (e.g. `the last 2 minutes` or `when the budget was discussed`). This only works while the meeting is still running — it will fail once the meeting has ended and been transcribed. Only the meeting organizer or a team admin can run this, and it consumes AI credits and is rate-limited to 10 requests per hour. Use **Find Meeting by ID** to confirm a meeting's status first. [See the documentation](https://docs.fireflies.ai/graphql-api/mutation/create-live-soundbite)",
+  key: "fireflies-create-live-meeting-soundbite",
+  name: "Create Live Meeting Soundbite",
+  description: "Create a soundbite from a meeting that is currently live/in-progress, based on a natural language description of the moment to capture (e.g. `the last 2 minutes` or `when the budget was discussed`). This is documented for use during a live meeting; to clip a meeting that has already ended and been transcribed, use **Create Meeting Clip** instead, which takes an explicit start and end time. Only the meeting organizer or a team admin can run this, and it consumes AI credits and is rate-limited to 10 requests per hour. [See the documentation](https://docs.fireflies.ai/graphql-api/mutation/create-live-soundbite)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -23,7 +23,7 @@ export default {
         "meetingId",
       ],
       label: "Live Meeting ID",
-      description: "The ID of the currently live (in-progress) meeting to clip. Does not work on meetings that have already ended.",
+      description: "The ID of the currently live (in-progress) meeting to clip. For a meeting that has already ended, use **Create Meeting Clip** instead.",
     },
     prompt: {
       type: "string",

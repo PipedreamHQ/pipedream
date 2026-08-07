@@ -42,9 +42,11 @@ export default {
       },
     });
 
-    $.export("$summary", revokeSharedMeetingAccess.success
-      ? `Revoked access to meeting ${this.meetingId} for ${this.email}`
-      : `Failed to revoke access to meeting ${this.meetingId} for ${this.email}: ${revokeSharedMeetingAccess.message}`);
+    if (!revokeSharedMeetingAccess.success) {
+      throw new Error(`Failed to revoke access to meeting ${this.meetingId} for ${this.email}: ${revokeSharedMeetingAccess.message}`);
+    }
+
+    $.export("$summary", `Revoked access to meeting ${this.meetingId} for ${this.email}`);
     return revokeSharedMeetingAccess;
   },
 };

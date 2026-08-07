@@ -88,6 +88,39 @@ export default {
       }
     }
   `,
+  createBite: `
+    mutation CreateBite(
+      $transcriptId: ID!
+      $startTime: Float!
+      $endTime: Float!
+      $name: String
+      $mediaType: String
+      $privacies: [String]
+      $summary: String
+    ) {
+      createBite(
+        transcript_id: $transcriptId
+        start_time: $startTime
+        end_time: $endTime
+        name: $name
+        media_type: $mediaType
+        privacies: $privacies
+        summary: $summary
+      ) {
+        id
+        transcript_id
+        name
+        status
+        summary
+        start_time
+        end_time
+        media_type
+        thumbnail
+        preview
+        created_at
+      }
+    }
+  `,
   setUserRole: `
     mutation SetUserRole($userId: String!, $role: Role!) {
       setUserRole(user_id: $userId, role: $role) {

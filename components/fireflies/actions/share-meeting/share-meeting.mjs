@@ -59,9 +59,11 @@ export default {
       },
     });
 
-    $.export("$summary", shareMeeting.success
-      ? `Shared meeting ${this.meetingId} with ${this.emails.length} recipient(s)`
-      : `Failed to share meeting ${this.meetingId}: ${shareMeeting.message}`);
+    if (!shareMeeting.success) {
+      throw new Error(`Failed to share meeting ${this.meetingId}: ${shareMeeting.message}`);
+    }
+
+    $.export("$summary", `Shared meeting ${this.meetingId} with ${this.emails.length} recipient(s)`);
     return shareMeeting;
   },
 };

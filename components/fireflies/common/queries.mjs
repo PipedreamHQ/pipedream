@@ -19,6 +19,8 @@ export default {
         video_url
         sentences {
           text
+          start_time
+          end_time
         }
         calendar_id
         summary {
@@ -47,6 +49,8 @@ export default {
         video_url
         sentences {
           text
+          start_time
+          end_time
         }
         calendar_id
         summary {
