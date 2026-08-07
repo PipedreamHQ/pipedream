@@ -4,7 +4,7 @@ export default {
   key: "jira-get-cloud-id",
   name: "Get Cloud ID",
   description: "Lists all accessible Jira Cloud sites and their IDs. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/oauth-2-3lo-apps/#3-1-get-the-cloudid-for-your-site)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   annotations: {
     destructiveHint: false,
