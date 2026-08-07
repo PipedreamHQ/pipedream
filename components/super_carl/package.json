@@ -5,11 +5,15 @@
   "main": "super_carl.app.mjs",
   "keywords": [
     "pipedream",
-    "super_carl"
+    "super_carl",
+    "super carl"
   ],
-  "homepage": "https://pipedream.com/apps/super_carl",
+  "homepage": "https://pipedream.com/apps/super-carl",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.2.5"
   }
 }
