@@ -1,4 +1,5 @@
 // x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import mercury from "../../mercury.app.mjs";
 import {
   DEFAULT_LIMIT,
@@ -49,6 +50,9 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.startAfter && this.endBefore) {
+      throw new ConfigurationError("**Start After** and **End Before** are mutually exclusive — provide only one.");
+    }
     const response = await this.mercury.getCategories({
       $,
       params: {

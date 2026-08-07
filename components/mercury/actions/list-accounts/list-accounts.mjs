@@ -1,4 +1,5 @@
 // x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import mercury from "../../mercury.app.mjs";
 import {
   DEFAULT_LIMIT,
@@ -38,17 +39,20 @@ export default {
     startAfter: {
       type: "string",
       label: "Start After",
-      description: "Cursor: return accounts created after this account ID (UUID). Obtain IDs from a prior run of this action.",
+      description: "Cursor: return accounts created after this account ID (UUID). Obtain IDs from a prior run of this action. Mutually exclusive with **End Before** — provide only one.",
       optional: true,
     },
     endBefore: {
       type: "string",
       label: "End Before",
-      description: "Cursor: return accounts created before this account ID (UUID).",
+      description: "Cursor: return accounts created before this account ID (UUID). Mutually exclusive with **Start After** — provide only one.",
       optional: true,
     },
   },
   async run({ $ }) {
+    if (this.startAfter && this.endBefore) {
+      throw new ConfigurationError("**Start After** and **End Before** are mutually exclusive — provide only one.");
+    }
     const response = await this.mercury.getAccounts({
       $,
       params: {

@@ -173,6 +173,9 @@ export default {
         address: buildAddress(),
       };
     } else if (method === "domesticWire") {
+      if (electronicAccountType) {
+        throw new ConfigurationError("**Electronic Account Type** applies only to `ach` recipients; remove it for `domesticWire`.");
+      }
       if (!accountNumber || !routingNumber) {
         throw new ConfigurationError("Domestic wire recipients require **Account Number** and **Routing Number**.");
       }
@@ -182,6 +185,9 @@ export default {
         address: buildAddress(),
       };
     } else if (method === "check") {
+      if (accountNumber || routingNumber || electronicAccountType) {
+        throw new ConfigurationError("`check` recipients take only address fields; remove **Account Number**, **Routing Number**, and **Electronic Account Type**.");
+      }
       checkInfo = {
         address: buildAddress(),
       };

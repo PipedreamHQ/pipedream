@@ -1,4 +1,5 @@
 // x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import mercury from "../../mercury.app.mjs";
 import {
   DEFAULT_LIMIT,
@@ -10,7 +11,7 @@ import {
 export default {
   key: "mercury-list-send-money-requests",
   name: "List Send Money Requests",
-  description: "List send money approval requests for the organization. Optionally filter by account and status. Use this to discover pending approvals and their `requestId`. Example: call with `status: \"pendingApproval\"` -> returns `{ requests: [{ requestId: \"req_1a2b...\", accountId: \"a1b2...\", amount: 100.5, paymentMethod: \"ach\", status: \"pendingApproval\" }], page: { nextPage: null, previousPage: null } }`. [See the documentation](https://docs.mercury.com/reference/listsendmoneyapprovalrequests)",
+  description: "List send money approval requests for the organization. Optionally filter by account and status. Use this to discover pending approvals and their `requestId`. Example: call with `status: \"pendingApproval\"` -> returns `{ requests: [{ requestId: \"3f1a9c22-8b87-11f1-a9e5-6b3dd34242f2\", accountId: \"69c8b0ee-8b87-11f1-a9e5-e7cd8f0e3f51\", amount: 100.5, paymentMethod: \"ach\", status: \"pendingApproval\" }], page: { nextPage: null, previousPage: null } }`. [See the documentation](https://docs.mercury.com/reference/listsendmoneyapprovalrequests)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -58,6 +59,9 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.startAfter && this.endBefore) {
+      throw new ConfigurationError("**Start After** and **End Before** are mutually exclusive — provide only one.");
+    }
     const response = await this.mercury.getSendMoneyRequests({
       $,
       params: {

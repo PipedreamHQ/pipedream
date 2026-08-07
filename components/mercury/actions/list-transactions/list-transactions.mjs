@@ -56,7 +56,7 @@ export default {
     categoryId: {
       type: "string",
       label: "Category ID",
-      description: "Filter by category ID. Use **List Categories** to obtain a valid ID.",
+      description: "Filter by category ID (UUID), e.g. `3f1a9c22-8b87-11f1-a9e5-6b3dd34242f2`. Use **List Categories** to obtain a valid ID.",
       optional: true,
     },
     limit: {
