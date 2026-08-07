@@ -1,11 +1,10 @@
 import mural from "../../mural.app.mjs";
-import { STICKY_SHAPE_OPTIONS } from "../../common/constants.mjs";
 
 export default {
-  key: "mural-create-sticky",
-  name: "Create Sticky",
-  description: "Create a new sticky note within a given mural. [See the documentation](https://developers.mural.co/public/reference/createstickynote)",
-  version: "0.0.3",
+  key: "mural-create-textbox",
+  name: "Create Textbox",
+  description: "Create a new textbox widget within a given mural. Use a textbox for section headings, instructions, or longer prose that should read as plain text on the canvas rather than as a sticky note. Position is set in pixels and, unless **Parent ID** is given, is measured from the top-left corner of the mural. [See the documentation](https://developers.mural.co/public/reference/createtextbox)",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -28,12 +27,6 @@ export default {
           workspaceId: c.workspaceId,
         }),
       ],
-    },
-    shape: {
-      type: "string",
-      label: "Shape",
-      description: "The shape of the sticky note widget",
-      options: STICKY_SHAPE_OPTIONS,
     },
     xPosition: {
       propDefinition: [
@@ -78,15 +71,6 @@ export default {
         "hidden",
       ],
     },
-    tagIds: {
-      propDefinition: [
-        mural,
-        "tagIds",
-        (c) => ({
-          muralId: c.muralId,
-        }),
-      ],
-    },
     parentId: {
       propDefinition: [
         mural,
@@ -97,17 +81,16 @@ export default {
         }),
       ],
       label: "Parent ID",
-      description: "The ID of the area widget that should contain this sticky note, for example `0-12345`. When set, **X Position** and **Y Position** are measured from the area's top-left corner instead of the mural's.",
+      description: "The ID of the area widget that should contain this textbox, for example `0-12345`. When set, **X Position** and **Y Position** are measured from the area's top-left corner instead of the mural's.",
       optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.mural.createSticky({
+    const response = await this.mural.createTextbox({
       $,
       muralId: this.muralId,
       data: [
         {
-          shape: this.shape,
           x: this.xPosition,
           y: this.yPosition,
           text: this.text,
@@ -119,7 +102,7 @@ export default {
         },
       ],
     });
-    $.export("$summary", `Successfully created sticky note with ID: ${response.value[0].id}`);
+    $.export("$summary", `Successfully created textbox with ID: ${response.value[0].id}`);
     return response;
   },
 };
