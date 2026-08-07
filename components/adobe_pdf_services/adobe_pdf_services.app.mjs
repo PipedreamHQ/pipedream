@@ -10,6 +10,7 @@ import {
   PDFServices,
   ServicePrincipalCredentials,
 } from "@adobe/pdfservices-node-sdk";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -63,10 +64,10 @@ export default {
     },
     async extractPDF(filePath, type = "text", filename) {
       if (!filename) {
-        throw new Error("filename is required");
+        throw new ConfigurationError("Filename is required");
       }
       if (path.basename(filename) !== filename) {
-        throw new Error("filename must be a plain file name with no path separators or \"..\" segments");
+        throw new ConfigurationError("Filename must be a plain file name with no path separators or \"..\" segments");
       }
 
       const pdfServices = this.getPDFServices();
