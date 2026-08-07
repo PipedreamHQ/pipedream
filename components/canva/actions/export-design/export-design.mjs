@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import canva from "../../canva.app.mjs";
 import constants from "../../common/constants.mjs";
 import fs from "fs";
@@ -8,7 +9,7 @@ export default {
   key: "canva-export-design",
   name: "Export Design",
   description: "Starts a new job to export a file from Canva. [See the documentation](https://www.canva.dev/docs/connect/api-reference/exports/create-design-export-job/)",
-  version: "0.1.1",
+  version: "0.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
