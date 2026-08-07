@@ -39,13 +39,13 @@ export default {
     startAfter: {
       type: "string",
       label: "Start After",
-      description: "Cursor: return recipients after this recipient ID (UUID). Mutually exclusive with **End Before** — provide only one.",
+      description: "Cursor: return recipients after this recipient ID (UUID), e.g. `b56db170-927b-11f1-a805-27c2879b4c72`. Use a recipient `id` from a previous **List Recipients** response. Mutually exclusive with **End Before** — provide only one.",
       optional: true,
     },
     endBefore: {
       type: "string",
       label: "End Before",
-      description: "Cursor: return recipients before this recipient ID (UUID). Mutually exclusive with **Start After** — provide only one.",
+      description: "Cursor: return recipients before this recipient ID (UUID), e.g. `b56db170-927b-11f1-a805-27c2879b4c72`. Use a recipient `id` from a previous **List Recipients** response. Mutually exclusive with **Start After** — provide only one.",
       optional: true,
     },
   },

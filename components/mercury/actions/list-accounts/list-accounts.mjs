@@ -39,13 +39,13 @@ export default {
     startAfter: {
       type: "string",
       label: "Start After",
-      description: "Cursor: return accounts created after this account ID (UUID). Obtain IDs from a prior run of this action. Mutually exclusive with **End Before** — provide only one.",
+      description: "Cursor: return the page of accounts after this account ID (UUID) in the sorted results, e.g. `69c8b0ee-8b87-11f1-a9e5-e7cd8f0e3f51`. Use an account `id` from a previous **List Accounts** response. Mutually exclusive with **End Before** — provide only one.",
       optional: true,
     },
     endBefore: {
       type: "string",
       label: "End Before",
-      description: "Cursor: return accounts created before this account ID (UUID). Mutually exclusive with **Start After** — provide only one.",
+      description: "Cursor: return the page of accounts before this account ID (UUID) in the sorted results, e.g. `69c8b0ee-8b87-11f1-a9e5-e7cd8f0e3f51`. Use an account `id` from a previous **List Accounts** response. Mutually exclusive with **Start After** — provide only one.",
       optional: true,
     },
   },
