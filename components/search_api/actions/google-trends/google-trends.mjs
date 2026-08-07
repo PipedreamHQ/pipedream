@@ -4,7 +4,7 @@ export default {
   key: "search_api-google-trends",
   name: "Google Trends API",
   description: "Google Trends API uses /api/v1/search?engine=google_trends API endpoint to scrape real-time results. [See the documentation](https://www.searchapi.io/docs/google-trends)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
