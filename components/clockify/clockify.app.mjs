@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -164,6 +165,55 @@ export default {
       optional: true,
       default: 100,
     },
+    start: {
+      type: "string",
+      label: "Start",
+      description: "Start date and time of the time entry, in ISO 8601 format. Example: `2026-08-05T09:00:00Z`",
+      optional: true,
+    },
+    end: {
+      type: "string",
+      label: "End",
+      description: "End date and time of the time entry, in ISO 8601 format. Example: `2026-08-05T17:00:00Z`",
+      optional: true,
+    },
+    timeEntryDescription: {
+      type: "string",
+      label: "Description",
+      description: "Description of the time entry",
+      optional: true,
+    },
+    billable: {
+      type: "boolean",
+      label: "Billable",
+      description: "Whether the time entry is billable",
+      optional: true,
+    },
+    timeEntryType: {
+      type: "string",
+      label: "Type",
+      description: "The type of the time entry",
+      optional: true,
+      options: [
+        "REGULAR",
+        "BREAK",
+      ],
+    },
+    timeEntryId: {
+      type: "string",
+      label: "Time Entry ID",
+      description: "Identifier of a time entry. Use the **List Time Entries** action to find the ID of the entry you want to update.",
+    },
+    tagId: {
+      type: "string",
+      label: "Tag",
+      description: "Identifier of a tag. Use the **List Tags** action to find the ID of the tag you want to update or delete.",
+    },
+    invoiceId: {
+      type: "string",
+      label: "Invoice ID",
+      description: "Identifier of an invoice. Use the **List Invoices** action to find the ID of the invoice you want to update or delete.",
+    },
   },
   methods: {
     _baseUrl() {
@@ -276,6 +326,140 @@ export default {
       return this._makeRequest({
         path: `/workspaces/${workspaceId}/projects/${projectId}/tasks`,
         method: "POST",
+        ...args,
+      });
+    },
+    createTimeEntry({
+      workspaceId, userId, ...args
+    }) {
+      return this._makeRequest({
+        path: userId
+          ? `/workspaces/${workspaceId}/user/${userId}/time-entries`
+          : `/workspaces/${workspaceId}/time-entries`,
+        method: "POST",
+        ...args,
+      });
+    },
+    getTimeEntry({
+      workspaceId, timeEntryId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/time-entries/${timeEntryId}`,
+        ...args,
+      });
+    },
+    updateTimeEntry({
+      workspaceId, timeEntryId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/time-entries/${timeEntryId}`,
+        method: "PUT",
+        ...args,
+      });
+    },
+    stopTimeEntry({
+      workspaceId, userId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/user/${userId}/time-entries`,
+        method: "PATCH",
+        ...args,
+      });
+    },
+    createClient({
+      workspaceId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/clients`,
+        method: "POST",
+        ...args,
+      });
+    },
+    updateClient({
+      workspaceId, clientId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/clients/${clientId}`,
+        method: "PUT",
+        ...args,
+      });
+    },
+    deleteClient({
+      workspaceId, clientId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/clients/${clientId}`,
+        method: "DELETE",
+        ...args,
+      });
+    },
+    createTag({
+      workspaceId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/tags`,
+        method: "POST",
+        ...args,
+      });
+    },
+    updateTag({
+      workspaceId, tagId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/tags/${tagId}`,
+        method: "PUT",
+        ...args,
+      });
+    },
+    deleteTag({
+      workspaceId, tagId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/tags/${tagId}`,
+        method: "DELETE",
+        ...args,
+      });
+    },
+    createInvoice({
+      workspaceId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/invoices`,
+        method: "POST",
+        ...args,
+      });
+    },
+    getInvoice({
+      workspaceId, invoiceId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/invoices/${invoiceId}`,
+        ...args,
+      });
+    },
+    updateInvoice({
+      workspaceId, invoiceId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/invoices/${invoiceId}`,
+        method: "PUT",
+        ...args,
+      });
+    },
+    deleteInvoice({
+      workspaceId, invoiceId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/invoices/${invoiceId}`,
+        method: "DELETE",
+        ...args,
+      });
+    },
+    listInvoices({
+      workspaceId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/invoices`,
         ...args,
       });
     },

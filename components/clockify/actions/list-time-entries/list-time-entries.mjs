@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import clockify from "../../clockify.app.mjs";
 
 export default {
   key: "clockify-list-time-entries",
   name: "List Time Entries",
   description: "List all time entries in a Clockify workspace. [See the documentation](https://docs.clockify.me/#tag/Time-entry/operation/getTimeEntries)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -40,13 +41,13 @@ export default {
     start: {
       type: "string",
       label: "Start",
-      description: "Represents start date in yyyy-MM-ddThh:mm:ssZ format. Example: `2020-01-01T00:00:00Z`",
+      description: "Represents start date in yyyy-MM-ddThh:mm:ssZ format. Example: `2026-08-05T00:00:00Z`",
       optional: true,
     },
     end: {
       type: "string",
       label: "End",
-      description: "Represents end date in yyyy-MM-ddThh:mm:ssZ format. Example: `2020-01-01T00:00:00Z`",
+      description: "Represents end date in yyyy-MM-ddThh:mm:ssZ format. Example: `2026-08-05T00:00:00Z`",
       optional: true,
     },
     projectId: {
