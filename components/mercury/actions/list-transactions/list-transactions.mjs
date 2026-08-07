@@ -44,7 +44,7 @@ export default {
     requestId: {
       type: "string",
       label: "Request ID",
-      description: "Filter by request ID. Use **List Send Money Requests** to obtain a valid ID.",
+      description: "Filter by request ID (UUID), e.g. `5e8a1f3c-9d24-11f1-b7a2-4c1d9e2f6a8b`. Use **List Send Money Requests** to obtain a valid ID.",
       optional: true,
     },
     mercuryCategory: {
