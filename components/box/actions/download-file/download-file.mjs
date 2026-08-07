@@ -7,7 +7,7 @@ export default {
   name: "Download File",
   description: "Downloads a file from Box to your workflow's `/tmp` directory. [See the documentation](https://developer.box.com/reference/get-files-id-content/)",
   key: "box-download-file",
-  version: "0.0.10",
+  version: "0.0.11",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -58,6 +58,8 @@ export default {
 
     const pipeline = promisify(stream.pipeline);
     await pipeline(fileStream, fs.createWriteStream(filePath));
+
+    $.export("$summary", `Successfully downloaded file to \`${filePath}\``);
 
     return {
       filePath,
