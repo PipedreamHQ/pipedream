@@ -3,9 +3,9 @@ import { trimIfString } from "../../common/utils.mjs";
 
 export default {
   name: "Retrieve Site Performance Data",
-  description: "Fetches search analytics from Google Search Console for a verified site. [See the documentation](https://developers.google.com/webmaster-tools/v1/searchanalytics/query)",
+  description: "Fetches search analytics (clicks, impressions, CTR, position) from Google Search Console for a verified site. Use it to pull traffic metrics, optionally broken down by dimensions like page or query. Filter to a subset of pages with Subdomain Filter (a simple contains-style path/subdomain match), or with Advanced Dimension Filters (a JSON array of filter groups per the Search Console API, used only when Subdomain Filter is empty). Max Rows caps how many rows come back per call; use Start Row to page through more. [See the documentation](https://developers.google.com/webmaster-tools/v1/searchanalytics/query)",
   key: "google_search_console-retrieve-site-performance-data",
-  version: "0.0.6",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -157,7 +157,11 @@ export default {
     // Build dimension filters based on user input
     let dimensionFilterGroups;
 
-    if (subdomainFilter) {
+    // Normalized once so whitespace-only input is treated as absent, leaving
+    // advancedDimensionFilters eligible instead of sending an empty-string filter.
+    const trimmedSubdomainFilter = trimIfString(subdomainFilter);
+
+    if (trimmedSubdomainFilter) {
       // If user provided a subdomain filter, create the filter structure
       dimensionFilterGroups = [
         {
@@ -166,7 +170,7 @@ export default {
             {
               dimension: filterDimension || "page",
               operator: filterOperator || "contains",
-              expression: trimIfString(subdomainFilter),
+              expression: trimmedSubdomainFilter,
             },
           ],
         },
