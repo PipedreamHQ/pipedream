@@ -1,10 +1,10 @@
 export default {
   listTranscripts: `
-    query Transcripts { 
-      transcripts { 
-        id 
+    query Transcripts($limit: Int, $skip: Int) {
+      transcripts(limit: $limit, skip: $skip) {
+        id
         title
-      } 
+      }
     }
   `,
   listTranscriptsByDate: `
@@ -19,6 +19,8 @@ export default {
         video_url
         sentences {
           text
+          start_time
+          end_time
         }
         calendar_id
         summary {
@@ -47,6 +49,8 @@ export default {
         video_url
         sentences {
           text
+          start_time
+          end_time
         }
         calendar_id
         summary {
@@ -72,12 +76,32 @@ export default {
     }
   `,
   getUser: `
-    query User($userId: String!) { 
-      user(id: $userId) { 
-        name 
+    query User($userId: String!) {
+      user(id: $userId) {
+        name
         user_id
         recent_meeting
-      } 
+      }
+    }
+  `,
+  channels: `
+    {
+      channels {
+        id
+        title
+        is_private
+      }
+    }
+  `,
+  askfredThreads: `
+    query AskfredThreads($transcriptId: String) {
+      askfred_threads(transcript_id: $transcriptId) {
+        id
+        title
+        transcript_id
+        user_id
+        created_at
+      }
     }
   `,
 };
