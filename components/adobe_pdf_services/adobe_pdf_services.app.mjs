@@ -10,7 +10,9 @@ import {
   PDFServices,
   ServicePrincipalCredentials,
 } from "@adobe/pdfservices-node-sdk";
-import { ConfigurationError } from "@pipedream/platform";
+import {
+  ConfigurationError, getFileStream,
+} from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -72,7 +74,7 @@ export default {
 
       const pdfServices = this.getPDFServices();
 
-      const readStream = fs.createReadStream(filePath);
+      const readStream = await getFileStream(filePath);
       let inputAsset;
       try {
         inputAsset = await pdfServices.upload({
