@@ -4,9 +4,9 @@ export default {
   ...common,
   key: "gong-new-call",
   name: "New Call",
-  description: "Emit new event when a new call is added. [See the documentation](https://us-66463.app.gong.io/settings/api/documentation#get-/v2/calls)",
+  description: "Emit new event when a new call is added. [See the documentation](https://gong.app.gong.io/settings/api/documentation#get-/v2/calls)",
   type: "source",
-  version: "0.0.5",
+  version: "0.0.6",
   dedupe: "unique",
   methods: {
     ...common.methods,
