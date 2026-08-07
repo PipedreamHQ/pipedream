@@ -118,10 +118,10 @@ export default {
       default: "contains",
     },
     advancedDimensionFilters: {
-      type: "object",
+      type: "string",
       label: "Advanced Dimension Filters",
       optional: true,
-      description: "Custom dimension filter groups following the Search Console API structure. Example: `[{\"groupType\":\"and\",\"filters\":[{\"dimension\":\"page\",\"operator\":\"contains\",\"expression\":\"https://www.example.com/docs\"}]}]`. Used only when Subdomain Filter is empty.",
+      description: "A JSON-encoded array of dimension filter groups, following the Search Console API structure — it must be an array, even for a single group. Example: `[{\"groupType\":\"and\",\"filters\":[{\"dimension\":\"page\",\"operator\":\"contains\",\"expression\":\"https://www.example.com/docs\"}]}]`. Used only when Subdomain Filter is empty.",
     },
     dataState: {
       type: "string",
