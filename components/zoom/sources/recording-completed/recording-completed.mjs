@@ -6,7 +6,7 @@ export default {
   key: "zoom-recording-completed",
   name: "Recording Completed (Instant)",
   description: "Emit new event each time a new recording completes for a meeting or webinar where you're the host",
-  version: "0.1.10",
+  version: "0.1.11",
   type: "source",
   dedupe: "unique",
   props: {
@@ -95,7 +95,14 @@ export default {
     emitEvent(file, meeting, downloadToken = null) {
       this.$emit(
         {
-          download_url_with_token: `${file.download_url}?access_token=${downloadToken}`,
+          // Only compose the pre-signed URL when both a token and a download URL are
+          // present. The `deploy()` backfill has no token, and on-premise recordings can
+          // omit `download_url` — either case produced a URL that looked usable but
+          // always failed. `download_token` is always emitted separately, for consumers
+          // that use the recommended `Authorization: Bearer <download_token>` header.
+          ...(downloadToken && file.download_url && {
+            download_url_with_token: `${file.download_url}?access_token=${downloadToken}`,
+          }),
           download_token: downloadToken,
           ...file,
           meeting_id_long: meeting.id, // Long ID is necessary for certain API operations
@@ -116,11 +123,18 @@ export default {
       console.log("Not a recording.completed event. Exiting");
       return;
     }
-    const { payload } = event;
+    // Zoom documents `download_token` at the top level of the webhook body, but this
+    // source has always read it from `payload`. Accept either, so the token is picked up
+    // regardless of which location is correct.
+    const {
+      payload,
+      download_token: topLevelToken,
+    } = event;
     const {
       object,
-      download_token: downloadToken,
+      download_token: payloadToken,
     } = payload;
+    const downloadToken = topLevelToken ?? payloadToken ?? null;
     const { recording_files: recordingFiles } = object;
 
     if (!this.isMeetingRelevant(object)) {

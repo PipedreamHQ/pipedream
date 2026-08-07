@@ -5,7 +5,7 @@ export default {
   key: "microsoft_outlook_calendar-new-upcoming-event-polling",
   name: "New Upcoming Calendar Event (Polling)",
   description: "Emit new event based on a time interval before an upcoming calendar event. [See the documentation](https://docs.microsoft.com/en-us/graph/api/user-list-events)",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "source",
   dedupe: "unique",
   props: {
@@ -20,7 +20,7 @@ export default {
     pollingInfo: {
       type: "alert",
       alertType: "info",
-      content: "Since this source executes based on a timer, event emission may be slightly delayed. For example, if the source runs every 5 minutes, the delay may be up to 5 minutes. You can use the `new-upcoming-event` source for instant event emission.",
+      content: "Since this source executes based on a timer, event emission may be slightly delayed. For example, if the source runs every 5 minutes, the delay may be up to 5 minutes.",
     },
     minutesBefore: {
       type: "integer",
@@ -134,4 +134,3 @@ export default {
     this._setEmittedEvents(emittedEvents);
   },
 };
-

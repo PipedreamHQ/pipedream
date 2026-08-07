@@ -2,7 +2,7 @@ import snowflake from "../../snowflake.app.mjs";
 
 export default {
   name: "Execute SQL Query",
-  version: "0.2.3",
+  version: "0.2.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

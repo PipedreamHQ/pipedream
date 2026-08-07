@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import monta from "../../monta.app.mjs";
 
 export default {
   key: "monta-get-return",
   name: "Get Return",
   description: "Get a return by ID. [See the documentation](https://api-v6.monta.nl/index.html#tag/Return/paths/~1return~1%7Bid%7D/get)",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,

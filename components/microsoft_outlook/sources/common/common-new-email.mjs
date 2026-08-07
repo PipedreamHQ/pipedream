@@ -29,10 +29,7 @@ export default {
       }
     },
     async activate() {
-      await this.activate({
-        changeType: "created",
-        resource: "/me/messages",
-      });
+      await this.activate(this.getSubscriptionConfig());
     },
     async deactivate() {
       await this.deactivate();
@@ -40,6 +37,12 @@ export default {
   },
   methods: {
     ...common.methods,
+    getSubscriptionConfig() {
+      return {
+        changeType: "created",
+        resource: "/me/messages",
+      };
+    },
     async getFolderIdByName(name) {
       const { value: folders } = await this.microsoftOutlook.listFolders();
       const folder = folders.find(({ displayName }) => displayName === name);

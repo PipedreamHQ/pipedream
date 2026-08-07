@@ -724,5 +724,11 @@ export default {
     async getMyCommands() {
       return this.sdk().getMyCommands();
     },
+    async getFile(fileId) {
+      return this.sdk().getFile(fileId);
+    },
+    async getFileLink(fileId) {
+      return this.sdk().getFileLink(fileId);
+    },
   },
 };

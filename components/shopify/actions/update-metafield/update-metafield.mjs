@@ -5,7 +5,7 @@ export default {
   key: "shopify-update-metafield",
   name: "Update Metafield",
   description: "Updates a metafield belonging to a resource. [See the documentation]()",
-  version: "0.0.18",
+  version: "0.0.19",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
