@@ -1,4 +1,10 @@
+// x-pd-ai: optimized
 import { axios } from "@pipedream/platform";
+import {
+  ANALYTICS_BASE_URL,
+  ANALYTICS_EU_BASE_URL,
+  LIMIT_MAX,
+} from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -14,6 +20,12 @@ export default {
       }
       return `https://${this.$auth.region}`;
     },
+    _analyticsBaseUrl() {
+      if (this.$auth.region && this.$auth.region.startsWith("https://analytics.eu")) {
+        return ANALYTICS_EU_BASE_URL;
+      }
+      return ANALYTICS_BASE_URL;
+    },
     async _makeRequest({
       $ = this, path, data, ...opts
     }) {
@@ -24,6 +36,18 @@ export default {
       };
       return axios($, config);
     },
+    _analyticsRequest({
+      $, path, ...opts
+    }) {
+      return axios($, {
+        url: `${this._analyticsBaseUrl()}${path}`,
+        auth: {
+          username: this.$auth.api_key,
+          password: this.$auth.api_secret,
+        },
+        ...opts,
+      });
+    },
     sendEventData({
       $,
       data,
@@ -33,6 +57,113 @@ export default {
         $,
         method: "POST",
         url: `${this._baseURL("httpV2")}/httpapi`,
+        data,
+      });
+    },
+    getEventSegmentation({
+      $, params,
+    }) {
+      return this._analyticsRequest({
+        $,
+        path: "/api/2/events/segmentation",
+        params,
+      });
+    },
+    getFunnelAnalysis({
+      $, params,
+    }) {
+      return this._analyticsRequest({
+        $,
+        path: "/api/2/funnels",
+        params,
+      });
+    },
+    getRetentionAnalysis({
+      $, params,
+    }) {
+      return this._analyticsRequest({
+        $,
+        path: "/api/2/retention",
+        params,
+      });
+    },
+    searchUsers({
+      $, params,
+    }) {
+      return this._analyticsRequest({
+        $,
+        path: "/api/2/usersearch",
+        params,
+      });
+    },
+    /**
+     * Amplitude's User Activity endpoint has no cursor, only `offset`/`limit`
+     * (per-request cap 1000), and may return slightly more events than
+     * requested to avoid splitting a session. This walks `offset` forward in
+     * `LIMIT_MAX`-sized pages until `params.limit` events are collected or a
+     * page returns fewer than requested (the stream is exhausted), so a
+     * caller asking for more than 1000 events no longer silently gets page 1.
+     */
+    async getUserActivity({
+      $, params = {},
+    }) {
+      const desired = params.limit ?? LIMIT_MAX;
+      const events = [];
+      let offset = params.offset ?? 0;
+      let first;
+      let truncated = false;
+      while (events.length < desired) {
+        const requested = Math.min(LIMIT_MAX, desired - events.length);
+        const page = await this._analyticsRequest({
+          $,
+          path: "/api/2/useractivity",
+          params: {
+            ...params,
+            offset,
+            limit: requested,
+          },
+        });
+        first ??= page;
+        const batch = page?.events ?? [];
+        events.push(...batch);
+        offset += batch.length;
+        if (batch.length < requested) {
+          break;
+        }
+        if (events.length >= desired) {
+          truncated = true;
+        }
+      }
+      return {
+        ...first,
+        events: events.slice(0, desired),
+        truncated,
+      };
+    },
+    listCohorts({
+      $, params,
+    }) {
+      return this._analyticsRequest({
+        $,
+        path: "/api/3/cohorts",
+        params,
+      });
+    },
+    getCohort({
+      $, cohortId,
+    }) {
+      return this._analyticsRequest({
+        $,
+        path: `/api/3/cohorts/${cohortId}`,
+      });
+    },
+    createCohort({
+      $, data,
+    }) {
+      return this._analyticsRequest({
+        $,
+        method: "POST",
+        path: "/api/3/cohorts/upload",
         data,
       });
     },
