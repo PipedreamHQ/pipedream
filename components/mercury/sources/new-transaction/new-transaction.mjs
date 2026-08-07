@@ -4,7 +4,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 export default {
   key: "mercury-new-transaction",
   name: "New Transaction",
-  description: "Emit new event for each transaction in an account. [See the documentation](https://docs.mercury.com/reference/listaccounttransactions)",
+  description: "Emit new event for each transaction posted to a Mercury account. Use it to trigger a workflow on account activity — e.g. notify on incoming/outgoing payments or sync transactions to a ledger. Set **Account** to the account ID (UUID) to watch (run the **List Accounts** action to find it). The first run looks back one day; subsequent runs emit only transactions posted since the previous run. [See the documentation](https://docs.mercury.com/reference/listaccounttransactions)",
   version: "0.0.4",
   dedupe: "unique",
   type: "source",
@@ -22,7 +22,7 @@ export default {
         mercury,
         "account",
       ],
-      description: "Account ID (UUID). Run the **List Accounts** action to obtain a valid ID.",
+      description: "Account ID (UUID) whose transactions to watch, e.g. `123e4567-e89b-12d3-a456-426614174000`. Run the **List Accounts** action to obtain a valid ID.",
     },
   },
   methods: {

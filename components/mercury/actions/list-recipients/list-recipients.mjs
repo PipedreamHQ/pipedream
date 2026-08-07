@@ -10,7 +10,7 @@ import {
 export default {
   key: "mercury-list-recipients",
   name: "List Recipients",
-  description: "List all payment recipients configured on the connected Mercury profile. Use this to discover recipient IDs needed by **Send Payment**. Example: call with no parameters -> returns `{ recipients: [{ id: \"rec_1a2b...\", name: \"Acme Corp\", emails: [\"billing@acme.com\"] }] }`. [See the documentation](https://docs.mercury.com/reference/getrecipients)",
+  description: "List a page of payment recipients configured on the connected Mercury profile (up to **Limit** per call, default 1000; pass the last recipient's ID as **Start After** to fetch later pages). Use this to discover recipient IDs needed by **Send Payment**. Recipient IDs are UUIDs, not prefixed strings. Example: call with no parameters -> returns `{ recipients: [{ id: \"b56db170-927b-11f1-a805-27c2879b4c72\", name: \"Acme Corp\", emails: [\"billing@acme.com\"] }] }`. [See the documentation](https://docs.mercury.com/reference/getrecipients)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -54,8 +54,8 @@ export default {
       params: {
         limit: this.limit ?? DEFAULT_LIMIT,
         order: this.order,
-        startAfter: this.startAfter,
-        endBefore: this.endBefore,
+        start_after: this.startAfter,
+        end_before: this.endBefore,
       },
     });
     const recipients = response?.recipients ?? (Array.isArray(response)

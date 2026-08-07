@@ -26,6 +26,12 @@ export const ORDER = [
   "asc",
   "desc",
 ];
+export const SEND_MONEY_REQUEST_STATUSES = [
+  "pendingApproval",
+  "approved",
+  "rejected",
+  "cancelled",
+];
 // Valid `purpose.simple.category` values for domestic-wire payments.
 export const PURPOSE_CATEGORIES = [
   "employee",
@@ -47,4 +53,8 @@ export const PURPOSE_ADDITIONAL_INFO_REQUIRED = [
   "vendor",
   "contractor",
   "other",
+];
+// Categories where `additionalInfo` is optional but must be non-empty when supplied.
+export const PURPOSE_ADDITIONAL_INFO_OPTIONAL = [
+  "subsidiary",
 ];

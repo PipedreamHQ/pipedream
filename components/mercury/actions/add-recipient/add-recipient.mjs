@@ -1,12 +1,15 @@
 // x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import mercury from "../../mercury.app.mjs";
-import { ELECTRONIC_ACCOUNT_TYPES } from "../../common/constants.mjs";
+import {
+  ELECTRONIC_ACCOUNT_TYPES,
+  PAYMENT_METHODS,
+} from "../../common/constants.mjs";
 
 export default {
   key: "mercury-add-recipient",
   name: "Add Recipient",
-  description: "Create a new Mercury payment recipient. For ACH recipients, provide accountNumber, routingNumber, electronicAccountType, and address (all required together for the ACH routing info). After creation, use **List Recipients** to confirm and retrieve the new recipient ID for **Send Payment**. Example: call with `recipientName=\"Acme Corp\"`, `emails=[\"billing@acme.com\"]`, `accountNumber=\"123456789\"`, `routingNumber=\"021000021\"`, `electronicAccountType=\"businessChecking\"`, and `address={\"address1\":\"123 Main St\",\"city\":\"New York\",\"region\":\"NY\",\"postalCode\":\"10001\",\"country\":\"US\"}` -> returns the created recipient `{ id: \"rec_1a2b...\", name: \"Acme Corp\", ... }`. [See the documentation](https://docs.mercury.com/reference/createrecipient)",
+  description: "Create a new Mercury payment recipient. Provide **Recipient Name** and **Emails** for a basic contact. To attach bank details, set **Payment Method** and the matching fields: `ach` needs Account Number, Routing Number, Electronic Account Type, and the address fields; `domesticWire` needs Account Number, Routing Number, and the address fields; `check` needs only the address fields. All numeric-looking values (account number, routing number, postal code) are sent to Mercury as strings (individual string props, so leading zeros are preserved). Example: `recipientName=\"Art Vandelay\"`, `emails=[\"art@vandelayindustries.com\"]`, `paymentMethod=\"ach\"`, `accountNumber=\"123456789\"`, `routingNumber=\"021000021\"`, `electronicAccountType=\"businessChecking\"`, `addressLine1=\"100 Federal Street\"`, `city=\"Boston\"`, `region=\"MA\"`, `postalCode=\"02101\"`, `country=\"US\"` -> returns the created recipient `{ id: \"b56db170-927b-11f1-a805-27c2879b4c72\", name: \"Art Vandelay\", ... }` (the `id` is a UUID, not a prefixed string). [See the documentation](https://docs.mercury.com/reference/createrecipient)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -26,41 +29,66 @@ export default {
       label: "Emails",
       description: "One or more recipient email addresses (e.g. `[\"billing@acme.com\"]`). Required by the API.",
     },
+    paymentMethod: {
+      type: "string",
+      label: "Payment Method",
+      description: "Which bank details to attach: `ach`, `domesticWire`, or `check`. Usually optional — it is inferred from the fields you provide (Electronic Account Type -> `ach`; address only -> `check`). Set it explicitly only to disambiguate an `ach` vs `domesticWire` recipient when no Electronic Account Type is given, or to force a specific method.",
+      options: PAYMENT_METHODS,
+      optional: true,
+    },
     accountNumber: {
       type: "string",
       label: "Account Number",
-      description: "Bank account number for ACH routing (electronicRoutingInfo). Required together with routingNumber, electronicAccountType, and address to create an ACH recipient.",
+      description: "Bank account number. Required for `ach` and `domesticWire`. Sent to Mercury as a string.",
       optional: true,
     },
     routingNumber: {
       type: "string",
       label: "Routing Number",
-      description: "9-digit ABA routing number for ACH routing (e.g. `021000021`).",
+      description: "9-digit ABA routing number (e.g. `021000021`). Required for `ach` and `domesticWire`. Sent to Mercury as a string, so leading zeros are preserved.",
       optional: true,
     },
     electronicAccountType: {
       type: "string",
       label: "Electronic Account Type",
-      description: "ACH account type. One of `businessChecking`, `businessSavings`, `personalChecking`, `personalSavings`. NOTE: Mercury does not accept plain `checking`/`savings`.",
+      description: "ACH account type. One of `businessChecking`, `businessSavings`, `personalChecking`, `personalSavings`. Required for `ach`. NOTE: Mercury does not accept plain `checking`/`savings`.",
       options: ELECTRONIC_ACCOUNT_TYPES,
       optional: true,
     },
-    address: {
-      type: "object",
-      label: "Address",
-      description: "Recipient postal address object, required for ACH recipients. Example: `{\"address1\":\"123 Main St\",\"city\":\"New York\",\"region\":\"NY\",\"postalCode\":\"10001\",\"country\":\"US\"}`.",
+    addressLine1: {
+      type: "string",
+      label: "Address Line 1",
+      description: "Street address (e.g. `100 Federal Street`). Required when a **Payment Method** is set.",
       optional: true,
     },
-    checkInfo: {
-      type: "object",
-      label: "Check Info",
-      description: "Physical-check routing info object (for check recipients). Requires a mailing `address` for sending the check. Example: `{\"address\":{\"address1\":\"123 Main St\",\"city\":\"New York\",\"region\":\"NY\",\"postalCode\":\"10001\",\"country\":\"US\"}}`.",
+    addressLine2: {
+      type: "string",
+      label: "Address Line 2",
+      description: "Optional second address line (e.g. `Apt 5A`, `Suite 400`).",
       optional: true,
     },
-    domesticWireRoutingInfo: {
-      type: "object",
-      label: "Domestic Wire Routing Info",
-      description: "Domestic wire routing info object (for wire recipients). Requires `accountNumber`, `routingNumber`, and the recipient's legal `address`. Example: `{\"accountNumber\":\"123456789\",\"routingNumber\":\"021000021\",\"address\":{\"address1\":\"123 Main St\",\"city\":\"New York\",\"region\":\"NY\",\"postalCode\":\"10001\",\"country\":\"US\"}}`.",
+    city: {
+      type: "string",
+      label: "City",
+      description: "City (e.g. `Boston`). Required when a **Payment Method** is set.",
+      optional: true,
+    },
+    region: {
+      type: "string",
+      label: "Region",
+      description: "State or region code (e.g. `MA`). Required when a **Payment Method** is set.",
+      optional: true,
+    },
+    postalCode: {
+      type: "string",
+      label: "Postal Code",
+      description: "Postal / ZIP code (e.g. `02101`). Required when a **Payment Method** is set. Sent to Mercury as a string, so leading zeros are preserved.",
+      optional: true,
+    },
+    country: {
+      type: "string",
+      label: "Country",
+      description: "Two-letter country code (e.g. `US`). Required when a **Payment Method** is set.",
       optional: true,
     },
     contactEmail: {
@@ -77,28 +105,87 @@ export default {
     },
   },
   async run({ $ }) {
-    const accountNumber = this.accountNumber?.trim();
-    const routingNumber = this.routingNumber?.trim();
-    const electronicAccountType = this.electronicAccountType?.trim();
-    const address = this.address;
-    const achFields = [
-      accountNumber,
-      routingNumber,
-      electronicAccountType,
-      address,
+    const trim = (v) => (typeof v === "string"
+      ? v.trim() || undefined
+      : v ?? undefined);
+
+    const accountNumber = trim(this.accountNumber);
+    const routingNumber = trim(this.routingNumber);
+    const electronicAccountType = trim(this.electronicAccountType);
+    const address = {
+      address1: trim(this.addressLine1),
+      address2: trim(this.addressLine2),
+      city: trim(this.city),
+      region: trim(this.region),
+      postalCode: trim(this.postalCode),
+      country: trim(this.country),
+    };
+    // Required address fields per the Mercury schema (address2 is optional).
+    const requiredAddressFields = [
+      "address1",
+      "city",
+      "region",
+      "postalCode",
+      "country",
     ];
-    const providedAch = achFields.filter((v) => v !== undefined && v !== null && v !== "").length;
-    if (providedAch > 0 && providedAch < achFields.length) {
-      throw new ConfigurationError("ACH routing requires **Account Number**, **Routing Number**, **Electronic Account Type**, and **Address** together — provide all four or none.");
+    const hasAddressInput = Object.values(address).some((v) => v);
+
+    // Infer the routing method from the supplied fields when not set explicitly.
+    // `electronicAccountType` is unique to ACH, so it disambiguates ACH from wire.
+    let method = this.paymentMethod;
+    if (!method) {
+      if (electronicAccountType) {
+        method = "ach";
+      } else if (accountNumber || routingNumber) {
+        throw new ConfigurationError("Set **Payment Method** to `ach` or `domesticWire` — the account/routing details you provided match either an ACH or a domestic wire recipient (for `ach`, also provide **Electronic Account Type**).");
+      } else if (hasAddressInput) {
+        method = "check";
+      }
     }
-    const electronicRoutingInfo = providedAch === achFields.length
-      ? {
+
+    const buildAddress = () => {
+      const missing = requiredAddressFields.filter((f) => !address[f]);
+      if (missing.length) {
+        throw new ConfigurationError(`Address fields are required for \`${method}\` recipients. Missing: ${missing.join(", ")}.`);
+      }
+      // Omit an empty optional address2 rather than sending undefined.
+      const built = {
+        ...address,
+      };
+      if (!built.address2) {
+        delete built.address2;
+      }
+      return built;
+    };
+
+    let electronicRoutingInfo;
+    let domesticWireRoutingInfo;
+    let checkInfo;
+
+    if (method === "ach") {
+      if (!accountNumber || !routingNumber || !electronicAccountType) {
+        throw new ConfigurationError("ACH recipients require **Account Number**, **Routing Number**, and **Electronic Account Type**.");
+      }
+      electronicRoutingInfo = {
         accountNumber,
         routingNumber,
         electronicAccountType,
-        address,
+        address: buildAddress(),
+      };
+    } else if (method === "domesticWire") {
+      if (!accountNumber || !routingNumber) {
+        throw new ConfigurationError("Domestic wire recipients require **Account Number** and **Routing Number**.");
       }
-      : undefined;
+      domesticWireRoutingInfo = {
+        accountNumber,
+        routingNumber,
+        address: buildAddress(),
+      };
+    } else if (method === "check") {
+      checkInfo = {
+        address: buildAddress(),
+      };
+    }
 
     const recipient = await this.mercury.createRecipient({
       $,
@@ -106,8 +193,8 @@ export default {
         name: this.recipientName,
         emails: this.emails,
         electronicRoutingInfo,
-        checkInfo: this.checkInfo,
-        domesticWireRoutingInfo: this.domesticWireRoutingInfo,
+        checkInfo,
+        domesticWireRoutingInfo,
         contactEmail: this.contactEmail,
         nickname: this.nickname,
       },

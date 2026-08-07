@@ -103,5 +103,23 @@ export default {
         data,
       });
     },
+    getCategories({
+      $, params,
+    } = {}) {
+      return this._makeRequest({
+        $,
+        endpoint: "/categories",
+        params,
+      });
+    },
+    getSendMoneyRequests({
+      $, params,
+    } = {}) {
+      return this._makeRequest({
+        $,
+        endpoint: "/request-send-money",
+        params,
+      });
+    },
   },
 };
