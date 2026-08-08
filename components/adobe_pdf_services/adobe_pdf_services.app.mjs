@@ -1,4 +1,18 @@
-import PDFServicesSdk from "@adobe/pdfservices-node-sdk";
+import fs from "fs";
+import path from "path";
+import { pipeline } from "node:stream/promises";
+import {
+  ExtractElementType,
+  ExtractPDFJob,
+  ExtractPDFParams,
+  ExtractPDFResult,
+  MimeType,
+  PDFServices,
+  ServicePrincipalCredentials,
+} from "@adobe/pdfservices-node-sdk";
+import {
+  ConfigurationError, getFileStream,
+} from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -24,41 +38,92 @@ export default {
   },
   methods: {
     getCredentials() {
-      return PDFServicesSdk.Credentials
-        .servicePrincipalCredentialsBuilder()
-        .withClientId(this.$auth.client_id)
-        .withClientSecret(this.$auth.client_secret)
-        .build();
+      return new ServicePrincipalCredentials({
+        clientId: this.$auth.client_id,
+        clientSecret: this.$auth.client_secret,
+      });
     },
-    getExecutionContext() {
+    getPDFServices() {
       const credentials = this.getCredentials();
-      return PDFServicesSdk.ExecutionContext.create(credentials);
+      return new PDFServices({
+        credentials,
+      });
     },
-    buildExtractPDFOptionsText() {
-      return new PDFServicesSdk.ExtractPDF.options.ExtractPdfOptions.Builder()
-        .addElementsToExtract(PDFServicesSdk.ExtractPDF.options.ExtractElementType.TEXT)
-        .build();
+    buildExtractPDFParamsText() {
+      return new ExtractPDFParams({
+        elementsToExtract: [
+          ExtractElementType.TEXT,
+        ],
+      });
     },
-    buildExtractPDFOptionsTextAndTables() {
-      return new PDFServicesSdk.ExtractPDF.options.ExtractPdfOptions.Builder()
-        .addElementsToExtract(PDFServicesSdk.ExtractPDF.options.ExtractElementType.TEXT,
-          PDFServicesSdk.ExtractPDF.options.ExtractElementType.TABLES)
-        .build();
+    buildExtractPDFParamsTextAndTables() {
+      return new ExtractPDFParams({
+        elementsToExtract: [
+          ExtractElementType.TEXT,
+          ExtractElementType.TABLES,
+        ],
+      });
     },
     async extractPDF(filePath, type = "text", filename) {
-      const executionContext = this.getExecutionContext();
-      const options = type === "text"
-        ? this.buildExtractPDFOptionsText()
-        : this.buildExtractPDFOptionsTextAndTables();
-      const extractPDFOperation = PDFServicesSdk.ExtractPDF.Operation.createNew(),
-        input = PDFServicesSdk.FileRef.createFromLocalFile(
-          filePath,
-          PDFServicesSdk.ExtractPDF.SupportedSourceFormat.pdf,
-        );
-      extractPDFOperation.setInput(input);
-      extractPDFOperation.setOptions(options);
-      const response = await extractPDFOperation.execute(executionContext);
-      return response.saveAsFile(`/tmp/${filename}`);
+      if (!filename) {
+        throw new ConfigurationError("Filename is required");
+      }
+      if (path.basename(filename) !== filename) {
+        throw new ConfigurationError("Filename must be a plain file name with no path separators or \"..\" segments");
+      }
+
+      const pdfServices = this.getPDFServices();
+
+      const readStream = await getFileStream(filePath);
+      let inputAsset;
+      try {
+        inputAsset = await pdfServices.upload({
+          readStream,
+          mimeType: MimeType.PDF,
+        });
+      } catch (uploadErr) {
+        readStream.destroy();
+        throw uploadErr;
+      }
+
+      const outputPath = `/tmp/${filename.endsWith(".zip")
+        ? filename
+        : `${filename}.zip`}`;
+
+      try {
+        const params = type === "text"
+          ? this.buildExtractPDFParamsText()
+          : this.buildExtractPDFParamsTextAndTables();
+        const job = new ExtractPDFJob({
+          inputAsset,
+          params,
+        });
+
+        const pollingURL = await pdfServices.submit({
+          job,
+        });
+        const pdfServicesResponse = await pdfServices.getJobResult({
+          pollingURL,
+          resultType: ExtractPDFResult,
+        });
+
+        const resultAsset = pdfServicesResponse.result.resource;
+        const streamAsset = await pdfServices.getContent({
+          asset: resultAsset,
+        });
+
+        await pipeline(streamAsset.readStream, fs.createWriteStream(outputPath));
+      } finally {
+        try {
+          await pdfServices.deleteAsset({
+            asset: inputAsset,
+          });
+        } catch (cleanupErr) {
+          console.error("Failed to delete uploaded Adobe PDF Services input asset during cleanup:", cleanupErr);
+        }
+      }
+
+      return outputPath;
     },
   },
 };
