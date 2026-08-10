@@ -1,10 +1,11 @@
 // x-pd-ai: optimized
 import app from "../../box.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "box-list-file-versions",
   name: "List File Versions",
-  description: "Lists prior versions of a file (does not include the current version). Use **Get File Metadata** for current file details, or **Upload File Version** to create a new version. [See the documentation](https://developer.box.com/reference/get-files-id-versions/).",
+  description: "Lists prior versions of a file (does not include the current version). Box only tracks file versions for users with premium accounts, so this returns an empty list on free accounts. Use **Get File Metadata** for current file details, or **Upload File Version** to create a new version. [See the documentation](https://developer.box.com/reference/get-files-id-versions/).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -51,12 +52,8 @@ export default {
   async run({ $ }) {
     const params = {
       limit: this.limit,
+      fields: utils.getFieldsParam(this.fields),
     };
-    if (this.fields?.length) {
-      params.fields = Array.isArray(this.fields)
-        ? this.fields.join(",")
-        : this.fields;
-    }
 
     const response = await this.app.listFileVersions({
       $,

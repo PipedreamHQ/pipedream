@@ -1,5 +1,6 @@
 // x-pd-ai: optimized
 import app from "../../box.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "box-get-file-metadata",
@@ -42,12 +43,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {};
-    if (this.fields?.length) {
-      params.fields = Array.isArray(this.fields)
-        ? this.fields.join(",")
-        : this.fields;
-    }
+    const params = {
+      fields: utils.getFieldsParam(this.fields),
+    };
 
     const response = await this.app.getFile({
       $,

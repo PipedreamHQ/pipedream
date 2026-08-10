@@ -6,7 +6,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "box-create-shared-link",
   name: "Create Shared Link",
-  description: "Creates or updates a shared link for a file or folder. Access levels: `open`, `company`, or `collaborators`. Password and download permission apply only when access is `open` or `company`. A resource can have only one shared link at a time. [See the documentation](https://developer.box.com/guides/shared-links/create-or-update/).",
+  description: "Creates or updates a shared link for a file or folder. Access levels: `open`, `company`, or `collaborators`. A password can only be set when access is `open`; download permission applies only when access is `open` or `company`. A resource can have only one shared link at a time. [See the documentation](https://developer.box.com/guides/shared-links/create-or-update/).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -43,7 +43,7 @@ export default {
     password: {
       type: "string",
       label: "Password",
-      description: "The password required to access the shared link. Can only be set when access is `open` or `company`.",
+      description: "The password required to access the shared link. Can only be set when access is `open`.",
       optional: true,
       secret: true,
     },

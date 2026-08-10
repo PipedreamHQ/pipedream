@@ -1,6 +1,7 @@
 // x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../box.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "box-list-folders",
@@ -93,13 +94,9 @@ export default {
     const params = {
       limit: this.limit,
       usemarker: true,
+      fields: utils.getFieldsParam(this.fields),
     };
 
-    if (this.fields?.length) {
-      params.fields = Array.isArray(this.fields)
-        ? this.fields.join(",")
-        : this.fields;
-    }
     if (this.sort) {
       params.sort = this.sort;
     }
