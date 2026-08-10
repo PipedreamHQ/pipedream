@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 /* eslint-disable no-unused-vars */
 import common, { getProps } from "../common/base-create-update.mjs";
 import contentNote from "../../common/sobjects/content-note.mjs";
@@ -27,8 +28,12 @@ export default {
   ...common,
   key: "salesforce_rest_api-create-content-note",
   name: "Create Content Note",
-  description: `Creates a content note. [See the documentation](${docsLink}) and [Set Up Notes](https://help.salesforce.com/s/articleView?id=sales.notes_admin_setup.htm&type=5).`,
-  version: "0.0.7",
+  description: "Create an enhanced Salesforce content note (rich text, stored in Salesforce Files)."
+    + " Use this rather than **Create Note** on modern orgs; **Create Note** writes the classic plain-text note object."
+    + " Use **Update Content Note** to edit one afterwards."
+    + " "
+    + `[See the documentation](${docsLink}) and [Set Up Notes](https://help.salesforce.com/s/articleView?id=sales.notes_admin_setup.htm&type=5).`,
+  version: "0.0.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

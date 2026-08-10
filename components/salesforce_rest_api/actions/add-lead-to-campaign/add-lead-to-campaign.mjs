@@ -1,11 +1,16 @@
+// x-pd-ai: optimized
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
   key: "salesforce_rest_api-add-lead-to-campaign",
   name: "Add Lead to Campaign",
-  description: "Adds an existing lead to an existing campaign. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_campaignmember.htm)",
-  version: "0.1.5",
+  description: "Add an existing lead to an existing campaign as a campaign member."
+    + " Use **Find Records** on `Lead` and on `Campaign` to look up the two IDs first."
+    + " The lead must already exist - use **Create Lead** if it does not."
+    + " "
+    + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_campaignmember.htm)",
+  version: "0.1.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

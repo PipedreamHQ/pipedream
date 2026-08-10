@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import salesforce from "../../salesforce_rest_api.app.mjs";
 
 const docsLink = "https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_sosl_examples.htm";
@@ -11,8 +12,10 @@ export const docsInfo = {
 export default {
   key: "salesforce_rest_api-sosl-search",
   name: "SOSL Search (Object Search)",
-  description: `Executes a [Salesforce Object Search Language (SOSL)](${docsLink}) text-based search query.`,
-  version: "0.2.12",
+  description: "Run a SOSL text search with guided prompts."
+    + " Prefer **Text Search** for agent and API use - it takes a plain keyword and searches several object types at once."
+    + " SOSL matches indexed text fields, so it finds partial words but will not filter on numeric or date criteria.",
+  version: "0.2.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

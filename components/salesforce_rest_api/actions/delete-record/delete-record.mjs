@@ -1,11 +1,16 @@
+// x-pd-ai: optimized
 import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
   key: "salesforce_rest_api-delete-record",
   name: "Delete Record",
   description:
-    "Deletes an existing record in an object. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_retrieve_delete.htm)",
-  version: "0.2.4",
+    "Delete a Salesforce record of any object type."
+    + " This moves the record to the Recycle Bin, where it stays recoverable for 15 days."
+    + " Use **Find Records** or **SOQL Query** to confirm you have the right record ID before deleting."
+    + " "
+    + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_retrieve_delete.htm)",
+  version: "0.2.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
