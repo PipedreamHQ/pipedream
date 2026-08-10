@@ -100,6 +100,11 @@ export default {
         })) || [];
       },
     },
+    question: {
+      type: "string",
+      label: "Question",
+      description: `The natural language question to ask AskFred, e.g. \`What were the action items from this meeting?\`. Maximum ${constants.MAX_QUESTION_LENGTH} characters.`,
+    },
     responseLanguage: {
       type: "string",
       label: "Response Language",

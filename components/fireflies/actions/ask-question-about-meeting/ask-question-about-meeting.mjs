@@ -18,9 +18,10 @@ export default {
   props: {
     fireflies,
     query: {
-      type: "string",
-      label: "Question",
-      description: "The question to ask, e.g. `What were the action items from this meeting?`. Maximum 2000 characters.",
+      propDefinition: [
+        fireflies,
+        "question",
+      ],
     },
     meetingId: {
       propDefinition: [

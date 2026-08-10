@@ -26,9 +26,12 @@ export default {
       description: "The AskFred thread to continue. Use the `thread_id` returned by **Ask Question About Meeting**, or **List AskFred Thread ID Options** to browse existing threads.",
     },
     query: {
-      type: "string",
+      propDefinition: [
+        fireflies,
+        "question",
+      ],
       label: "Follow-up Question",
-      description: "The follow-up question to ask in this thread, e.g. `Can you provide more detail on the budget discussion?`. Maximum 2000 characters.",
+      description: `The follow-up question to ask in this thread, e.g. \`Can you provide more detail on the budget discussion?\`. Maximum ${constants.MAX_QUESTION_LENGTH} characters.`,
     },
     responseLanguage: {
       propDefinition: [
