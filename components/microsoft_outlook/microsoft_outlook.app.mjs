@@ -190,8 +190,6 @@ export default {
           params: {
             $top: limit,
             $skip: limit * page,
-            // Without $select, Graph returns the full base64 contentBytes for every
-            // fileAttachment — megabytes per option just to label a dropdown.
             $select: "id,name",
           },
         });
