@@ -88,6 +88,9 @@ export default {
       }
     }
   `,
+  // Note the inconsistent casing: the `createBite` argument is `transcript_Id`
+  // (capital I) while the field on the returned Bite is `transcript_id`. The docs
+  // show snake_case for both; the API rejects it. Verified against the live API.
   createBite: `
     mutation CreateBite(
       $transcriptId: ID!
@@ -95,11 +98,11 @@ export default {
       $endTime: Float!
       $name: String
       $mediaType: String
-      $privacies: [String]
+      $privacies: [BitePrivacy!]
       $summary: String
     ) {
       createBite(
-        transcript_id: $transcriptId
+        transcript_Id: $transcriptId
         start_time: $startTime
         end_time: $endTime
         name: $name

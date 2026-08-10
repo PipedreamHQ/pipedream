@@ -8,7 +8,9 @@ const SHARE_EXPIRY_DAYS_OPTIONS = [
   30,
 ];
 
-// https://docs.fireflies.ai/schema/input/continue-askfred-thread-input
+// https://docs.fireflies.ai/graphql-api/mutation/continue-askfred-thread
+// (documented inline in that page's Arguments section — there is no
+// /schema/input/continue-askfred-thread-input page)
 const MAX_QUESTION_LENGTH = 2000;
 
 // https://docs.fireflies.ai/schema/input/update-meeting-title-input
