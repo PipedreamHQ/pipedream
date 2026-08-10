@@ -21,7 +21,7 @@ export default {
     filePath: {
       type: "string",
       label: "File Path",
-      description: "The path to the pdf file saved to the `/tmp` directory (e.g. `/tmp/example.pdf`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      description: "The PDF to extract from. Either a file already saved to the `/tmp` directory (e.g. `/tmp/example.pdf`) [see the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory), or a public URL to the PDF (e.g. `https://example.com/example.pdf`) — the URL is downloaded automatically before extraction.",
       format: "file-ref",
     },
     filename: {
