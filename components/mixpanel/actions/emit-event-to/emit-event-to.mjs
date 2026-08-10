@@ -1,6 +1,6 @@
 // x-pd-ai: optimized
 // legacy_hash_id: a_Nqir27
-import Mixpanel from "mixpanel";
+import mixpanel from "../../mixpanel.app.mjs";
 
 export default {
   key: "mixpanel-emit-event-to",
@@ -14,10 +14,7 @@ export default {
   },
   type: "action",
   props: {
-    mixpanel: {
-      type: "app",
-      app: "mixpanel",
-    },
+    mixpanel,
     event_name: {
       type: "string",
       label: "Event Name",
@@ -26,7 +23,7 @@ export default {
     distinct_id: {
       type: "string",
       label: "Distinct ID",
-      description: "The Mixpanel `distinct_id` of the user who performed the event. Use a stable identifier such as your own user ID so that repeat events attribute to the same profile.",
+      description: "The Mixpanel `distinct_id` of the user who performed the event, for example `user_123`. Use the same stable identifier you send with your other Mixpanel events so that repeat events attribute to the same profile.",
     },
     properties: {
       type: "object",
@@ -36,29 +33,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const mixpanel = await Mixpanel.init(this.mixpanel.$auth.token, {
-      protocol: "https",
-    });
-
-    // We purposely separated distinct_id to make it explicit; however, we
-    // include it in the return value. It is merged last so that a stray
-    // `distinct_id` inside `properties` cannot silently reattribute the event.
     const payload = Object.assign({}, this.properties, {
       "distinct_id": this.distinct_id,
     });
 
-    // `track()` mutates the properties object it is handed, injecting the
-    // project token and library metadata. Give it a copy so those never reach
-    // the step's return value.
-    await new Promise((resolve, reject) => mixpanel.track(
-      this.event_name,
-      {
-        ...payload,
-      },
-      (error) => error
-        ? reject(error)
-        : resolve(),
-    ));
+    await this.mixpanel.trackEvent({
+      event: this.event_name,
+      properties: payload,
+    });
 
     $.export("$summary", `Tracked event "${this.event_name}" for ${this.distinct_id}`);
 

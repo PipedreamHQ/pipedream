@@ -88,10 +88,12 @@ export default {
     },
   },
   async run({ $ }) {
-    // Only checkable when both halves of the window are set; otherwise Mixpanel
-    // falls back to the unit saved with the funnel, which we cannot see here.
-    // An over-long window returns an opaque HTTP 500 rather than a validation
-    // message, so it is worth catching before the request goes out.
+    if (this.unit && this.interval) {
+      throw new ConfigurationError("Unit and Interval are alternate ways of expressing the same thing - set one or the other, not both. Use Unit for `week` or `month` buckets, or Interval for a bucket of N days.");
+    }
+
+    // Only checkable when both halves are set; otherwise Mixpanel falls back to
+    // the unit saved with the funnel, which we cannot see here.
     if (this.conversionWindowLength && this.conversionWindowUnit) {
       const windowInDays = this.conversionWindowLength
         * constants.DAYS_PER_FUNNEL_LENGTH_UNIT[this.conversionWindowUnit];

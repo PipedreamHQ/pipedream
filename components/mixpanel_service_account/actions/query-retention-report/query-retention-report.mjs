@@ -113,10 +113,8 @@ export default {
       throw new ConfigurationError("Born Event is required when Retention Type is `birth`. Use **List Events** to find the exact event name, or set Retention Type to `compounded`.");
     }
 
-    // Mixpanel answers both of these with an opaque HTTP 500 rather than a
-    // validation message, so they are caught here where the error can say what
-    // to change. Sending `unit` and `interval` together is rejected server-side
-    // the same way it is on the funnels endpoint - they are alternates.
+    // Mixpanel answers both of these with an opaque HTTP 500, so they are
+    // caught here where the error can say what to change.
     if (this.unit && this.interval) {
       throw new ConfigurationError("Unit and Interval are alternate ways of expressing the same thing - set one or the other, not both. Use Unit for `week` or `month` buckets, or Interval for a bucket of N days.");
     }

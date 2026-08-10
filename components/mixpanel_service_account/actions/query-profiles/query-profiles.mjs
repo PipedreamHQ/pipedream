@@ -18,7 +18,7 @@ export default {
     distinctId: {
       type: "string",
       label: "Distinct ID",
-      description: "A single `distinct_id` to fetch the profile for, for example `user_1234`. Mutually exclusive with Distinct IDs and Where.",
+      description: "A single `distinct_id` to fetch the profile for, for example `user_1234`. Set only one of Distinct ID, Distinct IDs, or Where.",
       optional: true,
     },
     distinctIds: {
@@ -26,7 +26,7 @@ export default {
         app,
         "distinctIds",
       ],
-      description: "Several `distinct_id` values to fetch profiles for in one call, for example `[\"user_1234\", \"user_5678\"]`. Mutually exclusive with Distinct ID and Where.",
+      description: "Several `distinct_id` values to fetch profiles for in one call, for example `[\"user_1234\", \"user_5678\"]`. Set only one of Distinct ID, Distinct IDs, or Where.",
       optional: true,
     },
     where: {
@@ -108,8 +108,7 @@ export default {
     const {
       results = [], total,
     } = response;
-    // Only mention the total when it exceeds this page, so a single-page or
-    // empty result does not read as "Found 0 profiles of 0 matching".
+    // Mentioning the total unconditionally reads as "Found 0 profiles of 0".
     $.export("$summary", `Found ${results.length} profile${results.length === 1
       ? ""
       : "s"}${total > results.length

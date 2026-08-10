@@ -1,4 +1,5 @@
 // x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../mixpanel_service_account.app.mjs";
 import constants from "../../common/constants.mjs";
 
@@ -31,8 +32,6 @@ export default {
         app,
         "unit",
       ],
-      // This endpoint accepts finer buckets than the saved-report endpoints do,
-      // and requires a unit rather than defaulting to one server-side.
       description: "The size of each bucket in the returned series. Note that hourly unique counts are not supported by Mixpanel.",
       options: constants.TIME_UNITS,
       default: "day",
@@ -58,6 +57,12 @@ export default {
     },
   },
   async run({ $ }) {
+    // Mixpanel answers this unsupported combination with a 200 and a full
+    // hourly series, so unchecked it yields a confident but meaningless answer.
+    if (this.analysisType === constants.UNIQUE_ANALYSIS_TYPE && this.unit === constants.HOUR_UNIT) {
+      throw new ConfigurationError("Mixpanel does not support hourly unique counts. Use a Unit of `day` or larger with the `unique` Analysis Type, or keep `hour` and switch Analysis Type to `general`.");
+    }
+
     const response = await this.app.aggregateEventCounts({
       $,
       params: {
@@ -70,10 +75,8 @@ export default {
       },
     });
 
-    // Only `general` buckets can be summed into a meaningful total. Adding up
-    // per-bucket `unique` counts double-counts anyone active in more than one
-    // bucket, and adding up `average` values is meaningless - so for those the
-    // caller has to read the returned series rather than a headline number.
+    // Summing per-bucket `unique` counts double-counts anyone active in more
+    // than one bucket, and summing `average` values is meaningless.
     const total = this.analysisType === constants.GENERAL_ANALYSIS_TYPE
       ? Object
         .values(response.data?.values ?? {})
