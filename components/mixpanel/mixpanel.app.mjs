@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 export default {
   type: "app",
   app: "mixpanel",

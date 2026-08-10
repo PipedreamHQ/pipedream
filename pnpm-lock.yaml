@@ -10177,7 +10177,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/mixpanel_service_account: {}
+  components/mixpanel_service_account:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/miyn: {}
 
