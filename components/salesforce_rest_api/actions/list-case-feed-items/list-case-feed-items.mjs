@@ -40,7 +40,7 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: `The maximum number of feed items to return (max ${constants.FEED_MAX_LIMIT})`,
+      description: "The maximum number of feed items to return. Valid values are integers from 1 through 1000. Default is 100.",
       default: constants.FEED_DEFAULT_LIMIT,
       min: 1,
       max: constants.FEED_MAX_LIMIT,
