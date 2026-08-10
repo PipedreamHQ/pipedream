@@ -10166,6 +10166,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.1
         version: 3.1.1
+      mixpanel:
+        specifier: ^0.23.0
+        version: 0.23.0
 
   components/mixpanel_service_account:
     dependencies:
@@ -29923,6 +29926,9 @@ packages:
   json-buffer@3.0.1:
     resolution: {integrity: sha512-4bV5BfR2mqfQTJm+V5tPPdf+ZpuhiIvTuAB5g8kcrXOZpTT/QwwVRWBywX1ozr6lEuPdbHxwaJlm9G6mI2sfSQ==}
 
+  json-logic-js@2.0.5:
+    resolution: {integrity: sha512-rTT2+lqcuUmj4DgWfmzupZqQDA64AdmYqizzMPWj3DxGdfFNsxPpcNVSaTj4l8W2tG/+hg7/mQhxjU3aPacO6g==}
+
   json-parse-better-errors@1.0.2:
     resolution: {integrity: sha512-mrqyZKfX5EhL7hvqcV6WG1yYjnjeuYDzDhhcAAUrq8Po85NBQBJP+ZDUT75qZQ98IkUoBqdkExkukOU7Ts2wrw==}
 
@@ -31007,6 +31013,10 @@ packages:
 
   mitt@3.0.1:
     resolution: {integrity: sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==}
+
+  mixpanel@0.23.0:
+    resolution: {integrity: sha512-2kaFTdeFgfOsG0l0dW40fBFgCUeVY/LtgxOZgaRvXQd9sNrtZe7Xq2aoc0hkaOC7pZTrH8UVFnliFDlGQtUz/w==}
+    engines: {node: '>=10.0'}
 
   mkdirp-classic@0.5.3:
     resolution: {integrity: sha512-gKLcREMhtuZRwRAfqP3RFW+TK4JqApVBtOIftVgjuABpAtpxhPGaDcfvbhNvD0B8iD1oUr/txX35NjcaY6Ns/A==}
@@ -51398,6 +51408,8 @@ snapshots:
 
   json-buffer@3.0.1: {}
 
+  json-logic-js@2.0.5: {}
+
   json-parse-better-errors@1.0.2: {}
 
   json-parse-even-better-errors@2.3.1: {}
@@ -52811,6 +52823,13 @@ snapshots:
   mitt@3.0.0: {}
 
   mitt@3.0.1: {}
+
+  mixpanel@0.23.0:
+    dependencies:
+      https-proxy-agent: 7.0.6
+      json-logic-js: 2.0.5
+    transitivePeerDependencies:
+      - supports-color
 
   mkdirp-classic@0.5.3: {}
 
