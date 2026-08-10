@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import app from "../../box.app.mjs";
 import fs from "fs";
 import stream from "stream";
@@ -5,9 +6,9 @@ import { promisify } from "util";
 
 export default {
   name: "Download File",
-  description: "Downloads a file from Box to your workflow's `/tmp` directory. [See the documentation](https://developer.box.com/reference/get-files-id-content/)",
+  description: "Downloads a file from Box to your workflow's `/tmp` directory and returns the saved file path. Use **Get File Metadata** to check the file's name and size first, or **Get File Text** to extract text content without downloading. [See the documentation](https://developer.box.com/reference/get-files-id-content/)",
   key: "box-download-file",
-  version: "0.0.10",
+  version: "0.0.11",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -22,7 +23,7 @@ export default {
         "parentId",
       ],
       label: "Folder",
-      description: "Folder containing the file to download",
+      description: "The folder containing the file to download. Use `0` for the root folder. Use the **List Folders** action to retrieve folder IDs.",
       optional: false,
     },
     fileId: {
@@ -39,7 +40,7 @@ export default {
         app,
         "fileName",
       ],
-      description: "The name of the new downloaded file",
+      description: "The name to save the downloaded file as in `/tmp` (e.g. `report.pdf`)",
       optional: false,
     },
     syncDir: {
@@ -58,6 +59,8 @@ export default {
 
     const pipeline = promisify(stream.pipeline);
     await pipeline(fileStream, fs.createWriteStream(filePath));
+
+    $.export("$summary", `Successfully downloaded file to \`${filePath}\``);
 
     return {
       filePath,
