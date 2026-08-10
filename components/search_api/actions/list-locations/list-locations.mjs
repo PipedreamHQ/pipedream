@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import app from "../../search_api.app.mjs";
 
 export default {
