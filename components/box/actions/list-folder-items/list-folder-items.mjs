@@ -79,6 +79,12 @@ export default {
       ],
       description: "The maximum number of items to return per page (max 1000)",
     },
+    marker: {
+      type: "string",
+      label: "Marker",
+      description: "The position marker at which to begin returning results. Pass the `next_marker` value returned by a previous run of this action to continue listing beyond the first page, e.g. `JV9IRGZmieiBasejOG9yDCRNgd2ymoZIbjsxbJMjIs3kioVii`.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     if (this.sort && String(this.folderId) === "0") {
@@ -96,6 +102,9 @@ export default {
     }
     if (this.direction) {
       params.direction = this.direction;
+    }
+    if (this.marker) {
+      params.marker = this.marker;
     }
 
     const response = await this.app.getItems({

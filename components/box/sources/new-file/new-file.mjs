@@ -6,7 +6,7 @@ import { fileTypeFromBuffer } from "file-type";
 export default {
   key: "box-new-file",
   name: "New File Event",
-  description: "Emit new event when a file is uploaded to the target folder (`FILE.UPLOADED`), via a Box webhook. [See the documentation](https://developer.box.com/reference/post-webhooks)",
+  description: "Emit new event when a file is uploaded to, or moved into, the target folder (`FILE.UPLOADED`), via a Box webhook. Box fires this trigger for both cases, so moving an existing file into the folder also emits an event. [See the documentation](https://developer.box.com/reference/post-webhooks)",
   version: "0.1.5",
   type: "source",
   dedupe: "unique",

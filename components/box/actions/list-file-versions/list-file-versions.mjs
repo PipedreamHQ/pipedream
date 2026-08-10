@@ -48,10 +48,20 @@ export default {
       ],
       description: "The maximum number of results to return per page. Use an integer from 1 through 1000.",
     },
+    offset: {
+      type: "integer",
+      label: "Offset",
+      description: "The zero-based position at which to start listing versions (e.g. `100`). Pass a multiple of Limit to page through results. Box rejects offsets above `10000`.",
+      optional: true,
+      default: 0,
+      min: 0,
+      max: 10000,
+    },
   },
   async run({ $ }) {
     const params = {
       limit: this.limit,
+      offset: this.offset,
       fields: utils.getFieldsParam(this.fields),
     };
 

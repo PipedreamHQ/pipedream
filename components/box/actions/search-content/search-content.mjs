@@ -54,7 +54,7 @@ export default {
           query: this.query,
           mdfilters: this.mdfilters,
           type: this.searchType,
-          fields: this.fields,
+          fields: utils.getFieldsParam(this.fields),
         },
       },
     });
