@@ -43,11 +43,16 @@ export default {
       const nameField = await this.salesforce.getNameFieldForObjectType(objectType);
       this.setNameField(nameField);
 
+      const extraConditions = await this._buildExtraConditions();
       const { records } = await this.query({
-        query: `SELECT Id FROM ${objectType} ORDER BY CreatedDate DESC LIMIT ${DEPLOY_HISTORICAL_LIMIT}`,
+        query: `SELECT Id FROM ${objectType} WHERE Id != null ${extraConditions} ORDER BY CreatedDate DESC LIMIT ${DEPLOY_HISTORICAL_LIMIT}`,
       });
 
-      for (const record of records) {
+      // Emit oldest-first so historical events are delivered chronologically,
+      // matching the timer polling path.
+      for (const record of [
+        ...records,
+      ].reverse()) {
         const object = await this.salesforce.getSObject(objectType, record.Id);
         const event = {
           body: {
@@ -55,7 +60,7 @@ export default {
             "UserId": record.Id,
           },
         };
-        this.processWebhookEvent(event);
+        await this.processWebhookEvent(event);
       }
     },
   },
@@ -89,6 +94,20 @@ export default {
         conditions.push(`AND CreatedById != '${userId}'`);
       }
       return conditions.join(" ");
+    },
+    async processWebhookEvent(event) {
+      // Instant/webhook deliveries can't filter on Parent.Type (the pushed
+      // payload has ParentId but not the parent's object type), so
+      // parentObjectType is only enforced on the polling/deploy SOQL queries.
+      // excludeSelf is enforced here to prevent self-trigger loops.
+      if (this.excludeSelf) {
+        const userId = await this._resolveAuthenticatedUserId();
+        if (event.body?.New?.CreatedById === userId) {
+          return;
+        }
+      }
+      const meta = this.generateWebhookMeta(event);
+      this.$emit(event.body, meta);
     },
     async processTimerEvent(eventData) {
       const {
