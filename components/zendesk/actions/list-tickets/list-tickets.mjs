@@ -1,39 +1,39 @@
-import app from "../../zendesk.app.mjs";
+import zendesk from "../../zendesk.app.mjs";
 
 export default {
   key: "zendesk-list-tickets",
   name: "List Tickets",
   description: "Retrieves a list of tickets. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/tickets/tickets/#list-tickets).",
   type: "action",
-  version: "0.0.18",
+  version: "0.0.19",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   props: {
-    app,
+    zendesk,
     sortBy: {
       propDefinition: [
-        app,
+        zendesk,
         "sortBy",
       ],
     },
     sortOrder: {
       propDefinition: [
-        app,
+        zendesk,
         "sortOrder",
       ],
     },
     limit: {
       propDefinition: [
-        app,
+        zendesk,
         "limit",
       ],
     },
     customSubdomain: {
       propDefinition: [
-        app,
+        zendesk,
         "customSubdomain",
       ],
     },
@@ -46,8 +46,8 @@ export default {
       customSubdomain,
     } = this;
 
-    const results = this.app.paginate({
-      fn: this.app.listTickets,
+    const results = this.zendesk.paginate({
+      fn: this.zendesk.listTickets,
       args: {
         step,
         customSubdomain,
