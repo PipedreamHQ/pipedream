@@ -5,7 +5,7 @@ export default {
   key: "zoom-list-channels",
   name: "List Channels",
   description: "List a user's chat channels.",
-  version: "0.1.5",
+  version: "0.1.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

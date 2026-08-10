@@ -4,7 +4,7 @@ export default {
   key: "zoom-get-meeting-summary",
   name: "Get Meeting Summary",
   description: "Retrieve the summary of a meeting or webinar. [See the documentation](https://developers.zoom.us/docs/api/rest/reference/zoom-api/methods/#operation/Getameetingsummary)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
