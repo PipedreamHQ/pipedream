@@ -18,7 +18,7 @@ export default {
         app,
         "mediaId",
       ],
-      description: "The media file to look up",
+      description: "A Speak AI media ID, for example `b4994aa1267c`. Get it from the `mediaId` field returned by Speak AI.",
     },
     userId: {
       type: "string",
@@ -42,7 +42,10 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully found media \`${response.data.mediaId}\``);
+    const foundId = response?.data?.mediaId;
+    $.export("$summary", foundId
+      ? `Successfully found media \`${foundId}\``
+      : "Successfully found media");
     return response;
   },
 };

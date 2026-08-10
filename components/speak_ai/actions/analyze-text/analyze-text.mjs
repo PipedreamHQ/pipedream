@@ -41,7 +41,10 @@ export default {
       mediaId,
     });
 
-    $.export("$summary", `Successfully analyzed text with ID \`${response.data.mediaId}\`.`);
+    const analyzedId = response?.data?.mediaId;
+    $.export("$summary", analyzedId
+      ? `Successfully analyzed text with ID \`${analyzedId}\`.`
+      : "Successfully analyzed text.");
     return response;
   },
 };

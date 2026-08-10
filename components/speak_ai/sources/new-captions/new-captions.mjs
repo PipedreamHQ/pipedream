@@ -35,11 +35,11 @@ export default {
         fileType: this.fileType,
       });
     },
-    generateMeta(resource) {
+    generateMeta(resource, data) {
       return {
         id: this.getEventId(resource),
         summary: `New Captions: ${resource.mediaId}`,
-        ts: Date.now(),
+        ts: this.getEventTs(data),
       };
     },
   },

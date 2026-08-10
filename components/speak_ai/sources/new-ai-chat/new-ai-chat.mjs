@@ -1,5 +1,6 @@
 import common from "../common/webhook.mjs";
 import events from "../common/events.mjs";
+import constants from "../../common/constants.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
@@ -18,18 +19,22 @@ export default {
       ];
     },
     async getData(resource) {
-      const { data: { history } } = await this.app.listPrompts();
-      const match = history.find(({
+      const { data: { history } } = await this.app.listPrompts({
+        params: {
+          pageSize: constants.PROMPT_HISTORY_PAGE_SIZE,
+        },
+      });
+      const match = history?.find(({
         promptId, messageId,
       }) => (resource.promptId && promptId === resource.promptId)
         || (resource.messageId && messageId === resource.messageId));
       return match || resource;
     },
-    generateMeta(resource) {
+    generateMeta(resource, data) {
       return {
         id: this.getEventId(resource),
         summary: `New AI Chat Response: ${resource.messageId || resource.promptId}`,
-        ts: Date.now(),
+        ts: this.getEventTs(data),
       };
     },
   },
