@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import app from "../../box.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import utils from "../../common/utils.mjs";
 
 export default {
   name: "Search Content",
-  description: "Searches for files, folders, web links, and shared files across the users content or across the entire enterprise. [See the documentation](https://developer.box.com/reference/get-search/).",
+  description: "Searches for files, folders, and web links across the user's Box content by keyword and/or metadata filters — at least one of `Query` or `Metadata Filters` is required. Matches item names, descriptions, and file text content; trashed items are excluded. Paginates through and returns all matching results. To browse a known folder instead, use **List Folder Items**. [See the documentation](https://developer.box.com/reference/get-search/).",
   key: "box-search-content",
   version: "0.0.11",
   annotations: {

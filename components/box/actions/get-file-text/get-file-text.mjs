@@ -1,9 +1,10 @@
+// x-pd-ai: optimized
 import app from "../../box.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   name: "Get File Text",
-  description: "Extracts text from a file in Box. [See the documentation](https://developer.box.com/guides/representations/text)",
+  description: "Extracts the text content of a Box file using its `extracted_text` representation. Only works for file types Box can extract text from (documents, PDFs, text files); fails with an error when the file has no text representation. Use **Download File** to fetch the raw file instead. [See the documentation](https://developer.box.com/guides/representations/text)",
   key: "box-get-file-text",
   version: "0.0.2",
   type: "action",
@@ -20,7 +21,7 @@ export default {
         "parentId",
       ],
       label: "Folder",
-      description: "Folder containing the file to extract text from",
+      description: "The folder containing the file to extract text from. Use `0` for the root folder. Use the **List Folders** action to retrieve folder IDs.",
       optional: false,
     },
     fileId: {
@@ -32,7 +33,7 @@ export default {
         }),
       ],
       label: "File",
-      description: "File to extract text from",
+      description: "The file to extract text from (e.g. `123456789`). Use the **List Folder Items** action to retrieve file IDs.",
     },
   },
   async run({ $ }) {

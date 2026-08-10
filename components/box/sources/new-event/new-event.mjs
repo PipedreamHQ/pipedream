@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import common from "../common/common.mjs";
 import eventsTypes from "../common/eventTypes.mjs";
 
 export default {
   key: "box-new-event",
   name: "New Event",
-  description: "Emit new event when an event with subscribed event source triggered on a target. [See the documentation](https://developer.box.com/reference/post-webhooks)",
+  description: "Emit new event when any of the selected event types occurs on the target file or folder, via a Box webhook. [See the documentation](https://developer.box.com/reference/post-webhooks)",
   version: "0.0.10",
   type: "source",
   dedupe: "unique",
@@ -14,7 +15,7 @@ export default {
     events: {
       type: "string[]",
       label: "Event types",
-      description: "The events that trigger the webhook.",
+      description: "The event types that trigger the webhook (e.g. `FILE.UPLOADED`, `FOLDER.CREATED`). [See the full list of event triggers](https://developer.box.com/reference/post-webhooks/#param-triggers).",
       options: eventsTypes,
     },
   },

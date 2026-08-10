@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import common from "../common/common.mjs";
 import { Readable } from "stream";
 import { fileTypeFromBuffer } from "file-type";
@@ -5,7 +6,7 @@ import { fileTypeFromBuffer } from "file-type";
 export default {
   key: "box-new-file",
   name: "New File Event",
-  description: "Emit new event when a new file is uploaded to a target. [See the documentation](https://developer.box.com/reference/post-webhooks)",
+  description: "Emit new event when a file is uploaded to the target folder (`FILE.UPLOADED`), via a Box webhook. [See the documentation](https://developer.box.com/reference/post-webhooks)",
   version: "0.1.5",
   type: "source",
   dedupe: "unique",
