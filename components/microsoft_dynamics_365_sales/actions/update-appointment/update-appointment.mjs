@@ -7,8 +7,8 @@ import {
 export default {
   key: "microsoft_dynamics_365_sales-update-appointment",
   name: "Update Appointment",
-  description: "Patch an appointment; only supplied fields are sent. Use **List Appointment Categories** for category values. [See the documentation](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/update-and-delete-rows-using-web-api) and the [appointment entity reference](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/reference/appointment)",
-  version: "0.0.1",
+  description: "Patch an appointment; only supplied fields are sent. Use **List Appointment Categories** for category values. [See the documentation](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/update-delete-entities-using-web-api) and the [appointment entity reference](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/reference/appointment)",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

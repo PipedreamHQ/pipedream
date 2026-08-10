@@ -1,4 +1,6 @@
+// x-pd-ai: optimized
 import pd from "pipedrive";
+import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -157,6 +159,25 @@ export default {
       description: "open = Open, won = Won, lost = Lost, deleted = Deleted. If omitted, status will be set to open.",
       optional: true,
       options: constants.STATUS_OPTIONS,
+    },
+    projectStatus: {
+      type: "string",
+      label: "Status",
+      description: "The status of the project. One of: open, completed, canceled, deleted.",
+      options: constants.PROJECT_STATUS_OPTIONS,
+      optional: true,
+    },
+    projectPhaseId: {
+      type: "string",
+      label: "Phase ID",
+      description: "The ID of the project phase. Run **List Project Phases** first to obtain a valid phase ID.",
+      optional: true,
+    },
+    projectBoardId: {
+      type: "string",
+      label: "Board ID",
+      description: "The ID of the project board. Run **List Project Boards** first to obtain a valid board ID.",
+      optional: true,
     },
     dealId: {
       type: "string",
@@ -743,6 +764,174 @@ export default {
       const notesApi = this.api("NotesApi");
       return notesApi.deleteNote({
         id: noteId,
+      });
+    },
+    // Projects, project boards + phases, and Tasks live on Pipedrive's
+    // /api/v2/* REST endpoints but the JS SDK's v2 exports don't include
+    // ProjectsApi, TasksApi, BoardsApi, or PhasesApi. Route through raw
+    // axios with a small helper that stamps the auth header + baseURL.
+    _v2Request({
+      $, path, method = "GET", params, data,
+    }) {
+      return axios($, {
+        method,
+        url: `${this.$auth.api_domain}/api/v2${path}`,
+        headers: {
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        },
+        params,
+        data,
+      });
+    },
+    // The v2 REST API rejects string ids with "body/<field> must be integer".
+    // Props (and propDefinitions with async options) surface ids as strings, and
+    // *Ids props as string[], so coerce the known numeric fields to integers
+    // before sending. Non-numeric or absent values are left untouched.
+    _coerceV2Ids(data = {}) {
+      const INT_FIELDS = [
+        "board_id",
+        "phase_id",
+        "owner_id",
+        "project_id",
+        "parent_task_id",
+        "priority",
+        "stage_id",
+      ];
+      const INT_ARRAY_FIELDS = [
+        "deal_ids",
+        "person_ids",
+        "org_ids",
+        "label_ids",
+        "assignee_ids",
+      ];
+      const toInt = (v) => {
+        const n = Number(v);
+        return Number.isNaN(n)
+          ? v
+          : n;
+      };
+      const out = {
+        ...data,
+      };
+      for (const f of INT_FIELDS) {
+        if (out[f] !== undefined && out[f] !== null && out[f] !== "") out[f] = toInt(out[f]);
+      }
+      for (const f of INT_ARRAY_FIELDS) {
+        if (Array.isArray(out[f])) {
+          out[f] = out[f]
+            .filter((v) => v !== undefined && v !== null && v !== "")
+            .map(toInt);
+        }
+      }
+      return out;
+    },
+    listProjects({
+      $, ...params
+    } = {}) {
+      return this._v2Request({
+        $,
+        path: "/projects",
+        params,
+      });
+    },
+    addProject({
+      $, ...data
+    } = {}) {
+      return this._v2Request({
+        $,
+        method: "POST",
+        path: "/projects",
+        data: this._coerceV2Ids(data),
+      });
+    },
+    getProject({
+      $, projectId,
+    }) {
+      return this._v2Request({
+        $,
+        path: `/projects/${projectId}`,
+      });
+    },
+    updateProject({
+      $, projectId, ...data
+    }) {
+      return this._v2Request({
+        $,
+        method: "PATCH",
+        path: `/projects/${projectId}`,
+        data: this._coerceV2Ids(data),
+      });
+    },
+    deleteProject({
+      $, projectId,
+    }) {
+      return this._v2Request({
+        $,
+        method: "DELETE",
+        path: `/projects/${projectId}`,
+      });
+    },
+    getProjectBoards({ $ } = {}) {
+      return this._v2Request({
+        $,
+        path: "/boards",
+      });
+    },
+    getProjectPhases({
+      $, boardId,
+    }) {
+      return this._v2Request({
+        $,
+        path: "/phases",
+        params: {
+          board_id: boardId,
+        },
+      });
+    },
+    listTasks({
+      $, ...params
+    } = {}) {
+      return this._v2Request({
+        $,
+        path: "/tasks",
+        params,
+      });
+    },
+    addTask({
+      $, ...data
+    } = {}) {
+      return this._v2Request({
+        $,
+        method: "POST",
+        path: "/tasks",
+        data: this._coerceV2Ids(data),
+      });
+    },
+    getTask({
+      $, taskId,
+    }) {
+      return this._v2Request({
+        $,
+        path: `/tasks/${taskId}`,
+      });
+    },
+    updateTask({
+      $, taskId, ...data
+    }) {
+      return this._v2Request({
+        $,
+        method: "PATCH",
+        path: `/tasks/${taskId}`,
+        data: this._coerceV2Ids(data),
+      });
+    },
+    deleteTask({
+      $, taskId,
+    }) {
+      return this._v2Request({
+        $,
+        method: "DELETE",
+        path: `/tasks/${taskId}`,
       });
     },
     getPerson(personId) {

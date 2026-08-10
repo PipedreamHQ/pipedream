@@ -4,7 +4,7 @@ export default {
   key: "fathom-get-recording-summary",
   name: "Get Recording Summary",
   description: "Get the summary of a recording. [See the documentation](https://developers.fathom.ai/api-reference/recordings/get-summary)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
