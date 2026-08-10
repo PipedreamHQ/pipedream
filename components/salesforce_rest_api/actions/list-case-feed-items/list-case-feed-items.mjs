@@ -28,7 +28,7 @@ export default {
         }),
       ],
       label: "Case ID",
-      description: "The ID of the case to retrieve feed items for (15- or 18-character Salesforce ID, e.g. `5005g00001ABCDeAAI`)",
+      description: "The ID of the case to retrieve feed items for (15- or 18-character Salesforce ID, e.g. `5005g00001ABCDeAAI`). Use the **List Cases* action to retrieve case IDs",
     },
     feedItemType: {
       type: "string",
