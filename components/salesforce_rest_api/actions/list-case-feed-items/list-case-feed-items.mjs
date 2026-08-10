@@ -1,7 +1,9 @@
 // x-pd-ai: optimized
-import { ConfigurationError } from "@pipedream/platform";
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import constants from "../../common/constants.mjs";
+import {
+  assertSalesforceId, escapeSoqlString,
+} from "../../common/soql.mjs";
 
 export default {
   key: "salesforce_rest_api-list-case-feed-items",
@@ -28,7 +30,7 @@ export default {
         }),
       ],
       label: "Case ID",
-      description: "The ID of the case to retrieve feed items for (15- or 18-character Salesforce ID, e.g. `5005g00001ABCDeAAI`). Use the **List Cases* action to retrieve case IDs",
+      description: "The ID of the case to retrieve feed items for (15- or 18-character Salesforce ID, e.g. `5005g00001ABCDeAAI`). Use the **List Cases** action to retrieve case IDs.",
     },
     feedItemType: {
       type: "string",
@@ -41,25 +43,23 @@ export default {
       type: "integer",
       label: "Limit",
       description: "The maximum number of feed items to return. Valid values are integers from 1 through 1000. Default is 100.",
-      default: constants.FEED_DEFAULT_LIMIT,
+      default: constants.DEFAULT_LIMIT,
       min: 1,
-      max: constants.FEED_MAX_LIMIT,
+      max: constants.MAX_LIMIT,
       optional: true,
     },
   },
   async run({ $ }) {
-    if (!constants.SALESFORCE_ID_REGEX.test(this.caseId)) {
-      throw new ConfigurationError("**Case ID** must be a 15- or 18-character Salesforce ID");
-    }
+    const caseId = assertSalesforceId(this.caseId, "Case ID");
 
     const fields = (await this.salesforce.getFieldsForObjectType(constants.OBJECT_TYPE.CASE_FEED))
       .map(({ name }) => name);
 
-    let query = `SELECT ${fields.join(", ")} FROM ${constants.OBJECT_TYPE.CASE_FEED} WHERE ParentId = '${this.caseId}'`;
+    let query = `SELECT ${fields.join(", ")} FROM ${constants.OBJECT_TYPE.CASE_FEED} WHERE ParentId = '${caseId}'`;
     if (this.feedItemType) {
-      query += ` AND Type = '${this.feedItemType.replace(/\\/g, "\\\\").replace(/'/g, "\\'")}'`;
+      query += ` AND Type = '${escapeSoqlString(this.feedItemType)}'`;
     }
-    query += ` ORDER BY CreatedDate DESC, Id DESC LIMIT ${this.limit || constants.FEED_DEFAULT_LIMIT}`;
+    query += ` ORDER BY CreatedDate DESC, Id DESC LIMIT ${this.limit || constants.DEFAULT_LIMIT}`;
 
     const { records } = await this.salesforce.query({
       $,
