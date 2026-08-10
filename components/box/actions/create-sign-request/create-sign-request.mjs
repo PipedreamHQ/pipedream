@@ -33,7 +33,7 @@ export default {
         "parentId",
       ],
       label: "Parent Folder",
-      description: "The destination folder to place the final, signed document and signing log. Uses the root folder (`0`) if not specified. Use the **List Folders** action to retrieve folder IDs.",
+      description: "The destination folder to place the final, signed document and signing log. Box does not allow the root folder (`0`) here — do not pass `0`. Leave this empty and Box picks the default: the parent folder of the first source file when it has permission to upload there, otherwise a folder called `My Sign Requests`. Use the **List Folders** action to retrieve folder IDs.",
       optional: true,
     },
     emailSubject: {
@@ -101,7 +101,9 @@ export default {
         : {}),
     };
 
-    if (parentFolder) {
+    // Box rejects the root folder as a sign request destination, so treat it as
+    // unset and let Box apply its own default
+    if (parentFolder && String(parentFolder) !== "0") {
       data.parent_folder = {
         id: parentFolder,
         type: "folder",
