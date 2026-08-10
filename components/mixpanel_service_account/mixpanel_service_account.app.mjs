@@ -44,6 +44,34 @@ export default {
       label: "Distinct IDs",
       description: "One or more Mixpanel `distinct_id` values identifying the user profiles to look up. Use **Query Profiles** to find `distinct_id` values by email or any other profile property.",
     },
+    analysisType: {
+      type: "string",
+      label: "Analysis Type",
+      description: "How the events are counted. Use `unique` to answer \"how many users\" and `general` to answer \"how many times\".",
+      options: constants.ANALYSIS_TYPES,
+      default: constants.GENERAL_ANALYSIS_TYPE,
+    },
+    unit: {
+      type: "string",
+      label: "Unit",
+      description: "The size of each bucket in the returned series.",
+      options: constants.REPORT_TIME_UNITS,
+      optional: true,
+    },
+    interval: {
+      type: "integer",
+      label: "Interval",
+      description: "The number of days each bucket in the returned series covers, for example `7`. Defaults to 1. This is an alternate way of expressing Unit - set one or the other, not both.",
+      min: 1,
+      optional: true,
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "The maximum number of results to return.",
+      min: 1,
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {

@@ -21,18 +21,22 @@ export default {
       description: "One or more event names to count, exactly as they are tracked in Mixpanel (for example, `Signed Up`). Names are case-sensitive. Use **List Events** to discover them.",
     },
     analysisType: {
-      type: "string",
-      label: "Analysis Type",
-      description: "How the events are counted. Use `unique` to answer \"how many users\" and `general` to answer \"how many times\".",
-      options: constants.ANALYSIS_TYPES,
-      default: "general",
+      propDefinition: [
+        app,
+        "analysisType",
+      ],
     },
     unit: {
-      type: "string",
-      label: "Unit",
+      propDefinition: [
+        app,
+        "unit",
+      ],
+      // This endpoint accepts finer buckets than the saved-report endpoints do,
+      // and requires a unit rather than defaulting to one server-side.
       description: "The size of each bucket in the returned series. Note that hourly unique counts are not supported by Mixpanel.",
       options: constants.TIME_UNITS,
       default: "day",
+      optional: false,
     },
     fromDate: {
       propDefinition: [

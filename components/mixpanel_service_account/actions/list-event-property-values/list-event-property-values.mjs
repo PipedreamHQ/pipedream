@@ -27,11 +27,11 @@ export default {
       description: "The name of the property to list values for, exactly as it is tracked (for example, `$browser` or `plan_tier`). Use **List Event Properties** to discover valid names for this event.",
     },
     limit: {
-      type: "integer",
-      label: "Limit",
+      propDefinition: [
+        app,
+        "limit",
+      ],
       description: `The maximum number of values to return. Defaults to ${constants.DEFAULT_TOP_VALUES_LIMIT}.`,
-      min: 1,
-      optional: true,
     },
     workspaceId: {
       propDefinition: [

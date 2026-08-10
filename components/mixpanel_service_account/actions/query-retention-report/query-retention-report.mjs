@@ -48,18 +48,18 @@ export default {
       optional: true,
     },
     unit: {
-      type: "string",
-      label: "Unit",
+      propDefinition: [
+        app,
+        "unit",
+      ],
       description: "The unit each retention interval is measured in: `day`, `week`, or `month`. For example, `week` with an Interval Count of 4 gives you week-1 through week-4 retention. Mixpanel defaults to `day` when this is left empty. This is an alternate way of expressing Interval - set one or the other, not both.",
-      options: constants.RETENTION_TIME_UNITS,
-      optional: true,
     },
     interval: {
-      type: "integer",
-      label: "Interval",
+      propDefinition: [
+        app,
+        "interval",
+      ],
       description: `How many days make up a single retention interval, for example \`7\`. Defaults to 1, and may not exceed ${constants.MAX_RETENTION_DAY_INTERVAL}. This is an alternate way of expressing Unit - set one or the other, not both.`,
-      min: 1,
-      optional: true,
     },
     intervalCount: {
       type: "integer",
@@ -95,11 +95,11 @@ export default {
       description: "A segmentation expression to break the returning users down by. Example: `properties[\"$city\"]`. [See the expression syntax](https://docs.mixpanel.com/reference/segmentation-expressions)",
     },
     limit: {
-      type: "integer",
-      label: "Limit",
+      propDefinition: [
+        app,
+        "limit",
+      ],
       description: "The maximum number of segment values to return. Has no effect unless Segment On is set.",
-      min: 1,
-      optional: true,
     },
     workspaceId: {
       propDefinition: [

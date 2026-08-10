@@ -48,18 +48,17 @@ export default {
       optional: true,
     },
     unit: {
-      type: "string",
-      label: "Unit",
+      propDefinition: [
+        app,
+        "unit",
+      ],
       description: "The size of each bucket in the returned series: `day`, `week`, or `month`. This is an alternate way of expressing Interval - set one or the other, not both.",
-      options: constants.FUNNEL_TIME_UNITS,
-      optional: true,
     },
     interval: {
-      type: "integer",
-      label: "Interval",
-      description: "The number of days each bucket in the returned series covers, for example `7`. Defaults to 1. This is an alternate way of expressing Unit - set one or the other, not both.",
-      min: 1,
-      optional: true,
+      propDefinition: [
+        app,
+        "interval",
+      ],
     },
     on: {
       propDefinition: [
@@ -74,12 +73,12 @@ export default {
       ],
     },
     limit: {
-      type: "integer",
-      label: "Limit",
+      propDefinition: [
+        app,
+        "limit",
+      ],
       description: `The maximum number of segment values to return. Defaults to ${constants.DEFAULT_TOP_VALUES_LIMIT}. Has no effect unless Segment On is set.`,
-      min: 1,
       max: constants.MAX_FUNNEL_SEGMENTATION_LIMIT,
-      optional: true,
     },
     workspaceId: {
       propDefinition: [

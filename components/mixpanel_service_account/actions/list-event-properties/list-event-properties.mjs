@@ -22,11 +22,11 @@ export default {
       ],
     },
     limit: {
-      type: "integer",
-      label: "Limit",
+      propDefinition: [
+        app,
+        "limit",
+      ],
       description: `The maximum number of property names to return. Defaults to ${constants.DEFAULT_TOP_PROPERTIES_LIMIT}.`,
-      min: 1,
-      optional: true,
     },
     workspaceId: {
       propDefinition: [

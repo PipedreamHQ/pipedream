@@ -16,18 +16,18 @@ export default {
   props: {
     app,
     analysisType: {
-      type: "string",
-      label: "Analysis Type",
+      propDefinition: [
+        app,
+        "analysisType",
+      ],
       description: "How events are counted when ranking them.",
-      options: constants.ANALYSIS_TYPES,
-      default: "general",
     },
     limit: {
-      type: "integer",
-      label: "Limit",
+      propDefinition: [
+        app,
+        "limit",
+      ],
       description: `The maximum number of event names to return. Defaults to ${constants.DEFAULT_TOP_VALUES_LIMIT}.`,
-      min: 1,
-      optional: true,
     },
     workspaceId: {
       propDefinition: [

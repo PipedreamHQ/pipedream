@@ -26,13 +26,9 @@ const TIME_UNITS = [
   "month",
 ];
 
-const RETENTION_TIME_UNITS = [
-  "day",
-  "week",
-  "month",
-];
-
-const FUNNEL_TIME_UNITS = [
+// Bucket sizes the saved-report endpoints accept. Unlike TIME_UNITS these
+// exclude minute and hour, which /funnels and /retention do not support.
+const REPORT_TIME_UNITS = [
   "day",
   "week",
   "month",
@@ -83,8 +79,7 @@ export default {
   GENERAL_ANALYSIS_TYPE,
   ANALYSIS_TYPES,
   TIME_UNITS,
-  RETENTION_TIME_UNITS,
-  FUNNEL_TIME_UNITS,
+  REPORT_TIME_UNITS,
   FUNNEL_LENGTH_UNITS,
   RETENTION_TYPES,
   BIRTH_RETENTION_TYPE,
