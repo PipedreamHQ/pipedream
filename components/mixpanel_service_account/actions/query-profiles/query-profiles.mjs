@@ -85,6 +85,17 @@ export default {
       throw new ConfigurationError("Session ID is required when Page is greater than 0. Run this action without Page first, then pass the `session_id` from its response.");
     }
 
+    // Mixpanel accepts several selectors at once but does not define how they
+    // combine, so more than one would return an undefined result set.
+    const selectorCount = [
+      this.distinctId,
+      this.distinctIds?.length,
+      this.where,
+    ].filter(Boolean).length;
+    if (selectorCount > 1) {
+      throw new ConfigurationError("Set only one of Distinct ID, Distinct IDs, or Where. Mixpanel does not define how multiple profile selectors combine.");
+    }
+
     const response = await this.app.queryProfiles({
       $,
       params: {
