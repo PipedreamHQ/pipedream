@@ -4,7 +4,7 @@ export default {
   key: "zoom-get-current-user",
   name: "Get Current User",
   description: "Returns the authenticated Zoom user's ID, name, email, account ID, and timezone. Call this first when the user says 'my meetings', 'my recordings', or needs their Zoom identity. Use `id` with **Create Meeting**, `account_id` to scope queries, and `email` to match participants in **List Past Meeting Participants**. [See the documentation](https://developers.zoom.us/docs/api/users/#tag/users/GET/users/{userId}).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

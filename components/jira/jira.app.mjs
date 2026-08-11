@@ -10,7 +10,7 @@ export default {
     cloudId: {
       type: "string",
       label: "Cloud ID",
-      description: "The cloud ID",
+      description: "The Jira Cloud site ID (for example, `11223344-a1b2-3b33-c444-def123456789`). Use **Get Cloud ID** to discover IDs. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/oauth-2-3lo-apps/#3-1-get-the-cloudid-for-your-site)",
       useQuery: true,
       async options() {
         const clouds = await this.getClouds();
