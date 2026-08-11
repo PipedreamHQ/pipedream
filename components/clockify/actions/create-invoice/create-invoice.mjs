@@ -1,6 +1,6 @@
 // x-pd-ai: optimized
 import clockify from "../../clockify.app.mjs";
-import { INVOICE_TIME_VIEW_MODE_OPTIONS } from "../../common/constants.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "clockify-create-invoice",
@@ -60,7 +60,7 @@ export default {
       label: "Time View Mode",
       description: "How tracked time is presented on the invoice. `TIME_SENSITIVE_VIEW` lists entries individually, `AGGREGATED_TIME_VIEW` rolls them up",
       optional: true,
-      options: INVOICE_TIME_VIEW_MODE_OPTIONS,
+      options: constants.INVOICE_TIME_VIEW_MODE_OPTIONS,
     },
   },
   async run({ $ }) {
