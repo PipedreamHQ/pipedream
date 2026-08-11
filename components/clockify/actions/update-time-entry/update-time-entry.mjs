@@ -119,7 +119,7 @@ export default {
         description: this.timeEntryDescription ?? entry.description,
         billable: this.billable ?? entry.billable,
         tagIds: this.tagIds || entry.tagIds,
-        type: this.timeEntryType,
+        type: this.timeEntryType ?? entry.type,
       },
     });
 

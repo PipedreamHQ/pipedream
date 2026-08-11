@@ -41,6 +41,12 @@ export default {
         })) || [];
       },
     },
+    projectIds: {
+      type: "string[]",
+      label: "Project IDs",
+      description: "Only include time tracked against these projects. Leave blank to include every project. Use the **List Projects** action to find the IDs.",
+      optional: true,
+    },
     clientId: {
       type: "string",
       label: "Client",
@@ -252,6 +258,79 @@ export default {
       label: "Currency",
       description: "Currency of the invoice. Example: `USD`",
     },
+    importFrom: {
+      type: "string",
+      label: "Import From",
+      description: "Start of the period to import tracked time from, in ISO 8601 format. Example: `2026-08-01T00:00:00Z`",
+      optional: true,
+    },
+    importTo: {
+      type: "string",
+      label: "Import To",
+      description: "End of the period to import tracked time from, in ISO 8601 format. Example: `2026-08-31T23:59:59Z`",
+      optional: true,
+    },
+    importExpenses: {
+      type: "boolean",
+      label: "Import Expenses",
+      description: "Whether to import billable expenses alongside the time entries. Defaults to `false`",
+      optional: true,
+    },
+    roundTimeEntryDuration: {
+      type: "boolean",
+      label: "Round Durations",
+      description: "Whether to round imported time entry durations to the nearest 15 minute interval. Defaults to `false`",
+      optional: true,
+    },
+    timeEntryGroupType: {
+      type: "string",
+      label: "Time Entry Group Type",
+      description: "How imported time becomes line items. `SINGLE_ITEM` rolls everything into one line, `GROUPED` groups by the primary and secondary fields below, `DETAILED` creates a line per entry. Defaults to `DETAILED`",
+      optional: true,
+      options: constants.INVOICE_IMPORT_TIME_ENTRY_GROUP_TYPE_OPTIONS,
+    },
+    timeEntryPrimaryGroupBy: {
+      type: "string",
+      label: "Time Entry Primary Group By",
+      description: "Field to group time entries by. Required when **Time Entry Group Type** is `GROUPED`",
+      optional: true,
+      options: constants.INVOICE_IMPORT_TIME_ENTRY_GROUP_BY_OPTIONS,
+    },
+    timeEntrySecondaryGroupBy: {
+      type: "string",
+      label: "Time Entry Secondary Group By",
+      description: "Second field to group time entries by, used when **Time Entry Group Type** is `GROUPED`. Must differ from the primary field",
+      optional: true,
+      options: constants.INVOICE_IMPORT_TIME_ENTRY_SECONDARY_GROUP_BY_OPTIONS,
+    },
+    timeEntryFieldsForDetailedGroup: {
+      type: "string[]",
+      label: "Time Entry Fields",
+      description: "Fields to show on each line item, used when **Time Entry Group Type** is `DETAILED`",
+      optional: true,
+      options: constants.INVOICE_IMPORT_TIME_ENTRY_FIELD_OPTIONS,
+    },
+    expensesGroupType: {
+      type: "string",
+      label: "Expense Group Type",
+      description: "How imported expenses become line items, used when **Import Expenses** is `true`. Defaults to `DETAILED`",
+      optional: true,
+      options: constants.INVOICE_IMPORT_EXPENSE_GROUP_TYPE_OPTIONS,
+    },
+    expensesGroupBy: {
+      type: "string",
+      label: "Expense Group By",
+      description: "Field to group expenses by, used when **Expense Group Type** is `GROUPED`. Defaults to `PROJECT`",
+      optional: true,
+      options: constants.INVOICE_IMPORT_EXPENSE_GROUP_BY_OPTIONS,
+    },
+    expenseFieldsForDetailedGroup: {
+      type: "string[]",
+      label: "Expense Fields",
+      description: "Fields to show on each expense line item, used when **Expense Group Type** is `DETAILED`",
+      optional: true,
+      options: constants.INVOICE_IMPORT_EXPENSE_FIELD_OPTIONS,
+    },
   },
   methods: {
     _baseUrl() {
@@ -413,6 +492,14 @@ export default {
         ...args,
       });
     },
+    getClient({
+      workspaceId, clientId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/clients/${clientId}`,
+        ...args,
+      });
+    },
     updateClient({
       workspaceId, clientId, ...args
     }) {
@@ -481,6 +568,15 @@ export default {
       return this._makeRequest({
         path: `/workspaces/${workspaceId}/invoices/${invoiceId}`,
         method: "PUT",
+        ...args,
+      });
+    },
+    importInvoiceItems({
+      workspaceId, invoiceId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/invoices/${invoiceId}/items/import`,
+        method: "POST",
         ...args,
       });
     },

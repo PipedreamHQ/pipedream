@@ -1,5 +1,6 @@
 // x-pd-ai: optimized
 import clockify from "../../clockify.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "clockify-delete-client",
@@ -32,14 +33,24 @@ export default {
     },
   },
   async run({ $ }) {
-    await this.clockify.updateClient({
+    const client = await this.clockify.getClient({
       $,
       workspaceId: this.workspaceId,
       clientId: this.clientId,
-      data: {
-        archived: true,
-      },
     });
+
+    if (!client.archived) {
+      await this.clockify.updateClient({
+        $,
+        workspaceId: this.workspaceId,
+        clientId: this.clientId,
+        // The archive step goes through the same full-replace endpoint, so carry the
+        // client's other fields through — otherwise a failed delete leaves them wiped
+        data: utils.buildClientUpdateBody(client, {
+          archived: true,
+        }),
+      });
+    }
 
     await this.clockify.deleteClient({
       $,
