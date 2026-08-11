@@ -258,37 +258,6 @@ export default {
       label: "Currency",
       description: "Currency of the invoice. Example: `USD`",
     },
-    importFrom: {
-      type: "string",
-      label: "Import From",
-      description: "Start of the period to import tracked time from, in ISO 8601 format. Example: `2026-08-01T00:00:00Z`",
-      optional: true,
-    },
-    importTo: {
-      type: "string",
-      label: "Import To",
-      description: "End of the period to import tracked time from, in ISO 8601 format. Example: `2026-08-31T23:59:59Z`",
-      optional: true,
-    },
-    importExpenses: {
-      type: "boolean",
-      label: "Import Expenses",
-      description: "Whether to import billable expenses alongside the time entries. Defaults to `false`",
-      optional: true,
-    },
-    roundTimeEntryDuration: {
-      type: "boolean",
-      label: "Round Durations",
-      description: "Whether to round imported time entry durations to the nearest 15 minute interval. Defaults to `false`",
-      optional: true,
-    },
-    timeEntryGroupType: {
-      type: "string",
-      label: "Time Entry Group Type",
-      description: "How imported time becomes line items. `SINGLE_ITEM` rolls everything into one line, `GROUPED` groups by project, `DETAILED` creates a line per entry. Defaults to `DETAILED`",
-      optional: true,
-      options: constants.INVOICE_IMPORT_TIME_ENTRY_GROUP_TYPE_OPTIONS,
-    },
   },
   methods: {
     _baseUrl() {

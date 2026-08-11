@@ -65,40 +65,22 @@ export default {
       options: constants.INVOICE_TIME_VIEW_MODE_OPTIONS,
     },
     importFrom: {
-      propDefinition: [
-        clockify,
-        "importFrom",
-      ],
+      type: "string",
+      label: "Import From",
+      description: "Start of the period to bill tracked time from, in ISO 8601 format. Set this and **Import To** to import the time entries logged in that period as line items. Example: `2026-08-01T00:00:00Z`",
+      optional: true,
     },
     importTo: {
-      propDefinition: [
-        clockify,
-        "importTo",
-      ],
-    },
-    timeEntryGroupType: {
-      propDefinition: [
-        clockify,
-        "timeEntryGroupType",
-      ],
+      type: "string",
+      label: "Import To",
+      description: "End of the period to bill tracked time from, in ISO 8601 format. Example: `2026-08-31T23:59:59Z`",
+      optional: true,
     },
     projectIds: {
-      propDefinition: [
-        clockify,
-        "projectIds",
-      ],
-    },
-    importExpenses: {
-      propDefinition: [
-        clockify,
-        "importExpenses",
-      ],
-    },
-    roundTimeEntryDuration: {
-      propDefinition: [
-        clockify,
-        "roundTimeEntryDuration",
-      ],
+      type: "string[]",
+      label: "Project IDs",
+      description: "Only bill time tracked against these projects. Leave blank to bill every project in the period. Use the **List Projects** action to find the IDs.",
+      optional: true,
     },
   },
   async run({ $ }) {
@@ -125,8 +107,6 @@ export default {
       return invoice;
     }
 
-    const groupType = this.timeEntryGroupType ?? "DETAILED";
-
     let response;
     try {
       response = await this.clockify.importInvoiceItems({
@@ -136,19 +116,14 @@ export default {
         data: {
           from: this.importFrom,
           to: this.importTo,
-          importExpenses: this.importExpenses ?? false,
-          roundTimeEntryDuration: this.roundTimeEntryDuration,
-          timeEntryGroupType: groupType,
-          // Each group type reads a different companion field, so only send the one it uses
-          timeEntryFieldsForDetailedGroup: groupType === "DETAILED"
-            ? [
-              "PROJECT",
-              "DESCRIPTION",
-            ]
-            : undefined,
-          timeEntryPrimaryGroupBy: groupType === "GROUPED"
-            ? "PROJECT"
-            : undefined,
+          // Required by the endpoint. This action bills tracked time only, and lists one
+          // line item per entry so the invoice reads back against the entries it came from
+          importExpenses: false,
+          timeEntryGroupType: "DETAILED",
+          timeEntryFieldsForDetailedGroup: [
+            "PROJECT",
+            "DESCRIPTION",
+          ],
           projectFilter: utils.buildProjectFilter(this.projectIds),
         },
       });
