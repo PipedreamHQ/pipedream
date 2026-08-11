@@ -1,12 +1,13 @@
+// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../box.app.mjs";
 import utils from "../../common/utils.mjs";
 
 export default {
   name: "Create Box Sign Request",
-  description: "Creates a signature request. This involves preparing a document for signing and sending the signature request to signers. [See the documentation](https://developer.box.com/reference/post-sign-requests/).",
+  description: "Creates a Box Sign signature request and sends it to the listed signers. Requires at least one signer, plus the document(s) to sign passed via `Additional Options` — either `source_files` (e.g. `[{\"id\": \"123456789\", \"type\": \"file\"}]`) or a `template_id`; Box rejects requests with no document source. The signed document and signing log are saved to the `Parent Folder`. [See the documentation](https://developer.box.com/reference/post-sign-requests/).",
   key: "box-create-sign-request",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -18,7 +19,7 @@ export default {
     signers: {
       type: "string[]",
       label: "Signers",
-      description: "Array of signers for the signature request. Each signer should be a JSON object with at least an email property. [See the documentation](https://developer.box.com/reference/post-sign-requests/#param-signers) for more information. Example: `{\"email\": \"signer@example.com\", \"role\": \"signer\"}`",
+      description: "Array of signers for the signature request. Each signer should be a JSON object with at least an email property. Valid roles: `signer`, `approver`, `final_copy_reader` (defaults to `signer`). [See the documentation](https://developer.box.com/reference/post-sign-requests/#param-signers) for more information. Example: `{\"email\": \"signer@example.com\", \"role\": \"signer\"}`",
     },
     name: {
       type: "string",
@@ -32,7 +33,7 @@ export default {
         "parentId",
       ],
       label: "Parent Folder",
-      description: "The destination folder to place final, signed document and signing log. Uses root folder (0) if not specified",
+      description: "The destination folder to place the final, signed document and signing log. Box does not allow the root folder (`0`) here — do not pass `0`. Leave this empty and Box picks the default: the parent folder of the first source file when it has permission to upload there, otherwise a folder called `My Sign Requests`. Use the **List Folders** action to retrieve folder IDs.",
       optional: true,
     },
     emailSubject: {
@@ -100,7 +101,9 @@ export default {
         : {}),
     };
 
-    if (parentFolder) {
+    // Box rejects the root folder as a sign request destination, so treat it as
+    // unset and let Box apply its own default
+    if (parentFolder && String(parentFolder) !== "0") {
       data.parent_folder = {
         id: parentFolder,
         type: "folder",
