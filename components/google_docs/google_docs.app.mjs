@@ -278,10 +278,8 @@ export default {
       const numRows = rows.length;
       const numColumns = rows.reduce((max, row) => Math.max(max, row.length), 0);
 
-      const beforeDoc = await this.getDocument(documentId, false, "body");
-      const beforeStartIndexes = new Set(
-        this.flattenTables(beforeDoc.body?.content).map(({ startIndex }) => startIndex),
-      );
+      const { body: beforeBody } = await this.getDocument(documentId, false, "body");
+      const beforeTables = this.flattenTables(beforeBody?.content);
 
       const insertRequest = this._buildRequestForPosition({
         rows: numRows,
@@ -290,14 +288,15 @@ export default {
       await this._batchUpdate(documentId, "insertTable", insertRequest);
 
       // The insertTable reply carries no location info, so re-fetch the
-      // document and find the table that wasn't present before the insert.
-      // Document order guarantees this is the table we just created: any
-      // pre-existing table that also shifted position sits either entirely
-      // before it (unaffected, still in beforeStartIndexes) or entirely
-      // after it (also "new" by this check, but later in document order).
+      // document and select the new table by ordinal position (see
+      // selectInsertedTable) rather than by startIndex — inserting
+      // immediately before an existing table gives the new table that
+      // table's old startIndex, so comparing index values can't tell them
+      // apart.
       const { body } = await this.getDocument(documentId, false, "body");
       const tables = this.flattenTables(body?.content);
-      const table = tables.find(({ startIndex }) => !beforeStartIndexes.has(startIndex));
+      const requestedIndex = this._resolvePositionIndex(position);
+      const table = utils.selectInsertedTable(beforeTables, tables, requestedIndex);
       if (!table) {
         throw new Error("Could not locate the table that was just created. The table was inserted but no cell data was written.");
       }
