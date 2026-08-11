@@ -123,11 +123,6 @@ export default defineApp({
     },
   },
   methods: {
-    // Google resource names are accepted in either form: a bare id ("123") or a
-    // canonical resource name ("accounts/123", "accounts/123/locations/456").
-    // Callers get either one depending on whether the value came from a prop
-    // dropdown or from an upstream step, so every id is reduced to its bare form
-    // before being interpolated into a request path.
     getCleanName(name: string) {
       return name?.split("/").pop();
     },
