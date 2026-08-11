@@ -5,7 +5,7 @@ import clockify from "../../clockify.app.mjs";
 export default {
   key: "clockify-update-client",
   name: "Update Client",
-  description: "Updates an existing client in a Clockify workspace. Use **List Clients** to find the ID of the client to update. [See the documentation](https://docs.clockify.me/#tag/Client)",
+  description: "Updates an existing client in a Clockify workspace. Use **List Clients** to find the ID of the client to update. [See the documentation](https://docs.clockify.me/#tag/Client/operation/updateClient)",
   version: "0.0.1",
   type: "action",
   annotations: {

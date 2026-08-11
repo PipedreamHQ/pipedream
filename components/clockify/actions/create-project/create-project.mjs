@@ -4,7 +4,7 @@ import clockify from "../../clockify.app.mjs";
 export default {
   key: "clockify-create-project",
   name: "Create Project",
-  description: "Creates a new project in a Clockify workspace. Only the name is required; link the project to a client so its time can be invoiced, and set an hourly rate to make tracked time billable at that rate. Use **Add Task To Project** afterwards to add the tasks that time entries are logged against. [See the documentation](https://docs.clockify.me/#tag/Project/operation/create_6)",
+  description: "Creates a new project in a Clockify workspace. Only the name is required; link the project to a client so its time can be invoiced, and set an hourly rate to make tracked time billable at that rate. Use **Add Task To Project** afterwards to add the tasks that time entries are logged against. [See the documentation](https://docs.clockify.me/#tag/Project/operation/createNewProject)",
   version: "0.0.4",
   annotations: {
     destructiveHint: false,

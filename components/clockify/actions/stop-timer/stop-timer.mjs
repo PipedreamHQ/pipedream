@@ -4,7 +4,7 @@ import clockify from "../../clockify.app.mjs";
 export default {
   key: "clockify-stop-timer",
   name: "Stop Timer",
-  description: "Stops the currently running timer for a workspace member in Clockify, setting its end time. [See the documentation](https://docs.clockify.me/#tag/Time-entry)",
+  description: "Stops the currently running timer for a workspace member in Clockify, setting its end time. [See the documentation](https://docs.clockify.me/#tag/Time-entry/operation/stopRunningTimeEntry)",
   version: "0.0.1",
   type: "action",
   annotations: {

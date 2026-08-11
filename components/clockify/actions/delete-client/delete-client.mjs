@@ -4,7 +4,7 @@ import clockify from "../../clockify.app.mjs";
 export default {
   key: "clockify-delete-client",
   name: "Delete Client",
-  description: "Deletes a client from a Clockify workspace. This cannot be undone. Clockify only allows deleting archived clients, so this action archives the client first if it isn't already. Use **List Clients** to find the ID of the client to delete. [See the documentation](https://docs.clockify.me/#tag/Client)",
+  description: "Deletes a client from a Clockify workspace. This cannot be undone. Clockify only allows deleting archived clients, so this action archives the client first if it isn't already. Use **List Clients** to find the ID of the client to delete. [See the documentation](https://docs.clockify.me/#tag/Client/operation/deleteClient) and the [update endpoint](https://docs.clockify.me/#tag/Client/operation/updateClient) used for the archive step",
   version: "0.0.1",
   type: "action",
   annotations: {

@@ -5,7 +5,7 @@ import clockify from "../../clockify.app.mjs";
 export default {
   key: "clockify-update-time-entry",
   name: "Update Time Entry",
-  description: "Updates an existing time entry in Clockify — change its start/end time, project, task, description, billable status, or tags. Clockify's update endpoint replaces the entire entry, so this action first fetches the current entry and merges your changes into it before saving — fields you don't set are left unchanged. Use **List Time Entries** to find the ID of the entry to update. [See the documentation](https://docs.clockify.me/#tag/Time-entry)",
+  description: "Updates an existing time entry in Clockify — change its start/end time, project, task, description, billable status, or tags. Clockify's update endpoint replaces the entire entry, so this action first fetches the current entry and merges your changes into it before saving — fields you don't set are left unchanged. Use **List Time Entries** to find the ID of the entry to update. [See the documentation](https://docs.clockify.me/#tag/Time-entry/operation/updateTimeEntry)",
   version: "0.0.1",
   type: "action",
   annotations: {

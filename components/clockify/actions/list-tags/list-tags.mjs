@@ -4,7 +4,7 @@ import clockify from "../../clockify.app.mjs";
 export default {
   key: "clockify-list-tags",
   name: "List Tags",
-  description: "List all tags in a Clockify workspace. Optionally filter by a substring of the tag name, and page through results with the page and page size inputs. [See the documentation](https://docs.clockify.me/#tag/Tag)",
+  description: "List all tags in a Clockify workspace. Optionally filter by a substring of the tag name, and page through results with the page and page size inputs. [See the documentation](https://docs.clockify.me/#tag/Tag/operation/getTags)",
   version: "0.0.1",
   type: "action",
   annotations: {

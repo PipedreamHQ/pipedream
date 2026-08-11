@@ -4,7 +4,7 @@ import clockify from "../../clockify.app.mjs";
 export default {
   key: "clockify-list-clients",
   name: "List Clients",
-  description: "List all clients in a Clockify workspace. Optionally filter by a substring of the client name or by archived status, and page through results with the page and page size inputs. [See the documentation](https://docs.clockify.me/#tag/Client)",
+  description: "List all clients in a Clockify workspace. Optionally filter by a substring of the client name or by archived status, and page through results with the page and page size inputs. [See the documentation](https://docs.clockify.me/#tag/Client/operation/getClients)",
   version: "0.0.1",
   type: "action",
   annotations: {

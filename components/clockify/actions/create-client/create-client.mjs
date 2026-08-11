@@ -4,7 +4,7 @@ import clockify from "../../clockify.app.mjs";
 export default {
   key: "clockify-create-client",
   name: "Create Client",
-  description: "Creates a new client in a Clockify workspace. Requires a client name; address and note are optional. [See the documentation](https://docs.clockify.me/#tag/Client)",
+  description: "Creates a new client in a Clockify workspace. Requires a client name; address and note are optional. [See the documentation](https://docs.clockify.me/#tag/Client/operation/createClient)",
   version: "0.0.1",
   type: "action",
   annotations: {

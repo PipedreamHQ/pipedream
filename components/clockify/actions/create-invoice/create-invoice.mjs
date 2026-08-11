@@ -5,7 +5,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "clockify-create-invoice",
   name: "Create Invoice",
-  description: "Creates a new invoice for a client in a Clockify workspace. Clockify's create endpoint accepts only the client, number, currency and the two dates — chain **Update Invoice** afterwards to set the subject, note or status. Line items and imported time are not exposed by this component, so use **List Time Entries** or **Get Time Entry Report** to look up the hours to bill and summarize them in the note you set via **Update Invoice**. [See the documentation](https://docs.clockify.me/#tag/Invoice)",
+  description: "Creates a new invoice for a client in a Clockify workspace. Clockify's create endpoint accepts only the client, number, currency and the two dates — chain **Update Invoice** afterwards to set the subject, note or status. Line items and imported time are not exposed by this component, so use **List Time Entries** or **Get Time Entry Report** to look up the hours to bill and summarize them in the note you set via **Update Invoice**. [See the documentation](https://docs.clockify.me/#tag/Invoice/operation/createInvoice)",
   version: "0.0.1",
   type: "action",
   annotations: {

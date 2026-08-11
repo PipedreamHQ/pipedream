@@ -4,7 +4,7 @@ import clockify from "../../clockify.app.mjs";
 export default {
   key: "clockify-delete-tag",
   name: "Delete Tag",
-  description: "Deletes a tag from a Clockify workspace. This cannot be undone. Use **List Tags** to find the ID of the tag to delete. [See the documentation](https://docs.clockify.me/#tag/Tag)",
+  description: "Deletes a tag from a Clockify workspace. This cannot be undone. Use **List Tags** to find the ID of the tag to delete. [See the documentation](https://docs.clockify.me/#tag/Tag/operation/deleteTag)",
   version: "0.0.1",
   type: "action",
   annotations: {

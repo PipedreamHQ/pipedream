@@ -6,7 +6,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "clockify-update-invoice",
   name: "Update Invoice",
-  description: "Updates an existing invoice in a Clockify workspace. Clockify's update endpoint replaces the entire invoice, so this action first fetches the current invoice and merges your changes into it — fields you don't set are left unchanged, including the invoice's tax and discount percentages, which this action preserves but cannot edit. `Status` is applied through a separate endpoint, so setting it alone skips the replace entirely. Line items and imported time cannot be set through Clockify's public API. Use **List Invoices** to find the ID of the invoice to update. [See the documentation](https://docs.clockify.me/#tag/Invoice/operation/updateInvoice)",
+  description: "Updates an existing invoice in a Clockify workspace. Clockify's update endpoint replaces the entire invoice, so this action first fetches the current invoice and merges your changes into it — fields you don't set are left unchanged, including the invoice's tax and discount percentages, which this action preserves but cannot edit. `Status` is applied through a separate endpoint, so setting it alone skips the replace entirely. Line items and imported time cannot be set through Clockify's public API. Use **List Invoices** to find the ID of the invoice to update. [See the documentation](https://docs.clockify.me/#tag/Invoice/operation/updateInvoice) and the [status endpoint](https://docs.clockify.me/#tag/Invoice/operation/changeInvoiceStatus)",
   version: "0.0.1",
   type: "action",
   annotations: {
