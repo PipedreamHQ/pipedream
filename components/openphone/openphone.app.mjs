@@ -3,6 +3,18 @@ import {
   axios, ConfigurationError,
 } from "@pipedream/platform";
 import Bottleneck from "bottleneck";
+import {
+  DEFAULT_CALLS_LIMIT,
+  DEFAULT_CONTACTS_LIMIT,
+  DEFAULT_CONVERSATIONS_LIMIT,
+  DEFAULT_MESSAGES_LIMIT,
+  DEFAULT_TASKS_LIMIT,
+  DEFAULT_USERS_LIMIT,
+  MAX_CONTACTS_LIMIT,
+  MAX_LIMIT,
+  MAX_USERS_LIMIT,
+  MIN_LIMIT,
+} from "./common/constants.mjs";
 const limiter = new Bottleneck({
   minTime: 100, // 10 requests per seconds (https://www.openphone.com/docs/mdx/api-reference/rate-limits)
   maxConcurrent: 1,
@@ -91,10 +103,15 @@ export default {
       label: "Phone Number ID",
       description: "The OpenPhone phone number ID (format `PN...`). Run the **List Phone Numbers** action to find valid IDs.",
     },
-    participants: {
+    callParticipant: {
+      type: "string",
+      label: "Participant",
+      description: "Phone number, in E.164 format (e.g. `+15551234567`), to filter calls by. This endpoint accepts exactly one participant (confirmed against the live API — it's a required field, not optional).",
+    },
+    messageParticipants: {
       type: "string[]",
       label: "Participants",
-      description: "Phone number(s) in E.164 format (e.g. `+15551234567`).",
+      description: "Participant phone number(s) in E.164 format (e.g. `+15551234567`). Max 10 participants. Required by this endpoint.",
     },
     userId: {
       type: "string",
@@ -119,12 +136,58 @@ export default {
       label: "Conversation ID",
       description: "The ID of the conversation (format `CN...`). Run the **List Conversations** action to find conversation IDs (or the **List Messages** action, which returns each message's `conversationId`).",
     },
-    maxResults: {
+    callMaxResults: {
       type: "integer",
       label: "Max Results",
-      description: "Maximum number of results to return. Min 1, max 100.",
-      min: 1,
-      max: 100,
+      description: `Maximum number of calls to return. Min ${MIN_LIMIT}, max ${MAX_LIMIT}. Defaults to ${DEFAULT_CALLS_LIMIT}.`,
+      min: MIN_LIMIT,
+      max: MAX_LIMIT,
+      default: DEFAULT_CALLS_LIMIT,
+      optional: true,
+    },
+    conversationMaxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: `Maximum number of conversations to return per page. Min ${MIN_LIMIT}, max ${MAX_LIMIT}. Defaults to ${DEFAULT_CONVERSATIONS_LIMIT}.`,
+      min: MIN_LIMIT,
+      max: MAX_LIMIT,
+      default: DEFAULT_CONVERSATIONS_LIMIT,
+      optional: true,
+    },
+    messageMaxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: `Maximum number of messages to return. Min ${MIN_LIMIT}, max ${MAX_LIMIT}. Defaults to ${DEFAULT_MESSAGES_LIMIT}.`,
+      min: MIN_LIMIT,
+      max: MAX_LIMIT,
+      default: DEFAULT_MESSAGES_LIMIT,
+      optional: true,
+    },
+    taskMaxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: `Maximum number of tasks to return. Min ${MIN_LIMIT}, max ${MAX_LIMIT}. Defaults to ${DEFAULT_TASKS_LIMIT}.`,
+      min: MIN_LIMIT,
+      max: MAX_LIMIT,
+      default: DEFAULT_TASKS_LIMIT,
+      optional: true,
+    },
+    contactMaxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: `Maximum number of contacts to return per page. Min ${MIN_LIMIT}, max ${MAX_CONTACTS_LIMIT}. Defaults to ${DEFAULT_CONTACTS_LIMIT}.`,
+      min: MIN_LIMIT,
+      max: MAX_CONTACTS_LIMIT,
+      default: DEFAULT_CONTACTS_LIMIT,
+      optional: true,
+    },
+    userMaxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: `Maximum number of users to return per page. Min ${MIN_LIMIT}, max ${MAX_USERS_LIMIT}. Defaults to ${DEFAULT_USERS_LIMIT}.`,
+      min: MIN_LIMIT,
+      max: MAX_USERS_LIMIT,
+      default: DEFAULT_USERS_LIMIT,
       optional: true,
     },
     pageToken: {

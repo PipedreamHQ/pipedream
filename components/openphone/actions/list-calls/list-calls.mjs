@@ -1,16 +1,11 @@
 // x-pd-ai: optimized
 import { pickFields } from "../../common/utils.mjs";
 import openphone from "../../openphone.app.mjs";
-import {
-  DEFAULT_CALLS_LIMIT,
-  MAX_LIMIT,
-  MIN_LIMIT,
-} from "../../common/constants.mjs";
 
 export default {
   key: "openphone-list-calls",
   name: "List Calls",
-  description: "Retrieve a paginated list of calls from OpenPhone. Requires both a phone number ID and a participant to scope the results — the API rejects calls missing either. Use **List Phone Numbers** to find valid phone number IDs. Example: call with phoneNumberId=\"PN123abc\", participants=[\"+15551234567\"] → returns up to 10 recent calls between that number and that participant. Use `fields` to return only specific fields per call. [See the documentation](https://www.openphone.com/docs/api-reference/calls/list-calls)",
+  description: "Retrieve a paginated list of calls from OpenPhone. Requires both a phone number ID and a participant to scope the results — the API rejects calls missing either. Use **List Phone Numbers** to find valid phone number IDs. Example: call with phoneNumberId=\"PN123abc\", participants=\"+15551234567\" → returns up to 10 recent calls between that number and that participant. Use `fields` to return only specific fields per call. [See the documentation](https://www.openphone.com/docs/api-reference/calls/list-calls)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -29,9 +24,8 @@ export default {
     participants: {
       propDefinition: [
         openphone,
-        "participants",
+        "callParticipant",
       ],
-      description: "Phone number(s) in E.164 format to filter by (e.g. `+15551234567`). Required by this endpoint — the API accepts at most 1 participant here.",
     },
     userId: {
       propDefinition: [
@@ -56,10 +50,8 @@ export default {
     maxResults: {
       propDefinition: [
         openphone,
-        "maxResults",
+        "callMaxResults",
       ],
-      description: `Maximum number of calls to return. Min ${MIN_LIMIT}, max ${MAX_LIMIT}. Defaults to ${DEFAULT_CALLS_LIMIT}.`,
-      default: DEFAULT_CALLS_LIMIT,
     },
     pageToken: {
       propDefinition: [

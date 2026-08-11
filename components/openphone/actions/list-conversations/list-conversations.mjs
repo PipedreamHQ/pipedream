@@ -1,11 +1,6 @@
 // x-pd-ai: optimized
 import { pickFields } from "../../common/utils.mjs";
 import openphone from "../../openphone.app.mjs";
-import {
-  DEFAULT_CONVERSATIONS_LIMIT,
-  MAX_LIMIT,
-  MIN_LIMIT,
-} from "../../common/constants.mjs";
 
 export default {
   key: "openphone-list-conversations",
@@ -70,10 +65,8 @@ export default {
     maxResults: {
       propDefinition: [
         openphone,
-        "maxResults",
+        "conversationMaxResults",
       ],
-      description: `Maximum number of conversations to return per page. Min ${MIN_LIMIT}, max ${MAX_LIMIT}. Defaults to ${DEFAULT_CONVERSATIONS_LIMIT}.`,
-      default: DEFAULT_CONVERSATIONS_LIMIT,
     },
     pageToken: {
       propDefinition: [

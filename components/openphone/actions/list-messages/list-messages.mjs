@@ -1,11 +1,6 @@
 // x-pd-ai: optimized
 import { pickFields } from "../../common/utils.mjs";
 import openphone from "../../openphone.app.mjs";
-import {
-  DEFAULT_MESSAGES_LIMIT,
-  MAX_LIMIT,
-  MIN_LIMIT,
-} from "../../common/constants.mjs";
 
 export default {
   key: "openphone-list-messages",
@@ -36,9 +31,8 @@ export default {
     participants: {
       propDefinition: [
         openphone,
-        "participants",
+        "messageParticipants",
       ],
-      description: "Participant phone number(s) in E.164 format (e.g. `+15551234567`). Max 10 participants. Required by this endpoint.",
     },
     userId: {
       propDefinition: [
@@ -63,10 +57,8 @@ export default {
     maxResults: {
       propDefinition: [
         openphone,
-        "maxResults",
+        "messageMaxResults",
       ],
-      description: `Maximum number of messages to return. Min ${MIN_LIMIT}, max ${MAX_LIMIT}. Defaults to ${DEFAULT_MESSAGES_LIMIT}.`,
-      default: DEFAULT_MESSAGES_LIMIT,
     },
     pageToken: {
       propDefinition: [

@@ -1,11 +1,6 @@
 // x-pd-ai: optimized
 import { pickFields } from "../../common/utils.mjs";
 import openphone from "../../openphone.app.mjs";
-import {
-  DEFAULT_CONTACTS_LIMIT,
-  MAX_CONTACTS_LIMIT,
-  MIN_LIMIT,
-} from "../../common/constants.mjs";
 
 export default {
   key: "openphone-list-contacts",
@@ -35,12 +30,8 @@ export default {
     maxResults: {
       propDefinition: [
         openphone,
-        "maxResults",
+        "contactMaxResults",
       ],
-      description: `Maximum number of contacts to return per page. Min ${MIN_LIMIT}, max ${MAX_CONTACTS_LIMIT}. Defaults to ${DEFAULT_CONTACTS_LIMIT}.`,
-      min: MIN_LIMIT,
-      max: MAX_CONTACTS_LIMIT,
-      default: DEFAULT_CONTACTS_LIMIT,
     },
     pageToken: {
       propDefinition: [

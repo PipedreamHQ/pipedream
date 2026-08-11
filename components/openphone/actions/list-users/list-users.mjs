@@ -1,10 +1,5 @@
 // x-pd-ai: optimized
 import openphone from "../../openphone.app.mjs";
-import {
-  DEFAULT_USERS_LIMIT,
-  MAX_USERS_LIMIT,
-  MIN_LIMIT,
-} from "../../common/constants.mjs";
 
 export default {
   key: "openphone-list-users",
@@ -22,12 +17,8 @@ export default {
     maxResults: {
       propDefinition: [
         openphone,
-        "maxResults",
+        "userMaxResults",
       ],
-      description: `Maximum number of users to return per page. Min ${MIN_LIMIT}, max ${MAX_USERS_LIMIT}. Defaults to ${DEFAULT_USERS_LIMIT}.`,
-      min: MIN_LIMIT,
-      max: MAX_USERS_LIMIT,
-      default: DEFAULT_USERS_LIMIT,
     },
     pageToken: {
       propDefinition: [

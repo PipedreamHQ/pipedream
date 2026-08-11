@@ -1,11 +1,6 @@
 // x-pd-ai: optimized
 import { pickFields } from "../../common/utils.mjs";
 import openphone from "../../openphone.app.mjs";
-import {
-  DEFAULT_TASKS_LIMIT,
-  MAX_LIMIT,
-  MIN_LIMIT,
-} from "../../common/constants.mjs";
 
 export default {
   key: "openphone-list-tasks",
@@ -30,10 +25,8 @@ export default {
     maxResults: {
       propDefinition: [
         openphone,
-        "maxResults",
+        "taskMaxResults",
       ],
-      description: `Maximum number of tasks to return. Min ${MIN_LIMIT}, max ${MAX_LIMIT}. Defaults to ${DEFAULT_TASKS_LIMIT}.`,
-      default: DEFAULT_TASKS_LIMIT,
     },
     pageToken: {
       propDefinition: [
