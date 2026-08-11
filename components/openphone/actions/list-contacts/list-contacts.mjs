@@ -10,7 +10,7 @@ import {
 export default {
   key: "openphone-list-contacts",
   name: "List Contacts",
-  description: "Retrieve a paginated list of contacts. Optionally filter by external IDs and/or sources. When no external IDs are provided, all contacts for the organization are returned. Example: call with no filters → returns up to 10 contacts for the organization. Use `fields` to return only specific fields per contact. [See the documentation](https://www.openphone.com/docs/api-reference/contacts/list-contacts)",
+  description: "Retrieve a paginated list of contacts. Optionally filter by external IDs and/or sources. All contacts for the organization are returned only when neither `externalIds` nor `sources` is provided. Example: call with no filters → returns up to 10 contacts for the organization. Use `fields` to return only specific fields per contact. [See the documentation](https://www.openphone.com/docs/api-reference/contacts/list-contacts)",
   version: "0.0.1",
   type: "action",
   annotations: {

@@ -44,13 +44,18 @@ export default {
       throw callResult.reason;
     }
 
+    // A summary/transcript not yet generated 404s — that's the only rejection reason
+    // that means "null", not "failed". Anything else (auth, rate limit, 5xx) is a real
+    // failure and should propagate instead of silently reporting success.
+    const auxiliaryResultOrThrow = (result) => {
+      if (result.status === "fulfilled") return result.value;
+      if (result.reason?.status === 404) return null;
+      throw result.reason;
+    };
+
     const call = callResult.value;
-    const summary = summaryResult.status === "fulfilled"
-      ? summaryResult.value
-      : null;
-    const transcript = transcriptResult.status === "fulfilled"
-      ? transcriptResult.value
-      : null;
+    const summary = auxiliaryResultOrThrow(summaryResult);
+    const transcript = auxiliaryResultOrThrow(transcriptResult);
 
     const result = {
       ...call,

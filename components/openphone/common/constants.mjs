@@ -1,13 +1,13 @@
 export const CONVERSATION_STATUS_SUBPATHS = {
   done: "mark-as-done",
   open: "mark-as-open",
-  unread: "mark-as-read",
+  read: "mark-as-read",
 };
 
 export const CONVERSATION_STATUS_OPTIONS = [
   "done",
   "open",
-  "unread",
+  "read",
 ];
 
 export const MIN_LIMIT = 1;

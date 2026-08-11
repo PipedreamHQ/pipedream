@@ -9,7 +9,7 @@ import {
 export default {
   key: "openphone-update-conversation",
   name: "Update Conversation Status",
-  description: "Update the status of an OpenPhone conversation. Set `conversationStatus` to `done`, `open`, or `unread`; the action routes to the corresponding OpenPhone endpoint (`mark-as-done`, `mark-as-open`, `mark-as-read`). Use **List Conversations** or **List Messages** to find the `conversationId`. Example: call with conversationId=\"CN123abc\", conversationStatus=\"done\" → marks the conversation done and returns the updated conversation. [See the documentation](https://www.openphone.com/docs/api-reference/conversations/mark-conversation-as-done)",
+  description: "Update the status of an OpenPhone conversation. Set `conversationStatus` to `done`, `open`, or `read`; the action routes to the corresponding OpenPhone endpoint (`mark-as-done`, `mark-as-open`, `mark-as-read`). Use **List Conversations** or **List Messages** to find the `conversationId`. Example: call with conversationId=\"CN123abc\", conversationStatus=\"done\" → marks the conversation done and returns the updated conversation. [See the documentation](https://www.openphone.com/docs/api-reference/conversations/mark-conversation-as-done)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -28,7 +28,7 @@ export default {
     conversationStatus: {
       type: "string",
       label: "Conversation Status",
-      description: "The status to set. One of: `done`, `open`, `unread`.",
+      description: "The status to set. One of: `done`, `open`, `read`.",
       options: CONVERSATION_STATUS_OPTIONS,
     },
   },

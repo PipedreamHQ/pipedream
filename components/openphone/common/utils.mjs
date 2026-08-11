@@ -45,7 +45,7 @@ export const pickFields = (records, fields) => {
   if (!fields?.length) return records;
   return records.map((record) =>
     Object.fromEntries(fields
-      .filter((field) => field in record)
+      .filter((field) => Object.hasOwn(record, field))
       .map((field) => [
         field,
         record[field],

@@ -17,7 +17,7 @@ export default {
     contactId: {
       type: "string",
       label: "Contact ID",
-      description: "The ID of the contact to permanently delete. Run the **List Contacts** action to find contact IDs.",
+      description: "The string identifier of the contact to permanently delete, as returned by the OpenPhone API (e.g. `66d0d87e8dc1211467372303`). Run the **List Contacts** action to find contact IDs.",
     },
   },
   async run({ $ }) {

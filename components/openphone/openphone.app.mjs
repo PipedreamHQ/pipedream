@@ -205,7 +205,11 @@ export default {
           ? `Prop: ${response.data.errors[0].path} - ${response.data.errors[0].message}`
           : response?.data?.message;
 
-        throw new ConfigurationError(errorMessage);
+        const error = new ConfigurationError(errorMessage);
+        // Preserved so callers can distinguish "not found yet" (e.g. a call summary
+        // that hasn't been generated) from a real failure (auth, rate limit, 5xx).
+        error.status = response?.status;
+        throw error;
       }
     },
     listPhoneNumbers(opts = {}) {
