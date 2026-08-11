@@ -5,12 +5,6 @@ import {
   NEW_OR_ACTIVE,
   INTERVAL_OPTIONS,
 } from "../../common/constants.mjs";
-import {
-  startDate,
-  endDate,
-  segmentDefinitions,
-  limit,
-} from "../../common/props.mjs";
 
 export default {
   key: "amplitude-get-funnel-analysis",
@@ -30,8 +24,18 @@ export default {
       label: "Events",
       description: "Array of JSON-encoded event definitions, one per funnel step, in order (each becomes a repeated `e` param). Example: `[\"{\\\"event_type\\\":\\\"Sign Up\\\"}\",\"{\\\"event_type\\\":\\\"Purchase\\\"}\"]`.",
     },
-    startDate,
-    endDate,
+    startDate: {
+      propDefinition: [
+        app,
+        "startDate",
+      ],
+    },
+    endDate: {
+      propDefinition: [
+        app,
+        "endDate",
+      ],
+    },
     mode: {
       type: "string",
       label: "Mode",
@@ -53,7 +57,12 @@ export default {
       options: INTERVAL_OPTIONS,
       optional: true,
     },
-    segmentDefinitions,
+    segmentDefinitions: {
+      propDefinition: [
+        app,
+        "segmentDefinitions",
+      ],
+    },
     groupBy: {
       type: "string",
       label: "Group By",
@@ -66,7 +75,12 @@ export default {
       description: "Conversion window in seconds (the `cs` param). Defaults to 2592000 (30 days).",
       optional: true,
     },
-    limit,
+    limit: {
+      propDefinition: [
+        app,
+        "limit",
+      ],
+    },
   },
   async run({ $ }) {
     const params = new URLSearchParams();

@@ -4,12 +4,6 @@ import {
   SEGMENTATION_METRICS,
   INTERVAL_OPTIONS,
 } from "../../common/constants.mjs";
-import {
-  startDate,
-  endDate,
-  segmentDefinitions,
-  limit,
-} from "../../common/props.mjs";
 
 export default {
   key: "amplitude-get-event-segmentation",
@@ -29,8 +23,18 @@ export default {
       label: "Event",
       description: "A single JSON-encoded event definition (the `e` param). `event_type` is required; `filters` and `group_by` are optional. Use a real event name from your project (e.g. `Purchase`, `Sign Up`), or Amplitude's built-in `_active`/`_new` events to query overall activity. Example: `{\"event_type\":\"_active\"}` (Amplitude's built-in \"any active event\" — do NOT use the literal string \"Any Active Event\", which is Amplitude UI label text, not a valid `event_type` value, and returns a 400).",
     },
-    startDate,
-    endDate,
+    startDate: {
+      propDefinition: [
+        app,
+        "startDate",
+      ],
+    },
+    endDate: {
+      propDefinition: [
+        app,
+        "endDate",
+      ],
+    },
     metric: {
       type: "string",
       label: "Metric",
@@ -45,7 +49,12 @@ export default {
       options: INTERVAL_OPTIONS,
       optional: true,
     },
-    segmentDefinitions,
+    segmentDefinitions: {
+      propDefinition: [
+        app,
+        "segmentDefinitions",
+      ],
+    },
     groupBy: {
       type: "string",
       label: "Group By",
@@ -64,7 +73,12 @@ export default {
       description: "A second JSON-encoded event definition (the `e2` param) for a derived/comparison metric. Example: `{\"event_type\":\"Purchase\"}`.",
       optional: true,
     },
-    limit,
+    limit: {
+      propDefinition: [
+        app,
+        "limit",
+      ],
+    },
     formula: {
       type: "string",
       label: "Formula",

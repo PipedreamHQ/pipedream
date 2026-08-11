@@ -2,12 +2,6 @@
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../amplitude.app.mjs";
 import { RETENTION_MODES } from "../../common/constants.mjs";
-import {
-  startDate,
-  endDate,
-  segmentDefinitions,
-  limit,
-} from "../../common/props.mjs";
 
 export default {
   key: "amplitude-get-retention-analysis",
@@ -32,8 +26,18 @@ export default {
       label: "Return Event",
       description: "JSON-encoded return event definition (the `re` param). Use a real event name, or Amplitude's built-in `_active` (active user) event. Example: `{\"event_type\":\"_active\"}`. Do NOT use the literal string \"Any Active Event\" — that's Amplitude UI label text, not a valid `event_type` value, and returns a 400.",
     },
-    startDate,
-    endDate,
+    startDate: {
+      propDefinition: [
+        app,
+        "startDate",
+      ],
+    },
+    endDate: {
+      propDefinition: [
+        app,
+        "endDate",
+      ],
+    },
     retentionMode: {
       type: "string",
       label: "Retention Mode",
@@ -67,14 +71,24 @@ export default {
       ],
       optional: true,
     },
-    segmentDefinitions,
+    segmentDefinitions: {
+      propDefinition: [
+        app,
+        "segmentDefinitions",
+      ],
+    },
     groupBy: {
       type: "string",
       label: "Group By",
       description: "A single property name to group results by (the `g` param). Retention supports at most one group-by.",
       optional: true,
     },
-    limit,
+    limit: {
+      propDefinition: [
+        app,
+        "limit",
+      ],
+    },
   },
   async run({ $ }) {
     if (this.retentionMode === "bracket") {
