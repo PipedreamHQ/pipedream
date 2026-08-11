@@ -20,6 +20,16 @@ function addTextContentToDocument(response) {
   };
 }
 
+function flattenTables(content) {
+  return (content || [])
+    .filter((element) => element.table)
+    .map((element) => ({
+      startIndex: element.startIndex,
+      endIndex: element.endIndex,
+      table: element.table,
+    }));
+}
+
 function adjustPropDefinitions(props, app) {
   return Object.fromEntries(
     Object.entries(props).map(([
@@ -64,5 +74,6 @@ function adjustPropDefinitions(props, app) {
 export default {
   getTextContentFromDocument,
   addTextContentToDocument,
+  flattenTables,
   adjustPropDefinitions,
 };
