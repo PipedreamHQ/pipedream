@@ -7,7 +7,7 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "clockify-create-invoice",
   name: "Create Invoice",
-  description: "Creates a new invoice for a client in a Clockify workspace. Set **Import From** and **Import To** to bill tracked time: the invoice is created and the time entries logged in that period are imported as line items. Leave both blank to create an empty invoice. Chain **Update Invoice** afterwards to set the subject, note or status, and use **Import Time Entries to Invoice** if you need the full set of grouping options. [See the documentation](https://docs.clockify.me/#tag/Invoice/operation/createInvoice)",
+  description: "Creates a new invoice for a client in a Clockify workspace. Set **Import From** and **Import To** to bill tracked time: the invoice is created and the time entries logged in that period are imported as line items. Leave both blank to create an empty invoice. Chain **Update Invoice** afterwards to set the subject, note or status. [See the documentation](https://docs.clockify.me/#tag/Invoice/operation/createInvoice)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -139,11 +139,15 @@ export default {
           importExpenses: this.importExpenses ?? false,
           roundTimeEntryDuration: this.roundTimeEntryDuration,
           timeEntryGroupType: groupType,
+          // Each group type reads a different companion field, so only send the one it uses
           timeEntryFieldsForDetailedGroup: groupType === "DETAILED"
             ? [
               "PROJECT",
               "DESCRIPTION",
             ]
+            : undefined,
+          timeEntryPrimaryGroupBy: groupType === "GROUPED"
+            ? "PROJECT"
             : undefined,
           projectFilter: utils.buildProjectFilter(this.projectIds),
         },
