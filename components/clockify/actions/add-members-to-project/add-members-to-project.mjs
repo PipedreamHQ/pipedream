@@ -53,9 +53,7 @@ export default {
       $,
     });
 
-    if (response?.id) {
-      $.export("$summary", `Successfully added member(s) to project with ID ${this.projectId}.`);
-    }
+    $.export("$summary", `Successfully added ${memberships.length} member(s) to project with ID ${this.projectId}`);
 
     return response;
   },

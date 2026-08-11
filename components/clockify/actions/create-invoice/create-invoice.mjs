@@ -1,10 +1,11 @@
 // x-pd-ai: optimized
 import clockify from "../../clockify.app.mjs";
+import { INVOICE_TIME_VIEW_MODE_OPTIONS } from "../../common/constants.mjs";
 
 export default {
   key: "clockify-create-invoice",
   name: "Create Invoice",
-  description: "Creates a new invoice for a client in a Clockify workspace. Note: Clockify's public API only supports invoice metadata (client, dates, currency, status, note) — there is no endpoint to add line items or import tracked time automatically, so use **List Time Entries** or **Get Time Entry Report** to look up the hours to bill and summarize them in the Note field. [See the documentation](https://docs.clockify.me/#tag/Invoice)",
+  description: "Creates a new invoice for a client in a Clockify workspace. Clockify's create endpoint accepts only the client, number, currency and the two dates — chain **Update Invoice** afterwards to set the subject, note or status. Line items and imported time are not exposed by this component, so use **List Time Entries** or **Get Time Entry Report** to look up the hours to bill and summarize them in the note you set via **Update Invoice**. [See the documentation](https://docs.clockify.me/#tag/Invoice)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -30,57 +31,36 @@ export default {
       ],
       optional: false,
     },
-    name: {
-      type: "string",
-      label: "Name",
-      description: "Name of the invoice. Example: `Invoice 1`",
-      optional: true,
-    },
     number: {
-      type: "string",
-      label: "Number",
-      description: "Invoice number. Example: `INV-001`",
-      optional: true,
+      propDefinition: [
+        clockify,
+        "invoiceNumber",
+      ],
     },
     issuedDate: {
-      type: "string",
-      label: "Issue Date",
-      description: "Issue date of the invoice, in ISO 8601 format. Example: `2026-08-05T00:00:00Z`",
+      propDefinition: [
+        clockify,
+        "issuedDate",
+      ],
     },
     dueDate: {
-      type: "string",
-      label: "Due Date",
-      description: "Due date of the invoice, in ISO 8601 format. Example: `2026-09-05T00:00:00Z`",
+      propDefinition: [
+        clockify,
+        "dueDate",
+      ],
     },
     currency: {
-      type: "string",
-      label: "Currency",
-      description: "Currency of the invoice. Example: `USD`",
-      optional: true,
-    },
-    taxId: {
-      type: "string",
-      label: "Tax ID",
-      description: "Tax identifier for the invoice",
-      optional: true,
-    },
-    note: {
-      type: "string",
-      label: "Note",
-      description: "Note to include on the invoice, e.g. a summary of the billing period or hours covered",
-      optional: true,
-    },
-    status: {
-      type: "string",
-      label: "Status",
-      description: "Status of the invoice",
-      optional: true,
-      options: [
-        "DRAFT",
-        "SENT",
-        "VIEWED",
-        "PAID",
+      propDefinition: [
+        clockify,
+        "currency",
       ],
+    },
+    timeViewMode: {
+      type: "string",
+      label: "Time View Mode",
+      description: "How tracked time is presented on the invoice. `TIME_SENSITIVE_VIEW` lists entries individually, `AGGREGATED_TIME_VIEW` rolls them up",
+      optional: true,
+      options: INVOICE_TIME_VIEW_MODE_OPTIONS,
     },
   },
   async run({ $ }) {
@@ -89,14 +69,11 @@ export default {
       workspaceId: this.workspaceId,
       data: {
         clientId: this.clientId,
-        name: this.name,
         number: this.number,
         issuedDate: this.issuedDate,
         dueDate: this.dueDate,
         currency: this.currency,
-        taxId: this.taxId,
-        note: this.note,
-        status: this.status,
+        timeViewMode: this.timeViewMode,
       },
     });
 

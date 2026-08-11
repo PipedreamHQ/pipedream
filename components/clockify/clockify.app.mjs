@@ -1,5 +1,6 @@
 // x-pd-ai: optimized
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -61,6 +62,23 @@ export default {
           label,
         })) || [];
       },
+    },
+    clientName: {
+      type: "string",
+      label: "Name",
+      description: "Name of the client",
+    },
+    clientAddress: {
+      type: "string",
+      label: "Address",
+      description: "Address of the client",
+      optional: true,
+    },
+    clientNote: {
+      type: "string",
+      label: "Note",
+      description: "Note about the client",
+      optional: true,
     },
     memberIds: {
       type: "string[]",
@@ -141,15 +159,18 @@ export default {
       description: "Flag to toggle on/off strict search mode",
       optional: true,
     },
+    archived: {
+      type: "boolean",
+      label: "Archived",
+      description: "Whether the record is archived",
+      optional: true,
+    },
     sortOrder: {
       type: "string",
       label: "Sort Order",
       description: "The order to sort the results by",
       optional: true,
-      options: [
-        "ASCENDING",
-        "DESCENDING",
-      ],
+      options: constants.SORT_ORDER_OPTIONS,
     },
     page: {
       type: "integer",
@@ -194,10 +215,7 @@ export default {
       label: "Type",
       description: "The type of the time entry",
       optional: true,
-      options: [
-        "REGULAR",
-        "BREAK",
-      ],
+      options: constants.TIME_ENTRY_TYPE_OPTIONS,
     },
     timeEntryId: {
       type: "string",
@@ -212,7 +230,27 @@ export default {
     invoiceId: {
       type: "string",
       label: "Invoice ID",
-      description: "Identifier of an invoice. Use the **List Invoices** action to find the ID of the invoice you want to update or delete.",
+      description: "Identifier of an invoice. Use the **List Invoices** action to find it, and pass the `id` field from that response — e.g. `6a72db27a231b34fe8361aeb` — **not** the human-readable invoice `number` such as `INV-001`. Passing the invoice number fails with a misleading `Invoice doesn't belong to Workspace` error.",
+    },
+    invoiceNumber: {
+      type: "string",
+      label: "Number",
+      description: "Invoice number. Example: `INV-001`",
+    },
+    issuedDate: {
+      type: "string",
+      label: "Issue Date",
+      description: "Issue date of the invoice, in ISO 8601 format. Example: `2026-08-05T00:00:00Z`",
+    },
+    dueDate: {
+      type: "string",
+      label: "Due Date",
+      description: "Due date of the invoice, in ISO 8601 format. Example: `2026-09-05T00:00:00Z`",
+    },
+    currency: {
+      type: "string",
+      label: "Currency",
+      description: "Currency of the invoice. Example: `USD`",
     },
   },
   methods: {
@@ -443,6 +481,15 @@ export default {
       return this._makeRequest({
         path: `/workspaces/${workspaceId}/invoices/${invoiceId}`,
         method: "PUT",
+        ...args,
+      });
+    },
+    updateInvoiceStatus({
+      workspaceId, invoiceId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/invoices/${invoiceId}/status`,
+        method: "PATCH",
         ...args,
       });
     },

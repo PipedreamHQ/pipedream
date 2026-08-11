@@ -32,28 +32,33 @@ export default {
       optional: false,
     },
     name: {
-      type: "string",
-      label: "Name",
+      propDefinition: [
+        clockify,
+        "clientName",
+      ],
       description: "New name of the client",
       optional: true,
     },
     address: {
-      type: "string",
-      label: "Address",
+      propDefinition: [
+        clockify,
+        "clientAddress",
+      ],
       description: "New address of the client",
-      optional: true,
     },
     note: {
-      type: "string",
-      label: "Note",
+      propDefinition: [
+        clockify,
+        "clientNote",
+      ],
       description: "New note about the client",
-      optional: true,
     },
     archived: {
-      type: "boolean",
-      label: "Archived",
+      propDefinition: [
+        clockify,
+        "archived",
+      ],
       description: "Archive or unarchive the client. Note: an active (non-archived) client can't be deleted.",
-      optional: true,
     },
   },
   async run({ $ }) {

@@ -43,7 +43,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully listed ${response.invoices.length} invoices in the workspace`);
+    $.export("$summary", `Successfully listed ${response.invoices?.length || 0} invoices in the workspace`);
 
     return response;
   },

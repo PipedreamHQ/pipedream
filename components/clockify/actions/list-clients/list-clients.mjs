@@ -27,10 +27,11 @@ export default {
       optional: true,
     },
     archived: {
-      type: "boolean",
-      label: "Archived",
+      propDefinition: [
+        clockify,
+        "archived",
+      ],
       description: "If set to `true`, you'll only get archived clients",
-      optional: true,
     },
     page: {
       propDefinition: [

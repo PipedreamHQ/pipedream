@@ -1,11 +1,12 @@
 // x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import clockify from "../../clockify.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "clockify-update-invoice",
   name: "Update Invoice",
-  description: "Updates the metadata of an existing invoice in a Clockify workspace. Clockify's update endpoint replaces the entire invoice, so this action first fetches the current invoice and merges your changes into it before saving — fields you don't set are left unchanged. Use **List Invoices** to find the ID of the invoice to update. [See the documentation](https://docs.clockify.me/#tag/Invoice/operation/updateInvoice)",
+  description: "Updates an existing invoice in a Clockify workspace. Clockify's update endpoint replaces the entire invoice, so this action first fetches the current invoice and merges your changes into it — fields you don't set are left unchanged, including the invoice's tax and discount percentages, which this action preserves but cannot edit. `Status` is applied through a separate endpoint, so setting it alone skips the replace entirely. Line items and imported time cannot be set through Clockify's public API. Use **List Invoices** to find the ID of the invoice to update. [See the documentation](https://docs.clockify.me/#tag/Invoice/operation/updateInvoice)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -37,85 +38,119 @@ export default {
       ],
     },
     number: {
-      type: "string",
-      label: "Number",
+      propDefinition: [
+        clockify,
+        "invoiceNumber",
+      ],
       description: "New invoice number. Example: `INV-001`",
       optional: true,
     },
     issuedDate: {
-      type: "string",
-      label: "Issue Date",
+      propDefinition: [
+        clockify,
+        "issuedDate",
+      ],
       description: "New issue date of the invoice, in ISO 8601 format. Example: `2026-08-05T00:00:00Z`",
       optional: true,
     },
     dueDate: {
-      type: "string",
-      label: "Due Date",
+      propDefinition: [
+        clockify,
+        "dueDate",
+      ],
       description: "New due date of the invoice, in ISO 8601 format. Example: `2026-09-05T00:00:00Z`",
       optional: true,
     },
     currency: {
-      type: "string",
-      label: "Currency",
+      propDefinition: [
+        clockify,
+        "currency",
+      ],
       description: "New currency of the invoice. Example: `USD`",
+      optional: true,
+    },
+    subject: {
+      type: "string",
+      label: "Subject",
+      description: "New subject line for the invoice. Example: `Consulting services, August 2026`",
       optional: true,
     },
     note: {
       type: "string",
       label: "Note",
-      description: "New note for the invoice",
+      description: "New note for the invoice, e.g. a summary of the billing period or hours covered. Set to an empty string to clear the existing note",
       optional: true,
     },
     status: {
       type: "string",
       label: "Status",
-      description: "New status of the invoice",
+      description: "New status of the invoice. Clockify applies this through a dedicated status endpoint rather than the update endpoint, so it is sent as a separate request",
       optional: true,
-      options: [
-        "DRAFT",
-        "SENT",
-        "VIEWED",
-        "PARTIALLY_PAID",
-        "PAID",
-        "CANCELLED",
-      ],
+      options: constants.INVOICE_STATUS_OPTIONS,
     },
   },
   async run({ $ }) {
-    if (!this.clientId
-      && !this.number
-      && !this.issuedDate
-      && !this.dueDate
-      && !this.currency
-      && !this.note
-      && !this.status) {
-      throw new ConfigurationError("Set at least one field to update.");
+    const hasInvoiceFields = this.clientId !== undefined
+      || this.number !== undefined
+      || this.issuedDate !== undefined
+      || this.dueDate !== undefined
+      || this.currency !== undefined
+      || this.subject !== undefined
+      || this.note !== undefined;
+
+    if (!hasInvoiceFields && this.status === undefined) {
+      throw new ConfigurationError("Set at least one field to update: Client, Number, Issue Date, Due Date, Currency, Subject, Note, or Status.");
     }
 
-    const invoice = await this.clockify.getInvoice({
-      $,
-      workspaceId: this.workspaceId,
-      invoiceId: this.invoiceId,
-    });
+    let response;
 
-    const response = await this.clockify.updateInvoice({
-      $,
-      workspaceId: this.workspaceId,
-      invoiceId: this.invoiceId,
-      data: {
-        client: this.clientId
-          ? {
-            id: this.clientId,
-          }
-          : invoice.client,
-        number: this.number || invoice.invoiceNumber,
-        issuedDate: this.issuedDate || invoice.issuedDate || invoice.issueDate,
-        dueDate: this.dueDate || invoice.dueDate,
-        currency: this.currency || invoice.currency,
-        note: this.note || invoice.note,
-        status: this.status || invoice.status,
-      },
-    });
+    if (hasInvoiceFields) {
+      const invoice = await this.clockify.getInvoice({
+        $,
+        workspaceId: this.workspaceId,
+        invoiceId: this.invoiceId,
+      });
+
+      response = await this.clockify.updateInvoice({
+        $,
+        workspaceId: this.workspaceId,
+        invoiceId: this.invoiceId,
+        data: {
+          clientId: this.clientId ?? invoice.clientId,
+          number: this.number ?? invoice.number,
+          issuedDate: this.issuedDate ?? invoice.issuedDate,
+          dueDate: this.dueDate ?? invoice.dueDate,
+          currency: this.currency ?? invoice.currency,
+          subject: this.subject ?? invoice.subject,
+          note: this.note ?? invoice.note,
+          // Required by the update endpoint, so carry the current values through unchanged
+          discountPercent: invoice.discount ?? 0,
+          taxPercent: invoice.tax ?? 0,
+          tax2Percent: invoice.tax2 ?? 0,
+          companyId: invoice.companyId,
+          taxType: invoice.taxType?.value ?? invoice.taxType,
+          visibleZeroFields: invoice.visibleZeroFields,
+        },
+      });
+    }
+
+    if (this.status !== undefined) {
+      await this.clockify.updateInvoiceStatus({
+        $,
+        workspaceId: this.workspaceId,
+        invoiceId: this.invoiceId,
+        data: {
+          invoiceStatus: this.status,
+        },
+      });
+
+      // The status endpoint returns no body, so re-fetch to always return the current invoice
+      response = await this.clockify.getInvoice({
+        $,
+        workspaceId: this.workspaceId,
+        invoiceId: this.invoiceId,
+      });
+    }
 
     $.export("$summary", `Successfully updated invoice with ID ${this.invoiceId}`);
 

@@ -21,21 +21,22 @@ export default {
       ],
     },
     name: {
-      type: "string",
-      label: "Name",
-      description: "Name of the client",
+      propDefinition: [
+        clockify,
+        "clientName",
+      ],
     },
     address: {
-      type: "string",
-      label: "Address",
-      description: "Address of the client",
-      optional: true,
+      propDefinition: [
+        clockify,
+        "clientAddress",
+      ],
     },
     note: {
-      type: "string",
-      label: "Note",
-      description: "Note about the client",
-      optional: true,
+      propDefinition: [
+        clockify,
+        "clientNote",
+      ],
     },
   },
   async run({ $ }) {
