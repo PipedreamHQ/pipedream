@@ -19,14 +19,14 @@ export default {
     includeSyncInfo: {
       type: "boolean",
       label: "Include Sync Info",
-      description: "When `true`, include cohort sync metadata in the response (the `includeSyncInfo` param).",
+      description: "When `true`, include cohort sync metadata in the response (the `includeSyncInfo` param) — each cohort's `syncMetadata` field is then always kept regardless of `fields`.",
       optional: true,
     },
     fields: {
       type: "string[]",
       label: "Fields",
       optional: true,
-      description: `Field names to return for each cohort (\`id\` is always included). Defaults to: ${COHORT_DEFAULT_FIELDS.join(", ")}. Also available: \`description\`, \`published\`, \`archived\`, \`createdAt\`, \`lastComputed\`, \`definition\`, \`owners\`, \`viewers\`. Pass only what you need to keep responses small.`,
+      description: `Field names to return for each cohort (\`id\` is always included). Defaults to: ${COHORT_DEFAULT_FIELDS.join(", ")}. Also available: \`description\`, \`published\`, \`archived\`, \`createdAt\`, \`lastComputed\`, \`definition\`, \`owners\`, \`viewers\`, \`syncMetadata\` (auto-included when Include Sync Info is \`true\`). Pass only what you need to keep responses small.`,
     },
   },
   async run({ $ }) {
@@ -40,9 +40,15 @@ export default {
     const fields = this.fields?.length
       ? this.fields
       : COHORT_DEFAULT_FIELDS;
-    const cohorts = (response.cohorts ?? []).map((cohort) => pluck(cohort, fields, [
-      "id",
-    ]));
+    const alwaysFields = this.includeSyncInfo
+      ? [
+        "id",
+        "syncMetadata",
+      ]
+      : [
+        "id",
+      ];
+    const cohorts = (response.cohorts ?? []).map((cohort) => pluck(cohort, fields, alwaysFields));
 
     $.export("$summary", `Successfully listed ${cohorts.length} cohort(s)`);
     return {

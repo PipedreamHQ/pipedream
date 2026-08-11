@@ -4,9 +4,13 @@ import {
   FUNNEL_MODES,
   NEW_OR_ACTIVE,
   INTERVAL_OPTIONS,
-  LIMIT_MIN,
-  LIMIT_MAX,
 } from "../../common/constants.mjs";
+import {
+  startDate,
+  endDate,
+  segmentDefinitions,
+  limit,
+} from "../../common/props.mjs";
 
 export default {
   key: "amplitude-get-funnel-analysis",
@@ -26,16 +30,8 @@ export default {
       label: "Events",
       description: "Array of JSON-encoded event definitions, one per funnel step, in order (each becomes a repeated `e` param). Example: `[\"{\\\"event_type\\\":\\\"Sign Up\\\"}\",\"{\\\"event_type\\\":\\\"Purchase\\\"}\"]`.",
     },
-    startDate: {
-      type: "string",
-      label: "Start Date",
-      description: "Start date, inclusive, in `YYYYMMDD` format (the `start` param). Example: `20240706`.",
-    },
-    endDate: {
-      type: "string",
-      label: "End Date",
-      description: "End date, inclusive, in `YYYYMMDD` format (the `end` param). Example: `20240805`.",
-    },
+    startDate,
+    endDate,
     mode: {
       type: "string",
       label: "Mode",
@@ -57,12 +53,7 @@ export default {
       options: INTERVAL_OPTIONS,
       optional: true,
     },
-    segmentDefinitions: {
-      type: "string",
-      label: "Segment Definitions",
-      description: "JSON-encoded array of segment definitions (the `s` param). Example: `[{\"prop\":\"country\",\"op\":\"is\",\"values\":[\"US\"]}]`.",
-      optional: true,
-    },
+    segmentDefinitions,
     groupBy: {
       type: "string",
       label: "Group By",
@@ -75,14 +66,7 @@ export default {
       description: "Conversion window in seconds (the `cs` param). Defaults to 2592000 (30 days).",
       optional: true,
     },
-    limit: {
-      type: "integer",
-      label: "Limit",
-      description: `Maximum number of grouped values to return (the \`limit\` param). Min ${LIMIT_MIN}, max ${LIMIT_MAX}. Defaults to 100. Amplitude has no cursor for this endpoint — values beyond this cap are silently dropped by the API, not just this tool. If more than \`limit\` distinct group-by values may exist, raise this toward ${LIMIT_MAX} or narrow with Segment Definitions/Group By.`,
-      min: LIMIT_MIN,
-      max: LIMIT_MAX,
-      optional: true,
-    },
+    limit,
   },
   async run({ $ }) {
     const params = new URLSearchParams();

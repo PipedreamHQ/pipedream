@@ -1,11 +1,13 @@
 // x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../amplitude.app.mjs";
+import { RETENTION_MODES } from "../../common/constants.mjs";
 import {
-  RETENTION_MODES,
-  LIMIT_MIN,
-  LIMIT_MAX,
-} from "../../common/constants.mjs";
+  startDate,
+  endDate,
+  segmentDefinitions,
+  limit,
+} from "../../common/props.mjs";
 
 export default {
   key: "amplitude-get-retention-analysis",
@@ -30,16 +32,8 @@ export default {
       label: "Return Event",
       description: "JSON-encoded return event definition (the `re` param). Use a real event name, or Amplitude's built-in `_active` (active user) event. Example: `{\"event_type\":\"_active\"}`. Do NOT use the literal string \"Any Active Event\" — that's Amplitude UI label text, not a valid `event_type` value, and returns a 400.",
     },
-    startDate: {
-      type: "string",
-      label: "Start Date",
-      description: "Start date, inclusive, in `YYYYMMDD` format (the `start` param). Example: `20240706`.",
-    },
-    endDate: {
-      type: "string",
-      label: "End Date",
-      description: "End date, inclusive, in `YYYYMMDD` format (the `end` param). Example: `20240805`.",
-    },
+    startDate,
+    endDate,
     retentionMode: {
       type: "string",
       label: "Retention Mode",
@@ -73,26 +67,14 @@ export default {
       ],
       optional: true,
     },
-    segmentDefinitions: {
-      type: "string",
-      label: "Segment Definitions",
-      description: "JSON-encoded array of segment definitions (the `s` param). Example: `[{\"prop\":\"country\",\"op\":\"is\",\"values\":[\"US\"]}]`.",
-      optional: true,
-    },
+    segmentDefinitions,
     groupBy: {
       type: "string",
       label: "Group By",
       description: "A single property name to group results by (the `g` param). Retention supports at most one group-by.",
       optional: true,
     },
-    limit: {
-      type: "integer",
-      label: "Limit",
-      description: `Maximum number of grouped values to return (the \`limit\` param). Min ${LIMIT_MIN}, max ${LIMIT_MAX}. Defaults to 100. Amplitude has no cursor for this endpoint — values beyond this cap are silently dropped by the API, not just this tool. If more than \`limit\` distinct group-by values may exist, raise this toward ${LIMIT_MAX} or narrow with Segment Definitions/Group By.`,
-      min: LIMIT_MIN,
-      max: LIMIT_MAX,
-      optional: true,
-    },
+    limit,
   },
   async run({ $ }) {
     if (this.retentionMode === "bracket") {

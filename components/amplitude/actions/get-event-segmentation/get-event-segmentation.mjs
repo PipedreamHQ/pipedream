@@ -3,9 +3,13 @@ import app from "../../amplitude.app.mjs";
 import {
   SEGMENTATION_METRICS,
   INTERVAL_OPTIONS,
-  LIMIT_MIN,
-  LIMIT_MAX,
 } from "../../common/constants.mjs";
+import {
+  startDate,
+  endDate,
+  segmentDefinitions,
+  limit,
+} from "../../common/props.mjs";
 
 export default {
   key: "amplitude-get-event-segmentation",
@@ -25,16 +29,8 @@ export default {
       label: "Event",
       description: "A single JSON-encoded event definition (the `e` param). `event_type` is required; `filters` and `group_by` are optional. Use a real event name from your project (e.g. `Purchase`, `Sign Up`), or Amplitude's built-in `_active`/`_new` events to query overall activity. Example: `{\"event_type\":\"_active\"}` (Amplitude's built-in \"any active event\" — do NOT use the literal string \"Any Active Event\", which is Amplitude UI label text, not a valid `event_type` value, and returns a 400).",
     },
-    startDate: {
-      type: "string",
-      label: "Start Date",
-      description: "Start date, inclusive, in `YYYYMMDD` format (the `start` param). Example: `20240706`.",
-    },
-    endDate: {
-      type: "string",
-      label: "End Date",
-      description: "End date, inclusive, in `YYYYMMDD` format (the `end` param). Example: `20240805`.",
-    },
+    startDate,
+    endDate,
     metric: {
       type: "string",
       label: "Metric",
@@ -49,12 +45,7 @@ export default {
       options: INTERVAL_OPTIONS,
       optional: true,
     },
-    segmentDefinitions: {
-      type: "string",
-      label: "Segment Definitions",
-      description: "JSON-encoded array of segment definitions (the `s` param). Example: `[{\"prop\":\"country\",\"op\":\"is\",\"values\":[\"US\"]}]`.",
-      optional: true,
-    },
+    segmentDefinitions,
     groupBy: {
       type: "string",
       label: "Group By",
@@ -73,12 +64,11 @@ export default {
       description: "A second JSON-encoded event definition (the `e2` param) for a derived/comparison metric. Example: `{\"event_type\":\"Purchase\"}`.",
       optional: true,
     },
-    limit: {
-      type: "integer",
-      label: "Limit",
-      description: `Maximum number of grouped values to return (the \`limit\` param). Min ${LIMIT_MIN}, max ${LIMIT_MAX}. Defaults to 100. Amplitude has no cursor for this endpoint — values beyond this cap are silently dropped by the API, not just this tool. If more than \`limit\` distinct group-by values may exist, raise this toward ${LIMIT_MAX} or narrow with Segment Definitions/Group By.`,
-      min: LIMIT_MIN,
-      max: LIMIT_MAX,
+    limit,
+    formula: {
+      type: "string",
+      label: "Formula",
+      description: "Custom formula metric expression (the `formula` param). Required if Metric is set to `formula`. Example: `UNIQUES(A)/UNIQUES(B)`.",
       optional: true,
     },
   },
@@ -96,6 +86,7 @@ export default {
         g2: this.groupBy2,
         e2: this.secondEvent,
         limit: this.limit,
+        formula: this.formula,
       },
     });
     $.export("$summary", `Successfully retrieved event segmentation data from ${this.startDate} to ${this.endDate}`);
