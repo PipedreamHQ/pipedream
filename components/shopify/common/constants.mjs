@@ -1,4 +1,4 @@
-const API_VERSION = "2025-01";
+const API_VERSION = "2026-07";
 
 const DEFAULT_LIMIT = 20;
 const MAX_LIMIT = 250;
