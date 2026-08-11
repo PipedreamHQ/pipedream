@@ -136,9 +136,8 @@ export default defineApp({
       url,
       ...args
     }: HttpRequestParams): Promise<object> {
-      const cleanUrl = url?.replace(/\/(accounts|locations)\/\1\//g, "/$1/");
       return axios($, {
-        url: cleanUrl,
+        url,
         ...args,
         headers: this._getHeaders(),
       });
@@ -186,7 +185,7 @@ export default defineApp({
       account, ...args
     }: Record<string, string> & { args: object }): Promise<unknown> {
       return this._httpRequest({
-        url: `https://mybusinessbusinessinformation.googleapis.com/v1/accounts/${account}/locations`,
+        url: `https://mybusinessbusinessinformation.googleapis.com/v1/accounts/${this.getCleanName(account)}/locations`,
         ...args,
       });
     },
@@ -194,14 +193,14 @@ export default defineApp({
       account, location, ...args
     }: Record<string, string> & { args: object }): Promise<unknown> {
       return this._httpRequest({
-        url: `https://mybusiness.googleapis.com/v4/accounts/${account}/locations/${location}/reviews`,
+        url: `https://mybusiness.googleapis.com/v4/accounts/${this.getCleanName(account)}/locations/${this.getCleanName(location)}/reviews`,
         ...args,
       });
     },
     async listPosts({
       account, location, ...args
     }: ListPostsParams, paginate = true): Promise<LocalPost[]> {
-      const url = `https://mybusiness.googleapis.com/v4/accounts/${account}/locations/${location}/localPosts`;
+      const url = `https://mybusiness.googleapis.com/v4/accounts/${this.getCleanName(account)}/locations/${this.getCleanName(location)}/localPosts`;
       if (paginate) {
         return this._paginatedRequest({
           resourceName: "localPosts",
@@ -221,7 +220,7 @@ export default defineApp({
     }: CreatePostParams): Promise<object> {
       return this._httpRequest({
         method: "POST",
-        url: `https://mybusiness.googleapis.com/v4/accounts/${account}/locations/${location}/localPosts`,
+        url: `https://mybusiness.googleapis.com/v4/accounts/${this.getCleanName(account)}/locations/${this.getCleanName(location)}/localPosts`,
         ...args,
       });
     },
@@ -230,7 +229,7 @@ export default defineApp({
     }: UpdateReplyParams): Promise<object> {
       return this._httpRequest({
         method: "PUT",
-        url: `https://mybusiness.googleapis.com/v4/accounts/${account}/locations/${location}/reviews/${review}/reply`,
+        url: `https://mybusiness.googleapis.com/v4/accounts/${this.getCleanName(account)}/locations/${this.getCleanName(location)}/reviews/${this.getCleanName(review)}/reply`,
         ...args,
       });
     },
@@ -238,16 +237,24 @@ export default defineApp({
       account, location, review, ...args
     }: GetReviewParams): Promise<Review> {
       return this._httpRequest({
-        url: `https://mybusiness.googleapis.com/v4/accounts/${account}/locations/${location}/reviews/${review}`,
+        url: `https://mybusiness.googleapis.com/v4/accounts/${this.getCleanName(account)}/locations/${this.getCleanName(location)}/reviews/${this.getCleanName(review)}`,
         ...args,
       });
     },
     async batchGetReviews({
-      account, ...args
+      account, data, ...args
     }: BatchGetReviewsParams): Promise<object> {
+      const accountId = this.getCleanName(account);
       return this._httpRequest({
         method: "POST",
-        url: `https://mybusiness.googleapis.com/v4/accounts/${account}/locations:batchGetReviews`,
+        url: `https://mybusiness.googleapis.com/v4/accounts/${accountId}/locations:batchGetReviews`,
+        data: {
+          ...data,
+          // Unlike every other endpoint, batchGetReviews takes location names in
+          // the request body, so they are rebuilt here rather than in the path.
+          locationNames: data?.locationNames?.map((locationName: string) =>
+            `accounts/${accountId}/locations/${this.getCleanName(locationName)}`),
+        },
         ...args,
       });
     },
