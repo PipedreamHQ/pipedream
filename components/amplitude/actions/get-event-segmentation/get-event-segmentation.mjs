@@ -1,4 +1,5 @@
 // x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../amplitude.app.mjs";
 import {
   SEGMENTATION_METRICS,
@@ -87,6 +88,9 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.metric === "formula" && !this.formula?.trim()) {
+      throw new ConfigurationError("**Formula** is required when Metric is set to `formula`. Example: `UNIQUES(A)/UNIQUES(B)`.");
+    }
     const response = await this.app.getEventSegmentation({
       $,
       params: {
