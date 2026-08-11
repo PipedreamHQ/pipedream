@@ -55,7 +55,6 @@ export default defineSource({
 
       const response: BatchGetReviewsResponse = await this.app.batchGetReviews(params);
 
-
       return response?.locationReviews?.map((item) => item.review) ?? [];
     },
     getSummary({ comment }: Review) {
