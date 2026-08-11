@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/adobe_pdf_services",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Pipedream Adobe PDF Services Components",
   "main": "adobe_pdf_services.app.mjs",
   "keywords": [
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@adobe/pdfservices-node-sdk": "^3.4.2"
+    "@adobe/pdfservices-node-sdk": "^4.1.0"
   }
 }

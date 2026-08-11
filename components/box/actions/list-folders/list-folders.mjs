@@ -4,10 +4,10 @@ import app from "../../box.app.mjs";
 import utils from "../../common/utils.mjs";
 
 export default {
-  key: "box-list-folder-items",
-  name: "List Folder Items",
-  description: "Lists files, folders, and web links in a Box folder. Use `0` for the root folder. Returns one page of results (default 100, max 1000). To find items by name or metadata across all folders, use **Search Content** instead. [See the documentation](https://developer.box.com/reference/get-folders-id-items/).",
-  version: "0.0.2",
+  key: "box-list-folders",
+  name: "List Folders",
+  description: "Lists the subfolders directly inside a Box folder. Use `0` for the root folder. Returns one page of results (default 100, max 1000). Use **List Folder Items** instead to also include files and web links. [See the documentation](https://developer.box.com/reference/get-folders-id-items/).",
+  version: "0.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -22,7 +22,7 @@ export default {
         "parentId",
       ],
       label: "Folder",
-      description: "The folder to list items from. Use `0` for the root folder.",
+      description: "The folder to list subfolders from. Use `0` for the root folder.",
       optional: false,
     },
     fields: {
@@ -35,7 +35,7 @@ export default {
     sort: {
       type: "string",
       label: "Sort",
-      description: "Defines the attribute by which items are sorted. Not supported for the root folder (`0`) — Box does not allow sorting root-folder results with marker-based pagination.",
+      description: "Defines the attribute by which items are sorted. Valid values: `id`, `name`, `date`, `size` (e.g. `name`). Not supported for the root folder (`0`) — Box does not allow sorting root-folder results with marker-based pagination.",
       optional: true,
       options: [
         {
@@ -59,7 +59,7 @@ export default {
     direction: {
       type: "string",
       label: "Direction",
-      description: "The direction to sort results in",
+      description: "The direction to sort results in. Valid values: `ASC` (ascending) or `DESC` (descending) (e.g. `ASC`).",
       optional: true,
       options: [
         {
@@ -77,7 +77,7 @@ export default {
         app,
         "limit",
       ],
-      description: "The maximum number of items to return per page (max 1000)",
+      description: "The maximum number of folders to return per page (max 1000)",
     },
     marker: {
       type: "string",
@@ -113,11 +113,15 @@ export default {
       params,
     });
 
-    const itemCount = response.entries?.length || 0;
-    $.export("$summary", `Retrieved ${itemCount} item${itemCount === 1
+    const folders = response.entries?.filter(({ type }) => type === "folder") ?? [];
+
+    $.export("$summary", `Retrieved ${folders.length} folder${folders.length === 1
       ? ""
       : "s"} from folder`);
 
-    return response;
+    return {
+      ...response,
+      entries: folders,
+    };
   },
 };
