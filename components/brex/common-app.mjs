@@ -91,6 +91,31 @@ export default {
         })) ?? [];
       },
     },
+    cardId: {
+      type: "string",
+      label: "Card ID",
+      description: "The unique ID of the card. Use **List Cards** to find a card ID by cardholder, name, or last four digits.",
+    },
+    cardStatus: {
+      type: "string",
+      label: "Status",
+      description: "Only return cards with this status. Brex has no server-side status filter, so results are filtered after being fetched.",
+      options: options.cardStatus,
+      optional: true,
+    },
+    cardActionReason: {
+      type: "string",
+      label: "Reason",
+      description: "Why the card is being changed. Brex requires a reason and records it against the card.",
+      options: options.cardActionReason,
+      default: "OTHER",
+    },
+    cardActionDescription: {
+      type: "string",
+      label: "Description",
+      description: "An optional free-text note stored alongside the reason.",
+      optional: true,
+    },
     spendDuration: {
       type: "string",
       label: "Spend Duration",
@@ -272,6 +297,65 @@ export default {
         truncated: Boolean(cursor) || unreadInPage,
       };
     },
+    async getCard({
+      $, cardId,
+    }) {
+      return this._request({
+        $,
+        method: "GET",
+        path: `/v2/cards/${cardId}`,
+      });
+    },
+    async listCardsPaginated({
+      $, params, max, filter,
+    }) {
+      return this._paginateItems({
+        $,
+        path: "/v2/cards",
+        params,
+        max,
+        filter,
+      });
+    },
+    async lockCard({
+      $, cardId, data,
+    }) {
+      return this._request({
+        $,
+        method: "POST",
+        path: `/v2/cards/${cardId}/lock`,
+        data,
+      });
+    },
+    async unlockCard({
+      $, cardId,
+    }) {
+      return this._request({
+        $,
+        method: "POST",
+        path: `/v2/cards/${cardId}/unlock`,
+      });
+    },
+    async terminateCard({
+      $, cardId, data,
+    }) {
+      return this._request({
+        $,
+        method: "POST",
+        path: `/v2/cards/${cardId}/terminate`,
+        data,
+      });
+    },
+    async updateCard({
+      $, cardId, data,
+    }) {
+      return this._request({
+        $,
+        method: "PUT",
+        path: `/v2/cards/${cardId}`,
+        data,
+      });
+    },
     async getUser({
       $, userId,
     }) {
@@ -301,6 +385,27 @@ export default {
         filter,
       });
     },
+    async getExpense({
+      $, expenseId, params,
+    }) {
+      return this._request({
+        $,
+        method: "GET",
+        path: `/v1/expenses/${expenseId}`,
+        params,
+      });
+    },
+    async listExpensesPaginated({
+      $, params, max, filter,
+    }) {
+      return this._paginateItems({
+        $,
+        path: "/v1/expenses",
+        params,
+        max,
+        filter,
+      });
+    },
     async listCardTransactionsPaginated({
       $, params, max, filter,
     }) {
@@ -310,6 +415,13 @@ export default {
         params,
         max,
         filter,
+      });
+    },
+    async listCardAccounts({ $ } = {}) {
+      return this._request({
+        $,
+        method: "GET",
+        path: "/v2/accounts/card",
       });
     },
     async listCashAccounts({ $ } = {}) {
