@@ -19,7 +19,7 @@ export default {
         brexApp,
         "user",
       ],
-      description: "The person to retrieve.",
+      description: "The person to retrieve. Use the **List Users** action to retrieve user IDs.",
       optional: false,
     },
   },
