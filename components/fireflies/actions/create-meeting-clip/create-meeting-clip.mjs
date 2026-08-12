@@ -4,6 +4,16 @@ import mutations from "../../common/mutations.mjs";
 import constants from "../../common/constants.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
+function parseSeconds(value, label) {
+  const normalized = String(value)
+    .trim()
+    .replace(/,/g, "");
+  if (!/^-?\d*\.?\d+$/.test(normalized)) {
+    throw new ConfigurationError(`${label} must be a number of seconds, e.g. \`142.5\`. Received \`${value}\`.`);
+  }
+  return parseFloat(normalized);
+}
+
 export default {
   key: "fireflies-create-meeting-clip",
   name: "Create Meeting Clip",
@@ -27,12 +37,12 @@ export default {
     startTime: {
       type: "string",
       label: "Start Time",
-      description: "Where the clip starts, in seconds from the beginning of the meeting, e.g. `142.5`. Fractional seconds are allowed. Copy the `start_time` of a sentence returned by **Find Meeting by ID** to clip around a specific quote.",
+      description: "Where the clip starts, in seconds from the beginning of the meeting, e.g. `142.5`. Fractional seconds are allowed, using a dot as the decimal separator. Thousands separators are ignored, so `1,200` is read as `1200` seconds. Copy the `start_time` of a sentence returned by **Find Meeting by ID** to clip around a specific quote.",
     },
     endTime: {
       type: "string",
       label: "End Time",
-      description: "Where the clip ends, in seconds from the beginning of the meeting, e.g. `168.25`. Must be greater than `Start Time`.",
+      description: "Where the clip ends, in seconds from the beginning of the meeting, e.g. `168.25`. Uses a dot as the decimal separator and ignores thousands separators, the same as `Start Time`. Must be greater than `Start Time`.",
     },
     name: {
       type: "string",
@@ -62,12 +72,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const startTime = parseFloat(this.startTime);
-    const endTime = parseFloat(this.endTime);
+    const startTime = parseSeconds(this.startTime, "Start Time");
+    const endTime = parseSeconds(this.endTime, "End Time");
 
-    if (Number.isNaN(startTime) || Number.isNaN(endTime)) {
-      throw new ConfigurationError("Start Time and End Time must be numbers of seconds, e.g. `142.5`.");
-    }
     if (startTime < 0) {
       throw new ConfigurationError("Start Time cannot be negative.");
     }
