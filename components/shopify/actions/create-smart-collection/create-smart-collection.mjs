@@ -1,12 +1,14 @@
 import { ConfigurationError } from "@pipedream/platform";
 import shopify from "../../shopify.app.mjs";
-import { COLLECTION_CONDITION_TYPES } from "../../common/constants.mjs";
+import {
+  COLLECTION_CONDITION_TYPES, PRODUCT_STATUSES,
+} from "../../common/constants.mjs";
 
 export default {
   key: "shopify-create-smart-collection",
   name: "Create Smart Collection",
   description: "Creates a smart collection whose membership is defined by conditions (rules). [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/collectionCreate)",
-  version: "0.0.22",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -61,50 +63,67 @@ export default {
         type, relation,
       } = c;
       if (meta.value === "list" || meta.value === "status") {
-        conditions.push({
-          [type]: {
-            relation,
-            values: [
-              c.values,
-            ].flat().filter(Boolean),
-            matchType: "ANY",
-          },
-        });
-      } else if (meta.value === "int") {
-        conditions.push({
-          [type]: {
-            relation,
-            value: parseInt(c.value, 10),
-          },
-        });
-      } else if (meta.value === "money") {
-        if (!currencyCode) {
-          const { shop } = await this.shopify._makeGraphQlRequest("{ shop { currencyCode } }");
-          currencyCode = shop.currencyCode;
+        const values = [
+          c.values,
+        ].flat().filter(Boolean);
+        if (!values.length) {
+          throw new ConfigurationError(`Condition \`${type}\` requires a non-empty \`values\` array.`);
+        }
+        if (meta.value === "status") {
+          const invalid = values.filter((v) => !PRODUCT_STATUSES.includes(v));
+          if (invalid.length) {
+            throw new ConfigurationError(`Invalid product status \`${invalid.join(", ")}\`. Valid: ${PRODUCT_STATUSES.join(", ")}`);
+          }
         }
         conditions.push({
           [type]: {
             relation,
-            value: {
-              amount: `${c.value}`,
-              currencyCode,
-            },
+            values,
+            matchType: "ANY",
           },
         });
-      } else if (meta.value === "weight") {
-        conditions.push({
-          [type]: {
-            relation,
-            value: {
-              value: parseFloat(c.value),
-              unit: c.unit,
+      } else {
+        if (c.value === undefined || c.value === null || c.value === "") {
+          throw new ConfigurationError(`Condition \`${type}\` requires a \`value\`.`);
+        }
+        if (meta.value === "int") {
+          conditions.push({
+            [type]: {
+              relation,
+              value: parseInt(c.value, 10),
             },
-          },
-        });
+          });
+        } else if (meta.value === "money") {
+          if (!currencyCode) {
+            currencyCode = await this.shopify.getShopCurrencyCode();
+          }
+          conditions.push({
+            [type]: {
+              relation,
+              value: {
+                amount: `${c.value}`,
+                currencyCode,
+              },
+            },
+          });
+        } else if (meta.value === "weight") {
+          if (!c.unit) {
+            throw new ConfigurationError(`Condition \`${type}\` requires a \`unit\` (e.g. KILOGRAMS).`);
+          }
+          conditions.push({
+            [type]: {
+              relation,
+              value: {
+                value: parseFloat(c.value),
+                unit: c.unit,
+              },
+            },
+          });
+        }
       }
     }
 
-    const response = await this.shopify.collectionCreate({
+    const response = await this.shopify.createCollectionWithSources({
       collection: {
         title: this.title,
         sources: [

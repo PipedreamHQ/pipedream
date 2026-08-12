@@ -106,31 +106,6 @@ const CREATE_BLOG = `
   }
 `;
 
-const CREATE_COLLECTION = `
-  mutation createCollectionMetafields($input: CollectionInput!) {
-    collectionCreate(input: $input) {
-      collection {
-        id
-        title
-        metafields(first: 50) {
-          edges {
-            node {
-              id
-              namespace
-              key
-              value
-            }
-          }
-        }
-      }
-      userErrors {
-        message
-        field
-      }
-    }
-  }
-`;
-
 const COLLECTION_CREATE = `
   mutation collectionCreate($collection: CollectionCreateInput!) {
     collectionCreate(collection: $collection) {
@@ -665,7 +640,6 @@ export default {
   ADD_PRODUCTS_TO_COLLECTION,
   CREATE_ARTICLE,
   CREATE_BLOG,
-  CREATE_COLLECTION,
   COLLECTION_CREATE,
   CREATE_PAGE,
   CREATE_PRODUCT,

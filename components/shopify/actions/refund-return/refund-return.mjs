@@ -5,7 +5,7 @@ export default {
   key: "shopify-refund-return",
   name: "Refund Return",
   description: "Processes an existing return, refunding the specified return line items. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/returnProcess).",
-  version: "0.0.3",
+  version: "0.1.0",
   type: "action",
   annotations: {
     readOnlyHint: false,
@@ -53,7 +53,7 @@ export default {
       notifyCustomer: this.notifyCustomer,
     };
 
-    const response = await this.shopify.refundReturn({
+    const response = await this.shopify.processReturn({
       input,
     });
 

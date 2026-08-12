@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "shopify-update-metafield",
   name: "Update Metafield",
-  description: "Updates a metafield belonging to a resource. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/metafieldsSet)",
+  description: "Updates the value of an existing metafield on a Shopify resource (product, customer, order, etc.) via the `metafieldsSet` mutation. Use this to change custom data stored on a record you've already identified. Select the owner resource and record, then the specific metafield to update, and provide the new value. The value must be a string that conforms to the metafield's existing `type` — for example a number for `number_integer`, a JSON string for `json`, or an ISO-8601 date for `date`. The metafield's `namespace`, `key`, and `type` are reused from the existing definition and can't be changed here. Note: `metafieldsSet` is an upsert keyed on owner + namespace + key, so it will create the metafield if it doesn't already exist. To discover a resource's metafields first, use a list/get metafields action. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/metafieldsSet)",
   version: "0.0.20",
   annotations: {
     destructiveHint: true,

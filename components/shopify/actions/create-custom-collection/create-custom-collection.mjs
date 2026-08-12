@@ -68,7 +68,7 @@ export default {
         },
       ];
     }
-    const response = await this.shopify.collectionCreate({
+    const response = await this.shopify.createCollectionWithSources({
       collection,
     });
     if (response.collectionCreate.userErrors.length > 0) {
