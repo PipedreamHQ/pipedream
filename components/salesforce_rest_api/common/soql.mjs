@@ -62,11 +62,35 @@ export function truncationNote({
  */
 export function toSoqlDateTimeLiteral(value, label) {
   const raw = String(value).trim();
-  if (constants.DATE_ONLY_REGEX.test(raw)) {
-    return `${raw}T00:00:00Z`;
+  const shapeOk = constants.DATE_ONLY_REGEX.test(raw) || constants.DATE_TIME_REGEX.test(raw);
+  if (!shapeOk) {
+    throw new ConfigurationError(`**${label}** must be an ISO 8601 date (\`2026-08-01\`) or date-time (\`2026-08-01T00:00:00Z\`)`);
   }
-  if (constants.DATE_TIME_REGEX.test(raw)) {
-    return raw;
+
+  const literal = constants.DATE_ONLY_REGEX.test(raw)
+    ? `${raw}T00:00:00Z`
+    : raw;
+
+  // The shape check alone accepts impossible values. Date.parse rejects month 13,
+  // hour 25 and offset +99, but silently rolls 2026-02-31 over to March 3, so the
+  // calendar day is round-tripped separately.
+  const [
+    year,
+    month,
+    day,
+  ] = raw.slice(0, 10).split("-")
+    .map(Number);
+  // Date.UTC maps years 0-99 to 1900-1999, so building the date there first would
+  // roll a valid leap day like `0000-02-29` into March (1900 is not a leap year) and
+  // reject it. Setting all three parts together on an epoch date avoids that.
+  const utc = new Date(0);
+  utc.setUTCFullYear(year, month - 1, day);
+  const dayIsReal = utc.getUTCFullYear() === year
+    && utc.getUTCMonth() === month - 1
+    && utc.getUTCDate() === day;
+
+  if (!dayIsReal || Number.isNaN(Date.parse(literal))) {
+    throw new ConfigurationError(`**${label}** is not a real date: \`${raw}\``);
   }
-  throw new ConfigurationError(`**${label}** must be an ISO 8601 date (\`2026-08-01\`) or date-time (\`2026-08-01T00:00:00Z\`)`);
+  return literal;
 }
