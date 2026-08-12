@@ -34,7 +34,9 @@ export default {
       },
     });
 
-    $.export("$summary", `Analyzed "${this.path}" — prediction: "${response.predictionShort}"`);
+    $.export("$summary", response.skipped
+      ? `Skipped "${this.path}" — ${response.skipped}`
+      : `Analyzed "${this.path}" — prediction: "${response.predictionShort}"`);
 
     return response;
   },
