@@ -7,7 +7,7 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "clockify-create-invoice",
   name: "Create Invoice",
-  description: "Creates a new invoice for a client in a Clockify workspace. Set **Import From** and **Import To** to bill tracked time: the invoice is created and the time entries logged in that period are imported as line items. Leave both blank to create an empty invoice. Chain **Update Invoice** afterwards to set the subject, note or status. [See the documentation](https://docs.clockify.me/#tag/Invoice/operation/createInvoice)",
+  description: "Creates a new invoice for a client in a Clockify workspace. Set **Import From** and **Import To** to bill tracked time: the invoice is created and the time entries logged in that period are imported as line items. Leave both blank to create an empty invoice. The invoice is created first and the tracked time is imported in a second request, so if the import fails the invoice still exists and can be removed with **Delete Invoice** or retried. Chain **Update Invoice** afterwards to set the subject, note or status. [See the documentation](https://docs.clockify.me/#tag/Invoice/operation/createInvoice)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -107,31 +107,24 @@ export default {
       return invoice;
     }
 
-    let response;
-    try {
-      response = await this.clockify.importInvoiceItems({
-        $,
-        workspaceId: this.workspaceId,
-        invoiceId: invoice.id,
-        data: {
-          from: this.importFrom,
-          to: this.importTo,
-          // Required by the endpoint. This action bills tracked time only, and lists one
-          // line item per entry so the invoice reads back against the entries it came from
-          importExpenses: false,
-          timeEntryGroupType: "DETAILED",
-          timeEntryFieldsForDetailedGroup: [
-            "PROJECT",
-            "DESCRIPTION",
-          ],
-          projectFilter: utils.buildProjectFilter(this.projectIds),
-        },
-      });
-    } catch (error) {
-      // The invoice already exists at this point, so surface its ID rather than leaving
-      // the caller to discover a stray empty invoice
-      throw new ConfigurationError(`Invoice ${invoice.id} was created, but importing tracked time failed: ${error.message}`);
-    }
+    const response = await this.clockify.importInvoiceItems({
+      $,
+      workspaceId: this.workspaceId,
+      invoiceId: invoice.id,
+      data: {
+        from: this.importFrom,
+        to: this.importTo,
+        // Required by the endpoint. This action bills tracked time only, and lists one
+        // line item per entry so the invoice reads back against the entries it came from
+        importExpenses: false,
+        timeEntryGroupType: "DETAILED",
+        timeEntryFieldsForDetailedGroup: [
+          "PROJECT",
+          "DESCRIPTION",
+        ],
+        projectFilter: utils.buildProjectFilter(this.projectIds),
+      },
+    });
 
     $.export("$summary", `Successfully created invoice with ID ${invoice.id} and imported tracked time`);
 

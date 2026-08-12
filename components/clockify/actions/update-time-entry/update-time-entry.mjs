@@ -90,14 +90,14 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.projectId
-      && !this.taskId
-      && !this.start
-      && !this.end
+    if (this.projectId === undefined
+      && this.taskId === undefined
+      && this.start === undefined
+      && this.end === undefined
       && this.timeEntryDescription === undefined
       && this.billable === undefined
-      && !this.tagIds
-      && !this.timeEntryType) {
+      && this.tagIds === undefined
+      && this.timeEntryType === undefined) {
       throw new ConfigurationError("Set at least one field to update.");
     }
 
@@ -112,13 +112,13 @@ export default {
       workspaceId: this.workspaceId,
       timeEntryId: this.timeEntryId,
       data: {
-        start: this.start || entry.timeInterval?.start,
-        end: this.end || entry.timeInterval?.end,
-        projectId: this.projectId || entry.projectId,
-        taskId: this.taskId || entry.taskId,
+        start: this.start ?? entry.timeInterval?.start,
+        end: this.end ?? entry.timeInterval?.end,
+        projectId: this.projectId ?? entry.projectId,
+        taskId: this.taskId ?? entry.taskId,
         description: this.timeEntryDescription ?? entry.description,
         billable: this.billable ?? entry.billable,
-        tagIds: this.tagIds || entry.tagIds,
+        tagIds: this.tagIds ?? entry.tagIds,
         type: this.timeEntryType ?? entry.type,
       },
     });

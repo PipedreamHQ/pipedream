@@ -57,7 +57,9 @@ export default {
       $,
     });
 
-    $.export("$summary", `Successfully added task with ID ${response.id} to project with ID ${this.projectId}`);
+    if (response?.id) {
+      $.export("$summary", `Successfully added task with ID ${response.id} to project with ID ${this.projectId}`);
+    }
 
     return response;
   },

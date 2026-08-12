@@ -19,7 +19,12 @@ function buildProjectFilter(projectIds) {
   };
 }
 
+function toPercent(scaledValue) {
+  return (scaledValue ?? 0) / 100;
+}
+
 export default {
   buildClientUpdateBody,
   buildProjectFilter,
+  toPercent,
 };

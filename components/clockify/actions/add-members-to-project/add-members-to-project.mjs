@@ -53,7 +53,9 @@ export default {
       $,
     });
 
-    $.export("$summary", `Successfully added ${memberships.length} member(s) to project with ID ${this.projectId}`);
+    if (response?.id && response?.memberships) {
+      $.export("$summary", `Successfully added ${response.memberships.length} member(s) to project with ID ${this.projectId}`);
+    }
 
     return response;
   },

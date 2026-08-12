@@ -2,11 +2,12 @@
 import { ConfigurationError } from "@pipedream/platform";
 import clockify from "../../clockify.app.mjs";
 import constants from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "clockify-update-invoice",
   name: "Update Invoice",
-  description: "Updates an existing invoice in a Clockify workspace. Clockify's update endpoint replaces the entire invoice, so this action first fetches the current invoice and merges your changes into it — fields you don't set are left unchanged, including the invoice's tax and discount percentages, which this action preserves but cannot edit. `Status` is applied through a separate endpoint, so setting it alone skips the replace entirely. Line items and imported time cannot be set through Clockify's public API. Use **List Invoices** to find the ID of the invoice to update. [See the documentation](https://docs.clockify.me/#tag/Invoice/operation/updateInvoice) and the [status endpoint](https://docs.clockify.me/#tag/Invoice/operation/changeInvoiceStatus)",
+  description: "Updates an existing invoice in a Clockify workspace. Clockify's update endpoint replaces the entire invoice, so this action first fetches the current invoice and merges your changes into it — fields you don't set are left unchanged, including the invoice's tax and discount percentages, which this action preserves but cannot edit. `Status` is applied through a separate endpoint, so it is sent as a second request after the field changes are saved, and setting it alone skips the replace entirely. Clockify offers no transaction across the two endpoints: if the status request fails, the field changes have already been applied. Line items and imported time cannot be set through Clockify's public API. Use **List Invoices** to find the ID of the invoice to update. [See the documentation](https://docs.clockify.me/#tag/Invoice/operation/updateInvoice) and the [status endpoint](https://docs.clockify.me/#tag/Invoice/operation/changeInvoiceStatus)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -84,7 +85,7 @@ export default {
     status: {
       type: "string",
       label: "Status",
-      description: "New status of the invoice. Clockify applies this through a dedicated status endpoint rather than the update endpoint, so it is sent as a separate request",
+      description: "New status of the invoice. Clockify applies this through a dedicated status endpoint rather than the update endpoint, so it is sent as a separate request after the other field changes are saved. If it fails, those field changes have already been applied",
       optional: true,
       options: constants.INVOICE_STATUS_OPTIONS,
     },
@@ -123,10 +124,9 @@ export default {
           currency: this.currency ?? invoice.currency,
           subject: this.subject ?? invoice.subject,
           note: this.note ?? invoice.note,
-          // Required by the update endpoint, so carry the current values through unchanged
-          discountPercent: invoice.discount ?? 0,
-          taxPercent: invoice.tax ?? 0,
-          tax2Percent: invoice.tax2 ?? 0,
+          discountPercent: utils.toPercent(invoice.discount),
+          taxPercent: utils.toPercent(invoice.tax),
+          tax2Percent: utils.toPercent(invoice.tax2),
           companyId: invoice.companyId,
           taxType: invoice.taxType?.value ?? invoice.taxType,
           visibleZeroFields: invoice.visibleZeroFields,
