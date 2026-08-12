@@ -7,8 +7,8 @@ export default {
   type: "source",
   name: "New Issue (Instant)",
   key: "bitbucket-new-issue",
-  description: "Emit new event when a new issue receives is created in a repository. [See docs here](https://developer.atlassian.com/cloud/bitbucket/rest/api-group-repositories/#api-repositories-workspace-repo-slug-hooks-post)",
-  version: "0.0.4",
+  description: "Emit new event when a new issue receives is created in a repository. [See docs here](https://developer.atlassian.com/cloud/bitbucket/rest/api-group-repositories/#api-repositories-workspace-repo-slug-hooks-post). **Deprecated: Atlassian is removing Bitbucket Issues in mid-August 2026, after which no issues can be created and this source stops emitting. The historical backfill on first deploy already relies on a deprecated endpoint. There is no Bitbucket replacement.** [See the sunset announcement](https://community.atlassian.com/forums/Bitbucket-articles/Announcing-sunset-of-Bitbucket-Issues-and-Wikis/ba-p/3193882)",
+  version: "0.0.5",
   props: {
     ...common.props,
     repositoryId: {

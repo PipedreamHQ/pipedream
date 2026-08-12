@@ -4,8 +4,8 @@ const { bitbucket } = base.props;
 export default {
   key: "bitbucket-create-issue-comment",
   name: "Create Issue Comment",
-  description: "Creates a new issue comment. [See docs here](https://developer.atlassian.com/cloud/bitbucket/rest/api-group-issue-tracker/#api-repositories-workspace-repo-slug-issues-issue-id-comments-post)",
-  version: "0.1.4",
+  description: "Creates a new issue comment. [See docs here](https://developer.atlassian.com/cloud/bitbucket/rest/api-group-issue-tracker/#api-repositories-workspace-repo-slug-issues-issue-id-comments-post). **Deprecated: Atlassian is removing Bitbucket Issues in mid-August 2026, and this action stops working once the feature is gone. There is no Bitbucket replacement.** [See the sunset announcement](https://community.atlassian.com/forums/Bitbucket-articles/Announcing-sunset-of-Bitbucket-Issues-and-Wikis/ba-p/3193882)",
+  version: "0.1.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
