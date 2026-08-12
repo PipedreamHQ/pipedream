@@ -231,7 +231,7 @@ export default {
     tagId: {
       type: "string",
       label: "Tag",
-      description: "Identifier of a tag. Use the **List Tags** action to find the ID of the tag you want to update or delete.",
+      description: "Identifier of a tag, for example `6a72db27a231b34fe8361aeb`. Use the **List Tags** action to find the ID of the tag you want to update or delete.",
     },
     invoiceId: {
       type: "string",
