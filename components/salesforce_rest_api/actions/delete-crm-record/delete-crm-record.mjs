@@ -5,7 +5,7 @@ export default {
   key: "salesforce_rest_api-delete-crm-record",
   name: "Delete Record",
   description:
-    "Permanently deletes a Salesforce record (moves to Recycle Bin for 15 days)."
+    "Delete a Salesforce record. This moves it to the Recycle Bin, where it stays recoverable for up to 15 days - storage limits can purge it sooner."
     + " Use **SOQL Query** to find the record ID if you only have the record name."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_delete_record.htm)",

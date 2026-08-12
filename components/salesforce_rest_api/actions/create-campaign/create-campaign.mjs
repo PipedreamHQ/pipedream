@@ -10,7 +10,7 @@ export default {
   name: "Create Campaign",
   description: "Create a Salesforce marketing campaign."
     + " Use **Add Contact to Campaign** or **Add Lead to Campaign** afterwards to populate its members."
-    + " For example, `Name` `Summer 2026 Webinar` creates the campaign and returns its ID."
+    + " For example, `Name: \"Summer 2026 Webinar\"` creates the campaign and returns its ID."
     + " "
     + `[See the documentation](${docsLink})`,
   version: "0.3.7",

@@ -6,7 +6,7 @@ export default {
   key: "salesforce_rest_api-delete-note",
   name: "Delete Note Or Content Note",
   description: "Delete a note or content note from a Salesforce record."
-    + " This moves the note to the Recycle Bin, where it stays recoverable for 15 days."
+    + " This moves the note to the Recycle Bin, where it stays recoverable for up to 15 days - storage limits can purge it sooner."
     + " Use **Find Records** on `Note` or `ContentNote` to get the ID first."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_retrieve_delete.htm)",
