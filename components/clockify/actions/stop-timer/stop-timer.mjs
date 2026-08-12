@@ -50,7 +50,7 @@ export default {
       },
     });
 
-    $.export("$summary", "Successfully stopped the running timer");
+    $.export("$summary", `Successfully stopped the running timer with ID ${response.id}`);
 
     return response;
   },
