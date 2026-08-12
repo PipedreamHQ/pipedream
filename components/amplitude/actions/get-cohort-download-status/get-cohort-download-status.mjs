@@ -15,9 +15,10 @@ export default {
   props: {
     app,
     requestId: {
-      type: "string",
-      label: "Request ID",
-      description: "The `request_id` returned by **Request Cohort Download**.",
+      propDefinition: [
+        app,
+        "requestId",
+      ],
     },
   },
   async run({ $ }) {

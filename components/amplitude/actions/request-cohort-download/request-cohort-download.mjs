@@ -8,7 +8,7 @@ export default {
   version: "0.0.1",
   type: "action",
   annotations: {
-    readOnlyHint: true,
+    readOnlyHint: false,
     destructiveHint: false,
     openWorldHint: true,
   },
@@ -28,7 +28,7 @@ export default {
     propertyKeys: {
       type: "string[]",
       label: "Property Keys",
-      description: "Specific user properties to include per member (the `propKeys` param). Only used when Include User Properties is `true`; if left empty, all available properties are returned.",
+      description: "Specific user properties to include per member (the `propKeys` param), as an array of property name strings, e.g. `[\"plan\", \"country\"]`. Only used when Include User Properties is `true`; if left empty, all available properties are returned.",
       optional: true,
     },
   },

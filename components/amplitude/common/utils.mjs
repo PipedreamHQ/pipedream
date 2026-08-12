@@ -56,9 +56,12 @@ const parseCsvLine = (line) => {
  * stay correct if that auto-decompression doesn't happen.
  *
  * @param {Buffer|ArrayBuffer} data - cohort download response body
- * @returns {object[]} one record per data row, keyed by the header row
+ * @param {object} [opts]
+ * @param {number} [opts.maxRecords] - stop building parsed records past this
+ *   many data rows (the full row count is still reported via `totalCount`)
+ * @returns {{records: object[], totalCount: number, truncated: boolean}}
  */
-export const parseCohortDownload = (data) => {
+export const parseCohortDownload = (data, { maxRecords } = {}) => {
   const buffer = Buffer.isBuffer(data)
     ? data
     : Buffer.from(data);
@@ -72,16 +75,30 @@ export const parseCohortDownload = (data) => {
     .map((line) => line.replace(/\r$/, ""))
     .filter((line) => line.length > 0);
   if (lines.length === 0) {
-    return [];
+    return {
+      records: [],
+      totalCount: 0,
+      truncated: false,
+    };
   }
   const headers = parseCsvLine(lines[0]);
-  return lines.slice(1).map((line) => {
+  const dataLines = lines.slice(1);
+  const totalCount = dataLines.length;
+  const limitedLines = maxRecords != null
+    ? dataLines.slice(0, maxRecords)
+    : dataLines;
+  const records = limitedLines.map((line) => {
     const values = parseCsvLine(line);
     return Object.fromEntries(headers.map((header, i) => [
       header,
       values[i],
     ]));
   });
+  return {
+    records,
+    totalCount,
+    truncated: maxRecords != null && totalCount > maxRecords,
+  };
 };
 
 /**

@@ -38,6 +38,11 @@ export default {
       max: LIMIT_MAX,
       optional: true,
     },
+    requestId: {
+      type: "string",
+      label: "Request ID",
+      description: "The `request_id` returned by **Request Cohort Download**. Example: `req_456`.",
+    },
   },
   methods: {
     _baseURL(type) {
@@ -200,11 +205,12 @@ export default {
       });
     },
     getCohortDownloadStatus({
-      $, requestId,
+      $, requestId, timeout,
     }) {
       return this._analyticsRequest({
         $,
         path: `/api/5/cohorts/request-status/${requestId}`,
+        timeout,
       });
     },
     downloadCohortFile({
@@ -221,8 +227,11 @@ export default {
      * reports JOB COMPLETED or COHORT_DOWNLOAD_POLL_BUDGET_MS of wall-clock
      * time has elapsed — whichever comes first — then returns whatever
      * status was last seen. Bounded by elapsed time (not a fixed attempt
-     * count) so it stays safely under the MCP tool-call timeout (60s) even
-     * when individual request-status calls run slower than usual; if the
+     * count), with the remaining budget passed as each request's own
+     * timeout and as a cap on the sleep interval, so neither a slow
+     * individual call nor an over-long sleep can push the whole loop past
+     * the deadline — keeping it safely under the MCP tool-call timeout
+     * (60s) even when a request-status call runs slower than usual. If the
      * job is still running when the budget runs out, the caller (Get Cohort
      * Download Status) just gets an in-progress status back and is expected
      * to call again.
@@ -236,11 +245,13 @@ export default {
         status = await this.getCohortDownloadStatus({
           $,
           requestId,
+          timeout: deadline - Date.now(),
         });
-        if (status.async_status === "JOB COMPLETED" || Date.now() >= deadline) {
+        const remaining = deadline - Date.now();
+        if (status.async_status === "JOB COMPLETED" || remaining <= 0) {
           break;
         }
-        await sleep(COHORT_DOWNLOAD_POLL_INTERVAL_MS);
+        await sleep(Math.min(COHORT_DOWNLOAD_POLL_INTERVAL_MS, remaining));
       } while (Date.now() < deadline);
       return status;
     },
