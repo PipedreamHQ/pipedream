@@ -226,7 +226,7 @@ export default {
     timeEntryId: {
       type: "string",
       label: "Time Entry ID",
-      description: "Identifier of a time entry. Use the **List Time Entries** action to find the ID of the entry you want to update.",
+      description: "Identifier of a time entry, for example `6a72db27a231b34fe8361aeb`. Use the **List Time Entries** action to find the ID of the entry you want to update.",
     },
     tagId: {
       type: "string",
