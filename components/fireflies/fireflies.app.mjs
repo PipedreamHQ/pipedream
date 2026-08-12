@@ -58,47 +58,12 @@ export default {
     channelId: {
       type: "string",
       label: "Channel ID",
-      description: "The unique identifier for a Fireflies channel, used to group meetings by team or topic. Use **List Channel ID Options** to browse available channels.",
-      async options({ page }) {
-        // The Fireflies `channels` query doesn't accept limit/skip arguments —
-        // the full list is always returned in one call.
-        if (page > 0) {
-          return [];
-        }
-        const { data: { channels } } = await this.query({
-          data: {
-            query: queries.channels,
-          },
-        });
-        return channels?.map(({
-          id: value, title: label,
-        }) => ({
-          value,
-          label,
-        })) || [];
-      },
+      description: "The unique identifier for a Fireflies channel, used to group meetings by team or topic. Use **List Channel ID Options** to find a valid Channel ID.",
     },
     askfredThreadId: {
       type: "string",
       label: "AskFred Thread ID",
-      description: "The unique identifier of an existing AskFred conversation thread. Returned as `thread_id` by **Ask Question About Meeting**, or browsable via **List AskFred Thread ID Options**.",
-      async options({ page }) {
-        // The Fireflies `askfred_threads` query doesn't accept limit/skip arguments.
-        if (page > 0) {
-          return [];
-        }
-        const { data: { askfred_threads: askfredThreads } } = await this.query({
-          data: {
-            query: queries.askfredThreads,
-          },
-        });
-        return askfredThreads?.map(({
-          id: value, title: label,
-        }) => ({
-          value,
-          label: label || value,
-        })) || [];
-      },
+      description: "The unique identifier of an existing AskFred conversation thread. Use the `thread_id` returned by **Ask Question About Meeting**, or **List AskFred Thread ID Options** to find a valid ID.",
     },
     question: {
       type: "string",

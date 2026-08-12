@@ -1,5 +1,6 @@
 // x-pd-ai: optimized
 import fireflies from "../../fireflies.app.mjs";
+import queries from "../../common/queries.mjs";
 
 export default {
   key: "fireflies-list-channel-id-options",
@@ -14,18 +15,20 @@ export default {
   },
   props: {
     fireflies,
-    page: {
-      propDefinition: [
-        fireflies,
-        "page",
-      ],
-      description: "The page of results to retrieve. The Fireflies `channels` query is not paginated — the full list is always returned on page `0`, and any higher page returns an empty list.",
-    },
   },
   async run({ $ }) {
-    const options = await fireflies.propDefinitions.channelId.options.call(this.fireflies, {
-      page: this.page,
+    const { data: { channels } } = await this.fireflies.query({
+      $,
+      data: {
+        query: queries.channels,
+      },
     });
+    const options = channels?.map(({
+      id: value, title: label,
+    }) => ({
+      value,
+      label,
+    })) || [];
     $.export("$summary", `Successfully retrieved ${options.length} option${options.length === 1
       ? ""
       : "s"}`);
