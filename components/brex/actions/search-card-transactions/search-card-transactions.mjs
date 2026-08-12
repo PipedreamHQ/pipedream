@@ -27,7 +27,7 @@ export default {
     postedAtEnd: {
       type: "string",
       label: "Posted At End",
-      description: "Only return transactions posted on or before this date-time, in [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6) format, e.g. `2024-01-31T23:59:59.999`. Brex has no server-side end date, so this is applied after fetching.",
+      description: "Only return transactions posted on or before this date-time, in [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6) format, e.g. `2024-01-31T23:59:59.999Z`. Brex has no server-side end date, so this is applied after fetching.",
       optional: true,
     },
     userIds: {
