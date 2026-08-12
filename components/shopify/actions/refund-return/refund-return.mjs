@@ -4,7 +4,7 @@ import shopify from "../../shopify.app.mjs";
 export default {
   key: "shopify-refund-return",
   name: "Refund Return",
-  description: "Processes an existing return, refunding the specified return line items. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/returnProcess).",
+  description: "Processes an existing return in Shopify via the `returnProcess` mutation, marking the specified return line items as processed. By default no refund is issued — to also issue a refund, include a `financialTransfer` object with an `issueRefund` operation (and its required `orderTransactions`) in **Additional Fields**. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/returnProcess).",
   version: "0.1.0",
   type: "action",
   annotations: {
@@ -34,7 +34,7 @@ export default {
     additionalFields: {
       type: "object",
       label: "Additional Fields",
-      description: "JSON object of additional `ReturnProcessInput` fields (e.g. `refundShipping`, `refundDuties`, or `note`). Example: `{\"refundShipping\": {\"fullRefund\": true}}`.",
+      description: "JSON object of additional `ReturnProcessInput` fields (e.g. `refundShipping`, `refundDuties`, `note`, or `financialTransfer` to issue a refund). Example: `{\"refundShipping\": {\"fullRefund\": true}}`.",
       optional: true,
     },
   },
@@ -44,6 +44,20 @@ export default {
       returnLineItems = JSON.parse(this.returnLineItems);
     } catch {
       throw new ConfigurationError("`Return Line Items` must be valid JSON.");
+    }
+    if (!Array.isArray(returnLineItems) || returnLineItems.length === 0) {
+      throw new ConfigurationError("`Return Line Items` must be a non-empty JSON array of objects.");
+    }
+    for (const item of returnLineItems) {
+      if (!item || typeof item !== "object" || Array.isArray(item)) {
+        throw new ConfigurationError("Each return line item must be an object with `id` and `quantity`.");
+      }
+      if (!item.id) {
+        throw new ConfigurationError("Each return line item requires a non-null `id` (the ReturnLineItem GID).");
+      }
+      if (!Number.isInteger(item.quantity)) {
+        throw new ConfigurationError("Each return line item requires an integer `quantity`.");
+      }
     }
 
     const input = {

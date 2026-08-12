@@ -87,13 +87,20 @@ export default {
           throw new ConfigurationError(`Condition \`${type}\` requires a \`value\`.`);
         }
         if (meta.value === "int") {
+          const quantity = Number(c.value);
+          if (!Number.isInteger(quantity)) {
+            throw new ConfigurationError(`Condition \`${type}\` requires an integer \`value\`, got \`${c.value}\`.`);
+          }
           conditions.push({
             [type]: {
               relation,
-              value: parseInt(c.value, 10),
+              value: quantity,
             },
           });
         } else if (meta.value === "money") {
+          if (!/^\d+(\.\d+)?$/.test(`${c.value}`)) {
+            throw new ConfigurationError(`Condition \`${type}\` requires a decimal amount (e.g. \`19.99\`), got \`${c.value}\`.`);
+          }
           if (!currencyCode) {
             currencyCode = await this.shopify.getShopCurrencyCode();
           }
@@ -110,11 +117,15 @@ export default {
           if (!c.unit) {
             throw new ConfigurationError(`Condition \`${type}\` requires a \`unit\` (e.g. KILOGRAMS).`);
           }
+          const weight = Number(c.value);
+          if (!Number.isFinite(weight)) {
+            throw new ConfigurationError(`Condition \`${type}\` requires a numeric \`value\`, got \`${c.value}\`.`);
+          }
           conditions.push({
             [type]: {
               relation,
               value: {
-                value: parseFloat(c.value),
+                value: weight,
                 unit: c.unit,
               },
             },
