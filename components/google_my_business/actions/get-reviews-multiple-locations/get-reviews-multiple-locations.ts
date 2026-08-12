@@ -8,7 +8,7 @@ export default defineAction({
   key: "google_my_business-get-reviews-multiple-locations",
   name: "Get Reviews from Multiple Locations",
   description: `Get reviews from multiple locations at once. [See the documentation](${DOCS_LINK})`,
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -69,11 +69,14 @@ export default defineAction({
       account, locationNames, pageSize, orderBy, ignoreRatingOnlyReviews,
     } = this;
 
+    const accountId = this.app.getCleanName(account);
+
     const params: BatchGetReviewsParams = {
       $,
-      account,
+      account: accountId,
       data: {
-        locationNames: locationNames?.map((locationName: string) => `accounts/${account}/locations/${locationName}`),
+        locationNames: locationNames?.map((locationName: string) =>
+          `accounts/${accountId}/locations/${this.app.getCleanName(locationName)}`),
         pageSize,
         orderBy,
         ignoreRatingOnlyReviews,

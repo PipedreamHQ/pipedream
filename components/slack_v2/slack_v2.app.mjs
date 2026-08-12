@@ -967,10 +967,15 @@ export default {
     assistantSearch(args = {}) {
       args.count ||= constants.LIMIT;
       // Uses apiCall directly since assistant.search.context is not exposed as
-      // a method on WebClient
-      return this.sdk().apiCall("assistant.search.context", {
+      // a method on WebClient — but it must STILL go through _withRetries. Calling
+      // apiCall bare was the one path in this app that skipped the retry wrapper, and
+      // the client is built with `rejectRateLimitedCalls: true`, so a 429 rejected
+      // instantly instead of backing off. assistant.search.context rate-limits readily
+      // (Slack returns retryAfter: 60), which surfaced to agents as a hard tool error
+      // on 8 of 12 search calls in one eval run.
+      return this._withRetries(() => this.sdk().apiCall("assistant.search.context", {
         ...args,
-      });
+      }));
     },
     /**
      * Lists reactions made by a user.
@@ -1191,6 +1196,74 @@ export default {
      */
     normalizeChannel(input) {
       return input.replace(/^#/, "");
+    },
+    /**
+     * Accept a user ID, an email, or a display/real name and return the user ID.
+     * Agents naturally pass whatever identifier the user said — an email in
+     * "invite dylan@pipedream.com" — and the raw API answers `user_not_found`,
+     * which reads as a broken tool rather than a wrong-shaped argument.
+     */
+    async resolveUserId(input) {
+      if (/^[UW][A-Z0-9]{6,}$/i.test(input)) return input;
+      if (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(input)) {
+        const { user } = await this.makeRequest({
+          method: "users.lookupByEmail",
+          email: input,
+        });
+        return user.id;
+      }
+      const name = input.replace(/^@/, "").toLowerCase();
+      const matches = [];
+      let cursor;
+      do {
+        const {
+          members, response_metadata: metadata,
+        } = await this.makeRequest({
+          method: "users.list",
+          limit: 200,
+          cursor,
+        });
+        for (const member of members) {
+          const isMatch = [
+            member.name,
+            member.real_name,
+            member.profile?.display_name,
+          ].filter(Boolean).some((n) => String(n).toLowerCase() === name);
+          if (isMatch) matches.push(member);
+        }
+        cursor = metadata?.next_cursor;
+      } while (cursor);
+      if (matches.length === 1) return matches[0].id;
+      if (matches.length > 1) {
+        throw new ConfigurationError(`Multiple users match "${input}". Provide a user ID or an email address instead.`);
+      }
+      throw new ConfigurationError(`User "${input}" not found. Provide a user ID, an email address, or an exact display name.`);
+    },
+    /**
+     * Resolve one OR MORE user identifiers to the comma-separated `users` string Slack's
+     * conversations.* methods accept.
+     *
+     * The list form has to keep working: `users` is documented as comma-separated, the prop
+     * is a plain string, and callers that predate resolveUserId() pass "U123,U456" straight
+     * through. Resolving the whole string as a single identifier would send it to an
+     * exhaustive users.list scan that cannot match, then throw.
+     *
+     * @param {string|string[]} input - id / email / display name, or a comma-separated list
+     *   or array of them
+     * @returns {Promise<string>} Comma-separated user IDs
+     */
+    async resolveUserIds(input) {
+      const raw = Array.isArray(input)
+        ? input
+        : String(input).split(",");
+      const tokens = raw
+        .map((t) => String(t).trim())
+        .filter(Boolean);
+      const ids = [];
+      for (const token of tokens) {
+        ids.push(await this.resolveUserId(token));
+      }
+      return ids.join(",");
     },
     /**
      * Resolves a channel name (e.g. "general", "#general") to its ID.

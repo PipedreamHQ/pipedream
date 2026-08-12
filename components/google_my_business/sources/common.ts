@@ -53,8 +53,7 @@ export default {
       const currentRun: number = Date.now();
       const lastRun: Date = this.getLastRun();
       const items: EntityWithCreateTime[] = await this.getItems();
-      console.log("Number of reviews: ", items.length);
-      this.setLastRun(currentRun);
+      console.log("Number of reviews: ", items?.length ?? 0);
 
       const filteredItems = (lastRun
         ? items?.filter(({ createTime }) => new Date(createTime) >= lastRun)
@@ -67,6 +66,10 @@ export default {
           ts: new Date(item.createTime),
         });
       });
+
+      if (filteredItems.length) {
+        this.setLastRun(currentRun);
+      }
     },
   },
   async run() {

@@ -21,7 +21,7 @@ export default {
     + " Jira's content endpoint responds with a redirect to a signed, short-lived media URL —"
     + " this is followed automatically, so no extra configuration is required."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-attachments/#api-rest-api-3-attachment-content-id-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
