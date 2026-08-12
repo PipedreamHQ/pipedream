@@ -1,6 +1,8 @@
 // Shared helpers for Amplitude actions.
 
-import { gunzipSync } from "node:zlib";
+import { createGunzip } from "node:zlib";
+import { PassThrough } from "node:stream";
+import { createInterface } from "node:readline";
 
 /**
  * Resolve after `ms` milliseconds.
@@ -47,53 +49,123 @@ const parseCsvLine = (line) => {
 };
 
 /**
- * Parse a cohort download payload: quoted-CSV, header row first, one member
- * per subsequent row. Amplitude serves this gzip-compressed, but axios
- * auto-decompresses on receipt whenever `Content-Encoding: gzip` is set
- * (true both for the direct response and for the S3 URL a large-cohort
- * download redirects to) — so the bytes here are usually already plain
- * text. Gunzip only kicks in if the gzip magic header is still present, to
- * stay correct if that auto-decompression doesn't happen.
+ * Peek at a readable stream's first bytes (without dropping any data) to
+ * detect a gzip magic header, then return a stream that replays those
+ * peeked bytes followed by the rest of the original stream. Amplitude's
+ * cohort download is normally already decompressed by axios based on the
+ * `Content-Encoding` response header before we ever see it (confirmed
+ * against the live API — axios applies this transparently for both
+ * buffered and streamed responses), so this is a defensive fallback, not
+ * the common path.
  *
- * @param {Buffer|ArrayBuffer} data - cohort download response body
- * @param {object} [opts]
- * @param {number} [opts.maxRecords] - stop building parsed records past this
- *   many data rows (the full row count is still reported via `totalCount`)
- * @returns {{records: object[], totalCount: number, truncated: boolean}}
+ * @param {import("stream").Readable} stream
+ * @returns {Promise<{isGzip: boolean, stream: import("stream").Readable}>}
  */
-export const parseCohortDownload = (data, { maxRecords } = {}) => {
-  const buffer = Buffer.isBuffer(data)
-    ? data
-    : Buffer.from(data);
-  const isGzip = buffer.length > 2 && buffer[0] === 0x1f && buffer[1] === 0x8b;
-  const text = (isGzip
-    ? gunzipSync(buffer)
-    : buffer
-  ).toString("utf-8");
-  const lines = text
-    .split("\n")
-    .map((line) => line.replace(/\r$/, ""))
-    .filter((line) => line.length > 0);
-  if (lines.length === 0) {
-    return {
-      records: [],
-      totalCount: 0,
-      truncated: false,
-    };
-  }
-  const headers = parseCsvLine(lines[0]);
-  const dataLines = lines.slice(1);
-  const totalCount = dataLines.length;
-  const limitedLines = maxRecords != null
-    ? dataLines.slice(0, maxRecords)
-    : dataLines;
-  const records = limitedLines.map((line) => {
-    const values = parseCsvLine(line);
-    return Object.fromEntries(headers.map((header, i) => [
-      header,
-      values[i],
-    ]));
+const peekMagicBytes = (stream) => new Promise((resolve, reject) => {
+  let peeked = Buffer.alloc(0);
+
+  const cleanup = () => {
+    stream.removeListener("readable", onReadable);
+    stream.removeListener("end", onEnd);
+    stream.removeListener("error", onError);
+  };
+  const finish = (ended) => {
+    cleanup();
+    const combined = new PassThrough();
+    combined.write(peeked);
+    // If the source already ended, its "end" event has already fired, so
+    // piping it now would never forward that (already-past) end to
+    // `combined`, hanging any downstream reader — end it directly instead.
+    if (ended) {
+      combined.end();
+    } else {
+      stream.pipe(combined);
+    }
+    resolve({
+      isGzip: peeked.length >= 2 && peeked[0] === 0x1f && peeked[1] === 0x8b,
+      stream: combined,
+    });
+  };
+
+  // `stream.read()` can return an empty (non-null) buffer on "readable" —
+  // e.g. for a trivially small/empty source — so draining in a loop here
+  // and deciding completion from the *separate*, persistently-registered
+  // "end" listener (not from a null read) is what makes this correct for
+  // that case, since "end" can otherwise fire without another "readable".
+  const onReadable = () => {
+    let chunk = stream.read();
+    while (chunk !== null) {
+      peeked = Buffer.concat([
+        peeked,
+        chunk,
+      ]);
+      if (peeked.length >= 2) {
+        break;
+      }
+      chunk = stream.read();
+    }
+    if (peeked.length >= 2) {
+      finish(false);
+    }
+  };
+  const onEnd = () => finish(true);
+  const onError = (err) => {
+    cleanup();
+    reject(err);
+  };
+
+  stream.on("readable", onReadable);
+  stream.once("end", onEnd);
+  stream.once("error", onError);
+});
+
+/**
+ * Parse a cohort download stream: quoted-CSV, header row first, one member
+ * per subsequent row. Reads incrementally line-by-line via `readline`
+ * instead of buffering the whole file into a string, a line array, and an
+ * object array up front — only up to `maxRecords` parsed row objects are
+ * ever held in memory at once. Rows beyond that cap are still counted (for
+ * an accurate `totalCount`/`truncated`) but never parsed or retained.
+ *
+ * @param {import("stream").Readable} inputStream - cohort download response stream
+ * @param {object} [opts]
+ * @param {number} [opts.maxRecords] - stop retaining parsed records past this
+ *   many data rows (the full row count is still reported via `totalCount`)
+ * @returns {Promise<{records: object[], totalCount: number, truncated: boolean}>}
+ */
+export const parseCohortDownload = async (inputStream, { maxRecords } = {}) => {
+  const {
+    isGzip, stream,
+  } = await peekMagicBytes(inputStream);
+  const source = isGzip
+    ? stream.pipe(createGunzip())
+    : stream;
+  const rl = createInterface({
+    input: source,
+    crlfDelay: Infinity,
   });
+
+  let headers = null;
+  const records = [];
+  let totalCount = 0;
+  for await (const line of rl) {
+    if (line.length === 0) {
+      continue;
+    }
+    if (headers === null) {
+      headers = parseCsvLine(line);
+      continue;
+    }
+    totalCount++;
+    if (maxRecords == null || records.length < maxRecords) {
+      const values = parseCsvLine(line);
+      records.push(Object.fromEntries(headers.map((header, i) => [
+        header,
+        values[i],
+      ])));
+    }
+  }
+
   return {
     records,
     totalCount,

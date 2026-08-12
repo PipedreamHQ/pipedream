@@ -213,13 +213,20 @@ export default {
         timeout,
       });
     },
+    /**
+     * Fetched as a stream (not buffered into memory) so the caller can
+     * parse it incrementally — cohort exports can be very large. Axios
+     * transparently decompresses gzip content-encoding at the HTTP adapter
+     * level for both buffered and streamed responses, so no explicit
+     * decompression is needed here.
+     */
     downloadCohortFile({
       $, requestId,
     }) {
       return this._analyticsRequest({
         $,
         path: `/api/5/cohorts/request/${requestId}/file`,
-        responseType: "arraybuffer",
+        responseType: "stream",
       });
     },
     /**

@@ -38,7 +38,7 @@ export default {
     });
     const {
       records: members, totalCount, truncated,
-    } = parseCohortDownload(file, {
+    } = await parseCohortDownload(file, {
       maxRecords: this.maxMembers ?? COHORT_DOWNLOAD_MAX_MEMBERS,
     });
     $.export("$summary", `Successfully downloaded ${members.length} of ${totalCount} member(s) for request ${this.requestId}${truncated
