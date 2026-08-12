@@ -16,6 +16,12 @@ export default {
         }));
       },
     },
+    countryCode: {
+      type: "string",
+      label: "Country Code",
+      description: "An ISO 3166-1 alpha-2 country code (e.g. `DE`, `FR`, `GB`). If omitted, VAT rates for all supported countries are returned.",
+      optional: true,
+    },
   },
   methods: {
     _apiUrl() {
@@ -69,6 +75,19 @@ export default {
           from,
           to,
           amount,
+        },
+        ...args,
+      });
+    },
+    getVatRates({
+      country, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: "vat/rates",
+        params: {
+          ...(country && {
+            country,
+          }),
         },
         ...args,
       });
