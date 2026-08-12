@@ -12,7 +12,7 @@ export default {
     + " `{instanceUrl}/lightning/r/{objectType}/{recordId}/view`."
     + " "
     + "[See the documentation](https://help.salesforce.com/s/articleView?id=sf.remoteaccess_using_userinfo_endpoint.htm&type=5)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     readOnlyHint: true,
