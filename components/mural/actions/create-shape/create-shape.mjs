@@ -1,11 +1,11 @@
 import mural from "../../mural.app.mjs";
-import { STICKY_SHAPE_OPTIONS } from "../../common/constants.mjs";
+import { SHAPE_OPTIONS } from "../../common/constants.mjs";
 
 export default {
-  key: "mural-create-sticky",
-  name: "Create Sticky",
-  description: "Create a new sticky note within a given mural. [See the documentation](https://developers.mural.co/public/reference/createstickynote)",
-  version: "0.0.3",
+  key: "mural-create-shape",
+  name: "Create Shape",
+  description: "Create a new shape widget within a given mural, useful for diagram nodes, callouts, and arrows drawn on the canvas. Shape names are the API's own enum values rather than display names, so a triangle is `triangle_smart` and a diamond is `rhombus_smart`. The legacy values `circle`, `diamond`, `hexagon`, `pentagon`, `square`, and `triangle` still work but are deprecated in favor of `ellipse`, `rhombus_smart`, `hexagon_smart`, `pentagon_smart`, `rectangle`, and `triangle_smart`. [See the documentation](https://developers.mural.co/public/reference/createshapewidget)",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -32,8 +32,8 @@ export default {
     shape: {
       type: "string",
       label: "Shape",
-      description: "The shape of the sticky note widget",
-      options: STICKY_SHAPE_OPTIONS,
+      description: "The shape of the shape widget",
+      options: SHAPE_OPTIONS,
     },
     xPosition: {
       propDefinition: [
@@ -52,7 +52,6 @@ export default {
         mural,
         "text",
       ],
-      optional: false,
     },
     title: {
       propDefinition: [
@@ -78,15 +77,6 @@ export default {
         "hidden",
       ],
     },
-    tagIds: {
-      propDefinition: [
-        mural,
-        "tagIds",
-        (c) => ({
-          muralId: c.muralId,
-        }),
-      ],
-    },
     parentId: {
       propDefinition: [
         mural,
@@ -97,12 +87,12 @@ export default {
         }),
       ],
       label: "Parent ID",
-      description: "The ID of the area widget that should contain this sticky note, for example `0-12345`. When set, **X Position** and **Y Position** are measured from the area's top-left corner instead of the mural's.",
+      description: "The ID of the area widget that should contain this shape, for example `0-12345`. When set, **X Position** and **Y Position** are measured from the area's top-left corner instead of the mural's.",
       optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.mural.createSticky({
+    const response = await this.mural.createShape({
       $,
       muralId: this.muralId,
       data: [
@@ -119,7 +109,7 @@ export default {
         },
       ],
     });
-    $.export("$summary", `Successfully created sticky note with ID: ${response.value[0].id}`);
+    $.export("$summary", `Successfully created shape with ID: ${response.value[0].id}`);
     return response;
   },
 };
