@@ -8,7 +8,7 @@ import {
 export default {
   key: "brex-search-card-transactions",
   name: "Search Card Transactions",
-  description: "Searches settled card transactions across every card account by merchant, amount, date, or cardholder, and returns the `expense_id` that **Get Expense** needs to fetch a receipt. Unlike **List Transactions for Primary Card Account**, this filters and expands. [See the documentation](https://developer.brex.com/openapi/transactions_api/transactions/listprimarycardtransactions)",
+  description: "Searches settled card transactions across every card account by merchant, amount, date, or cardholder, and returns each transaction's `expense_id`, the handle Brex uses for the matching expense and its receipt. Unlike **List Transactions for Primary Card Account**, this filters and expands. [See the documentation](https://developer.brex.com/openapi/transactions_api/transactions/listprimarycardtransactions)",
   version: "0.0.1",
   type: "action",
   annotations: {
