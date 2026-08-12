@@ -234,6 +234,24 @@ export default {
     },
     /**
      * @param {object} opts
+     * @param {string} opts.accountId
+     * @param {Record<string, unknown>} opts.data PATCH body (only supplied attributes)
+     */
+    patchAccount({
+      accountId, data, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PATCH",
+        path: `/accounts(${accountId})`,
+        headers: {
+          Prefer: "return=representation",
+        },
+        data,
+        ...opts,
+      });
+    },
+    /**
+     * @param {object} opts
      * @param {string} opts.searchTerm Raw name substring (single quotes escaped internally)
      */
     searchAccountsByName({

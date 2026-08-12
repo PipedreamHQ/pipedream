@@ -8,7 +8,7 @@ export default defineAction({
   key: "google_my_business-list-all-reviews",
   name: "List All Reviews",
   description: `List all reviews of a location to audit reviews in bulk. [See the documentation](${DOCS_LINK})`,
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

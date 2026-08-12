@@ -4,7 +4,7 @@ export default {
   key: "google_tasks-update-task-list",
   name: "Update Task List",
   description: "Updates the authenticated user's specified task list. [See the docs here](https://developers.google.com/tasks/reference/rest/v1/tasklists/update)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
