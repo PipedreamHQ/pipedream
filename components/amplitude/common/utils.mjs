@@ -2,7 +2,7 @@
 
 import { createGunzip } from "node:zlib";
 import { PassThrough } from "node:stream";
-import { createInterface } from "node:readline";
+import { parse } from "csv-parse";
 
 /**
  * Resolve after `ms` milliseconds.
@@ -10,43 +10,6 @@ import { createInterface } from "node:readline";
  * @param {number} ms - milliseconds to wait
  */
 export const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-/**
- * Split one CSV line into fields, honoring double-quoted values (with `""`
- * as an escaped literal quote) per the format Amplitude's cohort download
- * actually returns (confirmed against the live API): a quoted-CSV header
- * row (e.g. `"amplitude_id","user_id"`) followed by quoted-CSV data rows.
- *
- * @param {string} line - one CSV line, without its trailing newline
- * @returns {string[]} the line's fields, quotes stripped
- */
-const parseCsvLine = (line) => {
-  const fields = [];
-  let field = "";
-  let inQuotes = false;
-  for (let i = 0; i < line.length; i++) {
-    const ch = line[i];
-    if (inQuotes) {
-      if (ch === "\"" && line[i + 1] === "\"") {
-        field += "\"";
-        i++;
-      } else if (ch === "\"") {
-        inQuotes = false;
-      } else {
-        field += ch;
-      }
-    } else if (ch === "\"") {
-      inQuotes = true;
-    } else if (ch === ",") {
-      fields.push(field);
-      field = "";
-    } else {
-      field += ch;
-    }
-  }
-  fields.push(field);
-  return fields;
-};
 
 /**
  * Peek at a readable stream's first bytes (without dropping any data) to
@@ -121,11 +84,12 @@ const peekMagicBytes = (stream) => new Promise((resolve, reject) => {
 
 /**
  * Parse a cohort download stream: quoted-CSV, header row first, one member
- * per subsequent row. Reads incrementally line-by-line via `readline`
- * instead of buffering the whole file into a string, a line array, and an
- * object array up front — only up to `maxRecords` parsed row objects are
- * ever held in memory at once. Rows beyond that cap are still counted (for
- * an accurate `totalCount`/`truncated`) but never parsed or retained.
+ * per subsequent row. Parses via `csv-parse`'s streaming API (record-aware,
+ * so a quoted field containing an embedded CR/LF stays part of one record
+ * instead of being split across lines) instead of buffering the whole file
+ * into a string/array up front — only up to `maxRecords` parsed row objects
+ * are ever held in memory at once. Rows beyond that cap are still counted
+ * (for an accurate `totalCount`/`truncated`) but never retained.
  *
  * @param {import("stream").Readable} inputStream - cohort download response stream
  * @param {object} [opts]
@@ -140,29 +104,22 @@ export const parseCohortDownload = async (inputStream, { maxRecords } = {}) => {
   const source = isGzip
     ? stream.pipe(createGunzip())
     : stream;
-  const rl = createInterface({
-    input: source,
-    crlfDelay: Infinity,
-  });
+  const parser = source.pipe(parse({
+    columns: true,
+    relax_column_count: true,
+  }));
+  // `.pipe()` doesn't forward `source`'s error events to `parser` (e.g. a
+  // gunzip `Z_DATA_ERROR` on truncated/corrupt input), so without this a
+  // decompression failure would leave the reader hanging instead of
+  // rejecting below.
+  source.on("error", (err) => parser.destroy(err));
 
-  let headers = null;
   const records = [];
   let totalCount = 0;
-  for await (const line of rl) {
-    if (line.length === 0) {
-      continue;
-    }
-    if (headers === null) {
-      headers = parseCsvLine(line);
-      continue;
-    }
+  for await (const record of parser) {
     totalCount++;
     if (maxRecords == null || records.length < maxRecords) {
-      const values = parseCsvLine(line);
-      records.push(Object.fromEntries(headers.map((header, i) => [
-        header,
-        values[i],
-      ])));
+      records.push(record);
     }
   }
 
