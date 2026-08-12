@@ -84,9 +84,28 @@ export default {
     EMAIL_MESSAGE: "EmailMessage",
     EMAIL_TEMPLATE: "EmailTemplate",
     KNOWLEDGE_ARTICLE: "KnowledgeArticle",
+    FEED_ITEM: "FeedItem",
+    FEED_COMMENT: "FeedComment",
   },
   FIELD_NAME: {
     CREATED_DATE: "CreatedDate",
     LAST_MODIFIED_DATE: "LastModifiedDate",
   },
+  FEED_ITEM_MIN_FIELDS: Object.freeze([
+    "Id",
+    "Type",
+    "Body",
+    "ParentId",
+    "CreatedById",
+    "CreatedDate",
+  ]),
+  FEED_COMMENT_MIN_FIELDS: Object.freeze([
+    "Id",
+    "CommentBody",
+    "ParentId",
+    "FeedItemId",
+    "CreatedById",
+    "CreatedDate",
+  ]),
+  DEPLOY_HISTORICAL_LIMIT: 25,
 };
