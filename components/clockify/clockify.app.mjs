@@ -44,7 +44,7 @@ export default {
     projectIds: {
       type: "string[]",
       label: "Project IDs",
-      description: "Only include time tracked against these projects. Leave blank to include every project. Use the **List Projects** action to find the IDs.",
+      description: "Only include time tracked against these projects. Leave blank to include every project. Provide an array of project IDs, for example `[\"6a72db27a231b34fe8361aeb\"]`. Use the **List Projects** action to find the IDs.",
       optional: true,
     },
     clientId: {
