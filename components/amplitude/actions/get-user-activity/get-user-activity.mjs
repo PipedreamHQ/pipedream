@@ -42,12 +42,12 @@ export default {
       optional: true,
     },
     limit: {
-      type: "integer",
-      label: "Limit",
+      propDefinition: [
+        app,
+        "limit",
+      ],
       description: `Maximum number of events to return in total (the \`limit\` param, requested in pages of up to ${LIMIT_MAX}). Min ${LIMIT_MIN}, max ${USER_ACTIVITY_MAX_RESULTS}. Defaults to ${LIMIT_MAX}. Set above ${LIMIT_MAX} to fetch more than one page; check the response's \`truncated\` flag to see if more events exist beyond what was returned.`,
-      min: LIMIT_MIN,
       max: USER_ACTIVITY_MAX_RESULTS,
-      optional: true,
     },
     fields: {
       type: "string[]",

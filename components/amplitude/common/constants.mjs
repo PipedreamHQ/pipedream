@@ -88,3 +88,16 @@ export const USER_ACTIVITY_ALWAYS_FIELDS = [
   "event_type",
   "event_time",
 ];
+
+// Cohort export jobs commonly take 30-60+ seconds regardless of cohort size
+// (confirmed against the live API), with no ETA from Amplitude. Get Cohort
+// Download Status polls internally, sleeping this interval between checks,
+// for up to COHORT_DOWNLOAD_POLL_BUDGET_MS of wall-clock time before
+// returning whatever status it last saw. The budget is deliberately well
+// under a single MCP tool call's ~60s timeout — individual request-status
+// calls have their own variable latency on top of the sleep interval, so a
+// fixed attempt count isn't safely bounded; measuring elapsed time directly
+// is. If still in progress when the budget runs out, the caller is expected
+// to call the status action again.
+export const COHORT_DOWNLOAD_POLL_INTERVAL_MS = 3000;
+export const COHORT_DOWNLOAD_POLL_BUDGET_MS = 35000;

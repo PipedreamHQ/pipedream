@@ -5,7 +5,10 @@ import {
   ANALYTICS_EU_BASE_URL,
   LIMIT_MIN,
   LIMIT_MAX,
+  COHORT_DOWNLOAD_POLL_INTERVAL_MS,
+  COHORT_DOWNLOAD_POLL_BUDGET_MS,
 } from "./common/constants.mjs";
+import { sleep } from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -175,13 +178,71 @@ export default {
         params,
       });
     },
-    getCohort({
-      $, cohortId,
+    /**
+     * Builds the query string by hand rather than passing `propKeys` through
+     * axios' `params` — Amplitude expects repeated `propKeys=a&propKeys=b`,
+     * not axios' default `propKeys[]=a&propKeys[]=b` array serialization.
+     */
+    requestCohortDownload({
+      $, cohortId, props, propKeys = [],
+    }) {
+      const query = new URLSearchParams();
+      if (props !== undefined) {
+        query.append("props", props);
+      }
+      propKeys.forEach((key) => query.append("propKeys", key));
+      const search = query.toString();
+      return this._analyticsRequest({
+        $,
+        path: `/api/5/cohorts/request/${cohortId}${search
+          ? `?${search}`
+          : ""}`,
+      });
+    },
+    getCohortDownloadStatus({
+      $, requestId,
     }) {
       return this._analyticsRequest({
         $,
-        path: `/api/3/cohorts/${cohortId}`,
+        path: `/api/5/cohorts/request-status/${requestId}`,
       });
+    },
+    downloadCohortFile({
+      $, requestId,
+    }) {
+      return this._analyticsRequest({
+        $,
+        path: `/api/5/cohorts/request/${requestId}/file`,
+        responseType: "arraybuffer",
+      });
+    },
+    /**
+     * Polls request-status, sleeping between attempts, until the async job
+     * reports JOB COMPLETED or COHORT_DOWNLOAD_POLL_BUDGET_MS of wall-clock
+     * time has elapsed — whichever comes first — then returns whatever
+     * status was last seen. Bounded by elapsed time (not a fixed attempt
+     * count) so it stays safely under the MCP tool-call timeout (60s) even
+     * when individual request-status calls run slower than usual; if the
+     * job is still running when the budget runs out, the caller (Get Cohort
+     * Download Status) just gets an in-progress status back and is expected
+     * to call again.
+     */
+    async pollCohortDownloadStatus({
+      $, requestId,
+    }) {
+      const deadline = Date.now() + COHORT_DOWNLOAD_POLL_BUDGET_MS;
+      let status;
+      do {
+        status = await this.getCohortDownloadStatus({
+          $,
+          requestId,
+        });
+        if (status.async_status === "JOB COMPLETED" || Date.now() >= deadline) {
+          break;
+        }
+        await sleep(COHORT_DOWNLOAD_POLL_INTERVAL_MS);
+      } while (Date.now() < deadline);
+      return status;
     },
     createCohort({
       $, data,
