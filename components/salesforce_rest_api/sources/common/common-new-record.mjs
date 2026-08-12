@@ -63,7 +63,7 @@ export default {
   methods: {
     ...common.methods,
     generateTimerMeta(item, fieldName) {
-      const { objectType } = this;
+      const objectType = this.getObjectType();
       const {
         CreatedDate: createdDate,
         [fieldName]: name,
