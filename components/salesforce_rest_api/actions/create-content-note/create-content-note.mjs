@@ -32,7 +32,9 @@ export default {
     + " Use this rather than **Create Note** on modern orgs; **Create Note** writes the classic plain-text note object."
     + " Use **Update Content Note** to edit one afterwards."
     + " "
-    + `[See the documentation](${docsLink}) and [Set Up Notes](https://help.salesforce.com/s/articleView?id=sales.notes_admin_setup.htm&type=5).`,
+    + "Notes must be enabled in the org first - see [Set Up Notes](https://help.salesforce.com/s/articleView?id=sales.notes_admin_setup.htm&type=5)."
+    + " "
+    + `[See the documentation](${docsLink})`,
   version: "0.0.8",
   annotations: {
     destructiveHint: false,

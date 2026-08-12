@@ -19,7 +19,9 @@ export default {
     + "\n- Event: `Subject`, `StartDateTime`, `EndDateTime`"
     + "\n\n"
     + "To add a Contact/Lead to a Campaign, create a CampaignMember:"
-    + " `{\"CampaignId\": \"701xxx\", \"ContactId\": \"003xxx\"}` or `{\"CampaignId\": \"701xxx\", \"LeadId\": \"00Qxxx\"}`.",
+    + " `{\"CampaignId\": \"701xxx\", \"ContactId\": \"003xxx\"}` or `{\"CampaignId\": \"701xxx\", \"LeadId\": \"00Qxxx\"}`."
+    + " "
+    + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_sobject_create.htm)",
   version: "0.0.1",
   type: "action",
   annotations: {

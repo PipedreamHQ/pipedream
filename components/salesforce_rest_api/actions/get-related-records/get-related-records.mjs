@@ -11,7 +11,9 @@ export default {
     + " Contact → Cases, Opportunities, Tasks;"
     + " Opportunity → OpportunityLineItems, Tasks."
     + " Use **Describe Object** to discover available relationship names if unsure"
-    + " (look for `relationshipName` on reference fields).",
+    + " (look for `relationshipName` on reference fields)."
+    + " "
+    + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_relationships.htm)",
   version: "0.0.1",
   type: "action",
   annotations: {

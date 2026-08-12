@@ -8,7 +8,9 @@ export default {
     "Search Salesforce records by keyword across multiple object types simultaneously."
     + " Use for free-text search when the user mentions a name, term, or keyword without specifying an object type."
     + " Use **SOQL Query** instead for structured queries on a single object type with specific conditions."
-    + " Results are grouped by object type.",
+    + " Results are grouped by object type."
+    + " "
+    + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_search.htm)",
   version: "0.0.1",
   type: "action",
   annotations: {

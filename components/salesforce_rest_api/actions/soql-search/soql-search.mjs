@@ -9,7 +9,9 @@ export default {
   name: "SOQL Query (Object Query)",
   description: "Run a SOQL query with guided prompts for the object, fields and filter."
     + " Prefer **SOQL Query** for agent and API use - it accepts a complete query string and pages through every result, while this action returns only the first batch."
-    + " SOQL filters on exact field values; use **Text Search** for keyword search.",
+    + " SOQL filters on exact field values; use **Text Search** for keyword search."
+    + " "
+    + `[See the documentation](${docsLink})`,
   version: "0.2.14",
   annotations: {
     destructiveHint: false,

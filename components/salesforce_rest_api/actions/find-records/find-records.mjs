@@ -13,6 +13,7 @@ export default {
     + " Use **List Objects** to discover object types and **List Object Fields** to discover field names."
     + " For example, `SObject Type` `Account` with `Fields to Obtain` `Id, Name` and `Limit` `25` returns the 25 most recently created accounts."
     + " Leaving `Record ID(s)` empty returns recent records, not every record - Salesforce sends one batch, so set `Limit` and use **SOQL Query** when you need everything."
+    + " Newest-first ordering needs `CreatedDate`, so results are unordered on the few object types that lack it."
     + " [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_query.htm)",
   version: "0.3.0",
   annotations: {
@@ -82,7 +83,14 @@ export default {
       const ids = recordIds.map((id) => assertSalesforceId(id.trim(), "Record ID(s)"));
       query += ` WHERE Id IN ('${ids.join("','")}')`;
     } else {
-      query += " ORDER BY CreatedDate DESC, Id DESC";
+      // This action accepts any object type, and not every one has CreatedDate
+      // (PicklistValueInfo, for example). SOQL rejects the whole query rather than
+      // ignoring the clause, so only sort by it when the object actually has it.
+      const fields = await this.salesforce.getFieldsForObjectType(sobjectType);
+      const { CREATED_DATE: createdDate } = constants.FIELD_NAME;
+      if (fields.some(({ name }) => name === createdDate)) {
+        query += ` ORDER BY ${createdDate} DESC, Id DESC`;
+      }
     }
     if (this.limit) {
       query += ` LIMIT ${this.limit}`;

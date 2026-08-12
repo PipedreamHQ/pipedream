@@ -14,7 +14,9 @@ export default {
   name: "SOSL Search (Object Search)",
   description: "Run a SOSL text search with guided prompts."
     + " Prefer **Text Search** for agent and API use - it takes a plain keyword and searches several object types at once."
-    + " SOSL matches indexed text fields, so it finds partial words but will not filter on numeric or date criteria.",
+    + " SOSL matches indexed text fields, so it finds partial words but will not filter on numeric or date criteria."
+    + " "
+    + `[See the documentation](${docsLink})`,
   version: "0.2.13",
   annotations: {
     destructiveHint: false,

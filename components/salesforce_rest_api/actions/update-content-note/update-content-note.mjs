@@ -21,7 +21,9 @@ export default {
     + " Use **Update Note** instead for classic plain-text notes - the two are different objects."
     + " Supplying `Content` replaces the note body outright rather than appending to it."
     + " "
-    + `[See the documentation](${docsLink}) and [Set Up Notes](https://help.salesforce.com/s/articleView?id=sales.notes_admin_setup.htm&type=5).`,
+    + "Notes must be enabled in the org first - see [Set Up Notes](https://help.salesforce.com/s/articleView?id=sales.notes_admin_setup.htm&type=5)."
+    + " "
+    + `[See the documentation](${docsLink})`,
   version: "0.0.4",
   type: "action",
   annotations: {

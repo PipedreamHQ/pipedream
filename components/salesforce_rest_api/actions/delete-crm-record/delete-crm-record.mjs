@@ -6,7 +6,9 @@ export default {
   name: "Delete Record",
   description:
     "Permanently deletes a Salesforce record (moves to Recycle Bin for 15 days)."
-    + " Use **SOQL Query** to find the record ID if you only have the record name.",
+    + " Use **SOQL Query** to find the record ID if you only have the record name."
+    + " "
+    + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_delete_record.htm)",
   version: "0.0.1",
   type: "action",
   annotations: {

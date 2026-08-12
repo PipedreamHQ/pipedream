@@ -7,7 +7,9 @@ export default {
   name: "Convert SOAP XML Object to JSON",
   description: "Convert a SOAP XML payload received from Salesforce into JSON."
     + " Use this on the raw body delivered by an outbound-message trigger; it makes no API call."
-    + " Every other Salesforce action already returns JSON, so this is only needed for outbound-message workflows.",
+    + " Every other Salesforce action already returns JSON, so this is only needed for outbound-message workflows."
+    + " "
+    + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_om_outboundmessaging.htm)",
   version: "0.0.11",
   annotations: {
     destructiveHint: false,
