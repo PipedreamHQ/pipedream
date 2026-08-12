@@ -41,15 +41,35 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.shopify.createCollection({
-      input: {
-        title: this.title,
-        products: this.products,
-        metafields: this.metafields && utils.parseJson(this.metafields),
-        image: this.imageUrl && {
-          src: this.imageUrl,
-        },
+    const products = this.products && [
+      this.products,
+    ].flat().filter(Boolean);
+    const collection = {
+      title: this.title,
+      metafields: this.metafields && utils.parseJson(this.metafields),
+      image: this.imageUrl && {
+        src: this.imageUrl,
       },
+    };
+    // The deprecated `input.products` field was replaced by `sources` on
+    // `CollectionCreateInput`: manually-selected products are expressed as an
+    // inclusion source with explicit product selections.
+    if (products?.length) {
+      collection.sources = [
+        {
+          source: {
+            title: this.title,
+            inclusion: {
+              selections: products.map((productId) => ({
+                productId,
+              })),
+            },
+          },
+        },
+      ];
+    }
+    const response = await this.shopify.collectionCreate({
+      collection,
     });
     if (response.collectionCreate.userErrors.length > 0) {
       throw new Error(response.collectionCreate.userErrors[0].message);

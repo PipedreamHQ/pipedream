@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "shopify-update-metafield",
   name: "Update Metafield",
-  description: "Updates a metafield belonging to a resource. [See the documentation]()",
+  description: "Updates a metafield belonging to a resource. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/metafieldsSet)",
   version: "0.0.20",
   annotations: {
     destructiveHint: true,

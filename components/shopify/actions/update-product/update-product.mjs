@@ -98,7 +98,7 @@ export default {
     const metafields = await this.createMetafieldsArray(this.metafields, this.productId, "product");
 
     const response = await this.shopify.updateProduct({
-      input: {
+      product: {
         id: this.productId,
         title: this.title,
         descriptionHtml: this.productDescription,

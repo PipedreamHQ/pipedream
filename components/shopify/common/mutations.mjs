@@ -131,6 +131,31 @@ const CREATE_COLLECTION = `
   }
 `;
 
+const COLLECTION_CREATE = `
+  mutation collectionCreate($collection: CollectionCreateInput!) {
+    collectionCreate(collection: $collection) {
+      collection {
+        id
+        title
+        metafields(first: 50) {
+          edges {
+            node {
+              id
+              namespace
+              key
+              value
+            }
+          }
+        }
+      }
+      userErrors {
+        message
+        field
+      }
+    }
+  }
+`;
+
 const CREATE_PAGE = `
   mutation CreatePage($page: PageCreateInput!) {
     pageCreate(page: $page) {
@@ -257,8 +282,8 @@ const UPDATE_METAOBJECT = `
 `;
 
 const UPDATE_PRODUCT = `
-  mutation UpdateProductWithNewMedia($input: ProductInput!, $media: [CreateMediaInput!]) {
-    productUpdate(input: $input, media: $media) {
+  mutation UpdateProductWithNewMedia($product: ProductUpdateInput!, $media: [CreateMediaInput!]) {
+    productUpdate(product: $product, media: $media) {
       product {
         id
         title
@@ -322,8 +347,8 @@ const UPDATE_PAGE = `
 `;
 
 const UPDATE_INVENTORY_LEVEL = `
-  mutation inventorySetOnHandQuantities($input: InventorySetOnHandQuantitiesInput!) {
-    inventorySetOnHandQuantities(input: $input) {
+  mutation inventorySetQuantities($input: InventorySetQuantitiesInput!, $key: String!) {
+    inventorySetQuantities(input: $input) @idempotent(key: $key) {
       inventoryAdjustmentGroup {
         createdAt
         reason
@@ -524,10 +549,10 @@ const RETURN_CREATE = `
   }
 `;
 
-const RETURN_REFUND = `
-  mutation returnRefund($returnRefundInput: ReturnRefundInput!) {
-    returnRefund(returnRefundInput: $returnRefundInput) {
-      refund {
+const RETURN_PROCESS = `
+  mutation ReturnProcessMutation($input: ReturnProcessInput!) {
+    returnProcess(input: $input) {
+      return {
         id
         order {
           id
@@ -641,6 +666,7 @@ export default {
   CREATE_ARTICLE,
   CREATE_BLOG,
   CREATE_COLLECTION,
+  COLLECTION_CREATE,
   CREATE_PAGE,
   CREATE_PRODUCT,
   CREATE_PRODUCT_VARIANTS,
@@ -665,7 +691,7 @@ export default {
   ORDER_CREATE,
   ORDER_INVOICE_SEND,
   RETURN_CREATE,
-  RETURN_REFUND,
+  RETURN_PROCESS,
   FULFILLMENT_CANCEL,
   FULFILLMENT_ORDER_CANCEL,
   FULFILLMENT_ORDER_HOLD,

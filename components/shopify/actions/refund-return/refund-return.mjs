@@ -4,7 +4,7 @@ import shopify from "../../shopify.app.mjs";
 export default {
   key: "shopify-refund-return",
   name: "Refund Return",
-  description: "Creates a refund for an existing return. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/returnRefund).",
+  description: "Processes an existing return, refunding the specified return line items. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/returnProcess).",
   version: "0.0.3",
   type: "action",
   annotations: {
@@ -19,10 +19,10 @@ export default {
       label: "Return ID",
       description: "The return GID to refund, in the format `gid://shopify/Return/222`. Obtain this from the **Create Return** action output or by inspecting an order's returns.",
     },
-    returnRefundLineItems: {
+    returnLineItems: {
       type: "string",
-      label: "Return Refund Line Items",
-      description: "JSON array of return line items to refund. Each item accepts `returnLineItemId` (GID) and `quantity`. Example: `[{\"returnLineItemId\": \"gid://shopify/ReturnLineItem/333\", \"quantity\": 1}]`.",
+      label: "Return Line Items",
+      description: "JSON array of return line items to process. Each item accepts `id` (the ReturnLineItem GID) and `quantity`. Example: `[{\"id\": \"gid://shopify/ReturnLineItem/333\", \"quantity\": 1}]`.",
     },
     notifyCustomer: {
       type: "boolean",
@@ -31,38 +31,37 @@ export default {
       default: false,
       optional: true,
     },
-    additionalRefundFields: {
+    additionalFields: {
       type: "object",
-      label: "Additional Refund Fields",
-      description: "JSON object of additional fields (e.g. `orderTransactions`, `refundDuties`, or `refundShipping`). Example: `{\"refundShipping\": {\"fullRefund\": true}}`.",
+      label: "Additional Fields",
+      description: "JSON object of additional `ReturnProcessInput` fields (e.g. `refundShipping`, `refundDuties`, or `note`). Example: `{\"refundShipping\": {\"fullRefund\": true}}`.",
       optional: true,
     },
   },
   async run({ $ }) {
-    let returnRefundLineItems;
+    let returnLineItems;
     try {
-      returnRefundLineItems = JSON.parse(this.returnRefundLineItems);
+      returnLineItems = JSON.parse(this.returnLineItems);
     } catch {
-      throw new ConfigurationError("`Return Refund Line Items` must be valid JSON.");
+      throw new ConfigurationError("`Return Line Items` must be valid JSON.");
     }
 
-    const returnRefundInput = {
-      ...(this.additionalRefundFields || {}),
+    const input = {
+      ...(this.additionalFields || {}),
       returnId: this.returnId,
-      returnRefundLineItems,
+      returnLineItems,
       notifyCustomer: this.notifyCustomer,
     };
 
     const response = await this.shopify.refundReturn({
-      returnRefundInput,
+      input,
     });
 
-    if (response.returnRefund?.userErrors?.length > 0) {
-      throw new Error(response.returnRefund.userErrors.map(({ message }) => message).join(", "));
+    if (response.returnProcess?.userErrors?.length > 0) {
+      throw new Error(response.returnProcess.userErrors.map(({ message }) => message).join(", "));
     }
 
-    const { refund } = response.returnRefund ?? {};
-    $.export("$summary", `Created refund \`${refund?.id}\` for return \`${this.returnId}\``);
+    $.export("$summary", `Processed return \`${response?.returnProcess?.return?.id ?? this.returnId}\``);
     return response;
   },
 };

@@ -515,6 +515,9 @@ export default {
     createCollection(variables) {
       return this._makeGraphQlRequest(mutations.CREATE_COLLECTION, variables);
     },
+    collectionCreate(variables) {
+      return this._makeGraphQlRequest(mutations.COLLECTION_CREATE, variables);
+    },
     createPage(variables) {
       return this._makeGraphQlRequest(mutations.CREATE_PAGE, variables);
     },
@@ -594,7 +597,7 @@ export default {
       return this._makeGraphQlRequest(mutations.RETURN_CREATE, variables);
     },
     refundReturn(variables) {
-      return this._makeGraphQlRequest(mutations.RETURN_REFUND, variables);
+      return this._makeGraphQlRequest(mutations.RETURN_PROCESS, variables);
     },
     cancelFulfillment(variables) {
       return this._makeGraphQlRequest(mutations.FULFILLMENT_CANCEL, variables);
