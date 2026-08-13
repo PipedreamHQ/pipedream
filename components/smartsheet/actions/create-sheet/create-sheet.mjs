@@ -35,13 +35,13 @@ export default {
         + " Example: `[{\"title\": \"Task\", \"type\": \"TEXT_NUMBER\", \"primary\": true}, {\"title\": \"Due Date\", \"type\": \"DATE\"}, {\"title\": \"Status\", \"type\": \"PICKLIST\", \"options\": [\"Open\", \"In Progress\", \"Done\"]}]`",
     },
     workspaceId: {
-      type: "integer",
+      type: "string",
       label: "Workspace ID",
       description: "Place the sheet in this workspace. Provide either Workspace ID or Folder ID (at least one is required). Use **List Workspace Options** to find workspace IDs.",
       optional: true,
     },
     folderId: {
-      type: "integer",
+      type: "string",
       label: "Folder ID",
       description: "Place the sheet in this folder. Provide either Workspace ID or Folder ID (at least one is required). Use **List Folder Options** with a workspace ID to find folder IDs.",
       optional: true,

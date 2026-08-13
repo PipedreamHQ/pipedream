@@ -1,4 +1,5 @@
 // x-pd-ai: optimized
+import { mapWithConcurrency } from "../../common/utils.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
 
 export default {
@@ -11,7 +12,7 @@ export default {
     + " Smartsheet has no single list-templates endpoint, so omitting the workspace fans out across every"
     + " workspace you can see — scope it when you already know where the template lives."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/workspaces/get-workspace-children)",
-  version: "0.0.3",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -51,19 +52,29 @@ export default {
       const { data: workspaces } = await this.smartsheet.listAllWorkspaces({
         $,
       });
-      // Smartsheet has no "list all templates" endpoint, so every workspace's children
-      // must be fetched. Fetch them concurrently rather than one workspace at a time —
-      // sequential requests are what make this slow on the accounts where it matters.
-      const perWorkspace = await Promise.all((workspaces || []).map((ws) =>
-        this.smartsheet.listAllWorkspaceChildren(ws.id, {
-          $,
-          params: {
-            childrenResourceTypes: "sheets,templates",
-          },
-        }).then(({ data }) => ({
-          ws,
-          children: data,
-        }))));
+      // Smartsheet has no "list all templates" endpoint, so every workspace's children must
+      // be fetched. Bounded concurrency: sequential was slow, unbounded fired one request
+      // per workspace at once. A workspace that fails to traverse is skipped rather than
+      // failing the whole listing.
+      const perWorkspace = await mapWithConcurrency(workspaces || [], async (ws) => {
+        try {
+          const { data } = await this.smartsheet.listAllWorkspaceChildren(ws.id, {
+            $,
+            params: {
+              childrenResourceTypes: "sheets,templates",
+            },
+          });
+          return {
+            ws,
+            children: data,
+          };
+        } catch {
+          return {
+            ws,
+            children: [],
+          };
+        }
+      });
       for (const {
         ws, children,
       } of perWorkspace) {

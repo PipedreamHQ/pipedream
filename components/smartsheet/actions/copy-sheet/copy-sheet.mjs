@@ -1,6 +1,7 @@
 // x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import { DESTINATION_TYPES } from "../../common/constants.mjs";
+import { toIdString } from "../../common/utils.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
 
 export default {
@@ -41,7 +42,7 @@ export default {
       optional: true,
     },
     destinationId: {
-      type: "integer",
+      type: "string",
       label: "Destination ID",
       description: "The numeric ID of the destination workspace or folder. Required when Destination Type is `workspace` or `folder`, and must be omitted for `home`. Use **List Workspace Options** for workspace IDs or **List Folder Options** for folder IDs.",
       optional: true,
@@ -61,11 +62,7 @@ export default {
     };
     if (this.newName) data.newName = this.newName;
     if (this.destinationId) {
-      const destinationId = Number(this.destinationId);
-      if (!Number.isFinite(destinationId)) {
-        throw new ConfigurationError("`Destination ID` must be a numeric ID.");
-      }
-      data.destinationId = destinationId;
+      data.destinationId = toIdString(this.destinationId, "Destination ID");
     }
 
     const response = await this.smartsheet.copySheet(this.sheetId, {

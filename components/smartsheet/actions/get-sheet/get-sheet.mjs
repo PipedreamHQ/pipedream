@@ -1,4 +1,5 @@
 // x-pd-ai: optimized
+import { SHEET_INCLUDE_OPTIONS } from "../../common/constants.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
 
 export default {
@@ -42,10 +43,17 @@ export default {
       description: "Set to `true` to return all rows without pagination.",
       optional: true,
     },
+    include: {
+      type: "string[]",
+      label: "Include",
+      description: "Optional elements to fold into the response. Set `filters` to discover saved filter IDs — Smartsheet has no filters endpoint, so this is the only way to get them.",
+      options: SHEET_INCLUDE_OPTIONS,
+      optional: true,
+    },
     filterId: {
-      type: "integer",
+      type: "string",
       label: "Filter ID",
-      description: "Apply a saved filter to the returned rows. Example: `1234567890`. Filter IDs are returned in the sheet's `filters` array — fetch the sheet without a filter first to discover available filter IDs.",
+      description: "Apply a saved filter to the returned rows. Example: `1234567890`. To find filter IDs, call **Get Sheet** with `filters` in Include and read the returned `filters` array.",
       optional: true,
     },
   },
@@ -55,6 +63,9 @@ export default {
       columnIds: this.columnIds,
       includeAll: this.includeAll,
       filterId: this.filterId,
+      include: this.include?.length
+        ? this.include.join(",")
+        : undefined,
     };
 
     const sheetId = await this.smartsheet.resolveSheetId(this.sheetId, {

@@ -47,13 +47,13 @@ export default {
       optional: true,
     },
     workspaceId: {
-      type: "integer",
+      type: "string",
       label: "Workspace ID",
       description: "Import into this workspace. Provide either Workspace ID or Folder ID (at least one is required). Use **List Workspace Options** to find workspace IDs.",
       optional: true,
     },
     folderId: {
-      type: "integer",
+      type: "string",
       label: "Folder ID",
       description: "Import into this folder. Provide either Workspace ID or Folder ID (at least one is required). Use **List Folder Options** with a workspace ID to find folder IDs.",
       optional: true,

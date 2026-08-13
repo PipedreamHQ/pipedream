@@ -1,6 +1,6 @@
 // x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
-import { toPositiveInteger } from "../../common/utils.mjs";
+import { toIdString } from "../../common/utils.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
 
 export default {
@@ -12,7 +12,7 @@ export default {
     + " Each object needs a `rowId` plus column name/value pairs:"
     + " `[{\"rowId\": 123456, \"Status\": \"Done\", \"Priority\": \"High\"}]`."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/update-rows)",
-  version: "1.0.1",
+  version: "1.1.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -57,10 +57,10 @@ export default {
       const {
         rowId, ...fields
       } = row;
-      const numericRowId = toPositiveInteger(rowId);
-      if (!Number.isInteger(numericRowId) || numericRowId <= 0) {
-        throw new ConfigurationError(`Row at index ${rowIndex} is missing a valid \`rowId\` (must be a positive integer).`);
+      if (rowId === undefined || rowId === null || rowId === "") {
+        throw new ConfigurationError(`Row at index ${rowIndex} is missing a \`rowId\`.`);
       }
+      const rowIdString = toIdString(rowId, `Row at index ${rowIndex} \`rowId\``);
       const entries = Object.entries(fields);
       if (!entries.length) {
         throw new ConfigurationError(`Row at index ${rowIndex} has no column updates.`);
@@ -85,7 +85,7 @@ export default {
         throw new ConfigurationError(`Row at index ${rowIndex} references unknown column(s): ${unknownColumns.join(", ")}. Use **Get Sheet** or **List Columns** to see valid column names.`);
       }
       return {
-        id: numericRowId,
+        id: rowIdString,
         cells,
       };
     });

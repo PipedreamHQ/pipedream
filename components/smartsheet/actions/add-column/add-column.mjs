@@ -69,6 +69,10 @@ export default {
       index = result.totalCount ?? result.data?.length ?? 0;
     }
 
+    if (this.columnType === "PICKLIST" && !this.options) {
+      throw new ConfigurationError("`Picklist Options` is required for PICKLIST columns.");
+    }
+
     const column = {
       title: this.title,
       type: this.columnType,

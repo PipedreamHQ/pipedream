@@ -9,7 +9,7 @@ export default {
     + " Use the workspace IDs it returns with **Create Sheet**, **Import Sheet**, **Copy Sheet**, **Move Sheet**,"
     + " or with **List Folder Options** to drill into a workspace's folders."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/workspaces/list-workspaces)",
-  version: "0.0.4",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -1,7 +1,6 @@
 // x-pd-ai: optimized
-import { ConfigurationError } from "@pipedream/platform";
 import {
-  parseRowIds, toPositiveInteger,
+  parseRowIds, toIdString,
 } from "../../common/utils.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
 
@@ -37,17 +36,14 @@ export default {
         + " Use **Get Sheet** to find row IDs.",
     },
     destinationSheetId: {
-      type: "integer",
+      type: "string",
       label: "Destination Sheet ID",
       description: "The numeric ID of the destination sheet to move rows into. Use **Search** or **List Sheets** to find sheet IDs.",
     },
   },
   async run({ $ }) {
     const rowIds = parseRowIds(this.rowIds);
-    const destinationSheetId = toPositiveInteger(this.destinationSheetId);
-    if (!Number.isInteger(destinationSheetId) || destinationSheetId <= 0) {
-      throw new ConfigurationError("`Destination Sheet ID` must be a positive integer sheet ID.");
-    }
+    const destinationSheetId = toIdString(this.destinationSheetId, "Destination Sheet ID");
 
     const response = await this.smartsheet.moveRows(this.sheetId, {
       $,
