@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import {
   ConfigurationError, getFileStreamAndMetadata,
 } from "@pipedream/platform";
@@ -7,13 +8,13 @@ export default {
   key: "smartsheet-import-sheet",
   name: "Import Sheet",
   description:
-    "Import a CSV or XLSX file as a new Smartsheet sheet in a workspace or folder."
+    "Import a CSV or XLSX file as a brand new Smartsheet sheet inside a workspace or a folder."
     + " The file's first row becomes column headers by default (adjust with Header Row Index)."
     + " You must provide either a Workspace ID or Folder ID — the home-level import endpoint is deprecated."
     + " Supported formats: CSV (.csv) and Excel XLSX (.xlsx)."
     + " Use **List Sheets** to verify the sheet was created after import."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/imports/import-sheet-into-workspace)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -46,15 +47,15 @@ export default {
       optional: true,
     },
     workspaceId: {
-      type: "string",
+      type: "integer",
       label: "Workspace ID",
-      description: "Import into this workspace. Provide either Workspace ID or Folder ID (at least one is required).",
+      description: "Import into this workspace. Provide either Workspace ID or Folder ID (at least one is required). Use **List Workspace Options** to find workspace IDs.",
       optional: true,
     },
     folderId: {
-      type: "string",
+      type: "integer",
       label: "Folder ID",
-      description: "Import into this folder. Provide either Workspace ID or Folder ID (at least one is required).",
+      description: "Import into this folder. Provide either Workspace ID or Folder ID (at least one is required). Use **List Folder Options** with a workspace ID to find folder IDs.",
       optional: true,
     },
   },

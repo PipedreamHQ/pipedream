@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import smartsheet from "../../smartsheet.app.mjs";
 
@@ -5,14 +6,14 @@ export default {
   key: "smartsheet-create-sheet",
   name: "Create Sheet",
   description:
-    "Create a new blank sheet with column definitions in a workspace or folder."
+    "Create a new blank sheet with its column schema defined up front, inside a workspace or a folder."
     + " Columns array defines the schema — each column needs a `title` and `type`."
     + " Supported column types: TEXT_NUMBER, DATE, DATETIME, CONTACT_LIST, CHECKBOX, PICKLIST, DURATION, PREDECESSOR, ABSTRACT_DATETIME."
     + " For PICKLIST columns, include an `options` array with the valid values."
     + " You must provide either a Workspace ID or Folder ID — the home-level create endpoint is deprecated."
     + " Use **List Sheets** to verify the sheet was created."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/create-sheet-in-workspace)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -21,7 +22,7 @@ export default {
   },
   props: {
     smartsheet,
-    name: {
+    sheetName: {
       type: "string",
       label: "Sheet Name",
       description: "Name for the new sheet.",
@@ -34,15 +35,15 @@ export default {
         + " Example: `[{\"title\": \"Task\", \"type\": \"TEXT_NUMBER\", \"primary\": true}, {\"title\": \"Due Date\", \"type\": \"DATE\"}, {\"title\": \"Status\", \"type\": \"PICKLIST\", \"options\": [\"Open\", \"In Progress\", \"Done\"]}]`",
     },
     workspaceId: {
-      type: "string",
+      type: "integer",
       label: "Workspace ID",
-      description: "Place the sheet in this workspace. Provide either Workspace ID or Folder ID (at least one is required).",
+      description: "Place the sheet in this workspace. Provide either Workspace ID or Folder ID (at least one is required). Use **List Workspace Options** to find workspace IDs.",
       optional: true,
     },
     folderId: {
-      type: "string",
+      type: "integer",
       label: "Folder ID",
-      description: "Place the sheet in this folder. Provide either Workspace ID or Folder ID (at least one is required).",
+      description: "Place the sheet in this folder. Provide either Workspace ID or Folder ID (at least one is required). Use **List Folder Options** with a workspace ID to find folder IDs.",
       optional: true,
     },
   },
@@ -104,7 +105,7 @@ export default {
       columns[0].primary = true;
     }
     const data = {
-      name: this.name,
+      name: this.sheetName,
       columns,
     };
 

@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import smartsheet from "../../smartsheet.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
@@ -10,7 +11,7 @@ export default {
     + " Use **List Workspace Options** to find workspace IDs."
     + " Use **List Folder Options** to find folder IDs."
     + " See the documentation: [Create in folder](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/create-sheet-in-folder), [Create in workspace](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/create-sheet-in-workspace)",
-  version: "1.0.1",
+  version: "2.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,10 +20,10 @@ export default {
   type: "action",
   props: {
     smartsheet,
-    name: {
+    sheetName: {
       type: "string",
-      label: "Name",
-      description: "Name of the new sheet",
+      label: "Sheet Name",
+      description: "Name for the new sheet created from the template.",
     },
     templateId: {
       propDefinition: [
@@ -50,7 +51,7 @@ export default {
   },
   async run({ $ }) {
     const {
-      name,
+      sheetName,
       templateId,
       workspaceId,
       folderId,
@@ -62,7 +63,7 @@ export default {
 
     const data = {
       fromId: templateId,
-      name,
+      name: sheetName,
     };
 
     let response;

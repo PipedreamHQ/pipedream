@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import smartsheet from "../../smartsheet.app.mjs";
 
 export default {
@@ -9,7 +10,7 @@ export default {
     + " Returns rows with cell values keyed by column name for readability."
     + " For a lightweight column-only view, use **List Columns** instead."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/getsheet)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -20,8 +21,8 @@ export default {
     smartsheet,
     sheetId: {
       type: "string",
-      label: "Sheet ID",
-      description: "The ID of the sheet to retrieve. Use **List Sheets** to find sheet IDs.",
+      label: "Sheet ID or URL",
+      description: "The numeric ID of the sheet to retrieve, or a Smartsheet sheet URL (e.g. `https://app.smartsheet.com/sheets/abc123`) which is resolved to the ID for you. Use **Search** or **List Sheets** to find sheet IDs by name.",
     },
     rowNumbers: {
       type: "string",
@@ -42,7 +43,7 @@ export default {
       optional: true,
     },
     filterId: {
-      type: "string",
+      type: "integer",
       label: "Filter ID",
       description: "Apply a saved filter to the returned rows. Example: `1234567890`. Filter IDs are returned in the sheet's `filters` array — fetch the sheet without a filter first to discover available filter IDs.",
       optional: true,
@@ -56,7 +57,11 @@ export default {
       filterId: this.filterId,
     };
 
-    const response = await this.smartsheet.getSheet(this.sheetId, {
+    const sheetId = await this.smartsheet.resolveSheetId(this.sheetId, {
+      $,
+    });
+
+    const response = await this.smartsheet.getSheet(sheetId, {
       $,
       params,
     });
@@ -66,7 +71,7 @@ export default {
     for (const col of response.columns || []) {
       const normalizedName = col.title.toLowerCase();
       if (seenColumnNames.has(normalizedName)) {
-        throw new Error(`Ambiguous column title "${col.title}" in sheet ${this.sheetId}. Duplicate column names cannot be represented safely in cellsByName — reference cells by column ID instead.`);
+        throw new Error(`Ambiguous column title "${col.title}" in sheet ${sheetId}. Duplicate column names cannot be represented safely in cellsByName — reference cells by column ID instead.`);
       }
       seenColumnNames.add(normalizedName);
       columnMap[col.id] = col.title;

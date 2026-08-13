@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import { COLUMN_TYPES } from "../../common/constants.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
@@ -10,7 +11,7 @@ export default {
     + " For PICKLIST columns, provide the `options` array with valid values."
     + " Use **List Columns** to see existing columns before adding."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/columns/columns-addtosheet)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -29,10 +30,10 @@ export default {
       label: "Column Title",
       description: "The column title. Must be unique within the sheet.",
     },
-    type: {
+    columnType: {
       type: "string",
       label: "Column Type",
-      description: "The data type for this column.",
+      description: "The data type for this column. PICKLIST requires Picklist Options; changing a column's type later can lose data.",
       options: COLUMN_TYPES,
     },
     index: {
@@ -70,11 +71,11 @@ export default {
 
     const column = {
       title: this.title,
-      type: this.type,
+      type: this.columnType,
       index,
     };
     if (this.options) {
-      if (this.type !== "PICKLIST") {
+      if (this.columnType !== "PICKLIST") {
         throw new ConfigurationError("`Picklist Options` is only supported for PICKLIST columns.");
       }
       let parsedOptions;
@@ -93,7 +94,7 @@ export default {
       column.options = parsedOptions;
     }
     if (this.validation !== undefined) {
-      if (this.type !== "PICKLIST") {
+      if (this.columnType !== "PICKLIST") {
         throw new ConfigurationError("`Validation` is only supported for PICKLIST columns.");
       }
       column.validation = this.validation;
@@ -105,7 +106,7 @@ export default {
         column,
       ],
     });
-    $.export("$summary", `Added column "${this.title}" (${this.type}) to sheet ${this.sheetId}`);
+    $.export("$summary", `Added column "${this.title}" (${this.columnType}) to sheet ${this.sheetId}`);
     return response;
   },
 };

@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import {
   parseRowIds, toPositiveInteger,
@@ -13,7 +14,7 @@ export default {
     + " Use **Get Sheet** to find row IDs in the source sheet."
     + " To move rows instead (removing them from the source), use **Move Rows**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/copy-rows)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -36,9 +37,9 @@ export default {
         + " Use **Get Sheet** to find row IDs.",
     },
     destinationSheetId: {
-      type: "string",
+      type: "integer",
       label: "Destination Sheet ID",
-      description: "The ID of the destination sheet to copy rows into. Use **List Sheets** to find sheet IDs.",
+      description: "The numeric ID of the destination sheet to copy rows into. Use **Search** or **List Sheets** to find sheet IDs.",
     },
   },
   async run({ $ }) {

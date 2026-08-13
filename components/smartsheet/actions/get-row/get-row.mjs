@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import smartsheet from "../../smartsheet.app.mjs";
 
 export default {
@@ -10,7 +11,7 @@ export default {
     + " Use **Get Sheet** or **Search** to find row IDs."
     + " To update a row after reading it, use **Update Row**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/row-get)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -25,9 +26,9 @@ export default {
       description: "The ID of the sheet containing the row (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs.",
     },
     rowId: {
-      type: "string",
+      type: "integer",
       label: "Row ID",
-      description: "The ID of the row to retrieve (e.g. `9876543210123456`). Use **Get Sheet** or **Search** to find row IDs.",
+      description: "The numeric ID of the row to retrieve (e.g. `9876543210123456`). Use **Get Sheet** or **Search** to find row IDs — a row's position number in the UI is not its ID.",
     },
   },
   async run({ $ }) {

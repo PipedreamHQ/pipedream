@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import { DESTINATION_TYPES } from "../../common/constants.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
@@ -11,7 +12,7 @@ export default {
     + " Use **List Sheets** to find the sheet ID."
     + " To copy a sheet instead (keeping the original), use **Copy Sheet**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/move-sheet)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -32,9 +33,9 @@ export default {
       options: DESTINATION_TYPES,
     },
     destinationId: {
-      type: "string",
+      type: "integer",
       label: "Destination ID",
-      description: "The ID of the destination workspace or folder. Required when Destination Type is `workspace` or `folder`. Not needed for `home`.",
+      description: "The numeric ID of the destination workspace or folder. Required when Destination Type is `workspace` or `folder`, and not needed for `home`. Use **List Workspace Options** for workspace IDs or **List Folder Options** for folder IDs.",
       optional: true,
     },
   },

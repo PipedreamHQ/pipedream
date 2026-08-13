@@ -1,15 +1,22 @@
+// x-pd-ai: optimized
 import smartsheet from "../../smartsheet.app.mjs";
 
 export default {
   key: "smartsheet-search",
   name: "Search",
   description:
-    "Full-text search across all sheets or within a specific sheet."
-    + " Returns matching rows, cells, and sheet names with context."
-    + " To find a sheet by name, use **List Sheets** instead — this tool searches content within sheets."
+    "Full-text search across everything the account can see, or within a single sheet."
+    + " This is the fastest way to find a sheet by name: results include whole objects, not just cell contents —"
+    + " each result carries an `objectType` of `sheet`, `row`, `folder`, `workspace`, `report`, `template`,"
+    + " `attachment`, `discussion`, `sight` or `summaryField`, and its `objectId` is that object's ID."
+    + " So a result with `objectType: \"sheet\"` gives you the sheet ID directly in one call."
+    + " Prefer this over **List Sheets** when you know part of a name; use **List Sheets** to enumerate everything"
+    + " or when you need each sheet's permalink."
+    + " Searching by a sheet URL does not work — the URL token is not indexed text; pass the URL to **Get Sheet** instead,"
+    + " which resolves it for you."
     + " Provide a `sheetId` to scope the search to a single sheet, or omit it to search globally."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/search/list-search)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import { COLUMN_TYPES } from "../../common/constants.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
@@ -10,7 +11,7 @@ export default {
     + " Use **List Columns** to find the column ID and current properties before updating."
     + " Note: some type conversions may cause data loss."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/columns/column-updatecolumn)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: true,

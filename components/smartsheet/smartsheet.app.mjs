@@ -1,5 +1,10 @@
-import { axios } from "@pipedream/platform";
-import { DEFAULT_MAX_ITEMS } from "./common/constants.mjs";
+// x-pd-ai: optimized
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
+import {
+  DEFAULT_MAX_ITEMS, SHEET_URL_PATTERN,
+} from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -41,13 +46,21 @@ export default {
       description: "Select a template from a workspace. Use the **List Workspace Templates** action to find template IDs. Example: `1122334455667788`.",
       async options() {
         const { data: workspaces } = await this.listAllWorkspaces();
-        const templates = [];
-        for (const ws of workspaces || []) {
-          const { data: children } = await this.listAllWorkspaceChildren(ws.id, {
+        // Fetched concurrently: Smartsheet exposes no "list all templates" endpoint, so
+        // this has to walk every workspace, and doing so serially is what stalls the dropdown.
+        const perWorkspace = await Promise.all((workspaces || []).map((ws) =>
+          this.listAllWorkspaceChildren(ws.id, {
             params: {
               childrenResourceTypes: "sheets,templates",
             },
-          });
+          }).then(({ data }) => ({
+            ws,
+            children: data,
+          }))));
+        const templates = [];
+        for (const {
+          ws, children,
+        } of perWorkspace) {
           for (const child of children || []) {
             if (child.resourceType === "template") {
               templates.push({
@@ -107,8 +120,51 @@ export default {
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
-    _validateId(id) {
-      return !isNaN(id);
+    // Throws rather than returning `{}`. A silent empty object reads to an agent as
+    // "the sheet exists and is empty", so it retries variations of a bad ID instead of
+    // switching to a lookup. The message names the value and the way out.
+    _requireNumericId(value, label = "Sheet ID") {
+      const trimmed = String(value ?? "").trim();
+      if (!/^\d+$/.test(trimmed)) {
+        throw new ConfigurationError(
+          `\`${label}\` must be a numeric Smartsheet ID, but received \`${value}\`.`
+          + " A Smartsheet URL contains an opaque token, not the ID — run **List Sheets**"
+          + " or **Search** to look the ID up first.",
+        );
+      }
+      return trimmed;
+    },
+    // Accepts either a numeric sheet ID or a Smartsheet sheet URL. A sheet URL carries an
+    // opaque permalink token rather than the ID, so the only way to resolve one is to match
+    // `permalink` across the sheets the user can see.
+    async resolveSheetId(value, args = {}) {
+      const trimmed = String(value ?? "").trim();
+      if (/^\d+$/.test(trimmed)) {
+        return trimmed;
+      }
+      if (!SHEET_URL_PATTERN.test(trimmed)) {
+        return this._requireNumericId(trimmed);
+      }
+      const { data } = await this.listSheets({
+        ...args,
+        params: {
+          includeAll: true,
+          ...args.params,
+        },
+      });
+      const normalize = (url) => String(url || "").split("?")[0]
+        .replace(/\/+$/, "")
+        .toLowerCase();
+      const target = normalize(trimmed);
+      const match = data?.find((sheet) => normalize(sheet.permalink) === target);
+      if (!match) {
+        throw new ConfigurationError(
+          `No sheet matching the URL \`${value}\` was found among the ${data?.length || 0} sheet(s)`
+          + " this account can access. The sheet may not be shared with this account, or the URL"
+          + " may point at a report or dashboard rather than a sheet.",
+        );
+      }
+      return String(match.id);
     },
     async _makeRequest({
       $ = this,
@@ -147,27 +203,23 @@ export default {
       });
     },
     getRow(sheetId, rowId, args = {}) {
-      if (!this._validateId(sheetId)) {
-        return {};
-      }
+      this._requireNumericId(sheetId);
+      this._requireNumericId(rowId, "Row ID");
       return this._makeRequest({
         path: `/sheets/${sheetId}/rows/${rowId}`,
         ...args,
       });
     },
     getSheet(sheetId, args = {}) {
-      if (!this._validateId(sheetId)) {
-        return {};
-      }
+      this._requireNumericId(sheetId);
       return this._makeRequest({
         path: `/sheets/${sheetId}`,
         ...args,
       });
     },
     getComment(sheetId, commentId, args = {}) {
-      if (!this._validateId(sheetId)) {
-        return {};
-      }
+      this._requireNumericId(sheetId);
+      this._requireNumericId(commentId, "Comment ID");
       return this._makeRequest({
         path: `/sheets/${sheetId}/comments/${commentId}`,
         ...args,
@@ -180,9 +232,7 @@ export default {
       });
     },
     listColumns(sheetId, args = {}) {
-      if (!this._validateId(sheetId)) {
-        return {};
-      }
+      this._requireNumericId(sheetId);
       return this._makeRequest({
         path: `/sheets/${sheetId}/columns`,
         ...args,
