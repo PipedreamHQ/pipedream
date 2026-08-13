@@ -9,10 +9,8 @@ export default {
   name: "Import Sheet",
   description:
     "Import a CSV or XLSX file as a brand new Smartsheet sheet inside a workspace or a folder."
-    + " The file's first row becomes column headers by default (adjust with Header Row Index)."
-    + " You must provide either a Workspace ID or Folder ID — the home-level import endpoint is deprecated."
-    + " Supported formats: CSV (.csv) and Excel XLSX (.xlsx)."
-    + " Use **List Sheets** to verify the sheet was created after import."
+    + " Returns the new sheet under `result`, including its ID and permalink."
+    + " To create a sheet by defining columns yourself instead, use **Create Sheet**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/imports/import-sheet-into-workspace)",
   version: "1.0.0",
   type: "action",
@@ -26,7 +24,7 @@ export default {
     filePath: {
       type: "string",
       label: "File Path or URL",
-      description: "Provide either a file URL or a path to a file in the /tmp directory (e.g., /tmp/data.csv). Supported formats: CSV (.csv) and Excel (.xlsx).",
+      description: "A file URL, or a path to a file in the /tmp directory (e.g. `/tmp/data.csv`). Supported formats: CSV (.csv) and Excel (.xlsx); a URL with no extension is treated as CSV.",
       format: "file-ref",
     },
     syncDir: {
@@ -43,7 +41,7 @@ export default {
     headerRowIndex: {
       type: "integer",
       label: "Header Row Index",
-      description: "Zero-based index of the row to use as column headers. Defaults to 0 (first row).",
+      description: "Zero-based index of the row to use as column headers. Defaults to 0, the first row.",
       optional: true,
     },
     workspaceId: {

@@ -1,10 +1,21 @@
-export const DEFAULT_MAX_ITEMS = 100;
+// Token-paginated endpoints document maxItems as a multiple of 100 up to 1000, and default
+// to 100. Requesting the ceiling cuts round-trips tenfold on the workspace traversals, which
+// already cost one request per workspace before pagination is counted.
+export const DEFAULT_MAX_ITEMS = 1000;
 
 // Ceiling on in-flight requests when a traversal must fan out per workspace.
 export const MAX_CONCURRENT_REQUESTS = 5;
 
+// Elements GET /sheets/{sheetId} can omit, to trim large payloads.
+export const SHEET_EXCLUDE_OPTIONS = [
+  "filteredOutRows",
+  "linkInFromCellDetails",
+  "linksOutToCellsDetails",
+  "nonexistentCells",
+];
+
 // Optional elements GET /sheets/{sheetId} can fold into the response. `filters` is the only
-// way to discover a saved filter's ID — there is no filters endpoint.
+// way to discover a saved filter's ID, since there is no filters endpoint.
 export const SHEET_INCLUDE_OPTIONS = [
   "attachments",
   "columnType",
@@ -27,16 +38,30 @@ export const SHEET_INCLUDE_OPTIONS = [
 // matching the permalink returned by List Sheets.
 export const SHEET_URL_PATTERN = /^https?:\/\/[^/]*smartsheet\.com\//i;
 
+// DATETIME is deliberately absent: it is reserved for system columns, and asking for it
+// returns an ABSTRACT_DATETIME column instead of erroring (verified live), so offering it
+// hands an agent a column type it did not request. MULTI_PICKLIST and MULTI_CONTACT_LIST
+// are creatable and were missing.
 export const COLUMN_TYPES = [
   "TEXT_NUMBER",
   "DATE",
-  "DATETIME",
+  "ABSTRACT_DATETIME",
   "CONTACT_LIST",
+  "MULTI_CONTACT_LIST",
   "CHECKBOX",
   "PICKLIST",
+  "MULTI_PICKLIST",
   "DURATION",
   "PREDECESSOR",
-  "ABSTRACT_DATETIME",
+];
+
+// Elements POST /sheets/{id}/rows/{copy,move} can carry across. Without any of these only
+// cell values and formatting move; attachments and comments do not.
+export const ROW_COPY_INCLUDE_OPTIONS = [
+  "all",
+  "attachments",
+  "children",
+  "discussions",
 ];
 
 export const DESTINATION_TYPES = [

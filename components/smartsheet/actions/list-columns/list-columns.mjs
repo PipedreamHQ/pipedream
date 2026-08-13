@@ -10,7 +10,7 @@ export default {
     + " Use this before **Add Row to Sheet** or **Update Row** to discover column names and types."
     + " For full sheet data including rows, use **Get Sheet** instead."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/columns/columns-listonsheet)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -26,13 +26,16 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.smartsheet.listColumns(this.sheetId, {
+    const sheetId = await this.smartsheet.resolveSheetId(this.sheetId, {
+      $,
+    });
+    const response = await this.smartsheet.listColumns(sheetId, {
       $,
       params: {
         includeAll: true,
       },
     });
-    $.export("$summary", `Found ${response.data?.length || 0} column(s) in sheet ${this.sheetId}`);
+    $.export("$summary", `Found ${response.data?.length || 0} column(s) in sheet ${sheetId}`);
     return response;
   },
 };

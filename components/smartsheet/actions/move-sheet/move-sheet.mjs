@@ -9,7 +9,6 @@ export default {
   name: "Move Sheet",
   description:
     "Move a sheet to a different workspace, folder, or home. The sheet is removed from its current location."
-    + " As of 2025-12-23, `destinationType` is required."
     + " Use **List Sheets** to find the sheet ID."
     + " To copy a sheet instead (keeping the original), use **Copy Sheet**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/move-sheet)",
@@ -30,7 +29,7 @@ export default {
     destinationType: {
       type: "string",
       label: "Destination Type",
-      description: "Where to move the sheet. Required.",
+      description: "Where to move the sheet. Required as of 2025-12-23; `home` is deprecated by Smartsheet.",
       options: DESTINATION_TYPES,
     },
     destinationId: {

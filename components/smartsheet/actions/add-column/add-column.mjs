@@ -33,7 +33,7 @@ export default {
     columnType: {
       type: "string",
       label: "Column Type",
-      description: "The data type for this column. PICKLIST requires Picklist Options; changing a column's type later can lose data.",
+      description: "The data type for this column. PICKLIST and MULTI_PICKLIST accept Picklist Options, but the API also creates them with no options (you can add options later with **Update Column**). Note that requesting DATETIME creates an ABSTRACT_DATETIME column, since DATETIME is reserved for system columns. Changing a column's type later can lose data.",
       options: COLUMN_TYPES,
     },
     index: {
@@ -67,10 +67,6 @@ export default {
         },
       });
       index = result.totalCount ?? result.data?.length ?? 0;
-    }
-
-    if (this.columnType === "PICKLIST" && !this.options) {
-      throw new ConfigurationError("`Picklist Options` is required for PICKLIST columns.");
     }
 
     const column = {

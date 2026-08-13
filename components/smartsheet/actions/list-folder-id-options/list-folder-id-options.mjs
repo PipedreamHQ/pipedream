@@ -6,7 +6,7 @@ export default {
   name: "List Folder Options",
   description: "Retrieves `{ label, value }` pairs for populating a Folder dropdown, for one workspace."
     + " This is a form helper, not a Smartsheet capability: it returns only folder names and IDs."
-    + " Requires a Workspace ID — use **List Workspace Options** to find one first."
+    + " Requires a Workspace ID - use **List Workspace Options** to find one first."
     + " Use the folder IDs it returns with **Create Sheet**, **Import Sheet**, **Copy Sheet** or **Move Sheet**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/workspaces/get-workspace-children)",
   version: "2.0.0",

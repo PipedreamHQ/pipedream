@@ -4,7 +4,7 @@ import { MAX_CONCURRENT_REQUESTS } from "./constants.mjs";
 const ROW_IDS_ERROR = "`Row IDs` must be a comma-separated list of positive integer row IDs or a JSON array of positive integers.";
 
 // Smartsheet IDs are 16-digit integers, and the largest on a live account already sits at
-// 97% of Number.MAX_SAFE_INTEGER — past that boundary doubles step by 2 and an odd ID would
+// 97% of Number.MAX_SAFE_INTEGER - past that boundary doubles step by 2 and an odd ID would
 // silently become a different record. So IDs are never converted to numbers: they are
 // validated as digit strings and sent as strings. The OpenAPI spec types them `number`, but
 // the API accepts strings (verified live against /sheets/{id}/rows/copy), which keeps every

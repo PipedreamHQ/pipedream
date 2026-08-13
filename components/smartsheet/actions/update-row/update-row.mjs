@@ -7,7 +7,7 @@ export default {
   key: "smartsheet-update-row",
   name: "Update Row",
   description:
-    "Update one or more rows in a sheet by row ID. Accepts column NAMES as keys — resolves to column IDs internally."
+    "Update one or more rows in a sheet by row ID. Accepts column NAMES as keys - resolves to column IDs internally."
     + " Call **Get Sheet** or **List Columns** to find row IDs and column names."
     + " Each object needs a `rowId` plus column name/value pairs:"
     + " `[{\"rowId\": 123456, \"Status\": \"Done\", \"Priority\": \"High\"}]`."

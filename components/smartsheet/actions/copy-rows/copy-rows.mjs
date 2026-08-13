@@ -1,4 +1,5 @@
 // x-pd-ai: optimized
+import { ROW_COPY_INCLUDE_OPTIONS } from "../../common/constants.mjs";
 import {
   parseRowIds, toIdString,
 } from "../../common/utils.mjs";
@@ -8,10 +9,7 @@ export default {
   key: "smartsheet-copy-rows",
   name: "Copy Rows",
   description:
-    "Copy one or more rows from a source sheet to a destination sheet. The rows remain in the source sheet and are duplicated in the destination."
-    + " Cell values, formatting, and attachments are copied. The destination sheet must have compatible columns."
-    + " Use **Get Sheet** to find row IDs in the source sheet."
-    + " To move rows instead (removing them from the source), use **Move Rows**."
+    "Copy rows from one sheet to another. The rows stay in the source sheet and are duplicated in the destination. Cell values and formatting always come across; attachments and comments only if you ask for them via Include. The destination sheet must have compatible columns. Returns `rowMappings` pairing each source row ID with its new ID in the destination. To move rows instead, removing them from the source, use **Move Rows**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/copy-rows)",
   version: "1.0.0",
   type: "action",
@@ -40,6 +38,19 @@ export default {
       label: "Destination Sheet ID",
       description: "The numeric ID of the destination sheet to copy rows into. Use **Search** or **List Sheets** to find sheet IDs.",
     },
+    include: {
+      type: "string[]",
+      label: "Include",
+      description: "Extra elements to carry across. Without this, only cell values and formatting are copied - attachments and comments are not.",
+      options: ROW_COPY_INCLUDE_OPTIONS,
+      optional: true,
+    },
+    ignoreRowsNotFound: {
+      type: "boolean",
+      label: "Ignore Rows Not Found",
+      description: "`true` to skip row IDs that do not exist in the source sheet. Default `false`, which fails the whole call with a 404 if any ID is missing.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const rowIds = parseRowIds(this.rowIds);
@@ -47,6 +58,12 @@ export default {
 
     const response = await this.smartsheet.copyRows(this.sheetId, {
       $,
+      params: {
+        include: this.include?.length
+          ? this.include.join(",")
+          : undefined,
+        ignoreRowsNotFound: this.ignoreRowsNotFound,
+      },
       data: {
         rowIds,
         to: {

@@ -6,7 +6,7 @@ export default {
   key: "smartsheet-add-row-to-sheet",
   name: "Add Row to Sheet",
   description:
-    "Add one or more rows to a sheet. Accepts column NAMES as keys — resolves to column IDs internally."
+    "Add one or more rows to a sheet. Accepts column NAMES as keys - resolves to column IDs internally."
     + " Call **Get Sheet** or **List Columns** first to learn column names."
     + " Pass rows as a JSON array of objects mapping column names to values:"
     + " `[{\"Task\": \"Review doc\", \"Status\": \"Open\"}]`."
