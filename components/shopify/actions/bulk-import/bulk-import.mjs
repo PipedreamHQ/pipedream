@@ -30,7 +30,7 @@ export default {
     filePath: {
       type: "string",
       label: "File Path or URL",
-      description: "The JSONL file containing the variables for the mutation — provide a file URL or a path to a file in the `/tmp` directory. Each line in the JSONL file represents one input unit. The mutation runs once on each line of the input file. [See the documentation](https://shopify.dev/docs/api/usage/bulk-operations/imports) for more information.",
+      description: "The JSONL file containing the variables for the mutation — provide a file URL (e.g. `https://example.com/mutation-variables.jsonl`) or a path to a file in the `/tmp` directory (e.g. `/tmp/mutation-variables.jsonl`). Each line in the JSONL file represents one input unit. The mutation runs once on each line of the input file. [See the documentation](https://shopify.dev/docs/api/usage/bulk-operations/imports) for more information.",
       format: "file-ref",
     },
     clientIdentifier: {
@@ -53,7 +53,11 @@ export default {
 
     // create staged upload path
 
-    const { stagedUploadsCreate: { stagedTargets } }
+    const {
+      stagedUploadsCreate: {
+        stagedTargets, userErrors: stagedUploadUserErrors,
+      },
+    }
       = await this.shopify.createStagedUpload({
         input: [
           {
@@ -65,9 +69,19 @@ export default {
         ],
       });
 
+    if (stagedUploadUserErrors.length > 0) {
+      throw new Error(stagedUploadUserErrors[0].message);
+    }
+    const [
+      stagedTarget,
+    ] = stagedTargets;
+    if (!stagedTarget) {
+      throw new Error("Shopify did not return a staged upload target for the bulk mutation file.");
+    }
+
     const {
       url, parameters,
-    } = stagedTargets[0];
+    } = stagedTarget;
 
     // upload file to staged upload path
 
