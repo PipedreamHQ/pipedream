@@ -512,8 +512,12 @@ export default {
     createBlog(variables) {
       return this._makeGraphQlRequest(mutations.CREATE_BLOG, variables);
     },
-    createCollection(variables) {
-      return this._makeGraphQlRequest(mutations.CREATE_COLLECTION, variables);
+    createCollectionWithSources(variables) {
+      return this._makeGraphQlRequest(mutations.COLLECTION_CREATE, variables);
+    },
+    async getShopCurrencyCode() {
+      const { shop } = await this._makeGraphQlRequest("{ shop { currencyCode } }");
+      return shop.currencyCode;
     },
     createPage(variables) {
       return this._makeGraphQlRequest(mutations.CREATE_PAGE, variables);
@@ -593,8 +597,8 @@ export default {
     createReturn(variables) {
       return this._makeGraphQlRequest(mutations.RETURN_CREATE, variables);
     },
-    refundReturn(variables) {
-      return this._makeGraphQlRequest(mutations.RETURN_REFUND, variables);
+    processReturn(variables) {
+      return this._makeGraphQlRequest(mutations.RETURN_PROCESS, variables);
     },
     cancelFulfillment(variables) {
       return this._makeGraphQlRequest(mutations.FULFILLMENT_CANCEL, variables);
