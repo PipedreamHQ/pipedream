@@ -32,11 +32,11 @@ export default {
       ],
     },
     withPeople: {
-      type: "boolean",
-      label: "With People",
+      propDefinition: [
+        superCarl,
+        "withPeople",
+      ],
       description: "Include a deduped people set derived from matching post actors and authors.",
-      optional: true,
-      default: false,
     },
     previewLimit: {
       propDefinition: [

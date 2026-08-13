@@ -32,11 +32,11 @@ export default {
       ],
     },
     withPeople: {
-      type: "boolean",
-      label: "With People",
+      propDefinition: [
+        superCarl,
+        "withPeople",
+      ],
       description: "Include 1st and 2nd degree people at each hiring company.",
-      optional: true,
-      default: false,
     },
     previewLimit: {
       propDefinition: [

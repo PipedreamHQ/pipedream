@@ -1,7 +1,5 @@
 import { axios } from "@pipedream/platform";
 
-import { cleanObject } from "./common/utils.mjs";
-
 const COMMUNICATION_CHANNEL_OPTIONS = [
   "supercarl_direct_message",
   "supercarl_invite",
@@ -119,7 +117,7 @@ export default {
     linkedinUsername: {
       type: "string",
       label: "LinkedIn Username",
-      description: "Optional LinkedIn public identifier when a full profile URL is not available.",
+      description: "Optional LinkedIn public identifier when a full profile URL is not available, for example `jane-doe-1234567`.",
       optional: true,
     },
     xProfileUrl: {
@@ -131,26 +129,33 @@ export default {
     xUsername: {
       type: "string",
       label: "X Username",
-      description: "Optional X username without the `@` symbol.",
+      description: "Optional X username without the `@` symbol, for example `janedoe`.",
       optional: true,
     },
     instagramProfileUrl: {
       type: "string",
       label: "Instagram Profile URL",
-      description: "Optional Instagram profile URL for the communication target.",
+      description: "Optional Instagram profile URL for the communication target, for example `https://www.instagram.com/janedoe/`.",
       optional: true,
     },
     instagramUsername: {
       type: "string",
       label: "Instagram Username",
-      description: "Optional Instagram username without the `@` symbol.",
+      description: "Optional Instagram username without the `@` symbol, for example `janedoe`.",
       optional: true,
     },
     recipientEmail: {
       type: "string",
       label: "Recipient Email",
-      description: "Recipient email address for Gmail sends, or a returned email option from Check Communication Capabilities.",
+      description: "Recipient email address for Gmail sends, or a returned email option from Check Communication Capabilities, for example `jane@example.com`.",
       optional: true,
+    },
+    withPeople: {
+      type: "boolean",
+      label: "With People",
+      description: "Include related people alongside the search results.",
+      optional: true,
+      default: false,
     },
     connectorUserId: {
       type: "string",
@@ -161,7 +166,7 @@ export default {
     message: {
       type: "string",
       label: "Message",
-      description: "Message body to save or send. For draft flows, `[JoinLink]` macros may be expanded by Super Carl.",
+      description: "Message body to save or send, for example `Hi Jane, would love to connect - [JoinLink]`. For draft flows, `[JoinLink]` macros may be expanded by Super Carl.",
     },
     subject: {
       type: "string",
@@ -178,7 +183,7 @@ export default {
     idempotencyKey: {
       type: "string",
       label: "Idempotency Key",
-      description: "Optional key to prevent duplicate sends when retrying a workflow step.",
+      description: "Optional key to prevent duplicate sends when retrying a workflow step, for example `workflow-run-2026-01-31-jane-doe`.",
       optional: true,
     },
     waitMs: {
@@ -391,15 +396,6 @@ export default {
         path: "/api/v1/communications/history",
         ...opts,
       });
-    },
-    /**
-     * Remove empty values from a request payload.
-     *
-     * @param {Object} [payload={}] Request payload.
-     * @returns {Object} Payload without empty values.
-     */
-    cleanPayload(payload = {}) {
-      return cleanObject(payload);
     },
   },
 };

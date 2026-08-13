@@ -23,7 +23,7 @@ export default {
     reason: {
       type: "string",
       label: "Reason",
-      description: "Optional cancellation reason stored with the communication event log.",
+      description: "Optional cancellation reason stored with the communication event log, for example `Duplicate outreach detected`.",
       optional: true,
     },
   },

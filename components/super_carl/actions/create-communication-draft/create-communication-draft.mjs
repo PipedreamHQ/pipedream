@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import superCarl from "../../super_carl.app.mjs";
 import {
   cleanObject,
@@ -111,6 +112,12 @@ export default {
   },
   async run({ $ }) {
     const context = parseObjectProp(this.context, "Context");
+    if (this.channel === "gmail_send" && !this.subject) {
+      throw new ConfigurationError("Subject is required when Channel is `gmail_send`.");
+    }
+    if (this.channel === "supercarl_referral_request" && !this.connectorUserId) {
+      throw new ConfigurationError("Connector User ID is required when Channel is `supercarl_referral_request`.");
+    }
     const data = cleanObject({
       mode: "draft",
       draft: true,
