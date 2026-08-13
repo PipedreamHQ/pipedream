@@ -14,7 +14,7 @@ export default {
     + " With `format: full` (default) each message includes decoded `text`/`html` bodies and attachment metadata. Use `format: metadata` to skip bodies and get only headers + labelIds — useful for large threads."
     + " Responses are capped — oversized threads fall back to `metadata`-level detail (or are further truncated from the tail) with a `[truncated]` marker so the caller knows to narrow the request."
     + " [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.threads/get).",
-  version: "0.2.0",
+  version: "0.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -90,8 +90,12 @@ export default {
       truncated = true;
     }
 
+    // Stops at one, never zero: an empty `messages` on a thread that exists reads as
+    // "this thread has no messages". Reachable here only if a single message busts the
+    // cap on headers alone, since the format downgrade above has already dropped every
+    // payload — but the floor costs nothing and the failure mode is silent.
     while (
-      messages.length > 0
+      messages.length > 1
       && JSON.stringify(data).length > MAX_RESPONSE_CHARS
     ) {
       messages.pop();

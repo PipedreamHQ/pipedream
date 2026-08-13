@@ -138,22 +138,58 @@ function getBodyText(payload) {
 }
 
 /**
+ * Strip the weight out of a message's `payload` while keeping the parts skeleton.
+ *
+ * Removes the base64 `body.data` and the decoded `body.text` attached alongside it —
+ * together effectively the whole size of a message — and keeps `partId`, `mimeType`,
+ * `filename`, `body.size` and `body.attachmentId`. What survives is exactly what the
+ * attachment flow needs: `payload.parts[].body.attachmentId` feeds Download Attachment.
+ *
+ * Mutates the message it is given, so hand it a record you own.
+ */
+function stripPayloadData(message) {
+  const stripPart = (part) => {
+    if (!part) return;
+    if (part.body) {
+      delete part.body.data;
+      delete part.body.text;
+    }
+    if (Array.isArray(part.parts)) {
+      part.parts.forEach(stripPart);
+    }
+  };
+  stripPart(message?.payload);
+  return message;
+}
+
+/**
  * Shrink an array of messages until it serializes under `maxChars`.
  *
  * Which axis to shrink depends on WHO CHOSE THE SHAPE:
  *
- * - The caller named `fields`: never reshape the record. Removing a field it explicitly
- *   asked for produces a confident wrong answer — a digest written from snippets reads
- *   exactly like one written from bodies, so nothing downstream can tell. Drop whole
- *   MESSAGES instead and report the shortfall: "showing 12 of 50" is visible and
- *   recoverable, because the caller can narrow the query and retry.
+ * - The caller named `fields`: never reshape the record while more than one message
+ *   remains. Removing a field it explicitly asked for produces a confident wrong answer —
+ *   a digest written from snippets reads exactly like one written from bodies, so nothing
+ *   downstream can tell. Drop whole MESSAGES instead and report the shortfall: "showing
+ *   12 of 50" is visible and recoverable, because the caller can narrow the query.
  * - The caller named nothing: project every message onto `compactFields`. That keeps the
  *   result COMPLETE, so "how many match?" stays correct, and the caller lost only detail
  *   it never asked for.
  *
+ * Dropping stops at ONE message, never zero. An empty list next to `matchCount: 1` reads
+ * as "no such email" to the caller, which is the one outcome it cannot recover from — and
+ * "narrow the query and retry" is not advice a single match can act on. When one oversized
+ * record is all that is left, the record itself is shrunk instead, in order of how much
+ * weight each step sheds against how much the caller loses: first the payload's base64
+ * blobs, then — only as a last resort, and in knowing tension with the rule above —
+ * `compactFields`. That reshape is the lesser evil only because the alternative here is an
+ * empty array, which is confidently wrong AND hides that it is.
+ *
  * The ceiling exists because an MCP client that receives an oversized result may spill it
  * to a file and hand the model a path instead of the data, in which case the model sees
- * nothing at all. A trimmed result it can read beats a complete one it cannot.
+ * nothing at all. A trimmed result it can read beats a complete one it cannot. That is
+ * also why the floor of one cannot stand alone: returning a single 200 KB record would
+ * trade an empty array for a blob the caller may be unable to read.
  */
 function fitToBudget(messages, maxChars, {
   compactFields, callerChoseFields = false,
@@ -164,20 +200,40 @@ function fitToBudget(messages, maxChars, {
       messages,
       compacted: false,
       dropped: 0,
+      payloadStripped: false,
+      oversized: false,
     };
   }
 
-  const compacted = !callerChoseFields;
+  let compacted = !callerChoseFields;
   let kept = compacted
     ? messages.map((m) => pluckFields(m, compactFields))
     : messages;
-  while (kept.length > 0 && size(kept) > maxChars) {
+  while (kept.length > 1 && size(kept) > maxChars) {
     kept = kept.slice(0, -1);
   }
+
+  // One message left and still over budget: shrink the RECORD, not the list. Cloned
+  // first so the caller's array is left intact — it still owns the untrimmed records,
+  // and `matchCount` is read off it.
+  let payloadStripped = false;
+  if (kept.length === 1 && size(kept) > maxChars && kept[0]?.payload) {
+    kept = [
+      stripPayloadData(JSON.parse(JSON.stringify(kept[0]))),
+    ];
+    payloadStripped = true;
+  }
+  if (kept.length === 1 && size(kept) > maxChars && !compacted) {
+    kept = kept.map((m) => pluckFields(m, compactFields));
+    compacted = true;
+  }
+
   return {
     messages: kept,
     compacted,
     dropped: messages.length - kept.length,
+    payloadStripped,
+    oversized: size(kept) > maxChars,
   };
 }
 
@@ -191,5 +247,6 @@ export default {
   getHeader,
   pluckFields,
   getBodyText,
+  stripPayloadData,
   fitToBudget,
 };
