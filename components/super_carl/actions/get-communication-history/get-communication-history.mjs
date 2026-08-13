@@ -12,7 +12,7 @@ export default {
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: false,
+    readOnlyHint: true,
   },
   type: "action",
   props: {
@@ -82,10 +82,11 @@ export default {
       ],
     },
     limit: {
-      type: "integer",
-      label: "Limit",
+      propDefinition: [
+        superCarl,
+        "limit",
+      ],
       description: "Maximum history rows to return.",
-      optional: true,
       default: 12,
       min: 1,
       max: 50,

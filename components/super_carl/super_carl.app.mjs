@@ -100,7 +100,7 @@ export default {
     communicationId: {
       type: "string",
       label: "Communication ID",
-      description: "UUID returned by Create Communication Draft or Send Communication, for example `550e8400-e29b-41d4-a716-446655440000`.",
+      description: "UUID returned by **Create Communication Draft** or **Send Communication**, for example `550e8400-e29b-41d4-a716-446655440000`.",
     },
     targetUserId: {
       type: "string",
@@ -147,7 +147,7 @@ export default {
     recipientEmail: {
       type: "string",
       label: "Recipient Email",
-      description: "Recipient email address for Gmail sends, or a returned email option from Check Communication Capabilities, for example `jane@example.com`.",
+      description: "Recipient email address for Gmail sends, or a returned email option from **Check Communication Capabilities**, for example `jane@example.com`.",
       optional: true,
     },
     withPeople: {

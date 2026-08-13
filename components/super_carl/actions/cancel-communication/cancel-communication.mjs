@@ -7,7 +7,7 @@ export default {
   description: "Cancel a queued or in-progress Super Carl communication. Use this when a workflow needs to stop delivery before the communication reaches a terminal status. [See the documentation](https://supercarl.ai/docs#endpoints-communications)",
   version: "0.0.1",
   annotations: {
-    destructiveHint: false,
+    destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },

@@ -1,6 +1,7 @@
+import { ConfigurationError } from "@pipedream/platform";
 import superCarl from "../../super_carl.app.mjs";
 import {
-  cleanObject,
+  buildCommunicationPayload,
   parseObjectProp,
   requireCommunicationTarget,
 } from "../../common/utils.mjs";
@@ -130,25 +131,32 @@ export default {
   },
   async run({ $ }) {
     const context = parseObjectProp(this.context, "Context");
-    const data = cleanObject({
+    if (this.channel === "gmail_send" && !this.subject) {
+      throw new ConfigurationError("Subject is required when Channel is `gmail_send`.");
+    }
+    if (this.channel === "supercarl_referral_request" && !this.connectorUserId) {
+      throw new ConfigurationError("Connector User ID is required when Channel is `supercarl_referral_request`.");
+    }
+    const data = buildCommunicationPayload({
       channel: this.channel,
       message: this.message,
-      dry_run: this.dryRun,
       subject: this.subject,
-      target_user_id: this.targetUserId,
-      linkedin_profile_url: this.linkedinProfileUrl,
-      linkedin_username: this.linkedinUsername,
-      x_profile_url: this.xProfileUrl,
-      x_username: this.xUsername,
-      instagram_profile_url: this.instagramProfileUrl,
-      instagram_username: this.instagramUsername,
-      recipient_email: this.recipientEmail,
-      connector_user_id: this.connectorUserId,
+      targetUserId: this.targetUserId,
+      linkedinProfileUrl: this.linkedinProfileUrl,
+      linkedinUsername: this.linkedinUsername,
+      xProfileUrl: this.xProfileUrl,
+      xUsername: this.xUsername,
+      instagramProfileUrl: this.instagramProfileUrl,
+      instagramUsername: this.instagramUsername,
+      recipientEmail: this.recipientEmail,
+      connectorUserId: this.connectorUserId,
       context,
-      idempotency_key: this.idempotencyKey,
+      idempotencyKey: this.idempotencyKey,
+      delegateUserId: this.delegateUserId,
+    }, {
+      dry_run: this.dryRun,
       wait_ms: this.waitMs,
       wait_until: this.waitUntil,
-      delegate_user_id: this.delegateUserId,
     });
     requireCommunicationTarget(data);
 
