@@ -8,7 +8,7 @@ export default {
   key: "shopify-create-smart-collection",
   name: "Create Smart Collection",
   description: "Creates a smart collection whose membership is defined by conditions (rules). [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/collectionCreate)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

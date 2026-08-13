@@ -633,6 +633,48 @@ const FULFILLMENT_ORDER_HOLD = `
   }
 `;
 
+const CREATE_STAGED_UPLOAD = `
+  mutation stagedUploadsCreate($input: [StagedUploadInput!]!) {
+    stagedUploadsCreate(input: $input) {
+      stagedTargets {
+        url
+        resourceUrl
+        parameters {
+          name
+          value
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const RUN_BULK_MUTATION = `
+  mutation bulkOperationRunMutation($clientIdentifier: String, $mutation: String!, $stagedUploadPath: String!) {
+    bulkOperationRunMutation(clientIdentifier: $clientIdentifier, mutation: $mutation, stagedUploadPath: $stagedUploadPath) {
+      bulkOperation {
+        id
+        completedAt
+        createdAt
+        fileSize
+        objectCount
+        rootObjectCount
+        partialDataUrl
+        query
+        status
+        url
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
 export default {
   CREATE_WEBHOOK,
   DELETE_WEBHOOK,
@@ -669,4 +711,6 @@ export default {
   FULFILLMENT_CANCEL,
   FULFILLMENT_ORDER_CANCEL,
   FULFILLMENT_ORDER_HOLD,
+  CREATE_STAGED_UPLOAD,
+  RUN_BULK_MUTATION,
 };

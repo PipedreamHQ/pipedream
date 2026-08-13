@@ -4,7 +4,7 @@ export default {
   key: "shopify-list-price-rules",
   name: "List Price Rules",
   description: "Lists price rules in the Shopify store. [See the documentation](https://shopify.dev/docs/api/admin-rest/2026-07/resources/pricerule#get-price-rules).",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     readOnlyHint: true,
