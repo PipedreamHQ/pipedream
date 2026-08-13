@@ -80,16 +80,9 @@ export default {
     },
     cashAccount: {
       type: "string",
-      label: "Cash Account",
-      description: "Cash Account",
+      label: "Cash Account ID",
+      description: "The unique ID of the cash account. Use **List Cash Accounts** to find an account ID by name, or to identify the primary account.",
       optional: true,
-      async options() {
-        const { items } = await this.listCashAccounts();
-        return items?.map((item) => ({
-          label: item.name,
-          value: item.id,
-        })) ?? [];
-      },
     },
     cardId: {
       type: "string",
@@ -417,18 +410,22 @@ export default {
         filter,
       });
     },
+    async listCashAccountsPaginated({
+      $, params, max, filter,
+    }) {
+      return this._paginateItems({
+        $,
+        path: "/v2/accounts/cash",
+        params,
+        max,
+        filter,
+      });
+    },
     async listCardAccounts({ $ } = {}) {
       return this._request({
         $,
         method: "GET",
         path: "/v2/accounts/card",
-      });
-    },
-    async listCashAccounts({ $ } = {}) {
-      return this._request({
-        $,
-        method: "GET",
-        path: "/v2/accounts/cash",
       });
     },
     async getLocations(cursor, limit) {
