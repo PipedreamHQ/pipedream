@@ -1,5 +1,4 @@
 import common from "../common/base.mjs";
-import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -20,5 +19,4 @@ export default {
       return `New membership invalidation with ID: ${id}`;
     },
   },
-  sampleEmit,
 };
