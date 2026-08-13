@@ -630,6 +630,12 @@ export default {
     listOrderFulfillments(variables) {
       return this._makeGraphQlRequest(queries.LIST_ORDER_FULFILLMENTS, variables);
     },
+    createStagedUpload(variables) {
+      return this._makeGraphQlRequest(mutations.CREATE_STAGED_UPLOAD, variables);
+    },
+    runBulkMutation(variables) {
+      return this._makeGraphQlRequest(mutations.RUN_BULK_MUTATION, variables);
+    },
     async *paginate({
       resourceFn, resourceKeys = [], variables = {}, max,
     }) {
