@@ -186,8 +186,7 @@ export default {
       );
     }
 
-    // `campaign_bidding_strategy` is a union field: a campaign uses either a portfolio
-    // strategy or a standard (embedded) one, never both.
+    // `campaign_bidding_strategy` is a union field.
     if (biddingStrategy && biddingStrategyType) {
       throw new ConfigurationError(
         "Set either **Portfolio Bidding Strategy** or **Standard Bidding Strategy**, not both.",

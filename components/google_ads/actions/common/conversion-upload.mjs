@@ -9,10 +9,6 @@ export const DOC_LINK =
 export const DATE_TIME_HINT =
   "Format `YYYY-MM-DD HH:MM:SS+|-HH:MM`, including the UTC offset (e.g. `2026-08-13 12:32:45-08:00`).";
 
-/**
- * Props every conversion upload shares. Spread into an action ahead of its
- * endpoint-specific props.
- */
 export const commonProps = {
   googleAds,
   accountId: {
@@ -70,15 +66,18 @@ export const commonProps = {
   additionalFields: getAdditionalFields(DOC_LINK),
 };
 
-/**
- * Builds the shared portion of a conversion payload.
- */
 export function buildBaseConversion({
   conversionActionId, conversionDateTime, conversionValue, currencyCode, additionalFields,
 }) {
   if (conversionValue && !currencyCode) {
     throw new ConfigurationError(
       "**Currency Code** is required when **Conversion Value** is set.",
+    );
+  }
+  // A non-numeric value serializes to `null`, which Google accepts as a valueless conversion.
+  if (conversionValue && Number.isNaN(Number(conversionValue))) {
+    throw new ConfigurationError(
+      `**Conversion Value** must be a number, got \`${conversionValue}\`.`,
     );
   }
   return {
@@ -94,13 +93,8 @@ export function buildBaseConversion({
   };
 }
 
-/**
- * Sends a conversion upload and reports per-row rejections.
- *
- * `partialFailure` is required by the API and Google documents that it should always be true,
- * which means a rejected conversion still returns HTTP 200 with the reason in
- * `partialFailureError`. Without this check a failed upload would report success.
- */
+// `partialFailure` is required by the API, so a rejected conversion still returns HTTP 200 with
+// the reason in `partialFailureError` - without this check a failed upload would report success.
 export async function uploadConversion({
   $, googleAds, method, accountId, customerClientId, conversion, validateOnly,
 }) {

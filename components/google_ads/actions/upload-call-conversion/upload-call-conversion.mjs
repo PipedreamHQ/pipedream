@@ -2,7 +2,7 @@ import {
   buildBaseConversion, commonProps, DATE_TIME_HINT, DOC_LINK, uploadConversion,
 } from "../common/conversion-upload.mjs";
 
-const docLink = `${DOC_LINK}#uploadcallconversions`;
+const docLink = `${DOC_LINK}/UploadCallConversions?transport=rest`;
 
 export default {
   key: "google_ads-upload-call-conversion",

@@ -4,7 +4,7 @@ import {
   buildBaseConversion, commonProps, DOC_LINK, uploadConversion,
 } from "../common/conversion-upload.mjs";
 
-const docLink = `${DOC_LINK}#uploadclickconversions`;
+const docLink = `${DOC_LINK}/UploadClickConversions?transport=rest`;
 
 export default {
   key: "google_ads-upload-click-conversion",
@@ -64,9 +64,20 @@ export default {
       validateOnly,
     } = this;
 
-    if (!gclid && !gbraid && !wbraid) {
+    // Google rejects two identifiers with `GBRAID_WBRAID_BOTH_SET`.
+    const identifiers = [
+      gclid,
+      gbraid,
+      wbraid,
+    ].filter(Boolean);
+    if (!identifiers.length) {
       throw new ConfigurationError(
         "One of **GCLID**, **GBRAID**, or **WBRAID** is required to attribute a click conversion.",
+      );
+    }
+    if (identifiers.length > 1) {
+      throw new ConfigurationError(
+        "Set only one of **GCLID**, **GBRAID**, or **WBRAID** - each click has a single identifier.",
       );
     }
 

@@ -438,15 +438,22 @@ export default {
     conversionActionId: {
       type: "string",
       label: "Conversion Action",
-      description: "The conversion action to record this conversion against. Must be an upload-type action (**Upload Clicks** for click conversions, **Upload Calls** for call conversions) - create one with the **Create Conversion Action** action.",
+      description: "The conversion action to record this conversion against. Must be an upload-type action (**Upload Clicks** for click conversions, **Upload Calls** for call conversions) - create one with the **Send Offline Conversion** action.",
       async options({
-        accountId, customerClientId,
+        accountId, customerClientId, prevContext,
       }) {
-        const response = await this.listConversionActions({
+        const pageToken = prevContext?.nextPageToken;
+        const {
+          results, nextPageToken,
+        } = await this.search({
+          query: QUERIES.listConversionActions(),
           accountId,
           customerClientId,
+          params: {
+            pageToken,
+          },
         });
-        return response?.map(({
+        const options = results?.map(({
           conversionAction: {
             resourceName, name,
           },
@@ -454,6 +461,12 @@ export default {
           label: name,
           value: resourceName,
         })) ?? [];
+        return {
+          options,
+          context: {
+            nextPageToken,
+          },
+        };
       },
     },
     leadFormId: {

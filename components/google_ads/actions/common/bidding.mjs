@@ -1,7 +1,5 @@
 import { TARGET_IMPRESSION_SHARE_LOCATIONS } from "../../common/constants.mjs";
 
-// Each description names the strategies the field belongs to: the props are declared flat, so a
-// value set against a different strategy is ignored rather than sent.
 const cpcBidCeilingMicros = {
   type: "string",
   label: "CPC Bid Ceiling (Micros)",
@@ -30,12 +28,7 @@ const targetRoas = {
   optional: true,
 };
 
-const targetSpendMicros = {
-  type: "string",
-  label: "Target Spend (Micros)",
-  description: "Spend target under which to maximize clicks, in micros (1,000,000 micros = 1 unit of the account currency). Applies to **Target Spend**.",
-  optional: true,
-};
+// `target_spend_micros` is deprecated in v25, so it is not exposed.
 
 const targetImpressionShareProps = {
   location: {
@@ -61,15 +54,7 @@ const enhancedCpcEnabled = {
   optional: true,
 };
 
-/**
- * The union of every scheme's fields, declared as flat optional props.
- *
- * Field names repeat across schemes (`cpcBidCeilingMicros` belongs to four of them), so the
- * union stays small. Declaring them statically keeps the action's schema flat for SDK and MCP
- * callers, which would otherwise have to reload props and thread a `dynamicPropsId` through
- * before they could see these fields at all. `buildBiddingScheme` picks the subset that belongs
- * to the selected type at runtime.
- */
+// Flat union of every scheme's fields; buildBiddingScheme picks the subset for the chosen type.
 export function getSchemeProps(schemes) {
   const merged = {};
   for (const { props } of Object.values(schemes)) {
@@ -83,9 +68,8 @@ export function getSchemeProps(schemes) {
   return merged;
 }
 
-// Scheme field names verified against GoogleAdsFieldService for v25. Campaign-level and
-// portfolio-level schemes differ: a campaign has no `enhanced_cpc`, and a portfolio bidding
-// strategy has no `percent_cpc` or manual scheme.
+// Campaign and portfolio schemes differ in v25: no `enhanced_cpc` on campaigns, no `percent_cpc`
+// or manual scheme on portfolio strategies.
 export const CAMPAIGN_BIDDING_SCHEMES = {
   MANUAL_CPC: {
     field: "manualCpc",
@@ -116,7 +100,6 @@ export const CAMPAIGN_BIDDING_SCHEMES = {
   TARGET_SPEND: {
     field: "targetSpend",
     props: {
-      targetSpendMicros,
       cpcBidCeilingMicros,
     },
   },
@@ -169,7 +152,6 @@ export const PORTFOLIO_BIDDING_SCHEMES = {
   TARGET_SPEND: {
     field: "targetSpend",
     props: {
-      targetSpendMicros,
       cpcBidCeilingMicros,
     },
   },
@@ -195,10 +177,6 @@ export const PORTFOLIO_BIDDING_SCHEMES = {
   },
 };
 
-/**
- * Builds the bidding scheme object for a mutate payload, e.g.
- * `{ targetCpa: { targetCpaMicros: "5000000" } }`.
- */
 export function buildBiddingScheme(schemes, type, values) {
   const scheme = schemes[type];
   if (!scheme) {

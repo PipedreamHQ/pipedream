@@ -17,7 +17,7 @@ export default {
   key: "google_ads-create-or-update-bidding-strategy",
   name: "Create or Update Bidding Strategy",
   description: `Creates, updates, or removes a portfolio bidding strategy. [See the documentation](${docLink})`,
-  version: "0.1.0",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: true,
