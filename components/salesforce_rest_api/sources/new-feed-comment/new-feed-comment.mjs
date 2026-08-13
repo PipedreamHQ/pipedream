@@ -12,7 +12,7 @@ export default {
   name: "New Chatter Feed Comment (Instant or Polling)",
   key: "salesforce_rest_api-new-feed-comment",
   description: "Emit new events for each Chatter FeedComment (reply) created in Salesforce, polling `FeedComment` via SOQL on `CreatedDate`. Use this to react to comments on Chatter posts, since Chatter activity does not update the parent record's `LastModifiedDate`. The payload includes both `ParentId` (a polymorphic reference to the feed's parent - either a record feed, e.g. a Case ID starting with `500`, or a User feed) and `FeedItemId` (the ID of the FeedItem the comment belongs to) - these are distinct fields; do not confuse them. Set `parentObjectType` to a parent object API name (e.g. `Case`) to append `AND Parent.Type = '<value>'` to the SOQL WHERE clause. Set `excludeSelf` to `true` to drop comments authored by the connected integration user. Note: querying FeedComment without a parent filter requires the `View All Data` permission on the connected user. Attempts instant delivery via webhook and falls back to timer polling automatically. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_feedcomment.htm)",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ...common.props,
     parentObjectType: {

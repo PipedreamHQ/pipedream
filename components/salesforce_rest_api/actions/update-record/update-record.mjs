@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import {
   convertFieldsToProps, getAdditionalFields,
 } from "../../common/props-utils.mjs";
@@ -7,8 +8,12 @@ import { additionalFields } from "../common/base-create-update.mjs";
 export default {
   key: "salesforce_rest_api-update-record",
   name: "Update Record",
-  description: "Update fields of a record. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_update_fields.htm)",
-  version: "0.3.7",
+  description: "Update a Salesforce record of any object type, choosing fields interactively."
+    + " Prefer **Update CRM Record** in agent and API contexts - this action builds its field list dynamically, so the available inputs are not visible until an object type is chosen."
+    + " Only the fields you supply change; everything else is left as-is."
+    + " "
+    + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_update_fields.htm)",
+  version: "0.3.8",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
