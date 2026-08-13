@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { MAX_DEFAULT_LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -114,10 +115,18 @@ export default {
         };
       },
     },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum number of results to return",
+      default: MAX_DEFAULT_LIMIT,
+      min: 1,
+      optional: true,
+    },
     widgetId: {
       type: "string",
       label: "Widget ID",
-      description: "Unique identifiers of the widget",
+      description: "The `id` of a widget, as returned by the **List Widgets** action (e.g. `0-12345`).",
       optional: true,
       async options({
         muralId, type, prevContext,
@@ -144,6 +153,48 @@ export default {
         };
       },
     },
+    xPosition: {
+      type: "integer",
+      label: "X Position",
+      description: "The horizontal position of the widget in px (e.g. `100`). This is the distance from the left of the parent widget, such as an area. If the widget has no parent widget, this is the distance from the left of the mural.",
+      optional: false,
+    },
+    yPosition: {
+      type: "integer",
+      label: "Y Position",
+      description: "The vertical position of the widget in px (e.g. `100`). This is the distance from the top of the parent widget, such as an area. If the widget has no parent widget, this is the distance from the top of the mural.",
+      optional: false,
+    },
+    height: {
+      type: "integer",
+      label: "Height",
+      description: "The height of the widget in px (e.g. `300`)",
+      optional: true,
+    },
+    width: {
+      type: "integer",
+      label: "Width",
+      description: "The width of the widget in px (e.g. `500`)",
+      optional: true,
+    },
+    text: {
+      type: "string",
+      label: "Text",
+      description: "The text in the widget",
+      optional: true,
+    },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "The title of the widget in the outline",
+      optional: true,
+    },
+    hidden: {
+      type: "boolean",
+      label: "Hidden",
+      description: "If `true`, the widget is hidden from non-facilitators. Applies only when the widget is in the outline",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
@@ -161,6 +212,27 @@ export default {
         headers: {
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
+      });
+    },
+    /**
+     * PUT to a presigned asset storage URL (returned by createAssetUrl).
+     * Cannot use _makeRequest: that helper always targets the Mural API base URL
+     * and injects a Bearer token. Storage uploads use an absolute third-party URL
+     * and the headers provided in the asset response (e.g. x-ms-blob-type).
+     */
+    _uploadRequest(opts = {}) {
+      const {
+        $ = this,
+        url,
+        headers,
+        data,
+        ...otherOpts
+      } = opts;
+      return axios($, {
+        ...otherOpts,
+        url,
+        headers,
+        data,
       });
     },
     listWorkspaces(opts = {}) {
@@ -217,16 +289,101 @@ export default {
         ...opts,
       });
     },
+    searchMurals({
+      workspaceId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/search/${workspaceId}/murals`,
+        ...opts,
+      });
+    },
+    createTextbox({
+      muralId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/murals/${muralId}/widgets/textbox`,
+        ...opts,
+      });
+    },
+    createShape({
+      muralId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/murals/${muralId}/widgets/shape`,
+        ...opts,
+      });
+    },
+    createAssetUrl({
+      muralId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/murals/${muralId}/assets`,
+        ...opts,
+      });
+    },
+    uploadAsset(opts = {}) {
+      return this._uploadRequest({
+        ...opts,
+        method: "PUT",
+      });
+    },
+    createImage({
+      muralId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/murals/${muralId}/widgets/image`,
+        ...opts,
+      });
+    },
+    updateSticky({
+      muralId, widgetId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PATCH",
+        path: `/murals/${muralId}/widgets/sticky-note/${widgetId}`,
+        ...opts,
+      });
+    },
+    createRoom(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/rooms",
+        ...opts,
+      });
+    },
+    inviteToMural({
+      muralId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/murals/${muralId}/users/invite`,
+        ...opts,
+      });
+    },
+    async getPaginatedResults(opts) {
+      const results = [];
+      for await (const item of this.paginate(opts)) {
+        results.push(item);
+      }
+      return results;
+    },
     async *paginate({
       fn,
       args,
       max,
+      limit = MAX_DEFAULT_LIMIT,
     }) {
       args = {
         ...args,
         params: {
           ...args?.params,
-          limit: 100,
+          ...(limit && {
+            limit,
+          }),
         },
       };
       let count = 0;

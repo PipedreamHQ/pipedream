@@ -1,4 +1,4 @@
-// vandelay-test-dr
+// x-pd-ai: optimized
 import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
@@ -7,8 +7,10 @@ export default {
   description:
     "Update an existing Salesforce record. Only pass fields you want to change — unspecified fields remain unchanged."
     + " Use **Describe Object** for valid field names and picklist values."
-    + " Use **SOQL Query** to find the record ID if you only have the name.",
-  version: "0.0.1",
+    + " Use **SOQL Query** to find the record ID if you only have the name."
+    + " "
+    + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_update_fields.htm)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     readOnlyHint: false,
