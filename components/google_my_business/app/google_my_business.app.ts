@@ -1,12 +1,16 @@
+// x-pd-ai: optimized
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
   CreatePostParams,
   HttpRequestParams, ListPostsParams, PaginatedRequestParams, UpdateReplyParams, GetReviewParams, BatchGetReviewsParams,
+  PerformanceParams, ListSearchKeywordImpressionsParams,
 } from "../common/requestParams";
 import {
-  Account, LocalPost, Location, Review,
+  LocalPost, Review,
+  GetDailyMetricsTimeSeriesResponse, FetchMultiDailyMetricsTimeSeriesResponse, SearchKeywordCount,
 } from "../common/responseSchemas";
+import { PERFORMANCE_BASE_URL } from "../common/constants";
 
 export default defineApp({
   type: "app",
@@ -15,111 +19,17 @@ export default defineApp({
     account: {
       type: "string",
       label: "Account Name",
-      description: "Select an **Account** or provide a custom *Account Name*.",
-      async options({ prevContext: { pageToken } }: {
-        prevContext: { pageToken: string | null; };
-      }) {
-        if (pageToken === null) {
-          return [];
-        }
-        const response = await this.listAccounts({
-          params: {
-            pageSize: 20,
-            pageToken,
-          },
-        });
-        const accounts: Account[] = response?.accounts ?? [];
-        const options = accounts?.map?.(({
-          name, accountName, type,
-        }: Account) => ({
-          label: `${accountName ?? name} (${type})`,
-          value: this.getCleanName(name) as string,
-        })) ?? [];
-        return {
-          options,
-          context: {
-            pageToken: response?.nextPageToken ?? null,
-          },
-        };
-      },
+      description: "The account ID, e.g. `123456789`, or its full resource name, e.g. `accounts/123456789`. Use **List Accounts** to find valid account IDs.",
     },
     location: {
       type: "string",
       label: "Location",
-      description: "The location whose local posts will be listed. [See the documentation](https://developers.google.com/my-business/content/location-data#filter_results_when_you_list_locations) on how to filter locations.",
-      useQuery: true,
-      async options({
-        account, query, prevContext: { pageToken },
-      }: Record<string, string> & {
-        prevContext: { pageToken: string | null; };
-      }) {
-        if (pageToken === null) {
-          return [];
-        }
-        const filter = query
-          ? (query.match(/[=:]/)
-            ? query
-            : `title="${query}"`).replace(/ /g, "+").replace(/"/g, "%22")
-          : undefined;
-
-        const response = await this.listLocations({
-          account,
-          params: {
-            pageSize: 50,
-            pageToken,
-            filter,
-            readMask: "name,title",
-          },
-        });
-        const locations: Location[] = response?.locations ?? [];
-        const options = locations?.map?.(({
-          name, title,
-        }: Location) => ({
-          label: title,
-          value: this.getCleanName(name) as string,
-        })) ?? [];
-        return {
-          options,
-          context: {
-            pageToken: response?.nextPageToken ?? null,
-          },
-        };
-      },
+      description: "The location ID, e.g. `123456789`, or its full resource name, e.g. `locations/123456789`. Use **List Locations** to find valid location IDs for an account.",
     },
     review: {
       type: "string",
       label: "Review",
-      description: "Select a **Review** or provide a custom *Review Name*.",
-      async options({
-        account, location, prevContext: { pageToken },
-      }: Record<string, string> & {
-        prevContext: { pageToken: string | null; };
-      }) {
-        if (pageToken === null) {
-          return [];
-        }
-        const response = await this.listReviews({
-          account,
-          location,
-          params: {
-            pageSize: 50,
-            pageToken,
-          },
-        });
-        const reviews: Review[] = response?.reviews ?? [];
-        const options = reviews?.map?.(({
-          name, title,
-        }: Review) => ({
-          label: title,
-          value: this.getCleanName(name) as string,
-        })) ?? [];
-        return {
-          options,
-          context: {
-            pageToken: response?.nextPageToken ?? null,
-          },
-        };
-      },
+      description: "The review ID, e.g. `AbFvOqk...`, or its full resource name, e.g. `accounts/123456789/locations/123456789/reviews/AbFvOqk...`. Use **List All Reviews** to find valid review IDs for a location.",
     },
   },
   methods: {
@@ -257,6 +167,38 @@ export default defineApp({
         },
         ...args,
       });
+    },
+    async getDailyMetricsTimeSeries({
+      location, ...args
+    }: PerformanceParams): Promise<GetDailyMetricsTimeSeriesResponse> {
+      return this._httpRequest({
+        url: `${PERFORMANCE_BASE_URL}/locations/${this.getCleanName(location)}:getDailyMetricsTimeSeries`,
+        ...args,
+      });
+    },
+    async fetchMultiDailyMetricsTimeSeries({
+      location, ...args
+    }: PerformanceParams): Promise<FetchMultiDailyMetricsTimeSeriesResponse> {
+      return this._httpRequest({
+        url: `${PERFORMANCE_BASE_URL}/locations/${this.getCleanName(location)}:fetchMultiDailyMetricsTimeSeries`,
+        // `dailyMetrics` is a repeated query param. Without this, axios's
+        // default array serialization emits `dailyMetrics[]=...`, which the
+        // Performance API rejects — it expects the key repeated plainly.
+        paramsSerializer: {
+          indexes: null,
+        },
+        ...args,
+      });
+    },
+    async listSearchKeywordImpressionsMonthly({
+      location, ...args
+    }: ListSearchKeywordImpressionsParams): Promise<SearchKeywordCount[]> {
+      const url = `${PERFORMANCE_BASE_URL}/locations/${this.getCleanName(location)}/searchkeywords/impressions/monthly`;
+      return this._paginatedRequest({
+        resourceName: "searchKeywordsCounts",
+        url,
+        ...args,
+      }) as Promise<SearchKeywordCount[]>;
     },
   },
 });

@@ -28,3 +28,46 @@ export interface BatchGetReviewsResponse {
     review: Review
   }[];
 }
+
+export interface DateParts {
+  year?: number;
+  month?: number;
+  day?: number;
+}
+
+export interface DatedValue {
+  date: DateParts;
+  value?: string;
+}
+
+export interface TimeSeries {
+  datedValues?: DatedValue[];
+}
+
+export interface GetDailyMetricsTimeSeriesResponse {
+  timeSeries?: TimeSeries;
+}
+
+export interface DailyMetricTimeSeries {
+  dailyMetric: string;
+  dailySubEntityType?: object;
+  timeSeries?: TimeSeries;
+}
+
+export interface MultiDailyMetricTimeSeries {
+  dailyMetricTimeSeries?: DailyMetricTimeSeries[];
+}
+
+export interface FetchMultiDailyMetricsTimeSeriesResponse {
+  multiDailyMetricTimeSeries?: MultiDailyMetricTimeSeries[];
+}
+
+export interface InsightsValue {
+  value?: string;
+  threshold?: string;
+}
+
+export interface SearchKeywordCount {
+  searchKeyword: string;
+  insightsValue?: InsightsValue;
+}
