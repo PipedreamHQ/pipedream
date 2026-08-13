@@ -7,6 +7,7 @@ import {
   LIMIT_MAX,
   COHORT_DOWNLOAD_POLL_INTERVAL_MS,
   COHORT_DOWNLOAD_POLL_BUDGET_MS,
+  COHORT_DOWNLOAD_MIN_REQUEST_MS,
 } from "./common/constants.mjs";
 import { sleep } from "./common/utils.mjs";
 
@@ -238,27 +239,46 @@ export default {
      * timeout and as a cap on the sleep interval, so neither a slow
      * individual call nor an over-long sleep can push the whole loop past
      * the deadline — keeping it safely under the MCP tool-call timeout
-     * (60s) even when a request-status call runs slower than usual. If the
-     * job is still running when the budget runs out, the caller (Get Cohort
-     * Download Status) just gets an in-progress status back and is expected
-     * to call again.
+     * (60s) even when a request-status call runs slower than usual. Once
+     * the remaining budget drops below COHORT_DOWNLOAD_MIN_REQUEST_MS,
+     * another request is skipped rather than issued with a timeout too
+     * short for a real round-trip to ever complete (which would otherwise
+     * abort with ECONNABORTED right as the budget runs out); a timeout on
+     * an attempted request is likewise treated as "still in progress"
+     * rather than left to throw. If the job is still running when the
+     * budget runs out, the caller (Get Cohort Download Status) just gets an
+     * in-progress status back and is expected to call again.
      */
     async pollCohortDownloadStatus({
       $, requestId,
     }) {
       const deadline = Date.now() + COHORT_DOWNLOAD_POLL_BUDGET_MS;
-      let status;
+      let status = {
+        request_id: requestId,
+        async_status: "JOB INPROGRESS",
+      };
       do {
-        status = await this.getCohortDownloadStatus({
-          $,
-          requestId,
-          timeout: deadline - Date.now(),
-        });
         const remaining = deadline - Date.now();
-        if (status.async_status === "JOB COMPLETED" || remaining <= 0) {
+        if (remaining < COHORT_DOWNLOAD_MIN_REQUEST_MS) {
           break;
         }
-        await sleep(Math.min(COHORT_DOWNLOAD_POLL_INTERVAL_MS, remaining));
+        try {
+          status = await this.getCohortDownloadStatus({
+            $,
+            requestId,
+            timeout: remaining,
+          });
+        } catch (err) {
+          if (err.code === "ECONNABORTED") {
+            break;
+          }
+          throw err;
+        }
+        const sleepBudget = deadline - Date.now();
+        if (status.async_status === "JOB COMPLETED" || sleepBudget <= 0) {
+          break;
+        }
+        await sleep(Math.min(COHORT_DOWNLOAD_POLL_INTERVAL_MS, sleepBudget));
       } while (Date.now() < deadline);
       return status;
     },

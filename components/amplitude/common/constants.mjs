@@ -102,5 +102,10 @@ export const USER_ACTIVITY_ALWAYS_FIELDS = [
 export const COHORT_DOWNLOAD_POLL_INTERVAL_MS = 3000;
 export const COHORT_DOWNLOAD_POLL_BUDGET_MS = 35000;
 
+// A request-status call given less than this as its timeout is very unlikely
+// to complete a real round-trip before the budget runs out — skip attempting
+// it rather than issuing a request that's all-but-guaranteed to abort.
+export const COHORT_DOWNLOAD_MIN_REQUEST_MS = 2000;
+
 // Default cap on member records returned by Download Cohort File.
 export const COHORT_DOWNLOAD_MAX_MEMBERS = 10000;
