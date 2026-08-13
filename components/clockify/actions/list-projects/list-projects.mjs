@@ -1,10 +1,12 @@
+// x-pd-ai: optimized
 import clockify from "../../clockify.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "clockify-list-projects",
   name: "List Projects",
   description: "List all projects in a Clockify workspace. [See the documentation](https://docs.clockify.me/#tag/Project/operation/getProjects)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -32,10 +34,11 @@ export default {
       ],
     },
     archived: {
-      type: "boolean",
-      label: "Archived",
+      propDefinition: [
+        clockify,
+        "archived",
+      ],
       description: "If set to `true`, you'll only get archived projects",
-      optional: true,
     },
     billable: {
       type: "boolean",
@@ -66,11 +69,7 @@ export default {
       label: "Client Status",
       description: "Filters projects based on client status provided",
       optional: true,
-      options: [
-        "ACTIVE",
-        "ARCHIVED",
-        "ALL",
-      ],
+      options: constants.PROJECT_CLIENT_STATUS_OPTIONS,
     },
     users: {
       propDefinition: [
@@ -95,13 +94,7 @@ export default {
       label: "User Status",
       description: "Filters projects based on user status provided",
       optional: true,
-      options: [
-        "PENDING",
-        "ACTIVE",
-        "DECLINED",
-        "INACTIVE",
-        "ALL",
-      ],
+      options: constants.PROJECT_USER_STATUS_OPTIONS,
     },
     isTemplate: {
       type: "boolean",
@@ -114,14 +107,7 @@ export default {
       label: "Sort Column",
       description: "The column to sort the projects by",
       optional: true,
-      options: [
-        "ID",
-        "NAME",
-        "CLIENT_NAME",
-        "DURATION",
-        "BUDGET",
-        "PROGRESS",
-      ],
+      options: constants.PROJECT_SORT_COLUMN_OPTIONS,
     },
     sortOrder: {
       propDefinition: [
@@ -140,10 +126,7 @@ export default {
       label: "Access",
       description: "If provided, you'll get a filtered list of projects that matches the provided access",
       optional: true,
-      options: [
-        "PUBLIC",
-        "PRIVATE",
-      ],
+      options: constants.PROJECT_ACCESS_OPTIONS,
     },
     page: {
       propDefinition: [

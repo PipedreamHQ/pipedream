@@ -1,10 +1,15 @@
+// x-pd-ai: optimized
 import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
   key: "salesforce_rest_api-get-case",
   name: "Get Case",
-  description: "Retrieves a case by its ID. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_get_field_values.htm)",
-  version: "0.0.5",
+  description: "Retrieve one Salesforce case by its record ID."
+    + " Use **List Cases** to find the ID first, or when you want to search cases rather than fetch a known one."
+    + " Use **List Case Feed Items** and **List Case Comments** to read the case's activity and comment thread."
+    + " "
+    + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_get_field_values.htm)",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

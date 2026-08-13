@@ -5,7 +5,7 @@ export default {
   key: "mural-new-mural",
   name: "New Mural Created",
   description: "Emit new event when a new mural is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
