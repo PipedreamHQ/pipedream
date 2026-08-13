@@ -13,7 +13,7 @@ export default {
     ...common.methods,
     getEvents() {
       return [
-        "membership_went_invalid",
+        "membership.went_invalid",
       ];
     },
     getSummary({ id }) {

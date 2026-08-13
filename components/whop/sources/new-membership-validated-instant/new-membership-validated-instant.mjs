@@ -5,14 +5,14 @@ export default {
   key: "whop-new-membership-validated-instant",
   name: "New Membership Validated (Instant)",
   description: "Emit new event when a membership goes valid. [See the documentation](https://dev.whop.com/api-reference/v2/webhooks/create-a-webhook)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getEvents() {
       return [
-        "membership_went_valid",
+        "membership.went_valid",
       ];
     },
     getSummary({ id }) {
