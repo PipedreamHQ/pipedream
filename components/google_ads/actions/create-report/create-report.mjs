@@ -19,8 +19,8 @@ export default {
   ...common,
   key: "google_ads-create-report",
   name: "Create Report",
-  description: "Generates a report from your Google Ads data. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v21/GoogleAdsService/Search?transport=rest)",
-  version: "0.2.1",
+  description: "Generates a report from your Google Ads data. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/GoogleAdsService/Search?transport=rest)",
+  version: "0.2.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -99,7 +99,7 @@ export default {
     segments: {
       type: "string[]",
       label: "Segments",
-      description: "Segment field names to include (e.g. `[\"date\"]` or `[\"segments.date\"]`). See the documentation [here](https://developers.google.com/google-ads/api/reference/rpc/v21/Segments).",
+      description: "Segment field names to include (e.g. `[\"date\"]` or `[\"segments.date\"]`). See the documentation [here](https://developers.google.com/google-ads/api/reference/rpc/v25/Segments).",
       options() {
         const resource = RESOURCES.find((r) => r.resourceOption.value === this.resource);
         if (!resource) throw new ConfigurationError("Select one of the available resources.");
@@ -113,7 +113,7 @@ export default {
     metrics: {
       type: "string[]",
       label: "Metrics",
-      description: "Metric field names to include (e.g. `[\"impressions\", \"clicks\"]` or `[\"metrics.impressions\", \"metrics.clicks\"]`). See the documentation [here](https://developers.google.com/google-ads/api/reference/rpc/v21/Metrics).",
+      description: "Metric field names to include (e.g. `[\"impressions\", \"clicks\"]` or `[\"metrics.impressions\", \"metrics.clicks\"]`). See the documentation [here](https://developers.google.com/google-ads/api/reference/rpc/v25/Metrics).",
       options() {
         const resource = RESOURCES.find((r) => r.resourceOption.value === this.resource);
         if (!resource) throw new ConfigurationError("Select one of the available resources.");

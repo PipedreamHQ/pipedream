@@ -17,7 +17,7 @@ export function createReportComponent(resource) {
       docsAlert: {
         type: "alert",
         alertType: "info",
-        content: `[See the documentation](https://developers.google.com/google-ads/api/fields/v21/${value}) for more information on available fields, segments and metrics.`,
+        content: `[See the documentation](https://developers.google.com/google-ads/api/fields/v25/${value}) for more information on available fields, segments and metrics.`,
       },
       objectFilter: {
         propDefinition: [
@@ -63,7 +63,7 @@ export function createReportComponent(resource) {
       segments: {
         type: "string[]",
         label: "Segments",
-        description: "Select any segments to include in the report. See the documentation [here](https://developers.google.com/google-ads/api/reference/rpc/v21/Segments)",
+        description: "Select any segments to include in the report. See the documentation [here](https://developers.google.com/google-ads/api/reference/rpc/v25/Segments)",
         options: resource.segments,
         default: [
           "segments.date",
@@ -73,7 +73,7 @@ export function createReportComponent(resource) {
       metrics: {
         type: "string[]",
         label: "Metrics",
-        description: "Select any metrics to include in the report. See the documentation [here](https://developers.google.com/google-ads/api/reference/rpc/v21/Metrics)",
+        description: "Select any metrics to include in the report. See the documentation [here](https://developers.google.com/google-ads/api/reference/rpc/v25/Metrics)",
         options: resource.metrics,
         optional: true,
       },

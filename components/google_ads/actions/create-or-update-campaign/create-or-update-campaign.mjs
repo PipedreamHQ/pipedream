@@ -2,20 +2,25 @@ import { ConfigurationError } from "@pipedream/platform";
 import googleAds from "../../google_ads.app.mjs";
 import {
   ADVERTISING_CHANNEL_TYPES,
+  CAMPAIGN_BIDDING_STRATEGY_TYPES,
   CAMPAIGN_OPERATION_TYPES,
   CAMPAIGN_STATUSES,
+  EU_POLITICAL_ADVERTISING_STATUSES,
 } from "../../common/constants.mjs";
 import { parseObject } from "../../common/utils.mjs";
 import { getAdditionalFields } from "../common/props.mjs";
+import {
+  buildBiddingScheme, CAMPAIGN_BIDDING_SCHEMES, getSchemeProps,
+} from "../common/bidding.mjs";
 
 const docLink =
-  "https://developers.google.com/google-ads/api/reference/rpc/v21/CampaignService/MutateCampaigns?transport=rest";
+  "https://developers.google.com/google-ads/api/reference/rpc/v25/CampaignService/MutateCampaigns?transport=rest";
 
 export default {
   key: "google_ads-create-or-update-campaign",
   name: "Create or Update Campaign",
   description: `Creates or updates a campaign. [See the documentation](${docLink})`,
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: true,
@@ -96,18 +101,18 @@ export default {
       options: CAMPAIGN_STATUSES,
       optional: true,
     },
-    startDate: {
+    startDateTime: {
       type: "string",
-      label: "Start Date",
+      label: "Start Date Time",
       description:
-        "The date when the campaign starts serving ads, formatted as `YYYY-MM-DD`.",
+        "When the campaign starts serving ads, in the account's time zone, formatted as `YYYY-MM-DD HH:MM:SS` (use `00:00:00` for daily granularity).",
       optional: true,
     },
-    endDate: {
+    endDateTime: {
       type: "string",
-      label: "End Date",
+      label: "End Date Time",
       description:
-        "The last day the campaign serves ads, formatted as `YYYY-MM-DD`. Leave blank for no end date.",
+        "The last day and time the campaign serves ads, in the account's time zone, formatted as `YYYY-MM-DD HH:MM:SS` (use `23:59:59` for daily granularity). Leave blank to run indefinitely.",
       optional: true,
     },
     trackingUrlTemplate: {
@@ -116,6 +121,36 @@ export default {
       description: "The URL template for constructing a tracking URL.",
       optional: true,
     },
+    containsEuPoliticalAdvertising: {
+      type: "string",
+      label: "Contains EU Political Advertising",
+      description: "Declares whether the campaign contains EU political advertising. Google requires this on **create**.",
+      options: EU_POLITICAL_ADVERTISING_STATUSES,
+      optional: true,
+    },
+    biddingStrategy: {
+      propDefinition: [
+        googleAds,
+        "biddingStrategyId",
+        ({
+          accountId, customerClientId,
+        }) => ({
+          accountId,
+          customerClientId,
+        }),
+      ],
+      label: "Portfolio Bidding Strategy",
+      description: "An existing portfolio bidding strategy to attach. Leave blank to use a standard (campaign-level) strategy instead.",
+      optional: true,
+    },
+    biddingStrategyType: {
+      type: "string",
+      label: "Standard Bidding Strategy",
+      description: "The campaign-level bidding strategy. Google requires either this or a **Portfolio Bidding Strategy** on **create**.",
+      options: CAMPAIGN_BIDDING_STRATEGY_TYPES,
+      optional: true,
+    },
+    ...getSchemeProps(CAMPAIGN_BIDDING_SCHEMES),
     additionalFields: getAdditionalFields(docLink),
   },
   async run({ $ }) {
@@ -130,9 +165,12 @@ export default {
       advertisingChannelType,
       campaignBudget,
       status,
-      startDate,
-      endDate,
+      startDateTime,
+      endDateTime,
       trackingUrlTemplate,
+      containsEuPoliticalAdvertising,
+      biddingStrategy,
+      biddingStrategyType,
       additionalFields,
     } = this;
 
@@ -148,7 +186,20 @@ export default {
       );
     }
 
+    // `campaign_bidding_strategy` is a union field: a campaign uses either a portfolio
+    // strategy or a standard (embedded) one, never both.
+    if (biddingStrategy && biddingStrategyType) {
+      throw new ConfigurationError(
+        "Set either **Portfolio Bidding Strategy** or **Standard Bidding Strategy**, not both.",
+      );
+    }
+
     if (operationType === "create") {
+      if (!containsEuPoliticalAdvertising) {
+        throw new ConfigurationError(
+          "**Contains EU Political Advertising** is required for Create operations.",
+        );
+      }
       if (!name) {
         throw new ConfigurationError(
           "**Name** is required for Create operations.",
@@ -194,15 +245,22 @@ export default {
         ...(status && {
           status,
         }),
-        ...(startDate && {
-          startDate,
+        ...(startDateTime && {
+          startDateTime,
         }),
-        ...(endDate && {
-          endDate,
+        ...(endDateTime && {
+          endDateTime,
         }),
         ...(trackingUrlTemplate && {
           trackingUrlTemplate,
         }),
+        ...(containsEuPoliticalAdvertising && {
+          containsEuPoliticalAdvertising,
+        }),
+        ...(biddingStrategy && {
+          biddingStrategy: `customers/${customerId}/biddingStrategies/${biddingStrategy}`,
+        }),
+        ...buildBiddingScheme(CAMPAIGN_BIDDING_SCHEMES, biddingStrategyType, this),
         ...parseObject(additionalFields),
       };
 

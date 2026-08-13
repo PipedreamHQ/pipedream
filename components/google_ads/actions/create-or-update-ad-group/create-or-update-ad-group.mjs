@@ -10,13 +10,13 @@ import { parseObject } from "../../common/utils.mjs";
 import { getAdditionalFields } from "../common/props.mjs";
 
 const docLink =
-  "https://developers.google.com/google-ads/api/reference/rpc/v21/AdGroupService/MutateAdGroups?transport=rest";
+  "https://developers.google.com/google-ads/api/reference/rpc/v25/AdGroupService/MutateAdGroups?transport=rest";
 
 export default {
   key: "google_ads-create-or-update-ad-group",
   name: "Create or Update Ad Group",
   description: `Creates or updates an ad group. [See the documentation](${docLink})`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: true,
