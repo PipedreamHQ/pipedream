@@ -3,7 +3,9 @@ import { defineAction } from "@pipedream/types";
 import app from "../../app/google_my_business.app";
 import { ListSearchKeywordImpressionsParams } from "../../common/requestParams";
 import { SEARCH_KEYWORDS_PAGE_SIZE } from "../../common/constants";
-import { parseMonth } from "../../common/utils";
+import {
+  assertMonthOrder, parseMonth,
+} from "../../common/utils";
 
 const DOCS_LINK = "https://developers.google.com/my-business/reference/performance/rest/v1/locations.searchkeywords.impressions.monthly/list";
 
@@ -53,6 +55,7 @@ export default defineAction({
 
     const start = parseMonth(startMonth, "Start Month");
     const end = parseMonth(endMonth, "End Month");
+    assertMonthOrder(start, end, "Start Month", "End Month");
 
     const params: ListSearchKeywordImpressionsParams = {
       $,

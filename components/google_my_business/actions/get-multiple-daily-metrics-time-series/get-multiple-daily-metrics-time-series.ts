@@ -4,7 +4,9 @@ import { ConfigurationError } from "@pipedream/platform";
 import app from "../../app/google_my_business.app";
 import { PerformanceParams } from "../../common/requestParams";
 import { DAILY_METRIC_OPTIONS } from "../../common/constants";
-import { parseDate } from "../../common/utils";
+import {
+  assertDateOrder, parseDate,
+} from "../../common/utils";
 
 const DOCS_LINK = "https://developers.google.com/my-business/reference/performance/rest/v1/locations/fetchMultiDailyMetricsTimeSeries";
 const MAX_METRICS = 10;
@@ -56,6 +58,7 @@ export default defineAction({
 
     const start = parseDate(startDate, "Start Date");
     const end = parseDate(endDate, "End Date");
+    assertDateOrder(start, end, "Start Date", "End Date");
 
     const params: PerformanceParams = {
       $,
