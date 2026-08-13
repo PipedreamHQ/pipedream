@@ -31,6 +31,11 @@ export default {
         "message",
       ],
     },
+    agentSessionId: {
+      type: "string",
+      label: "Agent Session ID",
+      description: "Required for draft communications. Identifies the agent session that generated this draft, for example `agent_session_uuid`.",
+    },
     subject: {
       propDefinition: [
         superCarl,
@@ -112,10 +117,10 @@ export default {
   },
   async run({ $ }) {
     const context = parseObjectProp(this.context, "Context");
-    if (this.channel === "gmail_send" && !this.subject) {
+    if (this.channel === "gmail_send" && !this.subject?.trim()) {
       throw new ConfigurationError("Subject is required when Channel is `gmail_send`.");
     }
-    if (this.channel === "supercarl_referral_request" && !this.connectorUserId) {
+    if (this.channel === "supercarl_referral_request" && !this.connectorUserId?.trim()) {
       throw new ConfigurationError("Connector User ID is required when Channel is `supercarl_referral_request`.");
     }
     const data = buildCommunicationPayload({
@@ -137,6 +142,7 @@ export default {
     }, {
       mode: "draft",
       draft: true,
+      agent_session_id: this.agentSessionId,
     });
     requireCommunicationTarget(data);
 

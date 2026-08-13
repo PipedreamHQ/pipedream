@@ -131,10 +131,10 @@ export default {
   },
   async run({ $ }) {
     const context = parseObjectProp(this.context, "Context");
-    if (this.channel === "gmail_send" && !this.subject) {
+    if (this.channel === "gmail_send" && !this.subject?.trim()) {
       throw new ConfigurationError("Subject is required when Channel is `gmail_send`.");
     }
-    if (this.channel === "supercarl_referral_request" && !this.connectorUserId) {
+    if (this.channel === "supercarl_referral_request" && !this.connectorUserId?.trim()) {
       throw new ConfigurationError("Connector User ID is required when Channel is `supercarl_referral_request`.");
     }
     const data = buildCommunicationPayload({
