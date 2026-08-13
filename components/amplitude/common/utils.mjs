@@ -42,6 +42,7 @@ const peekMagicBytes = (stream) => new Promise((resolve, reject) => {
     if (ended) {
       combined.end();
     } else {
+      stream.once("error", (err) => combined.destroy(err));
       stream.pipe(combined);
     }
     resolve({

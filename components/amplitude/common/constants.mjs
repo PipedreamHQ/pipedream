@@ -102,9 +102,5 @@ export const USER_ACTIVITY_ALWAYS_FIELDS = [
 export const COHORT_DOWNLOAD_POLL_INTERVAL_MS = 3000;
 export const COHORT_DOWNLOAD_POLL_BUDGET_MS = 35000;
 
-// Default cap on member records returned by Download Cohort File. Very large
-// cohorts are fully buffered and decompressed in memory before parsing (no
-// streaming), so an unbounded result risks excessive memory use and an
-// oversized step export; this keeps the default response bounded while still
-// reporting the true total via `memberCount` and a `truncated` flag.
+// Default cap on member records returned by Download Cohort File.
 export const COHORT_DOWNLOAD_MAX_MEMBERS = 10000;

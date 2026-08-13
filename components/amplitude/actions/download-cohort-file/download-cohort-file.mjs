@@ -26,7 +26,7 @@ export default {
     maxMembers: {
       type: "integer",
       label: "Max Members",
-      description: `Maximum number of member records to return (the full file is still downloaded and decompressed in memory, so this only caps the returned/reported result — useful to avoid an oversized response for very large cohorts). Defaults to ${COHORT_DOWNLOAD_MAX_MEMBERS}. The true total is always reported in \`memberCount\`, with \`truncated: true\` if it exceeds this cap.`,
+      description: `Maximum number of member records to return. Defaults to ${COHORT_DOWNLOAD_MAX_MEMBERS}. The true total is always reported in \`memberCount\`, with \`truncated: true\` if it exceeds this cap.`,
       min: 0,
       optional: true,
     },
