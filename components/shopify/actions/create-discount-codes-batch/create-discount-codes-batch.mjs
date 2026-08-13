@@ -4,8 +4,8 @@ import shopify from "../../shopify.app.mjs";
 export default {
   key: "shopify-create-discount-codes-batch",
   name: "Create Discount Codes in Bulk",
-  description: "Adds multiple discount codes to a price rule in Shopify (up to 100 codes per request). [See the documentation](https://shopify.dev/docs/api/admin-rest/2025-01/resources/discountcode#post-price-rules-price-rule-id-batch).",
-  version: "0.0.1",
+  description: "Adds multiple discount codes to a price rule in Shopify (up to 100 codes per request). [See the documentation](https://shopify.dev/docs/api/admin-rest/2026-07/resources/discountcode#post-price-rules-price-rule-id-batch).",
+  version: "0.0.2",
   type: "action",
   annotations: {
     readOnlyHint: false,

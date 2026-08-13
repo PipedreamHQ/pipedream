@@ -3,8 +3,8 @@ import shopify from "../../shopify.app.mjs";
 export default {
   key: "shopify-delete-discount-code",
   name: "Delete Discount Code",
-  description: "Permanently deletes a discount code from a price rule in Shopify. [See the documentation](https://shopify.dev/docs/api/admin-rest/2025-01/resources/discountcode#delete-price-rules-price-rule-id-discount-codes-discount-code-id).",
-  version: "0.0.1",
+  description: "Permanently deletes a discount code from a price rule in Shopify. [See the documentation](https://shopify.dev/docs/api/admin-rest/2026-07/resources/discountcode#delete-price-rules-price-rule-id-discount-codes-discount-code-id).",
+  version: "0.0.2",
   type: "action",
   annotations: {
     readOnlyHint: false,

@@ -4,8 +4,8 @@ import shopify from "../../shopify.app.mjs";
 export default {
   key: "shopify-refund-return",
   name: "Refund Return",
-  description: "Creates a refund for an existing return. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/returnRefund).",
-  version: "0.0.2",
+  description: "Processes an existing return in Shopify via the `returnProcess` mutation, marking the specified return line items as processed. By default no refund is issued — to also issue a refund, include a `financialTransfer` object with an `issueRefund` operation (and its required `orderTransactions`) in **Additional Fields**. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/returnProcess).",
+  version: "0.1.0",
   type: "action",
   annotations: {
     readOnlyHint: false,
@@ -19,10 +19,10 @@ export default {
       label: "Return ID",
       description: "The return GID to refund, in the format `gid://shopify/Return/222`. Obtain this from the **Create Return** action output or by inspecting an order's returns.",
     },
-    returnRefundLineItems: {
+    returnLineItems: {
       type: "string",
-      label: "Return Refund Line Items",
-      description: "JSON array of return line items to refund. Each item accepts `returnLineItemId` (GID) and `quantity`. Example: `[{\"returnLineItemId\": \"gid://shopify/ReturnLineItem/333\", \"quantity\": 1}]`.",
+      label: "Return Line Items",
+      description: "JSON array of return line items to process. Each item accepts `id` (the ReturnLineItem GID) and `quantity`. Example: `[{\"id\": \"gid://shopify/ReturnLineItem/333\", \"quantity\": 1}]`.",
     },
     notifyCustomer: {
       type: "boolean",
@@ -31,38 +31,51 @@ export default {
       default: false,
       optional: true,
     },
-    additionalRefundFields: {
+    additionalFields: {
       type: "object",
-      label: "Additional Refund Fields",
-      description: "JSON object of additional fields (e.g. `orderTransactions`, `refundDuties`, or `refundShipping`). Example: `{\"refundShipping\": {\"fullRefund\": true}}`.",
+      label: "Additional Fields",
+      description: "JSON object of additional `ReturnProcessInput` fields (e.g. `refundShipping`, `refundDuties`, `note`, or `financialTransfer` to issue a refund). Example: `{\"refundShipping\": {\"fullRefund\": true}}`.",
       optional: true,
     },
   },
   async run({ $ }) {
-    let returnRefundLineItems;
+    let returnLineItems;
     try {
-      returnRefundLineItems = JSON.parse(this.returnRefundLineItems);
+      returnLineItems = JSON.parse(this.returnLineItems);
     } catch {
-      throw new ConfigurationError("`Return Refund Line Items` must be valid JSON.");
+      throw new ConfigurationError("`Return Line Items` must be valid JSON.");
+    }
+    if (!Array.isArray(returnLineItems) || returnLineItems.length === 0) {
+      throw new ConfigurationError("`Return Line Items` must be a non-empty JSON array of objects.");
+    }
+    for (const item of returnLineItems) {
+      if (!item || typeof item !== "object" || Array.isArray(item)) {
+        throw new ConfigurationError("Each return line item must be an object with `id` and `quantity`.");
+      }
+      if (!item.id) {
+        throw new ConfigurationError("Each return line item requires a non-null `id` (the ReturnLineItem GID).");
+      }
+      if (!Number.isInteger(item.quantity)) {
+        throw new ConfigurationError("Each return line item requires an integer `quantity`.");
+      }
     }
 
-    const returnRefundInput = {
-      ...(this.additionalRefundFields || {}),
+    const input = {
+      ...(this.additionalFields || {}),
       returnId: this.returnId,
-      returnRefundLineItems,
+      returnLineItems,
       notifyCustomer: this.notifyCustomer,
     };
 
-    const response = await this.shopify.refundReturn({
-      returnRefundInput,
+    const response = await this.shopify.processReturn({
+      input,
     });
 
-    if (response.returnRefund?.userErrors?.length > 0) {
-      throw new Error(response.returnRefund.userErrors.map(({ message }) => message).join(", "));
+    if (response.returnProcess?.userErrors?.length > 0) {
+      throw new Error(response.returnProcess.userErrors.map(({ message }) => message).join(", "));
     }
 
-    const { refund } = response.returnRefund ?? {};
-    $.export("$summary", `Created refund \`${refund?.id}\` for return \`${this.returnId}\``);
+    $.export("$summary", `Processed return \`${response?.returnProcess?.return?.id ?? this.returnId}\``);
     return response;
   },
 };
