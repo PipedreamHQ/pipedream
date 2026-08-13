@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 import { ConfigurationError } from "@pipedream/platform";
 import superCarl from "../../super_carl.app.mjs";
 import {
@@ -9,7 +10,7 @@ import {
 export default {
   key: "super_carl-create-communication-draft",
   name: "Create Communication Draft",
-  description: "Save a durable Super Carl communication draft without sending it. Use **Check Communication Capabilities** first to pick the channel and target fields; use **Send Communication** only after a user has approved live delivery. [See the documentation](https://supercarl.ai/docs#endpoints-communications)",
+  description: "Save a durable Super Carl communication draft without sending it. Use **Check Communication Capabilities** first to pick the channel and target fields — the target must resolve to a known Super Carl person record, or the draft will be rejected. Use **Send Communication** only after a user has approved live delivery. [See the documentation](https://supercarl.ai/docs#endpoints-communications)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -34,7 +35,8 @@ export default {
     agentSessionId: {
       type: "string",
       label: "Agent Session ID",
-      description: "Required for draft communications. Identifies the agent session that generated this draft, for example `agent_session_uuid`.",
+      description: "Identifies the agent session that generated this draft, for example `agent_session_uuid`. Auto-generated when left blank — most callers have no reason to supply one.",
+      optional: true,
     },
     subject: {
       propDefinition: [
@@ -142,7 +144,9 @@ export default {
     }, {
       mode: "draft",
       draft: true,
-      agent_session_id: this.agentSessionId,
+      // Draft mode requires a session identifier to store the draft for
+      // later review — generate one when the caller doesn't supply it.
+      agent_session_id: this.agentSessionId || randomUUID(),
     });
     requireCommunicationTarget(data);
 

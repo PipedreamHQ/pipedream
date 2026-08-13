@@ -157,6 +157,12 @@ export default {
       optional: true,
       default: false,
     },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "Optional list of fields to return per row instead of the full record — keeps large result sets well under the context limit. Supports dot-paths for nested values, for example `name`, `linkedin_profile_url`, `resolved_target.id`. Leave blank to return every field (today's full default output).",
+      optional: true,
+    },
     connectorUserId: {
       type: "string",
       label: "Connector User ID",

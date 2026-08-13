@@ -1,5 +1,6 @@
 import superCarl from "../../super_carl.app.mjs";
 import {
+  applyFieldSelection,
   cleanObject,
   countSummary,
   parseObjectProp,
@@ -9,7 +10,7 @@ import {
 export default {
   key: "super_carl-search-companies",
   name: "Search Companies",
-  description: "Search companies by name, domain, funding, size, industry, location, growth, or technology. Use this to qualify a target company or find companies matching structured Filters before reaching out. Use **Search People** afterward to find people at a matched company; enable Resolve Only to just disambiguate a single company name, domain, or LinkedIn URL without running a full search. [See the documentation](https://supercarl.ai/docs#endpoints-companies)",
+  description: "Search companies by name, domain, funding, size, industry, location, growth, or technology. Use this to qualify a target company or find companies matching structured Filters before reaching out. Use **Search People** afterward to find people at a matched company; enable Resolve Only to just disambiguate a single company name, domain, or LinkedIn URL without running a full search. Company rows in `detailed` mode can be large — pass Fields (e.g. `name`, `domain`, `employee_count`) to keep the result small. [See the documentation](https://supercarl.ai/docs#endpoints-companies)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -68,6 +69,12 @@ export default {
         "delegateUserId",
       ],
     },
+    fields: {
+      propDefinition: [
+        superCarl,
+        "fields",
+      ],
+    },
   },
   async run({ $ }) {
     const filters = parseObjectProp(this.filters, "Filters");
@@ -98,6 +105,12 @@ export default {
       rows: response?.companies,
       rowLabel: "companies",
     }));
-    return response;
+
+    return this.fields?.length
+      ? {
+        ...response,
+        companies: applyFieldSelection(response?.companies, this.fields),
+      }
+      : response;
   },
 };

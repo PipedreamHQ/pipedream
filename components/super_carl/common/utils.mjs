@@ -146,3 +146,47 @@ export const countSummary = ({
 
   return `Returned ${rowCount} ${rowLabel}.`;
 };
+
+const getPath = (object, path) => path
+  .split(".")
+  .reduce((acc, key) => (acc && typeof acc === "object"
+    ? acc[key]
+    : undefined), object);
+
+const setPath = (object, path, value) => {
+  const keys = path.split(".");
+  let cursor = object;
+  for (let i = 0; i < keys.length - 1; i++) {
+    const key = keys[i];
+    if (typeof cursor[key] !== "object" || cursor[key] === null) {
+      cursor[key] = {};
+    }
+    cursor = cursor[key];
+  }
+  cursor[keys[keys.length - 1]] = value;
+};
+
+const pluckFields = (row, fields) => {
+  if (!row || typeof row !== "object") {
+    return row;
+  }
+  const result = {};
+  for (const field of fields) {
+    const value = getPath(row, field);
+    if (value !== undefined) {
+      setPath(result, field, value);
+    }
+  }
+  return result;
+};
+
+// Rows from Super Carl's search endpoints carry deep, verbose per-row metadata
+// (connection evidence, resolution provenance, etc.) that regularly pushes a
+// single call past the MCP output ceiling. `fields` is additive: omitted, the
+// row set returned is unchanged from today.
+export const applyFieldSelection = (rows, fields) => {
+  if (!Array.isArray(fields) || fields.length === 0 || !Array.isArray(rows)) {
+    return rows;
+  }
+  return rows.map((row) => pluckFields(row, fields));
+};

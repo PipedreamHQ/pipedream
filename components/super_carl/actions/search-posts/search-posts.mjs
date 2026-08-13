@@ -1,5 +1,6 @@
 import superCarl from "../../super_carl.app.mjs";
 import {
+  applyFieldSelection,
   cleanObject,
   countSummary,
   parseObjectProp,
@@ -9,7 +10,7 @@ import {
 export default {
   key: "super_carl-search-posts",
   name: "Search Posts",
-  description: "Search Super Carl post and activity signals, including authored posts, comments, likes, reactions, company mentions, and engagement. Use this before **Search People** when the workflow is anchored on someone posting or engaging with content; enable With People to return deduped actors from matching activity. [See the documentation](https://supercarl.ai/docs#endpoints-posts)",
+  description: "Search Super Carl post and activity signals, including authored posts, comments, likes, reactions, company mentions, and engagement. Use this before **Search People** when the workflow is anchored on someone posting or engaging with content; enable With People to return deduped actors from matching activity. Post rows can be large — pass Fields (e.g. `author.name`, `text`, `engagement`) to keep the result small. [See the documentation](https://supercarl.ai/docs#endpoints-posts)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -91,6 +92,12 @@ export default {
         "delegateUserId",
       ],
     },
+    fields: {
+      propDefinition: [
+        superCarl,
+        "fields",
+      ],
+    },
   },
   async run({ $ }) {
     const filters = parseObjectProp(this.filters, "Filters");
@@ -121,6 +128,12 @@ export default {
       rows: response?.results,
       rowLabel: "posts",
     }));
-    return response;
+
+    return this.fields?.length
+      ? {
+        ...response,
+        results: applyFieldSelection(response?.results, this.fields),
+      }
+      : response;
   },
 };
