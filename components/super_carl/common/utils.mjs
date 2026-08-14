@@ -147,13 +147,35 @@ export const countSummary = ({
   return `Returned ${rowCount} ${rowLabel}.`;
 };
 
-const getPath = (object, path) => path
+const UNSAFE_PATH_SEGMENTS = new Set([
+  "__proto__",
+  "constructor",
+  "prototype",
+]);
+
+// `fields` is user-supplied (search-jobs.mjs, search-posts.mjs), and these
+// paths are split on "." and used to read/write into plain objects below.
+// Reject __proto__/constructor/prototype segments so a field path can't
+// traverse into (getPath) or pollute (setPath) the shared prototype chain.
+const isUnsafePath = (path) => path
   .split(".")
-  .reduce((acc, key) => (acc && typeof acc === "object"
-    ? acc[key]
-    : undefined), object);
+  .some((segment) => UNSAFE_PATH_SEGMENTS.has(segment));
+
+const getPath = (object, path) => {
+  if (isUnsafePath(path)) {
+    return undefined;
+  }
+  return path
+    .split(".")
+    .reduce((acc, key) => (acc && typeof acc === "object"
+      ? acc[key]
+      : undefined), object);
+};
 
 const setPath = (object, path, value) => {
+  if (isUnsafePath(path)) {
+    return;
+  }
   const keys = path.split(".");
   let cursor = object;
   for (let i = 0; i < keys.length - 1; i++) {
