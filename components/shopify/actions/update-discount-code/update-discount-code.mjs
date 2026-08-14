@@ -4,8 +4,8 @@ import shopify from "../../shopify.app.mjs";
 export default {
   key: "shopify-update-discount-code",
   name: "Update Discount Code",
-  description: "Updates the value of an existing discount code belonging to a price rule in Shopify. Run **List Price Rules** and **List Discount Codes** to find valid IDs. [See the documentation](https://shopify.dev/docs/api/admin-rest/2025-01/resources/discountcode#put-price-rules-price-rule-id-discount-codes-discount-code-id).",
-  version: "0.0.1",
+  description: "Updates the value of an existing discount code belonging to a price rule in Shopify. Run **List Price Rules** and **List Discount Codes** to find valid IDs. [See the documentation](https://shopify.dev/docs/api/admin-rest/2026-07/resources/discountcode#put-price-rules-price-rule-id-discount-codes-discount-code-id).",
+  version: "0.0.3",
   type: "action",
   annotations: {
     readOnlyHint: false,
