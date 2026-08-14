@@ -1,11 +1,20 @@
 export const API_VERSION = "v25";
 
-// Conversion payload fields the upload actions set and validate themselves.
+// Conversion payload fields the upload actions set and validate themselves. Includes the
+// click and call identifiers: injecting those here would bypass the exactly-one-identifier
+// check, which runs against the props before the payload is assembled.
 export const RESERVED_CONVERSION_FIELDS = [
+  "callStartDateTime",
+  "callerId",
   "conversionAction",
   "conversionDateTime",
+  "conversionEnvironment",
   "conversionValue",
   "currencyCode",
+  "gbraid",
+  "gclid",
+  "orderId",
+  "wbraid",
 ];
 
 export const SHARED_SET_TYPES = [
