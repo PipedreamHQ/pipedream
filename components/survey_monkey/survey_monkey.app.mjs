@@ -55,6 +55,23 @@ Alternatively, you can provide a custom *Survey ID*.`,
         }));
       },
     },
+    messageId: {
+      type: "string",
+      label: "Message",
+      description: `Select one of the above collector's **Invite Messages**.
+      \\
+      Alternatively, you can provide a custom *Message ID*.`,
+      async options({ collectorId }) {
+        const messages = await this.getMessages({
+          collectorId,
+        });
+
+        return messages.map((message) => ({
+          label: `${message.type} #${message.id} (${message.status})`,
+          value: message.id,
+        }));
+      },
+    },
     objectType: {
       type: "string",
       label: "Object type",
@@ -187,6 +204,51 @@ Alternatively, you can provide a custom *Survey ID*.`,
       return this._makeRequest({
         method: "GET",
         path: `/collectors/${collectorId}`,
+        ...args,
+      });
+    },
+    async createCollector({
+      surveyId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/surveys/${surveyId}/collectors`,
+        ...args,
+      });
+    },
+    async getMessages({
+      collectorId, ...args
+    }) {
+      return this._paginatedRequest({
+        method: "GET",
+        path: `/collectors/${collectorId}/messages`,
+        ...args,
+      });
+    },
+    async createMessage({
+      collectorId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/collectors/${collectorId}/messages`,
+        ...args,
+      });
+    },
+    async addMessageRecipients({
+      collectorId, messageId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/collectors/${collectorId}/messages/${messageId}/recipients/bulk`,
+        ...args,
+      });
+    },
+    async sendMessage({
+      collectorId, messageId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/collectors/${collectorId}/messages/${messageId}/send`,
         ...args,
       });
     },
