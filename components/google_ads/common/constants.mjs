@@ -1,5 +1,13 @@
 export const API_VERSION = "v25";
 
+// Conversion payload fields the upload actions set and validate themselves.
+export const RESERVED_CONVERSION_FIELDS = [
+  "conversionAction",
+  "conversionDateTime",
+  "conversionValue",
+  "currencyCode",
+];
+
 export const SHARED_SET_TYPES = [
   {
     label: "Negative Keywords",

@@ -2,12 +2,12 @@ import {
   buildBaseConversion, commonProps, DATE_TIME_HINT, DOC_LINK, uploadConversion,
 } from "../common/conversion-upload.mjs";
 
-const docLink = `${DOC_LINK}/UploadCallConversions?transport=rest`;
+const CALL_DOC_LINK = `${DOC_LINK}/UploadCallConversions?transport=rest`;
 
 export default {
   key: "google_ads-upload-call-conversion",
   name: "Upload Call Conversion",
-  description: `Uploads an offline conversion attributed to a phone call. Requires a conversion action of type **Upload Calls**. [See the documentation](${docLink})`,
+  description: `Uploads an offline conversion attributed to a phone call. [See the documentation](${CALL_DOC_LINK})`,
   version: "0.0.1",
   type: "action",
   annotations: {

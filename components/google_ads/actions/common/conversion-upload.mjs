@@ -1,5 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
 import googleAds from "../../google_ads.app.mjs";
+import { RESERVED_CONVERSION_FIELDS } from "../../common/constants.mjs";
 import { parseObject } from "../../common/utils.mjs";
 import { getAdditionalFields } from "../common/props.mjs";
 
@@ -80,6 +81,14 @@ export function buildBaseConversion({
       `**Conversion Value** must be a number, got \`${conversionValue}\`.`,
     );
   }
+  // The spread below would otherwise let these override the values validated above.
+  const extraFields = parseObject(additionalFields) ?? {};
+  const reservedFields = RESERVED_CONVERSION_FIELDS.filter((field) => field in extraFields);
+  if (reservedFields.length) {
+    throw new ConfigurationError(
+      `**Additional Fields** cannot override: ${reservedFields.join(", ")}. Use the dedicated props instead.`,
+    );
+  }
   return {
     conversionAction: conversionActionId,
     conversionDateTime,
@@ -89,7 +98,7 @@ export function buildBaseConversion({
     ...(currencyCode && {
       currencyCode,
     }),
-    ...parseObject(additionalFields),
+    ...extraFields,
   };
 }
 

@@ -56,14 +56,14 @@ export function createReportComponent(resource) {
       fields: {
         type: "string[]",
         label: `${label} Fields`,
-        description: `Select the ${label} fields to include in the report`,
+        description: `Array of ${label} field names to include in the report, e.g. \`["status"]\`. The \`${value}.\` prefix is added automatically. [See the field reference](https://developers.google.com/google-ads/api/fields/v25/${value})`,
         options: resource.fields,
         optional: true,
       },
       segments: {
         type: "string[]",
         label: "Segments",
-        description: "Select any segments to include in the report. See the documentation [here](https://developers.google.com/google-ads/api/reference/rpc/v25/Segments)",
+        description: "Array of segment names to break the report down by, e.g. `[\"date\"]`. The `segments.` prefix is added automatically. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/Segments)",
         options: resource.segments,
         default: [
           "segments.date",
@@ -73,7 +73,7 @@ export function createReportComponent(resource) {
       metrics: {
         type: "string[]",
         label: "Metrics",
-        description: "Select any metrics to include in the report. See the documentation [here](https://developers.google.com/google-ads/api/reference/rpc/v25/Metrics)",
+        description: "Array of metric names to include in the report, e.g. `[\"clicks\"]`. The `metrics.` prefix is added automatically. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/Metrics)",
         options: resource.metrics,
         optional: true,
       },

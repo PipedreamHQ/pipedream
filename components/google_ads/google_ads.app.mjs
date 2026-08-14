@@ -438,7 +438,7 @@ export default {
     conversionActionId: {
       type: "string",
       label: "Conversion Action",
-      description: "The conversion action to record this conversion against. Must be an upload-type action (**Upload Clicks** for click conversions, **Upload Calls** for call conversions) - create one with the **Send Offline Conversion** action.",
+      description: "The conversion action to record this conversion against, as a resource name (e.g. `customers/1234567890/conversionActions/987654321`). Use a value returned by this selector. Must be an upload-type action (**Upload Clicks** for click conversions, **Upload Calls** for call conversions) - create one with the **Send Offline Conversion** action.",
       async options({
         accountId, customerClientId, prevContext,
       }) {
