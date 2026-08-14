@@ -48,7 +48,7 @@ export default {
     let page = 1;
 
     while (households.length < limit && page <= MAX_API_PAGES) {
-      const response = await this.wealthbox.listHouseholds({
+      const response = await this.wealthbox.listContacts({
         $,
         params: {
           name: this.name,

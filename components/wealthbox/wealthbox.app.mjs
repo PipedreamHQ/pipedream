@@ -174,9 +174,9 @@ export default {
         ...args,
       });
     },
-    listHouseholds(args = {}) {
+    listActivityStream(args = {}) {
       return this._makeRequest({
-        path: "/contacts",
+        path: "/activity",
         ...args,
       });
     },

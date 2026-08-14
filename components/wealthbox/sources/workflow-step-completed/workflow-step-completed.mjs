@@ -1,16 +1,15 @@
+// x-pd-ai: optimized
 import { createHash } from "crypto";
 import common from "../common/common.mjs";
 import { DEFAULT_HISTORICAL_LIMIT } from "../../common/constants.mjs";
 
 const MAX_ID_LENGTH = 64;
 
-const PER_PAGE = 25;
-
 export default {
   ...common,
   key: "wealthbox-workflow-step-completed",
   name: "Workflow Step Completed",
-  description: "Emit new event each time a workflow step transitions to a completed state. Polls the Wealthbox workflows endpoint, tracks by `updated_at`, and deduplicates by step id. [See the documentation](https://dev.wealthbox.com/#workflows-retrieve-all-workflows-get)",
+  description: "Emit new event each time a workflow step completion is recorded in Wealthbox. The Wealthbox workflow step object has no completion flag of its own, so this polls the account Activity Stream (GET /activity, filtered to WorkflowStep-linked items) and matches items whose body text records a completion. Deduplicates by activity stream item id (not step id), so reverting and re-completing the same step correctly emits a new event each time. [See the documentation](https://dev.wealthbox.com/#activity-stream-retrieve-activity-stream-get)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -22,57 +21,40 @@ export default {
     _setLastUpdated(ts) {
       this.db.set("lastUpdated", ts);
     },
-    async fetchCompletedSteps(since) {
-      let page = 1;
-      const completedSteps = [];
-
-      do {
-        const response = await this.wealthbox.listWorkflows({
-          params: {
-            per_page: PER_PAGE,
-            page,
-          },
-        });
-        const workflows = response?.workflows || [];
-        if (!workflows.length) {
-          break;
-        }
-
-        for (const workflow of workflows) {
-          const steps = workflow.steps || workflow.workflow_steps || [];
-          for (const step of steps) {
-            if (!step.complete || !step.updated_at) {
-              continue;
-            }
-            const ts = Date.parse(step.updated_at) / 1000;
-            if (ts > since) {
-              completedSteps.push({
-                ...step,
-                workflow_id: workflow.id,
-                workflow_name: workflow.name,
-              });
-            }
-          }
-        }
-
-        if (workflows.length < PER_PAGE) {
-          break;
-        }
-        page++;
-      } while (true);
-
-      return completedSteps;
+    // The activity stream has no dedicated "completed" action field - body is
+    // free-text HTML - so a WorkflowStep-linked item whose body mentions
+    // completion is the closest documented, reliable signal available.
+    isCompletionActivity(item) {
+      return item.linked_to?.type === "WorkflowStep" && /complet/i.test(item.body || "");
     },
-    generateMeta(step) {
-      const rawId = `${step.workflow_id}-${step.id}`;
+    async fetchCompletionActivity(since) {
+      const params = {
+        type: "WorkflowStep",
+      };
+      if (since > 0) {
+        params.updated_since = new Date(since * 1000).toISOString();
+      }
+      const response = await this.wealthbox.listActivityStream({
+        params,
+      });
+      const streamItems = response?.stream_items || [];
+      return streamItems.filter((item) => {
+        if (!item.updated_at || !this.isCompletionActivity(item)) {
+          return false;
+        }
+        return (Date.parse(item.updated_at) / 1000) > since;
+      });
+    },
+    generateMeta(item) {
+      const rawId = `${item.id}`;
       const id = rawId.length <= MAX_ID_LENGTH
         ? rawId
         : createHash("sha256").update(rawId)
           .digest("hex");
       return {
         id,
-        summary: `Workflow Step Completed: ${step.name || step.id}`,
-        ts: Date.parse(step.updated_at) / 1000,
+        summary: `Workflow Step Completed: ${item.linked_to?.name || item.linked_to?.id || item.id}`,
+        ts: Date.parse(item.updated_at) / 1000,
       };
     },
     // Not used directly - workflow-step-completed overrides run() and hooks.deploy
@@ -82,15 +64,15 @@ export default {
   },
   hooks: {
     async deploy() {
-      const steps = await this.fetchCompletedSteps(0);
-      const recent = steps.slice(0, DEFAULT_HISTORICAL_LIMIT);
+      const items = await this.fetchCompletionActivity(0);
+      const recent = items.slice(0, DEFAULT_HISTORICAL_LIMIT);
       if (!recent.length) {
         return;
       }
       let maxTs = 0;
-      for (const step of recent) {
-        this.$emit(step, this.generateMeta(step));
-        const ts = Date.parse(step.updated_at) / 1000;
+      for (const item of recent) {
+        this.$emit(item, this.generateMeta(item));
+        const ts = Date.parse(item.updated_at) / 1000;
         if (ts > maxTs) {
           maxTs = ts;
         }
@@ -102,10 +84,10 @@ export default {
     const lastUpdated = this._getLastUpdated() || 0;
     let maxUpdated = lastUpdated;
 
-    const steps = await this.fetchCompletedSteps(lastUpdated);
-    for (const step of steps) {
-      this.$emit(step, this.generateMeta(step));
-      const ts = Date.parse(step.updated_at) / 1000;
+    const items = await this.fetchCompletionActivity(lastUpdated);
+    for (const item of items) {
+      this.$emit(item, this.generateMeta(item));
+      const ts = Date.parse(item.updated_at) / 1000;
       if (ts > maxUpdated) {
         maxUpdated = ts;
       }

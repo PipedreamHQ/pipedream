@@ -78,8 +78,10 @@ export default {
         c.email_addresses?.some((e) => e.address?.toLowerCase() === emailLower));
     }
     if (this.phone) {
+      const normalizePhone = (s) => (s || "").replace(/\D/g, "");
+      const phoneDigits = normalizePhone(this.phone);
       filtered = filtered.filter((c) =>
-        c.phone_numbers?.some((p) => p.address === this.phone));
+        c.phone_numbers?.some((p) => normalizePhone(p.address) === phoneDigits));
     }
 
     const result = this.fields?.length
