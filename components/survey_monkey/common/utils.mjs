@@ -40,47 +40,76 @@ export function parseObjectArray(value, label) {
       value,
     ];
 
-  return values.flatMap((entry) => {
+  return values.flatMap((entry, index) => {
     const parsed = typeof entry === "string"
-      ? parseEntry(entry, label)
+      ? parseEntry(entry, label, index)
       : entry;
 
     if (Array.isArray(parsed)) {
-      return parsed.map((item) => assertObject(item, label));
+      return parsed.map((item) => assertObject(item, label, index));
     }
 
-    return assertObject(parsed, label);
+    return assertObject(parsed, label, index);
   });
 }
 
 /**
- * Parses a single JSON entry, reporting the offending text when it is invalid.
+ * Describes a value's type in words, so an error can say what arrived without
+ * quoting it back.
+ *
+ * @param {*} value - The value to describe.
+ * @returns {string} A short, content-free description, e.g. `"a string"`.
+ */
+function describeType(value) {
+  if (value === null) {
+    return "null";
+  }
+
+  if (Array.isArray(value)) {
+    return "an array";
+  }
+
+  return `a ${typeof value}`;
+}
+
+/**
+ * Parses a single JSON entry, locating an invalid one by position.
+ *
+ * The offending text is deliberately left out of the error: these entries are
+ * recipient records, so they routinely hold email addresses and phone numbers,
+ * and a ConfigurationError message is persisted in the execution log where a
+ * workspace member who is not the sender can read it. The position and length
+ * are enough to find the bad entry in the prop.
  *
  * @param {string} entry - The raw JSON string.
  * @param {string} label - The prop's label, used in the error message.
+ * @param {number} index - The entry's zero-based position in the prop.
  * @returns {*} The parsed value.
  * @throws {ConfigurationError} When the entry is not valid JSON.
  */
-function parseEntry(entry, label) {
+function parseEntry(entry, label, index) {
   try {
     return JSON.parse(entry);
-  } catch (error) {
-    throw new ConfigurationError(`**${label}** entries must be valid JSON objects. Could not parse: ${entry}`);
+  } catch {
+    throw new ConfigurationError(`**${label}** entry ${index + 1} is not valid JSON (${entry.length} characters). Each entry must be a JSON object, e.g. \`{"email": "jane@example.com"}\`. The entry itself is omitted here because it can contain recipient contact details.`);
   }
 }
 
 /**
  * Asserts that a parsed entry is a plain object, so a scalar such as `42` or
  * `null` fails here with a clear message rather than as an opaque API error.
+ * Reports the value's type rather than the value, for the same reason
+ * `parseEntry` omits the raw text.
  *
  * @param {*} value - The parsed entry.
  * @param {string} label - The prop's label, used in the error message.
+ * @param {number} index - The entry's zero-based position in the prop.
  * @returns {object} The value, unchanged, when it is a plain object.
  * @throws {ConfigurationError} When the value is not a plain object.
  */
-function assertObject(value, label) {
+function assertObject(value, label, index) {
   if (!isPlainObject(value)) {
-    throw new ConfigurationError(`**${label}** entries must be JSON objects. Received: ${JSON.stringify(value)}`);
+    throw new ConfigurationError(`**${label}** entry ${index + 1} must be a JSON object, but parsed to ${describeType(value)}.`);
   }
 
   return value;
