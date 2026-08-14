@@ -167,7 +167,7 @@ export default {
     connectorUserId: {
       type: "string",
       label: "Connector User ID",
-      description: "Required only for `supercarl_referral_request`. This is a UUID from `supercarl.candidate_connectors` returned by Check Communication Capabilities, for example `550e8400-e29b-41d4-a716-446655440000`.",
+      description: "Required only for `supercarl_referral_request`. This is a UUID from `supercarl.candidate_connectors` returned by **Check Communication Capabilities**, for example `550e8400-e29b-41d4-a716-446655440000`.",
       optional: true,
     },
     message: {
