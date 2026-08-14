@@ -212,3 +212,32 @@ export const applyFieldSelection = (rows, fields) => {
   }
   return rows.map((row) => pluckFields(row, fields));
 };
+
+// Internal search-engine execution telemetry (Elasticsearch strategy, query
+// embedding flags, filter provenance, bitmap counts, raw es_response, etc.)
+// that Super Carl's people-search endpoint always includes at the top level,
+// unrelated to `fields` (which only scopes each row). Measured at 45-55k
+// characters on a single-row result — large enough on its own to blow the
+// MCP output ceiling regardless of row count. None of it is documented or
+// actionable for a caller, so it's dropped unconditionally, not gated behind
+// an opt-in — there's no described use case that would need it back.
+const SEARCH_PEOPLE_DEBUG_FIELDS = [
+  "search_metadata",
+  "entity_resolution",
+];
+
+export const stripDebugFields = (response, keys) => {
+  if (!response || typeof response !== "object") {
+    return response;
+  }
+  const result = {
+    ...response,
+  };
+  for (const key of keys) {
+    delete result[key];
+  }
+  return result;
+};
+
+export const stripSearchPeopleDebugFields = (response) =>
+  stripDebugFields(response, SEARCH_PEOPLE_DEBUG_FIELDS);

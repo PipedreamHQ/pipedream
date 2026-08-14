@@ -6,6 +6,7 @@ import {
   countSummary,
   parseObjectProp,
   requireQueryOrFilters,
+  stripSearchPeopleDebugFields,
 } from "../../common/utils.mjs";
 
 export default {
@@ -106,11 +107,13 @@ export default {
       rowLabel: "people",
     }));
 
+    const trimmed = stripSearchPeopleDebugFields(response);
+
     return this.fields?.length
       ? {
-        ...response,
-        users: applyFieldSelection(response?.users, this.fields),
+        ...trimmed,
+        users: applyFieldSelection(trimmed?.users, this.fields),
       }
-      : response;
+      : trimmed;
   },
 };
