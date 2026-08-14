@@ -7,7 +7,7 @@ export default {
   ...base,
   key: "survey_monkey-add-message-recipients",
   name: "Add Message Recipients",
-  description: "Add recipients to an invite message, from new contacts, existing contact IDs, contact lists, or any combination. Uses the bulk endpoint, so a recipient already on the message or collector is reported back under `duplicate` rather than being re-added. [See the docs here](https://api.surveymonkey.com/v3/docs?javascript#api-endpoints-post-collectors-collector_id-messages-message_id-recipients-bulk)",
+  description: "Add recipients to an invite message, from new contacts, existing contact IDs, contact lists, or any combination. Uses the bulk endpoint, so a recipient already on the message or collector is reported back under `duplicate` rather than being re-added. [See the documentation](https://api.surveymonkey.com/v3/docs?javascript#api-endpoints-post-collectors-collector_id-messages-message_id-recipients-bulk)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -44,13 +44,13 @@ export default {
     contactIds: {
       type: "string[]",
       label: "Contact IDs",
-      description: "IDs of existing contacts to add as recipients.",
+      description: "IDs of existing SurveyMonkey contacts to add as recipients, e.g. `[\"123456\"]`. Contacts live in your SurveyMonkey address book rather than in this action — find their IDs at `GET /v3/contacts`, which returns an `id` per contact, or in the `succeeded[].id` values a previous run of this action returned.",
       optional: true,
     },
     contactListIds: {
       type: "string[]",
       label: "Contact List IDs",
-      description: "IDs of existing contact lists whose contacts should be added as recipients. Contact lists are managed in SurveyMonkey rather than here — find the IDs at `GET /v3/contact_lists`, or in the list's URL in the SurveyMonkey UI.",
+      description: "IDs of existing contact lists whose contacts should be added as recipients, e.g. `[\"123456\"]`. Contact lists are managed in SurveyMonkey rather than here — find their IDs at `GET /v3/contact_lists`, or in the list's URL in the SurveyMonkey UI.",
       optional: true,
     },
   },

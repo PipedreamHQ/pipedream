@@ -5,7 +5,7 @@ export default {
   ...base,
   key: "survey_monkey-send-invite-message",
   name: "Send Invite Message",
-  description: "Send an invite message to its recipients, immediately or at a scheduled date. [See the docs here](https://api.surveymonkey.com/v3/docs?javascript#api-endpoints-post-collectors-collector_id-messages-message_id-send)",
+  description: "Send an invite message to its recipients, immediately or at a scheduled date. [See the documentation](https://api.surveymonkey.com/v3/docs?javascript#api-endpoints-post-collectors-collector_id-messages-message_id-send)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

@@ -5,7 +5,7 @@ export default {
   ...base,
   key: "survey_monkey-create-collector",
   name: "Create Collector",
-  description: "Create a collector for a survey. A collector is the channel responses come in through — an SMS or email invitation, a web link, or a popup. [See the docs here](https://api.surveymonkey.com/v3/docs?javascript#api-endpoints-post-surveys-survey_id-collectors)",
+  description: "Create a collector for a survey. A collector is the channel responses come in through — an SMS or email invitation, a web link, or a popup. [See the documentation](https://api.surveymonkey.com/v3/docs?javascript#api-endpoints-post-surveys-survey_id-collectors)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -90,22 +90,33 @@ export default {
     },
   },
   async run({ $ }) {
+    const declared = {
+      type: this.type,
+      name: this.name,
+      sender_email: this.senderEmail,
+      thank_you_message: this.thankYouMessage,
+      closed_page_message: this.closedPageMessage,
+      redirect_url: this.redirectUrl,
+      close_date: this.closeDate,
+      response_limit: this.responseLimit,
+      anonymous_type: this.anonymousType,
+      edit_response_type: this.editResponseType,
+      is_branding_enabled: this.isBrandingEnabled,
+    };
+
     const response = await this.surveyMonkey.createCollector({
       $,
       surveyId: this.survey,
       data: {
-        type: this.type,
-        name: this.name,
-        sender_email: this.senderEmail,
-        thank_you_message: this.thankYouMessage,
-        closed_page_message: this.closedPageMessage,
-        redirect_url: this.redirectUrl,
-        close_date: this.closeDate,
-        response_limit: this.responseLimit,
-        anonymous_type: this.anonymousType,
-        edit_response_type: this.editResponseType,
-        is_branding_enabled: this.isBrandingEnabled,
         ...this.additionalOptions,
+        // Declared props take precedence over Additional Options, but only
+        // where one was actually set: an unset optional prop is `undefined`,
+        // and letting that through would drop the matching Additional Options
+        // key from the serialized body instead of leaving it alone.
+        ...Object.fromEntries(Object.entries(declared).filter(([
+          ,
+          value,
+        ]) => value !== undefined)),
       },
     });
 

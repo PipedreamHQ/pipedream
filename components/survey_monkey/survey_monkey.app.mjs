@@ -61,16 +61,23 @@ Alternatively, you can provide a custom *Survey ID*.`,
       description: `Select one of the above collector's **Invite Messages**.
       \\
       Alternatively, you can provide a custom *Message ID*.`,
-      async options({ collectorId }) {
+      async options({
+        collectorId, page,
+      }) {
         if (!collectorId) {
           return [];
         }
 
-        const messages = await this.getMessages({
+        // One page per "load more" rather than walking every page up front.
+        // SurveyMonkey's `page` is 1-indexed; Pipedream's is 0-indexed.
+        const { data = [] } = await this.listMessages({
           collectorId,
+          params: {
+            page: page + 1,
+          },
         });
 
-        return messages.map((message) => ({
+        return data.map((message) => ({
           label: `${message.type} #${message.id} (${message.status})`,
           value: message.id,
         }));
@@ -220,10 +227,10 @@ Alternatively, you can provide a custom *Survey ID*.`,
         ...args,
       });
     },
-    async getMessages({
+    async listMessages({
       collectorId, ...args
     }) {
-      return this._paginatedRequest({
+      return this._makeRequest({
         method: "GET",
         path: `/collectors/${collectorId}/messages`,
         ...args,
