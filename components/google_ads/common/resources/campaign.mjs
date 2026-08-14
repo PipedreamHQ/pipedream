@@ -17,6 +17,7 @@ const fields = [
   "campaign_budget",
   "campaign_group",
   "commission.commission_rate_micros",
+  "contains_eu_political_advertising",
   "demand_gen_campaign_settings.upgraded_targeting",
   "dynamic_search_ads_setting.domain_name",
   "dynamic_search_ads_setting.language_code",

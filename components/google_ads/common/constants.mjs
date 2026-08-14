@@ -93,10 +93,6 @@ export const ADVERTISING_CHANNEL_TYPES = [
     value: "LOCAL_SERVICES",
   },
   {
-    label: "Discovery",
-    value: "DISCOVERY",
-  },
-  {
     label: "Travel",
     value: "TRAVEL",
   },
@@ -165,10 +161,6 @@ export const AD_GROUP_TYPES = [
     value: "VIDEO_NON_SKIPPABLE_IN_STREAM",
   },
   {
-    label: "Video Outstream",
-    value: "VIDEO_OUTSTREAM",
-  },
-  {
     label: "Search Dynamic Ads",
     value: "SEARCH_DYNAMIC_ADS",
   },
@@ -195,6 +187,10 @@ export const AD_GROUP_TYPES = [
   {
     label: "Travel Ads",
     value: "TRAVEL_ADS",
+  },
+  {
+    label: "YouTube Audio",
+    value: "YOUTUBE_AUDIO",
   },
 ];
 

@@ -174,9 +174,7 @@ export function createReportComponent(resource) {
         $,
         accountId: this.accountId,
         customerClientId: this.customerClientId,
-        data: {
-          query,
-        },
+        query,
       })) ?? [];
 
       const { length } = results;

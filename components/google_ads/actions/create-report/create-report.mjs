@@ -20,7 +20,7 @@ export default {
   key: "google_ads-create-report",
   name: "Create Report",
   description: "Generates a report from your Google Ads data. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/GoogleAdsService/Search?transport=rest)",
-  version: "0.2.2",
+  version: "0.3.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -256,9 +256,7 @@ export default {
       $,
       accountId: this.accountId,
       customerClientId: this.customerClientId,
-      data: {
-        query,
-      },
+      query,
     })) ?? [];
 
     const { length } = results;
