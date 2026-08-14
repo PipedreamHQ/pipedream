@@ -3,7 +3,7 @@ import { DEFAULT_HISTORICAL_LIMIT } from "../../common/constants.mjs";
 
 export default {
   ...common,
-  key: "wealthbox-task-completed-1",
+  key: "wealthbox-task-completed",
   name: "Task Completed",
   description: "Emit new event each time a task transitions to complete. Polls GET /tasks including completed tasks, tracks by `updated_at`, and post-filters to tasks whose `complete` is true. On deploy it backfills up to 25 recently completed tasks. [See the documentation](https://dev.wealthbox.com/#tasks-retrieve-all-tasks-get)",
   version: "0.0.1",

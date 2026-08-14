@@ -4,7 +4,7 @@ export default {
   key: "wealthbox-create-task",
   name: "Create Task",
   description: "Create a new task in Wealthbox. Supply a task name, due date (`YYYY-MM-DD HH:MM AM/PM ±HHMM`), and optional category and priority. Use **List Category Options** to find valid category IDs. Example: create a task named `Send Q4 Report` due `2026-12-31 5:00 PM -0500` with priority `High`; returns the task object including `id`, `name`, `due_date`, `category`, and `priority`. [See the documentation](http://dev.wealthbox.com/#tasks-collection-post)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

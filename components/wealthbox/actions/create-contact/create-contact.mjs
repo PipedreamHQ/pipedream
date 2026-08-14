@@ -7,7 +7,7 @@ export default {
   key: "wealthbox-create-contact",
   name: "Create Contact",
   description: "Create a new contact in Wealthbox. For `Person` type, provide First Name (and optionally Last Name). For `Household`, `Organization`, or `Trust` types, the Name field is used as the entity name (the API accepts a top-level `name` field for non-Person types). Example: create a `Person` contact with first name `Jane`, last name `Smith`, email `jane@acme.com`; returns the contact object including `id`, `first_name`, `last_name`, `email_addresses`, `type`, and `contact_type`. [See the documentation](http://dev.wealthbox.com/#contacts-create-a-new-contact-post)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

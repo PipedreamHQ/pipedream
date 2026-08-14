@@ -4,7 +4,7 @@ export default {
   key: "wealthbox-create-opportunity",
   name: "Create Opportunity",
   description: "Create a new opportunity in Wealthbox. Supply an opportunity name, target close date, probability (integer 0–100), amount type and value, and stage ID. Use **List Stage Options** to find valid stage IDs and **List Contact Options** to find the contact ID to link. Example: create opportunity `Q4 AUM Expansion` with probability `75`, amount `50000` of type `AUM`, target close `2026-12-31 10:00 AM -0500`; returns the opportunity object including `id`, `name`, `stage`, `probability`, `target_close`, and `amounts`. [See the documentation](http://dev.wealthbox.com/#opportunities-collection-post)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
