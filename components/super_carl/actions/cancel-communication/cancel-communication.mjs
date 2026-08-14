@@ -1,6 +1,5 @@
 // x-pd-ai: optimized
 import superCarl from "../../super_carl.app.mjs";
-import { cleanObject } from "../../common/utils.mjs";
 
 export default {
   key: "super_carl-cancel-communication",
@@ -32,9 +31,9 @@ export default {
     const response = await this.superCarl.cancelCommunication({
       $,
       communicationId: this.communicationId,
-      data: cleanObject({
+      data: {
         reason: this.reason,
-      }),
+      },
     });
 
     $.export("$summary", `Cancelled communication ${this.communicationId}.`);

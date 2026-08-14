@@ -2,7 +2,6 @@
 import { ConfigurationError } from "@pipedream/platform";
 import superCarl from "../../super_carl.app.mjs";
 import {
-  buildCommunicationPayload,
   parseObjectProp,
   requireCommunicationTarget,
 } from "../../common/utils.mjs";
@@ -138,27 +137,26 @@ export default {
     if (this.channel === "supercarl_referral_request" && !this.connectorUserId?.trim()) {
       throw new ConfigurationError("Connector User ID is required when Channel is `supercarl_referral_request`.");
     }
-    const data = buildCommunicationPayload({
+    const data = {
       channel: this.channel,
       message: this.message,
       subject: this.subject,
-      targetUserId: this.targetUserId,
-      linkedinProfileUrl: this.linkedinProfileUrl,
-      linkedinUsername: this.linkedinUsername,
-      xProfileUrl: this.xProfileUrl,
-      xUsername: this.xUsername,
-      instagramProfileUrl: this.instagramProfileUrl,
-      instagramUsername: this.instagramUsername,
-      recipientEmail: this.recipientEmail,
-      connectorUserId: this.connectorUserId,
+      target_user_id: this.targetUserId,
+      linkedin_profile_url: this.linkedinProfileUrl,
+      linkedin_username: this.linkedinUsername,
+      x_profile_url: this.xProfileUrl,
+      x_username: this.xUsername,
+      instagram_profile_url: this.instagramProfileUrl,
+      instagram_username: this.instagramUsername,
+      recipient_email: this.recipientEmail,
+      connector_user_id: this.connectorUserId,
       context,
-      idempotencyKey: this.idempotencyKey,
-      delegateUserId: this.delegateUserId,
-    }, {
+      idempotency_key: this.idempotencyKey,
+      delegate_user_id: this.delegateUserId,
       dry_run: this.dryRun,
       wait_ms: this.waitMs,
       wait_until: this.waitUntil,
-    });
+    };
     requireCommunicationTarget(data);
 
     const response = await this.superCarl.createCommunication({

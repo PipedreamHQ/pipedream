@@ -1,6 +1,5 @@
 // x-pd-ai: optimized
 import superCarl from "../../super_carl.app.mjs";
-import { cleanObject } from "../../common/utils.mjs";
 
 export default {
   key: "super_carl-get-communication",
@@ -38,10 +37,10 @@ export default {
     const response = await this.superCarl.getCommunication({
       $,
       communicationId: this.communicationId,
-      params: cleanObject({
+      params: {
         wait_ms: this.waitMs,
         wait_until: this.waitUntil,
-      }),
+      },
     });
 
     $.export("$summary", `Communication ${this.communicationId} is ${response?.status || "unknown"}.`);

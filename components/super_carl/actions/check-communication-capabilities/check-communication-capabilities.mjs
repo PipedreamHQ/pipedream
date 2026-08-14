@@ -2,7 +2,7 @@
 import superCarl from "../../super_carl.app.mjs";
 import {
   applyFieldSelection,
-  cleanObject,
+  cleanValue,
   requireCommunicationTarget,
 } from "../../common/utils.mjs";
 
@@ -87,7 +87,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = cleanObject({
+    const data = {
       target_user_id: this.targetUserId,
       linkedin_profile_url: this.linkedinProfileUrl,
       linkedin_username: this.linkedinUsername,
@@ -96,9 +96,9 @@ export default {
       instagram_profile_url: this.instagramProfileUrl,
       instagram_username: this.instagramUsername,
       recipient_email: this.recipientEmail,
-      channels: this.channels,
+      channels: cleanValue(this.channels),
       delegate_user_id: this.delegateUserId,
-    });
+    };
     requireCommunicationTarget(data);
 
     const response = await this.superCarl.getCommunicationCapabilities({

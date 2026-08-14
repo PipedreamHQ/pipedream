@@ -2,7 +2,6 @@
 import superCarl from "../../super_carl.app.mjs";
 import {
   applyFieldSelection,
-  cleanObject,
   countSummary,
   parseObjectProp,
   requireQueryOrFilters,
@@ -88,7 +87,7 @@ export default {
     const response = await this.superCarl.searchPeople({
       $,
       preview: this.preview,
-      data: cleanObject({
+      data: {
         query: this.query,
         filters,
         limit: this.limit,
@@ -98,7 +97,7 @@ export default {
           : this.evidenceFormat,
         relationship_detail: this.relationshipDetail,
         delegate_user_id: this.delegateUserId,
-      }),
+      },
     });
 
     $.export("$summary", countSummary({

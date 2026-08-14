@@ -1,9 +1,6 @@
 // x-pd-ai: optimized
 import superCarl from "../../super_carl.app.mjs";
-import {
-  cleanObject,
-  requireCommunicationTarget,
-} from "../../common/utils.mjs";
+import { requireCommunicationTarget } from "../../common/utils.mjs";
 
 export default {
   key: "super_carl-get-communication-history",
@@ -113,7 +110,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = cleanObject({
+    const data = {
       target_user_id: this.targetUserId,
       linkedin_profile_url: this.linkedinProfileUrl,
       linkedin_username: this.linkedinUsername,
@@ -127,7 +124,7 @@ export default {
       offset: this.offset,
       history_fresh: this.historyFresh,
       delegate_user_id: this.delegateUserId,
-    });
+    };
     requireCommunicationTarget(data);
 
     const response = await this.superCarl.getCommunicationHistory({

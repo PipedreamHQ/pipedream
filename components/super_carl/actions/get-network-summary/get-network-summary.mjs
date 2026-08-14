@@ -1,6 +1,5 @@
 // x-pd-ai: optimized
 import superCarl from "../../super_carl.app.mjs";
-import { cleanObject } from "../../common/utils.mjs";
 
 export default {
   key: "super_carl-get-network-summary",
@@ -25,9 +24,9 @@ export default {
   async run({ $ }) {
     const response = await this.superCarl.getNetworkSummary({
       $,
-      params: cleanObject({
+      params: {
         delegate_user_id: this.delegateUserId,
-      }),
+      },
     });
 
     const networks = Array.isArray(response?.networks)

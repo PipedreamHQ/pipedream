@@ -98,41 +98,6 @@ export const requireCommunicationTarget = (payload = {}) => {
   }
 };
 
-export const buildCommunicationPayload = ({
-  channel,
-  message,
-  subject,
-  targetUserId,
-  linkedinProfileUrl,
-  linkedinUsername,
-  xProfileUrl,
-  xUsername,
-  instagramProfileUrl,
-  instagramUsername,
-  recipientEmail,
-  connectorUserId,
-  context,
-  idempotencyKey,
-  delegateUserId,
-}, extra = {}) => cleanObject({
-  channel,
-  message,
-  subject,
-  target_user_id: targetUserId,
-  linkedin_profile_url: linkedinProfileUrl,
-  linkedin_username: linkedinUsername,
-  x_profile_url: xProfileUrl,
-  x_username: xUsername,
-  instagram_profile_url: instagramProfileUrl,
-  instagram_username: instagramUsername,
-  recipient_email: recipientEmail,
-  connector_user_id: connectorUserId,
-  context,
-  idempotency_key: idempotencyKey,
-  delegate_user_id: delegateUserId,
-  ...extra,
-});
-
 export const countSummary = ({
   total, rows, rowLabel,
 }) => {

@@ -2,7 +2,6 @@
 import superCarl from "../../super_carl.app.mjs";
 import {
   applyFieldSelection,
-  cleanObject,
   countSummary,
   parseObjectProp,
   requireQueryOrFilters,
@@ -86,7 +85,7 @@ export default {
 
     const response = await this.superCarl.searchCompanies({
       $,
-      data: cleanObject({
+      data: {
         query: this.query,
         filters,
         preview_limit: this.previewLimit,
@@ -94,7 +93,7 @@ export default {
         result_mode: this.resultMode,
         include_evidence_text: this.includeEvidenceText,
         delegate_user_id: this.delegateUserId,
-      }),
+      },
     });
 
     const total = response?.pagination?.total
