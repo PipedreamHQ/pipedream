@@ -35,7 +35,7 @@ export default {
         app,
         "groupIds",
       ],
-      description: "IDs of the contact groups to send to — the `content[].id` values returned by [`GET /v1/contact-groups`](https://developers.eztexting.com/reference/list_2-1), selectable from the list. Either **To Numbers** or **Group IDs** must be set.",
+      description: "IDs of the contact groups to send to. Pass the `content[].id` values returned by [`GET /v1/contact-groups`](https://developers.eztexting.com/reference/list_2-1) unchanged. Either **To Numbers** or **Group IDs** must be set.",
     },
     fromNumber: {
       propDefinition: [

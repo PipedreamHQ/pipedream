@@ -22,7 +22,7 @@ export default {
     groupIds: {
       type: "string[]",
       label: "Group IDs",
-      description: "IDs of the contact groups to use. Select from the list, or pass the opaque `id` string of a contact group — the `content[].id` values returned by [`GET /v1/contact-groups`](https://developers.eztexting.com/reference/list_2-1), also returned when a group is created. The API documents no format for these IDs beyond \"string\", so pass them through as returned rather than parsing them.",
+      description: "IDs of the contact groups to use. Pass the `content[].id` values returned by [`GET /v1/contact-groups`](https://developers.eztexting.com/reference/list_2-1) unchanged; the same ID is returned when a group is created. The API documents no format for them beyond \"string\", so treat them as opaque — do not parse or construct one.",
       optional: true,
       async options({ page }) {
         const { content } = await this.listContactGroups({
@@ -42,7 +42,7 @@ export default {
     mediaFileId: {
       type: "string",
       label: "Media File ID",
-      description: "ID of a previously uploaded media file to attach. Select from the list, or pass the opaque `id` string of a media file — the `content[].id` values returned by [`GET /v1/media-files`](https://developers.eztexting.com/reference/list_5-1), also returned when a file is uploaded. The API documents no format for these IDs beyond \"string\", so pass them through as returned rather than parsing them.",
+      description: "ID of a previously uploaded media file to attach. Pass a `content[].id` value returned by [`GET /v1/media-files`](https://developers.eztexting.com/reference/list_5-1) unchanged; the same ID is returned when a file is uploaded. The API documents no format for it beyond \"string\", so treat it as opaque — do not parse or construct one.",
       optional: true,
       async options({ page }) {
         const { content } = await this.listMediaFiles({
@@ -64,7 +64,7 @@ export default {
     messageTemplateId: {
       type: "string",
       label: "Message Template ID",
-      description: "ID of a message template to build the message from. Select from the list, or pass the opaque `id` string of a template — the `content[].id` values returned by [`GET /v1/message-templates`](https://developers.eztexting.com/reference/list_7-1), also returned when a template is created. The API documents no format for these IDs beyond \"string\", so pass them through as returned rather than parsing them.",
+      description: "ID of a message template to build the message from. Pass a `content[].id` value returned by [`GET /v1/message-templates`](https://developers.eztexting.com/reference/list_7-1) unchanged; the same ID is returned when a template is created. The API documents no format for it beyond \"string\", so treat it as opaque — do not parse or construct one.",
       optional: true,
       async options({ page }) {
         const { content } = await this.listMessageTemplates({
