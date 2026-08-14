@@ -11,7 +11,7 @@ import {
 export default {
   key: "super_carl-search-posts",
   name: "Search Posts",
-  description: "Search Super Carl post and activity signals, including authored posts, comments, likes, reactions, company mentions, and engagement. Use this before **Search People** when the workflow is anchored on someone posting or engaging with content; enable With People to return deduped actors from matching activity. Post rows can be large — pass Fields (e.g. `author.name`, `text`, `engagement`) to keep the result small. [See the documentation](https://supercarl.ai/docs#endpoints-posts)",
+  description: "Search Super Carl post and activity signals, including authored posts, comments, likes, reactions, company mentions, and engagement. Use this before **Search People** when the workflow is anchored on someone posting or engaging with content; enable With People to return deduped actors from matching activity. Post rows can be large — pass Fields (flat field names only, e.g. `author_name`, `text`, `url`; there is no nested `author.name` path) to keep the result small; With People's deduped rows are already trimmed and don't need Fields. [See the documentation](https://supercarl.ai/docs#endpoints-posts)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -130,11 +130,29 @@ export default {
       rowLabel: "posts",
     }));
 
+    // Each deduped person carries its own `matched_posts` array (the posts
+    // that matched, re-embedded per person) - consistently ~60% of that
+    // row's size and redundant with `results`, which already has them.
+    // Dropped unconditionally, not gated behind `fields` (which uses post
+    // field names like `author_name` and wouldn't resolve against people's
+    // own `name`/`headline` shape anyway).
+    const people = Array.isArray(response?.people)
+      ? response.people.map((person) => Object.fromEntries(
+        Object.entries(person).filter(([
+          key,
+        ]) => key !== "matched_posts"),
+      ))
+      : response?.people;
+
     return this.fields?.length
       ? {
         ...response,
         results: applyFieldSelection(response?.results, this.fields),
+        people,
       }
-      : response;
+      : {
+        ...response,
+        people,
+      };
   },
 };
