@@ -5,7 +5,7 @@ export default {
   key: "brex-get-user",
   name: "Get User",
   description: "Retrieves one person in the Brex account, including their status, manager, department, location, and title. Use **List Users** to find a user ID by email address. [See the documentation](https://developer.brex.com/openapi/team_api/users/getuserbyid)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     readOnlyHint: true,

@@ -149,9 +149,11 @@ export default {
     maxResults: {
       type: "integer",
       label: "Max Results",
-      description: "The maximum number of records to return. Defaults to `100`.",
+      description: "The maximum number of records to return, from `1` to `2000`. Defaults to `100`.",
       optional: true,
       min: 1,
+      // The paginator stops after MAX_PAGES, so a larger value could never be satisfied.
+      max: MAX_LIMIT_PER_PAGE * MAX_PAGES,
     },
   },
   methods: {
@@ -296,7 +298,7 @@ export default {
       return this._request({
         $,
         method: "GET",
-        path: `/v2/cards/${cardId}`,
+        path: `/v2/cards/${encodeURIComponent(cardId)}`,
       });
     },
     async listCardsPaginated({
@@ -316,7 +318,7 @@ export default {
       return this._request({
         $,
         method: "POST",
-        path: `/v2/cards/${cardId}/lock`,
+        path: `/v2/cards/${encodeURIComponent(cardId)}/lock`,
         data,
       });
     },
@@ -326,7 +328,7 @@ export default {
       return this._request({
         $,
         method: "POST",
-        path: `/v2/cards/${cardId}/unlock`,
+        path: `/v2/cards/${encodeURIComponent(cardId)}/unlock`,
       });
     },
     async terminateCard({
@@ -335,7 +337,7 @@ export default {
       return this._request({
         $,
         method: "POST",
-        path: `/v2/cards/${cardId}/terminate`,
+        path: `/v2/cards/${encodeURIComponent(cardId)}/terminate`,
         data,
       });
     },
@@ -345,7 +347,7 @@ export default {
       return this._request({
         $,
         method: "PUT",
-        path: `/v2/cards/${cardId}`,
+        path: `/v2/cards/${encodeURIComponent(cardId)}`,
         data,
       });
     },
@@ -355,7 +357,7 @@ export default {
       return this._request({
         $,
         method: "GET",
-        path: `/v2/users/${userId}`,
+        path: `/v2/users/${encodeURIComponent(userId)}`,
       });
     },
     async getUserLimit({
@@ -364,7 +366,7 @@ export default {
       return this._request({
         $,
         method: "GET",
-        path: `/v2/users/${userId}/limit`,
+        path: `/v2/users/${encodeURIComponent(userId)}/limit`,
       });
     },
     async listUsersPaginated({
@@ -384,7 +386,7 @@ export default {
       return this._request({
         $,
         method: "GET",
-        path: `/v1/expenses/${expenseId}`,
+        path: `/v1/expenses/${encodeURIComponent(expenseId)}`,
         params,
       });
     },
@@ -421,11 +423,15 @@ export default {
         filter,
       });
     },
-    async listCardAccounts({ $ } = {}) {
-      return this._request({
+    async listCardAccountsPaginated({
+      $, params, max, filter,
+    }) {
+      return this._paginateItems({
         $,
-        method: "GET",
         path: "/v2/accounts/card",
+        params,
+        max,
+        filter,
       });
     },
     async getLocations(cursor, limit) {
