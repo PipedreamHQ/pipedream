@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import wealthbox from "../../wealthbox.app.mjs";
 import {
   DEFAULT_LIST_LIMIT,

@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import wealthbox from "../../wealthbox.app.mjs";
 import {
   DEFAULT_LINKED_TO_TYPE,

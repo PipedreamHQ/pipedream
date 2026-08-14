@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import wealthbox from "../../wealthbox.app.mjs";
 
