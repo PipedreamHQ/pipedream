@@ -9,7 +9,7 @@ export default {
     openWorldHint: true,
     readOnlyHint: true,
   },
-  description: "List all currency codes supported by UniRate. [See the documentation](https://unirateapi.com/apidocs).",
+  description: "List every currency code supported by UniRate for exchange rate and conversion operations. Use this to discover valid values before calling **Convert Currency** or **Get Exchange Rates**, or to check whether a currency code you already have is supported. Takes no parameters and returns the full set in a single response as `{ currencies, count }` — codes only, without currency names or rates. These are currency codes (e.g. `USD`, `EUR`, `GBP`) and are unrelated to the EU VAT country codes used by **Get VAT Rates**. [See the documentation](https://unirateapi.com/apidocs).",
   type: "action",
   props: {
     app,

@@ -19,7 +19,7 @@ export default {
     countryCode: {
       type: "string",
       label: "Country Code",
-      description: "An ISO 3166-1 alpha-2 country code (e.g. `DE`, `FR`, `GB`). If omitted, VAT rates for all supported countries are returned.",
+      description: "An EU VAT country code (e.g. `DE`, `FR`, `UK`). These follow the EU VAT convention rather than ISO 3166-1 alpha-2 — Greece is `EL` (not `GR`) and the United Kingdom is `UK` (not `GB`).",
       optional: true,
     },
   },
@@ -59,9 +59,7 @@ export default {
         path: "rates",
         params: {
           from,
-          ...(to && {
-            to,
-          }),
+          to,
         },
         ...args,
       });
@@ -85,9 +83,7 @@ export default {
       return this._makeRequest({
         path: "vat/rates",
         params: {
-          ...(country && {
-            country,
-          }),
+          country,
         },
         ...args,
       });

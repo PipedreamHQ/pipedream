@@ -9,7 +9,7 @@ export default {
     openWorldHint: true,
     readOnlyHint: true,
   },
-  description: "Get VAT rates for a single country, or for all supported countries when no country is provided. [See the documentation](https://unirateapi.com/apidocs).",
+  description: "Get VAT rates for a single country, or for all supported countries when no country is provided. Country codes follow the EU VAT convention rather than ISO 3166-1 alpha-2 — Greece is `EL` (not `GR`) and the United Kingdom is `UK` (not `GB`). Coverage is limited to EU member states plus `UK` and `XI` (Northern Ireland), so non-EU codes such as `US` are not supported. Use **List Country Code Options** to discover valid codes. [See the documentation](https://unirateapi.com/apidocs).",
   type: "action",
   props: {
     app,
@@ -18,6 +18,7 @@ export default {
         app,
         "countryCode",
       ],
+      description: "An EU VAT country code (e.g. `DE`, `FR`, `UK`). If omitted, VAT rates for all supported countries are returned.",
     },
   },
   async run({ $ }) {
@@ -25,8 +26,9 @@ export default {
       app, country,
     } = this;
 
-    const countryCode = country
-      ? country.toUpperCase()
+    const trimmed = String(country ?? "").trim();
+    const countryCode = trimmed
+      ? trimmed.toUpperCase()
       : undefined;
 
     const response = await app.getVatRates({
