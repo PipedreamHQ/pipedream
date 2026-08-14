@@ -73,7 +73,7 @@ export default {
       return {
         id,
         summary: `Workflow Step Completed: ${item.linked_to?.name || item.linked_to?.id || item.id}`,
-        ts: Date.parse(item.updated_at) / 1000,
+        ts: Date.parse(item.updated_at),
       };
     },
     // Not used directly - workflow-step-completed overrides run() and hooks.deploy
