@@ -96,6 +96,7 @@ export default {
       // deploying, since the webhook below is what actually does the work.
       try {
         const { content = [] } = await this.app.listMessages({
+          $: this,
           params: {
             "filters[incoming][eq]": true,
             "sort": "sentAt,desc",
@@ -115,6 +116,7 @@ export default {
       const secret = randomUUID();
 
       const { id } = await this.app.createWebhook({
+        $: this,
         data: {
           type: WEBHOOK_TYPES.INBOUND_TEXT_RECEIVED,
           callbackUrl: this.http.endpoint,
@@ -129,6 +131,7 @@ export default {
       const hookId = this._getHookId();
       if (hookId) {
         await this.app.deleteWebhook({
+          $: this,
           hookId,
         });
       }

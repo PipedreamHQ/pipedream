@@ -86,7 +86,7 @@ export default {
         "groupIds",
       ],
       label: "Group IDs to Add",
-      description: "IDs of the contact groups to add this contact to.",
+      description: "IDs of the contact groups to add this contact to — the `content[].id` values returned by [`GET /v1/contact-groups`](https://developers.eztexting.com/reference/list_2-1), selectable from the list.",
     },
     groupIdsRemove: {
       propDefinition: [
@@ -94,7 +94,7 @@ export default {
         "groupIds",
       ],
       label: "Group IDs to Remove",
-      description: "IDs of the contact groups to remove this contact from.",
+      description: "IDs of the contact groups to remove this contact from — the `content[].id` values returned by [`GET /v1/contact-groups`](https://developers.eztexting.com/reference/list_2-1), selectable from the list.",
     },
   },
   async run({ $ }) {

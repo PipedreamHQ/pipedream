@@ -35,7 +35,7 @@ export default {
         app,
         "groupIds",
       ],
-      description: "IDs of the contact groups to send to. Either **To Numbers** or **Group IDs** must be set.",
+      description: "IDs of the contact groups to send to — the `content[].id` values returned by [`GET /v1/contact-groups`](https://developers.eztexting.com/reference/list_2-1), selectable from the list. Either **To Numbers** or **Group IDs** must be set.",
     },
     fromNumber: {
       propDefinition: [
@@ -58,16 +58,16 @@ export default {
       optional: true,
     },
     mediaFileId: {
-      type: "string",
-      label: "Media File ID",
-      description: "ID of a previously uploaded media file to attach.",
-      optional: true,
+      propDefinition: [
+        app,
+        "mediaFileId",
+      ],
     },
     messageTemplateId: {
-      type: "string",
-      label: "Message Template ID",
-      description: "ID of a message template to build the message from.",
-      optional: true,
+      propDefinition: [
+        app,
+        "messageTemplateId",
+      ],
     },
     companyName: {
       type: "string",
