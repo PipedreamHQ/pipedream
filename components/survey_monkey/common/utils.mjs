@@ -2,13 +2,25 @@ import { ConfigurationError } from "@pipedream/platform";
 
 /**
  * Reports whether a value is a plain JSON object, i.e. not an array, not null,
- * and not a primitive.
+ * not a primitive, and not a class instance such as a `Date` or a `Map`.
+ *
+ * The prototype check matters because these objects are serialized into the
+ * request body: a `Date` would reach the API as a bare ISO string and a `Map`
+ * as `{}`, both silently, where a class instance is far more likely to be a
+ * mistake in the workflow than an intended contact.
  *
  * @param {*} value - The value to test.
- * @returns {boolean} `true` when the value is a non-null, non-array object.
+ * @returns {boolean} `true` when the value is a non-null, non-array object
+ * whose prototype is `Object.prototype` or `null`.
  */
 function isPlainObject(value) {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    return false;
+  }
+
+  const prototype = Object.getPrototypeOf(value);
+
+  return prototype === Object.prototype || prototype === null;
 }
 
 /**
@@ -41,11 +53,16 @@ export function parseObjectArray(value, label) {
     ];
 
   return values.flatMap((entry, index) => {
-    const parsed = typeof entry === "string"
+    // Unwrap an array only when it came out of a JSON string, which is the
+    // `{{ JSON.stringify(steps.foo.items) }}` case the unwrapping exists for.
+    // An entry that is already an array was not stringified, so it is a
+    // nesting mistake rather than that case, and `assertObject` rejects it.
+    const isJsonEntry = typeof entry === "string";
+    const parsed = isJsonEntry
       ? parseEntry(entry, label, index)
       : entry;
 
-    if (Array.isArray(parsed)) {
+    if (isJsonEntry && Array.isArray(parsed)) {
       return parsed.map((item) => assertObject(item, label, index));
     }
 
@@ -67,6 +84,15 @@ function describeType(value) {
 
   if (Array.isArray(value)) {
     return "an array";
+  }
+
+  if (typeof value === "object") {
+    // A class name, e.g. `Date` — the name of the type, never its contents.
+    const name = Object.getPrototypeOf(value)?.constructor?.name;
+
+    return name
+      ? `a ${name} instance`
+      : "an object";
   }
 
   return `a ${typeof value}`;
@@ -91,7 +117,7 @@ function parseEntry(entry, label, index) {
   try {
     return JSON.parse(entry);
   } catch {
-    throw new ConfigurationError(`**${label}** entry ${index + 1} is not valid JSON (${entry.length} characters). Each entry must be a JSON object, e.g. \`{"email": "jane@example.com"}\`. The entry itself is omitted here because it can contain recipient contact details.`);
+    throw new ConfigurationError(`**${label}** entry ${index + 1} is not valid JSON (${entry.length} characters). Each entry must be a JSON object, or an array of JSON objects, e.g. \`{"email": "jane@example.com"}\` or \`[{"email": "jane@example.com"}]\`. The entry itself is omitted here because it can contain recipient contact details.`);
   }
 }
 
