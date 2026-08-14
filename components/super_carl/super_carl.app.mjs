@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { axios } from "@pipedream/platform";
 
 const COMMUNICATION_CHANNEL_OPTIONS = [
@@ -100,7 +101,7 @@ export default {
     communicationId: {
       type: "string",
       label: "Communication ID",
-      description: "UUID returned by **Create Communication Draft** or **Send Communication**, for example `550e8400-e29b-41d4-a716-446655440000`.",
+      description: "UUID returned by **Send Communication**, for example `550e8400-e29b-41d4-a716-446655440000`.",
     },
     targetUserId: {
       type: "string",

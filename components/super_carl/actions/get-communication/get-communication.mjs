@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import superCarl from "../../super_carl.app.mjs";
 import { cleanObject } from "../../common/utils.mjs";
 
 export default {
   key: "super_carl-get-communication",
   name: "Get Communication",
-  description: "Fetch a Super Carl communication record, normalized status, recent events, task metadata, and artifact URLs after **Create Communication Draft** or **Send Communication**. Use Wait Milliseconds when a workflow should pause for delivery progress. [See the documentation](https://supercarl.ai/docs#endpoints-communications)",
+  description: "Fetch a Super Carl communication record, normalized status, recent events, task metadata, and artifact URLs after **Send Communication**. Use Wait Milliseconds when a workflow should pause for delivery progress. [See the documentation](https://supercarl.ai/docs#endpoints-communications)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
