@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "whop-new-membership-invalidated-instant",
   name: "New Membership Invalidated (Instant)",
-  description: "Emit new event when a membership goes invalid, i.e. it expires, is cancelled, is terminated, or its payment fails past the retry window. Use this to revoke access that was granted on **New Membership Validated (Instant)** — for example removing the member from a Telegram group or Discord server. The payload's `status_reason` explains why the membership was invalidated, and `data.user` carries the member's Whop user ID, username and email. [See the documentation](https://dev.whop.com/api-reference/v2/webhooks/create-a-webhook)",
+  description: "Emit new event when a membership is deactivated, i.e. it expires, is cancelled, or is terminated. Use this to revoke access that was granted by **New Membership Validated (Instant)**. [See the documentation](https://docs.whop.com/api-reference/memberships/membership-deactivated)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -12,7 +12,7 @@ export default {
     ...common.methods,
     getEvents() {
       return [
-        "membership.went_invalid",
+        "membership.deactivated",
       ];
     },
     getSummary({ id }) {
