@@ -7,7 +7,7 @@ export default {
   ...base,
   key: "survey_monkey-add-message-recipients",
   name: "Add Message Recipients",
-  description: "Add recipients to an invite message, from new contacts, existing contact IDs, contact lists, or any combination. [See the docs here](https://api.surveymonkey.com/v3/docs?javascript#api-endpoints-post-collectors-id-messages-id-recipients-bulk)",
+  description: "Add recipients to an invite message, from new contacts, existing contact IDs, contact lists, or any combination. Uses the bulk endpoint, so a recipient already on the message or collector is reported back under `duplicate` rather than being re-added. [See the docs here](https://api.surveymonkey.com/v3/docs?javascript#api-endpoints-post-collectors-collector_id-messages-message_id-recipients-bulk)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -38,7 +38,7 @@ export default {
     contacts: {
       type: "string[]",
       label: "Contacts",
-      description: "New contacts to add, each a JSON object. Email is required for email collectors and phone number for SMS collectors. **Example:** `{\"email\": \"jane@example.com\", \"first_name\": \"Jane\", \"last_name\": \"Doe\"}` or `{\"phone_number\": \"+1 202 555 0156\"}`",
+      description: "New contacts to add, each a JSON object. Email is required for email collectors and phone number for SMS collectors. **Example:** `{\"email\": \"jane@example.com\", \"first_name\": \"Jane\", \"last_name\": \"Doe\"}` or `{\"phone_number\": \"+1 202 555 0156\"}`. Careful with `custom_fields`: if any one contact supplies them, SurveyMonkey clears the existing custom fields of every other contact in the same call that does not.",
       optional: true,
     },
     contactIds: {
@@ -50,7 +50,7 @@ export default {
     contactListIds: {
       type: "string[]",
       label: "Contact List IDs",
-      description: "IDs of existing contact lists whose contacts should be added as recipients.",
+      description: "IDs of existing contact lists whose contacts should be added as recipients. Contact lists are managed in SurveyMonkey rather than here — find the IDs at `GET /v3/contact_lists`, or in the list's URL in the SurveyMonkey UI.",
       optional: true,
     },
   },

@@ -7,7 +7,7 @@ export default {
   ...base,
   key: "survey_monkey-create-invite-message",
   name: "Create Invite Message",
-  description: "Create an invite message on an email or SMS collector. Add recipients with **Add Message Recipients**, then deliver it with **Send Invite Message**. [See the docs here](https://api.surveymonkey.com/v3/docs?javascript#api-endpoints-post-collectors-id-messages)",
+  description: "Create an invite message on an email or SMS collector. Add recipients with **Add Message Recipients**, then deliver it with **Send Invite Message**. [See the docs here](https://api.surveymonkey.com/v3/docs?javascript#api-endpoints-post-collectors-collector_id-messages)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -43,13 +43,13 @@ export default {
     bodyText: {
       type: "string",
       label: "Body Text",
-      description: "The plain text body of the message. Per SurveyMonkey's Anti-Spam Policy the opt-out link must stay visible and its purpose clearly explained.",
+      description: "The plain text body of the message. Include the `[SurveyLink]` placeholder, or recipients get an invitation with no way to reach the survey. Per SurveyMonkey's Anti-Spam Policy the `[OptOutLink]` must stay visible and its purpose clearly explained.",
       optional: true,
     },
     bodyHtml: {
       type: "string",
       label: "Body HTML",
-      description: "The HTML body of an email message.",
+      description: "The HTML body of an email message. The same placeholders apply as for **Body Text** — `[SurveyLink]`, `[OptOutLink]`, `[PrivacyLink]` and `[FooterLink]` — and the Anti-Spam Policy requires that the opt-out link stay visible rather than being hidden in the markup.",
       optional: true,
     },
     fromMessageId: {
@@ -79,7 +79,7 @@ export default {
     recipientStatus: {
       type: "string",
       label: "Recipient Status",
-      description: "Filter which recipients of the copied message to include.",
+      description: "The set of recipients to send to.",
       options: [
         "reminder",
         "thank_you",
@@ -125,7 +125,9 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully created ${type} message #${response.id}`);
+    $.export("$summary", `Successfully created ${type} message${response.subject
+      ? ` "${response.subject}"`
+      : ` #${response.id}`}`);
     return response;
   },
 };

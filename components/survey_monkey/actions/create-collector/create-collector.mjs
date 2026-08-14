@@ -5,7 +5,7 @@ export default {
   ...base,
   key: "survey_monkey-create-collector",
   name: "Create Collector",
-  description: "Create a collector for a survey. A collector is the channel responses come in through — an SMS or email invitation, a web link, or a popup. [See the docs here](https://api.surveymonkey.com/v3/docs?javascript#api-endpoints-post-surveys-id-collectors)",
+  description: "Create a collector for a survey. A collector is the channel responses come in through — an SMS or email invitation, a web link, or a popup. [See the docs here](https://api.surveymonkey.com/v3/docs?javascript#api-endpoints-post-surveys-survey_id-collectors)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -35,7 +35,7 @@ export default {
     thankYouMessage: {
       type: "string",
       label: "Thank You Message",
-      description: "Message shown on the thank you page once a respondent completes the survey.",
+      description: "Message shown on the thank you page once a respondent completes the survey. SurveyMonkey treats this as the older form of `thank_you_page` and recommends that object instead — pass it through **Additional Options** to use it.",
       optional: true,
     },
     closedPageMessage: {
@@ -79,13 +79,13 @@ export default {
     isBrandingEnabled: {
       type: "boolean",
       label: "Is Branding Enabled",
-      description: "Whether SurveyMonkey branding is shown. Turning it off requires a paid plan.",
+      description: "Whether the popup has SurveyMonkey branding. Only applies to popup collectors.",
       optional: true,
     },
     additionalOptions: {
       type: "object",
       label: "Additional Options",
-      description: "Any other collector option to send in the request body, e.g. `{\"password\": \"secret\", \"display_survey_results\": true}`. See the documentation for the full list.",
+      description: "Any other collector option to send in the request body, e.g. `{\"thank_you_page\": {\"is_enabled\": true, \"message\": \"Thanks!\"}}` or the popup-only `width`/`height`/`sample_rate` settings. See the documentation for the full list. Note that values typed directly into this field arrive as strings, so pass booleans and numbers from a previous step or an expression when the API expects those types.",
       optional: true,
     },
   },

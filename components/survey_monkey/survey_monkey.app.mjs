@@ -62,6 +62,10 @@ Alternatively, you can provide a custom *Survey ID*.`,
       \\
       Alternatively, you can provide a custom *Message ID*.`,
       async options({ collectorId }) {
+        if (!collectorId) {
+          return [];
+        }
+
         const messages = await this.getMessages({
           collectorId,
         });

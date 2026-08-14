@@ -18,7 +18,7 @@ const ADDITIONAL_EVENT_TYPES = [
   "survey_deleted",
 ];
 
-// https://api.surveymonkey.com/v3/docs#api-endpoints-post-surveys-id-collectors
+// https://api.surveymonkey.com/v3/docs#api-endpoints-post-surveys-survey_id-collectors
 const COLLECTOR_TYPES = [
   {
     label: "SMS invitation",
