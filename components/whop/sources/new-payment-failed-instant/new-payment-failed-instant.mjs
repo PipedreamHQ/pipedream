@@ -6,7 +6,7 @@ export default {
   key: "whop-new-payment-failed-instant",
   name: "New Payment Failed (Instant)",
   description: "Emit new event when a payment attempt fails.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
