@@ -94,7 +94,7 @@ export default {
     communicationChannels: {
       type: "string[]",
       label: "Channels",
-      description: "Optional channels to check. Example: `[\"gmail_send\", \"linkedin_send_message\"]`. Leave blank to check every supported channel.",
+      description: "Optional channels to check. Example: `[\"gmail_send\", \"linkedin_send_message\"]`. Omit this prop to check all supported channels.",
       options: COMMUNICATION_CHANNEL_OPTIONS,
       optional: true,
     },
@@ -161,7 +161,7 @@ export default {
     fields: {
       type: "string[]",
       label: "Fields",
-      description: "Optional list of fields to return per row instead of the full record — keeps large result sets well under the context limit. Supports dot-paths for nested values, for example `name`, `linkedin_profile_url`, `resolved_target.id`. Leave blank to return every field (today's full default output).",
+      description: "Optional list of fields to return per row instead of the full record — keeps large result sets well under the context limit. Supports dot-paths for nested values, for example `name`, `linkedin_profile_url`, `resolved_target.id`. Omit this prop to return the API default field set (every field).",
       optional: true,
     },
     connectorUserId: {
@@ -371,7 +371,7 @@ export default {
       communicationId, ...opts
     }) {
       return this._makeRequest({
-        path: `/api/v1/communications/${communicationId}`,
+        path: `/api/v1/communications/${encodeURIComponent(communicationId)}`,
         ...opts,
       });
     },
@@ -387,7 +387,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/api/v1/communications/${communicationId}/cancel`,
+        path: `/api/v1/communications/${encodeURIComponent(communicationId)}/cancel`,
         ...opts,
       });
     },

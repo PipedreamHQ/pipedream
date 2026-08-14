@@ -102,7 +102,7 @@ export default {
     });
 
     $.export("$summary", countSummary({
-      total: response?.total_count ?? response?.total,
+      total: response?.pagination?.total,
       rows: response?.users,
       rowLabel: "people",
     }));
