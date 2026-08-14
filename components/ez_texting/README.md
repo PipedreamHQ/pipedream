@@ -1,11 +1,17 @@
 # Overview
 
-The iHomefinder API provides real estate data services, including property listings, market info, and lead management. With Pipedream, you can automate how you interact with this data. For instance, you can sync new listings to a CRM, update your website with the latest properties, or trigger marketing emails when a new lead is captured.
+The EZ Texting API sends SMS and MMS messages, manages contacts and contact groups, and pushes inbound replies to a webhook. With Pipedream you can send a text off the back of any trigger, act on replies as they arrive, and keep opt-out state in sync with the rest of your stack.
 
 # Example Use Cases
 
-- **Automate CRM Updates with New Listings**: Listen for new property listings in the iHomefinder API and automatically update your CRM—like Salesforce or HubSpot—with fresh listings to keep sales teams informed and responsive.
+- **Send an SMS Survey and Collect Replies**: Send a survey invite with **Send Text Message**, then use the **New Inbound Message (Instant)** trigger to capture each reply and write it to Google Sheets, a database, or an analytics tool.
 
-- **Dynamic Website Content Updates**: Use the iHomefinder API to fetch new property data and automatically push updates to your website's listings page. This can be done through Pipedream's HTTP actions or by integrating with a CMS like WordPress.
+- **Honor Opt-Outs Automatically**: When an inbound message arrives with `optOut: true`, run **Block Numbers** to suppress future sends and record the opt-out in your own system — EZ Texting emits no dedicated opt-out event, so this is the signal to act on.
 
-- **Lead Management with Email Automation**: When a new lead registers through iHomefinder, trigger workflows in Pipedream to add the lead to an email marketing tool like Mailchimp, and send them a personalized welcome email along with curated property recommendations.
+- **Keep Contacts in Sync With Your CRM**: When a contact is created or updated in HubSpot or Salesforce, use **Create or Update Contact** to mirror it into EZ Texting, and **Get Contact** before a send to check the authoritative `optOut` flag.
+
+# Getting Started
+
+EZ Texting authenticates with HTTP Basic, using your account's app key as the username and app secret as the password (your EZ Texting email and password also work).
+
+The **New Inbound Message (Instant)** trigger registers its own webhook subscription and generates the shared secret used to sign callbacks, so there is nothing to configure by hand — replies start arriving once the source is deployed.

@@ -5412,7 +5412,11 @@ importers:
 
   components/eyepop_ai: {}
 
-  components/ez_texting: {}
+  components/ez_texting:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/ez_texting_: {}
 
