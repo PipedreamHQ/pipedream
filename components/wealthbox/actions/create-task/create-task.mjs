@@ -3,7 +3,7 @@ import wealthbox from "../../wealthbox.app.mjs";
 export default {
   key: "wealthbox-create-task",
   name: "Create Task",
-  description: "Create a new task. [See the documentation](http://dev.wealthbox.com/#tasks-collection-post)",
+  description: "Create a new task in Wealthbox. Supply a task name, due date (`YYYY-MM-DD HH:MM AM/PM ±HHMM`), and optional category and priority. Use **List Category Options** to find valid category IDs. Example: create a task named `Send Q4 Report` due `2026-12-31 5:00 PM -0500` with priority `High`; returns the task object including `id`, `name`, `due_date`, `category`, and `priority`. [See the documentation](http://dev.wealthbox.com/#tasks-collection-post)",
   version: "0.0.2",
   annotations: {
     destructiveHint: false,
@@ -15,8 +15,8 @@ export default {
     wealthbox,
     name: {
       type: "string",
-      label: "Name",
-      description: "The name of the task being created",
+      label: "Task Name",
+      description: "The name of the task being created. Example: `Send Q4 Report`.",
     },
     dueDate: {
       type: "string",
@@ -41,10 +41,10 @@ export default {
       ],
       optional: true,
     },
-    descripton: {
+    description: {
       type: "string",
       label: "Description",
-      description: "A short explaination of the task being created",
+      description: "A short explanation of the task being created. Example: `Follow up with client regarding Q4 portfolio allocation.`",
       optional: true,
     },
   },

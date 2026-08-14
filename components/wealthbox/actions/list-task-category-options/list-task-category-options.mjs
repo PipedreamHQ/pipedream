@@ -3,7 +3,7 @@ import wealthbox from "../../wealthbox.app.mjs";
 export default {
   key: "wealthbox-list-task-category-options",
   name: "List Category Options",
-  description: "Retrieves available options for the Category field.",
+  description: "List the task categories configured in Wealthbox (e.g. `Follow Up`, `Meeting`, `Review`) so agents and users can discover valid category IDs to pass to the Category prop in **Create Task**. Returns objects with `label` (category name) and `value` (numeric category ID). [See the documentation](http://dev.wealthbox.com/#tasks-collection-get)",
   version: "0.0.1",
   type: "action",
   annotations: {
