@@ -9,7 +9,7 @@ export default {
     openWorldHint: true,
     readOnlyHint: true,
   },
-  description: "Convert an amount from one currency to another at the latest rate. [See the documentation](https://unirateapi.com/docs).",
+  description: "Convert an amount from one currency to another at the latest rate. [See the documentation](https://unirateapi.com/apidocs).",
   type: "action",
   props: {
     app,

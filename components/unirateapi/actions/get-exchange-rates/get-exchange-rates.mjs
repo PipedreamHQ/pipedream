@@ -9,7 +9,7 @@ export default {
     openWorldHint: true,
     readOnlyHint: true,
   },
-  description: "Get the latest exchange rate(s) for a base currency. Returns a single rate when a target is provided, or all rates keyed by currency code when omitted. [See the documentation](https://unirateapi.com/docs).",
+  description: "Get the latest exchange rate(s) for a base currency. Returns a single rate when a target is provided, or all rates keyed by currency code when omitted. [See the documentation](https://unirateapi.com/apidocs).",
   type: "action",
   props: {
     app,

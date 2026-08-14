@@ -9,7 +9,7 @@ export default {
     openWorldHint: true,
     readOnlyHint: true,
   },
-  description: "List all currency codes supported by UniRate. [See the documentation](https://unirateapi.com/docs).",
+  description: "List all currency codes supported by UniRate. [See the documentation](https://unirateapi.com/apidocs).",
   type: "action",
   props: {
     app,
