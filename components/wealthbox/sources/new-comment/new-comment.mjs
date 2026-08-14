@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import common from "../common/common.mjs";
 
 export default {
@@ -26,6 +27,9 @@ export default {
   methods: {
     ...common.methods,
     async getEvents({ params }) {
+      if (this.resourceId && !this.resourceType) {
+        throw new ConfigurationError("Resource Type is required when Resource ID is set.");
+      }
       const response = await this.wealthbox.listComments({
         params: {
           ...params,

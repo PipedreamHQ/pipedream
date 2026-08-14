@@ -44,6 +44,6 @@ export default {
     },
   },
   async run() {
-    await this.processEvent(false);
+    await this.processEvent();
   },
 };

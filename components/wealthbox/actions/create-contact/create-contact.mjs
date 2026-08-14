@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import wealthbox from "../../wealthbox.app.mjs";
 import { CONTACT_TYPES } from "../../common/constants.mjs";
 
@@ -6,8 +7,8 @@ const PERSON_TYPE = "Person";
 export default {
   key: "wealthbox-create-contact",
   name: "Create Contact",
-  description: "Create a new contact in Wealthbox. For `Person` type, provide First Name (and optionally Last Name). For `Household`, `Organization`, or `Trust` types, the Name field is used as the entity name (the API accepts a top-level `name` field for non-Person types). Example: create a `Person` contact with first name `Jane`, last name `Smith`, email `jane@acme.com`; returns the contact object including `id`, `first_name`, `last_name`, `email_addresses`, `type`, and `contact_type`. [See the documentation](http://dev.wealthbox.com/#contacts-create-a-new-contact-post)",
-  version: "0.0.3",
+  description: "Create a new contact in Wealthbox. For `Person` type, provide First Name and Last Name (both required). For `Household`, `Organization`, or `Trust` types, the Name field is used as the entity name (the API accepts a top-level `name` field for non-Person types). Example: create a `Person` contact with first name `Jane`, last name `Smith`, email `jane@acme.com`; returns the contact object including `id`, `first_name`, `last_name`, `email_addresses`, `type`, and `contact_type`. [See the documentation](https://dev.wealthbox.com/#contacts-create-a-new-contact-post)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -61,9 +62,22 @@ export default {
       description: "The user-defined contact type category (e.g. `Client`, `Prospect`). Distinct from the record Type field above.",
       optional: true,
     },
+    type: {
+      propDefinition: [
+        wealthbox,
+        "contactType",
+      ],
+      label: "Type (legacy)",
+      description: "Deprecated alias for Contact Type, preserved for backwards compatibility with workflows configured before this prop was renamed. Prefer Contact Type for new configurations.",
+      optional: true,
+      hidden: true,
+    },
   },
   async run({ $ }) {
     const isPerson = !this.recordType || this.recordType === PERSON_TYPE;
+    if (isPerson && !this.lastName) {
+      throw new ConfigurationError("Last Name is required when creating a Person contact.");
+    }
     const nameFields = isPerson
       ? {
         first_name: this.firstName,
@@ -92,7 +106,7 @@ export default {
           ]
           : undefined,
         company: this.company,
-        contact_type: this.contactType,
+        contact_type: this.contactType ?? this.type,
       },
       $,
     });

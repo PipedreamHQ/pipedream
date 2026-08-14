@@ -11,7 +11,7 @@ export default {
       async options({ page }) {
         const { contacts } = await this.listContacts({
           params: {
-            page,
+            page: page + 1,
           },
         });
         return contacts?.map(({

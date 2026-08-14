@@ -1,5 +1,8 @@
+import { createHash } from "crypto";
 import common from "../common/common.mjs";
 import { DEFAULT_HISTORICAL_LIMIT } from "../../common/constants.mjs";
+
+const MAX_ID_LENGTH = 64;
 
 const PER_PAGE = 25;
 
@@ -28,7 +31,6 @@ export default {
           params: {
             per_page: PER_PAGE,
             page,
-            status: "completed",
           },
         });
         const workflows = response?.workflows || [];
@@ -39,7 +41,7 @@ export default {
         for (const workflow of workflows) {
           const steps = workflow.steps || workflow.workflow_steps || [];
           for (const step of steps) {
-            if (!step.updated_at) {
+            if (!step.complete || !step.updated_at) {
               continue;
             }
             const ts = Date.parse(step.updated_at) / 1000;
@@ -62,8 +64,13 @@ export default {
       return completedSteps;
     },
     generateMeta(step) {
+      const rawId = `${step.workflow_id}-${step.id}`;
+      const id = rawId.length <= MAX_ID_LENGTH
+        ? rawId
+        : createHash("sha256").update(rawId)
+          .digest("hex");
       return {
-        id: `${step.workflow_id}-${step.id}`,
+        id,
         summary: `Workflow Step Completed: ${step.name || step.id}`,
         ts: Date.parse(step.updated_at) / 1000,
       };

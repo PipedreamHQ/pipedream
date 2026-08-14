@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import wealthbox from "../../wealthbox.app.mjs";
 import { DEFAULT_LINKED_TO_TYPE } from "../../common/constants.mjs";
 
@@ -44,12 +45,21 @@ export default {
     },
   },
   async run({ $ }) {
+    const workflowTemplateId = Number(this.workflowId);
+    const contactId = Number(this.linkedToId);
+    if (!Number.isSafeInteger(workflowTemplateId)) {
+      throw new ConfigurationError("Workflow Template ID must be a valid integer.");
+    }
+    if (!Number.isSafeInteger(contactId)) {
+      throw new ConfigurationError("Contact ID must be a valid integer.");
+    }
+
     const response = await this.wealthbox.startWorkflow({
       $,
       data: {
-        workflow_template: Number(this.workflowId),
+        workflow_template: workflowTemplateId,
         linked_to: {
-          id: Number(this.linkedToId),
+          id: contactId,
           type: this.linkedToType || DEFAULT_LINKED_TO_TYPE,
         },
         label: this.label,

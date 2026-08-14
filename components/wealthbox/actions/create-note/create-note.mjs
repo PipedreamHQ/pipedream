@@ -36,7 +36,7 @@ export default {
     visibleTo: {
       type: "string",
       label: "Visible To",
-      description: "Note visibility. One of `Everyone` or `Private` (or a user group id). Defaults to `Everyone`.",
+      description: "Note visibility. One of `Everyone` or `Private`. Defaults to `Everyone`.",
       options: NOTE_VISIBILITY,
       optional: true,
     },

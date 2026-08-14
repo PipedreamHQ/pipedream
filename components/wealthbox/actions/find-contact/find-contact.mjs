@@ -55,6 +55,8 @@ export default {
         $,
         params: {
           name: this.name,
+          email: this.email,
+          phone: this.phone,
           page,
           per_page: PER_PAGE,
         },
@@ -65,8 +67,9 @@ export default {
       page++;
     }
 
-    // The Wealthbox API stores emails and phones as nested arrays
-    // (email_addresses[].address, phone_numbers[].address) — filter client-side.
+    // Defensive re-check in case the API's email/phone filtering is looser than
+    // an exact match (e.g. partial matches) - the Wealthbox API stores emails and
+    // phones as nested arrays (email_addresses[].address, phone_numbers[].address).
     let filtered = contacts;
     if (this.email) {
       const emailLower = this.email.toLowerCase();
