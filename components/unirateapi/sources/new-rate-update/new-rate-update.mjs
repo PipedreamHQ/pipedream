@@ -4,7 +4,7 @@ import app from "../../unirateapi.app.mjs";
 export default {
   key: "unirateapi-new-rate-update",
   name: "New Rate Update",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
