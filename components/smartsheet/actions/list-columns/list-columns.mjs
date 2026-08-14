@@ -10,7 +10,7 @@ export default {
     + " Use this before **Add Row to Sheet** or **Update Row** to discover column names and types."
     + " For full sheet data including rows, use **Get Sheet** instead."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/columns/columns-listonsheet)",
-  version: "0.0.3",
+  version: "0.1.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -24,6 +24,17 @@ export default {
       label: "Sheet ID",
       description: "The ID of the sheet. Use **List Sheets** to find sheet IDs.",
     },
+    level: {
+      type: "integer",
+      label: "Level",
+      description: "Response format for multi-value columns. At the default level 0 a MULTI_PICKLIST or MULTI_CONTACT_LIST column is reported as TEXT_NUMBER for backwards compatibility, so pass `2` when you need the real column type. Pair it with `objectValue` in Include to get structured cell values.",
+      options: [
+        0,
+        1,
+        2,
+      ],
+      optional: true,
+    },
   },
   async run({ $ }) {
     const sheetId = await this.smartsheet.resolveSheetId(this.sheetId, {
@@ -33,6 +44,7 @@ export default {
       $,
       params: {
         includeAll: true,
+        level: this.level,
       },
     });
     $.export("$summary", `Found ${response.data?.length || 0} column(s) in sheet ${sheetId}`);

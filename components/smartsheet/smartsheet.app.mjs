@@ -142,11 +142,16 @@ export default {
       // The remedy depends on what was actually passed. Pointing a URL at Search is dead
       // advice: the permalink token is not indexed text, so Search returns zero results.
       // Only a permalink match resolves it, which is what resolveSheetId does.
+      // Keyed off the label as well as the input: a bad Row ID or Comment ID was previously
+      // told to "find a sheet by name", which is the wrong lookup for the thing that failed.
+      const isSheet = label === "Sheet ID";
       const remedy = SHEET_URL_PATTERN.test(trimmed)
         ? "That looks like a Smartsheet URL. The URL carries an opaque permalink token rather"
           + " than the ID, and **Search** cannot resolve it. Pass the URL to **Get Sheet**,"
           + " which resolves it, and use the `id` it returns."
-        : "Use **Search** to find a sheet by name, or **List Sheets** to enumerate them.";
+        : isSheet
+          ? "Use **Search** to find a sheet by name, or **List Sheets** to enumerate them."
+          : `Run **Get Sheet** and read the ${label.replace(/ ID$/, "").toLowerCase()} IDs from its response.`;
       throw new ConfigurationError(`\`${label}\` must be a numeric Smartsheet ID, but received \`${value}\`. ${remedy}`);
     },
     // Accepts either a numeric sheet ID or a Smartsheet sheet URL. A sheet URL carries an

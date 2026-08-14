@@ -71,6 +71,17 @@ export default {
       description: "Apply a saved filter to the returned rows (e.g. `1234567890`). An ID this sheet does not have is ignored silently rather than erroring, so confirm it first: run **Get Sheet** with `filters` in Include and read the returned `filters` array. Smartsheet exposes no filters endpoint, so that is the only way to discover one.",
       optional: true,
     },
+    level: {
+      type: "integer",
+      label: "Level",
+      description: "Response format for multi-value columns. At the default level 0 a MULTI_PICKLIST or MULTI_CONTACT_LIST column is reported as TEXT_NUMBER for backwards compatibility, so pass `2` when you need the real column type. Pair it with `objectValue` in Include to get structured cell values.",
+      options: [
+        0,
+        1,
+        2,
+      ],
+      optional: true,
+    },
     page: {
       type: "integer",
       label: "Page",
@@ -81,9 +92,9 @@ export default {
     pageSize: {
       type: "integer",
       label: "Page Size",
-      description: "Rows per page (max 500). Raise this instead of paging when you want the whole sheet in one call.",
+      description: "Rows per page. Defaults to 100. Raise it instead of paging when you want the whole sheet in one call.",
       min: 1,
-      max: 500,
+      default: 100,
       optional: true,
     },
   },
@@ -97,6 +108,7 @@ export default {
       rowsModifiedSince: this.rowsModifiedSince,
       columnIds: this.columnIds,
       filterId: this.filterId,
+      level: this.level,
       page: this.page,
       pageSize: this.pageSize,
       include: this.include?.length

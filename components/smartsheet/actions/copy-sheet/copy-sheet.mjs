@@ -60,7 +60,9 @@ export default {
     const data = {
       destinationType,
     };
-    if (this.newName) data.newName = this.newName;
+    if (this.newName) {
+      data.newName = this.newName;
+    }
     if (this.destinationId) {
       data.destinationId = toIdString(this.destinationId, "Destination ID");
     }

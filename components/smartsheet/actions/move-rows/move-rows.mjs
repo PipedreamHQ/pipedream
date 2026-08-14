@@ -1,5 +1,5 @@
 // x-pd-ai: optimized
-import { ROW_COPY_INCLUDE_OPTIONS } from "../../common/constants.mjs";
+import { ROW_MOVE_INCLUDE_OPTIONS } from "../../common/constants.mjs";
 import {
   parseRowIds, toIdString,
 } from "../../common/utils.mjs";
@@ -9,7 +9,7 @@ export default {
   key: "smartsheet-move-rows",
   name: "Move Rows",
   description:
-    "Move rows from one sheet to another. WARNING: the rows are permanently removed from the source sheet. Cell values and formatting always come across; attachments and comments only if you ask for them via Include. The destination sheet must have compatible columns. Returns `rowMappings` pairing each source row ID with its new ID in the destination. To keep the originals, use **Copy Rows**."
+    "Move rows from one sheet to another. WARNING: the rows are permanently removed from the source sheet. Cell values and formatting always come across; attachments and comments only if you ask for them via Include. Columns the destination sheet is missing are created automatically, so it does not have to match the source first. Returns `rowMappings` pairing each source row ID with its new ID in the destination. To keep the originals, use **Copy Rows**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/move-rows)",
   version: "1.0.0",
   type: "action",
@@ -41,8 +41,8 @@ export default {
     include: {
       type: "string[]",
       label: "Include",
-      description: "Extra elements to carry across. Without this, only cell values and formatting are moved - attachments and comments are not.",
-      options: ROW_COPY_INCLUDE_OPTIONS,
+      description: "Extra elements to carry across. Without this, only cell values and formatting are moved; attachments and comments are not. Move supports fewer values than Copy Rows does: `children` and `all` are not defined for this endpoint and are silently ignored if sent.",
+      options: ROW_MOVE_INCLUDE_OPTIONS,
       optional: true,
     },
     ignoreRowsNotFound: {
@@ -71,7 +71,10 @@ export default {
         },
       },
     });
-    $.export("$summary", `Moved ${rowIds.length} row(s) from sheet ${this.sheetId} to sheet ${this.destinationSheetId}`);
+    // Report what the API actually moved, not what was asked for: with Ignore Rows Not
+    // Found, missing IDs are skipped and the input count overstates the result.
+    const moved = response.rowMappings?.length ?? rowIds.length;
+    $.export("$summary", `Moved ${moved} of ${rowIds.length} row(s) from sheet ${this.sheetId} to sheet ${destinationSheetId}`);
     return response;
   },
 };

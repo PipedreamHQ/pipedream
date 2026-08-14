@@ -6,13 +6,12 @@ export default {
   key: "smartsheet-add-row-to-sheet",
   name: "Add Row to Sheet",
   description:
-    "Add one or more rows to a sheet. Accepts column NAMES as keys - resolves to column IDs internally."
-    + " Call **Get Sheet** or **List Columns** first to learn column names."
-    + " Pass rows as a JSON array of objects mapping column names to values:"
-    + " `[{\"Task\": \"Review doc\", \"Status\": \"Open\"}]`."
-    + " For a single row, pass a one-element array."
+    "Add one or more rows to a sheet, addressing cells by column NAME rather than column ID."
+    + " Returns the created rows under `result`, each with its new row ID."
+    + " Call **Get Sheet** or **List Columns** first to learn the column names."
+    + " To change rows that already exist, use **Update Row**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/rows-addtosheet)",
-  version: "1.0.1",
+  version: "1.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -30,9 +29,9 @@ export default {
       type: "string",
       label: "Rows",
       description:
-        "JSON array of row objects mapping column names to values."
+        "JSON array of row objects mapping column names to values. For a single row, pass a one-element array."
         + " Example: `[{\"Species\": \"Triceratops\", \"Status\": \"Contained\"}]`."
-        + " Call **Get Sheet** or **List Columns** to discover column names.",
+        + " Column names must match the sheet exactly; call **Get Sheet** or **List Columns** to discover them.",
     },
     toTop: {
       type: "boolean",
@@ -86,8 +85,11 @@ export default {
       const rowObj = {
         cells,
       };
-      if (this.toTop) rowObj.toTop = true;
-      else rowObj.toBottom = true;
+      if (this.toTop) {
+        rowObj.toTop = true;
+      } else {
+        rowObj.toBottom = true;
+      }
       return rowObj;
     });
 

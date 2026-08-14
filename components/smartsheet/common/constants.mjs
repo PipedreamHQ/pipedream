@@ -55,12 +55,26 @@ export const COLUMN_TYPES = [
   "PREDECESSOR",
 ];
 
-// Elements POST /sheets/{id}/rows/{copy,move} can carry across. Without any of these only
-// cell values and formatting move; attachments and comments do not.
+// Column types that accept an `options` array and value validation. Verified live: the API
+// applies both to MULTI_PICKLIST, not only PICKLIST.
+export const PICKLIST_COLUMN_TYPES = [
+  "PICKLIST",
+  "MULTI_PICKLIST",
+];
+
+// Elements the row copy/move endpoints can carry across. Without one of these, only cell
+// values and formatting move; attachments and comments do not. The two endpoints do NOT
+// document the same enum: move omits `children` and `all`, and passing them is accepted and
+// then silently ignored, so they are kept apart rather than shared.
 export const ROW_COPY_INCLUDE_OPTIONS = [
   "all",
   "attachments",
   "children",
+  "discussions",
+];
+
+export const ROW_MOVE_INCLUDE_OPTIONS = [
+  "attachments",
   "discussions",
 ];
 

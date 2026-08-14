@@ -9,7 +9,7 @@ export default {
   key: "smartsheet-copy-rows",
   name: "Copy Rows",
   description:
-    "Copy rows from one sheet to another. The rows stay in the source sheet and are duplicated in the destination. Cell values and formatting always come across; attachments and comments only if you ask for them via Include. The destination sheet must have compatible columns. Returns `rowMappings` pairing each source row ID with its new ID in the destination. To move rows instead, removing them from the source, use **Move Rows**."
+    "Copy rows from one sheet to another. The rows stay in the source sheet and are duplicated in the destination. Cell values and formatting always come across; attachments and comments only if you ask for them via Include. Columns the destination sheet is missing are created automatically, so it does not have to match the source first. Returns `rowMappings` pairing each source row ID with its new ID in the destination. To move rows instead, removing them from the source, use **Move Rows**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/copy-rows)",
   version: "1.0.0",
   type: "action",
@@ -71,7 +71,10 @@ export default {
         },
       },
     });
-    $.export("$summary", `Copied ${rowIds.length} row(s) from sheet ${this.sheetId} to sheet ${this.destinationSheetId}`);
+    // Report what the API actually copied, not what was asked for: with Ignore Rows Not
+    // Found, missing IDs are skipped and the input count overstates the result.
+    const copied = response.rowMappings?.length ?? rowIds.length;
+    $.export("$summary", `Copied ${copied} of ${rowIds.length} row(s) from sheet ${this.sheetId} to sheet ${destinationSheetId}`);
     return response;
   },
 };
