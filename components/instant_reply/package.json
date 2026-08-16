@@ -1,0 +1,23 @@
+{
+  "name": "@pipedream/instant_reply",
+  "version": "0.1.0",
+  "description": "Pipedream Instant Reply Components",
+  "main": "instant_reply.app.mjs",
+  "keywords": [
+    "pipedream",
+    "instant-reply",
+    "whatsapp",
+    "instagram",
+    "messenger",
+    "ai-inbox",
+    "customer-messaging"
+  ],
+  "homepage": "https://pipedream.com/apps/instant_reply",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.6.8"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
