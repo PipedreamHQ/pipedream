@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/caesar",
+  "version": "0.0.1",
+  "description": "Pipedream Caesar Components",
+  "main": "caesar.app.mjs",
+  "keywords": [
+    "pipedream",
+    "caesar"
+  ],
+  "homepage": "https://pipedream.com/apps/caesar",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1",
+    "caesar-search": "^0.1.3"
+  }
+}
