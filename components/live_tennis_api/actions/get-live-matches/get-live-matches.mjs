@@ -9,7 +9,7 @@ export default {
     openWorldHint: true,
     readOnlyHint: true,
   },
-  description: "List matches currently in play, with the latest score. Covers ATP, WTA, Challenger, ITF and juniors. [See the documentation](https://docs.livetennisapi.com/reference.html)",
+  description: "List matches currently in play, with the latest score for each. Covers ATP, WTA, Challenger, ITF and juniors; set `tour` to restrict results to one tour. Live data changes between requests as points are played, so re-fetch rather than cache. Each match's `id` is the `matchId` the other match endpoints take. For scheduled matches that have not started yet, use **Get Upcoming Fixtures**. [See the documentation](https://docs.livetennisapi.com/reference.html)",
   type: "action",
   props: {
     app,

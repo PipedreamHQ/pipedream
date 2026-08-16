@@ -9,7 +9,7 @@ export default {
     openWorldHint: true,
     readOnlyHint: true,
   },
-  description: "List upcoming scheduled fixtures, earliest first, with start time and player ids where resolved. [See the documentation](https://docs.livetennisapi.com/reference.html)",
+  description: "List upcoming scheduled fixtures, earliest first, with tournament, round and start time. Set `tour` to restrict results to one tour. `start_time`, `player1_id` and `player2_id` may be null — a date-only fixture and an unresolved participant are real states (player names are always present). For matches already in play, use **Get Live Matches**. [See the documentation](https://docs.livetennisapi.com/reference.html)",
   type: "action",
   props: {
     app,

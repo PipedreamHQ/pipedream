@@ -9,7 +9,7 @@ export default {
     openWorldHint: true,
     readOnlyHint: true,
   },
-  description: "Search players by name. Ranked players are returned first. [See the documentation](https://docs.livetennisapi.com/reference.html)",
+  description: "Search players by name. Ranked players are returned first; omit `search` to list players in ranking order. The list items carry no stats object — pass a result's `id` to **Get Player** for the full bio, ranking and stats. [See the documentation](https://docs.livetennisapi.com/reference.html)",
   type: "action",
   props: {
     app,

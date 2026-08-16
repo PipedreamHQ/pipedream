@@ -5,11 +5,6 @@ export default {
   key: "live_tennis_api-new-live-match",
   name: "New Live Match",
   version: "0.0.1",
-  annotations: {
-    destructiveHint: false,
-    openWorldHint: true,
-    readOnlyHint: true,
-  },
   description: "Emit new event when a match goes live. [See the documentation](https://docs.livetennisapi.com/reference.html)",
   type: "source",
   dedupe: "unique",
@@ -36,16 +31,27 @@ export default {
       app, tour,
     } = this;
 
-    const response = await app.listMatches({
-      $,
-      params: {
-        status: "live",
-        tour,
-        limit: 200,
-      },
-    });
+    const limit = 200;
+    let offset = 0;
+    const matches = [];
+    while (true) {
+      const response = await app.listMatches({
+        $,
+        params: {
+          status: "live",
+          tour,
+          limit,
+          offset,
+        },
+      });
+      const data = response?.data ?? [];
+      matches.push(...data);
+      if (!response?.meta?.has_more || data.length === 0) {
+        break;
+      }
+      offset += limit;
+    }
 
-    const matches = response?.data ?? [];
     for (const match of matches) {
       const ts = match.scheduled_time
         ? Date.parse(match.scheduled_time)

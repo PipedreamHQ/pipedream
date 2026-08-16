@@ -7,7 +7,7 @@ export default {
     matchId: {
       type: "integer",
       label: "Match ID",
-      description: "The match id. Every match route shares one id space, so the same value works everywhere `matchId` appears. Ids are stable for the life of a match.",
+      description: "The match id, e.g. `184203` — the `id` field on each match returned by **Get Live Matches** or on each fixture from **Get Upcoming Fixtures**. Every match route shares one id space and ids are stable for the life of a match, so an id captured before a match starts still resolves after it finishes.",
       async options({ page }) {
         const limit = 20;
         const params = {
@@ -43,7 +43,7 @@ export default {
     playerId: {
       type: "integer",
       label: "Player ID",
-      description: "The player id, as returned by `GET /players` or carried on match objects.",
+      description: "The player id, e.g. `12045` — the `id` field on each result from **Search Players**, also carried on match objects as `players.p1.id` / `players.p2.id`.",
       useQuery: true,
       async options({
         page, query,

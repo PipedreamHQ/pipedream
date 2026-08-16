@@ -9,7 +9,7 @@ export default {
     openWorldHint: true,
     readOnlyHint: true,
   },
-  description: "Get one player's bio, current ranking and cached stats by player id. [See the documentation](https://docs.livetennisapi.com/reference.html)",
+  description: "Get one player's bio, current ranking and stats by player id. Get the `playerId` from **Search Players** (the `id` field of each result). The `stats` object ({ratings, season}) is cached upstream, not recomputed per request, so it can lag live play. [See the documentation](https://docs.livetennisapi.com/reference.html)",
   type: "action",
   props: {
     app,
