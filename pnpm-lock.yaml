@@ -16994,6 +16994,9 @@ importers:
 
   components/unstructured:
     dependencies:
+      '@modelcontextprotocol/sdk':
+        specifier: ^1.29.0
+        version: 1.29.0(zod@3.25.76)
       '@pipedream/platform':
         specifier: ^3.2.5
         version: 3.2.5
