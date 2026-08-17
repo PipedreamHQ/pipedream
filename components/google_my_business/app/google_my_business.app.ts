@@ -8,8 +8,7 @@ import {
 } from "../common/requestParams";
 import {
   LocalPost, Review,
-  GetDailyMetricsTimeSeriesResponse, FetchMultiDailyMetricsTimeSeriesResponse, SearchKeywordCount,
-  Account, ListReviewsResponse, Location,
+  GetDailyMetricsTimeSeriesResponse, FetchMultiDailyMetricsTimeSeriesResponse, SearchKeywordCount, ListReviewsResponse,
 } from "../common/responseSchemas";
 import { PERFORMANCE_BASE_URL } from "../common/constants";
 
