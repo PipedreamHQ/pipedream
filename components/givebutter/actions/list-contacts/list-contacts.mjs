@@ -58,7 +58,7 @@ export default {
       params: {
         type: this.type,
         email: this.email,
-        sort_by: this.sortBy,
+        sortBy: this.sortBy,
         page: this.page,
         per_page: this.limit,
       },

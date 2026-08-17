@@ -15,12 +15,6 @@ export default {
   },
   props: {
     givebutter,
-    scope: {
-      type: "string",
-      label: "Scope",
-      description: "Optional scope filter passed to the Givebutter API (e.g. to narrow which campaigns are returned).",
-      optional: true,
-    },
     page: {
       type: "integer",
       label: "Page",
@@ -40,7 +34,6 @@ export default {
     const response = await this.givebutter.listCampaigns({
       $,
       params: {
-        scope: this.scope,
         page: this.page,
         per_page: this.limit,
       },
