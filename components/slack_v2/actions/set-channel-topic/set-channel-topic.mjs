@@ -4,7 +4,7 @@ export default {
   key: "slack_v2-set-channel-topic",
   name: "Set Channel Topic",
   description: "Set the topic on a channel, specified by ID or by name — names are resolved automatically. [See the documentation](https://api.slack.com/methods/conversations.setTopic)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

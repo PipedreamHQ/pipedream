@@ -1110,6 +1110,12 @@ export default {
         ...args,
       });
     },
+    openConversation(args = {}) {
+      return this.makeRequest({
+        method: "conversations.open",
+        ...args,
+      });
+    },
     inviteToConversation(args = {}) {
       return this.makeRequest({
         method: "conversations.invite",
@@ -1278,7 +1284,22 @@ export default {
      * @returns {Promise<string>} The resolved channel ID
      */
     async resolveChannelId(input) {
-      if (/^[CDGU][A-Z0-9]{8,}$/i.test(input)) return input;
+      // Slack ids are UPPERCASE-only (e.g. `C0123ABCD`, `U0123ABCD`). Match case-sensitively:
+      // channel names are lowercased by Slack, so a `/i` match would misclassify an all-alnum
+      // name like `welcomeaboard` or `developers` (no hyphen, 9+ chars) as an id.
+      // Channel, private-group, and DM ids are already conversation ids — pass through.
+      if (/^[CDG][A-Z0-9]{8,}$/.test(input)) return input;
+      // A user id is NOT a conversation id — conversations.* answers `channel_not_found`
+      // for it. Open (idempotently) the DM with that user and use the returned IM channel.
+      // This is the read-side counterpart to chat.postMessage accepting a user id: an agent
+      // asked to read "my DMs" resolves its own user id and passes it here, and history,
+      // thread replies, and reactions now accept it the way posting already does.
+      if (/^[UW][A-Z0-9]{8,}$/.test(input)) {
+        const { channel } = await this.openConversation({
+          users: input,
+        });
+        return channel.id;
+      }
       const name = input.replace(/^#/, "").toLowerCase();
       let cursor;
       do {
