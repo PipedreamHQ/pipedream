@@ -73,9 +73,9 @@ export default {
       });
       return;
     }
-	
-	const orderId = body.user_order_id ?? body.order_id;
-	const flpStatus = body.fraudlabspro_status ?? body.flp_status;
+
+    const orderId = body.user_order_id ?? body.order_id;
+    const flpStatus = body.fraudlabspro_status ?? body.flp_status;
 
     // Emit the data so it can be used in workflow steps. With `dedupe: "unique"`
     // the id must be stable (no Date.now()) and capped at 64 chars; ts prefers
