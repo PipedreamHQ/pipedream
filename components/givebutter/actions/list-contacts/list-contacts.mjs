@@ -1,10 +1,6 @@
 // x-pd-ai: optimized
 import givebutter from "../../givebutter.app.mjs";
-import {
-  CONTACT_SORT_BY,
-  CONTACT_TYPES,
-  MAX_PER_PAGE,
-} from "../common/constants.mjs";
+import { CONTACT_SORT_BY } from "../common/constants.mjs";
 
 export default {
   key: "givebutter-list-contacts",
@@ -20,36 +16,37 @@ export default {
   props: {
     givebutter,
     type: {
-      type: "string",
-      label: "Type",
-      description: `Contact type to list. One of: ${CONTACT_TYPES.map((t) => `\`${t}\``).join(", ")}. The Givebutter API defaults to \`individual\`, so company contacts are omitted unless this is explicitly set to \`company\`.`,
-      optional: true,
+      propDefinition: [
+        givebutter,
+        "contactType",
+      ],
+      description: "Contact type to list. The Givebutter API defaults to `individual`, so company contacts are omitted unless this is explicitly set to `company`.",
     },
     email: {
-      type: "string",
-      label: "Email",
+      propDefinition: [
+        givebutter,
+        "email",
+      ],
       description: "Optional exact email to filter contacts by (maps to the API `email` query param). Example: `jane@example.com`.",
-      optional: true,
     },
     sortBy: {
       type: "string",
       label: "Sort By",
-      description: `Optional field to sort by. One of: ${CONTACT_SORT_BY.map((s) => `\`${s}\``).join(", ")}.`,
+      description: "Optional field to sort by.",
+      options: CONTACT_SORT_BY,
       optional: true,
     },
     page: {
-      type: "integer",
-      label: "Page",
-      description: "1-indexed page number for offset-based pagination (Givebutter default: 1).",
-      optional: true,
+      propDefinition: [
+        givebutter,
+        "page",
+      ],
     },
     limit: {
-      type: "integer",
-      label: "Limit",
-      description: `Maximum number of contacts to return per page (maps to \`per_page\`). Must be between 1 and ${MAX_PER_PAGE} (the Givebutter API caps \`per_page\` at ${MAX_PER_PAGE}). Defaults to the API default of 20 if omitted.`,
-      min: 1,
-      max: MAX_PER_PAGE,
-      optional: true,
+      propDefinition: [
+        givebutter,
+        "limit",
+      ],
     },
   },
   async run({ $ }) {

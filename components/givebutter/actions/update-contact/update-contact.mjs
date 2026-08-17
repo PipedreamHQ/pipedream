@@ -21,22 +21,23 @@ export default {
       description: "The ID of the contact to update (an integer identifier, e.g. `12345`). Run **List Contacts** to find valid contact IDs.",
     },
     firstName: {
-      type: "string",
-      label: "First Name",
-      description: "Updated first name (max 255 chars). Maps to the API `first_name` field.",
-      optional: true,
+      propDefinition: [
+        givebutter,
+        "firstName",
+      ],
     },
     lastName: {
-      type: "string",
-      label: "Last Name",
-      description: "Updated last name (max 255 chars). Maps to the API `last_name` field.",
-      optional: true,
+      propDefinition: [
+        givebutter,
+        "lastName",
+      ],
     },
     email: {
-      type: "string",
-      label: "Email",
+      propDefinition: [
+        givebutter,
+        "email",
+      ],
       description: "Email address to set on the contact, submitted in the API `emails` array. Example: `jane.updated@example.com`. Becomes the contact's primary email unless `Email Is Primary` is set to `false`.",
-      optional: true,
     },
     emailIsPrimary: {
       type: "boolean",
@@ -46,10 +47,11 @@ export default {
       optional: true,
     },
     phone: {
-      type: "string",
-      label: "Phone",
+      propDefinition: [
+        givebutter,
+        "phone",
+      ],
       description: "Phone number to set on the contact, submitted in the API `phones` array. Example: `+15555550100`. Becomes the contact's primary phone unless `Phone Is Primary` is set to `false`.",
-      optional: true,
     },
     phoneIsPrimary: {
       type: "boolean",
@@ -59,10 +61,10 @@ export default {
       optional: true,
     },
     companyName: {
-      type: "string",
-      label: "Company Name",
-      description: "Updated company name (max 255 chars). Maps to the API `company_name` field.",
-      optional: true,
+      propDefinition: [
+        givebutter,
+        "companyName",
+      ],
     },
     note: {
       type: "string",
@@ -71,10 +73,11 @@ export default {
       optional: true,
     },
     tags: {
-      type: "string[]",
-      label: "Tags",
-      description: "Optional list of tag strings to set on the contact (max 64 tags). Example: `[\"vip\", \"newsletter\"]`.",
-      optional: true,
+      propDefinition: [
+        givebutter,
+        "tags",
+      ],
+      description: "Optional list of tag strings to set on the contact (max 64 tags), replacing the contact's existing tags. Example: `[\"vip\", \"newsletter\"]`.",
     },
   },
   async run({ $ }) {

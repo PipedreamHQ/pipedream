@@ -15,46 +15,53 @@ export default {
   props: {
     givebutter,
     firstName: {
-      type: "string",
-      label: "First Name",
+      propDefinition: [
+        givebutter,
+        "firstName",
+      ],
       description: "Contact's first name (max 255 chars). Required for individual contacts. Maps to the API `first_name` field.",
-      optional: true,
     },
     lastName: {
-      type: "string",
-      label: "Last Name",
+      propDefinition: [
+        givebutter,
+        "lastName",
+      ],
       description: "Contact's last name (max 255 chars). Required for individual contacts. Maps to the API `last_name` field.",
-      optional: true,
     },
     email: {
-      type: "string",
-      label: "Email",
+      propDefinition: [
+        givebutter,
+        "email",
+      ],
       description: "Contact's primary email address. Submitted to Givebutter as the `primary_email` field. Example: `jane@example.com`.",
-      optional: true,
     },
     phone: {
-      type: "string",
-      label: "Phone",
+      propDefinition: [
+        givebutter,
+        "phone",
+      ],
       description: "Contact's primary phone number. Maps to the API `primary_phone` field. Example: `+15555550100`.",
-      optional: true,
     },
     type: {
-      type: "string",
-      label: "Type",
-      description: "Contact type. One of: `individual`, `company`. For `company`, provide `companyName` instead of first/last name.",
-      optional: true,
+      propDefinition: [
+        givebutter,
+        "contactType",
+      ],
+      description: "Type of contact to create. For `company`, provide **Company Name** instead of first/last name.",
     },
     companyName: {
-      type: "string",
-      label: "Company Name",
-      description: "Company name (max 255 chars). Required when `type` is `company`. Maps to the API `company_name` field.",
-      optional: true,
+      propDefinition: [
+        givebutter,
+        "companyName",
+      ],
+      description: "Company name (max 255 chars). Required when **Type** is `company`. Maps to the API `company_name` field.",
     },
     tags: {
-      type: "string[]",
-      label: "Tags",
+      propDefinition: [
+        givebutter,
+        "tags",
+      ],
       description: "Optional list of tag strings to attach to the contact (max 64 tags). Example: `[\"vip\", \"newsletter\"]`.",
-      optional: true,
     },
   },
   async run({ $ }) {

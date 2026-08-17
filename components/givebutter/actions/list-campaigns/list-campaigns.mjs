@@ -1,6 +1,5 @@
 // x-pd-ai: optimized
 import givebutter from "../../givebutter.app.mjs";
-import { MAX_PER_PAGE } from "../common/constants.mjs";
 
 export default {
   key: "givebutter-list-campaigns",
@@ -16,18 +15,16 @@ export default {
   props: {
     givebutter,
     page: {
-      type: "integer",
-      label: "Page",
-      description: "1-indexed page number for offset-based pagination (Givebutter default: 1). Use with **List Campaigns** repeatedly to page through results.",
-      optional: true,
+      propDefinition: [
+        givebutter,
+        "page",
+      ],
     },
     limit: {
-      type: "integer",
-      label: "Limit",
-      description: `Maximum number of campaigns to return per page (maps to \`per_page\`). Must be between 1 and ${MAX_PER_PAGE} (the Givebutter API caps \`per_page\` at ${MAX_PER_PAGE}). Defaults to the API default of 20 if omitted.`,
-      min: 1,
-      max: MAX_PER_PAGE,
-      optional: true,
+      propDefinition: [
+        givebutter,
+        "limit",
+      ],
     },
   },
   async run({ $ }) {
