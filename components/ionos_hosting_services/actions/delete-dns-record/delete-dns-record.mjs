@@ -25,7 +25,6 @@ export default {
         ionosHostingServices,
         "recordId",
       ],
-      description: "The DNS record ID to delete. Run **Get DNS Zone** first to obtain a valid record ID from the zone's `records` array.",
     },
   },
   async run({ $ }) {
