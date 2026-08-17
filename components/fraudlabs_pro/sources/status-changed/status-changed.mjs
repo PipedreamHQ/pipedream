@@ -73,6 +73,9 @@ export default {
       });
       return;
     }
+	
+	const order_id = body.user_order_id ?? body.order_id;
+	const flp_status = body.fraudlabspro_status ?? body.flp_status;
 
     // Emit the data so it can be used in workflow steps. With `dedupe: "unique"`
     // the id must be stable (no Date.now()) and capped at 64 chars; ts prefers
@@ -84,10 +87,10 @@ export default {
     const ts = Number.isFinite(parsedTs)
       ? parsedTs
       : Date.now();
-    const id = `${body.order_id}-${body.flp_status}-${eventTime ?? JSON.stringify(body)}`.slice(0, 64);
+    const id = `${order_id}-${flp_status}-${eventTime ?? JSON.stringify(body)}`.slice(0, 64);
 
     this.$emit(body, {
-      summary: `New Status: ${body.flp_status} for Order #${body.order_id}`,
+      summary: `New Status: ${flp_status} for Order #${order_id}`,
       id,
       ts,
     });
