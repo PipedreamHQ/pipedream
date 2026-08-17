@@ -1,4 +1,5 @@
 // x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import ionosHostingServices from "../../ionos_hosting_services.app.mjs";
 
 export default {
@@ -52,6 +53,15 @@ export default {
     },
   },
   async run({ $ }) {
+    const noFieldsProvided = [
+      this.content,
+      this.ttl,
+      this.prio,
+      this.disabled,
+    ].every((v) => v === undefined);
+    if (noFieldsProvided) {
+      throw new ConfigurationError("Provide at least one of Content, TTL, Priority, or Disabled to update.");
+    }
     const record = await this.ionosHostingServices.updateRecord({
       $,
       zoneId: this.zoneId,

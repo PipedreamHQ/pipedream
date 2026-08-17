@@ -24,7 +24,7 @@ export default {
     records: {
       type: "string",
       label: "Records",
-      description: "JSON array of record objects that will REPLACE all records in the zone. Each object: `{ \"name\": \"www.example.com\", \"type\": \"A\", \"content\": \"5.6.7.8\", \"ttl\": 3600, \"prio\": 0, \"disabled\": false }`. `name`, `type`, and `content` are required; `type` must be one of the DNS record type constants (e.g. `A`, `AAAA`, `CNAME`, `MX`, `TXT`). Example: `[{\"name\":\"www.example.com\",\"type\":\"A\",\"content\":\"5.6.7.8\",\"ttl\":3600}]`.",
+      description: "JSON array of record objects that will REPLACE all records in the zone. Each object: `{ \"name\": \"www.example.com\", \"type\": \"A\", \"content\": \"5.6.7.8\", \"ttl\": 3600, \"prio\": 0, \"disabled\": false }`. `name`, `type`, and `content` are required; `name` must be the fully-qualified domain name including the zone domain (e.g. `www.example.com`) - a short name like `www` is invalid. `type` must be one of the DNS record type constants (e.g. `A`, `AAAA`, `CNAME`, `MX`, `TXT`). Example: `[{\"name\":\"www.example.com\",\"type\":\"A\",\"content\":\"5.6.7.8\",\"ttl\":3600}]`.",
     },
   },
   async run({ $ }) {
