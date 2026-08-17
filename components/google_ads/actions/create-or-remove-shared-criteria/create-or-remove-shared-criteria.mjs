@@ -8,13 +8,13 @@ import { parseObject } from "../../common/utils.mjs";
 import { getAdditionalFields } from "../common/props.mjs";
 
 const docLink =
-  "https://developers.google.com/google-ads/api/reference/rpc/v21/SharedCriterionService/MutateSharedCriteria?transport=rest";
+  "https://developers.google.com/google-ads/api/reference/rpc/v25/SharedCriterionService/MutateSharedCriteria?transport=rest";
 
 export default {
   key: "google_ads-create-or-remove-shared-criteria",
   name: "Create or Remove Shared Criteria",
   description: `Creates or removes criteria from a shared set (e.g., negative keywords). [See the documentation](${docLink})`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: true,
