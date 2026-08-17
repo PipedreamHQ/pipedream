@@ -11,7 +11,7 @@ export default {
   key: "google_ads-update-campaign-ai-max-settings",
   name: "Update Campaign AI Max Settings",
   description: `Enables or configures AI Max for Search settings on a campaign. Only supported on Search campaigns. Toggling AI Max while simultaneously editing brand or text customization settings on the same campaign may fail — update them separately. Ad group-level search term matching is controlled via the **Create or Update Ad Group** action. [See the documentation](${docLink})`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

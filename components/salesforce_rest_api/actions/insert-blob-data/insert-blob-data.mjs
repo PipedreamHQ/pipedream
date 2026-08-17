@@ -1,10 +1,15 @@
+// x-pd-ai: optimized
 import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
   key: "salesforce_rest_api-insert-blob-data",
   name: "Insert Blob Data",
-  description: "Inserts blob data in Salesforce standard objects. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_sobject_insert_update_blob.htm)",
-  version: "0.2.12",
+  description: "Upload binary file data to a Salesforce object such as `ContentVersion` or `Attachment`."
+    + " Use this for Salesforce Files (`ContentVersion`); use **Create Attachment** only for the legacy attachment object."
+    + " The file content must be supplied as a file path or URL, not as raw bytes in the request."
+    + " "
+    + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_sobject_insert_update_blob.htm)",
+  version: "0.2.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

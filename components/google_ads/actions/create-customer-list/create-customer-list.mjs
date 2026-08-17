@@ -14,8 +14,8 @@ export default {
   ...common,
   key: "google_ads-create-customer-list",
   name: "Create Customer List",
-  description: "Create a new customer list in Google Ads. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v21/UserList)",
-  version: "0.0.10",
+  description: "Create a new customer list in Google Ads. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/UserList)",
+  version: "0.0.11",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -38,7 +38,7 @@ export default {
     listType: {
       type: "string",
       label: "List Type",
-      description: "The [type of customer list](https://developers.google.com/google-ads/api/reference/rpc/v21/CrmBasedUserListInfo) to create.",
+      description: "The [type of customer list](https://developers.google.com/google-ads/api/reference/rpc/v25/CrmBasedUserListInfo) to create.",
       options: USER_LIST_TYPE_OPTIONS.map(({
         label, value,
       }) => ({
