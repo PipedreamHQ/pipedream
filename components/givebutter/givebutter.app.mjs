@@ -49,6 +49,15 @@ export default {
         ...args,
       });
     },
+    getContact({
+      contactId, ...args
+    }) {
+      return this._makeRequest({
+        method: "GET",
+        path: `${CONTACTS_PATH}/${contactId}`,
+        ...args,
+      });
+    },
     getTransaction({
       transactionId, ...args
     }) {

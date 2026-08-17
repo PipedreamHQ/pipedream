@@ -1,10 +1,11 @@
 // x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import givebutter from "../../givebutter.app.mjs";
 
 export default {
   key: "givebutter-update-contact",
   name: "Update Contact",
-  description: "Update an existing Givebutter contact, returning the updated contact object. Use **List Contacts** first to find the contact ID. Only the fields you provide are changed. [See the documentation](https://docs.givebutter.com/api-reference/contacts/update-a-contact)",
+  description: "Update an existing Givebutter contact, returning the updated contact object. Set only the fields you want to change. Use **List Contacts** first to find the contact ID. Note that Givebutter validates this as a full update — individual contacts require `first_name` and `last_name`, and company contacts require `company_name`, even when those values are not changing — so this action reads the contact first and re-sends its existing name and company values automatically. [See the documentation](https://docs.givebutter.com/api-reference/contacts/update-a-contact)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -34,13 +35,27 @@ export default {
     email: {
       type: "string",
       label: "Email",
-      description: "Updated email address, submitted in the API `emails` array with `is_primary: true` so it becomes the contact's primary email. Example: `jane.updated@example.com`.",
+      description: "Email address to set on the contact, submitted in the API `emails` array. Example: `jane.updated@example.com`. Becomes the contact's primary email unless `Email Is Primary` is set to `false`.",
+      optional: true,
+    },
+    emailIsPrimary: {
+      type: "boolean",
+      label: "Email Is Primary",
+      description: "Whether `Email` becomes the contact's primary email address (the API `is_primary` flag). Defaults to `true`; set to `false` to add it as a secondary address, leaving the existing primary in place. Ignored when `Email` is not set.",
+      default: true,
       optional: true,
     },
     phone: {
       type: "string",
       label: "Phone",
-      description: "Updated phone number, submitted in the API `phones` array with `is_primary: true` so it becomes the contact's primary phone. Example: `+15555550100`.",
+      description: "Phone number to set on the contact, submitted in the API `phones` array. Example: `+15555550100`. Becomes the contact's primary phone unless `Phone Is Primary` is set to `false`.",
+      optional: true,
+    },
+    phoneIsPrimary: {
+      type: "boolean",
+      label: "Phone Is Primary",
+      description: "Whether `Phone` becomes the contact's primary phone number (the API `is_primary` flag). Defaults to `true`; set to `false` to add it as a secondary number, leaving the existing primary in place. Ignored when `Phone` is not set.",
+      default: true,
       optional: true,
     },
     companyName: {
@@ -63,17 +78,37 @@ export default {
     },
   },
   async run({ $ }) {
+    const updates = [
+      this.firstName,
+      this.lastName,
+      this.email,
+      this.phone,
+      this.companyName,
+      this.note,
+      this.tags,
+    ];
+    if (updates.every((value) => value === undefined || value === null)) {
+      throw new ConfigurationError("Set at least one field to update.");
+    }
+
+    const existing = await this.givebutter.getContact({
+      $,
+      contactId: this.contactId,
+    });
+    const current = existing?.data ?? existing;
+
     const contact = await this.givebutter.updateContact({
       $,
       contactId: this.contactId,
       data: {
-        first_name: this.firstName,
-        last_name: this.lastName,
+        first_name: this.firstName ?? current?.first_name,
+        last_name: this.lastName ?? current?.last_name,
+        company_name: this.companyName ?? current?.company_name,
         ...(this.email && {
           emails: [
             {
               value: this.email,
-              is_primary: true,
+              is_primary: this.emailIsPrimary ?? true,
             },
           ],
         }),
@@ -81,11 +116,10 @@ export default {
           phones: [
             {
               value: this.phone,
-              is_primary: true,
+              is_primary: this.phoneIsPrimary ?? true,
             },
           ],
         }),
-        company_name: this.companyName,
         note: this.note,
         tags: this.tags,
       },
