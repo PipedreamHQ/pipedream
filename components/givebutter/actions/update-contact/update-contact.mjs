@@ -78,6 +78,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.email?.trim() === "" || this.phone?.trim() === "") {
+      throw new ConfigurationError("Email and Phone cannot be blank. Omit the prop entirely to leave the contact's existing value unchanged.");
+    }
+
     const updates = [
       this.firstName,
       this.lastName,
