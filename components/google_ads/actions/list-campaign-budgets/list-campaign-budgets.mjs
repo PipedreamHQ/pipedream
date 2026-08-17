@@ -3,8 +3,8 @@ import googleAds from "../../google_ads.app.mjs";
 export default {
   key: "google_ads-list-campaign-budgets",
   name: "List Campaign Budgets",
-  description: "List campaign budgets for a customer account. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v21/GoogleAdsService/Search?transport=rest)",
-  version: "0.0.1",
+  description: "List campaign budgets for a customer account. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/GoogleAdsService/Search?transport=rest)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -973,6 +973,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
+      csv-parse:
+        specifier: ^5.5.6
+        version: 5.6.0
 
   components/amplitude_experiment_management: {}
 
@@ -10208,7 +10211,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/mode: {}
+  components/mode:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/modeck:
     dependencies:
