@@ -34,13 +34,13 @@ export default {
     email: {
       type: "string",
       label: "Email",
-      description: "Updated primary email address. Submitted to Givebutter as the `primary_email` field. Example: `jane.updated@example.com`.",
+      description: "Updated email address, submitted in the API `emails` array with `is_primary: true` so it becomes the contact's primary email. Example: `jane.updated@example.com`.",
       optional: true,
     },
     phone: {
       type: "string",
       label: "Phone",
-      description: "Updated primary phone number. Maps to the API `primary_phone` field. Example: `+15555550100`.",
+      description: "Updated phone number, submitted in the API `phones` array with `is_primary: true` so it becomes the contact's primary phone. Example: `+15555550100`.",
       optional: true,
     },
     companyName: {
@@ -69,8 +69,22 @@ export default {
       data: {
         first_name: this.firstName,
         last_name: this.lastName,
-        primary_email: this.email,
-        primary_phone: this.phone,
+        ...(this.email && {
+          emails: [
+            {
+              value: this.email,
+              is_primary: true,
+            },
+          ],
+        }),
+        ...(this.phone && {
+          phones: [
+            {
+              value: this.phone,
+              is_primary: true,
+            },
+          ],
+        }),
         company_name: this.companyName,
         note: this.note,
         tags: this.tags,
