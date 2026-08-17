@@ -19,14 +19,14 @@ export default {
         givebutter,
         "firstName",
       ],
-      description: "Contact's first name (max 255 chars). Required for individual contacts. Maps to the API `first_name` field.",
+      description: "Contact's first name (max 255 chars). For an individual contact without email or phone, provide both first and last names. Maps to the API `first_name` field.",
     },
     lastName: {
       propDefinition: [
         givebutter,
         "lastName",
       ],
-      description: "Contact's last name (max 255 chars). Required for individual contacts. Maps to the API `last_name` field.",
+      description: "Contact's last name (max 255 chars). Maps to the API `last_name` field.",
     },
     email: {
       propDefinition: [
