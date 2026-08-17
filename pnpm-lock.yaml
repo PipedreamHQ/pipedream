@@ -6429,7 +6429,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/givebutter: {}
+  components/givebutter:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.6.8
+        version: 1.6.8
 
   components/givingfuel: {}
 
