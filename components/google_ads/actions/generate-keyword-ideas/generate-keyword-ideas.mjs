@@ -3,13 +3,13 @@ import { getAdditionalFields } from "../common/props.mjs";
 import {
   parseObject, parseStringObject,
 } from "../../common/utils.mjs";
-const docLink = "https://developers.google.com/google-ads/api/reference/rpc/v22/KeywordPlanIdeaService/GenerateKeywordIdeas?transport=rest";
+const docLink = "https://developers.google.com/google-ads/api/reference/rpc/v25/KeywordPlanIdeaService/GenerateKeywordIdeas?transport=rest";
 
 export default {
   key: "google_ads-generate-keyword-ideas",
   name: "Generate Keyword Ideas",
   description: `Generate keyword ideas using the Google Ads API. [See the documentation](${docLink})`,
-  version: "0.0.4",
+  version: "0.1.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -32,7 +32,7 @@ export default {
           accountId,
         }),
       ],
-      optional: false,
+      optional: true,
     },
     additionalFields: {
       ...getAdditionalFields(docLink),

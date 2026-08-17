@@ -1,10 +1,12 @@
+// x-pd-ai: optimized
 import clockify from "../../clockify.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "clockify-list-tasks",
   name: "List Tasks",
-  description: "List all tasks in a Clockify project. [See the documentation](https://docs.clockify.me/#tag/Task/operation/getTasks)",
-  version: "0.0.1",
+  description: "Returns a single page of tasks in a Clockify project, optionally filtered by a substring of the task name or by active status. Tasks belong to a project, so set both Workspace and Project — use **List Projects** to find the project ID. Use the `Page` and `Page Size` inputs to page through results. [See the documentation](https://docs.clockify.me/#tag/Task/operation/getTasks)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -51,10 +53,7 @@ export default {
       label: "Sort Column",
       description: "The column to sort the tasks by",
       optional: true,
-      options: [
-        "ID",
-        "NAME",
-      ],
+      options: constants.TASK_SORT_COLUMN_OPTIONS,
     },
     sortOrder: {
       propDefinition: [

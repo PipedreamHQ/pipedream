@@ -9,13 +9,13 @@ import { parseObject } from "../../common/utils.mjs";
 import { getAdditionalFields } from "../common/props.mjs";
 
 const docLink =
-  "https://developers.google.com/google-ads/api/reference/rpc/v21/CampaignCriterionService/MutateCampaignCriteria?transport=rest";
+  "https://developers.google.com/google-ads/api/reference/rpc/v25/CampaignCriterionService/MutateCampaignCriteria?transport=rest";
 
 export default {
   key: "google_ads-create-or-remove-campaign-criteria",
   name: "Create or Remove Campaign Criteria",
   description: `Creates or removes criteria for a campaign (e.g., keyword targeting, brand lists). [See the documentation](${docLink})`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: true,

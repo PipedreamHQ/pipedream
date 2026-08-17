@@ -1,5 +1,5 @@
 const DEFAULT_DOCS =
-  "https://developers.google.com/google-ads/api/reference/rpc/v21/UserList";
+  "https://developers.google.com/google-ads/api/reference/rpc/v25/UserList";
 
 export const getAdditionalFields = (docsLink = DEFAULT_DOCS) => ({
   type: "object",

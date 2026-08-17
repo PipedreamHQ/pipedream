@@ -1,6 +1,8 @@
 import { defineSource } from "@pipedream/types";
 import { ListReviewsParams } from "../../common/requestParams";
-import { Review } from "../../common/responseSchemas";
+import {
+  ListReviewsResponse, Review,
+} from "../../common/responseSchemas";
 import common from "../common";
 
 const DOCS_LINK = "https://developers.google.com/my-business/reference/rest/v4/accounts.locations.reviews/list";
@@ -10,7 +12,7 @@ export default defineSource({
   key: "google_my_business-new-review-created",
   name: "New Review Created",
   description: `Emit new event for each new review on a location [See the documentation](${DOCS_LINK})`,
-  version: "0.0.7",
+  version: "0.0.9",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -25,7 +27,9 @@ export default defineSource({
         location,
       };
 
-      return this.app.listReviews(params);
+      const response: ListReviewsResponse = await this.app.listReviews(params);
+
+      return response?.reviews ?? [];
     },
     getSummary({ comment }: Review) {
       return `New Review${comment
