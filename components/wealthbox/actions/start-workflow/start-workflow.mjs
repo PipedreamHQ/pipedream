@@ -41,7 +41,7 @@ export default {
     startsAt: {
       type: "string",
       label: "Starts At",
-      description: "Optional ISO 8601 datetime for when the workflow should start. Example: `2026-08-13T09:00:00Z`.",
+      description: "Optional ISO 8601 datetime for when the workflow should start. Example: `2019-02-25 03:00 PM -0400`.",
       optional: true,
     },
   },

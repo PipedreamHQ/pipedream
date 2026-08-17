@@ -106,7 +106,7 @@ export default {
             },
           ]
           : undefined,
-        company: this.company,
+        company_name: this.company,
         contact_type: this.contactType ?? this.type,
       },
       $,

@@ -70,7 +70,7 @@ export default {
         ],
         stage: this.stage,
         target_close: this.targetClose,
-        probability: this.probability,
+        probability: Number(this.probability),
         amounts: [
           {
             amount: Number(this.amountValue),
