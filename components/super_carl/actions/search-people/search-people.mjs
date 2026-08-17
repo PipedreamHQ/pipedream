@@ -116,14 +116,16 @@ export default {
       };
     }
 
-    // Safety net: `preview: false` combined with relationship/evidence detail
-    // carries enough per-row history to blow the MCP output ceiling on its
-    // own (see SEARCH_PEOPLE_SAFE_DEFAULT_FIELDS), so a caller who didn't
-    // pass `fields` here would otherwise get a truncated-to-file result and
-    // see none of the data — not even the relationship info they asked for.
-    const isVerboseRowMode = this.preview === false
-      && ((this.relationshipDetail && this.relationshipDetail !== "none")
-        || (this.evidenceFormat && this.evidenceFormat !== "none"));
+    // Safety net: relationship detail carries enough per-row history to blow
+    // the MCP output ceiling on its own (see SEARCH_PEOPLE_SAFE_DEFAULT_FIELDS),
+    // so a caller who didn't pass `fields` here would otherwise get a
+    // truncated-to-file result and see none of the data — not even the
+    // relationship info they asked for. Measured to fire under `preview: true`
+    // too (the API still resolves `relationship_detail` in preview mode — only
+    // `evidence_format` is dropped there, per `run()` above), so this no longer
+    // gates on `preview === false`.
+    const isVerboseRowMode = (this.relationshipDetail && this.relationshipDetail !== "none")
+      || (this.preview === false && this.evidenceFormat && this.evidenceFormat !== "none");
 
     return isVerboseRowMode
       ? {

@@ -10,7 +10,7 @@ import {
 export default {
   key: "super_carl-search-companies",
   name: "Search Companies",
-  description: "Search companies by name, domain, funding, size, industry, location, growth, or technology. Use this to qualify a target company or find companies matching structured Filters before reaching out. Use **Search People** afterward to find people at a matched company; enable Resolve Only to just disambiguate a single company name, domain, or LinkedIn URL without running a full search. Company rows in `detailed` mode can be large — pass Fields (e.g. `name`, `domain`, `employee_count`) to keep the result small. [See the documentation](https://supercarl.ai/docs#endpoints-companies)",
+  description: "Search companies by name, domain, funding, size, industry, location, growth, or technology. Use this to qualify a target company or find companies matching structured Filters before reaching out. Use **Search People** afterward to find people at a matched company; enable Resolve Only to just disambiguate a single company name, domain, or LinkedIn URL without running a full search — Resolve Only returns identity metadata ONLY (name, domain, a coarse `employee_count`, `industries`), never a company's real size or description. When the task needs to know a company's actual size or what it does, leave Resolve Only off (or set it false) and set Result Mode to `detailed`; don't fill gaps from outside knowledge when Resolve Only comes back thin — re-call with `detailed` instead. Company rows in `detailed` mode can be large — pass Fields (e.g. `name`, `domain`, `employee_count`) to keep the result small. [See the documentation](https://supercarl.ai/docs#endpoints-companies)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
