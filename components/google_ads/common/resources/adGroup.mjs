@@ -82,7 +82,6 @@ const metrics = [
   "average_cpc",
   "average_cpe",
   "average_cpm",
-  "average_cpv",
   "average_order_value_micros",
   "average_page_views",
   "average_time_on_site",
@@ -152,8 +151,8 @@ const metrics = [
   "video_quartile_p25_rate",
   "video_quartile_p50_rate",
   "video_quartile_p75_rate",
-  "video_view_rate",
-  "video_views",
+  "video_trueview_view_rate",
+  "video_trueview_views",
   "view_through_conversions",
 ].map((f) => getOption(f, "metrics"));
 
