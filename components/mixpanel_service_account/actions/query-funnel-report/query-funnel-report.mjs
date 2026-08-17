@@ -6,7 +6,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "mixpanel_service_account-query-funnel-report",
   name: "Query Funnel Report",
-  description: "Get conversion numbers for a funnel that has already been saved in the Mixpanel UI: step counts, conversion rates, and average time between steps. [See the documentation](https://docs.mixpanel.com/reference/funnels-query)",
+  description: "Get conversion numbers for a funnel that has already been saved in the Mixpanel UI: step counts, conversion rates, and average time between steps. Note that Mixpanel has placed the Funnels Query API in maintenance mode and recommends against new use of it - to build a new integration, save a Funnels report in the Mixpanel UI and read it with **Query Insights Report** instead. [See the documentation](https://docs.mixpanel.com/reference/funnels-query)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -52,7 +52,7 @@ export default {
         app,
         "unit",
       ],
-      description: "The size of each bucket in the returned series: `day`, `week`, or `month`. This is an alternate way of expressing Interval - set one or the other, not both.",
+      description: "The unit that Interval is counted in: `day`, `week`, or `month`. For example, Unit `week` with an Interval of 4 gives four-week buckets.",
     },
     interval: {
       propDefinition: [
@@ -88,10 +88,6 @@ export default {
     },
   },
   async run({ $ }) {
-    if (this.unit && this.interval) {
-      throw new ConfigurationError("Unit and Interval are alternate ways of expressing the same thing - set one or the other, not both. Use Unit for `week` or `month` buckets, or Interval for a bucket of N days.");
-    }
-
     // Only checkable when both halves are set; otherwise Mixpanel falls back to
     // the unit saved with the funnel, which we cannot see here.
     if (this.conversionWindowLength && this.conversionWindowUnit) {

@@ -4,7 +4,7 @@ import app from "../../mixpanel_service_account.app.mjs";
 export default {
   key: "mixpanel_service_account-get-profile-event-activity",
   name: "Get Profile Event Activity",
-  description: "Get the chronological event feed for one or more specific users - what they did, when, and with which event properties. This is the \"what has this user been doing?\" tool. Requires exact `distinct_id` values; it cannot search by email. [See the documentation](https://docs.mixpanel.com/reference/activity-stream-query)",
+  description: "Get the chronological event feed for one or more specific users - what they did, when, and with which event properties. This is the \"what has this user been doing?\" tool. Requires exact `distinct_id` values; it cannot search by email. Note that Mixpanel has placed the underlying `/stream/query` endpoint in maintenance mode. [See the documentation](https://docs.mixpanel.com/reference/activity-stream-query)",
   version: "0.0.1",
   type: "action",
   annotations: {

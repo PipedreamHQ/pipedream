@@ -61,7 +61,7 @@ export default {
     interval: {
       type: "integer",
       label: "Interval",
-      description: "The number of days each bucket in the returned series covers, for example `7`. Defaults to 1. This is an alternate way of expressing Unit - set one or the other, not both.",
+      description: "How many Unit values each bucket in the returned series covers, for example `7`. Defaults to 1.",
       min: 1,
       optional: true,
     },

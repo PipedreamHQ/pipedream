@@ -3,6 +3,7 @@ const QUERY_API_PATH = "/api/query";
 const GENERAL_ANALYSIS_TYPE = "general";
 const UNIQUE_ANALYSIS_TYPE = "unique";
 const HOUR_UNIT = "hour";
+const DAY_UNIT = "day";
 
 const ANALYSIS_TYPES = [
   {
@@ -58,8 +59,8 @@ const BIRTH_RETENTION_TYPE = "birth";
 const DEFAULT_TOP_PROPERTIES_LIMIT = 10;
 const DEFAULT_TOP_VALUES_LIMIT = 255;
 
-// Documented ceilings. Exceeding them returns an opaque HTTP 500 rather than a
-// validation message, so components check them before sending the request.
+// Ceilings documented by Mixpanel. The API does not return a validation message
+// when they are exceeded, so components check them before sending the request.
 const MAX_FUNNEL_SEGMENTATION_LIMIT = 10000;
 const MAX_FUNNEL_LENGTH_DAYS = 90;
 const MAX_RETENTION_DAY_INTERVAL = 90;
@@ -76,6 +77,7 @@ export default {
   GENERAL_ANALYSIS_TYPE,
   UNIQUE_ANALYSIS_TYPE,
   HOUR_UNIT,
+  DAY_UNIT,
   ANALYSIS_TYPES,
   TIME_UNITS,
   REPORT_TIME_UNITS,

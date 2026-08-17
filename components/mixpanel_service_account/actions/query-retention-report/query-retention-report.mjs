@@ -52,14 +52,14 @@ export default {
         app,
         "unit",
       ],
-      description: "The unit each retention interval is measured in: `day`, `week`, or `month`. For example, `week` with an Interval Count of 4 gives you week-1 through week-4 retention. Mixpanel defaults to `day` when this is left empty. This is an alternate way of expressing Interval - set one or the other, not both.",
+      description: "The unit that Interval is counted in: `day`, `week`, or `month`. For example, Unit `week` with an Interval of 4 gives four-week retention intervals. Mixpanel defaults to `day` when this is left empty.",
     },
     interval: {
       propDefinition: [
         app,
         "interval",
       ],
-      description: `How many days make up a single retention interval, for example \`7\`. Defaults to 1, and may not exceed ${constants.MAX_RETENTION_DAY_INTERVAL}. This is an alternate way of expressing Unit - set one or the other, not both.`,
+      description: `How many Unit values make up a single retention interval, for example \`7\`. Defaults to 1, and may not exceed ${constants.MAX_RETENTION_DAY_INTERVAL} when Unit is \`day\` or left empty.`,
     },
     intervalCount: {
       type: "integer",
@@ -113,14 +113,11 @@ export default {
       throw new ConfigurationError("Born Event is required when Retention Type is `birth`. Use **List Events** to find the exact event name, or set Retention Type to `compounded`.");
     }
 
-    // Mixpanel answers both of these with an opaque HTTP 500, so they are
-    // caught here where the error can say what to change.
-    if (this.unit && this.interval) {
-      throw new ConfigurationError("Unit and Interval are alternate ways of expressing the same thing - set one or the other, not both. Use Unit for `week` or `month` buckets, or Interval for a bucket of N days.");
-    }
-
-    if (this.interval > constants.MAX_RETENTION_DAY_INTERVAL) {
-      throw new ConfigurationError(`Interval may not exceed ${constants.MAX_RETENTION_DAY_INTERVAL} days. Set Unit to \`week\` or \`month\` instead to cover a longer span.`);
+    // Mixpanel documents this ceiling but does not enforce it, so the check is
+    // ours to make. It applies to days only, which is also the default unit.
+    if ((!this.unit || this.unit === constants.DAY_UNIT)
+      && this.interval > constants.MAX_RETENTION_DAY_INTERVAL) {
+      throw new ConfigurationError(`Interval may not exceed ${constants.MAX_RETENTION_DAY_INTERVAL} when Unit is \`day\` or left empty. Set Unit to \`week\` or \`month\` to cover a longer span.`);
     }
 
     const response = await this.app.queryRetentionReport({
