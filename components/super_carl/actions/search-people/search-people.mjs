@@ -5,6 +5,7 @@ import {
   countSummary,
   parseObjectProp,
   requireQueryOrFilters,
+  SEARCH_PEOPLE_SAFE_DEFAULT_FIELDS,
   stripSearchPeopleDebugFields,
 } from "../../common/utils.mjs";
 
@@ -108,10 +109,26 @@ export default {
 
     const trimmed = stripSearchPeopleDebugFields(response);
 
-    return this.fields?.length
-      ? {
+    if (this.fields?.length) {
+      return {
         ...trimmed,
         users: applyFieldSelection(trimmed?.users, this.fields),
+      };
+    }
+
+    // Safety net: `preview: false` combined with relationship/evidence detail
+    // carries enough per-row history to blow the MCP output ceiling on its
+    // own (see SEARCH_PEOPLE_SAFE_DEFAULT_FIELDS), so a caller who didn't
+    // pass `fields` here would otherwise get a truncated-to-file result and
+    // see none of the data — not even the relationship info they asked for.
+    const isVerboseRowMode = this.preview === false
+      && ((this.relationshipDetail && this.relationshipDetail !== "none")
+        || (this.evidenceFormat && this.evidenceFormat !== "none"));
+
+    return isVerboseRowMode
+      ? {
+        ...trimmed,
+        users: applyFieldSelection(trimmed?.users, SEARCH_PEOPLE_SAFE_DEFAULT_FIELDS),
       }
       : trimmed;
   },

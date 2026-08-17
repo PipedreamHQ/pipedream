@@ -185,10 +185,14 @@ export const applyFieldSelection = (rows, fields) => {
 // to blow the MCP output ceiling regardless of row count. Undocumented and
 // not actionable for a caller, so it's dropped unconditionally, not gated
 // behind an opt-in — there's no described use case that would need it back.
-// `search_metadata` is excluded from this list: it's part of the documented
-// response schema, unlike the other fields here.
+// `search_metadata` measured at 46k chars on a single-row response (vs. ~6k
+// for the row itself) — it's the dominant cost regardless of `limit`/`fields`,
+// and its contents (query_execution_plan, es_response, bitmap_counts, network
+// ranking internals, ...) are the same kind of search-engine-internal debug
+// data as `entity_resolution`, not documented, caller-facing response fields.
 const SEARCH_PEOPLE_DEBUG_FIELDS = [
   "entity_resolution",
+  "search_metadata",
 ];
 
 export const stripDebugFields = (response, keys) => {
@@ -206,3 +210,26 @@ export const stripDebugFields = (response, keys) => {
 
 export const stripSearchPeopleDebugFields = (response) =>
   stripDebugFields(response, SEARCH_PEOPLE_DEBUG_FIELDS);
+
+// Safety net for the one combination the tool's own description already warns
+// about: `preview: false` with `relationshipDetail`/`evidenceFormat` set to
+// anything beyond "none" carries per-row history (education, experiences,
+// evidence chains) that alone can push a single row's response past the MCP
+// output ceiling (measured: ~15KB/row) — regardless of `limit`. A caller who
+// forgets `fields` on that first call gets a truncated-to-file result and
+// never sees the data at all, not even the identity/relationship fields they
+// actually asked for. These names are the exact set a real run's follow-up
+// call (after it self-corrected) used successfully, so this is a proven-safe
+// default, not a guess. Only applied when the caller supplied no `fields` of
+// their own — an explicit `fields` list always wins.
+export const SEARCH_PEOPLE_SAFE_DEFAULT_FIELDS = [
+  "name",
+  "headline",
+  "current_title",
+  "current_company",
+  "location",
+  "linkedin_profile_url",
+  "email",
+  "connection_degree",
+  "mutual_connections_count",
+];
