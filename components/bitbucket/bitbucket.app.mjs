@@ -60,49 +60,6 @@ export default {
         return branches.map((branch) => branch.name);
       },
     },
-    issue: {
-      type: "string",
-      label: "Issue",
-      description: "Select a issue",
-      async options({
-        workspaceId, repositoryId, page,
-      }) {
-        const issues = await this.getIssues({
-          workspaceId,
-          repositoryId,
-          params: {
-            page: page + 1,
-          },
-        });
-
-        return issues.map((issue) => ({
-          label: issue.title,
-          value: issue.id,
-        }));
-      },
-    },
-    comment: {
-      type: "string",
-      label: "Comment",
-      description: "Select a comment",
-      async options({
-        workspaceId, repositoryId, issueId, page,
-      }) {
-        const comments = await this.getIssueComments({
-          workspaceId,
-          repositoryId,
-          issueId,
-          params: {
-            page: page + 1,
-          },
-        });
-
-        return comments.map((comment) => ({
-          label: comment.content.raw ?? comment.content.html ?? comment.content.markup,
-          value: comment.id,
-        }));
-      },
-    },
     snippet: {
       type: "string",
       label: "Snippet",
@@ -252,59 +209,6 @@ export default {
     }, $) {
       const response = await this._makeRequest(`snippets/${workspaceId}/${snippetId}/comments`, {
         method: "post",
-        data,
-      }, $);
-
-      return response.values;
-    },
-    async getIssues({
-      workspaceId, repositoryId, params,
-    }, $) {
-      const response = await this._makeRequest(`repositories/${workspaceId}/${repositoryId}/issues`, {
-        params,
-      }, $);
-
-      return response.values;
-    },
-    async getIssue({
-      workspaceId, repositoryId, issueId,
-    }, $) {
-      return await this._makeRequest(`repositories/${workspaceId}/${repositoryId}/issues/${issueId}`, {}, $);
-    },
-    async createIssue({
-      workspaceId, repositoryId, data,
-    }, $) {
-      const response = await this._makeRequest(`repositories/${workspaceId}/${repositoryId}/issues`, {
-        method: "post",
-        data,
-      }, $);
-
-      return response.values;
-    },
-    async getIssueComments({
-      workspaceId, repositoryId, issueId, params,
-    }, $) {
-      const response = await this._makeRequest(`repositories/${workspaceId}/${repositoryId}/issues/${issueId}/comments`, {
-        params,
-      }, $);
-
-      return response.values;
-    },
-    async createIssueComment({
-      workspaceId, repositoryId, issueId, data,
-    }, $) {
-      const response = await this._makeRequest(`repositories/${workspaceId}/${repositoryId}/issues/${issueId}/comments`, {
-        method: "post",
-        data,
-      }, $);
-
-      return response.values;
-    },
-    async updateIssueComment({
-      workspaceId, repositoryId, issueId, commentId, data,
-    }, $) {
-      const response = await this._makeRequest(`repositories/${workspaceId}/${repositoryId}/issues/${issueId}/comments/${commentId}`, {
-        method: "put",
         data,
       }, $);
 

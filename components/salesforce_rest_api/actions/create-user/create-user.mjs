@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import user from "../../common/sobjects/user.mjs";
 
@@ -8,8 +9,12 @@ export default {
   ...common,
   key: "salesforce_rest_api-create-user",
   name: "Create User",
-  description: `Creates a Salesforce user. [See the documentation](${docsLink})`,
-  version: "0.1.6",
+  description: "Create a Salesforce user (a login for a person in your org)."
+    + " Requires an available user license and a unique `Username` in email form; the `Username` must be globally unique across all Salesforce orgs."
+    + " Use **Get User** or **Find Records** on `User` to check whether the person already has an account."
+    + " "
+    + `[See the documentation](${docsLink})`,
+  version: "0.1.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

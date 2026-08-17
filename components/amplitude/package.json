@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/amplitude",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Amplitude Components",
   "main": "amplitude.app.mjs",
   "keywords": [
@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.6.8"
+    "@pipedream/platform": "^1.6.8",
+    "csv-parse": "^5.5.6"
   }
 }

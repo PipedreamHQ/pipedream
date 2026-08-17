@@ -1,3 +1,22 @@
+export const API_VERSION = "v25";
+
+// Conversion payload fields the upload actions set and validate themselves. Includes the
+// click and call identifiers: injecting those here would bypass the exactly-one-identifier
+// check, which runs against the props before the payload is assembled.
+export const RESERVED_CONVERSION_FIELDS = [
+  "callStartDateTime",
+  "callerId",
+  "conversionAction",
+  "conversionDateTime",
+  "conversionEnvironment",
+  "conversionValue",
+  "currencyCode",
+  "gbraid",
+  "gclid",
+  "orderId",
+  "wbraid",
+];
+
 export const SHARED_SET_TYPES = [
   {
     label: "Negative Keywords",
@@ -83,10 +102,6 @@ export const ADVERTISING_CHANNEL_TYPES = [
     value: "LOCAL_SERVICES",
   },
   {
-    label: "Discovery",
-    value: "DISCOVERY",
-  },
-  {
     label: "Travel",
     value: "TRAVEL",
   },
@@ -155,10 +170,6 @@ export const AD_GROUP_TYPES = [
     value: "VIDEO_NON_SKIPPABLE_IN_STREAM",
   },
   {
-    label: "Video Outstream",
-    value: "VIDEO_OUTSTREAM",
-  },
-  {
     label: "Search Dynamic Ads",
     value: "SEARCH_DYNAMIC_ADS",
   },
@@ -185,6 +196,10 @@ export const AD_GROUP_TYPES = [
   {
     label: "Travel Ads",
     value: "TRAVEL_ADS",
+  },
+  {
+    label: "YouTube Audio",
+    value: "YOUTUBE_AUDIO",
   },
 ];
 
@@ -232,6 +247,8 @@ export const ASSET_AUTOMATION_STATUSES = [
   },
 ];
 
+// `PERCENT_CPC` is deliberately absent: v25 exposes no `bidding_strategy.percent_cpc`
+// scheme, so a portfolio strategy cannot be created with that type.
 export const PORTFOLIO_BIDDING_STRATEGY_TYPES = [
   {
     label: "Target CPA",
@@ -261,9 +278,92 @@ export const PORTFOLIO_BIDDING_STRATEGY_TYPES = [
     label: "Enhanced CPC",
     value: "ENHANCED_CPC",
   },
+];
+
+export const CAMPAIGN_BIDDING_STRATEGY_TYPES = [
+  {
+    label: "Manual CPC",
+    value: "MANUAL_CPC",
+  },
+  {
+    label: "Manual CPM",
+    value: "MANUAL_CPM",
+  },
+  {
+    label: "Target CPA",
+    value: "TARGET_CPA",
+  },
+  {
+    label: "Target ROAS",
+    value: "TARGET_ROAS",
+  },
+  {
+    label: "Target Spend",
+    value: "TARGET_SPEND",
+  },
+  {
+    label: "Maximize Conversions",
+    value: "MAXIMIZE_CONVERSIONS",
+  },
+  {
+    label: "Maximize Conversion Value",
+    value: "MAXIMIZE_CONVERSION_VALUE",
+  },
+  {
+    label: "Target Impression Share",
+    value: "TARGET_IMPRESSION_SHARE",
+  },
   {
     label: "Percent CPC",
     value: "PERCENT_CPC",
+  },
+];
+
+export const TARGET_IMPRESSION_SHARE_LOCATIONS = [
+  {
+    label: "Anywhere on page",
+    value: "ANYWHERE_ON_PAGE",
+  },
+  {
+    label: "Top of page",
+    value: "TOP_OF_PAGE",
+  },
+  {
+    label: "Absolute top of page",
+    value: "ABSOLUTE_TOP_OF_PAGE",
+  },
+];
+
+export const UPLOAD_CONVERSION_TYPES = [
+  {
+    label: "Click conversion (attributed to an ad click via GCLID)",
+    value: "CLICK",
+  },
+  {
+    label: "Call conversion (attributed to a phone call)",
+    value: "CALL",
+  },
+];
+
+export const CONVERSION_ENVIRONMENTS = [
+  {
+    label: "Web",
+    value: "WEB",
+  },
+  {
+    label: "App",
+    value: "APP",
+  },
+];
+
+export const EU_POLITICAL_ADVERTISING_STATUSES = [
+  {
+    label: "Does not contain EU political advertising",
+    value: "DOES_NOT_CONTAIN_EU_POLITICAL_ADVERTISING",
+  },
+  {
+    label: "Contains EU political advertising",
+    value: "CONTAINS_EU_POLITICAL_ADVERTISING",
   },
 ];
 

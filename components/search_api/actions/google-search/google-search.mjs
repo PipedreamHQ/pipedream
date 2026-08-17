@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import app from "../../search_api.app.mjs";
 
 export default {
   key: "search_api-google-search",
   name: "Google Search API",
-  description: "Google Search API uses /api/v1/search?engine=google API endpoint to scrape real-time results. [See the documentation](https://www.searchapi.io/docs/google)",
-  version: "0.0.2",
+  description: "Run a Google web search. Returns `organic_results` alongside whichever other blocks Google included for the query [See the documentation](https://www.searchapi.io/docs/google)",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -81,7 +82,7 @@ export default {
       engine,
     });
 
-    $.export("$summary", `Successfully searched "${this.q} on engine ${engine}"`);
+    $.export("$summary", `Successfully searched "${this.q}" on engine ${engine}`);
 
     return result;
   },

@@ -3,13 +3,13 @@ import googleAds from "../../google_ads.app.mjs";
 import { CREATE_REMOVE_OPERATION_TYPES } from "../../common/constants.mjs";
 
 const docLink =
-  "https://developers.google.com/google-ads/api/reference/rpc/v21/CampaignSharedSetService/MutateCampaignSharedSets?transport=rest";
+  "https://developers.google.com/google-ads/api/reference/rpc/v25/CampaignSharedSetService/MutateCampaignSharedSets?transport=rest";
 
 export default {
   key: "google_ads-create-or-remove-campaign-shared-set",
   name: "Create or Remove Campaign Shared Set",
   description: `Attaches or detaches a shared set from a campaign. [See the documentation](${docLink})`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: true,
