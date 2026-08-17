@@ -9,7 +9,7 @@ import {
 export default {
   key: "givebutter-list-contacts",
   name: "List Contacts",
-  description: "List contacts/donors from the authenticated Givebutter account. Calls GET /contacts and returns the paginated array of contact objects (each includes at minimum `id`, `primary_email`, `first_name`, and `last_name`). Use this to discover contact IDs before calling **Update Contact**. [See the documentation](https://docs.givebutter.com/api-reference/contacts/list-all-contacts)",
+  description: "List contacts/donors from the authenticated Givebutter account. Calls GET /contacts and returns the paginated array of contact objects (each includes at minimum `id`, `primary_email`, `first_name`, and `last_name`). Note that the API returns only `individual` contacts unless **Type** is set to `company`. Use this to discover contact IDs before calling **Update Contact**. [See the documentation](https://docs.givebutter.com/api-reference/contacts/list-all-contacts)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -22,7 +22,7 @@ export default {
     type: {
       type: "string",
       label: "Type",
-      description: `Optional contact type filter. One of: ${CONTACT_TYPES.map((t) => `\`${t}\``).join(", ")}.`,
+      description: `Contact type to list. One of: ${CONTACT_TYPES.map((t) => `\`${t}\``).join(", ")}. The Givebutter API defaults to \`individual\`, so company contacts are omitted unless this is explicitly set to \`company\`.`,
       optional: true,
     },
     email: {
