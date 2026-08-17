@@ -52,8 +52,8 @@ export default {
       app, amount, platform, currency, payee, referralCode,
     } = this;
 
-    const plan = await app.prepare({
-      amount: app.toBaseUnits(amount),
+    const plan = await app.prepareCashOut({
+      amount: app.convertToBaseUnits(amount),
       receive: {
         platform,
         currency: currency.toUpperCase(),

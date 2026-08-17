@@ -43,8 +43,8 @@ export default {
       app, amount, platform, currency,
     } = this;
 
-    const estimate = await app.estimate({
-      amount: app.toBaseUnits(amount),
+    const estimate = await app.estimateCashOut({
+      amount: app.convertToBaseUnits(amount),
       currency: currency.toUpperCase(),
       platform,
     });
@@ -52,7 +52,7 @@ export default {
     const eta = estimate.eta?.label
       ? `, ${estimate.eta.label.toLowerCase()}`
       : "";
-    $.export("$summary", `${app.fromBaseUnits(estimate.amount)} USDC is about ${estimate.receiveAmount} ${estimate.currency} at ${estimate.rate}${eta}`);
+    $.export("$summary", `${app.formatBaseUnits(estimate.amount)} USDC is about ${estimate.receiveAmount} ${estimate.currency} at ${estimate.rate}${eta}`);
     return estimate;
   },
 };

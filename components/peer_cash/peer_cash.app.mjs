@@ -14,6 +14,7 @@ import {
 const ENVIRONMENT = "production";
 const DEPOSIT_ID_PATTERN = /^0x[0-9a-fA-F]{40}_\d+$/;
 const ADDRESS_PATTERN = /^0x[0-9a-fA-F]{40}$/;
+const REFERRAL_CODE_PATTERN = /^[A-Za-z0-9]{6}$/;
 
 export default {
   type: "app",
@@ -24,7 +25,7 @@ export default {
       label: "Payout Platform",
       description: "The payment platform the buyer pays the fiat into (e.g. `venmo`, `revolut`, `wise`). Use **Get Payout Options** to see every platform with its currencies and payee handle format.",
       async options() {
-        return this.capabilities().platforms.map(({ platform }) => platform);
+        return this.getCapabilities().platforms.map(({ platform }) => platform);
       },
     },
     currency: {
@@ -32,7 +33,7 @@ export default {
       label: "Currency",
       description: "The ISO 4217 fiat currency code to be paid in (e.g. `USD`, `EUR`, `GBP`). Only currencies the selected platform supports can fill.",
       async options({ platform }) {
-        const capabilities = this.capabilities();
+        const capabilities = this.getCapabilities();
         if (!platform) {
           return capabilities.currencies;
         }
@@ -79,11 +80,14 @@ export default {
      * @returns {object} A `CashClient` bound to the Peer production environment.
      */
     _client(referralCode) {
+      if (referralCode && !REFERRAL_CODE_PATTERN.test(String(referralCode).trim())) {
+        throw new ConfigurationError(`Referral Code must be exactly six letters or numbers, e.g. \`ABC123\`. Received \`${referralCode}\`.`);
+      }
       return createCashClient({
         environment: ENVIRONMENT,
         ...(referralCode
           ? {
-            referralCode,
+            referralCode: String(referralCode).trim(),
           }
           : {}),
       });
@@ -94,7 +98,7 @@ export default {
      * @param {string} amount - Decimal USDC amount, e.g. `"12.34"`.
      * @returns {bigint} The amount in USDC base units.
      */
-    toBaseUnits(amount) {
+    convertToBaseUnits(amount) {
       try {
         return usdc(String(amount).trim());
       } catch {
@@ -132,7 +136,7 @@ export default {
      * @param {bigint|string} amount - USDC base units.
      * @returns {string} The decimal USDC amount, without trailing zeros.
      */
-    fromBaseUnits(amount) {
+    formatBaseUnits(amount) {
       return formatUsdc(BigInt(amount));
     },
     /**
@@ -141,7 +145,7 @@ export default {
      *
      * @returns {object} The serializable capability catalog.
      */
-    capabilities() {
+    getCapabilities() {
       return capabilitiesToJson(this._client().capabilities());
     },
     /**
@@ -153,7 +157,7 @@ export default {
      * @param {string} [opts.platform] - Payout platform, for pair-specific fill timing.
      * @returns {Promise<object>} The serializable oracle estimate.
      */
-    async estimate({
+    async estimateCashOut({
       amount, currency, platform,
     }) {
       return estimateToJson(await this._client().estimate({
@@ -175,7 +179,7 @@ export default {
      * @param {string} [opts.referralCode] - Peer referral code for attribution.
      * @returns {Promise<object>} Unsigned transactions plus same-index step labels.
      */
-    async prepare({
+    async prepareCashOut({
       amount, receive, referralCode,
     }) {
       return prepareResultToJson(await this._client(referralCode).prepare({
@@ -199,7 +203,7 @@ export default {
      * @param {string} depositId - Composite `escrowAddress_onchainId`.
      * @returns {Promise<object>} The serializable order state.
      */
-    async order(depositId) {
+    async getOrder(depositId) {
       return orderToJson(await this._client().order(depositId));
     },
     /**
@@ -209,7 +213,7 @@ export default {
      * @param {object} [opts] - Listing options (`inFlight`, `limit`).
      * @returns {Promise<Array>} The serializable orders, newest first.
      */
-    async orders(owner, opts = {}) {
+    async getOrders(owner, opts = {}) {
       const orders = await this._client().orders(owner, opts);
       return orders.map(orderToJson);
     },

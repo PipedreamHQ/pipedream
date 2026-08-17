@@ -25,9 +25,9 @@ export default {
       app, depositId,
     } = this;
 
-    const order = await app.order(app.assertDepositId(depositId));
+    const order = await app.getOrder(app.assertDepositId(depositId));
 
-    $.export("$summary", `Order ${order.depositId} is ${order.state} with ${app.fromBaseUnits(order.filledAmount)} of ${app.fromBaseUnits(order.totalAmount)} USDC filled`);
+    $.export("$summary", `Order ${order.depositId} is ${order.state} with ${app.formatBaseUnits(order.filledAmount)} of ${app.formatBaseUnits(order.totalAmount)} USDC filled`);
     return order;
   },
 };

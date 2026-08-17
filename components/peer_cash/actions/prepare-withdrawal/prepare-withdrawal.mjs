@@ -36,7 +36,7 @@ export default {
 
     const plan = await app.prepareWithdraw(app.assertDepositId(depositId), amount
       ? {
-        amount: app.toBaseUnits(amount),
+        amount: app.convertToBaseUnits(amount),
       }
       : undefined);
 

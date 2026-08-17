@@ -39,7 +39,7 @@ export default {
       app, owner, inFlight, limit,
     } = this;
 
-    const orders = await app.orders(app.assertAddress(owner), {
+    const orders = await app.getOrders(app.assertAddress(owner), {
       inFlight,
       limit,
     });

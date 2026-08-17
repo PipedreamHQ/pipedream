@@ -34,7 +34,7 @@ export default {
 
     const plan = await app.prepareTopUp(
       app.assertDepositId(depositId),
-      app.toBaseUnits(amount),
+      app.convertToBaseUnits(amount),
     );
 
     $.export("$summary", `Prepared ${app.describeTxs(plan.txs)} to add ${amount} USDC to order ${depositId}`);

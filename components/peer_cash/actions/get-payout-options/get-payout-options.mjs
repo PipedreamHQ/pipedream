@@ -27,7 +27,7 @@ export default {
       app, platform,
     } = this;
 
-    const capabilities = app.capabilities();
+    const capabilities = app.getCapabilities();
 
     if (!platform) {
       $.export("$summary", `Found ${capabilities.platforms.length} payout platforms across ${capabilities.currencies.length} currencies`);
@@ -40,6 +40,7 @@ export default {
       return {
         ...capabilities,
         platforms: [],
+        currencies: [],
       };
     }
 
@@ -51,6 +52,7 @@ export default {
       platforms: [
         match,
       ],
+      currencies: match.currencies,
     };
   },
 };
