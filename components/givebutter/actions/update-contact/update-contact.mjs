@@ -4,7 +4,7 @@ import givebutter from "../../givebutter.app.mjs";
 export default {
   key: "givebutter-update-contact",
   name: "Update Contact",
-  description: "Update an existing Givebutter contact. Calls PUT /contacts/{id} and returns the updated contact object. Use **List Contacts** first to find the contact ID. Only the fields you provide are changed. [See the documentation](https://docs.givebutter.com/api-reference/contacts/update-a-contact)",
+  description: "Update an existing Givebutter contact, returning the updated contact object. Use **List Contacts** first to find the contact ID. Only the fields you provide are changed. [See the documentation](https://docs.givebutter.com/api-reference/contacts/update-a-contact)",
   version: "0.0.1",
   type: "action",
   annotations: {
