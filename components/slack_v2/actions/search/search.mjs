@@ -9,7 +9,7 @@ export default {
     + " Use **Get User Details** first to find your user ID for filtering by 'my' messages."
     + " Returns matching messages with channel context, timestamps, and permalinks."
     + " [See the documentation](https://api.slack.com/methods/assistant.search.context)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
