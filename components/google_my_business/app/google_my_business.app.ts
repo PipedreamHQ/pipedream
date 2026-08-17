@@ -9,6 +9,7 @@ import {
 import {
   LocalPost, Review,
   GetDailyMetricsTimeSeriesResponse, FetchMultiDailyMetricsTimeSeriesResponse, SearchKeywordCount,
+  Account, ListReviewsResponse, Location,
 } from "../common/responseSchemas";
 import { PERFORMANCE_BASE_URL } from "../common/constants";
 
@@ -101,7 +102,7 @@ export default defineApp({
     },
     listReviews({
       account, location, ...args
-    }: Record<string, string> & { args: object }): Promise<unknown> {
+    }: Record<string, string> & { args: object }): Promise<ListReviewsResponse> {
       return this._httpRequest({
         url: `https://mybusiness.googleapis.com/v4/accounts/${this.getCleanName(account)}/locations/${this.getCleanName(location)}/reviews`,
         ...args,

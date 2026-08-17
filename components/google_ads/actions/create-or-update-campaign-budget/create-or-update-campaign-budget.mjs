@@ -9,13 +9,13 @@ import { parseObject } from "../../common/utils.mjs";
 import { getAdditionalFields } from "../common/props.mjs";
 
 const docLink =
-  "https://developers.google.com/google-ads/api/reference/rpc/v21/CampaignBudgetService/MutateCampaignBudgets?transport=rest";
+  "https://developers.google.com/google-ads/api/reference/rpc/v25/CampaignBudgetService/MutateCampaignBudgets?transport=rest";
 
 export default {
   key: "google_ads-create-or-update-campaign-budget",
   name: "Create or Update Campaign Budget",
   description: `Creates, updates, or removes a campaign budget. [See the documentation](${docLink})`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: true,

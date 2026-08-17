@@ -28,7 +28,7 @@ The component accepts a standard Google Ads API request object with the followin
 ```javascript
 const googleAdsReq = {
   method: "get|post|put|delete", // HTTP method
-  url: "/v21/...", // Google Ads API endpoint path
+  url: "/v25/...", // Google Ads API endpoint path
   headers: {
     Authorization: `Bearer ${this.googleAds.$auth.oauth_access_token}`,
   },
@@ -48,7 +48,7 @@ Example for a custom query:
 ```javascript
 const googleAdsReq = {
   method: "post",
-  url: "/v16/customers/1234567890/googleAds:search",
+  url: "/v25/customers/1234567890/googleAds:search",
   headers: {
     Authorization: `Bearer ${this.googleAds.$auth.oauth_access_token}`,
   },
@@ -97,7 +97,7 @@ const resp = await pd.makeProxyRequest(
     options: {
       method: "POST",
       body: {
-        url: "/v19/customers:listAccessibleCustomers",
+        url: "/v25/customers:listAccessibleCustomers",
         method: "GET",
         // data: {} // If you need to send a body with a POST request, define it here
       },
@@ -115,7 +115,7 @@ curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/proxy/{url_
   -H "Authorization: Bearer {access_token}" \
   -H "x-pd-environment: {development | production}" \
   -d '{
-    "url": "/v19/customers:listAccessibleCustomers",
+    "url": "/v25/customers:listAccessibleCustomers",
     "method": "GET",
     # "data": {} # If you need to send a body with a POST request, define it here
   }'
