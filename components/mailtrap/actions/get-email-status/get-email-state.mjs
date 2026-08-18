@@ -4,7 +4,7 @@ export default {
   name: "Get Email State",
   description: "Retrieve delivery status, events, and metadata for an outbound transactional email [See the documentation](https://help.mailtrap.io/article/109-email-sending-api)",
   key: "mailtrap-get-email-state",
-  version: "0.1.0",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,7 +16,7 @@ export default {
     sendingMessageId: {
       type: "string",
       label: "Sending Message ID",
-      description: "The Message ID returned when the email was sent (e.g. from the `Send Email` action).",
+      description: "The Message ID returned when the email was sent (e.g. from the **Send Email** action).",
     },
   },
   async run({ $ }) {

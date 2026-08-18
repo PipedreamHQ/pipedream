@@ -3,11 +3,15 @@ import {
   getFileStreamAndMetadata, ConfigurationError,
 } from "@pipedream/platform";
 
+// 10 MB limits for Mailtrap API
+const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024;
+const MAX_TOTAL_ATTACHMENTS_SIZE_BYTES = 10 * 1024 * 1024;
+
 export default {
   name: "Send Email",
   description: "Send a transactional email [See the documentation](https://help.mailtrap.io/article/109-email-sending-api)",
   key: "mailtrap-send-email",
-  version: "0.1.0",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,6 +20,11 @@ export default {
   type: "action",
   props: {
     app,
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+    },
     fromEmail: {
       type: "string",
       label: "From Email",
@@ -75,30 +84,91 @@ export default {
     },
     attachmentFiles: {
       type: "string[]",
+      format: "file-ref",
       label: "Attachment Files",
-      description: "Path(s) to files in `/tmp` directory to attach.",
+      description: "File reference(s) to attach.",
       optional: true,
     },
     attachmentsBase64: {
       type: "string[]",
       label: "Base64 Attachments",
-      description: "Base64-encoded file content(s).",
+      description: "Base64-encoded file content(s), e.g., ['SGVsbG8='].",
       optional: true,
     },
     base64AttachmentFilenames: {
       type: "string[]",
       label: "Base64 Attachment Filenames",
-      description: "Filenames corresponding to Base64-encoded attachments.",
+      description: "Filenames corresponding to Base64-encoded attachments, e.g., ['report.pdf']. Filenames must correspond by the same array order as the Base64 values.",
       optional: true,
     },
   },
   methods: {
-    async streamToBuffer(stream) {
+    async streamToBuffer(stream, options = {}) {
+      const {
+        maxFileSize = MAX_FILE_SIZE_BYTES,
+        maxTotalSize = MAX_TOTAL_ATTACHMENTS_SIZE_BYTES,
+        currentCumulativeSize = 0,
+        fileName = "attachment",
+      } = options;
+
       return new Promise((resolve, reject) => {
         const chunks = [];
-        stream.on("data", (chunk) => chunks.push(chunk));
-        stream.on("end", () => resolve(Buffer.concat(chunks)));
-        stream.on("error", reject);
+        let fileSize = 0;
+        let cumulativeSize = currentCumulativeSize;
+
+        const onData = (chunk) => {
+          fileSize += chunk.length;
+          cumulativeSize += chunk.length;
+
+          if (fileSize > maxFileSize) {
+            cleanup();
+            stream.destroy();
+            reject(
+              new ConfigurationError(
+                `Attachment "${fileName}" exceeds max file size limit of ` +
+                  `${maxFileSize / (1024 * 1024)}MB.`,
+              ),
+            );
+            return;
+          }
+
+          if (cumulativeSize > maxTotalSize) {
+            cleanup();
+            stream.destroy();
+            reject(
+              new ConfigurationError(
+                "Total attachments size exceeds cumulative limit of " +
+                  `${maxTotalSize / (1024 * 1024)}MB.`,
+              ),
+            );
+            return;
+          }
+
+          chunks.push(chunk);
+        };
+
+        const onEnd = () => {
+          cleanup();
+          resolve({
+            buffer: Buffer.concat(chunks),
+            bytesRead: fileSize,
+          });
+        };
+
+        const onError = (err) => {
+          cleanup();
+          reject(err);
+        };
+
+        const cleanup = () => {
+          stream.removeListener("data", onData);
+          stream.removeListener("end", onEnd);
+          stream.removeListener("error", onError);
+        };
+
+        stream.on("data", onData);
+        stream.on("end", onEnd);
+        stream.on("error", onError);
       });
     },
   },
