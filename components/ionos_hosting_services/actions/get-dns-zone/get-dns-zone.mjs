@@ -30,7 +30,7 @@ export default {
     recordType: {
       type: "string[]",
       label: "Record Type",
-      description: "Optional record type(s) to filter by. Select one or more; they are sent to the API as a comma-separated string.",
+      description: "Optional array of record types to filter by (e.g. `[\"A\", \"TXT\"]`). Serialized as a comma-separated string when sent to the API.",
       options: DNS_RECORD_TYPES,
       optional: true,
     },
