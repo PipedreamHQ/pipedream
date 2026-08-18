@@ -1,10 +1,15 @@
+// x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import wealthbox from "../../wealthbox.app.mjs";
+import { CONTACT_TYPES } from "../../common/constants.mjs";
+
+const PERSON_TYPE = "Person";
 
 export default {
   key: "wealthbox-create-contact",
   name: "Create Contact",
-  description: "Create a new contact. [See the documentation](http://dev.wealthbox.com/#contacts-create-a-new-contact-post)",
-  version: "0.0.2",
+  description: "Create a new contact in Wealthbox. For `Person` type, provide First Name and Last Name (both required). For `Household`, `Organization`, or `Trust` types, the Name field is used as the entity name (the API accepts a top-level `name` field for non-Person types). Example: create a `Person` contact with first name `Jane`, last name `Smith`, email `jane@acme.com`; returns the contact object including `id`, `first_name`, `last_name`, `email_addresses`, `type`, and `contact_type`. [See the documentation](https://dev.wealthbox.com/#contacts-create-a-new-contact-post)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -15,19 +20,26 @@ export default {
     wealthbox,
     firstName: {
       type: "string",
-      label: "First Name",
-      description: "The first name of the contact",
+      label: "First Name / Name",
+      description: "For `Person` type: the contact’s first name. For `Household`, `Organization`, or `Trust` types: the full entity name (e.g. `Smith Family Household`). This field maps to `first_name` for Person records and `name` for all other types.",
+    },
+    recordType: {
+      type: "string",
+      label: "Type",
+      description: "Record type. One of `Person`, `Household`, `Organization`, or `Trust`. Defaults to `Person` when omitted.",
+      options: CONTACT_TYPES,
+      optional: true,
     },
     lastName: {
       type: "string",
       label: "Last Name",
-      description: "The last name of the contact",
+      description: "The last name of the contact. Only applicable for `Person` type.",
       optional: true,
     },
     email: {
       type: "string",
       label: "Email",
-      description: "The email address of the contact",
+      description: "The primary email address of the contact. Sent to the Wealthbox API as the first entry in `email_addresses`. Example: `jane@acme.com`.",
       optional: true,
     },
     phone: {
@@ -42,31 +54,60 @@ export default {
       description: "The name of the contact’s present company",
       optional: true,
     },
+    contactType: {
+      propDefinition: [
+        wealthbox,
+        "contactType",
+      ],
+      label: "Contact Type",
+      description: "The user-defined contact type category (e.g. `Client`, `Prospect`). Distinct from the record Type field above.",
+      optional: true,
+    },
     type: {
       propDefinition: [
         wealthbox,
         "contactType",
       ],
+      label: "Type (legacy)",
+      description: "Deprecated alias for Contact Type, preserved for backwards compatibility with workflows configured before this prop was renamed. Prefer Contact Type for new configurations.",
       optional: true,
+      hidden: true,
     },
   },
   async run({ $ }) {
-    const response = await this.wealthbox.createContact({
-      data: {
+    const isPerson = !this.recordType || this.recordType === PERSON_TYPE;
+    if (isPerson && !this.lastName) {
+      throw new ConfigurationError("Last Name is required when creating a Person contact.");
+    }
+    const nameFields = isPerson
+      ? {
         first_name: this.firstName,
         last_name: this.lastName,
-        email_addresses: [
-          {
-            address: this.email,
-          },
-        ],
-        phone_numbers: [
-          {
-            address: this.phone,
-          },
-        ],
-        company: this.company,
-        contact_type: this.type,
+      }
+      : {
+        name: this.firstName,
+      };
+
+    const response = await this.wealthbox.createContact({
+      data: {
+        ...nameFields,
+        type: this.recordType,
+        email_addresses: this.email
+          ? [
+            {
+              address: this.email,
+            },
+          ]
+          : undefined,
+        phone_numbers: this.phone
+          ? [
+            {
+              address: this.phone,
+            },
+          ]
+          : undefined,
+        company_name: this.company,
+        contact_type: this.contactType ?? this.type,
       },
       $,
     });
