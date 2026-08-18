@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import openphone from "../../openphone.app.mjs";
 
 export default {
   key: "openphone-list-from-options",
   name: "List From Options",
-  description: "Retrieves available options for the From field.",
-  version: "0.0.1",
+  description: "List your OpenPhone phone numbers as selectable sender options, for use as the `from` value in **Send a Text Message**. Example: call with no inputs → returns a list of `{label, value}` pairs, one per phone number, where `value` is the phone number ID to pass as `from`. [See the documentation](https://www.openphone.com/docs/api-reference/phone-numbers/list-phone-numbers)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -15,7 +16,17 @@ export default {
     openphone,
   },
   async run({ $ }) {
-    const options = await openphone.propDefinitions.from.options.call(this.openphone);
+    const { data } = await this.openphone.listPhoneNumbers({
+      $,
+    });
+    const options = data?.map(({
+      id: value, name, formattedNumber,
+    }) => ({
+      label: name && formattedNumber
+        ? `${name} - ${formattedNumber}`
+        : value,
+      value,
+    })) || [];
     $.export("$summary", `Successfully retrieved ${options.length} option${options.length === 1
       ? ""
       : "s"}`);

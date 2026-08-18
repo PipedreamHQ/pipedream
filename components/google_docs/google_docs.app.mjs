@@ -129,11 +129,11 @@ export default {
         ? this._insertAtBeginning(requestObj)
         : this._insertAtEnd(requestObj);
     },
-    // Resolve a static `position` value (`beginning` | `end` | numeric index) into the
-    // location field a batchUpdate insert request expects.
-    _buildRequestForPosition(requestObj, position) {
+    // Resolve a static `position` value (`beginning` | `end` | numeric index) into
+    // either `null` (append at end) or the concrete character index it refers to.
+    _resolvePositionIndex(position) {
       if (position == null || position === "end") {
-        return this._insertAtEnd(requestObj);
+        return null;
       }
       // Only accept "beginning", "end", or a string of pure digits — parseInt would
       // otherwise silently accept "1.5"/"1abc" as 1 and target the wrong index.
@@ -145,12 +145,20 @@ export default {
       if (!Number.isInteger(index) || index < 1) {
         throw new ConfigurationError(`Invalid position "${position}". Use "beginning", "end", or a positive integer index.`);
       }
-      return {
-        ...requestObj,
-        location: {
-          index,
-        },
-      };
+      return index;
+    },
+    // Resolve a static `position` value into the location field a batchUpdate
+    // insert request expects.
+    _buildRequestForPosition(requestObj, position) {
+      const index = this._resolvePositionIndex(position);
+      return index == null
+        ? this._insertAtEnd(requestObj)
+        : {
+          ...requestObj,
+          location: {
+            index,
+          },
+        };
     },
     _batchUpdate(documentId, requestName, request) {
       return this.docs().documents.batchUpdate({
@@ -235,6 +243,121 @@ export default {
     },
     async insertTable(documentId, table) {
       return this._batchUpdate(documentId, "insertTable", table);
+    },
+    // Top-level tables in a document body, in document order. Tables nested
+    // inside another table's cell are not included.
+    flattenTables(content) {
+      return utils.flattenTables(content);
+    },
+    async deleteTable(documentId, {
+      startIndex, endIndex,
+    }) {
+      return this._batchUpdate(documentId, "deleteContentRange", {
+        range: {
+          startIndex,
+          endIndex,
+        },
+      });
+    },
+    async writeTable(documentId, {
+      rows, position, hasHeaderRow,
+    }) {
+      // Validate before making any request: a bad cell value here should
+      // never leave an empty table behind from a partially-applied insert.
+      const invalidValue = rows.flat().find((value) => value != null && typeof value === "object");
+      if (invalidValue !== undefined) {
+        throw new ConfigurationError(
+          `Table Data cells must be strings, numbers, or booleans, not a nested ${
+            Array.isArray(invalidValue)
+              ? "array"
+              : "object"
+          }. Example: [["Name","Role"],["Ada","Engineer"]]`,
+        );
+      }
+
+      const numRows = rows.length;
+      const numColumns = rows.reduce((max, row) => Math.max(max, row.length), 0);
+
+      const { body: beforeBody } = await this.getDocument(documentId, false, "body");
+      const beforeTables = this.flattenTables(beforeBody?.content);
+
+      const insertRequest = this._buildRequestForPosition({
+        rows: numRows,
+        columns: numColumns,
+      }, position);
+      await this._batchUpdate(documentId, "insertTable", insertRequest);
+
+      // The insertTable reply carries no location info, so re-fetch the
+      // document and select the new table by ordinal position (see
+      // selectInsertedTable) rather than by startIndex — inserting
+      // immediately before an existing table gives the new table that
+      // table's old startIndex, so comparing index values can't tell them
+      // apart.
+      const { body } = await this.getDocument(documentId, false, "body");
+      const tables = this.flattenTables(body?.content);
+      const requestedIndex = this._resolvePositionIndex(position);
+      const table = utils.selectInsertedTable(beforeTables, tables, requestedIndex);
+      if (!table) {
+        throw new Error("Could not locate the table that was just created. The table was inserted but no cell data was written.");
+      }
+
+      const cells = [];
+      table.table.tableRows.forEach((row, rowIndex) => {
+        row.tableCells.forEach((cell, columnIndex) => {
+          const paragraph = cell.content?.find((element) => element.paragraph);
+          if (paragraph) {
+            cells.push({
+              rowIndex,
+              columnIndex,
+              startIndex: paragraph.startIndex,
+            });
+          }
+        });
+      });
+
+      // Fill cells from the last one to the first. Inserting text only shifts
+      // indices that come after it, so walking backwards keeps every
+      // not-yet-written cell's precomputed startIndex valid throughout.
+      const requests = [];
+      [
+        ...cells,
+      ].reverse().forEach(({
+        rowIndex, columnIndex, startIndex,
+      }) => {
+        const value = rows[rowIndex]?.[columnIndex];
+        if (value == null || value === "") {
+          return;
+        }
+        const text = String(value);
+        requests.push({
+          insertText: {
+            location: {
+              index: startIndex,
+            },
+            text,
+          },
+        });
+        if (hasHeaderRow && rowIndex === 0) {
+          requests.push({
+            updateTextStyle: {
+              range: {
+                startIndex,
+                endIndex: startIndex + text.length,
+              },
+              textStyle: {
+                bold: true,
+              },
+              fields: "bold",
+            },
+          });
+        }
+      });
+
+      if (requests.length) {
+        await this.batchUpdate(documentId, requests);
+      }
+
+      return this.getDocument(documentId);
     },
     async insertPageBreak(documentId, request) {
       return this._batchUpdate(documentId, "insertPageBreak", request);

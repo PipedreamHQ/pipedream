@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import contact from "../../common/sobjects/contact.mjs";
 
@@ -7,8 +8,12 @@ export default {
   ...common,
   key: "salesforce_rest_api-create-contact",
   name: "Create Contact",
-  description: `Creates a contact. [See the documentation](${docsLink})`,
-  version: "0.3.6",
+  description: "Create a Salesforce contact (a person associated with an account)."
+    + " Use **Find Records** on `Account` to get the `AccountId` that links this contact to a company."
+    + " Use **Describe Object** on `Contact` to discover which fields your org requires."
+    + " "
+    + `[See the documentation](${docsLink})`,
+  version: "0.3.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

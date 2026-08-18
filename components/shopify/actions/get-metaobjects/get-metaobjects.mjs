@@ -7,7 +7,7 @@ export default {
   key: "shopify-get-metaobjects",
   name: "Get Metaobjects",
   description: "Retrieves a list of metaobjects. [See the documentation](https://shopify.dev/docs/api/admin-graphql/unstable/queries/metaobjects)",
-  version: "0.0.13",
+  version: "0.0.15",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

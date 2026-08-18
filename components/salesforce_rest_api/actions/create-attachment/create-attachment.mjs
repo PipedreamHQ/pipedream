@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import attachment from "../../common/sobjects/attachment.mjs";
 import { getFileStream } from "@pipedream/platform";
@@ -17,8 +18,12 @@ export default {
   ...common,
   key: "salesforce_rest_api-create-attachment",
   name: "Create Attachment",
-  description: `Creates an Attachment on a parent object. [See the documentation](${docsLink})`,
-  version: "0.5.8",
+  description: "Attach a file to an existing Salesforce record (classic `Attachment` object)."
+    + " Use **Find Records** to get the parent record ID first."
+    + " For newer orgs prefer Salesforce Files - use **Insert Blob Data** with `ContentVersion` instead."
+    + " "
+    + `[See the documentation](${docsLink})`,
+  version: "0.5.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
