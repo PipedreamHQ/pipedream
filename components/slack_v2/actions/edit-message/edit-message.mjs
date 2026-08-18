@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import slack from "../../slack_v2.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
@@ -10,7 +11,7 @@ export default {
     + " Requires the message timestamp (`ts`) from **Get Channel History** or **Post Message**."
     + " You can only edit messages posted by the same token/user."
     + " [See the documentation](https://api.slack.com/methods/chat.update)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
