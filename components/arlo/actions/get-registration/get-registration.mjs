@@ -27,8 +27,9 @@ export default {
       registrationId: this.registrationId,
     });
     const registration = this.arlo._unwrapItem(rawRegistration, "Registration");
-    const contactName = registration?.Contact
-      ? `${registration.Contact.FirstName ?? ""} ${registration.Contact.LastName ?? ""}`.trim()
+    const contact = this.arlo._findLinkedItem(registration, "Contact");
+    const contactName = contact
+      ? `${contact.FirstName ?? ""} ${contact.LastName ?? ""}`.trim()
       : null;
     $.export("$summary", `Retrieved registration ${this.registrationId}${contactName
       ? ` for ${contactName}`

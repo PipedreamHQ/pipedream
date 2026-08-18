@@ -124,6 +124,17 @@ export default {
     _unwrapItem(response, key) {
       return response?.[key] ?? response;
     },
+    _findLinkedItem(item, title) {
+      const links = item?.Link;
+      const list = Array.isArray(links)
+        ? links
+        : links
+          ? [
+            links,
+          ]
+          : [];
+      return list.find((link) => link?.["@_title"] === title)?.[title];
+    },
     _extractCollection(response, collectionKey, itemKey) {
       const links = response?.[collectionKey]?.Link;
       const list = Array.isArray(links)
