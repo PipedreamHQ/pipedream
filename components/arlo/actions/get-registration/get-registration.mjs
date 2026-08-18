@@ -4,7 +4,7 @@ import arlo from "../../arlo.app.mjs";
 export default {
   key: "arlo-get-registration",
   name: "Get Registration",
-  description: "Retrieve full registration plus attendee/contact detail for a single registration by its ID. Run **List Registrations** first to find a valid `registrationId`. Example: call with `registrationId: \"3\"` to get that registration's `Status`, `CreatedDateTime`, and attendee `Contact` (name, email). [See the documentation](https://developer.arlo.co/doc/api/2012-02-01/auth/resources/registrations#collection-httpget).",
+  description: "Retrieve full registration plus attendee/contact detail for a single registration by its ID. Run **List Registrations** first to find a valid `registrationId`. Example: call with `registrationId: \"3\"` to get that registration's `Status`, `CreatedDateTime`, and attendee `Contact` (name, email). [See the documentation](https://developer.arlo.co/doc/api/2012-02-01/auth/resources/registrations#instance-httpget).",
   version: "0.0.1",
   type: "action",
   annotations: {

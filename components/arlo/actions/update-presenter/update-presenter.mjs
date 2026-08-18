@@ -5,7 +5,7 @@ import arlo from "../../arlo.app.mjs";
 export default {
   key: "arlo-update-presenter",
   name: "Update Presenter",
-  description: "Update an existing Arlo presenter (contact) record. Only the fields you provide are changed (applied as a partial PATCH diff). Run **List Presenters** first to find a valid `presenterId`. Example: call with `presenterId: \"102\"`, `email: \"jim.halpert@athlead.com\"` to change just that contact's email and leave all other fields untouched. [See the documentation](https://developer.arlo.co/doc/api/2012-02-01/auth/resources/contacts#collection-httpget).",
+  description: "Update an existing Arlo presenter (contact) record. Only the fields you provide are changed (applied as a partial PATCH diff). Run **List Presenters** first to find a valid `presenterId`. Example: call with `presenterId: \"102\"`, `email: \"jim.halpert@athlead.com\"` to change just that contact's email and leave all other fields untouched. [See the documentation](https://developer.arlo.co/doc/api/2012-02-01/auth/resources/contacts#instance-httppatch).",
   version: "0.0.1",
   type: "action",
   annotations: {
