@@ -8,7 +8,7 @@ import {
 export default {
   key: "arlo-list-events",
   name: "List Events",
-  description: "List Arlo Event (scheduled session) records, optionally filtered by the parent event template or by status. Run **List Event Templates** first to obtain a `templateId`. Results are paged (see `limit`/`skip`); if the page comes back full, call again with a higher `skip` for more. Use `fields` to shrink the response for large event lists. Example: call with `status: \"Active\"`, `limit: 50` to get up to 50 active events with `EventID`, `Name`, `Code`, `StartDateTime`. [See the documentation](https://developer.arlo.co/doc/api/2012-02-01/auth/resources/events#instance-httpget).",
+  description: "List Arlo Event (scheduled session) records, optionally filtered by status (the Arlo API does not support filtering this collection by parent event template). Results are paged (see `limit`/`skip`); if the page comes back full, call again with a higher `skip` for more. Use `fields` to shrink the response for large event lists. Example: call with `status: \"Active\"`, `limit: 50` to get up to 50 active events with `EventID`, `Name`, `Code`, `StartDateTime`. [See the documentation](https://developer.arlo.co/doc/api/2012-02-01/auth/resources/events#instance-httpget).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -18,14 +18,6 @@ export default {
   },
   props: {
     arlo,
-    templateId: {
-      propDefinition: [
-        arlo,
-        "templateId",
-      ],
-      description: "Optional. The integer TemplateID to filter events by their parent EventTemplate. Run **List Event Templates** to find this value.",
-      optional: true,
-    },
     status: {
       type: "string",
       label: "Status",
@@ -54,9 +46,6 @@ export default {
   },
   async run({ $ }) {
     const filterParts = [];
-    if (this.templateId) {
-      filterParts.push(`EventTemplateID eq ${this.templateId}`);
-    }
     if (this.status) {
       filterParts.push(`Status eq '${this.status}'`);
     }

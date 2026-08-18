@@ -55,7 +55,7 @@ export default {
   async run({ $ }) {
     const filterParts = [];
     if (this.eventId) {
-      filterParts.push(`EventID eq ${this.eventId}`);
+      filterParts.push(`Event/EventID eq ${this.eventId}`);
     }
     if (this.status) {
       filterParts.push(`Status eq '${this.status}'`);
@@ -64,7 +64,7 @@ export default {
     const params = {
       top: this.limit ?? DEFAULT_LIMIT,
       skip: this.skip ?? 0,
-      expand: "Registration,Contact",
+      expand: "Registration,Registration/Contact",
     };
     if (filterParts.length) {
       params["filter"] = filterParts.join(" and ");

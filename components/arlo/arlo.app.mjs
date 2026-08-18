@@ -12,13 +12,15 @@ import {
 const xmlParser = new XMLParser({
   ignoreAttributes: false,
   attributeNamePrefix: "@_",
-  processEntities: true,
+  processEntities: {
+    enabled: true,
+    maxEntitySize: 1024 * 1024,
+    maxExpansionDepth: 10,
+    maxTotalExpansions: 1000,
+    maxExpandedLength: 10 * 1024 * 1024,
+    maxEntityCount: 100,
+  },
   htmlEntities: true,
-  maxEntitySize: 1024 * 1024,
-  maxExpansionDepth: 10,
-  maxTotalExpansions: 1000,
-  maxExpandedLength: 10 * 1024 * 1024,
-  maxEntityCount: 100,
 });
 
 const xmlBuilder = new XMLBuilder({
@@ -35,11 +37,6 @@ export default {
       label: "Event ID",
       description: "The integer ID of the Arlo event. Run **List Events** to find valid event IDs.",
     },
-    templateId: {
-      type: "string",
-      label: "Template ID",
-      description: "The integer TemplateID of the parent EventTemplate. Run **List Event Templates** to find valid template IDs.",
-    },
     registrationId: {
       type: "string",
       label: "Registration ID",
@@ -49,6 +46,39 @@ export default {
       type: "string",
       label: "Presenter ID",
       description: "The integer contact ID of the presenter. Run **List Presenters** to find valid presenter IDs.",
+    },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "The contact's first name (max 32 characters).",
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "The contact's last name (max 32 characters).",
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The contact's email address (max 128 characters).",
+    },
+    phoneWork: {
+      type: "string",
+      label: "Work Phone",
+      description: "Optional work phone number (max 32 characters).",
+      optional: true,
+    },
+    phoneMobile: {
+      type: "string",
+      label: "Mobile Phone",
+      description: "Optional mobile phone number (max 32 characters).",
+      optional: true,
+    },
+    phoneHome: {
+      type: "string",
+      label: "Home Phone",
+      description: "Optional home phone number (max 32 characters).",
+      optional: true,
     },
     limit: {
       type: "integer",
@@ -103,7 +133,9 @@ export default {
             links,
           ]
           : [];
-      return list.map((link) => link?.[itemKey] ?? link);
+      return list
+        .filter((link) => link?.[itemKey])
+        .map((link) => link[itemKey]);
     },
     _shapeItems(items, fields) {
       if (!fields?.length) {

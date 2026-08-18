@@ -1,4 +1,5 @@
 // x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import arlo from "../../arlo.app.mjs";
 
 export default {
@@ -21,43 +22,63 @@ export default {
       ],
     },
     firstName: {
-      type: "string",
-      label: "First Name",
+      propDefinition: [
+        arlo,
+        "firstName",
+      ],
       description: "Optional. New first name (max 32 characters).",
       optional: true,
     },
     lastName: {
-      type: "string",
-      label: "Last Name",
+      propDefinition: [
+        arlo,
+        "lastName",
+      ],
       description: "Optional. New last name (max 32 characters).",
       optional: true,
     },
     email: {
-      type: "string",
-      label: "Email",
+      propDefinition: [
+        arlo,
+        "email",
+      ],
       description: "Optional. New email address (max 128 characters).",
       optional: true,
     },
     phoneWork: {
-      type: "string",
-      label: "Work Phone",
+      propDefinition: [
+        arlo,
+        "phoneWork",
+      ],
       description: "Optional. New work phone number (max 32 characters).",
-      optional: true,
     },
     phoneMobile: {
-      type: "string",
-      label: "Mobile Phone",
+      propDefinition: [
+        arlo,
+        "phoneMobile",
+      ],
       description: "Optional. New mobile phone number (max 32 characters).",
-      optional: true,
     },
     phoneHome: {
-      type: "string",
-      label: "Home Phone",
+      propDefinition: [
+        arlo,
+        "phoneHome",
+      ],
       description: "Optional. New home phone number (max 32 characters).",
-      optional: true,
     },
   },
   async run({ $ }) {
+    if ([
+      this.firstName,
+      this.lastName,
+      this.email,
+      this.phoneWork,
+      this.phoneMobile,
+      this.phoneHome,
+    ].every((value) => value === undefined || value === null)) {
+      throw new ConfigurationError("Provide at least one field to update (firstName, lastName, email, phoneWork, phoneMobile, or phoneHome).");
+    }
+
     const rawContact = await this.arlo.updateContact({
       $,
       contactId: this.presenterId,

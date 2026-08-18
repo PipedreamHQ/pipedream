@@ -40,8 +40,14 @@ export default {
     registrationMethod: {
       type: "string",
       label: "Registration Method",
-      description: "Optional. The registration method to apply in the event's RegistrationSettings (e.g. `Online`).",
+      description: "Optional. The registration method to apply in the event's RegistrationSettings (e.g. `OrderProcess`).",
       optional: true,
+      options: [
+        "QuickRegistrationProcess",
+        "OrderProcess",
+        "CustomMessage",
+        "Url",
+      ],
     },
   },
   async run({ $ }) {

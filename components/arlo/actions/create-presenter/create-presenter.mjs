@@ -15,37 +15,40 @@ export default {
   props: {
     arlo,
     firstName: {
-      type: "string",
-      label: "First Name",
-      description: "The contact's first name (max 32 characters).",
+      propDefinition: [
+        arlo,
+        "firstName",
+      ],
     },
     lastName: {
-      type: "string",
-      label: "Last Name",
-      description: "The contact's last name (max 32 characters).",
+      propDefinition: [
+        arlo,
+        "lastName",
+      ],
     },
     email: {
-      type: "string",
-      label: "Email",
-      description: "The contact's email address (max 128 characters).",
+      propDefinition: [
+        arlo,
+        "email",
+      ],
     },
     phoneWork: {
-      type: "string",
-      label: "Work Phone",
-      description: "Optional work phone number (max 32 characters).",
-      optional: true,
+      propDefinition: [
+        arlo,
+        "phoneWork",
+      ],
     },
     phoneMobile: {
-      type: "string",
-      label: "Mobile Phone",
-      description: "Optional mobile phone number (max 32 characters).",
-      optional: true,
+      propDefinition: [
+        arlo,
+        "phoneMobile",
+      ],
     },
     phoneHome: {
-      type: "string",
-      label: "Home Phone",
-      description: "Optional home phone number (max 32 characters).",
-      optional: true,
+      propDefinition: [
+        arlo,
+        "phoneHome",
+      ],
     },
     codePrimary: {
       type: "string",
