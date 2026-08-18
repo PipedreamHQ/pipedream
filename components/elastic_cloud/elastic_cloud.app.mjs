@@ -112,6 +112,14 @@ export default {
         ...args,
       });
     },
+    async getTrafficFilter({
+      rulesetId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/deployments/traffic-filter/rulesets/${rulesetId}`,
+        ...args,
+      });
+    },
     async createTrafficFilter(args) {
       return this._makeRequest({
         method: "POST",

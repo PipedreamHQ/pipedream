@@ -5,7 +5,7 @@ import { TRAFFIC_FILTER_TYPES } from "../../common/constants.mjs";
 export default {
   key: "elastic_cloud-create-traffic-filter",
   name: "Create Traffic Filter Ruleset",
-  description: "Create a new traffic filter ruleset in Elastic Cloud. Requires a name, type, and region. [See the documentation](https://www.elastic.co/docs/api/doc/cloud/operation/operation-create-traffic-filter-ruleset)",
+  description: "Create a new traffic filter ruleset in Elastic Cloud. The API requires a name, type, region, rules, and include-by-default flag. Note that `type` and `region` cannot be changed after the ruleset is created. [See the documentation](https://www.elastic.co/docs/api/doc/cloud/operation/operation-create-traffic-filter-ruleset)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -42,14 +42,13 @@ export default {
         elasticCloud,
         "includeByDefault",
       ],
-      optional: true,
+      default: false,
     },
     rules: {
       propDefinition: [
         elasticCloud,
         "rules",
       ],
-      optional: true,
     },
   },
   annotations: {
@@ -58,9 +57,7 @@ export default {
     openWorldHint: true,
   },
   async run({ $ }) {
-    const rules = this.rules
-      ? JSON.parse(this.rules)
-      : undefined;
+    const rules = JSON.parse(this.rules);
     const response = await this.elasticCloud.createTrafficFilter({
       $,
       data: {

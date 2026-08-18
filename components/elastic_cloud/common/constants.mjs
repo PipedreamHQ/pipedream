@@ -5,4 +5,6 @@ export const TRAFFIC_FILTER_TYPES = [
   "vpce",
   "azure_private_endpoint",
   "gcp_private_service_connect_endpoint",
+  "egress_firewall",
+  "remote_cluster",
 ];

@@ -1,4 +1,5 @@
 // x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import elasticCloud from "../../elastic_cloud.app.mjs";
 
 export default {
@@ -34,7 +35,8 @@ export default {
     pruneOrphans: {
       type: "boolean",
       label: "Prune Orphans",
-      description: "Whether to remove resources not referenced in this update request.",
+      description: "Whether to shut down deployment resources that are not referenced in this update request. Resources are tracked by their `ref_id`. Set to `true` only when the `resources` you supply are the complete, authoritative definition of the deployment — anything omitted (e.g. an existing Kibana or APM resource) is shut down, though it can be restored from its latest snapshot afterwards. Defaults to `false`, which leaves omitted resources intact and is the safe choice for partial updates.",
+      default: false,
       optional: true,
     },
     metadata: {
@@ -51,6 +53,9 @@ export default {
     openWorldHint: true,
   },
   async run({ $ }) {
+    if (!this.name && !this.resources && !this.metadata) {
+      throw new ConfigurationError("Set at least one field to update: Name, Resources, or Metadata.");
+    }
     const resources = this.resources
       ? JSON.parse(this.resources)
       : undefined;
@@ -63,7 +68,8 @@ export default {
       data: {
         name: this.name,
         resources,
-        prune_orphans: this.pruneOrphans,
+        // The API requires prune_orphans on every update request
+        prune_orphans: this.pruneOrphans ?? false,
         metadata,
       },
     });
