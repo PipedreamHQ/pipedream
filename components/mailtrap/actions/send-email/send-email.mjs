@@ -9,7 +9,9 @@ const MAX_TOTAL_ATTACHMENTS_SIZE_BYTES = 10 * 1024 * 1024;
 
 export default {
   name: "Send Email",
-  description: "Send a transactional email [See the documentation](https://help.mailtrap.io/article/109-email-sending-api)",
+  description:
+    "Send a transactional email [See the documentation]" +
+    "(https://help.mailtrap.io/article/109-email-sending-api)",
   key: "mailtrap-send-email",
   version: "0.0.1",
   annotations: {
@@ -98,7 +100,9 @@ export default {
     base64AttachmentFilenames: {
       type: "string[]",
       label: "Base64 Attachment Filenames",
-      description: "Filenames corresponding to Base64-encoded attachments, e.g., ['report.pdf']. Filenames must correspond by the same array order as the Base64 values.",
+      description:
+        "Filenames corresponding to Base64-encoded attachments, e.g., ['report.pdf']." +
+        " Filenames must correspond by the same array order as the Base64 values.",
       optional: true,
     },
   },
@@ -194,13 +198,23 @@ export default {
     }
 
     const attachments = [];
+    let totalAttachmentBytes = 0;
 
     if (attachmentFiles) {
       for (const file of attachmentFiles) {
         const {
           stream, metadata,
         } = await getFileStreamAndMetadata(file);
-        const buffer = await this.streamToBuffer(stream);
+
+        const {
+          buffer, bytesRead,
+        } = await this.streamToBuffer(stream, {
+          fileName: metadata?.name || file,
+          currentCumulativeSize: totalAttachmentBytes,
+        });
+
+        totalAttachmentBytes += bytesRead;
+
         attachments.push({
           filename: metadata.name,
           content: buffer.toString("base64"),
@@ -211,18 +225,39 @@ export default {
 
     if (attachmentsBase64) {
       const hasMismatch =
-            !base64AttachmentFilenames ||
-            attachmentsBase64.length !== base64AttachmentFilenames.length;
+        !base64AttachmentFilenames ||
+        attachmentsBase64.length !== base64AttachmentFilenames.length;
 
       if (hasMismatch) {
         throw new ConfigurationError(
           "The number of Base64 attachments must match the number of Base64 attachment filenames.",
         );
       }
+
       for (let i = 0; i < attachmentsBase64.length; i++) {
+        const content = attachmentsBase64[i];
+        const filename = base64AttachmentFilenames[i];
+        const decodedSize = Buffer.byteLength(content, "base64");
+
+        if (decodedSize > MAX_FILE_SIZE_BYTES) {
+          throw new ConfigurationError(
+            `Base64 attachment "${filename}" exceeds max file size limit of ` +
+              `${MAX_FILE_SIZE_BYTES / (1024 * 1024)}MB.`,
+          );
+        }
+
+        totalAttachmentBytes += decodedSize;
+
+        if (totalAttachmentBytes > MAX_TOTAL_ATTACHMENTS_SIZE_BYTES) {
+          throw new ConfigurationError(
+            "Total attachments size exceeds cumulative limit of " +
+              `${MAX_TOTAL_ATTACHMENTS_SIZE_BYTES / (1024 * 1024)}MB.`,
+          );
+        }
+
         attachments.push({
-          filename: base64AttachmentFilenames[i],
-          content: attachmentsBase64[i],
+          filename,
+          content,
         });
       }
     }
