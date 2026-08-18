@@ -4,7 +4,7 @@ import elasticCloud from "../../elastic_cloud.app.mjs";
 export default {
   key: "elastic_cloud-delete-traffic-filter",
   name: "Delete Traffic Filter Ruleset",
-  description: "Permanently delete a traffic filter ruleset from Elastic Cloud. This is irreversible. Run **List Traffic Filter Rulesets** first to find the ruleset ID. [See the documentation](https://www.elastic.co/docs/api/doc/cloud/group/endpoint-deploymentstrafficfilter)",
+  description: "Permanently delete a traffic filter ruleset from Elastic Cloud. This is irreversible. Run **List Traffic Filter Rulesets** first to find the ruleset ID. [See the documentation](https://www.elastic.co/docs/api/doc/cloud/operation/operation-delete-traffic-filter-ruleset)",
   version: "0.0.1",
   type: "action",
   props: {
