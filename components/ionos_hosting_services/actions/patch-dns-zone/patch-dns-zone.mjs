@@ -1,6 +1,6 @@
 // x-pd-ai: optimized
-import { ConfigurationError } from "@pipedream/platform";
 import ionosHostingServices from "../../ionos_hosting_services.app.mjs";
+import { parseRecords } from "../../common/utils.mjs";
 
 export default {
   key: "ionos_hosting_services-patch-dns-zone",
@@ -28,15 +28,7 @@ export default {
     },
   },
   async run({ $ }) {
-    let records;
-    try {
-      records = JSON.parse(this.records);
-    } catch {
-      throw new ConfigurationError("The `records` field must be a valid JSON array of record objects.");
-    }
-    if (!Array.isArray(records) || records.length === 0) {
-      throw new ConfigurationError("The `records` field must be a non-empty JSON array of record objects.");
-    }
+    const records = parseRecords(this.records);
     const result = await this.ionosHostingServices.patchZone({
       $,
       zoneId: this.zoneId,
