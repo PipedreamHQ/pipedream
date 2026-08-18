@@ -20,8 +20,3 @@ export const DNS_RECORD_TYPES = Object.freeze([
   "LOC",
   "OPENPGPKEY",
 ]);
-
-export const ZONE_TYPES = Object.freeze([
-  "NATIVE",
-  "SLAVE",
-]);

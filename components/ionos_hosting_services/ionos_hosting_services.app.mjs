@@ -13,7 +13,7 @@ export default {
     recordId: {
       type: "string",
       label: "Record ID",
-      description: "The DNS record ID (UUID format, e.g. `rec-uuid-1234-5678-abcd-ef0123456789`). Run **Get DNS Zone** first to obtain a valid record ID from the zone's `records` array — use the `id` field of each record object.",
+      description: "The DNS record ID (UUID format, e.g. `90d81ac0-3a30-44d4-95a5-12959effa6ee`). Run **Get DNS Zone** first to obtain a valid record ID from the zone's `records` array — use the `id` field of each record object.",
     },
   },
   methods: {

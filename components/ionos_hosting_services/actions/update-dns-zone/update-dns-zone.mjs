@@ -34,8 +34,8 @@ export default {
     } catch {
       throw new ConfigurationError("The `records` field must be a valid JSON array of record objects.");
     }
-    if (!Array.isArray(records)) {
-      throw new ConfigurationError("The `records` field must be a valid JSON array of record objects.");
+    if (!Array.isArray(records) || records.length === 0) {
+      throw new ConfigurationError("The `records` field must be a non-empty JSON array of record objects.");
     }
     const result = await this.ionosHostingServices.updateZone({
       $,
