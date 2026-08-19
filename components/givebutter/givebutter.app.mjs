@@ -1,15 +1,10 @@
 // x-pd-ai: optimized
 import { axios } from "@pipedream/platform";
 import {
-  AUTH_HEADER,
-  BASE_URL,
-  CAMPAIGNS_PATH,
-  CONTACT_TYPES,
-  CONTACTS_PATH,
-  DEFAULT_PER_PAGE,
-  MAX_PER_PAGE,
-  TRANSACTIONS_PATH,
-} from "./actions/common/constants.mjs";
+  DEFAULT_PER_PAGE, MAX_PER_PAGE,
+} from "./common/constants.mjs";
+
+const BASE_URL = "https://api.givebutter.com/v1";
 
 export default {
   type: "app",
@@ -55,7 +50,10 @@ export default {
       type: "string",
       label: "Type",
       description: "Contact type. For `company`, provide **Company Name** instead of first/last name.",
-      options: CONTACT_TYPES,
+      options: [
+        "individual",
+        "company",
+      ],
       optional: true,
     },
     page: {
@@ -85,7 +83,7 @@ export default {
         baseURL: this._baseUrl(),
         url: path,
         headers: {
-          [AUTH_HEADER]: `Bearer ${this.$auth.api_key}`,
+          Authorization: `Bearer ${this.$auth.api_key}`,
           ...headers,
         },
         ...args,
@@ -96,7 +94,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "GET",
-        path: CAMPAIGNS_PATH,
+        path: "/campaigns",
         params,
         ...args,
       });
@@ -106,7 +104,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "GET",
-        path: CONTACTS_PATH,
+        path: "/contacts",
         params,
         ...args,
       });
@@ -116,7 +114,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "GET",
-        path: `${CONTACTS_PATH}/${contactId}`,
+        path: `/contacts/${contactId}`,
         ...args,
       });
     },
@@ -125,7 +123,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "GET",
-        path: `${TRANSACTIONS_PATH}/${transactionId}`,
+        path: `/transactions/${transactionId}`,
         ...args,
       });
     },
@@ -134,7 +132,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: CONTACTS_PATH,
+        path: "/contacts",
         data,
         ...args,
       });
@@ -144,7 +142,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "PUT",
-        path: `${CONTACTS_PATH}/${contactId}`,
+        path: `/contacts/${contactId}`,
         data,
         ...args,
       });

@@ -1,6 +1,5 @@
 // x-pd-ai: optimized
 import givebutter from "../../givebutter.app.mjs";
-import { CONTACT_SORT_BY } from "../common/constants.mjs";
 
 export default {
   key: "givebutter-list-contacts",
@@ -33,7 +32,15 @@ export default {
       type: "string",
       label: "Sort By",
       description: "Optional field to sort by.",
-      options: CONTACT_SORT_BY,
+      options: [
+        "name_or_company",
+        "primary_email",
+        "point_of_contact",
+        "created_at",
+        "total_contributions",
+        "recurring_contributions",
+        "last_donation_amount",
+      ],
       optional: true,
     },
     page: {
