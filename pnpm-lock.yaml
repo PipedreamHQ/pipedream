@@ -973,6 +973,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
+      csv-parse:
+        specifier: ^5.5.6
+        version: 5.6.0
 
   components/amplitude_experiment_management: {}
 
@@ -5014,7 +5017,11 @@ importers:
         specifier: ^0.12.7
         version: 0.12.7
 
-  components/elastic_cloud: {}
+  components/elastic_cloud:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/elastic_email:
     dependencies:
@@ -15687,7 +15694,11 @@ importers:
 
   components/supadata: {}
 
-  components/super_carl: {}
+  components/super_carl:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.4.0
 
   components/supercast:
     dependencies:
