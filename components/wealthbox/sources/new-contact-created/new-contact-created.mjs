@@ -5,7 +5,7 @@ export default {
   key: "wealthbox-new-contact-created",
   name: "New Contact Created",
   description: "Emit new event for each contact created. [See the documentation](http://dev.wealthbox.com/#contacts-retrieve-all-contacts-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

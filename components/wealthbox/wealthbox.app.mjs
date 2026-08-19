@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -7,17 +8,20 @@ export default {
     contactId: {
       type: "string",
       label: "Contact",
-      description: "Identifier of a contact",
+      description: "The numeric ID of the contact. Use **Find Contact** to search by name, email, or phone, or **List Contact Options** to browse all contacts and retrieve their IDs. Example: `67890`.",
       async options({ page }) {
         const { contacts } = await this.listContacts({
           params: {
-            page,
+            page: page + 1,
           },
         });
         return contacts?.map(({
-          id, first_name: firstName, last_name: lastName,
+          id, first_name: firstName, last_name: lastName, name,
         }) => ({
-          label: `${firstName} ${lastName}`,
+          label: [
+            firstName,
+            lastName,
+          ].filter(Boolean).join(" ") || name || `Contact ${id}`,
           value: id,
         })) || [];
       },
@@ -25,7 +29,7 @@ export default {
     contactType: {
       type: "string",
       label: "Type",
-      description: "The type of the contact being created",
+      description: "The user-defined contact type category for the contact being created (e.g. `Client`, `Prospect`, `Vendor`). Use **List Type Options** to discover valid values configured in your Wealthbox account.",
       async options() {
         const { contact_types: types } = await this.listCustomizableCategory({
           type: "contact_types",
@@ -36,7 +40,7 @@ export default {
     opportunityStage: {
       type: "string",
       label: "Stage",
-      description: "The current stage of the opportunity",
+      description: "The current stage of the opportunity (e.g. `Prospect`, `Proposal`, `Closed Won`). Use **List Stage Options** to discover valid stage IDs configured in your Wealthbox account.",
       async options() {
         const { opportunity_stages: stages } = await this.listCustomizableCategory({
           type: "opportunity_stages",
@@ -52,7 +56,7 @@ export default {
     taskCategory: {
       type: "string",
       label: "Category",
-      description: "The category the task belongs to",
+      description: "The category the task belongs to (e.g. `Follow Up`, `Meeting`, `Review`). Use **List Category Options** to discover valid category IDs configured in your Wealthbox account.",
       async options() {
         const { task_categories: categories } = await this.listCustomizableCategory({
           type: "task_categories",
@@ -142,6 +146,59 @@ export default {
     createTask(args = {}) {
       return this._makeRequest({
         path: "/tasks",
+        method: "POST",
+        ...args,
+      });
+    },
+    listNotes(args = {}) {
+      return this._makeRequest({
+        path: "/notes",
+        ...args,
+      });
+    },
+    listComments(args = {}) {
+      return this._makeRequest({
+        path: "/comments",
+        ...args,
+      });
+    },
+    listWorkflows(args = {}) {
+      return this._makeRequest({
+        path: "/workflows",
+        ...args,
+      });
+    },
+    listWorkflowTemplates(args = {}) {
+      return this._makeRequest({
+        path: "/workflow_templates",
+        ...args,
+      });
+    },
+    listActivityStream(args = {}) {
+      return this._makeRequest({
+        path: "/activity",
+        ...args,
+      });
+    },
+    createNote(args = {}) {
+      return this._makeRequest({
+        path: "/notes",
+        method: "POST",
+        ...args,
+      });
+    },
+    addHouseholdMember({
+      householdId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/households/${householdId}/members`,
+        method: "POST",
+        ...args,
+      });
+    },
+    startWorkflow(args = {}) {
+      return this._makeRequest({
+        path: "/workflows",
         method: "POST",
         ...args,
       });
