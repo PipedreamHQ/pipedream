@@ -64,7 +64,9 @@ export default {
       $,
       data: {
         query: this.query,
-        category: this.category === "company" ? "companies" : this.category,
+        category: this.category === "company"
+          ? "companies"
+          : this.category,
         max_results: this.maxResults,
         session_id: this.sessionId,
         enrich_live: this.enrichLive,
