@@ -6,7 +6,7 @@ export default {
   key: "returnista-get-draft-return-orders",
   name: "Get Draft Return Orders",
   description: "Gets a list of draft return orders for the given account. [See the documentation](https://platform.returnista.com/reference/rest-api/#get-/account/-accountId-/draft-return-orders)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

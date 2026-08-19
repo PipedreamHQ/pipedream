@@ -4,7 +4,7 @@ export default {
   key: "gorgias_oauth-list-ticket-field-values",
   name: "List Ticket Field Values",
   description: "List field values for a ticket. [See the documentation](https://developers.gorgias.com/reference/list-ticket-custom-fields)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

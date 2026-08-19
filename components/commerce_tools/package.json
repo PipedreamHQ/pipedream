@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/commerce_tools",
+  "version": "0.1.0",
+  "description": "Pipedream Commerce Tools Components",
+  "main": "commerce_tools.app.mjs",
+  "keywords": [
+    "pipedream",
+    "commerce_tools"
+  ],
+  "homepage": "https://pipedream.com/apps/commerce_tools",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  }
+}

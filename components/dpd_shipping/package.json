@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/dpd_shipping",
+  "version": "0.1.0",
+  "description": "Pipedream DPD Shipping Components",
+  "main": "dpd_shipping.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dpd_shipping"
+  ],
+  "homepage": "https://pipedream.com/apps/dpd_shipping",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  }
+}

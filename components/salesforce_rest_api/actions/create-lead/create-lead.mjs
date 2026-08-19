@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import lead from "../../common/sobjects/lead.mjs";
 
@@ -7,8 +8,12 @@ export default {
   ...common,
   key: "salesforce_rest_api-create-lead",
   name: "Create Lead",
-  description: `Creates a lead. [See the documentation](${docsLink})`,
-  version: "0.3.6",
+  description: "Create a Salesforce lead (an unqualified prospect not yet linked to an account)."
+    + " Use **Create Contact** instead when the person already belongs to a known account."
+    + " Use **Add Lead to Campaign** afterwards to attribute the lead to a campaign."
+    + " "
+    + `[See the documentation](${docsLink})`,
+  version: "0.3.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

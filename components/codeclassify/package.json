@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/codeclassify",
+  "version": "0.0.1",
+  "description": "Pipedream CodeClassify Components",
+  "main": "codeclassify.app.mjs",
+  "keywords": [
+    "pipedream",
+    "codeclassify"
+  ],
+  "homepage": "https://pipedream.com/apps/codeclassify",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

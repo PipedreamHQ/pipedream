@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import googleMeet from "../../google_meet.app.mjs";
 import { v4 as uuidv4 } from "uuid";
 
@@ -5,7 +6,7 @@ export default {
   key: "google_meet-schedule-meeting",
   name: "Schedule Meeting",
   description: "Creates a new event in Google Calendar with a Google Meet link. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/insert)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

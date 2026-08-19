@@ -6,7 +6,7 @@ export default {
   key: "fathom-new-recording",
   name: "New Recording (Instant)",
   description: "Emit new event when a new recording is created. [See the documentation](https://developers.fathom.ai/api-reference/webhooks/create-a-webhook)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

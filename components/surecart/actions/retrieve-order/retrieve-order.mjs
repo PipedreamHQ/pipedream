@@ -4,7 +4,7 @@ export default {
   key: "surecart-retrieve-order",
   name: "Retrieve Order",
   description: "Retrieve an order by ID. [See the documentation](https://developer.surecart.com/api-reference/orders/retrieve)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

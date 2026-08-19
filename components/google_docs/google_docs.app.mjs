@@ -1,5 +1,6 @@
 import docs from "@googleapis/docs";
 import googleDrive from "@pipedream/google_drive";
+import { ConfigurationError } from "@pipedream/platform";
 import utils from "./common/utils.mjs";
 import markdownParser from "./common/markdown-parser.mjs";
 
@@ -8,6 +9,30 @@ export default {
   app: "google_docs",
   propDefinitions: {
     ...googleDrive.propDefinitions,
+    // Static, MCP-compatible document identifier. Prefer this over `docId`
+    // (which carries an `async options()` dropdown invisible to MCP).
+    documentId: {
+      type: "string",
+      label: "Document ID",
+      description: "The ID of the Google Doc. This is the long string in the document's URL: `https://docs.google.com/document/d/{DOCUMENT_ID}/edit`. Use **Find Document** to resolve a document's name to its ID.",
+    },
+    // Static insert position shared by insert-text/table/image/page-break.
+    position: {
+      type: "string",
+      label: "Position",
+      description: "Where to insert the content: `end` to append to the end of the document (default), `beginning` to insert at the start, or a numeric character index (e.g., `1`) for a specific location.",
+      optional: true,
+      default: "end",
+    },
+    // Static, MCP-compatible folder selector for the create actions. Kept as a
+    // separate key so the inherited Drive `folderId` (async dropdown) stays
+    // available to out-of-scope consumers like the sources/triggers.
+    documentFolderId: {
+      type: "string",
+      label: "Folder ID",
+      description: "The ID of the Drive folder to place the new document in (the string after `/folders/` in a Drive folder URL). If omitted, the document is created in the root of My Drive.",
+      optional: true,
+    },
     docId: {
       type: "string",
       label: "Document",
@@ -104,6 +129,37 @@ export default {
         ? this._insertAtBeginning(requestObj)
         : this._insertAtEnd(requestObj);
     },
+    // Resolve a static `position` value (`beginning` | `end` | numeric index) into
+    // either `null` (append at end) or the concrete character index it refers to.
+    _resolvePositionIndex(position) {
+      if (position == null || position === "end") {
+        return null;
+      }
+      // Only accept "beginning", "end", or a string of pure digits — parseInt would
+      // otherwise silently accept "1.5"/"1abc" as 1 and target the wrong index.
+      const index = position === "beginning"
+        ? 1
+        : (/^\d+$/.test(String(position))
+          ? parseInt(position, 10)
+          : NaN);
+      if (!Number.isInteger(index) || index < 1) {
+        throw new ConfigurationError(`Invalid position "${position}". Use "beginning", "end", or a positive integer index.`);
+      }
+      return index;
+    },
+    // Resolve a static `position` value into the location field a batchUpdate
+    // insert request expects.
+    _buildRequestForPosition(requestObj, position) {
+      const index = this._resolvePositionIndex(position);
+      return index == null
+        ? this._insertAtEnd(requestObj)
+        : {
+          ...requestObj,
+          location: {
+            index,
+          },
+        };
+    },
     _batchUpdate(documentId, requestName, request) {
       return this.docs().documents.batchUpdate({
         documentId,
@@ -116,15 +172,52 @@ export default {
         },
       });
     },
-    async getDocument(documentId, includeTabsContent = false) {
-      const { data } = await this.docs().documents.get({
+    batchUpdate(documentId, requests) {
+      return this.docs().documents.batchUpdate({
+        documentId,
+        requestBody: {
+          requests,
+        },
+      });
+    },
+    async findDocuments({
+      query, limit = 25,
+    } = {}) {
+      let q = "mimeType='application/vnd.google-apps.document' and trashed=false";
+      if (query) {
+        const escaped = query.replace(/'/g, "\\'");
+        q += ` and (name contains '${escaped}' or fullText contains '${escaped}')`;
+      }
+      const { data } = await this.drive().files.list({
+        q,
+        pageSize: limit,
+        fields: "files(id,name,modifiedTime,webViewLink)",
+        orderBy: "modifiedTime desc",
+        supportsAllDrives: true,
+        includeItemsFromAllDrives: true,
+      });
+      return (data.files || []).map((f) => ({
+        id: f.id,
+        name: f.name,
+        url: f.webViewLink || `https://docs.google.com/document/d/${f.id}/edit`,
+        modifiedTime: f.modifiedTime,
+      }));
+    },
+    async getDocument(documentId, includeTabsContent = false, fields) {
+      const params = {
         documentId,
         includeTabsContent,
-      });
-      const doc = includeTabsContent
-        ? data
-        : utils.addTextContentToDocument(data);
-      return doc;
+      };
+      if (fields) {
+        params.fields = fields;
+      }
+      const { data } = await this.docs().documents.get(params);
+      // A field mask can return a body-less document; skip the textContent
+      // enrichment in that case so the response is returned as-is.
+      if (!fields && !includeTabsContent) {
+        return utils.addTextContentToDocument(data);
+      }
+      return data;
     },
     async createEmptyDoc(title) {
       const { data: createdDoc } = await this.docs().documents.create({
@@ -150,6 +243,121 @@ export default {
     },
     async insertTable(documentId, table) {
       return this._batchUpdate(documentId, "insertTable", table);
+    },
+    // Top-level tables in a document body, in document order. Tables nested
+    // inside another table's cell are not included.
+    flattenTables(content) {
+      return utils.flattenTables(content);
+    },
+    async deleteTable(documentId, {
+      startIndex, endIndex,
+    }) {
+      return this._batchUpdate(documentId, "deleteContentRange", {
+        range: {
+          startIndex,
+          endIndex,
+        },
+      });
+    },
+    async writeTable(documentId, {
+      rows, position, hasHeaderRow,
+    }) {
+      // Validate before making any request: a bad cell value here should
+      // never leave an empty table behind from a partially-applied insert.
+      const invalidValue = rows.flat().find((value) => value != null && typeof value === "object");
+      if (invalidValue !== undefined) {
+        throw new ConfigurationError(
+          `Table Data cells must be strings, numbers, or booleans, not a nested ${
+            Array.isArray(invalidValue)
+              ? "array"
+              : "object"
+          }. Example: [["Name","Role"],["Ada","Engineer"]]`,
+        );
+      }
+
+      const numRows = rows.length;
+      const numColumns = rows.reduce((max, row) => Math.max(max, row.length), 0);
+
+      const { body: beforeBody } = await this.getDocument(documentId, false, "body");
+      const beforeTables = this.flattenTables(beforeBody?.content);
+
+      const insertRequest = this._buildRequestForPosition({
+        rows: numRows,
+        columns: numColumns,
+      }, position);
+      await this._batchUpdate(documentId, "insertTable", insertRequest);
+
+      // The insertTable reply carries no location info, so re-fetch the
+      // document and select the new table by ordinal position (see
+      // selectInsertedTable) rather than by startIndex — inserting
+      // immediately before an existing table gives the new table that
+      // table's old startIndex, so comparing index values can't tell them
+      // apart.
+      const { body } = await this.getDocument(documentId, false, "body");
+      const tables = this.flattenTables(body?.content);
+      const requestedIndex = this._resolvePositionIndex(position);
+      const table = utils.selectInsertedTable(beforeTables, tables, requestedIndex);
+      if (!table) {
+        throw new Error("Could not locate the table that was just created. The table was inserted but no cell data was written.");
+      }
+
+      const cells = [];
+      table.table.tableRows.forEach((row, rowIndex) => {
+        row.tableCells.forEach((cell, columnIndex) => {
+          const paragraph = cell.content?.find((element) => element.paragraph);
+          if (paragraph) {
+            cells.push({
+              rowIndex,
+              columnIndex,
+              startIndex: paragraph.startIndex,
+            });
+          }
+        });
+      });
+
+      // Fill cells from the last one to the first. Inserting text only shifts
+      // indices that come after it, so walking backwards keeps every
+      // not-yet-written cell's precomputed startIndex valid throughout.
+      const requests = [];
+      [
+        ...cells,
+      ].reverse().forEach(({
+        rowIndex, columnIndex, startIndex,
+      }) => {
+        const value = rows[rowIndex]?.[columnIndex];
+        if (value == null || value === "") {
+          return;
+        }
+        const text = String(value);
+        requests.push({
+          insertText: {
+            location: {
+              index: startIndex,
+            },
+            text,
+          },
+        });
+        if (hasHeaderRow && rowIndex === 0) {
+          requests.push({
+            updateTextStyle: {
+              range: {
+                startIndex,
+                endIndex: startIndex + text.length,
+              },
+              textStyle: {
+                bold: true,
+              },
+              fields: "bold",
+            },
+          });
+        }
+      });
+
+      if (requests.length) {
+        await this.batchUpdate(documentId, requests);
+      }
+
+      return this.getDocument(documentId);
     },
     async insertPageBreak(documentId, request) {
       return this._batchUpdate(documentId, "insertPageBreak", request);

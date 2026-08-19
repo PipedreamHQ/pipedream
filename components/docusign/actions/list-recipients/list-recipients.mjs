@@ -4,7 +4,7 @@ export default {
   key: "docusign-list-recipients",
   name: "List Recipients",
   description: "List recipients and recipient status for a DocuSign envelope. Use Include Tabs when you need each recipient's tab values and placement. [See the documentation](https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/enveloperecipients/list/)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

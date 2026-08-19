@@ -1,11 +1,11 @@
-import googleDocs from "../../google_docs.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import googleDocs from "../../google_docs.app.mjs";
 
 export default {
   key: "google_docs-get-document",
   name: "Get Document",
-  description: "Get the contents of the latest version of a document. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/get)",
-  version: "0.1.10",
+  description: "Get the full text content and structure of a Google Doc by its ID. Returns the document body plus a flattened `textContent` field for easy reading. Optionally supply a `fields` mask to request a partial (e.g. metadata-only) response and skip the body-text enrichment. Use **Find Document** first to resolve a document's name to its ID. For multi-tab documents, pass a `tabId` to retrieve a single tab's content. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/get)",
+  version: "1.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -14,47 +14,42 @@ export default {
   type: "action",
   props: {
     googleDocs,
-    docId: {
+    documentId: {
       propDefinition: [
         googleDocs,
-        "docId",
+        "documentId",
       ],
     },
-    includeTabsContent: {
-      type: "boolean",
-      label: "Include Tabs Content",
-      description: "Whether to populate the `Document.tabs` field instead of the text content fields like `body` and `documentStyle` on `Document`",
+    tabId: {
+      type: "string",
+      label: "Tab ID",
+      description: "Optional. For a multi-tab document, the ID of a single tab to return. Copy it from a prior **Get Document** call's `tabs[].tabProperties.tabId` (e.g. `t.0`). Omit to return the whole document.",
       optional: true,
-      default: false,
     },
-    tabIds: {
-      type: "string[]",
-      label: "Tab IDs",
-      description: "Only return content for the specified tabs",
+    fields: {
+      type: "string",
+      label: "Fields",
+      description: "Optional Google Docs API field mask (partial response) that limits which top-level document fields are returned, e.g. `title,documentId,revisionId` for metadata only. When set, only the requested fields are returned and the `textContent` enrichment is skipped, so a body-less response will not error. Cannot be combined with **Tab ID**. Leave blank to return the full document with `textContent`. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/get#query-parameters)",
       optional: true,
-      async options() {
-        const { tabs } = await this.googleDocs.getDocument(this.docId, true);
-        if (!tabs?.length) return [];
-        return tabs.map((tab) => ({
-          label: tab.tabProperties.title,
-          value: tab.tabProperties.tabId,
-        }));
-      },
     },
   },
   async run({ $ }) {
-    if (this.tabIds?.length && !this.includeTabsContent) {
-      throw new ConfigurationError("Include Tabs Content must be true if tabIds are provided");
+    if (this.tabId && this.fields) {
+      throw new ConfigurationError("Tab ID cannot be combined with a Fields mask, because the mask may exclude the tab data required for filtering. Remove the Fields mask or omit the Tab ID.");
     }
 
-    const response = await this.googleDocs.getDocument(this.docId, this.includeTabsContent);
-
-    if (this.tabIds?.length) {
-      response.tabs = response.tabs.filter((tab) => this.tabIds.includes(tab.tabProperties.tabId));
+    if (this.tabId) {
+      const response = await this.googleDocs.getDocument(this.documentId, true);
+      const tab = (response.tabs || []).find((t) => t.tabProperties?.tabId === this.tabId);
+      if (!tab) {
+        throw new ConfigurationError(`No tab with ID "${this.tabId}" found in document ${this.documentId}. Call this tool without a Tab ID to list the document's tabs.`);
+      }
+      $.export("$summary", `Retrieved tab "${this.tabId}" from document ${this.documentId}`);
+      return tab;
     }
 
-    $.export("$summary", `Successfully retrieved document with ID: ${this.docId}`);
-
+    const response = await this.googleDocs.getDocument(this.documentId, false, this.fields);
+    $.export("$summary", `Retrieved document ${this.documentId}`);
     return response;
   },
 };

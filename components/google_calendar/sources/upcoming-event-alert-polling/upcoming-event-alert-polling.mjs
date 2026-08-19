@@ -6,7 +6,7 @@ export default {
   key: "google_calendar-upcoming-event-alert-polling",
   name: "New Upcoming Event Alert (Polling)",
   description: "Emit new event based on a time interval before an upcoming event in the calendar. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/list)",
-  version: "0.0.5",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   props: {
@@ -15,7 +15,7 @@ export default {
     pollingInfo: {
       type: "alert",
       alertType: "info",
-      content: "Since this source executes based on a timer, event emission may be slightly delayed. For example, if the source runs every 5 minutes, the delay may be up to 5 minutes. You can use the `upcoming-event-alert` source for instant event emission.",
+      content: "Since this source executes based on a timer, event emission may be slightly delayed. For example, if the source runs every 5 minutes, the delay may be up to 5 minutes.",
     },
     calendarId: {
       propDefinition: [
@@ -150,4 +150,3 @@ export default {
   },
   sampleEmit,
 };
-

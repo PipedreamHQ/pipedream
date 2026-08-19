@@ -5,7 +5,7 @@ export default {
   key: "polar-list-orders",
   name: "List Orders",
   description: "List orders according to the specified filters. [See the API docs](https://polar.sh/docs/api-reference/orders/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

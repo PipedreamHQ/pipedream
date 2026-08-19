@@ -10,7 +10,7 @@ export default {
     cloudId: {
       type: "string",
       label: "Cloud ID",
-      description: "The cloud ID",
+      description: "The Jira Cloud site ID (for example, `11223344-a1b2-3b33-c444-def123456789`). Use **Get Cloud ID** to discover IDs. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/oauth-2-3lo-apps/#3-1-get-the-cloudid-for-your-site)",
       useQuery: true,
       async options() {
         const clouds = await this.getClouds();
@@ -198,8 +198,8 @@ export default {
     },
     transition: {
       type: "string",
-      label: "Transition",
-      description: "Details of a transition. Required when performing a transition, optional when creating or editing an issue, See `Transition` section of [doc](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-put). Also you can go edit the workflow and choose the Text option instead of the Diagram option. You can see the transition ID in parenthesis.",
+      label: "Transition ID",
+      description: "The string ID of a transition (e.g. `\"11\"`). Required when performing a transition; optional when creating or editing an issue. Use the `id` value returned by the **Get Transitions** action. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-transitions-post).",
       optional: true,
       async options({
         prevContext, issueIdOrKey, cloudId,
@@ -580,6 +580,39 @@ export default {
         cloudId,
         method: "POST",
         path: `/issue/${issueIdOrKey}/attachments`,
+        ...args,
+      });
+    },
+    /**
+     * Get the metadata for an attachment
+     * @param {object} args - Arguments object
+     * @param {string} args.attachmentId - The ID of the attachment
+     * @param {string} [args.cloudId] - The cloud ID of the Jira site
+     * @param {object} [args.$] - Pipedream step object, for request/response debug info
+     * @returns {Promise<object>} The attachment metadata (e.g. `id`, `filename`, `mimeType`)
+     */
+    getAttachmentMetadata({
+      attachmentId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/attachment/${attachmentId}`,
+        ...args,
+      });
+    },
+    /**
+     * Get the binary content of an attachment
+     * @param {object} args - Arguments object
+     * @param {string} args.attachmentId - The ID of the attachment
+     * @param {string} [args.cloudId] - The cloud ID of the Jira site
+     * @param {object} [args.$] - Pipedream step object, for request/response debug info
+     * @returns {Promise<import("stream").Readable>} A readable stream of the attachment content
+     */
+    getAttachmentContent({
+      attachmentId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/attachment/content/${attachmentId}`,
+        responseType: "stream",
         ...args,
       });
     },

@@ -4,7 +4,7 @@ export default {
   key: "microsoft_dynamics_365_sales-list-appointments",
   name: "List Appointments",
   description: "List appointments (full entity per row, ordered by scheduled start descending). [See the documentation](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/reference/appointment)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

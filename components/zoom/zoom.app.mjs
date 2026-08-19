@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 import utils from "./common/utils.mjs";
 
@@ -56,6 +58,12 @@ export default {
           },
         };
       },
+      optional: true,
+    },
+    recordingFileId: {
+      type: "string",
+      label: "Recording File",
+      description: "The specific recording file to act on. Leave empty to use the meeting's main video recording (falls back to the largest MP4, then the audio-only file). To choose a file explicitly, call **Get Meeting Recordings** for the same meeting and pass one of the `recording_files[].id` values it returns (only files with `status` `completed` can be used).",
       optional: true,
     },
     occurrenceId: {
@@ -372,6 +380,60 @@ export default {
         path: `/meetings/${utils.doubleEncode(meetingId)}/recordings`,
         ...opts,
       });
+    },
+    /**
+     * Fetches a meeting's recordings and resolves a single file from them, failing with
+     * an actionable message when it can't. `recordingFileId` is optional — when omitted,
+     * the meeting's main video recording is selected (see `utils.selectRecordingFile`).
+     */
+    async getRecordingFile({
+      step, meetingId, recordingFileId, params,
+    }) {
+      const recordings = await this.getMeetingRecordings({
+        step,
+        meetingId,
+        params,
+      });
+      const files = recordings?.recording_files ?? [];
+
+      if (!files.length) {
+        throw new ConfigurationError(`No cloud recordings were found for meeting \`${meetingId}\`.`);
+      }
+
+      const file = utils.selectRecordingFile(files, recordingFileId);
+      if (file) {
+        return {
+          file,
+          recordings,
+        };
+      }
+
+      // Nothing usable resolved. Work out why, so the message names the next step
+      // rather than sending the caller after the wrong cause.
+      const candidates = recordingFileId
+        ? files.filter(({ id }) => id === recordingFileId)
+        : files;
+      const unfinished = candidates.filter(({ status }) => status !== "completed");
+
+      if (unfinished.length && unfinished.length === candidates.length) {
+        throw new ConfigurationError(
+          `This recording is not ready yet (status: ${unfinished[0].status}). Try again shortly.`,
+        );
+      }
+      if (recordingFileId) {
+        throw new ConfigurationError(
+          `No completed recording file with ID \`${recordingFileId}\` belongs to meeting \`${meetingId}\`. `
+          + "If this is a recurring meeting, the numeric meeting ID always resolves to the most recent "
+          + "occurrence — pass the meeting **UUID** instead to target a specific date.",
+        );
+      }
+      const available = [
+        ...new Set(files.map(({ file_type: fileType }) => fileType)),
+      ].join(", ");
+      throw new ConfigurationError(
+        "This meeting has no video or audio recording to select automatically. "
+        + `Available file types: ${available}. Set **Recording File** to choose one explicitly.`,
+      );
     },
     async listMeetingsOccurrences(meetingId) {
       try {

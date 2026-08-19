@@ -3,8 +3,8 @@ import nutshell from "../../nutshell.app.mjs";
 export default {
   key: "nutshell-search-contacts",
   name: "Search Contacts",
-  description: "Search contacts by string. Returns an array of contacts with id, displayName, primaryEmail, and primaryPhone. [See the documentation](https://developers-rpc.nutshell.com/detail/class_core.html#a7b09990091f6ae57ed2c2ee951abfc7b)",
-  version: "0.0.2",
+  description: "Search contacts (people) in Nutshell. Returns records in the existing contact output format. [See the documentation](https://developers.nutshell.com/reference/cde301caba6b033521a71e6bed772a58)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,26 +13,30 @@ export default {
   type: "action",
   props: {
     nutshell,
-    searchString: {
-      type: "string",
-      label: "Search String",
-      description: "The string to search for (matches contact names, emails, etc.).",
+    query: {
+      propDefinition: [
+        nutshell,
+        "query",
+      ],
     },
     limit: {
-      type: "integer",
-      label: "Limit",
-      description: "Maximum number of contacts to return.",
-      default: 1000,
-      optional: true,
+      propDefinition: [
+        nutshell,
+        "limit",
+      ],
     },
   },
   async run({ $ }) {
-    const contacts = await this.nutshell.searchContacts({
+    const params = {
+      "q": this.query,
+      "page[limit]": this.limit,
+    };
+    const contacts = await this.nutshell.listContacts({
       $,
-      string: this.searchString,
-      limit: this.limit ?? 1000,
+      params,
     });
+
     $.export("$summary", `Found ${contacts.length} contact(s)`);
-    return contacts;
+    return contacts.map((c) => this.nutshell.formatContact(c));
   },
 };

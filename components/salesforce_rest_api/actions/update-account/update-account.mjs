@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import account from "../../common/sobjects/account.mjs";
 import { docsLink } from "../create-account/create-account.mjs";
@@ -14,8 +15,12 @@ export default {
   ...common,
   key: "salesforce_rest_api-update-account",
   name: "Update Account",
-  description: `Updates a Salesforce account. [See the documentation](${docsLink})`,
-  version: "0.3.6",
+  description: "Update fields on an existing Salesforce account."
+    + " Only the fields you supply change; everything else is left as-is."
+    + " Use **Find Records** on `Account` to get the record ID first."
+    + " "
+    + `[See the documentation](${docsLink})`,
+  version: "0.3.7",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -5,7 +5,7 @@ export default {
   key: "facebook_pages-list-comments",
   name: "List Comments",
   description: "Retrieves a list of comments on a post on a Facebook Page. [See the documentation](https://developers.facebook.com/docs/graph-api/reference/comment/#read)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

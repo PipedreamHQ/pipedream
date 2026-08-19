@@ -192,5 +192,27 @@ export default {
         path: `/airports/${encodeURIComponent(id)}`,
       });
     },
+    /**
+     * Create a trip (POST /trips).
+     * @see https://developer.avinodegroup.com/reference/createtrip
+     * @param {object} opts
+     * @param {*} [opts.$]
+     * @param {object} opts.data - Create trip request body
+     * @returns {Promise<object>} Parsed JSON response body
+     */
+    async createTrip({
+      $ = this,
+      data,
+    } = {}) {
+      if (!data || typeof data !== "object") {
+        throw new Error("Trip payload is required");
+      }
+      return this._makeRequest({
+        $,
+        path: "/trips",
+        method: "POST",
+        data,
+      });
+    },
   },
 };

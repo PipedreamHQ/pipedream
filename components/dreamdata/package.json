@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/dreamdata",
+  "version": "0.1.0",
+  "description": "Pipedream Dreamdata Components",
+  "main": "dreamdata.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dreamdata"
+  ],
+  "homepage": "https://pipedream.com/apps/dreamdata",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

@@ -4,7 +4,7 @@ export default {
   key: "microsoft_outlook_calendar-list-time-zone-options",
   name: "List Time Zone Options",
   description: "Retrieves available options for the Time Zone field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -6,7 +6,7 @@ export default {
   key: "airtable_oauth-create-or-update-record",
   name: "Create or Update Record",
   description: "Create a new record or update an existing one. [See the documentation](https://airtable.com/developers/web/api/create-records)",
-  version: "0.1.5",
+  version: "0.1.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -26,8 +26,8 @@ export default {
         ({
           baseId, tableId,
         }) => ({
-          baseId: baseId.value,
-          tableId: tableId.value,
+          baseId: baseId?.value ?? baseId,
+          tableId: tableId?.value ?? tableId,
         }),
       ],
       optional: true,

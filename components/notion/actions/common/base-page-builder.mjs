@@ -83,13 +83,18 @@ export default {
      *            - value: the property value inputted by the user
      */
     _filterProps(properties = {}) {
+      // Check key presence (not truthiness) so valid falsy values — 0, false,
+      // "" — are preserved rather than silently dropped.
       return Object.keys(properties)
         .filter((property) => this[property] != null
-          || (this.properties && this.properties[property]))
+          || (this.properties
+            && Object.prototype.hasOwnProperty.call(this.properties, property)))
         .map((property) => ({
           type: properties[property]?.type ?? property,
           label: properties[property]?.id || property,
-          value: this[property] || this.properties?.[property],
+          value: this[property] != null
+            ? this[property]
+            : this.properties?.[property],
           name: properties[property]?.name || property,
         }));
     },
@@ -263,6 +268,26 @@ export default {
       };
     },
     /**
+     * Removes null-valued fields from a block's content object before it is sent
+     * to the Notion create/append API. Since Notion API version 2025-09-03, the
+     * read API returns block content (e.g. paragraphs) with an `icon: null` field,
+     * but the write API rejects null and requires the field to be an object or
+     * undefined. Real values (e.g. a callout's icon object) are preserved.
+     * @param content - the block type content object (e.g. block.paragraph)
+     * @returns the same object with top-level null-valued keys removed
+     */
+    sanitizeBlockContent(content) {
+      if (!content || typeof content !== "object") {
+        return content;
+      }
+      for (const key of Object.keys(content)) {
+        if (content[key] === null) {
+          delete content[key];
+        }
+      }
+      return content;
+    },
+    /**
      * Formats the children of an existing block for creating/appending
      * to a new page/block
      */
@@ -288,7 +313,7 @@ export default {
               children[i] = {
                 object: "block",
                 type: child.type,
-                [child.type]: child[child.type],
+                [child.type]: this.sanitizeBlockContent(child[child.type]),
               };
 
               if (c.length > 0) {
