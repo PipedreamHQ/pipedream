@@ -8108,7 +8108,11 @@ importers:
 
   components/invoicing_plus: {}
 
-  components/ionos_hosting_services: {}
+  components/ionos_hosting_services:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/ip2geo:
     dependencies:
@@ -42235,6 +42239,7 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
+      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2))(rollup@4.62.0)':
     dependencies:
