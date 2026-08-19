@@ -75,10 +75,32 @@ export default {
       params,
     });
 
-    const registrations = this.arlo._shapeItems(
-      this.arlo._extractCollection(response, "Registrations", "Registration"),
-      this.fields,
-    );
+    // Each raw item carries a `Link` array that's mostly self-referential API
+    // hrefs plus the expanded Contact buried inside one entry — verbose enough
+    // to blow past the model's context window on accounts with many
+    // registrations. Promote the useful bits (Contact, EventID) and drop the rest.
+    const rawRegistrations = this.arlo._extractCollection(response, "Registrations", "Registration");
+    const cleaned = rawRegistrations.map((item) => {
+      const {
+        Link, ...rest
+      } = item;
+      const rawContact = this.arlo._findLinkedItem(item, "Contact");
+      if (rawContact) {
+        const contact = {
+          ...rawContact,
+        };
+        delete contact.Link;
+        rest.Contact = contact;
+      }
+      const eventHref = Link?.find?.((link) => link?.["@_title"] === "Event")?.["@_href"];
+      const eventId = eventHref?.match(/\/events\/(\d+)\//)?.[1];
+      if (eventId) {
+        rest.EventID = Number(eventId);
+      }
+      return rest;
+    });
+
+    const registrations = this.arlo._shapeItems(cleaned, this.fields);
     $.export("$summary", `Retrieved ${registrations.length} registration${registrations.length === 1
       ? ""
       : "s"}${registrations.length === (this.limit ?? DEFAULT_LIMIT)
