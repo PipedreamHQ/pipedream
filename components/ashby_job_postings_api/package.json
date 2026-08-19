@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ashby_job_postings_api",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Ashby Job Postings Components",
   "main": "ashby_job_postings_api.app.mjs",
   "keywords": [

@@ -89,7 +89,8 @@ export default {
       jobs = jobs.filter((job) => job.team === this.team);
     }
     if (this.location) {
-      jobs = jobs.filter((job) => job.location?.toLowerCase().includes(this.location.toLowerCase()));
+      jobs = jobs.filter((job) => job.location?.toLowerCase()
+        .includes(this.location.toLowerCase()));
     }
     if (this.workplaceType) {
       jobs = jobs.filter((job) => job.workplaceType === this.workplaceType);
