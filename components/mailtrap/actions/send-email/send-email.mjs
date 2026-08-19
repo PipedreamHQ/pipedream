@@ -223,7 +223,7 @@ export default {
       }
     }
 
-    if (attachmentsBase64) {
+    if (attachmentsBase64?.length > 0) {
       const hasMismatch =
         !base64AttachmentFilenames ||
         attachmentsBase64.length !== base64AttachmentFilenames.length;
