@@ -28,6 +28,9 @@ export default {
           },
         },
       });
+      if (response.error) {
+        throw new Error(response.error.message);
+      }
       const [
         content,
       ] = response.result.content;
@@ -63,7 +66,7 @@ export default {
         ...opts,
       });
     },
-    adminRewardsRedemptionsReport({
+    getAdminRewardsRedemptionsReport({
       userEmail, startDate, endDate, unfulfilled, aasmState, range, page, perPage, sort, direction,
       ...opts
     }) {
@@ -84,7 +87,7 @@ export default {
         ...opts,
       });
     },
-    adminParticipationReport({
+    getAdminParticipationReport({
       reportView, startDate, endDate, customPropertyGroup, includeTrend, ...opts
     }) {
       return this._callTool({

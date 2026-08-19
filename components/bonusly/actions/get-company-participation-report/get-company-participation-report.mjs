@@ -51,7 +51,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.bonusly.adminParticipationReport({
+    const response = await this.bonusly.getAdminParticipationReport({
       $,
       reportView: this.reportView,
       startDate: this.startDate,

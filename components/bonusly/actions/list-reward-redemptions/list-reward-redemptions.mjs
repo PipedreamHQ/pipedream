@@ -80,7 +80,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.bonusly.adminRewardsRedemptionsReport({
+    const response = await this.bonusly.getAdminRewardsRedemptionsReport({
       $,
       userEmail: this.userEmail,
       startDate: this.startDate,
