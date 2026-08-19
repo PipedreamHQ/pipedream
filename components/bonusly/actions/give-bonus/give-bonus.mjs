@@ -1,0 +1,56 @@
+// x-pd-ai: optimized
+import bonusly from "../../bonusly.app.mjs";
+
+export default {
+  key: "bonusly-give-bonus",
+  name: "Give Bonus",
+  description:
+    "Send recognition (a bonus) to one or more colleagues on behalf of the"
+    + " authenticated caller. Do not include `@mentions` or the point amount in the"
+    + " `reason` yourself — Bonusly synthesizes those from `recipients` and `amount`"
+    + " automatically."
+    + " [See the documentation](https://docs.bonus.ly/reference/giverecognition-1)",
+  version: "0.0.1",
+  type: "action",
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
+  props: {
+    bonusly,
+    recipients: {
+      type: "string[]",
+      label: "Recipients",
+      description: "One or more recipients — each entry can be a user ID, an email address, or a display name, e.g. `jane.doe@acme.com`.",
+    },
+    amount: {
+      type: "integer",
+      label: "Amount",
+      description: "Points to give. Pass `0` only if your company allows zero-point recognition.",
+    },
+    reason: {
+      type: "string",
+      label: "Reason",
+      description: "Free-form recognition message explaining why you're giving this bonus, e.g. `Great work on the product launch!`.",
+    },
+    hashtag: {
+      type: "string",
+      label: "Hashtag",
+      description: "One company hashtag, without the leading `#`, e.g. `teamwork`.",
+    },
+  },
+  async run({ $ }) {
+    const response = await this.bonusly.giveRecognition({
+      $,
+      recipients: this.recipients,
+      amount: this.amount,
+      reason: this.reason,
+      hashtag: this.hashtag,
+    });
+
+    const names = response.recipients?.map(({ name }) => name).join(", ");
+    $.export("$summary", `Gave ${this.amount} points to ${names} (bonus ID: ${response.bonus_id})`);
+    return response;
+  },
+};
