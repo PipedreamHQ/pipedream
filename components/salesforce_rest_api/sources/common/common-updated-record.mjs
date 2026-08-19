@@ -13,20 +13,27 @@ export default {
       this.setNameField(nameField);
 
       if (!this.skipFirstRun) {
-        const { recentItems } = await this.salesforce.listSObjectTypeIds(objectType);
-        const ids = recentItems.map((item) => item.Id);
+        try {
+          const { records } = await this.query({
+            query: `SELECT Id FROM ${objectType} ORDER BY ${constants.FIELD_NAME.LAST_MODIFIED_DATE} DESC LIMIT ${constants.DEPLOY_HISTORICAL_LIMIT}`,
+          });
+          const ids = records.map((r) => r.Id);
 
-        for (const id of ids.slice(-25)) {
-          const object = await this.salesforce.getSObject(objectType, id);
+          for (const id of ids.slice(-constants.DEPLOY_HISTORICAL_LIMIT)) {
+            const object = await this.salesforce.getSObject(objectType, id);
 
-          const event = {
-            body: {
-              "New": object,
-              "UserId": id,
-            },
-          };
-          const meta = this.generateWebhookMeta(event);
-          this.$emit(event.body, meta);
+            const event = {
+              body: {
+                "New": object,
+                "UserId": id,
+              },
+            };
+            const meta = this.generateWebhookMeta(event);
+            this.$emit(event.body, meta);
+          }
+        } catch (err) {
+          console.log("Error seeding historical records during deploy:", err);
+          console.log("The source will still be created and will emit updated records going forward.");
         }
       }
     },
