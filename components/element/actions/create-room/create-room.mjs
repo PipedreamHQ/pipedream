@@ -29,7 +29,7 @@ export default {
     visibility: {
       type: "string",
       label: "Visibility",
-      description: "Whether the room appears in the homeserver's public room directory. Defaults to `private`.",
+      description: "Whether the room is published (`public`) to the homeserver's room directory or kept unlisted (`private`). This only controls directory listing, not who can join the room — use **Preset** for that. Defaults to `private`.",
       optional: true,
       options: [
         "public",
