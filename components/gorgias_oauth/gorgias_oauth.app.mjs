@@ -596,6 +596,7 @@ export default {
     }) {
       const fields = [];
       let cursor;
+      let previousCursor;
       do {
         const {
           data, meta,
@@ -608,9 +609,11 @@ export default {
             cursor,
           },
         });
-        fields.push(...data);
+        fields.push(...(data ?? []));
+        previousCursor = cursor;
         cursor = meta?.next_cursor;
-      } while (cursor);
+        // A cursor that repeats instead of advancing would loop forever
+      } while (cursor && cursor !== previousCursor);
       return fields;
     },
     /**

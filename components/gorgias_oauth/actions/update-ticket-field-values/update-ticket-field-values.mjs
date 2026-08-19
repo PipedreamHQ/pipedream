@@ -49,6 +49,12 @@ export default {
       if (constants.UNSETTABLE_MANAGED_FIELD_TYPES.includes(field.managed_type)) {
         return false;
       }
+      // `definition` carries the data type, so a field without one cannot be
+      // turned into a prop. Filtering it out here also keeps every downstream
+      // reader of `definition` safe, since they only ever see settable fields.
+      if (!field.definition) {
+        return false;
+      }
       const {
         data_type: dataType,
         input_settings: inputSettings,
