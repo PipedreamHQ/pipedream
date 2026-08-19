@@ -4,7 +4,7 @@ import element from "../../element.app.mjs";
 export default {
   key: "element-create-room",
   name: "Create Room",
-  description: "Create a new room, optionally inviting other users to it right away. Returns the new room's ID, which can be passed into **Send Message** or **Invite User**. [See the documentation](https://spec.matrix.org/latest/client-server-api/#creating-rooms)",
+  description: "Create a new room, optionally inviting other users to it right away. Returns the new room's ID, which can be passed into **Send Message** or **Invite User**. [See the documentation](https://spec.matrix.org/latest/client-server-api/#post_matrixclientv3createroom)",
   version: "0.0.1",
   type: "action",
   annotations: {
