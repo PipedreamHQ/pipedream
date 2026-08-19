@@ -5013,7 +5013,11 @@ importers:
         specifier: ^0.12.7
         version: 0.12.7
 
-  components/elastic_cloud: {}
+  components/elastic_cloud:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/elastic_email:
     dependencies:
