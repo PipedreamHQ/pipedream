@@ -14,7 +14,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return `${this.$auth.homeserver_url.replace(/\/$/, "")}/_matrix/client/v3`;
+      return `${this.$auth.homeserver_url}/_matrix/client/v3`;
     },
     _makeRequest({
       $ = this, path, ...opts
