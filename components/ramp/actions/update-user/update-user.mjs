@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import ramp from "../../ramp.app.mjs";
 import constants from "../../common/constants.mjs";
 
@@ -17,7 +18,7 @@ export default {
     userId: {
       type: "string",
       label: "User ID",
-      description: "The ID of the user to update. Run the **List Users** action to find this value.",
+      description: "The ID of the user to update — a UUID, e.g. `bcc1e4ca-d38a-4cc9-98fc-e6c2066ad0ae`. Run the **List Users** action to find this value.",
     },
     role: {
       type: "string",
@@ -29,23 +30,31 @@ export default {
     departmentId: {
       type: "string",
       label: "Department ID",
-      description: "New department ID. Run the **List Departments** action to find valid IDs.",
+      description: "New department ID — a UUID, e.g. `fffe6c22-698f-4dc5-b2b1-b35f86947d90`. Run the **List Departments** action to find valid IDs.",
       optional: true,
     },
     locationId: {
       type: "string",
       label: "Location ID",
-      description: "New location ID. Run the **List Locations** action to find valid IDs.",
+      description: "New location ID — a UUID, e.g. `961c6f01-5719-4f4c-8fef-4096a031f32a`. Run the **List Locations** action to find valid IDs.",
       optional: true,
     },
     directManagerId: {
       type: "string",
       label: "Direct Manager ID",
-      description: "New direct manager user ID. Run the **List Users** action to find valid IDs.",
+      description: "New direct manager user ID — a UUID, e.g. `bcc1e4ca-d38a-4cc9-98fc-e6c2066ad0ae`. Run the **List Users** action to find valid IDs.",
       optional: true,
     },
   },
   async run({ $ }) {
+    if (
+      this.role === undefined &&
+      this.departmentId === undefined &&
+      this.locationId === undefined &&
+      this.directManagerId === undefined
+    ) {
+      throw new ConfigurationError("Nothing to update: provide at least one of role, department, location, or direct manager.");
+    }
     const response = await this.ramp.updateUser({
       $,
       userId: this.userId,

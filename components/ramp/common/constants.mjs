@@ -186,6 +186,7 @@ const ROLES = [
 ];
 
 const TRANSACTION_STATES = [
+  "ALL",
   "CLEARED",
   "COMPLETION",
   "DECLINED",

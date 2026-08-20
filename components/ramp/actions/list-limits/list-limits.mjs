@@ -22,6 +22,12 @@ export default {
       max: 100,
       optional: true,
     },
+    start: {
+      type: "string",
+      label: "Start (Pagination Cursor)",
+      description: "Pagination cursor for the next page. Take the `start` query-parameter value from the previous response's `page.next` URL and pass it here.",
+      optional: true,
+    },
     fields: {
       type: "string[]",
       label: "Fields",
@@ -34,6 +40,7 @@ export default {
       $,
       params: {
         page_size: this.pageSize,
+        start: this.start,
       },
     });
     $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} limit(s)`);

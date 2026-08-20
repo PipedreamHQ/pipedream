@@ -29,6 +29,12 @@ export default {
       max: 100,
       optional: true,
     },
+    start: {
+      type: "string",
+      label: "Start (Pagination Cursor)",
+      description: "Pagination cursor for the next page. Take the `start` query-parameter value from the previous response's `page.next` URL and pass it here.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.ramp.listTransfers({
@@ -36,6 +42,7 @@ export default {
       params: {
         status: this.status,
         page_size: this.pageSize,
+        start: this.start,
       },
     });
     $.export("$summary", `Successfully retrieved ${response.data?.length ?? 0} transfer(s)`);

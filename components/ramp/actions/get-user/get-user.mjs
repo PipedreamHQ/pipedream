@@ -16,7 +16,7 @@ export default {
     userId: {
       type: "string",
       label: "User ID",
-      description: "The ID of the user to retrieve. Run the **List Users** action to find this value.",
+      description: "The ID of the user to retrieve — a UUID, e.g. `bcc1e4ca-d38a-4cc9-98fc-e6c2066ad0ae`. Run the **List Users** action to find this value.",
     },
   },
   async run({ $ }) {
