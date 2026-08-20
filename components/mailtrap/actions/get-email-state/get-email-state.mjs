@@ -2,7 +2,9 @@ import app from "../../mailtrap.app.mjs";
 
 export default {
   name: "Get Email State",
-  description: "Retrieve delivery status, events, and metadata for an outbound transactional email [See the documentation](https://help.mailtrap.io/article/109-email-sending-api)",
+  description:
+    "Retrieve delivery status, events, and metadata for an outbound transactional email [See the documentation]" +
+    "(https://docs.mailtrap.io/developers/email-sending/email-logs#get-api-email_logs-sending_message_id)",
   key: "mailtrap-get-email-state",
   version: "0.0.1",
   annotations: {

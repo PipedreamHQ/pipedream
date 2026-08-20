@@ -11,7 +11,7 @@ export default {
   name: "Send Email",
   description:
     "Send a transactional email [See the documentation]" +
-    "(https://help.mailtrap.io/article/109-email-sending-api)",
+    "(https://docs.mailtrap.io/developers/email-sending/transactional#post-api-send)",
   key: "mailtrap-send-email",
   version: "0.0.1",
   annotations: {
