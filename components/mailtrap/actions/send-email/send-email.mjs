@@ -22,11 +22,6 @@ export default {
   type: "action",
   props: {
     app,
-    syncDir: {
-      type: "dir",
-      accessMode: "read",
-      sync: true,
-    },
     fromEmail: {
       type: "string",
       label: "From Email",
@@ -290,8 +285,8 @@ export default {
         })),
       }),
       ...(replyTo && {
-        headers: {
-          "Reply-To": replyTo,
+        reply_to: {
+          email: replyTo,
         },
       }),
       ...(category && {
