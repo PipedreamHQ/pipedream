@@ -16,7 +16,10 @@ export default {
   props: {
     whoisfreaks,
     ip: {
-      propDefinition: [whoisfreaks, "ip"],
+      propDefinition: [
+        whoisfreaks,
+        "ip",
+      ],
     },
   },
   async run({ $ }) {
