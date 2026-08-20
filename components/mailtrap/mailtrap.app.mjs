@@ -22,8 +22,8 @@ export default {
       type: "string",
       label: "Suppression",
       description:
-        "The suppression ID to remove from the suppression list (shown in the dropdown" +
-        " by its email address), e.g. `25bac214-6fce-4939-bee3-abcdc8f982a8`.",
+        "The suppression ID to remove from the suppression list (associated with the email address.)," +
+        " e.g. `25bac214-6fce-4939-bee3-abcdc8f982a8`.",
       async options({ prevContext }) {
         const { lastId } = prevContext ?? {};
         const suppressions = await this.listSuppressions({
