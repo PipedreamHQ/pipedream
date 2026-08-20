@@ -45,5 +45,11 @@ export default {
     schedulePost({ $, data }) {
       return this._makeRequest({ $, method: "POST", path: "/posts", data });
     },
+    listMentions({ $, params }) {
+      return this._makeRequest({ $, path: "/mentions", params });
+    },
+    addKeyword({ $, data }) {
+      return this._makeRequest({ $, method: "POST", path: "/listening/keywords", data });
+    },
   },
 };
