@@ -667,7 +667,7 @@ export default {
       params, ...args
     } = {}) {
       return this._makeRequest({
-        path: constants.USER_SEARCH_PATH,
+        path: "/user/search",
         params: {
           maxResults: constants.DEFAULT_LIMIT,
           ...params,
@@ -686,7 +686,7 @@ export default {
       params, ...args
     } = {}) {
       return this._makeRequest({
-        path: constants.ASSIGNABLE_USER_SEARCH_PATH,
+        path: "/user/assignable/search",
         params: {
           maxResults: constants.DEFAULT_LIMIT,
           ...params,

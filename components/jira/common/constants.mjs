@@ -37,9 +37,6 @@ const USER_FIELD_TYPES = [
   "sd-request-participants",
 ];
 
-const USER_SEARCH_PATH = "/user/search";
-const ASSIGNABLE_USER_SEARCH_PATH = "/user/assignable/search";
-
 const DEFAULT_LIMIT = 50;
 
 export default {
@@ -48,7 +45,5 @@ export default {
   FIELD_KEY,
   FIELD_TYPE,
   USER_FIELD_TYPES,
-  USER_SEARCH_PATH,
-  ASSIGNABLE_USER_SEARCH_PATH,
   DEFAULT_LIMIT,
 };
