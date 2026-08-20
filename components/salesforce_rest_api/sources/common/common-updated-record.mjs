@@ -19,7 +19,7 @@ export default {
           });
           const ids = records.map((r) => r.Id);
 
-          for (const id of ids.slice(-constants.DEPLOY_HISTORICAL_LIMIT)) {
+          for (const id of ids.slice(-constants.DEPLOY_HISTORICAL_LIMIT).reverse()) {
             const object = await this.salesforce.getSObject(objectType, id);
 
             const event = {

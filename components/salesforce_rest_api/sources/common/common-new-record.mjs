@@ -18,7 +18,7 @@ export default {
           query: `SELECT Id FROM ${objectType} ORDER BY ${constants.FIELD_NAME.CREATED_DATE} DESC LIMIT ${constants.DEPLOY_HISTORICAL_LIMIT}`,
         });
         const ids = records.map((r) => r.Id);
-        for (const id of ids.slice(-constants.DEPLOY_HISTORICAL_LIMIT)) {
+        for (const id of ids.slice(-constants.DEPLOY_HISTORICAL_LIMIT).reverse()) {
           const object = await this.salesforce.getSObject(objectType, id);
           const event = {
             body: {
