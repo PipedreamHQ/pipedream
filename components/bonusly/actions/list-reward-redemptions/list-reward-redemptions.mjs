@@ -60,12 +60,15 @@ export default {
       type: "integer",
       label: "Page",
       description: "Page number to fetch, starting at `1`.",
+      min: 1,
       optional: true,
     },
     perPage: {
       type: "integer",
       label: "Per Page",
       description: "Number of redemptions to return per page.",
+      min: 1,
+      max: 100,
       optional: true,
     },
     sort: {

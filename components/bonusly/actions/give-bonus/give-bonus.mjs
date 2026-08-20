@@ -22,12 +22,14 @@ export default {
     recipients: {
       type: "string[]",
       label: "Recipients",
-      description: "One or more recipients — each entry can be a user ID, an email address, or a display name, e.g. `jane.doe@acme.com`.",
+      description: "One or more recipients — each entry can be a user ID, an email address, or a display name, e.g. `jane.doe@acme.com`."
+        + " Use the **Search Users** action to look up a user's ID or email by name.",
     },
     amount: {
       type: "integer",
       label: "Amount",
       description: "Points to give. Pass `0` only if your company allows zero-point recognition.",
+      min: 0,
     },
     reason: {
       type: "string",

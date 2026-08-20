@@ -2,8 +2,8 @@
 import bonusly from "../../bonusly.app.mjs";
 
 export default {
-  key: "bonusly-list-users",
-  name: "List Users",
+  key: "bonusly-search-users",
+  name: "Search Users",
   description:
     "Search users in the authenticated caller's company by name or email."
     + " This is a search, not a full company directory dump — a `Search Term` is"
