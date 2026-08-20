@@ -1,11 +1,10 @@
-// x-pd-ai: optimized
 import app from "../../ashby_job_postings_api.app.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
   key: "ashby_job_postings_api-list-job-postings",
   name: "List Job Postings",
-  description: "Fetch published job postings from a public Ashby job board via `GET /posting-api/job-board/{JOB_BOARD_NAME}`. Use this to list, search, or retrieve a specific posting: the public Job Board API exposes a single list-all endpoint, so all department/team/location/workplace/employment/title/jobUrl filtering is applied client-side to the returned `jobs` array. Provide the board name (the final path segment of `https://jobs.ashbyhq.com/{BOARD_NAME}`, e.g. `Ashby`). To retrieve a specific posting, filter by `title` (partial, case-insensitive) or `jobUrl` (exact match). The API returns every published posting in one non-paginated response `{ apiVersion, jobs: [...] }`. [See the documentation](https://developers.ashbyhq.com/docs/public-job-posting-api)",
+  description: "Lists every published job posting on the Ashby job board configured for the connected account. Use this to browse open roles, or to filter by department, team, location, workplace type, or employment type before drilling into one posting with **Get Job Posting**. The public Job Board API exposes a single non-paginated endpoint that returns all postings, so every filter here is applied client-side after the full list is fetched. [See the documentation](https://developers.ashbyhq.com/docs/public-job-posting-api)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -15,16 +14,11 @@ export default {
   },
   props: {
     app,
-    boardName: {
-      type: "string",
-      label: "Board Name",
-      description: "The job board identifier - the final path segment of the public board URL `https://jobs.ashbyhq.com/{BOARD_NAME}` (e.g. `Ashby`). Passed as a URL path segment to the posting API.",
-    },
     includeCompensation: {
-      type: "boolean",
-      label: "Include Compensation",
-      description: "When `true`, include the `compensation` object on each posting (maps to the `includeCompensation` query parameter). Defaults to `false`.",
-      optional: true,
+      propDefinition: [
+        app,
+        "includeCompensation",
+      ],
     },
     department: {
       type: "string",
@@ -61,20 +55,21 @@ export default {
     title: {
       type: "string",
       label: "Title",
-      description: "Optional client-side filter. Return only postings whose `title` contains this value (case-insensitive). For example, `Engineer` matches `Senior Software Engineer`. Use this to find or retrieve a specific posting by name. Applied after fetching all postings.",
+      description: "Filter to postings whose `title` contains this value, case-insensitive, e.g. `Engineer` matches `\"Senior Software Engineer\"`. Applied client-side after fetching all postings.",
       optional: true,
     },
     jobUrl: {
-      type: "string",
-      label: "Job URL",
-      description: "Optional client-side filter. Return only the posting whose `jobUrl` exactly matches this value (e.g. `https://jobs.ashbyhq.com/Ashby/abc123`). Use this to retrieve a single specific posting by its public URL. Applied after fetching all postings.",
+      propDefinition: [
+        app,
+        "jobUrl",
+      ],
+      description: "Filter to the single posting whose `jobUrl` exactly matches this value. Optional here — provide it only if you already know the exact URL; otherwise use **Get Job Posting** once you've found the posting you want.",
       optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.app.listJobPostings({
       $,
-      boardName: this.boardName,
       params: {
         includeCompensation: this.includeCompensation,
       },
@@ -109,7 +104,7 @@ export default {
       "$summary",
       `Retrieved ${jobs.length} job posting${jobs.length === 1
         ? ""
-        : "s"} from board "${this.boardName}"`,
+        : "s"}`,
     );
 
     return jobs;
