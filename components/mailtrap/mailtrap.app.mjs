@@ -22,8 +22,8 @@ export default {
       type: "string",
       label: "Suppression",
       description:
-        "A suppressed email address to remove from the suppression list (suppression ID" +
-        ", e.g. `25bac214-6fce-4939-bee3-abcdc8f982a8`).",
+        "The suppression ID to remove from the suppression list (shown in the dropdown" +
+        " by its email address), e.g. `25bac214-6fce-4939-bee3-abcdc8f982a8`.",
       async options({ prevContext }) {
         const { lastId } = prevContext ?? {};
         const suppressions = await this.listSuppressions({
@@ -40,12 +40,15 @@ export default {
           value: id,
         }));
         const isFullPage = suppressions.length === 1000;
+        if (!isFullPage) {
+          return {
+            options,
+          };
+        }
         return {
           options,
           context: {
-            lastId: isFullPage
-              ? suppressions[suppressions.length - 1].id
-              : undefined,
+            lastId: suppressions[suppressions.length - 1].id,
           },
         };
       },

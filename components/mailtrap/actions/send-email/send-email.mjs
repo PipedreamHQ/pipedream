@@ -88,6 +88,8 @@ export default {
     },
     syncDir: {
       type: "dir",
+      label: "Sync Directory",
+      description: "Read-only directory where file references are synchronized before execution.",
       accessMode: "read",
       sync: true,
       optional: true,
