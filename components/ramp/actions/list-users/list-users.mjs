@@ -47,24 +47,23 @@ export default {
       optional: true,
     },
     pageSize: {
-      type: "integer",
-      label: "Page Size",
-      description: "Number of results per page, between 2 and 100 (default 20).",
-      min: 2,
-      max: 100,
-      optional: true,
+      propDefinition: [
+        ramp,
+        "pageSize",
+      ],
     },
     start: {
-      type: "string",
-      label: "Start (Pagination Cursor)",
-      description: "Pagination cursor for the next page. Take the `start` query-parameter value from the previous response's `page.next` URL and pass it here.",
-      optional: true,
+      propDefinition: [
+        ramp,
+        "start",
+      ],
     },
     fields: {
-      type: "string[]",
-      label: "Fields",
+      propDefinition: [
+        ramp,
+        "fields",
+      ],
       description: "Optional list of user fields to include per record in addition to the compact default (e.g. `custom_fields`, `phone`, `business_id`). Leave empty for the compact summary; use **Get User** for the complete record.",
-      optional: true,
     },
   },
   async run({ $ }) {

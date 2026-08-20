@@ -14,18 +14,16 @@ export default {
   props: {
     ramp,
     pageSize: {
-      type: "integer",
-      label: "Page Size",
-      description: "Number of results per page, between 2 and 100 (default 20).",
-      min: 2,
-      max: 100,
-      optional: true,
+      propDefinition: [
+        ramp,
+        "pageSize",
+      ],
     },
     start: {
-      type: "string",
-      label: "Start (Pagination Cursor)",
-      description: "Pagination cursor for the next page. Take the `start` query-parameter value from the previous response's `page.next` URL and pass it here.",
-      optional: true,
+      propDefinition: [
+        ramp,
+        "start",
+      ],
     },
   },
   async run({ $ }) {
