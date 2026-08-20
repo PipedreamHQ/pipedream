@@ -22,7 +22,7 @@ export default {
     variables: {
       type: "object",
       label: "Variables",
-      description: "Key-value pairs passed into the task at runtime",
+      description: "Key-value pairs passed into the task at runtime, e.g. `{ \"targetUrl\": \"https://example.com\", \"dryRun\": true }`",
       optional: true,
     },
   },

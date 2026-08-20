@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../figranium.app.mjs";
 
 export default {
@@ -51,7 +52,7 @@ export default {
     actions: {
       type: "string[]",
       label: "Actions",
-      description: "Array of sequential action step objects, e.g. `{ \"type\": \"click\", \"selector\": \"#submit\" }`",
+      description: "Sequential action step objects, e.g. `{ \"type\": \"click\", \"selector\": \"#submit\" }`. Add one JSON object per entry.",
       optional: true,
     },
     variables: {
@@ -155,6 +156,14 @@ export default {
       rotateViewport,
     } = this;
 
+    const parsedActions = actions?.map((action) => {
+      try {
+        return JSON.parse(action);
+      } catch {
+        throw new ConfigurationError(`Invalid JSON in **Actions** entry: ${action}`);
+      }
+    });
+
     const response = await app.createTask({
       $,
       data: {
@@ -164,7 +173,7 @@ export default {
         description,
         selector,
         wait,
-        actions,
+        actions: parsedActions,
         variables,
         stealth,
         extractionFormat,

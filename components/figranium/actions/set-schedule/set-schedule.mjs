@@ -46,7 +46,7 @@ export default {
     cronExpression: {
       type: "string",
       label: "Cron Expression",
-      description: "A standard 5-field cron expression (minute hour day month weekday)",
+      description: "A standard 5-field cron expression (minute hour day month weekday), e.g. `0 9 * * 1-5` for 9am on weekdays. Evaluated in the Figranium server's local system timezone.",
       hidden: true,
     },
     frequency: {
