@@ -37,7 +37,10 @@ export default {
     hashtag: {
       type: "string",
       label: "Hashtag",
-      description: "One company hashtag, without the leading `#`, e.g. `teamwork`.",
+      description: "One company hashtag, without the leading `#`, e.g. `teamwork`."
+        + " Some Bonusly companies require a hashtag on every recognition — if the tool rejects the"
+        + " request for a missing hashtag, set one here.",
+      optional: true,
     },
   },
   async run({ $ }) {
@@ -50,7 +53,7 @@ export default {
     });
 
     const names = response.recipients?.map(({ name }) => name).join(", ");
-    $.export("$summary", `Gave ${this.amount} points to ${names} (bonus ID: ${response.bonus_id})`);
+    $.export("$summary", `Gave ${this.amount} points to ${names || "recipient(s)"} (bonus ID: ${response.bonus_id})`);
     return response;
   },
 };

@@ -25,16 +25,18 @@ export default {
       optional: true,
     },
     startDate: {
-      type: "string",
-      label: "Start Date",
+      propDefinition: [
+        bonusly,
+        "startDate",
+      ],
       description: "Only include redemptions on or after this date, e.g. `2026-01-01`.",
-      optional: true,
     },
     endDate: {
-      type: "string",
-      label: "End Date",
+      propDefinition: [
+        bonusly,
+        "endDate",
+      ],
       description: "Only include redemptions on or before this date, e.g. `2026-06-30`.",
-      optional: true,
     },
     unfulfilled: {
       type: "boolean",
@@ -94,7 +96,7 @@ export default {
       direction: this.direction,
     });
 
-    $.export("$summary", `Found ${response.pagination?.total_count} reward redemption(s)`);
+    $.export("$summary", `Found ${response.pagination?.total_count ?? 0} reward redemption(s)`);
     return response;
   },
 };

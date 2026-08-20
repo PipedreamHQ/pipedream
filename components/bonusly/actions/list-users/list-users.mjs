@@ -44,7 +44,7 @@ export default {
       cursor: this.cursor,
     });
 
-    $.export("$summary", `Found ${response.users?.length} user(s) matching "${this.searchTerm}"`);
+    $.export("$summary", `Found ${response.users?.length ?? 0} user(s) matching "${this.searchTerm}"`);
     return response;
   },
 };
