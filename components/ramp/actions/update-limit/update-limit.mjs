@@ -55,6 +55,9 @@ export default {
     if (hasAmount !== hasInterval) {
       throw new ConfigurationError("A spending restriction needs both an amount and an interval — provide both, or neither.");
     }
+    if (this.currencyCode !== undefined && !(hasAmount && hasInterval)) {
+      throw new ConfigurationError("Currency code only applies to a spending restriction — also provide an amount and an interval, or omit the currency.");
+    }
     const data = {};
     if (this.displayName !== undefined) {
       data.display_name = this.displayName;
