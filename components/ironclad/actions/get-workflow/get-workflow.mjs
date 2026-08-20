@@ -46,7 +46,7 @@ export default {
     if (this.fields) {
       const fieldList = this.fields.split(",").map((f) => f.trim())
         .filter(Boolean);
-      const unknownFields = fieldList.filter((f) => !(f in response));
+      const unknownFields = fieldList.filter((f) => !Object.hasOwn(response, f));
       if (unknownFields.length) {
         throw new ConfigurationError(`Unknown field(s) in \`fields\`: ${unknownFields.join(", ")}. Valid top-level keys for this workflow: ${Object.keys(response).join(", ")}.`);
       }
