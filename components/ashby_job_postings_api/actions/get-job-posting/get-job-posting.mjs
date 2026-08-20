@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import app from "../../ashby_job_postings_api.app.mjs";
 
 export default {
@@ -24,7 +25,6 @@ export default {
         app,
         "includeCompensation",
       ],
-      description: "Set to `true` to include the posting's `compensation` object (tier summary and pay range breakdown) in the result. Defaults to `false`.",
     },
   },
   async run({ $ }) {

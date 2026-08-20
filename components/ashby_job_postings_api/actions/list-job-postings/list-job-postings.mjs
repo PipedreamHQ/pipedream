@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import app from "../../ashby_job_postings_api.app.mjs";
 import constants from "../../common/constants.mjs";
 
@@ -63,7 +64,6 @@ export default {
         app,
         "jobUrl",
       ],
-      description: "Filter to the single posting whose `jobUrl` exactly matches this value. Optional here — provide it only if you already know the exact URL; otherwise use **Get Job Posting** once you've found the posting you want.",
       optional: true,
     },
   },
