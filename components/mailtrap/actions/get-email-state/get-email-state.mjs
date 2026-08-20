@@ -18,7 +18,9 @@ export default {
     sendingMessageId: {
       type: "string",
       label: "Sending Message ID",
-      description: "The Message ID returned when the email was sent (e.g. from the **Send Email** action).",
+      description:
+        "The Message ID returned when the email was sent (e.g. from the **Send Email** action)," +
+        " e.g. `bd1e78f0-9bdb-11f1-0040-f1e7b501f32a`.",
     },
   },
   async run({ $ }) {

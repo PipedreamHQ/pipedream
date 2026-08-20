@@ -21,15 +21,26 @@ export default {
       description: "Filter suppressions by a specific email address.",
       optional: true,
     },
+    lastId: {
+      type: "string",
+      label: "Last ID",
+      description: "Mailtrap returns at most 1,000 suppressions per request. To page through more, pass the `id` of the last suppression from the previous response here, e.g. `25bac214-6fce-4939-bee3-abcdc8f982a8`.",
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const { email } = this;
+    const {
+      email, lastId,
+    } = this;
 
     const response = await this.app.listSuppressions({
       $,
       params: {
         ...(email && {
           email,
+        }),
+        ...(lastId && {
+          last_id: lastId,
         }),
       },
     });
