@@ -1,4 +1,5 @@
 // x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import azureDevops from "../../azure_devops.app.mjs";
 import { COMMENT_THREAD_STATUS_OPTIONS } from "../../common/constants.mjs";
 
@@ -70,6 +71,9 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.rightFileLine && !this.filePath) {
+      throw new ConfigurationError("**Line Number** anchors the thread to a line of a file, so **File Path** is required alongside it.");
+    }
     const threadContext = this.filePath
       ? {
         filePath: this.filePath,

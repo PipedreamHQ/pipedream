@@ -4,7 +4,7 @@ import azureDevops from "../../azure_devops.app.mjs";
 export default {
   key: "azure_devops-list-work-item-comments",
   name: "List Work Item Comments",
-  description: "List the comments on a work item, newest first. Returns each comment's text, author and creation date. Use this to read the human discussion around an item before acting on it. Example: work item `299`. Returns at most **Limit** results per call - if that many come back there may be more, so raise **Skip** by **Limit** and call again to page through the rest. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/wit/comments/get-comments?view=azure-devops-rest-7.1)",
+  description: "List the comments on a work item, newest first. Returns each comment's text, author and creation date. Use this to read the human discussion around an item before acting on it. Example: work item `299`. Returns the newest **Limit** comments, up to the API maximum of 200; the response's `continuationToken` field is present when older comments were not returned. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/wit/comments/get-comments?view=azure-devops-rest-7.1)",
   version: "0.0.1",
   type: "action",
   annotations: {

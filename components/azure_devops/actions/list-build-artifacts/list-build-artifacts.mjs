@@ -4,7 +4,7 @@ import azureDevops from "../../azure_devops.app.mjs";
 export default {
   key: "azure_devops-list-build-artifacts",
   name: "List Build Artifacts",
-  description: "List the artifacts a build published, each with its download url and resource type. Use this to hand a build's output to a downstream deploy step. Example: build `4821` returns `drop`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/build/artifacts/list?view=azure-devops-rest-7.1)",
+  description: "List the artifacts a build published, each with its download url and resource type. Use this to hand a build's output to a downstream deploy step. Example: build `4821` returns `drop`. Run the **List Builds** action first to obtain the build id. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/build/artifacts/list?view=azure-devops-rest-7.1)",
   version: "0.0.1",
   type: "action",
   annotations: {

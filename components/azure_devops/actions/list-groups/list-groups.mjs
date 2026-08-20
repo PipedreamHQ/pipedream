@@ -23,7 +23,7 @@ export default {
     scopeDescriptor: {
       type: "string",
       label: "Scope Descriptor",
-      description: "Descriptor of a project or collection to scope the search to. Omit to list organization-wide groups.",
+      description: "Opaque Graph descriptor of a project or collection to scope the search to, e.g. `scp.MjQ4OWFiZDMtMzc4NC00YTU2LWEwNGItYzY2NmE4NmQ1MzYx`. Obtain it from the Azure DevOps Graph descriptors endpoint, `GET https://vssps.dev.azure.com/{organization}/_apis/graph/descriptors/{projectId}`. Omit to list organization-wide groups.",
       optional: true,
     },
     limit: {

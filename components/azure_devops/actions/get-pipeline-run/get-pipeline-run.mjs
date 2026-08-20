@@ -4,7 +4,7 @@ import azureDevops from "../../azure_devops.app.mjs";
 export default {
   key: "azure_devops-get-pipeline-run",
   name: "Get Pipeline Run",
-  description: "Retrieve one pipeline run. Returns its state, result, the resources it consumed and the template parameters it ran with. Use this to poll a run started earlier until its state reaches `completed`. Example: pipeline `12`, run `48`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/pipelines/runs/get?view=azure-devops-rest-7.1)",
+  description: "Retrieve one pipeline run. Returns its state, result, the resources it consumed and the template parameters it ran with. Use this to poll a run started earlier until its state reaches `completed`. Example: pipeline `12`, run `48`. Run the **List Pipelines** action first to obtain the pipeline id, then the **List Pipeline Runs** action for valid run ids. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/pipelines/runs/get?view=azure-devops-rest-7.1)",
   version: "0.0.1",
   type: "action",
   annotations: {

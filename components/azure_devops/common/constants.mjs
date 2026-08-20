@@ -256,3 +256,4 @@ export const PIPELINE_ROOT_FOLDER = "\\";
 
 export const DEFAULT_LIMIT = 100;
 export const MAX_LIMIT = 1000;
+export const MAX_WORK_ITEM_IDS = 200;

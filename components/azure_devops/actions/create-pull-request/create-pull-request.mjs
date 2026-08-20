@@ -74,7 +74,7 @@ export default {
     workItemIds: {
       type: "string[]",
       label: "Work Item IDs",
-      description: "IDs of work items to link to the pull request",
+      description: "Numeric IDs of work items to link to the pull request, e.g. `297`. Run the **Query Work Items (WIQL)** action first to obtain valid values.",
       optional: true,
     },
   },

@@ -40,10 +40,10 @@ export default {
       description: "Path of the wiki page to delete, e.g. `/Guides/Onboarding`",
     },
     comment: {
-      type: "string",
-      label: "Comment",
-      description: "Message recorded against the wiki commit this deletion creates",
-      optional: true,
+      propDefinition: [
+        azureDevops,
+        "wikiComment",
+      ],
     },
   },
   async run({ $ }) {

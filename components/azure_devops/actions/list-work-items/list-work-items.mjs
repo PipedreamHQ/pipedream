@@ -1,6 +1,9 @@
 // x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import azureDevops from "../../azure_devops.app.mjs";
-import { WORK_ITEM_ERROR_POLICY_OPTIONS } from "../../common/constants.mjs";
+import {
+  MAX_WORK_ITEM_IDS, WORK_ITEM_ERROR_POLICY_OPTIONS,
+} from "../../common/constants.mjs";
 
 export default {
   key: "azure_devops-list-work-items",
@@ -31,7 +34,7 @@ export default {
     ids: {
       type: "string[]",
       label: "Work Item IDs",
-      description: "IDs of the work items to retrieve (max 200 IDs)",
+      description: "IDs of the work items to retrieve, e.g. `[\"297\", \"298\", \"299\"]` (max 200 IDs)",
     },
     fields: {
       propDefinition: [
@@ -63,6 +66,9 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.ids.length > MAX_WORK_ITEM_IDS) {
+      throw new ConfigurationError(`**Work Item IDs** accepts at most ${MAX_WORK_ITEM_IDS} IDs per call, received ${this.ids.length}.`);
+    }
     const { value: workItems } = await this.azureDevops.listWorkItems({
       $,
       organization: this.organization,

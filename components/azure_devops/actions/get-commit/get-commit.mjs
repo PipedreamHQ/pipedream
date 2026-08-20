@@ -4,7 +4,7 @@ import azureDevops from "../../azure_devops.app.mjs";
 export default {
   key: "azure_devops-get-commit",
   name: "Get Commit",
-  description: "Retrieve one commit by its full 40-character SHA. Returns its author, committer, message, parents and change counts. Use this to inspect what a specific commit did before referencing it in a branch or release. Example: commit `a3fecf65a6766ebc6f2e33b66a1520b827c67ef8`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/git/commits/get-commit?view=azure-devops-rest-7.1)",
+  description: "Retrieve one commit by its full 40-character SHA. Returns its author, committer, message, parents and change counts. Use this to inspect what a specific commit did before referencing it in a branch or release. Example: commit `a3fecf65a6766ebc6f2e33b66a1520b827c67ef8`. Run the **List Commits** action first to obtain valid commit SHAs. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/git/commits/get-commit?view=azure-devops-rest-7.1)",
   version: "0.0.1",
   type: "action",
   annotations: {

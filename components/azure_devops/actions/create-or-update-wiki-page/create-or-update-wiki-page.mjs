@@ -44,10 +44,10 @@ export default {
       description: "Markdown content of the page. This replaces the whole page.",
     },
     comment: {
-      type: "string",
-      label: "Comment",
-      description: "Message recorded against the wiki commit this change creates",
-      optional: true,
+      propDefinition: [
+        azureDevops,
+        "wikiComment",
+      ],
     },
   },
   async run({ $ }) {

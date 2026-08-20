@@ -164,6 +164,12 @@ export default {
       label: "Comment",
       description: "Text of the comment. Markdown is supported.",
     },
+    wikiComment: {
+      type: "string",
+      label: "Comment",
+      description: "Message recorded against the wiki commit this change creates",
+      optional: true,
+    },
     commitId: {
       type: "string",
       label: "Commit ID",
@@ -949,8 +955,11 @@ export default {
           returnFullResponse: true,
         });
         return response.headers?.etag;
-      } catch {
-        return undefined;
+      } catch (error) {
+        if (error.response?.status === 404) {
+          return undefined;
+        }
+        throw error;
       }
     },
     createOrUpdateWikiPage({

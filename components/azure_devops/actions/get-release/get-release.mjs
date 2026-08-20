@@ -4,7 +4,7 @@ import azureDevops from "../../azure_devops.app.mjs";
 export default {
   key: "azure_devops-get-release",
   name: "Get Release",
-  description: "Retrieve one classic release. Returns its environments, each environment's deployment status, and the artifacts it carries. Use this to check whether a release reached production. Example: release `27`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/release/releases/get-release?view=azure-devops-rest-7.1)",
+  description: "Retrieve one classic release. Returns its environments, each environment's deployment status, and the artifacts it carries. Use this to check whether a release reached production. Example: release `27`. Run the **List Releases** action first to obtain the release id. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/release/releases/get-release?view=azure-devops-rest-7.1)",
   version: "0.0.1",
   type: "action",
   annotations: {

@@ -43,13 +43,13 @@ export default {
     creatorId: {
       type: "string",
       label: "Creator ID",
-      description: "Only return pull requests created by this identity GUID. Run the **List Users** action first to obtain valid values.",
+      description: "Only return pull requests created by this identity GUID, e.g. `d6245f20-2af8-44f4-9451-8107cb2767db`. Run the **List Users** action first to obtain valid values.",
       optional: true,
     },
     reviewerId: {
       type: "string",
       label: "Reviewer ID",
-      description: "Only return pull requests this identity GUID is a reviewer on. Run the **List Users** action first to obtain valid values.",
+      description: "Only return pull requests this identity GUID is a reviewer on, e.g. `d6245f20-2af8-44f4-9451-8107cb2767db`. Run the **List Users** action first to obtain valid values.",
       optional: true,
     },
     sourceRefName: {

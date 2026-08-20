@@ -5,7 +5,7 @@ import { BUILD_CANCELLING_STATUS } from "../../common/constants.mjs";
 export default {
   key: "azure_devops-cancel-build",
   name: "Cancel Build",
-  description: "Cancel a build that is still running. Returns the build with its status moved to cancelling. Use this to stop a run that has been superseded or was triggered in error. Example: build `4821`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/build/builds/update-build?view=azure-devops-rest-7.1)",
+  description: "Cancel a build that is still running. Returns the build with its status moved to cancelling. Use this to stop a run that has been superseded or was triggered in error. Example: build `4821`. Run the **List Builds** action first to obtain the build id. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/build/builds/update-build?view=azure-devops-rest-7.1)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -45,7 +45,7 @@ export default {
         status: BUILD_CANCELLING_STATUS,
       },
     });
-    $.export("$summary", `Cancelled build ${this.buildId}`);
+    $.export("$summary", `Requested cancellation of build ${this.buildId}`);
     return response;
   },
 };

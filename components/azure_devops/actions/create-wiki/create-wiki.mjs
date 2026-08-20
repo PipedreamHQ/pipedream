@@ -70,7 +70,7 @@ export default {
   async run({ $ }) {
     const isCodeWiki = this.wikiType === "codeWiki";
     if (isCodeWiki && !(this.repositoryId && this.mappedPath && this.version)) {
-      throw new ConfigurationError("**Repository**, **Mapped Path** and **Branch** are all required when **Type** is `codeWiki`.");
+      throw new ConfigurationError("**Repository**, **Mapped Path** and **Branch** are all required when **Wiki Type** is `codeWiki`.");
     }
     const project = await this.azureDevops.getProject({
       $,
