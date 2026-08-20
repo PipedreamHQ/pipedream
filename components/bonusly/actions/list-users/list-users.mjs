@@ -26,7 +26,9 @@ export default {
     pageSize: {
       type: "integer",
       label: "Page Size",
-      description: "Maximum number of users to return in this page. Defaults to Bonusly's standard page size if omitted. Maximum `100`.",
+      description: "Maximum number of users to return in this page. Defaults to Bonusly's standard page size if omitted.",
+      min: 1,
+      max: 100,
       optional: true,
     },
     cursor: {
