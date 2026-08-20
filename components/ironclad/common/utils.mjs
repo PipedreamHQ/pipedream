@@ -1,3 +1,18 @@
+import { ConfigurationError } from "@pipedream/platform";
+
+export function parseJsonObject(value, label) {
+  let parsed;
+  try {
+    parsed = JSON.parse(value);
+  } catch (err) {
+    throw new ConfigurationError(`${label} must be valid JSON: ${err.message}`);
+  }
+  if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) {
+    throw new ConfigurationError(`${label} must be a JSON object, e.g. {"key": "value"}.`);
+  }
+  return parsed;
+}
+
 export function getAttributeDescription({
   type, displayName, elementType,
 }) {
@@ -36,7 +51,7 @@ export function getAttributeDescription({
   }
   if (type === "array") {
     if (elementType.type === "document") {
-      return `${description}. Array of type \`${elementType.type}\`. Ironclad fetches this URL server-side, so it must be a real, publicly-reachable file — not a placeholder or made-up domain (a fabricated URL fails with \`CONTENT_UNAVAILABLE\`). If you don't have a specific document to upload, use this working sample PDF: \`{"url": "https://file-examples.com/storage/fe99faaddd6a870e791ac7b/2017/10/file-sample_150kB.pdf"}\`.`;
+      return `${description}. Array of type \`${elementType.type}\`. Example shape: \`{"url": "https://your-file-host.example.com/document.pdf"}\`. Ironclad fetches this URL server-side, so it must be a real, publicly-reachable file — not a placeholder or made-up domain (a fabricated URL fails with \`CONTENT_UNAVAILABLE\`).`;
     }
     if (elementType.type === "object") {
       return `${description}. Array of type \`${elementType.type}\`. See the [docs](https://developer.ironcladapp.com/docs/launch-a-workflow#32-create-request-body-attributes) for more information about field types.`;
@@ -73,6 +88,7 @@ export function inferConditionalDependencies(schema) {
     if (field.required !== "conditional") {
       continue;
     }
+    const matches = [];
     for (const [
       selectorKey,
       selectorField,
@@ -80,15 +96,17 @@ export function inferConditionalDependencies(schema) {
       if (selectorKey === key) {
         continue;
       }
-      const match = selectorField.options.values
-        .find((value) => key.toLowerCase().startsWith(slugify(value)));
-      if (match) {
-        field.dependsOn = {
-          field: selectorKey,
-          value: match,
-        };
-        break;
+      for (const value of selectorField.options.values) {
+        if (key.toLowerCase().startsWith(slugify(value))) {
+          matches.push({
+            field: selectorKey,
+            value,
+          });
+        }
       }
+    }
+    if (matches.length === 1) {
+      field.dependsOn = matches[0];
     }
   }
   return schema;

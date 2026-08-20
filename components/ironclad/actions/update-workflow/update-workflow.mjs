@@ -1,6 +1,7 @@
 // x-pd-ai: optimized
 import ironclad from "../../ironclad.app.mjs";
 import { WORKFLOW_ATTRIBUTE_UPDATE_ACTION } from "../../common/constants.mjs";
+import { parseJsonObject } from "../../common/utils.mjs";
 
 export default {
   key: "ironclad-update-workflow",
@@ -34,7 +35,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const updates = JSON.parse(this.updates);
+    const updates = parseJsonObject(this.updates, "Updates");
     const response = await this.ironclad.updateWorkflowMetadata({
       $,
       workflowId: this.workflowId,

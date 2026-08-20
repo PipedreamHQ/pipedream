@@ -1,4 +1,5 @@
 // x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import ironclad from "../../ironclad.app.mjs";
 
 export default {
@@ -45,8 +46,12 @@ export default {
     if (this.fields) {
       const fieldList = this.fields.split(",").map((f) => f.trim())
         .filter(Boolean);
+      const unknownFields = fieldList.filter((f) => !(f in response));
+      if (unknownFields.length) {
+        throw new ConfigurationError(`Unknown field(s) in \`fields\`: ${unknownFields.join(", ")}. Valid top-level keys for this workflow: ${Object.keys(response).join(", ")}.`);
+      }
       return Object.fromEntries(
-        fieldList.filter((f) => f in response).map((f) => [
+        fieldList.map((f) => [
           f,
           response[f],
         ]),
