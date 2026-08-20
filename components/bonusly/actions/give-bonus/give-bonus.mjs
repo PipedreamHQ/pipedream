@@ -53,7 +53,10 @@ export default {
     });
 
     const names = response.recipients?.map(({ name }) => name).join(", ");
-    $.export("$summary", `Gave ${this.amount} points to ${names || "recipient(s)"} (bonus ID: ${response.bonus_id})`);
+    const bonusId = response.bonus_id
+      ? ` (bonus ID: ${response.bonus_id})`
+      : "";
+    $.export("$summary", `Gave ${this.amount} points to ${names || "recipient(s)"}${bonusId}`);
     return response;
   },
 };
