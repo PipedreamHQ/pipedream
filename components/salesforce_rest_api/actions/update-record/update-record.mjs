@@ -1,9 +1,5 @@
 // x-pd-ai: optimized
-import {
-  convertFieldsToProps, getAdditionalFields,
-} from "../../common/props-utils.mjs";
 import salesforce from "../../salesforce_rest_api.app.mjs";
-import { additionalFields } from "../common/base-create-update.mjs";
 
 export default {
   key: "salesforce_rest_api-update-record",
@@ -13,9 +9,9 @@ export default {
     + " Only the fields you supply change; everything else is left as-is."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_update_fields.htm)",
-  version: "0.3.8",
+  version: "1.0.0",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -23,86 +19,35 @@ export default {
   props: {
     salesforce,
     sobjectType: {
-      propDefinition: [
-        salesforce,
-        "objectType",
-      ],
-      description: "The type of object to update a record of.",
-      reloadProps: true,
+      type: "string",
+      label: "Object Type",
+      description:
+        "The Salesforce object API name to update (e.g. `Account`, `Contact`, `Opportunity`). Prop name preserved to avoid breaking existing configs.",
     },
     recordId: {
-      propDefinition: [
-        salesforce,
-        "recordId",
-        (c) => ({
-          objType: c.sobjectType,
-        }),
-      ],
+      type: "string",
+      label: "Record ID",
       description:
-        "The record to update.",
+        "The ID of the record to update. Use **SOQL Query** to find the ID if you only have the record name.",
     },
-    fieldsToUpdate: {
-      propDefinition: [
-        salesforce,
-        "fieldsToUpdate",
-        (c) => ({
-          objType: c.sobjectType,
-        }),
-      ],
-      optional: true,
-      reloadProps: true,
+    fields: {
+      type: "object",
+      label: "Fields",
+      description:
+        "Field name -> new value pairs. Only include fields you want to change. Example: `{\"StageName\": \"Closed Won\", \"Amount\": 75000}`. Use **Describe Object** to discover valid field names.",
     },
-  },
-  methods: {
-    getAdditionalFields,
-    convertFieldsToProps,
-  },
-  async additionalProps() {
-    const {
-      sobjectType, fieldsToUpdate,
-    } = this;
-    const fields = await this.salesforce.getFieldsForObjectType(sobjectType);
-
-    // Only generate props for manually selected fields if any were selected
-    let selectedFieldProps = {};
-    if (fieldsToUpdate && fieldsToUpdate.length > 0) {
-      const selectedFields = fields.filter(({ name }) => fieldsToUpdate.includes(name));
-      selectedFieldProps = this.convertFieldsToProps(selectedFields);
-    }
-
-    return {
-      docsInfo: {
-        type: "alert",
-        alertType: "info",
-        content: `[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_${sobjectType.toLowerCase()}.htm) for information on all available fields.`,
-      },
-      ...selectedFieldProps,
-      additionalFields,
-    };
   },
   async run({ $ }) {
-    /* eslint-disable no-unused-vars */
-    const {
-      salesforce,
-      sobjectType,
-      recordId,
-      fieldsToUpdate,
-      getAdditionalFields: getData,
-      convertFieldsToProps,
-      docsInfo,
-      additionalFields,
-      ...data
-    } = this;
-    /* eslint-enable no-unused-vars */
-    const response = await this.salesforce.updateRecord(sobjectType, {
+    await this.salesforce.updateRecord(this.sobjectType, {
       $,
-      id: recordId,
-      data: {
-        ...data,
-        ...getData(),
-      },
+      id: this.recordId,
+      data: this.fields,
     });
-    $.export("$summary", `Successfully updated ${sobjectType} record (ID: ${recordId})`);
-    return response;
+    $.export("$summary", `Successfully updated ${this.sobjectType} record (ID: ${this.recordId})`);
+    return {
+      success: true,
+      objectType: this.sobjectType,
+      recordId: this.recordId,
+    };
   },
 };

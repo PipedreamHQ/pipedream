@@ -55,15 +55,6 @@ export default {
         return fields.filter(filter).map(({ name }) => name);
       },
     },
-    fieldsToUpdate: {
-      type: "string[]",
-      label: "Fields to Update",
-      description: "Select the field(s) you want to update for this record.",
-      async options({ objType }) {
-        const fields = await this.getFieldsForObjectType(objType);
-        return fields.filter((field) => field.updateable).map(({ name }) => name);
-      },
-    },
     fieldsToObtain: {
       type: "string[]",
       label: "Fields to Obtain",
@@ -72,13 +63,6 @@ export default {
         const fields = await this.getFieldsForObjectType(objType);
         return fields.map(({ name }) => name);
       },
-    },
-    useAdvancedProps: {
-      type: "boolean",
-      label: "See All Props",
-      description: "Set to true to see all available props for this object.",
-      optional: true,
-      reloadProps: true,
     },
   },
   methods: {

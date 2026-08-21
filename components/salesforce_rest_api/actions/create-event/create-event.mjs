@@ -14,7 +14,7 @@ export default {
     + " Use **Find Records** to get the `WhoId` (contact or lead) and `WhatId` (related record) you want to link."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.3.7",
+  version: "0.4.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -23,12 +23,6 @@ export default {
   type: "action",
   methods: {
     ...common.methods,
-    getObjectType() {
-      return "Event";
-    },
-    getAdvancedProps() {
-      return event.extraProps;
-    },
   },
   props: getProps({
     objType: event,
@@ -39,20 +33,15 @@ export default {
     /* eslint-disable no-unused-vars */
     const {
       salesforce,
-      getAdvancedProps,
-      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
-      useAdvancedProps,
       docsInfo,
       dateInfo,
       additionalFields,
       ActivityDate,
       EndDateTime,
-      RecurrenceEndDateOnly,
       RecurrenceStartDateTime,
-      ReminderDateTime,
-      StartDateTime,
+      RecurrenceEndDateOnly,
       RecurrenceDayOfWeekMask,
       ...data
     } = this;
@@ -64,18 +53,16 @@ export default {
         ...formatDateTimeProps({
           ActivityDate,
           EndDateTime,
-          RecurrenceEndDateOnly,
           RecurrenceStartDateTime,
-          ReminderDateTime,
-          StartDateTime,
+          RecurrenceEndDateOnly,
         }),
-        RecurrenceDayOfWeekMask: RecurrenceDayOfWeekMask?.reduce?.((acc, val) => acc + val, 0),
+        ...(RecurrenceDayOfWeekMask?.length && {
+          RecurrenceDayOfWeekMask: RecurrenceDayOfWeekMask.reduce((mask, day) => mask | day, 0),
+        }),
         ...getAdditionalFields(),
       },
     });
-    $.export("$summary", `Succcessfully created event${this.Subject
-      ? ` "${this.Subject}"`
-      : ""}`);
+    $.export("$summary", "Successfully created event");
     return response;
   },
 };
