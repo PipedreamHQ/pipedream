@@ -7,7 +7,7 @@ import {
 export default {
   key: "google_drive-list-comments",
   name: "List Comments",
-  description: "List the comments on a file, including each comment's author, plain text and HTML content, the file text it is anchored to, whether it is resolved, and its full reply thread. [See the documentation](https://developers.google.com/workspace/drive/api/reference/rest/v3/comments/list)",
+  description: "List the comments on a file, including each comment's author, plain text and HTML content, the file text it is anchored to, whether it is resolved, and its full reply thread. Use **Find File** first to resolve a file's name to its ID. [See the documentation](https://developers.google.com/workspace/drive/api/reference/rest/v3/comments/list)",
   version: "0.1.0",
   annotations: {
     destructiveHint: false,

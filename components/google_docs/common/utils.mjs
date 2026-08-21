@@ -95,9 +95,13 @@ function adjustPropDefinitions(props, app) {
  * RFC 3339 date (`2026-01-31`) or date-time (`2026-01-31T00:00:00Z`). A
  * date-time must carry a `Z` or numeric offset, as RFC 3339 requires: without
  * one, `Date.parse` silently reads it in the runner's local timezone.
+ *
+ * The time fields spell out their RFC 3339 ranges rather than using `\d{2}`,
+ * because `Date.parse` accepts the ISO 8601 end-of-day hour `24` and rolls it
+ * into the next day (`...T24:00:00Z` becomes the 1st of the next month).
  */
 const RFC_3339_REGEX =
-  /^(\d{4})-(\d{2})-(\d{2})(?:[Tt](\d{2}):(\d{2}):(\d{2})(?:\.\d+)?(?:[Zz]|[+-]\d{2}:\d{2}))?$/;
+  /^(\d{4})-(\d{2})-(\d{2})(?:[Tt]([01]\d|2[0-3]):([0-5]\d):([0-5]\d)(?:\.\d+)?(?:[Zz]|[+-]([01]\d|2[0-3]):[0-5]\d))?$/;
 
 /**
  * Validate an RFC 3339 timestamp and normalize it to a UTC ISO string.
