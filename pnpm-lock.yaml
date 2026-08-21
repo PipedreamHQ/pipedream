@@ -2063,7 +2063,11 @@ importers:
 
   components/bolt_iot: {}
 
-  components/bonusly: {}
+  components/bonusly:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/booking_experts:
     dependencies:
