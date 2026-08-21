@@ -237,7 +237,7 @@ export default {
         attachments.push({
           filename: metadata.name,
           content: buffer.toString("base64"),
-          type: metadata.mimeType,
+          type: metadata.contentType,
         });
       }
     }

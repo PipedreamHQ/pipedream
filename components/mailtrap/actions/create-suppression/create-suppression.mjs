@@ -3,7 +3,9 @@ import app from "../../mailtrap.app.mjs";
 export default {
   name: "Create Suppression",
   description:
-    "Add an email address to the suppression list so Mailtrap stops sending to it. [See the documentation]" +
+    "Suppress an email address for one domain and either the transactional or bulk stream. " +
+    "Transactional and bulk suppression scopes are separate — suppressing an address for one" +
+    " stream does not block it on the other. [See the documentation]" +
     "(https://docs.mailtrap.io/developers/email-sending/suppressions#post-api-suppressions)",
   key: "mailtrap-create-suppression",
   version: "0.0.1",
