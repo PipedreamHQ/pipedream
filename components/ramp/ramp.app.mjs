@@ -117,19 +117,32 @@ export default {
       description: "The employee's role",
       options: constants.ROLES,
     },
-    transactionState: {
-      type: "string",
-      label: "State",
-      description: "Filter transactions by the current state",
-      optional: true,
-      options: constants.TRANSACTION_STATE_OPTIONS,
-    },
     transferStatus: {
       type: "string",
       label: "Status",
       description: "Filter transfers by the current status",
       optional: true,
       options: constants.TRANSFER_STATUSES,
+    },
+    pageSize: {
+      type: "integer",
+      label: "Page Size",
+      description: "Number of results per page, between 2 and 100 (default 20).",
+      min: 2,
+      max: 100,
+      optional: true,
+    },
+    start: {
+      type: "string",
+      label: "Start (Pagination Cursor)",
+      description: "Pagination cursor for the next page. Take the `start` query-parameter value from the previous response's `page.next` URL and pass it here.",
+      optional: true,
+    },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "Optional list of fields to include per record in addition to the compact default. Leave empty for the compact summary.",
+      optional: true,
     },
   },
   methods: {
@@ -233,6 +246,80 @@ export default {
     uploadReceipt(opts = {}) {
       return this._makeRequest({
         path: "/receipts",
+        method: "POST",
+        ...opts,
+      });
+    },
+    getUser({
+      userId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/users/${userId}`,
+        ...opts,
+      });
+    },
+    updateUser({
+      userId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/users/${userId}`,
+        method: "PATCH",
+        ...opts,
+      });
+    },
+    getTransaction({
+      transactionId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/transactions/${transactionId}`,
+        ...opts,
+      });
+    },
+    listLimits(opts = {}) {
+      return this._makeRequest({
+        path: "/limits",
+        ...opts,
+      });
+    },
+    getLimit({
+      limitId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/limits/${limitId}`,
+        ...opts,
+      });
+    },
+    updateLimit({
+      limitId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/limits/${limitId}`,
+        method: "PATCH",
+        ...opts,
+      });
+    },
+    terminateLimit({
+      limitId, ...opts
+    }) {
+      // Ramp terminates limits via a deferred task (POST .../deferred/termination),
+      // not DELETE /limits/{id} (which returns 405). The body requires an
+      // idempotency_key; the endpoint returns a deferred task id.
+      return this._makeRequest({
+        path: `/limits/${limitId}/deferred/termination`,
+        method: "POST",
+        ...opts,
+      });
+    },
+    createDepartment(opts = {}) {
+      return this._makeRequest({
+        path: "/departments",
+        method: "POST",
+        ...opts,
+      });
+    },
+    createLocation(opts = {}) {
+      return this._makeRequest({
+        path: "/locations",
         method: "POST",
         ...opts,
       });

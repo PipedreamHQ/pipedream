@@ -186,6 +186,7 @@ const ROLES = [
 ];
 
 const TRANSACTION_STATES = [
+  "ALL",
   "CLEARED",
   "COMPLETION",
   "DECLINED",
@@ -211,12 +212,24 @@ const TRANSFER_STATUSES = [
   "UPLOADED",
 ];
 
+const INTERVALS = [
+  "ANNUAL",
+  "DAILY",
+  "MONTHLY",
+  "QUARTERLY",
+  "TERTIARY",
+  "TOTAL",
+  "WEEKLY",
+  "YEARLY",
+];
+
 const DEFAULT_PAGE_SIZE = 1000;
 
 export default {
   CATEGORY_CODES,
   ROLES,
   DEFAULT_PAGE_SIZE,
+  INTERVALS,
   TRANSACTION_STATES,
   TRANSFER_STATUSES,
 };
