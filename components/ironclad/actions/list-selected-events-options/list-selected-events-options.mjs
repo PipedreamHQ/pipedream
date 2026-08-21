@@ -1,14 +1,15 @@
+// x-pd-ai: optimized
 import ironclad from "../../ironclad.app.mjs";
 
 export default {
   key: "ironclad-list-selected-events-options",
   name: "List Selected Events Options",
-  description: "Retrieves available options for the Selected Events field.",
-  version: "0.0.1",
+  description: "Returns all Ironclad webhook event type names as `{label, value}` pairs. Call this to discover valid event types before configuring an Ironclad event source. Example return: `[{\"label\": \"WORKFLOW LAUNCHED\", \"value\": \"workflow_launched\"}, {\"label\": \"WORKFLOW UPDATED\", \"value\": \"workflow_updated\"}, ...]`. [See the documentation](https://developer.ironcladapp.com/reference/webhooks)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
-    openWorldHint: true,
+    openWorldHint: false,
     readOnlyHint: true,
   },
   props: {

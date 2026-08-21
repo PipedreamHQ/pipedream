@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { axios } from "@pipedream/platform";
 import events from "./sources/common/events.mjs";
 
@@ -8,7 +9,7 @@ export default {
     recordType: {
       type: "string",
       label: "Type",
-      description: "The type of the record",
+      description: "The record type identifier. Call **List Type Options** to discover valid type keys (e.g. `vendor_agreement`).",
       async options() {
         const { recordTypes } = await this.getRecordsSchema();
         return Object.entries(recordTypes).map(([
@@ -23,7 +24,7 @@ export default {
     recordId: {
       type: "string",
       label: "Record ID",
-      description: "The identifier of a record",
+      description: "The identifier of a record. Obtain via **Search Records**.",
       optional: true,
       async options({ page }) {
         const { list } = await this.listRecords({
@@ -39,25 +40,10 @@ export default {
         })) || [];
       },
     },
-    properties: {
-      type: "string[]",
-      label: "Properties",
-      description: "Properties to add to the record",
-      async options() {
-        const { properties } = await this.getRecordsSchema();
-        return Object.entries(properties).map(([
-          key,
-          value,
-        ]) => ({
-          value: key,
-          label: value.displayName,
-        }));
-      },
-    },
     templateId: {
       type: "string",
       label: "Template ID",
-      description: "The identifier of a workflow template",
+      description: "The identifier of a workflow template. Obtain via **Describe Workspace** (e.g. `tmpl_abc123`).",
       async options() {
         const { list } = await this.listWorkflowSchemas();
         return list?.map(({
@@ -71,7 +57,7 @@ export default {
     workflowId: {
       type: "string",
       label: "Workflow ID",
-      description: "The identifier of a workflow",
+      description: "The identifier of a workflow. Obtain via **Search Workflows**.",
       async options({ page }) {
         const { list } = await this.listWorkflows({
           params: {
@@ -89,7 +75,7 @@ export default {
     selectedEvents: {
       type: "string[]",
       label: "Selected Events",
-      description: "Select the Ironclad events to emit",
+      description: "Ironclad event types to listen for. Call **List Selected Events Options** to discover valid event type strings (e.g. `workflow_launched`, `workflow_completed`).",
       async options() {
         return events.map((event) => ({
           label: event.replace(/_/g, " ").toUpperCase(),
@@ -164,6 +150,14 @@ export default {
         ...opts,
       });
     },
+    getRecord({
+      recordId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/records/${recordId}`,
+        ...opts,
+      });
+    },
     listRecords(opts = {}) {
       return this._makeRequest({
         path: "/records",
@@ -190,6 +184,24 @@ export default {
       return this._makeRequest({
         method: "PATCH",
         path: `/workflows/${workflowId}/attributes`,
+        ...opts,
+      });
+    },
+    updateRecord({
+      recordId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/records/${recordId}`,
+        ...opts,
+      });
+    },
+    deleteRecord({
+      recordId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/records/${recordId}`,
         ...opts,
       });
     },
