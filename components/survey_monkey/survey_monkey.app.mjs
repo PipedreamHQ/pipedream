@@ -55,6 +55,35 @@ Alternatively, you can provide a custom *Survey ID*.`,
         }));
       },
     },
+    messageId: {
+      type: "string",
+      label: "Message",
+      description: "The invite message on the collector above. A numeric ID string, e.g. `31454399`, returned as `id` by **Create Invite Message** and by `GET /collectors/{collector_id}/messages`.",
+      async options({
+        collectorId, page,
+      }) {
+        return this._messageOptions({
+          collectorId,
+          page,
+        });
+      },
+    },
+    unsentMessageId: {
+      type: "string",
+      label: "Message",
+      description: "The invite message on the collector above, restricted to messages that have not been sent. A numeric ID string, e.g. `31454399`, returned as `id` by **Create Invite Message**. SurveyMonkey only sends a message whose `status` is `not_sent`, so `sent` and `processing` messages are left out.",
+      async options({
+        collectorId, page,
+      }) {
+        return this._messageOptions({
+          collectorId,
+          page,
+          statuses: [
+            "not_sent",
+          ],
+        });
+      },
+    },
     objectType: {
       type: "string",
       label: "Object type",
@@ -187,6 +216,81 @@ Alternatively, you can provide a custom *Survey ID*.`,
       return this._makeRequest({
         method: "GET",
         path: `/collectors/${collectorId}`,
+        ...args,
+      });
+    },
+    async createCollector({
+      surveyId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/surveys/${surveyId}/collectors`,
+        ...args,
+      });
+    },
+    // Backs both the `messageId` and `unsentMessageId` prop definitions, so
+    // the paging and labelling live in one place. One page per "load more"
+    // rather than walking every page up front; SurveyMonkey's `page` is
+    // 1-indexed where Pipedream's is 0-indexed.
+    //
+    // `statuses` filters within the page rather than in the query, because the
+    // endpoint documents no status filter. A page whose messages were all
+    // filtered out therefore comes back short, or empty, and the next page is
+    // one more "load more" away.
+    async _messageOptions({
+      collectorId, page, statuses,
+    }) {
+      if (!collectorId) {
+        return [];
+      }
+
+      const { data = [] } = await this.listMessages({
+        collectorId,
+        params: {
+          page: page + 1,
+        },
+      });
+
+      return data
+        .filter((message) => !statuses || statuses.includes(message.status))
+        .map((message) => ({
+          label: `${message.type} #${message.id} (${message.status})`,
+          value: message.id,
+        }));
+    },
+    async listMessages({
+      collectorId, ...args
+    }) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/collectors/${collectorId}/messages`,
+        ...args,
+      });
+    },
+    async createMessage({
+      collectorId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/collectors/${collectorId}/messages`,
+        ...args,
+      });
+    },
+    async addMessageRecipients({
+      collectorId, messageId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/collectors/${collectorId}/messages/${messageId}/recipients/bulk`,
+        ...args,
+      });
+    },
+    async sendMessage({
+      collectorId, messageId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/collectors/${collectorId}/messages/${messageId}/send`,
         ...args,
       });
     },
