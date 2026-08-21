@@ -42,7 +42,7 @@ export default {
     endpointIds: {
       type: "string[]",
       label: "Endpoint IDs",
-      description: "Only return the service connections with these GUIDs",
+      description: "Only return the service connections with these GUIDs, e.g. `[\"5e2c1a9f-3b7d-4c88-9f21-6a0b8d4e7c13\"]`. The values are the `id` field of a service endpoint returned by this action.",
       optional: true,
     },
     owner: {

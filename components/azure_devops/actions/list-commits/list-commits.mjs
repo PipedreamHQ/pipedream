@@ -1,4 +1,5 @@
 // x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import azureDevops from "../../azure_devops.app.mjs";
 import {
   GIT_HISTORY_MODE_OPTIONS, GIT_VERSION_MODIFIER_OPTIONS,
@@ -122,7 +123,7 @@ export default {
     ids: {
       type: "string[]",
       label: "Commit IDs",
-      description: "Only return these commit SHAs, e.g. `a3fecf65a6766ebc6f2e33b66a1520b827c67ef8`",
+      description: "Only return these commit SHAs, e.g. `a3fecf65a6766ebc6f2e33b66a1520b827c67ef8`. Azure DevOps treats this as an exclusive lookup: it cannot be combined with any other filter, though **Limit**, **Skip** and the include options still apply.",
       optional: true,
     },
     user: {
@@ -189,6 +190,35 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.ids?.length) {
+      const conflicting = Object.entries({
+        "Version": this.version,
+        "Version Type": this.versionType,
+        "Version Options": this.versionOptions,
+        "Compare Version": this.compareVersion,
+        "Compare Version Type": this.compareVersionType,
+        "Compare Version Options": this.compareVersionOptions,
+        "Author": this.author,
+        "User": this.user,
+        "Item Path": this.itemPath,
+        "From Date": this.fromDate,
+        "To Date": this.toDate,
+        "From Commit ID": this.fromCommitId,
+        "To Commit ID": this.toCommitId,
+        "History Mode": this.historyMode,
+        "Exclude Deletes": this.excludeDeletes,
+        "Show Oldest Commits First": this.showOldestCommitsFirst,
+      })
+        .filter(([
+          , value,
+        ]) => value !== undefined && value !== null && value !== "")
+        .map(([
+          label,
+        ]) => `**${label}**`);
+      if (conflicting.length) {
+        throw new ConfigurationError(`**Commit IDs** is an exclusive lookup and Azure DevOps rejects it alongside ${conflicting.join(", ")}. Remove those filters, or drop **Commit IDs**.`);
+      }
+    }
     const { value: commits } = await this.azureDevops.listCommits({
       $,
       organization: this.organization,

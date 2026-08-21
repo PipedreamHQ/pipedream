@@ -89,7 +89,7 @@ export default {
     buildIds: {
       type: "string[]",
       label: "Build IDs",
-      description: "Only return these build IDs",
+      description: "Only return these build IDs, e.g. `[\"4821\", \"4822\"]`. Run the **List Builds** action first to obtain valid values.",
       optional: true,
     },
     buildNumber: {
@@ -108,7 +108,7 @@ export default {
     requestedFor: {
       type: "string",
       label: "Requested For",
-      description: "Only return builds requested by this identity GUID. Run the **List Users** action first to obtain valid values.",
+      description: "Only return builds requested by this identity GUID, e.g. `d6245f20-2af8-44f4-9451-8107cb2767db`. Run the **List Users** action first to obtain valid values.",
       optional: true,
     },
     repositoryId: {
@@ -140,7 +140,7 @@ export default {
     queues: {
       type: "string[]",
       label: "Queue IDs",
-      description: "Only return builds that ran on these agent queue IDs",
+      description: "Only return builds that ran on these agent queue IDs, e.g. `[\"9\"]`. Queue IDs appear as `queue.id` on any build this action returns.",
       optional: true,
     },
     maxBuildsPerDefinition: {

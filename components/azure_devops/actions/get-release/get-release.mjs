@@ -52,7 +52,7 @@ export default {
     propertyFilters: {
       type: "string[]",
       label: "Property Filters",
-      description: "Extended property IDs to return values for. Omit to exclude extended properties entirely.",
+      description: "Extended property names to return values for, one per array item, e.g. `[\"releaseNotes\", \"approvedBy\"]`. These are the custom property keys stored against the release by whoever created it; the release object returns none unless named here. Omit to exclude extended properties entirely.",
       optional: true,
     },
     topGateRecords: {

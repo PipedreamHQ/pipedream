@@ -57,7 +57,7 @@ export default {
     sourceBuildId: {
       type: "integer",
       label: "Source Build ID",
-      description: "ID of the build this run is derived from. Run the **List Builds** action first to obtain valid values.",
+      description: "Positive ID of the build this run is derived from, e.g. `12345`. Run the **List Builds** action first to obtain valid values.",
       min: 1,
       optional: true,
     },
