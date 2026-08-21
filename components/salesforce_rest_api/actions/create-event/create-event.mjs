@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import event from "../../common/sobjects/event.mjs";
 
@@ -8,7 +9,11 @@ export default {
   ...common,
   key: "salesforce_rest_api-create-event",
   name: "Create Event",
-  description: `Creates an event. [See the documentation](${docsLink})`,
+  description: "Create a Salesforce calendar event (a meeting or appointment with a start and end time)."
+    + " Use **Create Task** instead for to-do items with no scheduled time."
+    + " Use **Find Records** to get the `WhoId` (contact or lead) and `WhatId` (related record) you want to link."
+    + " "
+    + `[See the documentation](${docsLink})`,
   version: "0.3.7",
   annotations: {
     destructiveHint: false,

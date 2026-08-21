@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import task from "../../common/sobjects/task.mjs";
 
@@ -8,7 +9,11 @@ export default {
   ...common,
   key: "salesforce_rest_api-create-task",
   name: "Create Task",
-  description: `Creates a task. [See the documentation](${docsLink})`,
+  description: "Create a Salesforce task (a to-do item with a due date, no specific time)."
+    + " Use **Create Event** instead for scheduled meetings with a start and end time."
+    + " Use **Find Records** to get the `WhoId` (contact or lead) and `WhatId` (related record) to link the task to."
+    + " "
+    + `[See the documentation](${docsLink})`,
   version: "0.4.7",
   annotations: {
     destructiveHint: false,

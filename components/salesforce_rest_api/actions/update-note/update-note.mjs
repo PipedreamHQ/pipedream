@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import note from "../../common/sobjects/note.mjs";
 import salesforce from "../../salesforce_rest_api.app.mjs";
@@ -19,7 +20,11 @@ export default {
   ...common,
   key: "salesforce_rest_api-update-note",
   name: "Update Note",
-  description: `Updates a classic Salesforce note, which can contain up to 32 KB of text and is associated with a parent record. [See the documentation](${docsLink})`,
+  description: "Update a classic Salesforce note (up to 32 KB of plain text)."
+    + " Use **Update Content Note** instead for enhanced rich-text notes - the two are different objects."
+    + " Supplying `Body` replaces the note text outright rather than appending to it."
+    + " "
+    + `[See the documentation](${docsLink})`,
   version: "0.0.4",
   type: "action",
   annotations: {

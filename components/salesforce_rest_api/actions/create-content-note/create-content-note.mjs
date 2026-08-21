@@ -1,5 +1,11 @@
+
+// x-pd-ai: optimized
 import common from "../common/base-create-update.mjs";
 import salesforce from "../../salesforce_rest_api.app.mjs";
+/* eslint-disable no-unused-vars */
+import common, { getProps } from "../common/base-create-update.mjs";
+import contentNote from "../../common/sobjects/content-note.mjs";
+import contentDocumentLink from "../../common/sobjects/content-document-link.mjs";
 import { NOTE_INFO_PROP } from "../../common/props-info.mjs";
 
 const docsLink = "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_contentnote.htm";
@@ -8,7 +14,13 @@ export default {
   ...common,
   key: "salesforce_rest_api-create-content-note",
   name: "Create Content Note",
-  description: `Creates a content note. [See the documentation](${docsLink}) and [Set Up Notes](https://help.salesforce.com/s/articleView?id=sales.notes_admin_setup.htm&type=5).`,
+  description: "Create an enhanced Salesforce content note (rich text, stored in Salesforce Files)."
+    + " Use this rather than **Create Note** on modern orgs; **Create Note** writes the classic plain-text note object."
+    + " Use **Update Content Note** to edit one afterwards."
+    + " "
+    + "Notes must be enabled in the org first - see [Set Up Notes](https://help.salesforce.com/s/articleView?id=sales.notes_admin_setup.htm&type=5)."
+    + " "
+    + `[See the documentation](${docsLink})`,
   version: "0.0.8",
   annotations: {
     destructiveHint: false,

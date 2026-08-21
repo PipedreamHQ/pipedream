@@ -1,9 +1,17 @@
+// x-pd-ai: optimized
+import {
+  convertFieldsToProps, getAdditionalFields,
+} from "../../common/props-utils.mjs";
 import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
   key: "salesforce_rest_api-update-email-template",
   name: "Update Email Template",
-  description: "Updates an email template. Only pass the fields you want to change. Use **SOQL Query** to find the EmailTemplate ID. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_update_fields.htm)",
+  description: "Update an existing Salesforce email template."
+    + " Use **List Email Templates** to find the template ID first."
+    + " Only the fields you supply change; everything else is left as-is."
+    + " "
+    + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_update_fields.htm)",
   version: "0.0.7",
   annotations: {
     destructiveHint: false,

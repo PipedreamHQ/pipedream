@@ -1,9 +1,17 @@
+// x-pd-ai: optimized
+import {
+  convertFieldsToProps, getAdditionalFields,
+} from "../../common/props-utils.mjs";
 import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
   key: "salesforce_rest_api-create-record",
   name: "Create Record",
-  description: "Create a record of a given object. Provide the field data as a JSON object. Use **List Objects** to discover object API names and **Describe Object** to discover valid field names and picklist values. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_sobject_create.htm)",
+  description: "Create a Salesforce record of any object type, choosing fields interactively."
+    + " Prefer **Create CRM Record** in agent and API contexts - this action builds its field list dynamically, so the available inputs are not visible until an object type is chosen."
+    + " Use **List Objects** to discover object types and **Describe Object** to discover fields."
+    + " "
+    + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_sobject_create.htm)",
   version: "0.3.7",
   annotations: {
     destructiveHint: false,

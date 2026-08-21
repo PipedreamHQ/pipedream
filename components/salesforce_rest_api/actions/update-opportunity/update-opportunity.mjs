@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import opportunity from "../../common/sobjects/opportunity.mjs";
 import salesforce from "../../salesforce_rest_api.app.mjs";
@@ -18,7 +19,11 @@ export default {
   ...common,
   key: "salesforce_rest_api-update-opportunity",
   name: "Update Opportunity",
-  description: `Updates an opportunity. [See the documentation](${docsLink})`,
+  description: "Update fields on an existing Salesforce opportunity, such as moving it to a new stage."
+    + " Use **Describe Object** on `Opportunity` to list the valid `StageName` values for your org."
+    + " Only the fields you supply change; everything else is left as-is."
+    + " "
+    + `[See the documentation](${docsLink})`,
   version: "0.3.7",
   annotations: {
     destructiveHint: false,

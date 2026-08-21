@@ -3,13 +3,13 @@ import app from "../../unirateapi.app.mjs";
 export default {
   key: "unirateapi-get-exchange-rates",
   name: "Get Exchange Rates",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
-  description: "Get the latest exchange rate(s) for a base currency. Returns a single rate when a target is provided, or all rates keyed by currency code when omitted. [See the documentation](https://unirateapi.com/docs).",
+  description: "Get the latest exchange rate(s) for a base currency. Returns a single rate when a target is provided, or all rates keyed by currency code when omitted. [See the documentation](https://unirateapi.com/apidocs).",
   type: "action",
   props: {
     app,

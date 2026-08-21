@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import account from "../../common/sobjects/account.mjs";
 
@@ -7,7 +8,11 @@ export default {
   ...common,
   key: "salesforce_rest_api-create-account",
   name: "Create Account",
-  description: `Creates a Salesforce account. [See the documentation](${docsLink})`,
+  description: "Create a Salesforce account (a company or organization record)."
+    + " Use **Describe Object** on `Account` to discover which fields your org requires before calling."
+    + " For example, `Name` `Acme Corp` creates a minimal account and returns its new record ID."
+    + " "
+    + `[See the documentation](${docsLink})`,
   version: "0.3.7",
   annotations: {
     destructiveHint: false,

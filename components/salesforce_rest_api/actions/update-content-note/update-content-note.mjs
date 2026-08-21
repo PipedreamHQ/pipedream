@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import contentNote from "../../common/sobjects/content-note.mjs";
 import salesforce from "../../salesforce_rest_api.app.mjs";
@@ -19,7 +20,13 @@ export default {
   ...common,
   key: "salesforce_rest_api-update-content-note",
   name: "Update Content Note",
-  description: `Updates a content note. [See the documentation](${docsLink})`,
+  description: "Update an enhanced Salesforce content note (rich text, stored in Salesforce Files)."
+    + " Use **Update Note** instead for classic plain-text notes - the two are different objects."
+    + " Supplying `Content` replaces the note body outright rather than appending to it."
+    + " "
+    + "Notes must be enabled in the org first - see [Set Up Notes](https://help.salesforce.com/s/articleView?id=sales.notes_admin_setup.htm&type=5)."
+    + " "
+    + `[See the documentation](${docsLink})`,
   version: "0.0.4",
   type: "action",
   annotations: {

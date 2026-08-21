@@ -1,11 +1,12 @@
+// x-pd-ai: optimized
 import app from "../../box.app.mjs";
 import utils from "../../common/utils.mjs";
 
 export default {
   name: "Get Comments",
-  description: "Fetches comments for a file. [See the documentation](https://developer.box.com/reference/get-files-id-comments/).",
+  description: "Fetches all comments on a Box file, paginating through every page and returning the full list. Use **Add Comment** to create a new comment on the file. [See the documentation](https://developer.box.com/reference/get-files-id-comments/).",
   key: "box-get-comments",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -20,7 +21,7 @@ export default {
         "parentId",
       ],
       label: "Parent Folder",
-      description: "Use this option to select your File ID from a dropdown list.",
+      description: "The parent folder of the file. Use `0` for the root folder. Use the **List Folders** action to retrieve folder IDs.",
     },
     fileId: {
       propDefinition: [
@@ -31,7 +32,7 @@ export default {
         }),
       ],
       label: "File ID",
-      description: "The file ID to get comments from. Use a custom expression to reference a file from your workflow or select it from the dropdown list.",
+      description: "The file to get comments from (e.g. `123456789`). Use the **List Folder Items** action to retrieve file IDs.",
     },
   },
   async run({ $ }) {

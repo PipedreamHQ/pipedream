@@ -31,11 +31,18 @@ export default {
       await this.whop.deleteHook(hookId);
     },
   },
-  async run({ body }) {
+  async run({
+    body, headers = {},
+  }) {
+    const webhookId = headers["webhook-id"];
+    const webhookTimestamp = headers["webhook-timestamp"];
+
     this.$emit(body, {
-      id: body.data.id,
+      id: webhookId ?? body.data.id,
       summary: this.getSummary(body.data),
-      ts: Date.parse(body.data.created_at),
+      ts: webhookTimestamp
+        ? Number(webhookTimestamp) * 1000
+        : Date.parse(body.data.created_at),
     });
   },
 };

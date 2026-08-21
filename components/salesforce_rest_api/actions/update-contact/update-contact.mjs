@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import contact from "../../common/sobjects/contact.mjs";
 import salesforce from "../../salesforce_rest_api.app.mjs";
@@ -17,7 +18,11 @@ export default {
   ...common,
   key: "salesforce_rest_api-update-contact",
   name: "Update Contact",
-  description: `Updates a contact. [See the documentation](${docsLink})`,
+  description: "Update fields on an existing Salesforce contact."
+    + " Only the fields you supply change; everything else is left as-is."
+    + " Use **Find Records** on `Contact` to get the record ID first."
+    + " "
+    + `[See the documentation](${docsLink})`,
   version: "0.3.7",
   annotations: {
     destructiveHint: false,

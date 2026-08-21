@@ -4,7 +4,7 @@ export default {
   key: "slack_v2-list-user-group-options",
   name: "List User Group Options",
   description: "Retrieves available options for the User Group field.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
