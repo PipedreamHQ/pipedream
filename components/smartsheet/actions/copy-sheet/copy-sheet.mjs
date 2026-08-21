@@ -1,5 +1,7 @@
+// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import { DESTINATION_TYPES } from "../../common/constants.mjs";
+import { toIdString } from "../../common/utils.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
 
 export default {
@@ -12,7 +14,7 @@ export default {
     + " Use **List Sheets** to find the source sheet ID."
     + " To move a sheet instead (removing it from the original location), use **Move Sheet**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/copy-sheet)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -42,7 +44,7 @@ export default {
     destinationId: {
       type: "string",
       label: "Destination ID",
-      description: "The ID of the destination workspace or folder. Required when Destination Type is `workspace` or `folder`.",
+      description: "The numeric ID of the destination workspace or folder. Required when Destination Type is `workspace` or `folder`, and must be omitted for `home`. Use **List Workspace Options** for workspace IDs or **List Folder Options** for folder IDs.",
       optional: true,
     },
   },
@@ -58,13 +60,11 @@ export default {
     const data = {
       destinationType,
     };
-    if (this.newName) data.newName = this.newName;
+    if (this.newName) {
+      data.newName = this.newName;
+    }
     if (this.destinationId) {
-      const destinationId = Number(this.destinationId);
-      if (!Number.isFinite(destinationId)) {
-        throw new ConfigurationError("`Destination ID` must be a numeric ID.");
-      }
-      data.destinationId = destinationId;
+      data.destinationId = toIdString(this.destinationId, "Destination ID");
     }
 
     const response = await this.smartsheet.copySheet(this.sheetId, {

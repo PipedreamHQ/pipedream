@@ -1,13 +1,15 @@
+// x-pd-ai: optimized
+import { mapWithConcurrency } from "../../common/utils.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
 
 export default {
   key: "smartsheet-list-workspace-templates",
   name: "List Workspace Templates",
   description:
-    "Lists templates available in your workspaces."
-    + " Use this to find template IDs for **New Sheet From Template**."
+    "Lists the templates available across your workspaces, returning each template ID, name, and workspace."
+    + " Use this to find a template ID for **New Sheet From Template**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/workspaces/get-workspace-children)",
-  version: "0.0.2",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -21,7 +23,7 @@ export default {
         smartsheet,
         "workspaceId",
       ],
-      description: "Optional. List templates from a specific workspace only. If omitted, lists templates from all workspaces.",
+      description: "Scope the listing to one workspace. Smartsheet has no list-templates endpoint, so omitting this fans out one request per workspace you can see; set it when you know where the template lives. Use **List Workspace Options** to find workspace IDs.",
     },
   },
   async run({ $ }) {
@@ -47,13 +49,32 @@ export default {
       const { data: workspaces } = await this.smartsheet.listAllWorkspaces({
         $,
       });
-      for (const ws of workspaces || []) {
-        const { data: children } = await this.smartsheet.listAllWorkspaceChildren(ws.id, {
-          $,
-          params: {
-            childrenResourceTypes: "sheets,templates",
-          },
-        });
+      // Smartsheet has no "list all templates" endpoint, so every workspace's children must
+      // be fetched. Bounded concurrency: sequential was slow, unbounded fired one request
+      // per workspace at once. A workspace that fails to traverse is skipped rather than
+      // failing the whole listing.
+      const perWorkspace = await mapWithConcurrency(workspaces || [], async (ws) => {
+        try {
+          const { data } = await this.smartsheet.listAllWorkspaceChildren(ws.id, {
+            $,
+            params: {
+              childrenResourceTypes: "sheets,templates",
+            },
+          });
+          return {
+            ws,
+            children: data,
+          };
+        } catch {
+          return {
+            ws,
+            children: [],
+          };
+        }
+      });
+      for (const {
+        ws, children,
+      } of perWorkspace) {
         for (const child of children || []) {
           if (child.resourceType === "template") {
             templates.push({

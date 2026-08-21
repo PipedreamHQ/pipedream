@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import smartsheet from "../../smartsheet.app.mjs";
 
 export default {
@@ -10,7 +11,7 @@ export default {
     + " Use **Get Sheet** or **Search** to find row IDs."
     + " To update a row after reading it, use **Update Row**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/row-get)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -27,23 +28,26 @@ export default {
     rowId: {
       type: "string",
       label: "Row ID",
-      description: "The ID of the row to retrieve (e.g. `9876543210123456`). Use **Get Sheet** or **Search** to find row IDs.",
+      description: "The numeric ID of the row to retrieve (e.g. `9876543210123456`). Use **Get Sheet** or **Search** to find row IDs - a row's position number in the UI is not its ID.",
     },
   },
   async run({ $ }) {
+    const sheetId = await this.smartsheet.resolveSheetId(this.sheetId, {
+      $,
+    });
     const [
       row,
       { byId },
     ] = await Promise.all([
-      this.smartsheet.getRow(this.sheetId, this.rowId, {
+      this.smartsheet.getRow(sheetId, this.rowId, {
         $,
       }),
-      this.smartsheet.getColumnMap(this.sheetId, {
+      this.smartsheet.getColumnMap(sheetId, {
         $,
       }),
     ]);
 
-    row.sheetId = this.sheetId;
+    row.sheetId = sheetId;
 
     row.cellsByName = {};
     for (const cell of row.cells || []) {
@@ -51,7 +55,7 @@ export default {
       row.cellsByName[name] = cell.displayValue ?? cell.value;
     }
 
-    $.export("$summary", `Retrieved row ${this.rowId} from sheet ${this.sheetId}`);
+    $.export("$summary", `Retrieved row ${this.rowId} from sheet ${sheetId}`);
     return row;
   },
 };

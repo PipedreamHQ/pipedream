@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { parseRowIds } from "../../common/utils.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
 
@@ -8,7 +9,7 @@ export default {
     "Delete one or more rows from a sheet by row ID. This is permanent and cannot be undone."
     + " Use **Get Sheet** or **Search** to find row IDs first."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/delete-rows)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: true,

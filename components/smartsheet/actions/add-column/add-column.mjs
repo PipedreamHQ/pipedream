@@ -1,16 +1,20 @@
+// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
-import { COLUMN_TYPES } from "../../common/constants.mjs";
+import {
+  COLUMN_TYPES, PICKLIST_COLUMN_TYPES,
+} from "../../common/constants.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
 
 export default {
   key: "smartsheet-add-column",
   name: "Add Column",
   description:
-    "Add a new column to a sheet. Specify the column title, type, and optionally the position and picklist options."
-    + " For PICKLIST columns, provide the `options` array with valid values."
-    + " Use **List Columns** to see existing columns before adding."
+    "Add a single column to an existing sheet, at the end or at a chosen position."
+    + " Returns the created column under `result`, including its ID."
+    + " Use **List Columns** to see the existing columns and their positions first."
+    + " To change a column that already exists, use **Update Column**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/columns/columns-addtosheet)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -29,30 +33,31 @@ export default {
       label: "Column Title",
       description: "The column title. Must be unique within the sheet.",
     },
-    type: {
+    columnType: {
       type: "string",
       label: "Column Type",
-      description: "The data type for this column.",
+      description: "The data type for this column. PICKLIST and MULTI_PICKLIST accept Picklist Options, but the API also creates them with no options (you can add options later with **Update Column**). Note that requesting DATETIME creates an ABSTRACT_DATETIME column, since DATETIME is reserved for system columns. Changing a column's type later can lose data.",
       options: COLUMN_TYPES,
     },
     index: {
       type: "integer",
       label: "Position Index",
-      description: "Zero-based position for the new column. If omitted, the column is added at the end.",
+      description: "Zero-based position for the new column. If omitted, the column is added at the end. A value past the last column is clamped by the API rather than rejected.",
+      min: 0,
       optional: true,
     },
     options: {
       type: "string",
       label: "Picklist Options",
       description:
-        "JSON array of option strings for PICKLIST columns."
+        "JSON array of option strings for a PICKLIST or MULTI_PICKLIST column. Optional: the API also creates those columns with no options."
         + " Example: `[\"Low\", \"Medium\", \"High\", \"Critical\"]`",
       optional: true,
     },
     validation: {
       type: "boolean",
       label: "Validation",
-      description: "Set to `true` to restrict cell values to the picklist options. For PICKLIST columns only.",
+      description: "Set to `true` to restrict cell values to the picklist options. PICKLIST and MULTI_PICKLIST only.",
       optional: true,
     },
   },
@@ -70,12 +75,12 @@ export default {
 
     const column = {
       title: this.title,
-      type: this.type,
+      type: this.columnType,
       index,
     };
     if (this.options) {
-      if (this.type !== "PICKLIST") {
-        throw new ConfigurationError("`Picklist Options` is only supported for PICKLIST columns.");
+      if (!PICKLIST_COLUMN_TYPES.includes(this.columnType)) {
+        throw new ConfigurationError("`Picklist Options` is only supported for PICKLIST and MULTI_PICKLIST columns.");
       }
       let parsedOptions;
       try {
@@ -92,9 +97,9 @@ export default {
       }
       column.options = parsedOptions;
     }
-    if (this.validation !== undefined) {
-      if (this.type !== "PICKLIST") {
-        throw new ConfigurationError("`Validation` is only supported for PICKLIST columns.");
+    if (this.validation) {
+      if (!PICKLIST_COLUMN_TYPES.includes(this.columnType)) {
+        throw new ConfigurationError("`Validation` is only supported for PICKLIST and MULTI_PICKLIST columns.");
       }
       column.validation = this.validation;
     }
@@ -105,7 +110,7 @@ export default {
         column,
       ],
     });
-    $.export("$summary", `Added column "${this.title}" (${this.type}) to sheet ${this.sheetId}`);
+    $.export("$summary", `Added column "${this.title}" (${this.columnType}) to sheet ${this.sheetId}`);
     return response;
   },
 };
