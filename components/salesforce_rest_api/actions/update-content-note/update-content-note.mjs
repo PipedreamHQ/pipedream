@@ -27,7 +27,7 @@ export default {
     + "Notes must be enabled in the org first - see [Set Up Notes](https://help.salesforce.com/s/articleView?id=sales.notes_admin_setup.htm&type=5)."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.1.0",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
