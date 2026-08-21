@@ -1,5 +1,5 @@
-import { ConfigurationError } from "@pipedream/platform";
 import googleDrive from "../../google_drive.app.mjs";
+import { parseRfc3339 } from "../../common/utils.mjs";
 import {
   COMMENTS_MAX_PAGE_SIZE, DEFAULT_COMMENT_LIMIT, MAX_COMMENT_LIMIT,
 } from "../../common/constants.mjs";
@@ -62,11 +62,7 @@ export default {
     };
 
     if (this.startModifiedTime) {
-      const parsed = Date.parse(this.startModifiedTime);
-      if (Number.isNaN(parsed)) {
-        throw new ConfigurationError(`Invalid Start Modified Time "${this.startModifiedTime}". Use an RFC 3339 timestamp, e.g. "2026-01-31T00:00:00Z".`);
-      }
-      args.startModifiedTime = new Date(parsed).toISOString();
+      args.startModifiedTime = parseRfc3339(this.startModifiedTime, "Start Modified Time");
     }
 
     const limit = this.limit || DEFAULT_COMMENT_LIMIT;
