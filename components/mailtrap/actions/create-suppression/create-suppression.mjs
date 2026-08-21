@@ -29,7 +29,7 @@ export default {
     sendingStream: {
       type: "string",
       label: "Sending Stream",
-      description: "The sending stream to suppress this email address for.",
+      description: "The sending stream to suppress this email address for, e.g. `transactional`.",
       options: [
         "transactional",
         "bulk",
@@ -38,7 +38,7 @@ export default {
     type: {
       type: "string",
       label: "Type",
-      description: "The reason for the suppression.",
+      description: "The reason for the suppression, e.g. `manual import`.",
       options: [
         "hard bounce",
         "unsubscription",

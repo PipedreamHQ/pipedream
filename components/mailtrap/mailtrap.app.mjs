@@ -127,7 +127,7 @@ export default {
       return this._httpRequest({
         $,
         baseURL: "https://mailtrap.io",
-        endpoint: `/api/email_logs/${sendingMessageId}`,
+        endpoint: `/api/email_logs/${encodeURIComponent(sendingMessageId)}`,
         method: "GET",
       });
     },
@@ -204,7 +204,7 @@ export default {
       return this._httpRequest({
         $,
         baseURL: "https://mailtrap.io",
-        endpoint: `/api/suppressions/${suppressionId}`,
+        endpoint: `/api/suppressions/${encodeURIComponent(suppressionId)}`,
         method: "DELETE",
       });
     },

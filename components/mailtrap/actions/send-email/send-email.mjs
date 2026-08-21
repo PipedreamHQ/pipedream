@@ -6,6 +6,7 @@ import {
 // 10 MB limits for Mailtrap API
 const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024;
 const MAX_TOTAL_ATTACHMENTS_SIZE_BYTES = 10 * 1024 * 1024;
+const BASE64_PATTERN = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
 
 export default {
   name: "Send Email",
@@ -240,7 +241,12 @@ export default {
       for (let i = 0; i < attachmentsBase64.length; i++) {
         const content = attachmentsBase64[i];
         const filename = base64AttachmentFilenames[i];
-        const decodedSize = Buffer.byteLength(content, "base64");
+
+        if (!BASE64_PATTERN.test(content)) {
+          throw new ConfigurationError(`Base64 attachment "${filename}" is invalid.`);
+        }
+
+        const decodedSize = Buffer.from(content, "base64").length;
 
         if (decodedSize > MAX_FILE_SIZE_BYTES) {
           throw new ConfigurationError(
