@@ -113,19 +113,26 @@ export default {
         password,
       } = this.$auth;
 
-      const user = appKey || username;
-      const pass = appSecret || password;
-
-      if (!user || !pass) {
-        throw new ConfigurationError(
-          `Could not read EZ Texting credentials from the connected account. Expected an app key/secret (or username/password) pair on \`$auth\`, which supplied: ${Object.keys(this.$auth).join(", ") || "nothing"}.`,
-        );
+      // One complete pair, never a field from each: picking the username and
+      // the password independently would let a half-populated app key/secret
+      // combine with a username/password into credentials belonging to neither.
+      if (appKey && appSecret) {
+        return {
+          username: appKey,
+          password: appSecret,
+        };
       }
 
-      return {
-        username: user,
-        password: pass,
-      };
+      if (username && password) {
+        return {
+          username,
+          password,
+        };
+      }
+
+      throw new ConfigurationError(
+        `Could not read EZ Texting credentials from the connected account. Expected a complete app key/secret (or username/password) pair on \`$auth\`, which supplied: ${Object.keys(this.$auth).join(", ") || "nothing"}.`,
+      );
     },
     // Kept from the scaffolded app file: it prints the field names the platform
     // supplies on `$auth`, which is how the assumption in `_auth()` gets

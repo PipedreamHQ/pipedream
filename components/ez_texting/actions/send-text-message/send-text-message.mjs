@@ -5,7 +5,7 @@ import { MESSAGE_TYPES } from "../../common/constants.mjs";
 export default {
   key: "ez_texting-send-text-message",
   name: "Send Text Message",
-  description: "Send an SMS or MMS message to one or more phone numbers, contact groups, or both. Set **Send At** to schedule the message instead of sending it immediately. [See the documentation](https://developers.eztexting.com/reference/create_3-1)",
+  description: "Send an SMS or MMS message to one or more phone numbers, contact groups, or both — at least one of **To Numbers** or **Group IDs** is required. Set **Send At** to schedule the message instead of sending it immediately. [See the documentation](https://developers.eztexting.com/reference/create_3-1)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -35,7 +35,7 @@ export default {
         app,
         "groupIds",
       ],
-      description: "IDs of the contact groups to send to. Pass the `content[].id` values returned by [`GET /v1/contact-groups`](https://developers.eztexting.com/reference/list_2-1) unchanged. Either **To Numbers** or **Group IDs** must be set.",
+      description: "Either **To Numbers** or **Group IDs** must be set.",
     },
     fromNumber: {
       propDefinition: [

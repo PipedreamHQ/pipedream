@@ -3,7 +3,7 @@ import app from "../../ez_texting.app.mjs";
 export default {
   key: "ez_texting-create-or-update-contact",
   name: "Create or Update Contact",
-  description: "Create a contact, or update the existing contact with the same phone number. [See the documentation](https://developers.eztexting.com/reference/createorupdate-1)",
+  description: "Create a contact, or update the existing contact with the same phone number. **Group IDs to Add** and **Group IDs to Remove** change which contact groups the contact belongs to, leaving any group named in neither untouched. [See the documentation](https://developers.eztexting.com/reference/createorupdate-1)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -86,7 +86,7 @@ export default {
         "groupIds",
       ],
       label: "Group IDs to Add",
-      description: "IDs of the contact groups to add this contact to. Pass the `content[].id` values returned by [`GET /v1/contact-groups`](https://developers.eztexting.com/reference/list_2-1) unchanged.",
+      description: "Groups to add this contact to.",
     },
     groupIdsRemove: {
       propDefinition: [
@@ -94,7 +94,7 @@ export default {
         "groupIds",
       ],
       label: "Group IDs to Remove",
-      description: "IDs of the contact groups to remove this contact from. Pass the `content[].id` values returned by [`GET /v1/contact-groups`](https://developers.eztexting.com/reference/list_2-1) unchanged.",
+      description: "Groups to remove this contact from.",
     },
   },
   async run({ $ }) {
