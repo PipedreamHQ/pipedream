@@ -1,50 +1,39 @@
 import common, { getProps } from "../common/base-create-update.mjs";
 import contact from "../../common/sobjects/contact.mjs";
+import salesforce from "../../salesforce_rest_api.app.mjs";
 import { docsLink } from "../create-contact/create-contact.mjs";
 
+/* eslint-disable no-unused-vars */
 const {
-  salesforce, ...props
+  salesforce: _sf, ...props
 } = getProps({
   createOrUpdate: "update",
   objType: contact,
   docsLink,
-  showDateInfo: true,
 });
+/* eslint-enable no-unused-vars */
 
 export default {
   ...common,
   key: "salesforce_rest_api-update-contact",
   name: "Update Contact",
   description: `Updates a contact. [See the documentation](${docsLink})`,
-  version: "0.3.6",
+  version: "0.3.7",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
   methods: {
     ...common.methods,
-    getObjectType() {
-      return "Contact";
-    },
-    getAdvancedProps() {
-      return contact.extraProps;
-    },
   },
   props: {
     salesforce,
     contactId: {
-      propDefinition: [
-        salesforce,
-        "recordId",
-        () => ({
-          objType: "Contact",
-          nameField: "Name",
-        }),
-      ],
+      type: "string",
       label: "Contact ID",
-      description: "The Contact to update.",
+      description: "The ID of the Contact to update. Use **SOQL Query** to find the ID.",
     },
     ...props,
   },
@@ -52,16 +41,11 @@ export default {
     /* eslint-disable no-unused-vars */
     const {
       salesforce,
-      getAdvancedProps,
-      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
       contactId,
-      useAdvancedProps,
       docsInfo,
-      dateInfo,
       additionalFields,
-      Birthdate,
       ...data
     } = this;
     /* eslint-enable no-unused-vars */
@@ -70,9 +54,6 @@ export default {
       id: contactId,
       data: {
         ...data,
-        ...formatDateTimeProps({
-          Birthdate,
-        }),
         ...getAdditionalFields(),
       },
     });

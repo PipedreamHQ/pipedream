@@ -8,7 +8,7 @@ export default {
   key: "salesforce_rest_api-create-account",
   name: "Create Account",
   description: `Creates a Salesforce account. [See the documentation](${docsLink})`,
-  version: "0.3.6",
+  version: "0.3.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -17,12 +17,6 @@ export default {
   type: "action",
   methods: {
     ...common.methods,
-    getObjectType() {
-      return "Account";
-    },
-    getAdvancedProps() {
-      return account.extraProps;
-    },
   },
   props: getProps({
     objType: account,
@@ -32,13 +26,9 @@ export default {
     /* eslint-disable no-unused-vars */
     const {
       salesforce,
-      getAdvancedProps,
-      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
-      useAdvancedProps,
       docsInfo,
-      dateInfo,
       additionalFields,
       ...data
     } = this;

@@ -7,8 +7,8 @@ export default {
   ...common,
   key: "salesforce_rest_api-create-campaign",
   name: "Create Campaign",
-  description: `Creates a marketing campaign. [See the documentation](${docsLink})`,
-  version: "0.3.6",
+  description: `Creates a campaign. [See the documentation](${docsLink})`,
+  version: "0.3.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -17,32 +17,20 @@ export default {
   type: "action",
   methods: {
     ...common.methods,
-    getObjectType() {
-      return "Campaign";
-    },
-    getAdvancedProps() {
-      return campaign.extraProps;
-    },
   },
   props: getProps({
     objType: campaign,
     docsLink,
-    showDateInfo: true,
   }),
   async run({ $ }) {
     /* eslint-disable no-unused-vars, max-len */
     const {
       salesforce,
-      getAdvancedProps,
-      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
-      useAdvancedProps,
       docsInfo,
       dateInfo,
       additionalFields,
-      StartDate,
-      EndDate,
       ...data
     } = this;
     /* eslint-enable no-unused-vars, max-len */
@@ -50,10 +38,6 @@ export default {
       $,
       data: {
         ...data,
-        ...formatDateTimeProps({
-          StartDate,
-          EndDate,
-        }),
         ...getAdditionalFields(),
       },
     });

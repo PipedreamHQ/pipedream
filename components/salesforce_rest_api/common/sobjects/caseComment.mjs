@@ -1,5 +1,3 @@
-import salesforce from "../../salesforce_rest_api.app.mjs";
-
 export default {
   initialProps: {
     CommentBody: {
@@ -9,16 +7,9 @@ export default {
       optional: true,
     },
     ParentId: {
-      propDefinition: [
-        salesforce,
-        "recordId",
-        () => ({
-          objType: "Case",
-          nameField: "CaseNumber",
-        }),
-      ],
+      type: "string",
       label: "Parent Case ID",
-      description: "ID of the parent Case.",
+      description: "ID of the parent Case. Use **SOQL Query** to find the Case ID.",
     },
     IsPublished: {
       type: "boolean",

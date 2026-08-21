@@ -4,37 +4,31 @@ import { getFileStream } from "@pipedream/platform";
 
 const docsLink = "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_attachment.htm";
 
-/* eslint-disable no-unused-vars */
-const {
-  useAdvancedProps, ...props
-} = getProps({
-  objType: attachment,
-  docsLink,
-});
-/* eslint-enable no-unused-vars */
-
 export default {
   ...common,
   key: "salesforce_rest_api-create-attachment",
   name: "Create Attachment",
   description: `Creates an Attachment on a parent object. [See the documentation](${docsLink})`,
-  version: "0.5.8",
+  version: "0.5.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
-  props,
+  props: getProps({
+    objType: attachment,
+    docsLink,
+  }),
   async run({ $ }) {
     /* eslint-disable no-unused-vars */
     const {
       salesforce,
-      getAdvancedProps,
       getAdditionalFields,
       formatDateTimeProps,
       docsInfo,
       filePathOrContent,
+      additionalFields,
       ...data
     } = this;
     /* eslint-enable no-unused-vars */
@@ -56,6 +50,7 @@ export default {
       data: {
         Body: body,
         ...data,
+        ...getAdditionalFields(),
       },
     });
     $.export("$summary", `Successfully created attachment "${this.Name}"`);

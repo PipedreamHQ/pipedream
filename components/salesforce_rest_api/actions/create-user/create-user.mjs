@@ -9,7 +9,7 @@ export default {
   key: "salesforce_rest_api-create-user",
   name: "Create User",
   description: `Creates a Salesforce user. [See the documentation](${docsLink})`,
-  version: "0.1.6",
+  version: "0.1.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -18,12 +18,6 @@ export default {
   type: "action",
   methods: {
     ...common.methods,
-    getObjectType() {
-      return "User";
-    },
-    getAdvancedProps() {
-      return user.extraProps;
-    },
   },
   props: getProps({
     objType: user,
@@ -33,13 +27,9 @@ export default {
     /* eslint-disable no-unused-vars */
     const {
       salesforce,
-      getAdvancedProps,
-      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
-      useAdvancedProps,
       docsInfo,
-      dateInfo,
       additionalFields,
       ...data
     } = this;

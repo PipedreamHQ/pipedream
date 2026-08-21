@@ -9,7 +9,7 @@ export default {
   key: "salesforce_rest_api-create-event",
   name: "Create Event",
   description: `Creates an event. [See the documentation](${docsLink})`,
-  version: "0.3.6",
+  version: "0.3.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -18,12 +18,6 @@ export default {
   type: "action",
   methods: {
     ...common.methods,
-    getObjectType() {
-      return "Event";
-    },
-    getAdvancedProps() {
-      return event.extraProps;
-    },
   },
   props: getProps({
     objType: event,
@@ -34,21 +28,13 @@ export default {
     /* eslint-disable no-unused-vars */
     const {
       salesforce,
-      getAdvancedProps,
-      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
-      useAdvancedProps,
       docsInfo,
       dateInfo,
       additionalFields,
       ActivityDate,
       EndDateTime,
-      RecurrenceEndDateOnly,
-      RecurrenceStartDateTime,
-      ReminderDateTime,
-      StartDateTime,
-      RecurrenceDayOfWeekMask,
       ...data
     } = this;
     /* eslint-enable no-unused-vars */
@@ -59,18 +45,11 @@ export default {
         ...formatDateTimeProps({
           ActivityDate,
           EndDateTime,
-          RecurrenceEndDateOnly,
-          RecurrenceStartDateTime,
-          ReminderDateTime,
-          StartDateTime,
         }),
-        RecurrenceDayOfWeekMask: RecurrenceDayOfWeekMask?.reduce?.((acc, val) => acc + val, 0),
         ...getAdditionalFields(),
       },
     });
-    $.export("$summary", `Succcessfully created event${this.Subject
-      ? ` "${this.Subject}"`
-      : ""}`);
+    $.export("$summary", "Successfully created event");
     return response;
   },
 };

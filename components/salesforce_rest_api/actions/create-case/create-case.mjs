@@ -7,8 +7,8 @@ export default {
   ...common,
   key: "salesforce_rest_api-create-case",
   name: "Create Case",
-  description: `Creates a Case, which represents a customer issue or problem. [See the documentation](${docsLink})`,
-  version: "0.3.6",
+  description: `Creates a case. [See the documentation](${docsLink})`,
+  version: "0.3.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -17,31 +17,19 @@ export default {
   type: "action",
   methods: {
     ...common.methods,
-    getObjectType() {
-      return "Case";
-    },
-    getAdvancedProps() {
-      return caseObj.extraProps;
-    },
   },
   props: getProps({
     objType: caseObj,
     docsLink,
-    showDateInfo: true,
   }),
   async run({ $ }) {
     /* eslint-disable no-unused-vars */
     const {
       salesforce,
-      getAdvancedProps,
-      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
-      useAdvancedProps,
       docsInfo,
-      dateInfo,
       additionalFields,
-      SlaStartDate,
       ...data
     } = this;
     /* eslint-enable no-unused-vars */
@@ -49,9 +37,6 @@ export default {
       $,
       data: {
         ...data,
-        ...formatDateTimeProps({
-          SlaStartDate,
-        }),
         ...getAdditionalFields(),
       },
     });

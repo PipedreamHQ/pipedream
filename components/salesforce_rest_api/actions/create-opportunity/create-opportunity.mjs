@@ -8,7 +8,7 @@ export default {
   key: "salesforce_rest_api-create-opportunity",
   name: "Create Opportunity",
   description: `Creates an opportunity. [See the documentation](${docsLink})`,
-  version: "0.3.6",
+  version: "0.3.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -17,28 +17,18 @@ export default {
   type: "action",
   methods: {
     ...common.methods,
-    getObjectType() {
-      return "Opportunity";
-    },
-    getAdvancedProps() {
-      return opportunity.extraProps;
-    },
   },
   props: getProps({
     objType: opportunity,
     docsLink,
     showDateInfo: true,
-    advancedProps: false,
   }),
   async run({ $ }) {
     /* eslint-disable no-unused-vars */
     const {
       salesforce,
-      getAdvancedProps,
-      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
-      useAdvancedProps,
       docsInfo,
       dateInfo,
       additionalFields,
