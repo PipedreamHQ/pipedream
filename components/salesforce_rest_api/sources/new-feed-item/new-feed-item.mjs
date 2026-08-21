@@ -12,7 +12,7 @@ export default {
   name: "New Chatter Feed Item (Instant or Polling)",
   key: "salesforce_rest_api-new-feed-item",
   description: "Emit new events for each Chatter FeedItem (post) created in Salesforce, polling `FeedItem` via SOQL on `CreatedDate`. Use this to react to Chatter posts on Cases and other records, since Chatter activity does not update the parent record's `LastModifiedDate` (so **New Record (Instant, of Selectable Type)** and **New Case (Instant, of Selectable Type)** never emit for it). Set `parentObjectType` to the parent object's API name (e.g. `Case`, `Opportunity`) to only emit posts whose parent record is of that type. Set `excludeSelf` to `true` to drop posts authored by the connected integration user. Note: `Body` is null for system-generated post types (e.g. `TrackedChange`). Attempts instant delivery via webhook and falls back to timer polling automatically when the Streaming API does not support this object. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_feeditem.htm)",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     ...common.props,
     parentObjectType: {
