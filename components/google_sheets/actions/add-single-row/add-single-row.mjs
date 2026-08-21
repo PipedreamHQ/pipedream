@@ -79,14 +79,9 @@ export default {
       rowIndex,
     } = this;
 
-    const { name: sheetName } = await this.googleSheets.getFile(sheetId, {
-      fields: "name",
-    });
-
-    const worksheet = await this.getWorksheetById(sheetId, worksheetId);
-
     // Parse a JSON-serialized array string before normalizing, so commas inside
-    // quoted values are not split into separate cells.
+    // quoted values are not split into separate cells. Validate before any
+    // external API call so invalid input fails fast without a wasted request.
     const parsedInput = parseArray(this.myColumnData);
     let cells = this.googleSheets.sanitizedArray(parsedInput === false
       ? this.myColumnData
@@ -101,6 +96,12 @@ export default {
     } else if (Array.isArray(cells[0])) {
       throw new ConfigurationError("Cell / Column data is a multi-dimensional array. A one-dimensional is expected. If you're trying to send multiple rows to Google Sheets, search for the action to add multiple rows to Sheets.");
     }
+
+    const { name: sheetName } = await this.googleSheets.getFile(sheetId, {
+      fields: "name",
+    });
+
+    const worksheet = await this.getWorksheetById(sheetId, worksheetId);
 
     const {
       arr: sanitizedCells,
