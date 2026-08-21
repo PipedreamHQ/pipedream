@@ -1,7 +1,7 @@
 {
   "name": "@pipedream/ez_texting",
-  "version": "0.0.3",
-  "description": "Pipedream iHomefinder Components",
+  "version": "0.1.0",
+  "description": "Pipedream EZ Texting Components",
   "main": "ez_texting.app.mjs",
   "keywords": [
     "pipedream",
@@ -11,5 +11,8 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
   }
 }
