@@ -31,7 +31,7 @@ export default {
           drive: c.drive,
         }),
       ],
-      description: "The file to list comments for. You can select a file or use a file ID from a previous step.",
+      description: "The Google Drive file ID to list comments for, for example `1AbCDefGhIJkLmNoPqRsTuVwXyZ`. Use **Find File** to look up a file ID by name.",
     },
     includeDeleted: {
       type: "boolean",
