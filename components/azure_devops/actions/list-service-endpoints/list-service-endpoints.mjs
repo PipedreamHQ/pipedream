@@ -1,5 +1,6 @@
 // x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
+import { SERVICE_ENDPOINT_ACTION_FILTER_OPTIONS } from "../../common/constants.mjs";
 
 export default {
   key: "azure_devops-list-service-endpoints",
@@ -38,6 +39,31 @@ export default {
       description: "Include service connections that are in a failed state",
       optional: true,
     },
+    endpointIds: {
+      type: "string[]",
+      label: "Endpoint IDs",
+      description: "Only return the service connections with these GUIDs",
+      optional: true,
+    },
+    owner: {
+      type: "string",
+      label: "Owner",
+      description: "Only return service connections with this owner, e.g. `library`",
+      optional: true,
+    },
+    authSchemes: {
+      type: "string[]",
+      label: "Auth Schemes",
+      description: "Only return service connections using these authorization schemes, e.g. `UsernamePassword`, `Token`",
+      optional: true,
+    },
+    actionFilter: {
+      type: "string",
+      label: "Action Filter",
+      description: "Only return service connections the caller holds this permission on",
+      options: SERVICE_ENDPOINT_ACTION_FILTER_OPTIONS,
+      optional: true,
+    },
   },
   async run({ $ }) {
     const { value: endpoints } = await this.azureDevops.listServiceEndpoints({
@@ -47,6 +73,14 @@ export default {
       params: {
         type: this.type,
         includeFailed: this.includeFailed,
+        owner: this.owner,
+        actionFilter: this.actionFilter,
+        endpointIds: this.endpointIds?.length
+          ? this.endpointIds.join(",")
+          : undefined,
+        authSchemes: this.authSchemes?.length
+          ? this.authSchemes.join(",")
+          : undefined,
       },
     });
     $.export("$summary", `Found ${endpoints.length} service endpoint${endpoints.length === 1

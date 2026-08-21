@@ -35,8 +35,6 @@ export function buildFieldPatchDocument(fields, op) {
   }));
 }
 
-export function pluralize(count, singular, plural = `${singular}s`) {
-  return count === 1
-    ? singular
-    : plural;
+export function escapeODataString(value) {
+  return String(value).replace(/'/g, "''");
 }

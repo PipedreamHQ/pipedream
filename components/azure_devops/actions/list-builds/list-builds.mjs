@@ -1,7 +1,9 @@
 // x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 import {
-  BUILD_QUERY_ORDER_OPTIONS, BUILD_RESULT_OPTIONS, BUILD_STATUS_OPTIONS,
+  BUILD_DELETED_FILTER_OPTIONS,
+  BUILD_QUERY_ORDER_OPTIONS,
+  BUILD_REASON_OPTIONS, BUILD_RESULT_OPTIONS, BUILD_STATUS_OPTIONS,
 } from "../../common/constants.mjs";
 
 export default {
@@ -84,6 +86,77 @@ export default {
       ],
       description: "Maximum number of builds to return (1-1000)",
     },
+    buildIds: {
+      type: "string[]",
+      label: "Build IDs",
+      description: "Only return these build IDs",
+      optional: true,
+    },
+    buildNumber: {
+      type: "string",
+      label: "Build Number",
+      description: "Only return builds matching this build number. Append `*` for a prefix search, e.g. `20260820.*`",
+      optional: true,
+    },
+    reasonFilter: {
+      type: "string",
+      label: "Reason",
+      description: "Only return builds started for this reason",
+      options: BUILD_REASON_OPTIONS,
+      optional: true,
+    },
+    requestedFor: {
+      type: "string",
+      label: "Requested For",
+      description: "Only return builds requested by this identity GUID. Run the **List Users** action first to obtain valid values.",
+      optional: true,
+    },
+    repositoryId: {
+      propDefinition: [
+        azureDevops,
+        "repositoryId",
+      ],
+      description: "Only return builds from this repository. Requires **Repository Type**. Run the **List Repositories** action first to obtain valid values.",
+      optional: true,
+    },
+    repositoryType: {
+      type: "string",
+      label: "Repository Type",
+      description: "Type of the repository named in **Repository**, e.g. `TfsGit`, `GitHub`",
+      optional: true,
+    },
+    tagFilters: {
+      type: "string[]",
+      label: "Tags",
+      description: "Only return builds carrying all of these tags",
+      optional: true,
+    },
+    properties: {
+      type: "string[]",
+      label: "Properties",
+      description: "Extended property names to return with each build",
+      optional: true,
+    },
+    queues: {
+      type: "string[]",
+      label: "Queue IDs",
+      description: "Only return builds that ran on these agent queue IDs",
+      optional: true,
+    },
+    maxBuildsPerDefinition: {
+      type: "integer",
+      label: "Max Builds Per Definition",
+      description: "Cap how many builds are returned for each definition",
+      min: 1,
+      optional: true,
+    },
+    deletedFilter: {
+      type: "string",
+      label: "Deleted Filter",
+      description: "Whether to exclude, include or only return deleted builds. Defaults to `excludeDeleted`.",
+      options: BUILD_DELETED_FILTER_OPTIONS,
+      optional: true,
+    },
   },
   async run({ $ }) {
     const builds = await this.azureDevops.paginate({
@@ -104,6 +177,25 @@ export default {
           queryOrder: this.queryOrder,
           minTime: this.minTime,
           maxTime: this.maxTime,
+          buildNumber: this.buildNumber,
+          reasonFilter: this.reasonFilter,
+          requestedFor: this.requestedFor,
+          repositoryId: this.repositoryId,
+          repositoryType: this.repositoryType,
+          maxBuildsPerDefinition: this.maxBuildsPerDefinition,
+          deletedFilter: this.deletedFilter,
+          buildIds: this.buildIds?.length
+            ? this.buildIds.join(",")
+            : undefined,
+          tagFilters: this.tagFilters?.length
+            ? this.tagFilters.join(",")
+            : undefined,
+          properties: this.properties?.length
+            ? this.properties.join(",")
+            : undefined,
+          queues: this.queues?.length
+            ? this.queues.join(",")
+            : undefined,
           $top: top,
           continuationToken,
         },

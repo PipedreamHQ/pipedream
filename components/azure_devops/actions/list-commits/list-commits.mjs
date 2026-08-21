@@ -1,5 +1,8 @@
 // x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
+import {
+  GIT_HISTORY_MODE_OPTIONS, GIT_VERSION_MODIFIER_OPTIONS,
+} from "../../common/constants.mjs";
 
 export default {
   key: "azure_devops-list-commits",
@@ -87,6 +90,103 @@ export default {
         "skip",
       ],
     },
+    versionOptions: {
+      type: "string",
+      label: "Version Options",
+      description: "Modifier applied to **Version**, e.g. `previousChange` to start from the commit before it",
+      options: GIT_VERSION_MODIFIER_OPTIONS,
+      optional: true,
+    },
+    compareVersion: {
+      type: "string",
+      label: "Compare Version",
+      description: "Return only commits between **Version** and this branch, tag or commit",
+      optional: true,
+    },
+    compareVersionType: {
+      propDefinition: [
+        azureDevops,
+        "gitVersionType",
+      ],
+      label: "Compare Version Type",
+      description: "How to interpret **Compare Version**. Defaults to `branch`.",
+      optional: true,
+    },
+    compareVersionOptions: {
+      type: "string",
+      label: "Compare Version Options",
+      description: "Modifier applied to **Compare Version**",
+      options: GIT_VERSION_MODIFIER_OPTIONS,
+      optional: true,
+    },
+    ids: {
+      type: "string[]",
+      label: "Commit IDs",
+      description: "Only return these commit SHAs, e.g. `a3fecf65a6766ebc6f2e33b66a1520b827c67ef8`",
+      optional: true,
+    },
+    user: {
+      type: "string",
+      label: "User",
+      description: "Alias or display name of the committer to filter by. **Author** filters on who wrote the change instead.",
+      optional: true,
+    },
+    fromCommitId: {
+      type: "string",
+      label: "From Commit ID",
+      description: "Walk history starting at this commit SHA, e.g. `a3fecf65a6766ebc6f2e33b66a1520b827c67ef8`. Run the **List Commits** action without a range first to obtain valid SHAs.",
+      optional: true,
+    },
+    toCommitId: {
+      type: "string",
+      label: "To Commit ID",
+      description: "Walk history up to this commit SHA, e.g. `a3fecf65a6766ebc6f2e33b66a1520b827c67ef8`. Run the **List Commits** action without a range first to obtain valid SHAs.",
+      optional: true,
+    },
+    historyMode: {
+      type: "string",
+      label: "History Mode",
+      description: "How merge commits are walked when **Item Path** is set. Defaults to `simplifiedHistory`.",
+      options: GIT_HISTORY_MODE_OPTIONS,
+      optional: true,
+    },
+    excludeDeletes: {
+      type: "boolean",
+      label: "Exclude Deletes",
+      description: "Exclude commits whose only change to **Item Path** was deleting it",
+      optional: true,
+    },
+    showOldestCommitsFirst: {
+      type: "boolean",
+      label: "Show Oldest Commits First",
+      description: "Return the oldest commits first instead of the newest",
+      optional: true,
+    },
+    includeWorkItems: {
+      type: "boolean",
+      label: "Include Work Items",
+      description: "Include the work items associated with each commit. Use this to tie delivered code back to the stories it closed.",
+      optional: true,
+    },
+    includePushData: {
+      type: "boolean",
+      label: "Include Push Data",
+      description: "Include the push each commit arrived in",
+      optional: true,
+    },
+    includeUserImageUrl: {
+      type: "boolean",
+      label: "Include User Image URL",
+      description: "Include avatar urls for the author and committer",
+      optional: true,
+    },
+    includeLinks: {
+      propDefinition: [
+        azureDevops,
+        "includeLinks",
+      ],
+      description: "Include reference links for each commit",
+    },
   },
   async run({ $ }) {
     const { value: commits } = await this.azureDevops.listCommits({
@@ -103,6 +203,23 @@ export default {
         "searchCriteria.toDate": this.toDate,
         "searchCriteria.$top": this.limit,
         "searchCriteria.$skip": this.skip,
+        "searchCriteria.itemVersion.versionOptions": this.versionOptions,
+        "searchCriteria.compareVersion.version": this.compareVersion,
+        "searchCriteria.compareVersion.versionType": this.compareVersionType,
+        "searchCriteria.compareVersion.versionOptions": this.compareVersionOptions,
+        "searchCriteria.user": this.user,
+        "searchCriteria.fromCommitId": this.fromCommitId,
+        "searchCriteria.toCommitId": this.toCommitId,
+        "searchCriteria.historyMode": this.historyMode,
+        "searchCriteria.excludeDeletes": this.excludeDeletes,
+        "searchCriteria.showOldestCommitsFirst": this.showOldestCommitsFirst,
+        "searchCriteria.includeWorkItems": this.includeWorkItems,
+        "searchCriteria.includePushData": this.includePushData,
+        "searchCriteria.includeUserImageUrl": this.includeUserImageUrl,
+        "searchCriteria.includeLinks": this.includeLinks,
+        "searchCriteria.ids": this.ids?.length
+          ? this.ids.join(",")
+          : undefined,
       },
     });
     $.export("$summary", `Found ${commits.length} commit${commits.length === 1

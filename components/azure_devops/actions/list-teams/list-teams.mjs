@@ -44,6 +44,12 @@ export default {
         "skip",
       ],
     },
+    expandIdentity: {
+      type: "boolean",
+      label: "Expand Identity",
+      description: "Expand the identity information held against each team",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const { value: teams } = await this.azureDevops.listTeams({
@@ -54,6 +60,7 @@ export default {
         $mine: this.mine,
         $top: this.limit,
         $skip: this.skip,
+        $expandIdentity: this.expandIdentity,
       },
     });
     $.export("$summary", `Found ${teams.length} team${teams.length === 1

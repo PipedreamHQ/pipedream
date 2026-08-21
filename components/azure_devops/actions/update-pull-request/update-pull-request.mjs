@@ -73,10 +73,11 @@ export default {
       optional: true,
     },
     isDraft: {
-      type: "boolean",
-      label: "Is Draft",
+      propDefinition: [
+        azureDevops,
+        "isDraft",
+      ],
       description: "Set to `false` to publish a draft pull request",
-      optional: true,
     },
   },
   async run({ $ }) {

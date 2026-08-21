@@ -31,10 +31,11 @@ export default {
       description: "Name of the new project (max 64 chars, cannot contain `/ : \\ ~ & % ; @ ' \" ? < > | # $ * } { , + = [ ]`)",
     },
     description: {
-      type: "string",
-      label: "Description",
+      propDefinition: [
+        azureDevops,
+        "description",
+      ],
       description: "Description of the new project",
-      optional: true,
     },
     visibility: {
       type: "string",

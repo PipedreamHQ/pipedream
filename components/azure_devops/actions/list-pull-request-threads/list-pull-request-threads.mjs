@@ -38,6 +38,20 @@ export default {
         "pullRequestId",
       ],
     },
+    iteration: {
+      type: "integer",
+      label: "Iteration",
+      description: "Track thread positions against this pull request iteration as the right side of the diff",
+      min: 1,
+      optional: true,
+    },
+    baseIteration: {
+      type: "integer",
+      label: "Base Iteration",
+      description: "Track thread positions against this pull request iteration as the left side of the diff",
+      min: 1,
+      optional: true,
+    },
   },
   async run({ $ }) {
     const { value: threads } = await this.azureDevops.listPullRequestThreads({
@@ -46,6 +60,10 @@ export default {
       project: this.project,
       repositoryId: this.repositoryId,
       pullRequestId: this.pullRequestId,
+      params: {
+        $iteration: this.iteration,
+        $baseIteration: this.baseIteration,
+      },
     });
     $.export("$summary", `Found ${threads.length} comment thread${threads.length === 1
       ? ""

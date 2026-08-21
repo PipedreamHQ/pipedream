@@ -1,5 +1,8 @@
 // x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
+import {
+  RELEASE_APPROVAL_FILTER_OPTIONS, RELEASE_EXPAND_OPTIONS,
+} from "../../common/constants.mjs";
 
 export default {
   key: "azure_devops-get-release",
@@ -32,6 +35,33 @@ export default {
         "releaseId",
       ],
     },
+    expand: {
+      type: "string",
+      label: "Expand",
+      description: "Extra detail to expand in the release. `tasks` includes each deployment's task records.",
+      options: RELEASE_EXPAND_OPTIONS,
+      optional: true,
+    },
+    approvalFilters: {
+      type: "string",
+      label: "Approval Filters",
+      description: "Which approval steps and approval snapshots to include. Defaults to `all`.",
+      options: RELEASE_APPROVAL_FILTER_OPTIONS,
+      optional: true,
+    },
+    propertyFilters: {
+      type: "string[]",
+      label: "Property Filters",
+      description: "Extended property IDs to return values for. Omit to exclude extended properties entirely.",
+      optional: true,
+    },
+    topGateRecords: {
+      type: "integer",
+      label: "Top Gate Records",
+      description: "Number of release gate records to return (defaults to 5)",
+      min: 1,
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.azureDevops.getRelease({
@@ -39,6 +69,14 @@ export default {
       organization: this.organization,
       project: this.project,
       releaseId: this.releaseId,
+      params: {
+        $expand: this.expand,
+        $topGateRecords: this.topGateRecords,
+        approvalFilters: this.approvalFilters,
+        propertyFilters: this.propertyFilters?.length
+          ? this.propertyFilters.join(",")
+          : undefined,
+      },
     });
     $.export("$summary", `Retrieved release ${response.id}: ${response.name}`);
     return response;

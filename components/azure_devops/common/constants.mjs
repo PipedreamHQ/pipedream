@@ -4,6 +4,10 @@ export const VSSPS_BASE_URL = "https://vssps.dev.azure.com";
 export const VSRM_BASE_URL = "https://vsrm.dev.azure.com";
 export const ACCOUNTS_BASE_URL = "https://app.vssps.visualstudio.com";
 
+export const ANALYTICS_BASE_URL = "https://analytics.dev.azure.com";
+export const ANALYTICS_ODATA_VERSION = "v4.0-preview";
+export const COMPLETED_STATE_CATEGORY = "Completed";
+
 export const DEFAULT_API_VERSION = "7.1";
 export const GRAPH_API_VERSION = "7.1-preview.1";
 export const WORK_ITEM_COMMENTS_API_VERSION = "7.0-preview.3";
@@ -151,6 +155,12 @@ export const GIT_VERSION_TYPE_OPTIONS = [
   "tag",
 ];
 
+export const WIKI_RECURSION_LEVEL_OPTIONS = [
+  "none",
+  "oneLevel",
+  "full",
+];
+
 export const RECURSION_LEVEL_OPTIONS = [
   "none",
   "oneLevel",
@@ -220,6 +230,68 @@ export const RELEASE_STATUS_OPTIONS = [
   "undefined",
 ];
 
+export const GIT_HISTORY_MODE_OPTIONS = [
+  "simplifiedHistory",
+  "firstParent",
+  "fullHistory",
+  "fullHistorySimplifyMerges",
+];
+
+export const GIT_VERSION_MODIFIER_OPTIONS = [
+  "none",
+  "previousChange",
+  "firstParent",
+];
+
+export const BUILD_DELETED_FILTER_OPTIONS = [
+  "excludeDeleted",
+  "includeDeleted",
+  "onlyDeleted",
+];
+
+export const BUILD_REASON_OPTIONS = [
+  "none",
+  "manual",
+  "individualCI",
+  "batchedCI",
+  "schedule",
+  "scheduleForced",
+  "userCreated",
+  "validateShelveset",
+  "checkInShelveset",
+  "pullRequest",
+  "buildCompletion",
+  "resourceTrigger",
+  "triggered",
+  "all",
+];
+
+export const RELEASE_APPROVAL_FILTER_OPTIONS = [
+  "none",
+  "manualApprovals",
+  "automatedApprovals",
+  "approvalSnapshots",
+  "all",
+];
+
+export const RELEASE_EXPAND_OPTIONS = [
+  "none",
+  "tasks",
+];
+
+export const SERVICE_ENDPOINT_ACTION_FILTER_OPTIONS = [
+  "none",
+  "manage",
+  "use",
+  "view",
+];
+
+export const WORK_ITEM_FIELD_EXPAND_OPTIONS = [
+  "none",
+  "extensionFields",
+  "includeDeleted",
+];
+
 export const WIKI_TYPE_OPTIONS = [
   {
     label: "Project wiki (Azure DevOps provisions the backing repository)",
@@ -257,3 +329,7 @@ export const PIPELINE_ROOT_FOLDER = "\\";
 export const DEFAULT_LIMIT = 100;
 export const MAX_LIMIT = 1000;
 export const MAX_WORK_ITEM_IDS = 200;
+
+export const ITERATION_TIMEFRAME_OPTIONS = [
+  "current",
+];

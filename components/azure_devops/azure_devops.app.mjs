@@ -4,6 +4,8 @@ import {
 } from "@pipedream/platform";
 import {
   ACCOUNTS_BASE_URL,
+  ANALYTICS_BASE_URL,
+  ANALYTICS_ODATA_VERSION,
   BASE_URL,
   CONTINUATION_TOKEN_HEADER,
   DEFAULT_API_VERSION,
@@ -51,6 +53,11 @@ export default {
       type: "string",
       label: "Team",
       description: "Team ID or team name. Run the **List Teams** action first to obtain valid values.",
+    },
+    iterationId: {
+      type: "string",
+      label: "Iteration",
+      description: "GUID of the team iteration. Run the **List Team Iterations** action first to obtain valid values.",
     },
     repositoryId: {
       type: "string",
@@ -170,6 +177,39 @@ export default {
       description: "Message recorded against the wiki commit this change creates",
       optional: true,
     },
+    branchName: {
+      type: "string",
+      label: "Branch",
+      description: "Branch name without the `refs/heads/` prefix, e.g. `main`",
+    },
+    content: {
+      type: "string",
+      label: "Content",
+      description: "Content to write. Replaces what is there rather than appending to it.",
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "Description of the resource",
+      optional: true,
+    },
+    includeLinks: {
+      type: "boolean",
+      label: "Include Links",
+      description: "Include reference links in each returned item",
+      optional: true,
+    },
+    isDraft: {
+      type: "boolean",
+      label: "Is Draft",
+      description: "Create the resource in a draft state rather than publishing it",
+      optional: true,
+    },
+    reviewerId: {
+      type: "string",
+      label: "Reviewer ID",
+      description: "Identity GUID of a reviewer, e.g. `d6245f20-2af8-44f4-9451-8107cb2767db`. Run the **List Users** action first to obtain valid values.",
+    },
     commitId: {
       type: "string",
       label: "Commit ID",
@@ -286,10 +326,12 @@ export default {
           ...this._headers(useOAuth),
           ...headers,
         },
-        params: {
-          ...params,
-          "api-version": apiVersion,
-        },
+        params: apiVersion
+          ? {
+            ...params,
+            "api-version": apiVersion,
+          }
+          : params,
         ...otherArgs,
       };
       try {
@@ -315,6 +357,13 @@ export default {
         organization,
         project,
         `/_apis/git/repositories/${encodeURIComponent(repositoryId)}${suffix}`,
+      );
+    },
+    _teamPath(organization, project, team, suffix) {
+      return this._projectPath(
+        organization,
+        project,
+        `/${encodeURIComponent(team)}/_apis/work${suffix}`,
       );
     },
     async paginate({
@@ -366,6 +415,18 @@ export default {
         method: "DELETE",
         path: this._orgPath(organization, `/_apis/hooks/subscriptions/${subscriptionId}`),
         apiVersion: LEGACY_API_VERSION,
+        ...args,
+      });
+    },
+    queryAnalytics({
+      organization, project, entitySet, ...args
+    }) {
+      const scope = project
+        ? `/${encodeURIComponent(project)}`
+        : "";
+      return this._makeRequest({
+        url: `${ANALYTICS_BASE_URL}/${encodeURIComponent(organization)}${scope}/_odata/${ANALYTICS_ODATA_VERSION}/${entitySet}`,
+        apiVersion: null,
         ...args,
       });
     },
@@ -429,6 +490,74 @@ export default {
           organization,
           `/_apis/projects/${encodeURIComponent(projectId)}/teams/${encodeURIComponent(teamId)}/members`,
         ),
+        ...args,
+      });
+    },
+    listTeamIterations({
+      organization, project, teamId, ...args
+    }) {
+      return this._makeRequest({
+        path: this._teamPath(organization, project, teamId, "/teamsettings/iterations"),
+        ...args,
+      });
+    },
+    getTeamIteration({
+      organization, project, teamId, iterationId, ...args
+    }) {
+      return this._makeRequest({
+        path: this._teamPath(
+          organization,
+          project,
+          teamId,
+          `/teamsettings/iterations/${encodeURIComponent(iterationId)}`,
+        ),
+        ...args,
+      });
+    },
+    listIterationWorkItems({
+      organization, project, teamId, iterationId, ...args
+    }) {
+      return this._makeRequest({
+        path: this._teamPath(
+          organization,
+          project,
+          teamId,
+          `/teamsettings/iterations/${encodeURIComponent(iterationId)}/workitems`,
+        ),
+        ...args,
+      });
+    },
+    listTeamCapacities({
+      organization, project, teamId, iterationId, ...args
+    }) {
+      return this._makeRequest({
+        path: this._teamPath(
+          organization,
+          project,
+          teamId,
+          `/teamsettings/iterations/${encodeURIComponent(iterationId)}/capacities`,
+        ),
+        ...args,
+      });
+    },
+    listTeamDaysOff({
+      organization, project, teamId, iterationId, ...args
+    }) {
+      return this._makeRequest({
+        path: this._teamPath(
+          organization,
+          project,
+          teamId,
+          `/teamsettings/iterations/${encodeURIComponent(iterationId)}/teamdaysoff`,
+        ),
+        ...args,
+      });
+    },
+    getTeamSettings({
+      organization, project, teamId, ...args
+    }) {
+      return this._makeRequest({
+        path: this._teamPath(organization, project, teamId, "/teamsettings"),
         ...args,
       });
     },

@@ -1,5 +1,6 @@
 // x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
+import { WORK_ITEM_FIELD_EXPAND_OPTIONS } from "../../common/constants.mjs";
 
 export default {
   key: "azure_devops-list-work-item-fields",
@@ -27,12 +28,22 @@ export default {
       ],
       optional: true,
     },
+    expand: {
+      type: "string",
+      label: "Expand",
+      description: "Extra field categories to include. `extensionFields` adds fields contributed by extensions, `includeDeleted` adds fields that have been deleted.",
+      options: WORK_ITEM_FIELD_EXPAND_OPTIONS,
+      optional: true,
+    },
   },
   async run({ $ }) {
     const { value: fields } = await this.azureDevops.listWorkItemFields({
       $,
       organization: this.organization,
       project: this.project,
+      params: {
+        $expand: this.expand,
+      },
     });
     $.export("$summary", `Found ${fields.length} work item field${fields.length === 1
       ? ""

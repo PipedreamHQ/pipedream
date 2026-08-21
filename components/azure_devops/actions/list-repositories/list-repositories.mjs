@@ -29,10 +29,11 @@ export default {
       optional: true,
     },
     includeLinks: {
-      type: "boolean",
-      label: "Include Links",
+      propDefinition: [
+        azureDevops,
+        "includeLinks",
+      ],
       description: "Include reference links for each repository",
-      optional: true,
     },
     includeHidden: {
       type: "boolean",

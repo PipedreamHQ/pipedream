@@ -35,7 +35,10 @@ export default {
       ],
     },
     branchName: {
-      type: "string",
+      propDefinition: [
+        azureDevops,
+        "branchName",
+      ],
       label: "New Branch Name",
       description: "Name of the branch to create, without the `refs/heads/` prefix, e.g. `feature/login`",
     },

@@ -1,5 +1,6 @@
 // x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
+import { WIKI_RECURSION_LEVEL_OPTIONS } from "../../common/constants.mjs";
 
 export default {
   key: "azure_devops-get-wiki-page",
@@ -42,11 +43,7 @@ export default {
       type: "string",
       label: "Recursion Level",
       description: "Include the page's sub-pages. Defaults to `none`.",
-      options: [
-        "none",
-        "oneLevel",
-        "full",
-      ],
+      options: WIKI_RECURSION_LEVEL_OPTIONS,
       optional: true,
     },
   },

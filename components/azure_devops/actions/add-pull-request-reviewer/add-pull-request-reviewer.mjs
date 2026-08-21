@@ -40,9 +40,11 @@ export default {
       ],
     },
     reviewerId: {
-      type: "string",
-      label: "Reviewer ID",
-      description: "Identity GUID of the user or group to add as a reviewer. Run the **List Users** action first to obtain valid values.",
+      propDefinition: [
+        azureDevops,
+        "reviewerId",
+      ],
+      description: "Identity GUID of the user or group to add as a reviewer, e.g. `d6245f20-2af8-44f4-9451-8107cb2767db`. Run the **List Users** action first to obtain valid values.",
     },
     vote: {
       type: "integer",

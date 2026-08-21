@@ -34,16 +34,18 @@ export default {
       ],
     },
     description: {
-      type: "string",
-      label: "Description",
+      propDefinition: [
+        azureDevops,
+        "description",
+      ],
       description: "Description of the release",
-      optional: true,
     },
     isDraft: {
-      type: "boolean",
-      label: "Is Draft",
+      propDefinition: [
+        azureDevops,
+        "isDraft",
+      ],
       description: "Create the release in draft mode instead of starting it",
-      optional: true,
     },
     artifacts: {
       type: "string",

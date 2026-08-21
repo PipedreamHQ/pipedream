@@ -39,8 +39,10 @@ export default {
       ],
     },
     content: {
-      type: "string",
-      label: "Content",
+      propDefinition: [
+        azureDevops,
+        "content",
+      ],
       description: "Markdown content of the page. This replaces the whole page.",
     },
     comment: {

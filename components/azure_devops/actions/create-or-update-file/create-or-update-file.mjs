@@ -37,8 +37,10 @@ export default {
       ],
     },
     branchName: {
-      type: "string",
-      label: "Branch",
+      propDefinition: [
+        azureDevops,
+        "branchName",
+      ],
       description: "Branch to push to, without the `refs/heads/` prefix, e.g. `main`. The branch must already exist. Run the **List Branches And Tags** action first to obtain valid values.",
     },
     changeType: {
@@ -56,8 +58,10 @@ export default {
       description: "Repository-relative path of the file, e.g. `/docs/README.md`",
     },
     content: {
-      type: "string",
-      label: "Content",
+      propDefinition: [
+        azureDevops,
+        "content",
+      ],
       description: "New content of the file. Required unless **Change Type** is `delete`.",
       optional: true,
     },

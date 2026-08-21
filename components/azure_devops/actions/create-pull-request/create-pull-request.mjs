@@ -60,10 +60,11 @@ export default {
       optional: true,
     },
     isDraft: {
-      type: "boolean",
-      label: "Is Draft",
+      propDefinition: [
+        azureDevops,
+        "isDraft",
+      ],
       description: "Open the pull request as a draft",
-      optional: true,
     },
     reviewerIds: {
       type: "string[]",

@@ -48,6 +48,19 @@ export default {
       description: "Build variables to override, keyed by variable name. Example: `{ \"environment\": \"staging\" }`",
       optional: true,
     },
+    ignoreWarnings: {
+      type: "boolean",
+      label: "Ignore Warnings",
+      description: "Queue the build even when validation produces warnings",
+      optional: true,
+    },
+    sourceBuildId: {
+      type: "integer",
+      label: "Source Build ID",
+      description: "ID of the build this run is derived from. Run the **List Builds** action first to obtain valid values.",
+      min: 1,
+      optional: true,
+    },
   },
   async run({ $ }) {
     const parameters = parseObject(this.parameters, "Parameters");
@@ -55,6 +68,10 @@ export default {
       $,
       organization: this.organization,
       project: this.project,
+      params: {
+        ignoreWarnings: this.ignoreWarnings,
+        sourceBuildId: this.sourceBuildId,
+      },
       data: {
         definition: {
           id: this.definitionId,
