@@ -8,6 +8,17 @@ const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024;
 const MAX_TOTAL_ATTACHMENTS_SIZE_BYTES = 10 * 1024 * 1024;
 const BASE64_PATTERN = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
 
+// Computes the exact decoded byte size from a validated Base64 string's length,
+// without allocating the decoded buffer.
+function getBase64DecodedSize(content) {
+  const padding = content.endsWith("==")
+    ? 2
+    : content.endsWith("=")
+      ? 1
+      : 0;
+  return (content.length / 4) * 3 - padding;
+}
+
 export default {
   name: "Send Email",
   description:
@@ -250,7 +261,7 @@ export default {
           throw new ConfigurationError(`Base64 attachment "${filename}" is invalid.`);
         }
 
-        const decodedSize = Buffer.from(content, "base64").length;
+        const decodedSize = getBase64DecodedSize(content);
 
         if (decodedSize > MAX_FILE_SIZE_BYTES) {
           throw new ConfigurationError(
