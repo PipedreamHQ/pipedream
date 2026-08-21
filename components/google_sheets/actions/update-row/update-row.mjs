@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import common from "../common/worksheet.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import { parseArray } from "../../common/utils.mjs";
@@ -9,10 +10,10 @@ export default {
   ...common,
   key: "google_sheets-update-row",
   name: "Update Row",
-  description: "Update a row in a spreadsheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)",
-  version: "0.1.20",
+  description: "Overwrite an existing row's cells in a Google Sheet. Provide `row` (the 1-based row number — use **Find Rows** or **Read Rows** to discover it from a row's `_rowNumber`) and `myColumnData` as a JSON array of the FULL row's values in column order (e.g. `[\"Alice\",\"alice@ingen.test\",\"Engineering\"]`). This replaces every cell in the row, so include all columns — omitted trailing cells are blanked. Use **Get Spreadsheet Info** to see the column order. To add a new row instead of overwriting one, use **Add Single Row**. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)",
+  version: "1.0.0",
   annotations: {
-    destructiveHint: false,
+    destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -35,7 +36,6 @@ export default {
         }),
       ],
       description: "The spreadsheet containing the worksheet to update",
-      reloadProps: true,
     },
     worksheetId: {
       propDefinition: [
@@ -47,133 +47,41 @@ export default {
       ],
       description: "Select a worksheet or enter a custom expression. When referencing a spreadsheet dynamically, you must provide a custom expression for the worksheet.",
       async options({ sheetId }) {
-        // If sheetId is a dynamic reference, don't load options
         if (isDynamicExpression(sheetId)) {
           return [];
         }
-
-        // Otherwise, call the original options function with the correct context
         const origOptions = googleSheets.propDefinitions.worksheetIDs.options;
         return origOptions.call(this, {
           sheetId,
         });
       },
-      reloadProps: true,
     },
-    hasHeaders: common.props.hasHeaders,
     row: {
       propDefinition: [
         googleSheets,
         "row",
       ],
       min: 1,
-      reloadProps: true,
+    },
+    myColumnData: {
+      type: "string[]",
+      label: "Values",
+      description: "New values for each cell of the row, as an array or JSON-serialized array string (e.g. `[\"Alice\",\"31\",\"Senior Engineer\"]`). Accepts strings, numbers, and booleans; use an empty string for a blank cell.",
     },
   },
-  async additionalProps() {
-    const {
-      sheetId,
-      worksheetId,
-      row,
-      hasHeaders,
-    } = this;
-
-    // If using dynamic expressions for either sheetId or worksheetId, return only array input
-    if (isDynamicExpression(sheetId) || isDynamicExpression(worksheetId)) {
-      return {
-        myColumnData: {
-          type: "string[]",
-          label: "Values",
-          description: "Provide a value for each cell of the row. Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string.",
-        },
-      };
-    }
-
-    const props = {};
-    if (hasHeaders) {
-      try {
-        const worksheet = await this.getWorksheetById(sheetId, worksheetId);
-        const { values } = await this.googleSheets.getSpreadsheetValues(sheetId, `${worksheet?.properties?.title}!1:1`);
-
-        if (!values?.[0]?.length) {
-          throw new ConfigurationError("Could not find a header row. Please either add headers and click \"Refresh fields\" or set 'Does the first row of the sheet have headers?' to false.");
-        }
-
-        const { values: rowValues } = (!isNaN(row) && row > 0)
-          ? await this.googleSheets.getSpreadsheetValues(sheetId, `${worksheet?.properties?.title}!${row}:${row}`)
-          : {};
-
-        for (let i = 0; i < values[0]?.length; i++) {
-          props[`col_${i.toString().padStart(4, "0")}`] = {
-            type: "string",
-            label: values[0][i],
-            optional: true,
-            default: rowValues?.[0]?.[i],
-          };
-        }
-        props.allColumns = {
-          type: "string",
-          hidden: true,
-          default: JSON.stringify(values),
-        };
-      } catch (err) {
-        console.error("Error fetching headers:", err);
-        // Fallback to basic column input if headers can't be fetched
-        return {
-          headerError: {
-            type: "string",
-            label: "Header Fetch Error",
-            description: `Unable to fetch headers: ${err.message}. Using simple column input instead.`,
-            optional: true,
-            hidden: true,
-          },
-          myColumnData: {
-            type: "string[]",
-            label: "Values",
-            description: "Provide a value for each cell of the row. Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string.",
-          },
-        };
-      }
-    } else {
-      props.myColumnData = {
-        type: "string[]",
-        label: "Values",
-        description: "Provide a value for each cell of the row. Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string.",
-      };
-    }
-    return props;
-  },
-  async run() {
+  async run({ $ }) {
     const {
       sheetId,
       worksheetId,
       row,
     } = this;
 
-    let cells;
-    if (this.hasHeaders
-      && !isDynamicExpression(sheetId)
-      && !isDynamicExpression(worksheetId)
-      && this.allColumns
-    ) {
-      // Only use header-based processing if we have the allColumns prop and no dynamic expressions
-      const rows = JSON.parse(this.allColumns);
-      const [
-        headers,
-      ] = rows;
-      cells = headers
-        .map((_, i) => `col_${i.toString().padStart(4, "0")}`)
-        .map((column) => this[column] ?? "");
-    } else {
-      // For dynamic references or no headers, use the array input
-      cells = this.googleSheets.sanitizedArray(this.myColumnData);
-    }
+    let cells = this.googleSheets.sanitizedArray(this.myColumnData);
 
     if (isNaN(row) || row < 1) {
       throw new ConfigurationError("Please enter a valid row number in `Row Number`.");
     }
 
-    // validate input
     if (!cells || !cells.length) {
       throw new ConfigurationError("Please enter an array of elements in `Row Values`.");
     }
@@ -197,6 +105,8 @@ export default {
       },
     };
 
-    return await this.googleSheets.updateSpreadsheet(request);
+    const response = await this.googleSheets.updateSpreadsheet(request);
+    $.export("$summary", `Successfully updated row ${row} in the spreadsheet.`);
+    return response;
   },
 };

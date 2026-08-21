@@ -1,4 +1,4 @@
-// vandelay-test-dr
+// x-pd-ai: optimized
 import googleSheets from "../../google_sheets.app.mjs";
 import {
   getHeaders, rowObjectToArray,
@@ -29,10 +29,10 @@ export default {
     + " names."
     + " Only specified columns are updated when using object"
     + " values — unspecified columns are left unchanged.",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   annotations: {
-    destructiveHint: false,
+    destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
