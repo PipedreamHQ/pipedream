@@ -1,11 +1,6 @@
-
 // x-pd-ai: optimized
 import common from "../common/base-create-update.mjs";
 import salesforce from "../../salesforce_rest_api.app.mjs";
-/* eslint-disable no-unused-vars */
-import common, { getProps } from "../common/base-create-update.mjs";
-import contentNote from "../../common/sobjects/content-note.mjs";
-import contentDocumentLink from "../../common/sobjects/content-document-link.mjs";
 import { NOTE_INFO_PROP } from "../../common/props-info.mjs";
 
 const docsLink = "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_contentnote.htm";
