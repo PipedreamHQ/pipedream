@@ -75,9 +75,52 @@ async function streamIterator(stream) {
   return resources;
 }
 
+/**
+ * Formats a transcript offset. Gong reports sentence `start`/`end` in
+ * milliseconds relative to the start of the call, not as wall-clock times.
+ */
+function millisToTimestamp(millis) {
+  const totalSeconds = Number.isFinite(millis)
+    ? Math.floor(millis / 1000)
+    : 0;
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  return [
+    hours,
+    minutes,
+    seconds,
+  ]
+    .map((part) => part.toString().padStart(2, "0"))
+    .join(":");
+}
+
+/**
+ * Turns a `string[]` prop of field names into the `{ field: boolean }` shape
+ * Gong's `contentSelector.exposedFields` expects. Every allowed field is
+ * emitted so the request body is explicit about what is being excluded.
+ */
+function toExposedFields(allowedFields, selectedFields) {
+  const selected = new Set(selectedFields || []);
+  return Object.fromEntries(allowedFields.map(({ value }) => [
+    value,
+    selected.has(value),
+  ]));
+}
+
+function pluralize(count, singular, plural = `${singular}s`) {
+  return `${count} ${count === 1
+    ? singular
+    : plural}`;
+}
+
 export default {
   parseArray,
   parseObject,
   parse,
   streamIterator,
+  millisToTimestamp,
+  toExposedFields,
+  pluralize,
 };
