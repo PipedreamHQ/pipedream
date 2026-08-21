@@ -7,7 +7,7 @@ export default {
   ...base,
   key: "survey_monkey-add-message-recipients",
   name: "Add Message Recipients",
-  description: "Add recipients to an invite message, from new contacts, existing contact IDs, contact lists, or any combination. Uses the bulk endpoint, so a recipient already on the message or collector is reported back under `duplicate` rather than being re-added. [See the documentation](https://api.surveymonkey.com/v3/docs?javascript#api-endpoints-post-collectors-collector_id-messages-message_id-recipients-bulk)",
+  description: "Add recipients to an invite message, from new contacts, existing contact IDs, contact lists, or any combination. Uses the bulk endpoint, so nothing is re-added: a recipient already on the message or collector comes back under `existing`, while `duplicate` reports addresses repeated within this one request. [See the documentation](https://api.surveymonkey.com/v3/docs?javascript#api-endpoints-post-collectors-collector_id-messages-message_id-recipients-bulk)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

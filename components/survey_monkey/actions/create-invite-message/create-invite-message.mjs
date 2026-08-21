@@ -43,13 +43,13 @@ export default {
     bodyText: {
       type: "string",
       label: "Body Text",
-      description: "The plain text body of the message. Include the `[SurveyLink]` placeholder, or recipients get an invitation with no way to reach the survey. Per SurveyMonkey's Anti-Spam Policy the `[OptOutLink]` must stay visible and its purpose clearly explained.",
+      description: "The plain text body of the message, and the only body an SMS message can use. SurveyMonkey advises keeping an SMS body to 30 characters or fewer, including spaces, so the invitation stays a single text. Include the `[SurveyLink]` placeholder, or recipients get an invitation with no way to reach the survey. Per SurveyMonkey's Anti-Spam Policy the `[OptOutLink]` must stay visible and its purpose clearly explained.",
       optional: true,
     },
     bodyHtml: {
       type: "string",
       label: "Body HTML",
-      description: "The HTML body of an email message. The same placeholders apply as for **Body Text** — `[SurveyLink]`, `[OptOutLink]`, `[PrivacyLink]` and `[FooterLink]` — and the Anti-Spam Policy requires that the opt-out link stay visible rather than being hidden in the markup.",
+      description: "The HTML body of an email message, and email-only — it does not apply to `sms` messages, and it overrides **Body Text** when both are set. The same placeholders apply as for **Body Text** — `[SurveyLink]`, `[OptOutLink]`, `[PrivacyLink]` and `[FooterLink]` — and the Anti-Spam Policy requires that the opt-out link stay visible rather than being hidden in the markup.",
       optional: true,
     },
     fromMessageId: {
@@ -104,7 +104,16 @@ export default {
       type, subject, bodyText, bodyHtml, fromMessageId, fromCollectorId,
     } = this;
 
-    if (!bodyText && !bodyHtml && !fromMessageId && !fromCollectorId) {
+    const isCopy = !!(fromMessageId || fromCollectorId);
+
+    // `body_html` is documented as the HTML body of the *email* message, so it
+    // cannot carry an SMS's content — accepting it alone for `sms` would send a
+    // message with nothing in it.
+    if (!isCopy && type === "sms" && !bodyText) {
+      throw new ConfigurationError("An SMS message needs **Body Text** — **Body HTML** applies to email messages only. Alternatively, copy an existing message with **Copy From Message** or **Copy From Collector ID**.");
+    }
+
+    if (!isCopy && type !== "sms" && !bodyText && !bodyHtml) {
       throw new ConfigurationError("Set **Body Text** or **Body HTML**, or copy an existing message with **Copy From Message** or **Copy From Collector ID**.");
     }
 
