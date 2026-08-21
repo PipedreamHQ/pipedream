@@ -10,10 +10,10 @@ export default {
   ...common,
   key: "google_sheets-update-row",
   name: "Update Row",
-  description: "Overwrite an existing row's cells in a Google Sheet. Provide `row` (the 1-based row number — use **Find Rows** or **Read Rows** to discover it from a row's `_rowNumber`) and `myColumnData` as a JSON array of the FULL row's values in column order (e.g. `[\"Alice\",\"alice@ingen.test\",\"Engineering\"]`). This replaces every cell in the row, so include all columns — omitted trailing cells are blanked. Use **Get Spreadsheet Info** to see the column order. To add a new row instead of overwriting one, use **Add Single Row**. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)",
+  description: "Overwrite cells in an existing row of a Google Sheet. Provide `row` (the 1-based row number — use **Find Rows** or **Read Rows** to get it from a row's `_rowNumber`) and `myColumnData`, a positional array of values starting at column A (e.g. `[\"Alice\",\"alice@ingen.test\",\"Engineering\"]`). Values are written left-to-right from column A, so include the current value of every column up to the one you're changing (read them first via **Get Spreadsheet Info** / **Read Rows**); columns after your last value are left unchanged, not cleared. To add a new row instead of overwriting one, use **Add Single Row**. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)",
   version: "1.0.0",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -76,7 +76,12 @@ export default {
       row,
     } = this;
 
-    let cells = this.googleSheets.sanitizedArray(this.myColumnData);
+    // Parse a JSON-serialized array string before normalizing, so commas inside
+    // quoted values are not split into separate cells.
+    const parsedInput = parseArray(this.myColumnData);
+    let cells = this.googleSheets.sanitizedArray(parsedInput === false
+      ? this.myColumnData
+      : parsedInput);
 
     if (isNaN(row) || row < 1) {
       throw new ConfigurationError("Please enter a valid row number in `Row Number`.");

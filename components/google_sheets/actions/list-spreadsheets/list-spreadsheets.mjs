@@ -12,7 +12,7 @@ export default {
     + " IDs can be used with all other tools."
     + " Returns up to `limit` results (default 20); when more"
     + " may exist the summary says so — raise `limit` to fetch"
-    + " them.",
+    + " them. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/list)",
   version: "0.1.0",
   type: "action",
   annotations: {

@@ -32,7 +32,7 @@ export default {
   version: "0.0.5",
   type: "action",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

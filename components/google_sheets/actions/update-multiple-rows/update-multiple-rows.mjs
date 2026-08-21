@@ -11,7 +11,7 @@ export default {
   description: "Overwrite a contiguous block of cells in a Google Sheet, defined by an A1 range. Provide `range` WITHOUT the worksheet name — just the cells, e.g. `A2:C3` (the tool prepends the worksheet automatically; passing `Sheet1!A2:C3` will fail). Provide `rows` as a JSON array of arrays matching the range, each inner array a row in column order (e.g. range `A2:C3` with `[[\"Alice\",\"alice@ingen.test\",\"Active\"],[\"Bob\",\"bob@ingen.test\",\"Active\"]]`). Use **Read Rows** to see current values and **Get Spreadsheet Info** for the column order. This overwrites the range in place; to insert rows and shift others down, use **Add Single Row**. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)",
   version: "0.2.0",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

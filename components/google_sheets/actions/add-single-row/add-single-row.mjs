@@ -85,7 +85,12 @@ export default {
 
     const worksheet = await this.getWorksheetById(sheetId, worksheetId);
 
-    let cells = this.googleSheets.sanitizedArray(this.myColumnData);
+    // Parse a JSON-serialized array string before normalizing, so commas inside
+    // quoted values are not split into separate cells.
+    const parsedInput = parseArray(this.myColumnData);
+    let cells = this.googleSheets.sanitizedArray(parsedInput === false
+      ? this.myColumnData
+      : parsedInput);
 
     if (!cells || !cells.length) {
       throw new ConfigurationError("Please enter an array of elements in `Cells / Column Values`.");
