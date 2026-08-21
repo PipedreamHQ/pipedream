@@ -2,7 +2,7 @@ import azureDevops from "../../azure_devops.app.mjs";
 
 export default {
   name: "New Event (Instant)",
-  version: "0.0.4",
+  version: "0.0.5",
   key: "azure_devops-new-event",
   description: "Emit new event for the specified event type.",
   type: "source",
