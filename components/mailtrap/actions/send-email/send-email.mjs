@@ -11,8 +11,12 @@ const BASE64_PATTERN = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/
 export default {
   name: "Send Email",
   description:
-    "Send a transactional email [See the documentation]" +
-    "(https://docs.mailtrap.io/developers/email-sending/transactional#post-api-send)",
+    "Send a transactional email, optionally with attachments." +
+    " Use **File** references (a `/tmp` path or a URL) for files already accessible to the workflow," +
+    " or **Base64 Attachments** for inline content constructed at runtime — `base64AttachmentFilenames`" +
+    " must be the same length and in the same order as `attachmentsBase64`." +
+    " Each attachment is limited to 10 MB, and the total across all attachments is also capped at 10 MB." +
+    " [See the documentation](https://docs.mailtrap.io/developers/email-sending/transactional#post-api-send)",
   key: "mailtrap-send-email",
   version: "0.0.1",
   annotations: {
@@ -98,7 +102,7 @@ export default {
     attachmentsBase64: {
       type: "string[]",
       label: "Base64 Attachments",
-      description: "Base64-encoded file content(s), e.g., ['SGVsbG8='].",
+      description: "Base64-encoded file content(s), e.g. `[\"SGVsbG8=\"]`.",
       optional: true,
     },
     base64AttachmentFilenames: {

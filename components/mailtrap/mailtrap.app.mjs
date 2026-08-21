@@ -5,9 +5,9 @@ export default {
   app: "mailtrap",
   propDefinitions: {
     domainId: {
-      type: "string",
+      type: "integer",
       label: "Domain",
-      description: "A sending domain verified in your Mailtrap account (numeric domain ID, e.g. `831941`).",
+      description: "A sending domain configured in your Mailtrap account (numeric domain ID, e.g. `831941`).",
       async options() {
         const { data: domains } = await this.listDomains({});
         return domains.map(({
@@ -34,9 +34,13 @@ export default {
           },
         });
         const options = suppressions.map(({
-          id, email,
+          id,
+          email,
+          domain_name: domainName,
+          sending_stream: sendingStream,
+          type,
         }) => ({
-          label: email,
+          label: `${email} - Domain: ${domainName ?? "All domains"}, Type: ${type}, Sending Stream: ${sendingStream}`,
           value: id,
         }));
         const isFullPage = suppressions.length === 1000;
