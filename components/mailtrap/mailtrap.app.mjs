@@ -55,12 +55,29 @@ export default {
     },
   },
   methods: {
+    /**
+     * Build the auth headers sent with every Mailtrap API request.
+     *
+     * @returns {object} Header object with `Authorization` and `Content-Type`.
+     */
     _getHeaders() {
       return {
         "Authorization": `Bearer ${this.$auth.api_token || this.$auth.api_key}`,
         "Content-Type": "application/json",
       };
     },
+    /**
+     * Shared request helper used by every public method below. Centralizes
+     * auth headers and base URL resolution.
+     *
+     * @param {object} opts - Request options.
+     * @param {object} [opts.$=this] - Pipedream step reference, used for
+     * HTTP request/response export.
+     * @param {string} [opts.baseURL="https://send.api.mailtrap.io"] - Base
+     * URL for the request (sending API vs. account API host).
+     * @param {string} opts.endpoint - API path to call, appended to `baseURL`.
+     * @returns {Promise<object>} The parsed JSON response body.
+     */
     async _httpRequest({
       $ = this,
       baseURL = "https://send.api.mailtrap.io",
@@ -73,6 +90,15 @@ export default {
         ...customConfig,
       });
     },
+    /**
+     * Send a transactional email.
+     *
+     * @param {object} opts - Method options.
+     * @param {object} [opts.$] - Pipedream step reference.
+     * @param {object} opts.data - Request body matching the Mailtrap Send
+     * Email API schema (`from`, `to`, `subject`, `text`/`html`, etc.).
+     * @returns {Promise<object>} `{ success, message_ids }`.
+     */
     async sendEmail(args = {}) {
       const {
         $, data,
@@ -85,6 +111,15 @@ export default {
         data,
       });
     },
+    /**
+     * Retrieve delivery status, events, and metadata for a previously sent email.
+     *
+     * @param {object} opts - Method options.
+     * @param {object} [opts.$] - Pipedream step reference.
+     * @param {string} opts.sendingMessageId - The `sending_message_id`
+     * returned when the email was sent.
+     * @returns {Promise<object>} The email log entry, including `status` and `events`.
+     */
     async getEmailState(args = {}) {
       const {
         $, sendingMessageId,
@@ -96,6 +131,13 @@ export default {
         method: "GET",
       });
     },
+    /**
+     * List sending domains configured on the account.
+     *
+     * @param {object} opts - Method options.
+     * @param {object} [opts.$] - Pipedream step reference.
+     * @returns {Promise<object>} `{ data: Domain[] }`.
+     */
     async listDomains(args = {}) {
       const { $ } = args;
       return this._httpRequest({
@@ -105,6 +147,15 @@ export default {
         method: "GET",
       });
     },
+    /**
+     * List suppressed email addresses.
+     *
+     * @param {object} opts - Method options.
+     * @param {object} [opts.$] - Pipedream step reference.
+     * @param {object} [opts.params] - Query params, e.g. `{ email, last_id }`
+     * (`last_id` pages past the first 1,000 results).
+     * @returns {Promise<Array>} Array of suppression entries.
+     */
     async listSuppressions(args = {}) {
       const {
         $, params,
@@ -117,6 +168,15 @@ export default {
         params,
       });
     },
+    /**
+     * Manually add an email address to the suppression list.
+     *
+     * @param {object} opts - Method options.
+     * @param {object} [opts.$] - Pipedream step reference.
+     * @param {object} opts.data - Request body: `{ email, domain_id,
+     * sending_stream, [type="manual import"] }`.
+     * @returns {Promise<object>} `{ data: Suppression }`.
+     */
     async createSuppression(args = {}) {
       const {
         $, data,
@@ -129,6 +189,14 @@ export default {
         data,
       });
     },
+    /**
+     * Remove an email address from the suppression list.
+     *
+     * @param {object} opts - Method options.
+     * @param {object} [opts.$] - Pipedream step reference.
+     * @param {string} opts.suppressionId - The `id` of the suppression entry to delete.
+     * @returns {Promise<object>} The deleted suppression entry.
+     */
     async deleteSuppression(args = {}) {
       const {
         $, suppressionId,
