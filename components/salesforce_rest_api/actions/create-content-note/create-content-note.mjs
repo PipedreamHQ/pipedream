@@ -75,6 +75,7 @@ export default {
       IsReadOnly,
       ShareType = "I",
       Visibility,
+      ...otherFields
     } = af ?? {};
 
     const contentNoteResponse = await this.salesforce.createRecord("ContentNote", {
@@ -84,6 +85,7 @@ export default {
         Content: Buffer.from(this.escapeHtml4(Content)).toString("base64"),
         OwnerId,
         IsReadOnly,
+        ...otherFields,
       },
     });
 

@@ -23,7 +23,7 @@ export default {
     + " Use **Find Records** on `Contact` to get the record ID first."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.3.8",
+  version: "0.4.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -38,7 +38,7 @@ export default {
     contactId: {
       type: "string",
       label: "Contact ID",
-      description: "The ID of the Contact to update. Use **SOQL Query** to find the ID.",
+      description: "The ID of the Contact to update (Salesforce's 15- or 18-character record ID, e.g. `003XX000004TmiQ`). Use **SOQL Query** to find the ID.",
     },
     ...props,
   },

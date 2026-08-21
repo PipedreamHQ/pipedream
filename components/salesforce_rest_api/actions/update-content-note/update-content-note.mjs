@@ -27,7 +27,7 @@ export default {
     + "Notes must be enabled in the org first - see [Set Up Notes](https://help.salesforce.com/s/articleView?id=sales.notes_admin_setup.htm&type=5)."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.0.5",
+  version: "0.1.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -43,7 +43,7 @@ export default {
     contentNoteId: {
       type: "string",
       label: "Content Note ID",
-      description: "The ID of the ContentNote to update. Use **SOQL Query** to find the ID.",
+      description: "The ID of the ContentNote to update (Salesforce's 15- or 18-character record ID, e.g. `069XX0000004Grr`). Use **SOQL Query** to find the ID.",
     },
     ...props,
   },

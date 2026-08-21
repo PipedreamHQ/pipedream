@@ -8,7 +8,7 @@ export default {
     AcceptedEventInviteeIds: {
       type: "string[]",
       label: "Accepted Event Invitee IDs",
-      description: "One or more Contact or Lead IDs who accepted this event. Use **SOQL Query** to find Contact or Lead IDs.",
+      description: "One or more Contact or Lead IDs who accepted this event (Salesforce's 15- or 18-character record ID, e.g. `003XX000004TmiQ` for a Contact). Use **SOQL Query** to find Contact or Lead IDs.",
       optional: true,
     },
     ActivityDate: {

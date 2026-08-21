@@ -3,7 +3,7 @@ export default {
     OwnerId: {
       type: "string",
       label: "Owner ID",
-      description: "ID of the user who owns the note. Use **SOQL Query** to find the User ID.",
+      description: "ID of the user who owns the note (Salesforce's 15- or 18-character record ID, e.g. `005XX000001SvR2`). Use **SOQL Query** to find the User ID.",
       optional: true,
     },
     Title: {

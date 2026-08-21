@@ -52,7 +52,7 @@ export default {
         ...getAdditionalFields(),
       },
     });
-    $.export("$summary", "Successfully created task");
+    $.export("$summary", `Successfully created task (ID: ${response.id})`);
     return response;
   },
 };

@@ -14,7 +14,7 @@ export default {
     + " Use **Find Records** to get the `WhoId` (contact or lead) and `WhatId` (related record) you want to link."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.3.8",
+  version: "0.4.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -40,6 +40,9 @@ export default {
       additionalFields,
       ActivityDate,
       EndDateTime,
+      RecurrenceStartDateTime,
+      RecurrenceEndDateOnly,
+      RecurrenceDayOfWeekMask,
       ...data
     } = this;
     /* eslint-enable no-unused-vars */
@@ -50,6 +53,11 @@ export default {
         ...formatDateTimeProps({
           ActivityDate,
           EndDateTime,
+          RecurrenceStartDateTime,
+          RecurrenceEndDateOnly,
+        }),
+        ...(RecurrenceDayOfWeekMask?.length && {
+          RecurrenceDayOfWeekMask: RecurrenceDayOfWeekMask.reduce((mask, day) => mask | day, 0),
         }),
         ...getAdditionalFields(),
       },

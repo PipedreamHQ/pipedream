@@ -25,7 +25,7 @@ export default {
     + " Supplying `Body` replaces the note text outright rather than appending to it."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.0.5",
+  version: "0.1.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -41,7 +41,7 @@ export default {
     noteId: {
       type: "string",
       label: "Note ID",
-      description: "The ID of the note to update. Use **SOQL Query** to find the ID.",
+      description: "The ID of the note to update (Salesforce's 15- or 18-character record ID, e.g. `002XX000001aBcD`). Use **SOQL Query** to find the ID.",
     },
     ...props,
   },

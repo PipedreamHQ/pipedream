@@ -9,7 +9,7 @@ export default {
     ParentId: {
       type: "string",
       label: "Parent Case ID",
-      description: "ID of the parent Case. Use **SOQL Query** to find the Case ID.",
+      description: "ID of the parent Case (Salesforce's 15- or 18-character record ID, e.g. `500XX000001SvR2`). Use **SOQL Query** to find the Case ID.",
     },
     IsPublished: {
       type: "boolean",

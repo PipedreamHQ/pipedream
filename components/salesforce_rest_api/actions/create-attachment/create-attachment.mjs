@@ -14,7 +14,7 @@ export default {
     + " For newer orgs prefer Salesforce Files - use **Insert Blob Data** with `ContentVersion` instead."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.5.10",
+  version: "0.6.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -53,9 +53,9 @@ export default {
     const response = await salesforce.createRecord("Attachment", {
       $,
       data: {
-        Body: body,
         ...data,
         ...getAdditionalFields(),
+        Body: body,
       },
     });
     $.export("$summary", `Successfully created attachment "${this.Name}"`);

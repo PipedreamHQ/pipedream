@@ -24,7 +24,7 @@ export default {
     + " Only the fields you supply change; everything else is left as-is."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.3.8",
+  version: "0.4.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -39,7 +39,7 @@ export default {
     opportunityId: {
       type: "string",
       label: "Opportunity ID",
-      description: "The ID of the Opportunity to update. Use **SOQL Query** to find the ID.",
+      description: "The ID of the Opportunity to update (Salesforce's 15- or 18-character record ID, e.g. `006XX000004TmXY`). Use **SOQL Query** to find the ID.",
     },
     ...props,
   },
