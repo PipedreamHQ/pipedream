@@ -19,7 +19,7 @@ export default {
     + " Use **Find Records** to get the parent record ID first."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.3.8",
+  version: "0.3.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

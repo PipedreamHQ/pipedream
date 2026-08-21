@@ -14,7 +14,7 @@ export default {
     + " Use **Get User** or **Find Records** on `User` to check whether the person already has an account."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.1.7",
+  version: "0.1.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

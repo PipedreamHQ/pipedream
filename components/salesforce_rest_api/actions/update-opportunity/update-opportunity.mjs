@@ -24,7 +24,7 @@ export default {
     + " Only the fields you supply change; everything else is left as-is."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.3.7",
+  version: "0.3.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

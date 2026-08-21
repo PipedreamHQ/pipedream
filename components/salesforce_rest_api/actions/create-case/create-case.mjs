@@ -13,7 +13,7 @@ export default {
     + " After creating, use **Create Case Comment** to add notes or **List Case Feed Items** to read its activity."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.3.7",
+  version: "0.3.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

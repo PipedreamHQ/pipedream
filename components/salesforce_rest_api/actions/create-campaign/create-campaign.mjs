@@ -13,7 +13,7 @@ export default {
     + " For example, `Name: \"Summer 2026 Webinar\"` creates the campaign and returns its ID."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.3.7",
+  version: "0.3.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

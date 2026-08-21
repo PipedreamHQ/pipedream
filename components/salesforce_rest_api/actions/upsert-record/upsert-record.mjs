@@ -9,7 +9,7 @@ export default {
     + " Use **Create CRM Record** or **Update CRM Record** when you already know whether the record exists."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_upsert.htm)",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

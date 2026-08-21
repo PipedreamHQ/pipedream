@@ -13,7 +13,7 @@ export default {
     + " Comments are visible in the case feed - **List Case Feed Items** shows them as `CaseCommentPost` entries."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.3.7",
+  version: "0.3.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

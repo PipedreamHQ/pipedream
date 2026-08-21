@@ -13,7 +13,7 @@ export default {
     + " Use **List Objects** if you're unsure of the object's API name."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_sobject_describe.htm)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     readOnlyHint: true,

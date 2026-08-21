@@ -13,7 +13,7 @@ export default {
     + " Use **Add Lead to Campaign** afterwards to attribute the lead to a campaign."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.3.7",
+  version: "0.3.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

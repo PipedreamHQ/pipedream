@@ -14,7 +14,7 @@ export default {
     + " For newer orgs prefer Salesforce Files - use **Insert Blob Data** with `ContentVersion` instead."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.5.9",
+  version: "0.5.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

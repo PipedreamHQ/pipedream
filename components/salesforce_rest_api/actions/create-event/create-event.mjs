@@ -14,7 +14,7 @@ export default {
     + " Use **Find Records** to get the `WhoId` (contact or lead) and `WhatId` (related record) you want to link."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.3.7",
+  version: "0.3.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

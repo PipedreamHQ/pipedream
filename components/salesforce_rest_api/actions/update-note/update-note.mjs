@@ -25,7 +25,7 @@ export default {
     + " Supplying `Body` replaces the note text outright rather than appending to it."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   annotations: {
     destructiveHint: false,

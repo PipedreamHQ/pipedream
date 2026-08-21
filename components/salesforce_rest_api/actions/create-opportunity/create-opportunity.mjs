@@ -13,7 +13,7 @@ export default {
     + " Use **Find Records** on `Account` to get the `AccountId` to attach the deal to."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.3.7",
+  version: "0.3.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -13,7 +13,7 @@ export default {
     + " Use **Describe Object** on `Contact` to discover which fields your org requires."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.3.7",
+  version: "0.3.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
