@@ -192,7 +192,7 @@ export default {
     normalizeModerationResult(result, originalText) {
       const action = this.highestPriorityAction(result);
       const unsupportedAction = this.unsupportedGuardrailAction(result);
-      const blocked = action === "block" || Boolean(!action && unsupportedAction);
+      const blocked = action === "block" || Boolean(unsupportedAction);
       const modifiedContent = this.modifiedContent(result);
       const processedText = [
         "redact",
@@ -204,7 +204,7 @@ export default {
       return {
         allowed: !blocked,
         blocked,
-        action: action || unsupportedAction || null,
+        action: unsupportedAction || action || null,
         flagged: Boolean(result?.flagged),
         processedText,
         modified: processedText !== originalText,
