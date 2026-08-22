@@ -9567,7 +9567,15 @@ importers:
 
   components/mailsoftly: {}
 
-  components/mailtrap: {}
+  components/mailtrap:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
+    devDependencies:
+      '@pipedream/types':
+        specifier: ^0.3.2
+        version: 0.3.4
 
   components/mailwizz:
     dependencies:
