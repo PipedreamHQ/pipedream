@@ -3,7 +3,7 @@ import deepkeep from "../../deepkeep.app.mjs";
 export default {
   key: "deepkeep-post-model-check",
   name: "Post-Model Check",
-  description: "Check text with DeepKeep after an LLM generates a response. See the [DeepKeep documentation](https://deepkeep.ai/docs/api).",
+  description: "Check text with DeepKeep after an LLM generates a response. [See the documentation](https://deepkeep.ai/docs/api)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -51,7 +51,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const result = await this.deepkeep.postModerate({
+    const result = await this.deepkeep.moderatePostModel({
       $,
       baseUrl: this.baseUrl,
       model: this.model,

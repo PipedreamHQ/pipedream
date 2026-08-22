@@ -4,7 +4,7 @@ import { MODERATION_PHASES } from "../../common/constants.mjs";
 export default {
   key: "deepkeep-moderate-text",
   name: "Moderate Text",
-  description: "Check text with DeepKeep using either pre-model or post-model moderation. See the [DeepKeep documentation](https://deepkeep.ai/docs/api).",
+  description: "Check text with DeepKeep using either pre-model or post-model moderation. [See the documentation](https://deepkeep.ai/docs/api)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -23,7 +23,7 @@ export default {
     phase: {
       type: "string",
       label: "Moderation Phase",
-      description: "Choose whether to use DeepKeep pre-model or post-model moderation.",
+      description: "The DeepKeep moderation phase. Use pre-model to check model input, or post-model to check model output.",
       options: MODERATION_PHASES,
       default: "pre",
     },
@@ -67,11 +67,11 @@ export default {
       chat: this.chat || "",
     };
     const result = this.phase === "post"
-      ? await this.deepkeep.postModerate({
+      ? await this.deepkeep.moderatePostModel({
         ...request,
         output: this.text,
       })
-      : await this.deepkeep.preModerate({
+      : await this.deepkeep.moderatePreModel({
         ...request,
         input: this.text,
       });

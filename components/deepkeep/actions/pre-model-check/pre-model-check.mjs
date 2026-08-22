@@ -3,7 +3,7 @@ import deepkeep from "../../deepkeep.app.mjs";
 export default {
   key: "deepkeep-pre-model-check",
   name: "Pre-Model Check",
-  description: "Check text with DeepKeep before sending it to an LLM. See the [DeepKeep documentation](https://deepkeep.ai/docs/api).",
+  description: "Check text with DeepKeep before sending it to an LLM. [See the documentation](https://deepkeep.ai/docs/api)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -51,7 +51,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const result = await this.deepkeep.preModerate({
+    const result = await this.deepkeep.moderatePreModel({
       $,
       baseUrl: this.baseUrl,
       model: this.model,

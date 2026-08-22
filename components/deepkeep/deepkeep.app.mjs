@@ -13,7 +13,7 @@ export default {
     model: {
       type: "string",
       label: "Model",
-      description: "DeepKeep firewall ID to send as the OpenAI-compatible `model` field.",
+      description: "DeepKeep firewall ID to send as the OpenAI-compatible `model` field. Find this ID in your DeepKeep firewall settings. For example, `fw_abc123`.",
     },
     input: {
       type: "string",
@@ -86,7 +86,7 @@ export default {
         data,
       });
     },
-    preModerate({
+    moderatePreModel({
       $, baseUrl, model, input, title = "", chat = "",
     }) {
       return this._request({
@@ -101,7 +101,7 @@ export default {
         },
       });
     },
-    postModerate({
+    moderatePostModel({
       $, baseUrl, model, output, title = "", chat = "",
     }) {
       return this._request({
@@ -121,7 +121,7 @@ export default {
       for (const item of result.verbosity || []) {
         const action = item?.details?.guardrail_action;
         if (
-          action in ACTION_PRIORITY
+          Object.prototype.hasOwnProperty.call(ACTION_PRIORITY, action)
           && (!selected || ACTION_PRIORITY[action] > ACTION_PRIORITY[selected])
         ) {
           selected = action;
@@ -172,7 +172,7 @@ export default {
       for (const item of normalized.result?.verbosity || []) {
         const details = item?.details || {};
         if (details.guardrail_action === "block") {
-          return details.message || details.reason || item.message || item.name;
+          return details.message || details.reason || item.message || item.name || "DeepKeep blocked this content.";
         }
       }
       return "DeepKeep blocked this content.";
