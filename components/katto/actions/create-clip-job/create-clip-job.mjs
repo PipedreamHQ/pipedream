@@ -31,7 +31,7 @@ export default {
       type: "string",
       label: "Idempotency Key",
       description:
-        "Optional. A unique key so a retried step returns the original job instead of creating a duplicate (and a duplicate charge).",
+        "Optional. Reuse the same unique key when retrying so Katto returns the original job instead of creating a duplicate (and a duplicate charge). A new key always creates a new job.",
       optional: true,
     },
   },
