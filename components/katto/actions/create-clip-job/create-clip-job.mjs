@@ -27,6 +27,13 @@ export default {
         "Optional. A signed (HMAC-SHA256) completion callback is delivered here instead of polling.",
       optional: true,
     },
+    idempotencyKey: {
+      type: "string",
+      label: "Idempotency Key",
+      description:
+        "Optional. A unique key so a retried step returns the original job instead of creating a duplicate (and a duplicate charge).",
+      optional: true,
+    },
   },
   async run({ $ }) {
     if (!/^https?:\/\//i.test(this.url)) {
@@ -36,9 +43,14 @@ export default {
     if (this.webhookUrl) {
       data.webhook_url = this.webhookUrl;
     }
+    const headers = {};
+    if (this.idempotencyKey) {
+      headers["Idempotency-Key"] = this.idempotencyKey;
+    }
     const response = await this.katto.createJob({
       $,
       data,
+      headers,
     });
     $.export("$summary", `Created clip job \`${response.id ?? ""}\``);
     return response;

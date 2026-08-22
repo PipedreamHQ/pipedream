@@ -28,11 +28,14 @@ export default {
       };
     },
     async _makeRequest({
-      $ = this, path, ...args
+      $ = this, path, headers = {}, ...args
     } = {}) {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
-        headers: this._headers(),
+        headers: {
+          ...this._headers(),
+          ...headers,
+        },
         ...args,
       });
     },
