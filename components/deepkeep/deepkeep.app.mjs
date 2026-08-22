@@ -151,6 +151,20 @@ export default {
       return selected;
     },
     /**
+     * Return the first unsupported guardrail action from a DeepKeep response.
+     */
+    unsupportedGuardrailAction(result = {}) {
+      for (const item of result.verbosity || []) {
+        const action = item?.details?.guardrail_action;
+        if (
+          action
+          && !Object.prototype.hasOwnProperty.call(ACTION_PRIORITY, action)
+        ) {
+          return action;
+        }
+      }
+    },
+    /**
      * Return modified content from a DeepKeep response, when present.
      */
     modifiedContent(result = {}) {
@@ -177,6 +191,8 @@ export default {
      */
     normalizeModerationResult(result, originalText) {
       const action = this.highestPriorityAction(result);
+      const unsupportedAction = this.unsupportedGuardrailAction(result);
+      const blocked = action === "block" || Boolean(!action && unsupportedAction);
       const modifiedContent = this.modifiedContent(result);
       const processedText = [
         "redact",
@@ -186,9 +202,9 @@ export default {
         : originalText;
 
       return {
-        allowed: action !== "block",
-        blocked: action === "block",
-        action: action || null,
+        allowed: !blocked,
+        blocked,
+        action: action || unsupportedAction || null,
         flagged: Boolean(result?.flagged),
         processedText,
         modified: processedText !== originalText,

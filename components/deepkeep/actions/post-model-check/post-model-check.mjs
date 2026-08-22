@@ -3,7 +3,7 @@ import deepkeep from "../../deepkeep.app.mjs";
 export default {
   key: "deepkeep-post-model-check",
   name: "Post-Model Check",
-  description: "Check text with DeepKeep after an LLM generates a response. [See the documentation](https://deepkeep.ai/docs/api)",
+  description: "Moderate model output with DeepKeep after an LLM generates a response and before returning it downstream. Provide the output text and DeepKeep firewall model ID, plus optional title/chat metadata. Returns allowed, blocked, flagged, action, processedText, and the raw result; `stopOnBlock` halts the workflow when DeepKeep blocks content. [See the documentation](https://deepkeep.ai/docs/api)",
   version: "0.0.1",
   type: "action",
   annotations: {

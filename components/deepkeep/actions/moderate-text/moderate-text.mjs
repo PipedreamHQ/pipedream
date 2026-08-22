@@ -4,7 +4,7 @@ import { MODERATION_PHASES } from "../../common/constants.mjs";
 export default {
   key: "deepkeep-moderate-text",
   name: "Moderate Text",
-  description: "Check text with DeepKeep using either pre-model or post-model moderation. [See the documentation](https://deepkeep.ai/docs/api)",
+  description: "Moderate plain text with DeepKeep before or after an LLM call. Use `pre` to check model input and `post` to check model output; include a DeepKeep firewall model ID, optional title/chat metadata, and choose whether `stopOnBlock` should halt the workflow when DeepKeep blocks content. Returns allowed, blocked, flagged, action, processedText, and the raw result. [See the documentation](https://deepkeep.ai/docs/api)",
   version: "0.0.1",
   type: "action",
   annotations: {
