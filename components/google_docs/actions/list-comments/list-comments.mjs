@@ -1,14 +1,15 @@
-import googleDrive from "../../google_drive.app.mjs";
-import { parseRfc3339 } from "../../common/utils.mjs";
+// x-pd-ai: optimized
+import googleDocs from "../../google_docs.app.mjs";
+import utils from "../../common/utils.mjs";
 import {
   COMMENTS_MAX_PAGE_SIZE, DEFAULT_COMMENT_LIMIT, MAX_COMMENT_LIMIT,
 } from "../../common/constants.mjs";
 
 export default {
-  key: "google_drive-list-comments",
+  key: "google_docs-list-comments",
   name: "List Comments",
-  description: "List the comments on a file, including each comment's author, plain text and HTML content, the file text it is anchored to, whether it is resolved, and its full reply thread. Use **Find File** first to resolve a file's name to its ID. [See the documentation](https://developers.google.com/workspace/drive/api/reference/rest/v3/comments/list)",
-  version: "0.1.0",
+  description: "List the comments on a Google Doc, including each comment's author, plain text and HTML content, the document text it is anchored to, whether it is resolved, and its full reply thread. Comments on a Doc are served by the Drive API, so the document ID doubles as the file ID. Use **Find Document** first to resolve a document's name to its ID. [See the documentation](https://developers.google.com/workspace/drive/api/reference/rest/v3/comments/list)",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,22 +17,12 @@ export default {
   },
   type: "action",
   props: {
-    googleDrive,
-    drive: {
+    googleDocs,
+    documentId: {
       propDefinition: [
-        googleDrive,
-        "watchedDrive",
+        googleDocs,
+        "documentId",
       ],
-    },
-    fileId: {
-      propDefinition: [
-        googleDrive,
-        "fileId",
-        (c) => ({
-          drive: c.drive,
-        }),
-      ],
-      description: "The Google Drive file ID to list comments for, for example `1AbCDefGhIJkLmNoPqRsTuVwXyZ`. Use **List Files** to resolve a document's name to its ID or use **Find File** to look up a file ID by name.",
     },
     includeDeleted: {
       type: "boolean",
@@ -62,7 +53,7 @@ export default {
     };
 
     if (this.startModifiedTime) {
-      args.startModifiedTime = parseRfc3339(this.startModifiedTime, "Start Modified Time");
+      args.startModifiedTime = utils.parseRfc3339(this.startModifiedTime, "Start Modified Time");
     }
 
     const limit = this.limit || DEFAULT_COMMENT_LIMIT;
@@ -70,12 +61,11 @@ export default {
     let pageToken;
 
     do {
-      const { data } = await this.googleDrive.listSyncComments(
+      const { data } = await this.googleDocs.listSyncComments(
         // `comments.list` takes no `driveId` - a comment is addressed by file ID
-        // alone - so the app method's first argument is intentionally unset. The
-        // `drive` prop only scopes the **File** dropdown.
+        // alone - so the app method's first argument is intentionally unset.
         undefined,
-        this.fileId,
+        this.documentId,
         {
           ...args,
           pageSize: Math.min(COMMENTS_MAX_PAGE_SIZE, limit - comments.length),
@@ -86,7 +76,9 @@ export default {
       pageToken = data.nextPageToken;
     } while (pageToken && comments.length < limit);
 
-    $.export("$summary", `Successfully found ${comments.length} comment(s) for file ${this.fileId}`);
+    $.export("$summary", `Found ${comments.length} comment${comments.length === 1
+      ? ""
+      : "s"} on document ${this.documentId}`);
     return comments;
   },
 };
