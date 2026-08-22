@@ -50,6 +50,9 @@ export default {
     },
   },
   methods: {
+    /**
+     * Return the configured DeepKeep API key.
+     */
     _apiKey() {
       const key = this.$auth?.api_key;
       if (!key) {
@@ -57,6 +60,9 @@ export default {
       }
       return key;
     },
+    /**
+     * Return a normalized DeepKeep base URL without trailing slashes.
+     */
     _baseUrl(baseUrl) {
       baseUrl = baseUrl || this.$auth?.base_url || this.$auth?.baseUrl;
       if (!baseUrl) {
@@ -64,6 +70,9 @@ export default {
       }
       return baseUrl.replace(/\/+$/, "");
     },
+    /**
+     * Return headers required for DeepKeep API requests.
+     */
     _headers() {
       return {
         "X-API-Key": this._apiKey(),
@@ -71,6 +80,9 @@ export default {
         "Accept": "application/json",
       };
     },
+    /**
+     * Send an authenticated request to a DeepKeep endpoint.
+     */
     _request({
       $ = this,
       path,
@@ -86,6 +98,9 @@ export default {
         data,
       });
     },
+    /**
+     * Check model input with DeepKeep pre-model moderation.
+     */
     moderatePreModel({
       $, baseUrl, model, input, title = "", chat = "",
     }) {
@@ -101,6 +116,9 @@ export default {
         },
       });
     },
+    /**
+     * Check model output with DeepKeep post-model moderation.
+     */
     moderatePostModel({
       $, baseUrl, model, output, title = "", chat = "",
     }) {
@@ -116,6 +134,9 @@ export default {
         },
       });
     },
+    /**
+     * Return the highest-priority guardrail action from a DeepKeep response.
+     */
     highestPriorityAction(result = {}) {
       let selected;
       for (const item of result.verbosity || []) {
@@ -129,6 +150,9 @@ export default {
       }
       return selected;
     },
+    /**
+     * Return modified content from a DeepKeep response, when present.
+     */
     modifiedContent(result = {}) {
       let modifiedContent;
       for (const item of result.verbosity || []) {
@@ -148,6 +172,9 @@ export default {
         return firstInput.content;
       }
     },
+    /**
+     * Convert a DeepKeep moderation response into action-friendly output.
+     */
     normalizeModerationResult(result, originalText) {
       const action = this.highestPriorityAction(result);
       const modifiedContent = this.modifiedContent(result);
@@ -168,6 +195,9 @@ export default {
         result,
       };
     },
+    /**
+     * Return the best available reason for a blocked moderation result.
+     */
     blockReason(normalized) {
       for (const item of normalized.result?.verbosity || []) {
         const details = item?.details || {};
@@ -177,6 +207,9 @@ export default {
       }
       return "DeepKeep blocked this content.";
     },
+    /**
+     * Return a Pipedream summary for a normalized moderation result.
+     */
     summary(normalized, phase) {
       const label = phase === "post"
         ? "Post-model"
