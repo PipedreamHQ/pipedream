@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/deepkeep",
+  "version": "0.0.1",
+  "description": "Pipedream components for DeepKeep AI Firewall",
+  "main": "deepkeep.app.mjs",
+  "keywords": [
+    "pipedream",
+    "deepkeep",
+    "ai",
+    "guardrails",
+    "moderation"
+  ],
+  "dependencies": {
+    "@pipedream/platform": "latest"
+  }
+}
