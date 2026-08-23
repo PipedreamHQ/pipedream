@@ -398,6 +398,12 @@ export default {
       label: "Enter Line Items as Objects",
       description: "Enter line items as an array of objects",
     },
+    lineItems: {
+      type: "string[]",
+      label: "Line Items",
+      description: "Line items of the transaction, each one an object. Each action documents the `DetailType` values its entity accepts.",
+      optional: true,
+    },
     maxResults: {
       description: "The number of entity elements in the response.",
       label: "Max Results",

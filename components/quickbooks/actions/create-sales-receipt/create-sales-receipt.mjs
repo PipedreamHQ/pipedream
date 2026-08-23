@@ -23,10 +23,11 @@ export default {
       reloadProps: true,
     },
     lineItems: {
-      type: "string[]",
-      label: "Line Items",
+      propDefinition: [
+        quickbooks,
+        "lineItems",
+      ],
       description: "Line items of a sales receipt. Set DetailType to `SalesItemLineDetail` or `GroupLineDetail`. Example: `{ \"DetailType\": \"SalesItemLineDetail\", \"Amount\": 100.0, \"SalesItemLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }` [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/salesreceipt#create-a-salesreceipt) for more information.",
-      optional: true,
     },
     currencyRefValue: {
       propDefinition: [

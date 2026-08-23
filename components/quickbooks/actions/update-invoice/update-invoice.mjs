@@ -172,10 +172,11 @@ export default {
       reloadProps: true,
     },
     lineItems: {
-      type: "string[]",
-      label: "Line Items",
+      propDefinition: [
+        quickbooks,
+        "lineItems",
+      ],
       description: "Line items of an invoice. Set DetailType to `SalesItemLineDetail`, `GroupLineDetail`, or `DescriptionOnly`. Example: `{ \"DetailType\": \"SalesItemLineDetail\", \"Amount\": 100.0, \"SalesItemLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }` [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/invoice#update-an-invoice) for more information",
-      optional: true,
     },
   },
   async additionalProps() {

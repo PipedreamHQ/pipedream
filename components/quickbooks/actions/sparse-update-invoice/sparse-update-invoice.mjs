@@ -41,10 +41,11 @@ export default {
       reloadProps: true,
     },
     lineItems: {
-      type: "string[]",
-      label: "Line Items",
+      propDefinition: [
+        quickbooks,
+        "lineItems",
+      ],
       description: "Line items of an invoice. Set DetailType to `SalesItemLineDetail`, `GroupLineDetail`, `DescriptionOnly`, `DiscountLineDetail`, or `SubTotalLineDetail`. Example: `{ \"DetailType\": \"SalesItemLineDetail\", \"Amount\": 100.0, \"SalesItemLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }`",
-      optional: true,
     },
   },
   async additionalProps() {

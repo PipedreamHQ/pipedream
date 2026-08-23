@@ -79,20 +79,29 @@ export async function retryWithExponentialBackoff(
   }
 }
 
+const LINE_ITEMS_REQUIRED = "Line Items are required when \"Enter Line Items as Objects\" is enabled.";
+
 export function parseLineItems(arr) {
   if (!arr || (Array.isArray(arr) && !arr.length)) {
-    throw new ConfigurationError("Line Items are required when \"Enter Line Items as Objects\" is enabled.");
+    throw new ConfigurationError(LINE_ITEMS_REQUIRED);
   }
+  let lineItems;
   try {
-    if (typeof arr === "string") {
-      return JSON.parse(arr);
-    }
-    return arr.map((lineItem) => typeof lineItem === "string"
-      ? JSON.parse(lineItem)
-      : lineItem);
+    lineItems = typeof arr === "string"
+      ? JSON.parse(arr)
+      : arr.map((lineItem) => typeof lineItem === "string"
+        ? JSON.parse(lineItem)
+        : lineItem);
   } catch (error) {
     throw new ConfigurationError(`We got an error trying to parse the LineItems. Error: ${error}`);
   }
+  if (!Array.isArray(lineItems)) {
+    throw new ConfigurationError("Line Items must be an array of line item objects.");
+  }
+  if (!lineItems.length) {
+    throw new ConfigurationError(LINE_ITEMS_REQUIRED);
+  }
+  return lineItems;
 }
 
 export function buildSalesLineItems(numLineItems, context) {

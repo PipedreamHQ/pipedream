@@ -110,10 +110,11 @@ export default {
       reloadProps: true,
     },
     lineItems: {
-      type: "string[]",
-      label: "Line Items",
+      propDefinition: [
+        quickbooks,
+        "lineItems",
+      ],
       description: "Line items of a purchase order. DetailType is `ItemBasedExpenseLineDetail`. Example: `{ \"DetailType\": \"ItemBasedExpenseLineDetail\", \"Amount\": 100.0, \"ItemBasedExpenseLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }` [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/purchaseorder#create-a-purchaseorder) for more information.",
-      optional: true,
     },
   },
   async additionalProps() {
