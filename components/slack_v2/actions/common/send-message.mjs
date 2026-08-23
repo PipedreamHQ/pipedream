@@ -30,40 +30,23 @@ export default {
       label: "Include link to Pipedream",
       description: "Defaults to `true`, includes a link to Pipedream at the end of your Slack message.",
     },
-    customizeBotSettings: {
-      type: "boolean",
-      label: "Customize Bot Settings",
-      description: "Customize the username and/or icon of the Bot",
-      optional: true,
-      reloadProps: true,
-    },
     username: {
       propDefinition: [
         slack,
         "username",
       ],
-      hidden: true,
     },
     icon_emoji: {
       propDefinition: [
         slack,
         "icon_emoji",
       ],
-      hidden: true,
     },
     icon_url: {
       propDefinition: [
         slack,
         "icon_url",
       ],
-      hidden: true,
-    },
-    replyToThread: {
-      type: "boolean",
-      label: "Reply to Thread",
-      description: "Reply to an existing thread",
-      optional: true,
-      reloadProps: true,
     },
     thread_ts: {
       propDefinition: [
@@ -72,77 +55,37 @@ export default {
       ],
       description: "Provide another message's `ts` value to make this message a reply (e.g., if triggering on new Slack messages, enter `{{event.ts}}`). Avoid using a reply's `ts` value; use its parent instead. e.g. `1403051575.000407`.",
       optional: true,
-      hidden: true,
     },
     thread_broadcast: {
       propDefinition: [
         slack,
         "thread_broadcast",
       ],
-      hidden: true,
-    },
-    addMessageMetadata: {
-      type: "boolean",
-      label: "Add Message Metadata",
-      description: "Set the metadata event type and payload",
-      optional: true,
-      reloadProps: true,
     },
     metadata_event_type: {
       propDefinition: [
         slack,
         "metadata_event_type",
       ],
-      hidden: true,
     },
     metadata_event_payload: {
       propDefinition: [
         slack,
         "metadata_event_payload",
       ],
-      hidden: true,
-    },
-    configureUnfurlSettings: {
-      type: "boolean",
-      label: "Configure Unfurl Settings",
-      description: "Configure settings for unfurling links and media",
-      optional: true,
-      reloadProps: true,
     },
     unfurl_links: {
       propDefinition: [
         slack,
         "unfurl_links",
       ],
-      hidden: true,
     },
     unfurl_media: {
       propDefinition: [
         slack,
         "unfurl_media",
       ],
-      hidden: true,
     },
-  },
-  async additionalProps(props) {
-    if (this.conversation && this.replyToThread) {
-      props.thread_ts.hidden = false;
-      props.thread_broadcast.hidden = false;
-    }
-    if (this.customizeBotSettings) {
-      props.username.hidden = false;
-      props.icon_emoji.hidden = false;
-      props.icon_url.hidden = false;
-    }
-    if (this.addMessageMetadata) {
-      props.metadata_event_type.hidden = false;
-      props.metadata_event_payload.hidden = false;
-    }
-    if (this.configureUnfurlSettings) {
-      props.unfurl_links.hidden = false;
-      props.unfurl_media.hidden = false;
-    }
-    return {};
   },
   methods: {
     _makeSentViaPipedreamBlock() {
