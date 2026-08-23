@@ -401,7 +401,7 @@ export default {
     lineItems: {
       type: "string[]",
       label: "Line Items",
-      description: "Line items of the transaction, each one an object. Each action documents the `DetailType` values its entity accepts.",
+      description: "Line items of the transaction. Each entry is a JSON-encoded object, e.g. `{ \"DetailType\": \"SalesItemLineDetail\", \"Amount\": 10.0, \"SalesItemLineDetail\": { \"ItemRef\": { \"value\": \"123\" } } }`. Each action documents the `DetailType` values its own entity accepts.",
       optional: true,
     },
     maxResults: {

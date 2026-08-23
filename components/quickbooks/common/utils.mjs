@@ -101,6 +101,9 @@ export function parseLineItems(arr) {
   if (!lineItems.length) {
     throw new ConfigurationError(LINE_ITEMS_REQUIRED);
   }
+  if (lineItems.some((lineItem) => !lineItem || typeof lineItem !== "object" || Array.isArray(lineItem))) {
+    throw new ConfigurationError("Each line item must be a non-null object.");
+  }
   return lineItems;
 }
 
