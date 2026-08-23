@@ -6,7 +6,7 @@ export default {
   key: "quickbooks-sparse-update-invoice",
   name: "Sparse Update Invoice",
   description: "Sparse updating provides the ability to update a subset of properties for a given object; only elements specified in the request are updated. Missing elements are left untouched. The ID of the object to update is specified in the request body.​ [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/invoice#sparse-update-an-invoice)",
-  version: "0.1.11",
+  version: "0.2.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -40,15 +40,16 @@ export default {
       ],
       reloadProps: true,
     },
+    lineItems: {
+      type: "string[]",
+      label: "Line Items",
+      description: "Line items of an invoice. Set DetailType to `SalesItemLineDetail`, `GroupLineDetail`, `DescriptionOnly`, `DiscountLineDetail`, or `SubTotalLineDetail`. Example: `{ \"DetailType\": \"SalesItemLineDetail\", \"Amount\": 100.0, \"SalesItemLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }`",
+      optional: true,
+    },
   },
   async additionalProps() {
     const props = {};
     if (this.lineItemsAsObjects) {
-      props.lineItems = {
-        type: "string[]",
-        label: "Line Items",
-        description: "Line items of an invoice. Set DetailType to `SalesItemLineDetail`, `GroupLineDetail`, `DescriptionOnly`, `DiscountLineDetail`, or `SubTotalLineDetail`. Example: `{ \"DetailType\": \"SalesItemLineDetail\", \"Amount\": 100.0, \"SalesItemLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }`",
-      };
       return props;
     }
     props.numLineItems = {

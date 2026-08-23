@@ -80,8 +80,8 @@ export async function retryWithExponentialBackoff(
 }
 
 export function parseLineItems(arr) {
-  if (!arr) {
-    return undefined;
+  if (!arr || (Array.isArray(arr) && !arr.length)) {
+    throw new ConfigurationError("Line Items are required when \"Enter Line Items as Objects\" is enabled.");
   }
   try {
     if (typeof arr === "string") {
