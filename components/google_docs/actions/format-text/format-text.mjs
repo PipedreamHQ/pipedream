@@ -190,7 +190,8 @@ export default {
     if (fontWeight != null && !fontFamily) {
       throw new ConfigurationError("Font Weight only applies alongside Font Family. Set Font Family too, or use Bold to embolden the text in its current font.");
     }
-    if (fontWeight != null && fontWeight % FONT_WEIGHT_STEP) {
+    if (fontWeight != null && (fontWeight % FONT_WEIGHT_STEP
+      || fontWeight < FONT_WEIGHT_MIN || fontWeight > FONT_WEIGHT_MAX)) {
       throw new ConfigurationError(`Font Weight must be a multiple of ${FONT_WEIGHT_STEP} between ${FONT_WEIGHT_MIN} and ${FONT_WEIGHT_MAX}, got ${fontWeight}.`);
     }
     if (fontFamily) {

@@ -87,7 +87,15 @@ export default {
       tabId,
     });
 
-    await googleDocs.batchUpdate(documentId, ranges.map((range) => ({
+    // createParagraphBullets strips the leading tabs it uses to infer nesting,
+    // and the API documents that this may change the indices of text after the
+    // range it edits. Sending the ranges from the end of the document backwards
+    // keeps the earlier, still-unapplied ranges valid.
+    const ordered = [
+      ...ranges,
+    ].sort((a, b) => b.startIndex - a.startIndex);
+
+    await googleDocs.batchUpdate(documentId, ordered.map((range) => ({
       createParagraphBullets: {
         range,
         bulletPreset,
