@@ -82,7 +82,7 @@ export default {
       type: "string",
       label: "Profile ID",
       description:
-        "ID of the user's Profile. Use **SOQL Query** to find the Profile ID.",
+        "ID of the user's Profile (Salesforce's 15- or 18-character record ID, e.g. `00eXX000001SvR2`). Use **SOQL Query** to find the Profile ID.",
     },
     TimeZoneSidKey: {
       type: "string",

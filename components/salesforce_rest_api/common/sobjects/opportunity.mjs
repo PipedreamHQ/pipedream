@@ -7,7 +7,7 @@ export default {
       type: "string",
       label: "Contact ID",
       description:
-        "ID of the contact associated with this opportunity, set as the primary contact. Use **SOQL Query** to find the Contact ID.",
+        "ID of the contact associated with this opportunity, set as the primary contact (Salesforce's 15- or 18-character record ID, e.g. `003XX000004TmiQ`). Use **SOQL Query** to find the Contact ID.",
       optional: true,
     },
   },

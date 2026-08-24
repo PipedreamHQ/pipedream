@@ -13,7 +13,7 @@ export default {
     + " For example, `Name` `Acme Corp` creates a minimal account and returns its new record ID."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.3.8",
+  version: "0.4.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
