@@ -4,6 +4,12 @@ import { DEFAULT_MEETING_PROPERTIES } from "../../common/constants.mjs";
 import { OBJECT_TYPE } from "../../common/object-types.mjs";
 import hubspot from "../../hubspot.app.mjs";
 
+// ISO 8601 date or date-time (optional time, optional Z / ±hh:mm offset), capturing
+// year/month/day. Date.parse alone is too lenient — it accepts `01/02/2025` and
+// `March 5 2025`, and rolls impossible dates like `2025-02-30` forward to Mar 2.
+const ISO_DATE_RE =
+  /^(\d{4})-(\d{2})-(\d{2})(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:\d{2})?)?$/;
+
 export default {
   key: "hubspot-get-associated-meetings",
   name: "Get Associated Meetings",
@@ -289,13 +295,26 @@ export default {
           "Both **Start Date** and **End Date** are required when **Timeframe** is `custom`.",
         );
       }
-      const start = Date.parse(this.startDate);
-      const end = Date.parse(this.endDate);
-      if (!Number.isFinite(start) || !Number.isFinite(end)) {
-        throw new ConfigurationError(
-          "**Start Date** and **End Date** must be valid ISO 8601 dates (e.g. `2025-01-01T00:00:00Z`) when **Timeframe** is `custom`.",
-        );
-      }
+      const parseCustomDate = (value, label) => {
+        const m = ISO_DATE_RE.exec(value);
+        const ms = Date.parse(value);
+        if (!m || !Number.isFinite(ms)) {
+          throw new ConfigurationError(
+            `**${label}** must be a valid ISO 8601 date (e.g. \`2025-01-01T00:00:00Z\`) when **Timeframe** is \`custom\`.`,
+          );
+        }
+        // Reject impossible calendar dates (Date.parse rolls 2025-02-30 forward).
+        const y = +m[1], mo = +m[2], d = +m[3];
+        const rt = new Date(Date.UTC(y, mo - 1, d));
+        if (rt.getUTCFullYear() !== y || rt.getUTCMonth() + 1 !== mo || rt.getUTCDate() !== d) {
+          throw new ConfigurationError(
+            `**${label}** is not a real calendar date.`,
+          );
+        }
+        return ms;
+      };
+      const start = parseCustomDate(this.startDate, "Start Date");
+      const end = parseCustomDate(this.endDate, "End Date");
       if (start >= end) {
         throw new ConfigurationError(
           "**Start Date** must be earlier than **End Date** when **Timeframe** is `custom`.",
