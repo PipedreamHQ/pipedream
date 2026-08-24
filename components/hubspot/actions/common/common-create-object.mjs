@@ -34,7 +34,7 @@ export default {
     } = this;
     const objectType = this.getObjectType();
 
-    const parsedObjectProperties = objectProperties
+    const parsedObjectProperties = objectProperties != null
       ? parseObjectProperties(objectProperties)
       : {};
 

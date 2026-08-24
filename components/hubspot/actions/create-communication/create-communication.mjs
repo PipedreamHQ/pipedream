@@ -84,7 +84,7 @@ export default {
       );
     }
 
-    const properties = objectProperties
+    const properties = objectProperties != null
       ? parseObjectProperties(objectProperties)
       : otherProperties;
 

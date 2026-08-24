@@ -283,10 +283,24 @@ export default {
     },
   },
   async run({ $ }) {
-    if (this.timeframe === "custom" && (!this.startDate || !this.endDate)) {
-      throw new ConfigurationError(
-        "Both **Start Date** and **End Date** are required when **Timeframe** is `custom`.",
-      );
+    if (this.timeframe === "custom") {
+      if (!this.startDate || !this.endDate) {
+        throw new ConfigurationError(
+          "Both **Start Date** and **End Date** are required when **Timeframe** is `custom`.",
+        );
+      }
+      const start = Date.parse(this.startDate);
+      const end = Date.parse(this.endDate);
+      if (!Number.isFinite(start) || !Number.isFinite(end)) {
+        throw new ConfigurationError(
+          "**Start Date** and **End Date** must be valid ISO 8601 dates (e.g. `2025-01-01T00:00:00Z`) when **Timeframe** is `custom`.",
+        );
+      }
+      if (start >= end) {
+        throw new ConfigurationError(
+          "**Start Date** must be earlier than **End Date** when **Timeframe** is `custom`.",
+        );
+      }
     }
     let resolvedObjectId = this.objectId;
     // Accept an email for contacts whether the object type is given as "contact" or "contacts".
