@@ -441,41 +441,33 @@ export default {
           },
         ];
 
-        if (markdownFormatting.length === 0) {
-          // No formatting needed, just do the plain text replacement
-          return this.docs().documents.batchUpdate({
-            documentId,
-            requestBody: {
-              requests,
-            },
-          });
-        }
-
-        // For markdown with formatting, we need to find where the text will be replaced
-        // and then apply formatting to it
-        // First, do the replacement
-        await this.docs().documents.batchUpdate({
+        // Only this call reports how many matches it changed; the formatting
+        // pass that may follow does not, so keep its response to return.
+        const replacement = await this.docs().documents.batchUpdate({
           documentId,
           requestBody: {
             requests,
           },
         });
 
-        // Get the document AFTER replacement
+        const occurrencesChanged =
+          replacement?.data?.replies?.[0]?.replaceAllText?.occurrencesChanged ?? 0;
+        if (markdownFormatting.length === 0 || occurrencesChanged === 0) {
+          return replacement;
+        }
+
+        // Formatting is applied by position, so it has to be resolved against
+        // the document as it looks after the replacement.
         const { data: updatedDocData } = await this.docs().documents.get({
           documentId,
         });
-
-        // Find all occurrences of the replacement text in the updated document
         const formattingRequests = markdownParser.buildFormattingRequestsForReplacement(
           markdownFormatting,
           updatedDocData,
           replacementText,
         );
-
-        // Apply formatting if any matches were found
         if (formattingRequests.length > 0) {
-          return this.docs().documents.batchUpdate({
+          await this.docs().documents.batchUpdate({
             documentId,
             requestBody: {
               requests: formattingRequests,
@@ -483,8 +475,7 @@ export default {
           });
         }
 
-        // Return updated document even if no formatting was applied
-        return updatedDocData;
+        return replacement;
       } catch (error) {
         throw new Error(`Failed to replace text with markdown: ${error.message}`);
       }
