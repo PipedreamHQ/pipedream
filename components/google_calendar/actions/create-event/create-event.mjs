@@ -6,8 +6,8 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "google_calendar-create-event",
   name: "Create Event",
-  description: "Create an event in a Google Calendar. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/insert)",
-  version: "1.1.0",
+  description: "Create a new event on a Google Calendar — a single or recurring appointment at a specific date/time (optionally with attendees, location, and description). Use this whenever the user wants to add something to their calendar. This creates calendar EVENTS only: it cannot configure calendar settings, working hours, availability, or default preferences, and it cannot create a new calendar. Do not represent any of those requests as an event — creating an event named after the request does not fulfill it. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/insert)",
+  version: "1.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

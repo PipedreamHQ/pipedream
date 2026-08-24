@@ -5,8 +5,8 @@ export default {
   ...createReportComponent(ad),
   key: "google_ads-create-ad-report",
   name: "Create Ad Report",
-  description: "Creates a report for the Ad resource. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v21/GoogleAdsService/Search?transport=rest)",
-  version: "0.0.3",
+  description: "Creates a report for the Ad resource. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/GoogleAdsService/Search?transport=rest)",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
