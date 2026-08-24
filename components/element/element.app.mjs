@@ -11,7 +11,7 @@ export default {
     roomId: {
       type: "string",
       label: "Room ID",
-      description: "The Matrix room ID, e.g. `!OGEhHVWSdvArJzumhm:matrix.org`. Use **List Rooms** to find the ID of a room you've already joined.",
+      description: "The Matrix room ID, e.g. `!OGEhHVWSdvArJzumhm:matrix.org`. Use **List Rooms** to find the ID of a room you've already joined, or **Resolve Room Alias** to convert an alias such as `#engineering:matrix.org` into an ID. Aliases are not accepted here.",
     },
     userId: {
       type: "string",
@@ -65,6 +65,23 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: `/rooms/${encodeURIComponent(roomId)}/invite`,
+        ...opts,
+      });
+    },
+    resolveRoomAlias({
+      roomAlias, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/directory/room/${encodeURIComponent(roomAlias)}`,
+        ...opts,
+      });
+    },
+    kickUser({
+      roomId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/rooms/${encodeURIComponent(roomId)}/kick`,
         ...opts,
       });
     },

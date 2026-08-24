@@ -19,7 +19,7 @@ export default {
         element,
         "roomId",
       ],
-      description: "The Matrix room ID to unban the user from, e.g. `!OGEhHVWSdvArJzumhm:matrix.org`. Must be an ID, not a room alias. Use **List Rooms** to find the ID of a room you've already joined.",
+      description: "The Matrix room ID to unban the user from, e.g. `!OGEhHVWSdvArJzumhm:matrix.org`. Must be an ID, not a room alias — use **Resolve Room Alias** to convert one. Use **List Rooms** to find the ID of a room you've already joined.",
     },
     userId: {
       propDefinition: [

@@ -4,7 +4,7 @@ import element from "../../element.app.mjs";
 export default {
   key: "element-ban-user",
   name: "Ban User",
-  description: "Ban a user from a room, also kicking them if they are currently joined. A banned user cannot rejoin or be invited back until the ban is lifted with **Unban User**. The connected account must be in the room with a power level high enough to ban, otherwise the API returns `M_FORBIDDEN`. Use **List Rooms** to find the room ID. [See the documentation](https://spec.matrix.org/latest/client-server-api/#post_matrixclientv3roomsroomidban)",
+  description: "Ban a user from a room, also kicking them if they are currently joined. A banned user cannot rejoin or be invited back until the ban is lifted with **Unban User** — use **Kick User** instead to remove someone without blocking their return. The connected account must be in the room with a power level high enough to ban, otherwise the API returns `M_FORBIDDEN`. Use **List Rooms** to find the room ID. [See the documentation](https://spec.matrix.org/latest/client-server-api/#post_matrixclientv3roomsroomidban)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -19,7 +19,7 @@ export default {
         element,
         "roomId",
       ],
-      description: "The Matrix room ID to ban the user from, e.g. `!OGEhHVWSdvArJzumhm:matrix.org`. Must be an ID, not a room alias. Use **List Rooms** to find the ID of a room you've already joined.",
+      description: "The Matrix room ID to ban the user from, e.g. `!OGEhHVWSdvArJzumhm:matrix.org`. Must be an ID, not a room alias — use **Resolve Room Alias** to convert one. Use **List Rooms** to find the ID of a room you've already joined.",
     },
     userId: {
       propDefinition: [
