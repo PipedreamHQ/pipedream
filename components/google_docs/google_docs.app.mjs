@@ -451,6 +451,25 @@ export default {
         ? parsedText
         : parsedText.replace(/\n+$/, "");
 
+      const insertedStartsByTab = new Map();
+      if (markdownFormatting.length) {
+        const beforeDoc = await this.getDocument(documentId, true);
+        const lengthDelta = replacementText.length - textToReplace.length;
+        this._flattenDocumentTabs(beforeDoc.tabs)
+          .filter(({ tabProperties }) => !tabIds?.length || tabIds.includes(tabProperties?.tabId))
+          .forEach((tab) => {
+            const starts = markdownParser.findTextOccurrences(
+              tab.documentTab,
+              textToReplace,
+              matchCase,
+            );
+            insertedStartsByTab.set(
+              tab.tabProperties?.tabId,
+              new Set(starts.map((start, index) => start + (index * lengthDelta))),
+            );
+          });
+      }
+
       const { data: replaceData } = await this.batchUpdate(documentId, [
         {
           replaceAllText: {
@@ -488,6 +507,7 @@ export default {
           markdownFormatting,
           tab.documentTab,
           replacementText,
+          insertedStartsByTab.get(tabId),
         );
         return requests.map((request) => {
           const [

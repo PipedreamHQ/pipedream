@@ -423,12 +423,45 @@ function collectTableText(table, allText, indexMap, state) {
   });
 }
 
+function findTextOccurrences(doc, needle, matchCase = false) {
+  const allText = [];
+  const indexMap = [];
+  const state = {
+    currentIndex: 1,
+    allTextIndex: 0,
+  };
+  collectAllDocumentText(doc?.body?.content || [], allText, indexMap, state);
+  const fullText = allText.join("");
+
+  const target = matchCase
+    ? needle
+    : needle.toLowerCase();
+  const starts = [];
+
+  for (let i = 0; needle.length && i + needle.length <= fullText.length; i++) {
+    const window = fullText.substr(i, needle.length);
+    const candidate = matchCase
+      ? window
+      : window.toLowerCase();
+    if (candidate !== target) {
+      continue;
+    }
+    starts.push(indexMap[i] ?? (state.currentIndex + i));
+    i += needle.length - 1;
+  }
+  return starts;
+}
+
 /**
  * Build formatting requests for replaced text with recursive document scanning
  * Scans the entire document including nested structures (tables, lists) and finds
- * all occurrences of replacementText, applying formatting to each match.
+ * all occurrences of replacementText. Pass `insertedStartIndices` to format only
+ * the occurrences a replacement actually inserted; without it every occurrence is
+ * formatted, including identical text that was already in the document.
  */
-function buildFormattingRequestsForReplacement(markdownFormatting, doc, replacementText) {
+function buildFormattingRequestsForReplacement(
+  markdownFormatting, doc, replacementText, insertedStartIndices,
+) {
   const requests = [];
   const bodyContent = doc?.body?.content || [];
 
@@ -464,7 +497,11 @@ function buildFormattingRequestsForReplacement(markdownFormatting, doc, replacem
   const bulletRequests = [];
 
   // For each match found, generate formatting requests
-  matches.forEach((match) => {
+  const targetMatches = insertedStartIndices
+    ? matches.filter(({ startIndex }) => insertedStartIndices.has(startIndex))
+    : matches;
+
+  targetMatches.forEach((match) => {
     markdownFormatting.forEach((req) => {
       // Handle bullet list formatting separately
       if (req.type === "createParagraphBullets") {
@@ -685,6 +722,7 @@ function findAllMatches(haystack, needle, baseIndex, matches) {
 
 export default {
   parseMarkdown,
+  findTextOccurrences,
   convertToGoogleDocsRequests,
   buildFormattingRequestsForReplacement,
 };
