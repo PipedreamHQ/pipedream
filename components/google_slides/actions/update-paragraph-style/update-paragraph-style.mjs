@@ -42,49 +42,41 @@ export default {
       description: "The shape or table whose paragraphs you want to style.",
     },
     rowIndex: {
-      type: "integer",
-      label: "Row Index",
+      propDefinition: [
+        googleSlides,
+        "rowIndex",
+      ],
       description: "Zero-based row of the table cell to style. Leave blank — along with **Column Index** — when the target is a shape rather than a table.",
-      optional: true,
-      min: 0,
     },
     columnIndex: {
-      type: "integer",
-      label: "Column Index",
+      propDefinition: [
+        googleSlides,
+        "columnIndex",
+      ],
       description: "Zero-based column of the table cell to style. Leave blank — along with **Row Index** — when the target is a shape rather than a table.",
-      optional: true,
-      min: 0,
     },
     rangeType: {
-      type: "string",
-      label: "Range Type",
-      description: "Which paragraphs to style. `ALL` covers everything and ignores the indices below.",
-      optional: true,
-      default: "ALL",
-      options: [
-        "ALL",
-        "FROM_START_INDEX",
-        "FIXED_RANGE",
+      propDefinition: [
+        googleSlides,
+        "rangeType",
       ],
     },
     startIndex: {
-      type: "integer",
-      label: "Start Index",
-      description: "Zero-based index where the range begins. Required when **Range Type** is `FROM_START_INDEX` or `FIXED_RANGE`.",
-      optional: true,
-      min: 0,
+      propDefinition: [
+        googleSlides,
+        "startIndex",
+      ],
     },
     endIndex: {
-      type: "integer",
-      label: "End Index",
-      description: "Zero-based index where the range ends, exclusive. Required when **Range Type** is `FIXED_RANGE`.",
-      optional: true,
-      min: 1,
+      propDefinition: [
+        googleSlides,
+        "endIndex",
+      ],
     },
     alignment: {
       type: "string",
       label: "Alignment",
-      description: "How the paragraph's text is aligned. `START` is left-aligned in a left-to-right presentation.",
+      description: "How the paragraph text is aligned. `START` and `END` align to the leading and trailing margin for the text direction (left and right respectively in a left-to-right presentation), `CENTER` centers it, and `JUSTIFIED` stretches it to both margins.",
       optional: true,
       options: [
         "START",
@@ -138,7 +130,7 @@ export default {
     spacingMode: {
       type: "string",
       label: "Spacing Mode",
-      description: "Whether space above and below is still applied to paragraphs that sit next to a list.",
+      description: "Whether space above and below still applies next to a list. `NEVER_COLLAPSE` always applies the spacing; `COLLAPSE_LISTS` skips it between list elements.",
       optional: true,
       options: [
         "NEVER_COLLAPSE",
@@ -148,7 +140,7 @@ export default {
     direction: {
       type: "string",
       label: "Text Direction",
-      description: "The reading direction of the paragraph's text.",
+      description: "The reading direction of the paragraph text. `LEFT_TO_RIGHT` for scripts such as Latin, `RIGHT_TO_LEFT` for scripts such as Arabic or Hebrew.",
       optional: true,
       options: [
         "LEFT_TO_RIGHT",

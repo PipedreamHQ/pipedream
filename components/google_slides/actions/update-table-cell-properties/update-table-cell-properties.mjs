@@ -41,18 +41,18 @@ export default {
       ],
     },
     rowIndex: {
-      type: "integer",
-      label: "Row Index",
+      propDefinition: [
+        googleSlides,
+        "rowIndex",
+      ],
       description: "Zero-based index of the first row to style. Leave blank — along with **Column Index** — to style every cell in the table.",
-      optional: true,
-      min: 0,
     },
     columnIndex: {
-      type: "integer",
-      label: "Column Index",
+      propDefinition: [
+        googleSlides,
+        "columnIndex",
+      ],
       description: "Zero-based index of the first column to style. Leave blank — along with **Row Index** — to style every cell in the table.",
-      optional: true,
-      min: 0,
     },
     rowSpan: {
       type: "integer",
@@ -69,27 +69,26 @@ export default {
       min: 1,
     },
     backgroundColor: {
-      type: "string",
-      label: "Background Color",
+      propDefinition: [
+        googleSlides,
+        "backgroundColor",
+      ],
       description: "Cell background color as a 6-digit hex code (e.g. `#EEEEEE`).",
-      optional: true,
     },
     backgroundAlpha: {
-      type: "string",
+      propDefinition: [
+        googleSlides,
+        "backgroundAlpha",
+      ],
       label: "Background Opacity",
       description: "Opacity of the background fill, from `0` (fully transparent) to `1` (fully opaque). Only applies when **Background Color** is set.",
-      optional: true,
     },
     contentAlignment: {
-      type: "string",
-      label: "Content Alignment",
-      description: "How content sits vertically within each cell.",
-      optional: true,
-      options: [
-        "TOP",
-        "MIDDLE",
-        "BOTTOM",
+      propDefinition: [
+        googleSlides,
+        "contentAlignment",
       ],
+      description: "How content sits vertically within each cell.",
     },
   },
   async run({ $ }) {

@@ -41,16 +41,20 @@ export default {
       ],
     },
     backgroundColor: {
-      type: "string",
+      propDefinition: [
+        googleSlides,
+        "backgroundColor",
+      ],
       label: "Fill Color",
       description: "The shape's fill color as a 6-digit hex code (e.g. `#4285F4`).",
-      optional: true,
     },
     backgroundAlpha: {
-      type: "string",
+      propDefinition: [
+        googleSlides,
+        "backgroundAlpha",
+      ],
       label: "Fill Opacity",
       description: "Opacity of the fill, from `0` (fully transparent) to `1` (fully opaque). Only applies when **Fill Color** is set.",
-      optional: true,
     },
     outlineColor: {
       type: "string",
@@ -74,7 +78,7 @@ export default {
     outlineDashStyle: {
       type: "string",
       label: "Outline Dash Style",
-      description: "The line style of the shape's border.",
+      description: "The line style of the border. `SOLID` is an unbroken line; the others repeat the named dash pattern.",
       optional: true,
       options: [
         "SOLID",
@@ -86,15 +90,11 @@ export default {
       ],
     },
     contentAlignment: {
-      type: "string",
-      label: "Content Alignment",
-      description: "How the shape's text sits vertically within it.",
-      optional: true,
-      options: [
-        "TOP",
-        "MIDDLE",
-        "BOTTOM",
+      propDefinition: [
+        googleSlides,
+        "contentAlignment",
       ],
+      description: "How the shape's text sits vertically within it.",
     },
   },
   async run({ $ }) {

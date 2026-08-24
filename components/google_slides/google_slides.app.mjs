@@ -78,6 +78,74 @@ export default {
         }));
       },
     },
+    // Shared by the table-oriented actions and the update-*-style actions,
+    // which reuse the same cell coordinates to scope a request to one cell.
+    rowIndex: {
+      type: "integer",
+      label: "Row Index",
+      description: "The 0-based index of the target table row.",
+      optional: true,
+      min: 0,
+    },
+    columnIndex: {
+      type: "integer",
+      label: "Column Index",
+      description: "The 0-based index of the target table column.",
+      optional: true,
+      min: 0,
+    },
+    // Shared by the update-*-style actions, which address a span of a shape's
+    // or a cell's text rather than a whole page element.
+    rangeType: {
+      type: "string",
+      label: "Range Type",
+      description: "Which part of the text the request covers. `ALL` covers every character and ignores the indices below; `FROM_START_INDEX` runs from **Start Index** to the end; `FIXED_RANGE` covers **Start Index** up to **End Index**.",
+      optional: true,
+      default: "ALL",
+      options: [
+        "ALL",
+        "FROM_START_INDEX",
+        "FIXED_RANGE",
+      ],
+    },
+    startIndex: {
+      type: "integer",
+      label: "Start Index",
+      description: "The 0-based index where the range begins. Required when **Range Type** is `FROM_START_INDEX` or `FIXED_RANGE`, and ignored when it is `ALL`.",
+      optional: true,
+      min: 0,
+    },
+    endIndex: {
+      type: "integer",
+      label: "End Index",
+      description: "The 0-based index where the range ends, exclusive. Required when **Range Type** is `FIXED_RANGE`, and must be greater than **Start Index**.",
+      optional: true,
+      min: 1,
+    },
+    // Shared by the two element-styling actions.
+    contentAlignment: {
+      type: "string",
+      label: "Content Alignment",
+      description: "How text sits vertically within the element. `TOP` aligns it to the top edge, `MIDDLE` centers it, and `BOTTOM` aligns it to the bottom edge.",
+      optional: true,
+      options: [
+        "TOP",
+        "MIDDLE",
+        "BOTTOM",
+      ],
+    },
+    backgroundColor: {
+      type: "string",
+      label: "Background Color",
+      description: "A 6-digit hex color (e.g. `#EEEEEE`).",
+      optional: true,
+    },
+    backgroundAlpha: {
+      type: "string",
+      label: "Background Opacity",
+      description: "Opacity of the fill, from `0` (fully transparent) to `1` (fully opaque). Only applies when the matching color is set. Sent as a string so that `0` is distinguishable from unset.",
+      optional: true,
+    },
   },
   methods: {
     ...googleDrive.methods,
