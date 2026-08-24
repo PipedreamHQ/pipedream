@@ -7,7 +7,7 @@ export default {
   name: "Create Deal",
   description:
     "Create a deal in Hubspot. [See the documentation](https://developers.hubspot.com/docs/api/crm/deals#endpoint?spec=POST-/crm/v3/objects/deals)",
-  version: "0.0.40",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -44,13 +44,6 @@ export default {
     ...common.methods,
     getObjectType() {
       return OBJECT_TYPE.DEAL;
-    },
-    isDefaultProperty(property) {
-      return (
-        property.name === "dealname" ||
-        property.name === "pipeline" ||
-        property.name === "dealstage"
-      );
     },
   },
 };

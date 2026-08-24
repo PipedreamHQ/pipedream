@@ -11,7 +11,7 @@ export default {
   name: "Create Meeting",
   description:
     "Creates a new meeting with optional associations to other objects. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/engagements/meetings#post-%2Fcrm%2Fv3%2Fobjects%2Fmeetings)",
-  version: "0.0.20",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -64,9 +64,6 @@ export default {
     ...common.methods,
     getObjectType() {
       return OBJECT_TYPE.MEETING;
-    },
-    isRelevantProperty(property) {
-      return common.methods.isRelevantProperty(property);
     },
     createMeeting(properties, associations, $) {
       return this.hubspot.createMeeting({

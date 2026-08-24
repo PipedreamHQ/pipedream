@@ -90,7 +90,7 @@ export default {
     + "No `reloadProps` step and no **CONFIGURE_COMPONENT** requirement: association fields accept raw HubSpot IDs (use **Search CRM** or the Associations API to resolve `associationType` when needed). "
     + "For **only** a note on a contact by ID, **Add Note to Contact** (`hubspot-add-note-to-contact`) is still simpler. "
     + "[See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
-  version: "0.1.5",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -140,25 +140,11 @@ export default {
         + "Example for a note: `{ \"hs_note_body\": \"Hello from Pipedream\" }`.",
     },
   },
-  /**
-   * Skip common-create’s schema-driven `additionalProps` so engagement fields stay in
-   * `objectProperties` only — avoids `reloadProps` on `engagementType` and remote options
-   * that require CONFIGURE_COMPONENT in MCP/agent hosts.
-   */
-  async additionalProps() {
-    return {};
-  },
   methods: {
     ...common.methods,
     getObjectType() {
       const normalized = normalizeEngagementType(this.engagementType);
       return normalized ?? this.engagementType;
-    },
-    isRelevantProperty(property) {
-      return (
-        common.methods.isRelevantProperty(property) &&
-        !property.name.includes("hs_pipeline")
-      );
     },
     createEngagement(objectType, properties, associations, $) {
       return this.hubspot.createObject({

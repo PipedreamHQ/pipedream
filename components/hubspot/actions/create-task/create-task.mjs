@@ -8,7 +8,7 @@ export default {
   name: "Create Task",
   description:
     "Create a new task. [See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
-  version: "0.0.20",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -61,12 +61,6 @@ export default {
     ...common.methods,
     getObjectType() {
       return "tasks";
-    },
-    isRelevantProperty(property) {
-      return (
-        common.methods.isRelevantProperty(property) &&
-        !property.name.includes("hs_pipeline")
-      );
     },
     createEngagement(objectType, properties, associations, $) {
       return this.hubspot.createObject({

@@ -21,18 +21,11 @@ export default {
       async options(opts) {
         return this.hubspot.createOptions(this.getObjectType(), opts);
       },
-      reloadProps: true,
     },
-    info: {
-      type: "alert",
-      alertType: "info",
-      content: "",
-      hidden: true,
-    },
-    // eslint-disable-next-line pipedream/props-description
     additionalProperties: {
       type: "string[]",
       label: "Additional properties to retrieve",
+      description: "Properties to return on top of the default set for this object type. Use **Get Properties** to see what a given object type offers.",
       optional: true,
       async options({ page }) {
         if (page !== 0) {
@@ -50,16 +43,6 @@ export default {
           }));
       },
     },
-  },
-  async additionalProps(props) {
-    if (!props.info) return {};
-    return {
-      info: {
-        ...props.info,
-        content: `Properties:\n\`${this.getDefaultProperties(this.getObjectType()).join(", ")}\``,
-        hidden: false,
-      },
-    };
   },
   methods: {
     getObjectType() {

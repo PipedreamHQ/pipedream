@@ -7,7 +7,7 @@ export default {
   name: "Create Ticket",
   description:
     "Create a ticket in Hubspot. [See the documentation](https://developers.hubspot.com/docs/api/crm/tickets)",
-  version: "0.0.31",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -41,13 +41,6 @@ export default {
     ...common.methods,
     getObjectType() {
       return OBJECT_TYPE.TICKET;
-    },
-    isDefaultProperty(property) {
-      return (
-        property.name === "subject" ||
-        property.name === "hs_pipeline" ||
-        property.name === "hs_pipeline_stage"
-      );
     },
   },
 };

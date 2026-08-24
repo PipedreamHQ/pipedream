@@ -6,23 +6,6 @@ export default {
   props: {
     ...common.props,
     hubspot,
-    // Re-defining propertyGroups so this.getObjectType() can be called from async options
-    // eslint-disable-next-line pipedream/props-description
-    propertyGroups: {
-      type: "string[]",
-      label: "Property Groups",
-      hidden: true,
-      reloadProps: true,
-      async options() {
-        const { results: groups } = await this.hubspot.getPropertyGroups({
-          objectType: this.getObjectType(),
-        });
-        return groups.map((group) => ({
-          label: group.label,
-          value: group.name,
-        }));
-      },
-    },
     objectProperties: {
       type: "object",
       label: "Object Properties",
@@ -31,16 +14,6 @@ export default {
   },
   methods: {
     ...common.methods,
-    isRelevantProperty(property) {
-      const isInPropertyGroups = this.propertyGroups?.includes(property.groupName);
-      const isDefaultProperty = this.isDefaultProperty(property);
-      return common.methods.isRelevantProperty(property)
-        && isInPropertyGroups
-        && !isDefaultProperty;
-    },
-    isDefaultProperty() {
-      return false;
-    },
     createObject(opts = {}) {
       return this.hubspot.createObject(opts);
     },
@@ -48,22 +21,14 @@ export default {
   async run({ $ }) {
     const {
       hubspot,
-      /* eslint-disable no-unused-vars */
-      propertyGroups,
-      customObjectType,
-      contactId,
-      $db,
       updateIfExists,
       objectProperties,
-      ...otherProperties
     } = this;
     const objectType = this.getObjectType();
 
-    const properties = objectProperties
-      ? typeof objectProperties === "string"
-        ? JSON.parse(objectProperties)
-        : objectProperties
-      : otherProperties;
+    const properties = typeof objectProperties === "string"
+      ? JSON.parse(objectProperties)
+      : objectProperties;
 
     // checkbox (string[]) props must be semicolon separated strings
     Object.keys(properties)

@@ -11,7 +11,7 @@ export default {
     + "MCP/AI: For **only** contact ID + note body, use **Add Note to Contact** — fewer props and no association-type configuration. "
     + "If associating to another record, supply `toObjectType`, `toObjectId`, and `associationType` together; use **CONFIGURE_COMPONENT** with `componentKey` `hubspot-create-note` to load dropdown options for those props when needed. "
     + "[See the documentation](https://developers.hubspot.com/docs/api/crm/objects/notes)",
-  version: "0.0.20",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -61,12 +61,6 @@ export default {
     ...common.methods,
     getObjectType() {
       return "notes";
-    },
-    isRelevantProperty(property) {
-      return (
-        common.methods.isRelevantProperty(property) &&
-        !property.name.includes("hs_pipeline")
-      );
     },
     createEngagement(objectType, properties, associations, $) {
       return this.hubspot.createObject({
