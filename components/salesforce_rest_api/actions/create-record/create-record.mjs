@@ -4,8 +4,7 @@ import salesforce from "../../salesforce_rest_api.app.mjs";
 export default {
   key: "salesforce_rest_api-create-record",
   name: "Create Record",
-  description: "Create a Salesforce record of any object type, choosing fields interactively."
-    + " Prefer **Create CRM Record** in agent and API contexts - this action builds its field list dynamically, so the available inputs are not visible until an object type is chosen."
+  description: "Create a Salesforce record of any object type."
     + " Use **List Objects** to discover object types and **Describe Object** to discover fields."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_sobject_create.htm)",

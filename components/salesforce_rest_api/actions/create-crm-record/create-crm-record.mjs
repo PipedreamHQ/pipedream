@@ -3,7 +3,7 @@ import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
   key: "salesforce_rest_api-create-crm-record",
-  name: "Create Record",
+  name: "Create CRM Record",
   description:
     "Create a new Salesforce record of any object type."
     + " Use **Describe Object** first if you're unsure what fields are available or required."

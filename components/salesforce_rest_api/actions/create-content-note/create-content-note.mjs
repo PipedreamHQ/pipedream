@@ -34,20 +34,20 @@ export default {
     Content: {
       type: "string",
       label: "Content",
-      description: "Body content of the note (HTML-escaped and base64-encoded before send).",
+      description: "Body content of the note, as plain text. Any markup characters (`&`, `<`, `>`, `\"`, `'`) are HTML-escaped, then the result is base64-encoded before send.",
     },
     LinkedEntityId: {
       type: "string",
       label: "Linked Entity ID",
       description:
-        "Optional ID of a record to link this note to. Use **SOQL Query** to find the ID.",
+        "Optional ID of a record to link this note to (Salesforce's 15- or 18-character record ID, e.g. `001XX000003DHP0` for an Account). Use **SOQL Query** to find the ID.",
       optional: true,
     },
     additionalFields: {
       type: "object",
       label: "Additional Fields",
       description:
-        "Other ContentNote/ContentDocumentLink fields as name -> value pairs. Use for OwnerId, ShareType (default `I`), Visibility, IsReadOnly, etc. Example: `{\"OwnerId\": \"005xxx\", \"ShareType\": \"V\", \"Visibility\": \"AllUsers\"}`.",
+        "Other ContentNote/ContentDocumentLink fields as name -> value pairs. Use for OwnerId, IsReadOnly, etc. `ShareType` (default `I`) and `Visibility` only take effect when `LinkedEntityId` is also set - they're ignored otherwise. Example: `{\"OwnerId\": \"005xxx\", \"ShareType\": \"V\", \"Visibility\": \"AllUsers\"}`.",
       optional: true,
     },
   },
@@ -81,11 +81,11 @@ export default {
     const contentNoteResponse = await this.salesforce.createRecord("ContentNote", {
       $,
       data: {
+        ...otherFields,
         Title,
         Content: Buffer.from(this.escapeHtml4(Content)).toString("base64"),
         OwnerId,
         IsReadOnly,
-        ...otherFields,
       },
     });
 

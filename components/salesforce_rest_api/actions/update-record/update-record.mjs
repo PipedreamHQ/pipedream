@@ -4,8 +4,7 @@ import salesforce from "../../salesforce_rest_api.app.mjs";
 export default {
   key: "salesforce_rest_api-update-record",
   name: "Update Record",
-  description: "Update a Salesforce record of any object type, choosing fields interactively."
-    + " Prefer **Update CRM Record** in agent and API contexts - this action builds its field list dynamically, so the available inputs are not visible until an object type is chosen."
+  description: "Update a Salesforce record of any object type."
     + " Only the fields you supply change; everything else is left as-is."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_update_fields.htm)",

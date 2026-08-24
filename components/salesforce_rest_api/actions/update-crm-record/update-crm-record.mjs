@@ -3,7 +3,7 @@ import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
   key: "salesforce_rest_api-update-crm-record",
-  name: "Update Record",
+  name: "Update CRM Record",
   description:
     "Update an existing Salesforce record. Only pass fields you want to change — unspecified fields remain unchanged."
     + " Use **Describe Object** for valid field names and picklist values."
