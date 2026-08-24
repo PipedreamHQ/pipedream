@@ -1,4 +1,5 @@
 import quickbooks from "../../quickbooks.app.mjs";
+import props from "../../common/props.mjs";
 import { parseLineItems } from "../../common/utils.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
@@ -23,10 +24,7 @@ export default {
       reloadProps: true,
     },
     lineItems: {
-      propDefinition: [
-        quickbooks,
-        "lineItems",
-      ],
+      ...props.lineItems,
       description: "Line items of a sales receipt. Set DetailType to `SalesItemLineDetail` or `GroupLineDetail`. Example: `{ \"DetailType\": \"SalesItemLineDetail\", \"Amount\": 100.0, \"SalesItemLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }` [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/salesreceipt#create-a-salesreceipt) for more information.",
     },
     currencyRefValue: {

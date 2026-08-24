@@ -1,5 +1,6 @@
 import { parseLineItems } from "../../common/utils.mjs";
 import quickbooks from "../../quickbooks.app.mjs";
+import props from "../../common/props.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
@@ -41,10 +42,7 @@ export default {
       reloadProps: true,
     },
     lineItems: {
-      propDefinition: [
-        quickbooks,
-        "lineItems",
-      ],
+      ...props.lineItems,
       description: "Line items of an invoice. Set DetailType to `SalesItemLineDetail`, `GroupLineDetail`, `DescriptionOnly`, `DiscountLineDetail`, or `SubTotalLineDetail`. Example: `{ \"DetailType\": \"SalesItemLineDetail\", \"Amount\": 100.0, \"SalesItemLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }`",
     },
   },

@@ -1,5 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
 import quickbooks from "../../quickbooks.app.mjs";
+import props from "../../common/props.mjs";
 import { parseLineItems } from "../../common/utils.mjs";
 
 export default {
@@ -39,10 +40,7 @@ export default {
       reloadProps: true,
     },
     lineItems: {
-      propDefinition: [
-        quickbooks,
-        "lineItems",
-      ],
+      ...props.lineItems,
       description: "Line items of a bill. Set DetailType to `AccountBasedExpenseLineDetail`. Example: `{ \"DetailType\": \"AccountBasedExpenseLineDetail\", \"Amount\": 100.0, \"AccountBasedExpenseLineDetail\": { \"AccountRef\": { \"name\": \"Advertising\", \"value\": \"1\" } } }` [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/bill#create-a-bill) for more information.",
     },
   },

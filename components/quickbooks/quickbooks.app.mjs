@@ -398,12 +398,6 @@ export default {
       label: "Enter Line Items as Objects",
       description: "Enter line items as an array of objects",
     },
-    lineItems: {
-      type: "string[]",
-      label: "Line Items",
-      description: "Line items of the transaction. Each entry is a JSON-encoded object, e.g. `{ \"DetailType\": \"SalesItemLineDetail\", \"Amount\": 10.0, \"SalesItemLineDetail\": { \"ItemRef\": { \"value\": \"123\" } } }`. Each action documents the `DetailType` values its own entity accepts.",
-      optional: true,
-    },
     maxResults: {
       description: "The number of entity elements in the response.",
       label: "Max Results",

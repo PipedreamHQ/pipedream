@@ -9,7 +9,7 @@ export default {
   key: "quickbooks-get-balance-sheet-report",
   name: "Get Balance Sheet Report",
   description: "Retrieves the balance sheet report from Quickbooks Online. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/balancesheet#query-a-report)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -1,5 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
 import quickbooks from "../../quickbooks.app.mjs";
+import props from "../../common/props.mjs";
 import {
   parseLineItems,
   buildPurchaseLineItems,
@@ -110,10 +111,7 @@ export default {
       reloadProps: true,
     },
     lineItems: {
-      propDefinition: [
-        quickbooks,
-        "lineItems",
-      ],
+      ...props.lineItems,
       description: "Line items of a purchase order. DetailType is `ItemBasedExpenseLineDetail`. Example: `{ \"DetailType\": \"ItemBasedExpenseLineDetail\", \"Amount\": 100.0, \"ItemBasedExpenseLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }` [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/purchaseorder#create-a-purchaseorder) for more information.",
     },
   },

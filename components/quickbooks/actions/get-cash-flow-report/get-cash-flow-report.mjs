@@ -6,7 +6,7 @@ export default {
   key: "quickbooks-get-cash-flow-report",
   name: "Get Cash Flow Report",
   description: "Retrieves the cash flow report from Quickbooks Online. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/cashflow#query-a-report)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
