@@ -2,12 +2,18 @@ import constants from "../../common/constants.mjs";
 import monday from "../../monday.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
+// The only two column types monday accepts custom labels for.
+const LABEL_COLUMN_TYPES = [
+  "status",
+  "dropdown",
+];
+
 export default {
   key: "monday-create-column",
   name: "Create Column",
   description: "Creates a column. [See the documentation](https://developer.monday.com/api-reference/reference/columns#create-a-column)",
   type: "action",
-  version: "0.1.5",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -31,7 +37,6 @@ export default {
       label: "Column Type",
       description: "The type of the new column",
       options: constants.COLUMN_TYPE_OPTIONS,
-      reloadProps: true,
     },
     description: {
       type: "string",
@@ -39,24 +44,18 @@ export default {
       description: "The description of the new column",
       optional: true,
     },
-  },
-  async additionalProps() {
-    const props = {};
-    if ([
-      "status",
-      "dropdown",
-    ].includes(this.columnType)) {
-      props.defaults = {
-        type: "string",
-        label: "Custom Labels (Defaults)",
-        description: "The new column's custom labels (defaults). For use with column types `status` or `dropdown`. Should be an object in the format `{ \"1\": \"Technology\", \"2\": \"Marketing\" }` where each key is the label ID and each value is the label text. [See the documentation](https://developer.monday.com/api-reference/reference/columns#create-a-status-or-dropdown-column-with-custom-labels) for more information.",
-        optional: true,
-      };
-    }
-    return props;
+    defaults: {
+      type: "string",
+      label: "Custom Labels (Defaults)",
+      description: "The new column's custom labels (defaults). Only applies when **Column Type** is `status` or `dropdown`; setting it for any other type raises an error. Should be an object in the format `{ \"1\": \"Technology\", \"2\": \"Marketing\" }` where each key is the label ID and each value is the label text. [See the documentation](https://developer.monday.com/api-reference/reference/columns#create-a-status-or-dropdown-column-with-custom-labels) for more information.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     let { defaults } = this;
+    if (defaults && !LABEL_COLUMN_TYPES.includes(this.columnType)) {
+      throw new ConfigurationError(`\`Custom Labels (Defaults)\` only applies to the \`status\` and \`dropdown\` column types, but Column Type is \`${this.columnType}\`. Clear it, or change Column Type.`);
+    }
     if (defaults) {
       try {
         if (this.columnType === "status") {
