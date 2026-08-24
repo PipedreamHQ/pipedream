@@ -2,6 +2,8 @@
 import { randomUUID } from "crypto";
 import { axios } from "@pipedream/platform";
 
+const API_PATH = "/_matrix/client/v3";
+
 export default {
   type: "app",
   app: "element",
@@ -14,7 +16,11 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return `${this.$auth.homeserver.replace(/\/+$/, "")}/_matrix/client/v3`;
+      const host = this.$auth.homeserver.replace(/\/+$/, "");
+      const origin = /^https?:\/\//.test(host)
+        ? host
+        : `https://${host}`;
+      return `${origin}${API_PATH}`;
     },
     _makeRequest({
       $ = this, path, ...opts

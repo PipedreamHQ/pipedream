@@ -19,7 +19,7 @@ export default {
     const { joined_rooms: joinedRooms } = await this.element.listJoinedRooms({
       $,
     });
-    $.export("$summary", `Successfully found ${joinedRooms?.length} joined room(s)`);
+    $.export("$summary", `Successfully found ${joinedRooms?.length || 0} joined room(s)`);
     return joinedRooms;
   },
 };
