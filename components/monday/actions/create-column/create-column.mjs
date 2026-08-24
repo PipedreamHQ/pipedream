@@ -47,12 +47,18 @@ export default {
     defaults: {
       type: "string",
       label: "Custom Labels (Defaults)",
-      description: "The new column's custom labels (defaults). Only applies when **Column Type** is `status` or `dropdown`; setting it for any other type raises an error. Should be an object in the format `{ \"1\": \"Technology\", \"2\": \"Marketing\" }` where each key is the label ID and each value is the label text. [See the documentation](https://developer.monday.com/api-reference/reference/columns#create-a-status-or-dropdown-column-with-custom-labels) for more information.",
+      description: "The new column's custom labels (defaults), as a **JSON-encoded string** — not an object. Only applies when **Column Type** is `status` or `dropdown`; setting it for any other type raises an error. Each key is the label ID and each value is the label text, for example `{ \"1\": \"Technology\", \"2\": \"Marketing\" }` passed as a string. [See the documentation](https://developer.monday.com/api-reference/reference/columns#create-a-status-or-dropdown-column-with-custom-labels) for more information.",
       optional: true,
     },
   },
   async run({ $ }) {
     let { defaults } = this;
+    // An explicitly blank value means the same as leaving the prop unset. Without
+    // this, "" is falsy enough to skip both the column-type check and the JSON
+    // parse, and would reach the API unparsed.
+    if (typeof defaults === "string" && !defaults.trim()) {
+      defaults = undefined;
+    }
     if (defaults && !LABEL_COLUMN_TYPES.includes(this.columnType)) {
       throw new ConfigurationError(`\`Custom Labels (Defaults)\` only applies to the \`status\` and \`dropdown\` column types, but Column Type is \`${this.columnType}\`. Clear it, or change Column Type.`);
     }
