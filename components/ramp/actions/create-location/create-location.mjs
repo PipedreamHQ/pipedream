@@ -14,8 +14,10 @@ export default {
   props: {
     ramp,
     name: {
-      type: "string",
-      label: "Name",
+      propDefinition: [
+        ramp,
+        "name",
+      ],
       description: "The name of the new location (e.g. `New York HQ`).",
     },
     entityId: {

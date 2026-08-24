@@ -16,16 +16,18 @@ export default {
   props: {
     ramp,
     departmentId: {
-      type: "string",
-      label: "Department ID",
-      description: "Filter by department ID. Run the **List Departments** action to find valid IDs.",
-      optional: true,
+      propDefinition: [
+        ramp,
+        "departmentId",
+      ],
+      description: "Filter by department ID — a Ramp UUID, e.g. `fffe6c22-698f-4dc5-b2b1-b35f86947d90`. Run the **List Departments** action to find valid IDs.",
     },
     locationId: {
-      type: "string",
-      label: "Location ID",
-      description: "Filter by location ID. Run the **List Locations** action to find valid IDs.",
-      optional: true,
+      propDefinition: [
+        ramp,
+        "locationId",
+      ],
+      description: "Filter by location ID — a Ramp UUID, e.g. `961c6f01-5719-4f4c-8fef-4096a031f32a`. Run the **List Locations** action to find valid IDs.",
     },
     email: {
       type: "string",
@@ -34,10 +36,11 @@ export default {
       optional: true,
     },
     role: {
-      type: "string",
-      label: "Role",
+      propDefinition: [
+        ramp,
+        "role",
+      ],
       description: "Filter by user role.",
-      options: constants.ROLES,
       optional: true,
     },
     status: {

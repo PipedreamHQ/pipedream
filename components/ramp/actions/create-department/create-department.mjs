@@ -14,9 +14,11 @@ export default {
   props: {
     ramp,
     name: {
-      type: "string",
-      label: "Name",
-      description: "The name of the new department (e.g. `Engineering`).",
+      propDefinition: [
+        ramp,
+        "name",
+      ],
+      description: "The name of the new department (e.g. `Engineering`, `Marketing`).",
     },
   },
   async run({ $ }) {

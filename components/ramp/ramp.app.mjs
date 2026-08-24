@@ -43,7 +43,7 @@ export default {
     departmentId: {
       type: "string",
       label: "Department ID",
-      description: "Unique identifier of the employee's department",
+      description: "Unique identifier of a department — a Ramp UUID, e.g. `fffe6c22-698f-4dc5-b2b1-b35f86947d90` (not a department name). Run the **List Departments** action to find valid IDs.",
       optional: true,
       async options({ prevContext }) {
         return this.getPropOptions({
@@ -61,7 +61,7 @@ export default {
     locationId: {
       type: "string",
       label: "Location ID",
-      description: "Unique identifier of the employee's location",
+      description: "Unique identifier of a location — a Ramp UUID, e.g. `961c6f01-5719-4f4c-8fef-4096a031f32a` (not a location name). Run the **List Locations** action to find valid IDs.",
       optional: true,
       async options({ prevContext }) {
         return this.getPropOptions({
@@ -143,6 +143,11 @@ export default {
       label: "Fields",
       description: "Optional list of fields to include per record in addition to the compact default. Leave empty for the compact summary.",
       optional: true,
+    },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The name of the resource.",
     },
   },
   methods: {
