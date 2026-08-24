@@ -1,6 +1,8 @@
 import { ConfigurationError } from "@pipedream/platform";
 import googleDocs from "../../google_docs.app.mjs";
-import constants from "../../common/constants.mjs";
+import {
+  BORDER_SIDES, CONTENT_ALIGNMENTS, DASH_STYLES, DEFAULT_DASH_STYLE, POINTS,
+} from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
 
 export default {
@@ -106,7 +108,7 @@ export default {
       type: "string",
       label: "Border Dash Style",
       description: "Dash pattern for the border, applied to all four sides. Defaults to `SOLID` when a border is set without one.",
-      options: constants.DASH_STYLES,
+      options: DASH_STYLES,
       optional: true,
     },
     paddingTop: {
@@ -145,7 +147,7 @@ export default {
       type: "string",
       label: "Content Alignment",
       description: "Vertical alignment of the content within the cells.",
-      options: constants.CONTENT_ALIGNMENTS,
+      options: CONTENT_ALIGNMENTS,
       optional: true,
     },
   },
@@ -188,7 +190,7 @@ export default {
       }
       setField(name, {
         magnitude: value,
-        unit: constants.POINTS,
+        unit: POINTS,
       });
     };
 
@@ -217,11 +219,11 @@ export default {
         color,
         width: {
           magnitude: borderWidth,
-          unit: constants.POINTS,
+          unit: POINTS,
         },
-        dashStyle: borderDashStyle || constants.DEFAULT_DASH_STYLE,
+        dashStyle: borderDashStyle || DEFAULT_DASH_STYLE,
       };
-      constants.BORDER_SIDES.forEach((side) => setField(side, {
+      BORDER_SIDES.forEach((side) => setField(side, {
         ...border,
       }));
     }

@@ -1,6 +1,8 @@
 import { ConfigurationError } from "@pipedream/platform";
 import googleDocs from "../../google_docs.app.mjs";
-import constants from "../../common/constants.mjs";
+import {
+  ALIGNMENTS, NAMED_STYLE_TYPES, POINTS,
+} from "../../common/constants.mjs";
 
 export default {
   key: "google_docs-format-paragraph",
@@ -61,14 +63,14 @@ export default {
       type: "string",
       label: "Paragraph Style",
       description: "Named style to apply, e.g. `HEADING_1` for a top-level heading or `NORMAL_TEXT` to clear one.",
-      options: constants.NAMED_STYLE_TYPES,
+      options: NAMED_STYLE_TYPES,
       optional: true,
     },
     alignment: {
       type: "string",
       label: "Alignment",
       description: "Paragraph alignment. `START` is left-aligned in a left-to-right document.",
-      options: constants.ALIGNMENTS,
+      options: ALIGNMENTS,
       optional: true,
     },
     lineSpacing: {
@@ -169,7 +171,7 @@ export default {
       }
       setField(name, {
         magnitude: value,
-        unit: constants.POINTS,
+        unit: POINTS,
       });
     };
 

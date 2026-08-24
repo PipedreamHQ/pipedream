@@ -1,6 +1,8 @@
 import { ConfigurationError } from "@pipedream/platform";
 import googleDocs from "../../google_docs.app.mjs";
-import constants from "../../common/constants.mjs";
+import {
+  BASELINE_OFFSETS, FONT_WEIGHT_MAX, FONT_WEIGHT_MIN, FONT_WEIGHT_STEP, POINTS,
+} from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
 
 export default {
@@ -92,7 +94,7 @@ export default {
       type: "string",
       label: "Baseline Offset",
       description: "Vertical offset from the normal baseline. `SUPERSCRIPT` and `SUBSCRIPT` are also rendered in a smaller font, computed from the current size.",
-      options: constants.BASELINE_OFFSETS,
+      options: BASELINE_OFFSETS,
       optional: true,
     },
     fontSize: {
@@ -182,14 +184,14 @@ export default {
     if (fontSize != null) {
       setField("fontSize", {
         magnitude: fontSize,
-        unit: constants.POINTS,
+        unit: POINTS,
       });
     }
     if (fontWeight != null && !fontFamily) {
       throw new ConfigurationError("Font Weight only applies alongside Font Family. Set Font Family too, or use Bold to embolden the text in its current font.");
     }
-    if (fontWeight != null && fontWeight % constants.FONT_WEIGHT_STEP) {
-      throw new ConfigurationError(`Font Weight must be a multiple of ${constants.FONT_WEIGHT_STEP} between ${constants.FONT_WEIGHT_MIN} and ${constants.FONT_WEIGHT_MAX}, got ${fontWeight}.`);
+    if (fontWeight != null && fontWeight % FONT_WEIGHT_STEP) {
+      throw new ConfigurationError(`Font Weight must be a multiple of ${FONT_WEIGHT_STEP} between ${FONT_WEIGHT_MIN} and ${FONT_WEIGHT_MAX}, got ${fontWeight}.`);
     }
     if (fontFamily) {
       // The API applies weightedFontFamily before bold and substitutes weight

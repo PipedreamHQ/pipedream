@@ -1,8 +1,22 @@
+// Maximum `pageSize` accepted by the Drive API's `comments.list`; larger values are
+// coerced down to this by the API.
+// https://developers.google.com/workspace/drive/api/reference/rest/v3/comments/list
+const COMMENTS_MAX_PAGE_SIZE = 100;
+
+const DEFAULT_COMMENT_LIMIT = 100;
+const MAX_COMMENT_LIMIT = 500;
+
+export {
+  COMMENTS_MAX_PAGE_SIZE,
+  DEFAULT_COMMENT_LIMIT,
+  MAX_COMMENT_LIMIT,
+};
+
 // Google Docs API enum values. Kept here rather than inline so the styling
 // actions and the app file agree on one spelling of each.
 // https://developers.google.com/workspace/docs/api/reference/rest/v1/documents
 
-const NAMED_STYLE_TYPES = [
+export const NAMED_STYLE_TYPES = [
   "NORMAL_TEXT",
   "TITLE",
   "SUBTITLE",
@@ -14,14 +28,14 @@ const NAMED_STYLE_TYPES = [
   "HEADING_6",
 ];
 
-const ALIGNMENTS = [
+export const ALIGNMENTS = [
   "START",
   "CENTER",
   "END",
   "JUSTIFIED",
 ];
 
-const BULLET_PRESETS = [
+export const BULLET_PRESETS = [
   "BULLET_DISC_CIRCLE_SQUARE",
   "BULLET_DIAMONDX_ARROW3D_SQUARE",
   "BULLET_CHECKBOX",
@@ -39,19 +53,19 @@ const BULLET_PRESETS = [
   "NUMBERED_ZERODECIMAL_ALPHA_ROMAN",
 ];
 
-const BASELINE_OFFSETS = [
+export const BASELINE_OFFSETS = [
   "NONE",
   "SUPERSCRIPT",
   "SUBSCRIPT",
 ];
 
-const DASH_STYLES = [
+export const DASH_STYLES = [
   "SOLID",
   "DOT",
   "DASH",
 ];
 
-const BORDER_SIDES = [
+export const BORDER_SIDES = [
   "borderTop",
   "borderBottom",
   "borderLeft",
@@ -60,40 +74,25 @@ const BORDER_SIDES = [
 
 // Documented default dash style for a new border. An omitted dashStyle arrives
 // as DASH_STYLE_UNSPECIFIED, which the API rejects for a border.
-const DEFAULT_DASH_STYLE = "SOLID";
+export const DEFAULT_DASH_STYLE = "SOLID";
 
-const CONTENT_ALIGNMENTS = [
+export const CONTENT_ALIGNMENTS = [
   "TOP",
   "MIDDLE",
   "BOTTOM",
 ];
 
-const OCCURRENCES = [
+export const OCCURRENCES = [
   "first",
   "all",
 ];
 
 // Dimension.unit — the only unit the Docs API accepts.
-const POINTS = "PT";
+export const POINTS = "PT";
 
 // WeightedFontFamily.weight bounds. The API takes a multiple of 100 in this
 // range, and silently substitutes 400 when the field is omitted.
-const FONT_WEIGHT_MIN = 100;
-const FONT_WEIGHT_MAX = 900;
-const FONT_WEIGHT_STEP = 100;
+export const FONT_WEIGHT_MIN = 100;
+export const FONT_WEIGHT_MAX = 900;
+export const FONT_WEIGHT_STEP = 100;
 
-export default {
-  NAMED_STYLE_TYPES,
-  ALIGNMENTS,
-  BULLET_PRESETS,
-  BASELINE_OFFSETS,
-  DASH_STYLES,
-  BORDER_SIDES,
-  DEFAULT_DASH_STYLE,
-  CONTENT_ALIGNMENTS,
-  OCCURRENCES,
-  POINTS,
-  FONT_WEIGHT_MIN,
-  FONT_WEIGHT_MAX,
-  FONT_WEIGHT_STEP,
-};

@@ -1,5 +1,5 @@
 import googleDocs from "../../google_docs.app.mjs";
-import constants from "../../common/constants.mjs";
+import { BULLET_PRESETS } from "../../common/constants.mjs";
 
 export default {
   key: "google_docs-apply-bullets",
@@ -60,7 +60,7 @@ export default {
       type: "string",
       label: "Bullet Preset",
       description: "The glyph sequence to use. `BULLET_*` presets are unordered lists, `NUMBERED_*` presets are ordered lists.",
-      options: constants.BULLET_PRESETS,
+      options: BULLET_PRESETS,
       default: "BULLET_DISC_CIRCLE_SQUARE",
       optional: true,
     },

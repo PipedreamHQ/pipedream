@@ -3,7 +3,7 @@ import googleDrive from "@pipedream/google_drive";
 import { ConfigurationError } from "@pipedream/platform";
 import utils from "./common/utils.mjs";
 import markdownParser from "./common/markdown-parser.mjs";
-import constants from "./common/constants.mjs";
+import { OCCURRENCES } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -108,7 +108,7 @@ export default {
       type: "string",
       label: "Occurrence",
       description: "Which matches of **Find Text** to style: `first` (default) or `all`.",
-      options: constants.OCCURRENCES,
+      options: OCCURRENCES,
       default: "first",
       optional: true,
     },
