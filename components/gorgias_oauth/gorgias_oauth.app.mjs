@@ -582,12 +582,58 @@ export default {
         ...opts,
       });
     },
-    updateTicketFieldValues({
-      ticketId, ...opts
+    /**
+     * List every custom field defined for an object type, following the cursor
+     * to the end. `paginate` caps the total at `params.limit`, which would
+     * silently hide fields, so the cursor is walked directly here.
+     * @param {Object} opts - Options for the request
+     * @param {Object} opts.$ - The Pipedream step context, when available
+     * @param {string} opts.objectType - The object type the fields belong to, e.g. `Ticket`
+     * @returns {Promise<Object[]>} - Every custom field for the object type
+     */
+    async listAllCustomFields({
+      $, objectType,
+    }) {
+      const fields = [];
+      let cursor;
+      let previousCursor;
+      do {
+        const {
+          data, meta,
+        } = await this.listCustomFields({
+          $,
+          params: {
+            object_type: objectType,
+            archived: false,
+            limit: constants.CUSTOM_FIELDS_LIMIT_MAX,
+            cursor,
+          },
+        });
+        fields.push(...(data ?? []));
+        previousCursor = cursor;
+        cursor = meta?.next_cursor;
+        // A cursor that repeats instead of advancing would loop forever
+      } while (cursor && cursor !== previousCursor);
+      return fields;
+    },
+    /**
+     * Set a single custom field value on a ticket. The endpoint takes the bare
+     * value as the request body, so it is serialized here: axios forwards a
+     * plain string body verbatim, which would not be valid JSON.
+     * @param {Object} opts - Options for the request
+     * @param {Object} opts.$ - The Pipedream step context
+     * @param {number} opts.ticketId - The ID of the ticket
+     * @param {number} opts.fieldId - The ID of the custom field
+     * @param {string|number|boolean} opts.value - The value to set
+     * @returns {Promise<Object>} - The updated ticket custom field value
+     */
+    updateTicketFieldValue({
+      ticketId, fieldId, value, ...opts
     }) {
       return this._makeRequest({
         method: "PUT",
-        path: `/tickets/${ticketId}/custom-fields`,
+        path: `/tickets/${ticketId}/custom-fields/${fieldId}`,
+        data: JSON.stringify(value),
         ...opts,
       });
     },

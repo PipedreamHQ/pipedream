@@ -43,24 +43,29 @@ export default {
       const nameField = await this.salesforce.getNameFieldForObjectType(objectType);
       this.setNameField(nameField);
 
-      const extraConditions = await this._buildExtraConditions();
-      const { records } = await this.query({
-        query: `SELECT Id FROM ${objectType} WHERE Id != null ${extraConditions} ORDER BY CreatedDate DESC LIMIT ${DEPLOY_HISTORICAL_LIMIT}`,
-      });
+      try {
+        const extraConditions = await this._buildExtraConditions();
+        const { records } = await this.query({
+          query: `SELECT Id FROM ${objectType} WHERE Id != null ${extraConditions} ORDER BY CreatedDate DESC LIMIT ${DEPLOY_HISTORICAL_LIMIT}`,
+        });
 
-      // Emit oldest-first so historical events are delivered chronologically,
-      // matching the timer polling path.
-      for (const record of [
-        ...records,
-      ].reverse()) {
-        const object = await this.salesforce.getSObject(objectType, record.Id);
-        const event = {
-          body: {
-            "New": object,
-            "UserId": record.Id,
-          },
-        };
-        await this.processWebhookEvent(event);
+        // Emit oldest-first so historical events are delivered chronologically,
+        // matching the timer polling path.
+        for (const record of [
+          ...records,
+        ].reverse()) {
+          const object = await this.salesforce.getSObject(objectType, record.Id);
+          const event = {
+            body: {
+              "New": object,
+              "UserId": record.Id,
+            },
+          };
+          await this.processWebhookEvent(event);
+        }
+      } catch (err) {
+        console.log("Error seeding historical records during deploy:", err);
+        console.log("The source will still be created and will emit new records going forward.");
       }
     },
   },
