@@ -50,6 +50,20 @@ const FieldType = {
   LOOKUP: "lookup",
 };
 
+/**
+ * Accepted string representations of a checkbox field's value when searching
+ */
+const TRUTHY_SEARCH_VALUES = [
+  "true",
+  "1",
+  "yes",
+];
+const FALSY_SEARCH_VALUES = [
+  "false",
+  "0",
+  "no",
+];
+
 const SORT_DIRECTION_OPTIONS = [
   {
     label: "Descending",
@@ -62,7 +76,9 @@ const SORT_DIRECTION_OPTIONS = [
 ];
 
 export {
+  FALSY_SEARCH_VALUES,
   FIELD_PREFIX,
   FieldType,
   SORT_DIRECTION_OPTIONS,
+  TRUTHY_SEARCH_VALUES,
 };

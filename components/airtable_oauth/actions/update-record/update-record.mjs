@@ -6,7 +6,7 @@ export default {
   key: "airtable_oauth-update-record",
   name: "Update Record",
   description: "Update a single record in a table by Record ID. [See the documentation](https://airtable.com/developers/web/api/update-record)",
-  version: "0.0.15",
+  version: "0.1.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -30,6 +30,24 @@ export default {
           baseId: baseId?.value ?? baseId,
           tableId: tableId?.value ?? tableId,
         }),
+      ],
+    },
+    record: {
+      propDefinition: [
+        airtable,
+        "record",
+      ],
+    },
+    customExpressionInfo: {
+      propDefinition: [
+        airtable,
+        "customExpressionInfo",
+      ],
+    },
+    typecast: {
+      propDefinition: [
+        airtable,
+        "typecast",
       ],
     },
     returnFieldsByFieldId: {

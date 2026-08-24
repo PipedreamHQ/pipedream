@@ -1,4 +1,3 @@
-import airtable from "../airtable_oauth.app.mjs";
 import {
   makeFieldProps, makeRecord,
 } from "./utils.mjs";
@@ -15,16 +14,11 @@ export default {
       const tableSchema = tables.find(({ id }) => id === tableId);
       return makeFieldProps(tableSchema);
     } catch (err) {
+      // A manually entered table ID can't be resolved to a schema, so no
+      // per-field props can be generated; the static `record` prop covers it
       const hasManualTableInput = !ctx.tableId?.label;
-      // If manual input and .table throws error, return a record prop
-      // otherwise, throw ConfigurationError
       if (hasManualTableInput) {
-        return {
-          // Use record propDefinition directly to workaround lack of support
-          // for propDefinition in additionalProps
-          record: airtable.propDefinitions.record,
-          customExpressionInfo: airtable.propDefinitions.customExpressionInfo,
-        };
+        return {};
       }
       throw new ConfigurationError("Could not find a table for the specified base ID and table ID. Please adjust the action configuration to continue.");
     }
@@ -33,7 +27,7 @@ export default {
     const baseId = ctx.baseId?.value ?? ctx.baseId;
     const tableId = ctx.tableId?.value ?? ctx.tableId;
 
-    const record = ctx.record ?? await makeRecord(ctx);
+    const record = await makeRecord(ctx);
 
     ctx.airtable.validateRecord(record);
 
@@ -61,7 +55,9 @@ export default {
     const recordId = ctx.recordId;
 
     ctx.airtable.validateRecordID(recordId);
-    const record = ctx.record ?? await makeRecord(ctx);
+    const record = await makeRecord(ctx);
+
+    ctx.airtable.validateRecord(record);
 
     let response;
     try {

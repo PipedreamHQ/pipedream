@@ -1,6 +1,10 @@
+import { ConfigurationError } from "@pipedream/platform";
+import isEmpty from "lodash.isempty";
 import {
+  FALSY_SEARCH_VALUES,
   FIELD_PREFIX,
   FieldType,
+  TRUTHY_SEARCH_VALUES,
 } from "./constants.mjs";
 
 /**
@@ -115,40 +119,124 @@ function makeFieldProps(tableSchema) {
 }
 
 /**
- * Creates a record object from a component's props, intended to be used in a
- * call to the Airtable API
+ * Parses the `record` prop, which may arrive as an object or as a JSON string
+ * when set via a custom expression
  *
- * @param {object} props - A component's props
- * @returns {object} a record
+ * @param {object|string} record - the value of the `record` prop
+ * @returns {object} field name/value pairs
  */
-async function makeRecord(ctx) {
-  let record = {};
-  const fieldTypes = await mapFieldTypes(ctx);
-  for (const key of Object.keys(ctx)) {
-    if (key.startsWith(FIELD_PREFIX)) {
-      const fieldName = key.slice(FIELD_PREFIX.length);
-      if (fieldTypes[fieldName] === FieldType.SINGLE_COLLABORATOR) {
-        record[fieldName] = buildSingleCollaboratorField(ctx[key]);
-        continue;
-      }
-      record[fieldName] = ctx[key];
+function parseRecordInput(record) {
+  if (!record) {
+    return {};
+  }
+  if (typeof record === "string") {
+    try {
+      return JSON.parse(record);
+    } catch (err) {
+      throw new ConfigurationError(`Error parsing Record as JSON: ${err.message}`);
     }
   }
   return record;
 }
 
+/**
+ * Creates a record object from a component's props, intended to be used in a
+ * call to the Airtable API. Values from the `record` prop take precedence over
+ * the per-field props generated from the table schema.
+ *
+ * @param {object} ctx - A component's props
+ * @returns {object} a record
+ */
+async function makeRecord(ctx) {
+  const recordInput = parseRecordInput(ctx.record);
+  const fieldKeys = Object.keys(ctx).filter((key) => key.startsWith(FIELD_PREFIX));
+
+  if (!fieldKeys.length && isEmpty(recordInput)) {
+    return {};
+  }
+
+  const record = {};
+  for (const key of fieldKeys) {
+    if (ctx[key] !== undefined) {
+      record[key.slice(FIELD_PREFIX.length)] = ctx[key];
+    }
+  }
+  Object.assign(record, recordInput);
+
+  const fieldTypes = await mapFieldTypes(ctx);
+  for (const [
+    fieldName,
+    value,
+  ] of Object.entries(record)) {
+    if (fieldTypes[fieldName] === FieldType.SINGLE_COLLABORATOR && typeof value === "string") {
+      record[fieldName] = buildSingleCollaboratorField(value);
+    }
+  }
+  return record;
+}
+
+/**
+ * Maps the selected table's field names to their Airtable field types. Resolves
+ * to an empty map when the schema can't be fetched — e.g. a table ID supplied
+ * as a custom expression — so the API surfaces the real error instead.
+ *
+ * @param {object} ctx - A component's props
+ * @returns {object} field name to field type
+ */
 async function mapFieldTypes(ctx) {
   const baseId = ctx.baseId?.value ?? ctx.baseId;
   const tableId = ctx.tableId?.value ?? ctx.tableId;
-  const { tables } = await ctx.airtable.listTables({
-    baseId,
-  });
-  const tableSchema = tables.find(({ id }) => id === tableId);
   const fieldTypes = {};
-  for (const field of tableSchema?.fields ?? []) {
-    fieldTypes[field.name] = field.type;
+  try {
+    const { tables } = await ctx.airtable.listTables({
+      baseId,
+    });
+    const tableSchema = tables.find(({ id }) => id === tableId);
+    for (const field of tableSchema?.fields ?? []) {
+      fieldTypes[field.name] = field.type;
+    }
+  } catch (err) {
+    return fieldTypes;
   }
   return fieldTypes;
+}
+
+/**
+ * Escapes a value for use inside a double-quoted Airtable formula string
+ * literal, so values containing quotes don't produce an invalid formula
+ *
+ * @param {*} value - the value to interpolate
+ * @returns {string} the escaped value
+ */
+function escapeFormulaString(value) {
+  return String(value)
+    .replace(/\\/g, "\\\\")
+    .replace(/"/g, "\\\"");
+}
+
+/**
+ * Coerces a search value into a boolean. Values reaching a component prop are
+ * strings, so truthiness alone would treat `"false"` as `true`
+ *
+ * @param {*} value - the value to coerce
+ * @returns {boolean}
+ */
+function parseBooleanValue(value) {
+  if (typeof value === "boolean") {
+    return value;
+  }
+  const normalized = String(value).trim()
+    .toLowerCase();
+  if (TRUTHY_SEARCH_VALUES.includes(normalized)) {
+    return true;
+  }
+  if (FALSY_SEARCH_VALUES.includes(normalized)) {
+    return false;
+  }
+  throw new ConfigurationError(`Could not interpret "${value}" as a checkbox value. Use one of \`${[
+    ...TRUTHY_SEARCH_VALUES,
+    ...FALSY_SEARCH_VALUES,
+  ].join("`, `")}\`.`);
 }
 
 const isEmail = (str) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(str);
@@ -183,9 +271,11 @@ async function withRetry(fn, {
 }
 
 export {
+  escapeFormulaString,
   fieldTypeToPropType,
   fieldToProp,
   makeFieldProps,
   makeRecord,
+  parseBooleanValue,
   withRetry,
 };

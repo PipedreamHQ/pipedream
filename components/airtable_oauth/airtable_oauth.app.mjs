@@ -218,7 +218,8 @@ export default {
     record: {
       type: "object",
       label: "Record",
-      description: "Enter the column name for the key and the corresponding column value. You can include all, some, or none of the field values. You may also use a custom expression.",
+      description: "The field values to write, as a JSON object keyed by field name, e.g. `{\"Name\": \"Acme Corp\", \"Notes\": \"Renewal due\", \"Tags\": [\"lead\", \"priority\"]}`. Keys must match the table's field names exactly — use **List Tables** to retrieve the schema of the selected table, including every field's name, type and available options. You can include all, some, or none of the fields. Values set here take precedence over the same field set individually. Enable `Typecast` when passing strings for number, date or select fields. You may also use a custom expression.",
+      optional: true,
     },
     customExpressionInfo: {
       type: "alert",

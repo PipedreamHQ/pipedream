@@ -6,7 +6,7 @@ export default {
   key: "airtable_oauth-create-or-update-record",
   name: "Create or Update Record",
   description: "Create a new record or update an existing one. [See the documentation](https://airtable.com/developers/web/api/create-records)",
-  version: "0.1.6",
+  version: "0.2.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -32,6 +32,18 @@ export default {
       ],
       optional: true,
       description: "To update an existing record, select it from the list or provide its [Record ID](https://support.airtable.com/hc/en-us/articles/360051564873-Record-ID). If left blank, a new record will be created.",
+    },
+    record: {
+      propDefinition: [
+        airtable,
+        "record",
+      ],
+    },
+    customExpressionInfo: {
+      propDefinition: [
+        airtable,
+        "customExpressionInfo",
+      ],
     },
     typecast: {
       propDefinition: [
