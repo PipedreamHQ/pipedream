@@ -212,6 +212,13 @@ const TRANSFER_STATUSES = [
   "UPLOADED",
 ];
 
+const USER_STATUSES = [
+  "USER_ACTIVE",
+  "USER_DRAFT",
+  "USER_INACTIVE",
+  "USER_SUSPENDED",
+];
+
 const INTERVALS = [
   "ANNUAL",
   "DAILY",
@@ -223,7 +230,7 @@ const INTERVALS = [
   "YEARLY",
 ];
 
-const DEFAULT_PAGE_SIZE = 1000;
+const DEFAULT_PAGE_SIZE = 100;
 
 export default {
   CATEGORY_CODES,
@@ -232,4 +239,5 @@ export default {
   INTERVALS,
   TRANSACTION_STATES,
   TRANSFER_STATUSES,
+  USER_STATUSES,
 };

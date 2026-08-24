@@ -43,7 +43,8 @@ export default {
     status: {
       type: "string",
       label: "Status",
-      description: "Filter by user status.",
+      description: "Filter by user status (e.g. `USER_ACTIVE`).",
+      options: constants.USER_STATUSES,
       optional: true,
     },
     pageSize: {
