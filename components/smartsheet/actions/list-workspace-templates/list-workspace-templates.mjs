@@ -8,8 +8,10 @@ export default {
   description:
     "Lists the templates available across your workspaces, returning each template ID, name, and workspace."
     + " Use this to find a template ID for **New Sheet From Template**."
+    + " When no workspace is set, a workspace that fails to traverse is skipped rather than failing the call,"
+    + " so a successful response can be incomplete."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/workspaces/get-workspace-children)",
-  version: "1.0.0",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -23,7 +25,7 @@ export default {
         smartsheet,
         "workspaceId",
       ],
-      description: "Scope the listing to one workspace. Smartsheet has no list-templates endpoint, so omitting this fans out one request per workspace you can see; set it when you know where the template lives. Use **List Workspace Options** to find workspace IDs.",
+      description: "Scope the listing to one workspace. Smartsheet has no list-templates endpoint, so omitting this costs a workspace-list request plus one or more requests per workspace you can see; set it when you know where the template lives. Use **List Workspace Options** to find workspace IDs.",
     },
   },
   async run({ $ }) {

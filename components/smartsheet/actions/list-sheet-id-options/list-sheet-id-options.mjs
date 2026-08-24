@@ -9,7 +9,7 @@ export default {
     + " Prefer **List Sheets**, which returns the same sheets with full metadata (owner, permalink, modified date)"
     + " and can fetch them all at once, or **Search** to find a sheet by name."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/list-sheets)",
-  version: "1.0.0",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,

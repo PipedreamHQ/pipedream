@@ -14,7 +14,7 @@ export default {
     + " Use **List Sheets** to find the source sheet ID."
     + " To move a sheet instead (removing it from the original location), use **Move Sheet**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/copy-sheet)",
-  version: "1.0.0",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -37,7 +37,7 @@ export default {
     destinationType: {
       type: "string",
       label: "Destination Type",
-      description: "Where to copy the sheet. Defaults to `home` if omitted.",
+      description: "Where to copy the sheet. Defaults to `home` if omitted, but `home` has been deprecated since 2025-03-25 and will be removed - pass `workspace` or `folder` instead.",
       options: DESTINATION_TYPES,
       optional: true,
     },

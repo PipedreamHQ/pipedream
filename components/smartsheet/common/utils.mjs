@@ -11,7 +11,10 @@ const ROW_IDS_ERROR = "`Row IDs` must be a comma-separated list of positive inte
 // ID exact end to end.
 export function toIdString(value, label = "ID") {
   const trimmed = String(value ?? "").trim();
-  if (!/^\d+$/.test(trimmed)) {
+  // Positive digits only. Smartsheet never issues 0 as a resource ID, and every caller here
+  // passes a sheet, workspace, folder, or row ID, so `0` is always a configuration mistake
+  // that is cheaper to catch locally than to send and have the API reject.
+  if (!/^[1-9]\d*$/.test(trimmed)) {
     throw new ConfigurationError(`\`${label}\` must be a numeric Smartsheet ID, but received \`${value}\`.`);
   }
   return trimmed;

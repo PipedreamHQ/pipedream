@@ -9,7 +9,7 @@ export default {
     + " Use the workspace IDs it returns with **Create Sheet**, **Import Sheet**, **Copy Sheet**, **Move Sheet**,"
     + " or with **List Folder Options** to drill into a workspace's folders."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/workspaces/list-workspaces)",
-  version: "1.0.0",
+  version: "0.1.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -23,11 +23,14 @@ export default {
     const { data } = await this.smartsheet.listAllWorkspaces({
       $,
     });
+    // `String(id)`, matching the app's propDefinition resolvers: every ID prop in this
+    // connector is a string, and emitting a bare number here invites a caller to write it
+    // back as a JSON number, which rounds a 16-digit ID.
     const options = (data || []).map(({
       id, name,
     }) => ({
       label: name,
-      value: id,
+      value: String(id),
     }));
     $.export("$summary", `Successfully retrieved ${options.length} workspace${options.length === 1
       ? ""
