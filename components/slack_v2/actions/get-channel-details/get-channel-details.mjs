@@ -3,8 +3,8 @@ import slack from "../../slack_v2.app.mjs";
 export default {
   key: "slack_v2-get-channel-details",
   name: "Get Channel Details",
-  description: "Retrieve details for a Slack channel by selecting it or providing an ID. [See the documentation](https://api.slack.com/methods/conversations.info)",
-  version: "0.0.5",
+  description: "Retrieve details for a Slack channel, specified by ID or by name — names are resolved automatically. [See the documentation](https://api.slack.com/methods/conversations.info)",
+  version: "0.1.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -36,8 +36,11 @@ export default {
     },
   },
   async run({ $ }) {
+    // Accept a channel NAME as well as an ID — agents routinely pass the "#name" they read
+    // in the prompt, and conversations.info answers that with channel_not_found.
+    const channelId = await this.slack.resolveChannelId(this.channel);
     const response = await this.slack.conversationsInfo({
-      channel: this.channel,
+      channel: channelId,
       include_locale: this.includeLocale,
       include_num_members: this.includeNumberOfMembers,
     });

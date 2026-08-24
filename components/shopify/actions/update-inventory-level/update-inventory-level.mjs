@@ -1,11 +1,12 @@
+import { randomUUID } from "crypto";
 import shopify from "../../shopify.app.mjs";
 import { INVENTORY_ADJUSTMENT_REASONS } from "../../common/constants.mjs";
 
 export default {
   key: "shopify-update-inventory-level",
   name: "Update Inventory Level",
-  description: "Sets the inventory level for an inventory item at a location. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/inventorySetOnHandQuantities)",
-  version: "0.0.21",
+  description: "Sets the on-hand inventory level for an inventory item at a location. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/inventorySetQuantities)",
+  version: "0.0.24",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -55,20 +56,27 @@ export default {
   },
   async run({ $ }) {
     const response = await this.shopify.updateInventoryLevel({
+      // inventorySetQuantities requires an idempotency key via the @idempotent
+      // directive. Setting an absolute quantity is idempotent by nature, so a
+      // fresh key per run is safe.
+      key: randomUUID(),
       input: {
+        name: "on_hand",
         reason: this.reason,
         referenceDocumentUri: this.referenceDocumentUri,
-        setQuantities: [
+        quantities: [
           {
             inventoryItemId: this.inventoryItemId,
             locationId: this.locationId,
             quantity: this.available,
+            // Mandatory field; null opts out of the compare-and-swap check.
+            changeFromQuantity: null,
           },
         ],
       },
     });
-    if (response.inventorySetOnHandQuantities.userErrors.length > 0) {
-      throw new Error(response.inventorySetOnHandQuantities.userErrors[0].message);
+    if (response.inventorySetQuantities.userErrors.length > 0) {
+      throw new Error(response.inventorySetQuantities.userErrors[0].message);
     }
     $.export("$summary", `Updated inventory level for \`${this.inventoryItemId}\` at \`${this.locationId}\` to \`${this.available}\``);
     return response;

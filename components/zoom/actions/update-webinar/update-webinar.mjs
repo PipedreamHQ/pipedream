@@ -6,7 +6,7 @@ export default {
   key: "zoom-update-webinar",
   name: "Update Webinar",
   description: "Update a webinar's topic, start time, or other settings",
-  version: "0.1.7",
+  version: "0.1.8",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

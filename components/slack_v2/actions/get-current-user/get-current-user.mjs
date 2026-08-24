@@ -3,8 +3,8 @@ import slack from "../../slack_v2.app.mjs";
 export default {
   key: "slack_v2-get-current-user",
   name: "Get Current User",
-  description: "Retrieve comprehensive context about the authenticated Slack member, combining `auth.test`, `users.info`, `users.profile.get`, and `team.info` payloads. Returns the user’s profile (name variants, email, locale, timezone, status, admin flags), raw auth test data, and workspace metadata (domain, enterprise info, icons). Ideal when you need to confirm which user token is active, tailor messages to their locale/timezone, or ground an LLM in the member’s role and workspace before executing other Slack actions. [See Slack API docs](https://api.slack.com/methods/auth.test).",
-  version: "0.0.4",
+  description: "Do NOT use for a plain \"who am I\" / \"what's my user ID\" question — call **Get User Details** for that; it answers the same question with a far smaller payload. Use this ONLY when you specifically need the full member profile: locale, timezone, presence/status, admin and owner flags, name variants, or workspace domain and enterprise metadata. Combines `auth.test`, `users.info`, `users.profile.get` and `team.info`. [See Slack API docs](https://api.slack.com/methods/auth.test).",
+  version: "0.0.6",
   type: "action",
   annotations: {
     destructiveHint: false,

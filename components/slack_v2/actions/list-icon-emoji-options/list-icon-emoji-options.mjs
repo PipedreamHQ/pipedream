@@ -4,7 +4,7 @@ export default {
   key: "slack_v2-list-icon-emoji-options",
   name: "List Icon (emoji) Options",
   description: "Retrieves available options for the Icon (emoji) field.",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

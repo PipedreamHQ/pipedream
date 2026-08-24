@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { WebClient } from "@slack/web-api";
 import constants from "./common/constants.mjs";
 import get from "lodash/get.js";
@@ -967,10 +968,15 @@ export default {
     assistantSearch(args = {}) {
       args.count ||= constants.LIMIT;
       // Uses apiCall directly since assistant.search.context is not exposed as
-      // a method on WebClient
-      return this.sdk().apiCall("assistant.search.context", {
+      // a method on WebClient — but it must STILL go through _withRetries. Calling
+      // apiCall bare was the one path in this app that skipped the retry wrapper, and
+      // the client is built with `rejectRateLimitedCalls: true`, so a 429 rejected
+      // instantly instead of backing off. assistant.search.context rate-limits readily
+      // (Slack returns retryAfter: 60), which surfaced to agents as a hard tool error
+      // on 8 of 12 search calls in one eval run.
+      return this._withRetries(() => this.sdk().apiCall("assistant.search.context", {
         ...args,
-      });
+      }));
     },
     /**
      * Lists reactions made by a user.
@@ -1105,6 +1111,12 @@ export default {
         ...args,
       });
     },
+    openConversation(args = {}) {
+      return this.makeRequest({
+        method: "conversations.open",
+        ...args,
+      });
+    },
     inviteToConversation(args = {}) {
       return this.makeRequest({
         method: "conversations.invite",
@@ -1193,6 +1205,74 @@ export default {
       return input.replace(/^#/, "");
     },
     /**
+     * Accept a user ID, an email, or a display/real name and return the user ID.
+     * Agents naturally pass whatever identifier the user said — an email in
+     * "invite dylan@pipedream.com" — and the raw API answers `user_not_found`,
+     * which reads as a broken tool rather than a wrong-shaped argument.
+     */
+    async resolveUserId(input) {
+      if (/^[UW][A-Z0-9]{6,}$/i.test(input)) return input;
+      if (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(input)) {
+        const { user } = await this.makeRequest({
+          method: "users.lookupByEmail",
+          email: input,
+        });
+        return user.id;
+      }
+      const name = input.replace(/^@/, "").toLowerCase();
+      const matches = [];
+      let cursor;
+      do {
+        const {
+          members, response_metadata: metadata,
+        } = await this.makeRequest({
+          method: "users.list",
+          limit: 200,
+          cursor,
+        });
+        for (const member of members) {
+          const isMatch = [
+            member.name,
+            member.real_name,
+            member.profile?.display_name,
+          ].filter(Boolean).some((n) => String(n).toLowerCase() === name);
+          if (isMatch) matches.push(member);
+        }
+        cursor = metadata?.next_cursor;
+      } while (cursor);
+      if (matches.length === 1) return matches[0].id;
+      if (matches.length > 1) {
+        throw new ConfigurationError(`Multiple users match "${input}". Provide a user ID or an email address instead.`);
+      }
+      throw new ConfigurationError(`User "${input}" not found. Provide a user ID, an email address, or an exact display name.`);
+    },
+    /**
+     * Resolve one OR MORE user identifiers to the comma-separated `users` string Slack's
+     * conversations.* methods accept.
+     *
+     * The list form has to keep working: `users` is documented as comma-separated, the prop
+     * is a plain string, and callers that predate resolveUserId() pass "U123,U456" straight
+     * through. Resolving the whole string as a single identifier would send it to an
+     * exhaustive users.list scan that cannot match, then throw.
+     *
+     * @param {string|string[]} input - id / email / display name, or a comma-separated list
+     *   or array of them
+     * @returns {Promise<string>} Comma-separated user IDs
+     */
+    async resolveUserIds(input) {
+      const raw = Array.isArray(input)
+        ? input
+        : String(input).split(",");
+      const tokens = raw
+        .map((t) => String(t).trim())
+        .filter(Boolean);
+      const ids = [];
+      for (const token of tokens) {
+        ids.push(await this.resolveUserId(token));
+      }
+      return ids.join(",");
+    },
+    /**
      * Resolves a channel name (e.g. "general", "#general") to its ID.
      * If the input already looks like an ID (starts with C/D/G/U + 8+ alphanums),
      * returns it as-is. Fetches up to 999 channels per page (the Slack API max)
@@ -1205,7 +1285,22 @@ export default {
      * @returns {Promise<string>} The resolved channel ID
      */
     async resolveChannelId(input) {
-      if (/^[CDGU][A-Z0-9]{8,}$/i.test(input)) return input;
+      // Slack ids are UPPERCASE-only (e.g. `C0123ABCD`, `U0123ABCD`). Match case-sensitively:
+      // channel names are lowercased by Slack, so a `/i` match would misclassify an all-alnum
+      // name like `welcomeaboard` or `developers` (no hyphen, 9+ chars) as an id.
+      // Channel, private-group, and DM ids are already conversation ids — pass through.
+      if (/^[CDG][A-Z0-9]{8,}$/.test(input)) return input;
+      // A user id is NOT a conversation id — conversations.* answers `channel_not_found`
+      // for it. Open (idempotently) the DM with that user and use the returned IM channel.
+      // This is the read-side counterpart to chat.postMessage accepting a user id: an agent
+      // asked to read "my DMs" resolves its own user id and passes it here, and history,
+      // thread replies, and reactions now accept it the way posting already does.
+      if (/^[UW][A-Z0-9]{8,}$/.test(input)) {
+        const { channel } = await this.openConversation({
+          users: input,
+        });
+        return channel.id;
+      }
       const name = input.replace(/^#/, "").toLowerCase();
       let cursor;
       do {

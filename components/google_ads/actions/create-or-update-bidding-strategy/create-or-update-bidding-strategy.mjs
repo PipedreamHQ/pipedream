@@ -6,15 +6,18 @@ import {
 } from "../../common/constants.mjs";
 import { parseObject } from "../../common/utils.mjs";
 import { getAdditionalFields } from "../common/props.mjs";
+import {
+  buildBiddingScheme, getSchemeProps, PORTFOLIO_BIDDING_SCHEMES,
+} from "../common/bidding.mjs";
 
 const docLink =
-  "https://developers.google.com/google-ads/api/reference/rpc/v21/BiddingStrategyService/MutateBiddingStrategies?transport=rest";
+  "https://developers.google.com/google-ads/api/reference/rpc/v25/BiddingStrategyService/MutateBiddingStrategies?transport=rest";
 
 export default {
   key: "google_ads-create-or-update-bidding-strategy",
   name: "Create or Update Bidding Strategy",
   description: `Creates, updates, or removes a portfolio bidding strategy. [See the documentation](${docLink})`,
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: true,
@@ -78,6 +81,7 @@ export default {
       options: PORTFOLIO_BIDDING_STRATEGY_TYPES,
       optional: true,
     },
+    ...getSchemeProps(PORTFOLIO_BIDDING_SCHEMES),
     additionalFields: getAdditionalFields(docLink),
   },
   async run({ $ }) {
@@ -140,6 +144,7 @@ export default {
         ...(type && {
           type,
         }),
+        ...buildBiddingScheme(PORTFOLIO_BIDDING_SCHEMES, type, this),
         ...parseObject(additionalFields),
       };
 

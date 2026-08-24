@@ -4,13 +4,11 @@ on:
       - master
     paths-ignore:
       - 'docs/**'
-      - 'docs-v2/**'
   pull_request:
     branches:
       - master
     paths-ignore:
       - 'docs/**'
-      - 'docs-v2/**'
 
 jobs:
   # See https://pnpm.io/continuous-integration#github-actions
@@ -29,7 +27,7 @@ jobs:
           version: 10.28.2
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org/
