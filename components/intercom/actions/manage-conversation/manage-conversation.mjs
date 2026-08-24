@@ -69,7 +69,7 @@ export default {
     snoozedUntil: {
       type: "string",
       label: "Snoozed Until",
-      description: "The date and time the conversation will be snoozed until. Only used when **Message Type** is `snoozed`. Format: YYYY-MM-DDTHH:MM:SSZ",
+      description: "The date and time the conversation will be snoozed until, as an ISO 8601 timestamp — for example `2026-08-24T18:30:00Z`. Only used when **Message Type** is `snoozed`.",
       optional: true,
     },
   },
