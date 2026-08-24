@@ -3,6 +3,7 @@ import { ConfigurationError } from "@pipedream/platform";
 import { ASSOCIATION_CATEGORY } from "../../common/constants.mjs";
 import appProp from "../common/common-app-prop.mjs";
 import common from "../common/common-create.mjs";
+import { parseObjectProperties } from "../../common/utils.mjs";
 
 export default {
   ...common,
@@ -84,12 +85,10 @@ export default {
     }
 
     const properties = objectProperties
-      ? typeof objectProperties === "string"
-        ? JSON.parse(objectProperties)
-        : objectProperties
+      ? parseObjectProperties(objectProperties)
       : otherProperties;
 
-    // HubSpot communications require hs_timestamp; default it so an agent doesn't have to know that.
+    // HubSpot communications require hs_timestamp; default it when not provided.
     if (properties.hs_timestamp == null) {
       properties.hs_timestamp = new Date().toISOString();
     }

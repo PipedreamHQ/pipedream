@@ -2,6 +2,7 @@
 import { ConfigurationError } from "@pipedream/platform";
 import { ASSOCIATION_CATEGORY } from "../../common/constants.mjs";
 import common from "../common/common-create.mjs";
+import { parseObjectProperties } from "../../common/utils.mjs";
 
 export default {
   ...common,
@@ -93,9 +94,7 @@ export default {
     }
 
     const properties = objectProperties
-      ? typeof objectProperties === "string"
-        ? JSON.parse(objectProperties)
-        : objectProperties
+      ? parseObjectProperties(objectProperties)
       : otherProperties;
 
     const objectType = this.getObjectType();

@@ -5,6 +5,7 @@ import {
   ASSOCIATION_CATEGORY, OBJECT_TYPE,
 } from "../../common/constants.mjs";
 import common from "../common/common-create.mjs";
+import { parseObjectProperties } from "../../common/utils.mjs";
 
 export default {
   ...common,
@@ -93,9 +94,7 @@ export default {
     }
 
     const properties = objectProperties
-      ? typeof objectProperties === "string"
-        ? JSON.parse(objectProperties)
-        : objectProperties
+      ? parseObjectProperties(objectProperties)
       : otherProperties;
 
     // HubSpot meetings require hs_timestamp; default it to the start time (or now).

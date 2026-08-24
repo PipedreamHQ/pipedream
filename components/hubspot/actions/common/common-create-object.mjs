@@ -1,5 +1,6 @@
 import common from "./common-create.mjs";
 import hubspot from "../../hubspot.app.mjs";
+import { parseObjectProperties } from "../../common/utils.mjs";
 
 export default {
   ...common,
@@ -23,9 +24,8 @@ export default {
       hubspot,
       // control props — not object properties, must not reach the API payload
       updateIfExists,
-      customObjectType,
-      contactId,
-      $db,
+      // eslint-disable-next-line no-unused-vars
+      customObjectType, contactId, $db,
       objectProperties,
       // whatever is left is a dedicated named object property (e.g.
       // dealname/pipeline/dealstage on Create Deal, subject/hs_pipeline on
@@ -35,9 +35,7 @@ export default {
     const objectType = this.getObjectType();
 
     const parsedObjectProperties = objectProperties
-      ? typeof objectProperties === "string"
-        ? JSON.parse(objectProperties)
-        : objectProperties
+      ? parseObjectProperties(objectProperties)
       : {};
 
     // objectProperties takes precedence over the dedicated named props on conflict

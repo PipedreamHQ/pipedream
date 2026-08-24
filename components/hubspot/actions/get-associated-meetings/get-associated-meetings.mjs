@@ -1,4 +1,5 @@
 // x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import { DEFAULT_MEETING_PROPERTIES } from "../../common/constants.mjs";
 import { OBJECT_TYPE } from "../../common/object-types.mjs";
 import hubspot from "../../hubspot.app.mjs";
@@ -63,14 +64,14 @@ export default {
       type: "string",
       label: "Start Date",
       description:
-        "Start of the date range (ISO 8601, e.g. `2025-01-01T00:00:00Z`). Only used when **Timeframe** is `custom`.",
+        "Start of the date range (ISO 8601, e.g. `2025-01-01T00:00:00Z`). Required when **Timeframe** is `custom`.",
       optional: true,
     },
     endDate: {
       type: "string",
       label: "End Date",
       description:
-        "End of the date range (ISO 8601, e.g. `2025-01-31T23:59:59Z`). Only used when **Timeframe** is `custom`.",
+        "End of the date range (ISO 8601, e.g. `2025-01-31T23:59:59Z`). Required when **Timeframe** is `custom`.",
       optional: true,
     },
   },
@@ -282,9 +283,16 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.timeframe === "custom" && (!this.startDate || !this.endDate)) {
+      throw new ConfigurationError(
+        "Both **Start Date** and **End Date** are required when **Timeframe** is `custom`.",
+      );
+    }
     let resolvedObjectId = this.objectId;
     // Accept an email for contacts whether the object type is given as "contact" or "contacts".
-    const isContactType = String(this.objectType).toLowerCase().startsWith("contact");
+    const isContactType = String(this.objectType)
+      .toLowerCase()
+      .startsWith("contact");
     if (isContactType && this.objectId.includes("@")) {
       const { results } = await this.hubspot.searchCRM({
         object: OBJECT_TYPE.CONTACT,

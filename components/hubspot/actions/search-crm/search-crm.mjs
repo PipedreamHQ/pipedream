@@ -11,6 +11,7 @@ import {
   SEARCHABLE_OBJECT_TYPES,
 } from "../../common/constants.mjs";
 import hubspot from "../../hubspot.app.mjs";
+import { parseObjectProperties } from "../../common/utils.mjs";
 const DEFAULT_LIMIT = 200;
 
 export default {
@@ -136,7 +137,14 @@ export default {
       creationProps,
     } = this;
 
-    const actualObjectType = customObjectType ?? objectType;
+    if (objectType === "custom_object" && !customObjectType?.trim()) {
+      throw new ConfigurationError(
+        "**Custom Object Type** is required when **Object Type** is `custom_object`.",
+      );
+    }
+    const actualObjectType = objectType === "custom_object"
+      ? customObjectType
+      : objectType;
 
     const schema = await this.hubspot.getSchema({
       objectType: actualObjectType,
@@ -194,9 +202,12 @@ export default {
     }
 
     if (!results?.length && createIfNotFound) {
-      const properties = typeof creationProps === "string"
-        ? JSON.parse(creationProps)
-        : (creationProps ?? {});
+      const properties = parseObjectProperties(creationProps ?? {}, "Create Properties");
+      if (!Object.keys(properties).length) {
+        throw new ConfigurationError(
+          "**Create Properties** is required when **Create if not found?** is enabled and no match was found.",
+        );
+      }
       const response = await hubspot.createObject({
         $,
         objectType: actualObjectType,
