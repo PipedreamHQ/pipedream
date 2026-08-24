@@ -47,7 +47,7 @@ export default {
       type: "object",
       label: "Additional Fields",
       description:
-        "Other ContentNote/ContentDocumentLink fields as name -> value pairs. Use for OwnerId, IsReadOnly, etc. `ShareType` (`V`=Viewer, `C`=Collaborator, `I`=Inferred permission; default `I`) and `Visibility` (`AllUsers`, `InternalUsers`, `SharedUsers`) only take effect when `LinkedEntityId` is also set - they're ignored otherwise. Example: `{\"OwnerId\": \"005xxx\", \"ShareType\": \"V\", \"Visibility\": \"AllUsers\"}`.",
+        "Other ContentNote/ContentDocumentLink fields as name -> value pairs. Use for OwnerId, IsReadOnly, etc. - use **Describe Object** on `ContentNote` to discover other valid field names. `ShareType` (`V`=Viewer, `C`=Collaborator, `I`=Inferred permission; default `I`) and `Visibility` (`AllUsers`, `InternalUsers`, `SharedUsers`) only take effect when `LinkedEntityId` is also set - they're ignored otherwise. Example: `{\"OwnerId\": \"005xxx\", \"ShareType\": \"V\", \"Visibility\": \"AllUsers\"}`.",
       optional: true,
     },
   },
