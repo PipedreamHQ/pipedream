@@ -5,6 +5,10 @@
 
 import MarkdownIt from "markdown-it";
 
+// Keeps the search string index-aligned with the document; NUL cannot occur in
+// Docs content, so it never forms part of a real match.
+const NON_TEXT_PLACEHOLDER = "\u0000";
+
 /**
  * Create a custom markdown-it instance configured for Google Docs conversion
  * @returns {MarkdownIt} Configured markdown-it instance
@@ -386,20 +390,21 @@ function collectAllDocumentText(elements, allText, indexMap, state) {
 
             state.allTextIndex += text.length;
             state.currentIndex = docStart + text.length;
-          } else if (el.inlineObject) {
-            indexMap[state.allTextIndex] = docStart;
-            state.allTextIndex += 1;
-            state.currentIndex = docStart + 1;
-          } else if (
-            el.pageBreak
-            || el.columnBreak
-            || el.footnoteReference
-            || el.endnoteReference
-          ) {
-            indexMap[state.allTextIndex] = docStart;
-            state.allTextIndex += 1;
-            state.currentIndex = docStart + 1;
+            return;
           }
+
+          // Page breaks, inline images, equations and the like occupy indices
+          // without contributing text. Width comes from startIndex/endIndex so
+          // every element kind is covered.
+          const width = Math.max(1, (el.endIndex ?? (docStart + 1)) - docStart);
+
+          allText.push(NON_TEXT_PLACEHOLDER.repeat(width));
+          for (let i = 0; i < width; i++) {
+            indexMap[state.allTextIndex + i] = docStart + i;
+          }
+
+          state.allTextIndex += width;
+          state.currentIndex = docStart + width;
         });
       }
     } else if (element.table) {
