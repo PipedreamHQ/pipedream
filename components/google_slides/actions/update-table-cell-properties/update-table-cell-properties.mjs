@@ -81,7 +81,7 @@ export default {
         "backgroundAlpha",
       ],
       label: "Background Opacity",
-      description: "Opacity of the background fill, from `0` (fully transparent) to `1` (fully opaque). Only applies when **Background Color** is set.",
+      description: "Opacity of the cell background fill, from `0` (fully transparent) to `1` (fully opaque). Can be set on its own to adjust an existing fill without changing its color.",
     },
     contentAlignment: {
       propDefinition: [
@@ -94,9 +94,12 @@ export default {
   async run({ $ }) {
     const builder = styling.styleBuilder();
     builder.set("contentAlignment", this.contentAlignment);
-    builder.set(
+    styling.applySolidFill(
+      builder,
       "tableCellBackgroundFill.solidFill",
-      styling.solidFill(this.backgroundColor, this.backgroundAlpha, "Background"),
+      this.backgroundColor,
+      this.backgroundAlpha,
+      "Background",
     );
 
     const {
@@ -114,7 +117,11 @@ export default {
 
     // Omitting `tableRange` applies the style to every cell in the table, which is
     // what a blank row/column pair is asking for.
-    const location = styling.buildCellLocation(this.rowIndex, this.columnIndex);
+    const location = styling.buildCellLocation(
+      this.rowIndex,
+      this.columnIndex,
+      "to style every cell in the table",
+    );
     if (location) {
       request.tableRange = {
         location,

@@ -25,9 +25,9 @@ function rgbColor(hex, label) {
   };
 }
 
-// Slides wraps color differently depending on the field. Text style takes an
-// `OptionalColor` (`{opaqueColor: {rgbColor}}`); fills take a `SolidFill`
-// (`{color: {rgbColor}, alpha}`). Both are built from the same parsed channels.
+// Text style takes an `OptionalColor` (`{opaqueColor: {rgbColor}}`), unlike the
+// fills below, which take a `SolidFill`. Keeping one function per shape stops a
+// caller reaching for the wrong wrapper — the API accepts neither silently.
 function optionalColor(hex, label) {
   const rgb = rgbColor(hex, label);
   if (!rgb) {
@@ -40,35 +40,48 @@ function optionalColor(hex, label) {
   };
 }
 
-function solidFill(hex, alpha, label) {
-  const rgb = rgbColor(hex, label);
-  if (!rgb) {
+// Alpha is a float in [0, 1]. Returns `undefined` when unset so the caller can
+// leave it out of the field mask entirely.
+function opacity(alpha, label) {
+  if (alpha === undefined || alpha === null || alpha === "") {
     return undefined;
   }
-  const fill = {
-    color: {
-      rgbColor: rgb,
-    },
-  };
-  if (alpha !== undefined && alpha !== null && alpha !== "") {
-    const value = Number(alpha);
-    if (!Number.isFinite(value) || value < 0 || value > 1) {
-      throw new ConfigurationError(`${label} Opacity must be a number between 0 and 1, got \`${alpha}\`.`);
-    }
-    fill.alpha = value;
+  const value = Number(alpha);
+  if (!Number.isFinite(value) || value < 0 || value > 1) {
+    throw new ConfigurationError(`${label} must be a number between 0 and 1, got \`${alpha}\`.`);
   }
-  return fill;
+  return value;
+}
+
+// Write a `SolidFill` into the builder one leaf at a time.
+//
+// The mask path matters here. Naming the `solidFill` node itself replaces the
+// whole node, so a request carrying only a color would reset the stored alpha to
+// its default — and vice versa. Naming `...solidFill.color` and
+// `...solidFill.alpha` separately touches only what the user actually set, which
+// also means opacity can be changed on its own without restating the color.
+function applySolidFill(builder, basePath, hex, alpha, label) {
+  const rgb = rgbColor(hex, `${label} Color`);
+  if (rgb) {
+    builder.set(`${basePath}.color`, {
+      rgbColor: rgb,
+    });
+  }
+  const value = opacity(alpha, `${label} Opacity`);
+  if (value !== undefined) {
+    builder.set(`${basePath}.alpha`, value);
+  }
 }
 
 // Wrap a numeric point value in a `Dimension`, passing `undefined` through so an
 // omitted prop stays out of the field mask instead of being sent as a zero.
-function points(magnitude) {
+function points(magnitude, label) {
   if (magnitude === undefined || magnitude === null || magnitude === "") {
     return undefined;
   }
   const value = Number(magnitude);
   if (!Number.isFinite(value)) {
-    throw new ConfigurationError(`Expected a number of points, got \`${magnitude}\`.`);
+    throw new ConfigurationError(`${label} must be a number of points, got \`${magnitude}\`.`);
   }
   return {
     magnitude: value,
@@ -146,12 +159,14 @@ function buildTextRange(type, startIndex, endIndex) {
 }
 
 // Text inside a table lives in a cell, so these requests take an extra
-// `cellLocation`. Row and column have to arrive together.
-function buildCellLocation(rowIndex, columnIndex) {
+// `cellLocation`. Row and column have to arrive together; `guidance` says what
+// leaving both blank means for the calling action, which differs between the
+// text actions (target is a shape) and the table action (target is every cell).
+function buildCellLocation(rowIndex, columnIndex, guidance) {
   const hasRow = rowIndex !== undefined && rowIndex !== null && rowIndex !== "";
   const hasColumn = columnIndex !== undefined && columnIndex !== null && columnIndex !== "";
   if (hasRow !== hasColumn) {
-    throw new ConfigurationError("Set both Row Index and Column Index to target a table cell, or leave both blank when the target is a shape.");
+    throw new ConfigurationError(`Set both Row Index and Column Index to target a specific cell, or leave both blank ${guidance}.`);
   }
   if (!hasRow) {
     return undefined;
@@ -165,7 +180,8 @@ function buildCellLocation(rowIndex, columnIndex) {
 export default {
   rgbColor,
   optionalColor,
-  solidFill,
+  opacity,
+  applySolidFill,
   points,
   styleBuilder,
   buildTextRange,

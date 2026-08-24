@@ -54,7 +54,7 @@ export default {
         "backgroundAlpha",
       ],
       label: "Fill Opacity",
-      description: "Opacity of the fill, from `0` (fully transparent) to `1` (fully opaque). Only applies when **Fill Color** is set.",
+      description: "Opacity of the shape's fill, from `0` (fully transparent) to `1` (fully opaque). Can be set on its own to adjust an existing fill without changing its color.",
     },
     outlineColor: {
       type: "string",
@@ -65,7 +65,7 @@ export default {
     outlineAlpha: {
       type: "string",
       label: "Outline Opacity",
-      description: "Opacity of the outline, from `0` (fully transparent) to `1` (fully opaque). Only applies when **Outline Color** is set.",
+      description: "Opacity of the outline, from `0` (fully transparent) to `1` (fully opaque). Can be set on its own to adjust an existing outline without changing its color.",
       optional: true,
     },
     outlineWeight: {
@@ -100,15 +100,21 @@ export default {
   async run({ $ }) {
     const builder = styling.styleBuilder();
     builder.set("contentAlignment", this.contentAlignment);
-    builder.set(
+    styling.applySolidFill(
+      builder,
       "shapeBackgroundFill.solidFill",
-      styling.solidFill(this.backgroundColor, this.backgroundAlpha, "Fill"),
+      this.backgroundColor,
+      this.backgroundAlpha,
+      "Fill",
     );
-    builder.set(
+    styling.applySolidFill(
+      builder,
       "outline.outlineFill.solidFill",
-      styling.solidFill(this.outlineColor, this.outlineAlpha, "Outline"),
+      this.outlineColor,
+      this.outlineAlpha,
+      "Outline",
     );
-    builder.set("outline.weight", styling.points(this.outlineWeight));
+    builder.set("outline.weight", styling.points(this.outlineWeight, "Outline Weight"));
     builder.set("outline.dashStyle", this.outlineDashStyle);
 
     const {

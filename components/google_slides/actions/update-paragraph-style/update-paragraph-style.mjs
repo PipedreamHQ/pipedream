@@ -154,11 +154,11 @@ export default {
     builder.set("lineSpacing", this.lineSpacing);
     builder.set("spacingMode", this.spacingMode);
     builder.set("direction", this.direction);
-    builder.set("spaceAbove", styling.points(this.spaceAbove));
-    builder.set("spaceBelow", styling.points(this.spaceBelow));
-    builder.set("indentStart", styling.points(this.indentStart));
-    builder.set("indentEnd", styling.points(this.indentEnd));
-    builder.set("indentFirstLine", styling.points(this.indentFirstLine));
+    builder.set("spaceAbove", styling.points(this.spaceAbove, "Space Above"));
+    builder.set("spaceBelow", styling.points(this.spaceBelow, "Space Below"));
+    builder.set("indentStart", styling.points(this.indentStart, "Indent Start"));
+    builder.set("indentEnd", styling.points(this.indentEnd, "Indent End"));
+    builder.set("indentFirstLine", styling.points(this.indentFirstLine, "First Line Indent"));
 
     const {
       style, fields, isEmpty,
@@ -173,7 +173,11 @@ export default {
       style,
       fields,
     };
-    const cellLocation = styling.buildCellLocation(this.rowIndex, this.columnIndex);
+    const cellLocation = styling.buildCellLocation(
+      this.rowIndex,
+      this.columnIndex,
+      "when the target is a shape rather than a table",
+    );
     if (cellLocation) {
       request.cellLocation = cellLocation;
     }

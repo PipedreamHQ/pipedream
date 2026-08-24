@@ -143,7 +143,7 @@ export default {
     backgroundAlpha: {
       type: "string",
       label: "Background Opacity",
-      description: "Opacity of the fill, from `0` (fully transparent) to `1` (fully opaque). Only applies when the matching color is set. Sent as a string so that `0` is distinguishable from unset.",
+      description: "Opacity of the fill, from `0` (fully transparent) to `1` (fully opaque). Can be set on its own to change an existing fill's opacity without restating its color. Sent as a string so that `0` is distinguishable from unset.",
       optional: true,
     },
   },

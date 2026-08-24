@@ -157,7 +157,7 @@ export default {
     builder.set("smallCaps", this.smallCaps);
     builder.set("baselineOffset", this.baselineOffset);
     builder.set("fontFamily", this.fontFamily);
-    builder.set("fontSize", styling.points(this.fontSize));
+    builder.set("fontSize", styling.points(this.fontSize, "Font Size"));
     builder.set("foregroundColor", styling.optionalColor(this.foregroundColor, "Text Color"));
     builder.set("backgroundColor", styling.optionalColor(this.backgroundColor, "Highlight Color"));
     if (this.linkUrl) {
@@ -179,7 +179,11 @@ export default {
       style,
       fields,
     };
-    const cellLocation = styling.buildCellLocation(this.rowIndex, this.columnIndex);
+    const cellLocation = styling.buildCellLocation(
+      this.rowIndex,
+      this.columnIndex,
+      "when the target is a shape rather than a table",
+    );
     if (cellLocation) {
       request.cellLocation = cellLocation;
     }
