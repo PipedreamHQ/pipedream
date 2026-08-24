@@ -25,7 +25,7 @@ export default {
     additionalProperties: {
       type: "string[]",
       label: "Additional properties to retrieve",
-      description: "Properties to return on top of the default set for this object type. Use **Get Properties** to see what a given object type offers.",
+      description: "An array of HubSpot internal property names to return in addition to the default set for this object type — e.g. `[\"custom_field\", \"lifecyclestage\"]`. Use **Get Properties** to discover the valid internal names a given object type offers.",
       optional: true,
       async options({ page }) {
         if (page !== 0) {

@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { DEFAULT_MEETING_PROPERTIES } from "../../common/constants.mjs";
 import { OBJECT_TYPE } from "../../common/object-types.mjs";
 import hubspot from "../../hubspot.app.mjs";
@@ -6,8 +7,8 @@ export default {
   key: "hubspot-get-associated-meetings",
   name: "Get Associated Meetings",
   description:
-    "Retrieves meetings associated with a specific object (contact, company, or deal) with optional time filtering. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/associations/association-details#get-%2Fcrm%2Fv4%2Fobjects%2F%7Bobjecttype%7D%2F%7Bobjectid%7D%2Fassociations%2F%7Btoobjecttype%7D)",
-  version: "0.0.19",
+    "List meetings associated with a contact, company, or deal in HubSpot. Set **From Object Type** and **Object ID** (for contacts you may pass an email instead of the numeric id). Optionally narrow with **Timeframe** (today, this_week, this_month, last_month, or custom with **Start/End Date**), or set **Most Recent** to return only the latest meeting. Returns up to 100 meetings with default meeting properties. Example: From Object Type `contacts`, Object ID `ada@example.com`, Timeframe `this_month`. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/associations/association-details)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -58,26 +59,20 @@ export default {
       description: "Additional properties to retrieve for the meetings",
       optional: true,
     },
-  },
-  additionalProps() {
-    const { timeframe } = this;
-    if (timeframe !== "custom") {
-      return {};
-    }
-    return {
-      startDate: {
-        type: "string",
-        label: "Start Date",
-        description:
-          "The start date to filter meetings from (ISO 8601 format). Eg. `2025-01-01T00:00:00Z`",
-      },
-      endDate: {
-        type: "string",
-        label: "End Date",
-        description:
-          "The end date to filter meetings to (ISO 8601 format). Eg. `2025-01-31T23:59:59Z`",
-      },
-    };
+    startDate: {
+      type: "string",
+      label: "Start Date",
+      description:
+        "Start of the date range (ISO 8601, e.g. `2025-01-01T00:00:00Z`). Only used when **Timeframe** is `custom`.",
+      optional: true,
+    },
+    endDate: {
+      type: "string",
+      label: "End Date",
+      description:
+        "End of the date range (ISO 8601, e.g. `2025-01-31T23:59:59Z`). Only used when **Timeframe** is `custom`.",
+      optional: true,
+    },
   },
   methods: {
     getMeetingTimeFilter(timeframe, startDate, endDate) {
@@ -288,10 +283,9 @@ export default {
   },
   async run({ $ }) {
     let resolvedObjectId = this.objectId;
-    if (
-      this.objectType === OBJECT_TYPE.CONTACT &&
-      this.objectId.includes("@")
-    ) {
+    // Accept an email for contacts whether the object type is given as "contact" or "contacts".
+    const isContactType = String(this.objectType).toLowerCase().startsWith("contact");
+    if (isContactType && this.objectId.includes("@")) {
       const { results } = await this.hubspot.searchCRM({
         object: OBJECT_TYPE.CONTACT,
         data: {

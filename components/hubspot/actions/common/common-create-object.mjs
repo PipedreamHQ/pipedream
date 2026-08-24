@@ -21,14 +21,30 @@ export default {
   async run({ $ }) {
     const {
       hubspot,
+      // control props — not object properties, must not reach the API payload
       updateIfExists,
+      customObjectType,
+      contactId,
+      $db,
       objectProperties,
+      // whatever is left is a dedicated named object property (e.g.
+      // dealname/pipeline/dealstage on Create Deal, subject/hs_pipeline on
+      // Create Ticket) and must be merged into the payload
+      ...otherProperties
     } = this;
     const objectType = this.getObjectType();
 
-    const properties = typeof objectProperties === "string"
-      ? JSON.parse(objectProperties)
-      : objectProperties;
+    const parsedObjectProperties = objectProperties
+      ? typeof objectProperties === "string"
+        ? JSON.parse(objectProperties)
+        : objectProperties
+      : {};
+
+    // objectProperties takes precedence over the dedicated named props on conflict
+    const properties = {
+      ...otherProperties,
+      ...parsedObjectProperties,
+    };
 
     // checkbox (string[]) props must be semicolon separated strings
     Object.keys(properties)

@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { OBJECT_TYPE } from "../../common/constants.mjs";
 import common from "../common/common-get-object.mjs";
 
@@ -6,7 +7,7 @@ export default {
   key: "hubspot-get-deal",
   name: "Get Deal",
   description:
-    "Gets a deal. [See the documentation](https://developers.hubspot.com/docs/api/crm/deals#endpoint?spec=GET-/crm/v3/objects/deals/{dealId})",
+    "Get a single deal from HubSpot by its id, with a default set of deal properties. Add **Additional properties to retrieve** to include more (use **Get Properties** for `deals`). Example: Object ID `123`, Additional properties `[\"amount\", \"dealstage\"]`. Returns the deal record. [See the documentation](https://developers.hubspot.com/docs/api/crm/deals#endpoint?spec=GET-/crm/v3/objects/deals/{dealId})",
   version: "0.1.0",
   annotations: {
     destructiveHint: false,

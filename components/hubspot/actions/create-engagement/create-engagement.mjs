@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import { ENGAGEMENT_TYPE_OPTIONS } from "../../common/constants.mjs";
 import common from "../common/common-create.mjs";
@@ -86,6 +87,7 @@ export default {
   name: "Create Engagement",
   description:
     "Create a **task, meeting, email, call, or note** engagement with optional associations. "
+    + "If the request does not make the engagement type clear, ask which type (note, task, meeting, email, or call) before creating rather than guessing. "
     + "Set **Engagement Type** and pass engagement fields in **Object Properties** (HubSpot property names, e.g. `hs_note_body` for notes). "
     + "No `reloadProps` step and no **CONFIGURE_COMPONENT** requirement: association fields accept raw HubSpot IDs (use **Search CRM** or the Associations API to resolve `associationType` when needed). "
     + "For **only** a note on a contact by ID, **Add Note to Contact** (`hubspot-add-note-to-contact`) is still simpler. "
@@ -207,7 +209,9 @@ export default {
         : objectProperties
       : otherProperties;
 
-    if (objectType === "notes" && properties && properties.hs_timestamp == null) {
+    // Every HubSpot engagement object (notes, tasks, meetings, emails, calls)
+    // requires hs_timestamp; default it so an agent doesn't have to know that.
+    if (properties && properties.hs_timestamp == null) {
       properties.hs_timestamp = new Date().toISOString();
     }
 

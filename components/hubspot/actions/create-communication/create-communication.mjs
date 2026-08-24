@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import { ASSOCIATION_CATEGORY } from "../../common/constants.mjs";
 import appProp from "../common/common-app-prop.mjs";
@@ -8,8 +9,8 @@ export default {
   key: "hubspot-create-communication",
   name: "Create Communication",
   description:
-    "Create a WhatsApp, LinkedIn, or SMS message. [See the documentation](https://developers.hubspot.com/beta-docs/reference/api/crm/engagements/communications/v3#post-%2Fcrm%2Fv3%2Fobjects%2Fcommunications)",
-  version: "0.1.0",
+    "Log a WhatsApp, LinkedIn, or SMS communication in HubSpot. Put the message fields in **Object Properties** (`hs_communication_channel_type` = `SMS` | `WHATS_APP` | `LINKEDIN_MESSAGE`, `hs_communication_body`); `hs_communication_logged_from` and `hs_timestamp` are set for you. Optionally associate it with a record via **Associated Object Type/ID** + **Association Type**. Example: Object Properties `{ \"hs_communication_channel_type\": \"SMS\", \"hs_communication_body\": \"Reminder: call at 9am\" }`. Returns the created communication with its id. [See the documentation](https://developers.hubspot.com/beta-docs/reference/api/crm/engagements/communications/v3#post-%2Fcrm%2Fv3%2Fobjects%2Fcommunications)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -87,6 +88,11 @@ export default {
         ? JSON.parse(objectProperties)
         : objectProperties
       : otherProperties;
+
+    // HubSpot communications require hs_timestamp; default it so an agent doesn't have to know that.
+    if (properties.hs_timestamp == null) {
+      properties.hs_timestamp = new Date().toISOString();
+    }
 
     const response = await hubspot.createObject({
       $,
