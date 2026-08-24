@@ -152,7 +152,7 @@ export default {
       fields,
     });
 
-    $.export("$summary", `Updated paragraph style for characters ${range.startIndex}–${range.endIndex} in document ${this.documentId}`);
+    $.export("$summary", `Updated the style of every paragraph overlapping indexes ${range.startIndex}–${range.endIndex} in document ${this.documentId}`);
     return this.googleDocs.getDocumentOrTab(this.documentId, this.tabId);
   },
 };
