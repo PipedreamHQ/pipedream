@@ -183,11 +183,14 @@ export default {
         },
       });
     },
-    batchUpdate(documentId, requests) {
+    batchUpdate(documentId, requests, writeControl) {
       return this.docs().documents.batchUpdate({
         documentId,
         requestBody: {
           requests,
+          ...(writeControl && {
+            writeControl,
+          }),
         },
       });
     },
@@ -526,7 +529,9 @@ export default {
       });
 
       if (formattingRequests.length) {
-        await this.batchUpdate(documentId, formattingRequests);
+        await this.batchUpdate(documentId, formattingRequests, updatedDoc.revisionId && {
+          requiredRevisionId: updatedDoc.revisionId,
+        });
       }
 
       return {

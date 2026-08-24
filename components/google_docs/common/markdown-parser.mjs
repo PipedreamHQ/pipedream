@@ -371,6 +371,8 @@ function collectAllDocumentText(elements, allText, indexMap, state) {
     if (element.paragraph) {
       if (element.paragraph.elements && Array.isArray(element.paragraph.elements)) {
         element.paragraph.elements.forEach((el) => {
+          const docStart = el.startIndex ?? state.currentIndex;
+
           if (el.textRun && el.textRun.content) {
             const text = el.textRun.content;
             const startOfText = state.allTextIndex;
@@ -379,24 +381,24 @@ function collectAllDocumentText(elements, allText, indexMap, state) {
 
             // Record the document index for this position in allText
             for (let i = 0; i < text.length; i++) {
-              indexMap[startOfText + i] = state.currentIndex + i;
+              indexMap[startOfText + i] = docStart + i;
             }
 
             state.allTextIndex += text.length;
-            state.currentIndex += text.length;
+            state.currentIndex = docStart + text.length;
           } else if (el.inlineObject) {
-            indexMap[state.allTextIndex] = state.currentIndex;
+            indexMap[state.allTextIndex] = docStart;
             state.allTextIndex += 1;
-            state.currentIndex += 1;
+            state.currentIndex = docStart + 1;
           } else if (
             el.pageBreak
             || el.columnBreak
             || el.footnoteReference
             || el.endnoteReference
           ) {
-            indexMap[state.allTextIndex] = state.currentIndex;
+            indexMap[state.allTextIndex] = docStart;
             state.allTextIndex += 1;
-            state.currentIndex += 1;
+            state.currentIndex = docStart + 1;
           }
         });
       }
@@ -484,10 +486,12 @@ function buildFormattingRequestsForReplacement(
   let matchPos = fullText.indexOf(replacementText, searchPos);
 
   while (matchPos !== -1) {
-    const docIndex = indexMap[matchPos] || (state.currentIndex + matchPos);
+    const docIndex = indexMap[matchPos] ?? (state.currentIndex + matchPos);
+    const lastCharIndex = indexMap[matchPos + replacementText.length - 1]
+      ?? (docIndex + replacementText.length - 1);
     matches.push({
       startIndex: docIndex,
-      endIndex: docIndex + replacementText.length,
+      endIndex: lastCharIndex + 1,
     });
     searchPos = matchPos + 1;
     matchPos = fullText.indexOf(replacementText, searchPos);
