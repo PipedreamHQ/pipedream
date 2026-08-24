@@ -660,9 +660,37 @@ export default {
         ...args,
       });
     },
-    findUsers(args = {}) {
+    getDefaultLimit() {
+      return constants.DEFAULT_LIMIT;
+    },
+    findUsers({
+      params, ...args
+    } = {}) {
       return this._makeRequest({
         path: "/user/search",
+        params: {
+          maxResults: constants.DEFAULT_LIMIT,
+          ...params,
+        },
+        ...args,
+      });
+    },
+    /**
+     * Lists the users that can be assigned to issues in a project
+     * @param {object} args - Arguments object
+     * @param {string} args.cloudId - The cloud ID of the Jira site
+     * @param {object} [args.params] - Query params, e.g. `project`, `query`, `startAt`
+     * @returns {Promise<object[]>} The assignable users
+     */
+    findAssignableUsers({
+      params, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: "/user/assignable/search",
+        params: {
+          maxResults: constants.DEFAULT_LIMIT,
+          ...params,
+        },
         ...args,
       });
     },
