@@ -5,7 +5,7 @@ import styling from "../../common/styling.mjs";
 export default {
   key: "google_docs-update-text-style",
   name: "Update Text Style",
-  description: "Apply character formatting — bold, italic, underline, font, size, color, or a link — to a range of text in a Google Doc. Only the options you fill in are changed; everything you leave blank keeps its current formatting. Use **Get Document** to find the start and end index of the text you want to style, or **Find Document** to resolve a document's name to its ID. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#UpdateTextStyleRequest)",
+  description: "Apply character formatting — bold, italic, underline, font, size, color, or a link — to a range of text in a Google Doc. Only the options you fill in are changed; everything you leave blank keeps its current formatting — except that setting **Font Family** without **Font Weight** resets the range weight to the API default of `400`. Use **Get Document** to find the start and end index of the text you want to style, or **Find Document** to resolve a document's name to its ID. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#UpdateTextStyleRequest)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -22,51 +22,51 @@ export default {
       ],
     },
     startIndex: {
-      type: "integer",
-      label: "Start Index",
-      description: "The character index where the styled range begins, counting from the start of the document body. Must be at least `1`. Use **Get Document** to inspect the document's structure and locate the range.",
-      min: 1,
+      propDefinition: [
+        googleDocs,
+        "startIndex",
+      ],
     },
     endIndex: {
-      type: "integer",
-      label: "End Index",
-      description: "The character index where the styled range ends, exclusive. Must be greater than **Start Index**.",
-      min: 2,
+      propDefinition: [
+        googleDocs,
+        "endIndex",
+      ],
     },
     bold: {
       type: "boolean",
       label: "Bold",
-      description: "Set `true` to bold the range, or `false` to explicitly remove bold. Leave blank to keep the current setting.",
+      description: "`true` bolds the range; `false` removes bold. Omit to leave the range current bold setting untouched.",
       optional: true,
     },
     italic: {
       type: "boolean",
       label: "Italic",
-      description: "Set `true` to italicize the range, or `false` to explicitly remove italics. Leave blank to keep the current setting.",
+      description: "`true` italicizes the range; `false` removes italics. Omit to leave the range current italic setting untouched.",
       optional: true,
     },
     underline: {
       type: "boolean",
       label: "Underline",
-      description: "Set `true` to underline the range, or `false` to explicitly remove the underline. Leave blank to keep the current setting.",
+      description: "`true` underlines the range; `false` removes the underline. Omit to leave the range current underline setting untouched.",
       optional: true,
     },
     strikethrough: {
       type: "boolean",
       label: "Strikethrough",
-      description: "Set `true` to strike through the range, or `false` to explicitly remove it. Leave blank to keep the current setting.",
+      description: "`true` strikes through the range; `false` removes the strikethrough. Omit to leave the range current setting untouched.",
       optional: true,
     },
     smallCaps: {
       type: "boolean",
       label: "Small Caps",
-      description: "Set `true` to render the range in small capitals, or `false` to explicitly remove it. Leave blank to keep the current setting.",
+      description: "`true` renders the range in small capitals; `false` returns it to normal casing. Omit to leave the range current setting untouched.",
       optional: true,
     },
     fontFamily: {
       type: "string",
       label: "Font Family",
-      description: "The font to apply, named exactly as it appears in the Google Docs font menu (e.g. `Roboto`, `Times New Roman`).",
+      description: "The font family to apply, as a font name Google Docs recognizes (e.g. `Roboto`, `Times New Roman`, `Arial`). Setting this without **Font Weight** applies the API default weight of `400`, which clears an existing bold weight on the range.",
       optional: true,
     },
     fontSize: {
@@ -75,6 +75,14 @@ export default {
       description: "The font size in points (e.g. `12`).",
       optional: true,
       min: 1,
+    },
+    fontWeight: {
+      type: "integer",
+      label: "Font Weight",
+      description: "Weight of the font as a multiple of 100 between `100` and `900`, where `400` is normal and `700` is bold. Only valid alongside **Font Family**. Set it whenever you change the font on text that should stay heavy, since the API otherwise defaults the weight to `400`.",
+      optional: true,
+      min: 100,
+      max: 900,
     },
     foregroundColor: {
       type: "string",
@@ -91,7 +99,7 @@ export default {
     baselineOffset: {
       type: "string",
       label: "Baseline Offset",
-      description: "Render the range raised or lowered relative to the normal baseline.",
+      description: "Vertical offset of the range relative to the normal baseline. `NONE` sits on the baseline, `SUPERSCRIPT` raises it, `SUBSCRIPT` lowers it.",
       optional: true,
       options: [
         "NONE",
@@ -115,11 +123,24 @@ export default {
   async run({ $ }) {
     const range = styling.buildRange(this.startIndex, this.endIndex, this.tabId);
 
+    if (this.fontWeight != null && !this.fontFamily) {
+      throw new ConfigurationError("Font Weight only applies alongside Font Family. Set Font Family as well, or use Bold to embolden the range in its existing font.");
+    }
+    if (this.fontWeight != null && this.fontWeight % 100 !== 0) {
+      throw new ConfigurationError(`Font Weight must be a multiple of 100 between 100 and 900, got \`${this.fontWeight}\`.`);
+    }
+
+    // The API applies weightedFontFamily before bold and defaults an omitted
+    // weight to 400, so changing only the family silently unbolds the range.
+    // Sending the weight the user asked for keeps that explicit.
     const weightedFontFamily = this.fontFamily
       ? {
         fontFamily: this.fontFamily,
       }
       : undefined;
+    if (weightedFontFamily && this.fontWeight != null) {
+      weightedFontFamily.weight = this.fontWeight;
+    }
     const link = this.linkUrl
       ? {
         url: this.linkUrl,

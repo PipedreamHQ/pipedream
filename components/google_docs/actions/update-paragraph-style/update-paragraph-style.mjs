@@ -22,21 +22,22 @@ export default {
       ],
     },
     startIndex: {
-      type: "integer",
-      label: "Start Index",
+      propDefinition: [
+        googleDocs,
+        "startIndex",
+      ],
       description: "The character index where the range begins, counting from the start of the document body. Must be at least `1`. Every paragraph that overlaps the range is restyled, even if the range covers only part of it.",
-      min: 1,
     },
     endIndex: {
-      type: "integer",
-      label: "End Index",
-      description: "The character index where the range ends, exclusive. Must be greater than **Start Index**.",
-      min: 2,
+      propDefinition: [
+        googleDocs,
+        "endIndex",
+      ],
     },
     namedStyleType: {
       type: "string",
       label: "Named Style",
-      description: "Apply a built-in Google Docs paragraph style, such as a heading level. This is what the style dropdown in the Docs toolbar sets.",
+      description: "The named paragraph style to apply. `NORMAL_TEXT` is body text, `TITLE` and `SUBTITLE` are document-level styles, and `HEADING_1` through `HEADING_6` are section headings in descending order of prominence.",
       optional: true,
       options: [
         "NORMAL_TEXT",
@@ -53,7 +54,7 @@ export default {
     alignment: {
       type: "string",
       label: "Alignment",
-      description: "How the paragraph's text is aligned. `START` is left-aligned in a left-to-right document.",
+      description: "How the paragraph text is aligned. `START` and `END` align to the leading and trailing margin for the text direction (left and right respectively in a left-to-right document), `CENTER` centers it, and `JUSTIFIED` stretches it to both margins.",
       optional: true,
       options: [
         "START",
@@ -107,13 +108,13 @@ export default {
     keepLinesTogether: {
       type: "boolean",
       label: "Keep Lines Together",
-      description: "Set `true` to stop the paragraph from being split across a page break where possible.",
+      description: "`true` keeps the paragraph lines on a single page where possible; `false` allows it to break across pages. Omit to leave the paragraph current setting untouched.",
       optional: true,
     },
     keepWithNext: {
       type: "boolean",
       label: "Keep With Next",
-      description: "Set `true` to keep at least part of this paragraph on the same page as the paragraph that follows it.",
+      description: "`true` keeps at least part of this paragraph on the same page as the paragraph that follows it; `false` allows them to be separated. Omit to leave the paragraph current setting untouched.",
       optional: true,
     },
     tabId: {

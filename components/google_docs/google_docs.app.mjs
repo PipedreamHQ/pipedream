@@ -24,6 +24,20 @@ export default {
       optional: true,
       default: "end",
     },
+    // Shared by the update-*-style actions, which address a span of the document
+    // body by character index rather than by an insert position.
+    startIndex: {
+      type: "integer",
+      label: "Start Index",
+      description: "The character index where the range begins, counting from the start of the document body. Must be at least `1`; index `0` is the document root and cannot be styled. Use **Get Document** to inspect the document structure and locate the range.",
+      min: 1,
+    },
+    endIndex: {
+      type: "integer",
+      label: "End Index",
+      description: "The character index where the range ends, exclusive. Must be greater than **Start Index**.",
+      min: 2,
+    },
     // Static, MCP-compatible folder selector for the create actions. Kept as a
     // separate key so the inherited Drive `folderId` (async dropdown) stays
     // available to out-of-scope consumers like the sources/triggers.
