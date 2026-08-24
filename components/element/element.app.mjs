@@ -13,6 +13,17 @@ export default {
       label: "Room ID",
       description: "The Matrix room ID, e.g. `!OGEhHVWSdvArJzumhm:matrix.org`. Use **List Rooms** to find the ID of a room you've already joined.",
     },
+    userId: {
+      type: "string",
+      label: "User ID",
+      description: "The full Matrix ID of the user, e.g. `@alice:matrix.org`.",
+    },
+    reason: {
+      type: "string",
+      label: "Reason",
+      description: "Optional reason recorded on the resulting membership event, e.g. `Welcome to the team!`.",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
@@ -54,6 +65,33 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: `/rooms/${encodeURIComponent(roomId)}/invite`,
+        ...opts,
+      });
+    },
+    banUser({
+      roomId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/rooms/${encodeURIComponent(roomId)}/ban`,
+        ...opts,
+      });
+    },
+    unbanUser({
+      roomId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/rooms/${encodeURIComponent(roomId)}/unban`,
+        ...opts,
+      });
+    },
+    leaveRoom({
+      roomId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/rooms/${encodeURIComponent(roomId)}/leave`,
         ...opts,
       });
     },

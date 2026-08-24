@@ -21,15 +21,18 @@ export default {
       ],
     },
     userId: {
-      type: "string",
-      label: "User ID",
+      propDefinition: [
+        element,
+        "userId",
+      ],
       description: "The full Matrix ID of the user to invite, e.g. `@alice:matrix.org`. Note that some homeservers accept invites for user IDs that are not registered yet, so a successful response does not confirm the user exists.",
     },
     reason: {
-      type: "string",
-      label: "Reason",
+      propDefinition: [
+        element,
+        "reason",
+      ],
       description: "Optional reason included on the membership event sent to the invitee, e.g. `Welcome to the team!`.",
-      optional: true,
     },
   },
   async run({ $ }) {

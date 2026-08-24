@@ -20,6 +20,6 @@ export default {
       $,
     });
     $.export("$summary", `Successfully found ${joinedRooms?.length || 0} joined room(s)`);
-    return joinedRooms;
+    return joinedRooms || [];
   },
 };
