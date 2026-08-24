@@ -1,0 +1,157 @@
+import { ConfigurationError } from "@pipedream/platform";
+import googleDocs from "../../google_docs.app.mjs";
+import styling from "../../common/styling.mjs";
+
+export default {
+  key: "google_docs-update-paragraph-style",
+  name: "Update Paragraph Style",
+  description: "Apply paragraph formatting — heading level, alignment, line spacing, indentation, or spacing above and below — to every paragraph overlapping a range in a Google Doc. Only the options you fill in are changed; everything you leave blank keeps its current formatting. Use **Get Document** to find the start and end index of the paragraphs you want to style. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#UpdateParagraphStyleRequest)",
+  version: "0.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
+  type: "action",
+  props: {
+    googleDocs,
+    documentId: {
+      propDefinition: [
+        googleDocs,
+        "documentId",
+      ],
+    },
+    startIndex: {
+      type: "integer",
+      label: "Start Index",
+      description: "The character index where the range begins, counting from the start of the document body. Must be at least `1`. Every paragraph that overlaps the range is restyled, even if the range covers only part of it.",
+      min: 1,
+    },
+    endIndex: {
+      type: "integer",
+      label: "End Index",
+      description: "The character index where the range ends, exclusive. Must be greater than **Start Index**.",
+      min: 2,
+    },
+    namedStyleType: {
+      type: "string",
+      label: "Named Style",
+      description: "Apply a built-in Google Docs paragraph style, such as a heading level. This is what the style dropdown in the Docs toolbar sets.",
+      optional: true,
+      options: [
+        "NORMAL_TEXT",
+        "TITLE",
+        "SUBTITLE",
+        "HEADING_1",
+        "HEADING_2",
+        "HEADING_3",
+        "HEADING_4",
+        "HEADING_5",
+        "HEADING_6",
+      ],
+    },
+    alignment: {
+      type: "string",
+      label: "Alignment",
+      description: "How the paragraph's text is aligned. `START` is left-aligned in a left-to-right document.",
+      optional: true,
+      options: [
+        "START",
+        "CENTER",
+        "END",
+        "JUSTIFIED",
+      ],
+    },
+    lineSpacing: {
+      type: "integer",
+      label: "Line Spacing",
+      description: "Line spacing as a percentage of normal, where `100` is single-spaced, `150` is one-and-a-half, and `200` is double-spaced.",
+      optional: true,
+      min: 1,
+    },
+    spaceAbove: {
+      type: "integer",
+      label: "Space Above",
+      description: "Extra space above the paragraph, in points.",
+      optional: true,
+      min: 0,
+    },
+    spaceBelow: {
+      type: "integer",
+      label: "Space Below",
+      description: "Extra space below the paragraph, in points.",
+      optional: true,
+      min: 0,
+    },
+    indentStart: {
+      type: "integer",
+      label: "Indent Start",
+      description: "Indentation of the whole paragraph from the start-side margin, in points (the left margin in a left-to-right document).",
+      optional: true,
+      min: 0,
+    },
+    indentEnd: {
+      type: "integer",
+      label: "Indent End",
+      description: "Indentation of the whole paragraph from the end-side margin, in points.",
+      optional: true,
+      min: 0,
+    },
+    indentFirstLine: {
+      type: "integer",
+      label: "First Line Indent",
+      description: "Indentation of the paragraph's first line only, in points.",
+      optional: true,
+      min: 0,
+    },
+    keepLinesTogether: {
+      type: "boolean",
+      label: "Keep Lines Together",
+      description: "Set `true` to stop the paragraph from being split across a page break where possible.",
+      optional: true,
+    },
+    keepWithNext: {
+      type: "boolean",
+      label: "Keep With Next",
+      description: "Set `true` to keep at least part of this paragraph on the same page as the paragraph that follows it.",
+      optional: true,
+    },
+    tabId: {
+      propDefinition: [
+        googleDocs,
+        "tabId",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const range = styling.buildRange(this.startIndex, this.endIndex, this.tabId);
+
+    const {
+      style, fields, isEmpty,
+    } = styling.buildStyle({
+      namedStyleType: this.namedStyleType,
+      alignment: this.alignment,
+      lineSpacing: this.lineSpacing,
+      keepLinesTogether: this.keepLinesTogether,
+      keepWithNext: this.keepWithNext,
+      spaceAbove: styling.points(this.spaceAbove),
+      spaceBelow: styling.points(this.spaceBelow),
+      indentStart: styling.points(this.indentStart),
+      indentEnd: styling.points(this.indentEnd),
+      indentFirstLine: styling.points(this.indentFirstLine),
+    });
+
+    if (isEmpty) {
+      throw new ConfigurationError("Set at least one style option (e.g. Named Style, Alignment, or Line Spacing) — otherwise there is nothing to update.");
+    }
+
+    await this.googleDocs._batchUpdate(this.documentId, "updateParagraphStyle", {
+      range,
+      paragraphStyle: style,
+      fields,
+    });
+
+    $.export("$summary", `Updated paragraph style for characters ${range.startIndex}–${range.endIndex} in document ${this.documentId}`);
+    return this.googleDocs.getDocument(this.documentId);
+  },
+};
