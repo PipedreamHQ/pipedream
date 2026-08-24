@@ -20,6 +20,21 @@ export default {
         return this.listPresentationsOptions(driveId, nextPageToken);
       },
     },
+    staticPresentationId: {
+      type: "string",
+      label: "Presentation ID",
+      description: "The ID of the presentation. This is the long string in the URL: `https://docs.google.com/presentation/d/{PRESENTATION_ID}/edit`. A full presentation URL is also accepted. Use **Find Presentation** to resolve a name to its ID.",
+    },
+    staticSlideId: {
+      type: "string",
+      label: "Slide ID",
+      description: "The object ID of the slide (e.g. `p1` or `g1a2b3c4d5`). Use **Get Presentation** and read `slides[].objectId`.",
+    },
+    pageElementId: {
+      type: "string",
+      label: "Page Element ID",
+      description: "The object ID of the shape, image, table, or other page element to act on. Use **Get Presentation** and read `slides[].pageElements[].objectId`.",
+    },
     layoutId: {
       type: "string",
       label: "Layout ID",
@@ -279,6 +294,39 @@ export default {
         },
       };
       return (await slides.presentations.get(request)).data;
+    },
+    _findPageElement(presentation, objectId) {
+      const walk = (elements, slideId) => {
+        for (const element of elements || []) {
+          if (element.objectId === objectId) {
+            return {
+              element,
+              slideId,
+            };
+          }
+          const found = walk(element.elementGroup?.children, slideId);
+          if (found) {
+            return found;
+          }
+        }
+        return null;
+      };
+
+      for (const slide of presentation.slides || []) {
+        const found = walk(slide.pageElements, slide.objectId);
+        if (found) {
+          return found;
+        }
+      }
+      return null;
+    },
+    async getPageElement(presentationId, objectId) {
+      const presentation = await this.getPresentation(presentationId);
+      const found = this._findPageElement(presentation, objectId);
+      if (!found) {
+        throw new ConfigurationError(`No page element with ID "${objectId}" was found in presentation ${presentationId}. Use Get Presentation to list slides[].pageElements[].objectId.`);
+      }
+      return found;
     },
     async getSlide(presentationId, slideId) {
       const slides = this.slides();
