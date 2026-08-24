@@ -29,7 +29,7 @@ export default {
   key: "google_ads-create-responsive-search-ad",
   name: "Create Responsive Search Ad",
   description: `Creates a Responsive Search Ad (RSA) in an ad group. RSA copy (headlines, descriptions) cannot be edited in-place after creation — to change ad copy, remove the existing ad and create a new one. URL fields (\`finalUrls\`, \`trackingUrlTemplate\`, etc.) can be updated in-place via the **Create or Update Ad Group Ad** action. [See the documentation](${docLink})`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

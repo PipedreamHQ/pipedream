@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import wealthbox from "../../wealthbox.app.mjs";
 
 export default {
   key: "wealthbox-list-task-category-options",
   name: "List Category Options",
-  description: "Retrieves available options for the Category field.",
-  version: "0.0.1",
+  description: "List the task categories configured in Wealthbox (e.g. `Follow Up`, `Meeting`, `Review`) so agents and users can discover valid category IDs to pass to the Category prop in **Create Task**. Returns objects with `label` (category name) and `value` (numeric category ID). [See the documentation](https://dev.wealthbox.com/#customizable-categories-list-all-members-of-a-customizable-category-get)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

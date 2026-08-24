@@ -7,8 +7,8 @@ export default {
   ...common,
   key: "google_ads-new-lead-form-entry",
   name: "New Lead Form Entry",
-  description: "Emit new event for new leads on a Lead Form. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v21/GoogleAdsService/Search?transport=rest)",
-  version: "0.0.9",
+  description: "Emit new event for new leads on a Lead Form. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/GoogleAdsService/Search?transport=rest)",
+  version: "0.0.10",
   type: "source",
   dedupe: "unique",
   sampleEmit,
@@ -29,7 +29,7 @@ export default {
     docsAlert: {
       type: "alert",
       alertType: "info",
-      content: "If needed, see Google's documentation on [submission fields](https://developers.google.com/google-ads/api/reference/rpc/v21/LeadFormSubmissionField) and [custom submission fields](https://developers.google.com/google-ads/api/reference/rpc/v21/CustomLeadFormSubmissionField).",
+      content: "If needed, see Google's documentation on [submission fields](https://developers.google.com/google-ads/api/reference/rpc/v25/LeadFormSubmissionField) and [custom submission fields](https://developers.google.com/google-ads/api/reference/rpc/v25/CustomLeadFormSubmissionField).",
     },
   },
   methods: {

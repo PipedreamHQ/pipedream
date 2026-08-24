@@ -1,5 +1,7 @@
 import { axios } from "@pipedream/platform";
-import { CORE_DATE_SEGMENTS } from "./common/constants.mjs";
+import {
+  API_VERSION, CORE_DATE_SEGMENTS,
+} from "./common/constants.mjs";
 import { QUERIES } from "./common/queries.mjs";
 import {
   getResourceOption, sanitizeGaqlString,
@@ -32,25 +34,25 @@ export default {
         }) => ({
           label: name,
           value: id,
-        }));
+        })) ?? [];
       },
     },
     accountId: {
       type: "string",
       label: "Use Google Ads As",
-      description: "The ID of an account of a [customer directly accessible by the authenticated user](https://developers.google.com/google-ads/api/reference/rpc/v21/CustomerService/ListAccessibleCustomers?transport=rest). This is usually a Manager Account, used as `login-customer-id` (e.g., `1234567890`). Use the **List Account ID Options** action to get the list of accessible accounts.",
+      description: "The ID of an account of a [customer directly accessible by the authenticated user](https://developers.google.com/google-ads/api/reference/rpc/v25/CustomerService/ListAccessibleCustomers?transport=rest). This is usually a Manager Account, used as `login-customer-id` (e.g., `1234567890`). Use the **List Account ID Options** action to get the list of accessible accounts.",
       async options() {
         const response = await this.listAccessibleCustomers();
         return response?.map(((resourceName) => ({
           label: resourceName,
           value: resourceName.split("/").pop(),
-        })));
+        }))) ?? [];
       },
     },
     customerClientId: {
       type: "string",
       label: "Managed Account",
-      description: "The ID of a [customer client](https://developers.google.com/google-ads/api/reference/rpc/v21/CustomerClient) from the list of [customers linked to the selected account](https://developers.google.com/google-ads/api/docs/account-management/get-account-hierarchy) (e.g., `1234567890`). Use the **List Customer Clients** action to get the list of customer clients.",
+      description: "The ID of a [customer client](https://developers.google.com/google-ads/api/reference/rpc/v25/CustomerClient) from the list of [customers linked to the selected account](https://developers.google.com/google-ads/api/docs/account-management/get-account-hierarchy) (e.g., `1234567890`). Use the **List Customer Clients** action to get the list of customer clients.",
       useQuery: true,
       optional: true,
       async options({
@@ -69,7 +71,7 @@ export default {
             ? "[Manager] "
             : ""}${descriptiveName}`,
           value: id,
-        })).filter(({ value }) => value !== accountId);
+        }))?.filter(({ value }) => value !== accountId) ?? [];
       },
     },
     reportResourceFilter: {
@@ -91,7 +93,7 @@ export default {
           query,
           pageToken,
         });
-        const options = results?.map?.((item) => this.getResourceOption(item, resource));
+        const options = results?.map?.((item) => this.getResourceOption(item, resource)) ?? [];
         return {
           options,
           context: {
@@ -433,10 +435,44 @@ export default {
         };
       },
     },
+    conversionActionId: {
+      type: "string",
+      label: "Conversion Action",
+      description: "The conversion action to record this conversion against, as a resource name (e.g. `customers/1234567890/conversionActions/987654321`). Use a value returned by this selector. Must be an upload-type action (**Upload Clicks** for click conversions, **Upload Calls** for call conversions) - create one with the **Send Offline Conversion** action.",
+      async options({
+        accountId, customerClientId, prevContext,
+      }) {
+        const pageToken = prevContext?.nextPageToken;
+        const {
+          results, nextPageToken,
+        } = await this.search({
+          query: QUERIES.listConversionActions(),
+          accountId,
+          customerClientId,
+          params: {
+            pageToken,
+          },
+        });
+        const options = results?.map(({
+          conversionAction: {
+            resourceName, name,
+          },
+        }) => ({
+          label: name,
+          value: resourceName,
+        })) ?? [];
+        return {
+          options,
+          context: {
+            nextPageToken,
+          },
+        };
+      },
+    },
     leadFormId: {
       type: "string",
       label: "Lead Form ID",
-      description: "Select a [Lead Form](https://developers.google.com/google-ads/api/reference/rpc/v21/LeadFormAsset) to watch for new entries.",
+      description: "Select a [Lead Form](https://developers.google.com/google-ads/api/reference/rpc/v25/LeadFormAsset) to watch for new entries.",
       async options({
         accountId, customerClientId,
       }) {
@@ -453,7 +489,7 @@ export default {
         }) => ({
           label: `${businessName} - ${headline}`,
           value: id,
-        }));
+        })) ?? [];
       },
     },
   },
@@ -473,7 +509,7 @@ export default {
     }) {
       const data = {
         headers: this._headers(accountId),
-        path: path.replace("{customerClientId}", customerClientId ?? accountId),
+        path: `/${API_VERSION}${path.replace("{customerClientId}", customerClientId ?? accountId)}`,
         ...opts,
       };
       return axios($, {
@@ -487,7 +523,7 @@ export default {
     }) {
       console.log("Executing query: ", query);
       const response = await this._makeRequest({
-        path: "/v21/customers/{customerClientId}/googleAds:search",
+        path: "/customers/{customerClientId}/googleAds:search",
         method: "post",
         data: {
           query,
@@ -498,7 +534,7 @@ export default {
     },
     async listAccessibleCustomers() {
       const response = await this._makeRequest({
-        path: "/v21/customers:listAccessibleCustomers",
+        path: "/customers:listAccessibleCustomers",
       });
       return response.resourceNames;
     },
@@ -517,7 +553,7 @@ export default {
     },
     async createUserList(args) {
       const response = await this._makeRequest({
-        path: "/v21/customers/{customerClientId}/userLists:mutate",
+        path: "/customers/{customerClientId}/userLists:mutate",
         method: "post",
         ...args,
       });
@@ -582,25 +618,39 @@ export default {
     },
     async createConversionAction(args) {
       const response = await this._makeRequest({
-        path: "/v21/customers/{customerClientId}/conversionActions:mutate",
+        path: "/customers/{customerClientId}/conversionActions:mutate",
         method: "post",
         ...args,
       });
       return response;
+    },
+    async uploadClickConversions(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/customers/{customerClientId}:uploadClickConversions",
+        ...opts,
+      });
+    },
+    async uploadCallConversions(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/customers/{customerClientId}:uploadCallConversions",
+        ...opts,
+      });
     },
     async addContactToCustomerList({
       path, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/v21/${path}:addOperations`,
+        path: `/${path}:addOperations`,
         ...opts,
       });
     },
     async createOfflineUserDataJob(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/v21/customers/{customerClientId}/offlineUserDataJobs:create",
+        path: "/customers/{customerClientId}/offlineUserDataJobs:create",
         ...opts,
       });
     },
@@ -609,28 +659,28 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/v21/${path}:run`,
+        path: `/${path}:run`,
         ...args,
       });
     },
     async generateKeywordIdeas(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/v22/customers/{customerClientId}:generateKeywordIdeas",
+        path: "/customers/{customerClientId}:generateKeywordIdeas",
         ...opts,
       });
     },
     async mutateCampaign(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/v21/customers/{customerClientId}/campaigns:mutate",
+        path: "/customers/{customerClientId}/campaigns:mutate",
         ...opts,
       });
     },
     async mutateAdGroup(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/v21/customers/{customerClientId}/adGroups:mutate",
+        path: "/customers/{customerClientId}/adGroups:mutate",
         ...opts,
       });
     },
@@ -641,7 +691,7 @@ export default {
         ? ` WHERE campaign.name LIKE '%${sanitizeGaqlString(query)}%'`
         : "";
       return this.search({
-        query: `SELECT campaign.id, campaign.name, campaign.status, campaign.advertising_channel_type, campaign.start_date, campaign.end_date FROM campaign${filter}`,
+        query: `SELECT campaign.id, campaign.name, campaign.status, campaign.advertising_channel_type, campaign.start_date_time, campaign.end_date_time FROM campaign${filter}`,
         params: {
           pageToken,
         },
@@ -707,14 +757,14 @@ export default {
     async mutateAdGroupCriteria(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/v21/customers/{customerClientId}/adGroupCriteria:mutate",
+        path: "/customers/{customerClientId}/adGroupCriteria:mutate",
         ...opts,
       });
     },
     async mutateAdGroupAd(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/v21/customers/{customerClientId}/adGroupAds:mutate",
+        path: "/customers/{customerClientId}/adGroupAds:mutate",
         ...opts,
       });
     },
@@ -735,7 +785,7 @@ export default {
     async mutateSharedSets(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/v21/customers/{customerClientId}/sharedSets:mutate",
+        path: "/customers/{customerClientId}/sharedSets:mutate",
         ...opts,
       });
     },
@@ -756,7 +806,7 @@ export default {
     async mutateSharedCriteria(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/v21/customers/{customerClientId}/sharedCriteria:mutate",
+        path: "/customers/{customerClientId}/sharedCriteria:mutate",
         ...opts,
       });
     },
@@ -777,7 +827,7 @@ export default {
     async mutateCampaignSharedSets(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/v21/customers/{customerClientId}/campaignSharedSets:mutate",
+        path: "/customers/{customerClientId}/campaignSharedSets:mutate",
         ...opts,
       });
     },
@@ -826,7 +876,7 @@ export default {
     async mutateCampaignBudgets(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/v21/customers/{customerClientId}/campaignBudgets:mutate",
+        path: "/customers/{customerClientId}/campaignBudgets:mutate",
         ...opts,
       });
     },
@@ -847,7 +897,7 @@ export default {
     async mutateCampaignCriteria(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/v21/customers/{customerClientId}/campaignCriteria:mutate",
+        path: "/customers/{customerClientId}/campaignCriteria:mutate",
         ...opts,
       });
     },
@@ -882,7 +932,7 @@ export default {
     async mutateBiddingStrategies(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/v21/customers/{customerClientId}/biddingStrategies:mutate",
+        path: "/customers/{customerClientId}/biddingStrategies:mutate",
         ...opts,
       });
     },

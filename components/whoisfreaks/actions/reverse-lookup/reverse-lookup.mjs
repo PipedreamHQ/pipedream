@@ -43,7 +43,10 @@ export default {
       optional: true,
     },
     format: {
-      propDefinition: [whoisfreaks, "format"],
+      propDefinition: [
+        whoisfreaks,
+        "format",
+      ],
     },
     page: {
       type: "integer",
@@ -66,12 +69,15 @@ export default {
     const company = normalize(this.company);
 
     const activeCount = [
-      keyword, email, owner, company,
+      keyword,
+      email,
+      owner,
+      company,
     ].filter((v) => v !== undefined && v !== null).length;
 
     if (activeCount !== 1) {
       throw new ConfigurationError(
-        "Must enter one and only one of keyword, email, owner, or company"
+        "Must enter one and only one of keyword, email, owner, or company",
       );
     }
 
