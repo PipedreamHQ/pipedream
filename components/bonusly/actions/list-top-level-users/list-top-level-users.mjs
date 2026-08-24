@@ -4,7 +4,7 @@ import bonusly from "../../bonusly.app.mjs";
 export default {
   key: "bonusly-list-top-level-users",
   name: "List Top-Level Users",
-  description: "List the users in the authenticated caller's company who have no manager. These are the entry points into the org chart, so start here when you need to walk the company structure downward from the top. Takes no required input. [See the documentation](https://docs.bonus.ly/reference/listtoplevelusers)",
+  description: "List the users in the authenticated caller's company who have no manager - the roots of the org chart, typically executives. Use this to answer who sits at the top of the company, or as a starting point when you have no other identifier to work from. Takes no required input. [See the documentation](https://docs.bonus.ly/reference/listtoplevelusers)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -43,7 +43,10 @@ export default {
       cursor: this.cursor,
     });
 
-    $.export("$summary", `Found ${response.users?.length ?? 0} top-level user(s)`);
+    const morePages = response.next_cursor
+      ? " (more pages available)"
+      : "";
+    $.export("$summary", `Found ${response.users?.length ?? 0} top-level user(s)${morePages}`);
     return response;
   },
 };

@@ -43,7 +43,10 @@ export default {
       cursor: this.cursor,
     });
 
-    $.export("$summary", `Found ${response.departments?.length ?? 0} department(s)`);
+    const morePages = response.next_cursor
+      ? " (more pages available)"
+      : "";
+    $.export("$summary", `Found ${response.departments?.length ?? 0} department(s)${morePages}`);
     return response;
   },
 };

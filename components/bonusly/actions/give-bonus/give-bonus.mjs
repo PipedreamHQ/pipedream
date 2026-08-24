@@ -17,7 +17,7 @@ export default {
     recipients: {
       type: "string[]",
       label: "Recipients",
-      description: "One or more recipients - each entry can be a user ID, an email address, or a display name, e.g. `john.smith@company.com`. Use the **Search Users** action to look up a user's ID or email by name.",
+      description: "One or more recipients - each entry can be a user ID, an email address, or a display name, e.g. `john.smith@company.com`. Use **Search Users** to look up one person by name, or **List Users In Department**, **List Users In Location**, or **List Top-Level Users** to recognize a whole roster at once.",
     },
     amount: {
       type: "integer",

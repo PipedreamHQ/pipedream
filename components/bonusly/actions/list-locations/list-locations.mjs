@@ -43,7 +43,10 @@ export default {
       cursor: this.cursor,
     });
 
-    $.export("$summary", `Found ${response.locations?.length ?? 0} location(s)`);
+    const morePages = response.next_cursor
+      ? " (more pages available)"
+      : "";
+    $.export("$summary", `Found ${response.locations?.length ?? 0} location(s)${morePages}`);
     return response;
   },
 };
