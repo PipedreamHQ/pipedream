@@ -6,7 +6,7 @@ export default {
   key: "airtable_oauth-get-record-or-create",
   name: "Get Record Or Create",
   description: "Get a specific record, or create one if it doesn't exist. [See the documentation](https://airtable.com/developers/web/api/create-records)",
-  version: "0.0.16",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -15,10 +15,6 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    tableId: {
-      ...common.props.tableId,
-      reloadProps: true,
-    },
     recordId: {
       propDefinition: [
         airtable,
@@ -31,6 +27,19 @@ export default {
         }),
       ],
       optional: true,
+    },
+    record: {
+      propDefinition: [
+        airtable,
+        "record",
+      ],
+      optional: true,
+    },
+    customExpressionInfo: {
+      propDefinition: [
+        airtable,
+        "customExpressionInfo",
+      ],
     },
     typecast: {
       propDefinition: [
@@ -45,9 +54,6 @@ export default {
         "returnFieldsByFieldId",
       ],
     },
-  },
-  async additionalProps() {
-    return commonActions.additionalProps(this);
   },
   async run({ $ }) {
     const recordId = this.recordId ?? undefined;

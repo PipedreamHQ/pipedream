@@ -218,7 +218,7 @@ export default {
     record: {
       type: "object",
       label: "Record",
-      description: "Enter the column name for the key and the corresponding column value. You can include all, some, or none of the field values. You may also use a custom expression.",
+      description: "An object keyed by Airtable field name, where each value is the data to write to that field, e.g. `{ \"Name\": \"Acme\", \"Stage\": \"Won\" }`. Include all, some, or none of the table's fields. Use the **List Tables** action to look up a table's field names and types. Computed fields (formula, rollup, count, autonumber, created time, created by, last modified time and last modified by) cannot be written to. Enable **Typecast** when supplying human-readable values such as select option names or date strings. You may also use a custom expression.",
     },
     customExpressionInfo: {
       type: "alert",

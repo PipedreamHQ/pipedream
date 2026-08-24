@@ -6,7 +6,7 @@ export default {
   key: "airtable_oauth-create-single-record",
   name: "Create Single Record",
   description: "Adds a record to a table.",
-  version: "0.0.15",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -15,10 +15,18 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    // eslint-disable-next-line pipedream/props-label,pipedream/props-description
-    tableId: {
-      ...common.props.tableId,
-      reloadProps: true,
+    record: {
+      propDefinition: [
+        airtable,
+        "record",
+      ],
+      optional: true,
+    },
+    customExpressionInfo: {
+      propDefinition: [
+        airtable,
+        "customExpressionInfo",
+      ],
     },
     typecast: {
       propDefinition: [
@@ -32,9 +40,6 @@ export default {
         "returnFieldsByFieldId",
       ],
     },
-  },
-  async additionalProps() {
-    return commonActions.additionalProps(this);
   },
   async run({ $ }) {
     return commonActions.createRecord(this, $);

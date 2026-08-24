@@ -6,7 +6,7 @@ export default {
   key: "airtable_oauth-update-record",
   name: "Update Record",
   description: "Update a single record in a table by Record ID. [See the documentation](https://airtable.com/developers/web/api/update-record)",
-  version: "0.0.15",
+  version: "0.1.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -15,11 +15,6 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    // eslint-disable-next-line pipedream/props-label,pipedream/props-description
-    tableId: {
-      ...common.props.tableId,
-      reloadProps: true,
-    },
     recordId: {
       propDefinition: [
         airtable,
@@ -32,15 +27,31 @@ export default {
         }),
       ],
     },
+    record: {
+      propDefinition: [
+        airtable,
+        "record",
+      ],
+      optional: true,
+    },
+    customExpressionInfo: {
+      propDefinition: [
+        airtable,
+        "customExpressionInfo",
+      ],
+    },
+    typecast: {
+      propDefinition: [
+        airtable,
+        "typecast",
+      ],
+    },
     returnFieldsByFieldId: {
       propDefinition: [
         airtable,
         "returnFieldsByFieldId",
       ],
     },
-  },
-  async additionalProps() {
-    return commonActions.additionalProps(this);
   },
   async run({ $ }) {
     return commonActions.updateRecord(this, $);
