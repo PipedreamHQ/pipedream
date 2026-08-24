@@ -1246,7 +1246,11 @@ importers:
         specifier: ^3.1.0
         version: 3.1.1
 
-  components/ashby_job_postings_api: {}
+  components/ashby_job_postings_api:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.4.0
 
   components/asin_data_api:
     dependencies:
