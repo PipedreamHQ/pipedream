@@ -21,6 +21,26 @@ export default {
       description: "End of the date range, in `YYYY-MM-DD` format, e.g. `2026-06-30`.",
       optional: true,
     },
+    search: {
+      type: "string",
+      label: "Search",
+      description: "Narrow the results by matching this text against names or emails, e.g. `john` or `john.smith@company.com`. Omit to return every entry the filter allows.",
+      optional: true,
+    },
+    pageSize: {
+      type: "integer",
+      label: "Page Size",
+      description: "Maximum number of records to return in this page. Defaults to Bonusly's standard page size if omitted.",
+      min: 1,
+      max: 100,
+      optional: true,
+    },
+    cursor: {
+      type: "string",
+      label: "Cursor",
+      description: "Opaque pagination cursor for fetching the next page of results. Use the `next_cursor` value returned in the previous response. Omit to fetch the first page.",
+      optional: true,
+    },
   },
   methods: {
     _accessToken() {
@@ -58,15 +78,12 @@ export default {
       } catch (error) {
         if (error.response?.status === 401) {
           throw new ConfigurationError(
-            "Bonusly rejected this API key. Check that the key is still valid in Bonusly under"
-            + " **Admin settings > Company > Integrations > Custom development**, then reconnect your account.",
+            "Bonusly rejected this API key. Check that the key is still valid in Bonusly under **Admin settings > Company > Integrations > Custom development**, then reconnect your account.",
           );
         }
         if (error.response?.status === 403) {
           throw new ConfigurationError(
-            `Your Bonusly account is not permitted to use the \`${name}\` tool. The admin reports require`
-            + " global admin or reports admin access in Bonusly — ask a Bonusly admin to grant it, or use an"
-            + " account that already has it.",
+            `Your Bonusly account is not permitted to use the \`${name}\` tool. The admin reports require global admin or reports admin access in Bonusly - ask a Bonusly admin to grant it, or use an account that already has it.`,
           );
         }
         throw error;
@@ -106,6 +123,73 @@ export default {
         name: "searchUsers",
         arguments: {
           search_term: searchTerm,
+          page_size: pageSize,
+          cursor,
+        },
+        ...opts,
+      });
+    },
+    listUsersInDepartment({
+      department, search, pageSize, cursor, ...opts
+    }) {
+      return this._callTool({
+        name: "listUsersInDepartment",
+        arguments: {
+          department,
+          search,
+          page_size: pageSize,
+          cursor,
+        },
+        ...opts,
+      });
+    },
+    listUsersInLocation({
+      location, search, pageSize, cursor, ...opts
+    }) {
+      return this._callTool({
+        name: "listUsersInLocation",
+        arguments: {
+          location,
+          search,
+          page_size: pageSize,
+          cursor,
+        },
+        ...opts,
+      });
+    },
+    listTopLevelUsers({
+      search, pageSize, cursor, ...opts
+    }) {
+      return this._callTool({
+        name: "listTopLevelUsers",
+        arguments: {
+          search,
+          page_size: pageSize,
+          cursor,
+        },
+        ...opts,
+      });
+    },
+    listDepartments({
+      search, pageSize, cursor, ...opts
+    }) {
+      return this._callTool({
+        name: "listDepartments",
+        arguments: {
+          search,
+          page_size: pageSize,
+          cursor,
+        },
+        ...opts,
+      });
+    },
+    listLocations({
+      search, pageSize, cursor, ...opts
+    }) {
+      return this._callTool({
+        name: "listLocations",
+        arguments: {
+          search,
           page_size: pageSize,
           cursor,
         },

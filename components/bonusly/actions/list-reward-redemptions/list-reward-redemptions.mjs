@@ -4,11 +4,7 @@ import bonusly from "../../bonusly.app.mjs";
 export default {
   key: "bonusly-list-reward-redemptions",
   name: "List Reward Redemptions",
-  description:
-    "Return paginated reward redemption records for the caller's company, with"
-    + " optional filtering by user email, date range, and fulfillment status."
-    + " This is a company-wide admin report, not just the caller's own redemptions."
-    + " [See the documentation](https://docs.bonus.ly/reference/adminrewardsredemptionsreport-1)",
+  description: "Return paginated reward redemption records for the caller's company, with optional filtering by user email, date range, and fulfillment status. This is a company-wide admin report, not just the caller's own redemptions. [See the documentation](https://docs.bonus.ly/reference/adminrewardsredemptionsreport-1)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -21,7 +17,7 @@ export default {
     userEmail: {
       type: "string",
       label: "User Email",
-      description: "Filter to redemptions made by this user's email address, e.g. `jane.doe@acme.com`.",
+      description: "Filter to redemptions made by this user's email address, e.g. `john.smith@company.com`.",
       optional: true,
     },
     startDate: {

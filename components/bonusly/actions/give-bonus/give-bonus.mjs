@@ -4,12 +4,7 @@ import bonusly from "../../bonusly.app.mjs";
 export default {
   key: "bonusly-give-bonus",
   name: "Give Bonus",
-  description:
-    "Send recognition (a bonus) to one or more colleagues on behalf of the"
-    + " authenticated caller. Do not include `@mentions` or the point amount in the"
-    + " `reason` yourself — Bonusly synthesizes those from `recipients` and `amount`"
-    + " automatically."
-    + " [See the documentation](https://docs.bonus.ly/reference/giverecognition-1)",
+  description: "Send recognition (a bonus) to one or more colleagues on behalf of the authenticated caller. Do not include `@mentions` or the point amount in the `reason` yourself - Bonusly synthesizes those from `recipients` and `amount` automatically. [See the documentation](https://docs.bonus.ly/reference/giverecognition-1)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -22,8 +17,7 @@ export default {
     recipients: {
       type: "string[]",
       label: "Recipients",
-      description: "One or more recipients — each entry can be a user ID, an email address, or a display name, e.g. `jane.doe@acme.com`."
-        + " Use the **Search Users** action to look up a user's ID or email by name.",
+      description: "One or more recipients - each entry can be a user ID, an email address, or a display name, e.g. `john.smith@company.com`. Use the **Search Users** action to look up a user's ID or email by name.",
     },
     amount: {
       type: "integer",
@@ -39,9 +33,7 @@ export default {
     hashtag: {
       type: "string",
       label: "Hashtag",
-      description: "One company hashtag, without the leading `#`, e.g. `teamwork`."
-        + " Some Bonusly companies require a hashtag on every recognition — if the tool rejects the"
-        + " request for a missing hashtag, set one here.",
+      description: "One company hashtag, without the leading `#`, e.g. `teamwork`. Some Bonusly companies require a hashtag on every recognition - if the tool rejects the request for a missing hashtag, set one here.",
       optional: true,
     },
   },

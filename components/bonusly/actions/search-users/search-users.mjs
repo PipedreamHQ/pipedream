@@ -4,11 +4,7 @@ import bonusly from "../../bonusly.app.mjs";
 export default {
   key: "bonusly-search-users",
   name: "Search Users",
-  description:
-    "Search users in the authenticated caller's company by name or email."
-    + " This is a search, not a full company directory dump — a `Search Term` is"
-    + " required and matches on name or email."
-    + " [See the documentation](https://docs.bonus.ly/reference/searchusers)",
+  description: "Search users in the authenticated caller's company by name or email. This is a search, not a full company directory dump - a `Search Term` is required and matches on name or email. To list users without a search term, use **List Users In Department**, **List Users In Location**, or **List Top-Level Users** instead. [See the documentation](https://docs.bonus.ly/reference/searchusers)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -21,21 +17,20 @@ export default {
     searchTerm: {
       type: "string",
       label: "Search Term",
-      description: "Text to match against user names or emails, e.g. `jane` or `jane.doe@acme.com`.",
+      description: "Text to match against user names or emails, e.g. `john` or `john.smith@company.com`.",
     },
     pageSize: {
-      type: "integer",
-      label: "Page Size",
+      propDefinition: [
+        bonusly,
+        "pageSize",
+      ],
       description: "Maximum number of users to return in this page. Defaults to Bonusly's standard page size if omitted.",
-      min: 1,
-      max: 100,
-      optional: true,
     },
     cursor: {
-      type: "string",
-      label: "Cursor",
-      description: "Opaque pagination cursor for fetching the next page of results. Use the `next_cursor` value returned in the previous response. Omit to fetch the first page.",
-      optional: true,
+      propDefinition: [
+        bonusly,
+        "cursor",
+      ],
     },
   },
   async run({ $ }) {

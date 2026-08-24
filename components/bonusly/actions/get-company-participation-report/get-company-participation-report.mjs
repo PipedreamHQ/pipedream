@@ -4,11 +4,7 @@ import bonusly from "../../bonusly.app.mjs";
 export default {
   key: "bonusly-get-company-participation-report",
   name: "Get Company Participation Report",
-  description:
-    "Return company-level recognition participation analytics — giving/receiving"
-    + " rates by group (department, location, etc.) or by manager and team,"
-    + " for a given date range."
-    + " [See the documentation](https://docs.bonus.ly/reference/adminparticipationreport-1)",
+  description: "Return company-level recognition participation analytics - giving/receiving rates by group (department, location, etc.) or by manager and team, for a given date range. [See the documentation](https://docs.bonus.ly/reference/adminparticipationreport-1)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -40,10 +36,7 @@ export default {
         bonusly,
         "endDate",
       ],
-      description: "End of the report's date range, in `YYYY-MM-DD` format, e.g. `2026-06-30`."
-        + " Bonusly cannot report on the current or an ongoing month, so this must be no later than"
-        + " the last day of the previous month — for example, any time during August 2026 the latest"
-        + " valid value is `2026-07-31`. A later date is rejected.",
+      description: "End of the report's date range, in `YYYY-MM-DD` format, e.g. `2026-06-30`. Bonusly cannot report on the current or an ongoing month, so this must be no later than the last day of the previous month - for example, any time during August 2026 the latest valid value is `2026-07-31`. A later date is rejected.",
       optional: false,
     },
     customPropertyGroup: {
