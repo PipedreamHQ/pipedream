@@ -1,0 +1,214 @@
+# Registry version-floor check.
+#
+# Complements components-pr.yaml's git-diff-based check (which only verifies that
+# a changed component's `version:` line was modified relative to master). That
+# diff check is blind to the registry: a component that was published, then
+# deleted from the repo, still holds a version floor in the Pipedream registry.
+# Re-adding it (or bumping it below that floor) passes the diff check but fails
+# `pd publish` post-merge. See PR [21188].
+#
+# This workflow reads the *proposed* key + version for each changed component and
+# asserts it is strictly greater than the registry's canonical published version.
+#
+# FAIL CLOSED:
+#   This is a guard rail, so every infrastructure failure (file-list fetch,
+#   per-file read, registry lookup) fails the job rather than passing silently.
+#   The registry returns HTTP 200 with `data:null` for a genuinely new key, so
+#   only a 200 response is trusted; a non-200 (e.g. 404 from a missing/invalid
+#   token) is treated as a failure, never as "new component". Network blips are
+#   absorbed by small retries first so fail-closed does not mean flaky.
+#
+# SECURITY (pull_request_target):
+#   pull_request_target runs the BASE branch's copy of this file with repo
+#   secrets in scope, so a fork PR cannot alter what runs here. To keep that
+#   safe this job MUST NOT execute any PR-controlled code:
+#     - no `actions/checkout` of PR head, no pnpm install, no build, no PR scripts
+#     - it only READS changed files' contents as text via the GitHub API and
+#       curls the registry. Reading untrusted text as data is safe; running it
+#       is not. Keep it that way.
+#   The trigger is pull_request_target (not pull_request) solely so the PD_API_KEY
+#   secret is available for fork PRs; the registry endpoint is not readable
+#   unauthenticated.
+name: Component Registry Version Check
+
+on:
+  pull_request_target:
+    branches:
+      - master
+    paths:
+      - 'components/**'
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: registry-version-check-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  check-registry-version-floor:
+    name: Ensure component version exceeds registry floor
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check proposed versions against the registry
+        shell: bash {0} # don't fast-fail; aggregate every offender
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PD_API_KEY: ${{ secrets.PD_API_KEY }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          REGISTRY_URL: https://api.pipedream.com/v1/components/registry
+        run: |
+          set -uo pipefail
+
+          if [ -z "${PD_API_KEY:-}" ]; then
+            echo "::error::PD_API_KEY is not available; cannot verify registry version floor."
+            exit 1
+          fi
+
+          # gh api with a small retry on transient failure. Echoes stdout on
+          # success; returns gh's non-zero exit after exhausting retries.
+          gh_api() {
+            local attempt=1 max=3 out rc
+            while :; do
+              out=$(gh api "$@" 2>/dev/null); rc=$?
+              if [ "$rc" -eq 0 ]; then
+                printf '%s' "$out"
+                return 0
+              fi
+              if [ "$attempt" -ge "$max" ]; then
+                return "$rc"
+              fi
+              sleep "$((attempt * 2))"
+              attempt=$((attempt + 1))
+            done
+          }
+
+          # Component action/source files that carry their own key + version.
+          # Exclude app files, shared common/ code, and test-event fixtures.
+          is_component_file() {
+            local f="$1"
+            [[ "$f" == components/*/actions/* || "$f" == components/*/sources/* ]] || return 1
+            [[ "$f" == *.mjs || "$f" == *.js || "$f" == *.ts ]] || return 1
+            [[ "$f" == *.app.* ]] && return 1
+            [[ "$f" == */common/* || "$f" == */common.* ]] && return 1
+            [[ "$f" == *.test-event.mjs ]] && return 1
+            return 0
+          }
+
+          # First "..." literal for a given field at the top of the component.
+          extract() { # field, content
+            printf '%s' "$2" | grep -oE "$1:[[:space:]]*\"[^\"]+\"" | head -1 | sed -E 's/.*"([^"]+)".*/\1/'
+          }
+
+          # true when $1 (proposed) is strictly greater than $2 (floor)
+          version_gt() {
+            [ "$1" != "$2" ] && [ "$(printf '%s\n%s\n' "$1" "$2" | sort -V | tail -1)" = "$1" ]
+          }
+
+          # 1. List changed files. This job only triggers on components/**, so a
+          #    healthy call returns at least one file; empty or failed => the API
+          #    call failed, so fail closed rather than pass vacuously.
+          if ! files_tsv=$(gh_api --paginate "repos/${REPO}/pulls/${PR_NUMBER}/files" \
+            --jq '.[] | [.status, .filename] | @tsv'); then
+            echo "::error::Could not list changed files for PR #${PR_NUMBER} after retries. Failing closed."
+            exit 1
+          fi
+          if [ -z "$files_tsv" ]; then
+            echo "::error::PR #${PR_NUMBER} reported zero changed files, but this check only runs on components/** changes. Treating as an API failure and failing closed."
+            exit 1
+          fi
+
+          errors=()
+          checked=0
+
+          # status is added|modified|renamed|removed|... ; skip removals.
+          while IFS=$'\t' read -r status path; do
+            [ -z "$path" ] && continue
+            [ "$status" = "removed" ] && continue
+            is_component_file "$path" || continue
+
+            # 2. Read the PROPOSED file content at the PR head (data only, never
+            #    executed). A read failure here is infra, not "no such file", so
+            #    fail closed.
+            if ! encoded=$(gh_api "repos/${HEAD_REPO}/contents/${path}?ref=${HEAD_SHA}" --jq '.content'); then
+              echo "::error::Could not read ${path} at head ${HEAD_SHA} after retries. Failing closed."
+              exit 1
+            fi
+            content=$(printf '%s' "$encoded" | base64 --decode 2>/dev/null)
+            if [ -z "$content" ]; then
+              echo "::error::${path} decoded to empty content at head; cannot verify its version. Failing closed."
+              exit 1
+            fi
+
+            key=$(extract "key" "$content")
+            version=$(extract "version" "$content")
+            if [ -z "$key" ] || [ -z "$version" ]; then
+              echo "notice: ${path} has no explicit key/version; skipping"
+              continue
+            fi
+
+            # 3. Canonical published version for this key. Dev builds are scoped
+            #    under ~/<key> and are NOT returned here, so this is dev-free.
+            #    curl retries transient network/5xx itself; only HTTP 200 is
+            #    trusted (200 + data:null means genuinely new). Any non-200 is a
+            #    failure (e.g. 404 from a bad token), never a "new key" signal.
+            body=$(mktemp)
+            http_code=$(curl --silent --show-error --max-time 30 \
+              --retry 3 --retry-delay 2 --retry-connrefused \
+              -o "$body" -w '%{http_code}' \
+              -H "Authorization: Bearer ${PD_API_KEY}" -H "Accept: application/json" \
+              "${REGISTRY_URL}/${key}")
+            curl_rc=$?
+            if [ "$curl_rc" -ne 0 ]; then
+              rm -f "$body"
+              echo "::error::Registry request for '${key}' failed (curl exit ${curl_rc}) after retries. Failing closed."
+              exit 1
+            fi
+            if [ "$http_code" != "200" ]; then
+              rm -f "$body"
+              echo "::error::Registry request for '${key}' returned HTTP ${http_code} (expected 200). Failing closed."
+              exit 1
+            fi
+            floor=$(jq -r '.data.version // empty' "$body")
+            rm -f "$body"
+
+            checked=$((checked + 1))
+
+            if [ -z "$floor" ]; then
+              echo "ok: ${key} (${version}) is new to the registry"
+              continue
+            fi
+            if ! [[ "$floor" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              echo "::warning::${key} registry version '${floor}' is not plain semver; skipping floor check"
+              continue
+            fi
+
+            if version_gt "$version" "$floor"; then
+              echo "ok: ${key} (${version}) > registry floor (${floor})"
+            else
+              min=$(printf '%s\n' "$floor" | awk -F. '{printf "%d.%d.%d", $1, $2, $3+1}')
+              msg="${path}: version ${version} for key '${key}' must be greater than the registry floor ${floor} (set it to at least ${min})"
+              echo "::error::${msg}"
+              errors+=("$msg")
+            fi
+          done <<< "$files_tsv"
+
+          if [ "${#errors[@]}" -ne 0 ]; then
+            echo ""
+            echo "The following components collide with a version already recorded in the Pipedream registry:"
+            printf '  - %s\n' "${errors[@]}"
+            echo ""
+            echo "A key keeps its registry version floor even after the component is deleted from the repo,"
+            echo "so a re-added or under-bumped component must exceed the last published version."
+            exit 1
+          fi
+
+          if [ "$checked" -eq 0 ]; then
+            echo "No changed component action/source files carried an explicit key+version; nothing to check."
+          else
+            echo "All ${checked} changed component(s) exceed their registry version floor."
+          fi
