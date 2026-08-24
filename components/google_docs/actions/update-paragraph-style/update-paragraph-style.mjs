@@ -26,7 +26,7 @@ export default {
         googleDocs,
         "startIndex",
       ],
-      description: "The character index where the range begins, counting from the start of the document body. Must be at least `1`. Every paragraph that overlaps the range is restyled, even if the range covers only part of it.",
+      description: "The index where the range begins, counted in zero-based UTF-16 code units from the start of the document body — not in Unicode characters, so astral characters such as emoji count as two. Must be at least `1`. Every paragraph that overlaps the range is restyled, even if the range covers only part of it.",
     },
     endIndex: {
       propDefinition: [
@@ -146,13 +146,13 @@ export default {
       throw new ConfigurationError("Set at least one style option (e.g. Named Style, Alignment, or Line Spacing) — otherwise there is nothing to update.");
     }
 
-    await this.googleDocs._batchUpdate(this.documentId, "updateParagraphStyle", {
+    await this.googleDocs.updateParagraphStyle(this.documentId, {
       range,
       paragraphStyle: style,
       fields,
     });
 
     $.export("$summary", `Updated paragraph style for characters ${range.startIndex}–${range.endIndex} in document ${this.documentId}`);
-    return this.googleDocs.getDocument(this.documentId);
+    return this.googleDocs.getDocumentOrTab(this.documentId, this.tabId);
   },
 };

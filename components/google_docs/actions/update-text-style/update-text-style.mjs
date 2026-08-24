@@ -167,13 +167,13 @@ export default {
       throw new ConfigurationError("Set at least one style option (e.g. Bold, Font Size, or Text Color) — otherwise there is nothing to update.");
     }
 
-    await this.googleDocs._batchUpdate(this.documentId, "updateTextStyle", {
+    await this.googleDocs.updateTextStyle(this.documentId, {
       range,
       textStyle: style,
       fields,
     });
 
     $.export("$summary", `Updated text style for characters ${range.startIndex}–${range.endIndex} in document ${this.documentId}`);
-    return this.googleDocs.getDocument(this.documentId);
+    return this.googleDocs.getDocumentOrTab(this.documentId, this.tabId);
   },
 };

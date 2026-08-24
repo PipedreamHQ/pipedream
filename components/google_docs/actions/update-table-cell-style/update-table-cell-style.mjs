@@ -24,7 +24,7 @@ export default {
     tableStartIndex: {
       type: "integer",
       label: "Table Start Index",
-      description: "The character index at which the table begins. Use **Get Document** and read the `startIndex` of the element whose `table` field you want to style.",
+      description: "The index at which the table begins, in zero-based UTF-16 code units. Use **Get Document** and read the `startIndex` of the element whose `table` field you want to style.",
       min: 1,
     },
     rowIndex: {
@@ -202,7 +202,7 @@ export default {
       throw new ConfigurationError("Set at least one style option (e.g. Background Color, Border Width, or Padding Top) — otherwise there is nothing to update.");
     }
 
-    await this.googleDocs._batchUpdate(this.documentId, "updateTableCellStyle", {
+    await this.googleDocs.updateTableCellStyle(this.documentId, {
       ...target,
       tableCellStyle: style,
       fields,
@@ -212,6 +212,6 @@ export default {
       ? `cells at row ${this.rowIndex}, column ${this.columnIndex}`
       : "all cells";
     $.export("$summary", `Updated ${scope} in the table at index ${this.tableStartIndex} of document ${this.documentId}`);
-    return this.googleDocs.getDocument(this.documentId);
+    return this.googleDocs.getDocumentOrTab(this.documentId, this.tabId);
   },
 };
