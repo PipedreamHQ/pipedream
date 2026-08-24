@@ -33,7 +33,7 @@ export default {
     + " Pass `mimeType` to force a specific format. Shortcuts are resolved to their target automatically."
     + " Folders, Forms, and My Maps cannot be downloaded via this action."
     + " [See the documentation](https://developers.google.com/drive/api/v3/manage-downloads)",
-  version: "0.2.0",
+  version: "0.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
