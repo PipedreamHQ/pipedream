@@ -443,12 +443,7 @@ export default {
 
         // Only this call reports how many matches it changed; the formatting
         // pass that may follow does not, so keep its response to return.
-        const replacement = await this.docs().documents.batchUpdate({
-          documentId,
-          requestBody: {
-            requests,
-          },
-        });
+        const replacement = await this.batchUpdate(documentId, requests);
 
         const occurrencesChanged =
           replacement?.data?.replies?.[0]?.replaceAllText?.occurrencesChanged ?? 0;
@@ -467,12 +462,7 @@ export default {
           replacementText,
         );
         if (formattingRequests.length > 0) {
-          await this.docs().documents.batchUpdate({
-            documentId,
-            requestBody: {
-              requests: formattingRequests,
-            },
-          });
+          await this.batchUpdate(documentId, formattingRequests);
         }
 
         return replacement;
