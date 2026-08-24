@@ -5,6 +5,15 @@ import event from "../../common/sobjects/event.mjs";
 const docsLink =
   "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_event.htm";
 
+const {
+  additionalFields,
+  ...baseProps
+} = getProps({
+  objType: event,
+  docsLink,
+  showDateInfo: true,
+});
+
 export default {
   ...common,
   key: "salesforce_rest_api-create-event",
@@ -24,11 +33,15 @@ export default {
   methods: {
     ...common.methods,
   },
-  props: getProps({
-    objType: event,
-    docsLink,
-    showDateInfo: true,
-  }),
+  props: {
+    ...baseProps,
+    Subject: event.extraProps.Subject,
+    StartDateTime: event.extraProps.StartDateTime,
+    RecurrenceStartDateTime: event.extraProps.RecurrenceStartDateTime,
+    RecurrenceEndDateOnly: event.extraProps.RecurrenceEndDateOnly,
+    RecurrenceDayOfWeekMask: event.extraProps.RecurrenceDayOfWeekMask,
+    additionalFields,
+  },
   async run({ $ }) {
     /* eslint-disable no-unused-vars */
     const {
@@ -40,6 +53,7 @@ export default {
       additionalFields,
       ActivityDate,
       EndDateTime,
+      StartDateTime,
       RecurrenceStartDateTime,
       RecurrenceEndDateOnly,
       RecurrenceDayOfWeekMask,
@@ -53,6 +67,7 @@ export default {
         ...formatDateTimeProps({
           ActivityDate,
           EndDateTime,
+          StartDateTime,
           RecurrenceStartDateTime,
           RecurrenceEndDateOnly,
         }),

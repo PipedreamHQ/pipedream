@@ -27,7 +27,7 @@ export default {
       type: "string",
       label: "Record ID",
       description:
-        "The ID of the record to update. Use **SOQL Query** to find the ID if you only have the record name.",
+        "The ID of the record to update (Salesforce's 15- or 18-character record ID, e.g. `001XX000003DHP0` for an Account). Use **SOQL Query** to find the ID if you only have the record name.",
     },
     fields: {
       type: "object",
