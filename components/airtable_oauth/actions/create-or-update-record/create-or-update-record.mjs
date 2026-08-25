@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import airtable from "../../airtable_oauth.app.mjs";
 import common from "../common/common.mjs";
 import commonActions from "../../common/actions.mjs";
@@ -5,7 +6,7 @@ import commonActions from "../../common/actions.mjs";
 export default {
   key: "airtable_oauth-create-or-update-record",
   name: "Create or Update Record",
-  description: "Create a new record or update an existing one. [See the documentation](https://airtable.com/developers/web/api/create-records)",
+  description: "Create a new record, or update an existing one if a Record ID is provided (an upsert). Leave `Record ID` blank to create a record from `record`; supply it to update that record's fields instead. Use **List Tables** to look up field names first, and **List Records** to find an existing record's ID. [See the create-record documentation](https://airtable.com/developers/web/api/create-records) and the [update-record documentation](https://airtable.com/developers/web/api/update-record)",
   version: "0.2.0",
   annotations: {
     destructiveHint: false,

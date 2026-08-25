@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import common from "../common/common.mjs";
 import {
@@ -7,7 +8,7 @@ import {
 export default {
   key: "airtable_oauth-search-records",
   name: "Search Records",
-  description: "Find records in a table using an Airtable formula, or a **Search Field** + **Search Value** pair. **Search Formula** takes precedence when provided; otherwise, **Search Field** and **Search Value** must both be set. Use the **List Tables** action first to look up the table's field names. [See the documentation](https://airtable.com/developers/web/api/list-records)",
+  description: "Find records in a table using an Airtable formula, or a `Search Field` + `Search Value` pair. `Search Formula` takes precedence when provided; otherwise `Search Field` and `Search Value` must both be set. Use **List Tables** first to look up the table's field names. [See the documentation](https://airtable.com/developers/web/api/list-records)",
   version: "1.0.0",
   annotations: {
     destructiveHint: false,
@@ -20,23 +21,19 @@ export default {
     searchFormula: {
       type: "string",
       label: "Search Formula",
-      description: "Use an [Airtable search formula (see info on the documentation)](https://support.airtable.com/docs/formula-field-reference) to find records. For example, if you want to find records with `Tags` including `test-1`, use `FIND('test-1', {Tags})`. Takes precedence over **Search Field** and **Search Value**.",
+      description: "An [Airtable formula](https://support.airtable.com/docs/formula-field-reference) to filter records by, e.g. `FIND('test-1', {Tags})` to find records where `Tags` includes `test-1`, or `{Status} = \"Won\"` for an exact match. Takes precedence over `Search Field` + `Search Value` when set.",
       optional: true,
     },
     fieldName: {
       type: "string",
       label: "Search Field",
-      description: "The field to match against **Search Value**. Use together with **Search Value** as a simpler alternative to **Search Formula**. Use the **List Tables** action to look up a table's field names.",
+      description: "The name of the field to match against `Search Value`, e.g. `Status`. Use together with `Search Value` as a simpler alternative to `Search Formula`. Field names are case-sensitive — use **List Tables** to look up the table's exact field names before calling this action.",
       optional: true,
-      async options() {
-        const fields = await getTableFields(this);
-        return fields.map(({ name }) => name);
-      },
     },
     value: {
       type: "string",
       label: "Search Value",
-      description: "The value to match against **Search Field**. For a checkbox field, use `true` or `false`.",
+      description: "The value to match against `Search Field`, e.g. `Won`. For a checkbox field, use `true` or `false`; for a number field, a numeric value.",
       optional: true,
     },
     returnFieldsByFieldId: {
