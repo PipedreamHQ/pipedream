@@ -4,7 +4,7 @@ export default {
   name: "Fetch Order Items",
   description: "Retrieve order items using Mews Connector API. [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/orderitems#get-all-order-items)",
   key: "mews-fetch-order-items",
-  version: "0.0.4",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -166,6 +166,12 @@ export default {
         "SpaceOrder",
       ],
     },
+    maxResults: {
+      propDefinition: [
+        app,
+        "maxResults",
+      ],
+    },
   },
   async run({ $ }) {
     const {
@@ -189,6 +195,7 @@ export default {
       currency,
       accountingStates,
       types,
+      maxResults,
     } = this;
 
     const items = await app.paginate({
@@ -238,6 +245,7 @@ export default {
         },
       },
       resultKey: "OrderItems",
+      maxResults,
     });
 
     $.export("$summary", `Successfully fetched ${items.length} order item${items.length !== 1

@@ -17,7 +17,7 @@ export default {
     serviceIds: {
       type: "string[]",
       label: "Service IDs",
-      description: "Unique identifiers of the Services from which the rates are requested (max 1000 items).",
+      description: "Unique identifiers (GUIDs) of the Services from which the rates are requested, as returned by [Get all services](https://mews-systems.gitbook.io/connector-api/operations/services#get-all-services) (max 1000 items).",
       propDefinition: [
         app,
         "serviceId",
@@ -32,7 +32,7 @@ export default {
     rateIds: {
       type: "string[]",
       label: "Rate IDs",
-      description: "Unique identifiers of the requested Rates (max 1000 items).",
+      description: "Unique identifiers (GUIDs) of the requested Rates (max 1000 items).",
       optional: true,
       propDefinition: [
         app,
@@ -66,6 +66,12 @@ export default {
         "activityStates",
       ],
     },
+    maxResults: {
+      propDefinition: [
+        app,
+        "maxResults",
+      ],
+    },
   },
   async run({ $ }) {
     const {
@@ -77,6 +83,7 @@ export default {
       updatedStartUtc,
       updatedEndUtc,
       activityStates,
+      maxResults,
     } = this;
 
     const parsedServiceIds = utils.parseArrayProp("Service IDs", serviceIds);
@@ -108,6 +115,7 @@ export default {
         },
       },
       resultKey: "Rates",
+      maxResults,
     });
 
     $.export("$summary", `Successfully fetched ${items.length} rate${items.length !== 1

@@ -24,7 +24,7 @@ export default {
     billIds: {
       type: "string[]",
       label: "Bill IDs",
-      description: "Unique identifiers of the Bills. Required if no other filter is provided (max 1000 items).",
+      description: "Unique identifiers (GUIDs) of the Bills. Required if no other filter is provided (max 1000 items).",
       optional: true,
       propDefinition: [
         app,
@@ -34,7 +34,7 @@ export default {
     customerIds: {
       type: "string[]",
       label: "Customer IDs",
-      description: "Unique identifiers of the Customers the bills are issued to (max 1000 items).",
+      description: "Unique identifiers (GUIDs) of the Customers the bills are issued to, as returned by **Fetch Customers** (max 1000 items).",
       optional: true,
       propDefinition: [
         app,
@@ -135,6 +135,12 @@ export default {
         "CorrectiveBill",
       ],
     },
+    maxResults: {
+      propDefinition: [
+        app,
+        "maxResults",
+      ],
+    },
   },
   async run({ $ }) {
     const {
@@ -155,6 +161,7 @@ export default {
       state,
       billType,
       correctionStates,
+      maxResults,
     } = this;
 
     const parsedEnterpriseIds = utils.parseArrayProp("Enterprise IDs", enterpriseIds);
@@ -225,6 +232,7 @@ export default {
         },
       },
       resultKey: "Bills",
+      maxResults,
     });
 
     $.export("$summary", `Successfully fetched ${items.length} bill${items.length !== 1

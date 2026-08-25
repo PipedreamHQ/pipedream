@@ -6,7 +6,7 @@ export default {
   name: "Fetch Age Categories",
   description: "Retrieve all age categories filtered by service. [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/agecategories#get-all-age-categories)",
   key: "mews-fetch-age-categories",
-  version: "0.0.3",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -55,6 +55,12 @@ export default {
         "activityStates",
       ],
     },
+    maxResults: {
+      propDefinition: [
+        app,
+        "maxResults",
+      ],
+    },
   },
   async run({ $ }) {
     const {
@@ -65,6 +71,7 @@ export default {
       updatedStartUtc,
       updatedEndUtc,
       activityStates,
+      maxResults,
     } = this;
 
     // Parse arrays
@@ -112,6 +119,7 @@ export default {
         },
       },
       resultKey: "AgeCategories",
+      maxResults,
     });
 
     $.export("summary", "Successfully fetched age categories");

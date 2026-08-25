@@ -1172,6 +1172,14 @@ export default {
         "Deleted",
       ],
     },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "Maximum number of records to return (min 1, max 99999). Leave blank to return every matching record.",
+      optional: true,
+      min: 1,
+      max: 99999,
+    },
   },
   methods: {
     getUrl(path) {
@@ -1415,14 +1423,15 @@ export default {
       requesterArgs = {},
       resultKey,
       count = 100,
-      maxRequests = 3,
+      maxRequests,
+      maxResults,
     } = {}) {
       const items = [];
       let next;
       let requestCount = 0;
 
       while (true) {
-        if (requestCount >= maxRequests) {
+        if (maxRequests && requestCount >= maxRequests) {
           break;
         }
 
@@ -1432,19 +1441,32 @@ export default {
             ...requesterArgs?.data,
             Limitation: {
               Cursor: next,
-              Count: count,
+              // Never ask for more than the caller still needs.
+              Count: maxResults
+                ? Math.min(count, maxResults - items.length)
+                : count,
             },
           },
         });
 
-        items.push(...(response?.[resultKey] || []));
+        const page = response?.[resultKey] || [];
+        items.push(...page);
 
-        next = response?.Cursor ?? null;
+        // Mews returns the identifier of the oldest item in the page at the top
+        // level of the response, and null once there is nothing older left.
+        const cursor = response?.Cursor ?? null;
         requestCount += 1;
 
-        if (!next) {
+        if (maxResults && items.length >= maxResults) {
+          return items.slice(0, maxResults);
+        }
+
+        // A cursor that does not advance would otherwise loop forever.
+        if (!page.length || !cursor || cursor === next) {
           break;
         }
+
+        next = cursor;
       }
 
       return items;
