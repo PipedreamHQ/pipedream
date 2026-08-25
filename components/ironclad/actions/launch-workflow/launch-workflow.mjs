@@ -7,7 +7,7 @@ export default {
   key: "ironclad-launch-workflow",
   name: "Launch Workflow",
   description: "Launches a new workflow in Ironclad. Run **Describe Workspace** to find a template ID, then run **Describe Workflow Template** to discover the field keys, types, and constraints (including conditional fields) needed to build the `attributes` payload. Example: set `templateId` to `\"tmpl_abc123\"` and `attributes` to `{\"counterpartyName\": \"Acme Corp\", \"paperSource\": \"Our paper\", \"startDate\": \"2026-09-01\"}`; returns `{\"id\": \"wf_xyz789\", \"status\": \"review\"}`. [See the documentation](https://developer.ironcladapp.com/reference/launch-a-new-workflow)",
-  version: "0.0.3",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

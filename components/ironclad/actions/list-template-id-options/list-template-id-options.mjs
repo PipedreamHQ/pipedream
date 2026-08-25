@@ -4,7 +4,7 @@ import ironclad from "../../ironclad.app.mjs";
 export default {
   key: "ironclad-list-template-id-options",
   name: "List Template ID Options",
-  description: "Returns Ironclad workflow template IDs and their display names as `{label, value}` pairs. Call this before running **Launch Workflow** or **Describe Workflow Template** to find a valid `templateId`. Results are 0-indexed by page; if the response contains the maximum number of items, increment `page` and call again to fetch more. Example return: `[{\"label\": \"NDA Template\", \"value\": \"tmpl_abc123\"}, {\"label\": \"Vendor Agreement\", \"value\": \"tmpl_xyz789\"}, ...]`. [See the documentation](https://developer.ironcladapp.com/reference/retrieve-workflow-schemas)",
+  description: "Returns Ironclad workflow template IDs and their display names as `{label, value}` pairs. Call this before running **Launch Workflow** or **Describe Workflow Template** to find a valid `templateId`. Results are 0-indexed by page; if the response contains the maximum number of items, increment `page` and call again to fetch more. Example return: `[{\"label\": \"NDA Template\", \"value\": \"tmpl_abc123\"}, {\"label\": \"Vendor Agreement\", \"value\": \"tmpl_xyz789\"}, ...]`. [See the documentation](https://developer.ironcladapp.com/reference/list-all-workflow-schemas)",
   version: "0.1.0",
   type: "action",
   annotations: {

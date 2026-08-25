@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ironclad",
-  "version": "0.4.0",
+  "version": "1.0.0",
   "description": "Pipedream Ironclad Components",
   "main": "ironclad.app.mjs",
   "keywords": [

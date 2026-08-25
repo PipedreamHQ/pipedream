@@ -4,7 +4,7 @@ import ironclad from "../../ironclad.app.mjs";
 export default {
   key: "ironclad-search-records",
   name: "Search Records",
-  description: "Searches Ironclad repository records using structured filters and/or Ironclad's native formula filter language. Use this to find a record's ID before **Get Record**, **Update Record**, or **Delete Record**. The `filter` formula operates on property keys in `[brackets]` — run **Describe Workspace** first to see valid property keys. Formula operators: `Equals([prop], 'value')`, `NotEqual([prop], 'value')`, `Contains([prop], 'value')`, `IsEmpty([prop])`, `IsNotEmpty([prop])`, `LessThan([prop], value)` / `LessThanOrEqual([prop], value)`, `GreaterThan([prop], value)` / `GreaterThanOrEqual([prop], value)`, `Date('2026-01-01')`, `Today()`, `RelativeDate(-7, 'days')`, `And(cond1, cond2, ...)`, `Or(cond1, cond2, ...)`. Always use single quotes for string values — double quotes fail silently on some operators. Worked examples: find by name `Contains([name], 'Hammond')`; find NDAs updated in the last month `And(Equals([type], 'nda'), GreaterThan([lastUpdated], RelativeDate(-30, 'days')))`; find records missing a contract value `IsEmpty([contractValue])`; find vendor agreements OR NDAs `Or(Equals([type], 'vendor_agreement'), Equals([type], 'nda'))`. Example: set `filter` to `Contains([name], 'Hammond')` to find a record by name; returns `{\"list\": [{\"id\": \"rec_abc123\", \"name\": \"Hammond Foundation NDA\", \"type\": \"nda\"}], \"count\": 1}`. [See the documentation](https://developer.ironcladapp.com/reference/list-records)",
+  description: "Searches Ironclad repository records using structured filters and/or Ironclad's native formula filter language. Use this to find a record's ID before **Get Record**, **Update Record**, or **Delete Record**. The `filter` formula operates on property keys in `[brackets]` — run **Describe Workspace** first to see valid property keys. Formula operators: `Equals([prop], 'value')`, `NotEqual([prop], 'value')`, `Contains([prop], 'value')`, `IsEmpty([prop])`, `IsNotEmpty([prop])`, `LessThan([prop], value)` / `LessThanOrEqual([prop], value)`, `GreaterThan([prop], value)` / `GreaterThanOrEqual([prop], value)`, `Date(2026, 1, 1)` (year, month, day), `Today()`, `RelativeDate(Today(), -7, 'days')` (anchor - `Today()` or `Date(...)` -, offset, unit; unit is one of `days`, `weeks`, `months`, `years`), `And(cond1, cond2, ...)`, `Or(cond1, cond2, ...)`. Always use single quotes for string values — double quotes fail silently on some operators. Worked examples: find by name `Contains([name], 'Hammond')`; find records with an agreement date in the last 30 days `GreaterThan([agreementDate], RelativeDate(Today(), -30, 'days'))`; find records missing a contract value `IsEmpty([contractValue])`. Record type is not a formula-filterable property — to find vendor agreements or NDAs, set the `types` prop to `vendor_agreement,nda` instead of using `filter`. Example: set `filter` to `Contains([name], 'Hammond')` to find a record by name; returns `{\"list\": [{\"id\": \"rec_abc123\", \"name\": \"Hammond Foundation NDA\", \"type\": \"nda\"}], \"count\": 1}`. [See the documentation](https://developer.ironcladapp.com/reference/list-all-records)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -64,7 +64,9 @@ export default {
     pageSize: {
       type: "integer",
       label: "Page Size",
-      description: "Number of results per page. Defaults to Ironclad's standard page size if omitted.",
+      description: "Number of results per page (1-100). Defaults to Ironclad's standard page size if omitted.",
+      min: 1,
+      max: 100,
       optional: true,
     },
     hydrateEntities: {

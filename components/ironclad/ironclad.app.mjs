@@ -191,7 +191,7 @@ export default {
       recordId, ...opts
     }) {
       return this._makeRequest({
-        method: "PUT",
+        method: "PATCH",
         path: `/records/${recordId}`,
         ...opts,
       });

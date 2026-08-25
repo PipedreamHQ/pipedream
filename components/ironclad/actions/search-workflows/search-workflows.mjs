@@ -4,7 +4,7 @@ import ironclad from "../../ironclad.app.mjs";
 export default {
   key: "ironclad-search-workflows",
   name: "Search Workflows",
-  description: "Searches Ironclad workflows using structured filters and/or Ironclad's native formula filter language. Use this to find a workflow's ID before **Get Workflow** or **Update Workflow Attributes**. The `filter` formula operates on attribute keys in `[brackets]` — run **Describe Workspace** first to see valid attribute keys. Formula operators: `Equals([attr], 'value')`, `NotEqual([attr], 'value')`, `Contains([attr], 'value')`, `IsEmpty([attr])`, `IsNotEmpty([attr])`, `LessThan([attr], value)` / `LessThanOrEqual([attr], value)`, `GreaterThan([attr], value)` / `GreaterThanOrEqual([attr], value)`, `Date('2026-01-01')`, `Today()`, `RelativeDate(-7, 'days')`, `And(cond1, cond2, ...)`, `Or(cond1, cond2, ...)`. Always use single quotes for string values — double quotes fail silently on some operators. Worked examples: find by counterparty name `Contains([counterpartyName], 'Acme')`; find active workflows updated in the last week `And(Equals([status], 'active'), GreaterThan([lastUpdated], RelativeDate(-7, 'days')))`; find workflows missing a signed copy `IsEmpty([signedCopy])`; find cancelled OR completed workflows `Or(Equals([status], 'cancelled'), Equals([status], 'completed'))`; find workflows launched from a specific template `Equals([template], 'tmpl_abc123')`. Example: set `status` to `\"active\"` and `pageSize` to `5` to retrieve the 5 most recently updated active workflows; returns `{\"list\": [{\"id\": \"wf_xyz789\", \"title\": \"Acme NDA\", \"status\": \"active\"}], \"count\": 1}`. [See the documentation](https://developer.ironcladapp.com/reference/list-workflows)",
+  description: "Searches Ironclad workflows using structured filters and/or Ironclad's native formula filter language. Use this to find a workflow's ID before **Get Workflow** or **Update Workflow Attributes**. The `filter` formula operates on attribute keys in `[brackets]` — run **Describe Workspace** first to see valid attribute keys. Formula operators: `Equals([attr], 'value')`, `NotEqual([attr], 'value')`, `Contains([attr], 'value')`, `IsEmpty([attr])`, `IsNotEmpty([attr])`, `LessThan([attr], value)` / `LessThanOrEqual([attr], value)`, `GreaterThan([attr], value)` / `GreaterThanOrEqual([attr], value)`, `Date(2026, 1, 1)` (year, month, day), `Today()`, `RelativeDate(Today(), -7, 'days')` (anchor - `Today()` or `Date(...)` -, offset, unit; unit is one of `days`, `weeks`, `months`, `years`), `And(cond1, cond2, ...)`, `Or(cond1, cond2, ...)`. Always use single quotes for string values — double quotes fail silently on some operators. Worked examples: find by counterparty name `Contains([counterpartyName], 'Acme')`; find workflows with an agreement date in the last week `GreaterThan([agreementDate], RelativeDate(Today(), -7, 'days'))`; find workflows missing a signed copy `IsEmpty([signedCopy])`. Status and template are not formula-filterable properties — to find cancelled or completed workflows, set the `status` prop to `cancelled,completed`; to find workflows launched from a specific template, set the `template` prop instead of using `filter`. Example: set `status` to `\"active\"` and `pageSize` to `5` to retrieve the 5 most recently updated active workflows; returns `{\"list\": [{\"id\": \"wf_xyz789\", \"title\": \"Acme NDA\", \"status\": \"active\"}], \"count\": 1}`. [See the documentation](https://developer.ironcladapp.com/reference/list-all-workflows)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -23,14 +23,13 @@ export default {
     status: {
       type: "string",
       label: "Status",
-      description: "Restrict results to workflows with this single status. Valid values: `active`, `paused`, `completed`, `cancelled`, `archived`. To match multiple statuses, use `filter` instead, e.g. `Or(Equals([status], 'active'), Equals([status], 'paused'))`.",
+      description: "Restrict results to workflows with this status. Valid values: `active`, `paused`, `completed`, `cancelled`. To match multiple statuses, pass a comma-separated list, e.g. `cancelled,completed`.",
       optional: true,
       options: [
         "active",
         "paused",
         "completed",
         "cancelled",
-        "archived",
       ],
     },
     template: {
