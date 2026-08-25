@@ -1,9 +1,10 @@
+// x-pd-ai: optimized
 import attio from "../../attio.app.mjs";
 
 export default {
   key: "attio-create-note",
   name: "Create Note",
-  description: "Creates a new note for a given record. The note will be linked to the specified record. [See the documentation](https://developers.attio.com/reference/post_v2-notes)",
+  description: "Create a plaintext note attached to a record (person, company, deal, or any object). Use when you want to log context on a record. Set **Parent Object**, **Parent Record ID**, **Title**, and **Content**. Example: Parent Object `people`, Parent Record ID `891dcbfc-9141-415d-9b2a-2238a6cc012d`, Title `Intro call`, Content `Discussed the Q3 rollout timeline`. Returns the created note with its id. [See the documentation](https://developers.attio.com/reference/post_v2-notes)",
   version: "0.0.6",
   annotations: {
     destructiveHint: false,

@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import attio from "../../attio.app.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
   key: "attio-update-person",
   name: "Update Person",
-  description: "Update an existing person. [See the documentation](https://developers.attio.com/reference/patch_v2-objects-people-records-record-id).",
+  description: "Update an existing person record by its ID; only the fields you set are changed. Use **Get Record** (object `people`) or the Person ID lookup to find the **Person ID** first. Example: Person ID `891dcbfc-9141-415d-9b2a-2238a6cc012d`, Job Title `VP Sales`, Email `ada@example.com`. Returns the updated person record. [See the documentation](https://developers.attio.com/reference/patch_v2-objects-people-records-record-id).",
   version: "0.0.4",
   annotations: {
     destructiveHint: true,

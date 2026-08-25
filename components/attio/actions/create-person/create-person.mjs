@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import attio from "../../attio.app.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
   key: "attio-create-person",
   name: "Create Person",
-  description: "Creates a new person. [See the documentation](https://developers.attio.com/reference/post_v2-objects-people-records).",
+  description: "Create a new person record in Attio. Use when adding a contact. Set any of the person fields (name, email, job title, phone, socials) and optionally link a company by its record id. Example: First Name `Ada`, Last Name `Lovelace`, Email `ada@example.com`, Job Title `Analyst`. Returns the created person record with its id. [See the documentation](https://developers.attio.com/reference/post_v2-objects-people-records).",
   version: "0.0.4",
   annotations: {
     destructiveHint: false,

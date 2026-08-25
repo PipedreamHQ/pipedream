@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import attio from "../../attio.app.mjs";
 
 export default {
   key: "attio-create-task",
   name: "Create Task",
-  description: "Creates a new task. [See the documentation](https://docs.attio.com/rest-api/endpoint-reference/tasks/create-a-task)",
+  description: "Create a task in Attio with content, a deadline, completion state, optional assignees, and optional linked records. Use when you need a follow-up or to-do. Example: Content `Email the signed contract to Ada`, Deadline `2026-09-01T17:00:00Z`, Is Completed `false`. Returns the created task with its id. [See the documentation](https://docs.attio.com/rest-api/endpoint-reference/tasks/create-a-task)",
   version: "0.1.0",
   annotations: {
     destructiveHint: false,
