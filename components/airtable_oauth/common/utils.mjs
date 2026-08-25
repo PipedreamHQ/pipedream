@@ -61,6 +61,17 @@ function fieldTypeToPropType(fieldType) {
   }
 }
 
+/**
+ * Escapes backslashes and double quotes so a value can be safely interpolated
+ * into an Airtable formula string literal
+ *
+ * @param {*} value - the value to escape
+ * @returns {string} the escaped value
+ */
+function escapeFormulaString(value) {
+  return `${value}`.replace(/\\/g, "\\\\").replace(/"/g, "\\\"");
+}
+
 function isComputedField(field) {
   const computedFieldByType = [
     FieldType.FORMULA,
@@ -92,7 +103,9 @@ async function getTableFields(ctx) {
   const { tables } = await ctx.airtable.listTables({
     baseId,
   });
-  const tableSchema = tables.find(({ id }) => id === tableId);
+  const tableSchema = tables.find(({
+    id, name,
+  }) => id === tableId || name === tableId);
   return tableSchema?.fields ?? [];
 }
 
@@ -207,6 +220,7 @@ async function withRetry(fn, {
 }
 
 export {
+  escapeFormulaString,
   fieldTypeToPropType,
   getTableFields,
   makeRecord,

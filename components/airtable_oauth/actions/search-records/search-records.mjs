@@ -1,14 +1,14 @@
 import { ConfigurationError } from "@pipedream/platform";
 import common from "../common/common.mjs";
 import {
-  fieldTypeToPropType, getTableFields,
+  escapeFormulaString, fieldTypeToPropType, getTableFields,
 } from "../../common/utils.mjs";
 
 export default {
   key: "airtable_oauth-search-records",
   name: "Search Records",
   description: "Search for a record by formula or by field value. [See the documentation](https://airtable.com/developers/web/api/list-records)",
-  version: "0.1.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -57,15 +57,20 @@ export default {
       const type = fieldTypeToPropType(field.type);
       switch (type) {
       case "string":
-        return `FIND("${this.value}", {${this.fieldName}})`;
-      case "boolean":
-        return `{${this.fieldName}} = ${`${this.value}`.toLowerCase() === "true"
+        return `FIND("${escapeFormulaString(this.value)}", {${this.fieldName}})`;
+      case "boolean": {
+        const value = `${this.value}`.toLowerCase();
+        if (value !== "true" && value !== "false") {
+          throw new ConfigurationError(`Invalid value "${this.value}" for checkbox field "${this.fieldName}". Use \`true\` or \`false\`.`);
+        }
+        return `{${this.fieldName}} = ${value === "true"
           ? 1
           : 0}`;
+      }
       case "integer":
         return `{${this.fieldName}} = ${this.value}`;
       default:
-        return `{${this.fieldName}} = "${this.value}"`;
+        return `{${this.fieldName}} = "${escapeFormulaString(this.value)}"`;
       }
     },
   },
@@ -74,7 +79,7 @@ export default {
       throw new ConfigurationError("Provide either Search Formula, or both Search Field and Search Value.");
     }
 
-    const filterByFormula = this.searchFormula ?? await this.buildFilterByFormula();
+    const filterByFormula = this.searchFormula || await this.buildFilterByFormula();
 
     const params = {
       filterByFormula,

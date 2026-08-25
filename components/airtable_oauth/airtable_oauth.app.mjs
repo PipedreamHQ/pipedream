@@ -218,7 +218,7 @@ export default {
     record: {
       type: "object",
       label: "Record",
-      description: "An object keyed by Airtable field name, where each value is the data to write to that field, e.g. `{ \"Name\": \"Acme\", \"Stage\": \"Won\" }`. Include all, some, or none of the table's fields. Use the **List Tables** action to look up a table's field names and types. Computed fields (formula, rollup, count, autonumber, created time, created by, last modified time and last modified by) cannot be written to. Enable **Typecast** when supplying human-readable values such as select option names or date strings. You may also use a custom expression.",
+      description: "An object keyed by Airtable field name, where each value is the data to write to that field, e.g. `{ \"Name\": \"Acme\", \"Stage\": \"Won\" }`. Include at least one writable field, and any number of the table's other fields. Use the **List Tables** action to look up a table's field names and types. Computed fields (formula, rollup, count, autonumber, created time, created by, last modified time and last modified by) cannot be written to. Enable **Typecast** when supplying human-readable values such as select option names or date strings. You may also use a custom expression.",
     },
     customExpressionInfo: {
       type: "alert",
