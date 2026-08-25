@@ -5,7 +5,7 @@ export default {
   key: "shopify-refund-return",
   name: "Refund Return",
   description: "Processes an existing return in Shopify via the `returnProcess` mutation, marking the specified return line items as processed. By default no refund is issued — to also issue a refund, include a `financialTransfer` object with an `issueRefund` operation (and its required `orderTransactions`) in **Additional Fields**. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/returnProcess).",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   annotations: {
     readOnlyHint: false,
