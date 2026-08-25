@@ -109,32 +109,44 @@ export default {
         ? points * EMU_PER_POINT
         : points);
 
-      // A rotated element stores its rotation smeared across all four of
-      // scaleX/scaleY/shearX/shearY, so the existing scale and angle are
-      // recovered from the matrix before the caller's overrides are applied.
-      const currentScaleX = Math.hypot(current.scaleX ?? 1, current.shearY ?? 0) || 1;
-      const currentScaleY = Math.hypot(current.scaleY ?? 1, current.shearX ?? 0) || 1;
-      const currentRotation = Math.atan2(current.shearY ?? 0, current.scaleX ?? 1);
+      // A move alone must leave the matrix untouched: decomposing and
+      // recomposing it would drop a negative scale (a flip) and any shear.
+      let matrix = {
+        scaleX: current.scaleX ?? 1,
+        scaleY: current.scaleY ?? 1,
+        shearX: current.shearX ?? 0,
+        shearY: current.shearY ?? 0,
+      };
 
-      const scaleX = scaleXPercent != null
-        ? scaleXPercent / 100
-        : currentScaleX;
-      const scaleY = scaleYPercent != null
-        ? scaleYPercent / 100
-        : currentScaleY;
-      const angle = rotation != null
-        ? rotation * Math.PI / 180
-        : currentRotation;
+      if (scaleXPercent != null || scaleYPercent != null || rotation != null) {
+        const currentScaleX = Math.hypot(current.scaleX ?? 1, current.shearY ?? 0) || 1;
+        const currentScaleY = Math.hypot(current.scaleY ?? 1, current.shearX ?? 0) || 1;
+        const currentRotation = Math.atan2(current.shearY ?? 0, current.scaleX ?? 1);
+
+        const scaleX = scaleXPercent != null
+          ? scaleXPercent / 100
+          : currentScaleX;
+        const scaleY = scaleYPercent != null
+          ? scaleYPercent / 100
+          : currentScaleY;
+        const angle = rotation != null
+          ? rotation * Math.PI / 180
+          : currentRotation;
+
+        matrix = {
+          scaleX: scaleX * Math.cos(angle),
+          shearX: -scaleY * Math.sin(angle),
+          shearY: scaleX * Math.sin(angle),
+          scaleY: scaleY * Math.cos(angle),
+        };
+      }
 
       requests.push({
         updatePageElementTransform: {
           objectId,
           applyMode: "ABSOLUTE",
           transform: {
-            scaleX: scaleX * Math.cos(angle),
-            shearX: -scaleY * Math.sin(angle),
-            shearY: scaleX * Math.sin(angle),
-            scaleY: scaleY * Math.cos(angle),
+            ...matrix,
             translateX: translateX != null
               ? toUnit(translateX)
               : current.translateX ?? 0,

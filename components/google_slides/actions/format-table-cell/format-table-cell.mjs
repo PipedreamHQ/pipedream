@@ -1,7 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
 import googleSlides from "../../google_slides.app.mjs";
 import utils from "../../common/utils.mjs";
-import { CONTENT_ALIGNMENTS } from "../../common/constants.mjs";
 
 export default {
   key: "google_slides-format-table-cell",
@@ -30,18 +29,18 @@ export default {
       description: "The object ID of the table to format. Use **Get Presentation** and read `slides[].pageElements[].objectId` for an element with a `table` field.",
     },
     rowIndex: {
-      type: "integer",
-      label: "Row Index",
+      propDefinition: [
+        googleSlides,
+        "rowIndex",
+      ],
       description: "0-based row of the first cell to format. Omit (with **Column Index**) to format every cell in the table.",
-      min: 0,
-      optional: true,
     },
     columnIndex: {
-      type: "integer",
-      label: "Column Index",
+      propDefinition: [
+        googleSlides,
+        "columnIndex",
+      ],
       description: "0-based column of the first cell to format. Omit (with **Row Index**) to format every cell in the table.",
-      min: 0,
-      optional: true,
     },
     rowSpan: {
       type: "integer",
@@ -58,25 +57,25 @@ export default {
       optional: true,
     },
     backgroundColor: {
-      type: "string",
-      label: "Background Color",
+      propDefinition: [
+        googleSlides,
+        "backgroundColor",
+      ],
       description: "Cell fill as a hex code (e.g. `#EEEEEE`) or a theme color name (e.g. `ACCENT1`).",
-      optional: true,
     },
     backgroundOpacity: {
-      type: "integer",
-      label: "Background Opacity",
+      propDefinition: [
+        googleSlides,
+        "backgroundOpacity",
+      ],
       description: "Opacity of the cell fill as a whole percentage, from `0` (fully transparent) to `100` (fully opaque). Can be set on its own to change an existing fill's opacity without restating its color.",
-      min: 0,
-      max: 100,
-      optional: true,
     },
     contentAlignment: {
-      type: "string",
-      label: "Content Alignment",
+      propDefinition: [
+        googleSlides,
+        "contentAlignment",
+      ],
       description: "Vertical alignment of the text inside the cells.",
-      options: CONTENT_ALIGNMENTS,
-      optional: true,
     },
   },
   async run({ $ }) {

@@ -28,9 +28,12 @@ export default {
       ],
     },
     backgroundColor: {
-      type: "string",
-      label: "Background Color",
+      propDefinition: [
+        googleSlides,
+        "backgroundColor",
+      ],
       description: "Slide background as a hex code (e.g. `#102A43`) or a theme color name (e.g. `DARK1`).",
+      optional: false,
     },
   },
   async run({ $ }) {

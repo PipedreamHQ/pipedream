@@ -1,6 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
 import slides from "@googleapis/slides";
 import googleDrive from "@pipedream/google_drive";
+import { CONTENT_ALIGNMENTS } from "./common/constants.mjs";
 
 export default {
   ...googleDrive,
@@ -34,6 +35,57 @@ export default {
       type: "string",
       label: "Page Element ID",
       description: "The object ID of the shape, image, table, or other page element to act on. Use **Get Presentation** and read `slides[].pageElements[].objectId`.",
+    },
+    // Shared by the styling actions; individual actions override the label or
+    // description where their wording differs.
+    rowIndex: {
+      type: "integer",
+      label: "Row Index",
+      description: "The 0-based row of the target table cell.",
+      min: 0,
+      optional: true,
+    },
+    columnIndex: {
+      type: "integer",
+      label: "Column Index",
+      description: "The 0-based column of the target table cell.",
+      min: 0,
+      optional: true,
+    },
+    startIndex: {
+      type: "integer",
+      label: "Start Index",
+      description: "Character index to style from, inclusive. On its own, styles from here to the end of the text. Omit both indices to style all of it.",
+      min: 0,
+      optional: true,
+    },
+    endIndex: {
+      type: "integer",
+      label: "End Index",
+      description: "Character index to style up to, exclusive. Requires **Start Index**, and must be greater than it.",
+      min: 0,
+      optional: true,
+    },
+    backgroundColor: {
+      type: "string",
+      label: "Background Color",
+      description: "A hex code (e.g. `#EEEEEE`) or one of the deck's theme colors (e.g. `ACCENT1`).",
+      optional: true,
+    },
+    backgroundOpacity: {
+      type: "integer",
+      label: "Background Opacity",
+      description: "Opacity as a whole percentage, from `0` (fully transparent) to `100` (fully opaque). Can be set on its own to change an existing fill's opacity without restating its color.",
+      min: 0,
+      max: 100,
+      optional: true,
+    },
+    contentAlignment: {
+      type: "string",
+      label: "Content Alignment",
+      description: "Vertical alignment of the text within the element.",
+      options: CONTENT_ALIGNMENTS,
+      optional: true,
     },
     layoutId: {
       type: "string",

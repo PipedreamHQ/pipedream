@@ -2,7 +2,7 @@ import { ConfigurationError } from "@pipedream/platform";
 import googleSlides from "../../google_slides.app.mjs";
 import utils from "../../common/utils.mjs";
 import {
-  CONTENT_ALIGNMENTS, DASH_STYLES, POINTS,
+  DASH_STYLES, POINTS,
 } from "../../common/constants.mjs";
 
 export default {
@@ -32,18 +32,18 @@ export default {
       description: "The object ID of the shape to format. Use **Get Presentation** and read `slides[].pageElements[].objectId`.",
     },
     backgroundColor: {
-      type: "string",
-      label: "Background Color",
+      propDefinition: [
+        googleSlides,
+        "backgroundColor",
+      ],
       description: "Fill color as a hex code (e.g. `#FF0000`) or a theme color name (e.g. `ACCENT1`).",
-      optional: true,
     },
     backgroundOpacity: {
-      type: "integer",
-      label: "Background Opacity",
+      propDefinition: [
+        googleSlides,
+        "backgroundOpacity",
+      ],
       description: "Opacity of the fill as a whole percentage, from `0` (fully transparent) to `100` (fully opaque). Can be set on its own to change an existing fill's opacity without restating its color.",
-      min: 0,
-      max: 100,
-      optional: true,
     },
     outlineColor: {
       type: "string",
@@ -75,11 +75,11 @@ export default {
       optional: true,
     },
     contentAlignment: {
-      type: "string",
-      label: "Content Alignment",
+      propDefinition: [
+        googleSlides,
+        "contentAlignment",
+      ],
       description: "Vertical alignment of the text inside the shape.",
-      options: CONTENT_ALIGNMENTS,
-      optional: true,
     },
     link: {
       type: "string",

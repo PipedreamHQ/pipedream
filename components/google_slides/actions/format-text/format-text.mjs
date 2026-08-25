@@ -32,32 +32,34 @@ export default {
       description: "The object ID of the shape or table whose text should be styled. Use **Get Presentation** and read `slides[].pageElements[].objectId`.",
     },
     rowIndex: {
-      type: "integer",
+      propDefinition: [
+        googleSlides,
+        "rowIndex",
+      ],
       label: "Table Row Index",
       description: "Required only when **Page Element ID** refers to a table: the 0-based row of the cell to style.",
-      min: 0,
-      optional: true,
     },
     columnIndex: {
-      type: "integer",
+      propDefinition: [
+        googleSlides,
+        "columnIndex",
+      ],
       label: "Table Column Index",
       description: "Required only when **Page Element ID** refers to a table: the 0-based column of the cell to style.",
-      min: 0,
-      optional: true,
     },
     startIndex: {
-      type: "integer",
-      label: "Start Index",
+      propDefinition: [
+        googleSlides,
+        "startIndex",
+      ],
       description: "Character index to style from, inclusive. On its own, styles from here to the end of the text. Omit both indices to style all of it.",
-      min: 0,
-      optional: true,
     },
     endIndex: {
-      type: "integer",
-      label: "End Index",
+      propDefinition: [
+        googleSlides,
+        "endIndex",
+      ],
       description: "Character index to style up to, exclusive. Requires **Start Index**, and must be greater than it.",
-      min: 0,
-      optional: true,
     },
     bold: {
       type: "boolean",
@@ -117,10 +119,12 @@ export default {
       optional: true,
     },
     backgroundColor: {
-      type: "string",
+      propDefinition: [
+        googleSlides,
+        "backgroundColor",
+      ],
       label: "Highlight Color",
       description: "Hex code (e.g. `#FFFF00`) or one of the deck's theme colors (e.g. `ACCENT2`).",
-      optional: true,
     },
     link: {
       type: "string",
