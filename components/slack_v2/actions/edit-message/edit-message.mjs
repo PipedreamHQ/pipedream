@@ -62,9 +62,9 @@ export default {
     // the bot can't deliver — so the message being edited may have been posted as
     // either one. Try both here too, mirroring the fallback already used in
     // delete-message, rather than guessing which identity posted it.
-    const attempt = (as_user) => this.slack.updateMessage({
+    const attempt = (asUser) => this.slack.updateMessage({
       ...args,
-      as_user,
+      as_user: asUser,
     });
     const hasBotToken = Boolean(this.slack.getBotToken());
 

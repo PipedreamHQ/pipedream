@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import common from "../common/send-message.mjs";
 import buildBlocks from "../common/build-blocks.mjs";
 
@@ -7,7 +8,7 @@ export default {
   key: "slack_v2-send-message-advanced",
   name: "Send Message (Advanced)",
   description: "Customize advanced settings and send a message to a channel, group or user. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.1.6",
+  version: "0.1.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -77,6 +78,19 @@ export default {
         this.blocks = generated;
       }
     }
+
+    const hasBlocks = Array.isArray(this.blocks)
+      ? this.blocks.length > 0
+      : typeof this.blocks === "string"
+        ? this.blocks.trim().length > 0 && this.blocks.trim() !== "[]"
+        : Boolean(this.blocks);
+
+    if (!this.text && !hasBlocks) {
+      throw new ConfigurationError(
+        "Provide `Text`, or configure at least one block (via `Blocks` or the block-builder props), before sending a message.",
+      );
+    }
+
     const resp = await common.run.call(this, {
       $,
     });

@@ -18,7 +18,7 @@ export default {
     channelType: {
       type: "string",
       label: "Channel Type",
-      description: "The type of channel to send to: User/Direct Message (`im`), Group (`mpim`), Private Channel, or Public Channel. Informational only — it does not affect which value is accepted in Channel.",
+      description: "The type of channel to send to: `Channels` (public or private), Group (`mpim`), or User/Direct Message (`im`). Informational only — it does not affect which value is accepted in Channel.",
       options: constants.CHANNEL_TYPE_OPTIONS,
       optional: true,
     },

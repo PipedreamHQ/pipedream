@@ -17,7 +17,7 @@ export default {
           value: constants.PASS_ARRAY_OR_CONFIGURE_OPTIONS.ARRAY,
         },
         {
-          label: "Configure blocks individually (maximum 5 blocks)",
+          label: "Configure blocks individually (maximum 15 blocks: 5 section, 5 context, 5 link button)",
           value: constants.PASS_ARRAY_OR_CONFIGURE_OPTIONS.CONFIGURE,
         },
       ],

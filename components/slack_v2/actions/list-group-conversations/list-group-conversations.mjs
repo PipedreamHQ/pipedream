@@ -32,10 +32,10 @@ export default {
       ],
     },
     cursor: {
-      type: "string",
-      label: "Cursor",
-      description: "Resume from a previous call's `next_cursor` to fetch the following page.",
-      optional: true,
+      propDefinition: [
+        slack,
+        "cursor",
+      ],
     },
   },
   async run({ $ }) {
@@ -53,11 +53,11 @@ export default {
         channels, response_metadata: metadata,
       } = await this.slack.conversationsList(params);
       groups.push(...channels.map(({
-        id, purpose, is_archived,
+        id, purpose, is_archived: isArchived,
       }) => ({
         id,
         purpose: purpose?.value,
-        is_archived,
+        is_archived: isArchived,
       })));
       nextCursor = metadata?.next_cursor;
       params.cursor = nextCursor;

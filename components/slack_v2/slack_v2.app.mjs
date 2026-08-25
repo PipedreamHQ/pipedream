@@ -231,6 +231,12 @@ export default {
       default: 1,
       optional: true,
     },
+    cursor: {
+      type: "string",
+      label: "Cursor",
+      description: "Resume from a previous call's `next_cursor` to fetch the following page.",
+      optional: true,
+    },
     addToChannel: {
       type: "boolean",
       label: "Add app to channel automatically?",

@@ -16,7 +16,7 @@ export default {
     + " fetched — when you see that, raise `numPages` (or pass `cursor`) before answering"
     + " any 'how many' or 'list every' question, otherwise your answer is silently incomplete."
     + " [See the documentation](https://api.slack.com/methods/conversations.list)",
-  version: "0.2.1",
+  version: "0.2.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -68,10 +68,10 @@ export default {
       ],
     },
     cursor: {
-      type: "string",
-      label: "Cursor",
-      description: "Resume from a previous call's `next_cursor` to fetch the following page.",
-      optional: true,
+      propDefinition: [
+        slack,
+        "cursor",
+      ],
     },
     namePrefix: {
       type: "string",

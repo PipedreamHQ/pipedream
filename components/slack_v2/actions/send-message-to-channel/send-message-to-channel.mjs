@@ -8,8 +8,8 @@ export default {
     "Send a message to a public or private channel."
     + " Legacy, channel-only variant — prefer **Post Message** for new integrations: it"
     + " covers channels, users, and groups from a single tool, and also supports threaded"
-    + " replies and unfurl settings. Use this tool only if a workflow specifically needs its"
-    + " Channel Type dropdown behavior."
+    + " replies and unfurl settings. Use this tool only if a workflow specifically needs to"
+    + " target a channel exclusively, without the user/group support **Post Message** offers."
     + " [See the documentation](https://api.slack.com/methods/chat.postMessage)",
   version: "0.1.8",
   annotations: {

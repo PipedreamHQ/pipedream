@@ -6,7 +6,7 @@ export default {
   key: "slack_v2-reply-to-a-message",
   name: "Reply to a Message Thread",
   description: "Send a message as a threaded reply. [See the documentation](https://api.slack.com/methods/chat.postMessage)",
-  version: "0.2.6",
+  version: "0.2.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -41,6 +41,7 @@ export default {
       ],
       label: "Thread Timestamp",
       description: "The `ts` timestamp of the parent message to reply to (e.g., if triggering on new Slack messages, enter `{{event.ts}}`). Avoid using a reply's `ts` value; use its parent's instead. E.g., `1403051575.000407`.",
+      optional: false,
     },
   },
 };

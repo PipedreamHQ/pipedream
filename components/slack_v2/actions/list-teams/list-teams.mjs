@@ -32,10 +32,10 @@ export default {
       ],
     },
     cursor: {
-      type: "string",
-      label: "Cursor",
-      description: "Resume from a previous call's `next_cursor` to fetch the following page.",
-      optional: true,
+      propDefinition: [
+        slack,
+        "cursor",
+      ],
     },
   },
   async run({ $ }) {
@@ -52,11 +52,10 @@ export default {
         teams: fetched, response_metadata: metadata,
       } = await this.slack.authTeamsList(params);
       teams.push(...fetched.map(({
-        id, name, domain,
+        id, name,
       }) => ({
         id,
         name,
-        domain,
       })));
       nextCursor = metadata?.next_cursor;
       params.cursor = nextCursor;
