@@ -280,9 +280,12 @@ export default {
         ...opts,
       });
     },
+    // Spend limits are served by Ramp's documented Funds API (/developer/v1/funds);
+    // "limit" is the product-facing name for a fund. See
+    // https://docs.ramp.com/developer-api/v1/api/funds
     listLimits(opts = {}) {
       return this._makeRequest({
-        path: "/limits",
+        path: "/funds",
         ...opts,
       });
     },
@@ -290,7 +293,7 @@ export default {
       limitId, ...opts
     }) {
       return this._makeRequest({
-        path: `/limits/${limitId}`,
+        path: `/funds/${limitId}`,
         ...opts,
       });
     },
@@ -298,7 +301,7 @@ export default {
       limitId, ...opts
     }) {
       return this._makeRequest({
-        path: `/limits/${limitId}`,
+        path: `/funds/${limitId}`,
         method: "PATCH",
         ...opts,
       });
@@ -306,12 +309,10 @@ export default {
     terminateLimit({
       limitId, ...opts
     }) {
-      // Ramp terminates limits via a deferred task (POST .../deferred/termination),
-      // not DELETE /limits/{id} (which returns 405). The body requires an
-      // idempotency_key; the endpoint returns a deferred task id.
+      // Terminate is a synchronous DELETE on the fund; it takes effect immediately.
       return this._makeRequest({
-        path: `/limits/${limitId}/deferred/termination`,
-        method: "POST",
+        path: `/funds/${limitId}`,
+        method: "DELETE",
         ...opts,
       });
     },

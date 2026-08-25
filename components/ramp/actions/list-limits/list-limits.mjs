@@ -31,7 +31,7 @@ export default {
         ramp,
         "fields",
       ],
-      description: "Optional list of limit fields to include per record in addition to the compact default (e.g. `cards`, `users`, `restrictions`, `permitted_spend_types`). Leave empty for the compact summary; use **Get Limit** for the complete record.",
+      description: "Optional list of limit fields to include per record in addition to the compact default (e.g. `cards`, `members`, `spending_restrictions`, `permitted_spend_types`). Leave empty for the compact summary; use **Get Limit** for the complete record.",
     },
   },
   async run({ $ }) {
