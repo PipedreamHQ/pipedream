@@ -222,6 +222,7 @@ export default {
       }
     },
     async getAssociatedMeetings({
+      $,
       objectType,
       objectId,
       timeframe,
@@ -230,6 +231,7 @@ export default {
       mostRecent,
     }) {
       const { results: associations } = await this.hubspot.getAssociations({
+        $,
         objectType,
         objectId,
         toObjectType: OBJECT_TYPE.MEETING,
@@ -248,6 +250,7 @@ export default {
       );
 
       const { results } = await this.hubspot.searchMeetings({
+        $,
         data: {
           properties: [
             ...DEFAULT_MEETING_PROPERTIES,
@@ -328,6 +331,7 @@ export default {
       .startsWith("contact");
     if (isContactType && this.objectId.includes("@")) {
       const { results } = await this.hubspot.searchCRM({
+        $,
         object: OBJECT_TYPE.CONTACT,
         data: {
           filterGroups: [
@@ -350,6 +354,7 @@ export default {
     }
 
     const meetings = await this.getAssociatedMeetings({
+      $,
       objectType: this.objectType,
       objectId: resolvedObjectId,
       timeframe: this.timeframe,
