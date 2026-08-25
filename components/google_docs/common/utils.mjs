@@ -95,7 +95,7 @@ function findTextRanges({
     : needle.toLowerCase();
 
   for (let i = 0; i + needle.length <= text.length; i++) {
-    const window = text.substr(i, needle.length);
+    const window = text.slice(i, i + needle.length);
     const candidate = matchCase
       ? window
       : window.toLowerCase();
@@ -118,7 +118,7 @@ function hexToOptionalColor(hex) {
   if (!/^[0-9a-fA-F]{6}$/.test(normalized)) {
     return null;
   }
-  const channel = (start) => parseInt(normalized.substr(start, 2), 16) / 255;
+  const channel = (start) => parseInt(normalized.slice(start, start + 2), 16) / 255;
   return {
     color: {
       rgbColor: {
