@@ -1,4 +1,4 @@
-// vandelay-test-dr
+// x-pd-ai: optimized
 import googleSheets from "../../google_sheets.app.mjs";
 import { rowsToObjects } from "../../common/ai-utils.mjs";
 
@@ -13,7 +13,7 @@ export default {
     + " for subsequent **Update Rows** calls)."
     + " For simple reads without filtering, use **Read Rows**"
     + " instead.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,
