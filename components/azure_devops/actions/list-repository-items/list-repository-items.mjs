@@ -5,7 +5,7 @@ import { RECURSION_LEVEL_OPTIONS } from "../../common/constants.mjs";
 export default {
   key: "azure_devops-list-repository-items",
   name: "List Repository Items",
-  description: "List the files and folders under a path in a Git repository. Returns each entry's path, object id and whether it is a folder. Use this to explore a repository's layout before reading a specific file. Example: scope path `/src` with recursion `oneLevel`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/git/items/list?view=azure-devops-rest-7.1)",
+  description: "List the files and folders under a path in a Git repository. Returns each entry's path, object id and whether it is a folder. Use this to explore a repository's layout, then read a specific file with the **Get File Content** action. Azure DevOps rejects a recursion level other than `none` when a single file path is given, so listing and reading are separate calls. Example: scope path `/src` with recursion `oneLevel`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/git/items/list?view=azure-devops-rest-7.1)",
   version: "0.0.1",
   type: "action",
   annotations: {

@@ -1,7 +1,9 @@
 // x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import azureDevops from "../../azure_devops.app.mjs";
-import { PATCH_OP } from "../../common/constants.mjs";
+import {
+  BASE_URL, PATCH_OP, WORK_ITEM_LINK_TYPE_OPTIONS,
+} from "../../common/constants.mjs";
 import {
   buildFieldPatchDocument, compactFields, parseObject,
 } from "../../common/utils.mjs";
@@ -9,7 +11,7 @@ import {
 export default {
   key: "azure_devops-update-work-item",
   name: "Update Work Item",
-  description: "Update the fields of an existing work item - retitle it, move it between states, reassign it or repoint its area and iteration. At least one field is required. Returns the updated work item. Use when closing out automated work or reflecting a change from another system. Example: work item `299`, state `Closed`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/wit/work-items/update?view=azure-devops-rest-7.1)",
+  description: "Update an existing work item - retitle it, move it between states, reassign it, repoint its area and iteration, or link it to another work item. At least one field or a link is required. Returns the updated work item. Use when closing out automated work or reflecting a change from another system. Example: work item `299`, state `Closed`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/wit/work-items/update?view=azure-devops-rest-7.1)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -94,6 +96,31 @@ export default {
       ],
       optional: true,
     },
+    targetWorkItemId: {
+      propDefinition: [
+        azureDevops,
+        "workItemId",
+      ],
+      label: "Link Target Work Item ID",
+      description: "Numeric ID of a work item to link this one to, e.g. `297`. Run the **Query Work Items (WIQL)** action first to obtain valid values. Requires **Link Type**.",
+      optional: true,
+    },
+    linkType: {
+      type: "string",
+      label: "Link Type",
+      description: "Relationship the target work item has to this one, e.g. a predecessor it depends on. Requires **Link Target Work Item ID**.",
+      options: WORK_ITEM_LINK_TYPE_OPTIONS,
+      optional: true,
+    },
+    linkComment: {
+      propDefinition: [
+        azureDevops,
+        "commentText",
+      ],
+      label: "Link Comment",
+      description: "Comment describing why the work items are linked",
+      optional: true,
+    },
     expand: {
       propDefinition: [
         azureDevops,
@@ -138,8 +165,27 @@ export default {
       ...parseObject(this.additionalFields, "Additional Fields"),
     });
     const fieldNames = Object.keys(fields);
-    if (!fieldNames.length) {
-      throw new ConfigurationError("Provide at least one field to update.");
+    const linking = Boolean(this.targetWorkItemId || this.linkType);
+    if (linking && !(this.targetWorkItemId && this.linkType)) {
+      throw new ConfigurationError("**Link Target Work Item ID** and **Link Type** must be provided together.");
+    }
+    if (!fieldNames.length && !linking) {
+      throw new ConfigurationError("Provide at least one field to update, or a work item to link to.");
+    }
+
+    const operations = buildFieldPatchDocument(fields, PATCH_OP.REPLACE);
+    if (linking) {
+      operations.push({
+        op: PATCH_OP.ADD,
+        path: "/relations/-",
+        value: {
+          rel: this.linkType,
+          url: `${BASE_URL}/${this.organization}/_apis/wit/workItems/${this.targetWorkItemId}`,
+          attributes: {
+            comment: this.linkComment,
+          },
+        },
+      });
     }
 
     const response = await this.azureDevops.updateWorkItem({
@@ -153,9 +199,13 @@ export default {
         suppressNotifications: this.suppressNotifications,
         validateOnly: this.validateOnly,
       },
-      data: buildFieldPatchDocument(fields, PATCH_OP.REPLACE),
+      data: operations,
     });
-    $.export("$summary", `Updated work item ${response.id}: set ${fieldNames.join(", ")}`);
+    const changes = fieldNames.slice();
+    if (linking) {
+      changes.push(`linked ${this.targetWorkItemId} as ${this.linkType}`);
+    }
+    $.export("$summary", `Updated work item ${response.id}: ${changes.join(", ")}`);
     return response;
   },
 };
