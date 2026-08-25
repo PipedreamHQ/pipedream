@@ -190,6 +190,7 @@ export default {
           params: {
             $top: limit,
             $skip: limit * page,
+            $select: "id,name",
           },
         });
         return attachments?.map(({

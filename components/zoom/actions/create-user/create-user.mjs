@@ -5,7 +5,7 @@ export default {
   key: "zoom-create-user",
   name: "Create User",
   description: "Creates a new user in your account.",
-  version: "0.2.5",
+  version: "0.2.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

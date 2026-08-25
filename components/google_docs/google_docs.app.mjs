@@ -97,6 +97,17 @@ export default {
       default: false,
       optional: true,
     },
+    replacementFormat: {
+      type: "string",
+      label: "Replacement Format",
+      description: "How to interpret the replacement text. `plain` inserts it exactly as typed (default). `markdown` converts Markdown syntax (bold, italic, inline code, links, headings, bullet and numbered lists) into native Google Docs formatting. Note that block-level Markdown (headings, lists) restyles the entire paragraph containing the match, since Google Docs applies paragraph styles per paragraph.",
+      options: [
+        "plain",
+        "markdown",
+      ],
+      default: "plain",
+      optional: true,
+    },
   },
   methods: {
     ...googleDrive.methods,
@@ -129,11 +140,11 @@ export default {
         ? this._insertAtBeginning(requestObj)
         : this._insertAtEnd(requestObj);
     },
-    // Resolve a static `position` value (`beginning` | `end` | numeric index) into the
-    // location field a batchUpdate insert request expects.
-    _buildRequestForPosition(requestObj, position) {
+    // Resolve a static `position` value (`beginning` | `end` | numeric index) into
+    // either `null` (append at end) or the concrete character index it refers to.
+    _resolvePositionIndex(position) {
       if (position == null || position === "end") {
-        return this._insertAtEnd(requestObj);
+        return null;
       }
       // Only accept "beginning", "end", or a string of pure digits — parseInt would
       // otherwise silently accept "1.5"/"1abc" as 1 and target the wrong index.
@@ -145,12 +156,20 @@ export default {
       if (!Number.isInteger(index) || index < 1) {
         throw new ConfigurationError(`Invalid position "${position}". Use "beginning", "end", or a positive integer index.`);
       }
-      return {
-        ...requestObj,
-        location: {
-          index,
-        },
-      };
+      return index;
+    },
+    // Resolve a static `position` value into the location field a batchUpdate
+    // insert request expects.
+    _buildRequestForPosition(requestObj, position) {
+      const index = this._resolvePositionIndex(position);
+      return index == null
+        ? this._insertAtEnd(requestObj)
+        : {
+          ...requestObj,
+          location: {
+            index,
+          },
+        };
     },
     _batchUpdate(documentId, requestName, request) {
       return this.docs().documents.batchUpdate({
@@ -164,11 +183,14 @@ export default {
         },
       });
     },
-    batchUpdate(documentId, requests) {
+    batchUpdate(documentId, requests, writeControl) {
       return this.docs().documents.batchUpdate({
         documentId,
         requestBody: {
           requests,
+          ...(writeControl && {
+            writeControl,
+          }),
         },
       });
     },
@@ -236,6 +258,127 @@ export default {
     async insertTable(documentId, table) {
       return this._batchUpdate(documentId, "insertTable", table);
     },
+    // Top-level tables in a document body, in document order. Tables nested
+    // inside another table's cell are not included.
+    flattenTables(content) {
+      return utils.flattenTables(content);
+    },
+    _flattenDocumentTabs(tabs) {
+      return (tabs || []).flatMap((tab) => [
+        tab,
+        ...this._flattenDocumentTabs(tab.childTabs),
+      ]);
+    },
+    async deleteTable(documentId, {
+      startIndex, endIndex,
+    }) {
+      return this._batchUpdate(documentId, "deleteContentRange", {
+        range: {
+          startIndex,
+          endIndex,
+        },
+      });
+    },
+    async writeTable(documentId, {
+      rows, position, hasHeaderRow,
+    }) {
+      // Validate before making any request: a bad cell value here should
+      // never leave an empty table behind from a partially-applied insert.
+      const invalidValue = rows.flat().find((value) => value != null && typeof value === "object");
+      if (invalidValue !== undefined) {
+        throw new ConfigurationError(
+          `Table Data cells must be strings, numbers, or booleans, not a nested ${
+            Array.isArray(invalidValue)
+              ? "array"
+              : "object"
+          }. Example: [["Name","Role"],["Ada","Engineer"]]`,
+        );
+      }
+
+      const numRows = rows.length;
+      const numColumns = rows.reduce((max, row) => Math.max(max, row.length), 0);
+
+      const { body: beforeBody } = await this.getDocument(documentId, false, "body");
+      const beforeTables = this.flattenTables(beforeBody?.content);
+
+      const insertRequest = this._buildRequestForPosition({
+        rows: numRows,
+        columns: numColumns,
+      }, position);
+      await this._batchUpdate(documentId, "insertTable", insertRequest);
+
+      // The insertTable reply carries no location info, so re-fetch the
+      // document and select the new table by ordinal position (see
+      // selectInsertedTable) rather than by startIndex — inserting
+      // immediately before an existing table gives the new table that
+      // table's old startIndex, so comparing index values can't tell them
+      // apart.
+      const { body } = await this.getDocument(documentId, false, "body");
+      const tables = this.flattenTables(body?.content);
+      const requestedIndex = this._resolvePositionIndex(position);
+      const table = utils.selectInsertedTable(beforeTables, tables, requestedIndex);
+      if (!table) {
+        throw new Error("Could not locate the table that was just created. The table was inserted but no cell data was written.");
+      }
+
+      const cells = [];
+      table.table.tableRows.forEach((row, rowIndex) => {
+        row.tableCells.forEach((cell, columnIndex) => {
+          const paragraph = cell.content?.find((element) => element.paragraph);
+          if (paragraph) {
+            cells.push({
+              rowIndex,
+              columnIndex,
+              startIndex: paragraph.startIndex,
+            });
+          }
+        });
+      });
+
+      // Fill cells from the last one to the first. Inserting text only shifts
+      // indices that come after it, so walking backwards keeps every
+      // not-yet-written cell's precomputed startIndex valid throughout.
+      const requests = [];
+      [
+        ...cells,
+      ].reverse().forEach(({
+        rowIndex, columnIndex, startIndex,
+      }) => {
+        const value = rows[rowIndex]?.[columnIndex];
+        if (value == null || value === "") {
+          return;
+        }
+        const text = String(value);
+        requests.push({
+          insertText: {
+            location: {
+              index: startIndex,
+            },
+            text,
+          },
+        });
+        if (hasHeaderRow && rowIndex === 0) {
+          requests.push({
+            updateTextStyle: {
+              range: {
+                startIndex,
+                endIndex: startIndex + text.length,
+              },
+              textStyle: {
+                bold: true,
+              },
+              fields: "bold",
+            },
+          });
+        }
+      });
+
+      if (requests.length) {
+        await this.batchUpdate(documentId, requests);
+      }
+
+      return this.getDocument(documentId);
+    },
     async insertPageBreak(documentId, request) {
       return this._batchUpdate(documentId, "insertPageBreak", request);
     },
@@ -285,6 +428,11 @@ export default {
         throw new Error(`Failed to insert markdown text: ${error.message}`);
       }
     },
+    // Replaces text and applies the formatting implied by the Markdown in the
+    // replacement string. `replaceAllText` reports how many occurrences it
+    // changed but not where they landed, so the ranges to style can only be
+    // found by re-reading the document afterwards and locating the inserted
+    // text by value.
     async replaceTextWithMarkdown({
       documentId,
       textToReplace,
@@ -292,79 +440,104 @@ export default {
       matchCase = false,
       tabIds = null,
     }) {
-      try {
-        // Parse the markdown replacement text
-        const parseResult = markdownParser.parseMarkdown(markdownReplacement);
-        const {
-          text: replacementText,
-          formattingRequests: markdownFormatting,
-        } = parseResult;
+      const {
+        text: parsedText,
+        formattingRequests: markdownFormatting,
+      } = markdownParser.parseMarkdown(markdownReplacement);
 
-        // Build the initial replace request
-        const requests = [
-          {
-            replaceAllText: {
-              containsText: {
-                text: textToReplace,
-                matchCase: matchCase || false,
-              },
-              replaceText: replacementText,
-              tabsCriteria: tabIds
-                ? {
-                  tabIds,
-                }
-                : undefined,
-            },
-          },
-        ];
+      // parseMarkdown closes every paragraph with a newline, which is right when
+      // the markdown is a document body but wrong for an inline replacement: it
+      // splits the host sentence across two paragraphs.
+      const isBlockLevel = markdownFormatting.some(({ type }) =>
+        type === "updateParagraphStyle" || type === "createParagraphBullets");
+      const replacementText = isBlockLevel
+        ? parsedText
+        : parsedText.replace(/\n+$/, "");
 
-        if (markdownFormatting.length === 0) {
-          // No formatting needed, just do the plain text replacement
-          return this.docs().documents.batchUpdate({
-            documentId,
-            requestBody: {
-              requests,
-            },
+      const insertedStartsByTab = new Map();
+      if (markdownFormatting.length) {
+        const beforeDoc = await this.getDocument(documentId, true);
+        const lengthDelta = replacementText.length - textToReplace.length;
+        this._flattenDocumentTabs(beforeDoc.tabs)
+          .filter(({ tabProperties }) => !tabIds?.length || tabIds.includes(tabProperties?.tabId))
+          .forEach((tab) => {
+            const starts = markdownParser.findTextOccurrences(
+              tab.documentTab,
+              textToReplace,
+              matchCase,
+            );
+            insertedStartsByTab.set(
+              tab.tabProperties?.tabId,
+              new Set(starts.map((start, index) => start + (index * lengthDelta))),
+            );
           });
-        }
-
-        // For markdown with formatting, we need to find where the text will be replaced
-        // and then apply formatting to it
-        // First, do the replacement
-        await this.docs().documents.batchUpdate({
-          documentId,
-          requestBody: {
-            requests,
-          },
-        });
-
-        // Get the document AFTER replacement
-        const { data: updatedDocData } = await this.docs().documents.get({
-          documentId,
-        });
-
-        // Find all occurrences of the replacement text in the updated document
-        const formattingRequests = markdownParser.buildFormattingRequestsForReplacement(
-          markdownFormatting,
-          updatedDocData,
-          replacementText,
-        );
-
-        // Apply formatting if any matches were found
-        if (formattingRequests.length > 0) {
-          return this.docs().documents.batchUpdate({
-            documentId,
-            requestBody: {
-              requests: formattingRequests,
-            },
-          });
-        }
-
-        // Return updated document even if no formatting was applied
-        return updatedDocData;
-      } catch (error) {
-        throw new Error(`Failed to replace text with markdown: ${error.message}`);
       }
+
+      const { data: replaceData } = await this.batchUpdate(documentId, [
+        {
+          replaceAllText: {
+            containsText: {
+              text: textToReplace,
+              matchCase,
+            },
+            replaceText: replacementText,
+            tabsCriteria: tabIds?.length
+              ? {
+                tabIds,
+              }
+              : undefined,
+          },
+        },
+      ]);
+      const occurrencesChanged =
+        replaceData?.replies?.[0]?.replaceAllText?.occurrencesChanged ?? 0;
+
+      if (!occurrencesChanged || !markdownFormatting.length) {
+        return {
+          occurrencesChanged,
+          formattingRequestsApplied: 0,
+        };
+      }
+
+      const updatedDoc = await this.getDocument(documentId, true);
+
+      const targetTabs = this._flattenDocumentTabs(updatedDoc.tabs)
+        .filter(({ tabProperties }) => !tabIds?.length || tabIds.includes(tabProperties?.tabId));
+
+      const formattingRequests = targetTabs.flatMap((tab) => {
+        const tabId = tab.tabProperties?.tabId;
+        const requests = markdownParser.buildFormattingRequestsForReplacement(
+          markdownFormatting,
+          tab.documentTab,
+          replacementText,
+          insertedStartsByTab.get(tabId),
+        );
+        return requests.map((request) => {
+          const [
+            requestName,
+          ] = Object.keys(request);
+          return {
+            [requestName]: {
+              ...request[requestName],
+              range: {
+                ...request[requestName].range,
+                tabId,
+              },
+            },
+          };
+        });
+      });
+
+      if (formattingRequests.length) {
+        await this.batchUpdate(documentId, formattingRequests, updatedDoc.revisionId && {
+          requiredRevisionId: updatedDoc.revisionId,
+        });
+      }
+
+      return {
+        occurrencesChanged,
+        formattingRequestsApplied: formattingRequests.length,
+      };
     },
   },
 };

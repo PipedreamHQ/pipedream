@@ -3,8 +3,8 @@ import googleDocs from "../../google_docs.app.mjs";
 export default {
   key: "google_docs-replace-text",
   name: "Replace Text",
-  description: "Find and replace all occurrences of a string in a Google Doc. Use **Find Document** to resolve a document's name to its ID. Returns the number of replacements made. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#ReplaceAllTextRequest)",
-  version: "1.0.1",
+  description: "Find and replace all occurrences of a string in a Google Doc. Set **Replacement Format** to `markdown` to convert Markdown in the replacement into native Google Docs formatting. Use **Find Document** to resolve a document's name to its ID. Returns the number of replacements made. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#ReplaceAllTextRequest)",
+  version: "1.1.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -29,6 +29,12 @@ export default {
       label: "Replace",
       description: "The text to replace each match with.",
     },
+    format: {
+      propDefinition: [
+        googleDocs,
+        "replacementFormat",
+      ],
+    },
     matchCase: {
       propDefinition: [
         googleDocs,
@@ -37,19 +43,49 @@ export default {
     },
   },
   async run({ $ }) {
-    const { data } = await this.googleDocs.replaceText(this.documentId, {
-      replaceText: this.replace,
+    const {
+      googleDocs,
+      documentId,
+      find,
+      replace,
+      format,
+      matchCase,
+    } = this;
+
+    if (format === "markdown") {
+      const {
+        occurrencesChanged, formattingRequestsApplied,
+      } = await googleDocs.replaceTextWithMarkdown({
+        documentId,
+        textToReplace: find,
+        markdownReplacement: replace,
+        matchCase,
+      });
+      $.export("$summary", `Replaced ${occurrencesChanged} occurrence${occurrencesChanged === 1
+        ? ""
+        : "s"} of "${find}" in document ${documentId}, applying ${formattingRequestsApplied} formatting request${formattingRequestsApplied === 1
+        ? ""
+        : "s"}`);
+      return {
+        documentId,
+        occurrencesChanged,
+        formattingRequestsApplied,
+      };
+    }
+
+    const { data } = await googleDocs.replaceText(documentId, {
+      replaceText: replace,
       containsText: {
-        text: this.find,
-        matchCase: this.matchCase,
+        text: find,
+        matchCase,
       },
     });
     const occurrences = data?.replies?.[0]?.replaceAllText?.occurrencesChanged ?? 0;
     $.export("$summary", `Replaced ${occurrences} occurrence${occurrences === 1
       ? ""
-      : "s"} of "${this.find}" in document ${this.documentId}`);
+      : "s"} of "${find}" in document ${documentId}`);
     return {
-      documentId: this.documentId,
+      documentId,
       occurrencesChanged: occurrences,
     };
   },
