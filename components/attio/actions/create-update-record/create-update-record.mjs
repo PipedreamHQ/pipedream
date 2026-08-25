@@ -5,7 +5,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "attio-create-update-record",
   name: "Create or Update Record",
-  description: "Creates or updates a specific record such as a person or a deal. If the record already exists, it's updated. Otherwise, a new record is created. [See the documentation](https://developers.attio.com/reference/put_v2-objects-object-records)",
+  description: "Creates or updates a specific record such as a person or a company. If a record with the same matching attribute already exists, it's updated; otherwise a new record is created. Objects without a unique attribute to match on (e.g. deals) are not available here. [See the documentation](https://developers.attio.com/reference/put_v2-objects-object-records)",
   version: "0.1.0",
   annotations: {
     destructiveHint: true,
@@ -54,6 +54,16 @@ export default {
         : values;
     } catch (error) {
       throw new ConfigurationError(`Values is not valid JSON: ${error.message}`);
+    }
+
+    if (
+      parsedValues === null
+      || typeof parsedValues !== "object"
+      || Array.isArray(parsedValues)
+    ) {
+      throw new ConfigurationError(
+        "Values must be a JSON object of attribute slug to value pairs (not a list, null, or a single value).",
+      );
     }
 
     const response = await attio.upsertRecord({
