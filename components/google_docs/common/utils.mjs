@@ -1,3 +1,5 @@
+import { ConfigurationError } from "@pipedream/platform";
+
 function getTextContentFromDocument(content) {
   let textContent = "";
   content.forEach((element) => {
@@ -89,10 +91,58 @@ function adjustPropDefinitions(props, app) {
   );
 }
 
+/**
+ * RFC 3339 date (`2026-01-31`) or date-time (`2026-01-31T00:00:00Z`). A
+ * date-time must carry a `Z` or numeric offset, as RFC 3339 requires: without
+ * one, `Date.parse` silently reads it in the runner's local timezone.
+ *
+ * The time fields spell out their RFC 3339 ranges rather than using `\d{2}`,
+ * because `Date.parse` accepts the ISO 8601 end-of-day hour `24` and rolls it
+ * into the next day (`...T24:00:00Z` becomes the 1st of the next month).
+ */
+const RFC_3339_REGEX =
+  /^(\d{4})-(\d{2})-(\d{2})(?:[Tt]([01]\d|2[0-3]):([0-5]\d):([0-5]\d)(?:\.\d+)?(?:[Zz]|[+-]([01]\d|2[0-3]):[0-5]\d))?$/;
+
+/**
+ * Validate an RFC 3339 timestamp and normalize it to a UTC ISO string.
+ *
+ * `Date.parse` alone is too permissive to use as the gate: it accepts
+ * locale-ambiguous input like `01/02/2026` and bare years like `2026`, and it
+ * rolls impossible dates over (`2026-02-31` becomes March 3) rather than
+ * rejecting them. Either would silently filter from the wrong instant.
+ *
+ * @param {String} value the user-supplied timestamp
+ * @param {String} label the prop label, used in the error message
+ * @returns {String} the timestamp normalized to a UTC ISO string
+ */
+function parseRfc3339(value, label) {
+  const match = RFC_3339_REGEX.exec(String(value).trim());
+  if (!match) {
+    throw new ConfigurationError(`Invalid ${label} "${value}". Use an RFC 3339 timestamp, e.g. "2026-01-31T00:00:00Z" or "2026-01-31".`);
+  }
+  const [
+    , year,
+    month,
+    day,
+  ] = match.map(Number);
+  // The shape is right, but `2026-02-31` still parses, so confirm the calendar
+  // date round-trips unchanged before trusting it.
+  const utc = new Date(Date.UTC(year, month - 1, day));
+  const parsed = Date.parse(match[0]);
+  if (utc.getUTCFullYear() !== year
+    || utc.getUTCMonth() !== month - 1
+    || utc.getUTCDate() !== day
+    || Number.isNaN(parsed)) {
+    throw new ConfigurationError(`Invalid ${label} "${value}". That is not a real date or time.`);
+  }
+  return new Date(parsed).toISOString();
+}
+
 export default {
   getTextContentFromDocument,
   addTextContentToDocument,
   flattenTables,
   selectInsertedTable,
   adjustPropDefinitions,
+  parseRfc3339,
 };

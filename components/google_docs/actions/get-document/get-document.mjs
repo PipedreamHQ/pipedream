@@ -5,7 +5,7 @@ export default {
   key: "google_docs-get-document",
   name: "Get Document",
   description: "Get the full text content and structure of a Google Doc by its ID. Returns the document body plus a flattened `textContent` field for easy reading. Optionally supply a `fields` mask to request a partial (e.g. metadata-only) response and skip the body-text enrichment. Use **Find Document** first to resolve a document's name to its ID. For multi-tab documents, pass a `tabId` to retrieve a single tab's content. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/get)",
-  version: "1.1.1",
+  version: "1.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
