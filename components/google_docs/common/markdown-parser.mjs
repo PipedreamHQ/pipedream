@@ -431,6 +431,9 @@ function collectTableText(table, allText, indexMap, state) {
 }
 
 function findTextOccurrences(doc, needle, matchCase = false) {
+  if (!needle || needle.includes(NON_TEXT_PLACEHOLDER)) {
+    return [];
+  }
   const allText = [];
   const indexMap = [];
   const state = {
@@ -445,7 +448,7 @@ function findTextOccurrences(doc, needle, matchCase = false) {
     : needle.toLowerCase();
   const starts = [];
 
-  for (let i = 0; needle.length && i + needle.length <= fullText.length; i++) {
+  for (let i = 0; i + needle.length <= fullText.length; i++) {
     const window = fullText.substr(i, needle.length);
     const candidate = matchCase
       ? window
@@ -487,6 +490,9 @@ function buildFormattingRequestsForReplacement(
 
   // Now search for the replacement text in the full text
   const matches = [];
+  if (!replacementText || replacementText.includes(NON_TEXT_PLACEHOLDER)) {
+    return requests;
+  }
   let searchPos = 0;
   let matchPos = fullText.indexOf(replacementText, searchPos);
 
