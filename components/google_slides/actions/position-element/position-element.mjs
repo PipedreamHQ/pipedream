@@ -109,8 +109,9 @@ export default {
         ? points * EMU_PER_POINT
         : points);
 
-      // A move alone must leave the matrix untouched: decomposing and
-      // recomposing it would drop a negative scale (a flip) and any shear.
+      // A move alone leaves the matrix untouched. When scale or rotation is
+      // set, the matrix is decomposed so that reflection (carried by the signed
+      // scaleY) and shear survive the rebuild.
       let matrix = {
         scaleX: current.scaleX ?? 1,
         scaleY: current.scaleY ?? 1,
@@ -119,25 +120,34 @@ export default {
       };
 
       if (scaleXPercent != null || scaleYPercent != null || rotation != null) {
-        const currentScaleX = Math.hypot(current.scaleX ?? 1, current.shearY ?? 0) || 1;
-        const currentScaleY = Math.hypot(current.scaleY ?? 1, current.shearX ?? 0) || 1;
-        const currentRotation = Math.atan2(current.shearY ?? 0, current.scaleX ?? 1);
+        const currentAngle = Math.atan2(matrix.shearY, matrix.scaleX);
+        const cos = Math.cos(currentAngle);
+        const sin = Math.sin(currentAngle);
+
+        const currentScaleX = Math.hypot(matrix.scaleX, matrix.shearY) || 1;
+        const shear = (matrix.shearX * cos) + (matrix.scaleY * sin);
+        const currentScaleY = (matrix.scaleY * cos) - (matrix.shearX * sin);
 
         const scaleX = scaleXPercent != null
           ? scaleXPercent / 100
           : currentScaleX;
         const scaleY = scaleYPercent != null
-          ? scaleYPercent / 100
+          ? (scaleYPercent / 100) * (currentScaleY < 0
+            ? -1
+            : 1)
           : currentScaleY;
         const angle = rotation != null
           ? rotation * Math.PI / 180
-          : currentRotation;
+          : currentAngle;
+
+        const newCos = Math.cos(angle);
+        const newSin = Math.sin(angle);
 
         matrix = {
-          scaleX: scaleX * Math.cos(angle),
-          shearX: -scaleY * Math.sin(angle),
-          shearY: scaleX * Math.sin(angle),
-          scaleY: scaleY * Math.cos(angle),
+          scaleX: scaleX * newCos,
+          shearY: scaleX * newSin,
+          shearX: (shear * newCos) - (scaleY * newSin),
+          scaleY: (shear * newSin) + (scaleY * newCos),
         };
       }
 
