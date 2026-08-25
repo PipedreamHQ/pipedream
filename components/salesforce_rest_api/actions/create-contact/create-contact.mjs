@@ -13,7 +13,7 @@ export default {
     + " Use **Describe Object** on `Contact` to discover which fields your org requires."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.3.7",
+  version: "0.3.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -22,31 +22,19 @@ export default {
   type: "action",
   methods: {
     ...common.methods,
-    getObjectType() {
-      return "Contact";
-    },
-    getAdvancedProps() {
-      return contact.extraProps;
-    },
   },
   props: getProps({
     objType: contact,
     docsLink,
-    showDateInfo: true,
   }),
   async run({ $ }) {
     /* eslint-disable no-unused-vars */
     const {
       salesforce,
-      getAdvancedProps,
-      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
-      useAdvancedProps,
       docsInfo,
-      dateInfo,
       additionalFields,
-      Birthdate,
       ...data
     } = this;
     /* eslint-enable no-unused-vars */
@@ -54,9 +42,6 @@ export default {
       $,
       data: {
         ...data,
-        ...formatDateTimeProps({
-          Birthdate,
-        }),
         ...getAdditionalFields(),
       },
     });
