@@ -68,8 +68,9 @@ export default {
           : 0}`;
       }
       case "integer": {
-        const numericValue = Number(this.value);
-        if (!Number.isFinite(numericValue)) {
+        const rawValue = `${this.value}`;
+        const numericValue = Number(rawValue);
+        if (rawValue.trim() === "" || !Number.isFinite(numericValue)) {
           throw new ConfigurationError(`Invalid value "${this.value}" for numeric field "${this.fieldName}". Use a number.`);
         }
         return `{${this.fieldName}} = ${numericValue}`;
