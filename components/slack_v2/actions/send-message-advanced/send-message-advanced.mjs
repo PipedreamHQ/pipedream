@@ -79,11 +79,24 @@ export default {
       }
     }
 
-    const hasBlocks = Array.isArray(this.blocks)
-      ? this.blocks.length > 0
-      : typeof this.blocks === "string"
-        ? this.blocks.trim().length > 0 && this.blocks.trim() !== "[]"
-        : Boolean(this.blocks);
+    const hasBlocks = (() => {
+      if (Array.isArray(this.blocks)) {
+        return this.blocks.length > 0;
+      }
+      if (typeof this.blocks === "string") {
+        if (!this.blocks.trim()) return false;
+        try {
+          const parsed = JSON.parse(this.blocks);
+          return Array.isArray(parsed)
+            ? parsed.length > 0
+            : Boolean(parsed);
+        } catch {
+          // Malformed JSON — let common.run's own JSON.parse surface the error.
+          return true;
+        }
+      }
+      return Boolean(this.blocks);
+    })();
 
     if (!this.text && !hasBlocks) {
       throw new ConfigurationError(
