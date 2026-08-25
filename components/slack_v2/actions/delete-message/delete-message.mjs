@@ -5,9 +5,10 @@ export default {
   key: "slack_v2-delete-message",
   name: "Delete Message",
   description:
-    "Permanently delete a message. **This cannot be undone — confirm the exact message with the"
-    + " user before calling it.** Identify the message first with **Get Channel History** or"
-    + " **Search** and quote its text back, rather than deleting by position ('the last one')."
+    "Permanently delete a message. **This cannot be undone.**"
+    + " To delete a specific message (including the most recent one), first call **Get Channel History**"
+    + " to retrieve messages — `messages[0]` is the most recent — then pass its `ts` here."
+    + " Quote the message text back to the user to confirm before deleting."
     + " Accepts a channel ID or NAME for the conversation, resolved automatically. Slack only"
     + " lets an identity delete its own messages, so this deletes as whichever identity posted:"
     + " it retries automatically with the other identity if the first attempt returns"

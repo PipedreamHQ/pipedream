@@ -7,10 +7,11 @@ export default {
   name: "List Channels",
   description:
     "Return a list of channels in a workspace."
-    + " **Always pass `fields`** with just the properties you need (e.g. `id,name`) —"
-    + " a full channel object is ~1KB, so a workspace of any real size returns a payload"
-    + " large enough to be truncated before you ever see it. `id,name` covers most tasks;"
-    + " every other tool here accepts a channel NAME and resolves it, so you rarely need more."
+    + " Pass `fields` (e.g. `[\"id\",\"name\"]`) to limit the returned properties —"
+    + " a full channel object is ~1KB, so a workspace of any real size can return a payload"
+    + " large enough to be truncated. Omit `fields` when you need the complete channel objects."
+    + " Use `namePrefix` to filter results to channels whose names start with a given string"
+    + " (e.g. `dev-`) without a client-side filter loop."
     + " Returns `has_more: true` and `next_cursor` when more channels exist than were"
     + " fetched — when you see that, raise `numPages` (or pass `cursor`) before answering"
     + " any 'how many' or 'list every' question, otherwise your answer is silently incomplete."
@@ -72,6 +73,12 @@ export default {
       description: "Resume from a previous call's `next_cursor` to fetch the following page.",
       optional: true,
     },
+    namePrefix: {
+      type: "string",
+      label: "Name Prefix",
+      description: "Return only channels whose names start with this prefix (case-insensitive). Example: `dev-`. When set, ALL pages are fetched regardless of `Number of Pages` so the filter is applied across the full workspace channel list.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const allChannels = [];
@@ -94,13 +101,24 @@ export default {
       nextCursor = metadata?.next_cursor;
       params.cursor = nextCursor;
       page++;
-    } while (params.cursor && page < this.numPages);
+    // When namePrefix is active, fetch ALL pages so the filter can be applied
+    // across the full workspace channel list — matching channels may live on
+    // any page and would be silently missing if capped at numPages.
+    } while (params.cursor && (this.namePrefix || page < this.numPages));
+
+    // Apply namePrefix filter BEFORE field projection so that `name` is always
+    // available during the comparison even when the caller omits it from `fields`.
+    let filtered = allChannels;
+    if (this.namePrefix) {
+      const prefix = this.namePrefix.toLowerCase();
+      filtered = allChannels.filter((c) => c.name?.toLowerCase().startsWith(prefix));
+    }
 
     // `fields` is ADDITIVE: omitted returns exactly what this action has always
     // returned, so existing workflows are unaffected. Supplied, it plucks per channel —
     // the difference between ~1KB and ~40 bytes per row, which is what decides whether
     // an agent receives the data or a "result too large" file path.
-    const channels = utils.projectFields(allChannels, this.fields);
+    const channels = utils.projectFields(filtered, this.fields);
 
     // Truncation must be VISIBLE. numPages defaults to 1, so the previous version
     // silently dropped every channel past the first page and the caller had no way to

@@ -11,7 +11,7 @@ export default {
     + " Requires the message timestamp (`ts`) from **Get Channel History** or **Post Message**."
     + " You can only edit messages posted by the same token/user."
     + " [See the documentation](https://api.slack.com/methods/chat.update)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -57,7 +57,25 @@ export default {
         throw new ConfigurationError("Invalid JSON string: " + error.message);
       }
     }
-    const response = await this.slack.updateMessage(args);
+    // Slack refuses chat.update unless the calling identity authored the message, and
+    // post-message tries the bot identity first, falling back to the user identity when
+    // the bot can't deliver — so the message being edited may have been posted as
+    // either one. Try both here too, mirroring the fallback already used in
+    // delete-message, rather than guessing which identity posted it.
+    const attempt = (as_user) => this.slack.updateMessage({
+      ...args,
+      as_user,
+    });
+    const hasBotToken = Boolean(this.slack.getBotToken());
+
+    let response;
+    try {
+      response = await attempt(false);
+    } catch (error) {
+      if (!hasBotToken || !`${error}`.includes("cant_update_message")) throw error;
+      response = await attempt(true);
+    }
+
     $.export("$summary", `Message updated in ${channelId}`);
     return response;
   },

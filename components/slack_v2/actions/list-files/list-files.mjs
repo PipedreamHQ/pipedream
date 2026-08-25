@@ -1,11 +1,10 @@
-import constants from "../../common/constants.mjs";
 import slack from "../../slack_v2.app.mjs";
 
 export default {
   key: "slack_v2-list-files",
   name: "List Files",
   description: "Return a list of files within a team. [See the documentation](https://api.slack.com/methods/files.list)",
-  version: "0.1.6",
+  version: "0.1.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -18,14 +17,7 @@ export default {
       propDefinition: [
         slack,
         "conversation",
-        () => ({
-          types: [
-            constants.CHANNEL_TYPE.PUBLIC,
-            constants.CHANNEL_TYPE.PRIVATE,
-          ],
-        }),
       ],
-      description: "Select a public or private channel",
     },
     addToChannel: {
       propDefinition: [

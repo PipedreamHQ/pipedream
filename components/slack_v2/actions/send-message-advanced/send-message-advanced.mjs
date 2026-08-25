@@ -27,7 +27,8 @@ export default {
         common.props.slack,
         "text",
       ],
-      description: "If you're using `blocks`, this is used as a fallback string to display in notifications. If you aren't, this is the main body text of the message. It can be formatted as plain text, or with mrkdwn.",
+      description: "If you're using `blocks`, this is used as a fallback string to display in notifications. If you aren't, this is the main body text of the message. It can be formatted as plain text, or with mrkdwn. Required when no blocks are provided.",
+      optional: true,
     },
     mrkdwn: {
       propDefinition: [
@@ -65,11 +66,20 @@ export default {
   },
   async run({ $ }) {
     if (this.passArrayOrConfigure) {
-      this.blocks = await this.getGeneratedBlocks();  // set the blocks prop for common.run to use
+      const generated = await this.getGeneratedBlocks();
+      // Only override this.blocks when something was actually generated.
+      // When passArrayOrConfigure === "configure" but no section/context/linkButton
+      // props are filled, getGeneratedBlocks returns [] (empty array). An empty
+      // array is truthy so common.run would skip the text-block fallback and post
+      // with zero content. Checking length lets common.run fall back to a text
+      // block when the user configured no blocks.
+      if (generated?.length) {
+        this.blocks = generated;
+      }
     }
     const resp = await common.run.call(this, {
       $,
-    });  // call common.run with the current context
+    });
     return resp;
   },
 };
