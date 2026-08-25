@@ -6,7 +6,7 @@ export default {
   key: "attio-create-person",
   name: "Create Person",
   description: "Create a new person record in Attio. Use when adding a contact. Set any of the person fields (name, email, job title, phone, socials) and optionally link a company by its record id. Example: First Name `Ada`, Last Name `Lovelace`, Email `ada@example.com`, Job Title `Analyst`. Returns the created person record with its id. [See the documentation](https://developers.attio.com/reference/post_v2-objects-people-records).",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -83,7 +83,7 @@ export default {
     },
     companyId: {
       label: "Company ID",
-      description: "The ID of the company to associate with the person.",
+      description: "The ID of the company to associate with the person. Use the **List Records** action (object `companies`) to look up company record IDs.",
       optional: true,
       propDefinition: [
         attio,
