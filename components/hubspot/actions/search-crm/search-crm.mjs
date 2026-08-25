@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import {
   DEFAULT_COMPANY_PROPERTIES,
@@ -7,19 +8,18 @@ import {
   DEFAULT_LINE_ITEM_PROPERTIES,
   DEFAULT_PRODUCT_PROPERTIES,
   DEFAULT_TICKET_PROPERTIES,
-  HUBSPOT_OWNER,
   SEARCHABLE_OBJECT_TYPES,
 } from "../../common/constants.mjs";
 import hubspot from "../../hubspot.app.mjs";
-import common from "../common/common-create.mjs";
+import { parseObjectProperties } from "../../common/utils.mjs";
 const DEFAULT_LIMIT = 200;
 
 export default {
   key: "hubspot-search-crm",
   name: "Search CRM",
   description:
-    "Search companies, contacts, deals, feedback submissions, products, tickets, line-items, quotes, leads, or custom objects. [See the documentation](https://developers.hubspot.com/docs/api/crm/search)",
-  version: "1.1.11",
+    "Search a CRM object type by a single property. Set **Object Type**, **Search Property** (internal name, e.g. `email` or `dealname`; use **Get Properties** / **Search Properties** to find valid names), and **Search Value**. With **Exact Match** off, partial (substring) matches are returned. Results are capped per call — if `paging.next` is present in the response, call again with **Offset** advanced to fetch the next page. Example: Object Type `deal`, Search Property `dealname`, Search Value `InGen Annual Contract`. Returns matching records plus paging. For lookups, keep results small with **Limit** and **Fields** (return only the properties you need). [See the documentation](https://developers.hubspot.com/docs/api/crm/search)",
+  version: "2.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -31,7 +31,8 @@ export default {
     objectType: {
       type: "string",
       label: "Object Type",
-      description: "Type of CRM object to search for",
+      description:
+        "Type of CRM object to search. For a custom object, set this to `custom_object` and provide **Custom Object Type**.",
       options: [
         ...SEARCHABLE_OBJECT_TYPES,
         {
@@ -39,7 +40,27 @@ export default {
           value: "custom_object",
         },
       ],
-      reloadProps: true,
+    },
+    customObjectType: {
+      type: "string",
+      label: "Custom Object Type",
+      description:
+        "Required only when **Object Type** is `custom_object`: the object's `fullyQualifiedName` (e.g. `p_my_object`) or `objectTypeId`.",
+      optional: true,
+    },
+    searchProperty: {
+      type: "string",
+      label: "Search Property",
+      description:
+        "Internal name of the property to search on (e.g. `email`, `dealname`, `firstname`). "
+        + "Use **Search Properties** or **Get Properties** to discover valid names for the object type.",
+    },
+    searchValue: {
+      type: "string",
+      label: "Search Value",
+      description:
+        "The value to match. With **Exact Match** on, returns records where **Search Property** equals this exactly; "
+        + "with it off, returns partial (case-insensitive substring) matches.",
     },
     exactMatch: {
       type: "boolean",
@@ -49,14 +70,49 @@ export default {
       default: true,
       optional: true,
     },
+    additionalProperties: {
+      type: "string[]",
+      label: "Additional properties to retrieve",
+      description:
+        "Internal property names to return in addition to the default set for the object type "
+        + "(e.g. `[\"amount\", \"dealstage\"]`). Use **Get Properties** to discover valid names.",
+      optional: true,
+    },
+    fields: {
+      type: "string[]",
+      label: "Fields (projection)",
+      description:
+        "Return ONLY these internal property names per record, instead of the full default set. "
+        + "Use this to keep results small when you only need a few fields (e.g. `[\"dealname\", \"amount\"]`). "
+        + "Overrides **Additional properties to retrieve**. The **Search Property** is always included.",
+      optional: true,
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description:
+        "Maximum number of records to return (1–200). Lower it for lookups where you only need a few "
+        + "matches, to avoid large results. Defaults to 200.",
+      min: 1,
+      max: 200,
+      default: DEFAULT_LIMIT,
+      optional: true,
+    },
     createIfNotFound: {
       type: "boolean",
       label: "Create if not found?",
       description:
-        "Set to `true` to create the Hubspot object if it doesn't exist",
+        "Set to `true` to create the object (from **Create Properties**) when the search returns no match.",
       default: false,
       optional: true,
-      reloadProps: true,
+    },
+    creationProps: {
+      type: "object",
+      label: "Create Properties",
+      description:
+        "Properties for the object to create when **Create if not found?** is `true` and nothing matched, "
+        + "as a JSON object of internal property name → value (e.g. `{ \"email\": \"a@b.com\", \"firstname\": \"Ada\" }`).",
+      optional: true,
     },
     offset: {
       type: "integer",
@@ -66,180 +122,7 @@ export default {
       optional: true,
     },
   },
-  async additionalProps() {
-    const props = {};
-
-    if (this.objectType === "custom_object") {
-      try {
-        props.customObjectType = {
-          type: "string",
-          label: "Custom Object Type",
-          options: async () => await this.getCustomObjectTypes(),
-          reloadProps: true,
-        };
-      } catch {
-        props.customObjectType = {
-          type: "string",
-          label: "Custom Object Type",
-          reloadProps: true,
-        };
-      }
-    }
-    if (
-      !this.objectType ||
-      (this.objectType === "custom_object" && !this.customObjectType)
-    ) {
-      return props;
-    }
-
-    let schema;
-    const objectType = this.customObjectType ?? this.objectType;
-    try {
-      schema = await this.hubspot.getSchema({
-        objectType,
-      });
-      const properties = schema.properties;
-      const searchableProperties = schema.searchableProperties?.map((prop) => {
-        const propData = properties.find(({ name }) => name === prop);
-        return {
-          label: propData.label,
-          value: propData.name,
-        };
-      });
-
-      props.searchProperty = {
-        type: "string",
-        label: "Search Property",
-        description: "The field to search",
-        options: searchableProperties,
-        reloadProps: true,
-      };
-
-      if (this.searchProperty) {
-        const selectedProp = properties.find(({ name }) => name === this.searchProperty);
-        if (selectedProp?.referencedObjectType) {
-          const objectTypeName = this.hubspot.getObjectTypeName(selectedProp.referencedObjectType);
-          if (objectTypeName === HUBSPOT_OWNER) {
-            props.searchValue = {
-              type: "string",
-              label: "Search Value",
-              description:
-                "Search for objects where the specified search field/property contains a match of the search value",
-              options: (opts) => this.hubspot.getOwnersOptions(opts),
-              useQuery: true,
-            };
-          }
-        }
-        if (!props.searchValue && selectedProp?.options?.length) {
-          const options = this.makeLabelValueOptions(selectedProp);
-          if (options) {
-            props.searchValue = {
-              type: "string",
-              label: "Search Value",
-              description:
-                "Search for objects where the specified search field/property contains a match of the search value",
-              options,
-            };
-          }
-        }
-      }
-    } catch {
-      props.searchProperty = {
-        type: "string",
-        label: "Search Property",
-        description: "The field to search",
-        reloadProps: true,
-      };
-    }
-
-    if (!props.searchValue) {
-      props.searchValue = {
-        type: "string",
-        label: "Search Value",
-        description:
-          "Search for objects where the specified search field/property contains a match of the search value",
-      };
-    }
-    const defaultProperties = this.getDefaultProperties();
-    if (defaultProperties?.length) {
-      props.info = {
-        type: "alert",
-        alertType: "info",
-        content: `Properties:\n\`${defaultProperties.join(", ")}\``,
-      };
-    }
-
-    try {
-      // eslint-disable-next-line pipedream/props-description
-      props.additionalProperties = {
-        type: "string[]",
-        label: "Additional properties to retrieve",
-        optional: true,
-        options: async ({ page }) => {
-          if (page !== 0) {
-            return [];
-          }
-          const { results: properties } = await this.hubspot.getProperties({
-            objectType: this.customObjectType ?? this.objectType,
-          });
-          const defaultProperties = this.getDefaultProperties();
-          return properties
-            .filter(({ name }) => !defaultProperties.includes(name))
-            .map((property) => ({
-              label: property.label,
-              value: property.name,
-            }));
-        },
-      };
-    } catch {
-      props.additionalProperties = {
-        type: "string[]",
-        label: "Additional properties to retrieve",
-        optional: true,
-      };
-    }
-
-    let creationProps = {};
-    if (this.createIfNotFound && objectType) {
-      try {
-        const { results: properties } = await this.hubspot.getProperties({
-          objectType,
-        });
-        const relevantProperties = properties.filter(this.isRelevantProperty);
-        const propDefinitions = [];
-        for (const property of relevantProperties) {
-          propDefinitions.push(
-            await this.makePropDefinition(property, schema.requiredProperties),
-          );
-        }
-        creationProps = propDefinitions.reduce(
-          (props, {
-            name, ...definition
-          }) => {
-            props[name] = definition;
-            return props;
-          },
-          {},
-        );
-      } catch {
-        props.creationProps = {
-          type: "object",
-          label: "Object Properties",
-          description:
-            "A JSON object containing the object to create if not found",
-        };
-      }
-    }
-    return {
-      ...props,
-      ...creationProps,
-    };
-  },
   methods: {
-    ...common.methods,
-    getObjectType() {
-      return this.objectType;
-    },
     getDefaultProperties() {
       if (this.objectType === "contact") {
         return DEFAULT_CONTACT_PROPERTIES;
@@ -259,17 +142,6 @@ export default {
         return [];
       }
     },
-    async getCustomObjectTypes() {
-      const { results } = await this.hubspot.listSchemas();
-      return (
-        results?.map(({
-          fullyQualifiedName: value, labels,
-        }) => ({
-          value,
-          label: labels.plural,
-        })) || []
-      );
-    },
   },
   async run({ $ }) {
     const {
@@ -277,18 +149,24 @@ export default {
       objectType,
       customObjectType,
       additionalProperties = [],
+      fields,
+      limit,
       searchProperty,
       searchValue,
       exactMatch,
       offset,
-      /* eslint-disable no-unused-vars */
-      info,
       createIfNotFound,
       creationProps,
-      ...otherProperties
     } = this;
 
-    const actualObjectType = customObjectType ?? objectType;
+    if (objectType === "custom_object" && !customObjectType?.trim()) {
+      throw new ConfigurationError(
+        "**Custom Object Type** is required when **Object Type** is `custom_object`.",
+      );
+    }
+    const actualObjectType = objectType === "custom_object"
+      ? customObjectType
+      : objectType;
 
     const schema = await this.hubspot.getSchema({
       objectType: actualObjectType,
@@ -301,18 +179,25 @@ export default {
       );
     }
 
-    const properties = creationProps
-      ? typeof creationProps === "string"
-        ? JSON.parse(creationProps)
-        : creationProps
-      : otherProperties;
-
-    const defaultProperties = this.getDefaultProperties();
-    const data = {
-      properties: [
-        ...defaultProperties,
+    // `fields` (projection) overrides the default+additional set to trim payload;
+    // the search property is always included so post-filtering below still works.
+    const requestedProperties = fields?.length
+      ? [
+        ...fields,
+        searchProperty,
+      ]
+      : [
+        ...this.getDefaultProperties(),
         ...additionalProperties,
         searchProperty,
+      ];
+    const requestedLimit = Number.isFinite(limit)
+      ? limit
+      : DEFAULT_LIMIT;
+    const resolvedLimit = Math.min(Math.max(requestedLimit, 1), DEFAULT_LIMIT);
+    const data = {
+      properties: [
+        ...new Set(requestedProperties),
       ],
       sorts: [
         {
@@ -320,7 +205,7 @@ export default {
           direction: "DESCENDING",
         },
       ],
-      limit: DEFAULT_LIMIT,
+      limit: resolvedLimit,
       after: offset,
     };
 
@@ -352,6 +237,12 @@ export default {
     }
 
     if (!results?.length && createIfNotFound) {
+      const properties = parseObjectProperties(creationProps ?? {}, "Create Properties");
+      if (!Object.keys(properties).length) {
+        throw new ConfigurationError(
+          "**Create Properties** is required when **Create if not found?** is enabled and no match was found.",
+        );
+      }
       const response = await hubspot.createObject({
         $,
         objectType: actualObjectType,

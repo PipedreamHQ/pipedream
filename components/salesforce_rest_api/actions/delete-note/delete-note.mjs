@@ -10,7 +10,7 @@ export default {
     + " Use **Find Records** on `Note` or `ContentNote` to get the ID first."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_retrieve_delete.htm)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: true,
