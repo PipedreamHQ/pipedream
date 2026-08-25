@@ -5,7 +5,7 @@ export default {
   key: "slack_v2-verify-slack-signature",
   name: "Verify Slack Signature",
   description: "Verifying requests from Slack, slack signs its requests using a secret that's unique to your app. [See the documentation](https://api.slack.com/authentication/verifying-requests-from-slack)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -31,7 +31,7 @@ export default {
       description: "Slack request timestamp (from X-Slack-Request-Timestamp header).",
     },
     requestBody: {
-      type: "any",
+      type: "string",
       label: "Request Body",
       description: "The body of the request to be verified.",
     },
