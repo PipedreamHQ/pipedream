@@ -449,7 +449,7 @@ function findTextOccurrences(doc, needle, matchCase = false) {
   const starts = [];
 
   for (let i = 0; i + needle.length <= fullText.length; i++) {
-    const window = fullText.substr(i, needle.length);
+    const window = fullText.slice(i, i + needle.length);
     const candidate = matchCase
       ? window
       : window.toLowerCase();
