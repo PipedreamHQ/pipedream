@@ -58,6 +58,9 @@ export default {
     if (this.currencyCode !== undefined && !(hasAmount && hasInterval)) {
       throw new ConfigurationError("Currency code only applies to a spending restriction — also provide an amount and an interval, or omit the currency.");
     }
+    if (this.currencyCode !== undefined && this.currencyCode.trim() === "") {
+      throw new ConfigurationError("Currency code cannot be blank — provide a valid ISO 4217 code (e.g. `USD`), or omit it to default to USD.");
+    }
     const data = {};
     if (this.displayName !== undefined) {
       data.display_name = this.displayName;
@@ -66,7 +69,7 @@ export default {
       data.spending_restrictions = {
         limit: {
           amount: this.amount,
-          currency_code: this.currencyCode || "USD",
+          currency_code: this.currencyCode ?? "USD",
         },
         interval: this.interval,
       };
