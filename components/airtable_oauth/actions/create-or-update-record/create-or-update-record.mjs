@@ -8,7 +8,7 @@ export default {
   description: "Create a new record or update an existing one. [See the documentation](https://airtable.com/developers/web/api/create-records)",
   version: "0.2.0",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

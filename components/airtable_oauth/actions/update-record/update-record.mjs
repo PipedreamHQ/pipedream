@@ -8,7 +8,7 @@ export default {
   description: "Update a single record in a table by Record ID. [See the documentation](https://airtable.com/developers/web/api/update-record)",
   version: "0.1.0",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

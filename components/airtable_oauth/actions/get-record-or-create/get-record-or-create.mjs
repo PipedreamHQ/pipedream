@@ -6,11 +6,11 @@ export default {
   key: "airtable_oauth-get-record-or-create",
   name: "Get Record Or Create",
   description: "Get a specific record, or create one if it doesn't exist. [See the documentation](https://airtable.com/developers/web/api/create-records)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: true,
+    readOnlyHint: false,
   },
   type: "action",
   props: {
@@ -60,9 +60,9 @@ export default {
 
     if (recordId) {
       try {
-        return await commonActions.getRecord(this, $, true);
+        return await commonActions.getRecord(this, $);
       } catch (err) {
-        if (err.statusCode === 404) {
+        if (err.response?.status === 404) {
           return await commonActions.createRecord(this, $);
         } else {
           this.airtable.throwFormattedError(err);
