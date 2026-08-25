@@ -5,7 +5,7 @@ export default {
   key: "hubspot-list-meeting-links",
   name: "List Meeting Links",
   description: "List meeting scheduling pages for a HubSpot organizer. Returns a single page of results; use **Limit** to control the page size and check the `(of N total)` summary to see if more results exist beyond the page returned. [See the documentation](https://developers.hubspot.com/docs/api-reference/legacy/scheduler/guide#list-meeting-scheduling-pages)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
