@@ -16,7 +16,7 @@ export default {
     + " fetched — when you see that, raise `numPages` (or pass `cursor`) before answering"
     + " any 'how many' or 'list every' question, otherwise your answer is silently incomplete."
     + " [See the documentation](https://api.slack.com/methods/conversations.list)",
-  version: "0.2.2",
+  version: "0.3.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -93,11 +93,19 @@ export default {
     let page = 0;
     let nextCursor;
 
+    // namePrefix filters each page as it arrives (rather than accumulating the full
+    // workspace and filtering once at the end) so memory stays bounded by the match
+    // count, not the workspace size, on large workspaces.
+    const prefix = this.namePrefix?.toLowerCase();
+
     do {
       const {
         channels, response_metadata: metadata,
       } = await this.slack.conversationsList(params);
-      allChannels.push(...channels);
+      const pageChannels = prefix
+        ? channels.filter((c) => c.name?.toLowerCase().startsWith(prefix))
+        : channels;
+      allChannels.push(...pageChannels);
       nextCursor = metadata?.next_cursor;
       params.cursor = nextCursor;
       page++;
@@ -106,19 +114,11 @@ export default {
     // any page and would be silently missing if capped at numPages.
     } while (params.cursor && (this.namePrefix || page < this.numPages));
 
-    // Apply namePrefix filter BEFORE field projection so that `name` is always
-    // available during the comparison even when the caller omits it from `fields`.
-    let filtered = allChannels;
-    if (this.namePrefix) {
-      const prefix = this.namePrefix.toLowerCase();
-      filtered = allChannels.filter((c) => c.name?.toLowerCase().startsWith(prefix));
-    }
-
     // `fields` is ADDITIVE: omitted returns exactly what this action has always
     // returned, so existing workflows are unaffected. Supplied, it plucks per channel —
     // the difference between ~1KB and ~40 bytes per row, which is what decides whether
     // an agent receives the data or a "result too large" file path.
-    const channels = utils.projectFields(filtered, this.fields);
+    const channels = utils.projectFields(allChannels, this.fields);
 
     // Truncation must be VISIBLE. numPages defaults to 1, so the previous version
     // silently dropped every channel past the first page and the caller had no way to

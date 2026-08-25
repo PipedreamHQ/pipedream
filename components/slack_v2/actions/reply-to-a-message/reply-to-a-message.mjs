@@ -5,7 +5,14 @@ export default {
   ...common,
   key: "slack_v2-reply-to-a-message",
   name: "Reply to a Message Thread",
-  description: "Send a message as a threaded reply. [See the documentation](https://api.slack.com/methods/chat.postMessage)",
+  description:
+    "Send a message as a threaded reply to an existing message."
+    + " Use this when the reply should be nested under a specific message rather than posted"
+    + " as a new top-level message — for example, responding to a triggering event or"
+    + " continuing a discussion. Requires `thread_ts`, the parent message's timestamp"
+    + " (e.g. `1403051575.000407`); get it from **Get Channel History** or an incoming event's"
+    + " `ts` field. For a plain, non-threaded message use **Post Message** instead."
+    + " [See the documentation](https://api.slack.com/methods/chat.postMessage)",
   version: "0.2.7",
   annotations: {
     destructiveHint: false,

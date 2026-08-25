@@ -9,7 +9,7 @@ export default {
     "Send a message to a channel, user, or group."
     + " Accepts a channel ID (e.g. `C1234567890`) or channel name (e.g. `#general` or `general`) — names are resolved automatically."
     + " To post a note to yourself (save a personal note or reminder), pass your own user ID (e.g. `U1234567890`) as the Channel — use **Get Current User** to find your user ID first."
-    + " To reply to a thread, provide `thread_ts` from **Get Channel History**."
+    + " To reply to a thread, provide `threadTs` (Slack calls this `thread_ts`) from **Get Channel History**."
     + " Supports plain text with Slack mrkdwn formatting and Block Kit blocks."
     + " [See the documentation](https://api.slack.com/methods/chat.postMessage)",
   version: "0.0.4",

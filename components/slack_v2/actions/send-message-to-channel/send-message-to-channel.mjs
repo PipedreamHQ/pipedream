@@ -11,7 +11,7 @@ export default {
     + " replies and unfurl settings. Use this tool only if a workflow specifically needs to"
     + " target a channel exclusively, without the user/group support **Post Message** offers."
     + " [See the documentation](https://api.slack.com/methods/chat.postMessage)",
-  version: "0.1.8",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

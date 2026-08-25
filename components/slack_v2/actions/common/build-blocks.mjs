@@ -5,6 +5,23 @@ const SECTION_DESCRIPTION = "Add a **section** block to your message and configu
 const CONTEXT_DESCRIPTION = "Add a **context** block to your message and configure with plain text or mrkdwn. Define multiple items if you'd like multiple elements in the context block. See [Slack's docs](https://api.slack.com/reference/block-kit/blocks?ref=bk#context) for more info.";
 const LINK_BUTTON_DESCRIPTION = "Add a **link button** to your message. Enter the button text as the key and the link URL as the value. Example: `{\"View docs\": \"https://example.com\", \"Open dashboard\": \"https://app.example.com\"}`. Configure multiple buttons in the object to render them inline, or add additional Link Button blocks to render them vertically. See [Slack's docs](https://api.slack.com/reference/block-kit/blocks?ref=bk#actions) for more info.";
 
+const MAX_BLOCKS = 5;
+
+const buildIndexedProps = (prefix, label, type, description) =>
+  Object.fromEntries(
+    Array.from({
+      length: MAX_BLOCKS,
+    }, (_, i) => [
+      `${prefix}${i + 1}`,
+      {
+        type,
+        label: `${label} ${i + 1}`,
+        description,
+        optional: true,
+      },
+    ]),
+  );
+
 export default {
   props: {
     passArrayOrConfigure: {
@@ -29,96 +46,9 @@ export default {
         "blocks",
       ],
     },
-    section1: {
-      type: "string",
-      label: "Section Block 1",
-      description: SECTION_DESCRIPTION,
-      optional: true,
-    },
-    section2: {
-      type: "string",
-      label: "Section Block 2",
-      description: SECTION_DESCRIPTION,
-      optional: true,
-    },
-    section3: {
-      type: "string",
-      label: "Section Block 3",
-      description: SECTION_DESCRIPTION,
-      optional: true,
-    },
-    section4: {
-      type: "string",
-      label: "Section Block 4",
-      description: SECTION_DESCRIPTION,
-      optional: true,
-    },
-    section5: {
-      type: "string",
-      label: "Section Block 5",
-      description: SECTION_DESCRIPTION,
-      optional: true,
-    },
-    context1: {
-      type: "string[]",
-      label: "Context Block 1",
-      description: CONTEXT_DESCRIPTION,
-      optional: true,
-    },
-    context2: {
-      type: "string[]",
-      label: "Context Block 2",
-      description: CONTEXT_DESCRIPTION,
-      optional: true,
-    },
-    context3: {
-      type: "string[]",
-      label: "Context Block 3",
-      description: CONTEXT_DESCRIPTION,
-      optional: true,
-    },
-    context4: {
-      type: "string[]",
-      label: "Context Block 4",
-      description: CONTEXT_DESCRIPTION,
-      optional: true,
-    },
-    context5: {
-      type: "string[]",
-      label: "Context Block 5",
-      description: CONTEXT_DESCRIPTION,
-      optional: true,
-    },
-    linkButton1: {
-      type: "object",
-      label: "Link Button 1",
-      description: LINK_BUTTON_DESCRIPTION,
-      optional: true,
-    },
-    linkButton2: {
-      type: "object",
-      label: "Link Button 2",
-      description: LINK_BUTTON_DESCRIPTION,
-      optional: true,
-    },
-    linkButton3: {
-      type: "object",
-      label: "Link Button 3",
-      description: LINK_BUTTON_DESCRIPTION,
-      optional: true,
-    },
-    linkButton4: {
-      type: "object",
-      label: "Link Button 4",
-      description: LINK_BUTTON_DESCRIPTION,
-      optional: true,
-    },
-    linkButton5: {
-      type: "object",
-      label: "Link Button 5",
-      description: LINK_BUTTON_DESCRIPTION,
-      optional: true,
-    },
+    ...buildIndexedProps("section", "Section Block", "string", SECTION_DESCRIPTION),
+    ...buildIndexedProps("context", "Context Block", "string[]", CONTEXT_DESCRIPTION),
+    ...buildIndexedProps("linkButton", "Link Button", "object", LINK_BUTTON_DESCRIPTION),
   },
   methods: {
     createBlock(type, text) {
@@ -171,7 +101,7 @@ export default {
     if (this.passArrayOrConfigure === constants.PASS_ARRAY_OR_CONFIGURE_OPTIONS.ARRAY) {
       blocks = this.blocks;
     } else {
-      for (let i = 1; i <= 5; i++) {
+      for (let i = 1; i <= MAX_BLOCKS; i++) {
         if (this[`section${i}`]) {
           blocks.push(this.createBlock(constants.BLOCK_TYPES.SECTION, this[`section${i}`]));
         }
