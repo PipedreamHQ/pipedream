@@ -5,15 +5,22 @@ import {
 import common from "./base.mjs";
 import constants from "../../common/constants.mjs";
 
-// Gong makes a call queryable only once it has finished processing it, which
-// can be well after the time the call started, and `fromDateTime` filters on
-// that start time server-side. So a cursor that jumps straight to the newest
-// start time it has seen hides every call still being processed behind it, and
-// hides it permanently: no later poll ever asks for that range again. Holding
-// the cursor this far behind the present keeps those calls inside the next
-// poll's window instead. The calls that get read a second time as a result are
-// dropped by `dedupe: "unique"`.
-const PROCESSING_LAG_MS = 60 * 60 * 1000;
+// Gong makes a call queryable only once it has finished processing it, which is
+// well after the time the call started, and `fromDateTime` filters on that
+// start time server-side. So a cursor that jumps straight to the newest start
+// time it has seen hides every call still being processed behind it, and hides
+// it permanently: no later poll ever asks for that range again. Holding the
+// cursor behind the present keeps those calls inside the next poll's window
+// instead. The calls that get read a second time as a result are dropped by
+// `dedupe: "unique"`.
+//
+// The window has to span a whole call and not just the processing that follows
+// it, because the filter is on the start time while processing only begins at
+// the end. Two hours covers an hour-long call plus the hour that processing is
+// generally quoted at; a workspace whose calls run longer, or whose processing
+// is slower, can widen it.
+const HOUR_MS = 60 * 60 * 1000;
+const DEFAULT_PROCESSING_LOOKBACK_HOURS = 2;
 
 export default {
   ...common,
@@ -26,6 +33,14 @@ export default {
       default: {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
+    },
+    processingLookbackHours: {
+      type: "integer",
+      label: "Processing Lookback (Hours)",
+      description: "How far behind the present to hold the polling cursor. Gong lists calls by the time they started but only returns one once it has finished processing it, so a call whose processing finishes late is skipped for good unless the cursor is still behind it. This window has to cover the length of a call plus the processing that follows it. Raise it if calls are being missed; lower it on a workspace that records more calls in this window than a single poll can read.",
+      optional: true,
+      min: 1,
+      default: DEFAULT_PROCESSING_LOOKBACK_HOURS,
     },
   },
   methods: {
@@ -44,7 +59,9 @@ export default {
         return previous;
       }
 
-      const held = Math.min(newestMs, Date.now() - PROCESSING_LAG_MS);
+      const lookbackMs = (this.processingLookbackHours
+        || DEFAULT_PROCESSING_LOOKBACK_HOURS) * HOUR_MS;
+      const held = Math.min(newestMs, Date.now() - lookbackMs);
       const previousMs = Date.parse(previous);
 
       // Never hand back a cursor older than the one already stored: an account
