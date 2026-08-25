@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import {
   MESSAGE_TYPE_OPTIONS,
   TYPE_OPTIONS,
@@ -26,7 +27,7 @@ export default {
     messageType: {
       type: "string",
       label: "Message Type",
-      description: "The kind of message being created, which determines the operation performed on the conversation.",
+      description: "The kind of message being created, which determines the operation performed on the conversation. Use `close` to close it, `snoozed` to snooze it, `open` to reopen it, or `assignment` to assign it.",
       options: MESSAGE_TYPE_OPTIONS,
     },
     adminId: {
@@ -97,6 +98,27 @@ export default {
       teamAssigneeId,
     } = this;
 
+    let snoozedUntilTimestamp;
+    if (snoozedUntil) {
+      const parsed = Date.parse(snoozedUntil);
+      if (Number.isNaN(parsed)) {
+        throw new ConfigurationError("`Snoozed Until` must be a valid ISO 8601 timestamp");
+      }
+      snoozedUntilTimestamp = parsed / 1000;
+    }
+
+    if (messageType === "assignment") {
+      if (type !== "admin" && type !== "team") {
+        throw new ConfigurationError("`Type` must be `admin` or `team` when `Message Type` is `assignment`");
+      }
+      if (type === "admin" && assigneeId === undefined) {
+        throw new ConfigurationError("`Assignee ID` is required when `Type` is `admin`");
+      }
+      if (type === "team" && teamAssigneeId === undefined) {
+        throw new ConfigurationError("`Team Assignee ID` is required when `Type` is `team`");
+      }
+    }
+
     const response = await manageConversation({
       $,
       conversationId,
@@ -107,7 +129,7 @@ export default {
         type: messageType === "close"
           ? "admin"
           : type,
-        snoozed_until: snoozedUntil && Date.parse(snoozedUntil) / 1000,
+        snoozed_until: snoozedUntilTimestamp,
         // A team assignment carries the team's id in `assignee_id`; the admin and
         // team ids come from different props because they list different options.
         assignee_id: type === "team"
