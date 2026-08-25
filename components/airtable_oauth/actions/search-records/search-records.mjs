@@ -7,7 +7,7 @@ import {
 export default {
   key: "airtable_oauth-search-records",
   name: "Search Records",
-  description: "Search for a record by formula or by field value. [See the documentation](https://airtable.com/developers/web/api/list-records)",
+  description: "Find records in a table using an Airtable formula, or a **Search Field** + **Search Value** pair. **Search Formula** takes precedence when provided; otherwise, **Search Field** and **Search Value** must both be set. Use the **List Tables** action first to look up the table's field names. [See the documentation](https://airtable.com/developers/web/api/list-records)",
   version: "1.0.0",
   annotations: {
     destructiveHint: false,
@@ -67,15 +67,21 @@ export default {
           ? 1
           : 0}`;
       }
-      case "integer":
-        return `{${this.fieldName}} = ${this.value}`;
+      case "integer": {
+        const numericValue = Number(this.value);
+        if (!Number.isFinite(numericValue)) {
+          throw new ConfigurationError(`Invalid value "${this.value}" for numeric field "${this.fieldName}". Use a number.`);
+        }
+        return `{${this.fieldName}} = ${numericValue}`;
+      }
       default:
         return `{${this.fieldName}} = "${escapeFormulaString(this.value)}"`;
       }
     },
   },
   async run({ $ }) {
-    if (!this.searchFormula && !(this.fieldName && this.value)) {
+    const hasValue = this.value !== undefined && this.value !== null && this.value !== "";
+    if (!this.searchFormula && !(this.fieldName && hasValue)) {
       throw new ConfigurationError("Provide either Search Formula, or both Search Field and Search Value.");
     }
 
