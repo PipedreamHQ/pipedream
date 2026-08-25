@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import attio from "../../attio.app.mjs";
 import constants from "../../common/constants.mjs";
 
@@ -46,6 +47,15 @@ export default {
       values,
     } = this;
 
+    let parsedValues;
+    try {
+      parsedValues = typeof values === "string"
+        ? JSON.parse(values)
+        : values;
+    } catch (error) {
+      throw new ConfigurationError(`Values is not valid JSON: ${error.message}`);
+    }
+
     const response = await attio.upsertRecord({
       $,
       objectId,
@@ -54,9 +64,7 @@ export default {
       },
       data: {
         data: {
-          values: typeof values === "string"
-            ? JSON.parse(values)
-            : values,
+          values: parsedValues,
         },
       },
     });
