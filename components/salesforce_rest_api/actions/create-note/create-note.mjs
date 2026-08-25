@@ -5,14 +5,10 @@ import { NOTE_INFO_PROP } from "../../common/props-info.mjs";
 
 const docsLink = "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_note.htm";
 
-/* eslint-disable no-unused-vars */
-const {
-  useAdvancedProps, ...props
-} = getProps({
+const props = getProps({
   objType: note,
   docsLink,
 });
-/* eslint-enable no-unused-vars */
 
 export default {
   ...common,
@@ -23,13 +19,16 @@ export default {
     + " Use **Find Records** to get the parent record ID first."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.3.8",
+  version: "0.3.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  methods: {
+    ...common.methods,
+  },
   props: {
     noteInfo: NOTE_INFO_PROP,
     ...props,
@@ -38,15 +37,20 @@ export default {
     /* eslint-disable no-unused-vars */
     const {
       salesforce,
-      getAdvancedProps,
       getAdditionalFields,
       formatDateTimeProps,
-      docsInfo, noteInfo, ...data
+      docsInfo,
+      noteInfo,
+      additionalFields,
+      ...data
     } = this;
     /* eslint-enable no-unused-vars */
     const response = await salesforce.createRecord("Note", {
       $,
-      data,
+      data: {
+        ...data,
+        ...getAdditionalFields(),
+      },
     });
     $.export("$summary", `Successfully created note "${this.Title}"`);
     return response;

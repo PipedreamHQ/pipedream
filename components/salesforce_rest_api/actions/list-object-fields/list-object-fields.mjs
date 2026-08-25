@@ -9,7 +9,7 @@ export default {
     + " Use **Describe Object** instead when you also need field types, required flags and picklist values."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_sobject_describe.htm)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,

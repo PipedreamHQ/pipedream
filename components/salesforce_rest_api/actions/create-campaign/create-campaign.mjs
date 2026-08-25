@@ -13,7 +13,7 @@ export default {
     + " For example, `Name: \"Summer 2026 Webinar\"` creates the campaign and returns its ID."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.3.7",
+  version: "0.3.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -22,32 +22,20 @@ export default {
   type: "action",
   methods: {
     ...common.methods,
-    getObjectType() {
-      return "Campaign";
-    },
-    getAdvancedProps() {
-      return campaign.extraProps;
-    },
   },
   props: getProps({
     objType: campaign,
     docsLink,
-    showDateInfo: true,
   }),
   async run({ $ }) {
     /* eslint-disable no-unused-vars, max-len */
     const {
       salesforce,
-      getAdvancedProps,
-      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
-      useAdvancedProps,
       docsInfo,
       dateInfo,
       additionalFields,
-      StartDate,
-      EndDate,
       ...data
     } = this;
     /* eslint-enable no-unused-vars, max-len */
@@ -55,10 +43,6 @@ export default {
       $,
       data: {
         ...data,
-        ...formatDateTimeProps({
-          StartDate,
-          EndDate,
-        }),
         ...getAdditionalFields(),
       },
     });

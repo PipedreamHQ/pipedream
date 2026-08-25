@@ -13,7 +13,7 @@ export default {
     + " Use **Add Lead to Campaign** afterwards to attribute the lead to a campaign."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.3.7",
+  version: "0.4.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -22,12 +22,6 @@ export default {
   type: "action",
   methods: {
     ...common.methods,
-    getObjectType() {
-      return "Lead";
-    },
-    getAdvancedProps() {
-      return lead.extraProps;
-    },
   },
   props: getProps({
     objType: lead,
@@ -37,13 +31,9 @@ export default {
     /* eslint-disable no-unused-vars */
     const {
       salesforce,
-      getAdvancedProps,
-      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
-      useAdvancedProps,
       docsInfo,
-      dateInfo,
       additionalFields,
       ...data
     } = this;
