@@ -1,17 +1,17 @@
+// x-pd-ai: optimized
 import common from "../common/worksheet.mjs";
-import {
-  parseArray, getWorksheetHeaders,
-} from "../../common/utils.mjs";
+import { parseArray } from "../../common/utils.mjs";
+
 const { googleSheets } = common.props;
 
 export default {
   ...common,
   key: "google_sheets-update-multiple-rows",
   name: "Update Multiple Rows",
-  description: "Update multiple rows in a spreadsheet defined by a range. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)",
-  version: "0.1.19",
+  description: "Overwrite a contiguous block of cells in a Google Sheet, defined by an A1 range. Provide `range` WITHOUT the worksheet name — just the cells, e.g. `A2:C3` (the tool prepends the worksheet automatically; passing `Sheet1!A2:C3` will fail). Provide `rows` as a JSON array of arrays matching the range, each inner array a row in column order (e.g. range `A2:C3` with `[[\"Alice\",\"alice@ingen.test\",\"Active\"],[\"Bob\",\"bob@ingen.test\",\"Active\"]]`). Use **Read Rows** to see current values and **Get Spreadsheet Info** for the column order. This overwrites the range in place; to insert rows and shift others down, use **Add Single Row**. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)",
+  version: "0.2.0",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -23,8 +23,7 @@ export default {
         googleSheets,
         "watchedDrive",
       ],
-      description:
-        "The drive containing the worksheet to update. If you are connected with any [Google Shared Drives](https://support.google.com/a/users/answer/9310351), you can select it here.",
+      description: "The drive containing the worksheet to update. If you are connected with any [Google Shared Drives](https://support.google.com/a/users/answer/9310351), you can select it here.",
     },
     sheetId: {
       propDefinition: [
@@ -43,13 +42,6 @@ export default {
         (c) => ({
           sheetId: c.sheetId,
         }),
-      ],
-      reloadProps: true,
-    },
-    headersDisplay: {
-      propDefinition: [
-        googleSheets,
-        "headersDisplay",
       ],
     },
     range: {
@@ -71,26 +63,7 @@ export default {
       ],
     },
   },
-  async additionalProps() {
-    const props = {};
-    if (!this.sheetId || !this.worksheetId) {
-      return props;
-    }
-    const worksheet = await this.getWorksheetById(this.sheetId, this.worksheetId);
-    const rowHeaders = await getWorksheetHeaders(this, this.sheetId, worksheet?.properties?.title);
-    if (rowHeaders.length) {
-      return {
-        headersDisplay: {
-          type: "alert",
-          alertType: "info",
-          content: `Possible Row Headers: **\`${rowHeaders.join(", ")}\`**`,
-          hidden: false,
-        },
-      };
-    }
-    return props;
-  },
-  async run() {
+  async run({ $ }) {
     let inputValidated = true;
 
     const rows = parseArray(this.rows);
@@ -105,7 +78,6 @@ export default {
       });
     }
 
-    // Throw an error if input validation failed
     if (!inputValidated) {
       console.error("Data Submitted:");
       console.error(rows);
@@ -123,6 +95,8 @@ export default {
         values: rows,
       },
     };
-    return await this.googleSheets.updateSpreadsheet(request);
+    const response = await this.googleSheets.updateSpreadsheet(request);
+    $.export("$summary", `Successfully updated ${rows.length} row(s) in the spreadsheet.`);
+    return response;
   },
 };
