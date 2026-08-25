@@ -18,7 +18,7 @@ export default {
   key: "hubspot-search-crm",
   name: "Search CRM",
   description:
-    "Search a CRM object type by a single property. Set **Object Type**, **Search Property** (internal name, e.g. `email` or `dealname`; use **Get Properties** / **Search Properties** to find valid names), and **Search Value**. With **Exact Match** off, partial (substring) matches are returned. Results are capped per call — if `paging.next` is present in the response, call again with **Offset** advanced to fetch the next page. Example: Object Type `deal`, Search Property `dealname`, Search Value `InGen Annual Contract`. Returns matching records plus paging. [See the documentation](https://developers.hubspot.com/docs/api/crm/search)",
+    "Search a CRM object type by a single property. Set **Object Type**, **Search Property** (internal name, e.g. `email` or `dealname`; use **Get Properties** / **Search Properties** to find valid names), and **Search Value**. With **Exact Match** off, partial (substring) matches are returned. Results are capped per call — if `paging.next` is present in the response, call again with **Offset** advanced to fetch the next page. Example: Object Type `deal`, Search Property `dealname`, Search Value `InGen Annual Contract`. Returns matching records plus paging. For lookups, keep results small with **Limit** and **Fields** (return only the properties you need). [See the documentation](https://developers.hubspot.com/docs/api/crm/search)",
   version: "2.0.0",
   annotations: {
     destructiveHint: false,
@@ -78,6 +78,26 @@ export default {
         + "(e.g. `[\"amount\", \"dealstage\"]`). Use **Get Properties** to discover valid names.",
       optional: true,
     },
+    fields: {
+      type: "string[]",
+      label: "Fields (projection)",
+      description:
+        "Return ONLY these internal property names per record, instead of the full default set. "
+        + "Use this to keep results small when you only need a few fields (e.g. `[\"dealname\", \"amount\"]`). "
+        + "Overrides **Additional properties to retrieve**. The **Search Property** is always included.",
+      optional: true,
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description:
+        "Maximum number of records to return (1–200). Lower it for lookups where you only need a few "
+        + "matches, to avoid large results. Defaults to 200.",
+      min: 1,
+      max: 200,
+      default: DEFAULT_LIMIT,
+      optional: true,
+    },
     createIfNotFound: {
       type: "boolean",
       label: "Create if not found?",
@@ -129,6 +149,8 @@ export default {
       objectType,
       customObjectType,
       additionalProperties = [],
+      fields,
+      limit,
       searchProperty,
       searchValue,
       exactMatch,
@@ -157,12 +179,25 @@ export default {
       );
     }
 
-    const defaultProperties = this.getDefaultProperties();
-    const data = {
-      properties: [
-        ...defaultProperties,
+    // `fields` (projection) overrides the default+additional set to trim payload;
+    // the search property is always included so post-filtering below still works.
+    const requestedProperties = fields?.length
+      ? [
+        ...fields,
+        searchProperty,
+      ]
+      : [
+        ...this.getDefaultProperties(),
         ...additionalProperties,
         searchProperty,
+      ];
+    const requestedLimit = Number.isFinite(limit)
+      ? limit
+      : DEFAULT_LIMIT;
+    const resolvedLimit = Math.min(Math.max(requestedLimit, 1), DEFAULT_LIMIT);
+    const data = {
+      properties: [
+        ...new Set(requestedProperties),
       ],
       sorts: [
         {
@@ -170,7 +205,7 @@ export default {
           direction: "DESCENDING",
         },
       ],
-      limit: DEFAULT_LIMIT,
+      limit: resolvedLimit,
       after: offset,
     };
 
