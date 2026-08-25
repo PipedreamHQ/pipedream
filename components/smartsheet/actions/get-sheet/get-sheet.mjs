@@ -13,7 +13,7 @@ export default {
     + " Returns rows with cell values keyed by column name for readability."
     + " For a lightweight column-only view, use **List Columns** instead."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/getsheet)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -25,7 +25,7 @@ export default {
     sheetId: {
       type: "string",
       label: "Sheet ID or URL",
-      description: "The numeric ID of the sheet to retrieve, or a Smartsheet sheet URL (e.g. `https://app.smartsheet.com/sheets/abc123`), which is resolved to the ID for you. Use **Search** to find a sheet by name, or **List Sheets** to enumerate them.",
+      description: "The numeric ID of the sheet to retrieve (e.g. `1234567890123456`), or a Smartsheet sheet URL (e.g. `https://app.smartsheet.com/sheets/abc123`), which is resolved to the ID for you. Use **Search** to find a sheet by name, or **List Sheets** to enumerate them.",
     },
     rowIds: {
       type: "string",

@@ -1,6 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
 import { MAX_CONCURRENT_REQUESTS } from "./constants.mjs";
 
+const ROW_IDS_TOKENS = /^[1-9]\d*(\s*,\s*[1-9]\d*)*$/;
 const ROW_IDS_ERROR = "`Row IDs` must be a comma-separated list of positive integer row IDs or a JSON array of positive integers.";
 
 // Smartsheet IDs are 16-digit integers, and the largest on a live account already sits at
@@ -42,21 +43,17 @@ export async function mapWithConcurrency(items, fn, limit = MAX_CONCURRENT_REQUE
 }
 
 export function parseRowIds(raw) {
-  if (typeof raw !== "string" || !raw.trim()) {
-    throw new ConfigurationError(ROW_IDS_ERROR);
-  }
+  const trimmed = String(raw ?? "").trim();
   // Deliberately not JSON.parse: parsing `[9876543210987655]` would round the ID to an
   // adjacent value before it could be inspected. Both accepted shapes (a JSON array and a
-  // comma-separated list) are read as literal digit tokens instead.
-  const tokens = raw
-    .trim()
-    .replace(/^\[/, "")
-    .replace(/\]$/, "")
-    .split(",")
-    .map((id) => id.trim())
-    .filter(Boolean);
-  if (!tokens.length || tokens.some((id) => !/^[1-9]\d*$/.test(id))) {
+  // comma-separated list) are read as literal digit tokens instead, and the whole input is
+  // validated before it is split so a half-formed list like `[1,2` is rejected rather than
+  // silently repaired.
+  const inner = trimmed.startsWith("[") && trimmed.endsWith("]")
+    ? trimmed.slice(1, -1).trim()
+    : trimmed;
+  if (!ROW_IDS_TOKENS.test(inner)) {
     throw new ConfigurationError(ROW_IDS_ERROR);
   }
-  return tokens;
+  return inner.split(",").map((id) => id.trim());
 }

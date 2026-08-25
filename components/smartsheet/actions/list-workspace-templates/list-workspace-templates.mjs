@@ -11,7 +11,7 @@ export default {
     + " When no workspace is set, a workspace that fails to traverse is skipped rather than failing the call,"
     + " so a successful response can be incomplete."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/workspaces/get-workspace-children)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,

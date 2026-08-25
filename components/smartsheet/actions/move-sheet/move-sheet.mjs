@@ -12,7 +12,7 @@ export default {
     + " Use **List Sheets** to find the sheet ID."
     + " To copy a sheet instead (keeping the original), use **Copy Sheet**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/move-sheet)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -24,7 +24,7 @@ export default {
     sheetId: {
       type: "string",
       label: "Sheet ID",
-      description: "The ID of the sheet to move. Use **List Sheets** to find sheet IDs.",
+      description: "The ID of the sheet to move (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs.",
     },
     destinationType: {
       type: "string",
@@ -35,7 +35,7 @@ export default {
     destinationId: {
       type: "string",
       label: "Destination ID",
-      description: "The numeric ID of the destination workspace or folder. Required when Destination Type is `workspace` or `folder`, and not needed for `home`. Use **List Workspace Options** for workspace IDs or **List Folder Options** for folder IDs.",
+      description: "The numeric ID of the destination workspace or folder (e.g. `1234567890123456`). Required when Destination Type is `workspace` or `folder`, and not needed for `home`. Use **List Workspace Options** for workspace IDs or **List Folder Options** for folder IDs.",
       optional: true,
     },
   },

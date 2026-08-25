@@ -11,7 +11,7 @@ export default {
     + " Use **List Columns** to find the column ID and current properties before updating."
     + " Note: some type conversions may cause data loss."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/columns/column-updatecolumn)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: true,
@@ -23,7 +23,7 @@ export default {
     sheetId: {
       type: "string",
       label: "Sheet ID",
-      description: "The ID of the sheet containing the column. Use **List Sheets** to find sheet IDs.",
+      description: "The ID of the sheet containing the column (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs.",
     },
     columnId: {
       type: "string",

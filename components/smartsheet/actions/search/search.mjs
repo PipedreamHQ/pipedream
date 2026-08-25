@@ -15,7 +15,7 @@ export default {
     + " Searching by a sheet URL does not work - the URL token is not indexed text; pass the URL to **Get Sheet** instead,"
     + " which resolves it for you."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/search/list-search)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -32,7 +32,7 @@ export default {
     sheetId: {
       type: "string",
       label: "Sheet ID",
-      description: "Optional - scope the search to a single sheet. Use **List Sheets** to find sheet IDs. If omitted, searches all sheets.",
+      description: "Optional - scope the search to a single sheet (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs. If omitted, searches all sheets.",
       optional: true,
     },
   },

@@ -10,7 +10,7 @@ export default {
     + " Note this walks every workspace's children, so it is slow on large accounts, and a workspace that fails to"
     + " traverse is skipped rather than failing the call - a successful response can be incomplete."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/workspaces/get-workspace-children)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   annotations: {
     destructiveHint: false,

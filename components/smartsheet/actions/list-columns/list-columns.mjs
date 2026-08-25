@@ -10,7 +10,7 @@ export default {
     + " Use this before **Add Row to Sheet** or **Update Row** to discover column names and types."
     + " For full sheet data including rows, use **Get Sheet** instead."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/columns/columns-listonsheet)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -22,12 +22,12 @@ export default {
     sheetId: {
       type: "string",
       label: "Sheet ID",
-      description: "The ID of the sheet. Use **List Sheets** to find sheet IDs.",
+      description: "The ID of the sheet (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs.",
     },
     level: {
       type: "integer",
       label: "Level",
-      description: "Response format for multi-value columns. At the default level 0 a MULTI_PICKLIST or MULTI_CONTACT_LIST column is reported as TEXT_NUMBER for backwards compatibility, so pass `2` when you need the real column type. Pair it with `objectValue` in Include to get structured cell values.",
+      description: "Response format for multi-value columns. At the default level 0 a MULTI_PICKLIST or MULTI_CONTACT_LIST column is reported as TEXT_NUMBER for backwards compatibility, so pass `2` when you need the real column type.",
       options: [
         0,
         1,

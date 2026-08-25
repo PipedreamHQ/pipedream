@@ -11,7 +11,7 @@ export default {
   description:
     "Move rows from one sheet to another. WARNING: the rows are permanently removed from the source sheet. Cell values and formatting always come across; attachments and comments only if you ask for them via Include. Columns the destination sheet is missing are created automatically, so it does not have to match the source first. Returns `rowMappings` pairing each source row ID with its new ID in the destination. To keep the originals, use **Copy Rows**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/move-rows)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   annotations: {
     destructiveHint: true,
@@ -41,7 +41,7 @@ export default {
     include: {
       type: "string[]",
       label: "Include",
-      description: "Extra elements to carry across. Without this, only cell values and formatting are moved; attachments and comments are not. Move supports fewer values than Copy Rows does: `children` and `all` are not defined for this endpoint and are silently ignored if sent.",
+      description: "Extra elements to carry across. Without this, only cell values and formatting are moved; attachments and comments are not. Move Rows supports only `attachments` and `discussions` - the `children` and `all` values that **Copy Rows** accepts are not available for this endpoint.",
       options: ROW_MOVE_INCLUDE_OPTIONS,
       optional: true,
     },

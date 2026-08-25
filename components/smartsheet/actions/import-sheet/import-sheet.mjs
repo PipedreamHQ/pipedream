@@ -12,7 +12,7 @@ export default {
     + " Returns the new sheet under `result`, including its ID and permalink."
     + " To create a sheet by defining columns yourself instead, use **Create Sheet**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/imports/import-sheet-into-workspace)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -47,13 +47,13 @@ export default {
     workspaceId: {
       type: "string",
       label: "Workspace ID",
-      description: "Import into this workspace. Provide either Workspace ID or Folder ID (at least one is required). Use **List Workspace Options** to find workspace IDs.",
+      description: "Import into this workspace (e.g. `1234567890123456`). Provide either Workspace ID or Folder ID (at least one is required). Use **List Workspace Options** to find workspace IDs.",
       optional: true,
     },
     folderId: {
       type: "string",
       label: "Folder ID",
-      description: "Import into this folder. Provide either Workspace ID or Folder ID (at least one is required). Use **List Folder Options** with a workspace ID to find folder IDs.",
+      description: "Import into this folder (e.g. `9876543210987654`). Provide either Workspace ID or Folder ID (at least one is required). Use **List Folder Options** with a workspace ID to find folder IDs.",
       optional: true,
     },
   },

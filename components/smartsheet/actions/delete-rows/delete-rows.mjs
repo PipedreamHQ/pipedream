@@ -9,7 +9,7 @@ export default {
     "Delete one or more rows from a sheet by row ID. This is permanent and cannot be undone."
     + " Use **Get Sheet** or **Search** to find row IDs first."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/delete-rows)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: true,
@@ -21,7 +21,7 @@ export default {
     sheetId: {
       type: "string",
       label: "Sheet ID",
-      description: "The ID of the sheet containing the rows. Use **List Sheets** to find sheet IDs.",
+      description: "The ID of the sheet containing the rows (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs.",
     },
     rowIds: {
       type: "string",

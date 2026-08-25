@@ -36,7 +36,9 @@ export const SHEET_INCLUDE_OPTIONS = [
 // Sheet permalinks look like `https://app.smartsheet.com/sheets/<token>`, where the
 // token is opaque and is NOT the numeric sheet ID. Resolving one to an ID means
 // matching the permalink returned by List Sheets.
-export const SHEET_URL_PATTERN = /^https?:\/\/[^/]*smartsheet\.com\//i;
+// The hostname boundary matters: `[^/]*smartsheet\.com` also matched `evilsmartsheet.com`,
+// which resolveSheetId would then treat as a Smartsheet sheet URL.
+export const SHEET_URL_PATTERN = /^https?:\/\/(?:[^/]+\.)?smartsheet\.com(?::\d+)?(?:\/|$)/i;
 
 // DATETIME is deliberately absent: it is reserved for system columns, and asking for it
 // returns an ABSTRACT_DATETIME column instead of erroring (verified live), so offering it

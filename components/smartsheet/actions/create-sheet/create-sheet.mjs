@@ -11,7 +11,7 @@ export default {
     + " To create a sheet from an existing template instead of defining columns, use **New Sheet From Template**."
     + " To load a sheet from a CSV or XLSX file, use **Import Sheet**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/create-sheet-in-workspace)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -38,13 +38,13 @@ export default {
     workspaceId: {
       type: "string",
       label: "Workspace ID",
-      description: "Place the sheet in this workspace. Provide either this or Folder ID, not both; at least one is required because the home-level create endpoint is deprecated. Use **List Workspace Options** to find workspace IDs.",
+      description: "Place the sheet in this workspace (e.g. `1234567890123456`). Provide either this or Folder ID, not both; at least one is required because the home-level create endpoint is deprecated. Use **List Workspace Options** to find workspace IDs.",
       optional: true,
     },
     folderId: {
       type: "string",
       label: "Folder ID",
-      description: "Place the sheet in this folder. Provide either Workspace ID or Folder ID (at least one is required). Use **List Folder Options** with a workspace ID to find folder IDs.",
+      description: "Place the sheet in this folder (e.g. `9876543210987654`). Provide either Workspace ID or Folder ID (at least one is required). Use **List Folder Options** with a workspace ID to find folder IDs.",
       optional: true,
     },
   },

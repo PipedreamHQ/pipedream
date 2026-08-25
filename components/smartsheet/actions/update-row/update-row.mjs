@@ -12,7 +12,7 @@ export default {
     + " Call **Get Sheet** to find row IDs and column names first."
     + " To add new rows instead of changing existing ones, use **Add Row to Sheet**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/update-rows)",
-  version: "1.2.0",
+  version: "1.2.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -24,7 +24,7 @@ export default {
     sheetId: {
       type: "string",
       label: "Sheet ID",
-      description: "The ID of the sheet containing the rows. Use **List Sheets** to find sheet IDs.",
+      description: "The ID of the sheet containing the rows (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs.",
     },
     rows: {
       type: "string",

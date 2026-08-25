@@ -14,7 +14,7 @@ export default {
     + " Use **List Columns** to see the existing columns and their positions first."
     + " To change a column that already exists, use **Update Column**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/columns/columns-addtosheet)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -26,7 +26,7 @@ export default {
     sheetId: {
       type: "string",
       label: "Sheet ID",
-      description: "The ID of the sheet to add a column to. Use **List Sheets** to find sheet IDs.",
+      description: "The ID of the sheet to add a column to (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs.",
     },
     title: {
       type: "string",
