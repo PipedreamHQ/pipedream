@@ -4,6 +4,39 @@ import app from "../../bigcommerce.app.mjs";
 import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
 
+// BigCommerce declares these fields as `type: number` / `format: float`, so they
+// must accept decimals. There is no float prop type, so they are declared as
+// `string` and coerced back to numbers before the request is sent.
+const DECIMAL_FIELDS = [
+  "weight",
+  "width",
+  "depth",
+  "height",
+  "price",
+  "cost_price",
+  "retail_price",
+  "sale_price",
+  "fixed_cost_shipping_price",
+];
+
+const toNumber = (fieldName, value) => {
+  const number = Number(value);
+  if (Number.isNaN(number)) {
+    throw new ConfigurationError(`${fieldName}: \`${value}\` is not a valid number`);
+  }
+  return number;
+};
+
+const coerceDecimalFields = (data) => Object.fromEntries(Object.entries(data).map(([
+  key,
+  value,
+]) => [
+  key,
+  DECIMAL_FIELDS.includes(key) && value !== undefined && value !== null && value !== ""
+    ? toNumber(key, value)
+    : value,
+]));
+
 export default {
   props: {
     app,
@@ -37,57 +70,57 @@ export default {
       optional: true,
     },
     weight: {
-      type: "any",
+      type: "string",
       label: "Weight",
       description:
-          "Weight of the product, which can be used when calculating shipping costs. This is based on the unit set on the store >= 0 and <= 9999999999",
+          "Weight of the product, which can be used when calculating shipping costs. This is based on the unit set on the store >= 0 and <= 9999999999. Accepts decimal values, e.g. `19.99`.",
     },
     width: {
-      type: "any",
+      type: "string",
       label: "Width",
       description:
-          "Width of the product, which can be used when calculating shipping costs. >= 0 and <= 9999999999",
+          "Width of the product, which can be used when calculating shipping costs. >= 0 and <= 9999999999. Accepts decimal values, e.g. `19.99`.",
       optional: true,
     },
     depth: {
-      type: "any",
+      type: "string",
       label: "Depth",
       description:
-          "Depth of the product, which can be used when calculating shipping costs. >= 0 and <= 9999999999",
+          "Depth of the product, which can be used when calculating shipping costs. >= 0 and <= 9999999999. Accepts decimal values, e.g. `19.99`.",
       optional: true,
     },
     height: {
-      type: "any",
+      type: "string",
       label: "Height",
       description:
-          "Height of the product, which can be used when calculating shipping costs. >= 0 and <= 9999999999",
+          "Height of the product, which can be used when calculating shipping costs. >= 0 and <= 9999999999. Accepts decimal values, e.g. `19.99`.",
       optional: true,
     },
     price: {
-      type: "any",
+      type: "string",
       label: "Price",
       description:
-          "The price of the product. The price should include or exclude tax, based on the store settings. >= 0",
+          "The price of the product. The price should include or exclude tax, based on the store settings. >= 0. Accepts decimal values, e.g. `19.99`.",
     },
     cost_price: {
-      type: "any",
+      type: "string",
       label: "Cost Price",
       description:
-          "The cost price of the product. Stored for reference only; it is not used or displayed anywhere on the store. >=0",
+          "The cost price of the product. Stored for reference only; it is not used or displayed anywhere on the store. >=0. Accepts decimal values, e.g. `19.99`.",
       optional: true,
     },
     retail_price: {
-      type: "any",
+      type: "string",
       label: "Retail Price",
       description:
-          "The retail cost of the product. If entered, the retail cost price will be shown on the product page. >=0",
+          "The retail cost of the product. If entered, the retail cost price will be shown on the product page. >=0. Accepts decimal values, e.g. `19.99`.",
       optional: true,
     },
     sale_price: {
-      type: "any",
+      type: "string",
       label: "Sale Price",
       description:
-          "If entered, the sale price will be used instead of value in the price field when calculating the product's cost. >=0",
+          "If entered, the sale price will be used instead of value in the price field when calculating the product's cost. >=0. Accepts decimal values, e.g. `19.99`.",
       optional: true,
     },
     map_price: {
@@ -179,10 +212,10 @@ export default {
       ],
     },
     fixed_cost_shipping_price: {
-      type: "any",
+      type: "string",
       label: "Fixed cost shipping price",
       description:
-          "A fixed shipping cost for the product. If defined, this value will be used during checkout instead of normal shipping-cost calculation. >= 0",
+          "A fixed shipping cost for the product. If defined, this value will be used during checkout instead of normal shipping-cost calculation. >= 0. Accepts decimal values, e.g. `19.99`.",
       optional: true,
     },
     is_free_shipping: {
@@ -469,7 +502,7 @@ export default {
       optional: true,
     },
     reviews_rating_sum: {
-      type: "any",
+      type: "integer",
       label: "Reviews rating sum",
       description: "The total rating for the product.",
       optional: true,
@@ -525,7 +558,7 @@ export default {
     const args = getRequestFnArgs({
       $,
       data: {
-        ...data,
+        ...coerceDecimalFields(data),
         images: imageUrls
           .map((imageUrl, idx) => ({
             image_url: imageUrl,

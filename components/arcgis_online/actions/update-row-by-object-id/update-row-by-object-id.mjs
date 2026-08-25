@@ -6,7 +6,7 @@ export default {
   name: "Update Row by Object ID",
   description:
     "Update a single attribute on a feature identified by OBJECTID using the applyEdits operation. Dropdowns filter to editable layers and fields. [See the documentation](https://developers.arcgis.com/rest/services-reference/enterprise/apply-edits-feature-service-layer-.htm)",
-  version: "0.2.0",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -59,11 +59,24 @@ export default {
         "Editable field to update (system fields like OBJECTID and GlobalID are excluded)",
     },
     newValue: {
-      type: "any",
+      type: "string",
       label: "New Value",
       description:
-        "New value for the attribute. Pass string, number, boolean, or other JSON-serializable " +
-        "primitive. Use null to clear nullable fields. ArcGIS coerces values to field type.",
+        "New value for the attribute. JSON text is sent as the parsed value, so `42`, `true` and " +
+        "`null` become a number, a boolean and null respectively (use `null` to clear nullable " +
+        "fields); anything else is sent as text. ArcGIS coerces values to the field type.",
+    },
+  },
+  methods: {
+    parseValue(value) {
+      if (typeof value !== "string") {
+        return value;
+      }
+      try {
+        return JSON.parse(value);
+      } catch (error) {
+        return value;
+      }
     },
   },
   async run({ $ }) {
@@ -129,7 +142,7 @@ export default {
       layerId: ctx.layerId,
       attributes: {
         [ctx.objectIdField]: objectIdNum,
-        [fieldName]: newValue,
+        [fieldName]: this.parseValue(newValue),
       },
     });
 

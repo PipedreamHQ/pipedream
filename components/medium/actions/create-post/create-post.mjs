@@ -5,7 +5,7 @@ import { axios } from "@pipedream/platform";
 export default {
   key: "medium-create-post",
   name: "Create a post",
-  version: "0.1.4",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -35,7 +35,8 @@ export default {
       description: "The body of the post, in a valid, semantic, HTML fragment, or Markdown. Further markups may be supported in the future. For a full list of accepted HTML tags, see here. If you want your title to appear on the post page, you must also include it as part of the post content.",
     },
     tags: {
-      type: "any",
+      type: "string[]",
+      label: "Tags",
       description: "Tags to classify the post. Only the first three will be used. Tags longer than 25 characters will be ignored.",
       optional: true,
     },

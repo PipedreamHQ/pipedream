@@ -1,11 +1,14 @@
 // legacy_hash_id: a_a4irNP
 import { axios } from "@pipedream/platform";
+import {
+  parseObjectArray, parseRecipients,
+} from "../../common/utils.mjs";
 
 export default {
   key: "twist-add-comment",
   name: "Add Comment",
   description: "Adds a new comment to a thread.",
-  version: "0.2.2",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -26,32 +29,38 @@ export default {
       description: "The content of the new comment. Mentions can be used as `[Name](twist-mention://user_id)` for users or `[Group name](twist-group-mention://group_id)` for groups. Check [limits](https://api.twistapp.com/v3/#limits) for size restrictions for the content.",
     },
     attachments: {
-      type: "any",
-      description: "List of attachments to the new comment. It must follow the JSON format returned by [attachment#upload](https://api.twistapp.com/v3/#upload-an-attachment).",
+      type: "string[]",
+      label: "Attachments",
+      description: "List of attachments to add. Each item must be a JSON string following the format returned by [attachment#upload](https://api.twistapp.com/v3/#upload-an-attachment).",
       optional: true,
     },
     actions: {
-      type: "string",
-      description: "List of action to the new comment. More information about the format of the object available at the [add an action button submenu](https://api.twistapp.com/v3/#add-an-action-button).",
+      type: "string[]",
+      label: "Actions",
+      description: "List of action buttons to add. Each item must be a JSON string, e.g. `{\"action\":\"open_url\",\"type\":\"action\",\"button_text\":\"View\",\"url\":\"https://example.com\"}`. See the [action button submenu](https://api.twistapp.com/v3/#add-an-action-button).",
       optional: true,
     },
     direct_mentions: {
-      type: "any",
+      type: "integer[]",
+      label: "Direct Mentions",
       description: "The users that are directly mentioned.",
       optional: true,
     },
     direct_group_mentions: {
-      type: "any",
+      type: "integer[]",
+      label: "Direct Group Mentions",
       description: "The groups that are directly mentioned.",
       optional: true,
     },
     recipients: {
-      type: "any",
-      description: "An array of users (e.g. recipients: `[10000, 10001]`) to notify. It also accepts the strings `EVERYONE` or `EVERYONE_IN_THREAD`, which notifies everyone in the workspace or everyone mentioned in previous posts of this thread. If not provided, `EVERYONE_IN_THREAD` will be used.",
+      type: "string[]",
+      label: "Recipients",
+      description: "The users to notify, as user IDs (e.g. `10000`, `10001`). Also accepts the single value `EVERYONE` or `EVERYONE_IN_THREAD`, which notifies everyone in the workspace or everyone mentioned in previous posts of this thread. If not provided, `EVERYONE_IN_THREAD` is used.",
       optional: true,
     },
     groups: {
-      type: "any",
+      type: "integer[]",
+      label: "Groups",
       description: "The groups that will be notified.",
       optional: true,
     },
@@ -87,11 +96,11 @@ export default {
       data: {
         thread_id: this.thread_id,
         content: this.content,
-        attachments: this.attachments,
-        actions: this.actions,
+        attachments: parseObjectArray(this.attachments, "Attachments"),
+        actions: parseObjectArray(this.actions, "Actions"),
         direct_mentions: this.direct_mentions,
         direct_group_mentions: this.direct_group_mentions,
-        recipients: this.recipients,
+        recipients: parseRecipients(this.recipients),
         groups: this.groups,
         temp_id: this.temp_id,
         mark_thread_position: this.mark_thread_position,

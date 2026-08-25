@@ -5,7 +5,7 @@ export default defineAction({
   name: "Update Order Status",
   description: "Update a order status. [See docs here](https://suppliers-api.wildberries.ru/swagger/index.html#/Marketplace/put_api_v2_orders)",
   key: "wildberries-update-order-status",
-  version: "0.0.2",
+  version: "1.0.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -27,9 +27,9 @@ export default defineAction({
       ],
     },
     sgtin: {
-      type: "any",
+      type: "object",
       label: "SGTIN",
-      description: "Array required only for pharmaceutical products when they are transferred to status `Customer received the goods`.\n\n**Example:** `[{ code: string, numerator: integer, denominator: integer, sid: integer }]`\n\n[See docs here](https://suppliers-api.wildberries.ru/swagger/index.html#/Marketplace/put_api_v2_orders)",
+      description: "SGTIN object, required only for pharmaceutical products when they are transferred to status `Customer received the goods`.\n\n**Example:** `{ \"code\": \"01234567890123\", \"numerator\": 1, \"denominator\": 1, \"sid\": 1 }`\n\n[See docs here](https://suppliers-api.wildberries.ru/swagger/index.html#/Marketplace/put_api_v2_orders)",
       optional: true,
     },
   },

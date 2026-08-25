@@ -6,7 +6,7 @@ export default {
   key: "xero_accounting_api-xero-accounting-update-contact",
   name: "Update Contact",
   description: "Updates a contact given its identifier.",
-  version: "0.1.5",
+  version: "1.0.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -86,8 +86,8 @@ export default {
     },
     contactPersons: {
       label: "Contact Persons",
-      type: "any",
-      description: "See [contact persons](https://developer.xero.com/documentation/api/contacts#contact-persons)",
+      type: "string[]",
+      description: "Array of contact person objects. Each item must be a JSON string, e.g. `{\"FirstName\":\"John\",\"LastName\":\"Smith\",\"EmailAddress\":\"john.smith@example.com\",\"IncludeInEmails\":true}`. See [contact persons](https://developer.xero.com/documentation/api/contacts#contact-persons)",
       optional: true,
     },
     bankAccountDetails: {
@@ -116,14 +116,14 @@ export default {
     },
     addresses: {
       label: "Addresses",
-      type: "any",
-      description: "Store certain address types for a contact - see address types",
+      type: "string[]",
+      description: "Array of address objects. Each item must be a JSON string, e.g. `{\"AddressType\":\"STREET\",\"AddressLine1\":\"123 Main St\",\"City\":\"Auckland\",\"PostalCode\":\"1010\",\"Country\":\"NZ\"}`. See [address types](https://developer.xero.com/documentation/api/accounting/types#addresses)",
       optional: true,
     },
     phones: {
       label: "Phones",
-      type: "any",
-      description: "Store certain phone types for a contact - see phone types",
+      type: "string[]",
+      description: "Array of phone objects. Each item must be a JSON string, e.g. `{\"PhoneType\":\"MOBILE\",\"PhoneNumber\":\"555 1234\",\"PhoneAreaCode\":\"415\",\"PhoneCountryCode\":\"1\"}`. See [phone types](https://developer.xero.com/documentation/api/accounting/types#phones)",
       optional: true,
     },
     isSupplier: {

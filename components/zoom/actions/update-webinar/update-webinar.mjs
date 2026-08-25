@@ -6,7 +6,7 @@ export default {
   key: "zoom-update-webinar",
   name: "Update Webinar",
   description: "Update a webinar's topic, start time, or other settings",
-  version: "0.1.8",
+  version: "1.0.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -59,8 +59,9 @@ export default {
       optional: true,
     },
     tracking_fields: {
-      type: "any",
-      description: "Tracking fields.",
+      type: "string[]",
+      label: "Tracking Fields",
+      description: "Tracking fields to attach, one JSON string per entry, e.g. `{\"field\":\"Department\",\"value\":\"Sales\"}`.",
       optional: true,
     },
     recurrence: {
@@ -87,15 +88,9 @@ export default {
         timezone: this.timezone,
         password: this.password,
         agenda: this.agenda,
-        tracking_fields: typeof this.tracking_fields == "undefined"
-          ? this.tracking_fields
-          : JSON.parse(this.tracking_fields),
-        recurrence: typeof this.recurrence == "undefined"
-          ? this.recurrence
-          : JSON.parse(this.recurrence),
-        settings: typeof this.settings == "undefined"
-          ? this.settings
-          : JSON.parse(this.settings),
+        tracking_fields: utils.parseJsonArray(this.tracking_fields, "Tracking Fields"),
+        recurrence: utils.parseJson(this.recurrence, "Recurrence"),
+        settings: utils.parseJson(this.settings, "Settings"),
       },
       headers: {
         "Authorization": `Bearer ${this.zoom.$auth.oauth_access_token}`,
