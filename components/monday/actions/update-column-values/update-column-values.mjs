@@ -12,7 +12,7 @@ export default {
   key: "monday-update-column-values",
   name: "Update Column Values",
   description: "Update multiple column values of an item. [See the documentation](https://developer.monday.com/api-reference/reference/columns#change-multiple-column-values)",
-  version: "0.3.0",
+  version: "0.3.1",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -92,15 +92,21 @@ export default {
       column.id,
       column,
     ]));
+    const entries = Object.entries(values);
+    for (const [
+      id,
+    ] of entries) {
+      if (!columnsById.has(id)) {
+        throw new ConfigurationError(`Column \`${id}\` was not found on board ${this.boardId}. Use the **List Columns** action to see the available column IDs.`);
+      }
+    }
+
     const columnValues = {};
     for (const [
       id,
       value,
-    ] of Object.entries(values)) {
+    ] of entries) {
       const column = columnsById.get(id);
-      if (!column) {
-        throw new ConfigurationError(`Column \`${id}\` was not found on board ${this.boardId}. Use the **List Columns** action to see the available column IDs.`);
-      }
       if (column.type === "file") {
         await this.uploadFile({
           $,

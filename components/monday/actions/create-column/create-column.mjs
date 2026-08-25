@@ -7,7 +7,7 @@ export default {
   name: "Create Column",
   description: "Creates a column. [See the documentation](https://developer.monday.com/api-reference/reference/columns#create-a-column)",
   type: "action",
-  version: "0.2.0",
+  version: "0.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -47,7 +47,7 @@ export default {
   },
   async run({ $ }) {
     let { defaults } = this;
-    if (defaults) {
+    if (defaults !== undefined) {
       if (![
         "status",
         "dropdown",
