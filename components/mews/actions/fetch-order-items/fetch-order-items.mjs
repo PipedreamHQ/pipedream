@@ -4,7 +4,7 @@ export default {
   name: "Fetch Order Items",
   description: "Retrieve order items using Mews Connector API. [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/orderitems#get-all-order-items)",
   key: "mews-fetch-order-items",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

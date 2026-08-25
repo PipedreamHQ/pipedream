@@ -4,7 +4,7 @@ export default {
   name: "Fetch Customers",
   description: "Retrieve customers using Mews Connector API. [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/customers#get-all-customers)",
   key: "mews-fetch-customers",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   name: "Create New Task",
   description: "Create a new task in Mews. [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/tasks#add-task)",
   key: "mews-create-task",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1439,7 +1439,7 @@ export default {
 
         items.push(...(response?.[resultKey] || []));
 
-        next = response?.Limitation?.Cursor ?? null;
+        next = response?.Cursor ?? null;
         requestCount += 1;
 
         if (!next) {

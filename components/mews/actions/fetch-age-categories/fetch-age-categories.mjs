@@ -6,7 +6,7 @@ export default {
   name: "Fetch Age Categories",
   description: "Retrieve all age categories filtered by service. [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/agecategories#get-all-age-categories)",
   key: "mews-fetch-age-categories",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

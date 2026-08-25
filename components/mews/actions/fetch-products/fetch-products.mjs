@@ -4,7 +4,7 @@ export default {
   name: "Fetch Products",
   description: "Retrieve products using Mews Connector API. [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/products#get-all-products)",
   key: "mews-fetch-products",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

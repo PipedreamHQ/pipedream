@@ -4,7 +4,7 @@ export default {
   name: "Fetch Reservations",
   description: "Retrieve reservations using Mews Connector API. [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/reservations#get-all-reservations-ver-2023-06-06)",
   key: "mews-fetch-reservations",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
