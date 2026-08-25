@@ -130,6 +130,17 @@ export default {
       description: "For a multi-tab document, restrict the operation to this tab (e.g. `t.0`). Copy it from **Get Document**. Omit to search every tab.",
       optional: true,
     },
+    replacementFormat: {
+      type: "string",
+      label: "Replacement Format",
+      description: "How to interpret the replacement text. `plain` inserts it exactly as typed (default). `markdown` converts Markdown syntax (bold, italic, inline code, links, headings, bullet and numbered lists) into native Google Docs formatting. Note that block-level Markdown (headings, lists) restyles the entire paragraph containing the match, since Google Docs applies paragraph styles per paragraph.",
+      options: [
+        "plain",
+        "markdown",
+      ],
+      default: "plain",
+      optional: true,
+    },
   },
   methods: {
     ...googleDrive.methods,
@@ -205,11 +216,14 @@ export default {
         },
       });
     },
-    batchUpdate(documentId, requests) {
+    batchUpdate(documentId, requests, writeControl) {
       return this.docs().documents.batchUpdate({
         documentId,
         requestBody: {
           requests,
+          ...(writeControl && {
+            writeControl,
+          }),
         },
       });
     },
@@ -595,6 +609,11 @@ export default {
         throw new Error(`Failed to insert markdown text: ${error.message}`);
       }
     },
+    // Replaces text and applies the formatting implied by the Markdown in the
+    // replacement string. `replaceAllText` reports how many occurrences it
+    // changed but not where they landed, so the ranges to style can only be
+    // found by re-reading the document afterwards and locating the inserted
+    // text by value.
     async replaceTextWithMarkdown({
       documentId,
       textToReplace,
@@ -602,79 +621,104 @@ export default {
       matchCase = false,
       tabIds = null,
     }) {
-      try {
-        // Parse the markdown replacement text
-        const parseResult = markdownParser.parseMarkdown(markdownReplacement);
-        const {
-          text: replacementText,
-          formattingRequests: markdownFormatting,
-        } = parseResult;
+      const {
+        text: parsedText,
+        formattingRequests: markdownFormatting,
+      } = markdownParser.parseMarkdown(markdownReplacement);
 
-        // Build the initial replace request
-        const requests = [
-          {
-            replaceAllText: {
-              containsText: {
-                text: textToReplace,
-                matchCase: matchCase || false,
-              },
-              replaceText: replacementText,
-              tabsCriteria: tabIds
-                ? {
-                  tabIds,
-                }
-                : undefined,
-            },
-          },
-        ];
+      // parseMarkdown closes every paragraph with a newline, which is right when
+      // the markdown is a document body but wrong for an inline replacement: it
+      // splits the host sentence across two paragraphs.
+      const isBlockLevel = markdownFormatting.some(({ type }) =>
+        type === "updateParagraphStyle" || type === "createParagraphBullets");
+      const replacementText = isBlockLevel
+        ? parsedText
+        : parsedText.replace(/\n+$/, "");
 
-        if (markdownFormatting.length === 0) {
-          // No formatting needed, just do the plain text replacement
-          return this.docs().documents.batchUpdate({
-            documentId,
-            requestBody: {
-              requests,
-            },
+      const insertedStartsByTab = new Map();
+      if (markdownFormatting.length) {
+        const beforeDoc = await this.getDocument(documentId, true);
+        const lengthDelta = replacementText.length - textToReplace.length;
+        this._flattenDocumentTabs(beforeDoc.tabs)
+          .filter(({ tabProperties }) => !tabIds?.length || tabIds.includes(tabProperties?.tabId))
+          .forEach((tab) => {
+            const starts = markdownParser.findTextOccurrences(
+              tab.documentTab,
+              textToReplace,
+              matchCase,
+            );
+            insertedStartsByTab.set(
+              tab.tabProperties?.tabId,
+              new Set(starts.map((start, index) => start + (index * lengthDelta))),
+            );
           });
-        }
-
-        // For markdown with formatting, we need to find where the text will be replaced
-        // and then apply formatting to it
-        // First, do the replacement
-        await this.docs().documents.batchUpdate({
-          documentId,
-          requestBody: {
-            requests,
-          },
-        });
-
-        // Get the document AFTER replacement
-        const { data: updatedDocData } = await this.docs().documents.get({
-          documentId,
-        });
-
-        // Find all occurrences of the replacement text in the updated document
-        const formattingRequests = markdownParser.buildFormattingRequestsForReplacement(
-          markdownFormatting,
-          updatedDocData,
-          replacementText,
-        );
-
-        // Apply formatting if any matches were found
-        if (formattingRequests.length > 0) {
-          return this.docs().documents.batchUpdate({
-            documentId,
-            requestBody: {
-              requests: formattingRequests,
-            },
-          });
-        }
-
-        // Return updated document even if no formatting was applied
-        return updatedDocData;
-      } catch (error) {
-        throw new Error(`Failed to replace text with markdown: ${error.message}`);
       }
+
+      const { data: replaceData } = await this.batchUpdate(documentId, [
+        {
+          replaceAllText: {
+            containsText: {
+              text: textToReplace,
+              matchCase,
+            },
+            replaceText: replacementText,
+            tabsCriteria: tabIds?.length
+              ? {
+                tabIds,
+              }
+              : undefined,
+          },
+        },
+      ]);
+      const occurrencesChanged =
+        replaceData?.replies?.[0]?.replaceAllText?.occurrencesChanged ?? 0;
+
+      if (!occurrencesChanged || !markdownFormatting.length) {
+        return {
+          occurrencesChanged,
+          formattingRequestsApplied: 0,
+        };
+      }
+
+      const updatedDoc = await this.getDocument(documentId, true);
+
+      const targetTabs = this._flattenDocumentTabs(updatedDoc.tabs)
+        .filter(({ tabProperties }) => !tabIds?.length || tabIds.includes(tabProperties?.tabId));
+
+      const formattingRequests = targetTabs.flatMap((tab) => {
+        const tabId = tab.tabProperties?.tabId;
+        const requests = markdownParser.buildFormattingRequestsForReplacement(
+          markdownFormatting,
+          tab.documentTab,
+          replacementText,
+          insertedStartsByTab.get(tabId),
+        );
+        return requests.map((request) => {
+          const [
+            requestName,
+          ] = Object.keys(request);
+          return {
+            [requestName]: {
+              ...request[requestName],
+              range: {
+                ...request[requestName].range,
+                tabId,
+              },
+            },
+          };
+        });
+      });
+
+      if (formattingRequests.length) {
+        await this.batchUpdate(documentId, formattingRequests, updatedDoc.revisionId && {
+          requiredRevisionId: updatedDoc.revisionId,
+        });
+      }
+
+      return {
+        occurrencesChanged,
+        formattingRequestsApplied: formattingRequests.length,
+      };
     },
   },
 };
