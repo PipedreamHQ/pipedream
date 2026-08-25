@@ -5040,7 +5040,11 @@ importers:
 
   components/elasticemail: {}
 
-  components/element: {}
+  components/element:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/elevenlabs:
     dependencies:
