@@ -20,7 +20,7 @@ function toOpaqueColor(value) {
   if (!/^[0-9a-fA-F]{6}$/.test(hex)) {
     return null;
   }
-  const channel = (start) => parseInt(hex.substr(start, 2), 16) / 255;
+  const channel = (start) => parseInt(hex.slice(start, start + 2), 16) / 255;
   return {
     rgbColor: {
       red: channel(0),
