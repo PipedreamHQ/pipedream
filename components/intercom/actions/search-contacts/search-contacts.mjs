@@ -9,7 +9,7 @@ export default {
   key: "intercom-search-contacts",
   name: "Search Contacts",
   description: "Search Intercom contacts by a query string (POST /contacts/search). Returns a bounded page of matching contacts, each including `id`, `email`, and `external_id` so you can copy the appropriate value into **Reply To Conversation**'s Intercom User ID, Email, or User ID prop. If `pages.next.starting_after` is present in the response, call this action again with that cursor in **Starting After** to retrieve the next page. Pass **Fields** (e.g. `[\"id\", \"email\", \"external_id\"]`) to limit each returned contact to only those keys. Example: set **Query** to `acme` to find all contacts whose email contains `acme`. [See the documentation](https://developers.intercom.com/docs/references/rest-api/api.intercom.io/contacts/searchcontacts).",
-  version: "0.1.1",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

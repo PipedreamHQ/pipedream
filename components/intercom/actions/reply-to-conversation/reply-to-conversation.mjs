@@ -11,7 +11,7 @@ export default {
   key: "intercom-reply-to-conversation",
   name: "Reply To Conversation",
   description: "Reply to an existing Intercom conversation as an admin or on behalf of a contact (POST /conversations/{conversation_id}/reply). Use **List Admin ID Options** to find a valid Admin ID, and **Search Contacts** to find a contact's Intercom user ID, email, or external user ID. Example: set **Conversation ID** to `192783634529321`, **Reply Type** to `admin`, **Message Type** to `comment`, **Body** to `Thanks for reaching out!`, and **Admin ID** to `25` to post that comment as an admin reply. [See the documentation](https://developers.intercom.com/docs/references/rest-api/api.intercom.io/conversations/replyconversation).",
-  version: "0.0.8",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
