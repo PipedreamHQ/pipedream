@@ -24,6 +24,20 @@ export default {
       optional: true,
       default: "end",
     },
+    // Shared by the update-*-style actions, which address a span of the document
+    // body by character index rather than by an insert position.
+    startIndex: {
+      type: "integer",
+      label: "Start Index",
+      description: "The index where the range begins, counted in zero-based UTF-16 code units from the start of the document body — not in Unicode characters, so astral characters such as emoji count as two. Must be at least `1`; index `0` is the document root and cannot be styled. Use **Get Document** to inspect the document structure and locate the range.",
+      min: 1,
+    },
+    endIndex: {
+      type: "integer",
+      label: "End Index",
+      description: "The index where the range ends, exclusive, in the same zero-based UTF-16 code units as **Start Index**. Must be greater than **Start Index**.",
+      min: 2,
+    },
     // Static, MCP-compatible folder selector for the create actions. Kept as a
     // separate key so the inherited Drive `folderId` (async dropdown) stays
     // available to out-of-scope consumers like the sources/triggers.
@@ -193,6 +207,38 @@ export default {
           }),
         },
       });
+    },
+    updateTextStyle(documentId, request) {
+      return this._batchUpdate(documentId, "updateTextStyle", request);
+    },
+    updateParagraphStyle(documentId, request) {
+      return this._batchUpdate(documentId, "updateParagraphStyle", request);
+    },
+    updateTableCellStyle(documentId, request) {
+      return this._batchUpdate(documentId, "updateTableCellStyle", request);
+    },
+    // Tabs can nest, so a tab is not necessarily a direct child of the document.
+    _findTab(tabs, tabId) {
+      for (const tab of tabs || []) {
+        if (tab.tabProperties?.tabId === tabId) {
+          return tab;
+        }
+        const child = this._findTab(tab.childTabs, tabId);
+        if (child) {
+          return child;
+        }
+      }
+      return undefined;
+    },
+    // A request scoped to a tab should report that tab back. Plain getDocument
+    // returns only the first tab's content, which would be the wrong document
+    // for any caller that targeted a different tab.
+    async getDocumentOrTab(documentId, tabId) {
+      if (!tabId) {
+        return this.getDocument(documentId);
+      }
+      const document = await this.getDocument(documentId, true);
+      return this._findTab(document.tabs, tabId) ?? document;
     },
     async findDocuments({
       query, limit = 25,
