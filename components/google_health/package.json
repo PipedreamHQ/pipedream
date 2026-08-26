@@ -7,8 +7,8 @@
     "pipedream",
     "google_health"
   ],
-  "homepage": "https://pipedream.com/apps/google-health",
-  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "homepage": "https://pipedream.com/apps/google_health",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
   },
