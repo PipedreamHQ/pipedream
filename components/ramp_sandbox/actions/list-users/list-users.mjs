@@ -1,7 +1,7 @@
 // x-pd-ai: optimized
 import ramp from "../../ramp_sandbox.app.mjs";
-import listUsers from "../../../ramp/actions/list-users/list-users.mjs";
-import constants from "../../../ramp/common/constants.mjs";
+import listUsers from "@pipedream/ramp/actions/list-users/list-users.mjs";
+import constants from "@pipedream/ramp/common/constants.mjs";
 
 export default {
   ...listUsers,

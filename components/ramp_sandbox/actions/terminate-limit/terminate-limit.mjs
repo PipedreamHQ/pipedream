@@ -1,6 +1,6 @@
 // x-pd-ai: optimized
 import ramp from "../../ramp_sandbox.app.mjs";
-import terminateLimit from "../../../ramp/actions/terminate-limit/terminate-limit.mjs";
+import terminateLimit from "@pipedream/ramp/actions/terminate-limit/terminate-limit.mjs";
 
 export default {
   ...terminateLimit,

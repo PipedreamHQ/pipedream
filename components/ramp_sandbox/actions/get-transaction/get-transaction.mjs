@@ -1,6 +1,6 @@
 // x-pd-ai: optimized
 import ramp from "../../ramp_sandbox.app.mjs";
-import getTransaction from "../../../ramp/actions/get-transaction/get-transaction.mjs";
+import getTransaction from "@pipedream/ramp/actions/get-transaction/get-transaction.mjs";
 
 export default {
   ...getTransaction,

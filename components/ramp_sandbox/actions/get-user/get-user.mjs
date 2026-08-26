@@ -1,6 +1,6 @@
 // x-pd-ai: optimized
 import ramp from "../../ramp_sandbox.app.mjs";
-import getUser from "../../../ramp/actions/get-user/get-user.mjs";
+import getUser from "@pipedream/ramp/actions/get-user/get-user.mjs";
 
 export default {
   ...getUser,

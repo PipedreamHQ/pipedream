@@ -1,6 +1,6 @@
 // x-pd-ai: optimized
 import ramp from "../../ramp_sandbox.app.mjs";
-import createUserInvite from "../../../ramp/actions/create-user-invite/create-user-invite.mjs";
+import createUserInvite from "@pipedream/ramp/actions/create-user-invite/create-user-invite.mjs";
 
 export default {
   ...createUserInvite,

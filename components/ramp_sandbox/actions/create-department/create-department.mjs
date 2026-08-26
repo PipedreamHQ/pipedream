@@ -1,6 +1,6 @@
 // x-pd-ai: optimized
 import ramp from "../../ramp_sandbox.app.mjs";
-import createDepartment from "../../../ramp/actions/create-department/create-department.mjs";
+import createDepartment from "@pipedream/ramp/actions/create-department/create-department.mjs";
 
 export default {
   ...createDepartment,

@@ -1,6 +1,6 @@
 // x-pd-ai: optimized
 import ramp from "../../ramp_sandbox.app.mjs";
-import uploadReceipt from "../../../ramp/actions/upload-receipt/upload-receipt.mjs";
+import uploadReceipt from "@pipedream/ramp/actions/upload-receipt/upload-receipt.mjs";
 
 export default {
   ...uploadReceipt,

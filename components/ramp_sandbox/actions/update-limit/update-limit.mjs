@@ -1,7 +1,7 @@
 // x-pd-ai: optimized
 import ramp from "../../ramp_sandbox.app.mjs";
-import updateLimit from "../../../ramp/actions/update-limit/update-limit.mjs";
-import constants from "../../../ramp/common/constants.mjs";
+import updateLimit from "@pipedream/ramp/actions/update-limit/update-limit.mjs";
+import constants from "@pipedream/ramp/common/constants.mjs";
 
 export default {
   ...updateLimit,

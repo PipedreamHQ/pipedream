@@ -1,6 +1,6 @@
 // x-pd-ai: optimized
 import ramp from "../../ramp_sandbox.app.mjs";
-import getLimit from "../../../ramp/actions/get-limit/get-limit.mjs";
+import getLimit from "@pipedream/ramp/actions/get-limit/get-limit.mjs";
 
 export default {
   ...getLimit,

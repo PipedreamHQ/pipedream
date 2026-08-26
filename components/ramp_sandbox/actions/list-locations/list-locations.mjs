@@ -1,6 +1,6 @@
 // x-pd-ai: optimized
 import ramp from "../../ramp_sandbox.app.mjs";
-import listLocations from "../../../ramp/actions/list-locations/list-locations.mjs";
+import listLocations from "@pipedream/ramp/actions/list-locations/list-locations.mjs";
 
 export default {
   ...listLocations,

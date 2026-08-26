@@ -1,6 +1,6 @@
 // x-pd-ai: optimized
 import ramp from "../../ramp_sandbox.app.mjs";
-import listSpendPrograms from "../../../ramp/actions/list-spend-programs/list-spend-programs.mjs";
+import listSpendPrograms from "@pipedream/ramp/actions/list-spend-programs/list-spend-programs.mjs";
 
 export default {
   ...listSpendPrograms,

@@ -1,12 +1,12 @@
 import ramp from "../../ramp_sandbox.app.mjs";
-import issueVirtualCard from "../../../ramp/actions/issue-virtual-card/issue-virtual-card.mjs";
+import issueVirtualCard from "@pipedream/ramp/actions/issue-virtual-card/issue-virtual-card.mjs";
 
 export default {
   ...issueVirtualCard,
   key: "ramp_sandbox-issue-virtual-card",
   name: "Issue Virtual Card",
   description: "Creates a new virtual card for a given user. [See the documentation](https://docs.ramp.com/developer-api/v1/reference/rest/limits#post-developer-v1-limits-deferred)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

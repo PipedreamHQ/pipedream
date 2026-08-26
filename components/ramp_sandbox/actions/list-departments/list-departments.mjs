@@ -1,6 +1,6 @@
 // x-pd-ai: optimized
 import ramp from "../../ramp_sandbox.app.mjs";
-import listDepartments from "../../../ramp/actions/list-departments/list-departments.mjs";
+import listDepartments from "@pipedream/ramp/actions/list-departments/list-departments.mjs";
 
 export default {
   ...listDepartments,

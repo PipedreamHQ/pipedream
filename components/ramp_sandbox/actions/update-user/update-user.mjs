@@ -1,6 +1,6 @@
 // x-pd-ai: optimized
 import ramp from "../../ramp_sandbox.app.mjs";
-import updateUser from "../../../ramp/actions/update-user/update-user.mjs";
+import updateUser from "@pipedream/ramp/actions/update-user/update-user.mjs";
 
 export default {
   ...updateUser,
