@@ -26,7 +26,7 @@ export default {
     entityId: {
       type: "string",
       label: "Entity ID",
-      description: "Optional entity ID to associate with the location.",
+      description: "Optional entity ID (a UUID, e.g. `dff9389a-2819-468e-a220-28e059b23f8e`) to associate with the location. Obtain it from the `entity_id` field returned by **List Locations**, or from your Ramp entities in the API. Only needed for multi-entity businesses.",
       optional: true,
     },
   },

@@ -19,7 +19,7 @@ export default {
     userId: {
       type: "string",
       label: "User ID",
-      description: "The ID of the user to update. Run the **List Users** action to find this value.",
+      description: "The ID of the user to update — a UUID, e.g. `bcc1e4ca-d38a-4cc9-98fc-e6c2066ad0ae`. Run the **List Users** action to find this value.",
     },
     role: {
       propDefinition: [
@@ -46,7 +46,7 @@ export default {
     directManagerId: {
       type: "string",
       label: "Direct Manager ID",
-      description: "New direct manager user ID. Run the **List Users** action to find valid IDs.",
+      description: "New direct manager user ID — a UUID, e.g. `bcc1e4ca-d38a-4cc9-98fc-e6c2066ad0ae`. Run the **List Users** action to find valid IDs.",
       optional: true,
     },
   },

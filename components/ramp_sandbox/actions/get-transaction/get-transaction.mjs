@@ -19,7 +19,7 @@ export default {
     transactionId: {
       type: "string",
       label: "Transaction ID",
-      description: "The ID of the transaction to retrieve. Run the **List Transactions** action to find this value.",
+      description: "The ID of the transaction to retrieve — a UUID, e.g. `c74326d3-a6b3-4a88-9a0c-4b61850784cd`. Run the **List Transactions** action to find this value.",
     },
   },
 };
