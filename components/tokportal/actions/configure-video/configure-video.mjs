@@ -9,7 +9,7 @@ export default {
     + " Use **Create Bundle** with a `videos_quantity` first; upload media with **Upload Image From URL** or pass a public direct `.mp4` URL."
     + " Set **Auto Publish** or call **Publish All Bundle Videos** afterwards so the manager can post it."
     + " [See the documentation](https://developers.tokportal.com/configure-videos/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -39,7 +39,9 @@ export default {
     targetPublishDate: {
       type: "string",
       label: "Target Publish Date",
-      description: "Publish date in `YYYY-MM-DD` format. Max 3 videos per day per bundle.",
+      description: "First day of a 2-day publishing window in `YYYY-MM-DD` format: the manager may post on this day or the next."
+        + " The end day is derived (this day + 1) and cannot be set here. Max 3 videos per day per bundle."
+        + " Minimum lead time: 3 days ahead while the account is still being created, 1 day for an existing or delivered account.",
     },
     videoUrl: {
       type: "string",
