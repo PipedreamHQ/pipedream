@@ -1,15 +1,21 @@
 {
   "name": "@pipedream/xray_cloud",
   "version": "0.0.1",
-  "description": "Pipedream Xray Cloud Components",
+  "description": "Pipedream Xray Cloud (Test Management for Jira) Components",
   "main": "xray_cloud.app.mjs",
   "keywords": [
     "pipedream",
-    "xray_cloud"
+    "xray",
+    "xray cloud",
+    "test management",
+    "jira"
   ],
-  "homepage": "https://pipedream.com/apps/xray_cloud",
+  "homepage": "https://pipedream.com/apps/xray-cloud",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
   }
 }
