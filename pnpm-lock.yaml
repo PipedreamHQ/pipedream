@@ -6816,6 +6816,12 @@ importers:
         specifier: ^4.0.7
         version: 4.1.0
 
+  components/google_health:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
+
   components/google_identity: {}
 
   components/google_keep: {}
