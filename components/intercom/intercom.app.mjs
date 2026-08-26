@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -7,22 +8,7 @@ export default {
     userIds: {
       type: "string[]",
       label: "Users",
-      description: "Users to watch for new events",
-      async options({
-        data = {
-          query: {
-            field: "role",
-            operator: "=",
-            value: "user",
-          },
-        },
-      }) {
-        const results = await this.searchContacts(data);
-        return results.map((user) => ({
-          label: user.name || user.id,
-          value: user.id,
-        }));
-      },
+      description: "The Intercom contact ID. Run **Search Contacts** first to find valid contact IDs (e.g. `63a07ddf05a32042dffac965`).",
     },
     body: {
       type: "string",
@@ -32,90 +18,22 @@ export default {
     tagId: {
       type: "string",
       label: "Tag ID",
-      description: "The unique identifier for the tag which is given by Intercom. Eg. `7522907`.",
-      async options() {
-        const { data: tags } = await this.listTags();
-        return tags.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
-      },
+      description: "The unique identifier for the tag which is given by Intercom (e.g. `7522907`). Run **List Tag ID Options** first to discover valid tag IDs and names.",
     },
     conversationId: {
       type: "string",
       label: "Conversation ID",
-      description: "The Intercom provisioned identifier for the conversation or the string `last` to reply to the last part of the conversation.",
-      async options({ prevContext: { startingAfter } }) {
-        if (startingAfter === null) {
-          return [];
-        }
-        const response = await this.listConversations({
-          params: {
-            per_page: 20,
-            starting_after: startingAfter,
-          },
-        });
-        const options = response.conversations.map((conversation) => ({
-          label: conversation.title || conversation.id,
-          value: conversation.id,
-        }));
-        return {
-          options,
-          context: {
-            startingAfter: response.pages.next?.starting_after || null,
-          },
-        };
-      },
-    },
-    messageType: {
-      type: "string",
-      label: "Message Type",
-      description: "The kind of message being created.",
-      options({ type = "user" }) {
-        if (type === "user") {
-          return [
-            "comment",
-          ];
-        }
-
-        if (type === "admin") {
-          return [
-            "comment",
-            "note",
-          ];
-        }
-        return [];
-      },
+      description: "The Intercom provisioned identifier for the conversation (e.g. `192783634529321`). Run **List Conversations** first to discover one, or reuse the ID from a prior **Reply To Conversation**, **Manage A Conversation**, or **Retrieve Conversation** call's response. If a specific ID isn't known, set this to the literal string `last` to target the most recently updated conversation instead of guessing an ID.",
     },
     adminId: {
       type: "string",
       label: "Admin ID",
-      description: "The unique identifier for the admin which is given by Intercom. Eg. `25`.",
-      async options() {
-        const { admins } = await this.listAdmins();
-        return admins.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
-      },
+      description: "The unique identifier for the admin which is given by Intercom (e.g. `25`). Run **List Admin ID Options** first to discover valid admin IDs.",
     },
     teamAssigneeId: {
       type: "string",
       label: "Assignee ID",
-      description: "The `id` of the `team` which will be assigned the conversation. A conversation can be assigned both an admin and a team. Set `0` if you want this assign to no team (ie. Unassigned)",
-      async options() {
-        const { teams } = await this.getTeams();
-        return teams.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
-      },
+      description: "The `id` of the `team` which will be assigned the conversation. A conversation can be assigned both an admin and a team. Set `0` to assign to no team (ie. Unassigned). Run **List Assignee ID Options** first to discover valid team IDs.",
     },
   },
   methods: {
@@ -275,14 +193,6 @@ export default {
       });
     },
     /**
-     * Search for contacts
-     * @params {Ojbect} data - A query object used to search for contacts
-     * @returns {Array} List of contacts matching search query
-     */
-    async searchContacts(data) {
-      return this.paginate("contacts", "POST", data, true);
-    },
-    /**
      * Search for conversations
      * @params {Object} data - A query object used to search for conversations
      * @returns {Array} List of conversations matching search query
@@ -362,6 +272,59 @@ export default {
     listAdmins() {
       return this.makeRequest({
         endpoint: "admins",
+      });
+    },
+    /**
+     * Add a tag to a contact
+     * @params {String} contactId - The unique identifier for the contact which is given by Intercom
+     * @returns {Object} The updated tag object
+     */
+    addTagToContact({
+      contactId, ...opts
+    }) {
+      return this.makeRequest({
+        method: "POST",
+        endpoint: `contacts/${contactId}/tags`,
+        ...opts,
+      });
+    },
+    /**
+     * Close, snooze, open, or assign a conversation
+     * @params {String} conversationId - The identifier for the conversation as given by Intercom
+     * @returns {Object} The updated conversation part
+     */
+    manageConversation({
+      conversationId, ...opts
+    }) {
+      return this.makeRequest({
+        method: "POST",
+        endpoint: `conversations/${conversationId}/parts`,
+        ...opts,
+      });
+    },
+    /**
+     * Reply to a conversation as an admin or on behalf of a contact
+     * @params {String} conversationId - The identifier for the conversation as given by Intercom
+     * @returns {Object} The updated conversation
+     */
+    replyToConversation({
+      conversationId, ...opts
+    }) {
+      return this.makeRequest({
+        method: "POST",
+        endpoint: `conversations/${conversationId}/reply`,
+        ...opts,
+      });
+    },
+    /**
+     * Send an outbound message from an admin to a contact
+     * @returns {Object} The message object created by the request
+     */
+    sendMessage(opts = {}) {
+      return this.makeRequest({
+        method: "POST",
+        endpoint: "messages",
+        ...opts,
       });
     },
   },
