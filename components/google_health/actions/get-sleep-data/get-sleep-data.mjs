@@ -1,0 +1,158 @@
+import app from "../../google_health.app.mjs";
+
+const DEFAULT_FIELDS = [
+  "startTime",
+  "endTime",
+  "type",
+  "isMainSleep",
+  "isNap",
+  "minutesAsleep",
+  "minutesAwake",
+  "minutesInSleepPeriod",
+  "minutesToFallAsleep",
+  "efficiency",
+  "stageTotals",
+];
+
+export default {
+  key: "google_health-get-sleep-data",
+  name: "Get Sleep Data",
+  description: "Get the user's sleep sessions for a date or range, with per-stage totals, time asleep and awake, and a derived efficiency figure. A session is attributed to the date the user **woke up**, matching how Fitbit reported sleep — so asking for 2026-08-24 returns the night of the 23rd into the 24th. Dates are `YYYY-MM-DD` in the user's own timezone and the range is inclusive. Example: to see last night's sleep, call with startDate=\"2026-08-24\" → returns `sessions: [{ startTime, endTime, type: \"STAGES\", isMainSleep: true, minutesAsleep: 431, minutesAwake: 48, efficiency: 0.9, stageTotals: { LIGHT: 240, DEEP: 71, REM: 120, AWAKE: 48 } }]` plus `mainSleep` and `totalMinutesAsleep`. Things worth telling the user rather than inventing: this API has **no sleep score**, so none is returned — `efficiency` is computed here as time asleep divided by time in bed, which is not the same number Fitbit showed. Stage names depend on `type`: a `STAGES` session reports LIGHT/DEEP/REM/AWAKE, while an older `CLASSIC` session reports only ASLEEP/AWAKE/RESTLESS, so read `stageTotals` rather than assuming a fixed set of stages. Naps appear as separate sessions with `isNap: true`. Pass `fields` to trim the output, or include `stages` in it to get every individual stage segment. [See the documentation](https://developers.google.com/health/reference/rest/v4/users.dataTypes.dataPoints/list)",
+  version: "0.0.1",
+  type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
+  props: {
+    app,
+    startDate: {
+      propDefinition: [
+        app,
+        "startDate",
+      ],
+    },
+    endDate: {
+      propDefinition: [
+        app,
+        "endDate",
+      ],
+    },
+    fields: {
+      propDefinition: [
+        app,
+        "fields",
+      ],
+      description: "Field names to keep on each session. Defaults to a compact set: "
+        + DEFAULT_FIELDS.join(", ")
+        + ". Also available (excluded by default because they are verbose): `stages` (every individual stage segment), `shortAwakenings`, `outOfBedSegments`, `stagesStatus`, `minutesAfterWakeUp`, `utcOffset`.",
+    },
+  },
+  async run({ $ }) {
+    const {
+      startDate,
+      endDate,
+      endExclusive,
+    } = this.app._resolveRange({
+      startDate: this.startDate,
+      endDate: this.endDate,
+      dataTypes: [
+        "sleep",
+      ],
+    });
+
+    // The API caps `sleep` page size at 25 — that is a truncation point, not a
+    // guarantee of completeness, so this follows the cursor and reports if it
+    // still ran out of pages.
+    const response = await this.app.listAllDataPoints({
+      $,
+      dataType: "sleep",
+      filter: this.app._buildTimeFilter({
+        dataType: "sleep",
+        startDate,
+        endExclusive,
+      }),
+      pageSize: 25,
+      maxPages: 5,
+    });
+
+    const sessions = (response?.dataPoints ?? []).map((point) => {
+      const sleep = point?.sleep;
+      const summary = sleep?.summary ?? {};
+      const metadata = sleep?.metadata ?? {};
+
+      // Stage totals are keyed off whatever this session actually contains.
+      // A CLASSIC session has no LIGHT/DEEP/REM at all, so a fixed shape would
+      // report four zeros next to a non-zero minutesAsleep — a contradiction
+      // the caller has no way to resolve.
+      const stageTotals = {};
+      for (const stage of summary.stagesSummary ?? []) {
+        if (!stage?.type) {
+          continue;
+        }
+        stageTotals[stage.type] = this.app._int(stage.minutes);
+      }
+
+      const minutesAsleep = this.app._int(summary.minutesAsleep);
+      const minutesInBed = this.app._int(summary.minutesInSleepPeriod);
+
+      return {
+        startTime: sleep?.interval?.startTime ?? null,
+        endTime: sleep?.interval?.endTime ?? null,
+        utcOffset: sleep?.interval?.startUtcOffset ?? null,
+        // CLASSIC or STAGES — the caller needs this to know which stage
+        // vocabulary stageTotals is using.
+        type: sleep?.type ?? null,
+        isMainSleep: metadata.mainSleep ?? null,
+        isNap: metadata.nap ?? null,
+        stagesStatus: metadata.stagesStatus ?? null,
+        minutesAsleep,
+        minutesAwake: this.app._int(summary.minutesAwake),
+        minutesInSleepPeriod: minutesInBed,
+        minutesToFallAsleep: this.app._int(summary.minutesToFallAsleep),
+        minutesAfterWakeUp: this.app._int(summary.minutesAfterWakeUp),
+        // Derived, not native. Fitbit's own efficiency figure used a different
+        // formula, so this will not match it exactly.
+        efficiency: (minutesAsleep !== null && minutesInBed)
+          ? this.app._round(minutesAsleep / minutesInBed, 2)
+          : null,
+        stageTotals,
+        stages: sleep?.stages ?? [],
+        shortAwakenings: sleep?.shortAwakenings ?? [],
+        outOfBedSegments: sleep?.outOfBedSegments ?? [],
+      };
+    })
+      .sort((a, b) => String(b.startTime)
+        .localeCompare(String(a.startTime)));
+
+    const selected = this.fields?.length
+      ? this.fields
+      : DEFAULT_FIELDS;
+    const trimmed = sessions.map((session) => this.app.pluck(session, selected));
+
+    const mainSleep = sessions.find((s) => s.isMainSleep) ?? sessions[0] ?? null;
+    const totalMinutesAsleep = this.app._sumInts(sessions.map((s) => s.minutesAsleep));
+
+    $.export("$summary", sessions.length
+      ? `${sessions.length} sleep session(s) from ${startDate} to ${endDate}`
+        + (mainSleep?.minutesAsleep
+          ? `; main sleep ${Math.floor(mainSleep.minutesAsleep / 60)}h ${mainSleep.minutesAsleep % 60}m asleep`
+          : "")
+      : `No sleep data has synced for ${startDate} to ${endDate}`);
+
+    return {
+      startDate,
+      endDate,
+      sessionCount: sessions.length,
+      totalMinutesAsleep,
+      mainSleep: mainSleep
+        ? this.app.pluck(mainSleep, selected)
+        : null,
+      sessions: trimmed,
+      sleepScoreAvailable: false,
+      truncated: response?.truncated ?? false,
+      nextPageToken: response?.nextPageToken ?? null,
+    };
+  },
+};

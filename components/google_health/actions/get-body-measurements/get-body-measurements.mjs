@@ -1,0 +1,179 @@
+import app from "../../google_health.app.mjs";
+
+const GRAMS_PER_KG = 1000;
+const LB_PER_KG = 2.20462262;
+const MM_PER_CM = 10;
+const MM_PER_INCH = 25.4;
+
+const DEFAULT_FIELDS = [
+  "time",
+  "weightKg",
+  "weightLb",
+  "bmi",
+];
+
+export default {
+  key: "google_health-get-body-measurements",
+  name: "Get Body Measurements",
+  description: "Get the user's weight logs with **computed BMI**, their body-fat percentage logs, and their current height. This replaces Fitbit's body weight and BMI action. Dates are `YYYY-MM-DD` in the user's own timezone; the range is inclusive, defaults to today, and is capped at 90 days. Example: to see this month's weigh-ins, call with startDate=\"2026-08-01\" and endDate=\"2026-08-25\" → returns `weightLogs: [{ time, weightKg: 74.2, weightLb: 163.6, bmi: 22.9, notes }]`, `bodyFatLogs: [{ time, percentage }]`, and `height: { heightCm, heightIn, measuredAt }`. Two things to tell the user rather than guess about: the Google Health API has **no BMI field**, so BMI is computed here as weight in kg divided by height in metres squared — if the user has never recorded a height it comes back `null` and no BMI can be produced. Body fat is a separate measurement from weight, so a weigh-in on a scale that does not measure body composition will appear in `weightLogs` with no matching `bodyFatLogs` entry. [See the documentation](https://developers.google.com/health/reference/rest/v4/users.dataTypes.dataPoints/list)",
+  version: "0.0.1",
+  type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
+  props: {
+    app,
+    startDate: {
+      propDefinition: [
+        app,
+        "startDate",
+      ],
+    },
+    endDate: {
+      propDefinition: [
+        app,
+        "endDate",
+      ],
+    },
+    includeBodyFat: {
+      type: "boolean",
+      label: "Include Body Fat",
+      description: "Include body-fat percentage logs. Defaults to `true`.",
+      default: true,
+      optional: true,
+    },
+    fields: {
+      propDefinition: [
+        app,
+        "fields",
+      ],
+      description: "Field names to keep on each weight log. Defaults to a compact set: "
+        + DEFAULT_FIELDS.join(", ")
+        + ". Available: time, utcOffset, weightGrams, weightKg, weightLb, bmi, notes.",
+    },
+  },
+  async run({ $ }) {
+    const {
+      startDate,
+      endDate,
+      endExclusive,
+    } = this.app._resolveRange({
+      startDate: this.startDate,
+      endDate: this.endDate,
+      dataTypes: [
+        "weight",
+        "body-fat",
+      ],
+    });
+
+    const listRange = (dataType, pageSize = 200) => this.app.listAllDataPoints({
+      $,
+      dataType,
+      filter: this.app._buildTimeFilter({
+        dataType,
+        startDate,
+        endExclusive,
+      }),
+      pageSize,
+    });
+
+    const [
+      weightResponse,
+      bodyFatResponse,
+      heightResponse,
+    ] = await Promise.all([
+      listRange("weight"),
+      this.includeBodyFat === false
+        ? Promise.resolve(null)
+        : listRange("body-fat"),
+      // Height is a standing measurement, not a daily one — it may have been
+      // recorded years before the requested window, so it is fetched over a
+      // wide lookback rather than the caller's range. Without it there is no
+      // BMI at all.
+      this.app.listAllDataPoints({
+        $,
+        dataType: "height",
+        filter: this.app._buildTimeFilter({
+          dataType: "height",
+          startDate: this.app._addDays(startDate, -3650),
+          endExclusive,
+        }),
+        pageSize: 10,
+        maxPages: 1,
+      }),
+    ]);
+
+    // Data points come back newest-first, so the head is the current height.
+    const heightPoint = heightResponse?.dataPoints?.[0]?.height;
+    const heightMm = this.app._int(heightPoint?.heightMillimeters);
+    const height = heightMm === null
+      ? null
+      : {
+        heightCm: this.app._round(heightMm / MM_PER_CM, 1),
+        heightIn: this.app._round(heightMm / MM_PER_INCH, 1),
+        measuredAt: heightPoint?.sampleTime?.physicalTime ?? null,
+      };
+    const heightMetres = heightMm === null
+      ? null
+      : heightMm / 1000;
+
+    const weightLogs = (weightResponse?.dataPoints ?? []).map((point) => {
+      const payload = point?.weight;
+      const grams = this.app._int(payload?.weightGrams);
+      const kg = grams === null
+        ? null
+        : grams / GRAMS_PER_KG;
+      return {
+        time: payload?.sampleTime?.physicalTime ?? null,
+        utcOffset: payload?.sampleTime?.utcOffset ?? null,
+        weightGrams: grams,
+        weightKg: this.app._round(kg, 2),
+        weightLb: kg === null
+          ? null
+          : this.app._round(kg * LB_PER_KG, 1),
+        bmi: (kg === null || !heightMetres)
+          ? null
+          : this.app._round(kg / (heightMetres * heightMetres), 1),
+        notes: payload?.notes ?? null,
+      };
+    });
+
+    const bodyFatLogs = (bodyFatResponse?.dataPoints ?? []).map((point) => ({
+      time: point?.bodyFat?.sampleTime?.physicalTime ?? null,
+      percentage: this.app._round(point?.bodyFat?.percentage, 1),
+    }));
+
+    const selected = this.fields?.length
+      ? this.fields
+      : DEFAULT_FIELDS;
+    const trimmedWeightLogs = weightLogs.map((log) => this.app.pluck(log, selected));
+
+    const latest = weightLogs[0] ?? null;
+
+    $.export("$summary", weightLogs.length
+      ? `${weightLogs.length} weight log(s) from ${startDate} to ${endDate}`
+        + (latest?.weightKg
+          ? `; latest ${latest.weightKg} kg`
+          : "")
+        + (latest?.bmi
+          ? ` (BMI ${latest.bmi})`
+          : height
+            ? ""
+            : " — no height on record, so BMI could not be computed")
+      : `No weight logs between ${startDate} and ${endDate}`);
+
+    return {
+      startDate,
+      endDate,
+      height,
+      bmiComputable: Boolean(heightMetres),
+      weightLogCount: weightLogs.length,
+      weightLogs: trimmedWeightLogs,
+      bodyFatLogs,
+      truncated: Boolean(weightResponse?.truncated || bodyFatResponse?.truncated),
+      nextPageToken: weightResponse?.nextPageToken ?? null,
+    };
+  },
+};
