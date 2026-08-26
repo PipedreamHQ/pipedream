@@ -1,4 +1,12 @@
 import app from "../../google_health.app.mjs";
+import { DEFAULT_MAX_RANGE_DAYS } from "../../common/constants.mjs";
+import {
+  buildTimeFilter,
+  pluck,
+  resolveRange,
+  round,
+  sumInts,
+} from "../../common/utils.mjs";
 
 const ML_PER_LITRE = 1000;
 const ML_PER_FL_OZ_US = 29.5735296;
@@ -17,7 +25,7 @@ const DEFAULT_FIELDS = [
 export default {
   key: "google_health-get-nutrition-and-hydration",
   name: "Get Nutrition and Hydration Logs",
-  description: "Get the user's logged food and water intake for a date or range, with daily calorie and macro totals. This replaces Fitbit's nutrition and water logs action. Dates are `YYYY-MM-DD` in the user's own timezone and the range is inclusive. Example: to see what the user ate and drank yesterday, call with startDate=\"2026-08-24\" → returns `entries: [{ time, foodDisplayName: \"Greek yogurt\", mealType: \"BREAKFAST\", calories: 180, totalFatG: 4.5, totalCarbohydrateG: 9 }]`, `hydration: [{ time, milliliters: 500, liters: 0.5, flOz: 16.9 }]`, and `totals` for the whole range. Set includeTotals=false to skip the aggregate query when only individual entries matter. Notes worth passing on: only food the user **logged manually** appears here — nothing is inferred from activity, so an empty result means nothing was logged rather than nothing was eaten. `mealType` is one of BEFORE_BREAKFAST, BREAKFAST, BEFORE_LUNCH, LUNCH, BEFORE_DINNER, DINNER, AFTER_DINNER, SNACK, or ANYTIME. The full micronutrient breakdown is omitted by default because it spans forty nutrients — include `nutrients` in `fields` to get it. [See the documentation](https://developers.google.com/health/data-types/nutrition)",
+  description: "Get the user's logged food and water intake for a date or range, with daily calorie and macro totals. This replaces Fitbit's nutrition and water logs action. Dates are `YYYY-MM-DD` in the user's own timezone, the range is inclusive, and omitting them defaults to today in UTC. Example: to see what the user ate and drank yesterday, call with startDate=\"2026-08-24\" → returns `entries: [{ time, foodDisplayName: \"Greek yogurt\", mealType: \"BREAKFAST\", calories: 180, totalFatG: 4.5, totalCarbohydrateG: 9 }]`, `hydration: [{ time, milliliters: 500, liters: 0.5, flOz: 16.9 }]`, and `totals` for the whole range. The individual entries have no date-range limit, but `totals` are server-aggregated and therefore capped at 90 days — for a longer range set includeTotals=false and the entries alone will come back. Notes worth passing on: only food the user **logged manually** appears here — nothing is inferred from activity, so an empty result means nothing was logged rather than nothing was eaten. `mealType` is one of BEFORE_BREAKFAST, BREAKFAST, BEFORE_LUNCH, LUNCH, BEFORE_DINNER, DINNER, AFTER_DINNER, SNACK, or ANYTIME. The full micronutrient breakdown is omitted by default because it spans forty nutrients — include `nutrients` in `fields` to get it. [See the documentation](https://developers.google.com/health/data-types/nutrition)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -42,7 +50,7 @@ export default {
     includeTotals: {
       type: "boolean",
       label: "Include Totals",
-      description: "Include aggregated calorie, macro, and water totals for the range. Defaults to `true`.",
+      description: "Include aggregated calorie, macro, and water totals for the range. Defaults to `true`. Totals are server-aggregated and cap the range at 90 days; set this to `false` to read entries over a longer span.",
       default: true,
       optional: true,
     },
@@ -57,31 +65,38 @@ export default {
     },
   },
   async run({ $ }) {
+    const wantTotals = this.includeTotals !== false;
+
+    // Listing entries is uncapped; only the roll-up that produces `totals` is.
+    // Checked here rather than inside resolveRange so the message can name the
+    // prop that lifts the limit.
     const {
       startDate,
       endDate,
       endExclusive,
-    } = this.app._resolveRange({
+      days,
+    } = resolveRange({
       startDate: this.startDate,
       endDate: this.endDate,
-      dataTypes: [
-        "nutrition-log",
-        "hydration-log",
-      ],
     });
+    if (wantTotals && days > DEFAULT_MAX_RANGE_DAYS) {
+      throw new Error(
+        `Requested ${days} days (${startDate} to ${endDate}) but the Google Health API caps `
+        + `aggregated queries at ${DEFAULT_MAX_RANGE_DAYS} days. Set includeTotals=false to read `
+        + "the individual entries over this range, or narrow the dates to get totals as well.",
+      );
+    }
 
     const listRange = (dataType) => this.app.listAllDataPoints({
       $,
       dataType,
-      filter: this.app._buildTimeFilter({
+      filter: buildTimeFilter({
         dataType,
         startDate,
         endExclusive,
       }),
       pageSize: 200,
     });
-
-    const wantTotals = this.includeTotals !== false;
 
     const [
       nutritionResponse,
@@ -117,17 +132,17 @@ export default {
         foodDisplayName: log?.foodDisplayName ?? null,
         foodResourceName: log?.food ?? null,
         mealType: log?.mealType ?? null,
-        calories: this.app._round(log?.energy?.kcal, 0),
-        energyFromFatKcal: this.app._round(log?.energyFromFat?.kcal, 0),
-        totalFatG: this.app._round(log?.totalFat?.grams, 1),
-        totalCarbohydrateG: this.app._round(log?.totalCarbohydrate?.grams, 1),
+        calories: round(log?.energy?.kcal, 0),
+        energyFromFatKcal: round(log?.energyFromFat?.kcal, 0),
+        totalFatG: round(log?.totalFat?.grams, 1),
+        totalCarbohydrateG: round(log?.totalCarbohydrate?.grams, 1),
         servingAmount: log?.serving?.amount ?? null,
         servingUnit: log?.serving?.foodMeasurementUnitDisplayName
           ?? log?.serving?.foodMeasurementUnit
           ?? null,
         nutrients: (log?.nutrients ?? []).map((n) => ({
           nutrient: n?.nutrient ?? null,
-          grams: this.app._round(n?.quantity?.grams, 2),
+          grams: round(n?.quantity?.grams, 2),
         })),
       };
     })
@@ -139,13 +154,13 @@ export default {
       const ml = log?.amountConsumed?.milliliters ?? null;
       return {
         time: log?.interval?.startTime ?? null,
-        milliliters: this.app._round(ml, 0),
-        liters: ml === null
+        milliliters: round(ml, 0),
+        liters: round(ml === null
           ? null
-          : this.app._round(ml / ML_PER_LITRE, 2),
-        flOz: ml === null
+          : ml / ML_PER_LITRE, 2),
+        flOz: round(ml === null
           ? null
-          : this.app._round(ml / ML_PER_FL_OZ_US, 1),
+          : ml / ML_PER_FL_OZ_US, 1),
       };
     })
       .sort((a, b) => String(a.time)
@@ -154,29 +169,25 @@ export default {
     const selected = this.fields?.length
       ? this.fields
       : DEFAULT_FIELDS;
-    const trimmedEntries = entries.map((entry) => this.app.pluck(entry, selected));
+    const trimmedEntries = entries.map((entry) => pluck(entry, selected));
 
-    const sumRollup = (points, pick) => {
-      const values = points
-        .map(pick)
-        .filter((v) => v !== null && v !== undefined);
-      return values.length
-        ? values.reduce((a, b) => a + b, 0)
-        : null;
-    };
+    // Coerced through sumInts like every other total in this app: the roll-up
+    // quantity fields are doubles today, but the int64-as-string convention is
+    // pervasive enough that an uncoerced `+` is not worth the risk.
+    const sumRollup = (points, pick) => sumInts(points.map(pick));
 
     const totals = wantTotals
       ? {
-        calories: this.app._round(
+        calories: round(
           sumRollup(nutritionTotals, (p) => p?.nutritionLog?.energy?.kcalSum), 0,
         ),
-        totalFatG: this.app._round(
+        totalFatG: round(
           sumRollup(nutritionTotals, (p) => p?.nutritionLog?.totalFat?.gramsSum), 1,
         ),
-        totalCarbohydrateG: this.app._round(
+        totalCarbohydrateG: round(
           sumRollup(nutritionTotals, (p) => p?.nutritionLog?.totalCarbohydrate?.gramsSum), 1,
         ),
-        waterMl: this.app._round(
+        waterMl: round(
           sumRollup(hydrationTotals, (p) => p?.hydrationLog?.amountConsumed?.millilitersSum), 0,
         ),
       }
@@ -184,7 +195,7 @@ export default {
     if (totals) {
       totals.waterLiters = totals.waterMl === null
         ? null
-        : this.app._round(totals.waterMl / ML_PER_LITRE, 2);
+        : round(totals.waterMl / ML_PER_LITRE, 2);
     }
 
     $.export("$summary", (entries.length || hydration.length)
@@ -203,7 +214,6 @@ export default {
       entries: trimmedEntries,
       hydration,
       truncated: Boolean(nutritionResponse?.truncated || hydrationResponse?.truncated),
-      nextPageToken: nutritionResponse?.nextPageToken ?? null,
     };
   },
 };

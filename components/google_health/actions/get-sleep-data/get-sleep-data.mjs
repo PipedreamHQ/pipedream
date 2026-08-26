@@ -1,4 +1,12 @@
 import app from "../../google_health.app.mjs";
+import {
+  buildTimeFilter,
+  int,
+  pluck,
+  resolveRange,
+  round,
+  sumInts,
+} from "../../common/utils.mjs";
 
 const DEFAULT_FIELDS = [
   "startTime",
@@ -17,7 +25,7 @@ const DEFAULT_FIELDS = [
 export default {
   key: "google_health-get-sleep-data",
   name: "Get Sleep Data",
-  description: "Get the user's sleep sessions for a date or range, with per-stage totals, time asleep and awake, and a derived efficiency figure. A session is attributed to the date the user **woke up**, matching how Fitbit reported sleep — so asking for 2026-08-24 returns the night of the 23rd into the 24th. Dates are `YYYY-MM-DD` in the user's own timezone and the range is inclusive. Example: to see last night's sleep, call with startDate=\"2026-08-24\" → returns `sessions: [{ startTime, endTime, type: \"STAGES\", isMainSleep: true, minutesAsleep: 431, minutesAwake: 48, efficiency: 0.9, stageTotals: { LIGHT: 240, DEEP: 71, REM: 120, AWAKE: 48 } }]` plus `mainSleep` and `totalMinutesAsleep`. Things worth telling the user rather than inventing: this API has **no sleep score**, so none is returned — `efficiency` is computed here as time asleep divided by time in bed, which is not the same number Fitbit showed. Stage names depend on `type`: a `STAGES` session reports LIGHT/DEEP/REM/AWAKE, while an older `CLASSIC` session reports only ASLEEP/AWAKE/RESTLESS, so read `stageTotals` rather than assuming a fixed set of stages. Naps appear as separate sessions with `isNap: true`. Pass `fields` to trim the output, or include `stages` in it to get every individual stage segment. [See the documentation](https://developers.google.com/health/reference/rest/v4/users.dataTypes.dataPoints/list)",
+  description: "Get the user's sleep sessions for a date or range, with per-stage totals, time asleep and awake, and a derived efficiency figure. A session is attributed to the date the user **woke up**, matching how Fitbit reported sleep — so asking for 2026-08-24 returns the night of the 23rd into the 24th. Dates are `YYYY-MM-DD` in the user's own timezone, the range is inclusive, and omitting them defaults to today in UTC. Example: to see last night's sleep, call with startDate=\"2026-08-24\" → returns `sessions: [{ startTime, endTime, type: \"STAGES\", isMainSleep: true, minutesAsleep: 431, minutesAwake: 48, efficiency: 0.9, stageTotals: { LIGHT: 240, DEEP: 71, REM: 120, AWAKE: 48 } }]` plus `mainSleep` and `totalMinutesAsleep`. Things worth telling the user rather than inventing: this API has **no sleep score**, so none is returned — `efficiency` is computed here as time asleep divided by time in bed, which is not the same number Fitbit showed. Stage names depend on `type`: a `STAGES` session reports LIGHT/DEEP/REM/AWAKE, while an older `CLASSIC` session reports only ASLEEP/AWAKE/RESTLESS, so read `stageTotals` rather than assuming a fixed set of stages. Naps appear as separate sessions with `isNap: true`. At most 125 sessions come back per call; if `truncated` is `true` there were more, so narrow the date range. Pass `fields` to trim the output, or include `stages` in it to get every individual stage segment. [See the documentation](https://developers.google.com/health/reference/rest/v4/users.dataTypes.dataPoints/list)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -50,16 +58,16 @@ export default {
     },
   },
   async run({ $ }) {
+    // No `rollUpDataTypes`: `sleep` has no roll-up operation at all, so this is
+    // a pure `list` call and the roll-up range caps do not apply. The 5-page
+    // ceiling below is what bounds the response.
     const {
       startDate,
       endDate,
       endExclusive,
-    } = this.app._resolveRange({
+    } = resolveRange({
       startDate: this.startDate,
       endDate: this.endDate,
-      dataTypes: [
-        "sleep",
-      ],
     });
 
     // The API caps `sleep` page size at 25 — that is a truncation point, not a
@@ -68,7 +76,7 @@ export default {
     const response = await this.app.listAllDataPoints({
       $,
       dataType: "sleep",
-      filter: this.app._buildTimeFilter({
+      filter: buildTimeFilter({
         dataType: "sleep",
         startDate,
         endExclusive,
@@ -91,11 +99,11 @@ export default {
         if (!stage?.type) {
           continue;
         }
-        stageTotals[stage.type] = this.app._int(stage.minutes);
+        stageTotals[stage.type] = int(stage.minutes);
       }
 
-      const minutesAsleep = this.app._int(summary.minutesAsleep);
-      const minutesInBed = this.app._int(summary.minutesInSleepPeriod);
+      const minutesAsleep = int(summary.minutesAsleep);
+      const minutesInBed = int(summary.minutesInSleepPeriod);
 
       return {
         startTime: sleep?.interval?.startTime ?? null,
@@ -108,14 +116,14 @@ export default {
         isNap: metadata.nap ?? null,
         stagesStatus: metadata.stagesStatus ?? null,
         minutesAsleep,
-        minutesAwake: this.app._int(summary.minutesAwake),
+        minutesAwake: int(summary.minutesAwake),
         minutesInSleepPeriod: minutesInBed,
-        minutesToFallAsleep: this.app._int(summary.minutesToFallAsleep),
-        minutesAfterWakeUp: this.app._int(summary.minutesAfterWakeUp),
+        minutesToFallAsleep: int(summary.minutesToFallAsleep),
+        minutesAfterWakeUp: int(summary.minutesAfterWakeUp),
         // Derived, not native. Fitbit's own efficiency figure used a different
         // formula, so this will not match it exactly.
         efficiency: (minutesAsleep !== null && minutesInBed)
-          ? this.app._round(minutesAsleep / minutesInBed, 2)
+          ? round(minutesAsleep / minutesInBed, 2)
           : null,
         stageTotals,
         stages: sleep?.stages ?? [],
@@ -129,10 +137,10 @@ export default {
     const selected = this.fields?.length
       ? this.fields
       : DEFAULT_FIELDS;
-    const trimmed = sessions.map((session) => this.app.pluck(session, selected));
+    const trimmed = sessions.map((session) => pluck(session, selected));
 
     const mainSleep = sessions.find((s) => s.isMainSleep) ?? sessions[0] ?? null;
-    const totalMinutesAsleep = this.app._sumInts(sessions.map((s) => s.minutesAsleep));
+    const totalMinutesAsleep = sumInts(sessions.map((s) => s.minutesAsleep));
 
     $.export("$summary", sessions.length
       ? `${sessions.length} sleep session(s) from ${startDate} to ${endDate}`
@@ -147,12 +155,11 @@ export default {
       sessionCount: sessions.length,
       totalMinutesAsleep,
       mainSleep: mainSleep
-        ? this.app.pluck(mainSleep, selected)
+        ? pluck(mainSleep, selected)
         : null,
       sessions: trimmed,
       sleepScoreAvailable: false,
       truncated: response?.truncated ?? false,
-      nextPageToken: response?.nextPageToken ?? null,
     };
   },
 };

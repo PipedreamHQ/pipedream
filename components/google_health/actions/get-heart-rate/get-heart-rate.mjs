@@ -1,5 +1,14 @@
 import app from "../../google_health.app.mjs";
 import { ROLLUP_WINDOWS } from "../../common/constants.mjs";
+import {
+  buildTimeFilter,
+  civilDateToString,
+  durationToSeconds,
+  int,
+  resolveRange,
+  round,
+  utcRangeForDates,
+} from "../../common/utils.mjs";
 
 /**
  * Ceiling on windows returned in one call. Beyond roughly this many, the
@@ -11,7 +20,7 @@ const MAX_WINDOWS = 1000;
 export default {
   key: "google_health-get-heart-rate",
   name: "Get Heart Rate",
-  description: "Get the user's heart rate over a date range, aggregated into time windows, plus their daily resting heart rate. Each window reports average, minimum, and maximum BPM. This replaces Fitbit's intraday heart rate action — choose the window with `granularity` rather than Fitbit's detail level. Dates are `YYYY-MM-DD` in the user's own timezone; the range is inclusive and **capped at 14 days**. Example: to see how yesterday's heart rate moved through the day, call with startDate=\"2026-08-24\" and granularity=\"900s\" → returns 96 fifteen-minute windows as `{ startTime, endTime, avgBpm, minBpm, maxBpm }`, plus `restingHeartRate: [{ date, bpm }]` and an overall `summary`. For a single figure for the day use granularity=\"86400s\". Fitbit's one-second detail level is deliberately not offered — it would be 86,400 windows for a single day. If the user only wants resting heart rate, this tool still returns it; there is no separate resting-HR tool. Use **Get Daily Activity Summary** for active zone minutes, which are heart-rate derived but reported as activity. [See the documentation](https://developers.google.com/health/reference/rest/v4/users.dataTypes.dataPoints/rollUp)",
+  description: "Get the user's heart rate over a date range, aggregated into time windows, plus their daily resting heart rate. Each window reports average, minimum, and maximum BPM. This replaces Fitbit's intraday heart rate action — choose the window with `granularity` rather than Fitbit's detail level. Dates are `YYYY-MM-DD` in the user's own timezone and omitting them defaults to today in UTC; the range is inclusive and **capped at 14 days** because the windows are server-aggregated. Example: to see how yesterday's heart rate moved through the day, call with startDate=\"2026-08-24\" and granularity=\"900s\" → returns 96 fifteen-minute windows as `{ startTime, endTime, avgBpm, minBpm, maxBpm }`, plus `restingHeartRate: [{ date, bpm }]` and an overall `summary`. For a single figure for the day use granularity=\"86400s\". Fitbit's one-second detail level is deliberately not offered — it would be 86,400 windows for a single day. If the user only wants resting heart rate, this tool still returns it; there is no separate resting-HR tool. Use **Get Daily Activity Summary** (`google_health-get-daily-activity-summary`) for active zone minutes, which are heart-rate derived but reported as activity. [See the documentation](https://developers.google.com/health/reference/rest/v4/users.dataTypes.dataPoints/rollUp)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -55,41 +64,20 @@ export default {
       endDate,
       endExclusive,
       days: dayCount,
-    } = this.app._resolveRange({
+    } = resolveRange({
       startDate: this.startDate,
       endDate: this.endDate,
-      dataTypes: [
+      rollUpDataTypes: [
         "heart-rate",
       ],
-    });
-
-    // `rollUp` takes physical-time instants, so the user's civil dates have to
-    // be anchored to their actual UTC offset. Assuming UTC would shift the
-    // window by hours for anyone not on UTC and return the wrong data without
-    // any error to signal it.
-    const {
-      utcOffset,
-      offsetSeconds,
-      offsetSource,
-    } = await this.app._resolveUtcOffset({
-      $,
-      dataType: "heart-rate",
-      startDate,
-      endExclusive,
-    });
-
-    const range = this.app._utcRangeForDates({
-      startDate,
-      endExclusive,
-      offsetSeconds,
     });
 
     // Refuse an over-wide query instead of quietly returning a partial series.
     // The agent can act on "use a coarser window"; it cannot detect a series
     // that stopped early, and a few thousand windows would blow the response
-    // size limit anyway.
+    // size limit anyway. Checked before any request goes out.
     const granularity = this.granularity ?? "3600s";
-    const windowSeconds = this.app._durationToSeconds(granularity);
+    const windowSeconds = durationToSeconds(granularity);
     if (windowSeconds <= 0) {
       throw new Error(`Invalid granularity \`${granularity}\`. Use one of: ${ROLLUP_WINDOWS.map(({ value }) => value).join(", ")}.`);
     }
@@ -97,7 +85,7 @@ export default {
     if (expectedWindows > MAX_WINDOWS) {
       const suggestion = ROLLUP_WINDOWS
         .map(({ value }) => value)
-        .find((v) => Math.ceil((dayCount * 86400) / this.app._durationToSeconds(v)) <= MAX_WINDOWS);
+        .find((v) => Math.ceil((dayCount * 86400) / durationToSeconds(v)) <= MAX_WINDOWS);
       throw new Error(
         `A ${dayCount}-day range at ${granularity} granularity would produce about `
         + `${expectedWindows} windows, over the ${MAX_WINDOWS}-window limit for one call. `
@@ -106,6 +94,28 @@ export default {
           : "Narrow the date range."),
       );
     }
+
+    // `rollUp` takes physical-time instants, so the user's civil dates have to
+    // be anchored to their actual UTC offset. Assuming UTC would shift the
+    // window by hours for anyone not on UTC and return the wrong data without
+    // any error to signal it. Costs one extra read, and only this action needs
+    // it — every other tool here is on a civil-time endpoint.
+    const {
+      utcOffset,
+      offsetSeconds,
+      offsetSource,
+    } = await this.app.resolveUtcOffset({
+      $,
+      dataType: "heart-rate",
+      startDate,
+      endExclusive,
+    });
+
+    const range = utcRangeForDates({
+      startDate,
+      endExclusive,
+      offsetSeconds,
+    });
 
     const [
       rollUpResponse,
@@ -127,7 +137,7 @@ export default {
         : this.app.listAllDataPoints({
           $,
           dataType: "daily-resting-heart-rate",
-          filter: this.app._buildTimeFilter({
+          filter: buildTimeFilter({
             dataType: "daily-resting-heart-rate",
             startDate,
             endExclusive,
@@ -140,9 +150,9 @@ export default {
       .map((point) => ({
         startTime: point?.startTime ?? null,
         endTime: point?.endTime ?? null,
-        avgBpm: this.app._round(point?.heartRate?.beatsPerMinuteAvg, 1),
-        minBpm: this.app._round(point?.heartRate?.beatsPerMinuteMin, 1),
-        maxBpm: this.app._round(point?.heartRate?.beatsPerMinuteMax, 1),
+        avgBpm: round(point?.heartRate?.beatsPerMinuteAvg, 1),
+        minBpm: round(point?.heartRate?.beatsPerMinuteMin, 1),
+        maxBpm: round(point?.heartRate?.beatsPerMinuteMax, 1),
       }))
       .filter((w) => w.avgBpm !== null || w.minBpm !== null || w.maxBpm !== null);
 
@@ -152,11 +162,11 @@ export default {
         const date = payload?.date;
         return {
           date: date
-            ? this.app._civilDateToString({
+            ? civilDateToString({
               date,
             })
             : null,
-          bpm: this.app._int(payload?.beatsPerMinute),
+          bpm: int(payload?.beatsPerMinute),
         };
       })
       .filter((r) => r.bpm !== null)
@@ -175,7 +185,7 @@ export default {
 
     const summary = {
       avgBpm: avgValues.length
-        ? this.app._round(avgValues.reduce((a, b) => a + b, 0) / avgValues.length, 1)
+        ? round(avgValues.reduce((a, b) => a + b, 0) / avgValues.length, 1)
         : null,
       minBpm: minValues.length
         ? Math.min(...minValues)

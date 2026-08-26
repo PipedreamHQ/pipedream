@@ -1,4 +1,12 @@
 import app from "../../google_health.app.mjs";
+import {
+  addDays,
+  buildTimeFilter,
+  int,
+  pluck,
+  resolveRange,
+  round,
+} from "../../common/utils.mjs";
 
 const GRAMS_PER_KG = 1000;
 const LB_PER_KG = 2.20462262;
@@ -15,7 +23,7 @@ const DEFAULT_FIELDS = [
 export default {
   key: "google_health-get-body-measurements",
   name: "Get Body Measurements",
-  description: "Get the user's weight logs with **computed BMI**, their body-fat percentage logs, and their current height. This replaces Fitbit's body weight and BMI action. Dates are `YYYY-MM-DD` in the user's own timezone; the range is inclusive, defaults to today, and is capped at 90 days. Example: to see this month's weigh-ins, call with startDate=\"2026-08-01\" and endDate=\"2026-08-25\" → returns `weightLogs: [{ time, weightKg: 74.2, weightLb: 163.6, bmi: 22.9, notes }]`, `bodyFatLogs: [{ time, percentage }]`, and `height: { heightCm, heightIn, measuredAt }`. Two things to tell the user rather than guess about: the Google Health API has **no BMI field**, so BMI is computed here as weight in kg divided by height in metres squared — if the user has never recorded a height it comes back `null` and no BMI can be produced. Body fat is a separate measurement from weight, so a weigh-in on a scale that does not measure body composition will appear in `weightLogs` with no matching `bodyFatLogs` entry. [See the documentation](https://developers.google.com/health/reference/rest/v4/users.dataTypes.dataPoints/list)",
+  description: "Get the user's weight logs with **computed BMI**, their body-fat percentage logs, and their current height. This replaces Fitbit's body weight and BMI action. Dates are `YYYY-MM-DD` in the user's own timezone, the range is inclusive, and omitting them defaults to today in UTC. Example: to see this month's weigh-ins, call with startDate=\"2026-08-01\" and endDate=\"2026-08-25\" → returns `weightLogs: [{ time, weightKg: 74.2, weightLb: 163.6, bmi: 22.9, notes }]`, `bodyFatLogs: [{ time, percentage }]`, and `height: { heightCm, heightIn, measuredAt }`. Long ranges are fine — these are raw logs rather than server-aggregated totals, so there is no date cap; at most 1000 weigh-ins come back per call and `truncated` says when there were more. Two things to tell the user rather than guess about: the Google Health API has **no BMI field**, so BMI is computed here as weight in kg divided by height in metres squared — if the user has never recorded a height it comes back `null` and no BMI can be produced. Body fat is a separate measurement from weight, so a weigh-in on a scale that does not measure body composition will appear in `weightLogs` with no matching `bodyFatLogs` entry. [See the documentation](https://developers.google.com/health/reference/rest/v4/users.dataTypes.dataPoints/list)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -55,23 +63,22 @@ export default {
     },
   },
   async run({ $ }) {
+    // No `rollUpDataTypes`: every read below is a `list` call, which the API
+    // does not range-cap. Weight and body fat do support roll-up, but this
+    // action does not use it.
     const {
       startDate,
       endDate,
       endExclusive,
-    } = this.app._resolveRange({
+    } = resolveRange({
       startDate: this.startDate,
       endDate: this.endDate,
-      dataTypes: [
-        "weight",
-        "body-fat",
-      ],
     });
 
     const listRange = (dataType, pageSize = 200) => this.app.listAllDataPoints({
       $,
       dataType,
-      filter: this.app._buildTimeFilter({
+      filter: buildTimeFilter({
         dataType,
         startDate,
         endExclusive,
@@ -95,9 +102,9 @@ export default {
       this.app.listAllDataPoints({
         $,
         dataType: "height",
-        filter: this.app._buildTimeFilter({
+        filter: buildTimeFilter({
           dataType: "height",
-          startDate: this.app._addDays(startDate, -3650),
+          startDate: addDays(startDate, -3650),
           endExclusive,
         }),
         pageSize: 10,
@@ -107,12 +114,12 @@ export default {
 
     // Data points come back newest-first, so the head is the current height.
     const heightPoint = heightResponse?.dataPoints?.[0]?.height;
-    const heightMm = this.app._int(heightPoint?.heightMillimeters);
+    const heightMm = int(heightPoint?.heightMillimeters);
     const height = heightMm === null
       ? null
       : {
-        heightCm: this.app._round(heightMm / MM_PER_CM, 1),
-        heightIn: this.app._round(heightMm / MM_PER_INCH, 1),
+        heightCm: round(heightMm / MM_PER_CM, 1),
+        heightIn: round(heightMm / MM_PER_INCH, 1),
         measuredAt: heightPoint?.sampleTime?.physicalTime ?? null,
       };
     const heightMetres = heightMm === null
@@ -121,7 +128,7 @@ export default {
 
     const weightLogs = (weightResponse?.dataPoints ?? []).map((point) => {
       const payload = point?.weight;
-      const grams = this.app._int(payload?.weightGrams);
+      const grams = int(payload?.weightGrams);
       const kg = grams === null
         ? null
         : grams / GRAMS_PER_KG;
@@ -129,26 +136,26 @@ export default {
         time: payload?.sampleTime?.physicalTime ?? null,
         utcOffset: payload?.sampleTime?.utcOffset ?? null,
         weightGrams: grams,
-        weightKg: this.app._round(kg, 2),
+        weightKg: round(kg, 2),
         weightLb: kg === null
           ? null
-          : this.app._round(kg * LB_PER_KG, 1),
+          : round(kg * LB_PER_KG, 1),
         bmi: (kg === null || !heightMetres)
           ? null
-          : this.app._round(kg / (heightMetres * heightMetres), 1),
+          : round(kg / (heightMetres * heightMetres), 1),
         notes: payload?.notes ?? null,
       };
     });
 
     const bodyFatLogs = (bodyFatResponse?.dataPoints ?? []).map((point) => ({
       time: point?.bodyFat?.sampleTime?.physicalTime ?? null,
-      percentage: this.app._round(point?.bodyFat?.percentage, 1),
+      percentage: round(point?.bodyFat?.percentage, 1),
     }));
 
     const selected = this.fields?.length
       ? this.fields
       : DEFAULT_FIELDS;
-    const trimmedWeightLogs = weightLogs.map((log) => this.app.pluck(log, selected));
+    const trimmedWeightLogs = weightLogs.map((log) => pluck(log, selected));
 
     const latest = weightLogs[0] ?? null;
 
@@ -173,7 +180,6 @@ export default {
       weightLogs: trimmedWeightLogs,
       bodyFatLogs,
       truncated: Boolean(weightResponse?.truncated || bodyFatResponse?.truncated),
-      nextPageToken: weightResponse?.nextPageToken ?? null,
     };
   },
 };

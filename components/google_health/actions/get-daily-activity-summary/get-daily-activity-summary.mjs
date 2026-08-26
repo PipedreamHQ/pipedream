@@ -1,4 +1,11 @@
 import app from "../../google_health.app.mjs";
+import {
+  civilDateToString,
+  int,
+  resolveRange,
+  round,
+  sumInts,
+} from "../../common/utils.mjs";
 
 /**
  * The data types the summary aggregates. `total-calories` and `floors` have no
@@ -21,7 +28,7 @@ const MM_PER_MILE = 1609344;
 export default {
   key: "google_health-get-daily-activity-summary",
   name: "Get Daily Activity Summary",
-  description: "Get a complete daily activity summary: steps, distance, calories burned, active minutes by intensity, active zone minutes by heart rate zone, and floors climbed. This is the replacement for Fitbit's daily activity summary and the right tool whenever the user wants an overall picture of a day rather than one metric. Use **Get Daily Step Count** if steps alone are wanted, or **Get Heart Rate** for heart rate detail. Dates are `YYYY-MM-DD` in the user's own timezone; the range is inclusive and **capped at 14 days** (calories and active minutes impose that limit). Example: to summarize yesterday, call with startDate=\"2026-08-24\" → returns `days: [{ date, steps: 8432, distanceKm: 6.1, totalCalories: 2380, activeCalories: 620, activeMinutes: { light, moderate, vigorous, total }, activeZoneMinutes: { fatBurn, cardio, peak, total }, floors: 12 }]`. Set dataSourceFamily=\"google-wearables\" to exclude manually logged activity. Two caveats worth passing on to the user: this API has no concept of daily goals, so no targets are returned; and `activeZoneMinutes.total` follows Fitbit's convention of double-weighting cardio and peak minutes (`fatBurn + 2×cardio + 2×peak`). An empty `days` array means nothing has synced for those dates — say so rather than reporting zeros. [See the documentation](https://developers.google.com/health/reference/rest/v4/users.dataTypes.dataPoints/dailyRollUp)",
+  description: "Get a complete daily activity summary: steps, distance, calories burned, active minutes by intensity, active zone minutes by heart rate zone, and floors climbed. This is the replacement for Fitbit's daily activity summary and the right tool whenever the user wants an overall picture of a day rather than one metric. Use **Get Daily Step Count** (`google_health-get-daily-steps`) if steps alone are wanted, or **Get Heart Rate** (`google_health-get-heart-rate`) for heart rate detail. Dates are `YYYY-MM-DD` in the user's own timezone and omitting them defaults to today in UTC; the range is inclusive and **capped at 14 days** because these totals are server-aggregated (calories and active minutes impose that limit). Example: to summarize yesterday, call with startDate=\"2026-08-24\" → returns `days: [{ date, steps: 8432, distanceKm: 6.1, totalCalories: 2380, activeCalories: 620, activeMinutes: { light, moderate, vigorous, total }, activeZoneMinutes: { fatBurn, cardio, peak, total }, floors: 12 }]`. Set dataSourceFamily=\"google-wearables\" to exclude manually logged activity. A `null` metric means nothing synced for it; it never means zero. Two caveats worth passing on to the user: this API has no concept of daily goals, so no targets are returned; and `activeZoneMinutes.total` follows Fitbit's convention of double-weighting cardio and peak minutes (`fatBurn + 2×cardio + 2×peak`). An empty `days` array means nothing has synced for those dates — say so rather than reporting zeros. [See the documentation](https://developers.google.com/health/reference/rest/v4/users.dataTypes.dataPoints/dailyRollUp)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -56,10 +63,10 @@ export default {
       endDate,
       endExclusive,
       days: dayCount,
-    } = this.app._resolveRange({
+    } = resolveRange({
       startDate: this.startDate,
       endDate: this.endDate,
-      dataTypes: SUMMARY_DATA_TYPES,
+      rollUpDataTypes: SUMMARY_DATA_TYPES,
     });
 
     // A bounded fan-out, not an N+1: seven concurrent roll-ups regardless of
@@ -77,7 +84,7 @@ export default {
     // may be present in some and absent from others.
     const byDate = new Map();
     const dayFor = (point) => {
-      const date = this.app._civilDateToString(point?.civilStartTime);
+      const date = civilDateToString(point?.civilStartTime);
       if (!date) {
         return null;
       }
@@ -115,50 +122,55 @@ export default {
         }
 
         if (dataType === "steps") {
-          day.steps = this.app._int(point?.steps?.countSum);
+          day.steps = int(point?.steps?.countSum);
         } else if (dataType === "distance") {
-          const mm = this.app._int(point?.distance?.millimetersSum);
+          const mm = int(point?.distance?.millimetersSum);
           day.distanceKm = mm === null
             ? null
-            : this.app._round(mm / MM_PER_KM);
+            : round(mm / MM_PER_KM);
           day.distanceMiles = mm === null
             ? null
-            : this.app._round(mm / MM_PER_MILE);
+            : round(mm / MM_PER_MILE);
         } else if (dataType === "total-calories") {
-          day.totalCalories = this.app._round(point?.totalCalories?.kcalSum, 0);
+          day.totalCalories = round(point?.totalCalories?.kcalSum, 0);
         } else if (dataType === "active-energy-burned") {
-          day.activeCalories = this.app._round(point?.activeEnergyBurned?.kcalSum, 0);
+          day.activeCalories = round(point?.activeEnergyBurned?.kcalSum, 0);
         } else if (dataType === "active-minutes") {
           const byLevel = point?.activeMinutes?.activeMinutesRollupByActivityLevel ?? [];
           for (const entry of byLevel) {
-            const minutes = this.app._int(entry?.activeMinutesSum);
-            if (entry?.activityLevel === "LIGHT") day.activeMinutes.light = minutes;
-            if (entry?.activityLevel === "MODERATE") day.activeMinutes.moderate = minutes;
-            if (entry?.activityLevel === "VIGOROUS") day.activeMinutes.vigorous = minutes;
+            const minutes = int(entry?.activeMinutesSum);
+            if (entry?.activityLevel === "LIGHT") {
+              day.activeMinutes.light = minutes;
+            }
+            if (entry?.activityLevel === "MODERATE") {
+              day.activeMinutes.moderate = minutes;
+            }
+            if (entry?.activityLevel === "VIGOROUS") {
+              day.activeMinutes.vigorous = minutes;
+            }
           }
-          day.activeMinutes.total = this.app._sumInts([
+          day.activeMinutes.total = sumInts([
             day.activeMinutes.light,
             day.activeMinutes.moderate,
             day.activeMinutes.vigorous,
           ]);
         } else if (dataType === "active-zone-minutes") {
           const azm = point?.activeZoneMinutes;
-          day.activeZoneMinutes.fatBurn = this.app._int(azm?.sumInFatBurnHeartZone);
-          day.activeZoneMinutes.cardio = this.app._int(azm?.sumInCardioHeartZone);
-          day.activeZoneMinutes.peak = this.app._int(azm?.sumInPeakHeartZone);
+          day.activeZoneMinutes.fatBurn = int(azm?.sumInFatBurnHeartZone);
+          day.activeZoneMinutes.cardio = int(azm?.sumInCardioHeartZone);
+          day.activeZoneMinutes.peak = int(azm?.sumInPeakHeartZone);
           // The API returns no total. Fitbit's Active Zone Minutes convention
           // counts cardio and peak minutes double, so a plain sum would not
           // match the figure a Fitbit user recognises.
-          const weighted = this.app._sumInts([
+          day.activeZoneMinutes.total = sumInts([
             day.activeZoneMinutes.fatBurn,
             day.activeZoneMinutes.cardio,
             day.activeZoneMinutes.cardio,
             day.activeZoneMinutes.peak,
             day.activeZoneMinutes.peak,
           ]);
-          day.activeZoneMinutes.total = weighted;
         } else if (dataType === "floors") {
-          day.floors = this.app._int(point?.floors?.countSum);
+          day.floors = int(point?.floors?.countSum);
         }
       }
     });
@@ -167,16 +179,18 @@ export default {
       ...byDate.values(),
     ].sort((a, b) => a.date.localeCompare(b.date));
 
+    // Every total stays null-preserving: "nothing synced" and "a real zero" are
+    // different answers, and the description tells the agent to report them
+    // differently.
     const totals = {
-      steps: this.app._sumInts(days.map((d) => d.steps)),
-      distanceKm: this.app._round(
-        days.reduce((sum, d) => sum + (d.distanceKm ?? 0), 0),
-      ),
-      totalCalories: this.app._sumInts(days.map((d) => d.totalCalories)),
-      activeCalories: this.app._sumInts(days.map((d) => d.activeCalories)),
-      activeMinutes: this.app._sumInts(days.map((d) => d.activeMinutes.total)),
-      activeZoneMinutes: this.app._sumInts(days.map((d) => d.activeZoneMinutes.total)),
-      floors: this.app._sumInts(days.map((d) => d.floors)),
+      steps: sumInts(days.map((d) => d.steps)),
+      distanceKm: round(sumInts(days.map((d) => d.distanceKm))),
+      distanceMiles: round(sumInts(days.map((d) => d.distanceMiles))),
+      totalCalories: sumInts(days.map((d) => d.totalCalories)),
+      activeCalories: sumInts(days.map((d) => d.activeCalories)),
+      activeMinutes: sumInts(days.map((d) => d.activeMinutes.total)),
+      activeZoneMinutes: sumInts(days.map((d) => d.activeZoneMinutes.total)),
+      floors: sumInts(days.map((d) => d.floors)),
     };
 
     $.export("$summary", days.length

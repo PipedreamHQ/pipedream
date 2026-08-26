@@ -3,10 +3,15 @@ import {
   BASE_URL,
   DATA_SOURCE_FAMILIES,
   DATA_TYPES,
-  DEFAULT_MAX_RANGE_DAYS,
-  TIME_FILTER_FIELD,
   USER,
 } from "./common/constants.mjs";
+import {
+  addDays,
+  buildTimeFilter,
+  civilInterval,
+  dataSourceFamilyPath,
+  durationToSeconds,
+} from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -15,7 +20,7 @@ export default {
     startDate: {
       type: "string",
       label: "Start Date",
-      description: "Start date in `YYYY-MM-DD` format (e.g. `2026-08-24`). Defaults to today. Dates are interpreted in the user's own timezone, not UTC.",
+      description: "Start date in `YYYY-MM-DD` format (e.g. `2026-08-24`), interpreted in the user's own timezone. Defaults to **today's date in UTC**, which can be a day ahead or behind the user's local date late at night or early in the morning — pass an explicit date whenever the exact day matters. Every response echoes the dates it actually used.",
       optional: true,
     },
     endDate: {
@@ -61,179 +66,6 @@ export default {
         headers: this._headers(headers),
         ...otherConfig,
       });
-    },
-
-    /**
-     * Google encodes int64 as a JSON *string*. Every step count, distance,
-     * height and sleep-minutes field arrives as text, so an unguarded sum
-     * produces string concatenation: "8432" + "7911" === "84327911".
-     */
-    _int(value) {
-      if (value === null || value === undefined || value === "") {
-        return null;
-      }
-      const n = Number(value);
-      return Number.isFinite(n)
-        ? n
-        : null;
-    },
-    _sumInts(values = []) {
-      const nums = values
-        .map((v) => this._int(v))
-        .filter((v) => v !== null);
-      return nums.length
-        ? nums.reduce((a, b) => a + b, 0)
-        : null;
-    },
-    _round(value, places = 2) {
-      if (value === null || value === undefined) {
-        return null;
-      }
-      const factor = 10 ** places;
-      return Math.round(value * factor) / factor;
-    },
-
-    _dateOrToday(date) {
-      return date || new Date()
-        .toISOString()
-        .slice(0, 10);
-    },
-    /**
-     * Parses `YYYY-MM-DD` as a UTC calendar date. Parsing it as local time
-     * would shift the day for anyone west of UTC and silently return the
-     * wrong date's data.
-     */
-    _parseDate(date) {
-      const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(date).trim());
-      if (!match) {
-        throw new Error(`Invalid date \`${date}\`. Use \`YYYY-MM-DD\`, e.g. \`2026-08-24\`.`);
-      }
-      const [
-        ,
-        year,
-        month,
-        day,
-      ] = match.map(Number);
-      const ms = Date.UTC(year, month - 1, day);
-      const parsed = new Date(ms);
-      if (parsed.getUTCFullYear() !== year
-        || parsed.getUTCMonth() !== month - 1
-        || parsed.getUTCDate() !== day) {
-        throw new Error(`\`${date}\` is not a real calendar date.`);
-      }
-      return parsed;
-    },
-    _formatDate(dateObj) {
-      return dateObj.toISOString()
-        .slice(0, 10);
-    },
-    _addDays(date, days) {
-      const parsed = this._parseDate(date);
-      return this._formatDate(new Date(parsed.getTime() + (days * 86400000)));
-    },
-    _daysBetween(startDate, endDate) {
-      const ms = this._parseDate(endDate).getTime() - this._parseDate(startDate).getTime();
-      return Math.round(ms / 86400000);
-    },
-    /**
-     * Resolves the inclusive date range an action was called with into the
-     * closed-open `[start, endExclusive)` the API expects, validating the
-     * per-data-type range cap on the way through.
-     *
-     * Caps are 14 days for `heart-rate`, `active-minutes`, `total-calories` and
-     * `calories-in-heart-rate-zone`; 90 for everything else.
-     */
-    _resolveRange({
-      startDate,
-      endDate,
-      dataTypes = [],
-    }) {
-      const start = this._dateOrToday(startDate);
-      const end = endDate || start;
-      const span = this._daysBetween(start, end);
-      if (span < 0) {
-        throw new Error(`End Date \`${end}\` is before Start Date \`${start}\`.`);
-      }
-      const days = span + 1;
-
-      const capped = dataTypes
-        .map((dataType) => ({
-          dataType,
-          max: DATA_TYPES[dataType]?.maxRangeDays ?? DEFAULT_MAX_RANGE_DAYS,
-        }))
-        .sort((a, b) => a.max - b.max)[0];
-      if (capped && days > capped.max) {
-        throw new Error(
-          `Requested ${days} days (${start} to ${end}) but the Google Health API caps `
-          + `\`${capped.dataType}\` queries at ${capped.max} days. Narrow the date range and call again.`,
-        );
-      }
-
-      return {
-        startDate: start,
-        endDate: end,
-        endExclusive: this._addDays(end, 1),
-        days,
-      };
-    },
-
-    /** `2026-08-24` -> `{ date: { year: 2026, month: 8, day: 24 } }` */
-    _civilDateTime(date) {
-      const parsed = this._parseDate(date);
-      return {
-        date: {
-          year: parsed.getUTCFullYear(),
-          month: parsed.getUTCMonth() + 1,
-          day: parsed.getUTCDate(),
-        },
-      };
-    },
-    /**
-     * `{ date: { year: 2026, month: 8, day: 24 } }` -> `2026-08-24`.
-     *
-     * Roll-up results carry `civilStartTime`/`civilEndTime`, not a `date`
-     * field — the flat string is what every caller actually wants to key on.
-     */
-    _civilDateToString(civil) {
-      const date = civil?.date;
-      if (!date?.year || !date?.month || !date?.day) {
-        return null;
-      }
-      const pad = (n) => String(n)
-        .padStart(2, "0");
-      return `${date.year}-${pad(date.month)}-${pad(date.day)}`;
-    },
-    _civilInterval(startDate, endExclusive) {
-      return {
-        start: this._civilDateTime(startDate),
-        end: this._civilDateTime(endExclusive),
-      };
-    },
-    /**
-     * Builds the AIP-160 time filter for a `list` call. The field name depends
-     * on the data type's record type, and civil-time variants are used
-     * throughout so no caller needs to know the user's timezone.
-     */
-    _buildTimeFilter({
-      dataType,
-      startDate,
-      endExclusive,
-    }) {
-      const meta = DATA_TYPES[dataType];
-      if (!meta) {
-        throw new Error(`Unknown data type \`${dataType}\`.`);
-      }
-      const field = TIME_FILTER_FIELD[meta.recordType]?.(meta.filterParam);
-      if (!field) {
-        return undefined;
-      }
-      return `${field} >= "${startDate}" AND ${field} < "${endExclusive}"`;
-    },
-
-    _dataSourceFamilyPath(dataSourceFamily) {
-      return dataSourceFamily
-        ? `${USER}/dataSourceFamilies/${dataSourceFamily}`
-        : undefined;
     },
 
     async getIdentity({ $ } = {}) {
@@ -304,7 +136,6 @@ export default {
 
       return {
         dataPoints,
-        nextPageToken: pageToken,
         pagesFetched: pages,
         truncated: Boolean(pageToken),
       };
@@ -357,7 +188,6 @@ export default {
 
       return {
         rollupDataPoints,
-        nextPageToken: pageToken,
         pagesFetched: pages,
         truncated: Boolean(pageToken),
       };
@@ -378,6 +208,11 @@ export default {
      * Rolls one data type up into civil-day buckets. Civil time means the day
      * boundaries are the user's own local midnights, so no timezone lookup is
      * needed anywhere in this path.
+     *
+     * `pageSize` is pinned to the API maximum because `DailyRollUpDataPointsResponse`
+     * carries no `nextPageToken`: if the server ever returned a partial set
+     * there would be no way to detect it. One window per day against a 90-day
+     * ceiling means the real ask never approaches the cap.
      */
     async dailyRollUp({
       $,
@@ -387,15 +222,17 @@ export default {
       dataSourceFamily,
       windowSizeDays = 1,
     } = {}) {
+      const familyPath = dataSourceFamilyPath(dataSourceFamily);
       const response = await this.dailyRollUpDataPoints({
         $,
         dataType,
         data: {
-          range: this._civilInterval(startDate, endExclusive),
+          range: civilInterval(startDate, endExclusive),
           windowSizeDays,
-          ...this._dataSourceFamilyPath(dataSourceFamily)
+          pageSize: 10000,
+          ...familyPath
             ? {
-              dataSourceFamily: this._dataSourceFamilyPath(dataSourceFamily),
+              dataSourceFamily: familyPath,
             }
             : {},
         },
@@ -417,7 +254,7 @@ export default {
      * applied when the observation happened, so it is correct across a DST
      * boundary where the current setting is not.
      */
-    async _resolveUtcOffset({
+    async resolveUtcOffset({
       $,
       dataType,
       startDate,
@@ -427,7 +264,7 @@ export default {
         const response = await this.listDataPoints({
           $,
           dataType,
-          filter: this._buildTimeFilter({
+          filter: buildTimeFilter({
             dataType,
             startDate: from,
             endExclusive: to,
@@ -443,18 +280,19 @@ export default {
       if (inRange !== undefined) {
         return {
           utcOffset: inRange,
-          offsetSeconds: this._durationToSeconds(inRange),
+          offsetSeconds: durationToSeconds(inRange),
           offsetSource: "in-range",
         };
       }
 
       // Nothing in the requested window. Offsets rarely change, so the most
-      // recent nearby sample is a good stand-in.
-      const nearby = await probe(this._addDays(startDate, -30), endExclusive);
+      // recent nearby sample is a good stand-in. `list` has no range cap, so
+      // widening the probe here is free.
+      const nearby = await probe(addDays(startDate, -30), endExclusive);
       if (nearby !== undefined) {
         return {
           utcOffset: nearby,
-          offsetSeconds: this._durationToSeconds(nearby),
+          offsetSeconds: durationToSeconds(nearby),
           offsetSource: "nearby",
         };
       }
@@ -464,50 +302,6 @@ export default {
         offsetSeconds: 0,
         offsetSource: "utc-assumed",
       };
-    },
-    /** `"-25200s"` -> `-25200` */
-    _durationToSeconds(duration) {
-      const match = /^(-?\d+(?:\.\d+)?)s$/.exec(String(duration ?? "").trim());
-      return match
-        ? Number(match[1])
-        : 0;
-    },
-    /**
-     * Converts an inclusive civil date range into the physical-time instants
-     * that bound it in the user's own timezone.
-     */
-    _utcRangeForDates({
-      startDate,
-      endExclusive,
-      offsetSeconds = 0,
-    }) {
-      const toInstant = (date) => new Date(
-        this._parseDate(date)
-          .getTime() - (offsetSeconds * 1000),
-      )
-        .toISOString();
-      return {
-        startTime: toInstant(startDate),
-        endTime: toInstant(endExclusive),
-      };
-    },
-
-    /** Keeps a curated subset of each record's keys, always retaining ids. */
-    pluck(obj, names) {
-      if (!names?.length) {
-        return obj;
-      }
-      const keep = new Set([
-        "id",
-        "name",
-        ...names,
-      ]);
-      return Object.fromEntries(
-        Object.entries(obj ?? {})
-          .filter(([
-            key,
-          ]) => keep.has(key)),
-      );
     },
   },
 };
