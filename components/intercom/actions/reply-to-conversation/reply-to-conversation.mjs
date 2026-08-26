@@ -90,6 +90,7 @@ export default {
       attachmentUrls,
       replyType,
       adminId,
+      replyOnBehalfOf,
       intercomUserId,
       email,
       userId,
@@ -102,8 +103,31 @@ export default {
       resolvedAdminId = me?.id;
     }
 
-    if (replyType === "user" && !intercomUserId && !email && !userId) {
-      throw new ConfigurationError("When **Reply Type** is `user`, you must provide one of **Intercom User ID**, **Email**, or **User ID** to identify the contact the reply is from. Run **Search Contacts** first to find a valid value.");
+    let contactIdentifier = {};
+    if (replyType === "user") {
+      if (messageType === "note") {
+        throw new ConfigurationError("`Message Type` must be `comment` when `Reply Type` is `user` — `note` is only valid for admin replies.");
+      }
+
+      const identifiersByField = {
+        intercom_user_id: intercomUserId,
+        email,
+        user_id: userId,
+      };
+
+      if (replyOnBehalfOf) {
+        const value = identifiersByField[replyOnBehalfOf];
+        if (!value) {
+          throw new ConfigurationError(`\`Reply On Behalf Of\` is set to \`${replyOnBehalfOf}\`, but the matching identifier prop is empty. Run **Search Contacts** first to find a valid value.`);
+        }
+        contactIdentifier = {
+          [replyOnBehalfOf]: value,
+        };
+      } else if (!intercomUserId && !email && !userId) {
+        throw new ConfigurationError("When **Reply Type** is `user`, you must provide one of **Intercom User ID**, **Email**, or **User ID** to identify the contact the reply is from. Run **Search Contacts** first to find a valid value.");
+      } else {
+        contactIdentifier = identifiersByField;
+      }
     }
 
     const response = await this.intercom.replyToConversation({
@@ -113,11 +137,9 @@ export default {
         body,
         attachment_urls: attachmentUrls,
         admin_id: resolvedAdminId,
-        intercom_user_id: intercomUserId,
-        email,
-        user_id: userId,
         message_type: messageType,
         type: replyType,
+        ...contactIdentifier,
       },
     });
 

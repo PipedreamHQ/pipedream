@@ -87,6 +87,10 @@ export default {
       teamAssigneeId,
     } = this;
 
+    if (messageType === "snoozed" && !snoozedUntil) {
+      throw new ConfigurationError("`Snoozed Until` is required when `Message Type` is `snoozed`");
+    }
+
     let snoozedUntilTimestamp;
     if (snoozedUntil) {
       const parsed = Date.parse(snoozedUntil);

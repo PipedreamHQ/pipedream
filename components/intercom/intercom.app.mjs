@@ -269,9 +269,10 @@ export default {
         ...args,
       });
     },
-    listAdmins() {
+    listAdmins(opts = {}) {
       return this.makeRequest({
         endpoint: "admins",
+        ...opts,
       });
     },
     /**

@@ -16,7 +16,9 @@ export default {
     intercom,
   },
   async run({ $ }) {
-    const { admins } = await this.intercom.listAdmins();
+    const { admins } = await this.intercom.listAdmins({
+      $,
+    });
     const options = admins.map(({
       id: value, name: label,
     }) => ({
