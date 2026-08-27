@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import slack_v2 from "../../slack_v2.app.mjs";
 
 export default {

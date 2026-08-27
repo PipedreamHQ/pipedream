@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import slack from "../../slack_v2.app.mjs";
 import common from "../common/send-message.mjs";
 

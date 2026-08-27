@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import common from "../common/send-message.mjs";
 import buildBlocks from "../common/build-blocks.mjs";
@@ -74,9 +75,9 @@ export default {
       // array is truthy so common.run would skip the text-block fallback and post
       // with zero content. Checking length lets common.run fall back to a text
       // block when the user configured no blocks.
-      if (generated?.length) {
-        this.blocks = generated;
-      }
+      this.blocks = generated?.length
+        ? generated
+        : undefined;
     }
 
     const hasBlocks = (() => {

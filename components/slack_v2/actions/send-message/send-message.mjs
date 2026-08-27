@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import common from "../common/send-message.mjs";
 import constants from "../../common/constants.mjs";
 

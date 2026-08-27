@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import buildBlocks from "../common/build-blocks.mjs";
 import common from "../common/send-message.mjs";
 
