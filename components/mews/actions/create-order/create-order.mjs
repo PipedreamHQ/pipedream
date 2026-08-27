@@ -6,7 +6,7 @@ export default {
   name: "Create Order",
   description: "Create an order in Mews. [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/orders#add-order)",
   key: "mews-create-order",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

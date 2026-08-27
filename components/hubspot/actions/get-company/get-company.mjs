@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { OBJECT_TYPE } from "../../common/constants.mjs";
 import common from "../common/common-get-object.mjs";
 
@@ -6,8 +7,8 @@ export default {
   key: "hubspot-get-company",
   name: "Get Company",
   description:
-    "Gets a company. [See the documentation](https://developers.hubspot.com/docs/api/crm/companies#endpoint?spec=GET-/crm/v3/objects/companies/{companyId})",
-  version: "0.0.34",
+    "Get a single company from HubSpot by its id, with a default set of company properties. Add **Additional properties to retrieve** (internal names; use **Get Properties** for `companies`) to include more. Example: Object ID `123`, Additional properties `[\"industry\", \"numberofemployees\"]`. Returns the company record. [See the documentation](https://developers.hubspot.com/docs/api/crm/companies#endpoint?spec=GET-/crm/v3/objects/companies/{companyId})",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

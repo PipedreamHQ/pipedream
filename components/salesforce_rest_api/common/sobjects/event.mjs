@@ -6,24 +6,10 @@ import commonProps from "../props-async-options.mjs";
 export default {
   initialProps: {
     AcceptedEventInviteeIds: {
-      ...commonProps.ContactOrLeadIds,
+      type: "string[]",
       label: "Accepted Event Invitee IDs",
-      description: "One or more Contact or Lead IDs who accepted this event.",
+      description: "One or more Contact or Lead IDs who accepted this event (Salesforce's 15- or 18-character record ID, e.g. `003XX000004TmiQ` for a Contact). Use **SOQL Query** to find Contact or Lead IDs.",
       optional: true,
-      async options() {
-        const contacts = await this.salesforce.listRecordOptions({
-          objType: "Contact",
-          nameField: "Name",
-        });
-        const leads = await this.salesforce.listRecordOptions({
-          objType: "Lead",
-          nameField: "Name",
-        });
-        return [
-          ...(contacts ?? []),
-          ...(leads ?? []),
-        ];
-      },
     },
     ActivityDate: {
       type: "string",
