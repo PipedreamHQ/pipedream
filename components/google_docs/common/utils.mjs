@@ -1,4 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
+import { POINTS } from "./constants.mjs";
 
 function getTextContentFromDocument(content) {
   let textContent = "";
@@ -130,6 +131,38 @@ function hexToOptionalColor(hex) {
   };
 }
 
+function styleBuilder(unit = POINTS) {
+  const style = {};
+  const fields = [];
+
+  return {
+    style,
+    fields,
+    set(name, value) {
+      if (value == null) {
+        return;
+      }
+      style[name] = value;
+      fields.push(name);
+    },
+    setDimension(name, magnitude) {
+      if (magnitude == null) {
+        return;
+      }
+      this.set(name, {
+        magnitude,
+        unit,
+      });
+    },
+    get isEmpty() {
+      return !fields.length;
+    },
+    get mask() {
+      return fields.join(",");
+    },
+  };
+}
+
 function adjustPropDefinitions(props, app) {
   return Object.fromEntries(
     Object.entries(props).map(([
@@ -219,6 +252,7 @@ function parseRfc3339(value, label) {
 }
 
 export default {
+  styleBuilder,
   collectTextWithIndices,
   findTextRanges,
   hexToOptionalColor,

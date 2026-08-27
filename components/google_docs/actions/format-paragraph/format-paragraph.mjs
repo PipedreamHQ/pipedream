@@ -1,7 +1,8 @@
 import { ConfigurationError } from "@pipedream/platform";
 import googleDocs from "../../google_docs.app.mjs";
+import utils from "../../common/utils.mjs";
 import {
-  ALIGNMENTS, NAMED_STYLE_TYPES, POINTS,
+  ALIGNMENTS, NAMED_STYLE_TYPES,
 } from "../../common/constants.mjs";
 
 export default {
@@ -156,37 +157,20 @@ export default {
       keepWithNext,
     } = this;
 
-    const paragraphStyle = {};
-    const fields = [];
-    const setField = (name, value) => {
-      if (value == null) {
-        return;
-      }
-      paragraphStyle[name] = value;
-      fields.push(name);
-    };
-    const setDimension = (name, value) => {
-      if (value == null) {
-        return;
-      }
-      setField(name, {
-        magnitude: value,
-        unit: POINTS,
-      });
-    };
+    const builder = utils.styleBuilder();
 
-    setField("namedStyleType", namedStyleType);
-    setField("alignment", alignment);
-    setField("lineSpacing", lineSpacing);
-    setDimension("spaceAbove", spaceAbove);
-    setDimension("spaceBelow", spaceBelow);
-    setDimension("indentStart", indentStart);
-    setDimension("indentEnd", indentEnd);
-    setDimension("indentFirstLine", indentFirstLine);
-    setField("keepLinesTogether", keepLinesTogether);
-    setField("keepWithNext", keepWithNext);
+    builder.set("namedStyleType", namedStyleType);
+    builder.set("alignment", alignment);
+    builder.set("lineSpacing", lineSpacing);
+    builder.setDimension("spaceAbove", spaceAbove);
+    builder.setDimension("spaceBelow", spaceBelow);
+    builder.setDimension("indentStart", indentStart);
+    builder.setDimension("indentEnd", indentEnd);
+    builder.setDimension("indentFirstLine", indentFirstLine);
+    builder.set("keepLinesTogether", keepLinesTogether);
+    builder.set("keepWithNext", keepWithNext);
 
-    if (!fields.length) {
+    if (builder.isEmpty) {
       throw new ConfigurationError("Provide at least one formatting option (for example Paragraph Style, Alignment, or Line Spacing).");
     }
 
@@ -202,8 +186,8 @@ export default {
     await googleDocs.batchUpdate(documentId, ranges.map((range) => ({
       updateParagraphStyle: {
         range,
-        paragraphStyle,
-        fields: fields.join(","),
+        paragraphStyle: builder.style,
+        fields: builder.mask,
       },
     })));
 
@@ -215,7 +199,7 @@ export default {
       documentId,
       rangesUpdated: ranges.length,
       ranges,
-      fieldsUpdated: fields,
+      fieldsUpdated: builder.fields,
     };
   },
 };

@@ -175,31 +175,14 @@ export default {
       contentAlignment,
     } = this;
 
-    const tableCellStyle = {};
-    const fields = [];
-    const setField = (name, value) => {
-      if (value == null) {
-        return;
-      }
-      tableCellStyle[name] = value;
-      fields.push(name);
-    };
-    const setDimension = (name, value) => {
-      if (value == null) {
-        return;
-      }
-      setField(name, {
-        magnitude: value,
-        unit: POINTS,
-      });
-    };
+    const builder = utils.styleBuilder();
 
     if (backgroundColor) {
       const color = utils.hexToOptionalColor(backgroundColor);
       if (!color) {
         throw new ConfigurationError(`Background Color "${backgroundColor}" is not a valid hex color. Use a 6-digit hex code such as \`#EEEEEE\`.`);
       }
-      setField("backgroundColor", color);
+      builder.set("backgroundColor", color);
     }
 
     // The Docs API rejects a mask that names a subfield of a border side, so a
@@ -223,18 +206,18 @@ export default {
         },
         dashStyle: borderDashStyle || DEFAULT_DASH_STYLE,
       };
-      BORDER_SIDES.forEach((side) => setField(side, {
+      BORDER_SIDES.forEach((side) => builder.set(side, {
         ...border,
       }));
     }
 
-    setDimension("paddingTop", paddingTop);
-    setDimension("paddingBottom", paddingBottom);
-    setDimension("paddingLeft", paddingLeft);
-    setDimension("paddingRight", paddingRight);
-    setField("contentAlignment", contentAlignment);
+    builder.setDimension("paddingTop", paddingTop);
+    builder.setDimension("paddingBottom", paddingBottom);
+    builder.setDimension("paddingLeft", paddingLeft);
+    builder.setDimension("paddingRight", paddingRight);
+    builder.set("contentAlignment", contentAlignment);
 
-    if (!fields.length) {
+    if (builder.isEmpty) {
       throw new ConfigurationError("Provide at least one formatting option (for example Background Color, Border Width, or Padding Top).");
     }
     if ((rowIndex == null) !== (columnIndex == null)) {
@@ -273,8 +256,8 @@ export default {
       {
         updateTableCellStyle: {
           ...target,
-          tableCellStyle,
-          fields: fields.join(","),
+          tableCellStyle: builder.style,
+          fields: builder.mask,
         },
       },
     ]);
@@ -287,7 +270,7 @@ export default {
     return {
       documentId,
       tableStartLocation,
-      fieldsUpdated: fields,
+      fieldsUpdated: builder.fields,
       ...target,
     };
   },

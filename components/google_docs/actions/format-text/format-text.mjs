@@ -164,25 +164,17 @@ export default {
 
     // The API applies exactly the fields named in the mask, so the style object
     // and the mask are built together from whatever the caller actually set.
-    const textStyle = {};
-    const fields = [];
-    const setField = (name, value) => {
-      if (value == null) {
-        return;
-      }
-      textStyle[name] = value;
-      fields.push(name);
-    };
+    const builder = utils.styleBuilder();
 
-    setField("bold", bold);
-    setField("italic", italic);
-    setField("underline", underline);
-    setField("strikethrough", strikethrough);
-    setField("smallCaps", smallCaps);
-    setField("baselineOffset", baselineOffset);
+    builder.set("bold", bold);
+    builder.set("italic", italic);
+    builder.set("underline", underline);
+    builder.set("strikethrough", strikethrough);
+    builder.set("smallCaps", smallCaps);
+    builder.set("baselineOffset", baselineOffset);
 
     if (fontSize != null) {
-      setField("fontSize", {
+      builder.set("fontSize", {
         magnitude: fontSize,
         unit: POINTS,
       });
@@ -198,7 +190,7 @@ export default {
       // The API applies weightedFontFamily before bold and substitutes weight
       // 400 when it is omitted, so hardcoding a weight here would silently
       // unbold any text whose font was changed. Send only what was asked for.
-      setField("weightedFontFamily", {
+      builder.set("weightedFontFamily", {
         fontFamily,
         ...(fontWeight != null && {
           weight: fontWeight,
@@ -206,7 +198,7 @@ export default {
       });
     }
     if (link) {
-      setField("link", {
+      builder.set("link", {
         url: link,
       });
     }
@@ -234,10 +226,10 @@ export default {
       if (!color) {
         throw new ConfigurationError(`${label} "${value}" is not a valid hex color. Use a 6-digit hex code such as \`#FF0000\`.`);
       }
-      setField(name, color);
+      builder.set(name, color);
     });
 
-    if (!fields.length) {
+    if (builder.isEmpty) {
       throw new ConfigurationError("Provide at least one formatting option (for example Bold, Font Size, or Text Color).");
     }
 
@@ -253,8 +245,8 @@ export default {
     await googleDocs.batchUpdate(documentId, ranges.map((range) => ({
       updateTextStyle: {
         range,
-        textStyle,
-        fields: fields.join(","),
+        textStyle: builder.style,
+        fields: builder.mask,
       },
     })));
 
@@ -266,7 +258,7 @@ export default {
       documentId,
       rangesUpdated: ranges.length,
       ranges,
-      fieldsUpdated: fields,
+      fieldsUpdated: builder.fields,
     };
   },
 };
