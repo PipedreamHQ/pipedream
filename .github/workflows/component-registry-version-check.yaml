@@ -99,9 +99,8 @@ jobs:
             return 0
           }
 
-          # First "..." literal for a given field at the top of the component.
           extract() { # field, content
-            printf '%s' "$2" | grep -oE "$1:[[:space:]]*\"[^\"]+\"" | head -1 | sed -E 's/.*"([^"]+)".*/\1/'
+            printf '%s' "$2" | grep -oE "$1:[[:space:]]*[\"'][^\"']+[\"']" | head -1 | sed -E "s/.*[\"']([^\"']+)[\"'].*/\1/"
           }
 
           # true when $1 (proposed) is strictly greater than $2 (floor)
@@ -114,11 +113,11 @@ jobs:
           #    call failed, so fail closed rather than pass vacuously.
           if ! files_tsv=$(gh_api --paginate "repos/${REPO}/pulls/${PR_NUMBER}/files" \
             --jq '.[] | [.status, .filename] | @tsv'); then
-            echo "::error::Could not list changed files for PR #${PR_NUMBER} after retries. Failing closed."
+            echo "::error::Could not list changed files for PR #${PR_NUMBER} after retries."
             exit 1
           fi
           if [ -z "$files_tsv" ]; then
-            echo "::error::PR #${PR_NUMBER} reported zero changed files, but this check only runs on components/** changes. Treating as an API failure and failing closed."
+            echo "::error::PR #${PR_NUMBER} reported zero changed files, but this check only runs on components/** changes. Treating as an API failure."
             exit 1
           fi
 
@@ -135,20 +134,31 @@ jobs:
             #    executed). A read failure here is infra, not "no such file", so
             #    fail closed.
             if ! encoded=$(gh_api "repos/${HEAD_REPO}/contents/${path}?ref=${HEAD_SHA}" --jq '.content'); then
-              echo "::error::Could not read ${path} at head ${HEAD_SHA} after retries. Failing closed."
+              echo "::error::Could not read ${path} at head ${HEAD_SHA} after retries."
               exit 1
             fi
             content=$(printf '%s' "$encoded" | base64 --decode 2>/dev/null)
             if [ -z "$content" ]; then
-              echo "::error::${path} decoded to empty content at head; cannot verify its version. Failing closed."
+              echo "::error::${path} decoded to empty content at head; cannot verify its version."
               exit 1
             fi
 
             key=$(extract "key" "$content")
             version=$(extract "version" "$content")
-            if [ -z "$key" ] || [ -z "$version" ]; then
+            # Neither present => not a publishable component (helper/re-export); skip.
+            if [ -z "$key" ] && [ -z "$version" ]; then
               echo "notice: ${path} has no explicit key/version; skipping"
               continue
+            fi
+            # Exactly one present => malformed component; fail closed.
+            if [ -z "$key" ] || [ -z "$version" ]; then
+              echo "::error::${path} declares a key or version but not both (key='${key}', version='${version}')."
+              exit 1
+            fi
+            # A present version must be plain x.y.z before it can be compared.
+            if ! [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              echo "::error::${path} version '${version}' is not plain x.y.z semver."
+              exit 1
             fi
 
             # 3. Canonical published version for this key. Dev builds are scoped
@@ -165,26 +175,43 @@ jobs:
             curl_rc=$?
             if [ "$curl_rc" -ne 0 ]; then
               rm -f "$body"
-              echo "::error::Registry request for '${key}' failed (curl exit ${curl_rc}) after retries. Failing closed."
+              echo "::error::Registry request for '${key}' failed (curl exit ${curl_rc}) after retries."
               exit 1
             fi
             if [ "$http_code" != "200" ]; then
               rm -f "$body"
-              echo "::error::Registry request for '${key}' returned HTTP ${http_code} (expected 200). Failing closed."
+              echo "::error::Registry request for '${key}' returned HTTP ${http_code} (expected 200)."
               exit 1
             fi
-            floor=$(jq -r '.data.version // empty' "$body")
+            # Classify the (HTTP 200) registry body. A genuinely new key returns
+            # data:null; an existing one returns a string data.version. Anything
+            # else (JSON parse error, missing data key, non-object data, absent or
+            # non-string version) is malformed and fails closed rather than being
+            # read as "new". "// empty" would collapse all of these into a pass.
+            classified=$(jq -r '
+              if (has("data") | not) then "BAD"
+              elif .data == null then "NEW"
+              elif (.data | type) == "object" and (.data.version | type) == "string" then "VER\t" + .data.version
+              else "BAD"
+              end' "$body" 2>/dev/null)
+            jq_rc=$?
             rm -f "$body"
+            if [ "$jq_rc" -ne 0 ] || [ "$classified" = "BAD" ]; then
+              echo "::error::Registry response for '${key}' was not valid JSON or lacked a usable version."
+              exit 1
+            fi
 
             checked=$((checked + 1))
 
-            if [ -z "$floor" ]; then
+            if [ "$classified" = "NEW" ]; then
               echo "ok: ${key} (${version}) is new to the registry"
               continue
             fi
+
+            floor=$(printf '%s' "$classified" | cut -f2-)
             if ! [[ "$floor" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-              echo "::warning::${key} registry version '${floor}' is not plain semver; skipping floor check"
-              continue
+              echo "::error::${key} registry version '${floor}' is not plain x.y.z semver."
+              exit 1
             fi
 
             if version_gt "$version" "$floor"; then
