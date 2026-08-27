@@ -378,7 +378,9 @@ export default {
         : queries.getItemsByColumnValue;
       const options = cursor
         ? {
-          variables: cursor,
+          variables: {
+            cursor,
+          },
         }
         : {
           variables,

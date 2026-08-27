@@ -139,6 +139,11 @@ export default {
         items {
           id
           name
+          column_values {
+            id
+            value
+            text
+          }
         }
       }
     }

@@ -47,7 +47,9 @@ export default {
     while (cursor) {
       const {
         data: {
-          cursor: nextCursor, items_page_by_column_values: { items: nextItems },
+          next_items_page: {
+            cursor: nextCursor, items: nextItems,
+          },
         },
       } = await this.monday.getItemsByColumnValue({
         cursor,
