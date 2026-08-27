@@ -1,21 +1,13 @@
 import { RECORD_SOURCE_OPTIONS } from "../constants-props.mjs";
 import commonProps from "../props-async-options.mjs";
-import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
   createProps: {
     ContactId: {
-      propDefinition: [
-        salesforce,
-        "recordId",
-        () => ({
-          objType: "Contact",
-          nameField: "Name",
-        }),
-      ],
+      type: "string",
       label: "Contact ID",
       description:
-        "ID of the contact associated with this opportunity, set as the primary contact.",
+        "ID of the contact associated with this opportunity, set as the primary contact (Salesforce's 15- or 18-character record ID, e.g. `003XX000004TmiQ`). Use **SOQL Query** to find the Contact ID.",
       optional: true,
     },
   },

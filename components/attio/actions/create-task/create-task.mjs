@@ -1,12 +1,12 @@
+// x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import attio from "../../attio.app.mjs";
-import constants from "../../common/constants.mjs";
-import utils from "../../common/utils.mjs";
 
 export default {
   key: "attio-create-task",
   name: "Create Task",
-  description: "Creates a new task. [See the documentation](https://docs.attio.com/rest-api/endpoint-reference/tasks/create-a-task)",
-  version: "0.0.4",
+  description: "Create a task in Attio with content, a deadline, completion state, optional assignees, and optional linked records. Use when you need a follow-up or to-do. Example: Content `Email the signed contract to Ada`, Deadline `2026-09-01T17:00:00Z`, Is Completed `false`. Returns the created task with its id. [See the documentation](https://docs.attio.com/rest-api/endpoint-reference/tasks/create-a-task)",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -39,73 +39,14 @@ export default {
         "workspaceMemberId",
       ],
     },
-    numberOfLinkedRecords: {
-      type: "integer",
-      label: "Number Of Linked Records",
-      description: "The number of linked records to generate. Defaults to 1.",
-      default: 1,
-      reloadProps: true,
+    linkedRecords: {
+      type: "string[]",
+      label: "Linked Records",
+      description: "Records to link to the task. Each entry is a JSON object naming the object type and the record, e.g. `{ \"target_object\": \"companies\", \"target_record_id\": \"891dcbfc-9141-415d-9b2a-2238a6cc012d\" }`. `target_object` accepts `companies`, `people`, `users`, `workspaces` or `deals`.",
+      optional: true,
     },
   },
   methods: {
-    linkedRecordPropsMapper(prefix) {
-      const {
-        [`${prefix}targetObject`]: targetObject,
-        [`${prefix}targetRecordId`]: targetRecordId,
-      } = this;
-
-      return {
-        target_object: targetObject,
-        target_record_id: targetRecordId,
-      };
-    },
-    async getLinkedRecordsPropDefinitions({
-      prefix, label,
-    } = {}) {
-      const targetObjectPropName = `${prefix}targetObject`;
-      const targetObject = this[targetObjectPropName];
-      let targetRecordOptions = [];
-
-      if (targetObject) {
-        const { data } = await this.attio.listRecords({
-          targetObject,
-          data: {
-            limit: 100,
-            sorts: [
-              {
-                direction: "desc",
-                attribute: "created_at",
-                field: "value",
-              },
-            ],
-          },
-        });
-
-        targetRecordOptions = data.map(({
-          id: { record_id: value },
-          values: { name },
-        }) => ({
-          value,
-          label: name[0]?.value || name[0]?.full_name || "unknown",
-        }));
-      }
-
-      return {
-        [targetObjectPropName]: {
-          type: "string",
-          label: `${label} - Target Object`,
-          description: "The type of the record to link to. Eg. `companies`, `contacts`, `deals`",
-          options: Object.values(constants.TARGET_OBJECT),
-          reloadProps: true,
-        },
-        [`${prefix}targetRecordId`]: {
-          type: "string",
-          label: `${label} - Target Record ID`,
-          description: "The ID of the record to link to",
-          options: targetRecordOptions,
-        },
-      };
-    },
     createTask(args = {}) {
       return this.attio.post({
         path: "/tasks",
@@ -113,27 +54,34 @@ export default {
       });
     },
   },
-  async additionalProps() {
-    const {
-      numberOfLinkedRecords,
-      getLinkedRecordsPropDefinitions,
-    } = this;
-
-    return utils.getAdditionalProps({
-      numberOfFields: numberOfLinkedRecords,
-      fieldName: "linked record",
-      getPropDefinitions: getLinkedRecordsPropDefinitions,
-    });
-  },
   async run({ $ }) {
     const {
       content,
       deadlineAt,
       isCompleted,
       assigneeIds,
-      numberOfLinkedRecords,
-      linkedRecordPropsMapper,
+      linkedRecords,
     } = this;
+
+    // Each entry arrives as JSON, so a malformed one should say so rather
+    // than reach Attio as an incomplete link.
+    const parsedLinkedRecords = (linkedRecords ?? []).map((record, index) => {
+      let parsed;
+      try {
+        parsed = typeof record === "string"
+          ? JSON.parse(record)
+          : record;
+      } catch (error) {
+        throw new ConfigurationError(`Linked record ${index + 1} is not valid JSON: ${error.message}`);
+      }
+      if (!parsed?.target_object || !parsed?.target_record_id) {
+        throw new ConfigurationError(`Linked record ${index + 1} needs both \`target_object\` and \`target_record_id\`.`);
+      }
+      return {
+        target_object: parsed.target_object,
+        target_record_id: parsed.target_record_id,
+      };
+    });
 
     const response = await this.createTask({
       $,
@@ -147,11 +95,7 @@ export default {
             referenced_actor_type: "workspace-member",
             referenced_actor_id: id,
           })) || [],
-          linked_records: utils.getFieldsProps({
-            numberOfFields: numberOfLinkedRecords,
-            fieldName: "linked record",
-            propsMapper: linkedRecordPropsMapper,
-          }),
+          linked_records: parsedLinkedRecords,
         },
       },
     });
