@@ -25,8 +25,8 @@ reviews:
     # ── MCP-first design (read this before any other check below) ─────────────
     - path: "components/*/actions/**/*.mjs"
       instructions: |
-        This repository's actions are consumed as MCP tools by agent clients (including
-        Sana AI), not only as Workflow Builder steps. Treat MCP compatibility as the
+        This repository's actions are consumed as MCP tools by agent clients, not only
+        as Workflow Builder steps. Treat MCP compatibility as the
         primary requirement, not a secondary concern to check "when relevant." Flag every
         instance of the following as a blocking issue:
 
@@ -42,8 +42,8 @@ reviews:
           as the only way to complete the action. Pipedream's own MCP server can bridge
           this via `retrieve_options`/`configure_component` meta-tools, but that bridging
           is specific to certain MCP clients — it is not guaranteed by the MCP protocol,
-          and cannot be assumed to work for every agent consuming this tool, Sana AI
-          included. `async options()` alone, with no reload dependency, is the default
+          and cannot be assumed to work for every agent consuming this tool.
+          `async options()` alone, with no reload dependency, is the default
           expectation for required props; a reload-dependent required prop needs explicit
           justification for why no simpler alternative exists.
         - A `run()` result that is only meaningful to a downstream Workflow Builder step
@@ -77,6 +77,9 @@ reviews:
         - Props used in more than one component must be defined in the app file's
           `propDefinitions` and referenced via `propDefinition` — flag any inline prop
           definition that duplicates one already in the app file
+        - Component `description` must end with a documentation link `[See the documentation](https://...)`
+          and should follow the agent-friendly structure in the guidelines:
+          primary purpose → when to use → cross-tool references → parameter notes → gotchas → docs link
         - When a component accepts a file input, verify:
           - The file input prop includes `format: "file-ref"`
           - A `syncDir` prop with `accessMode: "read"` and `sync: true` is declared alongside it
@@ -101,9 +104,14 @@ reviews:
         - `run()` must call `$.export("$summary", ...)` on every successful execution path;
           summaries should be concise one-liners with key result info (record ID, name, count)
         - The app connection prop must be the first prop defined
+        - Props accepting dynamic key-value structures may use either `type: "object"` or
+          `type: "string"` with `JSON.parse()` in `run()` — both are acceptable; the description
+          must include a concrete JSON example regardless of which type is used
         - Errors should throw naturally; do not wrap `run()` in a blanket try/catch —
           `@pipedream/platform` axios surfaces HTTP errors automatically; `ConfigurationError`
           is appropriate only for pre-call validation of user configuration mistakes
+        - Optional props may be passed directly into request bodies or params without
+          truthiness checks — `@pipedream/platform` axios strips `undefined` values automatically
         - API calls must go through dedicated methods; when those methods use
           `@pipedream/platform` axios internally, the `$` context from `run({ $ })` must be
           passed to them — flag any app method call that omits `$` when the standard HTTP
