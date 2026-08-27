@@ -28,6 +28,11 @@ jobs:
       pull-requests: write
       issues: read
       actions: read
+      # anthropics/claude-code-action's own token setup calls the OIDC
+      # endpoint (getOidcToken) to mint its GitHub token — this fails
+      # without id-token: write, regardless of whether this workflow uses
+      # OIDC for anything else.
+      id-token: write
 
     steps:
       # No `ref:` override needed: for issue_comment (the real trigger) this
