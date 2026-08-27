@@ -56,12 +56,9 @@ export default {
       propDefinition: [
         surveyMonkey,
         "messageId",
-        (c) => ({
-          collectorId: c.collectorId,
-        }),
       ],
       label: "Copy From Message",
-      description: "Copy the new message from an existing message on this collector, e.g. to reuse a template. Alternatively, provide a custom *Message ID*.",
+      description: "The ID of an existing message on this collector to copy the new message from, e.g. to reuse a template. Run **List Invite Messages** to find valid message IDs.",
       optional: true,
     },
     fromCollectorId: {

@@ -53,6 +53,13 @@ const MESSAGE_TYPES = [
   "sms",
 ];
 
+// https://api.surveymonkey.com/v3/docs#api-endpoints-get-collectors-collector_id-messages
+const MESSAGE_STATUSES = [
+  "not_sent",
+  "sent",
+  "processing",
+];
+
 const ANONYMOUS_TYPES = [
   "not_anonymous",
   "partially_anonymous",
@@ -72,6 +79,7 @@ export default {
   ADDITIONAL_EVENT_TYPES,
   COLLECTOR_TYPES,
   MESSAGE_TYPES,
+  MESSAGE_STATUSES,
   ANONYMOUS_TYPES,
   EDIT_RESPONSE_TYPES,
 };

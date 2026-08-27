@@ -30,10 +30,8 @@ export default {
       propDefinition: [
         surveyMonkey,
         "messageId",
-        (c) => ({
-          collectorId: c.collectorId,
-        }),
       ],
+      description: "The ID of the invite message to add recipients to. Run **List Invite Messages** to find valid message IDs, or use the `id` returned by **Create Invite Message**.",
     },
     contacts: {
       type: "string[]",

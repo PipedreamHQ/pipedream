@@ -27,11 +27,9 @@ export default {
     messageId: {
       propDefinition: [
         surveyMonkey,
-        "unsentMessageId",
-        (c) => ({
-          collectorId: c.collectorId,
-        }),
+        "messageId",
       ],
+      description: "The ID of the invite message to send. Its `status` must be `not_sent` — run **List Invite Messages** with **Status** `not_sent` to find one, since this endpoint rejects a message that is already `sent` or still `processing`.",
     },
     scheduledDate: {
       type: "string",
