@@ -17,7 +17,7 @@ export default {
     + " SOSL matches indexed text fields, so it finds partial words but will not filter on numeric or date criteria."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.2.13",
+  version: "0.2.14",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
