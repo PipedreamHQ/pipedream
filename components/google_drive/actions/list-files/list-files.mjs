@@ -9,7 +9,7 @@ export default {
   key: "google_drive-list-files",
   name: "List Files",
   description: "List files from a specific folder. Set `Max Results` to cap how many files are returned per run, then pass the returned `nextPageToken` back in as `Page Token` on the next run to page through a large folder in fixed-size batches. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/list) for more information",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

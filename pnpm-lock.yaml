@@ -1246,7 +1246,11 @@ importers:
         specifier: ^3.1.0
         version: 3.1.1
 
-  components/ashby_job_postings_api: {}
+  components/ashby_job_postings_api:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.4.0
 
   components/asin_data_api:
     dependencies:
@@ -5036,7 +5040,11 @@ importers:
 
   components/elasticemail: {}
 
-  components/element: {}
+  components/element:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
 
   components/elevenlabs:
     dependencies:
@@ -6807,6 +6815,9 @@ importers:
       mime:
         specifier: ^4.0.7
         version: 4.1.0
+
+  components/google_health:
+    specifiers: {}
 
   components/google_identity: {}
 

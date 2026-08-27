@@ -4,7 +4,7 @@ export default {
   key: "hubspot-get-meeting-link-booking-info",
   name: "Get Meeting Link Booking Info",
   description: "Retrieve the booking configuration and availability for a meeting scheduling page. Returns link metadata, availability windows by duration, busy times, branding, and organizer details. [See the documentation](https://developers.hubspot.com/docs/api-reference/legacy/scheduler/guide#list-booking-information)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

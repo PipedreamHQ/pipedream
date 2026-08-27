@@ -14,7 +14,7 @@ export default {
     + " (look for `relationshipName` on reference fields)."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_relationships.htm)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     readOnlyHint: true,

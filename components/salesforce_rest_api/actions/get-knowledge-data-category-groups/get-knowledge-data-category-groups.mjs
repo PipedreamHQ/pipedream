@@ -10,7 +10,7 @@ export default {
     + " Returns only categories the authenticated user can see, so results vary per user."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.knowledge_dev.meta/knowledge_dev/resources_knowledge_support_dcgroups.htm)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
