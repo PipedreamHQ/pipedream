@@ -19,7 +19,6 @@ export default {
         slack,
         "conversation",
       ],
-      description: "Channel where the message to add reaction to was posted.",
     },
     timestamp: {
       propDefinition: [

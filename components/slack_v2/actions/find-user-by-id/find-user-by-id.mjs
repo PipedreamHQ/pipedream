@@ -19,7 +19,7 @@ export default {
         slack,
         "user",
       ],
-      description: "Select a user or enter a user ID (e.g., `U1234567890`)",
+      description: "The user's ID (e.g. `U1234567890`). Use **Find User by Email** to resolve an ID from an email address, or **List Users** to browse all users.",
     },
     includeLocale: {
       type: "boolean",

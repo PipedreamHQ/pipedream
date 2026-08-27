@@ -19,7 +19,7 @@ export default {
         slack,
         "conversation",
       ],
-      description: "Select a channel or provide a channel ID.",
+      description: "A channel ID (e.g. `C1234567890`) or channel name (e.g. `general` or `#general`) — resolved automatically. Use **List Channels** to look up channel IDs.",
     },
     includeLocale: {
       type: "boolean",

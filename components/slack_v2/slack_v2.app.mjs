@@ -57,17 +57,17 @@ export default {
     topic: {
       type: "string",
       label: "Topic",
-      description: "Text of the new channel topic.",
+      description: "The new topic text to display in the channel header (e.g. `Q3 roadmap discussion`). Slack truncates topics longer than 250 characters.",
     },
     purpose: {
       type: "string",
       label: "Purpose",
-      description: "Text of the new channel purpose.",
+      description: "The new purpose/description text for the channel, shown in the channel details panel (e.g. `Channel for engineering incident coordination`). Limited to 250 characters by Slack.",
     },
     query: {
       type: "string",
       label: "Query",
-      description: "Search query.",
+      description: "The search query. Supports Slack search modifiers, e.g. `from:@user`, `in:#channel`, `before:2025-01-01`, `has:link`. Combine terms and modifiers as needed, e.g. `budget in:#finance from:@jane`.",
     },
     file: {
       type: "string",
@@ -147,7 +147,7 @@ export default {
     link_names: {
       type: "boolean",
       label: "Link Names",
-      description: "Find and link channel names and usernames.",
+      description: "If `true`, automatically converts plain-text `@name` and `#channel` mentions in `text` into linked Slack mentions. If `false` (default), mentions are left as plain text and won't notify or link. Has no effect when using `blocks`.",
       optional: true,
     },
     thread_broadcast: {

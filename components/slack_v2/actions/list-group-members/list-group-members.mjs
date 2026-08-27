@@ -26,7 +26,7 @@ export default {
         "team",
       ],
       optional: true,
-      description: "Encoded team id where the user group exists, required if org token is used.",
+      description: "The encoded team ID (e.g. `T1234567890`) where the user group exists. Required only if the connected token spans multiple teams (Enterprise Grid). Use **List Teams** to find valid IDs.",
     },
     pageSize: {
       propDefinition: [

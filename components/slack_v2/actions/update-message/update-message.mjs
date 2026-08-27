@@ -37,7 +37,7 @@ export default {
         slack,
         "as_user",
       ],
-      description: "Pass true to update the message as the authed user. Bot users in this context are considered authed users.",
+      description: "Pass `true` to update the message as the authenticated user (bot users are treated as the authed user here too). Pass `false` (default) to update using the bot token instead. Slack only allows editing a message posted by the same identity now attempting the edit — check the message's `user`/`bot_id` via **Get Channel History** first if unsure.",
     },
     attachments: {
       propDefinition: [

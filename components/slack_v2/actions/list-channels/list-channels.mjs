@@ -28,7 +28,7 @@ export default {
     channelTypes: {
       type: "string",
       label: "Channel Types",
-      description: "The types of channels to list. Select `public` for public channels only, `private` for private channels only, or `all` for both public and private channels.",
+      description: "Which channel types to list. Pass `public_channel` for public channels only, `private_channel` for private channels only, or `public_channel,private_channel` for both (default).",
       options: [
         {
           label: "Public Channels",
