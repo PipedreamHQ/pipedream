@@ -46,6 +46,10 @@ export default {
     },
   },
   async run({ $ }) {
+    // Accept a channel NAME as well as an ID — agents routinely pass the "#name" they read
+    // in the prompt, and completeUpload answers that with invalid_arguments.
+    const channelId = await this.slack.resolveChannelId(this.conversation);
+
     const {
       stream, metadata,
     } = await getFileStreamAndMetadata(this.content);
@@ -86,7 +90,7 @@ export default {
 
     // Complete the file upload process in Slack
     const completeUploadResponse = await this.slack.completeUpload({
-      channel_id: this.conversation,
+      channel_id: channelId,
       initial_comment: this.initialComment,
       files: [
         {

@@ -25,7 +25,7 @@ export default {
         "icon_emoji",
       ],
       label: "Status Emoji",
-      description: "The emoji to display with the status",
+      description: "The emoji to display with the status, e.g. `fire` or `:fire:` — colons are optional, either form works.",
       optional: true,
     },
     statusExpiration: {
@@ -39,7 +39,7 @@ export default {
     const response = await this.slack.updateProfile({
       profile: {
         status_text: this.statusText,
-        status_emoji: this.statusEmoji && `:${this.statusEmoji}:`,
+        status_emoji: this.statusEmoji && `:${this.statusEmoji.replace(/^:|:$/g, "")}:`,
         status_expiration: this.statusExpiration
           && Math.floor(new Date(this.statusExpiration).getTime() / 1000),
       },
