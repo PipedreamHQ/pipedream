@@ -1,9 +1,10 @@
+// x-pd-ai: optimized
 import { defineAction } from "@pipedream/types";
 import expensify from "../../app/expensify.app";
 
 export default defineAction({
   key: "expensify-create-expense",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -48,7 +49,7 @@ export default defineAction({
     },
   },
   async run({ $ }) {
-    const response = this.expensify.createExpense({
+    const response = await this.expensify.createExpense({
       $,
       data: {
         employeeEmail: this.employeeEmail,

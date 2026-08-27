@@ -1,15 +1,20 @@
+// x-pd-ai: optimized
 import slack from "../../slack_v2.app.mjs";
 
 export default {
   key: "slack_v2-get-user-details",
   name: "Get User Details",
   description:
-    "Retrieve the authenticated user's identity and workspace context."
+    "**Use when the user asks who am I, what's my user ID, what's my username, which workspace"
+    + " am I in, or what's my email** — this is the default identity lookup and the one to call"
+    + " first in any session."
     + " Returns user ID, name, email, timezone, profile, and workspace metadata."
-    + " Call this first in any session to establish who you are — other tools like"
-    + " **Search** and **List Channels** can then filter by your user ID."
+    + " Other tools like **Search** and **List Channels** can then filter by your user ID,"
+    + " and **Post Message** can use it as the channel to DM yourself."
+    + " Prefer this over **Get Current User**, which returns a much larger payload and is only"
+    + " needed for full profile detail (locale, status, admin flags)."
     + " [See the documentation](https://api.slack.com/methods/auth.test)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

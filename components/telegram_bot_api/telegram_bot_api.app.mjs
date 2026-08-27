@@ -1,5 +1,10 @@
 import "./common/env.mjs";
-import TelegramBot from "node-telegram-bot-api";
+// Pinned to 1.2.0. The component builder resolves npm dependencies from the
+// import specifier alone (never from package.json), so an unpinned specifier
+// installs the `latest` dist-tag. node-telegram-bot-api 2.0.0 removed the
+// default export and replaced the `TelegramBot` class with a new `Bot`/`Api`
+// design, so every build since 2026-08-16 failed to load this module.
+import TelegramBot from "node-telegram-bot-api@1.2.0";
 import { axios } from "@pipedream/platform";
 import {
   TELEGRAM_BOT_API_UI_MEDIA_AUDIO,
@@ -723,6 +728,12 @@ export default {
     },
     async getMyCommands() {
       return this.sdk().getMyCommands();
+    },
+    async getFile(fileId) {
+      return this.sdk().getFile(fileId);
+    },
+    async getFileLink(fileId) {
+      return this.sdk().getFileLink(fileId);
     },
   },
 };

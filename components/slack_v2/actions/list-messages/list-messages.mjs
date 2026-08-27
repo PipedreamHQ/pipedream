@@ -2,10 +2,14 @@ import slack from "../../slack_v2.app.mjs";
 
 export default {
   key: "slack_v2-list-messages",
-  name: "List Messages",
+  name: "List Messages (Deprecated)",
   description:
-    "Retrieve messages from a Slack conversation, including reactions. [See the documentation](https://api.slack.com/methods/conversations.history)",
-  version: "0.0.4",
+    "DEPRECATED — do NOT use for reading a channel's or DM's messages. Use **Get Channel History** instead:"
+    + " it resolves channel names, channel IDs, and direct messages (by user ID), supports `fields`"
+    + " selection to keep responses small, and returns the same message data."
+    + " This legacy tool remains only for existing workflows: it accepts a raw conversation ID and"
+    + " returns full, untrimmed message objects. [See the documentation](https://api.slack.com/methods/conversations.history)",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

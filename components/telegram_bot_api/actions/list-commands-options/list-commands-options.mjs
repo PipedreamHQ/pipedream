@@ -4,7 +4,7 @@ export default {
   key: "telegram_bot_api-list-commands-options",
   name: "List Commands Options",
   description: "Retrieves available options for the Commands field.",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

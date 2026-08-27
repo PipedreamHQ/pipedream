@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import clockify from "../../clockify.app.mjs";
 
 export default {
   key: "clockify-add-members-to-project",
   name: "Add Members To Project",
   description: "Adds member(s) to a project in Clockify. [See the documentation](https://docs.clockify.me/#tag/Project/operation/updateMemberships)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -52,8 +53,8 @@ export default {
       $,
     });
 
-    if (response?.id) {
-      $.export("$summary", `Successfully added member(s) to project with ID ${this.projectId}.`);
+    if (response?.id && response?.memberships) {
+      $.export("$summary", `Successfully added ${response.memberships.length} member(s) to project with ID ${this.projectId}`);
     }
 
     return response;

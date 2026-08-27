@@ -3,8 +3,8 @@ import slack from "../../slack_v2.app.mjs";
 export default {
   key: "slack_v2-list-members-in-channel",
   name: "List Members in Channel",
-  description: "Retrieve members of a channel. [See the documentation](https://api.slack.com/methods/conversations.members)",
-  version: "0.0.29",
+  description: "Retrieve members of a channel. Accepts a channel ID or NAME (e.g. general or #general) — names are resolved automatically. [See the documentation](https://api.slack.com/methods/conversations.members)",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -40,8 +40,12 @@ export default {
   },
   async run({ $ }) {
     let channelMembers = [];
+    // Accept a channel NAME as well as an ID. Every AI-optimized tool in this app resolves
+    // names server-side, so an agent that read "#seinfeld-general" from the prompt
+    // reasonably passes it here too — and used to get channel_not_found.
+    const channel = await this.slack.resolveChannelId(this.conversation);
     const params = {
-      channel: this.conversation,
+      channel,
       limit: this.pageSize,
     };
     let page = 0;

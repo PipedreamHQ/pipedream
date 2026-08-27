@@ -3,8 +3,8 @@ import whoisfreaks from "../../whoisfreaks.app.mjs";
 export default {
   key: "whoisfreaks-ip-lookup",
   name: "IP Lookup",
-  description: "Retrieve information about an IP address. [See the documentation](https://whoisfreaks.com/products/whois-api#ip_lookup)",
-  version: "0.0.2",
+  description: "Retrieve information about an IP address. [See the documentation](https://whoisfreaks.com/documentation/ip-whois-api)",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -14,9 +14,10 @@ export default {
   props: {
     whoisfreaks,
     ip: {
-      type: "string",
-      label: "IP",
-      description: "IPv4 or IPv6 address for the requested whois",
+      propDefinition: [
+        whoisfreaks,
+        "ip",
+      ],
     },
     format: {
       propDefinition: [

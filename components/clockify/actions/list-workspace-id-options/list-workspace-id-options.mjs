@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import clockify from "../../clockify.app.mjs";
 
 export default {
   key: "clockify-list-workspace-id-options",
   name: "List Workspace Options",
-  description: "Retrieves available options for the Workspace field.",
-  version: "0.0.1",
+  description: "Lists the workspaces the authenticated user belongs to, as `{ label, value }` pairs where `value` is the workspace ID that every other Clockify action requires. Call this first when you don't already know which workspace to operate on. [See the documentation](https://docs.clockify.me/#tag/Workspace/operation/getWorkspacesOfUser)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
