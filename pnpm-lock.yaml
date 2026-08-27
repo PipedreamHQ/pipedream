@@ -6820,8 +6820,7 @@ importers:
         specifier: ^4.0.7
         version: 4.1.0
 
-  components/google_health:
-    specifiers: {}
+  components/google_health: {}
 
   components/google_identity: {}
 
@@ -15014,8 +15013,8 @@ importers:
         specifier: ^3.2.5
         version: 3.3.0
       '@slack/web-api':
-        specifier: ^7.9.0
-        version: 7.12.0
+        specifier: 8.0.0
+        version: 8.0.0
       async-retry:
         specifier: ^1.3.3
         version: 1.3.3
@@ -24138,6 +24137,10 @@ packages:
     resolution: {integrity: sha512-Wz7QYfPAlG/DR+DfABddUZeNgoeY7d1J39OCR2jR+v7VBsB8ezulDK5szTnDDPDwLH5IWhLvXIHlCFZV7MSKgA==}
     engines: {node: '>= 18', npm: '>= 8.6.0'}
 
+  '@slack/logger@5.0.0':
+    resolution: {integrity: sha512-VGXhmmgsAo9shdQYh4tFDndd+7nsgp0Y5h0UPDaUp8K359pBasI6YdkMqFW3mCOxLQkq09qj7o7cq6f3DuXcJQ==}
+    engines: {node: '>= 20', npm: '>=9.6.4'}
+
   '@slack/types@1.10.0':
     resolution: {integrity: sha512-tA7GG7Tj479vojfV3AoxbckalA48aK6giGjNtgH6ihpLwTyHE3fIgRrvt8TWfLwW8X8dyu7vgmAsGLRG7hWWOg==}
     engines: {node: '>= 8.9.0', npm: '>= 5.5.1'}
@@ -24146,6 +24149,10 @@ packages:
     resolution: {integrity: sha512-ZKrdeoppbM+3l2KKOi4/3oFYKCEwiW3dQfdHZDcecJ9rAmEqWPnARYmac9taZNitb0xnSgu6GOpHgwaKI8se2g==}
     engines: {node: '>= 12.13.0', npm: '>= 6.12.0'}
 
+  '@slack/types@3.1.0':
+    resolution: {integrity: sha512-bTzqrO3lxJ5iWedo1eJKNAs1koyEhaTwKLJUkD3KETnPeQvD978AAE4jvWstUws8Gbbc4JR6iYE6F7XjE8UGmw==}
+    engines: {node: '>= 20', npm: '>=9.6.4'}
+
   '@slack/web-api@5.15.0':
     resolution: {integrity: sha512-tjQ8Zqv/Fmj9SOL9yIEd7IpTiKfKHi9DKAkfRVeotoX0clMr3SqQtBqO+KZMX27gm7dmgJsQaDKlILyzdCO+IA==}
     engines: {node: '>= 8.9.0', npm: '>= 5.5.1'}
@@ -24153,6 +24160,10 @@ packages:
   '@slack/web-api@7.12.0':
     resolution: {integrity: sha512-LrDxjYyqjeYYQGVdVZ6EYHunFmzveOr2pFpShr6TzW4KNFpdNNnpKekjtMg0PJlOsMibSySLGQqiBZQDasmRCA==}
     engines: {node: '>= 18', npm: '>= 8.6.0'}
+
+  '@slack/web-api@8.0.0':
+    resolution: {integrity: sha512-ORx3XQryQPq2Jnxv5giSKXVoQRUeylrrymIR2S9fPzLjPcCts8RayMeBSZMcpfpAqp6fnBRuPW2UB6dUPUTEZA==}
+    engines: {node: '>= 20', npm: '>=9.6.4'}
 
   '@smiirl/smiirl-library-js@1.0.5':
     resolution: {integrity: sha512-xaOV2aLYlx9jFtJzIPl0uv3/bSTcbBIlv778sWf2b3GxbL+RM70nIn4i8c2hzXzAR5dlAg++zBnbl6n8j3bchA==}
@@ -25912,9 +25923,6 @@ packages:
       bare-events:
         optional: true
 
-  bare-url@2.4.5:
-    resolution: {integrity: sha512-K+y9xF1tN+CdPu4qWwr0QiK1Al07eFPGYK5M2pDXcmHdMdgC/tT/bpmMe1hrmRHaidKLkXrC+cRNYf3XVDUhSQ==}
-
   bare-url@2.5.1:
     resolution: {integrity: sha512-cD5ciQuKlx+eumTCfqbfiL+fhQm+dHbVNB/cX4+d+I/nx4JsVop9VoFEPAs5RJ6I84QR6bZIBjpd2kjDOYeWcg==}
 
@@ -26036,9 +26044,6 @@ packages:
 
   brace-expansion@1.1.12:
     resolution: {integrity: sha512-9T9UjW3r0UW5c1Q7GTwllptXwhvYmEzFhzMfZ9H7FQWt+uZePjZPjBP/W1ZEyZ1twGWom5/56TF4lPcqjnDHcg==}
-
-  brace-expansion@2.1.2:
-    resolution: {integrity: sha512-w5JZcKgdhDOgOwm8H+KgbosopHMuGcl6qbulwjtz3SM7I7P3yW1eAjzMPLrIE+NQ9vjgANKHWeMHnrT0OXW1oA==}
 
   brace-expansion@2.1.4:
     resolution: {integrity: sha512-hGfVzPxthbf3+2yjg/RBs60cB0FhqBS/zvdV/4wn4/BmN0bNMMHPc4V/BbFieqf1TKAGGAHnY4eSjajCl0f2Xg==}
@@ -28559,11 +28564,6 @@ packages:
     deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
 
-  glob@10.4.5:
-    resolution: {integrity: sha512-7Bv8RF0k6xjo7d4A/PxYLbUCfb6c+Vpd2/mB2yRDlew7Jb5hEXiCD9ibfO7wpk8i4sevK6DFny9h7EYbM3/sHg==}
-    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
-    hasBin: true
-
   glob@10.5.0:
     resolution: {integrity: sha512-DfXN8DfhJ7NH3Oe7cFmu3NCu1wKbkReJ8TorzSAFbSKrlNaQSKfIzqYqVY8zlbs2NLBbWpRiU52GX2PbaBVNkg==}
     deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
@@ -30981,10 +30981,6 @@ packages:
   minimatch@5.1.9:
     resolution: {integrity: sha512-7o1wEA2RyMP7Iu7GNba9vc0RWWGACJOCZBJX2GJWip0ikV+wcOsgVuY9uE8CPiyQhkGFSlhuSkZPavN7u1c2Fw==}
     engines: {node: '>=10'}
-
-  minimatch@9.0.5:
-    resolution: {integrity: sha512-G6T0ZX48xgozx7587koeX9Ys2NYy6Gmv//P89sEte9V9whIapMNF4idKxnW2QtCcLiTWlb/wfCabAtAFWhhBow==}
-    engines: {node: '>=16 || 14 >=14.17'}
 
   minimatch@9.0.9:
     resolution: {integrity: sha512-OBwBN9AL4dqmETlpS2zasx+vTeWclWzkblfZk7KTA5j3jeOONz/tRCnZomUyvNg83wL5Zv9Ss6HMJXAgL8R2Yg==}
@@ -39347,7 +39343,7 @@ snapshots:
       content-disposition: 0.5.4
       fastify-plugin: 4.5.1
       fastq: 1.19.1
-      glob: 10.4.5
+      glob: 10.5.0
 
   '@firebase/app-check-interop-types@0.3.3': {}
 
@@ -40359,11 +40355,11 @@ snapshots:
       '@iarna/toml': 2.2.5
       dot-prop: 9.0.0
       find-up: 7.0.0
-      minimatch: 9.0.5
+      minimatch: 9.0.9
       read-pkg: 9.0.1
       semver: 7.8.5
       yaml: 2.8.1
-      yargs: 17.7.2
+      yargs: 17.7.3
 
   '@netlify/build@35.3.1(@opentelemetry/api@1.8.0)(@types/node@26.2.0)(encoding@0.1.13)(picomatch@4.0.4)(rollup@4.62.0)':
     dependencies:
@@ -40393,7 +40389,7 @@ snapshots:
       keep-func-props: 6.0.0
       log-process-errors: 11.0.1
       memoize-one: 6.0.0
-      minimatch: 9.0.5
+      minimatch: 9.0.9
       os-name: 6.1.0
       p-event: 6.0.1
       p-filter: 4.1.0
@@ -40417,7 +40413,7 @@ snapshots:
       typescript: 5.6.3
       uuid: 11.1.0
       yaml: 2.8.1
-      yargs: 17.7.2
+      yargs: 17.7.3
       zod: 3.25.76
     transitivePeerDependencies:
       - '@swc/core'
@@ -40465,7 +40461,7 @@ snapshots:
       tomlify-j0.4: 3.0.0
       validate-npm-package-name: 5.0.1
       yaml: 2.8.1
-      yargs: 17.7.2
+      yargs: 17.7.3
       zod: 4.1.12
 
   '@netlify/dev-utils@4.3.0':
@@ -40522,7 +40518,7 @@ snapshots:
       parse-imports: 2.2.1
       path-key: 4.0.0
       semver: 7.8.5
-      tar: 7.5.7
+      tar: 7.5.20
       tmp-promise: 3.0.3
       urlpattern-polyfill: 8.0.2
       uuid: 11.1.0
@@ -40672,7 +40668,7 @@ snapshots:
       junk: 4.0.1
       locate-path: 7.2.0
       merge-options: 3.0.4
-      minimatch: 9.0.5
+      minimatch: 9.0.9
       normalize-path: 3.0.0
       p-map: 7.0.4
       path-exists: 5.0.0
@@ -40684,7 +40680,7 @@ snapshots:
       toml: 3.0.0
       unixify: 1.0.0
       urlpattern-polyfill: 8.0.2
-      yargs: 17.7.2
+      yargs: 17.7.3
       zod: 3.25.76
     transitivePeerDependencies:
       - bare-abort-controller
@@ -40714,7 +40710,7 @@ snapshots:
       junk: 4.0.1
       locate-path: 7.2.0
       merge-options: 3.0.4
-      minimatch: 9.0.5
+      minimatch: 9.0.9
       normalize-path: 3.0.0
       p-map: 7.0.4
       path-exists: 5.0.0
@@ -40726,7 +40722,7 @@ snapshots:
       toml: 3.0.0
       unixify: 1.0.0
       urlpattern-polyfill: 8.0.2
-      yargs: 17.7.2
+      yargs: 17.7.3
       zod: 3.25.76
     transitivePeerDependencies:
       - bare-abort-controller
@@ -43564,15 +43560,21 @@ snapshots:
 
   '@slack/logger@2.0.0':
     dependencies:
-      '@types/node': 20.19.25
+      '@types/node': 20.19.43
 
   '@slack/logger@4.0.0':
     dependencies:
-      '@types/node': 20.19.25
+      '@types/node': 20.19.43
+
+  '@slack/logger@5.0.0':
+    dependencies:
+      '@types/node': 20.19.43
 
   '@slack/types@1.10.0': {}
 
   '@slack/types@2.18.0': {}
+
+  '@slack/types@3.1.0': {}
 
   '@slack/web-api@5.15.0':
     dependencies:
@@ -43593,7 +43595,7 @@ snapshots:
     dependencies:
       '@slack/logger': 4.0.0
       '@slack/types': 2.18.0
-      '@types/node': 20.19.25
+      '@types/node': 20.19.43
       '@types/retry': 0.12.0
       axios: 1.18.1(debug@3.2.7)
       eventemitter3: 5.0.1
@@ -43606,6 +43608,17 @@ snapshots:
     transitivePeerDependencies:
       - debug
       - supports-color
+
+  '@slack/web-api@8.0.0':
+    dependencies:
+      '@slack/logger': 5.0.0
+      '@slack/types': 3.1.0
+      '@types/node': 20.19.43
+      '@types/retry': 0.12.0
+      eventemitter3: 5.0.1
+      p-queue: 6.6.2
+      p-retry: 4.6.2
+      retry: 0.13.1
 
   '@smiirl/smiirl-library-js@1.0.5(encoding@0.1.13)':
     dependencies:
@@ -44531,7 +44544,7 @@ snapshots:
   '@types/body-parser@1.19.6':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 20.19.25
+      '@types/node': 20.19.43
 
   '@types/cacheable-request@6.0.3':
     dependencies:
@@ -44556,7 +44569,7 @@ snapshots:
 
   '@types/duplexify@3.6.5':
     dependencies:
-      '@types/node': 20.19.25
+      '@types/node': 20.19.43
 
   '@types/estree-jsx@1.0.5':
     dependencies:
@@ -44610,7 +44623,7 @@ snapshots:
 
   '@types/is-stream@1.1.0':
     dependencies:
-      '@types/node': 20.19.25
+      '@types/node': 20.19.43
 
   '@types/isomorphic-fetch@0.0.35': {}
 
@@ -44642,7 +44655,7 @@ snapshots:
 
   '@types/jsonwebtoken@9.0.0':
     dependencies:
-      '@types/node': 20.19.25
+      '@types/node': 20.19.43
 
   '@types/jsonwebtoken@9.0.10':
     dependencies:
@@ -44733,7 +44746,7 @@ snapshots:
 
   '@types/opossum@4.1.1':
     dependencies:
-      '@types/node': 20.19.25
+      '@types/node': 20.19.43
 
   '@types/parse-json@4.0.2': {}
 
@@ -44782,7 +44795,7 @@ snapshots:
 
   '@types/sax@1.2.7':
     dependencies:
-      '@types/node': 20.19.25
+      '@types/node': 20.19.43
 
   '@types/send@0.17.6':
     dependencies:
@@ -44805,7 +44818,7 @@ snapshots:
 
   '@types/sshpk@1.10.3':
     dependencies:
-      '@types/node': 20.19.25
+      '@types/node': 20.19.43
 
   '@types/stack-utils@2.0.3': {}
 
@@ -46051,7 +46064,7 @@ snapshots:
       bare-events: 2.9.1
       bare-path: 3.1.1
       bare-stream: 2.13.3(bare-events@2.9.1)
-      bare-url: 2.4.5
+      bare-url: 2.5.1
       fast-fifo: 1.3.2
     transitivePeerDependencies:
       - bare-abort-controller
@@ -46088,11 +46101,6 @@ snapshots:
       bare-events: 2.9.1
     transitivePeerDependencies:
       - react-native-b4a
-
-  bare-url@2.4.5:
-    dependencies:
-      bare-path: 3.1.1
-    optional: true
 
   bare-url@2.5.1:
     dependencies:
@@ -46232,10 +46240,6 @@ snapshots:
     dependencies:
       balanced-match: 1.0.2
       concat-map: 0.0.1
-
-  brace-expansion@2.1.2:
-    dependencies:
-      balanced-match: 1.0.2
 
   brace-expansion@2.1.4:
     dependencies:
@@ -49420,15 +49424,6 @@ snapshots:
       jackspeak: 2.3.6
       minimatch: 9.0.9
       minipass: 7.1.3
-      path-scurry: 1.11.1
-
-  glob@10.4.5:
-    dependencies:
-      foreground-child: 3.3.1
-      jackspeak: 3.4.3
-      minimatch: 9.0.9
-      minipass: 7.1.3
-      package-json-from-dist: 1.0.1
       path-scurry: 1.11.1
 
   glob@10.5.0:
@@ -52771,13 +52766,9 @@ snapshots:
     dependencies:
       brace-expansion: 2.1.4
 
-  minimatch@9.0.5:
-    dependencies:
-      brace-expansion: 2.1.2
-
   minimatch@9.0.9:
     dependencies:
-      brace-expansion: 2.1.2
+      brace-expansion: 2.1.4
 
   minimist@1.2.8: {}
 
