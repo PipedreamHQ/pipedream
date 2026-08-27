@@ -5,7 +5,7 @@ export default {
   key: "quickbooks-search-services",
   name: "Search Services",
   description: "Search for services. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/item#query-an-item)",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
