@@ -1,0 +1,58 @@
+name: Claude PR Review
+
+on:
+  issue_comment:
+    types: [created]
+
+concurrency:
+  group: claude-review-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  review:
+    if: >
+      github.event.issue.pull_request &&
+      contains(github.event.comment.body, '@claude review')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: read
+      id-token: write
+      actions: read
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+
+      # issue_comment doesn't carry the PR's head ref directly, and `gh pr
+      # checkout` transparently adds the fork as a remote when the PR comes
+      # from one — this runs with the base repo's GITHUB_TOKEN throughout,
+      # never a fork-supplied token.
+      - name: Check out PR head
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr checkout ${{ github.event.issue.number }}
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_OAUTH_TEST }}
+          prompt: |
+            Review the current PR's diff against `.github/pipedream-component-guidelines.md`,
+            `.github/pipedream-action-guidelines.md`, and `.github/pipedream-source-guidelines.md`.
+
+            In addition to correctness, security, and semantic-correctness review, for every
+            documentation link you find in a changed file (e.g. the required
+            `[See the documentation](https://...)` link in a component's `description`),
+            actually verify it resolves: run
+            `curl -o /dev/null -s -w "%{http_code}" <url>` and flag any link that returns a
+            non-2xx/3xx status or times out. Do not guess whether a link is valid — check it.
+
+            Post findings as inline comments on the PR using the GitHub inline comment tool.
+            If nothing is wrong, post a single short summary comment saying so.
+          claude_args: |
+            --allowedTools "Read,Grep,Glob,Bash(curl -o /dev/null -s -w *),mcp__github_inline_comment__create_inline_comment"
+            --disallowedTools "Edit,Write,Bash(rm*),Bash(git push*)"
+            --max-turns 15
