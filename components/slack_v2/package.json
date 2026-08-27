@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@pipedream/platform": "^3.2.5",
-    "@slack/web-api": "^7.9.0",
+    "@slack/web-api": "8.0.0",
     "async-retry": "^1.3.3",
     "lodash": "^4.18.1"
   }
