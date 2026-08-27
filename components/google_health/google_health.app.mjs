@@ -20,7 +20,7 @@ export default {
     startDate: {
       type: "string",
       label: "Start Date",
-      description: "Start date in `YYYY-MM-DD` format (e.g. `2026-08-24`), interpreted in the user's own timezone. Defaults to **today's date in UTC**, which can be a day ahead or behind the user's local date late at night or early in the morning — pass an explicit date whenever the exact day matters. Every response echoes the dates it actually used.",
+      description: "Start date in `YYYY-MM-DD` format (e.g. `2026-08-24`), in the user's own timezone. Defaults to **today in UTC**, which can be a day off from the user's local date late at night — pass an explicit date when the exact day matters.",
       optional: true,
     },
     endDate: {

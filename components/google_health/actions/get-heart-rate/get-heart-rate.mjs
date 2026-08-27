@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import app from "../../google_health.app.mjs";
 import { ROLLUP_WINDOWS } from "../../common/constants.mjs";
 import {
@@ -20,7 +21,7 @@ const MAX_WINDOWS = 1000;
 export default {
   key: "google_health-get-heart-rate",
   name: "Get Heart Rate",
-  description: "Get the user's heart rate over a date range, aggregated into time windows, plus their daily resting heart rate. Each window reports average, minimum, and maximum BPM. This replaces Fitbit's intraday heart rate action — choose the window with `granularity` rather than Fitbit's detail level. Dates are `YYYY-MM-DD` in the user's own timezone and omitting them defaults to today in UTC; the range is inclusive and **capped at 14 days** because the windows are server-aggregated. Example: to see how yesterday's heart rate moved through the day, call with startDate=\"2026-08-24\" and granularity=\"900s\" → returns 96 fifteen-minute windows as `{ startTime, endTime, avgBpm, minBpm, maxBpm }`, plus `restingHeartRate: [{ date, bpm }]` and an overall `summary`. For a single figure for the day use granularity=\"86400s\". Fitbit's one-second detail level is deliberately not offered — it would be 86,400 windows for a single day. If the user only wants resting heart rate, this tool still returns it; there is no separate resting-HR tool. Use **Get Daily Activity Summary** (`google_health-get-daily-activity-summary`) for active zone minutes, which are heart-rate derived but reported as activity. [See the documentation](https://developers.google.com/health/reference/rest/v4/users.dataTypes.dataPoints/rollUp)",
+  description: "Get the user's heart rate aggregated into time windows, plus their daily resting heart rate. Each window reports average, minimum, and maximum BPM; pick the window size with `granularity`. The range is inclusive and capped at **14 days**, because the windows are server-aggregated. Example: startDate=\"2026-08-24\", granularity=\"900s\" → 96 fifteen-minute windows as `{ startTime, endTime, avgBpm, minBpm, maxBpm }`, plus `restingHeartRate: [{ date, bpm }]` and an overall `summary`. Use granularity=\"86400s\" for one figure per day. Resting heart rate comes back from this tool too — there is no separate resting-HR tool. For active zone minutes, which are heart-rate derived but reported as activity, use `google_health-get-daily-activity-summary`. [See the documentation](https://developers.google.com/health/reference/rest/v4/users.dataTypes.dataPoints/rollUp)",
   version: "0.0.1",
   type: "action",
   annotations: {

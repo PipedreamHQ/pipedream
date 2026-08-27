@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import app from "../../google_health.app.mjs";
 import { DEFAULT_MAX_RANGE_DAYS } from "../../common/constants.mjs";
 import {
@@ -25,7 +26,7 @@ const DEFAULT_FIELDS = [
 export default {
   key: "google_health-get-nutrition-and-hydration",
   name: "Get Nutrition and Hydration Logs",
-  description: "Get the user's logged food and water intake for a date or range, with daily calorie and macro totals. This replaces Fitbit's nutrition and water logs action. Dates are `YYYY-MM-DD` in the user's own timezone, the range is inclusive, and omitting them defaults to today in UTC. Example: to see what the user ate and drank yesterday, call with startDate=\"2026-08-24\" → returns `entries: [{ time, foodDisplayName: \"Greek yogurt\", mealType: \"BREAKFAST\", calories: 180, totalFatG: 4.5, totalCarbohydrateG: 9 }]`, `hydration: [{ time, milliliters: 500, liters: 0.5, flOz: 16.9 }]`, and `totals` for the whole range. The individual entries have no date-range limit, but `totals` are server-aggregated and therefore capped at 90 days — for a longer range set includeTotals=false and the entries alone will come back. Notes worth passing on: only food the user **logged manually** appears here — nothing is inferred from activity, so an empty result means nothing was logged rather than nothing was eaten. `mealType` is one of BEFORE_BREAKFAST, BREAKFAST, BEFORE_LUNCH, LUNCH, BEFORE_DINNER, DINNER, AFTER_DINNER, SNACK, or ANYTIME. The full micronutrient breakdown is omitted by default because it spans forty nutrients — include `nutrients` in `fields` to get it. [See the documentation](https://developers.google.com/health/data-types/nutrition)",
+  description: "Get the user's logged food and water intake, with daily calorie and macro totals. Example: startDate=\"2026-08-24\" → `entries: [{ time, foodDisplayName: \"Greek yogurt\", mealType: \"BREAKFAST\", calories: 180, totalFatG: 4.5, totalCarbohydrateG: 9 }]`, `hydration: [{ time, milliliters: 500, liters: 0.5, flOz: 16.9 }]`, and `totals` for the range. Entries have no date-range limit, but `totals` are server-aggregated and cap the range at 90 days — set includeTotals=false to read entries over a longer span. Only food the user **logged manually** appears here; nothing is inferred from activity, so an empty result means nothing was logged, not that nothing was eaten. [See the documentation](https://developers.google.com/health/data-types/nutrition)",
   version: "0.0.1",
   type: "action",
   annotations: {

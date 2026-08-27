@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import app from "../../google_health.app.mjs";
 import {
   addDays,
@@ -23,7 +24,7 @@ const DEFAULT_FIELDS = [
 export default {
   key: "google_health-get-body-measurements",
   name: "Get Body Measurements",
-  description: "Get the user's weight logs with **computed BMI**, their body-fat percentage logs, and their current height. This replaces Fitbit's body weight and BMI action. Dates are `YYYY-MM-DD` in the user's own timezone, the range is inclusive, and omitting them defaults to today in UTC. Example: to see this month's weigh-ins, call with startDate=\"2026-08-01\" and endDate=\"2026-08-25\" → returns `weightLogs: [{ time, weightKg: 74.2, weightLb: 163.6, bmi: 22.9, notes }]`, `bodyFatLogs: [{ time, percentage }]`, and `height: { heightCm, heightIn, measuredAt }`. Long ranges are fine — these are raw logs rather than server-aggregated totals, so there is no date cap; at most 1000 weigh-ins come back per call and `truncated` says when there were more. Two things to tell the user rather than guess about: the Google Health API has **no BMI field**, so BMI is computed here as weight in kg divided by height in metres squared — if the user has never recorded a height it comes back `null` and no BMI can be produced. Body fat is a separate measurement from weight, so a weigh-in on a scale that does not measure body composition will appear in `weightLogs` with no matching `bodyFatLogs` entry. [See the documentation](https://developers.google.com/health/reference/rest/v4/users.dataTypes.dataPoints/list)",
+  description: "Get the user's weight logs with **computed BMI**, their body-fat percentage logs, and their current height. Raw logs, so there is no date cap; at most 1000 weigh-ins per call, with `truncated` set when there were more. Example: startDate=\"2026-08-01\", endDate=\"2026-08-25\" → `weightLogs: [{ time, weightKg: 74.2, weightLb: 163.6, bmi: 22.9, notes }]`, `bodyFatLogs: [{ time, percentage }]`, and `height: { heightCm, heightIn, measuredAt }`. Two things to tell the user rather than guess: the API has **no BMI field**, so BMI is computed here as kg ÷ height in m² and is `null` when no height is on record. Body fat is measured separately from weight, so a weigh-in on a scale without body composition appears in `weightLogs` with no matching `bodyFatLogs` entry. [See the documentation](https://developers.google.com/health/reference/rest/v4/users.dataTypes.dataPoints/list)",
   version: "0.0.1",
   type: "action",
   annotations: {
