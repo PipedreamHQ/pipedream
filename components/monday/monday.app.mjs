@@ -283,7 +283,9 @@ export default {
         : queries.listItemsBoard;
       const options = cursor
         ? {
-          variables: cursor,
+          variables: {
+            cursor,
+          },
         }
         : {
           variables,
@@ -511,9 +513,12 @@ export default {
         throw new Error(`Failed to list items: ${errorMessage}`);
       }
 
-      const { boards } = data;
-      const items = boards[0].items_page.items;
-      const cursor = boards[0].items_page.cursor;
+      const itemsPage = variables.cursor
+        ? data.next_items_page
+        : data.boards[0].items_page;
+      const {
+        items, cursor,
+      } = itemsPage;
       const options = items.map(({
         id, name,
       }) => ({
