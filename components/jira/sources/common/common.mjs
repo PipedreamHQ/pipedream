@@ -15,7 +15,7 @@ export default {
     },
     timer: {
       label: "Webhook renewal schedule",
-      description: "Jira expires a webhook 30 days after it is registered. **This runs in the background, so you should not need to modify this schedule**.",
+      description: "Jira expires a webhook 30 days after it is registered. **This runs in the background, so you should not need to modify this schedule**. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-webhooks/#api-rest-api-3-webhook-refresh-put)",
       type: "$.interface.timer",
       static: {
         intervalSeconds: WEBHOOK_RENEWAL_SECONDS,
