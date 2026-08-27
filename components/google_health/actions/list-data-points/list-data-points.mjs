@@ -9,6 +9,7 @@ import {
 import {
   buildTimeFilter,
   pluck,
+  recordTimestamp,
   resolveRange,
   supportsDateFilter,
 } from "../../common/utils.mjs";
@@ -141,10 +142,24 @@ export default {
       maxPages: MAX_PAGES,
     });
 
+    // Sorted rather than served in whatever order came back: the API documents
+    // descending order only in terms of interval start time, and this action is
+    // pointed mostly at sample types, which have no interval. Sorting here also
+    // survives `fields` trimming the timestamp out of the output. Decorated so
+    // the timestamp is read once per record, not once per comparison; catalogue
+    // types yield "" for every record, leaving the stable sort a no-op.
+    const ordered = (response?.dataPoints ?? [])
+      .map((point) => ({
+        point,
+        at: recordTimestamp(meta.recordType, point?.[meta.unionKey] ?? point),
+      }))
+      .sort((a, b) => b.at.localeCompare(a.at))
+      .map(({ point }) => point);
+
     // Lift each record's payload out from under its union key, so callers get
     // `{ oxygenSaturation: {...} }` flattened to the measurement itself rather
     // than having to know the key name.
-    const dataPoints = (response?.dataPoints ?? []).map((point) => {
+    const dataPoints = ordered.map((point) => {
       const payload = point?.[meta.unionKey] ?? point;
       return {
         ...point?.name

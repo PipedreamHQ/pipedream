@@ -83,6 +83,9 @@ export default {
     if (windowSeconds <= 0) {
       throw new ConfigurationError(`Invalid granularity \`${granularity}\`. Use one of: ${ROLLUP_WINDOWS.map(({ value }) => value).join(", ")}.`);
     }
+    if (windowSeconds < 1) {
+      throw new ConfigurationError("Granularity must be at least 1 second");
+    }
     const expectedWindows = Math.ceil((dayCount * 86400) / windowSeconds);
     if (expectedWindows > MAX_WINDOWS) {
       const suggestion = ROLLUP_WINDOWS

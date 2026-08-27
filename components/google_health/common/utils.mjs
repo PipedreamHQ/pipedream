@@ -191,6 +191,35 @@ export function civilDateToString(civil) {
   return `${date.year}-${pad(date.month)}-${pad(date.day)}`;
 }
 
+/**
+ * The sortable instant a record carries, by record type.
+ *
+ * `dataPoints.list` documents its order exactly once, at the end of the
+ * `filter` parameter: "Data points in the response will be ordered by the
+ * interval start time in descending order." Sample types have no interval —
+ * `weight`, `height` and `oxygen-saturation` carry `sampleTime` instead — so
+ * nothing in the reference actually guarantees their order. Anything that
+ * promises newest-first, or reads a "latest" record off the head of the list,
+ * sorts on this rather than trusting the server.
+ *
+ * Values compare as strings: RFC-3339 instants and `YYYY-MM-DD` dates both sort
+ * correctly that way, and one record type only ever yields one of the two.
+ *
+ * FOOD is a catalogue with no time field at all, so it has no order to restore.
+ */
+const RECORD_TIMESTAMP = {
+  INTERVAL: (payload) => payload?.interval?.startTime,
+  SESSION: (payload) => payload?.interval?.startTime,
+  SAMPLE: (payload) => payload?.sampleTime?.physicalTime,
+  DAILY: (payload) => civilDateToString(payload),
+  FOOD: () => null,
+};
+
+/** `""` for anything undated, so it sorts last under a descending compare. */
+export function recordTimestamp(recordType, payload) {
+  return RECORD_TIMESTAMP[recordType]?.(payload) ?? "";
+}
+
 export function civilInterval(startDate, endExclusive) {
   return {
     start: civilDateTime(startDate),
