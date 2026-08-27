@@ -2,6 +2,13 @@ import constants from "../../common/constants.mjs";
 import monday from "../../monday.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
+const COLUMN_TYPE_STATUS = "status";
+const COLUMN_TYPE_DROPDOWN = "dropdown";
+const DEFAULTS_SUPPORTED_COLUMN_TYPES = [
+  COLUMN_TYPE_STATUS,
+  COLUMN_TYPE_DROPDOWN,
+];
+
 export default {
   key: "monday-create-column",
   name: "Create Column",
@@ -48,18 +55,15 @@ export default {
   async run({ $ }) {
     let { defaults } = this;
     if (defaults !== undefined) {
-      if (![
-        "status",
-        "dropdown",
-      ].includes(this.columnType)) {
+      if (!DEFAULTS_SUPPORTED_COLUMN_TYPES.includes(this.columnType)) {
         throw new ConfigurationError("`Custom Labels (Defaults)` is only supported for `status` and `dropdown` column types.");
       }
       try {
-        if (this.columnType === "status") {
+        if (this.columnType === COLUMN_TYPE_STATUS) {
           defaults = JSON.stringify({
             labels: JSON.parse(defaults),
           });
-        } else if (this.columnType === "dropdown") {
+        } else if (this.columnType === COLUMN_TYPE_DROPDOWN) {
           const obj = JSON.parse(defaults);
           defaults = JSON.stringify({
             settings: {
