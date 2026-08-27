@@ -6820,8 +6820,7 @@ importers:
         specifier: ^4.0.7
         version: 4.1.0
 
-  components/google_health:
-    specifiers: {}
+  components/google_health: {}
 
   components/google_identity: {}
 
@@ -15014,8 +15013,8 @@ importers:
         specifier: ^3.2.5
         version: 3.3.0
       '@slack/web-api':
-        specifier: ^7.9.0
-        version: 7.12.0
+        specifier: 8.0.0
+        version: 8.0.0
       async-retry:
         specifier: ^1.3.3
         version: 1.3.3
@@ -24138,6 +24137,10 @@ packages:
     resolution: {integrity: sha512-Wz7QYfPAlG/DR+DfABddUZeNgoeY7d1J39OCR2jR+v7VBsB8ezulDK5szTnDDPDwLH5IWhLvXIHlCFZV7MSKgA==}
     engines: {node: '>= 18', npm: '>= 8.6.0'}
 
+  '@slack/logger@5.0.0':
+    resolution: {integrity: sha512-VGXhmmgsAo9shdQYh4tFDndd+7nsgp0Y5h0UPDaUp8K359pBasI6YdkMqFW3mCOxLQkq09qj7o7cq6f3DuXcJQ==}
+    engines: {node: '>= 20', npm: '>=9.6.4'}
+
   '@slack/types@1.10.0':
     resolution: {integrity: sha512-tA7GG7Tj479vojfV3AoxbckalA48aK6giGjNtgH6ihpLwTyHE3fIgRrvt8TWfLwW8X8dyu7vgmAsGLRG7hWWOg==}
     engines: {node: '>= 8.9.0', npm: '>= 5.5.1'}
@@ -24146,6 +24149,10 @@ packages:
     resolution: {integrity: sha512-ZKrdeoppbM+3l2KKOi4/3oFYKCEwiW3dQfdHZDcecJ9rAmEqWPnARYmac9taZNitb0xnSgu6GOpHgwaKI8se2g==}
     engines: {node: '>= 12.13.0', npm: '>= 6.12.0'}
 
+  '@slack/types@3.1.0':
+    resolution: {integrity: sha512-bTzqrO3lxJ5iWedo1eJKNAs1koyEhaTwKLJUkD3KETnPeQvD978AAE4jvWstUws8Gbbc4JR6iYE6F7XjE8UGmw==}
+    engines: {node: '>= 20', npm: '>=9.6.4'}
+
   '@slack/web-api@5.15.0':
     resolution: {integrity: sha512-tjQ8Zqv/Fmj9SOL9yIEd7IpTiKfKHi9DKAkfRVeotoX0clMr3SqQtBqO+KZMX27gm7dmgJsQaDKlILyzdCO+IA==}
     engines: {node: '>= 8.9.0', npm: '>= 5.5.1'}
@@ -24153,6 +24160,10 @@ packages:
   '@slack/web-api@7.12.0':
     resolution: {integrity: sha512-LrDxjYyqjeYYQGVdVZ6EYHunFmzveOr2pFpShr6TzW4KNFpdNNnpKekjtMg0PJlOsMibSySLGQqiBZQDasmRCA==}
     engines: {node: '>= 18', npm: '>= 8.6.0'}
+
+  '@slack/web-api@8.0.0':
+    resolution: {integrity: sha512-ORx3XQryQPq2Jnxv5giSKXVoQRUeylrrymIR2S9fPzLjPcCts8RayMeBSZMcpfpAqp6fnBRuPW2UB6dUPUTEZA==}
+    engines: {node: '>= 20', npm: '>=9.6.4'}
 
   '@smiirl/smiirl-library-js@1.0.5':
     resolution: {integrity: sha512-xaOV2aLYlx9jFtJzIPl0uv3/bSTcbBIlv778sWf2b3GxbL+RM70nIn4i8c2hzXzAR5dlAg++zBnbl6n8j3bchA==}
@@ -43570,9 +43581,15 @@ snapshots:
     dependencies:
       '@types/node': 20.19.25
 
+  '@slack/logger@5.0.0':
+    dependencies:
+      '@types/node': 20.19.43
+
   '@slack/types@1.10.0': {}
 
   '@slack/types@2.18.0': {}
+
+  '@slack/types@3.1.0': {}
 
   '@slack/web-api@5.15.0':
     dependencies:
@@ -43606,6 +43623,17 @@ snapshots:
     transitivePeerDependencies:
       - debug
       - supports-color
+
+  '@slack/web-api@8.0.0':
+    dependencies:
+      '@slack/logger': 5.0.0
+      '@slack/types': 3.1.0
+      '@types/node': 20.19.43
+      '@types/retry': 0.12.0
+      eventemitter3: 5.0.1
+      p-queue: 6.6.2
+      p-retry: 4.6.2
+      retry: 0.13.1
 
   '@smiirl/smiirl-library-js@1.0.5(encoding@0.1.13)':
     dependencies:
