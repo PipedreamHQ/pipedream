@@ -5,6 +5,32 @@ This document covers guidelines specific to source components (`type: "source"`)
 
 ---
 
+## MCP Compatibility Note
+
+`pipedream-component-guidelines.md` and `pipedream-action-guidelines.md` treat MCP
+compatibility as the primary design constraint, because actions are called directly by
+agents (including Sana AI) as single-call MCP tools. **That constraint does not carry over
+to this document, and that's intentional, not an oversight.**
+
+A source is not called by an agent at all — it is deployed once, then runs continuously in
+the background, emitting events into a workflow over time. There is no single-call
+request/response shape for an MCP client to invoke, so the patterns that matter for MCP
+compatibility in actions (`async options()` vs. `reloadProps`, avoiding `$.flow.rerun()`,
+writing `description` for an agent deciding whether to call a tool) don't have an
+equivalent here. Everything in this document is about the emission/state-management
+contract (`$emit`, `dedupe`, `db`, webhook lifecycle), which is orthogonal to that concern.
+
+One open question worth raising separately, not resolved by this document: if an agent
+(Sana AI or otherwise) is ever expected to help a user *set up* a trigger — choosing which
+source to deploy and configuring it — the source's own `description` and prop descriptions
+would need the same agent-first treatment `pipedream-component-guidelines.md` now requires
+for actions. That is not how sources are consumed today (deploying a source is a human/admin
+action in the current architecture), so no change is made here on that basis alone — but if
+that changes, this document's description guidance should be revisited at that point rather
+than assumed to already be covered by the actions-side wording.
+
+---
+
 ## Source Model Overview
 
 Sources are long-lived components that emit events to trigger downstream workflows. Unlike
@@ -364,3 +390,4 @@ Checklist:
 - Use the event's own timestamp for `ts`
 - If the stream supports a cursor or offset, store it in `db` rather than a timestamp
   (cursor-based pagination is less prone to missed events during the poll interval)
+  
