@@ -86,15 +86,19 @@ export default {
       }
       if (typeof this.blocks === "string") {
         if (!this.blocks.trim()) return false;
+        let parsed;
         try {
-          const parsed = JSON.parse(this.blocks);
-          return Array.isArray(parsed)
-            ? parsed.length > 0
-            : Boolean(parsed);
+          parsed = JSON.parse(this.blocks);
         } catch {
           // Malformed JSON — let common.run's own JSON.parse surface the error.
           return true;
         }
+        if (!Array.isArray(parsed)) {
+          throw new ConfigurationError(
+            "`Blocks` must be a JSON array of Block Kit blocks, e.g. `[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"Hello\"}}]`.",
+          );
+        }
+        return parsed.length > 0;
       }
       return Boolean(this.blocks);
     })();

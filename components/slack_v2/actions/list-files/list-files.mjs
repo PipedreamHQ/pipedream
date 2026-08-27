@@ -54,15 +54,17 @@ export default {
     },
   },
   async run({ $ }) {
+    const channel = await this.slack.resolveChannelId(this.conversation);
+
     if (this.addToChannel) {
       await this.slack.maybeAddAppToChannels([
-        this.conversation,
+        channel,
       ]);
     }
 
     const allFiles = [];
     const params = {
-      channel: this.conversation,
+      channel,
       user: this.user,
       team_id: this.team_id,
       page: 1,
