@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import {
   DATA_TYPES,
   DEFAULT_MAX_RANGE_DAYS,
@@ -10,7 +11,11 @@ import {
  *
  * These live here rather than on the app object because none of them need
  * `this` or the connected account: keeping them free functions means they can
- * be imported and tested directly, without stubbing `@pipedream/platform`.
+ * be imported and tested directly, without an app instance or a stubbed axios.
+ *
+ * Everything these throw is a `ConfigurationError`: they run before any request
+ * goes out, and every failure is a bad user input rather than a transient fault,
+ * so retrying is pointless.
  */
 
 /**
@@ -55,7 +60,7 @@ export function round(value, places = 2) {
 export function parseDate(date) {
   const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(date).trim());
   if (!match) {
-    throw new Error(`Invalid date \`${date}\`. Use \`YYYY-MM-DD\`, e.g. \`2026-08-24\`.`);
+    throw new ConfigurationError(`Invalid date \`${date}\`. Use \`YYYY-MM-DD\`, e.g. \`2026-08-24\`.`);
   }
   const [
     ,
@@ -67,7 +72,7 @@ export function parseDate(date) {
   if (parsed.getUTCFullYear() !== year
     || parsed.getUTCMonth() !== month - 1
     || parsed.getUTCDate() !== day) {
-    throw new Error(`\`${date}\` is not a real calendar date.`);
+    throw new ConfigurationError(`\`${date}\` is not a real calendar date.`);
   }
   return parsed;
 }
@@ -132,7 +137,7 @@ export function resolveRange({
   const end = endDate || start;
   const span = daysBetween(start, end);
   if (span < 0) {
-    throw new Error(`End Date \`${end}\` is before Start Date \`${start}\`.`);
+    throw new ConfigurationError(`End Date \`${end}\` is before Start Date \`${start}\`.`);
   }
   const days = span + 1;
 
@@ -143,7 +148,7 @@ export function resolveRange({
     }))
     .sort((a, b) => a.max - b.max)[0];
   if (capped && days > capped.max) {
-    throw new Error(
+    throw new ConfigurationError(
       `Requested ${days} days (${start} to ${end}) but the Google Health API caps `
       + `aggregated (roll-up) queries for \`${capped.dataType}\` at ${capped.max} days. `
       + "Narrow the date range and call again.",
@@ -209,7 +214,7 @@ export function buildTimeFilter({
 }) {
   const meta = DATA_TYPES[dataType];
   if (!meta) {
-    throw new Error(`Unknown data type \`${dataType}\`.`);
+    throw new ConfigurationError(`Unknown data type \`${dataType}\`.`);
   }
   const field = TIME_FILTER_FIELD[meta.recordType]?.(meta.filterParam);
   if (!field) {

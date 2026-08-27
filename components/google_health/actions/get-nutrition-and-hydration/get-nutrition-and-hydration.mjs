@@ -1,4 +1,5 @@
 // x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../google_health.app.mjs";
 import { DEFAULT_MAX_RANGE_DAYS } from "../../common/constants.mjs";
 import {
@@ -26,7 +27,7 @@ const DEFAULT_FIELDS = [
 export default {
   key: "google_health-get-nutrition-and-hydration",
   name: "Get Nutrition and Hydration Logs",
-  description: "Get the user's logged food and water intake, with daily calorie and macro totals. Example: startDate=\"2026-08-24\" → `entries: [{ time, foodDisplayName: \"Greek yogurt\", mealType: \"BREAKFAST\", calories: 180, totalFatG: 4.5, totalCarbohydrateG: 9 }]`, `hydration: [{ time, milliliters: 500, liters: 0.5, flOz: 16.9 }]`, and `totals` for the range. Entries have no date-range limit, but `totals` are server-aggregated and cap the range at 90 days — set includeTotals=false to read entries over a longer span. Only food the user **logged manually** appears here; nothing is inferred from activity, so an empty result means nothing was logged, not that nothing was eaten. [See the documentation](https://developers.google.com/health/data-types/nutrition)",
+  description: "Get the user's logged food and water intake, with daily calorie and macro totals. Example: startDate=\"2026-08-24\" → `entries: [{ time, foodDisplayName: \"Greek yogurt\", mealType: \"BREAKFAST\", calories: 180, totalFatG: 4.5, totalCarbohydrateG: 9 }]`, `hydration: [{ time, milliliters: 500, liters: 0.5, flOz: 16.9 }]`, and `totals` for the range. Entries have no date-range limit, but `totals` are server-aggregated and cap the range at 90 days — set includeTotals=false to read entries over a longer span. At most **1000 food entries and 1000 hydration entries** come back per call (five pages of 200); `truncated: true` means there were more, so check it before treating the entry list as complete and narrow the range if it is set. Only food the user **logged manually** appears here; nothing is inferred from activity, so an empty result means nothing was logged, not that nothing was eaten. [See the documentation](https://developers.google.com/health/data-types/nutrition)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -81,7 +82,7 @@ export default {
       endDate: this.endDate,
     });
     if (wantTotals && days > DEFAULT_MAX_RANGE_DAYS) {
-      throw new Error(
+      throw new ConfigurationError(
         `Requested ${days} days (${startDate} to ${endDate}) but the Google Health API caps `
         + `aggregated queries at ${DEFAULT_MAX_RANGE_DAYS} days. Set includeTotals=false to read `
         + "the individual entries over this range, or narrow the dates to get totals as well.",

@@ -1,4 +1,5 @@
 // x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../google_health.app.mjs";
 import { ROLLUP_WINDOWS } from "../../common/constants.mjs";
 import {
@@ -21,7 +22,7 @@ const MAX_WINDOWS = 1000;
 export default {
   key: "google_health-get-heart-rate",
   name: "Get Heart Rate",
-  description: "Get the user's heart rate aggregated into time windows, plus their daily resting heart rate. Each window reports average, minimum, and maximum BPM; pick the window size with `granularity`. The range is inclusive and capped at **14 days**, because the windows are server-aggregated. Example: startDate=\"2026-08-24\", granularity=\"900s\" → 96 fifteen-minute windows as `{ startTime, endTime, avgBpm, minBpm, maxBpm }`, plus `restingHeartRate: [{ date, bpm }]` and an overall `summary`. Use granularity=\"86400s\" for one figure per day. Resting heart rate comes back from this tool too — there is no separate resting-HR tool. For active zone minutes, which are heart-rate derived but reported as activity, use `google_health-get-daily-activity-summary`. [See the documentation](https://developers.google.com/health/reference/rest/v4/users.dataTypes.dataPoints/rollUp)",
+  description: "Get the user's heart rate aggregated into time windows, plus their daily resting heart rate. Each window reports average, minimum, and maximum BPM; pick the window size with `granularity`. The range is inclusive and capped at **14 days**, because the windows are server-aggregated. Example: startDate=\"2026-08-24\", granularity=\"900s\" → 96 fifteen-minute windows as `{ startTime, endTime, avgBpm, minBpm, maxBpm }`, plus `restingHeartRate: [{ date, bpm }]` and an overall `summary`. Use granularity=\"86400s\" for one figure per day. Resting heart rate comes back from this tool too — there is no separate resting-HR tool. For active zone minutes, which are heart-rate derived but reported as activity, use **Get Daily Activity Summary**. [See the documentation](https://developers.google.com/health/reference/rest/v4/users.dataTypes.dataPoints/rollUp)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -80,14 +81,14 @@ export default {
     const granularity = this.granularity ?? "3600s";
     const windowSeconds = durationToSeconds(granularity);
     if (windowSeconds <= 0) {
-      throw new Error(`Invalid granularity \`${granularity}\`. Use one of: ${ROLLUP_WINDOWS.map(({ value }) => value).join(", ")}.`);
+      throw new ConfigurationError(`Invalid granularity \`${granularity}\`. Use one of: ${ROLLUP_WINDOWS.map(({ value }) => value).join(", ")}.`);
     }
     const expectedWindows = Math.ceil((dayCount * 86400) / windowSeconds);
     if (expectedWindows > MAX_WINDOWS) {
       const suggestion = ROLLUP_WINDOWS
         .map(({ value }) => value)
         .find((v) => Math.ceil((dayCount * 86400) / durationToSeconds(v)) <= MAX_WINDOWS);
-      throw new Error(
+      throw new ConfigurationError(
         `A ${dayCount}-day range at ${granularity} granularity would produce about `
         + `${expectedWindows} windows, over the ${MAX_WINDOWS}-window limit for one call. `
         + (suggestion

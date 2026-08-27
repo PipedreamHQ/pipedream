@@ -29,7 +29,7 @@ const MM_PER_MILE = 1609344;
 export default {
   key: "google_health-get-daily-activity-summary",
   name: "Get Daily Activity Summary",
-  description: "Get a full day of activity at once: steps, distance, calories, active minutes by intensity, active zone minutes by heart rate zone, and floors. The right tool when the user wants an overall picture of a day rather than one metric — use `google_health-get-daily-steps` for steps alone or `google_health-get-heart-rate` for heart rate detail. The range is inclusive and capped at **14 days** (calories and active minutes impose that limit on the aggregation). Example: startDate=\"2026-08-24\" → `days: [{ date, steps: 8432, distanceKm: 6.1, totalCalories: 2380, activeCalories: 620, activeMinutes: { light, moderate, vigorous, total }, activeZoneMinutes: { fatBurn, cardio, peak, total }, floors: 12 }]`. Set dataSourceFamily=\"google-wearables\" to exclude manually logged activity. A `null` metric or an empty `days` array means nothing synced — never report it as zero. The API has no concept of daily goals, so no targets are returned. [See the documentation](https://developers.google.com/health/reference/rest/v4/users.dataTypes.dataPoints/dailyRollUp)",
+  description: "Get a full day of activity at once: steps, distance, calories, active minutes by intensity, active zone minutes by heart rate zone, and floors. The right tool when the user wants an overall picture of a day rather than one metric — use **Get Daily Step Count** for steps alone or **Get Heart Rate** for heart rate detail. The range is inclusive and capped at **14 days** (calories and active minutes impose that limit on the aggregation). Example: startDate=\"2026-08-24\" → `days: [{ date, steps: 8432, distanceKm: 6.1, totalCalories: 2380, activeCalories: 620, activeMinutes: { light, moderate, vigorous, total }, activeZoneMinutes: { fatBurn, cardio, peak, total }, floors: 12 }]`. Set dataSourceFamily=\"google-wearables\" to exclude manually logged activity. A `null` metric or an empty `days` array means nothing synced — never report it as zero. The API has no concept of daily goals, so no targets are returned. [See the documentation](https://developers.google.com/health/reference/rest/v4/users.dataTypes.dataPoints/dailyRollUp)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -176,9 +176,23 @@ export default {
       }
     });
 
+    // A roll-up window can come back carrying no payload for the metric it was
+    // asked for, which creates a day above with every field still null. Those
+    // days hold no information, and keeping them would report `daysWithData`
+    // for dates where nothing actually synced.
+    const hasAnyMetric = (d) => d.steps !== null
+      || d.distanceKm !== null
+      || d.totalCalories !== null
+      || d.activeCalories !== null
+      || d.activeMinutes.total !== null
+      || d.activeZoneMinutes.total !== null
+      || d.floors !== null;
+
     const days = [
       ...byDate.values(),
-    ].sort((a, b) => a.date.localeCompare(b.date));
+    ]
+      .filter(hasAnyMetric)
+      .sort((a, b) => a.date.localeCompare(b.date));
 
     // Every total stays null-preserving: "nothing synced" and "a real zero" are
     // different answers, and the description tells the agent to report them
@@ -194,10 +208,26 @@ export default {
       floors: sumInts(days.map((d) => d.floors)),
     };
 
+    // Only name the metrics that actually came back. Rendering a null total as
+    // `0` here would state a figure the data does not support, in the one place
+    // a user is most likely to read without checking `days`.
+    const headline = [
+      totals.steps === null
+        ? null
+        : `${totals.steps.toLocaleString("en-US")} steps`,
+      totals.distanceKm === null
+        ? null
+        : `${totals.distanceKm} km`,
+      totals.totalCalories === null
+        ? null
+        : `${totals.totalCalories.toLocaleString("en-US")} kcal`,
+    ].filter(Boolean);
+
     $.export("$summary", days.length
-      ? `Activity summary for ${days.length} day(s) from ${startDate} to ${endDate}: `
-        + `${(totals.steps ?? 0).toLocaleString("en-US")} steps, ${totals.distanceKm ?? 0} km, `
-        + `${(totals.totalCalories ?? 0).toLocaleString("en-US")} kcal`
+      ? `Activity summary for ${days.length} day(s) from ${startDate} to ${endDate}`
+        + (headline.length
+          ? `: ${headline.join(", ")}`
+          : " — no steps, distance or calories in the data that synced")
       : `No activity data has synced for ${startDate} to ${endDate}`);
 
     return {
