@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/google_health",
+  "version": "0.0.1",
+  "description": "Pipedream Google Health Components",
+  "main": "google_health.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_health"
+  ],
+  "homepage": "https://pipedream.com/apps/google_health",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

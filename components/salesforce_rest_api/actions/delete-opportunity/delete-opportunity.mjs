@@ -9,7 +9,7 @@ export default {
     + " Use **Find Records** on `Opportunity` to get the ID first, and prefer **Update Opportunity** to set a Closed Lost stage when you want to keep the history."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_delete_record.htm)",
-  version: "0.3.5",
+  version: "0.3.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

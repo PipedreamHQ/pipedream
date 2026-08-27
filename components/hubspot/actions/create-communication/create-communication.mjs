@@ -1,15 +1,17 @@
+// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import { ASSOCIATION_CATEGORY } from "../../common/constants.mjs";
 import appProp from "../common/common-app-prop.mjs";
 import common from "../common/common-create.mjs";
+import { parseObjectProperties } from "../../common/utils.mjs";
 
 export default {
   ...common,
   key: "hubspot-create-communication",
   name: "Create Communication",
   description:
-    "Create a WhatsApp, LinkedIn, or SMS message. [See the documentation](https://developers.hubspot.com/beta-docs/reference/api/crm/engagements/communications/v3#post-%2Fcrm%2Fv3%2Fobjects%2Fcommunications)",
-  version: "0.0.28",
+    "Log a WhatsApp, LinkedIn, or SMS communication in HubSpot. Put the message fields in **Object Properties** (`hs_communication_channel_type` = `SMS` | `WHATS_APP` | `LINKEDIN_MESSAGE`, `hs_communication_body`); `hs_communication_logged_from` and `hs_timestamp` are set for you. Optionally associate it with a record via **Associated Object Type/ID** + **Association Type**. Example: Object Properties `{ \"hs_communication_channel_type\": \"SMS\", \"hs_communication_body\": \"Reminder: call at 9am\" }`. Returns the created communication with its id. [See the documentation](https://developers.hubspot.com/beta-docs/reference/api/crm/engagements/communications/v3#post-%2Fcrm%2Fv3%2Fobjects%2Fcommunications)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -82,11 +84,14 @@ export default {
       );
     }
 
-    const properties = objectProperties
-      ? typeof objectProperties === "string"
-        ? JSON.parse(objectProperties)
-        : objectProperties
+    const properties = objectProperties != null
+      ? parseObjectProperties(objectProperties)
       : otherProperties;
+
+    // HubSpot communications require hs_timestamp; default it when not provided.
+    if (properties.hs_timestamp == null) {
+      properties.hs_timestamp = new Date().toISOString();
+    }
 
     const response = await hubspot.createObject({
       $,
