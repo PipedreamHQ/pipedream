@@ -10,7 +10,7 @@ export default {
     + " The message is built from segments - a plain string becomes text, and `{ \"type\": \"Mention\", \"username\": \"jsmith\" }` mentions a user."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/quickreference_post_feed_item.htm)",
-  version: "0.1.5",
+  version: "0.1.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

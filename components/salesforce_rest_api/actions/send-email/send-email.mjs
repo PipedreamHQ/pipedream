@@ -9,7 +9,7 @@ export default {
     + " Sent mail is logged against the related record - use **List Email Messages** to read it back."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_action.meta/api_action/actions_obj_email_simple.htm)",
-  version: "0.1.1",
+  version: "0.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
