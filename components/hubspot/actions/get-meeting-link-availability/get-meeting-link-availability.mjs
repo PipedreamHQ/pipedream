@@ -4,7 +4,7 @@ export default {
   key: "hubspot-get-meeting-link-availability",
   name: "Get Meeting Link Availability",
   description: "Fetch the upcoming availability windows (and busy times) for a meeting scheduling page. Use this when you only need the open slots; use **Get Meeting Link Booking Info** for the full booking configuration. [See the documentation](https://developers.hubspot.com/docs/api-reference/legacy/scheduler/guide#list-availability)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

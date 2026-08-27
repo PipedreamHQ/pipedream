@@ -4,7 +4,7 @@ export default {
   key: "hubspot-list-custom-object-type-options",
   name: "List Custom Object Type Options",
   description: "Retrieves available options for the Custom Object Type field.",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   annotations: {
     destructiveHint: false,

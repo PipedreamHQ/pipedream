@@ -9,7 +9,7 @@ export default {
     + " SOSL matches indexed text fields, so it finds partial words but will not filter on numeric or date criteria."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_search_parameterized_get.htm)",
-  version: "0.0.9",
+  version: "0.0.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

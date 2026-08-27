@@ -9,7 +9,7 @@ export default {
     + " Use **List Case Feed Items** and **List Case Comments** to read the case's activity and comment thread."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_get_field_values.htm)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

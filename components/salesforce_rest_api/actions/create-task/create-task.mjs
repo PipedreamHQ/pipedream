@@ -14,7 +14,7 @@ export default {
     + " Use **Find Records** to get the `WhoId` (contact or lead) and `WhatId` (related record) to link the task to."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.4.7",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -23,12 +23,6 @@ export default {
   type: "action",
   methods: {
     ...common.methods,
-    getObjectType() {
-      return "Task";
-    },
-    getAdvancedProps() {
-      return task.extraProps;
-    },
   },
   props: getProps({
     objType: task,
@@ -39,19 +33,12 @@ export default {
     /* eslint-disable no-unused-vars */
     const {
       salesforce,
-      getAdvancedProps,
-      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
-      useAdvancedProps,
       docsInfo,
       dateInfo,
       additionalFields,
       ActivityDate,
-      RecurrenceEndDateOnly,
-      RecurrenceStartDateOnly,
-      ReminderDateTime,
-      RecurrenceDayOfWeekMask,
       ...data
     } = this;
     /* eslint-enable no-unused-vars */
@@ -61,17 +48,11 @@ export default {
         ...data,
         ...formatDateTimeProps({
           ActivityDate,
-          RecurrenceEndDateOnly,
-          RecurrenceStartDateOnly,
-          ReminderDateTime,
         }),
-        RecurrenceDayOfWeekMask: RecurrenceDayOfWeekMask?.reduce?.((acc, val) => acc + val, 0),
         ...getAdditionalFields(),
       },
     });
-    $.export("$summary", `Succcessfully created task${this.Subject
-      ? ` "${this.Subject}"`
-      : ""}`);
+    $.export("$summary", `Successfully created task (ID: ${response.id})`);
     return response;
   },
 };

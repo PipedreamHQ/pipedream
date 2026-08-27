@@ -1,14 +1,16 @@
+// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import { ASSOCIATION_CATEGORY } from "../../common/constants.mjs";
 import common from "../common/common-create.mjs";
+import { parseObjectProperties } from "../../common/utils.mjs";
 
 export default {
   ...common,
   key: "hubspot-create-task",
   name: "Create Task",
   description:
-    "Create a new task. [See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
-  version: "0.0.20",
+    "Create a task engagement in HubSpot. Put task fields in **Object Properties** as HubSpot internal names (`hs_task_subject`, `hs_task_body`, `hs_task_status`, `hs_task_priority`); `hs_timestamp` is defaulted for you. Optionally associate it with a record via **Associated Object Type/ID** + **Association Type**. Example: Object Properties `{ \"hs_task_subject\": \"Call Art Vandelay\", \"hs_task_status\": \"NOT_STARTED\", \"hs_task_priority\": \"HIGH\" }`. Returns the created task with its id. [See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -62,12 +64,6 @@ export default {
     getObjectType() {
       return "tasks";
     },
-    isRelevantProperty(property) {
-      return (
-        common.methods.isRelevantProperty(property) &&
-        !property.name.includes("hs_pipeline")
-      );
-    },
     createEngagement(objectType, properties, associations, $) {
       return this.hubspot.createObject({
         objectType,
@@ -97,13 +93,16 @@ export default {
       );
     }
 
-    const properties = objectProperties
-      ? typeof objectProperties === "string"
-        ? JSON.parse(objectProperties)
-        : objectProperties
+    const properties = objectProperties != null
+      ? parseObjectProperties(objectProperties)
       : otherProperties;
 
     const objectType = this.getObjectType();
+
+    // HubSpot tasks require hs_timestamp; default it so an agent doesn't have to know that.
+    if (properties.hs_timestamp == null) {
+      properties.hs_timestamp = new Date().toISOString();
+    }
 
     const associations = toObjectId
       ? [

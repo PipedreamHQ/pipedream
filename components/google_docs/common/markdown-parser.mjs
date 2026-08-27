@@ -5,6 +5,10 @@
 
 import MarkdownIt from "markdown-it";
 
+// Keeps the search string index-aligned with the document; NUL cannot occur in
+// Docs content, so it never forms part of a real match.
+const NON_TEXT_PLACEHOLDER = "\u0000";
+
 /**
  * Create a custom markdown-it instance configured for Google Docs conversion
  * @returns {MarkdownIt} Configured markdown-it instance
@@ -371,6 +375,8 @@ function collectAllDocumentText(elements, allText, indexMap, state) {
     if (element.paragraph) {
       if (element.paragraph.elements && Array.isArray(element.paragraph.elements)) {
         element.paragraph.elements.forEach((el) => {
+          const docStart = el.startIndex ?? state.currentIndex;
+
           if (el.textRun && el.textRun.content) {
             const text = el.textRun.content;
             const startOfText = state.allTextIndex;
@@ -379,25 +385,26 @@ function collectAllDocumentText(elements, allText, indexMap, state) {
 
             // Record the document index for this position in allText
             for (let i = 0; i < text.length; i++) {
-              indexMap[startOfText + i] = state.currentIndex + i;
+              indexMap[startOfText + i] = docStart + i;
             }
 
             state.allTextIndex += text.length;
-            state.currentIndex += text.length;
-          } else if (el.inlineObject) {
-            indexMap[state.allTextIndex] = state.currentIndex;
-            state.allTextIndex += 1;
-            state.currentIndex += 1;
-          } else if (
-            el.pageBreak
-            || el.columnBreak
-            || el.footnoteReference
-            || el.endnoteReference
-          ) {
-            indexMap[state.allTextIndex] = state.currentIndex;
-            state.allTextIndex += 1;
-            state.currentIndex += 1;
+            state.currentIndex = docStart + text.length;
+            return;
           }
+
+          // Page breaks, inline images, equations and the like occupy indices
+          // without contributing text. Width comes from startIndex/endIndex so
+          // every element kind is covered.
+          const width = Math.max(1, (el.endIndex ?? (docStart + 1)) - docStart);
+
+          allText.push(NON_TEXT_PLACEHOLDER.repeat(width));
+          for (let i = 0; i < width; i++) {
+            indexMap[state.allTextIndex + i] = docStart + i;
+          }
+
+          state.allTextIndex += width;
+          state.currentIndex = docStart + width;
         });
       }
     } else if (element.table) {
@@ -423,12 +430,48 @@ function collectTableText(table, allText, indexMap, state) {
   });
 }
 
+function findTextOccurrences(doc, needle, matchCase = false) {
+  if (!needle || needle.includes(NON_TEXT_PLACEHOLDER)) {
+    return [];
+  }
+  const allText = [];
+  const indexMap = [];
+  const state = {
+    currentIndex: 1,
+    allTextIndex: 0,
+  };
+  collectAllDocumentText(doc?.body?.content || [], allText, indexMap, state);
+  const fullText = allText.join("");
+
+  const target = matchCase
+    ? needle
+    : needle.toLowerCase();
+  const starts = [];
+
+  for (let i = 0; i + needle.length <= fullText.length; i++) {
+    const window = fullText.slice(i, i + needle.length);
+    const candidate = matchCase
+      ? window
+      : window.toLowerCase();
+    if (candidate !== target) {
+      continue;
+    }
+    starts.push(indexMap[i] ?? (state.currentIndex + i));
+    i += needle.length - 1;
+  }
+  return starts;
+}
+
 /**
  * Build formatting requests for replaced text with recursive document scanning
  * Scans the entire document including nested structures (tables, lists) and finds
- * all occurrences of replacementText, applying formatting to each match.
+ * all occurrences of replacementText. Pass `insertedStartIndices` to format only
+ * the occurrences a replacement actually inserted; without it every occurrence is
+ * formatted, including identical text that was already in the document.
  */
-function buildFormattingRequestsForReplacement(markdownFormatting, doc, replacementText) {
+function buildFormattingRequestsForReplacement(
+  markdownFormatting, doc, replacementText, insertedStartIndices,
+) {
   const requests = [];
   const bodyContent = doc?.body?.content || [];
 
@@ -447,14 +490,19 @@ function buildFormattingRequestsForReplacement(markdownFormatting, doc, replacem
 
   // Now search for the replacement text in the full text
   const matches = [];
+  if (!replacementText || replacementText.includes(NON_TEXT_PLACEHOLDER)) {
+    return requests;
+  }
   let searchPos = 0;
   let matchPos = fullText.indexOf(replacementText, searchPos);
 
   while (matchPos !== -1) {
-    const docIndex = indexMap[matchPos] || (state.currentIndex + matchPos);
+    const docIndex = indexMap[matchPos] ?? (state.currentIndex + matchPos);
+    const lastCharIndex = indexMap[matchPos + replacementText.length - 1]
+      ?? (docIndex + replacementText.length - 1);
     matches.push({
       startIndex: docIndex,
-      endIndex: docIndex + replacementText.length,
+      endIndex: lastCharIndex + 1,
     });
     searchPos = matchPos + 1;
     matchPos = fullText.indexOf(replacementText, searchPos);
@@ -464,7 +512,11 @@ function buildFormattingRequestsForReplacement(markdownFormatting, doc, replacem
   const bulletRequests = [];
 
   // For each match found, generate formatting requests
-  matches.forEach((match) => {
+  const targetMatches = insertedStartIndices
+    ? matches.filter(({ startIndex }) => insertedStartIndices.has(startIndex))
+    : matches;
+
+  targetMatches.forEach((match) => {
     markdownFormatting.forEach((req) => {
       // Handle bullet list formatting separately
       if (req.type === "createParagraphBullets") {
@@ -685,6 +737,7 @@ function findAllMatches(haystack, needle, baseIndex, matches) {
 
 export default {
   parseMarkdown,
+  findTextOccurrences,
   convertToGoogleDocsRequests,
   buildFormattingRequestsForReplacement,
 };
