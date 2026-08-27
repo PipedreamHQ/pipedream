@@ -1,17 +1,19 @@
+// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import { ASSOCIATION_CATEGORY } from "../../common/constants.mjs";
 import common from "../common/common-create.mjs";
+import { parseObjectProperties } from "../../common/utils.mjs";
 
 export default {
   ...common,
   key: "hubspot-create-note",
   name: "Create Note",
   description:
-    "Create a HubSpot CRM **note** with **all writable note properties** from your portal schema (dynamic fields after connect). "
-    + "MCP/AI: For **only** contact ID + note body, use **Add Note to Contact** — fewer props and no association-type configuration. "
-    + "If associating to another record, supply `toObjectType`, `toObjectId`, and `associationType` together; use **CONFIGURE_COMPONENT** with `componentKey` `hubspot-create-note` to load dropdown options for those props when needed. "
+    "Create a HubSpot CRM **note**. Put the note text in **Object Properties** as `hs_note_body` (e.g. `{ \"hs_note_body\": \"Reviewed the Q3 numbers\" }`). "
+    + "For **only** a contact ID + note body, **Add Note to Contact** is simpler. "
+    + "To associate the note with another record, supply `toObjectType`, `toObjectId`, and `associationType` together. "
     + "[See the documentation](https://developers.hubspot.com/docs/api/crm/objects/notes)",
-  version: "0.0.20",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -53,20 +55,21 @@ export default {
         }),
       ],
       description:
-        "Association type ID for note → other object. Required with `toObjectId`. MCP: use **CONFIGURE_COMPONENT** with `propName` `associationType` when options are not known.",
+        "Association type ID for note → other object. Required with `toObjectId`.",
       optional: true,
+    },
+    objectProperties: {
+      type: "object",
+      label: "Object Properties",
+      description:
+        "The note properties as a JSON object. At minimum set `hs_note_body`. "
+        + "Example: `{ \"hs_note_body\": \"Followed up with the customer\" }`.",
     },
   },
   methods: {
     ...common.methods,
     getObjectType() {
       return "notes";
-    },
-    isRelevantProperty(property) {
-      return (
-        common.methods.isRelevantProperty(property) &&
-        !property.name.includes("hs_pipeline")
-      );
     },
     createEngagement(objectType, properties, associations, $) {
       return this.hubspot.createObject({
@@ -97,13 +100,16 @@ export default {
       );
     }
 
-    const properties = objectProperties
-      ? typeof objectProperties === "string"
-        ? JSON.parse(objectProperties)
-        : objectProperties
+    const properties = objectProperties != null
+      ? parseObjectProperties(objectProperties)
       : otherProperties;
 
     const objectType = this.getObjectType();
+
+    // HubSpot notes require hs_timestamp; default it so an agent doesn't have to know that.
+    if (properties.hs_timestamp == null) {
+      properties.hs_timestamp = new Date().toISOString();
+    }
 
     const associations = toObjectId
       ? [

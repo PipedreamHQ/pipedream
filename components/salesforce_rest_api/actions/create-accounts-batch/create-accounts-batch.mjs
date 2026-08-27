@@ -11,7 +11,7 @@ export default {
     + " Input is a CSV file - supply a path under `/tmp` or a URL to download it from, with a header row of Salesforce field API names."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_asynch.meta/api_asynch/datafiles_understanding_bulk2_ingest.htm)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

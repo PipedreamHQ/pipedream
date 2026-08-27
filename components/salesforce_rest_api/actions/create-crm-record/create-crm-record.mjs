@@ -3,7 +3,7 @@ import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
   key: "salesforce_rest_api-create-crm-record",
-  name: "Create Record",
+  name: "Create CRM Record",
   description:
     "Create a new Salesforce record of any object type."
     + " Use **Describe Object** first if you're unsure what fields are available or required."
@@ -22,7 +22,7 @@ export default {
     + " `{\"CampaignId\": \"701xxx\", \"ContactId\": \"003xxx\"}` or `{\"CampaignId\": \"701xxx\", \"LeadId\": \"00Qxxx\"}`."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_sobject_create.htm)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     readOnlyHint: false,
