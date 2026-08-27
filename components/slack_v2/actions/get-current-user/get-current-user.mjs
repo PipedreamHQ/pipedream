@@ -4,7 +4,7 @@ export default {
   key: "slack_v2-get-current-user",
   name: "Get Current User",
   description: "Do NOT use for a plain \"who am I\" / \"what's my user ID\" question — call **Get User Details** for that; it answers the same question with a far smaller payload. Use this ONLY when you specifically need the full member profile: locale, timezone, presence/status, admin and owner flags, name variants, or workspace domain and enterprise metadata. Combines `auth.test`, `users.info`, `users.profile.get` and `team.info`. [See Slack API docs](https://api.slack.com/methods/auth.test).",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -7,7 +7,7 @@ export default {
   key: "slack_v2-send-message-to-user-or-group",
   name: "Send Message to User or Group",
   description: "Send a message to a user or group. [See the documentation](https://api.slack.com/methods/chat.postMessage)",
-  version: "0.1.6",
+  version: "0.1.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

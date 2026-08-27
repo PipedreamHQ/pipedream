@@ -1,5 +1,5 @@
 // x-pd-ai: optimized
-import { WebClient } from "@slack/web-api";
+import { WebClient } from "@slack/web-api@8.0.0";
 import constants from "./common/constants.mjs";
 import get from "lodash/get.js";
 import retry from "async-retry";
