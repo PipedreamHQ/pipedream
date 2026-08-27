@@ -38,7 +38,7 @@ export default {
     runId: {
       type: "string",
       label: "Run ID",
-      description: "Select a Browser Use V4 run, or provide the run UUID returned by Create V4 Run or List V4 Runs. Example: `01234567-89ab-cdef-0123-456789abcdef`.",
+      description: "Select a Browser Use V4 run, or provide the run UUID returned by **Create V4 Run** or **List V4 Runs**. Example: `01234567-89ab-cdef-0123-456789abcdef`.",
       async options({ prevContext }) {
         const cursor = prevContext?.cursor;
         const response = await this.listRuns({
@@ -66,7 +66,7 @@ export default {
     v4SessionId: {
       type: "string",
       label: "V4 Session ID",
-      description: "V4 session UUID returned by Create V4 Run or Get V4 Run. Example: `01234567-89ab-cdef-0123-456789abcdef`.",
+      description: "V4 session UUID returned by **Create V4 Run** or **Get V4 Run**. Example: `01234567-89ab-cdef-0123-456789abcdef`.",
       optional: true,
     },
     browserSessionId: {

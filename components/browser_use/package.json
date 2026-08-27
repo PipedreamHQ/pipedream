@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/browser_use",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Pipedream Browser Use Components",
   "main": "browser_use.app.mjs",
   "keywords": [

@@ -5,7 +5,7 @@ export default {
   key: "browser_use-list-runs",
   name: "List V4 Runs",
   description:
-    "List Browser Use V4 runs, optionally filter by V4 session, and continue with the cursor from the previous response. Use returned Run IDs with Get V4 Run or Cancel V4 Run. [See the documentation](https://api.browser-use.com/api/v4/openapi.json)",
+    "List Browser Use V4 runs, optionally filter by V4 session, and continue with the cursor from the previous response. Use returned Run IDs with **Get V4 Run** or **Cancel V4 Run**. [See the documentation](https://api.browser-use.com/api/v4/openapi.json)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

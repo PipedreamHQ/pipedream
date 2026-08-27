@@ -27,7 +27,10 @@ export default {
       runId: this.runId,
     });
 
-    $.export("$summary", `Cancelled V4 run ${this.runId}`);
+    $.export(
+      "$summary",
+      `Run ${response.id ?? this.runId} status: ${response.status}`,
+    );
     return response;
   },
 };

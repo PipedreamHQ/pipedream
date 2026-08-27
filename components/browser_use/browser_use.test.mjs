@@ -182,7 +182,8 @@ test("get and cancel encode the selected run ID", async () => {
             request.runId,
           ]);
           return {
-            status: "cancelled",
+            id: request.runId,
+            status: "completed",
           };
         },
       },
@@ -201,6 +202,12 @@ test("get and cancel encode the selected run ID", async () => {
     [
       "cancel",
       "run-2",
+    ],
+  ]);
+  assert.deepEqual(cancelSink.summaries, [
+    [
+      "$summary",
+      "Run run-2 status: completed",
     ],
   ]);
 });
