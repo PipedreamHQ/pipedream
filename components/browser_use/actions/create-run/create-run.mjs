@@ -7,7 +7,7 @@ export default {
   key: "browser_use-create-run",
   name: "Create V4 Run",
   description:
-    "Create a Browser Use V4 run. [See the API reference](https://api.browser-use.com/api/v4/openapi.json)",
+    "Create a Browser Use V4 run for a new task, or continue an existing V4 session with a Session ID. Configure the model, browser settings, workspace, AgentMail, and cost limit; only one run can be active per session. [See the documentation](https://api.browser-use.com/api/v4/openapi.json)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -25,14 +25,14 @@ export default {
     model: {
       type: "string",
       label: "Model",
-      description: "Current V4 model ID. Leave blank to use the API default.",
+      description: "Current V4 model ID from the API schema. Example: `gpt-5.6-luna`. Leave blank to use the API default.",
       optional: true,
     },
     sessionId: {
-      type: "string",
-      label: "Session ID",
-      description: "Continue an existing V4 session.",
-      optional: true,
+      propDefinition: [
+        browserUse,
+        "v4SessionId",
+      ],
     },
     workspaceId: {
       type: "string",
@@ -43,7 +43,7 @@ export default {
     browserSettings: {
       type: "object",
       label: "Browser Settings",
-      description: "Optional V4 browser settings object.",
+      description: "Optional V4 browser settings JSON. Example: `{\"proxyCountryCode\":\"us\"}`.",
       optional: true,
     },
     agentmail: {
@@ -57,7 +57,7 @@ export default {
     maxCostUsd: {
       type: "string",
       label: "Max Cost USD",
-      description: "Maximum run cost in USD.",
+      description: "Maximum run cost in USD. Example: `1.50`.",
       optional: true,
     },
   },

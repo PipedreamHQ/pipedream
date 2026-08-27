@@ -5,7 +5,7 @@ export default {
   key: "browser_use-list-runs",
   name: "List V4 Runs",
   description:
-    "List Browser Use V4 runs with keyset pagination. [See the API reference](https://api.browser-use.com/api/v4/openapi.json)",
+    "List Browser Use V4 runs, optionally filter by V4 session, and continue with the cursor from the previous response. Use returned Run IDs with Get V4 Run or Cancel V4 Run. [See the documentation](https://api.browser-use.com/api/v4/openapi.json)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -27,14 +27,14 @@ export default {
     cursor: {
       type: "string",
       label: "Cursor",
-      description: "Cursor returned by the previous page.",
+      description: "The `nextCursor` string returned by the previous List V4 Runs response.",
       optional: true,
     },
     sessionId: {
-      type: "string",
-      label: "Session ID",
-      description: "Return only runs from this session.",
-      optional: true,
+      propDefinition: [
+        browserUse,
+        "v4SessionId",
+      ],
     },
   },
   async run({ $ }) {
