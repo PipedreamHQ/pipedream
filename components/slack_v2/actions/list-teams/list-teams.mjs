@@ -7,7 +7,7 @@ export default {
   description:
     "Return the full list of teams (workspaces) accessible to the connected account,"
     + " with pagination (`has_more`/`next_cursor`) so you know whether there could be more"
-    + " than what came back. Use this — not Get User Details or Get Current User, which"
+    + " than what came back. Use this — not **Get User Details** or **Get Current User**, which"
     + " only ever describe the caller's single current team — whenever the task asks to"
     + " enumerate, count, or check for multiple teams/workspaces, especially on an"
     + " Enterprise Grid org-wide token. Use the returned `id` (e.g. `T1234567890`)"
