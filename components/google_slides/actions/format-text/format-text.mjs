@@ -155,34 +155,26 @@ export default {
       link,
     } = this;
 
-    const style = {};
-    const fields = [];
-    const setField = (name, value) => {
-      if (value == null) {
-        return;
-      }
-      style[name] = value;
-      fields.push(name);
-    };
+    const builder = utils.styleBuilder();
 
-    setField("bold", bold);
-    setField("italic", italic);
-    setField("underline", underline);
-    setField("strikethrough", strikethrough);
-    setField("smallCaps", smallCaps);
-    setField("baselineOffset", baselineOffset);
+    builder.set("bold", bold);
+    builder.set("italic", italic);
+    builder.set("underline", underline);
+    builder.set("strikethrough", strikethrough);
+    builder.set("smallCaps", smallCaps);
+    builder.set("baselineOffset", baselineOffset);
 
     if (fontSize != null) {
-      setField("fontSize", {
+      builder.set("fontSize", {
         magnitude: fontSize,
         unit: POINTS,
       });
     }
     if (fontFamily) {
-      setField("fontFamily", fontFamily);
+      builder.set("fontFamily", fontFamily);
     }
     if (link) {
-      setField("link", {
+      builder.set("link", {
         url: link,
       });
     }
@@ -210,12 +202,12 @@ export default {
       if (!solidFill) {
         throw new ConfigurationError(`${label} "${value}" is not a valid hex color or theme color name. Use a 6-digit hex code such as \`#FF0000\`, or a theme color such as \`ACCENT1\`.`);
       }
-      setField(name, {
+      builder.set(name, {
         opaqueColor: solidFill.color,
       });
     });
 
-    if (!fields.length) {
+    if (builder.isEmpty) {
       throw new ConfigurationError("Provide at least one formatting option (for example Bold, Font Size, or Text Color).");
     }
 
@@ -227,9 +219,9 @@ export default {
 
     const request = {
       objectId,
-      style,
+      style: builder.style,
       textRange,
-      fields: fields.join(","),
+      fields: builder.mask,
       ...(rowIndex != null && {
         cellLocation: {
           rowIndex,
@@ -249,7 +241,7 @@ export default {
     return {
       presentationId,
       objectId,
-      fieldsUpdated: fields,
+      fieldsUpdated: builder.fields,
       textRange,
     };
   },

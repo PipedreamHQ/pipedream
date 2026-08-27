@@ -3,6 +3,7 @@ import {
   TEXT_RANGE_ALL,
   TEXT_RANGE_FIXED_RANGE,
   OPACITY_SCALE,
+  POINTS,
   TEXT_RANGE_FROM_START_INDEX,
   THEME_COLORS,
 } from "./constants.mjs";
@@ -74,7 +75,40 @@ function buildTextRange(startIndex, endIndex) {
   };
 }
 
+function styleBuilder() {
+  const style = {};
+  const fields = [];
+
+  return {
+    style,
+    fields,
+    set(name, value) {
+      if (value == null) {
+        return;
+      }
+      style[name] = value;
+      fields.push(name);
+    },
+    setDimension(name, magnitude, unit = POINTS) {
+      if (magnitude == null) {
+        return;
+      }
+      this.set(name, {
+        magnitude,
+        unit,
+      });
+    },
+    get isEmpty() {
+      return !fields.length;
+    },
+    get mask() {
+      return fields.join(",");
+    },
+  };
+}
+
 export default {
+  styleBuilder,
   toOpaqueColor,
   toSolidFill,
   buildTextRange,

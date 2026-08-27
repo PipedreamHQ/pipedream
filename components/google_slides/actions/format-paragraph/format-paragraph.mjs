@@ -2,7 +2,7 @@ import { ConfigurationError } from "@pipedream/platform";
 import googleSlides from "../../google_slides.app.mjs";
 import utils from "../../common/utils.mjs";
 import {
-  ALIGNMENTS, BULLETS_NONE, BULLET_PRESETS, POINTS, SPACING_MODES, TEXT_DIRECTIONS,
+  ALIGNMENTS, BULLETS_NONE, BULLET_PRESETS, SPACING_MODES, TEXT_DIRECTIONS,
 } from "../../common/constants.mjs";
 
 export default {
@@ -162,36 +162,19 @@ export default {
       bullets,
     } = this;
 
-    const style = {};
-    const fields = [];
-    const setField = (name, value) => {
-      if (value == null) {
-        return;
-      }
-      style[name] = value;
-      fields.push(name);
-    };
-    const setDimension = (name, value) => {
-      if (value == null) {
-        return;
-      }
-      setField(name, {
-        magnitude: value,
-        unit: POINTS,
-      });
-    };
+    const builder = utils.styleBuilder();
 
-    setField("alignment", alignment);
-    setField("lineSpacing", lineSpacing);
-    setDimension("spaceAbove", spaceAbove);
-    setDimension("spaceBelow", spaceBelow);
-    setDimension("indentStart", indentStart);
-    setDimension("indentEnd", indentEnd);
-    setDimension("indentFirstLine", indentFirstLine);
-    setField("direction", direction);
-    setField("spacingMode", spacingMode);
+    builder.set("alignment", alignment);
+    builder.set("lineSpacing", lineSpacing);
+    builder.setDimension("spaceAbove", spaceAbove);
+    builder.setDimension("spaceBelow", spaceBelow);
+    builder.setDimension("indentStart", indentStart);
+    builder.setDimension("indentEnd", indentEnd);
+    builder.setDimension("indentFirstLine", indentFirstLine);
+    builder.set("direction", direction);
+    builder.set("spacingMode", spacingMode);
 
-    if (!fields.length && !bullets) {
+    if (builder.isEmpty && !bullets) {
       throw new ConfigurationError("Provide at least one formatting option (for example Alignment, Line Spacing, or Bullets).");
     }
     if ((rowIndex == null) !== (columnIndex == null)) {
@@ -209,13 +192,13 @@ export default {
       : {};
 
     const requests = [];
-    if (fields.length) {
+    if (builder.fields.length) {
       requests.push({
         updateParagraphStyle: {
           objectId,
-          style,
+          style: builder.style,
           textRange,
-          fields: fields.join(","),
+          fields: builder.mask,
           ...cellLocation,
         },
       });
@@ -246,7 +229,7 @@ export default {
     return {
       presentationId,
       objectId,
-      fieldsUpdated: fields,
+      fieldsUpdated: builder.fields,
       requestsApplied: requests.map((request) => Object.keys(request)[0]),
     };
   },
