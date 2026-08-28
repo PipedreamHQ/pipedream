@@ -5,9 +5,9 @@ export default {
   name: "Update Item Name",
   description: "Update an item's name. [See the documentation](https://developer.monday.com/api-reference/reference/columns#change-multiple-column-values)",
   type: "action",
-  version: "0.0.15",
+  version: "0.0.16",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

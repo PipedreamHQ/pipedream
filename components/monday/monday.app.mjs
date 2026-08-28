@@ -1,10 +1,14 @@
+import { ApiClient } from "@mondaydotcomorg/api";
 import flatMap from "lodash.flatmap";
 import map from "lodash.map";
 import uniqBy from "lodash.uniqby";
-import mondaySdk from "monday-sdk-js";
 import constants from "./common/constants.mjs";
 import mutations from "./common/mutations.mjs";
 import queries from "./common/queries.mjs";
+
+// @mondaydotcomorg/api defaults to "2026-01", which is behind the version
+// https://developer.monday.com/api-reference/docs/api-versioning
+const API_VERSION = "2026-07";
 
 export default {
   type: "app",
@@ -98,10 +102,10 @@ export default {
       label: "Item Name",
       description: "The new item's name",
     },
-    itemColumnValues: {
+    columnValues: {
       type: "object",
-      label: "Item Column Values",
-      description: "The column values of the new item",
+      label: "Column Values",
+      description: "The column values to set, as column ID → value pairs. Example: `{ \"status\": \"Done\", \"date4\": \"2026-09-02\", \"numbers\": 42 }`. Use **List Columns** to discover column IDs and the allowed labels for `status`/`dropdown` columns. See the [Column types reference](https://developer.monday.com/api-reference/reference/column-types-reference) for the value each column type expects",
       optional: true,
     },
     itemCreateLabels: {
@@ -161,118 +165,99 @@ export default {
     },
   },
   methods: {
+    _authToken() {
+      return this.$auth.api_key ?? this.$auth.oauth_access_token;
+    },
+    _client() {
+      return new ApiClient({
+        token: this._authToken(),
+        apiVersion: API_VERSION,
+      });
+    },
     async makeRequest({
-      query, options,
+      query, variables,
     }) {
-      const monday = mondaySdk();
-      monday.setToken(this.$auth.api_key);
-      return monday.api(query, options);
+      return this._client().rawRequest(query, variables);
     },
     async createWebhook(variables) {
       return this.makeRequest({
         query: mutations.createWebhook,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async deleteWebhook(variables) {
       return this.makeRequest({
         query: mutations.deleteWebhook,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async getItem(variables) {
       const { data } = await this.makeRequest({
         query: queries.getItem,
-        options: {
-          variables,
-        },
+        variables,
       });
       return data?.items[0];
     },
     async getBoard(variables) {
       const { data } = await this.makeRequest({
         query: queries.getBoard,
-        options: {
-          variables,
-        },
+        variables,
       });
       return data?.boards[0];
     },
     async getUser(variables) {
       const { data } = await this.makeRequest({
         query: queries.getUser,
-        options: {
-          variables,
-        },
+        variables,
       });
       return data?.users[0];
     },
     async createBoard(variables) {
       return this.makeRequest({
         query: mutations.createBoard,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async createGroup(variables) {
       return this.makeRequest({
         query: mutations.createGroup,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async createItem(variables) {
       return this.makeRequest({
         query: mutations.createItem,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async createColumn(variables) {
       return this.makeRequest({
         query: mutations.createColumn,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async createSubItem(variables) {
       return this.makeRequest({
         query: mutations.createSubItem,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async createUpdate(variables) {
       return this.makeRequest({
         query: mutations.createUpdate,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async updateItemName(variables) {
       return this.makeRequest({
         query: mutations.updateItemName,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async listBoards(variables) {
       return this.makeRequest({
         query: queries.listBoards,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async listItemsBoard({
@@ -281,24 +266,19 @@ export default {
       const query = cursor
         ? queries.listItemsNextPage
         : queries.listItemsBoard;
-      const options = cursor
-        ? {
-          variables: cursor,
-        }
-        : {
-          variables,
-        };
       return this.makeRequest({
         query,
-        options,
+        variables: cursor
+          ? {
+            cursor,
+          }
+          : variables,
       });
     },
     async listUpdatesBoard(variables) {
       return this.makeRequest({
         query: queries.listUpdatesBoard,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async listWorkspaces() {
@@ -309,9 +289,7 @@ export default {
     async listFolders(variables) {
       return this.makeRequest({
         query: queries.listFolders,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async listWorkspacesBoards() {
@@ -322,52 +300,40 @@ export default {
     async listGroupsBoards(variables) {
       return this.makeRequest({
         query: queries.listGroupsBoards,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async listColumnOptions(variables) {
       const { data } = await this.makeRequest({
         query: queries.listColumnOptions,
-        options: {
-          variables,
-        },
+        variables,
       });
       return data?.boards[0]?.columns;
     },
     async listColumns(variables) {
       const { data } = await this.makeRequest({
         query: queries.listColumns,
-        options: {
-          variables,
-        },
+        variables,
       });
       return data?.boards[0]?.columns;
     },
     listBoardItemsPage(variables) {
       return this.makeRequest({
         query: queries.listBoardItemsPage,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async listUsers(variables) {
       const { data } = await this.makeRequest({
         query: queries.listUsers,
-        options: {
-          variables,
-        },
+        variables,
       });
       return data?.users;
     },
     async getColumnValues(variables) {
       return this.makeRequest({
         query: queries.getColumnValues,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async getItemsByColumnValue({
@@ -376,24 +342,19 @@ export default {
       const query = cursor
         ? queries.listItemsNextPage
         : queries.getItemsByColumnValue;
-      const options = cursor
-        ? {
-          variables: cursor,
-        }
-        : {
-          variables,
-        };
       return this.makeRequest({
         query,
-        options,
+        variables: cursor
+          ? {
+            cursor,
+          }
+          : variables,
       });
     },
     async updateColumnValues(variables) {
       return this.makeRequest({
         query: mutations.updateColumnValues,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async listBoardsOptions(variables) {
@@ -509,9 +470,12 @@ export default {
         throw new Error(`Failed to list items: ${errorMessage}`);
       }
 
-      const { boards } = data;
-      const items = boards[0].items_page.items;
-      const cursor = boards[0].items_page.cursor;
+      const itemsPage = variables.cursor
+        ? data.next_items_page
+        : data.boards[0].items_page;
+      const {
+        items, cursor,
+      } = itemsPage;
       const options = items.map(({
         id, name,
       }) => ({

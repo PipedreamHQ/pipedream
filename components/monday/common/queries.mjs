@@ -133,12 +133,17 @@ export default {
     }
   `,
   listItemsNextPage: `
-    query listItems ($cursor: String!) {
-      next_items_page (cursor: $cursor) {
+    query listItems ($cursor: String!, $limit: Int = 25) {
+      next_items_page (cursor: $cursor, limit: $limit) {
         cursor
         items {
           id
           name
+          column_values {
+            id
+            value
+            text
+          }
         }
       }
     }
