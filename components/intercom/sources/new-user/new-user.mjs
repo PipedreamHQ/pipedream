@@ -20,7 +20,7 @@ export default {
       };
     },
   },
-  async run({ $ }) {
+  async run() {
     let lastUserCreatedAt = this._getLastUpdate();
     const data = {
       query: {
@@ -40,7 +40,7 @@ export default {
       },
     };
 
-    const results = await this.intercom.searchContacts(data, $);
+    const results = await this.intercom.searchContacts(data);
     for (const user of results) {
       if (user.created_at > lastUserCreatedAt)
         lastUserCreatedAt = user.created_at;

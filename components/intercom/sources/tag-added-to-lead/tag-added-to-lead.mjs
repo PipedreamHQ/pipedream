@@ -23,7 +23,7 @@ export default {
       };
     },
   },
-  async run({ $ }) {
+  async run() {
     const data = {
       query: {
         field: "role",
@@ -32,7 +32,7 @@ export default {
       },
     };
 
-    const results = await this.intercom.searchContacts(data, $);
+    const results = await this.intercom.searchContacts(data);
     for (const lead of results) {
       if (lead.tags.data.length > 0) {
         for (const tag of lead.tags.data) {

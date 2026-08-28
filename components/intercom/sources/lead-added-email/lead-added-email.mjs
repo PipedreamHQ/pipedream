@@ -20,7 +20,7 @@ export default {
       };
     },
   },
-  async run({ $ }) {
+  async run() {
     let lastLeadUpdatedAt = this._getLastUpdate();
     const data = {
       query: {
@@ -45,7 +45,7 @@ export default {
       },
     };
 
-    const results = await this.intercom.searchContacts(data, $);
+    const results = await this.intercom.searchContacts(data);
     for (const lead of results) {
       if (lead.updated_at > lastLeadUpdatedAt)
         lastLeadUpdatedAt = lead.updated_at;
