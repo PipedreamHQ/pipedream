@@ -6,7 +6,7 @@ export default {
   description: "Partially update a post. Only provided fields are changed. [See the documentation](https://contentrabbitai.com/docs/api)",
   version: "0.0.1",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

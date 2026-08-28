@@ -16,13 +16,13 @@ export default {
     start: {
       type: "string",
       label: "Start Date",
-      description: "ISO 8601 start of the range. Defaults to 30 days before end date.",
+      description: "ISO 8601 start of the range. Defaults to 30 days before end date. A UTC timestamp with a `Z` suffix (e.g. `2026-08-01T00:00:00Z`) is always accepted.",
       optional: true,
     },
     end: {
       type: "string",
       label: "End Date",
-      description: "ISO 8601 end of the range. Defaults to now.",
+      description: "ISO 8601 end of the range. Defaults to now. A UTC timestamp with a `Z` suffix (e.g. `2026-08-31T23:59:59Z`) is always accepted.",
       optional: true,
     },
     timezone: {

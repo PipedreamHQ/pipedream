@@ -16,7 +16,7 @@ export default {
     cloudflareImageId: {
       type: "string",
       label: "Cloudflare Image ID",
-      description: "The image ID returned by **Create Media Upload URL**, after the file has been uploaded to its `uploadURL`.",
+      description: "The Cloudflare image `id` returned by the Create Media Upload URL action, after the file has been uploaded to its `uploadURL` (e.g. `550e8400-e29b-41d4-a716-446655440000`).",
     },
     title: {
       type: "string",

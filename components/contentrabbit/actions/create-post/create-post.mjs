@@ -44,7 +44,7 @@ export default {
     scheduledAt: {
       type: "string",
       label: "Scheduled At",
-      description: "ISO 8601 datetime for scheduled publishing. Sets status to `scheduled`.",
+      description: "ISO 8601 datetime for scheduled publishing. Sets status to `scheduled`. Use a UTC timestamp with a `Z` suffix (e.g. `2026-08-28T14:30:00Z`).",
       optional: true,
     },
     tags: {

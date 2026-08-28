@@ -1,5 +1,6 @@
 import contentRabbitApp from "../../contentrabbit.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import { createHash } from "crypto";
 
 export default {
   key: "contentrabbit-new-post",
@@ -39,10 +40,17 @@ export default {
       this.db.set("savedTs", ts);
     },
     generateMeta(post) {
+      const revision = post.updatedAt || post.createdAt;
       return {
-        id: `${post.id}-${post.updatedAt || post.createdAt}`,
-        summary: post.title || post.content?.slice(0, 80) || `Post ${post.id}`,
-        ts: Date.parse(post.updatedAt || post.createdAt),
+        // A dedupe id may not exceed 64 characters. A post id joined to an ISO
+        // timestamp can run past that, and an id that gets cut stops
+        // deduplicating, so hash the pair to a fixed 40 instead. Same inputs,
+        // same id, so a re-poll still recognises a post it already emitted.
+        id: createHash("sha1").update(`${post.id}-${revision}`).digest("hex"),
+        // Split by code point: slicing raw UTF-16 can cut a surrogate pair in
+        // half and leave a replacement character in the summary.
+        summary: post.title || Array.from(post.content ?? "").slice(0, 80).join("") || `Post ${post.id}`,
+        ts: Date.parse(revision),
       };
     },
     async processEvent(max, isDeploy = false) {

@@ -1,11 +1,16 @@
 import contentRabbitApp from "../../contentrabbit.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
+// The deliveries endpoint answers newest-first and offers no cursor, so a busy
+// window has to be walked backwards one page at a time. Cap the walk: a source
+// that never returns is worse than one that resumes on the next tick.
+const MAX_DRAIN_PASSES = 20;
+
 export default {
   key: "contentrabbit-new-webhook-delivery",
   name: "New Webhook Delivery",
-  description: "Emit new event when Content Rabbit delivers a webhook to your endpoint. [See the documentation](https://contentrabbitai.com/docs/api)",
-  version: "0.0.1",
+  description: "Emit new event when Content Rabbit delivers a webhook to your endpoint. Polls the delivery log, so an event appears within one polling interval rather than instantly. [See the documentation](https://contentrabbitai.com/docs/api)",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {
@@ -20,13 +25,20 @@ export default {
     subscriptionId: {
       type: "string",
       label: "Webhook Subscription ID",
-      description: "Optional: limit deliveries to a specific subscription. Leave blank for all.",
+      description: "Limit deliveries to one webhook subscription. The list is your team's own subscriptions, from `GET /webhooks`; each option is labelled with the endpoint it delivers to. Leave blank to emit deliveries for every subscription.",
       optional: true,
+      async options() {
+        const { data } = await this.contentRabbitApp.listWebhooks();
+        return (data ?? []).map((subscription) => ({
+          label: subscription.targetUrl || subscription.id,
+          value: subscription.id,
+        }));
+      },
     },
     status: {
       type: "string",
       label: "Delivery Status",
-      description: "Filter by delivery status.",
+      description: "Emit only deliveries in this state. Leave blank for all four. A delivery moves `queued` -> `delivering` -> `success` or `failed`, so filtering on `success` alone drops the retries.",
       options: [
         "queued",
         "delivering",
@@ -55,6 +67,68 @@ export default {
         ts: Date.parse(delivery.occurredAt),
       };
     },
+    /**
+     * Collect every delivery in `[start, now]`.
+     *
+     * The API caps a response at `limit` and sorts newest first, with no cursor
+     * to page further. Asking once and stopping is what let deliveries go
+     * missing: under sustained volume the page stayed full, the checkpoint
+     * could never advance, and anything older than one page sat outside the
+     * window forever. So each pass pulls `end` back to the oldest delivery it
+     * has already seen and asks again, until a pass returns a short page.
+     */
+    async drainWindow({
+      start, limit,
+    }) {
+      const collected = [];
+      const seen = new Set();
+      let end = new Date().toISOString();
+
+      for (let pass = 0; pass < MAX_DRAIN_PASSES; pass++) {
+        const response = await this.contentRabbitApp.listWebhookDeliveries({
+          params: {
+            subscriptionId: this.subscriptionId,
+            status: this.status,
+            start,
+            end,
+            limit,
+          },
+        });
+
+        const items = response.data?.items ?? [];
+        let oldestTs = null;
+        for (const item of items) {
+          if (!seen.has(item.id)) {
+            seen.add(item.id);
+            collected.push(item);
+          }
+          const ts = Date.parse(item.occurredAt);
+          if (Number.isFinite(ts) && (oldestTs === null || ts < oldestTs)) {
+            oldestTs = ts;
+          }
+        }
+
+        if (items.length < limit || oldestTs === null) {
+          return {
+            deliveries: collected,
+            drained: true,
+          };
+        }
+
+        const nextEnd = new Date(oldestTs).toISOString();
+        if (nextEnd === end) {
+          // A whole page shares one timestamp, so pulling `end` back cannot
+          // make progress. Stop and let the next poll retry rather than spin.
+          break;
+        }
+        end = nextEnd;
+      }
+
+      return {
+        deliveries: collected,
+        drained: false,
+      };
+    },
     async processEvent(max, isDeploy = false) {
       const savedTs = this._getSavedTs();
       let maxTs = savedTs;
@@ -67,30 +141,21 @@ export default {
           : undefined;
 
       const limit = max ?? 200;
-      const response = await this.contentRabbitApp.listWebhookDeliveries({
-        params: {
-          subscriptionId: this.subscriptionId,
-          status: this.status,
-          start,
-          end: new Date().toISOString(),
-          limit,
-        },
+      const {
+        deliveries, drained,
+      } = await this.drainWindow({
+        start,
+        limit,
       });
-
-      const deliveries = response.data?.items ?? [];
-      // The API returns at most `limit` deliveries (newest first) with no cursor
-      // to page further. If the response is full, older deliveries in this window
-      // may exist beyond it — don't advance the checkpoint past what we've
-      // actually seen, so the next poll re-fetches and catches them instead of
-      // skipping them forever.
-      const truncated = deliveries.length >= limit;
 
       for (const delivery of deliveries) {
         const ts = Date.parse(delivery.occurredAt);
         if (ts >= savedTs || isDeploy) {
           this.$emit(delivery, this.generateMeta(delivery));
         }
-        if (!truncated && ts > maxTs) {
+        // Only bank progress once the window is known to be empty behind us.
+        // Advancing after a partial drain is what would skip deliveries.
+        if (drained && Number.isFinite(ts) && ts > maxTs) {
           maxTs = ts;
         }
       }

@@ -6,7 +6,7 @@ export default {
   description: "Set or update the scheduled time for a post. Status changes to `scheduled`. [See the documentation](https://contentrabbitai.com/docs/api)",
   version: "0.0.1",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -22,7 +22,7 @@ export default {
     scheduledAt: {
       type: "string",
       label: "Scheduled At",
-      description: "ISO 8601 datetime for when the post should be published.",
+      description: "ISO 8601 datetime for when the post should be published. Use a UTC timestamp with a `Z` suffix (e.g. `2026-08-28T14:30:00Z`).",
     },
     selectedPlatforms: {
       type: "string[]",

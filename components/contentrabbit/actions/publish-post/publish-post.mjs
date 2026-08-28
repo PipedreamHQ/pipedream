@@ -3,7 +3,7 @@ import contentRabbitApp from "../../contentrabbit.app.mjs";
 export default {
   key: "contentrabbit-publish-post",
   name: "Publish Post",
-  description: "Immediately publish a post to the selected platforms. [See the documentation](https://contentrabbitai.com/docs/api)",
+  description: "Publishes a post immediately, bypassing any existing schedule, and marks it `published`. Publication to a live social network cannot be undone. `platforms` defaults to the post's own configured platforms when omitted. `firstComment` is only delivered on platforms that support a threaded first comment and is ignored elsewhere. [See the documentation](https://contentrabbitai.com/docs/api)",
   version: "0.0.1",
   annotations: {
     destructiveHint: true,
@@ -20,9 +20,13 @@ export default {
       ],
     },
     platforms: {
+      propDefinition: [
+        contentRabbitApp,
+        "platformType",
+      ],
       type: "string[]",
       label: "Platforms",
-      description: "Override which platforms to publish to. Defaults to the post's configured platforms.",
+      description: "Override which platforms to publish to. Defaults to the post's own configured platforms when omitted.",
       optional: true,
     },
     firstComment: {

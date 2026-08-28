@@ -212,6 +212,12 @@ export default {
       });
     },
     // ─── Webhooks ─────────────────────────────────────────────────
+    async listWebhooks(opts = {}) {
+      return this._makeRequest({
+        path: "/webhooks",
+        ...opts,
+      });
+    },
     async listWebhookDeliveries(opts = {}) {
       return this._makeRequest({
         path: "/webhooks/deliveries",
