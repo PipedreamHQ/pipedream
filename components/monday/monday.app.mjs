@@ -1,10 +1,14 @@
 import flatMap from "lodash.flatmap";
 import map from "lodash.map";
 import uniqBy from "lodash.uniqby";
-import mondaySdk from "monday-sdk-js";
+import { ApiClient } from "@mondaydotcomorg/api";
 import constants from "./common/constants.mjs";
 import mutations from "./common/mutations.mjs";
 import queries from "./common/queries.mjs";
+
+// The SDK always sends an API-Version header and its built-in default ("2026-01")
+// https://developer.monday.com/api-reference/docs/api-versioning
+const API_VERSION = "2026-07";
 
 export default {
   type: "app",
@@ -161,12 +165,16 @@ export default {
     },
   },
   methods: {
+    _client() {
+      return new ApiClient({
+        token: this.$auth.api_key,
+        apiVersion: API_VERSION,
+      });
+    },
     async makeRequest({
       query, options,
     }) {
-      const monday = mondaySdk();
-      monday.setToken(this.$auth.api_key);
-      return monday.api(query, options);
+      return this._client().rawRequest(query, options?.variables);
     },
     async createWebhook(variables) {
       return this.makeRequest({
