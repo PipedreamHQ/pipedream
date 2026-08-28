@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import slack from "../../slack_v2.app.mjs";
 
 export default {
@@ -13,7 +14,7 @@ export default {
     + " Prefer this over **Get Current User**, which returns a much larger payload and is only"
     + " needed for full profile detail (locale, status, admin flags)."
     + " [See the documentation](https://api.slack.com/methods/auth.test)",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,

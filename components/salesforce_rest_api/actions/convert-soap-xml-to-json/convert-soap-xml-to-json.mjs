@@ -1,11 +1,16 @@
+// x-pd-ai: optimized
 import salesforce_rest_api from "../../salesforce_rest_api.app.mjs";
 import converter from "../../../helper_functions/actions/xml-to-json/xml-to-json.mjs";
 
 export default {
   key: "salesforce_rest_api-convert-soap-xml-to-json",
   name: "Convert SOAP XML Object to JSON",
-  description: "Converts a SOAP XML Object received from Salesforce to JSON",
-  version: "0.0.10",
+  description: "Convert a SOAP XML payload received from Salesforce into JSON."
+    + " Use this on the raw body delivered by an outbound-message trigger; it makes no API call."
+    + " Every other Salesforce action already returns JSON, so this is only needed for outbound-message workflows."
+    + " "
+    + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_om_outboundmessaging.htm)",
+  version: "0.0.12",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

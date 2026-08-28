@@ -1,5 +1,5 @@
+// x-pd-ai: optimized
 import common from "../common/send-message.mjs";
-import constants from "../../common/constants.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
@@ -7,7 +7,7 @@ export default {
   key: "slack_v2-send-message-to-user-or-group",
   name: "Send Message to User or Group",
   description: "Send a message to a user or group. [See the documentation](https://api.slack.com/methods/chat.postMessage)",
-  version: "0.1.5",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -23,20 +23,15 @@ export default {
       ],
       type: "string[]",
       label: "Users",
-      description: "Select the user(s) to message",
+      description: "The user ID(s) to message (e.g. `U1234567890`). Use **Find User by Email** / **Find User by ID** to resolve an ID.",
       optional: true,
     },
     conversation: {
       propDefinition: [
         common.props.slack,
         "conversation",
-        () => ({
-          types: [
-            constants.CHANNEL_TYPE.MPIM,
-          ],
-        }),
       ],
-      description: "Select the group to message",
+      description: "The group DM conversation ID to message (e.g. `G1234567890`). Use **List Group Conversations** to find valid IDs.",
       optional: true,
     },
     text: {

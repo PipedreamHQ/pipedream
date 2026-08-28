@@ -1,11 +1,11 @@
-import constants from "../../common/constants.mjs";
+// x-pd-ai: optimized
 import slack from "../../slack_v2.app.mjs";
 
 export default {
   key: "slack_v2-list-replies",
   name: "List Replies",
   description: "Retrieve a thread of messages posted to a conversation. [See the documentation](https://api.slack.com/methods/conversations.replies)",
-  version: "0.0.30",
+  version: "0.0.32",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -18,14 +18,7 @@ export default {
       propDefinition: [
         slack,
         "conversation",
-        () => ({
-          types: [
-            constants.CHANNEL_TYPE.PUBLIC,
-            constants.CHANNEL_TYPE.PRIVATE,
-          ],
-        }),
       ],
-      description: "Select a public or private channel",
     },
     timestamp: {
       propDefinition: [

@@ -1,11 +1,16 @@
+// x-pd-ai: optimized
 import common from "../common/knowledge.mjs";
 
 export default {
   ...common,
   key: "salesforce_rest_api-get-knowledge-articles",
   name: "Get Knowledge Articles",
-  description: "Get a page of online articles for the given language and category through either search or query. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.knowledge_dev.meta/knowledge_dev/sforce_api_rest_retrieve_article_list.htm)",
-  version: "0.0.3",
+  description: "Retrieve a page of online Knowledge articles for a language and data category, by search or query."
+    + " Use **List Knowledge Data Category Groups** to discover valid category values first, and **List Knowledge Articles** to browse article records instead."
+    + " Returns published article content, so responses can be large - narrow by category or search term."
+    + " "
+    + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.knowledge_dev.meta/knowledge_dev/sforce_api_rest_retrieve_article_list.htm)",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

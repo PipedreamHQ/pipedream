@@ -106,9 +106,9 @@ const CREATE_BLOG = `
   }
 `;
 
-const CREATE_COLLECTION = `
-  mutation createCollectionMetafields($input: CollectionInput!) {
-    collectionCreate(input: $input) {
+const COLLECTION_CREATE = `
+  mutation collectionCreate($collection: CollectionCreateInput!) {
+    collectionCreate(collection: $collection) {
       collection {
         id
         title
@@ -257,8 +257,8 @@ const UPDATE_METAOBJECT = `
 `;
 
 const UPDATE_PRODUCT = `
-  mutation UpdateProductWithNewMedia($input: ProductInput!, $media: [CreateMediaInput!]) {
-    productUpdate(input: $input, media: $media) {
+  mutation UpdateProductWithNewMedia($product: ProductUpdateInput!, $media: [CreateMediaInput!]) {
+    productUpdate(product: $product, media: $media) {
       product {
         id
         title
@@ -322,8 +322,8 @@ const UPDATE_PAGE = `
 `;
 
 const UPDATE_INVENTORY_LEVEL = `
-  mutation inventorySetOnHandQuantities($input: InventorySetOnHandQuantitiesInput!) {
-    inventorySetOnHandQuantities(input: $input) {
+  mutation inventorySetQuantities($input: InventorySetQuantitiesInput!, $key: String!) {
+    inventorySetQuantities(input: $input) @idempotent(key: $key) {
       inventoryAdjustmentGroup {
         createdAt
         reason
@@ -524,10 +524,10 @@ const RETURN_CREATE = `
   }
 `;
 
-const RETURN_REFUND = `
-  mutation returnRefund($returnRefundInput: ReturnRefundInput!) {
-    returnRefund(returnRefundInput: $returnRefundInput) {
-      refund {
+const RETURN_PROCESS = `
+  mutation ReturnProcessMutation($input: ReturnProcessInput!) {
+    returnProcess(input: $input) {
+      return {
         id
         order {
           id
@@ -633,6 +633,48 @@ const FULFILLMENT_ORDER_HOLD = `
   }
 `;
 
+const CREATE_STAGED_UPLOAD = `
+  mutation stagedUploadsCreate($input: [StagedUploadInput!]!) {
+    stagedUploadsCreate(input: $input) {
+      stagedTargets {
+        url
+        resourceUrl
+        parameters {
+          name
+          value
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const RUN_BULK_MUTATION = `
+  mutation bulkOperationRunMutation($clientIdentifier: String, $mutation: String!, $stagedUploadPath: String!) {
+    bulkOperationRunMutation(clientIdentifier: $clientIdentifier, mutation: $mutation, stagedUploadPath: $stagedUploadPath) {
+      bulkOperation {
+        id
+        completedAt
+        createdAt
+        fileSize
+        objectCount
+        rootObjectCount
+        partialDataUrl
+        query
+        status
+        url
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
 export default {
   CREATE_WEBHOOK,
   DELETE_WEBHOOK,
@@ -640,7 +682,7 @@ export default {
   ADD_PRODUCTS_TO_COLLECTION,
   CREATE_ARTICLE,
   CREATE_BLOG,
-  CREATE_COLLECTION,
+  COLLECTION_CREATE,
   CREATE_PAGE,
   CREATE_PRODUCT,
   CREATE_PRODUCT_VARIANTS,
@@ -665,8 +707,10 @@ export default {
   ORDER_CREATE,
   ORDER_INVOICE_SEND,
   RETURN_CREATE,
-  RETURN_REFUND,
+  RETURN_PROCESS,
   FULFILLMENT_CANCEL,
   FULFILLMENT_ORDER_CANCEL,
   FULFILLMENT_ORDER_HOLD,
+  CREATE_STAGED_UPLOAD,
+  RUN_BULK_MUTATION,
 };

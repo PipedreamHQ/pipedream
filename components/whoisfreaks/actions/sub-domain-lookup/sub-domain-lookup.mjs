@@ -16,10 +16,16 @@ export default {
   props: {
     whoisfreaks,
     domainName: {
-      propDefinition: [whoisfreaks, "domainName"],
+      propDefinition: [
+        whoisfreaks,
+        "domainName",
+      ],
     },
     format: {
-      propDefinition: [whoisfreaks, "format"],
+      propDefinition: [
+        whoisfreaks,
+        "format",
+      ],
     },
     page: {
       type: "integer",

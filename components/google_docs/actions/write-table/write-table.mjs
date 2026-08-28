@@ -5,7 +5,7 @@ export default {
   key: "google_docs-write-table",
   name: "Write Table",
   description: "Create a table and fill it with data in a single step. Provide the entire table (all rows and columns, including a header row) at once. Use this instead of inserting cells or text one at a time. The action places every value in the correct cell for you. Pass **Table Data** as a JSON array of arrays, one inner array per row, header row first when **Has Header Row** is set, e.g. `[[\"Name\",\"Role\"],[\"Ada\",\"Engineer\"]]`. Use **Find Document** to resolve a document's name to its ID, or **Insert Table** instead if you only need an empty grid to fill in later. Note: a table written this way is always static — the Google Docs API does not create or preserve a live link to a Google Sheet, even when this replaces a Sheets-linked table. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#InsertTableRequest)",
-  version: "0.0.1",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

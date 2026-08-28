@@ -1,4 +1,4 @@
-// vandelay-test-dr
+// x-pd-ai: optimized
 import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
@@ -10,8 +10,10 @@ export default {
     + " For picklist fields (like `StageName` on Opportunity, `Status` on Case), this returns all valid values"
     + " — use the API value, not the display label."
     + " Use the `fieldsFilter` parameter to narrow results — full object descriptions can be very large (100+ fields)."
-    + " Use **List Objects** if you're unsure of the object's API name.",
-  version: "0.0.1",
+    + " Use **List Objects** if you're unsure of the object's API name."
+    + " "
+    + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_sobject_describe.htm)",
+  version: "0.0.3",
   type: "action",
   annotations: {
     readOnlyHint: true,

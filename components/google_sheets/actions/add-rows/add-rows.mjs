@@ -1,4 +1,4 @@
-// vandelay-test-dr
+// x-pd-ai: optimized
 import googleSheets from "../../google_sheets.app.mjs";
 import {
   getHeaders, parseRowInput,
@@ -19,7 +19,7 @@ export default {
     + " Alternatively, pass rows as arrays of positional values"
     + " matching column order."
     + " New rows are appended after the last row with data.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

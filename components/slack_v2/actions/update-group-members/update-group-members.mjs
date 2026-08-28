@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import slack from "../../slack_v2.app.mjs";
 
 export default {
   key: "slack_v2-update-group-members",
   name: "Update Group Members",
   description: "Update the list of users for a User Group. [See the documentation](https://api.slack.com/methods/usergroups.users.update)",
-  version: "0.0.15",
+  version: "0.0.17",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -26,7 +27,7 @@ export default {
       ],
       type: "string[]",
       label: "Users to Add",
-      description: "A list of encoded user IDs that represent the users to add to the group.",
+      description: "One or more user IDs to add to the group (e.g. `U1234567890`). Use **Find User by Email** or **List Users** to find valid IDs.",
       optional: true,
     },
     usersToRemove: {
@@ -36,7 +37,7 @@ export default {
       ],
       type: "string[]",
       label: "Users to Remove",
-      description: "A list of encoded user IDs that represent the users to remove from the group.",
+      description: "One or more user IDs to remove from the group (e.g. `U1234567890`). Use **Find User by Email** or **List Users** to find valid IDs.",
       optional: true,
     },
     team: {
@@ -45,7 +46,7 @@ export default {
         "team",
       ],
       optional: true,
-      description: "Encoded team id where the user group exists, required if org token is used.",
+      description: "The encoded team ID (e.g. `T1234567890`) where the user group exists. Required only if the connected token spans multiple teams (Enterprise Grid). Use **List Teams** to find valid IDs.",
     },
   },
   async run({ $ }) {

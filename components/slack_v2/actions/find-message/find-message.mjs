@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import slack from "../../slack_v2.app.mjs";
 
 export default {
   key: "slack_v2-find-message",
   name: "Find Message",
   description: "Find a Slack message. [See the documentation](https://api.slack.com/methods/assistant.search.context)",
-  version: "0.1.4",
+  version: "0.1.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
