@@ -71,14 +71,14 @@ export function projectFields(records, value) {
 const USER_MENTION = /<@([UW][A-Z0-9]{8,})(?:\|([^>]*))?>/g;
 
 /**
- * Slack does not render the pipe form on the write path: `chat.postMessage` prints it as literal text, so the
- * reader sees a raw `<@U123|Display Name>` where a mention belonged.
+ * Slack does not render the pipe form on the write path: `chat.postMessage` prints it
+ * as literal text, so the reader sees a raw `<@U123|Display Name>` where a mention belonged.
  *
  * Normalizing on the read side means every read tool hands the agent the one encoding
  * that is safe to echo back.
  *
- * The display name is NOT simply discarded. The
- * names travel alongside the text as a compact `{id, name}` list instead of inline.
+ * The display name is not discarded: the names travel alongside the text as a compact
+ * `{id, name}` list instead of inline.
  *
  * @param {string} text - message text as Slack returned it
  * @returns {{text: string, mentions: {id: string, name: string}[]}} normalized text, plus
