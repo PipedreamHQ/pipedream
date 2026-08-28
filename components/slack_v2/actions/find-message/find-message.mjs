@@ -5,7 +5,12 @@ import slack from "../../slack_v2.app.mjs";
 export default {
   key: "slack_v2-find-message",
   name: "Find Message",
-  description: "Find a Slack message."
+  description: "Find a Slack message by keyword or natural-language query across public and private channels."
+    + " Returns matching messages with channel context, timestamps, and permalinks."
+    + " Pass the returned `message_ts` to **Reply to a Message** to answer in thread,"
+    + " or to **Get Thread Replies** to read the rest of that conversation."
+    + " Use **Search** instead when you need file results or want to restrict `channelTypes`;"
+    + " use this action when you want to order results with `sort` / `sortDirection`."
     + " User mentions come back in the canonical `<@U123>` form; echo it verbatim to post a real mention."
     + " Display names are returned separately as `mentions`, an array of `{ id, name }` objects,"
     + " omitted when no mention carried a name."
