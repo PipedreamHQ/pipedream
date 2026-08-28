@@ -4,7 +4,6 @@ import {
   getFileStreamAndMetadata,
 } from "@pipedream/platform";
 import FormData from "form-data";
-import constants from "../../common/constants.mjs";
 import { getColumnOptions } from "../../common/utils.mjs";
 import common from "../common/column-values.mjs";
 
@@ -96,7 +95,6 @@ export default {
         headers: {
           "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
           "Authorization": this.monday.$auth.api_key,
-          "API-Version": constants.API_VERSION,
         },
         data: formData,
       });
