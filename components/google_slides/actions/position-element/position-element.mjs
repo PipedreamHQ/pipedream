@@ -101,8 +101,18 @@ export default {
     const id = googleSlides.getPresentationId(presentationId);
     const requests = [];
 
+    const {
+      element, groupId,
+    } = await googleSlides.getPageElement(id, objectId);
+
+    // A grouped child's transform is relative to its group, so the slide-space
+    // X/Y props would not mean what they say, and the API rejects grouped IDs
+    // for z-order outright.
+    if (groupId) {
+      throw new ConfigurationError(`Page element "${objectId}" is inside group "${groupId}". Its position is relative to that group, and z-order cannot target a grouped element. Target the group itself, or ungroup it first.`);
+    }
+
     if (movesElement) {
-      const { element } = await googleSlides.getPageElement(id, objectId);
       const current = element.transform || {};
       const unit = current.unit || POINTS;
       const toUnit = (points) => (unit === EMU
@@ -120,13 +130,29 @@ export default {
       };
 
       if (scaleXPercent != null || scaleYPercent != null || rotation != null) {
-        const currentAngle = Math.atan2(matrix.shearY, matrix.scaleX);
+        // Factor any reflection onto the axis that already carries it before
+        // decomposing, so changing the rotation cannot move a horizontal flip
+        // onto the vertical axis and leave the element 180 degrees out.
+        const determinant = (matrix.scaleX * matrix.scaleY) - (matrix.shearY * matrix.shearX);
+        const flipX = determinant < 0 && matrix.scaleX < 0
+          ? -1
+          : 1;
+        const flipY = determinant < 0 && flipX === 1
+          ? -1
+          : 1;
+
+        const columnX = matrix.scaleX * flipX;
+        const columnXShear = matrix.shearY * flipX;
+        const columnY = matrix.shearX * flipY;
+        const columnYScale = matrix.scaleY * flipY;
+
+        const currentAngle = Math.atan2(columnXShear, columnX);
         const cos = Math.cos(currentAngle);
         const sin = Math.sin(currentAngle);
 
-        const currentScaleX = Math.hypot(matrix.scaleX, matrix.shearY) || 1;
-        const shear = (matrix.shearX * cos) + (matrix.scaleY * sin);
-        const currentScaleY = (matrix.scaleY * cos) - (matrix.shearX * sin);
+        const currentScaleX = Math.hypot(columnX, columnXShear) || 1;
+        const shear = (columnY * cos) + (columnYScale * sin);
+        const currentScaleY = (columnYScale * cos) - (columnY * sin);
 
         const scaleX = scaleXPercent != null
           ? scaleXPercent / 100
@@ -144,10 +170,10 @@ export default {
         const newSin = Math.sin(angle);
 
         matrix = {
-          scaleX: scaleX * newCos,
-          shearY: scaleX * newSin,
-          shearX: (shear * newCos) - (scaleY * newSin),
-          scaleY: (shear * newSin) + (scaleY * newCos),
+          scaleX: scaleX * newCos * flipX,
+          shearY: scaleX * newSin * flipX,
+          shearX: ((shear * newCos) - (scaleY * newSin)) * flipY,
+          scaleY: ((shear * newSin) + (scaleY * newCos)) * flipY,
         };
       }
 

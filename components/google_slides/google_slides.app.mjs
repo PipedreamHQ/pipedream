@@ -83,7 +83,7 @@ export default {
     contentAlignment: {
       type: "string",
       label: "Content Alignment",
-      description: "Vertical alignment of the text within the element.",
+      description: "Vertical alignment of the text within the element. One of `TOP`, `MIDDLE` or `BOTTOM` - e.g. `MIDDLE` to centre the text vertically.",
       options: CONTENT_ALIGNMENTS,
       optional: true,
     },
@@ -348,15 +348,16 @@ export default {
       return (await slides.presentations.get(request)).data;
     },
     _findPageElement(presentation, objectId) {
-      const walk = (elements, slideId) => {
+      const walk = (elements, slideId, groupId) => {
         for (const element of elements || []) {
           if (element.objectId === objectId) {
             return {
               element,
               slideId,
+              groupId,
             };
           }
-          const found = walk(element.elementGroup?.children, slideId);
+          const found = walk(element.elementGroup?.children, slideId, element.objectId);
           if (found) {
             return found;
           }

@@ -75,7 +75,6 @@ export default {
         googleSlides,
         "contentAlignment",
       ],
-      description: "Vertical alignment of the text inside the cells.",
     },
   },
   async run({ $ }) {

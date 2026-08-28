@@ -48,7 +48,7 @@ export default {
     outlineColor: {
       type: "string",
       label: "Outline Color",
-      description: "Outline color as a hex code or a theme color name.",
+      description: "Outline color as a 6-digit hex code (e.g. `#FF0000`) or one of the deck's theme colors (e.g. `ACCENT1`, `DARK1`).",
       optional: true,
     },
     outlineOpacity: {
@@ -70,7 +70,7 @@ export default {
     outlineDashStyle: {
       type: "string",
       label: "Outline Dash Style",
-      description: "Dash pattern for the outline.",
+      description: "Dash pattern for the outline. One of `SOLID`, `DOT`, `DASH`, `DASH_DOT`, `LONG_DASH` or `LONG_DASH_DOT` - e.g. `DASH`.",
       options: DASH_STYLES,
       optional: true,
     },
@@ -79,12 +79,11 @@ export default {
         googleSlides,
         "contentAlignment",
       ],
-      description: "Vertical alignment of the text inside the shape.",
     },
     link: {
       type: "string",
       label: "Link URL",
-      description: "Make the shape link to this URL.",
+      description: "Make the shape link to this absolute URL, e.g. `https://example.com/report`.",
       optional: true,
     },
   },
