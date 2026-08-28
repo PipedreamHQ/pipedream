@@ -19,7 +19,7 @@ export default {
       };
     },
   },
-  async run() {
+  async run({ $ }) {
     const data = {
       query: {
         operator: "AND",
@@ -38,7 +38,7 @@ export default {
       },
     };
 
-    const results = await this.intercom.searchContacts(data);
+    const results = await this.intercom.searchContacts(data, $);
     for (const user of results) {
       const meta = this.generateMeta(user);
       this.$emit(user, meta);

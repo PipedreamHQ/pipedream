@@ -81,9 +81,10 @@ export default {
      * endpoint for search requests
      * @params {Interger} [lastCreatedAt] - Timestamp of the last relevant item created.
      * Used to retrieve only new results
+     * @params {Object} [$] - The execution context to forward to makeRequest
      * @returns {Array} The complete list of paginated items
      */
-    async paginate(itemType, method, data, isSearch = false, lastCreatedAt, resourceKey = "data") {
+    async paginate(itemType, method, data, isSearch = false, lastCreatedAt, resourceKey = "data", $ = this) {
       let results = null;
       let done = false;
       let items = [];
@@ -96,6 +97,7 @@ export default {
           method,
           endpoint,
           data,
+          $,
         });
         if (lastCreatedAt) {
           for (const item of results[resourceKey]) {
@@ -106,8 +108,6 @@ export default {
           }
         } else {
           items = items.concat(results[resourceKey]);
-          if (!startingAfter)
-            done = true;
         }
       }
       return items;
@@ -195,10 +195,11 @@ export default {
     /**
      * Search for contacts
      * @params {Object} data - A query object used to search for contacts
+     * @params {Object} [$] - The execution context to forward to the API request
      * @returns {Array} List of contacts matching search query
      */
-    async searchContacts(data) {
-      return this.paginate("contacts", "POST", data, true);
+    async searchContacts(data, $) {
+      return this.paginate("contacts", "POST", data, true, null, "data", $);
     },
     /**
      * Search for conversations
