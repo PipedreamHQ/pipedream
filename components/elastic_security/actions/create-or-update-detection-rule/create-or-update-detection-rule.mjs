@@ -207,6 +207,9 @@ export default {
         id: this.id,
       },
     });
+    if (this.type && this.type !== current.type) {
+      throw new ConfigurationError(`Cannot change a rule's type from \`${current.type}\` to \`${this.type}\` on update — type is fixed at creation. Delete and recreate the rule if you need a different type.`);
+    }
     const merged = {
       ...current,
       ...cleanFields,

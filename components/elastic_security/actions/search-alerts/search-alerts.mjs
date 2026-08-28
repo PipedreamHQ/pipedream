@@ -31,6 +31,7 @@ export default {
       description: "Maximum number of alerts to return per call. Minimum 0. Defaults to 10. To paginate beyond this limit, increase **From** by **Size** on successive calls (e.g. Size=100, From=0 for page 1; From=100 for page 2).",
       optional: true,
       min: 0,
+      max: 100,
     },
     from: {
       type: "integer",
