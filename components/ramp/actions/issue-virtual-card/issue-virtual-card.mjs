@@ -106,7 +106,7 @@ export default {
     if (!this.linkToSpendProgram && this.spendProgramId) {
       throw new ConfigurationError("A Spend Program ID was provided but 'Link to Existing Spend Program' is off — turn it on to link, or clear the Spend Program ID to set a custom limit.");
     }
-    if (!this.linkToSpendProgram && (this.limit === undefined || this.interval === undefined)) {
+    if (!this.linkToSpendProgram && (this.limit === undefined || this.limit.trim() === "" || this.interval === undefined)) {
       throw new ConfigurationError("A custom card limit needs both a Total Limit per Interval (USD) and an Interval — provide both, or link to a spend program instead.");
     }
     const response = await this.ramp.createLimit({
