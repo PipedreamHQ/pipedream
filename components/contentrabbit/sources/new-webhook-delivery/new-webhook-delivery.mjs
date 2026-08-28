@@ -28,7 +28,11 @@ export default {
       description: "Limit deliveries to one webhook subscription. The list is your team's own subscriptions, from `GET /webhooks`; each option is labelled with the endpoint it delivers to. Leave blank to emit deliveries for every subscription.",
       optional: true,
       async options() {
-        const { data } = await this.contentRabbitApp.listWebhooks();
+        const { data } = await this.contentRabbitApp.listWebhooks({
+          params: {
+            limit: 100,
+          },
+        });
         return (data ?? []).map((subscription) => ({
           label: subscription.targetUrl || subscription.id,
           value: subscription.id,
@@ -68,7 +72,7 @@ export default {
       };
     },
     /**
-     * Collect every delivery in `[start, now]`.
+     * Collect every delivery in `[start, initialEnd ?? now]`.
      *
      * The API caps a response at `limit` and sorts newest first, with no cursor
      * to page further. Asking once and stopping is what let deliveries go
@@ -76,13 +80,20 @@ export default {
      * could never advance, and anything older than one page sat outside the
      * window forever. So each pass pulls `end` back to the oldest delivery it
      * has already seen and asks again, until a pass returns a short page.
+     *
+     * A single call still caps out at `MAX_DRAIN_PASSES`. When that happens the
+     * caller persists `lastEnd` and passes it back in as `initialEnd` on the
+     * next poll, so the walk resumes where it stopped instead of restarting
+     * from "now" — since `[start, lastEnd]` only shrinks over time (new
+     * deliveries can't retroactively land below `lastEnd`), this always
+     * converges even under sustained volume.
      */
     async drainWindow({
-      start, limit,
+      start, limit, initialEnd,
     }) {
       const collected = [];
       const seen = new Set();
-      let end = new Date().toISOString();
+      let end = initialEnd || new Date().toISOString();
 
       for (let pass = 0; pass < MAX_DRAIN_PASSES; pass++) {
         const response = await this.contentRabbitApp.listWebhookDeliveries({
@@ -127,6 +138,7 @@ export default {
       return {
         deliveries: collected,
         drained: false,
+        lastEnd: end,
       };
     },
     async processEvent(max, isDeploy = false) {
@@ -141,11 +153,13 @@ export default {
           : undefined;
 
       const limit = max ?? 200;
+      const pendingEnd = this.db.get("pendingEnd") ?? undefined;
       const {
-        deliveries, drained,
+        deliveries, drained, lastEnd,
       } = await this.drainWindow({
         start,
         limit,
+        initialEnd: pendingEnd,
       });
 
       for (const delivery of deliveries) {
@@ -159,6 +173,13 @@ export default {
           maxTs = ts;
         }
       }
+
+      // Persist where an incomplete drain stopped so the next poll resumes the
+      // walk instead of restarting from "now" and re-capping on the same busy
+      // window forever.
+      this.db.set("pendingEnd", drained
+        ? null
+        : lastEnd);
 
       // If deploy found nothing in the lookback window, bookmark "now" so the
       // next poll doesn't fall back to an unbounded, full-history fetch.

@@ -6,7 +6,7 @@ export default {
   key: "contentrabbit-new-post",
   name: "New or Updated Post",
   description: "Emit new event when a post is created or updated. [See the documentation](https://contentrabbitai.com/docs/api)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -41,12 +41,15 @@ export default {
     },
     generateMeta(post) {
       const revision = post.updatedAt || post.createdAt;
+      // A dedupe id may not exceed 64 characters. The common `post_<cuid2>-<ISO
+      // timestamp>` shape stays well under that, so keep it as-is to preserve
+      // dedupe continuity for posts a source already emitted under the old
+      // format; only hash the (rare) combination that would overflow the cap.
+      const rawId = `${post.id}-${revision}`;
       return {
-        // A dedupe id may not exceed 64 characters. A post id joined to an ISO
-        // timestamp can run past that, and an id that gets cut stops
-        // deduplicating, so hash the pair to a fixed 40 instead. Same inputs,
-        // same id, so a re-poll still recognises a post it already emitted.
-        id: createHash("sha1").update(`${post.id}-${revision}`).digest("hex"),
+        id: rawId.length <= 64
+          ? rawId
+          : createHash("sha1").update(rawId).digest("hex"),
         // Split by code point: slicing raw UTF-16 can cut a surrogate pair in
         // half and leave a replacement character in the summary.
         summary: post.title || Array.from(post.content ?? "").slice(0, 80).join("") || `Post ${post.id}`,
