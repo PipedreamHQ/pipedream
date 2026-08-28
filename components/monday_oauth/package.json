@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/monday_oauth",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Pipedream monday.com (OAuth) Components",
   "main": "monday_oauth.app.mjs",
   "keywords": [
@@ -14,6 +14,6 @@
   },
   "dependencies": {
     "@pipedream/monday": "^0.7.0",
-    "monday-sdk-js": "^0.5.5"
+    "monday-sdk-js": "0.5.9"
   }
 }

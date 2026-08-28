@@ -10308,8 +10308,8 @@ importers:
         specifier: ^0.7.0
         version: 0.7.0(encoding@0.1.13)
       monday-sdk-js:
-        specifier: ^0.5.5
-        version: 0.5.6(encoding@0.1.13)
+        specifier: 0.5.9
+        version: 0.5.9(encoding@0.1.13)
 
   components/moneybird:
     dependencies:
@@ -31079,9 +31079,6 @@ packages:
 
   monday-sdk-js@0.1.6:
     resolution: {integrity: sha512-OfkICgBQRI8N4dmSLqR2k8tpIIogpfLQCksuV3E/TLayyJzinuN6KOp1Mk/qdG1lilA9AArQO11UvZnQ4ZRXDQ==}
-
-  monday-sdk-js@0.5.6:
-    resolution: {integrity: sha512-+jxffW5tgXuFilfJVZL4VMLv7H0PJgV3R9qfKDb4gnCPVZXLPVAUT8vwljlv7D8ozPuoHm8xJ4vofg+1t2ggmg==}
 
   monday-sdk-js@0.5.9:
     resolution: {integrity: sha512-r42aX2RfcAJN1VZLCmDUCBPC0RE6lJvo78DcKH2yH1y4NRjdGd++gGeuMRZg/xTru6Xl3sjOAdLRcvklfkLcPQ==}
@@ -52863,12 +52860,6 @@ snapshots:
   monday-sdk-js@0.1.6(encoding@0.1.13):
     dependencies:
       '@types/source-map': 0.5.7
-      node-fetch: 2.7.0(encoding@0.1.13)
-    transitivePeerDependencies:
-      - encoding
-
-  monday-sdk-js@0.5.6(encoding@0.1.13):
-    dependencies:
       node-fetch: 2.7.0(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
