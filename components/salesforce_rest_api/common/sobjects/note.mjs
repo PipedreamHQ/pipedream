@@ -1,5 +1,3 @@
-import salesforce from "../../salesforce_rest_api.app.mjs";
-
 export default {
   initialProps: {
     Body: {
@@ -10,20 +8,13 @@ export default {
     IsPrivate: {
       type: "boolean",
       label: "Private",
-      description: "If true, only the note owner or a user with the “Modify All Data” permission can view the note or query it via the API.",
+      description: "If true, only the note owner or a user with the \"Modify All Data\" permission can view the note or query it via the API.",
       optional: true,
     },
     OwnerId: {
-      propDefinition: [
-        salesforce,
-        "recordId",
-        () => ({
-          objType: "User",
-          nameField: "Name",
-        }),
-      ],
+      type: "string",
       label: "Owner ID",
-      description: "ID of the user who owns the note.",
+      description: "ID of the user who owns the note (Salesforce's 15- or 18-character record ID, e.g. `005XX000001SvR2`). Use **SOQL Query** to find the User ID.",
       optional: true,
     },
     ParentId: {

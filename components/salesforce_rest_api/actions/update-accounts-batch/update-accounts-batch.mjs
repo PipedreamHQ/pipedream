@@ -12,7 +12,7 @@ export default {
     + " Poll the job in Salesforce to confirm completion; a successful response means the job was accepted, not that every row loaded."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_asynch.meta/api_asynch/datafiles_understanding_bulk2_ingest.htm)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

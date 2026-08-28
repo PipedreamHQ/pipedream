@@ -12,7 +12,7 @@ export default {
     + " SOQL filters on exact field values; use **Text Search** for keyword search."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.2.14",
+  version: "0.2.15",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

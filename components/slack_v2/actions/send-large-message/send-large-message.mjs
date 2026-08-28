@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import common from "../common/send-message.mjs";
 
 export default {
@@ -5,7 +6,7 @@ export default {
   key: "slack_v2-send-large-message",
   name: "Send a Large Message (3000+ characters)",
   description: "Send a large message (more than 3000 characters) to a channel, group or user. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.1.6",
+  version: "0.1.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
