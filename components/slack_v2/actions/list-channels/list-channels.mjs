@@ -16,7 +16,7 @@ export default {
     + " fetched — when you see that, raise `numPages` (or pass `cursor`) before answering"
     + " any 'how many' or 'list every' question, otherwise your answer is silently incomplete."
     + " [See the documentation](https://api.slack.com/methods/conversations.list)",
-  version: "0.3.0",
+  version: "0.3.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

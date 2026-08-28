@@ -5,7 +5,7 @@ export default {
   key: "slack_v2-list-reminder-options",
   name: "List Reminder Options",
   description: "Retrieves available options for the Reminder field. [See the documentation](https://docs.slack.dev/reference/methods/reminders.list)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   annotations: {
     destructiveHint: false,

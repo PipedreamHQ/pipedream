@@ -5,7 +5,7 @@ export default {
   key: "slack_v2-set-status",
   name: "Set Status",
   description: "Set the current status for a user. [See the documentation](https://api.slack.com/methods/users.profile.set)",
-  version: "0.0.16",
+  version: "0.0.17",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
