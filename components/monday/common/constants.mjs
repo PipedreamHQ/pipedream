@@ -171,7 +171,10 @@ const BOARD_TYPE = {
   SUB_ITEMS_BOARD: "sub_items_board",
 };
 
+const API_VERSION = "2026-07";
+
 export default {
+  API_VERSION,
   BOARD_KIND_OPTIONS,
   BOARDS_ORDER_BY_OPTIONS,
   COLUMN_TYPE_OPTIONS,

@@ -166,6 +166,7 @@ export default {
     }) {
       const monday = mondaySdk();
       monday.setToken(this.$auth.api_key);
+      monday.setApiVersion(constants.API_VERSION);
       return monday.api(query, options);
     },
     async createWebhook(variables) {

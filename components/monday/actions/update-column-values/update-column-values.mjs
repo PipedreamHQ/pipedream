@@ -4,6 +4,7 @@ import {
   getFileStreamAndMetadata,
 } from "@pipedream/platform";
 import FormData from "form-data";
+import constants from "../../common/constants.mjs";
 import { getColumnOptions } from "../../common/utils.mjs";
 import common from "../common/column-values.mjs";
 
@@ -12,7 +13,7 @@ export default {
   key: "monday-update-column-values",
   name: "Update Column Values",
   description: "Update multiple column values of an item. [See the documentation](https://developer.monday.com/api-reference/reference/columns#change-multiple-column-values)",
-  version: "0.2.7",
+  version: "0.2.8",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -95,6 +96,7 @@ export default {
         headers: {
           "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
           "Authorization": this.monday.$auth.api_key,
+          "API-Version": constants.API_VERSION,
         },
         data: formData,
       });
