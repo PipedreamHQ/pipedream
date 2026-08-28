@@ -108,8 +108,6 @@ export default {
           }
         } else {
           items = items.concat(results[resourceKey]);
-          if (!startingAfter)
-            done = true;
         }
       }
       return items;
