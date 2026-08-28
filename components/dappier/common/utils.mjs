@@ -34,7 +34,7 @@ export function pluckFields(items, fields) {
     }
     const picked = {};
     for (const field of fields) {
-      if (field in item) {
+      if (Object.hasOwn(item, field)) {
         picked[field] = item[field];
       }
     }

@@ -17,7 +17,7 @@ export default {
     startDate: {
       type: "string",
       label: "Start Date",
-      description: `Inclusive start of the reporting window in \`YYYY-MM-DD\` format, interpreted as **UTC** (e.g. \`2026-08-01\`). Optional - defaults to 7 days before today if omitted. The window between Start Date and End Date must not exceed ${MAX_ANALYTICS_RANGE_DAYS} days.`,
+      description: `Inclusive start of the reporting window in \`YYYY-MM-DD\` format, interpreted as **UTC** (e.g. \`2026-08-01\`). Optional - when omitted the API defaults to the last 7 days (UTC), i.e. today and the six prior days. The window between Start Date and End Date must not exceed ${MAX_ANALYTICS_RANGE_DAYS} days.`,
       optional: true,
     },
     endDate: {

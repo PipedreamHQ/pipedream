@@ -54,7 +54,7 @@ export default {
     numArticlesRef: {
       type: "integer",
       label: "Number of Articles from Ref",
-      description: "Minimum number of articles to return from the `ref` domain. Min 0 (0 = no domain-specific articles required), max 1000. Defaults to 0.",
+      description: "Minimum number of articles to return from the `ref` domain. Min 0 (0 = no domain-specific articles required), max 100. Defaults to 0.",
       min: 0,
       max: 100,
       optional: true,
