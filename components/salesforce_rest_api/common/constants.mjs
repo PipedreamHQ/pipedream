@@ -108,4 +108,7 @@ export default {
     "CreatedDate",
   ]),
   DEPLOY_HISTORICAL_LIMIT: 25,
+  // Salesforce IDs are delivered in an 18 character, case-insensitive form whose
+  // last 3 characters are a checksum over the case of the leading 15
+  ID_SHORT_LENGTH: 15,
 };
