@@ -16,7 +16,7 @@ export default {
     + " messages carry blocks, attachments and edit metadata, so a busy channel can run to tens"
     + " of thousands of characters and be truncated before you see any of it."
     + " [See the documentation](https://api.slack.com/methods/conversations.history)",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -40,13 +40,13 @@ export default {
     oldest: {
       type: "string",
       label: "Oldest",
-      description: "Only messages after this Unix timestamp. Inclusive.",
+      description: "Only return messages posted after this timestamp (inclusive), as a Slack timestamp, e.g. `1610000000.000000` (Unix epoch seconds, optionally with fractional microseconds).",
       optional: true,
     },
     latest: {
       type: "string",
       label: "Latest",
-      description: "Only messages before this Unix timestamp. Default: now.",
+      description: "Only return messages posted before this timestamp. Defaults to now. Same format as `Oldest`, e.g. `1610000000.000000`.",
       optional: true,
     },
     fields: {
