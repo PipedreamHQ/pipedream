@@ -43,7 +43,7 @@ export default {
     expand: {
       type: "string[]",
       label: "Expand",
-      description: "Additional data to include in the response, as a list of expansion names (e.g. `[\"field\"]`). Valid values differ per endpoint; see the description on the action you are calling.",
+      description: "Additional data to include in the response, as a list of expansion names (e.g. `[\"field\"]`). Valid values differ per endpoint and are listed in the `_expands` property of that endpoint's response. Unrecognised names are ignored silently rather than rejected.",
       optional: true,
     },
   },
