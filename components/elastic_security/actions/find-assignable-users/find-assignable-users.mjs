@@ -4,9 +4,9 @@ import elasticSecurity from "../../elastic_security.app.mjs";
 export default {
   key: "elastic_security-find-assignable-users",
   name: "Find Assignable Users",
-  description: "List users who have reported, commented on, or been assigned to Elastic Security cases, via GET /api/cases/reporters, to discover valid `profile_uid` values for the `assignees` parameter on **Create or Update Case**."
-    + " Kibana has no public endpoint for listing every org user — this endpoint's results are scoped to people with case history, which covers the common case (assigning to a teammate who already works cases)."
-    + " If the person you need doesn't appear here, ask the user for their `profile_uid` directly instead of guessing."
+  description: "List users who have created or reported Elastic Security cases, via GET /api/cases/reporters, to discover valid `profile_uid` values for the `assignees` parameter on **Create or Update Case**."
+    + " Kibana has no public endpoint for listing every org user or for listing who is eligible for assignment — this endpoint only covers people who have reported at least one case, which is a subset of valid assignees, not the full set."
+    + " If the person you need doesn't appear here (e.g. they've never reported a case), ask the user for their `profile_uid` directly instead of guessing."
     + " Example: calling with no parameters returns `[{ username: \"jsmith\", full_name: \"Jane Smith\", email: \"jane@example.com\", profile_uid: \"u_abc123_cloud\" }]`; pass that `profile_uid` as an entry in **Create or Update Case**'s `assignees` array."
     + " [See the documentation](https://www.elastic.co/docs/api/doc/kibana/operation/operation-getcasereportersdefaultspace)",
   version: "0.0.1",

@@ -21,7 +21,7 @@ export function getDefaultRunWindow({
 }) {
   const resolvedEndDate = endDate ?? new Date(Date.now() - RUN_WINDOW_BUFFER_MS).toISOString();
   const resolvedStartDate = startDate
-    ?? new Date(Date.now() - RUN_WINDOW_DEFAULT_SPAN_MS - RUN_WINDOW_BUFFER_MS).toISOString();
+    ?? new Date(new Date(resolvedEndDate).getTime() - RUN_WINDOW_DEFAULT_SPAN_MS).toISOString();
   return {
     startDate: resolvedStartDate,
     endDate: resolvedEndDate,

@@ -1,6 +1,5 @@
 // x-pd-ai: optimized
 import elasticSecurity from "../../elastic_security.app.mjs";
-import { pickFields } from "../../common/utils.mjs";
 
 export default {
   key: "elastic_security-search-alerts",
@@ -8,8 +7,8 @@ export default {
   description: "Search Elastic Security detection alerts (signals) via POST /api/detection_engine/signals/search using raw Elasticsearch Query DSL."
     + " Use this to find alert IDs before running **Update Alert Status**, or to investigate alert volume/details for a case."
     + " Returns the raw Elasticsearch search response with a `hits.hits` array; each hit's `_id` is the signal ID and `_source` holds the alert's full ECS document."
-    + " Example: calling with `query: {\"bool\":{\"filter\":[{\"term\":{\"signal.status\":\"open\"}}]}}` and `size: 5` returns `{ hits: { total: { value: 12 }, hits: [{ _id: \"abc123\", _source: { \"@timestamp\": \"...\", \"signal.status\": \"open\", \"host.name\": \"...\" } }, ...] } }`."
-    + " Omit `query` to match all alerts. Alert documents carry many ECS fields — use `fields` to shrink `_source` down to just what you need."
+    + " Example: calling with `query: {\"bool\":{\"filter\":[{\"term\":{\"kibana.alert.workflow_status\":\"open\"}}]}}` and `size: 5` returns `{ hits: { total: { value: 12 }, hits: [{ _id: \"abc123\", _source: { \"@timestamp\": \"...\", \"kibana.alert.workflow_status\": \"open\", \"host.name\": \"...\" } }, ...] } }`."
+    + " Omit `query` to match all alerts. `_source` always holds the full ECS document; use `fields` to additionally get a compact, array-valued view of just the fields you need (under each hit's `fields` key) without parsing the full document yourself."
     + " [See the documentation](https://www.elastic.co/docs/api/doc/kibana/operation/operation-searchalerts)",
   version: "0.0.1",
   type: "action",
@@ -23,7 +22,7 @@ export default {
     query: {
       type: "object",
       label: "Query",
-      description: "Elasticsearch Query DSL object. Example: `{\"bool\":{\"filter\":[{\"term\":{\"signal.status\":\"open\"}}]}}`. Omit to match all alerts.",
+      description: "Elasticsearch Query DSL object. Example: `{\"bool\":{\"filter\":[{\"term\":{\"kibana.alert.workflow_status\":\"open\"}}]}}`. Omit to match all alerts.",
       optional: true,
     },
     size: {
@@ -53,11 +52,12 @@ export default {
       optional: true,
     },
     fields: {
-      type: "string[]",
-      label: "Fields",
-      description: "Only include these fields in each hit's `_source`, to reduce response size. Omit to return the full ECS document."
-        + " Common fields: `@timestamp`, `signal.status`, `signal.rule.name`, `host.name`, `user.name`, `event.category`.",
-      optional: true,
+      propDefinition: [
+        elasticSecurity,
+        "fields",
+      ],
+      description: "Request these specific fields via Elasticsearch's native field retrieval — returned under each hit's `fields` key (each value as an array), alongside the unchanged full `_source` document. Useful for reading known field values without parsing all of `_source`."
+        + " Common fields: `@timestamp`, `kibana.alert.workflow_status`, `kibana.alert.rule.name`, `host.name`, `user.name`, `event.category`.",
     },
   },
   async run({ $ }) {
@@ -69,22 +69,13 @@ export default {
         from: this.from,
         sort: this.sort,
         track_total_hits: this.trackTotalHits,
+        fields: this.fields?.length
+          ? this.fields
+          : undefined,
       },
     });
     const total = response?.hits?.total?.value ?? response?.hits?.hits?.length ?? 0;
     $.export("$summary", `Found ${total} alert(s)`);
-    if (this.fields?.length && response?.hits?.hits?.length) {
-      return {
-        ...response,
-        hits: {
-          ...response.hits,
-          hits: response.hits.hits.map((hit) => ({
-            ...hit,
-            _source: pickFields(hit._source, this.fields),
-          })),
-        },
-      };
-    }
     return response;
   },
 };

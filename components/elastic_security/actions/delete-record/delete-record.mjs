@@ -29,7 +29,7 @@ export default {
     recordId: {
       type: "string",
       label: "Record ID",
-      description: "The ID of the object to delete. For a case, its case ID (from **Find Cases**). For a detection rule, its Kibana internal UUID (from **Find Detection Rules**' `id` field, not the user-defined `rule_id`).",
+      description: "The ID of the object to delete. For a case, its case ID from **Find Cases** (e.g. `a1c10c9b-8448-483a-81f7-a4b3225eb6b8`). For a detection rule, its Kibana internal UUID from **Find Detection Rules**' `id` field (e.g. `7ac3c66d-f0b4-4f7c-a576-7bb91bf4e9ce`) — not the user-defined `rule_id`.",
     },
   },
   async run({ $ }) {

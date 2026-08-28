@@ -68,11 +68,12 @@ export default {
       ],
     },
     fields: {
-      type: "string[]",
-      label: "Fields",
+      propDefinition: [
+        elasticSecurity,
+        "fields",
+      ],
       description: "Only include these fields in each returned rule, to reduce response size. Omit to return the full rule object(s)."
         + " Common fields: `id`, `rule_id`, `name`, `description`, `type`, `enabled`, `risk_score`, `severity`, `tags`, `query`, `index`, `interval`, `created_at`, `updated_at`.",
-      optional: true,
     },
   },
   async run({ $ }) {

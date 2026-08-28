@@ -84,6 +84,12 @@ export default {
         "desc",
       ],
     },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "Only include these fields in each returned result, to reduce response size. Omit to return the full object(s).",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
@@ -252,6 +258,8 @@ export default {
         },
       });
     },
+    // Returns users who have reported (created) cases, not every org user or every
+    // assignment-eligible user — Kibana has no public endpoint for either of those.
     async listCaseReporters({ $ }) {
       return this._makeRequest({
         $,

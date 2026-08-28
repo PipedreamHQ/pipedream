@@ -21,7 +21,7 @@ export default {
     alertStatus: {
       type: "string",
       label: "Alert Status",
-      description: "New alert status. One of: `open`, `acknowledged`, `closed`. This is the alert's own workflow status, distinct from a case's status.",
+      description: "New alert status. One of: `open`, `acknowledged`, `in-progress`, `closed`. This is the alert's own workflow status, distinct from a case's status.",
       options: ALERT_STATUSES,
     },
     signalIds: {
@@ -45,7 +45,8 @@ export default {
         reason: this.reason,
       },
     });
-    $.export("$summary", `Updated ${this.signalIds.length} alert(s) to status "${this.alertStatus}"`);
+    const updatedCount = response?.updated ?? this.signalIds.length;
+    $.export("$summary", `Updated ${updatedCount} alert(s) to status "${this.alertStatus}"`);
     return response;
   },
 };

@@ -88,7 +88,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const assignees = this.assignees?.length
+    const assignees = this.assignees
       ? this.assignees.map((uid) => ({
         uid,
       }))

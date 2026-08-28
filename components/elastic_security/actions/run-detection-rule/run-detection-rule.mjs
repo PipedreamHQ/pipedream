@@ -9,9 +9,9 @@ export default {
   description: "Manually run one or more Elastic Security detection rules over a time range via POST /api/detection_engine/rules/_bulk_action (bulk action `run`)."
     + " Use this to test a rule immediately instead of waiting for its next scheduled interval, or to backfill detections over a past window."
     + " Provide the rule ids to execute. Run **Find Detection Rules** first to obtain valid ids."
-    + " Defaults to the last hour (`startDate`: now-1h, `endDate`: now) if not specified."
+    + " Defaults to roughly the last hour if not specified: `endDate` defaults to one minute ago (a small buffer so clock skew/latency can't push it into the future, which Kibana rejects), and `startDate` defaults to one hour before that."
     + " Note: Kibana rejects manual runs against disabled rules — the rule must have `enabled: true` (see **Create or Update Detection Rule**)."
-    + " Example: calling with `ids: [\"7ac3...\"]` and no dates returns `{ results: { created: [{ id: \"7ac3...\", name: \"...\" }] }, summary: { succeeded: 1, failed: 0 } }`."
+    + " Example: calling with `ids: [\"7ac3...\"]` and no dates returns `{ attributes: { results: { created: [{ id: \"7ac3...\", name: \"...\" }] }, summary: { succeeded: 1, failed: 0 } } }`."
     + " [See the documentation](https://www.elastic.co/docs/api/doc/kibana/operation/operation-performrulesbulkaction)",
   version: "0.0.1",
   type: "action",
@@ -30,13 +30,13 @@ export default {
     startDate: {
       type: "string",
       label: "Start Date",
-      description: "Start of the manual run time range as an ISO 8601 timestamp (e.g. `2026-08-27T00:00:00.000Z`). Defaults to one hour ago.",
+      description: "Start of the manual run time range as an ISO 8601 timestamp (e.g. `2026-08-27T00:00:00.000Z`). If omitted, defaults to one hour before the resolved `endDate` (i.e. one hour and one minute before now, when `endDate` is also omitted).",
       optional: true,
     },
     endDate: {
       type: "string",
       label: "End Date",
-      description: "End of the manual run time range as an ISO 8601 timestamp (e.g. `2026-08-27T01:00:00.000Z`). Defaults to now.",
+      description: "End of the manual run time range as an ISO 8601 timestamp (e.g. `2026-08-27T01:00:00.000Z`). Defaults to one minute ago, not the exact current time — this buffer keeps the request from landing in the future on Kibana's server clock.",
       optional: true,
     },
   },
@@ -58,7 +58,14 @@ export default {
         },
       },
     });
-    $.export("$summary", `Manually triggered ${this.ids.length} detection rule(s)`);
+    const succeeded = response?.attributes?.summary?.succeeded;
+    const failed = response?.attributes?.summary?.failed;
+    const summary = succeeded === undefined
+      ? `Manually triggered ${this.ids.length} detection rule(s)`
+      : `Manually triggered ${succeeded} detection rule(s)${failed
+        ? `, ${failed} failed`
+        : ""}`;
+    $.export("$summary", summary);
     return response;
   },
 };

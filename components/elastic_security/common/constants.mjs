@@ -6,6 +6,7 @@ export const BULK_ACTION_ENABLE = "enable";
 export const ALERT_STATUSES = [
   "open",
   "acknowledged",
+  "in-progress",
   "closed",
 ];
 

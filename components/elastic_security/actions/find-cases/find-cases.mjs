@@ -84,11 +84,12 @@ export default {
       ],
     },
     fields: {
-      type: "string[]",
-      label: "Fields",
+      propDefinition: [
+        elasticSecurity,
+        "fields",
+      ],
       description: "Only include these fields in each returned case, to reduce response size. Omit to return the full case object(s)."
         + " Common fields: `id`, `title`, `description`, `severity`, `status`, `tags`, `category`, `assignees`, `created_at`, `updated_at`, `version`, `totalComment`, `totalAlerts`.",
-      optional: true,
     },
   },
   async run({ $ }) {
