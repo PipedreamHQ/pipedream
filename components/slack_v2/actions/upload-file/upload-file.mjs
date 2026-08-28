@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import {
   ConfigurationError, axios, getFileStreamAndMetadata,
 } from "@pipedream/platform";
@@ -8,7 +9,7 @@ export default {
   key: "slack_v2-upload-file",
   name: "Upload File",
   description: "Upload a file. [See the documentation](https://api.slack.com/messaging/files#uploading_files)",
-  version: "0.1.10",
+  version: "0.1.11",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -45,6 +46,10 @@ export default {
     },
   },
   async run({ $ }) {
+    // Accept a channel NAME as well as an ID — agents routinely pass the "#name" they read
+    // in the prompt, and completeUpload answers that with invalid_arguments.
+    const channelId = await this.slack.resolveChannelId(this.conversation);
+
     const {
       stream, metadata,
     } = await getFileStreamAndMetadata(this.content);
@@ -85,7 +90,7 @@ export default {
 
     // Complete the file upload process in Slack
     const completeUploadResponse = await this.slack.completeUpload({
-      channel_id: this.conversation,
+      channel_id: channelId,
       initial_comment: this.initialComment,
       files: [
         {

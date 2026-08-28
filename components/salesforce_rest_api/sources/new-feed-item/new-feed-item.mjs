@@ -17,7 +17,7 @@ export default {
     ...common.props,
     parentObjectType: {
       ...common.props.parentObjectType,
-      description: "Optional. The Salesforce SObject API name of the parent record to filter by, e.g. `Case` or `Opportunity`. When set, appends `AND Parent.Type = '<value>'` to the SOQL WHERE clause (traversal of the polymorphic `FeedItem.ParentId`). Leave blank to emit posts on any parent object.",
+      description: "Optional. Only emit posts whose parent record is of this Salesforce SObject API name, e.g. `Case` or `Opportunity` (traversal of the polymorphic `FeedItem.ParentId`). Enforced on both delivery paths: `AND Parent.Type = '<value>'` in the polling SOQL, and the parent's Salesforce ID key prefix on instant (webhook) deliveries. Leave blank to emit posts on any parent object.",
     },
     excludeSelf: {
       ...common.props.excludeSelf,
