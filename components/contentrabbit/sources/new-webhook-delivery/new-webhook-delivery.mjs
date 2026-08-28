@@ -10,7 +10,7 @@ export default {
   key: "contentrabbit-new-webhook-delivery",
   name: "New Webhook Delivery",
   description: "Emit new event when Content Rabbit delivers a webhook to your endpoint. Polls the delivery log, so an event appears within one polling interval rather than instantly. [See the documentation](https://contentrabbitai.com/docs/api)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {
@@ -33,10 +33,22 @@ export default {
             limit: 100,
           },
         });
-        return (data ?? []).map((subscription) => ({
-          label: subscription.targetUrl || subscription.id,
-          value: subscription.id,
-        }));
+        return (data ?? []).map((subscription) => {
+          // Show only the host, not the full target URL: some webhook
+          // providers (e.g. Slack/Discord incoming webhooks) embed a bearer
+          // token in the URL path, and this label is visible to anyone with
+          // view access to the workflow.
+          let host = subscription.id;
+          try {
+            host = new URL(subscription.targetUrl).host;
+          } catch {
+            // Fall through to the subscription id.
+          }
+          return {
+            label: `${host} (${subscription.id})`,
+            value: subscription.id,
+          };
+        });
       },
     },
     status: {
@@ -129,8 +141,16 @@ export default {
         const nextEnd = new Date(oldestTs).toISOString();
         if (nextEnd === end) {
           // A whole page shares one timestamp, so pulling `end` back cannot
-          // make progress. Stop and let the next poll retry rather than spin.
-          break;
+          // make progress. Treat the window as drained rather than persisting
+          // this same `end` for the next poll to retry: since `initialEnd` is
+          // fed straight back into the next call, retrying would re-issue the
+          // identical query, hit the identical tie, and never terminate.
+          // Anything still unseen at this exact timestamp is missed, same as
+          // an ordinary truncated page.
+          return {
+            deliveries: collected,
+            drained: true,
+          };
         }
         end = nextEnd;
       }
@@ -143,51 +163,72 @@ export default {
     },
     async processEvent(max, isDeploy = false) {
       const savedTs = this._getSavedTs();
-      let maxTs = savedTs;
 
-      // For deploy, go back 15 minutes; for polling, use the saved timestamp
-      const start = isDeploy
-        ? new Date(Date.now() - 15 * 60 * 1000).toISOString()
-        : savedTs > 0
-          ? new Date(savedTs).toISOString()
-          : undefined;
+      // A window that did not finish draining is resumed exactly as it began.
+      // Recomputing `start` here instead would lose deploy's 15-minute
+      // boundary and fall back to an unbounded, full-history fetch; and
+      // recomputing the high-water mark would bank the older tail's newest
+      // timestamp, sending the following poll back over deliveries already
+      // emitted.
+      const pending = this.db.get("pendingWindow") ?? null;
+
+      const start = pending
+        ? (pending.start ?? undefined)
+        : isDeploy
+          ? new Date(Date.now() - 15 * 60 * 1000).toISOString()
+          : savedTs > 0
+            ? new Date(savedTs).toISOString()
+            : undefined;
 
       const limit = max ?? 200;
-      const pendingEnd = this.db.get("pendingEnd") ?? undefined;
       const {
-        deliveries, drained, lastEnd,
+        deliveries: drainedDeliveries, drained, lastEnd,
       } = await this.drainWindow({
         start,
         limit,
-        initialEnd: pendingEnd,
+        initialEnd: pending?.end,
       });
+
+      // `drainWindow` walks past a single page to avoid dropping deliveries, so
+      // it can collect more than `limit` items across passes. That's the point
+      // for polling, but deploy's caller-requested `max` is a cap on emitted
+      // events, not just a page size — respect it here.
+      const deliveries = isDeploy
+        ? drainedDeliveries.slice(0, limit)
+        : drainedDeliveries;
+
+      // The high-water mark spans the whole window, across however many polls
+      // it takes to drain, so it carries over from the pending state.
+      let highTs = pending?.highTs ?? savedTs;
 
       for (const delivery of deliveries) {
         const ts = Date.parse(delivery.occurredAt);
         if (ts >= savedTs || isDeploy) {
           this.$emit(delivery, this.generateMeta(delivery));
         }
-        // Only bank progress once the window is known to be empty behind us.
-        // Advancing after a partial drain is what would skip deliveries.
-        if (drained && Number.isFinite(ts) && ts > maxTs) {
-          maxTs = ts;
+        if (Number.isFinite(ts) && ts > highTs) {
+          highTs = ts;
         }
       }
 
-      // Persist where an incomplete drain stopped so the next poll resumes the
-      // walk instead of restarting from "now" and re-capping on the same busy
-      // window forever.
-      this.db.set("pendingEnd", drained
-        ? null
-        : lastEnd);
+      if (!drained) {
+        // Keep the checkpoint where it is and remember the whole window, so the
+        // next poll continues this walk rather than starting a new one.
+        this.db.set("pendingWindow", {
+          start: start ?? null,
+          end: lastEnd,
+          highTs,
+        });
+        return;
+      }
+
+      this.db.set("pendingWindow", null);
 
       // If deploy found nothing in the lookback window, bookmark "now" so the
       // next poll doesn't fall back to an unbounded, full-history fetch.
-      if (isDeploy && deliveries.length === 0) {
-        maxTs = Date.now();
-      }
-
-      this._setSavedTs(maxTs);
+      this._setSavedTs(isDeploy && deliveries.length === 0
+        ? Date.now()
+        : highTs);
     },
   },
   async run() {

@@ -39,6 +39,28 @@ export default {
     _setSavedTs(ts) {
       this.db.set("savedTs", ts);
     },
+    /**
+     * First 80 code points of the content.
+     *
+     * Iterates rather than building an array: the API does not cap post
+     * content, so `Array.from(content).slice(0, 80)` would walk and allocate
+     * the whole string on every emitted post to keep 80 characters. Splitting
+     * by code point rather than slicing raw UTF-16 also keeps a surrogate pair
+     * from being cut in half, which would leave a replacement character in the
+     * summary.
+     */
+    summarizeContent(content) {
+      let summary = "";
+      let count = 0;
+      for (const codePoint of content ?? "") {
+        if (count >= 80) {
+          break;
+        }
+        summary += codePoint;
+        count += 1;
+      }
+      return summary;
+    },
     generateMeta(post) {
       const revision = post.updatedAt || post.createdAt;
       // A dedupe id may not exceed 64 characters. The common `post_<cuid2>-<ISO
@@ -50,9 +72,7 @@ export default {
         id: rawId.length <= 64
           ? rawId
           : createHash("sha1").update(rawId).digest("hex"),
-        // Split by code point: slicing raw UTF-16 can cut a surrogate pair in
-        // half and leave a replacement character in the summary.
-        summary: post.title || Array.from(post.content ?? "").slice(0, 80).join("") || `Post ${post.id}`,
+        summary: post.title || this.summarizeContent(post.content) || `Post ${post.id}`,
         ts: Date.parse(revision),
       };
     },
