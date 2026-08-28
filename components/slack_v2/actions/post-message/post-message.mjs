@@ -8,10 +8,11 @@ export default {
   description:
     "Send a message to a channel, user, or group."
     + " Accepts a channel ID (e.g. `C1234567890`) or channel name (e.g. `#general` or `general`) — names are resolved automatically."
-    + " To reply to a thread, provide `thread_ts` from **Get Channel History**."
+    + " To post a note to yourself (save a personal note or reminder), pass your own user ID (e.g. `U1234567890`) as the Channel — use **Get Current User** to find your user ID first."
+    + " To reply to a thread, provide `threadTs` (Slack calls this `thread_ts`) from **Get Channel History**."
     + " Supports plain text with Slack mrkdwn formatting and Block Kit blocks."
     + " [See the documentation](https://api.slack.com/methods/chat.postMessage)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -92,7 +93,32 @@ export default {
       args.thread_ts = this.threadTs;
       args.reply_broadcast = this.replyBroadcast;
     }
-    const response = await this.slack.postChatMessage(args);
+
+    // Prefer the bot token (as_user: false) — it works for channels the bot has joined
+    // and needs no extra scope. But a bot can't message a user unless that user has
+    // enabled its Messages tab, and can't post in a channel it hasn't joined, so those
+    // specific failures fall back to the authenticated user's token instead of failing
+    // the whole call. Mirrors the identity fallback already used in delete-message.
+    const hasBotToken = Boolean(this.slack.getBotToken());
+    let response;
+    try {
+      response = await this.slack.postChatMessage({
+        ...args,
+        as_user: false,
+      });
+    } catch (error) {
+      const botCannotDeliver = hasBotToken
+        && [
+          "messages_tab_disabled",
+          "channel_not_found",
+          "not_in_channel",
+        ].some((code) => `${error}`.includes(code));
+      if (!botCannotDeliver) throw error;
+      response = await this.slack.postChatMessage({
+        ...args,
+        as_user: true,
+      });
+    }
     let permalink;
     try {
       const permalinkResponse = await this.slack.makeRequest({
