@@ -1,7 +1,7 @@
+import { axios } from "@pipedream/platform";
 import flatMap from "lodash.flatmap";
 import map from "lodash.map";
 import uniqBy from "lodash.uniqby";
-import mondaySdk from "monday-sdk-js";
 import constants from "./common/constants.mjs";
 import mutations from "./common/mutations.mjs";
 import queries from "./common/queries.mjs";
@@ -161,118 +161,108 @@ export default {
     },
   },
   methods: {
-    async makeRequest({
-      query, options,
-    }) {
-      const monday = mondaySdk();
-      monday.setToken(this.$auth.api_key);
-      return monday.api(query, options);
+    _authToken() {
+      return this.$auth.api_key ?? this.$auth.oauth_access_token;
     },
-    async createWebhook(variables) {
-      return this.makeRequest({
-        query: mutations.createWebhook,
-        options: {
+    _headers() {
+      return {
+        "Authorization": this._authToken(),
+        "Content-Type": "application/json",
+      };
+    },
+    // Returns monday's raw GraphQL envelope: `{ data, errors, account_id }`.
+    async makeGraphQLRequest({
+      $ = this, query, variables,
+    }) {
+      return axios($, {
+        method: "POST",
+        url: "https://api.monday.com/v2",
+        headers: this._headers(),
+        data: {
+          query,
           variables,
         },
+      });
+    },
+    async createWebhook(variables) {
+      return this.makeGraphQLRequest({
+        query: mutations.createWebhook,
+        variables,
       });
     },
     async deleteWebhook(variables) {
-      return this.makeRequest({
+      return this.makeGraphQLRequest({
         query: mutations.deleteWebhook,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async getItem(variables) {
-      const { data } = await this.makeRequest({
+      const { data } = await this.makeGraphQLRequest({
         query: queries.getItem,
-        options: {
-          variables,
-        },
+        variables,
       });
       return data?.items[0];
     },
     async getBoard(variables) {
-      const { data } = await this.makeRequest({
+      const { data } = await this.makeGraphQLRequest({
         query: queries.getBoard,
-        options: {
-          variables,
-        },
+        variables,
       });
       return data?.boards[0];
     },
     async getUser(variables) {
-      const { data } = await this.makeRequest({
+      const { data } = await this.makeGraphQLRequest({
         query: queries.getUser,
-        options: {
-          variables,
-        },
+        variables,
       });
       return data?.users[0];
     },
     async createBoard(variables) {
-      return this.makeRequest({
+      return this.makeGraphQLRequest({
         query: mutations.createBoard,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async createGroup(variables) {
-      return this.makeRequest({
+      return this.makeGraphQLRequest({
         query: mutations.createGroup,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async createItem(variables) {
-      return this.makeRequest({
+      return this.makeGraphQLRequest({
         query: mutations.createItem,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async createColumn(variables) {
-      return this.makeRequest({
+      return this.makeGraphQLRequest({
         query: mutations.createColumn,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async createSubItem(variables) {
-      return this.makeRequest({
+      return this.makeGraphQLRequest({
         query: mutations.createSubItem,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async createUpdate(variables) {
-      return this.makeRequest({
+      return this.makeGraphQLRequest({
         query: mutations.createUpdate,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async updateItemName(variables) {
-      return this.makeRequest({
+      return this.makeGraphQLRequest({
         query: mutations.updateItemName,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async listBoards(variables) {
-      return this.makeRequest({
+      return this.makeGraphQLRequest({
         query: queries.listBoards,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async listItemsBoard({
@@ -281,95 +271,74 @@ export default {
       const query = cursor
         ? queries.listItemsNextPage
         : queries.listItemsBoard;
-      const options = cursor
-        ? {
-          variables: {
-            cursor,
-          },
-        }
-        : {
-          variables,
-        };
-      return this.makeRequest({
+      return this.makeGraphQLRequest({
         query,
-        options,
+        variables: cursor
+          ? {
+            cursor,
+          }
+          : variables,
       });
     },
     async listUpdatesBoard(variables) {
-      return this.makeRequest({
+      return this.makeGraphQLRequest({
         query: queries.listUpdatesBoard,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async listWorkspaces() {
-      return this.makeRequest({
+      return this.makeGraphQLRequest({
         query: queries.listWorkspaces,
       });
     },
     async listFolders(variables) {
-      return this.makeRequest({
+      return this.makeGraphQLRequest({
         query: queries.listFolders,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async listWorkspacesBoards() {
-      return this.makeRequest({
+      return this.makeGraphQLRequest({
         query: queries.listWorkspacesBoards,
       });
     },
     async listGroupsBoards(variables) {
-      return this.makeRequest({
+      return this.makeGraphQLRequest({
         query: queries.listGroupsBoards,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async listColumnOptions(variables) {
-      const { data } = await this.makeRequest({
+      const { data } = await this.makeGraphQLRequest({
         query: queries.listColumnOptions,
-        options: {
-          variables,
-        },
+        variables,
       });
       return data?.boards[0]?.columns;
     },
     async listColumns(variables) {
-      const { data } = await this.makeRequest({
+      const { data } = await this.makeGraphQLRequest({
         query: queries.listColumns,
-        options: {
-          variables,
-        },
+        variables,
       });
       return data?.boards[0]?.columns;
     },
     listBoardItemsPage(variables) {
-      return this.makeRequest({
+      return this.makeGraphQLRequest({
         query: queries.listBoardItemsPage,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async listUsers(variables) {
-      const { data } = await this.makeRequest({
+      const { data } = await this.makeGraphQLRequest({
         query: queries.listUsers,
-        options: {
-          variables,
-        },
+        variables,
       });
       return data?.users;
     },
     async getColumnValues(variables) {
-      return this.makeRequest({
+      return this.makeGraphQLRequest({
         query: queries.getColumnValues,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async getItemsByColumnValue({
@@ -378,26 +347,19 @@ export default {
       const query = cursor
         ? queries.listItemsNextPage
         : queries.getItemsByColumnValue;
-      const options = cursor
-        ? {
-          variables: {
-            cursor,
-          },
-        }
-        : {
-          variables,
-        };
-      return this.makeRequest({
+      return this.makeGraphQLRequest({
         query,
-        options,
+        variables: cursor
+          ? {
+            cursor,
+          }
+          : variables,
       });
     },
     async updateColumnValues(variables) {
-      return this.makeRequest({
+      return this.makeGraphQLRequest({
         query: mutations.updateColumnValues,
-        options: {
-          variables,
-        },
+        variables,
       });
     },
     async listBoardsOptions(variables) {
