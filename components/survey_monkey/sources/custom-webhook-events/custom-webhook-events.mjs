@@ -4,7 +4,7 @@ import common from "../common/base.mjs";
 export default {
   ...common,
   name: "New Custom webhook events",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   key: "survey_monkey-custom-webhook-events",
   description: "Emit new custom webhook event",
