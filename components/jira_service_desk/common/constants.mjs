@@ -1,7 +1,7 @@
 // Jira Service Management caps the page size of each paginated `servicedeskapi`
 // resource server-side, and the cap differs per resource (verified live:
 // `/request` clamps to 100, `/request/{id}/comment` clamps to 50). Atlassian
-// documents the cap as an implementation detail that may change, so `paginate`
+// documents the cap as an implementation detail that may change, so `_paginate`
 // requests this page size and then keys off the returned `isLastPage` and
 // `size` rather than assuming the page it asked for is the page it got.
 // https://developer.atlassian.com/cloud/jira/service-desk/rest/intro/#pagination

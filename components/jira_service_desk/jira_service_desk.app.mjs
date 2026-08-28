@@ -111,7 +111,7 @@ export default {
      * @returns {Promise<{ results: object[], hasMore: boolean }>} the collected
      * items and whether the API still had more to give when collection stopped.
      */
-    async paginate({
+    async _paginate({
       $, path, params, maxResults = constants.MAX_RESULTS_DEFAULT,
     }) {
       const results = [];
@@ -160,7 +160,7 @@ export default {
     async getServiceDesks({
       $, cloudId,
     }) {
-      const { results } = await this.paginate({
+      const { results } = await this._paginate({
         $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/servicedesk`,
       });
@@ -169,7 +169,7 @@ export default {
     async getRequestTypes({
       $, cloudId, serviceDeskId,
     }) {
-      const { results } = await this.paginate({
+      const { results } = await this._paginate({
         $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/servicedesk/${serviceDeskId}/requesttype`,
       });
@@ -186,7 +186,7 @@ export default {
     async getCustomerRequests({
       $, cloudId,
     }) {
-      const { results } = await this.paginate({
+      const { results } = await this._paginate({
         $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/request`,
       });
@@ -226,7 +226,7 @@ export default {
       if (serviceDeskId) {
         params.serviceDeskId = serviceDeskId;
       }
-      return this.paginate({
+      return this._paginate({
         $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/request`,
         params,
@@ -244,7 +244,7 @@ export default {
     async getRequestComments({
       $, cloudId, issueIdOrKey, maxResults,
     }) {
-      return this.paginate({
+      return this._paginate({
         $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${issueIdOrKey}/comment`,
         maxResults,
@@ -253,7 +253,7 @@ export default {
     async getRequestStatus({
       $, cloudId, issueIdOrKey, maxResults,
     }) {
-      return this.paginate({
+      return this._paginate({
         $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${issueIdOrKey}/status`,
         maxResults,
@@ -262,7 +262,7 @@ export default {
     async getRequestTransitions({
       $, cloudId, issueIdOrKey, maxResults,
     }) {
-      return this.paginate({
+      return this._paginate({
         $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${issueIdOrKey}/transition`,
         maxResults,

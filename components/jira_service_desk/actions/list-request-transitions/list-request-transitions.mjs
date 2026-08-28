@@ -7,7 +7,7 @@ export default {
     "Lists the available workflow transitions for a Jira Service Desk request, returning each transition's `id` and `name`."
     + " Transitions are paginated automatically up to `maxResults`."
     + " Returns `{ transitions, truncated }`, where `truncated` is `true` when more transitions remained unfetched."
-    + " **Call this before `Transition Request`** to obtain valid `transitionId` values."
+    + " Call this before **Transition Request** to obtain valid `transitionId` values."
     + " Use **List Sites** first to obtain the required `cloudId`."
     + " Use **List My Requests** or **Get Request** to find the `issueKey` (e.g. `IT-42`)."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-issueidorkey-transition-get)",
