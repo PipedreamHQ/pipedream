@@ -98,10 +98,10 @@ export default {
       label: "Item Name",
       description: "The new item's name",
     },
-    itemColumnValues: {
+    columnValues: {
       type: "object",
-      label: "Item Column Values",
-      description: "The column values of the new item",
+      label: "Column Values",
+      description: "The column values to set, as column ID → value pairs. Example: `{ \"status\": \"Done\", \"date4\": \"2026-09-02\", \"numbers\": 42 }`. Use **List Columns** to discover column IDs and the allowed labels for `status`/`dropdown` columns. See the [Column types reference](https://developer.monday.com/api-reference/reference/column-types-reference) for the value each column type expects",
       optional: true,
     },
     itemCreateLabels: {

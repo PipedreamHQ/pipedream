@@ -10305,8 +10305,8 @@ importers:
   components/monday_oauth:
     dependencies:
       '@pipedream/monday':
-        specifier: ^0.7.0
-        version: 0.7.0(encoding@0.1.13)
+        specifier: ^0.12.1
+        version: 0.12.1(encoding@0.1.13)
       monday-sdk-js:
         specifier: ^0.5.5
         version: 0.5.6(encoding@0.1.13)
@@ -22354,8 +22354,8 @@ packages:
   '@pipedream/microsoft_outlook@1.7.5':
     resolution: {integrity: sha512-fokEnKwVvV9cWxZQClPuYCu56ryoWZu1/LPT+WHsvaR/sJbUkhH94bG/nyQynsDlborglVbT4N+CzfY8w1FpqA==}
 
-  '@pipedream/monday@0.7.0':
-    resolution: {integrity: sha512-ovVtLhKMJpOTSoc7JcVLrbVrJxW4BT96eW79TiiPc+DgMSM7ouRmCk5lHL2xCAtrqDForXSrXXGjHOAzhJsytA==}
+  '@pipedream/monday@0.12.1':
+    resolution: {integrity: sha512-RqURxzFQpGZEAF6UtNmeLDcjV+swQpdEkI5ev+92g53cWtOPgyatrBg/StyxuBoj80gYuBylWO4p2mKu8nLcZg==}
 
   '@pipedream/notiff_io@0.1.0':
     resolution: {integrity: sha512-jgt5JJGxI9SM6chDeQpxbaS/NSuUUxhe/PeAXRdZKx28Gp0QCxW7egIImC3pqQ9aMSubaeygRyR0ELhKhmbtPg==}
@@ -41441,7 +41441,7 @@ snapshots:
       - debug
       - supports-color
 
-  '@pipedream/monday@0.7.0(encoding@0.1.13)':
+  '@pipedream/monday@0.12.1(encoding@0.1.13)':
     dependencies:
       '@pipedream/platform': 3.4.0
       form-data: 4.0.4

@@ -8,7 +8,7 @@ export default {
   name: "Create Subitem",
   description: "Creates a subitem. [See the documentation](https://developer.monday.com/api-reference/reference/subitems#create-a-subitem)",
   type: "action",
-  version: "0.1.6",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -41,6 +41,11 @@ export default {
       description: "The new subitem's name",
     },
     ...commonCreateItem.props,
+    columnValues: {
+      ...commonCreateItem.props.columnValues,
+      label: "Column Values",
+      description: "The subitem column values to set, as column ID → value pairs. Example: `{ \"status\": \"Done\", \"date4\": \"2026-09-02\" }`. These are the columns of the parent item's **subitems board**, which is a separate board from the one selected above — run **List Columns** against that subitems board to discover its column IDs. See the [Column types reference](https://developer.monday.com/api-reference/reference/column-types-reference) for the value each column type expects",
+    },
   },
   methods: {
     ...commonCreateItem.methods,
