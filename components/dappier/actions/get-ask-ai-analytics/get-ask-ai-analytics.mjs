@@ -5,7 +5,7 @@ import { resolveDateRange } from "../../common/utils.mjs";
 export default {
   key: "dappier-get-ask-ai-analytics",
   name: "Get Ask AI Analytics",
-  description: "Retrieve aggregated Ask AI widget analytics (GET `/v1/analytics/ask-ai`). Returns a `summary` (widget loads, viewable/engagement sessions, clicks, session duration, etc.) plus a `daily_breakdown`. All filters are optional; with no dates it defaults to the last 7 days (UTC). Use **Get Ask AI Logs** for the raw per-conversation rows behind these numbers. Example: call with no arguments to get the last-7-days summary, or pass `start_date=2026-07-01` and `end_date=2026-08-01` for a fixed window. [See the documentation](https://docs.dappier.com/api-reference/endpoint/ask-ai-analytics).",
+  description: "Retrieve aggregated Ask AI widget analytics (GET `/v1/analytics/ask-ai`). Returns a `summary` (widget loads, viewable/engagement sessions, clicks, session duration, etc.) plus a `daily_breakdown`. All filters are optional; with no dates it defaults to the last 7 days (UTC). Use **Get Ask AI Logs** for the raw per-conversation rows behind these numbers. Example: call with no arguments to get the last-7-days summary, or pass `startDate=2026-07-01` and `endDate=2026-08-01` for a fixed window. [See the documentation](https://docs.dappier.com/api-reference/endpoint/ask-ai-analytics).",
   version: "0.0.1",
   type: "action",
   annotations: {
