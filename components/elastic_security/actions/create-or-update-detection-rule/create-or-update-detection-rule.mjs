@@ -29,7 +29,7 @@ export default {
         elasticSecurity,
         "id",
       ],
-      description: "The Kibana internal UUID of an existing rule to update. This is the sole trigger for update mode — omit it to create a new rule. Run **Find Detection Rules** first to obtain valid IDs (it accepts either `id` or `ruleId` for lookup).",
+      description: "The Kibana internal UUID of an existing rule to update (e.g. `7ac3c66d-f0b4-4f7c-a576-7bb91bf4e9ce`). This is the sole trigger for update mode — omit it to create a new rule. Run **Find Detection Rules** first to obtain valid IDs (it accepts either `id` or `ruleId` for lookup).",
       optional: true,
     },
     ruleId: {
@@ -37,7 +37,7 @@ export default {
         elasticSecurity,
         "ruleId",
       ],
-      description: "When creating (no `id`): an optional custom `rule_id` to assign to the new rule — if omitted, Kibana generates one. Not used to identify a rule for update; use `id` for that (run **Find Detection Rules** with `ruleId` first if that's all you have, to get its `id`).",
+      description: "When creating (no `id`): an optional custom `rule_id` to assign to the new rule, e.g. `my-custom-rule-id` — if omitted, Kibana generates one. Not used to identify a rule for update; use `id` for that (run **Find Detection Rules** with `ruleId` first if that's all you have, to get its `id`).",
       optional: true,
     },
     name: {

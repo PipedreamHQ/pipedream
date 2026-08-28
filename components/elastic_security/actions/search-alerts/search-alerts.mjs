@@ -56,7 +56,7 @@ export default {
         elasticSecurity,
         "fields",
       ],
-      description: "Request these specific fields via Elasticsearch's native field retrieval — returned under each hit's `fields` key (each value as an array), alongside the unchanged full `_source` document. Useful for reading known field values without parsing all of `_source`."
+      description: "Request these specific fields via Elasticsearch's native field retrieval, e.g. `[\"@timestamp\", \"kibana.alert.workflow_status\", \"host.name\"]` — returned under each hit's `fields` key (each value as an array), alongside the unchanged full `_source` document. Useful for reading known field values without parsing all of `_source`."
         + " Common fields: `@timestamp`, `kibana.alert.workflow_status`, `kibana.alert.rule.name`, `host.name`, `user.name`, `event.category`.",
     },
   },

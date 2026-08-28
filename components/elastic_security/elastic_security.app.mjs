@@ -87,7 +87,7 @@ export default {
     fields: {
       type: "string[]",
       label: "Fields",
-      description: "Only include these fields in each returned result, to reduce response size. Omit to return the full object(s).",
+      description: "Only include these fields in each returned result, to reduce response size, e.g. `[\"id\", \"name\", \"tags\"]`. Omit to return the full object(s).",
       optional: true,
     },
   },
