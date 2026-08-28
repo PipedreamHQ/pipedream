@@ -1,10 +1,10 @@
 import freshdesk from "../../freshdesk.app.mjs";
 
 export default {
-  key: "freshdesk-delete-ticket-summary",
-  name: "Delete Ticket Summary",
-  description: "Delete the summary note for a ticket. [See the documentation](https://developers.freshdesk.com/api/#ticket_summary)",
-  version: "0.0.2",
+  key: "freshdesk-delete-ticket",
+  name: "Delete Ticket",
+  description: "Delete a ticket in Freshdesk. This is a soft delete, so the ticket can be restored later. [See the documentation](https://developers.freshdesk.com/api/#delete_a_ticket)",
+  version: "0.0.1",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -21,11 +21,11 @@ export default {
     },
   },
   async run({ $ }) {
-    await this.freshdesk.deleteTicketSummary({
+    await this.freshdesk.deleteTicket({
       $,
       ticketId: this.ticketId,
     });
-    $.export("$summary", `Successfully deleted summary for ticket ${this.ticketId}`);
+    $.export("$summary", `Successfully deleted ticket ${this.ticketId}`);
     return {
       success: true,
     };
