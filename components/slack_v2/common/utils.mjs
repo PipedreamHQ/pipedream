@@ -64,21 +64,14 @@ export function projectFields(records, value) {
 }
 
 /**
- * A user mention as Slack encodes it in message text, in BOTH encodings the API emits.
+ * A user mention as Slack encodes it in message text.
  * `[UW]` because Enterprise Grid mints both prefixes and they coexist in one message:
  * `W`-prefixed ids are the older grid format, `U`-prefixed the current one.
  */
 const USER_MENTION = /<@([UW][A-Z0-9]{8,})(?:\|([^>]*))?>/g;
 
 /**
- * Rewrite `<@U123|Display Name>` to `<@U123>`, and report the names that were dropped.
- *
- * Slack's read APIs disagree on how they encode a mention. `conversations.history` and
- * `conversations.replies` return the modern `<@U123>`; `assistant.search.context` returns
- * the legacy `<@U123|Display Name>`. An agent that reads a channel through both — search
- * to find the thread, history to read it — ends up holding both encodings at once, and
- * echoes whichever it happened to copy into the message it posts. Slack does NOT render
- * the pipe form on the write path: `chat.postMessage` prints it as literal text, so the
+ * Slack does not render the pipe form on the write path: `chat.postMessage` prints it as literal text, so the
  * reader sees a raw `<@U123|Display Name>` where a mention belonged.
  *
  * Normalizing on the read side means every read tool hands the agent the one encoding
@@ -99,8 +92,6 @@ export function normalizeUserMentions(text) {
     };
   }
 
-  // Keyed by id so a user mentioned three times yields one entry, and so a later bare
-  // `<@U123>` cannot overwrite a name captured from an earlier labelled span.
   const named = new Map();
 
   const normalized = text.replace(USER_MENTION, (match, id, label) => {
