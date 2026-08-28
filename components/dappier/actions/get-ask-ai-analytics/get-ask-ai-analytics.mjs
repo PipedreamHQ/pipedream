@@ -1,6 +1,6 @@
 // x-pd-ai: optimized
 import app from "../../dappier.app.mjs";
-import { validateDateRange } from "../../common/utils.mjs";
+import { resolveDateRange } from "../../common/utils.mjs";
 
 export default {
   key: "dappier-get-ask-ai-analytics",
@@ -65,12 +65,10 @@ export default {
     },
   },
   async run({ $ }) {
-    validateDateRange(this.startDate, this.endDate);
     const response = await this.app.getAskAiAnalytics({
       $,
       params: {
-        start_date: this.startDate,
-        end_date: this.endDate,
+        ...resolveDateRange(this.startDate, this.endDate),
         widget_id: this.widgetId,
         placement_id: this.placementId,
         deployment_type: this.deploymentType,

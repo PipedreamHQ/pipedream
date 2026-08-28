@@ -5,7 +5,7 @@ import {
   LOGS_LIMIT_MAX,
   LOGS_LIMIT_MIN,
 } from "../../common/constants.mjs";
-import { validateDateRange } from "../../common/utils.mjs";
+import { resolveDateRange } from "../../common/utils.mjs";
 
 export default {
   key: "dappier-get-ask-ai-logs",
@@ -74,12 +74,10 @@ export default {
     },
   },
   async run({ $ }) {
-    validateDateRange(this.startDate, this.endDate);
     const response = await this.app.getAskAiLogs({
       $,
       params: {
-        start_date: this.startDate,
-        end_date: this.endDate,
+        ...resolveDateRange(this.startDate, this.endDate),
         widget_id: this.widgetId,
         placement_id: this.placementId,
         deployment_type: this.deploymentType,

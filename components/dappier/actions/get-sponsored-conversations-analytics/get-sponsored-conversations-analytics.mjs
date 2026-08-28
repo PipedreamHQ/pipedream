@@ -1,6 +1,6 @@
 // x-pd-ai: optimized
 import app from "../../dappier.app.mjs";
-import { validateDateRange } from "../../common/utils.mjs";
+import { resolveDateRange } from "../../common/utils.mjs";
 
 export default {
   key: "dappier-get-sponsored-conversations-analytics",
@@ -71,12 +71,10 @@ export default {
     },
   },
   async run({ $ }) {
-    validateDateRange(this.startDate, this.endDate);
     const response = await this.app.getSponsoredConversationsAnalytics({
       $,
       params: {
-        start_date: this.startDate,
-        end_date: this.endDate,
+        ...resolveDateRange(this.startDate, this.endDate),
         campaign_id: this.campaignId,
         agent_id: this.agentId,
         placement_id: this.placementId,

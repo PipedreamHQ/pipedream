@@ -21,6 +21,44 @@ export function validateDateRange(startDate, endDate) {
   }
 }
 
+function utcTodayYmd() {
+  return new Date().toISOString()
+    .slice(0, 10);
+}
+
+function shiftUtcYmd(ymd, deltaDays) {
+  const t = Date.parse(`${ymd}T00:00:00Z`);
+  if (Number.isNaN(t)) {
+    return ymd; // leave a malformed value for the API to reject
+  }
+  const d = new Date(t);
+  d.setUTCDate(d.getUTCDate() + deltaDays);
+  return d.toISOString().slice(0, 10);
+}
+
+// Resolve the analytics date window into params ready to send.
+//
+// The Dappier analytics API silently resets BOTH bounds to its default
+// trailing-7-day window whenever EITHER `start_date` or `end_date` is omitted,
+// discarding the bound the caller actually supplied (verified against the live
+// API). So we never forward a one-sided window: we fill the missing bound
+// (anchored to the supplied one so it always orders correctly) and send both,
+// so a supplied bound is honored. Missing end -> today (UTC); missing start ->
+// 6 days before the end, giving a trailing 7-day window. When both are omitted
+// we send neither and let the API apply its own default.
+export function resolveDateRange(startDate, endDate) {
+  if (!startDate && !endDate) {
+    return {};
+  }
+  const end = endDate || utcTodayYmd();
+  const start = startDate || shiftUtcYmd(end, -6);
+  validateDateRange(start, end);
+  return {
+    start_date: start,
+    end_date: end,
+  };
+}
+
 // Reduce each object in an array to just the requested fields. Returns the
 // array unchanged when no fields are requested, so callers stay backwards
 // compatible (omitted = full payload).
