@@ -10,8 +10,10 @@ export default {
     + " Supports keyword and semantic search across public and private channels."
     + " Use **Get User Details** first to find your user ID for filtering by 'my' messages."
     + " Returns matching messages with channel context, timestamps, and permalinks."
-    + " User mentions come back as `<@U123>`,"
-    + " any display names Slack supplied are returned separately in each result's `mentions`."
+    + " User mentions come back in the canonical `<@U123>` form; echo it verbatim to post a real mention."
+    + " Display names are returned separately as `mentions`, an array of `{ id, name }` objects,"
+    + " omitted when no mention carried a name."
+    + " Do NOT splice a name back inline: Slack renders `<@U123|Name>` as literal text, not a mention."
     + " [See the documentation](https://api.slack.com/methods/assistant.search.context)",
   version: "0.1.0",
   type: "action",
