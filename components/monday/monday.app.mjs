@@ -1,10 +1,14 @@
-import { axios } from "@pipedream/platform";
+import { ApiClient } from "@mondaydotcomorg/api";
 import flatMap from "lodash.flatmap";
 import map from "lodash.map";
 import uniqBy from "lodash.uniqby";
 import constants from "./common/constants.mjs";
 import mutations from "./common/mutations.mjs";
 import queries from "./common/queries.mjs";
+
+// @mondaydotcomorg/api defaults to "2026-01", which is behind the version
+// https://developer.monday.com/api-reference/docs/api-versioning
+const API_VERSION = "2026-07";
 
 export default {
   type: "app",
@@ -164,103 +168,94 @@ export default {
     _authToken() {
       return this.$auth.api_key ?? this.$auth.oauth_access_token;
     },
-    _headers() {
-      return {
-        "Authorization": this._authToken(),
-        "Content-Type": "application/json",
-      };
-    },
-    // Returns monday's raw GraphQL envelope: `{ data, errors, account_id }`.
-    async makeGraphQLRequest({
-      $ = this, query, variables,
-    }) {
-      return axios($, {
-        method: "POST",
-        url: "https://api.monday.com/v2",
-        headers: this._headers(),
-        data: {
-          query,
-          variables,
-        },
+    _client() {
+      return new ApiClient({
+        token: this._authToken(),
+        apiVersion: API_VERSION,
       });
     },
+    async makeRequest({
+      query, variables,
+    }) {
+      return this._client().rawRequest(query, variables);
+    },
     async createWebhook(variables) {
-      return this.makeGraphQLRequest({
+      return this.makeRequest({
         query: mutations.createWebhook,
         variables,
       });
     },
     async deleteWebhook(variables) {
-      return this.makeGraphQLRequest({
+      return this.makeRequest({
         query: mutations.deleteWebhook,
         variables,
       });
     },
     async getItem(variables) {
-      const { data } = await this.makeGraphQLRequest({
+      const { data } = await this.makeRequest({
         query: queries.getItem,
         variables,
       });
       return data?.items[0];
     },
     async getBoard(variables) {
-      const { data } = await this.makeGraphQLRequest({
+      const { data } = await this.makeRequest({
         query: queries.getBoard,
         variables,
       });
       return data?.boards[0];
     },
     async getUser(variables) {
-      const { data } = await this.makeGraphQLRequest({
+      const { data } = await this.makeRequest({
         query: queries.getUser,
         variables,
       });
       return data?.users[0];
     },
     async createBoard(variables) {
-      return this.makeGraphQLRequest({
+      return this.makeRequest({
         query: mutations.createBoard,
         variables,
       });
     },
     async createGroup(variables) {
-      return this.makeGraphQLRequest({
+      return this.makeRequest({
         query: mutations.createGroup,
         variables,
       });
     },
     async createItem(variables) {
-      return this.makeGraphQLRequest({
+      return this.makeRequest({
         query: mutations.createItem,
         variables,
       });
     },
     async createColumn(variables) {
-      return this.makeGraphQLRequest({
+      return this.makeRequest({
         query: mutations.createColumn,
         variables,
       });
     },
     async createSubItem(variables) {
-      return this.makeGraphQLRequest({
+      return this.makeRequest({
         query: mutations.createSubItem,
         variables,
       });
     },
     async createUpdate(variables) {
-      return this.makeGraphQLRequest({
+      return this.makeRequest({
         query: mutations.createUpdate,
         variables,
       });
     },
     async updateItemName(variables) {
-      return this.makeGraphQLRequest({
+      return this.makeRequest({
         query: mutations.updateItemName,
         variables,
       });
     },
     async listBoards(variables) {
-      return this.makeGraphQLRequest({
+      return this.makeRequest({
         query: queries.listBoards,
         variables,
       });
@@ -271,7 +266,7 @@ export default {
       const query = cursor
         ? queries.listItemsNextPage
         : queries.listItemsBoard;
-      return this.makeGraphQLRequest({
+      return this.makeRequest({
         query,
         variables: cursor
           ? {
@@ -281,62 +276,62 @@ export default {
       });
     },
     async listUpdatesBoard(variables) {
-      return this.makeGraphQLRequest({
+      return this.makeRequest({
         query: queries.listUpdatesBoard,
         variables,
       });
     },
     async listWorkspaces() {
-      return this.makeGraphQLRequest({
+      return this.makeRequest({
         query: queries.listWorkspaces,
       });
     },
     async listFolders(variables) {
-      return this.makeGraphQLRequest({
+      return this.makeRequest({
         query: queries.listFolders,
         variables,
       });
     },
     async listWorkspacesBoards() {
-      return this.makeGraphQLRequest({
+      return this.makeRequest({
         query: queries.listWorkspacesBoards,
       });
     },
     async listGroupsBoards(variables) {
-      return this.makeGraphQLRequest({
+      return this.makeRequest({
         query: queries.listGroupsBoards,
         variables,
       });
     },
     async listColumnOptions(variables) {
-      const { data } = await this.makeGraphQLRequest({
+      const { data } = await this.makeRequest({
         query: queries.listColumnOptions,
         variables,
       });
       return data?.boards[0]?.columns;
     },
     async listColumns(variables) {
-      const { data } = await this.makeGraphQLRequest({
+      const { data } = await this.makeRequest({
         query: queries.listColumns,
         variables,
       });
       return data?.boards[0]?.columns;
     },
     listBoardItemsPage(variables) {
-      return this.makeGraphQLRequest({
+      return this.makeRequest({
         query: queries.listBoardItemsPage,
         variables,
       });
     },
     async listUsers(variables) {
-      const { data } = await this.makeGraphQLRequest({
+      const { data } = await this.makeRequest({
         query: queries.listUsers,
         variables,
       });
       return data?.users;
     },
     async getColumnValues(variables) {
-      return this.makeGraphQLRequest({
+      return this.makeRequest({
         query: queries.getColumnValues,
         variables,
       });
@@ -347,7 +342,7 @@ export default {
       const query = cursor
         ? queries.listItemsNextPage
         : queries.getItemsByColumnValue;
-      return this.makeGraphQLRequest({
+      return this.makeRequest({
         query,
         variables: cursor
           ? {
@@ -357,7 +352,7 @@ export default {
       });
     },
     async updateColumnValues(variables) {
-      return this.makeGraphQLRequest({
+      return this.makeRequest({
         query: mutations.updateColumnValues,
         variables,
       });
