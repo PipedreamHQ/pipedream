@@ -152,12 +152,12 @@ export default {
     additionalFields: {
       type: "object",
       label: "Additional Fields",
-      description: "Additional rule fields to merge into the request body, for type-specific configuration not covered by other parameters (e.g. `{\"anomaly_threshold\":50,\"machine_learning_job_id\":[\"job-1\"]}` for `machine_learning` rules).",
+      description: "Additional rule fields to merge into the request body, for type-specific configuration not covered by other parameters (e.g. `{\"anomaly_threshold\":50,\"machine_learning_job_id\":[\"job-1\"]}` for `machine_learning` rules). Cannot be used to override `id`, `type`, or any of this tool's other dedicated parameters — those keys are ignored here if present.",
       optional: true,
     },
   },
   async run({ $ }) {
-    const suppliedFields = {
+    const namedFields = {
       name: this.name,
       description: this.description,
       risk_score: this.riskScore,
@@ -176,7 +176,23 @@ export default {
       threat_mapping: this.threatMapping && [
         this.threatMapping,
       ],
-      ...this.additionalFields,
+    };
+    // additionalFields is a free-form escape hatch — never let it override an already-validated
+    // dedicated field, an identifier, or a read-only field managed elsewhere in this action.
+    const protectedKeys = new Set([
+      "id",
+      "rule_id",
+      ...Object.keys(namedFields),
+      ...RULE_READ_ONLY_FIELDS,
+    ]);
+    const safeAdditionalFields = Object.fromEntries(
+      Object.entries(this.additionalFields ?? {}).filter(([
+        key,
+      ]) => !protectedKeys.has(key)),
+    );
+    const suppliedFields = {
+      ...namedFields,
+      ...safeAdditionalFields,
     };
     const cleanFields = Object.fromEntries(
       Object.entries(suppliedFields).filter(([
