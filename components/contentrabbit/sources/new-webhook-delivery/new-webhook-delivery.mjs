@@ -1,16 +1,16 @@
 import contentRabbitApp from "../../contentrabbit.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
-// The deliveries endpoint answers newest-first and offers no cursor, so a busy
-// window has to be walked backwards one page at a time. Cap the walk: a source
-// that never returns is worse than one that resumes on the next tick.
-const MAX_DRAIN_PASSES = 20;
+// A backstop only. The cursor walk terminates on its own once a page comes
+// back without a next cursor; this stops a server that always returns one from
+// pinning the worker.
+const MAX_PAGES = 50;
 
 export default {
   key: "contentrabbit-new-webhook-delivery",
   name: "New Webhook Delivery",
   description: "Emit new event when Content Rabbit delivers a webhook to your endpoint. Polls the delivery log, so an event appears within one polling interval rather than instantly. [See the documentation](https://contentrabbitai.com/docs/api)",
-  version: "0.0.5",
+  version: "0.0.8",
   type: "source",
   dedupe: "unique",
   props: {
@@ -84,121 +84,98 @@ export default {
       };
     },
     /**
-     * Collect every delivery in `[start, initialEnd ?? now]`.
+     * Collect every delivery in `[start, now]`, newest first.
      *
-     * The API caps a response at `limit` and sorts newest first, with no cursor
-     * to page further. Asking once and stopping is what let deliveries go
-     * missing: under sustained volume the page stayed full, the checkpoint
-     * could never advance, and anything older than one page sat outside the
-     * window forever. So each pass pulls `end` back to the oldest delivery it
-     * has already seen and asks again, until a pass returns a short page.
-     *
-     * A single call still caps out at `MAX_DRAIN_PASSES`. When that happens the
-     * caller persists `lastEnd` and passes it back in as `initialEnd` on the
-     * next poll, so the walk resumes where it stopped instead of restarting
-     * from "now" — since `[start, lastEnd]` only shrinks over time (new
-     * deliveries can't retroactively land below `lastEnd`), this always
-     * converges even under sustained volume.
+     * The endpoint pages with a `(createdAt, id)` keyset cursor, so this is a
+     * plain walk: follow `nextCursor` until it comes back null. An earlier
+     * version had to narrow `end` toward the oldest row it had seen, because
+     * the endpoint offered no cursor at all. That could not terminate when a
+     * whole page shared one timestamp -- pulling `end` back reached the same
+     * rows forever -- and calling such a window drained skipped the rest of the
+     * tie. The id in the cursor is what removes the ambiguity.
      */
-    async drainWindow({
-      start, limit, initialEnd,
+    async collectWindow({
+      start, limit, initialCursor,
     }) {
-      const collected = [];
-      const seen = new Set();
-      let end = initialEnd || new Date().toISOString();
+      const deliveries = [];
+      let cursor = initialCursor;
 
-      for (let pass = 0; pass < MAX_DRAIN_PASSES; pass++) {
+      for (let page = 0; page < MAX_PAGES; page++) {
         const response = await this.contentRabbitApp.listWebhookDeliveries({
           params: {
             subscriptionId: this.subscriptionId,
             status: this.status,
             start,
-            end,
+            end: new Date().toISOString(),
             limit,
+            cursor,
           },
         });
 
         const items = response.data?.items ?? [];
-        let oldestTs = null;
-        for (const item of items) {
-          if (!seen.has(item.id)) {
-            seen.add(item.id);
-            collected.push(item);
-          }
-          const ts = Date.parse(item.occurredAt);
-          if (Number.isFinite(ts) && (oldestTs === null || ts < oldestTs)) {
-            oldestTs = ts;
-          }
-        }
+        deliveries.push(...items);
 
-        if (items.length < limit || oldestTs === null) {
+        cursor = response.data?.nextCursor ?? null;
+        if (!cursor) {
           return {
-            deliveries: collected,
+            deliveries,
             drained: true,
           };
         }
-
-        const nextEnd = new Date(oldestTs).toISOString();
-        if (nextEnd === end) {
-          // A whole page shares one timestamp, so pulling `end` back cannot
-          // make progress. Treat the window as drained rather than persisting
-          // this same `end` for the next poll to retry: since `initialEnd` is
-          // fed straight back into the next call, retrying would re-issue the
-          // identical query, hit the identical tie, and never terminate.
-          // Anything still unseen at this exact timestamp is missed, same as
-          // an ordinary truncated page.
-          return {
-            deliveries: collected,
-            drained: true,
-          };
-        }
-        end = nextEnd;
       }
 
+      // Out of page budget with more to read. Keep the cursor so the next tick
+      // resumes where this one stopped rather than re-reading from the top.
       return {
-        deliveries: collected,
+        deliveries,
         drained: false,
-        lastEnd: end,
+        cursor,
       };
     },
     async processEvent(max, isDeploy = false) {
       const savedTs = this._getSavedTs();
 
-      // A window that did not finish draining is resumed exactly as it began.
-      // Recomputing `start` here instead would lose deploy's 15-minute
-      // boundary and fall back to an unbounded, full-history fetch; and
-      // recomputing the high-water mark would bank the older tail's newest
-      // timestamp, sending the following poll back over deliveries already
-      // emitted.
+      // A window still being paged keeps the start it began with. Recomputing
+      // it would lose deploy's 15-minute boundary and fall back to an
+      // unbounded fetch.
       const pending = this.db.get("pendingWindow") ?? null;
 
+      // Always send an explicit start. The endpoint requires one alongside a
+      // cursor, because its default lower bound is "15 minutes ago" recomputed
+      // per request -- a window whose floor creeps forward between pages would
+      // let a delivery slip under it and be returned by no page at all.
+      const defaultStart = isDeploy || savedTs <= 0
+        ? new Date(Date.now() - 15 * 60 * 1000).toISOString()
+        : new Date(savedTs).toISOString();
+
+      // A pending window persisted by the pre-cursor version of this source
+      // stored `start: null` whenever it began undrained with no saved
+      // timestamp -- i.e. an unbounded, full-history drain that hadn't
+      // finished. Resuming that with `defaultStart` (15 minutes ago, since
+      // savedTs is still unset in that state) would silently drop everything
+      // between the epoch and 15 minutes ago that the old walk hadn't reached
+      // yet. Fall back to the epoch instead, which preserves the original
+      // "no lower bound" intent.
       const start = pending
-        ? (pending.start ?? undefined)
-        : isDeploy
-          ? new Date(Date.now() - 15 * 60 * 1000).toISOString()
-          : savedTs > 0
-            ? new Date(savedTs).toISOString()
-            : undefined;
+        ? (pending.start ?? new Date(0).toISOString())
+        : defaultStart;
 
       const limit = max ?? 200;
       const {
-        deliveries: drainedDeliveries, drained, lastEnd,
-      } = await this.drainWindow({
+        deliveries: collected, drained, cursor,
+      } = await this.collectWindow({
         start,
         limit,
-        initialEnd: pending?.end,
+        initialCursor: pending?.cursor,
       });
 
-      // `drainWindow` walks past a single page to avoid dropping deliveries, so
-      // it can collect more than `limit` items across passes. That's the point
-      // for polling, but deploy's caller-requested `max` is a cap on emitted
-      // events, not just a page size — respect it here.
+      // Deploy's `max` caps emitted events, not just the page size.
       const deliveries = isDeploy
-        ? drainedDeliveries.slice(0, limit)
-        : drainedDeliveries;
+        ? collected.slice(0, limit)
+        : collected;
 
-      // The high-water mark spans the whole window, across however many polls
-      // it takes to drain, so it carries over from the pending state.
+      // The high-water mark spans the whole window, however many ticks it
+      // takes to page, so it carries over from the pending state.
       let highTs = pending?.highTs ?? savedTs;
 
       for (const delivery of deliveries) {
@@ -212,12 +189,10 @@ export default {
       }
 
       if (!drained) {
-        // Keep the checkpoint where it is and remember the whole window, so the
-        // next poll continues this walk rather than starting a new one.
         this.db.set("pendingWindow", {
-          start: start ?? null,
-          end: lastEnd,
+          start,
           highTs,
+          cursor,
         });
         return;
       }
