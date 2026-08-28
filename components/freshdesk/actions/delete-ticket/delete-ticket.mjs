@@ -6,7 +6,7 @@ export default {
   description: "Delete a ticket in Freshdesk. This is a soft delete, so the ticket can be restored later. [See the documentation](https://developers.freshdesk.com/api/#delete_a_ticket)",
   version: "0.0.1",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
