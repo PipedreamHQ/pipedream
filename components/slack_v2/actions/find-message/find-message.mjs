@@ -1,11 +1,15 @@
 // x-pd-ai: optimized
+import utils from "../../common/utils.mjs";
 import slack from "../../slack_v2.app.mjs";
 
 export default {
   key: "slack_v2-find-message",
   name: "Find Message",
-  description: "Find a Slack message. [See the documentation](https://api.slack.com/methods/assistant.search.context)",
-  version: "0.1.6",
+  description: "Find a Slack message."
+    + " User mentions come back as `<@U123>`,"
+    + " any display names Slack supplied are returned separately in each result's `mentions`."
+    + " [See the documentation](https://api.slack.com/methods/assistant.search.context)",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -63,7 +67,7 @@ export default {
         cursor = response.response_metadata?.next_cursor;
       } while (cursor && matches.length < maxResults);
 
-      return matches.slice(0, maxResults);
+      return utils.normalizeSearchMessages(matches.slice(0, maxResults));
     },
   },
   async run({ $ }) {
