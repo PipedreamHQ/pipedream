@@ -10,7 +10,7 @@ export default {
     + " `serviceDeskId` is optional — if not provided, the tool calls **List My Requests** to discover it automatically."
     + " Returns the new request including its `issueKey` and `issueId`."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -43,10 +43,10 @@ export default {
     },
   },
   async run({ $ }) {
-    // Auto-discover serviceDeskId if not provided — extract from existing requests
+    // Auto-discover serviceDeskId if not provided: extract from existing requests
     let serviceDeskId = this.serviceDeskId;
     if (!serviceDeskId) {
-      const existingRequests = await this.app.listMyRequests({
+      const { results: existingRequests } = await this.app.listMyRequests({
         $,
         cloudId: this.cloudId,
       });
