@@ -1,18 +1,20 @@
 import brexApp from "../../brex.app.mjs";
 import options from "../../common/options.mjs";
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 
 export default {
   props: {
     cardName: {
       type: "string",
       label: "Card Name",
-      description: "Card Name",
+      description: "A label for the card, shown in the Brex dashboard and printed on physical cards, e.g. `AWS Vendor Card`.",
     },
     cardType: {
       type: "string",
       label: "Card Type",
-      description: "Card Type",
+      description: "Must be `VIRTUAL`, for a card usable immediately. `PHYSICAL` is not supported yet — Brex requires a mailing address to ship a card and this action does not collect one, so selecting it raises a configuration error.",
       options: options.cardType,
     },
     limitType: {
@@ -32,7 +34,7 @@ export default {
       amount: {
         type: "integer",
         label: "Spend Limit Amount",
-        description: "The amount of money, in the smallest denomination of the currency indicated by currency. For example, when currency is USD, amount is in cents.",
+        description: "The spend limit, in the currency's smallest denomination — `2500` is $25.00 in USD.",
       },
       currency: {
         type: "string",
@@ -50,12 +52,13 @@ export default {
       reason: {
         type: "string",
         label: "Spend Limit Reason",
+        description: "A note explaining what the card is for, shown alongside the limit in Brex, e.g. `AWS monthly hosting`.",
         optional: true,
       },
       lockAfterDate: {
         type: "string",
         label: "Spend Limit Lock After Date",
-        description: "Use `yyyy-mm-dd` format.",
+        description: "The date the card stops accepting purchases, in `yyyy-mm-dd` format, e.g. `2026-12-31`. Omit for a card that never locks.",
         optional: true,
       },
     };
@@ -72,6 +75,10 @@ export default {
       reason,
       lockAfterDate,
     } = this;
+
+    if (cardType === "PHYSICAL") {
+      throw new ConfigurationError("Physical cards require a mailing address, which this action does not collect yet. Set Card Type to `VIRTUAL`.");
+    }
 
     const res = await axios($, this.brexApp._getAxiosParams({
       method: "POST",

@@ -5,7 +5,7 @@ export default {
     amount: {
       type: "integer",
       label: "Monthly Limit",
-      description: "The amount of money, in the smallest denomination of the currency indicated by currency. For example, when currency is USD, amount is in cents (`1000.00`).",
+      description: "The monthly limit, in the currency's smallest denomination — `100000` is $1,000.00 in USD.",
     },
     currency: {
       type: "string",
@@ -23,7 +23,7 @@ export default {
 
     const res = await axios($, this.brexApp._getAxiosParams({
       method: "POST",
-      path: `/v2/users/${user.value || user}/limit`,
+      path: `/v2/users/${encodeURIComponent(user.value || user)}/limit`,
       data: {
         monthly_limit: {
           amount,

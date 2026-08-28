@@ -12,19 +12,19 @@ export default {
     postedAtStart: {
       type: "string",
       label: "Posted At Start",
-      description: "Shows only transactions with a posted_at_date on or after this date-time. This parameter is the date-time notation as defined by [RFC 3339, section 5.6](https://tools.ietf.org/html/rfc3339#section-5.6). Example: `2022-12-12T23:59:59.999Z`",
+      description: "Return only transactions posted on or after this date-time, in [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6) notation, e.g. `2022-12-12T23:59:59.999Z`. Brex can post transactions with a lag, so when polling repeatedly, overlap this with your previous window by a day or more and de-duplicate results by transaction `id` rather than advancing it to the exact end of the last poll.",
       optional: true,
     },
     max: {
       type: "integer",
       label: "Max",
-      description: "The maximum amount of registered that will be fetched. Defaults to `500`.",
+      description: "The maximum number of records to fetch. Defaults to `500`.",
       optional: true,
     },
     location: {
       type: "string",
       label: "Location",
-      description: "User location",
+      description: "The office location to assign the user to. Locations are managed in Brex; omit to leave the user unassigned.",
       optional: true,
       async options({ prevContext }) {
         const LIMIT = 100;
@@ -43,7 +43,7 @@ export default {
     department: {
       type: "string",
       label: "Departments",
-      description: "User Department",
+      description: "The department to assign the user to. Departments are managed in Brex; omit to leave the user unassigned.",
       optional: true,
       async options({ prevContext }) {
         const LIMIT = 100;
@@ -62,7 +62,7 @@ export default {
     user: {
       type: "string",
       label: "User",
-      description: "User",
+      description: "A Brex user, as a user ID, e.g. `cuuser_ckze72soa117f01pkmf1wcpl3`. Use **List Users** to find a user ID by email address.",
       optional: true,
       async options({ prevContext }) {
         const LIMIT = 100;
