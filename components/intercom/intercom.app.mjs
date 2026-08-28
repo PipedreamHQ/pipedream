@@ -23,7 +23,7 @@ export default {
     conversationId: {
       type: "string",
       label: "Conversation ID",
-      description: "The Intercom provisioned identifier for the conversation (e.g. `192783634529321`). Run **List Conversations** first to discover one, or reuse the ID from a prior **Reply To Conversation**, **Manage A Conversation**, or **Retrieve Conversation** call's response. If a specific ID isn't known, set this to the literal string `last` to target the most recently updated conversation instead of guessing an ID.",
+      description: "The Intercom provisioned identifier for the conversation (e.g. `192783634529321`). Run **List Conversations** first to discover one, or reuse the ID from a prior **Reply To Conversation**, **Manage A Conversation**, or **Retrieve Conversation** call's response.",
     },
     adminId: {
       type: "string",
@@ -191,6 +191,14 @@ export default {
         endpoint: `contacts/${id}`,
         $,
       });
+    },
+    /**
+     * Search for contacts
+     * @params {Object} data - A query object used to search for contacts
+     * @returns {Array} List of contacts matching search query
+     */
+    async searchContacts(data) {
+      return this.paginate("contacts", "POST", data, true);
     },
     /**
      * Search for conversations

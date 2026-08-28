@@ -70,12 +70,12 @@ export default {
     let data = {
       email: this.email,
       role: this.role,
-      externalId: this.externalId,
+      external_id: this.externalId,
       phone: this.phone,
       name: this.name,
       avatar: this.avatar,
-      unsubscribedFromEmails: this.unsubscribedFromEmails,
-      customAttributes: this.customAttributes,
+      unsubscribed_from_emails: this.unsubscribedFromEmails,
+      custom_attributes: this.customAttributes,
     };
 
     data = Object.entries(data).filter(([
