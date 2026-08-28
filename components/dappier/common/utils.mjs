@@ -15,9 +15,12 @@ export function validateDateRange(startDate, endDate) {
   if (end < start) {
     throw new ConfigurationError("End Date must be on or after Start Date.");
   }
-  const days = (end - start) / (1000 * 60 * 60 * 24);
-  if (days > MAX_ANALYTICS_RANGE_DAYS) {
-    throw new ConfigurationError(`The date range must not exceed ${MAX_ANALYTICS_RANGE_DAYS} days (requested ${Math.round(days)} days).`);
+  // The window is inclusive of both endpoints, and the API caps it at 365
+  // inclusive days (verified: a 365-day *difference* — 366 inclusive days —
+  // returns 400, a 364-day difference is accepted). So count inclusive days.
+  const inclusiveDays = Math.round((end - start) / (1000 * 60 * 60 * 24)) + 1;
+  if (inclusiveDays > MAX_ANALYTICS_RANGE_DAYS) {
+    throw new ConfigurationError(`The date range must not exceed ${MAX_ANALYTICS_RANGE_DAYS} days (requested ${inclusiveDays} days).`);
   }
 }
 
