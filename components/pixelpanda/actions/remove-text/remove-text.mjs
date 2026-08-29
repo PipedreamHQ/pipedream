@@ -5,7 +5,7 @@ export default {
   key: "pixelpanda-remove-text",
   name: "Remove Text",
   description: "Remove text and watermarks from an image. 1 credit. [See the documentation](https://pixelpanda.ai/developers)",
-  version: "0.1.0",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

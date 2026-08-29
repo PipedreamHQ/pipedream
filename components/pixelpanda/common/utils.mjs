@@ -11,3 +11,11 @@ export function imageBody({
     image_base64: imageBase64,
   };
 }
+
+export function parseStrength(strength) {
+  const value = Number(strength);
+  if (!Number.isFinite(value) || value < 0 || value > 1) {
+    throw new ConfigurationError("**Strength** must be a number between `0.0` and `1.0`.");
+  }
+  return value;
+}

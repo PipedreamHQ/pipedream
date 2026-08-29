@@ -1,11 +1,13 @@
 import pixelpanda from "../../pixelpanda.app.mjs";
-import { imageBody } from "../../common/utils.mjs";
+import {
+  imageBody, parseStrength,
+} from "../../common/utils.mjs";
 
 export default {
   key: "pixelpanda-edit-image",
   name: "Edit Image With Prompt",
   description: "Transform an image with a text prompt (FLUX Kontext Pro). 2 credits. [See the documentation](https://pixelpanda.ai/developers)",
-  version: "0.1.0",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -45,7 +47,7 @@ export default {
         ...imageBody(this),
         prompt: this.prompt,
         strength: this.strength
-          ? parseFloat(this.strength)
+          ? parseStrength(this.strength)
           : undefined,
       },
     });

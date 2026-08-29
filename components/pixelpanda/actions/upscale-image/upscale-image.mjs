@@ -5,7 +5,7 @@ export default {
   key: "pixelpanda-upscale-image",
   name: "Upscale Image",
   description: "AI-upscale an image 2x/4x (1 credit) or 8x (2 credits). [See the documentation](https://pixelpanda.ai/developers)",
-  version: "0.1.0",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
