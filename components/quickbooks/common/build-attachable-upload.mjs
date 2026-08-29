@@ -1,3 +1,15 @@
+/**
+ * Build the multipart body required by the QuickBooks attachment upload API.
+ *
+ * @param {object} options - Upload parameters.
+ * @param {string} options.boundary - Multipart boundary.
+ * @param {string} options.contentType - Valid file MIME type.
+ * @param {string|number} options.entityId - QuickBooks entity ID.
+ * @param {string} options.entityType - QuickBooks entity type.
+ * @param {Buffer} options.file - File bytes.
+ * @param {string} options.fileName - Safe attachment filename.
+ * @returns {{body: Buffer, contentType: string}} Multipart request payload.
+ */
 export function buildAttachableUpload({
   boundary,
   contentType,

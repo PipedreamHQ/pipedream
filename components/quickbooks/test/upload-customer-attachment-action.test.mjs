@@ -3,6 +3,15 @@ import { writeFile } from "node:fs/promises";
 import test from "node:test";
 import action from "../actions/upload-customer-attachment/upload-customer-attachment.mjs";
 
+test("declares a synchronized read directory for upstream file references", () => {
+  assert.deepEqual(action.props.syncDir, {
+    type: "dir",
+    accessMode: "read",
+    sync: true,
+    optional: true,
+  });
+});
+
 test("uploads a customer attachment and reads it back", async () => {
   const testFile = "/tmp/qbo-upload-customer-attachment-test.jpg";
   await writeFile(testFile, Buffer.from([

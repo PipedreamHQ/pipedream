@@ -5,6 +5,12 @@ import { buildAttachableUpload } from "../../common/build-attachable-upload.mjs"
 
 const MAX_FILE_BYTES = 20 * 1024 * 1024;
 
+/**
+ * Read a Pipedream file reference into memory while enforcing the upload cap.
+ *
+ * @param {string} filePath - Pipedream file reference, URL, or synchronized path.
+ * @returns {Promise<Buffer>} The complete non-empty file bytes.
+ */
 async function readBoundedFile(filePath) {
   const stream = await getFileStream(filePath);
   const chunks = [];
@@ -25,6 +31,12 @@ async function readBoundedFile(filePath) {
   return Buffer.concat(chunks);
 }
 
+/**
+ * Return the first QuickBooks Attachable from an upload response.
+ *
+ * @param {object|Array<object>} response - QuickBooks upload response.
+ * @returns {object|undefined} The created Attachable, when present.
+ */
 function extractAttachable(response) {
   const entries = Array.isArray(response)
     ? response
@@ -56,6 +68,12 @@ export default {
       label: "File Path or URL",
       description: "Provide a file URL or a path to a file in the /tmp directory.",
       format: "file-ref",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
     fileName: {
       type: "string",
