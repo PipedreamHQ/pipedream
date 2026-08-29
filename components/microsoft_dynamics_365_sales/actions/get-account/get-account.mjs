@@ -4,7 +4,7 @@ export default {
   key: "microsoft_dynamics_365_sales-get-account",
   name: "Get Account",
   description: "Retrieve a single account by GUID. [See the documentation](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/reference/account)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

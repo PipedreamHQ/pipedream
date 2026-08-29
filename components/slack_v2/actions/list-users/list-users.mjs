@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import slack from "../../slack_v2.app.mjs";
 
 export default {
   key: "slack_v2-list-users",
   name: "List Users",
   description: "Return a list of all users in a workspace. [See the documentation](https://api.slack.com/methods/users.list)",
-  version: "0.0.28",
+  version: "0.0.32",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

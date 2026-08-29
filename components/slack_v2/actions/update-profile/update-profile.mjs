@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import slack from "../../slack_v2.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
@@ -5,7 +6,7 @@ export default {
   key: "slack_v2-update-profile",
   name: "Update Profile",
   description: "Update basic profile field such as name or title. [See the documentation](https://api.slack.com/methods/users.profile.set)",
-  version: "0.0.29",
+  version: "0.0.33",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -61,7 +62,7 @@ export default {
         slack,
         "user",
       ],
-      description: "ID of user to change. This argument may only be specified by admins on paid teams.",
+      description: "The ID of the user whose profile to update (e.g. `U1234567890`). Only admins on paid teams may update another user's profile — omit to update your own. Use **Find User by Email** or **List Users** to find valid IDs.",
       optional: true,
     },
   },

@@ -4,7 +4,7 @@ export default {
   key: "todoist-list-select-projects-options",
   name: "List Select Projects Options",
   description: "Retrieves available options for the Select Projects field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

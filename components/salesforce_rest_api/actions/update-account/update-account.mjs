@@ -1,49 +1,44 @@
+// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import account from "../../common/sobjects/account.mjs";
+import salesforce from "../../salesforce_rest_api.app.mjs";
 import { docsLink } from "../create-account/create-account.mjs";
 
+/* eslint-disable no-unused-vars */
 const {
-  salesforce, ...props
+  salesforce: _sf, ...props
 } = getProps({
   createOrUpdate: "update",
   objType: account,
   docsLink,
 });
+/* eslint-enable no-unused-vars */
 
 export default {
   ...common,
   key: "salesforce_rest_api-update-account",
   name: "Update Account",
-  description: `Updates a Salesforce account. [See the documentation](${docsLink})`,
-  version: "0.3.6",
+  description: "Update fields on an existing Salesforce account."
+    + " Only the fields you supply change; everything else is left as-is."
+    + " Use **Find Records** on `Account` to get the record ID first."
+    + " "
+    + `[See the documentation](${docsLink})`,
+  version: "0.4.0",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
   methods: {
     ...common.methods,
-    getObjectType() {
-      return "Account";
-    },
-    getAdvancedProps() {
-      return account.extraProps;
-    },
   },
   props: {
     salesforce,
     accountId: {
-      propDefinition: [
-        salesforce,
-        "recordId",
-        () => ({
-          objType: "Account",
-          nameField: "Name",
-        }),
-      ],
+      type: "string",
       label: "Account ID",
-      description: "The Account to update.",
+      description: "The ID of the Account to update (Salesforce's 15- or 18-character record ID, e.g. `001XX000003DHP0`). Use **SOQL Query** to find the ID.",
     },
     ...props,
   },
@@ -51,14 +46,10 @@ export default {
     /* eslint-disable no-unused-vars */
     const {
       salesforce,
-      getAdvancedProps,
-      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
       accountId,
-      useAdvancedProps,
       docsInfo,
-      dateInfo,
       additionalFields,
       ...data
     } = this;

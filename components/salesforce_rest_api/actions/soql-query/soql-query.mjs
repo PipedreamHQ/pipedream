@@ -1,4 +1,4 @@
-// vandelay-test-dr
+// x-pd-ai: optimized
 import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
@@ -25,8 +25,10 @@ export default {
     + "\n- Sorting/limits: `ORDER BY CreatedDate DESC LIMIT 10`"
     + "\n\n"
     + "**Always include `Id` in SELECT.** Include a clickable Salesforce link for every record"
-    + " using the format `{instanceUrl}/lightning/r/{objectType}/{Id}/view` (get `instanceUrl` from **Get User Info**).",
-  version: "0.0.1",
+    + " using the format `{instanceUrl}/lightning/r/{objectType}/{Id}/view` (get `instanceUrl` from **Get User Info**)."
+    + " "
+    + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_query.htm)",
+  version: "0.0.3",
   type: "action",
   annotations: {
     readOnlyHint: true,

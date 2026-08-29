@@ -9,13 +9,13 @@ import {
 import { getAdditionalFields } from "../common/props.mjs";
 
 const docLink =
-  "https://developers.google.com/google-ads/api/reference/rpc/v21/AdGroupAdService/MutateAdGroupAds?transport=rest";
+  "https://developers.google.com/google-ads/api/reference/rpc/v25/AdGroupAdService/MutateAdGroupAds?transport=rest";
 
 export default {
   key: "google_ads-create-or-update-ad-group-ad",
   name: "Create, Update, or Remove Ad Group Ad",
   description: `Creates, updates, or removes an ad group ad. [See the documentation](${docLink})`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: true,

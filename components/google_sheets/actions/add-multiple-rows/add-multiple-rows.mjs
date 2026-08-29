@@ -1,8 +1,7 @@
+// x-pd-ai: optimized
 import common from "../common/worksheet.mjs";
 import { ConfigurationError } from "@pipedream/platform";
-import {
-  parseArray, getWorksheetHeaders,
-} from "../../common/utils.mjs";
+import { parseArray } from "../../common/utils.mjs";
 
 const { googleSheets } = common.props;
 
@@ -10,8 +9,8 @@ export default {
   ...common,
   key: "google_sheets-add-multiple-rows",
   name: "Add Multiple Rows",
-  description: "Add multiple rows of data to a Google Sheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append)",
-  version: "0.2.20",
+  description: "Append multiple rows to a Google Sheet in one call. Provide `rows` as a JSON array of arrays — each inner array is one row, with cell values in column order (e.g. `[[\"Alice\",\"alice@ingen.test\",\"Engineering\"],[\"Bob\",\"bob@ingen.test\",\"Paleontology\"]]`). Use **Get Spreadsheet Info** first to see the column order. Rows are appended after the last row with data. To add a single row, or to insert at a specific position, use **Add Single Row** instead. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append)",
+  version: "0.3.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -48,13 +47,6 @@ export default {
           sheetId: c.sheetId,
         }),
       ],
-      reloadProps: true,
-    },
-    headersDisplay: {
-      propDefinition: [
-        googleSheets,
-        "headersDisplay",
-      ],
     },
     rows: {
       propDefinition: [
@@ -75,25 +67,7 @@ export default {
       optional: true,
     },
   },
-  async additionalProps() {
-    const props = {};
-    if (!this.sheetId || !this.worksheetId) {
-      return props;
-    }
-    const worksheet = await this.getWorksheetById(this.sheetId, this.worksheetId);
-    const rowHeaders = await getWorksheetHeaders(this, this.sheetId, worksheet?.properties?.title);
-    if (rowHeaders.length) {
-      return {
-        headersDisplay: {
-          type: "alert",
-          alertType: "info",
-          content: `Possible Row Headers: **\`${rowHeaders.join(", ")}\`**`,
-          hidden: false,
-        },
-      };
-    }
-  },
-  async run() {
+  async run({ $ }) {
     let inputValidated = true;
 
     const rows = parseArray(this.rows);
@@ -104,7 +78,6 @@ export default {
       rows.forEach((row) => { if (!Array.isArray(row)) { inputValidated = false; } });
     }
 
-    // Throw an error if input validation failed
     if (!inputValidated) {
       console.error("Data Submitted:");
       console.error(rows);
@@ -121,6 +94,8 @@ export default {
     if (this.resetRowFormat) {
       await this.googleSheets.resetRowFormat(this.sheetId, addRowsResponse.updatedRange);
     }
+
+    $.export("$summary", `Successfully added ${rows.length} row(s) to the spreadsheet.`);
     return addRowsResponse;
   },
 };

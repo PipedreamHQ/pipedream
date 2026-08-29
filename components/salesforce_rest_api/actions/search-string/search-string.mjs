@@ -1,10 +1,15 @@
+// x-pd-ai: optimized
 import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
   key: "salesforce_rest_api-search-string",
   name: "Search Object Records",
-  description: "Searches for records in an object using a parameterized search. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_search_parameterized_get.htm)",
-  version: "0.0.8",
+  description: "Search for records of one object type using a parameterized SOSL search."
+    + " Use **Text Search** to search across several object types at once, or **SOQL Query** for exact field filters."
+    + " SOSL matches indexed text fields, so it finds partial words but will not filter on numeric or date criteria."
+    + " "
+    + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_search_parameterized_get.htm)",
+  version: "0.0.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,3 +1,6 @@
+import { ConfigurationError } from "@pipedream/platform";
+import { POINTS } from "./constants.mjs";
+
 function getTextContentFromDocument(content) {
   let textContent = "";
   content.forEach((element) => {
@@ -17,6 +20,146 @@ function addTextContentToDocument(response) {
   return {
     textContent,
     ...response,
+  };
+}
+
+function flattenTables(content) {
+  return (content || [])
+    .filter((element) => element.table)
+    .map((element) => ({
+      startIndex: element.startIndex,
+      endIndex: element.endIndex,
+      table: element.table,
+    }));
+}
+
+// Selects the table that was just inserted by ordinal position, not by
+// comparing startIndex values: inserting a table immediately before an
+// existing one gives the new table the exact startIndex the existing table
+// used to have, and shifts the existing table forward onto some other index.
+// Comparing indexes alone can't tell which of the two is "new" in that case,
+// so instead we count how many tables preceded the insertion point (before
+// inserting) and read off the table at that same position afterwards — a
+// newly inserted table can only ever occupy the slot at that ordinal index.
+function selectInsertedTable(beforeTables, afterTables, requestedIndex) {
+  if (afterTables.length !== beforeTables.length + 1) {
+    return null;
+  }
+  const precedingCount = requestedIndex == null
+    ? beforeTables.length
+    : beforeTables.filter(({ startIndex }) => startIndex < requestedIndex).length;
+  return afterTables[precedingCount] ?? null;
+}
+
+function collectTextWithIndices(content) {
+  let text = "";
+  const indexMap = [];
+
+  const walk = (elements) => {
+    (elements || []).forEach((element) => {
+      (element.paragraph?.elements || []).forEach((paragraphElement) => {
+        const run = paragraphElement.textRun?.content;
+        if (!run) {
+          return;
+        }
+        const start = paragraphElement.startIndex ?? 0;
+        for (let offset = 0; offset < run.length; offset++) {
+          indexMap.push(start + offset);
+        }
+        text += run;
+      });
+      (element.table?.tableRows || []).forEach((row) => {
+        (row.tableCells || []).forEach((cell) => walk(cell.content));
+      });
+      if (element.tableOfContents) {
+        walk(element.tableOfContents.content);
+      }
+    });
+  };
+
+  walk(content);
+  return {
+    text,
+    indexMap,
+  };
+}
+
+function findTextRanges({
+  text, indexMap, needle, matchCase,
+}) {
+  const ranges = [];
+  if (!needle) {
+    return ranges;
+  }
+  const target = matchCase
+    ? needle
+    : needle.toLowerCase();
+
+  for (let i = 0; i + needle.length <= text.length; i++) {
+    const window = text.slice(i, i + needle.length);
+    const candidate = matchCase
+      ? window
+      : window.toLowerCase();
+    if (candidate !== target) {
+      continue;
+    }
+    ranges.push({
+      startIndex: indexMap[i],
+      endIndex: indexMap[i + needle.length - 1] + 1,
+    });
+    i += needle.length - 1;
+  }
+  return ranges;
+}
+
+// `#RRGGBB` (or `RRGGBB`) to the API's OptionalColor, whose channels are 0-1.
+function hexToOptionalColor(hex) {
+  const normalized = String(hex).trim()
+    .replace(/^#/, "");
+  if (!/^[0-9a-fA-F]{6}$/.test(normalized)) {
+    return null;
+  }
+  const channel = (start) => parseInt(normalized.slice(start, start + 2), 16) / 255;
+  return {
+    color: {
+      rgbColor: {
+        red: channel(0),
+        green: channel(2),
+        blue: channel(4),
+      },
+    },
+  };
+}
+
+function styleBuilder(unit = POINTS) {
+  const style = {};
+  const fields = [];
+
+  return {
+    style,
+    fields,
+    set(name, value) {
+      if (value == null) {
+        return;
+      }
+      style[name] = value;
+      fields.push(name);
+    },
+    setDimension(name, magnitude) {
+      if (magnitude == null) {
+        return;
+      }
+      this.set(name, {
+        magnitude,
+        unit,
+      });
+    },
+    get isEmpty() {
+      return !fields.length;
+    },
+    get mask() {
+      return fields.join(",");
+    },
   };
 }
 
@@ -61,8 +204,62 @@ function adjustPropDefinitions(props, app) {
   );
 }
 
+/**
+ * RFC 3339 date (`2026-01-31`) or date-time (`2026-01-31T00:00:00Z`). A
+ * date-time must carry a `Z` or numeric offset, as RFC 3339 requires: without
+ * one, `Date.parse` silently reads it in the runner's local timezone.
+ *
+ * The time fields spell out their RFC 3339 ranges rather than using `\d{2}`,
+ * because `Date.parse` accepts the ISO 8601 end-of-day hour `24` and rolls it
+ * into the next day (`...T24:00:00Z` becomes the 1st of the next month).
+ */
+const RFC_3339_REGEX =
+  /^(\d{4})-(\d{2})-(\d{2})(?:[Tt]([01]\d|2[0-3]):([0-5]\d):([0-5]\d)(?:\.\d+)?(?:[Zz]|[+-]([01]\d|2[0-3]):[0-5]\d))?$/;
+
+/**
+ * Validate an RFC 3339 timestamp and normalize it to a UTC ISO string.
+ *
+ * `Date.parse` alone is too permissive to use as the gate: it accepts
+ * locale-ambiguous input like `01/02/2026` and bare years like `2026`, and it
+ * rolls impossible dates over (`2026-02-31` becomes March 3) rather than
+ * rejecting them. Either would silently filter from the wrong instant.
+ *
+ * @param {String} value the user-supplied timestamp
+ * @param {String} label the prop label, used in the error message
+ * @returns {String} the timestamp normalized to a UTC ISO string
+ */
+function parseRfc3339(value, label) {
+  const match = RFC_3339_REGEX.exec(String(value).trim());
+  if (!match) {
+    throw new ConfigurationError(`Invalid ${label} "${value}". Use an RFC 3339 timestamp, e.g. "2026-01-31T00:00:00Z" or "2026-01-31".`);
+  }
+  const [
+    , year,
+    month,
+    day,
+  ] = match.map(Number);
+  // The shape is right, but `2026-02-31` still parses, so confirm the calendar
+  // date round-trips unchanged before trusting it.
+  const utc = new Date(Date.UTC(year, month - 1, day));
+  const parsed = Date.parse(match[0]);
+  if (utc.getUTCFullYear() !== year
+    || utc.getUTCMonth() !== month - 1
+    || utc.getUTCDate() !== day
+    || Number.isNaN(parsed)) {
+    throw new ConfigurationError(`Invalid ${label} "${value}". That is not a real date or time.`);
+  }
+  return new Date(parsed).toISOString();
+}
+
 export default {
+  styleBuilder,
+  collectTextWithIndices,
+  findTextRanges,
+  hexToOptionalColor,
   getTextContentFromDocument,
   addTextContentToDocument,
+  flattenTables,
+  selectInsertedTable,
   adjustPropDefinitions,
+  parseRfc3339,
 };

@@ -1,10 +1,15 @@
+// x-pd-ai: optimized
 import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
   key: "salesforce_rest_api-get-record-by-id",
   name: "Get Record by ID",
-  description: "Retrieves a record by its ID. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_get_field_values.htm)",
-  version: "0.0.2",
+  description: "Retrieve one Salesforce record of any object type by its record ID."
+    + " Use **Find Records** to look up records by criteria, or **SOQL Query** when you need related fields or a filtered set."
+    + " Use **List Objects** to discover object types if you are unsure of the type name."
+    + " "
+    + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_get_field_values.htm)",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,

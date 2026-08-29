@@ -1,40 +1,39 @@
+// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import attachment from "../../common/sobjects/attachment.mjs";
 import { getFileStream } from "@pipedream/platform";
 
 const docsLink = "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_attachment.htm";
 
-/* eslint-disable no-unused-vars */
-const {
-  useAdvancedProps, ...props
-} = getProps({
-  objType: attachment,
-  docsLink,
-});
-/* eslint-enable no-unused-vars */
-
 export default {
   ...common,
   key: "salesforce_rest_api-create-attachment",
   name: "Create Attachment",
-  description: `Creates an Attachment on a parent object. [See the documentation](${docsLink})`,
-  version: "0.5.8",
+  description: "Attach a file to an existing Salesforce record (classic `Attachment` object)."
+    + " Use **Find Records** to get the parent record ID first."
+    + " For newer orgs prefer Salesforce Files - use **Insert Blob Data** with `ContentVersion` instead."
+    + " "
+    + `[See the documentation](${docsLink})`,
+  version: "0.6.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
-  props,
+  props: getProps({
+    objType: attachment,
+    docsLink,
+  }),
   async run({ $ }) {
     /* eslint-disable no-unused-vars */
     const {
       salesforce,
-      getAdvancedProps,
       getAdditionalFields,
       formatDateTimeProps,
       docsInfo,
       filePathOrContent,
+      additionalFields,
       ...data
     } = this;
     /* eslint-enable no-unused-vars */
@@ -54,8 +53,9 @@ export default {
     const response = await salesforce.createRecord("Attachment", {
       $,
       data: {
-        Body: body,
         ...data,
+        ...getAdditionalFields(),
+        Body: body,
       },
     });
     $.export("$summary", `Successfully created attachment "${this.Name}"`);

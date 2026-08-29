@@ -1,13 +1,14 @@
+import { ConfigurationError } from "@pipedream/platform";
 import shopify from "../../shopify.app.mjs";
 import {
-  COLLECTION_RULE_COLUMNS, COLLECTION_RULE_RELATIONS,
+  COLLECTION_CONDITION_TYPES, PRODUCT_STATUSES,
 } from "../../common/constants.mjs";
 
 export default {
   key: "shopify-create-smart-collection",
   name: "Create Smart Collection",
-  description: "Creates a smart collection. You can fill in any number of rules by selecting more than one option in each prop.[See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/collectionCreate)",
-  version: "0.0.20",
+  description: "Creates a smart collection whose membership is defined by conditions (rules). [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/collectionCreate)",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -21,62 +22,132 @@ export default {
       label: "Title",
       description: "Title of the smart collection",
     },
-    disjunctive: {
-      type: "boolean",
-      label: "Disjunctive",
-      description: "If `false`, the product must match all the rules to be included in the smart collection. Otherwise, it only needs to match at least one rule",
-      optional: true,
-      default: false,
+    matchType: {
+      type: "string",
+      label: "Match Type",
+      description: "Whether a product must match `ALL` of the conditions or `ANY` (at least one) to be included in the collection",
+      options: [
+        "ALL",
+        "ANY",
+      ],
+      default: "ALL",
     },
-    rules: {
-      type: "integer",
-      label: "Number of rules",
-      description: "The number of rules to input",
-      default: 1,
-      min: 1,
-      reloadProps: true,
+    conditions: {
+      type: "string",
+      label: "Conditions",
+      description: "A JSON array of condition objects that define which products are automatically included. Shape by `type`: text/tag/status types (`productTag`, `productTitle`, `productType`, `productVendor`, `variantTitle`, `productStatus`) use `values` (array) + `relation`; price types (`variantPrice`, `variantCompareAtPrice`) use `value` (amount) + `relation`; `variantInventory` uses `value` (integer) + `relation`; `variantWeight` uses `value` (number) + `unit` + `relation`. Relations by type — `productTag`: `TAGGED_WITH`/`NOT_TAGGED_WITH`; text: `EQUALS`/`NOT_EQUALS`/`CONTAINS`/`DOES_NOT_CONTAIN`/`STARTS_WITH`/`ENDS_WITH`; amounts: `EQUALS`/`NOT_EQUALS`/`GREATER_THAN`/`LESS_THAN`. Example: `[{\"type\":\"productTag\",\"relation\":\"TAGGED_WITH\",\"values\":[\"sale\"]}]`",
     },
-  },
-  async additionalProps() {
-    const props = {};
-    for (let i = 1; i <= this.rules; i++) {
-      props[`column_${i}`] = {
-        type: "string",
-        label: `Rule ${i} - Column`,
-        description: "The property of a product being used to populate the smart collection",
-        options: COLLECTION_RULE_COLUMNS,
-      };
-      props[`relation_${i}`] = {
-        type: "string",
-        label: `Rule ${i} - Relation`,
-        description: "The relationship between the **column** choice, and the **condition**",
-        options: COLLECTION_RULE_RELATIONS,
-      };
-      props[`condition_${i}`] = {
-        type: "string",
-        label: `Rule ${i} - Condition`,
-        description: "Select products for a smart collection using a **condition**. Values is either `string` or `number`, depending on the **relation** value",
-      };
-    }
-    return props;
   },
   async run({ $ }) {
-    const rules = [];
-    for (let i = 1; i <= this.rules; i++) {
-      rules.push({
-        column: this[`column_${i}`],
-        relation: this[`relation_${i}`],
-        condition: this[`condition_${i}`],
-      });
+    let parsed;
+    try {
+      parsed = JSON.parse(this.conditions);
+    } catch {
+      throw new ConfigurationError("`Conditions` must be a valid JSON array.");
+    }
+    if (!Array.isArray(parsed) || parsed.length === 0) {
+      throw new ConfigurationError("`Conditions` must be a non-empty JSON array of condition objects.");
     }
 
-    const response = await this.shopify.createCollection({
-      input: {
+    let currencyCode;
+    const conditions = [];
+    for (const c of parsed) {
+      const meta = COLLECTION_CONDITION_TYPES[c.type];
+      if (!meta) {
+        throw new ConfigurationError(`Unsupported condition type \`${c.type}\`. Supported: ${Object.keys(COLLECTION_CONDITION_TYPES).join(", ")}`);
+      }
+      if (!meta.relations.includes(c.relation)) {
+        throw new ConfigurationError(`Invalid relation \`${c.relation}\` for \`${c.type}\`. Valid: ${meta.relations.join(", ")}`);
+      }
+      const {
+        type, relation,
+      } = c;
+      if (meta.value === "list" || meta.value === "status") {
+        const values = [
+          c.values,
+        ].flat().filter(Boolean);
+        if (!values.length) {
+          throw new ConfigurationError(`Condition \`${type}\` requires a non-empty \`values\` array.`);
+        }
+        if (meta.value === "status") {
+          const invalid = values.filter((v) => !PRODUCT_STATUSES.includes(v));
+          if (invalid.length) {
+            throw new ConfigurationError(`Invalid product status \`${invalid.join(", ")}\`. Valid: ${PRODUCT_STATUSES.join(", ")}`);
+          }
+        }
+        conditions.push({
+          [type]: {
+            relation,
+            values,
+            matchType: "ANY",
+          },
+        });
+      } else {
+        if (c.value === undefined || c.value === null || c.value === "") {
+          throw new ConfigurationError(`Condition \`${type}\` requires a \`value\`.`);
+        }
+        if (meta.value === "int") {
+          const quantity = Number(c.value);
+          if (!Number.isInteger(quantity)) {
+            throw new ConfigurationError(`Condition \`${type}\` requires an integer \`value\`, got \`${c.value}\`.`);
+          }
+          conditions.push({
+            [type]: {
+              relation,
+              value: quantity,
+            },
+          });
+        } else if (meta.value === "money") {
+          if (!/^\d+(\.\d+)?$/.test(`${c.value}`)) {
+            throw new ConfigurationError(`Condition \`${type}\` requires a decimal amount (e.g. \`19.99\`), got \`${c.value}\`.`);
+          }
+          if (!currencyCode) {
+            currencyCode = await this.shopify.getShopCurrencyCode();
+          }
+          conditions.push({
+            [type]: {
+              relation,
+              value: {
+                amount: `${c.value}`,
+                currencyCode,
+              },
+            },
+          });
+        } else if (meta.value === "weight") {
+          if (!c.unit) {
+            throw new ConfigurationError(`Condition \`${type}\` requires a \`unit\` (e.g. KILOGRAMS).`);
+          }
+          const weight = Number(c.value);
+          if (!Number.isFinite(weight)) {
+            throw new ConfigurationError(`Condition \`${type}\` requires a numeric \`value\`, got \`${c.value}\`.`);
+          }
+          conditions.push({
+            [type]: {
+              relation,
+              value: {
+                value: weight,
+                unit: c.unit,
+              },
+            },
+          });
+        }
+      }
+    }
+
+    const response = await this.shopify.createCollectionWithSources({
+      collection: {
         title: this.title,
-        ruleSet: {
-          appliedDisjunctively: this.disjunctive,
-          rules,
-        },
+        sources: [
+          {
+            source: {
+              title: this.title,
+              inclusion: {
+                conditions,
+                matchType: this.matchType,
+              },
+            },
+          },
+        ],
       },
     });
     if (response.collectionCreate.userErrors.length > 0) {

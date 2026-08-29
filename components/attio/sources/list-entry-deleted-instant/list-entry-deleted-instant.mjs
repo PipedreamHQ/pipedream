@@ -6,7 +6,7 @@ export default {
   key: "attio-list-entry-deleted-instant",
   name: "New List Entry Deleted (Instant)",
   description: "Emit new event when a list entry is deleted (i.e. when a record is removed from a list).",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {
