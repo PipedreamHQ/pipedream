@@ -7,6 +7,11 @@ export default {
     "Applies one or more tags to a CRPRO contact, which is what segments campaigns and automations. [See the documentation](https://crpro.com.br/integracoes/whatsapp-com-pipedream)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
   props: {
     crpro,
     contactId: {

@@ -22,6 +22,14 @@ export default {
       ],
     },
   },
+  methods: {
+    _getHookId() {
+      return this.db.get("hookId");
+    },
+    _setHookId(hookId) {
+      this.db.set("hookId", hookId);
+    },
+  },
   hooks: {
     async activate() {
       const { data } = await this.crpro.createWebhook({
@@ -31,27 +39,29 @@ export default {
           label: "Pipedream",
         },
       });
-      this.db.set("hookId", data.id);
+      this._setHookId(data.id);
     },
     async deactivate() {
-      const hookId = this.db.get("hookId");
+      const hookId = this._getHookId();
       if (!hookId) {
         return;
       }
       await this.crpro.deleteWebhook({
         hookId,
       });
-      this.db.set("hookId", null);
+      this._setHookId(null);
     },
   },
   async run(event) {
     const { body } = event;
-    if (!body) {
+
+    // CRPRO delivers a stable envelope: { id, type, occurred_at,
+    // organization_id, api_version, data }. `id` is what dedupe keys on, so a
+    // payload without one is dropped rather than emitted with `id: undefined`.
+    if (!body?.id) {
       return;
     }
 
-    // CRPRO delivers a stable envelope: { id, type, occurred_at,
-    // organization_id, api_version, data }. `id` is what dedupe keys on.
     this.$emit(body, {
       id: body.id,
       summary: `New ${body.type} from CRPRO`,

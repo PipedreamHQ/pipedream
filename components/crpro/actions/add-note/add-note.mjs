@@ -7,6 +7,11 @@ export default {
     "Writes an internal note on a CRPRO contact — visible to the team, never sent to the customer. [See the documentation](https://crpro.com.br/integracoes/whatsapp-com-pipedream)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
   props: {
     crpro,
     contactId: {
@@ -25,7 +30,7 @@ export default {
     content: {
       type: "string",
       label: "Note",
-      description: "The note body.",
+      description: "The note body, e.g. `Cliente pediu retorno na segunda-feira`. Internal only — it is never delivered to the customer on WhatsApp.",
     },
   },
   async run({ $ }) {

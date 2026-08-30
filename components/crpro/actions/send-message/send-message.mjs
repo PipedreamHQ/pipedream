@@ -7,6 +7,11 @@ export default {
     "Sends a WhatsApp message through a number connected as a **session** (unofficial). Numbers on the official Cloud API are rejected here — use **Send a Message (Official API)** for those. [See the documentation](https://crpro.com.br/integracoes/whatsapp-com-pipedream)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
   props: {
     crpro,
     connectedPhone: {
@@ -22,43 +27,37 @@ export default {
       ],
     },
     phone: {
-      type: "string",
+      propDefinition: [
+        crpro,
+        "phone",
+      ],
       label: "Recipient Phone",
-      description:
-        "Recipient phone in international format. Required unless **Contact** is set.",
+      description: "Phone of the person receiving the message, in international format, digits only — e.g. `5511999999999`. Required unless **Contact** is set.",
       optional: true,
     },
     type: {
-      type: "string",
-      label: "Type",
-      description: "The kind of message to send.",
-      options: [
-        "text",
-        "image",
-        "audio",
-        "video",
-        "document",
+      propDefinition: [
+        crpro,
+        "messageType",
       ],
-      default: "text",
     },
     message: {
-      type: "string",
-      label: "Message",
-      description: "The message body. Required when **Type** is `text`.",
-      optional: true,
+      propDefinition: [
+        crpro,
+        "message",
+      ],
     },
     mediaUrl: {
-      type: "string",
-      label: "Media URL",
-      description:
-        "Public URL of the file to send. Required when **Type** is not `text`.",
-      optional: true,
+      propDefinition: [
+        crpro,
+        "mediaUrl",
+      ],
     },
     caption: {
-      type: "string",
-      label: "Caption",
-      description: "Caption shown with the media.",
-      optional: true,
+      propDefinition: [
+        crpro,
+        "caption",
+      ],
     },
   },
   async run({ $ }) {

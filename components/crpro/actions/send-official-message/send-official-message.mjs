@@ -7,6 +7,11 @@ export default {
     "Sends a WhatsApp message through a number connected to the official Cloud API. Only works inside the 24-hour customer service window — outside it, use **Send a Template Message**. [See the documentation](https://crpro.com.br/integracoes/whatsapp-com-pipedream)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
   props: {
     crpro,
     connectedPhone: {
@@ -22,50 +27,48 @@ export default {
       ],
     },
     phone: {
-      type: "string",
+      propDefinition: [
+        crpro,
+        "phone",
+      ],
       label: "Recipient Phone",
-      description: "Required unless **Contact** is set.",
+      description: "Phone of the person receiving the message, in international format, digits only — e.g. `5511999999999`. Required unless **Contact** is set.",
       optional: true,
     },
     type: {
-      type: "string",
-      label: "Type",
-      options: [
-        "text",
-        "image",
-        "audio",
-        "video",
-        "document",
+      propDefinition: [
+        crpro,
+        "messageType",
       ],
-      default: "text",
     },
     message: {
-      type: "string",
-      label: "Message",
-      description: "Required when **Type** is `text`.",
-      optional: true,
+      propDefinition: [
+        crpro,
+        "message",
+      ],
     },
     mediaUrl: {
-      type: "string",
-      label: "Media URL",
-      description: "Required when **Type** is not `text`.",
-      optional: true,
+      propDefinition: [
+        crpro,
+        "mediaUrl",
+      ],
     },
     caption: {
-      type: "string",
-      label: "Caption",
-      optional: true,
+      propDefinition: [
+        crpro,
+        "caption",
+      ],
     },
     documentFilename: {
       type: "string",
       label: "Document Filename",
-      description: "Filename shown to the recipient when **Type** is `document`.",
+      description: "Filename shown to the recipient, e.g. `nota-fiscal.pdf`. Only applies when **Type** is `document`.",
       optional: true,
     },
     previewUrl: {
       type: "boolean",
       label: "Link Preview",
-      description: "Render a preview card for the first link in the message.",
+      description: "Render a preview card for the first link in the message. Only applies when **Type** is `text`.",
       optional: true,
     },
   },
