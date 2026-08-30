@@ -21,13 +21,22 @@ export default {
 
         const responseArray = [];
         for (const item of elements) {
-          const orgId = item.organization.split(":")[3];
-          const orgData = await this.getOrganization(orgId);
+          const orgId = item.organization?.split(":")[3];
+          if (!orgId) {
+            continue;
+          }
 
-          responseArray.push({
-            label: orgData.localizedName,
-            value: orgId,
-          });
+          try {
+            const orgData = await this.getOrganization(orgId);
+            if (orgData?.localizedName) {
+              responseArray.push({
+                label: orgData.localizedName,
+                value: orgId,
+              });
+            }
+          } catch (error) {
+            console.log(`Skipping organization ${orgId}: ${error.message}`);
+          }
         }
         return responseArray;
       },
@@ -132,6 +141,7 @@ export default {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         "Content-Type": "application/json",
         "Linkedin-Version": constants.VERSION_HEADER,
+        "X-Restli-Protocol-Version": constants.RESTLI_PROTOCOL_VERSION,
       };
     },
     async _makeRequest({
@@ -148,6 +158,7 @@ export default {
     async _makeRequestAxios({
       url, path, ...otherConfig
     }) {
+      delete otherConfig.$;
       const BASE_URL = constants.BASE_URL;
 
       return axios({
@@ -166,7 +177,7 @@ export default {
     async getOrganizations(page) {
       return this._makeRequest({
         method: "GET",
-        path: `/organizationAcls?q=roleAssignee&count=5&start=${page * 5}`,
+        path: `/organizationAcls?q=roleAssignee&state=APPROVED&count=5&start=${page * 5}`,
       });
     },
     async getOrganization(organizationId) {
