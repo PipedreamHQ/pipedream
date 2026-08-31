@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return `${this.$auth.instance_url.replace(/\/+$/, "")}/public/api`;
+      return `${this.$auth.api_url.replace(/\/+$/, "")}/public/api`;
     },
     _makeRequest({
       $ = this, path, ...opts
