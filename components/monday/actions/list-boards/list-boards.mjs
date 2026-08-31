@@ -5,7 +5,7 @@ export default {
   key: "monday-list-boards",
   name: "List Boards",
   description: "List all boards. [See the documentation](https://developer.monday.com/api-reference/reference/boards)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -26,7 +26,7 @@ export default {
     parentObjectType: {
       type: "string",
       label: "Parent Object Type",
-      description: "Optional. The Salesforce SObject API name of the parent record to filter by, e.g. `Case` or `Opportunity`. When set, appends `AND Parent.Type = '<value>'` to the SOQL WHERE clause (traversal of the polymorphic `ParentId`). Leave blank to emit events on any parent object.",
+      description: "Optional. Only emit events whose parent record is of this Salesforce SObject API name, e.g. `Case` or `Opportunity`. Enforced on both delivery paths: `AND Parent.Type = '<value>'` in the polling SOQL, and the parent's Salesforce ID key prefix on instant (webhook) deliveries. Leave blank to emit events on any parent object.",
       optional: true,
     },
     excludeSelf: {
@@ -89,6 +89,62 @@ export default {
       }
       return userId;
     },
+    _getParentKeyPrefix() {
+      return this.db.get("parentKeyPrefix");
+    },
+    _setParentKeyPrefix(parentKeyPrefix) {
+      this.db.set("parentKeyPrefix", parentKeyPrefix);
+    },
+    async _resolveParentKeyPrefix() {
+      const objectType = this.parentObjectType;
+
+      // The cache records which object type it was resolved for, so editing the
+      // prop on a deployed source re-resolves instead of reusing a stale prefix.
+      const cached = this._getParentKeyPrefix();
+      if (cached?.objectType === objectType) {
+        return cached.keyPrefix;
+      }
+
+      let keyPrefix;
+      try {
+        ({ keyPrefix } = await this.getObjectTypeDescription(objectType));
+      } catch (err) {
+        console.log(`Error describing ${objectType} to resolve its ID key prefix:`, err);
+      }
+
+      if (!keyPrefix) {
+        // Not cached, so a transient describe failure is retried on the next event.
+        console.log(`No ID key prefix available for ${objectType}, falling back to a per-event Parent.Type lookup.`);
+        return null;
+      }
+
+      this._setParentKeyPrefix({
+        objectType,
+        keyPrefix,
+      });
+      return keyPrefix;
+    },
+    async _parentTypeMatches(record) {
+      const parentId = record?.ParentId;
+      if (!parentId) {
+        return false;
+      }
+
+      // Salesforce ID key prefixes are stable per SObject (Case = `500`,
+      // Account = `001`, ...), so the parent's type is read straight off the
+      // pushed ParentId with no extra API call per event.
+      const keyPrefix = await this._resolveParentKeyPrefix();
+      if (keyPrefix) {
+        return parentId.startsWith(keyPrefix);
+      }
+
+      // Fallback for an object with no key prefix: one SOQL lookup per event,
+      // reusing the same polymorphic traversal as the polling query.
+      const { records } = await this.query({
+        query: `SELECT Id FROM ${this.getObjectType()} WHERE Id = '${record.Id}' AND Parent.Type = '${this.parentObjectType}'`,
+      });
+      return !!records?.length;
+    },
     async _buildExtraConditions() {
       const conditions = [];
       if (this.parentObjectType) {
@@ -101,13 +157,16 @@ export default {
       return conditions.join(" ");
     },
     async processWebhookEvent(event) {
-      // Instant/webhook deliveries can't filter on Parent.Type (the pushed
-      // payload has ParentId but not the parent's object type), so
-      // parentObjectType is only enforced on the polling/deploy SOQL queries.
-      // excludeSelf is enforced here to prevent self-trigger loops.
+      // Instant/webhook deliveries can't filter on Parent.Type in SOQL (the
+      // pushed payload carries ParentId but not the parent's object type), so
+      // both props are enforced here to match the polling/deploy queries.
+      const record = event.body?.New;
+      if (this.parentObjectType && !(await this._parentTypeMatches(record))) {
+        return;
+      }
       if (this.excludeSelf) {
         const userId = await this._resolveAuthenticatedUserId();
-        if (event.body?.New?.CreatedById === userId) {
+        if (record?.CreatedById === userId) {
           return;
         }
       }

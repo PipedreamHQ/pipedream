@@ -5,14 +5,15 @@ export default {
   key: "slack_v2-delete-message",
   name: "Delete Message",
   description:
-    "Permanently delete a message. **This cannot be undone — confirm the exact message with the"
-    + " user before calling it.** Identify the message first with **Get Channel History** or"
-    + " **Search** and quote its text back, rather than deleting by position ('the last one')."
+    "Permanently delete a message. **This cannot be undone.**"
+    + " To delete a specific message (including the most recent one), first call **Get Channel History**"
+    + " to retrieve messages — `messages[0]` is the most recent — then pass its `ts` here."
+    + " Quote the message text back to the user to confirm before deleting."
     + " Accepts a channel ID or NAME for the conversation, resolved automatically. Slack only"
     + " lets an identity delete its own messages, so this deletes as whichever identity posted:"
     + " it retries automatically with the other identity if the first attempt returns"
     + " `cant_delete_message`. [See the documentation](https://api.slack.com/methods/chat.delete)",
-  version: "0.2.1",
+  version: "0.2.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -54,10 +55,10 @@ export default {
     // post-message had just created. "Post it, then take it back" failed every single
     // time with cant_delete_message. Rather than flip the default (a behaviour change for
     // existing workflows), try the configured identity and fall back to the other one.
-    const attempt = (as_user) => this.slack.deleteMessage({
+    const attempt = (asUser) => this.slack.deleteMessage({
       channel,
       ts: this.timestamp,
-      as_user,
+      as_user: asUser,
     });
 
     // makeRequest() routes to the bot token on `as_user === false` and to the user token for
