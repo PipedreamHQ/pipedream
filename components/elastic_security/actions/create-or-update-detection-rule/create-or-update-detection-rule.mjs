@@ -152,7 +152,7 @@ export default {
     additionalFields: {
       type: "object",
       label: "Additional Fields",
-      description: "Additional rule fields to merge into the request body, for type-specific configuration not covered by other parameters (e.g. `{\"anomaly_threshold\":50,\"machine_learning_job_id\":[\"job-1\"]}` for `machine_learning` rules, or `threat_mapping` as an array for multi-group `threat_match` rules, since `threatMapping` only supports one group). `id`, `rule_id`, and `type` here are always ignored — use the dedicated `type` parameter instead. Any other key here is ignored if you've also set its dedicated parameter (that value wins); otherwise it's used as given.",
+      description: "Additional rule fields to merge into the request body, for type-specific configuration not covered by other parameters (e.g. `{\"anomaly_threshold\":50,\"machine_learning_job_id\":[\"job-1\"]}` for `machine_learning` rules, or `threat_mapping` as an array for multi-group `threat_match` rules, since `threatMapping` only supports one group). `id`, `rule_id`, and `type` here are always ignored — use the dedicated `type` parameter instead. Read-only fields (`created_at`, `updated_at`, `revision`, etc.) are also always ignored, even though they have no dedicated parameter of their own. Any other key here is ignored if you've also set its dedicated parameter (that value wins); otherwise it's used as given.",
       optional: true,
     },
   },
