@@ -13,7 +13,7 @@ export default {
     + " lets an identity delete its own messages, so this deletes as whichever identity posted:"
     + " it retries automatically with the other identity if the first attempt returns"
     + " `cant_delete_message`. [See the documentation](https://api.slack.com/methods/chat.delete)",
-  version: "0.2.2",
+  version: "0.2.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
