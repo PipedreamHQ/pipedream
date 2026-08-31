@@ -28,7 +28,7 @@ export default {
   key: "google_health-get-nutrition-and-hydration",
   name: "Get Nutrition and Hydration Logs",
   description: "Get the user's logged food and water intake, with aggregate calorie, macro and water totals. Example: startDate=\"2026-08-24\" → `entries: [{ time, foodDisplayName: \"Greek yogurt\", mealType: \"BREAKFAST\", calories: 180, totalFatG: 4.5, totalCarbohydrateG: 9 }]`, `hydration: [{ time, milliliters: 500, liters: 0.5, flOz: 16.9 }]`, and `totals`. `totals` is **one object covering the whole requested range, not per-day figures** — call a single day at a time if daily breakdowns are wanted. Entries have no date-range limit, but `totals` are server-aggregated and cap the range at 90 days — set includeTotals=false to read entries over a longer span, which makes `totals` `null`. At most **1000 food entries and 1000 hydration entries** come back per call (five pages of 200); `truncated: true` means there were more, so check it before treating the entry list as complete and narrow the range if it is set. Only food the user **logged manually** appears here; nothing is inferred from activity, so an empty result means nothing was logged, not that nothing was eaten. [See the documentation](https://developers.google.com/health/data-types/nutrition)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
