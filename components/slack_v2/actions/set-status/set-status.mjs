@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import slack from "../../slack_v2.app.mjs";
 
 export default {
   key: "slack_v2-set-status",
   name: "Set Status",
   description: "Set the current status for a user. [See the documentation](https://api.slack.com/methods/users.profile.set)",
-  version: "0.0.15",
+  version: "0.0.17",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -24,7 +25,7 @@ export default {
         "icon_emoji",
       ],
       label: "Status Emoji",
-      description: "The emoji to display with the status",
+      description: "The emoji to display with the status, e.g. `fire` or `:fire:` — colons are optional, either form works.",
       optional: true,
     },
     statusExpiration: {
@@ -38,7 +39,7 @@ export default {
     const response = await this.slack.updateProfile({
       profile: {
         status_text: this.statusText,
-        status_emoji: this.statusEmoji && `:${this.statusEmoji}:`,
+        status_emoji: this.statusEmoji && `:${this.statusEmoji.replace(/^:|:$/g, "")}:`,
         status_expiration: this.statusExpiration
           && Math.floor(new Date(this.statusExpiration).getTime() / 1000),
       },
