@@ -12,7 +12,7 @@ export default {
     + " To reply to a thread, provide `threadTs` (Slack calls this `thread_ts`) from **Get Channel History**."
     + " Supports plain text with Slack mrkdwn formatting and Block Kit blocks."
     + " [See the documentation](https://api.slack.com/methods/chat.postMessage)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -29,7 +29,7 @@ export default {
     text: {
       type: "string",
       label: "Text",
-      description: "The message text. Supports Slack mrkdwn formatting (e.g. `*bold*`, `_italic_`, `<https://example.com|link>`).",
+      description: "The message text. Supports Slack mrkdwn formatting (e.g. `*bold*`, `_italic_`, `<https://example.com|link>`). To mention a user, use `<@U123>` with their user ID. Do NOT append a display name after a pipe: Slack renders `<@U123|Name>` as literal text, not a mention.",
     },
     blocks: {
       type: "string",

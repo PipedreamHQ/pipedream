@@ -10305,11 +10305,11 @@ importers:
   components/monday_oauth:
     dependencies:
       '@pipedream/monday':
-        specifier: ^0.7.0
-        version: 0.7.0(encoding@0.1.13)
+        specifier: ^0.12.2
+        version: 0.12.2(encoding@0.1.13)
       monday-sdk-js:
-        specifier: ^0.5.5
-        version: 0.5.6(encoding@0.1.13)
+        specifier: 0.5.9
+        version: 0.5.9(encoding@0.1.13)
 
   components/moneybird:
     dependencies:
@@ -22358,8 +22358,8 @@ packages:
   '@pipedream/microsoft_outlook@1.7.5':
     resolution: {integrity: sha512-fokEnKwVvV9cWxZQClPuYCu56ryoWZu1/LPT+WHsvaR/sJbUkhH94bG/nyQynsDlborglVbT4N+CzfY8w1FpqA==}
 
-  '@pipedream/monday@0.7.0':
-    resolution: {integrity: sha512-ovVtLhKMJpOTSoc7JcVLrbVrJxW4BT96eW79TiiPc+DgMSM7ouRmCk5lHL2xCAtrqDForXSrXXGjHOAzhJsytA==}
+  '@pipedream/monday@0.12.2':
+    resolution: {integrity: sha512-PMDJk3QdniuzucPcC+0v94Sx20q9nng2zsa+35gULocD4nRgt9kUnVuGE38D8D8lQjYvc680UwO03DpaUhnOTA==}
 
   '@pipedream/notiff_io@0.1.0':
     resolution: {integrity: sha512-jgt5JJGxI9SM6chDeQpxbaS/NSuUUxhe/PeAXRdZKx28Gp0QCxW7egIImC3pqQ9aMSubaeygRyR0ELhKhmbtPg==}
@@ -25006,10 +25006,6 @@ packages:
 
   '@types/serve-static@1.15.10':
     resolution: {integrity: sha512-tRs1dB+g8Itk72rlSI2ZrW6vZg0YrLI81iQSTkMmOqnqCaNr/8Ek4VwWcN5vZgCYWbg/JJSGBlUaYGAOP73qBw==}
-
-  '@types/source-map@0.5.7':
-    resolution: {integrity: sha512-LrnsgZIfJaysFkv9rRJp4/uAyqw87oVed3s1hhF83nwbo9c7MG9g5DqR0seHP+lkX4ldmMrVolPjQSe2ZfD0yA==}
-    deprecated: This is a stub types definition for source-map (https://github.com/mozilla/source-map). source-map provides its own type definitions, so you don't need @types/source-map installed!
 
   '@types/sshpk@1.10.3':
     resolution: {integrity: sha512-cru1waDhHZnZuB18E6Dgf2UXf8U93mdOEDcKYe5jTri+fpucidSs7DLmGICpLxN+95aYkwtgeyny9fBFzQVdmA==}
@@ -31091,11 +31087,8 @@ packages:
   moment@2.30.1:
     resolution: {integrity: sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==}
 
-  monday-sdk-js@0.1.6:
-    resolution: {integrity: sha512-OfkICgBQRI8N4dmSLqR2k8tpIIogpfLQCksuV3E/TLayyJzinuN6KOp1Mk/qdG1lilA9AArQO11UvZnQ4ZRXDQ==}
-
-  monday-sdk-js@0.5.6:
-    resolution: {integrity: sha512-+jxffW5tgXuFilfJVZL4VMLv7H0PJgV3R9qfKDb4gnCPVZXLPVAUT8vwljlv7D8ozPuoHm8xJ4vofg+1t2ggmg==}
+  monday-sdk-js@0.5.9:
+    resolution: {integrity: sha512-r42aX2RfcAJN1VZLCmDUCBPC0RE6lJvo78DcKH2yH1y4NRjdGd++gGeuMRZg/xTru6Xl3sjOAdLRcvklfkLcPQ==}
 
   mongodb-connection-string-url@2.6.0:
     resolution: {integrity: sha512-WvTZlI9ab0QYtTYnuMLgobULWhokRjtC7db9LtcVfJ+Hsnyr5eo6ZtNAt3Ly24XZScGMelOcGtm7lSn0332tPQ==}
@@ -41471,14 +41464,14 @@ snapshots:
       - debug
       - supports-color
 
-  '@pipedream/monday@0.7.0(encoding@0.1.13)':
+  '@pipedream/monday@0.12.2(encoding@0.1.13)':
     dependencies:
       '@pipedream/platform': 3.4.0
       form-data: 4.0.4
       lodash.flatmap: 4.5.0
       lodash.map: 4.6.0
       lodash.uniqby: 4.7.0
-      monday-sdk-js: 0.1.6(encoding@0.1.13)
+      monday-sdk-js: 0.5.9(encoding@0.1.13)
     transitivePeerDependencies:
       - debug
       - encoding
@@ -44845,10 +44838,6 @@ snapshots:
       '@types/http-errors': 2.0.5
       '@types/node': 20.19.43
       '@types/send': 0.17.6
-
-  '@types/source-map@0.5.7':
-    dependencies:
-      source-map: 0.7.6
 
   '@types/sshpk@1.10.3':
     dependencies:
@@ -52902,14 +52891,7 @@ snapshots:
 
   moment@2.30.1: {}
 
-  monday-sdk-js@0.1.6(encoding@0.1.13):
-    dependencies:
-      '@types/source-map': 0.5.7
-      node-fetch: 2.7.0(encoding@0.1.13)
-    transitivePeerDependencies:
-      - encoding
-
-  monday-sdk-js@0.5.6(encoding@0.1.13):
+  monday-sdk-js@0.5.9(encoding@0.1.13):
     dependencies:
       node-fetch: 2.7.0(encoding@0.1.13)
     transitivePeerDependencies:
