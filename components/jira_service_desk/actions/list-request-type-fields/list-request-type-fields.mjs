@@ -31,9 +31,6 @@ export default {
       propDefinition: [
         app,
         "serviceDeskId",
-        ({ cloudId }) => ({
-          cloudId,
-        }),
       ],
       description: "The service desk the request type belongs to. Use **List Service Desks** to find valid IDs (e.g. `1`).",
     },
@@ -41,12 +38,6 @@ export default {
       propDefinition: [
         app,
         "requestTypeId",
-        ({
-          cloudId, serviceDeskId,
-        }) => ({
-          cloudId,
-          serviceDeskId,
-        }),
       ],
       description: "The request type whose fields to list. Use **List Request Types** to find valid IDs (e.g. `4`).",
     },

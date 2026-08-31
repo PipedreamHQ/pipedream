@@ -34,9 +34,6 @@ export default {
       propDefinition: [
         jiraServiceDesk,
         "serviceDeskId",
-        ({ cloudId }) => ({
-          cloudId,
-        }),
       ],
       description: "The service desk to raise the request in. Use **List Service Desks** to find valid IDs (e.g. `1`).",
     },
@@ -44,12 +41,6 @@ export default {
       propDefinition: [
         jiraServiceDesk,
         "requestTypeId",
-        ({
-          cloudId, serviceDeskId,
-        }) => ({
-          cloudId,
-          serviceDeskId,
-        }),
       ],
       description: "The request type that determines what kind of ticket this is. Use **List Request Types** to see the types this service desk offers and pick the one matching the user's intent (e.g. `8` for \"Report a system problem\").",
     },
@@ -129,7 +120,7 @@ export default {
         throw new ConfigurationError(`Additional Field Values is not valid JSON: ${error.message}`);
       }
     }
-    if (extraFields && (typeof extraFields !== "object" || Array.isArray(extraFields))) {
+    if (extraFields != null && (typeof extraFields !== "object" || Array.isArray(extraFields))) {
       throw new ConfigurationError("Additional Field Values must be a JSON object of Jira field ID to value (not a list or a single value).");
     }
 

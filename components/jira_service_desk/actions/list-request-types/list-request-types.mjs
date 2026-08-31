@@ -34,9 +34,6 @@ export default {
       propDefinition: [
         app,
         "serviceDeskId",
-        ({ cloudId }) => ({
-          cloudId,
-        }),
       ],
       description: "The service desk whose request types to list. Use **List Service Desks** to find valid IDs (e.g. `1`).",
     },

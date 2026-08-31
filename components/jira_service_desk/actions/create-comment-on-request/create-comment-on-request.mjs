@@ -23,9 +23,6 @@ export default {
       propDefinition: [
         jiraServiceDesk,
         "requestId",
-        ({ cloudId }) => ({
-          cloudId,
-        }),
       ],
     },
     body: {
