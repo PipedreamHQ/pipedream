@@ -169,8 +169,6 @@ export default {
       return new ApiClient({
         token: this.$auth.api_key,
         apiVersion: API_VERSION,
-        // Resolve partial responses instead of throwing, so the `errors` checks
-        // in the actions still run. Responses with a null `data` still throw.
         requestConfig: {
           errorPolicy: "all",
         },
