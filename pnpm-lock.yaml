@@ -5526,7 +5526,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/featherless: {}
+  components/featherless:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/feathery:
     dependencies:
@@ -52769,7 +52773,7 @@ snapshots:
 
   minimatch@9.0.9:
     dependencies:
-      brace-expansion: 2.1.2
+      brace-expansion: 2.1.4
 
   minimist@1.2.8: {}
 
