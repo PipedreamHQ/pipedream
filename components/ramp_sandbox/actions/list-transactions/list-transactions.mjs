@@ -8,7 +8,7 @@ export default {
   key: "ramp_sandbox-list-transactions",
   name: "List Transactions",
   description: "Retrieve a paginated list of Ramp Sandbox transactions, optionally filtered by department, location, or state. Returns a compact summary of each transaction by default (id, merchant_name, amount, merchant_amount, sk_category_name, state, card_id, limit_id, accounting_date, user_transaction_time, memo); use **Get Transaction** for the full record, or pass `fields` to include specific extra fields. Use this to find transaction IDs for **Get Transaction**. Returns one page of up to `pageSize` results (max 100); a `page.next` value in the response means more transactions exist beyond this page. [See the documentation](https://docs.ramp.com/developer-api/v1/api/transactions#get-developer-v1-transactions)",
-  version: "0.0.2",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

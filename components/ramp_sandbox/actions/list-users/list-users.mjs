@@ -8,7 +8,7 @@ export default {
   key: "ramp_sandbox-list-users",
   name: "List Users",
   description: "Retrieve a paginated list of Ramp Sandbox users, optionally filtered by department, location, email, role, or status. Returns a compact summary of each user by default (id, first_name, last_name, email, role, status, department_id, location_id, manager_id, is_manager); use **Get User** for the full record, or pass `fields` to include specific extra fields. Use this to discover valid user IDs for **Get User** and **Update User**. Returns one page of up to `pageSize` results (max 100); a `page.next` value in the response means more users exist beyond this page. [See the documentation](https://docs.ramp.com/developer-api/v1/api/users#get-developer-v1-users)",
-  version: "0.0.2",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
