@@ -4,7 +4,7 @@ import dataiku from "../../dataiku.app.mjs";
 export default {
   key: "dataiku-list-scenario-runs",
   name: "List Scenario Runs",
-  description: "Retrieve the most recent runs of a DSS scenario, newest first. Use this after **Run Scenario** to follow that run: a run still in progress has no `end` timestamp and no `result`, while a finished run reports `result.outcome` (e.g. `SUCCESS`) alongside `result.type` (e.g. `SCENARIO_DONE`). Stop polling once the run you are tracking has a `result`, whatever its outcome. Requires the `RUN_JOBS` privilege on the project. [See the documentation](https://doc.dataiku.com/dss/api/15/rest/#scenarios-scenario-get-3)",
+  description: "Retrieve the last runs of a DSS scenario. Use this after **Run Scenario**, which returns no run identifier of its own, to follow the outcome: each entry carries a `runId`, `start`/`end` timestamps and a `result` object reporting `outcome` (e.g. `SUCCESS`) and `type` (e.g. `SCENARIO_DONE`). Stop polling once the run you are tracking reports a `result`, whatever its outcome. Requires the `RUN_JOBS` privilege on the project. [See the documentation](https://doc.dataiku.com/dss/api/15/rest/#scenarios-scenario-get-3)",
   version: "0.0.1",
   type: "action",
   annotations: {

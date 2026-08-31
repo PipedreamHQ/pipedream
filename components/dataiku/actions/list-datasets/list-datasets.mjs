@@ -25,7 +25,6 @@ export default {
         dataiku,
         "tags",
       ],
-      description: "Only return datasets carrying at least one of these tags, e.g. `[\"raw\", \"certified\"]`. Omit to return every dataset in the project.",
     },
     foreign: {
       type: "boolean",

@@ -19,7 +19,6 @@ export default {
         dataiku,
         "tags",
       ],
-      description: "Only return projects carrying at least one of these tags, e.g. `[\"production\", \"finance\"]`. Omit to return every project the API key can read.",
     },
   },
   async run({ $ }) {

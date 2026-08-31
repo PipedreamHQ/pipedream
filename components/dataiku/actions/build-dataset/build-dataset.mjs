@@ -6,7 +6,7 @@ import { BUILD_TYPES } from "../../common/constants.mjs";
 export default {
   key: "dataiku-build-dataset",
   name: "Build Dataset",
-  description: "Start a job that builds one or more flow outputs (datasets, managed folders or saved models) in a DSS project. Use this to rebuild specific outputs directly; use **Run Scenario** instead when the pipeline is already orchestrated as a scenario. Use **List Datasets** to find valid output names. A successful call only means the job was accepted — the response's `id` is the job ID, which you pass to **Get Job Status** to follow it to completion. Requires the `RUN_JOBS` privilege on the project. [See the documentation](https://doc.dataiku.com/dss/api/15/rest/#jobs-jobs-post)",
+  description: "Start a job that builds one or more outputs (typically datasets) in a DSS project. Use this to rebuild specific outputs directly; use **Run Scenario** instead when the pipeline is already orchestrated as a scenario. Use **List Datasets** to find valid output names. A successful call only means the job was accepted — the response's `id` is the job ID, which you pass to **Get Job Status** to follow it to completion. Requires the `RUN_JOBS` privilege on the project. [See the documentation](https://doc.dataiku.com/dss/api/15/rest/#jobs-jobs-post)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -25,7 +25,7 @@ export default {
     outputIds: {
       type: "string[]",
       label: "Outputs To Build",
-      description: "Names of the flow outputs to build, e.g. `[\"customers_prepared\"]`. These are dataset names as returned in the `name` field by **List Datasets**, not display labels.",
+      description: "Names of the outputs to build, e.g. `[\"customers_prepared\"]`. Call **List Datasets** and pass the `name` field of each dataset you want built.",
     },
     buildType: {
       type: "string",
