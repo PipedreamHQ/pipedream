@@ -4,7 +4,7 @@ export default {
   key: "google_slides-get-presentation",
   name: "Get Presentation",
   description: "Get a Google Slides presentation by its ID. Returns the presentation's metadata and structure (title, slides, masters, layouts, page size, etc.) according to requested `fields`. Use **Find a Presentation** first to resolve a presentation's name to its ID. [See the documentation](https://developers.google.com/slides/api/reference/rest/v1/presentations/get)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
