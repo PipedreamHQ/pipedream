@@ -6,8 +6,8 @@ export default {
   ...createLocation,
   key: "ramp_sandbox-create-location",
   name: "Create Location",
-  description: "Create a new Ramp Sandbox location. [See the documentation](https://docs.ramp.com/developer-api/v1/api/locations#post-developer-v1-locations).",
-  version: "0.0.1",
+  description: "Create a new Ramp Sandbox location. [See the documentation](https://docs.ramp.com/developer-api/v1/api/locations#post-developer-v1-locations)",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

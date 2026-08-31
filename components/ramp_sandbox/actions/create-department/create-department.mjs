@@ -6,8 +6,8 @@ export default {
   ...createDepartment,
   key: "ramp_sandbox-create-department",
   name: "Create Department",
-  description: "Create a new Ramp Sandbox department. [See the documentation](https://docs.ramp.com/developer-api/v1/api/departments#post-developer-v1-departments).",
-  version: "0.0.1",
+  description: "Create a new Ramp Sandbox department. [See the documentation](https://docs.ramp.com/developer-api/v1/api/departments#post-developer-v1-departments)",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
