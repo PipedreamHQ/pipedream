@@ -92,9 +92,16 @@ export default {
     },
   },
   async run({ $ }) {
-    let prompt;
+    // Featherless accepts `prompt` as a string or an array of strings. Only
+    // treat the input as parsed JSON when it's an array (batch prompt); a bare
+    // JSON scalar like `123`, `true`, `null`, or `"hello"` must stay the literal
+    // string the user typed, not be coerced to a number/boolean/null.
+    let prompt = this.prompt;
     try {
-      prompt = JSON.parse(this.prompt);
+      const parsed = JSON.parse(this.prompt);
+      if (Array.isArray(parsed)) {
+        prompt = parsed;
+      }
     } catch {
       prompt = this.prompt;
     }
