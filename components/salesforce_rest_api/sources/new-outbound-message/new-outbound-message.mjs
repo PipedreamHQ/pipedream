@@ -40,6 +40,12 @@ The outbound message must be sent from the same Salesforce org as the connected 
     _setOrganizationId(organizationId) {
       this.db.set("organizationId", organizationId);
     },
+    _getOrganizationCheckedAt() {
+      return this.db.get("organizationCheckedAt") || 0;
+    },
+    _setOrganizationCheckedAt(timestamp) {
+      this.db.set("organizationCheckedAt", timestamp);
+    },
     _unwrapMessage(message) {
       const parser = new XMLParser({
         removeNSPrefix: true,
@@ -83,16 +89,36 @@ The outbound message must be sent from the same Salesforce org as the connected 
     _toShortId(id) {
       return `${id}`.slice(0, constants.ID_SHORT_LENGTH);
     },
-    async _connectedOrganizationId() {
-      const cachedOrganizationId = this._getOrganizationId();
-      if (cachedOrganizationId) {
-        return cachedOrganizationId;
-      }
-
+    async _fetchOrganizationId() {
       const { organization_id: organizationId } =
         await this.salesforce.getUserInfo(this.salesforce._authToken());
-      this._setOrganizationId(organizationId);
       return organizationId;
+    },
+    // The cached ID belongs to whichever account was connected when it was
+    // stored, and Salesforce exposes no stable connection identity to key it
+    // on. So re-resolve from the connected account whenever the incoming ID
+    // does not match: pointing the source at a different org then heals itself
+    // on the next message instead of rejecting every message from then on.
+    async _matchesConnectedOrganization(organizationId) {
+      const cachedOrganizationId = this._getOrganizationId();
+      if (cachedOrganizationId
+        && this._toShortId(organizationId) === this._toShortId(cachedOrganizationId)) {
+        return true;
+      }
+
+      // Re-resolve on a mismatch, but at most once per cooldown, so a stream of
+      // rejected messages cannot amplify into a stream of Salesforce API calls.
+      const now = Date.now();
+      if (now - this._getOrganizationCheckedAt() < constants.ORGANIZATION_REFRESH_COOLDOWN_MS) {
+        return false;
+      }
+
+      // Stamp before the request so a failing or concurrent refresh still
+      // consumes the cooldown rather than retrying on every delivery.
+      this._setOrganizationCheckedAt(now);
+      const currentOrganizationId = await this._fetchOrganizationId();
+      this._setOrganizationId(currentOrganizationId);
+      return this._toShortId(organizationId) === this._toShortId(currentOrganizationId);
     },
     // Errors are intentionally not caught: a session that cannot be verified
     // must surface as a failed execution rather than a discarded message.
@@ -109,8 +135,7 @@ The outbound message must be sent from the same Salesforce org as the connected 
         return false;
       }
 
-      const connectedOrganizationId = await this._connectedOrganizationId();
-      if (this._toShortId(organizationId) !== this._toShortId(connectedOrganizationId)) {
+      if (!(await this._matchesConnectedOrganization(organizationId))) {
         return false;
       }
 
@@ -128,7 +153,7 @@ The outbound message must be sent from the same Salesforce org as the connected 
         Notification: { Id: eventId },
       } = data;
       const id = `${eventId}-${actionId}`;
-      const summary = JSON.stringify(data);
+      const summary = `New outbound message with ID ${eventId}`;
       const ts = Date.now();
       return {
         id,
@@ -145,7 +170,7 @@ The outbound message must be sent from the same Salesforce org as the connected 
       // Acknowledge `false` so Salesforce keeps the message queued and retries
       // for up to 24 hours, rather than dropping it as delivered.
       this._sendHttpResponse(false);
-      throw new Error(`Rejected an outbound message sent by Salesforce organization \`${data.OrganizationId}\`. The connected account belongs to organization \`${await this._connectedOrganizationId()}\`. Connect this source to the organization that sends the outbound message, or point the outbound message at a source that is connected to it.`);
+      throw new Error(`Rejected an outbound message from Salesforce organization \`${data.OrganizationId}\` (connected organization: \`${this._getOrganizationId() || "unknown"}\`). Check that this source is connected to the organization that sends the outbound message, and, if \`Validate Session ID\` is enabled, that the message includes a valid Session ID.`);
     }
 
     this._sendHttpResponse(true);

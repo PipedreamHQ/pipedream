@@ -111,4 +111,6 @@ export default {
   // Salesforce IDs are delivered in an 18 character, case-insensitive form whose
   // last 3 characters are a checksum over the case of the leading 15
   ID_SHORT_LENGTH: 15,
+  // Minimum gap between re-resolving the connected org after a rejected message
+  ORGANIZATION_REFRESH_COOLDOWN_MS: 60000,
 };
