@@ -7,7 +7,7 @@ import {
 export default {
   key: "featherless-list-models",
   name: "List Models",
-  description: "List the models available on Featherless (GET /v1/models). Returns model objects each containing an `id` field to pass as the `model` prop in **Create Chat Completion** and **Create Text Completion**. The catalog is very large (~22k models), so results are paged (100 per page by default) and each model is trimmed to key fields (`id`, `name`, `model_class`, `context_length`, `max_completion_tokens`, `available_on_current_plan`); use `q` to search, `page` to page through, or `fields` to change which fields are returned. Example: `q=Qwen` returns Qwen-family models with ids like `Qwen/Qwen3-8B` (pass that id as the `model` prop in a completion); `total` in the response reports how many matched. [See the documentation](https://featherless.ai/docs/api-reference-models).",
+  description: "List the models available on Featherless (GET /v1/models). Returns model objects each containing an `id` field to pass as the `model` prop in **Create Chat Completion** and **Create Text Completion**. The catalog is very large (~22k models), so results are paged (100 per page by default) and each model is trimmed to key fields (`id`, `name`, `model_class`, `context_length`, `max_completion_tokens`, `available_on_current_plan`); use `q` to search, `page` to page through, or `fields` to change which fields are returned. Example: `q=Qwen` returns Qwen-family models with ids like `Qwen/Qwen3-8B` (pass that id as the `model` prop in a completion). When the API returns a `total`/`pagination` alongside `data`, they are passed through so you can tell whether more pages exist. [See the documentation](https://featherless.ai/docs/api-reference-models).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -61,7 +61,13 @@ export default {
       $,
       params: {
         q: this.q,
-        available_on_current_plan: this.availableOnCurrentPlan,
+        // Positive-only filter: the API documents passing `true`/`1` to filter
+        // to plan-available models, so only send it when true (sending `false`
+        // is undefined behavior — axios would transmit it since it's not
+        // undefined).
+        available_on_current_plan: this.availableOnCurrentPlan
+          ? true
+          : undefined,
         tags: this.tags,
         page: this.page,
         // Default to one bounded page — omitting per_page returns all ~22k

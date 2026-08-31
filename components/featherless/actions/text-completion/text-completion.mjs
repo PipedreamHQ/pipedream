@@ -15,9 +15,10 @@ export default {
   props: {
     featherless,
     model: {
-      type: "string",
-      label: "Model",
-      description: "The model ID to use, e.g. `Qwen/Qwen2.5-7B-Instruct`. Run **List Models** first to discover valid model IDs available to your account (do NOT guess).",
+      propDefinition: [
+        featherless,
+        "model",
+      ],
     },
     prompt: {
       type: "string",
@@ -25,70 +26,70 @@ export default {
       description: "The prompt to complete. Accepts a plain string (e.g. `The capital of France is`) or a JSON array of strings (e.g. `[\"one\",\"two\"]`); parsed in run() to pass a string or array to the API.",
     },
     maxTokens: {
-      type: "integer",
-      label: "Max Tokens",
-      description: "Maximum number of tokens to generate (maps to `max_tokens`).",
-      optional: true,
+      propDefinition: [
+        featherless,
+        "maxTokens",
+      ],
     },
     minTokens: {
-      type: "integer",
-      label: "Min Tokens",
-      description: "Minimum number of tokens to generate (maps to `min_tokens`).",
-      optional: true,
+      propDefinition: [
+        featherless,
+        "minTokens",
+      ],
     },
     temperature: {
-      type: "string",
-      label: "Temperature",
-      description: "Sampling temperature as a float, e.g. `0.7`. Parsed to a number in run().",
-      optional: true,
+      propDefinition: [
+        featherless,
+        "temperature",
+      ],
     },
     topP: {
-      type: "string",
-      label: "Top P",
-      description: "Nucleus sampling probability as a float, e.g. `0.9` (maps to `top_p`).",
-      optional: true,
+      propDefinition: [
+        featherless,
+        "topP",
+      ],
     },
     topK: {
-      type: "integer",
-      label: "Top K",
-      description: "Top-k sampling cutoff (maps to `top_k`).",
-      optional: true,
+      propDefinition: [
+        featherless,
+        "topK",
+      ],
     },
     minP: {
-      type: "string",
-      label: "Min P",
-      description: "Minimum probability threshold as a float, e.g. `0.05` (maps to `min_p`).",
-      optional: true,
+      propDefinition: [
+        featherless,
+        "minP",
+      ],
     },
     presencePenalty: {
-      type: "string",
-      label: "Presence Penalty",
-      description: "Presence penalty as a float, e.g. `0.0` (maps to `presence_penalty`).",
-      optional: true,
+      propDefinition: [
+        featherless,
+        "presencePenalty",
+      ],
     },
     frequencyPenalty: {
-      type: "string",
-      label: "Frequency Penalty",
-      description: "Frequency penalty as a float, e.g. `0.0` (maps to `frequency_penalty`).",
-      optional: true,
+      propDefinition: [
+        featherless,
+        "frequencyPenalty",
+      ],
     },
     repetitionPenalty: {
-      type: "string",
-      label: "Repetition Penalty",
-      description: "Repetition penalty as a float, e.g. `1.0` (maps to `repetition_penalty`).",
-      optional: true,
+      propDefinition: [
+        featherless,
+        "repetitionPenalty",
+      ],
     },
     seed: {
-      type: "integer",
-      label: "Seed",
-      description: "Random seed for deterministic sampling.",
-      optional: true,
+      propDefinition: [
+        featherless,
+        "seed",
+      ],
     },
     stop: {
-      type: "string[]",
-      label: "Stop",
-      description: "One or more strings that stop generation when encountered.",
-      optional: true,
+      propDefinition: [
+        featherless,
+        "stop",
+      ],
     },
   },
   async run({ $ }) {
