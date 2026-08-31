@@ -111,6 +111,12 @@ export default {
           ...xsrfHeaders,
           ...headers,
         },
+        // Kibana rejects array-valued query params serialized as `tags[]=a&tags[]=b`
+        // (axios's default) with a 400 "invalid keys" error — it expects repeated
+        // plain keys instead (`tags=a&tags=b`).
+        paramsSerializer: {
+          indexes: null,
+        },
         ...args,
       });
     },

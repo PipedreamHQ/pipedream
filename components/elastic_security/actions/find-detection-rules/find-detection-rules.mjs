@@ -1,4 +1,5 @@
 // x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import elasticSecurity from "../../elastic_security.app.mjs";
 import { pickFields } from "../../common/utils.mjs";
 
@@ -77,6 +78,9 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.id && this.ruleId) {
+      throw new ConfigurationError("Provide either `id` or `ruleId`, not both.");
+    }
     if (this.id || this.ruleId) {
       const response = await this.elasticSecurity.getDetectionRule({
         $,

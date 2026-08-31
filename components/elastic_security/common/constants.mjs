@@ -1,7 +1,4 @@
-// Bulk action names -- use BULK_ACTION_RUN (8.8+); fall back to BULK_ACTION_ENABLE
-// for older 8.x stacks that do not expose a direct manual-execute action.
 export const BULK_ACTION_RUN = "run";
-export const BULK_ACTION_ENABLE = "enable";
 
 export const ALERT_STATUSES = [
   "open",

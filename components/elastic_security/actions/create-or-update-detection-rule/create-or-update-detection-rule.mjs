@@ -152,7 +152,7 @@ export default {
     additionalFields: {
       type: "object",
       label: "Additional Fields",
-      description: "Additional rule fields to merge into the request body, for type-specific configuration not covered by other parameters (e.g. `{\"anomaly_threshold\":50,\"machine_learning_job_id\":[\"job-1\"]}` for `machine_learning` rules). Cannot be used to override `id`, `type`, or any of this tool's other dedicated parameters — those keys are ignored here if present.",
+      description: "Additional rule fields to merge into the request body, for type-specific configuration not covered by other parameters (e.g. `{\"anomaly_threshold\":50,\"machine_learning_job_id\":[\"job-1\"]}` for `machine_learning` rules, or `threat_mapping` as an array for multi-group `threat_match` rules, since `threatMapping` only supports one group). `id`, `rule_id`, and `type` here are always ignored — use the dedicated `type` parameter instead. Any other key here is ignored if you've also set its dedicated parameter (that value wins); otherwise it's used as given.",
       optional: true,
     },
   },
@@ -177,28 +177,37 @@ export default {
         this.threatMapping,
       ],
     };
-    // additionalFields is a free-form escape hatch — never let it override an already-validated
-    // dedicated field, an identifier, or a read-only field managed elsewhere in this action.
-    const protectedKeys = new Set([
+    const suppliedNamedFields = Object.fromEntries(
+      Object.entries(namedFields).filter(([
+        , value,
+      ]) => value !== undefined),
+    );
+    // additionalFields is a free-form escape hatch. A field the caller actually supplied via a
+    // dedicated prop always wins over it (e.g. threshold). `id`/`rule_id`/`type` and read-only
+    // fields are protected even when unset — silently accepting them from additionalFields would
+    // let a caller change a rule's identity or type without going through the validated props.
+    // Everything else (e.g. `threat_mapping` for multi-group threat_match rules) can flow through
+    // additionalFields when its dedicated prop isn't used, per this tool's documented escape hatch.
+    const alwaysProtectedKeys = new Set([
       "id",
       "rule_id",
-      ...Object.keys(namedFields),
+      "type",
       ...RULE_READ_ONLY_FIELDS,
+    ]);
+    const protectedKeys = new Set([
+      ...alwaysProtectedKeys,
+      ...Object.keys(suppliedNamedFields),
     ]);
     const safeAdditionalFields = Object.fromEntries(
       Object.entries(this.additionalFields ?? {}).filter(([
         key,
-      ]) => !protectedKeys.has(key)),
+        value,
+      ]) => !protectedKeys.has(key) && value !== undefined),
     );
-    const suppliedFields = {
-      ...namedFields,
+    const cleanFields = {
+      ...suppliedNamedFields,
       ...safeAdditionalFields,
     };
-    const cleanFields = Object.fromEntries(
-      Object.entries(suppliedFields).filter(([
-        , value,
-      ]) => value !== undefined),
-    );
 
     if (!this.id) {
       const missingRequired = !this.name || !this.description || this.riskScore === undefined
