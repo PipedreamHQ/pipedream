@@ -52,7 +52,7 @@ export default {
     text: {
       type: "string",
       label: "Text",
-      description: "Text of the message to send (see Slack's [formatting docs](https://api.slack.com/reference/surfaces/formatting)). This field is usually necessary, unless you're providing only attachments instead.",
+      description: "Text of the message to send (see Slack's [formatting docs](https://api.slack.com/reference/surfaces/formatting)). This field is usually necessary, unless you're providing only attachments instead. To mention a user, use `<@U123>` with their user ID. Do NOT append a display name after a pipe: Slack renders `<@U123|Name>` as literal text, not a mention.",
     },
     topic: {
       type: "string",
