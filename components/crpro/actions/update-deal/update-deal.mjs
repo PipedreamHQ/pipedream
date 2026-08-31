@@ -66,15 +66,23 @@ export default {
       stageId,
     } = this;
 
+    const data = {
+      title,
+      value: parseDealValue(value),
+      status,
+      stage_id: stageId,
+    };
+
+    // Todo campo mutavel e opcional: sem nenhum deles o PATCH nao teria o que
+    // mudar, e a API responderia 200 sobre uma escrita que nunca aconteceu.
+    if (Object.values(data).every((v) => v === undefined)) {
+      throw new Error("Set at least one field to update: **Title**, **Value**, **Status** or **Stage**.");
+    }
+
     const response = await crpro.updateDeal({
       $,
       dealId,
-      data: {
-        title,
-        value: parseDealValue(value),
-        status,
-        stage_id: stageId,
-      },
+      data,
     });
 
     $.export("$summary", `Successfully updated deal ${dealId}`);

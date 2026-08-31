@@ -56,9 +56,10 @@ export default {
     const { body } = event;
 
     // CRPRO delivers a stable envelope: { id, type, occurred_at,
-    // organization_id, api_version, data }. `id` is what dedupe keys on, so a
-    // payload without one is dropped rather than emitted with `id: undefined`.
-    if (!body?.id) {
+    // organization_id, api_version, data }. `id` is what dedupe keys on and
+    // `type` is what the summary reads, so a payload missing either is dropped
+    // rather than emitted with `id: undefined` or "New undefined from CRPRO".
+    if (!body?.id || !body?.type) {
       return;
     }
 

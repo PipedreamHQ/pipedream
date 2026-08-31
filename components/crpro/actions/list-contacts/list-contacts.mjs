@@ -40,10 +40,10 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "Maximum number of contacts to return, between `1` and `100`. Values above `100` are capped by the API.",
+      description: "Maximum number of contacts to return. Accepted values are `1` through `200`; the API silently caps anything higher at `200`. Defaults to `50`.",
       default: 50,
       min: 1,
-      max: 100,
+      max: 200,
       optional: true,
     },
   },

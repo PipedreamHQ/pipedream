@@ -38,6 +38,12 @@ export default {
       label: "Phone",
       description: "Phone number in international format, digits only, with no `+`, spaces or punctuation — e.g. `5511999999999`. CRPRO matches Brazilian numbers across their 8- and 9-digit variants, so either form resolves to the same contact.",
     },
+    recipientPhone: {
+      type: "string",
+      label: "Recipient Phone",
+      description: "Phone of the person receiving the message, in international format, digits only, with no `+`, spaces or punctuation — e.g. `5511999999999`. Required unless **Contact** is set. CRPRO matches Brazilian numbers across their 8- and 9-digit variants, so either form resolves to the same contact.",
+      optional: true,
+    },
     pipelineId: {
       type: "string",
       label: "Pipeline",
@@ -94,7 +100,7 @@ export default {
     messageType: {
       type: "string",
       label: "Type",
-      description: "The kind of message to send. `text` sends **Message**; every other value sends the file at **Media URL**.",
+      description: "The kind of message to send. `text` sends the text in **Message**; `image`, `audio`, `video` and `document` send the file at **Media URL**.",
       options: [
         "text",
         "image",

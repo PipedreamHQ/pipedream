@@ -29,11 +29,8 @@ export default {
     phone: {
       propDefinition: [
         crpro,
-        "phone",
+        "recipientPhone",
       ],
-      label: "Recipient Phone",
-      description: "Phone of the person receiving the message, in international format, digits only — e.g. `5511999999999`. Required unless **Contact** is set.",
-      optional: true,
     },
     type: {
       propDefinition: [

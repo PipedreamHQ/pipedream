@@ -24,7 +24,6 @@ export default {
         crpro,
         "phone",
       ],
-      description: "Contact phone in international format, digits only, with no `+`, spaces or punctuation — e.g. `5511999999999`. Together with **Connected Number** this identifies the contact: an existing contact on this number is updated instead of duplicated.",
     },
     connectedPhone: {
       propDefinition: [

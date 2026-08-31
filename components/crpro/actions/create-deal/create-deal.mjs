@@ -35,11 +35,9 @@ export default {
     phone: {
       propDefinition: [
         crpro,
-        "phone",
+        "recipientPhone",
       ],
       label: "Contact Phone",
-      description: "Phone of the contact the deal belongs to, in international format, digits only — e.g. `5511999999999`. Required unless **Contact** is set; a contact is created when the number is unknown.",
-      optional: true,
     },
     value: {
       type: "string",
