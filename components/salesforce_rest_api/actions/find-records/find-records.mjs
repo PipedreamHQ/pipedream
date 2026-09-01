@@ -15,7 +15,7 @@ export default {
     + " Leaving `Record ID(s)` empty returns recent records, not every record - Salesforce sends one batch, so set `Limit` and use **SOQL Query** when you need everything."
     + " Newest-first ordering needs `CreatedDate`, so results are unordered on the few object types that lack it."
     + " [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_query.htm)",
-  version: "0.3.0",
+  version: "0.3.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

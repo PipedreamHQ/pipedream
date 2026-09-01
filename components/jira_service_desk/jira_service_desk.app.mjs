@@ -1,4 +1,6 @@
+// x-pd-ai: optimized
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -7,75 +9,42 @@ export default {
     cloudId: {
       type: "string",
       label: "Cloud ID",
-      description: "Select a site, or provide a custom ID.",
-      async options() {
-        const sites = await this.getSites();
-        return sites?.filter?.(({ scopes }) => scopes?.includes("write:servicedesk-request")).map(({
-          id, name,
-        }) => ({
-          label: name,
-          value: id,
-        }));
-      },
+      description: "The Atlassian site (cloud) ID, e.g. `822faf0d-5427-420e-9016-999d3dc76918`. Run **List Sites** to get the `id` of every site you can access.",
     },
     serviceDeskId: {
       type: "string",
       label: "Service Desk ID",
-      description: "Select a service desk, or provide a custom ID.",
-      async options({ cloudId }) {
-        const desks = await this.getServiceDesks({
-          cloudId,
-        });
-        return desks?.map?.(({
-          id, projectName,
-        }) => ({
-          label: projectName,
-          value: id,
-        }));
-      },
+      description: "The numeric ID of the service desk, e.g. `1`. Run **List Service Desks** to find it from a project name or key.",
     },
     requestId: {
       type: "string",
       label: "Request ID",
-      description: "Select a request, or provide a custom ID.",
-      async options({ cloudId }) {
-        const requests = await this.getCustomerRequests({
-          cloudId,
-        });
-        return requests?.map?.(({
-          issueId, issueKey, requestFieldValues,
-        }) => {
-          const summary = requestFieldValues?.find?.(({ fieldId }) => fieldId === "summary")?.value;
-          return ({
-            label: `(${issueKey}) ${summary}`,
-            value: issueId,
-          });
-        });
-      },
+      description: "The `issueId` of the customer request, e.g. `10288`. Run **List My Requests** to find it.",
     },
     requestTypeId: {
       type: "string",
       label: "Request Type ID",
-      description: "Select a request type, or provide a custom ID.",
-      async options({
-        cloudId, serviceDeskId,
-      }) {
-        const types = await this.getRequestTypes({
-          cloudId,
-          serviceDeskId,
-        });
-        return types?.map?.(({
-          id, name,
-        }) => ({
-          label: name,
-          value: id,
-        }));
-      },
+      description: "The numeric ID of the request type, e.g. `4`. Run **List Request Types** to see what a service desk offers and pick the type matching the user's intent.",
     },
     issueIdOrKey: {
       type: "string",
       label: "Issue ID or Key",
-      description: "The ID or key of the Jira Service Desk request (e.g. `IT-42` or `10001`). Use **List My Requests** to find the `issueKey` of a request.",
+      description: "The ID or key of the Jira Service Desk request (e.g. `IT-42` or `10001`). Use **List My Requests** to find the `issueKey` of a request (in its `requests` array).",
+    },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: `Maximum number of items to return across all pages (${constants.MAX_RESULTS_MIN}-${constants.MAX_RESULTS_MAX}).`,
+      optional: true,
+      default: constants.MAX_RESULTS_DEFAULT,
+      min: constants.MAX_RESULTS_MIN,
+      max: constants.MAX_RESULTS_MAX,
+    },
+    expand: {
+      type: "string[]",
+      label: "Expand",
+      description: "Additional data to include in the response, as a list of expansion names (e.g. `[\"field\"]`). Valid values differ per endpoint and are listed in the `_expands` property of that endpoint's response. Unrecognised names are ignored silently rather than rejected.",
+      optional: true,
     },
   },
   methods: {
@@ -94,40 +63,95 @@ export default {
         },
       });
     },
+    /**
+     * Walks a paginated `servicedeskapi` collection until the API reports
+     * `isLastPage`, or until `maxResults` items have been collected.
+     *
+     * @returns {Promise<{ results: object[], hasMore: boolean }>} the collected
+     * items and whether the API still had more to give when collection stopped.
+     */
+    async _paginate({
+      $, path, params, maxResults = constants.MAX_RESULTS_DEFAULT,
+    }) {
+      const results = [];
+      let start = 0;
+      let isLastPage = false;
+
+      while (results.length < maxResults) {
+        const response = await this._makeRequest({
+          $,
+          path,
+          params: {
+            ...params,
+            start,
+            limit: Math.min(maxResults - results.length, constants.PAGE_SIZE),
+          },
+        });
+
+        const values = response?.values;
+        if (!values?.length) {
+          isLastPage = true;
+          break;
+        }
+
+        results.push(...values);
+        isLastPage = Boolean(response.isLastPage);
+        if (isLastPage) {
+          break;
+        }
+
+        // The API may cap a page below the requested `limit`, so advance by what
+        // was actually returned instead of by the requested page size.
+        start += response.size || values.length;
+      }
+
+      return {
+        results: results.slice(0, maxResults),
+        hasMore: !isLastPage || results.length > maxResults,
+      };
+    },
     async getSites({ $ } = {}) {
       return this._makeRequest({
         $,
         path: "/oauth/token/accessible-resources",
       });
     },
-    async getServiceDesks({ cloudId }) {
-      const response = await this._makeRequest({
+    async getServiceDesks({
+      $, cloudId, maxResults,
+    }) {
+      return this._paginate({
+        $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/servicedesk`,
+        maxResults,
       });
-      return response.values;
     },
     async getRequestTypes({
-      $, cloudId, serviceDeskId,
+      $, cloudId, serviceDeskId, params, maxResults,
     }) {
-      const response = await this._makeRequest({
+      return this._paginate({
         $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/servicedesk/${serviceDeskId}/requesttype`,
+        params,
+        maxResults,
       });
-      return response.values;
     },
-    async getRequestTypeFields({
-      cloudId, serviceDeskId, requestTypeId,
+    async getRequestTypeCreateMeta({
+      $, cloudId, serviceDeskId, requestTypeId, params,
     }) {
-      const response = await this._makeRequest({
+      return this._makeRequest({
+        $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/servicedesk/${serviceDeskId}/requesttype/${requestTypeId}/field`,
+        params,
       });
-      return response.requestTypeFields;
     },
-    async getCustomerRequests({ cloudId }) {
-      const response = await this._makeRequest({
+    async getCustomerRequests({
+      $, cloudId,
+    }) {
+      const { results } = await this._paginate({
+        $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/request`,
       });
-      return response.values;
+      return results;
     },
     async createCustomerRequest({
       cloudId, ...opts
@@ -154,19 +178,21 @@ export default {
       });
     },
     async listMyRequests({
-      $, cloudId, serviceDeskId, requestStatus, requestOwnership,
+      $, cloudId, serviceDeskId, requestStatus, requestOwnership, maxResults,
     }) {
       const params = {
         requestStatus: requestStatus || "OPEN_REQUESTS",
         requestOwnership: requestOwnership || "OWNED_REQUESTS",
       };
-      if (serviceDeskId) params.serviceDeskId = serviceDeskId;
-      const response = await this._makeRequest({
+      if (serviceDeskId) {
+        params.serviceDeskId = serviceDeskId;
+      }
+      return this._paginate({
         $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/request`,
         params,
+        maxResults,
       });
-      return response.values;
     },
     async getRequest({
       $, cloudId, issueIdOrKey,
@@ -177,31 +203,31 @@ export default {
       });
     },
     async getRequestComments({
-      $, cloudId, issueIdOrKey,
+      $, cloudId, issueIdOrKey, maxResults,
     }) {
-      const response = await this._makeRequest({
+      return this._paginate({
         $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${issueIdOrKey}/comment`,
+        maxResults,
       });
-      return response.values;
     },
     async getRequestStatus({
-      $, cloudId, issueIdOrKey,
+      $, cloudId, issueIdOrKey, maxResults,
     }) {
-      const response = await this._makeRequest({
+      return this._paginate({
         $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${issueIdOrKey}/status`,
+        maxResults,
       });
-      return response.values;
     },
     async getRequestTransitions({
-      $, cloudId, issueIdOrKey,
+      $, cloudId, issueIdOrKey, maxResults,
     }) {
-      const response = await this._makeRequest({
+      return this._paginate({
         $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${issueIdOrKey}/transition`,
+        maxResults,
       });
-      return response.values;
     },
     async transitionRequest({
       cloudId, issueIdOrKey, ...opts

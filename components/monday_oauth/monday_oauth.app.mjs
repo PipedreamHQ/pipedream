@@ -1,5 +1,5 @@
 import common from "@pipedream/monday";
-import mondaySdk from "monday-sdk-js";
+import mondaySdk from "monday-sdk-js@0.5.9";
 
 export default {
   ...common,

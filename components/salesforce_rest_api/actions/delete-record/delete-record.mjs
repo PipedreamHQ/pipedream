@@ -10,7 +10,7 @@ export default {
     + " Use **Find Records** or **SOQL Query** to confirm you have the right record ID before deleting."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_retrieve_delete.htm)",
-  version: "0.2.5",
+  version: "0.2.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
