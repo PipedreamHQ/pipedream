@@ -37,7 +37,7 @@ export default {
     attachmentId: {
       type: "string",
       label: "Attachment ID",
-      description: "The numeric ID of the attachment to download, e.g. `10042`. Free-form string (no dropdown). Run **List Issue Attachments** first to obtain the ID from an attachment's `id` field.",
+      description: "The numeric ID of the attachment to download, e.g. `10042`. Run **List Issue Attachments** first to obtain the ID from an attachment's `id` field.",
     },
     syncDir: {
       type: "dir",
