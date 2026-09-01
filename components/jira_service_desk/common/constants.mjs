@@ -17,10 +17,19 @@ const REQUEST_FIELD = {
   DESCRIPTION: "description",
 };
 
+// The `fields` query parameter value that restricts GET /issue/{issueIdOrKey}
+// to only the attachment field, avoiding unnecessary data transfer.
+const ATTACHMENT_FIELD = "attachment";
+
+// The axios responseType used when streaming binary attachment content.
+const STREAM_RESPONSE_TYPE = "stream";
+
 export default {
   PAGE_SIZE,
   MAX_RESULTS_DEFAULT,
   MAX_RESULTS_MIN,
   MAX_RESULTS_MAX,
   REQUEST_FIELD,
+  ATTACHMENT_FIELD,
+  STREAM_RESPONSE_TYPE,
 };

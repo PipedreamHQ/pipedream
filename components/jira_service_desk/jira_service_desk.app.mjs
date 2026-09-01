@@ -247,5 +247,34 @@ export default {
         path: `/ex/jira/${cloudId}/rest/api/3/issue/${issueIdOrKey}`,
       });
     },
+    async getIssueAttachments({
+      $, cloudId, issueIdOrKey,
+    }) {
+      const response = await this._makeRequest({
+        $,
+        path: `/ex/jira/${cloudId}/rest/api/3/issue/${issueIdOrKey}`,
+        params: {
+          fields: constants.ATTACHMENT_FIELD,
+        },
+      });
+      return response.fields?.attachment ?? [];
+    },
+    async getAttachmentMetadata({
+      $, cloudId, attachmentId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/ex/jira/${cloudId}/rest/api/3/attachment/${attachmentId}`,
+      });
+    },
+    async getAttachmentContent({
+      $, cloudId, attachmentId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/ex/jira/${cloudId}/rest/api/3/attachment/content/${attachmentId}`,
+        responseType: constants.STREAM_RESPONSE_TYPE,
+      });
+    },
   },
 };
