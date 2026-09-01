@@ -119,23 +119,21 @@ export default {
     async getServiceDesks({
       $, cloudId, maxResults,
     }) {
-      const { results } = await this._paginate({
+      return this._paginate({
         $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/servicedesk`,
         maxResults,
       });
-      return results;
     },
     async getRequestTypes({
       $, cloudId, serviceDeskId, params, maxResults,
     }) {
-      const { results } = await this._paginate({
+      return this._paginate({
         $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/servicedesk/${serviceDeskId}/requesttype`,
         params,
         maxResults,
       });
-      return results;
     },
     async getRequestTypeCreateMeta({
       $, cloudId, serviceDeskId, requestTypeId, params,
@@ -149,11 +147,10 @@ export default {
     async getCustomerRequests({
       $, cloudId,
     }) {
-      const { results } = await this._paginate({
+      return this._paginate({
         $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/request`,
       });
-      return results;
     },
     async createCustomerRequest({
       cloudId, ...opts
