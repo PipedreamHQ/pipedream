@@ -91,7 +91,7 @@ export default {
       projectKey, ...opts
     }) {
       return this._makeRequest({
-        path: `/projects/${encodeURIComponent(projectKey)}/jobs`,
+        path: `/projects/${encodeURIComponent(projectKey)}/jobs/`, // Explicitly include the trailing slash, or else it throws 404 from dataiku
         method: "POST",
         ...opts,
       });
