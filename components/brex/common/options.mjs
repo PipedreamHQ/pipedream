@@ -74,6 +74,7 @@ export default {
     "payment",
     "policy",
     "spending_entity",
+    "cost_center",
   ],
   spendDuration: [
     {

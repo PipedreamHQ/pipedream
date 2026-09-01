@@ -46,7 +46,7 @@ export default {
 
     $.export(
       "$summary",
-      `Cancelled card "${card.card_name}" ••${card.last_four} — status is now ${card.status}`,
+      `Cancelled card "${card.card_name ?? card.id}" ••${card.last_four} — status is now ${card.status}`,
     );
 
     return card;

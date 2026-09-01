@@ -36,7 +36,7 @@ export default {
         brexApp,
         "userIds",
       ],
-      description: "Only return expenses belonging to these people. Use **List Users** to find a user ID by email address.",
+      description: "Only return expenses belonging to these people, e.g. `[\"cuuser_example\"]`. Use **List Users** to find a user ID by email address.",
     },
     expenseType: {
       type: "string[]",
@@ -48,7 +48,7 @@ export default {
     status: {
       type: "string[]",
       label: "Status",
-      description: "Only return expenses in these approval states.",
+      description: "Only return expenses in these expense statuses.",
       options: options.expenseStatus,
       optional: true,
     },

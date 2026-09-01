@@ -46,7 +46,7 @@ export default {
 
     $.export(
       "$summary",
-      `Froze card "${card.card_name}" ••${card.last_four} — status is now ${card.status}`,
+      `Froze card "${card.card_name ?? card.id}" ••${card.last_four} — status is now ${card.status}`,
     );
 
     return card;

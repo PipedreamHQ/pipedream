@@ -60,7 +60,7 @@ export default {
         spend_controls: {
           spend_limit: {
             amount: this.amount,
-            currency: this.currency,
+            currency: this.currency ?? "USD",
           },
           spend_duration: this.spendDuration,
           reason: this.reason,
@@ -74,7 +74,7 @@ export default {
 
     $.export(
       "$summary",
-      `Set limit on card "${card.card_name}" ••${card.last_four} to ${limit} (${duration})`,
+      `Set limit on card "${card.card_name ?? card.id}" ••${card.last_four} to ${limit} (${duration})`,
     );
 
     return card;
