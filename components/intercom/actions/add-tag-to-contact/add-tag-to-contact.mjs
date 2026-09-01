@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import intercom from "../../intercom.app.mjs";
 
 export default {
   key: "intercom-add-tag-to-contact",
   name: "Add Tag To Contact",
-  description: "Adds a specific tag to a contact in Intercom. [See the documentation](https://developers.intercom.com/docs/references/rest-api/api.intercom.io/contacts/attachtagtocontact).",
-  version: "0.0.3",
+  description: "Adds a specific tag to a contact in Intercom. Use **Search Contacts** to find the contact's ID and **List Tag ID Options** to find valid tag IDs before calling this action. Example: set **Contact ID** to `63a07ddf05a32042dffac965` and **Tag ID** to `7522907` to tag that contact. Returns the updated tag object on success. [See the documentation](https://developers.intercom.com/docs/references/rest-api/api.intercom.io/contacts/attachtagtocontact).",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -20,25 +21,6 @@ export default {
       propDefinition: [
         intercom,
         "userIds",
-        () => ({
-          data: {
-            query: {
-              operator: "OR",
-              value: [
-                {
-                  field: "role",
-                  operator: "=",
-                  value: "user",
-                },
-                {
-                  field: "role",
-                  operator: "=",
-                  value: "lead",
-                },
-              ],
-            },
-          },
-        }),
       ],
     },
     tagId: {
@@ -48,25 +30,13 @@ export default {
       ],
     },
   },
-  methods: {
-    addTagToContact({
-      contactId, ...args
-    } = {}) {
-      return this.intercom.makeRequest({
-        method: "POST",
-        endpoint: `contacts/${contactId}/tags`,
-        ...args,
-      });
-    },
-  },
   async run({ $ }) {
     const {
-      addTagToContact,
       contactId,
       tagId,
     } = this;
 
-    const response = await addTagToContact({
+    const response = await this.intercom.addTagToContact({
       $,
       contactId,
       data: {
