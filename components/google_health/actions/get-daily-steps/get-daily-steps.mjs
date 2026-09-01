@@ -11,7 +11,7 @@ export default {
   key: "google_health-get-daily-steps",
   name: "Get Daily Step Count",
   description: "Get the user's total step count per day — the tool for any \"how many steps\" question. Returns one pre-aggregated total per day, not raw samples. Use **Get Daily Activity Summary** instead when distance, calories, active minutes, or floors are wanted alongside steps. The range is inclusive and capped at 90 days, because these totals are server-aggregated. Example: startDate=\"2026-08-17\", endDate=\"2026-08-23\" → `days: [{ date, steps: 8432 }, ...]` plus `totalSteps`, `averageSteps`, `daysRequested` and `daysWithData`. Set dataSourceFamily=\"google-wearables\" to count only tracker-recorded steps, excluding manual entries. Days the tracker never reported are omitted from `days` entirely, so `daysWithData` can be lower than `daysRequested` and `averageSteps` is the mean over `daysWithData`. An empty `days` array means nothing synced, not zero steps — `totalSteps` and `averageSteps` are `null` in that case rather than 0. [See the documentation](https://developers.google.com/health/reference/rest/v4/users.dataTypes.dataPoints/dailyRollUp)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

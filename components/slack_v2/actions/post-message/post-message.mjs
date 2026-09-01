@@ -12,7 +12,7 @@ export default {
     + " To reply to a thread, provide `threadTs` (Slack calls this `thread_ts`) from **Get Channel History**."
     + " Supports plain text with Slack mrkdwn formatting and Block Kit blocks."
     + " [See the documentation](https://api.slack.com/methods/chat.postMessage)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -93,32 +93,7 @@ export default {
       args.thread_ts = this.threadTs;
       args.reply_broadcast = this.replyBroadcast;
     }
-
-    // Prefer the bot token (as_user: false) — it works for channels the bot has joined
-    // and needs no extra scope. But a bot can't message a user unless that user has
-    // enabled its Messages tab, and can't post in a channel it hasn't joined, so those
-    // specific failures fall back to the authenticated user's token instead of failing
-    // the whole call. Mirrors the identity fallback already used in delete-message.
-    const hasBotToken = Boolean(this.slack.getBotToken());
-    let response;
-    try {
-      response = await this.slack.postChatMessage({
-        ...args,
-        as_user: false,
-      });
-    } catch (error) {
-      const botCannotDeliver = hasBotToken
-        && [
-          "messages_tab_disabled",
-          "channel_not_found",
-          "not_in_channel",
-        ].some((code) => `${error}`.includes(code));
-      if (!botCannotDeliver) throw error;
-      response = await this.slack.postChatMessage({
-        ...args,
-        as_user: true,
-      });
-    }
+    const response = await this.slack.postChatMessage(args);
     let permalink;
     try {
       const permalinkResponse = await this.slack.makeRequest({
