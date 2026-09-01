@@ -58,7 +58,7 @@ export default {
     });
     const metadata = attachments.find(({ id }) => id === this.attachmentId);
     if (!metadata) {
-      throw new ConfigurationError(`Attachment ID "${this.attachmentId}" was not found on issue "${this.issueIdOrKey}". Run List Issue Attachments to confirm the ID and issue match.`);
+      throw new ConfigurationError(`Attachment ID "${this.attachmentId}" was not found on issue "${this.issueIdOrKey}". Run List Issue Attachments to confirm the ID and issue match. If this connection has customer-level access, note that internal (non-public) attachments aren't visible to it even if they exist.`);
     }
 
     const safeFilename = path.basename(metadata.filename ?? "");
