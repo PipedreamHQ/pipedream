@@ -4,7 +4,7 @@ export default {
   key: "belco-list-users",
   name: "List Users",
   description: "List all users in the Belco account. [See the documentation](https://developers.belco.io/reference/get_users)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -211,6 +211,14 @@ export default {
         ...opts,
       });
     },
+    getConversationItems({
+      conversationId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/conversations/${conversationId}/items`,
+        ...opts,
+      });
+    },
     createConversation(opts = {}) {
       return this._makeRequest({
         method: "POST",

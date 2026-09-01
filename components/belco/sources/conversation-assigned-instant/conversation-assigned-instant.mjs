@@ -6,7 +6,7 @@ export default {
   key: "belco-conversation-assigned-instant",
   name: "Conversation Assigned (Instant)",
   description: "Emit new event for each new conversation assigned event",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
