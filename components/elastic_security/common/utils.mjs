@@ -4,7 +4,7 @@ export function pickFields(obj, fields) {
   }
   const picked = {};
   for (const field of fields) {
-    if (field in obj) {
+    if (Object.hasOwn(obj, field)) {
       picked[field] = obj[field];
     }
   }

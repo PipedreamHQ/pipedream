@@ -213,7 +213,7 @@ export default {
     }) {
       return this._makeRequest({
         $,
-        path: `/api/cases/${caseId}`,
+        path: `/api/cases/${encodeURIComponent(caseId)}`,
       });
     },
     async findCases({
@@ -251,7 +251,7 @@ export default {
       return this._makeRequest({
         $,
         method: "POST",
-        path: `/api/cases/${caseId}/comments`,
+        path: `/api/cases/${encodeURIComponent(caseId)}/comments`,
         data,
       });
     },

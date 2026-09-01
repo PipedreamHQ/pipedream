@@ -36,7 +36,10 @@ export const OBJECT_TYPES = [
   "detection-rule",
 ];
 
-// Fields Kibana returns on a rule read but rejects (or ignores) on a PUT update.
+// Fields Kibana returns on a rule read but which are system-managed and rejected on a PUT
+// update. `related_integrations`, `required_fields`, and `setup` are NOT in this list — Kibana
+// accepts and persists them on PUT, and since PUT is a full replace, omitting them here would
+// silently clear any existing values on every update.
 export const RULE_READ_ONLY_FIELDS = [
   "created_at",
   "created_by",
@@ -44,9 +47,6 @@ export const RULE_READ_ONLY_FIELDS = [
   "updated_by",
   "revision",
   "execution_summary",
-  "related_integrations",
-  "required_fields",
-  "setup",
 ];
 
 export const CASE_OWNER = "securitySolution";
