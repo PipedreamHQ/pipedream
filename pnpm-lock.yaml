@@ -10308,12 +10308,12 @@ importers:
 
   components/monday_oauth:
     dependencies:
+      '@mondaydotcomorg/api':
+        specifier: ^14.0.0
+        version: 14.0.0(encoding@0.1.13)
       '@pipedream/monday':
-        specifier: ^0.12.2
-        version: 0.12.2(encoding@0.1.13)
-      monday-sdk-js:
-        specifier: 0.5.9
-        version: 0.5.9(encoding@0.1.13)
+        specifier: ^0.13.0
+        version: 0.13.0(encoding@0.1.13)
 
   components/moneybird:
     dependencies:
@@ -22362,8 +22362,8 @@ packages:
   '@pipedream/microsoft_outlook@1.7.5':
     resolution: {integrity: sha512-fokEnKwVvV9cWxZQClPuYCu56ryoWZu1/LPT+WHsvaR/sJbUkhH94bG/nyQynsDlborglVbT4N+CzfY8w1FpqA==}
 
-  '@pipedream/monday@0.12.2':
-    resolution: {integrity: sha512-PMDJk3QdniuzucPcC+0v94Sx20q9nng2zsa+35gULocD4nRgt9kUnVuGE38D8D8lQjYvc680UwO03DpaUhnOTA==}
+  '@pipedream/monday@0.13.0':
+    resolution: {integrity: sha512-I3ubM8eSswDch/+ZN3pBldzNeCzO4audiqdM8UwqTQMysh5hqQLxsPL31WDSiCNeGQHNeTdNFfBowZDQMvqK5g==}
 
   '@pipedream/notiff_io@0.1.0':
     resolution: {integrity: sha512-jgt5JJGxI9SM6chDeQpxbaS/NSuUUxhe/PeAXRdZKx28Gp0QCxW7egIImC3pqQ9aMSubaeygRyR0ELhKhmbtPg==}
@@ -31090,9 +31090,6 @@ packages:
 
   moment@2.30.1:
     resolution: {integrity: sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==}
-
-  monday-sdk-js@0.5.9:
-    resolution: {integrity: sha512-r42aX2RfcAJN1VZLCmDUCBPC0RE6lJvo78DcKH2yH1y4NRjdGd++gGeuMRZg/xTru6Xl3sjOAdLRcvklfkLcPQ==}
 
   mongodb-connection-string-url@2.6.0:
     resolution: {integrity: sha512-WvTZlI9ab0QYtTYnuMLgobULWhokRjtC7db9LtcVfJ+Hsnyr5eo6ZtNAt3Ly24XZScGMelOcGtm7lSn0332tPQ==}
@@ -41468,14 +41465,14 @@ snapshots:
       - debug
       - supports-color
 
-  '@pipedream/monday@0.12.2(encoding@0.1.13)':
+  '@pipedream/monday@0.13.0(encoding@0.1.13)':
     dependencies:
+      '@mondaydotcomorg/api': 14.0.0(encoding@0.1.13)
       '@pipedream/platform': 3.4.0
       form-data: 4.0.4
       lodash.flatmap: 4.5.0
       lodash.map: 4.6.0
       lodash.uniqby: 4.7.0
-      monday-sdk-js: 0.5.9(encoding@0.1.13)
     transitivePeerDependencies:
       - debug
       - encoding
@@ -52894,12 +52891,6 @@ snapshots:
   moment@2.29.4: {}
 
   moment@2.30.1: {}
-
-  monday-sdk-js@0.5.9(encoding@0.1.13):
-    dependencies:
-      node-fetch: 2.7.0(encoding@0.1.13)
-    transitivePeerDependencies:
-      - encoding
 
   mongodb-connection-string-url@2.6.0:
     dependencies:
