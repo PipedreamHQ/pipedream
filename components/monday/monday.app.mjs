@@ -6,10 +6,6 @@ import constants from "./common/constants.mjs";
 import mutations from "./common/mutations.mjs";
 import queries from "./common/queries.mjs";
 
-// The SDK always sends an API-Version header and its built-in default ("2026-01")
-// https://developer.monday.com/api-reference/docs/api-versioning
-const API_VERSION = "2026-07";
-
 export default {
   type: "app",
   app: "monday",
@@ -168,10 +164,6 @@ export default {
     _client() {
       return new ApiClient({
         token: this.$auth.api_key,
-        apiVersion: API_VERSION,
-        requestConfig: {
-          errorPolicy: "all",
-        },
       });
     },
     async makeRequest({
