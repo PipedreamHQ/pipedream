@@ -63,7 +63,7 @@ export default {
       try {
         return await commonActions.getRecord(this, $);
       } catch (err) {
-        if (err.response?.status === 404) {
+        if (err.response?.status === 404 || err.response?.status === 403) {
           return await commonActions.createRecord(this, $);
         } else {
           this.airtable.throwFormattedError(err);

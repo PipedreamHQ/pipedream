@@ -25,9 +25,17 @@ export default {
       optional: true,
     },
     fieldName: {
-      type: "string",
-      label: "Search Field",
-      description: "The name of the field to match against `Search Value`, e.g. `Status`. Use together with `Search Value` as a simpler alternative to `Search Formula`. Field names are case-sensitive — use **List Tables** to look up the table's exact field names before calling this action.",
+      propDefinition: [
+        common.props.airtable,
+        "fieldName",
+        ({
+          baseId, tableId,
+        }) => ({
+          baseId: baseId?.value ?? baseId,
+          tableId: tableId?.value ?? tableId,
+        }),
+      ],
+      description: "The field to match against `Search Value`, e.g. `Status`. Use together with `Search Value` as a simpler alternative to `Search Formula`.",
       optional: true,
     },
     value: {

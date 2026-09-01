@@ -386,7 +386,10 @@ You can also reference an object exported by a previous step, e.g. \`{{steps.foo
       return base(tableId).destroy(recordId);
     },
     throwFormattedError(err) {
-      throw Error(`${err.error} - ${err.statusCode} - ${err.message}`);
+      const errorType = err.error ?? err.response?.data?.error?.type;
+      const statusCode = err.statusCode ?? err.response?.status;
+      const message = err.response?.data?.error?.message ?? err.message;
+      throw Error(`${errorType} - ${statusCode} - ${message}`);
     },
     validateRecord(record) {
       if (typeof record !== "object") {
