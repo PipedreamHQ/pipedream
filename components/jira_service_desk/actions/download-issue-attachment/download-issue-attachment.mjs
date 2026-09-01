@@ -5,6 +5,7 @@ import stream from "stream";
 import { promisify } from "util";
 import { ConfigurationError } from "@pipedream/platform";
 import jiraServiceDesk from "../../jira_service_desk.app.mjs";
+import constants from "../../common/constants.mjs";
 
 const PIPELINE = promisify(stream.pipeline);
 
@@ -53,6 +54,7 @@ export default {
       $,
       cloudId: this.cloudId,
       issueIdOrKey: this.issueIdOrKey,
+      maxResults: constants.MAX_RESULTS_MAX,
     });
     const metadata = attachments.find(({ id }) => id === this.attachmentId);
     if (!metadata) {

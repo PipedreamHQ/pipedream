@@ -264,6 +264,7 @@ export default {
         filename,
         size,
         mimeType,
+        content: _links?.content,
       }));
       return {
         attachments,
