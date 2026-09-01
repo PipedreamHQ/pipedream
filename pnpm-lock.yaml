@@ -13092,8 +13092,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       '@pipedream/ramp':
-        specifier: ^0.1.2
-        version: 0.1.2
+        specifier: ^0.4.0
+        version: 0.4.0
       uuid:
         specifier: ^10.0.0
         version: 10.0.0
@@ -22416,8 +22416,8 @@ packages:
   '@pipedream/procore@0.1.0':
     resolution: {integrity: sha512-9AD+MfV/PrgvZN5BJkTiDXZh8ymcjBLd1coTIVFOAfRFvU8Iz1dHfIn40OpgdylEo8bsqJLJHN0V8d4pAk1Byg==}
 
-  '@pipedream/ramp@0.1.2':
-    resolution: {integrity: sha512-vYC5OPJo+kxhYYav5y0Mb7WihbLqNdoUO/CnOH1rHfKKNI4E23LLLLICn3VAl0gRc7xbWLHf4Nmcyjw7qf5k7Q==}
+  '@pipedream/ramp@0.4.0':
+    resolution: {integrity: sha512-kKoU8JKrEs8MXWMpFxSZkXJcuaCOgslJ8icSzEGCN0NV+jWKEnqPMk1uYstLLAL9Ef6x+hr5PQAOsKUmXSiBIg==}
 
   '@pipedream/sdk@3.1.0':
     resolution: {integrity: sha512-qRvrPTqldX60mHKaF0hX/HToqvuH30G58YDQ0/wvFWpc0BcMhUy8bxwGvShSoOnqQwBCxVDaMnO4E6RJy20Xaw==}
@@ -41655,7 +41655,7 @@ snapshots:
       - debug
       - supports-color
 
-  '@pipedream/ramp@0.1.2':
+  '@pipedream/ramp@0.4.0':
     dependencies:
       '@pipedream/platform': 3.4.0
       uuid: 10.0.0
