@@ -12,7 +12,7 @@ export default {
     + " Returns `{ serviceDesks, truncated }`, where `truncated` is `true` when more desks remained unfetched."
     + " Example: a site with one desk returns `{ \"serviceDesks\": [{ \"id\": \"1\", \"projectName\": \"Support\", \"projectKey\": \"SUP\" }], \"truncated\": false }`."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-servicedesk/#api-rest-servicedeskapi-servicedesk-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
