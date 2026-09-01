@@ -147,10 +147,11 @@ export default {
     async getCustomerRequests({
       $, cloudId,
     }) {
-      return this._paginate({
+      const { results } = await this._paginate({
         $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/request`,
       });
+      return results;
     },
     async createCustomerRequest({
       cloudId, ...opts
