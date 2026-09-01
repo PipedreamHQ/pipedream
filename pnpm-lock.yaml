@@ -3985,7 +3985,11 @@ importers:
 
   components/dante_ai: {}
 
-  components/dappier: {}
+  components/dappier:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/darksky_api:
     dependencies:
@@ -38703,7 +38707,7 @@ snapshots:
       '@commitlint/read': 19.8.1
       '@commitlint/types': 19.8.1
       tinyexec: 1.0.2
-      yargs: 17.7.2
+      yargs: 17.7.3
     transitivePeerDependencies:
       - '@types/node'
       - typescript
@@ -38716,7 +38720,7 @@ snapshots:
       '@commitlint/read': 19.8.1
       '@commitlint/types': 19.8.1
       tinyexec: 1.0.2
-      yargs: 17.7.2
+      yargs: 17.7.3
     transitivePeerDependencies:
       - '@types/node'
       - typescript
