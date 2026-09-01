@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-list-company-id-options",
   name: "List Company ID Options",
   description: "Retrieves available options for the Company ID field.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
