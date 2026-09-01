@@ -14,7 +14,7 @@ export default {
     + " (e.g. `1403051575.000407`); get it from **Get Channel History** or an incoming event's"
     + " `ts` field. For a plain, non-threaded message use **Post Message** instead."
     + " [See the documentation](https://api.slack.com/methods/chat.postMessage)",
-  version: "0.2.7",
+  version: "0.2.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
