@@ -5,7 +5,7 @@ export default {
   key: "intercom-conversation-closed",
   name: "New Closed Conversation",
   description: "Emit new event each time a conversation is closed.",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "source",
   dedupe: "unique",
   methods: {
