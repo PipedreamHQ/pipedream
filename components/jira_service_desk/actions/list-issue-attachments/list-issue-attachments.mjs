@@ -5,8 +5,8 @@ import jiraServiceDesk from "../../jira_service_desk.app.mjs";
 export default {
   key: "jira_service_desk-list-issue-attachments",
   name: "List Issue Attachments",
-  description: "List metadata for every attachment on a Jira Service Desk issue. `issueIdOrKey` accepts either a Jira issue key (e.g. `IT-42`) or a numeric Jira issue ID (e.g. `10001`). Returns an array of attachment objects, each including `id`, `filename`, `size` (bytes), `mimeType`, and `content` (the download URL). Use **Download Issue Attachment** with an attachment `id` from this list to fetch the binary content. Returns an empty array (no error) when the issue exists but has no attachments. Example: issue `IT-42` with one attachment returns `[{ \"id\": \"10042\", \"filename\": \"screenshot.png\", \"size\": 84213, \"mimeType\": \"image/png\", \"content\": \"https://api.atlassian.com/ex/jira/{cloudId}/rest/api/3/attachment/content/10042\" }]`. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-get)",
-  version: "0.0.1",
+  description: "List metadata for every attachment on a Jira Service Desk request. `issueIdOrKey` accepts either a Jira issue key (e.g. `IT-42`) or a numeric Jira issue ID (e.g. `10001`). Results are paginated automatically up to `maxResults`. Returns `{ attachments, truncated }`, where each attachment includes `id`, `filename`, `size` (bytes), and `mimeType`, and `truncated` is `true` when more attachments remained unfetched. Use **Download Issue Attachment** with an attachment `id` and the same `issueIdOrKey` to fetch the binary content. Returns an empty array (no error) when the request exists but has no attachments. Example: issue `IT-42` with one attachment returns `{ \"attachments\": [{ \"id\": \"10042\", \"filename\": \"screenshot.png\", \"size\": 84213, \"mimeType\": \"image/png\" }], \"truncated\": false }`. [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-issueidorkey-attachment-get)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     readOnlyHint: true,
@@ -27,29 +27,35 @@ export default {
         "issueIdOrKey",
       ],
     },
+    maxResults: {
+      propDefinition: [
+        jiraServiceDesk,
+        "maxResults",
+      ],
+      label: "Max Attachments",
+      description: "Maximum number of attachments to return across all pages (1-1000).",
+    },
   },
   async run({ $ }) {
     if (!this.issueIdOrKey) {
       throw new ConfigurationError("Issue ID or Key is required.");
     }
 
-    const rawAttachments = await this.jiraServiceDesk.getIssueAttachments({
+    const {
+      attachments, hasMore,
+    } = await this.jiraServiceDesk.getIssueAttachments({
       $,
       cloudId: this.cloudId,
       issueIdOrKey: this.issueIdOrKey,
+      maxResults: this.maxResults,
     });
 
-    const attachments = rawAttachments.map(({
-      id, filename, size, mimeType, content,
-    }) => ({
-      id,
-      filename,
-      size,
-      mimeType,
-      content,
-    }));
-
-    $.export("$summary", `Found ${attachments.length} attachment(s) on issue ${this.issueIdOrKey}`);
-    return attachments;
+    $.export("$summary", `Found ${attachments.length}${hasMore
+      ? "+"
+      : ""} attachment(s) on issue ${this.issueIdOrKey}`);
+    return {
+      attachments,
+      truncated: hasMore,
+    };
   },
 };

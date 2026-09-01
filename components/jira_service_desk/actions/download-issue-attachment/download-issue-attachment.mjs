@@ -11,8 +11,8 @@ const PIPELINE = promisify(stream.pipeline);
 export default {
   key: "jira_service_desk-download-issue-attachment",
   name: "Download Issue Attachment",
-  description: "Download the binary content of a Jira Service Desk attachment to the file-stash directory, returning the saved path plus the attachment metadata (`filename`, `mimeType`, `size`). Run **List Issue Attachments** first to obtain the attachment `id`, then pass it as `attachmentId`. Jira's content endpoint responds with a redirect to a signed, short-lived media URL that is followed automatically. Example: passing `attachmentId` `10042` downloads `screenshot.png` to `/tmp/10042-screenshot.png` and returns `{ \"filedata\": [\"10042-screenshot.png\", \"/tmp/10042-screenshot.png\"], \"attachment\": { \"id\": \"10042\", \"filename\": \"screenshot.png\", \"mimeType\": \"image/png\", \"size\": 84213 } }`. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-attachments/#api-rest-api-3-attachment-content-id-get)",
-  version: "0.0.1",
+  description: "Download the binary content of a Jira Service Desk attachment to the file-stash directory, returning the saved path plus the attachment metadata (`filename`, `mimeType`, `size`). Run **List Issue Attachments** first to obtain the attachment `id`, then pass both it and the same `issueIdOrKey` here. Example: passing `issueIdOrKey` `IT-42` and `attachmentId` `10042` downloads `screenshot.png` to `/tmp/10042-screenshot.png` and returns `{ \"filedata\": [\"10042-screenshot.png\", \"/tmp/10042-screenshot.png\"], \"attachment\": { \"id\": \"10042\", \"filename\": \"screenshot.png\", \"mimeType\": \"image/png\", \"size\": 84213 } }`. [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-issueidorkey-attachment-attachmentid-get)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     readOnlyHint: true,
@@ -25,6 +25,12 @@ export default {
       propDefinition: [
         jiraServiceDesk,
         "cloudId",
+      ],
+    },
+    issueIdOrKey: {
+      propDefinition: [
+        jiraServiceDesk,
+        "issueIdOrKey",
       ],
     },
     attachmentId: {
@@ -43,11 +49,15 @@ export default {
       throw new ConfigurationError(`Invalid attachment ID "${this.attachmentId}". Attachment IDs must be numeric.`);
     }
 
-    const metadata = await this.jiraServiceDesk.getAttachmentMetadata({
+    const { attachments } = await this.jiraServiceDesk.getIssueAttachments({
       $,
       cloudId: this.cloudId,
-      attachmentId: this.attachmentId,
+      issueIdOrKey: this.issueIdOrKey,
     });
+    const metadata = attachments.find(({ id }) => id === this.attachmentId);
+    if (!metadata) {
+      throw new ConfigurationError(`Attachment ID "${this.attachmentId}" was not found on issue "${this.issueIdOrKey}". Run List Issue Attachments to confirm the ID and issue match.`);
+    }
 
     const safeFilename = path.basename(metadata.filename ?? "");
     if (!safeFilename || safeFilename === "." || safeFilename === "..") {
@@ -60,6 +70,7 @@ export default {
     const contentStream = await this.jiraServiceDesk.getAttachmentContent({
       $,
       cloudId: this.cloudId,
+      issueIdOrKey: this.issueIdOrKey,
       attachmentId: this.attachmentId,
     });
     try {

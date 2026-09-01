@@ -248,31 +248,34 @@ export default {
       });
     },
     async getIssueAttachments({
-      $, cloudId, issueIdOrKey,
+      $, cloudId, issueIdOrKey, maxResults,
     }) {
-      const response = await this._makeRequest({
+      const {
+        results, hasMore,
+      } = await this._paginate({
         $,
-        path: `/ex/jira/${cloudId}/rest/api/3/issue/${issueIdOrKey}`,
-        params: {
-          fields: constants.ATTACHMENT_FIELD,
-        },
+        path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${issueIdOrKey}/attachment`,
+        maxResults,
       });
-      return response.fields?.attachment ?? [];
-    },
-    async getAttachmentMetadata({
-      $, cloudId, attachmentId,
-    }) {
-      return this._makeRequest({
-        $,
-        path: `/ex/jira/${cloudId}/rest/api/3/attachment/${attachmentId}`,
-      });
+      const attachments = results.map(({
+        filename, size, mimeType, _links,
+      }) => ({
+        id: _links?.jiraRest?.split("/").pop(),
+        filename,
+        size,
+        mimeType,
+      }));
+      return {
+        attachments,
+        hasMore,
+      };
     },
     async getAttachmentContent({
-      $, cloudId, attachmentId,
+      $, cloudId, issueIdOrKey, attachmentId,
     }) {
       return this._makeRequest({
         $,
-        path: `/ex/jira/${cloudId}/rest/api/3/attachment/content/${attachmentId}`,
+        path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${issueIdOrKey}/attachment/${attachmentId}`,
         responseType: constants.STREAM_RESPONSE_TYPE,
       });
     },
