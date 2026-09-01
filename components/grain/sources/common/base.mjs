@@ -35,10 +35,13 @@ export default {
   async run({ body }) {
     if (!body.data) return;
 
+    const ts = Date.parse(body.data.end_datetime);
     this.$emit(body, {
       id: body.data.id,
       summary: this.getSummary(body),
-      ts: Date.now(),
+      ts: Number.isNaN(ts)
+        ? Date.now()
+        : ts,
     });
   },
 };

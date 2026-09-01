@@ -4,7 +4,11 @@ import grain from "../../grain.app.mjs";
 export default {
   key: "grain-get-transcript",
   name: "Get Transcript",
-  description: "Fetches the transcript of a recording in the specified format. [See the documentation](https://developers.grain.com)",
+  description: "Fetches the full transcript of a Grain recording."
+    + " The `json` format returns structured segments with speaker, participant ID, start/end times in milliseconds, and text;"
+    + " `txt`, `vtt`, and `srt` return plain text or subtitle formats."
+    + " Use **List Recordings** to find recording IDs; use **Get Recording** for the recording's metadata instead of its transcript."
+    + " [See the documentation](https://developers.grain.com)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

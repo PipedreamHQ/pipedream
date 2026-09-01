@@ -3,7 +3,10 @@ import grain from "../../grain.app.mjs";
 export default {
   key: "grain-list-recordings",
   name: "List Recordings",
-  description: "Lists recordings, optionally filtered by date range, title, or participant scope. [See the documentation](https://developers.grain.com)",
+  description: "Lists Grain recordings, optionally filtered by start datetime range (ISO8601), title search, or participant scope."
+    + " Automatically paginates and returns up to Max Results recordings."
+    + " Use this to find recording IDs for **Get Recording** and **Get Transcript**."
+    + " [See the documentation](https://developers.grain.com)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -44,9 +47,10 @@ export default {
     maxResults: {
       type: "integer",
       label: "Max Results",
-      description: "Maximum number of recordings to return",
+      description: "Maximum number of recordings to return. Must be a positive integer.",
       optional: true,
       default: 100,
+      min: 1,
     },
   },
   async run({ $ }) {

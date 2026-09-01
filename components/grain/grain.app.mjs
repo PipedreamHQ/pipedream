@@ -8,12 +8,12 @@ export default {
       type: "string",
       label: "Recording ID",
       description: "The ID of the recording to fetch. Use **List Recordings** to find recording IDs.",
-      async options({ prevContext: { nextPage } }) {
+      async options({ prevContext }) {
         const {
           recordings, cursor,
         } = await this.listRecordings({
           data: {
-            cursor: nextPage,
+            cursor: prevContext?.nextPage,
           },
         });
         return {
