@@ -1,5 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
-import { parseObject } from "../../common/util.mjs";
+import { parseObjectArray } from "../../common/util.mjs";
 import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
 export default {
@@ -236,13 +236,13 @@ export default {
         LastName: this.lastName,
         EmailAddress: this.emailAddress,
         SkypeUserName: this.skypeUserName,
-        ContactPersons: parseObject(this.contactPersons),
+        ContactPersons: parseObjectArray(this.contactPersons, "Contact Persons"),
         BankAccountDetails: this.bankAccountDetails,
         TaxNumber: this.taxNumber,
         AccountsReceivableTaxType: this.accountReceivableTaxType,
         AccountsPayableTaxType: this.accountPayableType,
-        Addresses: parseObject(this.addresses),
-        Phones: parseObject(this.phones),
+        Addresses: parseObjectArray(this.addresses, "Addresses"),
+        Phones: parseObjectArray(this.phones, "Phones"),
         IsSupplier: this.isSupplier,
         IsCustomer: this.isCustomer,
         DefaultCurrency: this.defaultCurrency,

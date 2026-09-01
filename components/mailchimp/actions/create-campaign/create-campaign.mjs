@@ -7,7 +7,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "mailchimp-create-campaign",
   name: "Create Campaign",
-  description: "Creates a new campaign draft. [See docs here](https://mailchimp.com/developer/marketing/api/campaigns/add-campaign/)",
+  description: "Creates a new campaign draft. [See the documentation](https://mailchimp.com/developer/marketing/api/campaigns/add-campaign/)",
   version: "1.0.0",
   annotations: {
     destructiveHint: false,

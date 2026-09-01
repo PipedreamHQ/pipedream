@@ -7,7 +7,7 @@ import {
 export default {
   key: "twist-add-thread",
   name: "Add Thread",
-  description: "Adds a new thread to a channel.",
+  description: "Adds a new thread to a channel. [See the documentation](https://api.twistapp.com/v3/#add-thread)",
   version: "1.0.0",
   annotations: {
     destructiveHint: false,
@@ -86,7 +86,7 @@ export default {
       throw new Error("Must provide thread_id, content, and title parameters.");
     }
 
-    return await axios($, {
+    const response = await axios($, {
       method: "post",
       url: "https://api.twist.com/api/v3/threads/add",
       headers: {
@@ -106,5 +106,9 @@ export default {
         send_as_integration: this.send_as_integration,
       },
     });
+
+    $.export("$summary", `Successfully added thread ${response.id} to channel ${this.channel_id}`);
+
+    return response;
   },
 };

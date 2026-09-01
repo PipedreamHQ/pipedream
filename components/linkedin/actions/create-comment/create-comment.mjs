@@ -4,7 +4,7 @@ import linkedin from "../../linkedin.app.mjs";
 export default {
   key: "linkedin-create-comment",
   name: "Create Comment",
-  description: "Create a comment on a share or user generated content post. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/network-update-social-actions#create-comment)",
+  description: "Create a comment on a share or user generated content post. [See the documentation](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/network-update-social-actions#create-comment)",
   version: "1.0.0",
   annotations: {
     destructiveHint: true,

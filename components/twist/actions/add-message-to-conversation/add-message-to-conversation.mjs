@@ -5,7 +5,7 @@ import { parseObjectArray } from "../../common/utils.mjs";
 export default {
   key: "twist-add-message-to-conversation",
   name: "Add Message To Conversation",
-  description: "Adds a message to an existing conversation.",
+  description: "Adds a message to an existing conversation. [See the documentation](https://api.twistapp.com/v3/#add-message-to-conversation)",
   version: "1.0.0",
   annotations: {
     destructiveHint: false,
@@ -58,7 +58,7 @@ export default {
       throw new Error("Must provide conversation_id, content parameter.");
     }
 
-    return await axios($, {
+    const response = await axios($, {
       method: "post",
       url: "https://api.twist.com/api/v3/conversation_messages/add",
       headers: {
@@ -73,5 +73,9 @@ export default {
         direct_group_mentions: this.direct_group_mentions,
       },
     });
+
+    $.export("$summary", `Successfully added message ${response.id} to conversation ${this.conversation_id}`);
+
+    return response;
   },
 };

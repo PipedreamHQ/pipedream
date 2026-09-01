@@ -7,7 +7,7 @@ import {
 export default {
   key: "twist-add-comment",
   name: "Add Comment",
-  description: "Adds a new comment to a thread.",
+  description: "Adds a new comment to a thread. [See the documentation](https://api.twistapp.com/v3/#add-comment)",
   version: "1.0.0",
   annotations: {
     destructiveHint: false,
@@ -87,7 +87,7 @@ export default {
       throw new Error("Must provide thread_id, and content parameters.");
     }
 
-    return await axios($, {
+    const response = await axios($, {
       method: "post",
       url: "https://api.twist.com/api/v3/comments/add",
       headers: {
@@ -107,5 +107,9 @@ export default {
         send_as_integration: this.send_as_integration,
       },
     });
+
+    $.export("$summary", `Successfully added comment ${response.id} to thread ${this.thread_id}`);
+
+    return response;
   },
 };

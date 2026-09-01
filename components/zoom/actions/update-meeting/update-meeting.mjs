@@ -97,6 +97,10 @@ export default {
         "Content-Type": "application/json",
       },
     };
-    return await axios($, config);
+    const response = await axios($, config);
+
+    $.export("$summary", `Successfully updated meeting ${this.meetingId}`);
+
+    return response;
   },
 };

@@ -6,7 +6,7 @@ import {
 export default {
   key: "rockset-add-documents",
   name: "Add Documents",
-  description: "Add documents to a collection in Rockset. Learn more at https://docs.rockset.com/rest/#adddocuments.",
+  description: "Add documents to a collection in Rockset. [See the documentation](https://docs.rockset.com/rest/#adddocuments)",
   version: "1.0.0",
   annotations: {
     destructiveHint: false,

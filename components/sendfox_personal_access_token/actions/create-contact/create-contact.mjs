@@ -31,7 +31,7 @@ export default {
     lists: {
       type: "integer[]",
       label: "Lists",
-      description: "IDs of the lists to add the contact to.",
+      description: "IDs of the SendFox lists to add the contact to, as integers, e.g. `[123, 456]`. Get a list ID from the `id` field of `GET https://api.sendfox.com/lists`, or from the numeric segment of the list's URL in the SendFox dashboard.",
       optional: true,
     },
   },

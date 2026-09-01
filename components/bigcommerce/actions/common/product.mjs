@@ -20,8 +20,15 @@ const DECIMAL_FIELDS = [
 ];
 
 const toNumber = (fieldName, value) => {
-  const number = Number(value);
-  if (Number.isNaN(number)) {
+  // `Number()` maps a whitespace-only string to 0 and "Infinity" to Infinity, so neither
+  // can be caught by `Number.isNaN` alone.
+  const trimmed = typeof value === "string"
+    ? value.trim()
+    : value;
+  const number = trimmed === ""
+    ? NaN
+    : Number(trimmed);
+  if (!Number.isFinite(number)) {
     throw new ConfigurationError(`${fieldName}: \`${value}\` is not a valid number`);
   }
   return number;

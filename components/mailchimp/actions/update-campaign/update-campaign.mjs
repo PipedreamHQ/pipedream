@@ -7,7 +7,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "mailchimp-update-campaign",
   name: "Update Campaign",
-  description: "Update a campaign. [See docs here](https://mailchimp.com/developer/marketing/api/campaigns/update-campaign-settings/)",
+  description: "Update a campaign. [See the documentation](https://mailchimp.com/developer/marketing/api/campaigns/update-campaign-settings/)",
   version: "1.0.0",
   annotations: {
     destructiveHint: true,
