@@ -66,7 +66,7 @@ export default {
       projectKey, ...opts
     }) {
       return this._makeRequest({
-        path: `/projects/${encodeURIComponent(projectKey)}/scenarios`,
+        path: `/projects/${encodeURIComponent(projectKey)}/scenarios/`, // Explicitly include the trailing slash, or else it throws 404 from dataiku
         ...opts,
       });
     },
