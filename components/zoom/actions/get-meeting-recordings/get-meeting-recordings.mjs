@@ -14,7 +14,7 @@ export default {
     + " `{ id: \"a1b2c3d4-5e6f-7890-abcd-ef1234567890\", file_type: \"MP4\", recording_type: \"shared_screen_with_speaker_view\", file_size: 148203910, status: \"completed\" }`."
     + " A meeting with no cloud recordings returns an empty `recording_files` array rather than an error, so check the array's length before reporting a failure."
     + " [See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/cloud-recording/get/meetings/{meetingId}/recordings)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
