@@ -11,7 +11,7 @@ export default {
     + " Use **List Sites** first to obtain the required `cloudId`."
     + " Use **List My Requests** to find the `issueKey` (e.g. `IT-42`)."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-issueidorkey-status-get)",
-  version: "1.1.0",
+  version: "1.1.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -38,7 +38,7 @@ export default {
         "maxResults",
       ],
       label: "Max Entries",
-      description: "Maximum number of status history entries to return across all pages (1-1000).",
+      description: "Maximum number of status history entries to return.",
     },
   },
   async run({ $ }) {
