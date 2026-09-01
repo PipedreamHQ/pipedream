@@ -38,7 +38,7 @@ export default {
         "maxResults",
       ],
       label: "Max Entries",
-      description: "Maximum number of status history entries to return across all pages (1.1.10).",
+      description: "Maximum number of status history entries to return.",
     },
   },
   async run({ $ }) {
