@@ -25,8 +25,9 @@ const resolveRecord = async (ctx) => {
 
 export default {
   createRecord: async (ctx, $) => {
-    const baseId = ctx.baseId?.value ?? ctx.baseId;
-    const tableId = ctx.tableId?.value ?? ctx.tableId;
+    const {
+      baseId, tableId,
+    } = ctx;
 
     const record = await resolveRecord(ctx);
 
@@ -45,12 +46,13 @@ export default {
       ctx.airtable.throwFormattedError(err);
     }
 
-    $.export("$summary", `Added 1 record to ${ctx.baseId?.label || baseId}: [${ctx.tableId?.label || tableId}](https://airtable.com/${baseId}/${tableId})`);
+    $.export("$summary", `Added 1 record to ${baseId}: [${tableId}](https://airtable.com/${baseId}/${tableId})`);
     return response;
   },
   updateRecord: async (ctx, $) => {
-    const baseId = ctx.baseId?.value ?? ctx.baseId;
-    const tableId = ctx.tableId?.value ?? ctx.tableId;
+    const {
+      baseId, tableId,
+    } = ctx;
     const recordId = ctx.recordId;
 
     ctx.airtable.validateRecordID(recordId);
@@ -72,12 +74,13 @@ export default {
       ctx.airtable.throwFormattedError(err);
     }
 
-    $.export("$summary", `Updated record "${recordId}" in ${ctx.baseId?.label || baseId}: [${ctx.tableId?.label || tableId}](https://airtable.com/${baseId}/${tableId})`);
+    $.export("$summary", `Updated record "${recordId}" in ${baseId}: [${tableId}](https://airtable.com/${baseId}/${tableId})`);
     return response;
   },
   getRecord: async (ctx, $) => {
-    const baseId = ctx.baseId?.value ?? ctx.baseId;
-    const tableId = ctx.tableId?.value ?? ctx.tableId;
+    const {
+      baseId, tableId,
+    } = ctx;
     const recordId = ctx.recordId;
 
     ctx.airtable.validateRecordID(recordId);
@@ -92,7 +95,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Fetched record "${recordId}" from ${ctx.baseId?.label || baseId}: [${ctx.tableId?.label || tableId}](https://airtable.com/${baseId}/${tableId})`);
+    $.export("$summary", `Fetched record "${recordId}" from ${baseId}: [${tableId}](https://airtable.com/${baseId}/${tableId})`);
     return response;
   },
 };

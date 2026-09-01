@@ -6,7 +6,7 @@ export default {
   key: "airtable_oauth-get-record",
   name: "Get Record",
   description: "Get data of a selected record from a table. [See the documentation](https://airtable.com/developers/web/api/get-record)",
-  version: "0.0.16",
+  version: "0.0.17",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -25,12 +25,6 @@ export default {
       propDefinition: [
         airtable,
         "recordId",
-        ({
-          baseId, tableId,
-        }) => ({
-          baseId: baseId?.value ?? baseId,
-          tableId: tableId?.value ?? tableId,
-        }),
       ],
     },
   },

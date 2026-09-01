@@ -98,8 +98,9 @@ function isComputedField(field) {
  * @returns {Promise<object[]>} the table's fields
  */
 async function getTableFields(ctx) {
-  const baseId = ctx.baseId?.value ?? ctx.baseId;
-  const tableId = ctx.tableId?.value ?? ctx.tableId;
+  const {
+    baseId, tableId,
+  } = ctx;
   const { tables } = await ctx.airtable.listTables({
     baseId,
   });

@@ -8,7 +8,7 @@ export default {
   name: "New Record Created, Updated or Deleted (Instant)",
   description: "Emit new event when a record is added, updated, or deleted in a table or selected view.",
   key: "airtable_oauth-new-modified-or-deleted-records-instant",
-  version: "0.1.6",
+  version: "0.1.7",
   type: "source",
   dedupe: "unique",
   props: {
@@ -29,10 +29,6 @@ export default {
       propDefinition: [
         airtable,
         "sortFieldId",
-        (c) => ({
-          baseId: c.baseId?.value ?? c.baseId,
-          tableId: c.tableId?.value ?? c.tableId,
-        }),
       ],
       type: "string[]",
       label: "Watch Data In Field Ids",

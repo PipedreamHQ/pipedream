@@ -6,12 +6,6 @@ export default {
       propDefinition: [
         airtable,
         "sortFieldId",
-        ({
-          baseId, tableId,
-        }) => ({
-          baseId: baseId?.value ?? baseId,
-          tableId: tableId?.value ?? tableId,
-        }),
       ],
       optional: true,
     },
@@ -41,9 +35,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const baseId = this.baseId?.value ?? this.baseId;
-    const tableId = this.tableId?.value ?? this.tableId;
-    const viewId = this.viewId?.value ?? this.viewId;
+    const {
+      baseId, tableId, viewId,
+    } = this;
 
     const config = {
       returnFieldsByFieldId: this.returnFieldsByFieldId || false,
@@ -71,7 +65,7 @@ export default {
     $.export("$summary", `Fetched ${l} record${l === 1
       ? ""
       // eslint-disable-next-line multiline-ternary
-      : "s"} from ${this.baseId?.label || baseId}: [${this.tableId?.label || tableId}](https://airtable.com/${baseId}/${tableId}${viewId ? `/${viewId}` : ""})`);
+      : "s"} from ${baseId}: [${tableId}](https://airtable.com/${baseId}/${tableId}${viewId ? `/${viewId}` : ""})`);
     return data;
   },
 };

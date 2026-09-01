@@ -7,7 +7,7 @@ export default {
   key: "airtable_oauth-create-single-record",
   name: "Create Single Record",
   description: "Create a new record in a table. Provide field values in `record`, e.g. `{ \"Name\": \"Acme\", \"Stage\": \"Won\" }`. Use **List Tables** first to look up the table's field names and types. [See the documentation](https://airtable.com/developers/web/api/create-records)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

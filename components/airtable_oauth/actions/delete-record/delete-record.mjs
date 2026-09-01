@@ -5,7 +5,7 @@ export default {
   key: "airtable_oauth-delete-record",
   name: "Delete Record",
   description: "Delete a selected record from a table. [See the documentation](https://airtable.com/developers/web/api/delete-record)",
-  version: "0.0.15",
+  version: "0.0.16",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -18,19 +18,13 @@ export default {
       propDefinition: [
         airtable,
         "recordId",
-        ({
-          baseId, tableId,
-        }) => ({
-          baseId: baseId?.value ?? baseId,
-          tableId: tableId?.value ?? tableId,
-        }),
       ],
     },
   },
   async run({ $ }) {
-    const baseId = this.baseId?.value ?? this.baseId;
-    const tableId = this.tableId?.value ?? this.tableId;
-    const recordId = this.recordId?.value ?? this.recordId;
+    const {
+      baseId, tableId, recordId,
+    } = this;
 
     this.airtable.validateRecordID(recordId);
     let response;
@@ -44,7 +38,7 @@ export default {
       this.airtable.throwFormattedError(err);
     }
 
-    $.export("$summary", `Deleted record "${this.recordId?.label || recordId}" from ${this.baseId?.label || baseId}: [${this.tableId?.label || tableId}](https://airtable.com/${baseId}/${tableId})`);
+    $.export("$summary", `Deleted record "${recordId}" from ${baseId}: [${tableId}](https://airtable.com/${baseId}/${tableId})`);
     return response;
   },
 };

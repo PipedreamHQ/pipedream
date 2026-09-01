@@ -1,6 +1,5 @@
+// x-pd-ai: optimized
 import Airtable from "airtable";
-import { ConfigurationError } from "@pipedream/platform";
-import { fieldTypeToPropType } from "./common/utils.mjs";
 import { axios } from "@pipedream/platform";
 import { SORT_DIRECTION_OPTIONS } from "./common/constants.mjs";
 import isEmpty from "lodash.isempty";
@@ -18,165 +17,38 @@ export default {
     baseId: {
       type: "string",
       label: "Base",
-      description: "The Base ID.",
-      async options({ prevContext }) {
-        const params = {};
-        if (prevContext?.newOffset) {
-          params.offset = prevContext.newOffset;
-        }
-        const {
-          bases, offset,
-        } = await this.listBases({
-          params,
-        });
-        const options = (bases ?? []).map((base) => ({
-          label: base.name || base.id,
-          value: base.id,
-        }));
-        return {
-          options,
-          context: {
-            newOffset: offset,
-          },
-        };
-      },
+      description: "The ID of the base to use, e.g. `appXXXXXXXXXXXXXX`. Use **List Bases** to look one up.",
     },
     tableId: {
       type: "string",
       label: "Table",
-      description: "The Table ID.",
-      async options({ baseId }) {
-        let tables;
-        try {
-          tables  = (await this.listTables({
-            baseId,
-          })).tables;
-        } catch (err) {
-          throw new ConfigurationError(`Could not find tables for base ID "${baseId}"`);
-        }
-        return (tables ?? []).map((table) => ({
-          label: table.name || table.id,
-          value: table.id,
-        }));
-      },
+      description: "The ID of the table to use, e.g. `tblXXXXXXXXXXXXXX`. Use **List Tables** to look one up.",
     },
     viewId: {
       type: "string",
       label: "View",
-      description: "The View ID.",
-      async options({
-        baseId, tableId,
-      }) {
-        let views;
-        try {
-          const { tables } = await this.listTables({
-            baseId,
-          });
-          const table = tables.find(({ id }) => id === tableId);
-          views = table.views;
-        } catch (err) {
-          throw new ConfigurationError(`Could not find views for base ID "${baseId}"`);
-        }
-        return (views ?? []).map((view) => ({
-          label: view.name || view.id,
-          value: view.id,
-        }));
-      },
+      description: "The ID of the view to use, e.g. `viwXXXXXXXXXXXXXX`. Use **List Tables** to look up a table's views.",
     },
     sortFieldId: {
       type: "string",
       label: "Sort by Field",
-      description: "Optionally select a field to sort results by. To sort by multiple fields, use the **Filter by Formula** field.",
+      description: "Optionally provide a field ID to sort results by, e.g. `fldXXXXXXXXXXXXXX`. Use **List Tables** to look up a table's field IDs. To sort by multiple fields, use `Filter by Formula` instead.",
       optional: true,
-      async options({
-        baseId, tableId,
-      }) {
-        let fields;
-        try {
-          const { tables } = await this.listTables({
-            baseId,
-          });
-          const table = tables.find(({ id }) => id === tableId);
-          fields = table.fields;
-        } catch (err) {
-          throw new ConfigurationError(`Could not find fields for table ID "${tableId}"`);
-        }
-        return (fields ?? []).map((field) => ({
-          label: field.name || field.id,
-          value: field.id,
-        }));
-      },
     },
     fieldName: {
       type: "string",
       label: "Search Field",
-      description: "The field to match against the search value",
-      async options({
-        baseId, tableId, fieldType,
-      }) {
-        let fields;
-        try {
-          const { tables } = await this.listTables({
-            baseId,
-          });
-          const table = tables.find(({ id }) => id === tableId);
-          fields = table.fields;
-          if (fieldType) {
-            fields = fields.filter(({ type }) => fieldTypeToPropType(type) === fieldType);
-          }
-        } catch (err) {
-          throw new ConfigurationError(`Could not find fields for table ID "${tableId}"`);
-        }
-        return (fields ?? []).map((field) => field.name);
-      },
+      description: "The name of the field to match against the search value, e.g. `Status`. Use the **List Tables** action to look up a table's field names.",
     },
     recordId: {
       type: "string",
       label: "Record ID",
-      description: "The record to operate on. IDs always start with `rec`, e.g. `recAbC123XyZ456`. Choose one from the list, or pass an ID directly (e.g. from a prior step's output) — use **List Records** to look one up.",
-      async options({
-        baseId, tableId,
-      }) {
-        const records = await this.listRecords({
-          baseId,
-          tableId,
-        });
-        return (records ?? []).map((record) => ({
-          label: record.fields?.Name || record.id,
-          value: record.id,
-        }));
-      },
+      description: "The ID of the record to operate on. IDs always start with `rec`, e.g. `recAbC123XyZ456`. Use **List Records** to look one up.",
     },
     commentId: {
       type: "string",
       label: "Comment ID",
-      description: "Identifier of a comment",
-      async options({
-        baseId, tableId, recordId, prevContext,
-      }) {
-        const params = {};
-        if (prevContext?.newOffset) {
-          params.offset = prevContext.newOffset;
-        }
-        const {
-          comments, offset,
-        } = await this.listComments({
-          baseId,
-          tableId,
-          recordId,
-          params,
-        });
-        const options = (comments ?? []).map((comment) => ({
-          label: comment.text,
-          value: comment.id,
-        }));
-        return {
-          options,
-          context: {
-            newOffset: offset,
-          },
-        };
-      },
+      description: "The ID of the comment to operate on. Use **List Comments** to look one up, or use the ID returned in the response of **Create Comment**.",
     },
     returnFieldsByFieldId: {
       type: "boolean",

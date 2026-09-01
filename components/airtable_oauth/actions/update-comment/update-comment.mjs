@@ -4,7 +4,7 @@ export default {
   key: "airtable_oauth-update-comment",
   name: "Update Comment",
   description: "Update an existing comment on a selected record. [See the documentation](https://airtable.com/developers/web/api/update-comment)",
-  version: "0.0.15",
+  version: "0.0.16",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -17,25 +17,12 @@ export default {
       propDefinition: [
         common.props.airtable,
         "recordId",
-        ({
-          baseId, tableId,
-        }) => ({
-          baseId: baseId?.value ?? baseId,
-          tableId: tableId?.value ?? tableId,
-        }),
       ],
     },
     commentId: {
       propDefinition: [
         common.props.airtable,
         "commentId",
-        ({
-          baseId, tableId, recordId,
-        }) => ({
-          baseId: baseId?.value ?? baseId,
-          tableId: tableId?.value ?? tableId,
-          recordId,
-        }),
       ],
     },
     comment: {
@@ -46,8 +33,8 @@ export default {
   },
   async run({ $ }) {
     const response = await this.airtable.updateComment({
-      baseId: this.baseId?.value ?? this.baseId,
-      tableId: this.tableId?.value ?? this.tableId,
+      baseId: this.baseId,
+      tableId: this.tableId,
       recordId: this.recordId,
       commentId: this.commentId,
       data: {

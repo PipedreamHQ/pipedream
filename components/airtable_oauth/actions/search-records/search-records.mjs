@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import common from "../common/common.mjs";
 import {
@@ -8,7 +9,7 @@ export default {
   key: "airtable_oauth-search-records",
   name: "Search Records",
   description: "Find records in a table using an Airtable formula, or a `Search Field` + `Search Value` pair. `Search Formula` takes precedence when provided; otherwise `Search Field` and `Search Value` must both be set. Use **List Tables** first to look up the table's field names. [See the documentation](https://airtable.com/developers/web/api/list-records)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -27,14 +28,8 @@ export default {
       propDefinition: [
         common.props.airtable,
         "fieldName",
-        ({
-          baseId, tableId,
-        }) => ({
-          baseId: baseId?.value ?? baseId,
-          tableId: tableId?.value ?? tableId,
-        }),
       ],
-      description: "The field to match against `Search Value`, e.g. `Status`. Use together with `Search Value` as a simpler alternative to `Search Formula`.",
+      description: "The field to match against `Search Value`, e.g. `Status`. Use together with `Search Value` as a simpler alternative to `Search Formula`. Use the **List Tables** action to look up the table's field names.",
       optional: true,
     },
     value: {
@@ -97,8 +92,9 @@ export default {
       returnFieldsByFieldId: this.returnFieldsByFieldId || false,
     };
 
-    const baseId = this.baseId?.value ?? this.baseId;
-    const tableId = this.tableId?.value ?? this.tableId;
+    const {
+      baseId, tableId,
+    } = this;
 
     const results = await this.airtable.listRecords({
       baseId,

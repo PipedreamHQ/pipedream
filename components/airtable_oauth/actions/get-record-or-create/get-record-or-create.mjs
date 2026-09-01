@@ -7,7 +7,7 @@ export default {
   key: "airtable_oauth-get-record-or-create",
   name: "Get Record Or Create",
   description: "Fetch a record by its Record ID. If the ID is blank, or doesn't match an existing record, create a new record instead using `record`. Use **List Tables** to look up field names first, and **List Records** to find an existing record's ID. [See the get-record documentation](https://airtable.com/developers/web/api/get-record) and the [create-record documentation](https://airtable.com/developers/web/api/create-records)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -20,12 +20,6 @@ export default {
       propDefinition: [
         airtable,
         "recordId",
-        ({
-          baseId, tableId,
-        }) => ({
-          baseId: baseId?.value ?? baseId,
-          tableId: tableId?.value ?? tableId,
-        }),
       ],
       optional: true,
     },

@@ -9,7 +9,7 @@ export default {
   key: "airtable_oauth-create-multiple-records",
   name: "Create Multiple Records",
   description: "Create one or more records in a table in a single operation with an array. [See the documentation](https://airtable.com/developers/web/api/create-records)",
-  version: "0.0.15",
+  version: "0.0.16",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -47,8 +47,9 @@ If desired, you can use a custom expression in the same fashion for the entire a
     },
   },
   async run({ $ }) {
-    const baseId = this.baseId?.value ?? this.baseId;
-    const tableId = this.tableId?.value ?? this.tableId;
+    const {
+      baseId, tableId,
+    } = this;
 
     let data = this.records;
     if (!Array.isArray(data)) {
@@ -91,7 +92,7 @@ If desired, you can use a custom expression in the same fashion for the entire a
     const l = responses.length;
     $.export("$summary", `Added ${l} record${l === 1
       ? ""
-      : "s"} to ${this.baseId?.label || baseId}: [${this.tableId?.label || tableId}](https://airtable.com/${baseId}/${tableId})`);
+      : "s"} to ${baseId}: [${tableId}](https://airtable.com/${baseId}/${tableId})`);
 
     return responses;
   },
