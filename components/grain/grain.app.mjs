@@ -4,15 +4,15 @@ export default {
   type: "app",
   app: "grain",
   propDefinitions: {
-    recordId: {
+    recordingId: {
       type: "string",
-      label: "Record ID",
-      description: "The ID of the recording to fetch",
+      label: "Recording ID",
+      description: "The ID of the recording to fetch. Use **List Recordings** to find recording IDs.",
       async options({ prevContext: { nextPage } }) {
         const {
           recordings, cursor,
         } = await this.listRecordings({
-          params: {
+          data: {
             cursor: nextPage,
           },
         });
@@ -29,42 +29,51 @@ export default {
         };
       },
     },
-    viewId: {
-      type: "string",
-      label: "View ID",
-      description: "The ID of the view to fetch",
-      async options({
-        type, prevContext: { nextPage },
-      }) {
-        const {
-          views, cursor,
-        } = await this.listViews({
-          params: {
-            type_filter: type,
-            cursor: nextPage,
-          },
-        });
-        return {
-          options: views.map(({
-            id: value, name: label,
-          }) => ({
-            value,
-            label,
-          })),
-          context: {
-            nextPage: cursor,
-          },
-        };
-      },
+    highlights: {
+      type: "boolean",
+      label: "Include Highlights",
+      description: "Whether to include the recording's highlights",
+      optional: true,
+    },
+    participants: {
+      type: "boolean",
+      label: "Include Participants",
+      description: "Whether to include the recording's participants",
+      optional: true,
+    },
+    calendarEvent: {
+      type: "boolean",
+      label: "Include Calendar Event",
+      description: "Whether to include the recording's calendar event data",
+      optional: true,
+    },
+    hubspot: {
+      type: "boolean",
+      label: "Include HubSpot Data",
+      description: "Whether to include associated HubSpot data",
+      optional: true,
+    },
+    aiActionItems: {
+      type: "boolean",
+      label: "Include AI Action Items",
+      description: "Whether to include the recording's AI action items",
+      optional: true,
+    },
+    aiSummary: {
+      type: "boolean",
+      label: "Include AI Summary",
+      description: "Whether to include the recording's AI summary",
+      optional: true,
     },
   },
   methods: {
     _baseUrl() {
-      return "https://grain.com/_/public-api";
+      return "https://api.grain.com/_/public-api/v2";
     },
     _headers() {
       return {
-        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        "Public-Api-Version": "2025-10-31",
       };
     },
     _makeRequest({
@@ -78,28 +87,32 @@ export default {
     },
     listRecordings(opts = {}) {
       return this._makeRequest({
+        method: "POST",
         path: "/recordings",
         ...opts,
       });
     },
-    listViews(opts = {}) {
+    fetchRecording({
+      recordingId, ...opts
+    }) {
       return this._makeRequest({
-        path: "/views",
+        method: "POST",
+        path: `/recordings/${recordingId}`,
         ...opts,
       });
     },
-    fetchRecording({
-      recordId, ...opts
+    fetchTranscript({
+      recordingId, format, ...opts
     }) {
       return this._makeRequest({
-        path: `/recordings/${recordId}`,
+        path: `/recordings/${recordingId}/transcript.${format}`,
         ...opts,
       });
     },
     createWebhook(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/hooks",
+        path: "/hooks/create",
         ...opts,
       });
     },

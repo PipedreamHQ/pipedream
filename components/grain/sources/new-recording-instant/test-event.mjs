@@ -2,11 +2,26 @@ export default {
   "type": "recording_added",
   "user_id": "aea95745-99e9-4609-8623-c9efa2926b82",
   "data": {
-    "id": "b5185ccb-9a08-458c-9be1-db17a03fb14c",
-    "title": "Sample Recording",
-    "url": "https://grain.com/recordings/b5185ccb-9a08-458c-9be1-db17a03fb14c/Kz5t1kAyPtt78hcxbSOJHJzFiPpZmUIeDVFXWzP0",
-    "start_datetime": "2021-07-29T23:13:17Z",
-	  "end_datetime": "2021-07-29T23:16:18Z",
-    "public_thumbnail_url": null // Only non-null if recording share state is public
-  }
-}
+    "id": "pppp6666-qq77-rr88-ss99-tttt00000000",
+    "title": "All Hands",
+    "start_datetime": "2025-01-01T09:30:00Z",
+    "end_datetime": "2025-01-01T10:00:00Z",
+    "duration_ms": 1800000,
+    "media_type": "video",
+    "source": "zoom",
+    "url": "https://grain.com/share/recording/pppp6666-qq77-rr88-ss99-tttt00000000",
+    "thumbnail_url": "https://media.grain.com/public_thumbnails/recordings/pppp6666",
+    "tags": [],
+    "teams": [
+      {
+        "id": "aaaa1111-bb22-cc33-dd44-eeee55555555",
+        "name": "My Team",
+      },
+    ],
+    "meeting_type": {
+      "id": "ffff6666-gg77-hh88-ii99-jjjj00000000",
+      "name": "Project & Team Coordination",
+      "scope": "internal",
+    },
+  },
+};

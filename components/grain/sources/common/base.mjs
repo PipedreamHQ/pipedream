@@ -18,27 +18,27 @@ export default {
     async activate() {
       const response = await this.grain.createWebhook({
         data: {
-          version: 2,
           hook_url: this.http.endpoint,
-          view_id: this.viewId,
-          actions: this.getAction(),
+          hook_type: this.getHookType(),
+          include: this.getInclude(),
         },
       });
       this._setHookId(response.id);
     },
     async deactivate() {
       const webhookId = this._getHookId();
-      await this.grain.deleteWebhook(webhookId);
+      if (webhookId) {
+        await this.grain.deleteWebhook(webhookId);
+      }
     },
   },
   async run({ body }) {
     if (!body.data) return;
 
-    const ts = Date.parse(new Date());
     this.$emit(body, {
-      id: `${body.data.id}-${ts}`,
+      id: body.data.id,
       summary: this.getSummary(body),
-      ts,
+      ts: Date.now(),
     });
   },
 };

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/grain",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Pipedream Grain Components",
   "main": "grain.app.mjs",
   "keywords": [
