@@ -1,11 +1,11 @@
-import constants from "../../common/constants.mjs";
+// x-pd-ai: optimized
 import slack from "../../slack_v2.app.mjs";
 
 export default {
   key: "slack_v2-get-file",
   name: "Get File",
   description: "Return information about a file. [See the documentation](https://api.slack.com/methods/files.info)",
-  version: "0.1.6",
+  version: "0.1.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -18,14 +18,7 @@ export default {
       propDefinition: [
         slack,
         "conversation",
-        () => ({
-          types: [
-            constants.CHANNEL_TYPE.PUBLIC,
-            constants.CHANNEL_TYPE.PRIVATE,
-          ],
-        }),
       ],
-      description: "Select a public or private channel",
     },
     addToChannel: {
       propDefinition: [
@@ -37,9 +30,6 @@ export default {
       propDefinition: [
         slack,
         "file",
-        (c) => ({
-          channel: c.conversation,
-        }),
       ],
     },
   },
