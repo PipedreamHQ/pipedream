@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import {
   MESSAGE_TYPE_OPTIONS,
@@ -8,8 +9,8 @@ import intercom from "../../intercom.app.mjs";
 export default {
   key: "intercom-manage-conversation",
   name: "Manage A Conversation",
-  description: "Close, snooze, open, or assign a conversation by its ID. Which of the optional props apply depends on **Message Type**: `close` uses **Body**, `snoozed` uses **Snoozed Until**, `assignment` uses **Type** together with **Assignee ID** or **Team Assignee ID**, and `open` uses none of them. [See the documentation](https://developers.intercom.com/docs/references/2.12/rest-api/api.intercom.io/conversations/manageconversation).",
-  version: "0.1.0",
+  description: "Close, snooze, open, or assign a conversation by its ID. Which of the optional props apply depends on **Message Type**: `close` uses **Body**, `snoozed` uses **Snoozed Until**, `assignment` uses **Type** together with **Assignee ID** or **Team Assignee ID**, and `open` uses none of them. Example: set **Conversation ID** to `192783634529321`, **Message Type** to `close`, and **Body** to `Issue resolved` to close that conversation with a closing comment. [See the documentation](https://developers.intercom.com/docs/references/2.12/rest-api/api.intercom.io/conversations/manageconversation).",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -74,20 +75,8 @@ export default {
       optional: true,
     },
   },
-  methods: {
-    manageConversation({
-      conversationId, ...args
-    } = {}) {
-      return this.intercom.makeRequest({
-        method: "POST",
-        endpoint: `conversations/${conversationId}/parts`,
-        ...args,
-      });
-    },
-  },
   async run({ $ }) {
     const {
-      manageConversation,
       conversationId,
       body,
       type,
@@ -97,6 +86,10 @@ export default {
       assigneeId,
       teamAssigneeId,
     } = this;
+
+    if (messageType === "snoozed" && !snoozedUntil) {
+      throw new ConfigurationError("`Snoozed Until` is required when `Message Type` is `snoozed`");
+    }
 
     let snoozedUntilTimestamp;
     if (snoozedUntil) {
@@ -119,7 +112,7 @@ export default {
       }
     }
 
-    const response = await manageConversation({
+    const response = await this.intercom.manageConversation({
       $,
       conversationId,
       data: {
