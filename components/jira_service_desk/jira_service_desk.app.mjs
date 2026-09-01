@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 
@@ -8,70 +9,22 @@ export default {
     cloudId: {
       type: "string",
       label: "Cloud ID",
-      description: "Select a site, or provide a custom ID.",
-      async options() {
-        const sites = await this.getSites();
-        return sites?.filter?.(({ scopes }) => scopes?.includes("write:servicedesk-request")).map(({
-          id, name,
-        }) => ({
-          label: name,
-          value: id,
-        }));
-      },
+      description: "The Atlassian site (cloud) ID, e.g. `822faf0d-5427-420e-9016-999d3dc76918`. Run **List Sites** to get the `id` of every site you can access.",
     },
     serviceDeskId: {
       type: "string",
       label: "Service Desk ID",
-      description: "Select a service desk, or provide a custom ID.",
-      async options({ cloudId }) {
-        const desks = await this.getServiceDesks({
-          cloudId,
-        });
-        return desks?.map?.(({
-          id, projectName,
-        }) => ({
-          label: projectName,
-          value: id,
-        }));
-      },
+      description: "The numeric ID of the service desk, e.g. `1`. Run **List Service Desks** to find it from a project name or key.",
     },
     requestId: {
       type: "string",
       label: "Request ID",
-      description: "Select a request, or provide a custom ID.",
-      async options({ cloudId }) {
-        const requests = await this.getCustomerRequests({
-          cloudId,
-        });
-        return requests?.map?.(({
-          issueId, issueKey, requestFieldValues,
-        }) => {
-          const summary = requestFieldValues?.find?.(({ fieldId }) => fieldId === "summary")?.value;
-          return ({
-            label: `(${issueKey}) ${summary}`,
-            value: issueId,
-          });
-        });
-      },
+      description: "The `issueId` of the customer request, e.g. `10288`. Run **List My Requests** to find it.",
     },
     requestTypeId: {
       type: "string",
       label: "Request Type ID",
-      description: "Select a request type, or provide a custom ID.",
-      async options({
-        cloudId, serviceDeskId,
-      }) {
-        const types = await this.getRequestTypes({
-          cloudId,
-          serviceDeskId,
-        });
-        return types?.map?.(({
-          id, name,
-        }) => ({
-          label: name,
-          value: id,
-        }));
-      },
+      description: "The numeric ID of the request type, e.g. `4`. Run **List Request Types** to see what a service desk offers and pick the type matching the user's intent.",
     },
     issueIdOrKey: {
       type: "string",
@@ -86,6 +39,12 @@ export default {
       default: constants.MAX_RESULTS_DEFAULT,
       min: constants.MAX_RESULTS_MIN,
       max: constants.MAX_RESULTS_MAX,
+    },
+    expand: {
+      type: "string[]",
+      label: "Expand",
+      description: "Additional data to include in the response, as a list of expansion names (e.g. `[\"field\"]`). Valid values differ per endpoint and are listed in the `_expands` property of that endpoint's response. Unrecognised names are ignored silently rather than rejected.",
+      optional: true,
     },
   },
   methods: {
@@ -158,30 +117,34 @@ export default {
       });
     },
     async getServiceDesks({
-      $, cloudId,
+      $, cloudId, maxResults,
     }) {
       const { results } = await this._paginate({
         $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/servicedesk`,
+        maxResults,
       });
       return results;
     },
     async getRequestTypes({
-      $, cloudId, serviceDeskId,
+      $, cloudId, serviceDeskId, params, maxResults,
     }) {
       const { results } = await this._paginate({
         $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/servicedesk/${serviceDeskId}/requesttype`,
+        params,
+        maxResults,
       });
       return results;
     },
-    async getRequestTypeFields({
-      cloudId, serviceDeskId, requestTypeId,
+    async getRequestTypeCreateMeta({
+      $, cloudId, serviceDeskId, requestTypeId, params,
     }) {
-      const response = await this._makeRequest({
+      return this._makeRequest({
+        $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/servicedesk/${serviceDeskId}/requesttype/${requestTypeId}/field`,
+        params,
       });
-      return response.requestTypeFields;
     },
     async getCustomerRequests({
       $, cloudId,

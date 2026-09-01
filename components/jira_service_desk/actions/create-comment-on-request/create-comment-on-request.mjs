@@ -4,7 +4,7 @@ export default {
   key: "jira_service_desk-create-comment-on-request",
   name: "Create Comment on Request",
   description: "Create a comment on a customer request. [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-issueidorkey-comment-post)",
-  version: "0.0.4",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -23,9 +23,6 @@ export default {
       propDefinition: [
         jiraServiceDesk,
         "requestId",
-        ({ cloudId }) => ({
-          cloudId,
-        }),
       ],
     },
     body: {

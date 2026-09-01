@@ -1,11 +1,21 @@
+// x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import jiraServiceDesk from "../../jira_service_desk.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "jira_service_desk-create-request",
   name: "Create Request",
   description:
-    "Creates a new customer request. [See the documentation](https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/request-createCustomerRequest)",
-  version: "0.1.3",
+    "Creates a customer request (ticket) in a Jira Service Management service desk."
+    + " This is the single tool for creating any kind of ticket (incident, service request, access request, hardware request, and so on)."
+    + " The kind of ticket is decided by `requestTypeId`, not by the wording of the summary, so always pick the request type deliberately."
+    + " Use **List Sites** to get `cloudId`, **List Service Desks** to get `serviceDeskId`, and **List Request Types** to choose the `requestTypeId` whose name and description match the user's intent."
+    + " Call **List Request Type Fields** to see which fields that request type requires; pass anything beyond summary and description in `additionalFieldValues`, keyed by Jira field ID."
+    + " Worked example: on service desk `1`, request type `4` (\"Onboard new employees\") requires `summary` and also accepts a `duedate`, so call with Summary `Joseph Wilson starts on September 1`, Description `Needs a laptop and an email account`, and Additional Field Values `{ \"duedate\": \"2026-09-01\" }`."
+    + " Returns the created request including its `issueKey` and `issueId`."
+    + " [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-post)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -24,95 +34,130 @@ export default {
       propDefinition: [
         jiraServiceDesk,
         "serviceDeskId",
-        ({ cloudId }) => ({
-          cloudId,
-        }),
       ],
+      description: "The service desk to raise the request in. Use **List Service Desks** to find valid IDs (e.g. `1`).",
     },
     requestTypeId: {
       propDefinition: [
         jiraServiceDesk,
         "requestTypeId",
-        ({
-          cloudId, serviceDeskId,
-        }) => ({
-          cloudId,
-          serviceDeskId,
-        }),
       ],
-      reloadProps: true,
+      description: "The request type that determines what kind of ticket this is. Use **List Request Types** to see the types this service desk offers and pick the one matching the user's intent (e.g. `8` for \"Report a system problem\").",
+    },
+    summary: {
+      type: "string",
+      label: "Summary",
+      description: "One-line title of the request, e.g. `Laptop won't boot after the latest update`. Required by virtually every request type.",
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "Body of the request, as plain text.",
+      optional: true,
+    },
+    additionalFieldValues: {
+      type: "object",
+      label: "Additional Field Values",
+      description:
+        "Any other fields the chosen request type requires or accepts, as a JSON object of Jira field ID to value, e.g. `{ \"duedate\": \"2026-09-01\", \"customfield_10052\": \"Laptop\" }`."
+        + " Run **List Request Type Fields** for the exact `fieldId`s, which are required, and their schemas."
+        + " Values that parse as JSON are converted (`[\"a\",\"b\"]` becomes a list, `5` becomes a number); to keep a numeric-looking value a string, wrap it in quotes (`\"\\\"123\\\"\"`)."
+        + " Keys `summary` and `description` given here override the props above.",
+      optional: true,
     },
     requestParticipants: {
       type: "string[]",
       label: "Request Participants",
-      description:
-        "Not available to users who only have the Service Desk Customer permission or if the feature is turned off for customers..",
+      description: "Atlassian account IDs to add as participants, e.g. `[\"5b10a2844c20165700ede21g\"]`. Not available to users who only have the Service Desk Customer permission, or if the feature is turned off for customers.",
       optional: true,
     },
     raiseOnBehalfOf: {
       type: "string",
       label: "Raise On Behalf Of",
-      description:
-        "Not available to users who only have the Service Desk Customer permission.",
+      description: "Atlassian account ID of the customer to raise this request for, e.g. `5b10a2844c20165700ede21g`. Not available to users who only have the Service Desk Customer permission.",
+      optional: true,
+    },
+    form: {
+      type: "object",
+      label: "Form",
+      description: "Answers to the form attached to the request type, as `{ \"answers\": { \"<questionId>\": { \"text\": \"...\" } } }`. Omit any Jira field from `additionalFieldValues` when it is linked to a form answer here. For answers in ADF, also set `isAdfRequest` to `true`.",
+      optional: true,
+    },
+    isAdfRequest: {
+      type: "boolean",
+      label: "Is ADF Request",
+      description: "Set to `true` to send rich-text fields (such as `description`) as Atlassian Document Format objects rather than plain text. Leave unset to send plain strings. When `true`, do not use the Description prop, which only sends plain text: pass the ADF object as a JSON string under the `description` key of `additionalFieldValues` instead. Marked experimental by Atlassian.",
+      optional: true,
+    },
+    channel: {
+      type: "string",
+      label: "Channel",
+      description: "Extra information about the channel the request came in on. Marked experimental by Atlassian.",
       optional: true,
     },
   },
-  async additionalProps() {
-    const {
-      cloudId, serviceDeskId, requestTypeId,
-    } = this;
-    const types = await this.jiraServiceDesk.getRequestTypeFields({
-      cloudId,
-      serviceDeskId,
-      requestTypeId,
-    });
-
-    return Object.fromEntries(
-      types.map((field) => [
-        field.fieldId,
-        {
-          type: "string",
-          label: `Field: "${field.name}"`,
-          description: `[See the documentation](https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#fieldformats) for info on specific fields. If the provided value is not a string, it will be parsed as JSON.${field.description
-            ? `
-\\
-Field description: "${field.description}"`
-            : ""}${field.jiraSchema
-            ? `
-  \\
-  Field schema: \`${JSON.stringify(field.jiraSchema)}\``
-            : ""}`,
-          optional: !field.required,
-        },
-      ]),
-    );
-  },
   async run({ $ }) {
     const {
-      // eslint-disable-next-line no-unused-vars
       jiraServiceDesk,
       cloudId,
       serviceDeskId,
       requestTypeId,
+      summary,
+      description,
+      additionalFieldValues,
       requestParticipants,
       raiseOnBehalfOf,
-      ...requestFieldValues
+      form,
+      isAdfRequest,
+      channel,
     } = this;
 
-    Object.entries(requestFieldValues).forEach(([
-      key,
-      value,
-    ]) => {
+    let extraFields = additionalFieldValues;
+    if (typeof extraFields === "string") {
       try {
-        const parsedValue = JSON.parse(value);
-        requestFieldValues[key] = parsedValue;
+        extraFields = JSON.parse(extraFields);
+      } catch (error) {
+        throw new ConfigurationError(`Additional Field Values is not valid JSON: ${error.message}`);
       }
-      catch (err) {
-        // ignore non-serializable values
-      }
-    });
+    }
+    if (extraFields != null && (typeof extraFields !== "object" || Array.isArray(extraFields))) {
+      throw new ConfigurationError("Additional Field Values must be a JSON object of Jira field ID to value (not a list or a single value).");
+    }
 
-    const response = await this.jiraServiceDesk.createCustomerRequest({
+    // Object props arrive from the UI with string values; parse the ones that carry
+    // non-string Jira field types (arrays, objects, numbers) and leave the rest as text.
+    const parsedExtraFields = Object.fromEntries(
+      Object.entries(extraFields ?? {}).map(([
+        fieldId,
+        value,
+      ]) => {
+        if (typeof value !== "string") {
+          return [
+            fieldId,
+            value,
+          ];
+        }
+        try {
+          return [
+            fieldId,
+            JSON.parse(value),
+          ];
+        } catch {
+          return [
+            fieldId,
+            value,
+          ];
+        }
+      }),
+    );
+
+    const requestFieldValues = {
+      [constants.REQUEST_FIELD.SUMMARY]: summary,
+      [constants.REQUEST_FIELD.DESCRIPTION]: description,
+      ...parsedExtraFields,
+    };
+
+    const response = await jiraServiceDesk.createCustomerRequest({
       $,
       cloudId,
       data: {
@@ -121,9 +166,13 @@ Field description: "${field.description}"`
         requestFieldValues,
         requestParticipants,
         raiseOnBehalfOf,
+        form,
+        isAdfRequest,
+        channel,
       },
     });
-    $.export("$summary", "Successfully created request");
+
+    $.export("$summary", `Successfully created request ${response.issueKey}`);
     return response;
   },
 };

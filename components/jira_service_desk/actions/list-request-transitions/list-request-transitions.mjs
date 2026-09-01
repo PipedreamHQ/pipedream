@@ -11,7 +11,7 @@ export default {
     + " Use **List Sites** first to obtain the required `cloudId`."
     + " Use **List My Requests** or **Get Request** to find the `issueKey` (e.g. `IT-42`)."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-issueidorkey-transition-get)",
-  version: "1.0.0",
+  version: "1.1.0",
   type: "action",
   annotations: {
     destructiveHint: false,

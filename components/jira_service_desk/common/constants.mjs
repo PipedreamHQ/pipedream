@@ -12,9 +12,15 @@ const MAX_RESULTS_DEFAULT = 100;
 const MAX_RESULTS_MIN = 1;
 const MAX_RESULTS_MAX = 1000;
 
+const REQUEST_FIELD = {
+  SUMMARY: "summary",
+  DESCRIPTION: "description",
+};
+
 export default {
   PAGE_SIZE,
   MAX_RESULTS_DEFAULT,
   MAX_RESULTS_MIN,
   MAX_RESULTS_MAX,
+  REQUEST_FIELD,
 };
