@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import elasticSecurity from "../../elastic_security.app.mjs";
 import { BULK_ACTION_RUN } from "../../common/constants.mjs";
 import { getDefaultRunWindow } from "../../common/utils.mjs";
@@ -15,6 +14,7 @@ export default {
     + " [See the documentation](https://www.elastic.co/docs/api/doc/kibana/operation/operation-performrulesbulkaction)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import elasticSecurity from "../../elastic_security.app.mjs";
 import {
   CASE_COMMENT_TYPE_USER, CASE_OWNER,
@@ -14,6 +13,7 @@ export default {
     + " [See the documentation](https://www.elastic.co/docs/api/doc/kibana/operation/operation-addcasecommentdefaultspace)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

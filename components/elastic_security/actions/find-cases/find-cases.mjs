@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import elasticSecurity from "../../elastic_security.app.mjs";
 import { pickFields } from "../../common/utils.mjs";
 
@@ -12,6 +11,7 @@ export default {
     + " [See the documentation](https://www.elastic.co/docs/api/doc/kibana/operation/operation-findcasesdefaultspace)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

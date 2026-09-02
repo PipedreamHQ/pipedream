@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import elasticSecurity from "../../elastic_security.app.mjs";
 
 export default {
@@ -12,6 +11,7 @@ export default {
     + " [See the delete case documentation](https://www.elastic.co/docs/api/doc/kibana/operation/operation-deletecasedefaultspace) and the [delete rule documentation](https://www.elastic.co/docs/api/doc/kibana/operation/operation-deleterule)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: true,

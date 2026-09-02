@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import elasticSecurity from "../../elastic_security.app.mjs";
 
 export default {
@@ -11,6 +10,7 @@ export default {
     + " [See the case tags documentation](https://www.elastic.co/docs/api/doc/kibana/operation/operation-getcasetagsdefaultspace) and the [rule tags documentation](https://www.elastic.co/docs/api/doc/kibana/operation/operation-readtags)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import elasticSecurity from "../../elastic_security.app.mjs";
 import {
@@ -17,6 +16,7 @@ export default {
     + " [See the create documentation](https://www.elastic.co/docs/api/doc/kibana/operation/operation-createcasedefaultspace) and the [update documentation](https://www.elastic.co/docs/api/doc/kibana/operation/operation-updatecasedefaultspace)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

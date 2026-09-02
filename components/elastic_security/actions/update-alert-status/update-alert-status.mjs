@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import elasticSecurity from "../../elastic_security.app.mjs";
 import { ALERT_STATUSES } from "../../common/constants.mjs";
 
@@ -11,6 +10,7 @@ export default {
     + " [See the documentation](https://www.elastic.co/docs/api/doc/kibana/operation/operation-setalertsstatus)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,
