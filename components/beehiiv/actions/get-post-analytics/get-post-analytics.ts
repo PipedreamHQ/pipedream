@@ -18,8 +18,9 @@ export default defineAction({
     + " [See the documentation]"
     + "(https://developers.beehiiv.com/api-reference/"
     + "posts/aggregate-stats)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: false,
