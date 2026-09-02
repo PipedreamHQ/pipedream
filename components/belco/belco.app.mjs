@@ -74,7 +74,7 @@ export default {
     conversationId: {
       type: "string",
       label: "Conversation ID",
-      description: "Select a conversation to use for the action",
+      description: "The ID of the conversation to use for the action (e.g. `sSzxq7tMBFmCY28o8`)",
       async options({
         page, includeStatus, excludeStatus,
       }) {
