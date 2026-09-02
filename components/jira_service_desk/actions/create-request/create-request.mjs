@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import jiraServiceDesk from "../../jira_service_desk.app.mjs";
 import constants from "../../common/constants.mjs";
@@ -23,6 +22,7 @@ export default {
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     jiraServiceDesk,
     cloudId: {

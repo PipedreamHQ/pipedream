@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import {
   axios, getFileStreamAndMetadata,
 } from "@pipedream/platform";
