@@ -60,6 +60,9 @@ export default {
     if (!metadata) {
       throw new ConfigurationError(`Attachment ID "${this.attachmentId}" was not found on issue "${this.issueIdOrKey}". Run List Issue Attachments to confirm the ID and issue match. If this connection has customer-level access, note that internal (non-public) attachments aren't visible to it even if they exist.`);
     }
+    if (metadata.size > constants.MAX_ATTACHMENT_SIZE_BYTES) {
+      throw new ConfigurationError(`Attachment "${metadata.filename}" is ${metadata.size} bytes, which exceeds the ${constants.MAX_ATTACHMENT_SIZE_BYTES}-byte (2GB) /tmp disk limit for this execution, so it cannot be downloaded.`);
+    }
 
     const safeFilename = path.basename(metadata.filename ?? "");
     if (!safeFilename || safeFilename === "." || safeFilename === "..") {

@@ -20,6 +20,11 @@ const REQUEST_FIELD = {
 // The axios responseType used when streaming binary attachment content.
 const STREAM_RESPONSE_TYPE = "stream";
 
+// Pipedream's /tmp directory (the default file-stash download target) is capped at 2GB
+// per execution, so any attachment reported larger than this can never be downloaded.
+// https://pipedream.com/docs/workflows/limits#disk
+const MAX_ATTACHMENT_SIZE_BYTES = 2 * 1024 * 1024 * 1024;
+
 export default {
   PAGE_SIZE,
   MAX_RESULTS_DEFAULT,
@@ -27,4 +32,5 @@ export default {
   MAX_RESULTS_MAX,
   REQUEST_FIELD,
   STREAM_RESPONSE_TYPE,
+  MAX_ATTACHMENT_SIZE_BYTES,
 };
