@@ -318,7 +318,10 @@ export default {
     async attachFilesToRequestFromSource({
       $, cloudId, serviceDeskId, issueIdOrKey, files, isPublic,
     }) {
-      const data = new FormData();
+      // Uploaded one file at a time (rather than buffering every file into one shared
+      // FormData first) so only the small temporaryAttachmentId is retained across
+      // iterations instead of holding every file's full content in memory at once.
+      const temporaryAttachmentIds = [];
       for (const file of files) {
         const {
           stream, metadata,
@@ -330,27 +333,29 @@ export default {
         for await (const chunk of stream) {
           chunks.push(chunk);
         }
+        const data = new FormData();
         data.append("file", Buffer.concat(chunks), {
           contentType: metadata.contentType,
           filename: metadata.name,
         });
+
+        const uploadResponse = await this.uploadTemporaryFile({
+          $,
+          cloudId,
+          serviceDeskId,
+          headers: {
+            "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
+            "Content-Length": data.getLengthSync(),
+            "X-Atlassian-Token": "no-check",
+          },
+          data,
+        });
+        temporaryAttachmentIds.push(
+          ...uploadResponse.temporaryAttachments.map(
+            ({ temporaryAttachmentId }) => temporaryAttachmentId,
+          ),
+        );
       }
-
-      const uploadResponse = await this.uploadTemporaryFile({
-        $,
-        cloudId,
-        serviceDeskId,
-        headers: {
-          "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
-          "Content-Length": data.getLengthSync(),
-          "X-Atlassian-Token": "no-check",
-        },
-        data,
-      });
-
-      const temporaryAttachmentIds = uploadResponse.temporaryAttachments.map(
-        ({ temporaryAttachmentId }) => temporaryAttachmentId,
-      );
 
       return this.attachFilesToRequest({
         $,

@@ -1,6 +1,7 @@
 // x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import jiraServiceDesk from "../../jira_service_desk.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "jira_service_desk-manage-request-attachment",
@@ -8,7 +9,7 @@ export default {
   description:
     "Adds, replaces, or deletes a single attachment on a customer request (ticket) that already exists."
     + " To attach file(s) while creating a brand-new request, use **Create Request**'s `attachments` prop instead — use this tool only for requests that already exist."
-    + " Set `operation` to `add` to attach a new file, `update` to replace an existing attachment with a different file (there's no in-place replace in the API, so this deletes the old attachment and uploads the new one), or `delete` to remove an attachment."
+    + " Set `operation` to `add` to attach a new file, `update` to replace an existing attachment with a different file (there's no in-place replace in the API, so this uploads the new file and only deletes the old one once the new one is confirmed attached), or `delete` to remove an attachment."
     + " `add` and `update` require `serviceDeskId` (the temp-file upload step is scoped by service desk, not by issue) — use **List Service Desks** to find it, or read it off the response of the request that created the ticket."
     + " `update` and `delete` require `attachmentId`, the numeric ID of the attachment being replaced or removed; this is returned in the `attachments` array of a prior `add` or `update` call on the same request."
     + " Worked example: to replace an attachment `10050` on request `HD-12` with a new file, call with Operation `update`, Issue ID Or Key `HD-12`, Service Desk ID `1`, Attachment ID `10050`, and File `/tmp/revised-report.pdf`."
@@ -92,10 +93,23 @@ export default {
       public: isPublic,
     } = this;
 
+    const verifyAttachmentBelongsToRequest = async () => {
+      const { attachments } = await jiraServiceDesk.getIssueAttachments({
+        $,
+        cloudId,
+        issueIdOrKey,
+        maxResults: constants.MAX_RESULTS_MAX,
+      });
+      if (!attachments.some(({ id }) => id === attachmentId)) {
+        throw new ConfigurationError(`Attachment ID "${attachmentId}" was not found on request "${issueIdOrKey}". Run List Issue Attachments to confirm the ID and issue match.`);
+      }
+    };
+
     if (operation === "delete") {
       if (!attachmentId) {
         throw new ConfigurationError("Attachment ID is required to delete an attachment.");
       }
+      await verifyAttachmentBelongsToRequest();
       await jiraServiceDesk.deleteAttachment({
         $,
         cloudId,
@@ -118,11 +132,7 @@ export default {
       if (!attachmentId) {
         throw new ConfigurationError("Attachment ID is required to update (replace) an attachment.");
       }
-      await jiraServiceDesk.deleteAttachment({
-        $,
-        cloudId,
-        attachmentId,
-      });
+      await verifyAttachmentBelongsToRequest();
     }
 
     const attachResponse = await jiraServiceDesk.attachFilesToRequestFromSource({
@@ -135,6 +145,16 @@ export default {
       ],
       isPublic,
     });
+
+    // The new attachment must succeed before the old one is removed — deleting first
+    // would leave the request with no attachment at all if the upload then failed.
+    if (operation === "update") {
+      await jiraServiceDesk.deleteAttachment({
+        $,
+        cloudId,
+        attachmentId,
+      });
+    }
 
     $.export("$summary", `${operation === "update"
       ? "Replaced"
