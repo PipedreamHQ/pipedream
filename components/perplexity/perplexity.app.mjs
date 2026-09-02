@@ -190,7 +190,7 @@ export default {
         headers: {
           "X-Pplx-Integration": "pipedream",
           ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
+          "Authorization": `Bearer ${this.$auth.api_key}`,
         },
       });
     },
