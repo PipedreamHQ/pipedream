@@ -11,8 +11,9 @@ export default {
     + "\n\nCommon fields: `id`, `name`, `mimeType`, `size`, `parents`, `webViewLink`, `webContentLink`,"
     + " `createdTime`, `modifiedTime`, `owners`, `permissions`, `description`, `trashed`."
     + " [See the documentation](https://developers.google.com/drive/api/v3/reference/files/get)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
