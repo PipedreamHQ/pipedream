@@ -9,7 +9,7 @@ export default {
     + " Sent mail is logged against the related record - use **List Email Messages** to read it back."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_action.meta/api_action/actions_obj_email_simple.htm)",
-  version: "0.1.2",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -32,6 +32,13 @@ export default {
       type: "string",
       label: "Body",
       description: "The body of the email",
+    },
+    sendRichBody: {
+      type: "boolean",
+      label: "Send Rich Body",
+      description: "Whether to send **Body** of the email as rich text (HTML) rather than plain text. Defaults to `false`.",
+      default: false,
+      optional: true,
     },
     logEmailOnSend: {
       type: "boolean",
@@ -102,6 +109,7 @@ export default {
             emailAddresses: this.emailAddress,
             emailSubject: this.emailSubject,
             emailBody: this.emailBody,
+            sendRichBody: this.sendRichBody,
             senderType: this.senderType,
             logEmailOnSend: this.logEmailOnSend,
             relatedRecordId: this.relatedRecordId,
