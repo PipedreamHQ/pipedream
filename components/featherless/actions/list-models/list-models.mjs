@@ -39,6 +39,7 @@ export default {
       type: "integer",
       label: "Page",
       description: "Page number of results to fetch (1-based).",
+      min: 1,
       optional: true,
     },
     perPage: {
@@ -52,7 +53,7 @@ export default {
     fields: {
       type: "string[]",
       label: "Fields",
-      description: `Which fields to keep on each returned model. Omit to use the compact default (${COMPACT_MODEL_FIELDS.join(", ")}). Available keys also include \`is_gated\` and other model metadata.`,
+      description: `An array of field names to keep on each returned model, e.g. \`["id", "is_gated"]\`. Omit to use the compact default (${COMPACT_MODEL_FIELDS.join(", ")}). Available keys also include \`is_gated\` and other model metadata.`,
       optional: true,
     },
   },

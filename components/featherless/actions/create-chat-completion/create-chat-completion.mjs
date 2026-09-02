@@ -1,5 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
 import featherless from "../../featherless.app.mjs";
+import { parseDecimalProp } from "../../common/utils.mjs";
 
 export default {
   key: "featherless-create-chat-completion",
@@ -100,32 +101,23 @@ export default {
     } catch {
       throw new ConfigurationError("**Messages** must be a valid JSON array of message objects, e.g. `[{\"role\":\"user\",\"content\":\"Hello\"}]`.");
     }
-    const response = await this.featherless.chatCompletion({
+    if (!Array.isArray(messages)) {
+      throw new ConfigurationError("**Messages** must be a valid JSON array of message objects, e.g. `[{\"role\":\"user\",\"content\":\"Hello\"}]`.");
+    }
+    const response = await this.featherless.createChatCompletion({
       $,
       data: {
         model: this.model,
         messages,
         max_tokens: this.maxTokens,
         min_tokens: this.minTokens,
-        temperature: this.temperature
-          ? parseFloat(this.temperature)
-          : undefined,
-        top_p: this.topP
-          ? parseFloat(this.topP)
-          : undefined,
+        temperature: parseDecimalProp(this.temperature, "Temperature"),
+        top_p: parseDecimalProp(this.topP, "Top P"),
         top_k: this.topK,
-        min_p: this.minP
-          ? parseFloat(this.minP)
-          : undefined,
-        presence_penalty: this.presencePenalty
-          ? parseFloat(this.presencePenalty)
-          : undefined,
-        frequency_penalty: this.frequencyPenalty
-          ? parseFloat(this.frequencyPenalty)
-          : undefined,
-        repetition_penalty: this.repetitionPenalty
-          ? parseFloat(this.repetitionPenalty)
-          : undefined,
+        min_p: parseDecimalProp(this.minP, "Min P"),
+        presence_penalty: parseDecimalProp(this.presencePenalty, "Presence Penalty"),
+        frequency_penalty: parseDecimalProp(this.frequencyPenalty, "Frequency Penalty"),
+        repetition_penalty: parseDecimalProp(this.repetitionPenalty, "Repetition Penalty"),
         seed: this.seed,
         stop: this.stop,
       },

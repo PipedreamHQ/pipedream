@@ -102,14 +102,14 @@ export default {
         ...args,
       });
     },
-    chatCompletion(args = {}) {
+    createChatCompletion(args = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/chat/completions",
         ...args,
       });
     },
-    textCompletion(args = {}) {
+    createTextCompletion(args = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/completions",

@@ -1,4 +1,5 @@
 import featherless from "../../featherless.app.mjs";
+import { parseDecimalProp } from "../../common/utils.mjs";
 
 export default {
   key: "featherless-create-text-completion",
@@ -106,32 +107,20 @@ export default {
     } catch {
       prompt = this.prompt;
     }
-    const response = await this.featherless.textCompletion({
+    const response = await this.featherless.createTextCompletion({
       $,
       data: {
         model: this.model,
         prompt,
         max_tokens: this.maxTokens,
         min_tokens: this.minTokens,
-        temperature: this.temperature
-          ? parseFloat(this.temperature)
-          : undefined,
-        top_p: this.topP
-          ? parseFloat(this.topP)
-          : undefined,
+        temperature: parseDecimalProp(this.temperature, "Temperature"),
+        top_p: parseDecimalProp(this.topP, "Top P"),
         top_k: this.topK,
-        min_p: this.minP
-          ? parseFloat(this.minP)
-          : undefined,
-        presence_penalty: this.presencePenalty
-          ? parseFloat(this.presencePenalty)
-          : undefined,
-        frequency_penalty: this.frequencyPenalty
-          ? parseFloat(this.frequencyPenalty)
-          : undefined,
-        repetition_penalty: this.repetitionPenalty
-          ? parseFloat(this.repetitionPenalty)
-          : undefined,
+        min_p: parseDecimalProp(this.minP, "Min P"),
+        presence_penalty: parseDecimalProp(this.presencePenalty, "Presence Penalty"),
+        frequency_penalty: parseDecimalProp(this.frequencyPenalty, "Frequency Penalty"),
+        repetition_penalty: parseDecimalProp(this.repetitionPenalty, "Repetition Penalty"),
         seed: this.seed,
         stop: this.stop,
       },
