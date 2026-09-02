@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import slack from "../../slack_v2.app.mjs";
 import common from "../common/send-message.mjs";
 
@@ -14,13 +13,14 @@ export default {
     + " (e.g. `1403051575.000407`); get it from **Get Channel History** or an incoming event's"
     + " `ts` field. For a plain, non-threaded message use **Post Message** instead."
     + " [See the documentation](https://api.slack.com/methods/chat.postMessage)",
-  version: "0.2.8",
+  version: "0.2.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     slack: common.props.slack,
     conversation: {

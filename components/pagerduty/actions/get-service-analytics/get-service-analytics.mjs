@@ -8,8 +8,9 @@ export default {
     + " Use **List Services** to discover service IDs."
     + " Time params use ISO 8601 with explicit UTC offset, e.g. `2026-06-02T15:00:00-07:00`."
     + " [See the documentation](https://developer.pagerduty.com/api-reference/694e92fe4f943-get-aggregated-service-data)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import azureDevops from "../../azure_devops.app.mjs";
 import {
@@ -9,8 +8,9 @@ export default {
   key: "azure_devops-list-commits",
   name: "List Commits",
   description: "List a repository's commits, optionally narrowed by author, date range, branch or file path. Returns each commit's SHA, author, message and change counts. Use this to build a changelog or to find the commit that last touched a file. Example: author `jamal@fabrikam.com` since `2026-01-01T00:00:00Z`. Returns at most **Limit** results per call - if that many come back there may be more, so raise **Skip** by **Limit** and call again to page through the rest. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/git/commits/get-commits?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

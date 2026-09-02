@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../box.app.mjs";
 import utils from "../../common/utils.mjs";
 
@@ -6,13 +5,14 @@ export default {
   name: "Get Comments",
   description: "Fetches all comments on a Box file, paginating through every page and returning the full list. Use **Add Comment** to create a new comment on the file. [See the documentation](https://developer.box.com/reference/get-files-id-comments/).",
   key: "box-get-comments",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     folderId: {

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { defineAction } from "@pipedream/types";
 import expensify from "../../app/expensify.app";
 import { REPORT_DETAIL_FTL_TEMPLATE } from "../../common/constants";
@@ -7,8 +6,9 @@ export default defineAction({
   key: "expensify-get-report",
   name: "Get Report",
   description: "Retrieve a single Expensify report by ID, returning a structured object with the report metadata plus its complete expense line-item list (per-expense amount, currency, merchant, date, category, receiptURL, etc.). NOT a file. Implemented via the Report Exporter with reportIDList set to the given ID and an embedded Freemarker JSON template read in memory. Use **List Reports** to discover report IDs. This action also covers per-expense reads: the returned transactionList contains full expense details, so a separate expense-by-ID lookup is unnecessary. [See the documentation](https://integrations.expensify.com/Integration-Server/doc/#report-exporter)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

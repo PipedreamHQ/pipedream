@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 import { SERVICE_ENDPOINT_ACTION_FILTER_OPTIONS } from "../../common/constants.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "azure_devops-list-service-endpoints",
   name: "List Service Endpoints",
   description: "List a project's service connections, optionally filtered by type. Returns each connection's id, name, type and authorization scheme, without its secrets. Use this to audit which external systems a project can reach from its pipelines. Example: type `github` returns the GitHub connection and its id. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/serviceendpoint/endpoints/get-service-endpoints?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

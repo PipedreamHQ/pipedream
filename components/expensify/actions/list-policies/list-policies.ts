@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { defineAction } from "@pipedream/types";
 import expensify from "../../app/expensify.app";
 
@@ -6,13 +5,14 @@ export default defineAction({
   key: "expensify-list-policies",
   name: "List Policies",
   description: "Retrieves a list of policies. [See the documentation](https://integrations.expensify.com/Integration-Server/doc/#policy-list-getter)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     expensify,
     adminOnly: {

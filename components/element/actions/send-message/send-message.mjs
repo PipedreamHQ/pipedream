@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import element from "../../element.app.mjs";
 
 export default {
   key: "element-send-message",
   name: "Send Message",
   description: "Send a text message to a room. The room must be one the connected account has already joined, and must be identified by room ID rather than alias — use **List Rooms** to find it. Returns the `event_id` of the sent message. [See the documentation](https://spec.matrix.org/latest/client-server-api/#put_matrixclientv3roomsroomidsendeventtypetxnid)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
