@@ -13,7 +13,7 @@ export default {
     inputs: {
       type: "object",
       label: "Inputs",
-      description: "Values for the app's input variables, keyed by variable name, e.g. `{ \"city\": \"San Francisco\" }`. The variable names and types are defined by the app's configuration in the Dify console (**Orchestrate**/**Configure** tab), or can be retrieved by calling `GET /parameters` with the app's API key.",
+      description: "Values for the app's input variables, keyed by variable name, e.g. `{ \"city\": \"San Francisco\" }`. Leave empty (`{}`) if the app defines no input variables — most chat apps don't. The variable names and types are specific to how this particular Dify app was built, so if you don't already know them, ask the user which input variables their app expects rather than guessing; they can also be found on the app's **Orchestrate**/**Configure** tab in the Dify console.",
       optional: true,
     },
   },

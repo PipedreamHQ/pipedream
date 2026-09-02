@@ -4,7 +4,7 @@ import dify from "../../dify.app.mjs";
 export default {
   key: "dify-list-knowledge-bases",
   name: "List Knowledge Bases",
-  description: "List the knowledge bases (datasets) visible to your Dify account, optionally filtered by name. Use this to find the `Knowledge Base ID` needed by **Query Knowledge Base**. Dify's knowledge base endpoints require a knowledge base API key (from a knowledge base's own **API Access** page), which is a different key from the app API key used by **Send Chat Message** and **Run Workflow** — connect a separate Dify account in the `Dify` prop below using that key if your existing connection uses an app key. [See the documentation](https://docs.dify.ai/en/api-reference/knowledge-bases/list-knowledge-bases)",
+  description: "List the knowledge bases (datasets) visible to your Dify account, optionally filtered by name. Use this to find the `Knowledge Base ID` needed by **Query Knowledge Base**. This requires a Dify connection authenticated with a knowledge base API key (issued from a knowledge base's own **API Access** page), not an app API key — those authenticate **Send Chat Message** and **Run Workflow** instead. A `401 unauthorized` error here usually means the connected account is using an app key; reconnect with a knowledge base key instead. [See the documentation](https://docs.dify.ai/en/api-reference/knowledge-bases/list-knowledge-bases)",
   version: "0.0.1",
   type: "action",
   annotations: {
