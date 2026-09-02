@@ -1,13 +1,13 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import featherless from "../../featherless.app.mjs";
 
 export default {
-  key: "featherless-chat-completion",
+  key: "featherless-create-chat-completion",
   name: "Create Chat Completion",
   description: "Generate a chat completion using a Featherless-hosted model (POST /v1/chat/completions). Returns a completion object whose `choices[0].message.content` holds the model's reply, plus a `usage` token breakdown. Use **List Models** first to discover valid model IDs to pass to the `model` prop. Example: `model=Qwen/Qwen3-0.6B`, `messages=[{\"role\":\"user\",\"content\":\"What is 2 + 2?\"}]` returns a reply of `4` in `choices[0].message.content`. [See the documentation](https://featherless.ai/docs/completions).",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

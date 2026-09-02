@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import featherless from "../../featherless.app.mjs";
 
 export default {
-  key: "featherless-text-completion",
+  key: "featherless-create-text-completion",
   name: "Create Text Completion",
   description: "Generate a text completion from a raw prompt using a Featherless-hosted model (POST /v1/completions). Returns a completion object whose `choices[0].text` holds the generated text, plus a `usage` token breakdown. This is a distinct legacy-style completion endpoint from **Create Chat Completion**. Use **List Models** first to discover valid model IDs. Example: `model=Qwen/Qwen3-0.6B`, `prompt=\"The capital of France is\"` returns ` Paris` in `choices[0].text`. [See the documentation](https://featherless.ai/docs/completions).",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

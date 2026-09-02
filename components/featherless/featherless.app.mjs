@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { axios } from "@pipedream/platform";
 import { BASE_URL } from "./common/constants.mjs";
 
