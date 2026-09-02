@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import mercury from "../../mercury.app.mjs";
 import {
@@ -12,8 +11,9 @@ export default {
   key: "mercury-list-categories",
   name: "List Categories",
   description: "List all custom expense categories for the organization. Use this to discover category IDs and names used to classify transactions. Example: call with no parameters -> returns `{ categories: [{ id: \"a1b2...\", name: \"Software\", visibleForCardSpend: true, visibleForOther: true, visibleForReimbursements: false }], page: { nextPage: null, previousPage: null } }`. [See the documentation](https://docs.mercury.com/reference/listcategories)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

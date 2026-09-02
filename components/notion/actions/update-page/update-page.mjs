@@ -12,13 +12,14 @@ export default {
     + " Set `properties` to a flat JSON object of column-name → value, e.g. `{ \"Status\": \"Contained\" }`; call **Retrieve Database Schema** first to learn the exact column names and valid select options."
     + " To add body content instead of changing properties, use **Append Block to Parent**."
     + " [See the documentation](https://developers.notion.com/reference/patch-page)",
-  version: "3.0.0",
+  version: "3.0.1",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     notion,
     pageId: {

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import { defineAction } from "@pipedream/types";
 import expensify from "../../app/expensify.app";
@@ -8,8 +7,9 @@ export default defineAction({
   key: "expensify-reimburse-report",
   name: "Reimburse Report",
   description: "Mark an APPROVED Expensify report as `REIMBURSED` via the Integration Server `reportStatus` updater. This is the only report-status transition the API supports — Approve and Reject are not available (attempting `APPROVED` returns responseCode 410). Use **List Reports** with reportState=APPROVED to find reports eligible for reimbursement. [See the documentation](https://integrations.expensify.com/Integration-Server/doc/#report-status-updater)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

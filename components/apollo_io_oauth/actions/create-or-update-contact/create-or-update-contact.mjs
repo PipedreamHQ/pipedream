@@ -16,8 +16,9 @@ export default {
     + " **Search Accounts** to find the account ID."
     + " [See the documentation](https://docs.apollo.io/reference"
     + "/create-a-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

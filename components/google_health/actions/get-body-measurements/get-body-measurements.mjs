@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../google_health.app.mjs";
 import {
   addDays,
@@ -25,8 +24,9 @@ export default {
   key: "google_health-get-body-measurements",
   name: "Get Body Measurements",
   description: "Get the user's weight logs with **computed BMI**, their body-fat percentage logs, and their current height. Raw logs, so there is no date cap; at most 1000 weigh-ins per call, with `truncated` set when there were more. Example: startDate=\"2026-08-01\", endDate=\"2026-08-25\" → `weightLogs: [{ time, weightKg: 74.2, weightLb: 163.6, bmi: 22.9, notes }]`, `bodyFatLogs: [{ time, percentage }]`, and `height: { heightCm, heightIn, measuredAt }`. `weightLogs` and `bodyFatLogs` are newest first. Two things to tell the user rather than guess: the API has **no BMI field**, so BMI is computed here as kg ÷ height in m² and is `null` when no height is on record. `height` is not measured over the requested range at all — it is the most recent height found in a ten-year lookback, capped at one page, so check `measuredAt` before calling it current: it can be years old, and when nothing turns up `bmiComputable` is `false` and every `bmi` is `null`. Body fat is measured separately from weight, so a weigh-in on a scale without body composition appears in `weightLogs` with no matching `bodyFatLogs` entry. Set includeBodyFat=false to skip the body-fat request entirely — `bodyFatLogs` then comes back empty because it was never asked for, which is not the same as the user having no body-fat data. [See the documentation](https://developers.google.com/health/reference/rest/v4/users.dataTypes.dataPoints/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

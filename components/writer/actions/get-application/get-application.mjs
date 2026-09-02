@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../writer.app.mjs";
 
 export default {
@@ -8,8 +7,9 @@ export default {
     + "Use **List Applications** first to find the application's `id`, then call this before **Run Application** so you know the input field `id`s (names) the agent expects. "
     + "Example: call with `applicationId=\"3f9c...\"` -> returns `{ id, name, type, status, inputs: [{ id, name, ... }], created_at, updated_at }`, where each `inputs[].id` is an input field name such as `\"topic\"`. "
     + "[See the documentation](https://dev.writer.com/api-reference/application-api/application-details)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

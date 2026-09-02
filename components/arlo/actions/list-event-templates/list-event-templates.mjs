@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import arlo from "../../arlo.app.mjs";
 import {
   DEFAULT_LIMIT,
@@ -9,8 +8,9 @@ export default {
   key: "arlo-list-event-templates",
   name: "List Event Templates",
   description: "List Arlo EventTemplate (course) records. Use this first to discover the template `Code` and `TemplateID` values needed by **Create Event** and **List Events**. Optionally filter by status. Results are paged (see `limit`/`skip`); if the page comes back full, call again with a higher `skip` for more. Use `fields` to shrink the response for large template lists. Example: call with `status: \"Active\"` to get up to 100 active templates with `TemplateID`, `Code`, `Name`. [See the documentation](https://developer.arlo.co/doc/api/2012-02-01/auth/resources/eventtemplates#collection-httpget).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,
