@@ -11,7 +11,7 @@ const props = adjustPropDefinitions(others.props, app);
 export default {
   ...others,
   key: "monday_oauth-update-column-values",
-  version: "0.1.1",
+  version: "0.1.2",
   name,
   description,
   type,
