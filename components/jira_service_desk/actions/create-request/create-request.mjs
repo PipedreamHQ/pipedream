@@ -16,7 +16,7 @@ export default {
     + " Optionally attach one or more files at creation time via `attachments`; to add, replace, or delete attachments on a request that already exists, use **Manage Request Attachment** instead."
     + " Returns the created request including its `issueKey` and `issueId`. If `attachments` is set, the response also includes either an `attachments` array (on success) or an `attachmentError` string (if the request was created but the attachment step failed) — the request itself is never rolled back because of an attachment failure."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-post)",
-  version: "1.0.2",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
