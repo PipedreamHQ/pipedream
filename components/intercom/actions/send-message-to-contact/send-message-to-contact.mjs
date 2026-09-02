@@ -1,10 +1,11 @@
+// x-pd-ai: optimized
 import intercom from "../../intercom.app.mjs";
 
 export default {
   key: "intercom-send-message-to-contact",
   name: "Send Message To Contact",
-  description: "Send a message to a contact in Intercom. [See the documentation](https://developers.intercom.com/docs/references/rest-api/api.intercom.io/messages/createmessage).",
-  version: "0.0.3",
+  description: "Sends an outbound message from an admin to a contact in Intercom (POST /messages). Set **Message Type** to `in_app` for an in-app message or `email` for an email — email messages require **Subject** and support **Template** (`plain` or `personal`). Use **List Admin ID Options** to find a valid **From ID** and **Search Contacts** to find a valid **To ID**. Example: set **Message Type** to `email`, **Subject** to `Welcome!`, **Template** to `personal`, **From ID** to `25`, **To Type** to `user`, and **To ID** to `536e564f316c83104c000020` to send a personal welcome email to that contact. [See the documentation](https://developers.intercom.com/docs/references/rest-api/api.intercom.io/messages/createmessage).",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -71,18 +72,8 @@ export default {
       ],
     },
   },
-  methods: {
-    sendMessage(args = {}) {
-      return this.intercom.makeRequest({
-        method: "POST",
-        endpoint: "messages",
-        ...args,
-      });
-    },
-  },
   async run({ $ }) {
     const {
-      sendMessage,
       messageType,
       subject,
       body,
@@ -92,7 +83,7 @@ export default {
       toId,
     } = this;
 
-    const response = await sendMessage({
+    const response = await this.intercom.sendMessage({
       $,
       data: {
         message_type: messageType,
