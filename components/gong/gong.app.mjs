@@ -100,7 +100,11 @@ export default {
       return (msg = "") => step.export(constants.SUMMARY_LABEL, msg);
     },
     getBaseUrl() {
-      return `${constants.BASE_URL}${constants.VERSION_PATH}`;
+      const { api_base_url_for_customer: baseUrl } = this.$auth;
+      if (!baseUrl) {
+        throw new ConfigurationError("This Gong account is missing its API base URL. Reconnect the account to refresh its credentials.");
+      }
+      return `${baseUrl.replace(/\/+$/, "")}${constants.VERSION_PATH}`;
     },
     getUrl(path) {
       return `${this.getBaseUrl()}${path}`;

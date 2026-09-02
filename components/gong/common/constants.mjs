@@ -1,5 +1,4 @@
 const SUMMARY_LABEL = "$summary";
-const BASE_URL = "https://us-66463.api.gong.io";
 const VERSION_PATH = "/v2";
 const LAST_CREATED_AT = "lastCreatedAt";
 const DEFAULT_MAX = 600;
@@ -116,7 +115,6 @@ const EXTENDED_CONTEXT = "Extended";
 
 export default {
   SUMMARY_LABEL,
-  BASE_URL,
   VERSION_PATH,
   DOCS_URL,
   DEFAULT_MAX,
