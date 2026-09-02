@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import ramp from "../../ramp_sandbox.app.mjs";
 import issueVirtualCard from "@pipedream/ramp/actions/issue-virtual-card/issue-virtual-card.mjs";
 
@@ -7,8 +6,9 @@ export default {
   key: "ramp_sandbox-issue-virtual-card",
   name: "Issue Virtual Card",
   description: "Issue a new Ramp Sandbox virtual card (spend limit) for a user. Requires a **Virtual Card Name** and the user's ID (run **List Users** to find it). Works two ways: (1) **link to an existing spend program** — set **Link to Existing Spend Program** on and pass a **Spend Program ID** (run **List Spend Programs**), and the program governs the card's restrictions; or (2) **set a custom limit** — leave linking off and pass a **Total Limit per Interval** (e.g. `$500`) and an **Interval** (e.g. `MONTHLY`), optionally a per-transaction cap, allowed/blocked categories, and whether the physical card (**Primary Card Enabled**) and **Reimbursements Enabled** apply. Example: issue a $500/month card by passing a Virtual Card Name (e.g. `Marketing SaaS`), the user's ID, `$500`, and `MONTHLY`. [See the documentation](https://docs.ramp.com/developer-api/v1/reference/rest/limits#post-developer-v1-limits-deferred)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
