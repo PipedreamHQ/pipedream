@@ -7,11 +7,55 @@ reviews:
     drafts: false
     base_branches:
       - master
+    auto_incremental_review: true
+    ignore_title_keywords:
+      - "WIP"
+      - "DO NOT REVIEW"
   high_level_summary: true
   collapse_walkthrough: true
   poem: false
+  slop_detection:
+    enabled: true
+
+  path_filters:
+    - "!**/*.snap"
 
   path_instructions:
+
+    # ── MCP-first design (read this before any other check below) ─────────────
+    - path: "components/*/actions/**/*.mjs"
+      instructions: |
+        This repository's actions are consumed as MCP tools by agent clients, not only
+        as Workflow Builder steps. Treat MCP compatibility as the
+        primary requirement, not a secondary concern to check "when relevant." Flag every
+        instance of the following as a blocking issue:
+
+        - `$.flow.rerun()`, pause-and-resume, or "wait for a webhook" patterns. These
+          depend on the Workflow Builder's stateful flow-execution engine to suspend and
+          later resume a run. An MCP tool call is a single stateless request/response —
+          there is no "run" for an agent to pause and come back to. An action built around
+          this primitive is fundamentally uncallable via MCP, regardless of description
+          quality. The component needs a synchronous, single-call implementation instead —
+          if the underlying operation is genuinely long-running, it should either be
+          modeled as a source, or return a job ID a separate "get status" action can poll.
+        - Required configuration that depends on `additionalProps()`/`reloadProps: true`
+          as the only way to complete the action. Pipedream's own MCP server can bridge
+          this via `retrieve_options`/`configure_component` meta-tools, but that bridging
+          is specific to certain MCP clients — it is not guaranteed by the MCP protocol,
+          and cannot be assumed to work for every agent consuming this tool.
+          `async options()` alone, with no reload dependency, is the default
+          expectation for required props; a reload-dependent required prop needs explicit
+          justification for why no simpler alternative exists.
+        - A `run()` result that is only meaningful to a downstream Workflow Builder step
+          reading `$.export` output, rather than a complete, self-contained answer in the
+          tool's own return value. An agent sees only what this call returns — nothing
+          about a subsequent step's context.
+        - Descriptions (component-level and prop-level) written for a human operator in a
+          UI — "select from the dropdown," "this runs after the previous step," "choose
+          from the list" — rather than for an MCP/agent consumer deciding whether and how
+          to call the tool. The required audience for every description is the calling
+          agent: concrete input-format examples, an explicit statement of what the tool
+          returns, and cross-references to other callable tools by name.
 
     # ── All component files ────────────────────────────────────────────────────
     - path: "components/**/*.mjs"
@@ -22,12 +66,9 @@ reviews:
         - Only flag a missing version bump when the component's own behavior, interface, or
           implementation changed — do not flag components that are only transitively touched
           by a shared-file change (e.g. a new constant added to a constants file) with no
-          effect on the component itself. When a bump is required, verify it is incremented
-          from its previous value and follows semantic versioning (see the Versioning section
-          of the guidelines): new components start at `0.0.1`; bug fixes and non-breaking
-          refactors → patch; new optional props or backwards-compatible additions → minor;
-          removed/renamed props or breaking behavior changes → major; a patch bump added
-          solely to satisfy the CI version check is always acceptable and should not be flagged
+          effect on the component itself. A patch bump added solely to satisfy the CI
+          version check is always acceptable and should not be flagged; the dedicated CI
+          workflow, not this review, is the authoritative check for version bumps.
         - Verify the app's `package.json` version is also bumped by the same or greater
           semver segment as the component change
         - All prop names, method names, and local variables must use camelCase; module-level
@@ -36,11 +77,6 @@ reviews:
         - Props used in more than one component must be defined in the app file's
           `propDefinitions` and referenced via `propDefinition` — flag any inline prop
           definition that duplicates one already in the app file
-        - Prop `description` fields must be written for AI agent consumption:
-          - Include concrete inline examples for non-obvious formats (JSON objects, IDs, dates, enums)
-          - Avoid UI-centric language ("select from the dropdown", "choose from the list")
-          - Cross-references to other tools must use **bold tool names** matching real tool names
-            that actually exist as `name` values in other component files in the same app
         - Component `description` must end with a documentation link `[See the documentation](https://...)`
           and should follow the agent-friendly structure in the guidelines:
           primary purpose → when to use → cross-tool references → parameter notes → gotchas → docs link
@@ -59,35 +95,26 @@ reviews:
         guidelines in .github/pipedream-action-guidelines.md.
 
         Key checks:
-        - Verify `annotations` values are semantically correct (ESLint already enforces presence):
-          - `readOnlyHint: true` only when the action exclusively reads data with no side effects
-          - `destructiveHint: true` for operations that permanently delete data or irreversibly
-            overwrite it with no recovery path; update/patch/upsert operations are generally
-            `false` (reversible by another update) unless the specific endpoint does a full
-            destructive replace — when in doubt, flag and let the author decide
-          - `openWorldHint: true` for any action making external API calls (almost all);
-            `false` only for pure utility/formatting actions with no HTTP requests
+        - Verify `annotations` values are semantically correct: `readOnlyHint: true` only
+          when the action exclusively reads data with no side effects; `destructiveHint: true`
+          for operations that permanently delete data or irreversibly overwrite it with no
+          recovery path (update/patch/upsert are generally `false` unless the endpoint does a
+          full destructive replace); `openWorldHint: true` for any action making external API
+          calls (almost all), `false` only for pure utility/formatting actions
         - `run()` must call `$.export("$summary", ...)` on every successful execution path;
           summaries should be concise one-liners with key result info (record ID, name, count)
-        - When `additionalProps()` or `reloadProps: true` are present, verify they are
-          actually needed: could `async options()` alone satisfy the use case by returning
-          a filtered option set? If yes, flag it; if the prop structure genuinely depends
-          on an earlier selection in a way fixed optional props cannot represent, it is
-          justified — note that these patterns may not work in some agent (MCP) contexts
         - The app connection prop must be the first prop defined
         - Props accepting dynamic key-value structures may use either `type: "object"` or
           `type: "string"` with `JSON.parse()` in `run()` — both are acceptable; the description
           must include a concrete JSON example regardless of which type is used
         - Errors should throw naturally; do not wrap `run()` in a blanket try/catch —
-          `@pipedream/platform` axios surfaces HTTP errors automatically with the API's
-          original message; `ConfigurationError` is appropriate only for pre-call validation
-          of user configuration mistakes
+          `@pipedream/platform` axios surfaces HTTP errors automatically; `ConfigurationError`
+          is appropriate only for pre-call validation of user configuration mistakes
         - Optional props may be passed directly into request bodies or params without
           truthiness checks — `@pipedream/platform` axios strips `undefined` values automatically
-        - API calls must go through dedicated methods (typically on the app object, but component-level
-          methods are acceptable); when those methods use `@pipedream/platform` axios internally,
-          the `$` context from `run({ $ })` must be passed to them — it enables request logging
-          and error propagation; flag any app method call that omits `$` when the standard HTTP
+        - API calls must go through dedicated methods; when those methods use
+          `@pipedream/platform` axios internally, the `$` context from `run({ $ })` must be
+          passed to them — flag any app method call that omits `$` when the standard HTTP
           helper pattern is in use
         - Bold **Tool Name** cross-references in descriptions must correspond to tools that
           actually exist in the same app's actions directory
@@ -98,6 +125,12 @@ reviews:
         In addition to .github/pipedream-component-guidelines.md, apply the source-specific
         guidelines in .github/pipedream-source-guidelines.md.
 
+        Sources are not exposed as MCP tools and are not called by agents directly — do NOT
+        apply the MCP-first checks from the actions block above (no `$.flow.rerun()` concern,
+        no `reloadProps`/`async options()` requirement, no agent-audience description rule).
+        Those do not apply to this file type; judge descriptions and props here purely
+        against the source guidelines below.
+
         Key checks:
         - Source components must NOT include an `annotations` field — flag its presence as an error
         - `dedupe: "unique"` must be set at the top level of the component export
@@ -105,14 +138,19 @@ reviews:
         - The `id` must be stable (deterministic for the same real-world event across runs) and
           unique per event — using `Date.now()` or random values as `id` can cause duplicates
         - Constructed `id` values must not exceed 64 characters — deduplication silently stops
-          working beyond this limit; flag any `id` that concatenates multiple fields without a
-          length check or hash
+          working beyond this limit
         - `ts` should use the event's own timestamp from the API when available, not `Date.now()`
         - State stored in `$.service.db` should be accessed through private methods
           (`_getX()`, `_setX()`), not called directly from `run()` or event handlers
         - Polling sources must handle the "no new events" case without errors or spurious emits
         - Webhook sources must implement both `activate()` (register) and `deactivate()` (clean up)
           in the top-level `hooks` object (not inside `methods`) when they create webhook registrations
+
+        Nit-level suggestion only, not a requirement: if this app has no companion action that
+        lets an agent synchronously query the same underlying data on demand (e.g. "list new
+        {object} since a given time"), note that as a suggestion for the author to consider —
+        it's the pattern that lets an agent achieve the same outcome as this source without
+        needing push delivery.
 
     # ── App definition files ───────────────────────────────────────────────────
     - path: "components/*/*.app.mjs"
@@ -139,6 +177,8 @@ knowledge_base:
       - ".github/pipedream-component-guidelines.md"
       - ".github/pipedream-action-guidelines.md"
       - ".github/pipedream-source-guidelines.md"
+  learnings:
+    scope: "global"
 
 chat:
   auto_reply: true
