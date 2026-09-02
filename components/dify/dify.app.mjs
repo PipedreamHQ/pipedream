@@ -13,7 +13,7 @@ export default {
     inputs: {
       type: "object",
       label: "Inputs",
-      description: "Values for the app's input variables, keyed by variable name, e.g. `{ \"city\": \"San Francisco\" }`. Leave empty (`{}`) if the app defines no input variables — most chat apps don't. The variable names and types are specific to how this particular Dify app was built, so if you don't already know them, ask the user which input variables their app expects rather than guessing; they can also be found on the app's **Orchestrate**/**Configure** tab in the Dify console.",
+      description: "Values for the app's input variables, keyed by variable name, e.g. `{ \"city\": \"San Francisco\" }`. Leave empty (`{}`) if the app defines no input variables — most chat apps don't. Use **Get App Parameters** to discover this app's actual variable names and whether each is required.",
       optional: true,
     },
   },
@@ -53,6 +53,18 @@ export default {
     listConversations(args = {}) {
       return this._makeRequest({
         path: "/conversations",
+        ...args,
+      });
+    },
+    listMessages(args = {}) {
+      return this._makeRequest({
+        path: "/messages",
+        ...args,
+      });
+    },
+    getAppParameters(args = {}) {
+      return this._makeRequest({
+        path: "/parameters",
         ...args,
       });
     },
