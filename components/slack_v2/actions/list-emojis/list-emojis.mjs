@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import slack from "../../slack_v2.app.mjs";
 
 export default {
@@ -6,13 +5,14 @@ export default {
   name: "List Emojis",
   description:
     "List all available emojis in the Slack workspace. Optionally include emoji image URLs. [See the documentation](https://api.slack.com/methods/emoji.list)",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     slack,
     includeEmojiImage: {
