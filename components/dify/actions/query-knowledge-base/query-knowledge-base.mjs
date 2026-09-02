@@ -12,7 +12,7 @@ const SEARCH_METHODS = [
 export default {
   key: "dify-query-knowledge-base",
   name: "Query Knowledge Base",
-  description: "Search a Dify knowledge base (dataset) and return the chunks most relevant to a query. Requires a knowledge base API key, which is distinct from the app API key used by **Send Chat Message** and **Run Workflow**. Use **List Knowledge Bases** to find the `Knowledge Base ID`. [See the documentation](https://docs.dify.ai/en/api-reference/knowledge-bases/retrieve-chunks-from-a-knowledge-base-test-retrieval)",
+  description: "Search a Dify knowledge base (dataset) and return the chunks most relevant to a query. Dify's knowledge base endpoints require a knowledge base API key (from a knowledge base's own **API Access** page), which is a different key from the app API key used by **Send Chat Message** and **Run Workflow** — connect a separate Dify account in the `Dify` prop below using that key if your existing connection uses an app key. Use **List Knowledge Bases** to find the `Knowledge Base ID`. [See the documentation](https://docs.dify.ai/en/api-reference/knowledge-bases/retrieve-chunks-from-a-knowledge-base-test-retrieval)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -25,7 +25,7 @@ export default {
     datasetId: {
       type: "string",
       label: "Knowledge Base ID",
-      description: "The ID of the knowledge base to search. Use **List Knowledge Bases** to find valid IDs.",
+      description: "The UUID of the knowledge base to search, e.g. `c42e2a6e-40b3-4330-96f8-f1e4d768e8c9`. Use **List Knowledge Bases** to find valid IDs.",
     },
     query: {
       type: "string",
@@ -57,17 +57,23 @@ export default {
       throw new ConfigurationError("Query must be 250 characters or fewer.");
     }
 
+    let scoreThreshold;
+    if (this.scoreThreshold !== undefined) {
+      scoreThreshold = Number(this.scoreThreshold);
+      if (!Number.isFinite(scoreThreshold) || scoreThreshold < 0 || scoreThreshold > 1) {
+        throw new ConfigurationError("Score Threshold must be a number between 0 and 1.");
+      }
+    }
+
     const useCustomRetrieval = this.searchMethod
       || this.topK !== undefined
-      || this.scoreThreshold !== undefined;
+      || scoreThreshold !== undefined;
     const retrievalModel = useCustomRetrieval && {
       search_method: this.searchMethod || "hybrid_search",
       reranking_enable: false,
       top_k: this.topK ?? 3,
-      score_threshold_enabled: this.scoreThreshold !== undefined,
-      score_threshold: this.scoreThreshold !== undefined
-        ? Number(this.scoreThreshold)
-        : undefined,
+      score_threshold_enabled: scoreThreshold !== undefined,
+      score_threshold: scoreThreshold,
     };
 
     const response = await this.dify.retrieveFromDataset({
