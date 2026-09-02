@@ -195,13 +195,20 @@ export default {
       // The only permitted error rewrite. Google returns the same 403 for four unrelated
       // causes, so name the properties this account really has.
       if (error.response?.status === 403) {
-        const sites = await googleSearchConsole.getSites({
-          $,
-        });
-        const list = (sites?.siteEntry ?? [])
-          .map((site) => `${site.siteUrl} (${site.permissionLevel})`)
-          .join(", ");
-        throw new Error(`Access denied for "${siteUrl}". Properties this account can access: ${list}. Use the exact string from List Sites (domain properties look like sc-domain:example.com; URL-prefix properties need the trailing slash).`);
+        // If the token or scope is what failed, listing the sites fails too — surface the
+        // original Search Console error rather than the lookup's rejection.
+        let list;
+        try {
+          const sites = await googleSearchConsole.getSites({
+            $,
+          });
+          list = (sites?.siteEntry ?? [])
+            .map((site) => `${site.siteUrl} (${site.permissionLevel})`)
+            .join(", ");
+        } catch {
+          throw error;
+        }
+        throw new Error(`Access denied for "${trimIfString(siteUrl)}". Properties this account can access: ${list}. Use the exact string from List Sites (domain properties look like sc-domain:example.com; URL-prefix properties need the trailing slash).`);
       }
       throw error;
     }

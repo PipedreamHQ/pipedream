@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import methods from "./common/methods.mjs";
+import { trimIfString } from "./common/utils.mjs";
 
 const SEARCH_CONSOLE_V3 = "https://searchconsole.googleapis.com/webmasters/v3";
 const URL_INSPECTION_V1 = "https://searchconsole.googleapis.com/v1";
@@ -88,7 +89,7 @@ export default {
     async getSites(params = {}) {
       return this._makeRequest({
         method: "GET",
-        url: "https://searchconsole.googleapis.com/webmasters/v3/sites",
+        url: `${SEARCH_CONSOLE_V3}/sites`,
         ...params,
       });
     },
@@ -104,7 +105,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        url: `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(url)}/searchAnalytics/query`,
+        url: `${SEARCH_CONSOLE_V3}/sites/${encodeURIComponent(trimIfString(url))}/searchAnalytics/query`,
         ...opts,
       });
     },
@@ -113,7 +114,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "GET",
-        url: `${SEARCH_CONSOLE_V3}/sites/${encodeURIComponent(siteUrl)}/sitemaps`,
+        url: `${SEARCH_CONSOLE_V3}/sites/${encodeURIComponent(trimIfString(siteUrl))}/sitemaps`,
         ...opts,
       });
     },
@@ -122,7 +123,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "GET",
-        url: `${SEARCH_CONSOLE_V3}/sites/${encodeURIComponent(siteUrl)}/sitemaps/${encodeURIComponent(sitemapUrl)}`,
+        url: `${SEARCH_CONSOLE_V3}/sites/${encodeURIComponent(trimIfString(siteUrl))}/sitemaps/${encodeURIComponent(trimIfString(sitemapUrl))}`,
         ...opts,
       });
     },
@@ -131,7 +132,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "PUT",
-        url: `${SEARCH_CONSOLE_V3}/sites/${encodeURIComponent(siteUrl)}/sitemaps/${encodeURIComponent(sitemapUrl)}`,
+        url: `${SEARCH_CONSOLE_V3}/sites/${encodeURIComponent(trimIfString(siteUrl))}/sitemaps/${encodeURIComponent(trimIfString(sitemapUrl))}`,
         ...opts,
       });
     },
@@ -140,7 +141,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "DELETE",
-        url: `${SEARCH_CONSOLE_V3}/sites/${encodeURIComponent(siteUrl)}/sitemaps/${encodeURIComponent(sitemapUrl)}`,
+        url: `${SEARCH_CONSOLE_V3}/sites/${encodeURIComponent(trimIfString(siteUrl))}/sitemaps/${encodeURIComponent(trimIfString(sitemapUrl))}`,
         ...opts,
       });
     },

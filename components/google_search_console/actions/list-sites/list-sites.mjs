@@ -19,7 +19,8 @@ export default {
     + "`property_type` is `\"domain\"` when `siteUrl` starts with `sc-domain:` (that property covers "
     + "every subdomain and both http and https) and `\"url_prefix\"` otherwise (an exact scheme + host "
     + "+ path prefix, trailing slash included). Domain properties are listed first, then alphabetically. "
-    + "The list is complete: the underlying API has no pagination."
+    + "The list is complete: the underlying API has no pagination. `account_email` is `null` when "
+    + "the account's email could not be read; the site list is still returned."
     + "\n\n**Permission levels.** `siteOwner` - full access; can submit and delete sitemaps and inspect "
     + "URLs. `siteFullUser` - same data and sitemap access as an owner, but cannot manage users. "
     + "`siteRestrictedUser` - read-only on most reports; **cannot submit sitemaps and cannot inspect "
@@ -67,7 +68,8 @@ export default {
       }),
       this.googleSearchConsole.getUserInfo({
         $,
-      }),
+      })
+        .catch(() => null),
     ]);
 
     const sites = (sitesResponse?.siteEntry ?? []).map((entry) => ({

@@ -38,12 +38,23 @@ function roundMetrics(metrics) {
   };
 }
 
+/**
+ * `ctr` and `position` deltas are null when either side has no impressions: the zero
+ * placeholder for an absent key is not a real rank, so subtracting it would report a
+ * brand-new query at position 47 as a 47-place drop. Clicks and impressions are true
+ * zeros there and keep their numeric delta.
+ */
 function deltaOf(current, previous) {
+  const comparable = current.impressions !== 0 && previous.impressions !== 0;
   return {
     clicks: current.clicks - previous.clicks,
     impressions: current.impressions - previous.impressions,
-    ctr: current.ctr - previous.ctr,
-    position: current.position - previous.position,
+    ctr: comparable
+      ? current.ctr - previous.ctr
+      : null,
+    position: comparable
+      ? current.position - previous.position
+      : null,
   };
 }
 
@@ -95,14 +106,31 @@ function sortComparedRows(rows, sortBy) {
   if (sortBy === "current_clicks") {
     return rows.sort((a, b) => b.current.clicks - a.current.clicks);
   }
-  // Absolute delta so the biggest gains AND the biggest losses surface first.
+  // Absolute delta so the biggest gains AND the biggest losses surface first. A null
+  // delta has no magnitude to rank, so those rows go last rather than sorting as zero.
   const field = SORT_FIELDS[sortBy] || "clicks";
-  return rows.sort((a, b) => Math.abs(b.delta[field]) - Math.abs(a.delta[field]));
+  return rows.sort((a, b) => {
+    const aDelta = a.delta[field];
+    const bDelta = b.delta[field];
+    if (aDelta === null) {
+      return bDelta === null
+        ? 0
+        : 1;
+    }
+    if (bDelta === null) {
+      return -1;
+    }
+    return Math.abs(bDelta) - Math.abs(aDelta);
+  });
 }
 
 /**
  * Joins two periods of search-analytics rows on their `keys` and computes per-row and
  * total deltas. Pure — no I/O — so the join, the sort and the totals are unit-testable.
+ *
+ * A key present in only one period gets `delta.ctr`/`delta.position` of null (there is no
+ * rank on the missing side to compare against), and those rows sort last under
+ * `ctr_delta`/`position_delta`. `delta.clicks`/`delta.impressions` stay numeric.
  */
 export function buildComparison({
   currentRows = [],

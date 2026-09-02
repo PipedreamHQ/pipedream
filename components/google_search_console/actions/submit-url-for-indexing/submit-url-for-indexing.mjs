@@ -48,7 +48,7 @@ export default {
   key: "google_search_console-submit-url-for-indexing",
   version: "0.0.6",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

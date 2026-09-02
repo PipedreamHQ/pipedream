@@ -176,6 +176,8 @@ export default {
       siteUrl, inspectionUrls, languageCode, includeFullResult,
     } = this;
 
+    const trimmedSiteUrl = trimIfString(siteUrl);
+
     const urls = (Array.isArray(inspectionUrls)
       ? inspectionUrls
       : [
@@ -198,7 +200,7 @@ export default {
           $,
           data: {
             inspectionUrl: url,
-            siteUrl,
+            siteUrl: trimmedSiteUrl,
             languageCode,
           },
         });
