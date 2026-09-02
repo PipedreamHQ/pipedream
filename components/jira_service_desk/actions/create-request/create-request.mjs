@@ -13,7 +13,8 @@ export default {
     + " Use **List Sites** to get `cloudId`, **List Service Desks** to get `serviceDeskId`, and **List Request Types** to choose the `requestTypeId` whose name and description match the user's intent."
     + " Call **List Request Type Fields** to see which fields that request type requires; pass anything beyond summary and description in `additionalFieldValues`, keyed by Jira field ID."
     + " Worked example: on service desk `1`, request type `4` (\"Onboard new employees\") requires `summary` and also accepts a `duedate`, so call with Summary `Joseph Wilson starts on September 1`, Description `Needs a laptop and an email account`, and Additional Field Values `{ \"duedate\": \"2026-09-01\" }`."
-    + " Returns the created request including its `issueKey` and `issueId`."
+    + " Optionally attach one or more files at creation time via `attachments`; to add, replace, or delete attachments on a request that already exists, use **Manage Request Attachment** instead."
+    + " Returns the created request including its `issueKey` and `issueId`. If `attachments` is set, the response also includes either an `attachments` array (on success) or an `attachmentError` string (if the request was created but the attachment step failed) — the request itself is never rolled back because of an attachment failure."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-post)",
   version: "1.0.2",
   annotations: {
@@ -95,6 +96,26 @@ export default {
       description: "Extra information about the channel the request came in on. Marked experimental by Atlassian.",
       optional: true,
     },
+    attachments: {
+      type: "string[]",
+      label: "Attachments",
+      description: "File(s) to attach to the request as it's created. Provide file URLs or paths to files in the /tmp directory (e.g. `/tmp/myFile.pdf`).",
+      format: "file-ref",
+      optional: true,
+    },
+    attachmentsPublic: {
+      type: "boolean",
+      label: "Attachments Public",
+      description: "Whether the attached file(s) are visible to the customer who raised the request. Defaults to `true`; set to `false` to attach internal-only files.",
+      optional: true,
+      default: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
     const {
@@ -110,6 +131,8 @@ export default {
       form,
       isAdfRequest,
       channel,
+      attachments,
+      attachmentsPublic,
     } = this;
 
     let extraFields = additionalFieldValues;
@@ -172,7 +195,32 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully created request ${response.issueKey}`);
-    return response;
+    if (!attachments?.length) {
+      $.export("$summary", `Successfully created request ${response.issueKey}`);
+      return response;
+    }
+
+    try {
+      const attachResponse = await jiraServiceDesk.attachFilesToRequestFromSource({
+        $,
+        cloudId,
+        serviceDeskId,
+        issueIdOrKey: response.issueKey,
+        files: attachments,
+        isPublic: attachmentsPublic,
+      });
+
+      $.export("$summary", `Created request ${response.issueKey} with ${attachments.length} attachment(s)`);
+      return {
+        ...response,
+        attachments: attachResponse,
+      };
+    } catch (error) {
+      $.export("$summary", `Created request ${response.issueKey}, but attaching file(s) failed: ${error.message}`);
+      return {
+        ...response,
+        attachmentError: error.message,
+      };
+    }
   },
 };
