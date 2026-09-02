@@ -3,7 +3,7 @@ import app from "../../sms_florin.app.mjs";
 export default {
   key: "sms_florin-rent-number",
   name: "Rent a Number",
-  description: "Rent a phone number for a service, debiting your account balance. [See the documentation](https://flo-voice1.com/api-access).",
+  description: "Rent a phone number for a service so you can receive its SMS verification code. Choose a `Service` from the list and a `Period` — `instant` holds the number briefly for a single code, `monthly` keeps it for 30 days. Your account balance is debited immediately. Pass the returned `rentalId` to **Get Rental** to read the code. [See the documentation](https://flo-voice1.com/api-access).",
   version: "0.0.1",
   type: "action",
   annotations: {

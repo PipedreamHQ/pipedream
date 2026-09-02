@@ -49,12 +49,22 @@ export default {
         ...opts,
       });
     },
+    /**
+     * List the services a number can be rented for, with their prices.
+     * @returns {Promise<{ services: object[] }>} Each service has `slug`, `name`, `basePriceCents` and `monthlyPriceCents`.
+     */
     async listServices(opts = {}) {
       return this._makeRequest({
         path: "/services",
         ...opts,
       });
     },
+    /**
+     * Rent a number for a service, debiting the account balance.
+     * @param {object} args
+     * @param {{ serviceSlug: string, period: "instant"|"monthly" }} args.data - The rental request.
+     * @returns {Promise<{ rentalId: number }>}
+     */
     async rentNumber({
       data, ...opts
     }) {
@@ -65,6 +75,12 @@ export default {
         ...opts,
       });
     },
+    /**
+     * List the account's rentals, newest first, each with its received messages.
+     * @param {object} [args]
+     * @param {{ limit?: number }} [args.params] - `limit` caps how many rentals are returned.
+     * @returns {Promise<{ rentals: object[] }>}
+     */
     async listRentals({
       params, ...opts
     } = {}) {
@@ -74,6 +90,12 @@ export default {
         ...opts,
       });
     },
+    /**
+     * Get a single rental's current status, phone number and messages.
+     * @param {object} args
+     * @param {number} args.rentalId - The rental to fetch.
+     * @returns {Promise<object>}
+     */
     async getRental({
       rentalId, ...opts
     }) {

@@ -5,7 +5,7 @@ import sampleEmit from "./test-event.mjs";
 export default {
   key: "sms_florin-new-sms",
   name: "New SMS Received",
-  description: "Emit a new event each time an SMS arrives on one of your rented numbers.",
+  description: "Emit a new event each time an SMS arrives on one of your rented numbers. Polls your 25 most recent rentals on a timer (default every 15 minutes); codes only land on recent, active rentals, so older ones are intentionally out of scope. On deploy it records the current position without replaying past codes. No configuration beyond the connected account. [See the documentation](https://flo-voice1.com/api-access).",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
