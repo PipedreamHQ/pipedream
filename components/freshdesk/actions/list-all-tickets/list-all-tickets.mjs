@@ -5,7 +5,7 @@ export default {
   name: "List Tickets",
   description:
     "Fetch up to 100 tickets according to the selected filters. [See the documentation](https://developers.freshdesk.com/api/#list_all_tickets)",
-  version: "0.2.14",
+  version: "0.2.15",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -55,6 +55,49 @@ export default {
         },
       ],
     },
+    requesterId: {
+      type: "integer",
+      label: "Requester ID",
+      description: "Filter tickets by requester ID.",
+      optional: true,
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "Filter tickets by requester email.",
+      optional: true,
+    },
+    companyId: {
+      type: "integer",
+      label: "Company ID",
+      description: "Filter tickets by company ID.",
+      optional: true,
+    },
+    updatedSince: {
+      type: "string",
+      label: "Updated Since",
+      description: "Filter tickets updated since the specified date and time in ISO 8601 format (e.g., `2024-01-01T00:00:00Z`).",
+      optional: true,
+    },
+    perPage: {
+      type: "integer",
+      label: "Per Page",
+      description: "Number of tickets to return per page. Must be between 1 and 100.",
+      min: 1,
+      max: 100,
+      optional: true,
+    },
+    include: {
+      type: "string[]",
+      label: "Include",
+      description: "Include additional data in the response.",
+      optional: true,
+      options: [
+        "description",
+        "requester",
+        "stats",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.freshdesk.listTickets({
@@ -62,6 +105,12 @@ export default {
       params: {
         order_by: this.orderBy,
         order_type: this.orderType,
+        requester_id: this.requesterId,
+        email: this.email,
+        company_id: this.companyId,
+        updated_since: this.updatedSince,
+        per_page: this.perPage,
+        include: this.include ? this.include.join(",") : undefined,
       },
     });
 
