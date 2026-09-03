@@ -13,7 +13,7 @@ export default {
     + " `requestStatus`: `OPEN_REQUESTS` (default), `CLOSED_REQUESTS`, or `ALL_REQUESTS`."
     + " `requestOwnership`: `OWNED_REQUESTS` (default) or `PARTICIPATED_REQUESTS`."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-get)",
-  version: "1.1.3",
+  version: "1.1.4",
   type: "action",
   ai: "optimized",
   annotations: {
