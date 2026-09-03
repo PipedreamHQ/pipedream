@@ -5,7 +5,7 @@ export default {
   key: "airtable_oauth-update-field",
   name: "Update Field",
   description: "Update an existing field in a table. [See the documentation](https://airtable.com/developers/web/api/update-field)",
-  version: "0.0.14",
+  version: "0.0.16",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -18,15 +18,9 @@ export default {
       propDefinition: [
         common.props.airtable,
         "sortFieldId",
-        ({
-          baseId, tableId,
-        }) => ({
-          baseId: baseId?.value ?? baseId,
-          tableId: tableId?.value ?? tableId,
-        }),
       ],
       label: "Field ID",
-      description: "The field to update",
+      description: "The ID of the field to update, e.g. `fldXXXXXXXXXXXXXX`. Use **List Tables** to look up a table's field IDs.",
       optional: false,
     },
     name: {
@@ -55,8 +49,8 @@ export default {
       data.description = this.description;
     }
     const response = await this.airtable.updateField({
-      baseId: this.baseId?.value ?? this.baseId,
-      tableId: this.tableId?.value ?? this.tableId,
+      baseId: this.baseId,
+      tableId: this.tableId,
       fieldId: this.fieldId,
       data,
       $,

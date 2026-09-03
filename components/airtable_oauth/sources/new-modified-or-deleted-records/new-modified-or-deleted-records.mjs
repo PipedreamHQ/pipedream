@@ -6,7 +6,7 @@ export default {
   name: "New, Modified or Deleted Records",
   description: "Emit new event each time a record is added, updated, or deleted in an Airtable table. Supports tables up to 10,000 records",
   key: "airtable_oauth-new-modified-or-deleted-records",
-  version: "0.0.14",
+  version: "0.0.16",
   type: "source",
   dedupe: "unique",
   props: {
@@ -15,9 +15,6 @@ export default {
       propDefinition: [
         base.props.airtable,
         "tableId",
-        ({ baseId }) => ({
-          baseId: baseId?.value ?? baseId,
-        }),
       ],
       description: "The table ID to watch for changes.",
     },
@@ -38,9 +35,9 @@ export default {
     },
   },
   async run(event) {
-    const baseId = this.baseId?.value ?? this.baseId;
-    const tableId = this.tableId?.value ?? this.tableId;
-    const { viewId } = this;
+    const {
+      baseId, tableId, viewId,
+    } = this;
 
     const metadata = {
       baseId,

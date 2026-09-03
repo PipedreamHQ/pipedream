@@ -1,11 +1,15 @@
+// x-pd-ai: optimized
+import { ConfigurationError } from "@pipedream/platform";
 import common from "../common/common.mjs";
-import { fieldTypeToPropType } from "../../common/utils.mjs";
+import {
+  escapeFormulaString, fieldTypeToPropType, getTableFields,
+} from "../../common/utils.mjs";
 
 export default {
   key: "airtable_oauth-search-records",
   name: "Search Records",
-  description: "Search for a record by formula or by field value. [See the documentation](https://airtable.com/developers/web/api/list-records)",
-  version: "0.0.16",
+  description: "Find records in a table using an Airtable formula, or a `Search Field` + `Search Value` pair. `Search Formula` takes precedence when provided; otherwise `Search Field` and `Search Value` must both be set. Use **List Tables** first to look up the table's field names. [See the documentation](https://airtable.com/developers/web/api/list-records)",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -14,15 +18,25 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    searchMethod: {
+    searchFormula: {
       type: "string",
-      label: "Search Method",
-      description: "Select the search method to use",
-      options: [
-        "Search by Field and Value",
-        "Search by Formula",
+      label: "Search Formula",
+      description: "An [Airtable formula](https://support.airtable.com/docs/formula-field-reference) to filter records by, e.g. `FIND('test-1', {Tags})` to find records where `Tags` includes `test-1`, or `{Status} = \"Won\"` for an exact match. Takes precedence over `Search Field` + `Search Value` when set.",
+      optional: true,
+    },
+    fieldName: {
+      propDefinition: [
+        common.props.airtable,
+        "fieldName",
       ],
-      reloadProps: true,
+      description: "The field to match against `Search Value`, e.g. `Status`. Use together with `Search Value` as a simpler alternative to `Search Formula`. Use the **List Tables** action to look up the table's field names.",
+      optional: true,
+    },
+    value: {
+      type: "string",
+      label: "Search Value",
+      description: "The value to match against `Search Field`, e.g. `Won`. For a checkbox field, use `true` or `false`; for a number field, a numeric value.",
+      optional: true,
     },
     returnFieldsByFieldId: {
       propDefinition: [
@@ -31,75 +45,56 @@ export default {
       ],
     },
   },
-  async additionalProps() {
-    const props = {};
-    if (this.searchMethod === "Search by Formula") {
-      props.searchFormula = {
-        type: "string",
-        label: "Search Formula",
-        description: "Use an [Airtable search formula (see info on the documentation)](https://support.airtable.com/docs/formula-field-reference) to find records. For example, if you want to find records with `Tags` including `test-1`, use `FIND('test-1', {Tags})`.",
-        optional: true,
-      };
-    }
-    if (this.searchMethod === "Search by Field and Value") {
-      props.fieldName = {
-        type: "string",
-        label: "Search Field",
-        description: "The field to match against the search value",
-        reloadProps: true,
-        options: async () => {
-          const fields = await this.listFields();
-          return fields.map((field) => field.name);
-        },
-      };
-      if (this.fieldName) {
-        const fields = await this.listFields();
-        const { type } = fields.find(({ name }) => name === this.fieldName);
-        props.value = {
-          type: this.fieldTypeToPropType(type) || "string",
-          label: "Search Value",
-          description: "The value to search for",
-        };
-      }
-    }
-    return props;
-  },
   methods: {
-    ...common.methods,
-    fieldTypeToPropType,
-    async listFields() {
-      const { tables } = await this.airtable.listTables({
-        baseId: this.baseId?.value ?? this.baseId,
-      });
-      const table = tables.find(({ id }) => id === (this.tableId?.value ?? this.tableId));
-      return table.fields ?? [];
+    async buildFilterByFormula() {
+      const fields = await getTableFields(this);
+      const field = fields.find(({ name }) => name === this.fieldName);
+      if (!field) {
+        throw new ConfigurationError(`The selected table has no field named "${this.fieldName}". Use the List Tables action to look up the table's field names.`);
+      }
+
+      const type = fieldTypeToPropType(field.type);
+      switch (type) {
+      case "string":
+        return `FIND("${escapeFormulaString(this.value)}", {${this.fieldName}})`;
+      case "boolean": {
+        const value = `${this.value}`.toLowerCase();
+        if (value !== "true" && value !== "false") {
+          throw new ConfigurationError(`Invalid value "${this.value}" for checkbox field "${this.fieldName}". Use \`true\` or \`false\`.`);
+        }
+        return `{${this.fieldName}} = ${value === "true"
+          ? 1
+          : 0}`;
+      }
+      case "integer": {
+        const rawValue = `${this.value}`;
+        const numericValue = Number(rawValue);
+        if (rawValue.trim() === "" || !Number.isFinite(numericValue)) {
+          throw new ConfigurationError(`Invalid value "${this.value}" for numeric field "${this.fieldName}". Use a number.`);
+        }
+        return `{${this.fieldName}} = ${numericValue}`;
+      }
+      default:
+        return `{${this.fieldName}} = "${escapeFormulaString(this.value)}"`;
+      }
     },
   },
   async run({ $ }) {
-    const fields = await this.listFields();
-    const field = fields.find(({ name }) => name === this.fieldName);
-
-    let filterByFormula = this.searchFormula;
-    if (!this.searchFormula) {
-      const type = fieldTypeToPropType(field.type);
-      filterByFormula = type === "string"
-        ? `FIND("${this.value}", {${this.fieldName}})`
-        : type === "boolean"
-          ? `${this.fieldName} = ${this.value
-            ? 1
-            : 0}`
-          : type === "integer"
-            ? `${this.fieldName} = ${this.value}`
-            : `{${this.fieldName}} = "${this.value}"`;
+    const hasValue = this.value !== undefined && this.value !== null && this.value !== "";
+    if (!this.searchFormula && !(this.fieldName && hasValue)) {
+      throw new ConfigurationError("Provide either Search Formula, or both Search Field and Search Value.");
     }
+
+    const filterByFormula = this.searchFormula || await this.buildFilterByFormula();
 
     const params = {
       filterByFormula,
       returnFieldsByFieldId: this.returnFieldsByFieldId || false,
     };
 
-    const baseId = this.baseId?.value ?? this.baseId;
-    const tableId = this.tableId?.value ?? this.tableId;
+    const {
+      baseId, tableId,
+    } = this;
 
     const results = await this.airtable.listRecords({
       baseId,

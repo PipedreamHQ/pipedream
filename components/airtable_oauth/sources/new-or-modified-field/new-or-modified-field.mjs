@@ -6,7 +6,7 @@ export default {
   name: "New or Modified Field (Instant)",
   description: "Emit new event when a field is created or updated in the selected table",
   key: "airtable_oauth-new-or-modified-field",
-  version: "1.0.5",
+  version: "1.0.7",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -24,10 +24,6 @@ export default {
       propDefinition: [
         airtable,
         "sortFieldId",
-        (c) => ({
-          baseId: c.baseId?.value ?? c.baseId,
-          tableId: c.tableId?.value ?? c.tableId,
-        }),
       ],
       type: "string[]",
       label: "Field Schemas to Watch",

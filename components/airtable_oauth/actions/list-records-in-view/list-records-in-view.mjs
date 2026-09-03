@@ -1,12 +1,13 @@
+// x-pd-ai: optimized
 import common from "../common/common.mjs";
 import commonList from "../common/common-list.mjs";
 
 export default {
   key: "airtable_oauth-list-records-in-view",
   name: "List Records in View",
-  description: "Retrieve records from a view, optionally sorting and filtering results. [See the documentation](https://airtable.com/developers/web/api/list-views)",
+  description: "Retrieve records from a view, optionally sorting and filtering results. Use **List Tables** to look up a table's view IDs. [See the documentation](https://airtable.com/developers/web/api/list-views)",
   type: "action",
-  version: "0.0.14",
+  version: "0.0.16",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -24,14 +25,7 @@ export default {
       propDefinition: [
         common.props.airtable,
         "viewId",
-        ({
-          baseId, tableId,
-        }) => ({
-          baseId: baseId?.value ?? baseId,
-          tableId: tableId?.value ?? tableId,
-        }),
       ],
-      withLabel: true,
     },
     ...commonList.props,
   },

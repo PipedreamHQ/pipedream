@@ -66,7 +66,7 @@ export default {
       try {
         const res = await withRetry(
           () => this.airtable.getRecord({
-            baseId: this.baseId?.value ?? this.baseId,
+            baseId: this.baseId,
             tableId,
             recordId,
           }),
