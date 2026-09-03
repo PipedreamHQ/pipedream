@@ -16,32 +16,60 @@ export default {
       type: "string",
       label: "Organization Id",
       description: "ID of the organization that will author the post",
-      async options({ page }) {
-        const { elements } = await this.getOrganizations(page);
+      async options({ page, prevContext }) {
+        // Track the next organization page across calls so a page whose
+        // options are all filtered out (e.g. all 403) doesn't stop pagination.
+        let currentPage = prevContext?.nextPage ?? page ?? 0;
 
         const responseArray = [];
-        for (const item of elements) {
-          const orgId = item.organization?.split(":")[3];
-          if (!orgId) {
-            continue;
+        while (true) {
+          const { elements } = await this.getOrganizations(currentPage);
+
+          // The API reports no more pages, stop paginating.
+          if (!elements?.length) {
+            return {
+              options: responseArray,
+              context: {
+                nextPage: currentPage,
+              },
+            };
           }
 
-          try {
-            const orgData = await this.getOrganization(orgId);
-            if (orgData?.localizedName) {
-              responseArray.push({
-                label: orgData.localizedName,
-                value: orgId,
-              });
+          for (const item of elements) {
+            const orgId = item.organization?.split(":")[3];
+            if (!orgId) {
+              continue;
             }
-          } catch (error) {
-            if (error.response?.status !== 403) {
-              throw error;
+
+            try {
+              const orgData = await this.getOrganization(orgId);
+              if (orgData?.localizedName) {
+                responseArray.push({
+                  label: orgData.localizedName,
+                  value: orgId,
+                });
+              }
+            } catch (error) {
+              if (error.response?.status !== 403) {
+                throw error;
+              }
+              console.log(`Skipping organization ${orgId}: ${error.message}`);
             }
-            console.log(`Skipping organization ${orgId}: ${error.message}`);
+          }
+
+          currentPage += 1;
+
+          // Only surface a page once it yields at least one accessible option;
+          // otherwise keep requesting subsequent pages.
+          if (responseArray.length) {
+            return {
+              options: responseArray,
+              context: {
+                nextPage: currentPage,
+              },
+            };
           }
         }
-        return responseArray;
       },
     },
     adAccountId: {
