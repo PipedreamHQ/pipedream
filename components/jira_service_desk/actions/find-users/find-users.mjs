@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../jira_service_desk.app.mjs";
 
 export default {
