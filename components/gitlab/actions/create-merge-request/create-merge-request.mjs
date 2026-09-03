@@ -63,7 +63,7 @@ export default {
     labels: {
       type: "string[]",
       label: "Labels",
-      description: "Labels to apply to the merge request.",
+      description: "Labels to apply to the merge request, by name. Each must already exist in the project — GitLab *creates* a label it does not recognize rather than rejecting it, so a mis-cased or invented name silently adds a new project label. Use **List Project Labels** to get the exact names.",
       optional: true,
     },
     removeSourceBranch: {

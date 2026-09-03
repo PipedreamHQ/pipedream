@@ -402,7 +402,7 @@ export default {
     },
     listLabels(projectId, opts = {}) {
       return this._makeRequest({
-        path: `/projects/${projectId}/labels`,
+        path: `/projects/${projectPath(projectId)}/labels`,
         ...opts,
       });
     },

@@ -122,6 +122,20 @@ export function summarizeMergeRequest(mergeRequest) {
 }
 
 /**
+ * Projected label. `name` is the only field GitLab accepts back, and the
+ * description is kept because label names are frequently abbreviations that
+ * would otherwise be guessed at.
+ */
+export function summarizeLabel(label) {
+  return {
+    id: label.id,
+    name: label.name,
+    description: label.description,
+    color: label.color,
+  };
+}
+
+/**
  * Projected changed file. `too_large` and `collapsed` are kept because GitLab
  * omits or truncates `diff` for those files — without the flags a reader would
  * take an empty diff for an unchanged file.
