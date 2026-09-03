@@ -16,7 +16,10 @@ export default {
       type: "string",
       label: "Organization Id",
       description: "ID of the organization that will author the post",
-      async options({ page, prevContext }) {
+      async options({
+        page,
+        prevContext,
+      }) {
         // Track the next organization page across calls so a page whose
         // options are all filtered out (e.g. all 403) doesn't stop pagination.
         let currentPage = prevContext?.nextPage ?? page ?? 0;
