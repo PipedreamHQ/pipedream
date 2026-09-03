@@ -14,13 +14,14 @@ export default {
     + " When the parent is a database, set `properties` to a flat JSON object of column-name → value (e.g. `{ \"Status\": \"Active\", \"ThreatLevel\": 9 }`); call **Retrieve Database Schema** first to learn the exact column names and valid select options."
     + " `content` is the page body as Markdown (headings, bullet lists, paragraphs, etc.)."
     + " [See the documentation](https://developers.notion.com/reference/post-page)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     notion,
     parent: {

@@ -17,8 +17,9 @@ export default {
     + " \"summary\": {\"time_unit\": \"HOUR\", \"time_amount\": 8, \"shift_rate_external_id\": \"rate-overtime-001\"}}]`"
     + " Use **List Contracts** to find the contract ID."
     + " [See the documentation](https://developer.deel.com/api/reference/endpoints/time-tracking-shifts/create-time-tracking-shifts)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

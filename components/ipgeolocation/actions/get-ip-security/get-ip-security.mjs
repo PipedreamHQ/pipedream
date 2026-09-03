@@ -5,8 +5,9 @@ export default {
   name: "Get IP Security",
   description:
     "Retrieve real-time threat intelligence for an IPv4 or IPv6 address, including VPN, proxy, Tor, bot, spam detection, and a threat score. Only available on paid plans. [See the documentation](https://ipgeolocation.io/documentation/ip-security-api.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

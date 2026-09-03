@@ -4,13 +4,14 @@ export default {
   key: "shopify-get-customers",
   name: "Get Customers",
   description: "Retrieve a list of customers. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/customers)",
-  version: "0.0.10",
+  version: "0.0.11",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     shopify,
     // This app is not approved to access the Customer object. See https://shopify.dev/docs/apps/launch/protected-customer-data for more details."

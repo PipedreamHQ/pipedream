@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import wealthbox from "../../wealthbox.app.mjs";
 import { DEFAULT_LINKED_TO_TYPE } from "../../common/constants.mjs";
@@ -7,8 +6,9 @@ export default {
   key: "wealthbox-start-workflow",
   name: "Start Workflow",
   description: "Enroll a contact in a workflow template via POST /workflows. Run **List Workflow Templates** to find the template id and **List Contact Options** to find the contact id to enroll. Example: enroll contact `67890` in template `999` starting `2026-09-01T09:00:00Z`; returns the workflow enrollment object including `id`, `workflow_template`, `linked_to`, and `starts_at`. [See the documentation](https://dev.wealthbox.com/#workflows-retrieve-all-workflows-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

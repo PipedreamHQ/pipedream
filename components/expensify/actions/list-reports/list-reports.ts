@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { defineAction } from "@pipedream/types";
 import { ConfigurationError } from "@pipedream/platform";
 import expensify from "../../app/expensify.app";
@@ -12,8 +11,9 @@ export default defineAction({
   key: "expensify-list-reports",
   name: "List Reports",
   description: "Search Expensify reports by state and/or date range and return a structured JSON array of report summaries (reportID, reportName, total, status, submitterEmail, etc.), NOT a file. Use this to find reports before acting on them. Under the hood this calls the Report Exporter with an embedded Freemarker JSON template and reads the result in memory (no /tmp file written). You must provide either a reportState or a startDate/endDate range. Note: OPEN reports cannot be returned when an employeeEmail filter is set (API restriction). Use **List Policies** to discover valid policy IDs for the optional policyId filter. Use **Get Report** to retrieve a single report's full expense line items. [See the documentation](https://integrations.expensify.com/Integration-Server/doc/#report-exporter)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

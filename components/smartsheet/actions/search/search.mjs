@@ -9,8 +9,9 @@ export default {
     + " To find a sheet by name, use **List Sheets** instead — this tool searches content within sheets."
     + " Provide a `sheetId` to scope the search to a single sheet, or omit it to search globally."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/search/list-search)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

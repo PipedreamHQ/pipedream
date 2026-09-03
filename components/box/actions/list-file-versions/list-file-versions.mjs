@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../box.app.mjs";
 import utils from "../../common/utils.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "box-list-file-versions",
   name: "List File Versions",
   description: "Lists prior versions of a file (does not include the current version). Box only tracks file versions for users with premium accounts, so this returns an empty list on free accounts. Use **Get File Metadata** for current file details, or **Upload File Version** to create a new version. [See the documentation](https://developer.box.com/reference/get-files-id-versions/).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

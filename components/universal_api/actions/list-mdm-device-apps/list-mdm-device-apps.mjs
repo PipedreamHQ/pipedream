@@ -5,8 +5,9 @@ export default {
   name: "List MDM Device Apps",
   description:
     "List device apps from the MDM API on Universal API. Returns an array of device-app objects. [See the documentation](https://docs.universalapi.io/reference/list-device-apps).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

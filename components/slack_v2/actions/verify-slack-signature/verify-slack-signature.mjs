@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import crypto from "crypto";
 import slack from "../../slack_v2.app.mjs";
 
@@ -13,6 +12,7 @@ export default {
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     slack,
     slackSigningSecret: {

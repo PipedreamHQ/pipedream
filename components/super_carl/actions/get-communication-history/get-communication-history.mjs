@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import superCarl from "../../super_carl.app.mjs";
 import { requireCommunicationTarget } from "../../common/utils.mjs";
 
@@ -6,13 +5,14 @@ export default {
   key: "super_carl-get-communication-history",
   name: "Get Communication History",
   description: "Fetch prior Super Carl communication history for a target before drafting or sending. Use this to avoid duplicate outreach and to inspect recent Gmail, LinkedIn, X, Instagram, and Super Carl sends. [See the documentation](https://supercarl.ai/docs#endpoints-communications)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     superCarl,
     targetUserId: {

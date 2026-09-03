@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 
 export default {
   key: "azure_devops-list-pull-requests",
   name: "List Pull Requests",
   description: "List a repository's pull requests, optionally filtered by status, creator, reviewer or branch. Returns each pull request's id, title, status, source and target branches. Use this to find open review work or to check whether a branch already has a pull request. Example: status `active` targeting `refs/heads/main`. Returns at most **Limit** results per call - if that many come back there may be more, so raise **Skip** by **Limit** and call again to page through the rest. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/git/pull-requests/get-pull-requests?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

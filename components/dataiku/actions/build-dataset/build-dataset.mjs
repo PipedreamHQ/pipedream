@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import dataiku from "../../dataiku.app.mjs";
 import { BUILD_TYPES } from "../../common/constants.mjs";
@@ -7,8 +6,9 @@ export default {
   key: "dataiku-build-dataset",
   name: "Build Dataset",
   description: "Start a job that builds one or more outputs (typically datasets) in a DSS project. Use this to rebuild specific outputs directly; use **Run Scenario** instead when the pipeline is already orchestrated as a scenario. Use **List Datasets** to find valid output names. A successful call only means the job was accepted — the response's `id` is the job ID, which you pass to **Get Job Status** to follow it to completion. Requires the `RUN_JOBS` privilege on the project. [See the documentation](https://doc.dataiku.com/dss/api/15/rest/#jobs-jobs-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

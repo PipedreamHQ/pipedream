@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import fireflies from "../../fireflies.app.mjs";
 import mutations from "../../common/mutations.mjs";
 import constants from "../../common/constants.mjs";
@@ -18,13 +17,14 @@ export default {
   key: "fireflies-create-meeting-clip",
   name: "Create Meeting Clip",
   description: "Create a clip (a Fireflies \"bite\") from a completed, already-transcribed meeting by specifying a start and end time in seconds. This is the action to use for past meetings — for a meeting that is still running, use **Create Live Meeting Soundbite** instead. To find the moment to clip, read the `sentences` array returned by **Find Meeting by ID**: each sentence carries its own `start_time` and `end_time` in seconds (e.g. `142.5`), so clipping around a quote means passing that sentence's start and end. Clip generation is asynchronous — this returns immediately with `status: pending` and no media, so `preview`, `thumbnail` and the playable URL are not available yet. Pass the returned `id` to **Find Clip by ID** and poll until `status` reaches a terminal `ready` or `error`. [See the documentation](https://docs.fireflies.ai/graphql-api/mutation/create-bite)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     fireflies,
     meetingId: {

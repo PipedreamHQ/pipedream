@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { pickFields } from "../../common/utils.mjs";
 import openphone from "../../openphone.app.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "openphone-list-calls",
   name: "List Calls",
   description: "Retrieve a paginated list of calls from OpenPhone. Requires both a phone number ID and a participant to scope the results — the API rejects calls missing either. Use **List Phone Numbers** to find valid phone number IDs. Example: call with phoneNumberId=\"PN123abc\", participants=\"+15551234567\" → returns up to 10 recent calls between that number and that participant. Use `fields` to return only specific fields per call. [See the documentation](https://www.openphone.com/docs/api-reference/calls/list-calls)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import opportunity from "../../common/sobjects/opportunity.mjs";
 import salesforce from "../../salesforce_rest_api.app.mjs";
@@ -24,13 +23,14 @@ export default {
     + " Only the fields you supply change; everything else is left as-is."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.4.0",
+  version: "0.4.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   methods: {
     ...common.methods,
   },

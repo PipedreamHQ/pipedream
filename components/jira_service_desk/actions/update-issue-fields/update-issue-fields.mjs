@@ -11,8 +11,9 @@ export default {
     + " `fields` is a JSON object of field name-value pairs."
     + " Example: `{\"summary\": \"Updated title\", \"priority\": {\"name\": \"High\"}}`."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-put)",
-  version: "0.1.1",
+  version: "0.1.4",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,5 +1,7 @@
-// x-pd-ai: optimized
-import { axios } from "@pipedream/platform";
+import {
+  axios, getFileStreamAndMetadata,
+} from "@pipedream/platform";
+import FormData from "form-data";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -245,6 +247,123 @@ export default {
         ...opts,
         method: "PUT",
         path: `/ex/jira/${cloudId}/rest/api/3/issue/${issueIdOrKey}`,
+      });
+    },
+    async getIssueAttachments({
+      $, cloudId, issueIdOrKey, maxResults,
+    }) {
+      const {
+        results, hasMore,
+      } = await this._paginate({
+        $,
+        path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${issueIdOrKey}/attachment`,
+        maxResults,
+      });
+      const attachments = results.map(({
+        filename, size, mimeType, _links,
+      }) => ({
+        id: _links?.jiraRest?.split("/").pop(),
+        filename,
+        size,
+        mimeType,
+        content: _links?.content,
+      }));
+      return {
+        attachments,
+        hasMore,
+      };
+    },
+    async getAttachmentContent({
+      $, cloudId, issueIdOrKey, attachmentId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${issueIdOrKey}/attachment/${attachmentId}`,
+        responseType: constants.STREAM_RESPONSE_TYPE,
+      });
+    },
+    async uploadTemporaryFile({
+      cloudId, serviceDeskId, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        method: "POST",
+        path: `/ex/jira/${cloudId}/rest/servicedeskapi/servicedesk/${serviceDeskId}/attachTemporaryFile`,
+      });
+    },
+    async attachFilesToRequest({
+      cloudId, issueIdOrKey, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        method: "POST",
+        path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${issueIdOrKey}/attachment`,
+      });
+    },
+    async deleteAttachment({
+      cloudId, attachmentId, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        method: "DELETE",
+        path: `/ex/jira/${cloudId}/rest/api/3/attachment/${attachmentId}`,
+      });
+    },
+    /**
+     * Uploads one or more local/remote files as temporary attachments scoped
+     * to `serviceDeskId`, then attaches them to `issueIdOrKey`. Two-step dance
+     * required by the JSM API: a file can't be attached to a request directly.
+     */
+    async attachFilesToRequestFromSource({
+      $, cloudId, serviceDeskId, issueIdOrKey, files, isPublic,
+    }) {
+      // Uploaded one file at a time (rather than buffering every file into one shared
+      // FormData first) so only the small temporaryAttachmentId is retained across
+      // iterations instead of holding every file's full content in memory at once.
+      const temporaryAttachmentIds = [];
+      for (const file of files) {
+        const {
+          stream, metadata,
+        } = await getFileStreamAndMetadata(file);
+        // Buffered rather than piped as a live stream: attachTemporaryFile consistently
+        // 500'd at the Atlassian edge when the multipart body was a live Readable (verified
+        // against the JSM API directly), even with Content-Length set from a known size.
+        const chunks = [];
+        for await (const chunk of stream) {
+          chunks.push(chunk);
+        }
+        const data = new FormData();
+        data.append("file", Buffer.concat(chunks), {
+          contentType: metadata.contentType,
+          filename: metadata.name,
+        });
+
+        const uploadResponse = await this.uploadTemporaryFile({
+          $,
+          cloudId,
+          serviceDeskId,
+          headers: {
+            "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
+            "Content-Length": data.getLengthSync(),
+            "X-Atlassian-Token": "no-check",
+          },
+          data,
+        });
+        temporaryAttachmentIds.push(
+          ...uploadResponse.temporaryAttachments.map(
+            ({ temporaryAttachmentId }) => temporaryAttachmentId,
+          ),
+        );
+      }
+
+      return this.attachFilesToRequest({
+        $,
+        cloudId,
+        issueIdOrKey,
+        data: {
+          temporaryAttachmentIds,
+          public: isPublic ?? true,
+        },
       });
     },
   },

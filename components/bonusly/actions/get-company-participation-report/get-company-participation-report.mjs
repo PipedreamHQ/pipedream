@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import bonusly from "../../bonusly.app.mjs";
 
 export default {
   key: "bonusly-get-company-participation-report",
   name: "Get Company Participation Report",
   description: "Return company-level recognition participation analytics - giving/receiving rates by group (department, location, etc.) or by manager and team, for a given date range. [See the documentation](https://docs.bonus.ly/reference/adminparticipationreport-1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import zoom from "../../zoom.app.mjs";
 import utils from "../../common/utils.mjs";
 
@@ -21,6 +20,7 @@ export default {
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     zoom,
     meetingId: {

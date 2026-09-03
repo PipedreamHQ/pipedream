@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import common from "../common/base.mjs";
 
@@ -8,13 +7,14 @@ export default {
   name: "Modify Contact Group Members",
   description:
     "Adds contacts to or removes contacts from a contact group. [See the documentation](https://developers.google.com/people/api/rest/v1/contactGroups.members/modify)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     "destructiveHint": false,
     "openWorldHint": true,
     "readOnlyHint": false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     resourceName: {
