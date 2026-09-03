@@ -34,7 +34,7 @@ export default {
     requestBody: {
       type: "string",
       label: "Request Body",
-      description: "The raw body of the request to be verified. This must be the verbatim body Slack sent (e.g. `{{steps.trigger.event.bodyRaw}}`) — a re-serialized object will not produce a matching signature.",
+      description: "The raw body of the request to be verified. This must be the verbatim body Slack sent, not a re-serialized object.",
     },
   },
   async run({ $ }) {
