@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sunshine_conversations",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Pipedream Sunshine Conversations Components",
   "main": "sunshine_conversations.app.mjs",
   "keywords": [

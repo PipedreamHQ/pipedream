@@ -6,13 +6,14 @@ export default {
   key: "zenventory-create-purchase-order",
   name: "Create Purchase Order",
   description: "Generates a new purchase order. [See the documentation](https://docs.zenventory.com/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     zenventory,
     supplierId: {

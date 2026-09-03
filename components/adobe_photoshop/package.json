@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/adobe_photoshop",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Adobe Photoshop Components",
   "main": "adobe_photoshop.app.mjs",
   "keywords": [

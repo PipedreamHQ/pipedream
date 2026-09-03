@@ -6,8 +6,9 @@ export default {
   key: "sunshine_conversations-post-activity",
   name: "Post Activity",
   description: "Post a conversation activity (e.g. typing indicators or read receipts). [See the documentation](https://developer.zendesk.com/api-reference/conversations/#tag/Activities/operation/PostActivity)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

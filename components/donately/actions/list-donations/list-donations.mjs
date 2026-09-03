@@ -5,8 +5,9 @@ export default {
   key: "donately-list-donations",
   name: "List Donations",
   description: "List donations for an account. [See the documentation](https://developer.donate.ly/api/#donations)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     openWorldHint: true,
     destructiveHint: false,

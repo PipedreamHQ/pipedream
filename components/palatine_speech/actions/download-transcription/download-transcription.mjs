@@ -6,8 +6,9 @@ export default {
   key: "palatine_speech-download-transcription",
   name: "Download Transcription",
   description: "Downloads the transcription results in a specified file format (SRT, VTT, TXT, CSV, or XLSX). The task must be completed before downloading. [See the documentation](https://docs.speech.palatine.ru/api-reference/transcribe/transcribe-polling-api/download-as-file)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

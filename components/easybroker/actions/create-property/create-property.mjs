@@ -5,8 +5,9 @@ export default {
   key: "easybroker-create-property",
   name: "Create Property",
   description: "Creates a new property listing in EasyBroker with full details including title, price, location, bedrooms, bathrooms, parking, size, description, amenities, photos, and status. [See the documentation](https://dev.easybroker.com/reference/post_properties)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

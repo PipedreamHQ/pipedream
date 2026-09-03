@@ -4,8 +4,9 @@ export default {
   key: "_descript-create-import-url",
   name: "Create Import URL",
   description: "Create an import URL for a published project. [See the documentation](https://docs.descriptapi.com/#tag/Edit-in-Descript/operation/postEditInDescriptSchema)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

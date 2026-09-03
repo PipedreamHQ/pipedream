@@ -5,7 +5,8 @@ export default {
   name: "List Departments",
   description: "Lists the departments configured in the organization, with optional filtering by enabled/disabled state. Use this to drive workflows by department name lookups instead of hardcoded department IDs. [See the documentation](https://desk.zoho.com/DeskAPIDocument#Departments#Departments_Listdepartments)",
   type: "action",
-  version: "0.0.1",
+  ai: "optimized",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

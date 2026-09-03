@@ -4,8 +4,9 @@ export default {
   key: "getty_images-download-image",
   name: "Download Image",
   description: "Download a licensed Getty Images asset by image ID. Returns a URI valid for up to 24 hours that can be used to download the file. Requires an active product subscription — use the **Search Images** action with Include Download Sizes enabled to confirm the asset is downloadable under your account. [See the documentation](https://developers.gettyimages.com/docs/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

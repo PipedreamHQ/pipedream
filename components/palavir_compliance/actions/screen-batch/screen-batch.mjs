@@ -11,7 +11,8 @@ export default {
   description:
     "Screen up to 100 entities in one call against LEIE + OFAC + SAM. Returns per-entity results plus summary counts. [See the documentation](https://rapidapi.com/josh-BN5mWmPiY/api/federal-exclusion-sanctions-screener/playground/apiendpoint_dbaf2b07-36e3-4ecc-9c5e-a0cdf38b8b46)",
   type: "action",
-  version: "0.0.1",
+  ai: "optimized",
+  version: "0.0.2",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

@@ -5,8 +5,9 @@ export default {
   key: "canva-list-designs",
   name: "List Designs",
   description: "List all designs in Canva. [See the documentation](https://www.canva.dev/docs/connect/api-reference/designs/list-designs/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

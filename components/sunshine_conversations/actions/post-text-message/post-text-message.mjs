@@ -6,13 +6,14 @@ export default {
   key: "sunshine_conversations-post-text-message",
   name: "Post Text Message",
   description: "Post a text message, optionally with action buttons. [See the documentation](https://developer.zendesk.com/api-reference/conversations/#tag/Messages/operation/PostMessage)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     sunshineConversations,
     userId: {
