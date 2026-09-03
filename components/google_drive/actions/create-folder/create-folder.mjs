@@ -13,13 +13,14 @@ export default {
   key: "google_drive-create-folder",
   name: "Create Folder",
   description: "Create a new empty folder. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/create) for more information",
-  version: "0.1.25",
+  version: "0.1.26",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     googleDrive,
     drive: {

@@ -4,8 +4,9 @@ export default {
   key: "sharepoint-list-drives",
   name: "List Drives",
   description: "List the drives available within a Microsoft Sharepoint site. [See the documentation](https://learn.microsoft.com/en-us/graph/api/drive-list?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -10,8 +10,9 @@ export default {
     + " Use **List My Requests** or **Get Request** to find the `issueKey` (e.g. `IT-42`)."
     + " Optionally include a comment to explain the transition."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-issueidorkey-transition-post)",
-  version: "0.0.1",
+  version: "0.1.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -34,7 +35,7 @@ export default {
     transitionId: {
       type: "string",
       label: "Transition ID",
-      description: "The ID of the transition to perform. Use **List Request Transitions** to retrieve available transition IDs and names.",
+      description: "The ID of the transition to perform. Use **List Request Transitions** to retrieve available transition IDs and names (in its `transitions` array).",
     },
     additionalComment: {
       type: "string",

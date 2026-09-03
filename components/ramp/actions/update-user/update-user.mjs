@@ -4,9 +4,10 @@ import ramp from "../../ramp.app.mjs";
 export default {
   key: "ramp-update-user",
   name: "Update User",
-  description: "Update fields on an existing Ramp user (role, department, location, direct manager). Run the **List Users** action to find the user ID, **List Departments** and **List Locations** for related IDs. Example: to move a user into a department, pass their User ID plus a Department ID from **List Departments**; you can also set `role` (e.g. `BUSINESS_USER`), location, or direct manager. [See the documentation](https://docs.ramp.com/developer-api/v1/api/users#patch-developer-v1-users-user-id).",
-  version: "0.0.1",
+  description: "Update fields on an existing Ramp user (role, department, location, direct manager). Run the **List Users** action to find the user ID, **List Departments** and **List Locations** for related IDs. Example: to move a user into a department, pass their User ID plus a Department ID from **List Departments**; you can also set `role` (e.g. `BUSINESS_USER`), location, or direct manager. [See the documentation](https://docs.ramp.com/developer-api/v1/api/users#patch-developer-v1-users-user-id)",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

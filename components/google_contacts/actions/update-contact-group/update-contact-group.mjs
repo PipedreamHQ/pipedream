@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import common from "../common/base.mjs";
 
 export default {
@@ -7,13 +6,14 @@ export default {
   name: "Update Contact Group",
   description:
     "Updates the name of an existing contact group. [See the documentation](https://developers.google.com/people/api/rest/v1/contactGroups/update)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     "destructiveHint": false,
     "openWorldHint": true,
     "readOnlyHint": false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     resourceName: {

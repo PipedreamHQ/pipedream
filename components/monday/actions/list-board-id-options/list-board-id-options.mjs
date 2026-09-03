@@ -4,7 +4,7 @@ export default {
   key: "monday-list-board-id-options",
   name: "List Board ID Options",
   description: "Retrieves available options for the Board ID field.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

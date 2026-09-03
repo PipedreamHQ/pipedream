@@ -1,7 +1,7 @@
 import flatMap from "lodash.flatmap";
 import map from "lodash.map";
 import uniqBy from "lodash.uniqby";
-import mondaySdk from "monday-sdk-js@0.5.9";
+import { ApiClient } from "@mondaydotcomorg/api";
 import constants from "./common/constants.mjs";
 import mutations from "./common/mutations.mjs";
 import queries from "./common/queries.mjs";
@@ -161,12 +161,15 @@ export default {
     },
   },
   methods: {
+    _client() {
+      return new ApiClient({
+        token: this.$auth.api_key,
+      });
+    },
     async makeRequest({
       query, options,
     }) {
-      const monday = mondaySdk();
-      monday.setToken(this.$auth.api_key);
-      return monday.api(query, options);
+      return this._client().rawRequest(query, options?.variables);
     },
     async createWebhook(variables) {
       return this.makeRequest({

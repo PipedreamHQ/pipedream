@@ -5,8 +5,9 @@ export default {
   key: "sharepoint-create-link",
   name: "Create Link",
   description: "Create a sharing link for a DriveItem. [See the documentation](https://docs.microsoft.com/en-us/graph/api/driveitem-createlink?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.12",
+  version: "0.0.13",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

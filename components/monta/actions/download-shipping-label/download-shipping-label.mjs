@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import fs from "fs";
 import monta from "../../monta.app.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "monta-download-shipping-label",
   name: "Download Shipping Label",
   description: "Download a single shipping label file for an order and save it to the `/tmp` directory. [See the documentation](https://api-v6.monta.nl/index.html#tag/Order/paths/~1order~1%7Bwebshoporderid%7D~1shippinglabels~1%7Bfilename%7D/get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
