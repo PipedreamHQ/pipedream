@@ -8,6 +8,11 @@ const { execSync } = require('child_process');
 // names (e.g. ['import', 'packageDependencies']) to ignore only specific ones.
 const IGNORED_VALIDATIONS = {
   e2b: true, // Uses Pipedream's version-pinned import ("@e2b/code-interpreter@1.0.3"), which the dependency/import checks misread as a missing dep / invalid URL.
+  // Same version-pinned import ("node-telegram-bot-api@1.2.0"). The pin is load-bearing:
+  // the component builder reads the version from the specifier, and 2.0.0 dropped the
+  // default export this app imports. Only the two checks that misread the specifier are
+  // suppressed, so every other check still runs for this app.
+  telegram_bot_api: ['import', 'packageDependencies'],
 };
 
 // Native Node.js modules that don't need to be in package.json
