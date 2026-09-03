@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dataiku",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Dataiku Components",
   "main": "dataiku.app.mjs",
   "keywords": [

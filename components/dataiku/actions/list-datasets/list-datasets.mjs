@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import dataiku from "../../dataiku.app.mjs";
 
 export default {
   key: "dataiku-list-datasets",
   name: "List Datasets",
   description: "List the datasets of a DSS project. Use this to discover a dataset's `name` — the identifier **Build Dataset** needs to build it — along with its `type` (e.g. `Filesystem`) and connection parameters. Use **List Projects** first if you do not know the project key. Requires the `READ_CONF` privilege on the project. [See the documentation](https://doc.dataiku.com/dss/api/15/rest/#datasets-datasets-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

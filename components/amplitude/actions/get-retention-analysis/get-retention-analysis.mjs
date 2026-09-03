@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../amplitude.app.mjs";
 import { RETENTION_MODES } from "../../common/constants.mjs";
@@ -7,8 +6,9 @@ export default {
   key: "amplitude-get-retention-analysis",
   name: "Get Retention Analysis",
   description: "Compute retention (return rate) between a start event and a return event over a date range from the Amplitude Dashboard REST API. Example: call with `startEvent={\"event_type\":\"_new\"}`, `returnEvent={\"event_type\":\"_active\"}`, `startDate=\"20240706\"`, `endDate=\"20240805\"` -> returns `{data: {series: [[...retention counts per interval...]], seriesLabels: [...]}}`. [See the documentation](https://amplitude.com/docs/apis/analytics/dashboard-rest#retention-analysis).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,
