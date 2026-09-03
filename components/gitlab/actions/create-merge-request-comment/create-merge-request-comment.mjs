@@ -46,6 +46,12 @@ export default {
       description: "Set this to anchor the comment to a line of the diff — the file's path after the change, exactly as `new_path` reports it in **Get Merge Request Diffs** (e.g. `src/api/client.py`). Leave blank for a comment on the merge request as a whole.",
       optional: true,
     },
+    oldFilePath: {
+      type: "string",
+      label: "Old File Path",
+      description: "The file's path *before* the change, as `old_path` reports it in **Get Merge Request Diffs**. Only needed when the merge request renames the file — GitLab anchors a comment on a renamed file with both paths. Defaults to **File Path**.",
+      optional: true,
+    },
     newLine: {
       type: "integer",
       label: "New Line",
@@ -92,6 +98,7 @@ export default {
 
       const position = buildPosition({
         new_path: this.filePath,
+        old_path: this.oldFilePath,
         new_line: this.newLine,
         old_line: this.oldLine,
       }, diffRefs);

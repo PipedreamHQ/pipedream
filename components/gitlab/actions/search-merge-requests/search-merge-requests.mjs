@@ -2,6 +2,7 @@ import gitlab from "../../gitlab.app.mjs";
 import constants from "../../common/constants.mjs";
 import {
   paginate,
+  selectMergeRequestScope,
   summarizeMergeRequest,
 } from "../../common/utils.mjs";
 
@@ -37,7 +38,7 @@ export default {
         "groupIdStatic",
       ],
       optional: true,
-      description: "Limit the search to every project in this group, given as a full path or a numeric group ID. Ignored when **Project** is set.",
+      description: "Limit the search to every project in this group, given as a full path or a numeric group ID. Cannot be combined with **Project** — setting both is rejected.",
     },
     searchIn: {
       type: "string",
@@ -83,23 +84,11 @@ export default {
       scope: this.scope,
     };
 
-    let requestFn;
-    if (this.projectId) {
-      requestFn = (requestParams) => this.gitlab.listProjectMergeRequests(this.projectId, {
-        $,
-        params: requestParams,
-      });
-    } else if (this.groupId) {
-      requestFn = (requestParams) => this.gitlab.listGroupMergeRequests(this.groupId, {
-        $,
-        params: requestParams,
-      });
-    } else {
-      requestFn = (requestParams) => this.gitlab.listMergeRequests({
-        $,
-        params: requestParams,
-      });
-    }
+    const { requestFn } = selectMergeRequestScope(this.gitlab, {
+      projectId: this.projectId,
+      groupId: this.groupId,
+      $,
+    });
 
     const {
       items, truncated,

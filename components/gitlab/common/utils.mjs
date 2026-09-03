@@ -121,6 +121,11 @@ export function summarizeMergeRequest(mergeRequest) {
   };
 }
 
+/**
+ * Projected changed file. `too_large` and `collapsed` are kept because GitLab
+ * omits or truncates `diff` for those files — without the flags a reader would
+ * take an empty diff for an unchanged file.
+ */
 export function summarizeDiff(file) {
   return {
     new_path: file.new_path,
@@ -135,6 +140,10 @@ export function summarizeDiff(file) {
   };
 }
 
+/**
+ * Projected commit. Both SHAs are kept on purpose: `short_id` is what a person
+ * reads, `id` is what the API needs back.
+ */
 export function summarizeCommit(commit) {
   return {
     id: commit.id,
@@ -146,6 +155,12 @@ export function summarizeCommit(commit) {
   };
 }
 
+/**
+ * Projected note. `position` is narrowed to the path and line rather than passed
+ * through, since that is the anchor needed to reply to or resolve the thread;
+ * GitLab's SHA triple is dropped because callers re-read it from `diff_refs`.
+ * `system` is kept so bookkeeping notes can be filtered out by the caller.
+ */
 export function summarizeNote(note) {
   return {
     id: note.id,
@@ -166,6 +181,11 @@ export function summarizeNote(note) {
   };
 }
 
+/**
+ * Projected thread. `resolved` is left `undefined` — not `false` — for a thread
+ * where nothing is resolvable, because a plain comment has no resolved state and
+ * reporting `false` would imply it could be closed.
+ */
 export function summarizeDiscussion(discussion) {
   const notes = (discussion.notes ?? []).map(summarizeNote);
   return {
@@ -242,5 +262,46 @@ export function buildPosition(comment, diffRefs) {
     ...oldLine !== undefined && {
       old_line: oldLine,
     },
+  };
+}
+
+/**
+ * The three merge request list endpoints differ only in scope, and both the list
+ * and search actions pick between them the same way. Returns the request
+ * function plus the phrase the caller puts in its `$summary`.
+ */
+export function selectMergeRequestScope(app, {
+  projectId, groupId, $,
+}) {
+  if (projectId && groupId) {
+    throw new ConfigurationError("Set Project or Group, not both — they select different scopes and only one would apply.");
+  }
+
+  if (projectId) {
+    return {
+      requestFn: (params) => app.listProjectMergeRequests(projectId, {
+        $,
+        params,
+      }),
+      where: ` in ${projectId}`,
+    };
+  }
+
+  if (groupId) {
+    return {
+      requestFn: (params) => app.listGroupMergeRequests(groupId, {
+        $,
+        params,
+      }),
+      where: ` in group ${groupId}`,
+    };
+  }
+
+  return {
+    requestFn: (params) => app.listMergeRequests({
+      $,
+      params,
+    }),
+    where: "",
   };
 }

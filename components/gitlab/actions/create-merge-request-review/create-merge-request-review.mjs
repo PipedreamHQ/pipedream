@@ -86,6 +86,7 @@ export default {
 
     const posted = [];
     const failed = [];
+    let diffRefs;
 
     if (comments.length) {
       const mergeRequest = await this.gitlab.getMergeRequest(
@@ -95,7 +96,7 @@ export default {
           $,
         },
       );
-      const diffRefs = mergeRequest.diff_refs;
+      diffRefs = mergeRequest.diff_refs;
 
       for (const comment of comments) {
         // One bad line should not sink the rest of the review, so failures are
@@ -144,12 +145,28 @@ export default {
 
     let approval;
     if (this.action === APPROVE) {
+      // Approving without a SHA would also approve whatever was pushed while the
+      // review was being written; GitLab rejects a stale one with a 409 instead.
+      if (!diffRefs) {
+        const mergeRequest = await this.gitlab.getMergeRequest(
+          this.projectId,
+          this.mergeRequestIid,
+          {
+            $,
+          },
+        );
+        diffRefs = mergeRequest.diff_refs;
+      }
+
       try {
         approval = await this.gitlab.approveMergeRequest(
           this.projectId,
           this.mergeRequestIid,
           {
             $,
+            data: {
+              sha: diffRefs?.head_sha,
+            },
           },
         );
       } catch (error) {

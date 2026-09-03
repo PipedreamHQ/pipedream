@@ -92,10 +92,9 @@ export default {
             search: username,
           },
         });
-        const user = matches?.find((candidate) => candidate.username === username)
-          ?? (matches?.length === 1
-            ? matches[0]
-            : undefined);
+        // Exact match only: GitLab's project users search also matches display
+        // names, so a lone fuzzy hit would assign someone the caller never named.
+        const user = matches?.find((candidate) => candidate.username === username);
         if (!user) {
           throw new ConfigurationError(`No project member matches the username \`${username}\` in ${this.projectId}. Use **List Project Members** to see who can be assigned.`);
         }

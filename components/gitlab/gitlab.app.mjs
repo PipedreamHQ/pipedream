@@ -469,12 +469,6 @@ export default {
         ...opts,
       });
     },
-    getCurrentUser(opts = {}) {
-      return this._makeRequest({
-        path: "/user",
-        ...opts,
-      });
-    },
     listMergeRequests(opts = {}) {
       return this._makeRequest({
         path: "/merge_requests",

@@ -2,6 +2,7 @@ import gitlab from "../../gitlab.app.mjs";
 import constants from "../../common/constants.mjs";
 import {
   paginate,
+  selectMergeRequestScope,
   summarizeMergeRequest,
 } from "../../common/utils.mjs";
 
@@ -32,7 +33,7 @@ export default {
         "groupIdStatic",
       ],
       optional: true,
-      description: "Limit results to every project in this group, given as a full path (e.g. `backend`) or a numeric group ID. Ignored when **Project** is set.",
+      description: "Limit results to every project in this group, given as a full path (e.g. `backend`) or a numeric group ID. Cannot be combined with **Project** — setting both is rejected.",
     },
     state: {
       propDefinition: [
@@ -131,27 +132,13 @@ export default {
       sort: this.sort,
     };
 
-    let requestFn;
-    let where;
-    if (this.projectId) {
-      requestFn = (requestParams) => this.gitlab.listProjectMergeRequests(this.projectId, {
-        $,
-        params: requestParams,
-      });
-      where = ` in ${this.projectId}`;
-    } else if (this.groupId) {
-      requestFn = (requestParams) => this.gitlab.listGroupMergeRequests(this.groupId, {
-        $,
-        params: requestParams,
-      });
-      where = ` in group ${this.groupId}`;
-    } else {
-      requestFn = (requestParams) => this.gitlab.listMergeRequests({
-        $,
-        params: requestParams,
-      });
-      where = "";
-    }
+    const {
+      requestFn, where,
+    } = selectMergeRequestScope(this.gitlab, {
+      projectId: this.projectId,
+      groupId: this.groupId,
+      $,
+    });
 
     const {
       items, truncated,
