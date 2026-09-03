@@ -9,8 +9,9 @@ export default {
     + " To acknowledge: set `status` to `acknowledged`. To resolve: set `status` to `resolved`."
     + " Use **List Users** to find user IDs for assignments and **List Priorities** for priority IDs."
     + " [See the documentation](https://developer.pagerduty.com/api-reference/8a0e1aa2ec666-update-an-incident)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

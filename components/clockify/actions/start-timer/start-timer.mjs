@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import clockify from "../../clockify.app.mjs";
 
 export default {
   key: "clockify-start-timer",
   name: "Start Timer",
   description: "Starts a running timer for a new time entry in Clockify — no end time is set. Use **Stop Timer** to stop it, or **Update Time Entry** to set an end time later. Use **Log Time Entry** instead if you already know both the start and end time. [See the documentation](https://docs.clockify.me/#tag/Time-entry/operation/createTimeEntry), or [starting for another member](https://docs.clockify.me/#tag/Time-entry/operation/createForOthers) when `User` is set",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

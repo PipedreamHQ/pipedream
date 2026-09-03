@@ -6,13 +6,14 @@ export default {
   key: "google_drive-find-forms",
   name: "Find Forms",
   description: "List Google Form documents or search for a Form by name. The `Search Name` field uses Google Drive's tokenized full-text matching — pass a distinctive word or short phrase rather than the full title when the name contains special characters like `&` or `'`. [See the documentation](https://developers.google.com/drive/api/v3/search-files) for more information",
-  version: "0.0.26",
+  version: "0.0.27",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     googleDrive,
     drive: {
