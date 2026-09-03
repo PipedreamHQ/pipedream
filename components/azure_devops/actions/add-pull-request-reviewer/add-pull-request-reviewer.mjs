@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 import { PULL_REQUEST_VOTE_OPTIONS } from "../../common/constants.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "azure_devops-add-pull-request-reviewer",
   name: "Add Pull Request Reviewer",
   description: "Add a reviewer to a pull request, optionally marking them required or casting their vote. Returns the reviewer entry including their current vote. Use this to route a pull request to the right owner automatically. Example: pull request `12`, reviewer `8ebabf04-0b08-6a43-9bf4-96e1f4aa3682`, vote `Approved`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/git/pull-request-reviewers/create-pull-request-reviewer?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

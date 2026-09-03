@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import common from "../common/send-message.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
@@ -7,13 +6,14 @@ export default {
   key: "slack_v2-send-message-to-user-or-group",
   name: "Send Message to User or Group",
   description: "Send a message to a user or group. [See the documentation](https://api.slack.com/methods/chat.postMessage)",
-  version: "0.2.1",
+  version: "0.2.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     slack: common.props.slack,
     users: {
