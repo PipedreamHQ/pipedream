@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dhl_parcel",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream DHL Parcel Components",
   "main": "dhl_parcel.app.mjs",
   "keywords": [

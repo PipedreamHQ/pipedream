@@ -5,8 +5,9 @@ export default {
   name: "Search Companies",
   description:
     "Search for companies using natural language queries or structured filters. The AI assistant will automatically generate appropriate filters from your query. [See the documentation](https://docs.tomba.io/api/reveal#search-companies)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

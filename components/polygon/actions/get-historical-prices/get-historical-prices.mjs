@@ -8,13 +8,14 @@ export default {
   key: "polygon-get-historical-prices",
   name: "Get Historical Prices",
   description: "Fetches historical price data for a specified stock ticker within a date range. [See the documentation](https://polygon.io/docs/stocks/get_v2_aggs_ticker__stocksticker__range__multiplier___timespan___from___to)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     polygon,
     stockTicker: {

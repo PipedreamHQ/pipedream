@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dynalist",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Dynalist Components",
   "main": "dynalist.app.mjs",
   "keywords": [

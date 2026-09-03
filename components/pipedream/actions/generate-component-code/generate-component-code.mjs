@@ -5,13 +5,14 @@ export default {
   key: "pipedream-generate-component-code",
   name: "Generate Component Code",
   description: "Generate component code using AI.",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     pipedream,
     prompt: {

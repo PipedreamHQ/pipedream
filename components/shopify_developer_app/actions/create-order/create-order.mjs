@@ -5,13 +5,14 @@ export default {
   key: "shopify_developer_app-create-order",
   name: "Create Order",
   description: "Creates a new order. For full order object details [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/ordercreate)",
-  version: "0.0.18",
+  version: "0.0.19",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     shopify,
     lineItems: {

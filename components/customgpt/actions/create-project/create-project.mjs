@@ -6,13 +6,14 @@ export default {
   key: "customgpt-create-project",
   name: "Create Project (Agent)",
   description: "Create a new agent by importing data either from a sitemap or an uploaded file. The system will process the provided data and generate a new agent based on the imported or uploaded information. [See the documentation](https://docs.customgpt.ai/reference/post_api-v1-projects)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     customgpt,
     name: {
