@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import campaign from "../../common/sobjects/campaign.mjs";
 
@@ -13,13 +12,14 @@ export default {
     + " For example, `Name: \"Summer 2026 Webinar\"` creates the campaign and returns its ID."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.3.8",
+  version: "0.3.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   methods: {
     ...common.methods,
   },

@@ -8,7 +8,7 @@ export default {
     + " **Call this tool first** to obtain the `cloudId` (returned as `id`) required by every other Jira Service Desk tool."
     + " Each site includes its `id` (cloudId), `name`, and `url`."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/platform/oauth-2-3lo-apps/#3-1-get-the-cloudid-for-your-site)",
-  version: "0.0.1",
+  version: "0.0.5",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import constants from "../../common/constants.mjs";
 import {
@@ -12,13 +11,14 @@ export default {
     + " Use this to find a template and its ID before sending with **Send Email**, or before editing with **Update Email Template**."
     + " For example, run with `Limit` `50`, then pass the `Id` of the template you want to **Send Email**."
     + " [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_emailtemplate.htm)",
-  version: "0.1.1",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     salesforce,
     fields: {

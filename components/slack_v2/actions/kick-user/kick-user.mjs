@@ -1,39 +1,29 @@
 import slack from "../../slack_v2.app.mjs";
-import constants from "../../common/constants.mjs";
 
 export default {
   key: "slack_v2-kick-user",
   name: "Kick User",
   description: "Remove a user from a conversation. [See the documentation](https://api.slack.com/methods/conversations.kick)",
-  version: "0.0.31",
+  version: "0.0.34",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     slack,
     conversation: {
       propDefinition: [
         slack,
         "conversation",
-        () => ({
-          types: [
-            constants.CHANNEL_TYPE.PUBLIC,
-            constants.CHANNEL_TYPE.PRIVATE,
-            constants.CHANNEL_TYPE.MPIM,
-          ],
-        }),
       ],
     },
     user: {
       propDefinition: [
         slack,
         "user",
-        (c) => ({
-          channelId: c.conversation,
-        }),
       ],
     },
   },

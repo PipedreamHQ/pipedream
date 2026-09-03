@@ -1,16 +1,28 @@
+import utils from "../../common/utils.mjs";
 import slack from "../../slack_v2.app.mjs";
 
 export default {
   key: "slack_v2-find-message",
   name: "Find Message",
-  description: "Find a Slack message. [See the documentation](https://api.slack.com/methods/assistant.search.context)",
-  version: "0.1.5",
+  description: "Find a Slack message by keyword or natural-language query across public and private channels."
+    + " Returns matching messages with channel context, timestamps, and permalinks."
+    + " Pass the returned `message_ts` to **Reply to a Message** to answer in thread,"
+    + " or to **Get Thread Replies** to read the rest of that conversation."
+    + " Use **Search** instead when you need file results or want to restrict `channelTypes`;"
+    + " use this action when you want to order results with `sort` / `sortDirection`."
+    + " User mentions come back in the canonical `<@U123>` form; echo it verbatim to post a real mention."
+    + " Display names are returned separately as `mentions`, an array of `{ id, name }` objects,"
+    + " omitted when no mention carried a name."
+    + " Do NOT splice a name back inline: Slack renders `<@U123|Name>` as literal text, not a mention."
+    + " [See the documentation](https://api.slack.com/methods/assistant.search.context)",
+  version: "0.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     slack,
     query: {
@@ -62,7 +74,7 @@ export default {
         cursor = response.response_metadata?.next_cursor;
       } while (cursor && matches.length < maxResults);
 
-      return matches.slice(0, maxResults);
+      return utils.normalizeSearchMessages(matches.slice(0, maxResults));
     },
   },
   async run({ $ }) {

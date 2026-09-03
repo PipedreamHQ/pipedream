@@ -6,12 +6,14 @@ export default {
   description:
     "Lists Jira Service Desk requests owned or participated in by the current user."
     + " Defaults to open requests owned by the current user."
+    + " Results are paginated automatically up to `maxResults`."
+    + " Returns `{ requests, truncated }`, where `truncated` is `true` when more requests remained unfetched."
     + " Use **List Sites** first to obtain the required `cloudId`."
     + " Each result includes `issueKey`, `issueId`, and request field values (summary, status)."
     + " `requestStatus`: `OPEN_REQUESTS` (default), `CLOSED_REQUESTS`, or `ALL_REQUESTS`."
     + " `requestOwnership`: `OWNED_REQUESTS` (default) or `PARTICIPATED_REQUESTS`."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-get)",
-  version: "0.0.1",
+  version: "1.1.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -53,16 +55,31 @@ export default {
       ],
       optional: true,
     },
+    maxResults: {
+      propDefinition: [
+        app,
+        "maxResults",
+      ],
+      description: "Maximum number of requests to return across all pages (1-1000).",
+    },
   },
   async run({ $ }) {
-    const requests = await this.app.listMyRequests({
+    const {
+      results: requests, hasMore,
+    } = await this.app.listMyRequests({
       $,
       cloudId: this.cloudId,
       serviceDeskId: this.serviceDeskId,
       requestStatus: this.requestStatus,
       requestOwnership: this.requestOwnership,
+      maxResults: this.maxResults,
     });
-    $.export("$summary", `Found ${requests?.length ?? 0} request(s)`);
-    return requests;
+    $.export("$summary", `Found ${requests.length} request(s)${hasMore
+      ? ", truncated at Max Results; raise it to fetch more"
+      : ""}`);
+    return {
+      requests,
+      truncated: hasMore,
+    };
   },
 };

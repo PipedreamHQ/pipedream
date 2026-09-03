@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import attachment from "../../common/sobjects/attachment.mjs";
 import { getFileStream } from "@pipedream/platform";
@@ -14,13 +13,14 @@ export default {
     + " For newer orgs prefer Salesforce Files - use **Insert Blob Data** with `ContentVersion` instead."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.6.0",
+  version: "0.6.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: getProps({
     objType: attachment,
     docsLink,
