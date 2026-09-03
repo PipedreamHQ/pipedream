@@ -6,27 +6,29 @@ export default {
   name: "List Channels",
   description:
     "Return a list of channels in a workspace."
-    + " **Always pass `fields`** with just the properties you need (e.g. `id,name`) —"
-    + " a full channel object is ~1KB, so a workspace of any real size returns a payload"
-    + " large enough to be truncated before you ever see it. `id,name` covers most tasks;"
-    + " every other tool here accepts a channel NAME and resolves it, so you rarely need more."
+    + " Pass `fields` (e.g. `[\"id\",\"name\"]`) to limit the returned properties —"
+    + " a full channel object is ~1KB, so a workspace of any real size can return a payload"
+    + " large enough to be truncated. Omit `fields` when you need the complete channel objects."
+    + " Use `namePrefix` to filter results to channels whose names start with a given string"
+    + " (e.g. `dev-`) without a client-side filter loop."
     + " Returns `has_more: true` and `next_cursor` when more channels exist than were"
     + " fetched — when you see that, raise `numPages` (or pass `cursor`) before answering"
     + " any 'how many' or 'list every' question, otherwise your answer is silently incomplete."
     + " [See the documentation](https://api.slack.com/methods/conversations.list)",
-  version: "0.2.0",
+  version: "0.3.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     slack,
     channelTypes: {
       type: "string",
       label: "Channel Types",
-      description: "The types of channels to list. Select `public` for public channels only, `private` for private channels only, or `all` for both public and private channels.",
+      description: "Which channel types to list. Pass `public_channel` for public channels only, `private_channel` for private channels only, or `public_channel,private_channel` for both (default).",
       options: [
         {
           label: "Public Channels",
@@ -66,9 +68,15 @@ export default {
       ],
     },
     cursor: {
+      propDefinition: [
+        slack,
+        "cursor",
+      ],
+    },
+    namePrefix: {
       type: "string",
-      label: "Cursor",
-      description: "Resume from a previous call's `next_cursor` to fetch the following page.",
+      label: "Name Prefix",
+      description: "Return only channels whose names start with this prefix (case-insensitive). Example: `dev-`. When set, ALL pages are fetched regardless of `Number of Pages` so the filter is applied across the full workspace channel list.",
       optional: true,
     },
   },
@@ -85,15 +93,26 @@ export default {
     let page = 0;
     let nextCursor;
 
+    // namePrefix filters each page as it arrives (rather than accumulating the full
+    // workspace and filtering once at the end) so memory stays bounded by the match
+    // count, not the workspace size, on large workspaces.
+    const prefix = this.namePrefix?.toLowerCase();
+
     do {
       const {
         channels, response_metadata: metadata,
       } = await this.slack.conversationsList(params);
-      allChannels.push(...channels);
+      const pageChannels = prefix
+        ? channels.filter((c) => c.name?.toLowerCase().startsWith(prefix))
+        : channels;
+      allChannels.push(...pageChannels);
       nextCursor = metadata?.next_cursor;
       params.cursor = nextCursor;
       page++;
-    } while (params.cursor && page < this.numPages);
+    // When namePrefix is active, fetch ALL pages so the filter can be applied
+    // across the full workspace channel list — matching channels may live on
+    // any page and would be silently missing if capped at numPages.
+    } while (params.cursor && (this.namePrefix || page < this.numPages));
 
     // `fields` is ADDITIVE: omitted returns exactly what this action has always
     // returned, so existing workflows are unaffected. Supplied, it plucks per channel —

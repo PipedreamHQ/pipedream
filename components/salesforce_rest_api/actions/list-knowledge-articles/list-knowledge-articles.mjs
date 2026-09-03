@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import constants from "../../common/constants.mjs";
 import {
@@ -12,13 +11,14 @@ export default {
     + " Returns the article container records (`KnowledgeArticle`), not the published article bodies - use **Get Knowledge Articles** to read article content, and **List Knowledge Data Category Groups** to discover the categories articles are filed under."
     + " This can return a lot of records on a mature org, so set `Limit`."
     + " [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_knowledgearticle.htm)",
-  version: "0.1.0",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     salesforce,
     fields: {

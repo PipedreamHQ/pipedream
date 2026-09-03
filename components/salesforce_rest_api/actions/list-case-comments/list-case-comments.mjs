@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import constants from "../../common/constants.mjs";
 import {
@@ -13,13 +12,14 @@ export default {
     + " Find the case ID with **List Cases** first."
     + " For example, case ID `5005g00001ABCDeAAI` with `Limit` `20` returns that case's twenty most recent comments."
     + " [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_casecomment.htm)",
-  version: "0.1.0",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     salesforce,
     caseId: {

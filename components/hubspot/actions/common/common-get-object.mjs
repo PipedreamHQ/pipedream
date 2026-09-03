@@ -21,18 +21,11 @@ export default {
       async options(opts) {
         return this.hubspot.createOptions(this.getObjectType(), opts);
       },
-      reloadProps: true,
     },
-    info: {
-      type: "alert",
-      alertType: "info",
-      content: "",
-      hidden: true,
-    },
-    // eslint-disable-next-line pipedream/props-description
     additionalProperties: {
       type: "string[]",
       label: "Additional properties to retrieve",
+      description: "An array of HubSpot internal property names to return in addition to the default set for this object type — e.g. `[\"custom_field\", \"lifecyclestage\"]`. Use **Get Properties** to discover the valid internal names a given object type offers.",
       optional: true,
       async options({ page }) {
         if (page !== 0) {
@@ -50,16 +43,6 @@ export default {
           }));
       },
     },
-  },
-  async additionalProps(props) {
-    if (!props.info) return {};
-    return {
-      info: {
-        ...props.info,
-        content: `Properties:\n\`${this.getDefaultProperties(this.getObjectType()).join(", ")}\``,
-        hidden: false,
-      },
-    };
   },
   methods: {
     getObjectType() {

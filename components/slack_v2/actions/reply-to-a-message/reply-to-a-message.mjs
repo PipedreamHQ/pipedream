@@ -5,14 +5,22 @@ export default {
   ...common,
   key: "slack_v2-reply-to-a-message",
   name: "Reply to a Message Thread",
-  description: "Send a message as a threaded reply. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.2.5",
+  description:
+    "Send a message as a threaded reply to an existing message."
+    + " Use this when the reply should be nested under a specific message rather than posted"
+    + " as a new top-level message — for example, responding to a triggering event or"
+    + " continuing a discussion. Requires `thread_ts`, the parent message's timestamp"
+    + " (e.g. `1403051575.000407`); get it from **Get Channel History** or an incoming event's"
+    + " `ts` field. For a plain, non-threaded message use **Post Message** instead."
+    + " [See the documentation](https://api.slack.com/methods/chat.postMessage)",
+  version: "0.2.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     slack: common.props.slack,
     conversation: {
@@ -34,21 +42,14 @@ export default {
       ],
     },
     ...common.props,
-    replyToThread: {
-      ...common.props.replyToThread,
-      hidden: true,
-    },
     thread_ts: {
       propDefinition: [
         slack,
         "messageTs",
       ],
-    },
-    thread_broadcast: {
-      propDefinition: [
-        slack,
-        "thread_broadcast",
-      ],
+      label: "Thread Timestamp",
+      description: "The `ts` timestamp of the parent message to reply to (e.g., if triggering on new Slack messages, enter `{{event.ts}}`). Avoid using a reply's `ts` value; use its parent's instead. E.g., `1403051575.000407`.",
+      optional: false,
     },
   },
 };

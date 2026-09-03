@@ -5,7 +5,7 @@ export default {
   key: "wealthbox-new-event-created",
   name: "New Event Created",
   description: "Emit new event for each event created. [See the documentation](http://dev.wealthbox.com/#events-collection-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

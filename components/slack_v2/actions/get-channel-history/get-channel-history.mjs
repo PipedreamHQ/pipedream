@@ -5,17 +5,19 @@ export default {
   key: "slack_v2-get-channel-history",
   name: "Get Channel History",
   description:
-    "Read the recent message history from a specific channel."
+    "Read the recent message history from a specific channel or direct message (DM)."
     + " Accepts a channel ID or channel name (resolved automatically)."
-    + " Use this when you want to see a channel's latest messages — unlike **Search** which finds messages by keyword."
+    + " To read a DM, pass the other person's **user ID** (e.g. `U1234567890`) as the channel — pass your OWN user ID to read your conversation with yourself."
+    + " Use this when you want to see a channel's or DM's latest messages — unlike **Search** which finds messages by keyword."
     + " Returns messages with text, timestamps (ts), reactions, and user IDs."
     + " Message timestamps can be used with **Get Thread Replies**, **Edit Message**, and **Add Reaction**."
     + " **Pass `fields`** (e.g. `text,ts,user`) unless you need full message objects — raw Slack"
     + " messages carry blocks, attachments and edit metadata, so a busy channel can run to tens"
     + " of thousands of characters and be truncated before you see any of it."
     + " [See the documentation](https://api.slack.com/methods/conversations.history)",
-  version: "0.1.0",
+  version: "0.2.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -26,7 +28,7 @@ export default {
     channel: {
       type: "string",
       label: "Channel",
-      description: "Channel ID (e.g. `C1234567890`) or channel name (e.g. `general` or `#general`). Resolved automatically.",
+      description: "Channel ID (e.g. `C1234567890`) or channel name (e.g. `general` or `#general`). For a direct message, pass a user ID (e.g. `U1234567890`) — including your own, to read your self-DM. Resolved automatically.",
     },
     limit: {
       type: "integer",
@@ -38,13 +40,13 @@ export default {
     oldest: {
       type: "string",
       label: "Oldest",
-      description: "Only messages after this Unix timestamp. Inclusive.",
+      description: "Only return messages posted after this timestamp (inclusive), as a Slack timestamp, e.g. `1610000000.000000` (Unix epoch seconds, optionally with fractional microseconds).",
       optional: true,
     },
     latest: {
       type: "string",
       label: "Latest",
-      description: "Only messages before this Unix timestamp. Default: now.",
+      description: "Only return messages posted before this timestamp. Defaults to now. Same format as `Oldest`, e.g. `1610000000.000000`.",
       optional: true,
     },
     fields: {

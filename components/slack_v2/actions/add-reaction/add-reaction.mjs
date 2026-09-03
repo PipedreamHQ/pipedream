@@ -9,8 +9,9 @@ export default {
     + " Use **Get Channel History** or **Search** to find the message timestamp."
     + " Emoji name should be without colons (e.g. `thumbsup`, `fire`, `heart`)."
     + " [See the documentation](https://api.slack.com/methods/reactions.add)",
-  version: "0.0.2",
+  version: "0.0.6",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

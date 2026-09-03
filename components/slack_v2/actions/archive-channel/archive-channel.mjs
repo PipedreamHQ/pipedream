@@ -1,30 +1,23 @@
 import slack from "../../slack_v2.app.mjs";
-import constants from "../../common/constants.mjs";
 
 export default {
   key: "slack_v2-archive-channel",
   name: "Archive Channel",
-  description: "Archive a channel. [See the documentation](https://api.slack.com/methods/conversations.archive)",
-  version: "0.0.30",
+  description: "Archive a public or private channel. Direct messages and group DMs can't be archived — pass a channel ID (e.g. `C1234567890`), not a user or group ID. [See the documentation](https://api.slack.com/methods/conversations.archive)",
+  version: "0.0.34",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     slack,
     conversation: {
       propDefinition: [
         slack,
         "conversation",
-        () => ({
-          types: [
-            constants.CHANNEL_TYPE.PUBLIC,
-            constants.CHANNEL_TYPE.PRIVATE,
-            constants.CHANNEL_TYPE.MPIM,
-          ],
-        }),
       ],
     },
   },

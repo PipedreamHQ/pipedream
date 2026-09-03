@@ -7,11 +7,13 @@ export default {
   description:
     "Send a message to a channel, user, or group."
     + " Accepts a channel ID (e.g. `C1234567890`) or channel name (e.g. `#general` or `general`) — names are resolved automatically."
-    + " To reply to a thread, provide `thread_ts` from **Get Channel History**."
+    + " To post a note to yourself (save a personal note or reminder), pass your own user ID (e.g. `U1234567890`) as the Channel — use **Get Current User** to find your user ID first."
+    + " To reply to a thread, provide `threadTs` (Slack calls this `thread_ts`) from **Get Channel History**."
     + " Supports plain text with Slack mrkdwn formatting and Block Kit blocks."
     + " [See the documentation](https://api.slack.com/methods/chat.postMessage)",
-  version: "0.0.2",
+  version: "0.0.7",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -27,7 +29,7 @@ export default {
     text: {
       type: "string",
       label: "Text",
-      description: "The message text. Supports Slack mrkdwn formatting (e.g. `*bold*`, `_italic_`, `<https://example.com|link>`).",
+      description: "The message text. Supports Slack mrkdwn formatting (e.g. `*bold*`, `_italic_`, `<https://example.com|link>`). To mention a user, use `<@U123>` with their user ID. Do NOT append a display name after a pipe: Slack renders `<@U123|Name>` as literal text, not a mention.",
     },
     blocks: {
       type: "string",

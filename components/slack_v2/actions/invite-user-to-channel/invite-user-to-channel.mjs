@@ -5,13 +5,14 @@ export default {
   key: "slack_v2-invite-user-to-channel",
   name: "Invite User to Channel",
   description: "Invite one or more users to an existing channel. Accepts a channel ID or NAME, and a user ID, EMAIL address or display name — all resolved automatically. Pass several users as a comma-separated list. [See the documentation](https://api.slack.com/methods/conversations.invite)",
-  version: "0.1.0",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     slack,
     conversation: {

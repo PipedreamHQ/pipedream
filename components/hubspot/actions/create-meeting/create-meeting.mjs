@@ -1,17 +1,19 @@
+// x-pd-ai: optimized
 /* eslint-disable no-unused-vars */
 import { ConfigurationError } from "@pipedream/platform";
 import {
   ASSOCIATION_CATEGORY, OBJECT_TYPE,
 } from "../../common/constants.mjs";
 import common from "../common/common-create.mjs";
+import { parseObjectProperties } from "../../common/utils.mjs";
 
 export default {
   ...common,
   key: "hubspot-create-meeting",
   name: "Create Meeting",
   description:
-    "Creates a new meeting with optional associations to other objects. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/engagements/meetings#post-%2Fcrm%2Fv3%2Fobjects%2Fmeetings)",
-  version: "0.0.20",
+    "Create a meeting engagement in HubSpot. Put meeting fields in **Object Properties** (`hs_meeting_title`, `hs_meeting_body`, `hs_meeting_start_time`, `hs_meeting_end_time` as ISO-8601); `hs_timestamp` defaults to the start time. Set **Associated Object Type** and optionally link a record via **Associated Object ID** + **Association Type**. Example: Object Properties `{ \"hs_meeting_title\": \"Kickoff\", \"hs_meeting_start_time\": \"2026-08-27T14:00:00Z\", \"hs_meeting_end_time\": \"2026-08-27T15:00:00Z\" }`. Returns the created meeting with its id. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/engagements/meetings#post-%2Fcrm%2Fv3%2Fobjects%2Fmeetings)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -65,9 +67,6 @@ export default {
     getObjectType() {
       return OBJECT_TYPE.MEETING;
     },
-    isRelevantProperty(property) {
-      return common.methods.isRelevantProperty(property);
-    },
     createMeeting(properties, associations, $) {
       return this.hubspot.createMeeting({
         data: {
@@ -94,11 +93,14 @@ export default {
       );
     }
 
-    const properties = objectProperties
-      ? typeof objectProperties === "string"
-        ? JSON.parse(objectProperties)
-        : objectProperties
+    const properties = objectProperties != null
+      ? parseObjectProperties(objectProperties)
       : otherProperties;
+
+    // HubSpot meetings require hs_timestamp; default it to the start time (or now).
+    if (properties.hs_timestamp == null) {
+      properties.hs_timestamp = properties.hs_meeting_start_time ?? new Date().toISOString();
+    }
 
     const associations = toObjectId
       ? [

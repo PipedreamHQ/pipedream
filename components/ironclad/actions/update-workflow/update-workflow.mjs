@@ -1,14 +1,13 @@
+// x-pd-ai: optimized
 import ironclad from "../../ironclad.app.mjs";
-import { ConfigurationError } from "@pipedream/platform";
-import {
-  getAttributeDescription, parseValue,
-} from "../../common/utils.mjs";
+import { WORKFLOW_ATTRIBUTE_UPDATE_ACTION } from "../../common/constants.mjs";
+import { parseJsonObject } from "../../common/utils.mjs";
 
 export default {
   key: "ironclad-update-workflow",
-  name: "Update Workflow Metadata",
-  description: "Updates the metadata of an existing workflow. [See the documentation]()",
-  version: "0.0.2",
+  name: "Update Workflow Attributes",
+  description: "Updates attribute values on an in-flight Ironclad workflow. The workflow must be in the Review step; document/file-type attributes are not supported. Provide `updates` as a flat JSON object of attribute key to new value — each pair is converted to Ironclad's internal `{action: \"set\", path, value}` update format automatically. Run **Search Workflows** or **Get Workflow** first to find the `workflowId`, then run **Get Workflow** to see current attribute keys and values, or **Describe Workflow Template** for the attribute format reference (complex types like `monetaryAmount`, `address`, `date`, `duration`). Example: set `workflowId` to `\"wf_xyz789\"` and `updates` to `{\"contractValue\": {\"currency\": \"USD\", \"amount\": 75000}, \"renewalDate\": \"2027-01-01\"}`; the action confirms the update was applied. [See the documentation](https://developer.ironcladapp.com/reference/update-workflow-metadata)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -22,96 +21,37 @@ export default {
         ironclad,
         "workflowId",
       ],
-      reloadProps: true,
+    },
+    updates: {
+      type: "string",
+      label: "Updates",
+      description: "JSON object of attribute key to new-value pairs to set on the workflow. Run **Get Workflow** first to discover current attribute keys and types, and **Describe Workflow Template** for complex-type value shapes. Example: `{\"contractValue\": {\"currency\": \"USD\", \"amount\": 75000}, \"renewalDate\": \"2027-01-01\"}`.",
     },
     comment: {
       type: "string",
       label: "Comment",
-      description: "A comment that explains the updates you are making to the workflow",
+      description: "A comment explaining the updates being made to the workflow.",
       optional: true,
     },
   },
-  async additionalProps() {
-    const props = {};
-    if (!this.workflowId) {
-      return props;
-    }
-    const { schema } = await this.ironclad.getWorkflow({
-      workflowId: this.workflowId,
-    });
-    for (const [
-      key,
-      value,
-    ] of Object.entries(schema)) {
-      if (!value?.readOnly) {
-        props[key] = {
-          type: value.type === "boolean"
-            ? "boolean"
-            : value.type === "array"
-              ? "string[]"
-              : "string",
-          label: value.displayName,
-          description: getAttributeDescription(value),
-          optional: true,
-        };
-        if (key === "paperSource") {
-          props[key].options = [
-            "Counterparty paper",
-            "Our paper",
-          ];
-        }
-      }
-    }
-    return props;
-  },
   async run({ $ }) {
-    const {
-      ironclad,
-      workflowId,
-      comment,
-      ...attributes
-    } = this;
-
-    const parsedAttributes = {};
-    for (const [
-      key,
-      value,
-    ] of Object.entries(attributes)) {
-      parsedAttributes[key] = parseValue(value);
-    }
-
-    try {
-      const response = await ironclad.updateWorkflowMetadata({
-        $,
-        workflowId: workflowId,
-        data: {
-          updates: Object.entries(parsedAttributes).map(([
-            key,
-            value,
-          ]) => ({
-            action: "set",
-            path: key,
-            value,
-          })),
-          comment: comment,
-        },
-      });
-      $.export("$summary", `Workflow ${workflowId} updated successfully`);
-      return response;
-    } catch (error) {
-      const msg = JSON.parse(error.message);
-      const { schema } = await ironclad.getWorkflow({
-        workflowId,
-      });
-      if (msg.code === "MISSING_PARAM") {
-        const paramNames = (JSON.parse(msg.param)).map((p) => `\`${schema[p].displayName}\``);
-        throw new ConfigurationError(`Please enter or update the following required parameters: ${paramNames.join(", ")}`);
-      }
-      if (msg.code === "INVALID_PARAM") {
-        const paramName = schema[msg.metadata.keyPath].displayName;
-        throw new ConfigurationError(`Invalid parameter: \`${paramName}\`. ${msg.message}`);
-      }
-      throw new ConfigurationError(msg.message);
-    }
+    const updates = parseJsonObject(this.updates, "Updates");
+    const response = await this.ironclad.updateWorkflowMetadata({
+      $,
+      workflowId: this.workflowId,
+      data: {
+        updates: Object.entries(updates).map(([
+          key,
+          value,
+        ]) => ({
+          action: WORKFLOW_ATTRIBUTE_UPDATE_ACTION,
+          path: key,
+          value,
+        })),
+        comment: this.comment,
+      },
+    });
+    $.export("$summary", `Workflow ${this.workflowId} updated successfully`);
+    return response;
   },
 };
