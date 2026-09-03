@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import fathom from "../../fathom.app.mjs";
 
 export default {
   key: "fathom-list-team-members",
   name: "List Team Members",
   description: "List the members of a team, or all team members across the account. Use **List Teams** to find a valid team name to filter by. [See the documentation](https://developers.fathom.ai/api-reference/team-members/list-team-members)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

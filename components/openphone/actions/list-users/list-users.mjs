@@ -4,7 +4,7 @@ export default {
   key: "openphone-list-users",
   name: "List Users",
   description: "Retrieve a paginated list of users in your OpenPhone workspace. Use this to find a user's ID before assigning a task or filtering calls/messages/conversations by `userId`. Example: call with no inputs → returns up to 10 users, each with `id`, `name`, and `email`. [See the documentation](https://www.openphone.com/docs/api-reference/users/list-users)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   ai: "optimized",
   annotations: {
