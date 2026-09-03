@@ -13,7 +13,7 @@ export default {
     + " Prefer this over **Get Current User**, which returns a much larger payload and is only"
     + " needed for full profile detail (locale, status, admin flags)."
     + " [See the documentation](https://api.slack.com/methods/auth.test)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   ai: "optimized",
   annotations: {

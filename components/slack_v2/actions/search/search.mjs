@@ -14,7 +14,7 @@ export default {
     + " omitted when no mention carried a name."
     + " Do NOT splice a name back inline: Slack renders `<@U123|Name>` as literal text, not a mention."
     + " [See the documentation](https://api.slack.com/methods/assistant.search.context)",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   ai: "optimized",
   annotations: {

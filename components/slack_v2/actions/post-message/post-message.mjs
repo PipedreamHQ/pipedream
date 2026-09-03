@@ -11,7 +11,7 @@ export default {
     + " To reply to a thread, provide `threadTs` (Slack calls this `thread_ts`) from **Get Channel History**."
     + " Supports plain text with Slack mrkdwn formatting and Block Kit blocks."
     + " [See the documentation](https://api.slack.com/methods/chat.postMessage)",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   ai: "optimized",
   annotations: {
