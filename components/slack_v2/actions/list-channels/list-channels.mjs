@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import utils from "../../common/utils.mjs";
 import slack from "../../slack_v2.app.mjs";
 
@@ -16,13 +15,14 @@ export default {
     + " fetched — when you see that, raise `numPages` (or pass `cursor`) before answering"
     + " any 'how many' or 'list every' question, otherwise your answer is silently incomplete."
     + " [See the documentation](https://api.slack.com/methods/conversations.list)",
-  version: "0.3.1",
+  version: "0.3.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     slack,
     channelTypes: {

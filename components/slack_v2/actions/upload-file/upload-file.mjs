@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import {
   ConfigurationError, axios, getFileStreamAndMetadata,
 } from "@pipedream/platform";
@@ -9,13 +8,14 @@ export default {
   key: "slack_v2-upload-file",
   name: "Upload File",
   description: "Upload a file. [See the documentation](https://api.slack.com/messaging/files#uploading_files)",
-  version: "0.1.12",
+  version: "0.1.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     slack,
     conversation: {

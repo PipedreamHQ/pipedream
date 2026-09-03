@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import crypto from "crypto";
 import slack from "../../slack_v2.app.mjs";
 
@@ -6,13 +5,14 @@ export default {
   key: "slack_v2-verify-slack-signature",
   name: "Verify Slack Signature",
   description: "Verifying requests from Slack, slack signs its requests using a secret that's unique to your app. `Request Body` must be the raw request body as a string (not a parsed object) — Slack computes its signature over the exact raw bytes it sent, so re-serializing a parsed object will not match. [See the documentation](https://api.slack.com/authentication/verifying-requests-from-slack)",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     slack,
     slackSigningSecret: {
