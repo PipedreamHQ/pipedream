@@ -58,19 +58,22 @@ export default {
     requesterId: {
       type: "integer",
       label: "Requester ID",
-      description: "Filter tickets by requester ID.",
+      description:
+        "Filter by the numeric Freshdesk requester ID, for example `12345`. Obtain it from the Freshdesk requester record or API.",
       optional: true,
     },
     email: {
       type: "string",
       label: "Email",
-      description: "Filter tickets by requester email.",
+      description:
+        "Filter by the requester's email address, for example `user@example.com`.",
       optional: true,
     },
     companyId: {
       type: "integer",
       label: "Company ID",
-      description: "Filter tickets by company ID.",
+      description:
+        "Filter by the numeric Freshdesk company ID, for example `67890`. Obtain it from the Freshdesk company record or API.",
       optional: true,
     },
     updatedSince: {
@@ -90,7 +93,8 @@ export default {
     include: {
       type: "string[]",
       label: "Include",
-      description: "Include additional data in the response.",
+      description:
+        "Optional array of response fields. Supported values are `description`, `requester`, and `stats`; for example, `['description', 'requester']`.",
       optional: true,
       options: [
         "description",
