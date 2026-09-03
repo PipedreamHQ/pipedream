@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zerobounce",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Pipedream ZeroBounce Components",
   "main": "zerobounce.app.mjs",
   "keywords": [
