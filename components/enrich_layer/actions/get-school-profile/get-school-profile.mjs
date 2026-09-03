@@ -4,8 +4,9 @@ export default {
   key: "enrich_layer-get-school-profile",
   name: "Get School Profile",
   description: "Get structured data of a School Profile from a professional network URL. Cost: 1 credit per successful request. [See the documentation](https://enrichlayer.com/docs/api/v2/school-api/school-profile).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

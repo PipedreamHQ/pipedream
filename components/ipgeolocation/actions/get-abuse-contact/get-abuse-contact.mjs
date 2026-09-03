@@ -5,8 +5,9 @@ export default {
   name: "Get Abuse Contact",
   description:
     "Retrieve abuse contact information for an IPv4 or IPv6 address, including abuse emails, phone numbers, organization, and network route. Only available on paid plans. [See the documentation](https://ipgeolocation.io/documentation/ip-abuse-contact-api.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

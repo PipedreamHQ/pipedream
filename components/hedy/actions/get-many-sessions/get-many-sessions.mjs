@@ -9,8 +9,9 @@ export default {
     + " To list sessions within a specific topic, use **Get Topic Sessions** instead."
     + " Paginate using the `after` cursor from the response's `pagination` field."
     + " [See the documentation](https://app.swaggerhub.com/apis-docs/HedyAI/hedy-api/1.5.2#/Sessions/get_sessions)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

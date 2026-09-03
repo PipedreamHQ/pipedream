@@ -4,8 +4,9 @@ export default {
   key: "shopify-send-order-invoice",
   name: "Send Order Invoice",
   description: "Sends an invoice email for an existing order. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderInvoiceSend).",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

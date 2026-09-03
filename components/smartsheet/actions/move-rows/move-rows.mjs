@@ -13,8 +13,9 @@ export default {
     + " Use **Get Sheet** to find row IDs in the source sheet."
     + " To copy rows instead (keeping them in the source), use **Copy Rows**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/move-rows)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
