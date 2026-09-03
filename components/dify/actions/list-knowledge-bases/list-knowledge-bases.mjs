@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import dify from "../../dify.app.mjs";
 
 export default {
@@ -6,6 +5,7 @@ export default {
   name: "List Knowledge Bases",
   description: "List the knowledge bases (datasets) visible to your Dify account, optionally filtered by name. Use this to find the `Knowledge Base ID` needed by **Query Knowledge Base**. This requires a Dify connection authenticated with a knowledge base API key (issued from a knowledge base's own **API Access** page), not an app API key — those authenticate **Send Chat Message** and **Run Workflow** instead. A `401 unauthorized` error here usually means the connected account is using an app key; reconnect with a knowledge base key instead. [See the documentation](https://docs.dify.ai/en/api-reference/knowledge-bases/list-knowledge-bases)",
   version: "0.0.1",
+  ai: "optimized",
   type: "action",
   annotations: {
     readOnlyHint: true,

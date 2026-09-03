@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import dify from "../../dify.app.mjs";
 
 export default {
@@ -6,6 +5,7 @@ export default {
   name: "Send Chat Message",
   description: "Send a message to a Dify Chatflow, Chatbot, or Legacy Agent app and get back the assistant's reply. Not supported for Agent apps — the Dify API requires `streaming` response mode for those, and this action always uses `blocking` mode to return a single synchronous result. Use **List Conversations** to find a `Conversation ID` to continue an existing thread instead of starting a new one. [See the documentation](https://docs.dify.ai/en/api-reference/chat-messages/send-chat-message)",
   version: "0.0.1",
+  ai: "optimized",
   type: "action",
   annotations: {
     readOnlyHint: false,
