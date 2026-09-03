@@ -10,12 +10,13 @@ export default {
   name: "Get Merge Request Commits",
   description: "List the commits contained in a merge request, newest first. Use this to understand how a change was built up — whether it is one clean commit or a long history to squash, who wrote each part, and what the commit messages claim. For the actual code changes call **Get Merge Request Diffs** instead; for merge readiness call **Get Merge Request**. [See the documentation](https://docs.gitlab.com/api/merge_requests/#get-single-merge-request-commits)",
   version: "0.0.1",
+  type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
-  type: "action",
   props: {
     gitlab,
     projectId: {

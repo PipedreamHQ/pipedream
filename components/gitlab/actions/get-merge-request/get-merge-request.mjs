@@ -10,12 +10,13 @@ export default {
   name: "Get Merge Request",
   description: "Get a single merge request together with a `readiness` rollup that answers \"can this be merged?\" in one call — state, draft flag, `detailed_merge_status`, conflict flag, whether blocking threads are resolved, head pipeline status, and the approval count with who has approved. Use this to open or inspect a merge request, and before approving or merging one. It does **not** return the code changes: call **Get Merge Request Diffs** for those, and **List Merge Request Discussions** for existing review comments. If you only know the merge request by title, resolve its `iid` with **Search Merge Requests** first. The response also carries `diff_refs`, the commit SHAs needed to anchor inline comments — no other tool needs to fetch them. [See the documentation](https://docs.gitlab.com/api/merge_requests/#get-single-merge-request)",
   version: "0.0.1",
+  type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
-  type: "action",
   props: {
     gitlab,
     projectId: {

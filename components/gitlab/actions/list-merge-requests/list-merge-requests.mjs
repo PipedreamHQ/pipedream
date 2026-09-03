@@ -11,12 +11,13 @@ export default {
   name: "List Merge Requests",
   description: "List merge requests, filtered by project, group, state, author, assignee, reviewer, labels or target branch. Use this for any \"what merge requests are …\" question — open MRs in a project, MRs waiting on my review (set **Scope** to `reviews_for_me`), MRs assigned to me, MRs targeting a release branch. Use **Search Merge Requests** instead when you have text to match against a title or description. Set **Project** to scope to one project, **Group** to scope to a whole group, or leave both blank to search across everything the authenticated user can see — note that with both blank GitLab defaults **Scope** to `created_by_me`, so pass `all` to widen it. Results are summarized by default; set **Detail** to `full` for the complete merge request objects. The returned `iid` is what every other merge request tool needs. [See the documentation](https://docs.gitlab.com/api/merge_requests/#list-merge-requests)",
   version: "0.0.1",
+  type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
-  type: "action",
   props: {
     gitlab,
     projectId: {

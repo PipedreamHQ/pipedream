@@ -11,12 +11,13 @@ export default {
   name: "Search Merge Requests",
   description: "Find merge requests whose title or description matches a search term. Use this when the user refers to a merge request by what it is about (\"the MR about the Redis cache refactor\", \"the payments migration MR\") rather than by number — it is the fastest way to turn a description into the `iid` that every other merge request tool needs. Use **List Merge Requests** instead when there is no text to match and you only want to filter by state, author, reviewer or branch. Narrow the search with **Project** or **Group**; with both blank GitLab searches across everything the authenticated user can see and defaults the scope to merge requests they created, so set **Scope** to `all` to widen it. Matching is case-insensitive substring, not fuzzy — prefer one or two distinctive words over a whole sentence. [See the documentation](https://docs.gitlab.com/api/merge_requests/#list-merge-requests)",
   version: "0.0.1",
+  type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
-  type: "action",
   props: {
     gitlab,
     search: {

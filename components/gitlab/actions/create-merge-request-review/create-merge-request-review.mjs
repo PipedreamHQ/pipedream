@@ -10,12 +10,13 @@ export default {
   name: "Create Merge Request Review",
   description: "Submit a whole review on a merge request in one step: any number of inline comments anchored to lines of the diff, an overall summary comment, and optionally an approval. This is the tool for \"review this MR\" — call **Get Merge Request** and **Get Merge Request Diffs** first to read the changes, then send the findings back here. GitLab has no single submit-review API, so this action posts each inline comment as its own thread and then approves if asked; if an individual comment is rejected (usually a line that is not part of the diff) the rest are still posted and the failures are returned in `failed`, so check that array rather than assuming everything landed. Line numbers follow GitLab's diff rules: `new_line` for a line the merge request adds, `old_line` for a line it removes, both for an unchanged context line. There is no REST equivalent of GitLab's *Request changes* state — to block a merge request, leave the findings as comments and do not approve. [See the documentation](https://docs.gitlab.com/api/discussions/#create-new-merge-request-thread)",
   version: "0.0.1",
+  type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
-  type: "action",
   props: {
     gitlab,
     projectId: {

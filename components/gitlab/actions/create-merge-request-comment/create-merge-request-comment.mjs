@@ -7,12 +7,13 @@ export default {
   name: "Create Merge Request Comment",
   description: "Post a comment on a merge request. It works in three modes, chosen by which props you set: leave **File Path** and **Discussion ID** blank for a plain comment on the merge request as a whole; set **File Path** plus a line number to open an inline thread anchored to that line of the diff; or set **Discussion ID** to reply inside an existing thread. Use **Get Merge Request Diffs** first to get valid file paths and line numbers, and **List Merge Request Discussions** to get a **Discussion ID** to reply to. Line numbers follow GitLab's diff rules: for a line the merge request **adds** or leaves unchanged, pass **New Line**; for a line it **removes**, pass **Old Line**; for an unchanged context line, pass both. Getting that wrong is the usual cause of a rejected inline comment. To post several review comments at once, and optionally approve in the same step, use **Create Merge Request Review** instead. [See the documentation](https://docs.gitlab.com/api/discussions/#create-new-merge-request-thread)",
   version: "0.0.1",
+  type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
-  type: "action",
   props: {
     gitlab,
     projectId: {

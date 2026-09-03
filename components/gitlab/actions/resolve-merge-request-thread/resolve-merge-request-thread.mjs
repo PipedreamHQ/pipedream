@@ -5,12 +5,13 @@ export default {
   name: "Resolve Merge Request Thread",
   description: "Mark a merge request thread as resolved, or reopen a resolved one by setting **Resolved** to `false`. Use this after acting on a piece of review feedback — resolving threads is what clears a merge request's `blocking_discussions_resolved` flag so it can merge. Get the **Discussion ID** from **List Merge Request Discussions** (set its **Only Unresolved** to `true` to see just the threads still open). Only threads that are resolvable can be resolved: plain comments on the merge request as a whole are not, and GitLab rejects the attempt. [See the documentation](https://docs.gitlab.com/api/discussions/#resolve-a-merge-request-thread)",
   version: "0.0.1",
+  type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
-  type: "action",
   props: {
     gitlab,
     projectId: {

@@ -8,12 +8,13 @@ export default {
   name: "Approve Merge Request",
   description: "Approve a merge request as the authenticated user, or withdraw an earlier approval by setting **Action** to `unapprove`. Call **Get Merge Request** first to check the merge request is actually ready — its `readiness` rollup reports the pipeline status, conflicts and how many approvals are still required — and **Get Merge Request Diffs** to read the changes being approved. Two things commonly go wrong: GitLab **refuses to let you approve your own merge request**, and a project may require approval from a specific approval rule that the authenticated user does not satisfy; both surface as a `401`. To approve as part of leaving review feedback in one step, use **Create Merge Request Review** with its **Action** set to `approve` instead. Optionally pass **SHA** to make the approval conditional on the merge request's head commit, so it fails rather than silently approving work that was pushed after you read the diff. [See the documentation](https://docs.gitlab.com/api/merge_request_approvals/#approve-merge-request)",
   version: "0.0.1",
+  type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
-  type: "action",
   props: {
     gitlab,
     projectId: {

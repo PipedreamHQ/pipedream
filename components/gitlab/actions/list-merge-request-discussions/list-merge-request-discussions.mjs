@@ -9,12 +9,13 @@ export default {
   name: "List Merge Request Discussions",
   description: "List the comment threads on a merge request — both general comments and inline threads anchored to lines of the diff. Use this to read existing review feedback before adding your own, to find what a reviewer objected to, or to get the `id` of a thread so you can reply to it with **Create Merge Request Comment** or close it with **Resolve Merge Request Thread**. Each thread's notes carry `resolvable`, `resolved` and, for inline threads, the `position` (file path and line) they are attached to. GitLab records label changes, assignments and other bookkeeping as system notes; those are filtered out by default because they are rarely what a reader wants — set **Include System Notes** to `true` to see them. Set **Only Unresolved** to `true` to get just the threads still needing attention. [See the documentation](https://docs.gitlab.com/api/discussions/#list-project-merge-request-discussion-items)",
   version: "0.0.1",
+  type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
-  type: "action",
   props: {
     gitlab,
     projectId: {

@@ -6,12 +6,13 @@ export default {
   name: "Create Merge Request",
   description: "Open a new merge request from one branch into another. Use this for \"open an MR\", \"raise a merge request\", \"submit my branch for review\". Both branches must already exist in the project — use **List Repo Branches** to check, or **Create Branch** to make one. Reviewers and assignees are given as usernames and resolved to IDs automatically; a username that is not a member of the project is rejected rather than silently dropped. Set **Draft** to `true` for work that is not ready for review — GitLab expresses this by prefixing the title with `Draft:`, which this action does for you and which blocks merging until removed. After creating, use **Get Merge Request** to check its pipeline and merge readiness. [See the documentation](https://docs.gitlab.com/api/merge_requests/#create-mr)",
   version: "0.0.1",
+  type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
-  type: "action",
   props: {
     gitlab,
     projectId: {

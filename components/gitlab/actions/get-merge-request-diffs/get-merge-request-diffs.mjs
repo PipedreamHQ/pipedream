@@ -9,12 +9,13 @@ export default {
   name: "Get Merge Request Diffs",
   description: "List the file-level changes in a merge request — each changed file's path, whether it was added, deleted or renamed, and its unified diff. This is the tool to call before reviewing, approving or commenting on a merge request: the `new_path` values and the line numbers inside each `diff` hunk are what **Create Merge Request Comment** and **Create Merge Request Review** need to anchor an inline comment. Large merge requests can be trimmed with **Paths** (only files under the given prefixes) and **Max Files**. Watch for `too_large: true` or `collapsed: true` on a file — GitLab omits or shortens those diffs, so do not conclude a file is unchanged. Use **Get Merge Request** for metadata and merge readiness, and **Get Merge Request Commits** for the commit history. [See the documentation](https://docs.gitlab.com/api/merge_requests/#list-merge-request-diffs)",
   version: "0.0.1",
+  type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
-  type: "action",
   props: {
     gitlab,
     projectId: {

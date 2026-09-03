@@ -9,12 +9,13 @@ export default {
   name: "List Project Labels",
   description: "List the labels defined in a project. Call this before applying labels with **Create Merge Request**: GitLab *creates* a label it does not recognize rather than rejecting it, so an invented or mis-cased name silently adds a new project label instead of applying the intended one. Each result's `name` is the value to pass back; the `description` is worth reading because label names are often abbreviations. Narrow a long list with **Search**. [See the documentation](https://docs.gitlab.com/api/labels/#list-labels)",
   version: "0.0.1",
+  type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
-  type: "action",
   props: {
     gitlab,
     projectId: {
