@@ -1,11 +1,80 @@
+// x-pd-ai: optimized
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "dify",
-  propDefinitions: {},
+  propDefinitions: {
+    user: {
+      type: "string",
+      label: "User",
+      description: "A unique identifier for the end user, defined by you (e.g. an internal user ID or session ID) — not a Dify account. Dify scopes conversations, messages, and files to this value, so reuse the same `User` across requests for the same end user. [See the documentation](https://docs.dify.ai/en/api-reference/guides/end-user-identity)",
+    },
+    inputs: {
+      type: "object",
+      label: "Inputs",
+      description: "Values for the app's input variables, keyed by variable name, e.g. `{ \"city\": \"San Francisco\" }`. Leave empty (`{}`) if the app defines no input variables — most chat apps don't. Use **Get App Parameters** to discover this app's actual variable names and whether each is required.",
+      optional: true,
+    },
+  },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return "https://api.dify.ai/v1";
+    },
+    _headers(headers) {
+      return {
+        Authorization: `Bearer ${this.$auth.api_key}`,
+        ...headers,
+      };
+    },
+    _makeRequest({
+      $ = this, path, headers, ...args
+    } = {}) {
+      return axios($, {
+        url: `${this._baseUrl()}${path}`,
+        headers: this._headers(headers),
+        ...args,
+      });
+    },
+    runWorkflow(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/workflows/run",
+        ...args,
+      });
+    },
+    listConversations(args = {}) {
+      return this._makeRequest({
+        path: "/conversations",
+        ...args,
+      });
+    },
+    listMessages(args = {}) {
+      return this._makeRequest({
+        path: "/messages",
+        ...args,
+      });
+    },
+    getAppParameters(args = {}) {
+      return this._makeRequest({
+        path: "/parameters",
+        ...args,
+      });
+    },
+    listDatasets(args = {}) {
+      return this._makeRequest({
+        path: "/datasets",
+        ...args,
+      });
+    },
+    retrieveFromDataset({
+      datasetId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/datasets/${datasetId}/retrieve`,
+        ...args,
+      });
     },
   },
 };
