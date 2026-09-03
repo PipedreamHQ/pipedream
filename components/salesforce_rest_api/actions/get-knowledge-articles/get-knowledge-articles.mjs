@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import common from "../common/knowledge.mjs";
 
 export default {
@@ -10,13 +9,14 @@ export default {
     + " Returns published article content, so responses can be large - narrow by category or search term."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.knowledge_dev.meta/knowledge_dev/sforce_api_rest_retrieve_article_list.htm)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     q: {
