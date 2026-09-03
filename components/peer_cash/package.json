@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/peer_cash",
+  "version": "0.1.0",
+  "description": "Pipedream Peer Cash Components",
+  "main": "peer_cash.app.mjs",
+  "keywords": [
+    "pipedream",
+    "peer_cash"
+  ],
+  "homepage": "https://pipedream.com/apps/peer_cash",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.4.0",
+    "@zkp2p/cash": "^0.4.9",
+    "viem": "^2.55.15"
+  }
+}
