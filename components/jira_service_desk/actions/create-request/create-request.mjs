@@ -15,7 +15,7 @@ export default {
     + " Worked example: on service desk `1`, request type `4` (\"Onboard new employees\") requires `summary` and also accepts a `duedate`, so call with Summary `Joseph Wilson starts on September 1`, Description `Needs a laptop and an email account`, and Additional Field Values `{ \"duedate\": \"2026-09-01\" }`."
     + " Returns the created request including its `issueKey` and `issueId`."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-post)",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -68,13 +68,13 @@ export default {
     requestParticipants: {
       type: "string[]",
       label: "Request Participants",
-      description: "Atlassian account IDs to add as participants, e.g. `[\"5b10a2844c20165700ede21g\"]`. Not available to users who only have the Service Desk Customer permission, or if the feature is turned off for customers.",
+      description: "Atlassian account IDs to add as participants, e.g. `[\"5b10a2844c20165700ede21g\"]`. Run **Find Users** to turn each name or email address into an `accountId`; participants are often approvers or managers who are not customers of this desk, which is why this uses the site-wide search rather than **Find Service Desk Customers**. Not available to users who only have the Service Desk Customer permission, or if the feature is turned off for customers.",
       optional: true,
     },
     raiseOnBehalfOf: {
       type: "string",
       label: "Raise On Behalf Of",
-      description: "Atlassian account ID of the customer to raise this request for, e.g. `5b10a2844c20165700ede21g`. Not available to users who only have the Service Desk Customer permission.",
+      description: "Atlassian account ID of the customer to raise this request for, e.g. `5b10a2844c20165700ede21g`. Run **Find Service Desk Customers** with this same Service Desk ID to turn a name or email address into an `accountId`, which also confirms the person is a customer of this desk; fall back to **Find Users** only if they are not found there. Never guess an ID, and never pass a name or email address here. Not available to users who only have the Service Desk Customer permission.",
       optional: true,
     },
     form: {
