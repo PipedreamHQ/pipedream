@@ -4,8 +4,9 @@ export default {
   key: "rydoo-search-payment-methods",
   name: "Search Payment Methods",
   description: "Finds payment methods by type, branch, card type, status, and more. [See the documentation](https://web-services.rydoo.com/index.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

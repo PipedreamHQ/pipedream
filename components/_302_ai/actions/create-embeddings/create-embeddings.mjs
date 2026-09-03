@@ -3,7 +3,7 @@ import _302_ai from "../../_302_ai.app.mjs";
 
 export default {
   name: "Create Embeddings",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -12,6 +12,7 @@ export default {
   key: "_302_ai-create-embeddings",
   description: "Generate vector embeddings from text using the 302.AI Embeddings API. Useful for semantic search, clustering, and vector store indexing. [See documentation](https://doc.302.ai/147522048e0)",
   type: "action",
+  ai: "optimized",
   props: {
     _302_ai,
     modelId: {

@@ -9,13 +9,14 @@ export default {
   key: "servicem8-update-queue",
   name: "Update Job Queue",
   description: "Update a job queue (loads the record, merges your fields, then POSTs). [See the documentation](https://developer.servicem8.com/reference/updatejobqueues)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     servicem8,
     uuid: {

@@ -5,13 +5,14 @@ export default {
   key: "servicem8-create-company-contact",
   name: "Create Company Contact",
   description: "Create a company contact. [See the documentation](https://developer.servicem8.com/reference/createcompanycontacts)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     servicem8,
     companyUuid: {

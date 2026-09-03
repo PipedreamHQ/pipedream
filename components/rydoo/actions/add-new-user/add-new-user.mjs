@@ -4,8 +4,9 @@ export default {
   key: "rydoo-add-new-user",
   name: "Add New User",
   description: "Creates a new employee record in the company directory. [See the documentation](https://developers.rydoo.com/reference/v2useradduser)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

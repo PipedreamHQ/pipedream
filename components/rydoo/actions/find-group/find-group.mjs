@@ -4,8 +4,9 @@ export default {
   key: "rydoo-find-group",
   name: "Find Group",
   description: "Searches for organizational groups by name to find their UUIDs. [See the documentation](https://developers.rydoo.com/reference/v2groupsgetgroups)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

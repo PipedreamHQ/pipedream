@@ -11,8 +11,9 @@ export default {
     + " User identifiers (`email`, `phone_number`, `external_id`) must be SHA256-hashed before passing."
     + " `timestamp` uses ISO 8601 format (e.g., `2024-01-15T19:49:27Z`). Defaults to current time if omitted."
     + " [See the documentation](https://business-api.tiktok.com/portal/docs/report-web-events-in-bulk/v1.3)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

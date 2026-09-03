@@ -16,13 +16,14 @@ export default {
   key: "renderio-run-ffmpeg-command",
   name: "Run FFmpeg Command",
   description: "Submit an FFmpeg command for processing with input and output file specifications. [See the documentation](https://renderio.dev/docs/api-reference/commands/run-ffmpeg-command)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     renderio,
     inputFiles: {

@@ -3,8 +3,9 @@ import { COUNT_QUERY_PARAM } from "../../common/constants.mjs";
 
 export default {
   type: "action",
+  ai: "optimized",
   key: "microsoft_outlook-list-contacts",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

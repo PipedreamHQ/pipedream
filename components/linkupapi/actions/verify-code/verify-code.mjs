@@ -2,10 +2,11 @@ import app from "../../linkupapi.app.mjs";
 
 export default {
   type: "action",
+  ai: "optimized",
   key: "linkupapi-verify-code",
   name: "Verify Code",
   description: "Submit a checkpoint/challenge verification code to complete authentication for a connected account. [See the documentation](https://docs.linkupapi.com/api-reference/v2/accounts/checkpoint)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

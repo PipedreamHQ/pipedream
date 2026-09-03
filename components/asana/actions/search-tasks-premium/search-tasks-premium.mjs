@@ -5,13 +5,14 @@ export default {
   key: "asana-search-tasks-premium",
   name: "Search Tasks Premium",
   description: "Searches for a task by name, assignee, section, project, completed since, and modified since. Requires a Premium Asana account. [See the documentation](https://developers.asana.com/reference/searchtasksforworkspace)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     asana,
     info: {

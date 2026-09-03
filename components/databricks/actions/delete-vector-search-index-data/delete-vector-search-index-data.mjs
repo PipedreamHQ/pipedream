@@ -7,13 +7,14 @@ export default {
   name: "Delete Data from Vector Search Index",
   description:
     "Deletes rows from a Direct Access vector index by primary-key values. [See the documentation](https://docs.databricks.com/api/workspace/vectorsearchindexes/deletedatavectorindex)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     databricks,
     endpointName: {

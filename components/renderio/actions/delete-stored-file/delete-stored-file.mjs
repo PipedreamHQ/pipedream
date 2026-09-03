@@ -4,13 +4,14 @@ export default {
   key: "renderio-delete-stored-file",
   name: "Delete Stored File",
   description: "Delete a stored file by ID. [See the documentation](https://renderio.dev/docs/api-reference/files/delete-file)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     renderio,
     fileId: {
