@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import monta from "../../monta.app.mjs";
 
@@ -15,8 +14,9 @@ export default {
   key: "monta-update-order",
   name: "Update Order",
   description: "Change an existing order by its ID, for example to correct a customer's delivery address before it is picked. Call this directly with the order ID and the fields to change. When changing the delivery address, first read the current address with **Get Order**, then call this with the full address plus your change, since Monta replaces the entire address (it needs at least Street, City, and Country Code). Monta rejects address changes once picking has started (error 17) or after the order has shipped (error 19). [See the documentation](https://api-v6.monta.nl/index.html#tag/Order/paths/~1order~1%7Bwebshoporderid%7D/put)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

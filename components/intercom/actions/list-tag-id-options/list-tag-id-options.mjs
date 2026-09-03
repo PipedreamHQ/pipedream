@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import intercom from "../../intercom.app.mjs";
 
 export default {
   key: "intercom-list-tag-id-options",
   name: "List Tag ID Options",
   description: "Retrieves all tags in your Intercom workspace and returns their IDs and names. Call this action before **Add Tag To Contact** to discover valid tag IDs. Example: returns `[{ label: \"VIP\", value: \"7522907\" }, ...]`. [See the documentation](https://developers.intercom.com/docs/references/rest-api/api.intercom.io/tags/listtags).",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

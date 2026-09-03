@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../amplitude.app.mjs";
 import {
   USER_ACTIVITY_DIRECTIONS,
@@ -13,8 +12,9 @@ export default {
   key: "amplitude-get-user-activity",
   name: "Get User Activity",
   description: `Fetch the event stream for a single user by their numeric Amplitude ID from the Amplitude Dashboard REST API. Each returned event defaults to just ${USER_ACTIVITY_ALWAYS_FIELDS.join(" and ")}; pass \`fields\` to also get e.g. \`event_properties\`, \`user_properties\`, \`uuid\`, \`session_id\`, \`amplitude_id\`, \`device_id\` (event objects can carry many properties, so these stay opt-in). Amplitude's API caps each request at ${LIMIT_MAX} events with no cursor; this tool pages \`offset\` forward automatically to collect up to \`limit\` events (set it above ${LIMIT_MAX}, up to ${USER_ACTIVITY_MAX_RESULTS}, to fetch more than one page). Use **Search Users** first to resolve the Amplitude ID. Example: call with \`user=12345678\`, \`limit=50\` -> returns \`{events: [{event_type: "Purchase", event_time: "2024-08-05 14:22:10"}, ...], userData: {...}, truncated: false}\` (\`truncated: true\` means more events likely exist beyond what was returned — raise \`limit\`/\`offset\` to fetch further). [See the documentation](https://amplitude.com/docs/apis/analytics/dashboard-rest#user-activity).`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

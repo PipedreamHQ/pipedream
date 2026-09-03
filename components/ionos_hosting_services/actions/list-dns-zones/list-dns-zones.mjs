@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import ionosHostingServices from "../../ionos_hosting_services.app.mjs";
 
 export default {
   key: "ionos_hosting_services-list-dns-zones",
   name: "List DNS Zones",
   description: "List all DNS zones for the authenticated IONOS Hosting Services account. Returns an array of zone objects, for example `[{\"id\":\"4ab3a7e2-1234-5678-abcd-ef0123456789\",\"name\":\"example.com\",\"type\":\"NATIVE\"}]`. Use the `id` field (not the `name` field) as the zone ID in other DNS actions. [See the documentation](https://developer.hosting.ionos.com/docs/dns).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

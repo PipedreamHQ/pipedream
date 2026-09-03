@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import clockify from "../../clockify.app.mjs";
 
 export default {
   key: "clockify-delete-invoice",
   name: "Delete Invoice",
   description: "Deletes an invoice from a Clockify workspace. This cannot be undone. Use **List Invoices** to find the ID of the invoice to delete. [See the documentation](https://docs.clockify.me/#tag/Invoice/operation/deleteInvoice)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
