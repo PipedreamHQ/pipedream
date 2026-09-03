@@ -1,15 +1,13 @@
-import {
-  INTELLIGENCE_NOTES_FORMAT_OPTIONS,
-  TRANSCRIPT_FORMAT_OPTIONS,
-} from "../../common/constants.mjs";
-import { parseObject } from "../../common/utils.mjs";
 import grain from "../../grain.app.mjs";
 
 export default {
   key: "grain-get-recording",
   name: "Get Recording",
-  description: "Fetches a specific recording by its ID from Grain, optionally including the transcript and intelligence notes. [See the documentation](https://grainhq.notion.site/grain-public-api-877184aa82b54c77a875083c1b560de9)",
-  version: "0.0.2",
+  description: "Fetches a specific recording by its ID from Grain, returning its metadata (title, times, URL, tags, teams, meeting type)."
+    + " Enable the optional include props to add highlights, participants, AI action items, AI summary, calendar event, HubSpot data, or screenshares to the response."
+    + " Use **List Recordings** to find recording IDs, and **Get Transcript** to fetch the full transcript."
+    + " [See the documentation](https://developers.grain.com)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -18,45 +16,77 @@ export default {
   type: "action",
   props: {
     grain,
-    recordId: {
+    recordingId: {
       propDefinition: [
         grain,
-        "recordId",
+        "recordingId",
       ],
     },
-    transcriptFormat: {
-      type: "string",
-      label: "Transcript Format",
-      description: "Format for the transcript",
-      options: TRANSCRIPT_FORMAT_OPTIONS,
-      optional: true,
+    highlights: {
+      propDefinition: [
+        grain,
+        "highlights",
+      ],
     },
-    intelligenceNotesFormat: {
-      type: "string",
-      label: "Intelligence Notes Format",
-      description: "Format for the intelligence notes",
-      options: INTELLIGENCE_NOTES_FORMAT_OPTIONS,
-      optional: true,
+    participants: {
+      propDefinition: [
+        grain,
+        "participants",
+      ],
     },
-    allowedIntelligenceNotes: {
-      type: "string[]",
-      label: "Allowed Intelligence Notes",
-      description: "Whitelist of intelligence notes section titles",
+    aiActionItems: {
+      propDefinition: [
+        grain,
+        "aiActionItems",
+      ],
+    },
+    aiSummary: {
+      propDefinition: [
+        grain,
+        "aiSummary",
+      ],
+    },
+    calendarEvent: {
+      propDefinition: [
+        grain,
+        "calendarEvent",
+      ],
+    },
+    hubspot: {
+      propDefinition: [
+        grain,
+        "hubspot",
+      ],
+    },
+    screenshares: {
+      type: "boolean",
+      label: "Include Screenshares",
+      description: "Include the recording's screenshare ranges in the response",
       optional: true,
     },
   },
   async run({ $ }) {
+    const include = {
+      highlights: this.highlights,
+      participants: this.participants,
+      ai_action_items: this.aiActionItems,
+      ai_summary: this.aiSummary,
+      calendar_event: this.calendarEvent,
+      hubspot: this.hubspot,
+      screenshares: this.screenshares,
+    };
+
     const response = await this.grain.fetchRecording({
       $,
-      recordId: this.recordId,
-      params: {
-        transcript_format: this.transcriptFormat,
-        intelligence_notes_format: this.intelligenceNotesFormat,
-        allowed_intelligence_notes: parseObject(this.allowedIntelligenceNotes),
+      recordingId: this.recordingId,
+      data: {
+        include: Object.fromEntries(Object.entries(include).filter(([
+          , value,
+        ]) => value)),
       },
     });
 
-    $.export("$summary", `Successfully fetched recording with ID ${this.recordId}`);
+    $.export("$summary", `Successfully fetched recording with ID ${this.recordingId}`);
     return response;
   },
 };
