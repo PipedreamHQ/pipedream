@@ -35,6 +35,9 @@ export default {
               });
             }
           } catch (error) {
+            if (error.response?.status !== 403) {
+              throw error;
+            }
             console.log(`Skipping organization ${orgId}: ${error.message}`);
           }
         }
