@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/attestify",
+  "version": "0.0.1",
+  "description": "Pipedream Attestify Components — issue tamper-evident, cryptographically-verifiable certificates with a permanent public verify page.",
+  "main": "attestify.app.mjs",
+  "type": "module",
+  "keywords": [
+    "pipedream",
+    "attestify",
+    "certificates",
+    "verifiable-credentials"
+  ],
+  "homepage": "https://pipedream.com/apps/attestify",
+  "author": "Novadyne",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}
