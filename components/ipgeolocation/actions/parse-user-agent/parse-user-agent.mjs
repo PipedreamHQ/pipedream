@@ -5,8 +5,9 @@ export default {
   name: "Parse User Agent",
   description:
     "Extract browser, device, operating system, and engine details from a user agent string. Only available on paid plans. [See the documentation](https://ipgeolocation.io/documentation/user-agent-api.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -6,8 +6,9 @@ export default {
   name: "Delete Connection",
   description:
     "Permanently delete a connection identified by `universalApi` and `serviceId` via the Platform API on Universal API. This is irreversible. Run **List Connections** first to find the correct `serviceId`. [See the documentation](https://docs.universalapi.io/reference/revoke-connection).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: true,

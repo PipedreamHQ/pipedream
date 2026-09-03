@@ -4,13 +4,14 @@ export default {
   key: "shopify-get-draft-orders",
   name: "Get Draft Orders",
   description: "Retrieve a list of draft orders. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/draftorders)",
-  version: "0.0.9",
+  version: "0.0.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     shopify,
     // eslint-disable-next-line pipedream/props-label, pipedream/props-description

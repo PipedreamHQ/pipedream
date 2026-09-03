@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/enrich_layer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Enrich Layer Components",
   "main": "enrich_layer.app.mjs",
   "keywords": [

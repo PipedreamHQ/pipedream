@@ -7,13 +7,14 @@ export default {
   key: "hubspot-book-meeting-link",
   name: "Book Meeting on Meeting Link",
   description: "Book a meeting on a HubSpot meeting scheduling page. Creates a calendar event for the organizer and registers the booker as a contact. [See the documentation](https://developers.hubspot.com/docs/api-reference/legacy/scheduler/guide#book-a-meeting)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     hubspot,
     slug: {

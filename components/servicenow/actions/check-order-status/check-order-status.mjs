@@ -5,8 +5,9 @@ export default {
   key: "servicenow-check-order-status",
   name: "Check Order Status",
   description: "Retrieve the status of a ServiceNow catalog request (REQ) from the `sc_request` table, including request state, approval, and stage. Provide the request number returned by **Checkout Cart**, **Submit Cart Order**, or **Order Catalog Item**. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_TableAPI.html)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,
