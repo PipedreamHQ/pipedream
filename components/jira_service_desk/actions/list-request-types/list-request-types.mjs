@@ -15,7 +15,7 @@ export default {
     + " Types with `canCreateRequest: false` cannot be used to raise a request."
     + " Then call **List Request Type Fields** to see what the chosen type requires."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-servicedesk/#api-rest-servicedeskapi-servicedesk-servicedeskid-requesttype-get)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,
