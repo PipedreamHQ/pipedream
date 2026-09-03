@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 
 export default {
   key: "azure_devops-delete-work-item",
   name: "Delete Work Item",
   description: "Move a work item to the project's recycle bin, or permanently destroy it when **Destroy** is set. Returns the deleted item's id and code. Use this to clean up items created in error - prefer the recycle bin, which is recoverable. Example: work item `299`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/wit/work-items/delete?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -60,7 +60,7 @@ export default {
         app,
         "maxResults",
       ],
-      description: "Maximum number of requests to return across all pages (1.1.10).",
+      description: "Maximum number of requests to return across all pages (1-1000).",
     },
   },
   async run({ $ }) {

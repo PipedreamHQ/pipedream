@@ -1,17 +1,17 @@
-// x-pd-ai: optimized
 import slack from "../../slack_v2.app.mjs";
 
 export default {
   key: "slack_v2-get-file",
   name: "Get File",
   description: "Return information about a file. [See the documentation](https://api.slack.com/methods/files.info)",
-  version: "0.1.8",
+  version: "0.1.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     slack,
     conversation: {

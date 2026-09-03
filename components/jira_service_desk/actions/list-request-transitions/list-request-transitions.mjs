@@ -38,7 +38,7 @@ export default {
         "maxResults",
       ],
       label: "Max Transitions",
-      description: "Maximum number of transitions to return across all pages (1.1.10).",
+      description: "Maximum number of transitions to return across all pages (1-1000).",
     },
   },
   async run({ $ }) {

@@ -300,5 +300,38 @@ export default {
         path: `/ex/jira/${cloudId}/rest/api/3/issue/${issueIdOrKey}`,
       });
     },
+    async getIssueAttachments({
+      $, cloudId, issueIdOrKey, maxResults,
+    }) {
+      const {
+        results, hasMore,
+      } = await this._paginate({
+        $,
+        path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${issueIdOrKey}/attachment`,
+        maxResults,
+      });
+      const attachments = results.map(({
+        filename, size, mimeType, _links,
+      }) => ({
+        id: _links?.jiraRest?.split("/").pop(),
+        filename,
+        size,
+        mimeType,
+        content: _links?.content,
+      }));
+      return {
+        attachments,
+        hasMore,
+      };
+    },
+    async getAttachmentContent({
+      $, cloudId, issueIdOrKey, attachmentId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${issueIdOrKey}/attachment/${attachmentId}`,
+        responseType: constants.STREAM_RESPONSE_TYPE,
+      });
+    },
   },
 };

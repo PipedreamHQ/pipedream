@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import fireflies from "../../fireflies.app.mjs";
 import mutations from "../../common/mutations.mjs";
 
@@ -6,13 +5,14 @@ export default {
   key: "fireflies-revoke-meeting-access",
   name: "Revoke Meeting Access",
   description: "Revoke a previously shared meeting's access for a specific email address. Access can be re-granted at any time with **Share Meeting**. [See the documentation](https://docs.fireflies.ai/graphql-api/mutation/revoke-shared-meeting-access)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     fireflies,
     meetingId: {
