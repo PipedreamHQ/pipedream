@@ -4,7 +4,7 @@ export default {
   key: "perplexity-search",
   name: "Search",
   description: "Performs a web search and returns raw, ranked results. [See the documentation](https://docs.perplexity.ai/api-reference/search-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

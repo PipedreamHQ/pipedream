@@ -5,7 +5,7 @@ export default {
   key: "perplexity-create-contextualized-embeddings",
   name: "Create Contextualized Embeddings",
   description: "Generates contextualized vector embeddings for grouped text inputs. [See the documentation](https://docs.perplexity.ai/api-reference/contextualizedembeddings-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
