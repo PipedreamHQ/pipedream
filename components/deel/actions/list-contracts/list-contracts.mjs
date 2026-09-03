@@ -9,8 +9,9 @@ export default {
     + " contractor/employee roster. Supports filtering by search term, status, contract type, team, and"
     + " country. Returns contract ID, title, type, status, worker name, and start date."
     + " [See the documentation](https://developer.deel.com/api/reference/endpoints/contracts/get-contracts)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

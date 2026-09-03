@@ -7,8 +7,9 @@ export default {
     + " Session contexts are reusable custom AI instruction sets that guide Hedy's analysis across multiple meetings."
     + " Use **Get Many Session Contexts** first to list available contexts and obtain a context ID."
     + " [See the documentation](https://app.swaggerhub.com/apis-docs/HedyAI/hedy-api/1.5.2#/Session%20Contexts/get_contexts__contextId_)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

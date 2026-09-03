@@ -4,8 +4,9 @@ export default {
   key: "shopify-cancel-fulfillment",
   name: "Cancel Fulfillment",
   description: "Cancels a fulfillment. Run the **Search for Orders** action and inspect the order's fulfillments to obtain the fulfillment GID. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/fulfillmentCancel).",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: true,

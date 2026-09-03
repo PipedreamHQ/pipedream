@@ -4,8 +4,9 @@ export default {
   key: "enrich_layer-get-person-profile-picture",
   name: "Get Person Profile Picture",
   description: "Get the profile picture of a person from cached profiles. Cost: 0 credits. [See the documentation](https://enrichlayer.com/docs/api/v2/people-api/person-profile-picture).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
