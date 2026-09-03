@@ -9,7 +9,7 @@ export default {
     + " Filter by file type (e.g. `images`, `pdfs`, `snippets`)."
     + " Returns file metadata including name, type, size, and download URL."
     + " [See the documentation](https://api.slack.com/methods/files.list)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   ai: "optimized",
   annotations: {
