@@ -11,7 +11,8 @@ export default {
   description:
     "Screen one individual or entity against LEIE (OIG exclusion), OFAC SDN (Treasury sanctions), and SAM.gov (federal contractor exclusion). Returns risk level (CLEAR | POTENTIAL | MATCH) plus match details. [See the documentation](https://rapidapi.com/josh-BN5mWmPiY/api/federal-exclusion-sanctions-screener/playground/apiendpoint_a5a2ef54-9557-4a97-a8e0-b6c2d36080af)",
   type: "action",
-  version: "0.0.1",
+  ai: "optimized",
+  version: "0.0.2",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

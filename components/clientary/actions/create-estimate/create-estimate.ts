@@ -4,7 +4,7 @@ import app from "../../app/clientary.app";
 
 export default defineAction({
   key: "clientary-create-estimate",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,6 +13,7 @@ export default defineAction({
   name: "Create Estimate",
   description: "Creates a new estimate. [See docs here](https://www.clientary.com/api/estimates)",
   type: "action",
+  ai: "optimized",
   props: {
     app,
     date: {

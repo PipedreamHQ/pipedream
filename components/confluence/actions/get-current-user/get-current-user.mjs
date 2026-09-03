@@ -4,8 +4,9 @@ export default {
   key: "confluence-get-current-user",
   name: "Get Current User",
   description: "Returns the authenticated Confluence user's account ID, display name, email, and cloud ID. Call this first when the user says 'my pages', 'my posts', or needs to scope queries to themselves. Use the returned `accountId` to filter results from **Search Content** or **Get Pages**. [See the documentation](https://developer.atlassian.com/cloud/confluence/rest/v1/api-group-users/#api-wiki-rest-api-user-current-get).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

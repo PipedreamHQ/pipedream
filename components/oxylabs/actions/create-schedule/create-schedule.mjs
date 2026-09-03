@@ -5,13 +5,14 @@ export default {
   key: "oxylabs-create-schedule",
   name: "Create Schedule",
   description: "Create a schedule for a scraping job. [See the documentation](https://developers.oxylabs.io/scraping-solutions/web-scraper-api/features/scheduler#create-a-new-schedule)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     oxylabs,
     chron: {

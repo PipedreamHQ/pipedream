@@ -5,8 +5,9 @@ export default {
   name: "Get Engineering Signals",
   description:
     "Return every startup that emitted an engineering signal (deploy spike, infra buildout, framework migration, hiring burst). Optional filter by signal type.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

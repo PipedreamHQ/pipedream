@@ -5,8 +5,9 @@ export default {
   key: "everstox-list-products",
   name: "List Products",
   description: "List products in an Everstox shop. Use this to browse or audit the product catalog, check inventory by SKU or name, or filter by warehouse. Results default to 10 per page — use `limit` and `offset` together to paginate through large catalogs. [See the documentation](https://api.everstox.com/api/v1/ui/#/Product/district_core.api.shops.products.products.Products.index)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,8 +4,9 @@ export default {
   key: "tapfiliate-add-commission-conversion",
   name: "Add Commission to Conversion",
   description: "Adds a new commission to an existing conversion. Used for managing recurring subscription workflows. [See the documentation](https://tapfiliate.com/docs/rest/#conversions-add-commissions-to-conversion)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
