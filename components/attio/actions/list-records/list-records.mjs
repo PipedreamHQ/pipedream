@@ -1,17 +1,17 @@
-// x-pd-ai: optimized
 import attio from "../../attio.app.mjs";
 
 export default {
   key: "attio-list-records",
   name: "List Records",
   description: "List records for an object (people, companies, deals, or a custom object), most recent first. Use when you need to find or enumerate records and don't have a specific id. Set **Object** and optionally a **Limit** and **Fields**. Example: Object `companies`, Limit `20`. Returns an array of records with their attribute values. If the number of records returned equals the **Limit**, call again with **Offset** advanced by the limit to fetch the next page. [See the documentation](https://docs.attio.com/rest-api/endpoint-reference/records/list-records)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     attio,
     objectId: {

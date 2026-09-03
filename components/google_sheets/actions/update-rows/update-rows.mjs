@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import googleSheets from "../../google_sheets.app.mjs";
 import {
   getHeaders, rowObjectToArray,
@@ -29,8 +28,9 @@ export default {
     + " names."
     + " Only specified columns are updated when using object"
     + " values — unspecified columns are left unchanged.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

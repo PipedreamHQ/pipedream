@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import clockify from "../../clockify.app.mjs";
 
 export default {
   key: "clockify-stop-timer",
   name: "Stop Timer",
   description: "Stops the currently running timer for a workspace member in Clockify, setting its end time. [See the documentation](https://docs.clockify.me/#tag/Time-entry/operation/stopRunningTimeEntry)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

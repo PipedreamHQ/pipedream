@@ -10,8 +10,9 @@ export default {
     + " When the user says 'my files' or 'my documents', call this first to get the owner email,"
     + " then pass it to **Search Files** with a query like `'user@example.com' in owners`."
     + " [See the documentation](https://developers.google.com/drive/api/v3/reference/about/get)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
