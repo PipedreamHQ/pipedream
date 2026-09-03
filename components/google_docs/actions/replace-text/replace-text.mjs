@@ -4,13 +4,14 @@ export default {
   key: "google_docs-replace-text",
   name: "Replace Text",
   description: "Find and replace all occurrences of a string in a Google Doc. Set **Replacement Format** to `markdown` to convert Markdown in the replacement into native Google Docs formatting. Use **Find Document** to resolve a document's name to its ID. Returns the number of replacements made. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#ReplaceAllTextRequest)",
-  version: "1.1.1",
+  version: "1.1.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     googleDocs,
     documentId: {
