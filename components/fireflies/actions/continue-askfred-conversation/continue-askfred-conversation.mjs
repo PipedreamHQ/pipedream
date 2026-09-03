@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import fireflies from "../../fireflies.app.mjs";
 import mutations from "../../common/mutations.mjs";
 import constants from "../../common/constants.mjs";
@@ -8,13 +7,14 @@ export default {
   key: "fireflies-continue-askfred-conversation",
   name: "Continue AskFred Conversation",
   description: "Ask a follow-up question in an existing AskFred conversation thread, continuing the context of a prior question. Use **Ask Question About Meeting** first to start a thread and obtain its `thread_id`. [See the documentation](https://docs.fireflies.ai/graphql-api/mutation/continue-askfred-thread)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     fireflies,
     threadId: {

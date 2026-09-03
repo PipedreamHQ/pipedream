@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 import {
   PIPELINE_CONFIGURATION_TYPE,
@@ -10,8 +9,9 @@ export default {
   key: "azure_devops-create-pipeline",
   name: "Create Pipeline",
   description: "Create a YAML pipeline from a definition file already committed to a Git repository. Returns the new pipeline's id and name. The YAML file must exist before this call - push it first. Use this to register a new service's CI. Example: name `fabrikam-api-CI` from `/azure-pipelines.yml`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/pipelines/pipelines/create?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

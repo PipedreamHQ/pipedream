@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 
 export default {
   key: "azure_devops-get-team",
   name: "Get Team",
   description: "Retrieve one team in a project by id or name. Returns the team's description and identity url. Use this to resolve a team name to its GUID before querying its members. Example: `Fabrikam-Fiber-Git Team`. Run the **List Teams** action first to obtain the team id. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/core/teams/get?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
