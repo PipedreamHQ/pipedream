@@ -1,17 +1,17 @@
-// x-pd-ai: optimized
 import intercom from "../../intercom.app.mjs";
 
 export default {
   key: "intercom-retrieve-conversation",
   name: "Retrieve A Conversation",
   description: "Fetches a single Intercom conversation by ID and returns the full conversation object, including `id`, `title`, `state`, `created_at`, `conversation_parts` (the message thread), and assignee information. Use this to inspect conversation history or verify state before calling **Manage A Conversation** or **Reply To Conversation**. Example: set **Conversation ID** to `123456789` to retrieve that conversation. Pass **Fields** (e.g. `[\"id\", \"state\", \"assignee\", \"created_at\"]`) to limit the returned object to only those keys. [See the documentation](https://developers.intercom.com/docs/references/rest-api/api.intercom.io/conversations/retrieveconversation).",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     intercom,
     conversationId: {

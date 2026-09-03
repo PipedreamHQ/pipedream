@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import wealthbox from "../../wealthbox.app.mjs";
 import {
   DEFAULT_LIST_LIMIT,
@@ -12,8 +11,9 @@ export default {
   key: "wealthbox-list-households",
   name: "List Households",
   description: "Companion list action for the free-form Household id prop. Returns household-type contacts via GET /contacts so agents/users can discover valid household ids for **Add Member To Household**. Paginates automatically up to the requested Limit. Example: returns household objects each including `id`, `name`, `type`, `email_addresses`, and `phone_numbers`. Supply the optional Fields parameter (e.g. `[\"id\",\"name\"]`) to receive a trimmed response. [See the documentation](https://dev.wealthbox.com/#contacts-retrieve-all-contacts-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import clockify from "../../clockify.app.mjs";
 
 export default {
   key: "clockify-log-time-entry",
   name: "Log Time Entry",
   description: "Logs a completed time entry with an explicit start and end time in Clockify — use this to backfill time already tracked elsewhere. Use **Start Timer** instead if you want to start a running timer with no end time yet. [See the documentation](https://docs.clockify.me/#tag/Time-entry/operation/createTimeEntry), or [logging for another member](https://docs.clockify.me/#tag/Time-entry/operation/createForOthers) when `User` is set",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

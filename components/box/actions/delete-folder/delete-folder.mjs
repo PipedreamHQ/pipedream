@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import app from "../../box.app.mjs";
 
 export default {
   key: "box-delete-folder",
   name: "Delete Folder",
   description: "Deletes a folder by moving it to trash (or permanently when enterprise settings require). Set Recursive to `true` to delete non-empty folders and all contents; without it, deleting a non-empty folder fails. Deleting a large folder can take longer than Box's request timeout — Box then returns HTTP 503 while the deletion continues in the background, which this action reports as accepted (`accepted: true`). This cannot be undone from this action — use **List Folder Items** to verify contents first. [See the documentation](https://developer.box.com/reference/delete-folders-id/).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

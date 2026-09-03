@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import monta from "../../monta.app.mjs";
 
 export default {
   key: "monta-list-shipping-labels",
   name: "List Shipping Labels",
   description: "List the shipping labels of an order. Use this to retrieve the label file names, typically after generating labels with **Create Shipping Label**. [See the documentation](https://api-v6.monta.nl/index.html#tag/Order/paths/~1order~1%7Bwebshoporderid%7D~1shippinglabels/get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

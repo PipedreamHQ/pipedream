@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import openphone from "../../openphone.app.mjs";
 
 export default {
   key: "openphone-create-task",
   name: "Create Task",
   description: "Create a task tied to an OpenPhone conversation. Example: call with conversationId=\"CN123abc\", title=\"Follow up with customer re: onboarding\", description=\"Customer asked about pricing tiers.\" → returns the created task record, including its `id`. Use **List Conversations** or **List Messages** to find the `conversationId`. [See the documentation](https://www.openphone.com/docs/api-reference/tasks/create-a-task)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

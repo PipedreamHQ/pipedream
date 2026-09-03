@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 
 export default {
   key: "azure_devops-list-teams",
   name: "List Teams",
   description: "List the teams in a project. Returns each team's id, name and description. Use this to obtain the team id or name the other team actions need, or to fan a notification out per team. Example: project `Fabrikam-Fiber-Git` returns `Fabrikam-Fiber-Git Team`. Returns at most **Limit** results per call - if that many come back there may be more, so raise **Skip** by **Limit** and call again to page through the rest. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/core/teams/get-teams?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
