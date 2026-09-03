@@ -5,8 +5,9 @@ export default {
   name: "List Consumers",
   description:
     "List consumers from the Platform API on Universal API. Returns an array (paginated internally, up to `maxResults`); use the returned IDs with **Delete Consumer**. [See the documentation](https://docs.universalapi.io/reference/get-consumer).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

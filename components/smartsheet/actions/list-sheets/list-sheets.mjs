@@ -8,8 +8,9 @@ export default {
     + " Use this to find sheet IDs before calling **Get Sheet**, **Add Row to Sheet**, **Update Row**, **Delete Rows**, **Copy Sheet**, or **Move Sheet**."
     + " To search sheets by content rather than listing them, use **Search** instead."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/list-sheets)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

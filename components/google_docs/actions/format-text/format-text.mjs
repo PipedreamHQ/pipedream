@@ -9,7 +9,8 @@ export default {
   key: "google_docs-format-text",
   name: "Format Text",
   description: "Apply character formatting (bold, italic, underline, strikethrough, font, size, color, link) to text in a Google Doc. Locate the text with **Find Text**, or pass an explicit **Start Index** and **End Index**. Use **Find Document** to resolve a document's name to its ID. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/request#UpdateTextStyleRequest)",
-  version: "0.0.1",
+  version: "0.0.2",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import zoom from "../../zoom.app.mjs";
 
 const DEFAULT_TTL = 900;
@@ -14,13 +13,14 @@ export default {
     + " Example: call with meetingId=`84598792483` and no recording file → returns"
     + " `{ downloadUrl: \"https://us02web.zoom.us/rec/download/abc123?access_token=eyJ...\", expiresInSeconds: 900, fileType: \"MP4\", fileSize: 148203910 }`."
     + " [See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/cloud-recording/get/meetings/{meetingId}/recordings)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     zoom,
     meetingId: {
