@@ -251,6 +251,22 @@ export default {
       label: "Group",
       description: "The group, given either as its full path (e.g. `backend` or `backend/platform`) or as its numeric group ID. Use **List Groups** to look it up.",
     },
+    sourceBranchStatic: {
+      type: "string",
+      label: "Source Branch",
+      description: "The branch holding the changes, e.g. `feat/retry-cap`. Must already exist in the project — use **List Repo Branches** to check.",
+    },
+    targetBranchStatic: {
+      type: "string",
+      label: "Target Branch",
+      description: "The branch to merge into, e.g. `main` or `master`. Use **List Repo Branches** to confirm the project's default branch rather than assuming `main`.",
+    },
+    labelsStatic: {
+      type: "string[]",
+      label: "Labels",
+      description: "Label names to apply. Each must already exist in the project — GitLab *creates* a label it does not recognize rather than rejecting it, so a mis-cased or invented name silently adds a new project label. Use **List Project Labels** to get the exact names.",
+      optional: true,
+    },
     mergeRequestIid: {
       type: "integer",
       label: "Merge Request IID",

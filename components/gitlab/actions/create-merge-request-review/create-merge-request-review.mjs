@@ -55,6 +55,12 @@ export default {
     },
   },
   methods: {
+    /**
+     * The inline comments arrive as a JSON string over MCP but as a real array
+     * from a workflow, so both are accepted. Validates only that every entry
+     * carries a `body`; the path and line are checked later by `buildPosition`,
+     * per comment, so one bad anchor cannot reject the whole review.
+     */
     parseComments(comments) {
       if (!comments) {
         return [];

@@ -21,14 +21,16 @@ export default {
       ],
     },
     sourceBranch: {
-      type: "string",
-      label: "Source Branch",
-      description: "The branch holding the changes, e.g. `feat/retry-cap`. Must already exist in the project.",
+      propDefinition: [
+        gitlab,
+        "sourceBranchStatic",
+      ],
     },
     targetBranch: {
-      type: "string",
-      label: "Target Branch",
-      description: "The branch to merge into, e.g. `main` or `master`. Check the project's default branch rather than assuming `main`.",
+      propDefinition: [
+        gitlab,
+        "targetBranchStatic",
+      ],
     },
     title: {
       type: "string",
@@ -61,10 +63,11 @@ export default {
       optional: true,
     },
     labels: {
-      type: "string[]",
-      label: "Labels",
+      propDefinition: [
+        gitlab,
+        "labelsStatic",
+      ],
       description: "Labels to apply to the merge request, by name. Each must already exist in the project — GitLab *creates* a label it does not recognize rather than rejecting it, so a mis-cased or invented name silently adds a new project label. Use **List Project Labels** to get the exact names.",
-      optional: true,
     },
     removeSourceBranch: {
       type: "boolean",
@@ -80,6 +83,11 @@ export default {
     },
   },
   methods: {
+    /**
+     * Usernames to numeric member IDs, which is what the create endpoint takes.
+     * Rejects a username that is not a project member rather than dropping it,
+     * so an unassignable reviewer surfaces instead of silently going missing.
+     */
     async resolveUserIds($, usernames) {
       if (!usernames?.length) {
         return undefined;
