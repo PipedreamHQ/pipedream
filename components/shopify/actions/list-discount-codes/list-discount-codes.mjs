@@ -4,7 +4,7 @@ export default {
   key: "shopify-list-discount-codes",
   name: "List Discount Codes",
   description: "Lists all discount codes for a given price rule in Shopify so you can obtain a valid discount code ID. [See the documentation](https://shopify.dev/docs/api/admin-rest/2026-07/resources/discountcode#get-price-rules-price-rule-id-discount-codes).",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     readOnlyHint: true,

@@ -11,7 +11,7 @@ const props = adjustPropDefinitions(others.props, shopify);
 export default {
   ...others,
   key: "shopify_developer_app-cancel-order",
-  version: "0.0.3",
+  version: "0.0.4",
   name,
   description,
   type,

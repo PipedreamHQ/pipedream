@@ -648,6 +648,7 @@ const LIST_ORDERS = `
           company
           firstName
           lastName
+          phone
         }
         lineItems(first: 50) {
           edges {
