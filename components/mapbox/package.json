@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mapbox",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Pipedream Mapbox Components",
   "main": "mapbox.app.mjs",
   "keywords": [

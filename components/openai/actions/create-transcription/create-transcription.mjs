@@ -7,13 +7,14 @@ export default {
   key: "openai-create-transcription",
   name: "Create Transcription",
   description: "Transcribes audio into the input language. [See the documentation](https://platform.openai.com/docs/api-reference/audio/createTranscription)",
-  version: "0.3.5",
+  version: "0.3.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     openai,
     file: {

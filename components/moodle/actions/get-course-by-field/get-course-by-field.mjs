@@ -4,8 +4,9 @@ export default {
   key: "moodle-get-course-by-field",
   name: "Get a Course by Field",
   description: "Retrieves courses that match a specific field such as ID, short name, ID number, category, or section ID. [See the documentation](https://moodledev.io/docs/5.2)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,13 +5,14 @@ export default {
   key: "mastodon-perform-search",
   name: "Perform Search",
   description: "Search for content in accounts, statuses or hashtags. [See the docs here](https://docs.joinmastodon.org/methods/search/#v2)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     mastodon,
     q: {

@@ -6,13 +6,14 @@ export default {
   key: "mastodon-post-multiple-statuses",
   name: "Post Multiple Statuses",
   description: "Publish multiple statuses with the given parameters, the subsequent statuses will be posted as a reply of of the first status. [See the documentation](https://docs.joinmastodon.org/methods/statuses/#create)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     mastodon,
     statuses: {

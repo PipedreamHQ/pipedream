@@ -5,13 +5,14 @@ export default {
   key: "launchdarkly-list-feature-flags",
   name: "List Feature Flags",
   description: "List all feature flags. [See the documentation](https://launchdarkly.com/docs/api/feature-flags/get-feature-flags).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     projectKey: {

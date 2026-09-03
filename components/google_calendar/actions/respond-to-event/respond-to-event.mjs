@@ -5,8 +5,9 @@ export default {
   key: "google_calendar-respond-to-event",
   name: "Respond to Event Invitation",
   description: "Accept, decline, or tentatively accept a Google Calendar event invitation on behalf of the authenticated user. Use this when you need to RSVP to an event. You can identify the event by its exact `eventId` or by `eventName` (searches upcoming events by title). If both are provided, `eventId` takes precedence. The `calendarId` defaults to `primary` (the user's main calendar). [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/patch)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,8 +5,9 @@ export default {
   name: "List Extractors",
   description:
     "Lists all extractors in the authenticated AlgoDocs account (GET /v1/extractors). Each extractor includes at least `id` and `name`. Use this to discover a valid `extractorId` before running **Upload File** or **List Documents**. [See the documentation](https://api.algodocs.com/).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

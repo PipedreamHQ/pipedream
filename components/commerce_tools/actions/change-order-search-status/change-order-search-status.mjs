@@ -5,8 +5,9 @@ export default {
   key: "commerce_tools-change-order-search-status",
   name: "Change Order Search Status",
   description: "Activate or deactivate the [Order Search](https://docs.commercetools.com/api/projects/order-search) feature for the Project. This is the first step to enable the **Search Orders** action; after activating, run the **Reindex Orders** action to build the search index. [See the documentation](https://docs.commercetools.com/api/projects/project#change-order-search-status).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

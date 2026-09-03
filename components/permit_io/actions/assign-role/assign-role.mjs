@@ -4,8 +4,9 @@ export default {
   key: "permit_io-assign-role",
   name: "Assign Role",
   description: "Grants a specific role to a user within a tenant to enable immediate access to protected resources. [See the documentation](https://api.permit.io/v2/redoc#tag/Role-Assignments/operation/assign_role)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,
