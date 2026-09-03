@@ -5,7 +5,8 @@ export default {
   key: "google_docs-apply-bullets",
   name: "Apply Bullets",
   description: "Turn paragraphs into a bulleted or numbered list in a Google Doc. Locate the paragraphs with **Find Text**, or pass an explicit **Start Index** and **End Index**. Every paragraph the range touches becomes a list item. Use **Remove Bullets** to undo. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/request#CreateParagraphBulletsRequest)",
-  version: "0.0.1",
+  version: "0.0.2",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
