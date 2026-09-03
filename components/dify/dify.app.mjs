@@ -36,13 +36,6 @@ export default {
         ...args,
       });
     },
-    sendChatMessage(args = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/chat-messages",
-        ...args,
-      });
-    },
     runWorkflow(args = {}) {
       return this._makeRequest({
         method: "POST",

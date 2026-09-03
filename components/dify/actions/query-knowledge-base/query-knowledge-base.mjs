@@ -11,7 +11,7 @@ const SEARCH_METHODS = [
 export default {
   key: "dify-query-knowledge-base",
   name: "Query Knowledge Base",
-  description: "Search a Dify knowledge base (dataset) and return the chunks most relevant to a query. Use **List Knowledge Bases** to find the `Knowledge Base ID`. This requires a Dify connection authenticated with a knowledge base API key (issued from a knowledge base's own **API Access** page), not an app API key — those authenticate **Send Chat Message** and **Run Workflow** instead. A `401 unauthorized` error here usually means the connected account is using an app key; reconnect with a knowledge base key instead. [See the documentation](https://docs.dify.ai/en/api-reference/knowledge-bases/retrieve-chunks-from-a-knowledge-base-test-retrieval)",
+  description: "Search a Dify knowledge base (dataset) and return the chunks most relevant to a query. Use **List Knowledge Bases** to find the `Knowledge Base ID`. This requires a Dify connection authenticated with a knowledge base API key (issued from a knowledge base's own **API Access** page), not an app API key — those authenticate **Run Workflow** instead. A `401 unauthorized` error here usually means the connected account is using an app key; reconnect with a knowledge base key instead. [See the documentation](https://docs.dify.ai/en/api-reference/knowledge-bases/retrieve-chunks-from-a-knowledge-base-test-retrieval)",
   version: "0.0.1",
   ai: "optimized",
   type: "action",

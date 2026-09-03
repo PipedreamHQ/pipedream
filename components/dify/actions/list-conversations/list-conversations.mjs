@@ -3,7 +3,7 @@ import dify from "../../dify.app.mjs";
 export default {
   key: "dify-list-conversations",
   name: "List Conversations",
-  description: "List a Dify Chatflow, Chatbot, Agent, or Legacy Agent app's conversations, most recently active first. Conversations are scoped by `User`, so pass the same value used in **Send Chat Message** to see that end user's threads. [See the documentation](https://docs.dify.ai/en/api-reference/conversations/list-conversations)",
+  description: "List a Dify Chatflow, Chatbot, Agent, or Legacy Agent app's conversations, most recently active first. Conversations are scoped by `User`, so pass the same value used to create those conversations to see that end user's threads. [See the documentation](https://docs.dify.ai/en/api-reference/conversations/list-conversations)",
   version: "0.0.1",
   ai: "optimized",
   type: "action",
@@ -19,7 +19,7 @@ export default {
         dify,
         "user",
       ],
-      description: "A unique identifier for the end user whose conversations to list. This must match the `User` value passed to **Send Chat Message** for those conversations to be visible — Dify silently returns an empty page instead of an error when `User` is omitted.",
+      description: "A unique identifier for the end user whose conversations to list. This must match the `User` value used when those conversations were created — Dify silently returns an empty page instead of an error when `User` is omitted.",
     },
     lastId: {
       type: "string",

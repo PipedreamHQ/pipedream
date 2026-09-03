@@ -24,7 +24,7 @@ export default {
         dify,
         "user",
       ],
-      description: "A unique identifier for the end user who owns this conversation. This must match the `User` value passed to **Send Chat Message** for the conversation to be visible — Dify silently returns an empty page instead of an error when `User` is omitted.",
+      description: "A unique identifier for the end user who owns this conversation. This must match the `User` value used when the conversation was created — Dify silently returns an empty page instead of an error when `User` is omitted.",
     },
     firstId: {
       type: "string",
