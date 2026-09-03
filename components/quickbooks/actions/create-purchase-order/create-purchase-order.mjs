@@ -1,5 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
 import quickbooks from "../../quickbooks.app.mjs";
+import props from "../../common/props.mjs";
 import {
   parseLineItems,
   buildPurchaseLineItems,
@@ -9,7 +10,7 @@ export default {
   key: "quickbooks-create-purchase-order",
   name: "Create Purchase Order",
   description: "Creates a purchase order. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/purchaseorder#create-a-purchaseorder)",
-  version: "0.0.5",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -109,15 +110,14 @@ export default {
       ],
       reloadProps: true,
     },
+    lineItems: {
+      ...props.lineItems,
+      description: "Line items of a purchase order. DetailType is `ItemBasedExpenseLineDetail`. Example: `{ \"DetailType\": \"ItemBasedExpenseLineDetail\", \"Amount\": 100.0, \"ItemBasedExpenseLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }` [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/purchaseorder#create-a-purchaseorder) for more information.",
+    },
   },
   async additionalProps() {
     const props = {};
     if (this.lineItemsAsObjects) {
-      props.lineItems = {
-        type: "string[]",
-        label: "Line Items",
-        description: "Line items of a purchase order. DetailType is `ItemBasedExpenseLineDetail`. Example: `{ \"DetailType\": \"ItemBasedExpenseLineDetail\", \"Amount\": 100.0, \"ItemBasedExpenseLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }` [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/purchaseorder#create-a-purchaseorder) for more information.",
-      };
       return props;
     }
     props.numLineItems = {

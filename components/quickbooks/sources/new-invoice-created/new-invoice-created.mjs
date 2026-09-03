@@ -6,7 +6,7 @@ export default {
   key: "quickbooks-new-invoice-created",
   name: "New Invoice Created",
   description: "Emit new event when a new invoice is created.",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "source",
   dedupe: "unique",
   methods: {

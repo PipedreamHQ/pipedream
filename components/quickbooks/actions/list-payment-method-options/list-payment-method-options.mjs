@@ -4,7 +4,7 @@ export default {
   key: "quickbooks-list-payment-method-options",
   name: "List Payment Method Options",
   description: "Retrieves available options for the Payment Method field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

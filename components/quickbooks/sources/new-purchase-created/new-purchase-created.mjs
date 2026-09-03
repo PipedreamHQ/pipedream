@@ -6,7 +6,7 @@ export default {
   key: "quickbooks-new-purchase-created",
   name: "New Purchase Created",
   description: "Emit new event when a new purchase is created.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {

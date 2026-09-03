@@ -1,4 +1,5 @@
 import quickbooks from "../../quickbooks.app.mjs";
+import props from "../../common/props.mjs";
 import { parseLineItems } from "../../common/utils.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
@@ -6,7 +7,7 @@ export default {
   key: "quickbooks-create-purchase",
   name: "Create Purchase",
   description: "Creates a new purchase. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/purchase#create-a-purchase)",
-  version: "0.0.11",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -48,15 +49,14 @@ export default {
       ],
       reloadProps: true,
     },
+    lineItems: {
+      ...props.lineItems,
+      description: "Line items of a purchase. Set DetailType to `AccountBasedExpenseLineDetail`. Example: `{ \"DetailType\": \"AccountBasedExpenseLineDetail\", \"Amount\": 100.0, \"AccountBasedExpenseLineDetail\": { \"AccountRef\": { \"name\": \"Advertising\", \"value\": \"1\" } } }` [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/purchase#create-a-purchase) for more information.",
+    },
   },
   async additionalProps() {
     const props = {};
     if (this.lineItemsAsObjects) {
-      props.lineItems = {
-        type: "string[]",
-        label: "Line Items",
-        description: "Line items of a purchase. Set DetailType to `AccountBasedExpenseLineDetail`. Example: `{ \"DetailType\": \"AccountBasedExpenseLineDetail\", \"Amount\": 100.0, \"AccountBasedExpenseLineDetail\": { \"AccountRef\": { \"name\": \"Advertising\", \"value\": \"1\" } } }` [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/purchase#create-a-purchase) for more information.",
-      };
       return props;
     }
     props.numLineItems = {

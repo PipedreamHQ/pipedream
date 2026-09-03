@@ -4,7 +4,7 @@ export default {
   key: "quickbooks-list-estimate-id-options",
   name: "List Estimate ID Options",
   description: "Retrieves available options for the Estimate ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

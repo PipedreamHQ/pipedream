@@ -1,5 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
 import quickbooks from "../../quickbooks.app.mjs";
+import props from "../../common/props.mjs";
 import {
   parseLineItems,
   buildSalesLineItems,
@@ -9,7 +10,7 @@ export default {
   key: "quickbooks-create-estimate",
   name: "Create Estimate",
   description: "Creates an estimate. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/estimate#create-an-estimate)",
-  version: "0.0.5",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -158,15 +159,14 @@ export default {
       ],
       reloadProps: true,
     },
+    lineItems: {
+      ...props.lineItems,
+      description: "Line items of an estimate. Set DetailType to `SalesItemLineDetail`, `GroupLineDetail`, or `DescriptionOnly`. Example: `{ \"DetailType\": \"SalesItemLineDetail\", \"Amount\": 100.0, \"SalesItemLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }` [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/estimate#create-an-estimate) for more information.",
+    },
   },
   async additionalProps() {
     const props = {};
     if (this.lineItemsAsObjects) {
-      props.lineItems = {
-        type: "string[]",
-        label: "Line Items",
-        description: "Line items of an estimate. Set DetailType to `SalesItemLineDetail`, `GroupLineDetail`, or `DescriptionOnly`. Example: `{ \"DetailType\": \"SalesItemLineDetail\", \"Amount\": 100.0, \"SalesItemLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }` [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/estimate#create-an-estimate) for more information.",
-      };
       return props;
     }
     props.numLineItems = {
