@@ -5,13 +5,14 @@ export default {
   name: "Get Clips",
   key: "twitch-get-clips",
   description: "Gets clip information by clip ID, user ID, or game ID",
-  version: "0.1.5",
+  version: "0.1.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     id: {

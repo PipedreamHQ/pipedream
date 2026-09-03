@@ -6,8 +6,9 @@ export default {
   name: "Find Intersecting Features by Geometry",
   description:
     "Query target layers in a Feature Service for records whose geometry intersects an Esri JSON boundary you provide. Supports polygon (`rings`), polyline (`paths`), and point (`x` / `y`) geometries and returns per-layer attribute arrays. [See the documentation](https://developers.arcgis.com/rest/services-reference/enterprise/query-feature-service-layer-.htm)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

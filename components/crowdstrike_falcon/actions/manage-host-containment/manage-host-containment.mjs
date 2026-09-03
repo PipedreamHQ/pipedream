@@ -5,8 +5,9 @@ export default {
   key: "crowdstrike_falcon-manage-host-containment",
   name: "Manage Host Containment",
   description: "Manage host containment on one or more CrowdStrike Falcon hosts via POST /devices/entities/devices-actions/v2 (`action_name` query param, `ids` body). Use **Search Hosts** or **Get Host** to find device IDs. [See the documentation](https://developer.crowdstrike.com/api-reference/collections/hosts/#performactionv2).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

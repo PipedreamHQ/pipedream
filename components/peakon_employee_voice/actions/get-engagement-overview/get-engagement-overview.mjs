@@ -13,8 +13,9 @@ export default {
     + "Returns: engagement score (0–10 scale), NPS score, favorable/neutral/unfavorable split, "
     + "response count, and last survey date. "
     + "[See the Peakon API documentation](https://developer.peakon.com/reference/get_engagement-contexts-contextid-overview)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

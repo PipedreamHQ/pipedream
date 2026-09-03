@@ -6,8 +6,9 @@ export default {
   name: "Find Intersecting Features by Search Query",
   description:
     "Query one source feature by SQL `WHERE` clause, then use that feature's geometry to find intersecting records in target layers from the same Feature Service. Returns per-layer attribute arrays. [See the documentation](https://developers.arcgis.com/rest/services-reference/enterprise/query-feature-service-layer-.htm)",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -12,13 +12,14 @@ export default {
   key: "browser_use-upload-workspace-files",
   name: "Upload Workspace Files",
   description: "Create presigned upload URLs for Browser Use workspace files, and optionally upload local Pipedream files to those URLs. [See the documentation](https://docs.browser-use.com/cloud/api-v3/workspaces/upload-workspace-files)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     browserUse,
     workspaceId: {

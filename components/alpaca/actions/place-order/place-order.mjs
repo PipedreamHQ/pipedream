@@ -3,8 +3,9 @@ import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   type: "action",
+  ai: "optimized",
   key: "alpaca-place-order",
-  version: "0.1.1",
+  version: "0.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

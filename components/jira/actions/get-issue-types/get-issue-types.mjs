@@ -4,13 +4,14 @@ export default {
   key: "jira-get-issue-types",
   name: "Get Issue Types",
   description: "Gets the available issue types. If a project ID is provided, returns issue types for that project. Otherwise, returns all issue types accessible to the user. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-types/#api-rest-api-3-issuetype-get)",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     jira,
     cloudId: {

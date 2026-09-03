@@ -6,8 +6,9 @@ export default {
   name: "Search by Column",
   description:
     "Search for features in a layer where a field matches a value. Builds a `WHERE field = 'value'` query with SQL-escaped single quotes. Returns matching features as a flat array of attribute objects (no geometries). [See the documentation](https://developers.arcgis.com/rest/services-reference/enterprise/query-feature-service-layer-.htm)",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
