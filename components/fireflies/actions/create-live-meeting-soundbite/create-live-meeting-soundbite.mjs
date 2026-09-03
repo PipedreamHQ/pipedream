@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import fireflies from "../../fireflies.app.mjs";
 import mutations from "../../common/mutations.mjs";
 import constants from "../../common/constants.mjs";
@@ -8,13 +7,14 @@ export default {
   key: "fireflies-create-live-meeting-soundbite",
   name: "Create Live Meeting Soundbite",
   description: "Create a soundbite from a meeting that is currently live/in-progress, based on a natural language description of the moment to capture (e.g. `the last 2 minutes` or `when the budget was discussed`). This is documented for use during a live meeting; to clip a meeting that has already ended and been transcribed, use **Create Meeting Clip** instead, which takes an explicit start and end time. Only the meeting organizer or a team admin can run this, and it consumes AI credits and is rate-limited to 10 requests per hour. [See the documentation](https://docs.fireflies.ai/graphql-api/mutation/create-live-soundbite)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     fireflies,
     meetingId: {

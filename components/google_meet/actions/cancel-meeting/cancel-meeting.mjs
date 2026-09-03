@@ -1,17 +1,17 @@
-// x-pd-ai: optimized
 import googleMeet from "../../google_meet.app.mjs";
 
 export default {
   key: "google_meet-cancel-meeting",
   name: "Cancel Meeting",
   description: "Cancel (delete) a scheduled meeting. This permanently removes the Calendar event and its Google Meet link. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/delete)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     googleMeet,
     calendarId: {

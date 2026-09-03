@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import buildBlocks from "../common/build-blocks.mjs";
 import common from "../common/send-message.mjs";
 
@@ -8,13 +7,14 @@ export default {
   key: "slack_v2-send-block-kit-message",
   name: "Build and Send a Block Kit Message",
   description: "Configure custom blocks and send to a channel, group, or user. [See the documentation](https://api.slack.com/tools/block-kit-builder).",
-  version: "0.5.8",
+  version: "0.5.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     slack: common.props.slack,
     conversation: {
