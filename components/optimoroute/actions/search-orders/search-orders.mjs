@@ -4,8 +4,9 @@ export default {
   key: "optimoroute-search-orders",
   name: "Search Orders",
   description: "Search for orders in Optimoroute. [See the documentation](https://optimoroute.com/api/#search-orders)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

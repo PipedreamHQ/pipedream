@@ -5,8 +5,9 @@ export default {
   key: "workflowy-update-node",
   name: "Update Node",
   description: "Updates an existing WorkFlowy node's name, note, and/or layout mode (POST /api/v1/nodes/:id). Run **Search Nodes** first to obtain the target node ID. At least one of name, note, or layout mode must be provided. Note that the update endpoint only returns a status, not the full updated node. [See the documentation](https://beta.workflowy.com/api-reference/#nodes-update).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

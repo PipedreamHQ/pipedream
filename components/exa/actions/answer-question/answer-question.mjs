@@ -5,8 +5,9 @@ export default {
   key: "exa-answer-question",
   name: "Answer Question",
   description: "Generate grounded Exa answers with citations. Use this when you want an answer-shaped response instead of raw search results. [See the documentation](https://docs.exa.ai/reference/answer)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

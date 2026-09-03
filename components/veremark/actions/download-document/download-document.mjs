@@ -9,8 +9,9 @@ export default {
     + " Document GUIDs are found in the response from **Get Background Check Request** — look in the checks array for document references."
     + " Common document types include resumes, ID scans, and employment letters."
     + " [See the documentation](https://api.veremark.com/external/v1/docs/#tag/document/operation/retrieveDocumentDownload)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

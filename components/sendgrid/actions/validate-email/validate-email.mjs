@@ -6,13 +6,14 @@ export default {
   key: "sendgrid-validate-email",
   name: "Validate Email",
   description: "Validates an email address. This action requires a Sendgrid's Pro or Premier plan. [See the docs here](https://docs.sendgrid.com/api-reference/e-mail-address-validation/validate-an-email)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     email: {

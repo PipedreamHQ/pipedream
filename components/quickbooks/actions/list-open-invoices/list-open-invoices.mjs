@@ -9,13 +9,14 @@ export default {
   key: "quickbooks-list-open-invoices",
   name: "List Open Invoices",
   description: "Lists invoices with an outstanding balance (open invoices). Optionally supply a full query to override the default filter. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/invoice#query-an-invoice)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     quickbooks,
     query: {
