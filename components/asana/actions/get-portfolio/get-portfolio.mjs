@@ -4,13 +4,14 @@ export default {
   key: "asana-get-portfolio",
   name: "Get Portfolio",
   description: "Returns the complete portfolio record for a single portfolio. Use this after **List Portfolios** to retrieve full portfolio details including custom fields, members, and owner; the `optFields` prop requests specific properties (e.g. `custom_field_settings`, `members`, `start_on`, `due_on`). [See the documentation](https://developers.asana.com/reference/getportfolio)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     asana,
     portfolioId: {

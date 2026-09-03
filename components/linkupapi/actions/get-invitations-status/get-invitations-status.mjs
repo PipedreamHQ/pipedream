@@ -2,10 +2,11 @@ import app from "../../linkupapi.app.mjs";
 
 export default {
   type: "action",
+  ai: "optimized",
   key: "linkupapi-get-invitations-status",
   name: "Get Invitations Status",
   description: "List pending connection invitations **received** by the connected account. Note: this returns invitations received, not ones you have sent. [See the documentation](https://docs.linkupapi.com/api-reference/v2/network/list-invitations)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

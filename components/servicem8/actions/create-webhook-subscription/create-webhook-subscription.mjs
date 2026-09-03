@@ -4,13 +4,14 @@ export default {
   key: "servicem8-create-webhook-subscription",
   name: "Create Webhook Subscription",
   description: "Create or update an object webhook subscription. [See the documentation](https://developer.servicem8.com/reference/post_object_webhook_subscription)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     servicem8: app,
     callbackUrl: {

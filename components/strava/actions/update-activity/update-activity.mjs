@@ -9,8 +9,9 @@ export default {
     + " Only fields you provide are updated; omitted fields are left unchanged."
     + " `sportType` uses Strava's modern `sport_type` enum (not the legacy `type` field)."
     + " [See the documentation](https://developers.strava.com/docs/reference/#api-Activities-updateActivityById)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

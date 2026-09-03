@@ -8,8 +8,9 @@ export default {
   key: "luma-list-events",
   name: "List Events",
   description: "List events managed by the connected Luma calendar. Use this to find event IDs for **Get Event**, **Get Guests**, **Add Guests**, or **Send Invites**. This only returns events managed by the calendar, not external events merely listed on it. [See the documentation](https://docs.luma.com/reference/get_v1-calendar-list-events)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

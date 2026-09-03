@@ -4,8 +4,9 @@ export default {
   key: "rydoo-search-user",
   name: "Search User",
   description: "Searches for users by email, first name, last name, free-text, card status, or external ID. [See the documentation](https://developers.rydoo.com/reference/v2usersearchuser)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -9,8 +9,9 @@ export default {
     + " Set `includeAttachments: true` to expand attachment metadata — the `id` field of each attachment is required by **Download Attachment**."
     + " Example: after `find-email(search=\"Eval-Festivus\")` returns a message with `id: \"AAMk...\"`, call `get-message(messageId=\"AAMk...\", includeAttachments=true)` to get the body text and attachment list."
     + " [See the documentation](https://learn.microsoft.com/en-us/graph/api/message-get)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

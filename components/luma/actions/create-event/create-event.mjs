@@ -8,8 +8,9 @@ export default {
   key: "luma-create-event",
   name: "Create Event",
   description: "Create an event on the connected Luma calendar. Required datetime fields must be ISO 8601 strings and Timezone must be an IANA timezone like `America/New_York`. [See the documentation](https://docs.luma.com/reference/post_v1-event-create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

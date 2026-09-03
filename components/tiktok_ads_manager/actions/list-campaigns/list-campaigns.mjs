@@ -8,8 +8,9 @@ export default {
     + " Returns campaign IDs, names, status, objective, and budget."
     + " Use campaign IDs returned here as input to **List Ad Groups** or **Get Report**."
     + " [See the documentation](https://business-api.tiktok.com/portal/docs/get-campaigns/v1.3)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

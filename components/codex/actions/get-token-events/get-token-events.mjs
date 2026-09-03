@@ -10,8 +10,9 @@ export default {
     + " Use **Get Networks** to resolve the numeric `networkId` if needed."
     + " Supports cursor-based pagination — pass the `cursor` from the previous response to fetch the next page."
     + " [See the documentation](https://docs.codex.io/api-reference/queries/gettokenevents)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

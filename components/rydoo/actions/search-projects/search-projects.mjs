@@ -4,8 +4,9 @@ export default {
   key: "rydoo-search-projects",
   name: "Search Projects",
   description: "Finds active projects by name or reference ID. [See the documentation](https://developers.rydoo.com/reference/v2projectsgetprojects)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

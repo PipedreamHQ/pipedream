@@ -5,8 +5,9 @@ export default {
   key: "rydoo-create-trip",
   name: "Create Trip",
   description: "Registers a new business trip for a specific user. [See the documentation](https://developers.rydoo.com/reference/v2tripsaddtrip)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

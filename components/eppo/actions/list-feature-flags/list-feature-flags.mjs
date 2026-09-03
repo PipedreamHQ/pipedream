@@ -8,8 +8,9 @@ export default {
     + " Use this tool when a user wants to see all flags, find a specific flag by name, or discover flag IDs needed by **Get Feature Flag** or **Toggle Feature Flag**."
     + " Set `includeArchived` to also return archived flags."
     + " [See the documentation](https://eppo.cloud/api/docs#/FeatureFlags/getFeatureFlags)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

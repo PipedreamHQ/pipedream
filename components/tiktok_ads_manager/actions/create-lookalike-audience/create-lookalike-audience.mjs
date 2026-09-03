@@ -11,8 +11,9 @@ export default {
     + " Location IDs: `6252001` = United States, `6269131` = United Kingdom."
     + " Newly created audiences require up to 48 hours to be analyzed before they become active."
     + " [See the documentation](https://business-api.tiktok.com/portal/docs/create-a-lookalike-audience/v1.3)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

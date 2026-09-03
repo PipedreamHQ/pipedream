@@ -6,8 +6,9 @@ export default {
   key: "zendesk-update-side-conversation",
   name: "Update Side Conversation",
   description: "Update the state or subject of a Zendesk side conversation. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/side_conversation/side_conversation/#update-side-conversation)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

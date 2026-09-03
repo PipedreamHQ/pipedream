@@ -13,8 +13,9 @@ export default {
     + " Example metrics: `[{\"metric_id\": 333870, \"is_primary\": true}]`."
     + " Dates must be ISO 8601 format: `2024-01-01T00:00:00Z`."
     + " [See the documentation](https://eppo.cloud/api/docs#/Experiments/createExperiment)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
