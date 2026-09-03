@@ -74,7 +74,7 @@ export default {
     conversationId: {
       type: "string",
       label: "Conversation ID",
-      description: "Select a conversation to use for the action",
+      description: "The ID of the conversation to use for the action (e.g. `sSzxq7tMBFmCY28o8`)",
       async options({
         page, includeStatus, excludeStatus,
       }) {
@@ -208,6 +208,14 @@ export default {
     }) {
       return this._makeRequest({
         path: `/conversations/${conversationId}`,
+        ...opts,
+      });
+    },
+    getConversationItems({
+      conversationId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/conversations/${conversationId}/items`,
         ...opts,
       });
     },
