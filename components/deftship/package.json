@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/deftship",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Deftship Components",
   "main": "deftship.app.mjs",
   "keywords": [

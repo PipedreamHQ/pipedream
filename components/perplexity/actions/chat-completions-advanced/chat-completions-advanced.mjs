@@ -4,13 +4,14 @@ export default {
   key: "perplexity-chat-completions-advanced",
   name: "Chat Completions (Advanced)",
   description: "Generates a model's response for the given chat conversation with multi-message support and Perplexity search controls. Docs: https://docs.perplexity.ai/api-reference/chat-completions-post",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     model: {

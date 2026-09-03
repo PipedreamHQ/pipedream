@@ -4,8 +4,9 @@ export default {
   key: "polar-create-checkout",
   name: "Create Checkout",
   description: "Create a checkout session for one or more products. [See the documentation](https://polar.sh/docs/api-reference/checkouts/create-session)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

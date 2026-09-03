@@ -4,7 +4,8 @@ export default {
   key: "confection-get-related-uuids",
   name: "Get Related UUIDs",
   type: "action",
-  version: "0.1.1",
+  ai: "optimized",
+  version: "0.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

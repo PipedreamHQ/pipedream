@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/float",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Float Components",
   "main": "float.app.mjs",
   "keywords": [

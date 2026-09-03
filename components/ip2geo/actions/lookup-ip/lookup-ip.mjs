@@ -2,7 +2,7 @@ import ip2geo from "../../ip2geo.app.mjs";
 
 export default {
   name: "Lookup IP",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -11,6 +11,7 @@ export default {
   key: "ip2geo-lookup-ip",
   description: "Convert an IP address into geolocation data including city, country, timezone, ASN, and currency. [See the documentation](https://docs.ip2geo.dev/api/convert-ip)",
   type: "action",
+  ai: "optimized",
   props: {
     ip2geo,
     ip: {

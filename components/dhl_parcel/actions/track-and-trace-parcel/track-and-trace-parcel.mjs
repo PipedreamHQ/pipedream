@@ -4,8 +4,9 @@ export default {
   key: "dhl_parcel-track-and-trace-parcel",
   name: "Track and Trace Parcel",
   description: "Get track and trace information for a parcel. [See the documentation](https://api-gw.dhlparcel.nl/docs/guide/chapters/05-track-and-trace.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

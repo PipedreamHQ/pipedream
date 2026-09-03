@@ -6,13 +6,14 @@ export default {
   key: "icontact-create-contact",
   name: "Create Contact",
   description: "Creates a new contact within the iContact account. [See the documentation](https://help.icontact.com/customers/s/article/Contacts-iContact-API?r=153&ui-knowledge-components-aura-actions.KnowledgeArticleVersionCreateDraftFromOnlineAction.createDraftFromOnlineArticle=1)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     icontact,
     email: {

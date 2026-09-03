@@ -5,13 +5,14 @@ export default {
   name: "Retrieve Site Performance Data",
   description: "Fetches search analytics (clicks, impressions, CTR, position) from Google Search Console for a verified site. Use it to pull traffic metrics, optionally broken down by dimensions like page or query. Filter to a subset of pages with Subdomain Filter (a simple contains-style path/subdomain match), or with Advanced Dimension Filters (a JSON array of filter groups per the Search Console API, used only when Subdomain Filter is empty). Max Rows caps how many rows come back per call; use Start Row to page through more. [See the documentation](https://developers.google.com/webmaster-tools/v1/searchanalytics/query)",
   key: "google_search_console-retrieve-site-performance-data",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     googleSearchConsole,
     siteUrl: {

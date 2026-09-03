@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/orca_scan",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Orca Scan Components",
   "main": "orca_scan.app.mjs",
   "keywords": [

@@ -1,7 +1,7 @@
 import esignatures_io from "../../esignatures_io.app.mjs";
 
 export default {
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -11,6 +11,7 @@ export default {
   name: "Create Contract",
   description: "Creates a contract and sends the links (via email or SMS) to the signers to collect their signatures. [See docs here](https://esignatures.io/docs/api#contracts)",
   type: "action",
+  ai: "optimized",
   props: {
     esignatures_io,
     templateId: {

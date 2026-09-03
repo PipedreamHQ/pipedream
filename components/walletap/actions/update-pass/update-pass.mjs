@@ -5,8 +5,9 @@ export default {
   key: "walletap-update-pass",
   name: "Update Pass",
   description: "Updates an existing Walletap pass and pushes the updated pass to the user. [See the documentation](https://walletap.io/docs/api#tag/Pass/operation/updatePass)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
