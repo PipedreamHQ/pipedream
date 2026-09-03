@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../dappier.app.mjs";
 import { resolveDateRange } from "../../common/utils.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "dappier-get-session-intelligence",
   name: "Get Session Intelligence",
   description: "Retrieve session-intelligence analytics for Ask AI widgets (GET `/v1/analytics/session-intelligence`). Returns a single top-level `session_intelligence` object wrapping all breakdowns - `session_intelligence.summary`, `.engagement_time` stats, `.intent_breakdown`, `.top_queried_topics`, `.category_distribution` (IAB categories), and a fixed 7-bucket `.session_engagement_distribution` (query-depth). All filters are optional; with no dates it defaults to the last 7 days (UTC). Example: call with no arguments for last-7-days intent and topic breakdowns, or pass `widgetId=wd_92831` to scope to a single widget. [See the documentation](https://docs.dappier.com/api-reference/endpoint/session-intelligence).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

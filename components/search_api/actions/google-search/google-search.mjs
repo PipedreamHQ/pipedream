@@ -1,17 +1,17 @@
-// x-pd-ai: optimized
 import app from "../../search_api.app.mjs";
 
 export default {
   key: "search_api-google-search",
   name: "Google Search API",
   description: "Run a Google web search. Returns `organic_results` alongside whichever other blocks Google included for the query [See the documentation](https://www.searchapi.io/docs/google)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     q: {

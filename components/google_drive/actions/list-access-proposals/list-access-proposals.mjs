@@ -4,13 +4,14 @@ export default {
   key: "google_drive-list-access-proposals",
   name: "List Access Proposals",
   description: "List access proposals for a file or folder. [See the documentation](https://developers.google.com/workspace/drive/api/reference/rest/v3/accessproposals/list)",
-  version: "0.0.17",
+  version: "0.0.18",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     googleDrive,
     drive: {

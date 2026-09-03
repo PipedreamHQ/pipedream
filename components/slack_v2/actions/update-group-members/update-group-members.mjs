@@ -1,17 +1,17 @@
-// x-pd-ai: optimized
 import slack from "../../slack_v2.app.mjs";
 
 export default {
   key: "slack_v2-update-group-members",
   name: "Update Group Members",
   description: "Update the list of users for a User Group. [See the documentation](https://api.slack.com/methods/usergroups.users.update)",
-  version: "0.0.18",
+  version: "0.0.19",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     slack,
     userGroup: {

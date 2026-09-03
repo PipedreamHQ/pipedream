@@ -10,6 +10,7 @@ export default {
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/platform/oauth-2-3lo-apps/)",
   version: "0.0.6",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

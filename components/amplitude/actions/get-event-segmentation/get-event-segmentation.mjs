@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../amplitude.app.mjs";
 import {
@@ -10,8 +9,9 @@ export default {
   key: "amplitude-get-event-segmentation",
   name: "Get Event Segmentation",
   description: "Query event segmentation data (counts, uniques, and other metrics) for one or more events over a date range from the Amplitude Dashboard REST API. Use this to analyze how an event trends over time, optionally broken down by user properties. Example: call with `event={\"event_type\":\"Purchase\"}`, `startDate=\"20240706\"`, `endDate=\"20240805\"`, `metric=\"uniques\"` -> returns `{data: {xValues: [\"2024-07-06\", ...], series: [[42, 51, ...]]}}` (one value per day per requested series). [See the documentation](https://amplitude.com/docs/apis/analytics/dashboard-rest#event-segmentation).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

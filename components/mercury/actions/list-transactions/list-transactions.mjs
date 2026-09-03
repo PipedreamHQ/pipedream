@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import mercury from "../../mercury.app.mjs";
 import {
   DEFAULT_LIMIT,
@@ -12,8 +11,9 @@ export default {
   key: "mercury-list-transactions",
   name: "List Transactions",
   description: "List transactions for a Mercury account, with optional date-range, search, status, and pagination filters. Run **List Accounts** first to obtain a valid account ID. All IDs are UUIDs, not prefixed strings. Example: call with `accountId=\"69c8b0ee-8b87-11f1-a9e5-e7cd8f0e3f51\"`, `status=\"sent\"`, and `limit=10` -> returns `{ transactions: [{ id: \"9a3f2c14-4d21-11f1-8c7e-1b2d3e4f5a6b\", amount: \"-42.00\", counterpartyName: \"AWS\", status: \"sent\", createdAt: \"2026-01-15T...\" }] }`. [See the documentation](https://docs.mercury.com/reference/listaccounttransactions)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

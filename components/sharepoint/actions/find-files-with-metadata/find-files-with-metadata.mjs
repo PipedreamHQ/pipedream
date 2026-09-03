@@ -5,8 +5,9 @@ export default {
   name: "Find Files in List with Metadata",
   description:
     "Search and filter items in a SharePoint list based on metadata and custom columns. [See docs here](https://learn.microsoft.com/en-us/graph/api/listitem-list)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

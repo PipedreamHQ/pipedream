@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import pipedriveApp from "../../pipedrive.app.mjs";
 
 export default {
   key: "pipedrive-list-projects",
   name: "List Projects",
   description: "Lists projects in your Pipedrive account. Use the returned IDs with **Get Project**, **Update Project**, **Delete Project**, or **Create Task**. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Projects#getProjects)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

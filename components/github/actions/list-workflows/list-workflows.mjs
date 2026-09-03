@@ -4,13 +4,14 @@ export default {
   key: "github-list-workflows",
   name: "List Workflows",
   description: "List the GitHub Actions workflows defined in a repository. Returns each workflow's `id`, `name`, `path` (e.g. `.github/workflows/ci.yml`), and `state`. Use this to discover the workflow file name or ID needed by **Run Workflow**. Provide the repository as an `owner/repo` string. [See the documentation](https://docs.github.com/en/rest/actions/workflows#list-repository-workflows)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     github,
     repoFullname: {

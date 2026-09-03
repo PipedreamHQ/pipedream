@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import azureDevops from "../../azure_devops.app.mjs";
 import {
@@ -12,8 +11,9 @@ export default {
   key: "azure_devops-update-work-item",
   name: "Update Work Item",
   description: "Update an existing work item - retitle it, move it between states, reassign it, repoint its area and iteration, or link it to another work item. At least one field or a link is required. Returns the updated work item. Use when closing out automated work or reflecting a change from another system. Example: work item `299`, state `Closed`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/wit/work-items/update?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

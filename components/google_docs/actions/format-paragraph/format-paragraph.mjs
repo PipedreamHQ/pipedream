@@ -9,7 +9,8 @@ export default {
   key: "google_docs-format-paragraph",
   name: "Format Paragraph",
   description: "Apply paragraph formatting (heading style, alignment, line spacing, indentation) in a Google Doc. Locate the paragraph with **Find Text**, or pass an explicit **Start Index** and **End Index**. Google Docs applies paragraph styles to whole paragraphs, so every paragraph the range touches is restyled, not just the matched text. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/request#UpdateParagraphStyleRequest)",
-  version: "0.0.1",
+  version: "0.0.2",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
