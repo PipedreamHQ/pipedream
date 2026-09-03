@@ -10,7 +10,7 @@ export default {
     + " Use **List My Requests** or **Get Request** to find the `issueKey` (e.g. `IT-42`)."
     + " Optionally include a comment to explain the transition."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-issueidorkey-transition-post)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   annotations: {
     destructiveHint: false,

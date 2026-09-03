@@ -7,6 +7,14 @@
 // https://developer.atlassian.com/cloud/jira/service-desk/rest/intro/#pagination
 const PAGE_SIZE = 100;
 
+// Atlassian's documented default page size for `/rest/api/3/user/search`.
+const USER_SEARCH_PAGE_SIZE = 50;
+
+// The service desk customer resource is experimental and 412s without this.
+const EXPERIMENTAL_API_HEADER = {
+  "X-ExperimentalApi": "opt-in",
+};
+
 // Ceiling on how many items a single action run will collect across pages.
 const MAX_RESULTS_DEFAULT = 100;
 const MAX_RESULTS_MIN = 1;
@@ -27,6 +35,8 @@ const MAX_ATTACHMENT_SIZE_BYTES = 2 * 1024 * 1024 * 1024;
 
 export default {
   PAGE_SIZE,
+  USER_SEARCH_PAGE_SIZE,
+  EXPERIMENTAL_API_HEADER,
   MAX_RESULTS_DEFAULT,
   MAX_RESULTS_MIN,
   MAX_RESULTS_MAX,
