@@ -15,7 +15,7 @@ const issues = {
   },
 };
 
-const mergeRequests = {
+const MERGE_REQUESTS = {
   states: {
     ALL: "all",
     OPENED: "opened",
@@ -58,7 +58,7 @@ const DEFAULT_MAX_RESULTS = 100;
 
 export default {
   issues,
-  mergeRequests,
+  mergeRequests: MERGE_REQUESTS,
   MAX_PER_PAGE,
   DEFAULT_MAX_RESULTS,
 };
