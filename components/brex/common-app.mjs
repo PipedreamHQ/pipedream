@@ -12,19 +12,19 @@ export default {
     postedAtStart: {
       type: "string",
       label: "Posted At Start",
-      description: "Shows only transactions with a posted_at_date on or after this date-time. This parameter is the date-time notation as defined by [RFC 3339, section 5.6](https://tools.ietf.org/html/rfc3339#section-5.6). Example: `2022-12-12T23:59:59.999Z`",
+      description: "Return only transactions posted on or after this date-time, in [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6) notation, e.g. `2022-12-12T23:59:59.999Z`. Brex can post transactions with a lag, so when polling repeatedly, overlap this with your previous window by a day or more and de-duplicate results by transaction `id` rather than advancing it to the exact end of the last poll.",
       optional: true,
     },
     max: {
       type: "integer",
       label: "Max",
-      description: "The maximum amount of registered that will be fetched. Defaults to `500`.",
+      description: "The maximum number of records to fetch. Defaults to `500`.",
       optional: true,
     },
     location: {
       type: "string",
       label: "Location",
-      description: "User location",
+      description: "The office location to assign the user to. Locations are managed in Brex; omit to leave the user unassigned.",
       optional: true,
       async options({ prevContext }) {
         const LIMIT = 100;
@@ -43,7 +43,7 @@ export default {
     department: {
       type: "string",
       label: "Departments",
-      description: "User Department",
+      description: "The department to assign the user to. Departments are managed in Brex; omit to leave the user unassigned.",
       optional: true,
       async options({ prevContext }) {
         const LIMIT = 100;
@@ -62,7 +62,7 @@ export default {
     user: {
       type: "string",
       label: "User",
-      description: "User",
+      description: "A Brex user, as a user ID, e.g. `cuuser_ckze72soa117f01pkmf1wcpl3`. Use **List Users** to find a user ID by email address.",
       optional: true,
       async options({ prevContext }) {
         const LIMIT = 100;
@@ -82,6 +82,31 @@ export default {
       type: "string",
       label: "Cash Account ID",
       description: "The unique ID of the cash account. Use **List Cash Accounts** to find an account ID by name, or to identify the primary account.",
+      optional: true,
+    },
+    cardId: {
+      type: "string",
+      label: "Card ID",
+      description: "The unique ID of the card. Use **List Cards** to find a card ID by cardholder, name, or last four digits.",
+    },
+    cardStatus: {
+      type: "string",
+      label: "Status",
+      description: "Only return cards with this status. Brex has no server-side status filter, so results are filtered after being fetched.",
+      options: options.cardStatus,
+      optional: true,
+    },
+    cardActionReason: {
+      type: "string",
+      label: "Reason",
+      description: "Why the card is being changed. Brex requires a reason and records it against the card.",
+      options: options.cardActionReason,
+      default: "OTHER",
+    },
+    cardActionDescription: {
+      type: "string",
+      label: "Description",
+      description: "An optional free-text note stored alongside the reason.",
       optional: true,
     },
     spendDuration: {
@@ -124,9 +149,11 @@ export default {
     maxResults: {
       type: "integer",
       label: "Max Results",
-      description: "The maximum number of records to return. Defaults to `100`.",
+      description: "The maximum number of records to return, from `1` to `2000`. Defaults to `100`.",
       optional: true,
       min: 1,
+      // The paginator stops after MAX_PAGES, so a larger value could never be satisfied.
+      max: MAX_LIMIT_PER_PAGE * MAX_PAGES,
     },
   },
   methods: {
@@ -265,13 +292,72 @@ export default {
         truncated: Boolean(cursor) || unreadInPage,
       };
     },
+    async getCard({
+      $, cardId,
+    }) {
+      return this._request({
+        $,
+        method: "GET",
+        path: `/v2/cards/${encodeURIComponent(cardId)}`,
+      });
+    },
+    async listCardsPaginated({
+      $, params, max, filter,
+    }) {
+      return this._paginateItems({
+        $,
+        path: "/v2/cards",
+        params,
+        max,
+        filter,
+      });
+    },
+    async lockCard({
+      $, cardId, data,
+    }) {
+      return this._request({
+        $,
+        method: "POST",
+        path: `/v2/cards/${encodeURIComponent(cardId)}/lock`,
+        data,
+      });
+    },
+    async unlockCard({
+      $, cardId,
+    }) {
+      return this._request({
+        $,
+        method: "POST",
+        path: `/v2/cards/${encodeURIComponent(cardId)}/unlock`,
+      });
+    },
+    async terminateCard({
+      $, cardId, data,
+    }) {
+      return this._request({
+        $,
+        method: "POST",
+        path: `/v2/cards/${encodeURIComponent(cardId)}/terminate`,
+        data,
+      });
+    },
+    async updateCard({
+      $, cardId, data,
+    }) {
+      return this._request({
+        $,
+        method: "PUT",
+        path: `/v2/cards/${encodeURIComponent(cardId)}`,
+        data,
+      });
+    },
     async getUser({
       $, userId,
     }) {
       return this._request({
         $,
         method: "GET",
-        path: `/v2/users/${userId}`,
+        path: `/v2/users/${encodeURIComponent(userId)}`,
       });
     },
     async getUserLimit({
@@ -280,7 +366,7 @@ export default {
       return this._request({
         $,
         method: "GET",
-        path: `/v2/users/${userId}/limit`,
+        path: `/v2/users/${encodeURIComponent(userId)}/limit`,
       });
     },
     async listUsersPaginated({
@@ -289,6 +375,27 @@ export default {
       return this._paginateItems({
         $,
         path: "/v2/users",
+        params,
+        max,
+        filter,
+      });
+    },
+    async getExpense({
+      $, expenseId, params,
+    }) {
+      return this._request({
+        $,
+        method: "GET",
+        path: `/v1/expenses/${encodeURIComponent(expenseId)}`,
+        params,
+      });
+    },
+    async listExpensesPaginated({
+      $, params, max, filter,
+    }) {
+      return this._paginateItems({
+        $,
+        path: "/v1/expenses",
         params,
         max,
         filter,
@@ -311,6 +418,17 @@ export default {
       return this._paginateItems({
         $,
         path: "/v2/accounts/cash",
+        params,
+        max,
+        filter,
+      });
+    },
+    async listCardAccountsPaginated({
+      $, params, max, filter,
+    }) {
+      return this._paginateItems({
+        $,
+        path: "/v2/accounts/card",
         params,
         max,
         filter,
