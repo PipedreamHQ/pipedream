@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import monta from "../../monta.app.mjs";
 
 export default {
   key: "monta-update-inbound-forecast-group",
   name: "Update Inbound Forecast Group",
   description: "Update an existing inbound forecast group's details by its reference: its comment, warehouse, or expected delivery date. The forecasts, supplier, and stock-allocation flag are set at creation and cannot be changed here. [See the documentation](https://api-v6.monta.nl/index.html#tag/InboundForecast/paths/~1inboundforecast~1group~1%7Breference%7D/put)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

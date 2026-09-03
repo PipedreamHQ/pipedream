@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 
 export default {
   key: "azure_devops-list-pipelines",
   name: "List Pipelines",
   description: "List a project's YAML pipelines. Returns each pipeline's id, name, folder and revision. Use this to obtain the pipeline id the **Run Pipeline** action needs. Example: project `Fabrikam-Fiber-Git` returns `fabrikam-api-CI` with id `12`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/pipelines/pipelines/list?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

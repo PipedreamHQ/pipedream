@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import utils from "../../common/utils.mjs";
 import slack from "../../slack_v2.app.mjs";
 
@@ -16,13 +15,14 @@ export default {
     + " omitted when no mention carried a name."
     + " Do NOT splice a name back inline: Slack renders `<@U123|Name>` as literal text, not a mention."
     + " [See the documentation](https://api.slack.com/methods/assistant.search.context)",
-  version: "0.2.0",
+  version: "0.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     slack,
     query: {

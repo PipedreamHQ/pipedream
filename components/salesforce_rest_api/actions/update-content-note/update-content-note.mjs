@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import contentNote from "../../common/sobjects/content-note.mjs";
 import salesforce from "../../salesforce_rest_api.app.mjs";
@@ -27,8 +26,9 @@ export default {
     + "Notes must be enabled in the org first - see [Set Up Notes](https://help.salesforce.com/s/articleView?id=sales.notes_admin_setup.htm&type=5)."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

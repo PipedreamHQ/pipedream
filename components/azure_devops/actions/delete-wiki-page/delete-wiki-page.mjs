@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 
 export default {
   key: "azure_devops-delete-wiki-page",
   name: "Delete Wiki Page",
   description: "Delete a wiki page. Returns the deleted page's path and the wiki commit the deletion created. Use this to retire documentation that has moved elsewhere. Example: page path `/Guides/Onboarding`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/wiki/pages/delete-page?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

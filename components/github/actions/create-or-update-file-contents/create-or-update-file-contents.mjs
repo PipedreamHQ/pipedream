@@ -4,13 +4,14 @@ export default {
   key: "github-create-or-update-file-contents",
   name: "Create or Update File Contents",
   description: "Create a new file or overwrite an existing one in a repository with a single commit. Provide the repository as an `owner/repo` string, the file `path`, the raw text `content` (passed as-is — do not base64-encode it yourself), and a commit message. If the file already exists on the target branch it is overwritten; the required blob SHA is resolved for you automatically. Defaults to the repository's default branch unless `branch` is set. [See the documentation](https://docs.github.com/en/rest/repos/contents#create-or-update-file-contents)",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     github,
     repoFullname: {

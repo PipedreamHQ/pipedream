@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import wealthbox from "../../wealthbox.app.mjs";
 import {
   DEFAULT_LINKED_TO_TYPE,
@@ -9,8 +8,9 @@ export default {
   key: "wealthbox-create-note",
   name: "Create Note",
   description: "Create a note linked to a contact via POST /notes. Run **List Contact Options** to find the id of the contact to link the note to. Example: create a note with body `Called client to discuss Q3 portfolio review` linked to contact id `67890`; returns the note object including `id`, `content`, `linked_to`, `visible_to`, and `created_at`. [See the documentation](https://dev.wealthbox.com/#notes-retrieve-all-notes-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

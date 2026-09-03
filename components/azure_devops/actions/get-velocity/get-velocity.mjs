@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 import { COMPLETED_STATE_CATEGORY } from "../../common/constants.mjs";
 import { escapeODataString } from "../../common/utils.mjs";
@@ -7,8 +6,9 @@ export default {
   key: "azure_devops-get-velocity",
   name: "Get Velocity",
   description: "Report how much work each iteration actually completed, aggregated from the Analytics service. Returns one row per iteration with its name, start and finish dates and the number of completed work items. Covers the whole project by default; set **Team Name** to narrow it to a single team, which is what you want in a project several teams share. Use this to answer whether delivery is speeding up or slowing down, and to sanity-check whether the current sprint is committed beyond its recent average. Set **Points Field** to also sum an estimate, but only if the project's process defines one - the default Basic process has no estimation field and the query fails if you name one it does not have. Example: `Sprint 3` completed 8 items totalling 21 points. [See the documentation](https://learn.microsoft.com/en-us/azure/devops/report/extend-analytics/aggregated-data-analytics?view=azure-devops)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
