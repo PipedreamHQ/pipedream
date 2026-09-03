@@ -1,12 +1,18 @@
-import { axios } from "@pipedream/platform";
-import { DEFAULT_MAX_ITEMS } from "./common/constants.mjs";
+// x-pd-ai: optimized
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
+import {
+  DEFAULT_MAX_ITEMS, SHEET_URL_PATTERN,
+} from "./common/constants.mjs";
+import { mapWithConcurrency } from "./common/utils.mjs";
 
 export default {
   type: "app",
   app: "smartsheet",
   propDefinitions: {
     sheetId: {
-      type: "integer",
+      type: "string",
       label: "Sheet",
       description: "Select a sheet",
       async options({ page }) {
@@ -19,40 +25,58 @@ export default {
           id, name,
         }) => ({
           label: name,
-          value: id,
+          value: String(id),
         })) || [];
       },
     },
     rowId: {
-      type: "integer",
+      type: "string",
       label: "Row",
       description: "Identifier of a row in a sheet",
       async options({ sheetId }) {
         const { rows } = await this.getSheet(sheetId);
         return rows?.map(({ id }) => ({
           label: `Row ID ${id}`,
-          value: id,
+          value: String(id),
         }));
       },
     },
     templateId: {
-      type: "integer",
+      type: "string",
       label: "Template",
       description: "Select a template from a workspace. Use the **List Workspace Templates** action to find template IDs. Example: `1122334455667788`.",
       async options() {
         const { data: workspaces } = await this.listAllWorkspaces();
+        // Smartsheet exposes no "list all templates" endpoint, so this has to walk every
+        // workspace. Serial was slow; unbounded was a burst of one request per workspace.
+        // A workspace that fails to traverse is skipped rather than emptying the dropdown.
+        const perWorkspace = await mapWithConcurrency(workspaces || [], async (ws) => {
+          try {
+            const { data } = await this.listAllWorkspaceChildren(ws.id, {
+              params: {
+                childrenResourceTypes: "sheets,templates",
+              },
+            });
+            return {
+              ws,
+              children: data,
+            };
+          } catch {
+            return {
+              ws,
+              children: [],
+            };
+          }
+        });
         const templates = [];
-        for (const ws of workspaces || []) {
-          const { data: children } = await this.listAllWorkspaceChildren(ws.id, {
-            params: {
-              childrenResourceTypes: "sheets,templates",
-            },
-          });
+        for (const {
+          ws, children,
+        } of perWorkspace) {
           for (const child of children || []) {
             if (child.resourceType === "template") {
               templates.push({
                 label: `${child.name} (${ws.name})`,
-                value: child.id,
+                value: String(child.id),
               });
             }
           }
@@ -61,7 +85,7 @@ export default {
       },
     },
     workspaceId: {
-      type: "integer",
+      type: "string",
       label: "Workspace",
       description: "Select a workspace. Use the **List Workspace Options** action to find workspace IDs. Example: `1234567890123456`.",
       optional: true,
@@ -71,12 +95,12 @@ export default {
           id, name,
         }) => ({
           label: name,
-          value: id,
+          value: String(id),
         })) || [];
       },
     },
     folderId: {
-      type: "integer",
+      type: "string",
       label: "Folder",
       description: "Select a folder from a workspace. Use the **List Folder Options** action with a workspace ID to find folder IDs. Example: `9876543210987654`.",
       optional: true,
@@ -93,7 +117,7 @@ export default {
           id, name,
         }) => ({
           label: name,
-          value: id,
+          value: String(id),
         })) || [];
       },
     },
@@ -107,8 +131,60 @@ export default {
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
-    _validateId(id) {
-      return !isNaN(id);
+    // Throws rather than returning `{}`. A silent empty object reads to an agent as
+    // "the sheet exists and is empty", so it retries variations of a bad ID instead of
+    // switching to a lookup. The message names the value and the way out.
+    _requireNumericId(value, label = "Sheet ID") {
+      const trimmed = String(value ?? "").trim();
+      if (/^\d+$/.test(trimmed)) {
+        return trimmed;
+      }
+      // The remedy depends on what was actually passed. Pointing a URL at Search is dead
+      // advice: the permalink token is not indexed text, so Search returns zero results.
+      // Only a permalink match resolves it, which is what resolveSheetId does.
+      // Keyed off the label as well as the input: a bad Row ID or Comment ID was previously
+      // told to "find a sheet by name", which is the wrong lookup for the thing that failed.
+      const isSheet = label === "Sheet ID";
+      const remedy = SHEET_URL_PATTERN.test(trimmed)
+        ? "That looks like a Smartsheet URL. The URL carries an opaque permalink token rather"
+          + " than the ID, and **Search** cannot resolve it. Pass the URL to **Get Sheet**,"
+          + " which resolves it, and use the `id` it returns."
+        : isSheet
+          ? "Use **Search** to find a sheet by name, or **List Sheets** to enumerate them."
+          : `Run **Get Sheet** and read the ${label.replace(/ ID$/, "").toLowerCase()} IDs from its response.`;
+      throw new ConfigurationError(`\`${label}\` must be a numeric Smartsheet ID, but received \`${value}\`. ${remedy}`);
+    },
+    // Accepts either a numeric sheet ID or a Smartsheet sheet URL. A sheet URL carries an
+    // opaque permalink token rather than the ID, so the only way to resolve one is to match
+    // `permalink` across the sheets the user can see.
+    async resolveSheetId(value, args = {}) {
+      const trimmed = String(value ?? "").trim();
+      if (/^\d+$/.test(trimmed)) {
+        return trimmed;
+      }
+      if (!SHEET_URL_PATTERN.test(trimmed)) {
+        return this._requireNumericId(trimmed);
+      }
+      const { data } = await this.listSheets({
+        ...args,
+        params: {
+          includeAll: true,
+          ...args.params,
+        },
+      });
+      const normalize = (url) => String(url || "").split("?")[0]
+        .replace(/\/+$/, "")
+        .toLowerCase();
+      const target = normalize(trimmed);
+      const match = data?.find((sheet) => normalize(sheet.permalink) === target);
+      if (!match) {
+        throw new ConfigurationError(
+          `No sheet matching the URL \`${value}\` was found among the ${data?.length || 0} sheet(s)`
+          + " this account can access. The sheet may not be shared with this account, or the URL"
+          + " may point at a report or dashboard rather than a sheet.",
+        );
+      }
+      return String(match.id);
     },
     async _makeRequest({
       $ = this,
@@ -147,29 +223,25 @@ export default {
       });
     },
     getRow(sheetId, rowId, args = {}) {
-      if (!this._validateId(sheetId)) {
-        return {};
-      }
+      const sheet = this._requireNumericId(sheetId);
+      const row = this._requireNumericId(rowId, "Row ID");
       return this._makeRequest({
-        path: `/sheets/${sheetId}/rows/${rowId}`,
+        path: `/sheets/${sheet}/rows/${row}`,
         ...args,
       });
     },
     getSheet(sheetId, args = {}) {
-      if (!this._validateId(sheetId)) {
-        return {};
-      }
+      const sheet = this._requireNumericId(sheetId);
       return this._makeRequest({
-        path: `/sheets/${sheetId}`,
+        path: `/sheets/${sheet}`,
         ...args,
       });
     },
     getComment(sheetId, commentId, args = {}) {
-      if (!this._validateId(sheetId)) {
-        return {};
-      }
+      const sheet = this._requireNumericId(sheetId);
+      const comment = this._requireNumericId(commentId, "Comment ID");
       return this._makeRequest({
-        path: `/sheets/${sheetId}/comments/${commentId}`,
+        path: `/sheets/${sheet}/comments/${comment}`,
         ...args,
       });
     },
@@ -180,11 +252,9 @@ export default {
       });
     },
     listColumns(sheetId, args = {}) {
-      if (!this._validateId(sheetId)) {
-        return {};
-      }
+      const sheet = this._requireNumericId(sheetId);
       return this._makeRequest({
-        path: `/sheets/${sheetId}/columns`,
+        path: `/sheets/${sheet}/columns`,
         ...args,
       });
     },

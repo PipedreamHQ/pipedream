@@ -1,13 +1,14 @@
+// x-pd-ai: optimized
 import smartsheet from "../../smartsheet.app.mjs";
 
 export default {
   key: "smartsheet-delete-sheet",
   name: "Delete Sheet",
   description:
-    "Permanently delete a sheet. This is irreversible — all data, rows, and columns are destroyed."
+    "Permanently delete a sheet. This is irreversible - all data, rows, and columns are destroyed."
     + " Use **List Sheets** to find the sheet ID first."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/deletesheet)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: true,
@@ -19,7 +20,7 @@ export default {
     sheetId: {
       type: "string",
       label: "Sheet ID",
-      description: "The ID of the sheet to delete. Use **List Sheets** to find sheet IDs. WARNING: This is irreversible.",
+      description: "The ID of the sheet to delete (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs. WARNING: This is irreversible.",
     },
   },
   async run({ $ }) {

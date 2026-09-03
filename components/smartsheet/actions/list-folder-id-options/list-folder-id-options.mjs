@@ -1,11 +1,15 @@
+// x-pd-ai: optimized
 import smartsheet from "../../smartsheet.app.mjs";
 
 export default {
   key: "smartsheet-list-folder-id-options",
   name: "List Folder Options",
-  description: "Retrieves available folder options from a workspace."
+  description: "Retrieves `{ label, value }` pairs for populating a Folder dropdown, for one workspace."
+    + " This is a form helper, not a Smartsheet capability: it returns only folder names and IDs."
+    + " Requires a Workspace ID - use **List Workspace Options** to find one first."
+    + " Use the folder IDs it returns with **Create Sheet**, **Import Sheet**, **Copy Sheet** or **Move Sheet**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/workspaces/get-workspace-children)",
-  version: "1.0.1",
+  version: "1.1.1",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -30,11 +34,14 @@ export default {
         childrenResourceTypes: "folders",
       },
     });
+    // `String(id)`, matching the app's propDefinition resolvers: every ID prop in this
+    // connector is a string, and emitting a bare number here invites a caller to write it
+    // back as a JSON number, which rounds a 16-digit ID.
     const options = (data || []).map(({
       id, name,
     }) => ({
       label: name,
-      value: id,
+      value: String(id),
     }));
     $.export("$summary", `Successfully retrieved ${options.length} folder${options.length === 1
       ? ""
