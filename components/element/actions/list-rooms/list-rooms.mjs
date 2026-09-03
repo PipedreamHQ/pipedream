@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import element from "../../element.app.mjs";
 
 export default {
   key: "element-list-rooms",
   name: "List Rooms",
   description: "List the Matrix rooms the connected account has joined. The Matrix API only returns room IDs from this endpoint (no name or topic) — pass a returned ID directly into **Send Message** or **Invite User**. Because the IDs are opaque, prefer **Resolve Room Alias** when you know the room by an alias such as `#engineering:matrix.org`. [See the documentation](https://spec.matrix.org/latest/client-server-api/#get_matrixclientv3joined_rooms)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

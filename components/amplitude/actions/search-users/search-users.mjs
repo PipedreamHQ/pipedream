@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import app from "../../amplitude.app.mjs";
 
 export default {
   key: "amplitude-search-users",
   name: "Search Users",
   description: "Look up Amplitude users by Amplitude ID, Device ID, User ID, or a User ID prefix. Use this before **Get User Activity** to resolve a user's `amplitude_id`. Example: call with `user=\"user@example.com\"` -> returns `{matches: [{amplitude_id: 12345678, user_id: \"user@example.com\"}], type: \"user_id\"}`. [See the documentation](https://amplitude.com/docs/apis/analytics/dashboard-rest#user-search).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

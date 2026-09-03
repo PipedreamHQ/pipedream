@@ -16,13 +16,14 @@ export default {
     + " appends data to a metric time series."
     + " [See the docs](https://docs.datadoghq.com/"
     + "metrics)",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     datadog,
     region: {

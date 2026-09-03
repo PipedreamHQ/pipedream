@@ -15,8 +15,9 @@ export default {
     + " conflicts."
     + " [See the documentation](https://grafana.com/docs/"
     + "grafana/latest/developers/http_api/dashboard/)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

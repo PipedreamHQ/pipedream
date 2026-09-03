@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import mercury from "../../mercury.app.mjs";
 import {
@@ -12,8 +11,9 @@ export default {
   key: "mercury-list-send-money-requests",
   name: "List Send Money Requests",
   description: "List send money approval requests for the organization. Optionally filter by account and status. Use this to discover pending approvals and their `requestId`. Example: call with `status: \"pendingApproval\"` -> returns `{ requests: [{ requestId: \"3f1a9c22-8b87-11f1-a9e5-6b3dd34242f2\", accountId: \"69c8b0ee-8b87-11f1-a9e5-e7cd8f0e3f51\", amount: 100.5, paymentMethod: \"ach\", status: \"pendingApproval\" }], page: { nextPage: null, previousPage: null } }`. [See the documentation](https://docs.mercury.com/reference/listsendmoneyapprovalrequests)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,
