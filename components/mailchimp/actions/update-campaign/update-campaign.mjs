@@ -1,12 +1,14 @@
 import mailchimp from "../../mailchimp.app.mjs";
-import { removeNullEntries } from "../../common/utils.mjs";
+import {
+  parseObjectArray, removeNullEntries,
+} from "../../common/utils.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
   key: "mailchimp-update-campaign",
   name: "Update Campaign",
-  description: "Update a campaign. [See docs here](https://mailchimp.com/developer/marketing/api/campaigns/update-campaign-settings/)",
-  version: "0.0.3",
+  description: "Update a campaign. [See the documentation](https://mailchimp.com/developer/marketing/api/campaigns/update-campaign-settings/)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -55,9 +57,9 @@ export default {
       options: constants.SEGMENT_MATCHES,
     },
     segmentConditions: {
-      type: "any",
-      label: "Segment condition",
-      description: "Segment match conditions.",
+      type: "string[]",
+      label: "Segment conditions",
+      description: "Array of segment condition objects. Each item must be a JSON string, e.g. `{\"condition_type\":\"TextMerge\",\"field\":\"EMAIL\",\"op\":\"contains\",\"value\":\"@example.com\"}`. [See the documentation](https://mailchimp.com/developer/marketing/docs/alternative-schemas/#segment-condition-schemas).",
       optional: true,
     },
     subjectLine: {
@@ -239,7 +241,7 @@ export default {
           saved_segment_id: this.savedSegmentId,
           prebuilt_segment_id: this.prebuiltSegmentId,
           match: this.segmentMatch,
-          conditions: this.segmentConditions,
+          conditions: parseObjectArray(this.segmentConditions, "Segment conditions"),
         },
       },
       settings: {

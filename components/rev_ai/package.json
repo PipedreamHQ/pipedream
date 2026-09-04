@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/rev_ai",
-  "version": "0.6.0",
+  "version": "1.0.0",
   "description": "Pipedream rev_ai Components",
   "main": "rev_ai.app.mjs",
   "keywords": [

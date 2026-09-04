@@ -4,7 +4,7 @@ export default {
   key: "xero_accounting_api-list-manual-journals",
   name: "List Manual Journals",
   description: "Lists information from manual journals in the given tenant id as per filter parameters.",
-  version: "0.2.2",
+  version: "0.2.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

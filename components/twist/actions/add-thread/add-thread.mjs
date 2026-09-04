@@ -1,11 +1,14 @@
 // legacy_hash_id: a_elirJ5
 import { axios } from "@pipedream/platform";
+import {
+  parseObjectArray, parseRecipients,
+} from "../../common/utils.mjs";
 
 export default {
   key: "twist-add-thread",
   name: "Add Thread",
-  description: "Adds a new thread to a channel.",
-  version: "0.2.2",
+  description: "Adds a new thread to a channel. [See the documentation](https://api.twistapp.com/v3/#add-thread)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -30,32 +33,38 @@ export default {
       description: "The title of the new thread.",
     },
     actions: {
-      type: "any",
-      description: "List of action to the new thread. More information about the format of the object available at the add an [action button submenu](https://api.twistapp.com/v3/#add-an-action-button).",
+      type: "string[]",
+      label: "Actions",
+      description: "List of action buttons to add. Each item must be a JSON string, e.g. `{\"action\":\"open_url\",\"type\":\"action\",\"button_text\":\"View\",\"url\":\"https://example.com\"}`. See the [action button submenu](https://api.twistapp.com/v3/#add-an-action-button).",
       optional: true,
     },
     attachments: {
-      type: "any",
-      description: "List of attachments to the new thread. It must follow the JSON format returned by [attachment#upload.](https://api.twistapp.com/v3/#upload-an-attachment)",
+      type: "string[]",
+      label: "Attachments",
+      description: "List of attachments to add. Each item must be a JSON string following the format returned by [attachment#upload](https://api.twistapp.com/v3/#upload-an-attachment).",
       optional: true,
     },
     direct_mentions: {
-      type: "any",
+      type: "integer[]",
+      label: "Direct Mentions",
       description: "The users that are directly mentioned.",
       optional: true,
     },
     direct_group_mentions: {
-      type: "any",
+      type: "integer[]",
+      label: "Direct Group Mentions",
       description: "The groups that are directly mentioned.",
       optional: true,
     },
     recipients: {
-      type: "any",
-      description: "An array of users (e.g. recipients: `[10000, 10001]`) that will be attached to the thread. It also accepts the string `EVERYONE`, which notifies everyone in the workspace. If not included, the value will default to `user_ids` of the target channel. If you specify `[]`, no Twist users will be notified, and the thread creator will become the sole participant.",
+      type: "string[]",
+      label: "Recipients",
+      description: "The users that will be attached to the thread, as user IDs (e.g. `10000`, `10001`). Also accepts the single value `EVERYONE`, which notifies everyone in the workspace. If not included, defaults to the `user_ids` of the target channel. If you specify an empty list, no Twist users will be notified and the thread creator becomes the sole participant.",
       optional: true,
     },
     groups: {
-      type: "any",
+      type: "integer[]",
+      label: "Groups",
       description: "The groups that will be notified.",
       optional: true,
     },
@@ -77,25 +86,29 @@ export default {
       throw new Error("Must provide thread_id, content, and title parameters.");
     }
 
-    return await axios($, {
+    const response = await axios($, {
       method: "post",
       url: "https://api.twist.com/api/v3/threads/add",
       headers: {
         Authorization: `Bearer ${this.twist.$auth.oauth_access_token}`,
       },
       data: {
-        actions: this.actions,
-        attachments: this.attachments,
+        actions: parseObjectArray(this.actions, "Actions"),
+        attachments: parseObjectArray(this.attachments, "Attachments"),
         channel_id: this.channel_id,
         content: this.content,
         direct_mentions: this.direct_mentions,
         direct_group_mentions: this.direct_group_mentions,
-        recipients: this.recipients,
+        recipients: parseRecipients(this.recipients),
         groups: this.groups,
         temp_id: this.temp_id,
         title: this.title,
         send_as_integration: this.send_as_integration,
       },
     });
+
+    $.export("$summary", `Successfully added thread ${response.id} to channel ${this.channel_id}`);
+
+    return response;
   },
 };

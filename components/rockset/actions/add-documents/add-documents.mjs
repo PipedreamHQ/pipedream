@@ -1,11 +1,13 @@
 // legacy_hash_id: a_bKiPAo
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 
 export default {
   key: "rockset-add-documents",
   name: "Add Documents",
-  description: "Add documents to a collection in Rockset. Learn more at https://docs.rockset.com/rest/#adddocuments.",
-  version: "0.1.2",
+  description: "Add documents to a collection in Rockset. [See the documentation](https://docs.rockset.com/rest/#adddocuments)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -18,8 +20,9 @@ export default {
       app: "rockset",
     },
     data: {
-      type: "any",
-      description: "Array of JSON documents. Learn more at https://docs.rockset.com/rest/#adddocuments.",
+      type: "string[]",
+      label: "Documents",
+      description: "Array of JSON documents to add, one JSON string per entry, e.g. `{\"field\":\"value\"}`. Learn more at https://docs.rockset.com/rest/#adddocuments.",
     },
     workspace: {
       type: "string",
@@ -30,9 +33,23 @@ export default {
       description: "Name of the collection.",
     },
   },
+  methods: {
+    parseDocuments(items) {
+      return items?.map((item) => {
+        if (typeof item !== "string") {
+          return item;
+        }
+        try {
+          return JSON.parse(item);
+        } catch (error) {
+          throw new ConfigurationError(`Documents: \`${item}\` is not valid JSON`);
+        }
+      });
+    },
+  },
   async run({ $ }) {
     const data = {
-      "data": this.data,
+      "data": this.parseDocuments(this.data),
     };
 
     return await axios($, {
