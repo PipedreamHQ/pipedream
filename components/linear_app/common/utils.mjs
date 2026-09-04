@@ -113,10 +113,21 @@ function buildVariables(endCursor, args) {
   return variables;
 }
 
-// Linear nests the actionable part of a rejected query — `eq must be a UUID` and
-// the like — under extensions.validationErrors, arbitrarily deep, while the
-// top-level message stays a generic "Argument Validation Error"
-function flattenValidationErrors(validationErrors = [], path = []) {
+/**
+ * Walks the `extensions.validationErrors` tree Linear attaches to a rejected
+ * query. Each node names one property and may carry both `constraints` — the
+ * readable failures, such as `eq must be a UUID` — and `children` nesting the
+ * next property down, so `team` → `id` → `eq` describes a single filter field.
+ *
+ * @param {object[]} [validationErrors] - nodes to walk; anything that is not an
+ * array yields nothing, since Linear omits or nulls the key on other errors
+ * @param {string[]} [path] - property names collected from the ancestors
+ * @returns {string[]} one `property.path: constraint` line per failure
+ */
+function flattenValidationErrors(validationErrors, path = []) {
+  if (!Array.isArray(validationErrors)) {
+    return [];
+  }
   return validationErrors.flatMap(({
     property, constraints, children,
   }) => {
@@ -132,6 +143,15 @@ function flattenValidationErrors(validationErrors = [], path = []) {
   });
 }
 
+/**
+ * Renders a GraphQL `errors` array as one message. Linear leaves the top-level
+ * message generic — "Argument Validation Error" — and buries what actually went
+ * wrong in the extensions, so the details are appended in parentheses where
+ * they exist.
+ *
+ * @param {object[]} [errors] - the `errors` array from a Linear response
+ * @returns {string} the errors joined with `; `, empty when there are none
+ */
 function formatGraphQlErrors(errors = []) {
   return errors
     .map(({

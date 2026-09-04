@@ -68,6 +68,31 @@ describe("formatGraphQlErrors", () => {
     ])).toBe("Argument Validation Error (first: first must be an integer; first: first must not be greater than 250)");
   });
 
+  it("survives null in place of the arrays Linear usually sends", () => {
+    expect(utils.formatGraphQlErrors([
+      {
+        message: "Argument Validation Error",
+        extensions: {
+          validationErrors: null,
+        },
+      },
+      {
+        message: "Other Error",
+        extensions: {
+          validationErrors: [
+            {
+              property: "team",
+              children: null,
+              constraints: {
+                isUuid: "team must be a UUID",
+              },
+            },
+          ],
+        },
+      },
+    ])).toBe("Argument Validation Error; Other Error (team: team must be a UUID)");
+  });
+
   it("joins several errors", () => {
     expect(utils.formatGraphQlErrors([
       {
