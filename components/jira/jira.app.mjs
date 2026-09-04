@@ -554,6 +554,18 @@ export default {
         },
       });
     },
+    refreshHooks({
+      cloudId, hookIds,
+    } = {}) {
+      return this._makeRequest({
+        cloudId,
+        method: "PUT",
+        path: "/webhook/refresh",
+        data: {
+          webhookIds: hookIds,
+        },
+      });
+    },
     assignIssue({
       issueIdOrKey, ...args
     } = {}) {
