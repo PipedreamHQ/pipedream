@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import ionosHostingServices from "../../ionos_hosting_services.app.mjs";
 import { parseRecords } from "../../common/utils.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "ionos_hosting_services-patch-dns-zone",
   name: "Patch DNS Zone",
   description: "Partially update a DNS zone (HTTP PATCH): for each provided record, all existing records sharing the same name and type are replaced with the provided ones. Records with other name/type combinations are left untouched. For a full zone overwrite use **Update DNS Zone (Full Replace)** instead. Run **List DNS Zones** to find the zone ID. [See the documentation](https://developer.hosting.ionos.com/docs/dns).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: true,

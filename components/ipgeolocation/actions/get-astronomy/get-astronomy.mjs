@@ -5,8 +5,9 @@ export default {
   name: "Get Astronomy Data",
   description:
     "Retrieve sunrise, sunset, moonrise, moonset, moon phase, and sun/moon position data for a location by IP address, coordinates, or location string. [See the documentation](https://ipgeolocation.io/documentation/astronomy-api.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -11,8 +11,9 @@ export default {
     + " Each object needs a `rowId` plus column name/value pairs:"
     + " `[{\"rowId\": 123456, \"Status\": \"Done\", \"Priority\": \"High\"}]`."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/update-rows)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

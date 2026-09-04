@@ -6,8 +6,9 @@ export default {
   description: "Retrieves full details for a single AI-generated highlight by ID, including the raw quote, cleaned quote, main idea, and AI insight."
     + " Use **Get Many Highlights** or **Get Highlights By Session** first to find a highlight ID."
     + " [See the documentation](https://app.swaggerhub.com/apis-docs/HedyAI/hedy-api/1.5.2#/Highlights/get_highlights__highlightId_)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

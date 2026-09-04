@@ -8,8 +8,9 @@ export default {
     "Update a sheet's properties such as its name."
     + " Use **List Sheets** to find the sheet ID first."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/updatesheet)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import pipedriveApp from "../../pipedrive.app.mjs";
 
 export default {
   key: "pipedrive-delete-project",
   name: "Delete Project",
   description: "Permanently deletes a project. This is irreversible. Run **List Projects** first to obtain a valid project ID. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Projects#deleteProject)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

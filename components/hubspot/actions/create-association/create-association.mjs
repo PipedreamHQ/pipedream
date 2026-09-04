@@ -12,13 +12,14 @@ export default {
     + " deal→contact (3), contact→deal (4), deal→company (5), company→deal (6),"
     + " ticket→contact (15), contact→ticket (16), ticket→company (26), company→ticket (25)."
     + " [See the documentation](https://developers.hubspot.com/docs/api/crm/associations)",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     hubspot,
     fromObjectType: {

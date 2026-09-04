@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../jira_service_desk.app.mjs";
 
 export default {
@@ -15,8 +14,9 @@ export default {
     + " Types with `canCreateRequest: false` cannot be used to raise a request."
     + " Then call **List Request Type Fields** to see what the chosen type requires."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-servicedesk/#api-rest-servicedeskapi-servicedesk-servicedeskid-requesttype-get)",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

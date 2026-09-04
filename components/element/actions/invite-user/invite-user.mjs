@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import element from "../../element.app.mjs";
 
 export default {
   key: "element-invite-user",
   name: "Invite User",
   description: "Invite a user to an existing room. The connected account must already be joined to the room and have permission to invite. Optionally include a `Reason`, which is stored on the membership event. [See the documentation](https://spec.matrix.org/latest/client-server-api/#post_matrixclientv3roomsroomidinvite)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

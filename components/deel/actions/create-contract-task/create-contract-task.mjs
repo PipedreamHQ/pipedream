@@ -11,8 +11,9 @@ export default {
     + " otherwise the task will require review via **Review Contract Task**."
     + " Use **List Contracts** to find the contract ID."
     + " [See the documentation](https://developer.deel.com/api/reference/endpoints/tasks/create-contract-task)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
