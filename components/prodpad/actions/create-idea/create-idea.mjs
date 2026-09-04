@@ -6,7 +6,8 @@ export default {
   name: "Create Idea",
   description: "Creates an idea. [See the docs](https://app.swaggerhub.com/apis-docs/ProdPad/prodpad/1.0#/Ideas/PostIdeas).",
   type: "action",
-  version: "0.0.2",
+  ai: "optimized",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

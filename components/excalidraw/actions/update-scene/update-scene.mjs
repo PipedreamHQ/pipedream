@@ -10,8 +10,9 @@ export default {
     + " Only the fields you provide are updated — omitted fields remain unchanged."
     + " Note: the Excalidraw API does not support a description field on scenes."
     + " [See the documentation](https://plus.excalidraw.com/docs/api/scenes/sceneId-patch)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

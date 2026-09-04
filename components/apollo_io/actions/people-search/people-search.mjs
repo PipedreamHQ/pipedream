@@ -6,7 +6,8 @@ export default {
   name: "People Search",
   description: "Find people in the Apollo database using filters such as titles, seniorities, locations, technologies, and employer attributes. Requires a master API key. Use **Search For Organizations** first to find Apollo organization IDs you want to filter by. [See the documentation](https://docs.apollo.io/reference/people-api-search)",
   type: "action",
-  version: "0.0.1",
+  ai: "optimized",
+  version: "0.0.2",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

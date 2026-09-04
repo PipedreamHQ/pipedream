@@ -6,7 +6,8 @@ export default {
   name: "Search News Articles",
   description: "Search for news articles related to one or more Apollo organizations. Use **Search For Organizations** to find organization IDs first. [See the documentation](https://docs.apollo.io/reference/news-articles-search)",
   type: "action",
-  version: "0.0.1",
+  ai: "optimized",
+  version: "0.0.2",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

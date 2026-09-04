@@ -7,13 +7,14 @@ export default {
   key: "nutshell-update-contact",
   name: "Update Contact",
   description: "Update an existing contact (person) in Nutshell. [See the documentation](https://developers.nutshell.com/reference/cb995ae09d7e0e99e91b122bcc9358ed)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     nutshell,
     contactId: {

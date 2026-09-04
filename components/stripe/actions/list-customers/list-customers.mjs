@@ -6,7 +6,8 @@ export default {
   key: "stripe-list-customers",
   name: "List Customers",
   type: "action",
-  version: "0.2.0",
+  ai: "optimized",
+  version: "0.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,8 +5,9 @@ export default {
   key: "superdocu-list-dossiers",
   name: "List Dossiers",
   description: "List the dossiers (the API calls these `contact workflows`) assigned to a specific Superdocu contact. Returns an array of dossier objects, each with an `id` (the contact-workflow ID) and a `status`. Run **List Contacts** first to obtain a valid contactId. Use a returned dossier `id` as the **contactWorkflowId** input to **Get Dossier** or **Delete Dossier**. [See the documentation](https://developers.superdocu.com/api/index.html).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

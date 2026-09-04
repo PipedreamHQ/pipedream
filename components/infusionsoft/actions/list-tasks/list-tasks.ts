@@ -6,13 +6,14 @@ export default defineAction({
   description:
     "Retrieves a list of tasks based on the provided filter. Tasks which are not assigned may be queried with user_id==UNASSIGNED. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Task/operation/listTasks)",
   key: "infusionsoft-list-tasks",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     infusionsoft,
     filter: {

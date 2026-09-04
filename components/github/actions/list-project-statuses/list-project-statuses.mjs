@@ -4,13 +4,14 @@ export default {
   key: "github-list-project-statuses",
   name: "List Project Statuses",
   description: "List the options of a Project (V2) Status field (e.g. `Todo`, `In Progress`, `Done`), returning each option's name and id. Use this to discover the valid status values for a project before calling **Update Project (V2) Item Status**. Get the project number from **List Projects**. Discover organization logins with **List Organizations**. [See the documentation](https://docs.github.com/en/graphql/reference/projects#object-projectv2singleselectfield)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     github,
     owner: {

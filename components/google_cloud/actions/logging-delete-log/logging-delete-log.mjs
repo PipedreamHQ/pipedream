@@ -2,7 +2,7 @@ import googleCloud from "../../google_cloud.app.mjs";
 
 export default {
   name: "Logging - Delete Log",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -11,6 +11,7 @@ export default {
   key: "google_cloud-logging-delete-log",
   description: "Delete a log and all of its entries. The log will reappear if new entries are written to it. This cannot be undone. [See the documentation](https://cloud.google.com/nodejs/docs/reference/logging/latest/logging/log#_google_cloud_logging_Log_delete_member_1_)",
   type: "action",
+  ai: "optimized",
   props: {
     googleCloud,
     logName: {

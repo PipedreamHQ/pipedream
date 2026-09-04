@@ -4,8 +4,9 @@ export default {
   key: "mode-list-queries",
   name: "List Queries",
   description: "List all queries belonging to a report. Use **List Reports** to find the report token, then use this to find `query` tokens for **Get Query**, **Update Query**, and **Delete Query**. [See the documentation](https://mode.com/developer/api-reference/analytics/queries/#listQueriesInReport)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

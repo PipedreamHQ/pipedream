@@ -7,13 +7,14 @@ export default defineAction({
   description:
     "Create a new opportunity stage in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Opportunity/operation/createOpportunityStage)",
   key: "infusionsoft-create-opportunity-stage",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     infusionsoft,
     name: {

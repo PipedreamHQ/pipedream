@@ -5,13 +5,14 @@ export default {
   key: "browser_use-stop-session",
   name: "Stop Session",
   description: "Stop the current task or stop the entire Browser Use agent session. [See the documentation](https://docs.browser-use.com/cloud/api-v3/sessions/stop-session)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     browserUse,
     sessionId: {
