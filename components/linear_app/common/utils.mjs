@@ -113,7 +113,40 @@ function buildVariables(endCursor, args) {
   return variables;
 }
 
+// Linear nests the actionable part of a rejected query — `eq must be a UUID` and
+// the like — under extensions.validationErrors, arbitrarily deep, while the
+// top-level message stays a generic "Argument Validation Error"
+function flattenValidationErrors(validationErrors = [], path = []) {
+  return validationErrors.flatMap(({
+    property, constraints, children,
+  }) => {
+    const propertyPath = [
+      ...path,
+      property,
+    ];
+    return [
+      ...Object.values(constraints ?? {})
+        .map((constraint) => `${propertyPath.join(".")}: ${constraint}`),
+      ...flattenValidationErrors(children, propertyPath),
+    ];
+  });
+}
+
+function formatGraphQlErrors(errors = []) {
+  return errors
+    .map(({
+      message, extensions,
+    }) => {
+      const details = flattenValidationErrors(extensions?.validationErrors);
+      return details.length
+        ? `${message} (${details.join("; ")})`
+        : message;
+    })
+    .join("; ");
+}
+
 export default {
   streamIterator,
   buildVariables,
+  formatGraphQlErrors,
 };

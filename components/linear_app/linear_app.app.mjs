@@ -1,7 +1,9 @@
 import { LinearClient } from "@linear/sdk";
 import constants from "./common/constants.mjs";
 import utils from "./common/utils.mjs";
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import queries from "./common/queries.mjs";
 
 export default {
@@ -11,7 +13,7 @@ export default {
     teamId: {
       type: "string",
       label: "Team",
-      description: "The identifier or key of the team associated with the issue",
+      description: "The team associated with the issue. Select one from the list, or pass the team's ID — the UUID the API returns, not the short team key shown in issue identifiers such as `ENG-123`.",
       async options({ prevContext }) {
         return this.listResourcesOptions({
           prevContext,
@@ -338,11 +340,23 @@ export default {
         ...args,
       });
     },
-    post(args = {}) {
-      return this.makeAxiosRequest({
+    async post(args = {}) {
+      const response = await this.makeAxiosRequest({
         method: "POST",
         ...args,
       });
+      const {
+        data, errors,
+      } = response ?? {};
+      // Linear answers 200 with `data: null` and a populated `errors` array when it
+      // rejects a query, so a failure only surfaces here and not through axios
+      if (errors?.length) {
+        throw new ConfigurationError(utils.formatGraphQlErrors(errors));
+      }
+      if (!data) {
+        throw new Error("The Linear API returned an empty response");
+      }
+      return response;
     },
     getClientOptions(options = {}) {
       return {
