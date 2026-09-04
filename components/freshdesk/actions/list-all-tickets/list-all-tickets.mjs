@@ -114,7 +114,9 @@ export default {
         company_id: this.companyId,
         updated_since: this.updatedSince,
         per_page: this.perPage,
-        include: this.include ? this.include.join(",") : undefined,
+        include: this.include
+          ? this.include.join(",")
+          : undefined,
       },
     });
 
