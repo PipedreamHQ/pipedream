@@ -1,6 +1,14 @@
 import { ConfigurationError } from "@pipedream/platform";
 import app from "./linear_app.app.mjs";
 
+/**
+ * Calls `post()` against a canned reply. The platform normally hoists an app's
+ * methods onto the instance it hands a component, so the context is rebuilt
+ * here from `app.methods` with the transport stubbed out.
+ *
+ * @param {object} response - the body `makeAxiosRequest` should resolve to
+ * @returns {Promise<object>} whatever `post()` makes of it
+ */
 const postWith = (response) => {
   const ctx = Object.create(app.methods);
   ctx.makeAxiosRequest = async () => response;
