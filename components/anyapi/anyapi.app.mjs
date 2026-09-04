@@ -7,7 +7,7 @@ export default {
     sku: {
       type: "string",
       label: "API",
-      description: "The API to call, identified by its slug (for example `reddit.search`). Type to search the catalog, or enter a slug directly.",
+      description: "The API to call, identified by its slug (for example `reddit.search`). Type to search the catalog, or run the **Search APIs** action first and paste a slug from its results.",
       async options({ query }) {
         const apis = query
           ? (await this.searchCatalog({
