@@ -35,6 +35,40 @@ export default {
         };
       },
     },
+    runId: {
+      type: "string",
+      label: "Run ID",
+      description: "Select a Browser Use V4 run, or provide the run UUID returned by **Create V4 Run** or **List V4 Runs**. Example: `01234567-89ab-cdef-0123-456789abcdef`.",
+      async options({ prevContext }) {
+        const cursor = prevContext?.cursor;
+        const response = await this.listRuns({
+          params: {
+            limit: DEFAULT_OPTIONS_PAGE_SIZE,
+            ...(cursor && {
+              cursor,
+            }),
+          },
+        });
+        const runs = response.runs ?? [];
+        return {
+          options: runs.map((run) => ({
+            label: `${run.task || run.id} (${run.status})`,
+            value: run.id,
+          })),
+          context: response.hasMore && response.nextCursor
+            ? {
+              cursor: response.nextCursor,
+            }
+            : {},
+        };
+      },
+    },
+    v4SessionId: {
+      type: "string",
+      label: "V4 Session ID",
+      description: "V4 session UUID returned by **Create V4 Run** or **Get V4 Run**. Example: `01234567-89ab-cdef-0123-456789abcdef`.",
+      optional: true,
+    },
     browserSessionId: {
       type: "string",
       label: "Browser Session ID",
@@ -163,6 +197,9 @@ export default {
     _baseUrl() {
       return "https://api.browser-use.com/api/v3";
     },
+    _v4BaseUrl() {
+      return "https://api.browser-use.com/api/v4";
+    },
     _headers(headers = {}) {
       return {
         "X-Browser-Use-API-Key": this.$auth.api_key,
@@ -177,6 +214,45 @@ export default {
         ...opts,
         url: `${this._baseUrl()}${path}`,
         headers: this._headers(headers),
+      });
+    },
+    _makeV4Request({
+      $ = this, path, headers, ...opts
+    } = {}) {
+      return axios($, {
+        ...opts,
+        url: `${this._v4BaseUrl()}${path}`,
+        headers: this._headers(headers),
+      });
+    },
+    createRun(opts = {}) {
+      return this._makeV4Request({
+        method: "POST",
+        path: "/runs",
+        ...opts,
+      });
+    },
+    listRuns(opts = {}) {
+      return this._makeV4Request({
+        path: "/runs",
+        ...opts,
+      });
+    },
+    getRun({
+      runId, ...opts
+    } = {}) {
+      return this._makeV4Request({
+        path: `/runs/${encodeURIComponent(runId)}`,
+        ...opts,
+      });
+    },
+    cancelRun({
+      runId, ...opts
+    } = {}) {
+      return this._makeV4Request({
+        method: "POST",
+        path: `/runs/${encodeURIComponent(runId)}/cancel`,
+        ...opts,
       });
     },
     uploadToPresignedUrl({
