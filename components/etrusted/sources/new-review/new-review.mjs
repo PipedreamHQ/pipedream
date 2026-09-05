@@ -7,7 +7,7 @@ export default {
   key: "etrusted-new-review",
   name: "New Review",
   description: "Emit new event when a new review is submitted on an eTrusted channel. [See the documentation](https://developers.etrusted.com/reference/getreviews)",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   props: {
@@ -223,6 +223,10 @@ export default {
       const seen = this._getSeen();
       // Sources upgraded from versions without the seen-id map: seed it from
       // the existing cursor so its already-processed ids are not re-emitted.
+      // The legacy cursor only records ids at the newest timestamp, so a
+      // pre-upgrade review inside the widened lookback window can still be
+      // re-fetched and emitted once; the source's "unique" dedupe strategy
+      // suppresses that replay at the platform level.
       if (cursor?.submittedAt && !Object.keys(seen).length && cursor.ids?.length) {
         const cursorTs = Date.parse(cursor.submittedAt);
         for (const id of cursor.ids) {
