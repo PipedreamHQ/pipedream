@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/figranium",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Figranium Components",
   "main": "figranium.app.mjs",
   "keywords": [

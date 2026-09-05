@@ -5,7 +5,7 @@ export default {
   key: "figranium-create-task",
   name: "Create Task",
   description: "Create a new automation task. [See the documentation](https://figranium.com/docs/api-authentication-and-secure-access).",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -131,6 +131,12 @@ export default {
       description: "Whether to rotate the browser viewport size",
       optional: true,
     },
+    cabinetId: {
+      type: "string",
+      label: "Cabinet ID",
+      description: "Cabinet used for intercepted downloads and Upload actions that omit their own Cabinet ID. Leave blank to use the default Cabinet.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const {
@@ -154,6 +160,7 @@ export default {
       rotateProxies,
       rotateUserAgents,
       rotateViewport,
+      cabinetId,
     } = this;
 
     const parsedActions = actions?.map((action) => {
@@ -186,6 +193,7 @@ export default {
         rotateProxies,
         rotateUserAgents,
         rotateViewport,
+        cabinetId,
       },
     });
 
