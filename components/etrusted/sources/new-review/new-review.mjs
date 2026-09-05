@@ -7,7 +7,7 @@ export default {
   key: "etrusted-new-review",
   name: "New Review",
   description: "Emit new event when a new review is submitted on an eTrusted channel. [See the documentation](https://developers.etrusted.com/reference/getreviews)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -57,6 +57,15 @@ export default {
       ],
       optional: true,
     },
+    lookbackHours: {
+      type: "integer",
+      label: "Lookback Window (hours)",
+      description: "How far back past the newest processed review to keep polling, in hours. Reviews can appear in the API minutes after their `submittedAt` timestamp; reviews re-fetched within this window are deduplicated by review id, so late-indexed reviews are still emitted exactly once.",
+      min: 0,
+      max: 72,
+      default: 1,
+      optional: true,
+    },
   },
   methods: {
     _getCursor() {
@@ -67,6 +76,15 @@ export default {
     },
     _setCursor(cursor) {
       this.db.set("cursor", cursor);
+    },
+    _getGraceMs() {
+      return (this.lookbackHours ?? 1) * 60 * 60 * 1000;
+    },
+    _getSeen() {
+      return this.db.get("seen") ?? {};
+    },
+    _setSeen(seen) {
+      this.db.set("seen", seen);
     },
     _toCsv(value) {
       const parsed = parseObject(value);
@@ -120,7 +138,7 @@ export default {
         return undefined;
       }
 
-      return new Date(Date.parse(cursor.submittedAt) - 1).toISOString();
+      return new Date(Date.parse(cursor.submittedAt) - this._getGraceMs()).toISOString();
     },
     async _getReviews({
       maxResults,
@@ -141,7 +159,10 @@ export default {
       }
       return reviews;
     },
-    _isNewReview(review, cursor) {
+    _isNewReview(review, cursor, seen) {
+      if (review.id && seen?.[review.id]) {
+        return false;
+      }
       if (!cursor?.submittedAt) {
         return true;
       }
@@ -156,7 +177,8 @@ export default {
       if (reviewTs > cursorTs) {
         return true;
       }
-      if (reviewTs < cursorTs) {
+      // Older than the lookback window: no longer fetchable, treat as processed.
+      if (reviewTs < cursorTs - this._getGraceMs()) {
         return false;
       }
 
@@ -198,12 +220,37 @@ export default {
       }
 
       const cursor = this._getCursor();
-      const newReviews = reviews.filter((review) => this._isNewReview(review, cursor));
+      const seen = this._getSeen();
+      // Sources upgraded from versions without the seen-id map: seed it from
+      // the existing cursor so its already-processed ids are not re-emitted.
+      if (cursor?.submittedAt && !Object.keys(seen).length && cursor.ids?.length) {
+        const cursorTs = Date.parse(cursor.submittedAt);
+        for (const id of cursor.ids) {
+          seen[id] = cursorTs;
+        }
+      }
+      const newReviews = reviews.filter((review) => this._isNewReview(review, cursor, seen));
       const nextCursor = this._getNextCursor(reviews, cursor);
 
       for (const review of this._sortBySubmittedAt(newReviews)) {
         this._emitReview(review);
+        if (review.id) {
+          seen[review.id] = this._getTs(review);
+        }
       }
+
+      // Prune seen ids that can no longer be re-fetched: the polling query is
+      // anchored at (newest submittedAt - lookback window).
+      const anchorTs = Date.parse(nextCursor?.submittedAt ?? cursor?.submittedAt);
+      if (!Number.isNaN(anchorTs)) {
+        const cutoff = anchorTs - this._getGraceMs();
+        for (const [id, ts] of Object.entries(seen)) {
+          if (ts < cutoff) {
+            delete seen[id];
+          }
+        }
+      }
+      this._setSeen(seen);
 
       if (nextCursor?.submittedAt) {
         this._setCursor(nextCursor);
