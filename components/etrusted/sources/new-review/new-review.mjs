@@ -225,8 +225,9 @@ export default {
       // the existing cursor so its already-processed ids are not re-emitted.
       // The legacy cursor only records ids at the newest timestamp, so a
       // pre-upgrade review inside the widened lookback window can still be
-      // re-fetched and emitted once; the source's "unique" dedupe strategy
-      // suppresses that replay at the platform level.
+      // re-fetched and emitted once. That upgrade replay is best-effort: the
+      // source's "unique" dedupe strategy suppresses it only while the
+      // emitted id is still retained in its bounded cache.
       if (cursor?.submittedAt && !Object.keys(seen).length && cursor.ids?.length) {
         const cursorTs = Date.parse(cursor.submittedAt);
         for (const id of cursor.ids) {
