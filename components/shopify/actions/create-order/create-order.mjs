@@ -6,8 +6,9 @@ export default {
   key: "shopify-create-order",
   name: "Create Order",
   description: "Creates a new order. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderCreate).",
-  version: "0.0.12",
+  version: "0.0.13",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

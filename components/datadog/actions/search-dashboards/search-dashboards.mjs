@@ -13,8 +13,9 @@ export default {
     + " dashboards related to a specific service."
     + " [See the docs](https://docs.datadoghq.com/api/"
     + "latest/dashboards/#get-all-dashboards)",
-  version: "1.0.1",
+  version: "1.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

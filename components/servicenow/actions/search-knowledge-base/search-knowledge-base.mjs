@@ -4,8 +4,9 @@ export default {
   key: "servicenow-search-knowledge-base",
   name: "Search Knowledge Base",
   description: "Search ServiceNow knowledge base articles via the Knowledge Management API. Returns matching articles with snippets only; use **Get Article** to fetch an article's full HTML body. Optionally restrict the search to specific knowledge bases (run **List Knowledge Bases** to find their `sys_id`s). Requires the Knowledge API (`sn_km_api`) plugin, which is not active by default. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/knowledge-api.html)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

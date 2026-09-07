@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../box.app.mjs";
 import constants from "../../common/constants.mjs";
@@ -7,8 +6,9 @@ export default {
   key: "box-create-collaboration",
   name: "Create Collaboration",
   description: "Adds a collaboration for a user or group on a file or folder, granting them access with a role (editor, viewer, previewer, uploader, previewer uploader, viewer uploader, or co-owner). Item Type must be `file` or `folder`. Invite users by email or user ID; groups must be invited by group ID only. Can View Path applies only to folder collaborations. Use **Delete Collaboration** to revoke access. [See the documentation](https://developer.box.com/reference/post-collaborations/).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

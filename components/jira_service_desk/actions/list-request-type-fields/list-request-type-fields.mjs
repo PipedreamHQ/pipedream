@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../jira_service_desk.app.mjs";
 
 export default {
@@ -12,8 +11,9 @@ export default {
     + " Also returns `canRaiseOnBehalfOf` and `canAddRequestParticipants`, which tell you whether the `raiseOnBehalfOf` and `requestParticipants` arguments of **Create Request** are usable with this account."
     + " Hidden fields are only visible to service desk administrators."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-servicedesk/#api-rest-servicedeskapi-servicedesk-servicedeskid-requesttype-requesttypeid-field-get)",
-  version: "0.0.2",
+  version: "0.0.5",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

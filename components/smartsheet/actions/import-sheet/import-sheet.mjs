@@ -13,8 +13,9 @@ export default {
     + " Supported formats: CSV (.csv) and Excel XLSX (.xlsx)."
     + " Use **List Sheets** to verify the sheet was created after import."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/imports/import-sheet-into-workspace)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

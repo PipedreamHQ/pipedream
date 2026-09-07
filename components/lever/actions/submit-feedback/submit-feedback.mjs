@@ -14,8 +14,9 @@ export default {
     + " Perform As is required — feedback is attributed to this user. Use **List Users** to find user IDs."
     + " Example: call with opportunityId=\"<id>\", performAs=\"<userId>\", baseTemplateId=\"<templateId>\", fieldValues=`[{\"id\": \"<fieldId>\", \"value\": \"strong_yes\"}]` → submits the scorecard and returns the created feedback record."
     + " [See the documentation](https://hire.lever.co/developer/documentation#create-a-feedback-form)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

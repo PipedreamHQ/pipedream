@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 /* eslint-disable no-unused-vars */
 import { ConfigurationError } from "@pipedream/platform";
 import {
@@ -13,13 +12,14 @@ export default {
   name: "Create Meeting",
   description:
     "Create a meeting engagement in HubSpot. Put meeting fields in **Object Properties** (`hs_meeting_title`, `hs_meeting_body`, `hs_meeting_start_time`, `hs_meeting_end_time` as ISO-8601); `hs_timestamp` defaults to the start time. Set **Associated Object Type** and optionally link a record via **Associated Object ID** + **Association Type**. Example: Object Properties `{ \"hs_meeting_title\": \"Kickoff\", \"hs_meeting_start_time\": \"2026-08-27T14:00:00Z\", \"hs_meeting_end_time\": \"2026-08-27T15:00:00Z\" }`. Returns the created meeting with its id. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/engagements/meetings#post-%2Fcrm%2Fv3%2Fobjects%2Fmeetings)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     toObjectType: {

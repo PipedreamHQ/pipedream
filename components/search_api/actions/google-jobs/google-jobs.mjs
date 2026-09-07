@@ -1,17 +1,17 @@
-// x-pd-ai: optimized
 import app from "../../search_api.app.mjs";
 
 export default {
   key: "search_api-google-jobs",
   name: "Google Jobs API",
   description: "Search real-time Google Jobs listings. Returns a `jobs` array. Each page returns about 10 jobs; pass a previous run's `pagination.next_page_token` as **Next Page Token** for more. [See the documentation](https://www.searchapi.io/docs/google-jobs)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     q: {

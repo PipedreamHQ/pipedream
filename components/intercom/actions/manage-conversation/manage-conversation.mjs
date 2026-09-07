@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import {
   MESSAGE_TYPE_OPTIONS,
@@ -10,13 +9,14 @@ export default {
   key: "intercom-manage-conversation",
   name: "Manage A Conversation",
   description: "Close, snooze, open, or assign a conversation by its ID. Which of the optional props apply depends on **Message Type**: `close` uses **Body**, `snoozed` uses **Snoozed Until**, `assignment` uses **Type** together with **Assignee ID** or **Team Assignee ID**, and `open` uses none of them. Example: set **Conversation ID** to `192783634529321`, **Message Type** to `close`, and **Body** to `Issue resolved` to close that conversation with a closing comment. [See the documentation](https://developers.intercom.com/docs/references/2.12/rest-api/api.intercom.io/conversations/manageconversation).",
-  version: "0.1.1",
+  version: "0.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     intercom,
     conversationId: {

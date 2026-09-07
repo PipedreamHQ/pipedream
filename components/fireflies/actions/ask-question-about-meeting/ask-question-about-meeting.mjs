@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import fireflies from "../../fireflies.app.mjs";
 import mutations from "../../common/mutations.mjs";
 import constants from "../../common/constants.mjs";
@@ -8,13 +7,14 @@ export default {
   key: "fireflies-ask-question-about-meeting",
   name: "Ask Question About Meeting",
   description: "Ask AskFred, Fireflies' AI assistant, a natural language question about a meeting's content — for example, action items, decisions made, or a summary of a specific topic. Starts a new AskFred conversation thread; use **Continue AskFred Conversation** to ask follow-up questions in the same thread. Requires AI credits on the connected Fireflies account. [See the documentation](https://docs.fireflies.ai/graphql-api/mutation/create-askfred-thread)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     fireflies,
     query: {

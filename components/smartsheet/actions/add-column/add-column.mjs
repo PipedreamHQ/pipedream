@@ -10,8 +10,9 @@ export default {
     + " For PICKLIST columns, provide the `options` array with valid values."
     + " Use **List Columns** to see existing columns before adding."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/columns/columns-addtosheet)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
