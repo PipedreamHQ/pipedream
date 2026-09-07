@@ -14,7 +14,7 @@ export default {
     + " Most users on a Jira site are bots, not people. Integrations come back as ordinary matches carrying `accountType` `app`, so read `accountType` and use only `atlassian` accounts as `raiseOnBehalfOf` or `requestParticipants`."
     + " Query is matched against `displayName` and `emailAddress`, and matches more than just the start of them. Pass a full name or a full email address to keep the result set tight."
     + " Results are paginated automatically up to `maxResults`."
-    + " Returns `{ users, truncated }`, where `truncated` is `true` when more matches remained unfetched. Atlassian serves at most the first 1000 matches, so once you have that many, narrow the query rather than raising `maxResults`."
+    + " Returns `{ users, truncated }`. `truncated` is `true` when the result set may be incomplete, either because more matches remained unfetched or because collection stopped at Atlassian's 1000-match limit, which looks the same whether or not further matches exist. Once you have 1000 matches, narrow the query rather than raising `maxResults`, which cannot go higher."
     + " `accountId` is the only field guaranteed present: Atlassian's profile visibility rules hide `emailAddress` on users who have not made it public, so match on `displayName` and never require an email to be returned."
     + " An empty `users` list means either nobody matched or the connected account lacks the \"Browse users and groups\" global permission, which Atlassian reports as zero results rather than as an error."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-user-search/#api-rest-api-3-user-search-get)",
@@ -82,7 +82,7 @@ export default {
       ? ""
       : "s"} on the site matching "${query}"${hasMore
       ? atSiteLimit
-        ? ", truncated at Atlassian's 1000-match limit; narrow the query to see the rest"
+        ? ", stopped at Atlassian's 1000-match limit; narrow the query to check for more"
         : ", truncated at Max Results; raise it to fetch more"
       : ""}`);
     return {
