@@ -2,6 +2,7 @@ import { axios } from "@pipedream/platform";
 import querystring from "query-string";
 import { v4 as uuid } from "uuid";
 import colors, { numericToString } from "./common/colors.mjs";
+import { REST_PAGE_LIMIT } from "./common/constants.mjs";
 import resourceTypes from "./common/resource-types.mjs";
 
 export default {
@@ -328,6 +329,39 @@ export default {
       return axios($ ?? this, opts);
     },
     /**
+     * Make a request to a paginated Todoist REST collection endpoint, following
+     * `next_cursor` until the collection is exhausted.
+     *
+     * Todoist's v1 collection endpoints return `{ results, next_cursor }` and
+     * default to 50 records per page, so a single request silently returns the
+     * first page of a larger collection.
+     * @params {Object} opts - The options accepted by `_makeRestRequest`
+     * @returns {Object} An object with a `results` array holding every record
+     */
+    async _makePaginatedRestRequest(opts) {
+      const results = [];
+      let cursor;
+
+      do {
+        const response = await this._makeRestRequest({
+          ...opts,
+          params: {
+            ...opts.params,
+            limit: REST_PAGE_LIMIT,
+            ...(cursor && {
+              cursor,
+            }),
+          },
+        });
+        results.push(...(response?.results ?? []));
+        cursor = response?.next_cursor;
+      } while (cursor);
+
+      return {
+        results,
+      };
+    },
+    /**
      * Get syncToken from a db
      * @params {Object} db - a database instance
      * @returns {*} "syncToken" in the db specified
@@ -418,11 +452,16 @@ export default {
         $,
         id = "",
       } = opts;
-      return this._makeRestRequest({
+      if (id) {
+        return this._makeRestRequest({
+          $,
+          path: `/projects/${id}`,
+          method: "GET",
+        });
+      }
+      return this._makePaginatedRestRequest({
         $,
-        path: id
-          ? `/projects/${id}`
-          : "/projects",
+        path: "/projects",
         method: "GET",
       });
     },
@@ -528,7 +567,7 @@ export default {
           results: [],
         };
       }
-      return this._makeRestRequest({
+      return this._makePaginatedRestRequest({
         path: `/projects/${projectId}/collaborators`,
         method: "GET",
       });
@@ -547,11 +586,17 @@ export default {
       } = opts;
       const { section_id: id = "" } = params;
       delete params.section_id;
-      return this._makeRestRequest({
+      if (id) {
+        return this._makeRestRequest({
+          $,
+          path: `/sections/${id}`,
+          method: "GET",
+          params,
+        });
+      }
+      return this._makePaginatedRestRequest({
         $,
-        path: id
-          ? `/sections/${id}`
-          : "/sections",
+        path: "/sections",
         method: "GET",
         params,
       });
@@ -625,11 +670,16 @@ export default {
         $,
         id = "",
       } = opts;
-      return this._makeRestRequest({
+      if (id) {
+        return this._makeRestRequest({
+          $,
+          path: `/labels/${id}`,
+          method: "GET",
+        });
+      }
+      return this._makePaginatedRestRequest({
         $,
-        path: id
-          ? `/labels/${id}`
-          : "/labels",
+        path: "/labels",
         method: "GET",
       });
     },
@@ -717,11 +767,17 @@ export default {
         delete params.project_id;
       }
       delete params.comment_id;
-      return this._makeRestRequest({
+      if (id) {
+        return this._makeRestRequest({
+          $,
+          path: `/comments/${id}`,
+          method: "GET",
+          params,
+        });
+      }
+      return this._makePaginatedRestRequest({
         $,
-        path: id
-          ? `/comments/${id}`
-          : "/comments",
+        path: "/comments",
         method: "GET",
         params,
       });
@@ -798,11 +854,17 @@ export default {
       } = opts;
       const { task_id: id = "" } = params;
       delete params.task_id;
-      return this._makeRestRequest({
+      if (id) {
+        return this._makeRestRequest({
+          $,
+          path: `/tasks/${id}`,
+          method: "GET",
+          params,
+        });
+      }
+      return this._makePaginatedRestRequest({
         $,
-        path: id
-          ? `/tasks/${id}`
-          : "/tasks",
+        path: "/tasks",
         method: "GET",
         params,
       });
