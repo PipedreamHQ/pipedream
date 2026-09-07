@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import common from "../common/common.mjs";
 
 export default {
@@ -12,6 +11,7 @@ export default {
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     recordId: {

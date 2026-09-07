@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import Airtable from "airtable";
 import { axios } from "@pipedream/platform";
 import { SORT_DIRECTION_OPTIONS } from "./common/constants.mjs";

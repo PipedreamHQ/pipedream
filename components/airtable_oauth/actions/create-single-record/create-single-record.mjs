@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import commonActions from "../../common/actions.mjs";
 import airtable from "../../airtable_oauth.app.mjs";
 import common from "../common/common.mjs";
@@ -14,6 +13,7 @@ export default {
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     record: {
