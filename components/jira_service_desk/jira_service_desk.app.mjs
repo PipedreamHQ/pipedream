@@ -215,7 +215,10 @@ export default {
 
       return {
         results: results.slice(0, maxResults),
-        hasMore: results.length > maxResults,
+        // Reaching Atlassian's offset ceiling is indistinguishable from running out
+        // of matches, so report it as more-to-come rather than claim completeness.
+        hasMore: results.length > maxResults
+          || startAt >= constants.USER_SEARCH_MAX_OFFSET,
       };
     },
     async searchServiceDeskCustomers({

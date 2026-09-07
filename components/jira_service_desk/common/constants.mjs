@@ -10,6 +10,10 @@ const PAGE_SIZE = 100;
 // Atlassian's documented default page size for `/rest/api/3/user/search`.
 const USER_SEARCH_PAGE_SIZE = 50;
 
+// `/rest/api/3/user/search` serves nothing past the thousandth match, and answers
+// an offset at or beyond it with an empty page whether or not more matches exist.
+const USER_SEARCH_MAX_OFFSET = 1000;
+
 // The service desk customer resource is experimental and 412s without this.
 const EXPERIMENTAL_API_HEADER = {
   "X-ExperimentalApi": "opt-in",
@@ -36,6 +40,7 @@ const MAX_ATTACHMENT_SIZE_BYTES = 2 * 1024 * 1024 * 1024;
 export default {
   PAGE_SIZE,
   USER_SEARCH_PAGE_SIZE,
+  USER_SEARCH_MAX_OFFSET,
   EXPERIMENTAL_API_HEADER,
   MAX_RESULTS_DEFAULT,
   MAX_RESULTS_MIN,
