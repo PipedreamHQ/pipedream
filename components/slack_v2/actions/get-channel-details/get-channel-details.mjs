@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import slack from "../../slack_v2.app.mjs";
 
 export default {
   key: "slack_v2-get-channel-details",
   name: "Get Channel Details",
   description: "Retrieve details for a Slack channel, specified by ID or by name — names are resolved automatically. [See the documentation](https://api.slack.com/methods/conversations.info)",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

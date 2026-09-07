@@ -8,8 +8,9 @@ export default {
     + " Use workflow IDs with **Start Incident Workflow** to run automation on an active incident."
     + " Requires Business+ plan — accounts without this plan will receive empty results or a 402 error."
     + " [See the documentation](https://developer.pagerduty.com/api-reference/d54514b5b003f-list-incident-workflows)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

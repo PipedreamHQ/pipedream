@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import slack from "../../slack_v2.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
@@ -12,8 +11,9 @@ export default {
     + " To reply to a thread, provide `threadTs` (Slack calls this `thread_ts`) from **Get Channel History**."
     + " Supports plain text with Slack mrkdwn formatting and Block Kit blocks."
     + " [See the documentation](https://api.slack.com/methods/chat.postMessage)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

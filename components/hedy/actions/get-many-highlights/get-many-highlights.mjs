@@ -8,8 +8,9 @@ export default {
     + " Use **Get Highlight** with a specific highlight ID to fetch the full detail including raw quote, cleaned quote, main idea, and AI insight."
     + " To list highlights for a specific session only, use **Get Highlights By Session**."
     + " [See the documentation](https://app.swaggerhub.com/apis-docs/HedyAI/hedy-api/1.5.2#/Highlights/get_highlights)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

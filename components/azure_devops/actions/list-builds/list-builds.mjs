@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 import {
   BUILD_DELETED_FILTER_OPTIONS,
@@ -10,8 +9,9 @@ export default {
   key: "azure_devops-list-builds",
   name: "List Builds",
   description: "List a project's builds, optionally filtered by definition, status, result, branch or time window. Returns each build's id, number, status, result and triggering commit. Use this to report on CI health or to find the last successful build of a branch. Example: result `failed` on branch `refs/heads/main`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/build/builds/list?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

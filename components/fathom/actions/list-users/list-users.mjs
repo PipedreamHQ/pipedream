@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import fathom from "../../fathom.app.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "fathom-list-users",
   name: "List Users and Permissions",
   description: "List the users on the account and their admin permissions (settings access level and view access). **Admin-only** — the connected account must have `account_admin` settings access, or the request fails with a 403 error. Use **List Teams** to find a valid team name to filter by. [See the documentation](https://developers.fathom.ai/api-reference/users/list-users-and-their-permissions)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

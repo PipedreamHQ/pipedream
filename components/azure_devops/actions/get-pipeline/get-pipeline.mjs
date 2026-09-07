@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 
 export default {
   key: "azure_devops-get-pipeline",
   name: "Get Pipeline",
   description: "Retrieve one pipeline, including the repository and path of the YAML file that defines it. Use this to confirm which definition file a pipeline runs before triggering it. Example: pipeline `12`. Run the **List Pipelines** action first to obtain the pipeline id. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/pipelines/pipelines/get?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import slack from "../../slack_v2.app.mjs";
 
 export default {
@@ -13,13 +12,14 @@ export default {
     + " lets an identity delete its own messages, so this deletes as whichever identity posted:"
     + " it retries automatically with the other identity if the first attempt returns"
     + " `cant_delete_message`. [See the documentation](https://api.slack.com/methods/chat.delete)",
-  version: "0.2.3",
+  version: "0.2.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     slack,
     conversation: {

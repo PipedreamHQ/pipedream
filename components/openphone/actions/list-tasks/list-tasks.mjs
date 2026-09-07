@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { pickFields } from "../../common/utils.mjs";
 import openphone from "../../openphone.app.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "openphone-list-tasks",
   name: "List Tasks",
   description: "Retrieve a paginated list of tasks, optionally filtered by conversation. Use **List Conversations** or **List Messages** to find a `conversationId`. Example: call with no filters → returns up to 50 recent tasks across the organization. Use `fields` to return only specific fields per task. [See the documentation](https://www.openphone.com/docs/api-reference/tasks/list-tasks)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

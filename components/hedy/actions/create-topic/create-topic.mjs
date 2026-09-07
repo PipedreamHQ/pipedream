@@ -7,8 +7,9 @@ export default {
     + " Topics can include a custom AI analysis context (`topicContext`) — up to 20,000 characters of instructions that guide Hedy's AI when analyzing meetings in this topic."
     + " Use **Update Topic** to modify an existing topic, or **Delete Topic** to remove one."
     + " [See the documentation](https://app.swaggerhub.com/apis-docs/HedyAI/hedy-api/1.5.2#/Topics/post_topics)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

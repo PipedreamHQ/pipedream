@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import superCarl from "../../super_carl.app.mjs";
 import {
   applyFieldSelection,
@@ -11,13 +10,14 @@ export default {
   key: "super_carl-search-jobs",
   name: "Search Jobs",
   description: "Search jobs when the workflow needs hiring-company opportunities, role fit, or warm paths into employers. Use **Search People** for candidate/advisor discovery, and enable With People when the workflow should return 1st/2nd-degree contacts at each hiring company. `filters.locations` scopes the hiring company/people, not the job posting itself — check `applied_filter_summary.people_company_scope` in the response to see how a location filter was actually applied, and don't retry the same query with reworded locations if it comes back `applied_as_job_posting_filters: false`, since that's a scope limitation, not a bad query. Job rows can be large — pass Fields (flat field names only, e.g. `title`, `company_name`, `location`, `primary_source_url`; there is no nested `company.name` path) to keep the result small. [See the documentation](https://supercarl.ai/docs#endpoints-jobs)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     superCarl,
     query: {

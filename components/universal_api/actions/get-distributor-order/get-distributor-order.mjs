@@ -5,8 +5,9 @@ export default {
   name: "Get Distributor Order",
   description:
     "Retrieve a single distributor order by ID from Universal API. Run **List Distributor Orders** first to discover valid IDs. [See the documentation](https://docs.universalapi.io/reference/get-order).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

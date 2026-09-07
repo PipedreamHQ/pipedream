@@ -11,8 +11,9 @@ export default {
     + " Use **List Sites** first to obtain the required `cloudId`."
     + " Use **List My Requests** or **Get Request** to find the `issueKey` (e.g. `IT-42`)."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-issueidorkey-transition-get)",
-  version: "1.1.1",
+  version: "1.1.4",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -38,7 +39,7 @@ export default {
         "maxResults",
       ],
       label: "Max Transitions",
-      description: "Maximum number of transitions to return across all pages (1.1.10).",
+      description: "Maximum number of transitions to return across all pages (1-1000).",
     },
   },
   async run({ $ }) {

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import constants from "../../common/constants.mjs";
 import {
@@ -12,13 +11,14 @@ export default {
     + " Use this to read a case's activity trail - text posts, status changes, logged calls, email events and case comment events - in one call."
     + " The case feed only exists when feed tracking is enabled for Cases in the Salesforce org, so an org without it returns no records."
     + " [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_associated_objects_feed.htm)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     salesforce,
     caseId: {

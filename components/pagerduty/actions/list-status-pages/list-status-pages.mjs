@@ -8,8 +8,9 @@ export default {
     + " Use status page IDs with **List Status Page Posts** to retrieve posts on a specific page."
     + " Requires Business+ plan — accounts without this plan will receive empty results or a 402 error."
     + " [See the documentation](https://developer.pagerduty.com/api-reference/cc01037564658-list-status-pages)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

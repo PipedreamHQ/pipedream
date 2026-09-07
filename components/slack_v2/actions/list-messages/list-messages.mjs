@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import slack from "../../slack_v2.app.mjs";
 
 export default {
@@ -10,13 +9,14 @@ export default {
     + " selection to keep responses small, and returns the same message data."
     + " This legacy tool remains only for existing workflows: it accepts a raw conversation ID and"
     + " returns full, untrimmed message objects. [See the documentation](https://api.slack.com/methods/conversations.history)",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     slack,
     conversation: {
