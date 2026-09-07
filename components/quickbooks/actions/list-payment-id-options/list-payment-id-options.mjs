@@ -4,7 +4,7 @@ export default {
   key: "quickbooks-list-payment-id-options",
   name: "List Payment ID Options",
   description: "Retrieves available options for the Payment ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

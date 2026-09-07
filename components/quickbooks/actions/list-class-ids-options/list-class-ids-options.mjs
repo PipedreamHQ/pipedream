@@ -4,7 +4,7 @@ export default {
   key: "quickbooks-list-class-ids-options",
   name: "List Class IDs Options",
   description: "Retrieves available options for the Class IDs field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

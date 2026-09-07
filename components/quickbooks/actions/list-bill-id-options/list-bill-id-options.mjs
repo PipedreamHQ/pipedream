@@ -4,7 +4,7 @@ export default {
   key: "quickbooks-list-bill-id-options",
   name: "List Bill ID Options",
   description: "Retrieves available options for the Bill ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

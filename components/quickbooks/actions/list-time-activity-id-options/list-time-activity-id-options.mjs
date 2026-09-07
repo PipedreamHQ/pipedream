@@ -4,7 +4,7 @@ export default {
   key: "quickbooks-list-time-activity-id-options",
   name: "List Time Activity ID Options",
   description: "Retrieves available options for the Time Activity ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

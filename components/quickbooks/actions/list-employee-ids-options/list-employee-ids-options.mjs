@@ -4,7 +4,7 @@ export default {
   key: "quickbooks-list-employee-ids-options",
   name: "List Employee IDs Options",
   description: "Retrieves available options for the Employee IDs field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

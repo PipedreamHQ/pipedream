@@ -4,7 +4,7 @@ export default {
   key: "quickbooks-list-vendor-ids-options",
   name: "List Vendor IDs Options",
   description: "Retrieves available options for the Vendor IDs field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

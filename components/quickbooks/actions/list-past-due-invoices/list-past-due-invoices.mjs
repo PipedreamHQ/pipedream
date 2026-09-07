@@ -10,7 +10,7 @@ export default {
   key: "quickbooks-list-past-due-invoices",
   name: "List Past Due Invoices",
   description: "Lists open invoices whose due date is before today in the company's time zone (from CompanyInfo.DefaultTimeZone when available). Optionally supply a full [Invoice query](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/invoice#query-an-invoice) to override the default filter. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/invoice#query-an-invoice)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

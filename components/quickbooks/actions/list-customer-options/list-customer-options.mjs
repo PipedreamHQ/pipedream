@@ -4,7 +4,7 @@ export default {
   key: "quickbooks-list-customer-options",
   name: "List Customer Reference Options",
   description: "Retrieves available options for the Customer Reference field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
