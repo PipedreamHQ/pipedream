@@ -33,6 +33,11 @@ export default {
       label: "Issue ID or Key",
       description: "The ID or key of the Jira Service Desk request (e.g. `IT-42` or `10001`). Use **List My Requests** to find the `issueKey` of a request (in its `requests` array).",
     },
+    query: {
+      type: "string",
+      label: "Query",
+      description: "Name or email address to search for, e.g. `Joseph Wilson` or `joseph@example.com`. Matched against `displayName` and `emailAddress`. A full name or full email address gives the tightest result set.",
+    },
     maxResults: {
       type: "integer",
       label: "Max Results",

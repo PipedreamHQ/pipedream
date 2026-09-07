@@ -43,8 +43,10 @@ export default {
       description: "The service desk whose customers to search, e.g. `1`. Run **List Service Desks** to map a project name or key to its ID. Use the same ID you will pass to **Create Request**, so the match is checked against the desk the ticket will actually be raised on.",
     },
     query: {
-      type: "string",
-      label: "Query",
+      propDefinition: [
+        app,
+        "query",
+      ],
       description: "Name or email address to search for, e.g. `Joseph Wilson` or `joseph@example.com`. Matched against `displayName` and `emailAddress`. Omit to list every customer of the desk.",
       optional: true,
     },

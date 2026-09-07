@@ -34,9 +34,10 @@ export default {
       ],
     },
     query: {
-      type: "string",
-      label: "Query",
-      description: "Name or email address to search for, e.g. `Joseph Wilson` or `joseph@example.com`. Matched against `displayName` and `emailAddress`. A full name or full email address gives the tightest result set.",
+      propDefinition: [
+        app,
+        "query",
+      ],
     },
     maxResults: {
       propDefinition: [

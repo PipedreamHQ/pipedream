@@ -75,7 +75,7 @@ export default {
     raiseOnBehalfOf: {
       type: "string",
       label: "Raise On Behalf Of",
-      description: "Atlassian account ID of the customer to raise this request for, e.g. `5b10a2844c20165700ede21g`. Run **Find Service Desk Customers** with this same Service Desk ID to turn a name or email address into an `accountId`, which also confirms the person is a customer of this desk; fall back to **Find Users** only if they are not found there. Never guess an ID, and never pass a name or email address here. Not available to users who only have the Service Desk Customer permission.",
+      description: "Atlassian account ID of the customer to raise this request for, e.g. `5b10a2844c20165700ede21g`. Run **Find Service Desk Customers** with this same Service Desk ID to turn a name or email address into an `accountId`, which also confirms the person is a customer of this desk; fall back to **Find Users** if they are not found there. A desk that restricts who may be one of its customers can reject a reporter who is not, so if creation then fails on the reporter field, retry without this field and name the requester in the description instead. Never guess an ID, and never pass a name or email address here. Not available to users who only have the Service Desk Customer permission.",
       optional: true,
     },
     form: {
