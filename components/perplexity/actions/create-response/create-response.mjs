@@ -5,7 +5,7 @@ export default {
   key: "perplexity-create-response",
   name: "Create Response (Agent API)",
   description: "Creates a response using the Agent API with presets, third-party models, and tools. [See the documentation](https://docs.perplexity.ai/api-reference/responses-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
