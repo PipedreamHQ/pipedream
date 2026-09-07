@@ -11,8 +11,9 @@ export default {
     + " Set `is_auto_approved` to `true` to auto-approve without manual review."
     + " Use **List Contracts** to find the contract ID."
     + " [See the documentation](https://developer.deel.com/api/reference/endpoints/invoice-adjustments/create-invoice-adjustment)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

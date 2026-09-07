@@ -8,8 +8,9 @@ export default {
     + " Use **List Columns** to find the column ID before deleting."
     + " Consider using **Get Sheet** to review the column's data before deletion."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/columns/column-delete)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

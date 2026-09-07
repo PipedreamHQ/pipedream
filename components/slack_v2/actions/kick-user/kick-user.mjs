@@ -4,7 +4,7 @@ export default {
   key: "slack_v2-kick-user",
   name: "Kick User",
   description: "Remove a user from a conversation. [See the documentation](https://api.slack.com/methods/conversations.kick)",
-  version: "0.0.34",
+  version: "0.0.35",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
