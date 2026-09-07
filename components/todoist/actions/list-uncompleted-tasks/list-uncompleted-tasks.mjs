@@ -4,7 +4,7 @@ export default {
   key: "todoist-list-uncompleted-tasks",
   name: "List Uncompleted Tasks",
   description: "Returns a list of uncompleted tasks by project, section, and/or label. [See the documentation](https://developer.todoist.com/api/v1#tag/Tasks/operation/get_tasks_api_v1_tasks_get)",
-  version: "0.1.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -35,7 +35,7 @@ export default {
       ],
       type: "string",
       label: "Label",
-      description: "Select a label to filter results by",
+      description: "Filter tasks by label **name** (e.g. `Work`). `GET /tasks` has no `label_id` parameter, so a label id will not match.",
     },
   },
   async run ({ $ }) {
