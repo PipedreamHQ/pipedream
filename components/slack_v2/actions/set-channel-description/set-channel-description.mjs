@@ -4,7 +4,7 @@ export default {
   key: "slack_v2-set-channel-description",
   name: "Set Channel Description",
   description: "Change the description or purpose of a channel. [See the documentation](https://api.slack.com/methods/conversations.setPurpose)",
-  version: "0.0.19",
+  version: "0.0.20",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

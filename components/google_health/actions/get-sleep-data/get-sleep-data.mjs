@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../google_health.app.mjs";
 import {
   buildTimeFilter,
@@ -27,8 +26,9 @@ export default {
   key: "google_health-get-sleep-data",
   name: "Get Sleep Data",
   description: "Get the user's sleep sessions with per-stage totals, time asleep and awake, and a derived efficiency figure. A session is attributed to the date the user **woke up**, matching Fitbit — asking for 2026-08-24 returns the night of the 23rd into the 24th. Example: startDate=\"2026-08-24\" → `sessions: [{ startTime, endTime, type: \"STAGES\", isMainSleep: true, minutesAsleep: 431, minutesAwake: 48, efficiency: 0.9, stageTotals: { LIGHT: 240, DEEP: 71, REM: 120, AWAKE: 48 } }]`, plus `mainSleep` and `totalMinutesAsleep`. Three things to tell the user rather than invent: this API has **no sleep score**, so none is returned, and `efficiency` is computed here as time asleep over time in bed — not the figure Fitbit showed. Stage names depend on `type`, so read `stageTotals` rather than assuming a fixed set: `STAGES` sessions report LIGHT/DEEP/REM/AWAKE, older `CLASSIC` ones only ASLEEP/AWAKE/RESTLESS. Naps are separate sessions with `isNap: true`. At most 125 sessions per call; `truncated: true` means narrow the range. [See the documentation](https://developers.google.com/health/reference/rest/v4/users.dataTypes.dataPoints/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

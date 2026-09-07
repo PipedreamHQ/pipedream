@@ -11,8 +11,9 @@ export default {
     + " (fullyQualifiedName or objectTypeId)."
     + " Use **List Custom Object Properties** to discover which properties are available to request."
     + " [See the documentation](https://developers.hubspot.com/docs/api-reference/latest/crm/objects/objects/get-objects)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

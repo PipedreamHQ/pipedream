@@ -14,7 +14,7 @@ export default {
     + " Returns `has_more: true` and `next_cursor` when more teams exist than were"
     + " fetched — raise `numPages` (or pass `cursor`) to see the rest."
     + " [See the documentation](https://api.slack.com/methods/auth.teams.list)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

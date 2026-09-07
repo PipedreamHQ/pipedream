@@ -4,8 +4,9 @@ export default {
   key: "hubspot-get-actor",
   name: "Get Actor",
   description: "Resolves an actor ID (e.g. the value returned by a message's `senders[].actorId` field) to its name, email, and type. [See the documentation](https://developers.hubspot.com/docs/reference/api/conversations/inbox-and-messages#get-actors)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

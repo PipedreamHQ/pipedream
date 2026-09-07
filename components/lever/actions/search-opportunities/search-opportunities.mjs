@@ -14,8 +14,9 @@ export default {
     + " Returns cursor-paginated results; use the `next` field in the response to fetch subsequent pages."
     + " Example: to find a candidate by email, call with email=\"jane@example.com\" → exact match; to find by name, call with email=\"Jane Doe\" → local name match."
     + " [See the documentation](https://hire.lever.co/developer/documentation#list-all-opportunities)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

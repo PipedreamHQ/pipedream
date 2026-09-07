@@ -5,8 +5,9 @@ export default {
   name: "List Distributor Orders",
   description:
     "List orders from the Distributors API on Universal API. Returns an array; use the returned IDs with **Get Distributor Order**. This hits a different endpoint than **List Asset Management Orders**. [See the documentation](https://docs.universalapi.io/reference/list-orders-1).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,
