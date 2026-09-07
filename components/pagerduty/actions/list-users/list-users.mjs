@@ -8,8 +8,9 @@ export default {
     + " Returns user IDs, names, emails, and roles."
     + " Optionally filter by team membership using team IDs from **List Teams**."
     + " [See the documentation](https://developer.pagerduty.com/api-reference/c96e889522dd6-list-users)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

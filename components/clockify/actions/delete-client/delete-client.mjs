@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import clockify from "../../clockify.app.mjs";
 import utils from "../../common/utils.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "clockify-delete-client",
   name: "Delete Client",
   description: "Deletes a client from a Clockify workspace. This cannot be undone. Clockify only allows deleting archived clients, so this action archives the client first if it isn't already. Use **List Clients** to find the ID of the client to delete. [See the documentation](https://docs.clockify.me/#tag/Client/operation/deleteClient) and the [update endpoint](https://docs.clockify.me/#tag/Client/operation/updateClient) used for the archive step",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

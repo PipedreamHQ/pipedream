@@ -10,8 +10,9 @@ export default {
     + " Use folder UIDs with **Search Dashboards** to filter by"
     + " folder, or with **Save Dashboard** to place a dashboard"
     + " in a specific folder.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: false,
