@@ -7,7 +7,7 @@ export default {
   description: "Retrieve records from a view, optionally sorting and filtering results. Use **List Tables** to look up a table's view IDs. [See the documentation](https://airtable.com/developers/web/api/list-views)",
   type: "action",
   ai: "optimized",
-  version: "0.0.16",
+  version: "0.0.15",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -7,7 +7,7 @@ export default {
     "Get a list of tables in the selected base, including each table's fields and views. Use **List Bases** to look up a base ID. [See the documentation](https://airtable.com/developers/web/api/get-base-schema)",
   type: "action",
   ai: "optimized",
-  version: "0.0.7",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

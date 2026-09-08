@@ -8,7 +8,7 @@ export default {
   key: "airtable_oauth-search-records",
   name: "Search Records",
   description: "Find records in a table using an Airtable formula, or a `Search Field` + `Search Value` pair. `Search Formula` takes precedence when provided; otherwise `Search Field` and `Search Value` must both be set. Use **List Tables** first to look up the table's field names. [See the documentation](https://airtable.com/developers/web/api/list-records)",
-  version: "1.0.1",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
