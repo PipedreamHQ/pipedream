@@ -167,8 +167,7 @@ export default {
     },
   },
   async run(event) {
-    // Polymorphic, the same way the Google Drive webhook sources are: the timer
-    // fires to keep the registration alive, everything else is Jira delivering.
+    // The timer fires to keep the registration alive, everything else is Jira delivering.
     if (event.timestamp) {
       await this.renewHook();
       return;
