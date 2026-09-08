@@ -39,7 +39,7 @@ export function parseJson(value, propLabel = "value", expect) {
   if (expect === "object"
     && (parsed === null || typeof parsed !== "object" || Array.isArray(parsed))) {
     throw new ConfigurationError(
-      `The \`${propLabel}\` prop must be a JSON object (e.g. \`{ "key": "value" }\`).`,
+      `The \`${propLabel}\` prop must be a JSON object (e.g. \`{ ... }\`).`,
     );
   }
   if (expect === "array" && !Array.isArray(parsed)) {
