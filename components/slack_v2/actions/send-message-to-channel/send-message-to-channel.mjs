@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import common from "../common/send-message.mjs";
 
 export default {
@@ -12,13 +11,14 @@ export default {
     + " replies and unfurl settings. Use this tool only if a workflow specifically needs to"
     + " target a channel exclusively, without the user/group support **Post Message** offers."
     + " [See the documentation](https://api.slack.com/methods/chat.postMessage)",
-  version: "0.2.0",
+  version: "0.2.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     slack: common.props.slack,
     conversation: {

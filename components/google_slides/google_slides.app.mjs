@@ -1,6 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
 import slides from "@googleapis/slides";
 import googleDrive from "@pipedream/google_drive";
+import { CONTENT_ALIGNMENTS } from "./common/constants.mjs";
 
 export default {
   ...googleDrive,
@@ -19,6 +20,72 @@ export default {
         const { nextPageToken } = prevContext;
         return this.listPresentationsOptions(driveId, nextPageToken);
       },
+    },
+    staticPresentationId: {
+      type: "string",
+      label: "Presentation ID",
+      description: "The ID of the presentation. This is the long string in the URL: `https://docs.google.com/presentation/d/{PRESENTATION_ID}/edit`. A full presentation URL is also accepted. Use **Find Presentation** to resolve a name to its ID.",
+    },
+    staticSlideId: {
+      type: "string",
+      label: "Slide ID",
+      description: "The object ID of the slide (e.g. `p1` or `g1a2b3c4d5`). Use **Get Presentation** and read `slides[].objectId`.",
+    },
+    pageElementId: {
+      type: "string",
+      label: "Page Element ID",
+      description: "The object ID of the shape, image, table, or other page element to act on. Use **Get Presentation** and read `slides[].pageElements[].objectId`.",
+    },
+    // Shared by the styling actions; individual actions override the label or
+    // description where their wording differs.
+    rowIndex: {
+      type: "integer",
+      label: "Row Index",
+      description: "The 0-based row of the target table cell.",
+      min: 0,
+      optional: true,
+    },
+    columnIndex: {
+      type: "integer",
+      label: "Column Index",
+      description: "The 0-based column of the target table cell.",
+      min: 0,
+      optional: true,
+    },
+    startIndex: {
+      type: "integer",
+      label: "Start Index",
+      description: "Character index to style from, inclusive. On its own, styles from here to the end of the text. Omit both indices to style all of it.",
+      min: 0,
+      optional: true,
+    },
+    endIndex: {
+      type: "integer",
+      label: "End Index",
+      description: "Character index to style up to, exclusive. Requires **Start Index**, and must be greater than it.",
+      min: 0,
+      optional: true,
+    },
+    backgroundColor: {
+      type: "string",
+      label: "Background Color",
+      description: "A hex code (e.g. `#EEEEEE`) or one of the deck's theme colors (e.g. `ACCENT1`).",
+      optional: true,
+    },
+    backgroundOpacity: {
+      type: "integer",
+      label: "Background Opacity",
+      description: "Opacity as a whole percentage, from `0` (fully transparent) to `100` (fully opaque). Can be set on its own to change an existing fill's opacity without restating its color.",
+      min: 0,
+      max: 100,
+      optional: true,
+    },
+    contentAlignment: {
+      type: "string",
+      label: "Content Alignment",
+      description: "Vertical alignment of the text within the element. One of `TOP`, `MIDDLE` or `BOTTOM` - e.g. `MIDDLE` to centre the text vertically.",
+      options: CONTENT_ALIGNMENTS,
+      optional: true,
     },
     layoutId: {
       type: "string",
@@ -279,6 +346,40 @@ export default {
         },
       };
       return (await slides.presentations.get(request)).data;
+    },
+    _findPageElement(presentation, objectId) {
+      const walk = (elements, slideId, groupId) => {
+        for (const element of elements || []) {
+          if (element.objectId === objectId) {
+            return {
+              element,
+              slideId,
+              groupId,
+            };
+          }
+          const found = walk(element.elementGroup?.children, slideId, element.objectId);
+          if (found) {
+            return found;
+          }
+        }
+        return null;
+      };
+
+      for (const slide of presentation.slides || []) {
+        const found = walk(slide.pageElements, slide.objectId);
+        if (found) {
+          return found;
+        }
+      }
+      return null;
+    },
+    async getPageElement(presentationId, objectId) {
+      const presentation = await this.getPresentation(presentationId);
+      const found = this._findPageElement(presentation, objectId);
+      if (!found) {
+        throw new ConfigurationError(`No page element with ID "${objectId}" was found in presentation ${presentationId}. Use Get Presentation to list slides[].pageElements[].objectId.`);
+      }
+      return found;
     },
     async getSlide(presentationId, slideId) {
       const slides = this.slides();

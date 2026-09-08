@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import clockify from "../../clockify.app.mjs";
 
 export default {
   key: "clockify-create-tag",
   name: "Create Tag",
   description: "Creates a new tag in a Clockify workspace. Requires the tag name. [See the documentation](https://docs.clockify.me/#tag/Tag/operation/createNewTag)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

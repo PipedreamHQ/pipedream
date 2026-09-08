@@ -1,5 +1,5 @@
 // x-pd-ai: optimized
-import { WebClient } from "@slack/web-api@8.0.0";
+import { WebClient } from "@slack/web-api";
 import constants from "./common/constants.mjs";
 import get from "lodash/get.js";
 import retry from "async-retry";
@@ -52,7 +52,7 @@ export default {
     text: {
       type: "string",
       label: "Text",
-      description: "Text of the message to send (see Slack's [formatting docs](https://api.slack.com/reference/surfaces/formatting)). This field is usually necessary, unless you're providing only attachments instead.",
+      description: "Text of the message to send (see Slack's [formatting docs](https://api.slack.com/reference/surfaces/formatting)). This field is usually necessary, unless you're providing only attachments instead. To mention a user, use `<@U123>` with their user ID. Do NOT append a display name after a pipe: Slack renders `<@U123|Name>` as literal text, not a mention.",
     },
     topic: {
       type: "string",

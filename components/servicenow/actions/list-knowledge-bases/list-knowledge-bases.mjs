@@ -4,8 +4,9 @@ export default {
   key: "servicenow-list-knowledge-bases",
   name: "List Knowledge Bases",
   description: "List the knowledge bases in the instance, to find the `sys_id`s that scope a search on **Search Knowledge Base**. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_TableAPI.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

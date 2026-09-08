@@ -4,9 +4,10 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "ramp-list-spend-programs",
   name: "List Spend Programs",
-  description: "Retrieve a list of Ramp spend programs. Returns a compact summary of each program by default (id, name, description, icon); pass `fields` to include specific extra fields such as `restrictions`. Returns one page of up to `pageSize` results (max 100); a `page.next` value in the response means more programs exist beyond this page. [See the documentation](https://docs.ramp.com/developer-api/v1/api/spend-programs#get-developer-v1-spend-programs).",
-  version: "0.0.1",
+  description: "Retrieve a list of Ramp spend programs. Returns a compact summary of each program by default (id, display_name, description, icon, is_shareable, issue_physical_card_if_needed); pass `fields` to include specific extra fields such as `restrictions`. Returns one page of up to `pageSize` results (max 100); a `page.next` value in the response means more programs exist beyond this page. [See the documentation](https://docs.ramp.com/developer-api/v1/api/spend-programs#get-developer-v1-spend-programs)",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import FormData from "form-data";
 import { ConfigurationError } from "@pipedream/platform";
 import emboss from "../../emboss.app.mjs";
@@ -10,8 +9,9 @@ export default {
   key: "emboss-create-fillable-form",
   name: "Create Fillable Form",
   description: "Turn a flat (non-fillable) PDF into a fillable form. Emboss detects text fields, checkboxes, signatures, and tables, and returns a fillable PDF plus a form ID. Use **Fill Existing Form** to fill it later, or **Fill PDF From Context** to detect and fill in one step. Polls up to ~12 minutes for large documents. [See the documentation](https://getemboss.ai/docs/reference/create-form)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

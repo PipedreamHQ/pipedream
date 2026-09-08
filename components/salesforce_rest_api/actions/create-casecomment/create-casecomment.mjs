@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import caseComment from "../../common/sobjects/caseComment.mjs";
 
@@ -13,13 +12,14 @@ export default {
     + " Comments are visible in the case feed - **List Case Feed Items** shows them as `CaseCommentPost` entries."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.3.8",
+  version: "0.3.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   methods: {
     ...common.methods,
   },

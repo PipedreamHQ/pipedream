@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { pickFields } from "../../common/utils.mjs";
 import openphone from "../../openphone.app.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "openphone-list-conversations",
   name: "List Conversations",
   description: "Retrieve a paginated list of conversations. Can be filtered by user and/or phone numbers. Defaults to all conversations in the organization. Results are returned in descending order based on the most recent conversation. Example: call with no filters → returns up to 10 of the most recently active conversations. Use `fields` to return only specific fields per conversation. [See the documentation](https://www.openphone.com/docs/api-reference/conversations/list-conversations)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

@@ -1,17 +1,17 @@
-// x-pd-ai: optimized
 import app from "../../search_api.app.mjs";
 
 export default {
   key: "search_api-google-images",
   name: "Google Images API",
   description: "Run a Google Images search. Returns an `images` array; thumbnails are inlined, so keep `num` small to limit the response size. [See the documentation](https://www.searchapi.io/docs/google-images)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     q: {

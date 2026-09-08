@@ -11,6 +11,7 @@ import {
   buildTimeFilter,
   civilInterval,
   dataSourceFamilyPath,
+  daysBetween,
   durationToSeconds,
 } from "./common/utils.mjs";
 
@@ -210,10 +211,14 @@ export default {
      * boundaries are the user's own local midnights, so no timezone lookup is
      * needed anywhere in this path.
      *
-     * `pageSize` is pinned to the API maximum because `DailyRollUpDataPointsResponse`
-     * carries no `nextPageToken`: if the server ever returned a partial set
-     * there would be no way to detect it. One window per day against a 90-day
-     * ceiling means the real ask never approaches the cap.
+     * `pageSize` must cover the requested range exactly. `DailyRollUpDataPointsResponse`
+     * carries no `nextPageToken`, so a page smaller than the range would be
+     * silently truncated with no way to detect it — but a page larger than the
+     * range is rejected outright: the server validates `windowSizeDays * pageSize`
+     * as a *duration* against the data type's range cap (90 days, 14 for the
+     * heart-rate family), so an oversized page 400s even for a single day.
+     * `resolveRange` has already refused anything over that cap, so sizing the
+     * page to the range keeps it under the ceiling by construction.
      */
     async dailyRollUp({
       $,
@@ -224,13 +229,16 @@ export default {
       windowSizeDays = 1,
     } = {}) {
       const familyPath = dataSourceFamilyPath(dataSourceFamily);
+      const pageSize = Math.ceil(
+        daysBetween(startDate, endExclusive) / windowSizeDays,
+      );
       const response = await this.dailyRollUpDataPoints({
         $,
         dataType,
         data: {
           range: civilInterval(startDate, endExclusive),
           windowSizeDays,
-          pageSize: 10000,
+          pageSize,
           ...familyPath
             ? {
               dataSourceFamily: familyPath,

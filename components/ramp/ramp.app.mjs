@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 
@@ -8,94 +9,30 @@ export default {
     userId: {
       type: "string",
       label: "User ID",
-      description: "The ID of the user",
-      async options({ prevContext }) {
-        return this.getPropOptions({
-          prevContext,
-          resourceFn: this.listUsers,
-          mapper: ({
-            id: value, first_name: firstName, last_name: lastName,
-          }) => ({
-            value,
-            label: (`${firstName} ${lastName}`).trim(),
-          }),
-        });
-      },
+      description: "The ID of a user — a Ramp UUID, e.g. `bcc1e4ca-d38a-4cc9-98fc-e6c2066ad0ae`. Run the **List Users** action to find valid IDs.",
     },
     spendProgramId: {
       type: "string",
       label: "Spend Program ID",
-      description: "The ID of the spend program",
+      description: "The ID of a spend program — a Ramp UUID, e.g. `e9d30f12-c73a-463b-bc5f-b200396359d2`. Run the **List Spend Programs** action to find valid IDs.",
       optional: true,
-      async options({ prevContext }) {
-        return this.getPropOptions({
-          prevContext,
-          resourceFn: this.listSpendPrograms,
-          mapper: ({
-            id: value, display_name: label,
-          }) => ({
-            value,
-            label,
-          }),
-        });
-      },
     },
     departmentId: {
       type: "string",
       label: "Department ID",
       description: "Unique identifier of a department — a Ramp UUID, e.g. `fffe6c22-698f-4dc5-b2b1-b35f86947d90` (not a department name). Run the **List Departments** action to find valid IDs.",
       optional: true,
-      async options({ prevContext }) {
-        return this.getPropOptions({
-          prevContext,
-          resourceFn: this.listDepartments,
-          mapper: ({
-            id: value, name: label,
-          }) => ({
-            value,
-            label,
-          }),
-        });
-      },
     },
     locationId: {
       type: "string",
       label: "Location ID",
       description: "Unique identifier of a location — a Ramp UUID, e.g. `961c6f01-5719-4f4c-8fef-4096a031f32a` (not a location name). Run the **List Locations** action to find valid IDs.",
       optional: true,
-      async options({ prevContext }) {
-        return this.getPropOptions({
-          prevContext,
-          resourceFn: this.listLocations,
-          mapper: ({
-            id: value, name: label,
-          }) => ({
-            value,
-            label,
-          }),
-        });
-      },
     },
     transactionId: {
       type: "string",
       label: "Transaction ID",
-      description: "The ID of a transaction",
-      async options({ prevContext }) {
-        return this.getPropOptions({
-          prevContext,
-          resourceFn: this.listTransactions,
-          mapper: ({
-            id: value,
-            merchant_name: merchantName,
-            amount,
-            currency_code: currencyCode,
-            user_transaction_time: userTransactionTime,
-          }) => ({
-            value,
-            label: `${merchantName} - ${amount} ${currencyCode} - ${userTransactionTime}`,
-          }),
-        });
-      },
+      description: "The ID of a transaction — a Ramp UUID, e.g. `c74326d3-a6b3-4a88-9a0c-4b61850784cd`. Run the **List Transactions** action to find valid IDs.",
     },
     allowedCategories: {
       type: "integer[]",
@@ -175,28 +112,6 @@ export default {
       } catch (e) {
         throw new Error(JSON.parse(e.message).error_v2.message);
       }
-    },
-    async getPropOptions({
-      prevContext,
-      resourceFn,
-      mapper,
-    }) {
-      const args = prevContext?.next
-        ? {
-          url: prevContext.next,
-        }
-        : {};
-
-      const {
-        data, page,
-      } = await resourceFn(args);
-
-      return {
-        options: data.map(mapper),
-        context: {
-          next: page.next,
-        },
-      };
     },
     listUsers(opts = {}) {
       return this._makeRequest({

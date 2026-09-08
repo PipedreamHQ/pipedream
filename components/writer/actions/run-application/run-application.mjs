@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../writer.app.mjs";
 
 export default {
@@ -9,8 +8,9 @@ export default {
     + "Provide `inputs` as a JSON array of `{ id, value }` objects, where each `id` is an **input field name** from the application's schema (not the application id) and `value` is an array of strings (one entry per value for that field). "
     + "Example: call with `applicationId=\"3f9c...\"` and `inputs=[{ \"id\": \"topic\", \"value\": [\"Velociraptor exhibit\"] }, { \"id\": \"tone\", \"value\": [\"exciting\"] }]` (here `\"topic\"` and `\"tone\"` are input field names) -> returns the agent's generated content. "
     + "[See the documentation](https://dev.writer.com/api-reference/application-api/applications)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

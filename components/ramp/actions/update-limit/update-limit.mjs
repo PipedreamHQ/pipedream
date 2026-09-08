@@ -5,9 +5,10 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "ramp-update-limit",
   name: "Update Limit",
-  description: "Update an existing Ramp spend limit — rename it and/or set its spending restriction. Run the **List Limits** action to find the limit ID. This is a partial update: fields you omit are left unchanged. Pass **Display Name** alone to simply rename a limit. To set a spending cap you must provide **both** an **Amount** (in minor units, e.g. `50000` for $500.00) and an **Interval** (e.g. `MONTHLY`); currency defaults to USD. [See the documentation](https://docs.ramp.com/developer-api/v1/api/funds).",
-  version: "0.0.1",
+  description: "Update an existing Ramp spend limit — rename it and/or set its spending restriction. Run the **List Limits** action to find the limit ID. This is a partial update: fields you omit are left unchanged. Pass **Display Name** alone to simply rename a limit. To set a spending cap you must provide **both** an **Amount** (in minor units, e.g. `50000` for $500.00) and an **Interval** (e.g. `MONTHLY`); currency defaults to USD. [See the documentation](https://docs.ramp.com/developer-api/v1/api/funds)",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

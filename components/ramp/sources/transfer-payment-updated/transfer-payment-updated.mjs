@@ -6,7 +6,7 @@ export default {
   key: "ramp-transfer-payment-updated",
   name: "Transfer Payment Updated",
   description: "Emit new event when the status of a transfer payment changes",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {
