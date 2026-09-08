@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import ramp from "../../ramp.app.mjs";
 import constants from "../../common/constants.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "ramp-list-transfers",
   name: "List Transfers",
   description: "Retrieve a list of Ramp transfers, optionally filtered by status. Example: pass Status `ACH_CONFIRMED` to return only confirmed transfers, each with amount and status. Returns one page of up to `pageSize` results (max 100); a `page.next` value in the response means more transfers exist beyond this page. [See the documentation](https://docs.ramp.com/developer-api/v1/api/transfers#get-developer-v1-transfers)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

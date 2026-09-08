@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 import { WIKI_RECURSION_LEVEL_OPTIONS } from "../../common/constants.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "azure_devops-get-wiki-page",
   name: "Get Wiki Page",
   description: "Read a wiki page and its Markdown content, optionally including its sub-pages. Returns the page path, content and order. Use this to read runbook or onboarding content into a workflow. Example: page path `/Guides/Onboarding`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/wiki/pages/get-page?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

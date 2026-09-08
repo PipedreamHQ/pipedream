@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import ionosHostingServices from "../../ionos_hosting_services.app.mjs";
 import { parseRecords } from "../../common/utils.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "ionos_hosting_services-create-dns-records",
   name: "Create DNS Records",
   description: "Create one or more DNS records in a zone. Accepts a JSON array of record objects and returns the created records (each with a new `id`). The `name` field in each record must be the fully-qualified domain name (FQDN) including the zone domain — use `newman.example.com`, not just `newman`. Run **List DNS Zones** first to get the zone ID and zone domain name, then construct the full FQDN for each record. [See the documentation](https://developer.hosting.ionos.com/docs/dns).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

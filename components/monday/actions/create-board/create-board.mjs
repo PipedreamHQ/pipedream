@@ -6,7 +6,7 @@ export default {
   name: "Create Board",
   description: "Creates a new board. [See the documentation](https://developer.monday.com/api-reference/reference/boards#create-a-board)",
   type: "action",
-  version: "0.0.14",
+  version: "0.0.15",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

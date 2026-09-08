@@ -5,8 +5,9 @@ export default {
   name: "Get Bulk IP Security",
   description:
     "Retrieve real-time threat intelligence for multiple IPv4 or IPv6 addresses in a single request, including VPN, proxy, Tor, bot, spam detection, and threat scores. Maximum 50,000 IPs per request. Only available on paid plans. [See the documentation](https://ipgeolocation.io/documentation/ip-security-api.html#bulk-ip-security-lookup-endpoint)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

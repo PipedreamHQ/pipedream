@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import arlo from "../../arlo.app.mjs";
 import {
   CONTACT_STATUSES,
@@ -9,8 +8,9 @@ export default {
   key: "arlo-list-presenters",
   name: "List Presenters",
   description: "List Arlo contact records that serve as presenters. NOTE: the Arlo Contacts collection has no dedicated 'is presenter' filter, so this returns contact records and callers should filter by tag/code externally. Results are paged (see `limit`/`skip`); if the page comes back full, call again with a higher `skip` for more. Use `fields` to shrink the response for large contact lists. Example: call with `status: \"Active\"`, `limit: 50` to get up to 50 active contacts with `ContactID`, `FirstName`, `LastName`, `Email`. [See the documentation](https://developer.arlo.co/doc/api/2012-02-01/auth/resources/contacts#collection-httpget).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

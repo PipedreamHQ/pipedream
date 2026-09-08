@@ -6,8 +6,9 @@ export default {
   key: "servicenow-get-article-attachment",
   name: "Get Article Attachment",
   description: "Download an attachment from a knowledge article to the `/tmp` directory. Run **Get Article** first: its `attachments` array holds each attachment's `sys_id` and `file_name`, but only when the article record has `display_attachments` enabled. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/knowledge-api.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

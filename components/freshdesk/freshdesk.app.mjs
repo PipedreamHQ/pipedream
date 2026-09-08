@@ -461,6 +461,22 @@ export default {
       });
     },
     /**
+     * Delete a Freshdesk ticket. This is a soft delete; the ticket can be
+     * restored via the Restore Ticket API.
+     * @param {object} args - Arguments object
+     * @param {string|number} args.ticketId - The ID of the ticket to delete
+     * @returns {Promise<object>} Empty response body (204 No Content)
+     */
+    deleteTicket({
+      ticketId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/tickets/${ticketId}`,
+        method: "DELETE",
+        ...args,
+      });
+    },
+    /**
      * Get the summary note for a Freshdesk ticket
      * @param {object} args - Arguments object
      * @param {string|number} args.ticketId - The ticket ID

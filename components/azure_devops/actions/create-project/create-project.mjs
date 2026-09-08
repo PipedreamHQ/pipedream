@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 import {
   AGILE_PROCESS_TEMPLATE_ID,
@@ -10,8 +9,9 @@ export default {
   key: "azure_devops-create-project",
   name: "Create Project",
   description: "Queue creation of a new project. Project creation is asynchronous, so this returns an operation reference rather than the finished project - poll the project list to see it appear. Use when onboarding a new team or product area. Example: name `Payments Platform`, visibility `private`, Agile process. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/core/projects/create?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

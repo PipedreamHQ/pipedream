@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import azureDevops from "../../azure_devops.app.mjs";
 import {
@@ -9,8 +8,9 @@ export default {
   key: "azure_devops-create-or-update-file",
   name: "Create Or Update File",
   description: "Push a single file add, edit or delete to an existing branch, as one commit. Returns the push result including the new commit SHA. The branch must already exist. Use this to commit generated config or docs back to a repository. Example: edit `/docs/README.md` on `main` with commit message `Update setup steps`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/git/pushes/create?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

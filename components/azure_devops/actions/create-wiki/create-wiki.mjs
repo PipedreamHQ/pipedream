@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import azureDevops from "../../azure_devops.app.mjs";
 import { WIKI_TYPE_OPTIONS } from "../../common/constants.mjs";
@@ -7,8 +6,9 @@ export default {
   key: "azure_devops-create-wiki",
   name: "Create Wiki",
   description: "Create a project wiki, or publish a folder of an existing Git repository as a code wiki. Returns the new wiki's id, name and backing repository. A project wiki provisions its own repository; a code wiki needs an existing repository, branch and folder. Use this when standing up documentation for a new project. Example: name `payments.wiki`, type `projectWiki`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/wiki/wikis/create?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

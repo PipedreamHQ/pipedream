@@ -7,8 +7,9 @@ export default {
     "List on-call schedules in the PagerDuty account, optionally filtered by name."
     + " Returns schedule IDs and names useful for **List On-Calls** and **Create Schedule Override**."
     + " [See the documentation](https://developer.pagerduty.com/api-reference/846ecf84402bb-list-schedules)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
