@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import brexApp from "../../brex.app.mjs";
 
 export default {
@@ -7,6 +6,7 @@ export default {
   description: "Unfreezes (unlocks) a `LOCKED` card so it can be used again. Cards cancelled with **Cancel Card** cannot be unfrozen. [See the documentation](https://developer.brex.com/openapi/team_api/cards/unlockcard)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

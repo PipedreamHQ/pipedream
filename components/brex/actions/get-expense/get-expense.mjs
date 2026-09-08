@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import brexApp from "../../brex.app.mjs";
 import options from "../../common/options.mjs";
 import { formatMoney } from "../../common/utils.mjs";
@@ -9,6 +8,7 @@ export default {
   description: "Retrieves one expense and its receipts. Receipt download links expire 15 minutes after the response, so download rather than store them. Use **Search Expenses** to find an expense ID. [See the documentation](https://developer.brex.com/openapi/expenses_api/expenses/getexpense)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

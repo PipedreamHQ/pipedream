@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import brexApp from "../../brex.app.mjs";
 import options from "../../common/options.mjs";
@@ -12,6 +11,7 @@ export default {
   description: "Searches expenses across card, bill pay, and reimbursement spend by merchant, amount, date, person, type, or status. Covers every payment method and carries receipt and approval state; use **Search Card Transactions** for settled card postings only. [See the documentation](https://developer.brex.com/openapi/expenses_api/expenses/listexpenses)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

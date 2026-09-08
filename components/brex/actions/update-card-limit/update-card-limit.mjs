@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import brexApp from "../../brex.app.mjs";
 import { formatMoney } from "../../common/utils.mjs";
 
@@ -8,6 +7,7 @@ export default {
   description: "Updates the spend limit on a vendor card (`limit_type: CARD`). Corporate cards draw on their cardholder's limit instead — use **Set Limit for User** for those. [See the documentation](https://developer.brex.com/openapi/team_api/cards/updatecard)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

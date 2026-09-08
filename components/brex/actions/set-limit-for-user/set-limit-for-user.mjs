@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import brexApp from "../../brex.app.mjs";
 import common from "./common.mjs";
 
@@ -14,6 +13,7 @@ export default {
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     brexApp,
     user: {

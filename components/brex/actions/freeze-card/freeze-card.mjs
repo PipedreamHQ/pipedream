@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import brexApp from "../../brex.app.mjs";
 
 export default {
@@ -7,6 +6,7 @@ export default {
   description: "Freezes (locks) a card so it declines new purchases. Reversible with **Unfreeze Card**. [See the documentation](https://developer.brex.com/openapi/team_api/cards/lockcard)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

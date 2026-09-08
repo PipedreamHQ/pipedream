@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import brexApp from "../../brex.app.mjs";
 import { formatSearchSummary } from "../../common/utils.mjs";
 
@@ -8,6 +7,7 @@ export default {
   description: "Lists the cards in the Brex account, each with its status, last four digits, cardholder, and spend limit. Filter by cardholder (`userId`) or status (`ACTIVE`, `SHIPPED`, `LOCKED`, `TERMINATED`) — status has no server-side filter, so it's applied after fetching, which can leave results truncated before every match is scanned; raise `maxResults` (default `100`) or drop the status filter if that happens. This is how you find the card ID that **Get Card**, **Freeze Card**, **Cancel Card**, and **Update Card Limit** require. [See the documentation](https://developer.brex.com/openapi/team_api/cards/listcardsbyuserid)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

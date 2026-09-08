@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import brexApp from "../../brex.app.mjs";
 
 export default {
@@ -7,6 +6,7 @@ export default {
   description: "Cancels (terminates) a card permanently. This cannot be undone — use **Freeze Card** to block a card temporarily instead. [See the documentation](https://developer.brex.com/openapi/team_api/cards/terminatecard)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: true,
