@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 
 export default {
   key: "azure_devops-get-build-definition",
   name: "Get Build Definition",
   description: "Retrieve one build definition, including its repository, triggers, variables and process. Use this to inspect what a pipeline will do, or to read its variable names before overriding them at queue time. Example: definition `12`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/build/definitions/get?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

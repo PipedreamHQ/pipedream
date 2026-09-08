@@ -4,13 +4,14 @@ export default {
   key: "newscatcher-continue-job",
   name: "Continue Job",
   description: "Continue an existing job to process more records beyond the initial limit. [See the documentation](https://www.newscatcherapi.com/docs/web-search-api/api-reference/jobs/continue-job)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     newscatcher,
     jobId: {

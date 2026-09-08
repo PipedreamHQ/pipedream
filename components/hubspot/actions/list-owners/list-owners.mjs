@@ -6,13 +6,14 @@ export default {
   name: "List Owners",
   description:
     "List owners (users) in the HubSpot account. Returns owner IDs, names, and emails. Use this to discover valid values for the `hubspot_owner_id` property when creating or updating any CRM object (contacts, companies, deals, tickets, etc.). [See the documentation](https://developers.hubspot.com/docs/api/crm/owners)",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     hubspot,
     email: {

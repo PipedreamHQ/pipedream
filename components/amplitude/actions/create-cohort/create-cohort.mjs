@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../amplitude.app.mjs";
 import { COHORT_ID_TYPES } from "../../common/constants.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "amplitude-create-cohort",
   name: "Create Cohort",
   description: "Create a static cohort in Amplitude from an explicit list of user or Amplitude IDs via `POST /api/3/cohorts/upload` (the only REST-documented cohort creation endpoint; behavioral/dynamic cohorts cannot be created via REST). Use **List Cohorts** to find an existing cohort ID if updating. Example: call with `cohortName=\"Power Users Q3\"`, `appId=849238`, `idType=\"BY_USER_ID\"`, `ids=[\"user@example.com\"]`, `owner=\"admin@example.com\"` -> returns `{cohortId: \"abc123\"}`. [See the documentation](https://amplitude.com/docs/apis/analytics/behavioral-cohorts#upload-cohort).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: true,

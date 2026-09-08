@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ROLE_OPTIONS } from "../../common/constants.mjs";
 import intercom from "../../intercom.app.mjs";
 
@@ -6,13 +5,14 @@ export default {
   key: "intercom-upsert-contact",
   name: "Upsert Contact",
   description: "Create a new contact, or update an existing one if a contact with the same **Email** already exists — **Email is the match key** for this upsert (any other props you set only apply to the created/updated record, they do not affect matching). Example: set **Email** to `jane.doe@acme.com`, **Name** to `Jane Doe`, and **Custom Attributes** to `{\"plan\": \"pro\"}` to create Jane's contact, or update her `name`/`plan` if a contact with that email already exists. Returns the full contact object, including its Intercom `id`. [See the documentation](https://developers.intercom.com/docs/references/rest-api/api.intercom.io/contacts/createcontact).",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     intercom,
     email: {

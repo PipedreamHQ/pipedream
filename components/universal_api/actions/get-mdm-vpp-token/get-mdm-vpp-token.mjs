@@ -5,8 +5,9 @@ export default {
   name: "Get MDM VPP Token",
   description:
     "Retrieve a single VPP token by ID from the MDM API on Universal API. Run **List MDM VPP Tokens** first to discover valid IDs. [See the documentation](https://docs.universalapi.io/reference/get-vpp-token).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

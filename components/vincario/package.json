@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/vincario",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Vincario Components",
   "main": "vincario.app.mjs",
   "keywords": [

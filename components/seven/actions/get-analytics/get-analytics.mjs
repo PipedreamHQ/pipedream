@@ -5,8 +5,9 @@ export default {
   key: "seven-get-analytics",
   name: "Get Analytics",
   description: "Retrieve account statistics (SMS, RCS, voice, HLR, usage). [See the documentation](https://docs.seven.io/en/rest-api/endpoints/account#statistics)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

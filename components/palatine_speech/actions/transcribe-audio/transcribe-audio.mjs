@@ -9,8 +9,9 @@ export default {
   key: "palatine_speech-transcribe-audio",
   name: "Transcribe Audio",
   description: "Starts an asynchronous transcription job for an audio or video file. Optionally wait for completion by enabling the 'Wait for Completion' option. [See the documentation](https://docs.speech.palatine.ru/api-reference/transcribe/transcribe-polling-api/transcribe)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

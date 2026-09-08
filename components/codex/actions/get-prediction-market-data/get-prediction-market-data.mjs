@@ -9,8 +9,9 @@ export default {
     + " **Requires a Codex Growth or Enterprise plan** — returns an error on free/Starter plans."
     + " Supports offset-based pagination — pass `offset` (and optional `limit`) to fetch subsequent pages (e.g., `offset: 20` with `limit: 20` fetches the second page)."
     + " [See the documentation](https://docs.codex.io/api-reference/queries/filterpredictionmarkets)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

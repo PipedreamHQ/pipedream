@@ -4,7 +4,8 @@ export default {
   key: "google_docs-remove-bullets",
   name: "Remove Bullets",
   description: "Remove bullets or numbering from list paragraphs in a Google Doc, leaving the text in place. Locate the paragraphs with **Find Text**, or pass an explicit **Start Index** and **End Index**. Every paragraph the range touches is affected. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/request#DeleteParagraphBulletsRequest)",
-  version: "0.0.1",
+  version: "0.0.2",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

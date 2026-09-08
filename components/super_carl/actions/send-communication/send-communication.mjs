@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import superCarl from "../../super_carl.app.mjs";
 import {
@@ -10,13 +9,14 @@ export default {
   key: "super_carl-send-communication",
   name: "Send Communication",
   description: "Create a Super Carl outbound communication and optionally send it through Gmail, LinkedIn, X, Instagram, or Super Carl channels. Dry Run defaults to true; set it to false only after **Check Communication Capabilities** passes and the user approves live delivery. [See the documentation](https://supercarl.ai/docs#endpoints-communications)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     superCarl,
     channel: {

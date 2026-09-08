@@ -4,8 +4,9 @@ export default {
   key: "moodle-get-courses",
   name: "Get Courses",
   description: "Returns course details. If no IDs are provided, returns all courses except the front page. [See the documentation](https://moodledev.io/docs/5.2)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

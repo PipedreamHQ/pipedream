@@ -4,8 +4,9 @@ export default {
   key: "connectwise_psa-list-time-entries",
   name: "List Time Entries",
   description: "Retrieves a list of time entries. [See the documentation](https://developer.connectwise.com/Products/ConnectWise_PSA/REST#/TimeEntries/getTimeEntries)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import note from "../../common/sobjects/note.mjs";
 import { NOTE_INFO_PROP } from "../../common/props-info.mjs";
@@ -19,13 +18,14 @@ export default {
     + " Use **Find Records** to get the parent record ID first."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.3.9",
+  version: "0.3.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   methods: {
     ...common.methods,
   },
