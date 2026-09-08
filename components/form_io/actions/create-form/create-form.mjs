@@ -1,5 +1,12 @@
 import formIo from "../../form_io.app.mjs";
-import { parseJson } from "../../common/utils.mjs";
+import {
+  parseJson, coerceStr, assertEnum,
+} from "../../common/utils.mjs";
+
+const FORM_TYPES = [
+  "form",
+  "resource",
+];
 
 export default {
   key: "form_io-create-form",
@@ -79,14 +86,14 @@ export default {
     const response = await this.formIo.createForm({
       $,
       data: {
-        title,
-        name,
-        path,
-        type,
-        components: parseJson(components, "components"),
-        display,
+        title: coerceStr(title),
+        name: coerceStr(name),
+        path: coerceStr(path),
+        type: assertEnum(type, "type", FORM_TYPES),
+        components: parseJson(components, "components", "array"),
+        display: coerceStr(display),
         tags,
-        settings: parseJson(settings, "settings"),
+        settings: parseJson(settings, "settings", "object"),
       },
     });
 

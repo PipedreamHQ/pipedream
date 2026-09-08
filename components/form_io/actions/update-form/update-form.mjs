@@ -1,5 +1,12 @@
 import formIo from "../../form_io.app.mjs";
-import { parseJson } from "../../common/utils.mjs";
+import {
+  parseJson, coerceStr, assertEnum,
+} from "../../common/utils.mjs";
+
+const FORM_TYPES = [
+  "form",
+  "resource",
+];
 
 export default {
   key: "form_io-update-form",
@@ -91,12 +98,12 @@ export default {
       $,
       formId,
       data: {
-        title,
-        name,
-        path,
-        type,
+        title: coerceStr(title),
+        name: coerceStr(name),
+        path: coerceStr(path),
+        type: assertEnum(type, "type", FORM_TYPES),
         components: parseJson(components, "components", "array"),
-        display,
+        display: coerceStr(display),
         tags,
         settings: parseJson(settings, "settings", "object"),
       },
