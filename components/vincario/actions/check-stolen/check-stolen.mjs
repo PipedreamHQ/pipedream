@@ -4,7 +4,7 @@ export default {
   key: "vincario-check-stolen",
   name: "Check Stolen",
   description: "Performs a real-time VIN check in national police databases of stolen vehicles of Czech Republic, Hungary, Romania, Slovenia, Slovakia and Vincario's own database of stolen vehicles. [See the documentation](https://vincario.com/api-docs/3.2/#api-endpoints)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   ai: "optimized",
   annotations: {
