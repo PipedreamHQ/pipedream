@@ -10,8 +10,9 @@ export default {
     + " Returns one page (up to `limit`); if the response's `hasNext` is true, pass its `next` value to `offset` to fetch the following page."
     + " Example: call with no arguments → returns templates like `{ id: \"<templateId>\", text: \"Onsite Interview\", fields: [{ id: \"<fieldId>\", type: \"score-system\", text: \"Overall\" }] }`; pass that template id as `baseTemplateId` and the field ids inside `fieldValues` when calling **Submit Feedback**."
     + " [See the documentation](https://hire.lever.co/developer/documentation#feedback-templates)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

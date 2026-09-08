@@ -10,13 +10,14 @@ export default {
     + " Use **List Workspace Options** to find workspace IDs."
     + " Use **List Folder Options** to find folder IDs."
     + " See the documentation: [Create in folder](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/create-sheet-in-folder), [Create in workspace](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/create-sheet-in-workspace)",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     smartsheet,
     name: {

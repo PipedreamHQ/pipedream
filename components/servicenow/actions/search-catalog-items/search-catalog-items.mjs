@@ -4,8 +4,9 @@ export default {
   key: "servicenow-search-catalog-items",
   name: "Search Catalog Items",
   description: "Search the ServiceNow Service Catalog for orderable items. Use this first to discover catalog item `sys_id` values needed by **Get Catalog Item Variables**, **Add Item to Cart**, **Order Catalog Item**, and **Submit Record Producer**. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

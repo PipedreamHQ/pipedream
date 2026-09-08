@@ -12,7 +12,7 @@ export default {
   key: "jira_service_desk-download-issue-attachment",
   name: "Download Issue Attachment",
   description: "Download the binary content of a Jira Service Desk attachment to the file-stash directory, returning the saved path plus the attachment metadata (`filename`, `mimeType`, `size`). Run **List Issue Attachments** first to obtain the attachment `id`, then pass both it and the same `issueIdOrKey` here. Example: passing `issueIdOrKey` `IT-42` and `attachmentId` `10042` downloads `screenshot.png` to `/tmp/10042-screenshot.png` and returns `{ \"filedata\": [\"10042-screenshot.png\", \"/tmp/10042-screenshot.png\"], \"attachment\": { \"id\": \"10042\", \"filename\": \"screenshot.png\", \"mimeType\": \"image/png\", \"size\": 84213 } }`. [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-issueidorkey-attachment-attachmentid-get)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   ai: "optimized",
   annotations: {
