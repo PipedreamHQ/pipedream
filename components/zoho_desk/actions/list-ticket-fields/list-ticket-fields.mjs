@@ -6,7 +6,7 @@ export default {
   description: "Lists every field configured on a Zoho Desk module (defaults to Tickets), including each field's `apiName`, `displayLabel`, `type`, and for picklist fields - the `allowedValues` array. Useful for discovering valid picklist values (e.g. for `status`, `priority`, `channel`, `category`, `subCategory`, `classification`) before creating or routing tickets. [See the documentation](https://desk.zoho.com/DeskAPIDocument#OrganizationFields_Getorganizationfieldsinamodule)",
   type: "action",
   ai: "optimized",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

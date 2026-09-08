@@ -4,7 +4,7 @@ export default {
   key: "zenventory-create-item",
   name: "Create Item",
   description: "Generates a new item. [See the documentation](https://docs.zenventory.com/#tag/items/paths/~1items/post)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
