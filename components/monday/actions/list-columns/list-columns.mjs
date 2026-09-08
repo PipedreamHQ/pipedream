@@ -4,8 +4,9 @@ import monday from "../../monday.app.mjs";
 export default {
   key: "monday-list-columns",
   name: "List Columns",
-  description: "List the columns of a board, including each column's ID, type, and the labels a `status` or `dropdown` column accepts. Use this to discover the column IDs and values required by **Create Item**, **Update Column Values** and **Get Items By Column Value**. [See the documentation](https://developer.monday.com/api-reference/reference/columns#queries)",
+  description: "List the columns of a board, including each column's ID, type, and the labels a `status` or `dropdown` column accepts. Use this to discover the column IDs and values required by **Create Item**, **Update Column Values** and **Get Items By Column Value**. Set `Board ID`. Example: returns e.g. `[{ \"id\": \"status\", \"title\": \"Status\", \"type\": \"status\", \"labels\": [\"Done\", \"Working on it\"] }]`; `labels` is absent for column types that do not use them. Not paginated — every column on the board is returned. [See the documentation](https://developer.monday.com/api-reference/reference/columns#queries)",
   type: "action",
+  ai: "optimized",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "monday-get-items-by-column-value",
   name: "Get Items By Column Value",
-  description: "Searches a column for items matching a value. [See the documentation](https://developer.monday.com/api-reference/reference/items-page-by-column-values)",
+  description: "Find every item on a board whose column matches a value, following the API's cursor automatically so all matches are returned in a single call. Use to look up items by a field instead of pulling the whole board with **Get Board Items Page**. Set `Board ID`, `Column` and `Value`. For a `status` or `dropdown` column pass the label text rather than its ID — call **List Columns** to see the labels a column accepts. Example: Column `status`, Value `Done`. Returns an array of matching items, each with a `column_values` array of `{ id, value }` pairs; an empty array means nothing matched. Gotcha: not every column type is searchable this way. [See the documentation](https://developer.monday.com/api-reference/reference/items-page-by-column-values)",
   version: "0.1.8",
   annotations: {
     destructiveHint: false,
@@ -12,6 +12,7 @@ export default {
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     columnId: {

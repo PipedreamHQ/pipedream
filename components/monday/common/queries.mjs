@@ -80,8 +80,8 @@ export default {
     }
   `,
   listWorkspaces: `
-    query { 
-      workspaces {
+    query listWorkspaces ($page: Int = 1, $limit: Int = 25) {
+      workspaces (page: $page, limit: $limit) {
         id
         name
       }

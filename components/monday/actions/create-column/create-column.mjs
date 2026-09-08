@@ -12,8 +12,9 @@ const DEFAULTS_SUPPORTED_COLUMN_TYPES = [
 export default {
   key: "monday-create-column",
   name: "Create Column",
-  description: "Creates a column. [See the documentation](https://developer.monday.com/api-reference/reference/columns#create-a-column)",
+  description: "Add a column to an existing board. Use when a board is missing a field you need before setting values with **Create Item** or **Update Column Values**. Set `Board ID`, `Title` and `Column Type` (e.g. `status`, `text`, `date`, `numbers`). `Custom Labels (Defaults)` is accepted only when `Column Type` is `status` or `dropdown` and is rejected for any other type. Example: Title `Priority`, Column Type `status`, Custom Labels `{ \"1\": \"High\", \"2\": \"Low\" }`. Returns the new column's ID as a string (e.g. `status_1`). Call **List Columns** afterwards to confirm the ID and the labels it accepts. [See the documentation](https://developer.monday.com/api-reference/reference/columns#create-a-column)",
   type: "action",
+  ai: "optimized",
   version: "0.1.8",
   annotations: {
     destructiveHint: false,

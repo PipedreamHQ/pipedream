@@ -6,8 +6,9 @@ export default {
   ...commonCreateItem,
   key: "monday-create-item",
   name: "Create Item",
-  description: "Creates an item. [See the documentation](https://developer.monday.com/api-reference/reference/items#create-an-item)",
+  description: "Create an item (a row) on a board. Use for a top-level row; use **Create Subitem** for a row nested under an existing item. Set `Board ID` and `Item Name`, and optionally `Group ID` and `Column Values`. Call **List Columns** first to get the column IDs and the labels a `status` or `dropdown` column accepts. Example: Item Name `Website redesign`, Column Values `{ \"status\": \"Working on it\", \"date4\": \"2026-09-02\", \"numbers\": 42 }`. Set `Item Create Labels` to `true` to allow missing `status`/`dropdown` labels to be created, which requires permission to change the board structure. Returns the new item's ID as a string (e.g. `9876543210`). [See the documentation](https://developer.monday.com/api-reference/reference/items#create-an-item)",
   type: "action",
+  ai: "optimized",
   version: "0.1.9",
   annotations: {
     destructiveHint: false,
