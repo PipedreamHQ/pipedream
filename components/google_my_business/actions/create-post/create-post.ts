@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { defineAction } from "@pipedream/types";
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../app/google_my_business.app";
@@ -12,7 +13,7 @@ export default defineAction({
   key: "google_my_business-create-post",
   name: "Create Post",
   description: `Create a new local post associated with a location. [See the documentation](${DOCS_LINK})`,
-  version: "0.0.7",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -31,9 +32,6 @@ export default defineAction({
       propDefinition: [
         app,
         "location",
-        ({ account }: { account: string; }) => ({
-          account,
-        }),
       ],
     },
     topicType: {

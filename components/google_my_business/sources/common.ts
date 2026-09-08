@@ -22,9 +22,6 @@ export default {
       propDefinition: [
         app,
         "location",
-        ({ account }: { account: string; }) => ({
-          account,
-        }),
       ],
     },
   },

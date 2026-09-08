@@ -47,3 +47,55 @@ export const MEDIA_FORMAT_OPTIONS = [
     value: "VIDEO",
   },
 ];
+
+export const PERFORMANCE_BASE_URL = "https://businessprofileperformance.googleapis.com/v1";
+
+// https://developers.google.com/my-business/reference/performance/rest/v1/DailyMetric
+export const DAILY_METRIC_OPTIONS = [
+  {
+    label: "Business Impressions - Desktop Maps",
+    value: "BUSINESS_IMPRESSIONS_DESKTOP_MAPS",
+  },
+  {
+    label: "Business Impressions - Desktop Search",
+    value: "BUSINESS_IMPRESSIONS_DESKTOP_SEARCH",
+  },
+  {
+    label: "Business Impressions - Mobile Maps",
+    value: "BUSINESS_IMPRESSIONS_MOBILE_MAPS",
+  },
+  {
+    label: "Business Impressions - Mobile Search",
+    value: "BUSINESS_IMPRESSIONS_MOBILE_SEARCH",
+  },
+  {
+    label: "Business Conversations",
+    value: "BUSINESS_CONVERSATIONS",
+  },
+  {
+    label: "Business Direction Requests",
+    value: "BUSINESS_DIRECTION_REQUESTS",
+  },
+  {
+    label: "Call Clicks",
+    value: "CALL_CLICKS",
+  },
+  {
+    label: "Website Clicks",
+    value: "WEBSITE_CLICKS",
+  },
+  {
+    label: "Business Bookings",
+    value: "BUSINESS_BOOKINGS",
+  },
+  {
+    label: "Business Food Orders (deprecated by Google)",
+    value: "BUSINESS_FOOD_ORDERS",
+  },
+  {
+    label: "Business Food Menu Clicks",
+    value: "BUSINESS_FOOD_MENU_CLICKS",
+  },
+];
+
+export const SEARCH_KEYWORDS_PAGE_SIZE = 100;
