@@ -6,7 +6,7 @@ export default {
   description: "Fetches a specific recording by its ID from Grain, returning its metadata (title, times, URL, tags, teams, meeting type)."
     + " Enable the optional include props to add highlights, participants, AI action items, AI summary, calendar event, HubSpot data, or screenshares to the response."
     + " Use **List Recordings** to find recording IDs, and **Get Transcript** to fetch the full transcript."
-    + " [See the documentation](https://developers.grain.com)",
+    + " [See the documentation](https://developers.grain.com/#get-recording)",
   version: "1.0.0",
   annotations: {
     destructiveHint: false,

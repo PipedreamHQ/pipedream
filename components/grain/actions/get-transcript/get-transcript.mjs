@@ -8,7 +8,7 @@ export default {
     + " The `json` format returns structured segments with speaker, participant ID, start/end times in milliseconds, and text;"
     + " `txt`, `vtt`, and `srt` return plain text or subtitle formats."
     + " Use **List Recordings** to find recording IDs; use **Get Recording** for the recording's metadata instead of its transcript."
-    + " [See the documentation](https://developers.grain.com)",
+    + " [See the documentation](https://developers.grain.com/#get-recording-transcript-json)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

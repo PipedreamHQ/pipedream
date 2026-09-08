@@ -13,6 +13,12 @@ export default {
     _setHookId(hookId) {
       this.db.set("hookId", hookId);
     },
+    getInclude() {
+      return undefined;
+    },
+    getTimestamp() {
+      return Date.now();
+    },
   },
   hooks: {
     async activate() {
@@ -33,15 +39,12 @@ export default {
     },
   },
   async run({ body }) {
-    if (!body.data) return;
+    if (!body?.data?.id || body.type !== this.getHookType()) return;
 
-    const ts = Date.parse(body.data.end_datetime);
     this.$emit(body, {
       id: body.data.id,
       summary: this.getSummary(body),
-      ts: Number.isNaN(ts)
-        ? Date.now()
-        : ts,
+      ts: this.getTimestamp(body),
     });
   },
 };

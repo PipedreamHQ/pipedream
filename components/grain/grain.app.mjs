@@ -65,6 +65,18 @@ export default {
       description: "Whether to include the recording's AI summary",
       optional: true,
     },
+    transcript: {
+      type: "boolean",
+      label: "Include Transcript",
+      description: "Whether to include the highlight's transcript",
+      optional: true,
+    },
+    speakers: {
+      type: "boolean",
+      label: "Include Speakers",
+      description: "Whether to include the highlight's speakers",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
@@ -85,6 +97,11 @@ export default {
         ...opts,
       });
     },
+    /**
+     * Fetch a page of recordings matching the supplied filters.
+     * @param {object} [opts={}] Request context and data containing filter, include, and cursor.
+     * @returns {Promise<object>} Recordings and the cursor for the next page.
+     */
     listRecordings(opts = {}) {
       return this._makeRequest({
         method: "POST",
@@ -92,6 +109,11 @@ export default {
         ...opts,
       });
     },
+    /**
+     * Fetch recording metadata and optional related data.
+     * @param {object} opts Request context, recordingId, and data containing include options.
+     * @returns {Promise<object>} The recording.
+     */
     fetchRecording({
       recordingId, ...opts
     }) {
@@ -101,14 +123,26 @@ export default {
         ...opts,
       });
     },
+    /**
+     * Fetch a recording's transcript in the requested format.
+     * @param {object} opts Request context, recordingId, and format (json, txt, vtt, or srt).
+     * @returns {Promise<object[]|string>} Transcript segments for JSON, or transcript text.
+     */
     fetchTranscript({
       recordingId, format, ...opts
     }) {
       return this._makeRequest({
-        path: `/recordings/${recordingId}/transcript.${format}`,
+        path: `/recordings/${recordingId}/transcript${format === "json"
+          ? ""
+          : `.${format}`}`,
         ...opts,
       });
     },
+    /**
+     * Register a webhook for a Grain event type.
+     * @param {object} [opts={}] Request options with hook_url, hook_type, and include in data.
+     * @returns {Promise<object>} The registered hook, including its ID.
+     */
     createWebhook(opts = {}) {
       return this._makeRequest({
         method: "POST",
@@ -116,6 +150,11 @@ export default {
         ...opts,
       });
     },
+    /**
+     * Remove a webhook registration.
+     * @param {string} hookId The ID returned when the hook was created.
+     * @returns {Promise<object>} The API's success response.
+     */
     deleteWebhook(hookId) {
       return this._makeRequest({
         method: "DELETE",

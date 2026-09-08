@@ -6,7 +6,7 @@ export default {
   description: "Lists Grain recordings, optionally filtered by start datetime range (ISO8601), title search, or participant scope."
     + " Automatically paginates and returns up to Max Results recordings."
     + " Use this to find recording IDs for **Get Recording** and **Get Transcript**."
-    + " [See the documentation](https://developers.grain.com)",
+    + " [See the documentation](https://developers.grain.com/#list-recordings)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -70,9 +70,7 @@ export default {
         $,
         data: {
           cursor,
-          filter: Object.fromEntries(Object.entries(filter).filter(([
-            , value,
-          ]) => value !== undefined)),
+          filter,
         },
       });
       recordings.push(...page);
