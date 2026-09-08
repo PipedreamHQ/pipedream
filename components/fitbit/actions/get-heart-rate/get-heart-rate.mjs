@@ -4,13 +4,14 @@ export default {
   key: "fitbit-get-heart-rate",
   name: "Get Heart Rate",
   description: "Gets the heart rate intraday time series data on a specific date range for a 24 hour period. [See the documentation](https://dev.fitbit.com/build/reference/web-api/intraday/get-heartrate-intraday-by-interval/)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     fitbit,
     startDate: {

@@ -4,8 +4,9 @@ export default {
   key: "launch27-get-booking-spots",
   name: "Get Booking Spots",
   description: "Retrieves all booking spots for a given event type. [See the documentation](https://bitbucket.org/awoo23/api-2.0/wiki/Spots_for_booking)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
