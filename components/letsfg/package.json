@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/letsfg",
+  "version": "0.0.1",
+  "description": "Pipedream LetsFG Components",
+  "main": "letsfg.app.mjs",
+  "keywords": [
+    "pipedream",
+    "letsfg"
+  ],
+  "homepage": "https://pipedream.com/apps/letsfg",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  }
+}
