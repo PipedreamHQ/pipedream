@@ -15,7 +15,7 @@ export default {
     + " messages carry blocks, attachments and edit metadata, so a busy channel can run to tens"
     + " of thousands of characters and be truncated before you see any of it."
     + " [See the documentation](https://api.slack.com/methods/conversations.history)",
-  version: "0.2.3",
+  version: "0.2.4",
   type: "action",
   ai: "optimized",
   annotations: {

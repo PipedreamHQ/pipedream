@@ -5,13 +5,14 @@ export default {
   key: "twist-add-comment",
   name: "Add Comment",
   description: "Adds a new comment to a thread.",
-  version: "0.2.2",
+  version: "0.2.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     twist: {
       type: "app",

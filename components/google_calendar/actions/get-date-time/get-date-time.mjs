@@ -4,8 +4,9 @@ export default {
   key: "google_calendar-get-date-time",
   name: "Get Date Time",
   description: "Get current date and time for use in Google Calendar actions. Useful for agents that need datetime awareness and timezone context before calling other Google Calendar tools.",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

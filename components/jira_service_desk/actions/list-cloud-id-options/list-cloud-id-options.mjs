@@ -4,7 +4,7 @@ export default {
   key: "jira_service_desk-list-cloud-id-options",
   name: "List Cloud ID Options",
   description: "Lists the Atlassian sites you can raise requests on, as `{label, value}` options, to discover the `cloudId` every other Jira Service Desk tool needs. Takes no input beyond the account. Example: returns `[{ \"label\": \"acme\", \"value\": \"822faf0d-5427-420e-9016-999d3dc76918\" }]`. Use **List Sites** instead if you want the full site records. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/oauth-2-3lo-apps/#3-1-get-the-cloudid-for-your-site)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -4,7 +4,7 @@ export default {
   key: "slack_v2-archive-channel",
   name: "Archive Channel",
   description: "Archive a public or private channel. Direct messages and group DMs can't be archived — pass a channel ID (e.g. `C1234567890`), not a user or group ID. [See the documentation](https://api.slack.com/methods/conversations.archive)",
-  version: "0.0.34",
+  version: "0.0.35",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
