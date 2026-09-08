@@ -4,13 +4,14 @@ export default {
   key: "esputnik-subscribe-contact",
   name: "Subscribe Contact",
   description: "Create a new unverified contact in eSputnik. For use with double opt-in implementation. User will need to verify the email to confirm their subscription. [See the docs here](https://esputnik.com/api/methods.html#/v1/contact/subscribe-POST)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     esputnik,
     firstName: {
