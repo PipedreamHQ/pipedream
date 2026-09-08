@@ -41,36 +41,30 @@ export default {
       description,
     } = this;
 
-    // Only the fields the user actually provided should change.
-    const updates = {};
+    // Send only the fields the user actually provided. Form.io's role PUT merges
+    // the request body onto the existing document server-side (omitted fields keep
+    // their current values), so we deliberately do NOT read-modify-write a full
+    // snapshot: reading the whole role and PUTting it back would overwrite any
+    // field a concurrent update changed in between (a lost update). By writing only
+    // the changed fields, two concurrent updates to different fields both survive.
+    const data = {};
     if (title !== undefined) {
-      updates.title = title;
+      data.title = title;
     }
     if (description !== undefined) {
-      updates.description = description;
+      data.description = description;
     }
 
-    if (!Object.keys(updates).length) {
+    if (!Object.keys(data).length) {
       throw new ConfigurationError(
         "Provide at least one field to update (Title and/or Description).",
       );
     }
 
-    // Form.io's role PUT replaces the whole document, so fetch the current role
-    // and merge the requested changes onto it — otherwise an omitted field would
-    // be blanked out instead of preserved.
-    const current = await this.formIo.getRole({
-      $,
-      roleId,
-    });
-
     const response = await this.formIo.updateRole({
       $,
       roleId,
-      data: {
-        ...current,
-        ...updates,
-      },
+      data,
     });
 
     $.export("$summary", `Updated role "${response.title}" (${response._id})`);
