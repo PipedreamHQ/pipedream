@@ -5,8 +5,9 @@ export default {
   key: "daytona-create-sandbox",
   name: "Create Sandbox",
   description: "Creates a new sandbox on Daytona. Provide a **Snapshot** to create from a pre-built template, an **Image** to create from a custom Docker image, or neither to use the Daytona default snapshot. **Snapshot takes precedence over Image** if both are provided. [See the documentation](https://www.daytona.io/docs/en/typescript-sdk/daytona/#create)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
