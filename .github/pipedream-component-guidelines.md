@@ -15,14 +15,18 @@ Pipedream's registry.
 There are two types:
 
 - **Actions** — Perform a task (create a record, send a message, fetch data) and return a
-  result. Used in workflow steps and exposed as MCP tools via Pipedream Connect.
+  result. Exposed as MCP tools via Pipedream Connect, and also usable as Workflow Builder
+  steps.
 - **Sources** — Emit events that trigger downstream workflows. They listen for new data via
   webhooks or polling timers.
 
-Once deployed, components can be configured by users who connect their authenticated
-accounts. When exposed via MCP (Pipedream Connect), they appear as AI agent tools — the
-component's `description` and prop `description` fields become the agent's only
-documentation for how to call that tool correctly.
+**MCP compatibility is the primary design constraint for actions, not a secondary one.**
+This repository's actions are consumed directly by AI agents — including third-party MCP
+clients such as Sana AI — as single-call tools, in addition to being usable as Workflow
+Builder steps. When a design choice would work in the Workflow Builder but not through an
+arbitrary MCP client, the MCP-compatible choice wins by default. The component's
+`description` and prop `description` fields are the agent's only documentation for how to
+call that tool correctly — write for that audience first, not as an afterthought.
 
 ---
 
@@ -33,8 +37,8 @@ Every component exports a default object with these required properties:
 ```javascript
 export default {
   key: "app-action-name",       // globally unique; kebab-case; prefixed with app slug
-  name: "Human Readable Name",  // shown in UI and as the MCP tool name
-  description: "...",           // shown in UI and used as MCP tool documentation
+  name: "Human Readable Name",  // shown as the MCP tool name and in the UI
+  description: "...",           // used as MCP tool documentation and shown in the UI
   version: "0.0.1",            // semantic versioning; increment when the component's own behavior, interface, or implementation changes
   type: "action",               // or "source"
   props: { ... },              // configuration inputs
@@ -237,7 +241,9 @@ async options({ page }) {
 ```
 
 `async options()` is appropriate when the set of valid values is dynamic and bounded (a
-list of projects, pipelines, users, etc.). It works in both workflow UI and agent contexts.
+list of projects, pipelines, users, etc.). It works in both the Workflow Builder UI and
+MCP/agent contexts without any special client support — this is what makes it the default,
+preferred pattern over `reloadProps`/`additionalProps` below.
 
 ### `reloadProps` and `additionalProps`
 
@@ -245,14 +251,27 @@ list of projects, pipelines, users, etc.). It works in both workflow UI and agen
 changes, potentially revealing or hiding other props. `additionalProps()` generates props
 dynamically based on current prop values.
 
-These are legitimate patterns when the use case genuinely requires them. The review
-question is whether they are actually necessary: can the same result be achieved with
-`async options()` alone — for example, by returning a filtered set of options based on
-another prop's value — without dynamically restructuring the prop form? If `async
-options()` can satisfy the use case, it is the better choice because it works across
-both the workflow UI and agent (MCP) contexts. If the structure of required inputs truly
-depends on an earlier selection in a way that fixed optional props cannot represent, then
-`reloadProps` or `additionalProps()` are justified.
+Both patterns depend on an interactive configuration loop that only the Workflow Builder UI
+— and MCP clients that specifically implement Pipedream's `retrieve_options`/
+`configure_component` meta-tools — can drive. That bridging is an implementation detail of
+specific MCP clients, not a guarantee of the MCP protocol itself, and cannot be assumed to
+exist in every agent an action is exposed to. An action that only works through this reload
+loop is not reliably callable as an MCP tool.
+
+Treat `async options()` as the default, and `reloadProps`/`additionalProps()` as the
+exception requiring justification — not the reverse. The review question is not only "is
+this necessary" but "does this still work as a single-call MCP tool without the reload
+dance":
+
+- Can the same result be achieved with `async options()` alone — for example, by returning
+  a filtered set of options based on another prop's current value — without dynamically
+  restructuring the prop form? If so, that is the required choice, not merely the preferred
+  one.
+- If the structure of required inputs genuinely depends on an earlier selection in a way
+  fixed optional props cannot represent, `reloadProps`/`additionalProps()` may be used, but
+  the PR should call out explicitly that MCP clients without meta-tool support will not be
+  able to complete configuration of this action. That is a real functional limitation to
+  surface, not a footnote to skip.
 
 ---
 
@@ -500,23 +519,37 @@ they exist as prop values or parameters passed to lifecycle methods.
 | `$.service.db` | Declared as `db: "$.service.db"` prop | Persistent key-value store scoped to this component instance |
 | `$.interface.http` | Declared as `http: "$.interface.http"` prop | Provides a webhook endpoint URL and incoming request handler |
 | `$.interface.timer` | Declared as `timer: { type: "$.interface.timer", ... }` | Provides a polling interval or cron trigger |
+| `$.flow.rerun()` | Called inside `run()` | Pauses a **Workflow Builder** run and schedules it to resume later — see caution below |
 
 `$auth` is the only way components should access credentials. Auth tokens must never be
 hardcoded or sourced from other props.
+
+**`$.flow.rerun()` (and any equivalent pause-and-resume mechanism) depends on the Workflow
+Builder's stateful flow-execution engine to suspend a specific run and wake it up later. An
+MCP tool call is a single, stateless request/response — there is no "run" for an agent to
+pause and come back to.** Do not use `$.flow.rerun()`, or design an action around any
+wait-and-resume pattern, if the action is expected to work as an MCP tool — see "Actions
+Must Complete in a Single Call" in `pipedream-action-guidelines.md` for how to handle
+genuinely long-running operations instead. Flag any use of `$.flow.rerun()` in an action
+file as a blocking issue, not a stylistic concern.
 
 ---
 
 ## Description Quality Standards
 
-Component and prop descriptions serve two audiences simultaneously:
-1. **Human workflow builders** in the Pipedream UI
-2. **AI agents** using components as MCP tools
+The primary audience for component and prop descriptions is the calling agent. This
+repository's actions are consumed as MCP tools by AI agents — including Sana AI — as their
+main path of use. A human workflow builder reading the same description in the Pipedream
+UI is a secondary audience who benefits from the same clarity; the description is not
+written to serve that audience first.
 
-Both must be served well. Descriptions that are vague or rely on UI affordances ("select
-from the dropdown") leave agents unable to construct correct calls — but the same
-descriptions also fail to tell human builders what format or values are expected. Being
-explicit about formats, valid values, and relationships between tools improves the
-experience for both audiences simultaneously.
+Write for an agent that has no visual UI, cannot see a dropdown, and has only the
+description text to decide whether and how to call the tool. Descriptions that lean on UI
+affordances ("select from the dropdown") don't just read awkwardly to a human — they leave
+an agent with no actual information to construct a correct call, which is the failure mode
+that matters here. Being explicit about formats, valid values, and relationships between
+tools is what makes a description usable by an agent; that it also happens to read well to
+a human is a side effect, not the goal.
 
 ### Component description format
 
@@ -560,7 +593,9 @@ description: "Creates a record in Hubspot."
   `{"firstname": "Jane", "lastname": "Doe", "email": "jane@example.com"}`
 - **ID props**: Explain where to get the ID if the user might only have a name or URL.
   "Use **Search Contacts** to find the contact ID."
-- **Avoid UI language**: Replace "select from the dropdown" with a description of what
-  value is expected and how to obtain it.
+- **Write for the agent, not the UI**: Replace "select from the dropdown" or similar UI
+  affordances with a description of what value is expected and how to obtain it — the
+  literal UI action being described doesn't exist in an MCP/agent context, so language
+  built around it gives the agent nothing to act on.
 - **Cross-references**: Point to discovery tools when valid values must be looked up.
   "Use **List Pipelines and Stages** to find valid pipeline and stage IDs."
