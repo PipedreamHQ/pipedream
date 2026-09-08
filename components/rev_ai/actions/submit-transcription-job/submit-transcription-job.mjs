@@ -5,7 +5,7 @@ export default {
   key: "rev_ai-submit-transcription-job",
   name: "Submit Transcription Job",
   description: "Starts an asynchronous job to transcribe speech-to-text for a media file. Add an optional callback URL to invoke when processing is complete.",
-  version: "0.1.2",
+  version: "1.0.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -62,7 +62,8 @@ export default {
       optional: true,
     },
     phrases: {
-      type: "any",
+      type: "string[]",
+      label: "Phrases",
       description: "Array of phrases not found in normal dictionary. Add technical jargon, proper nouns and uncommon phrases as strings in this array to add them to the lexicon for this job.\n\nA phrase must contain at least 1 alpha character but may contain any non-numeric character from the Basic Latin set. A phrase can contain up to 12 words. Each word can contain up to 34 characters.",
       optional: true,
     },

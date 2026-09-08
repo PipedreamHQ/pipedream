@@ -6,7 +6,7 @@ export default {
   key: "xero_accounting_api-new-or-updated-quote",
   name: "New or Updated Quote",
   description: "Emit new event each time a quote is added or updated. [See the documentation](https://developer.xero.com/documentation/api/accounting/quotes)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   async run() {

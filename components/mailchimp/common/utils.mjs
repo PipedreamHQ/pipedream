@@ -80,6 +80,22 @@ const formatArrayStrings = (objectArray, ALLOWED_KEYS, fieldName, allowedValues 
   return updatedArray;
 };
 
+/**
+ * Parses a `string[]` prop whose entries are JSON-serialized objects, leaving
+ * already-parsed objects untouched. Use `formatArrayStrings` instead when the
+ * entries also need key/value validation.
+ */
+const parseObjectArray = (items, fieldName) => items?.map((item) => {
+  if (typeof item !== "string") {
+    return item;
+  }
+  try {
+    return JSON.parse(item);
+  } catch {
+    throw new ConfigurationError(`${fieldName}: \`${item}\` is not valid JSON`);
+  }
+});
+
 const commaSeparateArray = (arr) => arr?.length && arr.join(",");
 
 const md5Hash = (str) => crypto
@@ -88,5 +104,6 @@ const md5Hash = (str) => crypto
   .digest("hex");
 
 export {
-  removeNullEntries, formatArrayStrings, validateObject, commaSeparateArray, md5Hash,
+  removeNullEntries, formatArrayStrings, parseObjectArray, validateObject, commaSeparateArray,
+  md5Hash,
 };

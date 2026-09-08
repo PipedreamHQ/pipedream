@@ -1,10 +1,11 @@
+import { ConfigurationError } from "@pipedream/platform";
 import linkedin from "../../linkedin.app.mjs";
 
 export default {
   key: "linkedin-create-comment",
   name: "Create Comment",
-  description: "Create a comment on a share or user generated content post. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/network-update-social-actions#create-comment)",
-  version: "0.1.13",
+  description: "Create a comment on a share or user generated content post. [See the documentation](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/network-update-social-actions#create-comment)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -29,9 +30,9 @@ export default {
       description: "Text of the comment. May contain attributes such as links to people and organizations.",
     },
     content: {
-      type: "any",
+      type: "string[]",
       label: "Content",
-      description: "Array of a media content entities.",
+      description: "Array of media content entities, one JSON string per entry, e.g. `{\"entity\":{\"image\":\"urn:li:image:ABC123\"}}`.",
       optional: true,
     },
     parentComment: {
@@ -41,6 +42,20 @@ export default {
       optional: true,
     },
   },
+  methods: {
+    parseContent(items) {
+      return items?.map((item) => {
+        if (typeof item !== "string") {
+          return item;
+        }
+        try {
+          return JSON.parse(item);
+        } catch (error) {
+          throw new ConfigurationError(`Content: \`${item}\` is not valid JSON`);
+        }
+      });
+    },
+  },
   async run({ $ }) {
     const data = {
       object: this.urnToComment,
@@ -48,7 +63,7 @@ export default {
       message: {
         text: this.message,
       },
-      content: this.content,
+      content: this.parseContent(this.content),
       parentComment: this.parentComment,
     };
     const response = await this.linkedin.createComment(encodeURIComponent(this.urnToComment), {

@@ -7,7 +7,7 @@ export default {
   key: "zoom-get-meeting-transcript",
   name: "Get Meeting Transcript",
   description: "Get the transcript of a past meeting. Fetches the VTT file server-side using your OAuth token and returns speaker-attributed plain text alongside the original authenticated URL. [See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/cloud-recording/get/meetings/{meetingId}/transcript)",
-  version: "0.1.1",
+  version: "0.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

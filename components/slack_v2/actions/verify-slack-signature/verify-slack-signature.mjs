@@ -34,7 +34,7 @@ export default {
     requestBody: {
       type: "string",
       label: "Request Body",
-      description: "The body of the request to be verified.",
+      description: "The raw body of the request to be verified. This must be the verbatim body Slack sent, not a re-serialized object.",
     },
   },
   async run({ $ }) {

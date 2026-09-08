@@ -5,7 +5,7 @@ export default {
   key: "easybroker-create-property",
   name: "Create Property",
   description: "Creates a new property listing in EasyBroker with full details including title, price, location, bedrooms, bathrooms, parking, size, description, amenities, photos, and status. [See the documentation](https://dev.easybroker.com/reference/post_properties)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -43,9 +43,9 @@ export default {
       ],
     },
     operations: {
-      type: "any",
+      type: "string[]",
       label: "Operations",
-      description: "An array of operation objects. For a sale or rental: `[{\"type\":\"sale\",\"currency\":\"USD\",\"amount\":250000,\"active\":true}]`. For a temporary rental: `[{\"type\":\"temporary_rental\",\"currency\":\"USD\",\"active\":true,\"rates\":[{\"type\":\"daily\",\"amount\":150}]}]`. Accepted `type` values: `sale`, `rental`, `temporary_rental`. Optional fields per operation: `unit` (enum: `total`, `square_meter`, `hectare`), `commission` ({`type`: `amount`|`percentage`|`months`, `value`: number, `currency`: string}), `foreclosure` (boolean, Mexico only)",
+      description: "One JSON string per operation. Each entry is a single operation object, **not** an array — do not wrap the entries in `[ ]`. Required keys: `type` (one of `sale`, `rental`, `temporary_rental`), `currency` (ISO code, e.g. `USD`) and `active` (boolean). For `sale` and `rental`, also pass `amount` (number). For `temporary_rental`, pass `rates` instead — an array of rate objects, each `{\"type\":\"daily\",\"amount\":150}`. Optional keys: `unit` (one of `total`, `square_meter`, `hectare`), `commission` (`{\"type\":\"amount\"|\"percentage\"|\"months\",\"value\":10,\"currency\":\"USD\"}`) and `foreclosure` (boolean, Mexico only). Example entry: `{\"type\":\"sale\",\"currency\":\"USD\",\"amount\":250000,\"active\":true}`. Example temporary rental entry: `{\"type\":\"temporary_rental\",\"currency\":\"USD\",\"active\":true,\"rates\":[{\"type\":\"daily\",\"amount\":150}]}`",
     },
     locationName: {
       type: "string",
@@ -192,9 +192,9 @@ export default {
       optional: true,
     },
     images: {
-      type: "any",
+      type: "string[]",
       label: "Images",
-      description: "An array of image objects. Each object requires a `url` (valid HTTP/HTTPS URL with `.jpg`, `.png`, `.gif`, `.bmp`, or `.heic` extension) and accepts an optional `title`. Maximum 50 images, 6MB per image, minimum 500px. Example: `[{\"url\":\"https://example.com/image.jpg\",\"title\":\"Front view\"}]`",
+      description: "One JSON string per image. Each entry is a single image object, **not** an array — do not wrap the entries in `[ ]`. Required key: `url` (an HTTP/HTTPS URL ending in `.jpg`, `.png`, `.gif`, `.bmp` or `.heic`). Optional key: `title`. Up to 50 images; each must be under 6MB and at least 500px. Example entry: `{\"url\":\"https://example.com/image.jpg\",\"title\":\"Front view\"}`",
       optional: true,
     },
     videos: {
@@ -264,6 +264,20 @@ export default {
       optional: true,
     },
   },
+  methods: {
+    parseJsonArray(items, fieldName) {
+      return items?.map((item) => {
+        if (typeof item !== "string") {
+          return item;
+        }
+        try {
+          return JSON.parse(item);
+        } catch (error) {
+          throw new ConfigurationError(`${fieldName}: \`${item}\` is not valid JSON`);
+        }
+      });
+    },
+  },
   async run({ $ }) {
     if (this.locationLatitude !== undefined && isNaN(Number(this.locationLatitude))) {
       throw new ConfigurationError("**Location Latitude** must be a valid number. Example: `25.6866142`");
@@ -306,7 +320,7 @@ export default {
         title: this.title,
         description: this.description,
         status: this.status,
-        operations: this.operations,
+        operations: this.parseJsonArray(this.operations, "Operations"),
         location,
         ...(this.privateDescription && {
           private_description: this.privateDescription,
@@ -357,7 +371,7 @@ export default {
           collaboration_notes: this.collaborationNotes,
         }),
         ...(this.images && {
-          images: this.images,
+          images: this.parseJsonArray(this.images, "Images"),
         }),
         ...(this.videos && {
           videos: this.videos,

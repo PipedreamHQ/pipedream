@@ -5,7 +5,7 @@ export default {
   key: "telegram_bot_api-send-album",
   name: "Send an Album (Media Group)",
   description: "Sends a group of photos or videos as an album. [See the docs](https://core.telegram.org/bots/api#sendmediagroup) for more information",
-  version: "0.0.9",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -21,7 +21,7 @@ export default {
       ],
     },
     media: {
-      type: "any",
+      type: "string",
       label: "Media",
       description: toSingleLineString(`
         A JSON-serialized array describing photos and videos to be sent, must include 2–10 items
