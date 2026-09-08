@@ -17,7 +17,7 @@ export default {
     boardId: {
       type: "string",
       label: "Board ID",
-      description: "Select a board, or provide a board ID",
+      description: "The board to act on, as a board ID (e.g. `2419687965`). Use **List Board ID Options** to look up a board ID by name.",
       async options({ page }) {
         return this.listBoardsOptions({
           page: page + 1,
@@ -27,7 +27,7 @@ export default {
     boardIds: {
       type: "string[]",
       label: "Board IDs",
-      description: "Filter results to one or more specific boards",
+      description: "Restrict the results to these boards, as an array of board IDs. Use **List Board IDs Options** to look up board IDs by name. Omit to include every board.",
       optional: true,
       async options({ page }) {
         return this.listBoardsOptions({
@@ -38,7 +38,7 @@ export default {
     workspaceIds: {
       type: "integer[]",
       label: "Workspace IDs",
-      description: "Filter results to boards in one or more specific workspaces",
+      description: "Restrict the results to boards in these workspaces, as an array of workspace IDs. Use **List Workspace IDs Options** to look up workspace IDs by name. Omit to include every workspace.",
       optional: true,
       async options() {
         return this.listWorkspacesOptions();
@@ -52,13 +52,13 @@ export default {
     boardKind: {
       type: "string",
       label: "Board Kind",
-      description: "The new board's kind (`public` / `private` / `share`)",
+      description: "Who can see the board: `public` (any account member), `private` (invited members only) or `share` (shareable with guests outside the account).",
       options: constants.BOARD_KIND_OPTIONS,
     },
     folderId: {
       type: "integer",
       label: "Folder ID",
-      description: "Optionally select a folder to create the board in, or provide a folder ID",
+      description: "The folder to create the board in, as a folder ID. Use **List Boards** and read a board's `board_folder_id` to find a folder ID. Omit to leave the board outside any folder.",
       optional: true,
       async options({ workspaceId }) {
         return this.listFolderOptions({
@@ -69,7 +69,7 @@ export default {
     workspaceId: {
       type: "integer",
       label: "Workspace ID",
-      description: "Select a workspace to create the board in, or provide a workspace ID. If not specified, the **Main Workspace** will be used",
+      description: "The workspace to create the board in, as a workspace ID (e.g. `12345`). Use **List Workspace ID Options** to look up a workspace ID by name. Omit to use the account's Main Workspace.",
       optional: true,
       async options() {
         return this.listWorkspacesOptions();
@@ -89,7 +89,7 @@ export default {
     groupId: {
       type: "string",
       label: "Group ID",
-      description: "Select a group or provide a group ID",
+      description: "The group (a titled section of rows) to place the item in, as a group ID (e.g. `new_group12345`). Use **List Boards** and read the board's `groups` array to find group IDs, or **Create Group** to make a new one. Omit to use the board's top group.",
       optional: true,
       async options({ boardId }) {
         return this.listGroupsOptions({
@@ -111,7 +111,7 @@ export default {
     itemCreateLabels: {
       type: "boolean",
       label: "Item Create Labels",
-      description: "Create Status/Dropdown labels if they're missing. (Requires permission to change board structure)",
+      description: "Set to `true` to create any `status` or `dropdown` label named in `Column Values` that does not exist yet. Requires permission to change the board structure; leave unset to have unknown labels rejected instead.",
       optional: true,
     },
     updateBody: {
@@ -122,7 +122,7 @@ export default {
     itemId: {
       type: "string",
       label: "Item ID",
-      description: "Select an item or provide an item ID",
+      description: "The item (row) to act on, as an item ID (e.g. `9876543210`). Use **Get Board Items Page** to list a board's items, or **Get Items By Column Value** to find one by a column value.",
       optional: true,
       async options({
         boardId, prevContext,
@@ -136,7 +136,7 @@ export default {
     updateId: {
       type: "string",
       label: "Update ID",
-      description: "Select an update or provide an update ID",
+      description: "An existing update, as an update ID. Update IDs are returned by **Create an Update**.",
       optional: true,
       async options({
         page, boardId,
@@ -150,7 +150,7 @@ export default {
     column: {
       type: "string",
       label: "Column",
-      description: "Select a column to watch for changes",
+      description: "The column to act on, as a column ID (e.g. `status`). Use **List Columns** to see a board's column IDs, types and the labels a `status` or `dropdown` column accepts.",
       async options({ boardId }) {
         const columns = await this.listColumnOptions({
           boardId: +boardId,
@@ -281,9 +281,10 @@ export default {
         variables,
       });
     },
-    async listWorkspaces() {
+    async listWorkspaces(variables) {
       return this.makeRequest({
         query: queries.listWorkspaces,
+        variables,
       });
     },
     async listFolders(variables) {
@@ -404,12 +405,12 @@ export default {
           value: +id,
         }));
     },
-    async listWorkspacesOptions() {
+    async listWorkspacesOptions(variables) {
       const {
         data,
         errors,
         error_message: errorMessage,
-      } = await this.listWorkspaces();
+      } = await this.listWorkspaces(variables);
 
       if (errors) {
         throw new Error(`Error listing workspaces: ${errors[0].message}`);
