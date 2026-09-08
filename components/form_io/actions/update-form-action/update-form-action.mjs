@@ -65,7 +65,7 @@ export default {
     settings: {
       type: "string",
       label: "Settings",
-      description: "JSON-string object of action-specific settings. Parsed with JSON.parse() before sending.",
+      description: "JSON-string object of action-specific settings; the shape depends on the action type. Example (webhook action): `{\"method\":\"post\",\"url\":\"https://example.com/webhook\"}`. Parsed with JSON.parse() before sending.",
       optional: true,
     },
   },

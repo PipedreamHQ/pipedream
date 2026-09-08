@@ -37,7 +37,7 @@ export default {
       $,
       formId,
       data: {
-        data: parseJson(data, "data"),
+        data: parseJson(data, "data", "object"),
       },
     });
 

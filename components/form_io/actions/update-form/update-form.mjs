@@ -95,10 +95,10 @@ export default {
         name,
         path,
         type,
-        components: parseJson(components, "components"),
+        components: parseJson(components, "components", "array"),
         display,
         tags,
-        settings: parseJson(settings, "settings"),
+        settings: parseJson(settings, "settings", "object"),
       },
     });
 

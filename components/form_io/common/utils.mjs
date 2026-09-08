@@ -1,7 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
 
 /**
- * Parse a JSON-string prop into a JS value.
+ * Parse a JSON-string prop into a JS value, optionally validating its shape.
  *
  * MCP/agent-facing props like `components`, `settings`, and `data` arrive as JSON strings.
  * This centralizes the parsing so every action reports the same clear, prop-named error on
@@ -10,26 +10,44 @@ import { ConfigurationError } from "@pipedream/platform";
  * - Returns `undefined` for empty input (null / undefined / ""), so optional props can be
  *   passed straight through without a caller-side ternary.
  * - Passes an already-parsed object/array through unchanged (defensive).
+ * - When `expect` is `"object"` or `"array"`, the parsed value must match that shape, so a
+ *   valid-JSON-but-wrong-shape value (e.g. an array where the API wants an object) fails here
+ *   with a prop-named message instead of as an opaque 400 from the API.
  *
  * @param {string|object|null|undefined} value - the raw prop value
  * @param {string} propLabel - the prop name, used in the error message
+ * @param {"object"|"array"} [expect] - required shape of the parsed value
  * @returns {*} the parsed value, or `undefined` when `value` is empty
- * @throws {ConfigurationError} when `value` is a string that is not valid JSON
+ * @throws {ConfigurationError} when `value` is not valid JSON, or does not match `expect`
  */
-export function parseJson(value, propLabel = "value") {
+export function parseJson(value, propLabel = "value", expect) {
   if (value === undefined || value === null || value === "") {
     return undefined;
   }
+  let parsed;
   if (typeof value === "object") {
-    return value;
+    parsed = value;
+  } else {
+    try {
+      parsed = JSON.parse(value);
+    } catch (err) {
+      throw new ConfigurationError(
+        `The \`${propLabel}\` prop must be a valid JSON string. ${err.message}`,
+      );
+    }
   }
-  try {
-    return JSON.parse(value);
-  } catch (err) {
+  if (expect === "object"
+    && (parsed === null || typeof parsed !== "object" || Array.isArray(parsed))) {
     throw new ConfigurationError(
-      `The \`${propLabel}\` prop must be a valid JSON string. ${err.message}`,
+      `The \`${propLabel}\` prop must be a JSON object (e.g. \`{ "key": "value" }\`).`,
     );
   }
+  if (expect === "array" && !Array.isArray(parsed)) {
+    throw new ConfigurationError(
+      `The \`${propLabel}\` prop must be a JSON array (e.g. \`[ { ... } ]\`).`,
+    );
+  }
+  return parsed;
 }
 
 /**
