@@ -8,7 +8,7 @@ export default {
   name: "Create Item",
   description: "Creates an item. [See the documentation](https://developer.monday.com/api-reference/reference/items#create-an-item)",
   type: "action",
-  version: "0.2.0",
+  version: "0.1.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

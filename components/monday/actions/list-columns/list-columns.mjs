@@ -6,7 +6,7 @@ export default {
   name: "List Columns",
   description: "List the columns of a board, including each column's ID, type, and the labels a `status` or `dropdown` column accepts. Use this to discover the column IDs and values required by **Create Item**, **Update Column Values** and **Get Items By Column Value**. [See the documentation](https://developer.monday.com/api-reference/reference/columns#queries)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
