@@ -5,13 +5,14 @@ export default {
   key: "rev_ai-submit-transcription-job",
   name: "Submit Transcription Job",
   description: "Starts an asynchronous job to transcribe speech-to-text for a media file. Add an optional callback URL to invoke when processing is complete.",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     rev_ai: {
       type: "app",

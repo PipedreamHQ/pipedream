@@ -6,13 +6,14 @@ export default {
   key: "raindrop-parse-bookmark-file",
   name: "Parse HTML Bookmark File",
   description: "Convert an HTML bookmark file to JSON. Supports Nestcape, Pocket and Instapaper file formats. [See the documentation](https://developer.raindrop.io/v1/import#parse-html-import-file)",
-  version: "1.0.4",
+  version: "1.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     raindrop,
     filePath: {
