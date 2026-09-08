@@ -139,6 +139,7 @@ export default {
             settings: this.syncAlerts === undefined
               ? undefined
               : {
+                ...current.settings,
                 syncAlerts: this.syncAlerts,
               },
           },

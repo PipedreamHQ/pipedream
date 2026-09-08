@@ -21,12 +21,12 @@ export default {
     ruleId: {
       type: "string",
       label: "Rule ID (User-defined)",
-      description: "The user-defined stable rule identifier (`rule_id`). Run **Find Detection Rules** first to obtain valid `rule_id` values.",
+      description: "The user-defined stable rule identifier (`rule_id`), e.g. `my-custom-rule-id`. Run **Find Detection Rules** first to obtain valid `rule_id` values.",
     },
     caseId: {
       type: "string",
       label: "Case ID",
-      description: "The ID of the case. Run **Find Cases** first to obtain valid case IDs.",
+      description: "The ID of the case, e.g. `a1c10c9b-8448-483a-81f7-a4b3225eb6b8`. Run **Find Cases** first to obtain valid case IDs.",
     },
     severity: {
       type: "string",
@@ -37,7 +37,7 @@ export default {
     tags: {
       type: "string[]",
       label: "Tags",
-      description: "List of tags. Run **List Tags** first to see existing tags and avoid creating near-duplicates.",
+      description: "List of tags, e.g. `[\"phishing\", \"high-priority\"]`. Run **List Tags** first to see existing tags and avoid creating near-duplicates.",
     },
     status: {
       type: "string",
