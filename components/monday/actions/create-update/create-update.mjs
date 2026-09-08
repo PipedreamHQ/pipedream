@@ -39,7 +39,7 @@ export default {
     },
     parentId: {
       label: "Parent Update ID",
-      description: "The ID of an existing update to reply to. Omit to start a new update thread on the item rather than replying to one.",
+      description: "The ID of an existing update to reply to, as returned by **List Updates**. Omit to start a new update thread on the item rather than replying to one.",
       propDefinition: [
         monday,
         "updateId",

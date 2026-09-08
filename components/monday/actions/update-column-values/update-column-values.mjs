@@ -47,8 +47,6 @@ export default {
     },
     syncDir: {
       type: "dir",
-      label: "Sync Directory",
-      description: "A directory to mount so that a `file` column value given as a `/tmp` path can be read. Only needed when `Column Values` sets a `file` column from a local path rather than a URL.",
       accessMode: "read",
       sync: true,
       optional: true,

@@ -163,6 +163,31 @@ export default {
       }
     }
   `,
+  listUpdates: `
+    query listUpdates (
+      $boardId: ID!,
+      $limit: Int = 25,
+      $page: Int = 1
+    ) {
+      boards (ids: [$boardId]) {
+        updates (
+          limit: $limit,
+          page: $page
+        ) {
+          id
+          item_id
+          body
+          text_body
+          created_at
+          updated_at
+          creator {
+            id
+            name
+          }
+        }
+      }
+    }
+  `,
   listColumns: `
     query listColumns ($boardId: ID!) {
       boards (ids: [$boardId]) {

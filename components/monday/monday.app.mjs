@@ -136,7 +136,7 @@ export default {
     updateId: {
       type: "string",
       label: "Update ID",
-      description: "An existing update, as an update ID. Update IDs are returned by **Create an Update**.",
+      description: "An existing update, as an update ID. Use **List Updates** to find update IDs on a board; update IDs are also returned by **Create an Update**.",
       optional: true,
       async options({
         page, boardId,
@@ -165,12 +165,9 @@ export default {
     },
   },
   methods: {
-    _authToken() {
-      return this.$auth.api_key ?? this.$auth.oauth_access_token;
-    },
     _client() {
       return new ApiClient({
-        token: this._authToken(),
+        token: this.$auth.api_key,
         apiVersion: API_VERSION,
       });
     },
@@ -280,6 +277,13 @@ export default {
         query: queries.listUpdatesBoard,
         variables,
       });
+    },
+    async listUpdates(variables) {
+      const { data } = await this.makeRequest({
+        query: queries.listUpdates,
+        variables,
+      });
+      return data?.boards[0]?.updates;
     },
     async listWorkspaces(variables) {
       return this.makeRequest({
