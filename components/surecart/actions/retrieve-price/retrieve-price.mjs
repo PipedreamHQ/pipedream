@@ -4,8 +4,9 @@ export default {
   key: "surecart-retrieve-price",
   name: "Retrieve Price",
   description: "Retrieve a single SureCart price by its ID. Run **List Prices** first to obtain a valid price ID. [See the documentation](https://developer.surecart.com/api-reference/prices/retrieve)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

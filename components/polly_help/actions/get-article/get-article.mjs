@@ -4,13 +4,14 @@ export default {
   key: "polly_help-get-article",
   name: "Get Article",
   description: "Retrieve full article content by ID. Returns the article's name, slug, schema elements (content blocks with `render_type` and `content` fields), custom fields, attachments, and the collection IDs it belongs to. Use after **Search Publication** to fetch complete content for a specific article. To explore a collection the article belongs to, pass a `collections[].id` to **Get Collection**. [See the documentation](https://docs.polly.help/integrations/a/publication-api-examples?partition=dHaktdqyY7Ce8DM72)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     pollyHelp,
     articleId: {

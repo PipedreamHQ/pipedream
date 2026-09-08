@@ -4,13 +4,14 @@ export default {
   key: "helpspot-get-requests",
   name: "Get Requests",
   description: "Retrieves multiple support requests by ID in a single call. [See the documentation](https://support.helpspot.com/index.php?pg=kb.page&id=164#private.request.multiGet)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     helpspot,
     xRequest: {

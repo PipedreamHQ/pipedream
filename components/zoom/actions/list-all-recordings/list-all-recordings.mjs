@@ -5,8 +5,9 @@ export default {
   key: "zoom-list-all-recordings",
   name: "List All Recordings",
   description: "List all cloud recordings for a user. Returns recording metadata only — to obtain a download link for a given recording, use **Get Recording Download Link**. [See the documentation](https://developers.zoom.us/docs/api/rest/reference/zoom-api/methods/#operation/recordingsList)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

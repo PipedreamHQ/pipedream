@@ -4,8 +4,9 @@ export default {
   key: "linkupapi-list-inbox",
   name: "List Inbox",
   description: "List conversations from the LinkedIn inbox, each with its `conversation_id` to use with **Get Conversation Messages**. [See the documentation](https://docs.linkupapi.com/api-reference/v2/messages/list-inbox)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,
