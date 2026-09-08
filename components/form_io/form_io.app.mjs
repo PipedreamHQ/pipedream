@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import {
   API_KEY_HEADER,
   LIMIT_MIN,
@@ -59,6 +61,18 @@ export default {
         [API_KEY_HEADER]: this.$auth.api_key,
       };
     },
+    // Validate + URL-encode a required path id before it goes into a request URL.
+    // An empty/whitespace id would otherwise build a malformed path (e.g. `/role/`),
+    // which Form.io answers with an opaque HTML 404 instead of a usable error.
+    _requireId(value, label) {
+      const id = value == null
+        ? ""
+        : String(value).trim();
+      if (!id) {
+        throw new ConfigurationError(`The \`${label}\` prop is required and cannot be empty.`);
+      }
+      return encodeURIComponent(id);
+    },
     async _makeRequest({
       $ = this,
       path,
@@ -88,7 +102,7 @@ export default {
       return this._makeRequest({
         $,
         method: "GET",
-        path: `/form/${formId}`,
+        path: `/form/${this._requireId(formId, "formId")}`,
       });
     },
     async updateForm({
@@ -97,7 +111,7 @@ export default {
       return this._makeRequest({
         $,
         method: "PUT",
-        path: `/form/${formId}`,
+        path: `/form/${this._requireId(formId, "formId")}`,
         data,
       });
     },
@@ -107,7 +121,7 @@ export default {
       return this._makeRequest({
         $,
         method: "DELETE",
-        path: `/form/${formId}`,
+        path: `/form/${this._requireId(formId, "formId")}`,
       });
     },
     async listForms({
@@ -127,7 +141,7 @@ export default {
       return this._makeRequest({
         $,
         method: "POST",
-        path: `/form/${formId}/submission`,
+        path: `/form/${this._requireId(formId, "formId")}/submission`,
         data,
       });
     },
@@ -137,7 +151,7 @@ export default {
       return this._makeRequest({
         $,
         method: "GET",
-        path: `/form/${formId}/submission/${submissionId}`,
+        path: `/form/${this._requireId(formId, "formId")}/submission/${this._requireId(submissionId, "submissionId")}`,
       });
     },
     async updateSubmission({
@@ -146,7 +160,7 @@ export default {
       return this._makeRequest({
         $,
         method: "PUT",
-        path: `/form/${formId}/submission/${submissionId}`,
+        path: `/form/${this._requireId(formId, "formId")}/submission/${this._requireId(submissionId, "submissionId")}`,
         data,
       });
     },
@@ -156,7 +170,7 @@ export default {
       return this._makeRequest({
         $,
         method: "DELETE",
-        path: `/form/${formId}/submission/${submissionId}`,
+        path: `/form/${this._requireId(formId, "formId")}/submission/${this._requireId(submissionId, "submissionId")}`,
       });
     },
     async listSubmissions({
@@ -165,7 +179,7 @@ export default {
       return this._makeRequest({
         $,
         method: "GET",
-        path: `/form/${formId}/submission`,
+        path: `/form/${this._requireId(formId, "formId")}/submission`,
         params,
       });
     },
@@ -186,7 +200,7 @@ export default {
       return this._makeRequest({
         $,
         method: "GET",
-        path: `/role/${roleId}`,
+        path: `/role/${this._requireId(roleId, "roleId")}`,
       });
     },
     async updateRole({
@@ -195,7 +209,7 @@ export default {
       return this._makeRequest({
         $,
         method: "PUT",
-        path: `/role/${roleId}`,
+        path: `/role/${this._requireId(roleId, "roleId")}`,
         data,
       });
     },
@@ -205,7 +219,7 @@ export default {
       return this._makeRequest({
         $,
         method: "DELETE",
-        path: `/role/${roleId}`,
+        path: `/role/${this._requireId(roleId, "roleId")}`,
       });
     },
     async listRoles({
@@ -225,7 +239,7 @@ export default {
       return this._makeRequest({
         $,
         method: "POST",
-        path: `/form/${formId}/action`,
+        path: `/form/${this._requireId(formId, "formId")}/action`,
         data,
       });
     },
@@ -235,7 +249,7 @@ export default {
       return this._makeRequest({
         $,
         method: "GET",
-        path: `/form/${formId}/action/${actionId}`,
+        path: `/form/${this._requireId(formId, "formId")}/action/${this._requireId(actionId, "actionId")}`,
       });
     },
     async updateFormAction({
@@ -244,7 +258,7 @@ export default {
       return this._makeRequest({
         $,
         method: "PUT",
-        path: `/form/${formId}/action/${actionId}`,
+        path: `/form/${this._requireId(formId, "formId")}/action/${this._requireId(actionId, "actionId")}`,
         data,
       });
     },
@@ -254,7 +268,7 @@ export default {
       return this._makeRequest({
         $,
         method: "DELETE",
-        path: `/form/${formId}/action/${actionId}`,
+        path: `/form/${this._requireId(formId, "formId")}/action/${this._requireId(actionId, "actionId")}`,
       });
     },
     async listFormActions({
@@ -263,7 +277,7 @@ export default {
       return this._makeRequest({
         $,
         method: "GET",
-        path: `/form/${formId}/action`,
+        path: `/form/${this._requireId(formId, "formId")}/action`,
         params,
       });
     },
