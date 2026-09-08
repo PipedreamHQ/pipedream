@@ -4,7 +4,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "cpfcnpj-consultar-cnpj",
   name: "Consultar CNPJ",
-  description: "Returns official, real-time (D+0) registration data for a Brazilian company (CNPJ) according to the selected package. Data is sourced directly from official records, never from leaked or scraped databases, under ISO/IEC <ISO_CERT> information security certification. [See the documentation](https://www.cpfcnpj.com.br/dev/)",
+  description: "Returns official, real-time (D+0) registration data for a Brazilian company (CNPJ) according to the selected package. Data is sourced directly from official records, never from leaked or scraped databases, under ISO/IEC 27001, ISO/IEC 27701 and ISO 37301 certifications. [See the documentation](https://www.cpfcnpj.com.br/dev/)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

@@ -17,6 +17,9 @@ export default {
     _token() {
       return this.$auth.token;
     },
+    _normalizeDocumento(documento) {
+      return `${documento}`.replace(/[^0-9A-Za-z]/g, "").toUpperCase();
+    },
     async _makeRequest(opts = {}) {
       const {
         $ = this,
@@ -27,7 +30,7 @@ export default {
       return axios($, {
         ...otherOpts,
         method: "GET",
-        url: `${this._baseUrl()}/${this._token()}/${pacote}/${documento}`,
+        url: `${this._baseUrl()}/${this._token()}/${pacote}/${this._normalizeDocumento(documento)}`,
         headers: {
           "Accept": "application/json",
         },
