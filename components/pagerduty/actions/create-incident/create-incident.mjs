@@ -9,8 +9,9 @@ export default {
     + " Use **List Priorities** to find priority IDs."
     + " Set `incidentKey` to a stable value derived from the alert source (e.g. a hash of title + service ID) to prevent duplicate incidents on retry — PagerDuty deduplicates open incidents with the same key on the same service."
     + " [See the documentation](https://developer.pagerduty.com/api-reference/b3A6Mjc0ODE0MA-create-an-incident)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

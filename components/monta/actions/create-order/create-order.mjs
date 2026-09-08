@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import monta from "../../monta.app.mjs";
 import { parseJsonObjects } from "../../common/utils.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "monta-create-order",
   name: "Create Order",
   description: "Create a new order in Monta for fulfillment. Provide the recipient's delivery address (which needs a Company or Last Name) and at least one order line; validate the address first with **Validate Address** if needed. [See the documentation](https://api-v6.monta.nl/index.html#tag/Order/paths/~1order/post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

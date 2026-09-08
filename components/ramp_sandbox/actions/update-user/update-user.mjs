@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import ramp from "../../ramp_sandbox.app.mjs";
 import updateUser from "@pipedream/ramp/actions/update-user/update-user.mjs";
 
@@ -7,13 +6,14 @@ export default {
   key: "ramp_sandbox-update-user",
   name: "Update User",
   description: "Update fields on an existing Ramp Sandbox user (role, department, location, direct manager). Run the **List Users** action to find the user ID, **List Departments** and **List Locations** for related IDs. Example: to move a user into a department, pass their User ID plus a Department ID from **List Departments**; you can also set `role` (e.g. `BUSINESS_USER`), location, or direct manager. [See the documentation](https://docs.ramp.com/developer-api/v1/api/users#patch-developer-v1-users-user-id)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ramp,
     userId: {

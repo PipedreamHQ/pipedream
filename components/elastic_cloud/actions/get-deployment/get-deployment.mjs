@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import elasticCloud from "../../elastic_cloud.app.mjs";
 
 export default {
   key: "elastic_cloud-get-deployment",
   name: "Get Deployment",
   description: "Retrieve a single Elastic Cloud deployment by ID. Run **List Deployments** first to find a valid deployment ID. [See the documentation](https://www.elastic.co/docs/api/doc/cloud/operation/operation-get-deployment)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   props: {
     elasticCloud,
     deploymentId: {

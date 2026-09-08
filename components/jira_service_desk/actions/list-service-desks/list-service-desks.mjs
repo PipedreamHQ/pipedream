@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../jira_service_desk.app.mjs";
 
 export default {
@@ -12,8 +11,9 @@ export default {
     + " Returns `{ serviceDesks, truncated }`, where `truncated` is `true` when more desks remained unfetched."
     + " Example: a site with one desk returns `{ \"serviceDesks\": [{ \"id\": \"1\", \"projectName\": \"Support\", \"projectKey\": \"SUP\" }], \"truncated\": false }`."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-servicedesk/#api-rest-servicedeskapi-servicedesk-get)",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

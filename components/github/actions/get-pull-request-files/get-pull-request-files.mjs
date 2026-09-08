@@ -4,13 +4,14 @@ export default {
   key: "github-get-pull-request-files",
   name: "Get Pull Request Files",
   description: "List the files changed in a pull request (the PR diff at the file level). Returns each file's `filename`, `status` (added/modified/removed/renamed), additions/deletions/changes counts, and the unified `patch` when available — use this to review what a PR changes before approving or merging it. Provide the repository as an `owner/repo` string and the PR number. If you only know the PR by title, call **Get Pull Request** or **Search Issues and Pull Requests** with `is:pr` first to resolve its number. [See the documentation](https://docs.github.com/en/rest/pulls/pulls#list-pull-requests-files)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     github,
     repoFullname: {

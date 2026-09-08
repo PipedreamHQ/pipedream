@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import { ASSOCIATION_CATEGORY } from "../../common/constants.mjs";
 import common from "../common/common-create.mjs";
@@ -13,13 +12,14 @@ export default {
     + "For **only** a contact ID + note body, **Add Note to Contact** is simpler. "
     + "To associate the note with another record, supply `toObjectType`, `toObjectId`, and `associationType` together. "
     + "[See the documentation](https://developers.hubspot.com/docs/api/crm/objects/notes)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     toObjectType: {

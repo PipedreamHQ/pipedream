@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import superCarl from "../../super_carl.app.mjs";
 import {
   applyFieldSelection,
@@ -13,13 +12,14 @@ export default {
   key: "super_carl-search-people",
   name: "Search People",
   description: "Search people by role, company history, expertise, location, network relationship, or recent activity. Keep Preview enabled for fast counts and lightweight rows; disable Preview when you need full rows and Evidence Format, since Evidence Format is ignored during preview. Use **Search Companies** first when a named employer is ambiguous. Person rows carry deep connection/evidence metadata and can be large — pass Fields (e.g. `name`, `linkedin_profile_url`, `headline`) to keep the result small when you only need a few values. Always pass Fields when Preview is off and you set Relationship Detail to `intro_paths` or Evidence Format to anything other than `none`: that combination alone can exceed the response size limit even with a handful of rows, so don't wait for a truncated first call to add Fields. Read-only against Super Carl's shared external people database: there is no way to edit, hide, or delete a person's profile through this or any other Super Carl tool. [See the documentation](https://supercarl.ai/docs#endpoints-people-search)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     superCarl,
     query: {
