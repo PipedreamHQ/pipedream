@@ -972,6 +972,12 @@ export default {
             throwRateLimitError: true,
           }));
         } catch (error) {
+          // Only a rate limit (see _withRetries' `throwRateLimitError` bail message) is a
+          // problem with the scan itself — surface it with resolution-specific guidance.
+          // Auth, scope, network, and other API errors are unrelated to the scan and should
+          // propagate as-is so callers see the real cause instead of a misleading "provide
+          // a channel ID" hint.
+          if (!`${error}`.startsWith("Rate limit exceeded.")) throw error;
           throw new ConfigurationError(
             `Could not resolve channel "${input}": ${error}. Provide the channel ID directly instead (use List Channels to look it up) to skip this lookup.`,
           );
