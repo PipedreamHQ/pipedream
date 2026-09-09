@@ -133,10 +133,10 @@ export default {
       ],
     },
     filterValue: {
-      type: "string",
-      label: "Filter Value",
-      optional: true,
-      description: "The value to filter both periods on, combined with `filterDimension` and `filterOperator` into one filter — e.g. `filterDimension: device`, `filterOperator: equals`, value `MOBILE`. `page` expressions match the FULL URL, scheme and host included, not a path. When this is set, `advancedDimensionFilters` is ignored.",
+      propDefinition: [
+        googleSearchConsole,
+        "filterValue",
+      ],
     },
     advancedDimensionFilters: {
       propDefinition: [

@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import googleSearchConsole from "../../google_search_console.app.mjs";
 import { trimIfString } from "../../common/utils.mjs";
 
@@ -81,7 +82,7 @@ export default {
     const trimmedSitemapIndex = trimIfString(sitemapIndex);
 
     if (trimmedSitemapUrl && trimmedSitemapIndex) {
-      throw new Error("Set either `sitemapUrl` (return one sitemap) or `sitemapIndex` (list the children of an index), not both.");
+      throw new ConfigurationError("Set either `sitemapUrl` (return one sitemap) or `sitemapIndex` (list the children of an index), not both.");
     }
 
     let records;

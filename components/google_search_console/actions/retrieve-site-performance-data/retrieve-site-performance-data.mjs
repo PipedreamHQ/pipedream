@@ -120,10 +120,10 @@ export default {
       optional: true,
     },
     subdomainFilter: {
-      type: "string",
-      label: "Filter Value",
-      optional: true,
-      description: "The value to filter on, for ANY dimension — not just subdomains (the prop key is legacy). Combined with `filterDimension` and `filterOperator` into one filter, e.g. `filterDimension: page`, `filterOperator: contains`, value `https://www.example.com/blog/`. `page` expressions match the FULL URL, scheme and host included, not a path. When this is set, `advancedDimensionFilters` is ignored.",
+      propDefinition: [
+        googleSearchConsole,
+        "filterValue",
+      ],
     },
     filterDimension: {
       propDefinition: [

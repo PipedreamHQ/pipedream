@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import googleSearchConsole from "../../google_search_console.app.mjs";
 import { trimIfString } from "../../common/utils.mjs";
 
@@ -166,11 +167,11 @@ export default {
       .filter((url) => typeof url === "string" && url !== "");
 
     if (urls.length === 0) {
-      throw new Error("No URLs to inspect. Pass 1-10 full absolute URLs in `inspectionUrls`, e.g. [\"https://www.example.com/\"].");
+      throw new ConfigurationError("No URLs to inspect. Pass 1-10 full absolute URLs in `inspectionUrls`, e.g. [\"https://www.example.com/\"].");
     }
 
     if (urls.length > MAX_URLS) {
-      throw new Error(`Too many URLs: ${urls.length} given, but this action inspects at most ${MAX_URLS} per call. Split the list into batches of ${MAX_URLS} or fewer.`);
+      throw new ConfigurationError(`Too many URLs: ${urls.length} given, but this action inspects at most ${MAX_URLS} per call. Split the list into batches of ${MAX_URLS} or fewer.`);
     }
 
     const results = await mapWithConcurrency(urls, CONCURRENCY, async (url) => {
