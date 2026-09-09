@@ -26,6 +26,12 @@ const DEFAULT_PROCESSING_LOOKBACK_HOURS = 2;
 const MIN_PROCESSING_LOOKBACK_HOURS = 1;
 const MAX_PROCESSING_LOOKBACK_HOURS = 168;
 
+// Kept here rather than in `common/constants.mjs` for the same reason as the
+// values above: that file reaches every action in this app through
+// `gong.app.mjs`, so touching it costs a version bump on five components this
+// change does not affect.
+const EMITTED_IDS = "emittedIds";
+
 export default {
   ...common,
   props: {
@@ -57,10 +63,10 @@ export default {
       return this.db.get(constants.LAST_CREATED_AT);
     },
     setEmittedIds(value) {
-      this.db.set(constants.EMITTED_IDS, value);
+      this.db.set(EMITTED_IDS, value);
     },
     getEmittedIds() {
-      return this.db.get(constants.EMITTED_IDS) || [];
+      return this.db.get(EMITTED_IDS) || [];
     },
     // Only calls that the next poll can actually read again are worth
     // remembering, so the ledger is pruned to the window the cursor reopens.
