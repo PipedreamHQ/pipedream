@@ -8,13 +8,14 @@ export default {
     + " Only user-created labels can be deleted — Gmail's built-in system labels (`INBOX`, `SENT`, `SPAM`, `TRASH`, etc.) cannot."
     + " This deletes the label *definition* itself; to merely detach a label from specific messages without removing it, use **Modify Labels** with `removeLabels` instead."
     + " [See the documentation](https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.labels/delete).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     gmail,
     label: {

@@ -4,13 +4,14 @@ export default {
   key: "leexi-create-call",
   name: "Create Call",
   description: "Create a new call in Leexi. [See the documentation](https://developer.leexi.ai/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     recordingS3Key: {

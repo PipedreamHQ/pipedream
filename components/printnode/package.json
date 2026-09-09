@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/printnode",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Pipedream PrintNode Components",
   "main": "printnode.app.mjs",
   "keywords": [

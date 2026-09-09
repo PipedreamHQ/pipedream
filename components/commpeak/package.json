@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/commpeak",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream CommPeak Components",
   "main": "commpeak.app.mjs",
   "keywords": [

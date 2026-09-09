@@ -5,13 +5,14 @@ export default {
   name: "Document Parser",
   description: "Document Parser can automatically parse PDF, JPG, PNG document to extract fields, tables, values, barcodes from invoices, statements, orders and other PDF and scanned documents. [See docs here](https://apidocs.pdf.co/01-document-parser)",
   key: "pdf_co-document-parser",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     url: {

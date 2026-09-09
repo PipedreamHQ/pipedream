@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/email",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream email Components",
   "main": "email.app.mjs",
   "keywords": [
