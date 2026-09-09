@@ -6,7 +6,8 @@ export default {
   description:
     "Add an emoji reaction to a message."
     + " Accepts a channel ID (preferred — resolves instantly) or channel name (resolved by"
-    + " scanning the workspace's channel list, which can be slow)."
+    + " scanning up to 5 pages, ~5,000 channels, of the workspace's channel list — a name beyond"
+    + " that bound will not be found)."
     + " Use **Get Channel History** or **Search** to find the message timestamp."
     + " Emoji name should be without colons (e.g. `thumbsup`, `fire`, `heart`)."
     + " [See the documentation](https://api.slack.com/methods/reactions.add)",
@@ -23,7 +24,7 @@ export default {
     channel: {
       type: "string",
       label: "Channel",
-      description: "Prefer a channel ID (e.g. `C1234567890`) — use **List Channels** to look it up; it resolves instantly. A channel name (e.g. `general` or `#general`) is also accepted, but resolving it scans the workspace's full channel list and can be slow (or fail) on large workspaces.",
+      description: "Prefer a channel ID (e.g. `C1234567890`) — use **List Channels** to look it up; it resolves instantly. A channel name (e.g. `general` or `#general`) is also accepted, but resolving it scans up to 5 pages (~5,000 channels) of the workspace's channel list, which can be slow — and a valid channel beyond that bound will not be found.",
     },
     timestamp: {
       type: "string",

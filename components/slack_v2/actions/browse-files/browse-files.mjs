@@ -6,7 +6,8 @@ export default {
   description:
     "List files shared in a channel or across the workspace."
     + " Accepts a channel ID (preferred — resolves instantly) or channel name (resolved by"
-    + " scanning the workspace's channel list, which can be slow)."
+    + " scanning up to 5 pages, ~5,000 channels, of the workspace's channel list — a name beyond"
+    + " that bound will not be found)."
     + " Filter by file type (e.g. `images`, `pdfs`, `snippets`)."
     + " Returns file metadata including name, type, size, and download URL."
     + " [See the documentation](https://api.slack.com/methods/files.list)",
@@ -23,7 +24,7 @@ export default {
     channel: {
       type: "string",
       label: "Channel",
-      description: "Prefer a channel ID (e.g. `C1234567890`) — use **List Channels** to look it up; it resolves instantly. A channel name (e.g. `general` or `#general`) is also accepted, but resolving it scans the workspace's full channel list and can be slow (or fail) on large workspaces. If omitted, lists files across the workspace.",
+      description: "Prefer a channel ID (e.g. `C1234567890`) — use **List Channels** to look it up; it resolves instantly. A channel name (e.g. `general` or `#general`) is also accepted, but resolving it scans up to 5 pages (~5,000 channels) of the workspace's channel list, which can be slow — and a valid channel beyond that bound will not be found. If omitted, lists files across the workspace.",
       optional: true,
     },
     types: {

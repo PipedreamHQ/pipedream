@@ -32,7 +32,7 @@ export default {
     conversation: {
       type: "string",
       label: "Channel",
-      description: "**Prefer a channel ID** (e.g. `C1234567890`) — use **List Channels** to look it up; it resolves instantly. A channel NAME (e.g. `general` or `#general`) is also accepted, but resolving it requires scanning the workspace's full channel list, which is slow and, on large workspaces, can be rate-limited or fail outright — pass the ID whenever you have it. Depending on the action, this may also accept a user ID (opens a direct message) or a group DM ID — use **Find User by Email** / **Find User by ID** to resolve a user ID, or **List Group Conversations** for group DM IDs.",
+      description: "**Prefer a channel ID** (e.g. `C1234567890`) — use **List Channels** to look it up; it resolves instantly. A channel NAME (e.g. `general` or `#general`) is also accepted, but resolving it scans up to 5 conversations.list pages (~5,000 channels), which is slow and, on large workspaces, can be rate-limited or fail with a ConfigurationError if the channel is beyond that bound — pass the ID whenever you have it. Depending on the action, this may also accept a user ID (opens a direct message) or a group DM ID — use **Find User by Email** / **Find User by ID** to resolve a user ID, or **List Group Conversations** for group DM IDs.",
     },
     channelId: {
       type: "string",

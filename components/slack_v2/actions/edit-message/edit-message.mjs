@@ -24,7 +24,7 @@ export default {
     channel: {
       type: "string",
       label: "Channel",
-      description: "Prefer a channel ID (e.g. `C1234567890`) — use **List Channels** to look it up; it resolves instantly. A channel name (e.g. `general` or `#general`) is also accepted, but resolving it scans the workspace's full channel list and can be slow (or fail) on large workspaces.",
+      description: "Prefer a channel ID (e.g. `C1234567890`) — use **List Channels** to look it up; it resolves instantly. A channel name (e.g. `general` or `#general`) is also accepted, but resolving it scans up to 5 pages (~5,000 channels) of the workspace's channel list, which can be slow — and a valid channel beyond that bound will not be found.",
     },
     timestamp: {
       type: "string",

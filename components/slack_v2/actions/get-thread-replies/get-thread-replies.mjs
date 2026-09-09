@@ -7,7 +7,8 @@ export default {
   description:
     "Retrieve all replies in a message thread."
     + " Accepts a channel ID (preferred — resolves instantly) or channel name (resolved by"
-    + " scanning the workspace's channel list, which can be slow)."
+    + " scanning up to 5 conversations.list pages, ~5,000 active public/private channels — a"
+    + " name beyond that limit returns a configuration error)."
     + " Use **Get Channel History** or **Search** to find the parent message's timestamp (thread_ts)."
     + " Returns the parent message followed by all replies in chronological order."
     + " **Pass `fields`** (e.g. `text,ts,user`) unless you need full message objects — raw"
@@ -27,7 +28,7 @@ export default {
     channel: {
       type: "string",
       label: "Channel",
-      description: "Prefer a channel ID (e.g. `C1234567890`) — use **List Channels** to look it up; it resolves instantly. A channel name (e.g. `general` or `#general`) is also accepted, but resolving it scans the workspace's full channel list and can be slow (or fail) on large workspaces.",
+      description: "Prefer a channel ID (e.g. `C1234567890`) — use **List Channels** to look it up; it resolves instantly. A channel name (e.g. `general` or `#general`) is also accepted, but resolving it scans up to 5 pages (~5,000 channels) of the workspace's channel list, which can be slow — and a valid channel beyond that bound will not be found.",
     },
     threadTs: {
       type: "string",
