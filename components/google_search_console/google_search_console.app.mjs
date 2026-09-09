@@ -12,17 +12,17 @@ export default {
     siteUrl: {
       type: "string",
       label: "Property (siteUrl)",
-      description: "Exact property identifier as returned by **List Sites** — `sc-domain:example.com` for a domain property, or a URL-prefix such as `https://www.example.com/` (trailing slash; scheme and subdomain must match exactly). Copy it verbatim; never construct it. For traffic questions prefer the domain property when one exists (it covers all subdomains and protocols).",
+      description: "Exact property identifier from **List Sites** — `sc-domain:example.com` for a domain property, or a URL-prefix such as `https://www.example.com/` (trailing slash; scheme and subdomain must match exactly, or the call 403s). Copy it verbatim, never construct it. For traffic questions prefer the domain property when one exists: it covers all subdomains and protocols.",
     },
     sitemapUrl: {
       type: "string",
       label: "Sitemap URL",
-      description: "Full URL of the sitemap or sitemap index, e.g. `https://www.example.com/sitemap.xml`. It must live under the property given in `siteUrl` (for a domain property, any subdomain or scheme of that domain qualifies). Use **List Sitemaps** to see the exact paths Search Console already knows about.",
+      description: "Full URL of the sitemap or sitemap index, e.g. `https://www.example.com/sitemap.xml`. It must live under the property given in `siteUrl` (for a domain property, any subdomain or scheme qualifies). Use **List Sitemaps** for the exact paths Search Console already knows.",
     },
     searchType: {
       type: "string",
       label: "Search Type",
-      description: "Which Google surface to report on. `web` (default) is normal Google Search; `discover` is the Discover feed (has no `query` dimension); `googleNews` is the news.google.com surface, `news` is the News tab of Google Search. Sent to the API as the `type` field.",
+      description: "Which Google surface to report on. `web` (default) is normal Google Search; `discover` is the Discover feed (no `query` dimension); `googleNews` is news.google.com, `news` is the News tab of Google Search. Sent to the API as `type`.",
       optional: true,
       options: [
         "web",
@@ -37,7 +37,7 @@ export default {
     filterDimension: {
       type: "string",
       label: "Filter Dimension",
-      description: "Dimension the single-filter shortcut applies to. Filtering does not require grouping by the same dimension — you can filter by `page` while grouping by `query`. `page` expressions match the FULL URL (including scheme and host), not a path. Default `page`.",
+      description: "Dimension the single-filter shortcut applies to; default `page`. Filtering does not require grouping by the same dimension — you can filter by `page` while grouping by `query`. `page` expressions match the FULL URL, scheme and host included, not a path.",
       optional: true,
       options: [
         "country",

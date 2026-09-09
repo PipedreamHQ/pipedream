@@ -70,68 +70,47 @@ function buildRow({
 
 export default {
   name: "Inspect URLs",
-  description: "Returns Google's index status, canonical selection and crawl state for 1-10 URLs "
-    + "of one Search Console property, in a single call."
-    + "\n\n**Purpose.** This is the API behind the URL Inspection tool in the Search Console UI. "
-    + "For each URL it reports whether Google has indexed it, why or why not, when it was last "
-    + "crawled and with which crawler, the canonical Google selected versus the canonical the page "
-    + "declares, which sitemaps reference it, and whether rich results were detected."
-    + "\n\n**When to use.** \"Is this page indexed?\", \"when did Google last crawl it?\", \"does "
-    + "Google's canonical match the one I declared?\", \"why is this URL missing from search?\", and "
-    + "batch health checks after a deploy or a migration - pass every URL you care about in ONE call "
-    + "instead of calling the tool once per URL."
-    + "\n\n**Returns.** `{ results: [...], summary: { total, indexed, not_indexed, errors } }`. Each "
-    + "row is `{ url, verdict, coverageState, indexingState, robotsTxtState, pageFetchState, "
-    + "lastCrawlTime, crawledAs, googleCanonical, userCanonical, canonical_mismatch, "
-    + "referring_url_count, referringUrls, sitemaps, rich_results_verdict, inspectionResultLink, "
-    + "error }`, in the same order as `inspectionUrls`. `verdict` is `PASS` (indexed), `NEUTRAL` "
-    + "(known but not indexed, or unknown to Google), `FAIL` or `PARTIAL`. `canonical_mismatch` is "
-    + "`true` when both canonicals are present and differ, `false` when they match, and `null` when "
-    + "either is missing. `referringUrls` is truncated to the first 5 while `referring_url_count` is "
-    + "the full count. These are sample referrers Google used to find the page, not a backlink "
-    + "report. `error` is `null` on success and a message string when that single URL failed: "
-    + "one bad URL never aborts the batch. In `summary`, `indexed` counts `verdict: \"PASS\"` rows, "
-    + "`errors` counts rows with an `error`, and `not_indexed` is everything else. The raw API result "
-    + "is attached per row as `full_result` ONLY when `includeFullResult` is true - leave it off "
-    + "unless the user asks for the complete raw result, because it is large and mostly rich-results "
-    + "and AMP detail."
-    + "\n\n**Cross-references.** Get the exact `siteUrl` and confirm your permission level with "
-    + "**List Sites**. Use **Query Search Analytics** to find the pages worth inspecting (for example "
-    + "the pages with impressions but no clicks). Use **Submit Sitemap** to ask Google to re-read a "
-    + "sitemap - that is the supported way to nudge crawling, because there is no API to request "
-    + "indexing of a single ordinary page. If the user asks to \"request indexing\" or force a "
-    + "recrawl of an ordinary page, do not run this tool (or any other) on your own initiative: "
-    + "explain that no API does that, OFFER this index-status check or a sitemap resubmission, and "
-    + "wait for the user to choose."
-    + "\n\n**Parameter guidance.** `inspectionUrls` takes full absolute URLs (scheme included) that "
-    + "live under the property named in `siteUrl`; a path such as `/about` is not accepted. Send "
-    + "several URLs in one call rather than one call per URL. The limit is 10 URLs per call - split "
-    + "longer lists into batches. Each inspection takes Google roughly 5-10 seconds, so a 10-URL "
-    + "batch runs about 20 seconds — that is normal, not a hang. Quota is 2,000 inspections per "
-    + "day and 600 per minute per property, and quota errors do not say which of the two was hit. "
-    + "`languageCode` (BCP-47, default `en-US`) only changes the language of the human-readable "
-    + "strings in the result."
-    + "\n\n**Common mistakes.** Do NOT use this tool for backlinks, \"who links to my site\", or "
-    + "the Links report: Search Console's Links report has no API at all, and `referringUrls` here "
+  description: "Returns Google's index status, canonical selection and crawl state for 1-10 URLs of "
+    + "one Search Console property in a single call. This is the API behind the URL Inspection tool in "
+    + "the Search Console UI."
+    + "\n\n**Use for** \"is this page indexed?\", \"when did Google last crawl it?\", \"does Google's "
+    + "canonical match the one I declared?\", \"why is this URL missing from search?\", and batch health "
+    + "checks after a deploy or migration — pass every URL you care about in ONE call, not one call per "
+    + "URL."
+    + "\n\n**Not for backlinks.** Search Console's Links report has no API at all. `referringUrls` here "
     + "is only a small sample of pages Google happened to discover the URL from — not a backlink "
-    + "profile. When asked for backlinks, call no Search Console tool and say plainly that the "
-    + "links report is not available through the API. The result also does NOT include Core Web "
-    + "Vitals or page-experience data. A URL Google has never seen returns "
-    + "`verdict: \"NEUTRAL\"` with a `coverageState` like "
-    + "`\"URL is unknown to Google\"`; that is a valid answer, not an error. This tool requires "
-    + "`siteOwner` or `siteFullUser` permission - a `siteRestrictedUser` gets 403. A wrong or "
-    + "mismatched `siteUrl` (URLs that do not belong to that property, a missing trailing slash, or "
-    + "`sc-domain:` versus URL-prefix confusion) also returns 403 \"User does not have sufficient "
-    + "permission for site\", so copy the identifier verbatim from **List Sites**. "
-    + "`mobileUsabilityResult` is deprecated by Google and is not surfaced here."
+    + "profile — so when asked for backlinks, call no Search Console tool and say plainly that the "
+    + "links report is not available through the API. The result also carries no Core Web Vitals or "
+    + "page-experience data. And if the user asks to \"request indexing\" or force a recrawl of an "
+    + "ordinary page, do not run this tool (or any other) on your own initiative: explain that no API "
+    + "does that, OFFER this index-status check or a sitemap resubmission via **Submit Sitemap**, and "
+    + "wait for them to choose."
+    + "\n\n**Returns** `{ results: [...], summary: { total, indexed, not_indexed, errors } }`, one row "
+    + "per URL in the same order as `inspectionUrls`. Reading the rows:"
+    + "\n- `verdict` is `PASS` (indexed), `NEUTRAL` (known but not indexed, or unknown to Google), "
+    + "`FAIL` or `PARTIAL`. A URL Google has never seen returns `NEUTRAL` with a `coverageState` like "
+    + "`\"URL is unknown to Google\"` — that is a valid answer, not an error."
+    + "\n- `canonical_mismatch` is `true` when `googleCanonical` and `userCanonical` are both present "
+    + "and differ, `false` when they match, `null` when either is missing."
+    + "\n- `referringUrls` is truncated to the first 5; `referring_url_count` is the full count."
+    + "\n- `error` is `null` on success and a message when that single URL failed — one bad URL never "
+    + "aborts the batch. In `summary`, `indexed` counts `PASS` rows, `errors` counts rows with an "
+    + "`error`, and `not_indexed` is everything else."
+    + "\n- The raw API result is attached per row as `full_result` ONLY when `includeFullResult` is "
+    + "true. Leave it off unless the user asks for the complete raw result: it is large and mostly "
+    + "rich-results and AMP detail."
+    + "\n\n**Mistakes.** A path such as `/about` is not accepted — send full absolute URLs that live "
+    + "under `siteUrl`. Each inspection takes Google roughly 5-10 seconds, so a 10-URL batch runs about "
+    + "20 seconds; that is normal, not a hang. Quota is 2,000 inspections per day AND 600 per minute "
+    + "per property, and a quota error does not say which was hit. Requires `siteOwner` or "
+    + "`siteFullUser` — a `siteRestrictedUser` gets 403, and so does a mismatched `siteUrl` (URLs "
+    + "outside the property, a missing trailing slash, `sc-domain:` versus URL-prefix confusion), so "
+    + "copy the identifier verbatim from **List Sites**."
     + "\n\n**Example.** `siteUrl=\"sc-domain:example.com\"`, "
-    + "`inspectionUrls=[\"https://www.example.com/\"]` -> `results[0]` has "
-    + "`verdict: \"PASS\"`, `coverageState: \"Submitted and indexed\"`, "
-    + "`googleCanonical: \"https://www.example.com/\"`, "
-    + "`userCanonical: \"https://example.com/\"`, `canonical_mismatch: true` (Google indexed "
-    + "the www URL even though the page declares the non-www one), and a `lastCrawlTime` such as "
-    + "`\"2026-08-28T04:12:33Z\"`; `summary` is "
-    + "`{ total: 1, indexed: 1, not_indexed: 0, errors: 0 }`."
+    + "`inspectionUrls=[\"https://www.example.com/\"]` -> `results[0]` has `verdict: \"PASS\"`, "
+    + "`coverageState: \"Submitted and indexed\"`, `googleCanonical: \"https://www.example.com/\"`, "
+    + "`userCanonical: \"https://example.com/\"` and `canonical_mismatch: true` — Google indexed the "
+    + "www URL even though the page declares the non-www one."
     + "\n\n[See the documentation](https://developers.google.com/webmaster-tools/v1/urlInspection.index/inspect)",
   key: "google_search_console-inspect-urls",
   version: "0.0.1",
@@ -149,24 +128,24 @@ export default {
         googleSearchConsole,
         "siteUrl",
       ],
-      description: "Exact property identifier as returned by **List Sites** — `sc-domain:example.com` for a domain property, or a URL-prefix such as `https://www.example.com/` (trailing slash; scheme and subdomain must match exactly). Copy it verbatim; never construct it. Every URL in `inspectionUrls` must belong to this property, otherwise the call returns 403 \"User does not have sufficient permission for site\". Inspection requires `siteOwner` or `siteFullUser` on the property.",
+      description: "Exact property identifier as returned by **List Sites**, copied verbatim. Every URL in `inspectionUrls` must belong to it, or the call returns 403 \"User does not have sufficient permission for site\".",
     },
     inspectionUrls: {
       type: "string[]",
       label: "URLs to Inspect",
-      description: "1-10 full absolute URLs to inspect, e.g. `[\"https://www.example.com/\", \"https://www.example.com/pricing\"]`. Each must live under the property given in `siteUrl`; paths alone (`/pricing`) are rejected. Batch the URLs into this one call rather than calling the action once per URL. Quota is 2,000 inspections per day AND 600 per minute per property; a quota error does not say which of the two limits was hit, so on a quota failure wait a minute before retrying and only then assume the daily cap.",
+      description: "1-10 full absolute URLs to inspect, e.g. `[\"https://www.example.com/\", \"https://www.example.com/pricing\"]`. Each must live under the property given in `siteUrl`; paths alone (`/pricing`) are rejected. Batch the URLs into this one call rather than calling the action once per URL. On a quota failure wait a minute before retrying, and only then assume the 2,000-per-day cap rather than the 600-per-minute one.",
     },
     languageCode: {
       type: "string",
       label: "Language Code",
-      description: "BCP-47 language code (e.g. `en-US`, `fr`, `pt-BR`) for the human-readable strings in the result, such as `coverageState`. Defaults to `en-US`. It does not change the verdicts or any other data.",
+      description: "BCP-47 language code (e.g. `en-US`, `fr`, `pt-BR`) for the human-readable strings in the result, such as `coverageState`. Defaults to `en-US`; it changes no verdicts or data.",
       optional: true,
       default: "en-US",
     },
     includeFullResult: {
       type: "boolean",
       label: "Include Full Result",
-      description: "When `true`, attach the untrimmed API `inspectionResult` for each URL as `full_result` (rich results detail, AMP result, and everything else Google returns). Defaults to `false` because that payload is large and mostly rich-results and AMP detail; the curated fields already answer index-status, canonical and crawl questions. Set it to `true` only when the user asks for the complete or raw inspection result.",
+      description: "When `true`, attach the untrimmed API `inspectionResult` for each URL as `full_result`. Defaults to `false` because that payload is large and mostly rich-results and AMP detail, and the curated fields already answer index-status, canonical and crawl questions. Set it `true` only when the user asks for the complete or raw inspection result.",
       optional: true,
       default: false,
     },
