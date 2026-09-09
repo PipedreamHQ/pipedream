@@ -6,7 +6,7 @@ export default {
   key: "highlevel_oauth-new-contact-created",
   name: "New Contact Created",
   description: "Emit new event when a new contact is created. [See the documentation](https://marketplace.gohighlevel.com/docs/ghl/contacts/get-contacts)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -23,9 +23,9 @@ export default {
     const results = [];
     const params = {
       limit: 100,
-      startAfter: this._getLastDate(),
       locationId: this.app.getLocationId(),
     };
+    const lastDate = this._getLastDate();
     let total;
 
     do {
@@ -35,11 +35,19 @@ export default {
         params,
       });
       results.push(...contacts);
+      total = contacts.length;
       params.startAfter = meta?.startAfter;
-      total = meta?.total;
-    } while (results.length < total);
+      params.startAfterId = meta?.startAfterId;
+      if (Date.parse(contacts[0].dateAdded) <= lastDate) {
+        break;
+      }
+    } while (params.startAfter && total === params.limit);
 
-    this._setLastDate(params.startAfter);
+    if (!results.length) {
+      return;
+    }
+
+    this._setLastDate(Date.parse(results[0].dateAdded));
 
     results.forEach((contact) => {
       const meta = this.generateMeta(contact);
