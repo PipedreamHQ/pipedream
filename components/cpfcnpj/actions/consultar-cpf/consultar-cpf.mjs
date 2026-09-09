@@ -1,5 +1,4 @@
 import app from "../../cpfcnpj.app.mjs";
-import constants from "../../common/constants.mjs";
 
 export default {
   key: "cpfcnpj-consultar-cpf",
@@ -23,11 +22,10 @@ export default {
       description: "The CPF of the person you want to look up, i.e.: `128.982.560-21`",
     },
     pacote: {
-      type: "string",
-      label: "Package",
-      description: "The data package that defines which fields are returned",
-      options: constants.CPF_PACOTES,
-      default: "3",
+      propDefinition: [
+        app,
+        "pacoteCpf",
+      ],
     },
   },
 

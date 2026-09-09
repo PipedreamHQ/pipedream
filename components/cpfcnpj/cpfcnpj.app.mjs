@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -8,6 +9,20 @@ export default {
       type: "string",
       label: "Document Number",
       description: "The document number to look up. Use a CPF for people (11 digits) or a CNPJ for companies (14 digits). Formatting characters such as dots, slashes and dashes are accepted.",
+    },
+    pacoteCpf: {
+      type: "string",
+      label: "Package",
+      description: "The data package that defines which fields are returned",
+      options: constants.CPF_PACOTES,
+      default: "3",
+    },
+    pacoteCnpj: {
+      type: "string",
+      label: "Package",
+      description: "The data package that defines which fields are returned",
+      options: constants.CNPJ_PACOTES,
+      default: "6",
     },
   },
   methods: {
