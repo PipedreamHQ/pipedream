@@ -3,6 +3,7 @@ import googleDrive from "@pipedream/google_drive";
 import { ConfigurationError } from "@pipedream/platform";
 import utils from "./common/utils.mjs";
 import markdownParser from "./common/markdown-parser.mjs";
+import { OCCURRENCES } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -95,6 +96,38 @@ export default {
       label: "Match Case",
       description: "Case sensitive search (`true`) or not (`false`). Defaults to `false`",
       default: false,
+      optional: true,
+    },
+    findText: {
+      type: "string",
+      label: "Find Text",
+      description: "The text to style. The action locates it in the document and styles each match selected by **Occurrence**. Leave blank only if you are supplying **Start Index** and **End Index** instead.",
+      optional: true,
+    },
+    occurrence: {
+      type: "string",
+      label: "Occurrence",
+      description: "Which matches of **Find Text** to style: `first` (default) or `all`.",
+      options: OCCURRENCES,
+      default: "first",
+      optional: true,
+    },
+    startIndex: {
+      type: "integer",
+      label: "Start Index",
+      description: "Character index to style from, inclusive. Use with **End Index** instead of **Find Text**. Indices come from **Get Document** and shift after every edit, so prefer **Find Text**.",
+      optional: true,
+    },
+    endIndex: {
+      type: "integer",
+      label: "End Index",
+      description: "Character index to style up to, exclusive. Must be greater than **Start Index**.",
+      optional: true,
+    },
+    styleTabId: {
+      type: "string",
+      label: "Tab ID",
+      description: "For a multi-tab document, restrict the operation to this tab (e.g. `t.0`). Copy it from **Get Document**. Omit to search every tab.",
       optional: true,
     },
     replacementFormat: {
@@ -268,6 +301,154 @@ export default {
         tab,
         ...this._flattenDocumentTabs(tab.childTabs),
       ]);
+    },
+    async resolveTableLocation(documentId, {
+      find, matchCase = false, tableIndex, tableStartIndex, tabId,
+    }) {
+      if (tableStartIndex != null) {
+        return {
+          index: tableStartIndex,
+          ...(tabId && {
+            tabId,
+          }),
+        };
+      }
+
+      const document = await this.getDocument(documentId, true);
+      const tabs = this._flattenDocumentTabs(document.tabs)
+        .filter(({ tabProperties }) => !tabId || tabProperties?.tabId === tabId);
+
+      if (!tabs.length) {
+        throw new ConfigurationError(`No tab with ID "${tabId}" found in document ${documentId}.`);
+      }
+
+      const tables = tabs.flatMap((tab) => this.flattenTables(tab.documentTab?.body?.content)
+        .map((table) => ({
+          ...table,
+          tabId: tab.tabProperties?.tabId,
+        })));
+
+      if (!tables.length) {
+        throw new ConfigurationError(`Document ${documentId} contains no tables.`);
+      }
+
+      if (find) {
+        const match = tabs.flatMap((tab) => {
+          const {
+            text, indexMap,
+          } = utils.collectTextWithIndices(tab.documentTab?.body?.content);
+          return utils.findTextRanges({
+            text,
+            indexMap,
+            needle: find,
+            matchCase,
+          }).map((range) => ({
+            ...range,
+            tabId: tab.tabProperties?.tabId,
+          }));
+        })[0];
+
+        if (!match) {
+          throw new ConfigurationError(`Text "${find}" was not found in document ${documentId}.`);
+        }
+        const containing = tables.find(({
+          startIndex, endIndex, tabId: tableTabId,
+        }) => tableTabId === match.tabId
+          && startIndex <= match.startIndex && match.endIndex <= endIndex);
+
+        if (!containing) {
+          throw new ConfigurationError(`Text "${find}" was found in document ${documentId} but is not inside a table. Use Find Table Text that appears in a cell, or address the table by Table Index.`);
+        }
+        return {
+          index: containing.startIndex,
+          ...(containing.tabId && {
+            tabId: containing.tabId,
+          }),
+        };
+      }
+
+      if (tableIndex != null) {
+        const table = tables[tableIndex];
+        if (!table) {
+          throw new ConfigurationError(`Table Index ${tableIndex} is out of range: document ${documentId} has ${tables.length} table${tables.length === 1
+            ? ""
+            : "s"} (indices 0-${tables.length - 1}).`);
+        }
+        return {
+          index: table.startIndex,
+          ...(table.tabId && {
+            tabId: table.tabId,
+          }),
+        };
+      }
+
+      if (tables.length > 1) {
+        throw new ConfigurationError(`Document ${documentId} has ${tables.length} tables. Identify one with Find Table Text or Table Index (0-${tables.length - 1}).`);
+      }
+      return {
+        index: tables[0].startIndex,
+        ...(tables[0].tabId && {
+          tabId: tables[0].tabId,
+        }),
+      };
+    },
+    async resolveStyleRanges(documentId, {
+      find, matchCase = false, occurrence = "first", startIndex, endIndex, tabId,
+    }) {
+      if (startIndex != null || endIndex != null) {
+        if (startIndex == null || endIndex == null) {
+          throw new ConfigurationError("Start Index and End Index must be provided together.");
+        }
+        if (endIndex <= startIndex) {
+          throw new ConfigurationError(`End Index (${endIndex}) must be greater than Start Index (${startIndex}).`);
+        }
+        return [
+          {
+            startIndex,
+            endIndex,
+            ...(tabId && {
+              tabId,
+            }),
+          },
+        ];
+      }
+
+      if (!find) {
+        throw new ConfigurationError("Provide Find Text, or an explicit Start Index and End Index.");
+      }
+
+      const document = await this.getDocument(documentId, true);
+      const tabs = this._flattenDocumentTabs(document.tabs)
+        .filter(({ tabProperties }) => !tabId || tabProperties?.tabId === tabId);
+
+      if (!tabs.length) {
+        throw new ConfigurationError(`No tab with ID "${tabId}" found in document ${documentId}. Call Get Document without a Tab ID to list the document's tabs.`);
+      }
+
+      const ranges = tabs.flatMap((tab) => {
+        const {
+          text, indexMap,
+        } = utils.collectTextWithIndices(tab.documentTab?.body?.content);
+        return utils.findTextRanges({
+          text,
+          indexMap,
+          needle: find,
+          matchCase,
+        }).map((range) => ({
+          ...range,
+          tabId: tab.tabProperties?.tabId,
+        }));
+      });
+
+      if (!ranges.length) {
+        throw new ConfigurationError(`Text "${find}" was not found in document ${documentId}.`);
+      }
+
+      return occurrence === "all"
+        ? ranges
+        : [
+          ranges[0],
+        ];
     },
     async deleteTable(documentId, {
       startIndex, endIndex,

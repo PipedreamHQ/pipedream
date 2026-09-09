@@ -5,8 +5,9 @@ export default {
   key: "shopify-hold-fulfillment-order",
   name: "Hold Fulfillment Order",
   description: "Places a fulfillment order on hold. Run **Search for Orders** and inspect the order's fulfillment orders to obtain the fulfillment order GID. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/fulfillmentOrderHold).",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

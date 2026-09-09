@@ -5,13 +5,14 @@ export default {
   key: "vapi-create-call",
   name: "Create Call",
   description: "Starts a new conversation with an assistant. [See the documentation](https://docs.vapi.ai/api-reference/calls/create)",
-  version: "0.1.1",
+  version: "0.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     vapi,
     name: {

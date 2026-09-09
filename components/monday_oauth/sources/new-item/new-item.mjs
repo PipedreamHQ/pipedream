@@ -11,7 +11,7 @@ const props = adjustPropDefinitions(others.props, app);
 export default {
   ...others,
   key: "monday_oauth-new-item",
-  version: "0.0.3",
+  version: "0.0.5",
   name,
   description,
   type,

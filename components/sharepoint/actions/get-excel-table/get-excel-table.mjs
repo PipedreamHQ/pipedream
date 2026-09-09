@@ -4,8 +4,9 @@ export default {
   key: "sharepoint-get-excel-table",
   name: "Get Excel Table",
   description: "Retrieve a table from an Excel spreadsheet stored in Sharepoint [See the documentation](https://learn.microsoft.com/en-us/graph/api/table-range?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.11",
+  version: "0.0.12",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import caseObj from "../../common/sobjects/case.mjs";
 
@@ -13,13 +12,14 @@ export default {
     + " After creating, use **Create Case Comment** to add notes or **List Case Feed Items** to read its activity."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   methods: {
     ...common.methods,
   },

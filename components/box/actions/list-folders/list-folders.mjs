@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../box.app.mjs";
 import utils from "../../common/utils.mjs";
@@ -7,8 +6,9 @@ export default {
   key: "box-list-folders",
   name: "List Folders",
   description: "Lists the subfolders directly inside a Box folder. Use `0` for the root folder. Returns one page of results (default 100, max 1000). Use **List Folder Items** instead to also include files and web links. [See the documentation](https://developer.box.com/reference/get-folders-id-items/).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

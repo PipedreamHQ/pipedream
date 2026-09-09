@@ -2,10 +2,11 @@ import microsoftOutlook from "../../microsoft_outlook_calendar.app.mjs";
 
 export default {
   type: "action",
+  ai: "optimized",
   key: "microsoft_outlook_calendar-get-event",
   name: "Get Event",
   description: "Retrieve a calendar event by its Microsoft Graph event ID. Pass the `id` from **List Events** when you need full details (for example `body`, `attendees`, or `recurrence`) that list responses may omit or truncate. [See the documentation](https://learn.microsoft.com/en-us/graph/api/event-get?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

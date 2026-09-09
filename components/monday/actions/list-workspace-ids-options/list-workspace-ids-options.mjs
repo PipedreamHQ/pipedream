@@ -4,7 +4,7 @@ export default {
   key: "monday-list-workspace-ids-options",
   name: "List Workspace IDs Options",
   description: "Retrieves available options for the Workspace IDs field.",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -34,7 +34,7 @@ export default {
     },
     generateMeta(event) {
       return {
-        id: event.timestamp,
+        id: `${event.timestamp}-${event.payload?.workflowID ?? ""}`,
         summary: `New ${event.payload.event} event`,
         ts: Date.parse(event.timestamp),
       };

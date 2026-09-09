@@ -15,13 +15,14 @@ export default {
   name: "Formatting - [Date/Time] Add/Subtract Time",
   description: "Add or subtract time from a given input",
   key: "pipedream_utils-add-subtract-time",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...commonDateTime.props,
     operation: {

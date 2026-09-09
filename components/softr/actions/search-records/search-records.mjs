@@ -4,13 +4,14 @@ export default {
   key: "softr-search-records",
   name: "Search Records",
   description: "Searches for records in a Softr database by field value. [See the documentation](https://docs.softr.io/softr-api/softr-database-api/records/search-records)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     softr,
     databaseId: {
