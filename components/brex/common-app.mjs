@@ -18,7 +18,7 @@ export default {
     max: {
       type: "integer",
       label: "Max",
-      description: "The maximum number of records to fetch. Defaults to `500`.",
+      description: "The maximum number of records to fetch. Defaults to `100`.",
       optional: true,
     },
     location: {
