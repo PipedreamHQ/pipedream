@@ -23,7 +23,6 @@ export default {
       ],
       label: "User",
       description: "The person the card is issued to, as a Brex user ID, e.g. `cuuser_ckze72soa117f01pkmf1wcpl3`. Use **List Users** to find a user ID by email address.",
-      withLabel: true,
       optional: false,
     },
     ...common.props,

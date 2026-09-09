@@ -24,59 +24,20 @@ export default {
     location: {
       type: "string",
       label: "Location",
-      description: "The office location to assign the user to. Locations are managed in Brex; omit to leave the user unassigned.",
+      description: "The office location to assign the user to, as a location ID, e.g. `loc_clu9ah28r000008l3d4b1g5xy`. Use **List Locations** to find a location ID by name. Omit to leave the user unassigned.",
       optional: true,
-      async options({ prevContext }) {
-        const LIMIT = 100;
-        const res = await this.getLocations(prevContext.cursor, LIMIT);
-        return {
-          options: res.data.items?.map((item) => ({
-            label: item.name,
-            value: item.id,
-          })),
-          context: {
-            cursor: res.data.next_cursor,
-          },
-        };
-      },
     },
     department: {
       type: "string",
-      label: "Departments",
-      description: "The department to assign the user to. Departments are managed in Brex; omit to leave the user unassigned.",
+      label: "Department",
+      description: "The department to assign the user to, as a department ID, e.g. `dep_clu9ah28r000008l3d4b1g5xy`. Use **List Departments** to find a department ID by name. Omit to leave the user unassigned.",
       optional: true,
-      async options({ prevContext }) {
-        const LIMIT = 100;
-        const res = await this.getDepartments(prevContext.cursor, LIMIT);
-        return {
-          options: res.data.items?.map((item) => ({
-            label: item.name,
-            value: item.id,
-          })),
-          context: {
-            cursor: res.data.next_cursor,
-          },
-        };
-      },
     },
     user: {
       type: "string",
       label: "User",
       description: "A Brex user, as a user ID, e.g. `cuuser_ckze72soa117f01pkmf1wcpl3`. Use **List Users** to find a user ID by email address.",
       optional: true,
-      async options({ prevContext }) {
-        const LIMIT = 100;
-        const res = await this.getUsers(prevContext.cursor, LIMIT);
-        return {
-          options: res.data.items?.map((item) => ({
-            label: `${item.first_name} ${item.last_name} <${item.email}>`,
-            value: item.id,
-          })),
-          context: {
-            cursor: res.data.next_cursor,
-          },
-        };
-      },
     },
     cashAccount: {
       type: "string",
@@ -434,38 +395,27 @@ export default {
         filter,
       });
     },
-    async getLocations(cursor, limit) {
-      return axios(this, this._getAxiosParams({
-        method: "GET",
+    async listLocationsPaginated({
+      $, params, max, filter,
+    }) {
+      return this._paginateItems({
+        $,
         path: "/v2/locations",
-        params: {
-          cursor,
-          limit,
-        },
-        returnFullResponse: true,
-      }));
+        params,
+        max,
+        filter,
+      });
     },
-    async getDepartments(cursor, limit) {
-      return axios(this, this._getAxiosParams({
-        method: "GET",
+    async listDepartmentsPaginated({
+      $, params, max, filter,
+    }) {
+      return this._paginateItems({
+        $,
         path: "/v2/departments",
-        params: {
-          cursor,
-          limit,
-        },
-        returnFullResponse: true,
-      }));
-    },
-    async getUsers(cursor, limit) {
-      return axios(this, this._getAxiosParams({
-        method: "GET",
-        path: "/v2/users",
-        params: {
-          cursor,
-          limit,
-        },
-        returnFullResponse: true,
-      }));
+        params,
+        max,
+        filter,
+      });
     },
   },
 };

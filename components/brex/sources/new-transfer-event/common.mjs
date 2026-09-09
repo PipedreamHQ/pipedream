@@ -11,7 +11,7 @@ export default {
     events: {
       type: "string[]",
       label: "Events",
-      description: "The transfer events to subscribe to: `TRANSFER_PROCESSED` when a transfer settles, `TRANSFER_FAILED` when it does not. Select both to emit on either outcome.",
+      description: "The transfer events to subscribe to: `TRANSFER_PROCESSED` when a transfer settles, `TRANSFER_FAILED` when it does not. Set both event types to emit an event for either outcome.",
       options: [
         "TRANSFER_PROCESSED",
         "TRANSFER_FAILED",

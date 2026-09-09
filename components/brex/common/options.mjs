@@ -5,7 +5,6 @@ export default {
   ],
   cardType: [
     "VIRTUAL",
-    "PHYSICAL",
   ],
   cardStatus: [
     {

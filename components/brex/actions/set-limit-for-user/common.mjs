@@ -23,7 +23,7 @@ export default {
 
     const res = await axios($, this.brexApp._getAxiosParams({
       method: "POST",
-      path: `/v2/users/${encodeURIComponent(user.value || user)}/limit`,
+      path: `/v2/users/${encodeURIComponent(user)}/limit`,
       data: {
         monthly_limit: {
           amount,
@@ -32,7 +32,7 @@ export default {
       },
     }));
 
-    $.export("$summary", `Monthly limit for ${user.label || user} successfully updated`);
+    $.export("$summary", `Monthly limit for user ${user} successfully updated`);
     return res;
   },
 };
