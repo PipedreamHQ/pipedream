@@ -1,6 +1,8 @@
 import common from "../common/base-polling.mjs";
 import sampleEmit from "./test-event.mjs";
 
+const MAX_PAGES = 100;
+
 export default {
   ...common,
   key: "highlevel_oauth-new-contact-created",
@@ -26,14 +28,29 @@ export default {
       locationId: this.app.getLocationId(),
     };
     const lastDate = this._getLastDate();
+    const seenCursors = new Set();
     let total;
+    let pageCount = 0;
 
     do {
+      const cursor = JSON.stringify([
+        params.startAfter,
+        params.startAfterId,
+      ]);
+      if (seenCursors.has(cursor)) {
+        break;
+      }
+      seenCursors.add(cursor);
+      pageCount += 1;
+
       const {
         contacts, meta,
       } = await this.app.searchContacts({
         params,
       });
+      if (!contacts.length) {
+        break;
+      }
       results.push(...contacts);
       total = contacts.length;
       params.startAfter = meta?.startAfter;
@@ -41,7 +58,7 @@ export default {
       if (Date.parse(contacts[0].dateAdded) <= lastDate) {
         break;
       }
-    } while (params.startAfter && total === params.limit);
+    } while (pageCount < MAX_PAGES && params.startAfter && total === params.limit);
 
     if (!results.length) {
       return;
