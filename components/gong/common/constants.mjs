@@ -2,6 +2,7 @@ const SUMMARY_LABEL = "$summary";
 const BASE_URL = "https://us-66463.api.gong.io";
 const VERSION_PATH = "/v2";
 const LAST_CREATED_AT = "lastCreatedAt";
+const EMITTED_IDS = "emittedIds";
 const DEFAULT_MAX = 600;
 
 const DIRECTIONS = [
@@ -26,6 +27,7 @@ export default {
   VERSION_PATH,
   DEFAULT_MAX,
   LAST_CREATED_AT,
+  EMITTED_IDS,
   DIRECTIONS,
   CALL_PROVIDER_CODES,
 };
