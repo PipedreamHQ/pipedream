@@ -28,18 +28,15 @@ export default {
       ],
     },
     data: {
-      type: "string",
-      label: "Data",
-      description: "JSON-string object of the submission's data payload. Example: `{\"name\":\"Jane Doe\",\"email\":\"jane.doe@example.com\"}`. Parsed with JSON.parse() before sending.",
+      propDefinition: [
+        formIo,
+        "data",
+      ],
     },
     state: {
-      type: "string",
-      label: "State",
-      description: "Submission state. One of `submitted` or `draft`.",
-      optional: true,
-      options: [
-        "submitted",
-        "draft",
+      propDefinition: [
+        formIo,
+        "state",
       ],
     },
   },
@@ -56,7 +53,7 @@ export default {
       formId,
       submissionId,
       data: {
-        data: parseJson(data, "data"),
+        data: parseJson(data, "data", "object"),
         state,
       },
     });

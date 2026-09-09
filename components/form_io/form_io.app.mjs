@@ -5,6 +5,10 @@ import {
   API_KEY_HEADER,
   LIMIT_MIN,
   LIMIT_MAX,
+  FORM_TYPES,
+  SUBMISSION_STATES,
+  ACTION_HANDLERS,
+  ACTION_METHODS,
 } from "./common/constants.mjs";
 
 export default {
@@ -49,6 +53,95 @@ export default {
       type: "string",
       label: "Sort",
       description: "Field name to sort by; prefix with `-` for descending (e.g. `-created`, `title`).",
+      optional: true,
+    },
+    // Shared record fields. Components reference these via `propDefinition` and override
+    // only what differs (description, optional, options) — see the per-component props.
+    title: {
+      type: "string",
+      label: "Title",
+      description: "A human-readable title.",
+    },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The machine name (lowercase, no spaces).",
+    },
+    path: {
+      type: "string",
+      label: "Path",
+      description: "The URL path.",
+    },
+    type: {
+      type: "string",
+      label: "Type",
+      description: "The form type. One of `form` or `resource`.",
+      optional: true,
+      options: FORM_TYPES,
+    },
+    components: {
+      type: "string",
+      label: "Components",
+      description: "JSON-string array of Form.io component schema objects.",
+    },
+    display: {
+      type: "string",
+      label: "Display",
+      description: "How the form is displayed (e.g. `form`, `wizard`, `pdf`).",
+      optional: true,
+    },
+    tags: {
+      type: "string[]",
+      label: "Tags",
+      description: "Tags to associate with the form.",
+      optional: true,
+    },
+    settings: {
+      type: "string",
+      label: "Settings",
+      description: "JSON-string object of settings. Parsed with JSON.parse() before sending.",
+      optional: true,
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "A description.",
+      optional: true,
+    },
+    data: {
+      type: "string",
+      label: "Data",
+      description: "JSON-string object of the submission's data payload. Example: `{\"name\":\"Jane Doe\",\"email\":\"jane@example.com\"}`. Parsed with JSON.parse() before sending.",
+    },
+    state: {
+      type: "string",
+      label: "State",
+      description: "Submission state. One of `submitted` or `draft`.",
+      optional: true,
+      options: SUBMISSION_STATES,
+    },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "Return only these top-level fields from each record. Omit to return the full objects.",
+      optional: true,
+    },
+    handler: {
+      type: "string[]",
+      label: "Handler",
+      description: "When the action runs. Values: `before`, `after`.",
+      options: ACTION_HANDLERS,
+    },
+    method: {
+      type: "string[]",
+      label: "Method",
+      description: "Which operations trigger the action. Values: `create`, `update`, `read`, `delete`, `index`.",
+      options: ACTION_METHODS,
+    },
+    priority: {
+      type: "integer",
+      label: "Priority",
+      description: "Execution priority of the action.",
       optional: true,
     },
   },

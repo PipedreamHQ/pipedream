@@ -22,9 +22,10 @@ export default {
       ],
     },
     data: {
-      type: "string",
-      label: "Data",
-      description: "JSON-string object of the submission's data payload. Example: `{\"name\":\"Jane Doe\",\"email\":\"jane@example.com\"}`. Parsed with JSON.parse() before sending.",
+      propDefinition: [
+        formIo,
+        "data",
+      ],
     },
   },
   async run({ $ }) {

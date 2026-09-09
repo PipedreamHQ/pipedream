@@ -22,14 +22,11 @@ export default {
       ],
     },
     state: {
-      type: "string",
-      label: "State",
-      description: "Filter by submission state. One of `submitted` or `draft`.",
-      optional: true,
-      options: [
-        "submitted",
-        "draft",
+      propDefinition: [
+        formIo,
+        "state",
       ],
+      description: "Filter by submission state. One of `submitted` or `draft`.",
     },
     sort: {
       propDefinition: [
@@ -50,10 +47,11 @@ export default {
       ],
     },
     fields: {
-      type: "string[]",
-      label: "Fields",
+      propDefinition: [
+        formIo,
+        "fields",
+      ],
       description: "Optional. Return only these top-level fields from each submission (e.g. `_id`, `data`, `created`, `state`). Omit to return the full submission objects, which include access and metadata envelopes.",
-      optional: true,
     },
   },
   async run({ $ }) {

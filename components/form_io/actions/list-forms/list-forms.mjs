@@ -16,14 +16,11 @@ export default {
   props: {
     formIo,
     type: {
-      type: "string",
-      label: "Type",
-      description: "Filter by form type. One of `form` or `resource`. Omit to return both.",
-      optional: true,
-      options: [
-        "form",
-        "resource",
+      propDefinition: [
+        formIo,
+        "type",
       ],
+      description: "Filter by form type. One of `form` or `resource`. Omit to return both.",
     },
     limit: {
       propDefinition: [
@@ -44,10 +41,11 @@ export default {
       ],
     },
     fields: {
-      type: "string[]",
-      label: "Fields",
+      propDefinition: [
+        formIo,
+        "fields",
+      ],
       description: "Optional. Return only these top-level fields from each form (e.g. `_id`, `title`, `name`, `path`, `type`). Omit to return the full form objects, which include the large `components` and `access` arrays.",
-      optional: true,
     },
   },
   async run({ $ }) {

@@ -28,45 +28,39 @@ export default {
       ],
     },
     title: {
-      type: "string",
-      label: "Title",
+      propDefinition: [
+        formIo,
+        "title",
+      ],
       description: "Updated title of the action.",
       optional: true,
     },
     handler: {
-      type: "string[]",
-      label: "Handler",
-      description: "When the action runs. Values: `before`, `after`.",
-      optional: true,
-      options: [
-        "before",
-        "after",
+      propDefinition: [
+        formIo,
+        "handler",
       ],
+      optional: true,
     },
     method: {
-      type: "string[]",
-      label: "Method",
-      description: "Which operations trigger the action. Values: `create`, `update`, `read`, `delete`, `index`.",
-      optional: true,
-      options: [
-        "create",
-        "update",
-        "read",
-        "delete",
-        "index",
+      propDefinition: [
+        formIo,
+        "method",
       ],
+      optional: true,
     },
     priority: {
-      type: "integer",
-      label: "Priority",
-      description: "Execution priority of the action.",
-      optional: true,
+      propDefinition: [
+        formIo,
+        "priority",
+      ],
     },
     settings: {
-      type: "string",
-      label: "Settings",
+      propDefinition: [
+        formIo,
+        "settings",
+      ],
       description: "JSON-string object of action-specific settings; the shape depends on the action type. Example (webhook action): `{\"method\":\"post\",\"url\":\"https://example.com/webhook\"}`. Parsed with JSON.parse() before sending.",
-      optional: true,
     },
   },
   async run({ $ }) {
@@ -89,7 +83,7 @@ export default {
         handler,
         method,
         priority,
-        settings: parseJson(settings, "settings"),
+        settings: parseJson(settings, "settings", "object"),
       },
     });
 

@@ -22,16 +22,19 @@ export default {
       ],
     },
     title: {
-      type: "string",
-      label: "Title",
+      propDefinition: [
+        formIo,
+        "title",
+      ],
       description: "Updated title of the role.",
       optional: true,
     },
     description: {
-      type: "string",
-      label: "Description",
+      propDefinition: [
+        formIo,
+        "description",
+      ],
       description: "Updated description of the role.",
-      optional: true,
     },
   },
   async run({ $ }) {

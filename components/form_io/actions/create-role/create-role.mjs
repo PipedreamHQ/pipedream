@@ -15,15 +15,18 @@ export default {
   props: {
     formIo,
     title: {
-      type: "string",
-      label: "Title",
+      propDefinition: [
+        formIo,
+        "title",
+      ],
       description: "The title of the role (e.g. `Manager`).",
     },
     description: {
-      type: "string",
-      label: "Description",
+      propDefinition: [
+        formIo,
+        "description",
+      ],
       description: "A description of the role.",
-      optional: true,
     },
   },
   async run({ $ }) {

@@ -1,12 +1,5 @@
 import formIo from "../../form_io.app.mjs";
-import {
-  parseJson, coerceStr, assertEnum,
-} from "../../common/utils.mjs";
-
-const FORM_TYPES = [
-  "form",
-  "resource",
-];
+import { parseJson } from "../../common/utils.mjs";
 
 export default {
   key: "form_io-create-form",
@@ -23,52 +16,57 @@ export default {
   props: {
     formIo,
     title: {
-      type: "string",
-      label: "Title",
+      propDefinition: [
+        formIo,
+        "title",
+      ],
       description: "The human-readable title of the form (e.g. `Contact Form`).",
     },
     name: {
-      type: "string",
-      label: "Name",
+      propDefinition: [
+        formIo,
+        "name",
+      ],
       description: "The machine name of the form (e.g. `contactform`).",
     },
     path: {
-      type: "string",
-      label: "Path",
+      propDefinition: [
+        formIo,
+        "path",
+      ],
       description: "The URL path for the form (e.g. `contactform`).",
     },
     type: {
-      type: "string",
-      label: "Type",
-      description: "The form type. One of `form` or `resource`.",
-      optional: true,
-      options: [
-        "form",
-        "resource",
+      propDefinition: [
+        formIo,
+        "type",
       ],
     },
     components: {
-      type: "string",
-      label: "Components",
+      propDefinition: [
+        formIo,
+        "components",
+      ],
       description: "JSON-string array of Form.io component schema objects. Example: `[{\"type\":\"textfield\",\"key\":\"name\",\"label\":\"Name\",\"input\":true}]`. Parsed with JSON.parse() before sending.",
     },
     display: {
-      type: "string",
-      label: "Display",
-      description: "How the form is displayed (e.g. `form`, `wizard`, `pdf`).",
-      optional: true,
+      propDefinition: [
+        formIo,
+        "display",
+      ],
     },
     tags: {
-      type: "string[]",
-      label: "Tags",
-      description: "Tags to associate with the form.",
-      optional: true,
+      propDefinition: [
+        formIo,
+        "tags",
+      ],
     },
     settings: {
-      type: "string",
-      label: "Settings",
+      propDefinition: [
+        formIo,
+        "settings",
+      ],
       description: "JSON-string object of form settings. Example: `{\"theme\":\"default\"}`.",
-      optional: true,
     },
   },
   async run({ $ }) {
@@ -86,12 +84,12 @@ export default {
     const response = await this.formIo.createForm({
       $,
       data: {
-        title: coerceStr(title),
-        name: coerceStr(name),
-        path: coerceStr(path),
-        type: assertEnum(type, "type", FORM_TYPES),
+        title,
+        name,
+        path,
+        type,
         components: parseJson(components, "components", "array"),
-        display: coerceStr(display),
+        display,
         tags,
         settings: parseJson(settings, "settings", "object"),
       },

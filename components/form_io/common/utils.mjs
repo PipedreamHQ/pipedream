@@ -51,47 +51,6 @@ export function parseJson(value, propLabel = "value", expect) {
 }
 
 /**
- * Coerce an optional free-text value to a string, passing empty input through.
- *
- * Props declared `type: "string"` can still receive a non-string (e.g. a number) over the
- * SDK/MCP surface, which Form.io answers with a raw 5xx on some fields. Coercing keeps a
- * `path: 12345` from becoming a 500. Empty input (null/undefined) is returned unchanged so an
- * omitted optional prop stays omitted.
- *
- * @param {*} value - the raw prop value
- * @returns {string|undefined} the value as a string, or `undefined` when empty
- */
-export function coerceStr(value) {
-  return value == null
-    ? undefined
-    : String(value);
-}
-
-/**
- * Validate an optional value is one of `allowed`, passing empty input through.
- *
- * Keeps an out-of-range enum (e.g. a form `type` other than `form`/`resource`) from reaching
- * the API as an opaque 5xx — it fails here with a prop-named, choice-listing error instead.
- *
- * @param {*} value - the raw prop value
- * @param {string} propLabel - the prop name, used in the error message
- * @param {string[]} allowed - the permitted values
- * @returns {*} the value, or `undefined` when empty
- * @throws {ConfigurationError} when `value` is non-empty and not in `allowed`
- */
-export function assertEnum(value, propLabel, allowed) {
-  if (value === undefined || value === null || value === "") {
-    return undefined;
-  }
-  if (!allowed.includes(value)) {
-    throw new ConfigurationError(
-      `The \`${propLabel}\` prop must be one of: ${allowed.map((a) => `\`${a}\``).join(", ")}.`,
-    );
-  }
-  return value;
-}
-
-/**
  * Reduce each record in an array to only the named top-level fields.
  *
  * Optional response-shaping for list actions that return large objects (Form.io forms carry

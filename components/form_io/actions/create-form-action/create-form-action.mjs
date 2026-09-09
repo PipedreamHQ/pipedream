@@ -27,42 +27,36 @@ export default {
       description: "The Form.io action type to attach — e.g. `webhook`, `email`, `save`, `login`, `role`. This selects which built-in action runs; it is NOT a display label (use `title` for that).",
     },
     title: {
-      type: "string",
-      label: "Title",
+      propDefinition: [
+        formIo,
+        "title",
+      ],
       description: "The human-readable title of the action.",
     },
     handler: {
-      type: "string[]",
-      label: "Handler",
-      description: "When the action runs. Values: `before`, `after`.",
-      options: [
-        "before",
-        "after",
+      propDefinition: [
+        formIo,
+        "handler",
       ],
     },
     method: {
-      type: "string[]",
-      label: "Method",
-      description: "Which operations trigger the action. Values: `create`, `update`, `read`, `delete`, `index`.",
-      options: [
-        "create",
-        "update",
-        "read",
-        "delete",
-        "index",
+      propDefinition: [
+        formIo,
+        "method",
       ],
     },
     priority: {
-      type: "integer",
-      label: "Priority",
-      description: "Execution priority of the action.",
-      optional: true,
+      propDefinition: [
+        formIo,
+        "priority",
+      ],
     },
     settings: {
-      type: "string",
-      label: "Settings",
+      propDefinition: [
+        formIo,
+        "settings",
+      ],
       description: "JSON-string object of action-specific settings. Example: `{\"transport\":\"default\",\"from\":\"noreply@example.com\",\"to\":\"admin@example.com\",\"subject\":\"New submission\"}`. Parsed from a JSON string before sending.",
-      optional: true,
     },
   },
   async run({ $ }) {
@@ -85,7 +79,7 @@ export default {
         handler,
         method,
         priority,
-        settings: parseJson(settings, "settings"),
+        settings: parseJson(settings, "settings", "object"),
       },
     });
 
