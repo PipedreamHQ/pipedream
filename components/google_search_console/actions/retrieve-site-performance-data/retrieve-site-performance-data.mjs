@@ -27,6 +27,15 @@ export default {
     + "materially LESS than the same range grouped by `date`. For a true total, query with no "
     + "dimensions or with `date`. And check `has_more` before reporting a count or a \"top N\" — a "
     + "truncated first page is not the whole answer."
+    + "\n\n**Scoping to one page or segment.** Set `subdomainFilter` — the filter VALUE, despite the "
+    + "legacy prop name — together with `filterDimension` and `filterOperator`. For \"page X only\" "
+    + "that is `filterDimension: page`, `filterOperator: equals`, value = the full URL. Selecting a "
+    + "matching URL-prefix property instead is NOT equivalent: a prefix property covers every page "
+    + "under it, so the numbers come back for the whole prefix. Use `advancedDimensionFilters` for "
+    + "multi-condition filters; it is ignored whenever `subdomainFilter` is set."
+    + "\n\n**Freshness.** The most recent 2-3 days are not final and are omitted under `dataState: "
+    + "final` (the default), so a range ending today comes back one to three rows short. When the user "
+    + "asks for \"the last N days\" and every day needs a figure, set `dataState: all`."
     + "\n\n**Discover has no `query` dimension** (400 \"Request for DISCOVER cannot be grouped by "
     + "query\"). When the user asks for Discover queries, do not stop to ask: report Discover pages "
     + "instead (`searchType: discover`, `dimensions: [\"page\"]`) and say why."
@@ -57,7 +66,7 @@ export default {
     startDate: {
       type: "string",
       label: "Start Date (YYYY-MM-DD)",
-      description: "First day of the range, inclusive, `YYYY-MM-DD` **Pacific Time** — e.g. `2025-09-01`. Search Console keeps 16 months; an earlier date returns a 400.",
+      description: "First day of the range, inclusive, `YYYY-MM-DD` **Pacific Time** — e.g. `2025-09-01`. Search Console keeps 16 months; an earlier date returns a 400. The most recent 2-3 days are not final and are omitted unless `dataState` is `all`.",
     },
     endDate: {
       type: "string",
