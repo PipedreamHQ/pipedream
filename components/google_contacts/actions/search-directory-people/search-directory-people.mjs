@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import common from "../common/base.mjs";
 
 export default {
@@ -7,13 +6,14 @@ export default {
   name: "Search Directory People",
   description:
     "Searches for people in the authenticated user's Google Workspace directory. [See the documentation](https://developers.google.com/people/api/rest/v1/people/searchDirectoryPeople)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     "destructiveHint": false,
     "openWorldHint": true,
     "readOnlyHint": true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     query: {

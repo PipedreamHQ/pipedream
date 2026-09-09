@@ -16,8 +16,9 @@ export default {
     + " `identifier_type` controls the hash format: `EMAIL_SHA256` for hashed emails, `PHONE_SHA256` for hashed phone numbers, `IDFA_SHA256` or `GAID_SHA256` for device IDs."
     + " To add members to an existing audience, use **Update Audience** instead."
     + " [See the documentation](https://business-api.tiktok.com/portal/docs/create-an-audience-by-file/v1.3)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

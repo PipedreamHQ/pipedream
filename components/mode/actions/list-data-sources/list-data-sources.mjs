@@ -4,8 +4,9 @@ export default {
   key: "mode-list-data-sources",
   name: "List Data Sources",
   description: "List the data sources in the organization. Each object contains an integer `id` (used by **Create Query** / **Update Query**) and a string `token` (used by **Get Data Source**). [See the documentation](https://mode.com/developer/api-reference/management/data-sources/#listDataSources)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

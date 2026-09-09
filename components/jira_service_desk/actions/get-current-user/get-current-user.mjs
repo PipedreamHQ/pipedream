@@ -8,8 +8,9 @@ export default {
     + " Use this to identify who is logged in, or to filter requests by the current user's `account_id`."
     + " No `cloudId` required — this uses the Atlassian Identity API directly."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/platform/oauth-2-3lo-apps/)",
-  version: "0.0.5",
+  version: "0.0.7",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

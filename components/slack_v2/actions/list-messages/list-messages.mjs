@@ -9,7 +9,7 @@ export default {
     + " selection to keep responses small, and returns the same message data."
     + " This legacy tool remains only for existing workflows: it accepts a raw conversation ID and"
     + " returns full, untrimmed message objects. [See the documentation](https://api.slack.com/methods/conversations.history)",
-  version: "0.0.9",
+  version: "0.0.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

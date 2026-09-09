@@ -4,8 +4,9 @@ export default {
   key: "navan-list-users",
   name: "List Users",
   description: "Retrieves a paginated list of all users in the company. [See the documentation](https://u.pcloud.link/publink/show?code=XZ7Bww5ZoKb93VNf7ISOdR5UzVo6JzBLs7AX)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

@@ -4,13 +4,14 @@ export default {
   key: "microsoft_power_bi-get-reports-by-id",
   name: "Get Report by id",
   description: "Retrieve metadata for a single Power BI report by ID. Uses My workspace by default; set Workspace (Group) ID for a specific workspace. [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/reports/get-report)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     microsoftPowerBi,
     groupId: {

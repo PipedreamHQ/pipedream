@@ -13,7 +13,8 @@ export default {
   name: "Trigger Incident",
   description: "**Deprecated** — use **Create Incident** instead. Trigger an incident. [See the documentation](https://developer.pagerduty.com/api-reference/b3A6Mjc0ODE0MA-create-an-incident)",
   type: "action",
-  version: "0.0.5",
+  ai: "optimized",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

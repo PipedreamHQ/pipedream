@@ -12,8 +12,9 @@ export default {
     + " You must provide either a Workspace ID or Folder ID — the home-level create endpoint is deprecated."
     + " Use **List Sheets** to verify the sheet was created."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/create-sheet-in-workspace)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

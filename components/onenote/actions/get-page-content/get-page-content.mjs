@@ -15,8 +15,9 @@ export default {
     + " Set `convertToMarkdown` to `true` for cleaner, more compact output (recommended when the consumer is an LLM)."
     + " Set `includeIDs` to `true` if you need element IDs for a later update operation. Note: combining `includeIDs` with `convertToMarkdown` may strip `data-id` attributes during conversion."
     + " [See the documentation](https://learn.microsoft.com/en-us/graph/api/page-get?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

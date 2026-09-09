@@ -5,13 +5,14 @@ export default {
   key: "gitlab-list-projects",
   name: "List Projects",
   description: "List or search GitLab projects, optionally filtering by search term, membership, or ownership. Use this to discover projects (and their IDs) before acting on them with other GitLab actions. Supports ordering by `name`, `path`, creation/update time, star count, last activity, or search `similarity`, plus pagination. The `similarity` order requires a `Search` term. [See the documentation](https://docs.gitlab.com/api/projects/#list-all-projects)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     gitlab,
     search: {

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/shorten_rest",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Shorten.REST Components",
   "main": "shorten_rest.app.mjs",
   "keywords": [

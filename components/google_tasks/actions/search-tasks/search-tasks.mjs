@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../google_tasks.app.mjs";
 
@@ -7,13 +6,14 @@ export default {
   name: "Search Tasks",
   description:
     "Searches tasks across all task lists using a keyword, due date, or both - at least one of Keyword or Due Date must be provided. Keyword matches against both the task title and notes. Completed and deleted tasks are excluded unless Show Completed / Show Deleted are set. Use this action to find tasks that match specific criteria without modifying them. To create, update, complete, or move tasks, use the **Create Task**, **Update Task**, **Complete Task**, or **Move Task** actions. [See the documentation](https://developers.google.com/workspace/tasks/reference/rest/v1/tasks/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     keyword: {

@@ -10,8 +10,9 @@ export default {
     + "To resolve a known site by path, prefer **Get Site** for an immediate lookup."
     + "\n\n"
     + "[See the documentation](https://learn.microsoft.com/en-us/graph/api/site-search?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
