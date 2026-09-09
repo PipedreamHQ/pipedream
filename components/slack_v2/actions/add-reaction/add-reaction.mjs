@@ -22,9 +22,10 @@ export default {
   props: {
     slack,
     channel: {
-      type: "string",
-      label: "Channel",
-      description: "Prefer a channel ID (e.g. `C1234567890`) — use **List Channels** to look it up; it resolves instantly. A channel name (e.g. `general` or `#general`) is also accepted, but resolving it scans up to 5 pages (~5,000 channels) of the workspace's channel list, which can be slow — and a valid channel beyond that bound will not be found.",
+      propDefinition: [
+        slack,
+        "conversation",
+      ],
     },
     timestamp: {
       type: "string",
