@@ -32,7 +32,7 @@ export default {
     conversation: {
       type: "string",
       label: "Channel",
-      description: "A channel ID (e.g. `C1234567890`), or, depending on the action, a user ID (opens a direct message) or a group DM ID. Use **List Channels** to look up channel IDs, **Find User by Email** / **Find User by ID** to resolve a user ID, or **List Group Conversations** for group DM IDs.",
+      description: "**Prefer a channel ID** (e.g. `C1234567890`) — use **List Channels** to look it up; it resolves instantly. A channel NAME (e.g. `general` or `#general`) is also accepted, but resolving it requires scanning the workspace's full channel list, which is slow and, on large workspaces, can be rate-limited or fail outright — pass the ID whenever you have it. Depending on the action, this may also accept a user ID (opens a direct message) or a group DM ID — use **Find User by Email** / **Find User by ID** to resolve a user ID, or **List Group Conversations** for group DM IDs.",
     },
     channelId: {
       type: "string",
@@ -954,20 +954,41 @@ export default {
       }
       const name = input.replace(/^#/, "").toLowerCase();
       let cursor;
+      let pages = 0;
       do {
-        const {
-          channels, response_metadata: { next_cursor: nextCursor },
-        } = await this.conversationsList({
-          types: "public_channel,private_channel",
-          limit: 999,
-          cursor,
-          exclude_archived: true,
-        });
+        let channels, nextCursor;
+        try {
+          ({
+            channels, response_metadata: { next_cursor: nextCursor },
+          } = await this.conversationsList({
+            types: "public_channel,private_channel",
+            limit: 999,
+            cursor,
+            exclude_archived: true,
+            // Fail fast on a 429 instead of _withRetries' default backoff (min 30s,
+            // up to 3 retries) — that backoff, hit mid-scan, is what turns a channel
+            // name lookup into a multi-minute stall that looks like a hang to callers
+            // with their own timeout budget. Surface the error immediately instead.
+            throwRateLimitError: true,
+          }));
+        } catch (error) {
+          throw new ConfigurationError(
+            `Could not resolve channel "${input}": ${error}. Provide the channel ID directly instead (use List Channels to look it up) to skip this lookup.`,
+          );
+        }
         const match = channels.find((c) => c.name === name);
         if (match) return match.id;
         cursor = nextCursor;
-      } while (cursor);
-      throw new Error(`Channel "${input}" not found. Provide a valid channel ID or name.`);
+      // Cap pagination: an unmatched name (typo, wrong workspace) would otherwise force
+      // a full workspace scan every time, which on a large workspace can alone exhaust
+      // conversations.list's rate limit.
+      } while (cursor && ++pages < constants.MAX_CHANNEL_RESOLVE_PAGES);
+      throw new ConfigurationError(
+        `Channel "${input}" not found${pages >= constants.MAX_CHANNEL_RESOLVE_PAGES
+          ? ` after scanning ${constants.MAX_CHANNEL_RESOLVE_PAGES * 999}+ channels (this workspace may have more)`
+          : ""
+        }. Provide a valid channel ID instead — use List Channels to look it up.`,
+      );
     },
   },
 };

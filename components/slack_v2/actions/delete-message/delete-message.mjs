@@ -8,11 +8,12 @@ export default {
     + " To delete a specific message (including the most recent one), first call **Get Channel History**"
     + " to retrieve messages — `messages[0]` is the most recent — then pass its `ts` here."
     + " Quote the message text back to the user to confirm before deleting."
-    + " Accepts a channel ID or NAME for the conversation, resolved automatically. Slack only"
+    + " Accepts a channel ID (preferred — resolves instantly) or NAME for the conversation;"
+    + " a name is resolved by scanning the workspace's channel list, which can be slow. Slack only"
     + " lets an identity delete its own messages, so this deletes as whichever identity posted:"
     + " it retries automatically with the other identity if the first attempt returns"
     + " `cant_delete_message`. [See the documentation](https://api.slack.com/methods/chat.delete)",
-  version: "0.2.5",
+  version: "0.2.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

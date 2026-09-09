@@ -6,14 +6,15 @@ export default {
   name: "Get Thread Replies",
   description:
     "Retrieve all replies in a message thread."
-    + " Accepts a channel ID or channel name (resolved automatically)."
+    + " Accepts a channel ID (preferred — resolves instantly) or channel name (resolved by"
+    + " scanning the workspace's channel list, which can be slow)."
     + " Use **Get Channel History** or **Search** to find the parent message's timestamp (thread_ts)."
     + " Returns the parent message followed by all replies in chronological order."
     + " **Pass `fields`** (e.g. `text,ts,user`) unless you need full message objects — raw"
     + " Slack messages carry blocks, attachments and edit metadata, so a long thread can run"
     + " to tens of thousands of characters and be truncated before you see any of it."
     + " [See the documentation](https://api.slack.com/methods/conversations.replies)",
-  version: "0.1.5",
+  version: "0.1.6",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -26,7 +27,7 @@ export default {
     channel: {
       type: "string",
       label: "Channel",
-      description: "Channel ID (e.g. `C1234567890`) or channel name (e.g. `general` or `#general`). Resolved automatically.",
+      description: "Prefer a channel ID (e.g. `C1234567890`) — use **List Channels** to look it up; it resolves instantly. A channel name (e.g. `general` or `#general`) is also accepted, but resolving it scans the workspace's full channel list and can be slow (or fail) on large workspaces.",
     },
     threadTs: {
       type: "string",
