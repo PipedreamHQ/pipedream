@@ -7,7 +7,7 @@ export default {
   ...common,
   key: "slack_v2-new-keyword-mention",
   name: "New Keyword Mention (Instant)",
-  version: "0.1.9",
+  version: "0.1.10",
   description: "Emit new event when a specific keyword is mentioned in a channel",
   type: "source",
   dedupe: "unique",
