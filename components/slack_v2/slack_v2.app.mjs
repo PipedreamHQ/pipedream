@@ -359,13 +359,13 @@ export default {
           const statusCode = get(error, "code");
           if (statusCode === "slack_webapi_rate_limited_error") {
             if (throwRateLimitError) {
-              bail(`Rate limit exceeded. ${error}`);
+              bail(error);
             } else {
               console.log(`Rate limit exceeded. Will retry in ${retryOpts.minTimeout / 1000} seconds`);
               throw error;
             }
           }
-          bail(`${error}`);
+          bail(error);
         }
       }, retryOpts);
     },
@@ -956,32 +956,21 @@ export default {
       let cursor;
       let pages = 0;
       do {
-        let channels, nextCursor;
-        try {
-          ({
-            channels, response_metadata: { next_cursor: nextCursor },
-          } = await this.conversationsList({
-            types: "public_channel,private_channel",
-            limit: 999,
-            cursor,
-            exclude_archived: true,
-            // Fail fast on a 429 instead of _withRetries' default backoff (min 30s,
-            // up to 3 retries) — that backoff, hit mid-scan, is what turns a channel
-            // name lookup into a multi-minute stall that looks like a hang to callers
-            // with their own timeout budget. Surface the error immediately instead.
-            throwRateLimitError: true,
-          }));
-        } catch (error) {
-          // Only a rate limit (see _withRetries' `throwRateLimitError` bail message) is a
-          // problem with the scan itself — surface it with resolution-specific guidance.
-          // Auth, scope, network, and other API errors are unrelated to the scan and should
-          // propagate as-is so callers see the real cause instead of a misleading "provide
-          // a channel ID" hint.
-          if (!`${error}`.startsWith("Rate limit exceeded.")) throw error;
-          throw new ConfigurationError(
-            `Could not resolve channel "${input}": ${error}. Provide the channel ID directly instead (use List Channels to look it up) to skip this lookup.`,
-          );
-        }
+        // Fail fast on a 429 instead of _withRetries' default backoff (min 30s, up to 3
+        // retries) — that backoff, hit mid-scan, is what turns a channel name lookup into
+        // a multi-minute stall that looks like a hang to callers with their own timeout
+        // budget. Let it (and any other API error — auth, scope, network) propagate with
+        // its original status/code; ConfigurationError below is reserved for the genuine
+        // user-input problem of a name that doesn't resolve to any channel.
+        const {
+          channels, response_metadata: { next_cursor: nextCursor },
+        } = await this.conversationsList({
+          types: "public_channel,private_channel",
+          limit: 999,
+          cursor,
+          exclude_archived: true,
+          throwRateLimitError: true,
+        });
         const match = channels.find((c) => c.name === name);
         if (match) return match.id;
         cursor = nextCursor;
