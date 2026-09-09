@@ -1,6 +1,7 @@
 // x-pd-ai: optimized
 import bluesnap from "../../bluesnap.app.mjs";
-import { DEFAULT_LIMIT } from "../../common/constants.mjs";
+
+const DEFAULT_LIMIT = 25;
 
 export default {
   key: "bluesnap-list-transactions",

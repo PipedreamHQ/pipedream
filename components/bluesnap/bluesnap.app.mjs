@@ -1,12 +1,9 @@
 // x-pd-ai: optimized
 import { axios } from "@pipedream/platform";
-import {
-  BASE_URL,
-  VERSION_PATH,
-  REPORT_PATH,
-  MIN_LIMIT,
-  MAX_LIMIT,
-} from "./common/constants.mjs";
+
+const BASE_URL = "https://ws.bluesnap.com";
+const MIN_LIMIT = 1;
+const MAX_LIMIT = 1000;
 
 export default {
   type: "app",
@@ -49,7 +46,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return `${BASE_URL}${VERSION_PATH}`;
+      return `${BASE_URL}/services/2`;
     },
     _authHeader() {
       const credentials = Buffer.from(`${this.$auth.username}:${this.$auth.password}`).toString("base64");
@@ -97,7 +94,7 @@ export default {
     },
     async listTransactions(args) {
       return this._makeRequest({
-        path: REPORT_PATH,
+        path: "/report/TransactionDetail",
         ...args,
       });
     },

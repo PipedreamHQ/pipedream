@@ -1,7 +1,6 @@
 // x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import bluesnap from "../../bluesnap.app.mjs";
-import { CARD_TRANSACTION_TYPE } from "../../common/constants.mjs";
 
 export default {
   key: "bluesnap-create-transaction",
@@ -103,7 +102,7 @@ export default {
       data = {
         amount: this.amount,
         currency: this.currency,
-        cardTransactionType: CARD_TRANSACTION_TYPE,
+        cardTransactionType: "AUTH_CAPTURE",
         vaultedShopperId: this.vaultedShopperId,
         merchantTransactionId: this.merchantTransactionId,
         softDescriptor: this.softDescriptor,
@@ -112,7 +111,7 @@ export default {
       data = {
         amount: this.amount,
         currency: this.currency,
-        cardTransactionType: CARD_TRANSACTION_TYPE,
+        cardTransactionType: "AUTH_CAPTURE",
         creditCard: {
           cardNumber: this.cardNumber,
           expirationMonth: this.expirationMonth,
