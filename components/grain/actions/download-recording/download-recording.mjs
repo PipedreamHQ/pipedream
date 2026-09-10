@@ -12,7 +12,7 @@ const DEFAULT_EXTENSION = "mp4";
 export default {
   key: "grain-download-recording",
   name: "Download Recording",
-  description: "Downloads a Grain recording's media file (video or audio) and returns a presigned download URL."
+  description: "Downloads a Grain recording's media file (video or audio) and writes it to File Stash, returning `filePath`, `filename`, and `contentType`."
     + " Only recordings with processed media have a downloadable file — check `media_type` (`video` or `audio`, not `transcript`) from **List Recordings** or **Get Recording** first."
     + " Use **Get Transcript** instead if you only need the spoken content, not the media file itself."
     + " Example: `recordingId: \"8a089fcb-0961-4393-8da2-f0db5f8cfd79\"` downloads the file and returns `{\"filePath\": \"/tmp/grain-recording-8a089fcb-....mp4\", \"filename\": \"grain-recording-8a089fcb-....mp4\", \"contentType\": \"video/mp4\"}`."

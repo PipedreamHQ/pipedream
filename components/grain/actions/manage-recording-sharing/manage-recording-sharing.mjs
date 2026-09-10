@@ -45,7 +45,7 @@ export default {
     targetId: {
       type: "string",
       label: "Target ID",
-      description: "The ID of the user (from **List Users**) or team (from **List Teams**) to share or unshare the recording with.",
+      description: "The ID of the user (from **List Users**) or team (from **List Teams**) to share or unshare the recording with. E.g. `d91b7ed0-a149-425c-9623-0664148e4fc1`.",
     },
   },
   async run({ $ }) {

@@ -60,7 +60,7 @@ export default {
       type: "string[]",
       label: "Fields",
       description: "Only include these fields in each returned recording (e.g. `[\"id\", \"title\", \"start_datetime\"]`)."
-        + " Leave blank to return the full recording object for each result.",
+        + " Omit fields to return the full recording object for each result.",
       optional: true,
     },
   },
