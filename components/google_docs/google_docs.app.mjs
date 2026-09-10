@@ -127,7 +127,17 @@ export default {
     styleTabId: {
       type: "string",
       label: "Tab ID",
-      description: "For a multi-tab document, restrict the operation to this tab (e.g. `t.0`). Copy it from **Get Document**. Omit to search every tab.",
+      description: "For a multi-tab document, restrict the operation to this tab (e.g. `t.0`). Get tab IDs from **List Tabs**. Omit to apply the operation to every tab.",
+      optional: true,
+    },
+    // Tab selector for content writes (insert/delete). Deliberately separate
+    // from `styleTabId`: omitting this one means "the document's first tab", not
+    // "every tab", because the Docs API applies an untargeted `Location` /
+    // `EndOfSegmentLocation` to the first tab only (measured).
+    contentTabId: {
+      type: "string",
+      label: "Tab ID",
+      description: "For a multi-tab document, the ID of the tab to write into (e.g. `t.0`). Get tab IDs from **List Tabs**, or use the ID returned by **Create Tab**. Omit to write into the document's first tab — the Google Docs API sends every untargeted edit there, so pass this whenever the document has more than one tab.",
       optional: true,
     },
     replacementFormat: {
@@ -154,24 +164,35 @@ export default {
         auth,
       });
     },
-    _insertAtBeginning(requestObj) {
+    // Every location and range in a batchUpdate carries an optional `tabId`.
+    // When it is omitted the Docs API applies the request to the document's
+    // FIRST tab (measured), so these builders pass it through rather than
+    // letting a tab-targeted edit silently land on tab one.
+    _insertAtBeginning(requestObj, tabId) {
       return {
         ...requestObj,
         location: {
           index: 1,
+          ...(tabId && {
+            tabId,
+          }),
         },
       };
     },
-    _insertAtEnd(requestObj) {
+    _insertAtEnd(requestObj, tabId) {
       return {
         ...requestObj,
-        endOfSegmentLocation: {},
+        endOfSegmentLocation: {
+          ...(tabId && {
+            tabId,
+          }),
+        },
       };
     },
-    _buildRequest(requestObj, atBeginning) {
+    _buildRequest(requestObj, atBeginning, tabId) {
       return atBeginning
-        ? this._insertAtBeginning(requestObj)
-        : this._insertAtEnd(requestObj);
+        ? this._insertAtBeginning(requestObj, tabId)
+        : this._insertAtEnd(requestObj, tabId);
     },
     // Resolve a static `position` value (`beginning` | `end` | numeric index) into
     // either `null` (append at end) or the concrete character index it refers to.
@@ -193,39 +214,60 @@ export default {
     },
     // Resolve a static `position` value into the location field a batchUpdate
     // insert request expects.
-    _buildRequestForPosition(requestObj, position) {
+    _buildRequestForPosition(requestObj, position, tabId) {
       const index = this._resolvePositionIndex(position);
       return index == null
-        ? this._insertAtEnd(requestObj)
+        ? this._insertAtEnd(requestObj, tabId)
         : {
           ...requestObj,
           location: {
             index,
+            ...(tabId && {
+              tabId,
+            }),
           },
         };
     },
-    _batchUpdate(documentId, requestName, request) {
-      return this.docs().documents.batchUpdate({
-        documentId,
-        requestBody: {
-          requests: [
-            {
-              [requestName]: request,
-            },
-          ],
-        },
-      });
+    // An unknown tab fails with a bare "Cannot apply request to an invalid tab
+    // ID" (measured) that names neither the document nor the IDs that would have
+    // worked, so every batchUpdate rewrites it into something the caller can act
+    // on. Anything else is rethrown untouched.
+    _rethrowBatchUpdateError(error, documentId) {
+      if (/invalid tab id/i.test(error?.message ?? "")) {
+        throw new ConfigurationError(`Invalid Tab ID for document ${documentId}. Call **List Tabs** to get this document's tab IDs (e.g. \`t.0\`), or omit Tab ID to target the document's first tab.`);
+      }
+      throw error;
     },
-    batchUpdate(documentId, requests, writeControl) {
-      return this.docs().documents.batchUpdate({
-        documentId,
-        requestBody: {
-          requests,
-          ...(writeControl && {
-            writeControl,
-          }),
-        },
-      });
+    async _batchUpdate(documentId, requestName, request) {
+      try {
+        return await this.docs().documents.batchUpdate({
+          documentId,
+          requestBody: {
+            requests: [
+              {
+                [requestName]: request,
+              },
+            ],
+          },
+        });
+      } catch (error) {
+        this._rethrowBatchUpdateError(error, documentId);
+      }
+    },
+    async batchUpdate(documentId, requests, writeControl) {
+      try {
+        return await this.docs().documents.batchUpdate({
+          documentId,
+          requestBody: {
+            requests,
+            ...(writeControl && {
+              writeControl,
+            }),
+          },
+        });
+      } catch (error) {
+        this._rethrowBatchUpdateError(error, documentId);
+      }
     },
     async findDocuments({
       query, limit = 25,
@@ -266,6 +308,132 @@ export default {
       }
       return data;
     },
+    // Content-free view of one tab, used everywhere a tab is described.
+    _tabSummary(tab) {
+      const properties = tab.tabProperties ?? {};
+      return {
+        tabId: properties.tabId,
+        title: properties.title,
+        index: properties.index ?? 0,
+        nestingLevel: properties.nestingLevel ?? 0,
+        ...(properties.parentTabId && {
+          parentTabId: properties.parentTabId,
+        }),
+      };
+    },
+    // Tabs in document order (each parent immediately followed by its children),
+    // metadata only. A `getDocument` without `includeTabsContent` omits `tabs`
+    // entirely (measured), so this is the only way to learn a document's tab IDs.
+    async listTabs(documentId) {
+      const document = await this.getDocument(documentId, true);
+      return this._flattenDocumentTabs(document.tabs)
+        .map((tab) => this._tabSummary(tab));
+    },
+    _findTab(document, tabId) {
+      const tabs = this._flattenDocumentTabs(document.tabs);
+      const tab = tabs.find(({ tabProperties }) => tabProperties?.tabId === tabId);
+      if (!tab) {
+        const available = tabs
+          .map(({ tabProperties }) => `${tabProperties?.tabId} ("${tabProperties?.title}")`)
+          .join(", ");
+        throw new ConfigurationError(`No tab with ID "${tabId}" found in document ${document.documentId}. This document's tabs are: ${available}.`);
+      }
+      return tab;
+    },
+    // Body content of one tab, or of the first tab when no tab is given.
+    // `getDocument(id, false)` only ever returns the FIRST tab's body, so a
+    // tab-targeted caller has to read through `tabs` instead.
+    async getTabBodyContent(documentId, tabId) {
+      if (!tabId) {
+        const { body } = await this.getDocument(documentId, false, "body");
+        return body?.content;
+      }
+      const document = await this.getDocument(documentId, true);
+      return this._findTab(document, tabId).documentTab?.body?.content;
+    },
+    // One tabs-aware read that keeps the historical response shape. Fetching
+    // with `includeTabsContent` moves the content under `tabs[].documentTab` and
+    // drops the top-level `body`/`documentStyle`/`namedStyles`, so the first tab
+    // is merged back up to where callers have always found it and the tab list is
+    // added alongside. Without this, a multi-tab document read as `body` alone
+    // looked exactly like a single-tab document — the other tabs were invisible.
+    async getDocumentWithTabs(documentId) {
+      const document = await this.getDocument(documentId, true);
+      const {
+        tabs, ...documentFields
+      } = document;
+      const flattened = this._flattenDocumentTabs(tabs);
+      const [
+        firstTab,
+      ] = flattened;
+      const merged = {
+        ...documentFields,
+        ...(firstTab?.documentTab ?? {}),
+      };
+      const result = merged.body
+        ? utils.addTextContentToDocument(merged)
+        : merged;
+      return {
+        ...result,
+        tabCount: flattened.length,
+        tabs: flattened.map((tab) => ({
+          ...this._tabSummary(tab),
+          // Only for a multi-tab document, where the top-level `textContent`
+          // (the first tab's) is not the whole document. Every entry carries its
+          // own text, including the first: a uniform list reads more easily than
+          // one whose first element's text lives somewhere else, and the cost is
+          // repeating a single tab's text. A single-tab document skips this
+          // entirely, so its response stays byte-for-byte what it always was.
+          ...(flattened.length > 1 && {
+            textContent: utils.getTextContentFromDocument(tab.documentTab?.body?.content ?? []),
+          }),
+        })),
+      };
+    },
+    // What a tab-targeted write returns. Plain `getDocument` would hand back the
+    // FIRST tab's content, which for an edit that landed in another tab reads as
+    // if nothing had happened, so return the tab that was actually written.
+    async getWriteResult(documentId, tabId) {
+      if (!tabId) {
+        return this.getDocument(documentId);
+      }
+      const document = await this.getDocument(documentId, true);
+      const tab = this._findTab(document, tabId);
+      return {
+        documentId: document.documentId,
+        title: document.title,
+        revisionId: document.revisionId,
+        tab: {
+          ...this._tabSummary(tab),
+          textContent: utils.getTextContentFromDocument(tab.documentTab?.body?.content ?? []),
+          body: tab.documentTab?.body,
+        },
+      };
+    },
+    // Adds a tab and returns its `tabProperties`, including the generated
+    // `tabId` that every tab-targeted edit needs.
+    async addTab(documentId, {
+      title, index, parentTabId,
+    }) {
+      const { data } = await this.batchUpdate(documentId, [
+        {
+          addDocumentTab: {
+            tabProperties: {
+              ...(title && {
+                title,
+              }),
+              ...(index != null && {
+                index,
+              }),
+              ...(parentTabId && {
+                parentTabId,
+              }),
+            },
+          },
+        },
+      ]);
+      return data?.replies?.[0]?.addDocumentTab?.tabProperties;
+    },
     async createEmptyDoc(title) {
       const { data: createdDoc } = await this.docs().documents.create({
         requestBody: {
@@ -274,8 +442,8 @@ export default {
       });
       return createdDoc;
     },
-    async insertText(documentId, text, atBeginning = false) {
-      const request = this._buildRequest(text, atBeginning);
+    async insertText(documentId, text, atBeginning = false, tabId) {
+      const request = this._buildRequest(text, atBeginning, tabId);
       return this._batchUpdate(documentId, "insertText", request);
     },
     async replaceText(documentId, text) {
@@ -451,17 +619,20 @@ export default {
         ];
     },
     async deleteTable(documentId, {
-      startIndex, endIndex,
+      startIndex, endIndex, tabId,
     }) {
       return this._batchUpdate(documentId, "deleteContentRange", {
         range: {
           startIndex,
           endIndex,
+          ...(tabId && {
+            tabId,
+          }),
         },
       });
     },
     async writeTable(documentId, {
-      rows, position, hasHeaderRow,
+      rows, position, hasHeaderRow, tabId,
     }) {
       // Validate before making any request: a bad cell value here should
       // never leave an empty table behind from a partially-applied insert.
@@ -479,13 +650,12 @@ export default {
       const numRows = rows.length;
       const numColumns = rows.reduce((max, row) => Math.max(max, row.length), 0);
 
-      const { body: beforeBody } = await this.getDocument(documentId, false, "body");
-      const beforeTables = this.flattenTables(beforeBody?.content);
+      const beforeTables = this.flattenTables(await this.getTabBodyContent(documentId, tabId));
 
       const insertRequest = this._buildRequestForPosition({
         rows: numRows,
         columns: numColumns,
-      }, position);
+      }, position, tabId);
       await this._batchUpdate(documentId, "insertTable", insertRequest);
 
       // The insertTable reply carries no location info, so re-fetch the
@@ -494,8 +664,7 @@ export default {
       // immediately before an existing table gives the new table that
       // table's old startIndex, so comparing index values can't tell them
       // apart.
-      const { body } = await this.getDocument(documentId, false, "body");
-      const tables = this.flattenTables(body?.content);
+      const tables = this.flattenTables(await this.getTabBodyContent(documentId, tabId));
       const requestedIndex = this._resolvePositionIndex(position);
       const table = utils.selectInsertedTable(beforeTables, tables, requestedIndex);
       if (!table) {
@@ -534,6 +703,9 @@ export default {
           insertText: {
             location: {
               index: startIndex,
+              ...(tabId && {
+                tabId,
+              }),
             },
             text,
           },
@@ -544,6 +716,9 @@ export default {
               range: {
                 startIndex,
                 endIndex: startIndex + text.length,
+                ...(tabId && {
+                  tabId,
+                }),
               },
               textStyle: {
                 bold: true,
@@ -558,7 +733,7 @@ export default {
         await this.batchUpdate(documentId, requests);
       }
 
-      return this.getDocument(documentId);
+      return this.getWriteResult(documentId, tabId);
     },
     async insertPageBreak(documentId, request) {
       return this._batchUpdate(documentId, "insertPageBreak", request);
