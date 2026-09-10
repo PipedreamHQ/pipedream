@@ -4,13 +4,14 @@ export default {
   name: "Get Member by Identity",
   description: "Provide a source and one of username/uid/email params to return a member with that identity, if one exists. Common values for source include github, twitter, and email. [See the docs here](https://api.orbit.love/reference/get_workspace-slug-members-find)",
   key: "orbit-get-member-by-identity",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     workspaceSlug: {

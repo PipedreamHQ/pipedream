@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import smartsheet from "../../smartsheet.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
@@ -18,6 +17,7 @@ export default {
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     smartsheet,
     sheetName: {

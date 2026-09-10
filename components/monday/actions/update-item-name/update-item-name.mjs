@@ -3,11 +3,12 @@ import monday from "../../monday.app.mjs";
 export default {
   key: "monday-update-item-name",
   name: "Update Item Name",
-  description: "Update an item's name. [See the documentation](https://developer.monday.com/api-reference/reference/columns#change-multiple-column-values)",
+  description: "Rename an existing item. Use for the item's name only — **Update Column Values** cannot change it, and this action changes nothing else. Set `Board ID`, `Item ID` and the new `Item Name`. Example: Item ID `9876543210`, Item Name `Website redesign v2`. Returns the item's ID as a string. Use **Get Board Items Page** or **Get Items By Column Value** to find an `Item ID`. [See the documentation](https://developer.monday.com/api-reference/reference/columns#change-multiple-column-values)",
   type: "action",
-  version: "0.0.15",
+  ai: "optimized",
+  version: "0.0.18",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import smartsheet from "../../smartsheet.app.mjs";
 
 export default {
@@ -10,6 +9,7 @@ export default {
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/deletesheet)",
   version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

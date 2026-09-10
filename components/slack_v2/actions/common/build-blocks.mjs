@@ -1,4 +1,26 @@
 import common from "./send-message.mjs";
+import constants from "../../common/constants.mjs";
+
+const SECTION_DESCRIPTION = "Add a **section** block to your message and configure with plain text or mrkdwn. See [Slack's docs](https://api.slack.com/reference/block-kit/blocks?ref=bk#section) for more info.";
+const CONTEXT_DESCRIPTION = "Add a **context** block to your message and configure with plain text or mrkdwn. Define multiple items if you'd like multiple elements in the context block. See [Slack's docs](https://api.slack.com/reference/block-kit/blocks?ref=bk#context) for more info.";
+const LINK_BUTTON_DESCRIPTION = "Add a **link button** to your message. Enter the button text as the key and the link URL as the value. Example: `{\"View docs\": \"https://example.com\", \"Open dashboard\": \"https://app.example.com\"}`. Configure multiple buttons in the object to render them inline, or add additional Link Button blocks to render them vertically. See [Slack's docs](https://api.slack.com/reference/block-kit/blocks?ref=bk#actions) for more info.";
+
+const MAX_BLOCKS = 5;
+
+const buildIndexedProps = (prefix, label, type, description) =>
+  Object.fromEntries(
+    Array.from({
+      length: MAX_BLOCKS,
+    }, (_, i) => [
+      `${prefix}${i + 1}`,
+      {
+        type,
+        label: `${label} ${i + 1}`,
+        description,
+        optional: true,
+      },
+    ]),
+  );
 
 export default {
   props: {
@@ -9,35 +31,28 @@ export default {
       options: [
         {
           label: "Reference an array of blocks",
-          value: "array",
+          value: constants.PASS_ARRAY_OR_CONFIGURE_OPTIONS.ARRAY,
         },
         {
-          label: "Configure blocks individually (maximum 5 blocks)",
-          value: "configure",
+          label: "Configure blocks individually (maximum 15 blocks: 5 section, 5 context, 5 link button)",
+          value: constants.PASS_ARRAY_OR_CONFIGURE_OPTIONS.CONFIGURE,
         },
       ],
       optional: true,
-      reloadProps: true,
     },
+    blocks: {
+      propDefinition: [
+        common.props.slack,
+        "blocks",
+      ],
+    },
+    ...buildIndexedProps("section", "Section Block", "string", SECTION_DESCRIPTION),
+    ...buildIndexedProps("context", "Context Block", "string[]", CONTEXT_DESCRIPTION),
+    ...buildIndexedProps("linkButton", "Link Button", "object", LINK_BUTTON_DESCRIPTION),
   },
   methods: {
-    // This adds a visual separator in the props form between each block
-    separator() {
-      return `
-  
-  ---
-  
-  `;
-    },
-    createBlockProp(type, label, description) {
-      return {
-        type,
-        label,
-        description: `${description} ${this.separator()}`,
-      };
-    },
     createBlock(type, text) {
-      if (type === "section") {
+      if (type === constants.BLOCK_TYPES.SECTION) {
         return {
           type: "section",
           text: {
@@ -45,7 +60,7 @@ export default {
             text,
           },
         };
-      } else if (type === "context") {
+      } else if (type === constants.BLOCK_TYPES.CONTEXT) {
         const elements = Array.isArray(text)
           ? text.map((t) => ({
             type: "mrkdwn",
@@ -61,7 +76,7 @@ export default {
           type: "context",
           elements,
         };
-      } else if (type === "link_button") {
+      } else if (type === constants.BLOCK_TYPES.LINK_BUTTON) {
         const buttons = Object.keys(text).map((buttonText) => ({
           type: "button",
           text: {
@@ -69,9 +84,9 @@ export default {
             text: buttonText,
             emoji: true,
           },
-          url: text[buttonText],  // Access the URL using buttonText as the key
+          url: text[buttonText],
           action_id: `actionId-${Math.random().toString(36)
-            .substr(2, 9)}`,  // Generates a random action_id
+            .substr(2, 9)}`,
         }));
 
         return {
@@ -81,102 +96,25 @@ export default {
       }
     },
   },
-  async additionalProps(existingProps) {
-    await common.additionalProps.call(this, existingProps);
-    const props = {};
-    const sectionDescription = "Add a **section** block to your message and configure with plain text or mrkdwn. See [Slack's docs](https://api.slack.com/reference/block-kit/blocks?ref=bk#section) for more info.";
-    const contextDescription = "Add a **context** block to your message and configure with plain text or mrkdwn. Define multiple items if you'd like multiple elements in the context block. See [Slack's docs](https://api.slack.com/reference/block-kit/blocks?ref=bk#context) for more info.";
-    const linkButtonDescription = "Add a **link button** to your message. Enter the button text as the key and the link URL as the value. Configure multiple buttons in the array to render them inline, or add additional Button Link blocks to render them vertically. See [Slack's docs](https://api.slack.com/reference/block-kit/blocks?ref=bk#actions) for more info.";
-    const propsSection = this.createBlockProp("string", "Section Block Text", sectionDescription);
-    const propsContext = this.createBlockProp("string[]", "Context Block Text", contextDescription);
-    const propsLinkButton = this.createBlockProp("object", "Link Button", linkButtonDescription);
-
-    if (!this.passArrayOrConfigure) {
-      return props;
-    }
-    if (this.passArrayOrConfigure === "array") {
-      props.blocks = {
-        type: common.props.slack.propDefinitions.blocks.type,
-        label: common.props.slack.propDefinitions.blocks.label,
-        description: common.props.slack.propDefinitions.blocks.description,
-      };
-    } else {
-      props.blockType = {
-        type: "string",
-        label: "Block Type",
-        description: "Select the type of block to add. Refer to [Slack's docs](https://api.slack.com/reference/block-kit/blocks) for more info.",
-        options: [
-          {
-            label: "Section",
-            value: "section",
-          },
-          {
-            label: "Context",
-            value: "context",
-          },
-          {
-            label: "Link Button",
-            value: "link_button",
-          },
-        ],
-        reloadProps: true,
-      };}
-    let currentBlockType = this.blockType;
-    for (let i = 1; i <= 5; i++) {
-      if (currentBlockType === "section") {
-        props[`section${i}`] = propsSection;
-      } else if (currentBlockType === "context") {
-        props[`context${i}`] = propsContext;
-      } else if (currentBlockType === "link_button") {
-        props[`linkButton${i}`] = propsLinkButton;
-      }
-
-      if (i < 5 && currentBlockType) {  // Check if currentBlockType is set before adding nextBlockType
-        props[`nextBlockType${i}`] = {
-          type: "string",
-          label: "Next Block Type",
-          options: [
-            {
-              label: "Section",
-              value: "section",
-            },
-            {
-              label: "Context",
-              value: "context",
-            },
-            {
-              label: "Link Button",
-              value: "link_button",
-            },
-          ],
-          optional: true,
-          reloadProps: true,
-        };
-        currentBlockType = this[`nextBlockType${i}`];
-      }
-    }
-    return props;
-  },
   async run() {
     let blocks = [];
-    if (this.passArrayOrConfigure === "array") {
+    if (this.passArrayOrConfigure === constants.PASS_ARRAY_OR_CONFIGURE_OPTIONS.ARRAY) {
       blocks = this.blocks;
     } else {
-      for (let i = 1; i <= 5; i++) {
+      for (let i = 1; i <= MAX_BLOCKS; i++) {
         if (this[`section${i}`]) {
-          blocks.push(this.createBlock("section", this[`section${i}`]));
+          blocks.push(this.createBlock(constants.BLOCK_TYPES.SECTION, this[`section${i}`]));
         }
 
         if (this[`context${i}`]) {
-          blocks.push(this.createBlock("context", this[`context${i}`]));
+          blocks.push(this.createBlock(constants.BLOCK_TYPES.CONTEXT, this[`context${i}`]));
         }
 
         if (this[`linkButton${i}`]) {
-          blocks.push(this.createBlock("link_button", this[`linkButton${i}`]));
+          blocks.push(this.createBlock(constants.BLOCK_TYPES.LINK_BUTTON, this[`linkButton${i}`]));
         }
       }
     }
     return blocks;
   },
 };
-

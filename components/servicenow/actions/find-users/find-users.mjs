@@ -5,8 +5,9 @@ export default {
   key: "servicenow-find-users",
   name: "Find Users",
   description: "Search ServiceNow `sys_user` records to find a user's `sys_id` (used by props like the requested-for field on **Add Item to Cart**). Choose whether to match on name (partial) or email (exact). [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_TableAPI.html)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { mapWithConcurrency } from "../../common/utils.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
 
@@ -11,8 +10,9 @@ export default {
     + " When no workspace is set, a workspace that fails to traverse is skipped rather than failing the call,"
     + " so a successful response can be incomplete."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/workspaces/get-workspace-children)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

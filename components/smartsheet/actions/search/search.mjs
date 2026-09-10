@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import smartsheet from "../../smartsheet.app.mjs";
 
 export default {
@@ -17,6 +16,7 @@ export default {
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/search/list-search)",
   version: "0.0.4",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

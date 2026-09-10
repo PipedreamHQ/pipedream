@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import smartsheet from "../../smartsheet.app.mjs";
 
 export default {

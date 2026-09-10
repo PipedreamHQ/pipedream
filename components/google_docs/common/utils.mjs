@@ -1,4 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
+import { POINTS } from "./constants.mjs";
 
 function getTextContentFromDocument(content) {
   let textContent = "";
@@ -48,6 +49,118 @@ function selectInsertedTable(beforeTables, afterTables, requestedIndex) {
     ? beforeTables.length
     : beforeTables.filter(({ startIndex }) => startIndex < requestedIndex).length;
   return afterTables[precedingCount] ?? null;
+}
+
+function collectTextWithIndices(content) {
+  let text = "";
+  const indexMap = [];
+
+  const walk = (elements) => {
+    (elements || []).forEach((element) => {
+      (element.paragraph?.elements || []).forEach((paragraphElement) => {
+        const run = paragraphElement.textRun?.content;
+        if (!run) {
+          return;
+        }
+        const start = paragraphElement.startIndex ?? 0;
+        for (let offset = 0; offset < run.length; offset++) {
+          indexMap.push(start + offset);
+        }
+        text += run;
+      });
+      (element.table?.tableRows || []).forEach((row) => {
+        (row.tableCells || []).forEach((cell) => walk(cell.content));
+      });
+      if (element.tableOfContents) {
+        walk(element.tableOfContents.content);
+      }
+    });
+  };
+
+  walk(content);
+  return {
+    text,
+    indexMap,
+  };
+}
+
+function findTextRanges({
+  text, indexMap, needle, matchCase,
+}) {
+  const ranges = [];
+  if (!needle) {
+    return ranges;
+  }
+  const target = matchCase
+    ? needle
+    : needle.toLowerCase();
+
+  for (let i = 0; i + needle.length <= text.length; i++) {
+    const window = text.slice(i, i + needle.length);
+    const candidate = matchCase
+      ? window
+      : window.toLowerCase();
+    if (candidate !== target) {
+      continue;
+    }
+    ranges.push({
+      startIndex: indexMap[i],
+      endIndex: indexMap[i + needle.length - 1] + 1,
+    });
+    i += needle.length - 1;
+  }
+  return ranges;
+}
+
+// `#RRGGBB` (or `RRGGBB`) to the API's OptionalColor, whose channels are 0-1.
+function hexToOptionalColor(hex) {
+  const normalized = String(hex).trim()
+    .replace(/^#/, "");
+  if (!/^[0-9a-fA-F]{6}$/.test(normalized)) {
+    return null;
+  }
+  const channel = (start) => parseInt(normalized.slice(start, start + 2), 16) / 255;
+  return {
+    color: {
+      rgbColor: {
+        red: channel(0),
+        green: channel(2),
+        blue: channel(4),
+      },
+    },
+  };
+}
+
+function styleBuilder(unit = POINTS) {
+  const style = {};
+  const fields = [];
+
+  return {
+    style,
+    fields,
+    set(name, value) {
+      if (value == null) {
+        return;
+      }
+      style[name] = value;
+      fields.push(name);
+    },
+    setDimension(name, magnitude) {
+      if (magnitude == null) {
+        return;
+      }
+      this.set(name, {
+        magnitude,
+        unit,
+      });
+    },
+    get isEmpty() {
+      return !fields.length;
+    },
+    get mask() {
+      return fields.join(",");
+    },
+  };
 }
 
 function adjustPropDefinitions(props, app) {
@@ -139,6 +252,10 @@ function parseRfc3339(value, label) {
 }
 
 export default {
+  styleBuilder,
+  collectTextWithIndices,
+  findTextRanges,
+  hexToOptionalColor,
   getTextContentFromDocument,
   addTextContentToDocument,
   flattenTables,

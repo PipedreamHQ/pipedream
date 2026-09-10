@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import {
   ConfigurationError, getFileStreamAndMetadata,
 } from "@pipedream/platform";
@@ -14,6 +13,7 @@ export default {
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/imports/import-sheet-into-workspace)",
   version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ROW_MOVE_INCLUDE_OPTIONS } from "../../common/constants.mjs";
 import {
   parseRowIds, toIdString,
@@ -13,6 +12,7 @@ export default {
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/move-rows)",
   version: "0.1.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { parseRowIds } from "../../common/utils.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
 
@@ -11,6 +10,7 @@ export default {
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/delete-rows)",
   version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

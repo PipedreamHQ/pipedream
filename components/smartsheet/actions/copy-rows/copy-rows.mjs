@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ROW_COPY_INCLUDE_OPTIONS } from "../../common/constants.mjs";
 import {
   parseRowIds, toIdString,
@@ -13,6 +12,7 @@ export default {
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/copy-rows)",
   version: "0.1.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

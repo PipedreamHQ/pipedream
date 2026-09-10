@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import { EMAIL_FORMATS } from "../../common/constants.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
@@ -12,6 +11,7 @@ export default {
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/sheet-send)",
   version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

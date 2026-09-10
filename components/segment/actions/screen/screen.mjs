@@ -4,13 +4,14 @@ export default {
   key: "segment-screen",
   name: "Record whenever a user sees a screen",
   description: "The screen method let you record whenever a user sees a screen of your mobile app (note requires userId or anonymousId). See the docs [here](https://segment.com/docs/connections/sources/catalog/libraries/server/http-api/#screen)",
-  version: "0.1.5",
+  version: "0.1.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     segmentApp,
     anonymousId: {

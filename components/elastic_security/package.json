@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/elastic_security",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Elastic Security Components",
   "main": "elastic_security.app.mjs",
   "keywords": [

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import {
   SHEET_EXCLUDE_OPTIONS, SHEET_INCLUDE_OPTIONS,
 } from "../../common/constants.mjs";
@@ -15,6 +14,7 @@ export default {
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/getsheet)",
   version: "1.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -68,7 +68,7 @@ export default {
     filterId: {
       type: "string",
       label: "Filter ID",
-      description: "Apply a saved filter to the returned rows (e.g. `1234567890`). An ID this sheet does not have is ignored silently rather than erroring, so confirm it first: run **Get Sheet** with `filters` in Include and read the returned `filters` array. Smartsheet exposes no filters endpoint, so that is the only way to discover one.",
+      description: "Apply a saved filter to the returned rows (e.g. `1234567890123456`). An ID this sheet does not have is ignored silently rather than erroring, so confirm it first: run **Get Sheet** with `filters` in Include and read the returned `filters` array. Smartsheet exposes no filters endpoint, so that is the only way to discover one.",
       optional: true,
     },
     level: {
