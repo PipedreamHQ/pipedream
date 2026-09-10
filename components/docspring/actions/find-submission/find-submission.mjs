@@ -23,6 +23,7 @@ export default {
     type: {
       type: "string",
       label: "Mode",
+      description: "Only return submissions in this mode: `live` or `test`. Leave blank for both.",
       options: [
         "live",
         "test",
@@ -32,18 +33,19 @@ export default {
     createdAfter: {
       type: "string",
       label: "Created After",
-      description: "ISO 8601 timestamp (e.g. 2026-01-01T00:00:00Z).",
+      description: "Only return submissions created after this ISO 8601 timestamp (e.g. `2026-01-01T00:00:00Z`).",
       optional: true,
     },
     createdBefore: {
       type: "string",
       label: "Created Before",
-      description: "ISO 8601 timestamp.",
+      description: "Only return submissions created before this ISO 8601 timestamp (e.g. `2026-01-01T00:00:00Z`).",
       optional: true,
     },
     maxResults: {
       type: "integer",
       label: "Max Results",
+      description: "Maximum number of submissions to return. Must be a positive integer (defaults to `20`).",
       default: 20,
       optional: true,
     },
@@ -54,7 +56,9 @@ export default {
       $.export("$summary", `Found submission \`${this.submissionId}\``);
       return submission;
     }
-    const limit = this.maxResults || 20;
+    const limit = Number.isInteger(this.maxResults) && this.maxResults > 0
+      ? this.maxResults
+      : 20;
     const results = [];
     let cursor;
     do {

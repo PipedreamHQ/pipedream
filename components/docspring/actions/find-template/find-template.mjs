@@ -22,13 +22,15 @@ export default {
     maxResults: {
       type: "integer",
       label: "Max Results",
-      description: "Maximum number of templates to return.",
+      description: "Maximum number of templates to return. Must be a positive integer (defaults to `20`).",
       default: 20,
       optional: true,
     },
   },
   async run({ $ }) {
-    const limit = this.maxResults || 20;
+    const limit = Number.isInteger(this.maxResults) && this.maxResults > 0
+      ? this.maxResults
+      : 20;
     const results = [];
     let page = 1;
     let hasMore = true;

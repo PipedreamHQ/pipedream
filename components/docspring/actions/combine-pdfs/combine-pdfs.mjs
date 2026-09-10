@@ -22,17 +22,20 @@ export default {
     password: {
       type: "string",
       label: "Encrypt PDF With Passphrase",
+      description: "Passphrase used to encrypt and open the combined PDF.",
       optional: true,
       secret: true,
     },
     expiresIn: {
       type: "integer",
       label: "Expires In (Seconds)",
+      description: "Number of seconds until the combined PDF is deleted.",
       optional: true,
     },
     metadata: {
       type: "object",
       label: "Metadata",
+      description: "Custom metadata to store with the combined submission, as a JSON object — e.g. `{\"caseId\":\"123\"}`.",
       optional: true,
     },
   },

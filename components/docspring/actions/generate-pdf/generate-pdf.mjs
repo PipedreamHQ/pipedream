@@ -53,7 +53,7 @@ export default {
     metadata: {
       type: "object",
       label: "Metadata",
-      description: "Custom metadata stored with the submission.",
+      description: "Custom metadata to store with the submission, as a JSON object — e.g. `{\"caseId\":\"123\"}`.",
       optional: true,
     },
   },

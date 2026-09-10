@@ -69,9 +69,15 @@ export default {
   },
   async run(event) {
     const body = (event && event.body) || {};
+    // DocSpring always sends a unique event `id`. Requiring it (rather than
+    // falling back to Date.now()) keeps `dedupe: "unique"` effective, so a
+    // retried delivery is de-duplicated instead of re-running the workflow.
+    if (!body.id) {
+      throw new Error("DocSpring webhook delivery is missing an event `id`");
+    }
     const flattened = this.flatten(body);
     this.$emit(flattened, {
-      id: body.id || `${Date.now()}`,
+      id: body.id,
       summary: `${body.event || "event"}: ${flattened.resource_id || ""}`,
       ts: body.timestamp ? Date.parse(body.timestamp) : Date.now(),
     });
