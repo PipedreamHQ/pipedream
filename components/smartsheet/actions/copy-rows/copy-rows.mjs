@@ -10,7 +10,7 @@ export default {
   description:
     "Copy rows from one sheet to another. The rows stay in the source sheet and are duplicated in the destination. Cell values and formatting always come across; attachments and comments only if you ask for them via Include. Columns the destination sheet is missing are created automatically, so it does not have to match the source first. Returns `rowMappings` pairing each source row ID with its new ID in the destination. To move rows instead, removing them from the source, use **Move Rows**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/copy-rows)",
-  version: "0.1.1",
+  version: "0.1.0",
   type: "action",
   ai: "optimized",
   annotations: {

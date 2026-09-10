@@ -10,7 +10,7 @@ export default {
     + " To create a sheet from an existing template instead of defining columns, use **New Sheet From Template**."
     + " To load a sheet from a CSV or XLSX file, use **Import Sheet**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/create-sheet-in-workspace)",
-  version: "1.0.1",
+  version: "1.0.0",
   type: "action",
   ai: "optimized",
   annotations: {

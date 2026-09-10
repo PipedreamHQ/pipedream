@@ -12,7 +12,7 @@ export default {
     + " Returns rows with cell values keyed by column name for readability."
     + " For a lightweight column-only view, use **List Columns** instead."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/getsheet)",
-  version: "1.0.1",
+  version: "1.0.0",
   type: "action",
   ai: "optimized",
   annotations: {

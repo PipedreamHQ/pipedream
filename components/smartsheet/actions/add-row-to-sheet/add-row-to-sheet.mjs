@@ -10,7 +10,7 @@ export default {
     + " Call **Get Sheet** or **List Columns** first to learn the column names."
     + " To change rows that already exist, use **Update Row**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/rows-addtosheet)",
-  version: "1.0.3",
+  version: "1.0.2",
   type: "action",
   ai: "optimized",
   annotations: {

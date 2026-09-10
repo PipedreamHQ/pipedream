@@ -13,7 +13,7 @@ export default {
     + " Use **List Columns** to see the existing columns and their positions first."
     + " To change a column that already exists, use **Update Column**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/columns/columns-addtosheet)",
-  version: "1.0.1",
+  version: "1.0.0",
   type: "action",
   ai: "optimized",
   annotations: {

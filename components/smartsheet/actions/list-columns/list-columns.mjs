@@ -9,7 +9,7 @@ export default {
     + " Use this before **Add Row to Sheet** or **Update Row** to discover column names and types."
     + " For full sheet data including rows, use **Get Sheet** instead."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/columns/columns-listonsheet)",
-  version: "0.1.1",
+  version: "0.1.0",
   type: "action",
   ai: "optimized",
   annotations: {

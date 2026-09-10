@@ -11,7 +11,7 @@ export default {
     + " Call **Get Sheet** to find row IDs and column names first."
     + " To add new rows instead of changing existing ones, use **Add Row to Sheet**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/update-rows)",
-  version: "1.2.1",
+  version: "1.1.1",
   type: "action",
   ai: "optimized",
   annotations: {
