@@ -3,7 +3,10 @@ import grain from "../../grain.app.mjs";
 export default {
   props: {
     grain,
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
     db: "$.service.db",
   },
   methods: {
@@ -39,6 +42,10 @@ export default {
     },
   },
   async run({ body }) {
+    this.http.respond({
+      status: 200,
+    });
+
     if (!body?.data?.id || body.type !== this.getHookType()) return;
 
     this.$emit(body, {
