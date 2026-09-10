@@ -27,7 +27,7 @@ export default {
     end: {
       type: "string",
       label: "End",
-      description: "ISO 8601 datetime for clock-out; must be after start.",
+      description: "ISO 8601 datetime for clock-out; must be after start, e.g. `2026-09-10T17:00:00-05:00`.",
     },
     timezone: {
       propDefinition: [

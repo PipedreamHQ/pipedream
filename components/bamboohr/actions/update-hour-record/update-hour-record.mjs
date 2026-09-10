@@ -18,7 +18,7 @@ export default {
         bamboohr,
         "recordId",
       ],
-      description: "The ID of the hour record to update. Run **Get Time Tracking Record** to check its current values, or use the ID you supplied in **Create Hour Record**.",
+      description: "The ID of the hour record to update, e.g. `550e8400-e29b-41d4-a716-446655440000` (the UUID you supplied in **Create Hour Record**). Run **Get Time Tracking Record** to check its current values, or use the ID you supplied in **Create Hour Record**.",
     },
     hoursWorked: {
       type: "string",
@@ -28,25 +28,25 @@ export default {
     projectId: {
       type: "string",
       label: "Project ID",
-      description: "Optional project ID to associate with the record.",
+      description: "Optional numeric project ID to associate with the record, e.g. `19`. Find valid IDs in your BambooHR time tracking project settings.",
       optional: true,
     },
     taskId: {
       type: "string",
       label: "Task ID",
-      description: "Optional task ID to associate with the record.",
+      description: "Optional numeric task ID to associate with the record, e.g. `47`. Find valid IDs in your BambooHR time tracking project settings.",
       optional: true,
     },
     shiftDifferentialId: {
       type: "string",
       label: "Shift Differential ID",
-      description: "Optional shift differential ID to associate with the record.",
+      description: "Optional numeric shift differential ID to associate with the record, e.g. `1`. Company-specific; find valid IDs in your BambooHR payroll/company settings.",
       optional: true,
     },
     holidayId: {
       type: "string",
       label: "Holiday ID",
-      description: "Optional holiday ID to associate with the record.",
+      description: "Optional numeric holiday ID to associate with the record, e.g. `1`. Company-specific (legacy Hours API); find valid IDs in your BambooHR payroll/company settings.",
       optional: true,
     },
   },

@@ -18,7 +18,7 @@ export default {
         bamboohr,
         "hourEntryId",
       ],
-      description: "The hour entry ID to delete. Run **List Hour Entries** to discover IDs.",
+      description: "The hour entry ID to delete, e.g. `654`. Run **List Hour Entries** to discover IDs.",
     },
   },
   async run({ $ }) {

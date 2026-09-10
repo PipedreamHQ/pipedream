@@ -34,7 +34,7 @@ export default {
         bamboohr,
         "fileId",
       ],
-      description: "The file ID. Run **List Employee Files** to discover file IDs for this employee.",
+      description: "The file ID, e.g. `789`. Run **List Employee Files** to discover file IDs for this employee.",
     },
     outputFilename: {
       type: "string",

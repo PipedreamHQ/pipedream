@@ -28,7 +28,7 @@ export default {
     end: {
       type: "string",
       label: "End Time",
-      description: "End time in 24h HH:MM format.",
+      description: "End time in 24h HH:MM format, e.g. `17:00`.",
       optional: true,
     },
     timezone: {

@@ -19,14 +19,14 @@ export default {
         bamboohr,
         "employeeId",
       ],
-      description: "The employee whose balance to adjust. Run **Get Employees Directory** to discover IDs.",
+      description: "The employee whose balance to adjust, e.g. `100`. Run **Get Employees Directory** to discover IDs.",
     },
     timeOffTypeId: {
       propDefinition: [
         bamboohr,
         "timeOffTypeId",
       ],
-      description: "The time off type to adjust the balance for. Run **List Time Off Types** to discover IDs; discretionary types cannot be adjusted.",
+      description: "The time off type to adjust the balance for, e.g. `5`. Run **List Time Off Types** to discover IDs; discretionary types cannot be adjusted.",
     },
     date: {
       type: "string",

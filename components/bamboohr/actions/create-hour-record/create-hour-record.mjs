@@ -19,7 +19,7 @@ export default {
         bamboohr,
         "recordId",
       ],
-      description: "A unique ID you choose for this record (up to 36 characters, e.g. a UUID). Save it — you'll need it to update or delete this record later.",
+      description: "A unique ID you choose for this record (up to 36 characters), e.g. `550e8400-e29b-41d4-a716-446655440000` (a UUID). Save it — you'll need it to update or delete this record later.",
     },
     employeeId: {
       propDefinition: [
@@ -50,25 +50,25 @@ export default {
     divisionId: {
       type: "string",
       label: "Division ID",
-      description: "Optional division ID.",
+      description: "Optional numeric division ID, e.g. `1`. Company-specific; find valid IDs in your BambooHR payroll/company settings.",
       optional: true,
     },
     departmentId: {
       type: "string",
       label: "Department ID",
-      description: "Optional department ID.",
+      description: "Optional numeric department ID, e.g. `2`. Company-specific; find valid IDs in your BambooHR payroll/company settings.",
       optional: true,
     },
     jobTitleId: {
       type: "string",
       label: "Job Title ID",
-      description: "Optional job title ID.",
+      description: "Optional numeric job title ID, e.g. `3`. Company-specific; find valid IDs in your BambooHR payroll/company settings.",
       optional: true,
     },
     payCode: {
       type: "string",
       label: "Pay Code",
-      description: "Optional pay code; required by some payroll providers.",
+      description: "Optional pay code; required by some payroll providers, e.g. `REG1`. Company-specific; check with your payroll provider or BambooHR admin.",
       optional: true,
     },
     payRate: {
@@ -80,7 +80,7 @@ export default {
     jobCode: {
       type: "string",
       label: "Job Code",
-      description: "Optional job code.",
+      description: "Optional numeric job code, e.g. `100`. Company-specific; find valid codes in your BambooHR payroll/company settings.",
       optional: true,
     },
     jobData: {

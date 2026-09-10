@@ -18,7 +18,7 @@ export default {
         bamboohr,
         "recordId",
       ],
-      description: "The ID of the hour record to delete. Run **Get Time Tracking Record** to confirm it exists first.",
+      description: "The ID of the hour record to delete, e.g. `550e8400-e29b-41d4-a716-446655440000` (the UUID you supplied in **Create Hour Record**). Run **Get Time Tracking Record** to confirm it exists first.",
     },
   },
   async run({ $ }) {

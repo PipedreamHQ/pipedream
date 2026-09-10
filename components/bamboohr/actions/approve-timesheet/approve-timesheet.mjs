@@ -18,12 +18,12 @@ export default {
         bamboohr,
         "timesheetId",
       ],
-      description: "The timesheet ID to approve. Run **List Timesheets** to discover IDs.",
+      description: "The timesheet ID to approve, e.g. `456`. Run **List Timesheets** to discover IDs.",
     },
     lastChangedAt: {
       type: "string",
       label: "Last Changed At",
-      description: "ISO 8601 UTC value from the timesheet's `hoursLastChangedAt` (via **Get Timesheet**), for optimistic concurrency.",
+      description: "ISO 8601 UTC value from the timesheet's `hoursLastChangedAt` (via **Get Timesheet**), for optimistic concurrency, e.g. `2026-01-15T18:30:00Z`.",
     },
   },
   async run({ $ }) {

@@ -18,7 +18,7 @@ export default {
         bamboohr,
         "employeeId",
       ],
-      description: "The employee ID to permanently delete. Run **Get Employees Directory** to discover IDs.",
+      description: "The employee ID to permanently delete, e.g. `100`. Run **Get Employees Directory** to discover IDs.",
     },
   },
   async run({ $ }) {

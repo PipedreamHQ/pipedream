@@ -7,18 +7,18 @@ export default {
     applicationId: {
       type: "string",
       label: "Application ID",
-      description: "The ID of an application. Run **List Application ID Options** to discover application IDs.",
+      description: "The ID of an application, e.g. `4521`. Run **List Application ID Options** to discover application IDs.",
     },
     jobId: {
       type: "string",
       label: "Job ID",
-      description: "The ID of a job. Run **List Job ID Options** to discover job IDs.",
+      description: "The ID of a job, e.g. `12`. Run **List Job ID Options** to discover job IDs.",
       optional: true,
     },
     statusId: {
       type: "string",
       label: "Status ID",
-      description: "The ID of a job status. Run **List Status ID Options** to discover status IDs.",
+      description: "The ID of a job status, e.g. `3`. Run **List Status ID Options** to discover status IDs.",
     },
     employeeId: {
       type: "string",
@@ -28,12 +28,12 @@ export default {
     timeOffTypeId: {
       type: "string",
       label: "Time Off Type ID",
-      description: "The time off type ID. Run **List Time Off Types** to discover IDs.",
+      description: "The time off type ID, e.g. `5`. Run **List Time Off Types** to discover IDs.",
     },
     requestId: {
       type: "string",
       label: "Request ID",
-      description: "The time off request ID. Run **List Time Off Requests** to discover IDs.",
+      description: "The time off request ID, e.g. `67890`. Run **List Time Off Requests** to discover IDs.",
     },
     reportId: {
       type: "string",
@@ -43,22 +43,22 @@ export default {
     fileId: {
       type: "string",
       label: "File ID",
-      description: "The file ID. Run **List Employee Files** to discover file IDs.",
+      description: "The file ID, e.g. `789`. Run **List Employee Files** to discover file IDs.",
     },
     timesheetId: {
       type: "string",
       label: "Timesheet ID",
-      description: "The timesheet ID. Run **List Timesheets** to discover IDs.",
+      description: "The timesheet ID, e.g. `456`. Run **List Timesheets** to discover IDs.",
     },
     clockEntryId: {
       type: "string",
       label: "Clock Entry ID",
-      description: "The clock entry ID. Run **List Clock Entries** to discover IDs.",
+      description: "The clock entry ID, e.g. `321`. Run **List Clock Entries** to discover IDs.",
     },
     hourEntryId: {
       type: "string",
       label: "Hour Entry ID",
-      description: "The hour entry ID. Run **List Hour Entries** to discover IDs.",
+      description: "The hour entry ID, e.g. `654`. Run **List Hour Entries** to discover IDs.",
     },
     recordId: {
       type: "string",
@@ -68,7 +68,7 @@ export default {
     clockDate: {
       type: "string",
       label: "Date",
-      description: "Date in YYYY-MM-DD format (defaults to today).",
+      description: "Date in YYYY-MM-DD format (defaults to today), e.g. `2026-01-15`.",
       optional: true,
     },
     timezone: {
@@ -80,13 +80,13 @@ export default {
     projectId: {
       type: "string",
       label: "Project ID",
-      description: "Optional project ID.",
+      description: "Optional numeric project ID, e.g. `19`. Find valid IDs in your BambooHR time tracking project settings.",
       optional: true,
     },
     taskId: {
       type: "string",
       label: "Task ID",
-      description: "Optional task ID (requires projectId).",
+      description: "Optional numeric task ID within the project, e.g. `47` (requires projectId). Find valid IDs in your BambooHR time tracking project settings.",
       optional: true,
     },
   },

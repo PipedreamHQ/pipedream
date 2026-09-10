@@ -23,7 +23,7 @@ export default {
     categoryId: {
       type: "string",
       label: "Category ID",
-      description: "Optional new time off type/category ID for the request. Run **List Time Off Types** to discover IDs.",
+      description: "Optional new time off type/category ID for the request, e.g. `5`. Run **List Time Off Types** to discover IDs.",
       optional: true,
     },
     startDate: {

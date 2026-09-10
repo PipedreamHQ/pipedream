@@ -28,7 +28,7 @@ export default {
     start: {
       type: "string",
       label: "Start Time",
-      description: "Start time in 24h HH:MM format.",
+      description: "Start time in 24h HH:MM format, e.g. `09:00`.",
       optional: true,
     },
     timezone: {
@@ -52,7 +52,7 @@ export default {
     breakId: {
       type: "string",
       label: "Break ID",
-      description: "Optional break ID.",
+      description: "Optional numeric break ID, e.g. `2`. Find valid IDs in your BambooHR time tracking break settings.",
       optional: true,
     },
     note: {

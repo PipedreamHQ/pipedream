@@ -1,5 +1,6 @@
 import bamboohr from "../../bamboohr.app.mjs";
 import constants from "../../common/constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "bamboohr-add-time-off-request",
@@ -19,7 +20,7 @@ export default {
         bamboohr,
         "employeeId",
       ],
-      description: "The employee ID (digits only). Run **Get Employees Directory** to discover IDs.",
+      description: "The employee ID (digits only), e.g. `100`. Run **Get Employees Directory** to discover IDs.",
     },
     status: {
       type: "string",
@@ -75,6 +76,13 @@ export default {
     const dates = this.dates
       ? JSON.parse(this.dates)
       : undefined;
+    let amount;
+    if (this.amount) {
+      amount = Number(this.amount);
+      if (!Number.isFinite(amount)) {
+        throw new ConfigurationError(`Amount must be a valid number, got \`${this.amount}\``);
+      }
+    }
     const response = await this.bamboohr.createTimeOffRequest({
       $,
       employeeId: this.employeeId,
@@ -83,9 +91,7 @@ export default {
         start: this.start,
         end: this.end,
         timeOffTypeId: this.timeOffTypeId,
-        amount: this.amount
-          ? Number(this.amount)
-          : undefined,
+        amount,
         previousRequest: this.previousRequest,
         notes,
         dates,

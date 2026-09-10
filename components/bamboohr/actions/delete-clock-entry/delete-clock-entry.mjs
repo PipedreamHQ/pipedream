@@ -18,7 +18,7 @@ export default {
         bamboohr,
         "clockEntryId",
       ],
-      description: "The clock entry ID to delete. Run **List Clock Entries** to discover IDs.",
+      description: "The clock entry ID to delete, e.g. `321`. Run **List Clock Entries** to discover IDs.",
     },
   },
   async run({ $ }) {

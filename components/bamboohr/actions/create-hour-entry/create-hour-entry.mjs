@@ -22,7 +22,7 @@ export default {
     date: {
       type: "string",
       label: "Date",
-      description: "Date in YYYY-MM-DD format.",
+      description: "Date in YYYY-MM-DD format, e.g. `2026-09-01`.",
     },
     hours: {
       type: "string",
