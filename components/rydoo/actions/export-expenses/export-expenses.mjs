@@ -4,8 +4,9 @@ export default {
   key: "rydoo-export-expenses",
   name: "Export Expenses",
   description: "Retrieves a list of expenses that have been exported, with optional filtering by date range, user, group, trip, or branch. [See the documentation](https://developers.rydoo.com/reference/v2expensesgetexportedexpenses)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

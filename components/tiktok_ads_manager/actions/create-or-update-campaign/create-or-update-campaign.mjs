@@ -11,8 +11,9 @@ export default {
     + " After creating a campaign, use **Create or Update Ad Group** to add targeting and budget."
     + " For create, see [documentation](https://business-api.tiktok.com/portal/docs/create-a-campaign/v1.3)."
     + " For update, see [documentation](https://business-api.tiktok.com/portal/docs/update-a-campaign/v1.3).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

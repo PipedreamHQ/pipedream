@@ -4,13 +4,14 @@ export default {
   key: "paazl-create-checkout-token",
   name: "Create Checkout Access Token",
   description: "Returns an access token for a checkout session. This enables the Paazl checkout widget to access Paazl resources. [See the documentation](https://support.paazl.com/hc/en-us/articles/360008633973-REST-API-reference#/Checkout/createTokenUsingPOST)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     reference: {

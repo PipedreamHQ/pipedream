@@ -9,13 +9,14 @@ export default {
   key: "selzy-create-email-message",
   name: "Create Email Message",
   description: "Adds a new email message. [See the documentation](https://selzy.com/en/support/category/api/messages/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     selzy,
     senderName: {

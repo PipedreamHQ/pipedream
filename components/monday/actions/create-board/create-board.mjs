@@ -4,9 +4,10 @@ import monday from "../../monday.app.mjs";
 export default {
   key: "monday-create-board",
   name: "Create Board",
-  description: "Creates a new board. [See the documentation](https://developer.monday.com/api-reference/reference/boards#create-a-board)",
+  description: "Create a new board in a workspace. Use when you need a new board before adding groups, columns or items to it. Set `Board Name` and `Board Kind` (`public`, `private` or `share`); if you omit `Workspace ID` the board is created in the Main Workspace. Example: Board Name `Q3 Campaigns`, Board Kind `public`. Returns the new board's ID as a string (e.g. `2419687965`), not the full board object — call **List Boards** if you need its details. Use **List Workspace ID Options** to find a valid `Workspace ID`. [See the documentation](https://developer.monday.com/api-reference/reference/boards#create-a-board)",
   type: "action",
-  version: "0.0.15",
+  ai: "optimized",
+  version: "0.0.16",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

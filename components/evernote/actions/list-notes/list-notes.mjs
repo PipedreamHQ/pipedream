@@ -4,8 +4,9 @@ export default {
   key: "evernote-list-notes",
   name: "List Notes",
   description: "List all notes in Evernote. [See the documentation](https://dev.evernote.com/doc/reference/NoteStore.html#Fn_NoteStore_findNotesMetadata).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
