@@ -5,8 +5,9 @@ export default {
   key: "rydoo-create-bank-transaction",
   name: "Create Bank Transaction",
   description: "Manually pushes a bank transaction record for a specific user. [See the documentation](https://developers.rydoo.com/reference/v2transactionsaddtransaction)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

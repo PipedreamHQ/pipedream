@@ -13,8 +13,9 @@ export default {
   key: "exa-search",
   name: "Search",
   description: "Search the web with Exa. `auto` is the recommended search type, and Highlights is the recommended default content mode. [See the documentation](https://docs.exa.ai/reference/search)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

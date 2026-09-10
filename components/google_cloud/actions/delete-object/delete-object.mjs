@@ -2,7 +2,7 @@ import googleCloud from "../../google_cloud.app.mjs";
 
 export default {
   name: "Delete Object",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -11,6 +11,7 @@ export default {
   key: "google_cloud-delete-object",
   description: "Permanently delete an object from a Google Cloud Storage bucket. [See the documentation](https://cloud.google.com/nodejs/docs/reference/storage/latest/storage/file#_google_cloud_storage_File_delete_member_1_)",
   type: "action",
+  ai: "optimized",
   props: {
     googleCloud,
     bucketName: {

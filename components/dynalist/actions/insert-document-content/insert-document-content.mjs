@@ -5,13 +5,14 @@ export default {
   key: "dynalist-insert-document-content",
   name: "Insert Document Content",
   description: "Inserts content to a specific document. If the document has existing content, the new content will be appended. [See the documentation](https://apidocs.dynalist.io/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     dynalist,
     documentId: {

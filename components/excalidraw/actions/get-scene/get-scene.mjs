@@ -9,8 +9,9 @@ export default {
     + " Use **List Scenes** first to find the scene ID by name."
     + " Set `includeContent` to true only when the user explicitly asks for the drawing data — the content can be large."
     + " [See the documentation](https://plus.excalidraw.com/docs/api/scenes/sceneId-content-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

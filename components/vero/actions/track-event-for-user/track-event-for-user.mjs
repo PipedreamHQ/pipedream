@@ -3,9 +3,10 @@ import app from "../../vero.app.mjs";
 
 export default {
   type: "action",
+  ai: "optimized",
   key: "vero-track-event-for-user",
   name: "Track Event for User",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
