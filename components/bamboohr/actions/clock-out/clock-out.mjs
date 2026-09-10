@@ -20,10 +20,10 @@ export default {
       ],
     },
     date: {
-      type: "string",
-      label: "Date",
-      description: "Date in YYYY-MM-DD format (defaults to today).",
-      optional: true,
+      propDefinition: [
+        bamboohr,
+        "clockDate",
+      ],
     },
     end: {
       type: "string",
@@ -32,10 +32,10 @@ export default {
       optional: true,
     },
     timezone: {
-      type: "string",
-      label: "Timezone",
-      description: "IANA timezone string, e.g. `America/Chicago`.",
-      optional: true,
+      propDefinition: [
+        bamboohr,
+        "timezone",
+      ],
     },
   },
   async run({ $ }) {

@@ -28,9 +28,13 @@ export default {
       optional: true,
     },
     fd: {
-      type: "boolean",
+      type: "string",
       label: "Filter Duplicates",
-      description: "Apply duplicate-row filtering.",
+      description: "Duplicate-row filtering. Use `yes` to filter duplicates or `no` to return raw rows.",
+      options: [
+        "yes",
+        "no",
+      ],
       optional: true,
     },
     onlyCurrent: {

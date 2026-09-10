@@ -1,4 +1,5 @@
 import bamboohr from "../../bamboohr.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "bamboohr-create-hour-record",
@@ -90,6 +91,13 @@ export default {
     },
   },
   async run({ $ }) {
+    let jobCode;
+    if (this.jobCode) {
+      jobCode = Number(this.jobCode);
+      if (!Number.isInteger(jobCode)) {
+        throw new ConfigurationError(`Job Code must be an integer, got \`${this.jobCode}\``);
+      }
+    }
     const response = await this.bamboohr.createHourRecord({
       $,
       data: {
@@ -111,9 +119,7 @@ export default {
         payRate: this.payRate
           ? parseFloat(this.payRate)
           : undefined,
-        jobCode: this.jobCode
-          ? parseInt(this.jobCode, 10)
-          : undefined,
+        jobCode,
         jobData: this.jobData,
       },
     });

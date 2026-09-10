@@ -52,7 +52,7 @@ export default {
     previousRequest: {
       type: "string",
       label: "Previous Request",
-      description: "A prior request ID this request supersedes.",
+      description: "The ID of a prior time off request to supersede, e.g. `12345`. Run **List Time Off Requests** to find a valid ID. Supersedes the prior request: it's cancelled, its approval workflow is removed, and any related notifications are deleted.",
       optional: true,
     },
     notes: {
@@ -83,7 +83,9 @@ export default {
         start: this.start,
         end: this.end,
         timeOffTypeId: this.timeOffTypeId,
-        amount: this.amount,
+        amount: this.amount
+          ? Number(this.amount)
+          : undefined,
         previousRequest: this.previousRequest,
         notes,
         dates,

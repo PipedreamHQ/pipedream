@@ -25,7 +25,10 @@ export default {
       $,
       recordId: this.recordId,
     });
-    $.export("$summary", `Retrieved time tracking record ${this.recordId}`);
+    const isEmpty = !response || (typeof response === "object" && Object.keys(response).length === 0);
+    $.export("$summary", isEmpty
+      ? `No time tracking record found for ID ${this.recordId}`
+      : `Retrieved time tracking record ${this.recordId}`);
     return response;
   },
 };

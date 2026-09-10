@@ -59,13 +59,13 @@ export default {
       $,
       returnFullResponse: true,
       data: {
+        ...this.additionalFields,
         firstName: this.firstName,
         lastName: this.lastName,
         workEmail: this.workEmail,
         jobTitle: this.jobTitle,
         department: this.department,
         hireDate: this.hireDate,
-        ...this.additionalFields,
       },
     });
     const locationHeader = response.headers?.location ?? "";

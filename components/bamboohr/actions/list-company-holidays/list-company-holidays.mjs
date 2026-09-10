@@ -16,7 +16,7 @@ export default {
     filter: {
       type: "string",
       label: "Filter",
-      description: "OData filter expression over name, startDate, endDate, isPublic, globalHolidayUuid, e.g. `startDate ge 2026-01-01 and endDate le 2026-12-31`.",
+      description: "OData filter expression over name, startDate, endDate, isPublic, globalHolidayUuid, e.g. `startDate ge '2026-01-01' and endDate le '2026-12-31'`.",
       optional: true,
     },
     orderBy: {
@@ -28,7 +28,7 @@ export default {
     select: {
       type: "string",
       label: "Select",
-      description: "Comma-separated field projection.",
+      description: "Comma-separated field projection, e.g. `id,name,startDate`.",
       optional: true,
     },
     page: {
@@ -50,9 +50,9 @@ export default {
     const response = await this.bamboohr.listCompanyHolidays({
       $,
       params: {
-        "$filter": this.filter,
-        "$orderBy": this.orderBy,
-        "$select": this.select,
+        "filter": this.filter,
+        "orderBy": this.orderBy,
+        "select": this.select,
         "page": this.page,
         "pageSize": this.pageSize,
       },

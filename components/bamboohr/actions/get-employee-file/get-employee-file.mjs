@@ -1,4 +1,6 @@
 import { writeFile } from "fs/promises";
+import path from "path";
+import { ConfigurationError } from "@pipedream/platform";
 import bamboohr from "../../bamboohr.app.mjs";
 
 export default {
@@ -17,6 +19,7 @@ export default {
     syncDir: {
       type: "$.sync.dir",
       label: "Output Directory",
+      description: "The directory in your Pipedream File Stash to sync the downloaded file to.",
       accessMode: "write",
       sync: true,
     },
@@ -47,7 +50,13 @@ export default {
       fileId: this.fileId,
     });
     const filename = this.outputFilename || `bamboohr-file-${this.fileId}`;
-    const filePath = `/tmp/${filename}`;
+    if (filename.includes("/") || filename.includes("\\") || filename === "." || filename === "..") {
+      throw new ConfigurationError(`Output Filename must be a plain filename with no path separators or \`.\`/\`..\` segments, got \`${filename}\``);
+    }
+    const filePath = path.join("/tmp", filename);
+    if (path.dirname(filePath) !== "/tmp") {
+      throw new ConfigurationError(`Output Filename must resolve to a path inside /tmp, got \`${filename}\``);
+    }
     await writeFile(filePath, Buffer.from(buffer));
     $.export("$summary", `Downloaded file ${this.fileId} for employee ${this.employeeId} to ${filePath}`);
     return {

@@ -16,25 +16,25 @@ export default {
     start: {
       type: "string",
       label: "Start",
-      description: "Start of range in YYYY-MM-DD format.",
+      description: "Start of range in YYYY-MM-DD format, e.g. `2026-01-01`.",
     },
     end: {
       type: "string",
       label: "End",
-      description: "End of range in YYYY-MM-DD format.",
+      description: "End of range in YYYY-MM-DD format, e.g. `2026-01-31`.",
     },
     employeeId: {
       propDefinition: [
         bamboohr,
         "employeeId",
       ],
-      description: "Filter to a specific employee ID. Do NOT use `0` (returns empty); set the Action parameter to `myRequests` to fetch your own requests.",
+      description: "Filter to a specific employee ID, e.g. `12345`. Do NOT use `0` (returns empty); set the Action parameter to `myRequests` to fetch your own requests. Run **Get Employees Directory** to discover IDs.",
       optional: true,
     },
     id: {
       type: "string",
       label: "Request ID",
-      description: "Filter to a specific time off request ID.",
+      description: "Filter to a specific time off request ID, e.g. `67890`. Run **List Time Off Requests** (without this filter) to discover IDs.",
       optional: true,
     },
     action: {
@@ -46,7 +46,7 @@ export default {
     type: {
       type: "string",
       label: "Type",
-      description: "Comma-separated time off type IDs. Run **List Time Off Types** to discover IDs.",
+      description: "Comma-separated time off type IDs, e.g. `1,2`. Run **List Time Off Types** to discover IDs.",
       optional: true,
     },
     status: {

@@ -65,7 +65,7 @@ export default {
     hireDate: {
       type: "string",
       label: "Hire Date",
-      description: "Hire date in YYYY-MM-DD format.",
+      description: "Hire date in YYYY-MM-DD format, e.g. `2026-01-31`.",
       optional: true,
     },
     additionalFields: {

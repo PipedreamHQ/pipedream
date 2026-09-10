@@ -1,4 +1,5 @@
 import bamboohr from "../../bamboohr.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "bamboohr-adjust-time-off-balance",
@@ -45,13 +46,21 @@ export default {
     },
   },
   async run({ $ }) {
+    const timeOffTypeId = Number(this.timeOffTypeId);
+    if (!Number.isInteger(timeOffTypeId)) {
+      throw new ConfigurationError(`Time Off Type ID must be an integer, got \`${this.timeOffTypeId}\``);
+    }
+    const amount = Number(this.amount);
+    if (!Number.isFinite(amount)) {
+      throw new ConfigurationError(`Amount must be a valid number, got \`${this.amount}\``);
+    }
     const response = await this.bamboohr.adjustTimeOffBalance({
       $,
       employeeId: this.employeeId,
       data: {
         date: this.date,
-        timeOffTypeId: parseInt(this.timeOffTypeId, 10),
-        amount: parseFloat(this.amount),
+        timeOffTypeId,
+        amount,
         note: this.note,
       },
     });

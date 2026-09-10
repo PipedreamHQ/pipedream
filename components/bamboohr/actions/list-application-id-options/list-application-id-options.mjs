@@ -4,7 +4,7 @@ export default {
   key: "bamboohr-list-application-id-options",
   name: "List Application ID Options",
   description: "Retrieves available application IDs for use with applicant-tracking actions. [See the documentation](https://documentation.bamboohr.com/reference/get-applications)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

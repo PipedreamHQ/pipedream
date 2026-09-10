@@ -3,8 +3,8 @@ import bamboohr from "../../bamboohr.app.mjs";
 export default {
   key: "bamboohr-list-job-id-options",
   name: "List Job ID Options",
-  description: "Retrieves available job IDs for use with applicant-tracking actions. [See the documentation](https://documentation.bamboohr.com/reference/get-jobs)",
-  version: "0.0.1",
+  description: "Retrieves available job IDs for use with applicant-tracking actions. [See the documentation](https://documentation.bamboohr.com/reference/get-job-summaries)",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

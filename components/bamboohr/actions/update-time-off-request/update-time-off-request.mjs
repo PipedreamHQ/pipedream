@@ -1,9 +1,10 @@
 import bamboohr from "../../bamboohr.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "bamboohr-update-time-off-request",
   name: "Update Time Off Request",
-  description: "Update an existing time off request using merge-patch semantics — only the fields you set are changed (PATCH /time-off/requests/{id}). Fails with 409 if the request is denied, canceled, or already-started/approved. Use **List Time Off Requests** to find the request ID; use **Approve Time Off Request** / **Deny Time Off Request** / **Cancel Time Off Request** for status changes instead. [See the documentation](https://documentation.bamboohr.com/reference/update-time-off-request)",
+  description: "Update an existing time off request using merge-patch semantics — only the fields you set are changed (PATCH /time-off/requests/{id}). Fails with 409 if the request is denied, canceled, or already-started/approved. Editing a request while it's still `REQUESTED` replaces it with a new request, restarting its approval workflow; the returned `id` may differ from the one in the path, and the original id then returns 410 on subsequent calls. Use the `id` from this action's response for later steps. Use **List Time Off Requests** to find the request ID; use **Approve Time Off Request** / **Deny Time Off Request** / **Cancel Time Off Request** for status changes instead. [See the documentation](https://documentation.bamboohr.com/reference/update-time-off-request)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -60,6 +61,16 @@ export default {
     const dailyAmounts = this.dailyAmounts
       ? JSON.parse(this.dailyAmounts)
       : undefined;
+    if ((this.startDate || this.endDate) && !dailyAmounts) {
+      throw new ConfigurationError("`dailyAmounts` must be supplied when changing `startDate` or `endDate`");
+    }
+    let categoryId;
+    if (this.categoryId) {
+      categoryId = Number(this.categoryId);
+      if (!Number.isInteger(categoryId)) {
+        throw new ConfigurationError(`Category ID must be an integer, got \`${this.categoryId}\``);
+      }
+    }
     const response = await this.bamboohr.updateTimeOffRequest({
       $,
       requestId: this.requestId,
@@ -67,9 +78,7 @@ export default {
         returnActions: this.returnActions,
       },
       data: {
-        categoryId: this.categoryId
-          ? parseInt(this.categoryId, 10)
-          : undefined,
+        categoryId,
         startDate: this.startDate,
         endDate: this.endDate,
         employeeNote: this.employeeNote,

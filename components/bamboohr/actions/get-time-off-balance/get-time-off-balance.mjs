@@ -18,12 +18,12 @@ export default {
         bamboohr,
         "employeeId",
       ],
-      description: "The employee ID (digits only; `0` is not accepted). Run **Get Employees Directory** to discover IDs.",
+      description: "The employee ID (digits only; `0` is not accepted), e.g. `12345`. Run **Get Employees Directory** to discover IDs.",
     },
     end: {
       type: "string",
       label: "End Date",
-      description: "As-of date in YYYY-MM-DD format (defaults to today).",
+      description: "As-of date in YYYY-MM-DD format (defaults to today), e.g. `2026-12-31`.",
       optional: true,
     },
     precision: {

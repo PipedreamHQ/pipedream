@@ -38,7 +38,7 @@ export default {
     reportId: {
       type: "string",
       label: "Report ID",
-      description: "The saved report ID (company-specific), e.g. `1`.",
+      description: "The saved report ID (company-specific), e.g. `1`. Find it by hovering over the report name in BambooHR's **Custom Reports** (or **My Reports**) list and noting the ID in the URL.",
     },
     fileId: {
       type: "string",
@@ -63,7 +63,31 @@ export default {
     recordId: {
       type: "string",
       label: "Record ID",
-      description: "The legacy hour record ID.",
+      description: "The legacy hour record ID, e.g. a UUID like `550e8400-e29b-41d4-a716-446655440000`. You choose this ID when calling **Create Hour Record** — save it, since it's required to update or delete that record later.",
+    },
+    clockDate: {
+      type: "string",
+      label: "Date",
+      description: "Date in YYYY-MM-DD format (defaults to today).",
+      optional: true,
+    },
+    timezone: {
+      type: "string",
+      label: "Timezone",
+      description: "IANA timezone string, e.g. `America/Chicago`.",
+      optional: true,
+    },
+    projectId: {
+      type: "string",
+      label: "Project ID",
+      description: "Optional project ID.",
+      optional: true,
+    },
+    taskId: {
+      type: "string",
+      label: "Task ID",
+      description: "Optional task ID (requires projectId).",
+      optional: true,
     },
   },
   methods: {
@@ -213,10 +237,15 @@ export default {
     },
     // Reports
     getCompanyReport({
-      reportId, ...opts
+      reportId, params = {}, ...opts
     }) {
+      const format = params.format?.toLowerCase();
       return this._makeRequest({
         path: `/reports/${reportId}`,
+        params,
+        responseType: (format === "pdf" || format === "xls")
+          ? "arraybuffer"
+          : undefined,
         ...opts,
       });
     },

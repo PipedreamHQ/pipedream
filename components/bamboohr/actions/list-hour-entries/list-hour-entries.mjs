@@ -44,8 +44,8 @@ export default {
     const response = await this.bamboohr.listHourEntries({
       $,
       params: {
-        "$filter": this.filter,
-        "$sort": this.sort,
+        "filter": this.filter,
+        "sort": this.sort,
         "page": this.page,
         "pageSize": this.pageSize,
       },

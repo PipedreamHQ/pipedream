@@ -38,13 +38,13 @@ export default {
     projectId: {
       type: "string",
       label: "Project ID",
-      description: "Optional project ID.",
+      description: "Optional numeric project ID, e.g. `19`. Find valid IDs in your BambooHR time tracking project settings.",
       optional: true,
     },
     taskId: {
       type: "string",
       label: "Task ID",
-      description: "Optional task ID.",
+      description: "Optional numeric task ID within the project, e.g. `47`. Find valid IDs in your BambooHR time tracking project settings.",
       optional: true,
     },
   },

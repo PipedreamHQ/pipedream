@@ -20,10 +20,10 @@ export default {
       ],
     },
     date: {
-      type: "string",
-      label: "Date",
-      description: "Date in YYYY-MM-DD format (defaults to today).",
-      optional: true,
+      propDefinition: [
+        bamboohr,
+        "clockDate",
+      ],
     },
     start: {
       type: "string",
@@ -32,22 +32,22 @@ export default {
       optional: true,
     },
     timezone: {
-      type: "string",
-      label: "Timezone",
-      description: "IANA timezone string, e.g. `America/Chicago`.",
-      optional: true,
+      propDefinition: [
+        bamboohr,
+        "timezone",
+      ],
     },
     projectId: {
-      type: "string",
-      label: "Project ID",
-      description: "Optional project ID.",
-      optional: true,
+      propDefinition: [
+        bamboohr,
+        "projectId",
+      ],
     },
     taskId: {
-      type: "string",
-      label: "Task ID",
-      description: "Optional task ID (requires projectId).",
-      optional: true,
+      propDefinition: [
+        bamboohr,
+        "taskId",
+      ],
     },
     breakId: {
       type: "string",

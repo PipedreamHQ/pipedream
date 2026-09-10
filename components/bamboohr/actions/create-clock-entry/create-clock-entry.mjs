@@ -30,9 +30,11 @@ export default {
       description: "ISO 8601 datetime for clock-out; must be after start.",
     },
     timezone: {
-      type: "string",
-      label: "Timezone",
-      description: "IANA timezone string, e.g. `America/Chicago`.",
+      propDefinition: [
+        bamboohr,
+        "timezone",
+      ],
+      optional: false,
     },
     note: {
       type: "string",
@@ -41,16 +43,16 @@ export default {
       optional: true,
     },
     projectId: {
-      type: "string",
-      label: "Project ID",
-      description: "Optional project ID.",
-      optional: true,
+      propDefinition: [
+        bamboohr,
+        "projectId",
+      ],
     },
     taskId: {
-      type: "string",
-      label: "Task ID",
-      description: "Optional task ID (requires projectId).",
-      optional: true,
+      propDefinition: [
+        bamboohr,
+        "taskId",
+      ],
     },
     clockInLocation: {
       type: "string",
