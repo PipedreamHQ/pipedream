@@ -5,28 +5,14 @@ export default {
   ...common,
   key: "grain-removed-recording-instant",
   name: "New Recording Removed (Instant)",
-  description: "Emit new event when a recording is removed.",
-  version: "0.0.1",
+  description: "Emit new event when a recording is removed. [See the documentation](https://developers.grain.com/#create-hook)",
+  version: "1.0.0",
   type: "source",
   dedupe: "unique",
-  props: {
-    ...common.props,
-    viewId: {
-      propDefinition: [
-        common.props.grain,
-        "viewId",
-        () => ({
-          type: "recordings",
-        }),
-      ],
-    },
-  },
   methods: {
     ...common.methods,
-    getAction() {
-      return [
-        "removed",
-      ];
+    getHookType() {
+      return "recording_deleted";
     },
     getSummary({ data }) {
       return `Recording removed: ${data.id}`;
