@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mattermost",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Pipedream Mattermost Components",
   "main": "dist/app/mattermost.app.mjs",
   "keywords": [

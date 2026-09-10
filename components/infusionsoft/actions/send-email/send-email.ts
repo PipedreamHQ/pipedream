@@ -7,13 +7,14 @@ export default defineAction({
   description:
     "Send an email to one or more contacts in Keap CRM. [See the documentation](https://developer.infusionsoft.com/docs/restv2/#tag/Email/operation/sendEmail)",
   key: "infusionsoft-send-email",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     infusionsoft,
     userId: {

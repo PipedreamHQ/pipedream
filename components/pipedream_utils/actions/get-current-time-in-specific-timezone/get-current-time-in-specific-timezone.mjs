@@ -6,13 +6,14 @@ export default {
   key: "pipedream_utils-get-current-time-in-specific-timezone",
   name: "Helper Functions - Get Current Time in Timezone",
   description: "Returns the current time, tied to this workflow invocation, in the target timezone",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     pipedream_utils,
     timezone: {

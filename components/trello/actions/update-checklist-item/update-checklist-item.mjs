@@ -6,13 +6,14 @@ export default {
   key: "trello-update-checklist-item",
   name: "Update Checklist Item",
   description: "Updates an existing checklist item on a card, including renaming, completing, or uncompleting the item. Updates to `due`, `dueReminder`, and `idMember` require [Trello Premium](https://support.atlassian.com/trello/docs/advanced-checklists/) (advanced checklists) and may not persist on free workspaces. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-checkitem-idcheckitem-put).",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     board: {

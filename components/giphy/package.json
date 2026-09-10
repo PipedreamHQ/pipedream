@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/giphy",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Pipedream Giphy Components",
   "main": "giphy.app.mjs",
   "keywords": [

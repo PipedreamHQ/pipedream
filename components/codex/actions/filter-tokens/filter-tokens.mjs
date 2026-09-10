@@ -11,8 +11,9 @@ export default {
     + " Filter to a specific network by passing a numeric `networkId` (e.g., `1` for Ethereum, `137` for Polygon)."
     + " Use **Get Networks** to find numeric network IDs."
     + " [See the documentation](https://docs.codex.io/api-reference/queries/filtertokens)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
