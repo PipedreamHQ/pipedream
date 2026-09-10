@@ -5,7 +5,7 @@ export default {
   name: "Reservation Updated",
   description: "Emit new reservations as they are updated (polling). [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/reservations#get-all-reservations-ver-2023-06-06)",
   key: "mews-reservation-updated",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

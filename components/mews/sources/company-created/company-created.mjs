@@ -5,7 +5,7 @@ export default {
   name: "New Company",
   description: "Emit new event when a company is created. [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/companies#get-all-companies)",
   key: "mews-company-created",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

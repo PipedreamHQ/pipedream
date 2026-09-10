@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import monta from "../../monta.app.mjs";
 
 export default {
   key: "monta-validate-address",
   name: "Validate Address",
   description: "Validate a delivery address before submitting it, for example ahead of **Create Order** or **Update Order**. Monta returns structured error codes when the address is invalid; a complete address also needs a recipient (Company or Last Name), Postal Code, and House Number. [See the documentation](https://api-v6.monta.nl/index.html#tag/Address/paths/~1address/post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

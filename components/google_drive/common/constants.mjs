@@ -234,6 +234,17 @@ const GOOGLE_DRIVE_UPLOAD_TYPE_OPTIONS = [
   },
 ];
 
+/**
+ * Maximum `pageSize` accepted by `comments.list`; larger values are coerced down
+ * to this by the API.
+ * https://developers.google.com/workspace/drive/api/reference/rest/v3/comments/list
+ */
+const COMMENTS_MAX_PAGE_SIZE = 100;
+
+const DEFAULT_COMMENT_LIMIT = 100;
+
+const MAX_COMMENT_LIMIT = 500;
+
 export {
   GOOGLE_DRIVE_NOTIFICATION_SYNC,
   GOOGLE_DRIVE_NOTIFICATION_ADD,
@@ -270,4 +281,8 @@ export {
   GOOGLE_DRIVE_GRANTEE_DOMAIN,
   GOOGLE_DRIVE_GRANTEE_ANYONE,
   GOOGLE_DRIVE_GRANTEE_TYPES,
+  // Comments
+  COMMENTS_MAX_PAGE_SIZE,
+  DEFAULT_COMMENT_LIMIT,
+  MAX_COMMENT_LIMIT,
 };

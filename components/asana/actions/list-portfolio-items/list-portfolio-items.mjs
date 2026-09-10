@@ -5,13 +5,14 @@ export default {
   key: "asana-list-portfolio-items",
   name: "List Portfolio Items",
   description: "Returns a list of the items (projects) in the given portfolio. Use this after **List Portfolios** to answer count, timing, and spend questions; the default Opt Fields include `created_at`, `start_on`, `due_on`, and `custom_fields`. Archived filtering happens client-side because Asana has no server-side filter on this endpoint. [See the documentation](https://developers.asana.com/reference/getitemsforportfolio)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     asana,
     portfolioId: {

@@ -11,8 +11,9 @@ export default {
     + " Example: `[{\"variant_key\": \"on\", \"type\": \"STRING\", \"name\": \"On\"}, {\"variant_key\": \"off\", \"type\": \"STRING\", \"name\": \"Off\"}]`."
     + " Use **List Feature Flags** to verify the flag was created."
     + " [See the documentation](https://eppo.cloud/api/docs#/FeatureFlags/createFeatureFlag)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

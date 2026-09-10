@@ -4,31 +4,28 @@ import {
   getFileStreamAndMetadata,
 } from "@pipedream/platform";
 import FormData from "form-data";
-import { getColumnOptions } from "../../common/utils.mjs";
+import { parseColumnValues } from "../../common/utils.mjs";
 import common from "../common/column-values.mjs";
 
 export default {
   ...common,
   key: "monday-update-column-values",
   name: "Update Column Values",
-  description: "Update multiple column values of an item. [See the documentation](https://developer.monday.com/api-reference/reference/columns#change-multiple-column-values)",
-  version: "0.2.7",
+  description: "Set one or more column values on an existing item. Use for any field change except the item's name — this mutation cannot change it, so use **Update Item Name** for that. Set `Board ID`, `Item ID` and `Column Values` as column ID to value pairs; call **List Columns** first for the column IDs and the labels a `status`/`dropdown` column accepts. Example: Column Values `{ \"status\": \"Done\", \"date4\": \"2026-09-02\", \"numbers\": 42 }`. A `file` column takes a file URL or a path under `/tmp` and is uploaded in a separate request. Every column ID is checked against the board before anything is sent, so a call that names an unknown column fails without changing the item. Returns the updated item with its `column_values`. [See the documentation](https://developer.monday.com/api-reference/reference/columns#change-multiple-column-values)",
+  version: "0.2.10",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     updateInfoBox: {
       type: "alert",
       alertType: "info",
       content: "See the [Column types reference](https://developer.monday.com/api-reference/reference/column-types-reference) to find the proper data structures for supported column types",
-    },
-    boardId: {
-      ...common.props.boardId,
-      reloadProps: true,
     },
     itemId: {
       propDefinition: [
@@ -40,36 +37,20 @@ export default {
       ],
       optional: false,
     },
+    columnValues: {
+      propDefinition: [
+        common.props.monday,
+        "columnValues",
+      ],
+      optional: false,
+      description: "The column values to set, as column ID → value pairs. Example: `{ \"status\": \"Done\", \"date4\": \"2026-09-02\", \"numbers\": 42 }`. Use **List Columns** to discover column IDs and the allowed labels for `status`/`dropdown` columns. For a `file` column, pass either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`) and the file is uploaded to that column. The item's name cannot be changed here — use **Update Item Name** instead. See the [Column types reference](https://developer.monday.com/api-reference/reference/column-types-reference) for the value each column type expects",
+    },
     syncDir: {
       type: "dir",
       accessMode: "read",
       sync: true,
       optional: true,
     },
-  },
-  async additionalProps() {
-    const props = {};
-    const { boardId } = this;
-    if (boardId) {
-      const columns = await this.monday.listColumns({
-        boardId: +boardId,
-      });
-      for (const column of columns) {
-        const id = column.id;
-        props[id] = {
-          type: "string",
-          label: column.title,
-          description: `The value for the "${column.title}" column (\`${id}\`)`,
-          optional: true,
-          options: getColumnOptions(columns, id),
-        };
-        if (column.type === "file") {
-          props[column.id].description += ". Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)";
-          props[column.id].format = "file-ref";
-        }
-      }
-    }
-    return props;
   },
   methods: {
     ...common.methods,
@@ -101,21 +82,42 @@ export default {
     },
   },
   async run({ $ }) {
+    const values = parseColumnValues(this.columnValues);
+    if (!values) {
+      throw new ConfigurationError("Set at least one column value to update.");
+    }
+
+    // `getColumns` excludes the `name` column, which this mutation cannot change.
     const columns = await this.getColumns(this.boardId);
-    const columnValues = {};
-    for (const column of columns) {
-      if (this[column.id]) {
-        if (column.type === "file") {
-          await this.uploadFile({
-            $,
-            itemId: this.itemId,
-            column,
-            filePath: this[column.id],
-          });
-          continue;
-        }
-        columnValues[column.id] = this[column.id];
+    const columnsById = new Map(columns.map((column) => [
+      column.id,
+      column,
+    ]));
+    const entries = Object.entries(values);
+    for (const [
+      id,
+    ] of entries) {
+      if (!columnsById.has(id)) {
+        throw new ConfigurationError(`Column \`${id}\` was not found on board ${this.boardId}. Use the **List Columns** action to see the available column IDs.`);
       }
+    }
+
+    const columnValues = {};
+    for (const [
+      id,
+      value,
+    ] of entries) {
+      const column = columnsById.get(id);
+      if (column.type === "file") {
+        await this.uploadFile({
+          $,
+          itemId: this.itemId,
+          column,
+          filePath: value,
+        });
+        continue;
+      }
+      columnValues[id] = value;
     }
 
     const response = await this.monday.updateColumnValues({

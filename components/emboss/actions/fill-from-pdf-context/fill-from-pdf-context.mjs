@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import FormData from "form-data";
 import { ConfigurationError } from "@pipedream/platform";
 import emboss from "../../emboss.app.mjs";
@@ -10,8 +9,9 @@ export default {
   key: "emboss-fill-from-pdf-context",
   name: "Fill PDF From Context",
   description: "Upload a flat (non-fillable) PDF plus context (text and/or a file); Emboss detects the fields and fills them with AI in one step, returning the completed PDF. Provide at least one context input. Use **Create Fillable Form** + **Fill Existing Form** instead to reuse the same form repeatedly. Polls up to ~12 minutes for large documents. [See the documentation](https://getemboss.ai/docs/reference/fill-with-context)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

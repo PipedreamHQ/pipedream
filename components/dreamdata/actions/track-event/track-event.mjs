@@ -5,8 +5,9 @@ export default {
   key: "dreamdata-track-event",
   name: "Track Event",
   description: "Record an action a user performed. Either a User ID or an Anonymous ID is required. [See the documentation](https://developer.dreamdata.io/server-side/server-side-tracking/).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

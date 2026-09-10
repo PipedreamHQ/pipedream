@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import opportunity from "../../common/sobjects/opportunity.mjs";
 
@@ -13,37 +12,28 @@ export default {
     + " Use **Find Records** on `Account` to get the `AccountId` to attach the deal to."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.3.7",
+  version: "0.4.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   methods: {
     ...common.methods,
-    getObjectType() {
-      return "Opportunity";
-    },
-    getAdvancedProps() {
-      return opportunity.extraProps;
-    },
   },
   props: getProps({
     objType: opportunity,
     docsLink,
     showDateInfo: true,
-    advancedProps: false,
   }),
   async run({ $ }) {
     /* eslint-disable no-unused-vars */
     const {
       salesforce,
-      getAdvancedProps,
-      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
-      useAdvancedProps,
       docsInfo,
       dateInfo,
       additionalFields,

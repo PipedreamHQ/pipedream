@@ -6,7 +6,7 @@ export default {
   description:
     "Get the list of bases that can be accessed. [See the documentation](https://airtable.com/developers/web/api/list-bases)",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -3,10 +3,11 @@ import app from "../../linkupapi.app.mjs";
 
 export default {
   type: "action",
+  ai: "optimized",
   key: "linkupapi-get-conversation-messages",
   name: "Get Conversation Messages",
   description: "Retrieve messages from a LinkedIn conversation. Identify the conversation by its ID or by the recipient's profile URL. [See the documentation](https://docs.linkupapi.com/api-reference/v2/messages/get-conversation)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

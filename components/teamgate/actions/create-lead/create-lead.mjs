@@ -3,7 +3,7 @@ import teamgate from "../../teamgate.app.mjs";
 export default {
   key: "teamgate-create-lead",
   name: "Create Lead",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -11,6 +11,7 @@ export default {
   },
   description: "Create a new lead. [See the docs here](https://developers.teamgate.com/#8921df2b-3158-4b16-b81c-c37c6414c20f)",
   type: "action",
+  ai: "optimized",
   props: {
     teamgate,
     name: {
