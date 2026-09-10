@@ -5,7 +5,7 @@ export default {
   name: "New Customer",
   description: "Emit new event when a customer is created. [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/customers#get-all-customers)",
   key: "mews-customer-created",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

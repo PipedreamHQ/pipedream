@@ -8,8 +8,9 @@ export default {
   key: "luma-get-guests",
   name: "Get Guests",
   description: "List guests who registered for, were invited to, or are waitlisted for a Luma event. Omit Approval Status to include all guest statuses. Use **List Events** first if you need to find the event ID. [See the documentation](https://docs.luma.com/reference/get_v1-event-get-guests)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

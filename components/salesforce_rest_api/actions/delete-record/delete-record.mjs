@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
@@ -10,13 +9,14 @@ export default {
     + " Use **Find Records** or **SOQL Query** to confirm you have the right record ID before deleting."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_retrieve_delete.htm)",
-  version: "0.2.5",
+  version: "0.2.7",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     salesforce,
     sobjectType: {

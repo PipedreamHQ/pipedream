@@ -11,13 +11,14 @@ export default {
     + " `{ \"Name\": \"title\", \"Quantity\": \"number\", \"Category\": { \"select\": { \"options\": [ { \"name\": \"A\" }, { \"name\": \"B\" } ] } } }`."
     + " Exactly one column must be the `title` type."
     + " [See the documentation](https://developers.notion.com/reference/database-create)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     notion,
     parent: {

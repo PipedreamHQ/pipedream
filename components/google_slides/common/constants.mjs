@@ -141,3 +141,113 @@ export const SHAPE_TYPES = [
   "ELLIPSE_RIBBON_2",
   "CLOUD_CALLOUT",
 ];
+
+// Enum values used by the styling requests, checked against the current API
+// reference. https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations/request
+
+export const ALIGNMENTS = [
+  "START",
+  "CENTER",
+  "END",
+  "JUSTIFIED",
+];
+
+export const CONTENT_ALIGNMENTS = [
+  "TOP",
+  "MIDDLE",
+  "BOTTOM",
+];
+
+export const DASH_STYLES = [
+  "SOLID",
+  "DOT",
+  "DASH",
+  "DASH_DOT",
+  "LONG_DASH",
+  "LONG_DASH_DOT",
+];
+
+export const Z_ORDER_OPERATIONS = [
+  "BRING_TO_FRONT",
+  "BRING_FORWARD",
+  "SEND_BACKWARD",
+  "SEND_TO_BACK",
+];
+
+// Theme colors resolve against the deck's own ColorScheme, so a caller can style
+// with the presentation's palette instead of hardcoding hex values.
+export const THEME_COLORS = [
+  "DARK1",
+  "LIGHT1",
+  "DARK2",
+  "LIGHT2",
+  "ACCENT1",
+  "ACCENT2",
+  "ACCENT3",
+  "ACCENT4",
+  "ACCENT5",
+  "ACCENT6",
+  "HYPERLINK",
+  "FOLLOWED_HYPERLINK",
+  "TEXT1",
+  "BACKGROUND1",
+  "TEXT2",
+  "BACKGROUND2",
+];
+
+// Dimension.unit - points, rather than the API's other unit (EMU).
+export const POINTS = "PT";
+export const EMU = "EMU";
+
+// 1 inch = 72 pt = 914400 EMU. A transform carries a single unit for all six
+// matrix elements, so caller-supplied points must be converted into whatever
+// unit the element already uses rather than mixed in.
+export const EMU_PER_POINT = 12700;
+
+// Range.type. The API expresses the three range shapes as distinct types rather
+// than as optional bounds, and rejects FIXED_RANGE that carries no end index.
+export const TEXT_RANGE_ALL = "ALL";
+export const TEXT_RANGE_FROM_START_INDEX = "FROM_START_INDEX";
+export const TEXT_RANGE_FIXED_RANGE = "FIXED_RANGE";
+
+// BulletGlyphPreset. NOTE: these are NOT the same spellings the Google Docs API
+// uses - Slides says DIGIT where Docs says DECIMAL - so they cannot be shared
+// with the google_docs connector.
+export const BULLET_PRESETS = [
+  "BULLET_DISC_CIRCLE_SQUARE",
+  "BULLET_DIAMONDX_ARROW3D_SQUARE",
+  "BULLET_CHECKBOX",
+  "BULLET_ARROW_DIAMOND_DISC",
+  "BULLET_STAR_CIRCLE_SQUARE",
+  "BULLET_ARROW3D_CIRCLE_SQUARE",
+  "BULLET_LEFTTRIANGLE_DIAMOND_DISC",
+  "BULLET_DIAMONDX_HOLLOWDIAMOND_SQUARE",
+  "BULLET_DIAMOND_CIRCLE_SQUARE",
+  "NUMBERED_DIGIT_ALPHA_ROMAN",
+  "NUMBERED_DIGIT_ALPHA_ROMAN_PARENS",
+  "NUMBERED_DIGIT_NESTED",
+  "NUMBERED_UPPERALPHA_ALPHA_ROMAN",
+  "NUMBERED_UPPERROMAN_UPPERALPHA_DIGIT",
+  "NUMBERED_ZERODIGIT_ALPHA_ROMAN",
+];
+
+// Sentinel for the Bullets prop meaning "strip existing bullets".
+export const BULLETS_NONE = "NONE";
+
+export const BASELINE_OFFSETS = [
+  "NONE",
+  "SUPERSCRIPT",
+  "SUBSCRIPT",
+];
+
+export const TEXT_DIRECTIONS = [
+  "LEFT_TO_RIGHT",
+  "RIGHT_TO_LEFT",
+];
+
+export const SPACING_MODES = [
+  "NEVER_COLLAPSE",
+  "COLLAPSE_LISTS",
+];
+
+export const OPACITY_SCALE = 100;

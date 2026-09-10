@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import brexApp from "../../brex.app.mjs";
 import { formatSearchSummary } from "../../common/utils.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "brex-list-users",
   name: "List Users",
   description: "Lists the people in the Brex account with their ID, name, email, status, manager, department, and location. Filter to one person with `email`, or set `includeLimits` to include each person's monthly spend limit. Results are capped at `maxResults` (default `100`) — check `$summary` for a truncation notice and raise `maxResults` or add the `email` filter if it's truncated. This is how you turn an email address into the user ID that **Get User**, **Get User Limit**, and **Set Limit for User** require. [See the documentation](https://developer.brex.com/openapi/team_api/users/listusers)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

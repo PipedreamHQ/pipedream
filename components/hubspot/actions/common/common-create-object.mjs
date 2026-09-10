@@ -1,28 +1,12 @@
 import common from "./common-create.mjs";
 import hubspot from "../../hubspot.app.mjs";
+import { parseObjectProperties } from "../../common/utils.mjs";
 
 export default {
   ...common,
   props: {
     ...common.props,
     hubspot,
-    // Re-defining propertyGroups so this.getObjectType() can be called from async options
-    // eslint-disable-next-line pipedream/props-description
-    propertyGroups: {
-      type: "string[]",
-      label: "Property Groups",
-      hidden: true,
-      reloadProps: true,
-      async options() {
-        const { results: groups } = await this.hubspot.getPropertyGroups({
-          objectType: this.getObjectType(),
-        });
-        return groups.map((group) => ({
-          label: group.label,
-          value: group.name,
-        }));
-      },
-    },
     objectProperties: {
       type: "object",
       label: "Object Properties",
@@ -31,16 +15,6 @@ export default {
   },
   methods: {
     ...common.methods,
-    isRelevantProperty(property) {
-      const isInPropertyGroups = this.propertyGroups?.includes(property.groupName);
-      const isDefaultProperty = this.isDefaultProperty(property);
-      return common.methods.isRelevantProperty(property)
-        && isInPropertyGroups
-        && !isDefaultProperty;
-    },
-    isDefaultProperty() {
-      return false;
-    },
     createObject(opts = {}) {
       return this.hubspot.createObject(opts);
     },
@@ -48,22 +22,27 @@ export default {
   async run({ $ }) {
     const {
       hubspot,
-      /* eslint-disable no-unused-vars */
-      propertyGroups,
-      customObjectType,
-      contactId,
-      $db,
+      // control props — not object properties, must not reach the API payload
       updateIfExists,
+      // eslint-disable-next-line no-unused-vars
+      customObjectType, contactId, $db,
       objectProperties,
+      // whatever is left is a dedicated named object property (e.g.
+      // dealname/pipeline/dealstage on Create Deal, subject/hs_pipeline on
+      // Create Ticket) and must be merged into the payload
       ...otherProperties
     } = this;
     const objectType = this.getObjectType();
 
-    const properties = objectProperties
-      ? typeof objectProperties === "string"
-        ? JSON.parse(objectProperties)
-        : objectProperties
-      : otherProperties;
+    const parsedObjectProperties = objectProperties != null
+      ? parseObjectProperties(objectProperties)
+      : {};
+
+    // objectProperties takes precedence over the dedicated named props on conflict
+    const properties = {
+      ...otherProperties,
+      ...parsedObjectProperties,
+    };
 
     // checkbox (string[]) props must be semicolon separated strings
     Object.keys(properties)

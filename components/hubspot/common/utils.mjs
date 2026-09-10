@@ -1,3 +1,29 @@
+import { ConfigurationError } from "@pipedream/platform";
+
+/**
+ * Parse a user-supplied "object" prop (a plain object or a JSON string) into a
+ * plain object, raising a clear ConfigurationError instead of a raw SyntaxError
+ * or a downstream property-access crash on a non-object value.
+ */
+export const parseObjectProperties = (value, label = "Object Properties") => {
+  let parsed = value;
+  if (typeof value === "string") {
+    try {
+      parsed = JSON.parse(value);
+    } catch {
+      throw new ConfigurationError(
+        `\`${label}\` must be valid JSON — a JSON object of property name to value.`,
+      );
+    }
+  }
+  if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) {
+    throw new ConfigurationError(
+      `\`${label}\` must be a JSON object of property name to value.`,
+    );
+  }
+  return parsed;
+};
+
 export const parseObject = (obj) => {
   if (!obj) {
     return undefined;

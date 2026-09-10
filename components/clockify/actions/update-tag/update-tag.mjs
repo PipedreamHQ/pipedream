@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import clockify from "../../clockify.app.mjs";
 
 export default {
   key: "clockify-update-tag",
   name: "Update Tag",
   description: "Updates the name of an existing tag in a Clockify workspace. Use **List Tags** to find the ID of the tag to update. [See the documentation](https://docs.clockify.me/#tag/Tag/operation/updateTag)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

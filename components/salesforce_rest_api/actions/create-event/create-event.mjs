@@ -1,9 +1,17 @@
-// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import event from "../../common/sobjects/event.mjs";
 
 const docsLink =
   "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_event.htm";
+
+const {
+  additionalFields,
+  ...baseProps
+} = getProps({
+  objType: event,
+  docsLink,
+  showDateInfo: true,
+});
 
 export default {
   ...common,
@@ -14,45 +22,40 @@ export default {
     + " Use **Find Records** to get the `WhoId` (contact or lead) and `WhatId` (related record) you want to link."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.3.7",
+  version: "0.4.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   methods: {
     ...common.methods,
-    getObjectType() {
-      return "Event";
-    },
-    getAdvancedProps() {
-      return event.extraProps;
-    },
   },
-  props: getProps({
-    objType: event,
-    docsLink,
-    showDateInfo: true,
-  }),
+  props: {
+    ...baseProps,
+    Subject: event.extraProps.Subject,
+    StartDateTime: event.extraProps.StartDateTime,
+    RecurrenceStartDateTime: event.extraProps.RecurrenceStartDateTime,
+    RecurrenceEndDateOnly: event.extraProps.RecurrenceEndDateOnly,
+    RecurrenceDayOfWeekMask: event.extraProps.RecurrenceDayOfWeekMask,
+    additionalFields,
+  },
   async run({ $ }) {
     /* eslint-disable no-unused-vars */
     const {
       salesforce,
-      getAdvancedProps,
-      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
-      useAdvancedProps,
       docsInfo,
       dateInfo,
       additionalFields,
       ActivityDate,
       EndDateTime,
-      RecurrenceEndDateOnly,
-      RecurrenceStartDateTime,
-      ReminderDateTime,
       StartDateTime,
+      RecurrenceStartDateTime,
+      RecurrenceEndDateOnly,
       RecurrenceDayOfWeekMask,
       ...data
     } = this;
@@ -64,18 +67,17 @@ export default {
         ...formatDateTimeProps({
           ActivityDate,
           EndDateTime,
-          RecurrenceEndDateOnly,
-          RecurrenceStartDateTime,
-          ReminderDateTime,
           StartDateTime,
+          RecurrenceStartDateTime,
+          RecurrenceEndDateOnly,
         }),
-        RecurrenceDayOfWeekMask: RecurrenceDayOfWeekMask?.reduce?.((acc, val) => acc + val, 0),
+        ...(RecurrenceDayOfWeekMask?.length && {
+          RecurrenceDayOfWeekMask: RecurrenceDayOfWeekMask.reduce((mask, day) => mask | day, 0),
+        }),
         ...getAdditionalFields(),
       },
     });
-    $.export("$summary", `Succcessfully created event${this.Subject
-      ? ` "${this.Subject}"`
-      : ""}`);
+    $.export("$summary", "Successfully created event");
     return response;
   },
 };

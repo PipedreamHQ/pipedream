@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 
@@ -74,7 +75,7 @@ export default {
     recordId: {
       type: "string",
       label: "Record ID",
-      description: "Identifier of a record",
+      description: "The identifier of a record. Use the **List Records** action to look up record IDs for an object.",
       async options({
         page,
         targetObject = constants.TARGET_OBJECT.COMPANIES,

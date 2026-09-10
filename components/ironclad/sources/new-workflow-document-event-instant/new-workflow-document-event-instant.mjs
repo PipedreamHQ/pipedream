@@ -6,7 +6,7 @@ export default {
   key: "ironclad-new-workflow-document-event-instant",
   name: "New Workflow Document Event (Instant)",
   description: "Emit new event when a workflow document event is freshly established.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

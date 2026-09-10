@@ -11,8 +11,9 @@ export default {
     + " The amendment takes effect immediately but is recorded with the given date."
     + " Use **List Contracts** to find the contract ID."
     + " [See the documentation](https://developer.deel.com/api/reference/endpoints/eor-amendments/create-contract-amendment)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

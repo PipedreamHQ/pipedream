@@ -3,6 +3,7 @@ import googleDrive from "@pipedream/google_drive";
 import { ConfigurationError } from "@pipedream/platform";
 import utils from "./common/utils.mjs";
 import markdownParser from "./common/markdown-parser.mjs";
+import { OCCURRENCES } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -97,6 +98,49 @@ export default {
       default: false,
       optional: true,
     },
+    findText: {
+      type: "string",
+      label: "Find Text",
+      description: "The text to style. The action locates it in the document and styles each match selected by **Occurrence**. Leave blank only if you are supplying **Start Index** and **End Index** instead.",
+      optional: true,
+    },
+    occurrence: {
+      type: "string",
+      label: "Occurrence",
+      description: "Which matches of **Find Text** to style: `first` (default) or `all`.",
+      options: OCCURRENCES,
+      default: "first",
+      optional: true,
+    },
+    startIndex: {
+      type: "integer",
+      label: "Start Index",
+      description: "Character index to style from, inclusive. Use with **End Index** instead of **Find Text**. Indices come from **Get Document** and shift after every edit, so prefer **Find Text**.",
+      optional: true,
+    },
+    endIndex: {
+      type: "integer",
+      label: "End Index",
+      description: "Character index to style up to, exclusive. Must be greater than **Start Index**.",
+      optional: true,
+    },
+    styleTabId: {
+      type: "string",
+      label: "Tab ID",
+      description: "For a multi-tab document, restrict the operation to this tab (e.g. `t.0`). Copy it from **Get Document**. Omit to search every tab.",
+      optional: true,
+    },
+    replacementFormat: {
+      type: "string",
+      label: "Replacement Format",
+      description: "How to interpret the replacement text. `plain` inserts it exactly as typed (default). `markdown` converts Markdown syntax (bold, italic, inline code, links, headings, bullet and numbered lists) into native Google Docs formatting. Note that block-level Markdown (headings, lists) restyles the entire paragraph containing the match, since Google Docs applies paragraph styles per paragraph.",
+      options: [
+        "plain",
+        "markdown",
+      ],
+      default: "plain",
+      optional: true,
+    },
   },
   methods: {
     ...googleDrive.methods,
@@ -172,11 +216,14 @@ export default {
         },
       });
     },
-    batchUpdate(documentId, requests) {
+    batchUpdate(documentId, requests, writeControl) {
       return this.docs().documents.batchUpdate({
         documentId,
         requestBody: {
           requests,
+          ...(writeControl && {
+            writeControl,
+          }),
         },
       });
     },
@@ -248,6 +295,160 @@ export default {
     // inside another table's cell are not included.
     flattenTables(content) {
       return utils.flattenTables(content);
+    },
+    _flattenDocumentTabs(tabs) {
+      return (tabs || []).flatMap((tab) => [
+        tab,
+        ...this._flattenDocumentTabs(tab.childTabs),
+      ]);
+    },
+    async resolveTableLocation(documentId, {
+      find, matchCase = false, tableIndex, tableStartIndex, tabId,
+    }) {
+      if (tableStartIndex != null) {
+        return {
+          index: tableStartIndex,
+          ...(tabId && {
+            tabId,
+          }),
+        };
+      }
+
+      const document = await this.getDocument(documentId, true);
+      const tabs = this._flattenDocumentTabs(document.tabs)
+        .filter(({ tabProperties }) => !tabId || tabProperties?.tabId === tabId);
+
+      if (!tabs.length) {
+        throw new ConfigurationError(`No tab with ID "${tabId}" found in document ${documentId}.`);
+      }
+
+      const tables = tabs.flatMap((tab) => this.flattenTables(tab.documentTab?.body?.content)
+        .map((table) => ({
+          ...table,
+          tabId: tab.tabProperties?.tabId,
+        })));
+
+      if (!tables.length) {
+        throw new ConfigurationError(`Document ${documentId} contains no tables.`);
+      }
+
+      if (find) {
+        const match = tabs.flatMap((tab) => {
+          const {
+            text, indexMap,
+          } = utils.collectTextWithIndices(tab.documentTab?.body?.content);
+          return utils.findTextRanges({
+            text,
+            indexMap,
+            needle: find,
+            matchCase,
+          }).map((range) => ({
+            ...range,
+            tabId: tab.tabProperties?.tabId,
+          }));
+        })[0];
+
+        if (!match) {
+          throw new ConfigurationError(`Text "${find}" was not found in document ${documentId}.`);
+        }
+        const containing = tables.find(({
+          startIndex, endIndex, tabId: tableTabId,
+        }) => tableTabId === match.tabId
+          && startIndex <= match.startIndex && match.endIndex <= endIndex);
+
+        if (!containing) {
+          throw new ConfigurationError(`Text "${find}" was found in document ${documentId} but is not inside a table. Use Find Table Text that appears in a cell, or address the table by Table Index.`);
+        }
+        return {
+          index: containing.startIndex,
+          ...(containing.tabId && {
+            tabId: containing.tabId,
+          }),
+        };
+      }
+
+      if (tableIndex != null) {
+        const table = tables[tableIndex];
+        if (!table) {
+          throw new ConfigurationError(`Table Index ${tableIndex} is out of range: document ${documentId} has ${tables.length} table${tables.length === 1
+            ? ""
+            : "s"} (indices 0-${tables.length - 1}).`);
+        }
+        return {
+          index: table.startIndex,
+          ...(table.tabId && {
+            tabId: table.tabId,
+          }),
+        };
+      }
+
+      if (tables.length > 1) {
+        throw new ConfigurationError(`Document ${documentId} has ${tables.length} tables. Identify one with Find Table Text or Table Index (0-${tables.length - 1}).`);
+      }
+      return {
+        index: tables[0].startIndex,
+        ...(tables[0].tabId && {
+          tabId: tables[0].tabId,
+        }),
+      };
+    },
+    async resolveStyleRanges(documentId, {
+      find, matchCase = false, occurrence = "first", startIndex, endIndex, tabId,
+    }) {
+      if (startIndex != null || endIndex != null) {
+        if (startIndex == null || endIndex == null) {
+          throw new ConfigurationError("Start Index and End Index must be provided together.");
+        }
+        if (endIndex <= startIndex) {
+          throw new ConfigurationError(`End Index (${endIndex}) must be greater than Start Index (${startIndex}).`);
+        }
+        return [
+          {
+            startIndex,
+            endIndex,
+            ...(tabId && {
+              tabId,
+            }),
+          },
+        ];
+      }
+
+      if (!find) {
+        throw new ConfigurationError("Provide Find Text, or an explicit Start Index and End Index.");
+      }
+
+      const document = await this.getDocument(documentId, true);
+      const tabs = this._flattenDocumentTabs(document.tabs)
+        .filter(({ tabProperties }) => !tabId || tabProperties?.tabId === tabId);
+
+      if (!tabs.length) {
+        throw new ConfigurationError(`No tab with ID "${tabId}" found in document ${documentId}. Call Get Document without a Tab ID to list the document's tabs.`);
+      }
+
+      const ranges = tabs.flatMap((tab) => {
+        const {
+          text, indexMap,
+        } = utils.collectTextWithIndices(tab.documentTab?.body?.content);
+        return utils.findTextRanges({
+          text,
+          indexMap,
+          needle: find,
+          matchCase,
+        }).map((range) => ({
+          ...range,
+          tabId: tab.tabProperties?.tabId,
+        }));
+      });
+
+      if (!ranges.length) {
+        throw new ConfigurationError(`Text "${find}" was not found in document ${documentId}.`);
+      }
+
+      return occurrence === "all"
+        ? ranges
+        : [
+          ranges[0],
+        ];
     },
     async deleteTable(documentId, {
       startIndex, endIndex,
@@ -408,6 +609,11 @@ export default {
         throw new Error(`Failed to insert markdown text: ${error.message}`);
       }
     },
+    // Replaces text and applies the formatting implied by the Markdown in the
+    // replacement string. `replaceAllText` reports how many occurrences it
+    // changed but not where they landed, so the ranges to style can only be
+    // found by re-reading the document afterwards and locating the inserted
+    // text by value.
     async replaceTextWithMarkdown({
       documentId,
       textToReplace,
@@ -415,79 +621,104 @@ export default {
       matchCase = false,
       tabIds = null,
     }) {
-      try {
-        // Parse the markdown replacement text
-        const parseResult = markdownParser.parseMarkdown(markdownReplacement);
-        const {
-          text: replacementText,
-          formattingRequests: markdownFormatting,
-        } = parseResult;
+      const {
+        text: parsedText,
+        formattingRequests: markdownFormatting,
+      } = markdownParser.parseMarkdown(markdownReplacement);
 
-        // Build the initial replace request
-        const requests = [
-          {
-            replaceAllText: {
-              containsText: {
-                text: textToReplace,
-                matchCase: matchCase || false,
-              },
-              replaceText: replacementText,
-              tabsCriteria: tabIds
-                ? {
-                  tabIds,
-                }
-                : undefined,
-            },
-          },
-        ];
+      // parseMarkdown closes every paragraph with a newline, which is right when
+      // the markdown is a document body but wrong for an inline replacement: it
+      // splits the host sentence across two paragraphs.
+      const isBlockLevel = markdownFormatting.some(({ type }) =>
+        type === "updateParagraphStyle" || type === "createParagraphBullets");
+      const replacementText = isBlockLevel
+        ? parsedText
+        : parsedText.replace(/\n+$/, "");
 
-        if (markdownFormatting.length === 0) {
-          // No formatting needed, just do the plain text replacement
-          return this.docs().documents.batchUpdate({
-            documentId,
-            requestBody: {
-              requests,
-            },
+      const insertedStartsByTab = new Map();
+      if (markdownFormatting.length) {
+        const beforeDoc = await this.getDocument(documentId, true);
+        const lengthDelta = replacementText.length - textToReplace.length;
+        this._flattenDocumentTabs(beforeDoc.tabs)
+          .filter(({ tabProperties }) => !tabIds?.length || tabIds.includes(tabProperties?.tabId))
+          .forEach((tab) => {
+            const starts = markdownParser.findTextOccurrences(
+              tab.documentTab,
+              textToReplace,
+              matchCase,
+            );
+            insertedStartsByTab.set(
+              tab.tabProperties?.tabId,
+              new Set(starts.map((start, index) => start + (index * lengthDelta))),
+            );
           });
-        }
-
-        // For markdown with formatting, we need to find where the text will be replaced
-        // and then apply formatting to it
-        // First, do the replacement
-        await this.docs().documents.batchUpdate({
-          documentId,
-          requestBody: {
-            requests,
-          },
-        });
-
-        // Get the document AFTER replacement
-        const { data: updatedDocData } = await this.docs().documents.get({
-          documentId,
-        });
-
-        // Find all occurrences of the replacement text in the updated document
-        const formattingRequests = markdownParser.buildFormattingRequestsForReplacement(
-          markdownFormatting,
-          updatedDocData,
-          replacementText,
-        );
-
-        // Apply formatting if any matches were found
-        if (formattingRequests.length > 0) {
-          return this.docs().documents.batchUpdate({
-            documentId,
-            requestBody: {
-              requests: formattingRequests,
-            },
-          });
-        }
-
-        // Return updated document even if no formatting was applied
-        return updatedDocData;
-      } catch (error) {
-        throw new Error(`Failed to replace text with markdown: ${error.message}`);
       }
+
+      const { data: replaceData } = await this.batchUpdate(documentId, [
+        {
+          replaceAllText: {
+            containsText: {
+              text: textToReplace,
+              matchCase,
+            },
+            replaceText: replacementText,
+            tabsCriteria: tabIds?.length
+              ? {
+                tabIds,
+              }
+              : undefined,
+          },
+        },
+      ]);
+      const occurrencesChanged =
+        replaceData?.replies?.[0]?.replaceAllText?.occurrencesChanged ?? 0;
+
+      if (!occurrencesChanged || !markdownFormatting.length) {
+        return {
+          occurrencesChanged,
+          formattingRequestsApplied: 0,
+        };
+      }
+
+      const updatedDoc = await this.getDocument(documentId, true);
+
+      const targetTabs = this._flattenDocumentTabs(updatedDoc.tabs)
+        .filter(({ tabProperties }) => !tabIds?.length || tabIds.includes(tabProperties?.tabId));
+
+      const formattingRequests = targetTabs.flatMap((tab) => {
+        const tabId = tab.tabProperties?.tabId;
+        const requests = markdownParser.buildFormattingRequestsForReplacement(
+          markdownFormatting,
+          tab.documentTab,
+          replacementText,
+          insertedStartsByTab.get(tabId),
+        );
+        return requests.map((request) => {
+          const [
+            requestName,
+          ] = Object.keys(request);
+          return {
+            [requestName]: {
+              ...request[requestName],
+              range: {
+                ...request[requestName].range,
+                tabId,
+              },
+            },
+          };
+        });
+      });
+
+      if (formattingRequests.length) {
+        await this.batchUpdate(documentId, formattingRequests, updatedDoc.revisionId && {
+          requiredRevisionId: updatedDoc.revisionId,
+        });
+      }
+
+      return {
+        occurrencesChanged,
+        formattingRequestsApplied: formattingRequests.length,
+      };
     },
   },
 };

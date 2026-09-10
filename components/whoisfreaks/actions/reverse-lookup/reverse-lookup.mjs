@@ -6,13 +6,14 @@ export default {
   name: "Reverse Lookup",
   description:
     "Retrieve details about a domain by keyword, email, registrant name or company. Must enter one and only one of keyword, email, owner, or company. [See the documentation](https://whoisfreaks.com/documentation/whois-api#reverse-lookup)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     whoisfreaks,
     keyword: {
@@ -43,7 +44,10 @@ export default {
       optional: true,
     },
     format: {
-      propDefinition: [whoisfreaks, "format"],
+      propDefinition: [
+        whoisfreaks,
+        "format",
+      ],
     },
     page: {
       type: "integer",
@@ -66,12 +70,15 @@ export default {
     const company = normalize(this.company);
 
     const activeCount = [
-      keyword, email, owner, company,
+      keyword,
+      email,
+      owner,
+      company,
     ].filter((v) => v !== undefined && v !== null).length;
 
     if (activeCount !== 1) {
       throw new ConfigurationError(
-        "Must enter one and only one of keyword, email, owner, or company"
+        "Must enter one and only one of keyword, email, owner, or company",
       );
     }
 

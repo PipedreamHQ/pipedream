@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../box.app.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "box-list-collaborations",
   name: "List Collaborations",
   description: "Lists the collaborations (users and groups with access, and their roles) on a Box file or folder. Use this to find a collaboration ID before calling **Delete Collaboration**, or to audit who has access to an item. Item Type must be `file` or `folder`. [See the documentation](https://developer.box.com/reference/get-files-id-collaborations/).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -117,11 +117,93 @@ export default {
         return [];
       }
     },
-    async getDynamicFields({
+    getAssignableUserOptions() {
+      return async ({
+        prevContext, query,
+      }) => {
+        const {
+          app,
+          cloudId,
+          projectId,
+        } = this;
+        const { startAt = 0 } = prevContext || {};
+        // The endpoint may return fewer users than requested while more remain, so
+        // paging advances by the requested size rather than by the returned count
+        const maxResults = app.getDefaultLimit();
+
+        try {
+          const users = await app.findAssignableUsers({
+            cloudId,
+            params: {
+              project: projectId,
+              query: query || "",
+              startAt,
+              maxResults,
+            },
+          });
+          return {
+            options: users.map(({
+              displayName: label, accountId: value,
+            }) => ({
+              label,
+              value,
+            })),
+            context: {
+              startAt: startAt + maxResults,
+            },
+          };
+        } catch (error) {
+          console.log("Error listing assignable users", error);
+          return {
+            options: [],
+          };
+        }
+      };
+    },
+    getUserOptions() {
+      return async ({
+        prevContext, query,
+      }) => {
+        const {
+          app,
+          cloudId,
+        } = this;
+        const { startAt = 0 } = prevContext || {};
+        // The endpoint may return fewer users than requested while more remain, so
+        // paging advances by the requested size rather than by the returned count
+        const maxResults = app.getDefaultLimit();
+
+        try {
+          const users = await app.findUsers({
+            cloudId,
+            params: {
+              query: query || "",
+              startAt,
+              maxResults,
+            },
+          });
+          return {
+            options: users.map(({
+              displayName: label, accountId: value,
+            }) => ({
+              label,
+              value,
+            })),
+            context: {
+              startAt: startAt + maxResults,
+            },
+          };
+        } catch (error) {
+          console.log("Error listing users", error);
+          return {
+            options: [],
+          };
+        }
+      };
+    },
+    getDynamicFields({
       fields, predicate = (field) => field,
     } = {}) {
-      const schemaTypes = Object.keys(constants.SCHEMA);
-
       const keysForResourceRequest = [
         constants.FIELD_KEY.PARENT,
         constants.FIELD_KEY.LABELS,
@@ -130,13 +212,12 @@ export default {
 
       return Object.values(fields)
         .filter(predicate)
-        .reduce(async (props, {
-          schema, name: label, key, autoCompleteUrl, required, allowedValues,
+        .reduce((props, {
+          schema, name: label, key, required, allowedValues,
         }) => {
-          const reduction = await props;
-
           const {
             type: schemaType,
+            items: itemsType,
             custom,
           } = schema;
 
@@ -153,9 +234,9 @@ export default {
           };
 
           // Handle dropdown fields (option type) with allowedValues
-          if (schemaType === "option" && allowedValues && Array.isArray(allowedValues)) {
-            return Promise.resolve({
-              ...reduction,
+          if (schemaType === constants.SCHEMA_TYPE.OPTION && Array.isArray(allowedValues)) {
+            return {
+              ...props,
               [newKey]: {
                 ...value,
                 type: "string",
@@ -164,46 +245,44 @@ export default {
                   value: option.id,
                 })),
               },
-            });
+            };
           }
 
-          // Requests by URL
-          if (schemaTypes.includes(schemaType)) {
-            try {
-              const resources = await this.app._makeRequest({
-                url: autoCompleteUrl,
-              });
-
-              return Promise.resolve({
-                ...reduction,
-                [newKey]: {
-                  ...value,
-                  options: resources.map(constants.SCHEMA[schemaType].mapping),
-                },
-              });
-
-            } catch (error) {
-              console.log("Error fetching resources requested by URL", autoCompleteUrl, error);
-              return Promise.resolve(reduction);
-            }
+          if (schemaType === constants.SCHEMA_TYPE.USER
+            || (schemaType === constants.SCHEMA_TYPE.ARRAY
+              && itemsType === constants.SCHEMA_TYPE.USER)) {
+            const isMultiUser = schemaType === constants.SCHEMA_TYPE.ARRAY;
+            return {
+              ...props,
+              [newKey]: {
+                ...value,
+                description: isMultiUser
+                  ? "Account IDs of the users (e.g. `5b10ac8d82e05b22cc7d4ef5`)"
+                  : "Account ID of the user (e.g. `5b10ac8d82e05b22cc7d4ef5`)",
+                useQuery: true,
+                options: key === constants.FIELD_KEY.ASSIGNEE
+                  ? this.getAssignableUserOptions()
+                  : this.getUserOptions(),
+              },
+            };
           }
 
           // Requests by Resource
           if (keysForResourceRequest.includes(key)) {
-            return Promise.resolve({
-              ...reduction,
+            return {
+              ...props,
               [newKey]: {
                 ...value,
                 options: this.getOptions(key),
               },
-            });
+            };
           }
 
-          return Promise.resolve({
-            ...reduction,
+          return {
+            ...props,
             [newKey]: value,
-          });
-        }, Promise.resolve({}));
+          };
+        }, {});
     },
     formatFields(fields) {
       const keysToFormat = [
@@ -244,6 +323,21 @@ export default {
           key = fieldId
             ? `${fieldName}_${fieldId}`
             : fieldName;
+
+          // Jira user fields expect the account ID wrapped in a user object, and an
+          // array of them for multi-user fields
+          if (value && constants.USER_FIELD_TYPES.includes(fieldType)) {
+            return {
+              ...props,
+              [key]: Array.isArray(value)
+                ? value.map((accountId) => ({
+                  accountId,
+                }))
+                : {
+                  accountId: value,
+                },
+            };
+          }
 
           // Handle select/dropdown fields - always include with { id: value } format
           if (fieldTypesNeedingId.includes(fieldType)) {

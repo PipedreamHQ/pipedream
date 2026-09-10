@@ -9,6 +9,12 @@ const TYPE = {
   option: "string",
 };
 
+const SCHEMA_TYPE = {
+  ARRAY: "array",
+  OPTION: "option",
+  USER: "user",
+};
+
 const FIELD_KEY = {
   ISSUETYPE: "issuetype",
   PROJECT: "project",
@@ -24,23 +30,20 @@ const FIELD_TYPE = {
   TEXTAREA: "textarea",
 };
 
-const SCHEMA = {
-  user: {
-    mapping: ({
-      displayName: label, accountId: value,
-    }) => ({
-      label,
-      value,
-    }),
-  },
-};
+const USER_FIELD_TYPES = [
+  "userpicker",
+  "multiuserpicker",
+  "people",
+  "sd-request-participants",
+];
 
 const DEFAULT_LIMIT = 50;
 
 export default {
   TYPE,
+  SCHEMA_TYPE,
   FIELD_KEY,
   FIELD_TYPE,
-  SCHEMA,
+  USER_FIELD_TYPES,
   DEFAULT_LIMIT,
 };

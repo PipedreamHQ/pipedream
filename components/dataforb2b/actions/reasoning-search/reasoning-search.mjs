@@ -5,8 +5,9 @@ export default {
   key: "dataforb2b-reasoning-search",
   name: "Reasoning Search",
   description: "Run a live reasoning-based search. Use this when you want the reasoning engine to iteratively interpret a natural-language query and return relevant people or company results. This is distinct from **Agentic Search**, which performs a one-shot LLM search. Provide a natural-language `query` and a `category` (`people` or `company`). [See the documentation](https://docs.dataforb2b.ai/api-reference/reasoning-search)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -64,7 +65,9 @@ export default {
       $,
       data: {
         query: this.query,
-        category: this.category,
+        category: this.category === "company"
+          ? "companies"
+          : this.category,
         max_results: this.maxResults,
         session_id: this.sessionId,
         enrich_live: this.enrichLive,
