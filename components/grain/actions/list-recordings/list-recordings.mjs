@@ -6,8 +6,12 @@ export default {
   description: "Lists Grain recordings, optionally filtered by start datetime range (ISO8601), title search, or participant scope."
     + " Automatically paginates and returns up to Max Results recordings."
     + " Use this to find recording IDs for **Get Recording** and **Get Transcript**."
+    + " Example: `titleSearch: \"Acme\"` returns recordings like"
+    + " `[{\"id\": \"pppp6666-qq77-rr88-ss99-tttt00000000\", \"title\": \"Acme Renewal Call\", \"start_datetime\": \"2026-01-05T15:00:00Z\", \"media_type\": \"video\", ...}]`."
+    + " Pass `fields` to return only the fields you need instead of the full object."
     + " [See the documentation](https://developers.grain.com/#list-recordings)",
-  version: "0.0.1",
+  version: "0.0.2",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -52,6 +56,13 @@ export default {
       default: 100,
       min: 1,
     },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "Only include these fields in each returned recording (e.g. `[\"id\", \"title\", \"start_datetime\"]`)."
+        + " Leave blank to return the full recording object for each result.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const filter = {
@@ -84,6 +95,15 @@ export default {
     $.export("$summary", `Successfully fetched ${recordings.length} recording${recordings.length === 1
       ? ""
       : "s"}`);
-    return recordings;
+
+    if (!this.fields?.length) {
+      return recordings;
+    }
+    return recordings.map((recording) => Object.fromEntries(
+      this.fields.map((field) => [
+        field,
+        recording[field],
+      ]),
+    ));
   },
 };
