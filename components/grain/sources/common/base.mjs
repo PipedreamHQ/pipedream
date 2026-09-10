@@ -48,10 +48,19 @@ export default {
 
     if (!body?.data?.id || body.type !== this.getHookType()) return;
 
+    const ts = this.getTimestamp(body);
+    // Grain doesn't document a delivery ID. Added/deleted events dedupe on the
+    // resource ID alone (there's only ever one). Updated events concatenate the
+    // resource ID with the payload-derived timestamp so retries of the same
+    // update share an ID while a later, distinct update gets a new one.
+    const id = body.type.endsWith("_updated")
+      ? `${body.data.id}:${ts}`
+      : body.data.id;
+
     this.$emit(body, {
-      id: body.data.id,
+      id,
       summary: this.getSummary(body),
-      ts: this.getTimestamp(body),
+      ts,
     });
   },
 };

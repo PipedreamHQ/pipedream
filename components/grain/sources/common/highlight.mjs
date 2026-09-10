@@ -28,5 +28,11 @@ export default {
         , value,
       ]) => value));
     },
+    getTimestamp({ data }) {
+      const ts = Date.parse(data.created_datetime);
+      return Number.isNaN(ts)
+        ? Date.now()
+        : ts;
+    },
   },
 };

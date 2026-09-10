@@ -14,12 +14,6 @@ export default {
     getHookType() {
       return "highlight_added";
     },
-    getTimestamp({ data }) {
-      const ts = Date.parse(data.created_datetime);
-      return Number.isNaN(ts)
-        ? Date.now()
-        : ts;
-    },
     getSummary({ data }) {
       return `New highlight added: ${data.id}`;
     },

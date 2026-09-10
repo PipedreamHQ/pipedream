@@ -14,12 +14,6 @@ export default {
     getHookType() {
       return "recording_added";
     },
-    getTimestamp({ data }) {
-      const ts = Date.parse(data.end_datetime);
-      return Number.isNaN(ts)
-        ? Date.now()
-        : ts;
-    },
     getSummary({ data }) {
       return `New recording added: ${data.id}`;
     },
