@@ -1,16 +1,17 @@
+import { ConfigurationError } from "@pipedream/platform";
 import grain from "../../grain.app.mjs";
 
 export default {
   key: "grain-list-recordings",
   name: "List Recordings",
-  description: "Lists Grain recordings, optionally filtered by start datetime range (ISO8601), title search, or participant scope."
+  description: "Lists Grain recordings, optionally filtered by start datetime range (ISO8601), title search, participant scope, team, or meeting type."
     + " Automatically paginates and returns up to Max Results recordings."
     + " Use this to find recording IDs for **Get Recording** and **Get Transcript**."
     + " Example: `titleSearch: \"Acme\"` returns recordings like"
     + " `[{\"id\": \"pppp6666-qq77-rr88-ss99-tttt00000000\", \"title\": \"Acme Renewal Call\", \"start_datetime\": \"2026-01-05T15:00:00Z\", \"media_type\": \"video\", ...}]`."
     + " Pass `fields` to return only the fields you need instead of the full object."
     + " [See the documentation](https://developers.grain.com/#list-recordings)",
-  version: "0.0.2",
+  version: "0.1.0",
   ai: "optimized",
   annotations: {
     destructiveHint: false,
@@ -23,13 +24,15 @@ export default {
     beforeDatetime: {
       type: "string",
       label: "Before Datetime",
-      description: "Only return recordings that started before this ISO8601 datetime. E.g. `2025-01-01T00:00:00Z`",
+      description: "Only return recordings that started before this ISO8601 datetime. E.g. `2025-01-01T00:00:00Z`."
+        + " Verified against the live API to filter at day granularity — a cutoff earlier or later than a recording's calendar day works reliably, but a same-day cutoff may not exclude recordings from later that same day.",
       optional: true,
     },
     afterDatetime: {
       type: "string",
       label: "After Datetime",
-      description: "Only return recordings that started after this ISO8601 datetime. E.g. `2025-01-01T00:00:00Z`",
+      description: "Only return recordings that started after this ISO8601 datetime. E.g. `2025-01-01T00:00:00Z`."
+        + " Verified against the live API to filter at day granularity — a cutoff earlier or later than a recording's calendar day works reliably, but a same-day cutoff may not exclude recordings from earlier that same day.",
       optional: true,
     },
     titleSearch: {
@@ -48,6 +51,18 @@ export default {
       ],
       optional: true,
     },
+    team: {
+      type: "string",
+      label: "Team ID",
+      description: "Only return recordings belonging to this team. Use **List Teams** to find team IDs.",
+      optional: true,
+    },
+    meetingType: {
+      type: "string",
+      label: "Meeting Type ID",
+      description: "Only return recordings with this meeting type. Use **List Meeting Types** to find meeting type IDs.",
+      optional: true,
+    },
     maxResults: {
       type: "integer",
       label: "Max Results",
@@ -55,6 +70,7 @@ export default {
       optional: true,
       default: 100,
       min: 1,
+      max: 500,
     },
     fields: {
       type: "string[]",
@@ -70,6 +86,8 @@ export default {
       after_datetime: this.afterDatetime,
       title_search: this.titleSearch,
       participant_scope: this.participantScope,
+      team: this.team,
+      meeting_type: this.meetingType,
     };
 
     const recordings = [];
@@ -99,6 +117,9 @@ export default {
     const fields = typeof this.fields === "string"
       ? JSON.parse(this.fields)
       : this.fields;
+    if (fields !== undefined && !Array.isArray(fields)) {
+      throw new ConfigurationError("`fields` must be an array of field names.");
+    }
 
     if (!fields?.length) {
       return recordings;

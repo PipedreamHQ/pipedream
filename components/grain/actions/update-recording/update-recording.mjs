@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import grain from "../../grain.app.mjs";
 
 export default {
@@ -46,9 +47,15 @@ export default {
     const addTags = typeof this.addTags === "string"
       ? JSON.parse(this.addTags)
       : this.addTags;
+    if (addTags !== undefined && !Array.isArray(addTags)) {
+      throw new ConfigurationError("`addTags` must be an array of tag names.");
+    }
     const removeTags = typeof this.removeTags === "string"
       ? JSON.parse(this.removeTags)
       : this.removeTags;
+    if (removeTags !== undefined && !Array.isArray(removeTags)) {
+      throw new ConfigurationError("`removeTags` must be an array of tag names.");
+    }
 
     const actions = [];
 
