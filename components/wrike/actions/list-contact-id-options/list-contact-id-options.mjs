@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import wrike from "../../wrike.app.mjs";
 import {
   CONTACT_TYPE_OPTIONS, CONTACT_FIELD_OPTIONS,
@@ -9,8 +8,9 @@ export default {
   key: "wrike-list-contact-id-options",
   name: "List Contact ID Options",
   description: "Retrieves available contacts so callers can copy an ID into free-form responsibles or contactId props in other actions. [See the documentation](https://developers.wrike.com/reference/getcontactsempty)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

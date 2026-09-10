@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 import { parseObject } from "../../common/utils.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "azure_devops-queue-build",
   name: "Queue Build",
   description: "Queue a new build for a build definition, optionally on a specific branch and with variable overrides. Returns the queued build's id and status - the build itself runs asynchronously. Use this to trigger CI from an external event. Example: definition `12` on `refs/heads/main` with parameters `{ \\\"environment\\\": \\\"staging\\\" }`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/build/builds/queue?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

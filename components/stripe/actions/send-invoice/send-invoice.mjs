@@ -4,7 +4,8 @@ export default {
   key: "stripe-send-invoice",
   name: "Send Invoice",
   type: "action",
-  version: "0.1.5",
+  ai: "optimized",
+  version: "0.1.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

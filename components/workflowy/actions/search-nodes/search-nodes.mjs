@@ -4,8 +4,9 @@ export default {
   key: "workflowy-search-nodes",
   name: "Search Nodes",
   description: "Searches all WorkFlowy nodes by keyword. WorkFlowy has no dedicated search endpoint, so this exports all nodes (GET /api/v1/nodes-export) and filters client-side by matching the query against each node's name and note. Use this to discover node IDs before running **Create Node** (as a parent) or **Update Node**. Note: the export endpoint is rate limited to 1 request per minute. Returns matching nodes with their IDs and content. [See the documentation](https://beta.workflowy.com/api-reference/#nodes-export).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

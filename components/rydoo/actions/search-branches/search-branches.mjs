@@ -4,8 +4,9 @@ export default {
   key: "rydoo-search-branches",
   name: "Search Branches",
   description: "Finds branches by name, ID, or active status. [See the documentation](https://developers.rydoo.com/reference/v2branchgetbranches)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

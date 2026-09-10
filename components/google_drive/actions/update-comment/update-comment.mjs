@@ -4,13 +4,14 @@ export default {
   key: "google_drive-update-comment",
   name: "Update Comment",
   description: "Update the content of a specific comment. [See the documentation](https://developers.google.com/workspace/drive/api/reference/rest/v3/comments/update) for more information",
-  version: "0.0.10",
+  version: "0.0.11",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     googleDrive,
     drive: {

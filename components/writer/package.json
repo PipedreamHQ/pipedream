@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/writer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pipedream Writer Components",
   "main": "writer.app.mjs",
   "keywords": [

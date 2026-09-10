@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import brexApp from "../../brex.app.mjs";
 import {
@@ -9,8 +8,9 @@ export default {
   key: "brex-search-card-transactions",
   name: "Search Card Transactions",
   description: "Searches settled card transactions across every card account by merchant, amount, date, or cardholder, and returns each transaction's `expense_id`, the handle Brex uses for the matching expense and its receipt. Unlike **List Transactions for Primary Card Account**, this filters and expands. [See the documentation](https://developer.brex.com/openapi/transactions_api/transactions/listprimarycardtransactions)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

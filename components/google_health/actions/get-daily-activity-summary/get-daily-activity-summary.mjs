@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../google_health.app.mjs";
 import {
   civilDateToString,
@@ -30,8 +29,9 @@ export default {
   key: "google_health-get-daily-activity-summary",
   name: "Get Daily Activity Summary",
   description: "Get a full day of activity at once: steps, distance, calories, active minutes by intensity, active zone minutes by heart rate zone, and floors. The right tool when the user wants an overall picture of a day rather than one metric — use **Get Daily Step Count** for steps alone or **Get Heart Rate** for heart rate detail. The range is inclusive and capped at **14 days** (calories and active minutes impose that limit on the aggregation). Example: startDate=\"2026-08-24\" → `days: [{ date, steps: 8432, distanceKm: 6.1, totalCalories: 2380, activeCalories: 620, activeMinutes: { light, moderate, vigorous, total }, activeZoneMinutes: { fatBurn, cardio, peak, total }, floors: 12 }]`. Set dataSourceFamily=\"google-wearables\" to exclude manually logged activity. A `null` metric means that one metric did not sync for that day and says nothing about the rest of the day — a day can carry real steps alongside a `null` `distanceKm`, so do not report the whole day as empty. An empty `days` array is the separate case where no activity data synced at all for the range. Never report either as zero. The API has no concept of daily goals, so no targets are returned. [See the documentation](https://developers.google.com/health/reference/rest/v4/users.dataTypes.dataPoints/dailyRollUp)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

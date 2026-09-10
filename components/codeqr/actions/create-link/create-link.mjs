@@ -5,13 +5,14 @@ export default {
   name: "Create a CodeQR Link",
   description:
     "Creates a short link in CodeQR using the CodeQR API. [See the documentation](https://codeqr.mintlify.app/api-reference/endpoint/create-a-link)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     codeqr,
     url: {

@@ -5,7 +5,8 @@ export default {
   name: "Create Note",
   description: "Create a new note. [See the docs here](https://developer.productboard.com/#operation/create_note)",
   type: "action",
-  version: "0.0.2",
+  ai: "optimized",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

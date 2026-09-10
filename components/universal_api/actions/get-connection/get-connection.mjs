@@ -6,8 +6,9 @@ export default {
   name: "Get Connection",
   description:
     "Retrieve a single connection identified by `universalApi` and `serviceId` from the Platform API on Universal API. Run **List Connections** first to find the correct `serviceId`. [See the documentation](https://docs.universalapi.io/reference/get-connection).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

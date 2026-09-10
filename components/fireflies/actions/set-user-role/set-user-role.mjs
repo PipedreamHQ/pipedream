@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import fireflies from "../../fireflies.app.mjs";
 import mutations from "../../common/mutations.mjs";
 
@@ -6,13 +5,14 @@ export default {
   key: "fireflies-set-user-role",
   name: "Set User Role",
   description: "Promote a team member to admin or demote an admin to a regular user. The team must always retain at least one admin — attempting to demote the last remaining admin fails with an `admin_must_exist` error. [See the documentation](https://docs.fireflies.ai/graphql-api/mutation/set-user-role)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     fireflies,
     userId: {
