@@ -6,7 +6,7 @@ export default {
   key: "grain-updated-highlight-instant",
   name: "New Highlight Updated (Instant)",
   description: "Emit new event when a highlight is updated. Each webhook delivery emits an event, including retries. [See the documentation](https://developers.grain.com/#create-hook)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "source",
   // Grain does not document a delivery ID; deduping by resource ID would discard later updates.
   methods: {

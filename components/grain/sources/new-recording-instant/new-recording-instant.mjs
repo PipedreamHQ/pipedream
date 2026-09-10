@@ -6,7 +6,7 @@ export default {
   key: "grain-new-recording-instant",
   name: "New Recording (Instant)",
   description: "Emit new event when a recording is added. [See the documentation](https://developers.grain.com/#create-hook)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "source",
   dedupe: "unique",
   methods: {
