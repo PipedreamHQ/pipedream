@@ -11,10 +11,9 @@ import constants from "../../common/constants.mjs";
 // time it has seen hides every call still being processed behind it, and hides
 // it permanently: no later poll ever asks for that range again. Holding the
 // cursor behind the present keeps those calls inside the next poll's window
-// instead. The calls that get read a second time as a result are filtered out
-// against a ledger of ids already emitted from inside the window. The platform's
-// `dedupe: "unique"` is not sufficient on its own here: it remembers only the
-// last 100 ids, which a busy workspace overruns within a single window.
+// instead. Calls read a second time are filtered against a ledger of ids
+// already emitted; `dedupe: "unique"` remembers only 100, which a busy
+// workspace overruns within one window.
 //
 // The window has to span a whole call and not just the processing that follows
 // it, because the filter is on the start time while processing only begins at
@@ -26,10 +25,9 @@ const DEFAULT_PROCESSING_LOOKBACK_HOURS = 2;
 const MIN_PROCESSING_LOOKBACK_HOURS = 1;
 const MAX_PROCESSING_LOOKBACK_HOURS = 168;
 
-// Kept here rather than in `common/constants.mjs` for the same reason as the
-// values above: that file reaches every action in this app through
-// `gong.app.mjs`, so touching it costs a version bump on five components this
-// change does not affect.
+// Local for the same reason as the values above: `common/constants.mjs`
+// reaches every action through `gong.app.mjs`, so touching it costs five
+// unrelated version bumps.
 const EMITTED_IDS = "emittedIds";
 
 export default {
@@ -62,34 +60,35 @@ export default {
     getLastCreatedAt() {
       return this.db.get(constants.LAST_CREATED_AT);
     },
+    // Call ids are numeric strings past Number's safe range; for digit strings
+    // length then lexicographic order is exactly numeric order.
+    compareIds(a, b) {
+      const aId = String(a);
+      const bId = String(b);
+
+      if (/^\d+$/.test(aId) && /^\d+$/.test(bId) && aId.length !== bId.length) {
+        return aId.length - bId.length;
+      }
+
+      return aId.localeCompare(bId);
+    },
     setEmittedIds(value) {
       this.db.set(EMITTED_IDS, value);
     },
     getEmittedIds() {
       return this.db.get(EMITTED_IDS) || [];
     },
-    // Only calls that the next poll can actually read again are worth
-    // remembering, so the ledger is pruned to the window the cursor reopens.
-    // A null `startedMs` marks a call the date filter cannot exclude either,
-    // which therefore comes back on every poll and has to be kept for good.
-    // The cap is a backstop for a workspace busy enough to fill the window with
-    // more calls than a single poll returns. Gong hands back the lowest call ids
-    // first and stops at the same cap, so keeping the lowest ids keeps precisely
-    // the entries the next poll reads back. That mirrors observed ordering
-    // rather than a documented guarantee; if it ever changes, the cost is a
-    // repeat event, which is why `dedupe: "unique"` stays on as a backstop.
+    // Only calls the next poll can read again are worth remembering, so the
+    // ledger is pruned to the window the cursor reopens and capped.
     pruneEmittedIds(entries, cursor) {
       const cursorMs = Date.parse(cursor);
 
-      // A call whose `started` will not parse is not excluded by the date
-      // filter either, so it comes back on every poll and has to be kept for
-      // good. These are pathological and rare, so they get their own budget
-      // rather than consuming a slot a real call needs - but a budget all the
-      // same, so a workspace producing them steadily cannot grow this without
-      // bound. Newest ids win, since the oldest are likeliest to be gone.
+      // An unparseable `started` is not excluded by the date filter either, so
+      // these return on every poll and need their own budget, not a real
+      // call's slot.
       const unfilterable = entries
         .filter(({ startedMs }) => !startedMs)
-        .sort((a, b) => String(b.id).localeCompare(String(a.id)))
+        .sort((a, b) => this.compareIds(b.id, a.id))
         .slice(0, constants.DEFAULT_MAX);
       const dated = entries.filter(({ startedMs }) => startedMs);
 
@@ -97,13 +96,11 @@ export default {
         ? dated
         : dated.filter(({ startedMs }) => startedMs >= cursorMs);
 
-      // Gong hands back the lowest call ids first and stops at the same cap, so
-      // keeping the lowest ids keeps precisely the entries the next poll reads
-      // back. That mirrors observed ordering rather than a documented
-      // guarantee; if it ever changes the cost is a repeat event, which is why
-      // `dedupe: "unique"` stays on as a backstop.
+      // Gong returns the lowest ids first and stops at the same cap, so keeping
+      // the lowest ids keeps what the next poll reads back. Observed ordering,
+      // not a documented guarantee; `dedupe: "unique"` stays on as a backstop.
       const capped = withinWindow
-        .sort((a, b) => String(a.id).localeCompare(String(b.id)))
+        .sort((a, b) => this.compareIds(a.id, b.id))
         .slice(0, constants.DEFAULT_MAX);
 
       return unfilterable.concat(capped);
@@ -116,9 +113,8 @@ export default {
         return previous;
       }
 
-      // The schema bounds this prop, but a programmatic caller can still pass a
-      // value large enough to push the cursor outside the range Date accepts,
-      // which would throw below and abort the poll. Clamp rather than trust it.
+      // The schema bound is client-side only, so a programmatic caller can
+      // still push the cursor outside the range Date accepts. Clamp it.
       const lookbackHours = Math.min(
         Math.max(
           this.processingLookbackHours || DEFAULT_PROCESSING_LOOKBACK_HOURS,
@@ -149,16 +145,14 @@ export default {
     },
     processEvent(resource) {
       const meta = this.generateMeta(resource);
-      this.$emit(resource, meta);
+      return this.$emit(resource, meta);
     },
     getStartedMs(resource) {
       return Date.parse(resource?.started);
     },
     async processResources(resources, max) {
-      // Gong returns calls ordered by id, not by start time, so the last
-      // element is an arbitrary call rather than the newest one. Order the
-      // batch explicitly: the cursor below is derived from the head of this
-      // list, and `deploy` slices it to emit the most recent calls.
+      // Gong orders calls by id, not by start time, so the last element is an
+      // arbitrary call. The cursor and `deploy`'s slice both need the newest.
       let descendingResources = Array.from(resources).sort((a, b) => {
         const aMs = this.getStartedMs(a);
         const bMs = this.getStartedMs(b);
@@ -189,10 +183,10 @@ export default {
       const seen = new Set(previouslyEmitted.map(({ id }) => id));
       const unseenResources = descendingResources.filter(({ id }) => !seen.has(id));
 
-      unseenResources.forEach(this.processEvent);
+      // `$emit` is async: awaited so state is written once the events are out,
+      // not once they are queued. A partial failure costs a repeat, not a skip.
+      await Promise.all(unseenResources.map(this.processEvent));
 
-      // State is written only once the events are out: a partial failure should
-      // cost a repeat on the next poll, never a silently skipped call.
       if (next) {
         this.setLastCreatedAt(next);
       }
@@ -218,7 +212,7 @@ export default {
         resourceName: this.getResourceName(),
       });
 
-      this.processResources(resources, 25);
+      await this.processResources(resources, 25);
     },
   },
   async run() {
@@ -228,6 +222,6 @@ export default {
       resourceName: this.getResourceName(),
     });
 
-    this.processResources(resources);
+    await this.processResources(resources);
   },
 };
