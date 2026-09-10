@@ -51,15 +51,16 @@ export default {
 
     const ts = this.getTimestamp(body);
     // Grain doesn't document a delivery ID. Added/deleted events dedupe on the
-    // resource ID alone (there's only ever one). Updated events concatenate the
-    // resource ID with a content hash of the payload: a timestamp alone doesn't
-    // work here because recording/highlight payloads carry no field that changes
-    // between updates (only story's last_edited_datetime does), so a content hash
-    // is what actually makes retries of the same update share an ID while a
-    // later, distinct update gets a new one, across all three resource types.
+    // resource ID alone (there's only ever one). Updated events hash the resource
+    // ID together with the full payload: a timestamp alone doesn't work here
+    // because recording/highlight payloads carry no field that changes between
+    // updates (only story's last_edited_datetime does), so a content hash is what
+    // actually makes retries of the same update share an ID while a later,
+    // distinct update gets a new one, across all three resource types - kept to a
+    // single fixed-length digest rather than a raw ID + digest concatenation.
     const id = body.type.endsWith("_updated")
-      ? `${body.data.id}:${crypto.createHash("md5").update(JSON.stringify(body.data))
-        .digest("hex")}`
+      ? crypto.createHash("md5").update(`${body.data.id}:${JSON.stringify(body.data)}`)
+        .digest("hex")
       : body.data.id;
 
     this.$emit(body, {

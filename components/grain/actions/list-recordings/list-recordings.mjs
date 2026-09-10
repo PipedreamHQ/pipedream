@@ -54,13 +54,13 @@ export default {
     team: {
       type: "string",
       label: "Team ID",
-      description: "Only return recordings belonging to this team. Use **List Teams** to find team IDs.",
+      description: "Only return recordings belonging to this team. Use **List Teams** to find team IDs. E.g. `a414c333-c9fe-4fdc-9131-fb31796699b2`.",
       optional: true,
     },
     meetingType: {
       type: "string",
       label: "Meeting Type ID",
-      description: "Only return recordings with this meeting type. Use **List Meeting Types** to find meeting type IDs.",
+      description: "Only return recordings with this meeting type. Use **List Meeting Types** to find meeting type IDs. E.g. `a97a9e83-c45e-4a46-9b1e-216ce1e69252`.",
       optional: true,
     },
     maxResults: {
