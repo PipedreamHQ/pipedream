@@ -183,8 +183,9 @@ export default {
       const seen = new Set(previouslyEmitted.map(({ id }) => id));
       const unseenResources = descendingResources.filter(({ id }) => !seen.has(id));
 
-      // `$emit` is async: awaited so state is written once the events are out,
-      // not once they are queued. A partial failure costs a repeat, not a skip.
+      // Awaited so a failed emission fails the poll instead of escaping as an
+      // unhandled rejection, leaving the cursor and ledger unwritten. A partial
+      // failure costs a repeat, not a skip.
       await Promise.all(unseenResources.map(this.processEvent));
 
       if (next) {
