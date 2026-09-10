@@ -1,0 +1,95 @@
+import bamboohr from "../../bamboohr.app.mjs";
+import constants from "../../common/constants.mjs";
+
+export default {
+  key: "bamboohr-add-time-off-request",
+  name: "Add Time Off Request",
+  description: "Create a time off request for an employee (PUT /employees/{employeeId}/time_off/request). Use **List Time Off Types** to find a valid time off type ID and **Get Employees Directory** for the employee ID. [See the documentation](https://documentation.bamboohr.com/reference/create-time-off-request)",
+  version: "0.0.1",
+  type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
+  props: {
+    bamboohr,
+    employeeId: {
+      propDefinition: [
+        bamboohr,
+        "employeeId",
+      ],
+      description: "The employee ID (digits only). Run **Get Employees Directory** to discover IDs.",
+    },
+    status: {
+      type: "string",
+      label: "Status",
+      description: "Initial request status. One of `approved`, `denied`, `declined`, `requested`.",
+      options: constants.TIME_OFF_CREATE_STATUSES,
+    },
+    start: {
+      type: "string",
+      label: "Start",
+      description: "Start date in YYYY-MM-DD format.",
+    },
+    end: {
+      type: "string",
+      label: "End",
+      description: "End date in YYYY-MM-DD format.",
+    },
+    timeOffTypeId: {
+      propDefinition: [
+        bamboohr,
+        "timeOffTypeId",
+      ],
+    },
+    amount: {
+      type: "string",
+      label: "Amount",
+      description: "Total amount of time off (number, e.g. `8`).",
+      optional: true,
+    },
+    previousRequest: {
+      type: "string",
+      label: "Previous Request",
+      description: "A prior request ID this request supersedes.",
+      optional: true,
+    },
+    notes: {
+      type: "string",
+      label: "Notes",
+      description: "JSON array of note objects, e.g. `[{\"from\":\"employee\",\"note\":\"Vacation\"}]`.",
+      optional: true,
+    },
+    dates: {
+      type: "string",
+      label: "Dates",
+      description: "JSON array of per-day objects, e.g. `[{\"ymd\":\"2026-07-01\",\"amount\":8}]`.",
+      optional: true,
+    },
+  },
+  async run({ $ }) {
+    const notes = this.notes
+      ? JSON.parse(this.notes)
+      : undefined;
+    const dates = this.dates
+      ? JSON.parse(this.dates)
+      : undefined;
+    const response = await this.bamboohr.createTimeOffRequest({
+      $,
+      employeeId: this.employeeId,
+      data: {
+        status: this.status,
+        start: this.start,
+        end: this.end,
+        timeOffTypeId: this.timeOffTypeId,
+        amount: this.amount,
+        previousRequest: this.previousRequest,
+        notes,
+        dates,
+      },
+    });
+    $.export("$summary", `Created time off request for employee ${this.employeeId}`);
+    return response;
+  },
+};

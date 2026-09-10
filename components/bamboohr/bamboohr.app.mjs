@@ -7,43 +7,63 @@ export default {
     applicationId: {
       type: "string",
       label: "Application ID",
-      description: "The ID of an application",
-      async options({ page }) {
-        const { applications } = await this.listApplications({
-          params: {
-            page: page + 1,
-          },
-        });
-        return applications?.map((application) => ({
-          label: `${application.applicant.firstName} ${application.applicant.lastName}`,
-          value: application.id,
-        })) || [];
-      },
+      description: "The ID of an application. Run **List Application ID Options** to discover application IDs.",
     },
     jobId: {
       type: "string",
       label: "Job ID",
-      description: "The ID of a job",
+      description: "The ID of a job. Run **List Job ID Options** to discover job IDs.",
       optional: true,
-      async options() {
-        const jobs = await this.listJobs();
-        return jobs?.map((job) => ({
-          label: job.title.label,
-          value: job.id,
-        })) || [];
-      },
     },
     statusId: {
       type: "string",
       label: "Status ID",
-      description: "The ID of a job status",
-      async options() {
-        const statuses = await this.listStatuses();
-        return statuses?.map((status) => ({
-          label: status.name,
-          value: status.id,
-        })) || [];
-      },
+      description: "The ID of a job status. Run **List Status ID Options** to discover status IDs.",
+    },
+    employeeId: {
+      type: "string",
+      label: "Employee ID",
+      description: "The employee ID (e.g. `100`). Run **Get Employees Directory** to discover IDs.",
+    },
+    timeOffTypeId: {
+      type: "string",
+      label: "Time Off Type ID",
+      description: "The time off type ID. Run **List Time Off Types** to discover IDs.",
+    },
+    requestId: {
+      type: "string",
+      label: "Request ID",
+      description: "The time off request ID. Run **List Time Off Requests** to discover IDs.",
+    },
+    reportId: {
+      type: "string",
+      label: "Report ID",
+      description: "The saved report ID (company-specific), e.g. `1`.",
+    },
+    fileId: {
+      type: "string",
+      label: "File ID",
+      description: "The file ID. Run **List Employee Files** to discover file IDs.",
+    },
+    timesheetId: {
+      type: "string",
+      label: "Timesheet ID",
+      description: "The timesheet ID. Run **List Timesheets** to discover IDs.",
+    },
+    clockEntryId: {
+      type: "string",
+      label: "Clock Entry ID",
+      description: "The clock entry ID. Run **List Clock Entries** to discover IDs.",
+    },
+    hourEntryId: {
+      type: "string",
+      label: "Hour Entry ID",
+      description: "The hour entry ID. Run **List Hour Entries** to discover IDs.",
+    },
+    recordId: {
+      type: "string",
+      label: "Record ID",
+      description: "The legacy hour record ID.",
     },
   },
   methods: {
@@ -51,7 +71,7 @@ export default {
       return `https://api.bamboohr.com/api/gateway.php/${this.$auth.company_domain}/v1`;
     },
     _makeRequest({
-      $ = this, path, ...opts
+      $ = this, path, headers = {}, ...opts
     }) {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
@@ -59,9 +79,14 @@ export default {
           username: `${this.$auth.api_key}`,
           password: "x",
         },
+        headers: {
+          Accept: "application/json",
+          ...headers,
+        },
         ...opts,
       });
     },
+    // Applicant tracking
     getApplication({
       applicationId, ...opts
     }) {
@@ -112,6 +137,340 @@ export default {
       return this._makeRequest({
         path: `/files/${fileId}`,
         responseType: "arraybuffer",
+        ...opts,
+      });
+    },
+    // Employees
+    getEmployeesDirectory(opts = {}) {
+      return this._makeRequest({
+        path: "/employees/directory",
+        ...opts,
+      });
+    },
+    getEmployee({
+      employeeId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/employees/${employeeId}`,
+        ...opts,
+      });
+    },
+    createEmployee(opts = {}) {
+      return this._makeRequest({
+        path: "/employees",
+        method: "POST",
+        ...opts,
+      });
+    },
+    updateEmployee({
+      employeeId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/employees/${employeeId}`,
+        method: "POST",
+        ...opts,
+      });
+    },
+    listChangedEmployees(opts = {}) {
+      return this._makeRequest({
+        path: "/employees/changed",
+        ...opts,
+      });
+    },
+    deleteEmployee({
+      employeeId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/employees/${employeeId}`,
+        method: "DELETE",
+        ...opts,
+      });
+    },
+    // Employee files
+    listEmployeeFiles({
+      employeeId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/employees/${employeeId}/files/view`,
+        ...opts,
+      });
+    },
+    getEmployeeFile({
+      employeeId, fileId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/employees/${employeeId}/files/${fileId}`,
+        responseType: "arraybuffer",
+        ...opts,
+      });
+    },
+    // Holidays
+    listCompanyHolidays(opts = {}) {
+      return this._makeRequest({
+        path: "/holidays",
+        ...opts,
+      });
+    },
+    // Reports
+    getCompanyReport({
+      reportId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/reports/${reportId}`,
+        ...opts,
+      });
+    },
+    // Time off
+    listTimeOffRequests(opts = {}) {
+      return this._makeRequest({
+        path: "/time_off/requests",
+        ...opts,
+      });
+    },
+    createTimeOffRequest({
+      employeeId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/employees/${employeeId}/time_off/request`,
+        method: "PUT",
+        ...opts,
+      });
+    },
+    updateTimeOffRequestStatus({
+      requestId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/time_off/requests/${requestId}/status`,
+        method: "PUT",
+        ...opts,
+      });
+    },
+    listTimeOffTypes(opts = {}) {
+      return this._makeRequest({
+        path: "/meta/time_off/types",
+        ...opts,
+      });
+    },
+    listTimeOffPolicies(opts = {}) {
+      return this._makeRequest({
+        path: "/meta/time_off/policies",
+        ...opts,
+      });
+    },
+    getTimeOffBalance({
+      employeeId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/employees/${employeeId}/time_off/calculator`,
+        ...opts,
+      });
+    },
+    adjustTimeOffBalance({
+      employeeId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/employees/${employeeId}/time_off/balance_adjustment`,
+        method: "PUT",
+        ...opts,
+      });
+    },
+    updateTimeOffRequest({
+      requestId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/time-off/requests/${requestId}`,
+        method: "PATCH",
+        ...opts,
+      });
+    },
+    approveTimeOffRequest({
+      requestId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/time-off/requests/${requestId}/approvals`,
+        method: "POST",
+        ...opts,
+      });
+    },
+    denyTimeOffRequest({
+      requestId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/time-off/requests/${requestId}/denials`,
+        method: "POST",
+        ...opts,
+      });
+    },
+    cancelTimeOffRequest({
+      requestId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/time-off/requests/${requestId}/cancellations`,
+        method: "POST",
+        ...opts,
+      });
+    },
+    listWhosOut(opts = {}) {
+      return this._makeRequest({
+        path: "/time_off/whos_out",
+        ...opts,
+      });
+    },
+    listTimeOffRequestComments({
+      requestId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/time-off/requests/${requestId}/comments`,
+        ...opts,
+      });
+    },
+    createTimeOffRequestComment({
+      requestId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/time-off/requests/${requestId}/comments`,
+        method: "POST",
+        ...opts,
+      });
+    },
+    // Timesheets (modern API)
+    listTimesheets(opts = {}) {
+      return this._makeRequest({
+        path: "/time-tracking/timesheets",
+        ...opts,
+      });
+    },
+    getTimesheet({
+      timesheetId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/time-tracking/timesheets/${timesheetId}`,
+        ...opts,
+      });
+    },
+    approveTimesheet(opts = {}) {
+      return this._makeRequest({
+        path: "/time-tracking/timesheet-approvals",
+        method: "POST",
+        ...opts,
+      });
+    },
+    // Clock entries (modern API)
+    listClockEntries(opts = {}) {
+      return this._makeRequest({
+        path: "/time-tracking/clock-entries",
+        ...opts,
+      });
+    },
+    getClockEntry({
+      clockEntryId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/time-tracking/clock-entries/${clockEntryId}`,
+        ...opts,
+      });
+    },
+    createClockEntry(opts = {}) {
+      return this._makeRequest({
+        path: "/time-tracking/clock-entries",
+        method: "POST",
+        ...opts,
+      });
+    },
+    deleteClockEntry({
+      clockEntryId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/time-tracking/clock-entries/${clockEntryId}`,
+        method: "DELETE",
+        ...opts,
+      });
+    },
+    // Hour entries (modern API)
+    listHourEntries(opts = {}) {
+      return this._makeRequest({
+        path: "/time-tracking/hour-entries",
+        ...opts,
+      });
+    },
+    createHourEntry(opts = {}) {
+      return this._makeRequest({
+        path: "/time-tracking/hour-entries",
+        method: "POST",
+        ...opts,
+      });
+    },
+    deleteHourEntry({
+      hourEntryId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/time-tracking/hour-entries/${hourEntryId}`,
+        method: "DELETE",
+        ...opts,
+      });
+    },
+    // Real-time clock in/out
+    clockIn({
+      employeeId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/time_tracking/employees/${employeeId}/clock_in`,
+        method: "POST",
+        ...opts,
+      });
+    },
+    clockOut({
+      employeeId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/time_tracking/employees/${employeeId}/clock_out`,
+        method: "POST",
+        ...opts,
+      });
+    },
+    // Legacy timesheet entries
+    listTimesheetEntries(opts = {}) {
+      return this._makeRequest({
+        path: "/time_tracking/timesheet_entries",
+        ...opts,
+      });
+    },
+    // Legacy Hours API
+    createHourRecord(opts = {}) {
+      return this._makeRequest({
+        path: "/timetracking/add",
+        method: "POST",
+        ...opts,
+      });
+    },
+    createOrUpdateHourRecords(opts = {}) {
+      return this._makeRequest({
+        path: "/timetracking/record",
+        method: "POST",
+        ...opts,
+      });
+    },
+    getTimeTrackingRecord({
+      recordId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/timetracking/record/${recordId}`,
+        ...opts,
+      });
+    },
+    updateHourRecord(opts = {}) {
+      return this._makeRequest({
+        path: "/timetracking/adjust",
+        method: "PUT",
+        ...opts,
+      });
+    },
+    deleteHourRecord({
+      recordId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/timetracking/delete/${recordId}`,
+        method: "DELETE",
         ...opts,
       });
     },
