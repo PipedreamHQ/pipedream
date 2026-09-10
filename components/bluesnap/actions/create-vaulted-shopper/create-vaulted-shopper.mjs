@@ -4,7 +4,7 @@ import bluesnap from "../../bluesnap.app.mjs";
 export default {
   key: "bluesnap-create-vaulted-shopper",
   name: "Create Vaulted Shopper",
-  description: "Create a vaulted shopper (stored customer) record in BlueSnap (POST /services/2/vaulted-shoppers). Returns a vaultedShopperId usable in **Create Transaction**, **Get Vaulted Shopper**, and **Update Vaulted Shopper**. [See the documentation](https://developers.bluesnap.com/v8976-JSON/reference/create-vaulted-shopper)",
+  description: "Create a vaulted shopper (stored customer) record in BlueSnap. Returns a vaultedShopperId usable in **Create Transaction**, **Get Vaulted Shopper**, and **Update Vaulted Shopper**. [See the documentation](https://developers.bluesnap.com/v8976-JSON/reference/create-vaulted-shopper)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -15,52 +15,52 @@ export default {
   props: {
     bluesnap,
     firstName: {
-      type: "string",
-      label: "First Name",
-      description: "Shopper first name (e.g. `Jane`).",
-      optional: true,
+      propDefinition: [
+        bluesnap,
+        "firstName",
+      ],
     },
     lastName: {
-      type: "string",
-      label: "Last Name",
-      description: "Shopper last name (e.g. `Doe`).",
-      optional: true,
+      propDefinition: [
+        bluesnap,
+        "lastName",
+      ],
     },
     email: {
-      type: "string",
-      label: "Email",
-      description: "Shopper email address (e.g. `jane.doe@example.com`).",
-      optional: true,
+      propDefinition: [
+        bluesnap,
+        "email",
+      ],
     },
     country: {
-      type: "string",
-      label: "Country",
-      description: "ISO 3166 two-letter country code (e.g. `US`).",
-      optional: true,
+      propDefinition: [
+        bluesnap,
+        "country",
+      ],
     },
     city: {
-      type: "string",
-      label: "City",
-      description: "Shopper city.",
-      optional: true,
+      propDefinition: [
+        bluesnap,
+        "city",
+      ],
     },
     state: {
-      type: "string",
-      label: "State",
-      description: "Shopper state/province code.",
-      optional: true,
+      propDefinition: [
+        bluesnap,
+        "state",
+      ],
     },
     zip: {
-      type: "string",
-      label: "ZIP",
-      description: "Shopper ZIP/postal code.",
-      optional: true,
+      propDefinition: [
+        bluesnap,
+        "zip",
+      ],
     },
     phone: {
-      type: "string",
-      label: "Phone",
-      description: "Shopper phone number.",
-      optional: true,
+      propDefinition: [
+        bluesnap,
+        "phone",
+      ],
     },
     merchantShopperId: {
       type: "string",

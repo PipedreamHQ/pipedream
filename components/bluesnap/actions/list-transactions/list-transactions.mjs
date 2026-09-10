@@ -6,7 +6,7 @@ const DEFAULT_LIMIT = 25;
 export default {
   key: "bluesnap-list-transactions",
   name: "List Transactions",
-  description: "List BlueSnap transactions via the Reporting API (GET /services/2/report/TransactionDetail). Returns transaction summaries whose `Invoice ID` field is the transactionId usable in **Get Transaction** and **Refund Transaction**. [See the documentation](https://developers.bluesnap.com/v8976-Reporting/reference/get-report-data)",
+  description: "List BlueSnap transactions via the Reporting API. Returns transaction summaries whose `Invoice ID` field is the transactionId usable in **Get Transaction** and **Refund Transaction**. [See the documentation](https://developers.bluesnap.com/v8976-Reporting/reference/get-report-data)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -47,13 +47,13 @@ export default {
       $,
       params: {
         period: this.period,
-        fromDate: this.fromDate,
-        toDate: this.toDate,
+        from_date: this.fromDate,
+        to_date: this.toDate,
         pageSize: this.limit ?? DEFAULT_LIMIT,
       },
     });
 
-    const transactions = response?.reportData?.data ?? response ?? [];
+    const transactions = response?.data;
     const count = Array.isArray(transactions)
       ? transactions.length
       : 0;

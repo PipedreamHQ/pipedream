@@ -4,7 +4,7 @@ import bluesnap from "../../bluesnap.app.mjs";
 export default {
   key: "bluesnap-refund-transaction",
   name: "Refund Transaction",
-  description: "Refund a BlueSnap transaction (POST /services/2/transactions/refund/{transactionId}). Omit amount for a full refund or supply a partial amount. Use **List Transactions** first to find the transaction ID. [See the documentation](https://developers.bluesnap.com/v8976-JSON/reference/refund)",
+  description: "Refund a BlueSnap transaction. Omit amount for a full refund or supply a partial amount. Use **List Transactions** first to find the transaction ID. [See the documentation](https://developers.bluesnap.com/v8976-JSON/reference/refund)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -46,7 +46,7 @@ export default {
     const response = await this.bluesnap.refundTransaction({
       $,
       transactionId: this.transactionId,
-      params: {
+      data: {
         amount: this.amount,
         reason: this.reason,
         cancelSubscriptions: this.cancelSubscriptions,

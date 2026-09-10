@@ -4,6 +4,15 @@ import { axios } from "@pipedream/platform";
 const BASE_URL = "https://ws.bluesnap.com";
 const MIN_LIMIT = 1;
 const MAX_LIMIT = 1000;
+const PERIOD_OPTIONS = [
+  "THIS_MONTH",
+  "LAST_WEEK",
+  "LAST_MONTH",
+  "LAST_3_MONTHS",
+  "LAST_6_MONTHS",
+  "LAST_12_MONTHS",
+  "CUSTOM",
+];
 
 export default {
   type: "app",
@@ -40,7 +49,55 @@ export default {
     period: {
       type: "string",
       label: "Period",
-      description: "Reporting period. One of `LAST_24_HOURS`, `LAST_7_DAYS`, `LAST_30_DAYS`, `LAST_MONTH`, `THIS_MONTH`, `THIS_YEAR`, or `CUSTOM`. Use `CUSTOM` together with From Date and To Date.",
+      description: "Reporting period covered by the report. Use `CUSTOM` together with From Date and To Date to report on an explicit range.",
+      options: PERIOD_OPTIONS,
+    },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "Shopper first name (e.g. `Jane`).",
+      optional: true,
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "Shopper last name (e.g. `Doe`).",
+      optional: true,
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "Shopper email address (e.g. `jane.doe@example.com`).",
+      optional: true,
+    },
+    country: {
+      type: "string",
+      label: "Country",
+      description: "ISO 3166 two-letter country code (e.g. `US`).",
+      optional: true,
+    },
+    city: {
+      type: "string",
+      label: "City",
+      description: "Shopper city.",
+      optional: true,
+    },
+    state: {
+      type: "string",
+      label: "State",
+      description: "Shopper state/province code.",
+      optional: true,
+    },
+    zip: {
+      type: "string",
+      label: "ZIP",
+      description: "Shopper ZIP/postal code.",
+      optional: true,
+    },
+    phone: {
+      type: "string",
+      label: "Phone",
+      description: "Shopper phone number.",
       optional: true,
     },
   },

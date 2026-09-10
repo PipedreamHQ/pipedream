@@ -4,7 +4,7 @@ import bluesnap from "../../bluesnap.app.mjs";
 export default {
   key: "bluesnap-update-vaulted-shopper",
   name: "Update Vaulted Shopper",
-  description: "Update an existing vaulted shopper (PUT /services/2/vaulted-shoppers/{vaultedShopperId}). The vaultedShopperId is returned by **Create Vaulted Shopper** or a transaction response; BlueSnap does not expose a list-all-shoppers endpoint. [See the documentation](https://developers.bluesnap.com/v8976-JSON/reference/update-vaulted-shopper)",
+  description: "Update an existing vaulted shopper. The vaultedShopperId is returned by **Create Vaulted Shopper** or a transaction response; BlueSnap does not expose a list-all-shoppers endpoint. [See the documentation](https://developers.bluesnap.com/v8976-JSON/reference/update-vaulted-shopper)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -22,52 +22,62 @@ export default {
       description: "The numeric vaulted shopper ID to update (e.g. `20769005`). Obtain it from the **Create Vaulted Shopper** response or a transaction record (BlueSnap has no list-shoppers endpoint).",
     },
     firstName: {
-      type: "string",
-      label: "First Name",
-      description: "Updated shopper first name. Required if walletId is not sent.",
-      optional: true,
+      propDefinition: [
+        bluesnap,
+        "firstName",
+      ],
+      description: "Updated shopper first name. BlueSnap requires both name fields on update.",
+      optional: false,
     },
     lastName: {
-      type: "string",
-      label: "Last Name",
-      description: "Updated shopper last name. Required if walletId is not sent.",
-      optional: true,
+      propDefinition: [
+        bluesnap,
+        "lastName",
+      ],
+      description: "Updated shopper last name. BlueSnap requires both name fields on update.",
+      optional: false,
     },
     email: {
-      type: "string",
-      label: "Email",
+      propDefinition: [
+        bluesnap,
+        "email",
+      ],
       description: "Updated shopper email address.",
-      optional: true,
     },
     country: {
-      type: "string",
-      label: "Country",
+      propDefinition: [
+        bluesnap,
+        "country",
+      ],
       description: "Updated ISO 3166 two-letter country code (e.g. `US`).",
-      optional: true,
     },
     city: {
-      type: "string",
-      label: "City",
+      propDefinition: [
+        bluesnap,
+        "city",
+      ],
       description: "Updated shopper city.",
-      optional: true,
     },
     state: {
-      type: "string",
-      label: "State",
+      propDefinition: [
+        bluesnap,
+        "state",
+      ],
       description: "Updated shopper state/province code.",
-      optional: true,
     },
     zip: {
-      type: "string",
-      label: "ZIP",
+      propDefinition: [
+        bluesnap,
+        "zip",
+      ],
       description: "Updated shopper ZIP/postal code.",
-      optional: true,
     },
     phone: {
-      type: "string",
-      label: "Phone",
+      propDefinition: [
+        bluesnap,
+        "phone",
+      ],
       description: "Updated shopper phone number.",
-      optional: true,
     },
   },
   async run({ $ }) {

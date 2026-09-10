@@ -5,7 +5,7 @@ import bluesnap from "../../bluesnap.app.mjs";
 export default {
   key: "bluesnap-create-transaction",
   name: "Create Transaction",
-  description: "Charge a card or vaulted shopper by creating an AUTH_CAPTURE transaction in BlueSnap (POST /services/2/transactions). Provide either raw credit card fields or a vaultedShopperId. Use **Create Vaulted Shopper** first to obtain a vaultedShopperId for stored-card charges. [See the documentation](https://developers.bluesnap.com/v8976-JSON/reference/auth-capture)",
+  description: "Charge a card or vaulted shopper by creating an AUTH_CAPTURE transaction in BlueSnap. Provide either raw credit card fields or a vaultedShopperId. Use **Create Vaulted Shopper** first to obtain a vaultedShopperId for stored-card charges. [See the documentation](https://developers.bluesnap.com/v8976-JSON/reference/auth-capture)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -34,25 +34,25 @@ export default {
         bluesnap,
         "vaultedShopperId",
       ],
-      description: "Charge a stored shopper instead of a raw card. The numeric ID returned by **Create Vaulted Shopper** (e.g. `20769005`). Omit if supplying card fields below.",
+      description: "Charge a stored shopper instead of a raw card. The numeric ID returned by **Create Vaulted Shopper** (e.g. `20769005`). Provide either this or the card fields below, not both.",
       optional: true,
     },
     cardNumber: {
       type: "string",
       label: "Card Number",
-      description: "Full credit card number (e.g. `4111111111111111`). Required unless vaultedShopperId is provided.",
+      description: "Full credit card number (e.g. `4111111111111111`). Provide either this or Vaulted Shopper ID, not both.",
       optional: true,
     },
     expirationMonth: {
       type: "string",
       label: "Expiration Month",
-      description: "Card expiration month as `MM` (e.g. `12`).",
+      description: "Card expiration month as `MM` (e.g. `12`). Required when Card Number is provided.",
       optional: true,
     },
     expirationYear: {
       type: "string",
       label: "Expiration Year",
-      description: "Card expiration year as `YYYY` (e.g. `2026`).",
+      description: "Card expiration year as `YYYY` (e.g. `2026`). Required when Card Number is provided.",
       optional: true,
     },
     securityCode: {
@@ -82,7 +82,7 @@ export default {
     merchantTransactionId: {
       type: "string",
       label: "Merchant Transaction ID",
-      description: "Your own reference ID for this transaction.",
+      description: "Your own reference ID for this transaction, echoed back on the transaction record (e.g. `order-12345`).",
       optional: true,
     },
     softDescriptor: {
@@ -93,12 +93,19 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.vaultedShopperId && !this.cardNumber) {
-      throw new ConfigurationError("Either vaultedShopperId or cardNumber must be provided.");
+    const hasVaultedShopper = Boolean(this.vaultedShopperId);
+    const hasRawCard = Boolean(this.cardNumber);
+
+    if (hasVaultedShopper === hasRawCard) {
+      throw new ConfigurationError("Provide exactly one of Vaulted Shopper ID or Card Number.");
+    }
+
+    if (hasRawCard && (!this.expirationMonth || !this.expirationYear)) {
+      throw new ConfigurationError("Expiration Month and Expiration Year are required when charging a card number.");
     }
 
     let data;
-    if (this.vaultedShopperId) {
+    if (hasVaultedShopper) {
       data = {
         amount: this.amount,
         currency: this.currency,
