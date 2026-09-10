@@ -96,11 +96,15 @@ export default {
       ? ""
       : "s"}`);
 
-    if (!this.fields?.length) {
+    const fields = typeof this.fields === "string"
+      ? JSON.parse(this.fields)
+      : this.fields;
+
+    if (!fields?.length) {
       return recordings;
     }
     return recordings.map((recording) => Object.fromEntries(
-      this.fields.map((field) => [
+      fields.map((field) => [
         field,
         recording[field],
       ]),

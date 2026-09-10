@@ -43,6 +43,13 @@ export default {
     },
   },
   async run({ $ }) {
+    const addTags = typeof this.addTags === "string"
+      ? JSON.parse(this.addTags)
+      : this.addTags;
+    const removeTags = typeof this.removeTags === "string"
+      ? JSON.parse(this.removeTags)
+      : this.removeTags;
+
     const actions = [];
 
     if (this.title) {
@@ -56,7 +63,7 @@ export default {
       actions.push(`renamed to "${this.title}"`);
     }
 
-    for (const tag of this.addTags ?? []) {
+    for (const tag of addTags ?? []) {
       await this.grain.addRecordingTag({
         $,
         recordingId: this.recordingId,
@@ -65,19 +72,19 @@ export default {
         },
       });
     }
-    if (this.addTags?.length) {
-      actions.push(`added tag(s) [${this.addTags.join(", ")}]`);
+    if (addTags?.length) {
+      actions.push(`added tag(s) [${addTags.join(", ")}]`);
     }
 
-    for (const tag of this.removeTags ?? []) {
+    for (const tag of removeTags ?? []) {
       await this.grain.removeRecordingTag({
         $,
         recordingId: this.recordingId,
         tag,
       });
     }
-    if (this.removeTags?.length) {
-      actions.push(`removed tag(s) [${this.removeTags.join(", ")}]`);
+    if (removeTags?.length) {
+      actions.push(`removed tag(s) [${removeTags.join(", ")}]`);
     }
 
     const summary = actions.length
