@@ -20,6 +20,24 @@ export default {
         ts: Date.parse(contact.dateAdded),
       };
     },
+    emitContacts(contacts) {
+      contacts.forEach((contact) => {
+        const meta = this.generateMeta(contact);
+        this.$emit(contact, meta);
+      });
+    },
+  },
+  async deploy() {
+    const { contacts } = await this.app.searchContacts({
+      params: {
+        limit: 10,
+        locationId: this.app.getLocationId(),
+      },
+    });
+    if (contacts.length > 0) {
+      this.emitContacts(contacts);
+      this._setLastDate(Date.parse(contacts[0].dateAdded));
+    }
   },
   async run() {
     const results = [];
@@ -64,12 +82,8 @@ export default {
       return;
     }
 
+    this.emitContacts(results);
     this._setLastDate(Date.parse(results[0].dateAdded));
-
-    results.forEach((contact) => {
-      const meta = this.generateMeta(contact);
-      this.$emit(contact, meta);
-    });
   },
   sampleEmit,
 };
