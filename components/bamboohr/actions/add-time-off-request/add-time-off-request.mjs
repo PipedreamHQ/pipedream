@@ -13,6 +13,7 @@ export default {
     openWorldHint: true,
     readOnlyHint: false,
   },
+  ai: "optimized",
   props: {
     bamboohr,
     employeeId: {

@@ -13,6 +13,7 @@ export default {
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     bamboohr,
     applicationId: {

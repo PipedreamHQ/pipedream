@@ -11,6 +11,7 @@ export default {
     openWorldHint: true,
     readOnlyHint: true,
   },
+  ai: "optimized",
   props: {
     bamboohr,
     page: {
