@@ -11,7 +11,7 @@ const props = adjustPropDefinitions(others.props, app);
 export default {
   ...others,
   key: "monday_oauth-new-subitem",
-  version: "0.0.5",
+  version: "0.0.6",
   name,
   description,
   type,
