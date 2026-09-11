@@ -1,6 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
 import googleDocs from "../../google_docs.app.mjs";
-import utils from "../../common/utils.mjs";
 
 export default {
   key: "google_docs-get-document",
@@ -41,18 +40,11 @@ export default {
     }
 
     if (this.tabId) {
-      const response = await this.googleDocs.getDocument(this.documentId, true);
       // Nested child tabs are searched too, and the error names the tabs that
       // do exist — the old message pointed callers at a tab-less response.
-      const tab = this.googleDocs._findTab(response, this.tabId);
+      const tab = await this.googleDocs.getTab(this.documentId, this.tabId);
       $.export("$summary", `Retrieved tab "${this.tabId}" from document ${this.documentId}`);
-      return {
-        ...tab,
-        textContent: utils.getTextContentFromDocument(tab.documentTab?.body?.content ?? []),
-        documentId: response.documentId,
-        title: response.title,
-        revisionId: response.revisionId,
-      };
+      return tab;
     }
 
     if (this.fields) {

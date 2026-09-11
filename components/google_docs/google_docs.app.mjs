@@ -3,7 +3,9 @@ import googleDrive from "@pipedream/google_drive";
 import { ConfigurationError } from "@pipedream/platform";
 import utils from "./common/utils.mjs";
 import markdownParser from "./common/markdown-parser.mjs";
-import { OCCURRENCES } from "./common/constants.mjs";
+import {
+  OCCURRENCES, TAB_METADATA_MASK_DEPTH,
+} from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -50,28 +52,49 @@ export default {
       type: "string",
       label: "Image ID",
       description: "The Image ID",
+      // Read with `includeTabsContent`, because a multi-tab document puts each
+      // tab's `inlineObjects` under `tabs[].documentTab` and leaves the
+      // top-level one empty — so the old read offered no images at all there.
+      // Labels name the owning tab when there is more than one, since the same
+      // document can hold a different image per tab.
       async options({ documentId }) {
-        const { inlineObjects: images } = await this.getDocument(documentId);
-        if (!images) return [];
-        return Object.values(images)
-          .map((image) => ({
-            label: image.inlineObjectProperties?.embeddedObject?.imageProperties?.sourceUri,
-            value: image.objectId,
-          }))
-          .filter((image) => image.label);
+        const document = await this.getDocument(documentId, true);
+        const tabs = this._flattenDocumentTabs(document.tabs);
+        const multiTab = tabs.length > 1;
+        return tabs.flatMap((tab) => {
+          const tabTitle = tab.tabProperties?.title;
+          return Object.values(tab.documentTab?.inlineObjects ?? {})
+            .map((image) => ({
+              uri: image.inlineObjectProperties
+                ?.embeddedObject?.imageProperties?.sourceUri,
+              value: image.objectId,
+            }))
+            .filter(({ uri }) => uri)
+            .map(({
+              uri, value,
+            }) => ({
+              label: multiTab && tabTitle
+                ? `${tabTitle} — ${uri}`
+                : uri,
+              value,
+            }));
+        });
       },
     },
     tabId: {
       type: "string",
       label: "Tab ID",
-      description: "The Tab ID",
+      description: "For a multi-tab document, the tab the image lives in (e.g. `t.0`). Get tab IDs from **List Tabs**. Omit to locate the image automatically.",
       optional: true,
+      // Flattened, so nested child tabs are offered too — `document.tabs` holds
+      // only the root tabs, with the rest hanging off `childTabs`.
       async options({ documentId }) {
-        const { tabs } = await this.getDocument(documentId, true);
-        return Object.values(tabs).map(({ tabProperties }) => ({
-          label: tabProperties.title,
-          value: tabProperties.tabId,
-        }));
+        const document = await this.getDocument(documentId, true);
+        return this._flattenDocumentTabs(document.tabs)
+          .map(({ tabProperties }) => ({
+            label: tabProperties?.title,
+            value: tabProperties?.tabId,
+          }));
       },
     },
     imageUri: {
@@ -127,7 +150,7 @@ export default {
     styleTabId: {
       type: "string",
       label: "Tab ID",
-      description: "For a multi-tab document, restrict the operation to this tab (e.g. `t.0`). Get tab IDs from **List Tabs**. Omit to apply the operation to every tab.",
+      description: "For a multi-tab document, restrict the operation to this tab (e.g. `t.0`). Get tab IDs from **List Tabs**. Omit to search every tab for **Find Text**; an explicit **Start Index** / **End Index** without a Tab ID applies to the first tab only.",
       optional: true,
     },
     // Tab selector for content writes (insert/delete). Deliberately separate
@@ -321,13 +344,43 @@ export default {
         }),
       };
     },
+    // Field mask selecting tab metadata and nothing else, with `childTabs` spelled
+    // out `depth` levels deep. Google's field masks have no recursive wildcard, so
+    // an unqualified `childTabs` would pull down every descendant's content — which
+    // is the whole document, i.e. what the mask exists to avoid.
+    _tabMetadataFields(depth) {
+      let level = "tabProperties";
+      for (let i = 1; i < depth; i++) {
+        level = `tabProperties,childTabs(${level})`;
+      }
+      return `tabs(${level})`;
+    },
     // Tabs in document order (each parent immediately followed by its children),
     // metadata only. A `getDocument` without `includeTabsContent` omits `tabs`
     // entirely (measured), so this is the only way to learn a document's tab IDs.
+    //
+    // The mask keeps this from downloading every tab's body just to report titles
+    // — measured on a 3-tab document, 16,590 chars of response became 230, with
+    // byte-identical tab metadata. The floor check is belt-and-braces: the mask is
+    // one level deeper than the nesting the API permits, so it only matters if
+    // that cap is ever raised, and then it costs a second request rather than
+    // quietly returning fewer tabs than the document has.
     async listTabs(documentId) {
-      const document = await this.getDocument(documentId, true);
-      return this._flattenDocumentTabs(document.tabs)
-        .map((tab) => this._tabSummary(tab));
+      const masked = await this.getDocument(
+        documentId,
+        true,
+        this._tabMetadataFields(TAB_METADATA_MASK_DEPTH),
+      );
+      let tabs = this._flattenDocumentTabs(masked.tabs);
+      const atMaskFloor = tabs.some(
+        ({ tabProperties }) =>
+          (tabProperties?.nestingLevel ?? 0) >= TAB_METADATA_MASK_DEPTH - 1,
+      );
+      if (atMaskFloor) {
+        const full = await this.getDocument(documentId, true);
+        tabs = this._flattenDocumentTabs(full.tabs);
+      }
+      return tabs.map((tab) => this._tabSummary(tab));
     },
     _findTab(document, tabId) {
       const tabs = this._flattenDocumentTabs(document.tabs);
@@ -388,6 +441,21 @@ export default {
             textContent: utils.getTextContentFromDocument(tab.documentTab?.body?.content ?? []),
           }),
         })),
+      };
+    },
+    // One tab in full, at the TOP level of the response — what **Get Document**
+    // returns when it is given a Tab ID. `getWriteResult` is not a substitute: it
+    // nests the tab under a `tab` key beside document metadata, which is the right
+    // shape for a write and the wrong one for a read.
+    async getTab(documentId, tabId) {
+      const document = await this.getDocument(documentId, true);
+      const tab = this._findTab(document, tabId);
+      return {
+        ...tab,
+        textContent: utils.getTextContentFromDocument(tab.documentTab?.body?.content ?? []),
+        documentId: document.documentId,
+        title: document.title,
+        revisionId: document.revisionId,
       };
     },
     // What a tab-targeted write returns. Plain `getDocument` would hand back the
@@ -455,6 +523,16 @@ export default {
     },
     async replaceImage(documentId, image) {
       return this._batchUpdate(documentId, "replaceImage", image);
+    },
+    // Which tab holds an inline object. `ReplaceImageRequest` carries `tabId`
+    // directly, and without it the API looks in the first tab only — but an
+    // object id alone doesn't say which tab it came from, so rather than making
+    // the caller work that out, find it.
+    async findImageTabId(documentId, imageObjectId) {
+      const document = await this.getDocument(documentId, true);
+      const tab = this._flattenDocumentTabs(document.tabs)
+        .find(({ documentTab }) => documentTab?.inlineObjects?.[imageObjectId]);
+      return tab?.tabProperties?.tabId;
     },
     async insertTable(documentId, table) {
       return this._batchUpdate(documentId, "insertTable", table);
@@ -590,7 +668,7 @@ export default {
         .filter(({ tabProperties }) => !tabId || tabProperties?.tabId === tabId);
 
       if (!tabs.length) {
-        throw new ConfigurationError(`No tab with ID "${tabId}" found in document ${documentId}. Call Get Document without a Tab ID to list the document's tabs.`);
+        throw new ConfigurationError(`No tab with ID "${tabId}" found in document ${documentId}. Call List Tabs to see the document's tabs.`);
       }
 
       const ranges = tabs.flatMap((tab) => {
