@@ -8,8 +8,8 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "google_docs-format-table-cell",
   name: "Format Table Cell",
-  description: "Set the background, borders, padding, or vertical alignment of table cells in a Google Doc. Identify the table with **Find Table Text**, **Table Index**, or leave both blank when the document has only one table. Styles every cell unless **Row Index** and **Column Index** name a starting cell. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/request#UpdateTableCellStyleRequest)",
-  version: "0.0.2",
+  description: "Set the background, borders, padding, or vertical alignment of table cells in a Google Doc. Identify the table with **Find Table Text**, **Table Index**, or leave both blank when the document has only one table. Styles every cell unless **Row Index** and **Column Index** name a starting cell. Use **Find Document** to resolve a document's name to its ID. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/request#UpdateTableCellStyleRequest)",
+  version: "0.0.3",
   ai: "optimized",
   annotations: {
     destructiveHint: false,
