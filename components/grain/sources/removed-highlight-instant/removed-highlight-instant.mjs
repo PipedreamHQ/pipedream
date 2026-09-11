@@ -5,31 +5,17 @@ export default {
   ...common,
   key: "grain-removed-highlight-instant",
   name: "New Highlight Removed (Instant)",
-  description: "Emit new event when a highlight is removed.",
-  version: "0.0.1",
+  description: "Emit new event when a highlight is removed. [See the documentation](https://developers.grain.com/#create-hook)",
+  version: "1.0.0",
   type: "source",
   dedupe: "unique",
-  props: {
-    ...common.props,
-    viewId: {
-      propDefinition: [
-        common.props.grain,
-        "viewId",
-        () => ({
-          type: "highlights",
-        }),
-      ],
-    },
-  },
   methods: {
     ...common.methods,
-    getAction() {
-      return [
-        "removed",
-      ];
+    getHookType() {
+      return "highlight_deleted";
     },
     getSummary({ data }) {
-      return `Highlight removed from recording ${data.recording_id}`;
+      return `Highlight removed: ${data.id}`;
     },
   },
   sampleEmit,
