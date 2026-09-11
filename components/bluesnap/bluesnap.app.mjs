@@ -84,19 +84,19 @@ export default {
     state: {
       type: "string",
       label: "State",
-      description: "Shopper state/province code.",
+      description: "Shopper state/province. For US, Canada, and Brazil addresses BlueSnap requires the two-letter code (e.g. `CA` for California); other countries accept the full region name (e.g. `Bavaria`).",
       optional: true,
     },
     zip: {
       type: "string",
       label: "ZIP",
-      description: "Shopper ZIP/postal code.",
+      description: "Shopper ZIP/postal code, formatted for the shopper's country (e.g. `94107` for the US, `M5H 2N2` for Canada).",
       optional: true,
     },
     phone: {
       type: "string",
       label: "Phone",
-      description: "Shopper phone number.",
+      description: "Shopper phone number, digits with an optional leading `+` country code and separators (e.g. `+1 415-555-0132`).",
       optional: true,
     },
   },

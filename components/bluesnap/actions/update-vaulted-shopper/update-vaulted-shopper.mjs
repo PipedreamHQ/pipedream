@@ -63,21 +63,21 @@ export default {
         bluesnap,
         "state",
       ],
-      description: "Updated shopper state/province code.",
+      description: "Updated shopper state/province. For US, Canada, and Brazil addresses BlueSnap requires the two-letter code (e.g. `CA` for California); other countries accept the full region name (e.g. `Bavaria`).",
     },
     zip: {
       propDefinition: [
         bluesnap,
         "zip",
       ],
-      description: "Updated shopper ZIP/postal code.",
+      description: "Updated shopper ZIP/postal code, formatted for the shopper's country (e.g. `94107` for the US, `M5H 2N2` for Canada).",
     },
     phone: {
       propDefinition: [
         bluesnap,
         "phone",
       ],
-      description: "Updated shopper phone number.",
+      description: "Updated shopper phone number, digits with an optional leading `+` country code and separators (e.g. `+1 415-555-0132`).",
     },
   },
   async run({ $ }) {
