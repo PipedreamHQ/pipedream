@@ -1,4 +1,5 @@
 import bamboohr from "../../bamboohr.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "bamboohr-create-clock-entry",
@@ -68,6 +69,16 @@ export default {
     },
   },
   async run({ $ }) {
+    const toInt = (value, label) => {
+      if (!value) {
+        return undefined;
+      }
+      const parsed = Number(value);
+      if (!Number.isInteger(parsed)) {
+        throw new ConfigurationError(`${label} must be an integer, got \`${value}\``);
+      }
+      return parsed;
+    };
     const response = await this.bamboohr.createClockEntry({
       $,
       data: {
@@ -76,12 +87,8 @@ export default {
         end: this.end,
         timezone: this.timezone,
         note: this.note,
-        projectId: this.projectId
-          ? parseInt(this.projectId, 10)
-          : undefined,
-        taskId: this.taskId
-          ? parseInt(this.taskId, 10)
-          : undefined,
+        projectId: toInt(this.projectId, "Project ID"),
+        taskId: toInt(this.taskId, "Task ID"),
         clockInLocation: this.clockInLocation,
         clockOutLocation: this.clockOutLocation,
       },

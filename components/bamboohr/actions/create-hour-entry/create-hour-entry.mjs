@@ -50,10 +50,20 @@ export default {
     },
   },
   async run({ $ }) {
-    const hours = parseFloat(this.hours);
+    const hours = Number(this.hours);
     if (!Number.isFinite(hours) || hours <= 0) {
       throw new ConfigurationError(`Hours must be a number greater than 0, got \`${this.hours}\``);
     }
+    const toInt = (value, label) => {
+      if (!value) {
+        return undefined;
+      }
+      const parsed = Number(value);
+      if (!Number.isInteger(parsed)) {
+        throw new ConfigurationError(`${label} must be an integer, got \`${value}\``);
+      }
+      return parsed;
+    };
     const response = await this.bamboohr.createHourEntry({
       $,
       data: {
@@ -61,12 +71,8 @@ export default {
         date: this.date,
         hours,
         note: this.note,
-        projectId: this.projectId
-          ? parseInt(this.projectId, 10)
-          : undefined,
-        taskId: this.taskId
-          ? parseInt(this.taskId, 10)
-          : undefined,
+        projectId: toInt(this.projectId, "Project ID"),
+        taskId: toInt(this.taskId, "Task ID"),
       },
     });
     $.export("$summary", `Created hour entry for employee ${this.employeeId} on ${this.date}`);

@@ -52,21 +52,29 @@ export default {
     },
   },
   async run({ $ }) {
-    const hoursWorked = parseFloat(this.hoursWorked);
+    const hoursWorked = this.hoursWorked?.trim()
+      ? Number(this.hoursWorked)
+      : NaN;
     if (!Number.isFinite(hoursWorked)) {
-      throw new ConfigurationError(`Hours Worked must be a number, got \`${this.hoursWorked}\``);
+      throw new ConfigurationError(`Hours Worked must be a valid number, got \`${this.hoursWorked}\``);
     }
+    const toInt = (value, label) => {
+      if (!value) {
+        return undefined;
+      }
+      const parsed = Number(value);
+      if (!Number.isInteger(parsed)) {
+        throw new ConfigurationError(`${label} must be an integer, got \`${value}\``);
+      }
+      return parsed;
+    };
     const response = await this.bamboohr.updateHourRecord({
       $,
       data: {
         timeTrackingId: this.recordId,
         hoursWorked,
-        projectId: this.projectId
-          ? parseInt(this.projectId, 10)
-          : undefined,
-        taskId: this.taskId
-          ? parseInt(this.taskId, 10)
-          : undefined,
+        projectId: toInt(this.projectId, "Project ID"),
+        taskId: toInt(this.taskId, "Task ID"),
         shiftDifferentialId: this.shiftDifferentialId
           ? parseInt(this.shiftDifferentialId, 10)
           : undefined,
