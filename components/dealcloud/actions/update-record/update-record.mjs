@@ -2,7 +2,7 @@ import commonCreateUpdate from "../common/common-create-update.mjs";
 
 const {
   props: {
-    dealcloud, entryTypeId, ignoreNearDups,
+    dealcloud, entryTypeId, fields, ignoreNearDups,
   },
 } = commonCreateUpdate;
 
@@ -11,7 +11,7 @@ export default {
   key: "dealcloud-update-record",
   name: "Update Record",
   description: "Updates a record (entry) in DealCloud. [See the documentation](https://api.docs.dealcloud.com/docs/data/cells/postput)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -30,6 +30,10 @@ export default {
         }),
       ],
     },
+    fields: {
+      ...fields,
+      description: `${fields.description} Only the fields you name are changed; everything else on the record keeps its stored value.`,
+    },
     ignoreNearDups,
   },
   methods: {
@@ -42,27 +46,15 @@ export default {
     },
   },
   async run({ $ }) {
-    /* eslint-disable no-unused-vars */
-    const {
-      dealcloud,
-      entryTypeId,
-      entryId,
-      ignoreNearDups,
-      convertFieldsToProps,
-      isUpdate,
-      getEntryId,
-      getRequestData,
-      ...props
-    } = this;
-    /* eslint-enable no-unused-vars */
+    const data = await this.buildRequestData();
 
-    const response = await dealcloud.updateEntry({
+    const response = await this.dealcloud.updateEntry({
       $,
-      entryTypeId,
-      data: this.getRequestData(props),
+      entryTypeId: this.entryTypeId,
+      data,
     });
 
-    $.export("$summary", "Successfully updated record");
+    $.export("$summary", `Successfully updated record ${this.entryId}`);
     return response;
   },
 };
