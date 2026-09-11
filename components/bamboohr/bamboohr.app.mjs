@@ -92,7 +92,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return `https://api.bamboohr.com/api/gateway.php/${this.$auth.company_domain}/v1`;
+      return `https://${this.$auth.company_domain}.bamboohr.com/api/v1`;
     },
     _makeRequest({
       $ = this, path, headers = {}, ...opts
