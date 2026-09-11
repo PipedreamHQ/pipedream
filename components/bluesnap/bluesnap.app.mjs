@@ -1,7 +1,6 @@
 // x-pd-ai: optimized
 import { axios } from "@pipedream/platform";
 
-const BASE_URL = "https://ws.bluesnap.com";
 const MIN_LIMIT = 1;
 const MAX_LIMIT = 1000;
 const PERIOD_OPTIONS = [
@@ -103,11 +102,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return `${BASE_URL}/services/2`;
-    },
-    _authHeader() {
-      const credentials = Buffer.from(`${this.$auth.username}:${this.$auth.password}`).toString("base64");
-      return `Basic ${credentials}`;
+      return `${this.$auth.api_url}/services/2`;
     },
     async _makeRequest({
       $, method = "GET", path, params, data, ...args
@@ -116,9 +111,15 @@ export default {
         method,
         url: `${this._baseUrl()}${path}`,
         headers: {
-          "Authorization": this._authHeader(),
-          "Content-Type": "application/json",
           "Accept": "application/json",
+          "bluesnap-version": "3.0",
+          ...(data && {
+            "Content-Type": "application/json",
+          }),
+        },
+        auth: {
+          username: `${this.$auth.username}`,
+          password: `${this.$auth.password}`,
         },
         params,
         data,
