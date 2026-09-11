@@ -40,9 +40,12 @@ export default {
     },
   },
   async run({ $ }) {
+    // conversations.replies only accepts a channel ID — resolve a name the same way
+    // every other AI-optimized tool in this app does.
+    const channel = await this.slack.resolveChannelId(this.conversation);
     const replies = [];
     const params = {
-      channel: this.conversation,
+      channel,
       ts: this.timestamp,
       limit: this.pageSize,
     };

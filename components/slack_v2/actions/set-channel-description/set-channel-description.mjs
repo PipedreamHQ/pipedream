@@ -28,11 +28,14 @@ export default {
     },
   },
   async run({ $ }) {
+    // conversations.setPurpose only accepts a channel ID — resolve a name the same way
+    // every other AI-optimized tool in this app does.
+    const channel = await this.slack.resolveChannelId(this.conversation);
     const response = await this.slack.setChannelDescription({
-      channel: this.conversation,
+      channel,
       purpose: this.purpose,
     });
-    $.export("$summary", `Successfully set description for channel with ID ${this.conversation}`);
+    $.export("$summary", `Successfully set description for channel with ID ${channel}`);
     return response;
   },
 };

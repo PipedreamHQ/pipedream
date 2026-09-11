@@ -22,8 +22,11 @@ export default {
     },
   },
   async run({ $ }) {
+    // conversations.archive only accepts a channel ID — resolve a name the same way
+    // every other AI-optimized tool in this app does.
+    const channel = await this.slack.resolveChannelId(this.conversation);
     const response = await this.slack.archiveConversations({
-      channel: this.conversation,
+      channel,
     });
     $.export("$summary", "Successfully archived channel.");
     return response;

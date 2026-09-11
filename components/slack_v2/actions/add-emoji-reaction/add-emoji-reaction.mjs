@@ -37,8 +37,11 @@ export default {
     },
   },
   async run({ $ }) {
+    // reactions.add only accepts a channel ID — resolve a name the same way every other
+    // AI-optimized tool in this app does.
+    const channel = await this.slack.resolveChannelId(this.conversation);
     const response = await this.slack.addReactions({
-      channel: this.conversation,
+      channel,
       timestamp: this.timestamp,
       name: this.icon_emoji,
     });
