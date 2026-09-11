@@ -3,7 +3,7 @@ import googleCloud from "../../google_cloud.app.mjs";
 
 export default {
   name: "Pub/Sub - Publish Message",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -12,6 +12,7 @@ export default {
   key: "google_cloud-pubsub-publish-message",
   description: "Publish a message to a Pub/Sub topic. [See the documentation](https://cloud.google.com/nodejs/docs/reference/pubsub/latest/pubsub/topic#_google_cloud_pubsub_Topic_publishMessage_member_1_)",
   type: "action",
+  ai: "optimized",
   props: {
     googleCloud,
     topicName: {

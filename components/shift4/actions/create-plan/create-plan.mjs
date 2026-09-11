@@ -5,13 +5,14 @@ export default {
   key: "shift4-create-plan",
   name: "Create Plan",
   description: "Creates a new plan object. [See the documentation](https://dev.shift4.com/docs/api#plan-create)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     shift4,
     amount: {

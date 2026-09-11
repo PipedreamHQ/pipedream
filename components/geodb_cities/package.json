@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/geodb_cities",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Geodb_cities Components",
   "main": "geodb_cities.app.mjs",
   "keywords": [

@@ -3,10 +3,11 @@ import app from "../../linkupapi.app.mjs";
 
 export default {
   type: "action",
+  ai: "optimized",
   key: "linkupapi-get-profile-info",
   name: "Get Profile Info",
   description: "Fetch details for a LinkedIn profile. Identify the target by profile URL, public identifier, or profile URN. [See the documentation](https://docs.linkupapi.com/api-reference/v2/profiles/get-profile)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

@@ -5,8 +5,9 @@ export default {
   key: "superdocu-list-templates",
   name: "List Templates",
   description: "List workflow templates in Superdocu (the API calls these `workflows`; the intake refers to them as templates). Returns an array of template objects, each with an `id` and `name`. Use the returned `id` as the **workflowId** input to **Create Dossier**. [See the documentation](https://developers.superdocu.com/api/index.html).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

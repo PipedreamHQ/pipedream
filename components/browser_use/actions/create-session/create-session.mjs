@@ -12,13 +12,14 @@ export default {
   key: "browser_use-create-session",
   name: "Create Session",
   description: "Create an agent session, dispatch a task, or dispatch a follow-up task to an existing idle session. [See the documentation](https://docs.browser-use.com/cloud/api-v3/sessions/create-session)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     browserUse,
     task: {
