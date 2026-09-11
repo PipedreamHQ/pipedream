@@ -27,17 +27,19 @@ export default {
       });
     },
   },
-  async deploy() {
-    const { contacts } = await this.app.searchContacts({
-      params: {
-        limit: 10,
-        locationId: this.app.getLocationId(),
-      },
-    });
-    if (contacts.length > 0) {
-      this.emitContacts(contacts);
-      this._setLastDate(Date.parse(contacts[0].dateAdded));
-    }
+  hooks: {
+    async deploy() {
+      const { contacts } = await this.app.searchContacts({
+        params: {
+          limit: 10,
+          locationId: this.app.getLocationId(),
+        },
+      });
+      if (contacts.length > 0) {
+        this.emitContacts(contacts);
+        this._setLastDate(Date.parse(contacts[0].dateAdded));
+      }
+    },
   },
   async run() {
     const results = [];
