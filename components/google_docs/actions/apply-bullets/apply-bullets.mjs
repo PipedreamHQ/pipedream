@@ -4,8 +4,8 @@ import { BULLET_PRESETS } from "../../common/constants.mjs";
 export default {
   key: "google_docs-apply-bullets",
   name: "Apply Bullets",
-  description: "Turn paragraphs into a bulleted or numbered list in a Google Doc. Locate the paragraphs with **Find Text**, or pass an explicit **Start Index** and **End Index**. Every paragraph the range touches becomes a list item. Use **Remove Bullets** to undo. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/request#CreateParagraphBulletsRequest)",
-  version: "0.0.2",
+  description: "Turn paragraphs into a bulleted or numbered list in a Google Doc. Locate the paragraphs with **Find Text**, or pass an explicit **Start Index** and **End Index**. Every paragraph the range touches becomes a list item. Use **Find Document** to resolve a document's name to its ID, and **Remove Bullets** to undo. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/request#CreateParagraphBulletsRequest)",
+  version: "0.0.3",
   ai: "optimized",
   annotations: {
     destructiveHint: false,

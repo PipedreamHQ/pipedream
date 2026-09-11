@@ -6,10 +6,45 @@ const COMMENTS_MAX_PAGE_SIZE = 100;
 const DEFAULT_COMMENT_LIMIT = 100;
 const MAX_COMMENT_LIMIT = 500;
 
+// Maximum `pageSize` accepted by the Drive API's `files.list`; larger values are
+// rejected outright.
+// https://developers.google.com/workspace/drive/api/reference/rest/v3/files/list
+// Top-level fields of the Docs `Document` resource - the only names a field mask
+// may select at its root.
+// https://developers.google.com/workspace/docs/api/reference/rest/v1/documents#Document
+const DOCUMENT_FIELDS = [
+  "documentId",
+  "title",
+  "body",
+  "headers",
+  "footers",
+  "footnotes",
+  "documentStyle",
+  "suggestedDocumentStyleChanges",
+  "namedStyles",
+  "suggestedNamedStylesChanges",
+  "revisionId",
+  "suggestionsViewMode",
+  "inlineObjects",
+  "lists",
+  "positionedObjects",
+  "namedRanges",
+  "tabs",
+];
+
+const FILES_MAX_PAGE_SIZE = 1000;
+
+const DEFAULT_DOCUMENT_LIMIT = 25;
+const MAX_DOCUMENT_LIMIT = FILES_MAX_PAGE_SIZE;
+
 export {
   COMMENTS_MAX_PAGE_SIZE,
   DEFAULT_COMMENT_LIMIT,
   MAX_COMMENT_LIMIT,
+  DOCUMENT_FIELDS,
+  FILES_MAX_PAGE_SIZE,
+  DEFAULT_DOCUMENT_LIMIT,
+  MAX_DOCUMENT_LIMIT,
 };
 
 // Google Docs API enum values. Kept here rather than inline so the styling

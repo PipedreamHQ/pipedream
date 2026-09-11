@@ -1,17 +1,19 @@
 import { ConfigurationError } from "@pipedream/platform";
 import googleDocs from "../../google_docs.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "google_docs-write-table",
   name: "Write Table",
-  description: "Create a table and fill it with data in a single step. Provide the entire table (all rows and columns, including a header row) at once. Use this instead of inserting cells or text one at a time. The action places every value in the correct cell for you. Pass **Table Data** as a JSON array of arrays, one inner array per row, header row first when **Has Header Row** is set, e.g. `[[\"Name\",\"Role\"],[\"Ada\",\"Engineer\"]]`. Use **Find Document** to resolve a document's name to its ID, or **Insert Table** instead if you only need an empty grid to fill in later. Note: a table written this way is always static — the Google Docs API does not create or preserve a live link to a Google Sheet, even when this replaces a Sheets-linked table. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#InsertTableRequest)",
-  version: "0.0.4",
+  description: "Create a table and fill it with data in a single step. Provide the entire table (all rows and columns, including a header row) at once. Use this instead of inserting cells or text one at a time. The action places every value in the correct cell for you. Pass **Table Data** as a JSON array of arrays, one inner array per row, header row first when **Has Header Row** is set, e.g. `[[\"Name\",\"Role\"],[\"Ada\",\"Engineer\"]]`. Use **Find Document** to resolve a document's name to its ID, or **Insert Table** instead if you only need an empty grid to fill in later. Note: a table written this way is always static - the Google Docs API does not create or preserve a live link to a Google Sheet, even when this replaces a Sheets-linked table. Pass **Fields** (e.g. `documentId,title,revisionId`) to get a compact confirmation instead of the whole document. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#InsertTableRequest)",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     googleDocs,
     documentId: {
@@ -38,8 +40,16 @@ export default {
         "position",
       ],
     },
+    fields: {
+      type: "string",
+      label: "Fields",
+      description: "Optional Google Docs API field mask limiting which document fields are returned, e.g. `documentId,title,revisionId` to confirm the write without pulling the whole document back. Only top-level fields of the Docs document resource are valid: `documentId`, `title`, `revisionId`, `body`, `documentStyle`, `namedStyles`, `inlineObjects`, `lists`, `namedRanges`, `tabs`. There is no `url` field, and an unknown field name fails the call. Nested selections are allowed, e.g. `body/content` or `tabs(documentTab(body))`. Leave blank to return the full document. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents#Document)",
+      optional: true,
+    },
   },
   async run({ $ }) {
+    utils.validateFieldMask(this.fields);
+
     let rows;
     try {
       rows = typeof this.rows === "string"
@@ -63,6 +73,8 @@ export default {
 
     const numColumns = rows.reduce((max, row) => Math.max(max, row.length), 0);
     $.export("$summary", `Wrote a ${rows.length}x${numColumns} table into document ${this.documentId}`);
-    return document;
+    return this.fields
+      ? this.googleDocs.getDocument(this.documentId, false, this.fields)
+      : document;
   },
 };
