@@ -4,8 +4,8 @@ import googleDocs from "../../google_docs.app.mjs";
 export default {
   key: "google_docs-get-document",
   name: "Get Document",
-  description: "Get the full text content and structure of a Google Doc by its ID. Returns the document body plus a flattened `textContent` field for easy reading. Optionally supply a `fields` mask to request a partial (e.g. metadata-only) response and skip the body-text enrichment. Use **Find Document** first to resolve a document's name to its ID. For multi-tab documents, pass a `tabId` to retrieve a single tab's content. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/get)",
-  version: "1.1.5",
+  description: "Get the full text content and structure of a Google Doc by its ID. Returns the document body plus a flattened `textContent` field for easy reading. A Google Doc can hold several tabs: `body`/`textContent` are always the **first** tab's content, and every tab is listed in `tabs` (with each tab's own `textContent` when the document has more than one), so a single call shows all of the document's text. Pass a **Tab ID** from that list to get one tab's full structure on its own. Optionally supply a `fields` mask to request a partial (e.g. metadata-only) response and skip the body-text enrichment. Use **Find Document** first to resolve a document's name to its ID. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/get)",
+  version: "1.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -24,7 +24,7 @@ export default {
     tabId: {
       type: "string",
       label: "Tab ID",
-      description: "Optional. For a multi-tab document, the ID of a single tab to return. Copy it from a prior **Get Document** call's `tabs[].tabProperties.tabId` (e.g. `t.0`). Omit to return the whole document.",
+      description: "Optional. For a multi-tab document, the ID of a single tab to return in full (e.g. `t.0`). Get tab IDs from **List Tabs**, or from the `tabs` list this tool returns when called without one. Omit to return the document with its first tab's content and a summary of every tab.",
       optional: true,
     },
     fields: {
@@ -40,17 +40,23 @@ export default {
     }
 
     if (this.tabId) {
-      const response = await this.googleDocs.getDocument(this.documentId, true);
-      const tab = (response.tabs || []).find((t) => t.tabProperties?.tabId === this.tabId);
-      if (!tab) {
-        throw new ConfigurationError(`No tab with ID "${this.tabId}" found in document ${this.documentId}. Call this tool without a Tab ID to list the document's tabs.`);
-      }
+      // Nested child tabs are searched too, and the error names the tabs that
+      // do exist — the old message pointed callers at a tab-less response.
+      const tab = await this.googleDocs.getTab(this.documentId, this.tabId);
       $.export("$summary", `Retrieved tab "${this.tabId}" from document ${this.documentId}`);
       return tab;
     }
 
-    const response = await this.googleDocs.getDocument(this.documentId, false, this.fields);
-    $.export("$summary", `Retrieved document ${this.documentId}`);
+    if (this.fields) {
+      const response = await this.googleDocs.getDocument(this.documentId, false, this.fields);
+      $.export("$summary", `Retrieved document ${this.documentId}`);
+      return response;
+    }
+
+    const response = await this.googleDocs.getDocumentWithTabs(this.documentId);
+    $.export("$summary", `Retrieved document ${this.documentId}${response.tabCount > 1
+      ? ` (${response.tabCount} tabs)`
+      : ""}`);
     return response;
   },
 };
