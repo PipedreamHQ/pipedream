@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import googleSheets from "../../google_sheets.app.mjs";
 import {
   colorToHex,
@@ -190,7 +191,9 @@ export default {
       description: "What has to be true of a cell for the formatting to apply."
         + " `COLOR_SCALE` is different from the rest: instead of a pass/fail"
         + " test it shades every cell on a gradient from lowest to highest"
-        + " value, configured with `minColor`/`midColor`/`maxColor`.",
+        + " value, configured with `minColor`/`midColor`/`maxColor` — and it"
+        + " rejects `backgroundColor`/`textColor`/`bold`/`italic`, which only"
+        + " apply to the pass/fail conditions.",
       options: Object.keys(CONDITIONS),
     },
     values: {
@@ -199,7 +202,9 @@ export default {
       description: "The value(s) the condition compares against. One value for"
         + " most conditions (`10000`, `Overdue`), two comma-separated values"
         + " for `NUMBER_BETWEEN` (`10,20`), none for `IS_BLANK`,"
-        + " `IS_NOT_BLANK` and `COLOR_SCALE`. For `CUSTOM_FORMULA` pass a"
+        + " `IS_NOT_BLANK` and `COLOR_SCALE`. If a value itself contains a"
+        + " comma, pass a JSON array instead so it isn't split — e.g."
+        + " `[\"Smith, John\"]`. For `CUSTOM_FORMULA` pass a"
         + " formula starting with `=` that is relative to the first cell of the"
         + " range, e.g. `=$D2=\"Overdue\"`. For `DATE_BEFORE`/`DATE_AFTER`"
         + " pass either a date (`2026-09-01`) or one of `PAST_YEAR`,"
@@ -224,13 +229,15 @@ export default {
     bold: {
       type: "boolean",
       label: "Bold",
-      description: "Bold the text of cells that match.",
+      description: "Bold the text of cells that match. Not used by"
+        + " `COLOR_SCALE`.",
       optional: true,
     },
     italic: {
       type: "boolean",
       label: "Italic",
-      description: "Italicize the text of cells that match.",
+      description: "Italicize the text of cells that match. Not used by"
+        + " `COLOR_SCALE`.",
       optional: true,
     },
     minColor: {
@@ -273,7 +280,7 @@ export default {
 
     const spec = CONDITIONS[condition];
     if (!spec) {
-      throw new Error(
+      throw new ConfigurationError(
         `Unknown condition "${condition}". Valid conditions: `
         + `${Object.keys(CONDITIONS).join(", ")}.`,
       );
@@ -298,6 +305,32 @@ export default {
     const summaryParts = [];
 
     if (condition === "COLOR_SCALE") {
+      // A color scale shades every cell on a gradient, so the boolean-rule format
+      // props have nowhere to go. Silently dropping them would return a rule the
+      // caller didn't ask for; saying so lets an agent split the request into a
+      // scale rule plus a Format Cells call.
+      const unusable = Object.entries({
+        backgroundColor,
+        textColor,
+        bold,
+        italic,
+      }).filter(([
+        ,
+        value,
+      ]) => value !== undefined && value !== null && value !== "")
+        .map(([
+          name,
+        ]) => name);
+      if (unusable.length) {
+        throw new ConfigurationError(
+          `COLOR_SCALE does not use ${unusable.join(", ")} — it shades cells on a`
+          + " gradient rather than styling the ones that match a test. Configure"
+          + " the gradient with `minColor`/`midColor`/`maxColor`, or pick a"
+          + " boolean condition (e.g. `NUMBER_GREATER`) to use"
+          + ` ${unusable.join(", ")}.`,
+        );
+      }
+
       const min = parseColor(minColor ?? "#ffffff", "minColor");
       const max = parseColor(maxColor ?? "#57bb8a", "maxColor");
       const mid = parseColor(midColor, "midColor");
@@ -333,7 +366,7 @@ export default {
     } else {
       const parsedValues = parseValues(values);
       if (parsedValues.length !== spec.values) {
-        throw new Error(
+        throw new ConfigurationError(
           `Condition ${condition} needs exactly ${spec.values} value(s) in `
           + `\`values\`, but got ${parsedValues.length}`
           + `${parsedValues.length
@@ -350,7 +383,7 @@ export default {
       }
 
       if (condition === "CUSTOM_FORMULA" && !parsedValues[0].startsWith("=")) {
-        throw new Error(
+        throw new ConfigurationError(
           "CUSTOM_FORMULA requires a formula starting with `=`, e.g. "
           + "`=$D2=\"Overdue\"`. Got: "
           + `\`${parsedValues[0]}\`.`,
@@ -386,7 +419,7 @@ export default {
       }
 
       if (!Object.keys(format).length) {
-        throw new Error(
+        throw new ConfigurationError(
           "No formatting was provided for matching cells. Pass at least one of"
           + " backgroundColor, textColor, bold, or italic — otherwise the rule"
           + " would match cells but change nothing.",

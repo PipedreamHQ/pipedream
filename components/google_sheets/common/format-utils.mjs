@@ -8,8 +8,14 @@
  *
  * The vocabulary itself (color names, number-format presets, border presets) lives in
  * `constants.mjs`; this file is the functions that translate it.
+ *
+ * Every throw below reports a bad *input* — an unparseable range, a color that is
+ * neither hex nor a known name, a worksheet that doesn't exist — so they are
+ * `ConfigurationError`s, not runtime failures. Each one names the accepted forms,
+ * because the caller is usually an agent that can retry immediately if told how.
  */
 
+import { ConfigurationError } from "@pipedream/platform";
 import {
   BORDER_PRESETS,
   BORDER_PRESET_OPTIONS,
@@ -54,7 +60,7 @@ export function indexToColumn(index) {
 function parseCellToken(token, original) {
   const match = CELL_TOKEN.exec(token.trim());
   if (!match || (!match[1] && !match[2])) {
-    throw new Error(
+    throw new ConfigurationError(
       `Could not parse "${original}" as an A1 range. Use forms like `
       + "`A1` (one cell), `A1:F1` (a block), `B:B` (a whole column), "
       + "`2:2` (a whole row), or `AA1:AB5`.",
@@ -84,7 +90,7 @@ function parseCellToken(token, original) {
  */
 export function parseA1Range(rangeInput) {
   if (typeof rangeInput !== "string" || !rangeInput.trim()) {
-    throw new Error("A range in A1 notation is required, e.g. `A1:F1`.");
+    throw new ConfigurationError("A range in A1 notation is required, e.g. `A1:F1`.");
   }
 
   const original = rangeInput.trim();
@@ -98,7 +104,7 @@ export function parseA1Range(rangeInput) {
 
   const parts = bare.split(":");
   if (parts.length > 2) {
-    throw new Error(`Could not parse "${original}" as an A1 range: too many ":".`);
+    throw new ConfigurationError(`Could not parse "${original}" as an A1 range: too many ":".`);
   }
 
   const start = parseCellToken(parts[0], original);
@@ -142,7 +148,7 @@ export function parseA1Range(rangeInput) {
   );
 
   if (!hasRows && !hasCols) {
-    throw new Error(`Could not parse "${original}" as an A1 range.`);
+    throw new ConfigurationError(`Could not parse "${original}" as an A1 range.`);
   }
 
   return range;
@@ -192,7 +198,7 @@ export function parseColor(input, propName = "color") {
     : cleaned;
 
   if (!/^[0-9a-f]{6}$/.test(expanded)) {
-    throw new Error(
+    throw new ConfigurationError(
       `Could not parse "${input}" as a ${propName}. Pass a hex code `
       + "(`#1a73e8`, `#fff`) or one of: "
       + `${Object.keys(NAMED_COLORS).join(", ")}.`,
@@ -245,7 +251,7 @@ export function resolveNumberFormat(preset, customPattern) {
     return undefined;
   }
   if (!(preset in NUMBER_FORMATS)) {
-    throw new Error(
+    throw new ConfigurationError(
       `Unknown numberFormat "${preset}". Valid presets: `
       + `${NUMBER_FORMAT_OPTIONS.join(", ")}. `
       + "For anything else, pass a Google number-format pattern in "
@@ -268,7 +274,7 @@ export function resolveNumberFormat(preset, customPattern) {
  */
 export function buildBordersRequest(range, preset, style = "SOLID", color) {
   if (!(preset in BORDER_PRESETS)) {
-    throw new Error(
+    throw new ConfigurationError(
       `Unknown borders value "${preset}". Valid: ${BORDER_PRESET_OPTIONS.join(", ")}.`,
     );
   }
@@ -326,7 +332,7 @@ export async function getSheetProperties(app, spreadsheetId, sheetName) {
     if (insensitive) {
       return insensitive.properties;
     }
-    throw new Error(
+    throw new ConfigurationError(
       `Worksheet "${sheetName}" not found in this spreadsheet. `
       + `Available worksheets: ${titles.map((t) => `"${t}"`).join(", ")}. `
       + "Use **Get Spreadsheet Info** to list worksheets.",

@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import googleSheets from "../../google_sheets.app.mjs";
 import {
   BORDER_PRESET_OPTIONS,
@@ -53,7 +54,10 @@ export default {
   type: "action",
   ai: "optimized",
   annotations: {
-    destructiveHint: false,
+    // `merge` keeps only the top-left value of the range and `clearFormatting`
+    // discards styling, so this tool can destroy work the caller didn't name.
+    // Same bar as this app's clear-cell and upsert-row.
+    destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -225,7 +229,9 @@ export default {
         + " cell, `MERGE_COLUMNS` merges each column vertically,"
         + " `MERGE_ROWS` merges each row horizontally, `UNMERGE` splits"
         + " previously merged cells back apart. Merging needs a bounded range"
-        + " (`A1:F1`), not an open-ended one (`A:F`).",
+        + " (`A1:F1`), not an open-ended one (`A:F`), and it keeps only the"
+        + " top-left value — anything else in the range is discarded, so"
+        + " merge across empty cells, not over data.",
       options: MERGE_OPTIONS,
       optional: true,
     },
@@ -390,6 +396,25 @@ export default {
       }
     }
 
+    // A merge needs all four bounds: `A:F` parses to an unbounded GridRange, and
+    // MERGE_ALL against that would collapse every row of those columns into one
+    // cell. Unmerging an unbounded range is harmless, so it stays permitted.
+    if (merge && merge !== "UNMERGE") {
+      const unbounded = [
+        "startRowIndex",
+        "endRowIndex",
+        "startColumnIndex",
+        "endColumnIndex",
+      ].filter((key) => gridRange[key] == null);
+      if (unbounded.length) {
+        throw new ConfigurationError(
+          `Merging needs a bounded range, but "${rangeInput}" is open-ended.`
+          + " Give both corners — `G1:I1` to merge across a title row, `A1:A10`"
+          + " to merge down a column.",
+        );
+      }
+    }
+
     if (merge === "UNMERGE") {
       requests.push({
         unmergeCells: {
@@ -408,7 +433,7 @@ export default {
     }
 
     if (!requests.length) {
-      throw new Error(
+      throw new ConfigurationError(
         "No formatting options were provided. Pass at least one of: bold,"
         + " italic, underline, strikethrough, fontSize, fontFamily, textColor,"
         + " backgroundColor, horizontalAlignment, verticalAlignment,"

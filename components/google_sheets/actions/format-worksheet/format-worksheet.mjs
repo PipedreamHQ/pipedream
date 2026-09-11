@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import googleSheets from "../../google_sheets.app.mjs";
 import {
   colorToHex,
@@ -20,7 +21,7 @@ function parseDimensionSpec(spec, dimension) {
     : "endRowIndex";
 
   if (parsed[startKey] == null) {
-    throw new Error(
+    throw new ConfigurationError(
       `"${spec}" is not a valid ${dimension === "COLUMNS"
         ? "column"
         : "row"} reference. Use `
@@ -36,6 +37,54 @@ function parseDimensionSpec(spec, dimension) {
   };
 }
 
+/**
+ * Validate a freeze count. `0` is meaningful here — it unfreezes — so an absent
+ * value has to stay distinguishable from zero, which is why this returns `undefined`
+ * rather than falling back to a default. Coerced with `Number` because a
+ * `type: "integer"` prop can still arrive as `"1"` over the wire, and the raw string
+ * would then be sent to the API as-is.
+ * @param {*} value - the raw prop value
+ * @param {string} propName - `freezeRows` or `freezeColumns`, for the message
+ * @returns {number|undefined} the count, or `undefined` when not supplied
+ */
+function parseFreezeCount(value, propName) {
+  if (value === undefined || value === null || value === "") {
+    return undefined;
+  }
+  const count = Number(value);
+  if (!Number.isInteger(count) || count < 0) {
+    throw new ConfigurationError(
+      `${propName} must be 0 or a positive whole number, but got \`${value}\`. `
+      + "Use `1` to freeze a single header row/column and `0` to unfreeze.",
+    );
+  }
+  return count;
+}
+
+/**
+ * Validate one pixel dimension. `Number("wide")` is `NaN` and `Number("")` is `0`,
+ * both of which the API answers with an opaque 400 (or silently collapses the
+ * row/column), so the check happens here where the message can name which key was
+ * wrong.
+ * @param {*} pixels - the raw value from the size map
+ * @param {string} ref - the column/row reference it was keyed under
+ * @param {string} propName - `columnWidths` or `rowHeights`, for the message
+ * @returns {number} the validated pixel size
+ */
+function parsePixelSize(pixels, ref, propName) {
+  const size = Number(pixels);
+  if (!Number.isInteger(size) || size <= 0) {
+    throw new ConfigurationError(
+      `${propName}["${ref}"] must be a whole number of pixels greater than 0, `
+      + `but got \`${pixels}\`. Example: `
+      + (propName === "columnWidths"
+        ? "`{\"A\": 240, \"C:E\": 120}`."
+        : "`{\"1\": 40}`."),
+    );
+  }
+  return size;
+}
+
 function parseSizeMap(json, propName) {
   let parsed;
   try {
@@ -43,7 +92,7 @@ function parseSizeMap(json, propName) {
       ? JSON.parse(json)
       : json;
   } catch {
-    throw new Error(
+    throw new ConfigurationError(
       `${propName} must be a JSON object, e.g. `
       + (propName === "columnWidths"
         ? "`{\"A\": 240, \"C:E\": 120}`."
@@ -51,7 +100,9 @@ function parseSizeMap(json, propName) {
     );
   }
   if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
-    throw new Error(`${propName} must be a JSON object mapping references to pixel sizes.`);
+    throw new ConfigurationError(
+      `${propName} must be a JSON object mapping references to pixel sizes.`,
+    );
   }
   return parsed;
 }
@@ -192,22 +243,25 @@ export default {
     };
     const propertyFields = [];
 
-    if (freezeRows !== undefined && freezeRows !== null) {
+    const frozenRowCount = parseFreezeCount(freezeRows, "freezeRows");
+    const frozenColumnCount = parseFreezeCount(freezeColumns, "freezeColumns");
+
+    if (frozenRowCount !== undefined) {
       properties.gridProperties = {
         ...properties.gridProperties,
-        frozenRowCount: freezeRows,
+        frozenRowCount,
       };
       propertyFields.push("gridProperties.frozenRowCount");
-      applied.freezeRows = freezeRows;
+      applied.freezeRows = frozenRowCount;
     }
 
-    if (freezeColumns !== undefined && freezeColumns !== null) {
+    if (frozenColumnCount !== undefined) {
       properties.gridProperties = {
         ...properties.gridProperties,
-        frozenColumnCount: freezeColumns,
+        frozenColumnCount,
       };
       propertyFields.push("gridProperties.frozenColumnCount");
-      applied.freezeColumns = freezeColumns;
+      applied.freezeColumns = frozenColumnCount;
     }
 
     if (hideGridlines !== undefined && hideGridlines !== null) {
@@ -272,6 +326,7 @@ export default {
         ref,
         pixels,
       ] of Object.entries(widths)) {
+        const pixelSize = parsePixelSize(pixels, ref, "columnWidths");
         requests.push({
           updateDimensionProperties: {
             range: {
@@ -280,12 +335,12 @@ export default {
               ...parseDimensionSpec(ref, "COLUMNS"),
             },
             properties: {
-              pixelSize: Number(pixels),
+              pixelSize,
             },
             fields: "pixelSize",
           },
         });
-        applied.columnWidths[ref] = Number(pixels);
+        applied.columnWidths[ref] = pixelSize;
       }
     }
 
@@ -296,6 +351,7 @@ export default {
         ref,
         pixels,
       ] of Object.entries(heights)) {
+        const pixelSize = parsePixelSize(pixels, ref, "rowHeights");
         requests.push({
           updateDimensionProperties: {
             range: {
@@ -304,17 +360,17 @@ export default {
               ...parseDimensionSpec(ref, "ROWS"),
             },
             properties: {
-              pixelSize: Number(pixels),
+              pixelSize,
             },
             fields: "pixelSize",
           },
         });
-        applied.rowHeights[ref] = Number(pixels);
+        applied.rowHeights[ref] = pixelSize;
       }
     }
 
     if (!requests.length) {
-      throw new Error(
+      throw new ConfigurationError(
         "No layout options were provided. Pass at least one of: freezeRows,"
         + " freezeColumns, autoResizeColumns, columnWidths, rowHeights,"
         + " hideGridlines, tabColor, or newSheetName.",
