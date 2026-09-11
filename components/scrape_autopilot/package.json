@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/scrape_autopilot",
+  "version": "0.0.1",
+  "description": "Pipedream Scrape Autopilot Components",
+  "main": "scrape_autopilot.app.mjs",
+  "keywords": [
+    "pipedream",
+    "scrape_autopilot",
+    "web-scraping",
+    "markdown"
+  ],
+  "homepage": "https://pipedream.com/apps/scrape_autopilot",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  }
+}
