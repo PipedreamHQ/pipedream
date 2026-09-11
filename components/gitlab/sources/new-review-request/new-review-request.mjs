@@ -6,7 +6,7 @@ export default {
   key: "gitlab-new-review-request",
   name: "New Review Request (Instant)",
   description: "Emit new event when a reviewer is added to a merge request",
-  version: "0.1.2",
+  version: "0.1.3",
   dedupe: "unique",
   type: "source",
   hooks: {
