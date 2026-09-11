@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/muapi",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream MuAPI Components",
   "main": "muapi.app.mjs",
   "keywords": [

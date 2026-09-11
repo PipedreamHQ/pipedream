@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/postmark",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Postmark Components",
   "main": "postmark.app.mjs",
   "keywords": [

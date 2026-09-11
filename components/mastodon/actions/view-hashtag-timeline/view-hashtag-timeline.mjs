@@ -4,13 +4,14 @@ export default {
   key: "mastodon-view-hashtag-timeline",
   name: "View Hashtag Timeline",
   description: "View public statuses containing the given hashtag. [See the docs here](https://docs.joinmastodon.org/methods/timelines/#tag)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     mastodon,
     hashtag: {

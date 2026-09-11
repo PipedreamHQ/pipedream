@@ -5,28 +5,14 @@ export default {
   ...common,
   key: "grain-removed-story-instant",
   name: "New Story Removed (Instant)",
-  description: "Emit new event when a story is removed.",
-  version: "0.0.1",
+  description: "Emit new event when a story is removed. [See the documentation](https://developers.grain.com/#create-hook)",
+  version: "1.0.0",
   type: "source",
   dedupe: "unique",
-  props: {
-    ...common.props,
-    viewId: {
-      propDefinition: [
-        common.props.grain,
-        "viewId",
-        () => ({
-          type: "stories",
-        }),
-      ],
-    },
-  },
   methods: {
     ...common.methods,
-    getAction() {
-      return [
-        "removed",
-      ];
+    getHookType() {
+      return "story_deleted";
     },
     getSummary({ data }) {
       return `New story removed: ${data.id}`;

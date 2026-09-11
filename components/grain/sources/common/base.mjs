@@ -3,7 +3,10 @@ import grain from "../../grain.app.mjs";
 export default {
   props: {
     grain,
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
     db: "$.service.db",
   },
   methods: {
@@ -13,30 +16,49 @@ export default {
     _setHookId(hookId) {
       this.db.set("hookId", hookId);
     },
+    getInclude() {
+      return undefined;
+    },
+    getTimestamp() {
+      return Date.now();
+    },
   },
   hooks: {
     async activate() {
       const response = await this.grain.createWebhook({
         data: {
-          version: 2,
           hook_url: this.http.endpoint,
-          view_id: this.viewId,
-          actions: this.getAction(),
+          hook_type: this.getHookType(),
+          include: this.getInclude(),
         },
       });
       this._setHookId(response.id);
     },
     async deactivate() {
       const webhookId = this._getHookId();
-      await this.grain.deleteWebhook(webhookId);
+      if (webhookId) {
+        await this.grain.deleteWebhook(webhookId);
+      }
     },
   },
   async run({ body }) {
-    if (!body.data) return;
+    this.http.respond({
+      status: 200,
+    });
 
-    const ts = Date.parse(new Date());
+    if (!body?.data?.id || body.type !== this.getHookType()) return;
+
+    const ts = this.getTimestamp(body);
+    // Grain doesn't document a delivery ID. Added/deleted events dedupe on the
+    // resource ID alone (there's only ever one). Updated events concatenate the
+    // resource ID with the payload-derived timestamp so retries of the same
+    // update share an ID while a later, distinct update gets a new one.
+    const id = body.type.endsWith("_updated")
+      ? `${body.data.id}:${ts}`
+      : body.data.id;
+
     this.$emit(body, {
-      id: `${body.data.id}-${ts}`,
+      id,
       summary: this.getSummary(body),
       ts,
     });

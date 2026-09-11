@@ -1,0 +1,93 @@
+import formIo from "../../form_io.app.mjs";
+import { parseJson } from "../../common/utils.mjs";
+
+export default {
+  key: "form_io-update-form-action",
+  name: "Update Form Action",
+  description: "Update an action attached to a Form.io form. Only the fields you provide are changed; omitted fields keep their current values. Use **List Form Actions** to find the action ID. The `settings` prop is a JSON-string object specific to the action type. [See the documentation](https://apidocs.form.io/#2b553c0c-f857-4bfc-8023-1ddd0fc216e9).",
+  version: "0.0.1",
+  type: "action",
+  ai: "optimized",
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
+  props: {
+    formIo,
+    formId: {
+      propDefinition: [
+        formIo,
+        "formId",
+      ],
+    },
+    actionId: {
+      propDefinition: [
+        formIo,
+        "actionId",
+      ],
+    },
+    title: {
+      propDefinition: [
+        formIo,
+        "title",
+      ],
+      description: "Updated title of the action.",
+      optional: true,
+    },
+    handler: {
+      propDefinition: [
+        formIo,
+        "handler",
+      ],
+      optional: true,
+    },
+    method: {
+      propDefinition: [
+        formIo,
+        "method",
+      ],
+      optional: true,
+    },
+    priority: {
+      propDefinition: [
+        formIo,
+        "priority",
+      ],
+    },
+    settings: {
+      propDefinition: [
+        formIo,
+        "settings",
+      ],
+      description: "JSON-string object of action-specific settings; the shape depends on the action type. Example (webhook action): `{\"method\":\"post\",\"url\":\"https://example.com/webhook\"}`. Parsed with JSON.parse() before sending.",
+    },
+  },
+  async run({ $ }) {
+    const {
+      formId,
+      actionId,
+      title,
+      handler,
+      method,
+      priority,
+      settings,
+    } = this;
+
+    const response = await this.formIo.updateFormAction({
+      $,
+      formId,
+      actionId,
+      data: {
+        title,
+        handler,
+        method,
+        priority,
+        settings: parseJson(settings, "settings", "object"),
+      },
+    });
+
+    $.export("$summary", `Updated form action "${response.title}" (${response._id})`);
+    return response;
+  },
+};

@@ -12,8 +12,9 @@ export default {
     + " Example — count by level: `SELECT level, count(*) AS n FROM records GROUP BY level ORDER BY n DESC`."
     + " After using **Record Log Entry** to write data, use this tool to confirm what was recorded."
     + " [See the SQL reference](https://pydantic.dev/docs/logfire/reference/sql/) and [query API docs](https://pydantic.dev/docs/logfire/manage/query-api/#making-direct-http-requests).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

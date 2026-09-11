@@ -4,8 +4,9 @@ export default {
   key: "confluence-list-spaces",
   name: "List Spaces",
   description: "List all spaces in Confluence. [See the documentation](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space/#api-spaces-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

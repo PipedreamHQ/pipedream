@@ -4,13 +4,14 @@ export default {
   key: "zendesk-get-dynamic-content-items-by-name",
   name: "Get Dynamic Content Items by Name",
   description: "Retrieves multiple dynamic content items by their names. Note: Dynamic content is available only on the Professional plan and above. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/ticket-management/dynamic_content/#show-many-items).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     zendesk,
     itemNames: {
