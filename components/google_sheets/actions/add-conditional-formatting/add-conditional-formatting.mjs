@@ -113,11 +113,13 @@ function parseValues(input) {
       raw,
     ];
   }
-  return raw.split(",").map((v) => v.trim()).filter((v) => v !== "");
+  return raw.split(",").map((v) => v.trim())
+    .filter((v) => v !== "");
 }
 
 function toConditionValue(value) {
-  const upper = String(value).trim().toUpperCase();
+  const upper = String(value).trim()
+    .toUpperCase();
   return RELATIVE_DATES.includes(upper)
     ? {
       relativeDate: upper,

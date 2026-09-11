@@ -83,7 +83,8 @@ export function parseA1Range(rangeInput) {
   const bare = (bang === -1
     ? original
     : original.slice(bang + 1)
-  ).replace(/\$/g, "").replace(/'/g, "").trim();
+  ).replace(/\$/g, "").replace(/'/g, "")
+    .trim();
 
   const parts = bare.split(":");
   if (parts.length > 2) {
@@ -166,34 +167,34 @@ export function gridRangeToA1(range) {
  * (highlights, banded headers, red/amber/green status) rather than all 148 CSS names.
  */
 export const NAMED_COLORS = {
-  black: "#000000",
-  white: "#ffffff",
-  gray: "#999999",
-  grey: "#999999",
+  "black": "#000000",
+  "white": "#ffffff",
+  "gray": "#999999",
+  "grey": "#999999",
   "light gray": "#d9d9d9",
   "light grey": "#d9d9d9",
   "dark gray": "#666666",
   "dark grey": "#666666",
-  red: "#e06666",
+  "red": "#e06666",
   "light red": "#f4cccc",
   "dark red": "#cc0000",
-  orange: "#f6b26b",
+  "orange": "#f6b26b",
   "light orange": "#fce5cd",
-  yellow: "#ffd966",
+  "yellow": "#ffd966",
   "light yellow": "#fff2cc",
-  green: "#93c47d",
+  "green": "#93c47d",
   "light green": "#d9ead3",
   "dark green": "#38761d",
-  blue: "#6d9eeb",
+  "blue": "#6d9eeb",
   "light blue": "#cfe2f3",
   "dark blue": "#1155cc",
-  purple: "#8e7cc3",
+  "purple": "#8e7cc3",
   "light purple": "#d9d2e9",
-  magenta: "#c27ba0",
-  pink: "#ead1dc",
-  cyan: "#76a5af",
-  teal: "#76a5af",
-  brown: "#b45f06",
+  "magenta": "#c27ba0",
+  "pink": "#ead1dc",
+  "cyan": "#76a5af",
+  "teal": "#76a5af",
+  "brown": "#b45f06",
 };
 
 /**
@@ -206,12 +207,14 @@ export function parseColor(input, propName = "color") {
   if (input == null || input === "") {
     return undefined;
   }
-  const raw = String(input).trim().toLowerCase();
+  const raw = String(input).trim()
+    .toLowerCase();
   const hex = NAMED_COLORS[raw] ?? raw;
   const cleaned = hex.replace(/^#/, "");
 
   const expanded = cleaned.length === 3
-    ? cleaned.split("").map((c) => c + c).join("")
+    ? cleaned.split("").map((c) => c + c)
+      .join("")
     : cleaned;
 
   if (!/^[0-9a-f]{6}$/.test(expanded)) {
@@ -378,12 +381,24 @@ export const BORDER_PRESETS = {
     "innerHorizontal",
     "innerVertical",
   ],
-  TOP: ["top"],
-  BOTTOM: ["bottom"],
-  LEFT: ["left"],
-  RIGHT: ["right"],
-  INNER_HORIZONTAL: ["innerHorizontal"],
-  INNER_VERTICAL: ["innerVertical"],
+  TOP: [
+    "top",
+  ],
+  BOTTOM: [
+    "bottom",
+  ],
+  LEFT: [
+    "left",
+  ],
+  RIGHT: [
+    "right",
+  ],
+  INNER_HORIZONTAL: [
+    "innerHorizontal",
+  ],
+  INNER_VERTICAL: [
+    "innerVertical",
+  ],
   NONE: [],
 };
 

@@ -244,7 +244,8 @@ export default {
     }
 
     if (autoResizeColumns) {
-      const dimensions = String(autoResizeColumns).trim().toUpperCase() === "ALL"
+      const dimensions = String(autoResizeColumns).trim()
+        .toUpperCase() === "ALL"
         ? {
           sheetId,
           dimension: "COLUMNS",
