@@ -81,7 +81,7 @@ export default {
         ...args,
       });
     },
-    async extract(args = {}) {
+    async extractContent(args = {}) {
       return this._makeRequest({
         method: "post",
         path: "/extract",

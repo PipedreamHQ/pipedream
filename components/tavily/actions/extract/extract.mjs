@@ -84,7 +84,7 @@ export default {
       ? undefined
       : Number(this.timeout);
     validateRange(timeout, "Timeout", 1, 60, false);
-    const response = await this.app.extract({
+    const response = await this.app.extractContent({
       $,
       data: {
         urls: this.urls,
