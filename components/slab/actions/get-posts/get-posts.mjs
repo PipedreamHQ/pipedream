@@ -23,10 +23,10 @@ export default {
       description: `One or more Slab post IDs to retrieve (max ${MAX_IDS}). Run **Search Posts** first to obtain valid post IDs (e.g. \`abc123\`), then paste them here. Free-form input; no dropdown is provided.`,
     },
     fields: {
-      type: "string[]",
-      label: "Fields",
-      description: "Optional list of top-level post fields to include in each result (e.g. `[\"id\",\"title\",\"owner\"]`). Omit to return the full post object for each result (default), including the potentially large `content` field.",
-      optional: true,
+      propDefinition: [
+        slab,
+        "fields",
+      ],
     },
   },
   async run({ $ }) {

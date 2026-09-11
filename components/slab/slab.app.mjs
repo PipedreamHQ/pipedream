@@ -26,6 +26,12 @@ export default {
       description: "Cursor to start paginating forwards from. Pass the `endCursor` value from a prior response's `pageInfo` object (e.g. `\"cursor=abc123\"`). Leave blank to start from the beginning.",
       optional: true,
     },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "Optional list of top-level post fields to include in each result (e.g. `[\"id\",\"title\",\"owner\"]`). Omit to return the full post object for each result (default), including the potentially large `content` field.",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {

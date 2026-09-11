@@ -61,48 +61,64 @@ export default {
     });
     let post = createResponse.createPost;
 
-    if (this.content) {
-      const retain = deltaLength(post.content);
-      const contentResponse = await this.slab._makeRequest({
-        $,
-        data: {
-          query: UPDATE_POST_CONTENT_MUTATION,
-          variables: {
-            id: post.id,
-            delta: JSON.stringify({
-              ops: [
-                {
-                  retain,
-                },
-                {
-                  insert: `${this.content}\n`,
-                },
-              ],
-            }),
+    try {
+      if (this.content) {
+        const retain = deltaLength(post.content);
+        const contentResponse = await this.slab._makeRequest({
+          $,
+          data: {
+            query: UPDATE_POST_CONTENT_MUTATION,
+            variables: {
+              id: post.id,
+              delta: JSON.stringify({
+                ops: [
+                  {
+                    retain,
+                  },
+                  {
+                    insert: `${this.content}\n`,
+                  },
+                ],
+              }),
+            },
           },
-        },
-      });
-      post = {
-        ...post,
-        ...contentResponse.updatePostContent,
-      };
-    }
+        });
+        post = {
+          ...post,
+          ...contentResponse.updatePostContent,
+        };
+      }
 
-    if (this.published !== false) {
-      const publishResponse = await this.slab._makeRequest({
+      if (this.published !== false) {
+        const publishResponse = await this.slab._makeRequest({
+          $,
+          data: {
+            query: UPDATE_POST_MUTATION,
+            variables: {
+              id: post.id,
+              published: true,
+            },
+          },
+        });
+        post = {
+          ...post,
+          ...publishResponse.updatePost,
+        };
+      }
+    } catch (err) {
+      // Best-effort cleanup so a retry after a partial failure doesn't accumulate
+      // duplicate active posts; the archive failing doesn't change the outcome below.
+      await this.slab._makeRequest({
         $,
         data: {
           query: UPDATE_POST_MUTATION,
           variables: {
             id: post.id,
-            published: true,
+            archived: true,
           },
         },
-      });
-      post = {
-        ...post,
-        ...publishResponse.updatePost,
-      };
+      }).catch(() => {});
+      throw err;
     }
 
     $.export("$summary", `Successfully created post ${post.id}${post.title
