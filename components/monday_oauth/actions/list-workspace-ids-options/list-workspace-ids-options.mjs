@@ -1,5 +1,5 @@
 import app from "../../monday_oauth.app.mjs";
-import common from "@pipedream/monday/sources/new-item/new-item.mjs";
+import common from "@pipedream/monday/actions/list-workspace-ids-options/list-workspace-ids-options.mjs";
 
 import { adjustPropDefinitions } from "../../common/utils.mjs";
 
@@ -10,8 +10,8 @@ const props = adjustPropDefinitions(others.props, app);
 
 export default {
   ...others,
-  key: "monday_oauth-new-item",
-  version: "0.0.6",
+  key: "monday_oauth-list-workspace-ids-options",
+  version: "0.0.1",
   name,
   description,
   type,
