@@ -8,26 +8,6 @@ export default {
       type: "string",
       label: "Recording ID",
       description: "The ID of the recording to fetch. Use **List Recordings** to find recording IDs.",
-      async options({ prevContext }) {
-        const {
-          recordings, cursor,
-        } = await this.listRecordings({
-          data: {
-            cursor: prevContext?.nextPage,
-          },
-        });
-        return {
-          options: recordings.map(({
-            id: value, title: label,
-          }) => ({
-            value,
-            label,
-          })),
-          context: {
-            nextPage: cursor,
-          },
-        };
-      },
     },
     highlights: {
       type: "boolean",
@@ -135,6 +115,128 @@ export default {
         path: `/recordings/${recordingId}/transcript${format === "json"
           ? ""
           : `.${format}`}`,
+        ...opts,
+      });
+    },
+    /**
+     * List workspace users.
+     * @param {object} [opts={}] Request context.
+     * @returns {Promise<object>} The workspace's users.
+     */
+    listUsers(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/users",
+        ...opts,
+      });
+    },
+    /**
+     * List workspace teams.
+     * @param {object} [opts={}] Request context.
+     * @returns {Promise<object>} The workspace's teams.
+     */
+    listTeams(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/teams",
+        ...opts,
+      });
+    },
+    /**
+     * List configured meeting types.
+     * @param {object} [opts={}] Request context.
+     * @returns {Promise<object>} The workspace's meeting types.
+     */
+    listMeetingTypes(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/meeting_types",
+        ...opts,
+      });
+    },
+    /**
+     * Rename a recording.
+     * @param {object} opts Request context, recordingId, and data containing the new title.
+     * @returns {Promise<object>} The updated recording.
+     */
+    updateRecordingTitle({
+      recordingId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PATCH",
+        path: `/recordings/${recordingId}`,
+        ...opts,
+      });
+    },
+    /**
+     * Add a tag to a recording.
+     * @param {object} opts Request context, recordingId, and data containing the tag.
+     * @returns {Promise<object>} The API's success response.
+     */
+    addRecordingTag({
+      recordingId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/recordings/${recordingId}/tags`,
+        ...opts,
+      });
+    },
+    /**
+     * Remove a tag from a recording.
+     * @param {object} opts Request context, recordingId, and tag.
+     * @returns {Promise<object>} The API's success response.
+     */
+    removeRecordingTag({
+      recordingId, tag, ...opts
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/recordings/${recordingId}/tags/${encodeURIComponent(tag)}`,
+        ...opts,
+      });
+    },
+    /**
+     * Share a recording with a user or team.
+     * @param {object} opts Request context, recordingId, targetType (user or team), and data
+     * containing the target's ID under `user_id` or `team_id`.
+     * @returns {Promise<object>} The API's success response.
+     */
+    shareRecording({
+      recordingId, targetType, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/recordings/${recordingId}/${targetType}s`,
+        ...opts,
+      });
+    },
+    /**
+     * Unshare a recording from a user or team.
+     * @param {object} opts Request context, recordingId, targetType (user or team), and targetId.
+     * @returns {Promise<object>} The API's success response.
+     */
+    unshareRecording({
+      recordingId, targetType, targetId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/recordings/${recordingId}/${targetType}s/${targetId}`,
+        ...opts,
+      });
+    },
+    /**
+     * Download a recording's media file.
+     * @param {object} opts Request context and recordingId. Pass `responseType: "arraybuffer"`
+     * and `returnFullResponse: true` to receive the raw binary and headers.
+     * @returns {Promise<object>} The recording's media file.
+     */
+    downloadRecording({
+      recordingId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/recordings/${recordingId}/download`,
         ...opts,
       });
     },

@@ -6,7 +6,7 @@ export default {
   key: "grain-new-highlight-instant",
   name: "New Highlight (Instant)",
   description: "Emit new event when a highlight is added. [See the documentation](https://developers.grain.com/#create-hook)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "source",
   dedupe: "unique",
   methods: {
