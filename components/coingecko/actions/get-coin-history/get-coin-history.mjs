@@ -4,8 +4,9 @@ export default {
   key: "coingecko-get-coin-history",
   name: "Get Coin History",
   description: "Get historical data (price, market cap, and volume) for a coin on a specific date. [See the documentation](https://docs.coingecko.com/v3.0.1/reference/coins-id-history)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

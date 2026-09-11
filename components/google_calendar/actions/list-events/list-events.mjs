@@ -66,13 +66,14 @@ export default {
   key: "google_calendar-list-events",
   name: "List Events",
   description: "List or search the events on a Google Calendar. Use this for \"what's on my calendar\", \"what's my schedule/agenda\", \"what's coming up\", \"am I busy/free\", or any question about the events in a date range: set `timeMin`/`timeMax` for the window, `q` to search event text, and `singleEvents` to `true` to expand recurring events into individual occurrences. **Response size matters here:** by default every field of every matching event is returned, which runs 2-10 KB per event (long descriptions, full attendee lists, HTML links), so one busy week can exceed 100 KB and overflow an AI agent's context window. Request only what the question needs — `fields: \"compact\"` (equivalently `fields: \"summary,start,end\"`) answers a schedule question in a fraction of the bytes, and `maxAttendees: 1` drops guest lists when the question is not about who is attending. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/list)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     googleCalendar,
     calendarId: {

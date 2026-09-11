@@ -6,13 +6,14 @@ export default {
   key: "survey_monkey-create-collector",
   name: "Create Collector",
   description: "Create a collector for a survey. A collector is the channel responses come in through — an SMS or email invitation, a web link, or a popup. [See the documentation](https://api.surveymonkey.com/v3/docs?javascript#api-endpoints-post-surveys-survey_id-collectors)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...base.props,
     type: {

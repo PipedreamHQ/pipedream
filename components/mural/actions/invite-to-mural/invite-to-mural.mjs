@@ -5,13 +5,14 @@ export default {
   key: "mural-invite-to-mural",
   name: "Invite to Mural",
   description: "Share a mural by inviting a user to it. Supply either **Email** or **Username**: an email invitation must be accepted by the recipient before they gain access, while inviting by username adds the user to the mural immediately. Users invited to a mural without being members of its room become restricted members, meaning they can open only that mural and cannot create murals in the room. [See the documentation](https://developers.mural.co/public/reference/inviteuserstomural)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     mural,
     workspaceId: {

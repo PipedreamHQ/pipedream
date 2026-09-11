@@ -4,8 +4,9 @@ export default {
   key: "moodle-enroll-user-in-course",
   name: "Enroll a User in a Course",
   description: "Manually enrolls a user into a specified course with a given role and optional start and end dates. [See the documentation](https://moodledev.io/docs/5.2)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
