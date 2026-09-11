@@ -5919,7 +5919,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/form_io: {}
+  components/form_io:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.4.0
 
   components/form_taxi:
     dependencies:
