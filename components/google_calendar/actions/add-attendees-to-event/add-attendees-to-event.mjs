@@ -5,13 +5,14 @@ export default {
   key: "google_calendar-add-attendees-to-event",
   name: "Add Attendees To Event",
   description: "Add one or more attendees (invitees) to an event that ALREADY EXISTS on a Google Calendar, without recreating it. New attendees are merged into the event's current attendee list — existing attendees are preserved, not replaced. Use this when the user wants to invite additional people to an event they already have; identify the target event with `eventId` first (e.g. via list-events or get-event). When creating a brand-new event, set its attendees directly in create-event instead of calling this afterward. [See the documentation](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Events.html#patch)",
-  version: "0.0.10",
+  version: "0.0.11",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     googleCalendar,
     calendarId: {

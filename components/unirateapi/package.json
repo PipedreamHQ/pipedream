@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/unirateapi",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Pipedream UniRateAPI Components",
   "main": "unirateapi.app.mjs",
   "keywords": [
