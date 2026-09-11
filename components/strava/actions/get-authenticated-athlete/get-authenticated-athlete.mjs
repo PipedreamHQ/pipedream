@@ -7,8 +7,9 @@ export default {
     + " Use this whenever you need to know who the connected user is, or to surface the athlete ID for downstream tools."
     + " Note: a detailed athlete representation requires the `profile:read_all` scope, which is not configured for this connector. This tool returns the summary representation."
     + " [See the documentation](https://developers.strava.com/docs/reference/#api-Athletes-getLoggedInAthlete)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

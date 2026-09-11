@@ -10,8 +10,9 @@ export default {
     + " Use **Get Sheet** or **Search** to find row IDs."
     + " To update a row after reading it, use **Update Row**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/row-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

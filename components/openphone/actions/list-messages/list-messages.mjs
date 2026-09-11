@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { pickFields } from "../../common/utils.mjs";
 import openphone from "../../openphone.app.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "openphone-list-messages",
   name: "List Messages",
   description: "Retrieve a paginated list of messages from OpenPhone, scoped to a phone number and a participant — both are required by the API. Optionally narrow further to one conversation with `conversationId`. Example: call with phoneNumberId=\"PN123abc\", participants=[\"+15551234567\"] → returns up to 10 recent messages between that number and that participant. Use `fields` to return only specific fields per message. [See the documentation](https://www.openphone.com/docs/api-reference/messages/list-messages)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

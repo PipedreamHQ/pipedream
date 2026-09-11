@@ -5,13 +5,14 @@ export default {
   key: "moosend-add-subscriber",
   name: "Add subscriber",
   description: "Adds a new subscriber to the specified mailing list. If there is already a subscriber with the specified email address in the list, an update will be performed instead. The rate limit for this request is 10 requests per 10 seconds (*per API key). See the [docs](https://moosendapp.docs.apiary.io/#reference/subscribers/add-or-update-subscribers/adding-subscribers) for more info.",
-  version: "0.2.1",
+  version: "0.2.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     email: {

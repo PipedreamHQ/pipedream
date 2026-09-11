@@ -5,7 +5,8 @@ export default {
   key: "stripe-list-payment-intents",
   name: "List Payment Intents",
   type: "action",
-  version: "0.2.0",
+  ai: "optimized",
+  version: "0.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

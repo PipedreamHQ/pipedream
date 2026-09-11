@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/barcode_lookup",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Barcode Lookup Components",
   "main": "barcode_lookup.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/circleci",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream CircleCI Components",
   "main": "circleci.app.mjs",
   "keywords": [

@@ -4,8 +4,9 @@ export default {
   key: "getty_images-search-images",
   name: "Search Images",
   description: "Search the Getty Images library by keyword with optional filters for image type, orientation, and license model. Returns image metadata including IDs, titles, captions, and display URLs. [See the documentation](https://developers.gettyimages.com/docs/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

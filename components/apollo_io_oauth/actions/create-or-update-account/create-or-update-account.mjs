@@ -14,8 +14,9 @@ export default {
     + " discover valid stage IDs."
     + " [See the documentation](https://docs.apollo.io/reference"
     + "/create-an-account)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

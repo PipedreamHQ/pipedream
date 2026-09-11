@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/helper_functions",
-  "version": "0.5.5",
+  "version": "0.5.6",
   "description": "Pipedream Helper_functions Components",
   "main": "helper_functions.app.mjs",
   "keywords": [
@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@pipedream/platform": "^3.1.1",
-    "csv-parse": "^5.5.6",
+    "csv-parse": "^7.0.2",
     "streamifier": "^0.1.1",
     "xml-js": "^1.6.11"
   }

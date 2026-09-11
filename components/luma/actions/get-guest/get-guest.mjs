@@ -4,8 +4,9 @@ export default {
   key: "luma-get-guest",
   name: "Get Guest",
   description: "Get detailed information for a Luma event guest by guest ID, ticket key, guest key, or email. Use **Get Guests** first if you need to find a guest identifier. [See the documentation](https://docs.luma.com/reference/get_v1-event-get-guest)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

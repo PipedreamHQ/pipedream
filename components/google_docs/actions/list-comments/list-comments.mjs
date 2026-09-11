@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import googleDocs from "../../google_docs.app.mjs";
 import utils from "../../common/utils.mjs";
 import {
@@ -9,13 +8,14 @@ export default {
   key: "google_docs-list-comments",
   name: "List Comments",
   description: "List the comments on a Google Doc, including each comment's author, plain text and HTML content, the document text it is anchored to, whether it is resolved, and its full reply thread. Comments on a Doc are served by the Drive API, so the document ID doubles as the file ID. Use **Find Document** first to resolve a document's name to its ID. [See the documentation](https://developers.google.com/workspace/drive/api/reference/rest/v3/comments/list)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     googleDocs,
     documentId: {
