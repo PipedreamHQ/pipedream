@@ -14,7 +14,7 @@ export default {
     + " Searching by a sheet URL does not work - the URL token is not indexed text; pass the URL to **Get Sheet** instead,"
     + " which resolves it for you."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/search/list-search)",
-  version: "0.0.3",
+  version: "0.1.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -31,8 +31,8 @@ export default {
     },
     sheetId: {
       type: "string",
-      label: "Sheet ID",
-      description: "Optional - scope the search to a single sheet (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs. If omitted, searches all sheets.",
+      label: "Sheet ID or URL",
+      description: "Optional - scope the search to a single sheet (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs. If omitted, searches all sheets. A Smartsheet sheet URL is also accepted and resolved to the ID for you.",
       optional: true,
     },
   },
@@ -41,9 +41,17 @@ export default {
       query: this.query,
     };
 
+    // Only resolved when a scope was given: an omitted Sheet ID means search everything,
+    // and resolveSheetId would reject the empty value.
+    const sheetId = this.sheetId
+      ? await this.smartsheet.resolveSheetId(this.sheetId, {
+        $,
+      })
+      : undefined;
+
     let response;
-    if (this.sheetId) {
-      response = await this.smartsheet.searchSheet(this.sheetId, {
+    if (sheetId) {
+      response = await this.smartsheet.searchSheet(sheetId, {
         $,
         params,
       });
@@ -55,8 +63,8 @@ export default {
     }
 
     const totalResults = response.totalCount ?? response.results?.length ?? 0;
-    const scope = this.sheetId
-      ? `sheet ${this.sheetId}`
+    const scope = sheetId
+      ? `sheet ${sheetId}`
       : "all sheets";
     $.export("$summary", `Found ${totalResults} result(s) for "${this.query}" in ${scope}`);
     return response;

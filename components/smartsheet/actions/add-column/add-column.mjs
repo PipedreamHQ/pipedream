@@ -25,8 +25,8 @@ export default {
     smartsheet,
     sheetId: {
       type: "string",
-      label: "Sheet ID",
-      description: "The ID of the sheet to add a column to (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs.",
+      label: "Sheet ID or URL",
+      description: "The ID of the sheet to add a column to (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs. A Smartsheet sheet URL is also accepted and resolved to the ID for you.",
     },
     title: {
       type: "string",
@@ -62,9 +62,12 @@ export default {
     },
   },
   async run({ $ }) {
+    const sheetId = await this.smartsheet.resolveSheetId(this.sheetId, {
+      $,
+    });
     let index = this.index;
     if (index === undefined) {
-      const result = await this.smartsheet.listColumns(this.sheetId, {
+      const result = await this.smartsheet.listColumns(sheetId, {
         $,
         params: {
           includeAll: true,
@@ -104,13 +107,13 @@ export default {
       column.validation = this.validation;
     }
 
-    const response = await this.smartsheet.addColumn(this.sheetId, {
+    const response = await this.smartsheet.addColumn(sheetId, {
       $,
       data: [
         column,
       ],
     });
-    $.export("$summary", `Added column "${this.title}" (${this.columnType}) to sheet ${this.sheetId}`);
+    $.export("$summary", `Added column "${this.title}" (${this.columnType}) to sheet ${sheetId}`);
     return response;
   },
 };

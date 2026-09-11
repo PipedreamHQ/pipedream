@@ -8,7 +8,7 @@ export default {
     + " Use **List Columns** to find the column ID before deleting."
     + " Consider using **Get Sheet** to review the column's data before deletion."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/columns/column-delete)",
-  version: "0.0.3",
+  version: "0.1.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -20,8 +20,8 @@ export default {
     smartsheet,
     sheetId: {
       type: "string",
-      label: "Sheet ID",
-      description: "The ID of the sheet containing the column (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs.",
+      label: "Sheet ID or URL",
+      description: "The ID of the sheet containing the column (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs. A Smartsheet sheet URL is also accepted and resolved to the ID for you.",
     },
     columnId: {
       type: "string",
@@ -30,10 +30,13 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.smartsheet.deleteColumn(this.sheetId, this.columnId, {
+    const sheetId = await this.smartsheet.resolveSheetId(this.sheetId, {
       $,
     });
-    $.export("$summary", `Deleted column ${this.columnId} from sheet ${this.sheetId}`);
+    const response = await this.smartsheet.deleteColumn(sheetId, this.columnId, {
+      $,
+    });
+    $.export("$summary", `Deleted column ${this.columnId} from sheet ${sheetId}`);
     return response;
   },
 };

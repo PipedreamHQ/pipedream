@@ -1,5 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
-import { COLUMN_TYPES } from "../../common/constants.mjs";
+import {
+  COLUMN_TYPES, PICKLIST_COLUMN_TYPES,
+} from "../../common/constants.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
 
 export default {
@@ -10,7 +12,7 @@ export default {
     + " Use **List Columns** to find the column ID and current properties before updating."
     + " Note: some type conversions may cause data loss."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/columns/column-updatecolumn)",
-  version: "0.0.3",
+  version: "0.1.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -22,8 +24,8 @@ export default {
     smartsheet,
     sheetId: {
       type: "string",
-      label: "Sheet ID",
-      description: "The ID of the sheet containing the column (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs.",
+      label: "Sheet ID or URL",
+      description: "The ID of the sheet containing the column (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs. A Smartsheet sheet URL is also accepted and resolved to the ID for you.",
     },
     columnId: {
       type: "string",
@@ -52,15 +54,22 @@ export default {
     options: {
       type: "string",
       label: "Picklist Options",
-      description: "JSON array of option strings for PICKLIST columns. Example: `[\"Option A\", \"Option B\"]`",
+      description: "JSON array of option strings for a PICKLIST or MULTI_PICKLIST column. Requires New Type to be set as well, since the API rejects an options change that omits the column type. Example: `[\"Option A\", \"Option B\"]`",
       optional: true,
     },
   },
   async run({ $ }) {
     let parsedOptions;
     if (this.options) {
-      if (this.type && this.type !== "PICKLIST") {
-        throw new ConfigurationError("`Picklist Options` can only be used when New Type is PICKLIST.");
+      // The API rejects an options change that omits the type, but its message names five
+      // unrelated fields ("symbol, systemColumnType, options, contactOptions, or
+      // autoNumberFormat"), leaving a caller to guess which one it tripped. Name the
+      // missing field instead, before the call.
+      if (!this.type) {
+        throw new ConfigurationError("`New Type` is required when changing `Picklist Options`. Set it to PICKLIST or MULTI_PICKLIST.");
+      }
+      if (!PICKLIST_COLUMN_TYPES.includes(this.type)) {
+        throw new ConfigurationError("`Picklist Options` can only be used when New Type is PICKLIST or MULTI_PICKLIST.");
       }
       try {
         parsedOptions = JSON.parse(this.options);
@@ -103,11 +112,14 @@ export default {
       throw new ConfigurationError("Provide at least one of: New Title, New Type, New Position, Picklist Options.");
     }
 
-    const response = await this.smartsheet.updateColumn(this.sheetId, this.columnId, {
+    const sheetId = await this.smartsheet.resolveSheetId(this.sheetId, {
+      $,
+    });
+    const response = await this.smartsheet.updateColumn(sheetId, this.columnId, {
       $,
       data,
     });
-    $.export("$summary", `Updated column ${this.columnId} in sheet ${this.sheetId}`);
+    $.export("$summary", `Updated column ${this.columnId} in sheet ${sheetId}`);
     return response;
   },
 };

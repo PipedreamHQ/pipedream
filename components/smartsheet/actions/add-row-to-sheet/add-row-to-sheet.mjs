@@ -10,7 +10,7 @@ export default {
     + " Call **Get Sheet** or **List Columns** first to learn the column names."
     + " To change rows that already exist, use **Update Row**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/rows-addtosheet)",
-  version: "1.0.2",
+  version: "1.1.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -22,8 +22,8 @@ export default {
     smartsheet,
     sheetId: {
       type: "string",
-      label: "Sheet ID",
-      description: "The ID of the sheet to add rows to (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs.",
+      label: "Sheet ID or URL",
+      description: "The ID of the sheet to add rows to (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs. A Smartsheet sheet URL is also accepted and resolved to the ID for you.",
     },
     rows: {
       type: "string",
@@ -51,7 +51,10 @@ export default {
       throw new ConfigurationError("`Rows` must be a non-empty JSON array.");
     }
 
-    const { byName } = await this.smartsheet.getColumnMap(this.sheetId, {
+    const sheetId = await this.smartsheet.resolveSheetId(this.sheetId, {
+      $,
+    });
+    const { byName } = await this.smartsheet.getColumnMap(sheetId, {
       $,
     });
 
@@ -93,13 +96,13 @@ export default {
       return rowObj;
     });
 
-    const response = await this.smartsheet.addRow(this.sheetId, {
+    const response = await this.smartsheet.addRow(sheetId, {
       $,
       data: apiRows,
     });
 
     const count = response.result?.length || 1;
-    $.export("$summary", `Added ${count} row(s) to sheet ${this.sheetId}`);
+    $.export("$summary", `Added ${count} row(s) to sheet ${sheetId}`);
     return response;
   },
 };

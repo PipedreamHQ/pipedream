@@ -23,8 +23,8 @@ export default {
     smartsheet,
     sheetId: {
       type: "string",
-      label: "Sheet ID",
-      description: "The ID of the sheet containing the rows (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs.",
+      label: "Sheet ID or URL",
+      description: "The ID of the sheet containing the rows (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs. A Smartsheet sheet URL is also accepted and resolved to the ID for you.",
     },
     rows: {
       type: "string",
@@ -54,7 +54,10 @@ export default {
       throw new ConfigurationError("`Rows` must be a non-empty JSON array.");
     }
 
-    const { byName } = await this.smartsheet.getColumnMap(this.sheetId, {
+    const sheetId = await this.smartsheet.resolveSheetId(this.sheetId, {
+      $,
+    });
+    const { byName } = await this.smartsheet.getColumnMap(sheetId, {
       $,
     });
 
@@ -98,13 +101,13 @@ export default {
       };
     });
 
-    const response = await this.smartsheet.updateRow(this.sheetId, {
+    const response = await this.smartsheet.updateRow(sheetId, {
       $,
       data: apiRows,
     });
 
     const count = response.result?.length || 1;
-    $.export("$summary", `Updated ${count} row(s) in sheet ${this.sheetId}`);
+    $.export("$summary", `Updated ${count} row(s) in sheet ${sheetId}`);
     return response;
   },
 };

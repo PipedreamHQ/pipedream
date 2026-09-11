@@ -1,7 +1,5 @@
 import { ROW_COPY_INCLUDE_OPTIONS } from "../../common/constants.mjs";
-import {
-  parseRowIds, toIdString,
-} from "../../common/utils.mjs";
+import { parseRowIds } from "../../common/utils.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
 
 export default {
@@ -22,8 +20,8 @@ export default {
     smartsheet,
     sheetId: {
       type: "string",
-      label: "Source Sheet ID",
-      description: "The ID of the source sheet containing the rows. Use **List Sheets** to find sheet IDs.",
+      label: "Source Sheet ID or URL",
+      description: "The ID of the source sheet containing the rows. Use **List Sheets** to find sheet IDs. A Smartsheet sheet URL is also accepted and resolved to the ID for you.",
     },
     rowIds: {
       type: "string",
@@ -35,8 +33,8 @@ export default {
     },
     destinationSheetId: {
       type: "string",
-      label: "Destination Sheet ID",
-      description: "The numeric ID of the destination sheet to copy rows into (e.g. `1234567890123456`). Use **Search** or **List Sheets** to find sheet IDs.",
+      label: "Destination Sheet ID or URL",
+      description: "The numeric ID of the destination sheet to copy rows into (e.g. `1234567890123456`). Use **Search** or **List Sheets** to find sheet IDs. A Smartsheet sheet URL is also accepted and resolved to the ID for you.",
     },
     include: {
       type: "string[]",
@@ -54,9 +52,14 @@ export default {
   },
   async run({ $ }) {
     const rowIds = parseRowIds(this.rowIds);
-    const destinationSheetId = toIdString(this.destinationSheetId, "Destination Sheet ID");
+    const destinationSheetId = await this.smartsheet.resolveSheetId(this.destinationSheetId, {
+      $,
+    });
 
-    const response = await this.smartsheet.copyRows(this.sheetId, {
+    const sheetId = await this.smartsheet.resolveSheetId(this.sheetId, {
+      $,
+    });
+    const response = await this.smartsheet.copyRows(sheetId, {
       $,
       params: {
         include: this.include?.length
@@ -74,7 +77,7 @@ export default {
     // Report what the API actually copied, not what was asked for: with Ignore Rows Not
     // Found, missing IDs are skipped and the input count overstates the result.
     const copied = response.rowMappings?.length ?? rowIds.length;
-    $.export("$summary", `Copied ${copied} of ${rowIds.length} row(s) from sheet ${this.sheetId} to sheet ${destinationSheetId}`);
+    $.export("$summary", `Copied ${copied} of ${rowIds.length} row(s) from sheet ${sheetId} to sheet ${destinationSheetId}`);
     return response;
   },
 };

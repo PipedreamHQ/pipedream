@@ -13,7 +13,7 @@ export default {
     + " Use **List Sheets** to find the source sheet ID."
     + " To move a sheet instead (removing it from the original location), use **Move Sheet**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/copy-sheet)",
-  version: "0.0.3",
+  version: "0.1.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -25,8 +25,8 @@ export default {
     smartsheet,
     sheetId: {
       type: "string",
-      label: "Sheet ID",
-      description: "The ID of the sheet to copy (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs.",
+      label: "Sheet ID or URL",
+      description: "The ID of the sheet to copy (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs. A Smartsheet sheet URL is also accepted and resolved to the ID for you.",
     },
     newName: {
       type: "string",
@@ -67,7 +67,10 @@ export default {
       data.destinationId = toIdString(this.destinationId, "Destination ID");
     }
 
-    const response = await this.smartsheet.copySheet(this.sheetId, {
+    const sheetId = await this.smartsheet.resolveSheetId(this.sheetId, {
+      $,
+    });
+    const response = await this.smartsheet.copySheet(sheetId, {
       $,
       data,
     });
