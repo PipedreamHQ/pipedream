@@ -18,9 +18,10 @@ export default {
   props: {
     smartsheet,
     sheetId: {
-      type: "string",
-      label: "Sheet ID or URL",
-      description: "The ID of the sheet to delete (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs. WARNING: This is irreversible. A Smartsheet sheet URL is also accepted and resolved to the ID for you.",
+      propDefinition: [
+        smartsheet,
+        "sheetIdOrUrl",
+      ],
     },
   },
   async run({ $ }) {

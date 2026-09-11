@@ -23,14 +23,15 @@ export default {
   props: {
     smartsheet,
     sheetId: {
-      type: "string",
-      label: "Sheet ID or URL",
-      description: "The ID of the sheet containing the column (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs. A Smartsheet sheet URL is also accepted and resolved to the ID for you.",
+      propDefinition: [
+        smartsheet,
+        "sheetIdOrUrl",
+      ],
     },
     columnId: {
       type: "string",
       label: "Column ID",
-      description: "The ID of the column to update. Use **List Columns** to find column IDs.",
+      description: "The ID of the column to update (e.g. `7894561230123456`). Use **List Columns** to find column IDs.",
     },
     title: {
       type: "string",
@@ -61,10 +62,7 @@ export default {
   async run({ $ }) {
     let parsedOptions;
     if (this.options) {
-      // The API rejects an options change that omits the type, but its message names five
-      // unrelated fields ("symbol, systemColumnType, options, contactOptions, or
-      // autoNumberFormat"), leaving a caller to guess which one it tripped. Name the
-      // missing field instead, before the call.
+      // The API's own error names five unrelated fields; name the missing one instead.
       if (!this.type) {
         throw new ConfigurationError("`New Type` is required when changing `Picklist Options`. Set it to PICKLIST or MULTI_PICKLIST.");
       }

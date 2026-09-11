@@ -34,19 +34,16 @@ export default {
     workspaceId: {
       propDefinition: [
         smartsheet,
-        "workspaceId",
+        "workspaceIdInput",
       ],
-      description: "Workspace to create the sheet in, or to scope the Folder dropdown. Required if Folder is not specified. Use **List Workspace Options** to find workspace IDs.",
+      description: "Workspace to create the sheet in. Required if Folder ID is not set. Numeric workspace ID (e.g. `1234567890123456`). Use **List Workspace Options** to find one.",
     },
     folderId: {
       propDefinition: [
         smartsheet,
-        "folderId",
-        (c) => ({
-          workspaceId: c.workspaceId,
-        }),
+        "folderIdInput",
       ],
-      description: "Folder to create the sheet in. If specified, the sheet is created in this folder and Workspace is only used to populate this dropdown. Use **List Folder Options** to find folder IDs.",
+      description: "Folder to create the sheet in. If set, the sheet goes here and Workspace ID is ignored. Numeric folder ID (e.g. `9876543210987654`). Use **List Folder Options** with a workspace ID to find one.",
     },
   },
   async run({ $ }) {

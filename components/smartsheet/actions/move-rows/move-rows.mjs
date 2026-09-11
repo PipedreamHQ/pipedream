@@ -19,9 +19,12 @@ export default {
   props: {
     smartsheet,
     sheetId: {
-      type: "string",
+      propDefinition: [
+        smartsheet,
+        "sheetIdOrUrl",
+      ],
       label: "Source Sheet ID or URL",
-      description: "The ID of the source sheet containing the rows. Use **List Sheets** to find sheet IDs. A Smartsheet sheet URL is also accepted and resolved to the ID for you.",
+      description: "The sheet the rows are moved out of. Accepts a numeric sheet ID (e.g. `1234567890123456`), or a Smartsheet sheet URL, which is resolved to the ID for you. Use **List Sheets** to enumerate sheets, or **Search** to find one by name.",
     },
     rowIds: {
       type: "string",
@@ -32,9 +35,12 @@ export default {
         + " Use **Get Sheet** to find row IDs.",
     },
     destinationSheetId: {
-      type: "string",
+      propDefinition: [
+        smartsheet,
+        "sheetIdOrUrl",
+      ],
       label: "Destination Sheet ID or URL",
-      description: "The numeric ID of the destination sheet to move rows into (e.g. `1234567890123456`). Use **Search** or **List Sheets** to find sheet IDs. A Smartsheet sheet URL is also accepted and resolved to the ID for you.",
+      description: "The sheet the rows are moved into. Accepts a numeric sheet ID (e.g. `1234567890123456`), or a Smartsheet sheet URL, which is resolved to the ID for you. Use **List Sheets** to enumerate sheets, or **Search** to find one by name.",
     },
     include: {
       type: "string[]",
@@ -74,8 +80,7 @@ export default {
         },
       },
     });
-    // Report what the API actually moved, not what was asked for: with Ignore Rows Not
-    // Found, missing IDs are skipped and the input count overstates the result.
+    // Report what was moved: Ignore Rows Not Found skips missing IDs.
     const moved = response.rowMappings?.length ?? rowIds.length;
     $.export("$summary", `Moved ${moved} of ${rowIds.length} row(s) from sheet ${sheetId} to sheet ${destinationSheetId}`);
     return response;

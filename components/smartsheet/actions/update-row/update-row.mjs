@@ -22,9 +22,10 @@ export default {
   props: {
     smartsheet,
     sheetId: {
-      type: "string",
-      label: "Sheet ID or URL",
-      description: "The ID of the sheet containing the rows (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs. A Smartsheet sheet URL is also accepted and resolved to the ID for you.",
+      propDefinition: [
+        smartsheet,
+        "sheetIdOrUrl",
+      ],
     },
     rows: {
       type: "string",
@@ -38,10 +39,7 @@ export default {
     },
   },
   async run({ $ }) {
-    // Quote every unquoted `rowId` literal BEFORE parsing. JSON.parse rounds an integer past
-    // 2^53 to an adjacent value, and by then the original digits are unrecoverable, so the
-    // row that gets updated is not the row that was asked for. Quoting first keeps the exact
-    // token; toIdString validates it below.
+    // Quote before parsing: JSON.parse would round a >2^53 rowId beyond recovery.
     const rowsJson = String(this.rows ?? "").replace(/("rowId"\s*:\s*)(\d+)/g, "$1\"$2\"");
 
     let parsedRows;

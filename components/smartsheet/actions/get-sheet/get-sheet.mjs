@@ -23,9 +23,10 @@ export default {
   props: {
     smartsheet,
     sheetId: {
-      type: "string",
-      label: "Sheet ID or URL",
-      description: "The numeric ID of the sheet to retrieve (e.g. `1234567890123456`), or a Smartsheet sheet URL (e.g. `https://app.smartsheet.com/sheets/abc123`), which is resolved to the ID for you. Use **Search** to find a sheet by name, or **List Sheets** to enumerate them.",
+      propDefinition: [
+        smartsheet,
+        "sheetIdOrUrl",
+      ],
     },
     rowIds: {
       type: "string",
@@ -99,9 +100,7 @@ export default {
     },
   },
   async run({ $ }) {
-    // Note there is no `includeAll` here: GET /sheets/{sheetId} does not document it and
-    // ignores it, so the prop that used to send it silently returned only the first page.
-    // Row volume is controlled with page / pageSize.
+    // No `includeAll`: this endpoint ignores it. Row volume is page / pageSize.
     const params = {
       rowIds: this.rowIds,
       rowNumbers: this.rowNumbers,

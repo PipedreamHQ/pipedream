@@ -28,17 +28,22 @@ export default {
         })) || [];
       },
     },
-    rowId: {
+    sheetIdOrUrl: {
       type: "string",
-      label: "Row",
-      description: "Identifier of a row in a sheet",
-      async options({ sheetId }) {
-        const { rows } = await this.getSheet(sheetId);
-        return rows?.map(({ id }) => ({
-          label: `Row ID ${id}`,
-          value: String(id),
-        }));
-      },
+      label: "Sheet ID or URL",
+      description: "The sheet to act on. Accepts a numeric sheet ID (e.g. `1234567890123456`), or a Smartsheet sheet URL, which is resolved to the ID for you. Use **List Sheets** to enumerate sheets, or **Search** to find one by name.",
+    },
+    workspaceIdInput: {
+      type: "string",
+      label: "Workspace ID",
+      description: "Numeric workspace ID (e.g. `1234567890123456`). Use **List Workspace Options** to find one.",
+      optional: true,
+    },
+    folderIdInput: {
+      type: "string",
+      label: "Folder ID",
+      description: "Numeric folder ID (e.g. `9876543210987654`). Use **List Folder Options** with a workspace ID to find one.",
+      optional: true,
     },
     templateId: {
       type: "string",
@@ -46,9 +51,7 @@ export default {
       description: "Select a template from a workspace. Use the **List Workspace Templates** action to find template IDs. Example: `1122334455667788`.",
       async options() {
         const { data: workspaces } = await this.listAllWorkspaces();
-        // Smartsheet exposes no "list all templates" endpoint, so this has to walk every
-        // workspace. Serial was slow; unbounded was a burst of one request per workspace.
-        // A workspace that fails to traverse is skipped rather than emptying the dropdown.
+        // No list-all-templates endpoint, so every workspace is walked; failures are skipped.
         const perWorkspace = await mapWithConcurrency(workspaces || [], async (ws) => {
           try {
             const { data } = await this.listAllWorkspaceChildren(ws.id, {
@@ -83,43 +86,6 @@ export default {
         return templates;
       },
     },
-    workspaceId: {
-      type: "string",
-      label: "Workspace",
-      description: "Select a workspace. Use the **List Workspace Options** action to find workspace IDs. Example: `1234567890123456`.",
-      optional: true,
-      async options() {
-        const { data } = await this.listAllWorkspaces();
-        return data?.map(({
-          id, name,
-        }) => ({
-          label: name,
-          value: String(id),
-        })) || [];
-      },
-    },
-    folderId: {
-      type: "string",
-      label: "Folder",
-      description: "Select a folder from a workspace. Use the **List Folder Options** action with a workspace ID to find folder IDs. Example: `9876543210987654`.",
-      optional: true,
-      async options({ workspaceId }) {
-        if (!workspaceId) {
-          return [];
-        }
-        const { data } = await this.listAllWorkspaceChildren(workspaceId, {
-          params: {
-            childrenResourceTypes: "folders",
-          },
-        });
-        return data?.map(({
-          id, name,
-        }) => ({
-          label: name,
-          value: String(id),
-        })) || [];
-      },
-    },
   },
   methods: {
     _baseUrl() {
@@ -130,19 +96,14 @@ export default {
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
-    // Throws rather than returning `{}`. A silent empty object reads to an agent as
-    // "the sheet exists and is empty", so it retries variations of a bad ID instead of
-    // switching to a lookup. The message names the value and the way out.
+    // Throws rather than returning `{}`, which an agent reads as an empty sheet.
     _requireNumericId(value, label = "Sheet ID") {
       const trimmed = String(value ?? "").trim();
       if (/^\d+$/.test(trimmed)) {
         return trimmed;
       }
-      // The remedy depends on what was actually passed. Pointing a URL at Search is dead
-      // advice: the permalink token is not indexed text, so Search returns zero results.
-      // Only a permalink match resolves it, which is what resolveSheetId does.
-      // Keyed off the label as well as the input: a bad Row ID or Comment ID was previously
-      // told to "find a sheet by name", which is the wrong lookup for the thing that failed.
+      // Remedy depends on the input: Search cannot resolve a permalink, and a bad Row or
+      // Comment ID needs a different lookup than a Sheet ID.
       const isSheet = label === "Sheet ID";
       const remedy = SHEET_URL_PATTERN.test(trimmed)
         ? "That looks like a Smartsheet URL. The URL carries an opaque permalink token rather"
@@ -153,9 +114,7 @@ export default {
           : `Run **Get Sheet** and read the ${label.replace(/ ID$/, "").toLowerCase()} IDs from its response.`;
       throw new ConfigurationError(`\`${label}\` must be a numeric Smartsheet ID, but received \`${value}\`. ${remedy}`);
     },
-    // Accepts either a numeric sheet ID or a Smartsheet sheet URL. A sheet URL carries an
-    // opaque permalink token rather than the ID, so the only way to resolve one is to match
-    // `permalink` across the sheets the user can see.
+    // A sheet URL carries an opaque token, so it resolves only by matching permalinks.
     async resolveSheetId(value, args = {}) {
       const trimmed = String(value ?? "").trim();
       if (/^\d+$/.test(trimmed)) {

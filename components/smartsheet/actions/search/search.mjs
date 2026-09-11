@@ -30,9 +30,11 @@ export default {
       description: "The text to search for across sheet contents.",
     },
     sheetId: {
-      type: "string",
-      label: "Sheet ID or URL",
-      description: "Optional - scope the search to a single sheet (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs. If omitted, searches all sheets. A Smartsheet sheet URL is also accepted and resolved to the ID for you.",
+      propDefinition: [
+        smartsheet,
+        "sheetIdOrUrl",
+      ],
+      description: "Scope the search to a single sheet. If omitted, searches all sheets. Accepts a numeric sheet ID (e.g. `1234567890123456`), or a Smartsheet sheet URL, which is resolved to the ID for you. Use **List Sheets** to enumerate sheets.",
       optional: true,
     },
   },
@@ -41,8 +43,7 @@ export default {
       query: this.query,
     };
 
-    // Only resolved when a scope was given: an omitted Sheet ID means search everything,
-    // and resolveSheetId would reject the empty value.
+    // Omitted means search everything, and resolveSheetId would reject an empty value.
     const sheetId = this.sheetId
       ? await this.smartsheet.resolveSheetId(this.sheetId, {
         $,

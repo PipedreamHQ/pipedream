@@ -23,9 +23,9 @@ export default {
     workspaceId: {
       propDefinition: [
         smartsheet,
-        "workspaceId",
+        "workspaceIdInput",
       ],
-      description: "Scope the listing to one workspace. Smartsheet has no list-templates endpoint, so omitting this costs a workspace-list request plus one or more requests per workspace you can see; set it when you know where the template lives. Use **List Workspace Options** to find workspace IDs.",
+      description: "Scope the listing to one workspace. Smartsheet has no list-templates endpoint, so omitting this costs a workspace-list request plus one or more requests per workspace you can see; set it when you know where the template lives. Numeric workspace ID (e.g. `1234567890123456`). Use **List Workspace Options** to find one.",
     },
   },
   async run({ $ }) {
@@ -51,10 +51,7 @@ export default {
       const { data: workspaces } = await this.smartsheet.listAllWorkspaces({
         $,
       });
-      // Smartsheet has no "list all templates" endpoint, so every workspace's children must
-      // be fetched. Bounded concurrency: sequential was slow, unbounded fired one request
-      // per workspace at once. A workspace that fails to traverse is skipped rather than
-      // failing the whole listing.
+      // No list-all-templates endpoint, so every workspace is walked; failures are skipped.
       const perWorkspace = await mapWithConcurrency(workspaces || [], async (ws) => {
         try {
           const { data } = await this.smartsheet.listAllWorkspaceChildren(ws.id, {

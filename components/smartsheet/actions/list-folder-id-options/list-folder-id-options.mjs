@@ -20,10 +20,10 @@ export default {
     workspaceId: {
       propDefinition: [
         smartsheet,
-        "workspaceId",
+        "workspaceIdInput",
       ],
       optional: false,
-      description: "The workspace to list folders from. Example: `1234567890123456`.",
+      description: "The workspace to list folders from. Numeric workspace ID (e.g. `1234567890123456`). Use **List Workspace Options** to find one.",
     },
   },
   async run({ $ }) {
@@ -33,9 +33,7 @@ export default {
         childrenResourceTypes: "folders",
       },
     });
-    // `String(id)`, matching the app's propDefinition resolvers: every ID prop in this
-    // connector is a string, and emitting a bare number here invites a caller to write it
-    // back as a JSON number, which rounds a 16-digit ID.
+    // String, like the app resolvers: a bare number invites a caller to round it.
     const options = (data || []).map(({
       id, name,
     }) => ({

@@ -19,14 +19,15 @@ export default {
   props: {
     smartsheet,
     sheetId: {
-      type: "string",
-      label: "Sheet ID or URL",
-      description: "The ID of the sheet containing the column (e.g. `1234567890123456`). Use **List Sheets** to find sheet IDs. A Smartsheet sheet URL is also accepted and resolved to the ID for you.",
+      propDefinition: [
+        smartsheet,
+        "sheetIdOrUrl",
+      ],
     },
     columnId: {
       type: "string",
       label: "Column ID",
-      description: "The ID of the column to delete. Use **List Columns** to find column IDs. WARNING: All cell data in this column will be permanently deleted.",
+      description: "The ID of the column to delete (e.g. `7894561230123456`). Use **List Columns** to find column IDs. WARNING: All cell data in this column will be permanently deleted.",
     },
   },
   async run({ $ }) {
