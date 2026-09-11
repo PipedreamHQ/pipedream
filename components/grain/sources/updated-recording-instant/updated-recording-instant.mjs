@@ -8,7 +8,6 @@ export default {
   description: "Emit new event when a recording is updated. Deduplicates retried webhook deliveries of the same update; each distinct update still emits. [See the documentation](https://developers.grain.com/#create-hook)",
   version: "1.1.0",
   type: "source",
-  dedupe: "unique",
   methods: {
     ...common.methods,
     getHookType() {

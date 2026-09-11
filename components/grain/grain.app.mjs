@@ -8,26 +8,6 @@ export default {
       type: "string",
       label: "Recording ID",
       description: "The ID of the recording to fetch. Use **List Recordings** to find recording IDs.",
-      async options({ prevContext }) {
-        const {
-          recordings, cursor,
-        } = await this.listRecordings({
-          data: {
-            cursor: prevContext?.nextPage,
-          },
-        });
-        return {
-          options: recordings.map(({
-            id: value, title: label,
-          }) => ({
-            value,
-            label,
-          })),
-          context: {
-            nextPage: cursor,
-          },
-        };
-      },
     },
     highlights: {
       type: "boolean",

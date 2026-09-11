@@ -81,6 +81,24 @@ export default {
     },
   },
   async run({ $ }) {
+    let fields = this.fields;
+    if (typeof fields === "string") {
+      try {
+        fields = JSON.parse(fields);
+      } catch {
+        throw new ConfigurationError("`fields` must be a JSON array of field names.");
+      }
+    }
+    if (
+      fields !== undefined
+      && (
+        !Array.isArray(fields)
+        || fields.some((field) => typeof field !== "string" || !field)
+      )
+    ) {
+      throw new ConfigurationError("`fields` must be an array of non-empty field names.");
+    }
+
     const filter = {
       before_datetime: this.beforeDatetime,
       after_datetime: this.afterDatetime,
@@ -113,13 +131,6 @@ export default {
     $.export("$summary", `Successfully fetched ${recordings.length} recording${recordings.length === 1
       ? ""
       : "s"}`);
-
-    const fields = typeof this.fields === "string"
-      ? JSON.parse(this.fields)
-      : this.fields;
-    if (fields !== undefined && !Array.isArray(fields)) {
-      throw new ConfigurationError("`fields` must be an array of field names.");
-    }
 
     if (!fields?.length) {
       return recordings;

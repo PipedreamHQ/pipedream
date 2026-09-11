@@ -44,18 +44,29 @@ export default {
     },
   },
   async run({ $ }) {
-    const addTags = typeof this.addTags === "string"
-      ? JSON.parse(this.addTags)
-      : this.addTags;
-    if (addTags !== undefined && !Array.isArray(addTags)) {
-      throw new ConfigurationError("`addTags` must be an array of tag names.");
-    }
-    const removeTags = typeof this.removeTags === "string"
-      ? JSON.parse(this.removeTags)
-      : this.removeTags;
-    if (removeTags !== undefined && !Array.isArray(removeTags)) {
-      throw new ConfigurationError("`removeTags` must be an array of tag names.");
-    }
+    const parseTags = (value, propName) => {
+      let tags = value;
+      if (typeof tags === "string") {
+        try {
+          tags = JSON.parse(tags);
+        } catch {
+          throw new ConfigurationError(`\`${propName}\` must be a JSON array of tag names.`);
+        }
+      }
+      if (
+        tags !== undefined
+        && (
+          !Array.isArray(tags)
+          || tags.some((tag) => typeof tag !== "string" || !tag)
+        )
+      ) {
+        throw new ConfigurationError(`\`${propName}\` must be an array of non-empty tag names.`);
+      }
+      return tags;
+    };
+
+    const addTags = parseTags(this.addTags, "addTags");
+    const removeTags = parseTags(this.removeTags, "removeTags");
 
     const actions = [];
 
