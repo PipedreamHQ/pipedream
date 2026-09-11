@@ -74,7 +74,7 @@ export default {
     conversationId: {
       type: "string",
       label: "Conversation ID",
-      description: "The ID of the conversation to use for the action (e.g. `sSzxq7tMBFmCY28o8`)",
+      description: "The ID of the conversation to use for the action (e.g. `sSzxq7tMBFmCY28o8`). Use **List All Conversations** to find conversation IDs.",
       async options({
         page, includeStatus, excludeStatus,
       }) {
