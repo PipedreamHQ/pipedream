@@ -4,7 +4,7 @@ export default {
   key: "slack_v2-list-replies",
   name: "List Replies",
   description: "Retrieve a thread of messages posted to a conversation. [See the documentation](https://api.slack.com/methods/conversations.replies)",
-  version: "0.0.35",
+  version: "0.0.36",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -40,9 +40,12 @@ export default {
     },
   },
   async run({ $ }) {
+    // conversations.replies only accepts a channel ID — resolve a name the same way
+    // every other AI-optimized tool in this app does.
+    const channel = await this.slack.resolveChannelId(this.conversation);
     const replies = [];
     const params = {
-      channel: this.conversation,
+      channel,
       ts: this.timestamp,
       limit: this.pageSize,
     };

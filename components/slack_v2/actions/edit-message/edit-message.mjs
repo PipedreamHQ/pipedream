@@ -6,11 +6,12 @@ export default {
   name: "Edit Message",
   description:
     "Edit an existing message."
-    + " Accepts a channel ID or channel name (resolved automatically)."
+    + " Accepts a channel ID (preferred — resolves instantly) or channel name (resolved by"
+    + " scanning the workspace's channel list, which can be slow)."
     + " Requires the message timestamp (`ts`) from **Get Channel History** or **Post Message**."
     + " You can only edit messages posted by the same token/user."
     + " [See the documentation](https://api.slack.com/methods/chat.update)",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -23,7 +24,7 @@ export default {
     channel: {
       type: "string",
       label: "Channel",
-      description: "Channel ID (e.g. `C1234567890`) or channel name (e.g. `general` or `#general`). Resolved automatically.",
+      description: "Prefer a channel ID (e.g. `C1234567890`) — use **List Channels** to look it up; it resolves instantly. A channel name (e.g. `general` or `#general`) is also accepted, but resolving it scans up to 5 pages (~5,000 channels) of the workspace's channel list, which can be slow — and a valid channel beyond that bound will not be found.",
     },
     timestamp: {
       type: "string",

@@ -6,14 +6,18 @@ export default {
   name: "Get Thread Replies",
   description:
     "Retrieve all replies in a message thread."
-    + " Accepts a channel ID or channel name (resolved automatically)."
+    + " Accepts a channel ID (preferred — resolves instantly) or channel name (resolved by"
+    + " scanning up to 5 conversations.list pages, ~5,000 active public/private channels — a"
+    + " name beyond that limit returns a configuration error)."
+    + " To read a thread in a DM, pass the other person's **user ID** (e.g. `U1234567890`) as"
+    + " the channel — pass your OWN user ID to read your conversation with yourself."
     + " Use **Get Channel History** or **Search** to find the parent message's timestamp (thread_ts)."
     + " Returns the parent message followed by all replies in chronological order."
     + " **Pass `fields`** (e.g. `text,ts,user`) unless you need full message objects — raw"
     + " Slack messages carry blocks, attachments and edit metadata, so a long thread can run"
     + " to tens of thousands of characters and be truncated before you see any of it."
     + " [See the documentation](https://api.slack.com/methods/conversations.replies)",
-  version: "0.1.5",
+  version: "0.1.6",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -26,7 +30,7 @@ export default {
     channel: {
       type: "string",
       label: "Channel",
-      description: "Channel ID (e.g. `C1234567890`) or channel name (e.g. `general` or `#general`). Resolved automatically.",
+      description: "Prefer a channel ID (e.g. `C1234567890`) — use **List Channels** to look it up; it resolves instantly. A channel name (e.g. `general` or `#general`) is also accepted, but resolving it scans up to 5 pages (~5,000 channels) of the workspace's channel list, which can be slow — and a valid channel beyond that bound will not be found. For a DM thread, pass a user ID (e.g. `U1234567890`) — including your own, to read your self-DM.",
     },
     threadTs: {
       type: "string",

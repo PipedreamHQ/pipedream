@@ -4,7 +4,7 @@ export default {
   key: "slack_v2-set-channel-description",
   name: "Set Channel Description",
   description: "Change the description or purpose of a channel. [See the documentation](https://api.slack.com/methods/conversations.setPurpose)",
-  version: "0.0.20",
+  version: "0.0.21",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -28,11 +28,14 @@ export default {
     },
   },
   async run({ $ }) {
+    // conversations.setPurpose only accepts a channel ID — resolve a name the same way
+    // every other AI-optimized tool in this app does.
+    const channel = await this.slack.resolveChannelId(this.conversation);
     const response = await this.slack.setChannelDescription({
-      channel: this.conversation,
+      channel,
       purpose: this.purpose,
     });
-    $.export("$summary", `Successfully set description for channel with ID ${this.conversation}`);
+    $.export("$summary", `Successfully set description for channel with ID ${channel}`);
     return response;
   },
 };
