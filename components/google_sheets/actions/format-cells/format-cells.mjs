@@ -4,7 +4,7 @@ import {
   BORDER_PRESET_OPTIONS,
   BORDER_STYLE_OPTIONS,
   NUMBER_FORMAT_OPTIONS,
-} from "../../common/constants.mjs";
+} from "../../common/format-constants.mjs";
 import {
   buildBordersRequest,
   colorToHex,

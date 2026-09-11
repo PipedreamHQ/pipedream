@@ -7,7 +7,7 @@
  * translation to the Sheets API happens in one tested place instead of once per action.
  *
  * The vocabulary itself (color names, number-format presets, border presets) lives in
- * `constants.mjs`; this file is the functions that translate it.
+ * `format-constants.mjs`; this file is the functions that translate it.
  *
  * Every throw below reports a bad *input* — an unparseable range, a color that is
  * neither hex nor a known name, a worksheet that doesn't exist — so they are
@@ -23,7 +23,7 @@ import {
   NAMED_COLORS,
   NUMBER_FORMATS,
   NUMBER_FORMAT_OPTIONS,
-} from "./constants.mjs";
+} from "./format-constants.mjs";
 
 /* ── A1 range parsing ─────────────────────────────────────────────────────── */
 
