@@ -9,7 +9,7 @@ export default {
     "Send a sheet as an email attachment to one or more recipients. The sheet can be sent as PDF, Excel, or PDF Gantt format."
     + " Use **List Sheets** to find the sheet ID."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/sheet-send)",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -20,9 +20,10 @@ export default {
   props: {
     smartsheet,
     sheetId: {
-      type: "string",
-      label: "Sheet ID",
-      description: "The ID of the sheet to email. Use **List Sheets** to find sheet IDs.",
+      propDefinition: [
+        smartsheet,
+        "sheetIdOrUrl",
+      ],
     },
     sendTo: {
       type: "string",
@@ -89,11 +90,14 @@ export default {
       data.ccMe = this.ccMe;
     }
 
-    const response = await this.smartsheet.emailSheet(this.sheetId, {
+    const sheetId = await this.smartsheet.resolveSheetId(this.sheetId, {
+      $,
+    });
+    const response = await this.smartsheet.emailSheet(sheetId, {
       $,
       data,
     });
-    $.export("$summary", `Emailed sheet ${this.sheetId} to ${sendTo.length} recipient(s)`);
+    $.export("$summary", `Emailed sheet ${sheetId} to ${sendTo.length} recipient(s)`);
     return response;
   },
 };

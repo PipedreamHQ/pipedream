@@ -5,7 +5,7 @@ export default {
   key: "smartsheet-new-row-updated",
   name: "New Row Updated (Instant)",
   description: "Emit new event when a row is updated in a sheet.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   methods: {
