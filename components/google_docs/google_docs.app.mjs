@@ -86,15 +86,18 @@ export default {
       label: "Tab ID",
       description: "For a multi-tab document, the tab the image lives in (e.g. `t.0`). Get tab IDs from **List Tabs**. Omit to locate the image automatically.",
       optional: true,
-      // Flattened, so nested child tabs are offered too — `document.tabs` holds
-      // only the root tabs, with the rest hanging off `childTabs`.
+      // `listTabs` already returns every tab flattened (nested child tabs
+      // included) through the metadata field mask, so this needs no document
+      // content — and asking for none is the difference between a few hundred
+      // bytes and the whole document.
       async options({ documentId }) {
-        const document = await this.getDocument(documentId, true);
-        return this._flattenDocumentTabs(document.tabs)
-          .map(({ tabProperties }) => ({
-            label: tabProperties?.title,
-            value: tabProperties?.tabId,
-          }));
+        const tabs = await this.listTabs(documentId);
+        return tabs.map(({
+          tabId, title,
+        }) => ({
+          label: title,
+          value: tabId,
+        }));
       },
     },
     imageUri: {
