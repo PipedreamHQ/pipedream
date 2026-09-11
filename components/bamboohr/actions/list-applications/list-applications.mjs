@@ -5,13 +5,14 @@ export default {
   key: "bamboohr-list-applications",
   name: "List Applications",
   description: "List all applications. [See the documentation](https://documentation.bamboohr.com/reference/get-applications)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     bamboohr,
     jobId: {
