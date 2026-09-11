@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../box.app.mjs";
 import utils from "../../common/utils.mjs";
@@ -7,13 +6,14 @@ export default {
   name: "Create Box Sign Request",
   description: "Creates a Box Sign signature request and sends it to the listed signers. Requires at least one signer, plus the document(s) to sign passed via `Additional Options` — either `source_files` (e.g. `[{\"id\": \"123456789\", \"type\": \"file\"}]`) or a `template_id`; Box rejects requests with no document source. The signed document and signing log are saved to the `Parent Folder`. [See the documentation](https://developer.box.com/reference/post-sign-requests/).",
   key: "box-create-sign-request",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     signers: {

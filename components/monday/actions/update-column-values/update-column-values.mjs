@@ -11,14 +11,15 @@ export default {
   ...common,
   key: "monday-update-column-values",
   name: "Update Column Values",
-  description: "Update multiple column values of an item. [See the documentation](https://developer.monday.com/api-reference/reference/columns#change-multiple-column-values)",
-  version: "0.3.1",
+  description: "Set one or more column values on an existing item. Use for any field change except the item's name — this mutation cannot change it, so use **Update Item Name** for that. Set `Board ID`, `Item ID` and `Column Values` as column ID to value pairs; call **List Columns** first for the column IDs and the labels a `status`/`dropdown` column accepts. Example: Column Values `{ \"status\": \"Done\", \"date4\": \"2026-09-02\", \"numbers\": 42 }`. A `file` column takes a file URL or a path under `/tmp` and is uploaded in a separate request. Every column ID is checked against the board before anything is sent, so a call that names an unknown column fails without changing the item. Returns the updated item with its `column_values`. [See the documentation](https://developer.monday.com/api-reference/reference/columns#change-multiple-column-values)",
+  version: "0.2.10",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     updateInfoBox: {

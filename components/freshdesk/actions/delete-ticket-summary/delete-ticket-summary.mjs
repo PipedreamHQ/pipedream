@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-delete-ticket-summary",
   name: "Delete Ticket Summary",
   description: "Delete the summary note for a ticket. [See the documentation](https://developers.freshdesk.com/api/#ticket_summary)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

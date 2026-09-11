@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import constants from "../../common/constants.mjs";
 import {
@@ -13,13 +12,14 @@ export default {
     + " Find the case ID with **List Cases** first."
     + " Omit `Case ID` to list the most recent emails across the org, which can be large - set `Limit`."
     + " [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_emailmessage.htm)",
-  version: "0.1.0",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     salesforce,
     caseId: {

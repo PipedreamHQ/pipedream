@@ -4,8 +4,9 @@ export default {
   key: "leadboxer-list-leads",
   name: "List Leads",
   description: "Retrieve a list of leads. [See the documentation](https://developers.leadboxer.com/reference/users)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

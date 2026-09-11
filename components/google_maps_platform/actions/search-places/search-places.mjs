@@ -12,13 +12,14 @@ export default {
   key: "google_maps_platform-search-places",
   name: "Search Places",
   description: "Searches for places based on location, radius, and optional filters like keywords, place type, or name. [See the documentation](https://developers.google.com/maps/documentation/places/web-service/text-search)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     textQuery: {

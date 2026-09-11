@@ -6,13 +6,14 @@ export default {
   key: "cal_com-create-booking",
   name: "Create Booking",
   description: "Create a new booking. [See the documentation](https://cal.com/docs/api-reference/v2/bookings/create-a-booking)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     calCom,
     bookingType: {

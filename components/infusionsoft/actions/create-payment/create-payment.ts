@@ -7,13 +7,14 @@ export default defineAction({
   description:
     "Create or add a payment record [See docs here](https://developer.infusionsoft.com/docs/rest/#operation/createPaymentOnOrderUsingPOST)",
   key: "infusionsoft-create-payment",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     infusionsoft,
     orderId: {

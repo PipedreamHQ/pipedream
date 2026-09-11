@@ -1,11 +1,10 @@
-// x-pd-ai: optimized
 import { defineAction } from "@pipedream/types";
 import expensify from "../../app/expensify.app";
 import fs from "fs";
 
 export default defineAction({
   key: "expensify-export-report-to-pdf",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -14,6 +13,7 @@ export default defineAction({
   name: "Export Report To PDF",
   description: "Export a report to PDF. [See docs here](https://integrations.expensify.com/Integration-Server/doc/#report-exporter)",
   type: "action",
+  ai: "optimized",
   props: {
     expensify,
     reportId: {

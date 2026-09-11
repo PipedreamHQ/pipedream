@@ -4,13 +4,14 @@ export default {
   key: "shopify-get-fulfillment-orders",
   name: "Get Fulfillment Orders",
   description: "Retrieve a list of fulfillment orders. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/fulfillmentorders)",
-  version: "0.0.13",
+  version: "0.0.14",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     shopify,
     // eslint-disable-next-line pipedream/props-label, pipedream/props-description

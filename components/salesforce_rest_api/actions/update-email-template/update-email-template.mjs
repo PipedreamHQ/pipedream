@@ -1,9 +1,4 @@
-// x-pd-ai: optimized
-import {
-  convertFieldsToProps, getAdditionalFields,
-} from "../../common/props-utils.mjs";
 import salesforce from "../../salesforce_rest_api.app.mjs";
-import { additionalFields } from "../common/base-create-update.mjs";
 
 export default {
   key: "salesforce_rest_api-update-email-template",
@@ -13,79 +8,35 @@ export default {
     + " Only the fields you supply change; everything else is left as-is."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_update_fields.htm)",
-  version: "0.0.7",
+  version: "1.0.1",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     salesforce,
     recordId: {
-      propDefinition: [
-        salesforce,
-        "recordId",
-        () => ({
-          objType: "EmailTemplate",
-        }),
-      ],
-      description: "The email template to update.",
+      type: "string",
+      label: "Record ID",
+      description: "The ID of the EmailTemplate record to update (Salesforce's 15- or 18-character record ID, e.g. `00XXX0000004Cts`). Use **SOQL Query** to find the ID.",
     },
-    fieldsToUpdate: {
-      propDefinition: [
-        salesforce,
-        "fieldsToUpdate",
-        () => ({
-          objType: "EmailTemplate",
-        }),
-      ],
-      reloadProps: true,
+    fields: {
+      type: "object",
+      label: "Fields",
+      description:
+        "Field name -> new value pairs. Example: `{\"Subject\": \"Updated subject line\", \"Body\": \"New body content\"}`. Use **Describe Object** to discover valid field names.",
     },
-  },
-  methods: {
-    getAdditionalFields,
-    convertFieldsToProps,
-  },
-  async additionalProps() {
-    const { fieldsToUpdate } = this;
-    const fields = await this.salesforce.getFieldsForObjectType("EmailTemplate");
-
-    const selectedFields = fields.filter(({ name }) => fieldsToUpdate.includes(name));
-    const selectedFieldProps = this.convertFieldsToProps(selectedFields);
-
-    return {
-      docsInfo: {
-        type: "alert",
-        alertType: "info",
-        content: "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_emailtemplate.htm) for information on all available fields.",
-      },
-      ...selectedFieldProps,
-      additionalFields,
-    };
   },
   async run({ $ }) {
-    /* eslint-disable no-unused-vars */
-    const {
-      salesforce,
-      recordId,
-      fieldsToUpdate,
-      getAdditionalFields: getData,
-      convertFieldsToProps,
-      docsInfo,
-      additionalFields,
-      ...data
-    } = this;
-    /* eslint-enable no-unused-vars */
     const response = await this.salesforce.updateRecord("EmailTemplate", {
       $,
-      id: recordId,
-      data: {
-        ...data,
-        ...getData(),
-      },
+      id: this.recordId,
+      data: this.fields,
     });
-    $.export("$summary", `Successfully updated Email Template record (ID: ${recordId})`);
+    $.export("$summary", `Successfully updated Email Template record (ID: ${this.recordId})`);
     return response;
   },
 };

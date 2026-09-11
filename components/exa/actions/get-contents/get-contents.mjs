@@ -13,8 +13,9 @@ export default {
   key: "exa-get-contents",
   name: "Get Contents",
   description: "Retrieve clean text, highlights, summaries, and metadata for specific URLs or Exa document IDs. Highlights are the recommended default extraction mode for most workflows. [See the documentation](https://docs.exa.ai/reference/get-contents)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

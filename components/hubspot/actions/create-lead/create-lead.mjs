@@ -12,14 +12,15 @@ export default {
   key: "hubspot-create-lead",
   name: "Create Lead",
   description:
-    "Create a lead in Hubspot. [See the documentation](https://developers.hubspot.com/beta-docs/guides/api/crm/objects/leads#create-leads)",
-  version: "0.0.28",
+    "Create a lead in HubSpot associated with an existing contact. Set **Contact ID** (the contact to link) and put lead fields in **Object Properties** as HubSpot internal names. Example: Contact ID `12345`, Object Properties `{ \"hs_lead_name\": \"Isla Nublar Opportunity\" }`. Returns the created lead with its id. [See the documentation](https://developers.hubspot.com/beta-docs/guides/api/crm/objects/leads#create-leads)",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     hubspot,
     contactId: {

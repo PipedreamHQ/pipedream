@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../google_tasks.app.mjs";
 
 export default {
@@ -6,13 +5,14 @@ export default {
   name: "Move Task",
   description:
     "Moves an existing task to a different position, parent task, or task list. Use this action to reorganize your task hierarchy or reorder tasks without modifying the task's title, notes, due date, or completion status. To update those properties, use the **Update Task** action instead. [See the documentation](https://developers.google.com/workspace/tasks/reference/rest/v1/tasks/move)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     taskListId: {

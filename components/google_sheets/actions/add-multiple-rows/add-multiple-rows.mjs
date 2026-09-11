@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import common from "../common/worksheet.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import { parseArray } from "../../common/utils.mjs";
@@ -10,13 +9,14 @@ export default {
   key: "google_sheets-add-multiple-rows",
   name: "Add Multiple Rows",
   description: "Append multiple rows to a Google Sheet in one call. Provide `rows` as a JSON array of arrays — each inner array is one row, with cell values in column order (e.g. `[[\"Alice\",\"alice@ingen.test\",\"Engineering\"],[\"Bob\",\"bob@ingen.test\",\"Paleontology\"]]`). Use **Get Spreadsheet Info** first to see the column order. Rows are appended after the last row with data. To add a single row, or to insert at a specific position, use **Add Single Row** instead. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append)",
-  version: "0.3.0",
+  version: "0.3.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     googleSheets,
     info: {

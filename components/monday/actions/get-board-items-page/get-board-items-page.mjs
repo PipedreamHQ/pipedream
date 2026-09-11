@@ -5,14 +5,15 @@ export default {
   ...common,
   key: "monday-get-board-items-page",
   name: "Get Board Items Page",
-  description: "Retrieves all items from a board. [See the documentation](https://developer.monday.com/api-reference/reference/items-page)",
-  version: "0.0.5",
+  description: "List every item (row) on a board, following the API's cursor automatically so all pages are returned in a single call — you do not need to paginate. Use when you want the whole board; use **Get Items By Column Value** to filter server-side by one column, which is far cheaper on a large board. Set `Board ID`, and optionally `Query Params` to filter or sort. Example: Query Params `{ \"rules\": [{ \"column_id\": \"status\", \"compare_value\": [\"Done\"], \"operator\": \"any_of\" }] }`. Returns an array of items with `id`, `name`, `state`, timestamps and column values. Gotcha: a large board returns every row in one response, so expect a slow call and a large payload. [See the documentation](https://developer.monday.com/api-reference/reference/items-page)",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     queryParams: {

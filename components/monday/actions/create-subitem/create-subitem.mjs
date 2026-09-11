@@ -6,9 +6,10 @@ export default {
   ...commonCreateItem,
   key: "monday-create-subitem",
   name: "Create Subitem",
-  description: "Creates a subitem. [See the documentation](https://developer.monday.com/api-reference/reference/subitems#create-a-subitem)",
+  description: "Create a subitem nested under an existing item. Use when the row belongs to a parent item; use **Create Item** for a top-level row. Set `Board ID` (the parent item's board), `Parent Item ID` and `Item Name`. Gotcha: subitems live on a separate subitems board, so `Column Values` must use that board's column IDs — run **List Columns** against the subitems board, not the board selected here. Example: Item Name `Draft copy`, Column Values `{ \"status\": \"Done\" }`. Returns the new subitem's ID as a string. [See the documentation](https://developer.monday.com/api-reference/reference/subitems#create-a-subitem)",
   type: "action",
-  version: "0.2.0",
+  ai: "optimized",
+  version: "0.1.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
