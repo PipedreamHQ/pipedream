@@ -4,7 +4,7 @@ export default {
   key: "linear_app-list-comments",
   name: "List Comments",
   description: "List comments in Linear. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=comments)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,
