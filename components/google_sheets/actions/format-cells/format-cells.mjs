@@ -2,11 +2,13 @@ import googleSheets from "../../google_sheets.app.mjs";
 import {
   BORDER_PRESET_OPTIONS,
   BORDER_STYLE_OPTIONS,
+  NUMBER_FORMAT_OPTIONS,
+} from "../../common/constants.mjs";
+import {
   buildBordersRequest,
   colorToHex,
   getSheetProperties,
   gridRangeToA1,
-  NUMBER_FORMAT_OPTIONS,
   parseA1Range,
   parseColor,
   resolveNumberFormat,

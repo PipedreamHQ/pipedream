@@ -5,11 +5,21 @@
  * "light gray" instead of three floats in [0,1]; `currency_usd` instead of
  * `"$#,##0.00"`; `A1:F1` instead of a zero-based half-open GridRange — and so the
  * translation to the Sheets API happens in one tested place instead of once per action.
+ *
+ * The vocabulary itself (color names, number-format presets, border presets) lives in
+ * `constants.mjs`; this file is the functions that translate it.
  */
 
-/* ── A1 range parsing ─────────────────────────────────────────────────────── */
+import {
+  BORDER_PRESETS,
+  BORDER_PRESET_OPTIONS,
+  CELL_TOKEN,
+  NAMED_COLORS,
+  NUMBER_FORMATS,
+  NUMBER_FORMAT_OPTIONS,
+} from "./constants.mjs";
 
-const CELL_TOKEN = /^([A-Za-z]*)(\d*)$/;
+/* ── A1 range parsing ─────────────────────────────────────────────────────── */
 
 /**
  * Convert a column letter reference to a 0-based index.
@@ -162,42 +172,6 @@ export function gridRangeToA1(range) {
 /* ── Colors ───────────────────────────────────────────────────────────────── */
 
 /**
- * A small set of CSS-ish color names, so "light gray" works as well as "#d9d9d9".
- * Deliberately short: it covers what people actually ask for in a spreadsheet
- * (highlights, banded headers, red/amber/green status) rather than all 148 CSS names.
- */
-export const NAMED_COLORS = {
-  "black": "#000000",
-  "white": "#ffffff",
-  "gray": "#999999",
-  "grey": "#999999",
-  "light gray": "#d9d9d9",
-  "light grey": "#d9d9d9",
-  "dark gray": "#666666",
-  "dark grey": "#666666",
-  "red": "#e06666",
-  "light red": "#f4cccc",
-  "dark red": "#cc0000",
-  "orange": "#f6b26b",
-  "light orange": "#fce5cd",
-  "yellow": "#ffd966",
-  "light yellow": "#fff2cc",
-  "green": "#93c47d",
-  "light green": "#d9ead3",
-  "dark green": "#38761d",
-  "blue": "#6d9eeb",
-  "light blue": "#cfe2f3",
-  "dark blue": "#1155cc",
-  "purple": "#8e7cc3",
-  "light purple": "#d9d2e9",
-  "magenta": "#c27ba0",
-  "pink": "#ead1dc",
-  "cyan": "#76a5af",
-  "teal": "#76a5af",
-  "brown": "#b45f06",
-};
-
-/**
  * Parse a hex code or color name into the API's `{red, green, blue}` floats.
  * @param {string} input - `#RRGGBB`, `#RGB`, `RRGGBB`, or a name from NAMED_COLORS
  * @param {string} [propName="color"] - prop name, for the error message
@@ -251,84 +225,6 @@ export function colorToHex(color) {
 /* ── Number formats ───────────────────────────────────────────────────────── */
 
 /**
- * Named number-format presets. An agent asked to "format as currency" should not
- * have to know Google wants `"$#,##0.00"`; `numberFormatPattern` remains the escape
- * hatch for anything not covered here.
- *
- * `automatic` is intentionally `null` — clearing the format means naming it in the
- * field mask while omitting it from the cell, which resets it to the sheet default.
- */
-export const NUMBER_FORMATS = {
-  automatic: null,
-  currency_usd: {
-    type: "CURRENCY",
-    pattern: "\"$\"#,##0.00",
-  },
-  currency_usd_whole: {
-    type: "CURRENCY",
-    pattern: "\"$\"#,##0",
-  },
-  currency_eur: {
-    type: "CURRENCY",
-    pattern: "\"€\"#,##0.00",
-  },
-  currency_gbp: {
-    type: "CURRENCY",
-    pattern: "\"£\"#,##0.00",
-  },
-  percent: {
-    type: "PERCENT",
-    pattern: "0%",
-  },
-  percent_1dp: {
-    type: "PERCENT",
-    pattern: "0.0%",
-  },
-  percent_2dp: {
-    type: "PERCENT",
-    pattern: "0.00%",
-  },
-  number_2dp: {
-    type: "NUMBER",
-    pattern: "#,##0.00",
-  },
-  integer_comma: {
-    type: "NUMBER",
-    pattern: "#,##0",
-  },
-  date: {
-    type: "DATE",
-    pattern: "yyyy-mm-dd",
-  },
-  date_us: {
-    type: "DATE",
-    pattern: "mm/dd/yyyy",
-  },
-  datetime: {
-    type: "DATE_TIME",
-    pattern: "yyyy-mm-dd hh:mm:ss",
-  },
-  time: {
-    type: "TIME",
-    pattern: "hh:mm:ss",
-  },
-  duration: {
-    type: "TIME",
-    pattern: "[h]:mm:ss",
-  },
-  scientific: {
-    type: "SCIENTIFIC",
-    pattern: "0.00E+00",
-  },
-  plain_text: {
-    type: "TEXT",
-    pattern: "@",
-  },
-};
-
-export const NUMBER_FORMAT_OPTIONS = Object.keys(NUMBER_FORMATS);
-
-/**
  * Resolve the `numberFormat` preset + optional custom pattern into an API
  * NumberFormat. A custom pattern always wins over the preset.
  * @param {string} [preset] - key from NUMBER_FORMATS
@@ -360,58 +256,6 @@ export function resolveNumberFormat(preset, customPattern) {
 }
 
 /* ── Borders ──────────────────────────────────────────────────────────────── */
-
-/** Which sides each `borders` preset writes. */
-export const BORDER_PRESETS = {
-  ALL: [
-    "top",
-    "bottom",
-    "left",
-    "right",
-    "innerHorizontal",
-    "innerVertical",
-  ],
-  OUTER: [
-    "top",
-    "bottom",
-    "left",
-    "right",
-  ],
-  INNER: [
-    "innerHorizontal",
-    "innerVertical",
-  ],
-  TOP: [
-    "top",
-  ],
-  BOTTOM: [
-    "bottom",
-  ],
-  LEFT: [
-    "left",
-  ],
-  RIGHT: [
-    "right",
-  ],
-  INNER_HORIZONTAL: [
-    "innerHorizontal",
-  ],
-  INNER_VERTICAL: [
-    "innerVertical",
-  ],
-  NONE: [],
-};
-
-export const BORDER_PRESET_OPTIONS = Object.keys(BORDER_PRESETS);
-
-export const BORDER_STYLE_OPTIONS = [
-  "SOLID",
-  "SOLID_MEDIUM",
-  "SOLID_THICK",
-  "DASHED",
-  "DOTTED",
-  "DOUBLE",
-];
 
 /**
  * Build an `updateBorders` request body from the preset. `NONE` writes style `NONE`
