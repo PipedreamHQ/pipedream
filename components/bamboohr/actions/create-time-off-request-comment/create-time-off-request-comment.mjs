@@ -1,4 +1,5 @@
 import bamboohr from "../../bamboohr.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "bamboohr-create-time-off-request-comment",
@@ -26,6 +27,9 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!this.comment.trim()) {
+      throw new ConfigurationError("Comment must not be empty or whitespace only.");
+    }
     const response = await this.bamboohr.createTimeOffRequestComment({
       $,
       requestId: this.requestId,

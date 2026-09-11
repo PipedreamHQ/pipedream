@@ -76,8 +76,12 @@ export default {
         end: this.end,
         timezone: this.timezone,
         note: this.note,
-        projectId: this.projectId,
-        taskId: this.taskId,
+        projectId: this.projectId
+          ? parseInt(this.projectId, 10)
+          : undefined,
+        taskId: this.taskId
+          ? parseInt(this.taskId, 10)
+          : undefined,
         clockInLocation: this.clockInLocation,
         clockOutLocation: this.clockOutLocation,
       },

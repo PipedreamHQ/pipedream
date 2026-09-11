@@ -91,34 +91,46 @@ export default {
     },
   },
   async run({ $ }) {
-    let jobCode;
-    if (this.jobCode) {
-      jobCode = Number(this.jobCode);
-      if (!Number.isInteger(jobCode)) {
-        throw new ConfigurationError(`Job Code must be an integer, got \`${this.jobCode}\``);
+    const toInt = (value, label) => {
+      if (!value) {
+        return undefined;
       }
-    }
+      const parsed = Number(value);
+      if (!Number.isInteger(parsed)) {
+        throw new ConfigurationError(`${label} must be an integer, got \`${value}\``);
+      }
+      return parsed;
+    };
+    const toFloat = (value, label) => {
+      if (!value) {
+        return undefined;
+      }
+      const parsed = Number(value);
+      if (!Number.isFinite(parsed)) {
+        throw new ConfigurationError(`${label} must be a valid number, got \`${value}\``);
+      }
+      return parsed;
+    };
+    const employeeId = toInt(this.employeeId, "Employee ID");
+    const hoursWorked = toFloat(this.hoursWorked, "Hours Worked");
+    const divisionId = toInt(this.divisionId, "Division ID");
+    const departmentId = toInt(this.departmentId, "Department ID");
+    const jobTitleId = toInt(this.jobTitleId, "Job Title ID");
+    const payRate = toFloat(this.payRate, "Pay Rate");
+    const jobCode = toInt(this.jobCode, "Job Code");
     const response = await this.bamboohr.createHourRecord({
       $,
       data: {
         timeTrackingId: this.recordId,
-        employeeId: parseInt(this.employeeId, 10),
+        employeeId,
         dateHoursWorked: this.dateHoursWorked,
-        hoursWorked: parseFloat(this.hoursWorked),
+        hoursWorked,
         rateType: this.rateType,
-        divisionId: this.divisionId
-          ? parseInt(this.divisionId, 10)
-          : undefined,
-        departmentId: this.departmentId
-          ? parseInt(this.departmentId, 10)
-          : undefined,
-        jobTitleId: this.jobTitleId
-          ? parseInt(this.jobTitleId, 10)
-          : undefined,
+        divisionId,
+        departmentId,
+        jobTitleId,
         payCode: this.payCode,
-        payRate: this.payRate
-          ? parseFloat(this.payRate)
-          : undefined,
+        payRate,
         jobCode,
         jobData: this.jobData,
       },

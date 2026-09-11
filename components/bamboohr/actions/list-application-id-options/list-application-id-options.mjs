@@ -30,7 +30,10 @@ export default {
       },
     });
     const options = (applications ?? []).map((application) => ({
-      label: `${application.applicant.firstName} ${application.applicant.lastName}`,
+      label: [
+        application.applicant?.firstName,
+        application.applicant?.lastName,
+      ].filter(Boolean).join(" ") || `Application ${application.id}`,
       value: application.id,
     }));
     $.export("$summary", `Successfully retrieved ${options.length} option${options.length === 1

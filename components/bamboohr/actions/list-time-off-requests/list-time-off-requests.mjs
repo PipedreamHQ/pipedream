@@ -41,6 +41,11 @@ export default {
       type: "string",
       label: "Action",
       description: "One of `view`, `approve`, `myRequests` (default `view`).",
+      options: [
+        "view",
+        "approve",
+        "myRequests",
+      ],
       optional: true,
     },
     type: {

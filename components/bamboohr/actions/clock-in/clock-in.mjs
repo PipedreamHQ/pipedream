@@ -76,8 +76,12 @@ export default {
         date: this.date,
         start: this.start,
         timezone: this.timezone,
-        projectId: this.projectId,
-        taskId: this.taskId,
+        projectId: this.projectId
+          ? parseInt(this.projectId, 10)
+          : undefined,
+        taskId: this.taskId
+          ? parseInt(this.taskId, 10)
+          : undefined,
         breakId: this.breakId,
         note: this.note,
         offline: this.offline,

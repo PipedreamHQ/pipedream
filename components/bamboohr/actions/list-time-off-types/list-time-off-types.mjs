@@ -17,6 +17,9 @@ export default {
       type: "string",
       label: "Mode",
       description: "Set to `request` to return only types the caller can request. Only `request` is accepted.",
+      options: [
+        "request",
+      ],
       optional: true,
     },
   },

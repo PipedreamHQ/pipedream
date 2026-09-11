@@ -58,9 +58,17 @@ export default {
     },
   },
   async run({ $ }) {
-    const dailyAmounts = this.dailyAmounts
-      ? JSON.parse(this.dailyAmounts)
-      : undefined;
+    let dailyAmounts;
+    if (this.dailyAmounts) {
+      try {
+        dailyAmounts = JSON.parse(this.dailyAmounts);
+      } catch {
+        throw new ConfigurationError("`dailyAmounts` must be a valid JSON array, e.g. `[{\"date\":\"2026-01-01\",\"amount\":8}]`");
+      }
+      if (!Array.isArray(dailyAmounts)) {
+        throw new ConfigurationError("`dailyAmounts` must be a JSON array of `{\"date\":\"YYYY-MM-DD\",\"amount\":<number>}` objects");
+      }
+    }
     if ((this.startDate || this.endDate) && !dailyAmounts) {
       throw new ConfigurationError("`dailyAmounts` must be supplied when changing `startDate` or `endDate`");
     }

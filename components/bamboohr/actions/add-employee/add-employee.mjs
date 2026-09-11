@@ -16,29 +16,29 @@ export default {
     firstName: {
       type: "string",
       label: "First Name",
-      description: "Employee first name.",
+      description: "Employee first name, e.g. `Jane`.",
     },
     lastName: {
       type: "string",
       label: "Last Name",
-      description: "Employee last name.",
+      description: "Employee last name, e.g. `Doe`.",
     },
     workEmail: {
       type: "string",
       label: "Work Email",
-      description: "Work email address.",
+      description: "Work email address, e.g. `jane.doe@example.com`.",
       optional: true,
     },
     jobTitle: {
       type: "string",
       label: "Job Title",
-      description: "Job title.",
+      description: "Job title, e.g. `Software Engineer`.",
       optional: true,
     },
     department: {
       type: "string",
       label: "Department",
-      description: "Department name.",
+      description: "Department name, e.g. `Engineering`.",
       optional: true,
     },
     hireDate: {
@@ -60,12 +60,19 @@ export default {
       returnFullResponse: true,
       data: {
         ...this.additionalFields,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        workEmail: this.workEmail,
-        jobTitle: this.jobTitle,
-        department: this.department,
-        hireDate: this.hireDate,
+        ...Object.fromEntries(
+          Object.entries({
+            firstName: this.firstName,
+            lastName: this.lastName,
+            workEmail: this.workEmail,
+            jobTitle: this.jobTitle,
+            department: this.department,
+            hireDate: this.hireDate,
+          }).filter(([
+            ,
+            value,
+          ]) => value !== undefined),
+        ),
       },
     });
     const locationHeader = response.headers?.location ?? "";

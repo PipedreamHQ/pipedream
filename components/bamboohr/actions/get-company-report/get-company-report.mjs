@@ -23,7 +23,7 @@ export default {
     format: {
       type: "string",
       label: "Format",
-      description: "Output format (case-insensitive). One of `json`, `xml`, `csv`, `xls`, `pdf` (default `json`).",
+      description: "Output format. One of `json`, `xml`, `csv`, `xls`, `pdf` (default `json`).",
       options: constants.REPORT_FORMATS,
       optional: true,
     },

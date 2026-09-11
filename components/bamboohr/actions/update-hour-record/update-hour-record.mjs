@@ -1,4 +1,5 @@
 import bamboohr from "../../bamboohr.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "bamboohr-update-hour-record",
@@ -26,16 +27,16 @@ export default {
       description: "The corrected total number of hours worked (not a delta) — e.g. send `6.0` if the employee actually worked 6 hours instead of the original 8.",
     },
     projectId: {
-      type: "string",
-      label: "Project ID",
-      description: "Optional numeric project ID to associate with the record, e.g. `19`. Find valid IDs in your BambooHR time tracking project settings.",
-      optional: true,
+      propDefinition: [
+        bamboohr,
+        "projectId",
+      ],
     },
     taskId: {
-      type: "string",
-      label: "Task ID",
-      description: "Optional numeric task ID to associate with the record, e.g. `47`. Find valid IDs in your BambooHR time tracking project settings.",
-      optional: true,
+      propDefinition: [
+        bamboohr,
+        "taskId",
+      ],
     },
     shiftDifferentialId: {
       type: "string",
@@ -51,11 +52,15 @@ export default {
     },
   },
   async run({ $ }) {
+    const hoursWorked = parseFloat(this.hoursWorked);
+    if (!Number.isFinite(hoursWorked)) {
+      throw new ConfigurationError(`Hours Worked must be a number, got \`${this.hoursWorked}\``);
+    }
     const response = await this.bamboohr.updateHourRecord({
       $,
       data: {
         timeTrackingId: this.recordId,
-        hoursWorked: parseFloat(this.hoursWorked),
+        hoursWorked,
         projectId: this.projectId
           ? parseInt(this.projectId, 10)
           : undefined,

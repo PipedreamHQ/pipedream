@@ -70,12 +70,18 @@ export default {
     },
   },
   async run({ $ }) {
-    const notes = this.notes
-      ? JSON.parse(this.notes)
-      : undefined;
-    const dates = this.dates
-      ? JSON.parse(this.dates)
-      : undefined;
+    const parseJson = (value, label) => {
+      if (!value) {
+        return undefined;
+      }
+      try {
+        return JSON.parse(value);
+      } catch {
+        throw new ConfigurationError(`${label} must be valid JSON, got \`${value}\``);
+      }
+    };
+    const notes = parseJson(this.notes, "Notes");
+    const dates = parseJson(this.dates, "Dates");
     let amount;
     if (this.amount) {
       amount = Number(this.amount);

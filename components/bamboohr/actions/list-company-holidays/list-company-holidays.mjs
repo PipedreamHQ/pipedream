@@ -35,6 +35,7 @@ export default {
       type: "integer",
       label: "Page",
       description: "Page number, starting at 1.",
+      min: 1,
       optional: true,
     },
     pageSize: {

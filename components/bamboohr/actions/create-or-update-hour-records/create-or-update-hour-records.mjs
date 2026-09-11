@@ -1,4 +1,5 @@
 import bamboohr from "../../bamboohr.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "bamboohr-create-or-update-hour-records",
@@ -20,9 +21,17 @@ export default {
     },
   },
   async run({ $ }) {
-    const hourRecords = typeof this.hourRecords === "string"
-      ? JSON.parse(this.hourRecords)
-      : this.hourRecords;
+    let hourRecords = this.hourRecords;
+    if (typeof hourRecords === "string") {
+      try {
+        hourRecords = JSON.parse(hourRecords);
+      } catch {
+        throw new ConfigurationError(`Hour Records must be valid JSON, got \`${this.hourRecords}\``);
+      }
+    }
+    if (!Array.isArray(hourRecords) || hourRecords.length === 0) {
+      throw new ConfigurationError("Hour Records must be a non-empty JSON array of hour record objects.");
+    }
 
     const response = await this.bamboohr.createOrUpdateHourRecords({
       $,

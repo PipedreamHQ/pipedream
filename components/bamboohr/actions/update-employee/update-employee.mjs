@@ -71,7 +71,7 @@ export default {
     additionalFields: {
       type: "object",
       label: "Additional Fields",
-      description: "Additional writable fields as name-value pairs, e.g. `{\"mobilePhone\":\"555-1234\",\"address1\":\"1 Main St\"}`.",
+      description: "Additional writable fields as name-value pairs, e.g. `{\"mobilePhone\":\"555-1234\",\"address1\":\"1 Main St\"}`. Unrecognized names are silently ignored, so use the exact field names/aliases listed in BambooHR's [Field Names reference](https://documentation.bamboohr.com/docs/list-of-field-names).",
       optional: true,
     },
   },
@@ -80,15 +80,22 @@ export default {
       $,
       employeeId: this.employeeId,
       data: {
-        firstName: this.firstName,
-        lastName: this.lastName,
-        workEmail: this.workEmail,
-        jobTitle: this.jobTitle,
-        department: this.department,
-        division: this.division,
-        location: this.location,
-        hireDate: this.hireDate,
         ...this.additionalFields,
+        ...Object.fromEntries(
+          Object.entries({
+            firstName: this.firstName,
+            lastName: this.lastName,
+            workEmail: this.workEmail,
+            jobTitle: this.jobTitle,
+            department: this.department,
+            division: this.division,
+            location: this.location,
+            hireDate: this.hireDate,
+          }).filter(([
+            ,
+            value,
+          ]) => value !== undefined),
+        ),
       },
     });
     $.export("$summary", `Updated employee ${this.employeeId}`);

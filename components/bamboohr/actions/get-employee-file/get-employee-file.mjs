@@ -53,9 +53,10 @@ export default {
     if (filename.includes("/") || filename.includes("\\") || filename === "." || filename === "..") {
       throw new ConfigurationError(`Output Filename must be a plain filename with no path separators or \`.\`/\`..\` segments, got \`${filename}\``);
     }
-    const filePath = path.join("/tmp", filename);
-    if (path.dirname(filePath) !== "/tmp") {
-      throw new ConfigurationError(`Output Filename must resolve to a path inside /tmp, got \`${filename}\``);
+    const outputDir = process.env.STASH_DIR || "/tmp";
+    const filePath = path.join(outputDir, filename);
+    if (path.dirname(filePath) !== outputDir) {
+      throw new ConfigurationError(`Output Filename must resolve inside the output directory, got \`${filename}\``);
     }
     await writeFile(filePath, Buffer.from(buffer));
     $.export("$summary", `Downloaded file ${this.fileId} for employee ${this.employeeId} to ${filePath}`);

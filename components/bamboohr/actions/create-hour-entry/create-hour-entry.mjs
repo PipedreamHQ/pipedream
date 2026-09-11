@@ -1,4 +1,5 @@
 import bamboohr from "../../bamboohr.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "bamboohr-create-hour-entry",
@@ -36,28 +37,36 @@ export default {
       optional: true,
     },
     projectId: {
-      type: "string",
-      label: "Project ID",
-      description: "Optional numeric project ID, e.g. `19`. Find valid IDs in your BambooHR time tracking project settings.",
-      optional: true,
+      propDefinition: [
+        bamboohr,
+        "projectId",
+      ],
     },
     taskId: {
-      type: "string",
-      label: "Task ID",
-      description: "Optional numeric task ID within the project, e.g. `47`. Find valid IDs in your BambooHR time tracking project settings.",
-      optional: true,
+      propDefinition: [
+        bamboohr,
+        "taskId",
+      ],
     },
   },
   async run({ $ }) {
+    const hours = parseFloat(this.hours);
+    if (!Number.isFinite(hours) || hours <= 0) {
+      throw new ConfigurationError(`Hours must be a number greater than 0, got \`${this.hours}\``);
+    }
     const response = await this.bamboohr.createHourEntry({
       $,
       data: {
         employeeId: parseInt(this.employeeId, 10),
         date: this.date,
-        hours: parseFloat(this.hours),
+        hours,
         note: this.note,
-        projectId: this.projectId,
-        taskId: this.taskId,
+        projectId: this.projectId
+          ? parseInt(this.projectId, 10)
+          : undefined,
+        taskId: this.taskId
+          ? parseInt(this.taskId, 10)
+          : undefined,
       },
     });
     $.export("$summary", `Created hour entry for employee ${this.employeeId} on ${this.date}`);

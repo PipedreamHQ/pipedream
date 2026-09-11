@@ -161,6 +161,9 @@ export default {
       return this._makeRequest({
         path: `/files/${fileId}`,
         responseType: "arraybuffer",
+        headers: {
+          Accept: "*/*",
+        },
         ...opts,
       });
     },
@@ -225,6 +228,9 @@ export default {
       return this._makeRequest({
         path: `/employees/${employeeId}/files/${fileId}`,
         responseType: "arraybuffer",
+        headers: {
+          Accept: "*/*",
+        },
         ...opts,
       });
     },
@@ -240,12 +246,24 @@ export default {
       reportId, params = {}, ...opts
     }) {
       const format = params.format?.toLowerCase();
+      const BINARY_FORMATS = [
+        "pdf",
+        "xls",
+      ];
+      const isBinary = BINARY_FORMATS.includes(format);
       return this._makeRequest({
         path: `/reports/${reportId}`,
         params,
-        responseType: (format === "pdf" || format === "xls")
+        responseType: isBinary
           ? "arraybuffer"
-          : undefined,
+          : format === "json"
+            ? undefined
+            : "text",
+        headers: isBinary
+          ? {
+            Accept: "*/*",
+          }
+          : {},
         ...opts,
       });
     },
