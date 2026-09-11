@@ -12,13 +12,14 @@ export default {
   key: "mural-create-image",
   name: "Create Image",
   description: "Upload an image and create an image widget on a mural. The image is uploaded to Mural's storage first and the widget is created from the uploaded asset, so the file must be reachable when the action runs. Only `bmp`, `ico`, `gif`, `jpeg`, `jpg`, `png`, and `webp` files are accepted; the format is detected from the file extension, falling back to the content type. [See the documentation](https://developers.mural.co/public/reference/createimage)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     mural,
     workspaceId: {

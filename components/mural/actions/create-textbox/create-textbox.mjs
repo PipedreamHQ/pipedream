@@ -4,13 +4,14 @@ export default {
   key: "mural-create-textbox",
   name: "Create Textbox",
   description: "Create a new textbox widget within a given mural. Use a textbox for section headings, instructions, or longer prose that should read as plain text on the canvas rather than as a sticky note. Position is set in pixels and, unless **Parent ID** is given, is measured from the top-left corner of the mural. [See the documentation](https://developers.mural.co/public/reference/createtextbox)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     mural,
     workspaceId: {

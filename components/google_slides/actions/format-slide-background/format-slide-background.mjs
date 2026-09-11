@@ -6,13 +6,14 @@ export default {
   key: "google_slides-format-slide-background",
   name: "Format Slide Background",
   description: "Set the background fill of a single slide in a Google Slides presentation. Use **Get Presentation** to find the slide's object ID. [See the documentation](https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations/request#UpdatePagePropertiesRequest)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     googleSlides,
     presentationId: {

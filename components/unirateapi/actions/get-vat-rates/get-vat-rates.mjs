@@ -3,7 +3,7 @@ import app from "../../unirateapi.app.mjs";
 export default {
   key: "unirateapi-get-vat-rates",
   name: "Get VAT Rates",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -11,6 +11,7 @@ export default {
   },
   description: "Get VAT rates for a single country, or for all supported countries when no country is provided. Country codes follow the EU VAT convention rather than ISO 3166-1 alpha-2 — Greece is `EL` (not `GR`) and the United Kingdom is `UK` (not `GB`). Coverage is limited to EU member states plus `UK` and `XI` (Northern Ireland), so non-EU codes such as `US` are not supported. Use **List Country Code Options** to discover valid codes. [See the documentation](https://unirateapi.com/apidocs).",
   type: "action",
+  ai: "optimized",
   props: {
     app,
     country: {

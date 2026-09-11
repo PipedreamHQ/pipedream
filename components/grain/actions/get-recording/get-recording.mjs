@@ -7,13 +7,14 @@ export default {
     + " Enable the optional include props to add highlights, participants, AI action items, AI summary, calendar event, HubSpot data, or screenshares to the response."
     + " Use **List Recordings** to find recording IDs, and **Get Transcript** to fetch the full transcript."
     + " [See the documentation](https://developers.grain.com/#get-recording)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     grain,
     recordingId: {

@@ -5,13 +5,14 @@ export default {
   key: "mural-update-sticky",
   name: "Update Sticky",
   description: "Update or move an existing sticky note on a mural. Every field except the mural and widget is optional, and only the fields you set are sent, so you can reposition a note by supplying just **X Position** and **Y Position** or reword it by supplying just **Text**. At least one updatable field must be set. [See the documentation](https://developers.mural.co/public/reference/updatestickynote)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     mural,
     workspaceId: {

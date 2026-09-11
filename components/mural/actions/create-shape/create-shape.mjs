@@ -5,13 +5,14 @@ export default {
   key: "mural-create-shape",
   name: "Create Shape",
   description: "Create a new shape widget within a given mural, useful for diagram nodes, callouts, and arrows drawn on the canvas. Shape names are the API's own enum values rather than display names, so a triangle is `triangle_smart` and a diamond is `rhombus_smart`. The legacy values `circle`, `diamond`, `hexagon`, `pentagon`, `square`, and `triangle` still work but are deprecated in favor of `ellipse`, `rhombus_smart`, `hexagon_smart`, `pentagon_smart`, `rectangle`, and `triangle_smart`. [See the documentation](https://developers.mural.co/public/reference/createshapewidget)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     mural,
     workspaceId: {

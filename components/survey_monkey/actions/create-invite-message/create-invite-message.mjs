@@ -8,13 +8,14 @@ export default {
   key: "survey_monkey-create-invite-message",
   name: "Create Invite Message",
   description: "Create an invite message on an email or SMS collector. Add recipients with **Add Message Recipients**, then deliver it with **Send Invite Message**. [See the documentation](https://api.surveymonkey.com/v3/docs?javascript#api-endpoints-post-collectors-collector_id-messages)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...base.props,
     collectorId: {

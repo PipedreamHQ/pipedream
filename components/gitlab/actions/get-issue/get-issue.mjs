@@ -4,7 +4,7 @@ export default {
   key: "gitlab-get-issue",
   name: "Get Issue",
   description: "Gets a single issue from repository. [See the documentation](https://docs.gitlab.com/ee/api/issues.html#single-project-issue)",
-  version: "0.2.3",
+  version: "0.2.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

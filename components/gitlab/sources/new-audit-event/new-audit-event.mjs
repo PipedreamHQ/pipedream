@@ -11,7 +11,7 @@ export default {
   key: "gitlab-new-audit-event",
   name: "New Audit Event (Instant)",
   description: "Emit new event when a new audit event is created",
-  version: "0.1.3",
+  version: "0.1.4",
   dedupe: "unique",
   type: "source",
   props: {

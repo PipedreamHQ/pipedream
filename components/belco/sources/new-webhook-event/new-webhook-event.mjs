@@ -6,7 +6,7 @@ export default {
   key: "belco-new-webhook-event",
   name: "New Webhook Event (Instant)",
   description: "Emit new event for each new webhook event",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
