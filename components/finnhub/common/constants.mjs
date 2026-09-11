@@ -5,6 +5,10 @@ export default {
     "crypto",
     "merger",
   ],
+  FREQUENCIES: [
+    "annual",
+    "quarterly",
+  ],
   EXCHANGES: [
     {
       label: "ADU DHABI SECURITIES EXCHANGE",
