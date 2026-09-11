@@ -6,7 +6,7 @@ export default {
   key: "belco-new-conversation-created-instant",
   name: "New Conversation Created (Instant)",
   description: "Emit new event for each new conversation created event",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

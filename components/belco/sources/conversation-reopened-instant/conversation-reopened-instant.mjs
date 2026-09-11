@@ -6,7 +6,7 @@ export default {
   key: "belco-conversation-reopened-instant",
   name: "Conversation Reopened (Instant)",
   description: "Emit new event for each new conversation reopened event",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
