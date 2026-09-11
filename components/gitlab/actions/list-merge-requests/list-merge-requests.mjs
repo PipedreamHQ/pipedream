@@ -116,6 +116,9 @@ export default {
     },
   },
   async run({ $ }) {
+    const labels = Array.isArray(this.labels)
+      ? this.labels.join()
+      : this.labels;
     const params = {
       state: this.state,
       scope: this.scope,
@@ -125,7 +128,7 @@ export default {
         this.assigneeUsername,
       ],
       reviewer_username: this.reviewerUsername,
-      labels: this.labels?.join(),
+      labels,
       target_branch: this.targetBranch,
       source_branch: this.sourceBranch,
       updated_after: this.updatedAfter,

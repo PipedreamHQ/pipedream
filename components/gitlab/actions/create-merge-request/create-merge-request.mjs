@@ -121,6 +121,9 @@ export default {
       this.resolveUserIds($, this.assigneeUsernames),
     ]);
 
+    const labels = Array.isArray(this.labels)
+      ? this.labels.join()
+      : this.labels;
     const response = await this.gitlab.createMergeRequest(this.projectId, {
       $,
       data: {
@@ -132,7 +135,7 @@ export default {
         description: this.description,
         reviewer_ids: reviewerIds,
         assignee_ids: assigneeIds,
-        labels: this.labels?.join(),
+        labels,
         remove_source_branch: this.removeSourceBranch,
         squash: this.squash,
       },
