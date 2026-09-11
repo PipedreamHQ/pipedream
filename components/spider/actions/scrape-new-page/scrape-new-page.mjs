@@ -4,13 +4,14 @@ export default {
   key: "spider-scrape-new-page",
   name: "Scrape New Page",
   description: "Initiates a new page scrape (crawl). [See the documentation](https://spider.cloud/docs/api#crawl-website)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     spider,
     infoBox: {

@@ -5,13 +5,14 @@ export default {
   key: "claap-create-recording",
   name: "Create Recording",
   description: "Create a new recording in Claap. [See the documentation](https://docs.claap.io/api-reference/endpoint/post_recording).",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     claap,
     authorEmail: {
