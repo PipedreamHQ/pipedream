@@ -5,7 +5,7 @@ export default {
   key: "brex-get-user-limit",
   name: "Get User Limit",
   description: "Retrieves a person's monthly spend limit and how much of it is still available. Change it with **Set Limit for User**. [See the documentation](https://developer.brex.com/openapi/team_api/users/getuserlimit)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   ai: "optimized",
   annotations: {
