@@ -19,4 +19,13 @@ assert.equal(emitted[0].meta.id,emitted[1].meta.id);
 assert.equal(emitted[0].data.received_at,'2026-09-12T20:02:55.000Z');
 await source.run.call(sourceCtx,{body:{...body,direction:'outbound'}});
 assert.equal(emitted.length,2);
-console.log('PASS: API envelopes, blank SMS, cleanup retention, timestamp normalization, dedup identity, direction filtering');
+let redirectLimit;
+await api._request({maxRedirects: 10, adapter: async config => {
+  redirectLimit = config.maxRedirects;
+  return {data:{code:200,data:{}},status:200,statusText:'OK',headers:{},config};
+}});
+assert.equal(redirectLimit,0,'Credential-bearing requests must not follow redirects');
+await assert.rejects(app.methods.registerWebhook.call({async _request(){return {}}}, {
+  phoneNumber:'+14155550100',url:'https://example.com/private-capability',
+}), error => !error.message.includes('private-capability'));
+console.log('PASS: redirect blocking, callback URL error redaction, API envelopes, blank SMS, cleanup retention, timestamp normalization, dedup identity, direction filtering');

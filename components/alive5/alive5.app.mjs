@@ -72,6 +72,7 @@ export default {
             "X-A5-APIKEY": this.$auth.api_key,
           },
           ...options,
+          maxRedirects: 0,
         });
       } catch (error) {
         throw new Error(`Alive5 HTTP request failed (${error.response?.status || "network error"}).`);
@@ -138,7 +139,7 @@ export default {
       );
       if (!matching?.interceptorUuid) {
         throw new Error(
-          `No interceptor with URL ${url} was returned by Alive5`,
+          "Alive5 did not confirm the webhook registration. Check your account before retrying.",
         );
       }
       return matching.interceptorUuid;
