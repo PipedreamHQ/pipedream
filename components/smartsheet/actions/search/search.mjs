@@ -8,8 +8,13 @@ export default {
     + " Returns matching rows, cells, and sheet names with context."
     + " To find a sheet by name, use **List Sheets** instead — this tool searches content within sheets."
     + " Provide a `sheetId` to scope the search to a single sheet, or omit it to search globally."
+    + " This endpoint does not support pagination and caps out at roughly 50 results — the response's `totalCount`"
+    + " field shows the true number of matches, so if `totalCount` is higher than the results returned, narrow"
+    + " your query text or scope to a specific `sheetId` to surface the matches you need."
+    + " Example: `{query: \"velociraptor\", sheetId: \"1234567890123456\"}` returns matching rows/cells from that"
+    + " sheet only."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/search/list-search)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -25,8 +30,10 @@ export default {
       description: "The text to search for across sheet contents.",
     },
     sheetId: {
-      type: "string",
-      label: "Sheet ID",
+      propDefinition: [
+        smartsheet,
+        "sheetId",
+      ],
       description: "Optional — scope the search to a single sheet. Use **List Sheets** to find sheet IDs. If omitted, searches all sheets.",
       optional: true,
     },

@@ -21,13 +21,17 @@ export default {
   props: {
     smartsheet,
     sheetId: {
-      type: "string",
-      label: "Sheet ID",
+      propDefinition: [
+        smartsheet,
+        "sheetId",
+      ],
       description: "The ID of the sheet containing the column. Use **List Sheets** to find sheet IDs.",
     },
     columnId: {
-      type: "string",
-      label: "Column ID",
+      propDefinition: [
+        smartsheet,
+        "columnId",
+      ],
       description: "The ID of the column to update. Use **List Columns** to find column IDs.",
     },
     title: {
@@ -36,7 +40,7 @@ export default {
       description: "New title for the column.",
       optional: true,
     },
-    type: {
+    columnType: {
       type: "string",
       label: "New Type",
       description: "New column type. Note: some type conversions may cause data loss.",
@@ -59,7 +63,7 @@ export default {
   async run({ $ }) {
     let parsedOptions;
     if (this.options) {
-      if (this.type && this.type !== "PICKLIST") {
+      if (this.columnType && this.columnType !== "PICKLIST") {
         throw new ConfigurationError("`Picklist Options` can only be used when New Type is PICKLIST.");
       }
       try {
@@ -82,9 +86,9 @@ export default {
           title: this.title,
         }
         : {}),
-      ...(this.type
+      ...(this.columnType
         ? {
-          type: this.type,
+          type: this.columnType,
         }
         : {}),
       ...(this.index !== undefined

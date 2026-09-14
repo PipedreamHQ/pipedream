@@ -6,6 +6,7 @@ export default {
   description:
     "Permanently delete a sheet. This is irreversible — all data, rows, and columns are destroyed."
     + " Use **List Sheets** to find the sheet ID first."
+    + " Example: `{sheetId: \"1234567890123456\"}` deletes that sheet and returns a confirmation."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/deletesheet)",
   version: "0.0.2",
   type: "action",
@@ -18,8 +19,10 @@ export default {
   props: {
     smartsheet,
     sheetId: {
-      type: "string",
-      label: "Sheet ID",
+      propDefinition: [
+        smartsheet,
+        "sheetId",
+      ],
       description: "The ID of the sheet to delete. Use **List Sheets** to find sheet IDs. WARNING: This is irreversible.",
     },
   },

@@ -11,6 +11,8 @@ export default {
     + " For PICKLIST columns, include an `options` array with the valid values."
     + " You must provide either a Workspace ID or Folder ID — the home-level create endpoint is deprecated."
     + " Use **List Sheets** to verify the sheet was created."
+    + " Example: `{sheetName: \"Launch Tracker\", columns: [{\"title\": \"Task\", \"type\": \"TEXT_NUMBER\", \"primary\": true}],"
+    + " workspaceId: \"1234567890123456\"}` returns the new sheet's ID and permalink."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/create-sheet-in-workspace)",
   version: "0.0.2",
   type: "action",
@@ -22,7 +24,7 @@ export default {
   },
   props: {
     smartsheet,
-    name: {
+    sheetName: {
       type: "string",
       label: "Sheet Name",
       description: "Name for the new sheet.",
@@ -37,13 +39,15 @@ export default {
     workspaceId: {
       type: "string",
       label: "Workspace ID",
-      description: "Place the sheet in this workspace. Provide either Workspace ID or Folder ID (at least one is required).",
+      description: "Place the sheet in this workspace. Provide either Workspace ID or Folder ID (at least one is required)."
+        + " Use **List Workspace Options** to find workspace IDs.",
       optional: true,
     },
     folderId: {
       type: "string",
       label: "Folder ID",
-      description: "Place the sheet in this folder. Provide either Workspace ID or Folder ID (at least one is required).",
+      description: "Place the sheet in this folder. Provide either Workspace ID or Folder ID (at least one is required)."
+        + " Use **List Folder Options** to find folder IDs.",
       optional: true,
     },
   },
@@ -105,7 +109,7 @@ export default {
       columns[0].primary = true;
     }
     const data = {
-      name: this.name,
+      name: this.sheetName,
       columns,
     };
 

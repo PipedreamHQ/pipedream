@@ -7,7 +7,11 @@ export default {
     "Get a sheet's full structure: column definitions (name, type, options, ID), all rows with cell values, and sheet metadata."
     + " This is the primary schema discovery tool — call it BEFORE **Add Row to Sheet** or **Update Row** to learn column names, types, and IDs."
     + " Returns rows with cell values keyed by column name for readability."
+    + " Large sheets may be paginated by the API by default — set Include All Rows to `true` if you need every row"
+    + " and aren't filtering with Row Numbers or Column IDs."
     + " For a lightweight column-only view, use **List Columns** instead."
+    + " Example: `{sheetId: \"1234567890123456\", columnIds: \"7894561230,8794561230\"}` returns just those two"
+    + " columns' cell values for every row, e.g. `{\"rows\": [{\"cellsByName\": {\"Task\": \"Feed raptors\"}}]}`."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/getsheet)",
   version: "0.0.2",
   type: "action",
@@ -20,8 +24,10 @@ export default {
   props: {
     smartsheet,
     sheetId: {
-      type: "string",
-      label: "Sheet ID",
+      propDefinition: [
+        smartsheet,
+        "sheetId",
+      ],
       description: "The ID of the sheet to retrieve. Use **List Sheets** to find sheet IDs.",
     },
     rowNumbers: {

@@ -7,6 +7,7 @@ export default {
   description:
     "Delete one or more rows from a sheet by row ID. This is permanent and cannot be undone."
     + " Use **Get Sheet** or **Search** to find row IDs first."
+    + " Returns the IDs of the deleted rows as confirmation."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/delete-rows)",
   version: "0.0.2",
   type: "action",
@@ -19,13 +20,17 @@ export default {
   props: {
     smartsheet,
     sheetId: {
-      type: "string",
-      label: "Sheet ID",
+      propDefinition: [
+        smartsheet,
+        "sheetId",
+      ],
       description: "The ID of the sheet containing the rows. Use **List Sheets** to find sheet IDs.",
     },
     rowIds: {
-      type: "string",
-      label: "Row IDs",
+      propDefinition: [
+        smartsheet,
+        "rowIds",
+      ],
       description:
         "Comma-separated list of row IDs to delete, or a JSON array."
         + " Example: `1234567890, 9876543210` or `[1234567890, 9876543210]`."

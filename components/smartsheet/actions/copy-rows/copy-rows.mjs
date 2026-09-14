@@ -12,6 +12,7 @@ export default {
     + " Cell values, formatting, and attachments are copied. The destination sheet must have compatible columns."
     + " Use **Get Sheet** to find row IDs in the source sheet."
     + " To move rows instead (removing them from the source), use **Move Rows**."
+    + " Returns the new row IDs created in the destination sheet."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/copy-rows)",
   version: "0.0.2",
   type: "action",
@@ -24,21 +25,28 @@ export default {
   props: {
     smartsheet,
     sheetId: {
-      type: "string",
+      propDefinition: [
+        smartsheet,
+        "sheetId",
+      ],
       label: "Source Sheet ID",
       description: "The ID of the source sheet containing the rows. Use **List Sheets** to find sheet IDs.",
     },
     rowIds: {
-      type: "string",
-      label: "Row IDs",
+      propDefinition: [
+        smartsheet,
+        "rowIds",
+      ],
       description:
         "Comma-separated list of row IDs to copy, or a JSON array."
         + " Example: `1234567890, 9876543210` or `[1234567890, 9876543210]`."
         + " Use **Get Sheet** to find row IDs.",
     },
     destinationSheetId: {
-      type: "string",
-      label: "Destination Sheet ID",
+      propDefinition: [
+        smartsheet,
+        "destinationSheetId",
+      ],
       description: "The ID of the destination sheet to copy rows into. Use **List Sheets** to find sheet IDs.",
     },
   },

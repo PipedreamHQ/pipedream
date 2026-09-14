@@ -12,6 +12,8 @@ export default {
     + " You must provide either a Workspace ID or Folder ID — the home-level import endpoint is deprecated."
     + " Supported formats: CSV (.csv) and Excel XLSX (.xlsx)."
     + " Use **List Sheets** to verify the sheet was created after import."
+    + " Example: `{filePath: \"/tmp/dinosaurs.csv\", sheetName: \"Dinosaur Inventory\", workspaceId: \"1234567890123456\"}`"
+    + " returns the new sheet's ID and permalink."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/imports/import-sheet-into-workspace)",
   version: "0.0.2",
   type: "action",
@@ -49,13 +51,15 @@ export default {
     workspaceId: {
       type: "string",
       label: "Workspace ID",
-      description: "Import into this workspace. Provide either Workspace ID or Folder ID (at least one is required).",
+      description: "Import into this workspace. Provide either Workspace ID or Folder ID (at least one is required)."
+        + " Use **List Workspace Options** to find workspace IDs.",
       optional: true,
     },
     folderId: {
       type: "string",
       label: "Folder ID",
-      description: "Import into this folder. Provide either Workspace ID or Folder ID (at least one is required).",
+      description: "Import into this folder. Provide either Workspace ID or Folder ID (at least one is required)."
+        + " Use **List Folder Options** to find folder IDs.",
       optional: true,
     },
   },

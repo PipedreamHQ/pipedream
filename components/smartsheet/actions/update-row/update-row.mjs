@@ -10,6 +10,7 @@ export default {
     + " Call **Get Sheet** or **List Columns** to find row IDs and column names."
     + " Each object needs a `rowId` plus column name/value pairs:"
     + " `[{\"rowId\": 123456, \"Status\": \"Done\", \"Priority\": \"High\"}]`."
+    + " Returns the updated row(s) with their new cell values."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/update-rows)",
   version: "1.0.1",
   type: "action",
@@ -22,8 +23,10 @@ export default {
   props: {
     smartsheet,
     sheetId: {
-      type: "string",
-      label: "Sheet ID",
+      propDefinition: [
+        smartsheet,
+        "sheetId",
+      ],
       description: "The ID of the sheet containing the rows. Use **List Sheets** to find sheet IDs.",
     },
     rows: {

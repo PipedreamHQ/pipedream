@@ -6,96 +6,50 @@ export default {
   app: "smartsheet",
   propDefinitions: {
     sheetId: {
-      type: "integer",
-      label: "Sheet",
-      description: "Select a sheet",
-      async options({ page }) {
-        const { data } = await this.listSheets({
-          params: {
-            page: page + 1,
-          },
-        });
-        return data?.map(({
-          id, name,
-        }) => ({
-          label: name,
-          value: id,
-        })) || [];
-      },
+      type: "string",
+      label: "Sheet ID",
+      description: "The ID of the sheet. Use **List Sheets** to find sheet IDs.",
     },
     rowId: {
-      type: "integer",
-      label: "Row",
-      description: "Identifier of a row in a sheet",
-      async options({ sheetId }) {
-        const { rows } = await this.getSheet(sheetId);
-        return rows?.map(({ id }) => ({
-          label: `Row ID ${id}`,
-          value: id,
-        }));
-      },
+      type: "string",
+      label: "Row ID",
+      description: "The ID of the row. Use **Get Sheet** or **Search** to find row IDs.",
     },
-    templateId: {
-      type: "integer",
-      label: "Template",
-      description: "Select a template from a workspace. Use the **List Workspace Templates** action to find template IDs. Example: `1122334455667788`.",
-      async options() {
-        const { data: workspaces } = await this.listAllWorkspaces();
-        const templates = [];
-        for (const ws of workspaces || []) {
-          const { data: children } = await this.listAllWorkspaceChildren(ws.id, {
-            params: {
-              childrenResourceTypes: "sheets,templates",
-            },
-          });
-          for (const child of children || []) {
-            if (child.resourceType === "template") {
-              templates.push({
-                label: `${child.name} (${ws.name})`,
-                value: child.id,
-              });
-            }
-          }
-        }
-        return templates;
-      },
+    rowIds: {
+      type: "string",
+      label: "Row IDs",
+      description: "Comma-separated list of row IDs, or a JSON array. Use **Get Sheet** to find row IDs.",
+    },
+    discussionId: {
+      type: "string",
+      label: "Discussion ID",
+      description: "The ID of the discussion. Use **List Discussions** to find a Discussion ID.",
+    },
+    commentId: {
+      type: "string",
+      label: "Comment ID",
+      description: "The ID of the comment. Use **Get Discussion** to find a Comment ID.",
+    },
+    columnId: {
+      type: "string",
+      label: "Column ID",
+      description: "The ID of the column. Use **List Columns** to find column IDs.",
+    },
+    destinationSheetId: {
+      type: "string",
+      label: "Destination Sheet ID",
+      description: "The ID of the destination sheet. Use **List Sheets** to find sheet IDs.",
+    },
+    destinationId: {
+      type: "string",
+      label: "Destination ID",
+      description: "The ID of the destination workspace or folder. Use **List Workspace Options** or **List Folder Options** to find the relevant ID.",
     },
     workspaceId: {
-      type: "integer",
-      label: "Workspace",
-      description: "Select a workspace. Use the **List Workspace Options** action to find workspace IDs. Example: `1234567890123456`.",
+      type: "string",
+      label: "Workspace ID",
+      description: "The ID of the workspace. Use **List Workspace Options** to find workspace IDs. Example: `1234567890123456`.",
       optional: true,
-      async options() {
-        const { data } = await this.listAllWorkspaces();
-        return data?.map(({
-          id, name,
-        }) => ({
-          label: name,
-          value: id,
-        })) || [];
-      },
-    },
-    folderId: {
-      type: "integer",
-      label: "Folder",
-      description: "Select a folder from a workspace. Use the **List Folder Options** action with a workspace ID to find folder IDs. Example: `9876543210987654`.",
-      optional: true,
-      async options({ workspaceId }) {
-        if (!workspaceId) {
-          return [];
-        }
-        const { data } = await this.listAllWorkspaceChildren(workspaceId, {
-          params: {
-            childrenResourceTypes: "folders",
-          },
-        });
-        return data?.map(({
-          id, name,
-        }) => ({
-          label: name,
-          value: id,
-        })) || [];
-      },
     },
   },
   methods: {
@@ -378,6 +332,66 @@ export default {
     deleteColumn(sheetId, columnId, args = {}) {
       return this._makeRequest({
         path: `/sheets/${sheetId}/columns/${columnId}`,
+        method: "DELETE",
+        ...args,
+      });
+    },
+    createDiscussion(sheetId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/discussions`,
+        method: "POST",
+        ...args,
+      });
+    },
+    createRowDiscussion(sheetId, rowId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/rows/${rowId}/discussions`,
+        method: "POST",
+        ...args,
+      });
+    },
+    getDiscussion(sheetId, discussionId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/discussions/${discussionId}`,
+        ...args,
+      });
+    },
+    listDiscussions(sheetId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/discussions`,
+        ...args,
+      });
+    },
+    listRowDiscussions(sheetId, rowId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/rows/${rowId}/discussions`,
+        ...args,
+      });
+    },
+    deleteDiscussion(sheetId, discussionId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/discussions/${discussionId}`,
+        method: "DELETE",
+        ...args,
+      });
+    },
+    addComment(sheetId, discussionId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/discussions/${discussionId}/comments`,
+        method: "POST",
+        ...args,
+      });
+    },
+    updateComment(sheetId, commentId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/comments/${commentId}`,
+        method: "PUT",
+        ...args,
+      });
+    },
+    deleteComment(sheetId, commentId, args = {}) {
+      return this._makeRequest({
+        path: `/sheets/${sheetId}/comments/${commentId}`,
         method: "DELETE",
         ...args,
       });

@@ -9,6 +9,8 @@ export default {
     "Add a new column to a sheet. Specify the column title, type, and optionally the position and picklist options."
     + " For PICKLIST columns, provide the `options` array with valid values."
     + " Use **List Columns** to see existing columns before adding."
+    + " Example: `{sheetId: \"1234567890123456\", title: \"Priority\", columnType: \"PICKLIST\", options: [\"Low\", \"High\"]}`"
+    + " returns the new column's ID and position."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/columns/columns-addtosheet)",
   version: "0.0.2",
   type: "action",
@@ -21,8 +23,10 @@ export default {
   props: {
     smartsheet,
     sheetId: {
-      type: "string",
-      label: "Sheet ID",
+      propDefinition: [
+        smartsheet,
+        "sheetId",
+      ],
       description: "The ID of the sheet to add a column to. Use **List Sheets** to find sheet IDs.",
     },
     title: {
@@ -30,7 +34,7 @@ export default {
       label: "Column Title",
       description: "The column title. Must be unique within the sheet.",
     },
-    type: {
+    columnType: {
       type: "string",
       label: "Column Type",
       description: "The data type for this column.",
@@ -71,11 +75,11 @@ export default {
 
     const column = {
       title: this.title,
-      type: this.type,
+      type: this.columnType,
       index,
     };
     if (this.options) {
-      if (this.type !== "PICKLIST") {
+      if (this.columnType !== "PICKLIST") {
         throw new ConfigurationError("`Picklist Options` is only supported for PICKLIST columns.");
       }
       let parsedOptions;
@@ -94,7 +98,7 @@ export default {
       column.options = parsedOptions;
     }
     if (this.validation !== undefined) {
-      if (this.type !== "PICKLIST") {
+      if (this.columnType !== "PICKLIST") {
         throw new ConfigurationError("`Validation` is only supported for PICKLIST columns.");
       }
       column.validation = this.validation;
@@ -106,7 +110,7 @@ export default {
         column,
       ],
     });
-    $.export("$summary", `Added column "${this.title}" (${this.type}) to sheet ${this.sheetId}`);
+    $.export("$summary", `Added column "${this.title}" (${this.columnType}) to sheet ${this.sheetId}`);
     return response;
   },
 };

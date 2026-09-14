@@ -8,6 +8,8 @@ export default {
     + " This is lighter-weight than **Get Sheet** when you only need the column schema and not row data."
     + " Use this before **Add Row to Sheet** or **Update Row** to discover column names and types."
     + " For full sheet data including rows, use **Get Sheet** instead."
+    + " Example: `{sheetId: \"1234567890123456\"}` returns"
+    + " `{\"data\": [{\"id\": 111, \"title\": \"Status\", \"type\": \"PICKLIST\", \"options\": [\"Open\", \"Done\"]}]}`."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/columns/columns-listonsheet)",
   version: "0.0.2",
   type: "action",
@@ -20,9 +22,10 @@ export default {
   props: {
     smartsheet,
     sheetId: {
-      type: "string",
-      label: "Sheet ID",
-      description: "The ID of the sheet. Use **List Sheets** to find sheet IDs.",
+      propDefinition: [
+        smartsheet,
+        "sheetId",
+      ],
     },
   },
   async run({ $ }) {

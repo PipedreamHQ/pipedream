@@ -7,6 +7,8 @@ export default {
   description:
     "Update a sheet's properties such as its name."
     + " Use **List Sheets** to find the sheet ID first."
+    + " Example: `{sheetId: \"1234567890123456\", sheetName: \"Q1 Launch Tracker\"}` renames the sheet and returns"
+    + " its updated name and ID."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/updatesheet)",
   version: "0.0.2",
   type: "action",
@@ -19,11 +21,13 @@ export default {
   props: {
     smartsheet,
     sheetId: {
-      type: "string",
-      label: "Sheet ID",
+      propDefinition: [
+        smartsheet,
+        "sheetId",
+      ],
       description: "The ID of the sheet to update. Use **List Sheets** to find sheet IDs.",
     },
-    name: {
+    sheetName: {
       type: "string",
       label: "New Name",
       description: "The new name for the sheet.",
@@ -32,9 +36,9 @@ export default {
   },
   async run({ $ }) {
     const data = {
-      ...(this.name
+      ...(this.sheetName
         ? {
-          name: this.name,
+          name: this.sheetName,
         }
         : {}),
     };

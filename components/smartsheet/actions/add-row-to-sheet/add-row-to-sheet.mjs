@@ -10,6 +10,7 @@ export default {
     + " Pass rows as a JSON array of objects mapping column names to values:"
     + " `[{\"Task\": \"Review doc\", \"Status\": \"Open\"}]`."
     + " For a single row, pass a one-element array."
+    + " Returns the newly created row(s), including their assigned row IDs."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/rows-addtosheet)",
   version: "1.0.1",
   type: "action",
@@ -22,8 +23,10 @@ export default {
   props: {
     smartsheet,
     sheetId: {
-      type: "string",
-      label: "Sheet ID",
+      propDefinition: [
+        smartsheet,
+        "sheetId",
+      ],
       description: "The ID of the sheet to add rows to. Use **List Sheets** to find sheet IDs.",
     },
     rows: {

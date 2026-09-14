@@ -11,6 +11,8 @@ export default {
     + " Returns the new sheet's ID and permalink."
     + " Use **List Sheets** to find the source sheet ID."
     + " To move a sheet instead (removing it from the original location), use **Move Sheet**."
+    + " Example: `{sheetId: \"1234567890123456\", newName: \"Q2 Copy\", destinationType: \"home\"}` returns the new"
+    + " sheet's ID and permalink."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/copy-sheet)",
   version: "0.0.2",
   type: "action",
@@ -23,8 +25,10 @@ export default {
   props: {
     smartsheet,
     sheetId: {
-      type: "string",
-      label: "Sheet ID",
+      propDefinition: [
+        smartsheet,
+        "sheetId",
+      ],
       description: "The ID of the sheet to copy. Use **List Sheets** to find sheet IDs.",
     },
     newName: {
@@ -41,9 +45,12 @@ export default {
       optional: true,
     },
     destinationId: {
-      type: "string",
-      label: "Destination ID",
-      description: "The ID of the destination workspace or folder. Required when Destination Type is `workspace` or `folder`.",
+      propDefinition: [
+        smartsheet,
+        "destinationId",
+      ],
+      description: "The ID of the destination workspace or folder. Required when Destination Type is `workspace` or `folder`."
+        + " Use **List Workspace Options** or **List Folder Options** to find the relevant ID.",
       optional: true,
     },
   },

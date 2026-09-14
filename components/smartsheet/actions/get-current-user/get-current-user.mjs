@@ -6,6 +6,7 @@ export default {
   description:
     "Get the authenticated user's identity — returns user ID, email, first/last name, and account details."
     + " Use this when the user says 'my sheets' or 'my account' to identify the owner."
+    + " Example: takes no input and returns `{\"id\": 123456, \"email\": \"user@example.com\", \"firstName\": \"...\"}`."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/users/get-current-user)",
   version: "0.0.3",
   type: "action",

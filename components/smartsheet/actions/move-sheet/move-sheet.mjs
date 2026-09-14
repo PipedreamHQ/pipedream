@@ -10,6 +10,8 @@ export default {
     + " As of 2025-12-23, `destinationType` is required."
     + " Use **List Sheets** to find the sheet ID."
     + " To copy a sheet instead (keeping the original), use **Copy Sheet**."
+    + " Example: `{sheetId: \"1234567890123456\", destinationType: \"folder\", destinationId: \"9876543210987654\"}`"
+    + " moves the sheet into that folder and returns its updated permalink."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/move-sheet)",
   version: "0.0.2",
   type: "action",
@@ -22,8 +24,10 @@ export default {
   props: {
     smartsheet,
     sheetId: {
-      type: "string",
-      label: "Sheet ID",
+      propDefinition: [
+        smartsheet,
+        "sheetId",
+      ],
       description: "The ID of the sheet to move. Use **List Sheets** to find sheet IDs.",
     },
     destinationType: {
@@ -33,9 +37,12 @@ export default {
       options: DESTINATION_TYPES,
     },
     destinationId: {
-      type: "string",
-      label: "Destination ID",
-      description: "The ID of the destination workspace or folder. Required when Destination Type is `workspace` or `folder`. Not needed for `home`.",
+      propDefinition: [
+        smartsheet,
+        "destinationId",
+      ],
+      description: "The ID of the destination workspace or folder. Required when Destination Type is `workspace` or `folder`. Not needed for `home`."
+        + " Use **List Workspace Options** or **List Folder Options** to find the relevant ID.",
       optional: true,
     },
   },

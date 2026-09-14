@@ -1,0 +1,116 @@
+import smartsheet from "../../smartsheet.app.mjs";
+import {
+  DEFAULT_PAGE_SIZE,
+  MIN_PAGE_SIZE,
+  MAX_PAGE_SIZE,
+} from "../../common/constants.mjs";
+
+export default {
+  key: "smartsheet-list-discussions",
+  name: "List Discussions",
+  description:
+    "Lists discussions on a Smartsheet sheet (GET /sheets/{sheetId}/discussions). If a Row ID is supplied, lists"
+    + " discussions scoped to that row instead (GET /sheets/{sheetId}/rows/{rowId}/discussions), since the sheet-level"
+    + " endpoint does not accept a row filter. Supports pagination and optional inclusion of comments/attachments."
+    + " If the number of discussions returned equals `pageSize` (or the default page size), there may be more —"
+    + " call again with `page` incremented by 1 until a shorter page comes back."
+    + " Pass `fields` (comma-separated, e.g. `id,title,commentCount`) to get back only those top-level fields per"
+    + " discussion instead of the full object — useful when you just need titles/counts, not full comment threads."
+    + " Use **List Sheets** to find a Sheet ID."
+    + " Example: `{sheetId: \"1234567890123456\", include: \"comments\"}` returns discussions with their full"
+    + " comment threads embedded."
+    + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/discussions/discussions-list).",
+  version: "0.0.2",
+  type: "action",
+  annotations: {
+    readOnlyHint: true,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
+  props: {
+    smartsheet,
+    sheetId: {
+      propDefinition: [
+        smartsheet,
+        "sheetId",
+      ],
+      description:
+        "The ID of the sheet whose discussions to list. Run the **List Sheets** action first to obtain a valid"
+        + " sheet ID. Free-form string.",
+    },
+    rowId: {
+      propDefinition: [
+        smartsheet,
+        "rowId",
+      ],
+      description:
+        "Optional. If provided, lists discussions for this specific row instead of the whole sheet."
+        + " Run the **Get Row** action to obtain a valid row ID.",
+      optional: true,
+    },
+    include: {
+      type: "string",
+      label: "Include",
+      description:
+        "Optional. Comma-separated list of sub-objects to include. Allowed values: `attachments`, `comments`."
+        + " Example: `comments`.",
+      optional: true,
+    },
+    pageSize: {
+      type: "integer",
+      label: "Page Size",
+      description:
+        `Optional. The number of discussions to return per page (min ${MIN_PAGE_SIZE}, max ${MAX_PAGE_SIZE};`
+        + ` Smartsheet default ${DEFAULT_PAGE_SIZE}).`,
+      optional: true,
+      min: MIN_PAGE_SIZE,
+      max: MAX_PAGE_SIZE,
+    },
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "Optional. The 1-based page number of results to return (default 1).",
+      optional: true,
+    },
+    fields: {
+      type: "string",
+      label: "Fields",
+      description:
+        "Optional. Comma-separated list of top-level discussion fields to return (e.g. `id,title,commentCount`),"
+        + " instead of the full discussion object. If omitted, the full object (including embedded comments, if"
+        + " requested via Include) is returned unchanged.",
+      optional: true,
+    },
+  },
+  async run({ $ }) {
+    const params = {
+      include: this.include,
+      pageSize: this.pageSize,
+      page: this.page,
+    };
+
+    const response = this.rowId
+      ? await this.smartsheet.listRowDiscussions(this.sheetId, this.rowId, {
+        $,
+        params,
+      })
+      : await this.smartsheet.listDiscussions(this.sheetId, {
+        $,
+        params,
+      });
+
+    if (this.fields) {
+      const keys = this.fields.split(",").map((f) => f.trim())
+        .filter(Boolean);
+      response.data = (response.data || []).map((discussion) =>
+        Object.fromEntries(keys.map((key) => [
+          key,
+          discussion[key],
+        ])));
+    }
+
+    const discussions = response.data || [];
+    $.export("$summary", `Retrieved ${discussions.length} discussion(s) from sheet ${this.sheetId}`);
+    return response;
+  },
+};
