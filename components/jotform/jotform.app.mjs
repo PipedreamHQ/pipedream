@@ -39,8 +39,10 @@ export default {
         const limit = 20;
         const offset = page * limit;
         const { content } = await this.listTeams({
-          offset,
-          limit,
+          params: {
+            offset,
+            limit,
+          },
         });
         return content.map(({
           id: value, name: label,
@@ -217,10 +219,13 @@ export default {
         teamId,
       });
     },
-    async getUserSubmissions({ $ }) {
+    async getUserSubmissions({
+      $, params,
+    }) {
       return this._makeRequest({
         $,
         endpoint: "user/submissions",
+        params,
       });
     },
     async getUserUsage({ $ }) {
