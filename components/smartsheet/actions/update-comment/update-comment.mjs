@@ -35,8 +35,10 @@ export default {
         + " valid comment ID.",
     },
     commentText: {
-      type: "string",
-      label: "Comment Text",
+      propDefinition: [
+        smartsheet,
+        "commentText",
+      ],
       description:
         "The new text to replace the comment's current text."
         + " Example: `Updated: resolving tomorrow morning instead.` — the call returns the comment with its"

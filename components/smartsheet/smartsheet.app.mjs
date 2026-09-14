@@ -45,6 +45,16 @@ export default {
       description: "Numeric folder ID (e.g. `9876543210987654`). Use **List Folder Options** with a workspace ID to find one.",
       optional: true,
     },
+    discussionId: {
+      type: "string",
+      label: "Discussion ID",
+      description: "The ID of the discussion. Run **List Discussions** to find a valid discussion ID.",
+    },
+    commentText: {
+      type: "string",
+      label: "Comment Text",
+      description: "The text of the comment.",
+    },
     templateId: {
       type: "string",
       label: "Template",

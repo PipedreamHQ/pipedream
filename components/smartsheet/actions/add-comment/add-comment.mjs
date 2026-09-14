@@ -28,15 +28,19 @@ export default {
         + " Smartsheet sheet URL, which is resolved to the ID for you. Use **List Sheets** to enumerate sheets.",
     },
     discussionId: {
-      type: "string",
-      label: "Discussion ID",
+      propDefinition: [
+        smartsheet,
+        "discussionId",
+      ],
       description:
         "The ID of the discussion to add the comment to (e.g. `3728427551461252`). Run the **List Discussions**"
         + " action first to obtain a valid discussion ID.",
     },
     commentText: {
-      type: "string",
-      label: "Comment Text",
+      propDefinition: [
+        smartsheet,
+        "commentText",
+      ],
       description:
         "The text of the comment to add. Example: `Acknowledged, will resolve by EOD.` — the call returns the"
         + " new comment's ID, `createdBy`, and `createdAt`.",

@@ -39,8 +39,10 @@ export default {
       optional: true,
     },
     commentText: {
-      type: "string",
-      label: "Comment Text",
+      propDefinition: [
+        smartsheet,
+        "commentText",
+      ],
       description:
         "The text of the initial comment that starts the discussion."
         + " Example: `This row needs review before Friday.` — the call returns the new discussion's ID and title"
