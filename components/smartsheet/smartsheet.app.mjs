@@ -1,5 +1,10 @@
-import { axios } from "@pipedream/platform";
-import { DEFAULT_MAX_ITEMS } from "./common/constants.mjs";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
+import {
+  DEFAULT_MAX_ITEMS, SHEET_URL_PATTERN,
+} from "./common/constants.mjs";
+import { mapWithConcurrency } from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -7,49 +12,79 @@ export default {
   propDefinitions: {
     sheetId: {
       type: "string",
-      label: "Sheet ID",
-      description: "The ID of the sheet. Use **List Sheets** to find sheet IDs.",
+      label: "Sheet",
+      description: "Select a sheet",
+      async options({ page }) {
+        const { data } = await this.listSheets({
+          params: {
+            page: page + 1,
+          },
+        });
+        return data?.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: String(id),
+        })) || [];
+      },
     },
-    rowId: {
+    sheetIdOrUrl: {
       type: "string",
-      label: "Row ID",
-      description: "The ID of the row. Use **Get Sheet** or **Search** to find row IDs.",
+      label: "Sheet ID or URL",
+      description: "The sheet to act on. Accepts a numeric sheet ID (e.g. `1234567890123456`), or a Smartsheet sheet URL, which is resolved to the ID for you. Use **List Sheets** to enumerate sheets, or **Search** to find one by name.",
     },
-    rowIds: {
-      type: "string",
-      label: "Row IDs",
-      description: "Comma-separated list of row IDs, or a JSON array. Use **Get Sheet** to find row IDs.",
-    },
-    discussionId: {
-      type: "string",
-      label: "Discussion ID",
-      description: "The ID of the discussion. Use **List Discussions** to find a Discussion ID.",
-    },
-    commentId: {
-      type: "string",
-      label: "Comment ID",
-      description: "The ID of the comment. Use **Get Discussion** to find a Comment ID.",
-    },
-    columnId: {
-      type: "string",
-      label: "Column ID",
-      description: "The ID of the column. Use **List Columns** to find column IDs.",
-    },
-    destinationSheetId: {
-      type: "string",
-      label: "Destination Sheet ID",
-      description: "The ID of the destination sheet. Use **List Sheets** to find sheet IDs.",
-    },
-    destinationId: {
-      type: "string",
-      label: "Destination ID",
-      description: "The ID of the destination workspace or folder. Use **List Workspace Options** or **List Folder Options** to find the relevant ID.",
-    },
-    workspaceId: {
+    workspaceIdInput: {
       type: "string",
       label: "Workspace ID",
-      description: "The ID of the workspace. Use **List Workspace Options** to find workspace IDs. Example: `1234567890123456`.",
+      description: "Numeric workspace ID (e.g. `1234567890123456`). Use **List Workspace Options** to find one.",
       optional: true,
+    },
+    folderIdInput: {
+      type: "string",
+      label: "Folder ID",
+      description: "Numeric folder ID (e.g. `9876543210987654`). Use **List Folder Options** with a workspace ID to find one.",
+      optional: true,
+    },
+    templateId: {
+      type: "string",
+      label: "Template",
+      description: "Select a template from a workspace. Use the **List Workspace Templates** action to find template IDs. Example: `1122334455667788`.",
+      async options() {
+        const { data: workspaces } = await this.listAllWorkspaces();
+        // No list-all-templates endpoint, so every workspace is walked; failures are skipped.
+        const perWorkspace = await mapWithConcurrency(workspaces || [], async (ws) => {
+          try {
+            const { data } = await this.listAllWorkspaceChildren(ws.id, {
+              params: {
+                childrenResourceTypes: "sheets,templates",
+              },
+            });
+            return {
+              ws,
+              children: data,
+            };
+          } catch {
+            return {
+              ws,
+              children: [],
+            };
+          }
+        });
+        const templates = [];
+        for (const {
+          ws, children,
+        } of perWorkspace) {
+          for (const child of children || []) {
+            if (child.resourceType === "template") {
+              templates.push({
+                label: `${child.name} (${ws.name})`,
+                value: String(child.id),
+              });
+            }
+          }
+        }
+        return templates;
+      },
     },
   },
   methods: {
@@ -61,8 +96,53 @@ export default {
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
-    _validateId(id) {
-      return !isNaN(id);
+    // Throws rather than returning `{}`, which an agent reads as an empty sheet.
+    _requireNumericId(value, label = "Sheet ID") {
+      const trimmed = String(value ?? "").trim();
+      if (/^\d+$/.test(trimmed)) {
+        return trimmed;
+      }
+      // Remedy depends on the input: Search cannot resolve a permalink, and a bad Row or
+      // Comment ID needs a different lookup than a Sheet ID.
+      const isSheet = label === "Sheet ID";
+      const remedy = SHEET_URL_PATTERN.test(trimmed)
+        ? "That looks like a Smartsheet URL. The URL carries an opaque permalink token rather"
+          + " than the ID, and **Search** cannot resolve it. Pass the URL to **Get Sheet**,"
+          + " which resolves it, and use the `id` it returns."
+        : isSheet
+          ? "Use **Search** to find a sheet by name, or **List Sheets** to enumerate them."
+          : `Run **Get Sheet** and read the ${label.replace(/ ID$/, "").toLowerCase()} IDs from its response.`;
+      throw new ConfigurationError(`\`${label}\` must be a numeric Smartsheet ID, but received \`${value}\`. ${remedy}`);
+    },
+    // A sheet URL carries an opaque token, so it resolves only by matching permalinks.
+    async resolveSheetId(value, args = {}) {
+      const trimmed = String(value ?? "").trim();
+      if (/^\d+$/.test(trimmed)) {
+        return trimmed;
+      }
+      if (!SHEET_URL_PATTERN.test(trimmed)) {
+        return this._requireNumericId(trimmed);
+      }
+      const { data } = await this.listSheets({
+        ...args,
+        params: {
+          includeAll: true,
+          ...args.params,
+        },
+      });
+      const normalize = (url) => String(url || "").split("?")[0]
+        .replace(/\/+$/, "")
+        .toLowerCase();
+      const target = normalize(trimmed);
+      const match = data?.find((sheet) => normalize(sheet.permalink) === target);
+      if (!match) {
+        throw new ConfigurationError(
+          `No sheet matching the URL \`${value}\` was found among the ${data?.length || 0} sheet(s)`
+          + " this account can access. The sheet may not be shared with this account, or the URL"
+          + " may point at a report or dashboard rather than a sheet.",
+        );
+      }
+      return String(match.id);
     },
     async _makeRequest({
       $ = this,
@@ -101,29 +181,25 @@ export default {
       });
     },
     getRow(sheetId, rowId, args = {}) {
-      if (!this._validateId(sheetId)) {
-        return {};
-      }
+      const sheet = this._requireNumericId(sheetId);
+      const row = this._requireNumericId(rowId, "Row ID");
       return this._makeRequest({
-        path: `/sheets/${sheetId}/rows/${rowId}`,
+        path: `/sheets/${sheet}/rows/${row}`,
         ...args,
       });
     },
     getSheet(sheetId, args = {}) {
-      if (!this._validateId(sheetId)) {
-        return {};
-      }
+      const sheet = this._requireNumericId(sheetId);
       return this._makeRequest({
-        path: `/sheets/${sheetId}`,
+        path: `/sheets/${sheet}`,
         ...args,
       });
     },
     getComment(sheetId, commentId, args = {}) {
-      if (!this._validateId(sheetId)) {
-        return {};
-      }
+      const sheet = this._requireNumericId(sheetId);
+      const comment = this._requireNumericId(commentId, "Comment ID");
       return this._makeRequest({
-        path: `/sheets/${sheetId}/comments/${commentId}`,
+        path: `/sheets/${sheet}/comments/${comment}`,
         ...args,
       });
     },
@@ -134,11 +210,9 @@ export default {
       });
     },
     listColumns(sheetId, args = {}) {
-      if (!this._validateId(sheetId)) {
-        return {};
-      }
+      const sheet = this._requireNumericId(sheetId);
       return this._makeRequest({
-        path: `/sheets/${sheetId}/columns`,
+        path: `/sheets/${sheet}/columns`,
         ...args,
       });
     },

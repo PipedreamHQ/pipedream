@@ -10,8 +10,9 @@ export default {
     + " Example: `{sheetId: \"1234567890123456\", commentId: \"4068136276365188\"}` returns"
     + " `{\"text\": \"Security team has been notified\", \"createdBy\": {\"name\": \"...\"}, \"createdAt\": \"...\"}`."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/comments/comment-get).",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,
@@ -22,28 +23,29 @@ export default {
     sheetId: {
       propDefinition: [
         smartsheet,
-        "sheetId",
+        "sheetIdOrUrl",
       ],
       description:
-        "The ID of the sheet that contains the comment. Run the **List Sheets** action first to obtain a valid"
-        + " sheet ID. Free-form string.",
+        "The sheet that contains the comment. Accepts a numeric sheet ID (e.g. `1234567890123456`), or a"
+        + " Smartsheet sheet URL, which is resolved to the ID for you. Use **List Sheets** to enumerate sheets.",
     },
     commentId: {
-      propDefinition: [
-        smartsheet,
-        "commentId",
-      ],
+      type: "string",
+      label: "Comment ID",
       description:
-        "The ID of the comment to retrieve. Run the **Get Discussion** action (comment IDs appear in the"
-        + " discussion's comments array) to obtain a valid comment ID. Free-form string.",
+        "The ID of the comment to retrieve (e.g. `4068136276365188`). Run the **Get Discussion** action (comment"
+        + " IDs appear in the discussion's comments array) to obtain a valid comment ID.",
     },
   },
   async run({ $ }) {
-    const response = await this.smartsheet.getComment(this.sheetId, this.commentId, {
+    const sheetId = await this.smartsheet.resolveSheetId(this.sheetId, {
+      $,
+    });
+    const response = await this.smartsheet.getComment(sheetId, this.commentId, {
       $,
     });
 
-    $.export("$summary", `Retrieved comment ${this.commentId} from sheet ${this.sheetId}`);
+    $.export("$summary", `Retrieved comment ${this.commentId} from sheet ${sheetId}`);
     return response;
   },
 };

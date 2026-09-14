@@ -4,11 +4,10 @@ export default {
   key: "smartsheet-delete-sheet",
   name: "Delete Sheet",
   description:
-    "Permanently delete a sheet. This is irreversible — all data, rows, and columns are destroyed."
+    "Permanently delete a sheet. This is irreversible - all data, rows, and columns are destroyed."
     + " Use **List Sheets** to find the sheet ID first."
-    + " Example: `{sheetId: \"1234567890123456\"}` deletes that sheet and returns a confirmation."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/deletesheet)",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -21,16 +20,18 @@ export default {
     sheetId: {
       propDefinition: [
         smartsheet,
-        "sheetId",
+        "sheetIdOrUrl",
       ],
-      description: "The ID of the sheet to delete. Use **List Sheets** to find sheet IDs. WARNING: This is irreversible.",
     },
   },
   async run({ $ }) {
-    const response = await this.smartsheet.deleteSheet(this.sheetId, {
+    const sheetId = await this.smartsheet.resolveSheetId(this.sheetId, {
       $,
     });
-    $.export("$summary", `Deleted sheet ${this.sheetId}`);
+    const response = await this.smartsheet.deleteSheet(sheetId, {
+      $,
+    });
+    $.export("$summary", `Deleted sheet ${sheetId}`);
     return response;
   },
 };

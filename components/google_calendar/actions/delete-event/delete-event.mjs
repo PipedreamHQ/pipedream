@@ -4,13 +4,14 @@ export default {
   key: "google_calendar-delete-event",
   name: "Delete an Event",
   description: "Delete a single event from a Google Calendar. Deletes only the one event identified by `eventId` — it does NOT clear a whole day or delete multiple events. When the user asks to delete several events, clear a day, or the target is ambiguous, first confirm with the user (ideally listing what will be deleted) before calling this, and call it once per event. [See the documentation](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Events.html#delete)",
-  version: "0.1.13",
+  version: "0.1.14",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     googleCalendar,
     calendarId: {

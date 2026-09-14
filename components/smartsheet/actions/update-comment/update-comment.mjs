@@ -8,8 +8,9 @@ export default {
     + " (PUT /sheets/{sheetId}/comments/{commentId})."
     + " Use **Get Discussion** to find a Comment ID."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/comments/comment-edit).",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,
@@ -20,20 +21,18 @@ export default {
     sheetId: {
       propDefinition: [
         smartsheet,
-        "sheetId",
+        "sheetIdOrUrl",
       ],
       description:
-        "The ID of the sheet that contains the comment. Run the **List Sheets** action first to obtain a valid"
-        + " sheet ID. Free-form string.",
+        "The sheet that contains the comment. Accepts a numeric sheet ID (e.g. `1234567890123456`), or a"
+        + " Smartsheet sheet URL, which is resolved to the ID for you. Use **List Sheets** to enumerate sheets.",
     },
     commentId: {
-      propDefinition: [
-        smartsheet,
-        "commentId",
-      ],
+      type: "string",
+      label: "Comment ID",
       description:
-        "The ID of the comment to update. Run the **Get Discussion** action to obtain a valid comment ID."
-        + " Free-form string.",
+        "The ID of the comment to update (e.g. `4068136276365188`). Run the **Get Discussion** action to obtain a"
+        + " valid comment ID.",
     },
     commentText: {
       type: "string",
@@ -45,14 +44,17 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.smartsheet.updateComment(this.sheetId, this.commentId, {
+    const sheetId = await this.smartsheet.resolveSheetId(this.sheetId, {
+      $,
+    });
+    const response = await this.smartsheet.updateComment(sheetId, this.commentId, {
       $,
       data: {
         text: this.commentText,
       },
     });
 
-    $.export("$summary", `Updated comment ${this.commentId} on sheet ${this.sheetId}`);
+    $.export("$summary", `Updated comment ${this.commentId} on sheet ${sheetId}`);
     return response;
   },
 };

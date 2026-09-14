@@ -7,13 +7,14 @@ export default {
     + " Automatically paginates and returns up to Max Results recordings."
     + " Use this to find recording IDs for **Get Recording** and **Get Transcript**."
     + " [See the documentation](https://developers.grain.com/#list-recordings)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     grain,
     beforeDatetime: {

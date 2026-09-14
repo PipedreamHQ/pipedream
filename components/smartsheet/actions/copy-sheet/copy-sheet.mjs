@@ -1,5 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
 import { DESTINATION_TYPES } from "../../common/constants.mjs";
+import { toIdString } from "../../common/utils.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
 
 export default {
@@ -11,10 +12,8 @@ export default {
     + " Returns the new sheet's ID and permalink."
     + " Use **List Sheets** to find the source sheet ID."
     + " To move a sheet instead (removing it from the original location), use **Move Sheet**."
-    + " Example: `{sheetId: \"1234567890123456\", newName: \"Q2 Copy\", destinationType: \"home\"}` returns the new"
-    + " sheet's ID and permalink."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/copy-sheet)",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -27,9 +26,8 @@ export default {
     sheetId: {
       propDefinition: [
         smartsheet,
-        "sheetId",
+        "sheetIdOrUrl",
       ],
-      description: "The ID of the sheet to copy. Use **List Sheets** to find sheet IDs.",
     },
     newName: {
       type: "string",
@@ -40,17 +38,14 @@ export default {
     destinationType: {
       type: "string",
       label: "Destination Type",
-      description: "Where to copy the sheet. Defaults to `home` if omitted.",
+      description: "Where to copy the sheet. Defaults to `home` if omitted, but `home` has been deprecated since 2025-03-25 and will be removed - pass `workspace` or `folder` instead.",
       options: DESTINATION_TYPES,
       optional: true,
     },
     destinationId: {
-      propDefinition: [
-        smartsheet,
-        "destinationId",
-      ],
-      description: "The ID of the destination workspace or folder. Required when Destination Type is `workspace` or `folder`."
-        + " Use **List Workspace Options** or **List Folder Options** to find the relevant ID.",
+      type: "string",
+      label: "Destination ID",
+      description: "The numeric ID of the destination workspace or folder (e.g. `1234567890123456`). Required when Destination Type is `workspace` or `folder`, and must be omitted for `home`. Use **List Workspace Options** for workspace IDs or **List Folder Options** for folder IDs.",
       optional: true,
     },
   },
@@ -66,16 +61,17 @@ export default {
     const data = {
       destinationType,
     };
-    if (this.newName) data.newName = this.newName;
+    if (this.newName) {
+      data.newName = this.newName;
+    }
     if (this.destinationId) {
-      const destinationId = Number(this.destinationId);
-      if (!Number.isFinite(destinationId)) {
-        throw new ConfigurationError("`Destination ID` must be a numeric ID.");
-      }
-      data.destinationId = destinationId;
+      data.destinationId = toIdString(this.destinationId, "Destination ID");
     }
 
-    const response = await this.smartsheet.copySheet(this.sheetId, {
+    const sheetId = await this.smartsheet.resolveSheetId(this.sheetId, {
+      $,
+    });
+    const response = await this.smartsheet.copySheet(sheetId, {
       $,
       data,
     });

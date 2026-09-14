@@ -20,8 +20,9 @@ export default {
     + " Example: `{sheetId: \"1234567890123456\", include: \"comments\"}` returns discussions with their full"
     + " comment threads embedded."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/discussions/discussions-list).",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,
@@ -32,20 +33,18 @@ export default {
     sheetId: {
       propDefinition: [
         smartsheet,
-        "sheetId",
+        "sheetIdOrUrl",
       ],
       description:
-        "The ID of the sheet whose discussions to list. Run the **List Sheets** action first to obtain a valid"
-        + " sheet ID. Free-form string.",
+        "The sheet whose discussions to list. Accepts a numeric sheet ID (e.g. `1234567890123456`), or a Smartsheet"
+        + " sheet URL, which is resolved to the ID for you. Use **List Sheets** to enumerate sheets.",
     },
     rowId: {
-      propDefinition: [
-        smartsheet,
-        "rowId",
-      ],
+      type: "string",
+      label: "Row ID",
       description:
-        "Optional. If provided, lists discussions for this specific row instead of the whole sheet."
-        + " Run the **Get Row** action to obtain a valid row ID.",
+        "Optional. If provided, lists discussions for this specific row instead of the whole sheet (e.g."
+        + " `9876543210123456`). Run the **Get Row** action to obtain a valid row ID.",
       optional: true,
     },
     include: {
@@ -83,6 +82,10 @@ export default {
     },
   },
   async run({ $ }) {
+    const sheetId = await this.smartsheet.resolveSheetId(this.sheetId, {
+      $,
+    });
+
     const params = {
       include: this.include,
       pageSize: this.pageSize,
@@ -90,11 +93,11 @@ export default {
     };
 
     const response = this.rowId
-      ? await this.smartsheet.listRowDiscussions(this.sheetId, this.rowId, {
+      ? await this.smartsheet.listRowDiscussions(sheetId, this.rowId, {
         $,
         params,
       })
-      : await this.smartsheet.listDiscussions(this.sheetId, {
+      : await this.smartsheet.listDiscussions(sheetId, {
         $,
         params,
       });
@@ -110,7 +113,7 @@ export default {
     }
 
     const discussions = response.data || [];
-    $.export("$summary", `Retrieved ${discussions.length} discussion(s) from sheet ${this.sheetId}`);
+    $.export("$summary", `Retrieved ${discussions.length} discussion(s) from sheet ${sheetId}`);
     return response;
   },
 };

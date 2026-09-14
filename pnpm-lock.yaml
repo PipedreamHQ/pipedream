@@ -974,8 +974,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
       csv-parse:
-        specifier: ^5.5.6
-        version: 5.6.0
+        specifier: ^7.0.2
+        version: 7.0.2
 
   components/amplitude_experiment_management: {}
 
@@ -6579,8 +6579,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       csv-parse:
-        specifier: ^5.5.6
-        version: 5.6.0
+        specifier: ^7.0.2
+        version: 7.0.2
       xml2js:
         specifier: ^0.6.2
         version: 0.6.2
@@ -7413,8 +7413,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       csv-parse:
-        specifier: ^5.5.6
-        version: 5.6.0
+        specifier: ^7.0.2
+        version: 7.0.2
       streamifier:
         specifier: ^0.1.1
         version: 0.1.1
@@ -12172,8 +12172,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
       csv-parse:
-        specifier: ^5.5.6
-        version: 5.6.0
+        specifier: ^7.0.2
+        version: 7.0.2
       html-to-text:
         specifier: ^8.2.1
         version: 8.2.1
@@ -15728,8 +15728,8 @@ importers:
         specifier: ^2.45.6
         version: 2.81.1
       csv-parse:
-        specifier: ^5.5.6
-        version: 5.6.0
+        specifier: ^7.0.2
+        version: 7.0.2
       ws:
         specifier: ^8.17.1
         version: 8.18.3
@@ -26924,8 +26924,8 @@ packages:
   csstype@3.2.0:
     resolution: {integrity: sha512-si++xzRAY9iPp60roQiFta7OFbhrgvcthrhlNAGeQptSY25uJjkfUV8OArC3KLocB8JT8ohz+qgxWCmz8RhjIg==}
 
-  csv-parse@5.6.0:
-    resolution: {integrity: sha512-l3nz3euub2QMg5ouu5U09Ew9Wf6/wQ8I++ch1loQ0ljmzhmfZYrH9fflS22i/PQEvsPvxCwxgz5q7UB8K1JO4Q==}
+  csv-parse@7.0.2:
+    resolution: {integrity: sha512-uKZghv9UmPkMVLYy//KZ9HFAIJsl7wkhoEdIL0+rhuSY9pZQlhaeGEDPIe+/w7eh81MOql8Q/9+inAGWG6ZHYA==}
 
   current-module-paths@1.1.3:
     resolution: {integrity: sha512-7AH+ZTRKikdK4s1RmY0l6067UD/NZc7p3zZVZxvmnH80G31kr0y0W0E6ibYM4IS01MEm8DiC5FnTcgcgkbFHoA==}
@@ -47197,7 +47197,7 @@ snapshots:
 
   csstype@3.2.0: {}
 
-  csv-parse@5.6.0: {}
+  csv-parse@7.0.2: {}
 
   current-module-paths@1.1.3: {}
 
