@@ -48,7 +48,7 @@ export default {
     discussionId: {
       type: "string",
       label: "Discussion ID",
-      description: "The ID of the discussion. Run **List Discussions** to find a valid discussion ID.",
+      description: "The numeric ID of the discussion (e.g. `3728427551461252`). Run **List Discussions** to find a valid discussion ID.",
     },
     commentText: {
       type: "string",
