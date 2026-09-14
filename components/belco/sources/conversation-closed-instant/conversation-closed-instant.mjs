@@ -7,7 +7,7 @@ export default {
   name: "Conversation Closed (Instant)",
   description: "Emit new event for each new conversation closed event",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,
