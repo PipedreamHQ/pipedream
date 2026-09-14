@@ -31,6 +31,13 @@ export default {
       label: "Text",
       description: "The message text. Supports Slack mrkdwn formatting (e.g. `*bold*`, `_italic_`, `<https://example.com|link>`). To mention a user, use `<@U123>` with their user ID. Do NOT append a display name after a pipe: Slack renders `<@U123|Name>` as literal text, not a mention.",
     },
+    asUser: {
+      type: "boolean",
+      label: "Send as User",
+      description: "Post as the authenticated user (the default). Set to `false` to post as the app's bot identity instead: the message then carries the app's name and icon, and Slack prefixes notification and sidebar previews with that name.",
+      default: true,
+      optional: true,
+    },
     blocks: {
       type: "string",
       label: "Blocks",
@@ -75,9 +82,13 @@ export default {
   async run({ $ }) {
     // chat.postMessage accepts channel names directly — no ID resolution needed
     const channel = this.slack.normalizeChannel(this.channel);
+    // Slack decides authorship from `as_user` for classic apps, and it defaults to
+    // `false` there — a user-token post with the flag omitted is attributed to the app's
+    // bot, not to the caller. Send it explicitly so the author is the connected user.
     const args = {
       channel,
       text: this.text,
+      as_user: this.asUser,
       mrkdwn: this.mrkdwn,
       unfurl_links: this.unfurlLinks,
       unfurl_media: this.unfurlMedia,
