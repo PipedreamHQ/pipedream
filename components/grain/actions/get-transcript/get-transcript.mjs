@@ -10,7 +10,7 @@ export default {
     + " Use **List Recordings** to find recording IDs; use **Get Recording** for the recording's metadata instead of its transcript."
     + " Example: `recordingId: \"pppp6666-qq77-rr88-ss99-tttt00000000\"` with `format: \"txt\"` returns plain text like `\"Speaker 1: Thanks for joining today...\"`."
     + " [See the documentation](https://developers.grain.com/#get-recording-transcript-json)",
-  version: "0.0.2",
+  version: "0.0.3",
   ai: "optimized",
   annotations: {
     destructiveHint: false,
@@ -18,7 +18,6 @@ export default {
     readOnlyHint: true,
   },
   type: "action",
-  ai: "optimized",
   props: {
     grain,
     recordingId: {

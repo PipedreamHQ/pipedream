@@ -8,7 +8,7 @@ export default {
     + " Use **List Recordings** to find recording IDs, and **Get Transcript** to fetch the full transcript."
     + " Example: `recordingId: \"pppp6666-qq77-rr88-ss99-tttt00000000\"` with `aiSummary: true` returns the recording's metadata plus `{\"ai_summary\": {\"text\": \"...\"}}`."
     + " [See the documentation](https://developers.grain.com/#get-recording)",
-  version: "1.0.1",
+  version: "1.0.2",
   ai: "optimized",
   annotations: {
     destructiveHint: false,
@@ -16,7 +16,6 @@ export default {
     readOnlyHint: true,
   },
   type: "action",
-  ai: "optimized",
   props: {
     grain,
     recordingId: {
