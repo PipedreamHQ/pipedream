@@ -5,7 +5,7 @@ import decodo from "../../decodo.app.mjs";
 export default {
   key: "decodo-scrape-url",
   name: "Scrape URL",
-  description: "Scrape a URL. [See the documentation](https://help.decodo.com/docs/web-scraping-api-parameters)",
+  description: "Fetch the live contents of a web page through Decodo's scraping proxies. Use when you need the current content of a URL — a public page, a search-engine results page via a `target` template (e.g. `google_search` with a `query`), or a JavaScript-heavy page (set `headless` to `html` to render it first). Returns an array of results, each with the page `content`, the HTTP `status_code`, response `headers`, and `cookies`. Example: to read `https://example.com` as clean Markdown, set `url` to `https://example.com` and `markdown` to `true`; the returned `content` is the page converted to Markdown (`# Example Domain ...`). [See the documentation](https://help.decodo.com/docs/web-scraping-api-parameters)",
   version: "0.0.1",
   ai: "optimized",
   annotations: {
