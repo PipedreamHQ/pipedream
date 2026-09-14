@@ -8,7 +8,7 @@ export default {
     + " (PUT /sheets/{sheetId}/comments/{commentId})."
     + " Use **Get Discussion** to find a Comment ID."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/comments/comment-edit).",
-  version: "0.1.0",
+  version: "0.0.1",
   type: "action",
   ai: "optimized",
   annotations: {

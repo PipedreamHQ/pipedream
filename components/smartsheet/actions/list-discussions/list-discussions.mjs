@@ -20,7 +20,7 @@ export default {
     + " Example: `{sheetId: \"1234567890123456\", include: \"comments\"}` returns discussions with their full"
     + " comment threads embedded."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/discussions/discussions-list).",
-  version: "0.1.0",
+  version: "0.0.1",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -52,7 +52,8 @@ export default {
       label: "Include",
       description:
         "Optional. Comma-separated list of sub-objects to include. Allowed values: `attachments`, `comments`."
-        + " Example: `comments`.",
+        + " `attachments` is ignored unless `comments` is also included, since attachments are nested under"
+        + " comments. Example: `comments,attachments`.",
       optional: true,
     },
     pageSize: {

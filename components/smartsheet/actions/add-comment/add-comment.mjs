@@ -8,7 +8,7 @@ export default {
     + " (POST /sheets/{sheetId}/discussions/{discussionId}/comments)."
     + " Use **List Discussions** to find a Discussion ID."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/comments/comments-create).",
-  version: "0.1.0",
+  version: "0.0.1",
   type: "action",
   ai: "optimized",
   annotations: {

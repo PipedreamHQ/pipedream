@@ -9,7 +9,7 @@ export default {
     + " Example: `{sheetId: \"1234567890123456\", discussionId: \"3728427551461252\"}` returns"
     + " `{\"title\": \"Velociraptor containment breach\", \"comments\": [{\"id\": ..., \"text\": \"...\"}]}`."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/discussions/discussion-get).",
-  version: "0.1.0",
+  version: "0.0.1",
   type: "action",
   ai: "optimized",
   annotations: {

@@ -10,7 +10,7 @@ export default {
     + " Example: `{sheetId: \"1234567890123456\", commentId: \"4068136276365188\"}` deletes that comment and"
     + " returns a confirmation."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/comments/comment-delete).",
-  version: "0.1.0",
+  version: "0.0.1",
   type: "action",
   ai: "optimized",
   annotations: {
