@@ -8,7 +8,7 @@ export default {
     + " Use this when the user says 'my sheets' or 'my account' to identify the owner."
     + " Example: takes no input and returns `{\"id\": 123456, \"email\": \"user@example.com\", \"firstName\": \"...\"}`."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/users/get-current-user)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   ai: "optimized",
   annotations: {

@@ -13,7 +13,7 @@ export default {
     + " Use **List Sheets** to find the source sheet ID."
     + " To move a sheet instead (removing it from the original location), use **Move Sheet**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/copy-sheet)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   ai: "optimized",
   annotations: {

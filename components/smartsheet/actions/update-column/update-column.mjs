@@ -12,7 +12,7 @@ export default {
     + " Use **List Columns** to find the column ID and current properties before updating."
     + " Note: some type conversions may cause data loss."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/columns/column-updatecolumn)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   ai: "optimized",
   annotations: {
