@@ -45,8 +45,8 @@ export default {
       ],
       description:
         "The text of the initial comment that starts the discussion."
-        + " Example: `This row needs review before Friday.` — the call returns the new discussion's ID and title"
-        + " (auto-generated from this comment's text).",
+        + " Example: `This row needs review before Friday.` — returns the new discussion under `result`, including"
+        + " its ID and title (auto-generated from this comment's text).",
     },
   },
   async run({ $ }) {
@@ -70,7 +70,7 @@ export default {
         data,
       });
 
-    $.export("$summary", `Created discussion ${response.id} on sheet ${sheetId}`);
+    $.export("$summary", `Created discussion ${response.result.id} on sheet ${sheetId}`);
     return response;
   },
 };

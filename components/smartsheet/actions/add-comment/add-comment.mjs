@@ -42,8 +42,8 @@ export default {
         "commentText",
       ],
       description:
-        "The text of the comment to add. Example: `Acknowledged, will resolve by EOD.` — the call returns the"
-        + " new comment's ID, `createdBy`, and `createdAt`.",
+        "The text of the comment to add. Example: `Acknowledged, will resolve by EOD.` — returns the new comment"
+        + " under `result`, including its ID, `createdBy`, and `createdAt`.",
     },
   },
   async run({ $ }) {
@@ -57,7 +57,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Added comment ${response.id} to discussion ${this.discussionId} on sheet ${sheetId}`);
+    $.export("$summary", `Added comment ${response.result.id} to discussion ${this.discussionId} on sheet ${sheetId}`);
     return response;
   },
 };

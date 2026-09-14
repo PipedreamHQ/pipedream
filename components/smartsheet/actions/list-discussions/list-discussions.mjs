@@ -71,6 +71,7 @@ export default {
       label: "Page",
       description: "Optional. The 1-based page number of results to return (default 1).",
       optional: true,
+      min: 1,
     },
     fields: {
       type: "string",
@@ -107,7 +108,7 @@ export default {
       const keys = this.fields.split(",").map((f) => f.trim())
         .filter(Boolean);
       response.data = (response.data || []).map((discussion) =>
-        Object.fromEntries(keys.map((key) => [
+        Object.fromEntries(keys.filter((key) => key in discussion).map((key) => [
           key,
           discussion[key],
         ])));
