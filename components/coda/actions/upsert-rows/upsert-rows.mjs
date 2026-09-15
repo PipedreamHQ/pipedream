@@ -4,40 +4,30 @@ export default {
   key: "coda-upsert-rows",
   name: "Upsert Rows",
   description: "Creates a new row or updates existing rows if any upsert key columns are provided. When upserting, if multiple rows match the specified key column(s), they will all be updated with the specified value. [See docs](https://coda.io/developers/apis/v1#operation/upsertRows)",
-  version: "0.0.5",
+  version: "1.0.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     coda,
     docId: {
-      propDefinition: [
-        coda,
-        "docId",
-      ],
+      type: "string",
+      label: "Doc ID",
+      description: "The ID of the Coda doc. Use the **List Docs** action to look up doc IDs.",
     },
     tableId: {
-      propDefinition: [
-        coda,
-        "tableId",
-        (c) => ({
-          docId: c.docId,
-        }),
-      ],
-      reloadProps: true,
+      type: "string",
+      label: "Table ID",
+      description: "The ID of the table. Use the **List Tables** action to look up table IDs for a doc.",
     },
     keyColumns: {
-      propDefinition: [
-        coda,
-        "keyColumns",
-        (c) => ({
-          docId: c.docId,
-          tableId: c.tableId,
-        }),
-      ],
+      type: "string[]",
+      label: "Key Columns",
+      description: "Column ID(s) to use as upsert keys — rows matching all key column values will be updated instead of a new row being created. Use the **List Columns** action to look up column IDs.",
     },
     disableParsing: {
       propDefinition: [
@@ -45,19 +35,12 @@ export default {
         "disableParsing",
       ],
     },
-  },
-  async additionalProps() {
-    const props = {};
-    const { items } = await this.coda.listColumns(this, this.docId, this.tableId);
-    for (const item of items) {
-      props[`col_${item.id}`] = {
-        type: "string",
-        label: `Column: ${item.name}`,
-        description: "Leave blank to ignore this column",
-        optional: true,
-      };
-    }
-    return props;
+    columnValues: {
+      type: "object",
+      label: "Column Values",
+      description: "A flat object mapping column ID or name to the value to set on the row, e.g. `{ \"c-abc123\": \"foo\", \"Status\": \"Done\" }`. Use the **List Columns** action to look up column IDs.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const params = {
@@ -68,7 +51,13 @@ export default {
       keyColumns: this.keyColumns,
       rows: [
         {
-          cells: this.coda.createRowCells(this),
+          cells: Object.entries(this.columnValues || {}).map(([
+            column,
+            value,
+          ]) => ({
+            column,
+            value,
+          })),
         },
       ],
     };
