@@ -33,3 +33,8 @@ export const POLL_SAFETY_BUFFER_MS = 60 * 1000;
 // completions beyond the first 20 in the lookback window, since the
 // watermark would already have advanced past them.
 export const MAX_RESULTS_PER_POLL = 20;
+
+// REST collection page size. Todoist's v1 collection endpoints are cursor-
+// paginated and default to 50 records per page; 200 is the documented maximum,
+// so it minimizes round trips when reading a collection in full.
+export const REST_PAGE_LIMIT = 200;
