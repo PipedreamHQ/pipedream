@@ -142,8 +142,8 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.url && !this.query) {
-      throw new ConfigurationError("Either URL or Query is required");
+    if (!this.url && !this.target) {
+      throw new ConfigurationError("Provide a URL to scrape, or a Target template (e.g. `google_search`) together with a Query.");
     }
 
     const { results } = await this.decodo.scrapeUrl({
@@ -172,7 +172,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully scraped ${this.url || this.query}`);
+    $.export("$summary", `Successfully scraped ${this.url || this.query || this.target}`);
 
     return results;
   },
