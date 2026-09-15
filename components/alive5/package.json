@@ -1,0 +1,10 @@
+{
+  "name": "@pipedream/alive5",
+  "version": "0.0.1",
+  "description": "Pipedream components for the Alive5 SMS API",
+  "main": "alive5.app.mjs",
+  "keywords": ["pipedream", "alive5", "sms"],
+  "homepage": "https://pipedream.com/apps/alive5",
+  "license": "MIT",
+  "dependencies": {"@pipedream/platform": "^3.0.0"}
+}
