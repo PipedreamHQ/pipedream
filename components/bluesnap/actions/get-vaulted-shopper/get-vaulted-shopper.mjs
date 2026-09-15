@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import bluesnap from "../../bluesnap.app.mjs";
 
 export default {
@@ -7,6 +6,7 @@ export default {
   description: "Retrieve a vaulted shopper (stored customer) by ID, including their billing contact details and stored payment sources. The vaultedShopperId is returned by **Create Vaulted Shopper** or found on a transaction record; BlueSnap does not expose a list-all-shoppers endpoint. [See the documentation](https://developers.bluesnap.com/v8976-JSON/reference/retrieve-vaulted-shopper)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

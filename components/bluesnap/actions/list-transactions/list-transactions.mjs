@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import bluesnap from "../../bluesnap.app.mjs";
 
 const DEFAULT_LIMIT = 25;
@@ -9,6 +8,7 @@ export default {
   description: "List BlueSnap transactions via the Reporting API. Returns transaction summaries whose `Invoice ID` field is the transactionId usable in **Get Transaction** and **Refund Transaction**. [See the documentation](https://developers.bluesnap.com/v8976-Reporting/reference/get-report-data)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

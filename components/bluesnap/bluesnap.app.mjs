@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { axios } from "@pipedream/platform";
 
 const MIN_LIMIT = 1;

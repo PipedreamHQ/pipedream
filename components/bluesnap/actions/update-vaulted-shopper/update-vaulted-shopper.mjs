@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import bluesnap from "../../bluesnap.app.mjs";
 
 export default {
@@ -7,6 +6,7 @@ export default {
   description: "Update an existing vaulted shopper. The vaultedShopperId is returned by **Create Vaulted Shopper** or a transaction response; BlueSnap does not expose a list-all-shoppers endpoint. [See the documentation](https://developers.bluesnap.com/v8976-JSON/reference/update-vaulted-shopper)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

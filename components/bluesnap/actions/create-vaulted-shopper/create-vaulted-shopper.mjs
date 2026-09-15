@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import bluesnap from "../../bluesnap.app.mjs";
 
 export default {
@@ -7,6 +6,7 @@ export default {
   description: "Create a vaulted shopper (stored customer) record in BlueSnap. Returns a vaultedShopperId usable in **Create Transaction**, **Get Vaulted Shopper**, and **Update Vaulted Shopper**. [See the documentation](https://developers.bluesnap.com/v8976-JSON/reference/create-vaulted-shopper)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

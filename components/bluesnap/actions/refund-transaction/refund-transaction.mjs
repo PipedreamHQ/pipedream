@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import bluesnap from "../../bluesnap.app.mjs";
 
 export default {
@@ -7,6 +6,7 @@ export default {
   description: "Refund a BlueSnap transaction. Omit amount for a full refund or supply a partial amount. Use **List Transactions** first to find the transaction ID. [See the documentation](https://developers.bluesnap.com/v8976-JSON/reference/refund)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

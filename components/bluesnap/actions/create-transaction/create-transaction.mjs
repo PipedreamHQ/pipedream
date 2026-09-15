@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import bluesnap from "../../bluesnap.app.mjs";
 
@@ -8,6 +7,7 @@ export default {
   description: "Charge a card or vaulted shopper by creating an AUTH_CAPTURE transaction in BlueSnap. Provide either raw credit card fields or a vaultedShopperId. Use **Create Vaulted Shopper** first to obtain a vaultedShopperId for stored-card charges. [See the documentation](https://developers.bluesnap.com/v8976-JSON/reference/auth-capture)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,
