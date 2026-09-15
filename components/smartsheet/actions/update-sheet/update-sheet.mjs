@@ -11,7 +11,7 @@ export default {
     + " To change a sheet's location instead, use **Move Sheet**; to change its columns, use **Update Column**."
     + " Use **Search** or **List Sheets** to find the sheet ID first."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/updatesheet)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   ai: "optimized",
   annotations: {
