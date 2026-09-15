@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/contentrabbit",
+  "version": "0.0.1",
+  "description": "Pipedream Content Rabbit Components",
+  "main": "contentrabbit.app.mjs",
+  "keywords": [
+    "pipedream",
+    "contentrabbit"
+  ],
+  "homepage": "https://contentrabbitai.com/docs/api",
+  "author": "Content Rabbit (https://contentrabbitai.com)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.4.0"
+  }
+}
