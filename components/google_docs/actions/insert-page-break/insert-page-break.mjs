@@ -1,5 +1,6 @@
 import googleDocs from "../../google_docs.app.mjs";
 import utils from "../../common/utils.mjs";
+import { DOCUMENT_FIELDS } from "../../common/constants.mjs";
 
 export default {
   key: "google_docs-insert-page-break",
@@ -30,12 +31,12 @@ export default {
     fields: {
       type: "string",
       label: "Fields",
-      description: "Optional Google Docs API field mask limiting which document fields are returned, e.g. `documentId,title,revisionId` to confirm the write without pulling the whole document back. Only top-level fields of the Docs document resource are valid: `documentId`, `title`, `revisionId`, `body`, `documentStyle`, `namedStyles`, `inlineObjects`, `lists`, `namedRanges`, `tabs`. There is no `url` field, and an unknown field name fails the call. Nested selections are allowed, e.g. `body/content` or `tabs(documentTab(body))`. Leave blank to return the full document. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents#Document)",
+      description: `Optional Google Docs API field mask limiting which document fields are returned, e.g. \`documentId,title,revisionId\` to confirm the write without pulling the whole document back. Valid top-level fields: ${DOCUMENT_FIELDS.map((field) => `\`${field}\``).join(", ")}. There is no \`url\` field, and an invalid mask fails the call before the document is changed. Nested selections are allowed, e.g. \`body/content\` or \`tabs(documentTab(body))\`. Leave blank to return the full document. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents#Document)`,
       optional: true,
     },
   },
   async run({ $ }) {
-    utils.validateFieldMask(this.fields);
+    await utils.validateFieldMask(this.googleDocs, this.documentId, this.fields);
 
     const request = this.googleDocs._buildRequestForPosition({}, this.position);
     await this.googleDocs._batchUpdate(this.documentId, "insertPageBreak", request);
