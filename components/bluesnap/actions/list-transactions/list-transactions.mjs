@@ -6,7 +6,7 @@ const DEFAULT_LIMIT = 25;
 export default {
   key: "bluesnap-list-transactions",
   name: "List Transactions",
-  description: "List BlueSnap transactions via the Reporting API. Returns transaction summaries whose `Invoice ID` field is the transactionId usable in **Get Transaction** and **Refund Transaction**. The output includes `totalRowCount` and, when more rows remain, a `nextPageToken` to pass back into this action for the next page. [See the documentation](https://developers.bluesnap.com/v8976-Reporting/reference/get-report-data)",
+  description: "List BlueSnap transactions via the Reporting API. Report data is delayed by about one hour, so transactions from the last hour may not appear yet (use **Get Transaction** for a just-created transaction). Returns transaction summaries whose `Invoice ID` field is the transactionId usable in **Get Transaction** and **Refund Transaction**. The output includes `totalRowCount` and, when more rows remain, a `nextPageToken` to pass back into this action for the next page. [See the documentation](https://developers.bluesnap.com/v8976-Reporting/reference/get-report-data)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
