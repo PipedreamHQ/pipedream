@@ -3,7 +3,7 @@ import coda from "../../coda.app.mjs";
 export default {
   key: "coda-update-row",
   name: "Update a Row",
-  description: "Updates the specified row in the table. [See the documentation](https://coda.io/developers/apis/v1#operation/updateRow)",
+  description: "Updates an existing row in a Coda table. Requires a doc ID, table ID, and row ID — use the **List Docs**, **List Tables**, and **Find Row** actions to discover these. Column values to change are set via `columnValues`, a flat object mapping column ID or name to value (use the **List Columns** action to look up column IDs). Use this action when you already know the specific row's ID; if you only know a value to match on (e.g. update-or-create by name) rather than the row's own ID, use **Upsert Rows** instead. [See the documentation](https://coda.io/developers/apis/v1#operation/updateRow)",
   version: "1.0.0",
   annotations: {
     destructiveHint: false,
