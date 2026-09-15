@@ -3,8 +3,8 @@ import constants from "../../common/constants.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
-  key: "bamboohr-add-time-off-request",
-  name: "Add Time Off Request",
+  key: "bamboohr-create-time-off-request",
+  name: "Create Time Off Request",
   description: "Create a time off request for an employee (PUT /employees/{employeeId}/time_off/request). Use **List Time Off Types** to find a valid time off type ID and **Get Employees Directory** for the employee ID. [See the documentation](https://documentation.bamboohr.com/reference/create-time-off-request)",
   version: "0.0.1",
   type: "action",
@@ -48,7 +48,7 @@ export default {
     amount: {
       type: "string",
       label: "Amount",
-      description: "Total amount of time off (number, e.g. `8`).",
+      description: "Required unless `dates` is supplied instead. Total amount of time off for the whole date range, **measured in the time off type's own unit** — run **List Time Off Types** to check whether this type is `days` or `hours` before choosing a value. For a `days` type this is a day-fraction (e.g. `1` for one full day, `3` for a 3-day range), NOT hours; for an `hours` type it's the literal hour count (e.g. `8`). A value outside what the date range can hold (e.g. `8` for a 1-day `days`-type request) is rejected by the API.",
       optional: true,
     },
     previousRequest: {
@@ -66,7 +66,7 @@ export default {
     dates: {
       type: "string",
       label: "Dates",
-      description: "JSON array of per-day objects, e.g. `[{\"ymd\":\"2026-07-01\",\"amount\":8}]`.",
+      description: "Optional per-day breakdown; when supplied, `amount` is ignored and the sum of these daily amounts is used instead. JSON array of per-day objects, each amount in the time off type's own unit (a `days`-type request typically uses `1` per full day, not hours) — e.g. `[{\"ymd\":\"2026-07-01\",\"amount\":1}]` for a days-type, or `[{\"ymd\":\"2026-07-01\",\"amount\":8}]` for an hours-type.",
       optional: true,
     },
   },

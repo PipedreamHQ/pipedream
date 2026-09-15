@@ -37,7 +37,7 @@ export default {
     amount: {
       type: "string",
       label: "Amount",
-      description: "The number of hours/days to adjust the balance by. Use a negative number to subtract, e.g. `8` or `-4`.",
+      description: "The amount to adjust the balance by, **measured in the time off type's own unit** — run **List Time Off Types** to confirm whether this type is `days` or `hours` before choosing a value (e.g. `1` to add one full day for a `days` type, or `8` to add a full day for an `hours` type). Use a negative number to subtract, e.g. `-4`.",
     },
     note: {
       type: "string",

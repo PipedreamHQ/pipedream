@@ -3,7 +3,7 @@ import bamboohr from "../../bamboohr.app.mjs";
 export default {
   key: "bamboohr-list-time-off-types",
   name: "List Time Off Types",
-  description: "List active company time off types plus the default hours-per-day (GET /meta/time_off/types). Use the returned type IDs with **Add Time Off Request** and **List Time Off Requests**. [See the documentation](https://documentation.bamboohr.com/reference/list-time-off-types)",
+  description: "List active company time off types plus the default hours-per-day (GET /meta/time_off/types). Use the returned type IDs with **Create Time Off Request** and **List Time Off Requests**. [See the documentation](https://documentation.bamboohr.com/reference/list-time-off-types)",
   version: "0.0.1",
   type: "action",
   annotations: {

@@ -56,7 +56,10 @@ export default {
         "orderBy": this.orderBy,
         "select": this.select,
         "page": this.page,
-        "pageSize": this.pageSize,
+        // The API has no default page size of its own — without one it returns
+        // every holiday the company has (all countries, all years), which blows
+        // past the model's context. Enforce the doc'd default of 20 in code.
+        "pageSize": this.pageSize ?? 20,
       },
     });
     const holidays = response?.data ?? response?.value ?? (Array.isArray(response)

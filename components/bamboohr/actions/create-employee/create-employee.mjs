@@ -1,8 +1,8 @@
 import bamboohr from "../../bamboohr.app.mjs";
 
 export default {
-  key: "bamboohr-add-employee",
-  name: "Add Employee",
+  key: "bamboohr-create-employee",
+  name: "Create Employee",
   description: "Create a new employee (POST /employees). `firstName` and `lastName` are required; any other valid writable field can be supplied via Additional Fields. Returns a Location header with the new employee ID. [See the documentation](https://documentation.bamboohr.com/reference/create-employee)",
   version: "0.0.1",
   type: "action",

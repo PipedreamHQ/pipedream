@@ -18,9 +18,7 @@ export default {
   props: {
     bamboohr,
     syncDir: {
-      type: "$.sync.dir",
-      label: "Output Directory",
-      description: "The directory in your Pipedream File Stash to sync the downloaded file to.",
+      type: "dir",
       accessMode: "write",
       sync: true,
     },
