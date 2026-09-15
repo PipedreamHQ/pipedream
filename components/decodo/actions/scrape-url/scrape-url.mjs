@@ -146,7 +146,7 @@ export default {
       throw new ConfigurationError("Provide a URL to scrape, or a Target template (e.g. `google_search`) together with a Query.");
     }
 
-    const { results } = await this.decodo.scrapeUrl({
+    const response = await this.decodo.scrapeUrl({
       $,
       data: {
         url: this.url,
@@ -172,8 +172,16 @@ export default {
       },
     });
 
+    // Decodo reports an unscrapable target as HTTP 200 with `{ status: "failed",
+    // message, ... }` and no `results`, so a non-2xx failure is not the only
+    // failure mode. Surface that documented failure instead of returning an
+    // empty success.
+    if (!response?.results) {
+      throw new Error(`Decodo could not scrape the target${response?.status ? ` (status: ${response.status})` : ""}: ${response?.message || "no results were returned"}`);
+    }
+
     $.export("$summary", `Successfully scraped ${this.url || this.query || this.target}`);
 
-    return results;
+    return response.results;
   },
 };
