@@ -1,4 +1,3 @@
-import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
 import common from "../common/issue.mjs";
 import { ConfigurationError } from "@pipedream/platform";
@@ -8,13 +7,14 @@ export default {
   key: "jira-create-issue",
   name: "Create Issue",
   description: "Creates an issue or, where the option to create subtasks is enabled in Jira, a subtask. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-post)",
-  version: "0.2.1",
+  version: "0.3.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     updateHistory: {
@@ -24,72 +24,20 @@ export default {
       optional: true,
     },
     projectId: {
-      propDefinition: [
-        common.props.app,
-        "projectID",
-        ({ cloudId }) => ({
-          cloudId,
-        }),
-      ],
+      type: "string",
+      label: "Project ID",
+      description: "The ID of the project the issue will be created in. Use the **Get All Projects** action to look up project IDs.",
     },
     issueTypeId: {
-      reloadProps: true,
-      propDefinition: [
-        common.props.app,
-        "issueType",
-        ({
-          cloudId, projectId,
-        }) => ({
-          cloudId,
-          projectId,
-        }),
-      ],
+      type: "string",
+      label: "Issue Type",
+      description: "An ID identifying the type of issue to create. Use the **Get Issue Types** action to look up issue type IDs for the project.",
     },
-  },
-  async additionalProps(existingProps) {
-    const {
-      cloudId,
-      projectId,
-      issueTypeId,
-    } = this;
-
-    if (isNaN(projectId) || !cloudId || isNaN(issueTypeId)) {
-      existingProps.additionalProperties.optional = false;
-      return {};
-    }
-
-    try {
-      const {
-        projects: [
-          {
-            issuetypes: [
-              { fields = {} } = {},
-            ],
-          },
-        ],
-      } = await this.app.getCreateIssueMetadata({
-        cloudId,
-        params: {
-          projectIds: projectId,
-          issuetypeIds: issueTypeId,
-          expand: "projects.issuetypes.fields",
-        },
-      });
-
-      const keys = [
-        constants.FIELD_KEY.ISSUETYPE,
-        constants.FIELD_KEY.PROJECT,
-      ];
-
-      existingProps.additionalProperties.optional = true;
-      return this.getDynamicFields({
-        fields,
-        predicate: ({ key }) => !keys.includes(key),
-      });
-    } catch {
-      existingProps.additionalProperties.optional = false;
-      return {};
-    }
+    additionalProperties: {
+      ...common.props.additionalProperties,
+      label: "Additional properties",
+      description: `${common.props.additionalProperties.description} Required — at least one field (e.g. \`summary\`) must be provided to create the issue.`,
+    },
   },
   async run({ $ }) {
     const {
@@ -103,26 +51,11 @@ export default {
       properties,
       update,
       additionalProperties,
-      ...dynamicFields
     } = this;
 
-    if ((!dynamicFields || Object.keys(dynamicFields).length === 0)
-      && (!additionalProperties || Object.keys(additionalProperties).length === 0)
-    ) {
+    if (!additionalProperties || Object.keys(additionalProperties).length === 0) {
       throw new ConfigurationError("Please provide at least one additional property");
     }
-
-    const fields = utils.reduceProperties({
-      initialProps: {
-        project: {
-          id: projectId,
-        },
-        issuetype: {
-          id: issueTypeId,
-        },
-      },
-      additionalProps: this.formatFields(dynamicFields),
-    });
 
     const params = utils.reduceProperties({
       additionalProps: {
@@ -136,8 +69,13 @@ export default {
       params,
       data: {
         fields: {
-          ...utils.parseObject(additionalProperties),
-          ...fields,
+          ...this.formatAdfFields(utils.parseObject(additionalProperties)),
+          project: {
+            id: projectId,
+          },
+          issuetype: {
+            id: issueTypeId,
+          },
         },
         historyMetadata: utils.parseObject(historyMetadata),
         properties: utils.parse(properties),
