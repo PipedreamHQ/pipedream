@@ -49,7 +49,7 @@ export default {
         bluesnap,
         "country",
       ],
-      description: "Updated ISO 3166 two-letter country code (e.g. `US`).",
+      description: "Updated ISO 3166-1 alpha-2 country code (e.g. `US`, `IN` for India). Full country names such as `India` are rejected by BlueSnap.",
     },
     city: {
       propDefinition: [
