@@ -17,17 +17,17 @@ export default {
     docId: {
       type: "string",
       label: "Doc ID",
-      description: "The ID of the Coda doc. Use the **List Docs** action to look up doc IDs.",
+      description: "The ID of the Coda doc (e.g. `AbCDeFGhij`). Use the **List Docs** action to look up doc IDs.",
     },
     tableId: {
       type: "string",
       label: "Table ID",
-      description: "The ID of the table. Use the **List Tables** action to look up table IDs for a doc.",
+      description: "The ID of the table (e.g. `grid-pqRst-U`). Use the **List Tables** action to look up table IDs for a doc.",
     },
     rowId: {
       type: "string",
       label: "Row ID",
-      description: "The ID of the row to update. Use the **Find Row** action to look up row IDs.",
+      description: "The ID of the row to update (e.g. `i-tuVwxYz`). Use the **Find Row** action to look up row IDs.",
     },
     disableParsing: {
       propDefinition: [

@@ -17,17 +17,17 @@ export default {
     docId: {
       type: "string",
       label: "Doc ID",
-      description: "The ID of the Coda doc. Use the **List Docs** action to look up doc IDs.",
+      description: "The ID of the Coda doc (e.g. `AbCDeFGhij`). Use the **List Docs** action to look up doc IDs.",
     },
     tableId: {
       type: "string",
       label: "Table ID",
-      description: "The ID of the table. Use the **List Tables** action to look up table IDs for a doc.",
+      description: "The ID of the table (e.g. `grid-pqRst-U`). Use the **List Tables** action to look up table IDs for a doc.",
     },
     keyColumns: {
       type: "string[]",
       label: "Key Columns",
-      description: "Column ID(s) to use as upsert keys — rows matching all key column values will be updated instead of a new row being created. Use the **List Columns** action to look up column IDs.",
+      description: "Column ID(s) to use as upsert keys (e.g. `[\"c-abc123\"]`) — rows matching all key column values will be updated instead of a new row being created. Use the **List Columns** action to look up column IDs.",
     },
     disableParsing: {
       propDefinition: [
