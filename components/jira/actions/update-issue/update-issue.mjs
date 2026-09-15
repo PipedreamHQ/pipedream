@@ -6,7 +6,7 @@ export default {
   key: "jira-update-issue",
   name: "Update Issue",
   description: "Updates an issue. A transition may be applied and issue properties updated as part of the edit. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-put)",
-  version: "0.4.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -16,21 +16,10 @@ export default {
   ai: "optimized",
   props: {
     ...common.props,
-    projectId: {
-      type: "string",
-      label: "Project ID",
-      description: "The ID of the project the issue belongs to. Use the **Get All Projects** action to look up project IDs.",
-    },
     issueIdOrKey: {
       type: "string",
       label: "Issue ID or Key",
       description: "The ID or key of the issue to update (e.g. `10001` or `PROJ-123`). Use the **Search Issues with JQL** action to look up issues.",
-    },
-    issueTypeId: {
-      type: "string",
-      label: "Issue Type",
-      description: "An ID identifying the type of issue. Use the **Get Issue Types** action to look up issue type IDs for the project.",
-      optional: true,
     },
     notifyUsers: {
       type: "boolean",
@@ -68,10 +57,6 @@ export default {
       app,
       cloudId,
       issueIdOrKey,
-      // eslint-disable-next-line no-unused-vars
-      projectId,
-      // eslint-disable-next-line no-unused-vars
-      issueTypeId,
       notifyUsers,
       overrideScreenSecurity,
       overrideEditableFlag,
@@ -109,10 +94,10 @@ export default {
       issueIdOrKey,
       params,
       data: {
+        fields: this.formatAdfFields(utils.parseObject(additionalProperties)),
         historyMetadata: utils.parseObject(historyMetadata),
         properties: utils.parse(properties),
         update: utils.parseObject(update),
-        ...this.formatAdfFields(utils.parseObject(additionalProperties)),
       },
       transition,
     });

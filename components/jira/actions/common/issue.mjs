@@ -51,7 +51,7 @@ export default {
         value,
       ]) => {
         acc[key] = adfKeys.includes(key) && typeof value === "string"
-          ? this.atlassianDocumentFormat(value)
+          ? this.atlassianDocumentFormat(value) ?? null
           : value;
         return acc;
       }, {});

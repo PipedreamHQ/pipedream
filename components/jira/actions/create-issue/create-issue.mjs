@@ -7,7 +7,7 @@ export default {
   key: "jira-create-issue",
   name: "Create Issue",
   description: "Creates an issue or, where the option to create subtasks is enabled in Jira, a subtask. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-post)",
-  version: "0.3.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -37,6 +37,7 @@ export default {
       ...common.props.additionalProperties,
       label: "Additional properties",
       description: `${common.props.additionalProperties.description} Required — at least one field (e.g. \`summary\`) must be provided to create the issue.`,
+      optional: false,
     },
   },
   async run({ $ }) {
