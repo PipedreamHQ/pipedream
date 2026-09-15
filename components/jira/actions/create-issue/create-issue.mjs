@@ -78,9 +78,9 @@ export default {
             id: issueTypeId,
           },
         },
-        historyMetadata: utils.parseObject(historyMetadata),
+        historyMetadata: historyMetadata && utils.parseObject(historyMetadata),
         properties: utils.parse(properties),
-        update: utils.parseObject(update),
+        update: update && utils.parseObject(update),
       },
     });
 

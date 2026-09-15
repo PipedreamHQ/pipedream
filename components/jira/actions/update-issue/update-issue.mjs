@@ -8,7 +8,7 @@ export default {
   description: "Updates an issue. A transition may be applied and issue properties updated as part of the edit. [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-put)",
   version: "1.0.0",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -68,17 +68,12 @@ export default {
       additionalProperties,
     } = this;
 
-    const { transition } = utils.reduceProperties({
-      additionalProps: {
-        transition: [
-          transitionId,
-          {
-            id: transitionId,
-            looped: transitionLooped,
-          },
-        ],
-      },
-    });
+    const transition = transitionId
+      ? {
+        id: transitionId,
+        looped: transitionLooped,
+      }
+      : undefined;
 
     const params = utils.reduceProperties({
       additionalProps: {
