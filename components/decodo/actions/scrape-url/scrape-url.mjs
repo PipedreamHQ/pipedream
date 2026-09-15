@@ -75,7 +75,7 @@ export default {
     cookies: {
       type: "object",
       label: "Cookies",
-      description: "Cookies to send with the request, e.g. to access pages as a logged-in user. By default these are not forwarded unless `Force Cookies` is enabled. E.g. `{\"sessionid\": \"8e1f3b56-7abc-47e6-b2e2-1d273b0a1c4d\", \"logged_in\": \"true\", \"locale\": \"en-US\"}`",
+      description: "Cookies to send with the request, e.g. to access pages as a logged-in user, as a map of cookie name to value (values are sent as strings). By default these are not forwarded unless `Force Cookies` is enabled. E.g. `{\"sessionid\": \"8e1f3b56-7abc-47e6-b2e2-1d273b0a1c4d\", \"logged_in\": \"true\", \"locale\": \"en-US\"}`",
       optional: true,
     },
     forceCookies: {
@@ -146,6 +146,19 @@ export default {
       throw new ConfigurationError("Provide a URL to scrape, or a Target template (e.g. `google_search`) together with a Query.");
     }
 
+    // Decodo expects cookies as an array of `{ key, value }` string pairs, not a
+    // Cookie header string or a plain name->value object (both are rejected with
+    // HTTP 400). Serialize the user-friendly name->value map into that shape.
+    const cookies = this.cookies
+      ? Object.entries(this.cookies).map(([
+        key,
+        value,
+      ]) => ({
+        key,
+        value: String(value),
+      }))
+      : undefined;
+
     const response = await this.decodo.scrapeUrl({
       $,
       data: {
@@ -158,7 +171,7 @@ export default {
         domain: this.domain,
         locale: this.locale,
         headers: this.headers,
-        cookies: this.cookies,
+        cookies,
         force_cookies: this.forceCookies,
         force_headers: this.forceHeaders,
         device_type: this.deviceType,
