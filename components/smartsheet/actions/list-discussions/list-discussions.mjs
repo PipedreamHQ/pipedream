@@ -47,8 +47,8 @@ export default {
         "rowId",
       ],
       description:
-        "Optional. If provided, lists discussions for this specific row instead of the whole sheet. Use **Get"
-        + " Sheet** or **Search** to find row IDs.",
+        "Optional. If provided, lists discussions for this specific row instead of the whole sheet (e.g."
+        + " `9876543210123456`). Use **Get Sheet** or **Search** to find row IDs.",
       optional: true,
     },
     include: {

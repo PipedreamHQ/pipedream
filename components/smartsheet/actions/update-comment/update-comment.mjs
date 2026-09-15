@@ -32,7 +32,7 @@ export default {
         smartsheet,
         "commentId",
       ],
-      description: "The ID of the comment to update. Run **Get Discussion** to obtain a valid comment ID.",
+      description: "The ID of the comment to update (e.g. `4068136276365188`). Run **Get Discussion** to obtain a valid comment ID.",
     },
     commentText: {
       propDefinition: [

@@ -36,9 +36,9 @@ export default {
         "rowId",
       ],
       description:
-        "Optional. The ID of the row to attach the discussion to. If provided, the discussion is created at the"
-        + " row level; if omitted, it is created at the sheet level. Use **Get Sheet** or **Search** to find row"
-        + " IDs.",
+        "Optional. The ID of the row to attach the discussion to (e.g. `9876543210123456`). If provided, the"
+        + " discussion is created at the row level; if omitted, it is created at the sheet level. Use **Get Sheet**"
+        + " or **Search** to find row IDs.",
       optional: true,
     },
     commentText: {
