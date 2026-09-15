@@ -177,7 +177,7 @@ export default {
     // failure mode. Surface that documented failure instead of returning an
     // empty success.
     if (!response?.results) {
-      throw new Error(`Decodo could not scrape the target${response?.status ? ` (status: ${response.status})` : ""}: ${response?.message || "no results were returned"}`);
+      throw new Error(`Decodo could not scrape the target (status: ${response?.status || "failed"}): ${response?.message || "no results were returned"}`);
     }
 
     $.export("$summary", `Successfully scraped ${this.url || this.query || this.target}`);
