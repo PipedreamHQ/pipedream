@@ -4,13 +4,14 @@ export default {
   key: "mural-create-room",
   name: "Create Room",
   description: "Create a new room to group related murals within a workspace. Choose an `open` room to let any workspace member join, or a `private` room to restrict access to invited members only. Confidential rooms add a further layer of security but are Enterprise-only and cannot have share links. Requires the `rooms:write` OAuth scope. [See the documentation](https://developers.mural.co/public/reference/createroom)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     mural,
     workspaceId: {
