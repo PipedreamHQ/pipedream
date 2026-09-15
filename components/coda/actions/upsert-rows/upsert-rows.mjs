@@ -3,10 +3,10 @@ import coda from "../../coda.app.mjs";
 export default {
   key: "coda-upsert-rows",
   name: "Upsert Rows",
-  description: "Creates a new row or updates existing rows if any upsert key columns are provided. When upserting, if multiple rows match the specified key column(s), they will all be updated with the specified value. [See docs](https://coda.io/developers/apis/v1#operation/upsertRows)",
+  description: "Creates a new row or updates existing rows if any upsert key columns are provided. When upserting, if multiple rows match the specified key column(s), they will all be updated with the specified value. [See the documentation](https://coda.io/developers/apis/v1#operation/upsertRows)",
   version: "1.0.0",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -15,19 +15,22 @@ export default {
   props: {
     coda,
     docId: {
-      type: "string",
-      label: "Doc ID",
-      description: "The ID of the Coda doc (e.g. `AbCDeFGhij`). Use the **List Docs** action to look up doc IDs.",
+      propDefinition: [
+        coda,
+        "docIdStatic",
+      ],
     },
     tableId: {
-      type: "string",
-      label: "Table ID",
-      description: "The ID of the table (e.g. `grid-pqRst-U`). Use the **List Tables** action to look up table IDs for a doc.",
+      propDefinition: [
+        coda,
+        "tableIdStatic",
+      ],
     },
     keyColumns: {
       type: "string[]",
       label: "Key Columns",
-      description: "Column ID(s) to use as upsert keys (e.g. `[\"c-abc123\"]`) — rows matching all key column values will be updated instead of a new row being created. Use the **List Columns** action to look up column IDs.",
+      description: "Column ID(s) to use as upsert keys (e.g. `[\"c-abc123\"]`) — rows matching all key column values will be updated instead of a new row being created. Leave blank to always insert a new row. Use the **List Columns** action to look up column IDs.",
+      optional: true,
     },
     disableParsing: {
       propDefinition: [

@@ -3,10 +3,10 @@ import coda from "../../coda.app.mjs";
 export default {
   key: "coda-update-row",
   name: "Update a Row",
-  description: "Updates the specified row in the table. [See docs](https://coda.io/developers/apis/v1#operation/updateRow)",
+  description: "Updates the specified row in the table. [See the documentation](https://coda.io/developers/apis/v1#operation/updateRow)",
   version: "1.0.0",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -15,14 +15,16 @@ export default {
   props: {
     coda,
     docId: {
-      type: "string",
-      label: "Doc ID",
-      description: "The ID of the Coda doc (e.g. `AbCDeFGhij`). Use the **List Docs** action to look up doc IDs.",
+      propDefinition: [
+        coda,
+        "docIdStatic",
+      ],
     },
     tableId: {
-      type: "string",
-      label: "Table ID",
-      description: "The ID of the table (e.g. `grid-pqRst-U`). Use the **List Tables** action to look up table IDs for a doc.",
+      propDefinition: [
+        coda,
+        "tableIdStatic",
+      ],
     },
     rowId: {
       type: "string",

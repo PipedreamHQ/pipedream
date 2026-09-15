@@ -21,6 +21,14 @@ export default {
         return this._makeOptionsResponse(response);
       },
     },
+    // Static (non-reloadable) counterpart of `docId` for AI-optimized actions:
+    // a plain prop whose description points at the List Docs action, instead
+    // of relying on async options / reloadProps.
+    docIdStatic: {
+      type: "string",
+      label: "Doc ID",
+      description: "The ID of the Coda doc (e.g. `AbCDeFGhij`). Use the **List Docs** action to look up doc IDs.",
+    },
     folderId: {
       type: "string",
       label: "Folder ID",
@@ -40,6 +48,12 @@ export default {
         });
         return this._makeOptionsResponse(response);
       },
+    },
+    // Static counterpart of `tableId` — see docIdStatic above.
+    tableIdStatic: {
+      type: "string",
+      label: "Table ID",
+      description: "The ID of the table (e.g. `grid-pqRst-U`). Use the **List Tables** action to look up table IDs for a doc.",
     },
     rowId: {
       type: "string",
