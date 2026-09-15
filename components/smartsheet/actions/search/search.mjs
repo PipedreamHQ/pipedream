@@ -4,12 +4,17 @@ export default {
   key: "smartsheet-search",
   name: "Search",
   description:
-    "Full-text search across all sheets or within a specific sheet."
-    + " Returns matching rows, cells, and sheet names with context."
-    + " To find a sheet by name, use **List Sheets** instead — this tool searches content within sheets."
-    + " Provide a `sheetId` to scope the search to a single sheet, or omit it to search globally."
+    "Full-text search across everything the account can see, or within a single sheet."
+    + " This is the fastest way to find a sheet by name: results include whole objects, not just cell contents -"
+    + " each result carries an `objectType` of `sheet`, `row`, `folder`, `workspace`, `report`, `template`,"
+    + " `attachment`, `discussion`, `sight` or `summaryField`, and its `objectId` is that object's ID."
+    + " So a result with `objectType: \"sheet\"` gives you the sheet ID directly in one call."
+    + " Prefer this over **List Sheets** when you know part of a name; use **List Sheets** to enumerate everything"
+    + " or when you need each sheet's permalink."
+    + " Searching by a sheet URL does not work - the URL token is not indexed text; pass the URL to **Get Sheet** instead,"
+    + " which resolves it for you."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/search/list-search)",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -25,9 +30,11 @@ export default {
       description: "The text to search for across sheet contents.",
     },
     sheetId: {
-      type: "string",
-      label: "Sheet ID",
-      description: "Optional — scope the search to a single sheet. Use **List Sheets** to find sheet IDs. If omitted, searches all sheets.",
+      propDefinition: [
+        smartsheet,
+        "sheetIdOrUrl",
+      ],
+      description: "Scope the search to a single sheet. If omitted, searches all sheets. Accepts a numeric sheet ID (e.g. `1234567890123456`), or a Smartsheet sheet URL, which is resolved to the ID for you. Use **List Sheets** to enumerate sheets.",
       optional: true,
     },
   },
@@ -36,9 +43,16 @@ export default {
       query: this.query,
     };
 
+    // Omitted means search everything, and resolveSheetId would reject an empty value.
+    const sheetId = this.sheetId
+      ? await this.smartsheet.resolveSheetId(this.sheetId, {
+        $,
+      })
+      : undefined;
+
     let response;
-    if (this.sheetId) {
-      response = await this.smartsheet.searchSheet(this.sheetId, {
+    if (sheetId) {
+      response = await this.smartsheet.searchSheet(sheetId, {
         $,
         params,
       });
@@ -50,8 +64,8 @@ export default {
     }
 
     const totalResults = response.totalCount ?? response.results?.length ?? 0;
-    const scope = this.sheetId
-      ? `sheet ${this.sheetId}`
+    const scope = sheetId
+      ? `sheet ${sheetId}`
       : "all sheets";
     $.export("$summary", `Found ${totalResults} result(s) for "${this.query}" in ${scope}`);
     return response;

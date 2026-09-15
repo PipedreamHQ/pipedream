@@ -3,8 +3,8 @@ import slack from "../../slack_v2.app.mjs";
 export default {
   key: "slack_v2-get-channel-details",
   name: "Get Channel Details",
-  description: "Retrieve details for a Slack channel, specified by ID or by name — names are resolved automatically. [See the documentation](https://api.slack.com/methods/conversations.info)",
-  version: "0.1.5",
+  description: "Retrieve details for a Slack channel, specified by ID (preferred — resolves instantly) or by name (resolved by scanning the workspace's channel list, which can be slow). [See the documentation](https://api.slack.com/methods/conversations.info)",
+  version: "0.1.6",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -19,7 +19,7 @@ export default {
         slack,
         "conversation",
       ],
-      description: "A channel ID (e.g. `C1234567890`) or channel name (e.g. `general` or `#general`) — resolved automatically. Use **List Channels** to look up channel IDs.",
+      description: "Prefer a channel ID (e.g. `C1234567890`) — use **List Channels** to look it up; it resolves instantly. A channel name (e.g. `general` or `#general`) is also accepted, but resolving it scans up to 5 pages (~5,000 channels) of the workspace's channel list, which can be slow — and a valid channel beyond that bound will not be found.",
     },
     includeLocale: {
       type: "boolean",
