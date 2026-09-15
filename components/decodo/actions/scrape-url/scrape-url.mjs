@@ -142,7 +142,7 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.url && !this.target) {
+    if (!this.url && !(this.target && this.query)) {
       throw new ConfigurationError("Provide a URL to scrape, or a Target template (e.g. `google_search`) together with a Query.");
     }
 
