@@ -14,13 +14,14 @@ export default {
   key: "vapi-update-assistant-settings",
   name: "Update Assistant Settings",
   description: "Updates the configuration settings for a specific assistant. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     vapi,
     assistantId: {

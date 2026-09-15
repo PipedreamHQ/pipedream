@@ -5,8 +5,9 @@ export default {
   key: "mode-update-report",
   name: "Update Report",
   description: "Update a report's name, description, or move it to a different space. [See the documentation](https://mode.com/developer/api-reference/analytics/reports/#updateReport)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

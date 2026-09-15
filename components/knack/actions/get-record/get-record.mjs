@@ -7,13 +7,14 @@ export default {
   name: "Get Record(s)",
   description:
     "Get one or more Records for a Knack object [(See docs here)](https://docs.knack.com/docs/retrieving-records)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...base.props,
     recordId,

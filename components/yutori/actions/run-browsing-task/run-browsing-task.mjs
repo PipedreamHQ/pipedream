@@ -4,8 +4,9 @@ export default {
   key: "yutori-run-browsing-task",
   name: "Run Browsing Task",
   description: "Use Yutori's cloud browser agent to navigate a website, fill forms, extract data, or complete any multi-step task — just describe it in plain English. Returns a task ID immediately; provide a **Webhook URL** to receive the full result the moment the task finishes. [See the documentation](https://docs.yutori.com/reference/browsing-create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     openWorldHint: true,
     destructiveHint: false,

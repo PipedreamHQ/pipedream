@@ -7,7 +7,8 @@ export default {
   name: "Create Feedback",
   description: "Creates feedback. [See the documentation](https://app.swaggerhub.com/apis-docs/ProdPad/prodpad/1.0#/Feedback/PostFeedbacks).",
   type: "action",
-  version: "0.0.3",
+  ai: "optimized",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

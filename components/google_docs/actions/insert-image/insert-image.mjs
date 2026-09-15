@@ -3,8 +3,8 @@ import googleDocs from "../../google_docs.app.mjs";
 export default {
   key: "google_docs-insert-image",
   name: "Insert Image",
-  description: "Insert an inline image into a Google Doc from a publicly reachable image URL. The URL must be publicly accessible (Google fetches it server-side) and point to a PNG, JPEG, or GIF. Use **Find Document** to resolve a document's name to its ID. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#InsertInlineImageRequest)",
-  version: "0.0.7",
+  description: "Insert an inline image into a Google Doc from a publicly reachable image URL. The URL must be publicly accessible (Google fetches it server-side) and point to a PNG, JPEG, or GIF. Use **Find Document** to resolve a document's name to its ID. In a multi-tab document, set **Tab ID** to choose which tab receives the image — without it the image goes into the document's first tab; use **List Tabs** to get the IDs. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#InsertInlineImageRequest)",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -31,13 +31,22 @@ export default {
         "position",
       ],
     },
+    tabId: {
+      propDefinition: [
+        googleDocs,
+        "contentTabId",
+      ],
+    },
   },
   async run({ $ }) {
     const request = this.googleDocs._buildRequestForPosition({
       uri: this.imageUri,
-    }, this.position);
+    }, this.position, this.tabId);
     await this.googleDocs._batchUpdate(this.documentId, "insertInlineImage", request);
-    $.export("$summary", `Inserted image into document ${this.documentId}`);
-    return this.googleDocs.getDocument(this.documentId);
+    const target = this.tabId
+      ? `tab ${this.tabId} of document ${this.documentId}`
+      : `document ${this.documentId}`;
+    $.export("$summary", `Inserted image into ${target}`);
+    return this.googleDocs.getWriteResult(this.documentId, this.tabId);
   },
 };

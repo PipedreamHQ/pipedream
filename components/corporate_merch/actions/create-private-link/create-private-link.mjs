@@ -4,8 +4,9 @@ export default {
   key: "corporate_merch-create-private-link",
   name: "Create Private Link",
   description: "Create a unique, trackable redemption URL for a recipient on a private redeem page. [See the documentation](https://corporatemerch.readme.io/reference/retrieve-a-single-link)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

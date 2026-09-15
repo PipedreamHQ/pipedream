@@ -5,8 +5,9 @@ export default {
   key: "superdocu-create-contact",
   name: "Create Contact",
   description: "Create a new contact in Superdocu. Returns the created contact including its `id`, which you can then pass as **contactId** to **Create Dossier** to assign a workflow. [See the documentation](https://developers.superdocu.com/api/index.html).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

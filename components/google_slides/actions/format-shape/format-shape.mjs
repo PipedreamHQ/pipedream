@@ -9,13 +9,14 @@ export default {
   key: "google_slides-format-shape",
   name: "Format Shape",
   description: "Set the background fill, outline, content alignment, or link of a shape in a Google Slides presentation. Use **Get Presentation** to find the shape's object ID. Shadow is not settable. [See the documentation](https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations/request#UpdateShapePropertiesRequest)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     googleSlides,
     presentationId: {

@@ -4,13 +4,14 @@ export default {
   key: "asana-list-portfolios",
   name: "List Portfolios",
   description: "Returns a list of portfolios in the given workspace owned by the given user. Use this to discover portfolio GIDs before calling **Get Portfolio** or **List Portfolio Items**. Owner defaults to the authenticated user; regular API users can only list portfolios they own. [See the documentation](https://developers.asana.com/reference/getportfolios)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     asana,
     workspace: {

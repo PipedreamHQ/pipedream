@@ -5,10 +5,13 @@ export default {
   key: "smartsheet-update-sheet",
   name: "Update Sheet",
   description:
-    "Update a sheet's properties such as its name."
-    + " Use **List Sheets** to find the sheet ID first."
+    "Rename an existing sheet, leaving its rows, columns, attachments, and sharing untouched."
+    + " Only the properties you supply are changed, and at least one must be supplied."
+    + " Returns the updated sheet under `result`."
+    + " To change a sheet's location instead, use **Move Sheet**; to change its columns, use **Update Column**."
+    + " Use **Search** or **List Sheets** to find the sheet ID first."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/updatesheet)",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -19,9 +22,10 @@ export default {
   props: {
     smartsheet,
     sheetId: {
-      type: "string",
-      label: "Sheet ID",
-      description: "The ID of the sheet to update. Use **List Sheets** to find sheet IDs.",
+      propDefinition: [
+        smartsheet,
+        "sheetIdOrUrl",
+      ],
     },
     name: {
       type: "string",
@@ -41,11 +45,14 @@ export default {
     if (!Object.keys(data).length) {
       throw new ConfigurationError("Provide at least one property to update (e.g., New Name).");
     }
-    const response = await this.smartsheet.updateSheetProperties(this.sheetId, {
+    const sheetId = await this.smartsheet.resolveSheetId(this.sheetId, {
+      $,
+    });
+    const response = await this.smartsheet.updateSheetProperties(sheetId, {
       $,
       data,
     });
-    $.export("$summary", `Updated sheet "${response.result?.name || this.sheetId}"`);
+    $.export("$summary", `Updated sheet "${response.result?.name || sheetId}"`);
     return response;
   },
 };

@@ -4,7 +4,7 @@ import constants from "../../common/constants.mjs";
 
 export default {
   name: "Pub/Sub - List Topics",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,6 +13,7 @@ export default {
   key: "google_cloud-pubsub-list-topics",
   description: "List the Pub/Sub topics in your project. Use a returned topic name as the `Topic name` input of the **Pub/Sub - Publish Message** action. [See the documentation](https://cloud.google.com/nodejs/docs/reference/pubsub/latest/pubsub/pubsub#_google_cloud_pubsub_PubSub_getTopics_member_1_)",
   type: "action",
+  ai: "optimized",
   props: {
     googleCloud,
     maxResults: {

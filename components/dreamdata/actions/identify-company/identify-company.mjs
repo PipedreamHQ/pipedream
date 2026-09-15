@@ -5,8 +5,9 @@ export default {
   key: "dreamdata-identify-company",
   name: "Identify Company (Group)",
   description: "Associate a user with a company/account and record traits about the company. Either a User ID or an Anonymous ID is required. [See the documentation](https://developer.dreamdata.io/server-side/nodejs-sdk/).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

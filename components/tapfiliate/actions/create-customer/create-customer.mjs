@@ -7,8 +7,9 @@ export default {
   key: "tapfiliate-create-customer",
   name: "Create Customer",
   description: "Creates a new customer in Tapfiliate. [See the documentation](https://tapfiliate.com/docs/rest/#customers-customers-collection-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

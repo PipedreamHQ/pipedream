@@ -6,7 +6,8 @@ export default {
   name: "Search Articles",
   description: "Searches Help Center articles. [See the documentation](https://developer.zendesk.com/api-reference/help_center/help-center-api/search/).",
   type: "action",
-  version: "0.0.8",
+  ai: "optimized",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

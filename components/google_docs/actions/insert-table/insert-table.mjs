@@ -3,8 +3,8 @@ import googleDocs from "../../google_docs.app.mjs";
 export default {
   key: "google_docs-insert-table",
   name: "Insert Table",
-  description: "Insert an empty table with the given number of rows and columns into a Google Doc. If you already have the data, use **Write Table** instead so you don't have to fill cells one by one. Use **Find Document** to resolve a document's name to its ID. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#InsertTableRequest)",
-  version: "1.0.6",
+  description: "Insert an empty table with the given number of rows and columns into a Google Doc. If you already have the data, use **Write Table** instead so you don't have to fill cells one by one. Use **Find Document** to resolve a document's name to its ID. In a multi-tab document, set **Tab ID** to choose which tab receives the table — without it the table goes into the document's first tab; use **List Tabs** to get the IDs. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#InsertTableRequest)",
+  version: "1.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -38,14 +38,23 @@ export default {
         "position",
       ],
     },
+    tabId: {
+      propDefinition: [
+        googleDocs,
+        "contentTabId",
+      ],
+    },
   },
   async run({ $ }) {
     const request = this.googleDocs._buildRequestForPosition({
       rows: this.rows,
       columns: this.columns,
-    }, this.position);
+    }, this.position, this.tabId);
     await this.googleDocs._batchUpdate(this.documentId, "insertTable", request);
-    $.export("$summary", `Inserted a ${this.rows}x${this.columns} table into document ${this.documentId}`);
-    return this.googleDocs.getDocument(this.documentId);
+    const target = this.tabId
+      ? `tab ${this.tabId} of document ${this.documentId}`
+      : `document ${this.documentId}`;
+    $.export("$summary", `Inserted a ${this.rows}x${this.columns} table into ${target}`);
+    return this.googleDocs.getWriteResult(this.documentId, this.tabId);
   },
 };

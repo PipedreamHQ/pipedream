@@ -7,13 +7,14 @@ export default {
   key: "servicem8-make-api-request",
   name: "Make API Request",
   description: `Send an authenticated ServiceM8 API request. [See the documentation](${DOCS})`,
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     servicem8: app,
     method: {

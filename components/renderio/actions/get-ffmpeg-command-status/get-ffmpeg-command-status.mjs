@@ -4,13 +4,14 @@ export default {
   key: "renderio-get-ffmpeg-command-status",
   name: "Get FFmpeg Command Status",
   description: "Get the status and results of a previously submitted FFmpeg command. [See the documentation](https://renderio.dev/docs/api-reference/commands/get-command)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     renderio,
     commandId: {

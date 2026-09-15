@@ -5,8 +5,9 @@ export default {
   key: "awardco-recognize-without-recognition-program",
   name: "Recognize Without Recognition Program",
   description: "Submit recognition in Awardco, without a recognition program. [See the documentation](https://api.awardco.com/api#tag/recognition/POST/recognize/no-program).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

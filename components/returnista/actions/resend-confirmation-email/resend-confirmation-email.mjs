@@ -10,8 +10,9 @@ export default {
     + " Requires both an Account ID (from your Returnista dashboard settings) and a Return Order ID."
     + " Note: this triggers an immediate send — there is no scheduling or preview step."
     + " [See the documentation](https://platform.returnista.com/reference/rest-api/#get-/account/-accountId/return-order/-id/resend-confirmation-email)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

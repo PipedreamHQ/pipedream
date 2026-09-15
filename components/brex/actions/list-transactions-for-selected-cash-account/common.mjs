@@ -10,7 +10,7 @@ export default {
       max || 500,
       {
         method: "GET",
-        path: `/v2/transactions/cash/${cashAccount}`,
+        path: `/v2/transactions/cash/${encodeURIComponent(cashAccount)}`,
         params: {
           posted_at_start: postedAtStart,
         },

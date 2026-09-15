@@ -5,13 +5,14 @@ export default {
   key: "browser_use-create-profile",
   name: "Create Profile",
   description: "Create a Browser Use profile to preserve cookies, local storage, and login state across sessions. [See the documentation](https://docs.browser-use.com/cloud/api-v3/profiles/create-profile)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     browserUse,
     name: {
