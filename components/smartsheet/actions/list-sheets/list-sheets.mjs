@@ -11,7 +11,7 @@ export default {
     + " Example: `{modifiedSince: \"2024-01-01T00:00:00Z\"}` returns only sheets modified since that date, e.g."
     + " `{\"data\": [{\"id\": \"1234567890123456\", \"name\": \"Jurassic Park Operations\", ...}]}`."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/list-sheets)",
-  version: "0.0.4",
+  version: "1.0.0",
   type: "action",
   ai: "optimized",
   annotations: {

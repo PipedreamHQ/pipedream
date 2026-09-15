@@ -28,11 +28,11 @@ export default {
         + " Smartsheet sheet URL, which is resolved to the ID for you. Use **List Sheets** to enumerate sheets.",
     },
     commentId: {
-      type: "string",
-      label: "Comment ID",
-      description:
-        "The ID of the comment to update (e.g. `4068136276365188`). Run the **Get Discussion** action to obtain a"
-        + " valid comment ID.",
+      propDefinition: [
+        smartsheet,
+        "commentId",
+      ],
+      description: "The ID of the comment to update. Run **Get Discussion** to obtain a valid comment ID.",
     },
     commentText: {
       propDefinition: [

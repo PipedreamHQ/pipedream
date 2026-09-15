@@ -3,6 +3,7 @@ import {
   DEFAULT_PAGE_SIZE,
   MIN_PAGE_SIZE,
   MAX_PAGE_SIZE,
+  DISCUSSION_INCLUDE_OPTIONS,
 } from "../../common/constants.mjs";
 
 export default {
@@ -12,12 +13,13 @@ export default {
     "Lists discussions on a Smartsheet sheet (GET /sheets/{sheetId}/discussions). If a Row ID is supplied, lists"
     + " discussions scoped to that row instead (GET /sheets/{sheetId}/rows/{rowId}/discussions), since the sheet-level"
     + " endpoint does not accept a row filter. Supports pagination and optional inclusion of comments/attachments."
-    + " If the number of discussions returned equals `pageSize` (or the default page size), there may be more —"
-    + " call again with `page` incremented by 1 until a shorter page comes back."
+    + " The response includes `pageNumber` and `totalPages` — to fetch more, call again with `page` incremented by 1"
+    + " while `pageNumber` is less than `totalPages`. Requesting a page beyond `totalPages` returns the last page"
+    + " again rather than an empty result, so do not use a shorter or empty page as a stop signal."
     + " Pass `fields` (comma-separated, e.g. `id,title,commentCount`) to get back only those top-level fields per"
     + " discussion instead of the full object — useful when you just need titles/counts, not full comment threads."
     + " Use **List Sheets** to find a Sheet ID."
-    + " Example: `{sheetId: \"1234567890123456\", include: \"comments\"}` returns discussions with their full"
+    + " Example: `{sheetId: \"1234567890123456\", include: [\"comments\"]}` returns discussions with their full"
     + " comment threads embedded."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/discussions/discussions-list).",
   version: "0.0.1",
@@ -40,20 +42,22 @@ export default {
         + " sheet URL, which is resolved to the ID for you. Use **List Sheets** to enumerate sheets.",
     },
     rowId: {
-      type: "string",
-      label: "Row ID",
+      propDefinition: [
+        smartsheet,
+        "rowId",
+      ],
       description:
-        "Optional. If provided, lists discussions for this specific row instead of the whole sheet (e.g."
-        + " `9876543210123456`). Run the **Get Row** action to obtain a valid row ID.",
+        "Optional. If provided, lists discussions for this specific row instead of the whole sheet. Use **Get"
+        + " Sheet** or **Search** to find row IDs.",
       optional: true,
     },
     include: {
-      type: "string",
+      type: "string[]",
       label: "Include",
       description:
-        "Optional. Comma-separated list of sub-objects to include. Allowed values: `attachments`, `comments`."
-        + " `attachments` is ignored unless `comments` is also included, since attachments are nested under"
-        + " comments. Example: `comments,attachments`.",
+        "Optional. Sub-objects to include. `attachments` is ignored unless `comments` is also included, since"
+        + " attachments are nested under comments.",
+      options: DISCUSSION_INCLUDE_OPTIONS,
       optional: true,
     },
     pageSize: {
@@ -89,7 +93,9 @@ export default {
     });
 
     const params = {
-      include: this.include,
+      include: this.include?.length
+        ? this.include.join(",")
+        : undefined,
       pageSize: this.pageSize,
       page: this.page,
     };

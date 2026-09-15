@@ -30,11 +30,13 @@ export default {
         + " Smartsheet sheet URL, which is resolved to the ID for you. Use **List Sheets** to enumerate sheets.",
     },
     commentId: {
-      type: "string",
-      label: "Comment ID",
+      propDefinition: [
+        smartsheet,
+        "commentId",
+      ],
       description:
-        "The ID of the comment to retrieve (e.g. `4068136276365188`). Run the **Get Discussion** action (comment"
-        + " IDs appear in the discussion's comments array) to obtain a valid comment ID.",
+        "The ID of the comment to retrieve. Run **Get Discussion** (comment IDs appear in the discussion's"
+        + " comments array) to obtain a valid comment ID.",
     },
   },
   async run({ $ }) {

@@ -27,9 +27,10 @@ export default {
       ],
     },
     rowId: {
-      type: "string",
-      label: "Row ID",
-      description: "The numeric ID of the row to retrieve (e.g. `9876543210123456`). Use **Get Sheet** or **Search** to find row IDs - a row's position number in the UI is not its ID.",
+      propDefinition: [
+        smartsheet,
+        "rowId",
+      ],
     },
   },
   async run({ $ }) {
