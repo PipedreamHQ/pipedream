@@ -5,28 +5,20 @@ export default {
   ...common,
   key: "grain-new-story-instant",
   name: "New Story (Instant)",
-  description: "Emit new event when a story that matches the filter is added.",
-  version: "0.0.1",
+  description: "Emit new event when a story is added. [See the documentation](https://developers.grain.com/#create-hook)",
+  version: "1.0.0",
   type: "source",
   dedupe: "unique",
-  props: {
-    ...common.props,
-    viewId: {
-      propDefinition: [
-        common.props.grain,
-        "viewId",
-        () => ({
-          type: "stories",
-        }),
-      ],
-    },
-  },
   methods: {
     ...common.methods,
-    getAction() {
-      return [
-        "added",
-      ];
+    getHookType() {
+      return "story_added";
+    },
+    getTimestamp({ data }) {
+      const ts = Date.parse(data.created_datetime);
+      return Number.isNaN(ts)
+        ? Date.now()
+        : ts;
     },
     getSummary({ data }) {
       return `New story added: ${data.id}`;

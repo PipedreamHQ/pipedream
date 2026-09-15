@@ -10,8 +10,9 @@ export default {
     + "region, or tenure band). Call this first whenever the user asks about a specific team, "
     + "department, or demographic group and needs analytics scoped to it. "
     + "[See the Peakon API documentation](https://developer.peakon.com/reference/get_segments)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

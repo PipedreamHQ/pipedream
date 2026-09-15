@@ -5,8 +5,9 @@ export default {
   key: "bol_com-list-orders",
   name: "List Orders",
   description: "List orders. [See the documentation](https://api.bol.com/retailer/public/redoc/v10/retailer.html#tag/Orders/operation/get-orders)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

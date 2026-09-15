@@ -8,13 +8,14 @@ export default {
   key: "lamini-upload-dataset",
   name: "Upload Dataset",
   description: "Upload a dataset to Lamini for training.",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     file: {

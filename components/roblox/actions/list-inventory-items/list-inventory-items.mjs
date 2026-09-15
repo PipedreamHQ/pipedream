@@ -4,8 +4,9 @@ export default {
   key: "roblox-list-inventory-items",
   name: "List Inventory Items",
   description: "List the items in a Roblox user's inventory. The user's inventory must be public, or the API key owner must be the user. [See the documentation](https://create.roblox.com/docs/cloud/reference/InventoryItem#Cloud_ListInventoryItems)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

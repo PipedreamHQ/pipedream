@@ -6,13 +6,14 @@ export default {
   key: "survey_monkey-send-invite-message",
   name: "Send Invite Message",
   description: "Send an invite message to its recipients, immediately or at a scheduled date. Create the message with **Create Invite Message** and add its recipients with **Add Message Recipients** first. SurveyMonkey only sends a message whose `status` is `not_sent`, so one that has already been sent or is still `processing` is rejected. [See the documentation](https://api.surveymonkey.com/v3/docs?javascript#api-endpoints-post-collectors-collector_id-messages-message_id-send)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...base.props,
     collectorId: {

@@ -8,13 +8,14 @@ export default {
   key: "google_slides-position-element",
   name: "Position Element",
   description: "Move, scale, rotate, or restack a page element in a Google Slides presentation. Unspecified properties keep their current values. Use **Get Presentation** to find the element's object ID. [See the documentation](https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations/request#UpdatePageElementTransformRequest)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     googleSlides,
     presentationId: {

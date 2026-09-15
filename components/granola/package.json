@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/granola",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Granola Components",
   "main": "granola.app.mjs",
   "keywords": [

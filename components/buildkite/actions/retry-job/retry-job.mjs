@@ -4,8 +4,9 @@ export default {
   key: "buildkite-retry-job",
   name: "Retry Job",
   description: "Retries a failed or timed out job. Each job can only be retried once. [See the documentation](https://buildkite.com/docs/apis/rest-api/jobs#retry-a-job)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

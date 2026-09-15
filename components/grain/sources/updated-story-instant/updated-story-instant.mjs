@@ -5,28 +5,20 @@ export default {
   ...common,
   key: "grain-updated-story-instant",
   name: "New Story Updated (Instant)",
-  description: "Emit new event when a story is updated.",
-  version: "0.0.1",
+  description: "Emit new event when a story is updated. Each webhook delivery emits an event, including retries. [See the documentation](https://developers.grain.com/#create-hook)",
+  version: "1.0.0",
   type: "source",
-  dedupe: "unique",
-  props: {
-    ...common.props,
-    viewId: {
-      propDefinition: [
-        common.props.grain,
-        "viewId",
-        () => ({
-          type: "stories",
-        }),
-      ],
-    },
-  },
+  // Grain does not document a delivery ID; deduping by resource ID would discard later updates.
   methods: {
     ...common.methods,
-    getAction() {
-      return [
-        "updated",
-      ];
+    getHookType() {
+      return "story_updated";
+    },
+    getTimestamp({ data }) {
+      const ts = Date.parse(data.last_edited_datetime);
+      return Number.isNaN(ts)
+        ? Date.now()
+        : ts;
     },
     getSummary({ data }) {
       return `New story updated: ${data.id}`;

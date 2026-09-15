@@ -1,32 +1,18 @@
-import common from "../common/base.mjs";
+import common from "../common/highlight.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "grain-updated-highlight-instant",
   name: "New Highlight Updated (Instant)",
-  description: "Emit new event when a highlight is updated.",
-  version: "0.0.1",
+  description: "Emit new event when a highlight is updated. Each webhook delivery emits an event, including retries. [See the documentation](https://developers.grain.com/#create-hook)",
+  version: "1.0.0",
   type: "source",
-  dedupe: "unique",
-  props: {
-    ...common.props,
-    viewId: {
-      propDefinition: [
-        common.props.grain,
-        "viewId",
-        () => ({
-          type: "highlights",
-        }),
-      ],
-    },
-  },
+  // Grain does not document a delivery ID; deduping by resource ID would discard later updates.
   methods: {
     ...common.methods,
-    getAction() {
-      return [
-        "updated",
-      ];
+    getHookType() {
+      return "highlight_updated";
     },
     getSummary({ data }) {
       return `New highlight updated: ${data.id}`;

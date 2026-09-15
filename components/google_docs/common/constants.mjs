@@ -96,3 +96,15 @@ export const FONT_WEIGHT_MIN = 100;
 export const FONT_WEIGHT_MAX = 900;
 export const FONT_WEIGHT_STEP = 100;
 
+// How deep `listTabs`' metadata field mask spells out nested `childTabs`.
+// Google's field masks have no recursive wildcard, so the nesting has to be
+// written out to a fixed depth, and a depth that is too shallow would silently
+// omit tabs rather than error.
+//
+// 4 is provably enough: `addDocumentTab` refuses a fourth level outright
+// ("Tab nesting level cannot exceed 3." — measured), so `nestingLevel` tops out
+// at 2. The extra level is margin in case that cap is ever raised, and
+// `listTabs` still checks for a tab sitting at the mask's floor so a raised cap
+// would cost one more request instead of losing tabs.
+// https://developers.google.com/workspace/docs/api/how-tos/field-masks
+export const TAB_METADATA_MASK_DEPTH = 4;

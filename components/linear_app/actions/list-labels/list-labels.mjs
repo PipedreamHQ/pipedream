@@ -6,6 +6,7 @@ export default {
   description: "List issue labels in Linear. Use this to retrieve label IDs and names for filtering or label-management flows. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=issueLabels).",
   version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

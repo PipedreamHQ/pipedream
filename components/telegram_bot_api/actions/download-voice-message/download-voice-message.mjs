@@ -7,13 +7,14 @@ export default {
   key: "telegram_bot_api-download-voice-message",
   name: "Download Voice Message",
   description: "Downloads a Telegram voice message to the `/tmp` directory using its `file_id`. Use this after receiving a voice message update to persist the audio locally. [See the documentation](https://core.telegram.org/bots/api#getfile)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     telegramBotApi,
     syncDir: {

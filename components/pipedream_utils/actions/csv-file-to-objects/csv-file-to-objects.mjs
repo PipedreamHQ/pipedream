@@ -7,13 +7,14 @@ export default {
   key: "pipedream_utils-csv-file-to-objects",
   name: "Helper Functions - CSV File To Objects",
   description: "Convert a CSV file to an array of objects.",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: false,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     pipedream_utils,
     filePath: {

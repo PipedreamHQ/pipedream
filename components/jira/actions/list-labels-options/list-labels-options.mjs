@@ -4,7 +4,7 @@ export default {
   key: "jira-list-labels-options",
   name: "List Labels Options",
   description: "Retrieves available options for the Labels field.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   annotations: {
     destructiveHint: false,

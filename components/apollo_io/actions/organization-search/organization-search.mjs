@@ -6,7 +6,8 @@ export default {
   name: "Search For Organizations",
   description: "Search the Apollo database for companies (organizations) using filters such as name, domain, employee count, location, technologies, revenue, funding, and job postings. [See the documentation](https://docs.apollo.io/reference/organization-search)",
   type: "action",
-  version: "0.0.1",
+  ai: "optimized",
+  version: "0.0.2",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,
