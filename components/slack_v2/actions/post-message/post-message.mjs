@@ -10,7 +10,7 @@ export default {
     + " To post a note to yourself (save a personal note or reminder), pass your own user ID (e.g. `U1234567890`) as the Channel — use **Get Current User** to find your user ID first."
     + " To reply to a thread, provide `threadTs` (Slack calls this `thread_ts`) from **Get Channel History**."
     + " Supports plain text with Slack mrkdwn formatting and Block Kit blocks."
-    + " Posts as the authenticated user by default; set `sendAsBot` to `true` to post as the Pipedream bot instead."
+    + " Posts as the authenticated user by default; set `sendAsBot` to `true` to post as the Slack app's bot user instead."
     + " [See the documentation](https://api.slack.com/methods/chat.postMessage)",
   version: "0.1.0",
   type: "action",
@@ -75,7 +75,7 @@ export default {
     sendAsBot: {
       type: "boolean",
       label: "Send as Bot",
-      description: "Set to `true` to post the message as the Pipedream bot instead of the authenticated user. The app is added to the channel automatically if it is not already a member (not possible for DMs). The bot cannot DM a user who has not opened its Messages tab. Defaults to `false` (posts as the authenticated user).",
+      description: "Set to `true` to post the message as the Slack app's bot user instead of the authenticated user. The app is added to the channel automatically if it is not already a member (not possible for DMs). The bot cannot DM a user who has not opened its Messages tab. Defaults to `false` (posts as the authenticated user).",
       default: false,
       optional: true,
     },
