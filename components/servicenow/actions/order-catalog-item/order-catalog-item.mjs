@@ -5,8 +5,9 @@ export default {
   key: "servicenow-order-catalog-item",
   name: "Order Catalog Item",
   description: "Place a one-step Order Now request for a single ServiceNow catalog item, bypassing the cart. Run **Search Catalog Items** to find the item `sys_id` and **Get Catalog Item Variables** to learn which variable names to supply. Use **Check Order Status** afterward to track the resulting request. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

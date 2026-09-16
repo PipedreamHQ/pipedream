@@ -7,8 +7,9 @@ export default {
   key: "docugenerate-create-template",
   name: "New Template",
   description: "Creates a new document template from a file. [See the documentation](https://api.docugenerate.com/#/Template/createTemplate)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

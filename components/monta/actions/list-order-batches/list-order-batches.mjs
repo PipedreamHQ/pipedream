@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import monta from "../../monta.app.mjs";
 
 export default {
   key: "monta-list-order-batches",
   name: "List Order Batches",
   description: "List the batch (lot) lines shipped for an order. Use this for batch traceability when you need to know which lots were used to fulfill an order. [See the documentation](https://api-v6.monta.nl/index.html#tag/Order/paths/~1order~1%7Bwebshoporderid%7D~1batches/get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

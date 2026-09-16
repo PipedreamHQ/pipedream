@@ -4,13 +4,14 @@ export default {
   key: "docusign-get-envelope",
   name: "Get Envelope",
   description: "Get details for a DocuSign envelope by ID. Use **List Envelopes** first if you need to find an envelope ID. [See the documentation](https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/get/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     docusign,
     account: {

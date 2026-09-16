@@ -4,8 +4,9 @@ export default {
   key: "sharepoint-get-current-user",
   name: "Get Current User",
   description: "Returns the authenticated Microsoft user's ID, display name, email, and principal name via Microsoft Graph. Call this first when the user says 'my files', 'my documents', or needs identity context. Use the returned `id` to identify file ownership in **List Files in Folder** or **Find File by Name** results. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-get).",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

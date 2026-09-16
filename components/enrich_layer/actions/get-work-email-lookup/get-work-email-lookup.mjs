@@ -4,8 +4,9 @@ export default {
   key: "enrich_layer-get-work-email-lookup",
   name: "Get Work Email Lookup",
   description: "Look up the work email address of a person from their professional network profile URL. Emails are verified with 95%+ deliverability guarantee. Cost: 3 credits per successful request. [See the documentation](https://enrichlayer.com/docs/api/v2/contact-api/work-email-lookup).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

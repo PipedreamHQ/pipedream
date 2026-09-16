@@ -5,13 +5,14 @@ export default {
   key: "databricks-reset-job",
   name: "Reset Job",
   description: "Overwrite all settings for the given job. [See the documentation](https://docs.databricks.com/api/workspace/jobs/reset)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     jobId: {

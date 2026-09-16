@@ -5,7 +5,8 @@ export default {
   name: "Start Planning",
   description: "Start planning for a given order. [See the documentation](https://optimoroute.com/api/#start-planning)",
   type: "action",
-  version: "0.0.1",
+  ai: "optimized",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

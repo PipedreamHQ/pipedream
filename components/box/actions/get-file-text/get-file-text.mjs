@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../box.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
@@ -6,8 +5,9 @@ export default {
   name: "Get File Text",
   description: "Extracts the text content of a Box file using its `extracted_text` representation. Works for office documents, presentations, spreadsheets, PDFs, and plain-text or code files. Box does not generate this representation for images (they have no text layer) or for files larger than 500 MB, and the action fails with an error when the file has no text representation. Use **Download File** to fetch the raw file instead. [See the documentation](https://developer.box.com/guides/representations/text)",
   key: "box-get-file-text",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

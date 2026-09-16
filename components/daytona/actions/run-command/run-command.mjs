@@ -4,8 +4,9 @@ export default {
   key: "daytona-run-command",
   name: "Run Command",
   description: "Execute a shell command in a Daytona sandbox. [See the documentation](https://www.daytona.io/docs/en/typescript-sdk/process/#executecommand)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

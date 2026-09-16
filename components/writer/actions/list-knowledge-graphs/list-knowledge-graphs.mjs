@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../writer.app.mjs";
 import {
   GRAPH_DEFAULT_FIELDS,
@@ -14,8 +13,9 @@ export default {
     + `Auto-paginates up to ${MAX_RESULTS} graphs. `
     + "Example: to get just the names of your graphs, call with `fields=[\"name\"]` -> returns records like `{ id: \"...\", name: \"Isla Nublar Field Guide\" }`. "
     + "[See the documentation](https://dev.writer.com/api-reference/kg-api/list-graphs)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

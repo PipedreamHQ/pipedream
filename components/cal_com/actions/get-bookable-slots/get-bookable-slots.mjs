@@ -4,13 +4,14 @@ export default {
   key: "cal_com-get-bookable-slots",
   name: "Get Bookable Slots",
   description: "Retrieve available bookable slots between a datetime range. [See the documentation](https://cal.com/docs/api-reference/v2/slots/get-available-time-slots-for-an-event-type)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     calCom,
     start: {

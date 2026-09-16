@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import common from "../common/base.mjs";
 
 export default {
@@ -7,13 +6,14 @@ export default {
   name: "Search Contacts",
   description:
     "Searches the authenticated user's contacts by name, email address, phone number, organization, or other contact fields. [See the documentation](https://developers.google.com/people/api/rest/v1/people/searchContacts)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     "destructiveHint": false,
     "openWorldHint": true,
     "readOnlyHint": true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     query: {

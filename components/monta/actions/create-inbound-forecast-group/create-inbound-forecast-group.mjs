@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import monta from "../../monta.app.mjs";
 import { parseJsonObjects } from "../../common/utils.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "monta-create-inbound-forecast-group",
   name: "Create Inbound Forecast Group",
   description: "Create a new inbound forecast group describing stock expected at the warehouse. Manage the group afterwards with **Update Inbound Forecast Group**, **Get Inbound Forecast Group**, or **Delete Inbound Forecast Group**. [See the documentation](https://api-v6.monta.nl/index.html#tag/InboundForecast/paths/~1inboundforecast~1group/post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

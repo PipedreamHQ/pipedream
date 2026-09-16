@@ -5,8 +5,9 @@ export default {
   key: "ashby-get-candidate-resume-file",
   name: "Get Candidate Resume File",
   description: "Retrieves the URL of a candidate's resume file. Equivalent to calling the **Get Candidate** and **Get File URL** actions in succession. See the documentation [here](https://developers.ashbyhq.com/reference/candidateinfo) and [here](https://developers.ashbyhq.com/reference/fileinfo)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

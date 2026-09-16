@@ -8,8 +8,9 @@ export default {
     + " Change events show what changed in your systems around the time the incident was triggered."
     + " Use **List Incidents** or **Get Incident** to find the incident ID."
     + " [See the documentation](https://developer.pagerduty.com/api-reference/c7afb7de35741-list-related-change-events-for-an-incident)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

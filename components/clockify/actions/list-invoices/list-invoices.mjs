@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import clockify from "../../clockify.app.mjs";
 
 export default {
   key: "clockify-list-invoices",
   name: "List Invoices",
   description: "Returns a single page of invoices in a Clockify workspace. Use the `page` and `pageSize` inputs to page through results. [See the documentation](https://docs.clockify.me/#tag/Invoice/operation/getInvoices)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

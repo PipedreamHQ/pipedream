@@ -5,8 +5,9 @@ export default {
   key: "roblox-increment-data-store-entry",
   name: "Increment Data Store Entry",
   description: "Increment the numeric value of a Roblox data store entry by a given amount. The existing value and the increment must both be integers. [See the documentation](https://create.roblox.com/docs/cloud/reference/features/storage#Cloud_IncrementDataStoreEntry__Using_Universes_DataStores)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/virtualsms",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream VirtualSMS Components",
   "main": "virtualsms.app.mjs",
   "keywords": [

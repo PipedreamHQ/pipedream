@@ -6,8 +6,9 @@ export default {
   description: "Retrieves all Hedy meeting topics with their session counts, last session date, dominant session type, and cached AI overview."
     + " Use this tool to browse available topics or to find a topic ID to pass to **Get Topic**, **Get Topic Sessions**, **Update Topic**, or **Delete Topic**."
     + " [See the documentation](https://app.swaggerhub.com/apis-docs/HedyAI/hedy-api/1.5.2#/Topics/get_topics)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

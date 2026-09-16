@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import fathom from "../../fathom.app.mjs";
 
 export default {
   key: "fathom-get-recording-download-status",
   name: "Get Recording Download Status",
   description: "Check the status of a previously requested recording download and, once `completed`, get the signed video/audio download URLs. Use **Request Recording Download** first to obtain a Download ID. [See the documentation](https://developers.fathom.ai/api-reference/recordings/get-download-status)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

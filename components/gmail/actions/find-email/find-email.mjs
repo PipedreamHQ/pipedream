@@ -46,13 +46,14 @@ export default {
     + " `format` stays `metadata` unless you need the raw MIME tree for **Download Attachment**, in which case pass `format: \"full\"` and request `payload`."
     + " Responses are capped. Over the cap: if you named `fields`, whole messages are dropped rather than your chosen fields being removed, and the note says how many of how many are shown — narrow `q` and retry. If you named none, messages are compacted instead so counts stay accurate. `bodyText` shrinks toward a floor before anything is dropped, flagging each cut message with `bodyTruncated: true`."
     + " [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/list) and [Gmail search operators](https://support.google.com/mail/answer/7190).",
-  version: "0.3.0",
+  version: "0.3.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     gmail,
     q: {

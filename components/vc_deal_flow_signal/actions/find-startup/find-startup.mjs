@@ -5,8 +5,9 @@ export default {
   name: "Find Startup by Name",
   description:
     "Look up a single startup's full signal profile. Case-insensitive match on display name or GitHub org slug.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

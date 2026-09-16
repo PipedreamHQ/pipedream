@@ -89,9 +89,18 @@ export default {
       this.db.set("latestDateCovered", latestDateCovered);
     },
     getNameField() {
-      return this.db.get("nameField");
+      // Cache in memory for the lifetime of this execution. The deploy hook emits
+      // up to DEPLOY_HISTORICAL_LIMIT historical events, each building meta via
+      // getNameField(); without this the db is read once per event (e.g. 25x).
+      if (this._nameField === undefined) {
+        this._nameField = this.db.get("nameField");
+      }
+      return this._nameField;
     },
     setNameField(nameField) {
+      // Keep the in-memory cache coherent with the persisted value so a read after
+      // a write doesn't fall back to db.get.
+      this._nameField = nameField;
       this.db.set("nameField", nameField);
     },
     processTimerEvent() {

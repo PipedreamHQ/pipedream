@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import monta from "../../monta.app.mjs";
 
 export default {
   key: "monta-create-rma-link",
   name: "Create RMA Link",
   description: "Create an RMA (return merchandise authorization) link for an order, so a customer can start a return. Review existing returns for the order with **List Order Returns**. [See the documentation](https://api-v6.monta.nl/index.html#tag/Order/paths/~1order~1%7Bwebshoporderid%7D~1rmalinks/post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,9 +4,10 @@ export default {
   key: "airtable_oauth-list-tables",
   name: "List Tables",
   description:
-    "Get a list of tables in the selected base. [See the documentation](https://airtable.com/developers/web/api/get-base-schema)",
+    "Get a list of tables in the selected base, including each table's fields and views. Use **List Bases** to look up a base ID. [See the documentation](https://airtable.com/developers/web/api/get-base-schema)",
   type: "action",
-  version: "0.0.5",
+  ai: "optimized",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -24,7 +25,7 @@ export default {
   async run({ $ }) {
     const { tables } = await this.airtable.listTables({
       $,
-      baseId: this.baseId?.value ?? this.baseId,
+      baseId: this.baseId,
     });
     $.export(
       "$summary",

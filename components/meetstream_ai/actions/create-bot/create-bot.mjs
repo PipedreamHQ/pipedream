@@ -4,13 +4,14 @@ export default {
   key: "meetstream_ai-create-bot",
   name: "Create Bot",
   description: "Creates a new bot instance to join a meeting. [See the documentation](https://vento.so/view/35d0142d-f91f-47f6-8175-d42e1953d6f1?utm_medium=share)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     meetstreamAi,
     meetingLink: {

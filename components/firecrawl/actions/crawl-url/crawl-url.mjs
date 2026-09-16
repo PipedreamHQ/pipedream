@@ -5,13 +5,14 @@ export default {
   key: "firecrawl-crawl-url",
   name: "Crawl URL",
   description: "Crawls a given URL and returns the contents of sub-pages. [See the documentation](https://docs.firecrawl.dev/api-reference/endpoint/crawl-post)",
-  version: "1.1.1",
+  version: "1.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     firecrawl,
     url: {

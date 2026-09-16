@@ -3,6 +3,9 @@ import googleDrive from "@pipedream/google_drive";
 import { ConfigurationError } from "@pipedream/platform";
 import utils from "./common/utils.mjs";
 import markdownParser from "./common/markdown-parser.mjs";
+import {
+  OCCURRENCES, TAB_METADATA_MASK_DEPTH,
+} from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -49,27 +52,51 @@ export default {
       type: "string",
       label: "Image ID",
       description: "The Image ID",
+      // Read with `includeTabsContent`, because a multi-tab document puts each
+      // tab's `inlineObjects` under `tabs[].documentTab` and leaves the
+      // top-level one empty — so the old read offered no images at all there.
+      // Labels name the owning tab when there is more than one, since the same
+      // document can hold a different image per tab.
       async options({ documentId }) {
-        const { inlineObjects: images } = await this.getDocument(documentId);
-        if (!images) return [];
-        return Object.values(images)
-          .map((image) => ({
-            label: image.inlineObjectProperties?.embeddedObject?.imageProperties?.sourceUri,
-            value: image.objectId,
-          }))
-          .filter((image) => image.label);
+        const document = await this.getDocument(documentId, true);
+        const tabs = this._flattenDocumentTabs(document.tabs);
+        const multiTab = tabs.length > 1;
+        return tabs.flatMap((tab) => {
+          const tabTitle = tab.tabProperties?.title;
+          return Object.values(tab.documentTab?.inlineObjects ?? {})
+            .map((image) => ({
+              uri: image.inlineObjectProperties
+                ?.embeddedObject?.imageProperties?.sourceUri,
+              value: image.objectId,
+            }))
+            .filter(({ uri }) => uri)
+            .map(({
+              uri, value,
+            }) => ({
+              label: multiTab && tabTitle
+                ? `${tabTitle} — ${uri}`
+                : uri,
+              value,
+            }));
+        });
       },
     },
     tabId: {
       type: "string",
       label: "Tab ID",
-      description: "The Tab ID",
+      description: "For a multi-tab document, the tab the image lives in (e.g. `t.0`). Get tab IDs from **List Tabs**. Omit to locate the image automatically.",
       optional: true,
+      // `listTabs` already returns every tab flattened (nested child tabs
+      // included) through the metadata field mask, so this needs no document
+      // content — and asking for none is the difference between a few hundred
+      // bytes and the whole document.
       async options({ documentId }) {
-        const { tabs } = await this.getDocument(documentId, true);
-        return Object.values(tabs).map(({ tabProperties }) => ({
-          label: tabProperties.title,
-          value: tabProperties.tabId,
+        const tabs = await this.listTabs(documentId);
+        return tabs.map(({
+          tabId, title,
+        }) => ({
+          label: title,
+          value: tabId,
         }));
       },
     },
@@ -97,6 +124,59 @@ export default {
       default: false,
       optional: true,
     },
+    findText: {
+      type: "string",
+      label: "Find Text",
+      description: "The text to style. The action locates it in the document and styles each match selected by **Occurrence**. Leave blank only if you are supplying **Start Index** and **End Index** instead.",
+      optional: true,
+    },
+    occurrence: {
+      type: "string",
+      label: "Occurrence",
+      description: "Which matches of **Find Text** to style: `first` (default) or `all`.",
+      options: OCCURRENCES,
+      default: "first",
+      optional: true,
+    },
+    startIndex: {
+      type: "integer",
+      label: "Start Index",
+      description: "Character index to style from, inclusive. Use with **End Index** instead of **Find Text**. Indices come from **Get Document** and shift after every edit, so prefer **Find Text**.",
+      optional: true,
+    },
+    endIndex: {
+      type: "integer",
+      label: "End Index",
+      description: "Character index to style up to, exclusive. Must be greater than **Start Index**.",
+      optional: true,
+    },
+    styleTabId: {
+      type: "string",
+      label: "Tab ID",
+      description: "For a multi-tab document, restrict the operation to this tab (e.g. `t.0`). Get tab IDs from **List Tabs**. Omit to search every tab for **Find Text**; an explicit **Start Index** / **End Index** without a Tab ID applies to the first tab only.",
+      optional: true,
+    },
+    // Tab selector for content writes (insert/delete). Deliberately separate
+    // from `styleTabId`: omitting this one means "the document's first tab", not
+    // "every tab", because the Docs API applies an untargeted `Location` /
+    // `EndOfSegmentLocation` to the first tab only (measured).
+    contentTabId: {
+      type: "string",
+      label: "Tab ID",
+      description: "For a multi-tab document, the ID of the tab to write into (e.g. `t.0`). Get tab IDs from **List Tabs**, or use the ID returned by **Create Tab**. Omit to write into the document's first tab — the Google Docs API sends every untargeted edit there, so pass this whenever the document has more than one tab.",
+      optional: true,
+    },
+    replacementFormat: {
+      type: "string",
+      label: "Replacement Format",
+      description: "How to interpret the replacement text. `plain` inserts it exactly as typed (default). `markdown` converts Markdown syntax (bold, italic, inline code, links, headings, bullet and numbered lists) into native Google Docs formatting. Note that block-level Markdown (headings, lists) restyles the entire paragraph containing the match, since Google Docs applies paragraph styles per paragraph.",
+      options: [
+        "plain",
+        "markdown",
+      ],
+      default: "plain",
+      optional: true,
+    },
   },
   methods: {
     ...googleDrive.methods,
@@ -110,24 +190,35 @@ export default {
         auth,
       });
     },
-    _insertAtBeginning(requestObj) {
+    // Every location and range in a batchUpdate carries an optional `tabId`.
+    // When it is omitted the Docs API applies the request to the document's
+    // FIRST tab (measured), so these builders pass it through rather than
+    // letting a tab-targeted edit silently land on tab one.
+    _insertAtBeginning(requestObj, tabId) {
       return {
         ...requestObj,
         location: {
           index: 1,
+          ...(tabId && {
+            tabId,
+          }),
         },
       };
     },
-    _insertAtEnd(requestObj) {
+    _insertAtEnd(requestObj, tabId) {
       return {
         ...requestObj,
-        endOfSegmentLocation: {},
+        endOfSegmentLocation: {
+          ...(tabId && {
+            tabId,
+          }),
+        },
       };
     },
-    _buildRequest(requestObj, atBeginning) {
+    _buildRequest(requestObj, atBeginning, tabId) {
       return atBeginning
-        ? this._insertAtBeginning(requestObj)
-        : this._insertAtEnd(requestObj);
+        ? this._insertAtBeginning(requestObj, tabId)
+        : this._insertAtEnd(requestObj, tabId);
     },
     // Resolve a static `position` value (`beginning` | `end` | numeric index) into
     // either `null` (append at end) or the concrete character index it refers to.
@@ -149,36 +240,60 @@ export default {
     },
     // Resolve a static `position` value into the location field a batchUpdate
     // insert request expects.
-    _buildRequestForPosition(requestObj, position) {
+    _buildRequestForPosition(requestObj, position, tabId) {
       const index = this._resolvePositionIndex(position);
       return index == null
-        ? this._insertAtEnd(requestObj)
+        ? this._insertAtEnd(requestObj, tabId)
         : {
           ...requestObj,
           location: {
             index,
+            ...(tabId && {
+              tabId,
+            }),
           },
         };
     },
-    _batchUpdate(documentId, requestName, request) {
-      return this.docs().documents.batchUpdate({
-        documentId,
-        requestBody: {
-          requests: [
-            {
-              [requestName]: request,
-            },
-          ],
-        },
-      });
+    // An unknown tab fails with a bare "Cannot apply request to an invalid tab
+    // ID" (measured) that names neither the document nor the IDs that would have
+    // worked, so every batchUpdate rewrites it into something the caller can act
+    // on. Anything else is rethrown untouched.
+    _rethrowBatchUpdateError(error, documentId) {
+      if (/invalid tab id/i.test(error?.message ?? "")) {
+        throw new ConfigurationError(`Invalid Tab ID for document ${documentId}. Call **List Tabs** to get this document's tab IDs (e.g. \`t.0\`), or omit Tab ID to target the document's first tab.`);
+      }
+      throw error;
     },
-    batchUpdate(documentId, requests) {
-      return this.docs().documents.batchUpdate({
-        documentId,
-        requestBody: {
-          requests,
-        },
-      });
+    async _batchUpdate(documentId, requestName, request) {
+      try {
+        return await this.docs().documents.batchUpdate({
+          documentId,
+          requestBody: {
+            requests: [
+              {
+                [requestName]: request,
+              },
+            ],
+          },
+        });
+      } catch (error) {
+        this._rethrowBatchUpdateError(error, documentId);
+      }
+    },
+    async batchUpdate(documentId, requests, writeControl) {
+      try {
+        return await this.docs().documents.batchUpdate({
+          documentId,
+          requestBody: {
+            requests,
+            ...(writeControl && {
+              writeControl,
+            }),
+          },
+        });
+      } catch (error) {
+        this._rethrowBatchUpdateError(error, documentId);
+      }
     },
     async findDocuments({
       query, limit = 25,
@@ -219,6 +334,177 @@ export default {
       }
       return data;
     },
+    // Content-free view of one tab, used everywhere a tab is described.
+    _tabSummary(tab) {
+      const properties = tab.tabProperties ?? {};
+      return {
+        tabId: properties.tabId,
+        title: properties.title,
+        index: properties.index ?? 0,
+        nestingLevel: properties.nestingLevel ?? 0,
+        ...(properties.parentTabId && {
+          parentTabId: properties.parentTabId,
+        }),
+      };
+    },
+    // Field mask selecting tab metadata and nothing else, with `childTabs` spelled
+    // out `depth` levels deep. Google's field masks have no recursive wildcard, so
+    // an unqualified `childTabs` would pull down every descendant's content — which
+    // is the whole document, i.e. what the mask exists to avoid.
+    _tabMetadataFields(depth) {
+      let level = "tabProperties";
+      for (let i = 1; i < depth; i++) {
+        level = `tabProperties,childTabs(${level})`;
+      }
+      return `tabs(${level})`;
+    },
+    // Tabs in document order (each parent immediately followed by its children),
+    // metadata only. A `getDocument` without `includeTabsContent` omits `tabs`
+    // entirely (measured), so this is the only way to learn a document's tab IDs.
+    //
+    // The mask keeps this from downloading every tab's body just to report titles
+    // — measured on a 3-tab document, 16,590 chars of response became 230, with
+    // byte-identical tab metadata. The floor check is belt-and-braces: the mask is
+    // one level deeper than the nesting the API permits, so it only matters if
+    // that cap is ever raised, and then it costs a second request rather than
+    // quietly returning fewer tabs than the document has.
+    async listTabs(documentId) {
+      const masked = await this.getDocument(
+        documentId,
+        true,
+        this._tabMetadataFields(TAB_METADATA_MASK_DEPTH),
+      );
+      let tabs = this._flattenDocumentTabs(masked.tabs);
+      const atMaskFloor = tabs.some(
+        ({ tabProperties }) =>
+          (tabProperties?.nestingLevel ?? 0) >= TAB_METADATA_MASK_DEPTH - 1,
+      );
+      if (atMaskFloor) {
+        const full = await this.getDocument(documentId, true);
+        tabs = this._flattenDocumentTabs(full.tabs);
+      }
+      return tabs.map((tab) => this._tabSummary(tab));
+    },
+    _findTab(document, tabId) {
+      const tabs = this._flattenDocumentTabs(document.tabs);
+      const tab = tabs.find(({ tabProperties }) => tabProperties?.tabId === tabId);
+      if (!tab) {
+        const available = tabs
+          .map(({ tabProperties }) => `${tabProperties?.tabId} ("${tabProperties?.title}")`)
+          .join(", ");
+        throw new ConfigurationError(`No tab with ID "${tabId}" found in document ${document.documentId}. This document's tabs are: ${available}.`);
+      }
+      return tab;
+    },
+    // Body content of one tab, or of the first tab when no tab is given.
+    // `getDocument(id, false)` only ever returns the FIRST tab's body, so a
+    // tab-targeted caller has to read through `tabs` instead.
+    async getTabBodyContent(documentId, tabId) {
+      if (!tabId) {
+        const { body } = await this.getDocument(documentId, false, "body");
+        return body?.content;
+      }
+      const document = await this.getDocument(documentId, true);
+      return this._findTab(document, tabId).documentTab?.body?.content;
+    },
+    // One tabs-aware read that keeps the historical response shape. Fetching
+    // with `includeTabsContent` moves the content under `tabs[].documentTab` and
+    // drops the top-level `body`/`documentStyle`/`namedStyles`, so the first tab
+    // is merged back up to where callers have always found it and the tab list is
+    // added alongside. Without this, a multi-tab document read as `body` alone
+    // looked exactly like a single-tab document — the other tabs were invisible.
+    async getDocumentWithTabs(documentId) {
+      const document = await this.getDocument(documentId, true);
+      const {
+        tabs, ...documentFields
+      } = document;
+      const flattened = this._flattenDocumentTabs(tabs);
+      const [
+        firstTab,
+      ] = flattened;
+      const merged = {
+        ...documentFields,
+        ...(firstTab?.documentTab ?? {}),
+      };
+      const result = merged.body
+        ? utils.addTextContentToDocument(merged)
+        : merged;
+      return {
+        ...result,
+        tabCount: flattened.length,
+        tabs: flattened.map((tab) => ({
+          ...this._tabSummary(tab),
+          // Only for a multi-tab document, where the top-level `textContent`
+          // (the first tab's) is not the whole document. Every entry carries its
+          // own text, including the first: a uniform list reads more easily than
+          // one whose first element's text lives somewhere else, and the cost is
+          // repeating a single tab's text. A single-tab document skips this
+          // entirely, so its response stays byte-for-byte what it always was.
+          ...(flattened.length > 1 && {
+            textContent: utils.getTextContentFromDocument(tab.documentTab?.body?.content ?? []),
+          }),
+        })),
+      };
+    },
+    // One tab in full, at the TOP level of the response — what **Get Document**
+    // returns when it is given a Tab ID. `getWriteResult` is not a substitute: it
+    // nests the tab under a `tab` key beside document metadata, which is the right
+    // shape for a write and the wrong one for a read.
+    async getTab(documentId, tabId) {
+      const document = await this.getDocument(documentId, true);
+      const tab = this._findTab(document, tabId);
+      return {
+        ...tab,
+        textContent: utils.getTextContentFromDocument(tab.documentTab?.body?.content ?? []),
+        documentId: document.documentId,
+        title: document.title,
+        revisionId: document.revisionId,
+      };
+    },
+    // What a tab-targeted write returns. Plain `getDocument` would hand back the
+    // FIRST tab's content, which for an edit that landed in another tab reads as
+    // if nothing had happened, so return the tab that was actually written.
+    async getWriteResult(documentId, tabId) {
+      if (!tabId) {
+        return this.getDocument(documentId);
+      }
+      const document = await this.getDocument(documentId, true);
+      const tab = this._findTab(document, tabId);
+      return {
+        documentId: document.documentId,
+        title: document.title,
+        revisionId: document.revisionId,
+        tab: {
+          ...this._tabSummary(tab),
+          textContent: utils.getTextContentFromDocument(tab.documentTab?.body?.content ?? []),
+          body: tab.documentTab?.body,
+        },
+      };
+    },
+    // Adds a tab and returns its `tabProperties`, including the generated
+    // `tabId` that every tab-targeted edit needs.
+    async addTab(documentId, {
+      title, index, parentTabId,
+    }) {
+      const { data } = await this.batchUpdate(documentId, [
+        {
+          addDocumentTab: {
+            tabProperties: {
+              ...(title && {
+                title,
+              }),
+              ...(index != null && {
+                index,
+              }),
+              ...(parentTabId && {
+                parentTabId,
+              }),
+            },
+          },
+        },
+      ]);
+      return data?.replies?.[0]?.addDocumentTab?.tabProperties;
+    },
     async createEmptyDoc(title) {
       const { data: createdDoc } = await this.docs().documents.create({
         requestBody: {
@@ -227,8 +513,8 @@ export default {
       });
       return createdDoc;
     },
-    async insertText(documentId, text, atBeginning = false) {
-      const request = this._buildRequest(text, atBeginning);
+    async insertText(documentId, text, atBeginning = false, tabId) {
+      const request = this._buildRequest(text, atBeginning, tabId);
       return this._batchUpdate(documentId, "insertText", request);
     },
     async replaceText(documentId, text) {
@@ -241,6 +527,16 @@ export default {
     async replaceImage(documentId, image) {
       return this._batchUpdate(documentId, "replaceImage", image);
     },
+    // Which tab holds an inline object. `ReplaceImageRequest` carries `tabId`
+    // directly, and without it the API looks in the first tab only — but an
+    // object id alone doesn't say which tab it came from, so rather than making
+    // the caller work that out, find it.
+    async findImageTabId(documentId, imageObjectId) {
+      const document = await this.getDocument(documentId, true);
+      const tab = this._flattenDocumentTabs(document.tabs)
+        .find(({ documentTab }) => documentTab?.inlineObjects?.[imageObjectId]);
+      return tab?.tabProperties?.tabId;
+    },
     async insertTable(documentId, table) {
       return this._batchUpdate(documentId, "insertTable", table);
     },
@@ -249,18 +545,175 @@ export default {
     flattenTables(content) {
       return utils.flattenTables(content);
     },
+    _flattenDocumentTabs(tabs) {
+      return (tabs || []).flatMap((tab) => [
+        tab,
+        ...this._flattenDocumentTabs(tab.childTabs),
+      ]);
+    },
+    async resolveTableLocation(documentId, {
+      find, matchCase = false, tableIndex, tableStartIndex, tabId,
+    }) {
+      if (tableStartIndex != null) {
+        return {
+          index: tableStartIndex,
+          ...(tabId && {
+            tabId,
+          }),
+        };
+      }
+
+      const document = await this.getDocument(documentId, true);
+      const tabs = this._flattenDocumentTabs(document.tabs)
+        .filter(({ tabProperties }) => !tabId || tabProperties?.tabId === tabId);
+
+      if (!tabs.length) {
+        throw new ConfigurationError(`No tab with ID "${tabId}" found in document ${documentId}.`);
+      }
+
+      const tables = tabs.flatMap((tab) => this.flattenTables(tab.documentTab?.body?.content)
+        .map((table) => ({
+          ...table,
+          tabId: tab.tabProperties?.tabId,
+        })));
+
+      if (!tables.length) {
+        throw new ConfigurationError(`Document ${documentId} contains no tables.`);
+      }
+
+      if (find) {
+        const match = tabs.flatMap((tab) => {
+          const {
+            text, indexMap,
+          } = utils.collectTextWithIndices(tab.documentTab?.body?.content);
+          return utils.findTextRanges({
+            text,
+            indexMap,
+            needle: find,
+            matchCase,
+          }).map((range) => ({
+            ...range,
+            tabId: tab.tabProperties?.tabId,
+          }));
+        })[0];
+
+        if (!match) {
+          throw new ConfigurationError(`Text "${find}" was not found in document ${documentId}.`);
+        }
+        const containing = tables.find(({
+          startIndex, endIndex, tabId: tableTabId,
+        }) => tableTabId === match.tabId
+          && startIndex <= match.startIndex && match.endIndex <= endIndex);
+
+        if (!containing) {
+          throw new ConfigurationError(`Text "${find}" was found in document ${documentId} but is not inside a table. Use Find Table Text that appears in a cell, or address the table by Table Index.`);
+        }
+        return {
+          index: containing.startIndex,
+          ...(containing.tabId && {
+            tabId: containing.tabId,
+          }),
+        };
+      }
+
+      if (tableIndex != null) {
+        const table = tables[tableIndex];
+        if (!table) {
+          throw new ConfigurationError(`Table Index ${tableIndex} is out of range: document ${documentId} has ${tables.length} table${tables.length === 1
+            ? ""
+            : "s"} (indices 0-${tables.length - 1}).`);
+        }
+        return {
+          index: table.startIndex,
+          ...(table.tabId && {
+            tabId: table.tabId,
+          }),
+        };
+      }
+
+      if (tables.length > 1) {
+        throw new ConfigurationError(`Document ${documentId} has ${tables.length} tables. Identify one with Find Table Text or Table Index (0-${tables.length - 1}).`);
+      }
+      return {
+        index: tables[0].startIndex,
+        ...(tables[0].tabId && {
+          tabId: tables[0].tabId,
+        }),
+      };
+    },
+    async resolveStyleRanges(documentId, {
+      find, matchCase = false, occurrence = "first", startIndex, endIndex, tabId,
+    }) {
+      if (startIndex != null || endIndex != null) {
+        if (startIndex == null || endIndex == null) {
+          throw new ConfigurationError("Start Index and End Index must be provided together.");
+        }
+        if (endIndex <= startIndex) {
+          throw new ConfigurationError(`End Index (${endIndex}) must be greater than Start Index (${startIndex}).`);
+        }
+        return [
+          {
+            startIndex,
+            endIndex,
+            ...(tabId && {
+              tabId,
+            }),
+          },
+        ];
+      }
+
+      if (!find) {
+        throw new ConfigurationError("Provide Find Text, or an explicit Start Index and End Index.");
+      }
+
+      const document = await this.getDocument(documentId, true);
+      const tabs = this._flattenDocumentTabs(document.tabs)
+        .filter(({ tabProperties }) => !tabId || tabProperties?.tabId === tabId);
+
+      if (!tabs.length) {
+        throw new ConfigurationError(`No tab with ID "${tabId}" found in document ${documentId}. Call List Tabs to see the document's tabs.`);
+      }
+
+      const ranges = tabs.flatMap((tab) => {
+        const {
+          text, indexMap,
+        } = utils.collectTextWithIndices(tab.documentTab?.body?.content);
+        return utils.findTextRanges({
+          text,
+          indexMap,
+          needle: find,
+          matchCase,
+        }).map((range) => ({
+          ...range,
+          tabId: tab.tabProperties?.tabId,
+        }));
+      });
+
+      if (!ranges.length) {
+        throw new ConfigurationError(`Text "${find}" was not found in document ${documentId}.`);
+      }
+
+      return occurrence === "all"
+        ? ranges
+        : [
+          ranges[0],
+        ];
+    },
     async deleteTable(documentId, {
-      startIndex, endIndex,
+      startIndex, endIndex, tabId,
     }) {
       return this._batchUpdate(documentId, "deleteContentRange", {
         range: {
           startIndex,
           endIndex,
+          ...(tabId && {
+            tabId,
+          }),
         },
       });
     },
     async writeTable(documentId, {
-      rows, position, hasHeaderRow,
+      rows, position, hasHeaderRow, tabId,
     }) {
       // Validate before making any request: a bad cell value here should
       // never leave an empty table behind from a partially-applied insert.
@@ -278,13 +731,12 @@ export default {
       const numRows = rows.length;
       const numColumns = rows.reduce((max, row) => Math.max(max, row.length), 0);
 
-      const { body: beforeBody } = await this.getDocument(documentId, false, "body");
-      const beforeTables = this.flattenTables(beforeBody?.content);
+      const beforeTables = this.flattenTables(await this.getTabBodyContent(documentId, tabId));
 
       const insertRequest = this._buildRequestForPosition({
         rows: numRows,
         columns: numColumns,
-      }, position);
+      }, position, tabId);
       await this._batchUpdate(documentId, "insertTable", insertRequest);
 
       // The insertTable reply carries no location info, so re-fetch the
@@ -293,8 +745,7 @@ export default {
       // immediately before an existing table gives the new table that
       // table's old startIndex, so comparing index values can't tell them
       // apart.
-      const { body } = await this.getDocument(documentId, false, "body");
-      const tables = this.flattenTables(body?.content);
+      const tables = this.flattenTables(await this.getTabBodyContent(documentId, tabId));
       const requestedIndex = this._resolvePositionIndex(position);
       const table = utils.selectInsertedTable(beforeTables, tables, requestedIndex);
       if (!table) {
@@ -333,6 +784,9 @@ export default {
           insertText: {
             location: {
               index: startIndex,
+              ...(tabId && {
+                tabId,
+              }),
             },
             text,
           },
@@ -343,6 +797,9 @@ export default {
               range: {
                 startIndex,
                 endIndex: startIndex + text.length,
+                ...(tabId && {
+                  tabId,
+                }),
               },
               textStyle: {
                 bold: true,
@@ -357,7 +814,7 @@ export default {
         await this.batchUpdate(documentId, requests);
       }
 
-      return this.getDocument(documentId);
+      return this.getWriteResult(documentId, tabId);
     },
     async insertPageBreak(documentId, request) {
       return this._batchUpdate(documentId, "insertPageBreak", request);
@@ -408,6 +865,11 @@ export default {
         throw new Error(`Failed to insert markdown text: ${error.message}`);
       }
     },
+    // Replaces text and applies the formatting implied by the Markdown in the
+    // replacement string. `replaceAllText` reports how many occurrences it
+    // changed but not where they landed, so the ranges to style can only be
+    // found by re-reading the document afterwards and locating the inserted
+    // text by value.
     async replaceTextWithMarkdown({
       documentId,
       textToReplace,
@@ -415,79 +877,104 @@ export default {
       matchCase = false,
       tabIds = null,
     }) {
-      try {
-        // Parse the markdown replacement text
-        const parseResult = markdownParser.parseMarkdown(markdownReplacement);
-        const {
-          text: replacementText,
-          formattingRequests: markdownFormatting,
-        } = parseResult;
+      const {
+        text: parsedText,
+        formattingRequests: markdownFormatting,
+      } = markdownParser.parseMarkdown(markdownReplacement);
 
-        // Build the initial replace request
-        const requests = [
-          {
-            replaceAllText: {
-              containsText: {
-                text: textToReplace,
-                matchCase: matchCase || false,
-              },
-              replaceText: replacementText,
-              tabsCriteria: tabIds
-                ? {
-                  tabIds,
-                }
-                : undefined,
-            },
-          },
-        ];
+      // parseMarkdown closes every paragraph with a newline, which is right when
+      // the markdown is a document body but wrong for an inline replacement: it
+      // splits the host sentence across two paragraphs.
+      const isBlockLevel = markdownFormatting.some(({ type }) =>
+        type === "updateParagraphStyle" || type === "createParagraphBullets");
+      const replacementText = isBlockLevel
+        ? parsedText
+        : parsedText.replace(/\n+$/, "");
 
-        if (markdownFormatting.length === 0) {
-          // No formatting needed, just do the plain text replacement
-          return this.docs().documents.batchUpdate({
-            documentId,
-            requestBody: {
-              requests,
-            },
+      const insertedStartsByTab = new Map();
+      if (markdownFormatting.length) {
+        const beforeDoc = await this.getDocument(documentId, true);
+        const lengthDelta = replacementText.length - textToReplace.length;
+        this._flattenDocumentTabs(beforeDoc.tabs)
+          .filter(({ tabProperties }) => !tabIds?.length || tabIds.includes(tabProperties?.tabId))
+          .forEach((tab) => {
+            const starts = markdownParser.findTextOccurrences(
+              tab.documentTab,
+              textToReplace,
+              matchCase,
+            );
+            insertedStartsByTab.set(
+              tab.tabProperties?.tabId,
+              new Set(starts.map((start, index) => start + (index * lengthDelta))),
+            );
           });
-        }
-
-        // For markdown with formatting, we need to find where the text will be replaced
-        // and then apply formatting to it
-        // First, do the replacement
-        await this.docs().documents.batchUpdate({
-          documentId,
-          requestBody: {
-            requests,
-          },
-        });
-
-        // Get the document AFTER replacement
-        const { data: updatedDocData } = await this.docs().documents.get({
-          documentId,
-        });
-
-        // Find all occurrences of the replacement text in the updated document
-        const formattingRequests = markdownParser.buildFormattingRequestsForReplacement(
-          markdownFormatting,
-          updatedDocData,
-          replacementText,
-        );
-
-        // Apply formatting if any matches were found
-        if (formattingRequests.length > 0) {
-          return this.docs().documents.batchUpdate({
-            documentId,
-            requestBody: {
-              requests: formattingRequests,
-            },
-          });
-        }
-
-        // Return updated document even if no formatting was applied
-        return updatedDocData;
-      } catch (error) {
-        throw new Error(`Failed to replace text with markdown: ${error.message}`);
       }
+
+      const { data: replaceData } = await this.batchUpdate(documentId, [
+        {
+          replaceAllText: {
+            containsText: {
+              text: textToReplace,
+              matchCase,
+            },
+            replaceText: replacementText,
+            tabsCriteria: tabIds?.length
+              ? {
+                tabIds,
+              }
+              : undefined,
+          },
+        },
+      ]);
+      const occurrencesChanged =
+        replaceData?.replies?.[0]?.replaceAllText?.occurrencesChanged ?? 0;
+
+      if (!occurrencesChanged || !markdownFormatting.length) {
+        return {
+          occurrencesChanged,
+          formattingRequestsApplied: 0,
+        };
+      }
+
+      const updatedDoc = await this.getDocument(documentId, true);
+
+      const targetTabs = this._flattenDocumentTabs(updatedDoc.tabs)
+        .filter(({ tabProperties }) => !tabIds?.length || tabIds.includes(tabProperties?.tabId));
+
+      const formattingRequests = targetTabs.flatMap((tab) => {
+        const tabId = tab.tabProperties?.tabId;
+        const requests = markdownParser.buildFormattingRequestsForReplacement(
+          markdownFormatting,
+          tab.documentTab,
+          replacementText,
+          insertedStartsByTab.get(tabId),
+        );
+        return requests.map((request) => {
+          const [
+            requestName,
+          ] = Object.keys(request);
+          return {
+            [requestName]: {
+              ...request[requestName],
+              range: {
+                ...request[requestName].range,
+                tabId,
+              },
+            },
+          };
+        });
+      });
+
+      if (formattingRequests.length) {
+        await this.batchUpdate(documentId, formattingRequests, updatedDoc.revisionId && {
+          requiredRevisionId: updatedDoc.revisionId,
+        });
+      }
+
+      return {
+        occurrencesChanged,
+        formattingRequestsApplied: formattingRequests.length,
+      };
     },
   },
 };

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import pipedriveApp from "../../pipedrive.app.mjs";
 import constants from "../../common/constants.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "pipedrive-list-organizations",
   name: "List Organizations",
   description: "List organizations in your Pipedrive account. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Organizations#getOrganizations)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

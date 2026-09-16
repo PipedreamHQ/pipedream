@@ -13,8 +13,9 @@ export default {
     + " Gotcha: `resumes` and `files` are **not** paginated — Lever returns the full set in a single payload with no `hasNext`/`next` cursor, and `limit`/`offset` are ignored, so do not expect cursor metadata for them."
     + " Example: to read a candidate's interview feedback, call with opportunityId=\"<id>\", resource=\"feedback\" → returns feedback records each with panel id, interviewer, score, and completed form fields."
     + " [See the documentation](https://hire.lever.co/developer/documentation#opportunities)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

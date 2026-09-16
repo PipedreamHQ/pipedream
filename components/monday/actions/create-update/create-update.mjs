@@ -4,11 +4,12 @@ import monday from "../../monday.app.mjs";
 export default {
   key: "monday-create-update",
   name: "Create an Update",
-  description: "Creates a new update. [See the documentation](https://developer.monday.com/api-reference/reference/updates#create-an-update)",
+  description: "Post an update (a comment) on an item, or reply to an existing update. Use to add a note to an item's activity feed; this changes no column value — use **Update Column Values** for that. Set `Board ID`, `Item ID` and `Update Body`, and set `Parent Update ID` only when replying to an existing update rather than starting a new thread. Example: Update Body `Design approved, moving to build`. Returns the new update's ID as a string. Use **Get Board Items Page** to find an `Item ID`. [See the documentation](https://developer.monday.com/api-reference/reference/updates#create-an-update)",
   type: "action",
-  version: "0.0.16",
+  ai: "optimized",
+  version: "0.0.19",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -38,7 +39,7 @@ export default {
     },
     parentId: {
       label: "Parent Update ID",
-      description: "Select a parent update or provide an update ID",
+      description: "The ID of an existing update to reply to, as returned by **List Updates**. Omit to start a new update thread on the item rather than replying to one.",
       propDefinition: [
         monday,
         "updateId",

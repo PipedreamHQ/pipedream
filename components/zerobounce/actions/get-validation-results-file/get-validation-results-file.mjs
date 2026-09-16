@@ -6,13 +6,14 @@ export default {
   key: "zerobounce-get-validation-results-file",
   name: "Get Validation Results File",
   description: "Downloads the validation results for a file submitted using sendfile API. [See the documentation](https://www.zerobounce.net/docs/email-validation-api-quickstart/#get_file__v2__)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     zerobounce,
     fileId: {

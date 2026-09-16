@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import openphone from "../../openphone.app.mjs";
 
 export default {
   key: "openphone-update-task",
   name: "Update Task",
   description: "Update an existing task's title and description by ID. NOTE: the OpenPhone update endpoint only modifies `title` and `description` (both required on every update); due date and assignee are managed via other endpoints. Use **List Tasks** to find task IDs. Example: call with taskId=\"TK123abc\", title=\"Follow up (urgent)\", description=\"Customer asked about pricing tiers.\" → updates both fields and returns the updated task record. [See the documentation](https://www.openphone.com/docs/api-reference/tasks/update-a-task)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

@@ -1,7 +1,9 @@
 import { LinearClient } from "@linear/sdk";
 import constants from "./common/constants.mjs";
 import utils from "./common/utils.mjs";
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import queries from "./common/queries.mjs";
 
 export default {
@@ -11,7 +13,7 @@ export default {
     teamId: {
       type: "string",
       label: "Team",
-      description: "The identifier or key of the team associated with the issue",
+      description: "The team associated with the issue. Select one from the list, or pass the team's `id` as returned by the Linear API — a UUID such as `9d1c3f7e-2b48-4c6a-9f1e-5a7b8c9d0e1f`. The short team key shown in issue identifiers such as `ENG-123` is rejected.",
       async options({ prevContext }) {
         return this.listResourcesOptions({
           prevContext,
@@ -338,11 +340,38 @@ export default {
         ...args,
       });
     },
-    post(args = {}) {
-      return this.makeAxiosRequest({
+    /**
+     * Runs a GraphQL query. Linear answers a rejected one with HTTP 200, a null
+     * `data` and a populated `errors` array, so axios reports success and the
+     * failure surfaces only here.
+     *
+     * @param {object} [args] - axios options, carrying `data.query` and
+     * `data.variables`
+     * @returns {Promise<object>} the response body, `data` guaranteed present
+     * @throws {ConfigurationError} when Linear marks every error as one the
+     * caller can fix, which stops the workflow instead of retrying it
+     * @throws {Error} on any other failure, leaving a rate limit or a server
+     * fault retryable
+     */
+    async post(args = {}) {
+      const response = await this.makeAxiosRequest({
         method: "POST",
         ...args,
       });
+      const {
+        data, errors,
+      } = response ?? {};
+      if (errors?.length) {
+        const message = utils.formatGraphQlErrors(errors);
+        if (errors.every(({ extensions }) => extensions?.userError)) {
+          throw new ConfigurationError(message);
+        }
+        throw new Error(message);
+      }
+      if (!data) {
+        throw new Error("The Linear API returned an empty response");
+      }
+      return response;
     },
     getClientOptions(options = {}) {
       return {

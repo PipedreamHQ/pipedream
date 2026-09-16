@@ -4,8 +4,9 @@ export default {
   key: "enrich_layer-search-companies",
   name: "Search Companies",
   description: "Search for companies that meet a set of criteria. Returns up to 10,000,000 results. Cost: 3 credits per company URL returned. [See the documentation](https://enrichlayer.com/docs/api/v2/search-api/company-search).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

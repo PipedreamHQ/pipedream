@@ -4,8 +4,9 @@ export default {
   key: "elevenlabs-list-agents",
   name: "List Agents",
   description: "Retrieves a list of agents. [See the documentation](https://elevenlabs.io/docs/eleven-agents/api-reference/agents/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

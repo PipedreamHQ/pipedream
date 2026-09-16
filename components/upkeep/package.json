@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/upkeep",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Upkeep Components",
   "main": "upkeep.app.mjs",
   "keywords": [

@@ -5,7 +5,7 @@ export default {
   key: "wealthbox-new-opportunity-created",
   name: "New Opportunity Created",
   description: "Emit new event for each opportunity created. [See the documentation](http://dev.wealthbox.com/#opportunities-collection-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

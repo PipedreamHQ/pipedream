@@ -12,8 +12,9 @@ export default {
     + " Common mistakes: (1) case mismatch on `tableName` returns 404 — copy the exact string from the dataset's `tables` array. (2) Sending values that don't match the declared column data type returns `RequestedResourceNotFound` or `DMTS_DatasourceHasNoCredentialsError`."
     + " Push-dataset rows have no individual IDs and cannot be updated or deleted — only appended or bulk-cleared."
     + " [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/push-datasets/datasets-post-rows-in-group)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

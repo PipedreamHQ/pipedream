@@ -3,7 +3,7 @@ import fraudlabsProApp from "../../fraudlabs_pro.app.mjs";
 export default {
   name: "Status Changed (Instant)",
   description: "Emit new events when the status of an order changes in FraudLabs Pro. [See the documentation](https://www.fraudlabspro.com/developer/webhook)",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "fraudlabs_pro-status-changed",
   type: "source",
   dedupe: "unique",
@@ -74,6 +74,9 @@ export default {
       return;
     }
 
+    const orderId = body.user_order_id ?? body.order_id;
+    const flpStatus = body.fraudlabspro_status ?? body.flp_status;
+
     // Emit the data so it can be used in workflow steps. With `dedupe: "unique"`
     // the id must be stable (no Date.now()) and capped at 64 chars; ts prefers
     // the API event time and falls back to now only when it is missing.
@@ -84,10 +87,10 @@ export default {
     const ts = Number.isFinite(parsedTs)
       ? parsedTs
       : Date.now();
-    const id = `${body.order_id}-${body.flp_status}-${eventTime ?? JSON.stringify(body)}`.slice(0, 64);
+    const id = `${orderId}-${flpStatus}-${eventTime ?? JSON.stringify(body)}`.slice(0, 64);
 
     this.$emit(body, {
-      summary: `New Status: ${body.flp_status} for Order #${body.order_id}`,
+      summary: `New Status: ${flpStatus} for Order #${orderId}`,
       id,
       ts,
     });

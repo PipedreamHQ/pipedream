@@ -5,7 +5,8 @@ export default {
   name: "Get Organization",
   description: "Fetch a single organization from Apollo by its ID. Requires a master API key. Use **Search For Organizations** to discover IDs. [See the documentation](https://docs.apollo.io/reference/get-complete-organization-info)",
   type: "action",
-  version: "0.0.1",
+  ai: "optimized",
+  version: "0.0.2",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

@@ -4,8 +4,9 @@ export default {
   name: "Update Sprint Partially",
   description: "Performs a partial update of a sprint. A partial update means that fields not present in the request JSON will not be updated. [See the documentation](https://developer.atlassian.com/server/jira/platform/rest/v10002/api-group-sprint/#api-agile-1-0-sprint-sprintid-post)",
   key: "jira_data_center-update-sprint-partially",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -4,8 +4,9 @@ export default {
   key: "servicenow-get-article",
   name: "Get Article",
   description: "Retrieve a single knowledge article, including its entire HTML body (`content`). Run **Search Knowledge Base** first to find an article, then pass its `number` or `sys_id` here. The `attachments` array is only returned when the article record has `display_attachments` enabled. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/knowledge-api.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

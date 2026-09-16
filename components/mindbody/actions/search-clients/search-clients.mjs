@@ -9,8 +9,9 @@ export default {
     + " Use this to find a client's ID before calling **Get Client Details**, **Get Appointments**, or **Book Appointment**."
     + " The `searchText` matches against first name, last name, email, and phone — partial matches are supported."
     + " [See the documentation](https://developers.mindbodyonline.com/ui/documentation/public-api#/http/api-endpoints/client/get-clients)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

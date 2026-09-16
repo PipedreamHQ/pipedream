@@ -4,7 +4,7 @@ export default {
   key: "perplexity-create-embeddings",
   name: "Create Embeddings",
   description: "Generates vector embeddings for text inputs. [See the documentation](https://docs.perplexity.ai/api-reference/embeddings-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

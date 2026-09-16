@@ -4,8 +4,9 @@ export default {
   key: "docuwriter_ai-generate-code-optimization",
   name: "Generate Code Optimization",
   description: "Generate optimization suggestions and improved code for a source file. Consumes 1 Docuwriter credit. Requires workflow timeout of 5+ minutes for large files. [See the documentation](https://docs.docuwriter.ai/docuwriterai-api-docs/92062)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

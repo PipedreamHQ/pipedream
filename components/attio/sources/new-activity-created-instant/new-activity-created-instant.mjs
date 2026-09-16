@@ -6,7 +6,7 @@ export default {
   key: "attio-new-activity-created-instant",
   name: "New Activity Created (Instant)",
   description: "Emit new event when a note, task, or comment is created, useful for tracking engagement in real time.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {

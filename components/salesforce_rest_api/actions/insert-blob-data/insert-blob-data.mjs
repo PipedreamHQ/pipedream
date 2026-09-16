@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
@@ -9,13 +8,14 @@ export default {
     + " The file content must be supplied as a file path or URL, not as raw bytes in the request."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_sobject_insert_update_blob.htm)",
-  version: "0.2.13",
+  version: "0.2.15",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     salesforce,
     entiyName: {

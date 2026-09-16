@@ -4,8 +4,9 @@ export default {
   key: "social_fetch-search-linkedin-people",
   name: "Search LinkedIn People",
   description: "Searches LinkedIn for people profiles by first and/or last name. At least one of First Name or Last Name is required. [See the documentation](https://app.socialfetch.dev/playground?path=/v1/linkedin/people/search&method=GET)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

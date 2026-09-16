@@ -4,11 +4,12 @@ export default {
   key: "smartsheet-get-current-user",
   name: "Get Current User",
   description:
-    "Get the authenticated user's identity — returns user ID, email, first/last name, and account details."
+    "Get the authenticated user's identity - returns user ID, email, first/last name, and account details."
     + " Use this when the user says 'my sheets' or 'my account' to identify the owner."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/users/get-current-user)",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

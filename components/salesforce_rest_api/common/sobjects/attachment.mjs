@@ -1,5 +1,3 @@
-import salesforce from "../../salesforce_rest_api.app.mjs";
-
 export default {
   createProps: {
     Name: {
@@ -52,16 +50,9 @@ export default {
       optional: true,
     },
     OwnerId: {
-      propDefinition: [
-        salesforce,
-        "recordId",
-        () => ({
-          objType: "User",
-          nameField: "Name",
-        }),
-      ],
+      type: "string",
       label: "Owner ID",
-      description: "ID of the user who owns the attachment.",
+      description: "ID of the user who owns the attachment (Salesforce's 15- or 18-character record ID, e.g. `005XX000001SvR2`). Use **SOQL Query** to find the User ID.",
       optional: true,
     },
   },

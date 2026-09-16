@@ -9,13 +9,14 @@ export default {
     + " Use this to read what a page says or to inspect a database row's fields."
     + " Provide a page ID or a Notion page URL (use **Search** to resolve a page name into an ID)."
     + " [See the documentation](https://developers.notion.com/reference/retrieve-a-page)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     notion,
     pageId: {

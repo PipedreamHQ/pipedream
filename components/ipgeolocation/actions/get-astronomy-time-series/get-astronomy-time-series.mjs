@@ -5,8 +5,9 @@ export default {
   name: "Get Astronomy Time Series",
   description:
     "Retrieve astronomical data (sunrise, sunset, moonrise, moonset, moon phase, and more) for a date range up to 90 days for a location by IP address, coordinates, or address. [See the documentation](https://ipgeolocation.io/documentation/astronomy-api.html#time-series-lookup)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

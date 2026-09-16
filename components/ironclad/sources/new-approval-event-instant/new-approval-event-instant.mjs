@@ -6,7 +6,7 @@ export default {
   key: "ironclad-new-approval-event-instant",
   name: "New Approval Event Instant",
   description: "Emit new event when a fresh approval event is generated.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

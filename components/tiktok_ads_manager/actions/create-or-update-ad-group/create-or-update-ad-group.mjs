@@ -11,8 +11,9 @@ export default {
     + " Use campaign IDs from **Create or Update Campaign** or **List Campaigns**."
     + " For create, see [documentation](https://business-api.tiktok.com/portal/docs/create-an-ad-group-reference/v1.3)."
     + " For update, see [documentation](https://business-api.tiktok.com/portal/docs/update-an-ad-group/v1.3).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

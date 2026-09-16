@@ -18,8 +18,9 @@ export default {
     + " asynchronously."
     + " [See the documentation](https://docs.apollo.io/reference"
     + "/people-enrichment)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
