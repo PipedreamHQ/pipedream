@@ -21,8 +21,9 @@ export default {
       optional: true,
     },
     ...googleDrive.propDefinitions,
-    // Static, MCP-compatible document identifier. Prefer this over `docId`
-    // (which carries an `async options()` dropdown invisible to MCP).
+    // Static, MCP-compatible document identifier. The former `docId` dropdown
+    // was removed: an `async options()` resolver is invisible to MCP, so every
+    // action takes the plain ID and points callers at **Find Document**.
     documentId: {
       type: "string",
       label: "Document ID",
@@ -44,18 +45,6 @@ export default {
       label: "Folder ID",
       description: "The ID of the Drive folder to place the new document in (the string after `/folders/` in a Drive folder URL). If omitted, the document is created in the root of My Drive.",
       optional: true,
-    },
-    docId: {
-      type: "string",
-      label: "Document",
-      description: "Search for and select a document. You can also use a custom expression to pass a value from a previous step (e.g., `{{steps.foo.$return_value.documentId}}`) or you can enter a static ID (e.g., `1KuEN7k8jVP3Qi0_svM5OO8oEuiLkq0csihobF67eat8`).",
-      useQuery: true,
-      async options({
-        prevContext, driveId, query,
-      }) {
-        const { nextPageToken } = prevContext;
-        return this.listDocsOptions(driveId, query, nextPageToken);
-      },
     },
     imageId: {
       type: "string",
@@ -845,26 +834,6 @@ export default {
         requestBody: request,
       });
       return data;
-    },
-    async listDocsOptions(driveId, query, pageToken = null) {
-      let q = "mimeType='application/vnd.google-apps.document'";
-      if (query) {
-        q = `${q} and name contains '${query}'`;
-      }
-      let request = {
-        q,
-      };
-      if (driveId) {
-        request = {
-          ...request,
-          corpora: "drive",
-          driveId,
-          pageToken,
-          includeItemsFromAllDrives: true,
-          supportsAllDrives: true,
-        };
-      }
-      return this.listFilesOptions(pageToken, request);
     },
     async insertMarkdownText(documentId, markdown) {
       try {

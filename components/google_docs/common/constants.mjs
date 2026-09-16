@@ -25,6 +25,7 @@ const DOCUMENT_FIELDS = [
   "suggestedNamedStylesChanges",
   "revisionId",
   "suggestionsViewMode",
+  "commentsViewMode",
   "inlineObjects",
   "lists",
   "positionedObjects",

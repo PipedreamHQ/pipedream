@@ -19,7 +19,7 @@ export default {
     docId: {
       propDefinition: [
         googleDocs,
-        "docId",
+        "documentId",
       ],
     },
     imageId: {
