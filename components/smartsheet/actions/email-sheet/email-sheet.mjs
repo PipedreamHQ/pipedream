@@ -9,7 +9,7 @@ export default {
     "Send a sheet as an email attachment to one or more recipients. The sheet can be sent as PDF, Excel, or PDF Gantt format."
     + " Use **List Sheets** to find the sheet ID."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/sheet-send)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   ai: "optimized",
   annotations: {

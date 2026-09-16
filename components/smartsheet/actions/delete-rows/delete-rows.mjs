@@ -8,7 +8,7 @@ export default {
     "Delete one or more rows from a sheet by row ID. This is permanent and cannot be undone."
     + " Use **Get Sheet** or **Search** to find row IDs first."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/delete-rows)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   ai: "optimized",
   annotations: {
