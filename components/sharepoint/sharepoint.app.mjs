@@ -494,7 +494,8 @@ export default {
     } = {}) {
       if (url) {
         const path = url.replace(/^https:\/\/graph\.microsoft\.com\/v[^/]+/, "");
-        return this.client().api(path).get();
+        return this.client().api(path)
+          .get();
       }
       return this.client().api(`/sites/${siteId}/lists`)
         .query(pickBy(params))
