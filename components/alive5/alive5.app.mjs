@@ -2,6 +2,31 @@ import { axios } from "@pipedream/platform";
 
 const RELAY_BASE_URL = "https://alive5-connectors-relay.raghav-ojha-14122.workers.dev";
 
+const SAFE_ERROR_MESSAGES = {
+  "Invalid token": "The Alive5 API key is invalid. Reconnect your account.",
+  "Could not create subscription": "Alive5 could not create the webhook subscription. Check your API key and that the selected line is still active.",
+  "Could not delete subscription": "Alive5 could not delete the webhook subscription. Retry cleanup before discarding the source.",
+  "Subscription not found; retry after propagation or reconcile": "The Alive5 webhook subscription was not found. Retry after propagation, or reconcile the subscription manually.",
+};
+
+function safeErrorDetail(raw) {
+  if (raw == null) return null;
+  const candidates = [
+    raw?.error?.message,
+    raw?.error,
+    raw?.data?.error?.message,
+    raw?.data?.error,
+  ];
+  for (const candidate of candidates) {
+    if (typeof candidate !== "string") continue;
+    const key = candidate.trim();
+    if (Object.prototype.hasOwnProperty.call(SAFE_ERROR_MESSAGES, key)) {
+      return SAFE_ERROR_MESSAGES[key];
+    }
+  }
+  return null;
+}
+
 export default {
   type: "app",
   app: "alive5",
@@ -83,7 +108,10 @@ export default {
         const httpStatus = Number.isInteger(status) && status >= 100 && status <= 599
           ? status
           : "network error";
-        throw new Error(`Alive5 HTTP request failed (${httpStatus}).`);
+        const detail = safeErrorDetail(error.response?.data);
+        throw new Error(`Alive5 HTTP request failed (${httpStatus}).${detail
+          ? ` ${detail}`
+          : ""}`);
       }
       if (relay) return response;
       const nonempty = (value) => value && (typeof value !== "object" || Object.keys(value).length > 0);
@@ -95,7 +123,8 @@ export default {
         const shownCode = Number.isInteger(errorCode) && errorCode >= 100 && errorCode <= 599
           ? errorCode
           : "unknown";
-        throw new Error(`Alive5 rejected the request (code ${shownCode}). Check your API key and input values.`);
+        const detail = safeErrorDetail(response) || "Check your API key and input values.";
+        throw new Error(`Alive5 rejected the request (code ${shownCode}). ${detail}`);
       }
       return response.data;
     },

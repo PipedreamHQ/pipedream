@@ -105,6 +105,31 @@ await assert.rejects(app.methods.createSubscription.call({async _request(){retur
 }), error => !error.message.includes('private-capability'));
 const secret='private-capability-test-key-delivery-token';
 const sanitized=error=>!error.message.includes(secret)&&!error.cause&&!error.config;
+const rejectedAdapter=body=>async()=>{throw {message:secret,config:{url:secret},cause:Error(secret),response:{status:'401',data:body}}};
+const guidance='The Alive5 API key is invalid. Reconnect your account.';
+await assert.rejects(api._request({adapter:rejectedAdapter({error:{message:'Invalid token'}})}),error=>
+  error.message===`Alive5 HTTP request failed (401). ${guidance}`&&sanitized(error)&&!('response' in error));
+for(const body of [{error:{message:'Invalid token'}},{error:' Invalid token '},{data:{error:{message:'Invalid token'}}},{data:{error:'Invalid token'}}]){
+  await assert.rejects(api._request({adapter:adapter({code:'401',...body})}),error=>
+    error.message===`Alive5 rejected the request (code 401). ${guidance}`&&sanitized(error));
+}
+for(const message of [secret,`Invalid token ${secret}`,'toString','constructor','__proto__']){
+  for(const body of [{error:{message}},{error:message},{data:{error:{message}}},{data:{error:message}},message]){
+    for(const httpError of [false,true]){
+      const requestAdapter=httpError?rejectedAdapter(body):adapter({code:401,...(typeof body==='object'?body:{message:body})});
+      const expected=httpError?'Alive5 HTTP request failed (401).':'Alive5 rejected the request (code 401). Check your API key and input values.';
+      await assert.rejects(api._request({adapter:requestAdapter}),error=>error.message===expected&&sanitized(error));
+    }
+  }
+}
+for(const [message,detail] of [
+  ['Could not create subscription','Alive5 could not create the webhook subscription. Check your API key and that the selected line is still active.'],
+  ['Could not delete subscription','Alive5 could not delete the webhook subscription. Retry cleanup before discarding the source.'],
+  ['Subscription not found; retry after propagation or reconcile','The Alive5 webhook subscription was not found. Retry after propagation, or reconcile the subscription manually.'],
+]){
+  await assert.rejects(api._request({relay:true,adapter:rejectedAdapter({error:message})}),error=>
+    error.message===`Alive5 HTTP request failed (401). ${detail}`&&sanitized(error));
+}
 await assert.rejects(api._request({adapter:adapter({code:secret,error:{message:secret}})}),sanitized);
 await assert.rejects(api._request({adapter:adapter({code:200,data:{code:secret,error:secret}})}),sanitized);
 for(const relay of [false,true]){
