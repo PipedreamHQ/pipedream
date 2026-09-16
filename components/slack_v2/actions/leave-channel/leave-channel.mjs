@@ -26,8 +26,7 @@ export default {
     // conversations.leave only accepts a channel ID - resolve a name the same way
     // every other AI-optimized tool in this app does.
     const channel = await this.slack.resolveChannelId(this.conversation);
-    const response = await this.slack.makeRequest({
-      method: "conversations.leave",
+    const response = await this.slack.leaveConversation({
       channel,
     });
     $.export("$summary", response.not_in_channel
