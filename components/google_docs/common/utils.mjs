@@ -282,9 +282,7 @@ function splitFieldMask(fields) {
 }
 
 // Docs field masks accept either camelCase or underscore-separated names, so
-// `document_id` and `documentId` are both valid. Compare on a spelling-neutral
-// form; the caller's original mask is what reaches the API.
-// https://developers.google.com/workspace/docs/api/how-tos/field-masks
+// `document_id` and `documentId` are both valid.
 function normalizeFieldName(name) {
   return name.replace(/_/g, "").toLowerCase();
 }
