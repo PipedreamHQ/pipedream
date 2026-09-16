@@ -4,7 +4,7 @@ import { toInt } from "../../common/utils.mjs";
 export default {
   key: "bamboohr-create-clock-entry",
   name: "Create Clock Entry",
-  description: "Create a manual/retroactive clock entry with explicit start and end (POST /time-tracking/clock-entries). For real-time punches use **Clock In** / **Clock Out** instead. [See the documentation](https://documentation.bamboohr.com/reference/create-clock-entry)",
+  description: "Create a manual/retroactive clock entry with explicit start and end. For real-time punches use **Clock In** / **Clock Out** instead. [See the documentation](https://documentation.bamboohr.com/reference/create-clock-entry)",
   version: "0.0.1",
   type: "action",
   annotations: {

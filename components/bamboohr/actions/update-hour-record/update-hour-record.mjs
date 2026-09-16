@@ -5,7 +5,7 @@ import { toInt } from "../../common/utils.mjs";
 export default {
   key: "bamboohr-update-hour-record",
   name: "Update Hour Record",
-  description: "Edit an existing legacy Hours API record's hours worked and links (PUT /timetracking/adjust). Send the corrected total hours worked, not a delta. Use **Get Time Tracking Record** to check current values first. [See the documentation](https://documentation.bamboohr.com/reference/update-time-tracking-record)",
+  description: "Edit an existing legacy Hours API record's hours worked and links. Send the corrected total hours worked, not a delta. Use **Get Time Tracking Record** to check current values first. [See the documentation](https://documentation.bamboohr.com/reference/update-time-tracking-record)",
   version: "0.0.1",
   type: "action",
   annotations: {

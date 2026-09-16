@@ -3,7 +3,7 @@ import bamboohr from "../../bamboohr.app.mjs";
 export default {
   key: "bamboohr-cancel-time-off-request",
   name: "Cancel Time Off Request",
-  description: "Cancel a time off request (POST /time-off/requests/{id}/cancellations). Available to the requester and anyone with authority to manage it; a request can be canceled while `REQUESTED`, and after approval only if it hasn't started yet. Takes no request body. Use **List Time Off Requests** to find the request ID. [See the documentation](https://documentation.bamboohr.com/reference/create-time-off-request-cancellation)",
+  description: "Cancel a time off request. Available to the requester and anyone with authority to manage it; a request can be canceled while `REQUESTED`, and after approval only if it hasn't started yet. Takes no request body. Use **List Time Off Requests** to find the request ID. [See the documentation](https://documentation.bamboohr.com/reference/create-time-off-request-cancellation)",
   version: "0.0.1",
   type: "action",
   annotations: {

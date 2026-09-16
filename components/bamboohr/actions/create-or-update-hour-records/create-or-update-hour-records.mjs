@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "bamboohr-create-or-update-hour-records",
   name: "Create or Update Hour Records",
-  description: "Bulk add or edit approved hour records in the legacy Hours API (POST /timetracking/record). Records whose ID already exists are updated; unrecognized IDs are created. The API can return HTTP 201 even when individual items fail validation — check each item's `success` flag in the response. Use **Create Hour Record** for a single record. [See the documentation](https://documentation.bamboohr.com/reference/create-or-update-time-tracking-hour-records)",
+  description: "Bulk add or edit approved hour records in the legacy Hours API. Records whose ID already exists are updated; unrecognized IDs are created. The API can return HTTP 201 even when individual items fail validation — check each item's `success` flag in the response. Use **Create Hour Record** for a single record. [See the documentation](https://documentation.bamboohr.com/reference/create-or-update-time-tracking-hour-records)",
   version: "0.0.1",
   type: "action",
   annotations: {

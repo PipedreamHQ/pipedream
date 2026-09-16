@@ -3,7 +3,7 @@ import bamboohr from "../../bamboohr.app.mjs";
 export default {
   key: "bamboohr-list-timesheet-entries",
   name: "List Timesheet Entries",
-  description: "List legacy timesheet entries grouped by employee within a date range (GET /time_tracking/timesheet_entries). Dates must be within the last 365 days. [See the documentation](https://documentation.bamboohr.com/reference/list-timesheet-entries)",
+  description: "List legacy timesheet entries grouped by employee within a date range. Dates must be within the last 365 days. [See the documentation](https://documentation.bamboohr.com/reference/list-timesheet-entries)",
   version: "0.0.1",
   type: "action",
   annotations: {

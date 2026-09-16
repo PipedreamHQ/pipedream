@@ -3,7 +3,7 @@ import bamboohr from "../../bamboohr.app.mjs";
 export default {
   key: "bamboohr-list-hour-entries",
   name: "List Hour Entries",
-  description: "List time-tracking hour entries with optional OData filtering (GET /time-tracking/hour-entries). Use returned IDs with **Delete Hour Entry**. [See the documentation](https://documentation.bamboohr.com/reference/list-hour-entries)",
+  description: "List time-tracking hour entries with optional OData filtering. Use returned IDs with **Delete Hour Entry**. [See the documentation](https://documentation.bamboohr.com/reference/list-hour-entries)",
   version: "0.0.1",
   type: "action",
   annotations: {

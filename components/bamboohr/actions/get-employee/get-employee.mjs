@@ -3,7 +3,7 @@ import bamboohr from "../../bamboohr.app.mjs";
 export default {
   key: "bamboohr-get-employee",
   name: "Get Employee",
-  description: "Get a single employee record (GET /employees/{id}). Only `id` is returned unless you request fields. Use **Get Employees Directory** to find an employee ID. Pass `0` as the ID to fetch the authenticated user. [See the documentation](https://documentation.bamboohr.com/reference/get-employee)",
+  description: "Get a single employee record. Only `id` is returned unless you request fields. Use **Get Employees Directory** to find an employee ID. Pass `0` as the ID to fetch the authenticated user. [See the documentation](https://documentation.bamboohr.com/reference/get-employee)",
   version: "0.0.1",
   type: "action",
   annotations: {

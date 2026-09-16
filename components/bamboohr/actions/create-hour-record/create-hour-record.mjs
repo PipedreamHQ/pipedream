@@ -5,7 +5,7 @@ import { toInt } from "../../common/utils.mjs";
 export default {
   key: "bamboohr-create-hour-record",
   name: "Create Hour Record",
-  description: "Add a single approved hour record to the legacy Hours API (POST /timetracking/add), separate from Time Tracking timesheets — use **Create Hour Entry** instead for timesheet-integrated hours. You choose the record's ID; save it to update or delete this record later with **Update Hour Record** / **Delete Hour Record**. [See the documentation](https://documentation.bamboohr.com/reference/create-time-tracking-hour-record)",
+  description: "Add a single approved hour record to the legacy Hours API, separate from Time Tracking timesheets — use **Create Hour Entry** instead for timesheet-integrated hours. You choose the record's ID; save it to update or delete this record later with **Update Hour Record** / **Delete Hour Record**. [See the documentation](https://documentation.bamboohr.com/reference/create-time-tracking-hour-record)",
   version: "0.0.1",
   type: "action",
   annotations: {

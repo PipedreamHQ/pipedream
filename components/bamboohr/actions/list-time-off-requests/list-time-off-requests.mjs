@@ -3,7 +3,7 @@ import bamboohr from "../../bamboohr.app.mjs";
 export default {
   key: "bamboohr-list-time-off-requests",
   name: "List Time Off Requests",
-  description: "List time off requests within a date range (GET /time_off/requests). To fetch your own requests, set the Action parameter to `myRequests` (passing employeeId=0 returns an empty array). Use **List Time Off Types** to find type IDs. [See the documentation](https://documentation.bamboohr.com/reference/list-time-off-requests)",
+  description: "List time off requests within a date range. To fetch your own requests, set the Action parameter to `myRequests` (passing employeeId=0 returns an empty array). Use **List Time Off Types** to find type IDs. [See the documentation](https://documentation.bamboohr.com/reference/list-time-off-requests)",
   version: "0.0.1",
   type: "action",
   annotations: {

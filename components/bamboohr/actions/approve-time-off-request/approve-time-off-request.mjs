@@ -3,7 +3,7 @@ import bamboohr from "../../bamboohr.app.mjs";
 export default {
   key: "bamboohr-approve-time-off-request",
   name: "Approve Time Off Request",
-  description: "Approve a time off request, completing the caller's step in the approval chain — or every remaining step when Bypass is true (POST /time-off/requests/{id}/approvals). Fails with 409 if the request is not currently `REQUESTED`. Use **List Time Off Requests** to find the request ID. [See the documentation](https://documentation.bamboohr.com/reference/create-time-off-request-approval)",
+  description: "Approve a time off request, completing the caller's step in the approval chain — or every remaining step when Bypass is true. Fails with 409 if the request is not currently `REQUESTED`. Use **List Time Off Requests** to find the request ID. [See the documentation](https://documentation.bamboohr.com/reference/create-time-off-request-approval)",
   version: "0.0.1",
   type: "action",
   annotations: {

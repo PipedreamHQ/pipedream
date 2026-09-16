@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "bamboohr-create-time-off-request-comment",
   name: "Create Time Off Request Comment",
-  description: "Add a comment to a time off request (POST /time-off/requests/{id}/comments). Use **List Time Off Requests** to find the request ID and **List Time Off Request Comments** to review the existing thread first. [See the documentation](https://documentation.bamboohr.com/reference/create-time-off-request-comment)",
+  description: "Add a comment to a time off request. Use **List Time Off Requests** to find the request ID and **List Time Off Request Comments** to review the existing thread first. [See the documentation](https://documentation.bamboohr.com/reference/create-time-off-request-comment)",
   version: "0.0.1",
   type: "action",
   annotations: {

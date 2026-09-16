@@ -3,7 +3,7 @@ import bamboohr from "../../bamboohr.app.mjs";
 export default {
   key: "bamboohr-get-time-off-balance",
   name: "Get Time Off Balance",
-  description: "Get time off balances for an employee as of a date (GET /employees/{employeeId}/time_off/calculator). Returns one entry per assigned policy. Run **Get Employees Directory** to find the employee ID. [See the documentation](https://documentation.bamboohr.com/reference/get-time-off-balance)",
+  description: "Get time off balances for an employee as of a date. Returns one entry per assigned policy. Run **Get Employees Directory** to find the employee ID. [See the documentation](https://documentation.bamboohr.com/reference/get-time-off-balance)",
   version: "0.0.1",
   type: "action",
   annotations: {

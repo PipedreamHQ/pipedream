@@ -3,7 +3,7 @@ import bamboohr from "../../bamboohr.app.mjs";
 export default {
   key: "bamboohr-delete-hour-record",
   name: "Delete Hour Record",
-  description: "Permanently delete a legacy Hours API record and all its stored revisions (DELETE /timetracking/delete/{id}). This cannot be undone. Use **Get Time Tracking Record** to confirm the ID first. [See the documentation](https://documentation.bamboohr.com/reference/delete-time-tracking-hour-record)",
+  description: "Permanently delete a legacy Hours API record and all its stored revisions. This cannot be undone. Use **Get Time Tracking Record** to confirm the ID first. [See the documentation](https://documentation.bamboohr.com/reference/delete-time-tracking-hour-record)",
   version: "0.0.1",
   type: "action",
   annotations: {

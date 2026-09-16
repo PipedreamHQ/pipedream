@@ -3,7 +3,7 @@ import bamboohr from "../../bamboohr.app.mjs";
 export default {
   key: "bamboohr-clock-out",
   name: "Clock Out",
-  description: "Clock an employee out in real time (POST /time_tracking/employees/{employeeId}/clock_out). Separate endpoint from **Clock In**; returns 409 if the employee is not currently clocked in. [See the documentation](https://documentation.bamboohr.com/reference/create-timesheet-clock-out-entry)",
+  description: "Clock an employee out in real time. Separate endpoint from **Clock In**; returns 409 if the employee is not currently clocked in. [See the documentation](https://documentation.bamboohr.com/reference/create-timesheet-clock-out-entry)",
   version: "0.0.1",
   type: "action",
   annotations: {

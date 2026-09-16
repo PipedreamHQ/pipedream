@@ -3,7 +3,7 @@ import bamboohr from "../../bamboohr.app.mjs";
 export default {
   key: "bamboohr-list-employees",
   name: "List Employees",
-  description: "List employees with optional filtering, sorting, and cursor-based pagination (GET /employees). Every record includes `employeeId`, `firstName`, `lastName`, `preferredName`, `photoUrl`, `jobTitleName`, `status`, and `_restrictedFields` by default; use `fields` for more. Restricted fields you can't read return `null` and are listed in `_restrictedFields`. [See the documentation](https://documentation.bamboohr.com/reference/list-employees)",
+  description: "List employees with optional filtering, sorting, and cursor-based pagination. Every record includes `employeeId`, `firstName`, `lastName`, `preferredName`, `photoUrl`, `jobTitleName`, `status`, and `_restrictedFields` by default; use `fields` for more. Restricted fields you can't read return `null` and are listed in `_restrictedFields`. [See the documentation](https://documentation.bamboohr.com/reference/list-employees)",
   version: "0.0.1",
   type: "action",
   annotations: {

@@ -5,7 +5,7 @@ import { toInt } from "../../common/utils.mjs";
 export default {
   key: "bamboohr-create-hour-entry",
   name: "Create Hour Entry",
-  description: "Create a time-tracking hour entry (POST /time-tracking/hour-entries). Records worked hours for an employee on a date. [See the documentation](https://documentation.bamboohr.com/reference/create-hour-entry)",
+  description: "Create a time-tracking hour entry. Records worked hours for an employee on a date. [See the documentation](https://documentation.bamboohr.com/reference/create-hour-entry)",
   version: "0.0.1",
   type: "action",
   annotations: {

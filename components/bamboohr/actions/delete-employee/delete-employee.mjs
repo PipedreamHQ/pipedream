@@ -3,7 +3,7 @@ import bamboohr from "../../bamboohr.app.mjs";
 export default {
   key: "bamboohr-delete-employee",
   name: "Delete Employee",
-  description: "Permanently delete an employee record and all associated data (DELETE /employees/{id}). This cannot be undone. Use **Get Employees Directory** or **Get Employee** to find the employee ID first. [See the documentation](https://documentation.bamboohr.com/reference/delete-employee)",
+  description: "Permanently delete an employee record and all associated data. This cannot be undone. Use **Get Employees Directory** or **Get Employee** to find the employee ID first. [See the documentation](https://documentation.bamboohr.com/reference/delete-employee)",
   version: "0.0.1",
   type: "action",
   annotations: {

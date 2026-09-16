@@ -4,7 +4,7 @@ import { toInt } from "../../common/utils.mjs";
 export default {
   key: "bamboohr-approve-timesheet",
   name: "Approve Timesheet",
-  description: "Approve a timesheet (POST /time-tracking/timesheet-approvals). Only approval is supported by the API; there is no reject/deny endpoint. `lastChangedAt` must be the timesheet's `hoursLastChangedAt` value from **Get Timesheet**. [See the documentation](https://documentation.bamboohr.com/reference/approve-timesheet)",
+  description: "Approve a timesheet. Only approval is supported by the API; there is no reject/deny endpoint. `lastChangedAt` must be the timesheet's `hoursLastChangedAt` value from **Get Timesheet**. [See the documentation](https://documentation.bamboohr.com/reference/approve-timesheet)",
   version: "0.0.1",
   type: "action",
   annotations: {

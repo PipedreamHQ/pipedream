@@ -3,7 +3,7 @@ import bamboohr from "../../bamboohr.app.mjs";
 export default {
   key: "bamboohr-get-timesheet",
   name: "Get Timesheet",
-  description: "Get a single timesheet by ID (GET /time-tracking/timesheets/{id}). Returns derived status (OPEN, PENDING_APPROVAL, APPROVED) and type. Use **List Timesheets** to find IDs. [See the documentation](https://documentation.bamboohr.com/reference/get-timesheet)",
+  description: "Get a single timesheet by ID. Returns derived status (OPEN, PENDING_APPROVAL, APPROVED) and type. Use **List Timesheets** to find IDs. [See the documentation](https://documentation.bamboohr.com/reference/get-timesheet)",
   version: "0.0.1",
   type: "action",
   annotations: {

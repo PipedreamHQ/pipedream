@@ -3,7 +3,7 @@ import bamboohr from "../../bamboohr.app.mjs";
 export default {
   key: "bamboohr-list-timesheets",
   name: "List Timesheets",
-  description: "List timesheets with optional OData filtering and sorting (GET /time-tracking/timesheets). Status values are OPEN, PENDING_APPROVAL, APPROVED. Use returned IDs with **Get Timesheet** and **Approve Timesheet**. [See the documentation](https://documentation.bamboohr.com/reference/list-timesheets)",
+  description: "List timesheets with optional OData filtering and sorting. Status values are OPEN, PENDING_APPROVAL, APPROVED. Use returned IDs with **Get Timesheet** and **Approve Timesheet**. [See the documentation](https://documentation.bamboohr.com/reference/list-timesheets)",
   version: "0.0.1",
   type: "action",
   annotations: {

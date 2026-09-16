@@ -5,7 +5,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "bamboohr-create-time-off-request",
   name: "Create Time Off Request",
-  description: "Create a time off request for an employee (PUT /employees/{employeeId}/time_off/request). Use **List Time Off Types** to find a valid time off type ID and **Get Employees Directory** for the employee ID. [See the documentation](https://documentation.bamboohr.com/reference/create-time-off-request)",
+  description: "Create a time off request for an employee. Use **List Time Off Types** to find a valid time off type ID and **Get Employees Directory** for the employee ID. [See the documentation](https://documentation.bamboohr.com/reference/create-time-off-request)",
   version: "0.0.1",
   type: "action",
   annotations: {

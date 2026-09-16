@@ -4,7 +4,7 @@ import { toInt } from "../../common/utils.mjs";
 export default {
   key: "bamboohr-clock-in",
   name: "Clock In",
-  description: "Clock an employee in in real time (POST /time_tracking/employees/{employeeId}/clock_in). This is a separate endpoint from **Clock Out**. For manual/retroactive entries use **Create Clock Entry**. [See the documentation](https://documentation.bamboohr.com/reference/create-timesheet-clock-in-entry)",
+  description: "Clock an employee in in real time. This is a separate endpoint from **Clock Out**. For manual/retroactive entries use **Create Clock Entry**. [See the documentation](https://documentation.bamboohr.com/reference/create-timesheet-clock-in-entry)",
   version: "0.0.1",
   type: "action",
   annotations: {

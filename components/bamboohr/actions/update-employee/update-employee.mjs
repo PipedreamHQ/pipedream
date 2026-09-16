@@ -3,7 +3,7 @@ import bamboohr from "../../bamboohr.app.mjs";
 export default {
   key: "bamboohr-update-employee",
   name: "Update Employee",
-  description: "Update fields on an existing employee (POST /employees/{id}). Only supplied fields are changed; unknown field names are silently ignored. Use **Get Employees Directory** to find the employee ID. [See the documentation](https://documentation.bamboohr.com/reference/update-employee)",
+  description: "Update fields on an existing employee. Only supplied fields are changed; unknown field names are silently ignored. Use **Get Employees Directory** to find the employee ID. [See the documentation](https://documentation.bamboohr.com/reference/update-employee)",
   version: "0.0.1",
   type: "action",
   annotations: {

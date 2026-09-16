@@ -3,7 +3,7 @@ import bamboohr from "../../bamboohr.app.mjs";
 export default {
   key: "bamboohr-list-clock-entries",
   name: "List Clock Entries",
-  description: "List time-tracking clock entries with optional OData filtering (GET /time-tracking/clock-entries). An entry with a null `end` is still open, so this action also serves to check clocked-in status (filter by employeeId and inspect `end`). Use returned IDs with **Get Clock Entry** and **Delete Clock Entry**. [See the documentation](https://documentation.bamboohr.com/reference/list-clock-entries)",
+  description: "List time-tracking clock entries with optional OData filtering. An entry with a null `end` is still open, so this action also serves to check clocked-in status (filter by employeeId and inspect `end`). Use returned IDs with **Get Clock Entry** and **Delete Clock Entry**. [See the documentation](https://documentation.bamboohr.com/reference/list-clock-entries)",
   version: "0.0.1",
   type: "action",
   annotations: {

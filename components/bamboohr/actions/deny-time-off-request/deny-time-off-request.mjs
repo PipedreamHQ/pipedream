@@ -3,7 +3,7 @@ import bamboohr from "../../bamboohr.app.mjs";
 export default {
   key: "bamboohr-deny-time-off-request",
   name: "Deny Time Off Request",
-  description: "Deny a time off request (POST /time-off/requests/{id}/denials). A single denial is final — it discards any remaining approval steps, so the request always ends in `DENIED` status. Fails with 409 if the request is not currently `REQUESTED`. Use **List Time Off Requests** to find the request ID. [See the documentation](https://documentation.bamboohr.com/reference/create-time-off-request-denial)",
+  description: "Deny a time off request. A single denial is final — it discards any remaining approval steps, so the request always ends in `DENIED` status. Fails with 409 if the request is not currently `REQUESTED`. Use **List Time Off Requests** to find the request ID. [See the documentation](https://documentation.bamboohr.com/reference/create-time-off-request-denial)",
   version: "0.0.1",
   type: "action",
   annotations: {

@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "bamboohr-adjust-time-off-balance",
   name: "Adjust Time Off Balance",
-  description: "Create a balance adjustment for an employee's time off type, recorded as an override history item (PUT /employees/{employeeId}/time_off/balance_adjustment). Cannot adjust discretionary (unlimited) time off types. Use **Get Time Off Balance** to check current balances and **List Time Off Types** for a valid type ID first. [See the documentation](https://documentation.bamboohr.com/reference/adjust-time-off-balance)",
+  description: "Create a balance adjustment for an employee's time off type, recorded as an override history item. Cannot adjust discretionary (unlimited) time off types. Use **Get Time Off Balance** to check current balances and **List Time Off Types** for a valid type ID first. [See the documentation](https://documentation.bamboohr.com/reference/adjust-time-off-balance)",
   version: "0.0.1",
   type: "action",
   annotations: {

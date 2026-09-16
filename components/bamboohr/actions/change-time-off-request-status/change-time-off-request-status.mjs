@@ -4,7 +4,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "bamboohr-change-time-off-request-status",
   name: "Change Time Off Request Status",
-  description: "Change the status of a time off request, including cancellation (PUT /time_off/requests/{requestId}/status). Setting status to `canceled` cancels the request; this same endpoint covers both status changes and cancellation. Use **List Time Off Requests** to find request IDs. [See the documentation](https://documentation.bamboohr.com/reference/update-time-off-request-status)",
+  description: "Change the status of a time off request, including cancellation. Setting status to `canceled` cancels the request; this same endpoint covers both status changes and cancellation. Use **List Time Off Requests** to find request IDs. [See the documentation](https://documentation.bamboohr.com/reference/update-time-off-request-status)",
   version: "0.0.1",
   type: "action",
   annotations: {

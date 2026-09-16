@@ -4,7 +4,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "bamboohr-list-changed-employees",
   name: "List Changed Employees",
-  description: "List employee IDs that changed since a given time (GET /employees/changed). Returns employeeId, change type, and last-changed timestamp per entry. [See the documentation](https://documentation.bamboohr.com/reference/get-changed-employee-ids)",
+  description: "List employee IDs that changed since a given time. Returns employeeId, change type, and last-changed timestamp per entry. [See the documentation](https://documentation.bamboohr.com/reference/get-changed-employee-ids)",
   version: "0.0.1",
   type: "action",
   annotations: {

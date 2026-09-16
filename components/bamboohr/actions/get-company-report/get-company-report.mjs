@@ -4,7 +4,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "bamboohr-get-company-report",
   name: "Get Company Report",
-  description: "Get a saved company report by ID (GET /reports/{id}). Report IDs are company-specific. In JSON, returns `{title, fields, employees}`. [See the documentation](https://documentation.bamboohr.com/reference/get-company-report)",
+  description: "Get a saved company report by ID. Report IDs are company-specific. In JSON, returns `{title, fields, employees}`. [See the documentation](https://documentation.bamboohr.com/reference/get-company-report)",
   version: "0.0.1",
   type: "action",
   annotations: {

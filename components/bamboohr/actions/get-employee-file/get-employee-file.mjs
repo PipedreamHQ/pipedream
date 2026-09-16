@@ -6,7 +6,7 @@ import bamboohr from "../../bamboohr.app.mjs";
 export default {
   key: "bamboohr-get-employee-file",
   name: "Get Employee File",
-  description: "Download a single employee file and save it to `/tmp` (GET /employees/{id}/files/{fileId}). Use **List Employee Files** to discover file IDs. [See the documentation](https://documentation.bamboohr.com/reference/get-employee-file)",
+  description: "Download a single employee file and save it to `/tmp`. Use **List Employee Files** to discover file IDs. [See the documentation](https://documentation.bamboohr.com/reference/get-employee-file)",
   version: "0.0.1",
   type: "action",
   annotations: {

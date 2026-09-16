@@ -3,7 +3,7 @@ import bamboohr from "../../bamboohr.app.mjs";
 export default {
   key: "bamboohr-list-company-holidays",
   name: "List Company Holidays",
-  description: "List company holidays with optional OData filtering, sorting, and pagination (GET /holidays). [See the documentation](https://documentation.bamboohr.com/reference/list-company-holidays)",
+  description: "List company holidays with optional OData filtering, sorting, and pagination. [See the documentation](https://documentation.bamboohr.com/reference/list-company-holidays)",
   version: "0.0.1",
   type: "action",
   annotations: {
