@@ -4,13 +4,22 @@ import { ConfigurationError } from "@pipedream/platform";
 import utils from "./common/utils.mjs";
 import markdownParser from "./common/markdown-parser.mjs";
 import {
-  OCCURRENCES, TAB_METADATA_MASK_DEPTH,
+  DOCUMENT_FIELDS,
+  FILES_MAX_PAGE_SIZE,
+  OCCURRENCES,
+  TAB_METADATA_MASK_DEPTH,
 } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "google_docs",
   propDefinitions: {
+    fields: {
+      type: "string",
+      label: "Fields",
+      description: `Optional Google Docs API field mask limiting which document fields are returned, e.g. \`documentId,title,revisionId\` instead of the whole document. Valid top-level fields: ${DOCUMENT_FIELDS.map((field) => `\`${field}\``).join(", ")} - the underscore spelling of each (e.g. \`document_id\`) is accepted too. Nested selections are allowed, e.g. \`body/content\`. There is no \`url\` field, and an invalid mask fails the call before the document is changed. Cannot be combined with **Tab ID**. Leave blank to return the full document.`,
+      optional: true,
+    },
     ...googleDrive.propDefinitions,
     // Static, MCP-compatible document identifier. Prefer this over `docId`
     // (which carries an `async options()` dropdown invisible to MCP).
@@ -303,15 +312,25 @@ export default {
         const escaped = query.replace(/'/g, "\\'");
         q += ` and (name contains '${escaped}' or fullText contains '${escaped}')`;
       }
-      const { data } = await this.drive().files.list({
-        q,
-        pageSize: limit,
-        fields: "files(id,name,modifiedTime,webViewLink)",
-        orderBy: "modifiedTime desc",
-        supportsAllDrives: true,
-        includeItemsFromAllDrives: true,
-      });
-      return (data.files || []).map((f) => ({
+      // Drive treats `pageSize` as a maximum, so a short page can still carry a
+      // `nextPageToken`. Keep following it until `limit` is filled, otherwise a
+      // caller silently sees only the first page of matches.
+      const files = [];
+      let pageToken;
+      do {
+        const { data } = await this.drive().files.list({
+          q,
+          pageSize: Math.min(FILES_MAX_PAGE_SIZE, limit - files.length),
+          fields: "nextPageToken,files(id,name,modifiedTime,webViewLink)",
+          orderBy: "modifiedTime desc",
+          supportsAllDrives: true,
+          includeItemsFromAllDrives: true,
+          pageToken,
+        });
+        files.push(...(data.files || []));
+        pageToken = data.nextPageToken;
+      } while (pageToken && files.length < limit);
+      return files.slice(0, limit).map((f) => ({
         id: f.id,
         name: f.name,
         url: f.webViewLink || `https://docs.google.com/document/d/${f.id}/edit`,

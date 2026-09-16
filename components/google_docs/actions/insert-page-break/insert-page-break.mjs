@@ -1,7 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
 import googleDocs from "../../google_docs.app.mjs";
 import utils from "../../common/utils.mjs";
-import { DOCUMENT_FIELDS } from "../../common/constants.mjs";
 
 export default {
   key: "google_docs-insert-page-break",
@@ -36,10 +35,10 @@ export default {
       ],
     },
     fields: {
-      type: "string",
-      label: "Fields",
-      description: `Optional Google Docs API field mask limiting which document fields are returned, e.g. \`documentId,title,revisionId\` to confirm the write without pulling the whole document back. Valid top-level fields: ${DOCUMENT_FIELDS.map((field) => `\`${field}\``).join(", ")}. Nested selections are allowed, e.g. \`body/content\`. There is no \`url\` field, and an invalid mask fails the call before the document is changed. Cannot be combined with **Tab ID**. Leave blank to return the full document.`,
-      optional: true,
+      propDefinition: [
+        googleDocs,
+        "fields",
+      ],
     },
   },
   async run({ $ }) {

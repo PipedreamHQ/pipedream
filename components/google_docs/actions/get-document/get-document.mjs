@@ -28,10 +28,11 @@ export default {
       optional: true,
     },
     fields: {
-      type: "string",
-      label: "Fields",
+      propDefinition: [
+        googleDocs,
+        "fields",
+      ],
       description: "Optional Google Docs API field mask (partial response) that limits which top-level document fields are returned, e.g. `title,documentId,revisionId` for metadata only. When set, only the requested fields are returned and the `textContent` enrichment is skipped, so a body-less response will not error. Cannot be combined with **Tab ID**. Leave blank to return the full document with `textContent`. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/get#query-parameters)",
-      optional: true,
     },
   },
   async run({ $ }) {

@@ -281,6 +281,16 @@ function splitFieldMask(fields) {
   return parts;
 }
 
+// Docs field masks accept either camelCase or underscore-separated names, so
+// `document_id` and `documentId` are both valid. Compare on a spelling-neutral
+// form; the caller's original mask is what reaches the API.
+// https://developers.google.com/workspace/docs/api/how-tos/field-masks
+function normalizeFieldName(name) {
+  return name.replace(/_/g, "").toLowerCase();
+}
+
+const NORMALIZED_DOCUMENT_FIELDS = new Set(DOCUMENT_FIELDS.map(normalizeFieldName));
+
 // Reject an unusable field mask BEFORE the caller mutates the document. Every
 // write action fetches the masked document to build its return value, so an
 // invalid mask would otherwise throw after the edit already landed, and a
@@ -297,7 +307,7 @@ async function validateFieldMask(googleDocs, documentId, fields) {
   }
   const unknown = parts
     .map((part) => part.split(/[/(.]/)[0].trim())
-    .filter((name) => !DOCUMENT_FIELDS.includes(name));
+    .filter((name) => !NORMALIZED_DOCUMENT_FIELDS.has(normalizeFieldName(name)));
   if (unknown.length) {
     throw new ConfigurationError(`Unknown Fields selection${unknown.length === 1
       ? ""
