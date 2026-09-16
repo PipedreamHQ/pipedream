@@ -92,7 +92,6 @@ export default {
   },
   methods: {
     _baseUrl() {
-      console.log("company_domain", this.$auth.company_domain);
       return `https://${this.$auth.company_domain}.bamboohr.com/api/v1`;
     },
     _makeRequest({

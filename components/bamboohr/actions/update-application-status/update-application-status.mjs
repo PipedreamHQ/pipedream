@@ -3,7 +3,7 @@ import bamboohr from "../../bamboohr.app.mjs";
 export default {
   key: "bamboohr-update-application-status",
   name: "Update Application Status",
-  description: "Update the status of an application. Not every status returned by **List Status ID Options** is a valid transition from the application's current status — an \"Invalid status\" error means the target stage isn't reachable from here; check the application's current status and try an adjacent stage. [See the documentation](https://documentation.bamboohr.com/reference/post-applicant-status-1)",
+  description: "Update the status of an application. Not every status returned by **List Status ID Options** is a valid transition from the application's current status — an \"Invalid status\" error means the target stage isn't reachable from here; check the application's current status and try an adjacent stage. [See the documentation](https://documentation.bamboohr.com/reference/update-applicant-status)",
   version: "0.0.4",
   annotations: {
     destructiveHint: true,

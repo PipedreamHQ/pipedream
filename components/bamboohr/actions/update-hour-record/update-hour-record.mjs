@@ -1,5 +1,6 @@
 import bamboohr from "../../bamboohr.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import { toInt } from "../../common/utils.mjs";
 
 export default {
   key: "bamboohr-update-hour-record",
@@ -59,16 +60,6 @@ export default {
     if (!Number.isFinite(hoursWorked)) {
       throw new ConfigurationError(`Hours Worked must be a valid number, got \`${this.hoursWorked}\``);
     }
-    const toInt = (value, label) => {
-      if (!value) {
-        return undefined;
-      }
-      const parsed = Number(value);
-      if (!Number.isInteger(parsed)) {
-        throw new ConfigurationError(`${label} must be an integer, got \`${value}\``);
-      }
-      return parsed;
-    };
     const response = await this.bamboohr.updateHourRecord({
       $,
       data: {

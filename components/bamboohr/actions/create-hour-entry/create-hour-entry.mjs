@@ -1,5 +1,6 @@
 import bamboohr from "../../bamboohr.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import { toInt } from "../../common/utils.mjs";
 
 export default {
   key: "bamboohr-create-hour-entry",
@@ -55,16 +56,6 @@ export default {
     if (!Number.isFinite(hours) || hours <= 0) {
       throw new ConfigurationError(`Hours must be a number greater than 0, got \`${this.hours}\``);
     }
-    const toInt = (value, label) => {
-      if (!value) {
-        return undefined;
-      }
-      const parsed = Number(value);
-      if (!Number.isInteger(parsed)) {
-        throw new ConfigurationError(`${label} must be an integer, got \`${value}\``);
-      }
-      return parsed;
-    };
     const response = await this.bamboohr.createHourEntry({
       $,
       data: {

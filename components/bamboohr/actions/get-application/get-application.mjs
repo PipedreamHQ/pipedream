@@ -3,7 +3,7 @@ import bamboohr from "../../bamboohr.app.mjs";
 export default {
   key: "bamboohr-get-application",
   name: "Get Application",
-  description: "Get the details of an application. [See the documentation](https://documentation.bamboohr.com/reference/get-application-details-1)",
+  description: "Get the details of an application. [See the documentation](https://documentation.bamboohr.com/reference/get-application-details)",
   version: "0.0.3",
   annotations: {
     destructiveHint: false,
