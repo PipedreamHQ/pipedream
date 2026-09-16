@@ -59,7 +59,7 @@ export default {
         message: this.message,
       },
     });
-    $.export("$summary", "SMS submitted to Alive5.");
+    $.export("$summary", `SMS submitted to ${this.to} (message ID: ${result.message_id}).`);
     return result;
   },
 };

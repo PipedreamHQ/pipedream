@@ -1,5 +1,7 @@
 import { axios } from "@pipedream/platform";
 
+const RELAY_BASE_URL = "https://alive5-connectors-relay.raghav-ojha-14122.workers.dev";
+
 export default {
   type: "app",
   app: "alive5",
@@ -52,7 +54,7 @@ export default {
     to: {
       type: "string",
       label: "Recipient Phone Number",
-      description: "The recipient's phone number, including country code",
+      description: "The recipient's phone number in E.164 format, such as +14155550123",
     },
     message: {
       type: "string",
@@ -62,12 +64,14 @@ export default {
   },
   methods: {
     async _request({
-      $, ...options
+      $, relay = false, ...options
     } = {}) {
       let response;
       try {
         response = await axios($, {
-          baseURL: "https://api.alive5.com/public/1.0",
+          baseURL: relay
+            ? RELAY_BASE_URL
+            : "https://api.alive5.com/public/1.0",
           headers: {
             "X-A5-APIKEY": this.$auth.api_key,
           },
@@ -75,14 +79,23 @@ export default {
           maxRedirects: 0,
         });
       } catch (error) {
-        throw new Error(`Alive5 HTTP request failed (${error.response?.status || "network error"}).`);
+        const status = Number(error.response?.status);
+        const httpStatus = Number.isInteger(status) && status >= 100 && status <= 599
+          ? status
+          : "network error";
+        throw new Error(`Alive5 HTTP request failed (${httpStatus}).`);
       }
+      if (relay) return response;
       const nonempty = (value) => value && (typeof value !== "object" || Object.keys(value).length > 0);
       const code = Number(response?.code);
       if (!Number.isFinite(code) || code < 200 || code >= 400 || nonempty(response?.error)
           || Number(response?.data?.code) >= 400
           || nonempty(response?.data?.error) || nonempty(response?.data?.errors)) {
-        throw new Error(`Alive5 rejected the request (code ${response?.data?.code || response?.code || "unknown"}). Check your API key and input values.`);
+        const errorCode = Number(response?.data?.code || response?.code);
+        const shownCode = Number.isInteger(errorCode) && errorCode >= 100 && errorCode <= 599
+          ? errorCode
+          : "unknown";
+        throw new Error(`Alive5 rejected the request (code ${shownCode}). Check your API key and input values.`);
       }
       return response.data;
     },
@@ -114,47 +127,37 @@ export default {
         message[key],
       ]));
     },
-    async listWebhooks(phone) {
-      const result = await this._request({
-        url: `/register/webhook/sms/${encodeURIComponent(phone)}`,
-      });
-      return result?.interceptors || [];
-    },
-    async registerWebhook({
+    async createSubscription({
       phoneNumber, url,
     }) {
       const result = await this._request({
-        url: "/register/webhook/sms",
+        relay: true,
+        url: "/subscriptions",
         method: "POST",
         data: {
+          target: url,
           phoneNumber,
-          url,
-          direction: "inbound",
-          method: "POST",
         },
       });
-      const interceptors = result?.channelUpdate?.Attributes?.interceptor || [];
-      const matching = interceptors.find(
-        (interceptor) => interceptor.url === url,
-      );
-      if (!matching?.interceptorUuid) {
-        throw new Error(
-          "Alive5 did not confirm the webhook registration. Check your account before retrying.",
-        );
+      if (typeof result?.id !== "string" || !result.id
+          || result.phoneNumber !== phoneNumber
+          || typeof result?.deliveryToken !== "string" || !result.deliveryToken) {
+        throw new Error("Alive5 relay did not confirm the subscription. Check your account before retrying.");
       }
-      return matching.interceptorUuid;
+      return {
+        id: result.id,
+        phoneNumber: result.phoneNumber,
+        deliveryToken: result.deliveryToken,
+      };
     },
-    async deleteWebhook({
-      phoneNumber, interceptorUuid,
-    }) {
+    async deleteSubscription({ id }) {
+      if (typeof id !== "string" || !id) throw new Error("An Alive5 relay subscription ID is required for cleanup.");
       const result = await this._request({
-        url: "/register/webhook/sms",
+        relay: true,
+        url: `/subscriptions/${encodeURIComponent(id)}`,
         method: "DELETE",
-        data: {
-          phoneNumber,
-          interceptorUuid,
-        },
       });
+      if (result?.ok !== true) throw new Error("Alive5 relay did not confirm subscription cleanup. Retry deactivation.");
       return result;
     },
   },
