@@ -1,6 +1,15 @@
 // Token-paginated endpoints default to 100 and cap at 1000; the ceiling cuts round-trips.
 export const DEFAULT_MAX_ITEMS = 1000;
 
+export const DISCUSSION_INCLUDE_OPTIONS = [
+  "attachments",
+  "comments",
+];
+
+export const DEFAULT_PAGE_SIZE = 100;
+export const MIN_PAGE_SIZE = 1;
+export const MAX_PAGE_SIZE = 1000;
+
 // Ceiling on in-flight requests when a traversal must fan out per workspace.
 export const MAX_CONCURRENT_REQUESTS = 5;
 

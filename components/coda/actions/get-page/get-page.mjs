@@ -4,7 +4,7 @@ export default {
   key: "coda-get-page",
   name: "Get Page Content",
   description: "Fetch the content of a single page by name or ID. [See docs](https://coda.io/developers/apis/v1#tag/Pages/operation/getPage)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
