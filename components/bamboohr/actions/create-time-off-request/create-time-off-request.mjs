@@ -78,17 +78,23 @@ export default {
       try {
         return JSON.parse(value);
       } catch {
-        throw new ConfigurationError(`${label} must be valid JSON, got \`${value}\``);
+        throw new ConfigurationError(`${label} must be valid JSON.`);
       }
     };
     const notes = parseJson(this.notes, "Notes");
     const dates = parseJson(this.dates, "Dates");
+    if (dates !== undefined && (!Array.isArray(dates) || dates.length === 0)) {
+      throw new ConfigurationError("Dates must be a non-empty JSON array.");
+    }
     let amount;
     if (this.amount) {
       amount = Number(this.amount);
       if (!Number.isFinite(amount)) {
         throw new ConfigurationError(`Amount must be a valid number, got \`${this.amount}\``);
       }
+    }
+    if (dates === undefined && amount === undefined) {
+      throw new ConfigurationError("Provide Amount or Dates.");
     }
     const response = await this.bamboohr.createTimeOffRequest({
       $,

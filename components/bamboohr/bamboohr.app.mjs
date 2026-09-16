@@ -1,5 +1,10 @@
 import { axios } from "@pipedream/platform";
 
+const BINARY_FORMATS = [
+  "pdf",
+  "xls",
+];
+
 export default {
   type: "app",
   app: "bamboohr",
@@ -252,10 +257,6 @@ export default {
       reportId, params = {}, ...opts
     }) {
       const format = params.format?.toLowerCase();
-      const BINARY_FORMATS = [
-        "pdf",
-        "xls",
-      ];
       const isBinary = BINARY_FORMATS.includes(format);
       return this._makeRequest({
         path: `/reports/${reportId}`,

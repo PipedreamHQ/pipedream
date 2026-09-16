@@ -27,7 +27,7 @@ export default {
       try {
         hourRecords = JSON.parse(hourRecords);
       } catch {
-        throw new ConfigurationError(`Hour Records must be valid JSON, got \`${this.hourRecords}\``);
+        throw new ConfigurationError("Hour Records must be valid JSON.");
       }
     }
     if (!Array.isArray(hourRecords) || hourRecords.length === 0) {

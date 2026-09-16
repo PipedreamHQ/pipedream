@@ -73,7 +73,7 @@ export default {
     const response = await this.bamboohr.createClockEntry({
       $,
       data: {
-        employeeId: parseInt(this.employeeId, 10),
+        employeeId: toInt(this.employeeId, "Employee ID"),
         start: this.start,
         end: this.end,
         timezone: this.timezone,

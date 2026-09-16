@@ -67,12 +67,8 @@ export default {
         hoursWorked,
         projectId: toInt(this.projectId, "Project ID"),
         taskId: toInt(this.taskId, "Task ID"),
-        shiftDifferentialId: this.shiftDifferentialId
-          ? parseInt(this.shiftDifferentialId, 10)
-          : undefined,
-        holidayId: this.holidayId
-          ? parseInt(this.holidayId, 10)
-          : undefined,
+        shiftDifferentialId: toInt(this.shiftDifferentialId, "Shift Differential ID"),
+        holidayId: toInt(this.holidayId, "Holiday ID"),
       },
     });
     $.export("$summary", `Updated hour record ${this.recordId}`);

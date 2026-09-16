@@ -59,7 +59,7 @@ export default {
     const response = await this.bamboohr.createHourEntry({
       $,
       data: {
-        employeeId: parseInt(this.employeeId, 10),
+        employeeId: toInt(this.employeeId, "Employee ID"),
         date: this.date,
         hours,
         note: this.note,

@@ -1,4 +1,5 @@
 import bamboohr from "../../bamboohr.app.mjs";
+import { toInt } from "../../common/utils.mjs";
 
 export default {
   key: "bamboohr-approve-timesheet",
@@ -31,7 +32,7 @@ export default {
     const response = await this.bamboohr.approveTimesheet({
       $,
       data: {
-        timesheetId: parseInt(this.timesheetId, 10),
+        timesheetId: toInt(this.timesheetId, "Timesheet ID"),
         lastChangedAt: this.lastChangedAt,
       },
     });

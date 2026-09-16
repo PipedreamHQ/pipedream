@@ -16,10 +16,13 @@ export default {
     bamboohr,
   },
   async run({ $ }) {
-    const jobs = await this.bamboohr.listJobs({
+    const response = await this.bamboohr.listJobs({
       $,
     });
-    const options = (jobs ?? []).map((job) => ({
+    const jobs = response?.data ?? (Array.isArray(response)
+      ? response
+      : []);
+    const options = jobs.map((job) => ({
       label: job.title.label,
       value: job.id,
     }));
