@@ -3,7 +3,7 @@ import sharepoint from "../../sharepoint.app.mjs";
 export default {
   key: "sharepoint-list-lists",
   name: "List Lists",
-  description: "Get the collection of lists for a SharePoint site. Returns each list's ID, name, item count, and template type. [See the documentation](https://learn.microsoft.com/en-us/graph/api/list-list?view=graph-rest-1.0&tabs=http)",
+  description: "Get the collection of lists for a SharePoint site. Returns each list's ID, name, and template type. [See the documentation](https://learn.microsoft.com/en-us/graph/api/list-list?view=graph-rest-1.0&tabs=http)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",

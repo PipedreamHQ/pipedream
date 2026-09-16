@@ -490,8 +490,12 @@ export default {
         .get();
     },
     listLists({
-      siteId, params = {},
+      siteId, params = {}, url,
     } = {}) {
+      if (url) {
+        const path = url.replace(/^https:\/\/graph\.microsoft\.com\/v[^/]+/, "");
+        return this.client().api(path).get();
+      }
       return this.client().api(`/sites/${siteId}/lists`)
         .query(pickBy(params))
         .get();
@@ -504,10 +508,16 @@ export default {
         .get();
     },
     listItems({
-      siteId, listId, params = {}, headers = {},
+      siteId, listId, params = {}, headers = {}, url,
     } = {}) {
-      let request = this.client().api(`/sites/${siteId}/lists/${listId}/items`)
-        .query(pickBy(params));
+      let request;
+      if (url) {
+        const path = url.replace(/^https:\/\/graph\.microsoft\.com\/v[^/]+/, "");
+        request = this.client().api(path);
+      } else {
+        request = this.client().api(`/sites/${siteId}/lists/${listId}/items`)
+          .query(pickBy(params));
+      }
       for (const [
         name,
         value,
