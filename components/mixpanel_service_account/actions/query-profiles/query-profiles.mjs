@@ -108,7 +108,11 @@ export default {
         filter_by_cohort: this.filterByCohortId && JSON.stringify({
           id: this.filterByCohortId,
         }),
-        include_all_users: this.includeAllUsers,
+        // Mixpanel documents `true` as the default but treats an omitted value
+        // as `false`, so send the documented default explicitly.
+        include_all_users: this.filterByCohortId
+          ? this.includeAllUsers ?? true
+          : this.includeAllUsers,
         output_properties: this.outputProperties && JSON.stringify(this.outputProperties),
         data_group_id: this.dataGroupId,
         session_id: this.sessionId,
