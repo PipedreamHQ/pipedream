@@ -469,6 +469,17 @@ export default {
         },
       });
     },
+    _continuationRequest(url, headers = {}) {
+      const path = url.replace(/^https:\/\/graph\.microsoft\.com\/v[^/]+/, "");
+      let request = this.client().api(path);
+      for (const [
+        name,
+        value,
+      ] of Object.entries(headers)) {
+        request = request.header(name, value);
+      }
+      return request.get();
+    },
     getSite({
       siteId, params = {},
     } = {}) {
@@ -493,9 +504,7 @@ export default {
       siteId, params = {}, url,
     } = {}) {
       if (url) {
-        const path = url.replace(/^https:\/\/graph\.microsoft\.com\/v[^/]+/, "");
-        return this.client().api(path)
-          .get();
+        return this._continuationRequest(url);
       }
       return this.client().api(`/sites/${siteId}/lists`)
         .query(pickBy(params))
@@ -511,14 +520,11 @@ export default {
     listItems({
       siteId, listId, params = {}, headers = {}, url,
     } = {}) {
-      let request;
       if (url) {
-        const path = url.replace(/^https:\/\/graph\.microsoft\.com\/v[^/]+/, "");
-        request = this.client().api(path);
-      } else {
-        request = this.client().api(`/sites/${siteId}/lists/${listId}/items`)
-          .query(pickBy(params));
+        return this._continuationRequest(url, headers);
       }
+      let request = this.client().api(`/sites/${siteId}/lists/${listId}/items`)
+        .query(pickBy(params));
       for (const [
         name,
         value,
