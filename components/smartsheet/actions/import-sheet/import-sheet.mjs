@@ -11,7 +11,7 @@ export default {
     + " Returns the new sheet under `result`, including its ID and permalink."
     + " To create a sheet by defining columns yourself instead, use **Create Sheet**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/imports/import-sheet-into-workspace)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   ai: "optimized",
   annotations: {
