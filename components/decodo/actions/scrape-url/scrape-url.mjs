@@ -119,7 +119,7 @@ export default {
     payload: {
       type: "string",
       label: "Payload",
-      description: "Base64-encoded POST request body. Used when `HTTP Method` is `POST`.",
+      description: "Base64-encoded POST request body. Used when `HTTP Method` is `POST`. E.g. `eyJmb28iOiJiYXIifQ==` for `{\"foo\":\"bar\"}`.",
       optional: true,
     },
     successfulStatusCodes: {
