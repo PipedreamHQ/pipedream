@@ -1,17 +1,17 @@
 import { ConfigurationError } from "@pipedream/platform";
-import { toPositiveInteger } from "../../common/utils.mjs";
+import { toIdString } from "../../common/utils.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
 
 export default {
   key: "smartsheet-update-row",
   name: "Update Row",
   description:
-    "Update one or more rows in a sheet by row ID. Accepts column NAMES as keys — resolves to column IDs internally."
-    + " Call **Get Sheet** or **List Columns** to find row IDs and column names."
-    + " Each object needs a `rowId` plus column name/value pairs:"
-    + " `[{\"rowId\": 123456, \"Status\": \"Done\", \"Priority\": \"High\"}]`."
+    "Update one or more rows in a sheet by row ID, addressing cells by column NAME rather than column ID."
+    + " Returns the updated rows under `result`."
+    + " Call **Get Sheet** to find row IDs and column names first."
+    + " To add new rows instead of changing existing ones, use **Add Row to Sheet**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/update-rows)",
-  version: "1.0.1",
+  version: "1.1.1",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -22,23 +22,29 @@ export default {
   props: {
     smartsheet,
     sheetId: {
-      type: "string",
-      label: "Sheet ID",
-      description: "The ID of the sheet containing the rows. Use **List Sheets** to find sheet IDs.",
+      propDefinition: [
+        smartsheet,
+        "sheetIdOrUrl",
+      ],
     },
     rows: {
       type: "string",
       label: "Rows",
       description:
         "JSON array of row update objects. Each needs `rowId` plus column name/value pairs."
-        + " Example: `[{\"rowId\": 123456, \"Status\": \"Done\", \"Priority\": \"High\"}]`."
+        + " Quote the row ID: `[{\"rowId\": \"1234567890123456\", \"Status\": \"Done\"}]`."
+        + " Smartsheet row IDs are 16 digits and an unquoted one can exceed what JSON parsing represents exactly,"
+        + " which would silently address a different row."
         + " Call **Get Sheet** to find row IDs and column names.",
     },
   },
   async run({ $ }) {
+    // Quote before parsing: JSON.parse would round a >2^53 rowId beyond recovery.
+    const rowsJson = String(this.rows ?? "").replace(/("rowId"\s*:\s*)(\d+)/g, "$1\"$2\"");
+
     let parsedRows;
     try {
-      parsedRows = JSON.parse(this.rows);
+      parsedRows = JSON.parse(rowsJson);
     } catch {
       throw new ConfigurationError("`Rows` must be a valid JSON array of objects.");
     }
@@ -46,7 +52,10 @@ export default {
       throw new ConfigurationError("`Rows` must be a non-empty JSON array.");
     }
 
-    const { byName } = await this.smartsheet.getColumnMap(this.sheetId, {
+    const sheetId = await this.smartsheet.resolveSheetId(this.sheetId, {
+      $,
+    });
+    const { byName } = await this.smartsheet.getColumnMap(sheetId, {
       $,
     });
 
@@ -57,10 +66,10 @@ export default {
       const {
         rowId, ...fields
       } = row;
-      const numericRowId = toPositiveInteger(rowId);
-      if (!Number.isInteger(numericRowId) || numericRowId <= 0) {
-        throw new ConfigurationError(`Row at index ${rowIndex} is missing a valid \`rowId\` (must be a positive integer).`);
+      if (rowId === undefined || rowId === null || rowId === "") {
+        throw new ConfigurationError(`Row at index ${rowIndex} is missing a \`rowId\`.`);
       }
+      const rowIdString = toIdString(rowId, `Row at index ${rowIndex} \`rowId\``);
       const entries = Object.entries(fields);
       if (!entries.length) {
         throw new ConfigurationError(`Row at index ${rowIndex} has no column updates.`);
@@ -85,18 +94,18 @@ export default {
         throw new ConfigurationError(`Row at index ${rowIndex} references unknown column(s): ${unknownColumns.join(", ")}. Use **Get Sheet** or **List Columns** to see valid column names.`);
       }
       return {
-        id: numericRowId,
+        id: rowIdString,
         cells,
       };
     });
 
-    const response = await this.smartsheet.updateRow(this.sheetId, {
+    const response = await this.smartsheet.updateRow(sheetId, {
       $,
       data: apiRows,
     });
 
     const count = response.result?.length || 1;
-    $.export("$summary", `Updated ${count} row(s) in sheet ${this.sheetId}`);
+    $.export("$summary", `Updated ${count} row(s) in sheet ${sheetId}`);
     return response;
   },
 };

@@ -4,15 +4,16 @@ import common from "./common.mjs";
 export default {
   ...common,
   name: "Set Limit for User",
-  description: "Sets the monthly limit for a user. [See the docs here](https://developer.brex.com/openapi/team_api/#operation/setUserLimit).",
+  description: "Sets a user's recurring monthly spend limit, replacing any limit already in place. This governs corporate cards (`Limit Type` = `USER`); vendor cards carry their own limit set on the card itself. Use **List Users** to find the user ID and **Get User Limit** to read the current limit. [See the documentation](https://developer.brex.com/openapi/team_api/users/setuserlimit)",
   key: "brex-set-limit-for-user",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     brexApp,
     user: {
@@ -21,8 +22,7 @@ export default {
         "user",
       ],
       label: "User",
-      description: "User to set the new limit",
-      withLabel: true,
+      description: "The person whose monthly limit is being set, as a Brex user ID, e.g. `cuuser_ckze72soa117f01pkmf1wcpl3`. Use **List Users** to find a user ID by email address.",
       optional: false,
     },
     ...common.props,

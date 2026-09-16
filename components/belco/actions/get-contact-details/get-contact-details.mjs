@@ -4,7 +4,7 @@ export default {
   key: "belco-get-contact-details",
   name: "Get Contact Details",
   description: "Get the details of a contact in Belco. [See the documentation](https://developers.belco.io/reference/get_shops-shopid-contacts-contactid)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
