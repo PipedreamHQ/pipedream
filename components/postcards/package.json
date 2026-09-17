@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/postcards",
+  "version": "0.0.1",
+  "description": "Pipedream Postcards Components",
+  "main": "postcards.app.mjs",
+  "keywords": [
+    "pipedream",
+    "postcards"
+  ],
+  "homepage": "https://pipedream.com/apps/postcards",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  }
+}
