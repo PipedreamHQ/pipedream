@@ -27,19 +27,20 @@ export default {
         tricentisQtest,
         "properties",
       ],
+      optional: false,
     },
   },
   async run({ $ }) {
+    if (this.properties === undefined) {
+      throw new ConfigurationError("`Properties` is required to submit a defect (e.g. Summary/Description are typically required fields) — use List Defect Fields to find required field IDs");
+    }
     let properties;
     try {
-      properties = this.properties === undefined
-        ? undefined
-        : JSON.parse(this.properties);
+      properties = JSON.parse(this.properties);
     } catch (error) {
       throw new ConfigurationError(`\`Properties\` is not valid JSON: ${error.message}`);
     }
-    if (properties !== undefined
-      && (!Array.isArray(properties) || !properties.every(isValidProperty))) {
+    if (!Array.isArray(properties) || !properties.every(isValidProperty)) {
       throw new ConfigurationError("`Properties` must be a JSON array of {field_id, field_value} objects");
     }
     const response = await this.tricentisQtest.createDefect({
