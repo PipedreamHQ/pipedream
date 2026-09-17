@@ -780,6 +780,12 @@ export default {
         ...args,
       });
     },
+    leaveConversation(args = {}) {
+      return this.makeRequest({
+        method: "conversations.leave",
+        ...args,
+      });
+    },
     addReminders(args = {}) {
       return this.makeRequest({
         method: "reminders.add",
