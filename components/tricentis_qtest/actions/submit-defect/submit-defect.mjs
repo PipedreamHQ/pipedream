@@ -22,10 +22,10 @@ export default {
       ],
     },
     properties: {
-      type: "string",
-      label: "Properties",
-      description: "A JSON array of field properties to set on the defect. Use the **List Defect Fields** action to discover available field IDs and which are required. Example: `[{\"field_id\": 1, \"field_value\": \"Button not clickable\"}, {\"field_id\": 2, \"field_value\": \"1\"}]`",
-      optional: true,
+      propDefinition: [
+        tricentisQtest,
+        "properties",
+      ],
     },
   },
   async run({ $ }) {

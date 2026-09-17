@@ -34,10 +34,10 @@ export default {
       optional: true,
     },
     properties: {
-      type: "string",
-      label: "Properties",
-      description: "A JSON array of field properties to update on the requirement. Use the **List Requirement Fields** action to discover available field IDs. Example: `[{\"field_id\": 3, \"field_value\": \"1\"}]`",
-      optional: true,
+      propDefinition: [
+        tricentisQtest,
+        "properties",
+      ],
     },
   },
   async run({ $ }) {

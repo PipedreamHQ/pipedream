@@ -28,10 +28,10 @@ export default {
       ],
     },
     properties: {
-      type: "string",
-      label: "Properties",
-      description: "A JSON array of field properties to update on the defect. Use the **List Defect Fields** action to discover available field IDs. Example: `[{\"field_id\": 2, \"field_value\": \"2\"}]`",
-      optional: true,
+      propDefinition: [
+        tricentisQtest,
+        "properties",
+      ],
     },
   },
   async run({ $ }) {

@@ -31,6 +31,12 @@ export default {
       optional: true,
       default: 1,
     },
+    properties: {
+      type: "string",
+      label: "Properties",
+      description: "A JSON array of field properties to set on the record. Use **List Requirement Fields** to discover requirement field IDs, or **List Defect Fields** to discover defect field IDs. Example: `[{\"field_id\": 3, \"field_value\": \"1\"}]`",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
