@@ -9,7 +9,7 @@ export default {
   key: "google_ads-create-or-remove-campaign-shared-set",
   name: "Create or Remove Campaign Shared Set",
   description: `Attaches or detaches a shared set from a campaign. [See the documentation](${docLink})`,
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: true,
