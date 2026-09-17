@@ -4,7 +4,7 @@ import tricentisQtest from "../../tricentis_qtest.app.mjs";
 export default {
   key: "tricentis_qtest-create-requirement",
   name: "Create Requirement",
-  description: "Create a new requirement under a parent module in a qTest project. Use **List Project ID Options** for the project ID, **List Modules** for the parent module ID, and **List Requirement Fields** to discover field IDs for the Properties parameter. Example: `projectId: 1, parentId: \"10\", requirementName: \"User can reset password\", properties: [{\"field_id\": 3, \"field_value\": \"1\"}]` → returns `{id: 103, name: \"User can reset password\", ...}`. [See the documentation](https://documentation.tricentis.com/qtest/od/en/content/apis/apis/requirement_apis.htm#CreateARequirement)",
+  description: "Create a new requirement under a parent module in a qTest project. Use **List Project ID Options** for the project ID, **List Modules** for the parent module ID, and **List Requirement Fields** to discover field IDs for the Properties parameter. Example: `projectId: 1, parentId: \"10\", requirementName: \"User can reset password\", properties: \"[{\\\"field_id\\\": 3, \\\"field_value\\\": \\\"1\\\"}]\"` → returns `{id: 103, name: \"User can reset password\", ...}`. [See the documentation](https://documentation.tricentis.com/qtest/od/en/content/apis/apis/requirement_apis.htm#CreateARequirement)",
   version: "1.0.0",
   type: "action",
   ai: "optimized",
@@ -42,9 +42,14 @@ export default {
   async run({ $ }) {
     let properties;
     try {
-      properties = this.properties && JSON.parse(this.properties);
+      properties = this.properties === undefined
+        ? undefined
+        : JSON.parse(this.properties);
     } catch (error) {
       throw new ConfigurationError(`\`Properties\` is not valid JSON: ${error.message}`);
+    }
+    if (properties !== undefined && !Array.isArray(properties)) {
+      throw new ConfigurationError("`Properties` must be a JSON array of {field_id, field_value} objects");
     }
     const response = await this.tricentisQtest.createRequirement({
       $,

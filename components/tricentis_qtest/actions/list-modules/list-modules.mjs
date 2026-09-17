@@ -22,7 +22,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.tricentisQtest.getModules(this.projectId);
+    const response = await this.tricentisQtest.getModules({
+      projectId: this.projectId,
+      $,
+    });
     const modules = (response ?? []).map(({
       id, name,
     }) => ({

@@ -29,6 +29,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.tricentisQtest.getRequirements({
+      $,
       projectId: this.projectId,
       params: {
         page: this.page,

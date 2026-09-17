@@ -16,7 +16,9 @@ export default {
     tricentisQtest,
   },
   async run({ $ }) {
-    const projects = await this.tricentisQtest.getProjects();
+    const projects = await this.tricentisQtest.getProjects({
+      $,
+    });
     const options = (projects ?? []).map(({
       id, name,
     }) => ({

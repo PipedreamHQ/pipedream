@@ -48,13 +48,17 @@ export default {
         },
       });
     },
-    getProjects() {
+    getProjects({ $ } = {}) {
       return this._makeRequest({
+        $,
         url: "/projects",
       });
     },
-    getModules(projectId) {
+    getModules({
+      projectId, $,
+    }) {
       return this._makeRequest({
+        $,
         url: `/projects/${projectId}/modules`,
       });
     },
@@ -92,8 +96,11 @@ export default {
         ...args,
       });
     },
-    getRequirementFields(projectId) {
+    getRequirementFields({
+      projectId, $,
+    }) {
       return this._makeRequest({
+        $,
         url: `/projects/${projectId}/settings/requirements/fields`,
       });
     },
@@ -131,8 +138,11 @@ export default {
         ...args,
       });
     },
-    getDefectFields(projectId) {
+    getDefectFields({
+      projectId, $,
+    }) {
       return this._makeRequest({
+        $,
         url: `/projects/${projectId}/settings/defects/fields`,
       });
     },

@@ -28,7 +28,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.tricentisQtest.getDefectFields(this.projectId);
+    const response = await this.tricentisQtest.getDefectFields({
+      projectId: this.projectId,
+      $,
+    });
     const result = this.fields?.length
       ? response?.map((field) => Object.fromEntries(this.fields.map((name) => [
         name,

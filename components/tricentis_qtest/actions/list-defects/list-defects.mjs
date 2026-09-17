@@ -46,6 +46,7 @@ export default {
       return date.toISOString();
     })();
     const response = await this.tricentisQtest.getDefects({
+      $,
       projectId: this.projectId,
       params: {
         startTime,
