@@ -48,7 +48,12 @@ export default {
     } catch (error) {
       throw new ConfigurationError(`\`Properties\` is not valid JSON: ${error.message}`);
     }
-    if (properties !== undefined && !Array.isArray(properties)) {
+    const isValidProperty = (entry) => entry !== null
+      && typeof entry === "object"
+      && !Array.isArray(entry)
+      && Number.isInteger(entry.field_id);
+    if (properties !== undefined
+      && (!Array.isArray(properties) || !properties.every(isValidProperty))) {
       throw new ConfigurationError("`Properties` must be a JSON array of {field_id, field_value} objects");
     }
     const response = await this.tricentisQtest.createRequirement({
