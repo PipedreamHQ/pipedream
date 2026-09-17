@@ -54,11 +54,26 @@ export default {
         },
       });
     },
-    getProjects({ $ } = {}) {
-      return this._makeRequest({
-        $,
-        url: "/projects",
-      });
+    async getProjects({ $ } = {}) {
+      const pageSize = 100;
+      let projects = [];
+      let page = 1;
+      for (;;) {
+        const results = await this._makeRequest({
+          $,
+          url: "/projects",
+          params: {
+            page,
+            pageSize,
+          },
+        });
+        projects = projects.concat(results ?? []);
+        if (!results?.length || results.length < pageSize) {
+          break;
+        }
+        page += 1;
+      }
+      return projects;
     },
     getModules({
       projectId, $,
@@ -66,6 +81,9 @@ export default {
       return this._makeRequest({
         $,
         url: `/projects/${projectId}/modules`,
+        params: {
+          expand: "descendants",
+        },
       });
     },
     createRequirement({
