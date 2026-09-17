@@ -1,6 +1,9 @@
 import harvest from "../../harvest.app.mjs";
 import constants from "../../common/constants.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import {
+  mapWithRateLimit, withRetryAfter,
+} from "../../common/utils.mjs";
 
 export default {
   key: "harvest-get-projects",
@@ -44,15 +47,17 @@ export default {
     let results;
 
     if (projectIds) {
-      results = await Promise.all(projectIds.map((projectId) => this.harvest.getProject({
-        $,
-        projectId,
-        accountId,
-      })));
+      results = await mapWithRateLimit(projectIds, (projectId) =>
+        withRetryAfter(() => this.harvest.getProject({
+          $,
+          projectId,
+          accountId,
+        })));
     } else {
       results = [];
       const projects = await this.harvest.listProjectsPaginated({
         page: 1,
+        $,
         accountId,
       });
       for await (const project of projects) {

@@ -47,7 +47,7 @@ export default {
     budgetBy: {
       type: "string",
       label: "Budget By",
-      description: "Method by which the project is budgeted. One of: `project`, `project_cost`, `task`, `task_fees`, `person`, `none`.",
+      description: "Method by which the project is budgeted. `project`, `task`, and `person` budget in hours (set Budget); `project_cost` and `task_fees` budget in money (set Cost Budget); `none` sets no budget.",
       options: constants.BUDGET_BY_OPTIONS,
     },
     code: {
@@ -78,7 +78,13 @@ export default {
     budget: {
       type: "string",
       label: "Budget",
-      description: "The budget in hours or money, decimal.",
+      description: "The budget in **hours**, decimal. Only applies when Budget By is `project`, `task`, or `person`.",
+      optional: true,
+    },
+    costBudget: {
+      type: "string",
+      label: "Cost Budget",
+      description: "The budget in **money**, decimal. Only applies when Budget By is `project_cost` or `task_fees`.",
       optional: true,
     },
     notes: {
@@ -115,6 +121,7 @@ export default {
         is_fixed_fee: this.isFixedFee,
         hourly_rate: this.hourlyRate,
         budget: this.budget,
+        cost_budget: this.costBudget,
         notes: this.notes,
         starts_on: this.startsOn,
         ends_on: this.endsOn,

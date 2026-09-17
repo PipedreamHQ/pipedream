@@ -64,6 +64,7 @@ export default {
     const invoices = [];
     const pages = this.harvest.listInvoicesPaginated({
       page: 1,
+      $,
       accountId: this.accountId,
       client_id: this.clientId,
       project_id: this.projectId,

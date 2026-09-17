@@ -39,6 +39,7 @@ export default {
     const users = [];
     const pages = this.harvest.listUsersPaginated({
       page: 1,
+      $,
       accountId: this.accountId,
       isActive: this.isActive,
       updatedSince: this.updatedSince,

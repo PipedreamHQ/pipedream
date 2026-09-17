@@ -6,7 +6,7 @@ export default {
   description: "Stop a currently running time entry. Use **List Time Entries** with Is Running set to true to find a running entry to stop. Example: call with timeEntryId set to a currently running entry's ID to stop the clock on it. [See the documentation](https://help.getharvest.com/api-v2/timesheets-api/timesheets/time-entries/#stop-a-running-time-entry).",
   version: "0.0.5",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

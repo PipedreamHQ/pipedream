@@ -6,7 +6,7 @@ export default {
   description: "Restart a stopped time entry so it resumes running. Use **List Time Entries** with Is Running set to false to find a stopped entry to restart. Example: call with timeEntryId set to a stopped entry's ID to resume tracking time on it. [See the documentation](https://help.getharvest.com/api-v2/timesheets-api/timesheets/time-entries/#restart-a-stopped-time-entry).",
   version: "0.0.4",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

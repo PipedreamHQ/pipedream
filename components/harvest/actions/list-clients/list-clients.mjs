@@ -39,6 +39,7 @@ export default {
     const clients = [];
     const pages = this.harvest.listClientsPaginated({
       page: 1,
+      $,
       accountId: this.accountId,
       isActive: this.isActive,
       updatedSince: this.updatedSince,

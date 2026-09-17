@@ -34,7 +34,7 @@ export default {
         harvest,
         "userId",
       ],
-      description: "Free-form user ID filter (global endpoint only), e.g. `1782959`. Run **List Users** first to find valid IDs.",
+      description: "Free-form user ID filter, applies whether using the global `/user_assignments` endpoint or a project-scoped `/projects/{project_id}/user_assignments` endpoint, e.g. `1782959`. Run **List Users** first to find valid IDs.",
     },
     isActive: {
       propDefinition: [
@@ -54,6 +54,7 @@ export default {
     const assignments = [];
     const pages = this.harvest.listUserAssignmentsPaginated({
       page: 1,
+      $,
       projectId: this.projectId,
       accountId: this.accountId,
       user_id: this.userId,

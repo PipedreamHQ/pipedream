@@ -1,5 +1,4 @@
 import harvest from "../../harvest.app.mjs";
-import constants from "../../common/constants.mjs";
 
 export default {
   key: "harvest-create-user",
@@ -74,11 +73,10 @@ export default {
       optional: true,
     },
     accessRoles: {
-      type: "string[]",
-      label: "Access Roles",
-      description: "Access roles for the user. Each value one of: `member`, `manager`, `administrator`.",
-      optional: true,
-      options: constants.ACCESS_ROLE_OPTIONS,
+      propDefinition: [
+        harvest,
+        "accessRoles",
+      ],
     },
   },
   async run({ $ }) {

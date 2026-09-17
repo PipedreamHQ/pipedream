@@ -83,7 +83,7 @@ export default {
     lineItems: {
       type: "string",
       label: "Line Items",
-      description: "JSON array of line item objects. Example: `[{\"kind\":\"Service\",\"description\":\"Consulting\",\"unit_price\":100,\"quantity\":5}]`.",
+      description: "JSON array of line item objects. Omit `id` to add a new line item, e.g. `[{\"kind\":\"Service\",\"description\":\"Consulting\",\"unit_price\":100,\"quantity\":5}]`. Include an existing line item's `id` (from the invoice's `line_items` in a prior response, e.g. from **Get Invoice**) plus any fields to change, e.g. `[{\"id\":53341928,\"description\":\"Consulting Phase 2\",\"unit_price\":150}]`, to update it. Include that `id` with `_destroy` set to `true`, e.g. `[{\"id\":53341928,\"_destroy\":true}]`, to delete it.",
       optional: true,
     },
   },

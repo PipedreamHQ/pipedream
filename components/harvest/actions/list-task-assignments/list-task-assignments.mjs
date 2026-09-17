@@ -47,6 +47,7 @@ export default {
     const assignments = [];
     const pages = this.harvest.listTaskAssignmentsPaginated({
       page: 1,
+      $,
       projectId: this.projectId,
       accountId: this.accountId,
       is_active: this.isActive,

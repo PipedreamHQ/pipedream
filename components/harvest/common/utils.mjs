@@ -1,3 +1,46 @@
+import constants from "./constants.mjs";
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/* Retries a single request on 429, honoring the response's Retry-After header (seconds)
+   instead of guessing a backoff. Falls through unchanged for any other status/error. */
+const withRetryAfter = async (fn, maxRetries = 3) => {
+  for (let attempt = 0; ; attempt++) {
+    try {
+      return await fn();
+    } catch (err) {
+      const status = err?.response?.status ?? err?.status;
+      if (status !== 429 || attempt >= maxRetries) {
+        throw err;
+      }
+      const retryAfterSeconds = Number(err?.response?.headers?.["retry-after"]);
+      await sleep(Number.isFinite(retryAfterSeconds) && retryAfterSeconds > 0
+        ? retryAfterSeconds * 1000
+        : constants.RATE_LIMIT_BATCH_DELAY_MS);
+    }
+  }
+};
+
+/* Runs fn over items in small concurrent batches, pausing between batches, so callers
+   don't blow through Harvest's rate limit with an unbounded Promise.all. Fails fast: the
+   first rejection (after any retries inside fn) propagates immediately and no partial
+   results are returned. */
+const mapWithRateLimit = async (items, fn, {
+  batchSize = constants.RATE_LIMIT_BATCH_SIZE,
+  delayMs = constants.RATE_LIMIT_BATCH_DELAY_MS,
+} = {}) => {
+  const results = [];
+  for (let i = 0; i < items.length; i += batchSize) {
+    const batch = items.slice(i, i + batchSize);
+    const batchResults = await Promise.all(batch.map(fn));
+    results.push(...batchResults);
+    if (i + batchSize < items.length) {
+      await sleep(delayMs);
+    }
+  }
+  return results;
+};
+
 const removeNullEntries = (obj) =>
   obj && Object.entries(obj).reduce((acc, [
     key,
@@ -62,5 +105,5 @@ const isValidTime = (timeString) => {
 };
 
 export {
-  removeNullEntries, isValidDate, isValidTime,
+  removeNullEntries, isValidDate, isValidTime, mapWithRateLimit, withRetryAfter,
 };

@@ -82,6 +82,7 @@ export default {
     const entries = [];
     const pages = this.harvest.listTimeEntriesPaginated({
       page: 1,
+      $,
       accountId: this.accountId,
       user_id: this.userId,
       client_id: this.clientId,

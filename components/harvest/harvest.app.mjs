@@ -75,6 +75,13 @@ export default {
       min: 1,
       max: 100,
     },
+    accessRoles: {
+      type: "string[]",
+      label: "Access Roles",
+      description: "Access roles for the user. One of `member`, `manager`, `administrator`; or one of `project_creator`, `billable_rates_manager`, `managed_projects_invoice_drafter`, `managed_projects_invoice_manager`, `client_and_task_manager`, `time_and_expenses_manager`, `estimates_manager` — these additional roles can only be combined with `manager`.",
+      optional: true,
+      options: constants.ACCESS_ROLE_OPTIONS,
+    },
   },
   methods: {
     setLastDateChecked(db, value) {
@@ -153,13 +160,14 @@ export default {
       }, retryOpts);
     },
     async *listTimeEntriesPaginated({
-      page, accountId, ...params
+      page, $, accountId, ...params
     }) {
       do {
         const response = await this._withRetries(
           () => this.listTimeEntries({
             per_page: constants.PAGE_SIZE,
             page,
+            $,
             accountId,
             ...params,
           }),
@@ -178,13 +186,14 @@ export default {
       } while (true);
     },
     async *listInvoicesPaginated({
-      page, accountId, ...params
+      page, $, accountId, ...params
     }) {
       do {
         const response = await this._withRetries(
           () => this.listInvoices({
             per_page: constants.PAGE_SIZE,
             page,
+            $,
             accountId,
             ...params,
           }),
@@ -228,13 +237,14 @@ export default {
       } while (true);
     },
     async *listClientsPaginated({
-      page, accountId, isActive, updatedSince,
+      page, $, accountId, isActive, updatedSince,
     }) {
       do {
         const response = await this._withRetries(
           () => this.listClients({
             perPage: constants.PAGE_SIZE,
             page,
+            $,
             accountId,
             isActive,
             updatedSince,
@@ -254,13 +264,14 @@ export default {
       } while (true);
     },
     async *listTasksPaginated({
-      page, accountId, isActive, updatedSince,
+      page, $, accountId, isActive, updatedSince,
     }) {
       do {
         const response = await this._withRetries(
           () => this.listTasks({
             perPage: constants.PAGE_SIZE,
             page,
+            $,
             accountId,
             isActive,
             updatedSince,
@@ -280,13 +291,14 @@ export default {
       } while (true);
     },
     async *listUsersPaginated({
-      page, accountId, isActive, updatedSince,
+      page, $, accountId, isActive, updatedSince,
     }) {
       do {
         const response = await this._withRetries(
           () => this.listUsers({
             perPage: constants.PAGE_SIZE,
             page,
+            $,
             accountId,
             isActive,
             updatedSince,
@@ -306,13 +318,14 @@ export default {
       } while (true);
     },
     async *listTaskAssignmentsPaginated({
-      page, accountId, ...params
+      page, $, accountId, ...params
     }) {
       do {
         const response = await this._withRetries(
           () => this.listTaskAssignments({
             per_page: constants.PAGE_SIZE,
             page,
+            $,
             accountId,
             ...params,
           }),
@@ -331,13 +344,14 @@ export default {
       } while (true);
     },
     async *listUserAssignmentsPaginated({
-      page, accountId, ...params
+      page, $, accountId, ...params
     }) {
       do {
         const response = await this._withRetries(
           () => this.listUserAssignments({
             per_page: constants.PAGE_SIZE,
             page,
+            $,
             accountId,
             ...params,
           }),
