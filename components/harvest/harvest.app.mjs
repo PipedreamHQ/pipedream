@@ -359,7 +359,7 @@ export default {
       }, retryOpts);
     },
     async *listTimeEntriesPaginated({
-      page, $, accountId, ...params
+      page, $, accountId, updatedSince, ...params
     }) {
       do {
         const response = await this._withRetries(
@@ -368,6 +368,7 @@ export default {
             page,
             $,
             accountId,
+            updated_since: updatedSince,
             ...params,
           }),
         );
@@ -385,7 +386,7 @@ export default {
       } while (true);
     },
     async *listInvoicesPaginated({
-      page, $, accountId, ...params
+      page, $, accountId, updatedSince, ...params
     }) {
       do {
         const response = await this._withRetries(
@@ -394,6 +395,7 @@ export default {
             page,
             $,
             accountId,
+            updated_since: updatedSince,
             ...params,
           }),
         );

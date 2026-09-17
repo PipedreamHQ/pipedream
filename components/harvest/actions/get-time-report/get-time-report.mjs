@@ -66,8 +66,9 @@ export default {
         page,
       });
       if (!response.results?.length) break;
-      results.push(...response.results);
-      if (!response.next_page || results.length >= constants.MAX_AUTO_PAGINATE_RECORDS) break;
+      const remaining = constants.MAX_AUTO_PAGINATE_RECORDS - results.length;
+      results.push(...response.results.slice(0, remaining));
+      if (!response.next_page || remaining <= response.results.length) break;
       page += 1;
     } while (true);
     const count = results.length;

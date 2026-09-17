@@ -7,7 +7,7 @@ import {
 export default {
   key: "harvest-create-timesheet-entry",
   name: "Create Timesheet Entry",
-  description: "Create a new time entry. Leave **Started Time** and **Ended Time** blank to start a running timer now; set both to log a completed entry with explicit start/end times. Use **Get Projects** to find a Project ID, **List Tasks** to find a Task ID, and **List Users** to find a User ID. Example: call with projectId, taskId set to Fence Maintenance's task ID, spentDate=\"2026-09-17\", and both time fields blank to start a running timer now. [See the documentation](https://help.getharvest.com/api-v2/timesheets-api/timesheets/time-entries/#create-a-time-entry-via-start-and-end-time).",
+  description: "Create a new time entry. Requires a Harvest account configured to track time via start and end time (`wants_timestamp_timers` is `true` in Company settings) — on accounts using duration-based tracking this call fails. Leave **Started Time** and **Ended Time** blank to start a running timer now; set both to log a completed entry with explicit start/end times. Use **Get Projects** to find a Project ID, **List Tasks** to find a Task ID, and **List Users** to find a User ID. Example: call with projectId, taskId set to Fence Maintenance's task ID, spentDate=\"2026-09-17\", and both time fields blank to start a running timer now. [See the documentation](https://help.getharvest.com/api-v2/timesheets-api/timesheets/time-entries/#create-a-time-entry-via-start-and-end-time).",
   version: "1.0.0",
   annotations: {
     destructiveHint: false,
