@@ -46,7 +46,9 @@ export default {
     } catch (error) {
       throw new ConfigurationError(`\`Properties\` is not valid JSON: ${error.message}`);
     }
-    if (!Array.isArray(properties) || properties.length === 0 || !properties.every(isValidProperty)) {
+    if (!Array.isArray(properties)
+      || properties.length === 0
+      || !properties.every(isValidProperty)) {
       throw new ConfigurationError("`Properties` must be a JSON array of {field_id, field_value} objects");
     }
     const response = await this.tricentisQtest.updateDefect({
