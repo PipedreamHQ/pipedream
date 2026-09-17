@@ -7,16 +7,15 @@ import {
 export default {
   key: "harvest-create-timesheet-entry",
   name: "Create Timesheet Entry",
-  description: `Creates a new time entry object. 
-  [Create a time entry via duration documentation](https://help.getharvest.com/api-v2/timesheets-api/timesheets/time-entries/#create-a-time-entry-via-duration),
-  [Create a time entry via start and end time documentation](https://help.getharvest.com/api-v2/timesheets-api/timesheets/time-entries/#create-a-time-entry-via-start-and-end-time)`,
-  version: "0.0.3",
+  description: "Create a new time entry. Leave **Started Time** and **Ended Time** blank to start a running timer now; set both to log a completed entry with explicit start/end times. Use **Get Projects** to find a Project ID, **List Tasks** to find a Task ID, and **List Users** to find a User ID. Example: call with projectId, taskId set to Fence Maintenance's task ID, spentDate=\"2026-09-17\", and both time fields blank to start a running timer now. [See the documentation](https://help.getharvest.com/api-v2/timesheets-api/timesheets/time-entries/#create-a-time-entry-via-start-and-end-time).",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     harvest,
     accountId: {
@@ -29,18 +28,12 @@ export default {
       propDefinition: [
         harvest,
         "projectId",
-        (c) => ({
-          accountId: c.accountId,
-        }),
       ],
     },
     taskId: {
       propDefinition: [
         harvest,
         "taskId",
-        (c) => ({
-          accountId: c.accountId,
-        }),
       ],
     },
     spentDate: {
@@ -52,34 +45,20 @@ export default {
       propDefinition: [
         harvest,
         "userId",
-        (c) => ({
-          accountId: c.accountId,
-        }),
       ],
     },
-    specifyStartEndTime: {
-      type: "boolean",
-      label: "Specify start and end time",
-      description: "Specify start and end time",
-      reloadProps: true,
+    startedTime: {
+      type: "string",
+      label: "Started time (H:MM am/pm)",
+      description: "The time the entry started, e.g. `8:00am`. Leave this and **Ended Time** blank to start a running timer now instead of logging a completed entry.",
+      optional: true,
     },
-  },
-  async additionalProps() {
-    const props = {};
-    if (this.specifyStartEndTime === true) {
-      props.startedTime = {
-        type: "string",
-        label: "Start time(H:MM am/pm)",
-        description: "The time the entry started. Defaults to the current time. Example: 8:00am.",
-      };
-      props.endedTime = {
-        type: "string",
-        label: "End time(H:MM am/pm)",
-        description: "The time the entry ended. Defaults to the current time. Example: 8:00am.",
-        optional: true,
-      };
-    }
-    return props;
+    endedTime: {
+      type: "string",
+      label: "Ended time (H:MM am/pm)",
+      description: "The time the entry ended, e.g. `5:00pm`. Only used when **Started Time** is also set.",
+      optional: true,
+    },
   },
   async run({ $ }) {
 

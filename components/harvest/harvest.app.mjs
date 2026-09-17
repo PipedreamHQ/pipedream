@@ -11,116 +11,69 @@ export default {
     projectId: {
       type: "string",
       label: "Project ID",
-      description: "The ID of the project to associate with the time entry",
-      useQuery: true,
-      async options({
-        page, accountId,
-      }) {
-        const response = await this.listProjects({
-          perPage: constants.PAGE_SIZE,
-          page: page + 1,
-          accountId,
-        });
-        return response.projects.map((project) => ({
-          label: project.name,
-          value: project.id,
-        }));
-      },
+      description: "Free-form project ID, e.g. `14308069`. Run **Get Projects** first to find valid IDs.",
     },
     taskId: {
       type: "string",
       label: "Task ID",
-      description: "The ID of the task to associate with the time entry",
-      useQuery: true,
-      async options({
-        page, accountId,
-      }) {
-        const response = await this.listTasks({
-          perPage: constants.PAGE_SIZE,
-          page: page + 1,
-          accountId,
-        });
-        return response.tasks.map((task) => ({
-          label: task.name,
-          value: task.id,
-        }));
-      },
+      description: "Free-form task ID, e.g. `1467097`. Run **List Tasks** first to find valid IDs.",
     },
     userId: {
       type: "string",
       label: "User ID",
-      description: "The ID of the user to associate with the time entry",
-      useQuery: true,
+      description: "Free-form user ID, e.g. `1782959`. Run **List Users** first to find valid IDs.",
       optional: true,
-      async options({
-        page, accountId,
-      }) {
-        const response = await this.listUsers({
-          perPage: constants.PAGE_SIZE,
-          page: page + 1,
-          accountId,
-        });
-        return response.users.map((user) => ({
-          label: `${user.first_name} ${user.last_name}`,
-          value: user.id,
-        }));
-      },
     },
     clientId: {
       type: "string",
       label: "Client ID",
-      description: "The ID of the client to associate with time entries",
-      useQuery: true,
+      description: "Free-form client ID, e.g. `5735776`. Run **List Clients** first to find valid IDs.",
       optional: true,
-      async options({
-        page, accountId,
-      }) {
-        const response = await this.listClients({
-          perPage: constants.PAGE_SIZE,
-          page: page + 1,
-          accountId,
-        });
-        return response.clients.map((client) => ({
-          label: client.name,
-          value: client.id,
-        }));
-      },
     },
     timeEntryId: {
       type: "string",
-      label: "Time entry ID",
-      description: "The ID of the time entry.",
-      useQuery: true,
-      async options({
-        page, isRunning, accountId,
-      }) {
-        const response = await this.listTimeEntries({
-          perPage: constants.PAGE_SIZE,
-          page: page + 1,
-          is_running: isRunning,
-          accountId,
-        });
-        return response.time_entries.map((entry) => ({
-          label: `Project: ${entry.project.name}, Task: ${entry.task.name}, Spend date: ${entry.spent_date} ${entry.started_time || ""} ${entry.ended_time
-            ? " to " + entry.ended_time
-            : ""}`,
-          value: entry.id,
-        }));
-      },
+      label: "Time Entry ID",
+      description: "Free-form time entry ID, e.g. `636708723`. Run **List Time Entries** first to find valid IDs.",
+    },
+    invoiceId: {
+      type: "string",
+      label: "Invoice ID",
+      description: "Free-form invoice ID, e.g. `13150403`. Run **List Invoices** first to find valid IDs.",
+    },
+    taskAssignmentId: {
+      type: "string",
+      label: "Task Assignment ID",
+      description: "Free-form task assignment ID, e.g. `162728`. Run **List Task Assignments** first to find valid IDs.",
+    },
+    userAssignmentId: {
+      type: "string",
+      label: "User Assignment ID",
+      description: "Free-form user assignment ID, e.g. `195420`. Run **List User Assignments** first to find valid IDs.",
     },
     accountId: {
       type: "string",
       label: "Account ID",
-      description: "The ID of your account",
-      async options() {
-        const { accounts } = await this.listAccounts({});
-        return accounts.map(({
-          id, name,
-        }) => ({
-          label: name,
-          value: id,
-        }));
-      },
+      description: "Your Harvest account ID, e.g. `1234567`. Run **List Account ID Options** to find it.",
+    },
+    isActive: {
+      type: "boolean",
+      label: "Is Active",
+      description: "Whether the record is active.",
+      optional: true,
+    },
+    updatedSince: {
+      type: "string",
+      label: "Updated Since",
+      description: "Only return records updated since this UTC datetime, e.g. `2019-06-25T15:30:00Z`.",
+      optional: true,
+    },
+    perPage: {
+      type: "integer",
+      label: "Per Page",
+      description: "Number of records per page (1-100).",
+      optional: true,
+      min: 1,
+      max: 100,
     },
   },
   methods: {
@@ -175,7 +128,7 @@ export default {
       });
     },
     _isRetriableStatusCode(statusCode) {
-      constants.retriableStatusCodes.includes(statusCode);
+      return constants.RETRIABLE_STATUS_CODES.includes(statusCode);
     },
     async _withRetries(apiCall) {
       const retryOpts = {
@@ -200,15 +153,15 @@ export default {
       }, retryOpts);
     },
     async *listTimeEntriesPaginated({
-      page, updatedSince, accountId,
+      page, accountId, ...params
     }) {
       do {
         const response = await this._withRetries(
           () => this.listTimeEntries({
             per_page: constants.PAGE_SIZE,
             page,
-            updated_since: updatedSince,
             accountId,
+            ...params,
           }),
         );
 
@@ -225,15 +178,15 @@ export default {
       } while (true);
     },
     async *listInvoicesPaginated({
-      page, updatedSince, accountId,
+      page, accountId, ...params
     }) {
       do {
         const response = await this._withRetries(
           () => this.listInvoices({
             per_page: constants.PAGE_SIZE,
             page,
-            updated_since: updatedSince,
             accountId,
+            ...params,
           }),
         );
 
@@ -274,6 +227,134 @@ export default {
         page += 1;
       } while (true);
     },
+    async *listClientsPaginated({
+      page, accountId, isActive, updatedSince,
+    }) {
+      do {
+        const response = await this._withRetries(
+          () => this.listClients({
+            perPage: constants.PAGE_SIZE,
+            page,
+            accountId,
+            isActive,
+            updatedSince,
+          }),
+        );
+
+        if (response.clients.length === 0) {
+          return;
+        }
+        for (const client of response.clients) {
+          yield client;
+        }
+        if (!response.next_page) {
+          return;
+        }
+        page += 1;
+      } while (true);
+    },
+    async *listTasksPaginated({
+      page, accountId, isActive, updatedSince,
+    }) {
+      do {
+        const response = await this._withRetries(
+          () => this.listTasks({
+            perPage: constants.PAGE_SIZE,
+            page,
+            accountId,
+            isActive,
+            updatedSince,
+          }),
+        );
+
+        if (response.tasks.length === 0) {
+          return;
+        }
+        for (const task of response.tasks) {
+          yield task;
+        }
+        if (!response.next_page) {
+          return;
+        }
+        page += 1;
+      } while (true);
+    },
+    async *listUsersPaginated({
+      page, accountId, isActive, updatedSince,
+    }) {
+      do {
+        const response = await this._withRetries(
+          () => this.listUsers({
+            perPage: constants.PAGE_SIZE,
+            page,
+            accountId,
+            isActive,
+            updatedSince,
+          }),
+        );
+
+        if (response.users.length === 0) {
+          return;
+        }
+        for (const user of response.users) {
+          yield user;
+        }
+        if (!response.next_page) {
+          return;
+        }
+        page += 1;
+      } while (true);
+    },
+    async *listTaskAssignmentsPaginated({
+      page, accountId, ...params
+    }) {
+      do {
+        const response = await this._withRetries(
+          () => this.listTaskAssignments({
+            per_page: constants.PAGE_SIZE,
+            page,
+            accountId,
+            ...params,
+          }),
+        );
+
+        if (response.task_assignments.length === 0) {
+          return;
+        }
+        for (const assignment of response.task_assignments) {
+          yield assignment;
+        }
+        if (!response.next_page) {
+          return;
+        }
+        page += 1;
+      } while (true);
+    },
+    async *listUserAssignmentsPaginated({
+      page, accountId, ...params
+    }) {
+      do {
+        const response = await this._withRetries(
+          () => this.listUserAssignments({
+            per_page: constants.PAGE_SIZE,
+            page,
+            accountId,
+            ...params,
+          }),
+        );
+
+        if (response.user_assignments.length === 0) {
+          return;
+        }
+        for (const assignment of response.user_assignments) {
+          yield assignment;
+        }
+        if (!response.next_page) {
+          return;
+        }
+        page += 1;
+      } while (true);
+    },
     async getProject({
       $, projectId, accountId,
     }) {
@@ -297,7 +378,7 @@ export default {
       });
     },
     async listTasks({
-      $, perPage, page, accountId,
+      $, perPage, page, accountId, isActive, updatedSince,
     }) {
       return this._makeRequest({
         $,
@@ -305,12 +386,14 @@ export default {
         params: {
           per_page: perPage,
           page,
+          is_active: isActive,
+          updated_since: updatedSince,
         },
         accountId,
       });
     },
     async listUsers({
-      $, perPage, page, accountId,
+      $, perPage, page, accountId, isActive, updatedSince,
     }) {
       return this._makeRequest({
         $,
@@ -318,12 +401,14 @@ export default {
         params: {
           per_page: perPage,
           page,
+          is_active: isActive,
+          updated_since: updatedSince,
         },
         accountId,
       });
     },
     async listClients({
-      $, perPage, page, accountId,
+      $, perPage, page, accountId, isActive, updatedSince,
     }) {
       return this._makeRequest({
         $,
@@ -331,6 +416,8 @@ export default {
         params: {
           per_page: perPage,
           page,
+          is_active: isActive,
+          updated_since: updatedSince,
         },
         accountId,
       });
@@ -385,6 +472,277 @@ export default {
         path: "/invoices",
         accountId,
         params,
+      });
+    },
+    async getTimeEntry({
+      $, id, accountId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/time_entries/${id}`,
+        accountId,
+      });
+    },
+    async updateTimeEntry({
+      $, id, data, accountId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/time_entries/${id}`,
+        method: "patch",
+        data,
+        accountId,
+      });
+    },
+    async deleteTimeEntry({
+      $, id, accountId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/time_entries/${id}`,
+        method: "delete",
+        accountId,
+      });
+    },
+    async createProject({
+      $, data, accountId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "/projects",
+        method: "post",
+        data,
+        accountId,
+      });
+    },
+    async updateProject({
+      $, projectId, data, accountId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/projects/${projectId}`,
+        method: "patch",
+        data,
+        accountId,
+      });
+    },
+    async deleteProject({
+      $, projectId, accountId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/projects/${projectId}`,
+        method: "delete",
+        accountId,
+      });
+    },
+    async listTaskAssignments({
+      $, projectId, accountId, ...params
+    }) {
+      const path = projectId
+        ? `/projects/${projectId}/task_assignments`
+        : "/task_assignments";
+      return this._makeRequest({
+        $,
+        path,
+        params,
+        accountId,
+      });
+    },
+    async getTaskAssignment({
+      $, projectId, taskAssignmentId, accountId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/projects/${projectId}/task_assignments/${taskAssignmentId}`,
+        accountId,
+      });
+    },
+    async createTaskAssignment({
+      $, projectId, data, accountId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/projects/${projectId}/task_assignments`,
+        method: "post",
+        data,
+        accountId,
+      });
+    },
+    async updateTaskAssignment({
+      $, projectId, taskAssignmentId, data, accountId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/projects/${projectId}/task_assignments/${taskAssignmentId}`,
+        method: "patch",
+        data,
+        accountId,
+      });
+    },
+    async deleteTaskAssignment({
+      $, projectId, taskAssignmentId, accountId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/projects/${projectId}/task_assignments/${taskAssignmentId}`,
+        method: "delete",
+        accountId,
+      });
+    },
+    async listUserAssignments({
+      $, projectId, accountId, ...params
+    }) {
+      const path = projectId
+        ? `/projects/${projectId}/user_assignments`
+        : "/user_assignments";
+      return this._makeRequest({
+        $,
+        path,
+        params,
+        accountId,
+      });
+    },
+    async getUserAssignment({
+      $, projectId, userAssignmentId, accountId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/projects/${projectId}/user_assignments/${userAssignmentId}`,
+        accountId,
+      });
+    },
+    async createUserAssignment({
+      $, projectId, data, accountId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/projects/${projectId}/user_assignments`,
+        method: "post",
+        data,
+        accountId,
+      });
+    },
+    async updateUserAssignment({
+      $, projectId, userAssignmentId, data, accountId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/projects/${projectId}/user_assignments/${userAssignmentId}`,
+        method: "patch",
+        data,
+        accountId,
+      });
+    },
+    async deleteUserAssignment({
+      $, projectId, userAssignmentId, accountId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/projects/${projectId}/user_assignments/${userAssignmentId}`,
+        method: "delete",
+        accountId,
+      });
+    },
+    async getTimeReport({
+      $, reportBy, accountId, ...params
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/reports/time/${reportBy}`,
+        params,
+        accountId,
+      });
+    },
+    async getUser({
+      $, userId, accountId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/users/${userId}`,
+        accountId,
+      });
+    },
+    async getMe({
+      $, accountId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "/users/me",
+        accountId,
+      });
+    },
+    async createUser({
+      $, data, accountId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "/users",
+        method: "post",
+        data,
+        accountId,
+      });
+    },
+    async updateUser({
+      $, userId, data, accountId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/users/${userId}`,
+        method: "patch",
+        data,
+        accountId,
+      });
+    },
+    async deleteUser({
+      $, userId, accountId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/users/${userId}`,
+        method: "delete",
+        accountId,
+      });
+    },
+    async getInvoice({
+      $, invoiceId, accountId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/invoices/${invoiceId}`,
+        accountId,
+      });
+    },
+    async createInvoice({
+      $, data, accountId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "/invoices",
+        method: "post",
+        data,
+        accountId,
+      });
+    },
+    async updateInvoice({
+      $, invoiceId, data, accountId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/invoices/${invoiceId}`,
+        method: "patch",
+        data,
+        accountId,
+      });
+    },
+    async deleteInvoice({
+      $, invoiceId, accountId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/invoices/${invoiceId}`,
+        method: "delete",
+        accountId,
       });
     },
   },
