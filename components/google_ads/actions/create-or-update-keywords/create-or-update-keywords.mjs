@@ -15,7 +15,7 @@ export default {
   key: "google_ads-create-or-update-keywords",
   name: "Create, Update, or Remove Keywords",
   description: `Creates, updates, or removes keyword criteria for an ad group. [See the documentation](${docLink})`,
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: true,
