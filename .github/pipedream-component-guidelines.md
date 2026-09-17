@@ -45,6 +45,29 @@ export default {
 ESLint enforces the **presence** of all required properties. Reviews should focus on whether
 values are **semantically correct**, not whether properties exist.
 
+### `ai: "optimized"`
+
+Every action and source that is created or modified must declare the top-level property
+`ai: "optimized"` in its default export, alongside `version` and `type`:
+
+```javascript
+export default {
+  key: "app-action-name",
+  name: "Human Readable Name",
+  description: "...",
+  version: "0.0.1",
+  type: "action",
+  ai: "optimized",
+  props: { ... },
+};
+```
+
+- This must be a real property. The legacy `// x-pd-ai: optimized` comment marker is no
+  longer used: do not add it to new files, and when modifying a file that still has it,
+  remove the comment and add the property instead.
+- It applies to action and source components only. App files (`*.app.mjs`) and helper
+  modules (`common/*.mjs`, `test-event.mjs`) do not carry it.
+
 ---
 
 ## Versioning
@@ -532,6 +555,27 @@ other sections apply when relevant:
    date formats, enum values).
 5. **Common gotchas** — Things that frequently go wrong or are misunderstood.
 6. **Documentation link** (always required) — `[See the documentation](https://...)`
+
+### No HTTP method or endpoint path
+
+Component descriptions must **not** expose the underlying HTTP method or endpoint path
+(e.g. never `"(GET /employees/changed)"` or `"Calls POST /contacts"`). Agents call the
+tool, not the endpoint, and a raw path encourages them to reason in API parameter names
+instead of prop names. Describe what the tool does, what it returns, and when to use it
+(including which tool to chain next). The `[See the documentation](<deep link>)` link is
+still required and already points readers to the endpoint reference.
+
+```javascript
+// Wrong
+description: "Lists employees changed since a date (GET /employees/changed)."
+  + " [See the documentation](https://...)",
+
+// Right
+description: "List employees whose records changed since a given date."
+  + " Returns employee IDs with the type of change (inserted, updated, deleted)."
+  + " Use **Get Employee** to fetch full details for a returned ID."
+  + " [See the documentation](https://...)",
+```
 
 ### Examples
 
