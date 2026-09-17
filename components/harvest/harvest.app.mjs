@@ -1,7 +1,5 @@
 import constants from "./common/constants.mjs";
-import {
-  axios, ConfigurationError,
-} from "@pipedream/platform";
+import { axios } from "@pipedream/platform";
 import retry from "async-retry";
 
 export default {
@@ -66,14 +64,6 @@ export default {
       label: "Updated Since",
       description: "Only return records updated since this UTC datetime, e.g. `2019-06-25T15:30:00Z`.",
       optional: true,
-    },
-    perPage: {
-      type: "integer",
-      label: "Per Page",
-      description: "Number of records per page (1-100).",
-      optional: true,
-      min: 1,
-      max: 100,
     },
     accessRoles: {
       type: "string[]",
@@ -359,14 +349,12 @@ export default {
 
           return data;
         } catch (err) {
-          const { status = 500 } = err;
+          const status = err?.response?.status ?? err?.status ?? 500;
           if (!this._isRetriableStatusCode(status)) {
-            bail(`
-              Unexpected error (status code: ${status}):
-              ${JSON.stringify(err.response)}
-            `);
+            bail(err);
+            return;
           }
-          throw new ConfigurationError("Could not get data");
+          throw err;
         }
       }, retryOpts);
     },
