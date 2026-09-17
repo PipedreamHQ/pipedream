@@ -20,7 +20,7 @@ export default {
   key: "google_ads-create-or-update-campaign",
   name: "Create or Update Campaign",
   description: `Creates or updates a campaign. [See the documentation](${docLink})`,
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   annotations: {
     destructiveHint: true,
