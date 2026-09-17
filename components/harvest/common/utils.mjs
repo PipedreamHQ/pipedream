@@ -2,6 +2,11 @@ import constants from "./constants.mjs";
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+// Caps how long a single Retry-After wait can be, so a large or misbehaving header value
+// (e.g. an intermediate proxy or a monthly-limit response) can't block execution for
+// unpredictably long stretches across maxRetries attempts.
+const MAX_RETRY_AFTER_MS = 30000;
+
 /* Retries a single request on 429, honoring the response's Retry-After header (seconds)
    instead of guessing a backoff. Falls through unchanged for any other status/error. */
 const withRetryAfter = async (fn, maxRetries = 3) => {
@@ -14,9 +19,10 @@ const withRetryAfter = async (fn, maxRetries = 3) => {
         throw err;
       }
       const retryAfterSeconds = Number(err?.response?.headers?.["retry-after"]);
-      await sleep(Number.isFinite(retryAfterSeconds) && retryAfterSeconds > 0
-        ? retryAfterSeconds * 1000
-        : constants.RATE_LIMIT_BATCH_DELAY_MS);
+      const delayMs = Number.isFinite(retryAfterSeconds) && retryAfterSeconds > 0
+        ? Math.min(retryAfterSeconds * 1000, MAX_RETRY_AFTER_MS)
+        : constants.RATE_LIMIT_BATCH_DELAY_MS;
+      await sleep(delayMs);
     }
   }
 };

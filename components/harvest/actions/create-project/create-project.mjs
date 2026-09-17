@@ -1,5 +1,4 @@
 import harvest from "../../harvest.app.mjs";
-import constants from "../../common/constants.mjs";
 
 export default {
   key: "harvest-create-project",
@@ -29,32 +28,38 @@ export default {
       optional: false,
     },
     projectName: {
-      type: "string",
-      label: "Project Name",
-      description: "The name of the project.",
+      propDefinition: [
+        harvest,
+        "projectName",
+      ],
+      optional: false,
     },
     isBillable: {
-      type: "boolean",
-      label: "Is Billable",
-      description: "Whether the project is billable.",
+      propDefinition: [
+        harvest,
+        "isBillable",
+      ],
+      optional: false,
     },
     billBy: {
-      type: "string",
-      label: "Bill By",
-      description: "Method by which the project is invoiced. One of: `Project`, `Tasks`, `People`, `none`.",
-      options: constants.BILL_BY_OPTIONS,
+      propDefinition: [
+        harvest,
+        "billBy",
+      ],
+      optional: false,
     },
     budgetBy: {
-      type: "string",
-      label: "Budget By",
-      description: "Method by which the project is budgeted. `project`, `task`, and `person` budget in hours (set Budget); `project_cost` and `task_fees` budget in money (set Cost Budget); `none` sets no budget.",
-      options: constants.BUDGET_BY_OPTIONS,
+      propDefinition: [
+        harvest,
+        "budgetBy",
+      ],
+      optional: false,
     },
     code: {
-      type: "string",
-      label: "Code",
-      description: "The code associated with the project.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "code",
+      ],
     },
     isActive: {
       propDefinition: [
@@ -64,46 +69,46 @@ export default {
       description: "Whether the project is active.",
     },
     isFixedFee: {
-      type: "boolean",
-      label: "Is Fixed Fee",
-      description: "Whether the project is a fixed-fee project.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "isFixedFee",
+      ],
     },
     hourlyRate: {
-      type: "string",
-      label: "Hourly Rate",
-      description: "Rate for projects billed by Project Hourly Rate, decimal.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "projectHourlyRate",
+      ],
     },
     budget: {
-      type: "string",
-      label: "Budget",
-      description: "The budget in **hours**, decimal. Only applies when Budget By is `project`, `task`, or `person`.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "projectBudget",
+      ],
     },
     costBudget: {
-      type: "string",
-      label: "Cost Budget",
-      description: "The budget in **money**, decimal. Only applies when Budget By is `project_cost` or `task_fees`.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "costBudget",
+      ],
     },
     notes: {
-      type: "string",
-      label: "Notes",
-      description: "Notes about the project.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "projectNotes",
+      ],
     },
     startsOn: {
-      type: "string",
-      label: "Starts On",
-      description: "Start date, format `YYYY-MM-DD`.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "startsOn",
+      ],
     },
     endsOn: {
-      type: "string",
-      label: "Ends On",
-      description: "End date, format `YYYY-MM-DD`.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "endsOn",
+      ],
     },
   },
   async run({ $ }) {

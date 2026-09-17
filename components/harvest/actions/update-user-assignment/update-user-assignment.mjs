@@ -40,28 +40,28 @@ export default {
       description: "Whether the user assignment is active.",
     },
     isProjectManager: {
-      type: "boolean",
-      label: "Is Project Manager",
-      description: "Whether the user is a project manager.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "isProjectManager",
+      ],
     },
     useDefaultRates: {
-      type: "boolean",
-      label: "Use Default Rates",
-      description: "Whether to use the user's default rate.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "useDefaultRates",
+      ],
     },
     hourlyRate: {
-      type: "string",
-      label: "Hourly Rate",
-      description: "Custom hourly rate, decimal.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "userAssignmentHourlyRate",
+      ],
     },
     budget: {
-      type: "string",
-      label: "Budget",
-      description: "Budget, decimal.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "userAssignmentBudget",
+      ],
     },
   },
   async run({ $ }) {

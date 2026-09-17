@@ -43,7 +43,7 @@ export default {
     spentDate: {
       type: "string",
       label: "Spent Date",
-      description: "Date of the entry, format `YYYY-MM-DD`.",
+      description: "Date of the entry, format `YYYY-MM-DD`, e.g. `2026-09-17`.",
       optional: true,
     },
     startedTime: {

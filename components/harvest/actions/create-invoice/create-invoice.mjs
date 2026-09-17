@@ -28,40 +28,41 @@ export default {
       optional: false,
     },
     subject: {
-      type: "string",
-      label: "Subject",
-      description: "The invoice subject.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "subject",
+      ],
     },
     number: {
-      type: "string",
-      label: "Number",
-      description: "The invoice number. Defaults to the next sequential number.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "invoiceNumber",
+      ],
+      description: "The invoice number, e.g. `1000`. Defaults to the next sequential number if omitted.",
     },
     purchaseOrder: {
-      type: "string",
-      label: "Purchase Order",
-      description: "The purchase order number.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "purchaseOrder",
+      ],
     },
     tax: {
-      type: "string",
-      label: "Tax",
-      description: "First tax rate percentage, decimal.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "tax",
+      ],
     },
     discount: {
-      type: "string",
-      label: "Discount",
-      description: "Discount percentage, decimal.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "discount",
+      ],
     },
     notes: {
-      type: "string",
-      label: "Notes",
-      description: "Notes about the invoice.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "invoiceNotes",
+      ],
     },
     currency: {
       type: "string",
@@ -70,16 +71,16 @@ export default {
       optional: true,
     },
     issueDate: {
-      type: "string",
-      label: "Issue Date",
-      description: "Issue date, `YYYY-MM-DD`.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "issueDate",
+      ],
     },
     dueDate: {
-      type: "string",
-      label: "Due Date",
-      description: "Due date, `YYYY-MM-DD`, e.g. `2026-09-30`.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "dueDate",
+      ],
     },
     lineItems: {
       type: "string",

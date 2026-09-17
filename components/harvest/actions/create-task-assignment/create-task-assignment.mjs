@@ -40,22 +40,22 @@ export default {
       description: "Whether the task assignment is active.",
     },
     billable: {
-      type: "boolean",
-      label: "Billable",
-      description: "Whether the task assignment is billable.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "billable",
+      ],
     },
     hourlyRate: {
-      type: "string",
-      label: "Hourly Rate",
-      description: "Rate used when the project's bill_by is Tasks, decimal.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "taskAssignmentHourlyRate",
+      ],
     },
     budget: {
-      type: "string",
-      label: "Budget",
-      description: "Budget used when the project's budget_by is task or task_fees, decimal.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "taskAssignmentBudget",
+      ],
     },
   },
   async run({ $ }) {

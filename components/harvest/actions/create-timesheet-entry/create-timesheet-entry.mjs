@@ -39,7 +39,7 @@ export default {
     spentDate: {
       type: "string",
       label: "Spent date (YYYY-MM-DD)",
-      description: "The ISO 8601 formatted date on which the time entry was spent. Example: 2019-07-26",
+      description: "The ISO 8601 formatted date on which the time entry was spent, e.g. `2019-07-26`.",
     },
     userId: {
       propDefinition: [
@@ -72,6 +72,10 @@ export default {
 
     if (this.endedTime && !isValidTime(this.endedTime)) {
       throw new ConfigurationError("Invalid end time. Ensure format is (H:MM am/pm)");
+    }
+
+    if (this.endedTime && !this.startedTime) {
+      throw new ConfigurationError("Started Time is required when Ended Time is set");
     }
 
     const params = removeNullEntries({

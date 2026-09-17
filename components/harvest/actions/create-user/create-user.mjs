@@ -21,31 +21,38 @@ export default {
       ],
     },
     firstName: {
-      type: "string",
-      label: "First Name",
-      description: "The user's first name.",
+      propDefinition: [
+        harvest,
+        "firstName",
+      ],
+      optional: false,
     },
     lastName: {
-      type: "string",
-      label: "Last Name",
-      description: "The user's last name.",
+      propDefinition: [
+        harvest,
+        "lastName",
+      ],
+      optional: false,
     },
     email: {
-      type: "string",
-      label: "Email",
-      description: "The user's email address.",
+      propDefinition: [
+        harvest,
+        "email",
+      ],
+      optional: false,
     },
     timezone: {
-      type: "string",
-      label: "Timezone",
-      description: "The user's timezone. Defaults to the company timezone.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "timezone",
+      ],
+      description: "The user's IANA timezone name, e.g. `America/Chicago`. Defaults to the company timezone if omitted.",
     },
     isContractor: {
-      type: "boolean",
-      label: "Is Contractor",
-      description: "Whether the user is a contractor.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "isContractor",
+      ],
     },
     isActive: {
       propDefinition: [
@@ -55,21 +62,21 @@ export default {
       description: "Whether the user is active.",
     },
     weeklyCapacity: {
-      type: "integer",
-      label: "Weekly Capacity",
-      description: "Expected weekly working capacity in seconds.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "weeklyCapacity",
+      ],
     },
     defaultHourlyRate: {
-      type: "string",
-      label: "Default Hourly Rate",
-      description: "Default hourly rate, decimal.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "defaultHourlyRate",
+      ],
     },
     costRate: {
       type: "string",
       label: "Cost Rate",
-      description: "Cost rate, decimal.",
+      description: "Cost rate, decimal, e.g. `100` or `100.00`.",
       optional: true,
     },
     accessRoles: {

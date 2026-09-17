@@ -33,52 +33,52 @@ export default {
       ],
     },
     subject: {
-      type: "string",
-      label: "Subject",
-      description: "The invoice subject.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "subject",
+      ],
     },
     number: {
-      type: "string",
-      label: "Number",
-      description: "The invoice number.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "invoiceNumber",
+      ],
     },
     purchaseOrder: {
-      type: "string",
-      label: "Purchase Order",
-      description: "The purchase order number.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "purchaseOrder",
+      ],
     },
     tax: {
-      type: "string",
-      label: "Tax",
-      description: "First tax rate percentage, decimal.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "tax",
+      ],
     },
     discount: {
-      type: "string",
-      label: "Discount",
-      description: "Discount percentage, decimal.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "discount",
+      ],
     },
     notes: {
-      type: "string",
-      label: "Notes",
-      description: "Notes about the invoice.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "invoiceNotes",
+      ],
     },
     issueDate: {
-      type: "string",
-      label: "Issue Date",
-      description: "Issue date, `YYYY-MM-DD`.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "issueDate",
+      ],
     },
     dueDate: {
-      type: "string",
-      label: "Due Date",
-      description: "Due date, `YYYY-MM-DD`.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "dueDate",
+      ],
     },
     lineItems: {
       type: "string",

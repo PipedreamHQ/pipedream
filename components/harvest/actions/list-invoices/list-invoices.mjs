@@ -43,13 +43,13 @@ export default {
     from: {
       type: "string",
       label: "From",
-      description: "Only return invoices with an issue_date on or after this date, `YYYY-MM-DD`.",
+      description: "Only return invoices with an issue_date on or after this date, `YYYY-MM-DD`, e.g. `2026-09-01`.",
       optional: true,
     },
     to: {
       type: "string",
       label: "To",
-      description: "Only return invoices with an issue_date on or before this date, `YYYY-MM-DD`.",
+      description: "Only return invoices with an issue_date on or before this date, `YYYY-MM-DD`, e.g. `2026-09-30`.",
       optional: true,
     },
     state: {

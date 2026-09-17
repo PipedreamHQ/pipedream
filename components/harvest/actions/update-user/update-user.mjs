@@ -28,34 +28,34 @@ export default {
       optional: false,
     },
     firstName: {
-      type: "string",
-      label: "First Name",
-      description: "The user's first name.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "firstName",
+      ],
     },
     lastName: {
-      type: "string",
-      label: "Last Name",
-      description: "The user's last name.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "lastName",
+      ],
     },
     email: {
-      type: "string",
-      label: "Email",
-      description: "The user's email address.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "email",
+      ],
     },
     timezone: {
-      type: "string",
-      label: "Timezone",
-      description: "The user's timezone.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "timezone",
+      ],
     },
     isContractor: {
-      type: "boolean",
-      label: "Is Contractor",
-      description: "Whether the user is a contractor.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "isContractor",
+      ],
     },
     isActive: {
       propDefinition: [
@@ -65,16 +65,16 @@ export default {
       description: "Whether the user is active.",
     },
     weeklyCapacity: {
-      type: "integer",
-      label: "Weekly Capacity",
-      description: "Expected weekly working capacity in seconds.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "weeklyCapacity",
+      ],
     },
     defaultHourlyRate: {
-      type: "string",
-      label: "Default Hourly Rate",
-      description: "Default hourly rate, decimal.",
-      optional: true,
+      propDefinition: [
+        harvest,
+        "defaultHourlyRate",
+      ],
     },
     accessRoles: {
       propDefinition: [
