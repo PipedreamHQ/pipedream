@@ -29,7 +29,11 @@ export default {
       id,
       name,
     }));
-    $.export("$summary", `Successfully fetched ${modules.length} module${modules.length === 1 ? "" : "s"}`);
+    $.export("$summary", `Successfully fetched ${modules.length} module${
+      modules.length === 1
+        ? ""
+        : "s"
+    }`);
     return modules;
   },
 };

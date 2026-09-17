@@ -40,7 +40,11 @@ export default {
       id,
       name,
     }));
-    $.export("$summary", `Successfully fetched ${requirements.length} requirement${requirements.length === 1 ? "" : "s"}`);
+    $.export("$summary", `Successfully fetched ${requirements.length} requirement${
+      requirements.length === 1
+        ? ""
+        : "s"
+    }`);
     return requirements;
   },
 };

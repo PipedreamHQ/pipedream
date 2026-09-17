@@ -55,10 +55,15 @@ export default {
     const result = this.fields?.length
       ? response?.map((defect) => ({
         ...defect,
-        properties: defect.properties?.filter(({ field_name: fieldName }) => this.fields.includes(fieldName)),
+        properties: defect.properties?.filter(({ field_name: fieldName }) =>
+          this.fields.includes(fieldName)),
       }))
       : response;
-    $.export("$summary", `Successfully fetched ${result?.length ?? 0} defect${(result?.length ?? 0) === 1 ? "" : "s"}`);
+    $.export("$summary", `Successfully fetched ${result?.length ?? 0} defect${
+      (result?.length ?? 0) === 1
+        ? ""
+        : "s"
+    }`);
     return result;
   },
 };

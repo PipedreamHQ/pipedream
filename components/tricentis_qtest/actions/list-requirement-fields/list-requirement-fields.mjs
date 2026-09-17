@@ -35,7 +35,11 @@ export default {
         field[name],
       ])))
       : response;
-    $.export("$summary", `Successfully fetched ${result?.length ?? 0} requirement field${(result?.length ?? 0) === 1 ? "" : "s"}`);
+    $.export("$summary", `Successfully fetched ${result?.length ?? 0} requirement field${
+      (result?.length ?? 0) === 1
+        ? ""
+        : "s"
+    }`);
     return result;
   },
 };

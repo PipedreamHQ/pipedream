@@ -23,7 +23,11 @@ export default {
       label: name,
       value: id,
     }));
-    $.export("$summary", `Successfully retrieved ${options.length} project${options.length === 1 ? "" : "s"}`);
+    $.export("$summary", `Successfully retrieved ${options.length} project${
+      options.length === 1
+        ? ""
+        : "s"
+    }`);
     return options;
   },
 };
