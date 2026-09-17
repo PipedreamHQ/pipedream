@@ -3,14 +3,15 @@ import tricentisQtest from "../../tricentis_qtest.app.mjs";
 export default {
   key: "tricentis_qtest-get-defect",
   name: "Get Defect",
-  description: "Get details of a defect. [See the documentation](https://documentation.tricentis.com/qtest/od/en/content/apis/apis/defect_apis.htm#GetRecentlyUpdatedDefects)",
-  version: "0.0.2",
+  description: "Get full details of a specific defect by ID. Use **List Defects** to find the defect ID and **List Defect Fields** to interpret field IDs in the response. Example: `projectId: 1, defectId: \"201\"` → returns `{id: 201, properties: [{field_id: 1, field_value: \"Login crash\"}, {field_id: 2, field_value: \"New\"}]}`. [See the documentation](https://documentation.tricentis.com/qtest/od/en/content/apis/apis/defect_apis.htm#GetRecentlyUpdatedDefects)",
+  version: "0.0.3",
+  type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
-  type: "action",
   props: {
     tricentisQtest,
     projectId: {
@@ -23,21 +24,16 @@ export default {
       propDefinition: [
         tricentisQtest,
         "defectId",
-        ({ projectId }) => ({
-          projectId,
-        }),
       ],
     },
   },
   async run({ $ }) {
-    const {
-      tricentisQtest, ...args
-    } = this;
-    const response = await tricentisQtest.getDefect({
+    const response = await this.tricentisQtest.getDefect({
       $,
-      ...args,
+      projectId: this.projectId,
+      defectId: this.defectId,
     });
-    $.export("$summary", `Successfully fetched defect (ID: ${args.defectId})`);
+    $.export("$summary", `Successfully fetched defect (ID: ${this.defectId})`);
     return response;
   },
 };

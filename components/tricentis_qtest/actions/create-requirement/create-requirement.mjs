@@ -1,19 +1,18 @@
-import {
-  getFieldProps as additionalProps, getProperties,
-} from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 import tricentisQtest from "../../tricentis_qtest.app.mjs";
 
 export default {
   key: "tricentis_qtest-create-requirement",
   name: "Create Requirement",
-  description: "Create a new requirement. [See the documentation](https://documentation.tricentis.com/qtest/od/en/content/apis/apis/requirement_apis.htm#CreateARequirement)",
-  version: "0.0.2",
+  description: "Create a new requirement under a parent module in a qTest project. Use **List Project ID Options** for the project ID, **List Modules** for the parent module ID, and **List Requirement Fields** to discover field IDs for the Properties parameter. Example: `projectId: 1, parentId: \"10\", requirementName: \"User can reset password\", properties: [{\"field_id\": 3, \"field_value\": \"1\"}]` → returns `{id: 103, name: \"User can reset password\", ...}`. [See the documentation](https://documentation.tricentis.com/qtest/od/en/content/apis/apis/requirement_apis.htm#CreateARequirement)",
+  version: "1.0.0",
+  type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
-  type: "action",
   props: {
     tricentisQtest,
     projectId: {
@@ -26,38 +25,36 @@ export default {
       propDefinition: [
         tricentisQtest,
         "parentId",
-        ({ projectId }) => ({
-          projectId,
-        }),
       ],
-      reloadProps: true,
     },
-    name: {
+    requirementName: {
       type: "string",
-      label: "Name",
-      description: "Requirement name",
+      label: "Requirement Name",
+      description: "The name of the new requirement",
     },
-  },
-  additionalProps,
-  methods: {
-    getDataFields() {
-      return this.tricentisQtest.getRequirementFields(this.projectId);
+    properties: {
+      type: "string",
+      label: "Properties",
+      description: "A JSON array of field properties to set on the requirement. Use the **List Requirement Fields** action to discover available field IDs. Example: `[{\"field_id\": 3, \"field_value\": \"1\"}]`",
+      optional: true,
     },
-    getProperties,
   },
   async run({ $ }) {
-    const { // eslint-disable-next-line no-unused-vars
-      tricentisQtest, projectId, parentId, name, getProperties, getDataFields, ...fields
-    } = this;
-    const response = await tricentisQtest.createRequirement({
+    let properties;
+    try {
+      properties = this.properties && JSON.parse(this.properties);
+    } catch (error) {
+      throw new ConfigurationError(`\`Properties\` is not valid JSON: ${error.message}`);
+    }
+    const response = await this.tricentisQtest.createRequirement({
       $,
-      projectId,
+      projectId: this.projectId,
       params: {
-        parentId,
+        parentId: this.parentId,
       },
       data: {
-        name,
-        properties: getProperties(fields),
+        name: this.requirementName,
+        properties,
       },
     });
     $.export("$summary", `Successfully created requirement (ID: ${response.id})`);
