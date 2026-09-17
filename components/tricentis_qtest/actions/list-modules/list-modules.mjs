@@ -15,7 +15,7 @@ function flattenModules(modules) {
 export default {
   key: "tricentis_qtest-list-modules",
   name: "List Modules",
-  description: "List all modules in a qTest project, including nested submodules. Use this to find module IDs to use as the Parent ID when creating requirements. Example: `projectId: 1` → returns `[{id: 10, name: \"Authentication\"}, {id: 11, name: \"Checkout\"}]`. [See the documentation](https://docs.tricentis.com/qtest-saas/content/apis/apis/module_apis.htm#get-all-modules-under-root-or-a-specific-module)",
+  description: "List all modules in a qTest project, including nested submodules. Use **List Project ID Options** for the project ID. Use this to find module IDs to use as the Parent ID in **Create Requirement**. Example: `projectId: 1` → returns `[{id: 10, name: \"Authentication\"}, {id: 11, name: \"Checkout\"}]`. [See the documentation](https://docs.tricentis.com/qtest-saas/content/apis/apis/module_apis.htm#get-all-modules-under-root-or-a-specific-module)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
