@@ -4,7 +4,7 @@ export default {
   key: "google_ads-list-keywords",
   name: "List Keywords",
   description: "List keyword criteria for a customer account. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/GoogleAdsService/Search?transport=rest)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
