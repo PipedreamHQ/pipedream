@@ -12,7 +12,7 @@ export default {
     + " Supports plain text with Slack mrkdwn formatting and Block Kit blocks."
     + " Posts as the authenticated user by default; set `sendAsBot` to `true` to post as the Slack app's bot user instead."
     + " [See the documentation](https://api.slack.com/methods/chat.postMessage)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   ai: "optimized",
   annotations: {
