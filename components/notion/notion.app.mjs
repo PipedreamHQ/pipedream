@@ -40,7 +40,7 @@ export default {
     blockId: {
       type: "string",
       label: "Block ID",
-      description: "The ID of the block to act on. A Notion page is itself a block, so this can also be a page ID. Use the **Search** action to resolve a page name into an ID, or the **Retrieve Page Content** action to list the child block IDs within a page.",
+      description: "The ID of the block to act on, e.g. `1a2b3c4d-5e6f-7890-abcd-ef1234567890` (a 32-character UUID, with or without dashes). A Notion page is itself a block, so this can also be a page ID. Use the **Search** action to resolve a page name into an ID, or the **Retrieve Page Content** action to list the child block IDs within a page.",
     },
     propertyId: {
       type: "string",

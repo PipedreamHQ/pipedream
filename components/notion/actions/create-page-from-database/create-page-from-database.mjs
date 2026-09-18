@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import NOTION_ICONS from "../../common/notion-icons.mjs";
 import utils from "../../common/utils.mjs";
 import notion from "../../notion.app.mjs";
@@ -21,7 +22,7 @@ export default {
     parentDataSource: {
       type: "string",
       label: "Parent Data Source ID",
-      description: "The ID of the parent data source (database) to add the page to. Use the **Search** action with `filter: data_source` to resolve a database name into its data source ID.",
+      description: "The ID of the parent data source (database) to add the page to, e.g. `8debdc4a-c0c6-43b7-b15e-be8f1818f405` (a 32-character UUID, with or without dashes). Use the **Search** action with `filter: data_source` to resolve a database name into its data source ID.",
     },
     properties: {
       type: "object",
@@ -63,7 +64,7 @@ export default {
     templateId: {
       type: "string",
       label: "Template ID",
-      description: "The ID of the template to apply. Required only when `Template Type` is `template_id`.",
+      description: "The ID of the template to apply, e.g. `1a2b3c4d-5e6f-7890-abcd-ef1234567890` (a 32-character UUID). Required only when `Template Type` is `template_id`.",
       optional: true,
     },
   },
@@ -92,16 +93,33 @@ export default {
     const {
       children, ...page
     } = this.buildPage(parentPage);
-    const data = this.templateId
-      ? {
+
+    // A template ("default" or "template_id") owns the page body — Notion rejects
+    // `children` in that request — so only the "none" path sends page content.
+    const usesTemplate = this.templateType === "default" || this.templateType === "template_id";
+    let data;
+    if (this.templateType === "template_id") {
+      if (!this.templateId) {
+        throw new ConfigurationError("`Template ID` is required when `Template Type` is `template_id`.");
+      }
+      data = {
         template: {
-          type: this.templateType,
+          type: "template_id",
           template_id: this.templateId,
         },
-      }
-      : {
+      };
+    } else if (this.templateType === "default") {
+      data = {
+        template: {
+          type: "default",
+        },
+      };
+    } else {
+      data = {
         children: children.slice(0, MAX_BLOCKS),
       };
+    }
+
     const response = await this.notion.createPage({
       ...data,
       ...page,
@@ -109,10 +127,12 @@ export default {
         data_source_id: this.parentDataSource,
       },
     });
-    let remainingBlocks = children.slice(MAX_BLOCKS);
-    while (remainingBlocks.length > 0) {
-      await this.notion.appendBlock(response.id, remainingBlocks.slice(0, MAX_BLOCKS));
-      remainingBlocks = remainingBlocks.slice(MAX_BLOCKS);
+    if (!usesTemplate) {
+      let remainingBlocks = children.slice(MAX_BLOCKS);
+      while (remainingBlocks.length > 0) {
+        await this.notion.appendBlock(response.id, remainingBlocks.slice(0, MAX_BLOCKS));
+        remainingBlocks = remainingBlocks.slice(MAX_BLOCKS);
+      }
     }
     $.export("$summary", "Created page successfully");
     return response;
