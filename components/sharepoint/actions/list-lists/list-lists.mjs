@@ -1,10 +1,10 @@
 import sharepoint from "../../sharepoint.app.mjs";
 
 export default {
-  key: "sharepoint-list-drives",
-  name: "List Drives",
-  description: "List the drives available within a Microsoft Sharepoint site. [See the documentation](https://learn.microsoft.com/en-us/graph/api/drive-list?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.5",
+  key: "sharepoint-list-lists",
+  name: "List Lists",
+  description: "Get the collection of lists for a SharePoint site. Returns each list's ID, name, and template type. [See the documentation](https://learn.microsoft.com/en-us/graph/api/list-list?view=graph-rest-1.0&tabs=http)",
+  version: "0.0.1",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -17,7 +17,7 @@ export default {
     siteId: {
       propDefinition: [
         sharepoint,
-        "siteId",
+        "siteIdInput",
       ],
     },
     select: {
@@ -34,13 +34,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const drives = [];
+    const lists = [];
     let count = 0;
 
     const results = this.sharepoint.paginate({
-      fn: this.sharepoint.listSiteDrives,
+      fn: this.sharepoint.listLists,
       args: {
-        $,
         siteId: this.siteId,
         params: {
           select: this.select,
@@ -48,18 +47,18 @@ export default {
       },
     });
 
-    for await (const drive of results) {
-      drives.push(drive);
+    for await (const list of results) {
+      lists.push(list);
       count++;
       if (this.maxResults && count >= this.maxResults) {
         break;
       }
     }
 
-    $.export("$summary", `Successfully listed ${count} drive${count === 1
+    $.export("$summary", `Successfully listed ${count} list${count === 1
       ? ""
       : "s"}`);
 
-    return drives;
+    return lists;
   },
 };
