@@ -6,7 +6,7 @@ export default {
   key: "slab-list-posts",
   name: "List Posts",
   description: "List all posts in the Slab organization (no filter). This action is superseded by **Search Posts**, which accepts an optional Query string and can list all posts when Query is empty. Prefer **Search Posts** for new workflows. Returns `{ posts, pageInfo }` — `posts` is an array of post objects (e.g. `{\"id\": \"abc123\", \"title\": \"Engineering Onboarding Guide\", \"owner\": {\"id\": \"u1\", \"name\": \"Alice\"}, \"topics\": [{\"id\": \"abc12def\", \"name\": \"Engineering\"}]}`). Only forward pagination is supported: when `pageInfo.hasNextPage` is `true`, pass `pageInfo.endCursor` as **After** to retrieve the next page. Pass **Fields** (e.g. `[\"id\",\"title\",\"owner\"]`) to trim large fields like `content` from each post when only metadata is needed. [See the documentation](https://studio.apollographql.com/public/Slab/variant/current/schema/reference/objects/RootQueryType#search).",
-  version: "0.0.2",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -39,7 +39,7 @@ export default {
     const variables = {
       query: "",
       ...(this.first && {
-        first: parseInt(this.first),
+        first: this.first,
       }),
       ...(this.after && {
         after: this.after,

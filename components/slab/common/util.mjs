@@ -1,3 +1,13 @@
+import { ConfigurationError } from "@pipedream/platform";
+
+export function parseJson(value, label = "value") {
+  try {
+    return JSON.parse(value);
+  } catch (err) {
+    throw new ConfigurationError(`${label} must be valid JSON: ${err.message}`);
+  }
+}
+
 export function pickFields(post, fields) {
   if (!fields?.length) {
     return post;

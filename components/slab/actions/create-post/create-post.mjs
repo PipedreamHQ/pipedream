@@ -29,7 +29,7 @@ export default {
     content: {
       type: "string",
       label: "Content",
-      description: "Initial body text for the post, e.g. `# Welcome\\nThis guide covers environment setup, team norms, and key contacts.`. Accepts plain text. If provided, the body is set immediately after creation via the `updatePostContent` mutation as a Quill insert delta.",
+      description: "Initial body text for the post, e.g. `This guide covers environment setup, team norms, and key contacts.`. Inserted as literal plain text (Markdown is not rendered) after the title line via the `updatePostContent` mutation.",
       optional: true,
     },
     topicId: {
@@ -38,6 +38,12 @@ export default {
         "topicId",
       ],
       description: "Optional single Topic ID to place the new post under. Run **List Topics** first to obtain a valid ID. The schema accepts only one topicId at creation; use **Add Topic To Post** to add more.",
+      optional: true,
+    },
+    templateId: {
+      type: "string",
+      label: "Template ID",
+      description: "Optional ID of a Slab template to create the post from.",
       optional: true,
     },
     published: {
@@ -56,6 +62,7 @@ export default {
         variables: {
           title: this.title,
           topicId: this.topicId,
+          templateId: this.templateId,
         },
       },
     });

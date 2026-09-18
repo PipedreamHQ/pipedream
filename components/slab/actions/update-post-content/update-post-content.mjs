@@ -1,5 +1,7 @@
+import { ConfigurationError } from "@pipedream/platform";
 import slab from "../../slab.app.mjs";
 import { UPDATE_POST_CONTENT_MUTATION } from "../../common/queries.mjs";
+import { parseJson } from "../../common/util.mjs";
 
 export default {
   key: "slab-update-post-content",
@@ -25,12 +27,16 @@ export default {
     delta: {
       type: "string",
       label: "Delta",
-      description: "Quill delta describing the content change, as a JSON string wrapped in `{\"ops\":[...]}`. To preserve the post's title (its first content line), lead with `{\"retain\":N}` where N is that line's length in characters before your `insert`. Example (append after a 20-character title line): `{\"ops\":[{\"retain\":20},{\"insert\":\"\\nThis guide covers setup.\"}]}`. Example (replace a range, not touching the title): `{\"ops\":[{\"retain\":25},{\"delete\":3},{\"insert\":\"new\"}]}`. Validated with JSON.parse in run(), then sent to the API as a JSON string.",
+      description: "Quill delta describing the content change, as a JSON string wrapped in `{\"ops\":[...]}`. To preserve the post's title (its first content line), lead with `{\"retain\":N}` where N is that line's length in characters before your `insert`. Example (append after a 20-character title line): `{\"ops\":[{\"retain\":20},{\"insert\":\"\\nThis guide covers setup.\"}]}`. Example (replace a range, not touching the title): `{\"ops\":[{\"retain\":25},{\"delete\":3},{\"insert\":\"new\"}]}`. Validated as JSON with an `ops` array in run(), then sent to the API as a JSON string.",
     },
   },
   async run({ $ }) {
-    // The API rejects a native object for this Json! argument — it must be sent as a JSON string.
-    const delta = JSON.stringify(JSON.parse(this.delta));
+    const parsed = parseJson(this.delta, "Delta");
+    if (!Array.isArray(parsed?.ops)) {
+      throw new ConfigurationError("Delta must be a JSON string shaped like {\"ops\":[...]}, e.g. {\"ops\":[{\"retain\":20},{\"insert\":\"Body text\\n\"}]}");
+    }
+    // The API rejects a native object for this Json! argument, so it is sent as a JSON string.
+    const delta = JSON.stringify(parsed);
     const response = await this.slab._makeRequest({
       $,
       data: {

@@ -76,8 +76,8 @@ export const GET_POSTS_QUERY = `
 `;
 
 export const CREATE_POST_MUTATION = `
-  mutation CreatePost($title: String, $topicId: ID) {
-    createPost(title: $title, topicId: $topicId) {
+  mutation CreatePost($title: String, $topicId: ID, $templateId: ID) {
+    createPost(title: $title, topicId: $topicId, templateId: $templateId) {
       id
       title
       linkAccess
@@ -161,6 +161,18 @@ export const LIST_TOPICS_QUERY = `
       topics {
         id
         name
+      }
+    }
+  }
+`;
+
+export const LIST_USERS_QUERY = `
+  query ListUsers($includeDeactivated: Boolean) {
+    organization {
+      users(includeDeactivated: $includeDeactivated) {
+        id
+        name
+        email
       }
     }
   }

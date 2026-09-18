@@ -7,7 +7,7 @@ export default {
   key: "slab-get-posts",
   name: "Get Posts",
   description: "Get one or more Slab posts by their IDs, returning full post objects including content, owner, and associated topics. Use **Search Posts** first to discover post IDs; this action does not list or search. Accepts up to 100 IDs per call. Example: postIds `[\"abc123\"]` returns `[{\"id\": \"abc123\", \"title\": \"Engineering Onboarding Guide\", \"owner\": {\"id\": \"u1\", \"name\": \"Alice\"}, \"topics\": [{\"id\": \"abc12def\", \"name\": \"Engineering\"}], \"content\": \"...\"}]`. Pass **Fields** (e.g. `[\"id\",\"title\",\"owner\"]`) to trim large fields like `content` from each result when only metadata is needed. [See the documentation](https://studio.apollographql.com/public/Slab/variant/current/schema/reference/objects/RootQueryType#posts).",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "action",
   ai: "optimized",
   annotations: {

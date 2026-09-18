@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import slab from "../../slab.app.mjs";
 import { UPDATE_POST_MUTATION } from "../../common/queries.mjs";
 import { LINK_ACCESS_OPTIONS } from "../../common/constants.mjs";
@@ -32,7 +33,7 @@ export default {
     ownerId: {
       type: "string",
       label: "Owner ID",
-      description: "ID of the user to set as the post owner. There is no dedicated user-listing action — to discover a user's ID, call **Get Posts** or **Search Posts** on any post they own and read the `owner.id` field from the response (e.g. `u1`).",
+      description: "ID of the user to set as the post owner. Run **List Users** first to obtain a valid ID (e.g. `u1`).",
       optional: true,
     },
     archived: {
@@ -55,6 +56,17 @@ export default {
     },
   },
   async run({ $ }) {
+    const updates = [
+      this.linkAccess,
+      this.ownerId,
+      this.archived,
+      this.published,
+      this.bannerUrl,
+    ];
+    if (updates.every((value) => value === undefined || value === "")) {
+      throw new ConfigurationError("Provide at least one field to update: Link Access, Owner ID, Archived, Published, or Banner URL.");
+    }
+
     const response = await this.slab._makeRequest({
       $,
       data: {

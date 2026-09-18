@@ -15,10 +15,11 @@ export default {
       description: "ID of the topic to associate with the post. Run **List Topics** first to obtain the ID.",
     },
     first: {
-      type: "string",
+      type: "integer",
       label: "First",
-      description: "Maximum number of items to return when paginating forwards. Enter a number, e.g. `20`. Omit to use the API default page size.",
+      description: "Maximum number of posts to return per page (min 1), e.g. `20`. Omit to use the API default page size.",
       optional: true,
+      min: 1,
     },
     after: {
       type: "string",

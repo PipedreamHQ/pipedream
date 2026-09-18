@@ -6,7 +6,7 @@ export default {
   key: "slab-search-posts",
   name: "Search Posts",
   description: "List or search posts in the Slab organization via the GraphQL `search` endpoint. Leave Query empty to list all posts; provide a Query string to full-text search. This is the picker action agents should call to obtain post IDs for **Get Posts**, **Update Post**, **Add Topic To Post**, and **Remove Topic From Post**. Returns `{ posts, pageInfo }` — `posts` is an array of post objects (e.g. `{\"id\": \"abc123\", \"title\": \"Engineering Onboarding Guide\", \"owner\": {\"id\": \"u1\", \"name\": \"Alice\"}, \"topics\": [{\"id\": \"abc12def\", \"name\": \"Engineering\"}]}`). Only forward pagination is supported: when `pageInfo.hasNextPage` is `true`, pass `pageInfo.endCursor` as **After** to retrieve the next page. Pass **Fields** (e.g. `[\"id\",\"title\",\"owner\"]`) to trim large fields like `content` from each post when only metadata is needed. [See the documentation](https://studio.apollographql.com/public/Slab/variant/current/schema/reference/objects/RootQueryType#search).",
-  version: "0.0.2",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -45,7 +45,7 @@ export default {
     const variables = {
       query: this.query || "",
       ...(this.first && {
-        first: parseInt(this.first),
+        first: this.first,
       }),
       ...(this.after && {
         after: this.after,
