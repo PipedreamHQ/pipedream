@@ -4,7 +4,7 @@ import constants from "../../common/constants.mjs";
 
 export default {
   name: "Logging - Read Log Entries",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,6 +13,7 @@ export default {
   key: "google_cloud-logging-read-log-entries",
   description: "Read log entries from Google Cloud Logging, optionally scoped to a single log via `Log name`. The `Log name`, `Severity`, and `Filter` inputs are combined with `AND`, and up to `Max Results` entries are returned. [See the documentation](https://cloud.google.com/nodejs/docs/reference/logging/latest/logging/logging#_google_cloud_logging_Logging_getEntries_member_1_)",
   type: "action",
+  ai: "optimized",
   props: {
     googleCloud,
     logName: {

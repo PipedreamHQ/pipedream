@@ -15,7 +15,7 @@ export default {
     + " For `update`, if the new file attaches successfully but removing the old attachment then fails, the response includes a `deleteError` string alongside the successful attachment data — the request ends up with both files rather than losing either one, and the error is never masked as a full failure."
     + " By default the attachment is visible to the customer who raised the request (`public: true`); set `public` to `false` to attach an internal-only file."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-issueidorkey-attachment-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

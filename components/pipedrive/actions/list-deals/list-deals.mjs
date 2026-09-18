@@ -5,8 +5,9 @@ export default {
   key: "pipedrive-list-deals",
   name: "List Deals",
   description: "List deals in your Pipedrive account. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Deals#listDeals)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

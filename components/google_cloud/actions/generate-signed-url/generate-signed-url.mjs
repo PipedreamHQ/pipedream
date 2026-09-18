@@ -3,7 +3,7 @@ import constants from "../../common/constants.mjs";
 
 export default {
   name: "Generate Signed URL",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -12,6 +12,7 @@ export default {
   key: "google_cloud-generate-signed-url",
   description: "Generate a temporary signed URL that grants time-limited access to a Google Cloud Storage object, without requiring credentials. [See the documentation](https://cloud.google.com/nodejs/docs/reference/storage/latest/storage/file#_google_cloud_storage_File_getSignedUrl_member_1_)",
   type: "action",
+  ai: "optimized",
   props: {
     googleCloud,
     bucketName: {

@@ -6,13 +6,14 @@ export default {
   key: "msg91-launch-campaign",
   name: "Launch Campaign",
   description: "Launch a campaign using various communication channels (SMS, Email, WhatsApp, Voice, RCS). [See the documentation](https://docs.msg91.com/campaign/run-campaign)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     campaignSlug: {

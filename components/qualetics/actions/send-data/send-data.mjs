@@ -4,13 +4,14 @@ export default {
   key: "qualetics-send-data",
   name: "Send Data",
   description: "Send an event with data to the system. [See the documentation](https://docs.qualetics.com/rest-api-integration-to-send-data)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     qualetics,
     actor: {

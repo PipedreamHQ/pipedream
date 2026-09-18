@@ -5,13 +5,14 @@ export default {
   key: "adyen-submit-details",
   name: "Submit Additional Payment Details",
   description: "Submits additional details for a payment. [See the documentation](https://docs.adyen.com/api-explorer/Checkout/71/post/payments/details)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     details: {

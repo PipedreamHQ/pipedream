@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/bluesnap",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream BlueSnap Components",
   "main": "bluesnap.app.mjs",
   "keywords": [

@@ -4,13 +4,14 @@ export default {
   key: "docusign-void-envelope",
   name: "Void Envelope",
   description: "Void a DocuSign envelope that is still in process. Voiding cancels the envelope and prevents recipients from completing it. [See the documentation](https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/update/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     docusign,
     account: {

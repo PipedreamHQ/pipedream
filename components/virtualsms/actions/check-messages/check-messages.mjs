@@ -4,8 +4,9 @@ export default {
   key: "virtualsms-check-messages",
   name: "Check Messages",
   description: "Poll an active rental for any SMS messages received so far. Returns the current order state, including a `messages` array (each item has `sender`, `content`, `received_at`) when one or more SMS have arrived. For event-driven workflows prefer the **New SMS Received** trigger. [See the documentation](https://virtualsms.io/docs/api-reference/introduction)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

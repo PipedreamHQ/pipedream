@@ -4,13 +4,14 @@ import googleDocs from "../../google_docs.app.mjs";
 export default {
   key: "google_docs-write-table",
   name: "Write Table",
-  description: "Create a table and fill it with data in a single step. Provide the entire table (all rows and columns, including a header row) at once. Use this instead of inserting cells or text one at a time. The action places every value in the correct cell for you. Pass **Table Data** as a JSON array of arrays, one inner array per row, header row first when **Has Header Row** is set, e.g. `[[\"Name\",\"Role\"],[\"Ada\",\"Engineer\"]]`. Use **Find Document** to resolve a document's name to its ID, or **Insert Table** instead if you only need an empty grid to fill in later. Note: a table written this way is always static — the Google Docs API does not create or preserve a live link to a Google Sheet, even when this replaces a Sheets-linked table. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#InsertTableRequest)",
-  version: "0.0.4",
+  description: "Create a table and fill it with data in a single step. Provide the entire table (all rows and columns, including a header row) at once. Use this instead of inserting cells or text one at a time. The action places every value in the correct cell for you. Pass **Table Data** as a JSON array of arrays, one inner array per row, header row first when **Has Header Row** is set, e.g. `[[\"Name\",\"Role\"],[\"Ada\",\"Engineer\"]]`. Use **Find Document** to resolve a document's name to its ID, or **Insert Table** instead if you only need an empty grid to fill in later. In a multi-tab document, set **Tab ID** to choose which tab receives the table — without it the table goes into the document's first tab; use **List Tabs** to get the IDs. Note: a table written this way is always static — the Google Docs API does not create or preserve a live link to a Google Sheet, even when this replaces a Sheets-linked table. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#InsertTableRequest)",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
+  ai: "optimized",
   type: "action",
   props: {
     googleDocs,
@@ -38,6 +39,12 @@ export default {
         "position",
       ],
     },
+    tabId: {
+      propDefinition: [
+        googleDocs,
+        "contentTabId",
+      ],
+    },
   },
   async run({ $ }) {
     let rows;
@@ -59,10 +66,14 @@ export default {
       rows,
       position: this.position,
       hasHeaderRow: this.hasHeaderRow,
+      tabId: this.tabId,
     });
 
     const numColumns = rows.reduce((max, row) => Math.max(max, row.length), 0);
-    $.export("$summary", `Wrote a ${rows.length}x${numColumns} table into document ${this.documentId}`);
+    const target = this.tabId
+      ? `tab ${this.tabId} of document ${this.documentId}`
+      : `document ${this.documentId}`;
+    $.export("$summary", `Wrote a ${rows.length}x${numColumns} table into ${target}`);
     return document;
   },
 };

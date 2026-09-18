@@ -4,8 +4,9 @@ export default {
   key: "rendex-update-watch",
   name: "Update Watch",
   description: "Update a watch, including pausing or resuming it. Only the fields you set are changed. [See the documentation](https://rendex.dev/docs/watch#endpoints).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

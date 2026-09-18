@@ -11,8 +11,9 @@ export default {
     + " **Rate limit: 10 requests per project per day — combine all desired dimensions into a single call rather than issuing multiple requests.**"
     + " Results are limited to 1,000 rows with no pagination."
     + " [See the documentation](https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-data-export-api)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

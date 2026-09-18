@@ -5,8 +5,9 @@ export default {
   name: "Search Log Events",
   description:
     "Search Papertrail log events programmatically. Supports query syntax, system/group scope, time or ID bounds, limit, and tail mode. [See the documentation](https://www.papertrail.com/help/search-api/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

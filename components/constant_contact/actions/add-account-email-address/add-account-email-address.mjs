@@ -4,7 +4,7 @@ import constantContact from "../../constant_contact.app.mjs";
 export default {
   key: "constant_contact-add-account-email-address",
   name: "Add An Account Email Address",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -12,6 +12,7 @@ export default {
   },
   description: "Add a new email address to your Constant Contact account. This action sends a confirmation email to the new address. Once confirmed, the email address can be used in the `from_email` and `reply_to_email` fields of your email campaigns. [See the documentation](https://developer.constantcontact.com/api_reference/index.html#tag/Account-Services/operation/addAccountEmailAddress)",
   type: "action",
+  ai: "optimized",
   props: {
     constantContact,
     emailAddress: {

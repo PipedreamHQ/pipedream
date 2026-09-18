@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/viewdns_info",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream ViewDNS.info Components",
   "main": "viewdns_info.app.mjs",
   "keywords": [

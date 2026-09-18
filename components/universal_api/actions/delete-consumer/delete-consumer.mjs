@@ -5,7 +5,7 @@ export default {
   name: "Delete Consumer",
   description:
     "Permanently delete a consumer via the Platform API on Universal API. This is irreversible. Run **List Consumers** first to find the consumer ID. [See the documentation](https://docs.universalapi.io/reference/delete-consumer).",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   ai: "optimized",
   annotations: {

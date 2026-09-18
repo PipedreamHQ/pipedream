@@ -9,8 +9,9 @@ export default {
     + " Use **List Events** or **Get Event** to find the event ID."
     + " To propose a new time, pass `proposedNewTime` as a JSON string with `start` and `end` objects (each with `dateTime` in ISO 8601 format and `timeZone` as a Windows timezone name, e.g. `\"Pacific Standard Time\"`). Alternate-time proposals are only valid when the event has `allowNewTimeProposals: true` and `sendResponse` is `true`."
     + " [See the documentation](https://learn.microsoft.com/en-us/graph/api/event-decline?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

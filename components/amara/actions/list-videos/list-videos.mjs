@@ -7,7 +7,8 @@ export default {
   name: "List Videos",
   description: "List videos. [See the docs here](https://apidocs.amara.org/#list-videos)",
   type: "action",
-  version: "0.0.3",
+  ai: "optimized",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

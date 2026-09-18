@@ -6,13 +6,14 @@ export default {
   key: "bitget-spot-trade-batch-cancel-orders",
   name: "Spot - Trade - Batch Cancel Orders",
   description: "Cancel multiple spot orders in batch. Maximum 50 orders per request. [See the documentation](https://www.bitget.com/api-doc/spot/trade/Batch-Cancel-Orders)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     symbol: {
