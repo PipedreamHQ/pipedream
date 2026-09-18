@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import sharepoint from "../../sharepoint.app.mjs";
 
 export default {
@@ -40,6 +41,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!Object.keys(this.fields ?? {}).length) {
+      throw new ConfigurationError("Provide at least one field to update in `fields`.");
+    }
+
     const response = await this.sharepoint.updateItem({
       siteId: this.siteId,
       listId: this.listId,
