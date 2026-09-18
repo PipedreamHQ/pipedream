@@ -134,7 +134,7 @@ export default {
         remainingBlocks = remainingBlocks.slice(MAX_BLOCKS);
       }
     }
-    $.export("$summary", "Created page successfully");
+    $.export("$summary", `Created page ${response.id}`);
     return response;
   },
 };

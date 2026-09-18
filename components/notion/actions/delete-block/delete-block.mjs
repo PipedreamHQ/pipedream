@@ -8,7 +8,10 @@ export default {
   description: "Sets a Block object, including page blocks, to archived: true using the ID specified. Example: blockId `\"1a2b3c4d-...\"` → archives that block and returns the block object with `archived: true`. [See the documentation](https://developers.notion.com/reference/delete-a-block)",
   version: "0.0.12",
   annotations: {
-    destructiveHint: true,
+    // Notion's delete-a-block only archives (archived: true) — the block moves to
+    // Trash and is restorable, so per the guideline this reversible archive is not
+    // destructiveHint: true.
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
