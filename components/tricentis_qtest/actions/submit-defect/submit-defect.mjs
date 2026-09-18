@@ -5,7 +5,7 @@ import tricentisQtest from "../../tricentis_qtest.app.mjs";
 export default {
   key: "tricentis_qtest-submit-defect",
   name: "Submit Defect",
-  description: "Submit a new defect in a qTest project. Use **List Project ID Options** for the project ID and **List Defect Fields** to discover field IDs and required fields for the Properties parameter. Example: `projectId: 1, properties: \"[{\\\"field_id\\\": 1, \\\"field_value\\\": \\\"Button not clickable\\\"}, {\\\"field_id\\\": 2, \\\"field_value\\\": \\\"1\\\"}]\"` → returns `{id: 202, properties: [...]}`. [See the documentation](https://documentation.tricentis.com/qtest/od/en/content/apis/apis/defect_apis.htm#SubmitaDefect)",
+  description: "Submit a new defect in a qTest project. Use **List Project ID Options** for the project ID and **List Defect Fields** to discover field IDs and required fields for the Properties parameter. Example: `projectId: 1, properties: \"[{\\\"field_id\\\": 1, \\\"field_value\\\": \\\"Button not clickable\\\"}, {\\\"field_id\\\": 2, \\\"field_value\\\": \\\"1\\\"}]\"` → returns `{id: 202, properties: [...]}`. [See the documentation](https://docs.tricentis.com/qtest-saas/content/apis/apis/defect_apis.htm#submit-a-defect)",
   version: "1.0.0",
   type: "action",
   ai: "optimized",

@@ -7,7 +7,7 @@ export default {
     projectId: {
       type: "string",
       label: "Project ID",
-      description: "The ID of a project. Use the **List Project ID Options** action to retrieve available project IDs.",
+      description: "The ID of a project, e.g. `1`. Use the **List Project ID Options** action to retrieve available project IDs.",
     },
     parentId: {
       type: "string",

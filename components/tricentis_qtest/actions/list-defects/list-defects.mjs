@@ -45,23 +45,39 @@ export default {
       date.setDate(date.getDate() - 30);
       return date.toISOString();
     })();
-    const response = await this.tricentisQtest.getDefects({
-      $,
-      projectId: this.projectId,
-      params: {
-        startTime,
-        page: this.page,
-      },
-    });
+    const [
+      response,
+      defectFields,
+    ] = await Promise.all([
+      this.tricentisQtest.getDefects({
+        $,
+        projectId: this.projectId,
+        params: {
+          startTime,
+          page: this.page,
+        },
+      }),
+      this.tricentisQtest.getDefectFields({
+        $,
+        projectId: this.projectId,
+      }),
+    ]);
     const fields = this.fields?.length
       ? this.fields
       : [
         "Summary",
       ];
+    // Each defect's properties are {field_id, field_value} — field_id must be
+    // resolved against the project's defect fields to filter by the field label.
+    const fieldIds = new Set(
+      (defectFields ?? [])
+        .filter(({ label }) => fields.includes(label))
+        .map(({ id }) => id),
+    );
     const result = response?.map((defect) => ({
       ...defect,
-      properties: defect.properties?.filter(({ field_name: fieldName }) =>
-        fields.includes(fieldName)),
+      properties: defect.properties?.filter(({ field_id: fieldId }) =>
+        fieldIds.has(fieldId)),
     }));
     $.export("$summary", `Successfully fetched ${result?.length ?? 0} defect${
       (result?.length ?? 0) === 1

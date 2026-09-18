@@ -3,7 +3,7 @@ import tricentisQtest from "../../tricentis_qtest.app.mjs";
 export default {
   key: "tricentis_qtest-list-requirement-fields",
   name: "List Requirement Fields",
-  description: "List all available fields for requirements in a qTest project, including field IDs, types, and allowed values. Use this to discover field IDs before creating or updating requirements. Pass `fields` (e.g. `[\"id\", \"label\", \"required\"]`) to keep only those attributes per field — some fields' `allowed_values` lists are long, so omitting them when you only need the field ID/label keeps the response small. Example: `projectId: 1` → returns `[{id: 3, label: \"Priority\", attribute_type: \"String\", allowed_values: [{label: \"High\", value: \"1\"}, {label: \"Medium\", value: \"2\"}], required: false}]`. [See the documentation](https://documentation.tricentis.com/qtest/od/en/content/apis/apis/requirement_apis.htm)",
+  description: "List all available fields for requirements in a qTest project, including field IDs, types, and allowed values. Use this to discover field IDs before creating or updating requirements. Pass `fields` (e.g. `[\"id\", \"label\", \"required\"]`) to keep only those attributes per field — some fields' `allowed_values` lists are long, so omitting them when you only need the field ID/label keeps the response small. Example: `projectId: 1` → returns `[{id: 3, label: \"Priority\", attribute_type: \"String\", allowed_values: [{label: \"High\", value: \"1\"}, {label: \"Medium\", value: \"2\"}], required: false}]`. [See the documentation](https://docs.tricentis.com/qtest-saas/content/apis/apis/requirement_apis.htm#get-all-requirement-fields)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",

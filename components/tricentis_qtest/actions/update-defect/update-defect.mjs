@@ -5,7 +5,7 @@ import tricentisQtest from "../../tricentis_qtest.app.mjs";
 export default {
   key: "tricentis_qtest-update-defect",
   name: "Update Defect",
-  description: "Update an existing defect in a qTest project. Use **List Defects** to find the defect ID and **List Defect Fields** to discover field IDs for the Properties parameter. Example: `projectId: 1, defectId: \"201\", properties: \"[{\\\"field_id\\\": 2, \\\"field_value\\\": \\\"2\\\"}]\"` → returns the updated defect object. [See the documentation](https://documentation.tricentis.com/qtest/od/en/content/apis/apis/defect_apis.htm#UpdateADefect)",
+  description: "Update an existing defect in a qTest project. Use **List Defects** to find the defect ID and **List Defect Fields** to discover field IDs for the Properties parameter. Example: `projectId: 1, defectId: \"201\", properties: \"[{\\\"field_id\\\": 2, \\\"field_value\\\": \\\"2\\\"}]\"` → returns the updated defect object. [See the documentation](https://docs.tricentis.com/qtest-saas/content/apis/apis/defect_apis.htm#update-a-defect)",
   version: "1.0.0",
   type: "action",
   ai: "optimized",
