@@ -8,7 +8,7 @@ export default {
   key: "google_ads-send-offline-conversion",
   name: "Send Offline Conversion",
   description: "Create a Google Ads conversion action. To record conversions against an upload-type action, use **Upload Click Conversion** or **Upload Call Conversion**. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/ConversionAction)",
-  version: "0.0.12",
+  version: "0.0.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
