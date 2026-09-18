@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/gandr",
+  "version": "0.1.0",
+  "description": "Pipedream Gandr Components",
+  "main": "gandr.app.mjs",
+  "keywords": [
+    "pipedream",
+    "gandr"
+  ],
+  "homepage": "https://pipedream.com/apps/gandr",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.4.0"
+  }
+}
