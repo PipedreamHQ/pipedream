@@ -5,7 +5,7 @@ export default {
   key: "sharepoint-update-item",
   name: "Update Item",
   description: "Update an existing item in a SharePoint list. Provide only the fields you want to change — omitted fields are left unchanged. [See the documentation](https://learn.microsoft.com/en-us/graph/api/listitem-update?view=graph-rest-1.0&tabs=http)",
-  version: "0.1.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
