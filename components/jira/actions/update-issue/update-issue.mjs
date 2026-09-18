@@ -75,13 +75,11 @@ export default {
       }
       : undefined;
 
-    const params = utils.reduceProperties({
-      additionalProps: {
-        notifyUsers,
-        overrideScreenSecurity,
-        overrideEditableFlag,
-      },
-    });
+    const params = {
+      notifyUsers,
+      overrideScreenSecurity,
+      overrideEditableFlag,
+    };
 
     await app.updateIssue({
       $,
@@ -89,10 +87,10 @@ export default {
       issueIdOrKey,
       params,
       data: {
-        fields: this.formatAdfFields(utils.parseObject(additionalProperties)),
-        historyMetadata: utils.parseObject(historyMetadata),
+        fields: this.formatAdfFields(this.parseFields(additionalProperties)),
+        historyMetadata: historyMetadata && utils.parseObject(historyMetadata),
         properties: utils.parse(properties),
-        update: utils.parseObject(update),
+        update: update && utils.parseObject(update),
       },
       transition,
     });

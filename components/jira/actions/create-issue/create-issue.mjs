@@ -2,6 +2,11 @@ import utils from "../../common/utils.mjs";
 import common from "../common/issue.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
+const {
+  additionalProperties: commonAdditionalProperties,
+  ...commonPropsRest
+} = common.props;
+
 export default {
   ...common,
   key: "jira-create-issue",
@@ -16,7 +21,7 @@ export default {
   type: "action",
   ai: "optimized",
   props: {
-    ...common.props,
+    ...commonPropsRest,
     updateHistory: {
       type: "boolean",
       label: "Update History",
@@ -34,9 +39,9 @@ export default {
       description: "An ID identifying the type of issue to create. Use the **Get Issue Types** action to look up issue type IDs for the project.",
     },
     additionalProperties: {
-      ...common.props.additionalProperties,
+      ...commonAdditionalProperties,
       label: "Additional properties",
-      description: `${common.props.additionalProperties.description} Required — at least one field (e.g. \`summary\`) must be provided to create the issue.`,
+      description: `${commonAdditionalProperties.description} Required — at least one field (e.g. \`summary\`) must be provided to create the issue.`,
       optional: false,
     },
   },
@@ -58,11 +63,9 @@ export default {
       throw new ConfigurationError("Please provide at least one additional property");
     }
 
-    const params = utils.reduceProperties({
-      additionalProps: {
-        updateHistory,
-      },
-    });
+    const params = {
+      updateHistory,
+    };
 
     const response = await this.app.createIssue({
       $,
@@ -70,7 +73,7 @@ export default {
       params,
       data: {
         fields: {
-          ...this.formatAdfFields(utils.parseObject(additionalProperties)),
+          ...this.formatAdfFields(this.parseFields(additionalProperties)),
           project: {
             id: projectId,
           },

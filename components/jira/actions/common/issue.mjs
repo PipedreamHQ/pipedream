@@ -37,6 +37,41 @@ export default {
   },
   methods: {
     /**
+     * Parses `additionalProperties` into Jira field values. Nested JSON strings
+     * (objects/arrays) are parsed; all other values are passed through unchanged,
+     * so plain text like "Bug: login fails" or "2024" is not altered.
+     */
+    parseFields(fields) {
+      const obj = typeof fields === "string"
+        ? JSON.parse(fields)
+        : fields;
+      return Object.fromEntries(Object.entries(obj ?? {}).map(([
+        key,
+        value,
+      ]) => {
+        if (typeof value !== "string") {
+          return [
+            key,
+            value,
+          ];
+        }
+        try {
+          const parsed = JSON.parse(value);
+          return [
+            key,
+            parsed !== null && typeof parsed === "object"
+              ? parsed
+              : value,
+          ];
+        } catch {
+          return [
+            key,
+            value,
+          ];
+        }
+      }));
+    },
+    /**
      * Jira requires `description` and `environment` as Atlassian Document Format
      * objects rather than plain strings. Converts any plain-string values for those
      * keys so callers can pass ordinary text through `additionalProperties`.
