@@ -43,7 +43,7 @@ export default {
     templateId: {
       type: "string",
       label: "Template ID",
-      description: "Optional ID of a Slab template to create the post from.",
+      description: "Optional ID of an existing Slab post to use as a template for the new post (e.g. `abc123`). Any post can serve as a template. Run **List Posts** first to obtain a valid post ID.",
       optional: true,
     },
     published: {
