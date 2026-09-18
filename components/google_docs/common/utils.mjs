@@ -1,5 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
-import { POINTS } from "./constants.mjs";
+import {
+  DOCUMENT_FIELDS, POINTS,
+} from "./constants.mjs";
 
 function getTextContentFromDocument(content) {
   let textContent = "";
@@ -251,6 +253,69 @@ function parseRfc3339(value, label) {
   return new Date(parsed).toISOString();
 }
 
+// Split a field mask on its top-level commas only, so a nested selection like
+// `tabs(documentTab(body))` stays in one piece.
+function splitFieldMask(fields) {
+  const parts = [];
+  let depth = 0;
+  let current = "";
+  for (const char of String(fields)) {
+    if (char === "(") {
+      depth += 1;
+    } else if (char === ")") {
+      depth -= 1;
+      if (depth < 0) {
+        throw new ConfigurationError(`Invalid Fields mask "${fields}": unbalanced parentheses.`);
+      }
+    } else if (char === "," && !depth) {
+      parts.push(current);
+      current = "";
+      continue;
+    }
+    current += char;
+  }
+  if (depth) {
+    throw new ConfigurationError(`Invalid Fields mask "${fields}": unbalanced parentheses.`);
+  }
+  parts.push(current);
+  return parts;
+}
+
+// Docs field masks accept either camelCase or underscore-separated names, so
+// `document_id` and `documentId` are both valid.
+function normalizeFieldName(name) {
+  return name.replace(/_/g, "").toLowerCase();
+}
+
+const NORMALIZED_DOCUMENT_FIELDS = new Set(DOCUMENT_FIELDS.map(normalizeFieldName));
+
+// Reject an unusable field mask BEFORE the caller mutates the document. Every
+// write action fetches the masked document to build its return value, so an
+// invalid mask would otherwise throw after the edit already landed, and a
+// retrying agent would apply the edit twice. Top-level names are checked
+// locally; a nested selection is checked by the Docs API itself with a masked
+// read, since only the API knows the full resource schema.
+async function validateFieldMask(googleDocs, documentId, fields) {
+  if (!fields) {
+    return;
+  }
+  const parts = splitFieldMask(fields).map((part) => part.trim());
+  if (parts.some((part) => !part)) {
+    throw new ConfigurationError(`Invalid Fields mask "${fields}": empty selection (check for a leading, trailing, or doubled comma).`);
+  }
+  const unknown = parts
+    .map((part) => part.split(/[/(.]/)[0].trim())
+    .filter((name) => !NORMALIZED_DOCUMENT_FIELDS.has(normalizeFieldName(name)));
+  if (unknown.length) {
+    throw new ConfigurationError(`Unknown Fields selection${unknown.length === 1
+      ? ""
+      : "s"} ${unknown.map((name) => `"${name}"`).join(", ")}. A field mask may only select top-level fields of the Google Docs document: ${DOCUMENT_FIELDS.join(", ")}.`);
+  }
+  if (/[()/.]/.test(fields)) {
+    await googleDocs.getDocument(documentId, false, fields);
+  }
+}
+
 export default {
   styleBuilder,
   collectTextWithIndices,
@@ -262,4 +327,5 @@ export default {
   selectInsertedTable,
   adjustPropDefinitions,
   parseRfc3339,
+  validateFieldMask,
 };
