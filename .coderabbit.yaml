@@ -34,16 +34,48 @@ reviews:
           constants use UPPER_SNAKE_CASE; API request parameter names follow the API's own
           convention and are the only exception
         - Props used in more than one component must be defined in the app file's
-          `propDefinitions` and referenced via `propDefinition` — flag any inline prop
-          definition that duplicates one already in the app file
-        - Prop `description` fields must be written for AI agent consumption:
-          - Include concrete inline examples for non-obvious formats (JSON objects, IDs, dates, enums)
+          `propDefinitions` and referenced via `propDefinition` (see "Moving commonly used
+          props to the app file" in the guidelines):
+          - Flag any inline prop definition that duplicates one already in the app file
+          - Flag any inline prop that has the same meaning as an inline prop in a sibling
+            component of the same app (common cases: resource IDs such as `siteId`/`listId`/
+            `contactId`, `limit`/`maxResults`, filters, date ranges) — ask for it to be moved to
+            `propDefinitions` and for every component using it to switch to `propDefinition`
+            in the same PR
+          - Component-specific wording should be a local override (`description`, `optional`,
+            `label`) on the shared definition, not a second definition
+        - Every prop `description` (inline or in `propDefinitions`; excluding the app
+          connection, `db`, `http`, `timer`, and `syncDir`) must be written for AI agent
+          consumption and must include:
+          - A concrete example value (`` e.g. `...` `` or `` Example: `...` ``) — required for
+            every prop, not only complex ones: IDs, dates, enums, integers, arrays, JSON objects.
+            Flag any prop description with no example
+          - For IDs, keys, slugs, or any value the caller cannot know up front: the **bold
+            tool name** of the action in the same app that returns it (and the response field
+            if not obvious), e.g. "Use **List Lists** to find the list ID (the `id` field)".
+            Flag ID-like props that do not name a source tool; if no such tool exists, suggest
+            adding a companion **List X** / **Search X** action
           - Avoid UI-centric language ("select from the dropdown", "choose from the list")
           - Cross-references to other tools must use **bold tool names** matching real tool names
             that actually exist as `name` values in other component files in the same app
+        - Generic helper functions (parsing like `parseObject`/`parseArray`, payload cleaning,
+          date/string formatting, filter or query-string builders, id hashing) must live in the
+          app's `common/utils.mjs` and be imported — flag helpers defined at module level or in
+          `methods` of a component or app file, and flag the same helper duplicated across
+          components of the same app. Check the existing `common/utils.mjs` for an equivalent
+          helper before accepting a new one
         - Component `description` must end with a documentation link `[See the documentation](https://...)`
           and should follow the agent-friendly structure in the guidelines:
           primary purpose → when to use → cross-tool references → parameter notes → gotchas → docs link
+        - Component `description` must NOT expose the underlying HTTP method or endpoint path
+          (e.g. flag "(GET /employees/changed)" or "Calls POST /contacts"); it should say what the
+          tool does, what it returns, and when to use it — the `[See the documentation]` link is
+          still required
+        - Every action and source that is created or modified must declare the top-level property
+          `ai: "optimized"` (next to `version`/`type`) — flag its absence. Do not require it on
+          `*.app.mjs` or `common/` files
+        - The `// x-pd-ai: optimized` comment marker is deprecated: flag it when added, and flag it
+          when left in a modified file (it should be removed in favor of the `ai` property)
         - When a component accepts a file input, verify:
           - The file input prop includes `format: "file-ref"`
           - A `syncDir` prop with `accessMode: "read"` and `sync: true` is declared alongside it
@@ -127,9 +159,28 @@ reviews:
         - HTTP requests must use `axios` from `@pipedream/platform`, never the bare `axios` package
         - Each public method should represent one logical API operation and delegate to a shared
           private `_makeRequest()` (or equivalent) — raw axios calls should not appear in public methods
-        - New `propDefinitions` entries must include both `label` and `description`
+        - New `propDefinitions` entries must include both `label` and `description`, and the
+          description must contain a concrete example value plus, for lookup values such as
+          IDs, the **bold tool name** in the same app that returns the value
         - If `async options()` is added to a propDefinition and the underlying API paginates,
           the implementation must handle `prevContext` or `page` to support "load more"
+        - `methods` must contain API operations and their private request helpers only;
+          generic, `this`-free helpers (parsing, formatting, payload cleaning) belong in
+          `common/utils.mjs`
+
+    # ── Shared utility files ───────────────────────────────────────────────────
+    - path: "components/*/common/utils.mjs"
+      instructions: |
+        Review against the "Shared Utilities (`common/utils.mjs`)" section of
+        .github/pipedream-component-guidelines.md.
+
+        Key checks:
+        - Functions must be pure: no API calls, no `this`, no `$` — API calls belong in the
+          app file's `methods`
+        - Do not add a helper that overlaps an existing one in the same file; extend it instead
+        - Constants belong in `common/constants.mjs`, not here
+        - Follow the export style (named exports vs. default-exported object) already used in
+          the file
 
 knowledge_base:
   opt_out: false
