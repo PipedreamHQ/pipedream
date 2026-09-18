@@ -13,6 +13,12 @@ export default {
   sampleEmit,
   props: {
     ...common.props,
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: 60 * 60, // 1 hour
+      },
+    },
     customerClientId: {
       ...common.props.customerClientId,
     },
@@ -33,7 +39,7 @@ export default {
     getSummary({ name }) {
       return `New Campaign: "${name}"`;
     },
-    async getItems(savedIds) {
+    async getItems() {
       const {
         accountId, customerClientId, fields,
       } = this;
@@ -42,7 +48,6 @@ export default {
         customerClientId,
         query: {
           fields,
-          savedIds,
         },
       });
       return items?.map(({ campaign }) => campaign);
