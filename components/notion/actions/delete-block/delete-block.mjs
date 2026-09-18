@@ -5,14 +5,15 @@ export default {
   ...base,
   key: "notion-delete-block",
   name: "Delete Block",
-  description: "Sets a Block object, including page blocks, to archived: true using the ID specified. [See the documentation](https://developers.notion.com/reference/delete-a-block)",
-  version: "0.0.11",
+  description: "Sets a Block object, including page blocks, to archived: true using the ID specified. Example: blockId `\"1a2b3c4d-...\"` → archives that block and returns the block object with `archived: true`. [See the documentation](https://developers.notion.com/reference/delete-a-block)",
+  version: "0.0.12",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     notion,
     infoLabel: {
@@ -21,9 +22,10 @@ export default {
       content: "**Note:** In the Notion UI application, this moves the block to the \"Trash\" where it can still be accessed and restored.",
     },
     blockId: {
-      type: "string",
-      label: "Block ID",
-      description: "Block ID retrieved from the **Retrieve Page Content** action",
+      propDefinition: [
+        notion,
+        "blockId",
+      ],
     },
   },
   async run({ $ }) {
