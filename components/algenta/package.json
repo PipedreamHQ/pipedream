@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/algenta",
+  "version": "0.0.1",
+  "description": "Pipedream Algenta Components",
+  "main": "algenta.app.mjs",
+  "keywords": [
+    "pipedream",
+    "algenta"
+  ],
+  "homepage": "https://pipedream.com/apps/algenta",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1",
+    "algenta-sdk": "^1.0.13"
+  }
+}
