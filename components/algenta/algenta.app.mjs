@@ -7,23 +7,23 @@ export default {
     decisionId: {
       type: "string",
       label: "Decision ID",
-      description: "The ID of the logged decision to act on, as returned when the decision was logged.",
+      description: "The ID of the logged decision to act on, as returned when the decision was logged (e.g. `dec_3f8a2c91`).",
     },
     webhookUrl: {
       type: "string",
       label: "Webhook URL",
-      description: "The URL the Algenta engine delivers the execution payload to. The execution receipt records the delivery status for this URL.",
+      description: "The URL the Algenta engine delivers the execution payload to — must be `https://` for remote hosts (e.g. `https://ops.example.com/hooks/algenta`); `http://` is accepted for loopback (e.g. `http://localhost:9000/hooks`). The execution receipt records the delivery status for this URL.",
     },
     timeoutSeconds: {
       type: "integer",
       label: "Timeout (seconds)",
-      description: "Maximum time in seconds the engine waits for the webhook delivery before marking the execution as failed.",
+      description: "Maximum time in seconds the engine waits for the webhook delivery before marking the execution as failed (1–3600; omit to use the engine default).",
       optional: true,
     },
     metadata: {
       type: "object",
       label: "Metadata",
-      description: "Additional key-value metadata to attach to the execution, as a JSON object.",
+      description: "Additional key-value metadata to attach to the execution, as a JSON object (e.g. `{\"source\":\"support-triage\"}`).",
       optional: true,
     },
   },
@@ -39,6 +39,22 @@ export default {
         apiKey: this.$auth.api_key,
       };
       if (this.$auth.base_url) {
+        let parsed;
+        try {
+          parsed = new URL(this.$auth.base_url);
+        } catch {
+          throw new Error(`Algenta Base URL is not a valid URL: ${this.$auth.base_url}`);
+        }
+        const isLoopback = [
+          "localhost",
+          "127.0.0.1",
+          "::1",
+        ].includes(parsed.hostname);
+        if (parsed.protocol !== "https:" && !(parsed.protocol === "http:" && isLoopback)) {
+          throw new Error(
+            "Algenta Base URL must use https:// for remote hosts; http:// is only allowed for loopback (localhost/127.0.0.1/::1).",
+          );
+        }
         config.baseUrl = this.$auth.base_url;
       }
       return new AlgentaClient(config);
