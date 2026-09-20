@@ -158,6 +158,16 @@ export default {
       description: "Optional `sys_id` of the user this item is requested for (maps to `sysparm_requested_for`). Run **Find Users** to find it.",
       optional: true,
     },
+    guideSysId: {
+      type: "string",
+      label: "Order Guide Sys ID",
+      description: "The `sys_id` of the order guide (`sc_cat_item_guide`). Run **Search Catalog Items** with type Order Guide to find this value.",
+    },
+    guideItems: {
+      type: "object",
+      label: "Guide Items",
+      description: "JSON array of items from **Submit Order Guide**: `{ sys_id, sysparm_quantity, variables }`. Example: `[{\"sys_id\":\"abc\",\"sysparm_quantity\":\"1\",\"variables\":{\"location\":\"xyz\"}}]`.",
+    },
   },
   methods: {
     async _makeRawRequest({
@@ -338,6 +348,32 @@ export default {
         method: "post",
         baseURL: `${this._instanceBaseUrl()}${SERVICE_CATALOG_BASE_PATH}`,
         url: `/items/${catalogItemSysId}/submit_producer`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        ...args,
+      });
+    },
+    async submitOrderGuide({
+      catalogItemSysId, ...args
+    }) {
+      return this._makeRequest({
+        method: "put",
+        baseURL: `${this._instanceBaseUrl()}${SERVICE_CATALOG_BASE_PATH}`,
+        url: `/items/${catalogItemSysId}/submit_guide`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        ...args,
+      });
+    },
+    async checkoutOrderGuide({
+      catalogItemSysId, ...args
+    }) {
+      return this._makeRequest({
+        method: "post",
+        baseURL: `${this._instanceBaseUrl()}${SERVICE_CATALOG_BASE_PATH}`,
+        url: `/items/${catalogItemSysId}/checkout_guide`,
         headers: {
           "Content-Type": "application/json",
         },
