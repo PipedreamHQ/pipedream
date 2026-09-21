@@ -4,9 +4,16 @@ import screvi from "../../screvi.app.mjs";
 /**
  * Screvi returns newest first and has no "created since" filter on every
  * endpoint, so each source keeps the timestamp of the newest item it has seen
- * and walks pages until it reaches something at or older than that. Emitting is
- * deferred to the end so events arrive oldest first, the order a workflow
- * expects.
+ * and walks pages until it reaches something strictly older than that.
+ *
+ * The cutoff is deliberately exclusive. A Kindle or Kobo import writes a whole
+ * book's highlights at once, so several items routinely share a timestamp: an
+ * inclusive cutoff would stop at the first of them and silently drop the rest.
+ * Re-reading the items that sit exactly on the cutoff costs one extra page at
+ * most, and `dedupe: "unique"` drops the ones already emitted.
+ *
+ * Emitting is deferred to the end so events arrive oldest first, the order a
+ * workflow expects.
  */
 export default {
   props: {
@@ -52,7 +59,7 @@ export default {
         params: this.getParams(lastTs),
         max,
       })) {
-        if (cutoff && Date.parse(this.getTs(item)) <= cutoff) {
+        if (cutoff && Date.parse(this.getTs(item)) < cutoff) {
           break;
         }
         items.push(item);

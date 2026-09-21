@@ -58,6 +58,7 @@ export default {
       description: "Stop after this many items",
       optional: true,
       default: 100,
+      min: 1,
     },
   },
   methods: {

@@ -5,6 +5,11 @@ export default {
   name: "Save Link",
   description: "Save a web page to your Screvi reading list. Screvi fetches and parses the page in the background. [See the documentation](https://screvi.com/docs/api/public-api)",
   version: "0.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     screvi,

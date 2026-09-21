@@ -5,6 +5,11 @@ export default {
   name: "List Articles",
   description: "List your saved articles, optionally filtered to the inbox, Later or the archive. [See the documentation](https://screvi.com/docs/api/public-api)",
   version: "0.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     screvi,

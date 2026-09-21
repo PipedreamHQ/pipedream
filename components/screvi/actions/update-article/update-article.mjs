@@ -5,6 +5,11 @@ export default {
   name: "Update Article",
   description: "Move an article between the inbox, Later and the archive, favorite it, or replace its tags. [See the documentation](https://screvi.com/docs/api/public-api)",
   version: "0.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     screvi,
@@ -42,9 +47,11 @@ export default {
       data: {
         home_status: this.homeStatus,
         favorite: this.favorite,
-        tags: this.tags?.length
-          ? this.tags
-          : undefined,
+        // Pass the array through as-is: PATCH /articles/:id replaces the tag
+        // set, so an explicit [] is how a workflow clears every tag. Leaving
+        // the prop unset sends undefined, which omits the key and leaves the
+        // existing tags alone.
+        tags: this.tags,
       },
     });
 

@@ -5,6 +5,11 @@ export default {
   name: "Search Highlights",
   description: "Search your highlights. Screvi matches on meaning as well as keywords, so describing an idea finds passages that never contain the words. [See the documentation](https://screvi.com/docs/api/public-api)",
   version: "0.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     screvi,
