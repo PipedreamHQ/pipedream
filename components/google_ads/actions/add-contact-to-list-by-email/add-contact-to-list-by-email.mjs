@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     ...common.methods,
-    _normalizeEmail(email) {
+    normalizeEmail(email) {
       const trimmedLower = email.trim().toLowerCase();
       const atIndex = trimmedLower.indexOf("@");
       if (atIndex === -1) {
@@ -53,8 +53,8 @@ export default {
       }
       return `${localPart}@${domain}`;
     },
-    _hashEmail(email) {
-      const normalized = this._normalizeEmail(email);
+    hashEmail(email) {
+      const normalized = this.normalizeEmail(email);
       return crypto.createHash("sha256").update(normalized)
         .digest("hex");
     },
@@ -85,17 +85,23 @@ export default {
       throw new ConfigurationError(`Got ${trimmedEmails.length} email addresses, but Google caps a single AddOfflineUserDataJobOperations request at ${MAX_IDENTIFIERS_PER_REQUEST} identifiers. Split the list into batches of at most ${MAX_IDENTIFIERS_PER_REQUEST} and call this action once per batch.`);
     }
 
+    const trimmedUserListId = userListId.trim();
+    if (!/^\d+$/.test(trimmedUserListId)) {
+      throw new ConfigurationError(`Customer List ID \`${userListId}\` must be a plain decimal number, e.g. \`98765432\`.`);
+    }
+    const canonicalUserListId = BigInt(trimmedUserListId).toString();
+
     const [
       userList,
     ] = await googleAds.listUserLists({
       $,
-      id: userListId,
+      id: canonicalUserListId,
       accountId,
       customerClientId,
     }) ?? [];
 
     if (userList?.userList?.type !== CUSTOMER_MATCH_USER_LIST_TYPE) {
-      throw new ConfigurationError(`User List \`${userListId}\` is not a Customer Match list (type: \`${userList?.userList?.type ?? "not found"}\`). Only Customer Match lists are supported by this action.`);
+      throw new ConfigurationError(`User List \`${canonicalUserListId}\` is not a Customer Match list (type: \`${userList?.userList?.type ?? "not found"}\`). Only Customer Match lists are supported by this action.`);
     }
 
     const offlineUserDataJob = await googleAds.createOfflineUserDataJob({
@@ -105,7 +111,7 @@ export default {
       data: {
         job: {
           customerMatchUserListMetadata: {
-            userList: `customers/${customerClientId ?? accountId}/userLists/${userListId}`,
+            userList: `customers/${customerClientId ?? accountId}/userLists/${canonicalUserListId}`,
           },
           type: CUSTOMER_MATCH_USER_LIST_TYPE,
         },
@@ -116,7 +122,7 @@ export default {
       create: {
         userIdentifiers: [
           {
-            hashedEmail: this._hashEmail(email),
+            hashedEmail: this.hashEmail(email),
           },
         ],
       },
@@ -139,7 +145,7 @@ export default {
       path: offlineUserDataJob.resourceName,
     });
 
-    $.export("$summary", `Added ${trimmedEmails.length} contact(s) to user list ${userListId}`);
+    $.export("$summary", `Added ${trimmedEmails.length} contact(s) to user list ${canonicalUserListId}`);
     return response;
   },
 };
