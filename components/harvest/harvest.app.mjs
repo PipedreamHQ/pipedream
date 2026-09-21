@@ -638,12 +638,12 @@ export default {
       });
     },
     async createTimeEntry({
-      $, params, accountId,
+      $, data, accountId,
     }) {
       return this._makeRequest({
         $,
         path: "/time_entries",
-        params,
+        data,
         method: "post",
         accountId,
       });

@@ -7,7 +7,7 @@ import {
 export default {
   key: "harvest-create-timesheet-entry",
   name: "Create Timesheet Entry",
-  description: "Create a new time entry. Requires a Harvest account configured to track time via start and end time (`wants_timestamp_timers` is `true` in Company settings) — on accounts using duration-based tracking this call fails. Leave **Started Time** and **Ended Time** blank to start a running timer now; set both to log a completed entry with explicit start/end times. Use **Get Projects** to find a Project ID, **List Tasks** to find a Task ID, and **List Users** to find a User ID. Example: call with projectId set to Fence Maintenance's project ID, taskId set to its task ID, spentDate=\"2026-09-17\", and both time fields blank to start a running timer now. [See the documentation](https://help.getharvest.com/api-v2/timesheets-api/timesheets/time-entries/#create-a-time-entry-via-start-and-end-time).",
+  description: "Create a new time entry. Two ways to log time, matching the account's Company setting: on **duration-based** accounts (`wants_timestamp_timers` is `false` — the common case) set **Hours** to log a completed entry directly. On **timestamp-based** accounts (`wants_timestamp_timers` is `true`) leave **Hours** blank and use **Started Time**/**Ended Time** instead — leave both time fields blank too to start a running timer now, or set both to log a completed entry with explicit start/end times. Passing Started/Ended Time on a duration-based account is silently ignored by Harvest (it starts a running timer instead) — if that happens, switch to **Hours**. Use **Get Projects** to find a Project ID, **List Tasks** to find a Task ID, and **List Users** to find a User ID. Example (duration-based): call with projectId, taskId, spentDate=\"2026-09-17\", hours=3.5. Example (timestamp-based): the same call with hours omitted and startedTime/endedTime set instead. [See the documentation](https://help.getharvest.com/api-v2/timesheets-api/timesheets/time-entries/#create-a-time-entry-via-duration) and [start/end time variant](https://help.getharvest.com/api-v2/timesheets-api/timesheets/time-entries/#create-a-time-entry-via-start-and-end-time).",
   version: "1.0.0",
   annotations: {
     destructiveHint: false,
@@ -47,16 +47,22 @@ export default {
         "userId",
       ],
     },
+    hours: {
+      type: "string",
+      label: "Hours",
+      description: "Duration in hours, e.g. `3.5`. Use this on duration-based accounts (the common case) to log a completed entry in one call. Leave blank if using **Started Time**/**Ended Time** instead.",
+      optional: true,
+    },
     startedTime: {
       type: "string",
       label: "Started time (H:MM am/pm)",
-      description: "The time the entry started, e.g. `8:00am`. Leave this and **Ended Time** blank to start a running timer now instead of logging a completed entry.",
+      description: "Timestamp-based accounts only. The time the entry started, e.g. `8:00am`. Leave this and **Ended Time** blank to start a running timer now instead of logging a completed entry.",
       optional: true,
     },
     endedTime: {
       type: "string",
       label: "Ended time (H:MM am/pm)",
-      description: "The time the entry ended, e.g. `5:00pm`. Only used when **Started Time** is also set.",
+      description: "Timestamp-based accounts only. The time the entry ended, e.g. `5:00pm`. Only used when **Started Time** is also set.",
       optional: true,
     },
   },
@@ -78,17 +84,24 @@ export default {
       throw new ConfigurationError("Started Time is required when Ended Time is set");
     }
 
-    const params = removeNullEntries({
+    if (this.hours && (this.startedTime || this.endedTime)) {
+      throw new ConfigurationError("Set either Hours (duration-based accounts) or Started/Ended Time (timestamp-based accounts), not both");
+    }
+
+    const data = removeNullEntries({
       project_id: this.projectId,
       task_id: this.taskId,
       user_id: this.userId,
       spent_date: this.spentDate,
+      hours: this.hours !== undefined && this.hours !== null && this.hours !== ""
+        ? Number(this.hours)
+        : undefined,
       started_time: this.startedTime?.replace(/\s/g, ""),
       ended_time: this.endedTime?.replace(/\s/g, ""),
     });
     const response = await this.harvest.createTimeEntry({
       $,
-      params,
+      data,
       accountId: this.accountId,
     });
     response && $.export("$summary", "Successfully created time entry");
