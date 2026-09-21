@@ -11,32 +11,6 @@ export default {
   type: "app",
   app: "google_ads",
   propDefinitions: {
-    contactEmail: {
-      type: "string",
-      label: "Contact Email",
-      description: "Email address of the contact to add to the customer list.",
-    },
-    userListId: {
-      type: "string",
-      label: "Customer List ID",
-      description: "Select a Customer List to add the contact to, or provide a custom Customer List ID.",
-      async options({
-        accountId, customerClientId,
-      }) {
-        const response = await this.listUserLists({
-          accountId,
-          customerClientId,
-        });
-        return response?.filter(({ userList: { type } }) => type === "CRM_BASED")?.map(({
-          userList: {
-            id, name,
-          },
-        }) => ({
-          label: name,
-          value: id,
-        })) ?? [];
-      },
-    },
     accountId: {
       type: "string",
       label: "Use Google Ads As",

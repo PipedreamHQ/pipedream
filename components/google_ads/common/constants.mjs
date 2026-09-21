@@ -1,5 +1,12 @@
 export const API_VERSION = "v25";
 
+export const CUSTOMER_MATCH_USER_LIST_TYPE = "CUSTOMER_MATCH_USER_LIST";
+
+export const GMAIL_NORMALIZED_DOMAINS = [
+  "gmail.com",
+  "googlemail.com",
+];
+
 // Conversion payload fields the upload actions set and validate themselves. Includes the
 // click and call identifiers: injecting those here would bypass the exactly-one-identifier
 // check, which runs against the props before the payload is assembled.
