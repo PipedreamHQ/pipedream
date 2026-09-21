@@ -1,0 +1,9 @@
+{
+  "name": "@pipedream/csv2geo",
+  "version": "0.0.1",
+  "description": "Pipedream CSV2GEO Geocoding Components",
+  "main": "csv2geo.app.mjs",
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}
