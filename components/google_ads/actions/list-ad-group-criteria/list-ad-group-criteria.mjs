@@ -4,7 +4,7 @@ export default {
   key: "google_ads-list-ad-group-criteria",
   name: "List Ad Group Criteria",
   description: "List criteria (keywords, placements, audiences, etc.) for ad groups in a customer account. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/GoogleAdsService/Search?transport=rest)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,
