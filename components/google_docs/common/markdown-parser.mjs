@@ -4,6 +4,13 @@
  */
 
 import MarkdownIt from "markdown-it";
+import { BULLET_PRESETS } from "./constants.mjs";
+
+const [
+  DEFAULT_BULLET_PRESET,
+] = BULLET_PRESETS;
+const NUMBERED_PRESET = BULLET_PRESETS
+  .find((preset) => preset.startsWith("NUMBERED_DECIMAL_ALPHA"));
 
 // Keeps the search string index-aligned with the document; NUL cannot occur in
 // Docs content, so it never forms part of a real match.
@@ -37,9 +44,20 @@ function parseMarkdown(markdown) {
   // Store state for heading and list detection
   let nextIsHeading = false;
   let headingLevel = 0;
-  let inBulletList = false;
-  let inOrderedList = false;
+  // Depths, not flags: closing a nested list must not end the outer one.
+  let bulletListDepth = 0;
+  let orderedListDepth = 0;
   let listItemStartIndex = -1;
+
+  const inList = () => bulletListDepth + orderedListDepth > 0;
+  const ensureNewline = () => {
+    const last = textContent[textContent.length - 1];
+    if (last === undefined || last.endsWith("\n")) {
+      return;
+    }
+    textContent.push("\n");
+    currentIndex += 1;
+  };
 
   tokens.forEach((token) => {
     if (token.type === "heading_open") {
@@ -67,21 +85,34 @@ function parseMarkdown(markdown) {
       // Add newline after heading
       textContent.push("\n");
       currentIndex += 1;
-    } else if (token.type === "bullet_list_open") {
-      inBulletList = true;
-    } else if (token.type === "ordered_list_open") {
-      inOrderedList = true;
+    } else if (token.type === "bullet_list_open" || token.type === "ordered_list_open") {
+      // Close the parent item's line before a nested list starts.
+      if (inList()) {
+        ensureNewline();
+      }
+      if (token.type === "bullet_list_open") {
+        bulletListDepth += 1;
+      } else {
+        orderedListDepth += 1;
+      }
     } else if (token.type === "list_item_open") {
+      // Docs derives nesting from leading tabs, then strips them. The range starts
+      // before the tabs so nested items stay contiguous for the merge.
       listItemStartIndex = currentIndex;
-    } else if (token.type === "inline" && (inBulletList || inOrderedList)) {
+      const tabs = "\t".repeat(Math.max(bulletListDepth + orderedListDepth - 1, 0));
+      if (tabs) {
+        textContent.push(tabs);
+        currentIndex += tabs.length;
+      }
+    } else if (token.type === "inline" && inList()) {
       // Process inline formatting within list items (bold, italic, code, links, etc.)
       const result = processInlineToken(token, textContent, formattingRequests, currentIndex);
       currentIndex = result;
 
       // Apply bullet formatting to the entire list item paragraph
-      const bulletPreset = inOrderedList
-        ? "NUMBERED_DECIMAL_ALPHA_ROMAN"
-        : "BULLET_DISC_CIRCLE_SQUARE";
+      const bulletPreset = orderedListDepth > 0
+        ? NUMBERED_PRESET
+        : DEFAULT_BULLET_PRESET;
       formattingRequests.push({
         type: "createParagraphBullets",
         textRange: {
@@ -96,24 +127,23 @@ function parseMarkdown(markdown) {
       currentIndex = result;
     } else if (token.type === "paragraph_close") {
       // Add newline after paragraph (but not after list items)
-      if (!inBulletList && !inOrderedList) {
+      if (!inList()) {
         textContent.push("\n");
         currentIndex += 1;
       }
     } else if (token.type === "list_item_close") {
-      // Add newline after list item
-      textContent.push("\n");
-      currentIndex += 1;
-    } else if (token.type === "bullet_list_close") {
-      inBulletList = false;
-      // Add newline after list
-      textContent.push("\n");
-      currentIndex += 1;
-    } else if (token.type === "ordered_list_close") {
-      inOrderedList = false;
-      // Add newline after list
-      textContent.push("\n");
-      currentIndex += 1;
+      ensureNewline();
+    } else if (token.type === "bullet_list_close" || token.type === "ordered_list_close") {
+      if (token.type === "bullet_list_close") {
+        bulletListDepth -= 1;
+      } else {
+        orderedListDepth -= 1;
+      }
+      // Only the outermost list is followed by a blank line.
+      if (!inList()) {
+        textContent.push("\n");
+        currentIndex += 1;
+      }
     }
   });
 
@@ -271,12 +301,53 @@ function convertToGoogleDocsRequests(parseResult) {
   }
 
   // Then apply all formatting requests
+  const bulletRequests = [];
   formattingRequests.forEach((req) => {
+    // Ranges here are already document-absolute, unlike on the replacement path.
+    if (req.type === "createParagraphBullets") {
+      bulletRequests.push({
+        createParagraphBullets: {
+          range: {
+            startIndex: req.textRange.startIndex,
+            endIndex: req.textRange.endIndex,
+          },
+          bulletPreset: req.bulletPreset || DEFAULT_BULLET_PRESET,
+        },
+      });
+      return;
+    }
     const request = buildFormattingRequest(req);
     if (request) {
       batchRequests.push(request);
     }
   });
+
+  // One request per list: merge contiguous items that share a preset.
+  const mergedBullets = bulletRequests
+    .sort((a, b) => a.createParagraphBullets.range.startIndex
+      - b.createParagraphBullets.range.startIndex)
+    .reduce((groups, request) => {
+      const previous = groups[groups.length - 1];
+      const current = request.createParagraphBullets;
+      if (previous
+        && previous.createParagraphBullets.bulletPreset === current.bulletPreset
+        // Items are separated by their paragraph's newline.
+        && current.range.startIndex <= previous.createParagraphBullets.range.endIndex + 1) {
+        previous.createParagraphBullets.range.endIndex = Math.max(
+          previous.createParagraphBullets.range.endIndex,
+          current.range.endIndex,
+        );
+        return groups;
+      }
+      groups.push(request);
+      return groups;
+    }, []);
+
+  // Last and descending: stripping nesting tabs shifts later indices.
+  mergedBullets
+    .sort((a, b) => b.createParagraphBullets.range.startIndex
+      - a.createParagraphBullets.range.startIndex)
+    .forEach((request) => batchRequests.push(request));
 
   return batchRequests;
 }

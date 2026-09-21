@@ -1,6 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
 import {
-  DOCUMENT_FIELDS, POINTS,
+  APPROX_CHAR_WIDTH, CELL_PADDING_ALLOWANCE, DOCUMENT_FIELDS, FIT_TO_CONTENT,
+  MIN_COLUMN_WIDTH, POINTS,
 } from "./constants.mjs";
 
 function getTextContentFromDocument(content) {
@@ -316,6 +317,78 @@ async function validateFieldMask(googleDocs, documentId, fields) {
   }
 }
 
+function selectTableAtIndex(tables, startIndex) {
+  return tables.find((table) => table.startIndex === startIndex);
+}
+
+// Longest line per column. Rows with merged cells are skipped, since their
+// cells no longer map to columns by position.
+function measureColumnTextLengths(table, columnCount) {
+  const lengths = new Array(columnCount).fill(0);
+  (table.table.tableRows || []).forEach((row) => {
+    const cells = row.tableCells || [];
+    if (cells.length !== columnCount) {
+      return;
+    }
+    cells.forEach((cell, columnIndex) => {
+      const longestLine = getTextContentFromDocument(cell.content || [])
+        .split("\n")
+        .reduce((longest, line) => Math.max(longest, line.trim().length), 0);
+      lengths[columnIndex] = Math.max(lengths[columnIndex], longestLine);
+    });
+  });
+  return lengths;
+}
+
+// FIT_TO_CONTENT uses estimated content widths, scaled down to fit totalWidth.
+// A subset of columns only gets its share of totalWidth.
+function resolveColumnWidths({
+  table, targets, widthType, width, totalWidth,
+}) {
+  if (widthType !== FIT_TO_CONTENT) {
+    return targets.map((index) => ({
+      index,
+      magnitude: width,
+    }));
+  }
+
+  const columnCount = table.table.columns
+    ?? table.table.tableRows?.[0]?.tableCells?.length
+    ?? targets.length;
+  const lengths = measureColumnTextLengths(table, columnCount);
+  const weightOf = (index) => Math.max(lengths[index] || 0, 1);
+  const estimateOf = (index) => Math.max(
+    MIN_COLUMN_WIDTH,
+    Math.ceil((weightOf(index) * APPROX_CHAR_WIDTH) + CELL_PADDING_ALLOWANCE),
+  );
+
+  const allWeight = Array.from({
+    length: columnCount,
+  }, (_, index) => weightOf(index)).reduce((sum, weight) => sum + weight, 0);
+  const targetWeight = targets.reduce((sum, index) => sum + weightOf(index), 0);
+  const ceiling = targets.length === columnCount
+    ? totalWidth
+    : Math.round((totalWidth * targetWeight) / (allWeight || 1));
+
+  const estimates = targets.map((index) => ({
+    index,
+    magnitude: estimateOf(index),
+  }));
+  const estimated = estimates.reduce((sum, { magnitude }) => sum + magnitude, 0);
+  const budget = Math.max(ceiling, targets.length * MIN_COLUMN_WIDTH);
+  if (estimated <= budget) {
+    return estimates;
+  }
+
+  const reserved = targets.length * MIN_COLUMN_WIDTH;
+  const shareable = Math.max(budget - reserved, 0);
+  return targets.map((index) => ({
+    index,
+    magnitude: Math.round(MIN_COLUMN_WIDTH
+      + ((shareable * weightOf(index)) / (targetWeight || 1))),
+  }));
+}
+
 export default {
   styleBuilder,
   collectTextWithIndices,
@@ -328,4 +401,6 @@ export default {
   adjustPropDefinitions,
   parseRfc3339,
   validateFieldMask,
+  selectTableAtIndex,
+  resolveColumnWidths,
 };
