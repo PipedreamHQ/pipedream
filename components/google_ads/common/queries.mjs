@@ -83,9 +83,9 @@ function listCampaigns({ fields } = {}) {
       ...(fields ?? []),
       ...defaultFields,
     ]),
-  ];
+  ].filter(Boolean);
 
-  return `SELECT ${selection.join(", ")} FROM campaign`;
+  return `SELECT ${selection.join(", ")} FROM campaign ORDER BY campaign.id DESC LIMIT 25`;
 }
 
 function listResources(resource, query) {

@@ -7,14 +7,14 @@ export default {
   key: "google_ads-new-campaign-created",
   name: "New Campaign Created",
   description: "Emit new event when a new campaign is created. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/GoogleAdsService/Search?transport=rest)",
-  version: "0.1.1",
+  version: "0.2.0",
   type: "source",
   dedupe: "unique",
   sampleEmit,
   props: {
     ...common.props,
     timer: {
-      type: "$.interface.timer",
+      ...common.props.timer,
       default: {
         intervalSeconds: 60 * 60, // 1 hour
       },
