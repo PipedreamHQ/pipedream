@@ -4,6 +4,7 @@ import constants from "./common/constants.mjs";
 import get from "lodash/get.js";
 import retry from "async-retry";
 import fs from "fs";
+import { Transform } from "stream";
 import { pipeline } from "stream/promises";
 import {
   ConfigurationError, axios,
@@ -690,7 +691,7 @@ export default {
       args.count ||= constants.LIMIT;
       const {
         response, asBot,
-      } = await this.filesReadRequest({
+      } = await this.makeFilesReadRequest({
         method: "files.list",
         ...args,
       });
@@ -699,7 +700,7 @@ export default {
         || !args.channel
         || args.page > 1
         || response.files?.length
-        || await this.userCanSeeChannel(args.channel)) {
+        || await this._userCanSeeChannel(args.channel)) {
         return response;
       }
       const notVisibleError = new ConfigurationError(`Channel "${args.channel}" was not found, or neither the connected user nor the bot is a member of it.`);
@@ -717,7 +718,7 @@ export default {
         throw error;
       });
     },
-    async userCanSeeChannel(channel) {
+    async _userCanSeeChannel(channel) {
       try {
         await this.conversationsInfo({
           channel,
@@ -738,14 +739,14 @@ export default {
       });
     },
     async getFileInfo(args = {}) {
-      const { response } = await this.filesReadRequest({
+      const { response } = await this.makeFilesReadRequest({
         method: "files.info",
         ...args,
       });
       return response;
     },
     // User token first, so files in private channels the bot hasn't joined resolve
-    async filesReadRequest(args = {}) {
+    async makeFilesReadRequest(args = {}) {
       let userError;
       try {
         const response = await this.makeRequest({
@@ -778,10 +779,10 @@ export default {
           : userError;
       }
     },
-    async downloadFileContent({
-      $, url, asBot, filepath,
+    _makeDownloadRequest({
+      $, url, asBot,
     }) {
-      const contentStream = await axios($, {
+      return axios($, {
         url,
         headers: {
           Authorization: `Bearer ${this.getToken({
@@ -800,16 +801,35 @@ export default {
         }
         throw error;
       });
+    },
+    async downloadFileContent({
+      $, url, asBot, filepath,
+    }) {
+      const contentStream = await this._makeDownloadRequest({
+        $,
+        url,
+        asBot,
+      });
+      let bytesWritten = 0;
+      const enforceSizeLimit = new Transform({
+        transform(chunk, encoding, callback) {
+          bytesWritten += chunk.length;
+          if (bytesWritten > constants.MAX_DOWNLOAD_SIZE_BYTES) {
+            callback(new Error(`File exceeds the ${constants.MAX_DOWNLOAD_SIZE_BYTES}-byte (2GB) /tmp disk limit for this execution.`));
+            return;
+          }
+          callback(null, chunk);
+        },
+      });
       try {
-        await pipeline(contentStream, fs.createWriteStream(filepath));
+        await pipeline(contentStream, enforceSizeLimit, fs.createWriteStream(filepath));
       } catch (error) {
         await fs.promises.rm(filepath, {
           force: true,
         }).catch(() => {});
         throw error;
       }
-      const { size } = await fs.promises.stat(filepath);
-      return size;
+      return bytesWritten;
     },
     getUserProfile(args = {}) {
       return this.makeRequest({

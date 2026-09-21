@@ -32,7 +32,7 @@ export default {
   async run({ $ }) {
     const {
       response: { file: metadata }, asBot,
-    } = await this.slack.filesReadRequest({
+    } = await this.slack.makeFilesReadRequest({
       method: "files.info",
       file: this.file,
     });
