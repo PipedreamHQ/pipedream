@@ -533,9 +533,11 @@ export default {
       });
       return response;
     },
-    async listUserLists(args) {
+    async listUserLists({
+      id, ...args
+    } = {}) {
       const { results } = await this.search({
-        query: QUERIES.listUserLists(),
+        query: QUERIES.listUserLists(id),
         ...args,
       });
       return results;

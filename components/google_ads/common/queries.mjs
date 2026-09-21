@@ -18,14 +18,18 @@ function listCustomerClients(query) {
   return `SELECT ${fields} FROM customer_client WHERE ${condition}`;
 }
 
-function listUserLists() {
+function listUserLists(id) {
   const fields = [
     "id",
     "name",
     "type",
   ].map((s) => `user_list.${s}`).join(", ");
 
-  return `SELECT ${fields} FROM user_list`;
+  let query = `SELECT ${fields} FROM user_list`;
+  if (id) {
+    query += ` WHERE user_list.id = '${sanitizeGaqlString(id)}'`;
+  }
+  return query;
 }
 
 function listConversionActions() {

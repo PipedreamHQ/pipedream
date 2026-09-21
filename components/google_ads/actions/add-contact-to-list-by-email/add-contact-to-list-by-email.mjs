@@ -1,16 +1,20 @@
 import crypto from "crypto";
+import { ConfigurationError } from "@pipedream/platform";
 import common from "../common/common.mjs";
 import {
   CUSTOMER_MATCH_USER_LIST_TYPE,
   GMAIL_NORMALIZED_DOMAINS,
 } from "../../common/constants.mjs";
 
+// Google's ceiling on identifiers in a single AddOfflineUserDataJobOperations request.
+const MAX_IDENTIFIERS_PER_REQUEST = 100000;
+
 export default {
   ...common,
   key: "google_ads-add-contact-to-list-by-email",
   name: "Add Contact to Customer List by Email",
   description: "Adds one or more contacts to a Google Ads Customer Match user list by email. Accepts an array of email addresses and batches them all into a single offline user data job (one create + one addOperations + one run = exactly 3 API calls per run regardless of list size). Emails are normalized (trimmed, lowercased; Gmail/Googlemail addresses additionally have dots removed from the local part and plus-suffixes stripped) before SHA-256 hashing so they match Google's expected Customer Match hash. Lists typically update in 6 to 12 hours after the operation. To find a valid Customer List ID, query your user lists in Google Ads first (no in-connector discovery action currently exists). [See the documentation](https://developers.google.com/google-ads/api/docs/remarketing/audience-segments/customer-match/get-started)",
-  version: "0.2.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -22,7 +26,7 @@ export default {
     emails: {
       type: "string[]",
       label: "Email Addresses",
-      description: "Array of email addresses to add to the Customer Match list, e.g. `[\" Test.User+promo@Gmail.com \", \"ALICE@EXAMPLE.COM\"]`. Each is normalized before hashing: whitespace is trimmed and the address is lowercased for all domains; for Gmail/Googlemail addresses (`gmail.com`, `googlemail.com`), dots are also removed from the local part and any `+suffix` is stripped. All emails are submitted in one batched job. Google caps a single AddOfflineUserDataJobOperations request at 100,000 identifiers — keep the array under that limit.",
+      description: "Array of email addresses to add to the Customer Match list, e.g. `[\" Test.User+promo@Gmail.com \", \"ALICE@EXAMPLE.COM\"]`. Each is normalized before hashing: whitespace is trimmed and the address is lowercased for all domains; for Gmail/Googlemail addresses (`gmail.com`, `googlemail.com`), dots are also removed from the local part and any `+suffix` is stripped. All emails are submitted in one batched job. Google caps a single AddOfflineUserDataJobOperations request at 100,000 identifiers; arrays larger than that are rejected — split into multiple calls instead.",
     },
     userListId: {
       type: "string",
@@ -60,6 +64,40 @@ export default {
       googleAds, accountId, customerClientId, emails, userListId,
     } = this;
 
+    const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const trimmedEmails = [];
+    const invalidEmails = [];
+    for (const email of emails) {
+      const trimmed = email.trim();
+      if (!trimmed || !EMAIL_REGEX.test(trimmed)) {
+        invalidEmails.push(email);
+        continue;
+      }
+      trimmedEmails.push(trimmed);
+    }
+    if (invalidEmails.length) {
+      throw new ConfigurationError(`Invalid email address${invalidEmails.length === 1
+        ? ""
+        : "es"}: ${invalidEmails.map((email) => `\`${email}\``).join(", ")}. Each entry must be a non-blank, structurally valid email address with no internal whitespace.`);
+    }
+
+    if (trimmedEmails.length > MAX_IDENTIFIERS_PER_REQUEST) {
+      throw new ConfigurationError(`Got ${trimmedEmails.length} email addresses, but Google caps a single AddOfflineUserDataJobOperations request at ${MAX_IDENTIFIERS_PER_REQUEST} identifiers. Split the list into batches of at most ${MAX_IDENTIFIERS_PER_REQUEST} and call this action once per batch.`);
+    }
+
+    const [
+      userList,
+    ] = await googleAds.listUserLists({
+      $,
+      id: userListId,
+      accountId,
+      customerClientId,
+    }) ?? [];
+
+    if (userList?.userList?.type !== CUSTOMER_MATCH_USER_LIST_TYPE) {
+      throw new ConfigurationError(`User List \`${userListId}\` is not a Customer Match list (type: \`${userList?.userList?.type ?? "not found"}\`). Only Customer Match lists are supported by this action.`);
+    }
+
     const offlineUserDataJob = await googleAds.createOfflineUserDataJob({
       $,
       accountId,
@@ -74,7 +112,7 @@ export default {
       },
     });
 
-    const operations = emails.map((email) => ({
+    const operations = trimmedEmails.map((email) => ({
       create: {
         userIdentifiers: [
           {
@@ -101,7 +139,7 @@ export default {
       path: offlineUserDataJob.resourceName,
     });
 
-    $.export("$summary", `Added ${emails.length} contact(s) to user list ${userListId}`);
+    $.export("$summary", `Added ${trimmedEmails.length} contact(s) to user list ${userListId}`);
     return response;
   },
 };
