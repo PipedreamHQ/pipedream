@@ -44,12 +44,12 @@ function parseMarkdown(markdown) {
   // Store state for heading and list detection
   let nextIsHeading = false;
   let headingLevel = 0;
-  // Depths, not flags: closing a nested list must not end the outer one.
-  let bulletListDepth = 0;
-  let orderedListDepth = 0;
+  // Open list types, outermost first. A Docs list has one preset, so the
+  // outermost type styles every level; mixing types would split the list.
+  const listTypes = [];
   let listItemStartIndex = -1;
 
-  const inList = () => bulletListDepth + orderedListDepth > 0;
+  const inList = () => listTypes.length > 0;
   const ensureNewline = () => {
     const last = textContent[textContent.length - 1];
     if (last === undefined || last.endsWith("\n")) {
@@ -90,16 +90,14 @@ function parseMarkdown(markdown) {
       if (inList()) {
         ensureNewline();
       }
-      if (token.type === "bullet_list_open") {
-        bulletListDepth += 1;
-      } else {
-        orderedListDepth += 1;
-      }
+      listTypes.push(token.type === "ordered_list_open"
+        ? "ordered"
+        : "bullet");
     } else if (token.type === "list_item_open") {
       // Docs derives nesting from leading tabs, then strips them. The range starts
       // before the tabs so nested items stay contiguous for the merge.
       listItemStartIndex = currentIndex;
-      const tabs = "\t".repeat(Math.max(bulletListDepth + orderedListDepth - 1, 0));
+      const tabs = "\t".repeat(Math.max(listTypes.length - 1, 0));
       if (tabs) {
         textContent.push(tabs);
         currentIndex += tabs.length;
@@ -110,7 +108,7 @@ function parseMarkdown(markdown) {
       currentIndex = result;
 
       // Apply bullet formatting to the entire list item paragraph
-      const bulletPreset = orderedListDepth > 0
+      const bulletPreset = listTypes[0] === "ordered"
         ? NUMBERED_PRESET
         : DEFAULT_BULLET_PRESET;
       formattingRequests.push({
@@ -134,11 +132,7 @@ function parseMarkdown(markdown) {
     } else if (token.type === "list_item_close") {
       ensureNewline();
     } else if (token.type === "bullet_list_close" || token.type === "ordered_list_close") {
-      if (token.type === "bullet_list_close") {
-        bulletListDepth -= 1;
-      } else {
-        orderedListDepth -= 1;
-      }
+      listTypes.pop();
       // Only the outermost list is followed by a blank line.
       if (!inList()) {
         textContent.push("\n");

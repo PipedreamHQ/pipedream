@@ -382,10 +382,28 @@ function resolveColumnWidths({
 
   const reserved = targets.length * MIN_COLUMN_WIDTH;
   const shareable = Math.max(budget - reserved, 0);
-  return targets.map((index) => ({
+  const shares = targets.map((index) => (shareable * weightOf(index)) / (targetWeight || 1));
+  const widths = shares.map(Math.floor);
+  let leftover = shareable - widths.reduce((sum, width) => sum + width, 0);
+  // Largest remainders take the leftover points, so the total never exceeds budget.
+  const byRemainder = shares
+    .map((share, position) => [
+      share - widths[position],
+      position,
+    ])
+    .sort((a, b) => b[0] - a[0]);
+  for (const [
+    , position,
+  ] of byRemainder) {
+    if (leftover <= 0) {
+      break;
+    }
+    widths[position] += 1;
+    leftover -= 1;
+  }
+  return targets.map((index, position) => ({
     index,
-    magnitude: Math.round(MIN_COLUMN_WIDTH
-      + ((shareable * weightOf(index)) / (targetWeight || 1))),
+    magnitude: MIN_COLUMN_WIDTH + widths[position],
   }));
 }
 
