@@ -4,16 +4,26 @@ import { ConfigurationError } from "@pipedream/platform";
 import utils from "./common/utils.mjs";
 import markdownParser from "./common/markdown-parser.mjs";
 import {
-  OCCURRENCES, TAB_METADATA_MASK_DEPTH,
+  DOCUMENT_FIELDS,
+  FILES_MAX_PAGE_SIZE,
+  OCCURRENCES,
+  TAB_METADATA_MASK_DEPTH,
 } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "google_docs",
   propDefinitions: {
+    fields: {
+      type: "string",
+      label: "Fields",
+      description: `Optional Google Docs API field mask limiting which document fields are returned, e.g. \`documentId,title,revisionId\` instead of the whole document. Valid top-level fields: ${DOCUMENT_FIELDS.map((field) => `\`${field}\``).join(", ")} - the underscore spelling of each (e.g. \`document_id\`) is accepted too. Nested selections are allowed, e.g. \`body/content\`. There is no \`url\` field, and an invalid mask fails the call before the document is changed. Cannot be combined with **Tab ID**. Leave blank to return the full document.`,
+      optional: true,
+    },
     ...googleDrive.propDefinitions,
-    // Static, MCP-compatible document identifier. Prefer this over `docId`
-    // (which carries an `async options()` dropdown invisible to MCP).
+    // Static, MCP-compatible document identifier. The former `docId` dropdown
+    // was removed: an `async options()` resolver is invisible to MCP, so every
+    // action takes the plain ID and points callers at **Find Document**.
     documentId: {
       type: "string",
       label: "Document ID",
@@ -35,18 +45,6 @@ export default {
       label: "Folder ID",
       description: "The ID of the Drive folder to place the new document in (the string after `/folders/` in a Drive folder URL). If omitted, the document is created in the root of My Drive.",
       optional: true,
-    },
-    docId: {
-      type: "string",
-      label: "Document",
-      description: "Search for and select a document. You can also use a custom expression to pass a value from a previous step (e.g., `{{steps.foo.$return_value.documentId}}`) or you can enter a static ID (e.g., `1KuEN7k8jVP3Qi0_svM5OO8oEuiLkq0csihobF67eat8`).",
-      useQuery: true,
-      async options({
-        prevContext, driveId, query,
-      }) {
-        const { nextPageToken } = prevContext;
-        return this.listDocsOptions(driveId, query, nextPageToken);
-      },
     },
     imageId: {
       type: "string",
@@ -303,15 +301,25 @@ export default {
         const escaped = query.replace(/'/g, "\\'");
         q += ` and (name contains '${escaped}' or fullText contains '${escaped}')`;
       }
-      const { data } = await this.drive().files.list({
-        q,
-        pageSize: limit,
-        fields: "files(id,name,modifiedTime,webViewLink)",
-        orderBy: "modifiedTime desc",
-        supportsAllDrives: true,
-        includeItemsFromAllDrives: true,
-      });
-      return (data.files || []).map((f) => ({
+      // Drive treats `pageSize` as a maximum, so a short page can still carry a
+      // `nextPageToken`. Keep following it until `limit` is filled, otherwise a
+      // caller silently sees only the first page of matches.
+      const files = [];
+      let pageToken;
+      do {
+        const { data } = await this.drive().files.list({
+          q,
+          pageSize: Math.min(FILES_MAX_PAGE_SIZE, limit - files.length),
+          fields: "nextPageToken,files(id,name,modifiedTime,webViewLink)",
+          orderBy: "modifiedTime desc",
+          supportsAllDrives: true,
+          includeItemsFromAllDrives: true,
+          pageToken,
+        });
+        files.push(...(data.files || []));
+        pageToken = data.nextPageToken;
+      } while (pageToken && files.length < limit);
+      return files.slice(0, limit).map((f) => ({
         id: f.id,
         name: f.name,
         url: f.webViewLink || `https://docs.google.com/document/d/${f.id}/edit`,
@@ -464,9 +472,9 @@ export default {
     // What a tab-targeted write returns. Plain `getDocument` would hand back the
     // FIRST tab's content, which for an edit that landed in another tab reads as
     // if nothing had happened, so return the tab that was actually written.
-    async getWriteResult(documentId, tabId) {
+    async getWriteResult(documentId, tabId, fields) {
       if (!tabId) {
-        return this.getDocument(documentId);
+        return this.getDocument(documentId, false, fields);
       }
       const document = await this.getDocument(documentId, true);
       const tab = this._findTab(document, tabId);
@@ -713,7 +721,7 @@ export default {
       });
     },
     async writeTable(documentId, {
-      rows, position, hasHeaderRow, tabId,
+      rows, position, hasHeaderRow, tabId, fields,
     }) {
       // Validate before making any request: a bad cell value here should
       // never leave an empty table behind from a partially-applied insert.
@@ -814,7 +822,9 @@ export default {
         await this.batchUpdate(documentId, requests);
       }
 
-      return this.getWriteResult(documentId, tabId);
+      // Pass `fields` down so the single read this already performs returns the
+      // masked document - a second masked fetch in the action would double it.
+      return this.getWriteResult(documentId, tabId, fields);
     },
     async insertPageBreak(documentId, request) {
       return this._batchUpdate(documentId, "insertPageBreak", request);
@@ -824,26 +834,6 @@ export default {
         requestBody: request,
       });
       return data;
-    },
-    async listDocsOptions(driveId, query, pageToken = null) {
-      let q = "mimeType='application/vnd.google-apps.document'";
-      if (query) {
-        q = `${q} and name contains '${query}'`;
-      }
-      let request = {
-        q,
-      };
-      if (driveId) {
-        request = {
-          ...request,
-          corpora: "drive",
-          driveId,
-          pageToken,
-          includeItemsFromAllDrives: true,
-          supportsAllDrives: true,
-        };
-      }
-      return this.listFilesOptions(pageToken, request);
     },
     async insertMarkdownText(documentId, markdown) {
       try {
