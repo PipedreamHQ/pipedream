@@ -43,8 +43,8 @@ export default {
               summary: this.getSummary(item),
               ts: this.getTimestamp(item),
             });
-            savedIds.push(id);
-          }
+}
+savedIds.push(id);
         });
       this._setSavedIds(savedIds);
     },
