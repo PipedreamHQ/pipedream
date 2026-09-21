@@ -3,7 +3,11 @@ import { WebClient } from "@slack/web-api";
 import constants from "./common/constants.mjs";
 import get from "lodash/get.js";
 import retry from "async-retry";
-import { ConfigurationError } from "@pipedream/platform";
+import fs from "fs";
+import { pipeline } from "stream/promises";
+import {
+  ConfigurationError, axios,
+} from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -682,15 +686,49 @@ export default {
         ...args,
       });
     },
-    listFiles(args = {}) {
+    async listFiles(args = {}) {
       args.count ||= constants.LIMIT;
-      return this.makeRequest({
+      const {
+        response, asBot,
+      } = await this.filesReadRequest({
         method: "files.list",
-        // Use bot token, if available, since the required `files:read` scope
-        // is only requested for bot tokens in the Pipedream app.
-        asBot: true,
         ...args,
       });
+      // files.list returns no files, not an error, for channels the user can't see
+      if (asBot
+        || !args.channel
+        || args.page > 1
+        || response.files?.length
+        || await this.userCanSeeChannel(args.channel)) {
+        return response;
+      }
+      const notVisibleError = new ConfigurationError(`Channel "${args.channel}" was not found, or neither the connected user nor the bot is a member of it.`);
+      if (!this.getBotToken()) {
+        throw notVisibleError;
+      }
+      return this.makeRequest({
+        method: "files.list",
+        ...args,
+        asBot: true,
+      }).catch((error) => {
+        if (constants.FILES_READ_BOT_FALLBACK_ERRORS.some((code) => `${error}`.includes(code))) {
+          throw notVisibleError;
+        }
+        throw error;
+      });
+    },
+    async userCanSeeChannel(channel) {
+      try {
+        await this.conversationsInfo({
+          channel,
+        });
+        return true;
+      } catch (error) {
+        if (error?.data?.error === "channel_not_found") {
+          return false;
+        }
+        throw error;
+      }
     },
     listGroupMembers(args = {}) {
       args.limit ||= constants.LIMIT;
@@ -699,14 +737,79 @@ export default {
         ...args,
       });
     },
-    getFileInfo(args = {}) {
-      return this.makeRequest({
+    async getFileInfo(args = {}) {
+      const { response } = await this.filesReadRequest({
         method: "files.info",
-        // Use bot token, if available, since the required `files:read` scope
-        // is only requested for bot tokens in the Pipedream app.
-        asBot: true,
         ...args,
       });
+      return response;
+    },
+    // User token first, so files in private channels the bot hasn't joined resolve
+    async filesReadRequest(args = {}) {
+      let userError;
+      try {
+        const response = await this.makeRequest({
+          ...args,
+          asBot: false,
+        });
+        return {
+          response,
+          asBot: false,
+        };
+      } catch (error) {
+        if (!this.getBotToken()
+          || !constants.FILES_READ_BOT_FALLBACK_ERRORS.includes(error?.data?.error)) {
+          throw error;
+        }
+        userError = error;
+      }
+      try {
+        const response = await this.makeRequest({
+          ...args,
+          asBot: true,
+        });
+        return {
+          response,
+          asBot: true,
+        };
+      } catch (error) {
+        throw userError.data.error === "missing_scope"
+          ? error
+          : userError;
+      }
+    },
+    async downloadFileContent({
+      $, url, asBot, filepath,
+    }) {
+      const contentStream = await axios($, {
+        url,
+        headers: {
+          Authorization: `Bearer ${this.getToken({
+            asBot,
+          })}`,
+        },
+        responseType: constants.STREAM_RESPONSE_TYPE,
+        // Slack redirects unauthorized downloads to its sign-in page
+        maxRedirects: 0,
+      }).catch((error) => {
+        const status = error?.response?.status;
+        if (status >= 300 && status < 400) {
+          throw new Error(`Slack redirected the download to its sign-in page (HTTP ${status}): the connected account's ${asBot
+            ? "bot"
+            : "user"} token can't access this file's content.`);
+        }
+        throw error;
+      });
+      try {
+        await pipeline(contentStream, fs.createWriteStream(filepath));
+      } catch (error) {
+        await fs.promises.rm(filepath, {
+          force: true,
+        }).catch(() => {});
+        throw error;
+      }
+      const { size } = await fs.promises.stat(filepath);
+      return size;
     },
     getUserProfile(args = {}) {
       return this.makeRequest({
