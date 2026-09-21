@@ -145,7 +145,7 @@ export default {
       path: offlineUserDataJob.resourceName,
     });
 
-    $.export("$summary", `Added ${trimmedEmails.length} contact(s) to user list ${canonicalUserListId}`);
+    $.export("$summary", `Submitted ${trimmedEmails.length} contact(s) to user list ${canonicalUserListId}`);
     return response;
   },
 };
