@@ -27,7 +27,7 @@ function listUserLists(id) {
 
   let query = `SELECT ${fields} FROM user_list`;
   if (id) {
-    query += ` WHERE user_list.id = '${sanitizeGaqlString(id)}'`;
+    query += ` WHERE user_list.id = ${Number(id)}`;
   }
   return query;
 }

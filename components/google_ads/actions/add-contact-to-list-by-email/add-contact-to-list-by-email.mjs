@@ -13,7 +13,7 @@ export default {
   ...common,
   key: "google_ads-add-contact-to-list-by-email",
   name: "Add Contact to Customer List by Email",
-  description: "Adds one or more contacts to a Google Ads Customer Match user list by email. Accepts an array of email addresses and batches them all into a single offline user data job (one create + one addOperations + one run = exactly 3 API calls per run regardless of list size). Emails are normalized (trimmed, lowercased; Gmail/Googlemail addresses additionally have dots removed from the local part and plus-suffixes stripped) before SHA-256 hashing so they match Google's expected Customer Match hash. Lists typically update in 6 to 12 hours after the operation. To find a valid Customer List ID, query your user lists in Google Ads first (no in-connector discovery action currently exists). [See the documentation](https://developers.google.com/google-ads/api/docs/remarketing/audience-segments/customer-match/get-started)",
+  description: "Adds one or more contacts to a Google Ads Customer Match user list by email. Accepts an array of email addresses and batches them all into a single offline user data job (one lookup to confirm the target list is a Customer Match list + one create + one addOperations + one run = exactly 4 API calls per run regardless of list size). Emails are normalized (trimmed, lowercased; Gmail/Googlemail addresses additionally have dots removed from the local part and plus-suffixes stripped) before SHA-256 hashing so they match Google's expected Customer Match hash. Lists typically update in 6 to 12 hours after the operation. To find a valid Customer List ID, query your user lists in Google Ads first (no in-connector discovery action currently exists). [See the documentation](https://developers.google.com/google-ads/api/docs/remarketing/audience-segments/customer-match/get-started)",
   version: "1.0.0",
   annotations: {
     destructiveHint: false,
@@ -64,12 +64,12 @@ export default {
       googleAds, accountId, customerClientId, emails, userListId,
     } = this;
 
-    const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const trimmedEmails = [];
     const invalidEmails = [];
     for (const email of emails) {
       const trimmed = email.trim();
-      if (!trimmed || !EMAIL_REGEX.test(trimmed)) {
+      if (!trimmed || !emailRegex.test(trimmed)) {
         invalidEmails.push(email);
         continue;
       }
