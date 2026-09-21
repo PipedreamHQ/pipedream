@@ -5,7 +5,7 @@ import tricentisQtest from "../../tricentis_qtest.app.mjs";
 export default {
   key: "tricentis_qtest-update-requirement",
   name: "Update Requirement",
-  description: "Update ONE existing requirement in a qTest project. Use **List Requirements** to find the requirement ID and **List Requirement Fields** to discover field IDs for the Properties parameter. Name is required by the API on every update — resupply the requirement's current name (from **Get Requirement**) if you only want to change Properties. This tool has no bulk/mass-update mode — before calling it repeatedly to apply the same change across many requirements, confirm the full scope (which requirements, what change) with the user first; do not sweep an entire project's requirements on a single broad instruction. If you ask for that confirmation and don't receive an explicit yes, STOP — do not call this tool anyway. Proceeding without an actual confirmation is exactly the behavior this warning exists to prevent, even if the original instruction sounded broad enough to imply it. Requires `confirmation: \"UPDATE\"`, set only after the user has explicitly confirmed — do not set it yourself. Example: `projectId: 1, requirementId: \"101\", name: \"User can log in\", properties: \"[{\\\"field_id\\\": 3, \\\"field_value\\\": \\\"1\\\"}]\", confirmation: \"UPDATE\"` → returns the updated requirement object. [See the documentation](https://docs.tricentis.com/qtest-saas/content/apis/apis/requirement_apis.htm#update-a-requirement)",
+  description: "Update ONE existing requirement in a qTest project. Use **List Requirements** to find the requirement ID and **List Requirement Fields** to discover field IDs for the Properties parameter. Name is required by the API on every update — resupply the requirement's current name (from **Get Requirement**) if you only want to change Properties. This tool has no bulk/mass-update mode — before calling it repeatedly to apply the same change across many requirements, confirm the full scope (which requirements, what change) with the user first; do not sweep an entire project's requirements on a single broad instruction. If you ask for that confirmation and don't receive an explicit yes, STOP — do not call this tool anyway. Proceeding without an actual confirmation is exactly the behavior this warning exists to prevent, even if the original instruction sounded broad enough to imply it. This warning is about scope (which/how many requirements), not about calling this tool at all — a single, already-specific instruction (a named requirement ID and field change) needs no extra confirmation. Example: `projectId: 1, requirementId: \"101\", name: \"User can log in\", properties: \"[{\\\"field_id\\\": 3, \\\"field_value\\\": \\\"1\\\"}]\"` → returns the updated requirement object. [See the documentation](https://docs.tricentis.com/qtest-saas/content/apis/apis/requirement_apis.htm#update-a-requirement)",
   version: "1.0.0",
   type: "action",
   ai: "optimized",
@@ -39,16 +39,8 @@ export default {
         "properties",
       ],
     },
-    confirmation: {
-      type: "string",
-      label: "Confirmation",
-      description: "Type `UPDATE` to confirm this change. Only fill this in after the user has explicitly confirmed the update — do not set it yourself to bypass that confirmation.",
-    },
   },
   async run({ $ }) {
-    if (this.confirmation !== "UPDATE") {
-      throw new ConfigurationError("Type `UPDATE` in the confirmation field to proceed with this update.");
-    }
     let properties;
     try {
       properties = this.properties === undefined
