@@ -6,10 +6,46 @@ const COMMENTS_MAX_PAGE_SIZE = 100;
 const DEFAULT_COMMENT_LIMIT = 100;
 const MAX_COMMENT_LIMIT = 500;
 
+// Maximum `pageSize` accepted by the Drive API's `files.list`; larger values are
+// rejected outright.
+// https://developers.google.com/workspace/drive/api/reference/rest/v3/files/list
+// Top-level fields of the Docs `Document` resource - the only names a field mask
+// may select at its root.
+// https://developers.google.com/workspace/docs/api/reference/rest/v1/documents#Document
+const DOCUMENT_FIELDS = [
+  "documentId",
+  "title",
+  "body",
+  "headers",
+  "footers",
+  "footnotes",
+  "documentStyle",
+  "suggestedDocumentStyleChanges",
+  "namedStyles",
+  "suggestedNamedStylesChanges",
+  "revisionId",
+  "suggestionsViewMode",
+  "commentsViewMode",
+  "inlineObjects",
+  "lists",
+  "positionedObjects",
+  "namedRanges",
+  "tabs",
+];
+
+const FILES_MAX_PAGE_SIZE = 1000;
+
+const DEFAULT_DOCUMENT_LIMIT = 25;
+const MAX_DOCUMENT_LIMIT = FILES_MAX_PAGE_SIZE;
+
 export {
   COMMENTS_MAX_PAGE_SIZE,
   DEFAULT_COMMENT_LIMIT,
   MAX_COMMENT_LIMIT,
+  DOCUMENT_FIELDS,
+  FILES_MAX_PAGE_SIZE,
+  DEFAULT_DOCUMENT_LIMIT,
+  MAX_DOCUMENT_LIMIT,
 };
 
 // Google Docs API enum values. Kept here rather than inline so the styling
@@ -96,3 +132,15 @@ export const FONT_WEIGHT_MIN = 100;
 export const FONT_WEIGHT_MAX = 900;
 export const FONT_WEIGHT_STEP = 100;
 
+// How deep `listTabs`' metadata field mask spells out nested `childTabs`.
+// Google's field masks have no recursive wildcard, so the nesting has to be
+// written out to a fixed depth, and a depth that is too shallow would silently
+// omit tabs rather than error.
+//
+// 4 is provably enough: `addDocumentTab` refuses a fourth level outright
+// ("Tab nesting level cannot exceed 3." — measured), so `nestingLevel` tops out
+// at 2. The extra level is margin in case that cap is ever raised, and
+// `listTabs` still checks for a tab sitting at the mask's floor so a raised cap
+// would cost one more request instead of losing tabs.
+// https://developers.google.com/workspace/docs/api/how-tos/field-masks
+export const TAB_METADATA_MASK_DEPTH = 4;

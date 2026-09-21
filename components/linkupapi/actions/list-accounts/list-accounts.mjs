@@ -5,8 +5,9 @@ export default {
   key: "linkupapi-list-accounts",
   name: "List Accounts",
   description: "List the LinkupAPI accounts connected to your API key, each with its persistent `account_id` to use in other actions. [See the documentation](https://docs.linkupapi.com/api-reference/v2/accounts/list-accounts)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

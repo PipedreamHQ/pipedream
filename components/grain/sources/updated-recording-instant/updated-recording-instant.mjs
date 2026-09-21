@@ -5,10 +5,9 @@ export default {
   ...common,
   key: "grain-updated-recording-instant",
   name: "New Recording Updated (Instant)",
-  description: "Emit new event when a recording is updated. Each webhook delivery emits an event, including retries. [See the documentation](https://developers.grain.com/#create-hook)",
-  version: "1.0.0",
+  description: "Emit new event when a recording is updated. Deduplicates retried webhook deliveries of the same update; each distinct update still emits. [See the documentation](https://developers.grain.com/#create-hook)",
+  version: "1.1.0",
   type: "source",
-  // Grain does not document a delivery ID; deduping by resource ID would discard later updates.
   methods: {
     ...common.methods,
     getHookType() {
