@@ -121,9 +121,12 @@ export default {
     /**
      * Screvi paginates with `page` and reports `has_more`, so walk forward until
      * the API says there is nothing left or the caller has seen enough.
+     * `perPage` differs per endpoint (100 on most, 50 on /search). The API
+     * clamps anything larger, so asking for the real cap just keeps the
+     * request and the response honest.
      */
     async *paginate({
-      fn, params = {}, max,
+      fn, params = {}, max, perPage = 100,
     }) {
       let page = 1;
       let count = 0;
@@ -135,7 +138,7 @@ export default {
           params: {
             ...params,
             page,
-            per_page: 100,
+            per_page: perPage,
           },
         });
 

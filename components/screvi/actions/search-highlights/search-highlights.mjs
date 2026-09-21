@@ -54,6 +54,8 @@ export default {
         favorite: this.favorite,
       },
       max: this.maxResults,
+      // /search caps per_page at 50 and clamps anything larger.
+      perPage: 50,
     })) {
       results.push(highlight);
     }
