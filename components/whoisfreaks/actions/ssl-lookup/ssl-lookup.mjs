@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import whoisfreaks from "../../whoisfreaks.app.mjs";
 
 export default {
@@ -6,13 +5,14 @@ export default {
   name: "SSL Lookup",
   description:
     "Retrieve details about a domain's SSL certificate (e.g. google.com). Note that this action accepts JSON or XML format values, always requests the full certificate chain (chain=true), and suppresses the raw OpenSSL response (sslRaw=false) for cleaner outputs. [See the documentation](https://whoisfreaks.com/documentation/ssl-certificate-api)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     whoisfreaks,
     domainName: {

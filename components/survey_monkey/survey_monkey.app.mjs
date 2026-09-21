@@ -55,6 +55,11 @@ Alternatively, you can provide a custom *Survey ID*.`,
         }));
       },
     },
+    messageId: {
+      type: "string",
+      label: "Message ID",
+      description: "The ID of an invite message on the collector, a numeric string such as `31454399`. Run **List Invite Messages** to find valid message IDs; **Create Invite Message** also returns one as `id`.",
+    },
     objectType: {
       type: "string",
       label: "Object type",
@@ -187,6 +192,51 @@ Alternatively, you can provide a custom *Survey ID*.`,
       return this._makeRequest({
         method: "GET",
         path: `/collectors/${collectorId}`,
+        ...args,
+      });
+    },
+    async createCollector({
+      surveyId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/surveys/${surveyId}/collectors`,
+        ...args,
+      });
+    },
+    async getMessages({
+      collectorId, ...args
+    }) {
+      return this._paginatedRequest({
+        method: "GET",
+        path: `/collectors/${collectorId}/messages`,
+        ...args,
+      });
+    },
+    async createMessage({
+      collectorId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/collectors/${collectorId}/messages`,
+        ...args,
+      });
+    },
+    async addMessageRecipients({
+      collectorId, messageId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/collectors/${collectorId}/messages/${messageId}/recipients/bulk`,
+        ...args,
+      });
+    },
+    async sendMessage({
+      collectorId, messageId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/collectors/${collectorId}/messages/${messageId}/send`,
         ...args,
       });
     },

@@ -8,8 +8,9 @@ export default {
     + " Set `isDefault` to `true` to make this context automatically applied to new sessions."
     + " Use **Update Session Context** to modify an existing context, or **Delete Session Context** to remove one."
     + " [See the documentation](https://app.swaggerhub.com/apis-docs/HedyAI/hedy-api/1.5.2#/Session%20Contexts/post_contexts)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

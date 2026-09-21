@@ -12,8 +12,9 @@ export default {
     + " `mimeType = 'application/vnd.google-apps.folder'` to find the folder ID first."
     + " Supported content formats: plain text, Markdown, HTML, Rich Text, CSV."
     + " [See the documentation](https://developers.google.com/drive/api/v3/reference/files/create)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

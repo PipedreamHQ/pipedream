@@ -1,17 +1,17 @@
-// x-pd-ai: optimized
 import wealthbox from "../../wealthbox.app.mjs";
 
 export default {
   key: "wealthbox-create-task",
   name: "Create Task",
   description: "Create a new task in Wealthbox. Supply a task name, due date (`YYYY-MM-DD HH:MM AM/PM ±HHMM`), and optional category and priority. Use **List Category Options** to find valid category IDs. Example: create a task named `Send Q4 Report` due `2026-12-31 5:00 PM -0500` with priority `High`; returns the task object including `id`, `name`, `due_date`, `category`, and `priority`. [See the documentation](https://dev.wealthbox.com/#tasks-retrieve-all-tasks-post)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     wealthbox,
     name: {

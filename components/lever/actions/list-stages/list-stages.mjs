@@ -10,8 +10,9 @@ export default {
     + " Returns one page (up to `limit`); if the response's `hasNext` is true, pass its `next` value to `offset` to fetch the following page."
     + " Example: call with no arguments → returns stages like `{ id: \"lead-new\", text: \"New lead\" }`; pass a stage id to **Update Opportunity Stage**."
     + " [See the documentation](https://hire.lever.co/developer/documentation#list-all-stages)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

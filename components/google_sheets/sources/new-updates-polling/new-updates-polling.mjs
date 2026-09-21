@@ -8,7 +8,7 @@ export default {
   key: "google_sheets-new-updates-polling",
   name: "New Updates",
   description: "Emit new event each time a row or cell is updated in a spreadsheet.",
-  version: "0.0.5",
+  version: "0.0.6",
   dedupe: "unique",
   type: "source",
   props: {

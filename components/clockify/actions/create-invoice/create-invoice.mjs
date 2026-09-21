@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import clockify from "../../clockify.app.mjs";
 import constants from "../../common/constants.mjs";
@@ -8,8 +7,9 @@ export default {
   key: "clockify-create-invoice",
   name: "Create Invoice",
   description: "Creates a new invoice for a client in a Clockify workspace. Set **Import From** and **Import To** to bill tracked time: the invoice is created and the time entries logged in that period are imported as line items. Leave both blank to create an empty invoice. The invoice is created first and the tracked time is imported in a second request, so if the import fails the invoice still exists and can be removed with **Delete Invoice** or retried. Chain **Update Invoice** afterwards to set the subject, note or status. [See the documentation](https://docs.clockify.me/#tag/Invoice/operation/createInvoice)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -3,7 +3,7 @@ import constants from "../../common/constants.mjs";
 
 export default {
   name: "Logging - List Logs",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -12,6 +12,7 @@ export default {
   key: "google_cloud-logging-list-logs",
   description: "List the names of the logs that have entries in your project. Use a returned log name as the `Log name` input of the **Logging - Read Log Entries** action. [See the documentation](https://cloud.google.com/nodejs/docs/reference/logging/latest/logging/logging#_google_cloud_logging_Logging_getLogs_member_1_)",
   type: "action",
+  ai: "optimized",
   props: {
     googleCloud,
     maxResults: {

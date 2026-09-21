@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import elasticCloud from "../../elastic_cloud.app.mjs";
 
 export default {
   key: "elastic_cloud-list-traffic-filters",
   name: "List Traffic Filter Rulesets",
   description: "List all traffic filter rulesets in your Elastic Cloud organization. Use this first to discover ruleset IDs before calling **Update Traffic Filter Ruleset** or **Delete Traffic Filter Ruleset**. [See the documentation](https://www.elastic.co/docs/api/doc/cloud/operation/operation-get-traffic-filter-rulesets)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   props: {
     elasticCloud,
   },

@@ -5,8 +5,9 @@ export default {
   key: "social_fetch-search-reddit-subreddits",
   name: "Search Reddit Subreddits",
   description: "Searches posts within a specific Reddit subreddit. [See the documentation](https://app.socialfetch.dev/playground?path=/v1/reddit/subreddits/search&method=GET)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

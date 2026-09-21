@@ -5,13 +5,14 @@ export default {
   key: "easy_peasy_ai-generate-text",
   name: "Generate Text",
   description: "Generates text outputs for the templates. [See the documentation](https://easy-peasy.ai/presets)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     preset: {

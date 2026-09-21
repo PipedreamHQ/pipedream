@@ -6,7 +6,7 @@ export const additionalFields = {
   type: "object",
   label: "Additional Fields",
   description:
-      "Other fields to set for this record. Values will be parsed as JSON where applicable.",
+    "Other fields to set for this record as name -> value pairs. Values are parsed as JSON where applicable. Example: `{\"Industry\": \"Technology\", \"AnnualRevenue\": 1000000}`. Use **Describe Object** to discover valid field names.",
   optional: true,
 };
 
@@ -16,7 +16,6 @@ export function getProps({
   docsLink = "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_concepts.htm",
   showDocsInfo = true,
   showDateInfo = false,
-  advancedProps = true,
 }) {
   let { initialProps } = objType;
   if (initialProps && createOrUpdate === "update") {
@@ -54,29 +53,12 @@ export function getProps({
       ? "createProps"
       : "updateProps"],
     ...initialProps,
-    ...advancedProps
-      ? {
-        useAdvancedProps: {
-          propDefinition: [
-            salesforce,
-            "useAdvancedProps",
-          ],
-        },
-      }
-      : {
-        ...objType.extraProps,
-      },
+    additionalFields,
   };
 }
 
 export default {
   methods: {
-    getObjectType() {
-      return "";
-    },
-    getAdvancedProps() {
-      return {};
-    },
     getAdditionalFields,
     formatDateTimeProps(props = {}) {
       // https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_valid_date_formats.htm
@@ -100,19 +82,5 @@ export default {
           ];
         }));
     },
-  },
-  async additionalProps() {
-    const objectType = this.getObjectType();
-    if (!this.useAdvancedProps || !objectType) return {};
-
-    const fields = (await this.salesforce.getFieldsForObjectType(objectType));
-    const fieldNames = fields.map((f) => f.name);
-    const filteredProps = Object.fromEntries(Object.entries(this.getAdvancedProps()).filter(([
-      key,
-    ]) => fieldNames.includes(key) || key[0] === key[0].toLowerCase()));
-    return {
-      ...filteredProps,
-      additionalFields,
-    };
   },
 };

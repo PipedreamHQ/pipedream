@@ -22,8 +22,9 @@ export default {
     + " For ratio metrics, also provide `denominator`. Set `denominator` to the JSON literal `null` for non-ratio metrics."
     + " IMPORTANT: `metric_event_measure_id` is a data-source ID from your Eppo data pipeline configuration — obtain it from your Eppo workspace's data integration settings. It is NOT the same as a metric ID or aggregation ID. The Eppo API requires the full numerator/percentile/funnel definition even for metadata-only updates."
     + " [See the documentation - Create Metric](https://eppo.cloud/api/docs#/Metrics/createMetric) and [See the documentation - Update Metric](https://eppo.cloud/api/docs#/Metrics/updateMetric)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

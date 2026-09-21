@@ -6,7 +6,7 @@ export default {
   key: "attio-note-updated-instant",
   name: "New Note Updated (Instant)",
   description: "Emit new event when a note is updated. Fires when the title is modified (`note.updated`) and when the body content is edited (`note-content.updated`).",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   methods: {

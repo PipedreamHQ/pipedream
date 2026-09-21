@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import wealthbox from "../../wealthbox.app.mjs";
 import { CONTACT_TYPES } from "../../common/constants.mjs";
@@ -9,13 +8,14 @@ export default {
   key: "wealthbox-create-contact",
   name: "Create Contact",
   description: "Create a new contact in Wealthbox. For `Person` type, provide First Name and Last Name (both required). For `Household`, `Organization`, or `Trust` types, the Name field is used as the entity name (the API accepts a top-level `name` field for non-Person types). Example: create a `Person` contact with first name `Jane`, last name `Smith`, email `jane@acme.com`; returns the contact object including `id`, `first_name`, `last_name`, `email_addresses`, `type`, and `contact_type`. [See the documentation](https://dev.wealthbox.com/#contacts-create-a-new-contact-post)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     wealthbox,
     firstName: {

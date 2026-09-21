@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import wealthbox from "../../wealthbox.app.mjs";
 
@@ -9,8 +8,9 @@ export default {
   key: "wealthbox-find-contact",
   name: "Find Contact",
   description: "Search Wealthbox contacts by name, email, and/or phone. Automatically paginates through all result pages (capped at 1,000 contacts total). At least one search parameter is required. Example: search `name='Jane Smith'`; returns contact objects each including `id`, `first_name`, `last_name`, `email_addresses`, `phone_numbers`, `type`, and `contact_type`. Supply the optional Fields parameter (e.g. `[\"id\",\"first_name\",\"last_name\"]`) to receive a trimmed response. [See the documentation](https://dev.wealthbox.com/#contacts-retrieve-all-contacts-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

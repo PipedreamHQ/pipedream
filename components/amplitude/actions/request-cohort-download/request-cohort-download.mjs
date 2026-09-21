@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import app from "../../amplitude.app.mjs";
 
 export default {
   key: "amplitude-request-cohort-download",
   name: "Request Cohort Download",
   description: "Start a behavioral cohort download job (step 1 of 3: request -> status -> download, per Amplitude's Behavioral Cohorts Download API). Returns a `request_id` — pass it to **Get Cohort Download Status** to poll until the job completes, then to **Download Cohort File** to fetch the member list. Use **List Cohorts** first to discover valid cohort IDs. Example: call with `cohortId=\"abc123\"` -> returns `{request_id: \"req_456\", cohort_id: \"abc123\"}`. [See the documentation](https://amplitude.com/docs/apis/analytics/behavioral-cohorts#get-one-cohort).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

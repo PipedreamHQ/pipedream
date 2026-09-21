@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import contact from "../../common/sobjects/contact.mjs";
 
@@ -13,40 +12,29 @@ export default {
     + " Use **Describe Object** on `Contact` to discover which fields your org requires."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.3.7",
+  version: "0.3.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   methods: {
     ...common.methods,
-    getObjectType() {
-      return "Contact";
-    },
-    getAdvancedProps() {
-      return contact.extraProps;
-    },
   },
   props: getProps({
     objType: contact,
     docsLink,
-    showDateInfo: true,
   }),
   async run({ $ }) {
     /* eslint-disable no-unused-vars */
     const {
       salesforce,
-      getAdvancedProps,
-      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
-      useAdvancedProps,
       docsInfo,
-      dateInfo,
       additionalFields,
-      Birthdate,
       ...data
     } = this;
     /* eslint-enable no-unused-vars */
@@ -54,9 +42,6 @@ export default {
       $,
       data: {
         ...data,
-        ...formatDateTimeProps({
-          Birthdate,
-        }),
         ...getAdditionalFields(),
       },
     });

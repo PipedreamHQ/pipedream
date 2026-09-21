@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../writer.app.mjs";
 import {
   APPLICATION_DEFAULT_FIELDS,
@@ -15,8 +14,9 @@ export default {
     + `Auto-paginates up to ${MAX_RESULTS} applications. `
     + "Example: to list the content-generation agents and see just their names, call with `type=\"generation\"` and `fields=[\"name\"]` -> returns records like `{ id: \"...\", name: \"Blog Writer\" }`. "
     + "[See the documentation](https://dev.writer.com/api-reference/application-api/list-applications)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

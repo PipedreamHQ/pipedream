@@ -5,13 +5,14 @@ export default {
   key: "spiritme-generate-video",
   name: "Generate Video",
   description: "Generates a new video using specific voice and avatar props. [See the documentation](https://api.spiritme.tech/api/swagger/#/videos/videos_create)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     spiritme,
     name: {

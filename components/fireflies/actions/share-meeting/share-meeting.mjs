@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import fireflies from "../../fireflies.app.mjs";
 import mutations from "../../common/mutations.mjs";
 import constants from "../../common/constants.mjs";
@@ -8,13 +7,14 @@ export default {
   key: "fireflies-share-meeting",
   name: "Share Meeting",
   description: "Share a meeting with up to 50 people by email, optionally expiring their access after a number of days. Only the meeting owner or a team admin (on the owner's team) can share a meeting. Rate-limited to 10 requests per hour per user. Use **Revoke Meeting Access** to remove access later. [See the documentation](https://docs.fireflies.ai/graphql-api/mutation/share-meeting)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     fireflies,
     meetingId: {

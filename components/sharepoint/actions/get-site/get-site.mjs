@@ -10,8 +10,9 @@ export default {
     + "Use this when you know the site path; for discovery, use **Search Sites** or **List Sites**."
     + "\n\n"
     + "[See the documentation](https://learn.microsoft.com/en-us/graph/api/site-get?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

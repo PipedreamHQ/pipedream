@@ -7,7 +7,7 @@ export default {
   key: "ramp_sandbox-new-transaction-created",
   name: "New Transaction Created",
   description: "Emit new event for each new transaction created in Ramp.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

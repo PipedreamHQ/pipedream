@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../box.app.mjs";
 import { getFileUploadBody } from "../../common/common-file-upload.mjs";
 
@@ -6,13 +5,14 @@ export default {
   name: "Upload a File",
   description: "Uploads a file (max 50MB — Box's limit for direct uploads) to a Box folder. The file name must be unique within the parent folder (case-insensitive). Provide either a file URL or a path to a file in the `/tmp` directory. Use **Upload File Version** to update an existing file's content instead. [See the documentation](https://developer.box.com/reference/post-files-content/).",
   key: "box-upload-file",
-  version: "0.1.8",
+  version: "0.1.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     file: {

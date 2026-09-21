@@ -7,8 +7,9 @@ export default {
   name: "List Documents",
   description:
     "Lists documents for a given extractor by reading extraction records (GET /v1/extracted_data/{extractorId}) and returning their `documentId` and `fileName`, deduplicated by `documentId`. AlgoDocs has no dedicated documents endpoint, so this action derives the document list from extracted data. Use it to discover a valid `documentId` before configuring **New Extracted Data**. Run **List Extractors** to find a valid extractor ID first. [See the documentation](https://api.algodocs.com/).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

@@ -1,4 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
+import {
+  DOCUMENT_FIELDS, POINTS,
+} from "./constants.mjs";
 
 function getTextContentFromDocument(content) {
   let textContent = "";
@@ -48,6 +51,118 @@ function selectInsertedTable(beforeTables, afterTables, requestedIndex) {
     ? beforeTables.length
     : beforeTables.filter(({ startIndex }) => startIndex < requestedIndex).length;
   return afterTables[precedingCount] ?? null;
+}
+
+function collectTextWithIndices(content) {
+  let text = "";
+  const indexMap = [];
+
+  const walk = (elements) => {
+    (elements || []).forEach((element) => {
+      (element.paragraph?.elements || []).forEach((paragraphElement) => {
+        const run = paragraphElement.textRun?.content;
+        if (!run) {
+          return;
+        }
+        const start = paragraphElement.startIndex ?? 0;
+        for (let offset = 0; offset < run.length; offset++) {
+          indexMap.push(start + offset);
+        }
+        text += run;
+      });
+      (element.table?.tableRows || []).forEach((row) => {
+        (row.tableCells || []).forEach((cell) => walk(cell.content));
+      });
+      if (element.tableOfContents) {
+        walk(element.tableOfContents.content);
+      }
+    });
+  };
+
+  walk(content);
+  return {
+    text,
+    indexMap,
+  };
+}
+
+function findTextRanges({
+  text, indexMap, needle, matchCase,
+}) {
+  const ranges = [];
+  if (!needle) {
+    return ranges;
+  }
+  const target = matchCase
+    ? needle
+    : needle.toLowerCase();
+
+  for (let i = 0; i + needle.length <= text.length; i++) {
+    const window = text.slice(i, i + needle.length);
+    const candidate = matchCase
+      ? window
+      : window.toLowerCase();
+    if (candidate !== target) {
+      continue;
+    }
+    ranges.push({
+      startIndex: indexMap[i],
+      endIndex: indexMap[i + needle.length - 1] + 1,
+    });
+    i += needle.length - 1;
+  }
+  return ranges;
+}
+
+// `#RRGGBB` (or `RRGGBB`) to the API's OptionalColor, whose channels are 0-1.
+function hexToOptionalColor(hex) {
+  const normalized = String(hex).trim()
+    .replace(/^#/, "");
+  if (!/^[0-9a-fA-F]{6}$/.test(normalized)) {
+    return null;
+  }
+  const channel = (start) => parseInt(normalized.slice(start, start + 2), 16) / 255;
+  return {
+    color: {
+      rgbColor: {
+        red: channel(0),
+        green: channel(2),
+        blue: channel(4),
+      },
+    },
+  };
+}
+
+function styleBuilder(unit = POINTS) {
+  const style = {};
+  const fields = [];
+
+  return {
+    style,
+    fields,
+    set(name, value) {
+      if (value == null) {
+        return;
+      }
+      style[name] = value;
+      fields.push(name);
+    },
+    setDimension(name, magnitude) {
+      if (magnitude == null) {
+        return;
+      }
+      this.set(name, {
+        magnitude,
+        unit,
+      });
+    },
+    get isEmpty() {
+      return !fields.length;
+    },
+    get mask() {
+      return fields.join(",");
+    },
+  };
 }
 
 function adjustPropDefinitions(props, app) {
@@ -138,11 +253,79 @@ function parseRfc3339(value, label) {
   return new Date(parsed).toISOString();
 }
 
+// Split a field mask on its top-level commas only, so a nested selection like
+// `tabs(documentTab(body))` stays in one piece.
+function splitFieldMask(fields) {
+  const parts = [];
+  let depth = 0;
+  let current = "";
+  for (const char of String(fields)) {
+    if (char === "(") {
+      depth += 1;
+    } else if (char === ")") {
+      depth -= 1;
+      if (depth < 0) {
+        throw new ConfigurationError(`Invalid Fields mask "${fields}": unbalanced parentheses.`);
+      }
+    } else if (char === "," && !depth) {
+      parts.push(current);
+      current = "";
+      continue;
+    }
+    current += char;
+  }
+  if (depth) {
+    throw new ConfigurationError(`Invalid Fields mask "${fields}": unbalanced parentheses.`);
+  }
+  parts.push(current);
+  return parts;
+}
+
+// Docs field masks accept either camelCase or underscore-separated names, so
+// `document_id` and `documentId` are both valid.
+function normalizeFieldName(name) {
+  return name.replace(/_/g, "").toLowerCase();
+}
+
+const NORMALIZED_DOCUMENT_FIELDS = new Set(DOCUMENT_FIELDS.map(normalizeFieldName));
+
+// Reject an unusable field mask BEFORE the caller mutates the document. Every
+// write action fetches the masked document to build its return value, so an
+// invalid mask would otherwise throw after the edit already landed, and a
+// retrying agent would apply the edit twice. Top-level names are checked
+// locally; a nested selection is checked by the Docs API itself with a masked
+// read, since only the API knows the full resource schema.
+async function validateFieldMask(googleDocs, documentId, fields) {
+  if (!fields) {
+    return;
+  }
+  const parts = splitFieldMask(fields).map((part) => part.trim());
+  if (parts.some((part) => !part)) {
+    throw new ConfigurationError(`Invalid Fields mask "${fields}": empty selection (check for a leading, trailing, or doubled comma).`);
+  }
+  const unknown = parts
+    .map((part) => part.split(/[/(.]/)[0].trim())
+    .filter((name) => !NORMALIZED_DOCUMENT_FIELDS.has(normalizeFieldName(name)));
+  if (unknown.length) {
+    throw new ConfigurationError(`Unknown Fields selection${unknown.length === 1
+      ? ""
+      : "s"} ${unknown.map((name) => `"${name}"`).join(", ")}. A field mask may only select top-level fields of the Google Docs document: ${DOCUMENT_FIELDS.join(", ")}.`);
+  }
+  if (/[()/.]/.test(fields)) {
+    await googleDocs.getDocument(documentId, false, fields);
+  }
+}
+
 export default {
+  styleBuilder,
+  collectTextWithIndices,
+  findTextRanges,
+  hexToOptionalColor,
   getTextContentFromDocument,
   addTextContentToDocument,
   flattenTables,
   selectInsertedTable,
   adjustPropDefinitions,
   parseRfc3339,
+  validateFieldMask,
 };

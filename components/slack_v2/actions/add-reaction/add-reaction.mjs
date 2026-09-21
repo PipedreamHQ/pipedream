@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import slack from "../../slack_v2.app.mjs";
 
 export default {
@@ -6,12 +5,15 @@ export default {
   name: "Add Reaction",
   description:
     "Add an emoji reaction to a message."
-    + " Accepts a channel ID or channel name (resolved automatically)."
+    + " Accepts a channel ID (preferred — resolves instantly) or channel name (resolved by"
+    + " scanning up to 5 pages, ~5,000 channels, of the workspace's channel list — a name beyond"
+    + " that bound will not be found)."
     + " Use **Get Channel History** or **Search** to find the message timestamp."
     + " Emoji name should be without colons (e.g. `thumbsup`, `fire`, `heart`)."
     + " [See the documentation](https://api.slack.com/methods/reactions.add)",
-  version: "0.0.3",
+  version: "0.0.9",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -20,9 +22,10 @@ export default {
   props: {
     slack,
     channel: {
-      type: "string",
-      label: "Channel",
-      description: "Channel ID (e.g. `C1234567890`) or channel name (e.g. `general` or `#general`). Resolved automatically.",
+      propDefinition: [
+        slack,
+        "conversation",
+      ],
     },
     timestamp: {
       type: "string",

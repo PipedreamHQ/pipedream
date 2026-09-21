@@ -2,12 +2,20 @@ import constants from "../../common/constants.mjs";
 import monday from "../../monday.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
+const COLUMN_TYPE_STATUS = "status";
+const COLUMN_TYPE_DROPDOWN = "dropdown";
+const DEFAULTS_SUPPORTED_COLUMN_TYPES = [
+  COLUMN_TYPE_STATUS,
+  COLUMN_TYPE_DROPDOWN,
+];
+
 export default {
   key: "monday-create-column",
   name: "Create Column",
-  description: "Creates a column. [See the documentation](https://developer.monday.com/api-reference/reference/columns#create-a-column)",
+  description: "Add a column to an existing board. Use when a board is missing a field you need before setting values with **Create Item** or **Update Column Values**. Set `Board ID`, `Title` and `Column Type` (e.g. `status`, `text`, `date`, `numbers`). `Custom Labels (Defaults)` is accepted only when `Column Type` is `status` or `dropdown` and is rejected for any other type. Example: Title `Priority`, Column Type `status`, Custom Labels `{ \"1\": \"High\", \"2\": \"Low\" }`. Returns the new column's ID as a string (e.g. `status_1`). Call **List Columns** afterwards to confirm the ID and the labels it accepts. [See the documentation](https://developer.monday.com/api-reference/reference/columns#create-a-column)",
   type: "action",
-  version: "0.1.5",
+  ai: "optimized",
+  version: "0.1.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -31,7 +39,6 @@ export default {
       label: "Column Type",
       description: "The type of the new column",
       options: constants.COLUMN_TYPE_OPTIONS,
-      reloadProps: true,
     },
     description: {
       type: "string",
@@ -39,31 +46,25 @@ export default {
       description: "The description of the new column",
       optional: true,
     },
-  },
-  async additionalProps() {
-    const props = {};
-    if ([
-      "status",
-      "dropdown",
-    ].includes(this.columnType)) {
-      props.defaults = {
-        type: "string",
-        label: "Custom Labels (Defaults)",
-        description: "The new column's custom labels (defaults). For use with column types `status` or `dropdown`. Should be an object in the format `{ \"1\": \"Technology\", \"2\": \"Marketing\" }` where each key is the label ID and each value is the label text. [See the documentation](https://developer.monday.com/api-reference/reference/columns#create-a-status-or-dropdown-column-with-custom-labels) for more information.",
-        optional: true,
-      };
-    }
-    return props;
+    defaults: {
+      type: "string",
+      label: "Custom Labels (Defaults)",
+      description: "The new column's custom labels (defaults). Only valid when `Column Type` is `status` or `dropdown` — setting it for any other column type fails. Should be a JSON object in the format `{ \"1\": \"Technology\", \"2\": \"Marketing\" }` where each key is the label ID and each value is the label text. [See the documentation](https://developer.monday.com/api-reference/reference/columns#create-a-status-or-dropdown-column-with-custom-labels) for more information",
+      optional: true,
+    },
   },
   async run({ $ }) {
     let { defaults } = this;
-    if (defaults) {
+    if (defaults !== undefined) {
+      if (!DEFAULTS_SUPPORTED_COLUMN_TYPES.includes(this.columnType)) {
+        throw new ConfigurationError("`Custom Labels (Defaults)` is only supported for `status` and `dropdown` column types.");
+      }
       try {
-        if (this.columnType === "status") {
+        if (this.columnType === COLUMN_TYPE_STATUS) {
           defaults = JSON.stringify({
             labels: JSON.parse(defaults),
           });
-        } else if (this.columnType === "dropdown") {
+        } else if (this.columnType === COLUMN_TYPE_DROPDOWN) {
           const obj = JSON.parse(defaults);
           defaults = JSON.stringify({
             settings: {

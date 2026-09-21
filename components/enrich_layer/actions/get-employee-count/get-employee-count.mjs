@@ -4,8 +4,9 @@ export default {
   key: "enrich_layer-get-employee-count",
   name: "Get Employee Count",
   description: "Get the total number of employees of a company from various sources. Cost: 1 credit per successful request. [See the documentation](https://enrichlayer.com/docs/api/v2/company-api/employee-count).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   name: "Create Availability Block",
   description: "Create an availability block in Mews. [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/availabilityblocks#add-availability-blocks)",
   key: "mews-create-availability-block",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

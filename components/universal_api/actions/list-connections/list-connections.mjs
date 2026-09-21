@@ -8,8 +8,9 @@ export default {
   name: "List Connections",
   description:
     "List connections from the Platform API on Universal API. Returns an array; use the returned IDs with **Get Connection**, **Update Connection**, or **Delete Connection**. [See the documentation](https://docs.universalapi.io/reference/list-connections).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

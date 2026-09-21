@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import superCarl from "../../super_carl.app.mjs";
 import {
   applyFieldSelection,
@@ -11,13 +10,14 @@ export default {
   key: "super_carl-search-posts",
   name: "Search Posts",
   description: "Search Super Carl post and activity signals, including authored posts, comments, likes, reactions, company mentions, and engagement. Use this before **Search People** when the workflow is anchored on someone posting or engaging with content; enable With People to return deduped actors from matching activity. Post rows can be large — pass Fields (flat field names only, e.g. `author_name`, `text`, `url`; there is no nested `author.name` path) to keep the result small; With People's deduped rows are already trimmed and don't need Fields. [See the documentation](https://supercarl.ai/docs#endpoints-posts)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     superCarl,
     query: {

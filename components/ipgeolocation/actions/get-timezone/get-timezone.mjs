@@ -5,8 +5,9 @@ export default {
   name: "Get Timezone",
   description:
     "Retrieve timezone information using a timezone name, IP address, coordinates, city, IATA code, ICAO code, or UN/LOCODE. [See the documentation](https://ipgeolocation.io/documentation/timezone-api.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

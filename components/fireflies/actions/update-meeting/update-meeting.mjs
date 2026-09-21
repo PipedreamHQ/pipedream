@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import fireflies from "../../fireflies.app.mjs";
 import mutations from "../../common/mutations.mjs";
 import constants from "../../common/constants.mjs";
@@ -8,13 +7,14 @@ export default {
   key: "fireflies-update-meeting",
   name: "Update Meeting",
   description: "Update a meeting's title, privacy level, and/or channel. Each selected field is applied through a separate, sequential mutation rather than a single atomic call — if a later update fails, earlier successful changes remain applied. Set only the fields you want to change — unset fields are left untouched. Updating the title requires admin privileges on the Fireflies team. See the documentation for [Update Meeting Title](https://docs.fireflies.ai/graphql-api/mutation/update-meeting-title), [Update Meeting Privacy](https://docs.fireflies.ai/graphql-api/mutation/update-meeting-privacy) and [Update Meeting Channel](https://docs.fireflies.ai/graphql-api/mutation/update-meeting-channel)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     fireflies,
     meetingId: {

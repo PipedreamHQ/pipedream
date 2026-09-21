@@ -1,17 +1,18 @@
-// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import opportunity from "../../common/sobjects/opportunity.mjs";
+import salesforce from "../../salesforce_rest_api.app.mjs";
 import { docsLink } from "../create-opportunity/create-opportunity.mjs";
 
+/* eslint-disable no-unused-vars */
 const {
-  salesforce, ...props
+  salesforce: _sf, ...props
 } = getProps({
   createOrUpdate: "update",
   objType: opportunity,
   docsLink,
   showDateInfo: true,
-  advancedProps: false,
 });
+/* eslint-enable no-unused-vars */
 
 export default {
   ...common,
@@ -22,35 +23,23 @@ export default {
     + " Only the fields you supply change; everything else is left as-is."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.3.7",
+  version: "0.4.1",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   methods: {
     ...common.methods,
-    getObjectType() {
-      return "Opportunity";
-    },
-    getAdvancedProps() {
-      return opportunity.extraProps;
-    },
   },
   props: {
     salesforce,
     opportunityId: {
-      propDefinition: [
-        salesforce,
-        "recordId",
-        () => ({
-          objType: "Opportunity",
-          nameField: "Name",
-        }),
-      ],
+      type: "string",
       label: "Opportunity ID",
-      description: "The Opportunity to update.",
+      description: "The ID of the Opportunity to update (Salesforce's 15- or 18-character record ID, e.g. `006XX000004TmXY`). Use **SOQL Query** to find the ID.",
     },
     ...props,
   },
@@ -58,12 +47,9 @@ export default {
     /* eslint-disable no-unused-vars */
     const {
       salesforce,
-      getAdvancedProps,
-      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
       opportunityId,
-      useAdvancedProps,
       docsInfo,
       dateInfo,
       additionalFields,

@@ -5,8 +5,9 @@ export default {
   key: "tableau-list-workbooks",
   name: "List Workbooks",
   description: "Returns a list of the workbooks on the specified site. [See the documentation](https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_workbooks_and_views.htm#query_workbooks_for_site)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

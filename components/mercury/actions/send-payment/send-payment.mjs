@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { randomUUID } from "crypto";
 import { ConfigurationError } from "@pipedream/platform";
 import mercury from "../../mercury.app.mjs";
@@ -13,8 +12,9 @@ export default {
   key: "mercury-send-payment",
   name: "Send Payment",
   description: "Create a payment transaction from a Mercury account to an existing recipient via ACH, check, or domestic wire. This endpoint requires the connected account's IP to be whitelisted; the transaction is submitted immediately (there is no scheduling parameter), but is returned in a `pending` state when the account's policy requires approval (otherwise `sent`) — check the returned `status`. Run **List Accounts** for the account ID and **List Recipients** for the recipient ID. NOTE: this only submits the payment; submitting a separate approval request is a different Mercury operation (`requestSendMoney`). Duplicate payments (same recipient, account, and amount within 24h) are rejected with HTTP 400. All IDs (`accountId`, `recipientId`, and the returned transaction `id`) are UUIDs, not prefixed strings. Example: call with `accountId=\"69c8b0ee-8b87-11f1-a9e5-e7cd8f0e3f51\"`, `recipientId=\"b56db170-927b-11f1-a805-27c2879b4c72\"`, `amount=\"10.00\"`, and `paymentMethod=\"ach\"` -> returns the created transaction `{ id: \"9a3f2c14-4d21-11f1-8c7e-1b2d3e4f5a6b\", status: \"pending\" }`. [See the documentation](https://docs.mercury.com/reference/createtransaction)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

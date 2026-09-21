@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../box.app.mjs";
 import constants from "../../common/constants.mjs";
@@ -7,8 +6,9 @@ export default {
   key: "box-create-shared-link",
   name: "Create Shared Link",
   description: "Creates or updates a shared link for a file or folder. Access levels: `open`, `company`, or `collaborators`. A password can only be set when access is `open`; download permission applies only when access is `open` or `company`. A resource can have only one shared link at a time. [See the documentation](https://developer.box.com/guides/shared-links/create-or-update/).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

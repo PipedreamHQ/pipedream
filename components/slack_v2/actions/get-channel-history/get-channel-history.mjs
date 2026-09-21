@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import utils from "../../common/utils.mjs";
 import slack from "../../slack_v2.app.mjs";
 
@@ -7,7 +6,9 @@ export default {
   name: "Get Channel History",
   description:
     "Read the recent message history from a specific channel or direct message (DM)."
-    + " Accepts a channel ID or channel name (resolved automatically)."
+    + " Accepts a channel ID (preferred — resolves instantly) or channel name (resolved by"
+    + " scanning up to 5 pages, ~5,000 channels, of the workspace's channel list — a name beyond"
+    + " that bound will not be found, so pass the ID when you have it)."
     + " To read a DM, pass the other person's **user ID** (e.g. `U1234567890`) as the channel — pass your OWN user ID to read your conversation with yourself."
     + " Use this when you want to see a channel's or DM's latest messages — unlike **Search** which finds messages by keyword."
     + " Returns messages with text, timestamps (ts), reactions, and user IDs."
@@ -16,8 +17,9 @@ export default {
     + " messages carry blocks, attachments and edit metadata, so a busy channel can run to tens"
     + " of thousands of characters and be truncated before you see any of it."
     + " [See the documentation](https://api.slack.com/methods/conversations.history)",
-  version: "0.2.0",
+  version: "0.2.6",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -28,7 +30,7 @@ export default {
     channel: {
       type: "string",
       label: "Channel",
-      description: "Channel ID (e.g. `C1234567890`) or channel name (e.g. `general` or `#general`). For a direct message, pass a user ID (e.g. `U1234567890`) — including your own, to read your self-DM. Resolved automatically.",
+      description: "Prefer a channel ID (e.g. `C1234567890`) — use **List Channels** to look it up; it resolves instantly. A channel name (e.g. `general` or `#general`) is also accepted, but resolving it scans up to 5 pages (~5,000 channels) of the workspace's channel list, which can be slow — and a valid channel beyond that bound will not be found. For a direct message, pass a user ID (e.g. `U1234567890`) — including your own, to read your self-DM.",
     },
     limit: {
       type: "integer",
@@ -40,13 +42,13 @@ export default {
     oldest: {
       type: "string",
       label: "Oldest",
-      description: "Only messages after this Unix timestamp. Inclusive.",
+      description: "Only return messages posted after this timestamp (inclusive), as a Slack timestamp, e.g. `1610000000.000000` (Unix epoch seconds, optionally with fractional microseconds).",
       optional: true,
     },
     latest: {
       type: "string",
       label: "Latest",
-      description: "Only messages before this Unix timestamp. Default: now.",
+      description: "Only return messages posted before this timestamp. Defaults to now. Same format as `Oldest`, e.g. `1610000000.000000`.",
       optional: true,
     },
     fields: {

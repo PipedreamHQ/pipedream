@@ -17,8 +17,9 @@ export default {
     + " [See the docs](https://docs.datadoghq.com/api/"
     + "latest/hosts/"
     + "#get-all-hosts-for-your-organization)",
-  version: "1.0.1",
+  version: "1.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

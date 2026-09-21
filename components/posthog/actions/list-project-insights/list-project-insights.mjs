@@ -5,7 +5,7 @@ export default {
   key: "posthog-list-project-insights",
   name: "List Project Insights",
   description: "Retrieve a list of insights for a project. [See the documentation](https://posthog.com/docs/api/insights#get-api-projects-project_id-insights)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,6 +13,7 @@ export default {
     idempotentHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     posthog,
     organizationId: {

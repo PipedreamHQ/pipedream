@@ -5,13 +5,14 @@ export default {
   key: "google_drive-create-file-from-text",
   name: "Create New File From Text",
   description: "Create a new file from plain text. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/create) for more information",
-  version: "0.2.17",
+  version: "0.2.18",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     googleDrive,
     drive: {

@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import fathom from "../../fathom.app.mjs";
 
 export default {
   key: "fathom-list-teams",
   name: "List Teams",
   description: "List the teams configured for the account. Use this to discover valid team names before filtering **List Team Members**, **List Users and Permissions**, or other team-scoped tools. [See the documentation](https://developers.fathom.ai/api-reference/teams/list-teams)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

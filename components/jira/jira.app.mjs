@@ -554,6 +554,18 @@ export default {
         },
       });
     },
+    refreshHooks({
+      cloudId, hookIds,
+    } = {}) {
+      return this._makeRequest({
+        cloudId,
+        method: "PUT",
+        path: "/webhook/refresh",
+        data: {
+          webhookIds: hookIds,
+        },
+      });
+    },
     assignIssue({
       issueIdOrKey, ...args
     } = {}) {
@@ -772,20 +784,6 @@ export default {
         cloudId,
         method: "PUT",
         path: `/issue/${issueIdOrKey}`,
-        ...args,
-      });
-    },
-    getEditIssueMetadata({
-      issueIdOrKey, ...args
-    } = {}) {
-      return this._makeRequest({
-        path: `/issue/${issueIdOrKey}/editmeta`,
-        ...args,
-      });
-    },
-    getCreateIssueMetadata(args = {}) {
-      return this._makeRequest({
-        path: "/issue/createmeta",
         ...args,
       });
     },

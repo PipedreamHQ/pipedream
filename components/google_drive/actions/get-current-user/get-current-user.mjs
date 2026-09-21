@@ -6,8 +6,9 @@ export default {
   key: "google_drive-get-current-user",
   name: "Get Current User",
   description: "Retrieve Google Drive account metadata for the authenticated user via `about.get`, including display name, email, permission ID, and storage quota. Useful when flows or agents need to confirm the active Google identity or understand available storage. [See the documentation](https://developers.google.com/drive/api/v3/reference/about/get).",
-  version: "0.0.11",
+  version: "0.0.12",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

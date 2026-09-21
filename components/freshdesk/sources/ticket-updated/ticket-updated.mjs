@@ -5,7 +5,7 @@ export default {
   key: "freshdesk-ticket-updated",
   name: "Ticket Updated",
   description: "Emit new event when a ticket is updated. [See the documentation](https://developers.freshdesk.com/api/#filter_tickets)",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "source",
   dedupe: "unique",
   methods: {

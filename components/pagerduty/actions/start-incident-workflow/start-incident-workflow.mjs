@@ -9,8 +9,9 @@ export default {
     + " Use **List Incidents** or **Get Incident** to find the incident ID."
     + " Requires Business+ plan — accounts without this plan will receive a 402 error."
     + " [See the documentation](https://developer.pagerduty.com/api-reference/02bb39b038412-start-an-incident-workflow-instance)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

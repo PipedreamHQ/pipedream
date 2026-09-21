@@ -7,7 +7,7 @@ export default {
   key: "google_sheets-update-formatting",
   name: "Update Formatting",
   description: "Update the formatting of a cell in a spreadsheet. [See the documentation](https://developers.google.com/workspace/sheets/api/samples/formatting)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   annotations: {
     destructiveHint: true,

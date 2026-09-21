@@ -9,13 +9,14 @@ export default {
     "Add a comment to a Notion page, or reply to an existing discussion thread."
     + " Provide **either** a page ID/URL (use **Search** to resolve a page name) **or** a discussion ID — not both."
     + " [See the documentation](https://developers.notion.com/reference/create-a-comment)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     notion,
     pageId: {

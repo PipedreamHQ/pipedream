@@ -5,7 +5,7 @@ export default {
   name: "New Product Service Order Created",
   description: "Emit new product service orders as they are created (polling). [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/productserviceorders#get-all-product-service-orders)",
   key: "mews-product-service-order-created",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

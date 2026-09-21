@@ -5,8 +5,9 @@ export default {
   name: "Create Distributor Order",
   description:
     "Create a new order via the Distributors API on Universal API. Use **List Distributor Products** to discover valid product identifiers for the order items. [See the documentation](https://docs.universalapi.io/reference/create-order).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

@@ -5,8 +5,9 @@ export default {
   name: "Get Distributor Product",
   description:
     "Retrieve a single distributor product by ID from Universal API. Run **List Distributor Products** first to discover valid IDs. [See the documentation](https://docs.universalapi.io/reference/get-product).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

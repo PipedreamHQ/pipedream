@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import salesforce_rest_api from "../../salesforce_rest_api.app.mjs";
 import converter from "../../../helper_functions/actions/xml-to-json/xml-to-json.mjs";
 
@@ -10,13 +9,14 @@ export default {
     + " Every other Salesforce action already returns JSON, so this is only needed for outbound-message workflows."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_om_outboundmessaging.htm)",
-  version: "0.0.11",
+  version: "0.0.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     salesforce_rest_api,
     infoBox: {

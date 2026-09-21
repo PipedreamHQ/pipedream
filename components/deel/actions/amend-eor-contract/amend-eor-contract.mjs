@@ -10,8 +10,9 @@ export default {
     + " `effective_date` and `start_date` must be in ISO 8601 format (e.g., `2026-09-01`)."
     + " Use **List Contracts** to find the contract ID."
     + " [See the documentation](https://developer.deel.com/api/reference/endpoints/eor-amendments/create-contract-amendment)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

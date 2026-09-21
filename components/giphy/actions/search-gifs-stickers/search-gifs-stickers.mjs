@@ -5,13 +5,14 @@ export default {
   name: "Search Gifs/Stickers",
   description: "Searches all GIPHY gifs or stickers for a word or phrase. [See the docs here](https://developers.giphy.com/docs/api/endpoint#search).",
   key: "giphy-search-gifs-stickers",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     giphyApp,
     searchType: {

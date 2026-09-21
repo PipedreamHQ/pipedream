@@ -6,14 +6,15 @@ export default {
   key: "hubspot-create-or-update-contact",
   name: "Create or Update Contact",
   description:
-    "Create or update a contact in Hubspot. [See the documentation](https://developers.hubspot.com/docs/api/crm/contacts#endpoint?spec=POST-/crm/v3/objects/contacts)",
-  version: "0.0.38",
+    "Create a contact in HubSpot, or update it when one with the same email already exists (enable **Update If Exists**). Put contact fields in **Object Properties** as HubSpot internal names. Example: Object Properties `{ \"email\": \"ada@example.com\", \"firstname\": \"Ada\", \"jobtitle\": \"CTO\" }`. Returns the created or updated contact with its id. [See the documentation](https://developers.hubspot.com/docs/api/crm/contacts#endpoint?spec=POST-/crm/v3/objects/contacts)",
+  version: "1.0.1",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     updateIfExists: {

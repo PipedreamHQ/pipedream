@@ -4,8 +4,9 @@ export default {
   key: "connectwise_psa-list-tickets",
   name: "List Tickets",
   description: "Retrieves a list of tickets. [See the documentation](https://developer.connectwise.com/Products/ConnectWise_PSA/REST#/Tickets/getServiceTickets)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

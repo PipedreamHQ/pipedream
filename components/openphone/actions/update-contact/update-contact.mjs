@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import {
   normalizeNameValueList, parseObject,
 } from "../../common/utils.mjs";
@@ -8,13 +7,14 @@ export default {
   key: "openphone-update-contact",
   name: "Update Contact",
   description: "Update one or more fields on an existing contact. Only the fields you provide are changed; omitted fields are left as-is. Run **List Contacts** to find a contactId. Example: call with contactId from **List Contacts** and company=\"Acme Corp\" → updates just the company field and returns the updated contact record. [See the documentation](https://www.openphone.com/docs/api-reference/contacts/update-a-contact-by-id)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     openphone,
     contactId: {

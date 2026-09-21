@@ -8,8 +8,9 @@ export default {
     + " Returns service IDs, names, status, and `html_url`."
     + " Use **List Teams** to discover team IDs for filtering."
     + " [See the documentation](https://developer.pagerduty.com/api-reference/e960cca205c0f-list-services)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

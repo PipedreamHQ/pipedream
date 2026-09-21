@@ -5,8 +5,9 @@ export default {
   key: "daytona-clone-git-repository",
   name: "Clone Git Repository",
   description: "Clone a Git repository into a Daytona sandbox. Supports public and private repos, specific branches, and specific commits. [See the documentation](https://www.daytona.io/docs/en/typescript-sdk/git/#clone)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
