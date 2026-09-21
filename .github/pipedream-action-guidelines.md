@@ -34,6 +34,29 @@ export default {
 };
 ```
 
+### Actions Must Complete in a Single Call
+
+The synchronous, single-call contract above is not just an implementation detail — it is
+what makes an action callable as an MCP tool by an agent (including third-party MCP clients
+such as Sana AI) that has no concept of a paused, resumable workflow run.
+
+**Do not use `$.flow.rerun()`, or any other pause-and-resume primitive, in an action.**
+These depend on the Workflow Builder's stateful flow-execution engine to suspend a specific
+run and wake it up later. An MCP client sees only a single stateless request/response, so an
+action built around this primitive is not callable through MCP at all, regardless of how
+well it is described — this is not something a better description can fix.
+
+If the underlying operation is genuinely long-running:
+
+- Model it as a **source** if the goal is to react to an event over time (see
+  `pipedream-source-guidelines.md`), or
+- Design the action as a single call that kicks off the job and returns a job ID or status
+  the agent can check with a separate, complete "get status" tool call — never a call that
+  blocks or defers its own return.
+
+Flag any use of `$.flow.rerun()` (or a comparable defer/resume call) in an action file as a
+blocking issue, not a stylistic suggestion.
+
 ---
 
 ## The `$summary` Requirement
@@ -110,7 +133,8 @@ props: {
 ### `async options` (standard pattern)
 
 When a prop's valid values are dynamic but enumerable, use `async options()`. This is the
-standard pattern and works in both the workflow UI and agent contexts:
+standard pattern and works in both the Workflow Builder UI and MCP/agent contexts without
+requiring any special client support:
 
 ```javascript
 pipeline: {
@@ -127,18 +151,24 @@ pipeline: {
 ### `reloadProps` and `additionalProps`
 
 These patterns cause prop forms to dynamically reload or generate new fields based on
-earlier selections. They are legitimate tools — the review question is whether they are
-actually needed.
+earlier selections. They depend on an interactive configuration loop that only the
+Workflow Builder UI — or an MCP client that specifically implements Pipedream's
+`retrieve_options`/`configure_component` meta-tools — can drive. That bridging is an
+implementation detail of specific MCP clients, not something guaranteed by the MCP
+protocol, and cannot be assumed for every agent this action might be exposed to (Sana AI
+included).
 
 **When reviewing a PR that adds `reloadProps: true` or `additionalProps()`:**
-- Ask whether `async options()` alone could satisfy the use case — for example, by
-  returning a context-filtered set of options based on another prop's current value.
-  If it can, flag the dynamic pattern and suggest the simpler alternative.
-- If the structure of required inputs fundamentally depends on an earlier selection in a
-  way that a fixed set of optional props cannot represent, the pattern is justified.
-- Keep in mind that `reloadProps` and `additionalProps()` may not work in some agent (MCP)
-  contexts — if the component is intended for MCP use, this tradeoff should be noted
-  so the author can make an informed decision.
+- Default to `async options()` alone. Ask whether it could satisfy the use case — for
+  example, by returning a context-filtered set of options based on another prop's current
+  value. If it can, the dynamic pattern should be flagged and replaced, not merely
+  questioned.
+- Only accept `reloadProps`/`additionalProps()` when the structure of required inputs
+  genuinely depends on an earlier selection in a way a fixed set of optional props cannot
+  represent.
+- Even when justified, the PR should call out explicitly that MCP clients without
+  meta-tool support will not be able to complete configuration of this action. That is a
+  real functional limitation to surface, not a footnote to skip.
 
 ### JSON object props for open-ended inputs
 
