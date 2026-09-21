@@ -4,7 +4,7 @@ export default {
   key: "google_ads-list-campaign-criteria",
   name: "List Campaign Criteria",
   description: "List criteria (keywords, placements, etc.) for campaigns in a customer account. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/GoogleAdsService/Search?transport=rest)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,
