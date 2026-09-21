@@ -5,7 +5,7 @@ export default {
   key: "google_docs-get-document",
   name: "Get Document",
   description: "Get the full text content and structure of a Google Doc by its ID. Returns the document body plus a flattened `textContent` field for easy reading. A Google Doc can hold several tabs: `body`/`textContent` are always the **first** tab's content, and every tab is listed in `tabs` (with each tab's own `textContent` when the document has more than one), so a single call shows all of the document's text. Pass a **Tab ID** from that list to get one tab's full structure on its own. Optionally supply a `fields` mask to request a partial (e.g. metadata-only) response and skip the body-text enrichment. Use **Find Document** first to resolve a document's name to its ID. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/get)",
-  version: "1.2.0",
+  version: "1.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -28,10 +28,11 @@ export default {
       optional: true,
     },
     fields: {
-      type: "string",
-      label: "Fields",
+      propDefinition: [
+        googleDocs,
+        "fields",
+      ],
       description: "Optional Google Docs API field mask (partial response) that limits which top-level document fields are returned, e.g. `title,documentId,revisionId` for metadata only. When set, only the requested fields are returned and the `textContent` enrichment is skipped, so a body-less response will not error. Cannot be combined with **Tab ID**. Leave blank to return the full document with `textContent`. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/get#query-parameters)",
-      optional: true,
     },
   },
   async run({ $ }) {

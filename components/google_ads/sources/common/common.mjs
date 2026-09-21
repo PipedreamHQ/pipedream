@@ -32,8 +32,9 @@ export default {
     },
     async getAndProcessData(max = 0) {
       const savedIds = this._getSavedIds();
-      const items = await this.getItems(savedIds);
-      items?.filter((item) => !savedIds.includes(this.getItemId(item)))
+      const seen = new Set(savedIds);
+      const items = await this.getItems();
+      items?.filter((item) => !seen.has(this.getItemId(item)))
         .forEach((item, index) => {
           const id = this.getItemId(item);
           if (!max || index < max) {

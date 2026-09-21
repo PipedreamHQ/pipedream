@@ -4,7 +4,7 @@ export default {
   key: "google_ads-list-ad-group-ads",
   name: "List Ad Group Ads",
   description: "List ads within ad groups for a customer account. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/GoogleAdsService/Search?transport=rest)",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,

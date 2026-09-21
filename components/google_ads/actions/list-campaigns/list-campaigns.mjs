@@ -4,7 +4,7 @@ export default {
   key: "google_ads-list-campaigns",
   name: "List Campaigns",
   description: "List campaigns for a customer account. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/GoogleAdsService/Search?transport=rest)",
-  version: "1.0.0",
+  version: "1.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
