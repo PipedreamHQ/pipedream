@@ -24,7 +24,6 @@ export default {
       description: "Which search engine to query",
       options: [
         "google",
-        "bing",
         "duckduckgo",
         "brave",
         "mojeek",
