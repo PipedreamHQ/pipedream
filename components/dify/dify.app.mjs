@@ -61,20 +61,5 @@ export default {
         ...args,
       });
     },
-    listDatasets(args = {}) {
-      return this._makeRequest({
-        path: "/datasets",
-        ...args,
-      });
-    },
-    retrieveFromDataset({
-      datasetId, ...args
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/datasets/${datasetId}/retrieve`,
-        ...args,
-      });
-    },
   },
 };
