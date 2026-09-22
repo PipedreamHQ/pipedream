@@ -3,7 +3,7 @@ import dify from "../../dify.app.mjs";
 export default {
   key: "dify-list-workflow-logs",
   name: "List Workflow Logs",
-  description: "List past runs of a Dify Workflow or Chatflow app, newest first, with each run's status, token usage, step count, and timing. Use this to discover which `User` values have called the app: for runs started through the API, `created_by_end_user.session_id` is the `User` value sent with that run, so you can pass it to **List Conversations** or **List Messages**. Runs started by a team member inside Dify have `created_by_end_user: null` and an account under `created_by_account` instead. Each entry is a run-level summary; node-by-node execution logs for finished runs aren't available. Example: `Status` `failed`, `Limit` `5` → `{ data: [{ id, created_by_role: \"end_user\", created_by_end_user: { id, session_id: \"user-123\", type: \"service-api\" }, workflow_run: { id, status: \"failed\", error, total_tokens, elapsed_time } }], page: 1, limit: 5, total: 12, has_more: true }`. If `has_more` is `true`, call again with `Page` incremented by one. [See the documentation](https://docs.dify.ai/en/api-reference/workflow-runs/list-workflow-logs)",
+  description: "List past runs of a Dify **Workflow** app, newest first, with each run's status, token usage, step count, and timing. Only Workflow apps record these logs: a Chatflow, Chatbot, Agent, or Text Generator app's key returns an empty page, not an error. For runs started through the API, `created_by_end_user.session_id` is the `User` value sent with that run, which is useful for tracing a run back to its caller and for filtering with `User`. Runs started by a team member inside Dify have `created_by_end_user: null` and an account under `created_by_account` instead. Each entry is a run-level summary; node-by-node execution logs for finished runs aren't available. Example: `Status` `failed`, `Limit` `5` → `{ data: [{ id, created_by_role: \"end_user\", created_by_end_user: { id, session_id: \"user-123\", type: \"service-api\" }, workflow_run: { id, status: \"failed\", error, total_tokens, elapsed_time } }], page: 1, limit: 5, total: 12, has_more: true }`. If `has_more` is `true`, call again with `Page` incremented by one. [See the documentation](https://docs.dify.ai/en/api-reference/workflow-runs/list-workflow-logs)",
   version: "0.0.1",
   ai: "optimized",
   type: "action",
@@ -36,7 +36,7 @@ export default {
         dify,
         "user",
       ],
-      description: "Only return runs started with this `User` value (Dify calls it the end user's session ID), e.g. `user_workflow_123`. Omit to see runs from all end users.",
+      description: "Only return runs started with this `User` value (Dify calls it the end user's session ID, shown as `created_by_end_user.session_id`), e.g. `user_workflow_123`. Omit to see runs from all end users.",
       optional: true,
     },
     createdByAccount: {

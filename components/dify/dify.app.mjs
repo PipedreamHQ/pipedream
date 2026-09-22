@@ -8,7 +8,7 @@ export default {
     user: {
       type: "string",
       label: "User",
-      description: "A unique identifier for the end user, defined by you (e.g. an internal user ID or session ID) — not a Dify account. Dify scopes conversations, messages, and files to this value, so reuse the same `User` across requests for the same end user. When reading conversations or messages, this must match the `User` value used when they were created — Dify returns an empty page, not an error, for a mismatched value. To find `User` values that have already called a Workflow or Chatflow app, use **List Workflow Logs** and read `created_by_end_user.session_id`; Chatbot and Agent apps have no way to list them. [See the documentation](https://docs.dify.ai/en/api-reference/guides/end-user-identity)",
+      description: "A unique identifier for the end user, defined by you (e.g. an internal user ID or session ID) — not a Dify account. Dify scopes conversations, messages, and files to this value, so reuse the same `User` across requests for the same end user. When reading conversations or messages, this must match the `User` value used when they were created — Dify returns an empty page, not an error, for a mismatched value. For **List Conversations** and **List Messages**, Dify has no endpoint to list end users: use the `User` value from the user's request, or ask for it. [See the documentation](https://docs.dify.ai/en/api-reference/guides/end-user-identity)",
     },
     inputs: {
       type: "object",
