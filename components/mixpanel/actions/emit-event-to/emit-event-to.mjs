@@ -1,11 +1,12 @@
+// x-pd-ai: optimized
 // legacy_hash_id: a_Nqir27
-import Mixpanel from "mixpanel";
+import mixpanel from "../../mixpanel.app.mjs";
 
 export default {
   key: "mixpanel-emit-event-to",
-  name: "mixpanel.track",
-  description: "Send an event to mixpanel",
-  version: "0.3.2",
+  name: "Track Event",
+  description: "Send a single event to Mixpanel, attributing it to a user. To query analytics (event counts, funnels, retention, user profiles), connect the separate Mixpanel (Service Account) app, since Mixpanel's query APIs do not accept a project token. [See the documentation](https://docs.mixpanel.com/reference/track-event)",
+  version: "0.4.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,38 +14,36 @@ export default {
   },
   type: "action",
   props: {
-    mixpanel: {
-      type: "app",
-      app: "mixpanel",
-    },
+    mixpanel,
     event_name: {
       type: "string",
-      description: "The name of the event. This can be anything the user does - 'Button Click', 'Sign Up', 'Item Purchased', etc.",
+      label: "Event Name",
+      description: "The name of the event, for example `Sign Up`, `Button Click`, or `Item Purchased`. Event names are case-sensitive, and reusing an existing name is what groups events together in reports.",
     },
     distinct_id: {
       type: "string",
+      label: "Distinct ID",
+      description: "The Mixpanel `distinct_id` of the user who performed the event, for example `user_123`. Use the same stable identifier you send with your other Mixpanel events so that repeat events attribute to the same profile.",
     },
     properties: {
       type: "object",
-      description: "A set of properties to include with the event you're sending. These describe the user who did the event or details about the event itself.",
+      label: "Properties",
+      description: "Additional properties to attach to the event, describing either the user or the event itself. Example: `{\"plan\": \"pro\", \"source\": \"onboarding\"}`.",
+      optional: true,
     },
   },
-  async run() {
-    const mixpanel = await Mixpanel.init(this.mixpanel.$auth.token, {
-      protocol: "https",
+  async run({ $ }) {
+    const payload = Object.assign({}, this.properties, {
+      "distinct_id": this.distinct_id,
     });
 
-    // We purposely separated distinct_id to make it explicit; however, we include it in the return value
-    await new Promise((resolve) => mixpanel.track(
-      this.event_name,
-      Object.assign({
-        "distinct_id": this.distinct_id,
-      }, this.properties),
-      resolve,
-    ));
+    await this.mixpanel.trackEvent({
+      event: this.event_name,
+      properties: payload,
+    });
 
-    return Object.assign({
-      "distinct_id": this.distinct_id,
-    }, this.properties);
+    $.export("$summary", `Tracked event "${this.event_name}" for ${this.distinct_id}`);
+
+    return payload;
   },
 };

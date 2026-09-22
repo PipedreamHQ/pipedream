@@ -45,6 +45,26 @@ export default {
       description: "Numeric folder ID (e.g. `9876543210987654`). Use **List Folder Options** with a workspace ID to find one.",
       optional: true,
     },
+    discussionId: {
+      type: "string",
+      label: "Discussion ID",
+      description: "The numeric ID of the discussion (e.g. `3728427551461252`). Run **List Discussions** to find a valid discussion ID.",
+    },
+    rowId: {
+      type: "string",
+      label: "Row ID",
+      description: "The numeric ID of the row (e.g. `9876543210123456`). Use **Get Sheet** or **Search** to find row IDs — a row's position number in the UI is not its ID.",
+    },
+    commentId: {
+      type: "string",
+      label: "Comment ID",
+      description: "The numeric ID of the comment (e.g. `4068136276365188`). Run **Get Discussion** (comment IDs appear in the discussion's comments array) to find a valid comment ID.",
+    },
+    commentText: {
+      type: "string",
+      label: "Comment Text",
+      description: "The text of the comment.",
+    },
     templateId: {
       type: "string",
       label: "Template",
@@ -406,6 +426,82 @@ export default {
     deleteColumn(sheetId, columnId, args = {}) {
       return this._makeRequest({
         path: `/sheets/${sheetId}/columns/${columnId}`,
+        method: "DELETE",
+        ...args,
+      });
+    },
+    createDiscussion(sheetId, args = {}) {
+      const sheet = this._requireNumericId(sheetId);
+      return this._makeRequest({
+        path: `/sheets/${sheet}/discussions`,
+        method: "POST",
+        ...args,
+      });
+    },
+    createRowDiscussion(sheetId, rowId, args = {}) {
+      const sheet = this._requireNumericId(sheetId);
+      const row = this._requireNumericId(rowId, "Row ID");
+      return this._makeRequest({
+        path: `/sheets/${sheet}/rows/${row}/discussions`,
+        method: "POST",
+        ...args,
+      });
+    },
+    getDiscussion(sheetId, discussionId, args = {}) {
+      const sheet = this._requireNumericId(sheetId);
+      const discussion = this._requireNumericId(discussionId, "Discussion ID");
+      return this._makeRequest({
+        path: `/sheets/${sheet}/discussions/${discussion}`,
+        ...args,
+      });
+    },
+    listDiscussions(sheetId, args = {}) {
+      const sheet = this._requireNumericId(sheetId);
+      return this._makeRequest({
+        path: `/sheets/${sheet}/discussions`,
+        ...args,
+      });
+    },
+    listRowDiscussions(sheetId, rowId, args = {}) {
+      const sheet = this._requireNumericId(sheetId);
+      const row = this._requireNumericId(rowId, "Row ID");
+      return this._makeRequest({
+        path: `/sheets/${sheet}/rows/${row}/discussions`,
+        ...args,
+      });
+    },
+    deleteDiscussion(sheetId, discussionId, args = {}) {
+      const sheet = this._requireNumericId(sheetId);
+      const discussion = this._requireNumericId(discussionId, "Discussion ID");
+      return this._makeRequest({
+        path: `/sheets/${sheet}/discussions/${discussion}`,
+        method: "DELETE",
+        ...args,
+      });
+    },
+    addComment(sheetId, discussionId, args = {}) {
+      const sheet = this._requireNumericId(sheetId);
+      const discussion = this._requireNumericId(discussionId, "Discussion ID");
+      return this._makeRequest({
+        path: `/sheets/${sheet}/discussions/${discussion}/comments`,
+        method: "POST",
+        ...args,
+      });
+    },
+    updateComment(sheetId, commentId, args = {}) {
+      const sheet = this._requireNumericId(sheetId);
+      const comment = this._requireNumericId(commentId, "Comment ID");
+      return this._makeRequest({
+        path: `/sheets/${sheet}/comments/${comment}`,
+        method: "PUT",
+        ...args,
+      });
+    },
+    deleteComment(sheetId, commentId, args = {}) {
+      const sheet = this._requireNumericId(sheetId);
+      const comment = this._requireNumericId(commentId, "Comment ID");
+      return this._makeRequest({
+        path: `/sheets/${sheet}/comments/${comment}`,
         method: "DELETE",
         ...args,
       });

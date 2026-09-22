@@ -7,7 +7,7 @@ export default {
     "Permanently delete a sheet. This is irreversible - all data, rows, and columns are destroyed."
     + " Use **List Sheets** to find the sheet ID first."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/sheets/deletesheet)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   ai: "optimized",
   annotations: {

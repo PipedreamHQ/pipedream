@@ -14,7 +14,7 @@ export default {
   key: "google_ads-create-or-update-shared-sets",
   name: "Create or Update Shared Sets",
   description: `Creates or updates shared sets (reusable lists of negative keywords or placements). [See the documentation](${docLink})`,
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: true,

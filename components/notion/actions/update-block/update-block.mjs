@@ -6,20 +6,22 @@ export default {
   ...base,
   key: "notion-update-block",
   name: "Update Child Block",
-  description: "Update a single existing **child block** (paragraph, heading, to-do, code, etc.) by its block ID. Use this only to mutate an existing block in place. Do NOT use to update a page's properties (database row fields) — use **Update Page** instead. Do NOT use to add new content to a page — use **Append Block** instead. Do NOT use to update a database's schema — use **Update Database** instead. [See the documentation](https://developers.notion.com/reference/update-a-block)",
-  version: "0.0.11",
+  description: "Update a single existing **child block** (paragraph, heading, to-do, code, etc.) by its block ID. Use this only to mutate an existing block in place. Do NOT use to update a page's properties (database row fields) — use **Update Page** instead. Do NOT use to add new content to a page — use **Append Block to Parent** instead. Do NOT use to update a database's schema — use **Update Data Source** instead. [See the documentation](https://developers.notion.com/reference/update-a-block)",
+  version: "0.0.12",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     notion,
     blockId: {
-      type: "string",
-      label: "Block ID",
-      description: "Block ID retrieved from the **Retrieve Page Content** action",
+      propDefinition: [
+        notion,
+        "blockId",
+      ],
     },
     infoLabel: {
       type: "alert",
