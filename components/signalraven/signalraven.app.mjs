@@ -169,7 +169,7 @@ export default {
       signalId, ...args
     }) {
       return this._makeRequest({
-        path: `/signals/${signalId}`,
+        path: `/signals/${encodeURIComponent(signalId)}`,
         scope: "read:signals",
         ...args,
       });
@@ -206,7 +206,7 @@ export default {
       reportId, ...args
     }) {
       return this._makeRequest({
-        path: `/intelligence/accounts/${reportId}`,
+        path: `/intelligence/accounts/${encodeURIComponent(reportId)}`,
         scope: "read:intelligence",
         ...args,
       });
@@ -215,7 +215,7 @@ export default {
       reportId, ...args
     }) {
       return this._makeRequest({
-        path: `/intelligence/people/${reportId}`,
+        path: `/intelligence/people/${encodeURIComponent(reportId)}`,
         scope: "read:intelligence",
         ...args,
       });
