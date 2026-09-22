@@ -19,7 +19,6 @@ export default {
         dify,
         "user",
       ],
-      description: "A unique identifier for the end user whose conversations to list. This must match the `User` value used when those conversations were created — Dify silently returns an empty page instead of an error when `User` is omitted.",
     },
     lastId: {
       type: "string",
