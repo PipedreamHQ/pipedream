@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "signalraven-new-signal",
   name: "New Signal",
-  description: "Emit new event when SignalRaven qualifies a new buying-intent signal. [See the documentation](https://signalraven.ai/developers/api)",
+  description: "Emit new event when SignalRaven qualifies a new buying-intent signal: the person's company, LinkedIn profile and location, a strength score out of 10, why it matters, and talking points. [See the documentation](https://signalraven.ai/developers/api)",
   type: "source",
   ai: "optimized",
   version: "0.0.1",
@@ -39,13 +39,10 @@ export default {
       return data || [];
     },
     generateMeta(signal) {
-      const who = [
-        signal.person?.name,
-        signal.person?.company,
-      ].filter(Boolean).join(" at ");
+      const who = signal.person?.company || signal.person?.linkedinUrl || signal.id;
       return {
         id: signal.id,
-        summary: `New signal: ${who || signal.id} (strength ${signal.strength})`,
+        summary: `New signal: ${who} (strength ${signal.strength})`,
         ts: this.getTs(signal),
       };
     },

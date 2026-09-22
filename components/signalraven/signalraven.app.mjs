@@ -19,9 +19,9 @@ export default {
         return (data || []).map((signal) => ({
           value: signal.id,
           label: [
-            signal.person?.name,
-            signal.person?.title,
             signal.person?.company,
+            signal.person?.location,
+            `strength ${signal.strength}`,
           ].filter(Boolean).join(" · ") || signal.id,
         }));
       },
