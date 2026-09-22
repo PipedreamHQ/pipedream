@@ -5,7 +5,7 @@ export default {
   key: "harvest-new-invoice-entry",
   name: "New Invoice Entry",
   description: "Emit new notifications when a new invoice is created",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   props: {
     harvest,
