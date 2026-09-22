@@ -1,9 +1,9 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import visualping from "../../app/visualping.app.mjs";
+import visualping from "../../visualping.app.mjs";
 
 export default {
   name: "New Alert Received",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "visualping-new-alert-received",
   description: "Emit new event when a change alert is sent.",
   type: "source",
@@ -27,9 +27,6 @@ export default {
       propDefinition: [
         visualping,
         "jobId",
-        (c) => ({
-          workspaceId: c.workspaceId,
-        }),
       ],
     },
   },
