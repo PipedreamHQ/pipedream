@@ -26,6 +26,32 @@ export default {
         }));
       },
     },
+    keyValueStoreKey: {
+      type: "string",
+      label: "Record key",
+      description: "The key of the record. Pick an existing key, or enter it manually.",
+      async options({
+        keyValueStoreId, prevContext,
+      }) {
+        if (!keyValueStoreId) {
+          return [];
+        }
+        const {
+          items, isTruncated, nextExclusiveStartKey,
+        } = await this.listKeyValueStoreKeys(keyValueStoreId, {
+          limit: LIMIT,
+          exclusiveStartKey: prevContext?.exclusiveStartKey,
+        });
+        return {
+          options: items.map(({ key }) => key),
+          context: {
+            exclusiveStartKey: isTruncated
+              ? nextExclusiveStartKey
+              : undefined,
+          },
+        };
+      },
+    },
     actorId: {
       type: "string",
       label: "Actor",
@@ -297,6 +323,10 @@ export default {
     }) {
       return this._client().dataset(datasetId)
         .listItems(params);
+    },
+    listKeyValueStoreKeys(kvsId, opts = {}) {
+      return this._client().keyValueStore(kvsId)
+        .listKeys(opts);
     },
     getKVSRecord(kvsId, recordKey) {
       return this._client().keyValueStore(kvsId)

@@ -25,9 +25,14 @@ export default {
       optional: false,
     },
     key: {
-      type: "string",
-      label: "Record key",
-      description: "The key of the record to create or update.",
+      propDefinition: [
+        apify,
+        "keyValueStoreKey",
+        (configProps) => ({
+          keyValueStoreId: configProps.keyValueStoreId,
+        }),
+      ],
+      description: "The key of the record to create or update. Select an existing key, or enter a new one to create a record.",
       optional: false,
     },
     value: {
