@@ -22,7 +22,7 @@ export default {
     + " For `mode=\"TEXT\"` jobs, also set `keywordAction` and `keywords` to watch for"
     + " specific text changes. For AREA crawling (`targetDevice` `1` or `3`), also set"
     + " `cropX`/`cropY`/`cropWidth`/`cropHeight`."
-    + " [See the docs here](https://develop.api.visualping.io/doc.html#tag/Jobs/paths/~1v2~1jobs/post)",
+    + " [See the documentation](https://develop.api.visualping.io/doc.html#tag/Jobs/paths/~1v2~1jobs/post)",
   type: "action",
   ai: "optimized",
   props: {

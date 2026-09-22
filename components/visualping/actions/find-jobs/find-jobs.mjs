@@ -23,7 +23,7 @@ export default {
     + " `fullTextSearchFilter=\"pricing\"` and `activeFilter=true` → returns matching"
     + " job records with id, url, mode, interval, trigger, active, and more."
     + " Pass `fields` to shrink each result to just the fields you need."
-    + " [See the docs here](https://develop.api.visualping.io/doc.html#tag/Jobs/paths/~1v2~1jobs/get)",
+    + " [See the documentation](https://develop.api.visualping.io/doc.html#tag/Jobs/paths/~1v2~1jobs/get)",
   type: "action",
   ai: "optimized",
   props: {

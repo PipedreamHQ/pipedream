@@ -10,7 +10,8 @@ export default {
     + " Example: call with no arguments → returns `{ workspaces: [{id, name}, ...],"
     + " organisation: {id, name} }`. On a personal-tier account `workspaces` is"
     + " typically empty and `organisation` is omitted entirely — that's expected,"
-    + " not an error.",
+    + " not an error."
+    + " [See the documentation](https://develop.api.visualping.io/doc.html)",
   version: "1.0.0",
   type: "action",
   annotations: {
@@ -25,7 +26,7 @@ export default {
   async run({ $ }) {
     const {
       workspaces, organisation,
-    } = await this.visualping.getUserDetails();
+    } = await this.visualping.getUserDetails({ $ });
 
     const result = {
       workspaces: (workspaces || []).map(({

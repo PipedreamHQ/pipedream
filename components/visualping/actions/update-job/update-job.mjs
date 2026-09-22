@@ -6,7 +6,7 @@ export default {
   name: "Update Job",
   version: "1.0.0",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -17,7 +17,7 @@ export default {
     + " and current settings if you're not certain which job the user means."
     + " Example: to pause a noisy job, call with just `jobId=\"482913\"` and"
     + " `active=false` → returns the updated job object with `active: false`."
-    + " [See the docs here](https://develop.api.visualping.io/doc.html#tag/Jobs/paths/~1v2~1jobs~1%7BjobId%7D/put)",
+    + " [See the documentation](https://develop.api.visualping.io/doc.html#tag/Jobs/paths/~1v2~1jobs~1%7BjobId%7D/put)",
   type: "action",
   ai: "optimized",
   props: {

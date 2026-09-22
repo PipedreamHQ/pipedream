@@ -16,7 +16,7 @@ export default {
     + " Example: after confirming job `482913` is the one monitoring"
     + " `https://example.com/pricing`, call with `jobId=\"482913\"` → the job stops"
     + " being checked and no longer appears in **Find Jobs**."
-    + " [See the docs here](https://develop.api.visualping.io/doc.html#tag/Jobs/paths/~1v2~1jobs~1%7BjobId%7D/delete)",
+    + " [See the documentation](https://develop.api.visualping.io/doc.html#tag/Jobs/paths/~1v2~1jobs~1%7BjobId%7D/delete)",
   type: "action",
   ai: "optimized",
   props: {

@@ -19,7 +19,7 @@ export default {
     + " `jobId` returned by **Create A New Job** → returns the full job object"
     + " including `interval`, `trigger`, `mode`, and `active`."
     + " Pass `fields` to return only the fields you need."
-    + " [See the docs here](https://develop.api.visualping.io/doc.html#tag/Jobs/paths/~1v2~1jobs~1%7BjobId%7D/get)",
+    + " [See the documentation](https://develop.api.visualping.io/doc.html#tag/Jobs/paths/~1v2~1jobs~1%7BjobId%7D/get)",
   type: "action",
   ai: "optimized",
   props: {
@@ -55,6 +55,7 @@ export default {
     } = this;
 
     const response = normalizeJob(await visualping.getJob({
+      $,
       workspaceId,
       jobId,
     }));
