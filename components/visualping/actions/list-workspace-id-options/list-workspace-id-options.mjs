@@ -26,7 +26,9 @@ export default {
   async run({ $ }) {
     const {
       workspaces, organisation,
-    } = await this.visualping.getUserDetails({ $ });
+    } = await this.visualping.getUserDetails({
+      $,
+    });
 
     const result = {
       workspaces: (workspaces || []).map(({

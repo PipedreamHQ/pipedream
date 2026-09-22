@@ -101,37 +101,51 @@ export const prepareData = (job, {
     job.notification.slack = {
       ...job.notification.slack,
       active: useSlackNotification,
-      ...(slackUrl != undefined && { url: slackUrl }),
-      ...(slackChannels != undefined && { channels: slackChannels }),
+      ...(slackUrl != undefined && {
+        url: slackUrl,
+      }),
+      ...(slackChannels != undefined && {
+        channels: slackChannels,
+      }),
     };
   }
   if (useTeamsNotification != undefined) {
     job.notification.teams = {
       ...job.notification.teams,
       active: useTeamsNotification,
-      ...(teamsUrl != undefined && { url: teamsUrl }),
+      ...(teamsUrl != undefined && {
+        url: teamsUrl,
+      }),
     };
   }
   if (useWebhookNotification != undefined) {
     job.notification.webhook = {
       ...job.notification.webhook,
       active: useWebhookNotification,
-      ...(webhookUrl != undefined && { url: webhookUrl }),
+      ...(webhookUrl != undefined && {
+        url: webhookUrl,
+      }),
     };
   }
   if (useDiscordNotification != undefined) {
     job.notification.discord = {
       ...job.notification.discord,
       active: useDiscordNotification,
-      ...(discordUrl != undefined && { url: discordUrl }),
+      ...(discordUrl != undefined && {
+        url: discordUrl,
+      }),
     };
   }
   if (useSlackAppNotification != undefined) {
     job.notification.slack_app = {
       ...job.notification.slack_app,
       active: useSlackAppNotification,
-      ...(slackAppUrl != undefined && { url: slackAppUrl }),
-      ...(slackAppChannels != undefined && { channels: slackAppChannels }),
+      ...(slackAppUrl != undefined && {
+        url: slackAppUrl,
+      }),
+      ...(slackAppChannels != undefined && {
+        channels: slackAppChannels,
+      }),
     };
   }
   if (targetDevice != undefined) {
