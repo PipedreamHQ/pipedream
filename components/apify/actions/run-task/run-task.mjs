@@ -131,11 +131,12 @@ export default {
                 Date.now();
 
       // Persist the poll start time and webhook ID across reruns
+      const maxRetries = Math.ceil(pollWindowMs / pollIntervalMs);
       $.flow.rerun(pollIntervalMs, {
         apifyRunId: runId,
         pollStartMs: startEpoch,
         webhookId,
-      });
+      }, maxRetries);
     };
 
     // 1) ONLY START (no waiting)
