@@ -1,6 +1,8 @@
 // x-pd-ai: optimized
 import { axios } from "@pipedream/platform";
 
+const BASE_URL = "https://api.dify.ai/v1";
+
 export default {
   type: "app",
   app: "dify",
@@ -18,9 +20,6 @@ export default {
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.dify.ai/v1";
-    },
     _headers(headers) {
       return {
         Authorization: `Bearer ${this.$auth.api_key}`,
@@ -31,7 +30,7 @@ export default {
       $ = this, path, headers, ...args
     } = {}) {
       return axios($, {
-        url: `${this._baseUrl()}${path}`,
+        url: `${BASE_URL}${path}`,
         headers: this._headers(headers),
         ...args,
       });
