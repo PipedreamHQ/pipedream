@@ -232,41 +232,53 @@ export default {
     // Create a resume link and suspend
     const { resume_url } = $.flow.suspend(pollWindowMs); // 1-day timeout for task run to finish
 
-    // Create a webhook pointing to resume_url
-    const webhook = await this.apify.createHook({
-      requestUrl: resume_url,
-      eventTypes: [
-        WEBHOOK_EVENT_TYPES.ACTOR_RUN_SUCCEEDED,
-        WEBHOOK_EVENT_TYPES.ACTOR_RUN_FAILED,
-        WEBHOOK_EVENT_TYPES.ACTOR_RUN_ABORTED,
-        WEBHOOK_EVENT_TYPES.ACTOR_RUN_TIMED_OUT,
-      ],
-      condition: {
-        actorRunId: started.id,
-      },
-      payloadTemplate: JSON.stringify({
-        runId: "{{resource.id}}",
-        status: "{{resource.status}}",
-        defaultDatasetId: "{{resource.defaultDatasetId}}",
-        startedAt: "{{resource.startedAt}}",
-        finishedAt: "{{resource.finishedAt}}",
-        eventType: "{{eventType}}",
-      }),
-      headersTemplate: JSON.stringify({
-        "Content-Type": "application/json",
-      }),
-      shouldInterpolateStrings: true,
-      description: `Pipedream auto-resume for task ${this.taskId} run ${started.id}`,
-    });
+    // Create a webhook pointing to resume_url. If this fails, fall back to
+    // polling only: the task has already started, so throwing here would fail
+    // the action and a workflow retry would start the task again (duplicate
+    // side effects). Polling below resolves the run without the webhook.
+    let webhookId;
+    try {
+      const webhook = await this.apify.createHook({
+        requestUrl: resume_url,
+        eventTypes: [
+          WEBHOOK_EVENT_TYPES.ACTOR_RUN_SUCCEEDED,
+          WEBHOOK_EVENT_TYPES.ACTOR_RUN_FAILED,
+          WEBHOOK_EVENT_TYPES.ACTOR_RUN_ABORTED,
+          WEBHOOK_EVENT_TYPES.ACTOR_RUN_TIMED_OUT,
+        ],
+        condition: {
+          actorRunId: started.id,
+        },
+        payloadTemplate: JSON.stringify({
+          runId: "{{resource.id}}",
+          status: "{{resource.status}}",
+          defaultDatasetId: "{{resource.defaultDatasetId}}",
+          startedAt: "{{resource.startedAt}}",
+          finishedAt: "{{resource.finishedAt}}",
+          eventType: "{{eventType}}",
+        }),
+        headersTemplate: JSON.stringify({
+          "Content-Type": "application/json",
+        }),
+        shouldInterpolateStrings: true,
+        description: `Pipedream auto-resume for task ${this.taskId} run ${started.id}`,
+      });
 
-    if (!webhook?.id) {
-      throw new Error("Failed to create webhook - no ID returned");
+      if (!webhook?.id) {
+        throw new Error("webhook creation returned no ID");
+      }
+
+      webhookId = webhook.id;
+      $.context.webhookId = webhookId;
+    } catch (webhookError) {
+      console.warn(
+        "Failed to create resume webhook; falling back to polling (non-critical):",
+        webhookError.message,
+      );
     }
 
-    $.context.webhookId = webhook.id;
-
     // Fallback polling via rerun: every 30s, within a 1-day window
-    schedulePoll(started.id, webhook.id);
+    schedulePoll(started.id, webhookId);
 
     // Execution suspends at $.flow.suspend; webhook or rerun will resume.
   },
