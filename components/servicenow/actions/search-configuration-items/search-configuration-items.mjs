@@ -6,7 +6,7 @@ export default {
   key: "servicenow-search-configuration-items",
   name: "Search Configuration Items",
   description: "Search ServiceNow CMDB configuration items in `cmdb_ci` by name. Use this for assigned-asset lookup after **Find Users** (pass that user's `sys_id` as **Assigned To**). Then read a specific CI with **Get Table Record By ID**. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_TableAPI.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -31,7 +31,7 @@ export default {
     assignedTo: {
       type: "string",
       label: "Assigned To",
-      description: "Optional `sys_id` of the assigned user (matched against `assigned_to`). Run **Find Users** to find it.",
+      description: "Optional `sys_id` of the assigned user (matched against `assigned_to`). Run **Find Users** to find it. Example: `46d44a23a9fe19810012d100cca80666`.",
       optional: true,
     },
     limit: {

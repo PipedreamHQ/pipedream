@@ -7,8 +7,8 @@ import {
 export default {
   key: "servicenow-evaluate-field-change",
   name: "Evaluate Field Change",
-  description: "Re-evaluate catalog/order-guide client scripts after a variable changes via Workday Scripted REST (`POST /api/work2/guide_script_context/evaluate_change`). Call this when the user (or agent) updates a form field so visibility, mandatory, and default values stay in sync. Requires that Scripted REST API on the instance.",
-  version: "0.0.1",
+  description: "Re-evaluate catalog/order-guide client scripts after a variable changes via Workday Scripted REST API. Call this when the user (or agent) updates a form field so visibility, mandatory, and default values stay in sync. [See the documentation](https://www.servicenow.com/docs/r/api-reference/rest-api-explorer/c_CustomWebServices.html)",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -23,7 +23,7 @@ export default {
         servicenow,
         "catalogItemSysId",
       ],
-      description: "Catalog item or order-guide `sys_id` whose scripts should run. Run **Search Catalog Items** first.",
+      description: "Catalog item or order-guide `sys_id` whose scripts should run. Run **Search Catalog Items** first. Example: `e8d3d2f1c0a8016400e6b9e0f6e6f6e6`.",
     },
     changedField: {
       propDefinition: [

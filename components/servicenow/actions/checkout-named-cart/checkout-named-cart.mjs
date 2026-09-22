@@ -3,8 +3,8 @@ import servicenow from "../../servicenow.app.mjs";
 export default {
   key: "servicenow-checkout-named-cart",
   name: "Checkout Named Cart",
-  description: "Check out a named ServiceNow cart via Workday Agent Cart Scripted REST (`POST /api/work2/agent_cart/checkout`, `sn_sc.CartJS`). Requires that Scripted REST API on the instance. Use this instead of **Checkout Cart** when items were added to a named cart (`cart_<plan_id>`), not the default user cart. Provide **Requested For** as a `sys_user` `sys_id` from **Find Users**. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
-  version: "0.0.1",
+  description: "Check out a named ServiceNow cart and return the checkout result. Requires the Workday Agent Cart Scripted REST API on the instance. Use this instead of **Checkout Cart** when items were added to a named cart (`cart_<plan_id>`), not the default user cart. Provide **Requested For** as a `sys_user` `sys_id` from **Find Users**. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -26,18 +26,18 @@ export default {
         "requestedFor",
       ],
       optional: false,
-      description: "`sys_id` of the requested-for user (`sys_user`). Must be a 32-character sys_id. Run **Find Users** to find it.",
+      description: "`sys_id` of the requested-for user (`sys_user`). Must be a 32-character sys_id. Run **Find Users** to find it. Example: `46d44a23a9fe19810012d100cca80666`.",
     },
     deliveryAddress: {
       type: "string",
       label: "Delivery Address",
-      description: "Optional delivery address to set on the named cart before checkout.",
+      description: "Optional delivery address to set on the named cart before checkout. Example: `123 Main St, San Francisco, CA 94105`.",
       optional: true,
     },
     specialInstructions: {
       type: "string",
       label: "Special Instructions",
-      description: "Optional special instructions to set on the named cart before checkout.",
+      description: "Optional special instructions to set on the named cart before checkout. Example: `Leave the package at the front desk.`",
       optional: true,
     },
   },

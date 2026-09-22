@@ -7,8 +7,8 @@ import {
 export default {
   key: "servicenow-get-initial-state",
   name: "Get Initial State",
-  description: "Load the initial catalog/order-guide form state via Workday Scripted REST (`GET /api/work2/guide_script_context/initial_state`). Use after **Get Order Guide Variables** or **Get Catalog Item Variables** to apply on-load catalog client scripts and UI policies. Requires that Scripted REST API on the instance.",
-  version: "0.0.1",
+  description: "Load the initial catalog/order-guide form state via Workday Scripted REST API. Use after **Get Order Guide Variables** or **Get Catalog Item Variables** to apply on-load catalog client scripts and UI policies. [See the documentation](https://www.servicenow.com/docs/r/api-reference/rest-api-explorer/c_CustomWebServices.html)",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -23,7 +23,7 @@ export default {
         servicenow,
         "catalogItemSysId",
       ],
-      description: "Catalog item or order-guide `sys_id` to evaluate. Run **Search Catalog Items** first.",
+      description: "Catalog item or order-guide `sys_id` to evaluate. Run **Search Catalog Items** first. Example: `e8d3d2f1c0a8016400e6b9e0f6e6f6e6`.",
     },
     requestedFor: {
       propDefinition: [

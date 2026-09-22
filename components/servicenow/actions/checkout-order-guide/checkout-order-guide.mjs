@@ -5,8 +5,8 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "servicenow-checkout-order-guide",
   name: "Checkout Order Guide",
-  description: "Checkout a ServiceNow order guide (`POST .../items/{sys_id}/checkout_guide`) using the items returned by **Submit Order Guide**. Each item needs `sys_id`, `sysparm_quantity`, and item-level `variables`. When two-step checkout is on, this may return a summary without a REQ — then call **Submit Cart Order**. Use **Check Order Status** afterward. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
-  version: "0.0.1",
+  description: "Checkout a ServiceNow order guide using the items returned by **Submit Order Guide**. Each item needs `sys_id`, `sysparm_quantity`, and item-level `variables`. When two-step checkout is on, this may return a summary without a REQ — then call **Submit Cart Order**. Use **Check Order Status** afterward. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {

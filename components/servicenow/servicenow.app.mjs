@@ -167,7 +167,7 @@ export default {
     guideSysId: {
       type: "string",
       label: "Order Guide Sys ID",
-      description: "The `sys_id` of the order guide (`sc_cat_item_guide`). Run **Search Catalog Items** with type Order Guide to find this value.",
+      description: "The `sys_id` of the order guide (`sc_cat_item_guide`). Run **Search Catalog Items** with Item Type Order Guide to find this value. Example: `e8d3d2f1c0a8016400e6b9e0f6e6f6e6`.",
     },
     guideItems: {
       type: "object",
@@ -177,13 +177,9 @@ export default {
     itemType: {
       type: "string",
       label: "Item Type",
-      description: "Optional Service Catalog item type filter (maps to `sysparm_type`). Use **Order Guide** before **Get Order Guide Variables** / **Submit Order Guide**, or **Record Producer** before **Submit Record Producer**.",
+      description: "Optional Service Catalog item type filter (maps to `sysparm_type`). ServiceNow only honors Order Guide and Record Producer; omit this to search standard catalog items. Use Order Guide before **Get Order Guide Variables** / **Submit Order Guide**, or Record Producer before **Submit Record Producer**. Example: `Order Guide`.",
       optional: true,
       options: [
-        {
-          label: "Catalog Item",
-          value: "Catalog Item",
-        },
         {
           label: "Order Guide",
           value: "Order Guide",
@@ -207,17 +203,17 @@ export default {
     variableSysId: {
       type: "string",
       label: "Variable Sys ID",
-      description: "The `sys_id` (or `id`) of a catalog variable from **Get Catalog Item Variables**. Used to load `question_choice` rows.",
+      description: "The `sys_id` (or `id`) of a catalog variable from **Get Catalog Item Variables** (`id` / `sys_id` in the response). Used to load `question_choice` rows. Example: `e8d3d2f1c0a8016400e6b9e0f6e6f6e6`.",
     },
     requestNumber: {
       type: "string",
       label: "Request Number",
-      description: "The catalog request number (`sc_request.number`). Example: `REQ0010001`.",
+      description: "The catalog request number (`sc_request.number`) from **Checkout Cart**, **Submit Cart Order**, **Order Catalog Item**, **Checkout Order Guide**, or **Checkout Named Cart** (`number` or `request_number`). Example: `REQ0010001`.",
     },
     incidentNumber: {
       type: "string",
       label: "Incident Number",
-      description: "The incident number (`incident.number`). Example: `INC0010001`.",
+      description: "The incident number (`incident.number`) from **Submit Record Producer** or **Create Table Record** (`number`). Example: `INC0010001`.",
     },
   },
   methods: {

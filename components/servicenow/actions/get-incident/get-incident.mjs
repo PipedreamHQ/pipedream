@@ -5,7 +5,7 @@ export default {
   key: "servicenow-get-incident",
   name: "Get Incident",
   description: "Retrieve a ServiceNow incident from the `incident` table by number. Use this after **Submit Record Producer** or **Create Table Record** when you need the incident state, priority, and assignment for a follow-up link. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_TableAPI.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -24,7 +24,7 @@ export default {
     callerId: {
       type: "string",
       label: "Caller",
-      description: "Optional `sys_id` of the caller to additionally filter by (matched against `caller_id`). Run **Find Users** to find it.",
+      description: "Optional `sys_id` of the caller to additionally filter by (matched against `caller_id`). Run **Find Users** to find it. Example: `46d44a23a9fe19810012d100cca80666`.",
       optional: true,
     },
   },
