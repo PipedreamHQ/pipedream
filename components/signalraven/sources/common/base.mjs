@@ -22,6 +22,20 @@ export default {
     _setLastTs(ts) {
       this.db.set("lastTs", ts);
     },
+    _getResumeOffset() {
+      return this.db.get("resumeOffset") || 0;
+    },
+    _getResumeNewestTs() {
+      return this.db.get("resumeNewestTs") || 0;
+    },
+    _setResume(offset, newestTs) {
+      this.db.set("resumeOffset", offset);
+      this.db.set("resumeNewestTs", newestTs);
+    },
+    _clearResume() {
+      this.db.set("resumeOffset", 0);
+      this.db.set("resumeNewestTs", 0);
+    },
     getTs(item) {
       return Date.parse(item.createdAt) || Date.now();
     },
@@ -39,7 +53,10 @@ export default {
      * whether the walk finished. An unfinished walk must NOT advance the
      * watermark: the caller persists a resume offset instead, so a
      * backlog larger than the cap drains across polls without losing
-     * events (dedupe: "unique" absorbs any re-emits).
+     * events. Boundary items at exactly the watermark are included and
+     * the walk continues past a page whose oldest item equals it, so an
+     * event sharing the watermark's timestamp is never dropped; dedupe:
+     * "unique" absorbs the re-emit of already-seen boundary items.
      */
     async fetchSince(lastTs, offset = 0) {
       const items = [];
@@ -50,14 +67,14 @@ export default {
         nextOffset += constants.MAX_LIMIT;
         if (batch.length < constants.MAX_LIMIT) {
           return {
-            items: items.filter((item) => this.getTs(item) > lastTs),
+            items: items.filter((item) => this.getTs(item) >= lastTs),
             finished: true,
           };
         }
         const oldest = Math.min(...batch.map((item) => this.getTs(item)));
-        if (oldest <= lastTs) {
+        if (oldest < lastTs) {
           return {
-            items: items.filter((item) => this.getTs(item) > lastTs),
+            items: items.filter((item) => this.getTs(item) >= lastTs),
             finished: true,
           };
         }
@@ -92,8 +109,8 @@ export default {
   },
   async run() {
     const lastTs = this._getLastTs();
-    const resumeOffset = this.db.get("resumeOffset") || 0;
-    const candidateTs = this.db.get("resumeNewestTs") || 0;
+    const resumeOffset = this._getResumeOffset();
+    const candidateTs = this._getResumeNewestTs();
     const {
       items, finished, nextOffset,
     } = await this.fetchSince(lastTs, resumeOffset);
@@ -103,14 +120,12 @@ export default {
       if (newest > lastTs) {
         this._setLastTs(newest);
       }
-      this.db.set("resumeOffset", 0);
-      this.db.set("resumeNewestTs", 0);
+      this._clearResume();
       return;
     }
     // Page cap hit before reaching the watermark: keep the watermark where
     // it is and continue from the next offset on the following poll.
-    this.db.set("resumeOffset", nextOffset);
-    this.db.set("resumeNewestTs", newest);
+    this._setResume(nextOffset, newest);
     console.log(`Backlog larger than ${constants.MAX_SOURCE_PAGES} pages; resuming from offset ${nextOffset} next poll`);
   },
 };
