@@ -6,7 +6,7 @@ export default {
   key: "greenhouse-create-prospect",
   name: "Create Prospect",
   description: "Creates a new prospect entry in Greenhouse. [See the documentation](https://developers.greenhouse.io/harvest.html#post-add-prospect)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -25,8 +25,16 @@ export default {
   },
   methods: {
     getData() {
+      const jobIds = parseObject(this.jobIds);
+      const jobIdsArray = jobIds
+        ? Array.isArray(jobIds)
+          ? jobIds
+          : [
+            jobIds,
+          ]
+        : undefined;
       return {
-        applications: parseObject(this.jobIds)?.map((item) => ({
+        applications: jobIdsArray?.map((item) => ({
           job_id: item,
         })),
       };

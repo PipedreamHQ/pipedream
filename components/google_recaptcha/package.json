@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_recaptcha",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Google reCAPTCHA Components",
   "main": "dist/app/google_recaptcha.app.mjs",
   "keywords": [

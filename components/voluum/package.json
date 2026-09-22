@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/voluum",
+  "version": "0.1.0",
+  "description": "Pipedream Voluum (Access Keys) Components",
+  "main": "voluum.app.mjs",
+  "keywords": [
+    "pipedream",
+    "voluum"
+  ],
+  "homepage": "https://pipedream.com/apps/voluum",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.2.5"
+  }
+}

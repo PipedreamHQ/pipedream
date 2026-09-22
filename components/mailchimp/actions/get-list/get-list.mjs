@@ -7,7 +7,7 @@ export default {
   key: "mailchimp-get-list",
   name: "Get List",
   description: "Searches for lists. [See docs here](https://mailchimp.com/developer/marketing/api/lists/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

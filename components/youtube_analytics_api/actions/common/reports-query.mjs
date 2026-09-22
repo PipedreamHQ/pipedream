@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../youtube_analytics_api.app.mjs";
 import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
@@ -42,46 +43,34 @@ export default {
         "The type of ID to use for the query. This can be either `My Channel`, `Channel ID`, or `Content Owner`.",
       options: Object.values(constants.ID_TYPE),
       default: constants.ID_TYPE.CHANNEL.value,
-      reloadProps: true,
     },
     ids: {
       type: "string",
       label: "Channel ID OR Content Owner Name",
       description:
-        "The use of this property depends on the value of the `idType` prop.  If `idType` is set to `MINE`, then this property is unused. If `idType` is set to `channelId`, then this property is used to specify the Channel ID for this action. If `idType` is set to `contentOwner`, then this property is used to specify the Content Owner Name for this action.",
+        "Required when **ID Type** is `Channel ID` (e.g. `UC_x5XG1OV2P6uZZ5FSM9Ttw`) or `Content Owner` (e.g. `MyContentOwnerName` or `contentOwner@example.com`), and unused when **ID Type** is `My Channel`.",
       optional: true,
-      hidden: true,
     },
   },
   methods: {
-    getIdsProps() {
-      const { idType } = this;
+    validateIds() {
+      const {
+        idType, ids,
+      } = this;
+      const {
+        CHANNEL_ID, CONTENT_OWNER,
+      } = constants.ID_TYPE;
 
-      if (idType === constants.ID_TYPE.CONTENT_OWNER.value) {
-        return {
-          ids: {
-            type: "string",
-            label: "Content Owner Name",
-            description:
-              "The content owner name for the user. Eg. `MyContentOwnerName`.",
-            optional: false,
-            hidden: false,
-          },
-        };
+      if (idType === CHANNEL_ID.value && !ids) {
+        throw new ConfigurationError(
+          "**Channel ID** is required when **ID Type** is `Channel ID`.",
+        );
       }
-      if (idType === constants.ID_TYPE.CHANNEL_ID.value) {
-        return {
-          ids: {
-            type: "string",
-            label: "Channel ID",
-            description:
-              "The channel ID for the user. Eg. `UC_x5XG1OV2P6uZZ5FSM9Ttw`. You can find the ID using the [YouTube Data API](https://developers.google.com/youtube/v3/docs/channels/list).",
-            optional: false,
-            hidden: false,
-          },
-        };
+      if (idType === CONTENT_OWNER.value && !ids) {
+        throw new ConfigurationError(
+          "**Content Owner Name** is required when **ID Type** is `Content Owner`.",
+        );
       }
-      return {};
     },
     getIdsParam() {
       const {

@@ -4,7 +4,7 @@ export default {
   key: "stripe-delete-or-void-invoice",
   name: "Delete Or Void Invoice",
   type: "action",
-  version: "0.1.4",
+  version: "0.1.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

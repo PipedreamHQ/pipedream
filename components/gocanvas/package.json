@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gocanvas",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream GoCanvas Components",
   "main": "gocanvas.app.mjs",
   "keywords": [
@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@pipedream/platform": "^3.1.1",
-    "csv-parse": "^5.5.6",
+    "csv-parse": "^7.0.2",
     "xml2js": "^0.6.2"
   }
 }

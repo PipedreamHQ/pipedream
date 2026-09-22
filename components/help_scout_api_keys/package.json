@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/help_scout_api_keys",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Help Scout (API Keys) Components",
   "main": "help_scout_api_keys.app.mjs",
   "keywords": [

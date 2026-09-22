@@ -1,0 +1,6 @@
+export const SUBSCRIBER_STATUS_OPTIONS = [
+  "ACTIVE",
+  "UNSUBSCRIBED",
+  "BOUNCED",
+  "SPAM_REPORTED",
+];

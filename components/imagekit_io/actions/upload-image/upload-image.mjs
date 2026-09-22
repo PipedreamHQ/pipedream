@@ -7,7 +7,7 @@ import imagekitIo from "../../imagekit_io.app.mjs";
 export default {
   key: "imagekit_io-upload-image",
   name: "Upload Image",
-  version: "1.0.2",
+  version: "1.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -15,12 +15,14 @@ export default {
   },
   description: "Upload a new image to ImageKit.io. [See the documentation](https://docs.imagekit.io/api-reference/upload-file-api/server-side-file-upload)",
   type: "action",
+  ai: "optimized",
   props: {
     imagekitIo,
     file: {
       type: "string",
       label: "File Path or URL",
       description: "The file to upload. Provide a file URL or a path to a file in the `/tmp` directory. This can be a binary file or a base64-encoded string.",
+      format: "file-ref",
     },
     fileName: {
       type: "string",

@@ -5,7 +5,7 @@ export default {
   name: "List Folders",
   description: "List folders which contain Documents. [See the documentation here](https://developers.pandadoc.com/reference/list-documents-folders)",
   type: "action",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,10 +1,11 @@
 import mural from "../../mural.app.mjs";
+import { STICKY_SHAPE_OPTIONS } from "../../common/constants.mjs";
 
 export default {
   key: "mural-create-sticky",
   name: "Create Sticky",
   description: "Create a new sticky note within a given mural. [See the documentation](https://developers.mural.co/public/reference/createstickynote)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -32,49 +33,50 @@ export default {
       type: "string",
       label: "Shape",
       description: "The shape of the sticky note widget",
-      options: [
-        "circle",
-        "rectangle",
-      ],
+      options: STICKY_SHAPE_OPTIONS,
     },
     xPosition: {
-      type: "integer",
-      label: "X Position",
-      description: "The horizontal position of the widget in px. This is the distance from the left of the parent widget, such as an area. If the widget has no parent widget, this is the distance from the left of the mural.",
+      propDefinition: [
+        mural,
+        "xPosition",
+      ],
     },
     yPosition: {
-      type: "integer",
-      label: "Y Position",
-      description: "The vertical position of the widget in px. This is the distance from the top of the parent widget, such as an area. If the widget has no parent widget, this is the distance from the top of the mural.",
+      propDefinition: [
+        mural,
+        "yPosition",
+      ],
     },
     text: {
-      type: "string",
-      label: "Text",
-      description: "The text in the widget",
+      propDefinition: [
+        mural,
+        "text",
+      ],
+      optional: false,
     },
     title: {
-      type: "string",
-      label: "Title",
-      description: "The title of the widget in the outline",
-      optional: true,
+      propDefinition: [
+        mural,
+        "title",
+      ],
     },
     height: {
-      type: "integer",
-      label: "Height",
-      description: "The height of the widget in px",
-      optional: true,
+      propDefinition: [
+        mural,
+        "height",
+      ],
     },
     width: {
-      type: "integer",
-      label: "Width",
-      description: "The width of the widget in px",
-      optional: true,
+      propDefinition: [
+        mural,
+        "width",
+      ],
     },
     hidden: {
-      type: "boolean",
-      label: "Hidden",
-      description: "If `true`, the widget is hidden from non-facilitators. Applies only when the widget is in the outline",
-      optional: true,
+      propDefinition: [
+        mural,
+        "hidden",
+      ],
     },
     tagIds: {
       propDefinition: [
@@ -95,7 +97,8 @@ export default {
         }),
       ],
       label: "Parent ID",
-      description: "The ID of the area widget that contains the widget",
+      description: "The ID of the area widget that should contain this sticky note, for example `0-12345`. When set, **X Position** and **Y Position** are measured from the area's top-left corner instead of the mural's.",
+      optional: true,
     },
   },
   async run({ $ }) {

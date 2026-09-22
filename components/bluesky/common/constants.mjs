@@ -2,7 +2,7 @@ const BASE_URL = "https://bsky.social";
 const VERSION_PATH = "/xrpc";
 
 const INTERACTION_EVENT = {
-  REQUES_TLESS: "app.bsky.feed.defs#requestLess",
+  REQUEST_LESS: "app.bsky.feed.defs#requestLess",
   REQUEST_MORE: "app.bsky.feed.defs#requestMore",
   CLICK_THROUGH_ITEM: "app.bsky.feed.defs#clickthroughItem",
   CLICK_THROUGH_AUTHOR: "app.bsky.feed.defs#clickthroughAuthor",

@@ -6,7 +6,7 @@ export default {
   name: "Create Contact",
   description: "Add a new contact to Quaderno. [See the Documentation](https://developers.quaderno.io/api/#tag/Contacts/operation/createContact).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -90,8 +90,8 @@ export default {
     return {
       firstName: {
         type: "string",
-        label: "Bussiness Name",
-        description: "The contact's bussiness name.",
+        label: "Business Name",
+        description: "The contact's business name.",
       },
       department: {
         type: "string",

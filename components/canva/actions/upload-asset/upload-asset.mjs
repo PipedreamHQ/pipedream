@@ -5,7 +5,7 @@ export default {
   key: "canva-upload-asset",
   name: "Upload Asset",
   description: "Uploads an asset to Canva. [See the documentation](https://www.canva.dev/docs/connect/api-reference/assets/create-asset-upload-job/)",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

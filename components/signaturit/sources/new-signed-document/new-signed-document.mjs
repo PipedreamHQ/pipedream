@@ -6,7 +6,7 @@ export default {
   key: "signaturit-new-signed-document",
   name: "New Signed Document",
   description: "Emit new event when a document has been newly signed.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   sampleEmit,

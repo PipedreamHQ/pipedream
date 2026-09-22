@@ -1,15 +1,14 @@
-const DEFAULT_PAGE_SIZE = 10;
-
 const organizationProjectsQuery = `
-  query ($repoOwner: String!, $cursor: String) {
+  query ($repoOwner: String!, $cursor: String, $first: Int!) {
     organization(login: $repoOwner) {
-      projectsV2(first: ${DEFAULT_PAGE_SIZE}, after: $cursor) {
+      projectsV2(first: $first, after: $cursor) {
         nodes {
           number
           title
         }
         pageInfo {
           endCursor
+          hasNextPage
         }
       }
     }
@@ -17,15 +16,16 @@ const organizationProjectsQuery = `
 `;
 
 const projectsQuery = `
-  query ($repoOwner: String!, $repoName: String!, $cursor: String) {
+  query ($repoOwner: String!, $repoName: String!, $cursor: String, $first: Int!) {
     repository(owner: $repoOwner, name: $repoName) {
-      projectsV2(first: ${DEFAULT_PAGE_SIZE}, after: $cursor) {
+      projectsV2(first: $first, after: $cursor) {
         nodes {
           number
           title
         }
         pageInfo {
           endCursor
+          hasNextPage
         }
       }
     }

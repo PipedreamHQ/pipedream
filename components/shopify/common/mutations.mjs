@@ -106,9 +106,9 @@ const CREATE_BLOG = `
   }
 `;
 
-const CREATE_COLLECTION = `
-  mutation createCollectionMetafields($input: CollectionInput!) {
-    collectionCreate(input: $input) {
+const COLLECTION_CREATE = `
+  mutation collectionCreate($collection: CollectionCreateInput!) {
+    collectionCreate(collection: $collection) {
       collection {
         id
         title
@@ -257,8 +257,8 @@ const UPDATE_METAOBJECT = `
 `;
 
 const UPDATE_PRODUCT = `
-  mutation UpdateProductWithNewMedia($input: ProductInput!, $media: [CreateMediaInput!]) {
-    productUpdate(input: $input, media: $media) {
+  mutation UpdateProductWithNewMedia($product: ProductUpdateInput!, $media: [CreateMediaInput!]) {
+    productUpdate(product: $product, media: $media) {
       product {
         id
         title
@@ -322,8 +322,8 @@ const UPDATE_PAGE = `
 `;
 
 const UPDATE_INVENTORY_LEVEL = `
-  mutation inventorySetOnHandQuantities($input: InventorySetOnHandQuantitiesInput!) {
-    inventorySetOnHandQuantities(input: $input) {
+  mutation inventorySetQuantities($input: InventorySetQuantitiesInput!, $key: String!) {
+    inventorySetQuantities(input: $input) @idempotent(key: $key) {
       inventoryAdjustmentGroup {
         createdAt
         reason
@@ -433,6 +433,248 @@ const UPDATE_ORDER = `
   }
 `;
 
+const REFUND_CREATE = `
+  mutation refundCreate($input: RefundInput!) {
+    refundCreate(input: $input) {
+      refund {
+        id
+        order {
+          id
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const GIFT_CARD_CREATE = `
+  mutation giftCardCreate($input: GiftCardCreateInput!) {
+    giftCardCreate(input: $input) {
+      giftCard {
+        id
+        maskedCode
+        lastCharacters
+        expiresOn
+        note
+      }
+      giftCardCode
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const ORDER_CREATE = `
+  mutation orderCreate($order: OrderCreateOrderInput!, $options: OrderCreateOptionsInput) {
+    orderCreate(order: $order, options: $options) {
+      order {
+        id
+        name
+        email
+        totalPriceSet {
+          shopMoney {
+            amount
+            currencyCode
+          }
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const ORDER_INVOICE_SEND = `
+  mutation orderInvoiceSend($id: ID!, $email: EmailInput) {
+    orderInvoiceSend(id: $id, email: $email) {
+      order {
+        id
+        name
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const RETURN_CREATE = `
+  mutation returnCreate($returnInput: ReturnInput!) {
+    returnCreate(returnInput: $returnInput) {
+      return {
+        id
+        status
+        order {
+          id
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const RETURN_PROCESS = `
+  mutation ReturnProcessMutation($input: ReturnProcessInput!) {
+    returnProcess(input: $input) {
+      return {
+        id
+        order {
+          id
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const ORDER_CANCEL = `
+  mutation orderCancel(
+    $orderId: ID!,
+    $reason: OrderCancelReason!,
+    $restock: Boolean!,
+    $notifyCustomer: Boolean,
+    $staffNote: String
+  ) {
+    orderCancel(
+      orderId: $orderId,
+      reason: $reason,
+      restock: $restock,
+      notifyCustomer: $notifyCustomer,
+      staffNote: $staffNote
+    ) {
+      job {
+        id
+        done
+      }
+      orderCancelUserErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const FULFILLMENT_ORDER_SUBMIT_CANCELLATION_REQUEST = `
+  mutation fulfillmentOrderSubmitCancellationRequest($id: ID!, $message: String) {
+    fulfillmentOrderSubmitCancellationRequest(id: $id, message: $message) {
+      fulfillmentOrder {
+        id
+        status
+        requestStatus
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const FULFILLMENT_CANCEL = `
+  mutation fulfillmentCancel($id: ID!) {
+    fulfillmentCancel(id: $id) {
+      fulfillment {
+        id
+        status
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const FULFILLMENT_ORDER_CANCEL = `
+  mutation fulfillmentOrderCancel($id: ID!) {
+    fulfillmentOrderCancel(id: $id) {
+      fulfillmentOrder {
+        id
+        status
+      }
+      replacementFulfillmentOrder {
+        id
+        status
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const FULFILLMENT_ORDER_HOLD = `
+  mutation fulfillmentOrderHold($fulfillmentHold: FulfillmentOrderHoldInput!, $id: ID!) {
+    fulfillmentOrderHold(fulfillmentHold: $fulfillmentHold, id: $id) {
+      fulfillmentOrder {
+        id
+        status
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const CREATE_STAGED_UPLOAD = `
+  mutation stagedUploadsCreate($input: [StagedUploadInput!]!) {
+    stagedUploadsCreate(input: $input) {
+      stagedTargets {
+        url
+        resourceUrl
+        parameters {
+          name
+          value
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const RUN_BULK_MUTATION = `
+  mutation bulkOperationRunMutation($clientIdentifier: String, $mutation: String!, $stagedUploadPath: String!) {
+    bulkOperationRunMutation(clientIdentifier: $clientIdentifier, mutation: $mutation, stagedUploadPath: $stagedUploadPath) {
+      bulkOperation {
+        id
+        completedAt
+        createdAt
+        fileSize
+        objectCount
+        rootObjectCount
+        partialDataUrl
+        query
+        status
+        url
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
 export default {
   CREATE_WEBHOOK,
   DELETE_WEBHOOK,
@@ -440,7 +682,7 @@ export default {
   ADD_PRODUCTS_TO_COLLECTION,
   CREATE_ARTICLE,
   CREATE_BLOG,
-  CREATE_COLLECTION,
+  COLLECTION_CREATE,
   CREATE_PAGE,
   CREATE_PRODUCT,
   CREATE_PRODUCT_VARIANTS,
@@ -458,4 +700,17 @@ export default {
   DELETE_PAGE,
   DELETE_METAFIELD,
   UPDATE_ORDER,
+  REFUND_CREATE,
+  ORDER_CANCEL,
+  FULFILLMENT_ORDER_SUBMIT_CANCELLATION_REQUEST,
+  GIFT_CARD_CREATE,
+  ORDER_CREATE,
+  ORDER_INVOICE_SEND,
+  RETURN_CREATE,
+  RETURN_PROCESS,
+  FULFILLMENT_CANCEL,
+  FULFILLMENT_ORDER_CANCEL,
+  FULFILLMENT_ORDER_HOLD,
+  CREATE_STAGED_UPLOAD,
+  RUN_BULK_MUTATION,
 };

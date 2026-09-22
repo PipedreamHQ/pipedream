@@ -3,9 +3,14 @@ import salesforce from "../../salesforce_rest_api.app.mjs";
 export default {
   key: "salesforce_rest_api-list-object-fields",
   name: "List Object Fields",
-  description: "Lists all fields for a given object type. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_sobject_describe.htm)",
-  version: "0.0.1",
+  description: "List the field names for a Salesforce object type."
+    + " Use this to discover valid field names before calling **Find Records**, **SOQL Query** or any create/update action."
+    + " Use **Describe Object** instead when you also need field types, required flags and picklist values."
+    + " "
+    + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_sobject_describe.htm)",
+  version: "0.0.5",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

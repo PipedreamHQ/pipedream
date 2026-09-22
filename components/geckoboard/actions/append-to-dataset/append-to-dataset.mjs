@@ -4,7 +4,7 @@ export default {
   key: "geckoboard-append-to-dataset",
   name: "Append to Dataset",
   description: "Append data to the specified dataset. [See the documentation](https://developer.geckoboard.com/?#append-data-to-a-dataset)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

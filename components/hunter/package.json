@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/hunter",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Pipedream hunter Components",
   "main": "hunter.app.mjs",
   "keywords": [

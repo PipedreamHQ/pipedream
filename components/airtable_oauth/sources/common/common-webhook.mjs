@@ -19,9 +19,6 @@ export default {
       propDefinition: [
         airtable,
         "tableId",
-        (c) => ({
-          baseId: c.baseId,
-        }),
       ],
       description: "If specified, events will only be emitted for the selected Table",
       optional: true,
@@ -30,10 +27,6 @@ export default {
       propDefinition: [
         airtable,
         "viewId",
-        (c) => ({
-          baseId: c.baseId,
-          tableId: c.tableId,
-        }),
       ],
       description: "If specified, events will only be emitted for the selected View",
       optional: true,
@@ -48,8 +41,11 @@ export default {
   },
   hooks: {
     async activate() {
+      const {
+        baseId, tableId,
+      } = this;
       const { id } = await this.airtable.createWebhook({
-        baseId: this.baseId,
+        baseId,
         data: {
           notificationUrl: `${this.http.endpoint}/`,
           specification: {
@@ -57,8 +53,8 @@ export default {
               filters: {
                 recordChangeScope: this.viewId
                   ? this.viewId
-                  : this.tableId
-                    ? this.tableId
+                  : tableId
+                    ? tableId
                     : undefined,
                 dataTypes: this.getDataTypes(),
                 changeTypes: this.getChangeTypes(),

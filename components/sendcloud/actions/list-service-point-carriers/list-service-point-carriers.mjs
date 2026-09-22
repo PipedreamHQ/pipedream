@@ -4,7 +4,7 @@ export default {
   key: "sendcloud-list-service-point-carriers",
   name: "List Service Point Carriers",
   description: "List carriers that support service points. [See the documentation](https://api.sendcloud.dev/docs/sendcloud-public-api/branches/v2/service-points/operations/list-carriers)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

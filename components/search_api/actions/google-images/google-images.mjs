@@ -3,14 +3,15 @@ import app from "../../search_api.app.mjs";
 export default {
   key: "search_api-google-images",
   name: "Google Images API",
-  description: "Google Images API uses /api/v1/search?engine=google_images API endpoint to scrape real-time results. [See the documentation](https://www.searchapi.io/docs/google-images)",
-  version: "0.0.2",
+  description: "Run a Google Images search. Returns an `images` array; thumbnails are inlined, so keep `num` small to limit the response size. [See the documentation](https://www.searchapi.io/docs/google-images)",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     q: {
@@ -95,7 +96,7 @@ export default {
       engine,
     });
 
-    $.export("$summary", `Successfully searched "${this.q} on engine ${engine}"`);
+    $.export("$summary", `Successfully searched "${this.q}" on engine ${engine}`);
 
     return result;
   },

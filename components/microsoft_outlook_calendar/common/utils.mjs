@@ -35,4 +35,19 @@ export default {
       String(input),
     ];
   },
+  normalizeStringArray(values) {
+    return (values ?? [])
+      .map((v) => v?.toString?.().trim())
+      .filter(Boolean);
+  },
+  clampInt(value, {
+    min,
+    max,
+  }) {
+    if (value === null || value === undefined) return undefined;
+    const n = Number(value);
+    if (!Number.isFinite(n)) return undefined;
+    const rounded = Math.round(n);
+    return Math.max(min, Math.min(max, rounded));
+  },
 };

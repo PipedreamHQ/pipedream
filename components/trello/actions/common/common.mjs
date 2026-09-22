@@ -17,5 +17,16 @@ export default {
     getMatches(foundObjects, query) {
       return foundObjects?.filter((obj) => obj.name.includes(query)) ?? [];
     },
+    /**
+     * Joins an array into a comma-separated string for Trello query params.
+     *
+     * @param {string[]|string} array An array of values, or a string passthrough.
+     * @returns {string|undefined} The joined string, or the original non-array value.
+     */
+    getCommaSeparatedString(array) {
+      return Array.isArray(array)
+        ? array.join(",")
+        : array;
+    },
   },
 };

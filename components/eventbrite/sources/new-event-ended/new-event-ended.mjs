@@ -6,7 +6,7 @@ export default {
   key: "eventbrite-new-event-ended",
   name: "New Event Ended",
   description: "Emit new event when an event has ended",
-  version: "0.0.6",
+  version: "0.0.7",
   dedupe: "unique",
   type: "source",
   props: {

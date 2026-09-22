@@ -7,7 +7,7 @@ export default {
     appId: {
       type: "string",
       label: "App ID",
-      description: "The unique identifier for the app. Eg. `lora`.",
+      description: "The full canonical ID of the model to call, including the owner namespace. E.g. `fal-ai/flux/schnell`, `rundiffusion-fal/juggernaut-flux/base`, or `your-username/your-app`. As a shorthand, a bare single-word name (e.g. `lora`) is accepted and assumed to be in the `fal-ai` namespace.",
     },
     requestId: {
       type: "string",
@@ -23,7 +23,17 @@ export default {
   },
   methods: {
     getUrl(path) {
-      return `https://queue.fal.run/fal-ai${path}`;
+      return `https://queue.fal.run${path}`;
+    },
+    getAppId(appId) {
+      // Model IDs are `owner/model` (e.g. `fal-ai/flux/schnell`,
+      // `rundiffusion-fal/juggernaut-flux/base`, `your-username/your-app`), so any
+      // input that already contains a slash is treated as a full canonical ID and
+      // left untouched. A bare single-word name has no owner segment and can only
+      // refer to a `fal-ai` model, so we prepend the default namespace for it.
+      return appId.includes("/")
+        ? appId
+        : `fal-ai/${appId}`;
     },
     getHeaders(headers) {
       return {
@@ -57,7 +67,7 @@ export default {
       appId, requestId, ...args
     } = {}) {
       return this._makeRequest({
-        path: `/${appId}/requests/${requestId}/status`,
+        path: `/${this.getAppId(appId)}/requests/${requestId}/status`,
         ...args,
       });
     },
@@ -65,7 +75,7 @@ export default {
       appId, requestId, ...args
     } = {}) {
       return this._makeRequest({
-        path: `/${appId}/requests/${requestId}`,
+        path: `/${this.getAppId(appId)}/requests/${requestId}`,
         ...args,
       });
     },

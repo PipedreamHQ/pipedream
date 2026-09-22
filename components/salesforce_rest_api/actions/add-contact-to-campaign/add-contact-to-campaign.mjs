@@ -4,14 +4,19 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "salesforce_rest_api-add-contact-to-campaign",
   name: "Add Contact to Campaign",
-  description: "Adds an existing contact to an existing campaign. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_campaignmember.htm)",
-  version: "0.1.3",
+  description: "Add an existing contact to an existing campaign as a campaign member."
+    + " Use **Find Records** on `Contact` and on `Campaign` to look up the two IDs first."
+    + " The contact must already exist - use **Create Contact** if it does not."
+    + " "
+    + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_campaignmember.htm)",
+  version: "0.1.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     salesforce,
     campaignId: {

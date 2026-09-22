@@ -5,7 +5,7 @@ export default {
   key: "xero_accounting_api-create-payment",
   name: "Create Payment",
   description: "Creates a new payment",
-  version: "0.1.4",
+  version: "0.1.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -114,7 +114,7 @@ export default {
     !this.invoiceNumber &&
     !this.creditNoteNumber) ||
     !this.tenantId) {
-      throw new ConfigurationError("Must provide **Account ID** or **Account Code**, and", "\n", "**Invoice ID** or **Credit Note ID** or **Prepayment ID** or **Overpayment ID** or **Invoice Number** or **Credit Note Number**,\nand **Tenant ID** parameters.");
+      throw new ConfigurationError("Must provide **Account ID** or **Account Code**, and\n**Invoice ID** or **Credit Note ID** or **Prepayment ID** or **Overpayment ID** or **Invoice Number** or **Credit Note Number**,\nand **Tenant ID** parameters.");
     }
 
     const data = {
@@ -132,7 +132,7 @@ export default {
       };
     } else {
       data["Account"] = {
-        Code: this.account_code,
+        Code: this.accountCode,
       };
     }
 

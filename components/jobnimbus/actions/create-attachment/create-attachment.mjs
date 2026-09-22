@@ -7,7 +7,7 @@ import {
 
 export default {
   key: "jobnimbus-create-attachment",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -22,6 +22,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to upload. Provide a file URL or a path to a file in the `/tmp` directory.",
+      format: "file-ref",
     },
     type: {
       type: "string",

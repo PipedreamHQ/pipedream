@@ -122,5 +122,11 @@ export default {
         ...args,
       });
     },
+    listBusinesses(args = {}) {
+      return this._makeRequest({
+        url: "/businesses/",
+        ...args,
+      });
+    },
   },
 };

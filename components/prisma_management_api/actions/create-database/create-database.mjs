@@ -2,7 +2,7 @@ import app from "../../prisma_management_api.app.mjs";
 
 export default {
   name: "Create Database",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -38,7 +38,7 @@ export default {
     if (response) {
       const projectId = response.data?.id;
       const databaseId = response.data?.database?.id;
-      
+
       let summary = `Successfully created Postgres database project "${this.name}"`;
       if (projectId) {
         summary += ` with Project ID ${projectId}`;
@@ -46,7 +46,7 @@ export default {
       if (databaseId) {
         summary += ` and Database ID ${databaseId}`;
       }
-      
+
       $.export("$summary", summary);
     }
 

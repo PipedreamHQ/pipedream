@@ -5,7 +5,7 @@ export default {
   key: "eventbrite-new-attendee-registered",
   name: "New Attendee Registered (Instant)",
   description: "Emit new event when an attendee registers for an event",
-  version: "0.0.6",
+  version: "0.0.7",
   dedupe: "unique",
   type: "source",
   props: {

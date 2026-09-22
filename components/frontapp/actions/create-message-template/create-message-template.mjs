@@ -1,12 +1,12 @@
-import FormData from "form-data";
 import { getFileStreamAndMetadata } from "@pipedream/platform";
+import FormData from "form-data";
 import frontApp from "../../frontapp.app.mjs";
 
 export default {
   key: "frontapp-create-message-template",
   name: "Create Message Template",
   description: "Create a new message template. [See the documentation](https://dev.frontapp.com/reference/create-message-template).",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

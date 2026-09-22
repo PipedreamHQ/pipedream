@@ -4,7 +4,7 @@ export default {
   key: "genderize-get-gender-from-name",
   name: "Get Gender From Name",
   description: "Check the statistical probability of a name being male or female. [See the documentation](https://genderize.io/documentation#basic-usage)",
-  version: "0.0.2",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,12 +19,19 @@ export default {
         "name",
       ],
     },
+    countryId: {
+      propDefinition: [
+        app,
+        "countryId",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.app.getGenderFromName({
       $,
       params: {
         name: this.name,
+        country_id: this.countryId,
       },
     });
     $.export("$summary", `Successfully sent the request. Result: ${response.gender}`);

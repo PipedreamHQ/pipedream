@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/agendor",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Pipedream Agendor Components",
   "main": "agendor.app.mjs",
   "keywords": [

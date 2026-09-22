@@ -5,7 +5,7 @@ export default {
   key: "nocodb-delete-record",
   name: "Delete Record",
   description: "This action deletes a row in a table. [See the documentation](https://data-apis-v2.nocodb.com/#tag/Table-Records/operation/db-data-table-row-delete)",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

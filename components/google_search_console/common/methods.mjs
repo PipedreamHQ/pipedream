@@ -10,21 +10,6 @@ export default {
     throw err;
   },
 
-  /* ============================================================================================
-    Determines whether an error originated from your own validation code or from the API request.
-    Useful for debugging and crafting more helpful error messages.
-=============================================================================================== */
-
-  // =====================================================================
-  checkWhoThrewError(error) {
-    return {
-      whoThrew: error?.response?.status
-        ? "API response"
-        : "Internal Code",
-      error,
-    };
-  },
-
   /* ==========================================================================================
     Throws if the input is not a string or is a blank string (only whitespace, tabs,
     newlines, etc.).
@@ -176,7 +161,7 @@ export default {
     // Throws an error if the input is not a string or if its a blank string;
     this.throwIfBlankOrNotString(input);
 
-    // Warnin accumulator
+    // Warning accumulator
     let warnings = [];
     ;
     // Trim the input (already checked for string);
@@ -226,7 +211,7 @@ export default {
       } catch (err) {
         // If after all checks we are here that means that the url
         // contain potentially unacceptable characters.
-        warnings.push(` URL contains potentionally unacceptable characters"  ${this._reasonMsg(reason)}`);
+        warnings.push(` URL contains potentially unacceptable characters"  ${this._reasonMsg(reason)}`);
 
       };
 

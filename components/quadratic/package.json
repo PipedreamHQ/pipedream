@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/quadratic",
+  "version": "0.0.1",
+  "description": "Pipedream Quadratic Components",
+  "main": "quadratic.app.mjs",
+  "keywords": [
+    "pipedream",
+    "quadratic"
+  ],
+  "homepage": "https://pipedream.com/apps/quadratic",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

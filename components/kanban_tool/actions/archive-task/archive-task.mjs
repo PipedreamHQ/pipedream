@@ -2,7 +2,7 @@ import app from "../../kanban_tool.app.mjs";
 
 export default {
   key: "kanban_tool-archive-task",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -37,7 +37,7 @@ export default {
         _action: "archive",
       },
     });
-    $.export("$summary", `The task(ID: ${resp.id}) has been archived.`);
+    $.export("$summary", `Task(ID: ${resp.id}) archived`);
     return resp;
   },
 };

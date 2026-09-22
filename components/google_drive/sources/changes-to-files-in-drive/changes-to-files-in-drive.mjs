@@ -7,13 +7,14 @@ import {
 } from "../../common/constants.mjs";
 import commonDedupeChanges from "../common-dedupe-changes.mjs";
 import { stashFile } from "../../common/utils.mjs";
+import md5 from "md5";
 
 export default {
   ...common,
   key: "google_drive-changes-to-files-in-drive",
   name: "Changes to Files in Drive",
   description: "Emit new event when a change is made to one of the specified files. [See the documentation](https://developers.google.com/drive/api/v3/reference/changes/watch)",
-  version: "0.0.2",
+  version: "0.0.13",
   type: "source",
   dedupe: "unique",
   props: {
@@ -94,7 +95,7 @@ export default {
         : fileName || "Untitled";
 
       return {
-        id: `${fileId}-${ts}`,
+        id: md5(`${fileId}-${ts}`),
         summary,
         ts,
       };
@@ -131,8 +132,6 @@ export default {
     },
     async processChanges(changedFiles, headers) {
       console.log(`Processing ${changedFiles.length} changed files`);
-      console.log(`Changed files: ${JSON.stringify(changedFiles, null, 2)}!!!`);
-      console.log(`Files: ${this.files}!!!`);
 
       const filteredFiles = this.checkMinimumInterval(changedFiles);
       for (const file of filteredFiles) {

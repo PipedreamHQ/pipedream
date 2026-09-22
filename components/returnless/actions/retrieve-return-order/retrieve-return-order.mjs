@@ -4,7 +4,7 @@ export default {
   key: "returnless-retrieve-return-order",
   name: "Retrieve Return Order",
   description: "Retrieve a return order. [See the documentation](https://docs.returnless.com/docs/api-rest-reference/f670282943eae-retrieve-a-return-order)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

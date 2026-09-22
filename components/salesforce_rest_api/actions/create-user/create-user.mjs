@@ -8,22 +8,21 @@ export default {
   ...common,
   key: "salesforce_rest_api-create-user",
   name: "Create User",
-  description: `Creates a Salesforce user. [See the documentation](${docsLink})`,
-  version: "0.1.4",
+  description: "Create a Salesforce user (a login for a person in your org)."
+    + " Requires an available user license and a unique `Username` in email form; the `Username` must be globally unique across all Salesforce orgs."
+    + " Use **Get User** or **Find Records** on `User` to check whether the person already has an account."
+    + " "
+    + `[See the documentation](${docsLink})`,
+  version: "0.1.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   methods: {
     ...common.methods,
-    getObjectType() {
-      return "User";
-    },
-    getAdvancedProps() {
-      return user.extraProps;
-    },
   },
   props: getProps({
     objType: user,
@@ -33,13 +32,9 @@ export default {
     /* eslint-disable no-unused-vars */
     const {
       salesforce,
-      getAdvancedProps,
-      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
-      useAdvancedProps,
       docsInfo,
-      dateInfo,
       additionalFields,
       ...data
     } = this;

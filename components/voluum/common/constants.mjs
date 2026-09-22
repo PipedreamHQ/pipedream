@@ -1,0 +1,44 @@
+export const LIMIT = 100;
+
+export const INCLUDE_OPTIONS = [
+  "ALL",
+  "ACTIVE",
+  "ARCHIVED",
+  "TRAFFIC",
+  "ENTITY",
+];
+
+export const CONVERSION_TIME_MODE_OPTIONS = [
+  "CONVERSION",
+  "VISIT",
+];
+
+export const SORT_DIRECTION_OPTIONS = [
+  "ASC",
+  "DESC",
+];
+
+export const ACTION_TYPE_OPTIONS = [
+  "CREATE",
+  "ARCHIVE",
+  "CHANGE",
+  "RESTORE",
+  "LOGIN",
+  "REAUTHENTICATE",
+  "PAUSE",
+  "RESUME",
+];
+
+export const CATEGORY_OPTIONS = [
+  "CAMPAIGN",
+  "TRAFFIC_SOURCE",
+  "FLOW",
+  "OFFER",
+  "AFFILIATE_NETWORK",
+  "LANDER",
+  "DSP_CAMPAIGN",
+  "WORKSPACE",
+  "ACCOUNT",
+  "TRAFFIC_FILTER",
+  "INTEGRATION",
+];

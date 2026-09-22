@@ -10,7 +10,7 @@ export default {
   key: "google_gemini-generate-content-from-text-and-image",
   name: "Generate Content from Text and Image",
   description: "Generates content from both text and image input using the Gemini API. [See the documentation](https://ai.google.dev/tutorials/rest_quickstart#text-and-image_input)",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -23,6 +23,7 @@ export default {
       type: "string[]",
       label: "Media File Paths or URLs",
       description: "A list of file paths from the `/tmp` directory or URLs for the media to process.",
+      format: "file-ref",
     },
     syncDir: {
       type: "dir",

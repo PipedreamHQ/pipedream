@@ -1,6 +1,19 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
+const { pathToFileURL } = require('url');
+
+// ESM loader that rewrites version-pinned specifiers ("got@13.0.0" -> "got")
+// so the import test can resolve them from node_modules.
+const VERSION_STRIP_LOADER = pathToFileURL(
+  path.join(__dirname, 'version-strip-loader.mjs')
+).href;
+
+// Apps with known validation issues to suppress so they don't trigger failure
+// reports. Keep this list small and document why each entry is here.
+// Value can be `true` to ignore all checks for the app, or an array of check
+// names (e.g. ['import', 'packageDependencies']) to ignore only specific ones.
+const IGNORED_VALIDATIONS = {};
 
 // Native Node.js modules that don't need to be in package.json
 const NATIVE_MODULES = new Set([
@@ -11,6 +24,43 @@ const NATIVE_MODULES = new Set([
   'timers', 'tls', 'tty', 'url', 'util', 'v8', 'vm', 'wasi', 'worker_threads',
   'zlib', 'async_hooks', 'inspector', 'trace_events', 'http2'
 ]);
+
+// Pipedream's runtime always installs the latest version of an imported
+// package and ignores package.json, so components that must stay on an older
+// version pin it in the import specifier itself (e.g.
+// `import { WebClient } from "@slack/web-api@8.0.0"`). Parse those specifiers
+// into their package name, pinned version and subpath.
+function parseImportSpecifier(specifier) {
+  const scoped = specifier.startsWith('@');
+  // For scoped packages the leading "@" is part of the name, not a version.
+  const body = scoped ? specifier.slice(1) : specifier;
+  const [nameAndSubpath, version] = splitOnVersion(body);
+  const parts = nameAndSubpath.split('/');
+  const nameParts = scoped ? parts.slice(0, 2) : parts.slice(0, 1);
+  const packageName = (scoped ? '@' : '') + nameParts.join('/');
+
+  return {
+    packageName,
+    version: version || null,
+    subpath: parts.slice(nameParts.length).join('/') || null
+  };
+}
+
+// Splits "web-api@8.0.0" into ["web-api", "8.0.0"], leaving unversioned
+// specifiers (and subpaths that merely contain an "@") untouched.
+function splitOnVersion(body) {
+  const match = body.match(/^([^@]+)@(\d[^/]*)$/);
+  return match
+    ? [match[1], match[2]]
+    : [body, null];
+}
+
+// Treat "^8.0.0", "~8.0.0" and "8.0.0" as declaring the same version so a
+// version-pinned import only fails when it genuinely disagrees with
+// package.json.
+function normalizeDeclaredVersion(range) {
+  return range.replace(/^[\^~=v\s]+/, '');
+}
 
 // Parse command line arguments
 const args = process.argv.slice(2);
@@ -96,6 +146,7 @@ function generatePackageReport() {
   const results = {
     validated: [],
     failed: [],
+    ignored: [],
     skipped: [],
     summary: {}
   };
@@ -218,17 +269,37 @@ function generatePackageReport() {
       const failures = Object.entries(validationResults)
         .filter(([key, value]) => value !== 'passed')
         .map(([key, value]) => ({ check: key, error: value }));
-      
-      if (failures.length > 0) {
-        results.failed.push({ 
-          app, 
+
+      // Split failures into active (counted) and suppressed (known issues)
+      const ignoreConfig = IGNORED_VALIDATIONS[app];
+      const isCheckIgnored = (check) => ignoreConfig === true
+        || (Array.isArray(ignoreConfig) && ignoreConfig.includes(check));
+      const activeFailures = failures.filter(f => !isCheckIgnored(f.check));
+      const suppressedFailures = failures.filter(f => isCheckIgnored(f.check));
+
+      if (activeFailures.length > 0) {
+        results.failed.push({
+          app,
           packageName,
-          failures,
+          failures: activeFailures,
           validationResults
         });
-        console.log(`❌ ${packageName} - FAILED (${failures.length} issues)`);
+        console.log(`❌ ${packageName} - FAILED (${activeFailures.length} issues)`);
         if (isVerbose || singlePackage) {
-          failures.forEach(failure => {
+          activeFailures.forEach(failure => {
+            console.log(`   - ${failure.check}: ${failure.error}`);
+          });
+        }
+      } else if (suppressedFailures.length > 0) {
+        results.ignored.push({
+          app,
+          packageName,
+          failures: suppressedFailures,
+          validationResults
+        });
+        console.log(`⚠️  ${packageName} - IGNORED (${suppressedFailures.length} known issue(s) suppressed)`);
+        if (isVerbose || singlePackage) {
+          suppressedFailures.forEach(failure => {
             console.log(`   - ${failure.check}: ${failure.error}`);
           });
         }
@@ -248,13 +319,18 @@ function generatePackageReport() {
       }
       
     } catch (error) {
-      results.failed.push({ 
-        app, 
+      const bucket = IGNORED_VALIDATIONS[app] === true ? results.ignored : results.failed;
+      bucket.push({
+        app,
         packageName,
         error: error.message,
         failures: [{ check: 'general', error: error.message }]
       });
-      console.log(`❌ ${app} (${packageName}) - FAILED: ${error.message}`);
+      if (bucket === results.ignored) {
+        console.log(`⚠️  ${app} (${packageName}) - IGNORED: ${error.message}`);
+      } else {
+        console.log(`❌ ${app} (${packageName}) - FAILED: ${error.message}`);
+      }
     }
   }
   
@@ -280,9 +356,10 @@ function generatePackageReport() {
     total: apps.length,
     validated: results.validated.length,
     failed: results.failed.length,
+    ignored: results.ignored.length,
     skipped: results.skipped.length,
-    publishable: results.validated.length + results.failed.length,
-    failureRate: results.validated.length + results.failed.length > 0 
+    publishable: results.validated.length + results.failed.length + results.ignored.length,
+    failureRate: results.validated.length + results.failed.length > 0
       ? ((results.failed.length / (results.validated.length + results.failed.length)) * 100).toFixed(2)
       : '0.00'
   };
@@ -407,22 +484,15 @@ function validatePackageDependencies(packageJson, app) {
   let match;
   
   while ((match = packageImportRegex.exec(content)) !== null) {
-    const packageName = match[1];
-    // Extract the base package name (handle scoped packages and subpaths)
-    let basePackageName;
-    if (packageName.startsWith('@')) {
-      // Scoped package like @pipedream/platform or @aws-sdk/client-s3
-      const parts = packageName.split('/');
-      basePackageName = `${parts[0]}/${parts[1]}`;
-    } else {
-      // Regular package like axios or lodash (could have subpath like lodash/get)
-      basePackageName = packageName.split('/')[0];
-    }
-    
+    const originalImport = match[1];
+    // Handles scoped packages, subpaths and version-pinned specifiers
+    const { packageName, version } = parseImportSpecifier(originalImport);
+
     packageImports.push({
-      packageName: basePackageName,
+      packageName,
+      pinnedVersion: version,
       fullMatch: match[0],
-      originalImport: packageName
+      originalImport
     });
   }
   
@@ -436,6 +506,8 @@ function validatePackageDependencies(packageJson, app) {
   const devDependencies = packageJson.devDependencies || {};
   const allDependencies = { ...dependencies, ...devDependencies };
   
+  const versionMismatches = [];
+
   // Remove duplicates
   const uniquePackages = [...new Set(packageImports.map(imp => imp.packageName))];
   
@@ -448,13 +520,30 @@ function validatePackageDependencies(packageJson, app) {
       return;
     }
     
-    if (!allDependencies[packageName]) {
+    const declaredVersion = allDependencies[packageName];
+    if (!declaredVersion) {
       const exampleImport = packageImports.find(imp => imp.packageName === packageName);
       missingDependencies.push({
         packageName,
         importStatement: exampleImport.fullMatch
       });
+      return;
     }
+
+    // A version-pinned import must agree with package.json, otherwise the
+    // published package installs a different version than the one the
+    // component asked the runtime for.
+    packageImports
+      .filter(imp => imp.packageName === packageName && imp.pinnedVersion)
+      .forEach((imp) => {
+        if (normalizeDeclaredVersion(declaredVersion) !== imp.pinnedVersion) {
+          versionMismatches.push({
+            packageName,
+            pinnedVersion: imp.pinnedVersion,
+            declaredVersion
+          });
+        }
+      });
   });
   
   if (missingDependencies.length > 0) {
@@ -462,6 +551,13 @@ function validatePackageDependencies(packageJson, app) {
       .map(dep => `${dep.packageName} (for ${dep.importStatement})`)
       .join(', ');
     throw new Error(`Package imports require corresponding dependencies. Missing dependencies: ${missingList}`);
+  }
+
+  if (versionMismatches.length > 0) {
+    const mismatchList = versionMismatches
+      .map(dep => `${dep.packageName} imported as ${dep.pinnedVersion} but declared as ${dep.declaredVersion}`)
+      .join(', ');
+    throw new Error(`Version-pinned imports must match package.json: ${mismatchList}`);
   }
 }
 
@@ -474,7 +570,7 @@ function validateImport(packageName, app, packageJson) {
   
   // Syntax check
   try {
-    execSync(`node --check ${mainFile}`, { 
+    execSync(`node --check "${mainFile}"`, {
       stdio: 'pipe',
       timeout: 5000 
     });
@@ -484,9 +580,10 @@ function validateImport(packageName, app, packageJson) {
   
   // Import test using file path
   const testFile = path.join('components', app, '__import_test__.mjs');
+  const mainFileUrl = pathToFileURL(mainFile).href;
   const testContent = `
 try {
-  const pkg = await import("file://${mainFile}");
+  const pkg = await import("${mainFileUrl}");
   
   if (!pkg.default) {
     throw new Error("No default export found");
@@ -507,7 +604,9 @@ try {
   
   try {
     fs.writeFileSync(testFile, testContent);
-    execSync(`node ${testFile}`, { 
+    // The loader strips Pipedream's version-pinned import syntax
+    // ("@slack/web-api@8.0.0") so Node can resolve the installed package.
+    execSync(`node --experimental-loader "${VERSION_STRIP_LOADER}" "${testFile}"`, {
       stdio: 'pipe',
       cwd: process.cwd(),
       timeout: 10000
@@ -527,6 +626,7 @@ function printDetailedSummary(results) {
   console.log(`📦 Total Components: ${results.summary.total}`);
   console.log(`✅ Validated Successfully: ${results.summary.validated}`);
   console.log(`❌ Failed Validation: ${results.summary.failed}`);
+  console.log(`⚠️  Ignored (known issues): ${results.summary.ignored}`);
   console.log(`⏭️ Skipped: ${results.summary.skipped}`);
   console.log(`📈 Publishable Packages: ${results.summary.publishable}`);
   console.log(`📉 Failure Rate: ${results.summary.failureRate}%`);
@@ -555,6 +655,14 @@ function printDetailedSummary(results) {
     });
   }
   
+  if (results.ignored.length > 0) {
+    console.log('\n⚠️  IGNORED PACKAGES (known issues, not counted as failures):');
+    results.ignored.forEach(({ packageName, failures }) => {
+      const checks = failures.map(f => f.check).join(', ');
+      console.log(`  • ${packageName}: ${checks}`);
+    });
+  }
+
   if (results.skipped.length > 0) {
     console.log('\n⏭️ SKIPPED PACKAGES BY REASON:');
     const skippedByReason = {};
@@ -585,10 +693,15 @@ function saveReportToFile(results, filename) {
     generatedAt: new Date().toISOString(),
     summary: results.summary,
     validated: results.validated.map(r => ({ app: r.app, packageName: r.packageName })),
-    failed: results.failed.map(r => ({ 
-      app: r.app, 
-      packageName: r.packageName, 
-      failures: r.failures 
+    failed: results.failed.map(r => ({
+      app: r.app,
+      packageName: r.packageName,
+      failures: r.failures
+    })),
+    ignored: results.ignored.map(r => ({
+      app: r.app,
+      packageName: r.packageName,
+      failures: r.failures
     })),
     skipped: results.skipped
   };

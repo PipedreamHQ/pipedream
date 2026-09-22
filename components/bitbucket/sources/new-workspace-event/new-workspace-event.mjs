@@ -7,7 +7,7 @@ export default {
   name: "New Workspace Event (Instant)",
   key: "bitbucket-new-workspace-event",
   description: "Emit new event when a workspace-wide event occurs. [See docs here](https://developer.atlassian.com/cloud/bitbucket/rest/api-group-workspaces/#api-workspaces-workspace-hooks-post)",
-  version: "0.0.4",
+  version: "0.0.5",
   props: {
     ...common.props,
     eventTypes: {

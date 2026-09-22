@@ -7,7 +7,7 @@ export default {
   key: "reddit-new-saved-post-by-user",
   name: "New Saved Post by User",
   description: "Emit new event each time a user saves a post.",
-  version: "0.1.3",
+  version: "0.1.4",
   dedupe: "unique",
   props: {
     ...common.props,

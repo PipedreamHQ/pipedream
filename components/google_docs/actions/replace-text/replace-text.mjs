@@ -3,44 +3,38 @@ import googleDocs from "../../google_docs.app.mjs";
 export default {
   key: "google_docs-replace-text",
   name: "Replace Text",
-  description: "Replace all instances of matched text in an existing document. Supports Markdown formatting in the replacement text. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#ReplaceAllTextRequest)",
-  version: "0.0.11",
+  description: "Find and replace all occurrences of a string in a Google Doc. Set **Replacement Format** to `markdown` to convert Markdown in the replacement into native Google Docs formatting. Use **Find Document** to resolve a document's name to its ID. Returns the number of replacements made. In a multi-tab document the replacement runs across **every** tab by default; set **Tab ID** to confine it to one tab, using **List Tabs** to get the IDs. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#ReplaceAllTextRequest)",
+  version: "1.2.1",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     googleDocs,
-    docId: {
+    documentId: {
       propDefinition: [
         googleDocs,
-        "docId",
+        "documentId",
       ],
     },
-    replaced: {
+    find: {
+      type: "string",
+      label: "Find",
+      description: "The text to search for.",
+    },
+    replace: {
+      type: "string",
+      label: "Replace",
+      description: "The text to replace each match with.",
+    },
+    format: {
       propDefinition: [
         googleDocs,
-        "text",
+        "replacementFormat",
       ],
-      label: "Text to be replaced",
-      description: "The text that will be replaced",
-    },
-    text: {
-      propDefinition: [
-        googleDocs,
-        "text",
-      ],
-      label: "New Text",
-      description: "The replacement text. Can include Markdown formatting (bold, italic, code, links, headings, lists, etc.).",
-    },
-    enableMarkdown: {
-      type: "boolean",
-      label: "Parse as Markdown",
-      description: "Enable Markdown parsing for the replacement text. When enabled, Markdown syntax (e.g., **bold**, *italic*, [links](url), `code`) will be converted to Google Docs formatting.",
-      default: false,
-      optional: true,
     },
     matchCase: {
       propDefinition: [
@@ -48,58 +42,77 @@ export default {
         "matchCase",
       ],
     },
-    tabIds: {
+    tabId: {
       propDefinition: [
         googleDocs,
-        "tabId",
-        (c) => ({
-          documentId: c.docId,
-        }),
+        "styleTabId",
       ],
-      type: "string[]",
-      label: "Tab IDs",
-      description: "The tab IDs to replace the text in",
-      optional: true,
+      description: "For a multi-tab document, confine the replacement to this tab (e.g. `t.0`). Get tab IDs from **List Tabs**. Omit to replace in every tab.",
     },
   },
   async run({ $ }) {
     const {
       googleDocs,
-      docId,
-      replaced,
-      text,
-      enableMarkdown,
+      documentId,
+      find,
+      replace,
+      format,
       matchCase,
-      tabIds,
+      tabId,
     } = this;
 
-    if (enableMarkdown) {
-      // Use Markdown-aware replacement
-      await googleDocs.replaceTextWithMarkdown({
-        documentId: docId,
-        textToReplace: replaced,
-        markdownReplacement: text,
+    // `replaceAllText` with no `tabsCriteria` replaces in every tab (measured),
+    // which is the right default for a find-and-replace; a Tab ID narrows it.
+    const target = tabId
+      ? `tab ${tabId} of document ${documentId}`
+      : `document ${documentId}`;
+    const tabIds = tabId
+      ? [
+        tabId,
+      ]
+      : null;
+
+    if (format === "markdown") {
+      const {
+        occurrencesChanged, formattingRequestsApplied,
+      } = await googleDocs.replaceTextWithMarkdown({
+        documentId,
+        textToReplace: find,
+        markdownReplacement: replace,
         matchCase,
         tabIds,
       });
-    } else {
-      // Use plain text replacement (original behavior)
-      const textObject = {
-        replaceText: text,
-        containsText: {
-          text: replaced,
-          matchCase,
-        },
-        tabsCriteria: tabIds
-          ? {
-            tabIds,
-          }
-          : undefined,
+      $.export("$summary", `Replaced ${occurrencesChanged} occurrence${occurrencesChanged === 1
+        ? ""
+        : "s"} of "${find}" in ${target}, applying ${formattingRequestsApplied} formatting request${formattingRequestsApplied === 1
+        ? ""
+        : "s"}`);
+      return {
+        documentId,
+        occurrencesChanged,
+        formattingRequestsApplied,
       };
-      await googleDocs.replaceText(docId, textObject);
     }
-    const doc = await googleDocs.getDocument(docId);
-    $.export("$summary", `Successfully replaced text in doc with ID: ${docId}`);
-    return doc;
+
+    const { data } = await googleDocs.replaceText(documentId, {
+      replaceText: replace,
+      containsText: {
+        text: find,
+        matchCase,
+      },
+      ...(tabIds && {
+        tabsCriteria: {
+          tabIds,
+        },
+      }),
+    });
+    const occurrences = data?.replies?.[0]?.replaceAllText?.occurrencesChanged ?? 0;
+    $.export("$summary", `Replaced ${occurrences} occurrence${occurrences === 1
+      ? ""
+      : "s"} of "${find}" in ${target}`);
+    return {
+      documentId,
+      occurrencesChanged: occurrences,
+    };
   },
 };

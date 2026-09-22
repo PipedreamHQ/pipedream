@@ -1,0 +1,138 @@
+import slack from "../../slack_v2.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
+
+export default {
+  key: "slack_v2-post-message",
+  name: "Post Message",
+  description:
+    "Send a message to a channel, user, or group."
+    + " Accepts a channel ID (e.g. `C1234567890`) or channel name (e.g. `#general` or `general`) — names are resolved automatically."
+    + " To post a note to yourself (save a personal note or reminder), pass your own user ID (e.g. `U1234567890`) as the Channel — use **Get Current User** to find your user ID first."
+    + " To reply to a thread, provide `threadTs` (Slack calls this `thread_ts`) from **Get Channel History**."
+    + " Supports plain text with Slack mrkdwn formatting and Block Kit blocks."
+    + " Posts as the authenticated user by default; set `sendAsBot` to `true` to post as the Slack app's bot user instead."
+    + " [See the documentation](https://api.slack.com/methods/chat.postMessage)",
+  version: "0.1.1",
+  type: "action",
+  ai: "optimized",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
+  props: {
+    slack,
+    channel: {
+      type: "string",
+      label: "Channel",
+      description: "Channel ID (e.g. `C1234567890`), channel name (e.g. `general` or `#general`), user ID, or group ID. Channel names are resolved to IDs automatically.",
+    },
+    text: {
+      type: "string",
+      label: "Text",
+      description: "The message text. Supports Slack mrkdwn formatting (e.g. `*bold*`, `_italic_`, `<https://example.com|link>`). To mention a user, use `<@U123>` with their user ID. Do NOT append a display name after a pipe: Slack renders `<@U123|Name>` as literal text, not a mention.",
+    },
+    blocks: {
+      type: "string",
+      label: "Blocks",
+      description: "JSON array of Block Kit blocks for rich message layouts. Example: `[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"Hello from Pipedream\"}}]`.",
+      optional: true,
+    },
+    threadTs: {
+      type: "string",
+      label: "Thread Timestamp",
+      description: "The `ts` of a parent message to reply to. If provided, the message is posted as a threaded reply.",
+      optional: true,
+    },
+    replyBroadcast: {
+      type: "boolean",
+      label: "Reply Broadcast",
+      description: "When replying to a thread, set to `true` to also post the reply to the channel.",
+      default: false,
+      optional: true,
+    },
+    unfurlLinks: {
+      type: "boolean",
+      label: "Unfurl Links",
+      description: "Enable unfurling of text-based content (URLs).",
+      default: true,
+      optional: true,
+    },
+    unfurlMedia: {
+      type: "boolean",
+      label: "Unfurl Media",
+      description: "Enable unfurling of media content.",
+      default: true,
+      optional: true,
+    },
+    mrkdwn: {
+      type: "boolean",
+      label: "Parse Markdown",
+      description: "Set to `false` to disable Slack mrkdwn parsing.",
+      default: true,
+      optional: true,
+    },
+    sendAsBot: {
+      type: "boolean",
+      label: "Send as Bot",
+      description: "Set to `true` to post the message as the Slack app's bot user instead of the authenticated user. The app is added to the channel automatically if it is not already a member (not possible for DMs). The bot cannot DM a user who has not opened its Messages tab. Defaults to `false` (posts as the authenticated user).",
+      default: false,
+      optional: true,
+    },
+  },
+  async run({ $ }) {
+    // chat.postMessage accepts channel names directly — no ID resolution needed
+    const channel = this.slack.normalizeChannel(this.channel);
+    const args = {
+      channel,
+      text: this.text,
+      mrkdwn: this.mrkdwn,
+      unfurl_links: this.unfurlLinks,
+      unfurl_media: this.unfurlMedia,
+    };
+    if (this.blocks) {
+      try {
+        args.blocks = JSON.parse(this.blocks);
+      } catch (error) {
+        throw new ConfigurationError("Invalid JSON string: " + error.message);
+      }
+    }
+    if (this.threadTs) {
+      args.thread_ts = this.threadTs;
+      args.reply_broadcast = this.replyBroadcast;
+    }
+    // as_user: false routes the request through the bot token (see makeRequest).
+    // Omitting it keeps the default: post as the authenticated user.
+    if (this.sendAsBot) {
+      // conversations.invite needs a channel ID, so resolve names first. Skip user IDs:
+      // the app can't be added to a DM, and chat.postMessage opens the bot DM itself.
+      if (!/^[UW][A-Z0-9]{8,}$/.test(channel)) {
+        const channelId = await this.slack.resolveChannelId(channel);
+        await this.slack.maybeAddAppToChannels([
+          channelId,
+        ]);
+        args.channel = channelId;
+      }
+      args.as_user = false;
+    }
+    const response = await this.slack.postChatMessage(args);
+    let permalink;
+    try {
+      const permalinkResponse = await this.slack.makeRequest({
+        method: "chat.getPermalink",
+        channel: response.channel,
+        message_ts: response.ts,
+      });
+      permalink = permalinkResponse?.permalink;
+    } catch {
+      // Best-effort enrichment only. Posting already succeeded.
+    }
+    $.export("$summary", `Message sent to ${response.channel}${this.threadTs
+      ? " (thread reply)"
+      : ""}`);
+    return {
+      ...response,
+      permalink: permalink,
+    };
+  },
+};

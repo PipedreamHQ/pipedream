@@ -4,7 +4,7 @@ export default {
   key: "returnless-retrieve-sales-order",
   name: "Retrieve Sales Order",
   description: "Retrieve a sales order. [See the documentation](https://docs.returnless.com/docs/api-rest-reference/4a6a8fe812c44-retrieve-a-sales-order)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "teamioo-create-bookmark",
   name: "Create Bookmark",
   description: "Saves a website URL to the bookmarks. The 'url' and 'bookmark_type' are required. 'bookmark_type' can either be 'personal' or 'group'. An optional prop 'title' can be included to give the bookmark a custom name. [See the documentation](https://demo.teamioo.com/teamiooapi)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -31,13 +31,13 @@ export default {
     title: {
       type: "string",
       label: "Title",
-      description: "Uses bookmared website's title if omitted.",
+      description: "Uses bookmarked website's title if omitted.",
       optional: true,
     },
     comment: {
       type: "string",
       label: "Comment",
-      description: "Bookmark comment (markdown supported).",
+      description: "Bookmark comment (Markdown supported).",
       optional: true,
     },
     taggedUsers: {

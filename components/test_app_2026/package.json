@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/test_app_2026",
+  "version": "0.0.1",
+  "description": "Pipedream Databrick Test App Components",
+  "main": "test_app_2026.app.mjs",
+  "keywords": [
+    "pipedream",
+    "test_app_2026"
+  ],
+  "homepage": "https://pipedream.com/apps/test_app_2026",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

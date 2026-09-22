@@ -127,7 +127,7 @@ export default {
         "Content-Type": "application/json",
       };
     },
-    _makeRequest({
+    async _makeRequest({
       $ = this,
       endpoint,
       url = `${this._getBaseUrl()}${endpoint}`,
@@ -138,7 +138,50 @@ export default {
         headers: this._getHeaders(),
         ...args,
       };
-      return axios($, config);
+      const maxAttempts = 3;
+      let minutes = 0, attempt = 0;
+      while (attempt < maxAttempts) {
+        try {
+          return await axios($, config);
+        } catch (err) {
+          const status = err?.response?.status;
+          if (status === 429) {
+            const retryAfter = err?.response?.headers?.["retry-after"];
+            const waitMs = retryAfter
+              ? parseInt(retryAfter) * 1000
+              : Math.pow(2, attempt) * 1000;
+            await new Promise((resolve) => setTimeout(resolve, waitMs));
+            attempt++;
+            minutes = this.getRetryWaitMinutes(err?.response?.headers?.["x-rate-limit"]);
+          } else {
+            throw err;
+          }
+        }
+      }
+      throw new Error(`Eventbrite rate limit exceeded. Please try again ${minutes
+        ? `in ${minutes} minutes`
+        : "later"}.`);
+    },
+    // get minutes to wait from x-rate-limit header if available
+    getRetryWaitMinutes(rateLimit) {
+      if (!rateLimit) return 0;
+
+      const segments = rateLimit.split(",").map((s) => s.trim());
+      let maxResetSeconds = 0;
+
+      for (const segment of segments) {
+        const match = segment.match(/(\d+)\/(\d+).*reset=(\d+)s/);
+        if (!match) continue;
+
+        const used = parseInt(match[1], 10);
+        const limit = parseInt(match[2], 10);
+        const resetSeconds = parseInt(match[3], 10);
+
+        if (used >= limit) {
+          maxResetSeconds = Math.max(maxResetSeconds, resetSeconds);
+        }
+      }
+      return Math.ceil(maxResetSeconds / 60);
     },
     createHook(orgId, data) {
       return this._makeRequest({

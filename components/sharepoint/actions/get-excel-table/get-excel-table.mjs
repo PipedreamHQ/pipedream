@@ -4,8 +4,9 @@ export default {
   key: "sharepoint-get-excel-table",
   name: "Get Excel Table",
   description: "Retrieve a table from an Excel spreadsheet stored in Sharepoint [See the documentation](https://learn.microsoft.com/en-us/graph/api/table-range?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.1",
+  version: "0.0.13",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,6 +14,7 @@ export default {
   },
   props: {
     sharepoint,
+    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
     alert: {
       type: "alert",
       alertType: "info",

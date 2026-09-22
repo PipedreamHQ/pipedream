@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/docutray",
+  "version": "0.0.1",
+  "description": "Pipedream DocuTray Components",
+  "main": "docutray.app.mjs",
+  "keywords": [
+    "pipedream",
+    "docutray"
+  ],
+  "homepage": "https://pipedream.com/apps/docutray",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

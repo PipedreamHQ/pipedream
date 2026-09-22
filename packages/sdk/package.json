@@ -63,6 +63,6 @@
     "@rails/actioncable": "^8.0.0",
     "commander": "^12.1.0",
     "oauth4webapi": "^3.1.4",
-    "ws": "^8.18.0"
+    "ws": "^8.21.0"
   }
 }

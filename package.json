@@ -7,9 +7,9 @@
     "integration",
     "api"
   ],
-  "packageManager": "pnpm@9.14.2",
+  "packageManager": "pnpm@10.28.2",
   "engines": {
-    "pnpm": "9.14.2"
+    "pnpm": "10.28.2"
   },
   "homepage": "https://github.com/PipedreamHQ/pipedream#readme",
   "bugs": {
@@ -29,7 +29,7 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "build": "npx tsc --build | node scripts/tsPostBuild.mjs",
+    "build": "node scripts/build-components.mjs",
     "test": "jest --passWithNoTests components",
     "test-all": "npm test && npm run platform-test && npm run types-test",
     "platform-dist": "cd platform && git add dist && (git diff-index --quiet HEAD || git commit -m 'update platform/dist')",
@@ -65,12 +65,10 @@
     "husky": "^7.0.4",
     "jest": "^29.7.0",
     "lint-staged": "^12.3.4",
-    "pnpm": "9.14.2",
+    "pnpm": "11.8.0",
     "putout": ">=36",
     "renamer": "^4.0.0",
     "ts-jest": "^29.1.1",
-    "tsc-esm-fix": "^2.18.0",
-    "tsc-watch": "^5.0.3",
     "typescript": ">=5.5.0 <5.7.0",
     "typescript-eslint": "^8.15.0"
   },
@@ -97,10 +95,10 @@
       "form-data@^4": "4.0.4",
       "sha.js": "2.4.12",
       "protobufjs@7.2.4": "7.2.6",
-      "vm2": "3.10.0",
+      "vm2": "3.11.2",
       "xmldom": "npm:@xmldom/xmldom@0.8.11",
-      "axios@0.x": "^0.30.2",
-      "axios@1.x": "^1.13.2",
+      "axios@0.x": "^0.31.1",
+      "axios@1.x": "^1.15.2",
       "tar-fs@2.x": "^2.1.4",
       "tar-fs@3.x": "^3.1.1",
       "ws@8.x": "^8.17.1",

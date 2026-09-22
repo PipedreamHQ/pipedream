@@ -4,7 +4,7 @@ export default {
   key: "databricks-list-endpoints",
   name: "List Endpoints",
   description: "List all vector search endpoints. [See the documentation](https://docs.databricks.com/api/workspace/vectorsearchendpoints/listendpoints)",
-  version: "0.0.4",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -26,14 +26,14 @@ export default {
 
     do {
       const {
-        endpoints, next_page_token,
+        endpoints = [], next_page_token,
       } = await this.databricks.listEndpoints({
         params,
         $,
       });
 
       allEndpoints.push(...endpoints);
-      if (!next_page_token) break;
+      if (!next_page_token || !endpoints.length) break;
       params.page_token = next_page_token;
     } while (allEndpoints.length < this.maxResults);
 

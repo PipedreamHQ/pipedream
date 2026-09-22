@@ -56,6 +56,44 @@ const PAPER_SIZE = [
   "legal",
 ];
 
+const OWNERSHIP_OPTIONS = [
+  {
+    label: "Any (owned by and shared with the user)",
+    value: "any",
+  },
+  {
+    label: "Owned (owned by the user)",
+    value: "owned",
+  },
+  {
+    label: "Shared (shared with the user)",
+    value: "shared",
+  },
+];
+
+const SORT_BY_OPTIONS = [
+  {
+    label: "Relevance",
+    value: "relevance",
+  },
+  {
+    label: "Modified (newest first)",
+    value: "modified_descending",
+  },
+  {
+    label: "Modified (oldest first)",
+    value: "modified_ascending",
+  },
+  {
+    label: "Title (Z to A)",
+    value: "title_descending",
+  },
+  {
+    label: "Title (A to Z)",
+    value: "title_ascending",
+  },
+];
+
 export default {
   DESIGN_TYPE_OPTIONS,
   DESIGN_TYPE_NAME_OPTIONS,
@@ -63,4 +101,6 @@ export default {
   MP4_QUALITY,
   EXPORT_QUALITY,
   PAPER_SIZE,
+  OWNERSHIP_OPTIONS,
+  SORT_BY_OPTIONS,
 };

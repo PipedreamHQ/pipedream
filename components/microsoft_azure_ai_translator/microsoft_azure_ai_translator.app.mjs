@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -66,20 +68,24 @@ export default {
         params,
         ...otherOpts
       } = opts;
-      return axios($, {
-        ...otherOpts,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Ocp-Apim-Subscription-Key": `${this.$auth.api_key}`,
-          "Ocp-Apim-Subscription-Region": `${this.$auth.location}`,
-          "Content-Type": "application/json",
-        },
-        params: {
-          ...params,
-          "api-version": "3.0",
-        },
-      });
+      try {
+        return await axios($, {
+          ...otherOpts,
+          url: this._baseUrl() + path,
+          headers: {
+            ...headers,
+            "Ocp-Apim-Subscription-Key": `${this.$auth.api_key}`,
+            "Ocp-Apim-Subscription-Region": `${this.$auth.location}`,
+            "Content-Type": "application/json",
+          },
+          params: {
+            ...params,
+            "api-version": "3.0",
+          },
+        });
+      } catch (error) {
+        throw new ConfigurationError(error.message);
+      }
     },
     async translateText(args = {}) {
       return this._makeRequest({

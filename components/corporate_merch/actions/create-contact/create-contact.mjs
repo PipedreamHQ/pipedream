@@ -1,0 +1,195 @@
+import corporateMerch from "../../corporate_merch.app.mjs";
+
+export default {
+  key: "corporate_merch-create-contact",
+  name: "Create Contact",
+  description: "Create a new contact. [See the documentation](https://corporatemerch.readme.io/reference/create-a-contact)",
+  version: "0.0.1",
+  type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
+  props: {
+    corporateMerch,
+    type: {
+      type: "string",
+      label: "Type",
+      description: "Contact classification.",
+      options: [
+        "employee",
+        "client",
+      ],
+    },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "Contact's legal first name.",
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "Contact's legal last name.",
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "Contact's valid email address.",
+    },
+    country: {
+      type: "string",
+      label: "Country",
+      description: "2-digit uppercase country code (e.g. `US`).",
+    },
+    address: {
+      type: "string",
+      label: "Address",
+      description: "Street address.",
+    },
+    city: {
+      type: "string",
+      label: "City",
+      description: "City name.",
+    },
+    state: {
+      type: "string",
+      label: "State",
+      description: "State or province code.",
+    },
+    zipCode: {
+      type: "string",
+      label: "Zip Code",
+      description: "Postal or zip code.",
+    },
+    phoneNumber: {
+      type: "string",
+      label: "Phone Number",
+      description: "Primary telephone number.",
+      optional: true,
+    },
+    gender: {
+      type: "string",
+      label: "Gender",
+      description: "Gender identity.",
+      options: [
+        "male",
+        "female",
+      ],
+      optional: true,
+    },
+    shirtSize: {
+      type: "string",
+      label: "Shirt Size",
+      description: "Clothing size preference.",
+      options: [
+        "XS",
+        "SM",
+        "MD",
+        "LG",
+        "XL",
+        "2XL",
+        "3XL",
+      ],
+      optional: true,
+    },
+    birthday: {
+      type: "string",
+      label: "Birthday",
+      description: "Date of birth in `YYYY-MM-DD` format.",
+      optional: true,
+    },
+    unit: {
+      type: "string",
+      label: "Unit",
+      description: "Apartment, suite, or unit number.",
+      optional: true,
+    },
+    department: {
+      type: "string",
+      label: "Department",
+      description: "Internal department.",
+      optional: true,
+    },
+    position: {
+      type: "string",
+      label: "Position",
+      description: "Job title.",
+      optional: true,
+    },
+    employmentType: {
+      type: "string",
+      label: "Employment Type",
+      description: "Employment status.",
+      optional: true,
+    },
+    startDate: {
+      type: "string",
+      label: "Start Date",
+      description: "Joining date in `YYYY-MM-DD` format.",
+      optional: true,
+    },
+    companyName: {
+      type: "string",
+      label: "Company Name",
+      description: "Organization name.",
+      optional: true,
+    },
+    weddingAnniversary: {
+      type: "string",
+      label: "Wedding Anniversary",
+      description: "Anniversary date in `YYYY-MM-DD` format.",
+      optional: true,
+    },
+    addressValidated: {
+      type: "boolean",
+      label: "Address Validated",
+      description: "Whether the address has been validated.",
+      optional: true,
+    },
+    addressForced: {
+      type: "boolean",
+      label: "Address Forced",
+      description: "Set to `true` to bypass address validation errors.",
+      optional: true,
+    },
+    addressVerified: {
+      type: "boolean",
+      label: "Address Verified",
+      description: "Whether the address accuracy has been confirmed.",
+      optional: true,
+    },
+  },
+  async run({ $ }) {
+    const response = await this.corporateMerch.createContact({
+      $,
+      data: {
+        type: this.type,
+        first_name: this.firstName,
+        last_name: this.lastName,
+        email: this.email,
+        phone_number: this.phoneNumber,
+        gender: this.gender,
+        shirt_size: this.shirtSize,
+        birthday: this.birthday,
+        country: this.country,
+        address: this.address,
+        unit: this.unit,
+        city: this.city,
+        state: this.state,
+        zip_code: this.zipCode,
+        department: this.department,
+        position: this.position,
+        employment_type: this.employmentType,
+        start_date: this.startDate,
+        company_name: this.companyName,
+        wedding_anniversary: this.weddingAnniversary,
+        address_validated: this.addressValidated,
+        address_forced: this.addressForced,
+        address_verified: this.addressVerified,
+      },
+    });
+    $.export("$summary", `Successfully created contact with ID: ${response.data?.id}`);
+    return response;
+  },
+};

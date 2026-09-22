@@ -6,7 +6,7 @@ export default {
   key: "openphone-new-call-recording-completed-instant",
   name: "New Call Recording Completed (Instant)",
   description: "Emit new event when a call recording has finished.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {

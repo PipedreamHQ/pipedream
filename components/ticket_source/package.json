@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ticket_source",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Ticket Source Components",
   "main": "ticket_source.app.mjs",
   "keywords": [

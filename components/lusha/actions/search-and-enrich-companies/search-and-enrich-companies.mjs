@@ -1,11 +1,11 @@
-import lusha from "../../lusha.app.mjs";
 import { parseObject } from "../../common/utils.mjs";
+import lusha from "../../lusha.app.mjs";
 
 export default {
   key: "lusha-search-and-enrich-companies",
   name: "Search and Enrich Companies",
   description: "Search for companies and enrich them. [See the documentation](https://docs.lusha.com/apis/openapi/company-search-and-enrich)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

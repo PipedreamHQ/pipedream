@@ -2,7 +2,7 @@ import app from "../../zoho_cliq.app.mjs";
 
 export default {
   name: "Send Channel Message",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

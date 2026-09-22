@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/email_on_acid",
+  "version": "0.0.1",
+  "description": "Pipedream Email on Acid Components",
+  "main": "email_on_acid.app.mjs",
+  "keywords": [
+    "pipedream",
+    "email_on_acid"
+  ],
+  "homepage": "https://pipedream.com/apps/email_on_acid",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,4 +1,6 @@
+// x-pd-ai: optimized
 import { axios } from "@pipedream/platform";
+import { BASE_URL } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -6,20 +8,13 @@ export default {
   propDefinitions: {
     account: {
       type: "string",
-      label: "Account",
-      description: "The account unique identification",
-      async options() {
-        const accounts = await this.getAccounts();
-        return accounts.map((account) => ({
-          label: account.name,
-          value: account.id,
-        }));
-      },
+      label: "Account ID",
+      description: "The account ID (UUID). Run **List Accounts** to obtain a valid ID.",
     },
   },
   methods: {
     _getBaseURL() {
-      return "https://backend.mercury.com/api/v1";
+      return BASE_URL;
     },
     _getHeaders() {
       return {
@@ -28,48 +23,102 @@ export default {
       };
     },
     async _makeRequest({
+      $ = this,
       endpoint,
-      ctx = this,
       method = "GET",
-      params = null,
+      params,
+      data,
     }) {
-      const config = {
+      return axios($ || this, {
         method,
         url: `${this._getBaseURL()}${endpoint}`,
         headers: this._getHeaders(),
         params,
-      };
-      return (await axios(ctx, config));
-    },
-    daysAgo(days) {
-      const daysAgo = new Date();
-      daysAgo.setDate(daysAgo.getDate() - days);
-      return daysAgo;
-    },
-    async getAccounts() {
-      const { accounts } = await this._makeRequest({
-        endpoint: "/accounts",
+        data,
       });
-      return accounts;
+    },
+    getDateDaysAgo(days) {
+      const date = new Date();
+      date.setDate(date.getDate() - days);
+      return date;
+    },
+    getAccounts({
+      $, params,
+    } = {}) {
+      return this._makeRequest({
+        $,
+        endpoint: "/accounts",
+        params,
+      });
     },
     getTransactions({
-      ctx,
+      $,
       accountId,
       params,
     }) {
       return this._makeRequest({
-        ctx,
+        $,
         endpoint: `/account/${accountId}/transactions`,
         params,
       });
     },
-    getAccountInfo({
-      ctx,
+    getTransaction({
+      $,
       accountId,
+      transactionId,
     }) {
       return this._makeRequest({
-        ctx,
-        endpoint: `/account/${accountId}`,
+        $,
+        endpoint: `/account/${accountId}/transaction/${transactionId}`,
+      });
+    },
+    createTransaction({
+      $,
+      accountId,
+      data,
+    }) {
+      return this._makeRequest({
+        $,
+        method: "POST",
+        endpoint: `/account/${accountId}/transactions`,
+        data,
+      });
+    },
+    getRecipients({
+      $, params,
+    } = {}) {
+      return this._makeRequest({
+        $,
+        endpoint: "/recipients",
+        params,
+      });
+    },
+    createRecipient({
+      $, data,
+    }) {
+      return this._makeRequest({
+        $,
+        method: "POST",
+        endpoint: "/recipients",
+        data,
+      });
+    },
+    getCategories({
+      $, params,
+    } = {}) {
+      return this._makeRequest({
+        $,
+        endpoint: "/categories",
+        params,
+      });
+    },
+    getSendMoneyRequests({
+      $, params,
+    } = {}) {
+      return this._makeRequest({
+        $,
+        endpoint: "/request-send-money",
+        params,
       });
     },
   },

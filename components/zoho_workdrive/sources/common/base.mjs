@@ -20,9 +20,17 @@ export default {
         "teamId",
       ],
     },
+    manuallyEnterFolderId: {
+      type: "boolean",
+      label: "Manually Enter Folder ID",
+      description: "If true, the folder ID can be manually entered instead of being selected from the list of folders",
+      default: false,
+      optional: true,
+      reloadProps: true,
+    },
   },
-  async additionalProps() {
-    return additionalFolderProps.call(this);
+  async additionalProps(existingProps) {
+    return additionalFolderProps.call(this, existingProps);
   },
   methods: {
     _getLastDate() {
@@ -30,6 +38,16 @@ export default {
     },
     _setLastDate(lastDate) {
       this.db.set("lastDate", lastDate);
+    },
+    _getValidatedLastDate() {
+      const lastDate = this._getLastDate();
+      if (Number.isInteger(lastDate)) {
+        return lastDate;
+      }
+      const parsed = Date.parse(lastDate);
+      return isNaN(parsed)
+        ? 0
+        : parsed;
     },
   },
   async run() {

@@ -6,7 +6,7 @@ export default {
   key: "smugmug-upload-image",
   name: "Upload Image",
   description: "Uploads an image to a SmugMug album. [See the docs here](https://api.smugmug.com/services/api/?method=upload)",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -26,6 +26,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`).",
+      format: "file-ref",
     },
     syncDir: {
       type: "dir",

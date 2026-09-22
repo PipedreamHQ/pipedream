@@ -3,31 +3,28 @@ import coda from "../../coda.app.mjs";
 export default {
   key: "coda-create-rows",
   name: "Create Rows",
-  description: "Insert a row in a selected table. [See docs](https://coda.io/developers/apis/v1#operation/upsertRows)",
-  version: "0.0.4",
+  description: "Creates a new row in a Coda table. Requires a doc ID and table ID — use the **List Docs** and **List Tables** actions to discover these. Column values are set via `columnValues`, a flat object mapping column ID or name to value (use the **List Columns** action to look up column IDs); plain text is fine for text fields, no special formatting needed. Use this action for straightforward inserts; if a matching row might already exist and you want to avoid creating a duplicate, use **Upsert Rows** instead. [See the documentation](https://coda.io/developers/apis/v1#operation/upsertRows)",
+  version: "1.0.0",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     coda,
     docId: {
       propDefinition: [
         coda,
-        "docId",
+        "docIdStatic",
       ],
     },
     tableId: {
       propDefinition: [
         coda,
-        "tableId",
-        (c) => ({
-          docId: c.docId,
-        }),
+        "tableIdStatic",
       ],
-      reloadProps: true,
     },
     disableParsing: {
       propDefinition: [
@@ -35,19 +32,12 @@ export default {
         "disableParsing",
       ],
     },
-  },
-  async additionalProps() {
-    const props = {};
-    const { items } = await this.coda.listColumns(this, this.docId, this.tableId);
-    for (const item of items) {
-      props[`col_${item.id}`] = {
-        type: "string",
-        label: `Column: ${item.name}`,
-        description: "Leave blank to ignore this column",
-        optional: true,
-      };
-    }
-    return props;
+    columnValues: {
+      type: "object",
+      label: "Column Values",
+      description: "A flat object mapping column ID or name to the value to set for the new row, e.g. `{ \"c-abc123\": \"foo\", \"Status\": \"Done\" }`. Use the **List Columns** action to look up column IDs.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const params = {
@@ -57,7 +47,13 @@ export default {
     const data = {
       rows: [
         {
-          cells: this.coda.createRowCells(this),
+          cells: Object.entries(this.columnValues || {}).map(([
+            column,
+            value,
+          ]) => ({
+            column,
+            value,
+          })),
         },
       ],
     };

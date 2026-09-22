@@ -4,7 +4,7 @@ export default {
   key: "sendcloud-get-shipping-method",
   name: "Get Shipping Method",
   description: "Retrieve a shipping method by ID. [See the documentation](https://api.sendcloud.dev/docs/sendcloud-public-api/branches/v2/shipping-methods/operations/get-a-shipping-method)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

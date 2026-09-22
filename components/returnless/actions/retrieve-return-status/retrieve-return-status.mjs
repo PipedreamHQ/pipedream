@@ -4,7 +4,7 @@ export default {
   key: "returnless-retrieve-return-status",
   name: "Retrieve Return Status",
   description: "Retrieve a return status. [See the documentation](https://docs.returnless.com/docs/api-rest-reference/ba30f75e2c5fd-retrieve-a-return-status)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,4 +1,5 @@
 import type {
+  AppScopeProfilesItemName,
   Component,
   ConfigurableProps,
   ConfiguredProps,
@@ -37,6 +38,11 @@ export type ComponentFormProps<T extends ConfigurableProps, U = ConfiguredProps<
    * Example: { 'github': 'oa_xxxxxxx', 'google_sheets': 'oa_xxxxxxx' }
    */
   oauthAppConfig?: Record<string, string>;
+  /**
+   * The OAuth scope profile name to request when connecting an account
+   * for the selected app. Must match a `name` from the app's `scopeProfiles`.
+   */
+  oauthScopeProfile?: AppScopeProfilesItemName;
 } & (
     | { externalUserId: string; userId?: never }
     | { userId: string; externalUserId?: never }

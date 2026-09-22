@@ -6,7 +6,7 @@ export default {
   key: "bitdefender_gravityzone-new-threat-detected-instant",
   name: "New Threat Detected (Instant)",
   description: "Emit new event when a potentially dangerous application is detected and blocked on an endpoint",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -16,11 +16,14 @@ export default {
         "avc": true,  // advanced threat control
       };
     },
-    generateMeta() {
+    generateMeta(event) {
+      const ts = event?.last_blocked
+        ? new Date(event.last_blocked).getTime()
+        : Date.now();
       return {
-        id: Date.now(),
+        id: `${event?.computer_id}-${ts}`,
         summary: "New Threat Detected",
-        ts: Date.now(),
+        ts,
       };
     },
   },

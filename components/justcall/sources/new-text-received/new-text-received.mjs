@@ -5,24 +5,20 @@ export default {
   key: "justcall-new-text-received",
   name: "New Text Received (Instant)",
   description: "Emit new event when a new text message is received.",
-  version: "0.0.1",
+  version: "0.1.0",
   dedupe: "unique",
   type: "source",
   methods: {
     ...common.methods,
-    getTopicId() {
-      return 2;
+    getWebhookType() {
+      return "sms.received";
     },
     generateMeta(data) {
-      if (data.delivery_status != "received") return false;
-
-      const {
-        messageid, datetime,
-      } = data;
+      const { request_id: id } = data;
       return {
-        id: messageid,
-        summary: `New message with id: ${messageid} was received!`,
-        ts: Date.parse(datetime),
+        id,
+        summary: `New message with id: ${id} was received!`,
+        ts: Date.now(),
       };
     },
   },

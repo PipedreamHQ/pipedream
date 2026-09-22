@@ -6,7 +6,7 @@ export default {
   key: "docparser-upload-document",
   name: "Upload Document",
   description: "Uploads a document to docparser that initiates parsing immediately after reception. [See the documentation](https://docparser.com/api/#import-documents)",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -25,6 +25,7 @@ export default {
       type: "string",
       label: "File Path Or Url",
       description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/example.pdf`)",
+      format: "file-ref",
     },
     syncDir: {
       type: "dir",

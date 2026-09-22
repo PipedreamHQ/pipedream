@@ -480,6 +480,76 @@ export default {
         .select("id", "description", "name", "driveType", "owner")
         .get();
     },
+    _normalizeDrive(drive) {
+      return {
+        id: drive.id,
+        name: drive.name ?? "",
+        driveType: drive.driveType ?? "personal",
+        ...(drive.owner && {
+          owner: drive.owner,
+        }),
+        ...(drive.quota && {
+          quota: drive.quota,
+        }),
+      };
+    },
+    /**
+     * Get all drives the signed-in user has access to, including the personal
+     * OneDrive. Returns a list of drives with id, name, driveType, owner, and
+     * quota information. Handles pagination via @odata.nextLink for users with
+     * multiple pages of drives.
+     *
+     * @returns {Promise<Array>} Array of drive objects
+     * @see https://learn.microsoft.com/en-us/graph/api/drive-list
+     */
+    async listMyDrives() {
+      const client = this.client();
+
+      let personalDriveResponse = null;
+      try {
+        personalDriveResponse = await client
+          .api("/me/drive")
+          .select("id", "name", "driveType", "owner", "quota")
+          .get();
+      } catch (error) {
+        const status = error?.statusCode ?? error?.status ?? error?.response?.status;
+        if (status !== 404) {
+          throw error;
+        }
+      }
+
+      const allDriveItems = [];
+      let nextLink = null;
+
+      do {
+        let drivesResponse;
+        if (nextLink) {
+          const url = new URL(nextLink);
+          const path = url.pathname.replace(/^\/v\d+\.\d+/, "") + url.search;
+          drivesResponse = await client.api(path).get();
+        } else {
+          drivesResponse = await client
+            .api("/me/drives")
+            .select("id", "name", "driveType", "owner", "quota")
+            .get();
+        }
+
+        allDriveItems.push(...(drivesResponse.value ?? []));
+        nextLink = drivesResponse["@odata.nextLink"];
+      } while (nextLink);
+
+      const drives = allDriveItems.map((drive) => this._normalizeDrive(drive));
+
+      if (personalDriveResponse) {
+        const personalDrive = this._normalizeDrive(personalDriveResponse);
+        const driveIds = new Set(drives.map((d) => d.id));
+        if (!driveIds.has(personalDrive.id)) {
+          drives.push(personalDrive);
+        }
+      }
+
+      return drives;
+    },
     listSharedFiles() {
       const client = this.client();
       return client

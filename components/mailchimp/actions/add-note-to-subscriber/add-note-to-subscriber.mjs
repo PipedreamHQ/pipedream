@@ -4,7 +4,7 @@ export default {
   key: "mailchimp-add-note-to-subscriber",
   name: "Add Note to Subscriber",
   description: "Adds a new note to an existing subscriber. [See docs here](https://mailchimp.com/developer/marketing/api/list-member-notes/add-member-note/)",
-  version: "0.2.3",
+  version: "0.2.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

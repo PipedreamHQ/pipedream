@@ -440,6 +440,16 @@ export default {
       });
     },
 
+    queryVectorSearchIndexNextPage({
+      indexName, ...args
+    }) {
+      return this._makeRequest({
+        path: `/vector-search/indexes/${indexName}/query-next-page`,
+        method: "POST",
+        ...args,
+      });
+    },
+
     syncVectorSearchIndex({
       indexName, ...args
     }) {

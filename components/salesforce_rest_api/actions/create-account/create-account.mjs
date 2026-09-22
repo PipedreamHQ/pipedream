@@ -7,22 +7,21 @@ export default {
   ...common,
   key: "salesforce_rest_api-create-account",
   name: "Create Account",
-  description: `Creates a Salesforce account. [See the documentation](${docsLink})`,
-  version: "0.3.4",
+  description: "Create a Salesforce account (a company or organization record)."
+    + " Use **Describe Object** on `Account` to discover which fields your org requires before calling."
+    + " For example, `Name` `Acme Corp` creates a minimal account and returns its new record ID."
+    + " "
+    + `[See the documentation](${docsLink})`,
+  version: "0.4.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   methods: {
     ...common.methods,
-    getObjectType() {
-      return "Account";
-    },
-    getAdvancedProps() {
-      return account.extraProps;
-    },
   },
   props: getProps({
     objType: account,
@@ -32,13 +31,9 @@ export default {
     /* eslint-disable no-unused-vars */
     const {
       salesforce,
-      getAdvancedProps,
-      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
-      useAdvancedProps,
       docsInfo,
-      dateInfo,
       additionalFields,
       ...data
     } = this;

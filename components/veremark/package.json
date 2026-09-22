@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/veremark",
+  "version": "0.1.1",
+  "description": "Pipedream Veremark Components",
+  "main": "veremark.app.mjs",
+  "keywords": [
+    "pipedream",
+    "veremark"
+  ],
+  "homepage": "https://pipedream.com/apps/veremark",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

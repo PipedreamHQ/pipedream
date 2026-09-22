@@ -87,15 +87,15 @@ export default {
       const {
         $ = this,
         path,
+        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
         url: `${this._baseUrl()}${path}`,
         headers: {
-          "X-PW-AccessToken": this.$auth.api_key,
-          "X-PW-Application": "developer_api",
-          "X-PW-UserEmail": this.$auth.email,
+          ...headers,
+          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
           "Content-Type": "application/json",
         },
       });

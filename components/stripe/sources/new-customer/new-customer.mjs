@@ -5,7 +5,7 @@ export default {
   key: "stripe-new-customer",
   name: "New Customer",
   type: "source",
-  version: "0.1.4",
+  version: "0.1.5",
   description: "Emit new event for each new customer",
   methods: {
     ...common.methods,

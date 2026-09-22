@@ -1,14 +1,14 @@
 import infusionsoft from "../../app/infusionsoft.app";
 import { defineAction } from "@pipedream/types";
-import { Company } from "../../types/responseSchemas";
-import { GetObjectParams } from "../../types/requestParams";
+import { Company } from "../../common/types/responseSchemas";
+import { GetObjectParams } from "../../common/types/requestParams";
 
 export default defineAction({
   name: "Get Company",
   description:
     "Retrieve details of a Company [See docs here](https://developer.infusionsoft.com/docs/rest/#operation/getCompanyUsingGET)",
   key: "infusionsoft-get-company",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

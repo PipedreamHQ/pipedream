@@ -1,11 +1,11 @@
-import path from "path";
-import { promises as fs } from "fs";
-import FormData from "form-data";
-import { defineAction } from "@pipedream/types";
 import {
   ConfigurationError,
   getFileStreamAndMetadata,
 } from "@pipedream/platform";
+import { defineAction } from "@pipedream/types";
+import FormData from "form-data";
+import { promises as fs } from "fs";
+import path from "path";
 import cloudmersive from "../../app/cloudmersive.app";
 import { DOCS } from "../../common/constants";
 
@@ -13,19 +13,21 @@ export default defineAction({
   name: "Convert to PDF",
   description: `Convert Office Word Documents (docx) to PDF [See the documentation](${DOCS.convertToPDF})`,
   key: "cloudmersive-convert-to-pdf",
-  version: "1.0.1",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     cloudmersive,
     file: {
       type: "string",
       label: "File Path Or Url",
       description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/file.docx`)",
+      format: "file-ref",
     },
     outputType: {
       type: "string",
@@ -42,6 +44,12 @@ export default defineAction({
         },
       ],
       default: "binary",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

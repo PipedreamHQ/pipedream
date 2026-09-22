@@ -5,13 +5,14 @@ export default {
   name: "Create Connection",
   description: "This endpoint creates a connection. [See the documentation](https://hookdeck.com/api-ref#create-a-connection).",
   key: "hookdeck-create-connection",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     name: {

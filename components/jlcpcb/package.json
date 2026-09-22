@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/jlcpcb",
+  "version": "0.0.1",
+  "description": "Pipedream JLCPCB Components",
+  "main": "jlcpcb.app.mjs",
+  "keywords": [
+    "pipedream",
+    "jlcpcb"
+  ],
+  "homepage": "https://pipedream.com/apps/jlcpcb",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

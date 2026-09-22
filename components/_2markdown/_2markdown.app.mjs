@@ -8,6 +8,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "An HTML file. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.html`)",
+      format: "file-ref",
     },
   },
   methods: {

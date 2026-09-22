@@ -5,7 +5,7 @@ export default {
   key: "deepimage-auto-enhance",
   name: "Auto Enhance Image",
   description: "Improves the provided image. [See the documentation](https://documentation.deep-image.ai/image-processing/auto-enhance)",
-  version: "0.1.1",
+  version: "0.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,6 +19,12 @@ export default {
         deepimage,
         "image",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

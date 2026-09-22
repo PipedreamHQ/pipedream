@@ -6,7 +6,7 @@ export default {
   key: "jenkins-new-job-status-notification-instant",
   name: "New Jenkins Job Status Notification (Instant)",
   description: "Emit new event when a Jenkins job sends a status notification via the notification plugin. [See the documentation](https://github.com/jenkinsci/notification-plugin).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -3,7 +3,7 @@ import { methods } from "../../common.mjs";
 
 export default {
   name: "Verify Webhook",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -20,6 +20,7 @@ export default {
     },
   },
   type: "action",
+  ai: "optimized",
   methods: {
     ...methods,
   },

@@ -30,7 +30,7 @@ export default {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
         headers: {
-          Authorization: `Bearer ${this.$auth.api_token}`,
+          "Authorization": `Bearer ${this.$auth.api_token}`,
           "Content-Type": "application/json",
         },
         ...args,

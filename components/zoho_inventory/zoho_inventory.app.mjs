@@ -68,6 +68,84 @@ export default {
       optional: true,
       default: 25,
     },
+    groupId: {
+      type: "string",
+      label: "Item Group",
+      description: "The item group to which this item belongs.",
+      optional: true,
+      async options({ page }) {
+        const params = {
+          per_page: constants.DEFAULT_PAGE_SIZE,
+          page: page + 1,
+        };
+        const { itemgroups } = await this.listItemGroups({
+          params,
+        });
+        return (itemgroups ?? []).map((group) => ({
+          label: group.group_name,
+          value: group.group_id,
+        }));
+      },
+    },
+    taxId: {
+      type: "string",
+      label: "Tax",
+      description: "The tax to associate with the item.",
+      optional: true,
+      async options({ page }) {
+        const params = {
+          per_page: constants.DEFAULT_PAGE_SIZE,
+          page: page + 1,
+        };
+        const { taxes } = await this.listTaxes({
+          params,
+        });
+        return (taxes ?? []).map((tax) => ({
+          label: tax.tax_name,
+          value: tax.tax_id,
+        }));
+      },
+    },
+    accountId: {
+      type: "string",
+      label: "Account",
+      description: "Select an account.",
+      optional: true,
+      async options({ page }) {
+        const params = {
+          per_page: constants.DEFAULT_PAGE_SIZE,
+          page: page + 1,
+        };
+        const { chartofaccounts } = await this.listAccounts({
+          params,
+        });
+        return (chartofaccounts ?? []).map((account) => ({
+          label: account.account_name,
+          value: account.account_id,
+        }));
+      },
+    },
+    vendorId: {
+      type: "string",
+      label: "Vendor",
+      description: "The preferred vendor for purchasing this item.",
+      optional: true,
+      async options({ page }) {
+        const params = {
+          per_page: constants.DEFAULT_PAGE_SIZE,
+          page: page + 1,
+        };
+        const { contacts } = await this.listContacts({
+          params,
+        });
+        return (contacts ?? [])
+          .filter((contact) => contact.contact_type === "vendor")
+          .map((contact) => ({
+            label: contact.contact_name,
+            value: contact.contact_id,
+          }));
+      },
+    },
   },
   methods: {
     _getBaseUrl() {
@@ -134,6 +212,31 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "salesorders",
+        ...args,
+      });
+    },
+    async createItem(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "items",
+        ...args,
+      });
+    },
+    async listItemGroups(args = {}) {
+      return this._makeRequest({
+        path: "itemgroups",
+        ...args,
+      });
+    },
+    async listTaxes(args = {}) {
+      return this._makeRequest({
+        path: "settings/taxes",
+        ...args,
+      });
+    },
+    async listAccounts(args = {}) {
+      return this._makeRequest({
+        path: "chartofaccounts",
         ...args,
       });
     },

@@ -4,8 +4,9 @@ export default {
   key: "monta-get-order",
   name: "Get Order",
   description: "Get an order by ID. [See the documentation](https://api-v6.monta.nl/index.html#tag/Order/paths/~1order~1%7Bwebshoporderid%7D/get)",
-  version: "0.0.1",
+  version: "0.0.5",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,9 +1,9 @@
 import infusionsoft from "../app/infusionsoft.app";
 import { SourceHttpRunOptions } from "@pipedream/types";
-import { CreateHookParams } from "../types/requestParams";
+import { CreateHookParams } from "../common/types/requestParams";
 import {
   Webhook, WebhookObject,
-} from "../types/responseSchemas";
+} from "../common/types/responseSchemas";
 
 export default {
   props: {
@@ -65,14 +65,14 @@ export default {
     this.http.respond(httpResponse);
 
     // Actual event trigger
-    const { object_keys: objectKeys } = data.body;
+    const objectKeys = (data.body as { object_keys?: unknown } | undefined)?.object_keys;
     if (!Array.isArray(objectKeys)) {
       throw new Error("Unknown data received from Infusionsoft webhook");
     }
 
     const promises: Promise<{
       obj: WebhookObject;
-      response: any;
+      response: object & { noUrl?: boolean };
     }>[] = objectKeys.map(async (obj: WebhookObject) => ({
       obj,
       response: await this.infusionsoft.hookResponseRequest(obj.apiUrl),

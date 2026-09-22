@@ -1,9 +1,10 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npx pnpm install -r
-
-if ! (git diff HEAD --quiet pnpm-lock.yaml); then
-    echo "modified pnpm-lock.yaml - please commit the file"
+# Fast check: ensure lockfile matches package.json files
+# This fails fast if out of sync, without regenerating the lockfile
+pnpm install --frozen-lockfile --ignore-scripts 2>/dev/null || {
+    echo "pnpm-lock.yaml is out of sync with package.json files."
+    echo "Run 'pnpm install' locally and commit the updated lockfile."
     exit 1
-fi
+}

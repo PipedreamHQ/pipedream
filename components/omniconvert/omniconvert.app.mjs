@@ -1,11 +1,30 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "omniconvert",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return "http://api.omniconvert.com/v1";
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
+      return axios($, {
+        url: `${this._baseUrl()}${path}`,
+        headers: {
+          "X-Api-User": this.$auth.api_user,
+          "X-Api-Key": this.$auth.api_key,
+        },
+        ...opts,
+      });
+    },
+    listExperiments(opts = {}) {
+      return this._makeRequest({
+        path: "/experiments",
+        ...opts,
+      });
     },
   },
 };

@@ -4,7 +4,7 @@ export default {
   key: "raindrop-get-bookmark",
   name: "Get Bookmark",
   description: "Retrieve bookmark detailed information by given ID. [See the docs here](https://developer.raindrop.io/v1/raindrops/single#get-raindrop)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

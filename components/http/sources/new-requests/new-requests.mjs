@@ -5,7 +5,7 @@ export default {
   key: "http-new-requests",
   name: "New Requests",
   description: "Get a URL and emit the full HTTP event on every request (including headers and query parameters). You can also configure the HTTP response code, body, and more.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "source",
   props: {
     httpInterface: {
@@ -41,9 +41,17 @@ export default {
       default: "{ \"success\": true }",
     },
     http,
+    summary: {
+      propDefinition: [
+        http,
+        "summary",
+      ],
+    },
   },
   async run(event) {
-    const summary = `${event.method} ${event.path}`;
+    const summary = this.summary
+      ? this.http.interpolateSummary(this.summary, event)
+      : `${event.method} ${event.path}`;
 
     this.httpInterface.respond({
       status: this.resStatusCode,

@@ -1,10 +1,10 @@
 import { ExecuteQueryArgs } from "./sql";
-export declare type ClientConfiguration = object;
-export declare type ProxyArgs = {
+export type ClientConfiguration = object;
+export type ProxyArgs = {
     query: string;
     params?: unknown[];
 };
-export declare type Row = object;
+export type Row = object;
 declare const _default: {
     methods: {
         /**

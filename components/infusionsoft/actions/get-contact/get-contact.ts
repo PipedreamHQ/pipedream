@@ -1,14 +1,14 @@
 import infusionsoft from "../../app/infusionsoft.app";
 import { defineAction } from "@pipedream/types";
-import { Contact } from "../../types/responseSchemas";
-import { GetObjectParams } from "../../types/requestParams";
+import { Contact } from "../../common/types/responseSchemas";
+import { GetObjectParams } from "../../common/types/requestParams";
 
 export default defineAction({
   name: "Get Contact",
   description:
     "Retrieve details of a Contact [See docs here](https://developer.infusionsoft.com/docs/rest/#operation/getContactUsingGET)",
   key: "infusionsoft-get-contact",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

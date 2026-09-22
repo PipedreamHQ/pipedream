@@ -4,14 +4,19 @@ export default {
   key: "salesforce_rest_api-post-feed-to-chatter",
   name: "Post a Message to Chatter Feed",
   description:
-    "Post a feed item in Chatter. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/quickreference_post_feed_item.htm)",
-  version: "0.1.3",
+    "Post a Chatter message to a Salesforce record's feed."
+    + " Use **List Case Feed Items** to read a case feed, or **Create Case Comment** to add a case comment instead of a Chatter post."
+    + " The message is built from segments - a plain string becomes text, and `{ \"type\": \"Mention\", \"username\": \"jsmith\" }` mentions a user."
+    + " "
+    + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/quickreference_post_feed_item.htm)",
+  version: "0.1.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     salesforce,
     sobjectType: {

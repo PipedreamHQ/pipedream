@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/huntress",
+  "version": "0.0.1",
+  "description": "Pipedream Huntress Components",
+  "main": "huntress.app.mjs",
+  "keywords": [
+    "pipedream",
+    "huntress"
+  ],
+  "homepage": "https://pipedream.com/apps/huntress",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,7 +1,9 @@
 import { LinearClient } from "@linear/sdk";
 import constants from "./common/constants.mjs";
 import utils from "./common/utils.mjs";
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import queries from "./common/queries.mjs";
 
 export default {
@@ -11,7 +13,7 @@ export default {
     teamId: {
       type: "string",
       label: "Team",
-      description: "The identifier or key of the team associated with the issue",
+      description: "The team associated with the issue. Select one from the list, or pass the team's `id` as returned by the Linear API — a UUID such as `9d1c3f7e-2b48-4c6a-9f1e-5a7b8c9d0e1f`. The short team key shown in issue identifiers such as `ENG-123` is rejected.",
       async options({ prevContext }) {
         return this.listResourcesOptions({
           prevContext,
@@ -49,6 +51,34 @@ export default {
           }) => ({
             label: title,
             value: id,
+          }),
+        });
+      },
+    },
+    issueIdentifier: {
+      type: "string",
+      label: "Issue Identifier",
+      description: "The identifier of the issue. Example: `APP-1234`",
+      async options({
+        teamId, prevContext,
+      }) {
+        return this.listResourcesOptions({
+          prevContext,
+          resourcesFn: this.listIssues,
+          resourcesArgs: teamId && {
+            filter: {
+              team: {
+                id: {
+                  eq: teamId,
+                },
+              },
+            },
+          },
+          resouceMapper: ({
+            identifier, title,
+          }) => ({
+            label: title,
+            value: identifier,
           }),
         });
       },
@@ -204,6 +234,40 @@ export default {
         });
       },
     },
+    initiativeId: {
+      type: "string",
+      label: "Initiative",
+      description: "The identifier or key of the initiative to update",
+      async options({ prevContext }) {
+        return this.listResourcesOptions({
+          prevContext,
+          resourcesFn: this.listInitiatives,
+          resouceMapper: ({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          }),
+        });
+      },
+    },
+    customViewId: {
+      type: "string",
+      label: "Custom View",
+      description: "The identifier or key of the custom view to get issues from",
+      async options({ prevContext }) {
+        return this.listResourcesOptions({
+          prevContext,
+          resourcesFn: this.listCustomViews,
+          resouceMapper: ({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          }),
+        });
+      },
+    },
     projectPriority: {
       type: "integer",
       label: "Priority",
@@ -217,6 +281,23 @@ export default {
       description: "The priority of the issue",
       optional: true,
       options: constants.PRIORITY_OPTIONS,
+    },
+    initiativeStatus: {
+      type: "string",
+      label: "Status",
+      description: "The status of the initiative",
+      optional: true,
+      options: [
+        "Active",
+        "Completed",
+        "Planned",
+      ],
+    },
+    targetDate: {
+      type: "string",
+      label: "Target Date",
+      description: "The target date of the initiative in ISO 8601 format",
+      optional: true,
     },
     query: {
       type: "string",
@@ -259,11 +340,38 @@ export default {
         ...args,
       });
     },
-    post(args = {}) {
-      return this.makeAxiosRequest({
+    /**
+     * Runs a GraphQL query. Linear answers a rejected one with HTTP 200, a null
+     * `data` and a populated `errors` array, so axios reports success and the
+     * failure surfaces only here.
+     *
+     * @param {object} [args] - axios options, carrying `data.query` and
+     * `data.variables`
+     * @returns {Promise<object>} the response body, `data` guaranteed present
+     * @throws {ConfigurationError} when Linear marks every error as one the
+     * caller can fix, which stops the workflow instead of retrying it
+     * @throws {Error} on any other failure, leaving a rate limit or a server
+     * fault retryable
+     */
+    async post(args = {}) {
+      const response = await this.makeAxiosRequest({
         method: "POST",
         ...args,
       });
+      const {
+        data, errors,
+      } = response ?? {};
+      if (errors?.length) {
+        const message = utils.formatGraphQlErrors(errors);
+        if (errors.every(({ extensions }) => extensions?.userError)) {
+          throw new ConfigurationError(message);
+        }
+        throw new Error(message);
+      }
+      if (!data) {
+        throw new Error("The Linear API returned an empty response");
+      }
+      return response;
     },
     getClientOptions(options = {}) {
       return {
@@ -282,6 +390,18 @@ export default {
     },
     async createIssue(input) {
       return this.client().createIssue(input);
+    },
+    async createComment(input) {
+      return this.client().createComment(input);
+    },
+    async createInitiative(input) {
+      return this.client().createInitiative(input);
+    },
+    async updateInitiative(initiativeId, input) {
+      return this.client().updateInitiative(initiativeId, input);
+    },
+    async removeLabelFromIssue(issueId, labelId) {
+      return this.client().issueRemoveLabel(issueId, labelId);
     },
     async updateIssue({
       issueId, input,
@@ -332,6 +452,9 @@ export default {
     async getTeam(id) {
       return this.client().team(id);
     },
+    async getCustomView(id) {
+      return this.client().customView(id);
+    },
     async listTeams(variables = {}) {
       return this.client().teams(variables);
     },
@@ -379,6 +502,12 @@ export default {
     },
     async listProjectLabels(variables = {}) {
       return this.client().projectLabels(variables);
+    },
+    async listCustomViews(variables = {}) {
+      return this.client().customViews(variables);
+    },
+    async listInitiatives(variables = {}) {
+      return this.client().initiatives(variables);
     },
     async listResourcesOptions({
       prevContext, resourcesFn, resourcesArgs, resouceMapper,

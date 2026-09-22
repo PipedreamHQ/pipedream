@@ -34,7 +34,7 @@ function main() {
 		}
 		log info "Writing API_KEY to current workspace($GITPOD_WORKSPACE_ID) filesystem";
 		write_api_key "$api_key";
-		printf '\n\n>> %s' "API key setup complete! Press any key to contine ..." && read;
+		printf '\n\n>> %s' "API key setup complete! Press any key to continue ..." && read;
 		exit 0;
 	} fi
 } && main # Doesn't take any argument

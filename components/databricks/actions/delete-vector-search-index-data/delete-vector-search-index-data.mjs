@@ -1,18 +1,20 @@
 import databricks from "../../databricks.app.mjs";
 import utils from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "databricks-delete-vector-search-index-data",
   name: "Delete Data from Vector Search Index",
   description:
     "Deletes rows from a Direct Access vector index by primary-key values. [See the documentation](https://docs.databricks.com/api/workspace/vectorsearchindexes/deletedatavectorindex)",
-  version: "0.0.2",
+  version: "0.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     databricks,
     endpointName: {
@@ -49,7 +51,7 @@ export default {
       .filter(Boolean);
 
     if (!keys.length) {
-      throw new Error("Please provide at least one primary key to delete.");
+      throw new ConfigurationError("Please provide at least one primary key to delete.");
     }
 
     const response = await this.databricks.deleteVectorSearchData({

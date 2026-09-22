@@ -12,12 +12,12 @@ export default {
       async options({ query }) {
         const movies = await this.searchMovies({
           params: {
-            query: query ?? ""
-          }
-        })
+            query: query ?? "",
+          },
+        });
 
-        return movies.map(movie => movie.movie.title)
-      }
+        return movies.map((movie) => movie.movie.title);
+      },
     },
     shows: {
       label: "TV Shows",
@@ -27,12 +27,12 @@ export default {
       async options({ query }) {
         const shows = await this.searchShows({
           params: {
-            query: query ?? ""
-          }
-        })
+            query: query ?? "",
+          },
+        });
 
-        return shows.map(show => show.show.title)
-      }
+        return shows.map((show) => show.show.title);
+      },
     },
   },
   methods: {

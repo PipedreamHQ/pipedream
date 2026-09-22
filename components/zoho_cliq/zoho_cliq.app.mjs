@@ -60,13 +60,13 @@ export default {
       return this.$auth.oauth_access_token;
     },
     _apiUrl() {
-      return this.$auth.base_api_uri;
+      return this.$auth.base_api_url;
     },
     _makeRequest({
       $ = this, path, ...args
     }) {
       return axios($, {
-        url: `${this._apiUrl()}/api/v2${path}`,
+        url: `https://cliq.${this._apiUrl()}/api/v2${path}`,
         headers: {
           "Authorization": `Zoho-oauthtoken ${this._accessToken()}`,
         },

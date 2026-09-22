@@ -6,7 +6,7 @@ export default {
   key: "leiga-updated-issue-instant",
   name: "New Updated Issue (Instant)",
   description: "Emit new event when an existing issue is updated in Leiga.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

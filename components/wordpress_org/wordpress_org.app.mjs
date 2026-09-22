@@ -126,6 +126,19 @@ export default {
         }));
       },
     },
+    tags: {
+      type: "string[]",
+      label: "Tags",
+      description: "Tags assigned to the post",
+      optional: true,
+      async options({ page }) {
+        const tags = await this.listTags(page + 1);
+        return tags.map((tag) => ({
+          label: tag?.name,
+          value: tag?.id,
+        }));
+      },
+    },
     post: {
       type: "string",
       label: "Post",
@@ -177,13 +190,21 @@ export default {
         username,
         application_password: applicationPassword,
       } = this.$auth;
-      let site;
-      try {
-        site = await WPAPI.discover(`https://${url}`);
-      } catch {
-        site = await WPAPI.discover(`http://${url}`);
+
+      // Normalize URL: preserve existing protocol or default to https://
+      let normalizedUrl = url;
+      if (url.startsWith("http://") || url.startsWith("https://")) {
+        // URL already has protocol, use as-is
+        normalizedUrl = url.replace(/\/$/, ""); // Remove trailing slash if present
+      } else {
+        // No protocol provided, default to https://
+        normalizedUrl = `https://${url}`;
       }
-      return site.auth({
+
+      const wp = new WPAPI({
+        endpoint: `${normalizedUrl}/wp-json`,
+      });
+      return wp.auth({
         username,
         password: applicationPassword,
       });
@@ -201,6 +222,11 @@ export default {
     async listCategories(page) {
       const wp = await this.getClient();
       return wp.categories().perPage(PER_PAGE)
+        .page(page);
+    },
+    async listTags(page) {
+      const wp = await this.getClient();
+      return wp.tags().perPage(PER_PAGE)
         .page(page);
     },
     async listPosts(page) {

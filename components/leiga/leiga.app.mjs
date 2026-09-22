@@ -60,7 +60,7 @@ export default {
         ...otherOpts,
       });
     },
-    validadeRequest(response) {
+    validateRequest(response) {
       if (response.msg) {
         throw new ConfigurationError(response.msg);
       }
@@ -91,20 +91,20 @@ export default {
         path: "/issue/type-list",
         ...opts,
       });
-      return this.validadeRequest(response);
+      return this.validateRequest(response);
     },
     async listProjects() {
       const response = await this._makeRequest({
         path: "/project/list",
       });
-      return this.validadeRequest(response);
+      return this.validateRequest(response);
     },
     async listWebhookEvents(opts = {}) {
       const response = await this._makeRequest({
         path: "/webhook/list-events",
         ...opts,
       });
-      return this.validadeRequest(response);
+      return this.validateRequest(response);
     },
     createIssue(opts = {}) {
       return this._makeRequest({

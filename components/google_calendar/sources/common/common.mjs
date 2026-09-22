@@ -38,9 +38,14 @@ export default {
         summary,
         id,
         start,
+        status,
       } = event;
+      const baseSummary = summary || `Event ID: ${id}`;
+      const statusPrefix = status && status !== "confirmed"
+        ? `[${status.toUpperCase()}]`
+        : "";
       return {
-        summary: summary || `Event ID: ${id}`,
+        summary: `${statusPrefix} ${baseSummary}`.trim(),
         id,
         ts: +new Date(start.dateTime),
       };

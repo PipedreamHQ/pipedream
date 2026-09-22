@@ -4,7 +4,7 @@ export default {
   key: "sendcloud-list-returns",
   name: "List Returns",
   description: "List returns. [See the documentation](https://api.sendcloud.dev/docs/sendcloud-public-api/returns/operations/list-returns)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

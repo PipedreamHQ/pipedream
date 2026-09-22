@@ -26,6 +26,39 @@ export const NOTE_IS_HTML = [
   },
 ];
 
+export const ANYALL_OPTIONS = [
+  {
+    label: "All (match every filter)",
+    value: "all",
+  },
+  {
+    label: "Any (match at least one filter)",
+    value: "any",
+  },
+];
+
+export const FOPEN_OPTIONS = [
+  {
+    label: "Open",
+    value: 1,
+  },
+  {
+    label: "Closed",
+    value: 0,
+  },
+];
+
+export const ORDER_DIR_OPTIONS = [
+  {
+    label: "Descending",
+    value: "desc",
+  },
+  {
+    label: "Ascending",
+    value: "asc",
+  },
+];
+
 export const OPENED_VIA_OPTIONS = [
   {
     label: "Email",

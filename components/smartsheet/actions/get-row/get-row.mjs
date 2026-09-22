@@ -1,0 +1,63 @@
+import smartsheet from "../../smartsheet.app.mjs";
+
+export default {
+  key: "smartsheet-get-row",
+  name: "Get Row",
+  description:
+    "Retrieve a single row from a sheet by row ID, with cell values keyed by column name instead of column ID."
+    + " Returns a human-readable object like `{\"Species\": \"Velociraptor\", \"Status\": \"Monitoring\"}` plus row metadata."
+    + " When a cell has a displayValue (formatted date, contact name), that is returned instead of the raw value."
+    + " Use **Get Sheet** or **Search** to find row IDs."
+    + " To update a row after reading it, use **Update Row**."
+    + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/row-get)",
+  version: "0.1.1",
+  type: "action",
+  ai: "optimized",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
+  props: {
+    smartsheet,
+    sheetId: {
+      propDefinition: [
+        smartsheet,
+        "sheetIdOrUrl",
+      ],
+    },
+    rowId: {
+      propDefinition: [
+        smartsheet,
+        "rowId",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const sheetId = await this.smartsheet.resolveSheetId(this.sheetId, {
+      $,
+    });
+    const [
+      row,
+      { byId },
+    ] = await Promise.all([
+      this.smartsheet.getRow(sheetId, this.rowId, {
+        $,
+      }),
+      this.smartsheet.getColumnMap(sheetId, {
+        $,
+      }),
+    ]);
+
+    row.sheetId = sheetId;
+
+    row.cellsByName = {};
+    for (const cell of row.cells || []) {
+      const name = byId[cell.columnId] || `Column ${cell.columnId}`;
+      row.cellsByName[name] = cell.displayValue ?? cell.value;
+    }
+
+    $.export("$summary", `Retrieved row ${this.rowId} from sheet ${sheetId}`);
+    return row;
+  },
+};

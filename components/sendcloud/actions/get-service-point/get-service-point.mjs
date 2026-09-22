@@ -4,7 +4,7 @@ export default {
   key: "sendcloud-get-service-point",
   name: "Get Service Point",
   description: "Retrieve a service point by ID. [See the documentation](https://api.sendcloud.dev/docs/sendcloud-public-api/branches/v2/service-points/operations/get-a-service-point)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -11,6 +11,7 @@ import {
 import isEqual from "lodash.isequal";
 import { useQuery } from "@tanstack/react-query";
 import type {
+  AppScopeProfilesItemName,
   ConfigurableProp,
   ConfigurableProps,
   ConfiguredProps,
@@ -78,6 +79,7 @@ export type FormContext<T extends ConfigurableProps> = {
   userId: string;
   enableDebugging?: boolean;
   oauthAppConfig?: Record<string, string>;
+  oauthScopeProfile?: AppScopeProfilesItemName;
 };
 
 export const skippablePropTypes = [
@@ -115,7 +117,15 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const id = useId();
 
   const {
-    component, configuredProps: __configuredProps, propNames, externalUserId, userId, sdkResponse, enableDebugging, oauthAppConfig,
+    component,
+    configuredProps: __configuredProps,
+    propNames,
+    externalUserId,
+    userId,
+    sdkResponse,
+    enableDebugging,
+    oauthAppConfig,
+    oauthScopeProfile,
   } = formProps;
 
   // Resolve user ID with deprecation warning
@@ -754,6 +764,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     sdkErrors,
     enableDebugging,
     oauthAppConfig,
+    oauthScopeProfile,
   };
   return <FormContext.Provider value={value}>{children}</FormContext.Provider>;
 };

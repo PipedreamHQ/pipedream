@@ -1,15 +1,21 @@
 {
   "name": "@pipedream/microsoft_bookings",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Microsoft Bookings Components",
   "main": "microsoft_bookings.app.mjs",
   "keywords": [
     "pipedream",
-    "microsoft_bookings"
+    "microsoft_bookings",
+    "microsoft",
+    "bookings"
   ],
   "homepage": "https://pipedream.com/apps/microsoft_bookings",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@microsoft/microsoft-graph-client": "^3.0.2",
+    "isomorphic-fetch": "^3.0.0"
   }
 }

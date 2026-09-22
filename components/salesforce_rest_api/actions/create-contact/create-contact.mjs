@@ -7,41 +7,34 @@ export default {
   ...common,
   key: "salesforce_rest_api-create-contact",
   name: "Create Contact",
-  description: `Creates a contact. [See the documentation](${docsLink})`,
-  version: "0.3.4",
+  description: "Create a Salesforce contact (a person associated with an account)."
+    + " Use **Find Records** on `Account` to get the `AccountId` that links this contact to a company."
+    + " Use **Describe Object** on `Contact` to discover which fields your org requires."
+    + " "
+    + `[See the documentation](${docsLink})`,
+  version: "0.3.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   methods: {
     ...common.methods,
-    getObjectType() {
-      return "Contact";
-    },
-    getAdvancedProps() {
-      return contact.extraProps;
-    },
   },
   props: getProps({
     objType: contact,
     docsLink,
-    showDateInfo: true,
   }),
   async run({ $ }) {
     /* eslint-disable no-unused-vars */
     const {
       salesforce,
-      getAdvancedProps,
-      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
-      useAdvancedProps,
       docsInfo,
-      dateInfo,
       additionalFields,
-      Birthdate,
       ...data
     } = this;
     /* eslint-enable no-unused-vars */
@@ -49,9 +42,6 @@ export default {
       $,
       data: {
         ...data,
-        ...formatDateTimeProps({
-          Birthdate,
-        }),
         ...getAdditionalFields(),
       },
     });

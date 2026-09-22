@@ -3,8 +3,8 @@ import elevenlabs from "../../elevenlabs.app.mjs";
 export default {
   key: "elevenlabs-make-outbound-call",
   name: "Make Outbound Call",
-  description: "Handle an outbound call via Twilio with Elevenlabs. [See the documentation](https://elevenlabs.io/docs/api-reference/conversations/twilio-outbound-call)",
-  version: "0.0.5",
+  description: "Handle an outbound call via Twilio with Elevenlabs. [See the documentation](https://elevenlabs.io/docs/agents-platform/api-reference/twilio/outbound-call)",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -36,7 +36,7 @@ export default {
       $,
       data: {
         agent_id: this.agentId,
-        agent_phone_number: this.agentPhoneNumberId,
+        agent_phone_number_id: this.agentPhoneNumberId,
         to_number: this.toNumber,
       },
     });

@@ -63,6 +63,26 @@ export default {
         }));
       },
     },
+    traceId: {
+      type: "string",
+      label: "Trace ID",
+      description: "The ID of a trace, for example trace-cm123abc456def789. Use the **List Observations** action to discover valid trace IDs.",
+    },
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "The page number to retrieve (1-based). Defaults to the first page.",
+      min: 1,
+      optional: true,
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "The number of items to return per page. Min: 1, Max: 100.",
+      min: 1,
+      max: 100,
+      optional: true,
+    },
   },
   methods: {
     getUrl(path) {
@@ -104,6 +124,14 @@ export default {
         ...args,
       });
     },
+    getTrace({
+      traceId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/traces/${encodeURIComponent(traceId)}`,
+        ...args,
+      });
+    },
     listTraces(args = {}) {
       return this._makeRequest({
         path: "/traces",
@@ -116,9 +144,21 @@ export default {
         ...args,
       });
     },
+    listScoresV2(args = {}) {
+      return this._makeRequest({
+        path: "/v2/scores",
+        ...args,
+      });
+    },
     listObservations(args = {}) {
       return this._makeRequest({
         path: "/observations",
+        ...args,
+      });
+    },
+    listObservationsV2(args = {}) {
+      return this._makeRequest({
+        path: "/v2/observations",
         ...args,
       });
     },

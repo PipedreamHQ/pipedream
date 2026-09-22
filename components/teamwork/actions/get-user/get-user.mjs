@@ -4,7 +4,7 @@ export default {
   key: "teamwork-get-user",
   name: "Get User",
   description: "Get a user by ID. [See the documentation](https://apidocs.teamwork.com/docs/teamwork/v1/people/get-people-id-json)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -2,7 +2,7 @@ import app from "../../kanban_tool.app.mjs";
 
 export default {
   key: "kanban_tool-complete-subtask",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -46,7 +46,7 @@ export default {
         is_completed: true,
       },
     });
-    $.export("$summary", `The subtask(ID: ${resp.id}) has been marked as completed.`);
+    $.export("$summary", `Subtask(ID: ${resp.id}) marked as completed`);
     return resp;
   },
 };

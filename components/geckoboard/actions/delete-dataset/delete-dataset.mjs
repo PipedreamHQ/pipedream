@@ -4,7 +4,7 @@ export default {
   key: "geckoboard-delete-dataset",
   name: "Delete Dataset",
   description: "Delete the specified dataset. [See the documentation](https://developer.geckoboard.com/?#delete-a-dataset)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

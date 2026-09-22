@@ -14,22 +14,24 @@ export default {
       label: "Booking ID",
       description: "The identifier of the booking to retrieve",
       async options({ filterCancelled = false }) {
-        const { bookings = [] } = await this.listBookings();
+        const response = await this.listBookings();
+        const bookings = response?.data ?? [];
         const filteredBookings = filterCancelled
-          ? bookings.filter((booking) => booking.status !== "CANCELLED")
+          ? bookings.filter((booking) => booking.status !== "cancelled")
           : bookings;
         return filteredBookings.map((booking) => ({
           label: booking.title,
-          value: booking.id,
+          value: booking.uid,
         }));
       },
     },
     eventTypeId: {
       type: "integer",
       label: "Event Type ID",
-      description: "The identifier of the event type of the new booking",
+      description: "The identifier of the event type",
       async options() {
-        const { event_types: eventTypes } = await this.listEventTypes();
+        const response = await this.listEventTypes();
+        const eventTypes = response?.data ?? [];
         return eventTypes.map((type) => ({
           label: type.title,
           value: type.id,
@@ -39,19 +41,19 @@ export default {
     language: {
       type: "string",
       label: "Language",
-      description: "The language for the new booking",
+      description: "The language for the booking",
       options: languages.LANGUAGE_OPTIONS,
     },
     timeZone: {
       type: "string",
       label: "Time Zone",
-      description: "The time-zone of the new booking",
+      description: "The time zone for the booking",
       options: timeZones.TIME_ZONES,
     },
   },
   methods: {
-    _baseUrl() {
-      return `https://${this.$auth.domain}/v1/`;
+    _v2BaseUrl() {
+      return "https://api.cal.com/v2/";
     },
     _apiKey() {
       return this.$auth.api_key;
@@ -61,27 +63,39 @@ export default {
         "Content-Type": "application/json",
       };
     },
-    async _makeRequest(args = {}) {
+    async _makeV2Request(args = {}) {
       const {
         method = "GET",
         path,
         params = {},
+        headers = {},
         $ = this,
         ...otherArgs
       } = args;
       const config = {
         method,
-        url: `${this._baseUrl()}${path}`,
-        headers: this._getHeaders(),
+        url: `${this._v2BaseUrl()}${path}`,
+        headers: {
+          ...this._getHeaders(),
+          "cal-api-version": "2024-06-14",
+          "Authorization": `Bearer ${this._apiKey()}`,
+          ...headers,
+        },
         params: {
           ...params,
-          apiKey: this._apiKey(),
         },
         ...otherArgs,
       };
-      return this._withRetries(() => {
-        return axios($, config);
-      });
+      try {
+        return await this._withRetries(() => axios($, config));
+      } catch (error) {
+        const apiMessage =
+          error?.response?.data?.error?.message ||
+          error?.response?.data?.message ||
+          error?.message ||
+          "Unknown Cal.com API error";
+        throw new ConfigurationError(apiMessage);
+      }
     },
     _isRetriableStatusCode(statusCode) {
       return [
@@ -98,68 +112,83 @@ export default {
       return retry(async (bail) => {
         try {
           const data = await apiCall();
-
           return data;
         } catch (err) {
-          const { status = 500 } = err;
+          const status = err?.response?.status ?? 500;
           if (!this._isRetriableStatusCode(status)) {
-            bail(`
-              Unexpected error (status code: ${status}):
-              ${JSON.stringify(err.response)}
-            `);
+            bail(err);
           }
-          throw new ConfigurationError("Could not get data");
+          throw err;
         }
       }, retryOpts);
     },
     async createWebhook(data) {
-      return this._makeRequest({
+      return this._makeV2Request({
         method: "POST",
-        path: "hooks",
+        path: "webhooks",
         data,
       });
     },
     async deleteWebhook(hookId) {
-      return this._makeRequest({
+      return this._makeV2Request({
         method: "DELETE",
-        path: `hooks/${hookId}`,
-      });
-    },
-    async getBooking(bookingId, $) {
-      return this._makeRequest({
-        path: `bookings/${bookingId}`,
-        $,
+        path: `webhooks/${hookId}`,
       });
     },
     async listBookings(args = {}) {
-      return this._makeRequest({
+      return this._makeV2Request({
         path: "bookings",
+        headers: {
+          "cal-api-version": "2026-02-25",
+        },
         ...args,
       });
     },
-    async createBooking(args = {}) {
-      return this._makeRequest({
+    async getBooking(bookingUid, $) {
+      return this._makeV2Request({
+        path: `bookings/${bookingUid}`,
+        headers: {
+          "cal-api-version": "2026-02-25",
+        },
+        $,
+      });
+    },
+    async createBooking({
+      data, $,
+    }) {
+      return this._makeV2Request({
         method: "POST",
         path: "bookings",
-        ...args,
+        headers: {
+          "cal-api-version": "2026-02-25",
+        },
+        data,
+        $,
       });
     },
-    async deleteBooking(bookingId, $) {
-      return this._makeRequest({
-        method: "DELETE",
-        path: `bookings/${bookingId}`,
+    async cancelBooking(bookingUid, data = {}, $) {
+      return this._makeV2Request({
+        method: "POST",
+        path: `bookings/${bookingUid}/cancel`,
+        headers: {
+          "cal-api-version": "2026-02-25",
+        },
+        data,
         $,
       });
     },
     async listEventTypes(args = {}) {
-      return this._makeRequest({
+      return this._makeV2Request({
         path: "event-types",
         ...args,
       });
     },
     async getBookableSlots(args = {}) {
-      return this._makeRequest({
+      return this._makeV2Request({
         path: "slots",
+        headers: {
+          "cal-api-version": "2024-09-04",
+        },
         ...args,
       });
     },

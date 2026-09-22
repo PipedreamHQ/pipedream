@@ -7,7 +7,7 @@ export default {
   key: "eventbrite-new-order-placed-by-me",
   name: "New Order Placed By Me",
   description: "Emit new event when the authenticated user places a new order in Eventbrite",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   type: "source",
   props: {

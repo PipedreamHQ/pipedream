@@ -34,6 +34,7 @@ export default {
       type: "string[]",
       label: "Attachment File Paths or URLs",
       description: "The file(s) to attach. For each entry, provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+      format: "file-ref",
     },
     recipients: {
       type: "string[]",

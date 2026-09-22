@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/chatspark",
+  "version": "0.0.1",
+  "description": "Pipedream ChatSpark Components",
+  "main": "chatspark.app.mjs",
+  "keywords": [
+    "pipedream",
+    "chatspark"
+  ],
+  "homepage": "https://pipedream.com/apps/chatspark",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

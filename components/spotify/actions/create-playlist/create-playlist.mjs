@@ -1,17 +1,17 @@
-import { axios } from "@pipedream/platform";
 import spotify from "../../spotify.app.mjs";
 
 export default {
   name: "Create a Playlist",
   description: "Create a playlist for a Spotify user. The playlist will be empty until you add tracks. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/create-playlist).",
   key: "spotify-create-playlist",
-  version: "0.1.4",
+  version: "0.1.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     spotify,
     name: {
@@ -53,11 +53,12 @@ export default {
       collaborative: isCollaborative,
     };
 
-    const resp = await axios($, this.spotify._getAxiosParams({
+    const { data: resp } = await this.spotify._makeRequest({
+      $,
       method: "POST",
-      path: `/users/${this.spotify.$auth.oauth_uid}/playlists`,
+      url: "/me/playlists",
       data,
-    }));
+    });
 
     $.export("$summary", `Successfully created a new playlist, "${data.name}"`);
 

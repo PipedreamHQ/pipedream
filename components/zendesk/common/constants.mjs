@@ -273,6 +273,54 @@ const INCLUDE_OPTIONS = [
   },
 ];
 
+const DYNAMIC_CONTENT_SORT_BY_OPTIONS = [
+  {
+    value: "locale",
+    label: "Locale",
+  },
+  {
+    value: "-locale",
+    label: "Locale (Descending)",
+  },
+  {
+    value: "outdated",
+    label: "Outdated",
+  },
+  {
+    value: "-outdated",
+    label: "Outdated (Descending)",
+  },
+  {
+    value: "active",
+    label: "Active",
+  },
+  {
+    value: "-active",
+    label: "Active (Descending)",
+  },
+  {
+    value: "updated_at",
+    label: "Updated At",
+  },
+  {
+    value: "-updated_at",
+    label: "Updated At (Descending)",
+  },
+  {
+    value: "created_at",
+    label: "Created At",
+  },
+  {
+    value: "-created_at",
+    label: "Created At (Descending)",
+  },
+];
+
+const SIDE_CONVERSATION_STATE_OPTIONS = [
+  "open",
+  "closed",
+];
+
 export default {
   SUBDOMAIN_PLACEHOLDER,
   BASE_URL,
@@ -296,4 +344,6 @@ export default {
   SORT_BY_OPTIONS,
   ACCESS_OPTIONS,
   INCLUDE_OPTIONS,
+  DYNAMIC_CONTENT_SORT_BY_OPTIONS,
+  SIDE_CONVERSATION_STATE_OPTIONS,
 };

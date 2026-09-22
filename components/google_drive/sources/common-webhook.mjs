@@ -19,7 +19,7 @@ export default {
         googleDrive,
         "watchedDrive",
       ],
-      description: "Defaults to My Drive. To select a [Shared Drive](https://support.google.com/a/users/answer/9310351) instead, select it from this list.",
+      description: "Defaults to **All Drives** (My Drive and all Shared Drives you have access to) when no selection is made. To limit to your personal drive or a [Shared Drive](https://support.google.com/a/users/answer/9310351), select it from this list.",
       optional: false,
     },
     timer: {
@@ -31,6 +31,12 @@ export default {
         intervalSeconds: WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
       },
       hidden: true,
+    },
+    changesPageSize: {
+      propDefinition: [
+        googleDrive,
+        "changesPageSize",
+      ],
     },
   },
   hooks: {
@@ -194,7 +200,8 @@ export default {
     }
 
     const driveId = this.getDriveId();
-    const changedFilesStream = this.googleDrive.listChanges(pageToken, driveId);
+    const changedFilesStream =
+      this.googleDrive.listChanges(pageToken, driveId, this.changesPageSize);
     for await (const changedFilesPage of changedFilesStream) {
       const {
         changedFiles,

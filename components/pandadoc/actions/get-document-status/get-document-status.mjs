@@ -6,7 +6,7 @@ export default {
   description:
     "Get basic status info about a document. [See documentation here](https://developers.pandadoc.com/reference/document-status)",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

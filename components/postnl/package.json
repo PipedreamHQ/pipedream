@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/postnl",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream PostNL Components",
   "main": "postnl.app.mjs",
   "keywords": [

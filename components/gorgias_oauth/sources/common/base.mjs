@@ -72,6 +72,24 @@ export default {
         id,
       });
     },
+    async getTicketCustomFields(ticketId) {
+      try {
+        const { data: customFieldValues } = await this.gorgias_oauth.listTicketFieldValues({
+          ticketId,
+        });
+        return customFieldValues || [];
+      } catch (error) {
+        console.error(`Error fetching custom fields for ticket ${ticketId}: ${error?.message ?? error}`);
+        return [];
+      }
+    },
+    async enrichTicketWithCustomFields(ticket) {
+      const customFields = await this.getTicketCustomFields(ticket.id);
+      return {
+        ...ticket,
+        custom_fields: customFields,
+      };
+    },
     emitEvent(event) {
       console.log(`Emitting event ${event.id}`);
       const ts = Date.parse(event[this.getTimestampKey()]);

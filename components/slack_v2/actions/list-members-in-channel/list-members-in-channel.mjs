@@ -3,14 +3,15 @@ import slack from "../../slack_v2.app.mjs";
 export default {
   key: "slack_v2-list-members-in-channel",
   name: "List Members in Channel",
-  description: "Retrieve members of a channel. [See the documentation](https://api.slack.com/methods/conversations.members)",
-  version: "0.0.25",
+  description: "Retrieve members of a channel. Accepts a channel ID (preferred — resolves instantly) or NAME (e.g. general or #general), resolved by scanning up to 5 pages (~5,000 channels) of the workspace's channel list — a name beyond that bound will not be found. [See the documentation](https://api.slack.com/methods/conversations.members)",
+  version: "0.1.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     slack,
     conversation: {
@@ -22,7 +23,7 @@ export default {
     returnUsernames: {
       type: "boolean",
       label: "Return Usernames",
-      description: "Optionally, return usernames in addition to IDs",
+      description: "Optionally, return usernames in addition to IDs. The username may be `null` for members whose name cannot be resolved, such as external (Slack Connect) users.",
       optional: true,
     },
     pageSize: {
@@ -40,8 +41,12 @@ export default {
   },
   async run({ $ }) {
     let channelMembers = [];
+    // Accept a channel NAME as well as an ID. Every AI-optimized tool in this app resolves
+    // names server-side, so an agent that read "#seinfeld-general" from the prompt
+    // reasonably passes it here too — and used to get channel_not_found.
+    const channel = await this.slack.resolveChannelId(this.conversation);
     const params = {
-      channel: this.conversation,
+      channel,
       limit: this.pageSize,
     };
     let page = 0;
@@ -59,7 +64,7 @@ export default {
       const usernames = await this.slack.userNameLookup(channelMembers);
       channelMembers = channelMembers?.map((id) => ({
         id,
-        username: usernames[id],
+        username: usernames[id] ?? null,
       })) || [];
     }
 

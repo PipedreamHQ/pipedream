@@ -8,7 +8,7 @@ export default {
   app: "google_calendar",
   propDefinitions: {
     calendarId: {
-      label: "Calendar ID",
+      label: "Calendar",
       type: "string",
       description: "Optionally select the calendar, defaults to the primary calendar for the logged-in user",
       default: "primary",
@@ -34,7 +34,7 @@ export default {
       },
     },
     eventId: {
-      label: "Event ID",
+      label: "Event",
       type: "string",
       description: "Select an event from Google Calendar.",
       async options({ calendarId }) {
@@ -278,6 +278,72 @@ export default {
         "workingLocation",
       ],
     },
+    recurringEventId: {
+      label: "Recurring Event ID",
+      type: "string",
+      description: "The ID of the recurring event",
+      async options({ calendarId }) {
+        const monthAgo = new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString();
+        const response = await this.listEvents({
+          calendarId,
+          maxResults: 100,
+          timeMin: monthAgo,
+        });
+        const recurringEvents = response.items.filter((item) => item.recurrence);
+        const options = recurringEvents.map((item) => {
+          let label = item.summary || item.id;
+          const date = item.start && (item.start.date
+            ? item.start.date
+            : item.start.dateTime.slice(0, 10));
+          if (date) {
+            label += ` - ${date}`;
+          }
+          return {
+            label,
+            value: item.id,
+          };
+        });
+        return options.reverse();
+      },
+    },
+    instanceId: {
+      label: "Event Instance ID",
+      type: "string",
+      description: "The ID of the specific instance to update. Use List Event Instances action to get instance IDs.",
+      async options({
+        calendarId, recurringEventId,
+      }) {
+        if (!recurringEventId) {
+          return [];
+        }
+        const response = await this.listEventInstances({
+          calendarId,
+          eventId: recurringEventId,
+          maxResults: 50,
+          timeMin: new Date().toISOString(),
+        });
+        const options = response.items.map((item) => {
+          let label = item.summary || item.id;
+          const date = item.start && (item.start.date
+            ? item.start.date
+            : item.start.dateTime.slice(0, 10));
+          const time = item.start?.dateTime
+            ? item.start.dateTime.slice(11, 16)
+            : "";
+          if (date) {
+            label += ` - ${date}`;
+          }
+          if (time) {
+            label += ` ${time}`;
+          }
+          return {
+            label,
+            value: item.id,
+          };
+        });
+        return options;
+      },
+    },
   },
   methods: {
     _tokens() {
@@ -420,6 +486,13 @@ export default {
         args,
       });
     },
+    async patchEvent(args = {}) {
+      return this.requestHandler({
+        api: constants.API.EVENTS.NAME,
+        method: constants.API.EVENTS.METHOD.PATCH,
+        args,
+      });
+    },
     async deleteEvent(args = {}) {
       return this.requestHandler({
         api: constants.API.EVENTS.NAME,
@@ -499,6 +572,13 @@ export default {
       return this.requestHandler({
         api: constants.API.COLORS.NAME,
         method: constants.API.COLORS.METHOD.GET,
+        args,
+      });
+    },
+    async listEventInstances(args = {}) {
+      return this.requestHandler({
+        api: constants.API.EVENTS.NAME,
+        method: constants.API.EVENTS.METHOD.INSTANCES,
         args,
       });
     },

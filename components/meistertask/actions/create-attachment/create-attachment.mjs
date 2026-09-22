@@ -6,7 +6,7 @@ export default {
   key: "meistertask-create-attachment",
   name: "Create Attachment",
   description: "Create a new attachment. [See the docs](https://developers.meistertask.com/reference/post-attachment)",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -46,6 +46,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+      format: "file-ref",
     },
     name: {
       type: "string",

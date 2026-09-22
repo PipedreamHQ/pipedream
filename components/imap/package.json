@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/imap",
-  "version": "0.0.6",
+  "version": "0.1.0",
   "description": "Pipedream IMAP Components",
   "main": "imap.app.mjs",
   "keywords": [
@@ -15,7 +15,7 @@
   "dependencies": {
     "@pipedream/platform": "^3.1.1",
     "imap": "^0.8.19",
-    "mailparser": "^3.5.0",
+    "mailparser": "^3.9.3",
     "stream": "^0.0.2",
     "util": "^0.12.4"
   }

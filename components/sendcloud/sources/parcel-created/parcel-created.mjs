@@ -6,7 +6,7 @@ export default {
   name: "New Parcel Created",
   description: "Emit new event each time a parcel is created.",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/event_tickets",
+  "version": "0.0.1",
+  "description": "Pipedream Event Tickets Components",
+  "main": "event_tickets.app.mjs",
+  "keywords": [
+    "pipedream",
+    "event_tickets"
+  ],
+  "homepage": "https://pipedream.com/apps/event_tickets",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

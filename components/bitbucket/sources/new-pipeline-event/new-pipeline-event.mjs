@@ -8,7 +8,7 @@ export default {
   name: "New Pipeline Event (Instant)",
   key: "bitbucket-new-pipeline-event",
   description: "Emit new event when a pipeline event occurs. [See docs here](https://developer.atlassian.com/cloud/bitbucket/rest/api-group-repositories/#api-repositories-workspace-repo-slug-hooks-post)",
-  version: "0.0.5",
+  version: "0.0.6",
   props: {
     ...common.props,
     repositoryId: {

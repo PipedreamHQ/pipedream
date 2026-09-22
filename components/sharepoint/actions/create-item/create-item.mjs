@@ -3,69 +3,42 @@ import sharepoint from "../../sharepoint.app.mjs";
 export default {
   key: "sharepoint-create-item",
   name: "Create Item",
-  description: "Create a new item in Microsoft Sharepoint. [See the documentation](https://learn.microsoft.com/en-us/graph/api/listitem-create?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.7",
+  description: "Create a new item in a SharePoint list. Provide the column names and values for the new item as a `fields` object. [See the documentation](https://learn.microsoft.com/en-us/graph/api/listitem-create?view=graph-rest-1.0&tabs=http)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     sharepoint,
     siteId: {
       propDefinition: [
         sharepoint,
-        "siteId",
+        "siteIdInput",
       ],
     },
     listId: {
       propDefinition: [
         sharepoint,
-        "listId",
-        (c) => ({
-          siteId: c.siteId,
-        }),
+        "listIdInput",
       ],
     },
-    columnNames: {
+    fields: {
       propDefinition: [
         sharepoint,
-        "columnNames",
-        (c) => ({
-          siteId: c.siteId,
-          listId: c.listId,
-        }),
+        "listItemFields",
       ],
-      reloadProps: true,
     },
   },
-  async additionalProps() {
-    const props = {};
-    if (!this.columnNames?.length) {
-      return props;
-    }
-    for (const column of this.columnNames) {
-      props[`${column}_value`] = {
-        type: "string",
-        label: `${column} Value`,
-      };
-    }
-    return props;
-  },
   async run({ $ }) {
-    const fields = {};
-    if (this.columnNames?.length) {
-      for (const column of this.columnNames) {
-        fields[column] = this[`${column}_value`];
-      }
-    }
-
     const response = await this.sharepoint.createItem({
       siteId: this.siteId,
       listId: this.listId,
       data: {
-        fields,
+        fields: this.fields,
       },
     });
 

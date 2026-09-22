@@ -344,7 +344,7 @@ export default {
         sr_detail: includeSubredditDetails,
         theme: "default",
         threaded: true,
-        trucate: 0,
+        truncate: 0,
       };
 
       const [

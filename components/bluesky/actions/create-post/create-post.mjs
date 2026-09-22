@@ -6,7 +6,7 @@ export default {
   key: "bluesky-create-post",
   name: "Create Post",
   description: "Creates a new post on Bluesky. [See the documentation](https://docs.bsky.app/docs/api/com-atproto-repo-create-record).",
-  version: "0.1.1",
+  version: "0.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

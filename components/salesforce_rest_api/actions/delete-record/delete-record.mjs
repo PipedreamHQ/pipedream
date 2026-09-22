@@ -4,14 +4,19 @@ export default {
   key: "salesforce_rest_api-delete-record",
   name: "Delete Record",
   description:
-    "Deletes an existing record in an object. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_retrieve_delete.htm)",
-  version: "0.2.3",
+    "Delete a Salesforce record of any object type."
+    + " This moves the record to the Recycle Bin, where it stays recoverable for up to 15 days - storage limits can purge it sooner."
+    + " Use **Find Records** or **SOQL Query** to confirm you have the right record ID before deleting."
+    + " "
+    + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_retrieve_delete.htm)",
+  version: "0.2.7",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     salesforce,
     sobjectType: {

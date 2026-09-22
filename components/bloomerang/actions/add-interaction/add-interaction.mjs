@@ -7,7 +7,7 @@ export default {
   key: "bloomerang-add-interaction",
   name: "Add Interaction",
   description: "Adds an interaction to an existing constituent in Bloomerang. [See the documentation](https://bloomerang.co/product/integrations-data-management/api/rest-api/#/Interactions/post_interaction)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -30,18 +30,18 @@ export default {
     subject: {
       type: "string",
       label: "Subject",
-      description: "The subject od the interation",
+      description: "The subject of the interaction",
     },
     channel: {
       type: "string",
       label: "Channel",
-      description: "The channel of the interation",
+      description: "The channel of the interaction",
       options: CHANNEL_OPTIONS,
     },
     purpose: {
       type: "string",
       label: "Purpose",
-      description: "The purpose of the interation",
+      description: "The purpose of the interaction",
       options: PURPOSE_OPTIONS,
     },
     note: {

@@ -362,3 +362,18 @@ export const RANK_PREFERENCE_OPTIONS = [
     value: "DISTANCE",
   },
 ];
+
+export const SIMPLIFIED_PLACE_FIELDS = {
+  id: "id",
+  displayName: "name",
+  primaryTypeDisplayName: "type",
+  businessStatus: "status",
+  rating: "rating",
+  userRatingCount: "review_count",
+  formattedAddress: "address",
+  nationalPhoneNumber: "phone",
+  websiteUri: "websiteUri",
+  regularOpeningHours: "hours",
+  location: "location",
+  addressDescriptor: "address_descriptor",
+};

@@ -5,13 +5,14 @@ export default {
   name: "Get Recommendations",
   description: "Create a list of recommendations based on the available information for a given seed entity and matched against similar artists and tracks. If there is sufficient information about the provided seeds, a list of tracks will be returned together with pool size details. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-recommendations).",
   key: "spotify-get-recommendations",
-  version: "0.1.4",
+  version: "0.1.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     spotify,
     seedArtists: {
@@ -60,7 +61,7 @@ export default {
 
     const numSeeds = seedArtists.length + seedGenres.length + seedTracks.length;
     if (numSeeds > 5 || numSeeds < 1) {
-      throw new ConfigurationError("Must provide between 1 and 5 seeds in in any combination of `seedArtists`, `seedTracks` and `seedGenres`.");
+      throw new ConfigurationError("Must provide between 1 and 5 seeds in any combination of `seedArtists`, `seedTracks` and `seedGenres`.");
     }
 
     const params = {
@@ -70,13 +71,16 @@ export default {
       limit,
     };
 
-    const response = await this.spotify.getRecommendations(params, $);
+    const data = await this.spotify.getRecommendations({
+      $,
+      params,
+    });
 
-    if (response.tracks.length === 0) {
+    if (data?.tracks?.length === 0) {
       $.export("$summary", "No recommendations found");
       return;
     }
-    $.export("$summary", `Successfully retrieved ${response.tracks.length} recommendation(s).`);
-    return response;
+    $.export("$summary", `Successfully retrieved ${data?.tracks?.length} recommendation(s).`);
+    return data;
   },
 };

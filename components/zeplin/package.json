@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/zeplin",
+  "version": "0.0.1",
+  "description": "Pipedream Zeplin Components",
+  "main": "zeplin.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zeplin"
+  ],
+  "homepage": "https://pipedream.com/apps/zeplin",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

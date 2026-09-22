@@ -5,7 +5,7 @@ export default {
   key: "aircall-new-tag-added",
   name: "New Tag Added",
   description: "Emit new event when a tag is added to a call",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -19,8 +19,10 @@ export default {
         const {
           calls, meta,
         } = await this.aircall.listCalls({
-          order: "desc",
-          page,
+          params: {
+            order: "desc",
+            page,
+          },
         });
 
         total = meta.total; // total number of results

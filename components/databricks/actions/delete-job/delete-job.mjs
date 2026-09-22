@@ -4,7 +4,7 @@ export default {
   key: "databricks-delete-job",
   name: "Delete Job",
   description: "Delete a job. Deleted jobs cannot be recovered. [See the documentation](https://docs.databricks.com/api/workspace/jobs/delete)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

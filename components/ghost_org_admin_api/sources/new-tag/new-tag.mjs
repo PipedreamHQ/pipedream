@@ -6,7 +6,7 @@ export default {
   key: "ghost_org_admin_api-new-tag",
   name: "Tag Added (Instant)",
   description: "Emit new event for each new tag created on a site.",
-  version: "0.0.9",
+  version: "0.0.10",
   methods: {
     ...common.methods,
     getEvent() {

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/expedy",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Expedy Components",
   "main": "expedy.app.mjs",
   "keywords": [

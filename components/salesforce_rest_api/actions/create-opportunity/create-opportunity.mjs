@@ -7,22 +7,21 @@ export default {
   ...common,
   key: "salesforce_rest_api-create-opportunity",
   name: "Create Opportunity",
-  description: `Creates an opportunity. [See the documentation](${docsLink})`,
-  version: "0.3.4",
+  description: "Create a Salesforce opportunity (a potential deal with an amount and close date)."
+    + " Requires `Name`, `StageName` and `CloseDate` - use **Describe Object** on `Opportunity` to list the valid `StageName` values for your org."
+    + " Use **Find Records** on `Account` to get the `AccountId` to attach the deal to."
+    + " "
+    + `[See the documentation](${docsLink})`,
+  version: "0.4.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   methods: {
     ...common.methods,
-    getObjectType() {
-      return "Opportunity";
-    },
-    getAdvancedProps() {
-      return opportunity.extraProps;
-    },
   },
   props: getProps({
     objType: opportunity,
@@ -33,11 +32,8 @@ export default {
     /* eslint-disable no-unused-vars */
     const {
       salesforce,
-      getAdvancedProps,
-      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
-      useAdvancedProps,
       docsInfo,
       dateInfo,
       additionalFields,

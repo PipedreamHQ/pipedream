@@ -1,0 +1,24 @@
+{
+  "name": "@pipedream/logfire",
+  "version": "0.1.1",
+  "description": "Pipedream Logfire Components",
+  "main": "logfire.app.mjs",
+  "keywords": [
+    "pipedream",
+    "logfire"
+  ],
+  "homepage": "https://pipedream.com/apps/logfire",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@opentelemetry/api": "^1.9.1",
+    "@opentelemetry/core": "^2.9.0",
+    "@opentelemetry/exporter-trace-otlp-proto": "^0.220.0",
+    "@opentelemetry/resources": "^2.9.0",
+    "@opentelemetry/sdk-trace-base": "^2.9.0",
+    "@opentelemetry/semantic-conventions": "^1.42.0",
+    "@pipedream/platform": "^3.4.0"
+  }
+}

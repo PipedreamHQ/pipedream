@@ -40,6 +40,10 @@ export function isString(value: unknown): value is string {
  * Mapping of configurable prop types to their corresponding TypeScript types.
  * This map is used to determine the specific type of a ConfigurableProp based
  * on its 'type' discriminator.
+ *
+ * Note: Uses the flat per-variant `ConfigurableProp{Variant}` interfaces from
+ * `@pipedream/sdk` v3.x; each one carries its own literal `type` field for
+ * narrowing.
  */
 type DiscriminatorPropTypeMap = {
   "$.airtable.baseId": ConfigurablePropAirtableBaseId;

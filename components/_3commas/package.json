@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/_3commas",
+  "version": "0.0.1",
+  "description": "Pipedream 3Commas Components",
+  "main": "_3commas.app.mjs",
+  "keywords": [
+    "pipedream",
+    "_3commas"
+  ],
+  "homepage": "https://pipedream.com/apps/_3commas",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

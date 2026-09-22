@@ -56,6 +56,12 @@ export default {
       });
       return client.getNoteStore();
     },
+    async getNote({
+      noteId, resultSpec,
+    }) {
+      const noteStore = await this.client();
+      return await noteStore.getNoteWithResultSpec(noteId, resultSpec);
+    },
     async list({ method }) {
       const noteStore = await this.client();
       return await noteStore[method]();
@@ -69,13 +75,14 @@ export default {
       });
     },
     async listNotes({
-      maxNotes, offset,
+      maxNotes, offset, notebookGuid,
     }) {
       const noteStore = await this.client();
       return await noteStore.findNotesMetadata(
         new Evernote.NoteStore.NoteFilter({
           order: "created",
           ascending: false,
+          notebookGuid,
         }),
         offset,
         maxNotes,

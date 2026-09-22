@@ -5,7 +5,7 @@ export default {
   key: "dolibarr-create-thirdparty",
   name: "Create Third Party",
   description: "Create a new third party in Dolibarr.",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

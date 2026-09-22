@@ -3,14 +3,19 @@ import salesforce from "../../salesforce_rest_api.app.mjs";
 export default {
   key: "salesforce_rest_api-delete-opportunity",
   name: "Delete Opportunity",
-  description: "Deletes an opportunity. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_delete_record.htm)",
-  version: "0.3.3",
+  description: "Delete a Salesforce opportunity."
+    + " This moves the record to the Recycle Bin, where it stays recoverable for up to 15 days - storage limits can purge it sooner."
+    + " Use **Find Records** on `Opportunity` to get the ID first, and prefer **Update Opportunity** to set a Closed Lost stage when you want to keep the history."
+    + " "
+    + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_delete_record.htm)",
+  version: "0.3.7",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     salesforce,
     recordId: {

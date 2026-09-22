@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/lever",
+  "version": "0.1.2",
+  "description": "Pipedream Lever Components",
+  "main": "lever.app.mjs",
+  "keywords": [
+    "pipedream",
+    "lever"
+  ],
+  "homepage": "https://pipedream.com/apps/lever",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.2.5",
+    "form-data": "^4.0.4"
+  }
+}

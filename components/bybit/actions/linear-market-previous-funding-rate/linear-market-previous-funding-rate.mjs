@@ -2,7 +2,7 @@ import bybit from "../../bybit.app.mjs";
 
 export default {
   name: "ByBit Linear Market Previous Funding Rate",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -22,6 +22,7 @@ export default {
     },
   },
   type: "action",
+  ai: "optimized",
   async run({ $ }) {
     const API_METHOD = "GET";
     const API_PATH = "/public/linear/funding/prev-funding-rate";

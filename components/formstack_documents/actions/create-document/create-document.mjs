@@ -7,7 +7,7 @@ export default {
   key: "formstack_documents-create-document",
   name: "Create Document",
   description: "Create a new document. [See documentation](https://www.webmerge.me/developers?page=documents)",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -72,6 +72,7 @@ export default {
         type: "string",
         label: "File Path or URL",
         description: "Provide a file URL or a path to a file in the `/tmp` directory.",
+        format: "file-ref",
       };
     }
     return props;

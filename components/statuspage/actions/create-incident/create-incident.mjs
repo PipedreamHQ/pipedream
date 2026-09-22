@@ -2,7 +2,7 @@ import statuspage from "../../statuspage.app.mjs";
 
 export default {
   name: "Create Incident",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

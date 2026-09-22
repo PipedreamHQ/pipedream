@@ -8,7 +8,7 @@ export default {
   key: "syncmate_by_assitro-send-bulk-messages",
   name: "Send Bulk Messages",
   description: "Send multiple WhatsApp messages in bulk. [See the documentation](https://assistro.co/user-guide/bulk-messaging-at-a-scheduled-time-using-syncmate-2/)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -47,6 +47,7 @@ export default {
         type: "string",
         label: `Media ${i}`,
         description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
+        format: "file-ref",
         optional: true,
       };
       props[`fileName${i}`] = {

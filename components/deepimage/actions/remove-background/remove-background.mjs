@@ -8,7 +8,7 @@ export default {
   key: "deepimage-remove-background",
   name: "Remove Background",
   description: "Removes the background from the provided image using DeepImage. [See the documentation](https://documentation.deep-image.ai/image-processing/background-processing)",
-  version: "0.1.1",
+  version: "0.1.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -35,6 +35,12 @@ export default {
       description: "The crop type for background removal.",
       optional: true,
       options: CROP_TYPE_OPTIONS,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

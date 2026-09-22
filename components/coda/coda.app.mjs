@@ -21,6 +21,14 @@ export default {
         return this._makeOptionsResponse(response);
       },
     },
+    // Static (non-reloadable) counterpart of `docId` for AI-optimized actions:
+    // a plain prop whose description points at the List Docs action, instead
+    // of relying on async options / reloadProps.
+    docIdStatic: {
+      type: "string",
+      label: "Doc ID",
+      description: "The ID of the Coda doc (e.g. `AbCDeFGhij`). Use the **List Docs** action to look up doc IDs.",
+    },
     folderId: {
       type: "string",
       label: "Folder ID",
@@ -40,6 +48,12 @@ export default {
         });
         return this._makeOptionsResponse(response);
       },
+    },
+    // Static counterpart of `tableId` — see docIdStatic above.
+    tableIdStatic: {
+      type: "string",
+      label: "Table ID",
+      description: "The ID of the table (e.g. `grid-pqRst-U`). Use the **List Tables** action to look up table IDs for a doc.",
     },
     rowId: {
       type: "string",
@@ -94,6 +108,19 @@ export default {
         docId, tableId, prevContext,
       }) {
         const response = await this.listColumns(this, docId, tableId, {
+          pageToken: prevContext.nextPageToken,
+        });
+        return this._makeOptionsResponse(response);
+      },
+    },
+    pageId: {
+      type: "string",
+      label: "Page ID",
+      description: "ID of the page",
+      async options({
+        docId, prevContext,
+      }) {
+        const response = await this.listPages(this, docId, {
           pageToken: prevContext.nextPageToken,
         });
         return this._makeOptionsResponse(response);
@@ -165,14 +192,6 @@ export default {
           nextPageToken: response.nextPageToken,
         },
       };
-    },
-    createRowCells(component) {
-      return Object.keys(component)
-        .filter((k) => k.startsWith("col_") && component[k])
-        .map((k) => ({
-          column: k.slice(4),
-          value: component[k],
-        }));
     },
     /**
      * Creates a new doc or copies a doc from a source docId
@@ -260,6 +279,36 @@ export default {
         params,
       };
       return this._makeRequest($, opts);
+    },
+    listPages($, docId, params = {}) {
+      return this._makeRequest($, {
+        path: `/docs/${docId}/pages`,
+        params,
+      });
+    },
+    getPage($, docId, pageId, params = {}) {
+      return this._makeRequest($, {
+        path: `/docs/${docId}/pages/${encodeURIComponent(pageId)}`,
+        params,
+      });
+    },
+    getPageContent($, docId, pageId, data = {}) {
+      return this._makeRequest($, {
+        method: "POST",
+        path: `/docs/${docId}/pages/${encodeURIComponent(pageId)}/export`,
+        data,
+      });
+    },
+    getPageContentExportStatus($, docId, pageId, exportId) {
+      return this._makeRequest($, {
+        path: `/docs/${docId}/pages/${encodeURIComponent(pageId)}/export/${exportId}`,
+      });
+    },
+    downloadPageFile($, downloadLink) {
+      return axios($, {
+        url: downloadLink,
+        responseType: "arraybuffer",
+      });
     },
     /**
      * Delete a single row by name or ID

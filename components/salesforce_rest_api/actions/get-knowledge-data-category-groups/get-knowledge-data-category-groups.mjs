@@ -4,14 +4,19 @@ export default {
   ...common,
   key: "salesforce_rest_api-get-knowledge-data-category-groups",
   name: "Get Knowledge Data Category Groups",
-  description: "Fetch data category groups visible to the current user. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.knowledge_dev.meta/knowledge_dev/resources_knowledge_support_dcgroups.htm)",
-  version: "0.0.2",
+  description: "List the Knowledge data category groups visible to the current user."
+    + " Call this before **Get Knowledge Articles** to discover the valid category group and category names to filter by."
+    + " Returns only categories the authenticated user can see, so results vary per user."
+    + " "
+    + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.knowledge_dev.meta/knowledge_dev/resources_knowledge_support_dcgroups.htm)",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     topCategoriesOnly: {

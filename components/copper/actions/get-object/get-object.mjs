@@ -4,7 +4,7 @@ export default {
   key: "copper-get-object",
   name: "Get Object",
   description: "Retrieves an existing CRM object. [See the documentation](https://developer.copper.com/account-and-users/fetch-user-by-id.html)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

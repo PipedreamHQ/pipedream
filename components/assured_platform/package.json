@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/assured_platform",
+  "version": "0.0.1",
+  "description": "Pipedream Assured Platform Components",
+  "main": "assured_platform.app.mjs",
+  "keywords": [
+    "pipedream",
+    "assured_platform"
+  ],
+  "homepage": "https://pipedream.com/apps/assured_platform",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

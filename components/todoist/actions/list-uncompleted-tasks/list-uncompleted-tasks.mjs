@@ -3,8 +3,8 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-list-uncompleted-tasks",
   name: "List Uncompleted Tasks",
-  description: "Returns a list of uncompleted tasks by project, section, and/or label. [See the docs here](https://developer.todoist.com/rest/v2/#get-active-tasks)",
-  version: "0.0.4",
+  description: "Returns a list of uncompleted tasks by project, section, and/or label. [See the documentation](https://developer.todoist.com/api/v1#tag/Tasks/operation/get_tasks_api_v1_tasks_get)",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -31,8 +31,11 @@ export default {
     label: {
       propDefinition: [
         todoist,
-        "label",
+        "labelString",
       ],
+      type: "string",
+      label: "Label",
+      description: "Filter tasks by label **name** (e.g. `Work`). `GET /tasks` has no `label_id` parameter, so a label id will not match.",
     },
   },
   async run ({ $ }) {
@@ -44,15 +47,15 @@ export default {
     const params = {
       project_id: project,
       section_id: section,
-      label_id: label,
+      label,
     };
     const resp = await this.todoist.getActiveTasks({
       $,
       params,
     });
-    $.export("$summary", `Successfully retrieved ${resp.length} task${resp.length === 1
+    $.export("$summary", `Successfully retrieved ${resp?.results?.length} task${resp?.results?.length === 1
       ? ""
       : "s"}`);
-    return resp;
+    return resp?.results;
   },
 };

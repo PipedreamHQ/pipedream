@@ -7,7 +7,7 @@ export default {
     flowId: {
       type: "string",
       label: "Flow ID",
-      description: "The ID of the flow",
+      description: "The ID of the flow.",
       useQuery: true,
       async options({ query: search }) {
         const { documents } = await this.flowsSearch({
@@ -26,7 +26,7 @@ export default {
     contactId: {
       type: "string",
       label: "Contact ID",
-      description: "The ID of the contact",
+      description: "The ID of the contact.",
       async options({ page }) {
         const { contacts } = await this.getContacts({
           params: {

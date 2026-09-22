@@ -4,7 +4,7 @@ export default {
   key: "microsoft_365_planner-list-user-tasks",
   name: "List User Tasks",
   description: "List all user tasks in Microsoft 365 Planner. [See the documentation](https://learn.microsoft.com/en-us/graph/api/planneruser-list-tasks?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.2",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

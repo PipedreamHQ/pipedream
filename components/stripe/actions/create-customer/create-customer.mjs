@@ -5,7 +5,7 @@ export default {
   key: "stripe-create-customer",
   name: "Create a Customer",
   type: "action",
-  version: "0.1.4",
+  version: "0.1.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

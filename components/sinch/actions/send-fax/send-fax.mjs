@@ -6,7 +6,7 @@ export default {
   key: "sinch-send-fax",
   name: "Send Fax",
   description: "Send a fax to a contact. [See the documentation](https://developers.sinch.com/docs/fax/api-reference/fax/tag/Faxes/#tag/Faxes/operation/sendFax)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -24,6 +24,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
+      format: "file-ref",
     },
     from: {
       type: "string",

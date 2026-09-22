@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/reply_io",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "Pipedream Reply.io Components",
   "main": "reply_io.app.mjs",
   "keywords": [
@@ -14,6 +14,6 @@
   },
   "dependencies": {
     "@pipedream/platform": "^1.6.8",
-    "lodash-es": "^4.17.21"
+    "lodash-es": "^4.18.1"
   }
 }

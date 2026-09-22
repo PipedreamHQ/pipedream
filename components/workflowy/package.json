@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/workflowy",
+  "version": "0.1.1",
+  "description": "Pipedream WorkFlowy Components",
+  "main": "workflowy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "workflowy"
+  ],
+  "homepage": "https://pipedream.com/apps/workflowy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

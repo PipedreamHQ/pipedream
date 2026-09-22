@@ -38,6 +38,24 @@ export default {
         }));
       },
     },
+    teamId: {
+      type: "integer",
+      label: "Team ID",
+      description: "Select a team",
+      async options({ page = 0 }) {
+        const resp = await this._makeRequest({
+          path: "/teams",
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return resp.data.map((team) => ({
+          label: team.name,
+          value: team.id,
+        }));
+      },
+    },
     callDirection: {
       type: "string",
       label: "Direction",
@@ -78,8 +96,8 @@ export default {
           },
         });
         return response.data.map((ticket) => ({
-          label: `#${ticket.ticket_id} - ${ticket.subject || "No subject"}`,
-          value: ticket.ticket_id,
+          label: `#${ticket.id} - ${ticket.subject || "No subject"}`,
+          value: ticket.id,
         }));
       },
     },
@@ -257,7 +275,10 @@ export default {
             page: page + 1,
           },
         });
-        return response.data.map((article) => ({
+        const articles = Array.isArray(response)
+          ? response
+          : response.data;
+        return articles.map((article) => ({
           label: article.title,
           value: article.id,
         }));
@@ -406,6 +427,14 @@ export default {
         ...args,
       });
     },
+    getTicket({
+      ticketId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/tickets/${ticketId}`,
+        ...args,
+      });
+    },
     async getMessages({
       ticketId, ...args
     }) {
@@ -442,6 +471,24 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: `/tickets/${ticketId}/labels`,
+        ...args,
+      });
+    },
+    detachLabel({
+      ticketId, labelId, ...args
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/tickets/${ticketId}/labels/${labelId}`,
+        ...args,
+      });
+    },
+    assignTicket({
+      ticketId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/tickets/${ticketId}/assign`,
         ...args,
       });
     },

@@ -6,7 +6,7 @@ export default {
   key: "copper-new-lead-instant",
   name: "New Lead (Instant)",
   description: "Emit new event when a new lead is created in Copper",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

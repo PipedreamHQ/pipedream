@@ -1,3 +1,5 @@
+import pipedrive from "../pipedrive.app.mjs";
+
 export const parseObject = (obj) => {
   if (!obj) return undefined;
 
@@ -40,18 +42,40 @@ const parseCustomFields = async (data, customFields) => {
 export const parseData = async ({
   fn, body,
 }) => {
-  const { data: customFields } = await fn();
+  const customFields = await pipedrive.methods.getPaginatedResources({
+    fn,
+  });
   body.data.custom_fields = await parseCustomFields(body.data, customFields);
   body.previous.custom_fields = await parseCustomFields(body.previous, customFields);
   return body;
 };
 
 const getCustomFieldNames = async (fn) => {
-  const { data: personFields } = await fn();
+  const personFields = await pipedrive.methods.getPaginatedResources({
+    fn,
+  });
   const customFields = personFields.filter((field) => field.created_by_user_id);
   const customFieldNames = {};
   customFields.forEach((field) => {
     customFieldNames[field.key] = field.name;
+  });
+  return customFieldNames;
+};
+
+const getCustomFieldData = async (fn) => {
+  const personFields = await pipedrive.methods.getPaginatedResources({
+    fn,
+  });
+  const customFields = personFields.filter((field) => field.created_by_user_id);
+  const customFieldNames = {};
+  customFields.forEach((field) => {
+    customFieldNames[field.key] = {
+      name: field.name,
+      type: field.field_type,
+      options: field?.options?.length
+        ? field.options
+        : undefined,
+    };
   });
   return customFieldNames;
 };
@@ -91,30 +115,42 @@ export const formatCustomFields = async (resp, getResourcesFn, getFieldsFn) => {
   });
 };
 
-export const formatCustomFieldDataFromSource = async ({
-  body, customFieldFn, resourceFn,
-}) => {
-  const customFieldNames = await getCustomFieldNames(customFieldFn);
-  const { data } = await resourceFn(body.data.id);
+const formatCustomSelectFields = (customFieldNames, data, body, isPrevious = false) => {
   const formattedCustomFields = {};
   for (const [
     key,
     value,
   ] of Object.entries(customFieldNames)) {
-    formattedCustomFields[value] = data[key] ?? data?.custom_fields?.[key] ?? null;
-  }
-
-  const formattedPreviousCustomFields = {};
-  if (body?.previous?.custom_fields) {
-    for (const [
-      key,
-      value,
-    ] of Object.entries(customFieldNames)) {
-      if (body.previous.custom_fields[key]) {
-        formattedPreviousCustomFields[value] = body.previous.custom_fields[key];
+    let fieldValue = isPrevious
+      ? body.previous?.custom_fields?.[key]
+      : data[key] ?? data?.custom_fields?.[key] ?? null;
+    if (fieldValue && value.options?.length) {
+      if (value.type === "enum") {
+        fieldValue = value.options
+          .find((option) => option.id === (fieldValue.id || fieldValue))
+          ?.label;
+      }
+      if (value.type === "set") {
+        const selectedOptions = isPrevious
+          ? fieldValue.values
+          : fieldValue.split(",");
+        fieldValue = selectedOptions.map((option) => value.options.find((o) => o.id == (option.id || option))?.label).join(", ");
       }
     }
+    formattedCustomFields[value.name] = fieldValue?.value ?? fieldValue;
   }
+  return formattedCustomFields;
+};
+
+export const formatCustomFieldDataFromSource = async ({
+  body, customFieldFn, resourceFn,
+}) => {
+  const customFieldNames = await getCustomFieldData(customFieldFn);
+  const { data } = await resourceFn(body.data.id);
+  const formattedCustomFields = await formatCustomSelectFields(customFieldNames, data, body);
+
+  const formattedPreviousCustomFields
+    = await formatCustomSelectFields(customFieldNames, data, body, true);
   return {
     ...body,
     data: {

@@ -4,7 +4,7 @@ export default {
   key: "softr-create-user",
   name: "Create User",
   description: "Creates a new user within your Softr app. [See the documentation](https://docs.softr.io/softr-api/tTFQ5vSAUozj5MsKixMH8C/api-setup-and-endpoints/j1PrTZxt7pv3iZCnZ5Fp19#create-user)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,7 +16,7 @@ export default {
     fullName: {
       type: "string",
       label: "Full Name",
-      description: "Full name of the new user",
+      description: "Full name of the new user (e.g., `John Doe`)",
     },
     email: {
       propDefinition: [

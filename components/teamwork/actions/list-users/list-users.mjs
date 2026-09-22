@@ -4,7 +4,7 @@ export default {
   key: "teamwork-list-users",
   name: "List Users",
   description: "List all users. [See the documentation](https://apidocs.teamwork.com/docs/teamwork/v1/people/get-people-json)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,7 +5,7 @@ export default {
   key: "close-custom-action",
   name: "Custom Action",
   description: "Makes an arbitrary call to the Close API. [See the documentation](https://developer.close.com/) for all options.",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

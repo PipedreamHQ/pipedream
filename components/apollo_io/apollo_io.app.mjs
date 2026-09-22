@@ -24,6 +24,28 @@ export default {
         })) || [];
       },
     },
+    organizationId: {
+      type: "string",
+      label: "Organization ID",
+      description: "Identifier of an Apollo organization. Type to search by name. Use **Search For Organizations** to discover IDs.",
+      useQuery: true,
+      async options({
+        page, query,
+      }) {
+        const { organizations } = await this.searchOrganizations({
+          params: {
+            page: page + 1,
+            q_organization_name: query,
+          },
+        });
+        return organizations?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
     contactId: {
       type: "string",
       label: "Contact ID",
@@ -380,6 +402,40 @@ export default {
         ...args,
       });
     },
+    peopleSearch(args = {}) {
+      return this.post({
+        path: "/mixed_people/api_search",
+        ...args,
+      });
+    },
+    searchOrganizations(args = {}) {
+      return this.post({
+        path: "/mixed_companies/search",
+        ...args,
+      });
+    },
+    listOrganizationJobPostings({
+      organizationId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/organizations/${organizationId}/job_postings`,
+        ...args,
+      });
+    },
+    getOrganization({
+      organizationId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/organizations/${organizationId}`,
+        ...args,
+      });
+    },
+    searchNewsArticles(args = {}) {
+      return this.post({
+        path: "/news_articles/search",
+        ...args,
+      });
+    },
     listLabels(args = {}) {
       return this.makeRequest({
         path: "/labels",
@@ -391,6 +447,7 @@ export default {
       resourceFnArgs,
       resourceName,
       max = constants.DEFAULT_MAX,
+      perPage = constants.DEFAULT_LIMIT,
     }) {
       let page = 1;
       let resourcesCount = 0;
@@ -401,7 +458,7 @@ export default {
             ...resourceFnArgs,
             params: {
               ...resourceFnArgs.params,
-              per_page: constants.DEFAULT_LIMIT,
+              per_page: perPage,
               page,
             },
           });
@@ -422,7 +479,7 @@ export default {
           }
         }
 
-        if (nextResources.length < constants.DEFAULT_LIMIT) {
+        if (nextResources.length < perPage) {
           console.log("No next page");
           return;
         }

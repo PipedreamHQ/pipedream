@@ -1,8 +1,36 @@
-import axios from "axios";
+import axios, {
+  AxiosHeaders, AxiosError, AxiosResponseHeaders, RawAxiosResponseHeaders,
+} from "axios";
 import { AxiosRequestConfig } from "./index";
 import * as querystring from "querystring";
 import { cloneSafe } from "./utils";
 import { ConfigurationError } from "./errors";
+
+// Type for OAuth1 sign configuration
+interface OAuth1SignConfig {
+  oauthSignerUri: string;
+  token: Record<string, unknown>;
+}
+
+// Type for request data used in OAuth signing
+interface OAuth1RequestData {
+  method: string;
+  url: string;
+  data?: querystring.ParsedUrlQueryInput;
+}
+
+interface AxiosResponseSummary {
+  status: number;
+  statusText: string;
+  headers: AxiosResponseHeaders | RawAxiosResponseHeaders;
+  data: unknown;
+}
+
+// Type for Pipedream step object
+interface PipedreamStep {
+  export?: (key: string, value: unknown) => void;
+  [key: string]: unknown;
+}
 
 function cleanObject(o = {}) {
   for (const k in o) {
@@ -38,7 +66,7 @@ function removeSearchFromUrl(config: AxiosRequestConfig) {
 }
 
 // https://github.com/ttezel/twit/blob/master/lib/helpers.js#L11
-function oauth1ParamsSerializer(p: any) {
+function oauth1ParamsSerializer(p: querystring.ParsedUrlQueryInput) {
   return querystring.stringify(p)
     .replace(/!/g, "%21")
     .replace(/'/g, "%27")
@@ -47,12 +75,12 @@ function oauth1ParamsSerializer(p: any) {
     .replace(/\*/g, "%2A");
 }
 
-export function transformConfigForOauth(config: AxiosRequestConfig) {
+export function transformConfigForOauth(config: AxiosRequestConfig): OAuth1RequestData {
   const newUrl = axios.getUri({
     ...config,
     paramsSerializer: oauth1ParamsSerializer,
   });
-  const requestData = {
+  const requestData: OAuth1RequestData = {
     method: config.method || "get",
     url: newUrl,
   };
@@ -67,15 +95,15 @@ export function transformConfigForOauth(config: AxiosRequestConfig) {
     }
   }
   if (config.data && typeof config.data === "object" && formEncodedContentType) {
-    (requestData as any).data = config.data;
+    requestData.data = config.data as querystring.ParsedUrlQueryInput;
   } else if (typeof config.data === "string" && (!hasContentType || formEncodedContentType)) {
-    (requestData as any).data = querystring.parse(config.data);
+    requestData.data = querystring.parse(config.data);
   }
   config.paramsSerializer = oauth1ParamsSerializer;
   return requestData;
 }
 
-async function getOauthSignature(config: AxiosRequestConfig, signConfig: any) {
+async function getOauthSignature(config: AxiosRequestConfig, signConfig: OAuth1SignConfig): Promise<string> {
   const {
     oauthSignerUri, token,
   } = signConfig;
@@ -89,7 +117,7 @@ async function getOauthSignature(config: AxiosRequestConfig, signConfig: any) {
 }
 
 // XXX warn about mutating config object... or clone?
-async function callAxios(step: any, config: AxiosRequestConfig, signConfig?: any) {
+async function callAxios(step: PipedreamStep | undefined, config: AxiosRequestConfig, signConfig?: OAuth1SignConfig) {
   cleanObject(config.headers);
   cleanObject(config.params);
   if (typeof config.data === "object") {
@@ -120,15 +148,18 @@ async function callAxios(step: any, config: AxiosRequestConfig, signConfig?: any
       ? response
       : response.data;
   } catch (err) {
-    if (err.response) {
-      convertAxiosError(err);
-      stepExport(step, err.response, "debug");
+    const axiosErr = err as AxiosError;
+    if (axiosErr.response) {
+      const responseSummary = convertAxiosError(axiosErr);
+      if (step?.context) {
+        stepExport(step, responseSummary, "debug");
+      }
     }
     throw err;
   }
 }
 
-function stepExport(step: any, message: any, key: string) {
+function stepExport(step: PipedreamStep | undefined, message: unknown, key: string) {
   message = cloneSafe(message);
 
   if (step) {
@@ -142,29 +173,48 @@ function stepExport(step: any, message: any, key: string) {
   console.log(`export: ${key} - ${JSON.stringify(message, null, 2)}`);
 }
 
-function convertAxiosError(err) {
-  delete err.response.request;
-  err.name = `${err.name} - ${err.message}`;
-  try {
-    err.message = JSON.stringify(err.response.data);
+/**
+ * Sanitizes an AxiosError in-place by removing sensitive request configuration,
+ * request details, and stack trace. Returns a summary of the response containing
+ * only status, statusText, headers, and data.
+ */
+function convertAxiosError(err: AxiosError): AxiosResponseSummary | undefined {
+  let responseSummary: AxiosResponseSummary | undefined;
+  if (err.response) {
+    responseSummary = {
+      status: err.response.status,
+      statusText: err.response.statusText,
+      headers: err.response.headers,
+      data: err.response.data,
+    };
+    delete err.response.request;
+    delete (err.response as Partial<typeof err.response>).config;
+    err.name = `${err.name} - ${err.message}`;
+    try {
+      err.message = JSON.stringify(err.response.data);
+    }
+    catch (error) {
+      console.error("Error trying to convert `err.response.data` to string");
+      console.log(error);
+    }
   }
-  catch (error) {
-    console.error("Error trying to convert `err.response.data` to string");
-  }
-  return err;
+  delete err.config;
+  delete err.request;
+  delete err.stack;
+  return responseSummary;
 }
 
-function create(config?: AxiosRequestConfig, signConfig?: any) {
+function create(config?: AxiosRequestConfig, signConfig?: OAuth1SignConfig) {
   const axiosInstance = axios.create(config);
 
   if (config?.debug) {
-    stepExport(this, config, "debug_config");
+    stepExport(undefined, config, "debug_config");
   }
 
   axiosInstance.interceptors.request.use(async (config) => {
     if (signConfig) {
       const oauthSignature = await getOauthSignature(config, signConfig);
-      if (!config.headers) config.headers = {};
+      if (!config.headers) config.headers = new AxiosHeaders();
       config.headers.Authorization = oauthSignature;
     }
 
@@ -182,19 +232,19 @@ function create(config?: AxiosRequestConfig, signConfig?: any) {
     const config: AxiosRequestConfig = response.config;
 
     if (config.debug) {
-      stepExport(this, response.data, "debug_response");
+      stepExport(undefined, response.data, "debug_response");
     }
 
     return config.returnFullResponse
       ? response
       : response.data;
-  }, (error) => {
-    if (error.response) {
-      convertAxiosError(error);
-      stepExport(this, error.response, "debug");
+  }, (err: AxiosError) => {
+    if (err.response) {
+      const responseSummary = convertAxiosError(err);
+      stepExport(undefined, responseSummary, "debug");
     }
 
-    throw error;
+    throw err;
   });
 
   return axiosInstance;

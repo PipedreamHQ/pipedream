@@ -10,6 +10,14 @@ function optionalParseAsJSON(value) {
 }
 
 export default {
+  getFieldsParam(fields) {
+    if (!fields?.length) {
+      return undefined;
+    }
+    return Array.isArray(fields)
+      ? fields.join(",")
+      : fields;
+  },
   parseObjectEntries(value = {}) {
     const obj = typeof value === "string"
       ? JSON.parse(value)

@@ -4,7 +4,7 @@ export default {
   key: "help_scout-list-tags",
   name: "List Tags",
   description: "Lists all tags in Help Scout. [See the documentation](https://developer.helpscout.com/mailbox-api/endpoints/tags/list/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

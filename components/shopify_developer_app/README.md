@@ -57,7 +57,7 @@ Once your database is connected to Pipedream, you'll be able to query the databa
 
 ### Retrieve a merchants access token
 
-In an HTTP triggered workflow, you can use a body parameter to reference a shop by it's `myshopify.com` domain, or unique Shop ID.
+In an HTTP triggered workflow, you can use a body parameter to reference a shop by its `myshopify.com` domain, or unique Shop ID.
 
 Pass the shop ID to your database query step to retrieve the corresponding record of the shop to retrieve the shop's access token.
 

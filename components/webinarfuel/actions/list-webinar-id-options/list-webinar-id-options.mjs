@@ -1,0 +1,33 @@
+import webinarfuel from "../../webinarfuel.app.mjs";
+
+export default {
+  key: "webinarfuel-list-webinar-id-options",
+  name: "List Webinar ID Options",
+  description: "Retrieves available options for the Webinar ID field.",
+  version: "0.0.1",
+  type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
+  props: {
+    webinarfuel,
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "The page of results to retrieve.",
+      min: 0,
+      default: 0,
+    },
+  },
+  async run({ $ }) {
+    const options = await webinarfuel.propDefinitions.webinarId.options.call(this.webinarfuel, {
+      page: this.page,
+    });
+    $.export("$summary", `Successfully retrieved ${options.length} option${options.length === 1
+      ? ""
+      : "s"}`);
+    return options;
+  },
+};

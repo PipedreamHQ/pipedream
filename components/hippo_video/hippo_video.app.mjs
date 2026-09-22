@@ -51,7 +51,7 @@ export default {
       return {
         ...params,
         email: `${this.$auth.email}`,
-        api_key: `${this.$auth.api_key}`,
+        authentication_token: `${this.$auth.oauth_access_token}`,
       };
     },
     _makeRequest({

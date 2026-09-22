@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/microsoft_sharepoint_dev",
+  "version": "0.0.1",
+  "description": "Pipedream Microsoft Sharepoint Dev Components",
+  "main": "microsoft_sharepoint_dev.app.mjs",
+  "keywords": [
+    "pipedream",
+    "microsoft_sharepoint_dev"
+  ],
+  "homepage": "https://pipedream.com/apps/microsoft_sharepoint_dev",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

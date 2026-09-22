@@ -6,7 +6,7 @@ export default {
   key: "twitch-new-subscriber",
   description: "Emit new event when a new user subscribes to your channel.",
   type: "source",
-  version: "0.1.2",
+  version: "0.1.3",
   methods: {
     ...common.methods,
     getMeta(item) {

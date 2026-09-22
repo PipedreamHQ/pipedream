@@ -5,7 +5,7 @@ export default {
   name: "List Contacts",
   description: "List all contacts within an account. [See the documentation here](https://developers.pandadoc.com/reference/list-contacts)",
   type: "action",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

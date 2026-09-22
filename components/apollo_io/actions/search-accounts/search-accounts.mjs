@@ -6,7 +6,7 @@ export default {
   name: "Search For Accounts",
   description: "Search for accounts in Apollo.io. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#search-for-accounts)",
   type: "action",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

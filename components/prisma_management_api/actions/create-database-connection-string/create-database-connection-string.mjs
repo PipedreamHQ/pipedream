@@ -2,7 +2,7 @@ import app from "../../prisma_management_api.app.mjs";
 
 export default {
   name: "Create Database Connection String",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -34,7 +34,9 @@ export default {
     });
 
     if (response) {
-      $.export("$summary", `Successfully created connection string for database ${this.databaseId}${response.id ? ` with connection ID ${response.id}` : ""}`);
+      $.export("$summary", `Successfully created connection string for database ${this.databaseId}${response.id
+        ? ` with connection ID ${response.id}`
+        : ""}`);
     }
 
     return response;

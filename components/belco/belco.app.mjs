@@ -74,7 +74,7 @@ export default {
     conversationId: {
       type: "string",
       label: "Conversation ID",
-      description: "Select a conversation to use for the action",
+      description: "The ID of the conversation to use for the action (e.g. `sSzxq7tMBFmCY28o8`). Use **List All Conversations** to find conversation IDs.",
       async options({
         page, includeStatus, excludeStatus,
       }) {
@@ -143,8 +143,32 @@ export default {
       $ = this, path, ...opts
     }) {
       return axios($, {
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: this._headers(),
+        ...opts,
+      });
+    },
+    createWebhook(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/webhooks",
+        ...opts,
+      });
+    },
+    deleteWebhook({
+      webhookId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/webhooks/${webhookId}`,
+        ...opts,
+      });
+    },
+    getContact({
+      shopId, contactId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/shops/${shopId}/contacts/${contactId}`,
         ...opts,
       });
     },
@@ -184,6 +208,14 @@ export default {
     }) {
       return this._makeRequest({
         path: `/conversations/${conversationId}`,
+        ...opts,
+      });
+    },
+    getConversationItems({
+      conversationId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/conversations/${conversationId}/items`,
         ...opts,
       });
     },

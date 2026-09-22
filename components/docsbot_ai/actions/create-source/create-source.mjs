@@ -4,7 +4,7 @@ export default {
   key: "docsbot_ai-create-source",
   name: "Create Source",
   description: "Create a new source for a bot. [See the documentation](https://docsbot.ai/documentation/developer/source-api#create-source)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "cursor-list-agents",
   name: "List Agents",
   description: "List all available Cursor agents. [See the documentation](https://cursor.com/docs/cloud-agent/api/endpoints#list-agents)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

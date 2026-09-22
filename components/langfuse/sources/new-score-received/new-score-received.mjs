@@ -6,7 +6,7 @@ export default {
   key: "langfuse-new-score-received",
   name: "New Score Received",
   description: "Emit new event when user feedback (score) is submitted on a trace in Langfuse. [See the documentation](https://api.reference.langfuse.com/#tag/score/GET/api/public/scores).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

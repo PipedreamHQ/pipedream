@@ -5,7 +5,7 @@ export default {
   key: "remote-create-expense",
   name: "Create Expense",
   description: "Create an expense in Remote. [See the documentation](https://developer.remote.com/reference/post_create_expense)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -53,6 +53,7 @@ export default {
       type: "string",
       label: "Receipt Content File Path",
       description: "The file of the receipt. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`)",
+      format: "file-ref",
     },
     receiptFileName: {
       type: "string",

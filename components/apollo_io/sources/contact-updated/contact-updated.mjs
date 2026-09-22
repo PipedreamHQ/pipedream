@@ -6,7 +6,7 @@ export default {
   name: "Contact Updated",
   description: "Emit new event when a contact is updated. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#search-for-contacts)",
   type: "source",
-  version: "0.0.8",
+  version: "0.0.9",
   dedupe: "unique",
   methods: {
     ...common.methods,

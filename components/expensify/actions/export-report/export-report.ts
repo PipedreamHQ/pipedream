@@ -5,18 +5,20 @@ import {
   axios, ConfigurationError,
 } from "@pipedream/platform";
 import qs from "qs";
+import { REPORT_STATES } from "../../common/constants";
 
 export default defineAction({
   key: "expensify-export-report",
   name: "Export Report",
   description: "Export Expensify reports to a file (csv, xls, xlsx, txt, pdf, json, xml). [See the documentation](https://integrations.expensify.com/Integration-Server/doc/#report-exporter)",
-  version: "0.0.2",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     expensify,
     reportIds: {
@@ -46,7 +48,7 @@ export default defineAction({
     fileExtension: {
       type: "string",
       label: "File Extension",
-      description: "Specifies the format of the generated report",
+      description: "The format of the generated file. `xlsx`, `xls`, and `pdf` work on their own. `csv`, `txt`, `json`, and `xml` **require a `Template Path`** (a Freemarker template file in `/tmp`) — if you don't have one, choose `xlsx`.",
       options: [
         "csv",
         "xls",
@@ -67,13 +69,7 @@ export default defineAction({
       type: "string[]",
       label: "Report States",
       description: "Only the reports matching the specified status(es) will be exported",
-      options: [
-        "OPEN",
-        "SUBMITTED",
-        "APPROVED",
-        "REIMBURSED",
-        "ARCHIVED",
-      ],
+      options: REPORT_STATES,
       optional: true,
     },
     employeeEmail: {

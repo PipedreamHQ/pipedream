@@ -8,7 +8,7 @@ export default {
   description:
     `Emit new event when a document is updated. [See the documentation here](${DOCS_LINK})`,
   key: "pandadoc-document-updated",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   methods: {
     ...common.methods,

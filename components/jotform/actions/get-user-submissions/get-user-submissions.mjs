@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "jotform-get-user-submissions",
   name: "Get User Submissions",
-  description: "Gets a list of all submissions for all forms on the account [See the docs here](https://api.jotform.com/docs/#user-submissions)",
-  version: "0.1.5",
+  description: "Gets a list of all submissions for all forms on the account [See the documentation](https://api.jotform.com/docs/#user-submissions)",
+  version: "0.1.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

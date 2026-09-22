@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/bokun",
+  "version": "0.0.1",
+  "description": "Pipedream Bókun Components",
+  "main": "bokun.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bokun"
+  ],
+  "homepage": "https://pipedream.com/apps/bokun",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

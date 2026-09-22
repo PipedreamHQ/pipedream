@@ -6,7 +6,7 @@ export default {
   key: "mailchimp-new-file",
   name: "New File",
   description: "Emit new event when a new file is added to the File Manager of the connected Mailchimp account.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

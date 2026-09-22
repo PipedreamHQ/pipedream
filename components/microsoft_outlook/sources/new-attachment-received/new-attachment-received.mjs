@@ -1,3 +1,4 @@
+import md5 from "md5";
 import common from "../common/common-new-email.mjs";
 import { Readable } from "stream";
 
@@ -6,7 +7,7 @@ export default {
   key: "microsoft_outlook-new-attachment-received",
   name: "New Attachment Received (Instant)",
   description: "Emit new event when a new email containing one or more attachments arrives in a specified Microsoft Outlook folder.",
-  version: "0.1.5",
+  version: "0.1.22",
   type: "source",
   dedupe: "unique",
   props: {
@@ -56,10 +57,8 @@ export default {
       const messageAttachment =  await this.microsoftOutlook.getAttachment({
         messageId: item.messageId,
         attachmentId: item.id,
-        responseType: "arraybuffer",
       });
-      const rawcontent = messageAttachment.toString("base64");
-      const buffer = Buffer.from(rawcontent, "base64");
+      const buffer = await this.microsoftOutlook.streamToBuffer(messageAttachment);
       const filepath = `${item.id}/${item.name}`;
       // Upload the attachment to the configured directory (File Stash) so it
       // can be accessed later.
@@ -82,7 +81,11 @@ export default {
     },
     generateMeta(item) {
       return {
-        id: item.contentId,
+        // Attachment `id` is unique per message+attachment but exceeds 64
+        // characters, so hash it. Do NOT use `contentId` here: Graph only
+        // populates it for inline attachments, leaving it null for ordinary
+        // file attachments, which collapses dedupe and drops events.
+        id: md5(`${item.messageId}-${item.id}`),
         summary: `New attachment ${item.name}`,
         ts: Date.parse(item.messageReceivedDateTime),
       };

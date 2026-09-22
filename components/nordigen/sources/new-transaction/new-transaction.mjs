@@ -5,7 +5,7 @@ export default {
   key: "nordigen-new-transaction",
   name: "New Transaction",
   description: "Emit new event when a transaction occurs",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "source",
   dedupe: "unique",
   props: {

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/easy8",
+  "version": "0.0.1",
+  "description": "Pipedream Easy8 Components",
+  "main": "easy8.app.mjs",
+  "keywords": [
+    "pipedream",
+    "easy8"
+  ],
+  "homepage": "https://pipedream.com/apps/easy8",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

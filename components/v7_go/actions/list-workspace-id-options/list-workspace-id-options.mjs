@@ -1,0 +1,24 @@
+import v7_go from "../../v7_go.app.mjs";
+
+export default {
+  key: "v7_go-list-workspace-id-options",
+  name: "List Workspace ID Options",
+  description: "Retrieves available options for the Workspace ID field.",
+  version: "0.0.1",
+  type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
+  props: {
+    v7_go,
+  },
+  async run({ $ }) {
+    const options = await v7_go.propDefinitions.workspaceId.options.call(this.v7_go);
+    $.export("$summary", `Successfully retrieved ${options.length} option${options.length === 1
+      ? ""
+      : "s"}`);
+    return options;
+  },
+};

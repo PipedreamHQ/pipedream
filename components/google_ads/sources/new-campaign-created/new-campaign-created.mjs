@@ -6,20 +6,26 @@ export default {
   ...common,
   key: "google_ads-new-campaign-created",
   name: "New Campaign Created",
-  description: "Emit new event when a new campaign is created. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v21/GoogleAdsService/Search?transport=rest)",
-  version: "0.0.6",
+  description: "Emit new event when a new campaign is created. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/GoogleAdsService/Search?transport=rest)",
+  version: "0.2.0",
   type: "source",
   dedupe: "unique",
   sampleEmit,
   props: {
     ...common.props,
+    timer: {
+      ...common.props.timer,
+      default: {
+        intervalSeconds: 60 * 60, // 1 hour
+      },
+    },
     customerClientId: {
       ...common.props.customerClientId,
     },
     fields: {
       type: "string[]",
       label: "Extra Fields",
-      description: "Additional [campaign fields](https://developers.google.com/google-ads/api/fields/v21/campaign) to emit in the event",
+      description: "Additional [campaign fields](https://developers.google.com/google-ads/api/fields/v25/campaign) to emit in the event",
       options: campaign.fields,
       optional: true,
       default: [
@@ -33,7 +39,7 @@ export default {
     getSummary({ name }) {
       return `New Campaign: "${name}"`;
     },
-    async getItems(savedIds) {
+    async getItems() {
       const {
         accountId, customerClientId, fields,
       } = this;
@@ -42,7 +48,6 @@ export default {
         customerClientId,
         query: {
           fields,
-          savedIds,
         },
       });
       return items?.map(({ campaign }) => campaign);

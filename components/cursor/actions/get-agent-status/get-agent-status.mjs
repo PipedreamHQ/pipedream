@@ -4,7 +4,7 @@ export default {
   key: "cursor-get-agent-status",
   name: "Get Agent Status",
   description: "Gets the status of an agent. [See the documentation](https://cursor.com/docs/cloud-agent/api/endpoints#agent-status)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

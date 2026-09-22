@@ -9,11 +9,12 @@ export default {
   name: "Redshift - Query Database",
   description: "Run a SELECT query on a database. [See the documentation](https://docs.aws.amazon.com/redshift/latest/APIReference/API_ExecuteStatement.html)",
   type: "action",
-  version: "0.0.2",
+  ai: "optimized",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: false,
+    readOnlyHint: true,
   },
   props: {
     app,

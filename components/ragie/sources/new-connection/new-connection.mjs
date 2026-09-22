@@ -6,7 +6,7 @@ export default {
   key: "ragie-new-connection",
   name: "New Ragie Connection Created",
   description: "Emit new event whenever a new connection is created in Ragie. [See the documentation](https://docs.ragie.ai/reference/list_connections_connections_get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

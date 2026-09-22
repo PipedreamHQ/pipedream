@@ -5,7 +5,7 @@ export default {
   key: "mailchimp-link-clicked",
   name: "Link Clicked",
   description: "Emit new event when a recipient clicks a pre-specified link in an specific campaign.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

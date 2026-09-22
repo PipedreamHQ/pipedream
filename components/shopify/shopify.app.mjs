@@ -289,6 +289,28 @@ export default {
         });
       },
     },
+    fulfillmentId: {
+      type: "string",
+      label: "Fulfillment ID",
+      description: "The globally-unique ID of a fulfillment associated with the order. Example: `gid://shopify/Fulfillment/1234567890`. When `orderId` is provided, available fulfillments are populated automatically; otherwise, supply the GID directly.",
+      async options({ orderId }) {
+        let options = [];
+        if (orderId) {
+          const data = await this.listOrderFulfillments({
+            id: orderId,
+            first: MAX_LIMIT,
+          });
+          const nodes = data?.order?.fulfillments ?? [];
+          options = nodes.map(({
+            id, name,
+          }) => ({
+            value: id,
+            label: name,
+          }));
+        }
+        return options;
+      },
+    },
     fulfillmentOrderId: {
       type: "string",
       label: "Fulfillment Order ID",
@@ -303,6 +325,24 @@ export default {
           prevContext,
         });
       },
+    },
+    priceRuleId: {
+      type: "string",
+      label: "Price Rule ID",
+      description: "The ID of the price rule (e.g. `1234567890`). Run **List Price Rules** first to retrieve valid IDs.",
+    },
+    discountCodeId: {
+      type: "string",
+      label: "Discount Code ID",
+      description: "The ID of the discount code (e.g. `9876543210`). Run **List Discount Codes** first to retrieve valid IDs for the chosen price rule.",
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Maximum number of results to return.",
+      min: 1,
+      max: 250,
+      optional: true,
     },
   },
   methods: {
@@ -472,8 +512,12 @@ export default {
     createBlog(variables) {
       return this._makeGraphQlRequest(mutations.CREATE_BLOG, variables);
     },
-    createCollection(variables) {
-      return this._makeGraphQlRequest(mutations.CREATE_COLLECTION, variables);
+    createCollectionWithSources(variables) {
+      return this._makeGraphQlRequest(mutations.COLLECTION_CREATE, variables);
+    },
+    async getShopCurrencyCode() {
+      const { shop } = await this._makeGraphQlRequest("{ shop { currencyCode } }");
+      return shop.currencyCode;
     },
     createPage(variables) {
       return this._makeGraphQlRequest(mutations.CREATE_PAGE, variables);
@@ -529,6 +573,42 @@ export default {
     updateOrder(variables) {
       return this._makeGraphQlRequest(mutations.UPDATE_ORDER, variables);
     },
+    createRefund(variables) {
+      return this._makeGraphQlRequest(mutations.REFUND_CREATE, variables);
+    },
+    cancelOrder(variables) {
+      return this._makeGraphQlRequest(mutations.ORDER_CANCEL, variables);
+    },
+    submitFulfillmentOrderCancellationRequest(variables) {
+      return this._makeGraphQlRequest(
+        mutations.FULFILLMENT_ORDER_SUBMIT_CANCELLATION_REQUEST,
+        variables,
+      );
+    },
+    createGiftCard(variables) {
+      return this._makeGraphQlRequest(mutations.GIFT_CARD_CREATE, variables);
+    },
+    createOrder(variables) {
+      return this._makeGraphQlRequest(mutations.ORDER_CREATE, variables);
+    },
+    sendOrderInvoice(variables) {
+      return this._makeGraphQlRequest(mutations.ORDER_INVOICE_SEND, variables);
+    },
+    createReturn(variables) {
+      return this._makeGraphQlRequest(mutations.RETURN_CREATE, variables);
+    },
+    processReturn(variables) {
+      return this._makeGraphQlRequest(mutations.RETURN_PROCESS, variables);
+    },
+    cancelFulfillment(variables) {
+      return this._makeGraphQlRequest(mutations.FULFILLMENT_CANCEL, variables);
+    },
+    cancelFulfillmentOrder(variables) {
+      return this._makeGraphQlRequest(mutations.FULFILLMENT_ORDER_CANCEL, variables);
+    },
+    holdFulfillmentOrder(variables) {
+      return this._makeGraphQlRequest(mutations.FULFILLMENT_ORDER_HOLD, variables);
+    },
     getCustomer(variables) {
       return this._makeGraphQlRequest(queries.GET_CUSTOMER, variables);
     },
@@ -538,11 +618,23 @@ export default {
     listAssignedFulfillmentOrders(variables) {
       return this._makeGraphQlRequest(queries.LIST_ASSIGNED_FULFILLMENT_ORDERS, variables);
     },
+    getFulfillment(variables) {
+      return this._makeGraphQlRequest(queries.GET_FULFILLMENT, variables);
+    },
     getFulfillmentOrder(variables) {
       return this._makeGraphQlRequest(queries.GET_FULFILLMENT_ORDER, variables);
     },
     listFulfillmentOrders(variables) {
       return this._makeGraphQlRequest(queries.LIST_FULFILLMENT_ORDERS, variables);
+    },
+    listOrderFulfillments(variables) {
+      return this._makeGraphQlRequest(queries.LIST_ORDER_FULFILLMENTS, variables);
+    },
+    createStagedUpload(variables) {
+      return this._makeGraphQlRequest(mutations.CREATE_STAGED_UPLOAD, variables);
+    },
+    runBulkMutation(variables) {
+      return this._makeGraphQlRequest(mutations.RUN_BULK_MUTATION, variables);
     },
     async *paginate({
       resourceFn, resourceKeys = [], variables = {}, max,
@@ -577,6 +669,56 @@ export default {
         results.push(item);
       }
       return results;
+    },
+    getDiscountCode(priceRuleId, discountCodeId) {
+      const shopifyClient = this.getShopifyInstance();
+      return shopifyClient.discountCode.get(priceRuleId, discountCodeId);
+    },
+    updateDiscountCode(priceRuleId, discountCodeId, params) {
+      const shopifyClient = this.getShopifyInstance();
+      return shopifyClient.discountCode.update(priceRuleId, discountCodeId, params);
+    },
+    deleteDiscountCode(priceRuleId, discountCodeId) {
+      const shopifyClient = this.getShopifyInstance();
+      return shopifyClient.discountCode.delete(priceRuleId, discountCodeId);
+    },
+    createDiscountCodesBatch(priceRuleId, codes) {
+      const shopifyClient = this.getShopifyInstance();
+      return shopifyClient.discountCodeCreationJob.create(priceRuleId, codes.map((code) => ({
+        code,
+      })));
+    },
+    async listPriceRules(params = {}) {
+      const shopifyClient = this.getShopifyInstance();
+      if (params.limit) {
+        return shopifyClient.priceRule.list(params);
+      }
+      let nextParams = {
+        ...params,
+      };
+      const allRules = [];
+      do {
+        const page = await shopifyClient.priceRule.list(nextParams);
+        allRules.push(...page);
+        nextParams = page.nextPageParameters;
+      } while (nextParams);
+      return allRules;
+    },
+    async listDiscountCodes(priceRuleId, params = {}) {
+      const shopifyClient = this.getShopifyInstance();
+      if (params.limit) {
+        return shopifyClient.discountCode.list(priceRuleId, params);
+      }
+      let nextParams = {
+        ...params,
+      };
+      const allCodes = [];
+      do {
+        const page = await shopifyClient.discountCode.list(priceRuleId, nextParams);
+        allCodes.push(...page);
+        nextParams = page.nextPageParameters;
+      } while (nextParams);
+      return allCodes;
     },
   },
 };

@@ -4,7 +4,7 @@ export default {
   key: "data_stores-update-ttl",
   name: "Update Record Expiration",
   description: "Update the expiration time for a record in your [Pipedream Data Store](https://pipedream.com/data-stores/).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

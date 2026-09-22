@@ -5,7 +5,7 @@ export default {
   key: "google_chat-list-messages",
   name: "List Messages",
   description: "Lists messages in a space that the caller is a member of, including messages from blocked members and spaces. [See the documentation](https://developers.google.com/chat/api/reference/rest/v1/spaces.messages/list)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

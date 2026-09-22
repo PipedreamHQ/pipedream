@@ -5,7 +5,7 @@ export default {
   key: "craftboxx-new-project",
   name: "New Project",
   description: "Emit new event when a new project is created in Craftboxx. [See the documentation](https://api.craftboxx.de/docs/docs.json)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/yuroti",
+  "version": "0.0.1",
+  "description": "Pipedream Yuroti Components",
+  "main": "yuroti.app.mjs",
+  "keywords": [
+    "pipedream",
+    "yuroti"
+  ],
+  "homepage": "https://pipedream.com/apps/yuroti",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

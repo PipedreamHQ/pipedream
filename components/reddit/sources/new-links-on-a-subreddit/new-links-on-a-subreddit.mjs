@@ -8,7 +8,7 @@ export default {
   key: "reddit-new-links-on-a-subreddit",
   name: "New Links on a Subreddit",
   description: "Emit new event each time a new link is added to a subreddit",
-  version: "0.1.2",
+  version: "0.1.3",
   dedupe: "unique",
   props: {
     ...common.props,

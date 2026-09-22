@@ -8,23 +8,21 @@ export default {
   },
   hooks: {
     async deploy() {
-      const { bookings } = await this.calCom.listBookings();
-      if (!(bookings?.length > 0)) {
+      const response = await this.calCom.listBookings();
+      const bookings = response?.data ?? [];
+      if (!bookings.length) {
         return;
       }
       await this.emitHistoricalEvents(bookings);
     },
     async activate() {
       const data = {
-        eventTriggers: this.eventTriggers(),
+        triggers: this.eventTriggers(),
         subscriberUrl: this.http.endpoint,
         active: true,
       };
-      const {
-        webhook, message,
-      } = await this.calCom.createWebhook(data);
-      this._setHookId(webhook.id);
-      console.log(message);
+      const response = await this.calCom.createWebhook(data);
+      this._setHookId(response?.data?.id);
     },
     async deactivate() {
       const hookId = this._getHookId();

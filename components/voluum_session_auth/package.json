@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/voluum_session_auth",
+  "version": "0.0.1",
+  "description": "Pipedream Voluum (Session Auth) Components",
+  "main": "voluum_session_auth.app.mjs",
+  "keywords": [
+    "pipedream",
+    "voluum_session_auth"
+  ],
+  "homepage": "https://pipedream.com/apps/voluum_session_auth",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,11 +1,12 @@
-import base from "../common/base.mjs";
+import base from "../common/base-webhook.mjs";
+import { createHash } from "crypto";
 
 export default {
   ...base,
   key: "shipstation-new-event",
   name: "New Event (Instant)",
   description: "Emit new event for each new webhook event received. [See docs here](https://www.shipstation.com/docs/api/webhooks/subscribe/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   methods: {
     ...base.methods,
@@ -16,12 +17,13 @@ export default {
         url: body.resource_url,
       });
 
-      const ts = new Date();
-
       this.$emit(resource, {
-        id: ts,
-        summary: `New event ${ts.getTime()} received`,
-        ts,
+        id: createHash("sha256")
+          .update(body.resource_url)
+          .digest("hex")
+          .slice(0, 64),
+        summary: `New ${body.resource_type} event`,
+        ts: Date.now(),
       });
     },
   },

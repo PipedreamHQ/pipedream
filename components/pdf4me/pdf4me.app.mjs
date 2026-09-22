@@ -9,6 +9,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to process. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.doc`)",
+      format: "file-ref",
     },
     filename: {
       type: "string",

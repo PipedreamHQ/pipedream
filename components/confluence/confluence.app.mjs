@@ -221,7 +221,7 @@ export default {
   },
   methods: {
     _baseUrl(cloudId) {
-      return `https://api.atlassian.com/ex/confluence/${cloudId}/wiki/api/v2/`;
+      return `https://api.atlassian.com/ex/confluence/${cloudId}/wiki/api/v2`;
     },
     _makeRequest(opts = {}) {
       const {

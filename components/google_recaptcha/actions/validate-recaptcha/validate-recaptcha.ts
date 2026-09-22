@@ -3,7 +3,7 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "Validate reCAPTCHA Response",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,7 +16,7 @@ export default defineAction({
     remote_ip: {
       type: "string",
       label: "Remote IP Address",
-      description: "The IP Address originating the request. This whould be the user IP where the challenge was executed on the frontend.",
+      description: "The IP Address originating the request. This would be the user IP where the challenge was executed on the frontend.",
       default: "{{steps.trigger.event.client_ip}}",
       optional: true,
     },

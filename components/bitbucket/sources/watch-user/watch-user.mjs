@@ -7,7 +7,7 @@ export default {
   name: "New Event from any Repository",
   key: "bitbucket-new-event-from-any-repository",
   description: "Emit new event when an event occurs from any repository belonging to the user. [See docs here](https://developer.atlassian.com/cloud/bitbucket/rest/api-group-repositories/#api-repositories-workspace-repo-slug-hooks-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ...common.props,
     repositoryIds: {

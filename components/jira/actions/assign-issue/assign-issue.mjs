@@ -3,9 +3,9 @@ import jira from "../../jira.app.mjs";
 export default {
   key: "jira-assign-issue",
   name: "Assign Issue",
-  version: "0.0.14",
+  version: "0.0.25",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -47,6 +47,37 @@ export default {
       },
       issueIdOrKey: this.issueIdOrKey,
     });
+
+    let browserUrl;
+    let issueKey;
+    try {
+      const [
+        baseUrl,
+        issue,
+      ] = await Promise.all([
+        this.jira.getCloudBaseUrl(this.cloudId),
+        this.jira.getIssue({
+          $,
+          cloudId: this.cloudId,
+          issueIdOrKey: this.issueIdOrKey,
+          params: {
+            fields: "key",
+          },
+        }),
+      ]);
+      issueKey = issue.key;
+      browserUrl = baseUrl && issue.key
+        ? `${baseUrl}/browse/${issue.key}`
+        : undefined;
+    } catch (e) {
+      console.log("Could not enrich response with browser URL", e.message);
+    }
+
     $.export("$summary", "Successfully assigned issue");
+    return {
+      success: true,
+      issueIdOrKey: issueKey || this.issueIdOrKey,
+      browserUrl,
+    };
   },
 };

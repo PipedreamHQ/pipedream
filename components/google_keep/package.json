@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/google_keep",
+  "version": "0.0.1",
+  "description": "Pipedream Google Keep Components",
+  "main": "google_keep.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_keep"
+  ],
+  "homepage": "https://pipedream.com/apps/google_keep",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

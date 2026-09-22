@@ -6,7 +6,7 @@ export default {
   key: "zoho_cliq-new-channel-message",
   name: "New Channel Message",
   description: "Emit new event when a new channel message is received. [See the documentation](https://www.zoho.com/cliq/help/restapi/v2/#Get_Messages)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

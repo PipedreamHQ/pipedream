@@ -4,7 +4,7 @@ export default {
   key: "sendcloud-get-return-portal-settings",
   name: "Get Return Portal Settings",
   description: "Get return portal settings for the current brand/user. [See the documentation](https://api.sendcloud.dev/docs/sendcloud-public-api/branches/v2/return-portal/operations/get-a-brand-return-portal)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,13 +5,14 @@ export default {
   key: "alttextify-submit-image",
   name: "Submit Image to Alttextify",
   description: "Upload or submit an image to Alttextify for alt text generation. [See the documentation](https://apidoc.alttextify.net/#api-Image-UploadRawImage)",
-  version: "0.0.3",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     alttextify,
     alert: {
@@ -29,6 +30,7 @@ export default {
       type: "string",
       label: "Image",
       description: "The URL of the file or path to the file saved to the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+      format: "file-ref",
     },
     lang: {
       type: "string",

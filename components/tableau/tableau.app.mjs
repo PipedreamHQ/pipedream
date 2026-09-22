@@ -129,6 +129,12 @@ export default {
         ...args,
       });
     },
+    listSites(args = {}) {
+      return this._makeRequest({
+        path: "/sites",
+        ...args,
+      });
+    },
     downloadWorkbookPdf({
       siteId, workbookId, ...args
     }) {

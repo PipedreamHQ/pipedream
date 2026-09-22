@@ -15,7 +15,7 @@ export async function prepareMediaUpload(mediaUrl, fields = {}) {
   // Extract the filename from the URL (e.g., "mypicture.jpg")
   const filename = basename(new URL(mediaUrl).pathname || "upload.jpg");
 
-  // Fetch the media as a stream and it's content type
+  // Fetch the media as a stream and its content type
   const {
     stream, contentType,
   } = await fetchStreamWithHeaders(mediaUrl);
@@ -38,7 +38,7 @@ export async function prepareMediaUpload(mediaUrl, fields = {}) {
 };
 
 /**
- * Fetches a remote media file as a readable stream, including it's content type.
+ * Fetches a remote media file as a readable stream, including its content type.
  * Sends a basic GET request while mimicking a browser to avoid blocks from some servers.*/
 function fetchStreamWithHeaders(url) {
   return new Promise((resolve, reject) => {

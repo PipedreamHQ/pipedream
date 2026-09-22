@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/layerone_docx",
+  "version": "0.0.1",
+  "description": "Pipedream LayerOne DocX Components",
+  "main": "layerone_docx.app.mjs",
+  "keywords": [
+    "pipedream",
+    "layerone_docx"
+  ],
+  "homepage": "https://pipedream.com/apps/layerone_docx",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

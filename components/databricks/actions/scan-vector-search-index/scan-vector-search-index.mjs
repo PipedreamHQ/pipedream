@@ -4,14 +4,15 @@ export default {
   key: "databricks-scan-vector-search-index",
   name: "Scan Vector Search Index",
   description:
-    "Scans a vector search index and returns entries after the given primary key. [See documentation](https://docs.databricks.com/api/workspace/vectorsearchindexes/scanindex)",
-  version: "0.0.2",
+    "Scans a vector search index and returns entries after the given primary key. [See the documentation](https://docs.databricks.com/api/workspace/vectorsearchindexes/scanindex)",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: false,
+    readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     databricks,
     endpointName: {

@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import ws from "ws";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -50,7 +51,11 @@ export default {
       }
     },
     async _client() {
-      return createClient(`https://${this.$auth.subdomain}.supabase.co`, this.$auth.service_key);
+      return createClient(`https://${this.$auth.subdomain}.supabase.co`, this.$auth.service_key, {
+        realtime: {
+          transport: ws,
+        },
+      });
     },
     retryWithExponentialBackoff(func, maxAttempts = 3, baseDelayS = 2) {
       let attempt = 0;
@@ -181,6 +186,32 @@ export default {
       const resp = await client.rpc(functionName, args);
       this.verifyForErrors(resp);
       return resp;
+    },
+    async countRows(args) {
+      const client = await this._client();
+      const {
+        table,
+        column,
+        filter,
+        value,
+      } = args;
+      const ctx = this;
+      const resp = await this.retryWithExponentialBackoff(async () => {
+        let query = client
+          .from(table)
+          .select("*", {
+            count: "exact",
+            head: true,
+          });
+        if (filter) {
+          query = ctx[filter](query, column, value);
+        }
+        return await query;
+      });
+      return {
+        count: resp.count,
+        error: resp.error,
+      };
     },
   },
 };

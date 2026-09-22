@@ -7,14 +7,15 @@ export default {
   ...common,
   key: "google_ads-send-offline-conversion",
   name: "Send Offline Conversion",
-  description: "Send an event to Google Ads to track offline conversions. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v21/ConversionAction)",
-  version: "0.0.7",
+  description: "Create a Google Ads conversion action. To record conversions against an upload-type action, use **Upload Click Conversion** or **Upload Call Conversion**. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/ConversionAction)",
+  version: "0.0.14",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     name: {
@@ -25,10 +26,10 @@ export default {
     type: {
       type: "string",
       label: "Type",
-      description: "[The type](https://developers.google.com/google-ads/api/reference/rpc/v21/ConversionActionTypeEnum.ConversionActionType) of the conversion action.",
+      description: "[The type](https://developers.google.com/google-ads/api/reference/rpc/v25/ConversionActionTypeEnum.ConversionActionType) of the conversion action.",
       options: CONVERSION_TYPE_OPTIONS,
     },
-    additionalFields: getAdditionalFields("https://developers.google.com/google-ads/api/reference/rpc/v21/ConversionAction"),
+    additionalFields: getAdditionalFields("https://developers.google.com/google-ads/api/reference/rpc/v25/ConversionAction"),
   },
   async run({ $ }) {
     const {

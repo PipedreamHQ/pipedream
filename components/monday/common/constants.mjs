@@ -136,6 +136,36 @@ const COLUMN_TYPE_OPTIONS = [
   },
 ];
 
+const STATE_OPTIONS = [
+  {
+    value: "active",
+    label: "Active",
+  },
+  {
+    value: "archived",
+    label: "Archived",
+  },
+  {
+    value: "deleted",
+    label: "Deleted",
+  },
+  {
+    value: "all",
+    label: "All",
+  },
+];
+
+const BOARDS_ORDER_BY_OPTIONS = [
+  {
+    value: "created_at",
+    label: "Created At",
+  },
+  {
+    value: "used_at",
+    label: "Used At",
+  },
+];
+
 const BOARD_TYPE = {
   BOARD: "board",
   SUB_ITEMS_BOARD: "sub_items_board",
@@ -143,6 +173,8 @@ const BOARD_TYPE = {
 
 export default {
   BOARD_KIND_OPTIONS,
+  BOARDS_ORDER_BY_OPTIONS,
   COLUMN_TYPE_OPTIONS,
   BOARD_TYPE,
+  STATE_OPTIONS,
 };

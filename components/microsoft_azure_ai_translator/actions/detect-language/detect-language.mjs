@@ -4,7 +4,7 @@ export default {
   key: "microsoft_azure_ai_translator-detect-language",
   name: "Detect Language",
   description: "Identifies the language of a piece of text. [See the documentation](https://learn.microsoft.com/en-us/azure/ai-services/translator/reference/v3-0-detect)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

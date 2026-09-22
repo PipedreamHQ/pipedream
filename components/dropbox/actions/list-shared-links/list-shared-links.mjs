@@ -4,7 +4,7 @@ export default {
   key: "dropbox-list-shared-links",
   name: "List Shared Links",
   description: "Retrieves a list of shared links for a given path. [See the documentation](https://www.dropbox.com/developers/documentation/http/documentation#sharing-list_shared_links)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

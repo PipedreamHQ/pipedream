@@ -1,5 +1,3 @@
-import salesforce from "../../salesforce_rest_api.app.mjs";
-
 export default {
   createProps: {
     Name: {
@@ -11,6 +9,7 @@ export default {
       type: "string",
       label: "File Path, URL or Content",
       description: "The file to attach. Provide either a file URL, a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`), or base64-encoded file data.",
+      format: "file-ref",
     },
     ContentType: {
       type: "string",
@@ -21,6 +20,12 @@ export default {
       type: "string",
       label: "Parent ID",
       description: "ID of the parent object of the attachment. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_attachment.htm) for supported objects.",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   updateProps: {
@@ -45,16 +50,9 @@ export default {
       optional: true,
     },
     OwnerId: {
-      propDefinition: [
-        salesforce,
-        "recordId",
-        () => ({
-          objType: "User",
-          nameField: "Name",
-        }),
-      ],
+      type: "string",
       label: "Owner ID",
-      description: "ID of the user who owns the attachment.",
+      description: "ID of the user who owns the attachment (Salesforce's 15- or 18-character record ID, e.g. `005XX000001SvR2`). Use **SOQL Query** to find the User ID.",
       optional: true,
     },
   },

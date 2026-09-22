@@ -5,7 +5,7 @@ export default {
   key: "stiply-send-sign-request",
   name: "Send Sign Request",
   description: "Send a sign request to a recipient. [See the documentation](https://app.stiply.nl/api-documentation/v2#tag/sign-requests/operation/SendSignRequest)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -72,7 +72,7 @@ export default {
     callbackUrl: {
       type: "string",
       label: "Callback URL",
-      description: "An URL to be called by Stiply when the last signer has signed the document. Please note that key={sign_request_key},external_key={external_key} and sign_request_id={sign_request_id} shall be added to the call back url querystring. The URL will be called using a GET request. When the callback responses with an error status code, the callback is retried 12 times using an exponential backoff algoritm.",
+      description: "An URL to be called by Stiply when the last signer has signed the document. Please note that key={sign_request_key},external_key={external_key} and sign_request_id={sign_request_id} shall be added to the call back url querystring. The URL will be called using a GET request. When the callback responses with an error status code, the callback is retried 12 times using an exponential backoff algorithm.",
       optional: true,
     },
   },

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/chattermill",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Chattermill Components",
   "main": "chattermill.app.mjs",
   "keywords": [

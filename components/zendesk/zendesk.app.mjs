@@ -1,5 +1,5 @@
 import {
-  axios, getFileStreamAndMetadata,
+  axios, ConfigurationError, getFileStreamAndMetadata,
 } from "@pipedream/platform";
 import path from "path";
 import constants from "./common/constants.mjs";
@@ -295,6 +295,49 @@ export default {
         };
       },
     },
+    sideConversationId: {
+      type: "string",
+      label: "Side Conversation ID",
+      description: "Identifier of the side conversation (UUID, e.g. `8566255a-ece5-11e8-857d-493066fa7b17`). Select **List Side Conversations** to see available IDs for a ticket.",
+      async options({
+        ticketId, customSubdomain, page,
+      }) {
+        if (!ticketId) {
+          return {
+            options: [],
+          };
+        }
+        const response = await this.listSideConversations({
+          ticketId,
+          customSubdomain,
+          params: {
+            page: page + 1,
+            per_page: constants.DEFAULT_LIMIT,
+          },
+        });
+        return (response?.side_conversations ?? []).map(({
+          id, subject, preview_text: previewText,
+        }) => ({
+          label: subject || previewText || `Side Conversation ${id}`,
+          value: id,
+        }));
+      },
+    },
+    sideConversationSubject: {
+      type: "string",
+      label: "Subject",
+      description: "The subject of the side conversation message.",
+    },
+    sideConversationBody: {
+      type: "string",
+      label: "Message Body",
+      description: "The plain-text body of the side conversation message.",
+    },
+    sideConversationRecipients: {
+      type: "string",
+      label: "Recipients",
+      description: "JSON array of participant objects. Use `[{\"email\":\"person@example.com\",\"name\":\"Person\"}]` for an external email recipient, `[{\"user_id\":123}]` for an existing Zendesk agent (the agent's numeric user ID, found in Zendesk under Admin Center > People > Team members), `[{\"slack_workspace_id\":\"T123\",\"slack_channel_id\":\"C456\"}]` for Slack (both IDs come from your Zendesk Slack integration settings), `[{\"support_group_id\":123,\"support_agent_id\":456}]` for a child ticket (`support_agent_id` is optional), or `[{\"msteams_channel_id\":\"19:channel-id\"}]` for Microsoft Teams (the channel ID from your Zendesk Microsoft Teams integration settings). Do not mix participant types in the same array.",
+    },
     macroId: {
       type: "string",
       label: "Macro ID",
@@ -327,6 +370,7 @@ export default {
       type: "string",
       label: "Comment body",
       description: "The body of the comment.",
+      optional: true,
     },
     ticketCommentBodyIsHTML: {
       type: "boolean",
@@ -396,6 +440,7 @@ export default {
       type: "string[]",
       label: "Attachments",
       description: "File paths or URLs to attach to the ticket. Multiple files can be attached.",
+      format: "file-ref",
       optional: true,
     },
     ticketTags: {
@@ -441,6 +486,117 @@ export default {
       label: "Assignee Email",
       description: "The email address of the agent to assign the ticket to",
       optional: true,
+    },
+    brandId: {
+      type: "string",
+      label: "Brand ID",
+      description: "The ID of the brand",
+      optional: true,
+      async options({ prevContext }) {
+        const { afterCursor } = prevContext;
+        const {
+          brands,
+          meta,
+        } = await this.listBrands({
+          params: {
+            [constants.PAGE_SIZE_PARAM]: constants.DEFAULT_LIMIT,
+            [constants.PAGE_AFTER_PARAM]: afterCursor,
+          },
+        });
+        return {
+          context: {
+            afterCursor: meta?.after_cursor,
+          },
+          options: brands.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })),
+        };
+      },
+    },
+    topicId: {
+      type: "string",
+      label: "Topic ID",
+      description: "The ID of the community topic",
+      optional: true,
+      async options({ prevContext }) {
+        const { afterCursor } = prevContext;
+        const {
+          topics,
+          meta,
+        } = await this.listTopics({
+          params: {
+            [constants.PAGE_SIZE_PARAM]: constants.DEFAULT_LIMIT,
+            [constants.PAGE_AFTER_PARAM]: afterCursor,
+          },
+        });
+        return {
+          context: {
+            afterCursor: meta?.after_cursor,
+          },
+          options: topics.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })),
+        };
+      },
+    },
+    externalSourceId: {
+      type: "string",
+      label: "External Source ID",
+      description: "The ID of the external content source",
+      optional: true,
+      async options({ prevContext }) {
+        const { afterCursor } = prevContext;
+        const {
+          sources,
+          meta,
+        } = await this.listExternalContentSources({
+          params: {
+            [constants.PAGE_SIZE_PARAM]: constants.DEFAULT_LIMIT,
+            [constants.PAGE_AFTER_PARAM]: afterCursor,
+          },
+        });
+        return {
+          context: {
+            afterCursor: meta?.after_cursor,
+          },
+          options: sources.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })),
+        };
+      },
+    },
+    labelName: {
+      type: "string",
+      label: "Label Name",
+      description: "The name of an article label",
+      optional: true,
+      async options({ prevContext }) {
+        const { afterCursor } = prevContext;
+        const {
+          labels,
+          meta,
+        } = await this.listArticleLabels({
+          params: {
+            [constants.PAGE_SIZE_PARAM]: constants.DEFAULT_LIMIT,
+            [constants.PAGE_AFTER_PARAM]: afterCursor,
+          },
+        });
+        return {
+          context: {
+            afterCursor: meta?.after_cursor,
+          },
+          options: labels.map(({ name }) => name),
+        };
+      },
     },
   },
   methods: {
@@ -573,7 +729,7 @@ export default {
       const fileBinary = await this.streamToBuffer(stream);
 
       if (!filename) {
-        filename = path.basename(filePath);
+        filename = metadata.name || path.basename(filePath);
       }
 
       return this.makeRequest({
@@ -640,6 +796,122 @@ export default {
         ...args,
       });
     },
+    listSideConversations({
+      ticketId, customSubdomain, ...args
+    }) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/side_conversations`,
+        customSubdomain,
+        ...args,
+      });
+    },
+    getSideConversation({
+      ticketId, sideConversationId, customSubdomain, ...args
+    }) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/side_conversations/${sideConversationId}`,
+        customSubdomain,
+        ...args,
+      });
+    },
+    /**
+     * Create a side conversation on a ticket.
+     *
+     * @param {object} args - Request arguments
+     * @param {string} args.ticketId - Parent ticket ID
+     * @param {string} [args.customSubdomain] - Optional Zendesk subdomain override
+     * @returns {Promise<object>} Created side conversation and event
+     */
+    createSideConversation({
+      ticketId, customSubdomain, ...args
+    }) {
+      return this.makeRequest({
+        method: "POST",
+        path: `/tickets/${ticketId}/side_conversations`,
+        customSubdomain,
+        ...args,
+      });
+    },
+    /**
+     * Update a side conversation's state or subject.
+     *
+     * @param {object} args - Request arguments
+     * @param {string} args.ticketId - Parent ticket ID
+     * @param {string} args.sideConversationId - Side conversation ID
+     * @param {string} [args.customSubdomain] - Optional Zendesk subdomain override
+     * @returns {Promise<object>} Updated side conversation
+     */
+    updateSideConversation({
+      ticketId, sideConversationId, customSubdomain, ...args
+    }) {
+      return this.makeRequest({
+        method: "PUT",
+        path: `/tickets/${ticketId}/side_conversations/${sideConversationId}`,
+        customSubdomain,
+        ...args,
+      });
+    },
+    /**
+     * Reply to a side conversation.
+     *
+     * @param {object} args - Request arguments
+     * @param {string} args.ticketId - Parent ticket ID
+     * @param {string} args.sideConversationId - Side conversation ID
+     * @param {string} [args.customSubdomain] - Optional Zendesk subdomain override
+     * @returns {Promise<object>} Updated side conversation
+     */
+    replyToSideConversation({
+      ticketId, sideConversationId, customSubdomain, ...args
+    }) {
+      return this.makeRequest({
+        method: "POST",
+        path: `/tickets/${ticketId}/side_conversations/${sideConversationId}/reply`,
+        customSubdomain,
+        ...args,
+      });
+    },
+    /**
+     * Parse and validate side conversation recipients.
+     *
+     * @param {string|object[]} value - JSON string or participant array
+     * @returns {object[]} Parsed participant array
+     */
+    parseSideConversationRecipients(value) {
+      let recipients = value;
+      if (typeof value === "string") {
+        try {
+          recipients = JSON.parse(value);
+        } catch {
+          throw new ConfigurationError("Recipients must be a valid JSON array of participant objects.");
+        }
+      }
+      if (!Array.isArray(recipients)
+        || recipients.length === 0
+        || recipients.some((recipient) => !recipient
+          || typeof recipient !== "object"
+          || Array.isArray(recipient))) {
+        throw new ConfigurationError("Recipients must be a non-empty JSON array of participant objects.");
+      }
+      return recipients;
+    },
+    listSideConversationEvents({
+      startTime, nextPageUrl, ...args
+    } = {}) {
+      if (nextPageUrl) {
+        return this.makeRequest({
+          url: nextPageUrl,
+          ...args,
+        });
+      }
+      return this.makeRequest({
+        path: "/tickets/side_conversations/events.json",
+        ...args,
+        params: {
+          ...args.params,
+          start_time: startTime,
+        },
+      });
+    },
     listUsers(args = {}) {
       return this.makeRequest({
         path: "/users",
@@ -661,6 +933,12 @@ export default {
     listActiveMacros(args = {}) {
       return this.makeRequest({
         path: "/macros/active",
+        ...args,
+      });
+    },
+    searchMacros(args = {}) {
+      return this.makeRequest({
+        path: "/macros/search",
         ...args,
       });
     },
@@ -737,6 +1015,48 @@ export default {
           locale,
           path: `/articles/${articleId}`,
         }),
+        ...args,
+      });
+    },
+    listArticleLabels(args = {}) {
+      return this.makeRequest({
+        path: "/help_center/articles/labels",
+        ...args,
+      });
+    },
+    listBrands(args = {}) {
+      return this.makeRequest({
+        path: "/brands",
+        ...args,
+      });
+    },
+    listTopics(args = {}) {
+      return this.makeRequest({
+        path: "/community/topics",
+        ...args,
+      });
+    },
+    listExternalContentSources(args = {}) {
+      return this.makeRequest({
+        path: "/guide/external_content/sources",
+        ...args,
+      });
+    },
+    searchHelpCenter(args = {}) {
+      return this.makeRequest({
+        path: "/guide/search",
+        ...args,
+      });
+    },
+    searchArticles(args = {}) {
+      return this.makeRequest({
+        path: "/help_center/articles/search",
+        ...args,
+      });
+    },
+    searchCommunityPosts(args = {}) {
+      return this.makeRequest({
+        path: "/help_center/community_posts/search",
         ...args,
       });
     },
@@ -839,6 +1159,26 @@ export default {
         data: {
           tags,
         },
+        ...args,
+      });
+    },
+    listDynamicContentItems(args = {}) {
+      return this.makeRequest({
+        path: "/dynamic_content/items",
+        ...args,
+      });
+    },
+    getDynamicContentItem({
+      itemId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/dynamic_content/items/${itemId}`,
+        ...args,
+      });
+    },
+    showManyDynamicContentItems(args = {}) {
+      return this.makeRequest({
+        path: "/dynamic_content/items/show_many",
         ...args,
       });
     },

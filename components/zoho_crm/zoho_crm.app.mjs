@@ -7,7 +7,7 @@ export default {
     module: {
       type: "string",
       label: "Module",
-      description: "Module where the record will be created",
+      description: "Module where the record will be created. Use the **List Modules** action to get the list of available modules.",
       async options() {
         const { modules = [] } = await this.listModules();
         return modules.map(({ api_name }) => api_name);
@@ -16,7 +16,7 @@ export default {
     recordId: {
       type: "string",
       label: "Record ID",
-      description: "The ID of the record",
+      description: "The ID of the record. Use the **List Objects** action to get the list of available records.",
       async options({
         module, page,
       }) {
@@ -377,6 +377,21 @@ export default {
           "Content-Type": `multipart/form-data; boundary=${data.getBoundary()}`,
         },
         data,
+      });
+    },
+    async upsertObject(moduleType, data, $, opts = {}) {
+      const { headers: extraHeaders = {} } = opts;
+      const baseConfig = this._getRequestParams({
+        method: "POST",
+        url: `${this.$auth.api_domain}/crm/v8/${moduleType}/upsert`,
+        data,
+      });
+      return axios($ ?? this, {
+        ...baseConfig,
+        headers: {
+          ...baseConfig.headers,
+          ...extraHeaders,
+        },
       });
     },
     omitEmptyStringValues(obj) {

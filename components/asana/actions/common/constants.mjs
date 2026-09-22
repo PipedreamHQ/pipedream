@@ -19,4 +19,14 @@ export default {
     "light-warm-gray",
     "light-yellow",
   ],
+  DEFAULT_PORTFOLIO_ITEM_OPT_FIELDS: [
+    "name",
+    "archived",
+    "created_at",
+    "start_on",
+    "due_on",
+    "owner",
+    "resource_type",
+    "custom_fields",
+  ],
 };

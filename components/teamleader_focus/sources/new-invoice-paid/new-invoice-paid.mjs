@@ -5,7 +5,7 @@ export default {
   key: "teamleader_focus-new-invoice-paid",
   name: "New Invoice Paid (Instant)",
   description: "Emit new event for each invoice paid. [See the documentation](https://developer.focus.teamleader.eu/docs/api/webhooks-register)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   methods: {
     ...common.methods,

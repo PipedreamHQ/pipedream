@@ -17,6 +17,7 @@ const channels = [
   "sms",
   "twitter",
   "twitter-direct-message",
+  "whatsapp",
   "yotpo-review",
 ];
 
@@ -127,9 +128,35 @@ const macroIntents = [
   "subscription/change",
 ];
 
+// `object_type` accepted by the Gorgias custom fields API
+const CUSTOM_FIELD_OBJECT_TYPE_TICKET = "Ticket";
+
+// `definition.data_type` values on a Gorgias custom field
+const CUSTOM_FIELD_DATA_TYPE_BOOLEAN = "boolean";
+const CUSTOM_FIELD_DATA_TYPE_NUMBER = "number";
+
+// `definition.input_settings.input_type` value that carries a fixed list of `choices`
+const CUSTOM_FIELD_INPUT_TYPE_DROPDOWN = "dropdown";
+
+// Max `limit` accepted by GET /api/custom-fields
+const CUSTOM_FIELDS_LIMIT_MAX = 100;
+
+// Gorgias-managed ticket fields that only Gorgias itself may write
+const UNSETTABLE_MANAGED_FIELD_TYPES = [
+  "ai_intent",
+  "ai_outcome",
+  "call_status",
+];
+
 export default {
   channels,
   vias,
   sourceTypes,
   macroIntents,
+  CUSTOM_FIELD_OBJECT_TYPE_TICKET,
+  CUSTOM_FIELD_DATA_TYPE_BOOLEAN,
+  CUSTOM_FIELD_DATA_TYPE_NUMBER,
+  CUSTOM_FIELD_INPUT_TYPE_DROPDOWN,
+  CUSTOM_FIELDS_LIMIT_MAX,
+  UNSETTABLE_MANAGED_FIELD_TYPES,
 };

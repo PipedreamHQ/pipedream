@@ -28,6 +28,15 @@ export default {
       },
       default: "gpt-5-mini",
     },
+    responsesModelId: {
+      label: "Model",
+      description: "The ID of the vision-capable model to use with the Responses API (e.g. `gpt-4o`, `gpt-4.1`, `gpt-4.1-mini`, `gpt-5`)",
+      type: "string",
+      async options() {
+        return (await this.getChatCompletionModels({})).map((model) => model.id);
+      },
+      default: "gpt-4o",
+    },
     embeddingsModelId: {
       label: "Model",
       description: "The ID of the embeddings model to use. OpenAI recommends using `text-embedding-ada-002` for nearly all use cases: \"It's better, cheaper, and simpler to use. [Read the blog post announcement](https://openai.com/blog/new-and-improved-embedding-model)\".",
@@ -262,6 +271,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to process. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`). See the [Assistants Tools guide](https://platform.openai.com/docs/assistants/tools) to learn more about the types of files supported. The Fine-tuning API only supports `.jsonl` files.",
+      format: "file-ref",
     },
     purpose: {
       type: "string",

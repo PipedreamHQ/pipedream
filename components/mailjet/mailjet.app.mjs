@@ -1,4 +1,4 @@
-import Mailjet from "node-mailjet";
+import MailjetClient from "node-mailjet";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -50,8 +50,8 @@ export default {
   },
   methods: {
     client() {
-      return new Mailjet({
-        apiKey: this.$auth.api_key,
+      return new MailjetClient({
+        apiKey: this.$auth.public_key,
         apiSecret: this.$auth.secret_key,
       });
     },

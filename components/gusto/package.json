@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/gusto",
+  "version": "0.0.1",
+  "description": "Pipedream Gusto Components",
+  "main": "gusto.app.mjs",
+  "keywords": [
+    "pipedream",
+    "gusto"
+  ],
+  "homepage": "https://pipedream.com/apps/gusto",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

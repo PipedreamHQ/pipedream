@@ -10,13 +10,14 @@ export default {
   key: "booking_experts-list-availabilities",
   name: "List Availabilities",
   description: "List availabilities of a channel you have access to. [See the documentation](https://developers.bookingexperts.com/reference/availabilities-index)",
-  version: "0.0.5",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     bookingExperts,
     info: {
@@ -467,7 +468,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const { data } = await this.bookingExperts.listAvailabilities({
+    const response = await this.bookingExperts.listAvailabilities({
       $,
       params: {
         "fields[availability]": parseObject(this.fields)?.join(","),
@@ -542,7 +543,7 @@ export default {
         "limiter[administrations][availabilities]": this.administrationsAvailabilities,
       },
     });
-    $.export("$summary", `Found ${data.length} availabilities`);
-    return data;
+    $.export("$summary", `Found ${response.data.length} availabilities`);
+    return response;
   },
 };

@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Show Or Movie Rated",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "trakt-new-show-or-movie-rated",
   description: "Emit new event on each new rated show or movie.",
   type: "source",

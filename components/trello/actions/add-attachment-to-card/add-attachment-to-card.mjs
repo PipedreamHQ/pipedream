@@ -6,13 +6,14 @@ export default {
   key: "trello-add-attachment-to-card",
   name: "Add Attachment To Card",
   description: "Adds a file attachment on a card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-attachments-post)",
-  version: "1.0.4",
+  version: "1.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     board: {
@@ -44,6 +45,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
+      format: "file-ref",
     },
     mimeType: {
       propDefinition: [

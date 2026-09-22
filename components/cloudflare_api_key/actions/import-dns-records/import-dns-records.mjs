@@ -5,13 +5,14 @@ export default {
   key: "cloudflare_api_key-import-dns-records",
   name: "Import DNS Records",
   description: "Import a BIND config into a zone. [See the documentation](https://developers.cloudflare.com/api/resources/dns/subresources/records/methods/import/)",
-  version: "1.0.2",
+  version: "1.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     cloudflare,
     zoneIdentifier: {
@@ -30,6 +31,7 @@ export default {
       type: "string",
       label: "File Path Or Url",
       description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/bind_config.txt`).",
+      format: "file-ref",
     },
     syncDir: {
       type: "dir",

@@ -1,4 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
+import constants from "./constants.mjs";
 
 const parseJson = (input) => {
   const parse = (value) => {
@@ -50,8 +51,30 @@ function arrayToCommaSeparatedList(array, char = ",") {
   return parseArray(array)?.join(char);
 }
 
+function findChannelReportType(channelReportType) {
+  return Object.values(constants.CHANNEL_REPORT_TYPE)
+    .find(({ value }) => value === channelReportType);
+}
+
+function getChannelReportTypeOrThrow(channelReportType) {
+  const reportType = findChannelReportType(channelReportType);
+
+  if (!reportType) {
+    const supported = Object.values(constants.CHANNEL_REPORT_TYPE)
+      .map(({ value }) => value)
+      .join(", ");
+    throw new ConfigurationError(
+      `Invalid **Channel Report Type**: \`${channelReportType}\`. Supported values: ${supported}.`,
+    );
+  }
+
+  return reportType;
+}
+
 export default {
   parseJson,
   parseArray,
   arrayToCommaSeparatedList,
+  findChannelReportType,
+  getChannelReportTypeOrThrow,
 };

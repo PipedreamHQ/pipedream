@@ -1,42 +1,18 @@
 export default {
-  "engagement": {
-    "id": 54890657094,
-    "portalId": 6890009,
-    "active": true,
-    "createdAt": 1719006221998,
-    "lastUpdated": 1719006222686,
-    "createdBy": 9555737,
-    "modifiedBy": 9555737,
-    "ownerId": 41488296,
-    "type": "TASK",
-    "timestamp": 1719403200000,
-    "allAccessibleTeamIds": [],
-    "queueMembershipIds": [],
-    "bodyPreviewIsTruncated": false
+  "id": "372824111803",
+  "properties": {
+    "hs_createdate": "2026-06-01T06:36:42.831Z",
+    "hs_lastmodifieddate": "2026-06-01T06:36:42.831Z",
+    "hs_object_id": "372824111803",
+    "hs_task_subject": "Follow up with Brian",
+    "hs_task_body": "Discuss the cupcake supplier proposal.",
+    "hs_task_status": "NOT_STARTED",
+    "hs_task_priority": "NONE",
+    "hs_timestamp": "2026-06-01T06:36:42.831Z",
+    "hubspot_owner_id": "41488296"
   },
-  "associations": {
-    "contactIds": [],
-    "companyIds": [],
-    "dealIds": [],
-    "ownerIds": [],
-    "workflowIds": [],
-    "ticketIds": [],
-    "contentIds": [],
-    "quoteIds": [],
-    "marketingEventIds": [],
-    "partnerClientIds": []
-  },
-  "attachments": [],
-  "scheduledTasks": [],
-  "metadata": {
-    "body": "<div style=\"\" dir=\"auto\" data-top-level=\"true\"><br></div>",
-    "status": "NOT_STARTED",
-    "forObjectType": "OWNER",
-    "subject": "task",
-    "taskType": "TODO",
-    "reminders": [],
-    "sendDefaultReminder": false,
-    "priority": "NONE",
-    "isAllDay": false
-  }
+  "createdAt": "2026-06-01T06:36:42.831Z",
+  "updatedAt": "2026-06-01T06:36:42.831Z",
+  "archived": false,
+  "objectType": "tasks"
 }

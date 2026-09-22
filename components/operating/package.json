@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/operating",
+  "version": "0.0.1",
+  "description": "Pipedream Operating Components",
+  "main": "operating.app.mjs",
+  "keywords": [
+    "pipedream",
+    "operating"
+  ],
+  "homepage": "https://pipedream.com/apps/operating",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

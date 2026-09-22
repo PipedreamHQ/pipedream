@@ -6,6 +6,13 @@ export default {
   type: "app",
   app: "billbee",
   propDefinitions: {
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "The page of results to retrieve, zero-based.",
+      min: 0,
+      default: 0,
+    },
     orderId: {
       type: "string",
       label: "Order ID",

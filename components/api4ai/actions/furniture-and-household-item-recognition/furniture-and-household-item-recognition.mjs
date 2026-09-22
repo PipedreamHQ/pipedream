@@ -5,7 +5,7 @@ export default {
   name: "Furniture & Household Item Recognition",
   description: "This API provides identification of furniture & household items with advanced intelligent detection, categorization, and counting technologies. Powered by API4AI.",
   key: "api4ai-furniture-and-household-item-recognition",
-  version: "0.0.3",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -24,6 +24,12 @@ export default {
         app,
         "image",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

@@ -4,6 +4,13 @@ export default {
   type: "app",
   app: "help_scout",
   propDefinitions: {
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "The page of results to retrieve, zero-based.",
+      min: 0,
+      default: 0,
+    },
     agentId: {
       type: "string",
       label: "Agent ID",

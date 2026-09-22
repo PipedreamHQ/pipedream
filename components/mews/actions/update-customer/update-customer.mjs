@@ -6,7 +6,7 @@ export default {
   name: "Update Customer",
   description: "Update an existing customer in Mews. [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/customers#update-customer)",
   key: "mews-update-customer",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

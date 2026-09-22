@@ -5,7 +5,7 @@ export default {
   key: "akeneo-search-products",
   name: "Search Products",
   description: "Search products from Akeneo. [See the documentation](https://api.akeneo.com/api-reference.html#get_products)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

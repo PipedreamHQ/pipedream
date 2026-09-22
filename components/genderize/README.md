@@ -4,8 +4,19 @@ The Genderize API lets you predict the gender of a name. With Pipedream, you can
 
 # Example Use Cases
 
-- **Automated User Greeting Customization in Emails**: Tailor email marketing campaigns by customizing greetings based on the predicted gender of the recipient’s name. Using Pipedream to connect Genderize with an email platform like SendGrid can automate this process. When a new subscriber is added, deduce their gender, and send a personalized welcome email that resonates more with the recipient.
+- **Gender Diversity Research**: Run names from a public dataset — conference speaker lists, paper authors, hiring rosters — through Genderize to estimate gender distribution at the cohort level. Useful for diversity audits, academic representation studies, and reporting on fields where self-reported data isn't available.
 
-- **Enhanced CRM Data by Gender for Targeted Advertising**: Improve CRM databases by appending gender data to user profiles. Integrate Genderize with Salesforce via Pipedream workflows. Automatically fetch names from new or updated CRM entries, determine the gender, and append this information back to each customer profile. This enriched data aids in segmenting contacts for more targeted, gender-specific marketing campaigns.
+- **Customer Cohort Analytics**: Batch your customer or subscriber list through Genderize and push aggregate gender splits to BigQuery, Snowflake, or your warehouse of choice. Build dashboards that show which products, channels, or campaigns skew which way at the population level.
 
-- **User Signup Form Enhancement for Gender Prediction**: Streamline user experience on signup forms by using the Genderize API to predict and auto-fill the gender field as a user types their name. This can be particularly useful in applications where gender data improves user interaction but where explicitly asking it might deter signups. Use Pipedream to connect the Genderize API directly to your web form's backend, enhancing it without altering the frontend design.
+- **CRM Aggregate Reporting**: When new records land in Salesforce or HubSpot, route a copy through Genderize on a schedule and roll the results up into group-level summaries — gender splits by segment, channel, or product line — for executive reports.
+
+# Getting Started
+
+Sign up for a [Genderize API key](https://genderize.io) and paste it into Pipedream when connecting the account. The same key also works with [Agify](https://pipedream.com/apps/agify) and [Nationalize](https://pipedream.com/apps/nationalize). Free tier: 2,500 names/month.
+
+# Troubleshooting
+
+- **`401 Unauthorized`**: the API key is missing, mistyped, or has been revoked. Reconnect the account in Pipedream.
+- **`gender` is `null`**: the name wasn't found in Genderize's dataset. This is expected for very rare names — handle it gracefully in downstream steps.
+- **`429 Too Many Requests`**: you've hit the monthly request limit. Upgrade the Genderize plan, or throttle the workflow.
+- **Batch action returns fewer results than names submitted**: requests are capped at 10 names; if you need more, split into chunks.

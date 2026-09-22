@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 
@@ -7,69 +8,28 @@ export default {
   propDefinitions: {
     organization: {
       type: "string",
-      label: "Organization UUID",
-      description: "An organization UUID",
-      async options({ prevContext }) {
-        return await this._makeAsyncOptionsRequest({
-          prevContext,
-          requestType: "getUserOrganizations",
-          optionsCallbackFn: this._getOrganizationOptions,
-        });
-      },
+      label: "Organization URI",
+      description: "Organization URI (e.g. `https://api.calendly.com/organizations/AAAAAAAAAAAAAAAA`). Run **List Organization Memberships** to find valid organization URIs.",
     },
     user: {
       type: "string",
-      label: "User UUID",
-      description: "An user UUID",
-      async options({
-        prevContext, organization,
-      }) {
-        prevContext.organization = organization;
-        return await this._makeAsyncOptionsRequest({
-          prevContext,
-          requestType: "listOrganizationMembers",
-          optionsCallbackFn: this._getUserOptions,
-        });
-      },
+      label: "User URI",
+      description: "User URI (e.g. `https://api.calendly.com/users/AAAAAAAAAAAAAAAA`). Run **List Organization Memberships** to find valid user URIs.",
     },
     eventId: {
       type: "string",
-      label: "Event ID",
-      description: "An event UUID",
-      async options({ prevContext }) {
-        return await this._makeAsyncOptionsRequest({
-          prevContext,
-          requestType: "listEvents",
-          optionsCallbackFn: this._getNameOptions,
-        });
-      },
+      label: "Event UUID",
+      description: "The UUID of the scheduled event. Run **List Events** first to obtain event UUIDs.",
     },
     eventType: {
       type: "string",
-      label: "Event Type",
-      description: "An event type UUID",
-      async options({ prevContext }) {
-        return await this._makeAsyncOptionsRequest({
-          prevContext,
-          requestType: "listEventTypes",
-          optionsCallbackFn: this._getNameOptions,
-        });
-      },
+      label: "Event Type UUID",
+      description: "The UUID of the event type. Run **List Event Types** first to obtain event type UUIDs.",
     },
     groupId: {
       type: "string",
-      label: "Group ID",
-      description: "A group UUID",
-      async options({
-        prevContext, organization,
-      }) {
-        prevContext.organization = organization;
-        return await this._makeAsyncOptionsRequest({
-          prevContext,
-          requestType: "listGroups",
-          optionsCallbackFn: this._getNameOptions,
-        });
-      },
+      label: "Group UUID",
+      description: "The UUID of the group. Run **List Groups** first to obtain group UUIDs.",
     },
     inviteeEmail: {
       type: "string",
@@ -99,8 +59,10 @@ export default {
     maxResults: {
       type: "integer",
       label: "Max Results",
-      description: "The number of rows to return",
+      description: "Maximum number of results to return (min 1, max 1000).",
       optional: true,
+      min: 1,
+      max: 1000,
     },
     scope: {
       type: "string",
@@ -240,6 +202,12 @@ export default {
         throw new Error(`${error.response.data.title} - ${error.response.data.message}`);
       }
     },
+    async _makeSingleRequest(opts, $) {
+      return axios(
+        $ ?? this,
+        this._makeRequestOpts(opts),
+      );
+    },
     async getUserInfo(user, $) {
       const opts = {
         path: `/users/${user || "me"}`,
@@ -271,15 +239,9 @@ export default {
         params,
       };
 
-      return axios(
-        $ ?? this,
-        this._makeRequestOpts(opts),
-      );
+      return this._makeRequest(opts, $);
     },
-    async listEvents(params, uuid, $) {
-      if (uuid) {
-        params.user = this._buildUserUri(uuid);
-      }
+    async listEvents(params, $) {
       if (params.group) {
         params.group = this._buildGroupUri(params.group);
       }
@@ -326,13 +288,22 @@ export default {
 
       return this._makeRequest(opts, $);
     },
+    async getInvitee(eventUuid, inviteeUuid, $) {
+      return this._makeSingleRequest({
+        path: `/scheduled_events/${eventUuid}/invitees/${inviteeUuid}`,
+      }, $);
+    },
+    async cancelEvent(eventUuid, data, $) {
+      return this._makeSingleRequest({
+        method: "POST",
+        path: `/scheduled_events/${eventUuid}/cancellation`,
+        data,
+      }, $);
+    },
     async listEventTypes(params, $) {
       const opts = {
         path: "/event_types",
-        params: {
-          user: await this.defaultUser($),
-          ...params,
-        },
+        params,
       };
 
       return this._makeRequest(opts, $);
@@ -340,6 +311,14 @@ export default {
     async listGroups(params, $) {
       const opts = {
         path: "/groups",
+        params,
+      };
+
+      return this._makeRequest(opts, $);
+    },
+    async listWebhookSubscriptions(params, $) {
+      const opts = {
+        path: "/webhook_subscriptions",
         params,
       };
 

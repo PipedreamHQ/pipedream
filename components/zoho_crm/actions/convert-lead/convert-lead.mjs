@@ -4,7 +4,7 @@ export default {
   key: "zoho_crm-convert-lead",
   name: "Convert Lead",
   description: "Converts a Lead into a Contact or an Account. [See the documentation](https://www.zoho.com/crm/developer/docs/api/v2/convert-lead.html)",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

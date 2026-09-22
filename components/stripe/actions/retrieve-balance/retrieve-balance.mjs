@@ -4,7 +4,7 @@ export default {
   key: "stripe-retrieve-balance",
   name: "Retrieve the Current Balance",
   type: "action",
-  version: "0.1.4",
+  version: "0.1.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -11,14 +11,19 @@ export const docsInfo = {
 export default {
   key: "salesforce_rest_api-sosl-search",
   name: "SOSL Search (Object Search)",
-  description: `Executes a [Salesforce Object Search Language (SOSL)](${docsLink}) text-based search query.`,
-  version: "0.2.11",
+  description: "Run a SOSL text search with guided prompts."
+    + " Prefer **Text Search** for agent and API use - it takes a plain keyword and searches several object types at once."
+    + " SOSL matches indexed text fields, so it finds partial words but will not filter on numeric or date criteria."
+    + " "
+    + `[See the documentation](${docsLink})`,
+  version: "0.2.15",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     salesforce,
     docsInfo,

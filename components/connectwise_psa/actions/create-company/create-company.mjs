@@ -4,7 +4,7 @@ export default {
   key: "connectwise_psa-create-company",
   name: "Create Company",
   description: "Creates a new company in Connectwise. [See the documentation](https://developer.connectwise.com/Products/ConnectWise_PSA/REST#/Companies/postCompanyCompanies)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

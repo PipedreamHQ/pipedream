@@ -48,7 +48,7 @@ export const MODE_OPTIONS = [
     value: "finalized",
   },
   {
-    label: "Finalized invoices will be created and autimatically sent to the client at each new occurrence",
+    label: "Finalized invoices will be created and automatically sent to the client at each new occurrence",
     value: "email",
   },
 ];

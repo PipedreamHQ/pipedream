@@ -5,7 +5,7 @@ export default {
   key: "onlyoffice_docspace-upload-file",
   name: "Upload File",
   description: "Uploads a file to the specified room. [See the documentation](https://api.onlyoffice.com/docspace/api-backend/usage-api/upload-file/)",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -26,6 +26,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+      format: "file-ref",
     },
     syncDir: {
       type: "dir",

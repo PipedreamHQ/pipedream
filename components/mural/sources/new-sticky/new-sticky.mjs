@@ -5,7 +5,7 @@ export default {
   key: "mural-new-sticky",
   name: "New Sticky Note Created",
   description: "Emit new event each time a new sticky note is created in a specified mural",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

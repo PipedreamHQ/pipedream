@@ -1,11 +1,11 @@
-import lusha from "../../lusha.app.mjs";
 import { parseObject } from "../../common/utils.mjs";
+import lusha from "../../lusha.app.mjs";
 
 export default {
   key: "lusha-search-and-enrich-contacts",
   name: "Search and Enrich Contacts",
   description: "Search for contacts and enrich them. [See the documentation](https://docs.lusha.com/apis/openapi/contact-search-and-enrich)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

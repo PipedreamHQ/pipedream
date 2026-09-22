@@ -1,0 +1,16 @@
+export default {
+  file_id: "file-550e8400-e29b-41d4-a716-446655440000",
+  storage_url: "https://renderio.dev/api/media/outputs/abc123/video.mp4",
+  status: "STORED",
+  rendi_store_type: "OUTPUT",
+  is_deleted: false,
+  original_file_url: null,
+  size_mbytes: 1,
+  duration: 30,
+  file_type: "video",
+  file_format: "mp4",
+  mime_type: "video/mp4",
+  width: 1920,
+  height: 1080,
+  created_at: "2025-01-01T00:00:00.000Z",
+};

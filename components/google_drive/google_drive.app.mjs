@@ -32,9 +32,8 @@ export default {
     watchedDrive: {
       type: "string",
       label: "Drive",
-      description: "Defaults to `My Drive`. To select a [Shared Drive](https://support.google.com/a/users/answer/9310351) instead, select it from this list.",
+      description: "Select a specific drive to search. Defaults to **All Drives** (My Drive and all Shared Drives you have access to) when no selection is made. To limit to your personal drive or a [Shared Drive](https://support.google.com/a/users/answer/9310351), select it from this list.",
       optional: true,
-      default: MY_DRIVE_VALUE,
       async options({ prevContext }) {
         const { nextPageToken } = prevContext;
         return this._listDriveOptions(nextPageToken);
@@ -157,10 +156,20 @@ export default {
       optional: true,
       default: false,
     },
+    changesPageSize: {
+      type: "integer",
+      label: "Changes Page Size",
+      description: "Maximum number of changes to fetch per API call (1-1000). Lower values reduce memory usage and the risk of execution timeouts or out-of-memory errors on active drives.",
+      min: 1,
+      max: 1000,
+      default: 100,
+      optional: true,
+    },
     filePath: {
       type: "string",
       label: "File Path or URL",
       description: "The file content to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+      format: "file-ref",
     },
     fileName: {
       type: "string",
@@ -337,6 +346,38 @@ export default {
         };
       },
     },
+    permissionId: {
+      type: "string",
+      label: "Permission ID",
+      description: "The ID of the permission",
+      async options({
+        fileId, prevContext,
+      }) {
+        const { pageToken } = prevContext;
+        const {
+          permissions, nextPageToken,
+        } = await this.listPermissions(
+          pageToken,
+          fileId,
+        );
+
+        return {
+          options: permissions
+            ?.filter(({ role }) => role !== "owner")
+            .map(({
+              id, type, role, emailAddress,
+            }) => ({
+              label: `${type} - ${role}${emailAddress
+                ? ` - ${emailAddress}`
+                : ""}`,
+              value: id,
+            })) || [],
+          context: {
+            pageToken: nextPageToken,
+          },
+        };
+      },
+    },
   },
   methods: {
     // Static methods
@@ -389,14 +430,16 @@ export default {
      * returned by this same method.
      * @param {string} [driveId]  - the shared drive from which changes are
      * returned
+     * @param {number} [pageSize=1000] - the maximum number of changes to return
+     * per page
      * @yields
      * @type {ChangesPage}
      */
-    async *listChanges(pageToken, driveId) {
+    async *listChanges(pageToken, driveId, pageSize = 1000) {
       const drive = this.drive();
       let changeRequest = {
         pageToken,
-        pageSize: 1000,
+        pageSize,
       };
 
       // As with many of the methods for Google Drive, we must
@@ -1456,6 +1499,26 @@ export default {
             domain,
             emailAddress,
           }),
+        })
+      ).data;
+    },
+    async deletePermission(opts = {}) {
+      const drive = this.drive();
+      return (
+        await drive.permissions.delete({
+          supportsAllDrives: true,
+          ...opts,
+        })
+      ).data;
+    },
+    async listPermissions(pageToken, fileId) {
+      const drive = this.drive();
+      return (
+        await drive.permissions.list({
+          supportsAllDrives: true,
+          fields: "permissions(id,type,role,emailAddress),nextPageToken",
+          pageToken,
+          fileId,
         })
       ).data;
     },

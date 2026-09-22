@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/godial",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "Pipedream GoDial Components",
-  "main": "app/godial.app.mjs",
+  "main": "godial.app.mjs",
   "keywords": [
     "pipedream",
     "godial"

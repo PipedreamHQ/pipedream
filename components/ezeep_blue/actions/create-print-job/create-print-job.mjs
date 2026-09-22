@@ -7,7 +7,7 @@ export default {
   key: "ezeep_blue-create-print-job",
   name: "Create Print Job",
   description: "Send a new print job to a specified printer.",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -26,6 +26,7 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "Provide either a file URL or a path to a file in the `/tmp` directory.",
+      format: "file-ref",
     },
     type: {
       type: "string",
