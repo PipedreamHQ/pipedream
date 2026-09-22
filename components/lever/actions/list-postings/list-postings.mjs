@@ -10,8 +10,9 @@ export default {
     + " Returns one page (up to `limit`); if the response's `hasNext` is true, pass its `next` value to `offset` to fetch the following page."
     + " Example: to find published engineering roles, call with team=\"Engineering\", state=\"published\" → returns postings each with id, name, state, team, and location."
     + " [See the documentation](https://hire.lever.co/developer/documentation#list-all-postings)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import wrike from "../../wrike.app.mjs";
 import { parseJson } from "../../common/utils.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "wrike-create-folder",
   name: "Create Folder",
   description: "Create a folder (or a project, by supplying the optional project object) under a parent folder via POST /folders/{folderId}/folders. Supplying the 'project' prop switches creation into project mode; there is no separate create-project action. Use **List Folder ID Options** or **List Space ID Options** to obtain a parent folder ID. [See the documentation](https://developers.wrike.com/reference/postfolderssinglefolders)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

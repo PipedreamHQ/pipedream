@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import elasticCloud from "../../elastic_cloud.app.mjs";
 
 export default {
   key: "elastic_cloud-create-deployment",
   name: "Create Deployment",
   description: "Create a new Elastic Cloud deployment. Requires a name, region, and version at minimum. Provide the `resources` JSON object to configure Elasticsearch/Kibana/APM topology; omit it to accept region defaults. [See the documentation](https://www.elastic.co/docs/api/doc/cloud/operation/operation-create-deployment)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   props: {
     elasticCloud,
     name: {

@@ -9,8 +9,9 @@ export default {
     + " Use **List Escalation Policies** to find a valid escalation policy ID (required)."
     + " Set `autoResolveTimeout` to `0` to disable auto-resolve. Set `acknowledgementTimeout` to `0` to disable re-triggering after acknowledgment."
     + " [See the documentation](https://developer.pagerduty.com/api-reference/7062f2631b397-create-a-service)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

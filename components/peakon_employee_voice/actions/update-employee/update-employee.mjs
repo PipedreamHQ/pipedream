@@ -12,8 +12,9 @@ export default {
     + "as a JSON object — e.g. `{\"Department\": \"Engineering\"}`. "
     + "Enum attribute values are accepted as plain strings; Peakon resolves option IDs internally. "
     + "[See the Peakon API documentation](https://developer.peakon.com/reference/patch_employees-employeeid)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

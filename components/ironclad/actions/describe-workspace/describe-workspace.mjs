@@ -1,17 +1,17 @@
-// x-pd-ai: optimized
 import ironclad from "../../ironclad.app.mjs";
 
 export default {
   key: "ironclad-describe-workspace",
   name: "Describe Workspace",
   description: "Orients you to this Ironclad workspace: returns every configured record type and property (with its type), plus the first page of launchable workflow templates. This is the primary orienting call — run it first for any question about what record types, properties, or workflow templates exist in the workspace, before **List Type Options** / **List Properties Options** / **List Template ID Options** (those three exist only to resolve one value while configuring another tool's prop, not for general discovery — using them for discovery skips the bundled context this tool provides). Takes no parameters. If `workflowTemplates` looks capped at a page boundary, run **List Template ID Options** with an incremented `page` for the rest. Example return: `{\"recordTypes\": {\"vendor_agreement\": \"Vendor Agreement\"}, \"properties\": {\"contractValue\": \"monetary_amount\", \"counterpartyName\": \"string\"}, \"workflowTemplates\": [{\"id\": \"tmpl_abc123\", \"name\": \"NDA Template\"}]}`. [See the documentation](https://developer.ironcladapp.com/reference/retrieve-records-metadata)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ironclad,
   },

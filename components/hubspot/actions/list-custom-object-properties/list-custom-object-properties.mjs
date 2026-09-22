@@ -11,8 +11,9 @@ export default {
     + " Standard object types (contacts, companies, deals, tickets) are not supported here —"
     + " use **Get Properties** or **Search Properties** for those."
     + " [See the documentation](https://developers.hubspot.com/docs/api-reference/latest/crm/properties/get-properties)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

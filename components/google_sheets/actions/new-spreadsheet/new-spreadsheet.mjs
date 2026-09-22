@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import googleSheets from "../../google_sheets.app.mjs";
 
 export default {
@@ -10,8 +9,9 @@ export default {
     + " Returns the spreadsheet ID and URL."
     + " Use the spreadsheet ID with other tools to read/write"
     + " data.",
-  version: "0.0.16",
+  version: "0.0.17",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

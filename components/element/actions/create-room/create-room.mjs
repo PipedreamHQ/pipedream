@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import element from "../../element.app.mjs";
 
 export default {
   key: "element-create-room",
   name: "Create Room",
   description: "Create a new room, optionally inviting other users to it right away. Returns the new room's ID, which can be passed into **Send Message** or **Invite User**. Set `Room Alias Name` to give the room a memorable local alias (e.g. `thepub` becomes `#thepub:matrix.org` on matrix.org). If you omit `Preset`, `Visibility` also picks join rules — `public` creates an openly-joinable room. [See the documentation](https://spec.matrix.org/latest/client-server-api/#post_matrixclientv3createroom)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

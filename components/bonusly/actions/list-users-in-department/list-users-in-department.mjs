@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import bonusly from "../../bonusly.app.mjs";
 
 export default {
   key: "bonusly-list-users-in-department",
   name: "List Users In Department",
   description: "List the users in the authenticated caller's company who belong to a specific department. Use this to enumerate a department's roster - unlike **Search Users**, no search term is required, so it returns every member of the department. [See the documentation](https://docs.bonus.ly/reference/listusersindepartment)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

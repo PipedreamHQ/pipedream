@@ -13,8 +13,9 @@ export default {
     + " `work_visa` is `true` if the employee requires a work visa."
     + " `team_id` and `legal_entity_id` are required — retrieve from your Deel organization settings."
     + " [See the documentation](https://developer.deel.com/api/reference/endpoints/eor-hiring/get-benefits)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

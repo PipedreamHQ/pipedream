@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import ramp from "../../ramp_sandbox.app.mjs";
 import createLocation from "@pipedream/ramp/actions/create-location/create-location.mjs";
 
@@ -7,13 +6,14 @@ export default {
   key: "ramp_sandbox-create-location",
   name: "Create Location",
   description: "Create a new Ramp Sandbox location (e.g. `New York HQ`). Use this to add a site before assigning users to it; the returned `id` can be passed to **Update User** or used to filter **List Transactions** / **List Users**. Associating an entity is optional — set the Entity ID only for multi-entity businesses that scope locations to a specific legal entity. [See the documentation](https://docs.ramp.com/developer-api/v1/api/locations#post-developer-v1-locations)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ramp,
     name: {

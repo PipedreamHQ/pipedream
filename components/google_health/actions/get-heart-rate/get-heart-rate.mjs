@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../google_health.app.mjs";
 import { ROLLUP_WINDOWS } from "../../common/constants.mjs";
@@ -23,8 +22,9 @@ export default {
   key: "google_health-get-heart-rate",
   name: "Get Heart Rate",
   description: "Get the user's heart rate aggregated into time windows, plus their daily resting heart rate. Each window reports average, minimum, and maximum BPM; pick the window size with `granularity`. The range is inclusive and capped at **14 days**, because the windows are server-aggregated. Example: startDate=\"2026-08-24\", granularity=\"900s\" → 96 fifteen-minute windows as `{ startTime, endTime, avgBpm, minBpm, maxBpm }`, plus `restingHeartRate: [{ date, bpm }]` and an overall `summary`. Use granularity=\"86400s\" for one figure per day. Resting heart rate comes back from this tool too — there is no separate resting-HR tool. For active zone minutes, which are heart-rate derived but reported as activity, use **Get Daily Activity Summary**. [See the documentation](https://developers.google.com/health/reference/rest/v4/users.dataTypes.dataPoints/rollUp)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../box.app.mjs";
 import fs from "fs";
 import stream from "stream";
@@ -8,13 +7,14 @@ export default {
   name: "Download File",
   description: "Downloads a file from Box to your workflow's `/tmp` directory and returns the saved file path. Use **Get File Metadata** to check the file's name and size first, or **Get File Text** to extract text content without downloading. [See the documentation](https://developer.box.com/reference/get-files-id-content/)",
   key: "box-download-file",
-  version: "0.0.11",
+  version: "0.0.12",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     folderId: {

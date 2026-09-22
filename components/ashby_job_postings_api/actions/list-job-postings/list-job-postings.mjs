@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../ashby_job_postings_api.app.mjs";
 import constants from "../../common/constants.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "ashby_job_postings_api-list-job-postings",
   name: "List Job Postings",
   description: "Lists every published job posting on the Ashby job board configured for the connected account. Use this to browse open roles, or to filter by department, team, location, workplace type, or employment type before drilling into one posting with **Get Job Posting**. The public Job Board API exposes a single non-paginated endpoint that returns all postings, so every filter here is applied client-side after the full list is fetched. [See the documentation](https://developers.ashbyhq.com/docs/public-job-posting-api)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

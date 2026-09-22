@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import common from "../common/worksheet.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import { parseArray } from "../../common/utils.mjs";
@@ -11,13 +10,14 @@ export default {
   key: "google_sheets-update-row",
   name: "Update Row",
   description: "Overwrite cells in an existing row of a Google Sheet. Provide `row` (the 1-based row number — use **Find Rows** or **Read Rows** to get it from a row's `_rowNumber`) and `myColumnData`, a positional array of values starting at column A (e.g. `[\"Alice\",\"alice@ingen.test\",\"Engineering\"]`). Values are written left-to-right from column A, so include the current value of every column up to the one you're changing (read them first via **Get Spreadsheet Info** / **Read Rows**); columns after your last value are left unchanged, not cleared. To add a new row instead of overwriting one, use **Add Single Row**. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     googleSheets,
     drive: {

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import arlo from "../../arlo.app.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "arlo-create-event",
   name: "Create Event",
   description: "Create a new scheduled Arlo Event by submitting an event import request. Provide the parent template `Code` (not its numeric ID) and one or more sessions. The Arlo API processes this asynchronously and returns an `AsyncTaskID`; the created event starts in `Draft` status. Run **List Event Templates** to find the template `Code`. Example: call with `templateCode: \"SP1\"`, `sessions: '[{\"Name\":\"Day 1\",\"StartDateTime\":\"2026-09-15T09:00:00+12:00\",\"EndDateTime\":\"2026-09-15T17:00:00+12:00\"}]'` to schedule one session under that template. [See the documentation](https://developer.arlo.co/doc/api/2012-02-01/auth/resources/eventimportrequests#submitting).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

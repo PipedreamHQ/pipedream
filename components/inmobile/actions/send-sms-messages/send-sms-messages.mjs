@@ -5,8 +5,9 @@ export default {
   key: "inmobile-send-sms-messages",
   name: "Send SMS Messages",
   description: "Send one or more SMS messages using the InMobile API. [See the documentation](https://www.inmobile.com/docs/rest-api)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: true,

@@ -5,13 +5,14 @@ export default {
   key: "msg91-send-sms",
   name: "Send SMS",
   description: "Send SMS messages to one or multiple recipients. [See the documentation](https://docs.msg91.com/sms/send-sms)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     templateId: {

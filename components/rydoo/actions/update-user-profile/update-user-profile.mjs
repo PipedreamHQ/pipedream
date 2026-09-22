@@ -4,8 +4,9 @@ export default {
   key: "rydoo-update-user-profile",
   name: "Update User Profile",
   description: "Modifies existing user details like names, nationality, or status. [See the documentation](https://developers.rydoo.com/reference/v2userupdateuser)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import {
   DEFAULT_COMPANY_PROPERTIES,
@@ -19,13 +18,14 @@ export default {
   name: "Search CRM",
   description:
     "Search a CRM object type by a single property. Set **Object Type**, **Search Property** (internal name, e.g. `email` or `dealname`; use **Get Properties** / **Search Properties** to find valid names), and **Search Value**. With **Exact Match** off, partial (substring) matches are returned. Results are capped per call — if `paging.next` is present in the response, call again with **Offset** advanced to fetch the next page. Example: Object Type `deal`, Search Property `dealname`, Search Value `InGen Annual Contract`. Returns matching records plus paging. For lookups, keep results small with **Limit** and **Fields** (return only the properties you need). [See the documentation](https://developers.hubspot.com/docs/api/crm/search)",
-  version: "2.0.0",
+  version: "2.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     hubspot,
     objectType: {

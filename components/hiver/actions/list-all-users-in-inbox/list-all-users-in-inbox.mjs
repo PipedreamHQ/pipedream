@@ -4,8 +4,9 @@ export default {
   key: "hiver-list-all-users-in-inbox",
   name: "List All Users In Inbox",
   description: "Get all users associated with a Hiver inbox. [See the documentation](https://developer.hiverhq.com/hiver-api/inbox/get-all-users-in-the-inbox)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

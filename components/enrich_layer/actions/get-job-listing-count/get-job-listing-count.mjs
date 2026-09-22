@@ -4,8 +4,9 @@ export default {
   key: "enrich_layer-get-job-listing-count",
   name: "Get Job Listing Count",
   description: "Count the number of jobs posted by a company on professional networks. Cost: 2 credits per successful request. [See the documentation](https://enrichlayer.com/docs/api/v2/jobs-api/jobs-listing-count).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

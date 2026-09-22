@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import bonusly from "../../bonusly.app.mjs";
 
 export default {
   key: "bonusly-list-top-level-users",
   name: "List Top-Level Users",
   description: "List the users in the authenticated caller's company who have no manager - the roots of the org chart, typically executives. Use this to answer who sits at the top of the company, or as a starting point when you have no other identifier to work from. Takes no required input. [See the documentation](https://docs.bonus.ly/reference/listtoplevelusers)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

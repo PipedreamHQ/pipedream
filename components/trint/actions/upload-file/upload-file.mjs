@@ -6,8 +6,9 @@ export default {
   key: "trint-upload-file",
   name: "Upload File",
   description: "Upload media files directly to Trint for immediate transcription. [See the documentation](https://dev.trint.com/reference/upload)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

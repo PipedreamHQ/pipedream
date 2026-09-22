@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import elasticCloud from "../../elastic_cloud.app.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "elastic_cloud-update-deployment",
   name: "Update Deployment",
   description: "Update an existing Elastic Cloud deployment, including resizing cluster capacity. Cluster resize is performed here by supplying updated `resources` sizing (no separate resize action exists). Run **List Deployments** first to find the deployment ID. [See the documentation](https://www.elastic.co/docs/api/doc/cloud/operation/operation-update-deployment)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   props: {
     elasticCloud,
     deploymentId: {

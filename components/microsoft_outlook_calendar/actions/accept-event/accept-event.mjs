@@ -7,8 +7,9 @@ export default {
     "Accept a calendar event invitation and optionally send a response to the organizer."
     + " Use **List Events** or **Get Event** to find the event ID."
     + " [See the documentation](https://learn.microsoft.com/en-us/graph/api/event-accept?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

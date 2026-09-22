@@ -5,8 +5,9 @@ export default {
   name: "List HRIS Employees",
   description:
     "List employees from the connected HRIS integration on Universal API. Returns an array of employee objects (paginated internally, up to `maxResults`); use the returned IDs with **Get HRIS Employee**. Provide `serviceId` only when the consumer has multiple active HRIS integrations. [See the documentation](https://docs.universalapi.io/reference/list-employees).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

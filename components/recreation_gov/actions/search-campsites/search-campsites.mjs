@@ -3,13 +3,14 @@ import utils from "../../common/utils.mjs";
 
 export default {
   key: "recreation_gov-search-campsites",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   name: "Search Campsites",
   description: "Searchs campsites with the given query. If no query given, returns campsites from the beginning. Returning campsite number is limited to `1000`. [See the documentation](https://ridb.recreation.gov/docs#/Campsites/getCampsites)",
   props: {

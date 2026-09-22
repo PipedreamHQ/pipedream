@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import monta from "../../monta.app.mjs";
 import constants from "../../common/constants.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "monta-list-updated-orders",
   name: "List Updated Orders",
   description: "List orders whose status changed since a specified date and time, including orders deleted since then. Use this for reliable bulk order syncing; for cursor-based incremental polling of individual change events, use **List Order Events Since ID** instead. [See the documentation](https://api-v6.monta.nl/index.html#tag/Order/paths/~1order~1updated_since~1%7BupdatedSince%7D/get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

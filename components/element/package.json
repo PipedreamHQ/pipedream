@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/element",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Element Components",
   "main": "element.app.mjs",
   "keywords": [

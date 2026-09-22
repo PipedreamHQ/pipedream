@@ -4,8 +4,9 @@ export default {
   key: "topdesk-create-incident",
   name: "Create Incident",
   description: "Creates a new incident. [See the documentation](https://developers.topdesk.com/explorer/?page=incident#/incident/createIncident)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
+  ai: "optimized",
   props: {
     app,
     callerLookupId: {

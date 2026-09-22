@@ -1,14 +1,12 @@
 import app from "../../jira.app.mjs";
-import constants from "../../common/constants.mjs";
 
 export default {
   props: {
     app,
     cloudId: {
-      propDefinition: [
-        app,
-        "cloudId",
-      ],
+      type: "string",
+      label: "Cloud ID",
+      description: "The Jira Cloud site ID (e.g., `11223344-a1b2-3b33-c444-def123456789`). Use the **Get Cloud ID** action to look up the ID for your site.",
     },
     historyMetadata: {
       type: "object",
@@ -26,7 +24,7 @@ export default {
     update: {
       type: "object",
       label: "Update",
-      description: "A Map containing the field name and a list of operations to perform on the issue screen field. Note that fields included here cannot be included in `fields`.",
+      description: "Advanced: a Map of field names to a list of add/remove/set operations to perform (e.g. appending a value to a multi-value field), following Jira's issue update operations format. For setting field values directly (`summary`, `description`, `priority`, `labels`, etc.), use `additionalProperties` instead.",
       optional: true,
     },
     additionalProperties: {
@@ -34,340 +32,64 @@ export default {
         app,
         "additionalProperties",
       ],
+      description: "The primary way to set issue field values not already covered by other props. Provide a flat object of Jira field keys to values, e.g. `{ \"summary\": \"Fix login bug\", \"description\": \"Plain text is fine here\", \"priority\": { \"name\": \"High\" }, \"labels\": [\"bug\"] }`. `description` and `environment` may be given as plain strings — they're automatically converted to Jira's required document format. Use this instead of `update` for straightforward field assignments.",
     },
   },
   methods: {
-    getIssueTypes(args = {}) {
-      return this.app._makeRequest({
-        path: "/issuetype",
-        ...args,
-      });
-    },
-    getOptions(key) {
-      switch (key) {
-      case constants.FIELD_KEY.PARENT:
-        return async ({ prevContext: { startAt = 0 } }) => {
-          const {
-            app,
-            cloudId,
-          } = this;
-          const maxResults = 50;
-          const { issues } = await app.searchIssues({
-            cloudId,
-            params: {
-              jql: "project is not EMPTY ORDER BY created DESC",
-              maxResults,
-              startAt,
-              fields: "id,key",
-            },
-          });
-          return {
-            options: issues.map(({
-              id: value, key: label,
-            }) => ({
-              value,
-              label,
-            })),
-            context: {
-              startAt: startAt + maxResults,
-            },
-          };
-        };
-      case constants.FIELD_KEY.LABELS:
-        return async ({ prevContext: { startAt = 0 } }) => {
-          const {
-            app,
-            cloudId,
-          } = this;
-          const maxResults = 50;
-          const { values } = await app.getLabels({
-            cloudId,
-            params: {
-              maxResults,
-              startAt,
-            },
-          });
-          return {
-            options: values,
-            context: {
-              startAt: startAt + maxResults,
-            },
-          };
-        };
-      case constants.FIELD_KEY.ISSUETYPE:
-        return async () => {
-          const {
-            getIssueTypes,
-            cloudId,
-          } = this;
-
-          const issueTypes = await getIssueTypes({
-            cloudId,
-          });
-          return {
-            options: issueTypes.map(({
-              id: value, name: label,
-            }) => ({
-              value,
-              label,
-            })),
-          };
-        };
-      default:
-        return [];
-      }
-    },
-    getAssignableUserOptions() {
-      return async ({
-        prevContext, query,
-      }) => {
-        const {
-          app,
-          cloudId,
-          projectId,
-        } = this;
-        const { startAt = 0 } = prevContext || {};
-        // The endpoint may return fewer users than requested while more remain, so
-        // paging advances by the requested size rather than by the returned count
-        const maxResults = app.getDefaultLimit();
-
-        try {
-          const users = await app.findAssignableUsers({
-            cloudId,
-            params: {
-              project: projectId,
-              query: query || "",
-              startAt,
-              maxResults,
-            },
-          });
-          return {
-            options: users.map(({
-              displayName: label, accountId: value,
-            }) => ({
-              label,
-              value,
-            })),
-            context: {
-              startAt: startAt + maxResults,
-            },
-          };
-        } catch (error) {
-          console.log("Error listing assignable users", error);
-          return {
-            options: [],
-          };
+    /**
+     * Parses `additionalProperties` into Jira field values. Nested JSON strings
+     * (objects/arrays) are parsed; all other values are passed through unchanged,
+     * so plain text like "Bug: login fails" or "2024" is not altered.
+     */
+    parseFields(fields) {
+      const obj = typeof fields === "string"
+        ? JSON.parse(fields)
+        : fields;
+      return Object.fromEntries(Object.entries(obj ?? {}).map(([
+        key,
+        value,
+      ]) => {
+        if (typeof value !== "string") {
+          return [
+            key,
+            value,
+          ];
         }
-      };
-    },
-    getUserOptions() {
-      return async ({
-        prevContext, query,
-      }) => {
-        const {
-          app,
-          cloudId,
-        } = this;
-        const { startAt = 0 } = prevContext || {};
-        // The endpoint may return fewer users than requested while more remain, so
-        // paging advances by the requested size rather than by the returned count
-        const maxResults = app.getDefaultLimit();
-
         try {
-          const users = await app.findUsers({
-            cloudId,
-            params: {
-              query: query || "",
-              startAt,
-              maxResults,
-            },
-          });
-          return {
-            options: users.map(({
-              displayName: label, accountId: value,
-            }) => ({
-              label,
-              value,
-            })),
-            context: {
-              startAt: startAt + maxResults,
-            },
-          };
-        } catch (error) {
-          console.log("Error listing users", error);
-          return {
-            options: [],
-          };
+          const parsed = JSON.parse(value);
+          return [
+            key,
+            parsed !== null && typeof parsed === "object"
+              ? parsed
+              : value,
+          ];
+        } catch {
+          return [
+            key,
+            value,
+          ];
         }
-      };
+      }));
     },
-    getDynamicFields({
-      fields, predicate = (field) => field,
-    } = {}) {
-      const keysForResourceRequest = [
-        constants.FIELD_KEY.PARENT,
-        constants.FIELD_KEY.LABELS,
-        constants.FIELD_KEY.ISSUETYPE,
+    /**
+     * Jira requires `description` and `environment` as Atlassian Document Format
+     * objects rather than plain strings. Converts any plain-string values for those
+     * keys so callers can pass ordinary text through `additionalProperties`.
+     */
+    formatAdfFields(fields = {}) {
+      const adfKeys = [
+        "description",
+        "environment",
       ];
-
-      return Object.values(fields)
-        .filter(predicate)
-        .reduce((props, {
-          schema, name: label, key, required, allowedValues,
-        }) => {
-          const {
-            type: schemaType,
-            items: itemsType,
-            custom,
-          } = schema;
-
-          const newKey = custom?.includes(":")
-            ? `${key}_${custom.split(":")[1]}`
-            : key;
-
-          const value = {
-            // It defaults to object because it may expect a structure like { id: "123" }
-            type: constants.TYPE[schemaType] || "object",
-            label,
-            description: "Set your field value",
-            optional: !required,
-          };
-
-          // Handle dropdown fields (option type) with allowedValues
-          if (schemaType === constants.SCHEMA_TYPE.OPTION && Array.isArray(allowedValues)) {
-            return {
-              ...props,
-              [newKey]: {
-                ...value,
-                type: "string",
-                options: allowedValues.map((option) => ({
-                  label: option.value || option.name,
-                  value: option.id,
-                })),
-              },
-            };
-          }
-
-          if (schemaType === constants.SCHEMA_TYPE.USER
-            || (schemaType === constants.SCHEMA_TYPE.ARRAY
-              && itemsType === constants.SCHEMA_TYPE.USER)) {
-            const isMultiUser = schemaType === constants.SCHEMA_TYPE.ARRAY;
-            return {
-              ...props,
-              [newKey]: {
-                ...value,
-                description: isMultiUser
-                  ? "Account IDs of the users (e.g. `5b10ac8d82e05b22cc7d4ef5`)"
-                  : "Account ID of the user (e.g. `5b10ac8d82e05b22cc7d4ef5`)",
-                useQuery: true,
-                options: key === constants.FIELD_KEY.ASSIGNEE
-                  ? this.getAssignableUserOptions()
-                  : this.getUserOptions(),
-              },
-            };
-          }
-
-          // Requests by Resource
-          if (keysForResourceRequest.includes(key)) {
-            return {
-              ...props,
-              [newKey]: {
-                ...value,
-                options: this.getOptions(key),
-              },
-            };
-          }
-
-          return {
-            ...props,
-            [newKey]: value,
-          };
-        }, {});
-    },
-    formatFields(fields) {
-      const keysToFormat = [
-        constants.FIELD_KEY.DESCRIPTION,
-        constants.FIELD_KEY.ENVIRONMENT,
-      ];
-
-      const fieldTypesToFormat = [
-        constants.FIELD_TYPE.TEXTAREA,
-      ];
-
-      const keysToCheckForId = [
-        constants.FIELD_KEY.ASSIGNEE,
-        constants.FIELD_KEY.REPORTER,
-        constants.FIELD_KEY.PARENT,
-        constants.FIELD_KEY.ISSUETYPE,
-      ];
-
-      const keysToConsiderAsArray = [
-        constants.FIELD_KEY.LABELS,
-      ];
-
-      const fieldTypesNeedingId = [
-        "select",
-      ];
-
-      return Object.entries(fields)
-        .reduce((props, [
-          key,
-          value,
-        ]) => {
-          const [
-            fieldName,
-            fieldId,
-            fieldType,
-          ] = key.split("_");
-
-          key = fieldId
-            ? `${fieldName}_${fieldId}`
-            : fieldName;
-
-          // Jira user fields expect the account ID wrapped in a user object, and an
-          // array of them for multi-user fields
-          if (value && constants.USER_FIELD_TYPES.includes(fieldType)) {
-            return {
-              ...props,
-              [key]: Array.isArray(value)
-                ? value.map((accountId) => ({
-                  accountId,
-                }))
-                : {
-                  accountId: value,
-                },
-            };
-          }
-
-          // Handle select/dropdown fields - always include with { id: value } format
-          if (fieldTypesNeedingId.includes(fieldType)) {
-            return {
-              ...props,
-              [key]: {
-                id: value,
-              },
-            };
-          }
-
-          return {
-            ...props,
-            [key]: keysToFormat.includes(fieldName) || fieldTypesToFormat.includes(fieldType)
-              ? [
-                this.atlassianDocumentFormat(value),
-                value,
-              ]
-              : keysToCheckForId.includes(fieldName)
-                ? {
-                  id: value,
-                }
-                : keysToConsiderAsArray.includes(fieldName) && Array.isArray(value)
-                  ? [
-                    value,
-                    value.length,
-                  ]
-                  : value,
-          };
-        }, {});
+      return Object.entries(fields).reduce((acc, [
+        key,
+        value,
+      ]) => {
+        acc[key] = adfKeys.includes(key) && typeof value === "string"
+          ? this.atlassianDocumentFormat(value) ?? null
+          : value;
+        return acc;
+      }, {});
     },
     /**
      * Formats the value to be compatible with the Jira API

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../dappier.app.mjs";
 import {
   INTERACTION_TYPES,
@@ -11,8 +10,9 @@ export default {
   key: "dappier-get-ask-ai-logs",
   name: "Get Ask AI Logs",
   description: "Retrieve raw Ask AI conversation logs (GET `/v1/analytics/ask-ai/logs`). Returns a `data` array of individual conversation rows (timestamp, prompt, response, widget, referring URL, interaction type) sorted newest-first, plus `count` and `total_pages` for pagination. All filters are optional; with no dates it defaults to the last 7 days (UTC). This is the row-level detail behind **Get Ask AI Analytics**. If `total_pages` in the response is greater than 1, call again with an incremented `page` to fetch the remaining rows. Example: `limit=5` returns the 5 most recent conversations for the last 7 days; add `page=2` to get the next 5. [See the documentation](https://docs.dappier.com/api-reference/endpoint/ask-ai-logs).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

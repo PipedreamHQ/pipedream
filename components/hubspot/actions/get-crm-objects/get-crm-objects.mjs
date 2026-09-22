@@ -13,13 +13,14 @@ export default {
     + " Supports standard object types only."
     + " For custom objects, use **Get Custom Object** instead."
     + " [See the documentation](https://developers.hubspot.com/docs/api/crm/objects)",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     hubspot,
     objectType: {

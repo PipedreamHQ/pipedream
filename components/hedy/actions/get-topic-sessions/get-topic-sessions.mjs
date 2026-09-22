@@ -7,8 +7,9 @@ export default {
     + " Use **Get Many Topics** first to find the topic ID."
     + " Paginate using the `startAfter` cursor (a session ID from the last item in the previous page)."
     + " [See the documentation](https://app.swaggerhub.com/apis-docs/HedyAI/hedy-api/1.5.2#/Topics/get_topics__topicId__sessions)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

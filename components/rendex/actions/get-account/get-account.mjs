@@ -4,8 +4,9 @@ export default {
   key: "rendex-get-account",
   name: "Get Account",
   description: "Get your Rendex plan and this month's usage (credits used/limit/remaining), rate limit, and recommended upgrade. Read-only and free (no credits charged). [See the documentation](https://rendex.dev/docs/api-reference#get-account).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

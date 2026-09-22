@@ -68,12 +68,16 @@ export function getResourceOption(item, resource) {
   };
 }
 
+// Escapes a value for use inside a GAQL LIKE '...' literal: single quotes are
+// doubled, and [, ], % and _ are bracket-escaped so they match literally.
 export function sanitizeGaqlString(value) {
-  return String(value).replace(/'/g, "''");
+  return String(value)
+    .replace(/'/g, "''")
+    .replace(/[[\]%_]/g, "[$&]");
 }
 
 export function checkPrefix(value, prefix) {
-  const checkStr = (s) => s && (s?.startsWith?.(prefix)
+  const checkStr = (s) => s && (s?.startsWith?.(`${prefix}.`)
     ? s
     : `${prefix}.${s}`);
   return Array.isArray(value ?? [])

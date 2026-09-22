@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import googleSheets from "../../google_sheets.app.mjs";
 import { rowsToObjects } from "../../common/ai-utils.mjs";
 
@@ -13,8 +12,9 @@ export default {
     + " for subsequent **Update Rows** calls)."
     + " For simple reads without filtering, use **Read Rows**"
     + " instead.",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

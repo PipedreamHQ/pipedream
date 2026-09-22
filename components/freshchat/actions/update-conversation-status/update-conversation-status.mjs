@@ -6,13 +6,14 @@ export default {
   key: "freshchat-update-conversation-status",
   name: "Update Conversation",
   description: "Updates a conversation's status, assignment, or properties. [See the documentation](https://developers.freshchat.com/api/#update_a_conversation)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     freshchat,
     userId: {

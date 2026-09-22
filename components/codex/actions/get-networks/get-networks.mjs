@@ -8,8 +8,9 @@ export default {
     + " Call this first to resolve `networkId` values required by every other Codex tool."
     + " Example: Ethereum = 1, Polygon = 137, BNB Chain = 56, Arbitrum = 42161."
     + " [See the documentation](https://docs.codex.io/api-reference/queries/getnetworks)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

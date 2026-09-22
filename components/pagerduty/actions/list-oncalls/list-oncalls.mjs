@@ -10,8 +10,9 @@ export default {
     + " Time params use ISO 8601 with explicit UTC offset, e.g. `2026-06-02T15:00:00-07:00`."
     + " Set `earliest: true` to get one on-call entry per unique (schedule, escalation policy, escalation level) combination."
     + " [See the documentation](https://developer.pagerduty.com/api-reference/3a6b910f11050-list-all-of-the-on-calls)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

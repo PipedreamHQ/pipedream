@@ -12,8 +12,9 @@ export default {
     + " When `has_more` is `true` in the response, pass the `id` of the last meeting in the `data` array to the `cursor` parameter to retrieve the next page."
     + " To convert a human date to Unix ms, multiply Unix seconds by 1000 (e.g. 7 days ago = `Date.now() - 7*24*60*60*1000`)."
     + " [See the documentation](https://support.read.ai/hc/en-us/articles/49381161088659-API-Reference#h_01KJ7HW2RMF7VS2EHTXAWS4BJ7)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

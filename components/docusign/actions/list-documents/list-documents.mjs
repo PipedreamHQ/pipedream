@@ -4,13 +4,14 @@ export default {
   key: "docusign-list-documents",
   name: "List Documents",
   description: "List documents in a DocuSign envelope. Use this to find document IDs before downloading a specific document. [See the documentation](https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopedocuments/list/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     docusign,
     account: {

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import common from "../common/base.mjs";
 
 export default {
@@ -6,13 +5,14 @@ export default {
   key: "google_contacts-list-contact-groups",
   name: "List Contact Groups",
   description: "Lists the authenticated user's contact groups. [See the documentation](https://developers.google.com/people/api/rest/v1/contactGroups/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     "destructiveHint": false,
     "openWorldHint": true,
     "readOnlyHint": true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
   },

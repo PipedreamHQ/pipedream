@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import givebutter from "../../givebutter.app.mjs";
 
 export default {
   key: "givebutter-get-transaction",
   name: "Get Transaction",
   description: "Retrieve a single transaction from Givebutter by its transaction ID. Returns the transaction object (includes `id`, `amount`, `fee`, `captured`, `refunded`, and `line_items`). [See the documentation](https://docs.givebutter.com/api-reference/transactions/get-a-transaction)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

@@ -10,8 +10,9 @@ export default {
     + " Use **Get Networks** to resolve the numeric `networkId` if needed."
     + " Supports offset-based pagination — pass `offset` (and optional `limit`) to fetch subsequent pages."
     + " [See the documentation](https://docs.codex.io/api-reference/queries/filtertokenwallets)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/people_data_labs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream People Data Labs Components",
   "main": "people_data_labs.app.mjs",
   "keywords": [

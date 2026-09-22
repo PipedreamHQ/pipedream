@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../writer.app.mjs";
 
 export default {
@@ -9,8 +8,9 @@ export default {
     + "Example: call with no parameters -> returns models such as `{ id: \"palmyra-x5\", name: \"Palmyra X5\" }`, `{ id: \"palmyra-x4\", name: \"Palmyra X4\" }`, and any others enabled for the account. "
     + "`palmyra-x5` is the recommended general-purpose model (creative writing included); pick a different id from the returned list only for a specialized need. "
     + "[See the documentation](https://dev.writer.com/api-reference/completion-api/list-models)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

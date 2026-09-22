@@ -4,8 +4,9 @@ export default {
   key: "enrich_layer-get-company-id-lookup",
   name: "Get Company ID Lookup",
   description: "Look up the vanity ID of a company by its numeric ID. Cost: 0 credits. [See the documentation](https://enrichlayer.com/docs/api/v2/company-api/company-id-lookup).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

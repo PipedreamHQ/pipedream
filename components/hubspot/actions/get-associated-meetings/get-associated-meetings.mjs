@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import { DEFAULT_MEETING_PROPERTIES } from "../../common/constants.mjs";
 import { OBJECT_TYPE } from "../../common/object-types.mjs";
@@ -15,13 +14,14 @@ export default {
   name: "Get Associated Meetings",
   description:
     "List meetings associated with a contact, company, or deal in HubSpot. Set **From Object Type** and **Object ID** (for contacts you may pass an email instead of the numeric id). Optionally narrow with **Timeframe** (today, this_week, this_month, last_month, or custom with **Start/End Date**), or set **Most Recent** to return only the latest meeting. Returns up to 100 meetings with default meeting properties. Example: From Object Type `contacts`, Object ID `ada@example.com`, Timeframe `this_month`. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/associations/association-details)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     hubspot,
     objectType: {

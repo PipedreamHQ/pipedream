@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../dappier.app.mjs";
 import { SEARCH_ALGORITHMS } from "../../common/constants.mjs";
 import { pluckFields } from "../../common/utils.mjs";
@@ -7,8 +6,9 @@ export default {
   key: "dappier-get-ai-recommendations",
   name: "Get AI Recommendations",
   description: "Get AI-ranked content recommendations for a Dappier data model (POST `/app/v2/search`, with `data_model_id` passed as a query parameter). Returns a structured `results` array of ranked articles (title, summary, url, score, source, pubdate, etc.). Provide a `dataModelId` (prefix `dm_`, e.g. `dm_01hpsxyfm2fwdt2zet9cg6fdxt` - a known real-time web search data model). NOTE `dm_` data-model IDs are distinct from the `am_` AI-model IDs used by **Search Real-Time Data**. There is no listing endpoint in the Dappier API; discover valid data model IDs in the Dappier Marketplace at https://platform.dappier.com/marketplace. Example: `dataModelId=dm_01hpsxyfm2fwdt2zet9cg6fdxt`, `query=top technology stories today` returns the top-ranked matching articles; pass `fields=[\"title\",\"url\",\"summary\"]` to trim each result to just those keys. [See the documentation](https://docs.dappier.com/api-reference/endpoint/ai-recommendations).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

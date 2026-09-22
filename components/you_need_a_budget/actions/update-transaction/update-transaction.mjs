@@ -5,13 +5,14 @@ export default {
   key: "you_need_a_budget-update-transaction",
   name: "Update Transaction",
   description: "Update an existing transaction. [See the docs](https://api.youneedabudget.com/v1#/Transactions/updateTransaction)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     budgetId: {

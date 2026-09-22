@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import { ENGAGEMENT_TYPE_OPTIONS } from "../../common/constants.mjs";
 import common from "../common/common-create.mjs";
@@ -92,13 +91,14 @@ export default {
     + "No `reloadProps` step and no **CONFIGURE_COMPONENT** requirement: association fields accept raw HubSpot IDs (use **Search CRM** or the Associations API to resolve `associationType` when needed). "
     + "For **only** a note on a contact by ID, **Add Note to Contact** (`hubspot-add-note-to-contact`) is still simpler. "
     + "[See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     engagementType: {

@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import element from "../../element.app.mjs";
 
 export default {
   key: "element-unban-user",
   name: "Unban User",
   description: "Lift a ban on a user in a room, reversing **Ban User**. Unbanning does not put the user back in the room — it only allows them to be invited again, and to rejoin if the room's join rules would otherwise let them. The connected account must have a power level high enough to unban, otherwise the API returns `M_FORBIDDEN`. Use **List Rooms** to find the room ID. [See the documentation](https://spec.matrix.org/latest/client-server-api/#post_matrixclientv3roomsroomidunban)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

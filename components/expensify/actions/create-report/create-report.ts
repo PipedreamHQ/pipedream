@@ -1,11 +1,10 @@
-// x-pd-ai: optimized
 import { defineAction } from "@pipedream/types";
 import app from "../../app/expensify.app";
 import utils from "../../common/utils";
 
 export default defineAction({
   key: "expensify-create-report",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -14,6 +13,7 @@ export default defineAction({
   name: "Create Report",
   description: "Creates a new report with transactions in a user's account. [See docs here](https://integrations.expensify.com/Integration-Server/doc/#report-creator)",
   type: "action",
+  ai: "optimized",
   props: {
     app,
     employeeEmail: {

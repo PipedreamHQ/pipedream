@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import googleSheets from "../../google_sheets.app.mjs";
 import { rowsToObjects } from "../../common/ai-utils.mjs";
 
@@ -14,8 +13,9 @@ export default {
     + " Optionally specify a range in A1 notation (e.g.,"
     + " `A2:D10`) to read a subset."
     + " For searching rows by value, use **Find Rows** instead.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

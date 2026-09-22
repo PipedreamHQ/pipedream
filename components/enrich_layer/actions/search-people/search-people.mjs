@@ -4,8 +4,9 @@ export default {
   key: "enrich_layer-search-people",
   name: "Search People",
   description: "Search for people who meet a set of criteria. Returns a single page of results per call — use the `next_page` URL from the response to retrieve subsequent pages. Cost: 3 credits per profile URL returned. [See the documentation](https://enrichlayer.com/docs/api/v2/search-api/person-search).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

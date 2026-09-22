@@ -7,8 +7,9 @@ export default {
     + " The `topicContext` field (up to 20,000 characters) contains custom instructions that guide Hedy's AI analysis for sessions in this topic."
     + " Use **Get Many Topics** first to list topics and obtain a topic ID."
     + " [See the documentation](https://app.swaggerhub.com/apis-docs/HedyAI/hedy-api/1.5.2#/Topics/get_topics__topicId_)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

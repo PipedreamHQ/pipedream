@@ -4,8 +4,9 @@ export default {
   key: "enrich_layer-get-student-listing",
   name: "Get Student Listing",
   description: "Get a list of students of a school. Cost: 3 credits per student returned. [See the documentation](https://enrichlayer.com/docs/api/v2/school-api/student-listing).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import ramp from "../../ramp.app.mjs";
 import { v4 as uuidv4 } from "uuid";
 import { getFileStream } from "@pipedream/platform";
@@ -7,13 +6,14 @@ export default {
   key: "ramp-upload-receipt",
   name: "Upload Receipt",
   description: "Uploads a receipt for a given transaction and user. [See the documentation](https://docs.ramp.com/developer-api/v1/reference/rest/receipts#post-developer-v1-receipts)",
-  version: "0.1.5",
+  version: "0.1.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ramp,
     transactionId: {

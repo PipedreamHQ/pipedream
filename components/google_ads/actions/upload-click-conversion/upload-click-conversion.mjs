@@ -10,7 +10,7 @@ export default {
   key: "google_ads-upload-click-conversion",
   name: "Upload Click Conversion",
   description: `Uploads an offline conversion attributed to an ad click. [See the documentation](${CLICK_DOC_LINK})`,
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

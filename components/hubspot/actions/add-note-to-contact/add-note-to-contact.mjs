@@ -31,13 +31,14 @@ export default {
     + "Do **not** use **Create Engagement** for this workflow. "
     + "For every writable note property or non-contact associations, use **Create Note** instead. "
     + "[See the documentation](https://developers.hubspot.com/docs/api/crm/objects/notes)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     hubspot,
     contactId: {

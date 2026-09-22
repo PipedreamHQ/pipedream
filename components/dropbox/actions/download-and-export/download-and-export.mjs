@@ -10,8 +10,9 @@ export default {
   name: "Download and Export",
   description: "Export a file from a user's Dropbox. If file is not exportable, it will be downloaded in original format. [See the documentation](https://www.dropbox.com/developers/documentation/http/documentation#files-export)",
   key: "dropbox-download-and-export",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

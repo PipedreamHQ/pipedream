@@ -2,8 +2,9 @@ import app from "../../alpaca.app.mjs";
 
 export default {
   type: "action",
+  ai: "optimized",
   key: "alpaca-cancel-all-orders",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

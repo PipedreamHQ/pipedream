@@ -1,17 +1,17 @@
-// x-pd-ai: optimized
 import superCarl from "../../super_carl.app.mjs";
 
 export default {
   key: "super_carl-get-network-summary",
   name: "Get Network Summary",
   description: "Check Super Carl network readiness before running **Search People**, **Search Jobs**, or **Search Companies**. Use this to inspect LinkedIn/Gmail/Super Carl graph sync status for the API key owner or a delegated team-seat user via Delegate User ID; low or unsynced counts can explain weak network-aware results. [See the documentation](https://supercarl.ai/docs/endpoints)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     superCarl,
     delegateUserId: {

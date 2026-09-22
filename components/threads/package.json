@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/threads",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Pipedream Threads Components",
   "main": "threads.app.mjs",
   "keywords": [

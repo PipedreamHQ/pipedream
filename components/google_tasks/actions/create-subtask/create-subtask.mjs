@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../google_tasks.app.mjs";
 
 export default {
@@ -6,13 +5,14 @@ export default {
   name: "Create Subtask",
   description:
     "Creates a new subtask under an existing parent task. Use this action when you want to organize related work into a task hierarchy while keeping the parent task unchanged. To create a top-level task instead, use the **Create Task** action. [See the documentation](https://developers.google.com/workspace/tasks/reference/rest/v1/tasks/insert)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     taskListId: {

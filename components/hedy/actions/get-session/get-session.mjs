@@ -6,8 +6,9 @@ export default {
   description: "Retrieves full details for a single Hedy meeting session by ID, including the complete transcript, meeting minutes, recap, session notes, highlights array, and action items (todos)."
     + " Use **Get Many Sessions** first to list sessions and obtain a session ID."
     + " [See the documentation](https://app.swaggerhub.com/apis-docs/HedyAI/hedy-api/1.5.2#/Sessions/get_sessions__sessionId_)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

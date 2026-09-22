@@ -5,8 +5,9 @@ export default {
   name: "Get MDM DEP Token",
   description:
     "Retrieve a single DEP token by ID from the MDM API on Universal API. Run **List MDM DEP Tokens** first to discover valid IDs. [See the documentation](https://docs.universalapi.io/reference/get-dep-tokens).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

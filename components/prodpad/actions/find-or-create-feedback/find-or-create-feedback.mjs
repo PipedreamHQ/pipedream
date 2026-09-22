@@ -6,7 +6,8 @@ export default {
   name: "Find or Create Feedback",
   description: "Finds or creates a feedback. See the docs for [find feedback](https://app.swaggerhub.com/apis-docs/ProdPad/prodpad/1.0#/Feedback/GetFeedbacks) and [create feedback](https://app.swaggerhub.com/apis-docs/ProdPad/prodpad/1.0#/Feedback/PostFeedbacks).",
   type: "action",
-  version: "0.0.2",
+  ai: "optimized",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

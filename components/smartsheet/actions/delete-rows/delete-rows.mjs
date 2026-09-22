@@ -8,8 +8,9 @@ export default {
     "Delete one or more rows from a sheet by row ID. This is permanent and cannot be undone."
     + " Use **Get Sheet** or **Search** to find row IDs first."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/delete-rows)",
-  version: "0.0.1",
+  version: "0.1.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -18,9 +19,10 @@ export default {
   props: {
     smartsheet,
     sheetId: {
-      type: "string",
-      label: "Sheet ID",
-      description: "The ID of the sheet containing the rows. Use **List Sheets** to find sheet IDs.",
+      propDefinition: [
+        smartsheet,
+        "sheetIdOrUrl",
+      ],
     },
     rowIds: {
       type: "string",
@@ -33,13 +35,16 @@ export default {
   },
   async run({ $ }) {
     const rowIds = parseRowIds(this.rowIds);
-    const response = await this.smartsheet.deleteRows(this.sheetId, {
+    const sheetId = await this.smartsheet.resolveSheetId(this.sheetId, {
+      $,
+    });
+    const response = await this.smartsheet.deleteRows(sheetId, {
       $,
       params: {
         ids: rowIds.join(","),
       },
     });
-    $.export("$summary", `Deleted ${rowIds.length} row(s) from sheet ${this.sheetId}`);
+    $.export("$summary", `Deleted ${rowIds.length} row(s) from sheet ${sheetId}`);
     return response;
   },
 };

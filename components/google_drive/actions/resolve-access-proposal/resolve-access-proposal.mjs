@@ -5,13 +5,14 @@ export default {
   key: "google_drive-resolve-access-proposal",
   name: "Resolve Access Proposals",
   description: "Accept or deny a request for access to a file or folder in Google Drive. [See the documentation](https://developers.google.com/workspace/drive/api/reference/rest/v3/accessproposals/resolve)",
-  version: "0.0.17",
+  version: "0.0.18",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     googleDrive,
     drive: {

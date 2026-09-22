@@ -4,8 +4,9 @@ export default {
   key: "rendex-create-artifact",
   name: "Create Artifact",
   description: "Turn Markdown or HTML plus a small branding theme into a branded PDF + PNG and a hosted share page in one call. Returns `pdfUrl`, `pngUrl`, `shareUrl`, and `expiresAt`. [See the documentation](https://rendex.dev/docs/api-reference#post-artifact).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

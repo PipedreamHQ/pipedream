@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import givebutter from "../../givebutter.app.mjs";
 
 export default {
   key: "givebutter-create-contact",
   name: "Create Contact",
   description: "Create a new contact/donor in Givebutter, returning the created contact with its assigned `id`. For an individual contact, provide `firstName` and `lastName`; the `email` value is submitted as the API `primary_email` field. [See the documentation](https://docs.givebutter.com/api-reference/contacts/create-a-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,
