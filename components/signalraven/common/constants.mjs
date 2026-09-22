@@ -13,6 +13,7 @@ const READ_SCOPES = [
 
 const DEFAULT_LIMIT = 25;
 const MAX_LIMIT = 100;
+const MAX_SOURCE_PAGES = 10;
 
 export default {
   BASE_URL,
@@ -21,4 +22,5 @@ export default {
   READ_SCOPES,
   DEFAULT_LIMIT,
   MAX_LIMIT,
+  MAX_SOURCE_PAGES,
 };

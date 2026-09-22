@@ -3,7 +3,7 @@ import app from "../../signalraven.app.mjs";
 export default {
   key: "signalraven-run-account-intelligence",
   name: "Run Account Intelligence",
-  description: "Start an account research report for a company LinkedIn URL. Spends credits; the report completes asynchronously. [See the documentation](https://signalraven.ai/developers/api)",
+  description: "Start an account research report for a company LinkedIn URL. Spends credits unless a recent report exists, in which case the cached report is returned (`cached: true`). A new report completes asynchronously. [See the documentation](https://signalraven.ai/developers/api)",
   type: "action",
   ai: "optimized",
   version: "0.0.1",

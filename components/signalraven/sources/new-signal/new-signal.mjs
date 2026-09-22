@@ -7,6 +7,7 @@ export default {
   name: "New Signal",
   description: "Emit new event when SignalRaven qualifies a new buying-intent signal. [See the documentation](https://signalraven.ai/developers/api)",
   type: "source",
+  ai: "optimized",
   version: "0.0.1",
   dedupe: "unique",
   props: {
@@ -26,12 +27,13 @@ export default {
   },
   methods: {
     ...common.methods,
-    async fetchItems() {
+    async fetchPage(offset) {
       const { data } = await this.app.listSignals({
         params: {
           minStrength: this.minStrength,
           type: this.signalType,
           limit: constants.MAX_LIMIT,
+          offset,
         },
       });
       return data || [];

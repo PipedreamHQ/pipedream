@@ -17,8 +17,13 @@ export default {
     period: {
       type: "string",
       label: "Period",
-      description: "Metrics window, for example `7d`, `30d` or `90d`.",
+      description: "Metrics window in days: `7`, `30` (default), or `all` for the full history.",
       optional: true,
+      options: [
+        "7",
+        "30",
+        "all",
+      ],
     },
   },
   async run({ $ }) {

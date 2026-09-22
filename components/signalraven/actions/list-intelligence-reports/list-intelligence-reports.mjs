@@ -27,7 +27,7 @@ export default {
     query: {
       type: "string",
       label: "Search",
-      description: "Match reports by person or company name.",
+      description: "Match reports by person or company name, for example `Halvorsen Consulting`.",
       optional: true,
     },
     limit: {

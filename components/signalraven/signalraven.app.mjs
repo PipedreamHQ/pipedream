@@ -8,7 +8,7 @@ export default {
     signalId: {
       type: "string",
       label: "Signal ID",
-      description: "The signal to fetch. Type to pick from recent signals.",
+      description: "The signal to fetch. Pick from recent signals, or use the `id` from **List Signals**, for example `3f9c2a1e-...`.",
       async options({ page }) {
         const { data } = await this.listSignals({
           params: {
@@ -29,7 +29,7 @@ export default {
     reportId: {
       type: "string",
       label: "Report ID",
-      description: "The research report to fetch.",
+      description: "The research report to fetch. Use the `id` from **List Intelligence Reports**.",
       async options({
         page, reportType,
       }) {
@@ -49,9 +49,9 @@ export default {
     minStrength: {
       type: "integer",
       label: "Minimum Strength",
-      description: "Only signals with a strength score at or above this value, from 1 to 10.",
+      description: "Only signals with a strength score at or above this value, from 0 to 10. Use 7 for warm, 9 for the strongest.",
       optional: true,
-      min: 1,
+      min: 0,
       max: 10,
     },
     signalType: {
@@ -79,13 +79,13 @@ export default {
     },
   },
   methods: {
-    getBaseUrl() {
+    _getBaseUrl() {
       return `${constants.BASE_URL}${constants.VERSION_PATH}`;
     },
-    getUrl(path) {
-      return `${this.getBaseUrl()}${path}`;
+    _getUrl(path) {
+      return `${this._getBaseUrl()}${path}`;
     },
-    isInvalidScope(error) {
+    _isInvalidScope(error) {
       const text = `${error?.message || ""} ${JSON.stringify(error?.response?.data || "")}`;
       return /invalid_scope/i.test(text);
     },
@@ -95,7 +95,7 @@ export default {
      * grant. A key may have been created with a subset of scopes, so on
      * invalid_scope the caller retries with only the scope it needs.
      */
-    async getToken({
+    async _getToken({
       $ = this, scopes,
     } = {}) {
       const body = new URLSearchParams({
@@ -114,7 +114,7 @@ export default {
       });
       return response.access_token;
     },
-    async getTokenForScope({
+    async _getTokenForScope({
       $, scope, extraScopes = [],
     }) {
       const wanted = [
@@ -124,15 +124,15 @@ export default {
         ]),
       ];
       try {
-        return await this.getToken({
+        return await this._getToken({
           $,
           scopes: wanted,
         });
       } catch (error) {
-        if (!this.isInvalidScope(error)) {
+        if (!this._isInvalidScope(error)) {
           throw error;
         }
-        return this.getToken({
+        return this._getToken({
           $,
           scopes: [
             scope,
@@ -140,16 +140,16 @@ export default {
         });
       }
     },
-    async makeRequest({
+    async _makeRequest({
       $ = this, path, scope, extraScopes, headers, ...args
     } = {}) {
-      const token = await this.getTokenForScope({
+      const token = await this._getTokenForScope({
         $,
         scope,
         extraScopes,
       });
       return axios($, {
-        url: this.getUrl(path),
+        url: this._getUrl(path),
         headers: {
           "Authorization": `Bearer ${token}`,
           "Accept": "application/json",
@@ -159,7 +159,7 @@ export default {
       });
     },
     listSignals(args = {}) {
-      return this.makeRequest({
+      return this._makeRequest({
         path: "/signals",
         scope: "read:signals",
         ...args,
@@ -168,35 +168,35 @@ export default {
     getSignal({
       signalId, ...args
     }) {
-      return this.makeRequest({
+      return this._makeRequest({
         path: `/signals/${signalId}`,
         scope: "read:signals",
         ...args,
       });
     },
     listSources(args = {}) {
-      return this.makeRequest({
+      return this._makeRequest({
         path: "/sources",
         scope: "read:sources",
         ...args,
       });
     },
     listWatchlist(args = {}) {
-      return this.makeRequest({
+      return this._makeRequest({
         path: "/watchlist",
         scope: "read:watchlist",
         ...args,
       });
     },
     getIcp(args = {}) {
-      return this.makeRequest({
+      return this._makeRequest({
         path: "/icp",
         scope: "read:icp",
         ...args,
       });
     },
     listIntelligence(args = {}) {
-      return this.makeRequest({
+      return this._makeRequest({
         path: "/intelligence",
         scope: "read:intelligence",
         ...args,
@@ -205,7 +205,7 @@ export default {
     getAccountIntelligence({
       reportId, ...args
     }) {
-      return this.makeRequest({
+      return this._makeRequest({
         path: `/intelligence/accounts/${reportId}`,
         scope: "read:intelligence",
         ...args,
@@ -214,14 +214,14 @@ export default {
     getPersonIntelligence({
       reportId, ...args
     }) {
-      return this.makeRequest({
+      return this._makeRequest({
         path: `/intelligence/people/${reportId}`,
         scope: "read:intelligence",
         ...args,
       });
     },
     runAccountIntelligence(args = {}) {
-      return this.makeRequest({
+      return this._makeRequest({
         method: "POST",
         path: "/intelligence/accounts",
         scope: "write:intelligence",
@@ -232,7 +232,7 @@ export default {
       });
     },
     runPersonIntelligence(args = {}) {
-      return this.makeRequest({
+      return this._makeRequest({
         method: "POST",
         path: "/intelligence/people",
         scope: "write:intelligence",
@@ -243,7 +243,7 @@ export default {
       });
     },
     getUsage(args = {}) {
-      return this.makeRequest({
+      return this._makeRequest({
         path: "/usage",
         scope: "read:usage",
         ...args,

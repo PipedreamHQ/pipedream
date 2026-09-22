@@ -3,7 +3,7 @@ import app from "../../signalraven.app.mjs";
 export default {
   key: "signalraven-get-usage",
   name: "Get Usage",
-  description: "Fetch the workspace plan, credit balance and current-period usage. [See the documentation](https://signalraven.ai/developers/api)",
+  description: "Fetch workspace activity counts (signals, sources, reports) and the system status. [See the documentation](https://signalraven.ai/developers/api)",
   type: "action",
   ai: "optimized",
   version: "0.0.1",
@@ -19,7 +19,7 @@ export default {
     const response = await this.app.getUsage({
       $,
     });
-    $.export("$summary", "Fetched usage and credit balance.");
+    $.export("$summary", "Fetched workspace activity counts.");
     return response;
   },
 };

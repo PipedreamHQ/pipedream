@@ -1,6 +1,6 @@
 # Overview
 
-SignalRaven watches public LinkedIn activity around the clock and qualifies the people who engage against your ideal customer profile. Each qualified signal is a named person with their title and company, a strength score out of 10, why it matters, and talking points. The API also exposes your monitored sources, your ICP, person and account research reports, and your credit balance.
+SignalRaven watches public LinkedIn activity around the clock and qualifies the people who engage against your ideal customer profile. Each qualified signal is a named person with their title and company, a strength score out of 10, why it matters, and talking points. The API also exposes your monitored sources, your ICP, person and account research reports, and workspace activity counts.
 
 Create an API key at app.signalraven.ai (Settings, then API keys) to get a client id and secret. Docs: https://signalraven.ai/developers
 
