@@ -43,6 +43,12 @@ export default {
         ...args,
       });
     },
+    listWorkflowLogs(args = {}) {
+      return this._makeRequest({
+        path: "/workflows/logs",
+        ...args,
+      });
+    },
     listConversations(args = {}) {
       return this._makeRequest({
         path: "/conversations",
