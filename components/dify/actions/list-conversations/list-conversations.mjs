@@ -3,7 +3,7 @@ import dify from "../../dify.app.mjs";
 export default {
   key: "dify-list-conversations",
   name: "List Conversations",
-  description: "List a Dify Chatflow, Chatbot, Agent, or Legacy Agent app's conversations, most recently active first. Conversations are scoped by `User`, so pass the same value used to create those conversations to see that end user's threads. [See the documentation](https://docs.dify.ai/en/api-reference/conversations/list-conversations)",
+  description: "List a Dify Chatflow, Chatbot, Agent, or Legacy Agent app's conversations, most recently active first. Conversations are scoped by `User`, so pass the same value used to create those conversations to see that end user's threads. Example: `User` `user-123`, `Limit` `20` → `{ data: [{ id, name: \"iPhone Specs Chat\", inputs, status: \"normal\", created_at, updated_at }], has_more: true, limit: 20 }`. If `has_more` is `true`, call again with `Last Conversation ID` set to the `id` of the last conversation in `data`. Pass a conversation's `id` to **List Messages** to read it. [See the documentation](https://docs.dify.ai/en/api-reference/conversations/list-conversations)",
   version: "0.0.1",
   ai: "optimized",
   type: "action",

@@ -3,7 +3,7 @@ import dify from "../../dify.app.mjs";
 export default {
   key: "dify-get-app-parameters",
   name: "Get App Parameters",
-  description: "Return the connected Dify app's configuration: its `user_input_form` (the exact input variable names, types, and which are required), file-upload limits, opening statement, and suggested questions. Call this before **Run Workflow** to know what to pass in its `Inputs` parameter, instead of guessing variable names. [See the documentation](https://docs.dify.ai/en/api-reference/applications/get-app-parameters)",
+  description: "Return the connected Dify app's configuration: its `user_input_form` (the exact input variable names, types, and which are required), file-upload limits, opening statement, and suggested questions. Call this before **Run Workflow** to know what to pass in its `Inputs` parameter, instead of guessing variable names. Example: an app with one required text variable returns `{ user_input_form: [{ \"text-input\": { variable: \"city\", label: \"City\", required: true, default: \"\" } }], opening_statement, suggested_questions, file_upload, ... }`, so pass `{ \"city\": \"...\" }` as `Inputs`. [See the documentation](https://docs.dify.ai/en/api-reference/applications/get-app-parameters)",
   version: "0.0.1",
   ai: "optimized",
   type: "action",
