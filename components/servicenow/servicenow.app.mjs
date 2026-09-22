@@ -4,6 +4,7 @@ import constants from "./common/constants.mjs";
 const {
   SERVICE_CATALOG_BASE_PATH,
   KNOWLEDGE_BASE_PATH,
+  WORKDAY_SCRIPTED_REST_BASE_PATH,
   SYS_USER_TABLE,
   SC_REQUEST_TABLE,
   SC_REQ_ITEM_TABLE,
@@ -176,9 +177,13 @@ export default {
     itemType: {
       type: "string",
       label: "Item Type",
-      description: "Optional Service Catalog item type filter (maps to `sysparm_type`). Use **Order Guide** before **Submit Order Guide**, or **Record Producer** before **Submit Record Producer**.",
+      description: "Optional Service Catalog item type filter (maps to `sysparm_type`). Use **Order Guide** before **Get Order Guide Variables** / **Submit Order Guide**, or **Record Producer** before **Submit Record Producer**.",
       optional: true,
       options: [
+        {
+          label: "Catalog Item",
+          value: "Catalog Item",
+        },
         {
           label: "Order Guide",
           value: "Order Guide",
@@ -188,6 +193,16 @@ export default {
           value: "Record Producer",
         },
       ],
+    },
+    cartName: {
+      type: "string",
+      label: "Cart Name",
+      description: "Named cart id for **Checkout Named Cart** (`sn_sc.CartJS`). Example: `cart_plan-1`. Requires the Workday Agent Cart Scripted REST API on the instance.",
+    },
+    changedField: {
+      type: "string",
+      label: "Changed Field",
+      description: "Catalog variable name that changed. Used by **Evaluate Field Change**. Example: `primary_location`.",
     },
     variableSysId: {
       type: "string",
@@ -492,6 +507,45 @@ export default {
     async getCatalogUiPolicyActions({ ...args }) {
       return this.getTableRecords({
         table: CATALOG_UI_POLICY_ACTION_TABLE,
+        ...args,
+      });
+    },
+    async _makeWork2Request({ ...args }) {
+      const response = await this._makeRawRequest({
+        baseURL: `${this._instanceBaseUrl()}${WORKDAY_SCRIPTED_REST_BASE_PATH}`,
+        ...args,
+      });
+      return response?.result ?? response;
+    },
+    async checkoutNamedCart({ ...args }) {
+      return this._makeWork2Request({
+        method: "post",
+        url: "/agent_cart/checkout",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        ...args,
+      });
+    },
+    async getEvaluatedVariableOptions({ ...args }) {
+      return this._makeWork2Request({
+        url: "/agent_cart/variables",
+        ...args,
+      });
+    },
+    async getGuideScriptInitialState({ ...args }) {
+      return this._makeWork2Request({
+        url: "/guide_script_context/initial_state",
+        ...args,
+      });
+    },
+    async evaluateGuideScriptFieldChange({ ...args }) {
+      return this._makeWork2Request({
+        method: "post",
+        url: "/guide_script_context/evaluate_change",
+        headers: {
+          "Content-Type": "application/json",
+        },
         ...args,
       });
     },
