@@ -6,7 +6,7 @@ export default {
   key: "apify-new-finished-task-run-instant",
   name: "New finished task run (instant)",
   description: "Emit new event when a selected task is run and finishes.",
-  version: "0.0.8",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   props: {
