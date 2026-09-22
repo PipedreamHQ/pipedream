@@ -10,7 +10,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "apify-run-task",
   name: "Run task",
-  description: "Run a specific task and optionally wait for its termination.",
+  description: "Run a specific task and optionally wait for its termination. [See the documentation](https://docs.apify.com/api/v2/actor-task-runs-post)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

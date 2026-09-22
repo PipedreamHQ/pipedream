@@ -4,7 +4,7 @@ export default {
   key: "apify-set-key-value-store-record",
   name: "Set key-value store record",
   description:
-        "Create or update a record in an Apify Key-Value Store. Supports strings, numbers, booleans, null, arrays, and objects. Automatically infers content type (JSON vs. plain text).",
+        "Create or update a record in a key-value store. Supports strings, numbers, booleans, null, arrays, and objects. Automatically infers content type (JSON vs. plain text). [See the documentation](https://docs.apify.com/api/v2/key-value-store-record-put)",
   version: "0.2.5",
   annotations: {
     destructiveHint: true,
