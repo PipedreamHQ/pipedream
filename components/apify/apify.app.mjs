@@ -8,7 +8,7 @@ export default {
     keyValueStoreId: {
       type: "string",
       label: "Key-Value Store ID",
-      description: "The Id of the key-value store.",
+      description: "The ID of the key-value store",
       async options({
         page, unnamed = true,
       }) {
