@@ -154,7 +154,7 @@ props: {
   title: {
     type: "string",
     label: "Title",
-    description: "The issue title.",
+    description: "The issue title, e.g. `Login page returns 500 on submit`.",
     optional: true,         // omit if the prop is required
   },
 }
@@ -260,7 +260,8 @@ Props can offer a dropdown of values fetched from the API at configuration time:
 status: {
   type: "string",
   label: "Status",
-  description: "The pipeline stage to assign.",
+  description: "The ID of the pipeline stage to assign, e.g. `stage_4821`."
+    + " Use **List Stages** to find valid stage IDs (the `id` field).",
   async options() {
     const stages = await this.app.getStages();
     return stages.map((s) => ({
@@ -657,6 +658,10 @@ to entries in the app file's `propDefinitions`.
   - `` Use **List Lists** with the same `siteId` to find valid list IDs. ``
   - If no such tool exists yet, add one (a companion **List X** / **Search X** action) in
     the same PR rather than leaving the prop without a source.
+  - Exception: if the API has no list or search operation for the value, a companion
+    action is not possible. Name the authoritative place the value comes from instead
+    (e.g. `` Found in **Settings → API** in the dashboard. `` or a link to the vendor docs
+    page that lists valid values).
 - **Format**: Always describe the expected format for non-obvious values: dates, IDs, JSON
   structures, enum strings.
 - **Avoid UI language**: Replace "select from the dropdown" with a description of what

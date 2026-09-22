@@ -53,8 +53,11 @@ reviews:
           - For IDs, keys, slugs, or any value the caller cannot know up front: the **bold
             tool name** of the action in the same app that returns it (and the response field
             if not obvious), e.g. "Use **List Lists** to find the list ID (the `id` field)".
-            Flag ID-like props that do not name a source tool; if no such tool exists, suggest
-            adding a companion **List X** / **Search X** action
+            Flag ID-like props that do not name a source tool; if no such tool exists, require
+            adding a companion **List X** / **Search X** action in the same PR. Exception: when
+            the API has no list or search operation for the value, accept a description that
+            names the authoritative source instead (a dashboard location or a vendor docs link
+            listing valid values)
           - Avoid UI-centric language ("select from the dropdown", "choose from the list")
           - Cross-references to other tools must use **bold tool names** matching real tool names
             that actually exist as `name` values in other component files in the same app
