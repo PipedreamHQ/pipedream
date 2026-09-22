@@ -93,6 +93,10 @@ export default {
       } catch (error) {
         throw new ConfigurationError(`Failed to parse Override Input JSON: ${error.message}`);
       }
+      // The task input must be a JSON object; reject null, arrays, and primitives.
+      if (input === null || typeof input !== "object" || Array.isArray(input)) {
+        throw new ConfigurationError("Override Input must be a JSON object (e.g. `{}`).");
+      }
     }
 
     // Helper: start task
