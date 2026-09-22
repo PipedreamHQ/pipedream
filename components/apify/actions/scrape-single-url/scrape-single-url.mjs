@@ -1,12 +1,13 @@
 import apify from "../../apify.app.mjs";
 import { WCC_ACTOR_ID } from "../../common/constants.mjs";
 import { ACTOR_JOB_STATUSES } from "@apify/consts";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "apify-scrape-single-url",
-  name: "Scrape Single URL",
+  name: "Scrape single URL",
   description: "Executes a scraper on a specific website and returns its content as HTML. This action is perfect for extracting content from a single page. [See the documentation](https://docs.apify.com/sdk/js/docs/examples/crawl-single-url)",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -24,29 +25,50 @@ export default {
     crawlerType: {
       type: "string",
       label: "Crawler Type",
-      description: "Select the crawling engine:\n- **Headless web browser** - Useful for modern websites with anti-scraping protections and JavaScript rendering. It recognizes common blocking patterns like CAPTCHAs and automatically retries blocked requests through new sessions. However, running web browsers is more expensive as it requires more computing resources and is slower. It is recommended to use at least 8 GB of RAM.\n- **Stealthy web browser** (default) - Another headless web browser with anti-blocking measures enabled. Try this if you encounter bot protection while scraping. For best performance, use with Apify Proxy residential IPs. \n- **Raw HTTP client** - High-performance crawling mode that uses raw HTTP requests to fetch the pages. It is faster and cheaper, but it might not work on all websites.",
+      description: "Select the crawling engine:\n- **Adaptive** - Automatically switches between raw HTTP for static pages and a headless browser for dynamic pages to get the maximum performance wherever possible.\n- **Firefox (Headless Browser)** (default) - Headless Firefox with Playwright and anti-blocking measures enabled. Reliable, renders JavaScript content, and best at avoiding blocking, but might be slow. For best performance, use with Apify Proxy residential IPs.\n- **Cheerio (Raw HTTP)** - High-performance crawling mode that uses raw HTTP requests to fetch the pages. Fastest and cheapest, but doesn't render JavaScript content.",
       options: [
         {
-          label: "Headless browser (stealthy Firefox+Playwright) - Very reliable, best in avoiding blocking, but might be slow",
+          label: "Adaptive",
+          value: "playwright:adaptive",
+        },
+        {
+          label: "Firefox (Headless Browser)",
           value: "playwright:firefox",
         },
         {
-          label: "Headless browser (Chrome+Playwright) - Reliable, but might be slow",
-          value: "playwright:chrome",
-        },
-        {
-          label: "Raw HTTP client (Cheerio) - Extremely fast, but cannot handle dynamic content",
+          label: "Cheerio (Raw HTTP)",
           value: "cheerio",
-        },
-        {
-          label: "The crawler automatically switches between raw HTTP for static pages and Chrome browser (via Playwright) for dynamic pages, to get the maximum performance wherever possible.",
-          value: "playwright:adaptive",
         },
       ],
       default: "playwright:firefox",
     },
   },
+  methods: {
+  // new URL() accepts hosts with empty labels (e.g. "google..com"), so check explicitly
+    validateUrl(url) {
+      let parsedUrl;
+      try {
+        parsedUrl = new URL(url);
+      } catch {
+        throw new ConfigurationError(`Invalid URL "${url}": could not be parsed. Use a valid absolute URL like https://example.com.`);
+      }
+
+      if (![
+        "http:",
+        "https:",
+      ].includes(parsedUrl.protocol)) {
+        throw new ConfigurationError(`Invalid URL "${url}": only http and https protocols are supported. Use a valid absolute URL like https://example.com.`);
+      }
+
+      if (parsedUrl.hostname.split(".").some((label) => label.length === 0)) {
+        throw new ConfigurationError(`Invalid URL "${url}": host contains an empty label. Use a valid absolute URL like https://example.com.`);
+      }
+    },
+  },
   async run({ $ }) {
+    const url = this.url?.trim();
+    this.validateUrl(url);
+
     const {
       status,
       defaultDatasetId,
@@ -60,7 +82,7 @@ export default {
         maxResults: 1,
         startUrls: [
           {
-            url: this.url,
+            url,
           },
         ],
       },
@@ -74,7 +96,7 @@ export default {
       datasetId: defaultDatasetId,
     });
 
-    $.export("$summary", "Run of Web Content Crawler finished successfully.");
+    $.export("$summary", "Scraped the URL successfully.");
     return items[0];
   },
 };

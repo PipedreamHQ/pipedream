@@ -14,4 +14,4 @@ The Apify API unleashes the power to automate web scraping, process data, and or
 
 **Real Estate Listings Aggregator**
 
-- Create a workflow where Apify actors periodically fetch the latest real estate listings from multiple websites. Process and normalize the data with Pipedream's code steps, then automatically update a Google Sheet that serves as a central repository for all listings, keeping potential buyers informed with the latest options.
+- Create a workflow where Apify Actors periodically fetch the latest real estate listings from multiple websites. Process and normalize the data with Pipedream's code steps, then automatically update a Google Sheet that serves as a central repository for all listings, keeping potential buyers informed with the latest options.

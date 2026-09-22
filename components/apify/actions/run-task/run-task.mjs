@@ -1,13 +1,22 @@
 import apify from "../../apify.app.mjs";
 import {
+  buildMemoryProp, getMemoryLimits, validateMemory,
+} from "../../common/memory.mjs";
+import {
   ACTOR_JOB_STATUSES, ACTOR_JOB_TERMINAL_STATUSES, WEBHOOK_EVENT_TYPES,
 } from "@apify/consts";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "apify-run-task",
-  name: "Run Task",
-  description: "Run a specific task and optionally wait for it's termination.",
-  version: "0.0.4",
+  name: "Run task",
+  description: "Run a specific task and optionally wait for its termination.",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     apify,
@@ -20,6 +29,7 @@ export default {
         }),
       ],
       description: "The ID of the task to run",
+      reloadProps: true,
     },
     waitForFinish: {
       type: "boolean",
@@ -30,20 +40,14 @@ export default {
     },
     overrideInput: {
       type: "string",
-      label: "Override Input",
-      description: "Optional JSON string to override the default input for the task run. Must be valid JSON.",
+      label: "Override Input (JSON)",
+      description: "Optional JSON object to override the task's saved input for this run. Leave empty to use the task's saved input. Must be valid JSON (e.g. `{}` for empty input).",
       optional: true,
     },
     timeout: {
       type: "integer",
-      label: "Timeout",
+      label: "Timeout (seconds)",
       description: "Optional timeout for the run, in seconds. By default, the run uses a timeout specified in the task settings.",
-      optional: true,
-    },
-    memory: {
-      type: "integer",
-      label: "Memory",
-      description: "Memory limit for the run, in megabytes. The amount of memory can be set to a power of 2 with a minimum of 128. By default, the run uses a memory limit specified in the task settings.",
       optional: true,
     },
     build: {
@@ -51,7 +55,31 @@ export default {
       label: "Build",
       description: "Specifies the Actor build to run. It can be either a build tag or build number. By default, the run uses the build specified in the task settings (typically latest).",
       optional: true,
+      reloadProps: true,
     },
+  },
+  methods: {
+    async taskMemoryLimits() {
+      if (!this.taskId) {
+        return getMemoryLimits();
+      }
+      const task = await this.apify.getTask(this.taskId);
+      const build = task?.actId
+        ? await this.apify.getBuild(task.actId, this.build || task.options?.build)
+        : null;
+      return getMemoryLimits(build);
+    },
+  },
+  async additionalProps() {
+    let memoryLimits;
+    try {
+      memoryLimits = await this.taskMemoryLimits();
+    } catch {
+      memoryLimits = getMemoryLimits();
+    }
+    return {
+      memory: buildMemoryProp(memoryLimits),
+    };
   },
 
   async run({ $ }) {
@@ -63,19 +91,23 @@ export default {
       try {
         input = JSON.parse(this.overrideInput);
       } catch (error) {
-        throw new Error(`Failed to parse override Input JSON: ${error.message}`);
+        throw new ConfigurationError(`Failed to parse Override Input JSON: ${error.message}`);
       }
     }
 
     // Helper: start task
     const startTask = async () => {
+      const params = {
+        timeout: this.timeout,
+        build: this.build,
+      };
+      // Validate memory when set; empty uses task's saved value.
+      if (this.memory) {
+        params.memory = validateMemory(this.memory, await this.taskMemoryLimits());
+      }
       return this.apify.runTask({
         taskId: this.taskId,
-        params: {
-          timeout: this.timeout,
-          memory: this.memory,
-          build: this.build,
-        },
+        params,
         input,
       });
     };
@@ -94,7 +126,7 @@ export default {
     // Helper: schedule next poll (rerun) with 30s interval and 1-day cap
     const schedulePoll = (runId, webhookId) => {
       const startEpoch =
-                ($.context.run?.context && $.context.run.context.pollStartMs) ||
+                $.context.run?.context?.pollStartMs ||
                 $.context.pollStartMs ||
                 Date.now();
 
@@ -125,7 +157,7 @@ export default {
     const isRerun = typeof runCtx.runs === "number" && runCtx.runs > 1;
 
     // RESUME DATA (if the webhook called the resume_url)
-    const resumeBody = $.$resume_data && $.$resume_data.body;
+    const resumeBody = $.$resume_data?.body;
 
     // 3) RERUN/RESUME BEHAVIOR
     if (resumeBody || isRerun) {

@@ -2,7 +2,7 @@ import apify from "../../apify.app.mjs";
 
 export default {
   key: "apify-set-key-value-store-record",
-  name: "Set Key-Value Store Record",
+  name: "Set key-value store record",
   description:
         "Create or update a record in an Apify Key-Value Store. Supports strings, numbers, booleans, null, arrays, and objects. Automatically infers content type (JSON vs. plain text).",
   version: "0.2.4",
@@ -26,7 +26,7 @@ export default {
     },
     key: {
       type: "string",
-      label: "Key",
+      label: "Record key",
       description: "The key of the record to create or update.",
       optional: false,
     },

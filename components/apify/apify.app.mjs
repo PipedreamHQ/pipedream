@@ -7,7 +7,7 @@ export default {
   propDefinitions: {
     keyValueStoreId: {
       type: "string",
-      label: "Key-Value Store Id",
+      label: "Key-Value Store ID",
       description: "The Id of the key-value store.",
       async options({
         page, unnamed = true,
@@ -29,7 +29,7 @@ export default {
     actorId: {
       type: "string",
       label: "Actor",
-      description: "Select the Actor, enter the Actor ID, or use a tilde-separated combination of the owner's username and the Actor name.",
+      description: "Select an Actor from the dropdown, enter an Actor ID, or use a tilde-separated owner/name identifier (e.g. `apify~web-scraper`). If the list is empty, switch \"Search Actors from\" to **Apify Store Actors**.",
       async options({
         page, actorSource,
       }) {
@@ -62,7 +62,7 @@ export default {
     datasetId: {
       type: "string",
       label: "Dataset ID",
-      description: "The ID of the dataset to retrieve items within",
+      description: "Select a dataset, or enter a Dataset ID or `username/dataset-name`",
       async options({ page }) {
         const { items } = await this.listDatasets({
           offset: LIMIT * page,
@@ -81,15 +81,25 @@ export default {
     buildTag: {
       type: "string",
       label: "Build",
-      description: "Specifies the Actor build to run. The accepted value is the build tag. If not provided, the default build will be used.",
+      description: "Actor build to run. Pick a tag from the list or enter a build number (e.g. `0.1.2`). Defaults to the Actor's default build.",
       async options({ actorId }) {
-        const { taggedBuilds } = await this.getActor({
+        if (!actorId) {
+          return [];
+        }
+
+        const { taggedBuilds = {} } = await this.getActor({
           actorId,
         });
 
         return Object.entries(taggedBuilds).map(([
-          name,
-        ]) => name);
+          tag,
+          info,
+        ]) => ({
+          label: info?.buildNumber
+            ? `${tag} (${info.buildNumber})`
+            : tag,
+          value: tag,
+        }));
       },
     },
     clean: {
@@ -119,15 +129,15 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "The maximum number of items to return",
-      default: LIMIT,
+      description: "The maximum number of items to return. Leave empty to return all items",
+      min: 1,
       optional: true,
     },
     offset: {
       type: "integer",
       label: "Offset",
-      description: "The number records to skip before returning results",
-      default: 0,
+      description: "The number of records to skip before returning results. Leave empty to start from the first item",
+      min: 0,
       optional: true,
     },
   },
@@ -157,6 +167,15 @@ export default {
         offset: LIMIT * page,
         limit: LIMIT,
       });
+
+      if (page === 0 && items.length === 0 && actorSource !== "store") {
+        return [
+          {
+            label: "No recent Actors, switch to \"Apify Store Actors\" above",
+            value: "",
+          },
+        ];
+      }
 
       return items.map((actor) => ({
         label: this.formatActorOrTaskLabel(actor),
@@ -196,12 +215,15 @@ export default {
       return this._client().task(taskId)
         .start(input, params);
     },
+    getTask(taskId) {
+      return this._client().task(taskId)
+        .get();
+    },
     getActor({ actorId }) {
       return this._client().actor(actorId)
         .get();
     },
-    async getBuild(actorId, buildTag) {
-      // Get actor details
+    async resolveBuildId(actorId, buildRef) {
       const actor = await this._client().actor(actorId)
         .get();
 
@@ -209,20 +231,35 @@ export default {
         throw new Error(`Actor ${actorId} not found.`);
       }
 
-      if (!buildTag) {
-        buildTag = actor.defaultRunOptions.build;
+      if (!buildRef) {
+        buildRef = actor.defaultRunOptions.build;
       }
 
-      const { taggedBuilds } = actor;
+      const taggedBuilds = actor.taggedBuilds ?? {};
 
-      if (taggedBuilds[buildTag]) {
-        return this._client().build(taggedBuilds[buildTag].buildId)
-          .get();
-      } else {
-        throw new Error(
-          `Actor ${actorId} has no build tagged "${buildTag}". Please build the actor first.`,
-        );
+      if (taggedBuilds[buildRef]?.buildId) {
+        return taggedBuilds[buildRef].buildId;
       }
+
+      const { items: builds = [] } = await this.listBuilds({
+        actorId,
+        desc: true,
+        limit: LIMIT,
+      });
+      const match = builds.find(({ buildNumber }) => buildNumber === buildRef);
+
+      if (match) {
+        return match.id;
+      }
+
+      throw new Error(
+        `No build with tag or number "${buildRef}" found for actor ${actorId}.`,
+      );
+    },
+    async getBuild(actorId, buildRef) {
+      const buildId = await this.resolveBuildId(actorId, buildRef);
+      return this._client().build(buildId)
+        .get();
     },
     listActors(opts = {}) {
       return this._client().store()
@@ -240,10 +277,12 @@ export default {
       return this._client().tasks()
         .list(opts);
     },
-    listBuilds({ actorId }) {
+    listBuilds({
+      actorId, ...opts
+    }) {
       return this._client().actor(actorId)
         .builds()
-        .list();
+        .list(opts);
     },
     listKeyValueStores(opts = {}) {
       return this._client().keyValueStores()
@@ -266,12 +305,6 @@ export default {
     getKVSRecordUrl(kvsId, recordKey) {
       return this._client().keyValueStore(kvsId)
         .getRecordPublicUrl(recordKey);
-    },
-    runTaskSynchronously({
-      taskId, params, input,
-    }) {
-      return this._client().task(taskId)
-        .call(input, params);
     },
     setKeyValueStoreRecord({
       storeId, key, value, contentType,

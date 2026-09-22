@@ -4,9 +4,9 @@ import sampleEmit from "./test-event.mjs";
 export default {
   ...common,
   key: "apify-new-finished-task-run-instant",
-  name: "New Finished Task Run (Instant)",
+  name: "New finished task run (instant)",
   description: "Emit new event when a selected task is run and finishes.",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
   dedupe: "unique",
   props: {
