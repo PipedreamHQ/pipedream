@@ -83,8 +83,8 @@ export default {
   },
 
   async run({ $ }) {
-    const POLL_INTERVAL_MS = 30_000; // 30s
-    const POLL_WINDOW_MS = 24 * 60 * 60 * 1000; // 1 day
+    const pollIntervalMs = 30_000; // 30s
+    const pollWindowMs = 24 * 60 * 60 * 1000; // 1 day
     let input;
 
     if (this.overrideInput) {
@@ -131,7 +131,7 @@ export default {
                 Date.now();
 
       // Persist the poll start time and webhook ID across reruns
-      $.flow.rerun(POLL_INTERVAL_MS, {
+      $.flow.rerun(pollIntervalMs, {
         apifyRunId: runId,
         pollStartMs: startEpoch,
         webhookId,
@@ -177,11 +177,11 @@ export default {
       // Enforce a 1-day cap for polling
       const pollStartMs = rerunContext.pollStartMs || $.context.pollStartMs || Date.now();
       const elapsed = Date.now() - pollStartMs;
-      if (elapsed > POLL_WINDOW_MS) {
+      if (elapsed > pollWindowMs) {
         // Clean up webhook before timing out
         await deleteWebhook(webhookId);
         throw new Error(
-          `Polling window exceeded (>${POLL_WINDOW_MS} ms). Task did not finish in time.`,
+          `Polling window exceeded (>${pollWindowMs} ms). Task did not finish in time.`,
         );
       }
 
@@ -225,7 +225,7 @@ export default {
     $.context.pollStartMs = Date.now(); // track the start of a polling window
 
     // Create a resume link and suspend
-    const { resume_url } = $.flow.suspend(POLL_WINDOW_MS); // 1-day timeout for task run to finish
+    const { resume_url } = $.flow.suspend(pollWindowMs); // 1-day timeout for task run to finish
 
     // Create a webhook pointing to resume_url
     const webhook = await this.apify.createHook({
