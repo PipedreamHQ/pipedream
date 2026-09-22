@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dify",
-  "version": "0.1.0",
+  "version": "0.0.2",
   "description": "Pipedream Dify Components",
   "main": "dify.app.mjs",
   "keywords": [
