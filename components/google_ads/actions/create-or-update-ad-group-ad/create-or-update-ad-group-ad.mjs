@@ -15,7 +15,7 @@ export default {
   key: "google_ads-create-or-update-ad-group-ad",
   name: "Create, Update, or Remove Ad Group Ad",
   description: `Creates, updates, or removes an ad group ad. [See the documentation](${docLink})`,
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: true,

@@ -1,3 +1,52 @@
+import constants from "./constants.mjs";
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// Caps how long a single Retry-After wait can be, so a large or misbehaving header value
+// (e.g. an intermediate proxy or a monthly-limit response) can't block execution for
+// unpredictably long stretches across maxRetries attempts.
+const MAX_RETRY_AFTER_MS = 30000;
+
+/* Retries a single request on 429, honoring the response's Retry-After header (seconds)
+   instead of guessing a backoff. Falls through unchanged for any other status/error. */
+const withRetryAfter = async (fn, maxRetries = 3) => {
+  for (let attempt = 0; ; attempt++) {
+    try {
+      return await fn();
+    } catch (err) {
+      const status = err?.response?.status ?? err?.status;
+      if (status !== 429 || attempt >= maxRetries) {
+        throw err;
+      }
+      const retryAfterSeconds = Number(err?.response?.headers?.["retry-after"]);
+      const delayMs = Number.isFinite(retryAfterSeconds) && retryAfterSeconds > 0
+        ? Math.min(retryAfterSeconds * 1000, MAX_RETRY_AFTER_MS)
+        : constants.RATE_LIMIT_BATCH_DELAY_MS;
+      await sleep(delayMs);
+    }
+  }
+};
+
+/* Runs fn over items in small concurrent batches, pausing between batches, so callers
+   don't blow through Harvest's rate limit with an unbounded Promise.all. Fails fast: the
+   first rejection (after any retries inside fn) propagates immediately and no partial
+   results are returned. */
+const mapWithRateLimit = async (items, fn, {
+  batchSize = constants.RATE_LIMIT_BATCH_SIZE,
+  delayMs = constants.RATE_LIMIT_BATCH_DELAY_MS,
+} = {}) => {
+  const results = [];
+  for (let i = 0; i < items.length; i += batchSize) {
+    const batch = items.slice(i, i + batchSize);
+    const batchResults = await Promise.all(batch.map(fn));
+    results.push(...batchResults);
+    if (i + batchSize < items.length) {
+      await sleep(delayMs);
+    }
+  }
+  return results;
+};
+
 const removeNullEntries = (obj) =>
   obj && Object.entries(obj).reduce((acc, [
     key,
@@ -62,5 +111,5 @@ const isValidTime = (timeString) => {
 };
 
 export {
-  removeNullEntries, isValidDate, isValidTime,
+  removeNullEntries, isValidDate, isValidTime, mapWithRateLimit, withRetryAfter,
 };
