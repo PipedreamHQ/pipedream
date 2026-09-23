@@ -90,11 +90,16 @@ export default {
       status: 200,
     });
 
+    // Prefer the run ID; TEST dispatches carry no eventData, so guard the
+    // access and fall back to a stable per-dispatch key.
+    const dedupeId = body.eventData?.actorRunId
+      ?? `${body.userId}-${body.createdAt}`;
+
     this.$emit(body, {
       summary: body.eventType === WEBHOOK_EVENT_TYPES.TEST
         ? "Webhook test has successfully triggered!"
         : this.getSummary(body),
-      id: body.eventData.actorRunId || `${body.userId}-${body.createdAt}`,
+      id: dedupeId,
       ts: Date.parse(body.createdAt),
     });
   },
