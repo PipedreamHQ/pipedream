@@ -1,6 +1,11 @@
 export const API_VERSION = "v25";
 
+// OfflineUserDataJobTypeEnum.OfflineUserDataJobType value for a Customer Match job (job.type).
 export const CUSTOMER_MATCH_USER_LIST_TYPE = "CUSTOMER_MATCH_USER_LIST";
+
+// UserListTypeEnum.UserListType value for a Customer Match list (user_list.type). Distinct
+// from CUSTOMER_MATCH_USER_LIST_TYPE above, which is a different enum for a different field.
+export const CRM_BASED_USER_LIST_TYPE = "CRM_BASED";
 
 export const GMAIL_NORMALIZED_DOMAINS = [
   "gmail.com",

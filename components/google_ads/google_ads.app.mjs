@@ -534,10 +534,13 @@ export default {
       return response;
     },
     async listUserLists({
-      id, ...args
+      id, query, ...args
     } = {}) {
       const { results } = await this.search({
-        query: QUERIES.listUserLists(id),
+        query: QUERIES.listUserLists({
+          id,
+          query,
+        }),
         ...args,
       });
       return results;

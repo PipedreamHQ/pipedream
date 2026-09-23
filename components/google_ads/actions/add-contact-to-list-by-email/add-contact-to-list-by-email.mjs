@@ -2,6 +2,7 @@ import crypto from "crypto";
 import { ConfigurationError } from "@pipedream/platform";
 import common from "../common/common.mjs";
 import {
+  CRM_BASED_USER_LIST_TYPE,
   CUSTOMER_MATCH_USER_LIST_TYPE,
   GMAIL_NORMALIZED_DOMAINS,
 } from "../../common/constants.mjs";
@@ -13,7 +14,7 @@ export default {
   ...common,
   key: "google_ads-add-contact-to-list-by-email",
   name: "Add Contact to Customer List by Email",
-  description: "Adds one or more contacts to a Google Ads Customer Match user list by email. Accepts an array of email addresses and batches them all into a single offline user data job (one lookup to confirm the target list is a Customer Match list + one create + one addOperations + one run = exactly 4 API calls per run regardless of list size). Emails are normalized (trimmed, lowercased; Gmail/Googlemail addresses additionally have dots removed from the local part and plus-suffixes stripped) before SHA-256 hashing so they match Google's expected Customer Match hash. Lists typically update in 6 to 12 hours after the operation. To find a valid Customer List ID, query your user lists in Google Ads first (no in-connector discovery action currently exists). [See the documentation](https://developers.google.com/google-ads/api/docs/remarketing/audience-segments/customer-match/get-started)",
+  description: "Adds one or more contacts to a Google Ads Customer Match user list by email. Accepts an array of email addresses and batches them all into a single offline user data job (one lookup to confirm the target list is a Customer Match list + one create + one addOperations + one run = exactly 4 API calls per run regardless of list size). Emails are normalized (trimmed, lowercased; Gmail/Googlemail addresses additionally have dots removed from the local part and plus-suffixes stripped) before SHA-256 hashing so they match Google's expected Customer Match hash. Lists typically update in 6 to 12 hours after the operation. Use **List User Lists** to find a valid Customer List ID and confirm it's a Customer Match (`CRM_BASED`) list before calling this action. [See the documentation](https://developers.google.com/google-ads/api/docs/remarketing/audience-segments/customer-match/get-started)",
   version: "1.0.0",
   annotations: {
     destructiveHint: false,
@@ -21,6 +22,7 @@ export default {
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     emails: {
@@ -31,7 +33,7 @@ export default {
     userListId: {
       type: "string",
       label: "Customer List ID",
-      description: "The numeric Customer List (user list) ID to add the contacts to, e.g. `98765432`. Provide the numeric ID directly - look it up in the Google Ads UI under Audience Manager, or query the API. No in-connector list action is available yet.",
+      description: "The numeric Customer List (user list) ID to add the contacts to, e.g. `98765432`. Run **List User Lists** first to find valid IDs and confirm the target list's type is `CRM_BASED` (Customer Match) — this action rejects any other list type.",
     },
   },
   methods: {
@@ -100,8 +102,8 @@ export default {
       customerClientId,
     }) ?? [];
 
-    if (userList?.userList?.type !== CUSTOMER_MATCH_USER_LIST_TYPE) {
-      throw new ConfigurationError(`User List \`${canonicalUserListId}\` is not a Customer Match list (type: \`${userList?.userList?.type ?? "not found"}\`). Only Customer Match lists are supported by this action.`);
+    if (userList?.userList?.type !== CRM_BASED_USER_LIST_TYPE) {
+      throw new ConfigurationError(`User List \`${canonicalUserListId}\` is not a Customer Match list (type: \`${userList?.userList?.type ?? "not found"}\`). Only Customer Match lists are supported by this action. Use **List User Lists** to check a list's type before calling this action.`);
     }
 
     const offlineUserDataJob = await googleAds.createOfflineUserDataJob({
