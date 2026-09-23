@@ -27,7 +27,6 @@ const INCIDENT_SEVERITY_OPTIONS = [
 
 const SERVICE_CATALOG_BASE_PATH = "/api/sn_sc/servicecatalog";
 const KNOWLEDGE_BASE_PATH = "/api/sn_km_api/knowledge";
-const WORKDAY_SCRIPTED_REST_BASE_PATH = "/api/work2";
 const SYS_USER_TABLE = "sys_user";
 const SC_REQUEST_TABLE = "sc_request";
 const SC_REQ_ITEM_TABLE = "sc_req_item";
@@ -43,7 +42,6 @@ export default {
   INCIDENT_SEVERITY_OPTIONS,
   SERVICE_CATALOG_BASE_PATH,
   KNOWLEDGE_BASE_PATH,
-  WORKDAY_SCRIPTED_REST_BASE_PATH,
   SYS_USER_TABLE,
   SC_REQUEST_TABLE,
   SC_REQ_ITEM_TABLE,

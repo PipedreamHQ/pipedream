@@ -6,7 +6,7 @@ export default {
   key: "servicenow-get-requested-items",
   name: "Get Requested Items",
   description: "Retrieve requested items (RITMs) from the `sc_req_item` table for a catalog request. Provide the request number returned by **Checkout Cart**, **Submit Cart Order**, **Order Catalog Item**, or **Checkout Order Guide**. Use this after checkout to get RITM numbers and states for follow-up links. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_TableAPI.html)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -26,7 +26,7 @@ export default {
     requestSysId: {
       type: "string",
       label: "Request Sys ID",
-      description: "Optional `sys_id` of the parent `sc_request` (matched against `request`). Use `sys_id` / `request_id` from **Checkout Cart**, **Submit Cart Order**, **Checkout Order Guide**, or **Checkout Named Cart**. Example: `a9e9c33dc61122760072455df62663d2`.",
+      description: "Optional `sys_id` of the parent `sc_request` (matched against `request`). Use `sys_id` / `request_id` from **Checkout Cart**, **Submit Cart Order**, or **Checkout Order Guide**. Example: `a9e9c33dc61122760072455df62663d2`.",
       optional: true,
     },
     ritmNumber: {
