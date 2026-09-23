@@ -1,5 +1,6 @@
 import linearApp from "../../linear_app.app.mjs";
 import constants from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "linear_app-get-teams",
@@ -23,10 +24,11 @@ export default {
       description: "Maximum number of teams to return per page. Defaults to 20 if not specified.",
     },
     after: {
-      type: "string",
-      label: "After",
+      propDefinition: [
+        linearApp,
+        "after",
+      ],
       description: "Pagination cursor from a previous response's `pageInfo.endCursor` to fetch the next page of teams.",
-      optional: true,
     },
     fields: {
       type: "string[]",
@@ -51,21 +53,8 @@ export default {
       ? ""
       : "s"}`);
 
-    if (this.fields?.length) {
-      return {
-        nodes: teams.map((team) => {
-          const shaped = {};
-          for (const field of this.fields) {
-            shaped[field] = team[field];
-          }
-          return shaped;
-        }),
-        pageInfo,
-      };
-    }
-
     return {
-      nodes: teams,
+      nodes: teams.map((team) => utils.pickFields(team, this.fields)),
       pageInfo,
     };
   },

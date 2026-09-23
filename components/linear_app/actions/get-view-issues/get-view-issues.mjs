@@ -1,4 +1,5 @@
 import linearApp from "../../linear_app.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "linear_app-get-view-issues",
@@ -57,19 +58,9 @@ export default {
       ? ""
       : "s"}`);
 
-    if (this.fields?.length) {
-      return {
-        nodes: response.nodes.map((issue) => {
-          const shaped = {};
-          for (const field of this.fields) {
-            shaped[field] = issue[field];
-          }
-          return shaped;
-        }),
-        pageInfo: response.pageInfo,
-      };
-    }
-
-    return response;
+    return {
+      nodes: response.nodes.map((issue) => utils.pickFields(issue, this.fields)),
+      pageInfo: response.pageInfo,
+    };
   },
 };

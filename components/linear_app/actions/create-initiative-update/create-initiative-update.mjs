@@ -15,8 +15,10 @@ export default {
   props: {
     linearApp,
     initiativeId: {
-      type: "string",
-      label: "Initiative ID",
+      propDefinition: [
+        linearApp,
+        "initiativeId",
+      ],
       description: "The ID of the initiative to create the update for (a UUID, e.g. `b2c3d4e5-0000-0000-0000-000000000002`). Run **List Initiatives** first to obtain a valid initiative ID.",
     },
     body: {
@@ -40,9 +42,10 @@ export default {
       health: this.health,
     });
 
-    if (response?._initiativeUpdate) {
-      $.export("$summary", `Successfully created initiative update with ID ${response._initiativeUpdate.id}`);
-    }
+    const summary = response?._initiativeUpdate?.id
+      ? `Successfully created initiative update with ID ${response._initiativeUpdate.id}`
+      : "Successfully created initiative update";
+    $.export("$summary", summary);
 
     return response;
   },

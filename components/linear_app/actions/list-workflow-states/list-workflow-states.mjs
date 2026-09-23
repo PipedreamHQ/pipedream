@@ -1,4 +1,5 @@
 import linearApp from "../../linear_app.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "linear_app-list-workflow-states",
@@ -78,21 +79,8 @@ export default {
       ? ""
       : "s"}`);
 
-    if (this.fields?.length) {
-      return {
-        nodes: nodes.map((state) => {
-          const shaped = {};
-          for (const field of this.fields) {
-            shaped[field] = state[field];
-          }
-          return shaped;
-        }),
-        pageInfo,
-      };
-    }
-
     return {
-      nodes,
+      nodes: (nodes ?? []).map((state) => utils.pickFields(state, this.fields)),
       pageInfo,
     };
   },

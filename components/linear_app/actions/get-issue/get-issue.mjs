@@ -1,5 +1,6 @@
 import linearApp from "../../linear_app.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "linear_app-get-issue",
@@ -61,14 +62,6 @@ export default {
     }
     $.export("$summary", `Found issue with ID ${issue?.id}`);
 
-    if (this.fields?.length) {
-      const shaped = {};
-      for (const field of this.fields) {
-        shaped[field] = issue[field];
-      }
-      return shaped;
-    }
-
-    return issue;
+    return utils.pickFields(issue, this.fields);
   },
 };

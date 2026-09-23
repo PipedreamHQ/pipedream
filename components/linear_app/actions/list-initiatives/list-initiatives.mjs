@@ -1,4 +1,5 @@
 import linearApp from "../../linear_app.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "linear_app-list-initiatives",
@@ -72,21 +73,8 @@ export default {
 
     $.export("$summary", `Found ${nodes.length} initiatives`);
 
-    if (this.fields?.length) {
-      return {
-        nodes: nodes.map((initiative) => {
-          const shaped = {};
-          for (const field of this.fields) {
-            shaped[field] = initiative[field];
-          }
-          return shaped;
-        }),
-        pageInfo,
-      };
-    }
-
     return {
-      nodes,
+      nodes: nodes.map((initiative) => utils.pickFields(initiative, this.fields)),
       pageInfo,
     };
   },

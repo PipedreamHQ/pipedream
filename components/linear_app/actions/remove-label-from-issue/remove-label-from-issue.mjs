@@ -14,14 +14,6 @@ export default {
   },
   props: {
     linearApp,
-    teamId: {
-      propDefinition: [
-        linearApp,
-        "teamId",
-      ],
-      description: "Filter selected issues by team. Use **Get Teams** to discover valid team IDs.",
-      optional: true,
-    },
     issueId: {
       propDefinition: [
         linearApp,
@@ -37,7 +29,7 @@ export default {
       ],
       type: "string",
       label: "Label",
-      description: "The ID of the label to remove from the issue. Use **List Labels** to find valid label IDs.",
+      description: "The ID of the label to remove from the issue (a UUID, e.g. `ab1b2c3d-0000-0000-0000-000000000005`). Use **List Labels** to find valid label IDs.",
       optional: false,
     },
   },

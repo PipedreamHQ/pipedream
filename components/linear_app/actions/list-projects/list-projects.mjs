@@ -75,21 +75,8 @@ export default {
       ? ""
       : "s"}`);
 
-    if (this.fields?.length) {
-      return {
-        nodes: nodes.map((project) => {
-          const shaped = {};
-          for (const field of this.fields) {
-            shaped[field] = project[field];
-          }
-          return shaped;
-        }),
-        pageInfo,
-      };
-    }
-
     return {
-      nodes,
+      nodes: nodes.map((project) => utils.pickFields(project, this.fields)),
       pageInfo,
     };
   },

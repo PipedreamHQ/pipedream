@@ -35,7 +35,7 @@ export default {
       ],
     },
     teamIdToUpdate: {
-      description: "The UUID of the team to move the issue to. Omit to leave the issue's team unchanged. Use **Get Teams** to discover valid team IDs.",
+      description: "The UUID of the team to move the issue to (e.g. `9d1c3f7e-2b48-4c6a-9f1e-5a7b8c9d0e1f`). Omit to leave the issue's team unchanged. Use **Get Teams** to discover valid team IDs.",
       optional: true,
       propDefinition: [
         linearApp,

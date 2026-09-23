@@ -22,7 +22,7 @@ export default {
         "teamId",
       ],
       optional: true,
-      description: "Filter issues by team. Leave this parameter out of the tool call entirely to search across all accessible teams — do not pass `\"*\"`, an empty string, or any other placeholder, since only a real team UUID or no value at all are valid. Use **Get Teams** to discover valid team IDs.",
+      description: "Filter issues by team (a UUID, e.g. `9d1c3f7e-2b48-4c6a-9f1e-5a7b8c9d0e1f`). Leave this parameter out of the tool call entirely to search across all accessible teams — do not pass `\"*\"`, an empty string, or any other placeholder, since only a real team UUID or no value at all are valid. Use **Get Teams** to discover valid team IDs.",
     },
     projectId: {
       propDefinition: [
@@ -142,16 +142,6 @@ export default {
 
     $.export("$summary", `Found ${issues.length} issues`);
 
-    if (this.fields?.length) {
-      return issues.map((issue) => {
-        const shaped = {};
-        for (const field of this.fields) {
-          shaped[field] = issue[field];
-        }
-        return shaped;
-      });
-    }
-
-    return issues;
+    return issues.map((issue) => utils.pickFields(issue, this.fields));
   },
 };

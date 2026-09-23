@@ -165,8 +165,52 @@ function formatGraphQlErrors(errors = []) {
     .join("; ");
 }
 
+/**
+ * Narrows an object down to a caller-specified set of keys, for actions that
+ * expose an optional `fields` prop to shrink large API payloads. Returns the
+ * object unchanged when no fields are requested, so callers can apply this
+ * unconditionally instead of branching on whether `fields` was provided.
+ *
+ * @param {object} obj - the object to narrow
+ * @param {string[]} [fields] - keys to keep; the full object is returned when
+ * empty or omitted
+ * @returns {object} `obj` itself, or a new object containing only `fields`
+ */
+function pickFields(obj, fields) {
+  if (!fields?.length) {
+    return obj;
+  }
+  const shaped = {};
+  for (const field of fields) {
+    shaped[field] = obj[field];
+  }
+  return shaped;
+}
+
+/**
+ * Caps a caller-supplied `first` page size at the shared propDefinition's
+ * documented maximum. Pipedream's `max` on an integer prop is a UI-form hint
+ * only — it is not enforced on the value an MCP tool call actually sends — so
+ * a model that ignores the description and requests an oversized page can
+ * trip Linear's GraphQL query-complexity limit. Values above `max` are
+ * clamped down instead of rejected; an omitted value is left as-is so the
+ * API's own default still applies.
+ *
+ * @param {number} [first] - the caller-supplied page size
+ * @param {number} [max] - the documented maximum (matches the shared `first`
+ * propDefinition's `max`)
+ * @returns {number|undefined} `first` clamped to `max`, or unchanged if omitted
+ */
+function clampFirst(first, max = 100) {
+  return first
+    ? Math.min(first, max)
+    : first;
+}
+
 export default {
   streamIterator,
   buildVariables,
   formatGraphQlErrors,
+  pickFields,
+  clampFirst,
 };

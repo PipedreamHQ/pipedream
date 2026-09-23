@@ -1,4 +1,5 @@
 import linearApp from "../../linear_app.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "linear_app-list-project-updates",
@@ -15,8 +16,10 @@ export default {
   props: {
     linearApp,
     projectId: {
-      type: "string",
-      label: "Project ID",
+      propDefinition: [
+        linearApp,
+        "projectId",
+      ],
       description: "The ID of the project to scope updates to (a UUID, e.g. `a1b2c3d4-0000-0000-0000-000000000001`). Run **List Projects** first to obtain a valid project ID. Leave blank to list updates across all accessible projects.",
       optional: true,
     },
@@ -27,18 +30,16 @@ export default {
       ],
     },
     first: {
-      type: "integer",
-      label: "First",
-      description: "Maximum number of project updates to return (min 1, max 1000).",
-      optional: true,
-      min: 1,
-      max: 1000,
+      propDefinition: [
+        linearApp,
+        "first",
+      ],
     },
     after: {
-      type: "string",
-      label: "After",
-      description: "Pagination cursor from a previous response's `pageInfo.endCursor` to fetch the next page.",
-      optional: true,
+      propDefinition: [
+        linearApp,
+        "after",
+      ],
     },
     fields: {
       type: "string[]",
@@ -60,7 +61,7 @@ export default {
     const variables = {
       filter,
       orderBy: this.orderBy,
-      first: this.first,
+      first: utils.clampFirst(this.first),
       after: this.after,
     };
 
@@ -72,21 +73,8 @@ export default {
       ? ""
       : "s"}`);
 
-    if (this.fields?.length) {
-      return {
-        nodes: nodes.map((update) => {
-          const shaped = {};
-          for (const field of this.fields) {
-            shaped[field] = update[field];
-          }
-          return shaped;
-        }),
-        pageInfo,
-      };
-    }
-
     return {
-      nodes,
+      nodes: nodes.map((update) => utils.pickFields(update, this.fields)),
       pageInfo,
     };
   },

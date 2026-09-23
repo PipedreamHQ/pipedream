@@ -15,9 +15,12 @@ export default {
   props: {
     linearApp,
     projectId: {
-      type: "string",
-      label: "Project ID",
+      propDefinition: [
+        linearApp,
+        "projectId",
+      ],
       description: "The ID of the project to create the update for (a UUID, e.g. `a1b2c3d4-0000-0000-0000-000000000001`). Run **List Projects** first to obtain a valid project ID.",
+      optional: false,
     },
     body: {
       propDefinition: [
@@ -40,9 +43,10 @@ export default {
       health: this.health,
     });
 
-    if (response?._projectUpdate) {
-      $.export("$summary", `Successfully created project update with ID ${response._projectUpdate.id}`);
-    }
+    const summary = response?._projectUpdate?.id
+      ? `Successfully created project update with ID ${response._projectUpdate.id}`
+      : "Successfully created project update";
+    $.export("$summary", summary);
 
     return response;
   },

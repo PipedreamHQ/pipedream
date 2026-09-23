@@ -14,14 +14,6 @@ export default {
   },
   props: {
     linearApp,
-    teamId: {
-      propDefinition: [
-        linearApp,
-        "teamId",
-      ],
-      description: "Filter issue selection by team. Use **Get Teams** to discover valid team IDs.",
-      optional: true,
-    },
     issueId: {
       propDefinition: [
         linearApp,

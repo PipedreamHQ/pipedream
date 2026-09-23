@@ -1,9 +1,10 @@
 import linearApp from "../../linear_app.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "linear_app-list-project-statuses",
   name: "List Project Statuses",
-  description: "List available project statuses in the Linear workspace. Use this to discover valid status IDs when creating or updating projects. Returns an array of status objects with `id`, `name`, and `type`. Example: returns `[{id: \"s1\", name: \"Planned\", type: \"planned\"}, {id: \"s2\", name: \"In Progress\", type: \"started\"}, ...]`. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=projectStatuses).",
+  description: "List available project statuses in the Linear workspace. Use this to discover valid status IDs when creating or updating projects. Returns `{nodes, pageInfo}`, where each node includes `id`, `name`, and `type`. If `pageInfo.hasNextPage` is `true`, call again with `after` set to `pageInfo.endCursor` to fetch more. Example: returns `{nodes: [{id: \"5a1b2c3d-0000-0000-0000-000000000006\", name: \"Planned\", type: \"planned\"}], pageInfo: {endCursor: \"5a1b2c3d-0000-0000-0000-000000000006\", hasNextPage: false}}`. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=projectStatuses).",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
@@ -15,16 +16,16 @@ export default {
   props: {
     linearApp,
     first: {
-      type: "integer",
-      label: "First",
-      description: "Maximum number of project statuses to return (default 50).",
-      optional: true,
+      propDefinition: [
+        linearApp,
+        "first",
+      ],
     },
     after: {
-      type: "string",
-      label: "After",
-      description: "Pagination cursor from a previous response's `pageInfo.endCursor` to fetch the next page.",
-      optional: true,
+      propDefinition: [
+        linearApp,
+        "after",
+      ],
     },
     fields: {
       type: "string[]",
@@ -37,7 +38,7 @@ export default {
     const {
       nodes, pageInfo,
     } = await this.linearApp.listProjectStatuses({
-      first: this.first,
+      first: utils.clampFirst(this.first),
       after: this.after,
     });
 
@@ -45,21 +46,8 @@ export default {
       ? ""
       : "es"}`);
 
-    if (this.fields?.length) {
-      return {
-        nodes: nodes.map((status) => {
-          const shaped = {};
-          for (const field of this.fields) {
-            shaped[field] = status[field];
-          }
-          return shaped;
-        }),
-        pageInfo,
-      };
-    }
-
     return {
-      nodes,
+      nodes: nodes.map((status) => utils.pickFields(status, this.fields)),
       pageInfo,
     };
   },

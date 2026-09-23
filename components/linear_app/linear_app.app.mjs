@@ -18,7 +18,7 @@ export default {
     issueId: {
       type: "string",
       label: "Issue",
-      description: "The ID of the issue (a UUID). Use **Search Issues** to find issues and retrieve their IDs.",
+      description: "The ID of the issue (a UUID, e.g. `7df5e7f9-a357-4539-ae94-4a004fec635f`). Use **Search Issues** to find issues and retrieve their IDs.",
     },
     issueIdentifier: {
       type: "string",
@@ -45,7 +45,7 @@ export default {
     stateId: {
       type: "string",
       label: "State (Status)",
-      description: "The UUID of the workflow state (status) to assign to the issue. Use **List Workflow States** to find valid state IDs.",
+      description: "The UUID of the workflow state (status) to assign to the issue (e.g. `6758492b-ae98-454c-b944-eed5ade57d09`). Use **List Workflow States** to find valid state IDs.",
       optional: true,
     },
     issueDescription: {
@@ -63,19 +63,19 @@ export default {
     issueLabelIds: {
       type: "string[]",
       label: "Label IDs",
-      description: "The UUIDs of the labels to apply to the issue (e.g. `[\"lbl1b2c3d4-0000-0000-0000-000000000001\"]`). Use **List Labels** to find valid label IDs.",
+      description: "The UUIDs of the labels to apply to the issue (e.g. `[\"ab1b2c3d-0000-0000-0000-000000000005\"]`). Use **List Labels** to find valid label IDs.",
       optional: true,
     },
     projectStatusId: {
       type: "string",
       label: "Status ID",
-      description: "The UUID of the project status (e.g. `s1b2c3d4-0000-0000-0000-000000000001`). Use **List Project Statuses** to find valid status IDs.",
+      description: "The UUID of the project status (e.g. `5a1b2c3d-0000-0000-0000-000000000006`). Use **List Project Statuses** to find valid status IDs.",
       optional: true,
     },
     projectLabelIds: {
       type: "string[]",
       label: "Label IDs",
-      description: "The UUIDs of the project labels to apply (e.g. `[\"pl1b2c3d4-0000-0000-0000-000000000001\"]`). Use **List Project Labels** to find valid label IDs.",
+      description: "The UUIDs of the project labels to apply (e.g. `[\"9a1b2c3d-0000-0000-0000-000000000007\"]`). Use **List Project Labels** to find valid label IDs.",
       optional: true,
     },
     initiativeId: {
@@ -86,7 +86,7 @@ export default {
     customViewId: {
       type: "string",
       label: "Custom View",
-      description: "The UUID of the custom view (e.g. `cv1b2c3d4-0000-0000-0000-000000000001`). Use **List Views** to find valid view IDs.",
+      description: "The UUID of the custom view (e.g. `ca1b2c3d-0000-0000-0000-000000000008`). Use **List Views** to find valid view IDs.",
     },
     projectPriority: {
       type: "integer",
@@ -128,7 +128,7 @@ export default {
     updateBody: {
       type: "string",
       label: "Body",
-      description: "The content of the update in markdown format.",
+      description: "The content of the update in markdown format. Example: `Two projects completed; on track for Q4.`",
     },
     health: {
       type: "string",
@@ -154,6 +154,20 @@ export default {
       type: "integer",
       label: "Limit",
       description: "Maximum number of issues to return. If no query is provided, this defaults to 20 to avoid returning too many results.",
+      optional: true,
+    },
+    first: {
+      type: "integer",
+      label: "First",
+      description: "Maximum number of records to return (min 1, max 100). Example: `10`.",
+      optional: true,
+      min: 1,
+      max: 100,
+    },
+    after: {
+      type: "string",
+      label: "After",
+      description: "Pagination cursor from a previous response's `pageInfo.endCursor` to fetch the next page. Example: `4919b279-3121-4609-880e-a70c11deca5a`.",
       optional: true,
     },
   },

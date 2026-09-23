@@ -1,9 +1,10 @@
 import linearApp from "../../linear_app.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "linear_app-get-initiative-update",
   name: "Get Initiative Update",
-  description: "Retrieve a single initiative update by its ID in Linear. Use **List Initiative Updates** first to obtain a valid update ID. Returns the full update including `id`, `body`, `health`, `createdAt`, and author. Example: `initiativeUpdateId: \"iu_01xyz\"` → returns `{id: \"iu_01xyz\", body: \"Two projects completed.\", health: \"onTrack\", createdAt: \"2024-01-15T10:00:00Z\"}`. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/InitiativeUpdate?query=initiativeUpdate).",
+  description: "Retrieve a single initiative update by its ID in Linear. Use **List Initiative Updates** first to obtain a valid update ID. Returns the full update including `id`, `body`, `health`, `createdAt`, and author. Example: `initiativeUpdateId: \"530f4366-88ab-4866-a44b-c2326728c32d\"` → returns `{id: \"530f4366-88ab-4866-a44b-c2326728c32d\", body: \"Two projects completed.\", health: \"onTrack\", createdAt: \"2024-01-15T10:00:00Z\"}`. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/InitiativeUpdate?query=initiativeUpdate).",
   type: "action",
   ai: "optimized",
   version: "0.0.1",
@@ -17,7 +18,7 @@ export default {
     initiativeUpdateId: {
       type: "string",
       label: "Initiative Update ID",
-      description: "The ID of the initiative update to retrieve (a UUID). Run **List Initiative Updates** first to obtain a valid ID.",
+      description: "The ID of the initiative update to retrieve (a UUID, e.g. `530f4366-88ab-4866-a44b-c2326728c32d`). Run **List Initiative Updates** first to obtain a valid ID.",
     },
     fields: {
       type: "string[]",
@@ -32,14 +33,6 @@ export default {
 
     $.export("$summary", `Successfully retrieved initiative update ${initiativeUpdate.id}`);
 
-    if (this.fields?.length) {
-      const shaped = {};
-      for (const field of this.fields) {
-        shaped[field] = initiativeUpdate[field];
-      }
-      return shaped;
-    }
-
-    return initiativeUpdate;
+    return utils.pickFields(initiativeUpdate, this.fields);
   },
 };
