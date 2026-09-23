@@ -20,7 +20,7 @@ export default {
     url: {
       type: "string",
       label: "URL",
-      description: "The URL of the web page to scrape.",
+      description: "The URL of the web page to scrape, e.g. `https://example.com`.",
       optional: false,
     },
     crawlerType: {

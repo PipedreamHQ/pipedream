@@ -8,7 +8,7 @@ export default {
     keyValueStoreId: {
       type: "string",
       label: "Key-Value Store ID",
-      description: "The ID of the key-value store",
+      description: "The ID of the key-value store, e.g. `kSf7Qm2xY9bN1pL4z`",
       async options({
         page, unnamed = true,
       }) {
@@ -69,7 +69,7 @@ export default {
     taskId: {
       type: "string",
       label: "Task ID",
-      description: "The ID of the task to monitor.",
+      description: "The ID of the task to monitor, e.g. `tRa3Nv8Qz2mKpL7wX`.",
       async options({
         page, desc = false,
       }) {
@@ -137,13 +137,13 @@ export default {
     fields: {
       type: "string[]",
       label: "Fields",
-      description: "An array of fields which should be picked from the items, only these fields will remain in the resulting record objects.",
+      description: "An array of fields which should be picked from the items, only these fields will remain in the resulting record objects, e.g. `[\"title\", \"url\"]`.",
       optional: true,
     },
     omit: {
       type: "string[]",
       label: "Omit",
-      description: "An array of fields which should be omitted from the items",
+      description: "An array of fields which should be omitted from the items, e.g. `[\"debug\"]`.",
       optional: true,
     },
     flatten: {
@@ -155,14 +155,14 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "The maximum number of items to return. Leave empty to return all items",
+      description: "The maximum number of items to return, e.g. `100`. Leave empty to return all items",
       min: 1,
       optional: true,
     },
     offset: {
       type: "integer",
       label: "Offset",
-      description: "The number of records to skip before returning results. Leave empty to start from the first item",
+      description: "The number of records to skip before returning results, e.g. `0`. Leave empty to start from the first item",
       min: 0,
       optional: true,
     },

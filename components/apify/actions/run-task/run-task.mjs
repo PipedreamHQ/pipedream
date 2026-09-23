@@ -28,14 +28,14 @@ export default {
           desc: true,
         }),
       ],
-      description: "The ID of the task to run",
+      description: "The ID of the task to run, e.g. `tRa3Nv8Qz2mKpL7wX`",
       reloadProps: true,
     },
     waitForFinish: {
       type: "boolean",
       label: "Wait for finish",
       description:
-                "If false, returns immediately after starting the task. If true, waits for the task run to finish and returns the run details (including the default dataset ID). Use the **Get dataset items** action to fetch the results.",
+                "If `false`, returns immediately after starting the task. If `true`, waits for the task run to finish and returns the run details (including the default dataset ID); use the **Get dataset items** action to fetch the results.",
       default: true,
     },
     overrideInput: {
@@ -47,13 +47,13 @@ export default {
     timeout: {
       type: "integer",
       label: "Timeout (seconds)",
-      description: "Optional timeout for the run, in seconds. By default, the run uses a timeout specified in the task settings.",
+      description: "Optional timeout for the run, in seconds (e.g. `120`). By default, the run uses a timeout specified in the task settings.",
       optional: true,
     },
     build: {
       type: "string",
       label: "Build",
-      description: "Specifies the Actor build to run. It can be either a build tag or build number. By default, the run uses the build specified in the task settings (typically latest).",
+      description: "Specifies the Actor build to run, e.g. `latest` or `1.2.3`. It can be either a build tag or build number. By default, the run uses the build specified in the task settings (typically latest).",
       optional: true,
       reloadProps: true,
     },

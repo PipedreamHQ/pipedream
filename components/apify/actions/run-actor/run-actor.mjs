@@ -25,7 +25,7 @@ export default {
     actorSource: {
       type: "string",
       label: "Search Actors from",
-      description: "Where to search for Actors. Choose **Apify Store Actors** to browse the public [Apify Store](https://apify.com/store), or **Recently used Actors** to pick from Actors you've run before.",
+      description: "Where to search for Actors. Set to **Apify Store Actors** to browse the public [Apify Store](https://apify.com/store), or **Recently used Actors** for Actors you've run before.",
       options: [
         {
           label: "Apify Store Actors",
@@ -71,19 +71,19 @@ export default {
     timeout: {
       type: "string",
       label: "Timeout (seconds)",
-      description: "Optional timeout for the run, in seconds. By default, the run uses a timeout specified in the default run configuration for the Actor.",
+      description: "Optional timeout for the run, in seconds (e.g. `120`). By default, the run uses a timeout specified in the default run configuration for the Actor.",
       optional: true,
     },
     maxItems: {
       type: "string",
       label: "Max Items",
-      description: "The maximum number of items that the Actor run should return. This is useful for pay-per-result Actors, as it allows you to limit the number of results that will be charged to your subscription. You can access the maximum number of items in your Actor by using the ACTOR_MAX_PAID_DATASET_ITEMS environment variable.",
+      description: "The maximum number of items that the Actor run should return, e.g. `1000`. This is useful for pay-per-result Actors, as it allows you to limit the number of results that will be charged to your subscription. You can access the maximum number of items in your Actor by using the ACTOR_MAX_PAID_DATASET_ITEMS environment variable.",
       optional: true,
     },
     maxTotalChargeUsd: {
       type: "string",
       label: "Max Total Charge USD",
-      description: "Specifies the maximum cost of the Actor run. This parameter is useful for pay-per-event Actors, as it allows you to limit the amount charged to your subscription. You can access the maximum cost in your Actor by using the ACTOR_MAX_TOTAL_CHARGE_USD environment variable.",
+      description: "Specifies the maximum cost of the Actor run, e.g. `5`. This parameter is useful for pay-per-event Actors, as it allows you to limit the amount charged to your subscription. You can access the maximum cost in your Actor by using the ACTOR_MAX_TOTAL_CHARGE_USD environment variable.",
       optional: true,
     },
     webhook: {
