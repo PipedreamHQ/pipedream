@@ -35,7 +35,7 @@ export default {
       type: "boolean",
       label: "Wait for finish",
       description:
-                "If false, returns immediately after starting the task. If true, waits for task completion (via webhook or polling) and returns dataset items.",
+                "If false, returns immediately after starting the task. If true, waits for the task run to finish and returns the run details (including the default dataset ID). Use the Get dataset items action to fetch the results.",
       default: true,
     },
     overrideInput: {
