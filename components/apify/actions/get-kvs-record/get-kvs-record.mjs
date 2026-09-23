@@ -31,7 +31,7 @@ export default {
           keyValueStoreId: configProps.keyValueStoreId,
         }),
       ],
-      description: "The key of the record to retrieve. Pick a listed key or enter one.",
+      description: "The key of the record to retrieve, e.g. `OUTPUT`. Select a listed key or enter one.",
     },
   },
 

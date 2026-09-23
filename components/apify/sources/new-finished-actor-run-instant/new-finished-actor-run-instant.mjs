@@ -17,7 +17,7 @@ export default {
     actorSource: {
       type: "string",
       label: "Search Actors from",
-      description: "Where to search for Actors. Choose **Apify Store Actors** to browse the public [Apify Store](https://apify.com/store), or **Recently used Actors** to pick from Actors you've run before.",
+      description: "Where to search for Actors. Set to **Apify Store Actors** to browse the public [Apify Store](https://apify.com/store), or **Recently used Actors** for Actors you've run before.",
       options: [
         {
           label: "Apify Store Actors",

@@ -32,7 +32,7 @@ export default {
           keyValueStoreId: configProps.keyValueStoreId,
         }),
       ],
-      description: "The key of the record to create or update. Select an existing key, or enter a new one to create a record.",
+      description: "The key of the record to create or update, e.g. `OUTPUT`. Select an existing key, or enter a new one to create a record.",
       optional: false,
     },
     value: {
