@@ -166,6 +166,25 @@ function formatGraphQlErrors(errors = []) {
 }
 
 /**
+ * Finds the property descriptor for `field` on `obj`, walking the prototype
+ * chain since class-level accessors (like `@linear/sdk` model getters) are
+ * defined on the prototype, not the instance.
+ *
+ * @param {object} obj - the object to search
+ * @param {string} field - the property name to look up
+ * @returns {PropertyDescriptor|undefined} the descriptor, wherever it's found
+ */
+function findPropertyDescriptor(obj, field) {
+  for (let target = obj; target; target = Object.getPrototypeOf(target)) {
+    const descriptor = Object.getOwnPropertyDescriptor(target, field);
+    if (descriptor) {
+      return descriptor;
+    }
+  }
+  return undefined;
+}
+
+/**
  * Narrows an object down to a caller-specified set of keys, for actions that
  * expose an optional `fields` prop to shrink large API payloads. Returns the
  * object unchanged when no fields are requested, so callers can apply this
@@ -173,11 +192,13 @@ function formatGraphQlErrors(errors = []) {
  *
  * Some nodes (e.g. `@linear/sdk` model instances returned by `list-users` and
  * other actions backed by the SDK client rather than a raw GraphQL query)
- * expose relationship fields as lazy getters that return an unresolved
- * `LinearFetch` promise on access, rather than plain data. Copying one of
- * those verbatim would hand back a pending promise instead of a value, so
- * such fields are omitted rather than resolved — resolving them would trigger
- * a surprise API call per node for a field the caller may not even need.
+ * expose relationship fields as lazy getters (e.g. `User.organization`)
+ * defined on the class prototype — merely *accessing* one triggers a real API
+ * fetch and returns an unresolved promise, so simply checking the resolved
+ * value after the fact is too late. The property descriptor is inspected
+ * first instead: a `get`-backed accessor is skipped without ever being read,
+ * while plain scalar fields (assigned directly in the SDK model's
+ * constructor, own data properties) are read and returned as-is.
  *
  * @param {object} obj - the object to narrow
  * @param {string[]} [fields] - keys to keep; the full object is returned when
@@ -190,10 +211,10 @@ function pickFields(obj, fields) {
   }
   const shaped = {};
   for (const field of fields) {
-    const value = obj[field];
-    shaped[field] = typeof value?.then === "function"
+    const descriptor = findPropertyDescriptor(obj, field);
+    shaped[field] = descriptor?.get
       ? undefined
-      : value;
+      : obj[field];
   }
   return shaped;
 }
