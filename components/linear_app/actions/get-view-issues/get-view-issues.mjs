@@ -3,9 +3,10 @@ import linearApp from "../../linear_app.app.mjs";
 export default {
   key: "linear_app-get-view-issues",
   name: "Get View Issues",
-  description: "Get issues from a custom view in Linear. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=customView)",
-  version: "0.0.4",
+  description: "Retrieve issues filtered by a saved custom view in Linear. Custom views encapsulate pre-configured filters (team, state, assignee, labels, etc.). Use **List Views** to find the view ID. Use the optional `fields` prop to narrow the response to only the keys you need (reduces context for large result sets). Example: `viewId: \"cv1b2c3d4-...\"` → returns `{nodes: [{id: \"iss_01\", identifier: \"ENG-42\", title: \"Fix login\", state: {name: \"In Progress\"}}], pageInfo: {endCursor: \"...\", hasNextPage: false}}`. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=customView)",
+  version: "0.1.0",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -37,6 +38,12 @@ export default {
       description: "The cursor to return the next page of issues",
       optional: true,
     },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "Optional list of field names to include in each returned issue object. When omitted, the full issue payload is returned. Pass a subset to reduce response size, e.g. `[\"id\", \"identifier\", \"title\", \"state\"]`.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const { filterData } = await this.linearApp.getCustomView(this.viewId);
@@ -49,6 +56,20 @@ export default {
     $.export("$summary", `Found ${response.nodes.length} issue${response.nodes.length === 1
       ? ""
       : "s"}`);
+
+    if (this.fields?.length) {
+      return {
+        nodes: response.nodes.map((issue) => {
+          const shaped = {};
+          for (const field of this.fields) {
+            shaped[field] = issue[field];
+          }
+          return shaped;
+        }),
+        pageInfo: response.pageInfo,
+      };
+    }
+
     return response;
   },
 };

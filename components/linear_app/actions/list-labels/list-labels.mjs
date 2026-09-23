@@ -3,8 +3,8 @@ import linearApp from "../../linear_app.app.mjs";
 export default {
   key: "linear_app-list-labels",
   name: "List Labels",
-  description: "List issue labels in Linear. Use this to retrieve label IDs and names for filtering or label-management flows. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=issueLabels).",
-  version: "0.0.4",
+  description: "List issue labels in the Linear workspace. Use this to discover valid label names and IDs for creating or filtering issues. Returns label objects with `id`, `name`, and `color`. Example: `first: 50` → returns `{nodes: [{id: \"lbl_bug123\", name: \"Bug\", color: \"#ef4444\"}, {id: \"lbl_fe456\", name: \"Frontend\", color: \"#0ea5e9\"}], pageInfo: {endCursor: \"...\", hasNextPage: false}}`. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=issueLabels).",
+  version: "0.1.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -56,6 +56,12 @@ export default {
       description: "Filter returned issue labels. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/inputs/IssueLabelFilter) for more details. Example: `{ \"name\": { \"contains\": \"Bug\" } }`",
       optional: true,
     },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "Optional list of field names to include in each returned label object. When omitted, the full label payload is returned. Pass a subset to reduce response size, e.g. `[\"id\", \"name\", \"color\"]`.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const filter = typeof this.filter === "string"
@@ -74,6 +80,19 @@ export default {
     });
 
     $.export("$summary", `Found ${nodes.length} labels`);
+
+    if (this.fields?.length) {
+      return {
+        nodes: nodes.map((label) => {
+          const shaped = {};
+          for (const field of this.fields) {
+            shaped[field] = label[field];
+          }
+          return shaped;
+        }),
+        pageInfo,
+      };
+    }
 
     return {
       nodes,

@@ -4,14 +4,15 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "linear_app-get-teams",
   name: "Get Teams",
-  description: "Retrieves all teams in your Linear workspace. Returns array of team objects with details like ID, name, and key. Supports pagination with configurable limit. Uses API Key authentication. See Linear docs for additional info [here](https://linear.app/developers/graphql).",
-  version: "0.2.21",
+  description: "Retrieves teams in your Linear workspace. Returns team objects with `id`, `name`, `key`, and more (including internal settings fields). Use this to discover valid team IDs (UUIDs) for creating or filtering issues and projects. Supports pagination: pass `after` with the previous response's `pageInfo.endCursor` to load the next page. Use the optional `fields` prop to narrow the response to only the keys you need (reduces context for large result sets). Example: call with `limit: 50` → returns `{nodes: [{id: \"9d1c3f7e-...\", name: \"Engineering\", key: \"ENG\"}, ...], pageInfo: {endCursor: \"...\", hasNextPage: true}}`. [See the documentation](https://linear.app/developers/graphql).",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     linearApp,
     limit: {
@@ -19,21 +20,53 @@ export default {
         linearApp,
         "limit",
       ],
-      description: "Maximum number of teams to return. Defaults to 20 if not specified.",
+      description: "Maximum number of teams to return per page. Defaults to 20 if not specified.",
+    },
+    after: {
+      type: "string",
+      label: "After",
+      description: "Pagination cursor from a previous response's `pageInfo.endCursor` to fetch the next page of teams.",
+      optional: true,
+    },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "Optional list of field names to include in each returned team object. When omitted, the full team payload is returned (including internal settings fields). Pass a subset to reduce response size, e.g. `[\"id\", \"name\", \"key\"]`.",
+      optional: true,
     },
   },
   async run({ $ }) {
-    // Use the specified limit or default to a reasonable number
     const limit = this.limit || constants.DEFAULT_NO_QUERY_LIMIT;
 
     const variables = {
       first: limit,
+      after: this.after,
     };
 
-    const { nodes: teams } = await this.linearApp.listTeams(variables);
+    const {
+      nodes: teams, pageInfo,
+    } = await this.linearApp.listTeams(variables);
 
-    $.export("$summary", `Found ${teams.length} teams(s)`);
+    $.export("$summary", `Found ${teams.length} team${teams.length === 1
+      ? ""
+      : "s"}`);
 
-    return teams;
+    if (this.fields?.length) {
+      return {
+        nodes: teams.map((team) => {
+          const shaped = {};
+          for (const field of this.fields) {
+            shaped[field] = team[field];
+          }
+          return shaped;
+        }),
+        pageInfo,
+      };
+    }
+
+    return {
+      nodes: teams,
+      pageInfo,
+    };
   },
 };

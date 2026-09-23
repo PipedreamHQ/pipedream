@@ -3,11 +3,12 @@ import linearApp from "../../linear_app.app.mjs";
 export default {
   key: "linear_app-remove-label-from-issue",
   name: "Remove Label from Issue",
-  description: "Remove a label from an issue in Linear. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Mutation?query=issueremovelabel)",
-  version: "0.0.4",
+  description: "Remove a label from an issue in Linear. The label can be re-added at any time, so this operation is reversible. Use **Search Issues** to find the issue ID, and **List Labels** to find the label ID. Example: `issueId: \"iss_01abc\"`, `labelId: \"lbl_bug123\"` → removes the label and returns `{success: true}`. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Mutation?query=issueremovelabel)",
+  version: "0.0.5",
   type: "action",
+  ai: "optimized",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -18,16 +19,13 @@ export default {
         linearApp,
         "teamId",
       ],
-      description: "Filter selected issues by team",
+      description: "Filter selected issues by team. Use **Get Teams** to discover valid team IDs.",
       optional: true,
     },
     issueId: {
       propDefinition: [
         linearApp,
         "issueId",
-        ({ teamId }) => ({
-          teamId,
-        }),
       ],
       description: "The ID of the issue to remove the label from",
       optional: false,
@@ -35,14 +33,11 @@ export default {
     labelId: {
       propDefinition: [
         linearApp,
-        "issueLabels",
-        () => ({
-          byId: true,
-        }),
+        "issueLabelIds",
       ],
       type: "string",
       label: "Label",
-      description: "The ID of the label to remove from the issue",
+      description: "The ID of the label to remove from the issue. Use **List Labels** to find valid label IDs.",
       optional: false,
     },
   },

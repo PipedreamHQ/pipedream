@@ -3,30 +3,21 @@ import linearApp from "../../linear_app.app.mjs";
 export default {
   key: "linear_app-update-issue",
   name: "Update Issue",
-  description: "Updates an existing Linear issue. Can modify title, description, assignee, state, project, team, labels, priority, and dates. Returns updated issue details. Uses API Key authentication. [See the documentation](https://linear.app/developers/graphql#creating-and-editing-issues).",
+  description: "Updates an existing Linear issue. All fields are optional; only provided fields are changed — prior values are preserved for any omitted field. Use **Get Teams** for team IDs, **List Workflow States** for state IDs, **List Users** for assignee IDs, **List Labels** for label IDs, and **Search Issues** for the issue ID. Example: `issueId: \"iss_01abc\"`, `stateId: \"state_done_xyz\"` → returns `{success: true, issue: {id: \"iss_01abc\", identifier: \"ENG-42\", state: {name: \"Done\"}}}`. [See the documentation](https://linear.app/developers/graphql#creating-and-editing-issues).",
   type: "action",
-  version: "0.1.21",
+  ai: "optimized",
+  version: "1.0.0",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   props: {
     linearApp,
-    teamId: {
-      label: "Current Team",
-      propDefinition: [
-        linearApp,
-        "teamId",
-      ],
-    },
     issueId: {
       propDefinition: [
         linearApp,
         "issueId",
-        ({ teamId }) => ({
-          teamId,
-        }),
       ],
     },
     title: {
@@ -44,7 +35,7 @@ export default {
       ],
     },
     teamIdToUpdate: {
-      description: "The identifier or key of the team to update the issue to",
+      description: "The UUID of the team to move the issue to. Omit to leave the issue's team unchanged. Use **Get Teams** to discover valid team IDs.",
       optional: true,
       propDefinition: [
         linearApp,
@@ -55,11 +46,6 @@ export default {
       propDefinition: [
         linearApp,
         "stateId",
-        ({
-          teamId, teamIdToUpdate,
-        }) => ({
-          teamId: teamIdToUpdate || teamId,
-        }),
       ],
     },
     assigneeId: {
@@ -71,19 +57,13 @@ export default {
     labelIds: {
       propDefinition: [
         linearApp,
-        "issueLabels",
-        () => ({
-          byId: true,
-        }),
+        "issueLabelIds",
       ],
     },
     projectId: {
       propDefinition: [
         linearApp,
         "projectId",
-        ({ teamId }) => ({
-          teamId,
-        }),
       ],
     },
     priority: {

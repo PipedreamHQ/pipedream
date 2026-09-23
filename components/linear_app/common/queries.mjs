@@ -111,4 +111,40 @@ export default {
     }
     ${fragments.projectUpdate}
   `,
+  listInitiativeUpdates: `
+    query ListInitiativeUpdates(
+      $filter: InitiativeUpdateFilter,
+      $before: String,
+      $after: String,
+      $first: Int,
+      $last: Int,
+      $orderBy: PaginationOrderBy
+    ) {
+      initiativeUpdates(
+        filter: $filter,
+        before: $before,
+        after: $after,
+        first: $first,
+        last: $last,
+        orderBy: $orderBy
+      ) {
+        pageInfo {
+          ...PageInfo
+        }
+        nodes {
+          ...InitiativeUpdate
+        }
+      }
+    }
+    ${fragments.initiativeUpdate}
+    ${fragments.pageInfo}
+  `,
+  getInitiativeUpdate: `
+    query GetInitiativeUpdate($initiativeUpdateId: String!) {
+      initiativeUpdate(id: $initiativeUpdateId) {
+        ...InitiativeUpdate
+      }
+    }
+    ${fragments.initiativeUpdate}
+  `,
 };

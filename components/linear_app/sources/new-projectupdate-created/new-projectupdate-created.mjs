@@ -8,7 +8,7 @@ export default {
   name: "New Project Update Written (Instant)",
   description: "Triggers instantly when a project update (status report) is created in Linear. Returns update content, author, project details, and health status. Filters by team and optionally by project. See Linear docs for additional info [here](https://linear.app/developers/webhooks).",
   type: "source",
-  version: "0.0.15",
+  version: "0.0.16",
   dedupe: "unique",
   props: {
     linearApp,
@@ -75,9 +75,15 @@ export default {
       } = resource;
       const ts = Date.parse(data?.createdAt || createdAt);
       const id = data?.id || resource.id;
+      const health = data?.health || resource.health;
+      const body = data?.body || resource.body;
       return {
         id,
-        summary: `New Project Update: ${id}`,
+        summary: `New Project Update${health
+          ? ` (${health})`
+          : ""}: ${body
+          ? body.slice(0, 80)
+          : id}`,
         ts,
       };
     },

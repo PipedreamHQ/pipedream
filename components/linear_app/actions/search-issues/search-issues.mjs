@@ -5,9 +5,10 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "linear_app-search-issues",
   name: "Search Issues",
-  description: "Searches Linear issues by team, project, assignee, labels, state, or text query. Supports pagination, ordering, and archived issues. Returns array of matching issues. Uses API Key authentication. See Linear docs for additional info [here](https://linear.app/developers/graphql).",
+  description: "Search Linear issues by team, project, assignee, labels, state, or text query. Returns up to 200 matching issues (paginated internally). Use **Get Teams** for team IDs, **List Projects** for project IDs, **List Workflow States** for state IDs, **List Users** for assignee IDs, and **List Labels** for label names. Use the optional `fields` prop to narrow the response to only the keys you need (reduces context size for large result sets). Example: `teamId: \"9d1c3f7e-...\", query: \"login redirect\"` → returns `[{id: \"iss_01\", identifier: \"ENG-42\", title: \"Fix login redirect on mobile\", state: {name: \"In Progress\"}}]`. [See the documentation](https://linear.app/developers/graphql).",
   type: "action",
-  version: "0.2.21",
+  ai: "optimized",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -20,6 +21,8 @@ export default {
         linearApp,
         "teamId",
       ],
+      optional: true,
+      description: "Filter issues by team. Leave this parameter out of the tool call entirely to search across all accessible teams — do not pass `\"*\"`, an empty string, or any other placeholder, since only a real team UUID or no value at all are valid. Use **Get Teams** to discover valid team IDs.",
     },
     projectId: {
       propDefinition: [
@@ -38,9 +41,6 @@ export default {
       propDefinition: [
         linearApp,
         "stateId",
-        ({ teamId }) => ({
-          teamId,
-        }),
       ],
       description: "Filter issues by their workflow state (status). States are scoped to the selected team.",
     },
@@ -50,10 +50,10 @@ export default {
         "assigneeId",
       ],
     },
-    issueLabels: {
+    issueLabelNames: {
       propDefinition: [
         linearApp,
-        "issueLabels",
+        "issueLabelNames",
       ],
     },
     orderBy: {
@@ -74,11 +74,23 @@ export default {
         "limit",
       ],
     },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "Optional list of field names to include in each returned issue object. When omitted, the full issue payload is returned. Pass a subset to reduce response size, e.g. `[\"id\", \"identifier\", \"title\", \"state\"]`.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const issues = [];
     let hasNextPage;
     let after;
+
+    // Some models pass a wildcard placeholder like "*" instead of omitting an
+    // optional ID filter; treat anything that isn't a real team ID as "no filter".
+    const teamId = this.teamId && this.teamId !== "*"
+      ? this.teamId
+      : undefined;
 
     // Determine the overall max limit for all pages combined
     const maxLimit = this.limit || (this.query
@@ -101,10 +113,10 @@ export default {
       const variables = utils.buildVariables(after, {
         filter: {
           query: this.query,
-          teamId: this.teamId,
+          teamId,
           projectId: this.projectId,
           assigneeId: this.assigneeId,
-          issueLabels: this.issueLabels,
+          issueLabels: this.issueLabelNames,
           state: this.stateId
             ? {
               id: {
@@ -129,6 +141,16 @@ export default {
     } while (hasNextPage && issues.length < maxLimit);
 
     $.export("$summary", `Found ${issues.length} issues`);
+
+    if (this.fields?.length) {
+      return issues.map((issue) => {
+        const shaped = {};
+        for (const field of this.fields) {
+          shaped[field] = issue[field];
+        }
+        return shaped;
+      });
+    }
 
     return issues;
   },

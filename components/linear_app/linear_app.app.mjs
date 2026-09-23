@@ -13,104 +13,23 @@ export default {
     teamId: {
       type: "string",
       label: "Team",
-      description: "The team associated with the issue. Select one from the list, or pass the team's `id` as returned by the Linear API — a UUID such as `9d1c3f7e-2b48-4c6a-9f1e-5a7b8c9d0e1f`. The short team key shown in issue identifiers such as `ENG-123` is rejected.",
-      async options({ prevContext }) {
-        return this.listResourcesOptions({
-          prevContext,
-          resourcesFn: this.listTeams,
-          resouceMapper: ({
-            id, name,
-          }) => ({
-            label: name,
-            value: id,
-          }),
-        });
-      },
+      description: "The team's `id` as returned by the Linear API — a UUID such as `9d1c3f7e-2b48-4c6a-9f1e-5a7b8c9d0e1f`. The short team key shown in issue identifiers such as `ENG-123` is rejected. Use **Get Teams** to discover valid team IDs.",
     },
     issueId: {
       type: "string",
       label: "Issue",
-      description: "The issue to update",
-      async options({
-        teamId, prevContext,
-      }) {
-        return this.listResourcesOptions({
-          prevContext,
-          resourcesFn: this.listIssues,
-          resourcesArgs: teamId && {
-            filter: {
-              team: {
-                id: {
-                  eq: teamId,
-                },
-              },
-            },
-          },
-          resouceMapper: ({
-            id, title,
-          }) => ({
-            label: title,
-            value: id,
-          }),
-        });
-      },
+      description: "The ID of the issue (a UUID). Use **Search Issues** to find issues and retrieve their IDs.",
     },
     issueIdentifier: {
       type: "string",
       label: "Issue Identifier",
-      description: "The identifier of the issue. Example: `APP-1234`",
-      async options({
-        teamId, prevContext,
-      }) {
-        return this.listResourcesOptions({
-          prevContext,
-          resourcesFn: this.listIssues,
-          resourcesArgs: teamId && {
-            filter: {
-              team: {
-                id: {
-                  eq: teamId,
-                },
-              },
-            },
-          },
-          resouceMapper: ({
-            identifier, title,
-          }) => ({
-            label: title,
-            value: identifier,
-          }),
-        });
-      },
+      description: "The human-readable identifier of the issue. Example: `APP-1234` or `ENG-99`. Use **Search Issues** to find valid identifiers.",
     },
     projectId: {
       type: "string",
       label: "Project",
-      description: "The identifier or key of the project associated with the issue",
+      description: "The UUID of the project (e.g. `a1b2c3d4-0000-0000-0000-000000000001`). Use **List Projects** to find valid project IDs.",
       optional: true,
-      async options({
-        teamId, prevContext,
-      }) {
-        return this.listResourcesOptions({
-          prevContext,
-          resourcesFn: this.listProjects,
-          resouceMapper: ({
-            id, name,
-          }) => ({
-            label: name,
-            value: id,
-          }),
-          resourcesArgs: teamId && {
-            filter: {
-              accessibleTeams: {
-                id: {
-                  eq: teamId,
-                },
-              },
-            },
-          },
-        });
-      },
     },
     issueTitle: {
       type: "string",
@@ -120,54 +39,13 @@ export default {
     assigneeId: {
       type: "string",
       label: "Assignee",
-      description: "The user to assign to the issue",
+      description: "The UUID of the user to assign (e.g. `abc12345-0000-0000-0000-000000000001`). Use **List Users** to discover valid user IDs.",
       optional: true,
-      async options({ prevContext }) {
-        return this.listResourcesOptions({
-          prevContext,
-          resourcesFn: this.listUsers,
-          resouceMapper: ({
-            id, name,
-          }) => ({
-            label: name,
-            value: id,
-          }),
-        });
-      },
     },
     stateId: {
       type: "string",
       label: "State (Status)",
-      description: "The state (status) to assign to the issue",
-      optional: true,
-      async options({
-        teamId, prevContext,
-      }) {
-        return this.listResourcesOptions({
-          prevContext,
-          resourcesFn: this.listStates,
-          resourcesArgs: teamId && {
-            filter: {
-              team: {
-                id: {
-                  eq: teamId,
-                },
-              },
-            },
-          },
-          resouceMapper: ({
-            id: value, name: label,
-          }) => ({
-            label,
-            value,
-          }),
-        });
-      },
-    },
-    boardOrder: {
-      type: "string",
-      label: "Board order",
-      description: "The position of the issue in its column on the board view",
+      description: "The UUID of the workflow state (status) to assign to the issue. Use **List Workflow States** to find valid state IDs.",
       optional: true,
     },
     issueDescription: {
@@ -176,97 +54,39 @@ export default {
       description: "The issue description in markdown format",
       optional: true,
     },
-    issueLabels: {
+    issueLabelNames: {
       type: "string[]",
       label: "Issue Labels",
-      description: "The labels in the issue",
+      description: "The label names to filter issues by (e.g. `[\"Bug\", \"Frontend\"]`). Use **List Labels** to find valid label names.",
       optional: true,
-      async options({
-        prevContext, byId = false,
-      }) {
-        return this.listResourcesOptions({
-          prevContext,
-          resourcesFn: this.listIssueLabels,
-          resouceMapper: ({
-            id, name,
-          }) => byId
-            ? ({
-              label: name,
-              value: id,
-            })
-            : name,
-        });
-      },
+    },
+    issueLabelIds: {
+      type: "string[]",
+      label: "Label IDs",
+      description: "The UUIDs of the labels to apply to the issue (e.g. `[\"lbl1b2c3d4-0000-0000-0000-000000000001\"]`). Use **List Labels** to find valid label IDs.",
+      optional: true,
     },
     projectStatusId: {
       type: "string",
       label: "Status ID",
-      description: "The ID of the status of the project",
+      description: "The UUID of the project status (e.g. `s1b2c3d4-0000-0000-0000-000000000001`). Use **List Project Statuses** to find valid status IDs.",
       optional: true,
-      async options({ prevContext }) {
-        return this.listResourcesOptions({
-          prevContext,
-          resourcesFn: this.listProjectStatuses,
-          resouceMapper: ({
-            id, name,
-          }) => ({
-            label: name,
-            value: id,
-          }),
-        });
-      },
     },
     projectLabelIds: {
       type: "string[]",
       label: "Label IDs",
-      description: "The IDs of the labels for the project",
+      description: "The UUIDs of the project labels to apply (e.g. `[\"pl1b2c3d4-0000-0000-0000-000000000001\"]`). Use **List Project Labels** to find valid label IDs.",
       optional: true,
-      async options({ prevContext }) {
-        return this.listResourcesOptions({
-          prevContext,
-          resourcesFn: this.listProjectLabels,
-          resouceMapper: ({
-            id, name,
-          }) => ({
-            label: name,
-            value: id,
-          }),
-        });
-      },
     },
     initiativeId: {
       type: "string",
       label: "Initiative",
-      description: "The identifier or key of the initiative to update",
-      async options({ prevContext }) {
-        return this.listResourcesOptions({
-          prevContext,
-          resourcesFn: this.listInitiatives,
-          resouceMapper: ({
-            id, name,
-          }) => ({
-            label: name,
-            value: id,
-          }),
-        });
-      },
+      description: "The UUID of the initiative (e.g. `b2c3d4e5-0000-0000-0000-000000000002`). Use **List Initiatives** to find valid initiative IDs.",
     },
     customViewId: {
       type: "string",
       label: "Custom View",
-      description: "The identifier or key of the custom view to get issues from",
-      async options({ prevContext }) {
-        return this.listResourcesOptions({
-          prevContext,
-          resourcesFn: this.listCustomViews,
-          resouceMapper: ({
-            id, name,
-          }) => ({
-            label: name,
-            value: id,
-          }),
-        });
-      },
+      description: "The UUID of the custom view (e.g. `cv1b2c3d4-0000-0000-0000-000000000001`). Use **List Views** to find valid view IDs.",
     },
     projectPriority: {
       type: "integer",
@@ -304,6 +124,18 @@ export default {
       label: "Query",
       description: "Search string to look for in issue titles. The query is used to filter issues where the title contains the query text (case insensitive).",
       optional: true,
+    },
+    updateBody: {
+      type: "string",
+      label: "Body",
+      description: "The content of the update in markdown format.",
+    },
+    health: {
+      type: "string",
+      label: "Health",
+      description: "The health status of the update. One of: `onTrack` (On Track), `atRisk` (At Risk), `offTrack` (Off Track).",
+      optional: true,
+      options: constants.HEALTH_OPTIONS,
     },
     orderBy: {
       type: "string",
@@ -397,6 +229,12 @@ export default {
     async createInitiative(input) {
       return this.client().createInitiative(input);
     },
+    async createProjectUpdate(input) {
+      return this.client().createProjectUpdate(input);
+    },
+    async createInitiativeUpdate(input) {
+      return this.client().createInitiativeUpdate(input);
+    },
     async updateInitiative(initiativeId, input) {
       return this.client().updateInitiative(initiativeId, input);
     },
@@ -476,6 +314,26 @@ export default {
       });
       return projectUpdates;
     },
+    async listInitiativeUpdates(variables) {
+      const { data: { initiativeUpdates } } = await this.post({
+        data: {
+          query: queries.listInitiativeUpdates,
+          variables,
+        },
+      });
+      return initiativeUpdates;
+    },
+    async getInitiativeUpdateGraphQL(id) {
+      const { data: { initiativeUpdate } } = await this.post({
+        data: {
+          query: queries.getInitiativeUpdate,
+          variables: {
+            initiativeUpdateId: id,
+          },
+        },
+      });
+      return initiativeUpdate;
+    },
     async listUsers(variables = {}) {
       return this.client().users(variables);
     },
@@ -508,36 +366,6 @@ export default {
     },
     async listInitiatives(variables = {}) {
       return this.client().initiatives(variables);
-    },
-    async listResourcesOptions({
-      prevContext, resourcesFn, resourcesArgs, resouceMapper,
-    } = {}) {
-      const {
-        after,
-        hasNextPage,
-      } = prevContext;
-
-      if (hasNextPage === false) {
-        return [];
-      }
-
-      const {
-        nodes,
-        pageInfo,
-      } =
-        await resourcesFn({
-          after,
-          first: constants.DEFAULT_LIMIT,
-          ...resourcesArgs,
-        });
-
-      return {
-        options: nodes.map(resouceMapper),
-        context: {
-          after: pageInfo?.endCursor,
-          hasNextPage: pageInfo?.hasNextPage,
-        },
-      };
     },
     async *paginateResources({
       resourcesFn,

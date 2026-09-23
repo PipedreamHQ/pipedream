@@ -3,9 +3,10 @@ import linearApp from "../../linear_app.app.mjs";
 export default {
   key: "linear_app-create-project",
   name: "Create Project",
-  description: "Create a project in Linear. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/inputs/ProjectCreateInput).",
+  description: "Create a new project in Linear to track a body of work. Projects group related issues within a team. Use **Get Teams** for team IDs, **List Project Statuses** to find status IDs, **List Users** for member IDs, and **List Project Labels** for label IDs. Example: `teamId: \"9d1c3f7e-...\"`, `name: \"Mobile App v2\"`, `statusId: \"s2abc\"` → returns `{success: true, project: {id: \"proj_01\", name: \"Mobile App v2\"}}`. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/inputs/ProjectCreateInput).",
   type: "action",
-  version: "0.0.7",
+  ai: "optimized",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -19,10 +20,10 @@ export default {
         "teamId",
       ],
     },
-    name: {
+    projectName: {
       type: "string",
       label: "Name",
-      description: "The name of the project",
+      description: "The name of the project. Example: `Mobile App v2`.",
     },
     description: {
       type: "string",
@@ -76,7 +77,7 @@ export default {
       teamIds: [
         this.teamId,
       ],
-      name: this.name,
+      name: this.projectName,
       description: this.description,
       statusId: this.statusId,
       priority: this.priority,
