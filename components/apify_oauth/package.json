@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/apify_oauth",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "Pipedream Apify (OAuth) Components",
   "main": "apify_oauth.app.mjs",
   "keywords": [
