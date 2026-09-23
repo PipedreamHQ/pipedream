@@ -33,6 +33,7 @@ const SC_REQ_ITEM_TABLE = "sc_req_item";
 const CMDB_CI_TABLE = "cmdb_ci";
 const QUESTION_CHOICE_TABLE = "question_choice";
 const INCIDENT_TABLE = "incident";
+const CATALOG_UI_POLICY_TABLE = "catalog_ui_policy";
 const CATALOG_UI_POLICY_ACTION_TABLE = "catalog_ui_policy_action";
 const KNOWLEDGE_BASE_TABLE = "kb_knowledge_base";
 const MAX_LIMIT = 1000;
@@ -48,6 +49,7 @@ export default {
   CMDB_CI_TABLE,
   QUESTION_CHOICE_TABLE,
   INCIDENT_TABLE,
+  CATALOG_UI_POLICY_TABLE,
   CATALOG_UI_POLICY_ACTION_TABLE,
   KNOWLEDGE_BASE_TABLE,
   MAX_LIMIT,

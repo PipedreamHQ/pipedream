@@ -10,6 +10,7 @@ const {
   CMDB_CI_TABLE,
   QUESTION_CHOICE_TABLE,
   INCIDENT_TABLE,
+  CATALOG_UI_POLICY_TABLE,
   CATALOG_UI_POLICY_ACTION_TABLE,
   KNOWLEDGE_BASE_TABLE,
   MAX_LIMIT,
@@ -176,7 +177,7 @@ export default {
     itemType: {
       type: "string",
       label: "Item Type",
-      description: "Optional Service Catalog item type filter (maps to `sysparm_type`). ServiceNow only honors Order Guide and Record Producer; omit this to search standard catalog items. Use Order Guide before **Get Order Guide Variables** / **Submit Order Guide**, or Record Producer before **Submit Record Producer**. Example: `Order Guide`.",
+      description: "Optional Service Catalog item type filter (maps to `sysparm_type`). ServiceNow only honors Order Guide and Record Producer; omit this to search standard catalog items. Use Order Guide before **Get Catalog Item Variables** / **Submit Order Guide**, or Record Producer before **Submit Record Producer**. Example: `Order Guide`.",
       optional: true,
       options: [
         {
@@ -486,6 +487,12 @@ export default {
     async getIncidents({ ...args }) {
       return this.getTableRecords({
         table: INCIDENT_TABLE,
+        ...args,
+      });
+    },
+    async getCatalogUiPolicies({ ...args }) {
+      return this.getTableRecords({
+        table: CATALOG_UI_POLICY_TABLE,
         ...args,
       });
     },
