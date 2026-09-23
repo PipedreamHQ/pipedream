@@ -267,15 +267,23 @@ export default {
         return taggedBuilds[buildRef].buildId;
       }
 
-      const { items: builds = [] } = await this.listBuilds({
-        actorId,
-        desc: true,
-        limit: LIMIT,
-      });
-      const match = builds.find(({ buildNumber }) => buildNumber === buildRef);
+      // Builds can span multiple pages
+      for (let offset = 0; ; offset += LIMIT) {
+        const { items: builds = [] } = await this.listBuilds({
+          actorId,
+          desc: true,
+          offset,
+          limit: LIMIT,
+        });
 
-      if (match) {
-        return match.id;
+        const match = builds.find(({ buildNumber }) => buildNumber === buildRef);
+        if (match) {
+          return match.id;
+        }
+
+        if (builds.length < LIMIT) {
+          break;
+        }
       }
 
       throw new Error(
