@@ -1,12 +1,15 @@
 import servicenow from "../../servicenow.app.mjs";
-import { parseObject } from "../../common/utils.mjs";
+import {
+  normalizeGuideCheckoutItems,
+  parseObject,
+} from "../../common/utils.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "servicenow-checkout-order-guide",
   name: "Checkout Order Guide",
-  description: "Checkout a ServiceNow order guide using the items returned by **Submit Order Guide**. Each item needs `sys_id`, `sysparm_quantity`, and item-level `variables`. When two-step checkout is on, this may return a summary without a REQ — then call **Submit Cart Order**. Use **Check Order Status** afterward. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
-  version: "0.0.2",
+  description: "Checkout a ServiceNow order guide using the items returned by **Submit Order Guide**. Pass those items as-is — this action maps `quantity` to `sysparm_quantity` and array `variables` to an object. Like **Checkout Cart**, the result depends on one-step vs two-step checkout (in two-step mode it returns the order summary/status to confirm rather than finalizing; do not follow with **Submit Cart Order**). Use **Check Order Status** afterward. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
+  version: "0.0.3",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -31,9 +34,10 @@ export default {
   },
   async run({ $ }) {
     const parsed = parseObject(this.items);
-    const items = Array.isArray(parsed)
-      ? parsed
-      : [];
+    if (parsed && !Array.isArray(parsed)) {
+      throw new ConfigurationError("Items must be a JSON array from Submit Order Guide, not a JSON object.");
+    }
+    const items = normalizeGuideCheckoutItems(parsed);
     if (!items.length) {
       throw new ConfigurationError("Items must be a non-empty JSON array from Submit Order Guide.");
     }

@@ -4,8 +4,8 @@ import { parseObject } from "../../common/utils.mjs";
 export default {
   key: "servicenow-submit-order-guide",
   name: "Submit Order Guide",
-  description: "Run the ServiceNow order-guide rule base and return the selected catalog items plus their variable schemas. Run **Search Catalog Items** to find the order-guide `sys_id` and **Get Catalog Item Variables** for guide-level field names. Pass the returned items to **Checkout Order Guide**. If checkout does not return a REQ, finish with **Submit Cart Order**. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
-  version: "0.0.2",
+  description: "Run the ServiceNow order-guide rule base and return the selected catalog items plus their variable schemas. Run **Search Catalog Items** to find the order-guide `sys_id` and **Get Catalog Item Variables** for guide-level field names. Pass the returned items to **Checkout Order Guide**. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
+  version: "0.0.3",
   type: "action",
   ai: "optimized",
   annotations: {

@@ -169,9 +169,9 @@ export default {
       description: "The `sys_id` of the order guide (`sc_cat_item_guide`). Run **Search Catalog Items** with Item Type Order Guide to find this value. Example: `e8d3d2f1c0a8016400e6b9e0f6e6f6e6`.",
     },
     guideItems: {
-      type: "object",
+      type: "string",
       label: "Guide Items",
-      description: "JSON array of items from **Submit Order Guide**: `{ sys_id, sysparm_quantity, variables }`. Example: `[{\"sys_id\":\"abc\",\"sysparm_quantity\":\"1\",\"variables\":{\"location\":\"xyz\"}}]`.",
+      description: "JSON array of items from **Submit Order Guide**. Submit-guide rows (`quantity`, `variables` as `{name, value}` arrays) are mapped to checkout (`sysparm_quantity`, variables object). Example: `[{\"sys_id\":\"abc\",\"quantity\":\"1\",\"variables\":[{\"name\":\"location\",\"value\":\"xyz\"}]}]`.",
     },
     itemType: {
       type: "string",
