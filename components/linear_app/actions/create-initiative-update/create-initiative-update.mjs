@@ -1,4 +1,5 @@
 import linearApp from "../../linear_app.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "linear_app-create-initiative-update",
@@ -41,6 +42,10 @@ export default {
       body: this.body,
       health: this.health,
     });
+
+    if (!response.success) {
+      throw new ConfigurationError("Failed to create initiative update");
+    }
 
     const summary = response?._initiativeUpdate?.id
       ? `Successfully created initiative update with ID ${response._initiativeUpdate.id}`

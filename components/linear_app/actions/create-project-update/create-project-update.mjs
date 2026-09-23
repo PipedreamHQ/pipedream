@@ -1,4 +1,5 @@
 import linearApp from "../../linear_app.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "linear_app-create-project-update",
@@ -42,6 +43,10 @@ export default {
       body: this.body,
       health: this.health,
     });
+
+    if (!response.success) {
+      throw new ConfigurationError("Failed to create project update");
+    }
 
     const summary = response?._projectUpdate?.id
       ? `Successfully created project update with ID ${response._projectUpdate.id}`

@@ -171,6 +171,14 @@ function formatGraphQlErrors(errors = []) {
  * object unchanged when no fields are requested, so callers can apply this
  * unconditionally instead of branching on whether `fields` was provided.
  *
+ * Some nodes (e.g. `@linear/sdk` model instances returned by `list-users` and
+ * other actions backed by the SDK client rather than a raw GraphQL query)
+ * expose relationship fields as lazy getters that return an unresolved
+ * `LinearFetch` promise on access, rather than plain data. Copying one of
+ * those verbatim would hand back a pending promise instead of a value, so
+ * such fields are omitted rather than resolved — resolving them would trigger
+ * a surprise API call per node for a field the caller may not even need.
+ *
  * @param {object} obj - the object to narrow
  * @param {string[]} [fields] - keys to keep; the full object is returned when
  * empty or omitted
@@ -182,7 +190,10 @@ function pickFields(obj, fields) {
   }
   const shaped = {};
   for (const field of fields) {
-    shaped[field] = obj[field];
+    const value = obj[field];
+    shaped[field] = typeof value?.then === "function"
+      ? undefined
+      : value;
   }
   return shaped;
 }
