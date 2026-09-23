@@ -13,7 +13,7 @@ export default {
   key: "apify-run-actor",
   name: "Run Actor",
   description: "Performs an execution of a selected Actor in Apify. [See the documentation](https://docs.apify.com/api/v2/actors-runs-post)",
-  version: "0.0.8",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
