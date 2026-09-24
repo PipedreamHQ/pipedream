@@ -32,7 +32,7 @@ export default {
   key: "google_docs-export-document",
   name: "Export Document",
   description: "Export a Google Doc to a file in PDF, DOCX, TXT, HTML, or ODT format. Use when asked to export, download, convert, or 'save as' a doc in one of those formats. Use **Find Document** to resolve a document's name to its ID. Returns `{filePath, filename, mimeType}`, where `filePath` is the exported file in the workflow's temporary storage - it is a local path, not a shareable download link. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/export)",
-  version: "0.0.9",
+  version: "0.0.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
