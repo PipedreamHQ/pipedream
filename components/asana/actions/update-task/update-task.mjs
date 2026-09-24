@@ -42,7 +42,7 @@ export default {
     },
     assignee_section: {
       label: "Assignee Section",
-      description: "The assignee section is a subdivision of a project that groups tasks together in the assignee's \"My Tasks\" list (a section GID, e.g. `1203456789012345`). Use **Search Sections** to find available section GIDs.",
+      description: "The assignee section is a subdivision of a project that groups tasks together in the assignee's \"My Tasks\" list (a section GID, e.g. `1203456789012345`). Use **Get Tasks From Task List** with `optFields` including `assignee_section` to retrieve the authenticated user's own My Tasks section GIDs. GIDs for another assignee's sections must come from that person's own My Tasks list, not from this account.",
       type: "string",
       optional: true,
       propDefinition: [
