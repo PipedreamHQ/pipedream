@@ -138,16 +138,16 @@ export default {
     storageClient() {
       return new Storage(this.sdkParams());
     },
-    zonesClient() {
+    _zonesClient() {
       return new ZonesClient(this.sdkParams());
     },
-    instancesClient() {
+    _instancesClient() {
       return new InstancesClient(this.sdkParams());
     },
     async listZones() {
       const [
         zones,
-      ] = await this.zonesClient().list({
+      ] = await this._zonesClient().list({
         project: this.sdkParams().projectId,
       });
       return zones;
@@ -155,11 +155,23 @@ export default {
     async listVmInstancesByZone(zone) {
       const [
         instances,
-      ] = await this.instancesClient().list({
+      ] = await this._instancesClient().list({
         project: this.sdkParams().projectId,
         zone,
       });
       return instances;
+    },
+    async switchInstanceBootStatus({
+      zone, instance, status,
+    }) {
+      const [
+        response,
+      ] = await this._instancesClient()[status]({
+        project: this.sdkParams().projectId,
+        zone,
+        instance,
+      });
+      return response.latestResponse;
     },
     getBigQueryClient() {
       const credentials = this.authKeyJson();

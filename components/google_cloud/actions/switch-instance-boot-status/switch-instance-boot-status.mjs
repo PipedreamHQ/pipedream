@@ -71,16 +71,11 @@ export default {
       ].includes(newStatus)) {
         throw new ConfigurationError("The new VM boot status must be 'start' or 'stop'.");
       }
-      const instancesClient = this.googleCloud.instancesClient();
-      const sdkParams = this.googleCloud.sdkParams();
-      const [
-        response,
-      ] = await instancesClient[newStatus]({
-        project: sdkParams.projectId,
+      return this.googleCloud.switchInstanceBootStatus({
         zone,
         instance,
+        status: newStatus,
       });
-      return response.latestResponse;
     },
   },
   async run({ $ }) {
