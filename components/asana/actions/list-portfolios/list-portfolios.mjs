@@ -3,8 +3,8 @@ import asana from "../../asana.app.mjs";
 export default {
   key: "asana-list-portfolios",
   name: "List Portfolios",
-  description: "Returns a list of portfolios in the given workspace owned by the given user. Use this to discover portfolio GIDs before calling **Get Portfolio** or **List Portfolio Items**. Owner defaults to the authenticated user; regular API users can only list portfolios they own. [See the documentation](https://developers.asana.com/reference/getportfolios)",
-  version: "0.0.2",
+  description: "Returns a list of portfolios in an Asana workspace owned by the given user. Use this to discover portfolio GIDs before calling **Get Portfolio** or **List Portfolio Items**. Owner defaults to the authenticated user; regular API users can only list portfolios they own. Example: call with `workspace: '1200123456789012'` → returns `[{gid: '1208901234567890', name: 'Product Launch'}, ...]`. [See the documentation](https://developers.asana.com/reference/getportfolios)",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

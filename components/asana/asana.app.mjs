@@ -1,5 +1,4 @@
 import { axios } from "@pipedream/platform";
-const DEFAULT_LIMIT = 25;
 
 export default {
   type: "app",
@@ -7,270 +6,53 @@ export default {
   propDefinitions: {
     organizations: {
       label: "Organizations",
-      description: "List of organizations. This field uses the organization GID.",
+      description: "List of organizations. This field uses the organization GID. Use **List Organizations Options** to find available organization GIDs.",
       type: "string[]",
-      async options() {
-        const organizations = await this.getOrganizations();
-        return organizations?.map((organization) => ({
-          label: organization.name,
-          value: organization.gid,
-        })) || [];
-      },
     },
     workspaces: {
       label: "Workspaces",
       description: "List of workspaces. Use the **List Workspaces** action to retrieve available workspace GIDs.",
       type: "string[]",
-      async options({ prevContext }) {
-        const params = {
-          limit: DEFAULT_LIMIT,
-        };
-        if (prevContext?.offset) {
-          params.offset = prevContext.offset;
-        }
-        const {
-          data: workspaces, next_page: next,
-        } = await this.getWorkspaces({
-          params,
-        });
-        const options = workspaces?.map((workspace) => ({
-          label: workspace.name,
-          value: workspace.gid,
-        })) || [];
-        return {
-          options,
-          context: {
-            offset: next?.offset,
-          },
-        };
-      },
     },
     teams: {
       label: "Teams",
       description: "List of teams. Use the **List Teams** action to retrieve available team GIDs.",
       type: "string[]",
-      async options({ workspace }) {
-        const teams = await this.getTeams(workspace);
-        return teams?.map((team) => ({
-          label: team.name,
-          value: team.gid,
-        })) || [];
-      },
     },
     projects: {
       label: "Projects",
-      description: "List of projects. This field uses the project GID.",
+      description: "List of projects. This field uses the project GID. Use **Search Projects** to find available project GIDs (the `gid` field).",
       type: "string[]",
-      async options({
-        workspace, prevContext,
-      }) {
-        const params = {
-          workspace,
-          limit: DEFAULT_LIMIT,
-        };
-        if (prevContext?.offset) {
-          params.offset = prevContext.offset;
-        }
-        const {
-          data: projects, next_page: next,
-        } = await this.getProjects({
-          params,
-        });
-        const options = projects?.map((tag) => ({
-          label: tag.name,
-          value: tag.gid,
-        })) || [];
-        return {
-          options,
-          context: {
-            offset: next?.offset,
-          },
-        };
-      },
     },
     tags: {
       label: "Tags",
-      description: "List of tags. This field uses the tag GID.",
+      description: "List of tags. This field uses the tag GID. Use **List Tags** to find available tag GIDs (the `gid` field).",
       type: "string[]",
-      async options({
-        prevContext, workspace,
-      }) {
-        const params = {
-          limit: DEFAULT_LIMIT,
-          workspace,
-        };
-        if (prevContext?.offset) {
-          params.offset = prevContext.offset;
-        }
-        const {
-          data: tags, next_page: next,
-        } = await this.getTags({
-          params,
-        });
-        const options = tags?.map((tag) => ({
-          label: tag.name,
-          value: tag.gid,
-        })) || [];
-        return {
-          options,
-          context: {
-            offset: next?.offset,
-          },
-        };
-      },
     },
     users: {
       label: "Users",
       description: "List of users. Use the **List Users** action to retrieve available user GIDs.",
       type: "string[]",
-      async options({
-        prevContext, workspace,
-      }) {
-        const params = {
-          limit: DEFAULT_LIMIT,
-          workspace,
-        };
-        if (prevContext?.offset) {
-          params.offset = prevContext.offset;
-        }
-        const {
-          data: users, next_page: next,
-        } = await this.getUsers({
-          params,
-        });
-        const options = users?.map((user) => ({
-          label: user.name,
-          value: user.gid,
-        })) || [];
-        return {
-          options,
-          context: {
-            offset: next?.offset,
-          },
-        };
-      },
     },
     tasks: {
       label: "Tasks",
-      description: "List of tasks. This field uses the task GID.",
+      description: "List of tasks. This field uses the task GID. Use **Search Tasks** to find available task GIDs (the `gid` field). Requires a project GID from **Search Projects**.",
       type: "string[]",
-      async options({
-        project, prevContext,
-      }) {
-        if (!project) {
-          return [];
-        }
-        const params = {
-          project,
-          limit: DEFAULT_LIMIT,
-        };
-        if (prevContext?.offset) {
-          params.offset = prevContext.offset;
-        }
-        const {
-          data: tasks, next_page: next,
-        } = await this.getTasks({
-          params,
-        });
-        const options = tasks?.map(({
-          name: label, gid: value,
-        }) => ({
-          label,
-          value,
-        })) || [];
-        return {
-          options,
-          context: {
-            offset: next?.offset,
-          },
-        };
-      },
     },
     sections: {
       label: "Sections",
-      description: "List of sections. This field uses the section GID.",
+      description: "List of sections. This field uses the section GID. Use **Search Sections** to find available section GIDs (the `gid` field). Requires a project GID from **Search Projects**.",
       type: "string[]",
-      async options({
-        project, prevContext,
-      }) {
-        if (!project) {
-          return [];
-        }
-        const params = {
-          limit: DEFAULT_LIMIT,
-        };
-        if (prevContext?.offset) {
-          params.offset = prevContext.offset;
-        }
-        const {
-          data: sections, next_page: next,
-        } = await this.getSections({
-          project,
-          params,
-        });
-        const options = sections?.map((section) => ({
-          label: section.name,
-          value: section.gid,
-        })) || [];
-        return {
-          options,
-          context: {
-            offset: next?.offset,
-          },
-        };
-      },
     },
     taskFields: {
       label: "Task Fields",
-      description: "List of task fields that will emit events when updated. This field uses the field code.",
+      description: "List of task fields that will emit events when updated. This field uses the field code. Use **List Task Fields** to discover valid field names for a given project.",
       type: "string[]",
-      async options({ project }) {
-        const { data: tasks } = await this.getTasks({
-          params: {
-            project,
-            limit: 1,
-          },
-        });
-        if (!tasks || tasks.length === 0) {
-          return [];
-        }
-        const { data: task } = await this.getTask({
-          taskId: tasks[0].gid,
-        });
-        return Object.keys(task);
-      },
     },
     taskTemplate: {
       type: "string",
       label: "Task Template",
-      description: "The identifier of a task template",
-      async options({
-        project, prevContext,
-      }) {
-        const params = {
-          project,
-          limit: DEFAULT_LIMIT,
-        };
-        if (prevContext?.offset) {
-          params.offset = prevContext.offset;
-        }
-        const {
-          data, next_page: next,
-        } = await this.listTaskTemplates({
-          params,
-        });
-        return {
-          options: data?.map(({
-            gid: value, name: label,
-          }) => ({
-            value,
-            label,
-          })) || [],
-          context: {
-            offset: next?.offset,
-          },
-        };
-      },
+      description: "The GID of a task template, e.g. `1205678901234567`. Use **List Task Templates** to find available template GIDs (the `gid` field).",
     },
     maxResults: {
       type: "integer",

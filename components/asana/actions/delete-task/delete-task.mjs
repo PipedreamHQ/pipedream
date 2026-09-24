@@ -4,8 +4,9 @@ import common from "../common/common.mjs";
 export default {
   key: "asana-delete-task",
   name: "Delete Task",
-  description: "Deletes a specific and existing task. [See the documentation](https://developers.asana.com/docs/delete-a-task)",
-  version: "0.0.16",
+  description: "Permanently deletes an Asana task. This action is irreversible — the task, its subtasks, comments, and attachments are removed and cannot be recovered. Use **Find Task by ID** to confirm the task GID before deleting. Returns an empty data object `{}` on success. Example: call with `task_gid: '1202345678901234'` → returns `{}`. [See the documentation](https://developers.asana.com/docs/delete-a-task)",
+  version: "0.0.17",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -21,9 +22,6 @@ export default {
       propDefinition: [
         asana,
         "tasks",
-        (c) => ({
-          project: c.project,
-        }),
       ],
     },
   },

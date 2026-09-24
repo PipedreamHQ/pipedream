@@ -18,18 +18,12 @@ export default {
       propDefinition: [
         asana,
         "projects",
-        (c) => ({
-          workspace: c.workspace,
-        }),
       ],
     },
     taskFields: {
       propDefinition: [
         asana,
         "taskFields",
-        (c) => ({
-          project: c.project,
-        }),
       ],
     },
   },

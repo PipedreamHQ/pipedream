@@ -4,8 +4,9 @@ import constants from "../common/constants.mjs";
 export default {
   key: "asana-create-project",
   name: "Create Project",
-  description: "Create a new project in a workspace or team. [See the documentation](https://developers.asana.com/docs/create-a-project)",
-  version: "0.10.9",
+  description: "Creates a new project in an Asana workspace or team. Use this to set up a new initiative, sprint, or work stream. For organization workspaces you must supply a `team` GID (use **List Teams** to find it). Returns the new project record including its `gid`. Example: call with `projectName: 'Q4 Marketing Campaign'`, `workspace: '1200123456789012'`, `team: '1203456789012345'`, `defaultView: 'board'` → returns `{gid: '1204567890123456', name: 'Q4 Marketing Campaign'}`. [See the documentation](https://developers.asana.com/docs/create-a-project)",
+  version: "0.10.11",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,7 +17,7 @@ export default {
     asana,
     workspace: {
       label: "Workspace",
-      description: "GID of a workspace.",
+      description: "GID of a workspace. Use **List Workspaces** to find available workspace GIDs.",
       type: "string",
       propDefinition: [
         asana,
@@ -27,15 +28,12 @@ export default {
       propDefinition: [
         asana,
         "teams",
-        ({ workspace }) => ({
-          workspace,
-        }),
       ],
       type: "string",
       label: "Team",
       description: "The team that this project is shared with. If the workspace for your project is an organization, you must supply a team to share the project with",
     },
-    name: {
+    projectName: {
       label: "Name",
       description: "Name of the project. This is generally a short sentence fragment that fits on a line in the UI for maximum readability. However, it can be longer.",
       type: "string",
@@ -103,15 +101,12 @@ export default {
     },
     followers: {
       label: "Followers",
-      description: "Comma separated string of users. Followers are a subset of members who have opted in to receive \"tasks added\" notifications for a project.",
+      description: "GIDs of users to add as followers. Followers are a subset of members who have opted in to receive \"tasks added\" notifications for a project. Use **List Users** to find available user GIDs.",
       type: "string[]",
       optional: true,
       propDefinition: [
         asana,
         "users",
-        ({ workspace }) => ({
-          workspace,
-        }),
       ],
     },
     htmlNotes: {
@@ -122,15 +117,12 @@ export default {
     },
     owner: {
       label: "Owner",
-      description: "The current owner of the project",
+      description: "The current owner of the project. Use **List Users** to find available user GIDs.",
       type: "string",
       optional: true,
       propDefinition: [
         asana,
         "users",
-        ({ workspace }) => ({
-          workspace,
-        }),
       ],
     },
     defaultAccessLevel: {
@@ -172,7 +164,7 @@ export default {
       method: "post",
       data: {
         data: {
-          name: this.name,
+          name: this.projectName,
           notes: this.notes,
           team: this.team,
           color: this.color,

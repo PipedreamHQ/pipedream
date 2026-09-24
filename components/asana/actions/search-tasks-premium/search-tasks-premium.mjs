@@ -4,8 +4,8 @@ import common from "../common/common.mjs";
 export default {
   key: "asana-search-tasks-premium",
   name: "Search Tasks Premium",
-  description: "Searches for a task by name, assignee, section, project, completed since, and modified since. Requires a Premium Asana account. [See the documentation](https://developers.asana.com/reference/searchtasksforworkspace)",
-  version: "0.0.5",
+  description: "Searches for tasks across an Asana workspace by name, assignee, section, project, completed since, and/or modified since. Requires a Premium Asana account. Use this over **Search Tasks** when you need cross-project full-text search or date-range filters not available on the basic endpoint. Results are capped at 100 by the Asana search API — pagination is not supported on this endpoint; narrow your filters (name, assignee, modified_since) if you expect more than 100 matches. Example: call with `workspace: '1200123456789012'`, `name: 'Q3'`, `assignee: '1198765432109876'` → returns up to 100 tasks whose text contains 'Q3' assigned to that user. [See the documentation](https://developers.asana.com/reference/searchtasksforworkspace)",
+  version: "0.0.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -33,28 +33,22 @@ export default {
     },
     assignee: {
       label: "Assignee",
-      description: "The assignee to filter tasks on",
+      description: "The assignee to filter tasks on. Use **List Users** to find available user GIDs.",
       type: "string",
       optional: true,
       propDefinition: [
         asana,
         "users",
-        ({ workspace }) => ({
-          workspace,
-        }),
       ],
     },
     section: {
       label: "Section",
       type: "string",
-      description: "Section GID used to filter tasks (for example: `1200123456789013`). Provide `project` so valid section IDs can be resolved.",
+      description: "Section GID used to filter tasks (for example: `1200123456789013`). Provide `project` so valid section IDs can be resolved. Use **Search Sections** to find available section GIDs.",
       optional: true,
       propDefinition: [
         asana,
         "sections",
-        (c) => ({
-          project: c.project,
-        }),
       ],
     },
     completedSince: {
@@ -93,10 +87,13 @@ export default {
       $,
     });
 
+    const taskList = tasks ?? [];
     const limited = this.maxResults
-      ? tasks.slice(0, this.maxResults)
-      : tasks;
-    $.export("$summary", "Successfully retrieved tasks");
+      ? taskList.slice(0, this.maxResults)
+      : taskList;
+    $.export("$summary", `Successfully retrieved ${limited.length} task${limited.length !== 1
+      ? "s"
+      : ""}`);
     return limited;
   },
 };

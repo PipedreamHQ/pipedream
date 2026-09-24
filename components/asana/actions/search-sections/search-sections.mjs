@@ -3,8 +3,9 @@ import common from "../common/common.mjs";
 export default {
   key: "asana-search-sections",
   name: "Search Sections",
-  description: "Searches for a section by name within a particular project. [See the documentation](https://developers.asana.com/docs/get-sections-in-a-project)",
-  version: "0.3.1",
+  description: "Searches for sections by name within an Asana project. Use this to find section GIDs before calling **Add Task to Section** or when filtering tasks by section. The `name` filter is a client-side substring match. Returns section records with `gid` and `name`. Example: call with `project: '1204567890123456'`, `sectionName: 'In Progress'` → returns `[{gid: '1203456789012345', name: 'In Progress'}]`. [See the documentation](https://developers.asana.com/docs/get-sections-in-a-project)",
+  version: "0.3.3",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,10 +14,11 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    name: {
+    sectionName: {
       label: "Name",
-      description: "The name of the section to search for.",
+      description: "The name of the section to search for (client-side substring match). Omit to return all sections in the project.",
       type: "string",
+      optional: true,
     },
     maxResults: {
       propDefinition: [
@@ -47,7 +49,7 @@ export default {
       if (data.length === 0) break;
 
       for (const section of data) {
-        if (this.name && !section.name.includes(this.name)) continue;
+        if (this.sectionName && !section.name.includes(this.sectionName)) continue;
         results.push(section);
         if (++count >= this.maxResults) {
           hasMore = false;

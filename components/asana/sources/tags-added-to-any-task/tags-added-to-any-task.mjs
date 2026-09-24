@@ -18,9 +18,6 @@ export default {
       propDefinition: [
         asana,
         "projects",
-        (c) => ({
-          workspace: c.workspace,
-        }),
       ],
     },
     tags: {
@@ -28,9 +25,6 @@ export default {
       propDefinition: [
         asana,
         "tags",
-        (c) => ({
-          workspace: c.workspace,
-        }),
       ],
     },
   },

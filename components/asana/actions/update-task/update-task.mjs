@@ -4,8 +4,9 @@ import common from "../common/common.mjs";
 export default {
   key: "asana-update-task",
   name: "Update Task",
-  description: "Updates a specific and existing task. [See the documentation](https://developers.asana.com/docs/update-a-task)",
-  version: "0.4.8",
+  description: "Updates one or more fields on an existing Asana task (name, assignee, due date, completion status, notes, custom fields, etc.). All fields are optional — supply only the ones you want to change; unchanged fields retain their current values. Use **Find Task by ID** or **Search Tasks** to obtain the task GID first. Returns the updated task record. Example: call with `task_gid: '1202345678901234'`, `completed: true` → marks the task complete and returns the updated record. [See the documentation](https://developers.asana.com/docs/update-a-task)",
+  version: "0.4.9",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -21,40 +22,32 @@ export default {
       propDefinition: [
         asana,
         "tasks",
-        (c) => ({
-          project: c.project,
-        }),
       ],
     },
     name: {
       label: "Name",
       description: "Name of the task. This is generally a short sentence fragment that fits on a line in the UI for maximum readability. However, it can be longer.",
       type: "string",
+      optional: true,
     },
     assignee: {
       label: "Assignee",
-      description: "Gid of a user.",
+      description: "Gid of a user. Use **List Users** to find available user GIDs.",
       type: "string",
       optional: true,
       propDefinition: [
         asana,
         "users",
-        ({ workspace }) => ({
-          workspace,
-        }),
       ],
     },
     assignee_section: {
       label: "Assignee Section",
-      description: "The assignee section is a subdivision of a project that groups tasks together in the assignee's \"My Tasks\" list.",
+      description: "The assignee section is a subdivision of a project that groups tasks together in the assignee's \"My Tasks\" list. Use **Search Sections** to find available section GIDs.",
       type: "string",
       optional: true,
       propDefinition: [
         asana,
         "sections",
-        (c) => ({
-          project: c.project,
-        }),
       ],
     },
     completed: {

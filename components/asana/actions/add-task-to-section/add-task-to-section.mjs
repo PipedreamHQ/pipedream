@@ -3,9 +3,9 @@ import common from "../common/common.mjs";
 
 export default {
   name: "Add Task To Section",
-  description: "Add a task to a specific, existing section. This will remove the task from other sections of the project. [See the documentation](https://developers.asana.com/docs/add-task-to-section)",
+  description: "Moves a task into a specific section within an Asana project, removing it from any other section it currently occupies in that project. Use **Search Sections** to find the section GID and **Search Tasks** to find the task GID. Returns an empty object `{}` on success. Example: call with `project: '1204567890123456'`, `task: '1202345678901234'`, `section_gid: '1203456789012345'` → task is moved into that section and returns `{}`. [See the documentation](https://developers.asana.com/docs/add-task-to-section)",
   key: "asana-add-task-to-section",
-  version: "0.2.16",
+  version: "0.2.17",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -22,9 +22,6 @@ export default {
       propDefinition: [
         asana,
         "tasks",
-        (c) => ({
-          project: c.project,
-        }),
       ],
     },
     section_gid: {
@@ -34,9 +31,6 @@ export default {
       propDefinition: [
         asana,
         "sections",
-        (c) => ({
-          project: c.project,
-        }),
       ],
     },
     insert_before: {
@@ -47,9 +41,6 @@ export default {
       propDefinition: [
         asana,
         "tasks",
-        (c) => ({
-          project: c.project,
-        }),
       ],
     },
     insert_after: {
@@ -60,9 +51,6 @@ export default {
       propDefinition: [
         asana,
         "tasks",
-        (c) => ({
-          project: c.project,
-        }),
       ],
     },
   },

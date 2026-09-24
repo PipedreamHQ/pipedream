@@ -3,8 +3,8 @@ import asana from "../../asana.app.mjs";
 export default {
   key: "asana-list-workspaces",
   name: "List Workspaces",
-  description: "List workspaces available to the authenticated Asana account. Use this when you need a workspace GID before running **List Teams** or other workspace-scoped actions. `optFields` can include optional workspace properties such as `email_domains` and `is_organization`; leave `offset` empty for the first page and pass a returned offset token (for example, `3:0:abcdef123456`) to fetch the next page. [See the documentation](https://developers.asana.com/reference/getworkspaces)",
-  version: "1.0.2",
+  description: "Lists all Asana workspaces available to the authenticated account. Use this to get workspace GIDs required by **List Teams**, **List Users**, **Search Tasks**, **Create Task**, and other workspace-scoped actions. Pass a returned `next_offset` as `offset` to fetch additional pages. Example: call with no params → returns `{data: [{gid: '1200123456789012', name: 'Acme Corp', is_organization: true}, ...]}`. [See the documentation](https://developers.asana.com/reference/getworkspaces)",
+  version: "1.0.3",
   type: "action",
   ai: "optimized",
   annotations: {

@@ -4,8 +4,9 @@ import common from "../common/common.mjs";
 export default {
   key: "asana-create-task",
   name: "Create Task",
-  description: "Creates a new task. [See the documentation](https://developers.asana.com/docs/create-a-task)",
-  version: "0.4.8",
+  description: "Creates a new task in Asana. Use this to add a standalone task to a workspace or project. For subtasks, use **Create Subtask** instead; for template-based tasks, use **Create Task from Template**. Returns the new task record including its `gid`. Example: call with `taskName: 'Review Q3 report'`, `workspace: '1200123456789012'`, `due_on: '2026-10-01'` → returns `{gid: '1202345678901234', name: 'Review Q3 report', resource_type: 'task'}`. [See the documentation](https://developers.asana.com/docs/create-a-task)",
+  version: "0.4.10",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -14,7 +15,7 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    name: {
+    taskName: {
       label: "Name",
       description: "Name of the task. This is generally a short sentence fragment that fits on a line in the UI for maximum readability. However, it can be longer.",
       type: "string",
@@ -23,36 +24,27 @@ export default {
       propDefinition: [
         asana,
         "tags",
-        ({ workspace }) => ({
-          workspace,
-        }),
       ],
       optional: true,
     },
     assignee: {
       label: "Assignee",
-      description: "Gid of a user.",
+      description: "Gid of a user. Use **List Users** to find available user GIDs.",
       type: "string",
       optional: true,
       propDefinition: [
         asana,
         "users",
-        ({ workspace }) => ({
-          workspace,
-        }),
       ],
     },
     assignee_section: {
       label: "Assignee Section",
-      description: "The assignee section is a subdivision of a project that groups tasks together in the assignee's \"My Tasks\" list.",
+      description: "The assignee section is a subdivision of a project that groups tasks together in the assignee's \"My Tasks\" list. Use **Search Sections** to find available section GIDs.",
       type: "string",
       optional: true,
       propDefinition: [
         asana,
         "sections",
-        (c) => ({
-          project: c.project,
-        }),
       ],
     },
     completed: {
@@ -75,15 +67,12 @@ export default {
     },
     followers: {
       label: "Followers",
-      description: "An array of strings identifying users. These can either be the string \"me\", an email, or the gid of a user.",
+      description: "An array of strings identifying users. These can either be the string \"me\", an email, or the gid of a user. Use **List Users** to find available user GIDs.",
       type: "string[]",
       optional: true,
       propDefinition: [
         asana,
         "users",
-        ({ workspace }) => ({
-          workspace,
-        }),
       ],
     },
     html_notes: {
@@ -100,15 +89,12 @@ export default {
     },
     parent: {
       label: "Parent",
-      description: "Gid of a task.",
+      description: "Gid of a task. Use **Search Tasks** to find available task GIDs.",
       type: "string",
       optional: true,
       propDefinition: [
         asana,
         "tasks",
-        (c) => ({
-          project: c.project,
-        }),
       ],
     },
     start_on: {
@@ -136,7 +122,7 @@ export default {
       method: "post",
       data: {
         data: {
-          name: this.name,
+          name: this.taskName,
           assignee: this.assignee,
           assignee_section: this.assignee_section,
           completed: this.completed,

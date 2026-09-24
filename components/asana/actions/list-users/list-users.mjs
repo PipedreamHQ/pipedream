@@ -3,8 +3,8 @@ import asana from "../../asana.app.mjs";
 export default {
   key: "asana-list-users",
   name: "List Users",
-  description: "Retrieves all users in a specified Asana workspace. Use this action to populate assignee choices for tasks, verify workspace membership, or audit user access. Requires a workspace GID, which you can obtain from the **List Workspaces** action. The authenticated user must have access to the workspace. Results are paginated; use the returned offset token to fetch additional pages. To include optional fields like email or photo, specify them in Opt Fields. Consider following up with **Create Task** or **Update Task** to assign work to the retrieved users. [See the documentation](https://developers.asana.com/reference/getusersforworkspace)",
-  version: "1.0.2",
+  description: "Retrieves all users in a specified Asana workspace. Use this to get user GIDs for assignee or owner fields in **Create Task** or **Update Task**. Requires a workspace GID from **List Workspaces**. Results are paginated; pass the returned `next_offset` as `offset` to fetch additional pages. Example: call with `workspace: '1200123456789012'`, `optFields: ['name','email']` → returns `{data: [{gid: '1198765432109876', name: 'Jane Doe', email: 'jane@acme.com'}, ...]}`. [See the documentation](https://developers.asana.com/reference/getusersforworkspace)",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -21,7 +21,7 @@ export default {
       ],
       type: "string",
       label: "Workspace",
-      description: "The workspace to list users for. This field uses the workspace GID (e.g., \"1234567890123456\").",
+      description: "The workspace to list users for (a real workspace GID, not the example value below, and not the string \"me\"). Use **List Workspaces** to find valid GIDs — do not guess or reuse the example shown here. Format example: \"1234567890123456\".",
     },
     optFields: {
       type: "string[]",

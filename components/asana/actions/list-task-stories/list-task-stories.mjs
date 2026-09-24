@@ -3,8 +3,9 @@ import common from "../common/common.mjs";
 export default {
   key: "asana-list-task-stories",
   name: "List Task Stories",
-  description: "List stories (including comments) for a task. [See the documentation](https://developers.asana.com/reference/getstoriesfortask)",
-  version: "0.0.6",
+  description: "Returns all stories (comments, activity log entries, system messages) for an Asana task. Use this to retrieve the comment history and audit trail for a task. Set `commentsOnly: true` to filter to only comment stories. Returns an array of story records each with `gid`, `type`, `text`, and `created_at`. Example: call with `project: '1204567890123456'`, `taskId: '1202345678901234'` → returns stories including `{gid: '1209012345678901', type: 'comment', text: 'Approved!', created_at: '2026-09-01T10:00:00Z'}`. [See the documentation](https://developers.asana.com/reference/getstoriesfortask)",
+  version: "0.0.8",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -15,14 +16,11 @@ export default {
     ...common.props,
     taskId: {
       label: "Task GID",
-      description: "The ID of the task to retrieve stories for",
+      description: "The ID of the task to retrieve stories for. Use **Search Tasks** to find available task GIDs.",
       type: "string",
       propDefinition: [
         common.props.asana,
         "tasks",
-        (c) => ({
-          project: c.project,
-        }),
       ],
     },
     commentsOnly: {
@@ -38,13 +36,10 @@ export default {
       optional: true,
     },
     maxResults: {
-      type: "integer",
-      label: "Max Results",
-      description: "The maximum total number of results to return across all paginated API calls. Each page fetches up to 100 items (Asana's maximum); this cap is applied after auto-pagination completes.",
-      default: 100,
-      min: 1,
-      max: 9999,
-      optional: true,
+      propDefinition: [
+        common.props.asana,
+        "maxResults",
+      ],
     },
   },
   methods: {
@@ -60,11 +55,27 @@ export default {
   async run({ $ }) {
     let hasMore, count = 0;
 
+    // commentsOnly filters on story.type below, so that field must always be
+    // requested — it isn't part of the API's compact default and would
+    // otherwise be silently undefined whenever the caller supplies their own
+    // optFields, making every story fail the filter.
+    const optFields = new Set([
+      "gid",
+      "type",
+      "text",
+      "created_at",
+    ]);
+    if (Array.isArray(this.optFields)) {
+      for (const field of this.optFields) {
+        optFields.add(field);
+      }
+    }
+
     const params = {
       limit: 100,
-      opt_fields: this.optFields
-        ? this.optFields?.join(",")
-        : undefined,
+      opt_fields: [
+        ...optFields,
+      ].join(","),
     };
 
     const results = [];

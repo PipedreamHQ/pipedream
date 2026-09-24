@@ -18,9 +18,6 @@ export default {
       propDefinition: [
         asana,
         "projects",
-        (c) => ({
-          workspace: c.workspace,
-        }),
       ],
     },
   },
