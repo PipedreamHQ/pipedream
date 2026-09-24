@@ -46,8 +46,40 @@ export default {
     },
     taskFields: {
       label: "Task Fields",
-      description: "List of task fields that will emit events when updated (e.g. `assignee`, `due_on`, `completed`). Use **List Task Fields** to get the complete list of valid field names.",
+      description: "List of task fields that will emit events when updated.",
       type: "string[]",
+      // Asana task fields that can be reported as changed by a webhook event
+      // (developers.asana.com/reference/task). Many of these — custom_fields,
+      // tags, followers, dependencies, dependents, parent, memberships — are
+      // omitted from a task's default GET response unless explicitly
+      // requested via opt_fields, so this is a fixed catalog rather than
+      // anything derived from a live task sample.
+      options: [
+        "approval_status",
+        "assignee",
+        "assignee_section",
+        "actual_time_minutes",
+        "completed",
+        "completed_at",
+        "custom_fields",
+        "dependencies",
+        "dependents",
+        "due_at",
+        "due_on",
+        "external",
+        "followers",
+        "html_notes",
+        "memberships",
+        "name",
+        "notes",
+        "num_subtasks",
+        "parent",
+        "projects",
+        "start_at",
+        "start_on",
+        "tags",
+        "workspace",
+      ],
     },
     taskTemplate: {
       type: "string",
