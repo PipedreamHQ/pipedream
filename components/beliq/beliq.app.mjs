@@ -8,81 +8,10 @@ import {
   OUTPUT_OPTIONS,
   PARSE_FORMAT_OPTIONS,
   PROFILE_OPTIONS,
+  SAMPLE_INVOICE,
   STANDARD_OPTIONS,
   VALIDATE_FORMAT_OPTIONS,
 } from "./common/constants.mjs";
-
-// A self-contained EN 16931 invoice used as the Generate action's default, so
-// the action runs out of the box and documents the expected shape.
-// The prefilled example, and the shape a first run actually succeeds with. The
-// request schema was already satisfied; XRechnung's own rules were not, since
-// BR-DE-2 wants a seller contact and PEPPOL-EN16931-R010/R020 want an
-// electronic address on both parties. Verified against POST /v1/generate.
-const SAMPLE_INVOICE = {
-  number: "INV-2026-001",
-  issueDate: "2026-01-15",
-  dueDate: "2026-02-14",
-  currencyCode: "EUR",
-  buyerReference: "991-12345-67",
-  seller: {
-    name: "Seller GmbH",
-    vatId: "DE123456789",
-    contactName: "A Person",
-    email: "billing@seller.example",
-    phone: "+49 30 123456",
-    address: {
-      street: "Hauptstrasse 1",
-      city: "Berlin",
-      postalCode: "10115",
-      countryCode: "DE",
-    },
-    peppol: {
-      schemeId: "0088",
-      id: "4030000000003",
-    },
-  },
-  buyer: {
-    name: "Buyer SARL",
-    vatId: "FR12345678901",
-    email: "ap@buyer.example",
-    address: {
-      street: "Rue de la Paix 2",
-      city: "Paris",
-      postalCode: "75002",
-      countryCode: "FR",
-    },
-    peppol: {
-      schemeId: "0088",
-      id: "4030000000027",
-    },
-  },
-  lines: [
-    {
-      description: "Consulting services",
-      quantity: 10,
-      unitCode: "HUR",
-      unitPrice: 100,
-      lineTotal: 1000,
-      vatRate: 19,
-      vatCategoryCode: "S",
-    },
-  ],
-  taxSummary: [
-    {
-      vatCategoryCode: "S",
-      vatRate: 19,
-      taxableAmount: 1000,
-      taxAmount: 190,
-    },
-  ],
-  paymentMeans: {
-    typeCode: "58",
-    iban: "DE89370400440532013000",
-  },
-  totalNetAmount: 1000,
-  totalTaxAmount: 190,
-  totalGrossAmount: 1190,
-};
 
 export default {
   type: "app",
@@ -113,8 +42,13 @@ export default {
     invoice: {
       type: "object",
       label: "Invoice",
-      description: "The invoice as an EN 16931 JSON object. Required: `number`, `issueDate` (`YYYY-MM-DD`), `currencyCode`, `seller`, `buyer`, `lines` (at least one), `totalNetAmount`, `totalTaxAmount`, `totalGrossAmount`, and in practice `taxSummary` (one entry per VAT category and rate used on the lines). `seller` and `buyer` each need `name` and `address` (`city`, `postalCode`, two-letter `countryCode`; `street` optional); give `vatId` when the party has one. Each line needs `description`, `quantity`, `unitCode` (e.g. `HUR`), `unitPrice`, `lineTotal`, `vatRate` and `vatCategoryCode` (e.g. `S`); each `taxSummary` entry needs `vatCategoryCode`, `vatRate`, `taxableAmount` and `taxAmount`. XRechnung also needs `buyerReference`, a seller contact (`contactName`, `email`, `phone`) and an electronic address on both parties (`peppol` with `schemeId` and `id`, e.g. `{ \"schemeId\": \"0088\", \"id\": \"4030000000003\" }`). The default value is a complete example: an EU seller and buyer, one line at 19% standard-rate VAT. Minimal shape, e.g. `{ \"number\": \"INV-1\", \"issueDate\": \"2026-01-15\", \"currencyCode\": \"EUR\", \"seller\": { \"name\": \"Seller GmbH\", \"vatId\": \"DE123456789\", \"address\": { \"city\": \"Berlin\", \"postalCode\": \"10115\", \"countryCode\": \"DE\" } }, \"buyer\": { ... }, \"lines\": [ { \"description\": \"Consulting\", \"quantity\": 10, \"unitCode\": \"HUR\", \"unitPrice\": 100, \"lineTotal\": 1000, \"vatRate\": 19, \"vatCategoryCode\": \"S\" } ], \"taxSummary\": [ { \"vatCategoryCode\": \"S\", \"vatRate\": 19, \"taxableAmount\": 1000, \"taxAmount\": 190 } ], \"totalNetAmount\": 1000, \"totalTaxAmount\": 190, \"totalGrossAmount\": 1190 }`. Every field: [Invoice object](https://docs.beliq.eu/api-reference/generate/#invoice-object).",
-      default: SAMPLE_INVOICE,
+      description: `The invoice as an EN 16931 JSON object. Required: \`number\`, \`issueDate\` (\`YYYY-MM-DD\`), \`currencyCode\`, \`seller\`, \`buyer\`, \`lines\` (at least one), \`totalNetAmount\`, \`totalTaxAmount\`, \`totalGrossAmount\`, and in practice \`taxSummary\` (one entry per VAT category and rate used on the lines). \`seller\` and \`buyer\` each need \`name\` and \`address\` (\`city\`, \`postalCode\`, two-letter \`countryCode\`; \`street\` optional); give \`vatId\` when the party has one. Each line needs \`description\`, \`quantity\`, \`unitCode\` (e.g. \`HUR\`), \`unitPrice\`, \`lineTotal\`, \`vatRate\` and \`vatCategoryCode\` (e.g. \`S\`); each \`taxSummary\` entry needs \`vatCategoryCode\`, \`vatRate\`, \`taxableAmount\` and \`taxAmount\`. XRechnung also needs \`buyerReference\`, a seller contact (\`contactName\`, \`email\`, \`phone\`) and an electronic address on both parties (\`peppol\` with \`schemeId\` and \`id\`). Every field: [Invoice object](https://docs.beliq.eu/api-reference/generate/#invoice-object).
+
+Example, a valid XRechnung with an EU seller and buyer and one line at 19% standard-rate VAT:
+
+\`\`\`json
+${JSON.stringify(SAMPLE_INVOICE, null, 2)}
+\`\`\``,
     },
     verify: {
       type: "boolean",
