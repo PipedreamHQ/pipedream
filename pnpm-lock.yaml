@@ -3866,8 +3866,8 @@ importers:
         specifier: ^3.2.5
         version: 3.3.0
       image-size:
-        specifier: ^2.0.2
-        version: 2.0.2
+        specifier: ^2.0.3
+        version: 2.0.4
 
   components/customer_fields:
     dependencies:
@@ -15685,7 +15685,7 @@ importers:
     dependencies:
       stripe:
         specifier: ^18.0.0
-        version: 18.5.0(@types/node@26.6.1)
+        version: 18.5.0(@types/node@26.6.2)
 
   components/stripo:
     dependencies:
@@ -18857,10 +18857,10 @@ importers:
         version: 18.3.26
       vite:
         specifier: ^6.4.3
-        version: 6.4.3(@types/node@26.6.1)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1)
+        version: 6.4.3(@types/node@26.6.2)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1)
       vite-plugin-dts:
         specifier: ^4.3.0
-        version: 4.5.4(@types/node@26.6.1)(rollup@4.62.0)(typescript@5.6.3)(vite@6.4.3(@types/node@26.6.1)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1))
+        version: 4.5.4(@types/node@26.6.2)(rollup@4.62.0)(typescript@5.6.3)(vite@6.4.3(@types/node@26.6.2)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1))
 
   packages/prompts:
     dependencies:
@@ -24973,11 +24973,11 @@ packages:
   '@types/node@22.7.5':
     resolution: {integrity: sha512-jML7s2NAzMWc//QSJ1a3prpk78cOPchGvXJsC3C6R6PSMoooztvRVQEz89gmBTBY1SPMaqo5teB4uNHPdetShQ==}
 
-  '@types/node@25.9.7':
-    resolution: {integrity: sha512-Y+axoNWOFLvDNFxNbDA+kqqV05imHwTu5bZWWO6tQM3Y2NX1jvzUJkYlf4nYnMCnvu4wQBKW6Nr+ok6yHWA9aQ==}
+  '@types/node@25.9.8':
+    resolution: {integrity: sha512-VfMrScDmMhUJQmd5hArdQnFvK0OIeD36uN2Va1FcpYaLB/BgkgM8Ulc50XtYISPMz7APJ30+N0T5EM0jlcdfRw==}
 
-  '@types/node@26.6.1':
-    resolution: {integrity: sha512-VqGJBMCtdhqkBUCcBLvywI0NJ+KLuVzgNnlBUNFOQjqVxzo2lxLUNg1DSey8+u2u6ktswSAxg+s68QLzWHNOuA==}
+  '@types/node@26.6.2':
+    resolution: {integrity: sha512-X1P21scMv4zGKLYqjdGjaKa7COa0RKVYYZZN/NfvLQ1JegxFhdhpZG/Lyn8AXx6CDUavKAd11v6BvfpkDByK8g==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -29226,9 +29226,9 @@ packages:
     engines: {node: '>=12.0.0'}
     hasBin: true
 
-  image-size@2.0.2:
-    resolution: {integrity: sha512-IRqXKlaXwgSMAMtpNzZa1ZAe8m+Sa1770Dhk8VkSsP9LS+iHD62Zd8FQKs8fbPiagBE7BzoFX23cxFnwshpV6w==}
-    engines: {node: '>=16.x'}
+  image-size@2.0.4:
+    resolution: {integrity: sha512-QRUkFFsRV/6fuESxb9Vkq+a0LkSrgKXuc2NEqfikiXxxN/G3tjWt5EVUlMaImRBZRZK/jRBEbYvpPYZL8t08Zw==}
+    engines: {node: '>=18'}
     hasBin: true
 
   imap@0.8.19:
@@ -30318,8 +30318,8 @@ packages:
   libmime@5.3.7:
     resolution: {integrity: sha512-FlDb3Wtha8P01kTL3P9M+ZDNDWPKPmKHWaU/cG/lg5pfuAwdflVpZE+wm9m7pKmC5ww6s+zTxBKS1p6yl3KpSw==}
 
-  libnpmpublish@11.2.0:
-    resolution: {integrity: sha512-fAEts7UCM2r1xhI82Dv9PK4gFGZoyD7Z5sfIwBQKoO/f67VNVDC0DeH3uH1Yi+T4kwt5iBuCKkZ5XcpxfvsGHQ==}
+  libnpmpublish@11.2.1:
+    resolution: {integrity: sha512-eZTRbsvZnG7tV0b9Hxug9feQt9Z29GyijcWpEKpLrgaJjxuVCkUNPW+w6OcXmlvSaopkyrGN65hgtk+Z0YP3Hg==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
   libqp@2.1.1:
@@ -30635,6 +30635,10 @@ packages:
 
   lru-cache@11.5.2:
     resolution: {integrity: sha512-4pfM1Ff0x50o0tQwb5ucw/RzNyD0/YJME6IVcStalZuMWxdt3sR3huStTtxz4PUmvZfRguvDejasvQ2kifR11g==}
+    engines: {node: 20 || >=22}
+
+  lru-cache@11.5.3:
+    resolution: {integrity: sha512-U4N8FgzmWxc8k1VH8Kr6lQg18U7Fjvby6wXHVRX/ZZ7IwWbRMgrRbP0Wrb5q5NVinryp4SQampHKdvtecItxUg==}
     engines: {node: 20 || >=22}
 
   lru-cache@5.1.1:
@@ -39017,10 +39021,10 @@ snapshots:
 
   '@definitelytyped/utils@0.1.15':
     dependencies:
-      '@types/node': 25.9.7
+      '@types/node': 25.9.8
       cachedir: 2.4.0
       charm: 1.0.2
-      libnpmpublish: 11.2.0
+      libnpmpublish: 11.2.1
       minimatch: 10.2.6
       npm-registry-fetch: 19.1.1
       tar: 7.5.22
@@ -40309,11 +40313,11 @@ snapshots:
       - '@types/node'
     optional: true
 
-  '@microsoft/api-extractor-model@7.32.0(@types/node@26.6.1)':
+  '@microsoft/api-extractor-model@7.32.0(@types/node@26.6.2)':
     dependencies:
       '@microsoft/tsdoc': 0.16.0
       '@microsoft/tsdoc-config': 0.18.0
-      '@rushstack/node-core-library': 5.18.0(@types/node@26.6.1)
+      '@rushstack/node-core-library': 5.18.0(@types/node@26.6.2)
     transitivePeerDependencies:
       - '@types/node'
 
@@ -40337,15 +40341,15 @@ snapshots:
       - '@types/node'
     optional: true
 
-  '@microsoft/api-extractor@7.55.0(@types/node@26.6.1)':
+  '@microsoft/api-extractor@7.55.0(@types/node@26.6.2)':
     dependencies:
-      '@microsoft/api-extractor-model': 7.32.0(@types/node@26.6.1)
+      '@microsoft/api-extractor-model': 7.32.0(@types/node@26.6.2)
       '@microsoft/tsdoc': 0.16.0
       '@microsoft/tsdoc-config': 0.18.0
-      '@rushstack/node-core-library': 5.18.0(@types/node@26.6.1)
+      '@rushstack/node-core-library': 5.18.0(@types/node@26.6.2)
       '@rushstack/rig-package': 0.6.0
-      '@rushstack/terminal': 0.19.3(@types/node@26.6.1)
-      '@rushstack/ts-command-line': 5.1.3(@types/node@26.6.1)
+      '@rushstack/terminal': 0.19.3(@types/node@26.6.2)
+      '@rushstack/ts-command-line': 5.1.3(@types/node@26.6.2)
       diff: 8.0.2
       lodash: 4.17.23
       minimatch: 10.0.3
@@ -40594,7 +40598,7 @@ snapshots:
       dot-prop: 9.0.0
       empathic: 2.0.0
       env-paths: 3.0.0
-      image-size: 2.0.2
+      image-size: 2.0.4
       js-image-generator: 1.0.4
       parse-gitignore: 2.0.0
       semver: 7.8.5
@@ -40612,7 +40616,7 @@ snapshots:
       dot-prop: 9.0.0
       empathic: 2.0.0
       env-paths: 3.0.0
-      image-size: 2.0.2
+      image-size: 2.0.4
       js-image-generator: 1.0.4
       parse-gitignore: 2.0.0
       semver: 7.8.5
@@ -40913,7 +40917,7 @@ snapshots:
       agent-base: 7.1.4
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.6
-      lru-cache: 11.5.2
+      lru-cache: 11.5.3
       socks-proxy-agent: 8.0.5
     transitivePeerDependencies:
       - supports-color
@@ -40927,7 +40931,7 @@ snapshots:
       '@gar/promise-retry': 1.0.3
       '@npmcli/promise-spawn': 9.0.1
       ini: 6.0.0
-      lru-cache: 11.5.2
+      lru-cache: 11.5.3
       npm-pick-manifest: 11.0.3
       proc-log: 6.1.0
       semver: 7.8.5
@@ -43292,7 +43296,7 @@ snapshots:
       '@types/node': 20.19.25
     optional: true
 
-  '@rushstack/node-core-library@5.18.0(@types/node@26.6.1)':
+  '@rushstack/node-core-library@5.18.0(@types/node@26.6.2)':
     dependencies:
       ajv: 8.13.0
       ajv-draft-04: 1.0.0(ajv@8.13.0)
@@ -43303,16 +43307,16 @@ snapshots:
       resolve: 1.22.11
       semver: 7.5.4
     optionalDependencies:
-      '@types/node': 26.6.1
+      '@types/node': 26.6.2
 
   '@rushstack/problem-matcher@0.1.1(@types/node@20.19.25)':
     optionalDependencies:
       '@types/node': 20.19.25
     optional: true
 
-  '@rushstack/problem-matcher@0.1.1(@types/node@26.6.1)':
+  '@rushstack/problem-matcher@0.1.1(@types/node@26.6.2)':
     optionalDependencies:
-      '@types/node': 26.6.1
+      '@types/node': 26.6.2
 
   '@rushstack/rig-package@0.6.0':
     dependencies:
@@ -43328,13 +43332,13 @@ snapshots:
       '@types/node': 20.19.25
     optional: true
 
-  '@rushstack/terminal@0.19.3(@types/node@26.6.1)':
+  '@rushstack/terminal@0.19.3(@types/node@26.6.2)':
     dependencies:
-      '@rushstack/node-core-library': 5.18.0(@types/node@26.6.1)
-      '@rushstack/problem-matcher': 0.1.1(@types/node@26.6.1)
+      '@rushstack/node-core-library': 5.18.0(@types/node@26.6.2)
+      '@rushstack/problem-matcher': 0.1.1(@types/node@26.6.2)
       supports-color: 8.1.1
     optionalDependencies:
-      '@types/node': 26.6.1
+      '@types/node': 26.6.2
 
   '@rushstack/ts-command-line@5.1.3(@types/node@20.19.25)':
     dependencies:
@@ -43346,9 +43350,9 @@ snapshots:
       - '@types/node'
     optional: true
 
-  '@rushstack/ts-command-line@5.1.3(@types/node@26.6.1)':
+  '@rushstack/ts-command-line@5.1.3(@types/node@26.6.2)':
     dependencies:
-      '@rushstack/terminal': 0.19.3(@types/node@26.6.1)
+      '@rushstack/terminal': 0.19.3(@types/node@26.6.2)
       '@types/argparse': 1.0.38
       argparse: 1.0.10
       string-argv: 0.3.2
@@ -44787,11 +44791,11 @@ snapshots:
     dependencies:
       undici-types: 6.19.8
 
-  '@types/node@25.9.7':
+  '@types/node@25.9.8':
     dependencies:
       undici-types: 7.24.6
 
-  '@types/node@26.6.1':
+  '@types/node@26.6.2':
     dependencies:
       undici-types: 8.9.0
     optional: true
@@ -46438,7 +46442,7 @@ snapshots:
       '@npmcli/fs': 5.0.0
       fs-minipass: 3.0.3
       glob: 13.0.6
-      lru-cache: 11.5.2
+      lru-cache: 11.5.3
       minipass: 7.1.3
       minipass-collect: 2.0.1
       minipass-flush: 1.0.7
@@ -50093,7 +50097,7 @@ snapshots:
 
   hosted-git-info@9.0.3:
     dependencies:
-      lru-cache: 11.5.2
+      lru-cache: 11.5.3
 
   hot-shots@11.2.0:
     optionalDependencies:
@@ -50316,7 +50320,7 @@ snapshots:
     dependencies:
       queue: 6.0.2
 
-  image-size@2.0.2: {}
+  image-size@2.0.4: {}
 
   imap@0.8.19:
     dependencies:
@@ -51726,7 +51730,7 @@ snapshots:
       libbase64: 1.3.0
       libqp: 2.1.1
 
-  libnpmpublish@11.2.0:
+  libnpmpublish@11.2.1:
     dependencies:
       '@npmcli/package-json': 7.0.5
       ci-info: 4.4.0
@@ -52101,6 +52105,8 @@ snapshots:
   lru-cache@10.4.3: {}
 
   lru-cache@11.5.2: {}
+
+  lru-cache@11.5.3: {}
 
   lru-cache@5.1.1:
     dependencies:
@@ -54047,7 +54053,7 @@ snapshots:
 
   path-scurry@2.0.2:
     dependencies:
-      lru-cache: 11.5.2
+      lru-cache: 11.5.3
       minipass: 7.1.3
 
   path-to-regexp@0.1.12: {}
@@ -56503,11 +56509,11 @@ snapshots:
 
   strip-outer@2.0.0: {}
 
-  stripe@18.5.0(@types/node@26.6.1):
+  stripe@18.5.0(@types/node@26.6.2):
     dependencies:
       qs: 6.16.0
     optionalDependencies:
-      '@types/node': 26.6.1
+      '@types/node': 26.6.2
 
   strnum@1.1.2: {}
 
@@ -57876,9 +57882,9 @@ snapshots:
       - debug
       - supports-color
 
-  vite-plugin-dts@4.5.4(@types/node@26.6.1)(rollup@4.62.0)(typescript@5.6.3)(vite@6.4.3(@types/node@26.6.1)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1)):
+  vite-plugin-dts@4.5.4(@types/node@26.6.2)(rollup@4.62.0)(typescript@5.6.3)(vite@6.4.3(@types/node@26.6.2)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1)):
     dependencies:
-      '@microsoft/api-extractor': 7.55.0(@types/node@26.6.1)
+      '@microsoft/api-extractor': 7.55.0(@types/node@26.6.2)
       '@rollup/pluginutils': 5.3.0(rollup@4.62.0)
       '@volar/typescript': 2.4.23
       '@vue/language-core': 2.2.0(typescript@5.6.3)
@@ -57889,13 +57895,13 @@ snapshots:
       magic-string: 0.30.21
       typescript: 5.6.3
     optionalDependencies:
-      vite: 6.4.3(@types/node@26.6.1)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1)
+      vite: 6.4.3(@types/node@26.6.2)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1)
     transitivePeerDependencies:
       - '@types/node'
       - rollup
       - supports-color
 
-  vite@6.4.3(@types/node@26.6.1)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1):
+  vite@6.4.3(@types/node@26.6.2)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1):
     dependencies:
       esbuild: 0.25.12
       fdir: 6.5.0(picomatch@4.0.4)
@@ -57904,7 +57910,7 @@ snapshots:
       rollup: 4.62.0
       tinyglobby: 0.2.17
     optionalDependencies:
-      '@types/node': 26.6.1
+      '@types/node': 26.6.2
       fsevents: 2.3.3
       jiti: 2.6.1
       tsx: 4.20.6
