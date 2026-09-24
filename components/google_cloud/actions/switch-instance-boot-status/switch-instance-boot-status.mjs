@@ -1,14 +1,10 @@
 import googleCloud from "../../google_cloud.app.mjs";
-import {
-  ZonesClient,
-  ZoneOperationsClient,
-  InstancesClient,
-} from "@google-cloud/compute";
+import { ZoneOperationsClient } from "@google-cloud/compute";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   name: "Switch Instance Boot Status",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -20,23 +16,19 @@ export default {
   props: {
     googleCloud,
     zone: {
-      label: "Zone",
-      description: "The unique zone name",
-      type: "string",
-      async options() {
-        const zones = await this.listZones();
-        return zones.map((item) => (item.name));
-      },
+      propDefinition: [
+        googleCloud,
+        "zoneName",
+      ],
     },
     instanceName: {
-      label: "Instance Name",
-      description: "The unique instance name",
-      type: "string",
-      async options({ zone }) {
-        if (!zone) { return []; }
-        const instances = await this.listVmInstancesByZone(zone);
-        return instances.map((item) => (item.name));
-      },
+      propDefinition: [
+        googleCloud,
+        "instanceName",
+        (c) => ({
+          zone: c.zone,
+        }),
+      ],
     },
     newInstanceStatus: {
       label: "New Instance Status",
@@ -55,24 +47,8 @@ export default {
     },
   },
   methods: {
-    zonesClient() {
-      return new ZonesClient(this.googleCloud.sdkParams());
-    },
     zoneOperationsClient() {
       return new ZoneOperationsClient(this.googleCloud.sdkParams());
-    },
-    instancesClient() {
-      return new InstancesClient(this.googleCloud.sdkParams());
-    },
-    async listZones() {
-      const zonesClient = this.zonesClient();
-      const sdkParams = this.googleCloud.sdkParams();
-      const [
-        zones,
-      ] = await zonesClient.list({
-        project: sdkParams.projectId,
-      });
-      return zones;
     },
     async waitOperation(operation) {
       const operationsClient = this.zoneOperationsClient();
@@ -88,17 +64,6 @@ export default {
       }
       return operation;
     },
-    async listVmInstancesByZone(zone) {
-      const instancesClient = this.instancesClient();
-      const sdkParams = this.googleCloud.sdkParams();
-      const [
-        instances,
-      ] = await instancesClient.list({
-        project: sdkParams.projectId,
-        zone,
-      });
-      return instances;
-    },
     async switchInstanceBootStatus(zone, instance, newStatus) {
       if (![
         "start",
@@ -106,7 +71,7 @@ export default {
       ].includes(newStatus)) {
         throw new ConfigurationError("The new VM boot status must be 'start' or 'stop'.");
       }
-      const instancesClient = this.instancesClient();
+      const instancesClient = this.googleCloud.instancesClient();
       const sdkParams = this.googleCloud.sdkParams();
       const [
         response,

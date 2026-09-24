@@ -4,7 +4,7 @@ import constants from "../../common/constants.mjs";
 
 export default {
   name: "Logging - Read Log Entries",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
