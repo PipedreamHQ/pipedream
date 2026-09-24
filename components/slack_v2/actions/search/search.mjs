@@ -1,3 +1,4 @@
+import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
 import slack from "../../slack_v2.app.mjs";
 
@@ -13,7 +14,7 @@ export default {
     + " Messages include channel context, timestamps, and permalinks;"
     + " files include `file_id`, `title`, `file_type`, `author_name`, `date_created`, `permalink`, and extracted `content`."
     + " `Max Results` applies per content type, so searching both can return up to twice that many items."
-    + " File results require the `search:read.files` scope."
+    + " Paging stops after a fixed page budget, so a sparse type can come back with fewer than `Max Results`."
     + " User mentions come back in the canonical `<@U123>` form; echo it verbatim to post a real mention."
     + " Display names are returned separately as `mentions`, an array of `{ id, name }` objects,"
     + " omitted when no mention carried a name."
@@ -73,6 +74,11 @@ export default {
     const wantFiles = contentTypes.includes("files");
     const messages = [];
     const files = [];
+    const pageBudget = Math.max(
+      constants.MAX_SEARCH_PAGES,
+      Math.ceil(maxResults / constants.SEARCH_PAGE_SIZE),
+    );
+    let pages = 0;
     let cursor;
 
     do {
@@ -89,8 +95,10 @@ export default {
         files.push(...(response.results?.files || []));
       }
       cursor = response.response_metadata?.next_cursor;
+      pages++;
     } while (
       cursor
+      && pages < pageBudget
       && ((wantMessages && messages.length < maxResults)
         || (wantFiles && files.length < maxResults))
     );

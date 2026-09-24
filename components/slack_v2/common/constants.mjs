@@ -9,6 +9,13 @@ const MAX_NAME_LOOKUP_PAGES = 5;
 // that doesn't exist (typo, wrong workspace) forces a full workspace scan —
 // on a large workspace that alone can exhaust conversations.list's rate limit.
 const MAX_CHANNEL_RESOLVE_PAGES = 5;
+// Page budget for `assistant.search.context` in the Search action. When several
+// content types are selected, one sparse type (e.g. files) would otherwise keep
+// the loop paging through the other type until the cursor runs out, and this
+// method rate-limits readily. The budget grows with Max Results (Slack returns at
+// most SEARCH_PAGE_SIZE items per page) so large single-type requests still fill.
+const MAX_SEARCH_PAGES = 5;
+const SEARCH_PAGE_SIZE = 20;
 // User-token errors on which file reads retry with the bot token.
 const FILES_READ_BOT_FALLBACK_ERRORS = [
   "missing_scope",
@@ -62,6 +69,8 @@ export default {
   LIMIT,
   MAX_NAME_LOOKUP_PAGES,
   MAX_CHANNEL_RESOLVE_PAGES,
+  MAX_SEARCH_PAGES,
+  SEARCH_PAGE_SIZE,
   FILES_READ_BOT_FALLBACK_ERRORS,
   MAX_DOWNLOAD_SIZE_BYTES,
   STREAM_RESPONSE_TYPE,
