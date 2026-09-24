@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sharepoint",
-  "version": "0.10.3",
+  "version": "1.0.0",
   "description": "Pipedream Microsoft Sharepoint Online Components",
   "main": "sharepoint.app.mjs",
   "keywords": [
