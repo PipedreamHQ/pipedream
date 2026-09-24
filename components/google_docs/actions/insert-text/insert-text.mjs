@@ -6,7 +6,7 @@ export default {
   key: "google_docs-insert-text",
   name: "Insert Text",
   description: "Insert text into a Google Doc at the beginning, end, or a specific character index. Use **Find Document** to resolve a document's name to its ID. To append text to the end of a doc, use `position: end` (the default). In a multi-tab document, set **Tab ID** to choose which tab receives the text — without it the text goes into the document's first tab; use **List Tabs** to get the IDs. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#InsertTextRequest)",
-  version: "1.2.0",
+  version: "1.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
