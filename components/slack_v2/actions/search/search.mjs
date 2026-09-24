@@ -8,13 +8,18 @@ export default {
     "Search Slack messages and files using the Real-Time Search API."
     + " Supports keyword and semantic search across public and private channels."
     + " Use **Get User Details** first to find your user ID for filtering by 'my' messages."
-    + " Returns matching messages with channel context, timestamps, and permalinks."
+    + " Set `contentTypes` to choose what to search: `messages` (default), `files`, or both."
+    + " Returns a single array; each item has a `content_type` of `message` or `file`."
+    + " Messages include channel context, timestamps, and permalinks;"
+    + " files include `file_id`, `title`, `file_type`, `author_name`, `date_created`, `permalink`, and extracted `content`."
+    + " `Max Results` applies per content type, so searching both can return up to twice that many items."
+    + " File results require the `search:read.files` scope."
     + " User mentions come back in the canonical `<@U123>` form; echo it verbatim to post a real mention."
     + " Display names are returned separately as `mentions`, an array of `{ id, name }` objects,"
     + " omitted when no mention carried a name."
     + " Do NOT splice a name back inline: Slack renders `<@U123|Name>` as literal text, not a mention."
     + " [See the documentation](https://api.slack.com/methods/assistant.search.context)",
-  version: "0.1.4",
+  version: "0.2.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -36,30 +41,71 @@ export default {
       default: "public_channel,private_channel",
       optional: true,
     },
+    contentTypes: {
+      type: "string[]",
+      label: "Content Types",
+      description: "Which kinds of results to return. Select `messages`, `files`, or both. Default: `messages`.",
+      options: [
+        "messages",
+        "files",
+      ],
+      default: [
+        "messages",
+      ],
+      optional: true,
+    },
     limit: {
       type: "integer",
       label: "Max Results",
-      description: "Maximum number of results to return.",
+      description: "Maximum number of results to return per content type.",
       default: 20,
       optional: true,
     },
   },
   async run({ $ }) {
     const maxResults = Math.max(this.limit ?? 20, 1);
-    const matches = [];
+    const contentTypes = this.contentTypes?.length
+      ? this.contentTypes
+      : [
+        "messages",
+      ];
+    const wantMessages = contentTypes.includes("messages");
+    const wantFiles = contentTypes.includes("files");
+    const messages = [];
+    const files = [];
     let cursor;
 
     do {
       const response = await this.slack.assistantSearch({
         query: this.query,
         channel_types: this.channelTypes,
+        content_types: contentTypes.join(","),
         cursor,
       });
-      matches.push(...(response.results?.messages || []));
+      if (wantMessages) {
+        messages.push(...(response.results?.messages || []));
+      }
+      if (wantFiles) {
+        files.push(...(response.results?.files || []));
+      }
       cursor = response.response_metadata?.next_cursor;
-    } while (cursor && matches.length < maxResults);
+    } while (
+      cursor
+      && ((wantMessages && messages.length < maxResults)
+        || (wantFiles && files.length < maxResults))
+    );
 
-    const results = utils.normalizeSearchMessages(matches.slice(0, maxResults));
+    const results = [
+      ...utils.normalizeSearchMessages(messages.slice(0, maxResults))
+        .map((message) => ({
+          ...message,
+          content_type: "message",
+        })),
+      ...files.slice(0, maxResults).map((file) => ({
+        ...file,
+        content_type: "file",
+      })),
+    ];
 
     $.export("$summary", `Found ${results.length} result${results.length === 1
       ? ""
