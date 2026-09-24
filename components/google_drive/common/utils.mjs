@@ -62,15 +62,14 @@ function getListFilesOpts(drive, baseOpts = {}) {
 
   if (drive && !isMyDrive(drive)) {
     return {
-      // Google's `files.list` API requires `includeItemsFromAllDrives: true`
-      // whenever `driveId` is set or `corpora` is `drive`/`allDrives`.
-      // Placed before the spread so callers (e.g. list-files's
-      // `limitToMyDrive` toggle) can still override.
-      includeItemsFromAllDrives: true,
       ...rest,
       corpora: "drive",
       driveId: getDriveId(drive),
       supportsAllDrives: true,
+      // Google's `files.list` API requires `includeItemsFromAllDrives: true`
+      // whenever `driveId` is set or `corpora` is `drive`/`allDrives`.
+      // Placed AFTER the spread so callers cannot downgrade this required value.
+      includeItemsFromAllDrives: true,
     };
   }
 
@@ -81,12 +80,15 @@ function getListFilesOpts(drive, baseOpts = {}) {
     };
   }
 
-  // No specific drive selected — search across all drives by default.
+  // No specific drive selected -- search across all drives by default.
   return {
-    includeItemsFromAllDrives: true,
     ...rest,
     corpora: "allDrives",
     supportsAllDrives: true,
+    // Google's `files.list` API requires `includeItemsFromAllDrives: true`
+    // when `corpora` is `allDrives`. Placed AFTER the spread so callers
+    // cannot downgrade this required value.
+    includeItemsFromAllDrives: true,
   };
 }
 

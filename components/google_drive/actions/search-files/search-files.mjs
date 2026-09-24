@@ -7,7 +7,7 @@ export default {
   description:
     "Search for files and folders in Google Drive using the Drive query language."
     + " This is the primary tool for finding files, folders, spreadsheets, forms, and any other Drive item."
-    + " Returns matching files with their IDs, names, MIME types, and parent folder IDs."
+    + " Returns matching files with their IDs, names, and MIME types."
     + "\n\n**Query syntax** — pass a Drive search query string. Examples:"
     + "\n- Find by name: `name contains 'Budget'`"
     + "\n- Exact name match: `name = 'Q4 Report'`"
@@ -21,8 +21,8 @@ export default {
     + "\n- Owner filter: `'user@example.com' in owners`"
     + "\n\nWhen the user says 'my files', use **Get User Details** first to get the owner email."
     + " To scope to a shared drive, pass the `driveId` from **List Shared Drives**."
-    + " [See the documentation](https://developers.google.com/drive/api/v3/search-files)",
-  version: "0.0.4",
+    + " [See the documentation](https://developers.google.com/workspace/drive/api/guides/search-files)",
+  version: "0.1.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -49,20 +49,10 @@ export default {
         + " Omit to search My Drive.",
       optional: true,
     },
-    includeItemsFromAllDrives: {
-      type: "boolean",
-      label: "Include Items From All Drives",
-      description:
-        "If true, include results from all drives (My Drive and shared drives)."
-        + " Defaults to false.",
-      optional: true,
-      default: false,
-    },
   },
   async run({ $ }) {
     const opts = getListFilesOpts(this.driveId, {
       q: this.query,
-      includeItemsFromAllDrives: this.includeItemsFromAllDrives,
     });
 
     const allFiles = [];

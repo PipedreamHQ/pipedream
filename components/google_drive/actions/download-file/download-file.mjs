@@ -2,7 +2,11 @@ import { ConfigurationError } from "@pipedream/platform";
 import fs from "fs";
 import stream from "stream";
 import { promisify } from "util";
-import { GOOGLE_DRIVE_MIME_TYPE_PREFIX } from "../../common/constants.mjs";
+import {
+  GOOGLE_DRIVE_MIME_TYPE_PREFIX,
+  INVALID_TMP_FILENAME_CHARS_REGEX,
+  TMP_FILENAME_REPLACEMENT_CHAR,
+} from "../../common/constants.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 import googleDrive from "../../google_drive.app.mjs";
 import googleWorkspaceExportFormats from "../common/google-workspace-export-formats.mjs";
@@ -33,7 +37,7 @@ export default {
     + " Pass `mimeType` to force a specific format. Shortcuts are resolved to their target automatically."
     + " Folders, Forms, and My Maps cannot be downloaded via this action."
     + " [See the documentation](https://developers.google.com/drive/api/v3/manage-downloads)",
-  version: "0.2.2",
+  version: "0.2.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -245,7 +249,15 @@ export default {
           ? this.filePath
           : `/tmp/${this.filePath}`;
       } else {
-        let defaultName = fileMetadata.name;
+        // Sanitize the Drive file name before using it as a /tmp path segment.
+        // Characters like `/` are interpreted as directory separators by the OS,
+        // causing fs.createWriteStream to throw ENOENT/ENOTDIR when the implied
+        // subdirectory does not exist. Only `/` and the null byte are replaced;
+        // other characters (e.g. `:`, `&`) are valid on Linux and are preserved.
+        let defaultName = fileMetadata.name.replace(
+          INVALID_TMP_FILENAME_CHARS_REGEX,
+          TMP_FILENAME_REPLACEMENT_CHAR,
+        );
         if (isWorkspaceDocument) {
           const ext = extensionByMime[effectiveMimeType];
           if (ext && !defaultName.toLowerCase().endsWith(`.${ext.toLowerCase()}`)) {
