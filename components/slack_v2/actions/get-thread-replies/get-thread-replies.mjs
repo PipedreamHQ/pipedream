@@ -17,7 +17,7 @@ export default {
     + " Slack messages carry blocks, attachments and edit metadata, so a long thread can run"
     + " to tens of thousands of characters and be truncated before you see any of it."
     + " [See the documentation](https://api.slack.com/methods/conversations.replies)",
-  version: "0.1.7",
+  version: "0.1.8",
   type: "action",
   ai: "optimized",
   annotations: {
