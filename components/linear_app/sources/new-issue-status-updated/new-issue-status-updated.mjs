@@ -6,7 +6,7 @@ export default {
   ...common,
   key: "linear_app-new-issue-status-updated",
   name: "Issue Status Updated (Instant)",
-  description: "Emit new event when an issue's workflow state changes (e.g., Todo to In Progress). Returns issue with previous and current state info. Can filter by specific target state. See Linear docs for additional info [here](https://linear.app/developers/webhooks).",
+  description: "Emit new event when an issue's workflow state changes (e.g., Todo to In Progress). Returns issue with previous and current state info. Can filter by specific target state. See Linear docs for additional info [See the documentation](https://linear.app/developers/webhooks).",
   type: "source",
   version: "0.1.24",
   dedupe: "unique",

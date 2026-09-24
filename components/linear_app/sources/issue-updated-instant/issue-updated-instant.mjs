@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "linear_app-issue-updated-instant",
   name: "Issue Updated (Instant)",
-  description: "Emit new event when any issue is updated in Linear. Provides complete issue details with changes. Supports filtering by team and project. Includes all updates except status changes. See Linear docs for additional info [here](https://linear.app/developers/webhooks).",
+  description: "Emit new event when any issue is updated in Linear. Provides complete issue details with changes. Supports filtering by team and project. Includes all updates except status changes. See Linear docs for additional info [See the documentation](https://linear.app/developers/webhooks).",
   type: "source",
   version: "0.3.24",
   dedupe: "unique",
