@@ -5,7 +5,7 @@ export default {
   key: "servicenow-get-incident",
   name: "Get Incident",
   description: "Retrieve a ServiceNow incident from the `incident` table by number. Use this after **Submit Record Producer** or **Create Table Record** when you need the incident state, priority, and assignment for a follow-up link. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_TableAPI.html)",
-  version: "0.1.0",
+  version: "0.0.1",
   type: "action",
   ai: "optimized",
   annotations: {
