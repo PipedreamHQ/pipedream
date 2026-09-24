@@ -1738,6 +1738,15 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/beliq:
+    dependencies:
+      '@beliq/sdk':
+        specifier: ^0.4.0
+        version: 0.4.2
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
+
   components/benchmark_email:
     dependencies:
       '@pipedream/platform':
@@ -20292,6 +20301,10 @@ packages:
   '@bcoe/v8-coverage@0.2.3':
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
 
+  '@beliq/sdk@0.4.2':
+    resolution: {integrity: sha512-CXjiX/NonYmU37KrAiSIxBy/gQH0UrFVUH3wmk/N15rBzk/teCyoVN8eDaQDYlGNxV4BcgVYHkqh5De5KRk3tg==}
+    engines: {node: '>=20.15'}
+
   '@borewit/text-codec@0.2.2':
     resolution: {integrity: sha512-DDaRehssg1aNrH4+2hnj1B7vnUGEjU6OIlyRdkMd0aUdIUvKXrJfXsy8LVtXAy7DRvYVluWbMspsRhz2lcW0mQ==}
 
@@ -38695,6 +38708,8 @@ snapshots:
       - supports-color
 
   '@bcoe/v8-coverage@0.2.3': {}
+
+  '@beliq/sdk@0.4.2': {}
 
   '@borewit/text-codec@0.2.2': {}
 
