@@ -89,3 +89,75 @@ export const CONTENT_TYPE_OPTIONS = [
 // XRechnung reports its rules one layer at a time, so the first few are the
 // ones worth acting on.
 export const MAX_REPORTED_FINDINGS = 5;
+
+// The example in the Invoice description: a self-contained EN 16931 invoice that
+// XRechnung accepts. The request schema alone is not enough; BR-DE-2 wants a
+// seller contact and PEPPOL-EN16931-R010/R020 want an electronic address on both
+// parties. It is not the prop's default, so an agent that omits the invoice gets
+// an error instead of an invoice between two fictitious parties. The live smoke
+// generates it on every push to main.
+export const SAMPLE_INVOICE = {
+  number: "INV-2026-001",
+  issueDate: "2026-01-15",
+  dueDate: "2026-02-14",
+  currencyCode: "EUR",
+  buyerReference: "991-12345-67",
+  seller: {
+    name: "Seller GmbH",
+    vatId: "DE123456789",
+    contactName: "A Person",
+    email: "billing@seller.example",
+    phone: "+49 30 123456",
+    address: {
+      street: "Hauptstrasse 1",
+      city: "Berlin",
+      postalCode: "10115",
+      countryCode: "DE",
+    },
+    peppol: {
+      schemeId: "0088",
+      id: "4030000000003",
+    },
+  },
+  buyer: {
+    name: "Buyer SARL",
+    vatId: "FR12345678901",
+    email: "ap@buyer.example",
+    address: {
+      street: "Rue de la Paix 2",
+      city: "Paris",
+      postalCode: "75002",
+      countryCode: "FR",
+    },
+    peppol: {
+      schemeId: "0088",
+      id: "4030000000027",
+    },
+  },
+  lines: [
+    {
+      description: "Consulting services",
+      quantity: 10,
+      unitCode: "HUR",
+      unitPrice: 100,
+      lineTotal: 1000,
+      vatRate: 19,
+      vatCategoryCode: "S",
+    },
+  ],
+  taxSummary: [
+    {
+      vatCategoryCode: "S",
+      vatRate: 19,
+      taxableAmount: 1000,
+      taxAmount: 190,
+    },
+  ],
+  paymentMeans: {
+    typeCode: "58",
+    iban: "DE89370400440532013000",
+  },
+  totalNetAmount: 1000,
+  totalTaxAmount: 190,
+  totalGrossAmount: 1190,
+};
