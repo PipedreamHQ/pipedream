@@ -27,12 +27,10 @@ export default {
       optional: true,
     },
     limit: {
-      type: "integer",
-      label: "Limit",
-      description: "Number of conversations to return, between `1` and `100`. Defaults to `20`.",
-      min: 1,
-      max: 100,
-      optional: true,
+      propDefinition: [
+        dify,
+        "limit",
+      ],
     },
     sortBy: {
       type: "string",

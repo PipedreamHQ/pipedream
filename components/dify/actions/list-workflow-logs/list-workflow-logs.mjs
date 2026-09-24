@@ -66,12 +66,10 @@ export default {
       optional: true,
     },
     limit: {
-      type: "integer",
-      label: "Limit",
-      description: "Number of runs to return per page, between `1` and `100`. Defaults to `20`.",
-      min: 1,
-      max: 100,
-      optional: true,
+      propDefinition: [
+        dify,
+        "limit",
+      ],
     },
   },
   async run({ $ }) {

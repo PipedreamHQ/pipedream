@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { axios } from "@pipedream/platform";
 
 const BASE_URL = "https://api.dify.ai/v1";
@@ -16,6 +15,14 @@ export default {
       type: "object",
       label: "Inputs",
       description: "Values for the app's input variables, keyed by variable name, e.g. `{ \"city\": \"San Francisco\" }`. Leave empty (`{}`) if the app defines no input variables — most chat apps don't. Use **Get App Parameters** to discover this app's actual variable names and whether each is required.",
+      optional: true,
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Number of results to return per page, between `1` and `100`. Defaults to `20`.",
+      min: 1,
+      max: 100,
       optional: true,
     },
   },
