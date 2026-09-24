@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
 import slack from "../../slack_v2.app.mjs";
@@ -14,6 +15,7 @@ export default {
     + " Messages include channel context, timestamps, and permalinks;"
     + " files include `file_id`, `title`, `file_type`, `author_name`, `date_created`, `permalink`, and extracted `content`."
     + " `Max Results` applies per content type, so searching both can return up to twice that many items."
+    + ` \`Max Results\` is capped at ${constants.MAX_SEARCH_RESULTS}.`
     + " Paging stops after a fixed page budget, so a sparse type can come back with fewer than `Max Results`."
     + " User mentions come back in the canonical `<@U123>` form; echo it verbatim to post a real mention."
     + " Display names are returned separately as `mentions`, an array of `{ id, name }` objects,"
@@ -45,7 +47,7 @@ export default {
     contentTypes: {
       type: "string[]",
       label: "Content Types",
-      description: "Which kinds of results to return. Select `messages`, `files`, or both. Default: `messages`.",
+      description: "Which kinds of results to return. Select `messages`, `files`, or both, e.g. `[\"messages\", \"files\"]`. Default: `messages`.",
       options: [
         "messages",
         "files",
@@ -58,13 +60,18 @@ export default {
     limit: {
       type: "integer",
       label: "Max Results",
-      description: "Maximum number of results to return per content type.",
+      description: `Maximum number of results to return per content type, up to ${constants.MAX_SEARCH_RESULTS}, e.g. \`20\`.`,
       default: 20,
+      min: 1,
+      max: constants.MAX_SEARCH_RESULTS,
       optional: true,
     },
   },
   async run({ $ }) {
     const maxResults = Math.max(this.limit ?? 20, 1);
+    if (maxResults > constants.MAX_SEARCH_RESULTS) {
+      throw new ConfigurationError(`\`Max Results\` must be ${constants.MAX_SEARCH_RESULTS} or less.`);
+    }
     const contentTypes = this.contentTypes?.length
       ? this.contentTypes
       : [
@@ -74,10 +81,6 @@ export default {
     const wantFiles = contentTypes.includes("files");
     const messages = [];
     const files = [];
-    const pageBudget = Math.max(
-      constants.MAX_SEARCH_PAGES,
-      Math.ceil(maxResults / constants.SEARCH_PAGE_SIZE),
-    );
     let pages = 0;
     let cursor;
 
@@ -98,7 +101,7 @@ export default {
       pages++;
     } while (
       cursor
-      && pages < pageBudget
+      && pages < constants.MAX_SEARCH_PAGES
       && ((wantMessages && messages.length < maxResults)
         || (wantFiles && files.length < maxResults))
     );
