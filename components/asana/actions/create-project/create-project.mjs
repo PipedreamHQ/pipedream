@@ -5,7 +5,7 @@ export default {
   key: "asana-create-project",
   name: "Create Project",
   description: "Creates a new project in an Asana workspace or team. Use this to set up a new initiative, sprint, or work stream. For organization workspaces you must supply a `team` GID (use **List Teams** to find it). Returns the new project record including its `gid`. Example: call with `projectName: 'Q4 Marketing Campaign'`, `workspace: '1200123456789012'`, `team: '1203456789012345'`, `defaultView: 'board'` → returns `{gid: '1204567890123456', name: 'Q4 Marketing Campaign'}`. [See the documentation](https://developers.asana.com/docs/create-a-project)",
-  version: "0.10.11",
+  version: "1.0.0",
   ai: "optimized",
   annotations: {
     destructiveHint: false,
@@ -101,7 +101,7 @@ export default {
     },
     followers: {
       label: "Followers",
-      description: "GIDs of users to add as followers. Followers are a subset of members who have opted in to receive \"tasks added\" notifications for a project. Use **List Users** to find available user GIDs.",
+      description: "GIDs of users to add as followers (e.g. `1198765432109876`). Followers are a subset of members who have opted in to receive \"tasks added\" notifications for a project. Use **List Users** to find available user GIDs.",
       type: "string[]",
       optional: true,
       propDefinition: [
@@ -117,7 +117,7 @@ export default {
     },
     owner: {
       label: "Owner",
-      description: "The current owner of the project. Use **List Users** to find available user GIDs.",
+      description: "The current owner of the project (a user GID, e.g. `1198765432109876`). Use **List Users** to find available user GIDs.",
       type: "string",
       optional: true,
       propDefinition: [

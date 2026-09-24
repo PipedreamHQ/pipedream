@@ -33,7 +33,6 @@ export default {
     },
     assignee: {
       label: "Assignee",
-      description: "The assignee to filter tasks on. Use **List Users** to find available user GIDs.",
       type: "string",
       optional: true,
       propDefinition: [

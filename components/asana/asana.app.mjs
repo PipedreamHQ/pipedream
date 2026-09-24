@@ -6,12 +6,12 @@ export default {
   propDefinitions: {
     organizations: {
       label: "Organizations",
-      description: "List of organizations. This field uses the organization GID. Use **List Organizations Options** to find available organization GIDs.",
+      description: "List of organizations. This field uses the organization GID (e.g. `1200123456789012`). Use **List Organizations Options** to find available organization GIDs.",
       type: "string[]",
     },
     workspaces: {
       label: "Workspaces",
-      description: "List of workspaces. Use the **List Workspaces** action to retrieve available workspace GIDs.",
+      description: "List of workspaces. This field uses the workspace GID (e.g. `1200123456789012`). Use the **List Workspaces** action to retrieve available workspace GIDs.",
       type: "string[]",
     },
     teams: {
@@ -21,32 +21,32 @@ export default {
     },
     projects: {
       label: "Projects",
-      description: "List of projects. This field uses the project GID. Use **Search Projects** to find available project GIDs (the `gid` field).",
+      description: "List of projects. This field uses the project GID (e.g. `1204567890123456`). Use **Search Projects** to find available project GIDs (the `gid` field).",
       type: "string[]",
     },
     tags: {
       label: "Tags",
-      description: "List of tags. This field uses the tag GID. Use **List Tags** to find available tag GIDs (the `gid` field).",
+      description: "List of tags. This field uses the tag GID (e.g. `1202345678901234`). Use **List Tags** to find available tag GIDs (the `gid` field).",
       type: "string[]",
     },
     users: {
       label: "Users",
-      description: "List of users. Use the **List Users** action to retrieve available user GIDs.",
+      description: "List of users. This field uses the user `gid` (e.g. `1198765432109876`). Use the **List Users** action to retrieve available user GIDs.",
       type: "string[]",
     },
     tasks: {
       label: "Tasks",
-      description: "List of tasks. This field uses the task GID. Use **Search Tasks** to find available task GIDs (the `gid` field). Requires a project GID from **Search Projects**.",
+      description: "List of tasks. This field uses the task GID (e.g. `1202345678901234`). Use **Search Tasks** to find available task GIDs (the `gid` field). Requires a project GID from **Search Projects**.",
       type: "string[]",
     },
     sections: {
       label: "Sections",
-      description: "List of sections. This field uses the section GID. Use **Search Sections** to find available section GIDs (the `gid` field). Requires a project GID from **Search Projects**.",
+      description: "List of sections. This field uses the section GID (e.g. `1203456789012345`). Use **Search Sections** to find available section GIDs (the `gid` field). Requires a project GID from **Search Projects**.",
       type: "string[]",
     },
     taskFields: {
       label: "Task Fields",
-      description: "List of task fields that will emit events when updated. This field uses the field code. Use **List Task Fields** to discover valid field names for a given project.",
+      description: "List of task fields that will emit events when updated (e.g. `assignee`, `due_on`, `completed`). Use **List Task Fields** to get the complete list of valid field names.",
       type: "string[]",
     },
     taskTemplate: {
@@ -172,9 +172,9 @@ export default {
      *
      * @returns {string} An Asana Organizations list.
      */
-    async getOrganizations() {
+    async getOrganizations({ $ } = {}) {
       const params = {
-        opt_fields: "is_organization",
+        opt_fields: "is_organization,name",
       };
       const workspaces = [];
       do {
@@ -182,6 +182,7 @@ export default {
           data, next_page: next,
         } = await this.getWorkspaces({
           params,
+          $,
         });
         workspaces.push(...data);
         params.offset = next?.offset;

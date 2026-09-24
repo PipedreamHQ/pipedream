@@ -5,7 +5,7 @@ export default {
   key: "asana-create-task",
   name: "Create Task",
   description: "Creates a new task in Asana. Use this to add a standalone task to a workspace or project. For subtasks, use **Create Subtask** instead; for template-based tasks, use **Create Task from Template**. Returns the new task record including its `gid`. Example: call with `taskName: 'Review Q3 report'`, `workspace: '1200123456789012'`, `due_on: '2026-10-01'` → returns `{gid: '1202345678901234', name: 'Review Q3 report', resource_type: 'task'}`. [See the documentation](https://developers.asana.com/docs/create-a-task)",
-  version: "0.4.10",
+  version: "1.0.0",
   ai: "optimized",
   annotations: {
     destructiveHint: false,
@@ -39,7 +39,7 @@ export default {
     },
     assignee_section: {
       label: "Assignee Section",
-      description: "The assignee section is a subdivision of a project that groups tasks together in the assignee's \"My Tasks\" list. Use **Search Sections** to find available section GIDs.",
+      description: "The assignee section is a subdivision of a project that groups tasks together in the assignee's \"My Tasks\" list (a section GID, e.g. `1203456789012345`). Use **Search Sections** to find available section GIDs.",
       type: "string",
       optional: true,
       propDefinition: [
@@ -67,7 +67,7 @@ export default {
     },
     followers: {
       label: "Followers",
-      description: "An array of strings identifying users. These can either be the string \"me\", an email, or the gid of a user. Use **List Users** to find available user GIDs.",
+      description: "An array of strings identifying users. These can either be the string \"me\", an email, or the gid of a user (e.g. `1198765432109876`). Use **List Users** to find available user GIDs.",
       type: "string[]",
       optional: true,
       propDefinition: [
@@ -89,7 +89,7 @@ export default {
     },
     parent: {
       label: "Parent",
-      description: "Gid of a task. Use **Search Tasks** to find available task GIDs.",
+      description: "Gid of the parent task, e.g. `1202345678901234`. Use **Search Tasks** to find available task GIDs.",
       type: "string",
       optional: true,
       propDefinition: [

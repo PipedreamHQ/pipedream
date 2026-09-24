@@ -22,7 +22,7 @@ export default {
     owner: {
       type: "string",
       label: "Owner",
-      description: "The GID of the user who owns the portfolios. Defaults to the authenticated user (`me`). Use the **List Users** action to find user GIDs. Regular API users can only list portfolios they own; service accounts may specify any user.",
+      description: "The GID of the user who owns the portfolios (e.g. `1198765432109876`). Defaults to the authenticated user (`me`). Use the **List Users** action to find user GIDs. Regular API users can only list portfolios they own; service accounts may specify any user.",
       optional: true,
     },
     optFields: {

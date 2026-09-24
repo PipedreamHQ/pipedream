@@ -16,7 +16,7 @@ export default {
     ...common.props,
     taskId: {
       label: "Task GID",
-      description: "The ID of the task to retrieve stories for. Use **Search Tasks** to find available task GIDs.",
+      description: "The ID of the task to retrieve stories for, e.g. `1202345678901234`. Use **Search Tasks** to find available task GIDs.",
       type: "string",
       propDefinition: [
         common.props.asana,

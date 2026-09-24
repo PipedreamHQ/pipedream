@@ -5,7 +5,7 @@ export default {
   key: "asana-create-subtask",
   name: "Create Subtask",
   description: "Creates a new subtask nested under an existing parent task. Use this when the work is a sub-item of another task; for top-level tasks use **Create Task**. The parent task GID is required. Returns the new subtask record including its `gid`. Example: call with `task_gid: '1202345678901234'`, `subtaskName: 'Write first draft'`, `due_on: '2026-10-05'` → returns `{gid: '1207890123456789', name: 'Write first draft', resource_type: 'task'}`. [See the documentation](https://developers.asana.com/docs/create-a-subtask)",
-  version: "0.4.10",
+  version: "1.0.0",
   ai: "optimized",
   annotations: {
     destructiveHint: false,
@@ -41,7 +41,7 @@ export default {
     },
     assignee_section: {
       label: "Assignee Section",
-      description: "The assignee section is a subdivision of a project that groups tasks together in the assignee's \"My Tasks\" list. Use **Search Sections** to find available section GIDs.",
+      description: "The assignee section is a subdivision of a project that groups tasks together in the assignee's \"My Tasks\" list (a section GID, e.g. `1203456789012345`). Use **Search Sections** to find available section GIDs.",
       type: "string",
       optional: true,
       propDefinition: [
@@ -69,7 +69,7 @@ export default {
     },
     followers: {
       label: "Followers",
-      description: "An array of strings identifying users. These can either be the string \"me\", an email, or the gid of a user. Use **List Users** to find available user GIDs.",
+      description: "An array of strings identifying users. These can either be the string \"me\", an email, or the gid of a user (e.g. `1198765432109876`). Use **List Users** to find available user GIDs.",
       type: "string[]",
       optional: true,
       propDefinition: [

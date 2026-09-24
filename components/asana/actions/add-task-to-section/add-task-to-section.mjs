@@ -18,7 +18,7 @@ export default {
     task: {
       label: "Task",
       type: "string",
-      description: "The task to add to this section.",
+      description: "The task to add to this section (a task GID, e.g. `1202345678901234`).",
       propDefinition: [
         asana,
         "tasks",

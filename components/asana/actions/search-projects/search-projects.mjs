@@ -66,14 +66,29 @@ export default {
     // Asana's GET /projects now rejects requests with no workspace/team scope
     // (the "cross_workspace_deprecation" change), so a workspace-less search
     // has to fan out across every accessible workspace internally instead of
-    // sending one unscoped request.
-    const workspaces = this.workspace
-      ? [
+    // sending one unscoped request. getWorkspaces() itself is paginated, so
+    // walk every page rather than just the first.
+    let workspaces;
+    if (this.workspace) {
+      workspaces = [
         this.workspace,
-      ]
-      : (await this.asana.getWorkspaces({
-        $,
-      })).data.map(({ gid }) => gid);
+      ];
+    } else {
+      workspaces = [];
+      const params = {};
+      let hasMoreWorkspaces;
+      do {
+        const {
+          data, next_page: next,
+        } = await this.asana.getWorkspaces({
+          params,
+          $,
+        });
+        workspaces.push(...data.map(({ gid }) => gid));
+        hasMoreWorkspaces = next;
+        params.offset = next?.offset;
+      } while (hasMoreWorkspaces);
+    }
 
     let count = 0;
     const results = [];

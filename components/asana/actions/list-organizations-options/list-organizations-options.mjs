@@ -16,7 +16,9 @@ export default {
     asana,
   },
   async run({ $ }) {
-    const organizations = await this.asana.getOrganizations();
+    const organizations = await this.asana.getOrganizations({
+      $,
+    });
     const options = organizations.map((organization) => ({
       label: organization.name,
       value: organization.gid,

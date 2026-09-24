@@ -28,7 +28,6 @@ export default {
     },
     assignee: {
       label: "Assignee",
-      description: "The assignee to filter tasks on. Use **List Users** to find available user GIDs.",
       type: "string",
       optional: true,
       propDefinition: [
@@ -39,7 +38,7 @@ export default {
     section: {
       label: "Section",
       type: "string",
-      description: "The section to filter tasks on. Must specify Project to list options. Use **Search Sections** to find available section GIDs.",
+      description: "The section GID to filter tasks on, e.g. `1203456789012345`. Use **Search Sections** with a project GID to find available section GIDs.",
       optional: true,
       propDefinition: [
         asana,

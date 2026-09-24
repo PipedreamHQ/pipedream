@@ -1,9 +1,40 @@
-import asana from "../../asana.app.mjs";
+// Asana task fields that can be reported as changed by a webhook event
+// (developers.asana.com/reference/task). Many of these — custom_fields, tags,
+// followers, dependencies, dependents, parent, memberships — are omitted from
+// a task's default GET response unless explicitly requested via opt_fields,
+// so sampling one live task's own keys misses them; a fixed catalog is the
+// only way to list the complete, supported set.
+const TASK_FIELDS = [
+  "approval_status",
+  "assignee",
+  "assignee_section",
+  "actual_time_minutes",
+  "completed",
+  "completed_at",
+  "custom_fields",
+  "dependencies",
+  "dependents",
+  "due_at",
+  "due_on",
+  "external",
+  "followers",
+  "html_notes",
+  "memberships",
+  "name",
+  "notes",
+  "num_subtasks",
+  "parent",
+  "projects",
+  "start_at",
+  "start_on",
+  "tags",
+  "workspace",
+];
 
 export default {
   key: "asana-list-task-fields",
   name: "List Task Fields",
-  description: "Returns the field names present on tasks in an Asana project, for use with the Task Fields prop on webhook triggers such as **Task Field Updated in Project**. Fetches one existing task from the project and returns its top-level property names (e.g. `name`, `assignee`, `due_on`, `completed`). Requires the project to contain at least one task. Example: call with `project: '1204567890123456'` → returns `['gid', 'resource_type', 'name', 'assignee', 'due_on', 'completed', ...]`. [See the documentation](https://developers.asana.com/reference/gettask)",
+  description: "Returns the task field identifiers that can be reported as changed by an Asana webhook, for use with the Task Fields prop on webhook triggers such as **Task Field Updated in Project**. This is a fixed catalog (per Asana's task schema), not derived from any specific project or task, since many fields (e.g. `custom_fields`, `tags`, `followers`) aren't present on a task's default response unless explicitly requested. Example: call with no params → returns `['approval_status', 'assignee', 'completed', 'due_on', 'tags', ...]`. [See the documentation](https://developers.asana.com/reference/task)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
@@ -12,39 +43,9 @@ export default {
     openWorldHint: true,
     readOnlyHint: true,
   },
-  props: {
-    asana,
-    project: {
-      propDefinition: [
-        asana,
-        "projects",
-      ],
-      description: "The project GID to sample a task from (e.g. `1204567890123456`). Use **Search Projects** to find available project GIDs.",
-    },
-  },
+  props: {},
   async run({ $ }) {
-    const { data: tasks } = await this.asana.getTasks({
-      params: {
-        project: this.project,
-        limit: 1,
-      },
-      $,
-    });
-
-    if (!tasks?.length) {
-      $.export("$summary", "No tasks found in this project — unable to determine field names");
-      return [];
-    }
-
-    const { data: task } = await this.asana.getTask({
-      taskId: tasks[0].gid,
-      $,
-    });
-
-    const fields = Object.keys(task);
-    $.export("$summary", `Found ${fields.length} field${fields.length === 1
-      ? ""
-      : "s"}`);
-    return fields;
+    $.export("$summary", `Found ${TASK_FIELDS.length} fields`);
+    return TASK_FIELDS;
   },
 };

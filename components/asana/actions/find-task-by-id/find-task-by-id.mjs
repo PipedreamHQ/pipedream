@@ -17,7 +17,7 @@ export default {
     ...common.props,
     task_gid: {
       label: "Task GID",
-      description: "The ID of the task to retrieve.",
+      description: "The ID of the task to retrieve, e.g. `1202345678901234`. Use **Search Tasks** to find available task GIDs.",
       type: "string",
       propDefinition: [
         asana,

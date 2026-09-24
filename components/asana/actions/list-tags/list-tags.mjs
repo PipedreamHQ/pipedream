@@ -3,7 +3,7 @@ import asana from "../../asana.app.mjs";
 export default {
   key: "asana-list-tags",
   name: "List Tags",
-  description: "Returns all tags in an Asana workspace. Use this to discover tag GIDs before applying tags to tasks with **Create Task** or **Create Subtask** (the `tags` prop). Example: call with `workspace: '1200123456789012'` → returns tags like `[{gid: '1202345678901234', name: 'urgent'}]`. [See the documentation](https://developers.asana.com/reference/gettags)",
+  description: "Returns tags in an Asana workspace, up to 100 by default (increase `maxResults` for more) — not guaranteed to include every tag in a large workspace. Use this to discover tag GIDs before applying tags to tasks with **Create Task** or **Create Subtask** (the `tags` prop). Example: call with `workspace: '1200123456789012'` → returns tags like `[{gid: '1202345678901234', name: 'urgent'}]`. [See the documentation](https://developers.asana.com/reference/gettags)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
@@ -31,11 +31,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const DEFAULT_LIMIT = 100;
+    const defaultLimit = 100;
     let hasMore, count = 0;
     const params = {
       workspace: this.workspace,
-      limit: DEFAULT_LIMIT,
+      limit: defaultLimit,
     };
     const results = [];
 

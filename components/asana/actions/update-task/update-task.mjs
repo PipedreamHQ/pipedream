@@ -42,7 +42,7 @@ export default {
     },
     assignee_section: {
       label: "Assignee Section",
-      description: "The assignee section is a subdivision of a project that groups tasks together in the assignee's \"My Tasks\" list. Use **Search Sections** to find available section GIDs.",
+      description: "The assignee section is a subdivision of a project that groups tasks together in the assignee's \"My Tasks\" list (a section GID, e.g. `1203456789012345`). Use **Search Sections** to find available section GIDs.",
       type: "string",
       optional: true,
       propDefinition: [
