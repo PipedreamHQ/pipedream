@@ -52,7 +52,7 @@ export default {
         googleDrive,
         "watchedDrive",
       ],
-      description: "The shared drive the file is in, if any. Leave empty for files in My Drive.",
+      description: "The shared drive the file is in, if any. Use **List Shared Drives** to find a drive's ID. Leave empty for files in My Drive.",
       optional: true,
     },
     fileIds: {
@@ -65,7 +65,7 @@ export default {
       ],
       type: "string[]",
       label: "Files",
-      description: "The Google Drive file(s) to download. Select one or more files to download a batch in a single run. Accepts file IDs (opaque Drive identifiers). Shortcuts are resolved to their target automatically.",
+      description: "The Google Drive file(s) to download. Select one or more files to download a batch in a single run. Accepts file IDs (opaque Drive identifiers), e.g. `1Ab2CdEfGhIjKlMnOpQrStUvWxYz012345`. Use **Search Files**, **Find File**, or **List Files** to find a file's ID by name. Shortcuts are resolved to their target automatically.",
       optional: true,
     },
     fileId: {
@@ -76,7 +76,7 @@ export default {
           drive: c.drive,
         }),
       ],
-      description: "A single Google Drive file to download. Kept for backwards compatibility — prefer `Files` for new configurations. If both are set, this file is included alongside the ones in `Files`.",
+      description: "A single Google Drive file to download, e.g. `1Ab2CdEfGhIjKlMnOpQrStUvWxYz012345`. Use **Search Files**, **Find File**, or **List Files** to find a file's ID by name. Kept for backwards compatibility — prefer `Files` for new configurations. If both are set, this file is included alongside the ones in `Files`.",
       optional: true,
     },
     filePath: {
@@ -171,6 +171,34 @@ export default {
 
     const pipeline = promisify(stream.pipeline);
 
+    // Tracks /tmp paths already assigned to a file in this run, so that two Drive
+    // files sharing the same name (Drive allows duplicate names) don't collide and
+    // silently overwrite one another on disk.
+    const usedFilePaths = new Set();
+    const reserveUniqueFilePath = (candidatePath) => {
+      if (!usedFilePaths.has(candidatePath)) {
+        usedFilePaths.add(candidatePath);
+        return candidatePath;
+      }
+      const lastDot = candidatePath.lastIndexOf(".");
+      const lastSlash = candidatePath.lastIndexOf("/");
+      const hasExt = lastDot > lastSlash;
+      const base = hasExt
+        ? candidatePath.slice(0, lastDot)
+        : candidatePath;
+      const ext = hasExt
+        ? candidatePath.slice(lastDot)
+        : "";
+      let suffix = 2;
+      let uniquePath;
+      do {
+        uniquePath = `${base} (${suffix})${ext}`;
+        suffix += 1;
+      } while (usedFilePaths.has(uniquePath));
+      usedFilePaths.add(uniquePath);
+      return uniquePath;
+    };
+
     // Downloads a single file (resolving shortcuts + Workspace export formats),
     // either writing it to /tmp or returning its contents as a buffer.
     const downloadOne = async (requestedFileId) => {
@@ -264,7 +292,7 @@ export default {
             defaultName = `${defaultName}.${ext}`;
           }
         }
-        filePath = `/tmp/${defaultName}`;
+        filePath = reserveUniqueFilePath(`/tmp/${defaultName}`);
       }
 
       await pipeline(file, fs.createWriteStream(filePath));

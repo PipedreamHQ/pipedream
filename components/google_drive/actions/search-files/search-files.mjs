@@ -1,4 +1,6 @@
-import { getListFilesOpts } from "../../common/utils.mjs";
+import {
+  getListFilesOpts, MY_DRIVE_VALUE,
+} from "../../common/utils.mjs";
 import googleDrive from "../../google_drive.app.mjs";
 
 export default {
@@ -51,7 +53,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const opts = getListFilesOpts(this.driveId, {
+    // Default to My Drive (matching the `driveId` prop's documented behavior) rather
+    // than falling through to getListFilesOpts's own default of `corpora: "allDrives"`,
+    // which Google's docs discourage and which can return incomplete/erroring results.
+    const opts = getListFilesOpts(this.driveId || MY_DRIVE_VALUE, {
       q: this.query,
     });
 
