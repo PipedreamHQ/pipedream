@@ -70,9 +70,7 @@ function listLeadFormSubmissionData(id) {
   return `SELECT ${fields} FROM lead_form_submission_data WHERE asset.id = '${id}'`;
 }
 
-function listCampaigns({
-  fields, savedIds,
-}) {
+function listCampaigns({ fields } = {}) {
   const defaultFields = [
     "id",
     "name",
@@ -80,21 +78,14 @@ function listCampaigns({
   if (typeof fields === "string") {
     fields = fields.split(",").map((s) => s.trim());
   }
-  if (!fields?.length) {
-    fields = defaultFields;
-  } else {
-    defaultFields.forEach((f) => {
-      if (!fields.includes(f)) {
-        fields.push(f);
-      }
-    });
-  }
+  const selection = [
+    ...new Set([
+      ...(fields ?? []),
+      ...defaultFields,
+    ]),
+  ].filter(Boolean);
 
-  const filter = savedIds?.length
-    ? ` WHERE ${savedIds.map((id) => `campaign.id != ${id}`).join(" AND ")}`
-    : "";
-
-  return `SELECT ${fields.join(", ")} FROM campaign${filter}`;
+  return `SELECT ${selection.join(", ")} FROM campaign ORDER BY campaign.id DESC LIMIT 25`;
 }
 
 function listResources(resource, query) {
