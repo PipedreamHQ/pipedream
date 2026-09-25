@@ -7143,7 +7143,11 @@ importers:
         specifier: ^3.2.5
         version: 3.3.0
 
-  components/greenhouse_job_board_api: {}
+  components/greenhouse_job_board_api:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
 
   components/greenspark: {}
 
