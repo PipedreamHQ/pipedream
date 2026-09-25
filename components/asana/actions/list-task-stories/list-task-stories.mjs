@@ -4,7 +4,7 @@ export default {
   key: "asana-list-task-stories",
   name: "List Task Stories",
   description: "Returns all stories (comments, activity log entries, system messages) for an Asana task. Use this to retrieve the comment history and audit trail for a task. Set `commentsOnly: true` to filter to only comment stories. Returns an array of story records each with `gid`, `type`, `text`, and `created_at`. Example: call with `project: '1204567890123456'`, `taskId: '1202345678901234'` → returns stories including `{gid: '1209012345678901', type: 'comment', text: 'Approved!', created_at: '2026-09-01T10:00:00Z'}`. [See the documentation](https://developers.asana.com/reference/getstoriesfortask)",
-  version: "0.0.8",
+  version: "1.0.0",
   ai: "optimized",
   annotations: {
     destructiveHint: false,

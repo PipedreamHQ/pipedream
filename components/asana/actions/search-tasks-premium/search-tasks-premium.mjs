@@ -5,7 +5,7 @@ export default {
   key: "asana-search-tasks-premium",
   name: "Search Tasks Premium",
   description: "Searches for tasks across an Asana workspace by name, assignee, section, project, completed since, and/or modified since. Requires a Premium Asana account. Use this over **Search Tasks** when you need cross-project full-text search or date-range filters not available on the basic endpoint. Results are capped at 100 by the Asana search API — pagination is not supported on this endpoint; narrow your filters (name, assignee, modified_since) if you expect more than 100 matches. Example: call with `workspace: '1200123456789012'`, `name: 'Q3'`, `assignee: '1198765432109876'` → returns up to 100 tasks whose text contains 'Q3' assigned to that user. [See the documentation](https://developers.asana.com/reference/searchtasksforworkspace)",
-  version: "0.0.8",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,18 +1,60 @@
 import { axios } from "@pipedream/platform";
 
+// Sources run in Pipedream's workflow builder (not MCP), so they keep
+// auto-populating dropdowns via async `options()`. Their propDefinitions are
+// suffixed `Async` and kept separate from the static, MCP-safe ones actions use.
+const DEFAULT_LIMIT = 25;
+
 export default {
   type: "app",
   app: "asana",
   propDefinitions: {
     organizations: {
       label: "Organizations",
-      description: "List of organizations. This field uses the organization GID (e.g. `1200123456789012`). Use **List Organizations Options** to find available organization GIDs.",
+      description: "List of organizations. This field uses the organization GID.",
       type: "string[]",
+      // Only used by sources (workflow builder), never by MCP actions, so an
+      // auto-populating dropdown is safe here.
+      async options() {
+        const organizations = await this.getOrganizations();
+        return organizations?.map((organization) => ({
+          label: organization.name,
+          value: organization.gid,
+        })) || [];
+      },
     },
     workspaces: {
       label: "Workspaces",
       description: "List of workspaces. This field uses the workspace GID (e.g. `1200123456789012`). Use the **List Workspaces** action to retrieve available workspace GIDs.",
       type: "string[]",
+    },
+    workspacesAsync: {
+      label: "Workspaces",
+      description: "List of workspaces.",
+      type: "string[]",
+      async options({ prevContext }) {
+        const params = {
+          limit: DEFAULT_LIMIT,
+        };
+        if (prevContext?.offset) {
+          params.offset = prevContext.offset;
+        }
+        const {
+          data: workspaces, next_page: next,
+        } = await this.getWorkspaces({
+          params,
+        });
+        const options = workspaces?.map((workspace) => ({
+          label: workspace.name,
+          value: workspace.gid,
+        })) || [];
+        return {
+          options,
+          context: {
+            offset: next?.offset,
+          },
+        };
+      },
     },
     teams: {
       label: "Teams",
@@ -24,20 +66,149 @@ export default {
       description: "List of projects. This field uses the project GID (e.g. `1204567890123456`). Use **Search Projects** to find available project GIDs (the `gid` field).",
       type: "string[]",
     },
+    projectsAsync: {
+      label: "Projects",
+      description: "List of projects.",
+      type: "string[]",
+      async options({
+        workspace, prevContext,
+      }) {
+        const params = {
+          workspace,
+          limit: DEFAULT_LIMIT,
+        };
+        if (prevContext?.offset) {
+          params.offset = prevContext.offset;
+        }
+        const {
+          data: projects, next_page: next,
+        } = await this.getProjects({
+          params,
+        });
+        const options = projects?.map((tag) => ({
+          label: tag.name,
+          value: tag.gid,
+        })) || [];
+        return {
+          options,
+          context: {
+            offset: next?.offset,
+          },
+        };
+      },
+    },
     tags: {
       label: "Tags",
       description: "List of tags. This field uses the tag GID (e.g. `1202345678901234`). Use **List Tags** to find available tag GIDs (the `gid` field).",
       type: "string[]",
+    },
+    tagsAsync: {
+      label: "Tags",
+      description: "List of tags.",
+      type: "string[]",
+      async options({
+        prevContext, workspace,
+      }) {
+        const params = {
+          limit: DEFAULT_LIMIT,
+          workspace,
+        };
+        if (prevContext?.offset) {
+          params.offset = prevContext.offset;
+        }
+        const {
+          data: tags, next_page: next,
+        } = await this.getTags({
+          params,
+        });
+        const options = tags?.map((tag) => ({
+          label: tag.name,
+          value: tag.gid,
+        })) || [];
+        return {
+          options,
+          context: {
+            offset: next?.offset,
+          },
+        };
+      },
     },
     users: {
       label: "Users",
       description: "List of users. This field uses the user `gid` (e.g. `1198765432109876`). Use the **List Users** action to retrieve available user GIDs.",
       type: "string[]",
     },
+    usersAsync: {
+      label: "Users",
+      description: "List of users.",
+      type: "string[]",
+      async options({
+        prevContext, workspace,
+      }) {
+        const params = {
+          limit: DEFAULT_LIMIT,
+          workspace,
+        };
+        if (prevContext?.offset) {
+          params.offset = prevContext.offset;
+        }
+        const {
+          data: users, next_page: next,
+        } = await this.getUsers({
+          params,
+        });
+        const options = users?.map((user) => ({
+          label: user.name,
+          value: user.gid,
+        })) || [];
+        return {
+          options,
+          context: {
+            offset: next?.offset,
+          },
+        };
+      },
+    },
     tasks: {
       label: "Tasks",
       description: "List of tasks. This field uses the task GID (e.g. `1202345678901234`). Use **Search Tasks** to find available task GIDs (the `gid` field). Requires a project GID from **Search Projects**.",
       type: "string[]",
+    },
+    tasksAsync: {
+      label: "Tasks",
+      description: "List of tasks.",
+      type: "string[]",
+      async options({
+        project, prevContext,
+      }) {
+        if (!project) {
+          return [];
+        }
+        const params = {
+          project,
+          limit: DEFAULT_LIMIT,
+        };
+        if (prevContext?.offset) {
+          params.offset = prevContext.offset;
+        }
+        const {
+          data: tasks, next_page: next,
+        } = await this.getTasks({
+          params,
+        });
+        const options = tasks?.map(({
+          name: label, gid: value,
+        }) => ({
+          label,
+          value,
+        })) || [];
+        return {
+          options,
+          context: {
+            offset: next?.offset,
+          },
+        };
+      },
     },
     sections: {
       label: "Sections",

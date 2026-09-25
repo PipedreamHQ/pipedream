@@ -17,14 +17,14 @@ export default {
       type: "string",
       propDefinition: [
         asana,
-        "projects",
+        "projectsAsync",
       ],
     },
     tasks: {
       optional: true,
       propDefinition: [
         asana,
-        "tasks",
+        "tasksAsync",
       ],
     },
     user: {
@@ -34,7 +34,7 @@ export default {
       optional: true,
       propDefinition: [
         asana,
-        "users",
+        "usersAsync",
       ],
     },
     delay: {

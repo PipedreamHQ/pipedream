@@ -17,7 +17,7 @@ export default {
       type: "string",
       propDefinition: [
         asana,
-        "projects",
+        "projectsAsync",
       ],
     },
     taskFields: {

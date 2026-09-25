@@ -17,7 +17,7 @@ export default {
       type: "string",
       propDefinition: [
         asana,
-        "projects",
+        "projectsAsync",
       ],
     },
     user: {
@@ -26,7 +26,7 @@ export default {
       description: "Only emit events when tasks are assigned to this user GID",
       propDefinition: [
         asana,
-        "users",
+        "usersAsync",
       ],
     },
   },

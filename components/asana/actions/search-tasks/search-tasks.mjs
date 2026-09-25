@@ -6,7 +6,7 @@ export default {
   key: "asana-search-tasks",
   name: "Search Tasks",
   description: "Searches for Asana tasks by name within a project, section, or by assignee. Must specify exactly one of: `project`, `section`, or `assignee` (project + section together is also valid). The `name` filter is a client-side substring match applied after fetching. For cross-project full-text search, use **Search Tasks Premium** instead. Returns task records with `gid` and `name` (plus any requested `optFields`). Example: call with `workspace: '1200123456789012'`, `project: '1204567890123456'`, `name: 'Q3'` → returns tasks in that project whose names contain 'Q3'. [See the documentation](https://developers.asana.com/docs/get-multiple-tasks)",
-  version: "0.5.3",
+  version: "0.5.1",
   ai: "optimized",
   annotations: {
     destructiveHint: false,

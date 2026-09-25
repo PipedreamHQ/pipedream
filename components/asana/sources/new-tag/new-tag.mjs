@@ -16,7 +16,7 @@ export default {
       type: "string",
       propDefinition: [
         asana,
-        "workspaces",
+        "workspacesAsync",
       ],
       optional: true,
     },
