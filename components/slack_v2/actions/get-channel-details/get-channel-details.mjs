@@ -4,7 +4,7 @@ export default {
   key: "slack_v2-get-channel-details",
   name: "Get Channel Details",
   description: "Retrieve details for a Slack channel, specified by ID (preferred — resolves instantly) or by name (resolved by scanning the workspace's channel list, which can be slow). [See the documentation](https://api.slack.com/methods/conversations.info)",
-  version: "0.1.7",
+  version: "0.1.8",
   type: "action",
   ai: "optimized",
   annotations: {
