@@ -261,7 +261,7 @@ export interface HttpRequestProp extends BasePropInterface {
 }
 
 export interface SourcePropDefinitions {
-  [name: string]: PropDefinitionReference | App<Methods, AppPropDefinitions> | UserProp | InterfaceProp | ServiceDBProp | HttpRequestProp;
+  [name: string]: PropDefinitionReference | App<Methods, AppPropDefinitions> | UserProp | InterfaceProp | ServiceDBProp | HttpRequestProp | ServiceDBProp["type"];
 }
 
 export interface ActionPropDefinitions {
