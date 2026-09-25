@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "pipedrive-new-event-instant",
   name: "New Event (Instant)",
-  description: "Emit new event for any Pipedrive webhook matching the chosen `Event Action` and `Event Object`, e.g. `change` + `deal` for every deal update, or `*` + `*` for everything. Each event is the Pipedrive webhook (v2) payload: `meta` (action, entity, entity ID, timestamp) and `data` (the affected record), plus `previous` on `change` events. Prefer the dedicated deal, person and lead triggers when you only need one of those; they also resolve custom field names. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Webhooks#addWebhook)",
+  description: "Emit new event for any Pipedrive webhook matching the chosen `Event Action` and `Event Object`, e.g. `change` + `deal` for every deal update, or `*` + `*` for everything. Each event is the Pipedrive webhook (v2) payload: `meta` (`action`, `entity`, `entity_id`, `timestamp`, `user_id`) and `data` (the affected record), plus `previous` on `change` events. On `delete` events `data` is `null` and `previous` holds the object's last state. Prefer the dedicated deal, person and lead triggers when you only need one of those; they also resolve custom field names. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Webhooks#addWebhook)",
   version: "0.0.10",
   type: "source",
   dedupe: "unique",

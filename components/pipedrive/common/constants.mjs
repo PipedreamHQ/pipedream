@@ -14,6 +14,13 @@ const PROJECT_STATUS_OPTIONS = [
   "deleted",
 ];
 
+const ENTITY_TYPE_OPTIONS = [
+  "lead",
+  "person",
+  "deal",
+  "organization",
+];
+
 const FIELD_OPTIONS = [
   "custom_fields",
   "email",
@@ -152,6 +159,7 @@ const PERSON_INCLUDE_FIELDS_OPTIONS = [
 export default {
   STATUS_OPTIONS,
   PROJECT_STATUS_OPTIONS,
+  ENTITY_TYPE_OPTIONS,
   FIELD_OPTIONS,
   VISIBLE_TO_OPTIONS,
   INCLUDE_FIELDS_OPTIONS,

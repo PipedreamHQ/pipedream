@@ -9,7 +9,8 @@ export default {
     + " Warning: with no ID set, every note in the account is compared and duplicates across all records are deleted. Deleted notes cannot be recovered; preview with **Search Notes** first."
     + " Example: `Deal ID` `1024` removes repeated notes on that deal only."
     + " Returns the remaining unique notes plus each deleted duplicate paired with the original it matched."
-    + " See the documentation for [getting notes](https://developers.pipedrive.com/docs/api/v1/Notes#getNotes) and [deleting notes](https://developers.pipedrive.com/docs/api/v1/Notes#deleteNote)",
+    + " Each duplicate is removed with Pipedrive's [delete note](https://developers.pipedrive.com/docs/api/v1/Notes#deleteNote) operation."
+    + " [See the documentation](https://developers.pipedrive.com/docs/api/v1/Notes#getNotes)",
   version: "0.0.14",
   annotations: {
     destructiveHint: true,
@@ -85,7 +86,7 @@ export default {
       for (const note of sortedNotes) {
         // Normalize content by removing extra whitespace and converting to lowercase
         const decodedContent = decode(note.content || "");
-        const normalizedContent = decodedContent?.replace(/^\s*<br\s*\/?>|<br\s*\/?>\s*$/gi, "").trim()
+        const normalizedContent = decodedContent?.replace(/^(?:\s*<br\s*\/?>)+|(?:<br\s*\/?>\s*)+$/gi, "").trim()
           .toLowerCase();
 
         if (!normalizedContent) {

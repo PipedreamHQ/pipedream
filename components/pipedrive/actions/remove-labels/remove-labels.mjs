@@ -1,12 +1,8 @@
 import { ConfigurationError } from "@pipedream/platform";
 import pipedriveApp from "../../pipedrive.app.mjs";
+import constants from "../../common/constants.mjs";
 
-const ENTITY_TYPES = [
-  "lead",
-  "person",
-  "deal",
-  "organization",
-];
+const ENTITY_TYPES = constants.ENTITY_TYPE_OPTIONS;
 
 export default {
   key: "pipedrive-remove-labels",
@@ -28,10 +24,11 @@ export default {
   props: {
     pipedriveApp,
     entityType: {
-      type: "string",
-      label: "Entity Type",
+      propDefinition: [
+        pipedriveApp,
+        "entityType",
+      ],
       description: "The type of record to remove labels from. One of `lead`, `person`, `deal`, `organization`, e.g. `person`.",
-      options: ENTITY_TYPES,
     },
     entityId: {
       propDefinition: [

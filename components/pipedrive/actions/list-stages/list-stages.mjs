@@ -26,18 +26,16 @@ export default {
       description: "Only return stages belonging to this pipeline, e.g. `1`. Use **List Pipelines** to find it (the `id` field). Omit to list stages from all pipelines.",
     },
     limit: {
-      type: "integer",
-      label: "Limit",
-      description: "The number of stages to return per page, e.g. `50`. Defaults to `100`; maximum `500`.",
-      min: 1,
-      max: 500,
-      optional: true,
+      propDefinition: [
+        pipedriveApp,
+        "limit",
+      ],
     },
     cursor: {
-      type: "string",
-      label: "Cursor",
-      description: "The cursor for the next page of results, an opaque string copied verbatim from `additional_data.next_cursor` of the previous call. Omit to fetch the first page.",
-      optional: true,
+      propDefinition: [
+        pipedriveApp,
+        "cursor",
+      ],
     },
   },
   async run({ $ }) {

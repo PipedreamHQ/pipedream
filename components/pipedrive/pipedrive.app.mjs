@@ -444,6 +444,26 @@ export default {
       description: "When enabled, all custom fields will be included in the results",
       optional: true,
     },
+    entityType: {
+      type: "string",
+      label: "Entity Type",
+      description: "The type of record whose labels to change. One of `lead`, `person`, `deal`, `organization`, e.g. `deal`.",
+      options: constants.ENTITY_TYPE_OPTIONS,
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "The number of items to return per page, e.g. `50`. Defaults to `100`; maximum `500`.",
+      min: 1,
+      max: 500,
+      optional: true,
+    },
+    cursor: {
+      type: "string",
+      label: "Cursor",
+      description: "The cursor for the next page of results: the opaque `additional_data.next_cursor` string from the previous call, e.g. `eyJhY3Rpdml0aWVzIjoyN30`. Omit to fetch the first page.",
+      optional: true,
+    },
     entityId: {
       type: "string",
       label: "Entity ID",

@@ -1,12 +1,8 @@
 import { ConfigurationError } from "@pipedream/platform";
 import pipedriveApp from "../../pipedrive.app.mjs";
+import constants from "../../common/constants.mjs";
 
-const ENTITY_TYPES = [
-  "lead",
-  "person",
-  "deal",
-  "organization",
-];
+const ENTITY_TYPES = constants.ENTITY_TYPE_OPTIONS;
 
 export default {
   key: "pipedrive-add-labels",
@@ -29,10 +25,11 @@ export default {
   props: {
     pipedriveApp,
     entityType: {
-      type: "string",
-      label: "Entity Type",
+      propDefinition: [
+        pipedriveApp,
+        "entityType",
+      ],
       description: "The type of record to add labels to. One of `lead`, `person`, `deal`, `organization`, e.g. `deal`.",
-      options: ENTITY_TYPES,
     },
     entityId: {
       propDefinition: [
@@ -88,9 +85,12 @@ export default {
       throw new ConfigurationError("Provide at least one label ID in `Label IDs`.");
     }
 
+    if (this.labelIds.some((id) => String(id ?? "").trim() === "")) {
+      throw new ConfigurationError("`Label IDs` must not contain empty values.");
+    }
     const newLabelIds = this.normalizeLabelIds(entityType, this.labelIds);
-    if (newLabelIds.some((id) => Number.isNaN(id))) {
-      throw new ConfigurationError(`${this.capitalizedType(entityType)} label IDs must be numeric.`);
+    if (entityType !== "lead" && !newLabelIds.every((id) => Number.isInteger(id) && id > 0)) {
+      throw new ConfigurationError(`${this.capitalizedType(entityType)} label IDs must be positive whole numbers, e.g. \`5\`.`);
     }
 
     let labelIds = newLabelIds;
@@ -104,15 +104,10 @@ export default {
       ];
     }
 
-    let response;
-    try {
-      response = await this.pipedriveApp[`update${this.capitalizedType(entityType)}`]({
-        [`${entityType}Id`]: entityId,
-        label_ids: labelIds,
-      });
-    } catch (error) {
-      throw new ConfigurationError(`Failed to update ${entityType} labels: ${error?.message ?? JSON.stringify(error, null, 2)}`);
-    }
+    const response = await this.pipedriveApp[`update${this.capitalizedType(entityType)}`]({
+      [`${entityType}Id`]: entityId,
+      label_ids: labelIds,
+    });
 
     $.export("$summary", `Successfully added ${newLabelIds.length} label(s) to ${entityType} ${entityId}`);
     return response;
