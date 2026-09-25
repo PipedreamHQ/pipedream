@@ -67,9 +67,10 @@ export default {
       type: "boolean",
       label: "Include Items From All Drives",
       description:
-        "If true, search My Drive and all shared drives; if false, search only the user's own files"
-        + " (files owned by or shared with the user), excluding shared drive contents."
-        + " Ignored when `driveId` is set. Defaults to true. Example: `false`.",
+        "If true, search the files the user has access to plus the shared drives the user is a member of;"
+        + " if false, search only the user's own files (files owned by or shared with the user),"
+        + " excluding shared drive contents."
+        + " Ignored when `driveId` is set. Defaults to true. Example: `true`.",
       optional: true,
       default: true,
     },
