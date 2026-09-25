@@ -378,6 +378,19 @@ export default {
         };
       },
     },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum number of files to return per call. Example: `25`.",
+      optional: true,
+      min: 1,
+    },
+    pageToken: {
+      type: "string",
+      label: "Page Token",
+      description: "The `nextPageToken` returned by a previous call, to continue from where it stopped. Example: `~!!~AI9FV7Q...`.",
+      optional: true,
+    },
   },
   methods: {
     // Static methods
