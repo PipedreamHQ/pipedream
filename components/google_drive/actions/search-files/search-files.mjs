@@ -67,10 +67,10 @@ export default {
       type: "boolean",
       label: "Include Items From All Drives",
       description:
-        "If true, include results from all drives (My Drive and shared drives)."
-        + " Defaults to false.",
+        "If true, search My Drive and all shared drives; if false, search My Drive only."
+        + " Ignored when `driveId` is set. Defaults to true. Example: `false`.",
       optional: true,
-      default: false,
+      default: true,
     },
     maxResults: {
       propDefinition: [
@@ -96,10 +96,21 @@ export default {
     },
   },
   async run({ $ }) {
-    const opts = getListFilesOpts(this.driveId, {
-      q: this.query,
-      includeItemsFromAllDrives: this.includeItemsFromAllDrives,
-    });
+    const includeAll = this.includeItemsFromAllDrives ?? true;
+    // A shared drive needs includeItemsFromAllDrives: true, which the helper sets.
+    // Otherwise, build opts here so the toggle actually picks the corpus.
+    const opts = this.driveId
+      ? getListFilesOpts(this.driveId, {
+        q: this.query,
+      })
+      : {
+        q: this.query,
+        corpora: includeAll
+          ? "allDrives"
+          : "user",
+        includeItemsFromAllDrives: includeAll,
+        supportsAllDrives: includeAll,
+      };
 
     const maxResults = Number(this.maxResults ?? DEFAULT_SEARCH_FILES_LIMIT);
     if (!Number.isInteger(maxResults) || maxResults < 1) {
