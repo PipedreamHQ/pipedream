@@ -4,8 +4,14 @@ export default {
   ...common,
   key: "slack_v2-send-large-message",
   name: "Send a Large Message (3000+ characters)",
-  description: "Send a large message (more than 3000 characters) to a channel, group or user. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.1.13",
+  description:
+    "Send a large message (more than 3000 characters) to a channel, group or user."
+    + " For messages under 3000 characters, prefer **Post Message** — it posts as the"
+    + " authenticated user by default (no `Pipedream:` bot prefix on notifications). Use this"
+    + " tool only when a single message exceeds Slack's 3000-character block limit and must be"
+    + " split."
+    + " See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -36,6 +42,7 @@ export default {
     ...common.props,
   },
   async run({ $ }) {
+    this.assertBotIdentityCompatible();
     if (this.addToChannel) {
       await this.slack.maybeAddAppToChannels([
         this.conversation,

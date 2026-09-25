@@ -7,8 +7,15 @@ export default {
   ...buildBlocks,
   key: "slack_v2-send-message-advanced",
   name: "Send Message (Advanced)",
-  description: "Customize advanced settings and send a message to a channel, group or user. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.1.13",
+  description:
+    "Customize advanced settings and send a message to a channel, group or user."
+    + " For standard messages and direct messages, prefer **Post Message** — it posts as the"
+    + " authenticated user by default (no `Pipedream:` bot prefix on notifications). Use this"
+    + " tool only when you need the advanced options it adds, such as scheduling (`post_at`),"
+    + " a custom bot username/icon (which require **Send as User** set to `false`, otherwise the"
+    + " action raises a configuration error), or message metadata."
+    + " See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

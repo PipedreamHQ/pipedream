@@ -5,8 +5,15 @@ export default {
   ...common,
   key: "slack_v2-send-message-to-user-or-group",
   name: "Send Message to User or Group",
-  description: "Send a message to a user or group. [See the documentation](https://api.slack.com/methods/chat.postMessage)",
-  version: "0.2.6",
+  description:
+    "Send a message to a user or group."
+    + " Legacy variant — prefer **Post Message** for new integrations: it covers users,"
+    + " groups, and channels from a single tool and also supports threaded replies and"
+    + " unfurl settings. Both post as the authenticated user by default (no `Pipedream:` bot"
+    + " prefix on direct messages). Use this tool only if a workflow specifically needs the"
+    + " user/group-only interface."
+    + " [See the documentation](https://api.slack.com/methods/chat.postMessage)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

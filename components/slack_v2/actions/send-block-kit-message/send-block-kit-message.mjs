@@ -6,8 +6,14 @@ export default {
   ...buildBlocks,
   key: "slack_v2-send-block-kit-message",
   name: "Build and Send a Block Kit Message",
-  description: "Configure custom blocks and send to a channel, group, or user. [See the documentation](https://api.slack.com/tools/block-kit-builder).",
-  version: "0.5.13",
+  description:
+    "Configure custom blocks and send to a channel, group, or user."
+    + " For plain-text or standard messages, prefer **Post Message** — it posts as the"
+    + " authenticated user by default (no `Pipedream:` bot prefix on notifications) and accepts"
+    + " Block Kit blocks too. Use this tool when you specifically want the guided Block Kit"
+    + " builder."
+    + " [See the documentation](https://api.slack.com/tools/block-kit-builder).",
+  version: "0.6.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

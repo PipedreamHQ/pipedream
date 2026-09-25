@@ -131,8 +131,32 @@ export default {
     getChannelId() {
       return this.conversation ?? this.reply_channel;
     },
+    assertBotIdentityCompatible() {
+      // Slack only applies a custom username/icon when posting as the bot (as_user: false).
+      // When posting as the authenticated user these settings are silently dropped, so surface
+      // the conflict as a ConfigurationError instead of quietly ignoring the configuration.
+      const identityProps = {
+        username: "Bot Username",
+        icon_emoji: "Icon (emoji)",
+        icon_url: "Icon (URL)",
+      };
+      const setProps = Object.keys(identityProps)
+        .filter((prop) => this[prop] !== undefined && this[prop] !== "");
+      if (this.as_user && setProps.length) {
+        const labels = setProps.map((prop) => identityProps[prop]).join(", ");
+        throw new ConfigurationError(
+          `Slack ignores custom bot identity (${labels}) when posting as the authenticated user. `
+          + `Set **Send as User** to \`false\` to post as the bot with your custom ${setProps.length > 1
+            ? "settings"
+            : "setting"}, or clear ${setProps.length > 1
+            ? "them"
+            : "it"} to post as the authenticated user.`,
+        );
+      }
+    },
   },
   async run({ $ }) {
+    this.assertBotIdentityCompatible();
     const channelId = await this.getChannelId();
 
     if (this.addToChannel) {

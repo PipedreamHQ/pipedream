@@ -128,7 +128,7 @@ export default {
     username: {
       type: "string",
       label: "Bot Username",
-      description: "Optionally customize your bot's user name (default is `Pipedream`). Must be used in conjunction with `Send as User` set to false, otherwise ignored.",
+      description: "Optionally customize your bot's user name (default is `Pipedream`). Must be used in conjunction with `Send as User` set to `false`. If `Send as User` is `true`, the action raises a configuration error rather than silently ignoring this setting.",
       optional: true,
     },
     blocks: {
@@ -140,7 +140,7 @@ export default {
     icon_emoji: {
       type: "string",
       label: "Icon (emoji)",
-      description: "Optionally provide an emoji to use as the icon for this message, wrapped in colons. E.g., `:fire:`. Overrides `icon_url`. Must be used in conjunction with `Send as User` set to `false`, otherwise ignored. Use **List Icon (emoji) Options** to look up valid emoji names for this workspace, including custom emoji.",
+      description: "Optionally provide an emoji to use as the icon for this message, wrapped in colons. E.g., `:fire:`. Overrides `icon_url`. Must be used in conjunction with `Send as User` set to `false`. If `Send as User` is `true`, the action raises a configuration error rather than silently ignoring this setting. Use **List Icon (emoji) Options** to look up valid emoji names for this workspace, including custom emoji.",
       optional: true,
     },
     content: {
@@ -171,7 +171,7 @@ export default {
     icon_url: {
       type: "string",
       label: "Icon (image URL)",
-      description: "Optionally provide an image URL to use as the icon for this message. Must be used in conjunction with `Send as User` set to `false`, otherwise ignored.",
+      description: "Optionally provide an image URL to use as the icon for this message. Must be used in conjunction with `Send as User` set to `false`. If `Send as User` is `true`, the action raises a configuration error rather than silently ignoring this setting.",
       optional: true,
     },
     initial_comment: {
