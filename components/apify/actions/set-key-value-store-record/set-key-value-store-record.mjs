@@ -2,16 +2,16 @@ import apify from "../../apify.app.mjs";
 
 export default {
   key: "apify-set-key-value-store-record",
-  name: "Set Key-Value Store Record",
-  description: "Create or update a record in an Apify Key-Value Store. Supports strings, numbers, booleans, null, arrays, and objects. Automatically infers content type (JSON vs. plain text).",
-  version: "0.2.4",
+  name: "Set key-value store record",
+  description:
+        "Create or update a record in a key-value store. Supports strings, numbers, booleans, null, arrays, and objects. Automatically infers content type (JSON vs. plain text). [See the documentation](https://docs.apify.com/api/v2/key-value-store-record-put)",
+  version: "0.2.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
-  ai: "optimized",
   props: {
     apify,
     keyValueStoreId: {
@@ -25,9 +25,14 @@ export default {
       optional: false,
     },
     key: {
-      type: "string",
-      label: "Key",
-      description: "The key of the record to create or update.",
+      propDefinition: [
+        apify,
+        "keyValueStoreKey",
+        (configProps) => ({
+          keyValueStoreId: configProps.keyValueStoreId,
+        }),
+      ],
+      description: "The key of the record to create or update, e.g. `OUTPUT`. Select an existing key, or enter a new one to create a record.",
       optional: false,
     },
     value: {
@@ -43,10 +48,10 @@ export default {
       // Returns { data, contentType, mode }
       if (
         input === null ||
-          typeof input === "number" ||
-          typeof input === "boolean" ||
-          Array.isArray(input) ||
-          (typeof input === "object")
+                typeof input === "number" ||
+                typeof input === "boolean" ||
+                Array.isArray(input) ||
+                (typeof input === "object")
       ) {
         return {
           data: input,
