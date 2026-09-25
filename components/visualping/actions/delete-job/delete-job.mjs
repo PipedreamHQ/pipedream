@@ -1,16 +1,24 @@
-import visualping from "../../app/visualping.app.mjs";
+import visualping from "../../visualping.app.mjs";
 
 export default {
   key: "visualping-delete-job",
   name: "Delete Job",
-  version: "0.0.2",
+  version: "0.1.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
-  description: "Delete an existing job by id. [See the docs here](https://develop.api.visualping.io/doc.html#tag/Jobs/paths/~1v2~1jobs~1%7BjobId%7D/delete)",
+  description: "Permanently deletes a Visualping job by id. This stops monitoring and"
+    + " cannot be undone — use **Find Jobs** first to confirm you have the right"
+    + " `jobId` before calling this, especially if the user described the job by"
+    + " name or URL rather than by id."
+    + " Example: after confirming job `482913` is the one monitoring"
+    + " `https://example.com/pricing`, call with `jobId=\"482913\"` → the job stops"
+    + " being checked and no longer appears in **Find Jobs**."
+    + " [See the documentation](https://develop.api.visualping.io/doc.html#tag/Jobs/paths/~1v2~1jobs~1%7BjobId%7D/delete)",
   type: "action",
+  ai: "optimized",
   props: {
     visualping,
     workspaceId: {
@@ -18,14 +26,12 @@ export default {
         visualping,
         "workspaceId",
       ],
+      optional: true,
     },
     jobId: {
       propDefinition: [
         visualping,
         "jobId",
-        ({ workspaceId }) => ({
-          workspaceId,
-        }),
       ],
     },
   },

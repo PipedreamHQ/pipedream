@@ -1,16 +1,30 @@
-import visualping from "../../app/visualping.app.mjs";
+import visualping from "../../visualping.app.mjs";
 
 export default {
   key: "visualping-create-job",
   name: "Create A New Job",
-  version: "0.0.3",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
-  description: "Creates a new job that will belong to a given user or workspace. [See the docs here](https://develop.api.visualping.io/doc.html#tag/Jobs/paths/~1v2~1jobs/post)",
+  description: "Creates a new Visualping monitoring job that checks a web page on a"
+    + " schedule and alerts on a detected change. Use for requests like \"monitor this"
+    + " page for changes\" or \"watch this URL and tell me when the price changes\"."
+    + " Set `active: false` to create the job paused (useful for testing before it"
+    + " starts consuming your plan's active-job quota)."
+    + " Example: to watch a pricing page for any change every hour, call with"
+    + " `url=\"https://example.com/pricing\"`, `mode=\"VISUAL\"`, `interval=\"60\"`,"
+    + " `trigger=\"5\"`, `targetDevice=\"4\"`, `active=true` → returns the created job"
+    + " object with its new `id`, which you'll need for **Get Job Details By Id**,"
+    + " **Update Job**, or **Delete Job**."
+    + " For `mode=\"TEXT\"` jobs, also set `keywordAction` and `keywords` to watch for"
+    + " specific text changes. For AREA crawling (`targetDevice` `1` or `3`), also set"
+    + " `cropX`/`cropY`/`cropWidth`/`cropHeight`."
+    + " [See the documentation](https://develop.api.visualping.io/doc.html#tag/Jobs/paths/~1v2~1jobs/post)",
   type: "action",
+  ai: "optimized",
   props: {
     visualping,
     email: {
@@ -79,7 +93,23 @@ export default {
         visualping,
         "mode",
       ],
-      reloadProps: true,
+    },
+    keywordAction: {
+      type: "string",
+      label: "Keyword Action",
+      description: "Keyword detection mode. Only used when `mode` is `TEXT`.",
+      optional: true,
+      options: [
+        "ADDED",
+        "ALL",
+        "DELETED",
+      ],
+    },
+    keywords: {
+      type: "string[]",
+      label: "Keywords",
+      description: "List of keywords to detect. Only used when `mode` is `TEXT`.",
+      optional: true,
     },
     active: {
       propDefinition: [
@@ -104,12 +134,35 @@ export default {
         visualping,
         "targetDevice",
       ],
-      reloadProps: true,
     },
-    proxy: {
+    cropX: {
+      type: "integer",
+      label: "Crop X",
+      description: "Start X position of the crop. Only used when `targetDevice` is `1` (Area) or `3` (Specific Fold).",
+      optional: true,
+    },
+    cropY: {
+      type: "integer",
+      label: "Crop Y",
+      description: "Start Y position of the crop. Only used when `targetDevice` is `1` (Area) or `3` (Specific Fold).",
+      optional: true,
+    },
+    cropWidth: {
+      type: "integer",
+      label: "Crop Width",
+      description: "The width of the crop. Only used when `targetDevice` is `1` (Area) or `3` (Specific Fold).",
+      optional: true,
+    },
+    cropHeight: {
+      type: "integer",
+      label: "Crop Height",
+      description: "The height of the crop. Only used when `targetDevice` is `1` (Area) or `3` (Specific Fold).",
+      optional: true,
+    },
+    proxyId: {
       propDefinition: [
         visualping,
-        "proxy",
+        "proxyId",
       ],
       optional: true,
     },
@@ -175,7 +228,28 @@ export default {
         "advancedScheduleActive",
       ],
       optional: true,
-      reloadProps: true,
+    },
+    stopTime: {
+      type: "integer",
+      min: 0,
+      max: 24,
+      label: "Stop Time",
+      description: "The hour to stop monitoring (0-24). Only used when `advancedScheduleActive` is `true`.",
+      optional: true,
+    },
+    startTime: {
+      type: "integer",
+      min: 0,
+      max: 24,
+      label: "Start Time",
+      description: "The hour to start monitoring (0-24). Only used when `advancedScheduleActive` is `true`.",
+      optional: true,
+    },
+    activeDays: {
+      type: "integer[]",
+      label: "Active Days",
+      description: "List of days from 1 to 7 the schedule is active. Only used when `advancedScheduleActive` is `true`.",
+      optional: true,
     },
     multicheckEnabled: {
       propDefinition: [
@@ -204,7 +278,18 @@ export default {
         "useSlackNotification",
       ],
       default: false,
-      reloadProps: true,
+    },
+    slackUrl: {
+      type: "string",
+      label: "Slack URL",
+      description: "The URL to the slack notification. Only used when `useSlackNotification` is `true`.",
+      optional: true,
+    },
+    slackChannels: {
+      type: "string[]",
+      label: "Slack Channels",
+      description: "A list of slack's channels. Only used when `useSlackNotification` is `true`.",
+      optional: true,
     },
     useTeamsNotification: {
       propDefinition: [
@@ -212,7 +297,12 @@ export default {
         "useTeamsNotification",
       ],
       default: false,
-      reloadProps: true,
+    },
+    teamsUrl: {
+      type: "string",
+      label: "Teams URL",
+      description: "The URL to the teams notification. Only used when `useTeamsNotification` is `true`.",
+      optional: true,
     },
     useWebhookNotification: {
       propDefinition: [
@@ -220,7 +310,12 @@ export default {
         "useWebhookNotification",
       ],
       default: false,
-      reloadProps: true,
+    },
+    webhookUrl: {
+      type: "string",
+      label: "Webhook URL",
+      description: "The URL to the webhook notification. Only used when `useWebhookNotification` is `true`.",
+      optional: true,
     },
     useDiscordNotification: {
       propDefinition: [
@@ -228,7 +323,12 @@ export default {
         "useDiscordNotification",
       ],
       default: false,
-      reloadProps: true,
+    },
+    discordUrl: {
+      type: "string",
+      label: "Discord URL",
+      description: "The URL to the discord notification. Only used when `useDiscordNotification` is `true`.",
+      optional: true,
     },
     useSlackAppNotification: {
       propDefinition: [
@@ -236,131 +336,33 @@ export default {
         "useSlackAppNotification",
       ],
       default: false,
-      reloadProps: true,
+    },
+    slackAppUrl: {
+      type: "string",
+      label: "Slack App URL",
+      description: "The URL to the slack app notification. Only used when `useSlackAppNotification` is `true`.",
+      optional: true,
+    },
+    slackAppChannels: {
+      type: "string[]",
+      label: "Slack App Channels",
+      description: "A list of slack app's channels. Only used when `useSlackAppNotification` is `true`.",
+      optional: true,
     },
     workspaceId: {
       propDefinition: [
         visualping,
         "workspaceId",
       ],
+      optional: true,
     },
-  },
-  async additionalProps() {
-    const props = {};
-    if (this.targetDevice && (this.targetDevice === "1" || this.targetDevice === "3")) {
-      props.cropX = {
-        type: "integer",
-        label: "Crop X",
-        description: "Start X position to the crop.",
-      };
-      props.cropY = {
-        type: "integer",
-        label: "Crop Y",
-        description: "Start Y position to the crop.",
-      };
-      props.cropWidth = {
-        type: "integer",
-        label: "Crop Width",
-        description: "The width of the crop.",
-      };
-      props.cropHeight = {
-        type: "integer",
-        label: "Crop Height",
-        description: "The height of the crop.",
-      };
-    }
-    if (this.mode && this.mode === "TEXT") {
-      props.keywordAction = {
-        type: "string",
-        label: "Keyword Action",
-        description: "Keyword detection mode.",
-        optional: true,
-        options: [
-          "ADDED",
-          "ALL",
-          "DELETED",
-        ],
-      };
-      props.keywords = {
-        type: "string[]",
-        label: "Keywords",
-        description: "List of keywords.",
-        optional: true,
-      };
-    }
-    if (this.advancedScheduleActive) {
-      props.stopTime = {
-        type: "integer",
-        min: 0,
-        max: 24,
-        label: "Stop Time",
-        description: "The time to stop.",
-      };
-      props.startTime = {
-        type: "integer",
-        min: 0,
-        max: 24,
-        label: "Start Time",
-        description: "The time to start.",
-      };
-      props.activeDays = {
-        type: "integer[]",
-        label: "Active days",
-        description: "List of days from 1 to 7.",
-      };
-    }
-    if (this.useSlackNotification) {
-      props.slackUrl = {
-        type: "string",
-        label: "Slack URL",
-        description: "The URL to the slack notification.",
-      };
-      props.slackChannels = {
-        type: "string[]",
-        label: "Slack Channels",
-        description: "A list of slack's channels.",
-      };
-    }
-    if (this.useTeamsNotification) {
-      props.teamsUrl = {
-        type: "string",
-        label: "Teams URL",
-        description: "The URL to the teams notification.",
-      };
-    }
-    if (this.useWebhookNotification) {
-      props.webhookUrl = {
-        type: "string",
-        label: "Webhook URL",
-        description: "The URL to the webhook notification.",
-      };
-    }
-    if (this.useDiscordNotification) {
-      props.discordUrl = {
-        type: "string",
-        label: "Discord URL",
-        description: "The URL to the discord notification.",
-      };
-    }
-    if (this.useSlackAppNotification) {
-      props.slackAppUrl = {
-        type: "string",
-        label: "Slack App URL",
-        description: "The URL to the slack app notification.",
-      };
-      props.slackAppChannels = {
-        type: "string[]",
-        label: "Slack App Channels",
-        description: "A list of slack app' channels.",
-      };
-    }
-    return props;
   },
   async run({ $ }) {
     const {
       visualping,
       adCampaign,
       targetDevice,
+      proxyId,
       fixedProxyAlias,
       disableJS,
       pageHeight,
@@ -404,7 +406,7 @@ export default {
         start_time: startTime,
         active_days: activeDays,
       }
-      : null;
+      : undefined;
 
     const nofiticationConfig = {};
     if (useSlackNotification) {
@@ -440,14 +442,17 @@ export default {
       };
     }
 
-    const crop = (this.targetDevice && (this.targetDevice === "1" || this.targetDevice === "3")) ?
-      {
+    const hasCrop = (this.targetDevice === "1" || this.targetDevice === "3")
+      && cropX != undefined && cropY != undefined
+      && cropWidth != undefined && cropHeight != undefined;
+    const crop = hasCrop
+      ? {
         x: cropX,
         y: cropY,
         width: cropWidth,
         height: cropHeight,
       }
-      : null;
+      : undefined;
 
     const response = await visualping.createJob({
       $,
@@ -455,6 +460,7 @@ export default {
         ...data,
         ad_campaign: adCampaign,
         target_device: targetDevice,
+        proxy_id: proxyId,
         fixed_proxy_alias: fixedProxyAlias,
         disable_js: disableJS,
         page_height: pageHeight,
@@ -486,7 +492,31 @@ export default {
       },
     });
 
-    $.export("$summary", `A new job with id ${response.id} was successfully created!`);
-    return response;
+    // The create response's own `id` field is an opaque tracking token, not the
+    // numeric job id every other endpoint (`get`/`update`/`delete`/`find`) expects —
+    // `jobid` is that numeric id. Normalize `id` to match so callers can chain
+    // straight into those tools without hitting a 404 on the wrong identifier.
+    const result = {
+      ...response,
+      id: response.jobid,
+    };
+
+    // Visualping's create endpoint always creates jobs active regardless of the
+    // `active` flag in this request — pause it with an immediate follow-up call
+    // when the caller asked for a paused job, so `active: false` actually means paused.
+    if (this.active === false) {
+      await visualping.updateJob({
+        $,
+        jobId: result.id,
+        data: {
+          workspaceId,
+          active: false,
+        },
+      });
+      result.active = "0";
+    }
+
+    $.export("$summary", `A new job with id ${result.id} was successfully created!`);
+    return result;
   },
 };

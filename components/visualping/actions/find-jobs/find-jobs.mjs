@@ -1,16 +1,31 @@
-import visualping from "../../app/visualping.app.mjs";
+import visualping from "../../visualping.app.mjs";
+import {
+  DEFAULT_JOB_FIELDS, normalizeJob, pluckFields,
+} from "../../common/utils.mjs";
 
 export default {
   key: "visualping-find-jobs",
   name: "Find Jobs",
-  version: "0.0.2",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
-  description: "Find existing jobs using filters. [See the docs here](https://develop.api.visualping.io/doc.html#tag/Jobs/paths/~1v2~1jobs/get)",
+  description: "Searches and lists your Visualping monitoring jobs, with optional filters"
+    + " for mode, active/paused state, change-detection frequency, and free text."
+    + " Use this to discover job ids before calling **Get Job Details By Id**,"
+    + " **Update Job**, or **Delete Job**, or to answer questions like \"which jobs"
+    + " are still active\" or \"find the job monitoring example.com\"."
+    + " Auto-paginates through the API's 100-jobs-per-page results, up to a cap of"
+    + " 20 pages (2,000 jobs) — plenty for typical accounts."
+    + " Example: to find active jobs mentioning \"pricing\", call with"
+    + " `fullTextSearchFilter=\"pricing\"` and `activeFilter=true` → returns matching"
+    + " job records with id, url, mode, interval, trigger, active, and more."
+    + " Pass `fields` to shrink each result to just the fields you need."
+    + " [See the documentation](https://develop.api.visualping.io/doc.html#tag/Jobs/paths/~1v2~1jobs/get)",
   type: "action",
+  ai: "optimized",
   props: {
     visualping,
     organisationId: {
@@ -24,30 +39,6 @@ export default {
       propDefinition: [
         visualping,
         "workspaceId",
-      ],
-      optional: true,
-    },
-    mode: {
-      type: "string",
-      label: "Mode",
-      description: "API output mode",
-      options: [
-        {
-          label: "Counts Only",
-          value: "counts_only",
-        },
-        {
-          label: "Id And WsIds",
-          value: "id_and_wsIds",
-        },
-        {
-          label: "Ids Only",
-          value: "ids_only",
-        },
-        {
-          label: "Normal",
-          value: "normal",
-        },
       ],
       optional: true,
     },
@@ -89,7 +80,7 @@ export default {
       description: "Filters jobs by scheduling frequency. Multiple choices allowed.",
       options: [
         "below_1h_excl",
-        "1hr",
+        "1h",
         "1h_excl_to_1d_excl",
         "1d",
         "1d_excl_to_500h_excl",
@@ -221,6 +212,15 @@ export default {
       ],
       optional: true,
     },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      optional: true,
+      description: "Field names to return for each job (`id` is always included)."
+        + " Omit to get the full job object (today's default output)."
+        + " A useful compact set: `" + DEFAULT_JOB_FIELDS.join("`, `") + "`."
+        + " Pass only the fields you need — smaller responses keep the conversation fast.",
+    },
   },
   async run({ $ }) {
     const {
@@ -228,6 +228,9 @@ export default {
       activeFilter,
       inProgressFilter,
       hasAdvancedScheduleFilter,
+      modeFilter,
+      frequencyFilter,
+      fields,
       ...params
     } = this;
 
@@ -246,18 +249,31 @@ export default {
         hasAdvancedScheduleFilter: (hasAdvancedScheduleFilter != undefined)
           ? +hasAdvancedScheduleFilter
           : null,
+        // The API rejects axios's default array query-param encoding for these
+        // ("unexpected flat parameter ... construct") — send a comma-joined
+        // string instead, which it does accept.
+        modeFilter: modeFilter?.length
+          ? modeFilter.join(",")
+          : undefined,
+        frequencyFilter: frequencyFilter?.length
+          ? frequencyFilter.join(",")
+          : undefined,
       },
     });
 
     for await (const item of items) {
-      response.push(item);
+      response.push(normalizeJob(item));
     }
 
-    const length = response.length;
+    const results = fields?.length
+      ? response.map((job) => pluckFields(job, fields))
+      : response;
+
+    const length = results.length;
 
     $.export("$summary", `${length} job${length > 1
       ? "s were"
       : " was"} successfully fetched!`);
-    return response;
+    return results;
   },
 };
