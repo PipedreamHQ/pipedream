@@ -1,11 +1,13 @@
 import linearApp from "../../linear_app.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "linear_app-list-views",
   name: "List Views",
-  description: "List views in Linear. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=views)",
-  version: "0.0.4",
+  description: "List saved custom views in Linear. Use this to discover valid view IDs for the **Get View Issues** action. Custom views combine filters (team, assignee, state, labels, etc.) into a reusable saved search. Optionally filter by team. Example: `teamId: \"9d1c3f7e-...\"` → returns `{nodes: [{id: \"cv1abc\", name: \"My Open Issues\", teamId: \"9d1c3f7e-...\"}], pageInfo: {endCursor: \"...\", hasNextPage: false}}`. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=views)",
+  version: "0.1.0",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -18,7 +20,7 @@ export default {
         linearApp,
         "teamId",
       ],
-      description: "Filter views by team",
+      description: "Filter views by team. Use **Get Teams** to discover valid team IDs.",
       optional: true,
     },
     orderBy: {
@@ -37,6 +39,12 @@ export default {
       type: "string",
       label: "After",
       description: "The cursor to return the next page of views",
+      optional: true,
+    },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "Optional list of field names to include in each returned view object. When omitted, the full view payload is returned. Pass a subset to reduce response size, e.g. `[\"id\", \"name\"]`.",
       optional: true,
     },
   },
@@ -63,7 +71,7 @@ export default {
       : "s"}`);
 
     return {
-      nodes,
+      nodes: nodes.map((view) => utils.pickFields(view, this.fields)),
       pageInfo,
     };
   },

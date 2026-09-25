@@ -1,17 +1,19 @@
 import linearApp from "../../linear_app.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "linear_app-get-issue",
   name: "Get Issue",
-  description: "Retrieves a Linear issue by its ID or identifier. Returns complete issue details including title, description, state, assignee, team, project, labels, and timestamps. Uses API Key authentication. [See the documentation](https://linear.app/developers/graphql).",
-  version: "0.1.21",
+  description: "Retrieve a single Linear issue by its UUID or human-readable identifier. Provide exactly one of `issueId` (UUID) or `issueIdentifier` (e.g. `ENG-42`). Returns complete issue details: title, description, state, assignee, team, project, labels, and timestamps. Use the optional `fields` prop to narrow the response to only the keys you need (reduces context for large result sets). Example: `issueIdentifier: \"ENG-42\"` → returns `{id: \"iss_01abc\", identifier: \"ENG-42\", title: \"Fix login redirect\", state: {name: \"In Progress\"}}`. [See the documentation](https://linear.app/developers/graphql).",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     linearApp,
     issueId: {
@@ -28,6 +30,12 @@ export default {
         linearApp,
         "issueIdentifier",
       ],
+      optional: true,
+    },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "Optional list of field names to include in the returned issue object. When omitted, the full issue payload is returned. Pass a subset to reduce response size, e.g. `[\"id\", \"identifier\", \"title\", \"state\"]`.",
       optional: true,
     },
   },
@@ -53,6 +61,7 @@ export default {
       throw new ConfigurationError(`Issue not found: ${issueId || issueIdentifier}`);
     }
     $.export("$summary", `Found issue with ID ${issue?.id}`);
-    return issue;
+
+    return utils.pickFields(issue, this.fields);
   },
 };
