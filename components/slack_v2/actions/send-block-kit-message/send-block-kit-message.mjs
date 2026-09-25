@@ -13,7 +13,7 @@ export default {
     + " Block Kit blocks too. Use this tool when you specifically want the guided Block Kit"
     + " builder."
     + " [See the documentation](https://api.slack.com/tools/block-kit-builder).",
-  version: "0.6.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

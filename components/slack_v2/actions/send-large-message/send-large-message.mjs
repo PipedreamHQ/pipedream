@@ -11,7 +11,7 @@ export default {
     + " tool only when a single message exceeds Slack's 3000-character block limit and must be"
     + " split."
     + " See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.2.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -42,7 +42,8 @@ export default {
     ...common.props,
   },
   async run({ $ }) {
-    this.assertBotIdentityCompatible();
+    const asUser = this.resolveAsUser(this.conversation);
+    this.assertBotIdentityCompatible(asUser);
     if (this.addToChannel) {
       await this.slack.maybeAddAppToChannels([
         this.conversation,
@@ -74,7 +75,7 @@ export default {
     const obj = {
       text: this.text,
       channel: this.conversation,
-      as_user: this.as_user,
+      as_user: asUser,
       username: this.username,
       icon_emoji: this.icon_emoji,
       icon_url: this.icon_url,

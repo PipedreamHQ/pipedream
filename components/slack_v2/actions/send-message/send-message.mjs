@@ -13,7 +13,7 @@ export default {
     + " with the `Pipedream:` bot name in Slack notifications). Use this tool only if a"
     + " workflow specifically needs to post with the bot identity."
     + " [See the documentation](https://api.slack.com/methods/chat.postMessage)",
-  version: "0.3.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
