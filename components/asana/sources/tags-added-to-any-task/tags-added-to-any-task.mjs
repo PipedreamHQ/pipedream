@@ -7,7 +7,7 @@ export default {
   type: "source",
   name: "New Tags added to any task (Instant)",
   description: "Emit new event each time a tag is added to any task, optionally filtering by a given set of tags.",
-  version: "0.0.13",
+  version: "0.0.14",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -17,7 +17,7 @@ export default {
       type: "string",
       propDefinition: [
         asana,
-        "projects",
+        "projectsAsync",
         (c) => ({
           workspace: c.workspace,
         }),
@@ -27,7 +27,7 @@ export default {
       optional: true,
       propDefinition: [
         asana,
-        "tags",
+        "tagsAsync",
         (c) => ({
           workspace: c.workspace,
         }),

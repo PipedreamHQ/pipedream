@@ -7,7 +7,7 @@ export default {
   type: "source",
   name: "New Task Updated In Project (Instant)",
   description: "Emit new event for each update to a task.",
-  version: "1.1.13",
+  version: "1.1.14",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -17,7 +17,7 @@ export default {
       type: "string",
       propDefinition: [
         asana,
-        "projects",
+        "projectsAsync",
         (c) => ({
           workspace: c.workspace,
         }),
@@ -27,7 +27,7 @@ export default {
       optional: true,
       propDefinition: [
         asana,
-        "tasks",
+        "tasksAsync",
         (c) => ({
           project: c.project,
         }),
@@ -40,7 +40,7 @@ export default {
       optional: true,
       propDefinition: [
         asana,
-        "users",
+        "usersAsync",
         ({ workspace }) => ({
           workspace,
         }),

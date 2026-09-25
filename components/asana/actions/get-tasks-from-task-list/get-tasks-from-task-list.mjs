@@ -3,8 +3,8 @@ import asana from "../../asana.app.mjs";
 export default {
   key: "asana-get-tasks-from-task-list",
   name: "Get Tasks From Task List",
-  description: "Returns tasks from the user's personal **My Tasks** inbox — NOT a project task list. Use this when the user asks for 'my tasks', 'my task list', or 'My Tasks'. Only a workspace GID is needed; no project GID required. [See the documentation](https://developers.asana.com/reference/gettasksforusertasklist)",
-  version: "1.1.1",
+  description: "Returns tasks from the authenticated user's personal **My Tasks** inbox — NOT a project task list. Use this when the user asks for 'my tasks', 'my task list', or 'My Tasks'. Only a workspace GID is needed; no project GID required. Example: call with `workspace: '1200123456789012'` → returns all tasks in the authenticated user's My Tasks list, e.g. `[{gid: '1202345678901234', name: 'Review Q3 report'}]`. [See the documentation](https://developers.asana.com/reference/gettasksforusertasklist)",
+  version: "1.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
