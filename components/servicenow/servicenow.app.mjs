@@ -6,6 +6,12 @@ const {
   KNOWLEDGE_BASE_PATH,
   SYS_USER_TABLE,
   SC_REQUEST_TABLE,
+  SC_REQ_ITEM_TABLE,
+  CMDB_CI_TABLE,
+  QUESTION_CHOICE_TABLE,
+  INCIDENT_TABLE,
+  CATALOG_UI_POLICY_TABLE,
+  CATALOG_UI_POLICY_ACTION_TABLE,
   KNOWLEDGE_BASE_TABLE,
   MAX_LIMIT,
 } = constants;
@@ -157,6 +163,47 @@ export default {
       label: "Requested For",
       description: "Optional `sys_id` of the user this item is requested for (maps to `sysparm_requested_for`). Run **Find Users** to find it.",
       optional: true,
+    },
+    guideSysId: {
+      type: "string",
+      label: "Order Guide Sys ID",
+      description: "The `sys_id` of the order guide (`sc_cat_item_guide`). Run **Search Catalog Items** with Item Type Order Guide to find this value. Example: `e8d3d2f1c0a8016400e6b9e0f6e6f6e6`.",
+    },
+    guideItems: {
+      type: "string",
+      label: "Guide Items",
+      description: "JSON array of items from **Submit Order Guide**. Submit-guide rows (`quantity`, `variables` as `{name, value}` arrays) are mapped to checkout (`sysparm_quantity`, variables object). Example: `[{\"sys_id\":\"abc\",\"quantity\":\"1\",\"variables\":[{\"name\":\"location\",\"value\":\"xyz\"}]}]`.",
+    },
+    itemType: {
+      type: "string",
+      label: "Item Type",
+      description: "Optional Service Catalog item type filter (maps to `sysparm_type`). ServiceNow only honors Order Guide and Record Producer; omit this to search standard catalog items. Use Order Guide before **Get Catalog Item Variables** / **Submit Order Guide**, or Record Producer before **Submit Record Producer**. Example: `Order Guide`.",
+      optional: true,
+      options: [
+        {
+          label: "Order Guide",
+          value: "Order Guide",
+        },
+        {
+          label: "Record Producer",
+          value: "Record Producer",
+        },
+      ],
+    },
+    variableSysId: {
+      type: "string",
+      label: "Variable Sys ID",
+      description: "The `sys_id` (or `id`) of a catalog variable from **Get Catalog Item Variables** (`id` / `sys_id` in the response). Used to load `question_choice` rows. Example: `e8d3d2f1c0a8016400e6b9e0f6e6f6e6`.",
+    },
+    requestNumber: {
+      type: "string",
+      label: "Request Number",
+      description: "The catalog request number (`sc_request.number`) from **Checkout Cart**, **Submit Cart Order**, **Order Catalog Item**, or **Checkout Order Guide** (`number` or `request_number`). Example: `REQ0010001`.",
+    },
+    incidentNumber: {
+      type: "string",
+      label: "Incident Number",
+      description: "The incident number (`incident.number`) from **Submit Record Producer** or **Create Table Record** (`number`). Example: `INC0010001`.",
     },
   },
   methods: {
@@ -344,6 +391,32 @@ export default {
         ...args,
       });
     },
+    async submitOrderGuide({
+      catalogItemSysId, ...args
+    }) {
+      return this._makeRequest({
+        method: "put",
+        baseURL: `${this._instanceBaseUrl()}${SERVICE_CATALOG_BASE_PATH}`,
+        url: `/items/${catalogItemSysId}/submit_guide`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        ...args,
+      });
+    },
+    async checkoutOrderGuide({
+      catalogItemSysId, ...args
+    }) {
+      return this._makeRequest({
+        method: "post",
+        baseURL: `${this._instanceBaseUrl()}${SERVICE_CATALOG_BASE_PATH}`,
+        url: `/items/${catalogItemSysId}/checkout_guide`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        ...args,
+      });
+    },
     async searchKnowledgeArticles({ ...args }) {
       return this._makeRequest({
         baseURL: `${this._instanceBaseUrl()}${KNOWLEDGE_BASE_PATH}`,
@@ -390,6 +463,42 @@ export default {
     async getRequests({ ...args }) {
       return this.getTableRecords({
         table: SC_REQUEST_TABLE,
+        ...args,
+      });
+    },
+    async getRequestedItems({ ...args }) {
+      return this.getTableRecords({
+        table: SC_REQ_ITEM_TABLE,
+        ...args,
+      });
+    },
+    async listConfigurationItems({ ...args }) {
+      return this.getTableRecords({
+        table: CMDB_CI_TABLE,
+        ...args,
+      });
+    },
+    async getQuestionChoices({ ...args }) {
+      return this.getTableRecords({
+        table: QUESTION_CHOICE_TABLE,
+        ...args,
+      });
+    },
+    async getIncidents({ ...args }) {
+      return this.getTableRecords({
+        table: INCIDENT_TABLE,
+        ...args,
+      });
+    },
+    async getCatalogUiPolicies({ ...args }) {
+      return this.getTableRecords({
+        table: CATALOG_UI_POLICY_TABLE,
+        ...args,
+      });
+    },
+    async getCatalogUiPolicyActions({ ...args }) {
+      return this.getTableRecords({
+        table: CATALOG_UI_POLICY_ACTION_TABLE,
         ...args,
       });
     },
