@@ -171,7 +171,7 @@ export default {
     icon_url: {
       type: "string",
       label: "Icon (image URL)",
-      description: "Optionally provide an image URL to use as the icon for this message. Must be used in conjunction with `Send as User` set to `false`. If `Send as User` is `true`, the action raises a configuration error rather than silently ignoring this setting.",
+      description: "Optionally provide an image URL to use as the icon for this message (e.g. `https://example.com/avatar.png`). Must be used in conjunction with `Send as User` set to `false`. If `Send as User` is `true`, the action raises a configuration error rather than silently ignoring this setting.",
       optional: true,
     },
     initial_comment: {

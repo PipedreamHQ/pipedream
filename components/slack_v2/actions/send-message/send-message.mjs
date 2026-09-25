@@ -8,10 +8,11 @@ export default {
   description:
     "Send a message to a user, group, private channel or public channel."
     + " Legacy variant — prefer **Post Message** for new integrations: it covers channels,"
-    + " users, and groups from a single tool, supports threaded replies and unfurl settings,"
-    + " and posts as the authenticated user by default (so direct messages are not prefixed"
-    + " with the `Pipedream:` bot name in Slack notifications). Use this tool only if a"
-    + " workflow specifically needs to post with the bot identity."
+    + " users, and groups from a single tool, supports threaded replies and unfurl settings."
+    + " When **Send as User** is left unset, direct messages are posted as the authenticated"
+    + " user (so they are not prefixed with the `Pipedream:` bot name in Slack notifications)"
+    + " and channel messages are posted as the bot. Set **Send as User** to `false` when you"
+    + " need bot authorship, including in direct messages."
     + " [See the documentation](https://api.slack.com/methods/chat.postMessage)",
   version: "1.0.0",
   annotations: {
