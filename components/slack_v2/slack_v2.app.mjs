@@ -128,7 +128,7 @@ export default {
     username: {
       type: "string",
       label: "Bot Username",
-      description: "Optionally customize your bot's user name (default is `Pipedream`). Must be used in conjunction with `Send as User` set to `false`. If `Send as User` is `true`, the action raises a configuration error rather than silently ignoring this setting.",
+      description: "Optionally customize your bot's user name (e.g. `Vandelay Industries`; default is `Pipedream`). Applies only when the message is posted as the bot — i.e. the effective `Send as User` is `false`, which is the default for channel messages. When the effective `Send as User` is `true` (e.g. a direct message, which defaults to the authenticated user), this prop is invalid and the action raises a configuration error rather than silently ignoring it; set `Send as User` to `false` to post as the bot with a custom identity (e.g. to send a DM as the bot named `Vandelay Industries`).",
       optional: true,
     },
     blocks: {
@@ -140,7 +140,7 @@ export default {
     icon_emoji: {
       type: "string",
       label: "Icon (emoji)",
-      description: "Optionally provide an emoji to use as the icon for this message, wrapped in colons. E.g., `:fire:`. Overrides `icon_url`. Must be used in conjunction with `Send as User` set to `false`. If `Send as User` is `true`, the action raises a configuration error rather than silently ignoring this setting. Use **List Icon (emoji) Options** to look up valid emoji names for this workspace, including custom emoji.",
+      description: "Optionally provide an emoji to use as the icon for this message, wrapped in colons (e.g. `:fire:`). Overrides `icon_url`. Applies only when the message is posted as the bot — i.e. the effective `Send as User` is `false`, which is the default for channel messages. When the effective `Send as User` is `true` (e.g. a direct message, which defaults to the authenticated user), this prop is invalid and the action raises a configuration error rather than silently ignoring it; set `Send as User` to `false` to post as the bot with a custom icon (e.g. to send a DM as the bot with a `:fire:` icon). Use **List Icon (emoji) Options** to look up valid emoji names for this workspace, including custom emoji.",
       optional: true,
     },
     content: {
@@ -171,7 +171,7 @@ export default {
     icon_url: {
       type: "string",
       label: "Icon (image URL)",
-      description: "Optionally provide an image URL to use as the icon for this message (e.g. `https://example.com/avatar.png`). Must be used in conjunction with `Send as User` set to `false`. If `Send as User` is `true`, the action raises a configuration error rather than silently ignoring this setting.",
+      description: "Optionally provide an image URL to use as the icon for this message (e.g. `https://example.com/avatar.png`). Applies only when the message is posted as the bot — i.e. the effective `Send as User` is `false`, which is the default for channel messages. When the effective `Send as User` is `true` (e.g. a direct message, which defaults to the authenticated user), this prop is invalid and the action raises a configuration error rather than silently ignoring it; set `Send as User` to `false` to post as the bot with a custom icon (e.g. to send a DM as the bot with the icon `https://example.com/avatar.png`).",
       optional: true,
     },
     initial_comment: {

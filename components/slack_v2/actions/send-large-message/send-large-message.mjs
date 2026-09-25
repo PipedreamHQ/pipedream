@@ -8,8 +8,9 @@ export default {
     "Send a large message (more than 3000 characters) to a channel, group or user."
     + " For messages under 3000 characters, prefer **Post Message** — it posts as the"
     + " authenticated user by default (no `Pipedream:` bot prefix on notifications). This tool"
-    + " sends the content as the message text (not as Block Kit blocks, which cap each block at"
-    + " 3000 characters), so it accepts longer messages. Slack truncates message text longer"
+    + " sends the content as the message text rather than as Block Kit blocks (some Block Kit"
+    + " text objects are limited to 3000 characters), so it accepts longer messages. Slack"
+    + " truncates message text longer"
     + " than 40,000 characters; for content beyond that, share it as a snippet or file instead."
     + " See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
   version: "1.0.0",
