@@ -15,6 +15,7 @@ export interface HttpRequestParams extends PdAxiosRequest {
   method?: string;
   data?: object;
   params?: object;
+  paramsSerializer?: object;
 }
 
 export interface PaginatedRequestParams
@@ -84,4 +85,15 @@ export interface BatchGetReviewsParams extends PdAxiosRequest {
     orderBy?: string;
     ignoreRatingOnlyReviews?: boolean;
   };
+}
+
+export interface PerformanceParams extends PdAxiosRequest {
+  location: string;
+  params?: Record<string, string | number | string[] | undefined>;
+}
+
+export interface ListSearchKeywordImpressionsParams
+  extends PaginatedRequest {
+  location: string;
+  params?: Record<string, string | number | undefined>;
 }

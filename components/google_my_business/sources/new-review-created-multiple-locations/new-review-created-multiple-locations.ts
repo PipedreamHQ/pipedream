@@ -13,7 +13,7 @@ export default defineSource({
   key: "google_my_business-new-review-created-multiple-locations",
   name: "New Review Created (Multiple Locations)",
   description: `Emit new event for each new review on any of the selected locations [See the documentation](${DOCS_LINK})`,
-  version: "0.0.5",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   props: {
@@ -22,13 +22,10 @@ export default defineSource({
       propDefinition: [
         app,
         "location",
-        ({ account }: { account: string; }) => ({
-          account,
-        }),
       ],
       type: "string[]",
       label: "Location Names",
-      description: "One or more locations to monitor for new reviews",
+      description: "One or more location IDs or full resource names to monitor for new reviews, e.g. `123456789` or `locations/123456789`. Use **List Locations** to find valid location IDs for the account.",
     },
   },
   hooks: {
