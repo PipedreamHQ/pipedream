@@ -4,7 +4,7 @@ export default {
   key: "google_drive-is-folder-ancestor",
   name: "Is Folder Ancestor",
   description: "Check if a specific folder is anywhere in the parent hierarchy of a file or folder. [See the documentation](https://developers.google.com/workspace/drive/api/reference/rest/v3/files/get)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   ai: "optimized",
   annotations: {

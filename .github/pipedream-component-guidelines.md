@@ -45,6 +45,29 @@ export default {
 ESLint enforces the **presence** of all required properties. Reviews should focus on whether
 values are **semantically correct**, not whether properties exist.
 
+### `ai: "optimized"`
+
+Every action that is created or modified must declare the top-level property
+`ai: "optimized"` in its default export, alongside `version` and `type`:
+
+```javascript
+export default {
+  key: "app-action-name",
+  name: "Human Readable Name",
+  description: "...",
+  version: "0.0.1",
+  type: "action",
+  ai: "optimized",
+  props: { ... },
+};
+```
+
+- This must be a real property. The legacy `// x-pd-ai: optimized` comment marker is no
+  longer used: do not add it to new files, and when modifying a file that still has it,
+  remove the comment and add the property instead.
+- It applies to action components only. App files (`*.app.mjs`), sources(`sources/**/*.mjs`), and helper
+  modules (`common/*.mjs`, `test-event.mjs`) do not carry it.
+
 ---
 
 ## Versioning
@@ -131,7 +154,7 @@ props: {
   title: {
     type: "string",
     label: "Title",
-    description: "The issue title.",
+    description: "The issue title, e.g. `Login page returns 500 on submit`.",
     optional: true,         // omit if the prop is required
   },
 }
@@ -196,6 +219,39 @@ props: {
 Flag any inline prop definition that duplicates a propDefinition already present in the
 app file.
 
+#### Moving commonly used props to the app file
+
+Props that identify a shared resource or carry a shared input shape — IDs (`siteId`,
+`listId`, `contactId`, `projectId`), pagination controls (`limit`, `maxResults`), filters,
+date ranges, and similar — are almost always needed by several components in the same
+app. Treat them as shared by default:
+
+- When a PR adds or modifies a component whose inline prop has the same meaning as an
+  inline prop in **any other component of the same app**, move it to the app file's
+  `propDefinitions` and switch **every** occurrence to `propDefinition: [app, "propName"]`
+  in the same PR. Do not leave some components on the inline copy.
+- Name the shared definition after the concept, not the component (`listId`, not
+  `listIdForCreateItem`). Component-specific wording belongs in a local override
+  (`description`, `optional`, `label`), not in a second definition.
+- When a prop needs values from another prop (e.g. `listId` depends on `siteId`), keep the
+  dependency in the shared definition and pass it from the component:
+
+  ```javascript
+  listId: {
+    propDefinition: [
+      sharepoint,
+      "listId",
+      (c) => ({ siteId: c.siteId }),
+    ],
+  },
+  ```
+
+- Props that are genuinely unique to one component (e.g. the body of a single create
+  endpoint) may stay inline. The test is reuse, not size.
+
+Flag an inline prop in a component when an equivalent prop exists inline in a sibling
+component of the same app — both should be consolidated into `propDefinitions`.
+
 ### Dynamic options (`async options`)
 
 Props can offer a dropdown of values fetched from the API at configuration time:
@@ -204,7 +260,8 @@ Props can offer a dropdown of values fetched from the API at configuration time:
 status: {
   type: "string",
   label: "Status",
-  description: "The pipeline stage to assign.",
+  description: "The ID of the pipeline stage to assign, e.g. `stage_4821`."
+    + " Use **List Stages** to find valid stage IDs (the `id` field).",
   async options() {
     const stages = await this.app.getStages();
     return stages.map((s) => ({
@@ -398,9 +455,15 @@ A few notes on this pattern:
 
 ### propDefinitions
 
-Prop definitions shared across more than one component belong in the app file. New
-`propDefinitions` entries must include both `label` and `description`. If the definition
+Prop definitions shared across more than one component belong in the app file (see
+"Moving commonly used props to the app file" above). New `propDefinitions` entries must
+include both `label` and `description`, and the description must meet the
+[prop description standards](#prop-description-standards) — a concrete example, plus the
+**tool name** that supplies the value when it must be looked up. If the definition
 includes `async options()` that calls a paginated API endpoint, it must support `prevContext` or `page`.
+
+Generic helper functions do not belong in the app file's `methods` — see
+[Shared Utilities](#shared-utilities-commonutilsmjs).
 
 ---
 
@@ -533,6 +596,27 @@ other sections apply when relevant:
 5. **Common gotchas** — Things that frequently go wrong or are misunderstood.
 6. **Documentation link** (always required) — `[See the documentation](https://...)`
 
+### No HTTP method or endpoint path
+
+Component descriptions must **not** expose the underlying HTTP method or endpoint path
+(e.g. never `"(GET /employees/changed)"` or `"Calls POST /contacts"`). Agents call the
+tool, not the endpoint, and a raw path encourages them to reason in API parameter names
+instead of prop names. Describe what the tool does, what it returns, and when to use it
+(including which tool to chain next). The `[See the documentation](<deep link>)` link is
+still required and already points readers to the endpoint reference.
+
+```javascript
+// Wrong
+description: "Lists employees changed since a date (GET /employees/changed)."
+  + " [See the documentation](https://...)",
+
+// Right
+description: "List employees whose records changed since a given date."
+  + " Returns employee IDs with the type of change (inserted, updated, deleted)."
+  + " Use **Get Employee** to fetch full details for a returned ID."
+  + " [See the documentation](https://...)",
+```
+
 ### Examples
 
 **Poor — too vague, gives an agent no useful context:**
@@ -553,14 +637,109 @@ description: "Creates a record in Hubspot."
 
 ### Prop description standards
 
+Every prop (except the app connection, `db`, `http`, `timer`, and `syncDir`) must have a
+`description` that meets **all** of the following. These apply equally to inline props and
+to entries in the app file's `propDefinitions`.
+
+- **Example is required**: Every prop description must include a concrete example value,
+  written as `` e.g. `...` `` or `` Example: `...` ``. This includes simple strings, IDs,
+  integers, booleans with non-obvious effects, arrays, and JSON objects:
+  - ID: `` The ID of the list, e.g. `b!3cK9xZ...` or `a1b2c3d4-...`. ``
+  - Date: `` ISO 8601 date-time, e.g. `2026-01-31T00:00:00Z`. ``
+  - Enum: `` One of `active`, `archived`, `draft`. e.g. `active`. ``
+  - Array: `` e.g. `["jane@example.com", "joe@example.com"]` ``
+  - JSON: `` e.g. `{"firstname": "Jane", "lastname": "Doe", "email": "jane@example.com"}` ``
+  - Integer: `` Maximum number of results to return, e.g. `50`. Defaults to `100`. ``
+- **Source of the value is required when it must be looked up**: If the value is an ID,
+  key, slug, or any value the caller cannot know up front, the description must name the
+  tool that returns it, using the **bold tool name** of a real action in the same app, and
+  the response field to read when it is not obvious:
+  - `` Use **List Sites** to find the site ID (the `id` field). ``
+  - `` Use **List Lists** with the same `siteId` to find valid list IDs. ``
+  - If no such tool exists yet, add one (a companion **List X** / **Search X** action) in
+    the same PR rather than leaving the prop without a source.
+  - Exception: if the API has no list or search operation for the value, a companion
+    action is not possible. Name the authoritative place the value comes from instead
+    (e.g. `` Found in **Settings → API** in the dashboard. `` or a link to the vendor docs
+    page that lists valid values).
 - **Format**: Always describe the expected format for non-obvious values: dates, IDs, JSON
   structures, enum strings.
-- **Examples**: Include a concrete example for any prop that accepts a JSON object or a
-  value the agent must construct:
-  `{"firstname": "Jane", "lastname": "Doe", "email": "jane@example.com"}`
-- **ID props**: Explain where to get the ID if the user might only have a name or URL.
-  "Use **Search Contacts** to find the contact ID."
 - **Avoid UI language**: Replace "select from the dropdown" with a description of what
   value is expected and how to obtain it.
-- **Cross-references**: Point to discovery tools when valid values must be looked up.
-  "Use **List Pipelines and Stages** to find valid pipeline and stage IDs."
+- **Dependencies**: When a prop only makes sense together with another prop, say so
+  (`` Must belong to the site given in `siteId`. ``).
+
+**Poor:**
+```javascript
+listId: {
+  type: "string",
+  label: "List ID",
+  description: "The list ID.",
+},
+```
+
+**Good:**
+```javascript
+listId: {
+  type: "string",
+  label: "List ID",
+  description: "The ID of the SharePoint list, e.g. `a1b2c3d4-5678-90ab-cdef-1234567890ab`."
+    + " Use **List Lists** with the same `siteId` to find it (the `id` field).",
+},
+```
+
+Flag any prop whose description has no example, and any ID-like prop whose description
+does not name the tool that supplies the value.
+
+---
+
+## Shared Utilities (`common/utils.mjs`)
+
+Generic helper functions — anything that is not an API call, not a prop definition, and not
+component-specific business logic — belong in the app's `common/utils.mjs`, not inside a
+component file or the app file's `methods`.
+
+Typical candidates:
+
+- Parsing input: `parseObject()`, `parseArray()`, `parseJson()`
+- Cleaning payloads: `cleanObject()` / removing empty values
+- Formatting: date conversion, string normalization, building query strings or filter
+  expressions
+- Pagination helpers that do not themselves call the API (e.g. extracting a cursor)
+- Encoding / hashing (e.g. building a stable, length-limited source event `id`)
+
+```javascript
+// components/my_app/common/utils.mjs
+export const parseObject = (obj) => {
+  if (!obj) return undefined;
+  if (typeof obj === "string") {
+    try {
+      return JSON.parse(obj);
+    } catch {
+      return obj;
+    }
+  }
+  return obj;
+};
+
+// components/my_app/actions/create-item/create-item.mjs
+import { parseObject } from "../../common/utils.mjs";
+```
+
+Rules:
+
+- **Do not define helper functions at module level or in `methods` of a component** when the
+  same helper exists (or could live) in `common/utils.mjs`. Import it instead.
+- **Do not duplicate a helper across components.** If two components in the app contain
+  the same or near-identical function, move it to `common/utils.mjs` in the same PR and
+  update both call sites.
+- **Reuse before adding.** Check the app's existing `common/utils.mjs` first; extend an
+  existing helper rather than adding a second one with overlapping behavior.
+- **Keep utils pure.** Functions in `common/utils.mjs` must not call the API or depend on
+  `this`; API calls stay in the app file's `methods`. Constants go in `common/constants.mjs`.
+- Either named exports (`export const parseObject = ...`) or a default-exported object
+  (`export default { parseObject }`) is acceptable — follow whichever style the app's
+  existing `common/utils.mjs` already uses.
+
+Flag helper logic defined inside a component file or app file that belongs in
+`common/utils.mjs`, and any helper duplicated across components of the same app.
