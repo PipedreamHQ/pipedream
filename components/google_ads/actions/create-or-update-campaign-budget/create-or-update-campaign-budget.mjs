@@ -15,7 +15,7 @@ export default {
   key: "google_ads-create-or-update-campaign-budget",
   name: "Create or Update Campaign Budget",
   description: `Creates, updates, or removes a campaign budget. [See the documentation](${docLink})`,
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: true,

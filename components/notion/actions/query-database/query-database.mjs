@@ -12,7 +12,7 @@ export default {
     + " Omit `filter` to return all rows."
     + " Provide the **data source ID** (use **Search** with `filter: data_source` to resolve a database name)."
     + " [See the documentation](https://developers.notion.com/reference/filter-data-source-entries)",
-  version: "1.1.1",
+  version: "1.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
