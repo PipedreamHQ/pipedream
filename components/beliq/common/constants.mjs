@@ -94,10 +94,10 @@ export const MAX_REPORTED_FINDINGS = 5;
 // XRechnung accepts. The request schema alone is not enough; BR-DE-2 wants a
 // seller contact and PEPPOL-EN16931-R010/R020 want an electronic address on both
 // parties. Both parties are German, so 19% German VAT is the right treatment; a
-// French buyer would make it a reverse-charge (AE) sale. It is not the prop's
-// default, so an agent that omits the invoice gets an error instead of an
-// invoice between two fictitious parties. The live smoke generates it on every
-// push to main.
+// French business buyer of this service would make it a reverse-charge (AE)
+// sale. It is not the prop's default, so an agent that omits the invoice gets an
+// error instead of an invoice between two fictitious parties. The live smoke
+// generates it on every push to main.
 export const SAMPLE_INVOICE = {
   number: "INV-2026-001",
   issueDate: "2026-01-15",
