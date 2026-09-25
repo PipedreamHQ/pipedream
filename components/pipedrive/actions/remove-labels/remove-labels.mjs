@@ -11,9 +11,15 @@ const ENTITY_TYPES = [
 export default {
   key: "pipedrive-remove-labels",
   name: "Remove Labels",
-  description: "Removes one or more specific labels from a lead, person, deal, or organization in Pipedrive, leaving all other labels intact. [See the documentation](https://developers.pipedrive.com/docs/api/v1)",
-  version: "0.0.2",
+  description: "Removes one or more specific labels from a lead, person, deal, or organization in Pipedrive, leaving all other labels intact."
+    + " Set `Entity Type`, then pass the record's ID as `Entity ID` (use **Search Leads**, **Search persons**, **List Deals** or **List Organizations** to find it)"
+    + " and the labels to remove as `Label IDs` (read the record's current `label_ids`, or use **List Lead Label IDs Options**, **List Person Label IDs Options**, **List Deal Label IDs Options** or **List Organization Label IDs Options**)."
+    + " Example: `Entity Type` `person`, `Entity ID` `42`, `Label IDs` `[\"5\"]`."
+    + " If none of the given labels are on the record, nothing is changed and the record is returned as-is. Use **Add Labels** to add labels."
+    + " [See the documentation](https://developers.pipedrive.com/docs/api/v1/Deals#updateDeal)",
+  version: "1.0.0",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -21,30 +27,30 @@ export default {
   },
   props: {
     pipedriveApp,
-    type: {
+    entityType: {
       type: "string",
       label: "Entity Type",
-      description: "The type of the item to remove labels from",
+      description: "The type of record to remove labels from. One of `lead`, `person`, `deal`, `organization`, e.g. `person`.",
       options: ENTITY_TYPES,
-      reloadProps: true,
     },
     entityId: {
       propDefinition: [
         pipedriveApp,
         "entityId",
-        ({ type }) => ({
-          type,
+        ({ entityType }) => ({
+          type: entityType,
         }),
       ],
     },
     labelIds: {
       propDefinition: [
         pipedriveApp,
-        "removeLabelIds",
-        ({ type }) => ({
-          type,
+        "entityLabelIds",
+        ({ entityType }) => ({
+          type: entityType,
         }),
       ],
+      description: "The IDs of the labels to remove, matching `Entity Type`. Lead labels are UUIDs, e.g. `[\"f08b42a0-4e75-11ea-9643-03698ef1cfd6\"]`; person, deal and organization labels are numbers, e.g. `[\"5\"]`. Use **List Lead Label IDs Options**, **List Person Label IDs Options**, **List Deal Label IDs Options** or **List Organization Label IDs Options** to find them (the `value` field).",
     },
   },
   methods: {
@@ -59,8 +65,12 @@ export default {
   },
   async run({ $ }) {
     const {
-      type, entityId, labelIds,
+      entityType: type, entityId, labelIds,
     } = this;
+
+    if (!ENTITY_TYPES.includes(type)) {
+      throw new ConfigurationError(`\`Entity Type\` must be one of: ${ENTITY_TYPES.join(", ")}.`);
+    }
 
     if (!entityId) {
       throw new ConfigurationError(`Please provide a valid ${type} ID.`);

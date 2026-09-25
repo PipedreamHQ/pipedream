@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import pd from "pipedrive";
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
@@ -10,7 +9,7 @@ export default {
     userId: {
       type: "integer",
       label: "User ID",
-      description: "ID of the user who will be marked as the owner of this deal. If omitted, the authorized user ID will be used.",
+      description: "The ID of the Pipedrive user to set as owner, e.g. `12345678`. If omitted, the authorized user is used. Use **List User ID Options** to find valid user IDs (the `value` field).",
       optional: true,
       async options() {
         const { data: users } = await this.getUsers();
@@ -25,7 +24,7 @@ export default {
     personId: {
       type: "integer",
       label: "Person ID",
-      description: "ID of the person this deal will be associated with",
+      description: "The ID of the person to link, e.g. `42`. Use **Search persons** (by name, email or phone) or **List Persons** to find it (the `id` field).",
       optional: true,
       async options({ prevContext }) {
         if (prevContext?.cursor === false) {
@@ -55,7 +54,7 @@ export default {
     organizationId: {
       type: "integer",
       label: "Organization ID",
-      description: "ID of the organization this deal will be associated with",
+      description: "The ID of the organization to link, e.g. `7`. Use **List Organizations** to find it (the `id` field).",
       optional: true,
       async options({ prevContext }) {
         if (prevContext?.cursor === false) {
@@ -126,7 +125,7 @@ export default {
     stageId: {
       type: "integer",
       label: "Stage ID",
-      description: "ID of the stage this deal will be placed in a pipeline (note that you can't supply the ID of the pipeline as this will be assigned automatically based on `stage_id`). If omitted, the deal will be placed in the first stage of the default pipeline. Get the `stage_id` from [here](https://developers.pipedrive.com/docs/api/v1/#!/Stages/get_stages).",
+      description: "The ID of the pipeline stage to place the deal in, e.g. `3`. Every stage belongs to exactly one pipeline, so a stage ID also determines the pipeline. If omitted when creating a deal, the deal is placed in the first stage of the default pipeline. Use **List Stages** to find it (the `id` field; filter by pipeline ID to narrow the list).",
       optional: true,
       async options({ prevContext }) {
         if (prevContext.cursor === false) {
@@ -182,7 +181,7 @@ export default {
     dealId: {
       type: "string",
       label: "Deal ID",
-      description: "ID of the deal this activity will be associated with",
+      description: "The ID of the deal, e.g. `1024`. Use **List Deals** to find it (the `id` field).",
       optional: true,
       async options({ prevContext }) {
         if (prevContext?.cursor === false) {
@@ -212,7 +211,7 @@ export default {
     pipelineId: {
       type: "integer",
       label: "Pipeline ID",
-      description: "ID of the pipeline this activity will be associated with",
+      description: "The ID of the pipeline, e.g. `1`. Use **List Pipelines** to find it (the `id` field).",
       optional: true,
       async options({ prevContext }) {
         if (prevContext?.cursor === false) {
@@ -228,9 +227,9 @@ export default {
 
         return {
           options: pipelines?.map(({
-            id, title,
+            id, name,
           }) => ({
-            label: title,
+            label: name,
             value: id,
           })),
           context: {
@@ -242,7 +241,7 @@ export default {
     leadId: {
       type: "string",
       label: "Lead ID",
-      description: "ID of the lead this activity will be associated with",
+      description: "The ID of the lead (a UUID), e.g. `adf21080-0e10-11eb-879b-05d71fb426ec`. Use **Search Leads** or **Get All Leads** to find it (the `id` field).",
       optional: true,
       async options({ prevContext }) {
         if (prevContext?.nextStart === false) {
@@ -272,7 +271,7 @@ export default {
     projectId: {
       type: "string",
       label: "Project ID",
-      description: "ID of the project this activity will be associated with",
+      description: "The ID of the project, e.g. `5`. Use **List Projects** to find it (the `id` field).",
       optional: true,
       async options({ prevContext }) {
         if (prevContext?.nextStart === false) {
@@ -302,7 +301,7 @@ export default {
     leadLabelIds: {
       type: "string[]",
       label: "Lead Label IDs",
-      description: "The IDs of the lead labels to associate with the lead",
+      description: "The IDs of lead labels (UUIDs), e.g. `[\"f08b42a0-4e75-11ea-9643-03698ef1cfd6\"]`. Use **List Lead Label IDs Options** to find them (the `value` field).",
       optional: true,
       async options() {
         const { data: leadLabels } = await this.getLeadLabels();
@@ -396,7 +395,7 @@ export default {
     labelIds: {
       type: "integer[]",
       label: "Label IDs",
-      description: "The IDs of labels assigned to the deal",
+      description: "The IDs of deal labels, e.g. `[1, 4]`. Use **List Deal Label IDs Options** to find them (the `value` field).",
       optional: true,
       async options() {
         const { data } = await this.getDealCustomFields();
@@ -412,7 +411,7 @@ export default {
     personLabelIds: {
       type: "integer[]",
       label: "Person Label IDs",
-      description: "The IDs of the person labels to associate with the person",
+      description: "The IDs of person labels, e.g. `[5, 6]`. Use **List Person Label IDs Options** to find them (the `value` field).",
       async options() {
         const { data } = await this.getPersonCustomFields();
         const labelField = data.find(({ key }) => key === "label");
@@ -427,7 +426,7 @@ export default {
     organizationLabelIds: {
       type: "integer[]",
       label: "Organization Label IDs",
-      description: "The IDs of the organization labels to associate with the organization",
+      description: "The IDs of organization labels, e.g. `[2]`. Use **List Organization Label IDs Options** to find them (the `value` field).",
       async options() {
         const { data } = await this.getOrganizationCustomFields();
         const labelField = data.find(({ field_code: fieldCode }) => fieldCode === "label_ids");
@@ -448,7 +447,7 @@ export default {
     entityId: {
       type: "string",
       label: "Entity ID",
-      description: "ID of the entity to remove labels from",
+      description: "The ID of the record, matching `Entity Type`: a lead UUID (e.g. `adf21080-0e10-11eb-879b-05d71fb426ec`, from **Search Leads**), or a numeric person, deal or organization ID (e.g. `42`, from **Search persons**, **List Deals** or **List Organizations**).",
       async options({
         type, prevContext,
       }) {
@@ -541,10 +540,10 @@ export default {
         }
       },
     },
-    removeLabelIds: {
+    entityLabelIds: {
       type: "string[]",
-      label: "Labels to Remove",
-      description: "The labels to remove from the entity",
+      label: "Label IDs",
+      description: "The label IDs, matching `Entity Type`. Lead labels are UUIDs, e.g. `[\"f08b42a0-4e75-11ea-9643-03698ef1cfd6\"]`; person, deal and organization labels are numbers, e.g. `[\"5\", \"6\"]`. Use **List Lead Label IDs Options**, **List Person Label IDs Options**, **List Deal Label IDs Options** or **List Organization Label IDs Options** to find them (the `value` field).",
       async options({ type }) {
         switch (type) {
         case "lead": {

@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "pipedrive-new-event-instant",
   name: "New Event (Instant)",
-  description: "Emit new event when a new webhook event is received. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Webhooks#addWebhook)",
-  version: "0.0.9",
+  description: "Emit new event for any Pipedrive webhook matching the chosen `Event Action` and `Event Object`, e.g. `change` + `deal` for every deal update, or `*` + `*` for everything. Each event is the Pipedrive webhook (v2) payload: `meta` (action, entity, entity ID, timestamp) and `data` (the affected record), plus `previous` on `change` events. Prefer the dedicated deal, person and lead triggers when you only need one of those; they also resolve custom field names. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Webhooks#addWebhook)",
+  version: "0.0.10",
   type: "source",
   dedupe: "unique",
   props: {
@@ -13,7 +13,7 @@ export default {
     eventAction: {
       type: "string",
       label: "Event Action",
-      description: "The type of action to receive notifications about. Wildcard (*) will match all supported actions.",
+      description: "The action to listen for: `create`, `change`, `delete`, or `*` for all of them, e.g. `create`.",
       options: [
         "*",
         "create",
@@ -24,7 +24,7 @@ export default {
     eventObject: {
       type: "string",
       label: "Event Object",
-      description: "The type of object to receive notifications about. Wildcard (*) will match all supported objects.",
+      description: "The record type to listen for, e.g. `deal`, `person` or `activity`. Use `*` to match every supported object type.",
       options: [
         "*",
         "activity",

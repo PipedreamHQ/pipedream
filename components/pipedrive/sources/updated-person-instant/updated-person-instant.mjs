@@ -6,8 +6,8 @@ export default {
   ...common,
   key: "pipedrive-updated-person-instant",
   name: "Person Updated (Instant)",
-  description: "Emit new event when a person is updated.",
-  version: "0.1.14",
+  description: "Emit new event when an existing person is changed in Pipedrive, via a webhook registered on the connected account. Each event is the Pipedrive webhook (v2) payload: `meta` (action, entity ID, timestamp, user), `data` (the person after the change) and `previous` (the changed fields' prior values), with custom field hashes replaced by their display names. Compare `data` with `previous` to see what changed; use **Get person details** for the full record. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Webhooks#addWebhook)",
+  version: "0.1.15",
   type: "source",
   dedupe: "unique",
   methods: {

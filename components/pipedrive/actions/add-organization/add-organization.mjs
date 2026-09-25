@@ -4,24 +4,30 @@ import pipedriveApp from "../../pipedrive.app.mjs";
 export default {
   key: "pipedrive-add-organization",
   name: "Add Organization",
-  description: "Adds a new organization. See the Pipedrive API docs for Organizations [here](https://developers.pipedrive.com/docs/api/v1/Organizations#addOrganization)",
-  version: "0.1.22",
+  description: "Creates a new organization (company) in Pipedrive. Only `Organization Name` is required."
+    + " Pass an owner ID from **List User ID Options** to assign someone other than the authorized user."
+    + " Example: `Organization Name` `Northgate Logistics Ltd`, `Owner ID` `12345678`."
+    + " Pipedrive does not deduplicate organizations by name, so check **List Organizations** first to avoid creating a duplicate."
+    + " Use the returned `id` as the organization ID in **Add Person**, **Add Deal** or **Add Lead**."
+    + " [See the documentation](https://developers.pipedrive.com/docs/api/v1/Organizations#addOrganization)",
+  version: "0.1.23",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     pipedriveApp,
     name: {
       type: "string",
-      label: "Name",
-      description: "Organization name",
+      label: "Organization Name",
+      description: "The name of the organization, e.g. `Northgate Logistics Ltd`.",
     },
     ownerId: {
       label: "Owner ID",
-      description: "ID of the user who will be marked as the owner of this organization. When omitted, the authorized user ID will be used.",
+      description: "The ID of the user to set as owner of the organization, e.g. `12345678`. If omitted, the authorized user is used. Use **List User ID Options** to find it (the `value` field).",
       propDefinition: [
         pipedriveApp,
         "userId",
@@ -32,7 +38,7 @@ export default {
         pipedriveApp,
         "visibleTo",
       ],
-      description: "Visibility of the organization. If omitted, visibility will be set to the default visibility setting of this item type for the authorized user.",
+      description: "Who can see the organization: `1` (owner & followers) or `3` (entire company), e.g. `3`. If omitted, the account's default visibility for organizations is used.",
     },
   },
   async run({ $ }) {
