@@ -245,6 +245,18 @@ const DEFAULT_COMMENT_LIMIT = 100;
 
 const MAX_COMMENT_LIMIT = 500;
 
+/**
+ * Maximum `pageSize` accepted by `files.list` (the API allows 1-1000).
+ * https://developers.google.com/workspace/drive/api/reference/rest/v3/files/list
+ */
+const FILES_MAX_PAGE_SIZE = 1000;
+
+/**
+ * Default number of files **Search Files** returns per run, so an agent that omits
+ * `maxResults` still gets a bounded response instead of enumerating a whole shared drive.
+ */
+const DEFAULT_SEARCH_FILES_LIMIT = 100;
+
 export {
   GOOGLE_DRIVE_NOTIFICATION_SYNC,
   GOOGLE_DRIVE_NOTIFICATION_ADD,
@@ -285,4 +297,7 @@ export {
   COMMENTS_MAX_PAGE_SIZE,
   DEFAULT_COMMENT_LIMIT,
   MAX_COMMENT_LIMIT,
+  // Files
+  FILES_MAX_PAGE_SIZE,
+  DEFAULT_SEARCH_FILES_LIMIT,
 };
