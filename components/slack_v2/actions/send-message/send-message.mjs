@@ -5,8 +5,16 @@ export default {
   ...common,
   key: "slack_v2-send-message",
   name: "Send Message",
-  description: "Send a message to a user, group, private channel or public channel. [See the documentation](https://api.slack.com/methods/chat.postMessage)",
-  version: "0.2.6",
+  description:
+    "Send a message to a user, group, private channel or public channel."
+    + " Legacy variant — prefer **Post Message** for new integrations: it covers channels,"
+    + " users, and groups from a single tool, supports threaded replies and unfurl settings."
+    + " When **Send as User** is left unset, direct messages are posted as the authenticated"
+    + " user (so they are not prefixed with the `Pipedream:` bot name in Slack notifications)"
+    + " and channel messages are posted as the bot. Set **Send as User** to `false` when you"
+    + " need bot authorship, including in direct messages."
+    + " [See the documentation](https://api.slack.com/methods/chat.postMessage)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

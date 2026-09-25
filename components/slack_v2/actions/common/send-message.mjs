@@ -5,10 +5,17 @@ export default {
   props: {
     slack,
     as_user: {
-      propDefinition: [
-        slack,
-        "as_user",
-      ],
+      type: "boolean",
+      label: "Send as User",
+      // No hard default: an omitted value is resolved per-destination in
+      // resolveAsUser() (DMs post as the authenticated user, channels as the
+      // bot). A static default would make "omitted" indistinguishable from an
+      // explicit choice in run().
+      description: "Post as the authenticated user (`true`) rather than as the app's bot (`false`)."
+        + " When omitted, **direct messages default to the authenticated user** so the Slack"
+        + " notification is not prefixed with the `Pipedream:` bot name, while **channel messages"
+        + " default to the bot**. Set explicitly to override.",
+      optional: true,
     },
     addToChannel: {
       propDefinition: [
@@ -131,9 +138,54 @@ export default {
     getChannelId() {
       return this.conversation ?? this.reply_channel;
     },
+    isDirectMessageTarget(destination) {
+      if (!destination) return false;
+      const value = String(destination)
+        .trim()
+        .replace(/^@/, "");
+      // Slack user ids (U…/W…) and open IM channel ids (D…) address a direct
+      // message; channel ids (C…), private/mpim group ids (G…) and channel names
+      // do not. A DM posted as the bot gets a `Pipedream:` notification prefix,
+      // so DMs default to the authenticated user (see resolveAsUser).
+      return /^[UWD][A-Z0-9]{6,}$/.test(value);
+    },
+    resolveAsUser(destination) {
+      // An explicit choice always wins. Otherwise default per destination: DMs
+      // post as the authenticated user (prefix-free), channels post as the bot
+      // (channel attribution is intentionally left bot-default).
+      if (this.as_user !== undefined) {
+        return this.as_user;
+      }
+      return this.isDirectMessageTarget(destination);
+    },
+    assertBotIdentityCompatible(asUser) {
+      // Slack only applies a custom username/icon when posting as the bot (as_user: false).
+      // When posting as the authenticated user these settings are silently dropped, so surface
+      // the conflict as a ConfigurationError instead of quietly ignoring the configuration.
+      const identityProps = {
+        username: "Bot Username",
+        icon_emoji: "Icon (emoji)",
+        icon_url: "Icon (URL)",
+      };
+      const setProps = Object.keys(identityProps)
+        .filter((prop) => this[prop] !== undefined && this[prop] !== "");
+      if (asUser && setProps.length) {
+        const labels = setProps.map((prop) => identityProps[prop]).join(", ");
+        throw new ConfigurationError(
+          `Slack ignores custom bot identity (${labels}) when posting as the authenticated user. `
+          + `Set **Send as User** to \`false\` to post as the bot with your custom ${setProps.length > 1
+            ? "settings"
+            : "setting"}, or clear ${setProps.length > 1
+            ? "them"
+            : "it"} to post as the authenticated user.`,
+        );
+      }
+    },
   },
   async run({ $ }) {
     const channelId = await this.getChannelId();
+    const asUser = this.resolveAsUser(channelId);
+    this.assertBotIdentityCompatible(asUser);
 
     if (this.addToChannel) {
       await this.slack.maybeAddAppToChannels([
@@ -181,7 +233,7 @@ export default {
       unfurl_links: this.unfurl_links,
       unfurl_media: this.unfurl_media,
       parse: this.parse,
-      as_user: this.as_user,
+      as_user: asUser,
       username: this.username,
       icon_emoji: this.icon_emoji,
       icon_url: this.icon_url,
