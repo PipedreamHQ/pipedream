@@ -18,6 +18,9 @@ export default {
       propDefinition: [
         asana,
         "projectsAsync",
+        (c) => ({
+          workspace: c.workspace,
+        }),
       ],
     },
     tags: {
@@ -25,6 +28,9 @@ export default {
       propDefinition: [
         asana,
         "tagsAsync",
+        (c) => ({
+          workspace: c.workspace,
+        }),
       ],
     },
   },

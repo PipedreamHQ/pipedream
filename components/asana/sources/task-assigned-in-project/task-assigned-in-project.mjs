@@ -18,6 +18,9 @@ export default {
       propDefinition: [
         asana,
         "projectsAsync",
+        (c) => ({
+          workspace: c.workspace,
+        }),
       ],
     },
     user: {
@@ -27,6 +30,9 @@ export default {
       propDefinition: [
         asana,
         "usersAsync",
+        ({ workspace }) => ({
+          workspace,
+        }),
       ],
     },
   },

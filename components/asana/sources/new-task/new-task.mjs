@@ -18,6 +18,9 @@ export default {
       propDefinition: [
         asana,
         "projectsAsync",
+        (c) => ({
+          workspace: c.workspace,
+        }),
       ],
     },
   },

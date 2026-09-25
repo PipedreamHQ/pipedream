@@ -30,7 +30,7 @@ export default {
     },
     workspacesAsync: {
       label: "Workspaces",
-      description: "List of workspaces.",
+      description: "List of workspaces. This field uses the workspace GID (e.g. `1200123456789012`).",
       type: "string[]",
       async options({ prevContext }) {
         const params = {
@@ -68,7 +68,7 @@ export default {
     },
     projectsAsync: {
       label: "Projects",
-      description: "List of projects.",
+      description: "List of projects. This field uses the project GID (e.g. `1204567890123456`).",
       type: "string[]",
       async options({
         workspace, prevContext,
@@ -104,7 +104,7 @@ export default {
     },
     tagsAsync: {
       label: "Tags",
-      description: "List of tags.",
+      description: "List of tags. This field uses the tag GID (e.g. `1202345678901234`).",
       type: "string[]",
       async options({
         prevContext, workspace,
@@ -140,7 +140,7 @@ export default {
     },
     usersAsync: {
       label: "Users",
-      description: "List of users.",
+      description: "List of users. This field uses the user `gid` (e.g. `1198765432109876`).",
       type: "string[]",
       async options({
         prevContext, workspace,
@@ -176,7 +176,7 @@ export default {
     },
     tasksAsync: {
       label: "Tasks",
-      description: "List of tasks.",
+      description: "List of tasks. This field uses the task GID (e.g. `1202345678901234`).",
       type: "string[]",
       async options({
         project, prevContext,
