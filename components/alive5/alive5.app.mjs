@@ -1,14 +1,25 @@
+// provides alive5 api calls and shared connector settings.
 import { axios } from "@pipedream/platform";
 
-const RELAY_BASE_URL = "https://alive5-connectors-relay.raghav-ojha-14122.workers.dev";
+const RELAY_BASE_URL = "https://wmbb2krgd4yqmghwsxd3yamzey0ocqsz.lambda-url.us-east-1.on.aws/v1";
 
 const SAFE_ERROR_MESSAGES = {
   "Invalid token": "The Alive5 API key is invalid. Reconnect your account.",
+  "Invalid Alive5 credentials": "The Alive5 API key is invalid. Reconnect your account.",
+  "Subscription is changing; retry or reconcile before recreating": "The Alive5 subscription is changing. Retry the same request, or ask your administrator to reconcile it.",
+  "Subscription not found": "The Alive5 subscription was not found. Ask your administrator to reconcile it before removing the source.",
+  "SMS number is not available": "The selected SMS number is no longer available to this account. Refresh the number list and select an available line.",
   "Could not create subscription": "Alive5 could not create the webhook subscription. Check your API key and that the selected line is still active.",
   "Could not delete subscription": "Alive5 could not delete the webhook subscription. Retry cleanup before discarding the source.",
   "Subscription not found; retry after propagation or reconcile": "The Alive5 webhook subscription was not found. Retry after propagation, or reconcile the subscription manually.",
 };
 
+/**
+ * Map a raw error payload to fixed allowlisted guidance.
+ * Unknown input yields null; the raw error content is never reflected.
+ * @param {unknown} raw - Response or error body to inspect.
+ * @returns {string|null} Constant guidance text, or null when unmapped.
+ */
 function safeErrorDetail(raw) {
   if (raw == null) return null;
   const candidates = [
@@ -102,6 +113,7 @@ export default {
           },
           ...options,
           maxRedirects: 0,
+          timeout: 20000,
         });
       } catch (error) {
         const status = Number(error.response?.status);
@@ -168,9 +180,9 @@ export default {
           phoneNumber,
         },
       });
-      if (typeof result?.id !== "string" || !result.id
+      if (typeof result?.id !== "string" || !/^[a-f0-9]{64}$/.test(result.id)
           || result.phoneNumber !== phoneNumber
-          || typeof result?.deliveryToken !== "string" || !result.deliveryToken) {
+          || typeof result?.deliveryToken !== "string" || !/^[a-f0-9]{64}$/.test(result.deliveryToken)) {
         throw new Error("Alive5 relay did not confirm the subscription. Check your account before retrying.");
       }
       return {

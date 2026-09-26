@@ -10,4 +10,6 @@ Events contain the message, sender phone, business phone, channel ID, thread ID,
 
 # Troubleshooting
 
-Upstream Alive5 events carry no signature, so neither the relay nor the source can prove a message really came from Alive5. Forwarding makes up to three attempts. Delivery is best effort, and duplicates or missed messages remain possible; there is no durable queue or exactly-once guarantee. Image-only messages do not produce an event. If deactivation fails, retry cleanup before discarding the source; the subscription stays registered until the relay confirms the delete.
+Upstream Alive5 events carry no signature, so neither the relay nor the source can prove a message really came from Alive5. The Alive5-operated AWS relay durably queues accepted events in SQS, retries failed deliveries and moves them to a dead-letter queue after five receives. The upstream delivery to the relay is still single-attempt. Duplicates or missed messages remain possible, and there is no exactly-once guarantee. Image-only messages do not produce an event. If deactivation fails, retry cleanup before discarding the source; the subscription stays registered until the relay confirms the delete.
+
+Deactivate any existing Cloudflare-backed source with its previous component version before upgrading. Activate the AWS-backed version afterward so the old registration is removed correctly.

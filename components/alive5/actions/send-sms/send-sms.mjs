@@ -1,3 +1,4 @@
+// sends an sms from the selected alive5 number.
 import alive5 from "../../alive5.app.mjs";
 
 export default {

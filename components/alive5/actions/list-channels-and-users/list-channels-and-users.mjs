@@ -1,3 +1,4 @@
+// lists available alive5 channels and their assigned users.
 import alive5 from "../../alive5.app.mjs";
 
 export default {

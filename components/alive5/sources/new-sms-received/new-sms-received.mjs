@@ -1,3 +1,4 @@
+// checks relay events and starts pipedream workflows.
 import { timingSafeEqual } from "node:crypto";
 import alive5 from "../../alive5.app.mjs";
 import sampleEmit from "./test-event.mjs";
@@ -6,7 +7,7 @@ export default {
   key: "alive5-new-sms-received",
   name: "New SMS Received",
   description: "Emit new events when a text arrives on an Alive5 SMS number. [See the documentation](https://www.alive5.com/api)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
@@ -81,6 +82,8 @@ export default {
     if (!body || typeof body !== "object" || Array.isArray(body)
       || typeof body.event_id !== "string" || !body.event_id
       || typeof body.message !== "string" || !body.message.trim()
+      || body.business_line !== subscription.phoneNumber
+      || typeof body.from_phone !== "string" || !/^\+[1-9]\d{7,14}$/.test(body.from_phone)
       || body.direction !== "inbound" || typeof body.received_at !== "string"
       || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/.test(body.received_at)
       || !Number.isFinite(Date.parse(body.received_at))) {
@@ -95,6 +98,7 @@ export default {
       body: "Accepted",
     });
     this.$emit({
+      event_id: body.event_id,
       message: body.message,
       from_phone: typeof body.from_phone === "string"
         ? body.from_phone
