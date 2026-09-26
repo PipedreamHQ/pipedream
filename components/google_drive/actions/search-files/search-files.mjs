@@ -40,13 +40,14 @@ export default {
       description:
         "A Drive search query string. See the tool description for syntax examples."
         + " Common queries: `name contains 'keyword'`, `mimeType = 'application/vnd.google-apps.folder'`,"
-        + " `'FOLDER_ID' in parents`, `trashed = false`.",
+        + " `'FOLDER_ID' in parents`, `trashed = false`."
+        + " Use **Find Folder** to get a `FOLDER_ID` for the `in parents` filter, and **Get User Details** to get an owner email for the `in owners` filter.",
     },
     driveId: {
       type: "string",
       label: "Drive ID",
       description:
-        "Optional. Scope the search to a specific shared drive."
+        "Optional. Scope the search to a specific shared drive, e.g. `0AIxaGWpaZzyZUk9PVA`."
         + " Use **List Shared Drives** to find available drive IDs."
         + " Omit to search My Drive.",
       optional: true,

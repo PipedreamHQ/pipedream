@@ -299,6 +299,43 @@ function parseObjectEntries(value = {}) {
   );
 }
 
+/**
+ * Reserves a unique path among a set of paths already used in the current run,
+ * appending a numeric suffix (before the extension, if any) when `candidatePath`
+ * collides with one already reserved. Useful when generating file paths from
+ * user-controlled or duplicate-prone names (e.g. two Drive files sharing a
+ * name), so they don't silently overwrite one another on disk.
+ *
+ * @param {String} candidatePath the path to reserve
+ * @param {Set<String>} usedPaths paths already reserved in the current run;
+ * mutated in place to add whichever path is returned
+ * @returns `candidatePath` unchanged if it hasn't been used yet, otherwise a
+ * variant with a `" (n)"` suffix inserted before the extension
+ */
+function reserveUniqueFilePath(candidatePath, usedPaths) {
+  if (!usedPaths.has(candidatePath)) {
+    usedPaths.add(candidatePath);
+    return candidatePath;
+  }
+  const lastDot = candidatePath.lastIndexOf(".");
+  const lastSlash = candidatePath.lastIndexOf("/");
+  const hasExt = lastDot > lastSlash;
+  const base = hasExt
+    ? candidatePath.slice(0, lastDot)
+    : candidatePath;
+  const ext = hasExt
+    ? candidatePath.slice(lastDot)
+    : "";
+  let suffix = 2;
+  let uniquePath;
+  do {
+    uniquePath = `${base} (${suffix})${ext}`;
+    suffix += 1;
+  } while (usedPaths.has(uniquePath));
+  usedPaths.add(uniquePath);
+  return uniquePath;
+}
+
 async function stashFile(item, googleDrive, dir) {
   const fileMetadata = await googleDrive.getFile(item.id, {
     fields: "name,mimeType",
@@ -398,6 +435,7 @@ export {
   omitEmptyStringValues,
   parseObjectEntries,
   parseRfc3339,
+  reserveUniqueFilePath,
   stashFile,
   streamToBuffer,
   toSingleLineString,

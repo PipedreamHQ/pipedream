@@ -7,9 +7,10 @@ import {
   INVALID_TMP_FILENAME_CHARS_REGEX,
   TMP_FILENAME_REPLACEMENT_CHAR,
 } from "../../common/constants.mjs";
-import { toSingleLineString } from "../../common/utils.mjs";
+import {
+  reserveUniqueFilePath, toSingleLineString,
+} from "../../common/utils.mjs";
 import googleDrive from "../../google_drive.app.mjs";
-import googleWorkspaceExportFormats from "../common/google-workspace-export-formats.mjs";
 import {
   defaultExportMimeBySource,
   extensionByMime,
@@ -37,7 +38,7 @@ export default {
     + " Pass `mimeType` to force a specific format. Shortcuts are resolved to their target automatically."
     + " Folders, Forms, and My Maps cannot be downloaded via this action."
     + " [See the documentation](https://developers.google.com/drive/api/v3/manage-downloads)",
-  version: "0.2.3",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -47,35 +48,15 @@ export default {
   ai: "optimized",
   props: {
     googleDrive,
-    drive: {
-      propDefinition: [
-        googleDrive,
-        "watchedDrive",
-      ],
-      description: "The shared drive the file is in, if any. Use **List Shared Drives** to find a drive's ID. Leave empty for files in My Drive.",
-      optional: true,
-    },
     fileIds: {
-      propDefinition: [
-        googleDrive,
-        "fileId",
-        (c) => ({
-          drive: c.drive,
-        }),
-      ],
       type: "string[]",
       label: "Files",
-      description: "The Google Drive file(s) to download. Select one or more files to download a batch in a single run. Accepts file IDs (opaque Drive identifiers), e.g. `1Ab2CdEfGhIjKlMnOpQrStUvWxYz012345`. Use **Search Files**, **Find File**, or **List Files** to find a file's ID by name. Shortcuts are resolved to their target automatically.",
+      description: "The Google Drive file(s) to download. Provide one or more file IDs to download a batch in a single run. Accepts file IDs (opaque Drive identifiers), e.g. `1Ab2CdEfGhIjKlMnOpQrStUvWxYz012345`. IDs are unique across every drive, so there's no need to specify which shared drive a file lives in. Use **Search Files**, **Find File**, or **List Files** to find a file's ID by name. Shortcuts are resolved to their target automatically.",
       optional: true,
     },
     fileId: {
-      propDefinition: [
-        googleDrive,
-        "fileId",
-        (c) => ({
-          drive: c.drive,
-        }),
-      ],
+      type: "string",
+      label: "File",
       description: "A single Google Drive file to download, e.g. `1Ab2CdEfGhIjKlMnOpQrStUvWxYz012345`. Use **Search Files**, **Find File**, or **List Files** to find a file's ID by name. Kept for backwards compatibility — prefer `Files` for new configurations. If both are set, this file is included alongside the ones in `Files`.",
       optional: true,
     },
@@ -95,44 +76,16 @@ export default {
     mimeType: {
       type: "string",
       label: "Conversion Format",
-      description: toSingleLineString(`
-        The format to which to convert the downloaded file if it is a [Google Workspace
-        document](https://developers.google.com/drive/api/v3/ref-export-formats).
-        If omitted, defaults per source type: Docs → \`.docx\`, Sheets → \`.xlsx\`,
-        Slides → \`.pptx\`, Drawings → PNG, Apps Script → JSON.
-      `),
+      description: "The MIME type to convert the downloaded file to, if it is a Google Workspace document."
+        + " If omitted, defaults per source type: Docs → `.docx`, Sheets → `.xlsx`, Slides → `.pptx`, Drawings → `.png`, Apps Script → `.json`."
+        + "\n\nValid values by source type (per [Google's export format reference](https://developers.google.com/workspace/drive/api/guides/ref-export-formats)):"
+        + "\n- **Docs**: `application/vnd.openxmlformats-officedocument.wordprocessingml.document` (.docx), `application/vnd.oasis.opendocument.text` (.odt), `application/rtf`, `application/pdf`, `text/plain`, `text/html`, `application/zip` (zipped HTML), `application/epub+zip`, `text/markdown`"
+        + "\n- **Sheets**: `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` (.xlsx), `application/vnd.oasis.opendocument.spreadsheet` (.ods), `application/pdf`, `application/zip` (zipped HTML), `text/csv` (first sheet only), `text/tab-separated-values` (first sheet only)"
+        + "\n- **Slides**: `application/vnd.openxmlformats-officedocument.presentationml.presentation` (.pptx), `application/vnd.oasis.opendocument.presentation` (.odp), `application/pdf`, `text/plain`"
+        + "\n- **Drawings**: `application/pdf`, `image/jpeg`, `image/png`, `image/svg+xml`"
+        + "\n- **Apps Script**: `application/vnd.google-apps.script+json` (the only supported format)"
+        + "\n\nExample: set to `application/pdf` to export any Workspace document as a PDF instead of the per-type default.",
       optional: true,
-      async options() {
-        const fileId = this.fileId ?? this.fileIds?.[0];
-        if (!fileId) {
-          return googleWorkspaceExportFormats;
-        }
-        let file, exportFormats;
-        try {
-          ([
-            file,
-            exportFormats,
-          ] = await Promise.all([
-            this.googleDrive.getFile(fileId, {
-              fields: "mimeType",
-            }),
-            this.googleDrive.getExportFormats(),
-          ]));
-        } catch (err) {
-          return googleWorkspaceExportFormats;
-        }
-        const mimeTypes = exportFormats[file.mimeType];
-        if (!mimeTypes) {
-          return [];
-        }
-        return exportFormats[file.mimeType].map((f) =>
-          googleWorkspaceExportFormats.find(
-            (format) => format.value === f,
-          ) ?? {
-            value: f,
-            label: f,
-          });
-      },
     },
     syncDir: {
       type: "dir",
@@ -175,29 +128,6 @@ export default {
     // files sharing the same name (Drive allows duplicate names) don't collide and
     // silently overwrite one another on disk.
     const usedFilePaths = new Set();
-    const reserveUniqueFilePath = (candidatePath) => {
-      if (!usedFilePaths.has(candidatePath)) {
-        usedFilePaths.add(candidatePath);
-        return candidatePath;
-      }
-      const lastDot = candidatePath.lastIndexOf(".");
-      const lastSlash = candidatePath.lastIndexOf("/");
-      const hasExt = lastDot > lastSlash;
-      const base = hasExt
-        ? candidatePath.slice(0, lastDot)
-        : candidatePath;
-      const ext = hasExt
-        ? candidatePath.slice(lastDot)
-        : "";
-      let suffix = 2;
-      let uniquePath;
-      do {
-        uniquePath = `${base} (${suffix})${ext}`;
-        suffix += 1;
-      } while (usedFilePaths.has(uniquePath));
-      usedFilePaths.add(uniquePath);
-      return uniquePath;
-    };
 
     // Downloads a single file (resolving shortcuts + Workspace export formats),
     // either writing it to /tmp or returning its contents as a buffer.
@@ -292,7 +222,7 @@ export default {
             defaultName = `${defaultName}.${ext}`;
           }
         }
-        filePath = reserveUniqueFilePath(`/tmp/${defaultName}`);
+        filePath = reserveUniqueFilePath(`/tmp/${defaultName}`, usedFilePaths);
       }
 
       await pipeline(file, fs.createWriteStream(filePath));
