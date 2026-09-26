@@ -27,3 +27,9 @@ components/**/package-lock.json
 .cursor
 **/.claude/settings.local.json
 mcp-exploration/
+
+# Local connector test credentials and diagnostic captures
+.local/
+.env
+.env.*
+.dev.vars
