@@ -55,8 +55,7 @@ export default {
       label: "Query",
       description:
         "A Drive search query string. See the tool description for syntax examples."
-        + " Common queries: `name contains 'keyword'`, `mimeType = 'application/vnd.google-apps.folder'`,"
-        + " `'FOLDER_ID' in parents`, `trashed = false`."
+        + " Conditions combine with `and`, e.g. `name contains 'keyword' and mimeType = 'application/pdf' and 'FOLDER_ID' in parents and trashed = false`."
         + " Use **Find Folder** to get a `FOLDER_ID` for the `in parents` filter, and **Get User Details** to get an owner email for the `in owners` filter.",
     },
     driveId: {
