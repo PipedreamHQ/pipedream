@@ -78,7 +78,7 @@ export default {
         + " If omitted, defaults per source type: Docs → `.docx`, Sheets → `.xlsx`, Slides → `.pptx`, Drawings → `.png`, Apps Script → `.json`."
         + "\n\nValid values by source type (per [Google's export format reference](https://developers.google.com/workspace/drive/api/guides/ref-export-formats)):"
         + "\n- **Docs**: `application/vnd.openxmlformats-officedocument.wordprocessingml.document` (.docx), `application/vnd.oasis.opendocument.text` (.odt), `application/rtf`, `application/pdf`, `text/plain`, `text/html`, `application/zip` (zipped HTML), `application/epub+zip`, `text/markdown`"
-        + "\n- **Sheets**: `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` (.xlsx), `application/vnd.oasis.opendocument.spreadsheet` (.ods), `application/pdf`, `application/zip` (zipped HTML), `text/csv` (first sheet only), `text/tab-separated-values` (first sheet only)"
+        + "\n- **Sheets**: `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` (.xlsx), `application/x-vnd.oasis.opendocument.spreadsheet` (.ods — note the `x-` prefix, unlike Docs/Slides), `application/pdf`, `application/zip` (zipped HTML), `text/csv` (first sheet only), `text/tab-separated-values` (first sheet only)"
         + "\n- **Slides**: `application/vnd.openxmlformats-officedocument.presentationml.presentation` (.pptx), `application/vnd.oasis.opendocument.presentation` (.odp), `application/pdf`, `text/plain`"
         + "\n- **Drawings**: `application/pdf`, `image/jpeg`, `image/png`, `image/svg+xml`"
         + "\n- **Apps Script**: `application/vnd.google-apps.script+json` (the only supported format)"
