@@ -1,15 +1,18 @@
 {
   "name": "@pipedream/codeclassify",
   "version": "0.0.1",
-  "description": "Pipedream CodeClassify Components",
+  "description": "Pipedream Components for CodeClassify — deterministic validation & classification of product and business codes.",
   "main": "codeclassify.app.mjs",
   "keywords": [
     "pipedream",
     "codeclassify"
   ],
   "homepage": "https://pipedream.com/apps/codeclassify",
-  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "author": "CodeClassify (https://code-classify.com)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
   }
 }
