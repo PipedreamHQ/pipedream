@@ -1,12 +1,9 @@
 import { ConfigurationError } from "@pipedream/platform";
+import crypto from "crypto";
 import fs from "fs";
 import stream from "stream";
 import { promisify } from "util";
-import {
-  GOOGLE_DRIVE_MIME_TYPE_PREFIX,
-  INVALID_TMP_FILENAME_CHARS_REGEX,
-  TMP_FILENAME_REPLACEMENT_CHAR,
-} from "../../common/constants.mjs";
+import { GOOGLE_DRIVE_MIME_TYPE_PREFIX } from "../../common/constants.mjs";
 import {
   reserveUniqueFilePath, toSingleLineString,
 } from "../../common/utils.mjs";
@@ -66,7 +63,8 @@ export default {
       description: toSingleLineString(`
         The destination file name or path [in the \`/tmp\`
         directory](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory)
-        (e.g., \`/tmp/myFile.csv\`). Defaults to \`/tmp/<file name>\` if omitted.
+        (e.g., \`/tmp/myFile.csv\`). Defaults to an auto-generated path in \`/tmp\` if omitted
+        (the original Drive file name is still returned unchanged in \`fileMetadata.name\`).
         **Note:** if you set this for a Google Workspace file, the extension you
         choose should match the Conversion Format; otherwise the file contents
         may not match the extension.
@@ -119,7 +117,7 @@ export default {
       throw new ConfigurationError("Select at least one file to download (`Files` or `File`).");
     }
     if (fileIds.length > 1 && this.filePath) {
-      throw new ConfigurationError("`Destination File Path` can only be used when downloading a single file. Remove it to download multiple files (each saves to `/tmp/<file name>`).");
+      throw new ConfigurationError("`Destination File Path` can only be used when downloading a single file. Remove it to download multiple files (each saves to an auto-generated path in `/tmp`).");
     }
 
     const pipeline = promisify(stream.pipeline);
@@ -207,22 +205,25 @@ export default {
           ? this.filePath
           : `/tmp/${this.filePath}`;
       } else {
-        // Sanitize the Drive file name before using it as a /tmp path segment.
-        // Characters like `/` are interpreted as directory separators by the OS,
-        // causing fs.createWriteStream to throw ENOENT/ENOTDIR when the implied
-        // subdirectory does not exist. Only `/` and the null byte are replaced;
-        // other characters (e.g. `:`, `&`) are valid on Linux and are preserved.
-        let defaultName = fileMetadata.name.replace(
-          INVALID_TMP_FILENAME_CHARS_REGEX,
-          TMP_FILENAME_REPLACEMENT_CHAR,
-        );
-        if (isWorkspaceDocument) {
-          const ext = extensionByMime[effectiveMimeType];
-          if (ext && !defaultName.toLowerCase().endsWith(`.${ext.toLowerCase()}`)) {
-            defaultName = `${defaultName}.${ext}`;
-          }
-        }
-        filePath = reserveUniqueFilePath(`/tmp/${defaultName}`, usedFilePaths);
+        // Use an opaque, randomly generated name for the actual /tmp path rather than
+        // deriving it from the (untrusted, Drive-supplied) file name: this avoids
+        // relying on sanitization of arbitrary user-controlled input for a filesystem
+        // path, and sidesteps collisions with unrelated files any other step may have
+        // already placed in the shared /tmp directory. The original Drive file name is
+        // preserved unchanged in `fileMetadata.name` for the caller.
+        //
+        // A short, safe extension is still derived — for Workspace documents, from the
+        // export MIME type; otherwise from the original name, if it looks like a normal
+        // extension — so downstream steps that rely on file extensions (e.g. CSV
+        // parsers) keep working.
+        const nameExtMatch = fileMetadata.name.match(/\.([a-zA-Z0-9]{1,15})$/);
+        const ext = isWorkspaceDocument
+          ? extensionByMime[effectiveMimeType]
+          : nameExtMatch?.[1];
+        const opaqueName = `${crypto.randomUUID()}${ext
+          ? `.${ext}`
+          : ""}`;
+        filePath = reserveUniqueFilePath(`/tmp/${opaqueName}`, usedFilePaths);
       }
 
       await pipeline(file, fs.createWriteStream(filePath));

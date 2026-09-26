@@ -258,6 +258,8 @@ const INVALID_TMP_FILENAME_CHARS_REGEX = new RegExp("[/\\x00]", "g");
  * characters not safe for a /tmp path segment (see INVALID_TMP_FILENAME_CHARS_REGEX).
  */
 const TMP_FILENAME_REPLACEMENT_CHAR = "_";
+
+/**
  * Maximum `pageSize` accepted by `files.list` (the API allows 1-1000).
  * https://developers.google.com/workspace/drive/api/reference/rest/v3/files/list
  */

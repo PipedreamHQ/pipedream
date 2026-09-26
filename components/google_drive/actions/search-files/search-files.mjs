@@ -36,7 +36,7 @@ export default {
     + " missing and paging will not recover them — narrow the search with `driveId`."
     + " Prefer narrowing the `query` over paging through many batches."
     + " [See the documentation](https://developers.google.com/drive/api/v3/search-files)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   ai: "optimized",
   annotations: {
