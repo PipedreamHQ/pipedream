@@ -246,20 +246,6 @@ const DEFAULT_COMMENT_LIMIT = 100;
 const MAX_COMMENT_LIMIT = 500;
 
 /**
- * Regex matching characters that are unsafe as a single /tmp path segment on the
- * Linux runner: forward slash (directory separator) and the null byte (U+0000).
- * Used by download-file to sanitize the default filename derived from Drive metadata.
- */
-// eslint-disable-next-line no-control-regex
-const INVALID_TMP_FILENAME_CHARS_REGEX = new RegExp("[/\\x00]", "g");
-
-/**
- * Replacement character used when sanitizing a Drive file name that contains
- * characters not safe for a /tmp path segment (see INVALID_TMP_FILENAME_CHARS_REGEX).
- */
-const TMP_FILENAME_REPLACEMENT_CHAR = "_";
-
-/**
  * Maximum `pageSize` accepted by `files.list` (the API allows 1-1000).
  * https://developers.google.com/workspace/drive/api/reference/rest/v3/files/list
  */
@@ -311,9 +297,6 @@ export {
   COMMENTS_MAX_PAGE_SIZE,
   DEFAULT_COMMENT_LIMIT,
   MAX_COMMENT_LIMIT,
-  // /tmp filename sanitization
-  INVALID_TMP_FILENAME_CHARS_REGEX,
-  TMP_FILENAME_REPLACEMENT_CHAR,
   // Files
   FILES_MAX_PAGE_SIZE,
   DEFAULT_SEARCH_FILES_LIMIT,
