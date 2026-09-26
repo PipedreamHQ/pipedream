@@ -13,7 +13,11 @@ export default {
     "Search for files and folders in Google Drive using the Drive query language."
     + " This is the primary tool for finding files, folders, spreadsheets, forms, and any other Drive item."
     + " Returns an object with `files` (each with its ID, name, and MIME type), `count`,"
-    + " `nextPageToken`, `isComplete`, and `incompleteSearch`."
+    + " `nextPageToken`, `isComplete`, `incompleteSearch`, and `fellBackToMyDrive`."
+    + " If searching across all drives fails outright (e.g. an inaccessible or misconfigured"
+    + " shared drive), this automatically retries scoped to My Drive only and sets"
+    + " `fellBackToMyDrive: true` rather than failing the call — pass `driveId` to search a"
+    + " specific shared drive instead."
     + "\n\n**Query syntax** — pass a Drive search query string. Examples:"
     + "\n- Find by name: `name contains 'Budget'`"
     + "\n- Exact name match: `name = 'Q4 Report'`"
@@ -36,7 +40,7 @@ export default {
     + " missing and paging will not recover them — narrow the search with `driveId`."
     + " Prefer narrowing the `query` over paging through many batches."
     + " [See the documentation](https://developers.google.com/drive/api/v3/search-files)",
-  version: "1.0.0",
+  version: "1.1.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -51,14 +55,14 @@ export default {
       label: "Query",
       description:
         "A Drive search query string. See the tool description for syntax examples."
-        + " Common queries: `name contains 'keyword'`, `mimeType = 'application/vnd.google-apps.folder'`,"
-        + " `'FOLDER_ID' in parents`, `trashed = false`.",
+        + " Conditions combine with `and`, e.g. `name contains 'keyword' and mimeType = 'application/pdf' and 'FOLDER_ID' in parents and trashed = false`."
+        + " Use **Find Folder** to get a `FOLDER_ID` for the `in parents` filter, and **Get User Details** to get an owner email for the `in owners` filter.",
     },
     driveId: {
       type: "string",
       label: "Drive ID",
       description:
-        "Optional. Scope the search to a specific shared drive."
+        "Optional. Scope the search to a specific shared drive, e.g. `0AIxaGWpaZzyZUk9PVA`."
         + " Use **List Shared Drives** to find available drive IDs."
         + " Omit to search across all drives (My Drive and shared drives). Example: `0AExampleDriveId`.",
       optional: true,
@@ -123,15 +127,43 @@ export default {
     const allFiles = [];
     let pageToken = startToken;
     let incompleteSearch = false;
+    // If the broad allDrives crawl itself throws (e.g. an inaccessible or
+    // misconfigured shared drive tripping up the multi-drive request), retry
+    // once with a narrower, strictly-safer scope instead of failing outright.
+    // Only attempted before any pages have been fetched, so a partial result
+    // set is never mixed with a differently-scoped retry.
+    let effectiveOpts = opts;
+    let fellBackToMyDrive = false;
+    let firstPageAttempted = false;
     do {
+      let response;
+      const pageOpts = {
+        ...effectiveOpts,
+        pageSize: Math.min(maxResults - allFiles.length, FILES_MAX_PAGE_SIZE),
+      };
+      try {
+        response = await this.googleDrive.listFilesInPage(pageToken, pageOpts);
+      } catch (err) {
+        if (effectiveOpts.corpora !== "allDrives" || firstPageAttempted) {
+          throw err;
+        }
+        fellBackToMyDrive = true;
+        effectiveOpts = {
+          q: this.query,
+          corpora: "user",
+          supportsAllDrives: true,
+        };
+        response = await this.googleDrive.listFilesInPage(pageToken, {
+          ...effectiveOpts,
+          pageSize: pageOpts.pageSize,
+        });
+      }
+      firstPageAttempted = true;
       // Request only as many as we still need, so the returned nextPageToken
       // points right after the last file we keep and resuming skips nothing.
       const {
         files = [], nextPageToken, incompleteSearch: pageIncomplete,
-      } = await this.googleDrive.listFilesInPage(pageToken, {
-        ...opts,
-        pageSize: Math.min(maxResults - allFiles.length, FILES_MAX_PAGE_SIZE),
-      });
+      } = response;
       allFiles.push(...files);
       pageToken = nextPageToken;
       // Drive sets this when it skipped some drives (typically with the
@@ -148,6 +180,8 @@ export default {
       ? ""
       : " More results remain — pass `nextPageToken` as `pageToken` to continue."}${incompleteSearch
       ? " Drive did not search every drive, so some matches may be missing — narrow the search with `driveId`."
+      : ""}${fellBackToMyDrive
+      ? " Searching across all drives failed, so this fell back to searching My Drive only — pass `driveId` to search a specific shared drive, or retry to search all drives again."
       : ""}`);
 
     return {
@@ -156,6 +190,7 @@ export default {
       nextPageToken: pageToken ?? null,
       isComplete,
       incompleteSearch,
+      fellBackToMyDrive,
     };
   },
 };

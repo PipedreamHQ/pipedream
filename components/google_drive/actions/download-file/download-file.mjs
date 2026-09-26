@@ -1,11 +1,13 @@
 import { ConfigurationError } from "@pipedream/platform";
+import crypto from "crypto";
 import fs from "fs";
 import stream from "stream";
 import { promisify } from "util";
 import { GOOGLE_DRIVE_MIME_TYPE_PREFIX } from "../../common/constants.mjs";
-import { toSingleLineString } from "../../common/utils.mjs";
+import {
+  reserveUniqueFilePath, toSingleLineString,
+} from "../../common/utils.mjs";
 import googleDrive from "../../google_drive.app.mjs";
-import googleWorkspaceExportFormats from "../common/google-workspace-export-formats.mjs";
 import {
   defaultExportMimeBySource,
   extensionByMime,
@@ -33,7 +35,7 @@ export default {
     + " Pass `mimeType` to force a specific format. Shortcuts are resolved to their target automatically."
     + " Folders, Forms, and My Maps cannot be downloaded via this action."
     + " [See the documentation](https://developers.google.com/drive/api/v3/manage-downloads)",
-  version: "0.2.3",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -43,36 +45,16 @@ export default {
   ai: "optimized",
   props: {
     googleDrive,
-    drive: {
-      propDefinition: [
-        googleDrive,
-        "watchedDrive",
-      ],
-      description: "The shared drive the file is in, if any. Leave empty for files in My Drive.",
-      optional: true,
-    },
     fileIds: {
-      propDefinition: [
-        googleDrive,
-        "fileId",
-        (c) => ({
-          drive: c.drive,
-        }),
-      ],
       type: "string[]",
       label: "Files",
-      description: "The Google Drive file(s) to download. Select one or more files to download a batch in a single run. Accepts file IDs (opaque Drive identifiers). Shortcuts are resolved to their target automatically.",
+      description: "The Google Drive file(s) to download. Provide one or more file IDs to download a batch in a single run. Accepts file IDs (opaque Drive identifiers), e.g. `1Ab2CdEfGhIjKlMnOpQrStUvWxYz012345`. IDs are unique across every drive, so there's no need to specify which shared drive a file lives in. Use **Search Files**, **Find File**, or **List Files** to find a file's ID by name. Shortcuts are resolved to their target automatically.",
       optional: true,
     },
     fileId: {
-      propDefinition: [
-        googleDrive,
-        "fileId",
-        (c) => ({
-          drive: c.drive,
-        }),
-      ],
-      description: "A single Google Drive file to download. Kept for backwards compatibility — prefer `Files` for new configurations. If both are set, this file is included alongside the ones in `Files`.",
+      type: "string",
+      label: "File",
+      description: "A single Google Drive file to download, e.g. `1Ab2CdEfGhIjKlMnOpQrStUvWxYz012345`. Use **Search Files**, **Find File**, or **List Files** to find a file's ID by name. Kept for backwards compatibility — prefer `Files` for new configurations. If both are set, this file is included alongside the ones in `Files`.",
       optional: true,
     },
     filePath: {
@@ -81,7 +63,8 @@ export default {
       description: toSingleLineString(`
         The destination file name or path [in the \`/tmp\`
         directory](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory)
-        (e.g., \`/tmp/myFile.csv\`). Defaults to \`/tmp/<file name>\` if omitted.
+        (e.g., \`/tmp/myFile.csv\`). Defaults to an auto-generated path in \`/tmp\` if omitted
+        (the original Drive file name is still returned unchanged in \`fileMetadata.name\`).
         **Note:** if you set this for a Google Workspace file, the extension you
         choose should match the Conversion Format; otherwise the file contents
         may not match the extension.
@@ -91,44 +74,16 @@ export default {
     mimeType: {
       type: "string",
       label: "Conversion Format",
-      description: toSingleLineString(`
-        The format to which to convert the downloaded file if it is a [Google Workspace
-        document](https://developers.google.com/drive/api/v3/ref-export-formats).
-        If omitted, defaults per source type: Docs → \`.docx\`, Sheets → \`.xlsx\`,
-        Slides → \`.pptx\`, Drawings → PNG, Apps Script → JSON.
-      `),
+      description: "The MIME type to convert the downloaded file to, if it is a Google Workspace document."
+        + " If omitted, defaults per source type: Docs → `.docx`, Sheets → `.xlsx`, Slides → `.pptx`, Drawings → `.png`, Apps Script → `.json`."
+        + "\n\nValid values by source type (per [Google's export format reference](https://developers.google.com/workspace/drive/api/guides/ref-export-formats)):"
+        + "\n- **Docs**: `application/vnd.openxmlformats-officedocument.wordprocessingml.document` (.docx), `application/vnd.oasis.opendocument.text` (.odt), `application/rtf`, `application/pdf`, `text/plain`, `text/html`, `application/zip` (zipped HTML), `application/epub+zip`, `text/markdown`"
+        + "\n- **Sheets**: `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` (.xlsx), `application/x-vnd.oasis.opendocument.spreadsheet` (.ods — note the `x-` prefix, unlike Docs/Slides), `application/pdf`, `application/zip` (zipped HTML), `text/csv` (first sheet only), `text/tab-separated-values` (first sheet only)"
+        + "\n- **Slides**: `application/vnd.openxmlformats-officedocument.presentationml.presentation` (.pptx), `application/vnd.oasis.opendocument.presentation` (.odp), `application/pdf`, `text/plain`"
+        + "\n- **Drawings**: `application/pdf`, `image/jpeg`, `image/png`, `image/svg+xml`"
+        + "\n- **Apps Script**: `application/vnd.google-apps.script+json` (the only supported format)"
+        + "\n\nExample: set to `application/pdf` to export any Workspace document as a PDF instead of the per-type default.",
       optional: true,
-      async options() {
-        const fileId = this.fileId ?? this.fileIds?.[0];
-        if (!fileId) {
-          return googleWorkspaceExportFormats;
-        }
-        let file, exportFormats;
-        try {
-          ([
-            file,
-            exportFormats,
-          ] = await Promise.all([
-            this.googleDrive.getFile(fileId, {
-              fields: "mimeType",
-            }),
-            this.googleDrive.getExportFormats(),
-          ]));
-        } catch (err) {
-          return googleWorkspaceExportFormats;
-        }
-        const mimeTypes = exportFormats[file.mimeType];
-        if (!mimeTypes) {
-          return [];
-        }
-        return exportFormats[file.mimeType].map((f) =>
-          googleWorkspaceExportFormats.find(
-            (format) => format.value === f,
-          ) ?? {
-            value: f,
-            label: f,
-          });
-      },
     },
     syncDir: {
       type: "dir",
@@ -162,10 +117,15 @@ export default {
       throw new ConfigurationError("Select at least one file to download (`Files` or `File`).");
     }
     if (fileIds.length > 1 && this.filePath) {
-      throw new ConfigurationError("`Destination File Path` can only be used when downloading a single file. Remove it to download multiple files (each saves to `/tmp/<file name>`).");
+      throw new ConfigurationError("`Destination File Path` can only be used when downloading a single file. Remove it to download multiple files (each saves to an auto-generated path in `/tmp`).");
     }
 
     const pipeline = promisify(stream.pipeline);
+
+    // Tracks /tmp paths already assigned to a file in this run, so that two Drive
+    // files sharing the same name (Drive allows duplicate names) don't collide and
+    // silently overwrite one another on disk.
+    const usedFilePaths = new Set();
 
     // Downloads a single file (resolving shortcuts + Workspace export formats),
     // either writing it to /tmp or returning its contents as a buffer.
@@ -245,14 +205,25 @@ export default {
           ? this.filePath
           : `/tmp/${this.filePath}`;
       } else {
-        let defaultName = fileMetadata.name;
-        if (isWorkspaceDocument) {
-          const ext = extensionByMime[effectiveMimeType];
-          if (ext && !defaultName.toLowerCase().endsWith(`.${ext.toLowerCase()}`)) {
-            defaultName = `${defaultName}.${ext}`;
-          }
-        }
-        filePath = `/tmp/${defaultName}`;
+        // Use an opaque, randomly generated name for the actual /tmp path rather than
+        // deriving it from the (untrusted, Drive-supplied) file name: this avoids
+        // relying on sanitization of arbitrary user-controlled input for a filesystem
+        // path, and sidesteps collisions with unrelated files any other step may have
+        // already placed in the shared /tmp directory. The original Drive file name is
+        // preserved unchanged in `fileMetadata.name` for the caller.
+        //
+        // A short, safe extension is still derived — for Workspace documents, from the
+        // export MIME type; otherwise from the original name, if it looks like a normal
+        // extension — so downstream steps that rely on file extensions (e.g. CSV
+        // parsers) keep working.
+        const nameExtMatch = fileMetadata.name.match(/\.([a-zA-Z0-9]{1,15})$/);
+        const ext = isWorkspaceDocument
+          ? extensionByMime[effectiveMimeType]
+          : nameExtMatch?.[1];
+        const opaqueName = `${crypto.randomUUID()}${ext
+          ? `.${ext}`
+          : ""}`;
+        filePath = reserveUniqueFilePath(`/tmp/${opaqueName}`, usedFilePaths);
       }
 
       await pipeline(file, fs.createWriteStream(filePath));
