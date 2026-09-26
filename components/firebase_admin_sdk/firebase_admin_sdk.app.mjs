@@ -1,6 +1,11 @@
-import admin from "firebase-admin";
+// Pinned: the component builder resolves npm dependencies from the import
+// specifier alone (never from package.json), so an unpinned specifier installs
+// the `latest` dist-tag. firebase-admin 14 dropped the namespaced default export
+// (admin.app, admin.credential, admin.firestore), and google-auth-library 10
+// dropped the positional JWT constructor.
+import admin from "firebase-admin@13.10.0";
 import { axios } from "@pipedream/platform";
-import googleAuth from "google-auth-library";
+import googleAuth from "google-auth-library@7.14.1";
 import constants from "./common/constants.mjs";
 
 export default {
