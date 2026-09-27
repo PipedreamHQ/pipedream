@@ -3,7 +3,6 @@ import puppetflow from "../../puppetflow.app.mjs";
 import { TERMINAL_RUN_STATUSES } from "../../common/constants.mjs";
 
 const INITIAL_EVENTS = 25;
-const COMPLETION_LOOKBACK_MS = 24 * 60 * 60 * 1000;
 
 export default {
   key: "puppetflow-new-completed-run",
@@ -35,11 +34,26 @@ export default {
     },
   },
   methods: {
-    _getLastUpdatedAt() {
-      return this.db.get("lastUpdatedAt") ?? 0;
+    _getLastCreatedAt() {
+      return this.db.get("lastCreatedAt") ?? 0;
     },
-    _setLastUpdatedAt(value) {
-      this.db.set("lastUpdatedAt", value);
+    _setLastCreatedAt(value) {
+      this.db.set("lastCreatedAt", value);
+    },
+    _getPendingRuns() {
+      return this.db.get("pendingRuns") ?? [];
+    },
+    _setPendingRuns(value) {
+      this.db.set("pendingRuns", value);
+    },
+    _getCursorRunIds() {
+      return this.db.get("cursorRunIds") ?? [];
+    },
+    _setCursorRunIds(value) {
+      this.db.set("cursorRunIds", value);
+    },
+    isTerminal(run) {
+      return TERMINAL_RUN_STATUSES.includes(run.status);
     },
     generateMeta(run) {
       return {
@@ -49,60 +63,122 @@ export default {
       };
     },
     emitRuns(runs) {
-      const lastUpdatedAt = this._getLastUpdatedAt();
-      let maxUpdatedAt = lastUpdatedAt;
-      for (const run of runs.reverse()) {
-        this.$emit(run, this.generateMeta(run));
-        maxUpdatedAt = Math.max(maxUpdatedAt, Date.parse(run.updated_at));
-      }
-      if (maxUpdatedAt > lastUpdatedAt) {
-        this._setLastUpdatedAt(maxUpdatedAt);
-      }
+      runs
+        .sort((a, b) => Date.parse(a.updated_at) - Date.parse(b.updated_at))
+        .forEach((run) => this.$emit(run, this.generateMeta(run)));
     },
-    async getCompletedRuns({
-      max, since,
-    }) {
+    /**
+     * Fetches the runs created after the stored cursor. The API returns runs sorted by
+     * creation time, most recent first, so pagination can stop at the first run created
+     * before the cursor.
+     */
+    async getRunsCreatedSince(since, max) {
       const runs = [];
       const items = this.puppetflow.paginate({
         fn: this.puppetflow.searchAllRuns,
         args: {
           params: {
             flow_id: this.flowId,
-            statuses: TERMINAL_RUN_STATUSES,
           },
         },
         max,
       });
       for await (const run of items) {
-        if (since && Date.parse(run.created_at) < since - COMPLETION_LOOKBACK_MS) {
+        if (Date.parse(run.created_at) < since) {
           break;
         }
-        if (!since || Date.parse(run.updated_at) > since) {
-          runs.push(run);
-        }
+        runs.push(run);
       }
       return runs;
+    },
+    /**
+     * Re-checks runs that were still in progress on a previous poll and returns the ones
+     * that have finished since, along with the ones still pending.
+     */
+    async settlePendingRuns(pendingRuns) {
+      const completed = [];
+      const stillPending = [];
+      for (const pending of pendingRuns) {
+        const run = await this.puppetflow.getRun({
+          flowId: pending.flow_id,
+          runId: pending.id,
+        });
+        if (this.isTerminal(run)) {
+          completed.push(run);
+        } else {
+          stillPending.push(pending);
+        }
+      }
+      return {
+        completed,
+        stillPending,
+      };
+    },
+    async processEvent({
+      max, since,
+    }) {
+      const knownPending = this._getPendingRuns();
+      // Runs created exactly at the cursor timestamp are fetched again on the next poll,
+      // so the ones already processed are remembered to avoid emitting them twice.
+      const knownIds = new Set([
+        ...knownPending.map(({ id }) => id),
+        ...this._getCursorRunIds(),
+      ]);
+
+      const recentRuns = await this.getRunsCreatedSince(since, max);
+      const newRuns = recentRuns.filter(({ id }) => !knownIds.has(id));
+      const completed = newRuns.filter((run) => this.isTerminal(run));
+      const newPending = newRuns
+        .filter((run) => !this.isTerminal(run))
+        .map(({
+          id, flow_id: flowId,
+        }) => ({
+          id,
+          flow_id: flowId,
+        }));
+
+      const settled = await this.settlePendingRuns(knownPending);
+      completed.push(...settled.completed);
+
+      const lastCreatedAt = Math.max(since, ...recentRuns.map((run) => Date.parse(run.created_at)));
+      const cursorRunIds = recentRuns
+        .filter((run) => Date.parse(run.created_at) === lastCreatedAt)
+        .map(({ id }) => id);
+      this._setPendingRuns([
+        ...settled.stillPending,
+        ...newPending,
+      ]);
+      this._setCursorRunIds(lastCreatedAt === since
+        ? [
+          ...new Set([
+            ...this._getCursorRunIds(),
+            ...cursorRunIds,
+          ]),
+        ]
+        : cursorRunIds);
+      this._setLastCreatedAt(lastCreatedAt);
+
+      if (!completed.length) {
+        return;
+      }
+      this.emitRuns(completed);
     },
   },
   hooks: {
     async deploy() {
-      const runs = await this.getCompletedRuns({
+      await this.processEvent({
+        since: 0,
         max: INITIAL_EVENTS,
       });
-      this.emitRuns(runs);
     },
   },
   async run() {
-    const since = this._getLastUpdatedAt();
-    const runs = await this.getCompletedRuns({
+    const since = this._getLastCreatedAt();
+    await this.processEvent({
       since,
       max: since
         ? undefined
         : INITIAL_EVENTS,
     });
-    if (!runs.length) {
-      return;
-    }
-    this.emitRuns(runs);
   },
 };

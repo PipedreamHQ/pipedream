@@ -19,10 +19,11 @@ export default {
   props: {
     puppetflow,
     search: {
-      type: "string",
-      label: "Search",
+      propDefinition: [
+        puppetflow,
+        "search",
+      ],
       description: "Text matched against the flow name, description or ID, e.g. `invoice`.",
-      optional: true,
     },
     flowType: {
       propDefinition: [

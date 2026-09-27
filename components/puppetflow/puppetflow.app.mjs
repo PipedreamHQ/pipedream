@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import {
   API_PATH,
   DEFAULT_LIMIT,
@@ -53,7 +55,8 @@ export default {
     folderId: {
       type: "string",
       label: "Folder",
-      description: "Only return flows stored in this folder, e.g. `fld_R7mP2qX9vK4c`.",
+      description: "Only return flows stored in this folder, e.g. `fld_R7mP2qX9vK4c`."
+        + " Use **List Folders** to find it (the `id` field).",
       optional: true,
       async options({ search }) {
         const folders = await this.listFolders({
@@ -68,6 +71,12 @@ export default {
           value,
         }));
       },
+    },
+    search: {
+      type: "string",
+      label: "Search",
+      description: "Text matched against the name, e.g. `invoice`.",
+      optional: true,
     },
     flowType: {
       type: "string",
@@ -110,10 +119,15 @@ export default {
   methods: {
     /**
      * Builds the base URL of the REST API from the instance URL stored in the connected account.
+     * Plain `http://` URLs are rejected so the API key is never sent without TLS.
      * @returns {string} The API base URL, e.g. `https://acme.puppetflow.com/api/v1`.
      */
     _baseUrl() {
-      return `${normalizeBaseUrl(this.$auth.instance_url)}${API_PATH}`;
+      const baseUrl = normalizeBaseUrl(this.$auth.instance_url);
+      if (!baseUrl.startsWith("https://")) {
+        throw new ConfigurationError("The Puppetflow instance URL must use https://, e.g. `https://acme.puppetflow.com`.");
+      }
+      return `${baseUrl}${API_PATH}`;
     },
     /**
      * Performs an authenticated request against the Puppetflow REST API.
