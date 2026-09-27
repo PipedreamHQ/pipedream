@@ -3,6 +3,10 @@ import puppetflow from "../../puppetflow.app.mjs";
 import { TERMINAL_RUN_STATUSES } from "../../common/constants.mjs";
 
 const INITIAL_EVENTS = 25;
+const INACCESSIBLE_RUN_STATUS_CODES = [
+  403,
+  404,
+];
 
 export default {
   key: "puppetflow-new-completed-run",
@@ -93,16 +97,26 @@ export default {
     },
     /**
      * Re-checks runs that were still in progress on a previous poll and returns the ones
-     * that have finished since, along with the ones still pending.
+     * that have finished since, along with the ones still pending. Runs that were deleted
+     * or are no longer accessible are dropped so they do not block later polls.
      */
     async settlePendingRuns(pendingRuns) {
       const completed = [];
       const stillPending = [];
       for (const pending of pendingRuns) {
-        const run = await this.puppetflow.getRun({
-          flowId: pending.flow_id,
-          runId: pending.id,
-        });
+        let run;
+        try {
+          run = await this.puppetflow.getRun({
+            flowId: pending.flow_id,
+            runId: pending.id,
+          });
+        } catch (error) {
+          if (INACCESSIBLE_RUN_STATUS_CODES.includes(error?.response?.status)) {
+            console.log(`Dropping pending run #${pending.id}: HTTP ${error.response.status}`);
+            continue;
+          }
+          throw error;
+        }
         if (this.isTerminal(run)) {
           completed.push(run);
         } else {
@@ -140,6 +154,12 @@ export default {
       const settled = await this.settlePendingRuns(knownPending);
       completed.push(...settled.completed);
 
+      // Emit before persisting state so a failed execution is retried from the same cursor
+      // on the next poll; already emitted runs are then suppressed by the unique dedupe.
+      if (completed.length) {
+        this.emitRuns(completed);
+      }
+
       const lastCreatedAt = Math.max(since, ...recentRuns.map((run) => Date.parse(run.created_at)));
       const cursorRunIds = recentRuns
         .filter((run) => Date.parse(run.created_at) === lastCreatedAt)
@@ -157,11 +177,6 @@ export default {
         ]
         : cursorRunIds);
       this._setLastCreatedAt(lastCreatedAt);
-
-      if (!completed.length) {
-        return;
-      }
-      this.emitRuns(completed);
     },
   },
   hooks: {
