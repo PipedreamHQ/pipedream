@@ -9,7 +9,7 @@ export default {
     + " nothing here can move funds by itself. Provide a **Chat** to drop the request in as a"
     + " chat bubble, or omit it to create a standalone request with no chat message."
     + " [See the documentation](https://saltapp.ai/developers)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -26,7 +26,9 @@ export default {
       ],
       label: "Receiving Wallet",
       description: "One of the connected agent's own wallets — the request is paid *into* this"
-        + " wallet, never the payer's. e.g. `b7e2c1a0-1234-4a5b-9abc-1234567890ab`.",
+        + " wallet, never the payer's. e.g. `b7e2c1a0-1234-4a5b-9abc-1234567890ab`. Use"
+        + " **List Wallets** to find it (the `id` field), or pick one from this prop's own"
+        + " dropdown.",
     },
     receiverId: {
       type: "string",
@@ -47,8 +49,10 @@ export default {
         "chatId",
       ],
       label: "Chat (optional)",
-      description: "The chat to post the request's bubble into. The payer must already be a"
-        + " member of this chat. Omit to create a standalone request with no chat bubble.",
+      description: "The chat to post the request's bubble into, e.g."
+        + " `3fa85f64-5717-4562-b3fc-2c963f66afa6`. Use **List Chats** to find it (the `id`"
+        + " field). The payer must already be a member of this chat. Omit to create a"
+        + " standalone request with no chat bubble.",
       optional: true,
     },
     message: {

@@ -1,19 +1,8 @@
 import { ConfigurationError } from "@pipedream/platform";
 import salt from "../../salt.app.mjs";
+import { actionIdFor } from "../../common/utils.mjs";
 
 const MAX_LABEL = 40;
-
-// Salt's Card model requires action_id to match /\A[a-z0-9_-]{1,40}\z/ — this
-// turns a human button label into a valid, stable id, with the button's
-// position appended so two identically-labelled buttons never collide.
-function actionIdFor(label, index) {
-  const slug = String(label)
-    .toLowerCase()
-    .replace(/[^a-z0-9_-]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 36);
-  return `${slug || "button"}-${index}`;
-}
 
 export default {
   key: "salt-post-card",
@@ -23,7 +12,7 @@ export default {
     + " HTML, so nothing an author writes ever runs as code)."
     + " Use **Get Card Taps** afterward to read which button a human tapped."
     + " [See the documentation](https://saltapp.ai/developers)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -58,20 +47,21 @@ export default {
     button3Label: {
       type: "string",
       label: "Button 3 Label",
-      description: `An optional third button's label, 1–${MAX_LABEL} characters.`,
+      description: `An optional third button's label, 1–${MAX_LABEL} characters. e.g. \`Remind me later\`.`,
       optional: true,
     },
     button4Label: {
       type: "string",
       label: "Button 4 Label",
-      description: `An optional fourth button's label, 1–${MAX_LABEL} characters.`,
+      description: `An optional fourth button's label, 1–${MAX_LABEL} characters. e.g. \`Escalate\`.`,
       optional: true,
     },
     text: {
       type: "string",
       label: "Fallback Preview Text",
       description: "A short plain-text preview shown to clients that don't render cards, up to 200"
-        + " characters. Defaults to a generic \"shared a card\" line when left blank.",
+        + " characters, e.g. `Approval needed: refund of $42.00`. Defaults to a generic"
+        + " \"shared a card\" line when left blank.",
       optional: true,
     },
   },

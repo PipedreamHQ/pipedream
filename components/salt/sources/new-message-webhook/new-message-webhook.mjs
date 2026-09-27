@@ -9,6 +9,12 @@ import salt from "../../salt.app.mjs";
 // every Salt agent integration mirrors).
 const SIGNATURE_WINDOW_SECONDS = 300;
 
+// A malformed, missing, or stale signature never triggers a refetch of the
+// webhook secret more than once per this window — otherwise a stream of junk
+// POSTs to the public endpoint would let a stranger amplify calls to Salt's
+// GET /api/v1/agents/webhook_secret indefinitely.
+const SECRET_REFRESH_COOLDOWN_MS = 60_000;
+
 export default {
   key: "salt-new-message-webhook",
   name: "New Message (Instant)",
@@ -24,7 +30,7 @@ export default {
     + " whether `message.message` is plain text (an open room) or PGP ciphertext (everything"
     + " else, which this source cannot decrypt)."
     + " [See the documentation](https://saltapp.ai/developers)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -43,6 +49,31 @@ export default {
       const { webhook_secret: webhookSecret } = await this.salt.getWebhookSecret();
       this._setWebhookSecret(webhookSecret);
       return webhookSecret;
+    },
+    _getLastSecretRefreshAt() {
+      return this.db.get("lastSecretRefreshAt") || 0;
+    },
+    _setLastSecretRefreshAt(ts) {
+      this.db.set("lastSecretRefreshAt", ts);
+    },
+    // Shape-and-freshness check only — never the HMAC itself — so a refetch
+    // is considered ONLY for a header that could plausibly be a real,
+    // clock-synced delivery. A signature this rejects is not "maybe the
+    // secret rotated," it is malformed or replayed, and no amount of
+    // refetching would ever make it verify.
+    _isSignatureWellFormed(signatureHeader) {
+      if (!signatureHeader) {
+        return false;
+      }
+      const match = /t=(\d+),v1=([0-9a-f]+)/.exec(signatureHeader);
+      if (!match) {
+        return false;
+      }
+      const [
+        ,
+        timestamp,
+      ] = match;
+      return Math.abs((Date.now() / 1000) - Number(timestamp)) <= SIGNATURE_WINDOW_SECONDS;
     },
     _verifySignature(rawBody, signatureHeader, secret) {
       if (!signatureHeader || !secret) {
@@ -84,10 +115,14 @@ export default {
   },
   hooks: {
     async activate() {
+      // Fetch the secret FIRST: if this fails, activation rejects before
+      // Salt's callback has been repointed at all, so a failed deploy never
+      // leaves the agent pointed at an endpoint this source can't verify
+      // deliveries against yet.
+      await this._fetchWebhookSecret();
       await this.salt.setAgentCallback({
         webhook: this.http.endpoint,
       });
-      await this._fetchWebhookSecret();
     },
     // Salt has no "unregister callback" call (PATCH /api/v1/agents/callback
     // refuses a blank URL), and the current value was never readable by the
@@ -107,11 +142,20 @@ export default {
 
     let secret = this._getWebhookSecret();
     let verified = this._verifySignature(rawBody, signatureHeader, secret);
-    if (!verified) {
+    if (!verified && this._isSignatureWellFormed(signatureHeader)) {
       // The secret may have rotated (POST /agents/:id/rotate_webhook_secret)
       // since our last fetch — refetch once and retry before giving up.
-      secret = await this._fetchWebhookSecret();
-      verified = this._verifySignature(rawBody, signatureHeader, secret);
+      // Rate-limited: a signature that's well-formed and within the replay
+      // window but still doesn't verify is the ONE real "maybe it rotated"
+      // case, and even that gets at most one refetch per cooldown window, so
+      // a flood of such requests can't turn this into an amplifier against
+      // Salt's own webhook-secret endpoint.
+      const now = Date.now();
+      if (now - this._getLastSecretRefreshAt() > SECRET_REFRESH_COOLDOWN_MS) {
+        this._setLastSecretRefreshAt(now);
+        secret = await this._fetchWebhookSecret();
+        verified = this._verifySignature(rawBody, signatureHeader, secret);
+      }
     }
     if (!verified) {
       console.log("Salt webhook signature verification failed — discarding delivery");
@@ -131,6 +175,11 @@ export default {
     const chatLabel = chat.name && chat.name !== "Unnamed Chat"
       ? chat.name
       : `chat ${chat.id}`;
+    // A truthy but malformed created_at parses to NaN, which would violate
+    // the emitted event's timestamp contract — fall back to now instead.
+    const parsedTs = message.created_at
+      ? Date.parse(message.created_at)
+      : NaN;
 
     this.$emit(body, {
       // Stable and unique per delivery attempt sequence — see
@@ -140,8 +189,8 @@ export default {
       // ciphertext on every chat but an open room, and even an open room's
       // plain text doesn't belong in a log line or notification.
       summary: `New message from ${sender} in ${chatLabel}`,
-      ts: message.created_at
-        ? Date.parse(message.created_at)
+      ts: Number.isFinite(parsedTs)
+        ? parsedTs
         : Date.now(),
     });
   },

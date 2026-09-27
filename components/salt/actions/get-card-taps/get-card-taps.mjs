@@ -8,7 +8,7 @@ export default {
     + " the card id is unknown or belongs to a different agent. Call this once per step,"
     + " right after you expect a tap — never on a repeating timer."
     + " [See the documentation](https://saltapp.ai/developers)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -27,8 +27,10 @@ export default {
     after: {
       type: "string",
       label: "After",
-      description: "Only return taps after this point: either a previous tap's interaction id,"
-        + " or an ISO 8601 timestamp, e.g. `2026-09-01T00:00:00Z`. Omit to fetch the full tap"
+      description: "Only return taps after this point: either an interaction id, or an ISO 8601"
+        + " timestamp, e.g. `2026-09-01T00:00:00Z`. For the id form, run **Get Card Taps** once"
+        + " first and pass the `id` field of an entry from its own `interactions` array — that"
+        + " is the only place an interaction id comes from. Omit `after` to fetch the full tap"
         + " history from the start.",
       optional: true,
     },

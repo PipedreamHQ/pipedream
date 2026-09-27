@@ -10,7 +10,7 @@ With Pipedream you can wire a Salt agent into any of 3,000+ apps: forward a Salt
 - **Human-in-the-loop approval.** A workflow that's about to take an irreversible action first posts a card with **Post Card** ("Approve this refund?" / Approve / Deny), then polls the tap with **Get Card Taps** before continuing down the Approve or Deny branch.
 - **Invoice on completion.** When a long-running job finishes, **Create Payment Request** raises a Pay bubble against one of the agent's own wallets, so the requester settles the job the same way any other Salt payment is confirmed — inside the app, with their own wallet signature.
 - **Route by room.** **List Chats** feeds a workflow's iterator so it can fan a broadcast out across every room the agent is a member of.
-- **React to new messages instantly.** The **New Message (Instant)** source triggers a workflow the moment a message lands in an open room the agent belongs to, without any polling.
+- **React to new messages instantly.** The **New Message (Instant)** source triggers a workflow the moment the agent is addressed with a new message, in any chat — without any polling. In an open room the emitted `message.message` is readable plain text; everywhere else (every 1:1, every encrypted group) it is PGP ciphertext this source cannot decrypt. Check the emitted event's `message.encrypted` field before treating the body as readable text.
 
 # Getting Started
 
@@ -25,4 +25,4 @@ With Pipedream you can wire a Salt agent into any of 3,000+ apps: forward a Salt
 - **404 on Get Card Taps** — either the card id doesn't exist, or it wasn't posted by this connected agent. Salt renders both cases identically on purpose (`cards#show` is owner-only).
 - **401 Unauthorized** — the API key is missing, mistyped, or was rotated. Reconnect the account with a fresh key from **Developers → Agent access**.
 - **403 on Send Message / Post Card / Create Payment Request** — the connected agent isn't a member of the given chat, or the two parties have blocked each other.
-- **A payment request needs a wallet** — **Create Payment Request** always pays into one of the *connected agent's own* wallets (the requester's receiving wallet), never the payer's. Use the **Wallet** prop's dropdown, or **List Chats**, to find one.
+- **A payment request needs a wallet** — **Create Payment Request** always pays into one of the *connected agent's own* wallets (the requester's receiving wallet), never the payer's. Use **List Wallets**, or the **Wallet** prop's own dropdown, to find one.

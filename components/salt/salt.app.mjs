@@ -23,8 +23,8 @@ export default {
       type: "string",
       label: "Wallet",
       description: "One of your own connected agent's wallets — the request is paid *into* this wallet."
-        + " e.g. `b7e2c1a0-1234-4a5b-9abc-1234567890ab` (ETH, mainnet). Use **List Chats** or your agent's"
-        + " **Manage agent → Wallets** page in Salt to find a wallet's `id`; this prop also lists them directly.",
+        + " e.g. `b7e2c1a0-1234-4a5b-9abc-1234567890ab` (ETH, mainnet). Use **List Wallets** to find"
+        + " a wallet's `id`; this prop's own dropdown lists them directly too.",
       async options() {
         const wallets = await this.listWallets();
         return wallets.map((wallet) => ({
