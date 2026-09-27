@@ -1,5 +1,5 @@
 import {
-  createHmac, timingSafeEqual,
+  createHash, createHmac, timingSafeEqual,
 } from "crypto";
 import salt from "../../salt.app.mjs";
 
@@ -9,11 +9,18 @@ import salt from "../../salt.app.mjs";
 // every Salt agent integration mirrors).
 const SIGNATURE_WINDOW_SECONDS = 300;
 
-// A malformed, missing, or stale signature never triggers a refetch of the
-// webhook secret more than once per this window — otherwise a stream of junk
-// POSTs to the public endpoint would let a stranger amplify calls to Salt's
-// GET /api/v1/agents/webhook_secret indefinitely.
+// A malformed, missing, or stale signature never triggers a SUCCESSFUL
+// refetch of the webhook secret more than once per this window — otherwise a
+// stream of junk POSTs to the public endpoint would let a stranger amplify
+// calls to Salt's GET /api/v1/agents/webhook_secret indefinitely.
 const SECRET_REFRESH_COOLDOWN_MS = 60_000;
+
+// A FAILED refetch (network error, Salt down, etc.) gets its own, much
+// shorter cooldown instead of eating into the 60s success window above —
+// otherwise one transient failure would silently block every legitimately
+// rotated signature from verifying for a full minute. Still bounded, so a
+// flood of malformed requests can't turn this into a rapid-fire amplifier.
+const SECRET_REFRESH_FAILURE_RETRY_MS = 5_000;
 
 export default {
   key: "salt-new-message-webhook",
@@ -30,7 +37,7 @@ export default {
     + " whether `message.message` is plain text (an open room) or PGP ciphertext (everything"
     + " else, which this source cannot decrypt)."
     + " [See the documentation](https://saltapp.ai/developers)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
@@ -55,6 +62,12 @@ export default {
     },
     _setLastSecretRefreshAt(ts) {
       this.db.set("lastSecretRefreshAt", ts);
+    },
+    _getLastSecretRefreshFailedAt() {
+      return this.db.get("lastSecretRefreshFailedAt") || 0;
+    },
+    _setLastSecretRefreshFailedAt(ts) {
+      this.db.set("lastSecretRefreshFailedAt", ts);
     },
     // Shape-and-freshness check only — never the HMAC itself — so a refetch
     // is considered ONLY for a header that could plausibly be a real,
@@ -147,14 +160,24 @@ export default {
       // since our last fetch — refetch once and retry before giving up.
       // Rate-limited: a signature that's well-formed and within the replay
       // window but still doesn't verify is the ONE real "maybe it rotated"
-      // case, and even that gets at most one refetch per cooldown window, so
-      // a flood of such requests can't turn this into an amplifier against
-      // Salt's own webhook-secret endpoint.
+      // case, and even that gets at most one SUCCESSFUL refetch per cooldown
+      // window, so a flood of such requests can't turn this into an
+      // amplifier against Salt's own webhook-secret endpoint. A failed
+      // refetch only consumes the much shorter failure cooldown, so a single
+      // transient error doesn't block real rotations from verifying for a
+      // full minute.
       const now = Date.now();
-      if (now - this._getLastSecretRefreshAt() > SECRET_REFRESH_COOLDOWN_MS) {
-        this._setLastSecretRefreshAt(now);
-        secret = await this._fetchWebhookSecret();
-        verified = this._verifySignature(rawBody, signatureHeader, secret);
+      const pastSuccessCooldown = now - this._getLastSecretRefreshAt() > SECRET_REFRESH_COOLDOWN_MS;
+      const pastFailureCooldown = now - this._getLastSecretRefreshFailedAt()
+        > SECRET_REFRESH_FAILURE_RETRY_MS;
+      if (pastSuccessCooldown && pastFailureCooldown) {
+        try {
+          secret = await this._fetchWebhookSecret();
+          this._setLastSecretRefreshAt(now);
+          verified = this._verifySignature(rawBody, signatureHeader, secret);
+        } catch (err) {
+          this._setLastSecretRefreshFailedAt(now);
+        }
       }
     }
     if (!verified) {
@@ -184,7 +207,12 @@ export default {
     this.$emit(body, {
       // Stable and unique per delivery attempt sequence — see
       // docs/AGENT_WEBHOOKS.md: a retry of the same delivery reuses this id.
-      id: deliveryId || `${message.message_id}-${message.created_at}`,
+      // Hashed rather than the raw concatenation so the fallback (an old
+      // delivery predating X-Salt-Delivery-Id) always stays within
+      // Pipedream's event-id length limit regardless of message id shape.
+      id: deliveryId || createHash("sha256")
+        .update(`${message.message_id}-${message.created_at}`)
+        .digest("hex"),
       // Deliberately no message content here — `message.message` is PGP
       // ciphertext on every chat but an open room, and even an open room's
       // plain text doesn't belong in a log line or notification.
