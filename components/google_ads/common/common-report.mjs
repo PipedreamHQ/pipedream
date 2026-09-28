@@ -11,6 +11,11 @@ export function createReportComponent(resource) {
     label, value,
   } = resource.resourceOption;
 
+  // Build allow-lists for local pre-flight validation (no HTTP call consumed)
+  const validFields = new Set(resource.fields.map((f) => f.value));
+  const validSegments = new Set(resource.segments.map((s) => s.value));
+  const validMetrics = new Set(resource.metrics.map((m) => m.value));
+
   return {
     props: {
       ...props,
@@ -23,16 +28,9 @@ export function createReportComponent(resource) {
         propDefinition: [
           googleAds,
           "reportResourceFilter",
-          ({
-            accountId, customerClientId,
-          }) => ({
-            accountId,
-            customerClientId,
-            resource: value,
-          }),
         ],
         label: `${label}(s)`,
-        description: `Select the ${label}(s) to generate a report for (or leave blank for all ${label}s)`,
+        description: `Numeric ${label} IDs to filter this report to specific ${label.toLowerCase()}s. Run the relevant list action first to discover valid IDs (e.g. **List Campaigns** for campaign reports, **List Ad Groups** for ad group reports). Leave blank for all ${label.toLowerCase()}s.`,
       },
       dateRange: {
         type: "string",
@@ -56,24 +54,21 @@ export function createReportComponent(resource) {
       fields: {
         type: "string[]",
         label: `${label} Fields`,
-        description: `Array of ${label} field names to include in the report, e.g. \`["status"]\`. The \`${value}.\` prefix is added automatically. [See the field reference](https://developers.google.com/google-ads/api/fields/v25/${value})`,
+        description: `Array of ${label} field names to include in the report (e.g. \`["${value}.id", "${value}.name"]\`). Invalid names throw a ConfigurationError before any API call. [See the field reference](https://developers.google.com/google-ads/api/fields/v25/${value})`,
         options: resource.fields,
         optional: true,
       },
       segments: {
         type: "string[]",
         label: "Segments",
-        description: "Array of segment names to break the report down by, e.g. `[\"date\"]`. The `segments.` prefix is added automatically. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/Segments)",
+        description: "Array of segment names to break the report down by (e.g. `[\"segments.date\"]`). Empty by default so date segmentation is opt-in - adding date segments multiplies row counts by the number of days in the range. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/Segments)",
         options: resource.segments,
-        default: [
-          "segments.date",
-        ],
         optional: true,
       },
       metrics: {
         type: "string[]",
         label: "Metrics",
-        description: "Array of metric names to include in the report, e.g. `[\"clicks\"]`. The `metrics.` prefix is added automatically. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/Metrics)",
+        description: "Array of metric names to include in the report (e.g. `[\"metrics.clicks\", \"metrics.impressions\"]`). Invalid names throw a ConfigurationError before any API call. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/Metrics)",
         options: resource.metrics,
         optional: true,
       },
@@ -111,8 +106,10 @@ export function createReportComponent(resource) {
       limit: {
         type: "integer",
         label: "Limit",
-        description: "The maximum number of results to return",
+        description: "Maximum number of rows to return (min 1, max 1000).",
         optional: true,
+        min: 1,
+        max: 1000,
       },
     },
     methods: {
@@ -125,10 +122,31 @@ export function createReportComponent(resource) {
           ? segments
           : segments?.filter((s) => !CORE_DATE_SEGMENTS.includes(s));
 
+        const expandedFields = checkPrefix(fields, value);
+        const expandedSegments = checkPrefix(filteredSegments, "segments");
+        const expandedMetrics = checkPrefix(metrics, "metrics");
+
+        // Validate against resource allow-lists - throws ConfigurationError before any HTTP call
+        for (const f of expandedFields) {
+          if (!validFields.has(f)) {
+            throw new ConfigurationError(`"${f}" is not a valid field for the ${label} resource. See https://developers.google.com/google-ads/api/fields/v25/${value}`);
+          }
+        }
+        for (const s of expandedSegments) {
+          if (!validSegments.has(s)) {
+            throw new ConfigurationError(`"${s}" is not a valid segment for the ${label} resource. See https://developers.google.com/google-ads/api/reference/rpc/v25/Segments`);
+          }
+        }
+        for (const m of expandedMetrics) {
+          if (!validMetrics.has(m)) {
+            throw new ConfigurationError(`"${m}" is not a valid metric for the ${label} resource. See https://developers.google.com/google-ads/api/reference/rpc/v25/Metrics`);
+          }
+        }
+
         const selection = [
-          ...checkPrefix(fields, value),
-          ...checkPrefix(filteredSegments, "segments"),
-          ...checkPrefix(metrics, "metrics"),
+          ...expandedFields,
+          ...expandedSegments,
+          ...expandedMetrics,
         ];
 
         if (!selection.length) {
@@ -153,7 +171,7 @@ export function createReportComponent(resource) {
           const dateClause = dateRange === "CUSTOM"
             ? `BETWEEN '${this.startDate}' AND '${this.endDate}'`
             : `DURING ${dateRange}`;
-          query += ` ${objectFilter
+          query += ` ${objectFilter?.length
             ? "AND"
             : "WHERE"} segments.date ${dateClause}`;
         }
@@ -170,7 +188,7 @@ export function createReportComponent(resource) {
     },
     async run({ $ }) {
       const query = this.buildQuery();
-      const results = (await this.googleAds.createReport({
+      const results = (await this.googleAds.searchStream({
         $,
         accountId: this.accountId,
         customerClientId: this.customerClientId,

@@ -1,5 +1,8 @@
 export const API_VERSION = "v25";
 
+export const SEARCH_PATH = "/customers/{customerClientId}/googleAds:search";
+export const SEARCH_STREAM_PATH = "/customers/{customerClientId}/googleAds:searchStream";
+
 // Conversion payload fields the upload actions set and validate themselves. Includes the
 // click and call identifiers: injecting those here would bypass the exactly-one-identifier
 // check, which runs against the props before the payload is assembled.

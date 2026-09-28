@@ -1,6 +1,6 @@
 import { axios } from "@pipedream/platform";
 import {
-  API_VERSION, CORE_DATE_SEGMENTS,
+  API_VERSION, CORE_DATE_SEGMENTS, SEARCH_PATH, SEARCH_STREAM_PATH,
 } from "./common/constants.mjs";
 import { QUERIES } from "./common/queries.mjs";
 import {
@@ -77,30 +77,8 @@ export default {
     reportResourceFilter: {
       type: "string[]",
       label: "Filter by Resources",
-      description: "Select the resources to generate a report for (or leave blank for all)",
+      description: "Numeric resource IDs to limit the report to specific records. Run the relevant list action first to discover valid IDs (e.g. **List Campaigns** for campaign reports, **List Ad Groups** for ad group reports, **List Ad Group Ads** for ad reports). Leave blank to include all records.",
       optional: true,
-      useQuery: true,
-      async options({
-        accountId, customerClientId, resource, query, prevContext,
-      }) {
-        const pageToken = prevContext?.nextPageToken;
-        const {
-          results, nextPageToken,
-        } = await this.listResources({
-          accountId,
-          customerClientId,
-          resource,
-          query,
-          pageToken,
-        });
-        const options = results?.map?.((item) => this.getResourceOption(item, resource)) ?? [];
-        return {
-          options,
-          context: {
-            nextPageToken,
-          },
-        };
-      },
     },
     reportOrderBy: {
       type: "string",
@@ -523,7 +501,7 @@ export default {
     }) {
       console.log("Executing query: ", query);
       const response = await this._makeRequest({
-        path: "/customers/{customerClientId}/googleAds:search",
+        path: SEARCH_PATH,
         method: "post",
         data: {
           query,
@@ -531,6 +509,26 @@ export default {
         ...args,
       });
       return response;
+    },
+    async searchStream({
+      query, ...args
+    }) {
+      console.log("Executing searchStream query: ", query);
+      const response = await this._makeRequest({
+        path: SEARCH_STREAM_PATH,
+        method: "post",
+        data: {
+          query,
+        },
+        ...args,
+      });
+      // The proxy buffers all NDJSON chunks; normalise to a flat results array
+      const chunks = Array.isArray(response)
+        ? response
+        : [
+          response,
+        ];
+      return chunks.flatMap((chunk) => chunk.results ?? []);
     },
     async listAccessibleCustomers() {
       const response = await this._makeRequest({
