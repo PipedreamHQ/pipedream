@@ -14,7 +14,8 @@ export default {
     + " Returns a single array; each item has a `content_type` of `message`, `file`, `channel`, or `user`."
     + " Messages include channel context, timestamps, and permalinks;"
     + " files, channels, and users are returned as Slack sends them"
-    + " (files include `file_id`, `title`, `file_type`, `author_name`, `date_created`, `permalink`, and extracted `content`)."
+    + " (files include `file_id`, `title`, `file_type`, `author_name`, `date_created`, `permalink`, and extracted `content`;"
+    + " channels additionally include `channel_id`, extracted from `permalink` for use with other channel actions)."
     + " `Max Results` applies per content type, so selecting more types can return proportionally more items."
     + ` \`Max Results\` is capped at ${constants.MAX_SEARCH_RESULTS}.`
     + " Paging for a content type stops as soon as a page returns fewer than a full page of it,"
@@ -153,6 +154,7 @@ export default {
       })),
       ...channels.slice(0, maxResults).map((channel) => ({
         ...channel,
+        channel_id: utils.channelIdFromPermalink(channel.permalink),
         content_type: "channel",
       })),
       ...users.slice(0, maxResults).map((user) => ({
