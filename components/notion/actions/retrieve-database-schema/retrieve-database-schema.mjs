@@ -9,7 +9,7 @@ export default {
     + " **Call this before Query Data Source, Create Page, or Update Page on a database** so you use exact property names and valid option values."
     + " Provide the **data source ID** (use **Search** with `filter: data_source` to resolve a database name into its ID)."
     + " [See the documentation](https://developers.notion.com/reference/retrieve-a-data-source)",
-  version: "1.1.1",
+  version: "1.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

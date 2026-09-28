@@ -1,11 +1,11 @@
-import utils from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 import sharepoint from "../../sharepoint.app.mjs";
 
 export default {
   key: "sharepoint-update-item",
   name: "Update Item",
-  description: "Updates an existing item in Microsoft Sharepoint. [See the documentation](https://learn.microsoft.com/en-us/graph/api/listitem-update?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.17",
+  description: "Update an existing item in a SharePoint list. Provide only the fields you want to change — omitted fields are left unchanged. [See the documentation](https://learn.microsoft.com/en-us/graph/api/listitem-update?view=graph-rest-1.0&tabs=http)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -18,62 +18,38 @@ export default {
     siteId: {
       propDefinition: [
         sharepoint,
-        "siteId",
+        "siteIdInput",
       ],
     },
     listId: {
       propDefinition: [
         sharepoint,
-        "listId",
-        (c) => ({
-          siteId: c.siteId,
-        }),
+        "listIdInput",
       ],
-      reloadProps: true,
     },
     itemId: {
       propDefinition: [
         sharepoint,
-        "itemId",
-        (c) => ({
-          siteId: c.siteId,
-          listId: c.listId,
-        }),
+        "itemIdInput",
+      ],
+    },
+    fields: {
+      propDefinition: [
+        sharepoint,
+        "listItemFields",
       ],
     },
   },
-  async additionalProps() {
-    const props = {};
-    const { value: columns } = await this.sharepoint.listColumns({
+  async run({ $ }) {
+    if (!Object.keys(this.fields ?? {}).length) {
+      throw new ConfigurationError("Provide at least one field to update in `fields`.");
+    }
+
+    const response = await this.sharepoint.updateItem({
       siteId: this.siteId,
       listId: this.listId,
-    });
-    const editableColumns = columns?.filter(({ readOnly }) => !readOnly) || [];
-    for (const column of editableColumns) {
-      props[column.name] = {
-        type: "string",
-        label: column.name,
-        optional: true,
-      };
-    }
-    return props;
-  },
-  async run({ $ }) {
-    const {
-      sharepoint,
-      siteId,
-      listId,
-      itemId,
-      ...otherProps
-    } = this;
-
-    const data = utils.cleanObject(otherProps);
-
-    const response = await sharepoint.updateItem({
-      siteId,
-      listId,
-      itemId,
-      data,
+      itemId: this.itemId,
+      data: this.fields,
       $,
     });
 

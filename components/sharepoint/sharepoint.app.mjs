@@ -43,7 +43,7 @@ export default {
     listId: {
       type: "string",
       label: "List",
-      description: "Identifier of a list",
+      description: "Identifier of a list. Use the **List Lists** action to find lists and their IDs.",
       async options({
         prevContext, siteId,
       }) {
@@ -102,7 +102,7 @@ export default {
     itemId: {
       type: "string",
       label: "Item",
-      description: "Identifier of an item",
+      description: "Identifier of an item. Use the **List Items** action to find items and their IDs.",
       async options({
         prevContext, siteId, listId,
       }) {
@@ -128,6 +128,26 @@ export default {
           },
         };
       },
+    },
+    listItemFields: {
+      type: "object",
+      label: "Fields",
+      description: "An object mapping SharePoint list column names to their values (e.g. `{ \"Title\": \"My Item\", \"Status\": \"Active\" }`). Column names are case-sensitive and must match the internal field names in SharePoint. For partial updates, only the provided fields will be changed — omitted fields are left unchanged. To find valid column names, inspect existing list items or check the list settings in SharePoint.",
+    },
+    siteIdInput: {
+      type: "string",
+      label: "Site ID",
+      description: "The ID of the SharePoint site. Use the **List Sites** action to find available sites and their IDs. Accepts a composite ID (e.g. `contoso.sharepoint.com,<guid>,<guid>`) or a server-relative path (e.g. `contoso.sharepoint.com:/sites/site-name`).",
+    },
+    listIdInput: {
+      type: "string",
+      label: "List ID",
+      description: "The ID of the SharePoint list. Use the **List Lists** action to find lists and their IDs. The ID is also available in the list URL or on the List Settings page in SharePoint (Settings → List Settings → the `List` query parameter in the page URL).",
+    },
+    itemIdInput: {
+      type: "string",
+      label: "Item ID",
+      description: "The ID of the item to update. Item IDs are integers (e.g. `1`, `42`) returned by the **List Items** or **Create Item** actions, or visible in the list item URL.",
     },
     driveId: {
       type: "string",
@@ -342,9 +362,8 @@ export default {
       type: "boolean",
       label: "Honor Non-Indexed Queries",
       description:
-        "Enable filtering on **non-indexed** columns (e.g. `fields/FileLeafRef`, `fields/DocIcon`)."
-        + " By default, SharePoint rejects `$filter` against non-indexed columns on lists above the [list view threshold](https://learn.microsoft.com/en-us/sharepoint/troubleshoot/lists-and-libraries/items-cannot-be-displayed-list-view-threshold) (5,000 items)."
-        + " Setting this to `true` sends the `Prefer: HonorNonIndexedQueriesWarningMayFailRandomly` header, which permits the query — but per Microsoft, **these requests may fail randomly**, especially on large lists. Leave off unless you've hit the error.",
+        "Enable filtering on non-indexed columns. **Recommended when filtering on `Title` or custom columns, which are not indexed by default.**"
+        + " Sends the `Prefer: HonorNonIndexedQueriesWarningMayFailRandomly` header — queries may fail randomly on very large lists (above the [list view threshold](https://learn.microsoft.com/en-us/sharepoint/troubleshoot/lists-and-libraries/items-cannot-be-displayed-list-view-threshold) of 5,000 items), but works reliably for typical list sizes.",
       optional: true,
       default: false,
     },
@@ -450,6 +469,17 @@ export default {
         },
       });
     },
+    _continuationRequest(url, headers = {}) {
+      const path = url.replace(/^https:\/\/graph\.microsoft\.com\/v[^/]+/, "");
+      let request = this.client().api(path);
+      for (const [
+        name,
+        value,
+      ] of Object.entries(headers)) {
+        request = request.header(name, value);
+      }
+      return request.get();
+    },
     getSite({
       siteId, params = {},
     } = {}) {
@@ -471,8 +501,11 @@ export default {
         .get();
     },
     listLists({
-      siteId, params = {},
+      siteId, params = {}, url,
     } = {}) {
+      if (url) {
+        return this._continuationRequest(url);
+      }
       return this.client().api(`/sites/${siteId}/lists`)
         .query(pickBy(params))
         .get();
@@ -485,8 +518,11 @@ export default {
         .get();
     },
     listItems({
-      siteId, listId, params = {}, headers = {},
+      siteId, listId, params = {}, headers = {}, url,
     } = {}) {
+      if (url) {
+        return this._continuationRequest(url, headers);
+      }
       let request = this.client().api(`/sites/${siteId}/lists/${listId}/items`)
         .query(pickBy(params));
       for (const [

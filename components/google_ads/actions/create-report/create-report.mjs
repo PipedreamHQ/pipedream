@@ -22,7 +22,7 @@ export default {
   key: "google_ads-create-report",
   name: "Create Report",
   description: "Run a generic Google Ads GAQL report against a chosen resource using the SearchStream endpoint (returns all rows, no 10,000-row cap). Field/segment/metric names are validated locally before any API call. Use **List Campaigns**/**List Ad Groups**/**List Ad Group Ads** (resource list actions) to discover valid object IDs for the Object Filter. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/GoogleAdsService/SearchStream?transport=rest)",
-  version: "0.3.0",
+  version: "0.3.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

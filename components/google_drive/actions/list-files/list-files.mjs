@@ -9,7 +9,7 @@ export default {
   key: "google_drive-list-files",
   name: "List Files",
   description: "List files from a specific folder. Set `Max Results` to cap how many files are returned per run, then pass the returned `nextPageToken` back in as `Page Token` on the next run to page through a large folder in fixed-size batches. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/list) for more information",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -75,17 +75,18 @@ export default {
       optional: true,
     },
     maxResults: {
-      label: "Max Results",
-      type: "integer",
-      description: "The maximum number of files to return per run. Leave empty to return every file in the folder. Combine with `Page Token` to page through a large folder in fixed-size batches across multiple runs.",
-      optional: true,
-      min: 1,
+      propDefinition: [
+        googleDrive,
+        "maxResults",
+      ],
+      description: "The maximum number of files to return per run. Leave empty to return every file in the folder. Combine with `Page Token` to page through a large folder in fixed-size batches across multiple runs. Example: `25`.",
     },
     pageToken: {
-      label: "Page Token",
-      type: "string",
-      description: "A cursor for resuming a previous run. Pass the `nextPageToken` returned by an earlier run to continue listing from where it stopped instead of starting over. Leave empty to start from the beginning of the folder.",
-      optional: true,
+      propDefinition: [
+        googleDrive,
+        "pageToken",
+      ],
+      description: "A cursor for resuming a previous run. Pass the `nextPageToken` returned by an earlier run to continue listing from where it stopped instead of starting over. Leave empty to start from the beginning of the folder. Example: `~!!~AI9FV7Q...`.",
     },
   },
   async run({ $ }) {

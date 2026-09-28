@@ -7,85 +7,35 @@ export default {
     projectId: {
       type: "string",
       label: "Project ID",
-      description: "The ID of a project",
-      async options() {
-        const projects = await this.getProjects();
-        return (projects ?? []).map(({
-          id, name,
-        }) => ({
-          label: name,
-          value: id,
-        }));
-      },
+      description: "The ID of a project, e.g. `1`. Use the **List Project ID Options** action to retrieve available project IDs.",
     },
     parentId: {
       type: "string",
       label: "Parent ID",
-      description: "The parent module which will contain the newly created requirement",
-      async options({ projectId }) {
-        const modules = await this.getModules(projectId);
-        return (modules ?? []).map(({
-          id, name,
-        }) => ({
-          label: name,
-          value: id,
-        }));
-      },
+      description: "The ID of the parent module which will contain the newly created requirement. Use the **List Modules** action to retrieve available module IDs.",
     },
     requirementId: {
       type: "string",
       label: "Requirement ID",
-      description: "The ID of a requirement",
-      async options({
-        page = 0, projectId,
-      }) {
-        const requirements = await this.getRequirements({
-          projectId,
-          params: {
-            page: page + 1,
-          },
-        });
-        return (requirements ?? []).map(({
-          id, name,
-        }) => ({
-          label: name,
-          value: id,
-        }));
-      },
+      description: "The ID of a requirement. Use the **List Requirements** action to retrieve available requirement IDs.",
     },
     defectId: {
       type: "string",
       label: "Defect ID",
-      description: "The ID of a defect. The listed options are defects that have been updated in the last 30 days.",
-      async options({
-        page = 0, projectId, prevContext: { startTime },
-      }) {
-        if (!startTime) {
-          const date = new Date();
-          date.setDate(date.getDate() - 30);
-          startTime = date.toISOString();
-        }
-        const fields = await this.getDefectFields(projectId);
-        const summaryId = fields.find(({ label }) => label === "Summary")?.id;
-        const defects = await this.getDefects({
-          projectId,
-          params: {
-            page: page + 1,
-            startTime,
-          },
-        });
-        return {
-          options: (defects ?? []).map(({
-            id, properties,
-          }) => ({
-            label: properties.find((f) => f.field_id === summaryId)?.field_value ?? id,
-            value: id,
-          })),
-          context: {
-            startTime,
-          },
-        };
-      },
+      description: "The ID of a defect. Use the **List Defects** action to retrieve available defect IDs.",
+    },
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "Page number for paginated results (1-based)",
+      optional: true,
+      default: 1,
+    },
+    properties: {
+      type: "string",
+      label: "Properties",
+      description: "A JSON array of field properties to set on the record. Use **List Requirement Fields** to discover requirement field IDs, or **List Defect Fields** to discover defect field IDs. Example: `[{\"field_id\": 3, \"field_value\": \"1\"}]`",
+      optional: true,
     },
   },
   methods: {
@@ -104,14 +54,36 @@ export default {
         },
       });
     },
-    getProjects() {
-      return this._makeRequest({
-        url: "/projects",
-      });
+    async getProjects({ $ } = {}) {
+      const pageSize = 100;
+      let projects = [];
+      let page = 1;
+      for (;;) {
+        const results = await this._makeRequest({
+          $,
+          url: "/projects",
+          params: {
+            page,
+            pageSize,
+          },
+        });
+        projects = projects.concat(results ?? []);
+        if (!results?.length || results.length < pageSize) {
+          break;
+        }
+        page += 1;
+      }
+      return projects;
     },
-    getModules(projectId) {
+    getModules({
+      projectId, $,
+    }) {
       return this._makeRequest({
+        $,
         url: `/projects/${projectId}/modules`,
+        params: {
+          expand: "descendants",
+        },
       });
     },
     createRequirement({
@@ -148,8 +120,11 @@ export default {
         ...args,
       });
     },
-    getRequirementFields(projectId) {
+    getRequirementFields({
+      projectId, $,
+    }) {
       return this._makeRequest({
+        $,
         url: `/projects/${projectId}/settings/requirements/fields`,
       });
     },
@@ -187,8 +162,11 @@ export default {
         ...args,
       });
     },
-    getDefectFields(projectId) {
+    getDefectFields({
+      projectId, $,
+    }) {
       return this._makeRequest({
+        $,
         url: `/projects/${projectId}/settings/defects/fields`,
       });
     },
