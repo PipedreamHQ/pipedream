@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/invoice_tariff",
+  "version": "0.0.1",
+  "description": "Pipedream Invoice Tariff Components",
+  "main": "invoice_tariff.app.mjs",
+  "keywords": [
+    "pipedream",
+    "invoice_tariff"
+  ],
+  "homepage": "https://pipedream.com/apps/invoice-tariff",
+  "author": "InvoiceTariff <invoicetariff@users.noreply.github.com> (https://invoicetariff.com)",
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
