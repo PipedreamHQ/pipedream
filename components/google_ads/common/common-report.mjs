@@ -73,35 +73,10 @@ export function createReportComponent(resource) {
         optional: true,
       },
       orderBy: {
-        propDefinition: [
-          googleAds,
-          "reportOrderBy",
-          ({
-            fields, segments, metrics, dateRange,
-          }) => ({
-            fields,
-            segments,
-            metrics,
-            dateRange,
-          }),
-        ],
-      },
-      direction: {
         type: "string",
-        label: "Direction",
-        description: "If **Order By** is specified, this is the direction to order the results by",
+        label: "Order By",
+        description: "Free-form GAQL ORDER BY clause including direction (e.g. `metrics.impressions DESC` or `campaign.name ASC`).",
         optional: true,
-        options: [
-          {
-            label: "Ascending",
-            value: "ASC",
-          },
-          {
-            label: "Descending",
-            value: "DESC",
-          },
-        ],
-        default: "ASC",
       },
       limit: {
         type: "integer",
@@ -115,15 +90,17 @@ export function createReportComponent(resource) {
     methods: {
       buildQuery() {
         const {
-          fields, segments, metrics, limit, orderBy, direction, objectFilter, dateRange,
+          fields, segments, metrics, limit, orderBy, objectFilter, dateRange,
         } = this;
 
-        const filteredSegments = dateRange
-          ? segments
-          : segments?.filter((s) => !CORE_DATE_SEGMENTS.includes(s));
-
         const expandedFields = checkPrefix(fields, value);
-        const expandedSegments = checkPrefix(filteredSegments, "segments");
+        // Expand the prefix before filtering: CORE_DATE_SEGMENTS holds fully-qualified
+        // names (e.g. `segments.date`), so comparing against the raw, possibly-bare
+        // segment input would let an unprefixed "date" slip through unfiltered.
+        const allExpandedSegments = checkPrefix(segments, "segments");
+        const expandedSegments = dateRange
+          ? allExpandedSegments
+          : allExpandedSegments?.filter((s) => !CORE_DATE_SEGMENTS.includes(s));
         const expandedMetrics = checkPrefix(metrics, "metrics");
 
         // Validate against resource allow-lists - throws ConfigurationError before any HTTP call
@@ -157,10 +134,6 @@ export function createReportComponent(resource) {
           throw new ConfigurationError("Both **Custom Start Date** and **Custom End Date** are required when using a custom date range.");
         }
 
-        if (!dateRange && orderBy && CORE_DATE_SEGMENTS.includes(orderBy)) {
-          throw new ConfigurationError(`Cannot order by "${orderBy}" without a date range. Either select a **Date Range** or choose a different **Order By** field.`);
-        }
-
         let query = `SELECT ${selection.join(", ")} FROM ${value}`;
         if (objectFilter?.length) {
           query += ` WHERE ${value === "ad_group_ad"
@@ -176,8 +149,8 @@ export function createReportComponent(resource) {
             : "WHERE"} segments.date ${dateClause}`;
         }
 
-        if (orderBy && direction) {
-          query += ` ORDER BY ${orderBy} ${direction}`;
+        if (orderBy) {
+          query += ` ORDER BY ${orderBy}`;
         }
         if (limit) {
           query += ` LIMIT ${limit}`;

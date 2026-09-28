@@ -22,13 +22,14 @@ export default {
   key: "google_ads-create-report",
   name: "Create Report",
   description: "Run a generic Google Ads GAQL report against a chosen resource using the SearchStream endpoint (returns all rows, no 10,000-row cap). Field/segment/metric names are validated locally before any API call. Use **List Campaigns**/**List Ad Groups**/**List Ad Group Ads** (resource list actions) to discover valid object IDs for the Object Filter. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/GoogleAdsService/SearchStream?transport=rest)",
-  version: "0.3.4",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     resource: {
@@ -130,12 +131,14 @@ export default {
         resource, fields, segments, metrics, limit, orderBy, objectFilter, dateRange,
       } = this;
 
-      const filteredSegments = dateRange
-        ? segments
-        : segments?.filter((s) => !CORE_DATE_SEGMENTS.includes(s));
-
       const expandedFields = checkPrefix(fields, resource);
-      const expandedSegments = checkPrefix(filteredSegments, "segments");
+      // Expand the prefix before filtering: CORE_DATE_SEGMENTS holds fully-qualified
+      // names (e.g. `segments.date`), so comparing against the raw, possibly-bare
+      // segment input would let an unprefixed "date" slip through unfiltered.
+      const allExpandedSegments = checkPrefix(segments, "segments");
+      const expandedSegments = dateRange
+        ? allExpandedSegments
+        : allExpandedSegments?.filter((s) => !CORE_DATE_SEGMENTS.includes(s));
       const expandedMetrics = checkPrefix(metrics, "metrics");
 
       // Validate against known resource allow-lists when the resource is a known GAQL resource
@@ -174,9 +177,13 @@ export default {
 
       let query = `SELECT ${selection.join(", ")} FROM ${resource}`;
       if (objectFilter?.length) {
+        const invalidIds = objectFilter.filter((id) => !/^\d+$/.test(String(id).trim()));
+        if (invalidIds.length) {
+          throw new ConfigurationError(`"Filter by Resources" must contain only numeric IDs. Invalid: ${invalidIds.map((id) => `"${id}"`).join(", ")}`);
+        }
         query += ` WHERE ${resource === "ad_group_ad"
           ? "ad_group_ad.ad"
-          : resource}.id IN (${objectFilter.join?.(", ") ?? objectFilter})`;
+          : resource}.id IN (${objectFilter.map((id) => String(id).trim()).join(", ")})`;
       }
       if (dateRange) {
         const dateClause = dateRange === "CUSTOM"
