@@ -46,9 +46,12 @@ export default {
   async run({ $ }) {
     const asUser = await this.resolveAsUser(this.conversation);
     this.assertBotIdentityCompatible(asUser);
+    // For a user-id DM sent as the authenticated user, open the IM and target the
+    // returned channel id (applies to both postMessage and scheduleMessage below).
+    const channelId = await this.resolveDmChannelId(this.conversation, asUser);
     if (this.addToChannel) {
       await this.slack.maybeAddAppToChannels([
-        this.conversation,
+        channelId,
       ]);
     }
 
@@ -76,7 +79,7 @@ export default {
 
     const obj = {
       text: this.text,
-      channel: this.conversation,
+      channel: channelId,
       as_user: asUser,
       username: this.username,
       icon_emoji: this.icon_emoji,

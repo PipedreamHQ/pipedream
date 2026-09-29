@@ -182,6 +182,23 @@ export default {
       // authenticated user (prefix-free), channels post as the bot.
       return this.isDirectMessageTarget(destination);
     },
+    async resolveDmChannelId(destination, asUser) {
+      // Posting a DM to a bare user id: when posting as the authenticated user,
+      // open the IM with the USER token and target the returned channel id.
+      // chat.scheduleMessage doesn't resolve a raw user id, and chat.postMessage's
+      // implicit user-id → IM resolution is deprecated — so open explicitly and
+      // send to the D… channel. When posting as the bot (as_user: false), leave the
+      // destination untouched: chat.postMessage opens the bot's own DM with the
+      // user, preserving the existing behavior.
+      if (asUser && /^[UW][A-Z0-9]{6,}$/.test(String(destination).trim())) {
+        const { channel } = await this.slack.openConversation({
+          users: destination,
+          as_user: asUser,
+        });
+        return channel.id;
+      }
+      return destination;
+    },
     assertBotIdentityCompatible(asUser) {
       // Slack only applies a custom username/icon when posting as the bot (as_user: false).
       // When posting as the authenticated user these settings are silently dropped, so surface
@@ -207,9 +224,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const channelId = await this.getChannelId();
-    const asUser = await this.resolveAsUser(channelId);
+    const destination = await this.getChannelId();
+    const asUser = await this.resolveAsUser(destination);
     this.assertBotIdentityCompatible(asUser);
+    // For a user-id DM sent as the authenticated user, open the IM and target the
+    // returned channel id (applies to both postMessage and scheduleMessage below).
+    const channelId = await this.resolveDmChannelId(destination, asUser);
 
     if (this.addToChannel) {
       await this.slack.maybeAddAppToChannels([
