@@ -4,7 +4,7 @@ export default {
   key: "slack_v2-list-replies",
   name: "List Replies",
   description: "Retrieve a thread of messages posted to a conversation. [See the documentation](https://api.slack.com/methods/conversations.replies)",
-  version: "0.0.38",
+  version: "0.0.39",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
