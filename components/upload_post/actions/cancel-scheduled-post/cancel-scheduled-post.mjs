@@ -3,8 +3,10 @@ import app from "../../upload_post.app.mjs";
 export default {
   key: "upload_post-cancel-scheduled-post",
   name: "Cancel Scheduled Post",
-  description: "Cancel a scheduled post before it is published. The upload credits it reserved are returned. [See the documentation](https://docs.upload-post.com/api/schedule-posts#cancel-a-scheduled-post)",
+  description: "Cancel a scheduled or queued post before it is published and delete its stored media. The upload credits it reserved are returned (`credits_refunded`)."
+    + " Use **List Scheduled Posts** to find the `job_id`. [See the documentation](https://docs.upload-post.com/api/schedule-posts#cancel-a-scheduled-post)",
   version: "0.0.1",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

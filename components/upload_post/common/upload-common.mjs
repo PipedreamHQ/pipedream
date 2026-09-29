@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../upload_post.app.mjs";
 import utils from "./utils.mjs";
 
@@ -32,7 +33,7 @@ export default {
     },
     validate() {
       if (this.scheduledDate && this.addToQueue) {
-        throw new Error("**Scheduled Date** and **Add to Queue** cannot be used together");
+        throw new ConfigurationError("`scheduledDate` and `addToQueue` cannot be used together");
       }
     },
     buildFields(specificFields = {}) {

@@ -5,8 +5,12 @@ export default {
   ...common,
   key: "upload_post-upload-text",
   name: "Upload Text",
-  description: "Publish a text post to one or more social networks (X, LinkedIn, Facebook, Threads, Bluesky, Telegram, Discord and more). [See the documentation](https://docs.upload-post.com/api/upload-text)",
+  description: "Publish a text post to one or more social networks (X, LinkedIn, Facebook, Threads, Bluesky, Telegram, Discord and more), now, at a scheduled date or in the profile's queue."
+    + " Use **List Profiles** to find the profile and **List Facebook Pages** / **List LinkedIn Pages** for page IDs."
+    + " Returns a `request_id` (follow it with **Get Upload Status**) or, when scheduled, a `job_id`."
+    + " Instagram, TikTok and YouTube do not accept text-only posts. [See the documentation](https://docs.upload-post.com/api/upload-text)",
   version: "0.0.1",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -31,12 +35,12 @@ export default {
         "title",
       ],
       label: "Text",
-      description: "Default text content of the post. Platform-specific texts (see **Additional Fields**) override it.",
+      description: "Default text content of the post, e.g. `We just shipped dark mode!`. Platform-specific texts passed in `additionalFields` (e.g. `x_title`) override it.",
     },
     linkUrl: {
       type: "string",
       label: "Link URL",
-      description: "URL to show as a link preview card on the platforms that support it (LinkedIn, Bluesky, Facebook).",
+      description: "URL shown as a link preview card on the platforms that support it (LinkedIn, Bluesky, Facebook), e.g. `https://example.com/blog/dark-mode`.",
       optional: true,
     },
     scheduledDate: {
@@ -98,7 +102,7 @@ export default {
         common.props.app,
         "additionalFields",
       ],
-      description: "Any other parameter documented for [Upload Text](https://docs.upload-post.com/api/upload-text), as `field: value` pairs (e.g. `x_title`, `linkedin_title`, `threads_long_text_as_post`, `poll_options` (JSON array), `reply_settings`).",
+      description: "Any other parameter documented for [Upload Text](https://docs.upload-post.com/api/upload-text) as `field: value` pairs, e.g. `{\"x_title\": \"Short version\", \"threads_long_text_as_post\": true, \"poll_options\": [\"Yes\", \"No\"], \"poll_duration\": 1440}`. Array parameters take a JSON array.",
     },
   },
   async run({ $ }) {

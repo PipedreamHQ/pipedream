@@ -1,4 +1,6 @@
+import { createHash } from "crypto";
 import FormData from "form-data";
+import { ConfigurationError } from "@pipedream/platform";
 
 const isEmpty = (value) => value === undefined
   || value === null
@@ -29,8 +31,8 @@ const parseObject = (obj) => {
     return {};
   }
   const parsed = parseValue(obj);
-  if (typeof parsed !== "object" || Array.isArray(parsed)) {
-    throw new Error("Additional Fields must be an object of `field: value` pairs");
+  if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) {
+    throw new ConfigurationError("Additional Fields must be an object of `field: value` pairs");
   }
   return Object.fromEntries(
     Object.entries(parsed).map(([
@@ -76,8 +78,18 @@ const buildFormData = (fields = {}) => {
   return form;
 };
 
+/**
+ * Builds a stable, fixed-length (32 chars) event id from its parts, so source
+ * deduplication keeps working even when a part (e.g. `external_id`, up to 255
+ * chars) is long.
+ */
+const hashId = (...parts) => createHash("md5")
+  .update(parts.map((part) => part ?? "").join("|"))
+  .digest("hex");
+
 export default {
   isEmpty,
+  hashId,
   parseObject,
   buildFormData,
 };

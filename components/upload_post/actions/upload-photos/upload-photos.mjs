@@ -5,8 +5,12 @@ export default {
   ...common,
   key: "upload_post-upload-photos",
   name: "Upload Photos",
-  description: "Publish one or more photos (a carousel when several) from public URLs to one or more social networks. [See the documentation](https://docs.upload-post.com/api/upload-photo)",
+  description: "Publish one or more photos from public URLs (a carousel when several) to one or more social networks, now, at a scheduled date or in the profile's queue."
+    + " Use **List Profiles** to find the profile, **List Facebook Pages** / **List Pinterest Boards** / **List LinkedIn Pages** for page and board IDs."
+    + " Returns a `request_id` (follow it with **Get Upload Status**) or, when scheduled, a `job_id`."
+    + " Use **Upload Video** for single videos. [See the documentation](https://docs.upload-post.com/api/upload-photo)",
   version: "0.0.1",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -28,7 +32,7 @@ export default {
     photos: {
       type: "string[]",
       label: "Photo URLs",
-      description: "Public, direct URLs of the photos to publish. Instagram and Threads also accept videos here for mixed carousels.",
+      description: "Public, direct URLs of the photos to publish, e.g. `[\"https://example.com/1.jpg\", \"https://example.com/2.jpg\"]`. Instagram and Threads also accept video URLs here for mixed carousels.",
     },
     title: {
       propDefinition: [
@@ -80,22 +84,23 @@ export default {
       ],
     },
     privacyLevel: {
-      type: "string",
-      label: "TikTok Privacy Level",
-      description: "TikTok privacy setting. Defaults to `PUBLIC_TO_EVERYONE`. TikTok decides per account which levels are available.",
-      options: constants.TIKTOK_PRIVACY_LEVELS,
-      optional: true,
+      propDefinition: [
+        common.props.app,
+        "privacyLevel",
+      ],
+      description: "TikTok privacy setting, e.g. `SELF_ONLY`. Defaults to `PUBLIC_TO_EVERYONE`. TikTok decides per account which levels are available.",
     },
     autoAddMusic: {
       type: "boolean",
       label: "TikTok Auto Add Music",
-      description: "Automatically add background music to TikTok photo posts.",
+      description: "Set to `true` to let TikTok add background music to the photo post, e.g. `true`.",
       optional: true,
+      default: false,
     },
     mediaType: {
       type: "string",
       label: "Instagram Media Type",
-      description: "Type of Instagram photo media. Defaults to `IMAGE` (carousel when several photos).",
+      description: "Type of Instagram photo media, e.g. `STORIES`. Defaults to `IMAGE` (a carousel when several photos).",
       options: [
         "IMAGE",
         "STORIES",
@@ -105,7 +110,7 @@ export default {
     facebookMediaType: {
       type: "string",
       label: "Facebook Media Type",
-      description: "Type of Facebook photo media. Defaults to `POSTS`.",
+      description: "Type of Facebook photo media, e.g. `STORIES`. Defaults to `POSTS`.",
       options: [
         "POSTS",
         "STORIES",
@@ -113,11 +118,10 @@ export default {
       optional: true,
     },
     visibility: {
-      type: "string",
-      label: "LinkedIn Visibility",
-      description: "LinkedIn visibility setting. Defaults to `PUBLIC`.",
-      options: constants.LINKEDIN_VISIBILITY,
-      optional: true,
+      propDefinition: [
+        common.props.app,
+        "visibility",
+      ],
     },
     facebookPageId: {
       propDefinition: [
@@ -151,7 +155,7 @@ export default {
         common.props.app,
         "additionalFields",
       ],
-      description: "Any other parameter documented for [Upload Photos](https://docs.upload-post.com/api/upload-photo), as `field: value` pairs (e.g. `instagram_title`, `tiktok_description`, `photo_cover_index`, `pinterest_link`, `x_first_comment`).",
+      description: "Any other parameter documented for [Upload Photos](https://docs.upload-post.com/api/upload-photo) as `field: value` pairs, e.g. `{\"instagram_title\": \"Carousel\", \"tiktok_description\": \"Swipe\", \"photo_cover_index\": 1, \"pinterest_link\": \"https://example.com\"}`.",
     },
   },
   async run({ $ }) {

@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import common from "../../common/upload-common.mjs";
 import constants from "../../common/constants.mjs";
 
@@ -5,8 +6,12 @@ export default {
   ...common,
   key: "upload_post-upload-video",
   name: "Upload Video",
-  description: "Publish a video from a public URL to one or more social networks (TikTok, Instagram, YouTube, LinkedIn, Facebook, X, Threads, Pinterest, Bluesky and more). [See the documentation](https://docs.upload-post.com/api/upload-video)",
+  description: "Publish a video from a public URL to one or more social networks (TikTok, Instagram, YouTube, LinkedIn, Facebook, X, Threads, Pinterest, Bluesky and more), now, at a scheduled date or in the profile's queue."
+    + " Use **List Profiles** to find the profile, **List Facebook Pages** / **List Pinterest Boards** / **List LinkedIn Pages** for page and board IDs."
+    + " Returns a `request_id` (follow it with **Get Upload Status**) or, when scheduled, a `job_id`."
+    + " YouTube requires a `title`. [See the documentation](https://docs.upload-post.com/api/upload-video)",
   version: "0.0.1",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -28,14 +33,14 @@ export default {
     video: {
       type: "string",
       label: "Video URL",
-      description: "Public, direct URL of the video file to publish (e.g. `https://example.com/video.mp4`). Google Drive links must be shared with \"Anyone with the link\".",
+      description: "Public, direct URL of the video file to publish, e.g. `https://example.com/video.mp4`. Google Drive links must be shared with \"Anyone with the link\".",
     },
     title: {
       propDefinition: [
         common.props.app,
         "title",
       ],
-      description: "Default title/caption of the video. **Required** for YouTube; optional for the other platforms.",
+      description: "Default title/caption of the video, e.g. `Behind the scenes`. Required for YouTube; optional for the other platforms. Platform-specific titles passed in `additionalFields` (e.g. `tiktok_title`) override it.",
       optional: true,
     },
     description: {
@@ -81,16 +86,16 @@ export default {
       ],
     },
     privacyLevel: {
-      type: "string",
-      label: "TikTok Privacy Level",
-      description: "TikTok privacy setting. TikTok decides per account which levels are available. Omit to keep the account's default.",
-      options: constants.TIKTOK_PRIVACY_LEVELS,
-      optional: true,
+      propDefinition: [
+        common.props.app,
+        "privacyLevel",
+      ],
+      description: "TikTok privacy setting, e.g. `PUBLIC_TO_EVERYONE`. TikTok decides per account which levels are available. Omit to keep the account's default.",
     },
     mediaType: {
       type: "string",
       label: "Instagram Media Type",
-      description: "Type of Instagram video media. Defaults to `REELS`.",
+      description: "Type of Instagram video media, e.g. `STORIES`. Defaults to `REELS`.",
       options: [
         "REELS",
         "STORIES",
@@ -100,7 +105,7 @@ export default {
     facebookMediaType: {
       type: "string",
       label: "Facebook Media Type",
-      description: "`REELS` (short-form 9:16), `STORIES` (24h ephemeral) or `VIDEO` (normal Page video). Defaults to `REELS`.",
+      description: "Type of Facebook video, e.g. `VIDEO`: `REELS` (short-form 9:16), `STORIES` (24h ephemeral) or `VIDEO` (normal Page video). Defaults to `REELS`.",
       options: [
         "REELS",
         "STORIES",
@@ -111,16 +116,15 @@ export default {
     privacyStatus: {
       type: "string",
       label: "YouTube Privacy Status",
-      description: "YouTube privacy setting. Defaults to `public`.",
+      description: "YouTube privacy setting, e.g. `unlisted`. Defaults to `public`.",
       options: constants.YOUTUBE_PRIVACY_STATUS,
       optional: true,
     },
     visibility: {
-      type: "string",
-      label: "LinkedIn Visibility",
-      description: "LinkedIn visibility setting. Defaults to `PUBLIC`.",
-      options: constants.LINKEDIN_VISIBILITY,
-      optional: true,
+      propDefinition: [
+        common.props.app,
+        "visibility",
+      ],
     },
     facebookPageId: {
       propDefinition: [
@@ -154,12 +158,12 @@ export default {
         common.props.app,
         "additionalFields",
       ],
-      description: "Any other parameter documented for [Upload Video](https://docs.upload-post.com/api/upload-video), as `field: value` pairs (e.g. `tiktok_title`, `youtube_description`, `tags` (JSON array), `share_to_feed`, `cover_url`, `x_first_comment`).",
+      description: "Any other parameter documented for [Upload Video](https://docs.upload-post.com/api/upload-video) as `field: value` pairs, e.g. `{\"tiktok_title\": \"Short title\", \"youtube_description\": \"Full text\", \"tags\": [\"news\", \"ai\"], \"cover_url\": \"https://example.com/cover.jpg\"}`. Array parameters take a JSON array.",
     },
   },
   async run({ $ }) {
     if (this.platforms?.includes("youtube") && !this.title) {
-      throw new Error("**Title** is required when publishing to YouTube");
+      throw new ConfigurationError("`title` is required when publishing to YouTube");
     }
     const response = await this.app.uploadVideo({
       $,

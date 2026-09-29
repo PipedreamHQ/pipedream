@@ -1,16 +1,16 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import app from "../../upload_post.app.mjs";
 import constants from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
 import sampleEmit from "./test-event.mjs";
 
 const PAGE_SIZE = 100;
-const MAX_PAGES = 10;
 const DEPLOY_EMIT_LIMIT = 10;
 
 export default {
   key: "upload_post-new-upload-completed",
   name: "New Upload Completed",
-  description: "Emit new event when an upload finishes on a platform (one event per platform, successful or failed). [See the documentation](https://docs.upload-post.com/api/upload-history)",
+  description: "Emit new event when an upload finishes on a platform (one event per platform, successful or failed), with the post URL or the error message. [See the documentation](https://docs.upload-post.com/api/upload-history)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -30,28 +30,22 @@ export default {
         app,
         "user",
       ],
-      description: "Only emit uploads of this profile",
+      description: "Only emit uploads of this profile, e.g. `my_brand`. Use **List Profiles** to find it (the `username` field).",
       optional: true,
     },
     platform: {
-      type: "string",
-      label: "Platform",
-      description: "Only emit uploads to this platform",
-      options: constants.HISTORY_PLATFORMS.map((value) => ({
-        label: constants.PLATFORM_LABELS[value],
-        value,
-      })),
-      optional: true,
+      propDefinition: [
+        app,
+        "historyPlatform",
+      ],
+      description: "Only emit uploads to this platform, e.g. `youtube`.",
     },
     status: {
-      type: "string",
-      label: "Status",
-      description: "Only emit successful or only failed uploads. Emits both by default.",
-      options: [
-        "success",
-        "failed",
+      propDefinition: [
+        app,
+        "uploadStatus",
       ],
-      optional: true,
+      description: "Only emit successful or only failed uploads, e.g. `failed`. Both are emitted by default.",
     },
   },
   hooks: {
@@ -70,33 +64,38 @@ export default {
       return Date.parse(item.upload_timestamp) || 0;
     },
     generateMeta(item) {
-      const ts = this.getTs(item);
       // A request publishes one history row per platform. The timestamp is part of
       // the id so a retried platform upload (same request_id) is emitted again.
-      const id = [
-        item.request_id || item.job_id || item.external_id || "",
+      const id = utils.hashId(
+        item.request_id || item.job_id || item.external_id,
         item.platform,
         item.upload_timestamp,
-      ].join("-");
+      );
+      const platform = constants.PLATFORM_LABELS[item.platform] || item.platform;
       const result = item.success
         ? "succeeded"
         : "failed";
+      const profile = item.profile_username
+        ? ` (${item.profile_username})`
+        : "";
       return {
         id,
-        summary: `Upload to ${constants.PLATFORM_LABELS[item.platform] || item.platform} ${result}${item.profile_username
-          ? ` (${item.profile_username})`
-          : ""}`,
-        ts: ts || Date.now(),
+        summary: `Upload to ${platform} ${result}${profile}`,
+        ts: this.getTs(item) || Date.now(),
       };
     },
+    /**
+     * Pages through the history (most recent first) until reaching rows older than
+     * the last emitted one, then emits the new rows in chronological order.
+     * @param {number} [max] - cap on the number of rows to emit (first run only)
+     */
     async processEvents(max) {
       const lastTs = this._getLastTs();
       const items = [];
       let page = 1;
       let done = false;
 
-      // History is returned most recent first: page until reaching already-seen rows
-      while (!done && page <= MAX_PAGES) {
+      while (!done) {
         const { history = [] } = await this.app.getUploadHistory({
           params: {
             page,
@@ -128,10 +127,10 @@ export default {
         return;
       }
 
-      this._setLastTs(Math.max(lastTs, ...items.map((item) => this.getTs(item))));
-
-      // Emit in chronological order
       items.reverse().forEach((item) => this.$emit(item, this.generateMeta(item)));
+
+      // Update the checkpoint only after every event has been emitted
+      this._setLastTs(Math.max(lastTs, ...items.map((item) => this.getTs(item))));
     },
   },
   async run() {
