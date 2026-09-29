@@ -2,7 +2,7 @@ import { ConfigurationError } from "@pipedream/platform";
 import googleAds from "../google_ads.app.mjs";
 import props from "./props.mjs";
 import {
-  CORE_DATE_SEGMENTS, DATE_RANGE_OPTIONS,
+  CORE_DATE_SEGMENTS, DATE_RANGE_OPTIONS, REPORT_RESOURCE_LOOKUPS,
 } from "./constants.mjs";
 import {
   buildOrderByClause, checkPrefix,
@@ -12,6 +12,7 @@ export function createReportComponent(resource) {
   const {
     label, value,
   } = resource.resourceOption;
+  const lookup = REPORT_RESOURCE_LOOKUPS[value];
 
   // Build allow-lists for local pre-flight validation (no HTTP call consumed)
   const validFields = new Set(resource.fields.map((f) => f.value));
@@ -32,7 +33,7 @@ export function createReportComponent(resource) {
           "reportResourceFilter",
         ],
         label: `${label}(s)`,
-        description: `Numeric ${label} IDs to filter this report to specific ${label.toLowerCase()}s (e.g. \`["1234567890"]\`). Run the relevant list action first to discover valid IDs (e.g. **List Campaigns** for campaign reports, **List Ad Groups** for ad group reports). Leave blank for all ${label.toLowerCase()}s.`,
+        description: `Numeric ${label} IDs to filter this report to specific ${label.toLowerCase()}s (e.g. \`["1234567890"]\`). Use **${lookup.action}** and read \`${lookup.idField}\` from each returned item to find valid IDs for this resource. Use the same account as the report. Leave blank for all ${label.toLowerCase()}s.`,
       },
       dateRange: {
         type: "string",
@@ -156,6 +157,7 @@ export function createReportComponent(resource) {
           validFields,
           validSegments,
           validMetrics,
+          selectedNames: selection,
         });
         if (orderByClause) {
           query += ` ORDER BY ${orderByClause}`;

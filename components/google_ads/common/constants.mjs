@@ -1,5 +1,24 @@
 export const API_VERSION = "v25";
 
+export const REPORT_RESOURCE_LOOKUPS = {
+  campaign: {
+    action: "List Campaigns",
+    idField: "campaign.id",
+  },
+  ad_group: {
+    action: "List Ad Groups",
+    idField: "adGroup.id",
+  },
+  ad_group_ad: {
+    action: "List Ad Group Ads",
+    idField: "adGroupAd.ad.id",
+  },
+  customer: {
+    action: "List Customer Clients",
+    idField: "customerClient.id",
+  },
+};
+
 export const SEARCH_PATH = "/customers/{customerClientId}/googleAds:search";
 export const SEARCH_STREAM_PATH = "/customers/{customerClientId}/googleAds:searchStream";
 // OfflineUserDataJobTypeEnum.OfflineUserDataJobType value for a Customer Match job (job.type).

@@ -37,7 +37,7 @@ export default {
     resource: {
       type: "string",
       label: "Resource",
-      description: "The primary GAQL resource to report on. Must be one of the values shown here — each has a local field/segment/metric allow-list, validated before any API call.",
+      description: "The primary GAQL resource to report on, e.g. `campaign`. Must be `campaign`, `ad_group`, `ad_group_ad`, or `customer`; each has a local field/segment/metric allow-list, validated before any API call.",
       options: RESOURCES.map((r) => r.resourceOption),
     },
     objectFilter: {
@@ -204,6 +204,7 @@ export default {
         validFields,
         validSegments,
         validMetrics,
+        selectedNames: selection,
       });
       if (orderByClause) {
         query += ` ORDER BY ${orderByClause}`;

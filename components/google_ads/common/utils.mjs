@@ -92,18 +92,18 @@ export function checkPrefix(value, prefix) {
 // prefix-expansion already applied to the SELECT clause (fields/segments/metrics) so a
 // bare field name resolves the same way in both places. Ordering by a segment or metric
 // is valid GAQL, not just a resource's own fields, so all three allow-lists are tried.
-// Throws ConfigurationError on any term that isn't recognized, so nothing invalid ever
-// reaches SearchStream.
+// Metrics and segments must also appear in the report's final SELECT clause.
+// Throws ConfigurationError for unknown or unselected ordering terms before SearchStream.
 export function buildOrderByClause(orderBy, {
-  resource, validFields, validSegments, validMetrics,
+  resource, validFields, validSegments, validMetrics, selectedNames,
 }) {
   if (!orderBy) {
     return undefined;
   }
 
   const terms = orderBy.split(",")
-    .map((term) => term.trim())
-    .filter(Boolean);
+    .map((term) => term.trim());
+  const selected = new Set(selectedNames);
 
   const normalizedTerms = terms.map((term) => {
     const match = term.match(/^(\S+)(?:\s+(ASC|DESC))?$/i);
@@ -141,6 +141,10 @@ export function buildOrderByClause(orderBy, {
 
     if (!field) {
       throw new ConfigurationError(`"${rawField}" is not a valid field, segment, or metric to order by for the "${resource}" resource.`);
+    }
+
+    if ((validSegments.has(field) || validMetrics.has(field)) && !selected.has(field)) {
+      throw new ConfigurationError(`"${field}" must be included in the report's selected segments or metrics before it can be used in ORDER BY.`);
     }
 
     return direction
