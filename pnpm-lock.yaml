@@ -9905,6 +9905,9 @@ importers:
 
   components/mezmo: {}
 
+  components/michelle_test_app:
+    specifiers: {}
+
   components/microbilt_developer: {}
 
   components/microsoft_365:
