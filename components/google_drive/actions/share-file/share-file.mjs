@@ -15,7 +15,7 @@ export default {
     + "\n\n**Roles:** `reader` (view only), `commenter` (can comment), `writer` (can edit)."
     + " Use **List Permissions** to see existing sharing on a file."
     + " [See the documentation](https://developers.google.com/drive/api/v3/reference/permissions/create)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   ai: "optimized",
   annotations: {

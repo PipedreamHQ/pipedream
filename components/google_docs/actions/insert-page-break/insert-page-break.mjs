@@ -6,7 +6,7 @@ export default {
   key: "google_docs-insert-page-break",
   name: "Insert Page Break",
   description: "Insert a page break into a Google Doc at the beginning, end, or a specific character index. Use **Find Document** to resolve a document's name to its ID. In a multi-tab document, set **Tab ID** to choose which tab receives the page break — without it the break goes into the document's first tab; use **List Tabs** to get the IDs. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#InsertPageBreakRequest)",
-  version: "1.2.0",
+  version: "1.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "google_drive-list-mime-type-options",
   name: "List Mime Type Options",
   description: "Retrieves available options for the Mime Type field.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   ai: "optimized",
   annotations: {

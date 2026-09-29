@@ -9,6 +9,25 @@ const MAX_NAME_LOOKUP_PAGES = 5;
 // that doesn't exist (typo, wrong workspace) forces a full workspace scan —
 // on a large workspace that alone can exhaust conversations.list's rate limit.
 const MAX_CHANNEL_RESOLVE_PAGES = 5;
+// Page budget for `assistant.search.context` in the Search action. When several
+// content types are selected, one sparse type (e.g. files) would otherwise keep
+// the loop paging through the other type until the cursor runs out, and this
+// method rate-limits readily. Slack returns at most SEARCH_PAGE_SIZE items per
+// page, so Max Results is capped at what the budget can fill for one type.
+const MAX_SEARCH_PAGES = 5;
+const SEARCH_PAGE_SIZE = 20;
+const MAX_SEARCH_RESULTS = MAX_SEARCH_PAGES * SEARCH_PAGE_SIZE;
+// User-token errors on which file reads retry with the bot token.
+const FILES_READ_BOT_FALLBACK_ERRORS = [
+  "missing_scope",
+  "file_not_found",
+  "channel_not_found",
+  "not_in_channel",
+];
+// Pipedream's /tmp limit: https://pipedream.com/docs/workflows/limits#disk
+const MAX_DOWNLOAD_SIZE_BYTES = 2 * 1024 * 1024 * 1024;
+const STREAM_RESPONSE_TYPE = "stream";
+const CANVAS_FILETYPE = "quip";
 
 const CHANNEL_TYPE = {
   PUBLIC: "public_channel",
@@ -51,6 +70,13 @@ export default {
   LIMIT,
   MAX_NAME_LOOKUP_PAGES,
   MAX_CHANNEL_RESOLVE_PAGES,
+  MAX_SEARCH_PAGES,
+  SEARCH_PAGE_SIZE,
+  MAX_SEARCH_RESULTS,
+  FILES_READ_BOT_FALLBACK_ERRORS,
+  MAX_DOWNLOAD_SIZE_BYTES,
+  STREAM_RESPONSE_TYPE,
+  CANVAS_FILETYPE,
   CHANNEL_TYPE,
   CHANNEL_TYPE_OPTIONS,
   BLOCK_TYPES,

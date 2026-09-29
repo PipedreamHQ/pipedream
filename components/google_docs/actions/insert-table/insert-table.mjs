@@ -6,7 +6,7 @@ export default {
   key: "google_docs-insert-table",
   name: "Insert Table",
   description: "Insert an empty table with the given number of rows and columns into a Google Doc. If you already have the data, use **Write Table** instead so you don't have to fill cells one by one. Use **Find Document** to resolve a document's name to its ID. In a multi-tab document, set **Tab ID** to choose which tab receives the table — without it the table goes into the document's first tab; use **List Tabs** to get the IDs. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#InsertTableRequest)",
-  version: "1.2.0",
+  version: "1.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,12 +1,13 @@
 import { ConfigurationError } from "@pipedream/platform";
 import googleDocs from "../../google_docs.app.mjs";
 import utils from "../../common/utils.mjs";
+import { POINTS } from "../../common/constants.mjs";
 
 export default {
   key: "google_docs-insert-image",
   name: "Insert Image",
-  description: "Insert an inline image into a Google Doc from a publicly reachable image URL. The URL must be publicly accessible (Google fetches it server-side) and point to a PNG, JPEG, or GIF. Use **Find Document** to resolve a document's name to its ID. In a multi-tab document, set **Tab ID** to choose which tab receives the image — without it the image goes into the document's first tab; use **List Tabs** to get the IDs. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#InsertInlineImageRequest)",
-  version: "0.2.0",
+  description: "Insert an inline image into a Google Doc from a publicly reachable image URL. The URL must be publicly accessible (Google fetches it server-side) and point to a PNG, JPEG, or GIF. Set **Width** and/or **Height** to control the display size. Docs preserves the image's aspect ratio, so setting one scales the other, and setting both may adjust one of them to fit (a 272x92 image asked for 150x51 PT comes back 150x50.7). An image already in the document cannot be resized in place - delete it and insert it again at the size you want. Use **Find Document** to resolve a document's name to its ID. In a multi-tab document, set **Tab ID** to choose which tab receives the image - without it the image goes into the document's first tab; use **List Tabs** to get the IDs. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#InsertInlineImageRequest)",
+  version: "0.3.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -33,6 +34,20 @@ export default {
         "position",
       ],
     },
+    width: {
+      type: "integer",
+      label: "Width",
+      description: "Optional display width in points (1 inch = 72 PT), e.g. `200`. Docs keeps the image's aspect ratio, so **Height** scales with this unless it is also set - and when both are set one may be adjusted slightly to fit. Omit both to insert at the image's natural size.",
+      min: 1,
+      optional: true,
+    },
+    height: {
+      type: "integer",
+      label: "Height",
+      description: "Optional display height in points (1 inch = 72 PT), e.g. `150`. Docs keeps the image's aspect ratio, so **Width** scales with this unless it is also set - and when both are set one may be adjusted slightly to fit. Omit both to insert at the image's natural size.",
+      min: 1,
+      optional: true,
+    },
     tabId: {
       propDefinition: [
         googleDocs,
@@ -52,8 +67,25 @@ export default {
     }
     await utils.validateFieldMask(this.googleDocs, this.documentId, this.fields);
 
+    const objectSize = {
+      ...(this.width && {
+        width: {
+          magnitude: this.width,
+          unit: POINTS,
+        },
+      }),
+      ...(this.height && {
+        height: {
+          magnitude: this.height,
+          unit: POINTS,
+        },
+      }),
+    };
     const request = this.googleDocs._buildRequestForPosition({
       uri: this.imageUri,
+      ...(Object.keys(objectSize).length && {
+        objectSize,
+      }),
     }, this.position, this.tabId);
     await this.googleDocs._batchUpdate(this.documentId, "insertInlineImage", request);
     const target = this.tabId
