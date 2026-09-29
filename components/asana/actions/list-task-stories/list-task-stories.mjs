@@ -13,7 +13,7 @@ export default {
   },
   type: "action",
   props: {
-    ...common.props,
+    asana: common.props.asana,
     taskId: {
       label: "Task GID",
       description: "The ID of the task to retrieve stories for, e.g. `1202345678901234`. Use **Search Tasks** to find available task GIDs.",

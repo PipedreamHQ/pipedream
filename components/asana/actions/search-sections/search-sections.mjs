@@ -13,7 +13,8 @@ export default {
   },
   type: "action",
   props: {
-    ...common.props,
+    asana: common.props.asana,
+    project: common.props.project,
     sectionName: {
       label: "Name",
       description: "The name of the section to search for (client-side substring match), e.g. `In Progress`. Omit to return all sections in the project.",

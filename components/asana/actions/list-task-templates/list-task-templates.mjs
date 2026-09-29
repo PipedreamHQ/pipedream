@@ -13,7 +13,8 @@ export default {
     readOnlyHint: true,
   },
   props: {
-    ...common.props,
+    asana: common.props.asana,
+    project: common.props.project,
     maxResults: {
       propDefinition: [
         common.props.asana,

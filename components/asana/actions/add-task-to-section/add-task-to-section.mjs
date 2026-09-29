@@ -5,7 +5,7 @@ export default {
   name: "Add Task To Section",
   description: "Moves a task into a specific section within an Asana project, removing it from any other section it currently occupies in that project. Use **Search Sections** to find the section GID and **Search Tasks** to find the task GID. Returns an empty object `{}` on success. Example: call with `project: '1204567890123456'`, `task: '1202345678901234'`, `section_gid: '1203456789012345'` → task is moved into that section and returns `{}`. [See the documentation](https://developers.asana.com/docs/add-task-to-section)",
   key: "asana-add-task-to-section",
-  version: "0.2.17",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -14,7 +14,7 @@ export default {
   type: "action",
   ai: "optimized",
   props: {
-    ...common.props,
+    asana: common.props.asana,
     task: {
       label: "Task",
       type: "string",
