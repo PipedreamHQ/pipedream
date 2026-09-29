@@ -51,7 +51,7 @@ export default {
     reportResourceFilter: {
       type: "string[]",
       label: "Filter by Resources",
-      description: "Numeric resource IDs to limit the report to specific records. Run the relevant list action first to discover valid IDs (e.g. **List Campaigns** for campaign reports, **List Ad Groups** for ad group reports, **List Ad Group Ads** for ad reports). Leave blank to include all records.",
+      description: "Numeric resource IDs to limit the report to specific records (e.g. `[\"1234567890\"]`). Run the relevant list action first to discover valid IDs (e.g. **List Campaigns** for campaign reports, **List Ad Groups** for ad group reports, **List Ad Group Ads** for ad reports). Leave blank to include all records.",
       optional: true,
     },
     reportOrderBy: {

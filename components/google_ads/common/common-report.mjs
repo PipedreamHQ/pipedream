@@ -4,7 +4,9 @@ import props from "./props.mjs";
 import {
   CORE_DATE_SEGMENTS, DATE_RANGE_OPTIONS,
 } from "./constants.mjs";
-import { checkPrefix } from "./utils.mjs";
+import {
+  buildOrderByClause, checkPrefix,
+} from "./utils.mjs";
 
 export function createReportComponent(resource) {
   const {
@@ -30,7 +32,7 @@ export function createReportComponent(resource) {
           "reportResourceFilter",
         ],
         label: `${label}(s)`,
-        description: `Numeric ${label} IDs to filter this report to specific ${label.toLowerCase()}s. Run the relevant list action first to discover valid IDs (e.g. **List Campaigns** for campaign reports, **List Ad Groups** for ad group reports). Leave blank for all ${label.toLowerCase()}s.`,
+        description: `Numeric ${label} IDs to filter this report to specific ${label.toLowerCase()}s (e.g. \`["1234567890"]\`). Run the relevant list action first to discover valid IDs (e.g. **List Campaigns** for campaign reports, **List Ad Groups** for ad group reports). Leave blank for all ${label.toLowerCase()}s.`,
       },
       dateRange: {
         type: "string",
@@ -81,7 +83,7 @@ export function createReportComponent(resource) {
       limit: {
         type: "integer",
         label: "Limit",
-        description: "Maximum number of rows to return (min 1, max 1000).",
+        description: "Maximum number of rows to return (e.g. `100`; min 1, max 1000).",
         optional: true,
         min: 1,
         max: 1000,
@@ -149,8 +151,14 @@ export function createReportComponent(resource) {
             : "WHERE"} segments.date ${dateClause}`;
         }
 
-        if (orderBy) {
-          query += ` ORDER BY ${orderBy}`;
+        const orderByClause = buildOrderByClause(orderBy, {
+          resource: value,
+          validFields,
+          validSegments,
+          validMetrics,
+        });
+        if (orderByClause) {
+          query += ` ORDER BY ${orderByClause}`;
         }
         if (limit) {
           query += ` LIMIT ${limit}`;

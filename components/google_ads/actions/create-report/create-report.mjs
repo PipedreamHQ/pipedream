@@ -7,7 +7,9 @@ import { ConfigurationError } from "@pipedream/platform";
 import {
   CORE_DATE_SEGMENTS, DATE_RANGE_OPTIONS,
 } from "../../common/constants.mjs";
-import { checkPrefix } from "../../common/utils.mjs";
+import {
+  buildOrderByClause, checkPrefix,
+} from "../../common/utils.mjs";
 
 const RESOURCES = [
   adGroup,
@@ -35,7 +37,7 @@ export default {
     resource: {
       type: "string",
       label: "Resource",
-      description: "The primary GAQL resource to report on (e.g. `campaign`, `customer`, `ad_group_ad`, `ad_group`). Use one of the values shown here or any valid GAQL resource name.",
+      description: "The primary GAQL resource to report on. Must be one of the values shown here — each has a local field/segment/metric allow-list, validated before any API call.",
       options: RESOURCES.map((r) => r.resourceOption),
     },
     objectFilter: {
@@ -141,27 +143,30 @@ export default {
         : allExpandedSegments?.filter((s) => !CORE_DATE_SEGMENTS.includes(s));
       const expandedMetrics = checkPrefix(metrics, "metrics");
 
-      // Validate against known resource allow-lists when the resource is a known GAQL resource
+      // Reject unknown resources outright rather than silently skipping field/segment/metric
+      // validation — every supported resource must have a local allow-list to validate against.
       const resourceDef = RESOURCES.find((r) => r.resourceOption.value === resource);
-      if (resourceDef) {
-        const validFields = new Set(resourceDef.fields.map((f) => f.value));
-        const validSegments = new Set(resourceDef.segments.map((s) => s.value));
-        const validMetrics = new Set(resourceDef.metrics.map((m) => m.value));
+      if (!resourceDef) {
+        throw new ConfigurationError(`"${resource}" is not a supported resource. Use one of: ${RESOURCES.map((r) => r.resourceOption.value).join(", ")}.`);
+      }
 
-        for (const f of expandedFields) {
-          if (!validFields.has(f)) {
-            throw new ConfigurationError(`"${f}" is not a valid field for the "${resource}" resource. Check the GAQL field reference: https://developers.google.com/google-ads/api/fields/v25/${resource}`);
-          }
+      const validFields = new Set(resourceDef.fields.map((f) => f.value));
+      const validSegments = new Set(resourceDef.segments.map((s) => s.value));
+      const validMetrics = new Set(resourceDef.metrics.map((m) => m.value));
+
+      for (const f of expandedFields) {
+        if (!validFields.has(f)) {
+          throw new ConfigurationError(`"${f}" is not a valid field for the "${resource}" resource. Check the GAQL field reference: https://developers.google.com/google-ads/api/fields/v25/${resource}`);
         }
-        for (const s of expandedSegments) {
-          if (!validSegments.has(s)) {
-            throw new ConfigurationError(`"${s}" is not a valid segment for the "${resource}" resource. Check the GAQL field reference: https://developers.google.com/google-ads/api/fields/v25/${resource}`);
-          }
+      }
+      for (const s of expandedSegments) {
+        if (!validSegments.has(s)) {
+          throw new ConfigurationError(`"${s}" is not a valid segment for the "${resource}" resource. Check the GAQL field reference: https://developers.google.com/google-ads/api/fields/v25/${resource}`);
         }
-        for (const m of expandedMetrics) {
-          if (!validMetrics.has(m)) {
-            throw new ConfigurationError(`"${m}" is not a valid metric for the "${resource}" resource. Check the GAQL field reference: https://developers.google.com/google-ads/api/fields/v25/${resource}`);
-          }
+      }
+      for (const m of expandedMetrics) {
+        if (!validMetrics.has(m)) {
+          throw new ConfigurationError(`"${m}" is not a valid metric for the "${resource}" resource. Check the GAQL field reference: https://developers.google.com/google-ads/api/fields/v25/${resource}`);
         }
       }
 
@@ -194,8 +199,14 @@ export default {
           : "WHERE"} segments.date ${dateClause}`;
       }
 
-      if (orderBy) {
-        query += ` ORDER BY ${orderBy}`;
+      const orderByClause = buildOrderByClause(orderBy, {
+        resource,
+        validFields,
+        validSegments,
+        validMetrics,
+      });
+      if (orderByClause) {
+        query += ` ORDER BY ${orderByClause}`;
       }
       if (limit) {
         query += ` LIMIT ${limit}`;
