@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/firebase_admin_sdk",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Firebase Admin SDK Components",
   "main": "firebase_admin_sdk.app.mjs",
   "keywords": [
@@ -13,8 +13,8 @@
     "@firebase/app-compat": "^0.1.25",
     "@firebase/app-types": "^0.7.0",
     "@pipedream/platform": "^3.1.1",
-    "firebase-admin": "^13.0.2",
-    "google-auth-library": "^7.11.0"
+    "firebase-admin": "13.10.0",
+    "google-auth-library": "7.14.1"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {
