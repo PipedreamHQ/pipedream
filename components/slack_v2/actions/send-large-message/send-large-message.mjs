@@ -44,7 +44,7 @@ export default {
     ...common.props,
   },
   async run({ $ }) {
-    const asUser = this.resolveAsUser(this.conversation);
+    const asUser = await this.resolveAsUser(this.conversation);
     this.assertBotIdentityCompatible(asUser);
     if (this.addToChannel) {
       await this.slack.maybeAddAppToChannels([

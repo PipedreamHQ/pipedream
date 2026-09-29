@@ -73,8 +73,14 @@ export default {
   methods: {
     ...common.methods,
     openConversation(args = {}) {
+      // Open the IM with the SAME token the message will post with. With
+      // `as_user: false` the post goes out on the bot token, so the IM must be
+      // opened on the bot token too — otherwise we open the *user's* IM and then
+      // fail to post to it as the bot (`channel_not_found`). `as_user` is always
+      // defined here (defaults to `true`), so it matches the effective identity.
       return this.slack.makeRequest({
         method: "conversations.open",
+        as_user: this.as_user,
         ...args,
       });
     },

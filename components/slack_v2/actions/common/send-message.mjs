@@ -138,24 +138,48 @@ export default {
     getChannelId() {
       return this.conversation ?? this.reply_channel;
     },
-    isDirectMessageTarget(destination) {
+    async isDirectMessageTarget(destination) {
       if (!destination) return false;
       const value = String(destination)
         .trim()
         .replace(/^@/, "");
-      // Slack user ids (U…/W…) and open IM channel ids (D…) address a direct
-      // message; channel ids (C…), private/mpim group ids (G…) and channel names
-      // do not. A DM posted as the bot gets a `Pipedream:` notification prefix,
-      // so DMs default to the authenticated user (see resolveAsUser).
-      return /^[UWD][A-Z0-9]{6,}$/.test(value);
+      // Slack ids are uppercase, so match case-sensitively (a lowercased all-alnum
+      // channel name must not read as an id). User ids (U…/W…) and open IM ids (D…)
+      // address a direct message; a public/private channel id (C…) and a channel
+      // name do not.
+      if (/^[UWD][A-Z0-9]{6,}$/.test(value)) return true;
+      if (/^C[A-Z0-9]{6,}$/.test(value)) return false;
+      // A `G…` id is ambiguous: a legacy private group (a channel) OR a
+      // multi-person DM (mpim), which IS a direct message. Resolve the type so a
+      // group DM also defaults to the authenticated user (prefix-free) rather than
+      // the bot. Fall back to bot-default (channel) if it can't be classified.
+      if (/^G[A-Z0-9]{6,}$/.test(value)) {
+        try {
+          const { channel } = await this.slack.conversationsInfo({
+            channel: value,
+          });
+          return Boolean(channel?.is_im || channel?.is_mpim);
+        } catch {
+          return false;
+        }
+      }
+      // Anything else (a channel name) is a channel.
+      return false;
     },
-    resolveAsUser(destination) {
-      // An explicit choice always wins. Otherwise default per destination: DMs
-      // post as the authenticated user (prefix-free), channels post as the bot
-      // (channel attribution is intentionally left bot-default).
+    async resolveAsUser(destination) {
+      // An explicit choice always wins.
       if (this.as_user !== undefined) {
         return this.as_user;
       }
+      // A custom bot identity is an implicit request to post as the bot, so honor
+      // it (post as the bot with that identity) instead of defaulting a DM to the
+      // authenticated user and then erroring in assertBotIdentityCompatible. This
+      // preserves a pre-existing "DM as the bot with a custom username/icon" config.
+      if (this.username || this.icon_emoji || this.icon_url) {
+        return false;
+      }
+      // Otherwise default per destination: DMs (including group DMs) post as the
+      // authenticated user (prefix-free), channels post as the bot.
       return this.isDirectMessageTarget(destination);
     },
     assertBotIdentityCompatible(asUser) {
@@ -184,7 +208,7 @@ export default {
   },
   async run({ $ }) {
     const channelId = await this.getChannelId();
-    const asUser = this.resolveAsUser(channelId);
+    const asUser = await this.resolveAsUser(channelId);
     this.assertBotIdentityCompatible(asUser);
 
     if (this.addToChannel) {
