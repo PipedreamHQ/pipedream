@@ -6,7 +6,7 @@ export default {
   key: "slack_v2-download-file",
   name: "Download File",
   description: "Download the content of a Slack file (e.g. an image, PDF or snippet shared in a channel) to the file-stash directory, returning the saved path plus the file metadata (`name`, `mimetype`, `size`). Canvases download as HTML. Get the file ID from a message's `files[].id` via **Get Channel History**, or from **List Files** / **Browse Files**. Works for files in private channels the authenticated user is a member of. Example: passing `file` `F0123456789` downloads `diagram.png` to `/tmp/F0123456789-diagram.png` and returns `{ \"filedata\": [\"F0123456789-diagram.png\", \"/tmp/F0123456789-diagram.png\"], \"file\": { \"id\": \"F0123456789\", \"name\": \"diagram.png\", \"mimetype\": \"image/png\", \"size\": 84213 } }`. [See the documentation](https://docs.slack.dev/reference/objects/file-object#access)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {
