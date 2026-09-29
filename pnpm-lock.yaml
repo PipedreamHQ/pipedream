@@ -17124,6 +17124,15 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/upload_post:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
+      form-data:
+        specifier: ^4.0.4
+        version: 4.0.4
+
   components/upload_to_url: {}
 
   components/uploadcare:
