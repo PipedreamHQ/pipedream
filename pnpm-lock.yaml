@@ -7968,7 +7968,13 @@ importers:
         version: 3.1.1
 
   components/incorta:
-    specifiers: {}
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
+      pg:
+        specifier: ^8.7.1
+        version: 8.16.3
 
   components/indiefunnels:
     dependencies:
