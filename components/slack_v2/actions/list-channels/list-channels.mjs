@@ -19,7 +19,7 @@ export default {
     + " fetched — when you see that, raise `numPages` (or pass `cursor`) before answering"
     + " any 'how many' or 'list every' question, otherwise your answer is silently incomplete."
     + " [See the documentation](https://api.slack.com/methods/conversations.list)",
-  version: "0.5.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -53,7 +53,7 @@ export default {
     memberOnly: {
       type: "boolean",
       label: "Member Channels Only",
-      description: "Return only channels the authenticated user is a member of (uses `users.conversations` instead of `conversations.list`). Defaults to `true`: the full channel list can run to thousands of entries, while the user's own channels are usually a small fraction of that. Set to `false` to list every channel in the workspace. `Channel Types`, `Fields`, `Name Prefix`, and pagination all still apply.",
+      description: "Return only channels the authenticated user is a member of (uses `users.conversations` instead of `conversations.list`). Defaults to `true`: the full channel list can run to thousands of entries, while the user's own channels are usually a small fraction of that. Set to `false` to list every channel in the workspace. `Channel Types`, `Fields`, `Name Prefix`, and pagination all still apply. Example: `true`.",
       optional: true,
       default: true,
     },
