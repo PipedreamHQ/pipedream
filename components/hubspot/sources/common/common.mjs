@@ -1,9 +1,11 @@
 import hubspot from "../../hubspot.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import { MAX_INITIAL_EVENTS } from "../../common/constants.mjs";
+import {
+  API_PATH, MAX_INITIAL_EVENTS,
+} from "../../common/constants.mjs";
 
-// Upper bound on hasMore pages per run.
-const MAX_HAS_MORE_PAGES = 50;
+// Upper bound on pages per run.
+const MAX_PAGES = 50;
 
 export default {
   props: {
@@ -30,8 +32,8 @@ export default {
       // Every pre-existing event has a timestamp <= deployTs, so this can never
       // suppress a genuinely new event, and it guarantees run() never emits a
       // pre-deploy event even when the underlying endpoint returns results
-      // oldest-first (e.g. the CRM v3 GET list endpoints used by notes/tasks),
-      // where the sample's max timestamp is NOT the newest existing record. It
+      // oldest-first, where the sample's max timestamp is NOT the newest
+      // existing record. It
       // also covers the "no events to sample" case, where processResults would
       // otherwise leave the cursor unset (or at 0).
       this._setAfter(deployTs);
@@ -44,11 +46,65 @@ export default {
     _setAfter(after) {
       this.db.set("after", after);
     },
-    _getBackfill() {
-      return this.db.get("backfill");
+    _getBackfill(key = "") {
+      return this.db.get(`backfill${key}`);
     },
-    _setBackfill(backfill) {
-      this.db.set("backfill", backfill);
+    _setBackfill(backfill, key = "") {
+      this.db.set(`backfill${key}`, backfill);
+    },
+    // An unfinished pass keeps the cursor and carries its newest ts until it completes.
+    _advanceAfter(maxTs, pendingAfter = null) {
+      const backfill = this._getBackfill();
+      const newest = Math.max(backfill?.maxTs || 0, maxTs || 0);
+      if (pendingAfter) {
+        this._setBackfill({
+          after: pendingAfter,
+          maxTs: newest,
+        });
+        return;
+      }
+      if (backfill) {
+        this._setBackfill(null);
+      }
+      if (newest > (this._getAfter() || 0)) {
+        this._setAfter(newest);
+      }
+    },
+    // Limits a search to records whose `propertyName` is after the cursor.
+    addDateFilter(params, propertyName, after) {
+      if (after) {
+        const filters = params.data.filterGroups?.[0]?.filters || [];
+        params.data.filterGroups = [
+          {
+            filters: [
+              ...filters,
+              {
+                propertyName,
+                operator: "GT",
+                value: after,
+              },
+            ],
+          },
+        ];
+      }
+      return params;
+    },
+    getPageCursor({
+      data, params,
+    }) {
+      return data
+        ? data.after
+        : params?.after;
+    },
+    setPageCursor(opts, after) {
+      if (opts.data) {
+        opts.data.after = after;
+      } else {
+        opts.params = {
+          ...opts.params,
+          after,
+        };
+      }
     },
     async getWriteOnlyProperties(resourceName) {
       const { results: properties } = await this.hubspot.getProperties({
@@ -82,7 +138,7 @@ export default {
       const results = await Promise.all(promises);
       return results.flat();
     },
-    async processEvents(resources, after) {
+    async processEvents(resources, after, pendingAfter = null) {
       let maxTs = after || 0;
       let initialEmitted = 0;
       for (const result of resources) {
@@ -98,48 +154,78 @@ export default {
           }
         }
       }
-      this._setAfter(maxTs);
+      this._advanceAfter(maxTs, pendingAfter);
     },
-    async paginate(params, resourceFn, resultType = null, after = null) {
-      let results = null;
-      let maxTs = after || 0;
+    // Results are newest-first, so reaching an item at or before the cursor ends the pass.
+    reachedCursor(ts, after) {
+      // ts can be null (e.g. deletedAt), which only matters on the initial run
+      return after
+        ? !(ts > after)
+        : !ts;
+    },
+    // Emits newest-first pages. Returns the newest ts seen, or null when the pass
+    // stopped at the page cap and resumes next run.
+    async paginatePass(opts, resourceFn, resultType = null, after = null, key = "") {
+      const backfill = after && this._getBackfill(key);
+      if (backfill) {
+        this.setPageCursor(opts, backfill.after);
+      }
+      let maxTs = backfill?.maxTs || after || 0;
       let initialEmitted = 0;
-      while (!results || params.after) {
-        results = await resourceFn(params);
-        if (results.paging) {
-          params.after = results.paging.next.after;
-        } else {
-          delete params.after;
-        }
-        if (resultType) {
-          results = results[resultType];
-        }
-
-        for (const result of results) {
-          const ts = this.getTs(result);
-          // Adding ts && !after to handle the case where ts is null
-          // (e.g. when using deletedAt as the ts field for deleted items)
-          if ((ts && !after) || ts > after) {
-            if (!after || await this.isRelevant(result, after, ts)) {
-              this.emitEvent(result);
-            }
-            if (ts > maxTs) {
-              maxTs = ts;
-              this._setAfter(ts);
-            }
-            // Initial (deploy) run: emit only a small capped sample.
-            if (!after && ++initialEmitted >= MAX_INITIAL_EVENTS) {
-              return;
-            }
-          } else {
-            return;
+      let page = 0;
+      let done = false;
+      while (!done && page < MAX_PAGES) {
+        page++;
+        const results = await resourceFn(opts);
+        const items = (resultType
+          ? results[resultType]
+          : results) || [];
+        for (const item of items) {
+          const ts = await this.getTs(item);
+          if (this.reachedCursor(ts, after)) {
+            done = true;
+            break;
+          }
+          if (!after || await this.isRelevant(item, after, ts)) {
+            await this.emitEvent(item, ts);
+          }
+          if (ts > maxTs) {
+            maxTs = ts;
+          }
+          // Initial (deploy) run: emit only a small capped sample.
+          if (!after && ++initialEmitted >= MAX_INITIAL_EVENTS) {
+            done = true;
+            break;
           }
         }
 
-        // first run, get only first page
-        if (!after) {
-          return;
+        // First run reads one page; otherwise stop on the last, a repeated, or an empty page.
+        const next = results.paging?.next?.after;
+        if (done
+          || !after
+          || !next
+          || next === this.getPageCursor(opts)
+          || !items.length) {
+          done = true;
+        } else {
+          this.setPageCursor(opts, next);
+          this._setBackfill({
+            after: next,
+            maxTs,
+          }, key);
         }
+      }
+      if (!done) {
+        console.log(`Stopped after ${MAX_PAGES} pages; resuming next run.`);
+        return null;
+      }
+      this._setBackfill(null, key);
+      return maxTs;
+    },
+    async paginate(opts, resourceFn, resultType = null, after = null) {
+      const maxTs = await this.paginatePass(opts, resourceFn, resultType, after);
+      if (maxTs > (after || 0)) {
+        this._setAfter(maxTs);
       }
     },
     // pagination for endpoints that return hasMore property of true/false
@@ -148,7 +234,7 @@ export default {
       resourceFn,
       resultType = null,
       after = null,
-      limitRequest = MAX_HAS_MORE_PAGES,
+      limitRequest = MAX_PAGES,
     ) {
       const { params } = opts;
       // Results are newest-first: an unfinished pass resumes below its oldest event.
@@ -209,23 +295,80 @@ export default {
         this._setAfter(maxTs);
       }
     },
-    async getPaginatedItems(resourceFn, params, after = null) {
+    // Collects newest-first pages. Pass `pendingAfter` to processEvents, which
+    // saves it only after the items are emitted, so the next run resumes there.
+    async getPaginatedItems(resourceFn, opts, after = null) {
+      const backfill = after && this._getBackfill();
+      if (backfill) {
+        this.setPageCursor(opts, backfill.after);
+      }
       const items = [];
-      const maxPages = 10;
       let page = 0;
-      do {
+      while (page < MAX_PAGES) {
+        page++;
         const {
-          results, paging,
-        } = await resourceFn(params);
+          results = [], paging,
+        } = await resourceFn(opts);
         items.push(...results);
-        if (paging) {
-          params.after = paging.next.after;
-          page++;
-        } else {
-          delete params.after;
+        const next = paging?.next?.after;
+        if (!after
+          || !next
+          || next === this.getPageCursor(opts)
+          || !results.length) {
+          return {
+            items,
+            pendingAfter: null,
+          };
         }
-      } while (params.after && after && page < maxPages);
-      return items;
+        this.setPageCursor(opts, next);
+      }
+      console.log(`Stopped after ${MAX_PAGES} pages; resuming next run.`);
+      return {
+        items,
+        pendingAfter: this.getPageCursor(opts),
+      };
+    },
+    // Adds `associations` in the shape the CRM v3 GET list endpoints return.
+    async withAssociations(objectType, records, toObjectTypes) {
+      if (!records.length) {
+        return records;
+      }
+      const inputs = records.map(({ id }) => ({
+        id,
+      }));
+      const byId = {};
+      for (const toObjectType of toObjectTypes) {
+        const { results = [] } = await this.hubspot.makeRequest({
+          api: API_PATH.CRMV3,
+          method: "POST",
+          endpoint: `/associations/${objectType}/${toObjectType}/batch/read`,
+          data: {
+            inputs,
+          },
+        });
+        // Standard types are keyed by plural name; custom objects (p<portal>_<name>) as-is.
+        const key = toObjectType === "company"
+          ? "companies"
+          : /^p\d+_/.test(toObjectType)
+            ? toObjectType
+            : `${toObjectType}s`;
+        for (const {
+          from, to,
+        } of results) {
+          byId[from.id] = {
+            ...byId[from.id],
+            [key]: {
+              results: to,
+            },
+          };
+        }
+      }
+      return records.map((record) => (byId[record.id]
+        ? {
+          ...record,
+          associations: byId[record.id],
+        }
+        : record));
     },
     emitEvent(result) {
       const meta = this.generateMeta(result);

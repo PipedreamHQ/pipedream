@@ -7,7 +7,7 @@ export default {
   key: "hubspot-new-company-property-change",
   name: "New Company Property Change",
   description: "Emit new event when a specified property is provided or updated on a company. [See the documentation](https://developers.hubspot.com/docs/api/crm/companies)",
-  version: "0.0.39",
+  version: "0.0.40",
   dedupe: "unique",
   type: "source",
   props: {
@@ -104,22 +104,20 @@ export default {
         );
       }
 
-      const updatedCompanies = await this.getPaginatedItems(
+      const {
+        items: updatedCompanies, pendingAfter,
+      } = await this.getPaginatedItems(
         this.hubspot.searchCRM,
         params,
         after,
       );
-
-      if (!updatedCompanies.length) {
-        return;
-      }
 
       const results = await this.processChunks({
         batchRequestFn: this.batchGetCompanies,
         chunks: this.getChunks(updatedCompanies),
       });
 
-      this.processEvents(results, after);
+      await this.processEvents(results, after, pendingAfter);
     },
   },
   sampleEmit,

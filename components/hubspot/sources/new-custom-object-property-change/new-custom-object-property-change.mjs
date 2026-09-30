@@ -7,7 +7,7 @@ export default {
   name: "New Custom Object Property Change",
   description:
     "Emit new event when a specified property is provided or updated on a custom object.",
-  version: "0.0.31",
+  version: "0.0.32",
   dedupe: "unique",
   type: "source",
   props: {
@@ -110,22 +110,20 @@ export default {
         );
       }
 
-      const updatedObjects = await this.getPaginatedItems(
+      const {
+        items: updatedObjects, pendingAfter,
+      } = await this.getPaginatedItems(
         this.hubspot.searchCRM,
         params,
         after,
       );
-
-      if (!updatedObjects.length) {
-        return;
-      }
 
       const results = await this.processChunks({
         batchRequestFn: this.batchGetCustomObjects,
         chunks: this.getChunks(updatedObjects),
       });
 
-      this.processEvents(results, after);
+      await this.processEvents(results, after, pendingAfter);
     },
   },
 };
