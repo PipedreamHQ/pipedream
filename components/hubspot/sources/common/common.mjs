@@ -6,6 +6,8 @@ import {
 
 // Upper bound on pages per run.
 const MAX_PAGES = 50;
+// CRM search can't page past this many results for one query.
+const MAX_SEARCH_RESULTS = 10000;
 
 export default {
   props: {
@@ -33,9 +35,8 @@ export default {
       // suppress a genuinely new event, and it guarantees run() never emits a
       // pre-deploy event even when the underlying endpoint returns results
       // oldest-first, where the sample's max timestamp is NOT the newest
-      // existing record. It
-      // also covers the "no events to sample" case, where processResults would
-      // otherwise leave the cursor unset (or at 0).
+      // existing record. It also covers the "no events to sample" case, where
+      // processResults would otherwise leave the cursor unset (or at 0).
       this._setAfter(deployTs);
     },
   },
@@ -53,12 +54,12 @@ export default {
       this.db.set(`backfill${key}`, backfill);
     },
     // An unfinished pass keeps the cursor and carries its newest ts until it completes.
-    _advanceAfter(maxTs, pendingAfter = null) {
+    _advanceAfter(maxTs, pending = null) {
       const backfill = this._getBackfill();
       const newest = Math.max(backfill?.maxTs || 0, maxTs || 0);
-      if (pendingAfter) {
+      if (pending) {
         this._setBackfill({
-          after: pendingAfter,
+          ...pending,
           maxTs: newest,
         });
         return;
@@ -70,24 +71,65 @@ export default {
         this._setAfter(newest);
       }
     },
-    // Limits a search to records whose `propertyName` is after the cursor.
-    addDateFilter(params, propertyName, after) {
-      if (after) {
-        const filters = params.data.filterGroups?.[0]?.filters || [];
-        params.data.filterGroups = [
+    // Adds a date filter to every filter group (GT the cursor by default).
+    addDateFilter(params, propertyName, value, operator = "GT") {
+      if (!value) {
+        return params;
+      }
+      const filter = {
+        propertyName,
+        operator,
+        value,
+      };
+      const groups = params.data.filterGroups?.length
+        ? params.data.filterGroups
+        : [
           {
-            filters: [
-              ...filters,
-              {
-                propertyName,
-                operator: "GT",
-                value: after,
-              },
-            ],
+            filters: [],
           },
         ];
-      }
+      params.data.filterGroups = groups.map(({ filters = [] }) => ({
+        filters: [
+          ...filters.filter((f) => f.propertyName !== propertyName || f.operator !== operator),
+          filter,
+        ],
+      }));
       return params;
+    },
+    getSortTs(item, { data }) {
+      return /createdate/.test(data.sorts?.[0]?.propertyName)
+        ? Date.parse(item.createdAt)
+        : Date.parse(item.updatedAt);
+    },
+    // Restores a saved position: the page cursor, plus a search window's upper date bound.
+    applyPosition(opts, {
+      after, end,
+    } = {}) {
+      if (end) {
+        this.addDateFilter(opts, opts.data.sorts[0].propertyName, end, "LTE");
+      }
+      this.setPageCursor(opts, after);
+    },
+    // Search can't page past MAX_SEARCH_RESULTS, so it restarts below the oldest record seen.
+    nextPosition(opts, position, next, oldestSortTs) {
+      if (!opts.data || Number(next) + (opts.data.limit || 0) <= MAX_SEARCH_RESULTS) {
+        return {
+          ...position,
+          after: next,
+        };
+      }
+      // LTE keeps records that share the boundary; step back if they alone fill a window.
+      const stuck = position.end && oldestSortTs >= position.end;
+      if (stuck) {
+        console.log(`Over ${MAX_SEARCH_RESULTS} records share one timestamp; skipping the rest.`);
+      }
+      const end = stuck
+        ? position.end - 1
+        : oldestSortTs;
+      return {
+        end,
+        after: null,
+      };
     },
     getPageCursor({
       data, params,
@@ -138,7 +180,7 @@ export default {
       const results = await Promise.all(promises);
       return results.flat();
     },
-    async processEvents(resources, after, pendingAfter = null) {
+    async processEvents(resources, after, pending = null) {
       let maxTs = after || 0;
       let initialEmitted = 0;
       for (const result of resources) {
@@ -154,7 +196,7 @@ export default {
           }
         }
       }
-      this._advanceAfter(maxTs, pendingAfter);
+      this._advanceAfter(maxTs, pending);
     },
     // Results are newest-first, so reaching an item at or before the cursor ends the pass.
     reachedCursor(ts, after) {
@@ -167,10 +209,13 @@ export default {
     // stopped at the page cap and resumes next run.
     async paginatePass(opts, resourceFn, resultType = null, after = null, key = "") {
       const backfill = after && this._getBackfill(key);
-      if (backfill) {
-        this.setPageCursor(opts, backfill.after);
-      }
+      let position = {
+        after: backfill?.after,
+        end: backfill?.end,
+      };
+      this.applyPosition(opts, position);
       let maxTs = backfill?.maxTs || after || 0;
+      let oldestSortTs = null;
       let initialEmitted = 0;
       let page = 0;
       let done = false;
@@ -180,6 +225,14 @@ export default {
         const items = (resultType
           ? results[resultType]
           : results) || [];
+        if (opts.data) {
+          for (const item of items) {
+            const sortTs = this.getSortTs(item, opts);
+            if (oldestSortTs === null || sortTs < oldestSortTs) {
+              oldestSortTs = sortTs;
+            }
+          }
+        }
         for (const item of items) {
           const ts = await this.getTs(item);
           if (this.reachedCursor(ts, after)) {
@@ -208,9 +261,13 @@ export default {
           || !items.length) {
           done = true;
         } else {
-          this.setPageCursor(opts, next);
+          position = this.nextPosition(opts, position, next, oldestSortTs);
+          if (!position.after) {
+            oldestSortTs = null;
+          }
+          this.applyPosition(opts, position);
           this._setBackfill({
-            after: next,
+            ...position,
             maxTs,
           }, key);
         }
@@ -295,14 +352,17 @@ export default {
         this._setAfter(maxTs);
       }
     },
-    // Collects newest-first pages. Pass `pendingAfter` to processEvents, which
-    // saves it only after the items are emitted, so the next run resumes there.
+    // Collects newest-first pages. Pass `pending` to processEvents, which saves
+    // it only after the items are emitted, so the next run resumes there.
     async getPaginatedItems(resourceFn, opts, after = null) {
       const backfill = after && this._getBackfill();
-      if (backfill) {
-        this.setPageCursor(opts, backfill.after);
-      }
+      let position = {
+        after: backfill?.after,
+        end: backfill?.end,
+      };
+      this.applyPosition(opts, position);
       const items = [];
+      let oldestSortTs = null;
       let page = 0;
       while (page < MAX_PAGES) {
         page++;
@@ -310,6 +370,12 @@ export default {
           results = [], paging,
         } = await resourceFn(opts);
         items.push(...results);
+        for (const item of results) {
+          const sortTs = this.getSortTs(item, opts);
+          if (oldestSortTs === null || sortTs < oldestSortTs) {
+            oldestSortTs = sortTs;
+          }
+        }
         const next = paging?.next?.after;
         if (!after
           || !next
@@ -317,15 +383,19 @@ export default {
           || !results.length) {
           return {
             items,
-            pendingAfter: null,
+            pending: null,
           };
         }
-        this.setPageCursor(opts, next);
+        position = this.nextPosition(opts, position, next, oldestSortTs);
+        if (!position.after) {
+          oldestSortTs = null;
+        }
+        this.applyPosition(opts, position);
       }
       console.log(`Stopped after ${MAX_PAGES} pages; resuming next run.`);
       return {
         items,
-        pendingAfter: this.getPageCursor(opts),
+        pending: position,
       };
     },
     // Adds `associations` in the shape the CRM v3 GET list endpoints return.

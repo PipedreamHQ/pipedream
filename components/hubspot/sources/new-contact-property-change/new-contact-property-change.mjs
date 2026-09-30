@@ -179,7 +179,7 @@ export default {
       }
 
       const {
-        items: updatedContacts, pendingAfter,
+        items: updatedContacts, pending,
       } = await this.getPaginatedItems(
         this.hubspot.searchCRM,
         params,
@@ -191,7 +191,7 @@ export default {
         chunks: this.getChunks(updatedContacts),
       });
 
-      await this.processEvents(results, after, pendingAfter);
+      await this.processEvents(results, after, pending);
     },
   },
   sampleEmit,

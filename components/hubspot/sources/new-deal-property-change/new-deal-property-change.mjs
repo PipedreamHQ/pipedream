@@ -102,7 +102,7 @@ export default {
         },
       });
     },
-    async processEvents(resources, after, pendingAfter = null, initialTs = Date.now()) {
+    async processEvents(resources, after, pending = null, initialTs = Date.now()) {
       // Initial (deploy) run: no cursor yet. Emit only the newest
       // MAX_INITIAL_EVENTS as a sample, then store the cursor so subsequent
       // run()s never re-emit this historical backfill.
@@ -146,7 +146,7 @@ export default {
           }
         }
       }
-      this._advanceAfter(maxTs, pendingAfter);
+      this._advanceAfter(maxTs, pending);
     },
     async processResults(after, params) {
       const properties = await this.hubspot.getDealProperties();
@@ -159,7 +159,7 @@ export default {
 
       const initialTs = Date.now();
       const {
-        items: updatedDeals, pendingAfter,
+        items: updatedDeals, pending,
       } = await this.getPaginatedItems(
         this.hubspot.searchCRM,
         params,
@@ -183,7 +183,7 @@ export default {
         chunks: this.getChunks(updatedDeals),
       });
 
-      await this.processEvents(results, after, pendingAfter, initialTs);
+      await this.processEvents(results, after, pending, initialTs);
     },
   },
   sampleEmit,

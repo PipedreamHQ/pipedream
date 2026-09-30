@@ -7,7 +7,7 @@ export default {
   ...common,
   key: "hubspot-new-note",
   name: "New Note Created",
-  description: "Emit new event for each new note created. [See the documentation](https://developers.hubspot.com/docs/api-reference/legacy/crm/activities/notes/guide#retrieve-notes)",
+  description: "Emit new event for each new note created. [See the documentation](https://developers.hubspot.com/docs/api-reference/latest/crm/activities/notes/search/search-notes)",
   version: "1.0.28",
   type: "source",
   dedupe: "unique",
