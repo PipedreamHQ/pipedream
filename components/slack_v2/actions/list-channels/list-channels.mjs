@@ -11,14 +11,15 @@ export default {
     + " large enough to be truncated. Omit `fields` when you need the complete channel objects."
     + " Use `namePrefix` to filter results to channels whose names start with a given string"
     + " (e.g. `dev-`) without a client-side filter loop."
-    + " Set `memberOnly: true` to return only channels the authenticated user is a member of —"
-    + " on a large workspace this shrinks the result from thousands of channels to the"
-    + " handful that matter, and it is usually what you want when acting on the user's behalf."
+    + " By default (`memberOnly: true`) only channels the authenticated user is a member of"
+    + " are returned — on a large workspace this shrinks the result from thousands of channels"
+    + " to the handful that matter, and it is usually what you want when acting on the user's"
+    + " behalf. Set `memberOnly: false` to list every channel in the workspace."
     + " Returns `has_more: true` and `next_cursor` when more channels exist than were"
     + " fetched — when you see that, raise `numPages` (or pass `cursor`) before answering"
     + " any 'how many' or 'list every' question, otherwise your answer is silently incomplete."
     + " [See the documentation](https://api.slack.com/methods/conversations.list)",
-  version: "0.4.3",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -46,15 +47,15 @@ export default {
           value: "public_channel,private_channel",
         },
       ],
-      default: "public_channel",
+      default: "public_channel,private_channel",
       optional: true,
     },
     memberOnly: {
       type: "boolean",
       label: "Member Channels Only",
-      description: "Return only channels the authenticated user is a member of (uses `users.conversations` instead of `conversations.list`). Recommended for large workspaces: the full channel list can run to thousands of entries, while the user's own channels are usually a small fraction of that. `Channel Types`, `Fields`, `Name Prefix`, and pagination all still apply.",
+      description: "Return only channels the authenticated user is a member of (uses `users.conversations` instead of `conversations.list`). Defaults to `true`: the full channel list can run to thousands of entries, while the user's own channels are usually a small fraction of that. Set to `false` to list every channel in the workspace. `Channel Types`, `Fields`, `Name Prefix`, and pagination all still apply. Example: `true`.",
       optional: true,
-      default: false,
+      default: true,
     },
     fields: {
       type: "string[]",
