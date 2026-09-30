@@ -167,24 +167,26 @@ export default {
       const filteredFiles = this.filterByMinimumInterval(changedFiles);
       const emittedFileIds = [];
 
-      for (const file of filteredFiles) {
-        if (!this.shouldProcess(file)) {
-          console.log(`Skipping file ${file.name}`);
-          continue;
-        }
+      try {
+        for (const file of filteredFiles) {
+          if (!this.shouldProcess(file)) {
+            console.log(`Skipping file ${file.name}`);
+            continue;
+          }
 
-        const eventToEmit = {
-          file,
-          ...changes,
-        };
-        if (this.includeLink) {
-          Object.assign(eventToEmit, await this.getFileLink(file));
+          const eventToEmit = {
+            file,
+            ...changes,
+          };
+          if (this.includeLink) {
+            Object.assign(eventToEmit, await this.getFileLink(file));
+          }
+          this.$emit(eventToEmit, this.generateMeta(file));
+          emittedFileIds.push(file.id);
         }
-        this.$emit(eventToEmit, this.generateMeta(file));
-        emittedFileIds.push(file.id);
+      } finally {
+        this.recordFileEmits(emittedFileIds);
       }
-
-      this.recordFileEmits(emittedFileIds);
     },
   },
   sampleEmit,
