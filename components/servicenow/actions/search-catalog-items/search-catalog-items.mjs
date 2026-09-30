@@ -3,8 +3,8 @@ import servicenow from "../../servicenow.app.mjs";
 export default {
   key: "servicenow-search-catalog-items",
   name: "Search Catalog Items",
-  description: "Search the ServiceNow Service Catalog for orderable items. Use this first to discover catalog item `sys_id` values needed by **Get Catalog Item Variables**, **Add Item to Cart**, **Order Catalog Item**, and **Submit Record Producer**. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
-  version: "0.0.3",
+  description: "Search the ServiceNow Service Catalog for orderable items. Use this first to discover catalog item `sys_id` values needed by **Get Catalog Item Variables**, **Add Item to Cart**, **Order Catalog Item**, **Submit Record Producer**, and **Submit Order Guide**. Set **Item Type** to `Order Guide` to find order guides. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
+  version: "0.1.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -32,6 +32,12 @@ export default {
       description: "Optional category `sys_id` to restrict results to a single category. Find it via **Get Table Records** on the `sc_category` table. Example: `d258b953c611227a0146101fb1be7c31`.",
       optional: true,
     },
+    itemType: {
+      propDefinition: [
+        servicenow,
+        "itemType",
+      ],
+    },
     limit: {
       propDefinition: [
         servicenow,
@@ -53,6 +59,7 @@ export default {
         sysparm_text: this.query,
         sysparm_catalog: this.catalogSysId,
         sysparm_category: this.categorySysId,
+        sysparm_type: this.itemType,
         sysparm_limit: this.limit,
         sysparm_offset: this.offset,
       },

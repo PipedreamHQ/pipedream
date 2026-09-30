@@ -7967,6 +7967,9 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/incorta:
+    specifiers: {}
+
   components/indiefunnels:
     dependencies:
       '@pipedream/platform':
@@ -9901,6 +9904,9 @@ importers:
   components/mexc: {}
 
   components/mezmo: {}
+
+  components/michelle_test_app:
+    specifiers: {}
 
   components/microbilt_developer: {}
 
