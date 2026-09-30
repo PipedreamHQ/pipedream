@@ -16,12 +16,16 @@ export const parseObject = (value) => {
   if (!value) {
     return undefined;
   }
-  if (typeof value !== "string") {
-    return value;
+  let parsed = value;
+  if (typeof value === "string") {
+    try {
+      parsed = JSON.parse(value);
+    } catch {
+      parsed = undefined;
+    }
   }
-  try {
-    return JSON.parse(value);
-  } catch {
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
     throw new ConfigurationError("Document Details must be a valid JSON object, e.g. `{\"format\": {\"margin_inches\": 1}}`.");
   }
+  return parsed;
 };
