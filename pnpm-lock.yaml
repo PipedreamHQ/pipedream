@@ -3705,6 +3705,12 @@ importers:
         specifier: ^3.2.1
         version: 3.2.1
 
+  components/court_rules:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
+
   components/covalent: {}
 
   components/cradl_ai:
