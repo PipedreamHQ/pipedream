@@ -2,6 +2,9 @@ import hubspot from "../../hubspot.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import { MAX_INITIAL_EVENTS } from "../../common/constants.mjs";
 
+// Upper bound on hasMore pages per run.
+const MAX_HAS_MORE_PAGES = 50;
+
 export default {
   props: {
     hubspot,
@@ -40,6 +43,12 @@ export default {
     },
     _setAfter(after) {
       this.db.set("after", after);
+    },
+    _getBackfill() {
+      return this.db.get("backfill");
+    },
+    _setBackfill(backfill) {
+      this.db.set("backfill", backfill);
     },
     async getWriteOnlyProperties(resourceName) {
       const { results: properties } = await this.hubspot.getProperties({
@@ -135,48 +144,69 @@ export default {
     },
     // pagination for endpoints that return hasMore property of true/false
     async paginateUsingHasMore(
-      params,
+      opts,
       resourceFn,
       resultType = null,
       after = null,
-      limitRequest = null,
+      limitRequest = MAX_HAS_MORE_PAGES,
     ) {
-      let hasMore = true;
-      let results, items;
-      let count = 0;
-      let maxTs = after || 0;
+      const { params } = opts;
+      // Results are newest-first: an unfinished pass resumes below its oldest event.
+      const backfill = after && this._getBackfill();
+      if (backfill) {
+        params.endTimestamp = backfill.end;
+      }
+      let maxTs = backfill?.maxTs || after || 0;
+      let minTs = null;
       let initialEmitted = 0;
-      while (hasMore && (!limitRequest || count < limitRequest)) {
-        count++;
-        results = await resourceFn(params);
-        hasMore = results.hasMore;
-        if (hasMore) {
-          params.offset = results.offset;
-        }
-        if (resultType) {
-          items = results[resultType];
-        } else {
-          items = results;
-        }
+      let page = 0;
+      let done = false;
+      while (!done && page < limitRequest) {
+        page++;
+        const results = await resourceFn(opts);
+        const items = (resultType
+          ? results[resultType]
+          : results) || [];
         for (const item of items) {
+          const ts = this.getTs(item);
+          if (minTs === null || ts < minTs) {
+            minTs = ts;
+          }
           if (!after || await this.isRelevant(item, after)) {
             this.emitEvent(item);
-            const ts = this.getTs(item);
             if (ts > maxTs) {
               maxTs = ts;
-              this._setAfter(ts);
             }
             // Initial (deploy) run: emit only a small capped sample.
             if (!after && ++initialEmitted >= MAX_INITIAL_EVENTS) {
-              return;
+              done = true;
+              break;
             }
           }
         }
 
-        // first run, get only first page
-        if (!after) {
-          return;
+        // First run reads one page; otherwise stop on the last, a repeated, or an empty page.
+        if (!after
+          || !results.hasMore
+          || !results.offset
+          || results.offset === params.offset
+          || !items.length) {
+          done = true;
+        } else {
+          params.offset = results.offset;
+          this._setBackfill({
+            end: minTs,
+            maxTs,
+          });
         }
+      }
+      if (!done) {
+        console.log(`Stopped after ${limitRequest} pages; resuming older events next run.`);
+        return;
+      }
+      this._setBackfill(null);
+      if (maxTs > (after || 0)) {
+        this._setAfter(maxTs);
       }
     },
     async getPaginatedItems(resourceFn, params, after = null) {
