@@ -36,11 +36,11 @@ export default {
       optional: true,
     },
     limit: {
-      type: "integer",
-      label: "Limit",
+      propDefinition: [
+        app,
+        "limit",
+      ],
       description: "Page size, e.g. `25`. Omit to return every matching post.",
-      min: 1,
-      optional: true,
     },
     offset: {
       type: "integer",

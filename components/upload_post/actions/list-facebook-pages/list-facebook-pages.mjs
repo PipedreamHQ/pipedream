@@ -4,7 +4,7 @@ export default {
   key: "upload_post-list-facebook-pages",
   name: "List Facebook Pages",
   description: "List the Facebook Pages the connected Facebook accounts can publish to, with their `id`, `name` and follower counts, optionally only for one profile."
-    + " Use the `id` field as `facebookPageId` in **Upload Video**, **Upload Photos**, **Upload Text** and **Get Analytics**. [See the documentation](https://docs.upload-post.com/api/get-facebook-pages)",
+    + " Use the `id` field as `facebookPageId` in **Upload Video**, **Upload Photos** and **Upload Text**, and as `pageId` in **Get Analytics**. [See the documentation](https://docs.upload-post.com/api/get-facebook-pages)",
   version: "0.0.1",
   ai: "optimized",
   annotations: {

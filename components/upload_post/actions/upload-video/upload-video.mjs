@@ -93,25 +93,27 @@ export default {
       description: "TikTok privacy setting, e.g. `PUBLIC_TO_EVERYONE`. TikTok decides per account which levels are available. Omit to keep the account's default.",
     },
     mediaType: {
-      type: "string",
-      label: "Instagram Media Type",
+      propDefinition: [
+        common.props.app,
+        "mediaType",
+      ],
       description: "Type of Instagram video media, e.g. `STORIES`. Defaults to `REELS`.",
       options: [
         "REELS",
         "STORIES",
       ],
-      optional: true,
     },
     facebookMediaType: {
-      type: "string",
-      label: "Facebook Media Type",
+      propDefinition: [
+        common.props.app,
+        "facebookMediaType",
+      ],
       description: "Type of Facebook video, e.g. `VIDEO`: `REELS` (short-form 9:16), `STORIES` (24h ephemeral) or `VIDEO` (normal Page video). Defaults to `REELS`.",
       options: [
         "REELS",
         "STORIES",
         "VIDEO",
       ],
-      optional: true,
     },
     privacyStatus: {
       type: "string",

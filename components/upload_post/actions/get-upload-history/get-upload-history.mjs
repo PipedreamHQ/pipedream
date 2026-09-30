@@ -80,11 +80,12 @@ export default {
       default: 1,
     },
     limit: {
-      type: "integer",
-      label: "Limit",
+      propDefinition: [
+        app,
+        "limit",
+      ],
       description: "Page size, one of `10`, `20`, `50` or `100`, e.g. `50`. Defaults to `10`.",
       options: constants.HISTORY_PAGE_SIZES,
-      optional: true,
       default: 10,
     },
   },

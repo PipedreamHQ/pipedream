@@ -98,24 +98,26 @@ export default {
       default: false,
     },
     mediaType: {
-      type: "string",
-      label: "Instagram Media Type",
+      propDefinition: [
+        common.props.app,
+        "mediaType",
+      ],
       description: "Type of Instagram photo media, e.g. `STORIES`. Defaults to `IMAGE` (a carousel when several photos).",
       options: [
         "IMAGE",
         "STORIES",
       ],
-      optional: true,
     },
     facebookMediaType: {
-      type: "string",
-      label: "Facebook Media Type",
+      propDefinition: [
+        common.props.app,
+        "facebookMediaType",
+      ],
       description: "Type of Facebook photo media, e.g. `STORIES`. Defaults to `POSTS`.",
       options: [
         "POSTS",
         "STORIES",
       ],
-      optional: true,
     },
     visibility: {
       propDefinition: [

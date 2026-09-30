@@ -100,6 +100,36 @@ export default {
       options: constants.LINKEDIN_VISIBILITY,
       optional: true,
     },
+    mediaType: {
+      type: "string",
+      label: "Instagram Media Type",
+      description: "Type of Instagram media, e.g. `STORIES`.",
+      options: [
+        "REELS",
+        "IMAGE",
+        "STORIES",
+      ],
+      optional: true,
+    },
+    facebookMediaType: {
+      type: "string",
+      label: "Facebook Media Type",
+      description: "Type of Facebook media, e.g. `STORIES`.",
+      options: [
+        "REELS",
+        "POSTS",
+        "VIDEO",
+        "STORIES",
+      ],
+      optional: true,
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Maximum number of results to return per page, e.g. `25`.",
+      min: 1,
+      optional: true,
+    },
     facebookPageId: {
       type: "string",
       label: "Facebook Page ID",

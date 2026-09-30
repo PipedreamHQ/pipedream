@@ -4,7 +4,7 @@ export default {
   key: "upload_post-list-linkedin-pages",
   name: "List LinkedIn Pages",
   description: "List the LinkedIn organization (company) pages the connected LinkedIn accounts administer, with their `id` (URN) and `name`, optionally only for one profile."
-    + " Use the `id` field as `targetLinkedinPageId` in **Upload Video**, **Upload Photos**, **Upload Text** and **Get Analytics**. [See the documentation](https://docs.upload-post.com/api/get-linkedin-pages)",
+    + " Use the `id` field as `targetLinkedinPageId` in **Upload Video**, **Upload Photos** and **Upload Text**, and as `pageUrn` in **Get Analytics**. [See the documentation](https://docs.upload-post.com/api/get-linkedin-pages)",
   version: "0.0.1",
   ai: "optimized",
   annotations: {
