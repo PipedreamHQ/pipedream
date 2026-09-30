@@ -337,6 +337,7 @@ export default {
     });
 
     const job = await visualping.getJob({
+      $,
       workspaceId: resolvedWorkspaceId,
       jobId,
     });
