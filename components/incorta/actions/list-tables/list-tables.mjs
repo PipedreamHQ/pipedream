@@ -1,4 +1,7 @@
 import incorta from "../../incorta.app.mjs";
+import utils from "../../common/utils.mjs";
+
+const SCHEMA_BATCH_SIZE = 5;
 
 export default {
   key: "incorta-list-tables",
@@ -29,24 +32,29 @@ export default {
       ? [
         this.schemaName,
       ]
-      : this.incorta._namesOf(await this.incorta.listSchemas({
+      : utils.namesOf(await this.incorta.listSchemas({
         $,
       }));
 
-    // Fetch each schema's objects concurrently rather than one request at a
-    // time, since there's no bulk "objects across schemas" endpoint.
-    const tablesBySchema = await Promise.all(schemaNames.map(async (schemaName) => {
-      const objects = await this.incorta.listSchemaObjects({
-        $,
-        schemaName,
-      });
-      return objects.map((object) => ({
-        schemaName,
-        tableName: object.name ?? object.tableName,
-        type: object.type,
+    // Fetch each schema's objects in small concurrent batches rather than
+    // one request at a time (or all at once), since there's no bulk
+    // "objects across schemas" endpoint.
+    const tables = [];
+    for (let i = 0; i < schemaNames.length; i += SCHEMA_BATCH_SIZE) {
+      const batch = schemaNames.slice(i, i + SCHEMA_BATCH_SIZE);
+      const tablesBySchema = await Promise.all(batch.map(async (schemaName) => {
+        const objects = await this.incorta.listSchemaObjects({
+          $,
+          schemaName,
+        });
+        return objects.map((object) => ({
+          schemaName,
+          tableName: utils.getItemName(object),
+          type: object.type,
+        }));
       }));
-    }));
-    const tables = tablesBySchema.flat();
+      tables.push(...tablesBySchema.flat());
+    }
 
     $.export("$summary", `Found ${tables.length} ${tables.length === 1
       ? "table"

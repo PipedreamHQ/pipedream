@@ -2,6 +2,7 @@ import pg from "pg";
 import {
   axios, ConfigurationError, sqlProp, sqlProxy,
 } from "@pipedream/platform";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -18,25 +19,25 @@ export default {
     username: {
       type: "string",
       label: "SQLi Username",
-      description: "Username for SQLi authentication. Separate from the REST API bearer token.",
+      description: "Username for SQLi authentication, e.g. `pipedream_reader`. Separate from the REST API bearer token.",
     },
     password: {
       type: "string",
       label: "SQLi Password",
-      description: "Password for SQLi authentication, paired with **SQLi Username**. Note: unlike connected-account credentials, this value is not masked in the tool configuration UI.",
+      description: "Password for SQLi authentication, paired with **SQLi Username**.",
       secret: true,
     },
     // --- REST discovery props (list-tables / list-columns) ---
     schemaName: {
       type: "string",
       label: "Schema Name",
-      description: "Name of an Incorta schema (a logical grouping of tables/views). Use **List Schemas** to discover valid values.",
+      description: "Name of an Incorta schema (a logical grouping of tables/views), e.g. `pipedream_store`. Corresponds to the `schemaName` field returned by **List Schemas**.",
       optional: true,
     },
     tableName: {
       type: "string",
       label: "Table Name",
-      description: "Name of a table or view inside the given schema. Use **List Tables** to discover valid values for a given schema.",
+      description: "Name of a table or view inside the given schema, e.g. `customer`. Corresponds to the `tableName` field returned by **List Tables**.",
     },
   },
   methods: {
@@ -64,13 +65,6 @@ export default {
         },
         ...opts,
       });
-    },
-    _namesOf(list) {
-      return (list ?? []).map((item) => (
-        typeof item === "string"
-          ? item
-          : item.name ?? item.tableName ?? item.schemaName
-      ));
     },
     /**
      * Lists the schemas (physical and/or business) in the tenant via the
@@ -163,7 +157,8 @@ export default {
       const separatorIndex = raw.lastIndexOf(":");
       const host = raw.slice(0, separatorIndex);
       const port = Number(raw.slice(separatorIndex + 1));
-      if (!host || Number.isNaN(port)) {
+      const isValidPort = Number.isInteger(port) && port >= 1 && port <= 65535;
+      if (!host || !isValidPort) {
         throw new ConfigurationError(`Incorta returned an incomplete SQLi connection string (\`${raw}\`). SQLi may not be enabled or fully configured for this tenant — check with your Incorta administrator.`);
       }
       return {
@@ -252,16 +247,14 @@ export default {
       const schemas = await this.listSchemas();
       const dbInfo = {};
       for (const schema of schemas) {
-        const schemaName = typeof schema === "string"
-          ? schema
-          : schema.name ?? schema.schemaName;
+        const schemaName = utils.getItemName(schema);
         const objects = await this.listSchemaObjects({
           schemaName,
         });
         for (const object of objects) {
-          const tableName = object.name ?? object.tableName;
+          const tableName = utils.getItemName(object);
           const columns = object.columns ?? object.fields ?? [];
-          dbInfo[tableName] = {
+          dbInfo[`${schemaName}.${tableName}`] = {
             metadata: {},
             schema: columns.reduce((acc, col) => {
               const columnName = col.name ?? col.columnName;

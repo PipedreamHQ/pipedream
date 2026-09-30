@@ -1,4 +1,6 @@
+import { ConfigurationError } from "@pipedream/platform";
 import incorta from "../../incorta.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "incorta-list-columns",
@@ -36,8 +38,11 @@ export default {
       $,
       schemaName: this.schemaName,
     });
-    const table = objects.find((o) => (o.name ?? o.tableName) === this.tableName);
-    const columns = table?.columns ?? table?.fields ?? [];
+    const table = objects.find((o) => utils.getItemName(o) === this.tableName);
+    if (!table) {
+      throw new ConfigurationError(`No table or view named \`${this.tableName}\` was found in schema \`${this.schemaName}\`. Use **List Tables** to find valid table names for this schema.`);
+    }
+    const columns = table.columns ?? table.fields ?? [];
 
     $.export("$summary", `Found ${columns.length} ${columns.length === 1
       ? "column"
