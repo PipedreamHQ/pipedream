@@ -42,9 +42,14 @@ export default {
       workspaceId,
     } = this;
 
+    const resolvedWorkspaceId = await visualping.resolveWorkspaceId({
+      $,
+      workspaceId,
+    });
+
     const response = await visualping.deleteJob({
       jobId,
-      workspaceId,
+      workspaceId: resolvedWorkspaceId,
     });
 
     $.export("$summary", `Job with id ${jobId} successfully deleted!`);

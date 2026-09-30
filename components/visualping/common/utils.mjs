@@ -9,6 +9,8 @@ const fields = {
   keywordAction: "keyword_action",
 };
 
+// Matches `GET /v2/jobs/{jobId}` (get-job's single-job shape): `active` and
+// `target_device` are real top-level fields there, confirmed live.
 export const DEFAULT_JOB_FIELDS = [
   "id",
   "url",
@@ -18,6 +20,20 @@ export const DEFAULT_JOB_FIELDS = [
   "interval",
   "trigger",
   "target_device",
+  "workspaceId",
+];
+
+// Matches `GET /v2/jobs` (find-jobs's paginated list shape) instead — a
+// structurally different response: `isActive` not `active`, no `target_device`
+// at all. Confirmed against the live JobListResponseJob schema and eval output.
+export const DEFAULT_FIND_JOBS_FIELDS = [
+  "id",
+  "url",
+  "description",
+  "mode",
+  "isActive",
+  "interval",
+  "trigger",
   "workspaceId",
 ];
 
@@ -33,11 +49,19 @@ export const pluckFields = (job, names) => Object.fromEntries(
 
 // The API never returns a top-level `trigger` field — the change-detection
 // percent set via `trigger` on create/update only comes back nested under
-// `notification.threshold.<mode>` (mirrored at `notification_threshold`).
-// Mirror it back to `trigger` so read tools can round-trip what was written.
+// `notification.threshold.<mode>`, mirrored at a top-level field alongside it.
+// That mirror field's name differs by endpoint: `GET /v2/jobs/{jobId}` (get-job)
+// returns `notification_threshold`, `GET /v2/jobs` (find-jobs, paginated list)
+// returns `notificationThreshold` — confirmed live, both used here.
+// Mirror whichever is present back to `trigger` so read tools can round-trip
+// what was written regardless of which endpoint fetched the job.
 export const normalizeJob = (job) => {
-  if (job && typeof job === "object" && !("trigger" in job) && "notification_threshold" in job) {
-    job.trigger = job.notification_threshold;
+  if (job && typeof job === "object" && !("trigger" in job)) {
+    if ("notification_threshold" in job) {
+      job.trigger = job.notification_threshold;
+    } else if ("notificationThreshold" in job) {
+      job.trigger = job.notificationThreshold;
+    }
   }
   return job;
 };
@@ -97,9 +121,10 @@ export const prepareData = (job, {
   if (enableEmailAlert != undefined) {
     job.notification.enableEmailAlert = enableEmailAlert;
   }
+  job.notification.configuration ??= {};
   if (useSlackNotification != undefined) {
-    job.notification.slack = {
-      ...job.notification.slack,
+    job.notification.configuration.slack = {
+      ...job.notification.configuration.slack,
       active: useSlackNotification,
       ...(slackUrl != undefined && {
         url: slackUrl,
@@ -110,8 +135,8 @@ export const prepareData = (job, {
     };
   }
   if (useTeamsNotification != undefined) {
-    job.notification.teams = {
-      ...job.notification.teams,
+    job.notification.configuration.teams = {
+      ...job.notification.configuration.teams,
       active: useTeamsNotification,
       ...(teamsUrl != undefined && {
         url: teamsUrl,
@@ -119,8 +144,8 @@ export const prepareData = (job, {
     };
   }
   if (useWebhookNotification != undefined) {
-    job.notification.webhook = {
-      ...job.notification.webhook,
+    job.notification.configuration.webhook = {
+      ...job.notification.configuration.webhook,
       active: useWebhookNotification,
       ...(webhookUrl != undefined && {
         url: webhookUrl,
@@ -128,8 +153,8 @@ export const prepareData = (job, {
     };
   }
   if (useDiscordNotification != undefined) {
-    job.notification.discord = {
-      ...job.notification.discord,
+    job.notification.configuration.discord = {
+      ...job.notification.configuration.discord,
       active: useDiscordNotification,
       ...(discordUrl != undefined && {
         url: discordUrl,
@@ -137,8 +162,8 @@ export const prepareData = (job, {
     };
   }
   if (useSlackAppNotification != undefined) {
-    job.notification.slack_app = {
-      ...job.notification.slack_app,
+    job.notification.configuration.slack_app = {
+      ...job.notification.configuration.slack_app,
       active: useSlackAppNotification,
       ...(slackAppUrl != undefined && {
         url: slackAppUrl,

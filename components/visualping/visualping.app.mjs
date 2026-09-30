@@ -103,7 +103,7 @@ export default {
       description: "For internal use.",
     },
     organisationId: {
-      type: "string",
+      type: "integer",
       label: "Organisation Id",
       description: "Unique ID of the organisation. Only applies to business/team accounts —"
         + " use **List Workspace ID Options** to discover it (returned alongside workspace"
@@ -213,7 +213,7 @@ export default {
         + " discover valid ids and names for the connected account. Example: to work in"
         + " the \"Marketing\" workspace, call that tool first, then pass its `id` here,"
         + " e.g. `77421`.",
-      type: "string",
+      type: "integer",
     },
     xpath: {
       type: "string",
@@ -245,6 +245,29 @@ export default {
         path: "/describe-user",
         ...args,
       });
+    },
+    // Business/team accounts 500 (create) or 403 (get/find/delete) with
+    // "Missing workspace or organisation id" if `workspaceId` is omitted —
+    // but that's only discoverable by calling describe-user, so resolve it
+    // here instead of making every action eat a guaranteed failed first call.
+    // Personal-tier accounts have no workspaces, so this is a no-op for them.
+    async resolveWorkspaceId({
+      $, workspaceId,
+    } = {}) {
+      if (workspaceId != undefined) {
+        return Number(workspaceId);
+      }
+      const { workspaces } = await this.getUserDetails({
+        $,
+      });
+      if (!workspaces?.length) {
+        return undefined;
+      }
+      if (workspaces.length > 1) {
+        throw new Error("This account belongs to multiple workspaces — call"
+          + " **List Workspace ID Options** and pass a specific `workspaceId`.");
+      }
+      return Number(workspaces[0].id);
     },
     findJobs(args = {}) {
       return this._makeRequest({

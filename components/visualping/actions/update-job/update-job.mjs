@@ -236,7 +236,6 @@ export default {
         visualping,
         "enableSmsAlert",
       ],
-      default: false,
       optional: true,
     },
     enableEmailAlert: {
@@ -244,7 +243,6 @@ export default {
         visualping,
         "enableEmailAlert",
       ],
-      default: false,
       optional: true,
     },
     useSlackNotification: {
@@ -333,8 +331,13 @@ export default {
       ...data
     } = this;
 
-    const job = await visualping.getJob({
+    const resolvedWorkspaceId = await visualping.resolveWorkspaceId({
+      $,
       workspaceId,
+    });
+
+    const job = await visualping.getJob({
+      workspaceId: resolvedWorkspaceId,
       jobId,
     });
 
@@ -344,7 +347,7 @@ export default {
       $,
       jobId,
       data: {
-        workspaceId,
+        workspaceId: resolvedWorkspaceId,
         ...updatedJob,
       },
     });

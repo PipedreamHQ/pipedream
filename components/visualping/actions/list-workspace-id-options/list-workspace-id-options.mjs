@@ -11,7 +11,7 @@ export default {
     + " organisation: {id, name} }`. On a personal-tier account `workspaces` is"
     + " typically empty and `organisation` is omitted entirely — that's expected,"
     + " not an error."
-    + " [See the documentation](https://develop.api.visualping.io/doc.html)",
+    + " [See the documentation](https://develop.api.visualping.io/doc.html#tag/UandA/paths/~1describe-user/get)",
   version: "1.0.0",
   type: "action",
   annotations: {

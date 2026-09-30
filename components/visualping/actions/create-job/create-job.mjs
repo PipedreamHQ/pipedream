@@ -400,6 +400,11 @@ export default {
       ...data
     } = this;
 
+    const resolvedWorkspaceId = await visualping.resolveWorkspaceId({
+      $,
+      workspaceId,
+    });
+
     const advancedSchedule = advancedScheduleActive
       ? {
         stop_time: stopTime,
@@ -485,7 +490,7 @@ export default {
             WEB: parseFloat(trigger),
           },
         },
-        workspaceId,
+        workspaceId: resolvedWorkspaceId,
         crop,
         keyword_action: keywordAction,
         keywords: keywords && keywords.toString(),
@@ -509,7 +514,7 @@ export default {
         $,
         jobId: result.id,
         data: {
-          workspaceId,
+          workspaceId: resolvedWorkspaceId,
           active: false,
         },
       });

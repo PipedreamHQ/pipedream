@@ -1,6 +1,6 @@
 import visualping from "../../visualping.app.mjs";
 import {
-  DEFAULT_JOB_FIELDS, normalizeJob, pluckFields,
+  DEFAULT_FIND_JOBS_FIELDS, normalizeJob, pluckFields,
 } from "../../common/utils.mjs";
 
 export default {
@@ -21,7 +21,7 @@ export default {
     + " 20 pages (2,000 jobs) — plenty for typical accounts."
     + " Example: to find active jobs mentioning \"pricing\", call with"
     + " `fullTextSearchFilter=\"pricing\"` and `activeFilter=true` → returns matching"
-    + " job records with id, url, mode, interval, trigger, active, and more."
+    + " job records with id, url, mode, interval, trigger, isActive, and more."
     + " Pass `fields` to shrink each result to just the fields you need."
     + " [See the documentation](https://develop.api.visualping.io/doc.html#tag/Jobs/paths/~1v2~1jobs/get)",
   type: "action",
@@ -218,7 +218,7 @@ export default {
       optional: true,
       description: "Field names to return for each job (`id` is always included)."
         + " Omit to get the full job object (today's default output)."
-        + " A useful compact set: `" + DEFAULT_JOB_FIELDS.join("`, `") + "`."
+        + " A useful compact set: `" + DEFAULT_FIND_JOBS_FIELDS.join("`, `") + "`."
         + " Pass only the fields you need — smaller responses keep the conversation fast.",
     },
   },
@@ -231,8 +231,14 @@ export default {
       modeFilter,
       frequencyFilter,
       fields,
+      workspaceId,
       ...params
     } = this;
+
+    const resolvedWorkspaceId = await visualping.resolveWorkspaceId({
+      $,
+      workspaceId,
+    });
 
     const response = [];
 
@@ -240,6 +246,7 @@ export default {
       fn: visualping.findJobs,
       params: {
         ...params,
+        workspaceId: resolvedWorkspaceId,
         activeFilter: (activeFilter != undefined)
           ? +activeFilter
           : null,

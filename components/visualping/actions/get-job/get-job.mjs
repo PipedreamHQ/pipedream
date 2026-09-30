@@ -54,9 +54,14 @@ export default {
       fields,
     } = this;
 
-    const response = normalizeJob(await visualping.getJob({
+    const resolvedWorkspaceId = await visualping.resolveWorkspaceId({
       $,
       workspaceId,
+    });
+
+    const response = normalizeJob(await visualping.getJob({
+      $,
+      workspaceId: resolvedWorkspaceId,
       jobId,
     }));
 
