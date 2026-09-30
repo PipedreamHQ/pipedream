@@ -3,8 +3,12 @@ import zoom from "../../zoom.app.mjs";
 export default {
   key: "zoom-get-meeting-summary",
   name: "Get Meeting Summary",
-  description: "Retrieve the summary of a meeting or webinar. [See the documentation](https://developers.zoom.us/docs/api/rest/reference/zoom-api/methods/#operation/Getameetingsummary)",
-  version: "0.0.2",
+  description: "Retrieve the AI Companion summary of a past meeting or webinar."
+    + " Use when you need what was discussed or decided in a meeting that has already ended."
+    + " To find a meeting ID, call **List Meetings** first. A numeric meeting ID is resolved to its most recent ended instance."
+    + " Returns the summary title and `summary_content` in Markdown."
+    + " [See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/summaries/get/meetings/{meetingId}/meeting_summary)",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -33,7 +37,7 @@ Learn more about [enabling or disabling AI Companion meeting summaries](https://
           type: "previous_meetings",
         }),
       ],
-      description: "The meeting ID or meeting UUID to retrieve the AI summary for. Only past meetings are listed.",
+      description: "The past meeting to retrieve the AI summary for. A numeric meeting ID returns the summary of its most recent ended instance; to target an earlier occurrence of a recurring meeting, pass that instance's UUID. Only past meetings are listed.",
       optional: false,
     },
   },
@@ -43,20 +47,16 @@ Learn more about [enabling or disabling AI Companion meeting summaries](https://
       meetingId,
     } = this;
 
-    try {
-      const summary = await zoom.getMeetingSummary({
-        step,
-        meetingId,
-      });
+    const meetingUuid = await zoom.resolvePastMeetingUuid({
+      step,
+      meetingId,
+    });
+    const summary = await zoom.getMeetingSummary({
+      step,
+      meetingId: meetingUuid,
+    });
 
-      step.export("$summary", `Successfully retrieved AI summary for meeting ${meetingId}`);
-      return summary;
-    } catch (error) {
-      const code = error?.response?.data?.code ?? error?.data?.code ?? error?.code;
-      if (code === 3322) {
-        throw new Error(`No AI summary found for meeting "${meetingId}". Ensure the meeting has ended and AI Companion was enabled before the meeting started.`);
-      }
-      throw error;
-    }
+    step.export("$summary", `Successfully retrieved AI summary for meeting ${meetingId}`);
+    return summary;
   },
 };
