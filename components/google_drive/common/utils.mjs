@@ -80,7 +80,7 @@ function getListFilesOpts(drive, baseOpts = {}) {
     };
   }
 
-  // No specific drive selected -- search across all drives by default.
+  // No specific drive selected - search across all drives by default.
   return {
     ...rest,
     corpora: "allDrives",
@@ -336,6 +336,19 @@ function reserveUniqueFilePath(candidatePath, usedPaths) {
   return uniquePath;
 }
 
+// Drive allows "/" and arbitrary length in names; neither is valid in a single path segment.
+function sanitizeFileName(name) {
+  const safe = Buffer.from(name.replace(/[/\\\0]/g, "_"))
+    .subarray(0, 200)
+    .toString()
+    // Drop a multi-byte character split by the byte cut.
+    .replace(/�+$/, "");
+  if (!safe || safe === "." || safe === "..") {
+    return "_";
+  }
+  return safe;
+}
+
 async function stashFile(item, googleDrive, dir) {
   const fileMetadata = await googleDrive.getFile(item.id, {
     fields: "name,mimeType",
@@ -436,6 +449,7 @@ export {
   parseObjectEntries,
   parseRfc3339,
   reserveUniqueFilePath,
+  sanitizeFileName,
   stashFile,
   streamToBuffer,
   toSingleLineString,
