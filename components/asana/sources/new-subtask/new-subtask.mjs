@@ -7,7 +7,7 @@ export default {
   type: "source",
   name: "New Subtask (Instant)",
   description: "Emit new event for each subtask added to a project.",
-  version: "1.0.14",
+  version: "1.0.15",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -17,7 +17,7 @@ export default {
       type: "string",
       propDefinition: [
         asana,
-        "projects",
+        "projectsAsync",
         (c) => ({
           workspace: c.workspace,
         }),
@@ -27,7 +27,7 @@ export default {
       optional: true,
       propDefinition: [
         asana,
-        "tasks",
+        "tasksAsync",
         (c) => ({
           project: c.project,
         }),
