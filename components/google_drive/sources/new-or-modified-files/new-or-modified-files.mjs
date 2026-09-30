@@ -9,15 +9,17 @@
 // 2) A timer that runs on regular intervals, renewing the notification channel as needed
 
 import {
+  CHANGED_FILE_FIELDS,
+  GOOGLE_DRIVE_MIME_TYPE_PREFIX,
   GOOGLE_DRIVE_NOTIFICATION_ADD,
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
   GOOGLE_DRIVE_NOTIFICATION_UPDATE,
+  PDF_EXPORTABLE_MIME_TYPES,
 } from "../../common/constants.mjs";
 import commonDedupeChanges from "../common-dedupe-changes.mjs";
 import common from "../common-webhook.mjs";
 import { stashFile } from "../../common/utils.mjs";
 import sampleEmit from "./test-event.mjs";
-import md5 from "md5";
 
 const { googleDrive } = common.props;
 
@@ -26,10 +28,8 @@ export default {
   key: "google_drive-new-or-modified-files",
   name: "New or Modified Files (Instant)",
   description: "Emit new event when a file in the selected Drive is created, modified or trashed.",
-  version: "0.4.14",
+  version: "1.0.0",
   type: "source",
-  // Dedupe events based on the "x-goog-message-number" header for the target channel:
-  // https://developers.google.com/drive/api/v3/push#making-watch-requests
   dedupe: "unique",
   props: {
     ...common.props,
@@ -66,7 +66,7 @@ export default {
     includeLink: {
       label: "Include Link",
       type: "boolean",
-      description: "Upload file to your File Stash and emit temporary download link to the file. Google Workspace documents will be converted to PDF. See [the docs](https://pipedream.com/docs/connect/components/files) to learn more about working with files in Pipedream.",
+      description: "Upload file to your File Stash and emit temporary download link to the file. Google Workspace documents will be converted to PDF. Files that can't be downloaded emit `fileURLError` instead. See [the docs](https://pipedream.com/docs/connect/components/files) to learn more about working with files in Pipedream.",
       default: false,
       optional: true,
     },
@@ -113,31 +113,25 @@ export default {
         GOOGLE_DRIVE_NOTIFICATION_UPDATE,
       ];
     },
-    generateMeta(data, headers) {
-      const {
-        id: fileId,
-        name: summary,
-        modifiedTime: tsString,
-      } = data;
-      const ts = Date.parse(tsString);
-      const eventId = headers && headers["x-goog-message-number"];
-
+    getChangesFileFields() {
+      return CHANGED_FILE_FIELDS;
+    },
+    generateMeta({
+      id, name, modifiedTime, trashed,
+    }) {
       return {
-        id: md5(`${fileId}-${eventId || ts}`),
-        summary,
-        ts,
+        id: `${id}-${modifiedTime}-${trashed}`,
+        summary: name,
+        ts: Date.parse(modifiedTime),
       };
     },
-    async getChanges(headers) {
+    getChanges(headers) {
       if (!headers) {
         return {
-          change: { },
+          change: {},
         };
       }
-      const resourceUri = headers["x-goog-resource-uri"];
-      const metadata = await this.googleDrive.getFileMetadata(`${resourceUri}&fields=*`);
       return {
-        ...metadata,
         change: {
           state: headers["x-goog-resource-state"],
           resourceURI: headers["x-goog-resource-uri"],
@@ -145,16 +139,35 @@ export default {
         },
       };
     },
+    async getFileLink(file) {
+      const { mimeType } = file;
+      if (mimeType.startsWith(GOOGLE_DRIVE_MIME_TYPE_PREFIX)
+        && !PDF_EXPORTABLE_MIME_TYPES.includes(mimeType)) {
+        return {
+          fileURLError: `Files of type ${mimeType} can't be downloaded`,
+        };
+      }
+      try {
+        return {
+          fileURL: await stashFile(file, this.googleDrive, this.dir),
+        };
+      } catch (error) {
+        // Isolate per-file failures so one file can't block the page token; rate limits still retry
+        if (this.googleDrive.isRetryableError(error, error.status || error.response?.status)) {
+          throw error;
+        }
+        console.log(`Could not upload file ${file.name} to the File Stash: ${error.message}`);
+        return {
+          fileURLError: error.message,
+        };
+      }
+    },
     async processChanges(changedFiles, headers) {
-      const changes = await this.getChanges(headers);
-
-      const filteredFiles = this.checkMinimumInterval(changedFiles);
+      const changes = this.getChanges(headers);
+      const filteredFiles = this.filterByMinimumInterval(changedFiles);
+      const emittedFileIds = [];
 
       for (const file of filteredFiles) {
-        file.parents = (await this.googleDrive.getFile(file.id, {
-          fields: "parents",
-        })).parents;
-
         if (!this.shouldProcess(file)) {
           console.log(`Skipping file ${file.name}`);
           continue;
@@ -165,11 +178,13 @@ export default {
           ...changes,
         };
         if (this.includeLink) {
-          eventToEmit.fileURL = await stashFile(file, this.googleDrive, this.dir);
+          Object.assign(eventToEmit, await this.getFileLink(file));
         }
-        const meta = this.generateMeta(file, headers);
-        this.$emit(eventToEmit, meta);
+        this.$emit(eventToEmit, this.generateMeta(file));
+        emittedFileIds.push(file.id);
       }
+
+      this.recordFileEmits(emittedFileIds);
     },
   },
   sampleEmit,
