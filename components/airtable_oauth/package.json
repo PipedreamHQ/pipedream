@@ -18,6 +18,6 @@
     "bottleneck": "^2.19.5",
     "lodash.chunk": "^4.2.0",
     "lodash.isempty": "^4.4.0",
-    "moment": "^2.30.1"
+    "moment": "^2.31.0"
   }
 }
