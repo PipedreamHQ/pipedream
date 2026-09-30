@@ -123,6 +123,12 @@ export default {
       return [];
     },
     /**
+     * File fields to request per change; `undefined` returns the API's minimal fields.
+     */
+    getChangesFileFields() {
+      return undefined;
+    },
+    /**
      * This method is responsible for processing a list of changed files
      * according to the event source's purpose. As an abstract method, it must
      * be implemented by every event source that extends this module.
@@ -201,7 +207,12 @@ export default {
 
     const driveId = this.getDriveId();
     const changedFilesStream =
-      this.googleDrive.listChanges(pageToken, driveId, this.changesPageSize);
+      this.googleDrive.listChanges(
+        pageToken,
+        driveId,
+        this.changesPageSize,
+        this.getChangesFileFields(),
+      );
     for await (const changedFilesPage of changedFilesStream) {
       const {
         changedFiles,
