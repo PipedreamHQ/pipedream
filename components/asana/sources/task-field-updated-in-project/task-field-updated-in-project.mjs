@@ -7,7 +7,7 @@ export default {
   type: "source",
   name: "New Task Field Updated In Project (Instant)",
   description: "Emit new event whenever given task fields are updated.",
-  version: "0.0.13",
+  version: "0.0.14",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -17,7 +17,7 @@ export default {
       type: "string",
       propDefinition: [
         asana,
-        "projects",
+        "projectsAsync",
         (c) => ({
           workspace: c.workspace,
         }),
@@ -27,9 +27,6 @@ export default {
       propDefinition: [
         asana,
         "taskFields",
-        (c) => ({
-          project: c.project,
-        }),
       ],
     },
   },
