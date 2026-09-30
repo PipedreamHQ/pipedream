@@ -10,6 +10,6 @@ export default {
   ...utils.getAppProps(listViews),
   key: "linear-list-views",
   description: "List saved custom views in Linear. Use this to discover valid view IDs for the **Get View Issues** action. Custom views combine filters (team, assignee, state, labels, etc.) into a reusable saved search. Optionally filter by team. Example: `teamId: \"9d1c3f7e-...\"` → returns `{nodes: [{id: \"cv1abc\", name: \"My Open Issues\", teamId: \"9d1c3f7e-...\"}], pageInfo: {endCursor: \"...\", hasNextPage: false}}`. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=views)",
-  version: "0.0.4",
+  version: "0.0.3",
   ai: "optimized",
 };
