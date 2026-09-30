@@ -7,7 +7,7 @@ export default {
   name: "List Messages",
   description: "Read the message history of a channel, direct message (DM), or group DM using the bot token, newest first."
     + " Returns messages with text, timestamps (`ts`), user IDs, and reactions, plus `has_more` to tell whether older messages remain."
-    + " To read further back, call again with `latest` set to the `ts` of the last message returned."
+    + " To read further back, call again with `latest` set to the `ts` of the last message returned and `inclusive` left `false`, so that message is not returned again."
     + " Use **List Replies** with a message's `ts` to read its thread."
     + " [See the documentation](https://api.slack.com/methods/conversations.history)",
   version: "0.0.1",
@@ -76,6 +76,7 @@ export default {
     let cursor, hasMore;
 
     do {
+      const requestedCursor = cursor;
       const response = await this.slack.conversationsHistory({
         channel: this.conversation,
         oldest: this.oldest,
@@ -87,14 +88,17 @@ export default {
       messages.push(...(response.messages || []));
       hasMore = !!response.has_more;
       cursor = response.response_metadata?.next_cursor;
-    } while (hasMore && cursor && messages.length < limit);
+      if (cursor && cursor === requestedCursor) {
+        throw new Error("Slack pagination cursor did not advance");
+      }
+    } while (cursor && messages.length < limit);
 
     $.export("$summary", `Successfully retrieved ${messages.length} message${messages.length === 1
       ? ""
       : "s"}`);
     return {
       messages,
-      has_more: hasMore,
+      has_more: !!cursor || hasMore,
     };
   },
 };
