@@ -13,13 +13,13 @@ export default {
     jobTitleNot: {
       type: "string[]",
       label: "Job Title Excludes",
-      description: "Exclude jobs whose title contains any of these phrases. Mapped to `job_title_not`.",
+      description: "Exclude jobs whose title contains any of these phrases (e.g. `Intern`, `Manager`). Mapped to `job_title_not`.",
       optional: true,
     },
     descriptionOr: {
       type: "string[]",
       label: "Description Contains",
-      description: "Match jobs whose description contains every word of any one of these phrases. Mapped to `description_or`.",
+      description: "Match jobs whose description contains every word of any one of these phrases (e.g. `machine learning`, `visa sponsorship`). Mapped to `description_or`.",
       optional: true,
     },
     countryCodes: {
@@ -61,7 +61,7 @@ export default {
     employmentTypes: {
       type: "string[]",
       label: "Employment Types",
-      description: "Match any of these employment types.",
+      description: "Match any of these employment types (e.g. `full-time`, `contract`). Mapped to `employment_type_or`.",
       options: [
         "full-time",
         "part-time",
@@ -74,7 +74,7 @@ export default {
     workArrangements: {
       type: "string[]",
       label: "Work Arrangements",
-      description: "Match any of these work arrangements.",
+      description: "Match any of these work arrangements (e.g. `remote`, `hybrid`). Mapped to `work_arrangement_or`.",
       options: [
         "remote",
         "hybrid",
@@ -85,20 +85,27 @@ export default {
     seniorityLevels: {
       type: "string[]",
       label: "Seniority Levels",
-      description: "Match any of these seniority levels (e.g. `entry`, `mid`, `senior`, `lead`, `exec`). Mapped to `job_seniority_or`.",
+      description: "Match any of these seniority levels (e.g. `senior`, `lead`). Mapped to `job_seniority_or`.",
+      options: [
+        "entry",
+        "mid",
+        "senior",
+        "lead",
+        "exec",
+      ],
       optional: true,
     },
     postedAtMaxAgeDays: {
       type: "integer",
       label: "Posted Within Days",
-      description: "Only return postings newer than this many days. Mapped to `posted_at_max_age_days`.",
+      description: "Only return postings newer than this many days (e.g. `7` for the last week). Mapped to `posted_at_max_age_days`.",
       optional: true,
       min: 1,
     },
     minSalaryUsd: {
       type: "integer",
       label: "Minimum Salary (USD)",
-      description: "Only jobs whose posted salary reaches this annual USD amount. Mapped to `min_salary_usd`.",
+      description: "Only jobs whose posted salary reaches this annual USD amount (e.g. `120000`). Mapped to `min_salary_usd`.",
       optional: true,
       min: 0,
     },
@@ -125,7 +132,7 @@ export default {
     cursor: {
       type: "string",
       label: "Cursor",
-      description: "Opaque pagination cursor from a previous response's `metadata.next_cursor`.",
+      description: "Opaque pagination cursor for the next page. Use the `metadata.next_cursor` value returned by a previous **Search Jobs** run (e.g. `eyJvZmZzZXQiOjI1fQ`).",
       optional: true,
     },
   },
@@ -135,9 +142,9 @@ export default {
     },
     _headers() {
       return {
-        Authorization: `Bearer ${this.$auth.api_key}`,
+        "Authorization": `Bearer ${this.$auth.api_key}`,
         "Content-Type": "application/json",
-        Accept: "application/json",
+        "Accept": "application/json",
       };
     },
     _makeRequest({

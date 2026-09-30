@@ -5,6 +5,7 @@ export default {
   name: "Search Jobs",
   description: "Search normalized live job postings via the JobsPipe API. [See the documentation](https://docs.jobspipe.dev/).",
   version: "0.0.1",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
