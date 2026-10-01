@@ -3,7 +3,9 @@ import fs from "fs";
 import stream from "stream";
 import { promisify } from "util";
 import { GOOGLE_DRIVE_MIME_TYPE_PREFIX } from "../../common/constants.mjs";
-import { toSingleLineString } from "../../common/utils.mjs";
+import {
+  reserveUniqueFilePath, sanitizeFileName, toSingleLineString,
+} from "../../common/utils.mjs";
 import googleDrive from "../../google_drive.app.mjs";
 import googleWorkspaceExportFormats from "../common/google-workspace-export-formats.mjs";
 import {
@@ -33,7 +35,7 @@ export default {
     + " Pass `mimeType` to force a specific format. Shortcuts are resolved to their target automatically."
     + " Folders, Forms, and My Maps cannot be downloaded via this action."
     + " [See the documentation](https://developers.google.com/drive/api/v3/manage-downloads)",
-  version: "0.2.3",
+  version: "0.2.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -91,12 +93,15 @@ export default {
     mimeType: {
       type: "string",
       label: "Conversion Format",
-      description: toSingleLineString(`
-        The format to which to convert the downloaded file if it is a [Google Workspace
-        document](https://developers.google.com/drive/api/v3/ref-export-formats).
-        If omitted, defaults per source type: Docs → \`.docx\`, Sheets → \`.xlsx\`,
-        Slides → \`.pptx\`, Drawings → PNG, Apps Script → JSON.
-      `),
+      description: "The MIME type to convert the downloaded file to, if it is a Google Workspace document."
+        + " If omitted, defaults per source type: Docs → `.docx`, Sheets → `.xlsx`, Slides → `.pptx`, Drawings → `.png`, Apps Script → `.json`."
+        + "\n\nValid values by source type (per [Google's export format reference](https://developers.google.com/workspace/drive/api/guides/ref-export-formats)):"
+        + "\n- **Docs**: `application/vnd.openxmlformats-officedocument.wordprocessingml.document` (.docx), `application/vnd.oasis.opendocument.text` (.odt), `application/rtf`, `application/pdf`, `text/plain`, `text/html`, `application/zip` (zipped HTML), `application/epub+zip`, `text/markdown`"
+        + "\n- **Sheets**: `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` (.xlsx), `application/x-vnd.oasis.opendocument.spreadsheet` (.ods - note the `x-` prefix, unlike Docs/Slides), `application/pdf`, `application/zip` (zipped HTML), `text/csv` (first sheet only), `text/tab-separated-values` (first sheet only)"
+        + "\n- **Slides**: `application/vnd.openxmlformats-officedocument.presentationml.presentation` (.pptx), `application/vnd.oasis.opendocument.presentation` (.odp), `application/pdf`, `text/plain`"
+        + "\n- **Drawings**: `application/pdf`, `image/jpeg`, `image/png`, `image/svg+xml`"
+        + "\n- **Apps Script**: `application/vnd.google-apps.script+json` (the only supported format)"
+        + "\n\nExample: set to `application/pdf` to export any Workspace document as a PDF instead of the per-type default.",
       optional: true,
       async options() {
         const fileId = this.fileId ?? this.fileIds?.[0];
@@ -166,6 +171,9 @@ export default {
     }
 
     const pipeline = promisify(stream.pipeline);
+
+    // Drive allows duplicate names; reserve a distinct /tmp path per file in this run.
+    const usedFilePaths = new Set();
 
     // Downloads a single file (resolving shortcuts + Workspace export formats),
     // either writing it to /tmp or returning its contents as a buffer.
@@ -245,14 +253,14 @@ export default {
           ? this.filePath
           : `/tmp/${this.filePath}`;
       } else {
-        let defaultName = fileMetadata.name;
+        let defaultName = sanitizeFileName(fileMetadata.name);
         if (isWorkspaceDocument) {
           const ext = extensionByMime[effectiveMimeType];
           if (ext && !defaultName.toLowerCase().endsWith(`.${ext.toLowerCase()}`)) {
             defaultName = `${defaultName}.${ext}`;
           }
         }
-        filePath = `/tmp/${defaultName}`;
+        filePath = reserveUniqueFilePath(`/tmp/${defaultName}`, usedFilePaths);
       }
 
       await pipeline(file, fs.createWriteStream(filePath));

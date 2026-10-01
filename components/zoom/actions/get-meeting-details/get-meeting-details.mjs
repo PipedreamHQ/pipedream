@@ -6,7 +6,7 @@ export default {
   key: "zoom-get-meeting-details",
   name: "Get Meeting Details",
   description: "Retrieves the details of a meeting.",
-  version: "0.3.8",
+  version: "0.3.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

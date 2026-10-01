@@ -9,7 +9,7 @@ export default {
   key: "google_ads-get-keyword-quality-scores",
   name: "Get Keyword Quality Scores",
   description: `Retrieves current and historical quality score data (Quality Score, Ad Relevance, Landing Page Experience, Expected CTR) for keywords in a customer account. Current scores reflect the latest evaluation; historical scores are averaged over the selected date range. [See the documentation](${docLink})`,
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   ai: "optimized",
   annotations: {

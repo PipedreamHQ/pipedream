@@ -16,6 +16,6 @@
     "@googleapis/docs": "^3.3.0",
     "@pipedream/google_drive": "^1.4.1",
     "@pipedream/platform": "^3.1.0",
-    "markdown-it": "^14.2.0"
+    "markdown-it": "^14.3.1"
   }
 }
