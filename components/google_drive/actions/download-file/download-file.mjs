@@ -289,7 +289,7 @@ export default {
     }
 
     // Downloaded concurrently via allSettled so one bad or inaccessible ID
-    // reports as a per-file error instead of discarding files already
+    // reports as a per-file error instead of discarding files from the whole batch
     const outcomes = await Promise.allSettled(fileIds.map((id) => downloadOne(id)));
     const files = outcomes.map((outcome, i) => outcome.status === "fulfilled"
       ? {
