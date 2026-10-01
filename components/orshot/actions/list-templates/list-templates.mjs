@@ -6,6 +6,7 @@ export default {
   description:
     "Retrieve a list of available library templates from Orshot. [See templates](https://orshot.com/templates)",
   version: "0.0.4",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

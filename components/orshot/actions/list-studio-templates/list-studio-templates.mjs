@@ -5,6 +5,7 @@ export default {
   name: "List Studio Templates",
   description: "List the Studio templates in your workspace, with name search, tag filter and pagination. [See the documentation](https://orshot.com/docs/api-reference/studio-templates-list)",
   version: "0.0.1",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

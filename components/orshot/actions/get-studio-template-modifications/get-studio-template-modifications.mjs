@@ -5,6 +5,7 @@ export default {
   name: "Get Studio Template Modifications",
   description: "Get available modification keys for a studio template",
   version: "0.0.3",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

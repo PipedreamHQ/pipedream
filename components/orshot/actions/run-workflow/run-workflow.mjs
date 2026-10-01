@@ -5,6 +5,7 @@ export default {
   name: "Run Workflow",
   description: "Queue a manual run of an Orshot workflow. Returns a `runId` to check with **Get Workflow Run**. Uses one automation credit. Enterprise plan. [See the documentation](https://orshot.com/docs/api-reference/workflow-run)",
   version: "0.0.1",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

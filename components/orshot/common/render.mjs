@@ -1,13 +1,12 @@
 import { ConfigurationError } from "@pipedream/platform";
-import { parseObject } from "./utils.mjs";
+import {
+  isEmptyObject, parseObject,
+} from "./utils.mjs";
 import {
   IMAGE_FORMATS, SOURCE, VIDEO_FORMATS,
 } from "./constants.mjs";
 
 const SIZE_PATTERN = /^\d+x\d+$/;
-
-const isEmptyObject = (obj) =>
-  !obj || typeof obj !== "object" || Object.keys(obj).length === 0;
 
 /**
  * Build the POST /studio/render request body shared by the

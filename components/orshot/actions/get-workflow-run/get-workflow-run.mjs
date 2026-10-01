@@ -5,6 +5,7 @@ export default {
   name: "Get Workflow Run",
   description: "Get one Orshot workflow run with per-step detail, to check progress or see which step failed. Enterprise plan. [See the documentation](https://orshot.com/docs/api-reference/workflow-run-get)",
   version: "0.0.1",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

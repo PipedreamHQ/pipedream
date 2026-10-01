@@ -8,6 +8,7 @@ export default {
   name: "Render from Studio Template",
   description: "Render an Orshot Studio template as an image, PDF or video, with Smart Resize, extra sizes, PDF and video options, and multi-page modifications. Turn on `Wait For Completion` for long videos. [See the documentation](https://orshot.com/docs/api-reference/render-from-studio-template)",
   version: "0.0.1",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -39,7 +40,7 @@ export default {
     responseType: {
       type: "string",
       label: "Response Type",
-      description: "`url` returns a hosted file URL, `base64` returns the file inline",
+      description: "How the file is returned, e.g. `url`. `url` returns a hosted file URL, `base64` returns the file inline",
       options: [
         "url",
         "base64",
@@ -97,7 +98,7 @@ export default {
     waitForCompletion: {
       type: "boolean",
       label: "Wait For Completion",
-      description: "Render in the background and pause this workflow until it finishes, instead of holding one HTTP request open. Recommended for videos. Orshot notifies the workflow by webhook, with polling as a fallback. Requires `url` response type. Only works in deployed workflows, not in test runs.",
+      description: "Set to `true` to render in the background and pause this workflow until it finishes, instead of holding one HTTP request open. Recommended for videos. Orshot notifies the workflow by webhook, with polling as a fallback. Requires `url` response type. Only works in deployed workflows, not in test runs.",
       optional: true,
       default: false,
     },

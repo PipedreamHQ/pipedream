@@ -6,6 +6,7 @@ export default {
   name: "Create Signed URL",
   description: "Create a signed URL that renders a library template with your modifications when opened, without exposing your API key. Each open that renders counts against your plan. [See the documentation](https://orshot.com/docs/api-reference/generate-signed-url)",
   version: "0.0.1",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

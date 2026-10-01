@@ -76,7 +76,7 @@ export default {
     studioTemplate: {
       type: "string",
       label: "Studio Template",
-      description: "The Studio template to use. Pick one from the list or enter a template ID (shown on the template's page and in the playground).",
+      description: "The Studio template ID to use, e.g. `12345`. Use **List Studio Templates** to find the template ID (the `id` field).",
       async options({ page }) {
         const { data = [] } = await this.listStudioTemplates({
           params: {
@@ -93,14 +93,14 @@ export default {
     renderFormat: {
       type: "string",
       label: "Format",
-      description: "Output format. Image formats render a still, `pdf` renders a document, and `mp4`, `webm`, `mov`, `mkv` or `gif` render a video (the template needs video or animated elements).",
+      description: "Output format, e.g. `png`. Image formats render a still, `pdf` renders a document, and `mp4`, `webm`, `mov`, `mkv` or `gif` render a video (the template needs video or animated elements).",
       options: RENDER_FORMATS,
       default: "png",
     },
     sizePreset: {
       type: "string",
       label: "Resize To",
-      description: "Smart Resize: render the same design at a different canvas size without redesigning it. Pick a preset, or use `Custom Size` instead. [See the documentation](https://orshot.com/docs/api-reference/render-from-studio-template#smart-resize)",
+      description: "Smart Resize preset, e.g. `instagram-story`. Renders the same design at a different canvas size. Use this or `Custom Size`, not both. [See the documentation](https://orshot.com/docs/api-reference/render-from-studio-template#smart-resize)",
       options: SIZE_PRESETS,
       optional: true,
     },
@@ -120,7 +120,7 @@ export default {
     scale: {
       type: "string",
       label: "Scale",
-      description: "Output scale multiplier. `1` is the template size, `2` doubles it.",
+      description: "Output scale multiplier, e.g. `2`. `1` is the template size and `2` doubles it.",
       optional: true,
     },
     includePages: {
@@ -132,30 +132,30 @@ export default {
     fileName: {
       type: "string",
       label: "File Name",
-      description: "Custom output file name without the extension. Applies to `url` responses.",
+      description: "Custom output file name without the extension, e.g. `invoice-2026`. Applies to `url` responses.",
       optional: true,
     },
     pdfOptions: {
       type: "object",
       label: "PDF Options",
-      description: "PDF only. Keys such as `title`, `margin`, `dpi`, `colorMode` (`rgb` or `cmyk`), `imageFormat`, `imageQuality`, `maxImageDpi`, `rangeFrom`, `rangeTo`. [See the documentation](https://orshot.com/docs/pdf-generation/pdf-options)",
+      description: "PDF options, e.g. `{ \"dpi\": 300 }`. Keys include `title`, `margin`, `dpi`, `colorMode` (`rgb` or `cmyk`), `imageFormat`, `imageQuality`, `maxImageDpi`, `rangeFrom`, and `rangeTo`. [See the documentation](https://orshot.com/docs/pdf-generation/pdf-options)",
       optional: true,
     },
     videoOptions: {
       type: "object",
       label: "Video Options",
-      description: "Video only. Keys such as `fps`, `quality`, `trimStart`, `trimEnd`, `duration`, `muted`, `combinePages`, `pageTransition`, `subtitleSource` and subtitle styling. [See the documentation](https://orshot.com/docs/video-generation/video-options)",
+      description: "Video options, e.g. `{ \"fps\": 30, \"muted\": true }`. Keys include `fps`, `quality`, `trimStart`, `trimEnd`, `duration`, `muted`, `combinePages`, `pageTransition`, `subtitleSource`, and subtitle styling. [See the documentation](https://orshot.com/docs/video-generation/video-options)",
       optional: true,
     },
     renderJobId: {
       type: "string",
       label: "Render Job ID",
-      description: "The `id` returned by **Start Async Render**",
+      description: "The render job ID, e.g. `12345`, returned by **Start Async Render**.",
     },
     socialAccountIds: {
       type: "string[]",
       label: "Social Accounts",
-      description: "The connected social accounts to publish to",
+      description: "The connected social account IDs, e.g. `[\"12345\"]`. Use **List Social Accounts** to find the account IDs (the `id` field).",
       async options() {
         const { data = [] } = await this.listSocialAccounts();
         return data.map((account) => ({
@@ -167,7 +167,7 @@ export default {
     workflowId: {
       type: "string",
       label: "Workflow",
-      description: "The workflow to use. The Workflows API is available on the Enterprise plan.",
+      description: "The workflow ID to use, e.g. `12345`. Use **List Workflows** to find the workflow ID (the `id` field). The Workflows API is available on the Enterprise plan.",
       async options({ page }) {
         const limit = 50;
         const { workflows = [] } = await this.listWorkflows({
@@ -185,7 +185,7 @@ export default {
     workflowRunId: {
       type: "string",
       label: "Run ID",
-      description: "The `runId` returned by **Run Workflow**",
+      description: "The workflow run ID, e.g. `12345`, returned by **Run Workflow**.",
     },
   },
   methods: {

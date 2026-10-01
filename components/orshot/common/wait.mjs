@@ -1,4 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
+import { parseBody } from "./utils.mjs";
 
 // How long the first pause waits for Orshot's webhook before falling back to
 // polling. Orshot renders have a 15 minute ceiling, so 16 minutes covers every
@@ -12,17 +13,9 @@ export const MAX_RERUNS = 1 + MAX_POLLS;
 // How many recent jobs to scan when the webhook never arrived and we have to
 // find our job by its metadata tag.
 export const JOB_LOOKUP_LIMIT = 100;
-
-const parseBody = (body) => {
-  if (typeof body === "string") {
-    try {
-      return JSON.parse(body);
-    } catch {
-      return {};
-    }
-  }
-  return body || {};
-};
+// Pages to scan (newest first) before giving up. The job was started by this
+// step moments earlier, so it is always near the top of the list.
+export const JOB_LOOKUP_MAX_PAGES = 10;
 
 /**
  * Pull the job object out of an Orshot `render_job.finished` webhook that
@@ -92,13 +85,27 @@ export const waitForRender = async ({
 
   if (!job?.finished) {
     if (jobId === undefined) {
-      const { data = [] } = await app.listRenderJobs({
-        $,
-        params: {
-          limit: JOB_LOOKUP_LIMIT,
-        },
-      });
-      const match = data.find((j) => j.metadata === ctx.nonce);
+      let cursor;
+      let match;
+      let pages = 0;
+      do {
+        pages++;
+        const {
+          data = [], pagination = {},
+        } = await app.listRenderJobs({
+          $,
+          params: {
+            limit: JOB_LOOKUP_LIMIT,
+            ...(cursor
+              ? {
+                cursor,
+              }
+              : {}),
+          },
+        });
+        match = data.find((j) => j.metadata === ctx.nonce);
+        cursor = pagination.next_cursor;
+      } while (!match && cursor && pages < JOB_LOOKUP_MAX_PAGES);
       jobId = match?.id;
     }
     if (jobId === undefined) {

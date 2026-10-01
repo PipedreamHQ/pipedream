@@ -5,6 +5,7 @@ export default {
   name: "List Social Accounts",
   description: "List the social accounts connected to your Orshot workspace, with the IDs used for publishing. [See the documentation](https://orshot.com/docs/api-reference/social-accounts-list)",
   version: "0.0.1",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

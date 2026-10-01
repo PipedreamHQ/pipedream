@@ -6,6 +6,7 @@ export default {
   name: "Start Async Render",
   description: "Start a background render of a Studio template and get a job back immediately. Built for videos and long renders that would time out a normal request. Collect the result with **Get Render Job** or a webhook. [See the documentation](https://orshot.com/docs/api-reference/async-render-start)",
   version: "0.0.1",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -86,13 +87,13 @@ export default {
     webhookUrl: {
       type: "string",
       label: "Webhook URL",
-      description: "A public http(s) URL. Orshot POSTs `{ \"event\": \"render_job.finished\", \"job\": {...} }` to it when the job finishes (3 attempts). Polling stays the source of truth.",
+      description: "A public http(s) URL, e.g. `https://example.com/hooks/orshot`. Orshot POSTs `{ \"event\": \"render_job.finished\", \"job\": {...} }` to it when the job finishes (3 attempts). Polling stays the source of truth.",
       optional: true,
     },
     metadata: {
       type: "string",
       label: "Metadata",
-      description: "Any string (max 1024 characters), echoed back on the job so you can correlate it, e.g. an order ID",
+      description: "Any string (max 1024 characters), echoed back on the job so you can correlate it, e.g. `order-1234`",
       optional: true,
     },
   },

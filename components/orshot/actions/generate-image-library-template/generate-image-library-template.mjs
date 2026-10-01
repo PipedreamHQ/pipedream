@@ -9,6 +9,7 @@ export default {
   description:
     "Generate an image from a pre-designed library template using the Orshot API. [See the documentation](https://orshot.com/docs/api-reference/render-from-template)",
   version: "0.0.4",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

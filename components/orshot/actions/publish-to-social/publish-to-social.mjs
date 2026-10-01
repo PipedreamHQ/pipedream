@@ -8,6 +8,7 @@ export default {
   name: "Publish to Social",
   description: "Publish an image or video URL (e.g. from a render) to connected social accounts, now, as a draft, or on a schedule. [See the documentation](https://orshot.com/docs/api-reference/social-publish)",
   version: "0.0.1",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
