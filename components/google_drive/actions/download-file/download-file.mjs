@@ -35,7 +35,7 @@ export default {
     + " Pass `mimeType` to force a specific format. Shortcuts are resolved to their target automatically."
     + " Folders, Forms, and My Maps cannot be downloaded via this action."
     + " [See the documentation](https://developers.google.com/drive/api/v3/manage-downloads)",
-  version: "0.2.5",
+  version: "0.2.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -288,11 +288,24 @@ export default {
       return result;
     }
 
-    const files = [];
-    for (const id of fileIds) {
-      files.push(await downloadOne(id));
-    }
-    $.export("$summary", `Successfully downloaded ${files.length} file(s).`);
+    // Downloaded concurrently via allSettled so one bad or inaccessible ID
+    // reports as a per-file error instead of discarding files already
+    const outcomes = await Promise.allSettled(fileIds.map((id) => downloadOne(id)));
+    const files = outcomes.map((outcome, i) => outcome.status === "fulfilled"
+      ? {
+        status: "success",
+        ...outcome.value,
+      }
+      : {
+        status: "error",
+        fileId: fileIds[i],
+        error: `${outcome.reason?.message ?? outcome.reason}`,
+      });
+    const succeeded = files.filter(({ status }) => status === "success").length;
+    const failed = files.length - succeeded;
+    $.export("$summary", failed
+      ? `Downloaded ${succeeded} of ${files.length} file(s) (${failed} failed).`
+      : `Successfully downloaded ${files.length} file(s).`);
     return {
       files,
       count: files.length,
