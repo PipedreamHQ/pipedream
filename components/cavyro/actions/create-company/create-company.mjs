@@ -1,11 +1,15 @@
 import cavyro from "../../cavyro.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "cavyro-create-company",
   name: "Create Company",
-  description: "Create a new company in Cavyro. [See the documentation](https://developers.cavyro.com)",
+  description: "Create a new company in Cavyro. The name must be unique in the workspace, so use **List Companies** first to avoid duplicates."
+    + " Use **List Custom Fields** for required custom fields. Link contacts to it with **Create Contact**."
+    + " [See the documentation](https://developers.cavyro.com)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,7 +20,7 @@ export default {
     name: {
       type: "string",
       label: "Name",
-      description: "The company name. Must be unique in the workspace.",
+      description: "The company name, e.g. `Acme d.o.o.`. Must be unique in the workspace.",
     },
     website: {
       type: "string",
@@ -27,13 +31,13 @@ export default {
     phone: {
       type: "string",
       label: "Phone",
-      description: "The company phone number.",
+      description: "The company phone number, e.g. `+381111234567`.",
       optional: true,
     },
     city: {
       type: "string",
       label: "City",
-      description: "The city the company is based in.",
+      description: "The city the company is based in, e.g. `Novi Sad`.",
       optional: true,
     },
     country: {
@@ -66,7 +70,7 @@ export default {
           city: this.city,
           country: this.country,
           description: this.description,
-          custom_fields: this.customFields,
+          custom_fields: parseObject(this.customFields),
         },
       },
     });

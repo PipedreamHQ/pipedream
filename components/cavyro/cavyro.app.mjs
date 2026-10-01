@@ -7,7 +7,7 @@ export default {
     pipelineId: {
       type: "integer",
       label: "Pipeline",
-      description: "The pipeline the deal belongs to.",
+      description: "The ID of the pipeline, e.g. `3`. Use **List Pipelines** to find it (the `id` field).",
       async options({ page }) {
         const pipelines = await this.listPipelines({
           params: {
@@ -26,7 +26,7 @@ export default {
     stageId: {
       type: "integer",
       label: "Stage",
-      description: "The pipeline stage for the deal.",
+      description: "The ID of a stage in the pipeline given in `pipelineId`, e.g. `41`. Use **Get Pipeline** to find it (the `id` field of an item in `stages`).",
       async options({ pipelineId }) {
         if (!pipelineId) {
           return [];
@@ -45,7 +45,7 @@ export default {
     dealId: {
       type: "integer",
       label: "Deal",
-      description: "The deal to act on.",
+      description: "The ID of the deal, e.g. `905`. Use **List Deals** to find it (the `id` field).",
       async options({ page }) {
         const deals = await this.listDeals({
           params: {
@@ -64,7 +64,7 @@ export default {
     companyId: {
       type: "integer",
       label: "Company",
-      description: "The company to link.",
+      description: "The ID of the company to link, e.g. `318`. Use **List Companies** to find it (the `id` field).",
       optional: true,
       async options({ page }) {
         const companies = await this.listCompanies({
@@ -84,7 +84,7 @@ export default {
     contactIds: {
       type: "integer[]",
       label: "Contacts",
-      description: "The contacts to link to the deal.",
+      description: "IDs of the contacts to link to the deal, e.g. `[4211, 4212]`. Use **Find Contact** to find them (the `id` field).",
       optional: true,
       async options({ page }) {
         const contacts = await this.listContacts({
@@ -106,7 +106,7 @@ export default {
     assigneeIds: {
       type: "integer[]",
       label: "Assignees",
-      description: "Workspace members to assign to the deal.",
+      description: "User IDs of the workspace members to assign to the deal, e.g. `[7]`. Use **List Members** to find them (the `user_id` field, not `id`).",
       optional: true,
       async options({ page }) {
         const members = await this.listMembers({
@@ -126,7 +126,7 @@ export default {
     title: {
       type: "string",
       label: "Title",
-      description: "The title of the deal.",
+      description: "The title of the deal, e.g. `Acme annual plan`.",
     },
     value: {
       type: "string",
@@ -143,19 +143,19 @@ export default {
     expectedCloseDate: {
       type: "string",
       label: "Expected Close Date",
-      description: "The date the deal is expected to close, in `YYYY-MM-DD` format.",
+      description: "The date the deal is expected to close, in `YYYY-MM-DD` format, e.g. `2026-12-31`.",
       optional: true,
     },
     description: {
       type: "string",
       label: "Description",
-      description: "Free-form notes.",
+      description: "Free-form notes, e.g. `Met at the Belgrade SaaS meetup`.",
       optional: true,
     },
     customFields: {
       type: "object",
       label: "Custom Fields",
-      description: "Custom field values keyed by custom field ID, e.g. `{\"12\": \"Enterprise\"}`. Required custom fields in your workspace must be set here.",
+      description: "Custom field values keyed by custom field ID, e.g. `{\"12\": \"Enterprise\"}`. Use **List Custom Fields** to find the IDs (the `id` field) and which fields are `required`; required fields must be set here or the request fails.",
       optional: true,
     },
   },
@@ -268,6 +268,12 @@ export default {
       return this._makeRequest({
         method: "PATCH",
         path: `/deals/${dealId}/move`,
+        ...opts,
+      });
+    },
+    listCustomFields(opts = {}) {
+      return this._makeRequest({
+        path: "/custom_field_definitions",
         ...opts,
       });
     },

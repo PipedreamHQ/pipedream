@@ -1,11 +1,17 @@
 import cavyro from "../../cavyro.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "cavyro-create-deal",
   name: "Create Deal",
-  description: "Create a new deal in a Cavyro pipeline. [See the documentation](https://developers.cavyro.com)",
+  description: "Create a new deal in a Cavyro pipeline."
+    + " Use **List Pipelines** to find `pipelineId`, then **Get Pipeline** to find a `stageId` in that pipeline."
+    + " Link records with **List Companies**, **Find Contact** and **List Members**; use **List Custom Fields** for required custom fields."
+    + " Use **Update Deal** to change the deal later."
+    + " [See the documentation](https://developers.cavyro.com)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -98,7 +104,7 @@ export default {
           assignee_ids: this.assigneeIds,
           expected_close_date: this.expectedCloseDate,
           description: this.description,
-          custom_fields: this.customFields,
+          custom_fields: parseObject(this.customFields),
         },
       },
     });

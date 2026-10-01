@@ -1,12 +1,17 @@
 import { ConfigurationError } from "@pipedream/platform";
 import cavyro from "../../cavyro.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "cavyro-create-contact",
   name: "Create Contact",
-  description: "Create a new contact in Cavyro, optionally linked to a company. [See the documentation](https://developers.cavyro.com)",
+  description: "Create a new contact in Cavyro, optionally linked to a company."
+    + " Provide at least a first or last name. The email must be unique in the workspace, so use **Find Contact** first to avoid duplicates."
+    + " Use **List Companies** to find a `companyId` and **List Custom Fields** for required custom fields."
+    + " [See the documentation](https://developers.cavyro.com)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -17,19 +22,19 @@ export default {
     firstName: {
       type: "string",
       label: "First Name",
-      description: "The contact's first name. Provide a first name, a last name, or both.",
+      description: "The contact's first name, e.g. `Ana`. Provide a first name, a last name, or both.",
       optional: true,
     },
     lastName: {
       type: "string",
       label: "Last Name",
-      description: "The contact's last name.",
+      description: "The contact's last name, e.g. `Petrović`.",
       optional: true,
     },
     email: {
       type: "string",
       label: "Email",
-      description: "The contact's email address. Must be unique in the workspace.",
+      description: "The contact's email address, e.g. `ana@example.com`. Must be unique in the workspace.",
       optional: true,
     },
     phone: {
@@ -41,19 +46,19 @@ export default {
     telegram: {
       type: "string",
       label: "Telegram Username",
-      description: "The contact's Telegram username, without the `@`.",
+      description: "The contact's Telegram username without the `@`, e.g. `anapetrovic`.",
       optional: true,
     },
     title: {
       type: "string",
       label: "Job Title",
-      description: "The contact's job title.",
+      description: "The contact's job title, e.g. `Head of Sales`.",
       optional: true,
     },
     linkedin: {
       type: "string",
       label: "LinkedIn",
-      description: "The contact's LinkedIn profile URL.",
+      description: "The contact's LinkedIn profile URL, e.g. `https://www.linkedin.com/in/anapetrovic`.",
       optional: true,
     },
     description: {
@@ -91,20 +96,24 @@ export default {
           title: this.title,
           linkedin: this.linkedin,
           description: this.description,
-          custom_fields: this.customFields,
+          custom_fields: parseObject(this.customFields),
         },
       },
     });
     if (this.companyId) {
-      await this.cavyro.linkContactToCompany({
-        $,
-        contactId: contact.id,
-        data: {
-          company_contact: {
-            company_id: this.companyId,
+      try {
+        await this.cavyro.linkContactToCompany({
+          $,
+          contactId: contact.id,
+          data: {
+            company_contact: {
+              company_id: this.companyId,
+            },
           },
-        },
-      });
+        });
+      } catch (error) {
+        throw new Error(`Created contact ${contact.id}, but linking it to company ${this.companyId} failed. Link it manually instead of re-running this action, which would create a duplicate. Cause: ${error.message}`);
+      }
     }
     $.export("$summary", `Created contact ${contact.id}: ${contact.full_name}`);
     return contact;
