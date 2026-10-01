@@ -187,6 +187,13 @@ export default {
       label: "Run ID",
       description: "The workflow run ID, e.g. `12345`, returned by **Run Workflow**.",
     },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Maximum number of results to return per page, e.g. `10`",
+      min: 1,
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {

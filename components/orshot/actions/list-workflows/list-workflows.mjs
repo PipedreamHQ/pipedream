@@ -27,12 +27,12 @@ export default {
       optional: true,
     },
     limit: {
-      type: "integer",
-      label: "Limit",
+      propDefinition: [
+        orshot,
+        "limit",
+      ],
       description: "Maximum number of workflows to return, from 1 to 200, e.g. `50`",
-      min: 1,
       max: 200,
-      optional: true,
     },
     offset: {
       type: "integer",

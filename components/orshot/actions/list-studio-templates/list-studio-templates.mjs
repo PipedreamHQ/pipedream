@@ -35,12 +35,12 @@ export default {
       default: 1,
     },
     limit: {
-      type: "integer",
-      label: "Limit",
-      description: "Templates per page (1 to 40)",
-      min: 1,
+      propDefinition: [
+        orshot,
+        "limit",
+      ],
+      description: "Templates per page, from 1 to 40, e.g. `10`",
       max: 40,
-      optional: true,
       default: 10,
     },
     embedId: {
