@@ -3,7 +3,7 @@ import microsoftOutlook from "../../microsoft_outlook_calendar.app.mjs";
 export default {
   type: "action",
   key: "microsoft_outlook_calendar-update-calendar-event",
-  version: "0.0.11",
+  version: "0.0.12",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -38,7 +38,7 @@ export default {
         microsoftOutlook,
         "content",
       ],
-      description: "Content",
+      description: "Body of the event, in plain text or HTML. Set Content Type to match.",
       optional: true,
     },
     timeZone: {
@@ -107,7 +107,7 @@ export default {
 
     if (this.contentType && this.content) {
       data.body = {
-        contentType: this.contentType ?? "HTML",
+        contentType: this.contentType,
         content: this.content,
       };
     }

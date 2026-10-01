@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   type: "action",
   key: "microsoft_outlook_calendar-update-recurring-event-instance",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -59,7 +59,7 @@ export default {
         microsoftOutlook,
         "content",
       ],
-      description: "Content",
+      description: "Body of the event, in plain text or HTML. Set Content Type to match.",
       optional: true,
     },
     timeZone: {
@@ -140,7 +140,7 @@ export default {
 
     if (this.content) {
       data.body = {
-        contentType: this.contentType ?? "text",
+        contentType: this.contentType,
         content: this.content,
       };
     }
