@@ -38,7 +38,7 @@ export default {
         microsoftOutlook,
         "content",
       ],
-      description: "Body of the event, in plain text or HTML. Set Content Type to match.",
+      description: "Body of the event, in plain text or HTML. Set Content Type to match, e.g. `Join us to discuss Q3 roadmap.` for Text, or `<p>Join us to discuss <b>Q3 roadmap</b>.</p>` for HTML.",
       optional: true,
     },
     timeZone: {
