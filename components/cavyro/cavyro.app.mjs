@@ -158,6 +158,13 @@ export default {
       description: "Custom field values keyed by custom field ID, e.g. `{\"12\": \"Enterprise\"}`. Use **List Custom Fields** to find the IDs (the `id` field) and which fields are `required`; required fields must be set here or the request fails.",
       optional: true,
     },
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "The page of results to return, 100 per page, e.g. `2`. Defaults to `1`. Request the next page while a page returns 100 items.",
+      optional: true,
+      min: 1,
+    },
   },
   methods: {
     _baseUrl() {

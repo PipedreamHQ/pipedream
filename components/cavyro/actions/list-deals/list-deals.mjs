@@ -34,11 +34,10 @@ export default {
       ],
     },
     page: {
-      type: "integer",
-      label: "Page",
-      description: "The page of results to return, 100 per page, e.g. `2`. Defaults to `1`.",
-      optional: true,
-      min: 1,
+      propDefinition: [
+        cavyro,
+        "page",
+      ],
     },
   },
   async run({ $ }) {
