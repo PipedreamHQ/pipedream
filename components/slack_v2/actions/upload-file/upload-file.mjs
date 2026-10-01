@@ -41,7 +41,7 @@ export default {
       optional: true,
     },
     initialComment: {
-      description: "Message text to post alongside the file, introducing or describing it.",
+      description: "Message text to post alongside the file, introducing or describing it (e.g. `Weekly sales report attached.`).",
       propDefinition: [
         slack,
         "initial_comment",
