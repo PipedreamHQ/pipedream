@@ -16,6 +16,7 @@ export default {
     readOnlyHint: false,
   },
   name: "Create Calendar Event",
+  ai: "optimized",
   description: "Create an event in the user's default calendar. Supports one-time and recurring events. [See the documentation](https://docs.microsoft.com/en-us/graph/api/user-post-events) and [recurring event example](https://learn.microsoft.com/en-us/graph/api/user-post-events?view=graph-rest-1.0&tabs=http#example-3-create-a-recurring-event).",
   props: {
     microsoftOutlook,
