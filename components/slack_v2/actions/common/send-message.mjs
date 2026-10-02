@@ -190,9 +190,12 @@ export default {
       // send to the D… channel. When posting as the bot (as_user: false), leave the
       // destination untouched: chat.postMessage opens the bot's own DM with the
       // user, preserving the existing behavior.
-      if (asUser && /^[UW][A-Z0-9]{6,}$/.test(String(destination).trim())) {
+      const normalized = String(destination)
+        .trim()
+        .replace(/^@/, "");
+      if (asUser && /^[UW][A-Z0-9]{6,}$/.test(normalized)) {
         const { channel } = await this.slack.openConversation({
-          users: destination,
+          users: normalized,
           as_user: asUser,
         });
         return channel.id;
