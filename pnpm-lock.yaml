@@ -8944,6 +8944,9 @@ importers:
         specifier: 4.0.4
         version: 4.0.4
 
+  components/less_annoying_crm:
+    specifiers: {}
+
   components/lessaccounting: {}
 
   components/lessonspace:
