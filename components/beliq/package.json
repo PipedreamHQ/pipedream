@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/beliq",
+  "version": "0.1.0",
+  "description": "Pipedream beliq Components",
+  "main": "beliq.app.mjs",
+  "keywords": [
+    "pipedream",
+    "beliq"
+  ],
+  "homepage": "https://pipedream.com/apps/beliq",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@beliq/sdk": "^0.4.0",
+    "@pipedream/platform": "^3.4.0"
+  }
+}
