@@ -4,7 +4,7 @@ import stream from "stream";
 import { promisify } from "util";
 import { GOOGLE_DRIVE_MIME_TYPE_PREFIX } from "../../common/constants.mjs";
 import {
-  reserveUniqueFilePath, sanitizeFileName, toSingleLineString,
+  mapWithConcurrency, reserveUniqueFilePath, sanitizeFileName, toSingleLineString,
 } from "../../common/utils.mjs";
 import googleDrive from "../../google_drive.app.mjs";
 import googleWorkspaceExportFormats from "../common/google-workspace-export-formats.mjs";
@@ -15,6 +15,9 @@ import {
 } from "../common/google-workspace-default-export-formats.mjs";
 
 const SHORTCUT_MIME_TYPE = "application/vnd.google-apps.shortcut";
+// Caps simultaneous downloads to avoid tripping Drive's per-user rate limits
+// and to bound how many file streams/buffers are held in memory at once.
+const CONCURRENCY = 5;
 
 /**
  * Uses Google Drive API to download files to a `filePath` in the /tmp
@@ -35,7 +38,7 @@ export default {
     + " Pass `mimeType` to force a specific format. Shortcuts are resolved to their target automatically."
     + " Folders, Forms, and My Maps cannot be downloaded via this action."
     + " [See the documentation](https://developers.google.com/drive/api/v3/manage-downloads)",
-  version: "0.2.5",
+  version: "0.2.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -288,11 +291,27 @@ export default {
       return result;
     }
 
-    const files = [];
-    for (const id of fileIds) {
-      files.push(await downloadOne(id));
-    }
-    $.export("$summary", `Successfully downloaded ${files.length} file(s).`);
+    // Downloaded with bounded concurrency so one bad or inaccessible ID
+    // reports as a per-file error instead of discarding files from the whole batch
+    const files = await mapWithConcurrency(fileIds, CONCURRENCY, async (id) => {
+      try {
+        return {
+          status: "success",
+          ...(await downloadOne(id)),
+        };
+      } catch (err) {
+        return {
+          status: "error",
+          fileId: id,
+          error: `${err?.message ?? err}`,
+        };
+      }
+    });
+    const succeeded = files.filter(({ status }) => status === "success").length;
+    const failed = files.length - succeeded;
+    $.export("$summary", failed
+      ? `Downloaded ${succeeded} of ${files.length} file(s) (${failed} failed).`
+      : `Successfully downloaded ${files.length} file(s).`);
     return {
       files,
       count: files.length,
