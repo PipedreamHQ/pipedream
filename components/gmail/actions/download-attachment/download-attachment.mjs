@@ -18,7 +18,7 @@ export default {
     + " Pass `filename` or `partId` from the same read for a correct name; otherwise, a unique size match supplies the name, or the action uses a generic name."
     + " Set `convertToPdf: true` to convert image / HTML / plain-text / DOCX attachments to PDF during download; other MIME types are rejected."
     + " [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages.attachments/get).",
-  version: "0.1.4",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -41,7 +41,7 @@ export default {
     partId: {
       type: "string",
       label: "Part ID",
-      description: "Optional. The attachment part's `payload.parts[].partId` (for example `1` or `0.2`) from the same read. Unlike `attachmentId`, it is stable across reads, so it reliably identifies the attachment's filename and MIME type.",
+      description: "Optional. The attachment part's `payload.parts[].partId` (for example `1` or `0.2`). Use **Find Emails** with `format: \"full\"` or **Get Thread** to find it, in the same read that returned `attachmentId`. Unlike `attachmentId`, it is stable across reads, so it reliably identifies the attachment's filename and MIME type.",
       optional: true,
     },
     filename: {
