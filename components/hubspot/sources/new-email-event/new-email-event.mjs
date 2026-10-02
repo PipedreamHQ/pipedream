@@ -8,7 +8,7 @@ export default {
   key: "hubspot-new-email-event",
   name: "New Email Event",
   description: "Emit new event for each new Hubspot email event.",
-  version: "0.0.48",
+  version: "0.0.50",
   dedupe: "unique",
   type: "source",
   props: {
@@ -23,8 +23,11 @@ export default {
   },
   methods: {
     ...common.methods,
-    getTs(emailEvent) {
-      return Date.parse(emailEvent.created);
+    getTs({ created }) {
+      // The API returns epoch ms; Date.parse(number) is NaN.
+      return typeof created === "number"
+        ? created
+        : Date.parse(created);
     },
     generateMeta(emailEvent) {
       const {

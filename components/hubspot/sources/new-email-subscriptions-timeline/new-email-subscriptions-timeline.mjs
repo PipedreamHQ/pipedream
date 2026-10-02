@@ -1,3 +1,4 @@
+import { DEFAULT_LIMIT } from "../../common/constants.mjs";
 import common from "../common/common.mjs";
 import sampleEmit from "./test-event.mjs";
 
@@ -6,7 +7,7 @@ export default {
   key: "hubspot-new-email-subscriptions-timeline",
   name: "New Email Subscriptions Timeline",
   description: "Emit new event when a new email timeline subscription is added for the portal.",
-  version: "0.0.45",
+  version: "0.0.47",
   dedupe: "unique",
   type: "source",
   methods: {
@@ -29,6 +30,7 @@ export default {
     getParams(after) {
       return {
         params: {
+          limit: DEFAULT_LIMIT,
           startTimestamp: after,
         },
       };

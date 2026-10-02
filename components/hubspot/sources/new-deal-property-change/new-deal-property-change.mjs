@@ -9,7 +9,7 @@ export default {
   key: "hubspot-new-deal-property-change",
   name: "New Deal Property Change",
   description: "Emit new event when a specified property is provided or updated on a deal. [See the documentation](https://developers.hubspot.com/docs/api/crm/deals)",
-  version: "0.0.41",
+  version: "0.0.43",
   dedupe: "unique",
   type: "source",
   props: {
@@ -102,7 +102,7 @@ export default {
         },
       });
     },
-    async processEvents(resources, after, initialTs = Date.now()) {
+    async processEvents(resources, after, pending = null, initialTs = Date.now()) {
       // Initial (deploy) run: no cursor yet. Emit only the newest
       // MAX_INITIAL_EVENTS as a sample, then store the cursor so subsequent
       // run()s never re-emit this historical backfill.
@@ -146,7 +146,7 @@ export default {
           }
         }
       }
-      this._setAfter(maxTs);
+      this._advanceAfter(maxTs, pending);
     },
     async processResults(after, params) {
       const properties = await this.hubspot.getDealProperties();
@@ -158,7 +158,9 @@ export default {
       }
 
       const initialTs = Date.now();
-      const updatedDeals = await this.getPaginatedItems(
+      const {
+        items: updatedDeals, pending,
+      } = await this.getPaginatedItems(
         this.hubspot.searchCRM,
         params,
         after,
@@ -168,7 +170,9 @@ export default {
         // On the initial (deploy) run with no matching deals, still set a
         // cursor so the first run() does not fall into the "emit everything"
         // branch.
-        if (!after) {
+        if (after) {
+          this._advanceAfter(after);
+        } else {
           this._setAfter(initialTs);
         }
         return;
@@ -179,7 +183,7 @@ export default {
         chunks: this.getChunks(updatedDeals),
       });
 
-      await this.processEvents(results, after, initialTs);
+      await this.processEvents(results, after, pending, initialTs);
     },
   },
   sampleEmit,

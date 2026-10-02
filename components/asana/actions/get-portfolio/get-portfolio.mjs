@@ -3,8 +3,8 @@ import asana from "../../asana.app.mjs";
 export default {
   key: "asana-get-portfolio",
   name: "Get Portfolio",
-  description: "Returns the complete portfolio record for a single portfolio. Use this after **List Portfolios** to retrieve full portfolio details including custom fields, members, and owner; the `optFields` prop requests specific properties (e.g. `custom_field_settings`, `members`, `start_on`, `due_on`). [See the documentation](https://developers.asana.com/reference/getportfolio)",
-  version: "0.0.2",
+  description: "Returns the complete portfolio record for a single portfolio. Use this after **List Portfolios** to retrieve full portfolio details including custom fields, members, and owner; the `optFields` prop requests specific properties (e.g. `custom_field_settings`, `members`, `start_on`, `due_on`). Example: call with `portfolioId: '1208901234567890'`, `optFields: ['members','owner','due_on']` → returns `{gid: '1208901234567890', name: 'Product Launch', owner: {...}, members: [...]}`. [See the documentation](https://developers.asana.com/reference/getportfolio)",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
