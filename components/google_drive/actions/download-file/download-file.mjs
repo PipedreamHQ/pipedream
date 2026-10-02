@@ -4,7 +4,7 @@ import stream from "stream";
 import { promisify } from "util";
 import { GOOGLE_DRIVE_MIME_TYPE_PREFIX } from "../../common/constants.mjs";
 import {
-  reserveUniqueFilePath, sanitizeFileName, toSingleLineString,
+  mapWithConcurrency, reserveUniqueFilePath, sanitizeFileName, toSingleLineString,
 } from "../../common/utils.mjs";
 import googleDrive from "../../google_drive.app.mjs";
 import googleWorkspaceExportFormats from "../common/google-workspace-export-formats.mjs";
@@ -15,6 +15,9 @@ import {
 } from "../common/google-workspace-default-export-formats.mjs";
 
 const SHORTCUT_MIME_TYPE = "application/vnd.google-apps.shortcut";
+// Caps simultaneous downloads to avoid tripping Drive's per-user rate limits
+// and to bound how many file streams/buffers are held in memory at once.
+const CONCURRENCY = 5;
 
 /**
  * Uses Google Drive API to download files to a `filePath` in the /tmp
@@ -288,19 +291,22 @@ export default {
       return result;
     }
 
-    // Downloaded concurrently via allSettled so one bad or inaccessible ID
+    // Downloaded with bounded concurrency so one bad or inaccessible ID
     // reports as a per-file error instead of discarding files from the whole batch
-    const outcomes = await Promise.allSettled(fileIds.map((id) => downloadOne(id)));
-    const files = outcomes.map((outcome, i) => outcome.status === "fulfilled"
-      ? {
-        status: "success",
-        ...outcome.value,
+    const files = await mapWithConcurrency(fileIds, CONCURRENCY, async (id) => {
+      try {
+        return {
+          status: "success",
+          ...(await downloadOne(id)),
+        };
+      } catch (err) {
+        return {
+          status: "error",
+          fileId: id,
+          error: `${err?.message ?? err}`,
+        };
       }
-      : {
-        status: "error",
-        fileId: fileIds[i],
-        error: `${outcome.reason?.message ?? outcome.reason}`,
-      });
+    });
     const succeeded = files.filter(({ status }) => status === "success").length;
     const failed = files.length - succeeded;
     $.export("$summary", failed
