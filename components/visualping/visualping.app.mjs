@@ -62,30 +62,20 @@ export default {
     interval: {
       type: "string",
       label: "Interval",
-      description: "Job's crawling interval expressed in minutes. Examples: `5`, `15`, `1440`...",
+      description: "Job's crawling interval expressed in minutes. Examples: `5`, `15`, `1440`..."
+        + " Only specific values are accepted (the API rejects others with"
+        + " `\"Frequency not available\"`), and the plan on the connected account sets a"
+        + " floor — e.g. a free/personal-tier account was observed rejecting anything"
+        + " below `60`. If a request fails this way, retry with `60` or higher rather"
+        + " than guessing a nearby value.",
     },
     jobId: {
       label: "Job ID",
-      description: "The job ID",
+      description: "The job's numeric id. Use **Find Jobs** to discover valid ids"
+        + " (each result includes `id` and `url`) — search by `fullTextSearchFilter`"
+        + " (matches URL or description) to locate a specific job. Example: after"
+        + " finding a job for `https://example.com/pricing`, pass its `id` here, e.g. `482913`.",
       type: "string",
-      async options({
-        workspaceId, page,
-      }) {
-        const { jobs } = await this.findJobs({
-          params: {
-            workspaceId,
-            pageIndex: page,
-            pageSize: 10,
-          },
-        });
-
-        return jobs.map(({
-          id, description, url,
-        }) => ({
-          value: id,
-          label: `${description} (${url})`,
-        }));
-      },
     },
     locale: {
       type: "string",
@@ -113,9 +103,13 @@ export default {
       description: "For internal use.",
     },
     organisationId: {
-      type: "string",
+      type: "integer",
       label: "Organisation Id",
-      description: "Unique ID of the organisation.",
+      description: "Unique ID of the organisation. Only applies to business/team accounts —"
+        + " use **List Workspace ID Options** to discover it (returned alongside workspace"
+        + " ids when the account belongs to an organisation). Leave blank on a personal-tier"
+        + " account: it has no organisation, and this field is expected to be empty rather"
+        + " than guessed.",
     },
     pageHeight: {
       type: "string",
@@ -132,10 +126,13 @@ export default {
       label: "Preactions Objects",
       description: "Array of `LegacyJobPreAction` objects.",
     },
-    proxy: {
-      type: "string",
-      label: "Proxy",
-      description: "String code representing the optional proxy to use for this job. Contact [Visualping](https://visualping.io/contact/) for details.",
+    proxyId: {
+      type: "integer",
+      label: "Proxy ID",
+      description: "Numeric id of a proxy to route this job's checks through. There is no"
+        + " self-service way to obtain this id — it's assigned by Visualping support."
+        + " [Contact Visualping](https://visualping.io/contact/) to request one, then pass"
+        + " the numeric id they provide (e.g. `1042`). Leave blank if you don't have one.",
     },
     renderer: {
       type: "string",
@@ -212,16 +209,11 @@ export default {
     },
     workspaceId: {
       label: "Workspace ID",
-      description: "The workspace ID",
-      type: "string",
-      async options() {
-        const { workspaces } = await this.getUserDetails();
-
-        return workspaces.map((workspace) => ({
-          value: `${workspace.id}`,
-          label: workspace.name,
-        }));
-      },
+      description: "The workspace's numeric id. Use **List Workspace ID Options** to"
+        + " discover valid ids and names for the connected account. Example: to work in"
+        + " the \"Marketing\" workspace, call that tool first, then pass its `id` here,"
+        + " e.g. `77421`.",
+      type: "integer",
     },
     xpath: {
       type: "string",
@@ -253,6 +245,29 @@ export default {
         path: "/describe-user",
         ...args,
       });
+    },
+    // Business/team accounts 500 (create) or 403 (get/find/delete) with
+    // "Missing workspace or organisation id" if `workspaceId` is omitted —
+    // but that's only discoverable by calling describe-user, so resolve it
+    // here instead of making every action eat a guaranteed failed first call.
+    // Personal-tier accounts have no workspaces, so this is a no-op for them.
+    async resolveWorkspaceId({
+      $, workspaceId,
+    } = {}) {
+      if (workspaceId != undefined) {
+        return Number(workspaceId);
+      }
+      const { workspaces } = await this.getUserDetails({
+        $,
+      });
+      if (!workspaces?.length) {
+        return undefined;
+      }
+      if (workspaces.length > 1) {
+        throw new Error("This account belongs to multiple workspaces — call"
+          + " **List Workspace ID Options** and pass a specific `workspaceId`.");
+      }
+      return Number(workspaces[0].id);
     },
     findJobs(args = {}) {
       return this._makeRequest({
@@ -300,7 +315,7 @@ export default {
       });
     },
     async *paginate({
-      fn, params = {}, maxResults = null,
+      fn, params = {}, maxResults = null, maxPages = 20,
     }) {
       let lastPage = false;
       let count = 0;
@@ -325,7 +340,7 @@ export default {
 
         lastPage = (totalPages != pageIndex);
 
-      } while (lastPage);
+      } while (lastPage && page < maxPages);
     },
   },
 };
