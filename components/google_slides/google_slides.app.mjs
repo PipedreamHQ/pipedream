@@ -319,6 +319,41 @@ export default {
       }
       return this.listFilesOptions(pageToken, request);
     },
+    async findPresentations(driveId, name) {
+      let q = "mimeType='application/vnd.google-apps.presentation' and trashed=false";
+      if (name) {
+        const escaped = name.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+        q += ` and name contains '${escaped}'`;
+      }
+      let request = {
+        q,
+        fields: "nextPageToken,files(id,name,modifiedTime,webViewLink)",
+        orderBy: "modifiedTime desc",
+      };
+      if (driveId) {
+        request = {
+          ...request,
+          corpora: "drive",
+          driveId,
+          includeItemsFromAllDrives: true,
+          supportsAllDrives: true,
+        };
+      } else {
+        request = {
+          ...request,
+          corpora: "allDrives",
+          includeItemsFromAllDrives: true,
+          supportsAllDrives: true,
+        };
+      }
+      const { files } = await this.listFilesInPage(null, request);
+      return (files || []).map((file) => ({
+        id: file.id,
+        name: file.name,
+        url: file.webViewLink || `https://docs.google.com/presentation/d/${file.id}/edit`,
+        modifiedTime: file.modifiedTime,
+      }));
+    },
     getPresentationId(idOrUrl) {
       const input = String(idOrUrl).trim();
       if (!input) {

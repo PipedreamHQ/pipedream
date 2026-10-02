@@ -3,14 +3,15 @@ import app from "../../google_slides.app.mjs";
 export default {
   key: "google_slides-find-presentation",
   name: "Find a Presentation",
-  description: "Find a presentation on Google Drive. [See the docs here](https://developers.google.com/slides/api/samples/presentation#list_existing_presentation_files)",
-  version: "0.0.9",
+  description: "Search for a Google Slides presentation by name. Returns matching presentations with their `id`, `name`, and `url`. Use this first to resolve a presentation's name to its ID, then pass the `id` to **Get Presentation** or other Slides tools. [See the documentation](https://developers.google.com/drive/api/v3/search-files)",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     drive: {
@@ -18,22 +19,23 @@ export default {
         app,
         "watchedDrive",
       ],
-      description: "The drive to select a presentation from. If you are connected with any [Google Shared Drives](https://support.google.com/a/users/answer/9310351), you can select it here.",
+      description: "The drive to search for a presentation. Defaults to searching across all drives. If you are connected with any [Google Shared Drives](https://support.google.com/a/users/answer/9310351), you can select one here to narrow the search.",
     },
-    presentationId: {
-      propDefinition: [
-        app,
-        "presentationId",
-        (c) => ({
-          driveId: app.methods.getDriveId(c.drive),
-        }),
-      ],
-      description: "List of presentations in the specified drive",
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Text to search for in presentation names. Matches presentations whose name contains this text. Example: `Q3 Board Deck`. Leave blank to list recent presentations.",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const presentation = await this.app.getPresentation(this.presentationId);
-    $.export("$summary", `Successfully found presentation with ID: ${presentation.presentationId}`);
-    return presentation;
+    const driveId = this.app.getDriveId(this.drive);
+    const presentations = await this.app.findPresentations(driveId, this.name);
+    $.export("$summary", `Found ${presentations.length} presentation${presentations.length === 1
+      ? ""
+      : "s"}${this.name
+      ? ` matching "${this.name}"`
+      : ""}`);
+    return presentations;
   },
 };
