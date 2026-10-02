@@ -2,7 +2,6 @@ import {
   API_PATH,
   DEFAULT_DEAL_PROPERTIES,
   DEFAULT_LIMIT,
-  MAX_INITIAL_EVENTS,
 } from "../../common/constants.mjs";
 import common from "../common/common.mjs";
 import sampleEmit from "./test-event.mjs";
@@ -12,7 +11,7 @@ export default {
   key: "hubspot-new-deal-in-stage",
   name: "New Deal In Stage",
   description: "Emit new event for each new deal in a stage.",
-  version: "0.1.13",
+  version: "0.1.14",
   dedupe: "unique",
   type: "source",
   props: {
@@ -44,17 +43,31 @@ export default {
       });
       return properties.dealstage?.versions[0].timestamp;
     },
-    emitEvent(deal, ts) {
+    async emitEvent(deal, ts) {
       const {
         id, properties,
       } = deal;
+      if (properties.hubspot_owner_id) {
+        try {
+          properties.owner = await this.getOwner(properties.hubspot_owner_id);
+        } catch (err) {
+          properties.owner = null;
+          console.warn(
+            `Failed to fetch owner ${properties.hubspot_owner_id} for deal ${id}: ${err.message}`,
+          );
+        }
+      }
       this.$emit(deal, {
         id: `${id}${properties.dealstage}`,
         summary: `${properties.dealname}`,
         ts,
       });
     },
-    isRelevant(ts, updatedAfter) {
+    // Sorted by last modified, not by stage entry time, so never stop early.
+    reachedCursor() {
+      return false;
+    },
+    isRelevant(deal, updatedAfter, ts) {
       return ts > updatedAfter;
     },
     getParams() {
@@ -98,53 +111,13 @@ export default {
         object: "deals",
       };
     },
-    async processDeals(params, after) {
-      let maxTs = after || 0;
-      let initialEventsEmitted = 0;
-
-      do {
-        const results = await this.hubspot.searchCRM(params);
-        if (results.paging) {
-          params.after = results.paging.next.after;
-        } else {
-          delete params.after;
-        }
-
-        for (const deal of results.results) {
-          const ts = await this.getTs(deal);
-          if (!after || this.isRelevant(ts, after)) {
-            if (deal.properties.hubspot_owner_id) {
-              try {
-                deal.properties.owner = await this.getOwner(
-                  deal.properties.hubspot_owner_id,
-                );
-              } catch (err) {
-                deal.properties.owner = null;
-                console.warn(
-                  `Failed to fetch owner ${deal.properties.hubspot_owner_id} for deal ${deal.id}: ${err.message}`,
-                );
-              }
-            }
-            this.emitEvent(deal, ts);
-            if (ts > maxTs) {
-              maxTs = ts;
-              this._setAfter(ts);
-            }
-            if (!after && ++initialEventsEmitted >= MAX_INITIAL_EVENTS) {
-              return;
-            }
-          }
-        }
-
-        // first run, get only first page
-        if (!after) {
-          break;
-        }
-      } while (params.after);
-    },
     async processResults(after) {
-      const params = this.getAllStagesParams(after);
-      await this.processDeals(params, after);
+      await this.paginate(
+        this.getAllStagesParams(after),
+        this.hubspot.searchCRM.bind(this),
+        "results",
+        after,
+      );
     },
     getOwner(ownerId) {
       return this.hubspot.makeRequest({

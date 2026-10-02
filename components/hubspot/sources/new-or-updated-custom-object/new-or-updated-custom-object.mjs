@@ -7,7 +7,7 @@ export default {
   key: "hubspot-new-or-updated-custom-object",
   name: "New or Updated Custom Object",
   description: "Emit new event each time a Custom Object of the specified schema is updated.",
-  version: "0.0.35",
+  version: "0.0.36",
   dedupe: "unique",
   type: "source",
   props: {
@@ -39,8 +39,8 @@ export default {
     getParams() {
       return null;
     },
-    getObjectParams(object) {
-      return {
+    getObjectParams(object, after) {
+      return this.addDateFilter({
         data: {
           limit: DEFAULT_LIMIT,
           sorts: [
@@ -51,10 +51,10 @@ export default {
           ],
         },
         object,
-      };
+      }, "hs_lastmodifieddate", after);
     },
     async processResults(after) {
-      const params = this.getObjectParams(this.objectSchema);
+      const params = this.getObjectParams(this.objectSchema, after);
       await this.searchCRM(params, after);
     },
   },
