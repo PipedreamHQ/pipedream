@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "md5": "^2.3.0",
-    "moment": "^2.29.4",
+    "moment": "^2.31.0",
     "@pipedream/platform": "^3.1.1"
   },
   "devDependencies": {
