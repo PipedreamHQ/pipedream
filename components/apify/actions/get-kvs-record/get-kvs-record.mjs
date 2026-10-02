@@ -3,15 +3,15 @@ import apify from "../../apify.app.mjs";
 
 export default {
   key: "apify-get-kvs-record",
-  name: "Get Key-Value Store Record",
-  description: "Gets a record from a key-value store. [See the documentation](https://docs.apify.com/api/v2/key-value-store-record-get)",
-  version: "0.0.1",
-  type: "action",
+  name: "Get key-value store record",
+  description: "Gets a record from a key-value store. If the record is a valid JSON object, the output includes all parsed attributes as individual fields. If the record is any other file type (such as PDFs, images, or plain text), the output is a file reference. [See the documentation](https://docs.apify.com/api/v2/key-value-store-record-get)",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
+  type: "action",
   props: {
     apify,
     keyValueStoreId: {
@@ -24,11 +24,17 @@ export default {
       ],
     },
     key: {
-      type: "string",
-      label: "Record Key",
-      description: "If the record is a valid JSON object, the output will include all parsed attributes as individual fields. If the record is any other file type (such as PDFs, images, or plain text), the output will instead be a file reference.",
+      propDefinition: [
+        apify,
+        "keyValueStoreKey",
+        (configProps) => ({
+          keyValueStoreId: configProps.keyValueStoreId,
+        }),
+      ],
+      description: "The key of the record to retrieve, e.g. `OUTPUT`. Select a listed key or enter one.",
     },
   },
+
   async run({ $ }) {
     const token = this.apify.getAuthToken();
 
