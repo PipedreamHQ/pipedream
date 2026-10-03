@@ -23,8 +23,8 @@ export default {
       },
     },
     workspaceId: {
-      label: "Workspace Id",
-      description: "The workspace ID",
+      label: "Workspace ID",
+      description: "The Toggl Track workspace ID, e.g. `1234567`. Use **List Workspace ID Options** to find accessible workspace IDs.",
       type: "integer",
       async options({ page }) {
         const workspaces = await this.getWorkspaces({
@@ -88,12 +88,12 @@ export default {
     startDate: {
       type: "string",
       label: "Start Date",
-      description: "The start date of the project in `YYYY-MM-DD` format",
+      description: "The start date in `YYYY-MM-DD` format, e.g. `2026-09-01`.",
     },
     endDate: {
       type: "string",
       label: "End Date",
-      description: "The end date of the project in `YYYY-MM-DD` format",
+      description: "The end date in `YYYY-MM-DD` format, e.g. `2026-09-30`.",
     },
   },
   methods: {
@@ -157,6 +157,23 @@ export default {
           per_page: 1000,
         },
       }, $);
+    },
+    searchDetailedTimeEntries({
+      workspaceId, data, $,
+    }) {
+      return this._makeRequest(
+        "reportsV3",
+        `workspace/${workspaceId}/search/time_entries`,
+        {
+          method: "post",
+          data,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          returnFullResponse: true,
+        },
+        $,
+      );
     },
     getTimeEntry({
       timeEntryId, $,
