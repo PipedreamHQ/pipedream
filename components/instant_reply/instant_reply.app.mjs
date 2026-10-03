@@ -17,16 +17,11 @@ export default {
     contactId: {
       type: "string",
       label: "Contact",
-      description: "The contact to message. Fetched from your Instant Reply inbox.",
+      description: "The contact to update. Fetched from your Instant Reply inbox.",
       async options({ page }) {
-        const contacts = await this.listContacts({
-          params: {
-            page: page + 1,
-            limit: 50,
-          },
-        });
+        const contacts = await this._cursorPage("listContacts", page);
         return (contacts?.data ?? []).map((c) => ({
-          label: c.display_name || c.phone || c.instagram_username || c.id,
+          label: c.name || c.phone || c.id,
           value: c.id,
         }));
       },
@@ -39,7 +34,7 @@ export default {
       async options() {
         const templates = await this.listTemplates();
         return (templates?.data ?? []).map((t) => ({
-          label: `${t.name} (${t.language})`,
+          label: `${t.template_name || t.name || t.id} (${t.language || "default"})`,
           value: t.id,
         }));
       },
@@ -49,14 +44,9 @@ export default {
       label: "Conversation",
       description: "An existing conversation in your Instant Reply inbox.",
       async options({ page }) {
-        const convs = await this.listConversations({
-          params: {
-            page: page + 1,
-            limit: 50,
-          },
-        });
+        const convs = await this._cursorPage("listConversations", page);
         return (convs?.data ?? []).map((c) => ({
-          label: c.subject || c.contact_name || c.id,
+          label: c.customer_name || c.id,
           value: c.id,
         }));
       },
@@ -72,13 +62,25 @@ export default {
         "Content-Type": "application/json",
       };
     },
+    async _cursorPage(method, page = 0) {
+      let cursor;
+      let result;
+      for (let index = 0; index <= page; index++) {
+        result = await this[method]({ params: { limit: 50, cursor } });
+        if (!result?.has_more || !result?.next_cursor) {
+          return index < page ? { data: [] } : result;
+        }
+        cursor = result.next_cursor;
+      }
+      return result;
+    },
     _makeRequest({
-      $ = this, method = "GET", path, params, data,
+      $ = this, method = "GET", path, params, data, headers,
     }) {
       return axios($, {
         method,
         url: `${this._baseUrl()}${path}`,
-        headers: this._headers(),
+        headers: { ...this._headers(), ...headers },
         params,
         data,
       });
@@ -101,28 +103,13 @@ export default {
         ...args,
       });
     },
-    sendMessage({
-      $, contactId, channel, body, templateId, templateVariables,
-    }) {
+    sendMessage({ $, conversationId, content, idempotencyKey }) {
       return this._makeRequest({
         $,
         method: "POST",
         path: "/messages",
-        data: {
-          contact_id: contactId,
-          channel,
-          body,
-          template_id: templateId,
-          template_variables: templateVariables,
-        },
-      });
-    },
-    createContact({ $, data }) {
-      return this._makeRequest({
-        $,
-        method: "POST",
-        path: "/contacts",
-        data,
+        headers: { "Idempotency-Key": idempotencyKey },
+        data: { conversation_id: conversationId, content },
       });
     },
     updateContact({ $, contactId, data }) {
@@ -131,20 +118,6 @@ export default {
         method: "PATCH",
         path: `/contacts/${contactId}`,
         data,
-      });
-    },
-    addNote({ $, conversationId, text }) {
-      return this._makeRequest({
-        $,
-        method: "POST",
-        path: `/conversations/${conversationId}/notes`,
-        data: { text },
-      });
-    },
-    getWebhookEvents(args = {}) {
-      return this._makeRequest({
-        path: "/events",
-        ...args,
       });
     },
     listCampaigns(args = {}) {

@@ -1,91 +1,42 @@
+import { createHash, randomUUID } from "node:crypto";
 import instantReply from "../../instant_reply.app.mjs";
 
 export default {
   key: "instant_reply-send-message",
   name: "Send Message",
-  description: "Send a WhatsApp, Instagram DM, or Messenger message to a contact. Use a free-form body within a 24-hour customer window, or pick a pre-approved template for outbound outreach. [See the docs](https://www.instantreply.co/developers)",
-  version: "0.1.0",
+  description: "Send a free-form reply in an existing WhatsApp, Instagram, or Messenger conversation. The channel's messaging window and consent rules apply. [See the documentation](https://www.instantreply.co/api-reference)",
+  version: "0.0.1",
   type: "action",
+  annotations: { destructiveHint: true, openWorldHint: true, readOnlyHint: false },
   props: {
     instantReply,
-    contactId: {
-      propDefinition: [
-        instantReply,
-        "contactId",
-      ],
-    },
-    channel: {
-      propDefinition: [
-        instantReply,
-        "channel",
-      ],
-    },
-    messageType: {
+    conversationId: { propDefinition: [instantReply, "conversationId"] },
+    content: {
       type: "string",
-      label: "Message Type",
-      description: "Send a free-form text message (only valid within 24 hours of the customer's last message) or a pre-approved template.",
-      options: [
-        { label: "Free-form text", value: "text" },
-        { label: "Template", value: "template" },
-      ],
-      reloadProps: true,
+      label: "Message Text",
+      description: "The text to send to the customer.",
     },
-    body: {
+    idempotencyKey: {
       type: "string",
-      label: "Message Body",
-      description: "The text content of the message.",
-      hidden: true,
-    },
-    templateId: {
-      propDefinition: [
-        instantReply,
-        "templateId",
-      ],
-      hidden: true,
-    },
-    templateVariables: {
-      type: "object",
-      label: "Template Variables",
-      description: "Key-value pairs for the template placeholders, e.g. `{ \"1\": \"Alice\", \"2\": \"order #123\" }`.",
+      label: "Idempotency Key",
+      description: "Optional stable identifier for retries of this exact message. Leave blank to derive one from the Pipedream execution when available.",
       optional: true,
-      hidden: true,
     },
-  },
-  async additionalProps() {
-    const props = {};
-    if (this.messageType === "text") {
-      props.body = {
-        type: "string",
-        label: "Message Body",
-        description: "The text to send.",
-      };
-    }
-    if (this.messageType === "template") {
-      props.templateId = {
-        propDefinition: [
-          instantReply,
-          "templateId",
-        ],
-      };
-      props.templateVariables = {
-        type: "object",
-        label: "Template Variables",
-        description: "Key-value pairs for template placeholders.",
-        optional: true,
-      };
-    }
-    return props;
   },
   async run({ $ }) {
+    const content = this.content?.trim();
+    if (!content) throw new Error("Message text is required.");
+    const seed = this.idempotencyKey || $.context?.id || randomUUID();
+    const idempotencyKey = `ir-pd-${createHash("sha256")
+      .update(`${seed}:${this.conversationId}:${content}`)
+      .digest("hex")}`;
     const response = await this.instantReply.sendMessage({
       $,
-      contactId: this.contactId,
-      channel: this.channel,
-      body: this.body,
-      templateId: this.templateId,
-      templateVariables: this.templateVariables,
+      conversationId: this.conversationId,
+      content,
+      idempotencyKey,
     });
-    $.export("$summary", `Message sent to contact ${this.contactId} via ${this.channel}`);
+    $.export("$summary", `Message sent in conversation ${this.conversationId}`);
     return response;
   },
 };

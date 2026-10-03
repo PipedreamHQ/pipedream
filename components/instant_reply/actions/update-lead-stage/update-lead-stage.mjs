@@ -3,9 +3,10 @@ import instantReply from "../../instant_reply.app.mjs";
 export default {
   key: "instant_reply-update-lead-stage",
   name: "Update Lead Stage",
-  description: "Move a pipeline lead to a different stage in your Instant Reply CRM pipeline. [See the docs](https://www.instantreply.co/developers)",
-  version: "0.1.0",
+  description: "Move a pipeline lead to a different stage in your Instant Reply CRM pipeline. [See the docs](https://www.instantreply.co/api-reference)",
+  version: "0.0.1",
   type: "action",
+  annotations: { destructiveHint: false, openWorldHint: true, readOnlyHint: false },
   props: {
     instantReply,
     leadId: {

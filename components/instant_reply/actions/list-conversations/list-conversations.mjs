@@ -3,9 +3,10 @@ import instantReply from "../../instant_reply.app.mjs";
 export default {
   key: "instant_reply-list-conversations",
   name: "List Conversations",
-  description: "Return a list of conversations from your Instant Reply inbox. Filter by status, channel, or assignee. [See the docs](https://www.instantreply.co/developers)",
-  version: "0.1.0",
+  description: "Return a list of conversations from your Instant Reply inbox. Filter by status or channel. [See the docs](https://www.instantreply.co/api-reference)",
+  version: "0.0.1",
   type: "action",
+  annotations: { destructiveHint: false, openWorldHint: true, readOnlyHint: true },
   props: {
     instantReply,
     status: {

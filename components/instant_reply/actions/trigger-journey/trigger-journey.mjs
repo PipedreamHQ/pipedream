@@ -3,9 +3,10 @@ import instantReply from "../../instant_reply.app.mjs";
 export default {
   key: "instant_reply-trigger-journey",
   name: "Trigger WhatsApp Journey",
-  description: "Enroll a phone number into a WhatsApp automation journey. Use this to send sequences triggered by CRM events, form submissions, or payment confirmations. [See the docs](https://www.instantreply.co/developers)",
-  version: "0.1.0",
+  description: "Enroll an opted-in phone number into a WhatsApp automation journey. [See the documentation](https://www.instantreply.co/api-reference)",
+  version: "0.0.1",
   type: "action",
+  annotations: { destructiveHint: true, openWorldHint: true, readOnlyHint: false },
   props: {
     instantReply,
     phone: {
@@ -39,6 +40,9 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!this.triggerName?.trim() && !this.journeyId?.trim()) {
+      throw new Error("Provide a Journey Trigger Name or Journey ID.");
+    }
     const response = await this.instantReply._makeRequest({
       $,
       method: "POST",
@@ -51,7 +55,7 @@ export default {
         idempotency_key: this.idempotencyKey || undefined,
       },
     });
-    $.export("$summary", `Journey triggered for ${this.phone} — status: ${response?.data?.status ?? 'sent'}`);
+    $.export("$summary", `Journey triggered for ${this.phone} — status: ${response?.data?.status ?? 'enrolled'}`);
     return response;
   },
 };

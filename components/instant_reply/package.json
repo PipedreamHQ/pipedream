@@ -14,6 +14,9 @@
   ],
   "homepage": "https://pipedream.com/apps/instant_reply",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
   "dependencies": {
     "@pipedream/platform": "^1.6.8"
   },

@@ -3,9 +3,10 @@ import instantReply from "../../instant_reply.app.mjs";
 export default {
   key: "instant_reply-send-campaign",
   name: "Create Broadcast Campaign",
-  description: "Create and immediately send (or schedule) a WhatsApp broadcast campaign to a segment of your contacts. [See the docs](https://www.instantreply.co/developers)",
-  version: "0.1.0",
+  description: "Create a broadcast campaign for an opted-in audience, with an optional immediate send. [See the documentation](https://www.instantreply.co/api-reference)",
+  version: "0.0.1",
   type: "action",
+  annotations: { destructiveHint: true, openWorldHint: true, readOnlyHint: false },
   props: {
     instantReply,
     name: {
@@ -37,14 +38,13 @@ export default {
     scheduledAt: {
       type: "string",
       label: "Scheduled At (ISO 8601)",
-      description: "Schedule the campaign for a future time, e.g. 2025-01-15T09:00:00Z. Leave blank to save as a draft.",
+      description: "Schedule the campaign for a future time in ISO 8601 format. Leave blank to save as a draft.",
       optional: true,
     },
     contactTags: {
       type: "string[]",
       label: "Audience Tags",
-      description: "Send to all contacts with these tags. Leave blank to send to all contacts on the selected channel.",
-      optional: true,
+      description: "Tags identifying the opted-in audience. At least one tag is required.",
     },
     sendImmediately: {
       type: "boolean",
@@ -55,6 +55,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!this.contactTags?.length) throw new Error("Select at least one opted-in audience tag.");
+    if (!this.templateId && !this.messageBody?.trim()) throw new Error("Provide an approved template ID or message body.");
+    if (this.channel === "whatsapp" && !this.templateId) throw new Error("WhatsApp broadcasts require an approved template ID.");
+    if (this.sendImmediately && this.scheduledAt) throw new Error("Choose immediate send or a schedule, not both.");
     const campaign = await this.instantReply._makeRequest({
       $,
       method: "POST",
@@ -65,7 +69,7 @@ export default {
         template_id: this.templateId || undefined,
         message_body: this.messageBody || undefined,
         scheduled_at: this.scheduledAt || undefined,
-        audience: this.contactTags?.length ? { tags: this.contactTags } : undefined,
+        audience: { tags: this.contactTags },
       },
     });
 
