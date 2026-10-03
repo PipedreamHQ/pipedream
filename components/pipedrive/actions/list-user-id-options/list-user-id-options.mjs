@@ -3,9 +3,13 @@ import pipedrive from "../../pipedrive.app.mjs";
 export default {
   key: "pipedrive-list-user-id-options",
   name: "List User ID Options",
-  description: "Retrieves available options for the User ID field.",
-  version: "0.0.2",
+  description: "Lists the users in the Pipedrive company account, as `{ label, value }` pairs where `value` is the numeric user ID and `label` the user's name."
+    + " Use a `value` as the owner ID in **Add Deal**, **Update Deal**, **Add Person**, **Update Person**, **Add Organization** or **Add Lead**, or as the user filter in **Search Notes**."
+    + " Example output: `[{ \"label\": \"Daniel Okafor\", \"value\": 12345678 }]`."
+    + " [See the documentation](https://developers.pipedrive.com/docs/api/v1/Users#getUsers)",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

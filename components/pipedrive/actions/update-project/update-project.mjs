@@ -4,7 +4,7 @@ export default {
   key: "pipedrive-update-project",
   name: "Update Project",
   description: "Updates an existing project. Run **List Projects** first to obtain a valid project ID; use **List Project Boards** and **List Project Phases** for board and phase IDs. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Projects#updateProject)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   ai: "optimized",
   annotations: {
