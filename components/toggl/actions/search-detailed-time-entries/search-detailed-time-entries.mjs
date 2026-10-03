@@ -6,6 +6,7 @@ import {
 } from "../../common/utils.mjs";
 
 const PAGE_SIZE = 50;
+const REQUEST_INTERVAL_MS = 1000;
 
 export default {
   key: "toggl-search-detailed-time-entries",
@@ -228,6 +229,10 @@ export default {
         data.first_id = nextCursor.firstId;
       }
       data.first_row_number = nextCursor.firstRowNumber;
+
+      if (timeEntries.length < this.maxResults) {
+        await new Promise((resolve) => setTimeout(resolve, REQUEST_INTERVAL_MS));
+      }
     } while (timeEntries.length < this.maxResults);
 
     const hasMore = Boolean(nextCursor);
