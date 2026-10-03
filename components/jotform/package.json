@@ -1,8 +1,11 @@
 {
   "name": "@pipedream/jotform",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream Jotform Components",
   "main": "jotform.app.mjs",
+  "scripts": {
+    "test": "node --test common/*.test.mjs"
+  },
   "keywords": [
     "pipedream",
     "jotform"
