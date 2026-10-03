@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/voxell_forge",
+  "version": "0.0.1",
+  "description": "Pipedream Voxell Forge Components",
+  "main": "voxell_forge.app.mjs",
+  "keywords": [
+    "pipedream",
+    "voxell_forge"
+  ],
+  "homepage": "https://pipedream.com/apps/voxell_forge",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.3.0"
+  }
+}
