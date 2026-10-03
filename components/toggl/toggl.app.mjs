@@ -158,6 +158,15 @@ export default {
         },
       }, $);
     },
+    /**
+     * Search detailed time entries in a workspace using the Reports API v3.
+     *
+     * @param {Object} opts - The request options
+     * @param {number} opts.workspaceId - The Toggl Track workspace ID
+     * @param {Object} opts.data - The detailed report search parameters
+     * @param {Object} opts.$ - The Pipedream execution context
+     * @returns {Promise<Object>} The full API response, including data and headers
+     */
     searchDetailedTimeEntries({
       workspaceId, data, $,
     }) {
