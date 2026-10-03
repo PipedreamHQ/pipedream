@@ -56,7 +56,7 @@ export default {
       }
       const {
         api_key: apiKey, api_secret: apiSecret,
-      } = this.$auth;
+      } = this.$auth ?? {};
       if (!apiKey || !apiSecret) {
         throw new ConfigurationError("Connect an isMalicious account with both API key and API secret.");
       }
