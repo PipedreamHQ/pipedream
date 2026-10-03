@@ -9,13 +9,14 @@ import {
 export default {
   type: "action",
   key: "microsoft_outlook_calendar-create-calendar-event",
-  version: "0.0.16",
+  version: "0.0.17",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   name: "Create Calendar Event",
+  ai: "optimized",
   description: "Create an event in the user's default calendar. Supports one-time and recurring events. [See the documentation](https://docs.microsoft.com/en-us/graph/api/user-post-events) and [recurring event example](https://learn.microsoft.com/en-us/graph/api/user-post-events?view=graph-rest-1.0&tabs=http#example-3-create-a-recurring-event).",
   props: {
     microsoftOutlook,
@@ -35,7 +36,7 @@ export default {
         microsoftOutlook,
         "content",
       ],
-      description: "Content",
+      description: "Body of the event, in plain text or HTML. Set Content Type to match, e.g. `Join us to discuss Q3 roadmap.` for Text, or `<p>Join us to discuss <b>Q3 roadmap</b>.</p>` for HTML.",
     },
     timeZone: {
       propDefinition: [
@@ -151,7 +152,7 @@ export default {
     const data = {
       subject: this.subject,
       body: {
-        contentType: this.contentType ?? "HTML",
+        contentType: this.contentType,
         content: this.content,
       },
       start: {
