@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { defineAction } from "@pipedream/types";
 import app from "../../app/google_my_business.app";
 import { ListReviewsParams } from "../../common/requestParams";
@@ -8,7 +9,7 @@ export default defineAction({
   key: "google_my_business-list-all-reviews",
   name: "List All Reviews",
   description: `List all reviews of a location to audit reviews in bulk. [See the documentation](${DOCS_LINK})`,
-  version: "0.0.5",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -27,9 +28,6 @@ export default defineAction({
       propDefinition: [
         app,
         "location",
-        ({ account }: { account: string; }) => ({
-          account,
-        }),
       ],
     },
   },
