@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zylvie",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Zylvie Components",
   "main": "zylvie.app.mjs",
   "keywords": [
@@ -8,6 +8,11 @@
     "zylvie"
   ],
   "homepage": "https://pipedream.com/apps/zylvie",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PipedreamHQ/pipedream.git",
+    "directory": "components/zylvie"
+  },
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"

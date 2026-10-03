@@ -1,0 +1,52 @@
+name: Publish with npm trusted publishing
+
+# Publishes one component to npm over OIDC instead of a stored token.
+# Requires a trusted publisher configured on npmjs.com for @pipedream/zylvie:
+#   GitHub Actions | PipedreamHQ | pipedream | publish-trusted.yaml | npm publish
+# npm does not validate those fields on save, and a mismatch fails as a masked 404.
+
+on:
+  push:
+    branches:
+      - poc/npm-trusted-publishing
+    paths:
+      - 'components/zylvie/**'
+      - '.github/workflows/publish-trusted.yaml'
+  workflow_dispatch:
+
+permissions:
+  id-token: write # lets GitHub mint the OIDC token npm exchanges at publish time
+  contents: read
+
+jobs:
+  publish:
+    name: publish @pipedream/zylvie via OIDC
+    runs-on: ubuntu-latest # npm does not support self-hosted runners
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6.0.10
+        with:
+          version: 11.24.0 # publish-side OIDC needs >= 11.1.3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.14.0 # npm CLI and pnpm 11 both require >= 22.13
+          registry-url: https://registry.npmjs.org/
+          package-manager-cache: false
+          # registry-url writes _authToken=${NODE_AUTH_TOKEN}. Leaving it unset is
+          # intentional: pnpm >= 11.1.3 ignores the placeholder and falls back to OIDC.
+
+      # No install step: publishing one component needs no dependency tree.
+      - name: Publish
+        run: pnpm publish --filter @pipedream/zylvie --no-git-checks --access public
+
+      - name: Verify provenance
+        run: |
+          curl -sf https://registry.npmjs.org/@pipedream/zylvie/0.1.1 \
+            | python3 -c 'import json,sys; print("attestations:", json.load(sys.stdin)["dist"].get("attestations","MISSING"))'
