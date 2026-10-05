@@ -98,7 +98,7 @@ export default {
       type: "string",
       label: "Event Filter",
       description: "Filters jobs by the presence of at least one specific event in the considered"
-        + " time interval (see `dateFilter`/`dateFilterStart`).",
+        + " time interval (see `dateFilter`/`dateFilterStart`). Example: `changed`.",
       options: [
         {
           label: "Changed",
@@ -122,7 +122,7 @@ export default {
     dateFilter: {
       type: "string",
       label: "Date Filter",
-      description: "Defines the time interval for `eventFilter`.",
+      description: "Defines the time interval for `eventFilter`. Example: `since_last_week`.",
       options: [
         {
           label: "Since Last Login",
@@ -162,7 +162,9 @@ export default {
     labelsFilter: {
       type: "integer[]",
       label: "Labels Filter",
-      description: "List of label IDs. Jobs without any of these labels attached will be filtered out.",
+      description: "List of label IDs. Jobs without any of these labels attached will be filtered out."
+        + " Example: `121,345,67`. There's no label-listing endpoint in this API — find label IDs"
+        + " in the Visualping web dashboard, where labels are created and assigned to jobs.",
       optional: true,
     },
     pageSize: {
@@ -171,6 +173,15 @@ export default {
       description: "Limits the maximum number of jobs per page. Default: `100`.",
       min: 1,
       optional: true,
+    },
+    startPage: {
+      type: "integer",
+      label: "Start Page",
+      description: "The page index to start fetching from (0-based). Each call auto-paginates up"
+        + " to 20 pages; if the summary reports more jobs remain, call again with this set to"
+        + " the reported `nextPage` to continue.",
+      optional: true,
+      default: 0,
     },
     sortBy: {
       type: "string",
@@ -257,6 +268,7 @@ export default {
       labelsFilter,
       fields,
       workspaceId,
+      startPage,
       ...params
     } = this;
 
@@ -266,9 +278,12 @@ export default {
     });
 
     const response = [];
+    const paginationMeta = {};
 
     const items = visualping.paginate({
       fn: visualping.findJobs,
+      startPage,
+      meta: paginationMeta,
       params: {
         ...params,
         workspaceId: resolvedWorkspaceId,
@@ -308,7 +323,10 @@ export default {
 
     $.export("$summary", `${length} job${length > 1
       ? "s were"
-      : " was"} successfully fetched!`);
+      : " was"} successfully fetched!`
+      + (paginationMeta.hasMore
+        ? ` More jobs remain beyond the 20-page cap — call again with \`startPage: ${paginationMeta.nextPage}\` to continue.`
+        : ""));
     return results;
   },
 };

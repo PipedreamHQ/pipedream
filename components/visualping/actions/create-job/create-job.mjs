@@ -515,15 +515,24 @@ export default {
     // `active` flag in this request — pause it with an immediate follow-up call
     // when the caller asked for a paused job, so `active: false` actually means paused.
     if (this.active === false) {
-      await visualping.updateJob({
-        $,
-        jobId: result.id,
-        data: {
-          workspaceId: resolvedWorkspaceId,
-          active: false,
-        },
-      });
-      result.active = "0";
+      try {
+        await visualping.updateJob({
+          $,
+          jobId: result.id,
+          data: {
+            workspaceId: resolvedWorkspaceId,
+            active: false,
+          },
+        });
+        result.active = "0";
+      } catch (err) {
+        // The job itself was already created successfully — surface its id so it isn't
+        // silently orphaned (active, unpaused) if this follow-up pause request fails.
+        throw new Error(
+          `Job ${result.id} was created but could not be paused: ${err.message} The job is`
+          + ` still active — use **Update Job** (\`active: false\`) or **Delete Job** with id ${result.id}.`,
+        );
+      }
     }
 
     $.export("$summary", `A new job with id ${result.id} was successfully created!`);

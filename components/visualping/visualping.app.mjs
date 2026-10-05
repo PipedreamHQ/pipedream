@@ -316,12 +316,17 @@ export default {
         },
       });
     },
+    // `meta` is an output parameter: pass in a plain object and this populates
+    // `meta.hasMore`/`meta.nextPage` once the generator finishes, so callers can
+    // tell whether the `maxPages`-per-call cap was hit (vs. genuinely out of results)
+    // and resume from `nextPage` via `startPage` on a follow-up call.
     async *paginate({
-      fn, params = {}, maxResults = null, maxPages = 20,
+      fn, params = {}, maxResults = null, maxPages = 20, startPage = 0, meta = {},
     }) {
       let lastPage = false;
       let count = 0;
-      let page = 0;
+      let page = startPage;
+      let requests = 0;
 
       do {
         params.pageIndex = page++;
@@ -332,17 +337,23 @@ export default {
         } = await fn({
           params,
         });
+        requests++;
         for (const j of jobs) {
           yield j;
 
           if (maxResults && ++count === maxResults) {
+            meta.hasMore = (totalPages != pageIndex);
+            meta.nextPage = page;
             return count;
           }
         }
 
         lastPage = (totalPages != pageIndex);
 
-      } while (lastPage && page < maxPages);
+      } while (lastPage && requests < maxPages);
+
+      meta.hasMore = lastPage;
+      meta.nextPage = page;
     },
   },
 };
