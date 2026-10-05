@@ -28,7 +28,7 @@ export default {
   key: "google_drive-new-or-modified-files",
   name: "New or Modified Files (Instant)",
   description: "Emit new event when a file in the selected Drive is created, modified or trashed.",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "source",
   dedupe: "unique",
   props: {
