@@ -20,7 +20,7 @@ export default {
         "indicator",
       ],
       label: "URL",
-      description: "The exact HTTP or HTTPS URL to enrich. Sent to the hosted API using your account's request quota.",
+      description: "The exact HTTP or HTTPS URL to enrich, e.g. `https://example.com/login`. Sent to the hosted API using your account's request quota.",
     },
   },
   async run({ $ }) {

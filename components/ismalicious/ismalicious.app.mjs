@@ -10,10 +10,32 @@ export default {
     indicator: {
       type: "string",
       label: "Indicator",
-      description: "The exact indicator to enrich. Inputs are sent to the hosted isMalicious API and consume the connected account's request quota.",
+      description: "The exact indicator to enrich, e.g. `203.0.113.7` or `example.com`. Inputs are sent to the hosted isMalicious API and consume the connected account's request quota.",
     },
   },
   methods: {
+    async _makeRequest({
+      $, params,
+    }) {
+      const {
+        api_key: apiKey, api_secret: apiSecret,
+      } = this.$auth ?? {};
+      if (!apiKey || !apiSecret) {
+        throw new ConfigurationError("Connect an isMalicious account with both API key and API secret.");
+      }
+      const credential = Buffer.from(`${apiKey}:${apiSecret}`, "utf8").toString("base64");
+      return axios($, {
+        method: "GET",
+        url: "https://api.ismalicious.com/check",
+        headers: {
+          "X-API-KEY": credential,
+          "Accept": "application/json",
+        },
+        params,
+        timeout: 30000,
+        maxRedirects: 0,
+      });
+    },
     /**
      * Enrich one IP, domain, URL or MD5/SHA-1/SHA-256 file hash.
      * @param {object} opts - Request context and indicator.
@@ -54,26 +76,12 @@ export default {
       if (indicatorType === "hash" && !/^(?:[a-f0-9]{32}|[a-f0-9]{40}|[a-f0-9]{64})$/i.test(indicator)) {
         throw new ConfigurationError("Enter an MD5, SHA-1 or SHA-256 file hash.");
       }
-      const {
-        api_key: apiKey, api_secret: apiSecret,
-      } = this.$auth ?? {};
-      if (!apiKey || !apiSecret) {
-        throw new ConfigurationError("Connect an isMalicious account with both API key and API secret.");
-      }
-      const credential = Buffer.from(`${apiKey}:${apiSecret}`, "utf8").toString("base64");
-      const response = await axios($, {
-        method: "GET",
-        url: "https://api.ismalicious.com/check",
-        headers: {
-          "X-API-KEY": credential,
-          "Accept": "application/json",
-        },
+      const response = await this._makeRequest({
+        $,
         params: {
           query: indicator,
           enrichment: "standard",
         },
-        timeout: 30000,
-        maxRedirects: 0,
       });
       if (!response || typeof response !== "object" || Array.isArray(response)) {
         throw new Error("isMalicious returned an invalid response; no reputation verdict is available.");

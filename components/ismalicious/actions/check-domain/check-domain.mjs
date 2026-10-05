@@ -20,7 +20,7 @@ export default {
         "indicator",
       ],
       label: "Domain",
-      description: "The exact domain name to enrich. Sent to the hosted API using your account's request quota.",
+      description: "The exact domain name to enrich, e.g. `example.com`. Sent to the hosted API using your account's request quota.",
     },
   },
   async run({ $ }) {

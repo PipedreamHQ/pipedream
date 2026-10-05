@@ -20,7 +20,7 @@ export default {
         "indicator",
       ],
       label: "IP",
-      description: "The exact IPv4 or IPv6 address to enrich. Sent to the hosted API using your account's request quota.",
+      description: "The exact IPv4 or IPv6 address to enrich, e.g. `203.0.113.7` or `2001:db8::1`. Sent to the hosted API using your account's request quota.",
     },
   },
   async run({ $ }) {
