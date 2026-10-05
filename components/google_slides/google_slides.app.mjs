@@ -319,6 +319,68 @@ export default {
       }
       return this.listFilesOptions(pageToken, request);
     },
+    async findPresentations(drive, name) {
+      let q = "mimeType='application/vnd.google-apps.presentation' and trashed=false";
+      if (name) {
+        // Drive's "name contains" only prefix-matches the whole name string (e.g. it
+        // wouldn't match "Board" against "Q3 Board Deck"). OR in "fullText contains",
+        // which does token-level matching, so a mid-name word still matches — the same
+        // workaround google_docs-find-document uses for its name/content search.
+        const escaped = name.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+        q += ` and (name contains '${escaped}' or fullText contains '${escaped}')`;
+      }
+      let request = {
+        q,
+        fields: "nextPageToken,files(id,name,modifiedTime,webViewLink)",
+        orderBy: "modifiedTime desc",
+      };
+      // getDriveId(drive) collapses both "My Drive" and "no selection" to null, so
+      // branch on the raw drive value first to keep an explicit My Drive scoped to
+      // corpora "user" instead of falling through to "allDrives".
+      if (drive && this.isMyDrive(drive)) {
+        request = {
+          ...request,
+          corpora: "user",
+          supportsAllDrives: true,
+        };
+      } else if (drive) {
+        request = {
+          ...request,
+          corpora: "drive",
+          driveId: this.getDriveId(drive),
+          includeItemsFromAllDrives: true,
+          supportsAllDrives: true,
+        };
+      } else {
+        request = {
+          ...request,
+          corpora: "allDrives",
+          includeItemsFromAllDrives: true,
+          supportsAllDrives: true,
+        };
+      }
+      // Drive treats `pageSize` as a maximum, so a short page can still carry a
+      // `nextPageToken`. Keep following it until `limit` is filled or pages run out,
+      // otherwise a search term matching page 2+ results in a false "not found".
+      const limit = 100;
+      const files = [];
+      let pageToken;
+      do {
+        const page = await this.listFilesInPage(pageToken, {
+          ...request,
+          pageSize: Math.min(100, limit - files.length),
+        });
+        files.push(...(page.files || []));
+        pageToken = page.nextPageToken;
+      } while (pageToken && files.length < limit);
+
+      return files.slice(0, limit).map((file) => ({
+        id: file.id,
+        name: file.name,
+        url: file.webViewLink || `https://docs.google.com/presentation/d/${file.id}/edit`,
+        modifiedTime: file.modifiedTime,
+      }));
+    },
     getPresentationId(idOrUrl) {
       const input = String(idOrUrl).trim();
       if (!input) {
