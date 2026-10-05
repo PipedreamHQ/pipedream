@@ -16,7 +16,6 @@ export default {
     readOnlyHint: false,
   },
   name: "Create Calendar Event",
-  ai: "optimized",
   description: "Create an event in the user's default calendar. Supports one-time and recurring events. [See the documentation](https://docs.microsoft.com/en-us/graph/api/user-post-events) and [recurring event example](https://learn.microsoft.com/en-us/graph/api/user-post-events?view=graph-rest-1.0&tabs=http#example-3-create-a-recurring-event).",
   props: {
     microsoftOutlook,
@@ -36,7 +35,7 @@ export default {
         microsoftOutlook,
         "content",
       ],
-      description: "Body of the event, in plain text or HTML. Set Content Type to match, e.g. `Join us to discuss Q3 roadmap.` for Text, or `<p>Join us to discuss <b>Q3 roadmap</b>.</p>` for HTML.",
+      description: "Body of the event, in plain text or HTML. Set `Content Type` to match: `text` for plain text (e.g. `Join us to discuss Q3 roadmap.`), `html` for markup (e.g. `<p>Join us to discuss <b>Q3 roadmap</b>.</p>`). HTML sent with `text` is escaped and shows as literal tags.",
     },
     timeZone: {
       propDefinition: [

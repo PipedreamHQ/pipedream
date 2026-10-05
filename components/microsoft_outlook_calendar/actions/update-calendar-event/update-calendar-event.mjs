@@ -38,7 +38,7 @@ export default {
         microsoftOutlook,
         "content",
       ],
-      description: "Body of the event, in plain text or HTML. Set Content Type to match, e.g. `Join us to discuss Q3 roadmap.` for Text, or `<p>Join us to discuss <b>Q3 roadmap</b>.</p>` for HTML.",
+      description: "Body of the event, in plain text or HTML. Set `Content Type` to match: `text` for plain text (e.g. `Join us to discuss Q3 roadmap.`), `html` for markup (e.g. `<p>Join us to discuss <b>Q3 roadmap</b>.</p>`). HTML sent with `text` is escaped and shows as literal tags. Replaces the existing body, including any online meeting join info.",
       optional: true,
     },
     timeZone: {
