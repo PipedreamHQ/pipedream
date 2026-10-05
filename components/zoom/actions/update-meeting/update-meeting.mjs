@@ -6,7 +6,7 @@ export default {
   key: "zoom-update-meeting",
   name: "Update Meeting",
   description: "Updates an existing Zoom meeting",
-  version: "0.1.8",
+  version: "0.1.9",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

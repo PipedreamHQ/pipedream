@@ -8,7 +8,7 @@ export default {
   key: "hubspot-new-email-event",
   name: "New Email Event",
   description: "Emit new event for each new Hubspot email event.",
-  version: "0.0.49",
+  version: "0.0.50",
   dedupe: "unique",
   type: "source",
   props: {
