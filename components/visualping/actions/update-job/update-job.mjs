@@ -4,7 +4,7 @@ import { prepareData } from "../../common/utils.mjs";
 export default {
   key: "visualping-update-job",
   name: "Update Job",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -3,7 +3,7 @@ import visualping from "../../visualping.app.mjs";
 export default {
   key: "visualping-delete-job",
   name: "Delete Job",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

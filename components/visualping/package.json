@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/visualping",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pipedream VisualPing Components",
   "main": "visualping.app.mjs",
   "keywords": [

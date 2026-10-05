@@ -3,7 +3,7 @@ import visualping from "../../visualping.app.mjs";
 
 export default {
   name: "New Job Event",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "visualping-new-job-event",
   description: "Emit new event for each new job event.",
   type: "source",

@@ -4,7 +4,7 @@ import visualping from "../../visualping.app.mjs";
 export default {
   key: "visualping-create-job",
   name: "Create A New Job",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

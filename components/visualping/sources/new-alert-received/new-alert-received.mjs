@@ -3,7 +3,7 @@ import visualping from "../../visualping.app.mjs";
 
 export default {
   name: "New Alert Received",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "visualping-new-alert-received",
   description: "Emit new event when a change alert is sent.",
   type: "source",

@@ -6,7 +6,7 @@ import {
 export default {
   key: "visualping-find-jobs",
   name: "Find Jobs",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

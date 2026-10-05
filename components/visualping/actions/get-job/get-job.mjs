@@ -6,7 +6,7 @@ import {
 export default {
   key: "visualping-get-job",
   name: "Get Job Details By Id",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
