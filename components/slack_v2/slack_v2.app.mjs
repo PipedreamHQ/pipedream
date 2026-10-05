@@ -2,7 +2,6 @@
 import { WebClient } from "@slack/web-api";
 import constants from "./common/constants.mjs";
 import get from "lodash/get.js";
-import retry from "async-retry";
 import fs from "fs";
 import { Transform } from "stream";
 import { pipeline } from "stream/promises";
@@ -309,6 +308,9 @@ export default {
     sdk(opts = {}) {
       return new WebClient(this.getToken(opts), {
         rejectRateLimitedCalls: true,
+        retryConfig: {
+          ...constants.WEB_CLIENT_RETRY_CONFIG,
+        },
         slackApiUrl: this.$auth.base_url,
       });
     },
@@ -353,26 +355,25 @@ export default {
       return response;
     },
     async _withRetries(apiCall, throwRateLimitError = false) {
-      const retryOpts = {
-        retries: 3,
-        minTimeout: 30000,
-      };
-      return retry(async (bail) => {
+      let waitedSeconds = 0;
+      for (let attempt = 0; ; attempt++) {
         try {
           return await apiCall();
         } catch (error) {
-          const statusCode = get(error, "code");
-          if (statusCode === "slack_webapi_rate_limited_error") {
-            if (throwRateLimitError) {
-              bail(error);
-            } else {
-              console.log(`Rate limit exceeded. Will retry in ${retryOpts.minTimeout / 1000} seconds`);
-              throw error;
-            }
+          const waitSeconds = Math.max(get(error, "retryAfter") || 0, 1);
+          if (
+            get(error, "code") !== constants.RATE_LIMITED_ERROR_CODE
+            || throwRateLimitError
+            || attempt >= constants.RATE_LIMIT_MAX_RETRIES
+            || waitedSeconds + waitSeconds > constants.RATE_LIMIT_WAIT_BUDGET_SECONDS
+          ) {
+            throw error;
           }
-          bail(error);
+          console.log(`Rate limit exceeded. Will retry in ${waitSeconds} seconds`);
+          await new Promise((resolve) => setTimeout(resolve, waitSeconds * 1000));
+          waitedSeconds += waitSeconds;
         }
-      }, retryOpts);
+      }
     },
     // Resolves user names by scanning `users.list`, capped at
     // MAX_NAME_LOOKUP_PAGES pages per call: some ids may be unresolvable
@@ -623,13 +624,7 @@ export default {
     },
     assistantSearch(args = {}) {
       args.count ||= constants.LIMIT;
-      // Uses apiCall directly since assistant.search.context is not exposed as
-      // a method on WebClient — but it must STILL go through _withRetries. Calling
-      // apiCall bare was the one path in this app that skipped the retry wrapper, and
-      // the client is built with `rejectRateLimitedCalls: true`, so a 429 rejected
-      // instantly instead of backing off. assistant.search.context rate-limits readily
-      // (Slack returns retryAfter: 60), which surfaced to agents as a hard tool error
-      // on 8 of 12 search calls in one eval run.
+      // apiCall bypasses makeRequest, so wrap it explicitly.
       return this._withRetries(() => this.sdk().apiCall("assistant.search.context", {
         ...args,
       }));
@@ -1085,12 +1080,7 @@ export default {
       let cursor;
       let pages = 0;
       do {
-        // Fail fast on a 429 instead of _withRetries' default backoff (min 30s, up to 3
-        // retries) — that backoff, hit mid-scan, is what turns a channel name lookup into
-        // a multi-minute stall that looks like a hang to callers with their own timeout
-        // budget. Let it (and any other API error — auth, scope, network) propagate with
-        // its original status/code; ConfigurationError below is reserved for the genuine
-        // user-input problem of a name that doesn't resolve to any channel.
+        // Fail fast on a 429; a wait per page stalls the whole scan.
         const {
           channels, response_metadata: { next_cursor: nextCursor },
         } = await this.conversationsList({

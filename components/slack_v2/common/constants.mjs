@@ -17,6 +17,16 @@ const MAX_CHANNEL_RESOLVE_PAGES = 5;
 const MAX_SEARCH_PAGES = 5;
 const SEARCH_PAGE_SIZE = 20;
 const MAX_SEARCH_RESULTS = MAX_SEARCH_PAGES * SEARCH_PAGE_SIZE;
+const RATE_LIMITED_ERROR_CODE = "slack_webapi_rate_limited_error";
+// Max total 429 wait; beyond it the error is returned so callers don't time out.
+const RATE_LIMIT_WAIT_BUDGET_SECONDS = 15;
+const RATE_LIMIT_MAX_RETRIES = 3;
+// WebClient's default retries 5xx/network errors for ~30 minutes.
+const WEB_CLIENT_RETRY_CONFIG = {
+  retries: 2,
+  minTimeout: 1000,
+  maxTimeout: 4000,
+};
 // User-token errors on which file reads retry with the bot token.
 const FILES_READ_BOT_FALLBACK_ERRORS = [
   "missing_scope",
@@ -73,6 +83,10 @@ export default {
   MAX_SEARCH_PAGES,
   SEARCH_PAGE_SIZE,
   MAX_SEARCH_RESULTS,
+  RATE_LIMITED_ERROR_CODE,
+  RATE_LIMIT_WAIT_BUDGET_SECONDS,
+  RATE_LIMIT_MAX_RETRIES,
+  WEB_CLIENT_RETRY_CONFIG,
   FILES_READ_BOT_FALLBACK_ERRORS,
   MAX_DOWNLOAD_SIZE_BYTES,
   STREAM_RESPONSE_TYPE,
