@@ -15,33 +15,51 @@ export default {
       ],
       optional: true,
     },
-    limit: {
-      type: "integer",
-      label: "Limit",
-      description: "The maximum number of sessions to return",
-      default: 20,
+    status: {
+      type: "string",
+      label: "Status",
+      description: "Filter sessions by status",
+      options: [
+        "running",
+        "completed",
+        "timeout",
+        "error",
+      ],
       optional: true,
     },
-    offset: {
-      type: "integer",
-      label: "Offset",
-      description: "The number of sessions to skip before returning results",
+    testName: {
+      type: "string",
+      label: "Test Name",
+      description: "Filter sessions by test name",
       optional: true,
+    },
+    maxResults: {
+      propDefinition: [
+        app,
+        "maxResults",
+      ],
     },
   },
   async run({ $ }) {
-    const response = await this.app.listSessions({
+    const sessions = [];
+
+    for await (const session of this.app.paginate({
       $,
+      fn: this.app.listSessions,
       params: {
         build_id: this.buildId,
-        limit: this.limit,
-        offset: this.offset,
+        status: this.status,
+        test_name: this.testName,
       },
-    });
+      maxResults: this.maxResults,
+    })) {
+      sessions.push(session);
+    }
 
-    const count = response?.data?.length ?? 0;
-    $.export("$summary", `Successfully retrieved ${count} session${count === 1 ? "" : "s"}`);
+    $.export("$summary", `Successfully retrieved ${sessions.length} session${sessions.length === 1
+      ? ""
+      : "s"}`);
 
-    return response;
+    return sessions;
   },
 };

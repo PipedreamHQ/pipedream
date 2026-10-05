@@ -20,33 +20,45 @@ export default {
       ],
       optional: true,
     },
-    limit: {
-      type: "integer",
-      label: "Limit",
-      description: "The maximum number of builds to return",
-      default: 20,
+    fromDate: {
+      type: "string",
+      label: "From Date",
+      description: "Return builds created on or after this date, in `YYYY-MM-DD` format",
       optional: true,
     },
-    offset: {
-      type: "integer",
-      label: "Offset",
-      description: "The number of builds to skip before returning results",
+    toDate: {
+      type: "string",
+      label: "To Date",
+      description: "Return builds created on or before this date, in `YYYY-MM-DD` format",
       optional: true,
+    },
+    maxResults: {
+      propDefinition: [
+        app,
+        "maxResults",
+      ],
     },
   },
   async run({ $ }) {
-    const response = await this.app.listBuilds({
+    const builds = [];
+
+    for await (const build of this.app.paginate({
       $,
+      fn: this.app.listBuilds,
       params: {
         status: this.status,
-        limit: this.limit,
-        offset: this.offset,
+        fromdate: this.fromDate,
+        todate: this.toDate,
       },
-    });
+      maxResults: this.maxResults,
+    })) {
+      builds.push(build);
+    }
 
-    const count = response?.builds?.length ?? 0;
-    $.export("$summary", `Successfully retrieved ${count} build${count === 1 ? "" : "s"}`);
+    $.export("$summary", `Successfully retrieved ${builds.length} build${builds.length === 1
+      ? ""
+      : "s"}`);
 
-    return response;
+    return builds;
   },
 };
