@@ -7,8 +7,8 @@ export default {
   ...common,
   key: "hubspot-new-note",
   name: "New Note Created",
-  description: "Emit new event for each new note created. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/engagements/notes#get-%2Fcrm%2Fv3%2Fobjects%2Fnotes)",
-  version: "1.0.27",
+  description: "Emit new event for each new note created. [See the documentation](https://developers.hubspot.com/docs/api-reference/latest/crm/activities/notes/search/search-notes)",
+  version: "1.0.28",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -26,31 +26,45 @@ export default {
     isRelevant(note, createdAfter) {
       return this.getTs(note) > createdAfter;
     },
-    async getParams() {
+    async getParams(after) {
       const { results: allProperties } = await this.hubspot.getProperties({
         objectType: "notes",
       });
-      const properties = allProperties.map(({ name }) => name);
-
-      const objectTypes = OBJECT_TYPES.map(({ value }) => value);
-      const { results: custom } = await this.hubspot.listSchemas();
-      const customObjects = custom?.map(({ fullyQualifiedName }) => fullyQualifiedName);
-      const associations = [
-        ...objectTypes,
-        ...customObjects,
-      ];
-
-      return {
-        params: {
+      return this.addDateFilter({
+        object: "notes",
+        data: {
           limit: DEFAULT_LIMIT,
-          properties: properties.join(","),
-          associations: associations.join(","),
+          properties: allProperties.map(({ name }) => name),
+          sorts: [
+            {
+              propertyName: "hs_createdate",
+              direction: "DESCENDING",
+            },
+          ],
         },
-      };
+      }, "hs_createdate", after);
+    },
+    async getAssociationTypes() {
+      const { results: custom } = await this.hubspot.listSchemas();
+      return [
+        ...OBJECT_TYPES.map(({ value }) => value),
+        ...(custom?.map(({ fullyQualifiedName }) => fullyQualifiedName) || []),
+      ];
     },
     async processResults(after, params) {
-      const notes = await this.getPaginatedItems(this.hubspot.listNotes.bind(this), params, after);
-      await this.processEvents(notes, after);
+      const associationTypes = await this.getAssociationTypes();
+      await this.paginate(
+        params,
+        async (opts) => {
+          const page = await this.hubspot.searchCRM(opts);
+          return {
+            ...page,
+            results: await this.withAssociations("notes", page.results || [], associationTypes),
+          };
+        },
+        "results",
+        after,
+      );
     },
   },
 };
