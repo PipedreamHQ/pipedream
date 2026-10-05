@@ -63,6 +63,20 @@ export const apiError = (error, submitting = false) => {
   return new Error(`Task lookup failed${suffix}. Retry lookup with the same task ID; do not resubmit the image request.`);
 };
 
+export const requestOptions = ({
+  apiKey, path, data,
+}) => ({
+  method: "POST",
+  url: `https://api.acedata.cloud${path}`,
+  headers: {
+    "Authorization": `Bearer ${apiKey}`,
+    "Content-Type": "application/json",
+  },
+  data,
+  timeout: 20000,
+  maxRedirects: 0,
+});
+
 export default {
   type: "app",
   app: "acedatacloud",
@@ -117,17 +131,11 @@ export default {
     request({
       $, path, data,
     }) {
-      return axios($, {
-        method: "POST",
-        url: `https://api.acedata.cloud${path}`,
-        headers: {
-          "Authorization": `Bearer ${this.$auth.api_key}`,
-          "Content-Type": "application/json",
-        },
+      return axios($, requestOptions({
+        apiKey: this.$auth.api_key,
+        path,
         data,
-        timeout: 20000,
-        maxRedirects: 0,
-      });
+      }));
     },
     /**
      * Submit one image job. Never retry a paid POST automatically.

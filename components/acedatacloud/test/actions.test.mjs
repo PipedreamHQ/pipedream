@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import acedatacloud, {
   apiError,
+  requestOptions,
   taskState,
   validateImageRequest,
 } from "../acedatacloud.app.mjs";
@@ -155,15 +156,37 @@ test("task status distinguishes missing, pending, failed, completed, and unknown
   }), "unknown");
 });
 
-test("shared transport uses Bearer auth and separate paths without redirect replay", async () => {
-  // Action behavior is exercised above. The app method contract is checked
-  // independently so no paid endpoint is needed in unit tests.
-  const code = acedatacloud.methods.submitImage.toString();
-  assert.match(code, /\/seedream\/images/);
-  assert.match(code, /async: true/);
-  assert.match(acedatacloud.methods.getImageTask.toString(), /\/seedream\/tasks/);
-  assert.match(acedatacloud.methods.request.toString(), /maxRedirects: 0/);
-  assert.match(acedatacloud.methods.request.toString(), /Bearer/);
+test("shared methods build a single paid submission and a separate lookup", async () => {
+  const calls = [];
+  const app = {
+    request(args) {
+      calls.push(args);
+      return { task_id: "one" };
+    },
+  };
+  acedatacloud.methods.submitImage.call(app, {
+    $: step(),
+    data: { model, prompt: "cube", size: "2K" },
+  });
+  acedatacloud.methods.getImageTask.call(app, {
+    $: step(),
+    taskId: "one",
+  });
+  assert.equal(calls.length, 2);
+  assert.equal(calls[0].path, "/seedream/images");
+  assert.equal(calls[0].data.async, true);
+  assert.equal(calls[0].data.response_format, "url");
+  assert.equal(calls[1].path, "/seedream/tasks");
+  assert.deepEqual(calls[1].data, { action: "retrieve", id: "one" });
+
+  const config = requestOptions({
+    apiKey: "synthetic-key",
+    path: calls[0].path,
+    data: calls[0].data,
+  });
+  assert.equal(config.url, "https://api.acedata.cloud/seedream/images");
+  assert.equal(config.headers.Authorization, "Bearer synthetic-key");
+  assert.equal(config.maxRedirects, 0);
 });
 
 test("invalid model, size, prompt, and transport errors do not start a fallback job", () => {
