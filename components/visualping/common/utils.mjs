@@ -113,7 +113,7 @@ export const prepareData = (job, {
     job.advanced_schedule ??= {};
     job.advanced_schedule.stop_time = stopTime;
     job.advanced_schedule.start_time = startTime;
-    job.advanced_schedule.active_days = activeDays;
+    job.advanced_schedule.active_days = activeDays?.map(Number);
   }
   if (enableSmsAlert != undefined) {
     job.notification.enableSmsAlert = enableSmsAlert;

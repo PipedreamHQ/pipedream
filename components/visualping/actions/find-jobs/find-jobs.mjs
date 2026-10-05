@@ -94,52 +94,63 @@ export default {
       description: "Filters jobs by presence of an advanced schedule.",
       optional: true,
     },
-    changedFilter: {
+    eventFilter: {
       type: "string",
-      label: "Changed Filter",
-      description: "Filters jobs by the presence of a detected change.",
+      label: "Event Filter",
+      description: "Filters jobs by the presence of at least one specific event in the considered"
+        + " time interval (see `dateFilter`/`dateFilterStart`).",
       options: [
         {
-          label: "Before Custom Date",
-          value: "before_custom_date",
+          label: "Changed",
+          value: "changed",
         },
         {
-          label: "Between Custom Dates",
-          value: "between_custom_dates",
+          label: "Changed Important",
+          value: "changedImportant",
         },
         {
-          label: "Since Custom Date",
-          value: "since_custom_date",
+          label: "Errored",
+          value: "errored",
         },
+        {
+          label: "Checked",
+          value: "checked",
+        },
+      ],
+      optional: true,
+    },
+    dateFilter: {
+      type: "string",
+      label: "Date Filter",
+      description: "Defines the time interval for `eventFilter`.",
+      options: [
         {
           label: "Since Last Login",
           value: "since_last_login",
         },
         {
-          label: "Since Last Month",
-          value: "since_last_month",
+          label: "Since Yesterday",
+          value: "since_yesterday",
         },
         {
           label: "Since Last Week",
           value: "since_last_week",
         },
         {
-          label: "Since Yesterday",
-          value: "since_yesterday",
+          label: "Since Last Month",
+          value: "since_last_month",
+        },
+        {
+          label: "Since Custom Date",
+          value: "since_custom_date",
         },
       ],
       optional: true,
     },
-    changedFilterDateMin: {
+    dateFilterStart: {
       type: "string",
-      label: "Changed Filter Date Min",
-      description: "Necessary if `changedFilter` expects a lower bound timestamp.",
-      optional: true,
-    },
-    changedFilterDateMax: {
-      type: "string",
-      label: "Changed Filter Date Max",
-      description: "Necessary if `changedFilter` expects an upper bound timestamp.",
+      label: "Date Filter Start",
+      description: "Required if `dateFilter` is `since_custom_date`. Example: `2021-02-20T12:33:44.555+01:00`.",
       optional: true,
     },
     fullTextSearchFilter: {
@@ -148,10 +159,23 @@ export default {
       description: "Filters jobs by the presence of a given substring in their URLs or descriptions.",
       optional: true,
     },
+    labelsFilter: {
+      type: "integer[]",
+      label: "Labels Filter",
+      description: "List of label IDs. Jobs without any of these labels attached will be filtered out.",
+      optional: true,
+    },
+    pageSize: {
+      type: "integer",
+      label: "Page Size",
+      description: "Limits the maximum number of jobs per page. Default: `100`.",
+      min: 1,
+      optional: true,
+    },
     sortBy: {
       type: "string",
       label: "Sort By",
-      description: "For internal use.",
+      description: "Sort order for the returned jobs.",
       options: [
         {
           label: "Active First",
@@ -230,6 +254,7 @@ export default {
       hasAdvancedScheduleFilter,
       modeFilter,
       frequencyFilter,
+      labelsFilter,
       fields,
       workspaceId,
       ...params
@@ -264,6 +289,9 @@ export default {
           : undefined,
         frequencyFilter: frequencyFilter?.length
           ? frequencyFilter.join(",")
+          : undefined,
+        labelsFilter: labelsFilter?.length
+          ? labelsFilter.map(Number).join(",")
           : undefined,
       },
     });

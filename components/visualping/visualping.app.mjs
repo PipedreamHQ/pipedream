@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -264,7 +266,7 @@ export default {
         return undefined;
       }
       if (workspaces.length > 1) {
-        throw new Error("This account belongs to multiple workspaces — call"
+        throw new ConfigurationError("This account belongs to multiple workspaces — call"
           + " **List Workspace ID Options** and pass a specific `workspaceId`.");
       }
       return Number(workspaces[0].id);

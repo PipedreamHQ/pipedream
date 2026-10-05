@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import visualping from "../../visualping.app.mjs";
 
 export default {
@@ -400,6 +401,10 @@ export default {
       ...data
     } = this;
 
+    if (Number.isNaN(parseFloat(trigger))) {
+      throw new ConfigurationError("`trigger` must be a numeric percent value (e.g. `0.1`, `25`).");
+    }
+
     const resolvedWorkspaceId = await visualping.resolveWorkspaceId({
       $,
       workspaceId,
@@ -409,7 +414,7 @@ export default {
       ? {
         stop_time: stopTime,
         start_time: startTime,
-        active_days: activeDays,
+        active_days: activeDays?.map(Number),
       }
       : undefined;
 
