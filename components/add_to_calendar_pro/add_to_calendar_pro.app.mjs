@@ -307,6 +307,23 @@ export default {
       description: "URL to an external calendar. Needs to start with \"http\"! Usually ends with \".ics\"",
       optional: true,
     },
+    subscription: {
+      type: "string",
+      label: "Subscription",
+      description: "External requires a Subscription Cal URL.",
+      options: [
+        "no",
+        "children",
+        "external",
+      ],
+      optional: true,
+    },
+    publicEventOverview: {
+      type: "boolean",
+      label: "Public Event Overview",
+      description: "Show this group as a public list of its events. Children subscriptions always enable it.",
+      optional: true,
+    },
     rsvpTemplateName: {
       type: "string",
       label: "RSVP Template Name",
@@ -383,12 +400,17 @@ export default {
           ...opts,
         });
       } catch (error) {
-        if (error.status === 404 && JSON.parse(error.message)?.message?.includes("No entry found")) {
-          console.log("No entry found");
-          return null;
-        } else {
+        let message;
+        try {
+          message = JSON.parse(error.message)?.message;
+        } catch {
           throw error;
         }
+        if (error.status === 404 && message?.includes("No entry found")) {
+          console.log("No entry found");
+          return null;
+        }
+        throw error;
       }
     },
     createWebhook(opts = {}) {
