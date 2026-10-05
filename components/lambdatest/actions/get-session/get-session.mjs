@@ -5,7 +5,13 @@ export default {
   name: "Get Session",
   description: "Retrieve the details of a specific automation test session. [See the documentation](https://www.lambdatest.com/support/api-doc/)",
   version: "0.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     sessionId: {

@@ -5,32 +5,34 @@ export default {
   name: "List Builds",
   description: "Retrieve a list of automation builds. [See the documentation](https://www.lambdatest.com/support/api-doc/)",
   version: "0.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     status: {
-      type: "string",
-      label: "Status",
-      description: "Filter builds by status",
-      options: [
-        "running",
-        "completed",
-        "timeout",
-        "error",
+      propDefinition: [
+        app,
+        "buildStatus",
       ],
-      optional: true,
     },
     fromDate: {
-      type: "string",
-      label: "From Date",
-      description: "Return builds created on or after this date, in `YYYY-MM-DD` format",
-      optional: true,
+      propDefinition: [
+        app,
+        "fromDate",
+      ],
+      description: "Return builds created on or after this date, in `YYYY-MM-DD` format, e.g. `2026-01-31`.",
     },
     toDate: {
-      type: "string",
-      label: "To Date",
-      description: "Return builds created on or before this date, in `YYYY-MM-DD` format",
-      optional: true,
+      propDefinition: [
+        app,
+        "toDate",
+      ],
+      description: "Return builds created on or before this date, in `YYYY-MM-DD` format, e.g. `2026-02-28`.",
     },
     maxResults: {
       propDefinition: [
@@ -46,7 +48,7 @@ export default {
       $,
       fn: this.app.listBuilds,
       params: {
-        status: this.status,
+        status: this.status?.join(","),
         fromdate: this.fromDate,
         todate: this.toDate,
       },
