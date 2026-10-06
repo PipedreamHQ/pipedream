@@ -24,7 +24,7 @@ Select the MongoDB project where your cluster resides, then select the *Database
 
 Click *Create new database user* to get started.
 
-![Open the MongoDB project from within MongoDB Atlas and select the Database Access panel, then create the user](https://res.cloudinary.com/pipedreamin/image/upload/v1715025845/marketplace/apps/mongodb/CleanShot_2024-05-06_at_16.02.42_apamii.png)
+![Open the MongoDB project from within MongoDB Atlas and select the Database Access panel, then create the user](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/mongodb/CleanShot_2024-05-06_at_16.02.42_apamii.png)
 
 In the new pop-up, choose the *Password* authentication method first. Name the user `pipedream` so it’s easy to remember which service this user account is used for.
 
@@ -32,7 +32,7 @@ Generate a password and select a pre-built or custom role. Pre-built roles offer
 
 Finally click *Add user* to create this new user account.
 
-![Filling out the details of the new user account in MongoDB Atlas for connecting this new user to Pipedream](https://res.cloudinary.com/pipedreamin/image/upload/v1715026023/marketplace/apps/mongodb/CleanShot_2024-05-06_at_16.06.22_rfz4ur.png)
+![Filling out the details of the new user account in MongoDB Atlas for connecting this new user to Pipedream](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/mongodb/CleanShot_2024-05-06_at_16.06.22_rfz4ur.png)
 
 ## Provide the Credentials
 
@@ -44,7 +44,7 @@ To find your database hostname, go to the **Databases** view in Mongo Atlas and 
 
 Select the **Compass or Node.js** option. Then you’ll see the connection URI string. The hostname is the latter portion of the string, as shown below:
 
-![Finding the MongoDB database host name in MongoDB Atlas by using the Connect button to show the connection URI](https://res.cloudinary.com/pipedreamin/image/upload/v1715026375/marketplace/apps/mongodb/CleanShot_2024-05-06_at_16.12.19_sgr7wd.png)
+![Finding the MongoDB database host name in MongoDB Atlas by using the Connect button to show the connection URI](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/mongodb/CleanShot_2024-05-06_at_16.12.19_sgr7wd.png)
 
 Lastly, provide the **Database** name to connect to.
 
@@ -56,11 +56,11 @@ By default, Pipedream workflows can start anywhere within the `us-east-1` AWS IP
 
 First, open the **Network Access** section of your MongoDB Atlas project. Then click **Add new IP address** in the top right-hand corner:
 
-![Add a new IP address to the allowed list of IP addresses within MongoDB Atlas](https://res.cloudinary.com/pipedreamin/image/upload/v1715026727/marketplace/apps/mongodb/CleanShot_2024-05-06_at_16.18.24_a3u6y0.png)
+![Add a new IP address to the allowed list of IP addresses within MongoDB Atlas](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/mongodb/CleanShot_2024-05-06_at_16.18.24_a3u6y0.png)
 
 Then enter `0.0.0.0/0` in the IP address field to allow connections from any IP address. In the description field, we recommend adding a note about this requirement for Pipedream.
 
-![Allowing any IP address to connect to your MongoDB Atlas Database Cluster. Necessary for services like Pipedream workflows that don’t have a static IP address unless you’re using Pipedream VPCs.](https://res.cloudinary.com/pipedreamin/image/upload/v1715026860/marketplace/apps/mongodb/CleanShot_2024-05-06_at_16.20.51_ixxmoa.png)
+![Allowing any IP address to connect to your MongoDB Atlas Database Cluster. Necessary for services like Pipedream workflows that don’t have a static IP address unless you’re using Pipedream VPCs.](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/mongodb/CleanShot_2024-05-06_at_16.20.51_ixxmoa.png)
 
 Finally, click **Confirm**
 
