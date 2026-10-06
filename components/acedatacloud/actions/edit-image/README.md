@@ -4,7 +4,7 @@ Submit one Seedream image edit using a publicly accessible HTTP or HTTPS image U
 
 # Getting Started
 
-Enter one image URL, a prompt describing the edit, and a supported model and size. The image URL must be reachable by AceDataCloud. Each submission may be billed separately.
+Enter one publicly accessible image URL, a prompt describing the edit, and a supported model and size. The default is Lite at `2K`. Save the returned `task_id` before continuing the workflow. Each submission may be billed separately. Task lookup requires the separate server-side ownership gate described in the app README.
 
 # Troubleshooting
 
