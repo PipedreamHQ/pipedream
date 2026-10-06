@@ -75,6 +75,71 @@ export default {
       }
       return ret;
     },
+    async getLeagues(gameKey = "nfl", $ = this) {
+      const resp = await this._makeRequest({
+        path: `/users;use_login=1/games;game_keys=${gameKey}/leagues/`,
+      }, $);
+      const users = this.unwrap(resp.fantasy_content.users);
+      return users[0]?.games?.[0]?.leagues ?? [];
+    },
+    async getLeagueStandings(leagueKey, $ = this) {
+      const resp = await this._makeRequest({
+        path: `/league/${leagueKey}/standings`,
+      }, $);
+      const league = this.unwrap(resp.fantasy_content.league);
+      const leagueObj = Array.isArray(league)
+        ? league[0]
+        : league;
+      // unwrap() merges single-element arrays, so standings can be an object or an array
+      const standings = leagueObj?.standings;
+      const standingsObj = Array.isArray(standings)
+        ? standings[0]
+        : standings;
+      return standingsObj?.teams ?? [];
+    },
+    async getLeagueSettings(leagueKey, $ = this) {
+      const resp = await this._makeRequest({
+        path: `/league/${leagueKey}/settings`,
+      }, $);
+      const league = this.unwrap(resp.fantasy_content.league);
+      const leagueObj = Array.isArray(league)
+        ? league[0]
+        : league;
+      const settings = leagueObj?.settings;
+      return (Array.isArray(settings)
+        ? settings[0]
+        : settings) ?? {};
+    },
+    async getTeamRoster(teamKey, week, $ = this) {
+      const weekParam = week
+        ? `;week=${week}`
+        : "";
+      const resp = await this._makeRequest({
+        path: `/team/${teamKey}/roster${weekParam}`,
+      }, $);
+      const team = this.unwrap(resp.fantasy_content.team);
+      const teamObj = Array.isArray(team)
+        ? team[0]
+        : team;
+      const roster = teamObj?.roster;
+      const rosterObj = Array.isArray(roster)
+        ? roster[0]
+        : roster;
+      return rosterObj?.players ?? [];
+    },
+    async getTeamMatchups(teamKey, week, $ = this) {
+      const weeksParam = week
+        ? `;weeks=${week}`
+        : "";
+      const resp = await this._makeRequest({
+        path: `/team/${teamKey}/matchups${weeksParam}`,
+      }, $);
+      const team = this.unwrap(resp.fantasy_content.team);
+      const teamObj = Array.isArray(team)
+        ? team[0]
+        : team;
+      return teamObj?.matchups ?? [];
+    },
     async getLeagueTransactions(leagueKey, eventTypes) {
       const resp = await this._makeRequest({
         path: `/leagues;league_keys=${leagueKey}/transactions;types=${eventTypes.join(",")}`,
