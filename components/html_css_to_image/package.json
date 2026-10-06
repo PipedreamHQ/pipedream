@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/html_css_to_image",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Pipedream HTML/CSS to Image Components",
   "main": "html_css_to_image.app.mjs",
   "keywords": [
@@ -13,6 +13,15 @@
     "access": "public"
   },
   "dependencies": {
+    "@html-css-to-image/client": "0.11.0",
     "@pipedream/platform": "^1.6.8"
+  },
+  "scripts": {
+    "generate:client": "node scripts/generate-client-props.mjs",
+    "check:generated": "node scripts/generate-client-props.mjs --check",
+    "test": "npm run check:generated && node --test tests/*.test.mjs"
+  },
+  "devDependencies": {
+    "typescript": "5.6.3"
   }
 }

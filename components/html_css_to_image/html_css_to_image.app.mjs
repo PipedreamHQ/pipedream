@@ -1,27 +1,21 @@
 import { axios } from "@pipedream/platform";
+import { HtmlCssToImageClient } from "@html-css-to-image/client";
+import { propDefinitions } from "./common/generated-props.mjs";
 
 export default {
   type: "app",
   app: "html_css_to_image",
-  propDefinitions: {
-    url: {
-      type: "string",
-      label: "URL",
-      description: "The fully qualified URL to a public webpage. Such as `https://htmlcsstoimage.com`.",
-    },
-    html: {
-      type: "string",
-      label: "HTML",
-      description: "This is the HTML you want to render.\n\nYou can send an HTML snippet `<div>Your content</div>` or an entire webpage.",
-    },
-    css: {
-      type: "string",
-      label: "CSS",
-      description: "The CSS for your image. it will be injected into the HTML.",
-      optional: true,
-    },
-  },
+  propDefinitions,
   methods: {
+    _getSigningClient() {
+      return new HtmlCssToImageClient(this.$auth.user_id, this.$auth.api_key);
+    },
+    generateSignedUrlForTemplate(request) {
+      return this._getSigningClient().generateTemplatedImageUrl(request);
+    },
+    generateSignedUrlForWebpage(request) {
+      return this._getSigningClient().generateCreateAndRenderUrl(request);
+    },
     _getBaseUrl() {
       return "https://hcti.io/v1";
     },
@@ -42,24 +36,64 @@ export default {
         headers: this._getHeaders(),
       };
     },
-    async createImageFromURL(ctx = this, url) {
-      return axios(ctx, this._getRequestParams({
+    async _makeRequest(ctx, opts) {
+      return axios(ctx, this._getRequestParams(opts));
+    },
+    async createImageFromURL(ctx = this, url, options = {}) {
+      return this._makeRequest(ctx, {
         method: "POST",
         path: "/image",
         data: {
+          ...options,
           url,
         },
-      }));
+      });
     },
-    async createImageFromHTML(ctx = this, html, css) {
-      return axios(ctx, this._getRequestParams({
+    async createImageFromHTML(ctx = this, html, css, options = {}) {
+      return this._makeRequest(ctx, {
         method: "POST",
         path: "/image",
         data: {
+          ...options,
           html,
           css,
         },
-      }));
+      });
+    },
+    async createImageFromTemplate(ctx = this, data) {
+      return this._makeRequest(ctx, {
+        method: "POST",
+        path: "/image",
+        data,
+      });
+    },
+    async listTemplates(ctx = this, params) {
+      return this._makeRequest(ctx, {
+        method: "GET",
+        path: "/template",
+        params,
+      });
+    },
+    async deleteImage(ctx = this, imageId) {
+      return this._makeRequest(ctx, {
+        method: "DELETE",
+        path: `/image/${encodeURIComponent(imageId)}`,
+      });
+    },
+    async downloadImage(ctx = this, imageUrl, opts = {}) {
+      const url = new URL(imageUrl);
+      return axios(ctx, {
+        ...opts,
+        method: "GET",
+        url: `${url.origin}${url.pathname}`,
+        params: {},
+        // Platform axios extracts and rewrites query parameters from URLs.
+        // Preserve the exact encoded query, including repeated header entries,
+        // so the HMAC of a signed URL remains valid on the wire.
+        paramsSerializer: () => url.search.slice(1),
+        responseType: "stream",
+        returnFullResponse: true,
+      });
     },
   },
 };
