@@ -1,11 +1,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import acedatacloud, {
+import acedatacloud from "../acedatacloud.app.mjs";
+import {
   apiError,
   requestOptions,
   taskState,
   validateImageRequest,
-} from "../acedatacloud.app.mjs";
+} from "../common/utils.mjs";
 import generateImage from "../actions/generate-image/generate-image.mjs";
 import editImage from "../actions/edit-image/edit-image.mjs";
 import getImageTask from "../actions/get-image-task/get-image-task.mjs";
@@ -212,4 +213,32 @@ test("invalid model, size, prompt, and transport errors do not start a fallback 
   }, true);
   assert.match(error.message, /may have created a paid task/);
   assert.doesNotMatch(error.message, /api_key|Bearer/);
+});
+
+test("submission preserves a definite 4xx API error and warns on ambiguous failure", async () => {
+  const rejected = Object.assign(new Error("invalid model"), {
+    response: { status: 400 },
+  });
+  assert.equal(apiError(rejected, true), rejected);
+  assert.match(apiError({ response: { status: 408 } }, true).message, /may have created a paid task/);
+  assert.match(apiError(new Error("socket closed"), true).message, /may have created a paid task/);
+
+  let calls = 0;
+  const context = {
+    acedatacloud: {
+      async submitImage() {
+        calls += 1;
+        throw rejected;
+      },
+    },
+    model,
+    prompt: "cube",
+    size: "2K",
+  };
+  await assert.rejects(generateImage.run.call(context, { $: step() }), (error) => error === rejected);
+  await assert.rejects(editImage.run.call({
+    ...context,
+    image: "https://example.com/cube.png",
+  }, { $: step() }), (error) => error === rejected);
+  assert.equal(calls, 2);
 });
