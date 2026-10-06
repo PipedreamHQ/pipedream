@@ -127,7 +127,7 @@ function tableOptions(table, qualifier, extra = {}) {
   const raw = String(qualifier ?? "").trim();
   const trimmed = isScriptValue(raw)
     ? raw
-    : raw.replace(/\^?EQ$/, "");
+    : raw.replace(/(^|\^)EQ$/, "");
   if (!trimmed) {
     return options;
   }
