@@ -451,6 +451,72 @@ nodeTest("template listing stops at the final page including an empty first page
   }
 });
 
+nodeTest("template listing stops when an empty page repeats its cursor", async () => {
+  const harness = makeHarness([
+    {
+      data: [
+        {
+          id: "t-1",
+        },
+      ],
+      pagination: {
+        next_page_start: 12345,
+      },
+    },
+    {
+      data: [],
+      pagination: {
+        next_page_start: 12345,
+      },
+    },
+  ]);
+  assert.deepEqual(await harness.run(listAction, {}), [
+    {
+      id: "t-1",
+    },
+  ]);
+  assert.equal(harness.requests.length, 2);
+  assert.equal(harness.requests[1].params.max_version, 12345);
+});
+
+nodeTest("template listing continues through empty pages when the cursor advances", async () => {
+  const harness = makeHarness([
+    {
+      data: [],
+      pagination: {
+        next_page_start: 12345,
+      },
+    },
+    {
+      data: [],
+      pagination: {
+        next_page_start: 12340,
+      },
+    },
+    {
+      data: [
+        {
+          id: "t-1",
+        },
+      ],
+      pagination: {
+        next_page_start: null,
+      },
+    },
+  ]);
+  assert.deepEqual(await harness.run(listAction, {}), [
+    {
+      id: "t-1",
+    },
+  ]);
+  assert.equal(harness.requests.length, 3);
+  assert.deepEqual(harness.requests.map(({ params }) => params.max_version), [
+    undefined,
+    12345,
+    12340,
+  ]);
+});
+
 nodeTest("API failures propagate without a success summary", async () => {
   const harness = makeHarness();
   const error = new Error("API quota exceeded");

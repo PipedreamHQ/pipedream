@@ -33,7 +33,9 @@ export default {
         max_version: cursor,
       });
       templates.push(...response.data);
-      cursor = response.pagination?.next_page_start;
+      const nextCursor = response.pagination?.next_page_start;
+      if (response.data.length === 0 && nextCursor === cursor) break;
+      cursor = nextCursor;
     } while (cursor != null && templates.length < maxResults);
 
     const result = templates.slice(0, maxResults);
