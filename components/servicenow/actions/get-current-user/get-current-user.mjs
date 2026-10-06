@@ -21,7 +21,7 @@ export default {
       url: "/ui/user/current_user",
     });
 
-    const userSysId = sessionInfo?.sys_id;
+    const userSysId = sessionInfo?.user_sys_id ?? sessionInfo?.sys_id;
 
     if (!userSysId) {
       throw new Error("Unable to determine current user from session");
