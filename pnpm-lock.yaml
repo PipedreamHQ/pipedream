@@ -9103,8 +9103,8 @@ importers:
         specifier: ^55.1.0
         version: 55.2.1(encoding@0.1.13)
       '@pipedream/linear_app':
-        specifier: ^0.11.1
-        version: 0.11.1(encoding@0.1.13)
+        specifier: ^1.0.0
+        version: 1.0.0(encoding@0.1.13)
       '@pipedream/platform':
         specifier: ^3.3.0
         version: 3.3.0
@@ -22401,8 +22401,8 @@ packages:
   '@pipedream/launchdarkly@0.1.1':
     resolution: {integrity: sha512-RqW4cJ0CfCnCy/lCutIJNSlX3IXV3jxoyqxDgAeHx8Q8BUEjEl7T0+1vMLyNXhU+V4Kj38KVURnSKqCE59UVvg==}
 
-  '@pipedream/linear_app@0.11.1':
-    resolution: {integrity: sha512-xeiJ4tYADxEr93c6+MKoXpqX1v9PXSqGgJCGHnqfAZX33LXwLIiyy4pU9O+uh/mYY3x9qxe22tk3zrzK3D/CcQ==}
+  '@pipedream/linear_app@1.0.0':
+    resolution: {integrity: sha512-RP7kuzzfsk5umgLavydsROSvdwgbCkyDvPkl283AAE+jMLL4qsxg0PatjBs8HqN1zMK9VxsU7QhJDiNv8e234g==}
 
   '@pipedream/linkedin@1.3.0':
     resolution: {integrity: sha512-uBoiCA/zRMJwQzqx0LKdZq3DmeoNjcjCUyzh6aeQWrJzoOL1IF46QjZlI5JtUNmGLQhUUpNisWdhpX5OfKvngQ==}
@@ -41548,7 +41548,7 @@ snapshots:
       - debug
       - supports-color
 
-  '@pipedream/linear_app@0.11.1(encoding@0.1.13)':
+  '@pipedream/linear_app@1.0.0(encoding@0.1.13)':
     dependencies:
       '@linear/sdk': 55.2.1(encoding@0.1.13)
       '@pipedream/platform': 3.4.0
