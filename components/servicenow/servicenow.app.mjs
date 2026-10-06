@@ -294,15 +294,6 @@ export default {
         ...args,
       });
     },
-    async getCatalogItem({
-      catalogItemSysId, ...args
-    }) {
-      return this._makeRequest({
-        baseURL: `${this._instanceBaseUrl()}${SERVICE_CATALOG_BASE_PATH}`,
-        url: `/items/${catalogItemSysId}`,
-        ...args,
-      });
-    },
     async getCatalogItemVariables({
       catalogItemSysId, ...args
     }) {
