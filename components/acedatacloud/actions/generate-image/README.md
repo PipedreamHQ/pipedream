@@ -4,7 +4,7 @@ Submit one Seedream image generation request and return its `task_id` immediatel
 
 # Getting Started
 
-Choose Seedream 5.0 Lite or Pro, enter a prompt, and choose a size supported by that model. This action sends one paid submission request. Repeating it after a network timeout may start a second job.
+Choose Seedream 5.0 Lite or Pro, enter a prompt, and choose a size supported by that model. The default is Lite at `2K`. This action sends one paid submission request; save its `task_id` before continuing the workflow. Repeating submission after a network timeout may start a second job. Task lookup requires the separate server-side ownership gate described in the app README.
 
 # Troubleshooting
 
