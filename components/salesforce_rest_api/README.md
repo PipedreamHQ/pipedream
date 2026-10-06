@@ -35,15 +35,15 @@ Here is a step-by-step on how to do this:
 **API Name**: Pipedream
 **Description**: Adds a set of permissions required for Pipedream. 
 
- <img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1702598220/Screenshot_2023-12-14_at_2.57.21_PM_dfgsrw.png" width=500>
+ <img src="https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2023-12-14_at_2.57.21_PM_dfgsrw.png" width=500>
 
 **Add Permissions**
 
 5. Now that the permission set is created, navigate to System Permissions.
-<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1702598358/Screenshot_2023-12-14_at_3.00.49_PM_axtws5.png" width=500>
+<img src="https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2023-12-14_at_3.00.49_PM_axtws5.png" width=500>
 
 6. From System Permissions, click Edit.
-<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1702598417/Screenshot_2023-12-14_at_3.01.38_PM_pvbopv.png" width=500>
+<img src="https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2023-12-14_at_3.01.38_PM_pvbopv.png" width=500>
 
 7. Select the following permission, and click Save.
 - API Enabled
@@ -54,18 +54,18 @@ If you'd like to utilize Pipedream's webhook triggers, you will need to add the 
 - View Roles and Role Hierarchy
 - Modify Metadata Through Metadata API Functions
 - View Setup and Configuration
-<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1702598514/Screenshot_2023-12-14_at_3.48.50_PM_pcychy.png" width=500>
+<img src="https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2023-12-14_at_3.48.50_PM_pcychy.png" width=500>
 
 8. The list of added permissions (6) should look like this, and click save again.
-<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1702598417/Screenshot_2023-12-14_at_3.10.17_PM_urgge8.png" width=500>
+<img src="https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2023-12-14_at_3.10.17_PM_urgge8.png" width=500>
 
 **Add Permission Set to User**
 
 9. From the newly created Permission Set, click Manage Assignments, then Add Assignment.
-<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1702598514/Screenshot_2023-12-14_at_3.21.59_PM_rqedtd.png" width=500>
+<img src="https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2023-12-14_at_3.21.59_PM_rqedtd.png" width=500>
 
 10. Select the user you'd like to assign this permission set to, and click Assign. The user should now show up under Current Assignments.
-<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1702598514/Screenshot_2023-12-14_at_3.52.42_PM_w4ge4p.png" width=500>
+<img src="https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2023-12-14_at_3.52.42_PM_w4ge4p.png" width=500>
 
 11. You should now be able to use the Salesforce integration along with the webhook triggers if you configured the required permissions above.
 
@@ -97,13 +97,13 @@ To modify these settings:
 1. Navigate to Salesforce Setup.
 2. Under **Apps**, click **Connected Apps**, then **Connected Apps OAuth Usage**.
 
-<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1705623649/Screenshot_2024-01-18_at_4.17.23_PM_mnwcdu.png" width=300>
+<img src="https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2024-01-18_at_4.17.23_PM_mnwcdu.png" width=300>
 
 3. If Pipedream is not yet installed, click **Install**, otherwise click **Manage App Policies**.
 4. Click **Edit Policies**.
 5. Under OAuth Policies, you should see the setting **IP Relaxation**. Set this to **Relax IP Restrictions**.
 
-<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1705623651/Screenshot_2024-01-18_at_4.18.15_PM_kfzxnz.png">
+<img src="https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2024-01-18_at_4.18.15_PM_kfzxnz.png">
 
 ## Instant trigger is not working
 If you happen to stumble on the error: `UNKNOWN_EXCEPTION: admin operation already in progress` when creating an **Instant** trigger, you can follow the steps below to use the Salesforce Flow Builder to be able to use webhooks with Pipedream. This is a known error in Salesforce.
