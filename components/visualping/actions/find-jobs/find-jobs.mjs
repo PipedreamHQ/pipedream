@@ -1,16 +1,31 @@
-import visualping from "../../app/visualping.app.mjs";
+import visualping from "../../visualping.app.mjs";
+import {
+  DEFAULT_FIND_JOBS_FIELDS, normalizeJob, pluckFields,
+} from "../../common/utils.mjs";
 
 export default {
   key: "visualping-find-jobs",
   name: "Find Jobs",
-  version: "0.0.2",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
-  description: "Find existing jobs using filters. [See the docs here](https://develop.api.visualping.io/doc.html#tag/Jobs/paths/~1v2~1jobs/get)",
+  description: "Searches and lists your Visualping monitoring jobs, with optional filters"
+    + " for mode, active/paused state, change-detection frequency, and free text."
+    + " Use this to discover job ids before calling **Get Job Details By Id**,"
+    + " **Update Job**, or **Delete Job**, or to answer questions like \"which jobs"
+    + " are still active\" or \"find the job monitoring example.com\"."
+    + " Auto-paginates through the API's 100-jobs-per-page results, up to a cap of"
+    + " 20 pages (2,000 jobs) — plenty for typical accounts."
+    + " Example: to find active jobs mentioning \"pricing\", call with"
+    + " `fullTextSearchFilter=\"pricing\"` and `activeFilter=true` → returns matching"
+    + " job records with id, url, mode, interval, trigger, isActive, and more."
+    + " Pass `fields` to shrink each result to just the fields you need."
+    + " [See the documentation](https://develop.api.visualping.io/doc.html#tag/Jobs/paths/~1v2~1jobs/get)",
   type: "action",
+  ai: "optimized",
   props: {
     visualping,
     organisationId: {
@@ -24,30 +39,6 @@ export default {
       propDefinition: [
         visualping,
         "workspaceId",
-      ],
-      optional: true,
-    },
-    mode: {
-      type: "string",
-      label: "Mode",
-      description: "API output mode",
-      options: [
-        {
-          label: "Counts Only",
-          value: "counts_only",
-        },
-        {
-          label: "Id And WsIds",
-          value: "id_and_wsIds",
-        },
-        {
-          label: "Ids Only",
-          value: "ids_only",
-        },
-        {
-          label: "Normal",
-          value: "normal",
-        },
       ],
       optional: true,
     },
@@ -89,7 +80,7 @@ export default {
       description: "Filters jobs by scheduling frequency. Multiple choices allowed.",
       options: [
         "below_1h_excl",
-        "1hr",
+        "1h",
         "1h_excl_to_1d_excl",
         "1d",
         "1d_excl_to_500h_excl",
@@ -103,52 +94,63 @@ export default {
       description: "Filters jobs by presence of an advanced schedule.",
       optional: true,
     },
-    changedFilter: {
+    eventFilter: {
       type: "string",
-      label: "Changed Filter",
-      description: "Filters jobs by the presence of a detected change.",
+      label: "Event Filter",
+      description: "Filters jobs by the presence of at least one specific event in the considered"
+        + " time interval (see `dateFilter`/`dateFilterStart`). Example: `changed`.",
       options: [
         {
-          label: "Before Custom Date",
-          value: "before_custom_date",
+          label: "Changed",
+          value: "changed",
         },
         {
-          label: "Between Custom Dates",
-          value: "between_custom_dates",
+          label: "Changed Important",
+          value: "changedImportant",
         },
         {
-          label: "Since Custom Date",
-          value: "since_custom_date",
+          label: "Errored",
+          value: "errored",
         },
+        {
+          label: "Checked",
+          value: "checked",
+        },
+      ],
+      optional: true,
+    },
+    dateFilter: {
+      type: "string",
+      label: "Date Filter",
+      description: "Defines the time interval for `eventFilter`. Example: `since_last_week`.",
+      options: [
         {
           label: "Since Last Login",
           value: "since_last_login",
         },
         {
-          label: "Since Last Month",
-          value: "since_last_month",
+          label: "Since Yesterday",
+          value: "since_yesterday",
         },
         {
           label: "Since Last Week",
           value: "since_last_week",
         },
         {
-          label: "Since Yesterday",
-          value: "since_yesterday",
+          label: "Since Last Month",
+          value: "since_last_month",
+        },
+        {
+          label: "Since Custom Date",
+          value: "since_custom_date",
         },
       ],
       optional: true,
     },
-    changedFilterDateMin: {
+    dateFilterStart: {
       type: "string",
-      label: "Changed Filter Date Min",
-      description: "Necessary if `changedFilter` expects a lower bound timestamp.",
-      optional: true,
-    },
-    changedFilterDateMax: {
-      type: "string",
-      label: "Changed Filter Date Max",
-      description: "Necessary if `changedFilter` expects an upper bound timestamp.",
+      label: "Date Filter Start",
+      description: "Required if `dateFilter` is `since_custom_date`. Example: `2021-02-20T12:33:44.555+01:00`.",
       optional: true,
     },
     fullTextSearchFilter: {
@@ -157,10 +159,34 @@ export default {
       description: "Filters jobs by the presence of a given substring in their URLs or descriptions.",
       optional: true,
     },
+    labelsFilter: {
+      type: "integer[]",
+      label: "Labels Filter",
+      description: "List of label IDs. Jobs without any of these labels attached will be filtered out."
+        + " Example: `121,345,67`. There's no label-listing endpoint in this API — find label IDs"
+        + " in the Visualping web dashboard, where labels are created and assigned to jobs.",
+      optional: true,
+    },
+    pageSize: {
+      type: "integer",
+      label: "Page Size",
+      description: "Limits the maximum number of jobs per page. Default: `100`.",
+      min: 1,
+      optional: true,
+    },
+    startPage: {
+      type: "integer",
+      label: "Start Page",
+      description: "The page index to start fetching from (0-based). Each call auto-paginates up"
+        + " to 20 pages; if the summary reports more jobs remain, call again with this set to"
+        + " the reported `nextPage` to continue.",
+      optional: true,
+      default: 0,
+    },
     sortBy: {
       type: "string",
       label: "Sort By",
-      description: "For internal use.",
+      description: "Sort order for the returned jobs.",
       options: [
         {
           label: "Active First",
@@ -221,6 +247,15 @@ export default {
       ],
       optional: true,
     },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      optional: true,
+      description: "Field names to return for each job (`id` is always included)."
+        + " Omit to get the full job object (today's default output)."
+        + " A useful compact set: `" + DEFAULT_FIND_JOBS_FIELDS.join("`, `") + "`."
+        + " Pass only the fields you need — smaller responses keep the conversation fast.",
+    },
   },
   async run({ $ }) {
     const {
@@ -228,15 +263,30 @@ export default {
       activeFilter,
       inProgressFilter,
       hasAdvancedScheduleFilter,
+      modeFilter,
+      frequencyFilter,
+      labelsFilter,
+      fields,
+      workspaceId,
+      startPage,
       ...params
     } = this;
 
+    const resolvedWorkspaceId = await visualping.resolveWorkspaceId({
+      $,
+      workspaceId,
+    });
+
     const response = [];
+    const paginationMeta = {};
 
     const items = visualping.paginate({
       fn: visualping.findJobs,
+      startPage,
+      meta: paginationMeta,
       params: {
         ...params,
+        workspaceId: resolvedWorkspaceId,
         activeFilter: (activeFilter != undefined)
           ? +activeFilter
           : null,
@@ -246,18 +296,37 @@ export default {
         hasAdvancedScheduleFilter: (hasAdvancedScheduleFilter != undefined)
           ? +hasAdvancedScheduleFilter
           : null,
+        // The API rejects axios's default array query-param encoding for these
+        // ("unexpected flat parameter ... construct") — send a comma-joined
+        // string instead, which it does accept.
+        modeFilter: modeFilter?.length
+          ? modeFilter.join(",")
+          : undefined,
+        frequencyFilter: frequencyFilter?.length
+          ? frequencyFilter.join(",")
+          : undefined,
+        labelsFilter: labelsFilter?.length
+          ? labelsFilter.map(Number).join(",")
+          : undefined,
       },
     });
 
     for await (const item of items) {
-      response.push(item);
+      response.push(normalizeJob(item));
     }
 
-    const length = response.length;
+    const results = fields?.length
+      ? response.map((job) => pluckFields(job, fields))
+      : response;
+
+    const length = results.length;
 
     $.export("$summary", `${length} job${length > 1
       ? "s were"
-      : " was"} successfully fetched!`);
-    return response;
+      : " was"} successfully fetched!`
+      + (paginationMeta.hasMore
+        ? ` More jobs remain beyond the 20-page cap — call again with \`startPage: ${paginationMeta.nextPage}\` to continue.`
+        : ""));
+    return results;
   },
 };

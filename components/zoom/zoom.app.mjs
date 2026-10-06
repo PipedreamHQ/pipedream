@@ -303,6 +303,42 @@ export default {
         ...args,
       });
     },
+    listPastMeetingInstances({
+      meetingId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/past_meetings/${utils.doubleEncode(meetingId)}/instances`,
+        ...args,
+      });
+    },
+    // Summaries/transcripts need a past-instance UUID; unresolved IDs (e.g. webinars) pass through
+    async resolvePastMeetingUuid({
+      step, meetingId,
+    }) {
+      const id = String(meetingId).trim();
+      if (!constants.NUMERIC_MEETING_ID_REGEX.test(id)) {
+        return id;
+      }
+
+      const {
+        status, data,
+      } = await this.listPastMeetingInstances({
+        step,
+        meetingId: id,
+        returnFullResponse: true,
+        validateStatus: utils.isSuccessOrNotFound,
+      });
+      const meetings = (status === 404)
+        ? []
+        : data?.meetings ?? [];
+      const [
+        latest,
+      ] = [
+        ...meetings,
+      ].sort((a, b) => (Date.parse(b.start_time) || 0) - (Date.parse(a.start_time) || 0));
+
+      return latest?.uuid || id;
+    },
     listMeetings(args = {}) {
       return this._makeRequest({
         path: "/users/me/meetings",
