@@ -25,7 +25,7 @@ assert.equal(emitted[0].meta.id,emitted[1].meta.id);
 assert.equal(emitted[0].data.received_at,'2026-09-12T20:02:55.000Z');
 await source.run.call(sourceCtx,{...event,body:{...body,event_id:'22222222-2222-4222-8222-222222222222'}});
 assert.equal(source.dedupe,'unique');
-assert.equal(source.version,'0.0.4');
+assert.equal(source.version,'0.0.5');
 assert.notEqual(emitted[0].meta.id,emitted[2].meta.id);
 assert.deepEqual({...emitted[0].data,event_id:null},{...emitted[2].data,event_id:null});
 assert.deepEqual(Object.keys(emitted[0].data).sort(),['event_id','message','from_phone','business_line','channel_id','thread_id','direction','received_at','media_url'].sort());
