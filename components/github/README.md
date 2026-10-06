@@ -295,10 +295,10 @@ The GitHub triggers in Pipedream enable you to get notified immediately via a we
 
 **Example: New or Updated Issue**
 If you are an admin on the repo, this trigger will be configured as a webhook — so any time there is a new or updated issue in the repo, an event will immediately get emitted.
-<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1710954167/Screenshot_2024-03-20_at_9.58.01_AM_s1yych.png" width=600> 
+<img src="https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2024-03-20_at_9.58.01_AM_s1yych.png" width=600> 
 
 If you do not have `admin` rights on the repo you're watching, you can configure the Pipedream trigger to poll for updates on a regular interval.
-<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1710954167/Screenshot_2024-03-20_at_9.58.39_AM_xu5r2t.png" width=600>
+<img src="https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2024-03-20_at_9.58.39_AM_xu5r2t.png" width=600>
 
 # Example Use Cases
 
