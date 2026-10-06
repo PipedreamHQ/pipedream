@@ -35,6 +35,17 @@ export async function mapWithConcurrency(items, fn, limit = MAX_CONCURRENT_REQUE
   return results;
 }
 
+// `null`/`undefined`/`""`/`[]` is a deliberate "clear this cell" signal (confirmed live:
+// Smartsheet clears a MULTI_PICKLIST/MULTI_CONTACT_LIST cell for a plain `{columnId, value: ""}`,
+// no `objectValue` needed). Distinguishing this from toValueArray's own cleanup collapsing a
+// malformed value (e.g. a delimiter-only string like ",,;") down to empty matters: the former is
+// intent, the latter is almost certainly a typo and should still error instead of silently
+// clearing the cell.
+const isExplicitlyEmpty = (value) => value === null
+  || value === undefined
+  || value === ""
+  || (Array.isArray(value) && value.length === 0);
+
 // A model (or a human) asked for multiple values is just as likely to write a
 // comma/semicolon-separated string as a real JSON array — split on either rather than
 // treating the whole string as a single picklist option or a single (invalid) email.
@@ -56,6 +67,12 @@ const toValueArray = (value) => {
 // exactly as before.
 export function buildCell(columnId, columnType, value, columnName, rowIndex) {
   if (columnType === "MULTI_PICKLIST") {
+    if (isExplicitlyEmpty(value)) {
+      return {
+        columnId,
+        value: "",
+      };
+    }
     const values = toValueArray(value);
     if (!values.length) {
       throw new ConfigurationError(`Row at index ${rowIndex}, column "${columnName}" has no valid values for a MULTI_PICKLIST column.`);
@@ -72,6 +89,12 @@ export function buildCell(columnId, columnType, value, columnName, rowIndex) {
     };
   }
   if (columnType === "MULTI_CONTACT_LIST") {
+    if (isExplicitlyEmpty(value)) {
+      return {
+        columnId,
+        value: "",
+      };
+    }
     const entries = toValueArray(value);
     if (!entries.length) {
       throw new ConfigurationError(`Row at index ${rowIndex}, column "${columnName}" has no valid values for a MULTI_CONTACT_LIST column.`);

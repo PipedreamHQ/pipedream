@@ -42,6 +42,7 @@ export default {
         + " For a MULTI_CONTACT_LIST column, pass an email string, an array of email strings, or"
         + " `{\"email\", \"name\"}` object(s) — same comma/semicolon-separated string option applies —"
         + " e.g. `{\"Subscriber\": [\"a@example.com\", \"b@example.com\"]}`."
+        + " Pass `\"\"` or `[]` for either column type to clear it."
         + " Call **Get Sheet** to find row IDs and column names.",
     },
   },
