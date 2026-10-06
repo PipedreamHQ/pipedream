@@ -57,6 +57,9 @@ const toValueArray = (value) => {
 export function buildCell(columnId, columnType, value, columnName, rowIndex) {
   if (columnType === "MULTI_PICKLIST") {
     const values = toValueArray(value);
+    if (!values.length) {
+      throw new ConfigurationError(`Row at index ${rowIndex}, column "${columnName}" has no valid values for a MULTI_PICKLIST column.`);
+    }
     if (!values.every((v) => typeof v === "string")) {
       throw new ConfigurationError(`Row at index ${rowIndex}, column "${columnName}" must be a string or array of strings for a MULTI_PICKLIST column.`);
     }
@@ -70,6 +73,9 @@ export function buildCell(columnId, columnType, value, columnName, rowIndex) {
   }
   if (columnType === "MULTI_CONTACT_LIST") {
     const entries = toValueArray(value);
+    if (!entries.length) {
+      throw new ConfigurationError(`Row at index ${rowIndex}, column "${columnName}" has no valid values for a MULTI_CONTACT_LIST column.`);
+    }
     const values = entries.map((entry) => {
       if (typeof entry === "string") {
         return {
