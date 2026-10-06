@@ -148,11 +148,26 @@ function tableOptions(table, qualifier, extra = {}) {
   };
 }
 
+// The variables endpoint returns ~19 form-rendering fields per variable; a
+// large record producer then overflows the agent's tool-output budget.
+const DESCRIBED_VARIABLE_FIELDS = [
+  "id",
+  "name",
+  "label",
+  "type",
+  "mandatory",
+  "value",
+  "choices",
+];
+
 function describeVariable(variable, scriptDefaults) {
   const type = Number(variable.type);
-  const described = {
-    ...variable,
-  };
+  const described = {};
+  for (const field of DESCRIBED_VARIABLE_FIELDS) {
+    if (variable[field] !== undefined) {
+      described[field] = variable[field];
+    }
+  }
 
   if (Array.isArray(variable.children)) {
     described.children = variable.children.map((child) =>
@@ -162,7 +177,6 @@ function describeVariable(variable, scriptDefaults) {
   if (REFERENCE_VARIABLE_TYPES.has(type) && variable.reference) {
     described.options = tableOptions(variable.reference, variable.ref_qualifier);
   } else if (type === LIST_COLLECTOR_VARIABLE_TYPE && variable.table) {
-    delete described.columns;
     described.options = tableOptions(variable.table, variable.ref_qualifier, {
       label_field: variable.display_field,
       multiple: true,
@@ -211,9 +225,12 @@ function describeVariable(variable, scriptDefaults) {
  * when values must be looked up with **Get Table Records**. Script qualifiers
  * cannot be evaluated outside the catalog form, and ServiceNow silently ignores
  * them in a Table API query, so they are flagged with `qualifier_unresolved`
- * rather than returned as `query`. List collector `columns` (filter-builder UI
- * metadata) are dropped. Reference variables whose default is a `javascript:`
- * script are returned in `scriptDefaults` for the caller to resolve.
+ * rather than returned as `query`. Only the fields an agent needs to fill the
+ * form are kept (`id`, `name`, `label`, `type`, `mandatory`, `value`,
+ * `choices`, `children`, `options` and the default flags); form-rendering
+ * metadata such as list collector `columns` is dropped. Reference variables
+ * whose default is a `javascript:` script are returned in `scriptDefaults`,
+ * with the referenced table in `options.table`, for the caller to resolve.
  */
 export function describeCatalogVariables(variables) {
   const scriptDefaults = [];

@@ -25,14 +25,15 @@ export default {
   methods: {
     async resolveScriptDefault($, variable, cache) {
       const script = variable.default_script.trim();
+      const { table } = variable.options;
       if (script.includes("^")) {
         return "";
       }
-      const key = `${variable.reference}|${script}`;
+      const key = `${table}|${script}`;
       if (!cache.has(key)) {
         cache.set(key, this.servicenow.getTableRecords({
           $,
-          table: variable.reference,
+          table,
           params: {
             sysparm_query: `sys_id=${script}`,
             sysparm_fields: "sys_id",
@@ -42,7 +43,7 @@ export default {
           ? records[0].sys_id
           : ""))
           .catch((error) => {
-            console.log(`Could not resolve the default for variable ${variable.name} on ${variable.reference}: ${error?.message ?? error}`);
+            console.log(`Could not resolve the default for variable ${variable.name} on ${table}: ${error?.message ?? error}`);
             return "";
           }));
       }
