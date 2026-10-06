@@ -40,8 +40,8 @@ export default {
         + " For a MULTI_PICKLIST column, pass a string or array of strings naming the selected option(s)"
         + " (a comma/semicolon-separated string also works), e.g. `{\"Status Tags\": [\"Urgent\", \"Review\"]}`."
         + " For a MULTI_CONTACT_LIST column, pass an email string, an array of email strings, or"
-        + " `{\"email\", \"name\"}` object(s) — same comma/semicolon-separated string option applies —"
-        + " e.g. `{\"Subscriber\": [\"a@example.com\", \"b@example.com\"]}`."
+        + " `{\"email\": \"...\", \"name\": \"...\"}` object(s) — same comma/semicolon-separated string option applies —"
+        + " e.g. `{\"Subscriber\": [{\"email\": \"a@example.com\", \"name\": \"A Example\"}, \"b@example.com\"]}`."
         + " Pass `\"\"` or `[]` for either column type to clear it."
         + " Call **Get Sheet** to find row IDs and column names.",
     },
