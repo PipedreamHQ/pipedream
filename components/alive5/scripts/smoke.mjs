@@ -1,3 +1,4 @@
+// checks the connector without sending real messages.
 import assert from 'node:assert/strict';
 import http from 'node:http';
 import app from '../alive5.app.mjs';
@@ -9,7 +10,7 @@ await assert.rejects(api._request({adapter:adapter({data:{}})}),/rejected/);
 await assert.rejects(api._request({adapter:adapter({code:200,data:{error:{message:'failed'}}})}),/rejected/);
 assert.deepEqual(await api._request({adapter:adapter({code:200,error:{},data:{Items:[]}})}),{Items:[]});
 await assert.rejects(send.run.call({smsLine:'channel|+14155550100',to:'+14155550123',message:'  '},{$:{export(){}}}),/text/);
-let subscription={id:'owned-test-hook',phoneNumber:'+14155550100',deliveryToken:'test-delivery-token'};
+let subscription={id:'a'.repeat(64),phoneNumber:'+14155550100',deliveryToken:'b'.repeat(64)};
 const ctx={db:{get:()=>subscription,set:(_,v)=>{subscription=v}},alive5:{async deleteSubscription(){throw Error('temporary failure')}}};
 ctx._getSubscription=source.methods._getSubscription;
 ctx._setSubscription=source.methods._setSubscription;
@@ -24,10 +25,10 @@ assert.equal(emitted[0].meta.id,emitted[1].meta.id);
 assert.equal(emitted[0].data.received_at,'2026-09-12T20:02:55.000Z');
 await source.run.call(sourceCtx,{...event,body:{...body,event_id:'22222222-2222-4222-8222-222222222222'}});
 assert.equal(source.dedupe,'unique');
-assert.equal(source.version,'0.0.2');
+assert.equal(source.version,'0.0.4');
 assert.notEqual(emitted[0].meta.id,emitted[2].meta.id);
-assert.deepEqual(emitted[0].data,emitted[2].data);
-assert.deepEqual(Object.keys(emitted[0].data).sort(),['message','from_phone','business_line','channel_id','thread_id','direction','received_at','media_url'].sort());
+assert.deepEqual({...emitted[0].data,event_id:null},{...emitted[2].data,event_id:null});
+assert.deepEqual(Object.keys(emitted[0].data).sort(),['event_id','message','from_phone','business_line','channel_id','thread_id','direction','received_at','media_url'].sort());
 for(const headers of [{},{'x-alive5-relay-token':'wrong'},{'x-alive5-relay-token':'x'.repeat(subscription.deliveryToken.length)},{'x-alive5-relay-token':'é'.repeat(subscription.deliveryToken.length)},{'x-alive5-relay-token':[subscription.deliveryToken]}]){
   await source.run.call(sourceCtx,{...event,headers});
   assert.equal(responses.at(-1).status,401);
@@ -48,7 +49,7 @@ const relayApi={...api,async _request(options){
 }};
 assert.deepEqual(await relayApi.createSubscription({phoneNumber:subscription.phoneNumber,url:'https://example.com/private-capability'}),subscription);
 assert.deepEqual(await relayApi.deleteSubscription({id:'owned/test-hook'}),{ok:true});
-assert.equal(relayCalls[0].baseURL,'https://alive5-connectors-relay.raghav-ojha-14122.workers.dev');
+assert.equal(relayCalls[0].baseURL,'https://wmbb2krgd4yqmghwsxd3yamzey0ocqsz.lambda-url.us-east-1.on.aws/v1');
 assert.deepEqual(JSON.parse(relayCalls[0].data),{target:'https://example.com/private-capability',phoneNumber:subscription.phoneNumber});
 assert.equal(relayCalls[1].url,'/subscriptions/owned%2Ftest-hook');
 assert.equal(relayCalls[0].headers['X-A5-APIKEY'],'test-key');

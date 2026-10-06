@@ -99,6 +99,11 @@ export default {
     },
   },
   methods: {
+    /**
+     * Call Alive5 or its relay without following redirects or exposing raw errors.
+     * @param {object} [options={}] - Request options; relay selects subscription management.
+     * @returns {Promise<*>} The Alive5 data envelope or relay response.
+     */
     async _request({
       $, relay = false, ...options
     } = {}) {
@@ -140,6 +145,11 @@ export default {
       }
       return response.data;
     },
+    /**
+     * List accessible channels and their users; this endpoint is not paginated.
+     * @param {object} [opts={}] - Request options, including the Pipedream execution context.
+     * @returns {Promise<object[]>} Channels and their assigned users.
+     */
     async listChannels(opts = {}) {
       const data = await this._request({
         ...opts,
@@ -147,6 +157,11 @@ export default {
       });
       return data?.Items || [];
     },
+    /**
+     * Submit one SMS and return the allowlisted message fields.
+     * @param {object} [opts={}] - Request options containing the SMS data and execution context.
+     * @returns {Promise<object>} The accepted message; carrier delivery is not guaranteed.
+     */
     async sendSms(opts = {}) {
       const result = await this._request({
         ...opts,
@@ -168,6 +183,13 @@ export default {
         message[key],
       ]));
     },
+    /**
+     * Register the selected number with the relay and validate the returned capability.
+     * @param {object} options - Subscription settings.
+     * @param {string} options.phoneNumber - Selected business number in E.164 format.
+     * @param {string} options.url - Pipedream receiving URL.
+     * @returns {Promise<object>} Subscription ID, business number, and private delivery token.
+     */
     async createSubscription({
       phoneNumber, url,
     }) {
@@ -191,6 +213,12 @@ export default {
         deliveryToken: result.deliveryToken,
       };
     },
+    /**
+     * Remove an owned subscription, requiring explicit cleanup confirmation.
+     * @param {object} options - Subscription settings.
+     * @param {string} options.id - Relay subscription ID.
+     * @returns {Promise<object>} Confirmation with ok set to true.
+     */
     async deleteSubscription({ id }) {
       if (typeof id !== "string" || !id) throw new Error("An Alive5 relay subscription ID is required for cleanup.");
       const result = await this._request({

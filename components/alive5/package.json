@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/alive5",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream components for the Alive5 SMS API",
   "main": "alive5.app.mjs",
   "keywords": [
@@ -12,5 +12,8 @@
   "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^3.0.0"
+  },
+  "scripts": {
+    "test": "node scripts/smoke.mjs"
   }
 }

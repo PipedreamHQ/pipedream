@@ -5,7 +5,7 @@ export default {
   key: "alive5-send-sms",
   name: "Send SMS",
   description: "Send a text message from an Alive5 SMS number. [See the documentation](https://www.alive5.com/api)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

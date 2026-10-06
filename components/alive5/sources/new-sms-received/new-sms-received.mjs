@@ -5,10 +5,15 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "alive5-new-sms-received",
-  name: "New SMS Received",
+  name: "New SMS Received (Instant)",
   description: "Emit new events when a text arrives on an Alive5 SMS number. [See the documentation](https://www.alive5.com/api)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   dedupe: "unique",
   props: {
     alive5,
