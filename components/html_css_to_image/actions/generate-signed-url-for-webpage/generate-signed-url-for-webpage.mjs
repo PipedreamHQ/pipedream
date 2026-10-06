@@ -7,7 +7,7 @@ export default {
   key: "html_css_to_image-generate-signed-url-for-webpage",
   name: "Generate Signed URL for Webpage",
   description: "Generate a signed URL locally for a webpage screenshot. Returns only the URL. This action does not create or render an image, make an API request, or consume image credits. The image is generated when the URL is first requested. Use **Create Image From URL** for a create-then-fetch workflow. [See the documentation](https://docs.htmlcsstoimage.com/getting-started/create-and-render/)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   ai: "optimized",
   annotations: {

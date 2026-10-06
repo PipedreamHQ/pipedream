@@ -10,7 +10,7 @@ export default {
   key: "html_css_to_image-create-image-from-template",
   name: "Create Image From Template",
   description: "Render a saved template with dynamic values and return its image or PDF URL and metadata. Use **List Templates** to find a template ID and latest version. Omit Template Version to use the latest version. [See the documentation](https://docs.htmlcsstoimage.com/getting-started/templates/#creating-an-image-with-a-template)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   ai: "optimized",
   annotations: {
