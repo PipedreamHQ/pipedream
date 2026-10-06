@@ -310,7 +310,7 @@ export default {
     subscription: {
       type: "string",
       label: "Subscription",
-      description: "External requires a Subscription Cal URL.",
+      description: "Subscription mode of the group, e.g. `children`. `external` requires a Subscription Cal URL.",
       options: [
         "no",
         "children",
@@ -321,7 +321,7 @@ export default {
     publicEventOverview: {
       type: "boolean",
       label: "Public Event Overview",
-      description: "Show this group as a public list of its events. Children subscriptions always enable it.",
+      description: "Show this group as a public list of its events, e.g. `true`. Children subscriptions always enable it.",
       optional: true,
     },
     rsvpTemplateName: {

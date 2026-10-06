@@ -6,6 +6,7 @@ export default {
   name: "Create Event Group",
   description: "Create an event group. [See the documentation](https://docs.add-to-calendar-pro.com/api/groups#add-a-group)",
   version: "0.0.4",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
