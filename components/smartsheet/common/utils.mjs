@@ -113,7 +113,7 @@ export function buildCell(columnId, columnType, value, columnName, rowIndex) {
         if (!entry.email.trim()) {
           throw new ConfigurationError(`Row at index ${rowIndex}, column "${columnName}" has a blank email for a MULTI_CONTACT_LIST column.`);
         }
-        if (entry.name && typeof entry.name !== "string") {
+        if (entry.name !== undefined && typeof entry.name !== "string") {
           throw new ConfigurationError(`Row at index ${rowIndex}, column "${columnName}" has a non-string contact name for a MULTI_CONTACT_LIST column.`);
         }
         return {
