@@ -1,8 +1,9 @@
-import acedatacloud, {
+import acedatacloud from "../../acedatacloud.app.mjs";
+import {
   apiError,
   normalizeImageInput,
   validateImageRequest,
-} from "../../acedatacloud.app.mjs";
+} from "../../common/utils.mjs";
 
 export default {
   key: "acedatacloud-edit-image",
@@ -33,7 +34,7 @@ export default {
     image: {
       type: "string",
       label: "Image URL",
-      description: "A publicly accessible HTTP or HTTPS URL for the image to edit.",
+      description: "A publicly accessible HTTP or HTTPS URL for the image to edit. E.g. `https://example.com/cube.png`.",
     },
     size: {
       propDefinition: [

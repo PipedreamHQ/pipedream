@@ -1,6 +1,5 @@
-import acedatacloud, {
-  apiError, taskState,
-} from "../../acedatacloud.app.mjs";
+import acedatacloud from "../../acedatacloud.app.mjs";
+import { apiError, taskState } from "../../common/utils.mjs";
 
 export default {
   key: "acedatacloud-get-image-task",
@@ -11,7 +10,7 @@ export default {
   ai: "optimized",
   annotations: {
     destructiveHint: false,
-    openWorldHint: false,
+    openWorldHint: true,
     readOnlyHint: true,
   },
   props: {
@@ -19,7 +18,7 @@ export default {
     taskId: {
       type: "string",
       label: "Task ID",
-      description: "The task ID from Generate Image or Edit Image. Reusing it does not submit another generation job.",
+      description: "The `task_id` returned by **Generate Image** or **Edit Image**, e.g. `image-task-1`. Reusing it does not submit another generation job.",
     },
   },
   async run({ $ }) {
