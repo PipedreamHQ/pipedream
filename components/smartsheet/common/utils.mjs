@@ -78,12 +78,18 @@ export function buildCell(columnId, columnType, value, columnName, rowIndex) {
     }
     const values = entries.map((entry) => {
       if (typeof entry === "string") {
+        if (!entry.trim()) {
+          throw new ConfigurationError(`Row at index ${rowIndex}, column "${columnName}" has a blank email for a MULTI_CONTACT_LIST column.`);
+        }
         return {
           objectType: "CONTACT",
           email: entry,
         };
       }
       if (entry && typeof entry === "object" && typeof entry.email === "string") {
+        if (!entry.email.trim()) {
+          throw new ConfigurationError(`Row at index ${rowIndex}, column "${columnName}" has a blank email for a MULTI_CONTACT_LIST column.`);
+        }
         return {
           objectType: "CONTACT",
           email: entry.email,
