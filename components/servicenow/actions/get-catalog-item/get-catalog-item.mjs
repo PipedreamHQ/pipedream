@@ -1,4 +1,3 @@
-import { ConfigurationError } from "@pipedream/platform";
 import servicenow from "../../servicenow.app.mjs";
 
 export default {
@@ -38,7 +37,9 @@ export default {
       });
     } catch (error) {
       if (error?.response?.status === 500) {
-        throw new ConfigurationError(`ServiceNow could not load the details of catalog item \`${this.catalogItemSysId}\` (HTTP 500). This happens for some record producers; run **Get Catalog Item Variables** to get its form fields.`);
+        throw new Error(`ServiceNow could not load the details of catalog item \`${this.catalogItemSysId}\` (HTTP 500). This happens for some record producers; run **Get Catalog Item Variables** to get its form fields.`, {
+          cause: error,
+        });
       }
       throw error;
     }

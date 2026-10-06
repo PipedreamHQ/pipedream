@@ -112,8 +112,8 @@ function splitNames(value) {
 function scriptDependencies(script) {
   return [
     ...new Set([
-      ...String(script).matchAll(/current\.variables\.(\w+)/g),
-    ].map((match) => match[1])),
+      ...String(script).matchAll(/current\.variables(?:\.(\w+)|\[\s*['"](\w+)['"]\s*\])/g),
+    ].map((match) => match[1] ?? match[2])),
   ];
 }
 
@@ -124,7 +124,10 @@ function tableOptions(table, qualifier, extra = {}) {
     value_field: "sys_id",
     ...extra,
   };
-  const trimmed = String(qualifier ?? "").trim();
+  const raw = String(qualifier ?? "").trim();
+  const trimmed = isScriptValue(raw)
+    ? raw
+    : raw.replace(/\^?EQ$/, "");
   if (!trimmed) {
     return options;
   }

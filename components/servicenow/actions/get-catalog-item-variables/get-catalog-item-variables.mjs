@@ -41,7 +41,10 @@ export default {
         }).then((records) => (Array.isArray(records) && records.length === 1
           ? records[0].sys_id
           : ""))
-          .catch(() => ""));
+          .catch((error) => {
+            console.log(`Could not resolve the default for variable ${variable.name} on ${variable.reference}: ${error?.message ?? error}`);
+            return "";
+          }));
       }
       return cache.get(key);
     },
