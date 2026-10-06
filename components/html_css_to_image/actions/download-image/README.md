@@ -23,7 +23,7 @@ Downloading a signed URL requests rendering and may use image credits. Generatin
 
 # Troubleshooting
 
-Use a complete `https://hcti.io/` or `http://hcti.io/` URL. This action accepts only the exact hostname `hcti.io` on its default port, including for redirects. Custom storage URLs and other hosts are not supported. Pass signed URLs unchanged so their signatures remain valid.
+Use a complete `https://hcti.io/` URL. This action requires HTTPS and the exact hostname `hcti.io` on its default HTTPS port, including for redirects. Custom storage URLs and other hosts are not supported. Pass signed URLs unchanged so their signatures remain valid.
 
 This action downloads the format served by the URL. Choose **Format** in the earlier creation or signing step to get a PNG, JPG, WebP, or PDF. Naming a PNG file `invoice.pdf` does not convert it to a PDF.
 

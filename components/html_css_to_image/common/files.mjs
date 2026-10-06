@@ -14,16 +14,13 @@ export const validateDownloadInput = (imageUrl, fileName) => {
   try {
     url = new URL(imageUrl);
   } catch {
-    throw new ConfigurationError("Image URL must be a complete HTTP or HTTPS URL.");
+    throw new ConfigurationError("Image URL must be a complete HTTPS URL.");
   }
-  if (![
-    "http:",
-    "https:",
-  ].includes(url.protocol) || url.username || url.password) {
-    throw new ConfigurationError("Image URL must use HTTP or HTTPS and must not contain username/password credentials.");
+  if (url.protocol !== "https:" || url.username || url.password) {
+    throw new ConfigurationError("Image URL must use HTTPS and must not contain username/password credentials.");
   }
   if (url.hostname !== "hcti.io" || url.port) {
-    throw new ConfigurationError("Image URL must use the exact hostname hcti.io on its default HTTP or HTTPS port.");
+    throw new ConfigurationError("Image URL must use the exact hostname hcti.io on its default HTTPS port.");
   }
   if (fileName !== undefined && (typeof fileName !== "string" || !fileName.trim()
     || fileName === "." || fileName === ".." || /[/\\\0]/.test(fileName))) {

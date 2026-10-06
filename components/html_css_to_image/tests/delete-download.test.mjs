@@ -238,7 +238,7 @@ nodeTest("download infers file extensions for image and PDF responses", async (c
   }
 });
 
-nodeTest("download rejects unsafe filenames and non-HTTP URLs before requesting a render", async (context) => {
+nodeTest("download rejects unsafe filenames, HTTP URLs, and disallowed hosts before requesting a render", async (context) => {
   const harness = makeHarness(context);
   for (const fileName of [
     "../image.png",
@@ -256,6 +256,7 @@ nodeTest("download rejects unsafe filenames and non-HTTP URLs before requesting 
   }
   for (const imageUrl of [
     "bad",
+    "http://hcti.io/v1/image/image-id",
     "file:///tmp/image.png",
     "ftp://example.com/image.png",
     "https://user:password@example.com/image.png",
@@ -282,6 +283,11 @@ nodeTest("download redirect guard allows hcti.io and rejects other destinations"
   });
   const { beforeRedirect } = harness.requests[0];
   assert.equal(typeof beforeRedirect, "function");
+  assert.throws(() => beforeRedirect({
+    protocol: "http:",
+    hostname: "hcti.io",
+    port: "80",
+  }), ConfigurationError);
   assert.doesNotThrow(() => beforeRedirect({
     protocol: "https:",
     hostname: "hcti.io",
