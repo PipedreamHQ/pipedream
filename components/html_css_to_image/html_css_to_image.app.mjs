@@ -60,10 +60,17 @@ export default {
         },
       });
     },
-    async createImageFromTemplate(ctx = this, data) {
+    async createImageFromTemplate(ctx = this, {
+      template_id: templateId,
+      template_version: templateVersion,
+      ...data
+    }) {
+      const versionPath = templateVersion == null
+        ? ""
+        : `/${encodeURIComponent(templateVersion)}`;
       return this._makeRequest(ctx, {
         method: "POST",
-        path: "/image",
+        path: `/image/${encodeURIComponent(templateId)}${versionPath}`,
         data,
       });
     },

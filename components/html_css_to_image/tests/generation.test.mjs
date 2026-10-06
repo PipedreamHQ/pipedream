@@ -117,6 +117,7 @@ nodeTest("every generated input reaches its action and required inputs precede o
     for (const parameter of parameters) {
       const definition = propDefinitions[parameter];
       assert.ok(definition.description);
+      if (definition.secret !== undefined) assert.equal(definition.type, "string", `${parameter}: secret is only supported on string props`);
       if (definition.optional) optionalSeen = true;
       else assert.equal(optionalSeen, false, `${parameter} must precede optional inputs`);
     }
@@ -125,4 +126,6 @@ nodeTest("every generated input reaches its action and required inputs precede o
   assert.ok(!propDefinitions.url.optional);
   assert.ok(!propDefinitions.templateId.optional);
   assert.ok(!propDefinitions.templateValues.optional);
+  assert.equal(propDefinitions.headers.type, "object");
+  assert.equal(propDefinitions.headers.secret, undefined);
 });

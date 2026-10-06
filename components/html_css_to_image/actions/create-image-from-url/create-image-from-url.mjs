@@ -7,7 +7,7 @@ export default {
   key: "html_css_to_image-create-image-from-url",
   name: "Create Image From URL",
   description: "Capture a webpage as an image or PDF and return its URL and metadata. Supports full-page screenshots, injected CSS, and custom webpage headers. [See the documentation](https://docs.htmlcsstoimage.com/getting-started/using-the-api/#creating-an-image)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

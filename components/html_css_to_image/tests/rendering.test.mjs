@@ -337,14 +337,12 @@ nodeTest("template creation preserves nested typed values and optional pinned ve
       templateVersion,
       format: "pdf",
     });
+    assert.equal(harness.requests[0].method, "post");
+    assert.equal(harness.requests[0].url, templateVersion === undefined
+      ? "https://hcti.io/v1/image/t-template"
+      : `https://hcti.io/v1/image/t-template/${templateVersion}`);
     assert.deepEqual(harness.requests[0].data, {
-      template_id: "t-template",
       template_values: values,
-      ...(templateVersion === undefined
-        ? {}
-        : {
-          template_version: templateVersion,
-        }),
       format: "pdf",
     });
   }
@@ -356,8 +354,8 @@ nodeTest("empty template object is accepted and invalid template values fail bef
     templateId: "t-template",
     templateValues: {},
   });
+  assert.equal(harness.requests[0].url, "https://hcti.io/v1/image/t-template");
   assert.deepEqual(harness.requests[0].data, {
-    template_id: "t-template",
     template_values: {},
   });
   for (const templateValues of [

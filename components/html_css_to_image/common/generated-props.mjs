@@ -184,7 +184,6 @@ export const propDefinitions = {
     label: "Webpage Headers",
     description: "Custom HTTP headers for top-level requests to the requested URL's origin and any additional_header_origins. These authenticate the webpage, not the HTML/CSS to Image API. Example: `{\"Authorization\": \"Bearer token\"}`.",
     optional: true,
-    secret: true,
   },
   additionalHeaderOrigins: {
     type: "string[]",

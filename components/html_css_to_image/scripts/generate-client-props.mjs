@@ -77,7 +77,7 @@ const HINTS = {
   dedupe_duration_s: { example: "3600", label: "Deduplication Duration (Seconds)", min: 0 },
   timezone: { example: "America/New_York" },
   google_fonts: { example: '["Roboto", "Open Sans"]' },
-  headers: { example: '{"Authorization": "Bearer token"}', label: "Webpage Headers", type: "object", secret: true, guidance: "These authenticate the webpage, not the HTML/CSS to Image API." },
+  headers: { example: '{"Authorization": "Bearer token"}', label: "Webpage Headers", type: "object", guidance: "These authenticate the webpage, not the HTML/CSS to Image API." },
   additional_header_origins: { example: '["https://api.example.com"]' },
   proxy_id: { example: "your-proxy-id", guidance: "Find the ID in the Proxies section of the HTML/CSS to Image dashboard." },
   storage_destination_id: { example: "your-storage-destination-id", guidance: "Find the ID in the Storage Destinations section of the HTML/CSS to Image dashboard." },
@@ -113,7 +113,6 @@ const toProp = (property, prefix = "") => {
     ...(property.optional ? { optional: true } : {}),
     ...(options ? { options } : {}),
     ...(hint.min !== undefined ? { min: hint.min } : {}),
-    ...(hint.secret ? { secret: true } : {}),
   };
 };
 
