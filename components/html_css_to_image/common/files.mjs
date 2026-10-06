@@ -22,6 +22,9 @@ export const validateDownloadInput = (imageUrl, fileName) => {
   ].includes(url.protocol) || url.username || url.password) {
     throw new ConfigurationError("Image URL must use HTTP or HTTPS and must not contain username/password credentials.");
   }
+  if (url.hostname !== "hcti.io" || url.port) {
+    throw new ConfigurationError("Image URL must use the exact hostname hcti.io on its default HTTP or HTTPS port.");
+  }
   if (fileName !== undefined && (typeof fileName !== "string" || !fileName.trim()
     || fileName === "." || fileName === ".." || /[/\\\0]/.test(fileName))) {
     throw new ConfigurationError("File Name must be a filename without directory paths, e.g. image.png.");

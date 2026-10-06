@@ -31,6 +31,7 @@ const makeHarness = (context, {
       url: AXIOS.getUri(config),
       headers: config.headers.toJSON(),
       responseType: config.responseType,
+      beforeRedirect: config.beforeRedirect,
     });
     if (failRequest) throw failRequest;
     const data = config.responseType === "stream"
@@ -153,7 +154,7 @@ nodeTest("download streams exact bytes, returns file metadata, and does not send
     contentType: "application/pdf; charset=binary",
   });
   const result = await harness.run(downloadAction, {
-    imageUrl: "https://cdn.example.com/invoice.pdf",
+    imageUrl: "https://hcti.io/v1/image/invoice.pdf",
     fileName: "invoice.pdf",
   });
   assert.deepEqual(await fs.promises.readFile(result.filePath), body);
@@ -258,12 +259,55 @@ nodeTest("download rejects unsafe filenames and non-HTTP URLs before requesting 
     "file:///tmp/image.png",
     "ftp://example.com/image.png",
     "https://user:password@example.com/image.png",
+    "https://hcti.io.example.com/image.png",
+    "https://hcti.io@evil.example/image.png",
+    "https://evil.example/hcti.io/image.png",
+    "https://cdn.hcti.io/image.png",
+    "http://127.0.0.1/image.png",
+    "http://169.254.169.254/latest/meta-data/",
+    "https://hcti.io:8443/image.png",
+    "https://user:password@hcti.io/image.png",
   ]) {
     await assert.rejects(harness.run(downloadAction, {
       imageUrl,
     }), ConfigurationError);
   }
   assert.deepEqual(harness.requests, []);
+});
+
+nodeTest("download redirect guard allows hcti.io and rejects other destinations", async (context) => {
+  const harness = makeHarness(context);
+  await harness.run(downloadAction, {
+    imageUrl: "https://hcti.io/v1/image/image-id",
+  });
+  const { beforeRedirect } = harness.requests[0];
+  assert.equal(typeof beforeRedirect, "function");
+  assert.doesNotThrow(() => beforeRedirect({
+    protocol: "https:",
+    hostname: "hcti.io",
+    port: "443",
+  }));
+  for (const hostname of [
+    "evil.example",
+    "hcti.io.example.com",
+    "127.0.0.1",
+    "169.254.169.254",
+  ]) {
+    assert.throws(() => beforeRedirect({
+      protocol: "https:",
+      hostname,
+    }), ConfigurationError);
+  }
+  assert.throws(() => beforeRedirect({
+    protocol: "https:",
+    hostname: "hcti.io",
+    port: "8443",
+  }), ConfigurationError);
+  assert.throws(() => beforeRedirect({
+    protocol: "https:",
+    hostname: "hcti.io",
+    auth: "user:password",
+  }), ConfigurationError);
 });
 
 nodeTest("downloads with the same filename use separate directories", async (context) => {

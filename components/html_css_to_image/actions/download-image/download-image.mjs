@@ -25,7 +25,7 @@ export default {
       type: "string",
       label: "Image URL",
       format: "file-ref",
-      description: "Complete image or PDF URL, e.g. `https://hcti.io/v1/image/c7db3b3c-59b3-4c13-987b-4ea8217899cf.png`. Use the `url` returned by **Create Image From HTML**, **Create Image From URL**, **Create Image From Template**, **Generate Signed URL for Template**, or **Generate Signed URL for Webpage**. Downloading a signed URL triggers rendering; pass it unchanged.",
+      description: "Complete image or PDF URL hosted on `hcti.io`, e.g. `https://hcti.io/v1/image/c7db3b3c-59b3-4c13-987b-4ea8217899cf.png`. Use the `url` returned by **Create Image From HTML**, **Create Image From URL**, **Create Image From Template**, **Generate Signed URL for Template**, or **Generate Signed URL for Webpage**. Downloading a signed URL triggers rendering; pass it unchanged. Other hosts, custom ports, and redirects to other hosts are rejected.",
     },
     fileName: {
       type: "string",

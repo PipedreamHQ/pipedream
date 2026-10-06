@@ -33,6 +33,8 @@ The webpage signing action offers only controls supported by the pinned signing 
 
 Pass a creation or signing action's `url` to **Download Image**. The action preserves signed query strings exactly, including repeated parameters. Requesting a signed URL triggers rendering and may consume image credits. Downloads use the URL's own authorization and do not send your connected account's API credentials to the destination.
 
+Downloads are restricted to the exact hostname `hcti.io` on its default HTTP or HTTPS port. Redirects must stay on that host too. Custom storage URLs and other hosts are not supported.
+
 The output contains `filePath`, `fileName`, `contentType`, and `size` in bytes. Use `filePath` in a later upload or attachment action. Files are saved in separate directories under `/tmp` so repeated filenames do not overwrite one another. An optional File Name can be supplied, such as `invoice.pdf`; otherwise the action generates a unique filename with an extension inferred from the response or URL. Failed downloads remove partial files.
 
 Pass a creation action's `id` to **Delete Image**. Deletion requires an image ID, not a URL; generating a signed URL alone does not provide an image ID. When the API accepts deletion, the action returns `{ "success": true, "id": "..." }`. Deletion removes the image and cached copies permanently.

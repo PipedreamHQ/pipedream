@@ -1,6 +1,7 @@
 import { axios } from "@pipedream/platform";
 import { HtmlCssToImageClient } from "@html-css-to-image/client";
 import { propDefinitions } from "./common/generated-props.mjs";
+import { validateDownloadInput } from "./common/files.mjs";
 
 export default {
   type: "app",
@@ -139,6 +140,7 @@ export default {
      * @returns {Promise<object>} Full HTTP response with a readable data stream.
      */
     async downloadImage(ctx = this, imageUrl, opts = {}) {
+      validateDownloadInput(imageUrl);
       const url = new URL(imageUrl);
       return axios(ctx, {
         ...opts,
@@ -149,6 +151,15 @@ export default {
         // Preserve the exact encoded query, including repeated header entries,
         // so the HMAC of a signed URL remains valid on the wire.
         paramsSerializer: () => url.search.slice(1),
+        beforeRedirect: (options) => {
+          const port = options.port
+            ? `:${options.port}`
+            : "";
+          const credentials = options.auth
+            ? `${options.auth}@`
+            : "";
+          validateDownloadInput(`${options.protocol}//${credentials}${options.hostname}${port}/`);
+        },
         responseType: "stream",
         returnFullResponse: true,
       });
