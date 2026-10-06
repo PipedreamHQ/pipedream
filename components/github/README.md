@@ -163,24 +163,24 @@ Most integrations require custom logic. Code is often the best way to express th
   <tr>
     <td>
       <a href="https://pipedream.com/docs/code/nodejs/">
-        <img alt="Node.js" src="https://res.cloudinary.com/pipedreamin/image/upload/v1646761316/docs/icons/icons8-nodejs_aax6wn.svg" width="100">
+        <img alt="Node.js" src="../../images/languages/nodejs.svg" width="100">
       </a>
     </td>
     <td>
       <a href="https://pipedream.com/docs/code/python/">
-        <img alt="Python" src="https://res.cloudinary.com/pipedreamin/image/upload/v1647356607/docs/icons/python-logo-generic_k3o5w2.svg" width="100">
+        <img alt="Python" src="../../images/languages/python.svg" width="100">
       </a>
     </td>
   </tr>
   </tr>
     <td>
       <a href="https://pipedream.com/docs/code/go/">
-        <img alt="Go" src="https://res.cloudinary.com/pipedreamin/image/upload/v1646763751/docs/icons/Go-Logo_Blue_zhkchv.svg" width="100">
+        <img alt="Go" src="../../images/languages/go.svg" width="100">
       </a>
     </td>
     <td>
       <a href="https://pipedream.com/docs/code/bash/">
-        <img alt="Bash" src="https://res.cloudinary.com/pipedreamin/image/upload/v1647356698/docs/icons/full_colored_dark_1_-svg_vyfnv7.svg" width="100">
+        <img alt="Bash" src="../../images/languages/bash.svg" width="100">
       </a>
     </td>
   </tr>
@@ -295,10 +295,10 @@ The GitHub triggers in Pipedream enable you to get notified immediately via a we
 
 **Example: New or Updated Issue**
 If you are an admin on the repo, this trigger will be configured as a webhook — so any time there is a new or updated issue in the repo, an event will immediately get emitted.
-<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1710954167/Screenshot_2024-03-20_at_9.58.01_AM_s1yych.png" width=600> 
+<img src="https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2024-03-20_at_9.58.01_AM_s1yych.png" width=600> 
 
 If you do not have `admin` rights on the repo you're watching, you can configure the Pipedream trigger to poll for updates on a regular interval.
-<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1710954167/Screenshot_2024-03-20_at_9.58.39_AM_xu5r2t.png" width=600>
+<img src="https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2024-03-20_at_9.58.39_AM_xu5r2t.png" width=600>
 
 # Example Use Cases
 
