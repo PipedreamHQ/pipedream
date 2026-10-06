@@ -15,13 +15,11 @@ The output contains only `url`. The image is generated when this signed URL is f
 
 Your API Key is not included in the URL. Anyone with the signed URL can request the screenshot it authorizes. If you set **Webpage Headers**, their values are included in the URL too.
 
-Sharing a signed URL with authentication headers also shares the webpage credentials. Recipients can read and reuse them outside HTML/CSS to Image. Use **Create Image From URL** when those credentials must remain private, then share the returned image URL.
-
 # Troubleshooting
 
 Pass the signed URL unchanged. Changing its query parameters or their encoding invalidates the signature.
 
-The webpage must be accessible to HTML/CSS to Image. For pages that require authentication, use **Webpage Headers** with the credentials expected by that website.
+The webpage must be accessible to HTML/CSS to Image.
 
 Use **Create Image From URL** if you need an image ID, want to create the image during this workflow step, or need custom PDF page size, margins, or scale.
 

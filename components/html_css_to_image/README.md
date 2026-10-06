@@ -49,7 +49,7 @@ For signed URLs, choose **Format** when generating the URL. To request another f
 
 For a PDF invoice, set Format to `pdf`, PDF Page Width to `8.5in`, PDF Page Height to `11in`, and PDF Margins to `["0.5in", "0.5in", "0.5in", "0.5in"]`. Margins are ordered top, right, bottom, left. Dimensions accept `px`, `in`, `cm`, and `mm`. PDF Scale accepts fractional values from `0.1` to `2`.
 
-Google Fonts accepts an array of family names, such as `["Roboto", "Open Sans"]`. Webpage Headers accepts an object such as `{"Authorization": "Bearer token"}`. These headers are sent to the webpage origin; HTML/CSS to Image API credentials come from the connected account. Additional Header Origins explicitly allows other origins to receive the webpage headers.
+Google Fonts accepts an array of family names, such as `["Roboto", "Open Sans"]`. Webpage Headers accepts an object such as `{"Accept-Language": "en-US"}`. These headers are sent to the webpage origin; HTML/CSS to Image API credentials come from the connected account. Additional Header Origins explicitly allows other origins to receive the webpage headers.
 
 See the [API reference](https://docs.htmlcsstoimage.com/getting-started/using-the-api/), [PDF options](https://docs.htmlcsstoimage.com/parameters/pdf_options/), and [template documentation](https://docs.htmlcsstoimage.com/getting-started/templates/).
 

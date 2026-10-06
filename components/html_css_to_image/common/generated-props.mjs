@@ -182,7 +182,7 @@ export const propDefinitions = {
   headers: {
     type: "object",
     label: "Webpage Headers",
-    description: "Custom HTTP headers for top-level requests to the requested URL's origin and any additional_header_origins. These authenticate the webpage, not the HTML/CSS to Image API. Example: `{\"Authorization\": \"Bearer token\"}`.",
+    description: "Custom HTTP headers for top-level requests to the requested URL's origin and any additional_header_origins. These are sent to the webpage, not the HTML/CSS to Image API. Example: `{\"Accept-Language\": \"en-US\"}`.",
     optional: true,
   },
   additionalHeaderOrigins: {
