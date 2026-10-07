@@ -11,11 +11,11 @@ export default {
     + " Requires the message timestamp (`ts`) from **Get Channel History** or **Post Message**."
     + " You can only edit messages posted by the same token/user."
     + " [See the documentation](https://api.slack.com/methods/chat.update)",
-  version: "0.0.13",
+  version: "0.0.14",
   type: "action",
   ai: "optimized",
   annotations: {
-    destructiveHint: false,
+    destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
