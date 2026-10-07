@@ -20,10 +20,17 @@ export default {
       description: "Yahoo game key, e.g. `nfl` for NFL football",
       default: "nfl",
     },
+    season: {
+      type: "string",
+      label: "Season",
+      description: "Season game key, e.g. `414` for the 2023 NFL season. Each Yahoo season is a separate game; leave blank for the current season",
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const leagues = await this.yfs.getLeagues(this.gameKey, $);
-    $.export("$summary", `Retrieved ${leagues.length} leagues for game ${this.gameKey}`);
+    const leagues = await this.yfs.getLeagues(this.gameKey, this.season, $);
+    const seasonLabel = this.season || this.gameKey;
+    $.export("$summary", `Retrieved ${leagues.length} leagues for ${seasonLabel}`);
     return leagues;
   },
 };
