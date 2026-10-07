@@ -14,7 +14,7 @@ export default {
   key: "google_drive-changes-to-files-in-drive",
   name: "Changes to Files in Drive",
   description: "Emit new event when a change is made to one of the specified files. [See the documentation](https://developers.google.com/drive/api/v3/reference/changes/watch)",
-  version: "0.0.17",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   props: {
@@ -69,6 +69,7 @@ export default {
       const { files } = await this.googleDrive.listFilesInPage(null, args);
 
       await this.processChanges(files);
+      this.flushFileIntervals();
     },
     ...common.hooks,
   },
@@ -133,14 +134,13 @@ export default {
     async processChanges(changedFiles, headers) {
       console.log(`Processing ${changedFiles.length} changed files`);
 
-      const filteredFiles = this.checkMinimumInterval(changedFiles);
+      // Filter before recording intervals so unwatched files don't grow the map
+      const relevantFiles = changedFiles.filter((file) => this.isFileRelevant(file));
+      const filteredFiles = this.checkMinimumInterval(relevantFiles);
       for (const file of filteredFiles) {
-        if (!this.isFileRelevant(file)) {
-          console.log(`Skipping event for irrelevant file ${file.id}`);
-          continue;
-        }
         await this.processChange(file, headers);
       }
+      return filteredFiles.length;
     },
   },
 };

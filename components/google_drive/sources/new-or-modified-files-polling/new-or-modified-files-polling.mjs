@@ -2,14 +2,17 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import googleDrive from "../../google_drive.app.mjs";
 import { getListFilesOpts } from "../../common/utils.mjs";
 import sampleEmit from "./test-event.mjs";
-import { GOOGLE_DRIVE_FOLDER_MIME_TYPE } from "../../common/constants.mjs";
+import {
+  CHANGE_FILTER_FILE_FIELDS,
+  GOOGLE_DRIVE_FOLDER_MIME_TYPE,
+} from "../../common/constants.mjs";
 import md5 from "md5";
 
 export default {
   key: "google_drive-new-or-modified-files-polling",
   name: "New or Modified Files (Polling)",
   description: "Emit new event when a file in the selected Drive is created, modified or trashed. [See the documentation](https://developers.google.com/drive/api/v3/reference/changes/list)",
-  version: "0.0.17",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   props: {
@@ -70,6 +73,12 @@ export default {
       propDefinition: [
         googleDrive,
         "changesPageSize",
+      ],
+    },
+    maxEmitsPerRun: {
+      propDefinition: [
+        googleDrive,
+        "maxEmitsPerRun",
       ],
     },
   },
@@ -177,46 +186,42 @@ export default {
     },
   },
   async run() {
-    // Store the current run timestamp at the start
     const currentRunTimestamp = Date.now();
     const lastRunTimestamp = this._getLastRunTimestamp();
 
-    const pageToken = this._getPageToken();
-    const driveId = this.getDriveId();
+    const caughtUp = await this.googleDrive.processChangesPages({
+      pageToken: this._getPageToken(),
+      driveId: this.getDriveId(),
+      pageSize: this.changesPageSize,
+      fileFields: CHANGE_FILTER_FILE_FIELDS,
+      maxEmits: this.maxEmitsPerRun,
+      processPage: async (changedFiles) => {
+        console.log(changedFiles.length
+          ? `Processing ${changedFiles.length} changed files`
+          : "No changed files since last run");
 
-    const changedFilesStream =
-      this.googleDrive.listChanges(pageToken, driveId, this.changesPageSize);
-
-    for await (const changedFilesPage of changedFilesStream) {
-      const {
-        changedFiles,
-        nextPageToken,
-      } = changedFilesPage;
-
-      console.log(changedFiles.length
-        ? `Processing ${changedFiles.length} changed files`
-        : "No changed files since last run");
-
-      for (const file of changedFiles) {
-        // Get full file metadata including parents
-        const fullFile = await this.googleDrive.getFile(file.id, {
-          fields: "*",
-        });
-
-        if (!this.shouldProcess(fullFile, lastRunTimestamp)) {
-          console.log(`Skipping file ${fullFile.name || fullFile.id}`);
-          continue;
+        let emitted = 0;
+        for (const file of changedFiles) {
+          if (!this.shouldProcess(file, lastRunTimestamp)) {
+            console.log(`Skipping file ${file.name || file.id}`);
+            continue;
+          }
+          // Full metadata only for files that emit
+          const fullFile = await this.googleDrive.getFile(file.id, {
+            fields: "*",
+          });
+          await this.emitFile(fullFile);
+          emitted++;
         }
+        return emitted;
+      },
+      savePageToken: (nextPageToken) => this._setPageToken(nextPageToken),
+    });
 
-        await this.emitFile(fullFile);
-      }
-
-      // Save the next page token after successfully processing
-      this._setPageToken(nextPageToken);
+    // Files created during a backlog would be skipped if this moved before it drains
+    if (caughtUp) {
+      this._setLastRunTimestamp(currentRunTimestamp);
     }
-
-    // Update the last run timestamp after processing all changes
-    this._setLastRunTimestamp(currentRunTimestamp);
   },
   sampleEmit,
 };

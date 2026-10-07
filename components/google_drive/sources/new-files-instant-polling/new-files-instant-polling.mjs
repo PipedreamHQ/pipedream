@@ -1,14 +1,17 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import googleDrive from "../../google_drive.app.mjs";
 import { getListFilesOpts } from "../../common/utils.mjs";
-import { GOOGLE_DRIVE_FOLDER_MIME_TYPE } from "../../common/constants.mjs";
+import {
+  CHANGE_FILTER_FILE_FIELDS,
+  GOOGLE_DRIVE_FOLDER_MIME_TYPE,
+} from "../../common/constants.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "google_drive-new-files-instant-polling",
   name: "New Files (Polling)",
   description: "Emit new event when a new file is added in your linked Google Drive",
-  version: "0.0.15",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   props: {
@@ -49,6 +52,12 @@ export default {
       propDefinition: [
         googleDrive,
         "changesPageSize",
+      ],
+    },
+    maxEmitsPerRun: {
+      propDefinition: [
+        googleDrive,
+        "maxEmitsPerRun",
       ],
     },
   },
@@ -143,54 +152,49 @@ export default {
     const currentRunTimestamp = Date.now();
     const lastRunTimestamp = this._getLastRunTimestamp();
 
-    const pageToken = this._getPageToken();
-    const driveId = this.getDriveId();
+    const caughtUp = await this.googleDrive.processChangesPages({
+      pageToken: this._getPageToken(),
+      driveId: this.getDriveId(),
+      pageSize: this.changesPageSize,
+      fileFields: CHANGE_FILTER_FILE_FIELDS,
+      maxEmits: this.maxEmitsPerRun,
+      processPage: async (changedFiles) => {
+        console.log(changedFiles.length
+          ? `Processing ${changedFiles.length} changed files`
+          : "No changed files since last run");
 
-    const changedFilesStream =
-      this.googleDrive.listChanges(pageToken, driveId, this.changesPageSize);
+        let emitted = 0;
+        for (const file of changedFiles) {
+          // Skip folders
+          if (file.mimeType === GOOGLE_DRIVE_FOLDER_MIME_TYPE) {
+            continue;
+          }
 
-    for await (const changedFilesPage of changedFilesStream) {
-      const {
-        changedFiles,
-        nextPageToken,
-      } = changedFilesPage;
+          // Check if it's a new file (created after last run)
+          if (Date.parse(file.createdTime) <= lastRunTimestamp) {
+            continue;
+          }
 
-      console.log(changedFiles.length
-        ? `Processing ${changedFiles.length} changed files`
-        : "No changed files since last run");
-
-      for (const file of changedFiles) {
-        // Skip folders
-        if (file.mimeType === GOOGLE_DRIVE_FOLDER_MIME_TYPE) {
-          continue;
+          if (!this.shouldProcess(file)) {
+            console.log(`Skipping file ${file.name || file.id}`);
+            continue;
+          }
+          // Full metadata only for files that emit
+          const fullFile = await this.googleDrive.getFile(file.id, {
+            fields: "*",
+          });
+          await this.emitFile(fullFile);
+          emitted++;
         }
+        return emitted;
+      },
+      savePageToken: (nextPageToken) => this._setPageToken(nextPageToken),
+    });
 
-        // Get full file metadata including parents
-        const fullFile = await this.googleDrive.getFile(file.id, {
-          fields: "*",
-        });
-
-        // Check if it's a new file (created after last run)
-        const fileCreatedTime = Date.parse(fullFile.createdTime);
-        if (fileCreatedTime <= lastRunTimestamp) {
-          console.log(`Skipping existing file ${fullFile.name || fullFile.id}`);
-          continue;
-        }
-
-        if (!this.shouldProcess(fullFile)) {
-          console.log(`Skipping file ${fullFile.name || fullFile.id}`);
-          continue;
-        }
-
-        await this.emitFile(fullFile);
-      }
-
-      // Save the next page token after successfully processing
-      this._setPageToken(nextPageToken);
+    // Files created during a backlog would be skipped if this moved before it drains
+    if (caughtUp) {
+      this._setLastRunTimestamp(currentRunTimestamp);
     }
-
-    // Update the last run timestamp after processing all changes
-    this._setLastRunTimestamp(currentRunTimestamp);
   },
   sampleEmit,
 };

@@ -123,16 +123,16 @@ const LEGACY_MY_DRIVE_VALUE = "myDrive";
 const WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS = 24 * 60 * 60 * 1000;
 
 /**
- * The default time interval between webhook subscription renewals. Since
- * subscriptions expire after 24 hours at most, we set this time to 95% of this
- * time window by default to make sure the event sources don't miss any events
- * due to an expired subscription not being renewed on time.
- *
- * More information can be found in the API docs:
+ * How often webhook sources' timer runs. Besides renewing the subscription before it
+ * expires, the timer resumes a capped backlog when Drive stops sending notifications.
+ */
+const WEBHOOK_TIMER_INTERVAL_SECONDS = 10 * 60;
+
+/**
+ * The timer renews a subscription once it is this close to expiring, see
  * https://developers.google.com/drive/api/v3/push#optional-properties
  */
-const WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS =
-  (WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS * 0.95) / 1000;
+const WEBHOOK_RENEWAL_WINDOW_MILLISECONDS = 60 * 60 * 1000;
 
 /**
  * The maximum number of path segments to include in an option label for a prop whose value is a
@@ -273,6 +273,20 @@ const RATE_LIMIT_ERROR_REASONS = [
 
 const CHANGED_FILE_FIELDS = "kind,id,name,mimeType,parents,createdTime,modifiedTime,trashed,version,size,md5Checksum,webViewLink,lastModifyingUser";
 
+// Enough to filter changes before fetching full metadata for the ones that emit
+const CHANGE_FILTER_FILE_FIELDS = "id,name,mimeType,parents,createdTime,modifiedTime";
+
+// Bounds one run's work so a backlog resumes across runs instead of failing the whole run
+const MAX_CHANGES_PAGES_PER_RUN = 10;
+const DEFAULT_MAX_EMITS_PER_RUN = 1000;
+const MAX_EMITS_PER_RUN = 5000;
+
+// Upper bound on per-file interval entries kept in db
+const MAX_FILE_INTERVAL_ENTRIES = 2000;
+
+// A change this long after the file's last modification is a bulk move or permission update
+const MASS_CHANGE_MAX_AGE_MILLISECONDS = 60 * 60 * 1000;
+
 /** Google Workspace types that `stashFile` can export to PDF. */
 const PDF_EXPORTABLE_MIME_TYPES = [
   "application/vnd.google-apps.document",
@@ -294,7 +308,8 @@ export {
   MY_DRIVE_VALUE,
   LEGACY_MY_DRIVE_VALUE,
   WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS,
-  WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
+  WEBHOOK_TIMER_INTERVAL_SECONDS,
+  WEBHOOK_RENEWAL_WINDOW_MILLISECONDS,
   MAX_FILE_OPTION_PATH_SEGMENTS,
   PAGINATION_TOKEN_FIELD,
   GOOGLE_DRIVE_MIME_TYPE_PREFIX,
@@ -328,5 +343,11 @@ export {
   RETRYABLE_STATUS_CODES,
   RATE_LIMIT_ERROR_REASONS,
   CHANGED_FILE_FIELDS,
+  CHANGE_FILTER_FILE_FIELDS,
+  MAX_CHANGES_PAGES_PER_RUN,
+  DEFAULT_MAX_EMITS_PER_RUN,
+  MAX_EMITS_PER_RUN,
+  MAX_FILE_INTERVAL_ENTRIES,
+  MASS_CHANGE_MAX_AGE_MILLISECONDS,
   PDF_EXPORTABLE_MIME_TYPES,
 };
