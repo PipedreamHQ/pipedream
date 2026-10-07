@@ -9161,8 +9161,8 @@ importers:
   components/linkup:
     dependencies:
       linkup-sdk:
-        specifier: ^1.0.3
-        version: 1.2.0(@types/node@20.19.43)(typescript@5.6.3)
+        specifier: ^2.7.0
+        version: 2.7.0
 
   components/linkupapi:
     dependencies:
@@ -30380,6 +30380,10 @@ packages:
     engines: {node: '>=20.19.0'}
     deprecated: this package has been deprecated
 
+  linkup-sdk@2.7.0:
+    resolution: {integrity: sha512-X/EvibI045zDY+n5SRNlKmmo7rCf9B/krAvuf4Jj6axatIPwufq8LqEi49ScVmgNBMp68wTB19gETK+jPzfl3A==}
+    engines: {node: '>=20.19.0'}
+
   lint-staged@12.5.0:
     resolution: {integrity: sha512-BKLUjWDsKquV/JuIcoQW4MSAI3ggwEImF1+sB4zaKvyVx1wBk3FsG7UK9bpnmBTN1pm7EH2BBcMwINJzCRv12g==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
@@ -38805,19 +38809,6 @@ snapshots:
       - '@types/node'
       - typescript
 
-  '@commitlint/cli@19.8.1(@types/node@20.19.43)(typescript@5.6.3)':
-    dependencies:
-      '@commitlint/format': 19.8.1
-      '@commitlint/lint': 19.8.1
-      '@commitlint/load': 19.8.1(@types/node@20.19.43)(typescript@5.6.3)
-      '@commitlint/read': 19.8.1
-      '@commitlint/types': 19.8.1
-      tinyexec: 1.0.2
-      yargs: 17.7.3
-    transitivePeerDependencies:
-      - '@types/node'
-      - typescript
-
   '@commitlint/config-conventional@19.8.1':
     dependencies:
       '@commitlint/types': 19.8.1
@@ -38865,22 +38856,6 @@ snapshots:
       chalk: 5.6.2
       cosmiconfig: 9.0.0(typescript@5.6.3)
       cosmiconfig-typescript-loader: 6.2.0(@types/node@20.19.25)(cosmiconfig@9.0.0(typescript@5.6.3))(typescript@5.6.3)
-      lodash.isplainobject: 4.0.6
-      lodash.merge: 4.6.2
-      lodash.uniq: 4.5.0
-    transitivePeerDependencies:
-      - '@types/node'
-      - typescript
-
-  '@commitlint/load@19.8.1(@types/node@20.19.43)(typescript@5.6.3)':
-    dependencies:
-      '@commitlint/config-validator': 19.8.1
-      '@commitlint/execute-rule': 19.8.1
-      '@commitlint/resolve-extends': 19.8.1
-      '@commitlint/types': 19.8.1
-      chalk: 5.6.2
-      cosmiconfig: 9.0.0(typescript@5.6.3)
-      cosmiconfig-typescript-loader: 6.2.0(@types/node@20.19.43)(cosmiconfig@9.0.0(typescript@5.6.3))(typescript@5.6.3)
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
@@ -47064,13 +47039,6 @@ snapshots:
       jiti: 2.6.1
       typescript: 5.6.3
 
-  cosmiconfig-typescript-loader@6.2.0(@types/node@20.19.43)(cosmiconfig@9.0.0(typescript@5.6.3))(typescript@5.6.3):
-    dependencies:
-      '@types/node': 20.19.43
-      cosmiconfig: 9.0.0(typescript@5.6.3)
-      jiti: 2.6.1
-      typescript: 5.6.3
-
   cosmiconfig@5.2.1:
     dependencies:
       import-fresh: 2.0.0
@@ -51819,19 +51787,14 @@ snapshots:
       - supports-color
       - typescript
 
-  linkup-sdk@1.2.0(@types/node@20.19.43)(typescript@5.6.3):
+  linkup-sdk@2.7.0:
     dependencies:
-      '@commitlint/cli': 19.8.1(@types/node@20.19.43)(typescript@5.6.3)
-      '@commitlint/config-conventional': 19.8.1
       axios: 1.18.1(debug@3.2.7)
-      semantic-release: 24.2.9(typescript@5.6.3)
       zod: 3.25.76
       zod-to-json-schema: 3.24.6(zod@3.25.76)
     transitivePeerDependencies:
-      - '@types/node'
       - debug
       - supports-color
-      - typescript
 
   lint-staged@12.5.0(enquirer@2.4.1):
     dependencies:
