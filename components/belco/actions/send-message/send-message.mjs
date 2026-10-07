@@ -12,6 +12,7 @@ export default {
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     belco,
     shopId: {
@@ -58,7 +59,7 @@ export default {
           shopId,
         }),
       ],
-      description: "The Belco contact ID of the recipient. Required unless `To Email` is set.",
+      description: "The Belco contact ID of the recipient. Use **List Contacts** (filter by `Email`) to find it, or set `To Email` instead to skip the lookup. Required unless `To Email` is set or `Type` is `inbound-message` or `note`.",
       optional: true,
     },
     toType: {
@@ -102,6 +103,7 @@ export default {
           toType: this.toType,
           toEmail: this.toEmail,
           channel: this.channel,
+          type: this.type,
         }),
         subject: this.subject,
         body: this.body,
