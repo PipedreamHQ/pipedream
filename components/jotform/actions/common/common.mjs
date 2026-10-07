@@ -5,12 +5,21 @@ export default {
     jotform,
   },
   methods: {
-    async *paginate(resourceFn, params = {}) {
-      const { max } = params;
-      delete params.max;
+    async *paginate(resourceFn, {
+      max, params = {}, ...options
+    } = {}) {
+      const { limit = 20 } = params;
+      let { offset = 0 } = params;
       let count = 0;
       while (true) {
-        const { content: items } = await resourceFn(params);
+        const { content: items } = await resourceFn({
+          ...options,
+          params: {
+            ...params,
+            limit,
+            offset,
+          },
+        });
         for (const item of items) {
           yield item;
           count ++;
@@ -18,14 +27,10 @@ export default {
             break;
           }
         }
-        const {
-          limit = 20,
-          offset = 0,
-        } = params;
         if (items.length < limit || count >= max) {
           return;
         }
-        params.offset = offset + limit;
+        offset += limit;
       }
     },
   },

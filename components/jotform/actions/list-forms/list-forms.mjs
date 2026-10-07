@@ -6,7 +6,7 @@ export default {
   key: "jotform-list-forms",
   name: "List Forms",
   description: "List all forms in Jotform. [See the documentation](https://api.jotform.com/docs/#forms)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
