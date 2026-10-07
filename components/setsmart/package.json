@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/setsmart",
+  "version": "0.1.0",
+  "description": "Pipedream SetSmart Components",
+  "main": "setsmart.app.mjs",
+  "keywords": [
+    "pipedream",
+    "setsmart"
+  ],
+  "homepage": "https://pipedream.com/apps/setsmart",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.2.5"
+  }
+}
