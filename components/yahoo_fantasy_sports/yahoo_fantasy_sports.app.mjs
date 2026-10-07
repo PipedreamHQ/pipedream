@@ -43,7 +43,6 @@ export default {
       if (o && typeof o === "object" && "count" in o) {
         const ret = [];
         for (let i = 0; i < o.count; i++) {
-          // ignore the k as its the name of the object type
           for (const k in o[i]) {
             ret.push(this.unwrap(o[i][k]));
           }
@@ -51,7 +50,6 @@ export default {
         return ret;
       }
       if (Array.isArray(o)) {
-        // can be array and object mix...
         const ret = {};
         for (const el of o) {
           if (Array.isArray(el)) {
@@ -60,7 +58,7 @@ export default {
                 ret[k] = this.unwrap(subel[k]);
               }
             }
-          } else { // if object
+          } else {
             for (const k in el) {
               ret[k] = this.unwrap(el[k]);
             }
@@ -86,9 +84,10 @@ export default {
       }
       return ret;
     },
-    async getLeagues(gameKey = "nfl", $ = this) {
+    async getLeagues(gameKey = "nfl", season, $ = this) {
+      const key = season || gameKey;
       const resp = await this._makeRequest({
-        path: `/users;use_login=1/games;game_keys=${gameKey}/leagues/`,
+        path: `/users;use_login=1/games;game_keys=${key}/leagues/`,
       }, $);
       const users = this.unwrap(resp.fantasy_content.users);
       return users[0]?.games?.[0]?.leagues ?? [];
@@ -101,7 +100,6 @@ export default {
       const leagueObj = Array.isArray(league)
         ? league[0]
         : league;
-      // unwrap() merges single-element arrays, so standings can be an object or an array
       const standings = leagueObj?.standings;
       const standingsObj = Array.isArray(standings)
         ? standings[0]
@@ -151,12 +149,39 @@ export default {
         : team;
       return teamObj?.matchups ?? [];
     },
+    async getPlayerStats(leagueKey, position, $ = this) {
+      const positionParam = position
+        ? `;position=${position}`
+        : "";
+      const resp = await this._makeRequest({
+        path: `/league/${leagueKey}/players${positionParam}/stats;type=season`,
+      }, $);
+      const league = this.unwrap(resp.fantasy_content.league);
+      const leagueObj = Array.isArray(league)
+        ? league[0]
+        : league;
+      return leagueObj?.players ?? [];
+    },
+    async getFreeAgents(leagueKey, { position, sort, count } = {}, $ = this) {
+      let path = `/league/${leagueKey}/players;status=A`;
+      if (position) path += `;position=${position}`;
+      if (sort) path += `;sort=${sort}`;
+      if (count) path += `;count=${count}`;
+      const resp = await this._makeRequest({
+        path,
+      }, $);
+      const league = this.unwrap(resp.fantasy_content.league);
+      const leagueObj = Array.isArray(league)
+        ? league[0]
+        : league;
+      return leagueObj?.players ?? [];
+    },
     async getLeagueTransactions(leagueKey, eventTypes) {
       const resp = await this._makeRequest({
         path: `/leagues;league_keys=${leagueKey}/transactions;types=${eventTypes.join(",")}`,
       });
       const leagues = this.unwrap(resp.fantasy_content.leagues);
-      return leagues[0].transactions;
+      return leagues[0]?.transactions ?? [];
     },
     transactionSummary(txn) {
       switch (txn.type) {
@@ -165,7 +190,6 @@ export default {
         return `Add: (+) ${this.displayPlayer(p)} -- ${p.transaction_data.destination_team_name}`;
       }
       case "add/drop": {
-        // XXX check always add drop in this order
         const p0 = txn.players[0];
         const p1 = txn.players[1];
         return `Add/Drop: (+) ${this.displayPlayer(p0)} (-) ${this.displayPlayer(p1)} -- ${p0.transaction_data.destination_team_name}`;
@@ -175,9 +199,8 @@ export default {
         return `Drop: (-) ${this.displayPlayer(p)} -- ${p.transaction_data.source_team_name}`;
       }
       case "commish":
-        return "Commish event"; // XXX can't push much else :/
+        return "Commish event";
       case "trade": {
-        // XXX join for team names...
         const a = txn.trader_team_key;
         const b = txn.tradee_team_key;
         const aps = [];
