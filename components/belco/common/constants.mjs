@@ -48,3 +48,14 @@ export const FROM_TYPE_OPTIONS = [
     value: "contact",
   },
 ];
+
+export const TO_TYPE_OPTIONS = [
+  {
+    label: "Customer",
+    value: "customer",
+  },
+  {
+    label: "Contact",
+    value: "contact",
+  },
+];

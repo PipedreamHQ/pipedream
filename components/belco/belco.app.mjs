@@ -4,6 +4,7 @@ import {
   CONVERSATION_TYPE_OPTIONS,
   FROM_TYPE_OPTIONS,
   LIMIT,
+  TO_TYPE_OPTIONS,
 } from "./common/constants.mjs";
 
 export default {
@@ -116,6 +117,19 @@ export default {
       label: "From Type",
       description: "The type of the sender",
       options: FROM_TYPE_OPTIONS,
+    },
+    toType: {
+      type: "string",
+      label: "To Type",
+      description: "The recipient type. Use `customer` to address someone who may not be a Belco contact yet, or `contact` for an existing Belco contact. Defaults to `customer` when `To Email` is set, otherwise `contact`.",
+      options: TO_TYPE_OPTIONS,
+      optional: true,
+    },
+    toEmail: {
+      type: "string",
+      label: "To Email",
+      description: "The recipient's email address (e.g. `jane@example.com`). Use this instead of `To` when you don't have the Belco contact ID. Only supported on the `email` channel. When set, it takes precedence over `To`.",
+      optional: true,
     },
     subject: {
       type: "string",

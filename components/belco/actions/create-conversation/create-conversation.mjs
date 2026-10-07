@@ -1,10 +1,11 @@
 import belco from "../../belco.app.mjs";
+import { buildRecipient } from "../../common/utils.mjs";
 
 export default {
   key: "belco-create-conversation",
   name: "Create Conversation",
   description: "Create a conversation from Belco. [See the documentation](https://developers.belco.io/reference/post_conversations)",
-  version: "0.0.5",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -53,12 +54,23 @@ export default {
       propDefinition: [
         belco,
         "to",
-        ({
-          toType, shopId,
-        }) => ({
-          toType,
+        ({ shopId }) => ({
           shopId,
         }),
+      ],
+      description: "The Belco contact ID of the recipient. Required unless `To Email` is set.",
+      optional: true,
+    },
+    toType: {
+      propDefinition: [
+        belco,
+        "toType",
+      ],
+    },
+    toEmail: {
+      propDefinition: [
+        belco,
+        "toEmail",
       ],
     },
     subject: {
@@ -85,10 +97,12 @@ export default {
           type: this.fromType,
           _id: this.from,
         },
-        to: {
-          type: "contact",
-          _id: this.to,
-        },
+        to: buildRecipient({
+          to: this.to,
+          toType: this.toType,
+          toEmail: this.toEmail,
+          channel: this.channel,
+        }),
         subject: this.subject,
         body: this.body,
       },
