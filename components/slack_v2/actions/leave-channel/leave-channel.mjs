@@ -6,7 +6,7 @@ export default {
   description: "Remove the authenticated user from a public or private channel. Leaving a channel the user is not a member of is a no-op, reported as `not_in_channel: true`. To leave several channels (e.g. every channel matching a pattern), use **List Channels** with `memberOnly: true` to find them, then call this action once per channel ID. [See the documentation](https://docs.slack.dev/reference/methods/conversations.leave/)",
   version: "0.0.5",
   annotations: {
-    destructiveHint: false,
+    destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },

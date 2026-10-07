@@ -1,5 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
-import { toIdString } from "../../common/utils.mjs";
+import {
+  buildCell, toIdString,
+} from "../../common/utils.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
 
 export default {
@@ -11,7 +13,7 @@ export default {
     + " Call **Get Sheet** to find row IDs and column names first."
     + " To add new rows instead of changing existing ones, use **Add Row to Sheet**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/update-rows)",
-  version: "1.1.2",
+  version: "1.1.3",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -35,6 +37,12 @@ export default {
         + " Quote the row ID: `[{\"rowId\": \"1234567890123456\", \"Status\": \"Done\"}]`."
         + " Smartsheet row IDs are 16 digits and an unquoted one can exceed what JSON parsing represents exactly,"
         + " which would silently address a different row."
+        + " For a MULTI_PICKLIST column, pass a string or array of strings naming the selected option(s)"
+        + " (a comma/semicolon-separated string also works), e.g. `{\"Status Tags\": [\"Urgent\", \"Review\"]}`."
+        + " For a MULTI_CONTACT_LIST column, pass an email string, an array of email strings, or"
+        + " `{\"email\": \"...\", \"name\": \"...\"}` object(s) — same comma/semicolon-separated string option applies —"
+        + " e.g. `{\"Subscriber\": [{\"email\": \"a@example.com\", \"name\": \"A Example\"}, \"b@example.com\"]}`."
+        + " Pass `\"\"` or `[]` for either column type to clear it."
         + " Call **Get Sheet** to find row IDs and column names.",
     },
   },
@@ -55,7 +63,9 @@ export default {
     const sheetId = await this.smartsheet.resolveSheetId(this.sheetId, {
       $,
     });
-    const { byName } = await this.smartsheet.getColumnMap(sheetId, {
+    const {
+      byName, typesById,
+    } = await this.smartsheet.getColumnMap(sheetId, {
       $,
     });
 
@@ -82,10 +92,7 @@ export default {
       ] of entries) {
         const columnId = byName[name.toLowerCase()];
         if (columnId) {
-          cells.push({
-            columnId,
-            value,
-          });
+          cells.push(buildCell(columnId, typesById[columnId], value, name, rowIndex));
         } else {
           unknownColumns.push(name);
         }

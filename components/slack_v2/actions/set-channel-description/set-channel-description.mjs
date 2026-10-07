@@ -6,7 +6,7 @@ export default {
   description: "Change the description or purpose of a channel. [See the documentation](https://api.slack.com/methods/conversations.setPurpose)",
   version: "0.0.26",
   annotations: {
-    destructiveHint: false,
+    destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },

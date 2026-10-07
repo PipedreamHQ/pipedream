@@ -15,7 +15,7 @@ export default {
   type: "action",
   ai: "optimized",
   annotations: {
-    destructiveHint: false,
+    destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
