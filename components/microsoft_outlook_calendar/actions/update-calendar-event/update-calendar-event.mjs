@@ -3,7 +3,7 @@ import microsoftOutlook from "../../microsoft_outlook_calendar.app.mjs";
 export default {
   type: "action",
   key: "microsoft_outlook_calendar-update-calendar-event",
-  version: "0.0.11",
+  version: "0.0.12",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -38,7 +38,7 @@ export default {
         microsoftOutlook,
         "content",
       ],
-      description: "Content",
+      description: "Body of the event, in plain text or HTML. Set `Content Type` to match: `text` for plain text (e.g. `Join us to discuss Q3 roadmap.`), `html` for markup (e.g. `<p>Join us to discuss <b>Q3 roadmap</b>.</p>`). HTML sent with `text` is escaped and shows as literal tags. Replaces the existing body, including any online meeting join info.",
       optional: true,
     },
     timeZone: {
@@ -107,7 +107,7 @@ export default {
 
     if (this.contentType && this.content) {
       data.body = {
-        contentType: this.contentType ?? "HTML",
+        contentType: this.contentType,
         content: this.content,
       };
     }
