@@ -13057,6 +13057,12 @@ importers:
 
   components/quickmail_io: {}
 
+  components/quilt:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
+
   components/quintadb: {}
 
   components/quipu:

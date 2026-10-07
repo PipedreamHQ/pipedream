@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/quilt",
+  "version": "0.0.1",
+  "description": "Pipedream Quilt Components",
+  "main": "quilt.app.mjs",
+  "keywords": [
+    "pipedream",
+    "quilt"
+  ],
+  "homepage": "https://pipedream.com/apps/quilt",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.4.0"
+  }
+}
