@@ -14,7 +14,7 @@ export default {
     shopId: {
       type: "string",
       label: "Shop ID",
-      description: "The shop ID to use for the conversation",
+      description: "The ID of the Belco shop, e.g. `QCKysMML2DRfxW37G`. Use **List Shop ID Options** to find it (the `value` field).",
       async options() {
         const shops = await this.listShops();
         return shops.map(({
@@ -28,7 +28,7 @@ export default {
     from: {
       type: "string",
       label: "From",
-      description: "The sender's identifier",
+      description: "The ID of the sender, e.g. `GKa97c5NNLzcWcHhP` for a user or `YX6HM6Sfbt4GvbvZb` for a contact. Must match `From Type`: use **List Users** for a `user` (the `_id` field) or **List Contacts** for a `contact` (the `_id` field).",
       async options({
         fromType, shopId,
       }) {
@@ -59,7 +59,7 @@ export default {
     to: {
       type: "string",
       label: "To",
-      description: "The recipient's identifier",
+      description: "The Belco contact ID of the recipient, e.g. `YX6HM6Sfbt4GvbvZb`. Use **List Contacts** to find it (the `_id` field).",
       async options({ shopId }) {
         const { contacts } = await this.listContacts({
           shopId,
@@ -102,20 +102,20 @@ export default {
     channel: {
       type: "string",
       label: "Channel",
-      description: "The channel type",
+      description: "The channel the conversation runs on. One of `email`, `chat`, `phone`, e.g. `email`. `To Email` and `Subject` only apply to `email`.",
       options: CHANNEL_OPTIONS,
     },
     type: {
       type: "string",
       label: "Type",
-      description: "The conversation type",
+      description: "The kind of conversation. One of `auto-message`, `outbound-message`, `inbound-message`, `follow-up`, `note`, e.g. `outbound-message`. A recipient (`To` or `To Email`) is required for every type except `inbound-message` and `note`.",
       options: CONVERSATION_TYPE_OPTIONS,
       optional: true,
     },
     fromType: {
       type: "string",
       label: "From Type",
-      description: "The type of the sender",
+      description: "Whether the sender is a Belco user (an agent) or a contact (a customer). One of `user`, `contact`, e.g. `user`. Determines which ID `From` expects.",
       options: FROM_TYPE_OPTIONS,
     },
     toType: {
@@ -134,13 +134,13 @@ export default {
     subject: {
       type: "string",
       label: "Subject",
-      description: "The conversation subject",
+      description: "The subject line, e.g. `Your order has shipped`. Only used on the `email` channel.",
       optional: true,
     },
     body: {
       type: "string",
       label: "Body",
-      description: "The message body",
+      description: "The message text, e.g. `Hi Jane, your order #1234 is on its way.`",
     },
   },
   methods: {
