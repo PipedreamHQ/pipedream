@@ -21,6 +21,13 @@ export default {
       ],
     },
   },
+  /**
+   * Action run handler that retrieves details of an eBay offer by Offer ID.
+   *
+   * @param {object} ctx - Step execution context.
+   * @param {object} ctx.$ - Pipedream step execution object.
+   * @returns {Promise<object>} The offer record.
+   */
   async run({ $ }) {
     const { offerId } = this;
 

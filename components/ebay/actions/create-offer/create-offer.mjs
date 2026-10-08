@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import constants from "../../common/constants.mjs";
 import { cleanObject } from "../../common/utils.mjs";
 import ebay from "../../ebay.app.mjs";
@@ -49,7 +50,7 @@ export default {
     availableQuantity: {
       type: "integer",
       label: "Available Quantity",
-      description: "The quantity of items offered in this listing. If omitted, uses the quantity from the inventory item.",
+      description: "The quantity of items offered in this listing (e.g. `5`). If omitted, uses the quantity from the inventory item.",
       optional: true,
     },
     merchantLocationKey: {
@@ -88,19 +89,19 @@ export default {
     listingDescription: {
       type: "string",
       label: "Listing Description",
-      description: "Custom description for the listing. If omitted, eBay uses the inventory item description.",
+      description: "Custom description for the listing (e.g. `Special promotional bundle pricing.`). If omitted, eBay uses the inventory item description.",
       optional: true,
     },
     quantityLimitPerBuyer: {
       type: "integer",
       label: "Quantity Limit Per Buyer",
-      description: "The maximum number of items that a single buyer can purchase.",
+      description: "The maximum number of items that a single buyer can purchase (e.g. `2`).",
       optional: true,
     },
     vatPercentage: {
       type: "string",
       label: "VAT Percentage",
-      description: "The Value-Added Tax (VAT) percentage applied to the item.",
+      description: "The Value-Added Tax (VAT) percentage applied to the item (e.g. `19.0`).",
       optional: true,
     },
     contentLanguage: {
@@ -110,6 +111,13 @@ export default {
       ],
     },
   },
+  /**
+   * Action run handler that creates an unpublished offer on eBay.
+   *
+   * @param {object} ctx - Step execution context.
+   * @param {object} ctx.$ - Pipedream step execution object.
+   * @returns {Promise<object>} The created offer response containing the offerId.
+   */
   async run({ $ }) {
     const {
       sku,
@@ -127,6 +135,15 @@ export default {
       vatPercentage,
       contentLanguage,
     } = this;
+
+    let parsedVatPercentage;
+    if (vatPercentage !== undefined && vatPercentage !== null && vatPercentage !== "") {
+      const num = Number(vatPercentage);
+      if (isNaN(num) || num < 0 || num > 100) {
+        throw new ConfigurationError("VAT percentage must be a valid number between 0 and 100.");
+      }
+      parsedVatPercentage = num;
+    }
 
     const payload = cleanObject({
       sku,
@@ -152,9 +169,9 @@ export default {
       quantityLimitPerBuyer: quantityLimitPerBuyer !== undefined
         ? Number(quantityLimitPerBuyer)
         : undefined,
-      tax: vatPercentage
+      tax: parsedVatPercentage !== undefined
         ? {
-          vatPercentage: Number(vatPercentage),
+          vatPercentage: parsedVatPercentage,
         }
         : undefined,
     });

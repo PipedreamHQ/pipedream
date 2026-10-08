@@ -59,12 +59,8 @@ export default {
       value: "EBAY_PL",
     },
     {
-      label: "Belgium (Dutch) (EBAY_BE)",
+      label: "Belgium (EBAY_BE)",
       value: "EBAY_BE",
-    },
-    {
-      label: "Belgium (French) (EBAY_FRBE)",
-      value: "EBAY_FRBE",
     },
     {
       label: "Hong Kong (EBAY_HK)",
@@ -165,7 +161,7 @@ export default {
     "ROLL",
     "SMALL_CANADA_POST_BOX",
     "SMALL_CANADA_POST_BUBBLE_MAILER",
-    "SMAL_PARCEL",
+    "SMALL_PARCEL",
     "TOUGH_BAGS",
     "UPS_LETTER",
     "USPS_FLAT_RATE_ENVELOPE",

@@ -21,6 +21,13 @@ export default {
       ],
     },
   },
+  /**
+   * Action run handler that retrieves an eBay inventory item by SKU.
+   *
+   * @param {object} ctx - Step execution context.
+   * @param {object} ctx.$ - Pipedream step execution object.
+   * @returns {Promise<object>} The inventory item record.
+   */
   async run({ $ }) {
     const { sku } = this;
 

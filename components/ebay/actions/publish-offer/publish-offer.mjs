@@ -29,11 +29,33 @@ export default {
       optional: true,
     },
   },
+  /**
+   * Action run handler that publishes an eBay offer into an active listing.
+   * Retrieves the offer's marketplace ID if not explicitly specified by the user.
+   *
+   * @param {object} ctx - Step execution context.
+   * @param {object} ctx.$ - Pipedream step execution object.
+   * @returns {Promise<object>} The publish response containing listingId and listingUrl.
+   */
   async run({ $ }) {
     const {
       offerId,
-      marketplaceId = "EBAY_US",
+      marketplaceId,
     } = this;
+
+    let targetMarketplaceId = marketplaceId;
+    if (!targetMarketplaceId) {
+      try {
+        const offer = await this.ebay.getOffer({
+          $,
+          offerId,
+        });
+        targetMarketplaceId = offer?.marketplaceId;
+      } catch {
+        // Fallback gracefully if offer lookup fails
+      }
+    }
+    targetMarketplaceId = targetMarketplaceId || "EBAY_US";
 
     const response = await this.ebay.publishOffer({
       $,
@@ -42,7 +64,7 @@ export default {
 
     const listingId = response?.listingId;
     const listingUrl = listingId
-      ? getListingUrl(listingId, marketplaceId)
+      ? getListingUrl(listingId, targetMarketplaceId)
       : undefined;
 
     $.export(
