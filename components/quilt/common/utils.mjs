@@ -36,14 +36,19 @@ function parseObject(value) {
 
 /**
  * The JSON-RPC message with this id from an MCP response, which is either JSON or a
- * text/event-stream body of `data:` lines. A stream with no reply to this id (only
- * notifications, or cut short) throws rather than passing as an empty result.
+ * text/event-stream body of `data:` lines. A response with no reply to this id (another
+ * id, only notifications, or cut short) throws rather than passing as an empty result.
  * @param {object|string} response
  * @param {number} id
  * @returns {object}
  */
 function rpcMessage(response, id) {
-  if (typeof response !== "string") return response || {};
+  if (typeof response !== "string") {
+    // An error the server could not tie to a request comes back with a null id: pass it on.
+    const isReply = response?.id === id || (response?.error && response.id == null);
+    if (!isReply) throw new Error("Quilt: the response had no reply to this request");
+    return response;
+  }
   const messages = response.split(/\r?\n/)
     .filter((line) => line.startsWith("data:"))
     .map((line) => {
