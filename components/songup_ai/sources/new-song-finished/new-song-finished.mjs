@@ -1,5 +1,6 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import songupAi from "../../songup_ai.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "songup_ai-new-song-finished",
@@ -54,6 +55,7 @@ export default {
       await this.processEvent(10);
     },
   },
+  sampleEmit,
   async run() {
     await this.processEvent(50);
   },
