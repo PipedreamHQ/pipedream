@@ -4,8 +4,12 @@ import { ad } from "../../common/resources/ad.mjs";
 import { campaign } from "../../common/resources/campaign.mjs";
 import { customer } from "../../common/resources/customer.mjs";
 import { ConfigurationError } from "@pipedream/platform";
-import { DATE_RANGE_OPTIONS } from "../../common/constants.mjs";
-import { checkPrefix } from "../../common/utils.mjs";
+import {
+  CORE_DATE_SEGMENTS, DATE_RANGE_OPTIONS,
+} from "../../common/constants.mjs";
+import {
+  buildOrderByClause, checkPrefix,
+} from "../../common/utils.mjs";
 
 const RESOURCES = [
   adGroup,
@@ -19,57 +23,33 @@ export default {
   ...common,
   key: "google_ads-create-report",
   name: "Create Report",
-  description: "Generates a report from your Google Ads data. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/GoogleAdsService/Search?transport=rest)",
-  version: "0.3.3",
+  description: "Run a generic Google Ads GAQL report against a chosen resource using the SearchStream endpoint (returns all rows, no 10,000-row cap). Field/segment/metric names are validated locally before any API call. Use **List Campaigns**/**List Ad Groups**/**List Ad Group Ads** (resource list actions) to discover valid object IDs for the Object Filter. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/GoogleAdsService/SearchStream?transport=rest)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     resource: {
       type: "string",
       label: "Resource",
-      description: "The resource to generate a report for.",
+      description: "The primary GAQL resource to report on, e.g. `campaign`. Must be `campaign`, `ad_group`, `ad_group_ad`, or `customer`; each has a local field/segment/metric allow-list, validated before any API call.",
       options: RESOURCES.map((r) => r.resourceOption),
     },
     objectFilter: {
       type: "string[]",
       label: "Filter by Resources",
-      description: "Google Ads resource IDs to limit the report to. Pass a string array of numeric IDs (e.g. `[\"1234567890\", \"9876543210\"]`). Omit to include all resources.",
+      description: "Numeric resource IDs to filter the report by (e.g. `[\"1234567890\", \"9876543210\"]`). Run **List Campaigns**, **List Ad Groups**, or **List Ad Group Ads** first to discover valid IDs. Leave blank to include all resources.",
       optional: true,
-      useQuery: true,
-      async options({
-        query, prevContext = {},
-      }) {
-        const { nextPageToken: pageToken } = prevContext;
-        const {
-          accountId, customerClientId, resource,
-        } = this;
-        const {
-          results, nextPageToken,
-        } = await this.googleAds.listResources({
-          accountId,
-          customerClientId,
-          resource,
-          query,
-          pageToken,
-        });
-        const options = results?.map?.((item) => this.getResourceOption(item, resource));
-        return {
-          options,
-          context: {
-            nextPageToken,
-          },
-        };
-      },
     },
     dateRange: {
       type: "string",
       label: "Date Range",
-      description: "Predefined Google Ads date range keyword (e.g. `LAST_30_DAYS`, `THIS_MONTH`). For a custom range, use `CUSTOM` with `startDate` and `endDate` in `YYYY-MM-DD` format (e.g. `2024-01-01`, `2024-01-31`).",
+      description: "Predefined Google Ads date range keyword (e.g. `LAST_30_DAYS`, `THIS_MONTH`). For a custom range, use `CUSTOM` with `startDate` and `endDate` in `YYYY-MM-DD` format.",
       options: DATE_RANGE_OPTIONS,
       optional: true,
     },
@@ -88,84 +68,34 @@ export default {
     fields: {
       type: "string[]",
       label: "Fields",
-      description: "Resource field names for the GAQL SELECT clause. Pass a string array (e.g. `[\"id\", \"name\"]` or `[\"campaign.id\", \"campaign.name\"]` for campaign reports).",
-      options() {
-        const resource = RESOURCES.find((r) => r.resourceOption.value === this.resource);
-        if (!resource) throw new ConfigurationError("Select one of the available resources.");
-        return resource.fields;
-      },
+      description: "Free-form GAQL field names (e.g. `[\"campaign.id\", \"campaign.name\"]`). The resource prefix is added automatically when omitted. Invalid names throw a ConfigurationError before any API call. [See the field reference](https://developers.google.com/google-ads/api/fields/v25/campaign)",
       optional: true,
     },
     segments: {
       type: "string[]",
       label: "Segments",
-      description: "Segment field names to include (e.g. `[\"date\"]` or `[\"segments.date\"]`). See the documentation [here](https://developers.google.com/google-ads/api/reference/rpc/v25/Segments).",
-      options() {
-        const resource = RESOURCES.find((r) => r.resourceOption.value === this.resource);
-        if (!resource) throw new ConfigurationError("Select one of the available resources.");
-        return resource.segments;
-      },
-      default: [
-        "segments.date",
-      ],
+      description: "Free-form GAQL segment names (e.g. `[\"segments.date\"]`). Empty by default so date segmentation is opt-in - adding date segments multiplies row counts by the number of days in the range. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/Segments)",
       optional: true,
     },
     metrics: {
       type: "string[]",
       label: "Metrics",
-      description: "Metric field names to include (e.g. `[\"impressions\", \"clicks\"]` or `[\"metrics.impressions\", \"metrics.clicks\"]`). See the documentation [here](https://developers.google.com/google-ads/api/reference/rpc/v25/Metrics).",
-      options() {
-        const resource = RESOURCES.find((r) => r.resourceOption.value === this.resource);
-        if (!resource) throw new ConfigurationError("Select one of the available resources.");
-        return resource.metrics;
-      },
+      description: "Free-form GAQL metric names (e.g. `[\"metrics.impressions\", \"metrics.clicks\"]`). The `metrics.` prefix is added automatically when omitted. Invalid names throw a ConfigurationError before any API call. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/Metrics)",
       optional: true,
     },
     orderBy: {
       type: "string",
       label: "Order By",
-      description: "The field to order the results by",
+      description: "Free-form GAQL ORDER BY clause including direction (e.g. `metrics.impressions DESC` or `campaign.name ASC`).",
       optional: true,
-      options() {
-        return [
-          this.fields,
-          this.segments,
-          this.metrics,
-        ].filter((v) => v).flatMap((value) => {
-          let returnValue = value;
-          if (typeof value === "string") {
-            try {
-              returnValue = JSON.parse(value);
-            } catch (err) {
-              returnValue = value.split(",");
-            }
-          }
-          return returnValue?.map?.((str) => str.trim());
-        });
-      },
-    },
-    direction: {
-      type: "string",
-      label: "Direction",
-      description: "The direction to order the results by, if `Order By` is specified",
-      optional: true,
-      options: [
-        {
-          label: "Ascending",
-          value: "ASC",
-        },
-        {
-          label: "Descending",
-          value: "DESC",
-        },
-      ],
-      default: "ASC",
     },
     limit: {
       type: "integer",
       label: "Limit",
-      description: "The maximum number of results to return",
+      description: "Maximum number of rows to return (min 1, max 1000).",
       optional: true,
+      min: 1,
+      max: 1000,
     },
   },
   methods: {
@@ -200,17 +130,50 @@ export default {
     },
     buildQuery() {
       const {
-        resource, fields, segments, metrics, limit, orderBy, direction, objectFilter, dateRange,
+        resource, fields, segments, metrics, limit, orderBy, objectFilter, dateRange,
       } = this;
 
-      const filteredSegments = dateRange
-        ? segments
-        : segments?.filter((i) => i !== "segments.date");
+      const expandedFields = checkPrefix(fields, resource);
+      // Expand the prefix before filtering: CORE_DATE_SEGMENTS holds fully-qualified
+      // names (e.g. `segments.date`), so comparing against the raw, possibly-bare
+      // segment input would let an unprefixed "date" slip through unfiltered.
+      const allExpandedSegments = checkPrefix(segments, "segments");
+      const expandedSegments = dateRange
+        ? allExpandedSegments
+        : allExpandedSegments?.filter((s) => !CORE_DATE_SEGMENTS.includes(s));
+      const expandedMetrics = checkPrefix(metrics, "metrics");
+
+      // Reject unknown resources outright rather than silently skipping field/segment/metric
+      // validation — every supported resource must have a local allow-list to validate against.
+      const resourceDef = RESOURCES.find((r) => r.resourceOption.value === resource);
+      if (!resourceDef) {
+        throw new ConfigurationError(`"${resource}" is not a supported resource. Use one of: ${RESOURCES.map((r) => r.resourceOption.value).join(", ")}.`);
+      }
+
+      const validFields = new Set(resourceDef.fields.map((f) => f.value));
+      const validSegments = new Set(resourceDef.segments.map((s) => s.value));
+      const validMetrics = new Set(resourceDef.metrics.map((m) => m.value));
+
+      for (const f of expandedFields) {
+        if (!validFields.has(f)) {
+          throw new ConfigurationError(`"${f}" is not a valid field for the "${resource}" resource. Check the GAQL field reference: https://developers.google.com/google-ads/api/fields/v25/${resource}`);
+        }
+      }
+      for (const s of expandedSegments) {
+        if (!validSegments.has(s)) {
+          throw new ConfigurationError(`"${s}" is not a valid segment for the "${resource}" resource. Check the GAQL field reference: https://developers.google.com/google-ads/api/fields/v25/${resource}`);
+        }
+      }
+      for (const m of expandedMetrics) {
+        if (!validMetrics.has(m)) {
+          throw new ConfigurationError(`"${m}" is not a valid metric for the "${resource}" resource. Check the GAQL field reference: https://developers.google.com/google-ads/api/fields/v25/${resource}`);
+        }
+      }
 
       const selection = [
-        ...checkPrefix(fields, resource),
-        ...checkPrefix(filteredSegments, "segments"),
-        ...checkPrefix(metrics, "metrics"),
+        ...expandedFields,
+        ...expandedSegments,
+        ...expandedMetrics,
       ];
 
       if (!selection.length) {
@@ -218,22 +181,33 @@ export default {
       }
 
       let query = `SELECT ${selection.join(", ")} FROM ${resource}`;
-      if (objectFilter) {
+      if (objectFilter?.length) {
+        const invalidIds = objectFilter.filter((id) => !/^\d+$/.test(String(id).trim()));
+        if (invalidIds.length) {
+          throw new ConfigurationError(`"Filter by Resources" must contain only numeric IDs. Invalid: ${invalidIds.map((id) => `"${id}"`).join(", ")}`);
+        }
         query += ` WHERE ${resource === "ad_group_ad"
           ? "ad_group_ad.ad"
-          : resource}.id IN (${objectFilter.join?.(", ") ?? objectFilter})`;
+          : resource}.id IN (${objectFilter.map((id) => String(id).trim()).join(", ")})`;
       }
       if (dateRange) {
         const dateClause = dateRange === "CUSTOM"
           ? `BETWEEN '${this.startDate}' AND '${this.endDate}'`
           : `DURING ${dateRange}`;
-        query += ` ${objectFilter
+        query += ` ${objectFilter?.length
           ? "AND"
           : "WHERE"} segments.date ${dateClause}`;
       }
 
-      if (orderBy && direction) {
-        query += ` ORDER BY ${orderBy} ${direction}`;
+      const orderByClause = buildOrderByClause(orderBy, {
+        resource,
+        validFields,
+        validSegments,
+        validMetrics,
+        selectedNames: selection,
+      });
+      if (orderByClause) {
+        query += ` ORDER BY ${orderByClause}`;
       }
       if (limit) {
         query += ` LIMIT ${limit}`;
@@ -243,16 +217,12 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!RESOURCES.find((r) => r.resourceOption.value === this.resource)) {
-      throw new ConfigurationError("Select one of the available resources.");
-    }
-
     if (this.dateRange === "CUSTOM" && (!this.startDate || !this.endDate)) {
       throw new ConfigurationError("Start and end dates are required if using a custom date range.");
     }
 
     const query = this.buildQuery();
-    const results = (await this.googleAds.createReport({
+    const results = (await this.googleAds.searchStream({
       $,
       accountId: this.accountId,
       customerClientId: this.customerClientId,
