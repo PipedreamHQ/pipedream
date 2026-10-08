@@ -13,7 +13,7 @@ export default {
     + " truncates message text longer"
     + " than 40,000 characters; for content beyond that, share it as a snippet or file instead."
     + " See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
