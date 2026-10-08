@@ -4,7 +4,7 @@ export default {
   key: "tawk_to-list-chats",
   name: "List Chats",
   description:
-    "Retrieve chat history and conversations for a specific tawk.to property via `POST /chat.list`. Returns an array of chat sessions including visitor details, duration, message history, and timestamps. Use this to inspect conversations, export chat transcripts, or analyze support interactions. Call **List Properties** first to discover valid `propertyId` values. Note: tawk.to returns up to 50 chats per request. [See the documentation](https://developer.tawk.to/).",
+    "Retrieve chat history and conversations for a specific tawk.to property. Returns an array of chat sessions including visitor details, duration, message history, and timestamps. Use this to inspect conversations, export chat transcripts, or analyze support interactions. Call **List Properties** first to discover valid `propertyId` values. Note: tawk.to returns up to 50 chats per request. [See the documentation](https://developer.tawk.to/).",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
@@ -24,43 +24,36 @@ export default {
         "The unique identifier of the property to retrieve chats from. Run **List Properties** first to discover valid property IDs.",
     },
     startDate: {
-      type: "string",
-      label: "Start Date",
+      propDefinition: [
+        tawk_to,
+        "startDate",
+      ],
       description:
         "Filter chats starting from this timestamp in ISO 8601 format (e.g. `2026-01-01T00:00:00Z`).",
-      optional: true,
     },
     endDate: {
-      type: "string",
-      label: "End Date",
+      propDefinition: [
+        tawk_to,
+        "endDate",
+      ],
       description:
         "Filter chats ending before this timestamp in ISO 8601 format (e.g. `2026-01-31T23:59:59Z`).",
-      optional: true,
     },
     size: {
-      type: "integer",
-      label: "Size",
+      propDefinition: [
+        tawk_to,
+        "size",
+      ],
       description:
-        "Maximum number of chats to return (up to 50). Defaults to 50 if omitted.",
-      optional: true,
-      min: 1,
+        "Maximum number of chats to return (up to 50). Defaults to 50 if omitted. For example, use `10` to return up to 10 chats.",
       max: 50,
     },
     sort: {
-      type: "string",
-      label: "Sort",
-      description: "Sort order of the returned chats.",
-      optional: true,
-      options: [
-        {
-          label: "Newest first (co-new-old)",
-          value: "co-new-old",
-        },
-        {
-          label: "Oldest first (co-old-new)",
-          value: "co-old-new",
-        },
+      propDefinition: [
+        tawk_to,
+        "sort",
       ],
+      description: "Sort order of the returned chats.",
     },
   },
   async run({ $ }) {

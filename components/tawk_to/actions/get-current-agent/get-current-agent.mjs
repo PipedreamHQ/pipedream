@@ -4,7 +4,7 @@ export default {
   key: "tawk_to-get-current-agent",
   name: "Get Current Agent",
   description:
-    "Retrieve account and profile details for the currently authenticated agent via `POST /agent.me`. Takes no input parameters. Returns the agent's ID, name, email, and role. Use this to verify agent credentials, discover your agent ID, or personalize automated support workflows. [See the documentation](https://developer.tawk.to/).",
+    "Retrieve account and profile details for the currently authenticated agent. Takes no input parameters. Returns the agent's ID, name, email, and role. Use this to verify agent credentials, discover your agent ID, or personalize automated support workflows. [See the documentation](https://developer.tawk.to/).",
   version: "0.0.1",
   type: "action",
   ai: "optimized",

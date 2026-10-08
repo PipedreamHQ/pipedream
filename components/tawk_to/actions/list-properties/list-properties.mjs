@@ -4,7 +4,7 @@ export default {
   key: "tawk_to-list-properties",
   name: "List Properties",
   description:
-    "Retrieve a list of properties associated with the authenticated tawk.to account via `POST /property.list`. Optionally filter by property type (`business` or `profile`). Returns property objects with `propertyId`, `name`, and configuration details. Run this first to discover valid `propertyId` values for other tawk.to actions. [See the documentation](https://developer.tawk.to/).",
+    "Retrieve a list of properties associated with the authenticated tawk.to account. Optionally filter by property type (`business` or `profile`). Returns property objects with `propertyId`, `name`, and configuration details. Run this first to discover valid `propertyId` values for other tawk.to actions. [See the documentation](https://developer.tawk.to/).",
   version: "0.0.1",
   type: "action",
   ai: "optimized",

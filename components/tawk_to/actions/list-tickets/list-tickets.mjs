@@ -4,7 +4,7 @@ export default {
   key: "tawk_to-list-tickets",
   name: "List Tickets",
   description:
-    "Retrieve tickets for a specific tawk.to property via `POST /ticket.list`. Optionally filter by status (`open`, `pending`, `closed`), date range, or sort order. Each ticket contains ticket ID, subject, requester/visitor info, message history, and status. Call **List Properties** first to discover valid `propertyId` values. [See the documentation](https://developer.tawk.to/).",
+    "Retrieve tickets for a specific tawk.to property. Optionally filter by status (`open`, `pending`, `closed`), date range, or sort order. Each ticket contains ticket ID, subject, requester/visitor info, message history, and status. Call **List Properties** first to discover valid `propertyId` values. [See the documentation](https://developer.tawk.to/).",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
@@ -35,25 +35,28 @@ export default {
       ],
     },
     startDate: {
-      type: "string",
-      label: "Start Date",
+      propDefinition: [
+        tawk_to,
+        "startDate",
+      ],
       description:
         "Filter tickets created from this timestamp in ISO 8601 format (e.g. `2026-01-01T00:00:00Z`).",
-      optional: true,
     },
     endDate: {
-      type: "string",
-      label: "End Date",
+      propDefinition: [
+        tawk_to,
+        "endDate",
+      ],
       description:
         "Filter tickets created up to this timestamp in ISO 8601 format (e.g. `2026-01-31T23:59:59Z`).",
-      optional: true,
     },
     size: {
-      type: "integer",
-      label: "Size",
-      description: "Number of tickets to return.",
-      optional: true,
-      min: 1,
+      propDefinition: [
+        tawk_to,
+        "size",
+      ],
+      description:
+        "Number of tickets to return. For example, use `10` to return up to 10 tickets.",
     },
     deleted: {
       type: "boolean",
@@ -62,20 +65,11 @@ export default {
       optional: true,
     },
     sort: {
-      type: "string",
-      label: "Sort",
-      description: "Sort order of the returned tickets.",
-      optional: true,
-      options: [
-        {
-          label: "Newest first (co-new-old)",
-          value: "co-new-old",
-        },
-        {
-          label: "Oldest first (co-old-new)",
-          value: "co-old-new",
-        },
+      propDefinition: [
+        tawk_to,
+        "sort",
       ],
+      description: "Sort order of the returned tickets.",
     },
     dateType: {
       type: "string",
