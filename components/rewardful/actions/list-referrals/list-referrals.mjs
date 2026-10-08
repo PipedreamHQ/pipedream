@@ -76,9 +76,7 @@ export default {
         "expand",
       ],
       description: "Related objects to include as nested objects in each result. Any of `affiliate`, e.g. `[\"affiliate\"]`.",
-      options: [
-        "affiliate",
-      ],
+      options: constants.REFERRAL_EXPAND_OPTIONS,
     },
   },
   async run({ $ }) {

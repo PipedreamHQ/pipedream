@@ -1,4 +1,5 @@
 import rewardful from "../../rewardful.app.mjs";
+import constants from "../../common/constants.mjs";
 import { getItems } from "../../common/utils.mjs";
 
 export default {
@@ -56,11 +57,7 @@ export default {
         "expand",
       ],
       description: "Related objects to include as nested objects in each result. Any of `campaign`, `links`, `commission_stats`, e.g. `[\"campaign\"]`.",
-      options: [
-        "campaign",
-        "links",
-        "commission_stats",
-      ],
+      options: constants.AFFILIATE_EXPAND_OPTIONS,
     },
   },
   async run({ $ }) {

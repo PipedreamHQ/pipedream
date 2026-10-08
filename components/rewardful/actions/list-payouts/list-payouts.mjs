@@ -49,10 +49,7 @@ export default {
         "expand",
       ],
       description: "Related objects to include as nested objects in each result. Any of `affiliate`, `commissions`, e.g. `[\"affiliate\"]`.",
-      options: [
-        "affiliate",
-        "commissions",
-      ],
+      options: constants.PAYOUT_EXPAND_OPTIONS,
     },
   },
   async run({ $ }) {

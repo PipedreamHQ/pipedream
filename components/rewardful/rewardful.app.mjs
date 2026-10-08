@@ -16,6 +16,7 @@ export default {
         const response = await this.listCampaigns({
           params: {
             page: page + 1,
+            limit: constants.MAX_LIMIT,
           },
         });
         return getItems(response).map(({

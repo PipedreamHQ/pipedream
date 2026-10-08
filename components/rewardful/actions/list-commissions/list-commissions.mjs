@@ -49,10 +49,7 @@ export default {
         "expand",
       ],
       description: "Related objects to include as nested objects in each result. Any of `sale`, `campaign`, e.g. `[\"sale\"]`.",
-      options: [
-        "sale",
-        "campaign",
-      ],
+      options: constants.COMMISSION_EXPAND_OPTIONS,
     },
   },
   async run({ $ }) {
