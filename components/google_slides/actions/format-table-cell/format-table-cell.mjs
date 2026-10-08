@@ -6,7 +6,7 @@ export default {
   key: "google_slides-format-table-cell",
   name: "Format Table Cell",
   description: "Set the background fill or content alignment of table cells in a Google Slides presentation. Applies to a single cell, or to a block of cells via **Row Span** and **Column Span**. Omit the cell location to format the whole table. Use **Get Presentation** to find the table's object ID. [See the documentation](https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations/request#UpdateTableCellPropertiesRequest)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
