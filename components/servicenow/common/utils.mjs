@@ -88,6 +88,161 @@ function normalizeGuideVariables(variablesRaw, label) {
   throw new ConfigurationError(`${label} variables must be an object or an array.`);
 }
 
+const REFERENCE_VARIABLE_TYPES = new Set([
+  8,
+  31,
+]);
+const LOOKUP_VARIABLE_TYPES = new Set([
+  18,
+  22,
+]);
+const LIST_COLLECTOR_VARIABLE_TYPE = 21;
+
+export function isScriptValue(value) {
+  return typeof value === "string" && /^\s*javascript\s*:/i.test(value);
+}
+
+function splitNames(value) {
+  return String(value ?? "")
+    .split(/[,;]/)
+    .map((name) => name.trim())
+    .filter(Boolean);
+}
+
+function scriptDependencies(script) {
+  return [
+    ...new Set([
+      ...String(script).matchAll(/current\.variables(?:\.(\w+)|\[\s*['"](\w+)['"]\s*\])/g),
+    ].map((match) => match[1] ?? match[2])),
+  ];
+}
+
+function tableOptions(table, qualifier, extra = {}) {
+  const options = {
+    source: "table",
+    table,
+    value_field: "sys_id",
+    ...extra,
+  };
+  const raw = String(qualifier ?? "").trim();
+  const trimmed = isScriptValue(raw)
+    ? raw
+    : raw.replace(/(^|\^)EQ$/, "");
+  if (!trimmed) {
+    return options;
+  }
+  if (isScriptValue(trimmed)) {
+    const dependsOn = scriptDependencies(trimmed);
+    return {
+      ...options,
+      qualifier_unresolved: true,
+      qualifier_script: trimmed,
+      ...(dependsOn.length && {
+        depends_on: dependsOn,
+      }),
+    };
+  }
+  return {
+    ...options,
+    query: trimmed,
+  };
+}
+
+// The variables endpoint returns ~19 form-rendering fields per variable; a
+// large record producer then overflows the agent's tool-output budget.
+const DESCRIBED_VARIABLE_FIELDS = [
+  "id",
+  "name",
+  "label",
+  "type",
+  "mandatory",
+  "value",
+  "choices",
+];
+
+function describeVariable(variable, scriptDefaults) {
+  const type = Number(variable.type);
+  const described = {};
+  for (const field of DESCRIBED_VARIABLE_FIELDS) {
+    if (variable[field] !== undefined) {
+      described[field] = variable[field];
+    }
+  }
+
+  if (Array.isArray(variable.children)) {
+    described.children = variable.children.map((child) =>
+      describeVariable(child, scriptDefaults));
+  }
+
+  if (REFERENCE_VARIABLE_TYPES.has(type) && variable.reference) {
+    described.options = tableOptions(variable.reference, variable.ref_qualifier);
+  } else if (type === LIST_COLLECTOR_VARIABLE_TYPE && variable.table) {
+    described.options = tableOptions(variable.table, variable.ref_qualifier, {
+      label_field: variable.display_field,
+      multiple: true,
+      ...(variable.ref_qualifier === undefined && {
+        qualifier_unavailable: true,
+      }),
+    });
+  } else if (LOOKUP_VARIABLE_TYPES.has(type)) {
+    const dependsOn = splitNames(variable.ref_qual_elements);
+    described.options = {
+      source: "choices",
+      evaluated_by_servicenow: true,
+      table: variable.lookup_table,
+      value_field: variable.lookup_value,
+      label_field: variable.lookup_label,
+      ...(dependsOn.length && {
+        depends_on: dependsOn,
+      }),
+    };
+  } else if (Array.isArray(variable.choices)) {
+    described.options = {
+      source: "choices",
+    };
+  }
+
+  if (isScriptValue(variable.value)) {
+    described.default_script = variable.value;
+    if (REFERENCE_VARIABLE_TYPES.has(type) && variable.reference) {
+      described.value = "";
+      scriptDefaults.push(described);
+    } else if (variable.displayvalue !== undefined && variable.displayvalue !== "") {
+      described.value = variable.displayvalue;
+    } else {
+      described.value = "";
+      described.default_unresolved = true;
+    }
+  }
+
+  return described;
+}
+
+/**
+ * Annotate Service Catalog variables with where their valid values come from.
+ * `options.source` is `choices` when every valid value is already inline
+ * (lookup choices are evaluated by ServiceNow as the calling user), or `table`
+ * when values must be looked up with **Get Table Records**. Script qualifiers
+ * cannot be evaluated outside the catalog form, and ServiceNow silently ignores
+ * them in a Table API query, so they are flagged with `qualifier_unresolved`
+ * rather than returned as `query`. Only the fields an agent needs to fill the
+ * form are kept (`id`, `name`, `label`, `type`, `mandatory`, `value`,
+ * `choices`, `children`, `options` and the default flags); form-rendering
+ * metadata such as list collector `columns` is dropped. Reference variables
+ * whose default is a `javascript:` script are returned in `scriptDefaults`,
+ * with the referenced table in `options.table`, for the caller to resolve.
+ */
+export function describeCatalogVariables(variables) {
+  const scriptDefaults = [];
+  const described = (Array.isArray(variables)
+    ? variables
+    : []).map((variable) => describeVariable(variable, scriptDefaults));
+  return {
+    variables: described,
+    scriptDefaults,
+  };
+}
+
 /**
  * Map Submit Order Guide rows onto Checkout Order Guide's request body.
  * Submit returns `quantity` and `variables` as `{name, value}` arrays

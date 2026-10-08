@@ -4,14 +4,14 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Add Member",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "godial-add-member",
   description: "Adds a member. [See docs here](https://godial.stoplight.io/docs/godial/b3A6MzAzMTY1Ng-accounts-add)",
   type: "action",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: true,
+    readOnlyHint: false,
   },
   props: {
     godial,
