@@ -23,7 +23,7 @@ export default {
     eventTypes: {
       type: "string[]",
       label: "Transaction Types",
-      description: "Filter by transaction type. Leave blank for all types",
+      description: "Filter by transaction type, e.g. `[\"add\", \"trade\"]`. Leave blank for all types",
       options: [
         "add",
         "drop",
@@ -42,7 +42,7 @@ export default {
         "trade",
         "commish",
       ];
-    const transactions = await this.yfs.getLeagueTransactions(this.league, types);
+    const transactions = await this.yfs.getLeagueTransactions(this.league, types, $);
     $.export("$summary", `Retrieved ${transactions.length} transactions`);
     return transactions;
   },
