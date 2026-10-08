@@ -5,7 +5,7 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "incorta-list-columns",
   name: "List Columns",
-  description: "Lists the columns (name, data type, nullability) of a specific table or view in an Incorta tenant, via the REST API."
+  description: "Lists the columns (name, label, data type, function) of a specific table or view in an Incorta tenant, via the REST API."
     + " Requires **Schema Name** and **Table Name** — use **List Schemas** then **List Tables** first if you don't already know them."
     + " Use the returned column names when writing a `SELECT` list or `WHERE` clause in **Execute SQL Query**."
     + " Example: calling with Schema Name `pipedream_store` and Table Name `customer` returns entries like `{name: \"CustomerID\", dataType: \"integer\", function: \"key\"}`. [See the documentation](https://docs.incorta.com/latest/references-api-list-schema-objects-endpoint-v2)",

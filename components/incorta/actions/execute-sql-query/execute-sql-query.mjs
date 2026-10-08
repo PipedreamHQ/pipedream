@@ -9,7 +9,7 @@ export default {
     + " Use **List Schemas**, **List Tables**, and **List Columns** first if you don't already know the available schema/table/column names."
     + " Parameterize values with numbered placeholders (`$1`, `$2`, ...) rather than concatenating user input into the query string."
     + " Example: `SELECT region, SUM(amount) AS total_sales FROM sales.sales_fact GROUP BY region ORDER BY total_sales DESC` returns one row per region with `region` and `total_sales` columns."
-    + " Requires a SQLi Username and Password (mixed-mode authentication) — distinct from this app's REST connected account — obtained from your Incorta administrator. The SQLi host/port and tenant database are resolved automatically."
+    + " Requires a SQLi Username and Password (mixed-mode authentication, obtained from your Incorta administrator), supplied either as props or saved on the connected Incorta account; props take precedence. The SQLi host/port and tenant database are resolved automatically."
     + " [See the documentation](https://docs.incorta.com/5.1/concepts-sqli/)",
   version: "0.0.1",
   type: "action",
@@ -17,7 +17,7 @@ export default {
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: true,
+    readOnlyHint: false,
   },
   props: {
     incorta,

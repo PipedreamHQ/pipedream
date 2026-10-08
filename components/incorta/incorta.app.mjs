@@ -11,27 +11,30 @@ export default {
     // --- SQLi connection props (execute-sql-query) ---
     // SQLi (Incorta's SQL Interface) speaks the raw PostgreSQL wire protocol
     // and uses mixed-mode username/password authentication, separate from
-    // the REST API's bearer token, so these stay action-level props. Host
-    // and database are NOT props: host is resolved dynamically via the REST
-    // /configs/sqlConnection endpoint (it's per-cluster and not guessable —
-    // see getSqliConnection()), and database is just the tenant name,
-    // already available from $auth. Port is resolved the same way, but can
-    // be overridden with the optional `port` prop.
+    // the REST API's bearer token. Each is optional here and falls back to
+    // the matching optional `$auth` field (username/password/port) when not
+    // supplied as a prop. Host and database are NOT props: host is resolved
+    // dynamically via the REST /configs/sqlConnection endpoint (it's
+    // per-cluster and not guessable — see getSqliConnection()), and database
+    // is just the tenant name, already available from $auth. Port falls back
+    // to that same endpoint when neither the prop nor $auth supplies it.
     username: {
       type: "string",
       label: "SQLi Username",
-      description: "Username for SQLi authentication, e.g. `pipedream_reader`. Separate from the REST API bearer token.",
+      description: "Username for SQLi authentication, e.g. `pipedream_reader`. Separate from the REST API bearer token. Optional if a SQLi username is saved on the connected account; this value takes precedence.",
+      optional: true,
     },
     password: {
       type: "string",
       label: "SQLi Password",
-      description: "Password for SQLi authentication, paired with **SQLi Username**.",
+      description: "Password for SQLi authentication, paired with **SQLi Username**. Optional if a SQLi password is saved on the connected account; this value takes precedence.",
       secret: true,
+      optional: true,
     },
     port: {
       type: "integer",
       label: "SQLi Port",
-      description: "Port to connect to for SQLi, e.g. `5812`. Optional — overrides the port returned by Incorta's `/configs/sqlConnection` endpoint.",
+      description: "Port to connect to for SQLi, e.g. `5812`. Optional — takes precedence over a port saved on the connected account, and over the port returned by Incorta's `/configs/sqlConnection` endpoint.",
       optional: true,
     },
     // --- REST discovery props (list-tables / list-columns) ---
@@ -145,7 +148,7 @@ export default {
      * `host:port` form (e.g. `cluster1.sqli.incortacloud.com:15926`) — this
      * is per-cluster and not derivable from the REST base URL, so it must be
      * looked up rather than guessed.
-     * https://docs.incorta.com/latest/references-api-get-sqli-connection-endpoint-v2
+     * https://docs.incorta.com/latest/references-api-get-sql-connection-endpoint-v2
      */
     async getSqliConnection() {
       // Bypasses _makeRequest()/_headers(): this endpoint 500s if an
@@ -168,12 +171,16 @@ export default {
       const parsedPort = separatorIndex === -1
         ? NaN
         : Number(raw.slice(separatorIndex + 1));
-      // A user-supplied `port` prop takes precedence, so the endpoint's port
-      // (which can come back as `undefined`) is only required without it.
-      const port = this.port ?? parsedPort;
+      // Precedence: `port` prop, then `$auth.port`, then the endpoint's port
+      // (which can come back as `undefined`, so it's only required when
+      // neither override is set).
+      const override = this.port ?? this.$auth.port;
+      const port = override == null
+        ? parsedPort
+        : Number(override);
       const isValidPort = Number.isInteger(port) && port >= 1 && port <= 65535;
-      if (this.port != null && !isValidPort) {
-        throw new ConfigurationError(`Invalid SQLi port \`${this.port}\`. Enter an integer between 1 and 65535.`);
+      if (override != null && !isValidPort) {
+        throw new ConfigurationError(`Invalid SQLi port \`${override}\`. Enter an integer between 1 and 65535.`);
       }
       if (!host || !isValidPort) {
         throw new ConfigurationError(`Incorta returned an incomplete SQLi connection string (\`${raw}\`). SQLi may not be enabled or fully configured for this tenant — check with your Incorta administrator.`);
@@ -187,13 +194,19 @@ export default {
      * A helper method to get the configuration object that's directly fed to
      * the PostgreSQL client constructor. `host`/`port` come from
      * `getSqliConnection()`, `database` is the tenant from `$auth`, and
-     * `username`/`password` come from `this.username`/`this.password` —
+     * `username`/`password` come from `this.username`/`this.password` if
+     * set, otherwise `$auth.username`/`$auth.password` — the props are
      * populated because the calling action copies its own props onto
      * `this.incorta` first (`this` is bound to this app object, not the
      * calling action, when invoked as `this.incorta.getClientConfiguration()`)
      * — see `execute-sql-query.mjs`.
      */
     async getClientConfiguration() {
+      const user = this.username ?? this.$auth.username;
+      const password = this.password ?? this.$auth.password;
+      if (!user || !password) {
+        throw new ConfigurationError("SQLi username and password are required. Provide them as props, or save them on the connected Incorta account.");
+      }
       const {
         host, port,
       } = await this.getSqliConnection();
@@ -201,8 +214,8 @@ export default {
         host,
         port,
         database: this.$auth.tenant,
-        user: this.username,
-        password: this.password,
+        user,
+        password,
       };
     },
     async _getClient() {
@@ -277,7 +290,6 @@ export default {
               const columnName = col.name ?? col.columnName;
               acc[columnName] = {
                 dataType: col.dataType ?? col.type,
-                isNullable: col.nullable ?? col.isNullable,
                 tableSchema: schemaName,
               };
               return acc;
