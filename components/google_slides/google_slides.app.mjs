@@ -454,12 +454,14 @@ export default {
       };
       return (await slides.presentations.pages.get(request)).data;
     },
-    // Rethrows API errors unchanged so callers keep the HTTP status, adding a
-    // permissions hint only when Google actually refused access.
+    // Rethrows API errors unchanged so callers keep the HTTP status. A 403 gets
+    // a permissions hint instead, with the original error kept as its `cause`.
     withPermissionHint(error) {
       const status = error?.response?.status ?? error?.status;
       if (status === 403) {
-        return new ConfigurationError(`${error.message}. Make sure the connected account has edit access to the presentation.`);
+        const hinted = new ConfigurationError(`${error.message}. Make sure the connected account has edit access to the presentation.`);
+        hinted.cause = error;
+        return hinted;
       }
       return error;
     },

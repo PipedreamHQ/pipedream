@@ -35,7 +35,7 @@ export default {
     subtitle: {
       type: "string",
       label: "Subtitle",
-      description: "Text for the slide's subtitle placeholder, found on title layouts such as `TITLE`.",
+      description: "Text for the slide's subtitle placeholder, found on title layouts such as `TITLE` (e.g. `Quarterly business review`).",
       optional: true,
     },
     body: {
@@ -47,7 +47,7 @@ export default {
     secondBody: {
       type: "string",
       label: "Second Body",
-      description: "Text for the slide's second body placeholder, such as the right-hand column of `TITLE_AND_TWO_COLUMNS`.",
+      description: "Text for the slide's second body placeholder, such as the right-hand column of `TITLE_AND_TWO_COLUMNS` (e.g. `Next steps\\nHire two engineers`).",
       optional: true,
     },
     insertionIndex: {

@@ -40,7 +40,7 @@ export default {
       ],
       type: "string[]",
       label: "Slide IDs",
-      description: "Only replace text on these slides. If omitted, the whole presentation is searched.",
+      description: "Only replace text on these slides, given as slide object IDs (e.g. `[\"p1\", \"g1a2b3c4d5\"]`). Use **Get Presentation** and read `slides[].objectId`. If omitted, the whole presentation is searched.",
       optional: true,
     },
     matchCase: {
