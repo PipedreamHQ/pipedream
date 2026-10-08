@@ -21,10 +21,10 @@ export default {
       ],
     },
     position: {
-      type: "string",
-      label: "Position",
-      description: "Filter by position, e.g. `QB`, `RB`, `WR`. Leave blank for all positions",
-      optional: true,
+      propDefinition: [
+        yfs,
+        "position",
+      ],
     },
     sort: {
       type: "string",
@@ -35,9 +35,15 @@ export default {
     count: {
       type: "integer",
       label: "Count",
-      description: "Maximum number of players to return (up to 25 per Yahoo API limits)",
+      description: "Maximum number of players to return (up to 25 per Yahoo API limits). Example: `10`",
       optional: true,
       default: 25,
+    },
+    start: {
+      type: "integer",
+      label: "Start",
+      description: "Starting offset for pagination, e.g. `25` for the second page. Leave blank for the first page",
+      optional: true,
     },
   },
   async run({ $ }) {
@@ -45,6 +51,7 @@ export default {
       position: this.position,
       sort: this.sort,
       count: this.count,
+      start: this.start,
     }, $);
     $.export("$summary", `Retrieved ${players.length} free agents`);
     return players;
