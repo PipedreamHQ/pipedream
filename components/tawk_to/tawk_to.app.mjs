@@ -23,12 +23,14 @@ export default {
             type,
           },
         });
-        return data?.map(({
-          propertyId: value, name: label,
-        }) => ({
-          value,
-          label,
-        })) || [];
+        return (
+          data?.map(({
+            propertyId: value, name: label,
+          }) => ({
+            value,
+            label,
+          })) || []
+        );
       },
     },
   },
@@ -38,12 +40,11 @@ export default {
     },
     _makeRequest(opts = {}) {
       const {
-        $ = this,
-        path,
-        ...otherOpts
+        $ = this, path, data = {}, ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
+        data,
         url: `${this._baseUrl()}${path}`,
         auth: {
           username: `${this.$auth.api_key}`,
@@ -58,6 +59,27 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "/property.list",
+        ...opts,
+      });
+    },
+    listChats(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/chat.list",
+        ...opts,
+      });
+    },
+    listTickets(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/ticket.list",
+        ...opts,
+      });
+    },
+    getMe(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/agent.me",
         ...opts,
       });
     },
