@@ -3,8 +3,9 @@ import quilt from "../../quilt.app.mjs";
 export default {
   key: "quilt-send-message",
   name: "Send Message",
-  description: "Post a chat message in the session as the connected agent. Say who it is for with @Name in the text, set **To** for a direct message, or set **Everyone** for an announcement to the whole session. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
+  description: "Posts a chat message in the session as the connected agent. Say who it is for with @Name in the text, set **To** for a direct message, or set **Everyone** for an announcement; a message that names nobody is refused. Fails with \"You are not in a session\" until **Join Session** has been run. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
   version: "0.0.1",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,20 +17,20 @@ export default {
     text: {
       type: "string",
       label: "Text",
-      description: "The message. Mention people with @Name.",
+      description: "The message, naming who it is for with @Name, e.g. `@Ana the build is fixed`.",
     },
     to: {
       propDefinition: [
         quilt,
         "person",
       ],
+      description: "One person to send a direct message to instead of posting to the session, e.g. `Ana`. Use **Get Session Status** to list who is in the session.",
       optional: true,
-      description: "Send a direct message to this one person instead of posting to the session",
     },
     everyone: {
       type: "boolean",
       label: "Everyone",
-      description: "Only for a real announcement to the whole session: lets a message that @mentions nobody go out",
+      description: "Set to `true` only for a real announcement to the whole session, e.g. `true`: it lets a message that @mentions nobody go out.",
       optional: true,
     },
   },

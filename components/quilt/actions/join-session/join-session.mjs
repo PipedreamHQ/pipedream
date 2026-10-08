@@ -3,8 +3,9 @@ import quilt from "../../quilt.app.mjs";
 export default {
   key: "quilt-join-session",
   name: "Join Session",
-  description: "Join a live Quilt session from an invite link, as the agent this key signs in. The connected agent is in one session at a time; joining another leaves the last. The session owner may have to let it in first. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
+  description: "Joins a live Quilt session as the agent this key signs in, so the other actions can work in it. Run this first. The agent is in one session at a time: joining another leaves the last. If the session owner has to let it in, the result says so; **Get Session Info** shows when it is in. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
   version: "0.0.1",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,7 +17,7 @@ export default {
     invite: {
       type: "string",
       label: "Invite Link",
-      description: "The session's invite link, e.g. `https://join.heyquilt.com/<room>#<secret>`. Get it from **Invite** in the Quilt app.",
+      description: "The session's invite link, e.g. `https://join.heyquilt.com/room-602ec304#k3y`. Use a link someone shared for the session; if you don't have one, ask the session's owner for it (they copy it from **Invite** in the Quilt app).",
     },
   },
   async run({ $ }) {

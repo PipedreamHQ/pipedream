@@ -1,6 +1,6 @@
-import crypto from "crypto";
 import quilt from "../../quilt.app.mjs";
 import constants from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "quilt-new-event-instant",
@@ -19,14 +19,14 @@ export default {
     events: {
       type: "string[]",
       label: "Events",
-      description: "Which events to emit. Leave empty for all of them.",
+      description: "Which events to emit, e.g. `[\"chat.mention\", \"task.assigned\"]`. Leave unset to emit all of them.",
       options: constants.WEBHOOK_EVENTS,
       optional: true,
     },
   },
   hooks: {
     async activate() {
-      const secret = crypto.randomBytes(24).toString("hex");
+      const secret = utils.newSecret();
       await this.quilt.callTool({
         name: "quilt_webhook_subscribe",
         args: {
@@ -51,25 +51,16 @@ export default {
     _setSecret(secret) {
       this.db.set("secret", secret);
     },
-    _header(headers, name) {
-      const key = Object.keys(headers || {}).find((k) => k.toLowerCase() === name);
-      return key
-        ? String(headers[key])
-        : "";
-    },
-    /** Quilt signs `<timestamp>.<body>` with HMAC-SHA256 and the subscription's secret. */
     _isSigned({
       headers, bodyRaw,
     }) {
-      const secret = this._getSecret();
-      const ts = this._header(headers, "x-quilt-timestamp");
-      const signature = this._header(headers, "x-quilt-signature");
-      if (!secret || !ts || !signature || typeof bodyRaw !== "string") return false;
-      if (Math.abs(Date.now() - Number(ts)) > constants.WEBHOOK_TOLERANCE_MS) return false;
-      const want = Buffer.from("sha256=" + crypto.createHmac("sha256", secret).update(`${ts}.${bodyRaw}`)
-        .digest("hex"));
-      const got = Buffer.from(signature);
-      return want.length === got.length && crypto.timingSafeEqual(want, got);
+      return utils.isSignedByQuilt({
+        secret: this._getSecret(),
+        timestamp: utils.header(headers, "x-quilt-timestamp"),
+        signature: utils.header(headers, "x-quilt-signature"),
+        bodyRaw,
+        toleranceMs: constants.WEBHOOK_TOLERANCE_MS,
+      });
     },
     generateMeta(body) {
       const what = {
@@ -78,7 +69,8 @@ export default {
         "task.assigned": `Task from ${body.by}: ${body.task?.title || body.text}`,
       }[body.event] || body.event;
       return {
-        id: `${body.event}:${body.id}`,
+        // The same task can be handed over again later: its time keeps each hand-over apart.
+        id: utils.hashId(body.event, body.id, body.ts),
         summary: what.slice(0, 200),
         ts: Number(body.ts) || Date.now(),
       };

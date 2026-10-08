@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -8,18 +9,29 @@ export default {
     taskId: {
       type: "string",
       label: "Task ID",
-      description: "The ID of a task on the session's board. Use the **List Tasks** action to see each task's ID.",
+      description: "The ID of a task on the session's board, e.g. `bbf50762cef7109d`. Use **List Tasks** to find it (the ID is shown before each task's title).",
     },
     person: {
       type: "string",
       label: "Person",
-      description: "The name of a person (or agent) in the session, as shown by the **Get Session Status** action",
+      description: "The name of a person or agent in the session, e.g. `Ana`. Use **Get Session Status** to list who is in the session.",
     },
     files: {
       type: "string[]",
       label: "Files",
-      description: "Project files, as paths relative to the project folder, e.g. `src/app.js`",
+      description: "Project files as paths relative to the project folder, e.g. `[\"src/app.js\", \"README.md\"]`. Use **Get Session Status** or the `quilt_list_files` tool in **Call Tool** to see the project's files.",
       optional: true,
+    },
+    toAi: {
+      type: "boolean",
+      label: "Assign to Their AI",
+      description: "Set to `true` to give the task to that person's AI instead of the person, e.g. `true`. Leave unset to assign the person.",
+      optional: true,
+    },
+    path: {
+      type: "string",
+      label: "Path",
+      description: "A file's path relative to the project folder, e.g. `src/app.js`. Use the `quilt_list_files` tool in **Call Tool** to see the project's files.",
     },
   },
   methods: {
@@ -41,21 +53,15 @@ export default {
         ...opts,
       });
     },
-    /** The agent this key signs in: its profile, org and teams. */
-    getMe(opts = {}) {
-      return this._makeRequest({
-        path: "/v1/agents/me",
-        ...opts,
-      });
-    },
     /**
-     * Calls one of Quilt's MCP tools as the connected agent. Quilt's hosted MCP is
-     * stateless, so one JSON-RPC request per call is enough. Returns the tool's text;
-     * a tool that refuses (isError) throws with Quilt's explanation.
+     * Sends one JSON-RPC request to Quilt's hosted MCP. It is stateless, so no session is
+     * set up first. Handles JSON and text/event-stream answers, and throws on a JSON-RPC error.
+     * @returns {Promise<object>} the request's result
      */
-    async callTool({
-      $ = this, name, args = {},
+    async _rpc({
+      $ = this, method, params,
     }) {
+      const id = 1;
       const response = await this._makeRequest({
         $,
         method: "POST",
@@ -67,18 +73,46 @@ export default {
         },
         data: {
           jsonrpc: "2.0",
-          id: 1,
-          method: "tools/call",
-          params: {
-            name,
-            arguments: this._clean(args),
-          },
+          id,
+          method,
+          ...(params
+            ? {
+              params,
+            }
+            : {}),
         },
       });
-      if (response?.error) {
-        throw new Error(`Quilt: ${response.error.message || JSON.stringify(response.error)}`);
+      const message = utils.rpcMessage(response, id);
+      if (message.error) {
+        throw new Error(`Quilt: ${message.error.message || JSON.stringify(message.error)}`);
       }
-      const result = response?.result || {};
+      return message.result || {};
+    },
+    /**
+     * The agent this key signs in: its profile, org and teams.
+     * @returns {Promise<object>}
+     */
+    getMe(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/agents/me",
+        ...opts,
+      });
+    },
+    /**
+     * Calls one of Quilt's agent tools as the connected agent.
+     * @returns {Promise<string>} the tool's text; a refusal throws with Quilt's explanation
+     */
+    async callTool({
+      $ = this, name, args = {},
+    }) {
+      const result = await this._rpc({
+        $,
+        method: "tools/call",
+        params: {
+          name,
+          arguments: utils.cleanArgs(args),
+        },
+      });
       const text = (result.content || [])
         .filter((c) => c.type === "text")
         .map((c) => c.text)
@@ -88,29 +122,16 @@ export default {
       }
       return text;
     },
-    /** Leaves out arguments that were not set, so Quilt's defaults apply. */
-    _clean(args) {
-      return Object.fromEntries(Object.entries(args)
-        .filter(([
-          , value,
-        ]) => value !== undefined && value !== null && !(Array.isArray(value) && !value.length)));
-    },
-    listTools(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/mcp",
-        headers: {
-          "Accept": "application/json, text/event-stream",
-          "Content-Type": "application/json",
-          "MCP-Protocol-Version": constants.MCP_PROTOCOL_VERSION,
-        },
-        data: {
-          jsonrpc: "2.0",
-          id: 1,
-          method: "tools/list",
-        },
+    /**
+     * The agent tools Quilt offers this agent, with their descriptions and input schemas.
+     * @returns {Promise<object[]>}
+     */
+    async listTools(opts = {}) {
+      const result = await this._rpc({
         ...opts,
+        method: "tools/list",
       });
+      return result.tools || [];
     },
   },
 };

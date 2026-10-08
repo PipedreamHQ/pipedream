@@ -3,8 +3,9 @@ import quilt from "../../quilt.app.mjs";
 export default {
   key: "quilt-read-file",
   name: "Read File",
-  description: "Read a shared project file in the session as text, as it is right now. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
+  description: "Returns a shared project file's text as it is right now in the session. Binary and very large files are refused. Fails with \"You are not in a session\" until **Join Session** has been run. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
   version: "0.0.1",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -14,9 +15,11 @@ export default {
   props: {
     quilt,
     path: {
-      type: "string",
-      label: "Path",
-      description: "Relative path in the project, e.g. `src/app.js`",
+      propDefinition: [
+        quilt,
+        "path",
+      ],
+      description: "The file to read, relative to the project folder, e.g. `README.md`. Use the `quilt_list_files` tool in **Call Tool** to see the project's files.",
     },
   },
   async run({ $ }) {

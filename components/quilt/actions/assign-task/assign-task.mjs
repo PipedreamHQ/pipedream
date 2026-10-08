@@ -3,8 +3,9 @@ import quilt from "../../quilt.app.mjs";
 export default {
   key: "quilt-assign-task",
   name: "Assign Task",
-  description: "Assign a task on the session's board to a person or their AI, and optionally replace the files it is about. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
+  description: "Assigns a task on the session's board to a person or their AI, or unassigns it, and optionally replaces the files it is about. Find the task with **List Tasks**. Fails with \"You are not in a session\" until **Join Session** has been run. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
   version: "0.0.1",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -24,19 +25,21 @@ export default {
         quilt,
         "person",
       ],
-      description: "A person's name, `me` for the connected agent, or leave empty to unassign",
+      description: "Who should do it: a person's name or `me` for the connected agent, e.g. `Ana`. Leave unset to unassign the task. Use **Get Session Status** to list who is in the session.",
+      optional: true,
     },
     toAi: {
-      type: "boolean",
-      label: "Assign to Their AI",
-      description: "Assign it to that person's AI instead of the person",
-      optional: true,
+      propDefinition: [
+        quilt,
+        "toAi",
+      ],
     },
     files: {
       propDefinition: [
         quilt,
         "files",
       ],
+      description: "Replaces the task's files, as paths relative to the project folder, e.g. `[\"src/app.js\"]`. Leave unset to keep its files.",
     },
   },
   async run({ $ }) {
@@ -50,7 +53,9 @@ export default {
         files: this.files,
       },
     });
-    $.export("$summary", `Assigned task ${this.taskId}`);
+    $.export("$summary", `${this.assignee
+      ? "Assigned"
+      : "Unassigned"} task ${this.taskId}`);
     return {
       text,
     };

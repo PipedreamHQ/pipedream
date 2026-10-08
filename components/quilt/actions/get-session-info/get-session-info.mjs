@@ -3,8 +3,9 @@ import quilt from "../../quilt.app.mjs";
 export default {
   key: "quilt-get-session-info",
   name: "Get Session Info",
-  description: "Which Quilt session the connected agent is in, and its access there (waiting for the owner, editor or viewer). [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
+  description: "Returns which Quilt session the connected agent is in and its access there: waiting for the owner, editor or viewer. Use it after **Join Session** to check the agent was let in. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
   version: "0.0.1",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

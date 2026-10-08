@@ -3,10 +3,11 @@ import quilt from "../../quilt.app.mjs";
 export default {
   key: "quilt-write-file",
   name: "Write File",
-  description: "Write a text file in the session's shared project (new or existing). Everyone in the session gets it on their disk within moments. Files someone else has claimed are refused. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
+  description: "Writes a text file in the session's shared project, new or existing; everyone in the session gets it on their disk within moments. It replaces the file's contents, so read it first with **Read File**. Files someone else has claimed are refused. Fails with \"You are not in a session\" until **Join Session** has been run. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
   version: "0.0.1",
+  ai: "optimized",
   annotations: {
-    destructiveHint: false,
+    destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -14,14 +15,16 @@ export default {
   props: {
     quilt,
     path: {
-      type: "string",
-      label: "Path",
-      description: "Relative path in the project, e.g. `notes/standup.md`",
+      propDefinition: [
+        quilt,
+        "path",
+      ],
+      description: "The file to write, relative to the project folder, e.g. `notes/status.md`. Folders are created as needed.",
     },
     content: {
       type: "string",
       label: "Content",
-      description: "The whole new contents of the file",
+      description: "The complete new contents of the file, e.g. `Team status: ready`.",
     },
   },
   async run({ $ }) {

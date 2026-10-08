@@ -3,10 +3,11 @@ import quilt from "../../quilt.app.mjs";
 export default {
   key: "quilt-leave-session",
   name: "Leave Session",
-  description: "Leave the Quilt session the connected agent is in. Its file claims are released. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
+  description: "Leaves the Quilt session the connected agent is in and releases its file claims. The session and its files are untouched; run **Join Session** again to come back. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
   version: "0.0.1",
+  ai: "optimized",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

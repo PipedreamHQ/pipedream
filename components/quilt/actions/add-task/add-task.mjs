@@ -3,8 +3,9 @@ import quilt from "../../quilt.app.mjs";
 export default {
   key: "quilt-add-task",
   name: "Add Task",
-  description: "Add a task to the session's board, in To do. Optionally assign it and name the files it is about. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
+  description: "Adds a task to the session's board, in To do, and returns its ID. Optionally assign it and name the files it is about; change it later with **Assign Task** and **Move Task**. Fails with \"You are not in a session\" until **Join Session** has been run. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
   version: "0.0.1",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,21 +17,21 @@ export default {
     title: {
       type: "string",
       label: "Title",
-      description: "What needs doing, in a few words",
+      description: "What needs doing, in a few words, e.g. `Fix the login redirect`.",
     },
     assignee: {
       propDefinition: [
         quilt,
         "person",
       ],
+      description: "Who should do it: a person's name or `me` for the connected agent, e.g. `Ana`. Leave unset to leave it unassigned. Use **Get Session Status** to list who is in the session.",
       optional: true,
-      description: "Who should do it: a person's name, or `me` for the connected agent. Leave empty to leave it unassigned.",
     },
     toAi: {
-      type: "boolean",
-      label: "Assign to Their AI",
-      description: "Assign it to that person's AI instead of the person",
-      optional: true,
+      propDefinition: [
+        quilt,
+        "toAi",
+      ],
     },
     files: {
       propDefinition: [
