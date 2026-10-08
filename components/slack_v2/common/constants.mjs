@@ -4,10 +4,11 @@ const LIMIT = 250;
 // external Slack Connect users) would otherwise force a full directory scan
 // and exhaust the method's rate limit.
 const MAX_NAME_LOOKUP_PAGES = 5;
-// Caps `conversations.list` pagination when resolving a channel NAME to an id
-// (at 999/page, 5 pages covers ~5000 channels). Without a cap, a channel name
-// that doesn't exist (typo, wrong workspace) forces a full workspace scan —
-// on a large workspace that alone can exhaust conversations.list's rate limit.
+// Caps pagination, per listing pass (users.conversations, then conversations.list),
+// when resolving a channel NAME to an id (at 999/page, 5 pages covers ~5000
+// channels). Without a cap, a channel name that doesn't exist (typo, wrong
+// workspace) forces a full workspace scan — on a large workspace that alone can
+// exhaust conversations.list's rate limit.
 const MAX_CHANNEL_RESOLVE_PAGES = 5;
 // Page budget for `assistant.search.context` in the Search action. When several
 // content types are selected, one sparse type (e.g. files) would otherwise keep
