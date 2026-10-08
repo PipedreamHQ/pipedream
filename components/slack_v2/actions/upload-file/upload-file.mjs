@@ -11,7 +11,7 @@ export default {
     + " Use **Send Message** instead for text-only messages with no attachment."
     + " `Content` can be a path to a file in `/tmp` or a URL; if the URL is a signed/presigned link whose path ends in an opaque ID or token rather than the real file name (e.g. a Google Cloud Storage or S3 URL with a `?X-Goog-Signature=...` query string), Slack can't infer the file type from it and will show the upload as an unreadable binary — set `File Name` explicitly in that case."
     + " [See the documentation](https://api.slack.com/messaging/files#uploading_files)",
-  version: "0.2.1",
+  version: "0.2.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

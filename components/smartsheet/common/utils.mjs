@@ -35,6 +35,113 @@ export async function mapWithConcurrency(items, fn, limit = MAX_CONCURRENT_REQUE
   return results;
 }
 
+// `null`/`undefined`/`""`/`[]` is a deliberate "clear this cell" signal (confirmed live:
+// Smartsheet clears a MULTI_PICKLIST/MULTI_CONTACT_LIST cell for a plain `{columnId, value: ""}`,
+// no `objectValue` needed). Distinguishing this from toValueArray's own cleanup collapsing a
+// malformed value (e.g. a delimiter-only string like ",,;") down to empty matters: the former is
+// intent, the latter is almost certainly a typo and should still error instead of silently
+// clearing the cell.
+const isExplicitlyEmpty = (value) => value === null
+  || value === undefined
+  || value === ""
+  || (Array.isArray(value) && value.length === 0);
+
+// A model (or a human) asked for multiple values is just as likely to write a
+// comma/semicolon-separated string as a real JSON array — split on either rather than
+// treating the whole string as a single picklist option or a single (invalid) email.
+const toValueArray = (value) => {
+  if (Array.isArray(value)) {
+    return value;
+  }
+  if (typeof value === "string" && /[,;]/.test(value)) {
+    return value.split(/[,;]/).map((v) => v.trim())
+      .filter(Boolean);
+  }
+  return [
+    value,
+  ];
+};
+
+// Smartsheet rejects a plain `value` for MULTI_PICKLIST/MULTI_CONTACT_LIST columns — those
+// require the richer `objectValue` shape instead. Every other column type keeps using `value`
+// exactly as before.
+export function buildCell(columnId, columnType, value, columnName, rowIndex) {
+  if (columnType === "MULTI_PICKLIST") {
+    if (isExplicitlyEmpty(value)) {
+      return {
+        columnId,
+        value: "",
+      };
+    }
+    const values = toValueArray(value);
+    if (!values.length) {
+      throw new ConfigurationError(`Row at index ${rowIndex}, column "${columnName}" has no valid values for a MULTI_PICKLIST column.`);
+    }
+    if (!values.every((v) => typeof v === "string")) {
+      throw new ConfigurationError(`Row at index ${rowIndex}, column "${columnName}" must be a string or array of strings for a MULTI_PICKLIST column.`);
+    }
+    return {
+      columnId,
+      objectValue: {
+        objectType: "MULTI_PICKLIST",
+        values,
+      },
+    };
+  }
+  if (columnType === "MULTI_CONTACT_LIST") {
+    if (isExplicitlyEmpty(value)) {
+      return {
+        columnId,
+        value: "",
+      };
+    }
+    const entries = toValueArray(value);
+    if (!entries.length) {
+      throw new ConfigurationError(`Row at index ${rowIndex}, column "${columnName}" has no valid values for a MULTI_CONTACT_LIST column.`);
+    }
+    const values = entries.map((entry) => {
+      if (typeof entry === "string") {
+        if (!entry.trim()) {
+          throw new ConfigurationError(`Row at index ${rowIndex}, column "${columnName}" has a blank email for a MULTI_CONTACT_LIST column.`);
+        }
+        return {
+          objectType: "CONTACT",
+          email: entry,
+        };
+      }
+      if (entry && typeof entry === "object" && typeof entry.email === "string") {
+        if (!entry.email.trim()) {
+          throw new ConfigurationError(`Row at index ${rowIndex}, column "${columnName}" has a blank email for a MULTI_CONTACT_LIST column.`);
+        }
+        if (entry.name !== undefined && typeof entry.name !== "string") {
+          throw new ConfigurationError(`Row at index ${rowIndex}, column "${columnName}" has a non-string contact name for a MULTI_CONTACT_LIST column.`);
+        }
+        return {
+          objectType: "CONTACT",
+          email: entry.email,
+          ...(entry.name
+            ? {
+              name: entry.name,
+            }
+            : {}),
+        };
+      }
+      throw new ConfigurationError(`Row at index ${rowIndex}, column "${columnName}" must be a string email, an object like {"email": "...", "name": "..."}, or an array of those for a MULTI_CONTACT_LIST column.`);
+    });
+    return {
+      columnId,
+      objectValue: {
+        objectType: "MULTI_CONTACT",
+        values,
+      },
+    };
+  }
+  return {
+    columnId,
+    value,
+  };
+}
+
 export function parseRowIds(raw) {
   const trimmed = String(raw ?? "").trim();
   // Not JSON.parse: it would round a 16-digit ID before it could be checked. Validate the

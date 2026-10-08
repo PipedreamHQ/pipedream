@@ -14,7 +14,7 @@ export default {
     + " and channel messages are posted as the bot. Set **Send as User** to `false` when you"
     + " need bot authorship, including in direct messages."
     + " [See the documentation](https://api.slack.com/methods/chat.postMessage)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
