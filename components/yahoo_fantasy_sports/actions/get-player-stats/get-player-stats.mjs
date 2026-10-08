@@ -21,14 +21,20 @@ export default {
       ],
     },
     position: {
-      type: "string",
-      label: "Position",
-      description: "Filter by position, e.g. `QB`, `RB`, `WR`. Leave blank for all positions",
+      propDefinition: [
+        yfs,
+        "position",
+      ],
+    },
+    start: {
+      type: "integer",
+      label: "Start",
+      description: "Starting offset for pagination, e.g. `25` for the second page. Leave blank for the first page",
       optional: true,
     },
   },
   async run({ $ }) {
-    const players = await this.yfs.getPlayerStats(this.league, this.position, $);
+    const players = await this.yfs.getPlayerStats(this.league, this.position, this.start, $);
     $.export("$summary", `Retrieved stats for ${players.length} players`);
     return players;
   },
