@@ -19,18 +19,25 @@ function cleanArgs(args = {}) {
  * @returns {object}
  */
 function parseObject(value) {
-  if (!value) return {};
-  if (typeof value !== "string") return value;
-  try {
-    return JSON.parse(value);
-  } catch {
+  if (value === undefined || value === null || value === "") return {};
+  let parsed = value;
+  if (typeof value === "string") {
+    try {
+      parsed = JSON.parse(value);
+    } catch {
+      parsed = undefined;
+    }
+  }
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
     throw new Error("Arguments must be a JSON object, e.g. `{ \"path\": \"src/\" }`");
   }
+  return parsed;
 }
 
 /**
  * The JSON-RPC message with this id from an MCP response, which is either JSON or a
- * text/event-stream body of `data:` lines.
+ * text/event-stream body of `data:` lines. A stream with no reply to this id (only
+ * notifications, or cut short) throws rather than passing as an empty result.
  * @param {object|string} response
  * @param {number} id
  * @returns {object}
@@ -47,7 +54,9 @@ function rpcMessage(response, id) {
       }
     })
     .filter(Boolean);
-  return messages.find((m) => m.id === id) || messages.at(-1) || {};
+  const reply = messages.find((m) => m.id === id);
+  if (!reply) throw new Error("Quilt: the response had no reply to this request");
+  return reply;
 }
 
 /**
