@@ -1,6 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
-import { randomUUID } from "crypto";
 import looot from "../../looot.app.mjs";
+import { resolveIdempotencyKey } from "../../common/utils.mjs";
 
 export default {
   key: "looot-run-operation",
@@ -30,13 +30,13 @@ export default {
     idempotencyKey: {
       type: "string",
       label: "Idempotency Key",
-      description: "The same key with the same input never pays twice. A random key is generated when empty. Example: `lead-1042`.",
+      description: "The same key with the same input returns the first run and never pays twice. Example: `lead-1042`. When empty, the key is derived from the workflow event, the endpoint and the input, so a retried or replayed step reuses the first run. Set your own key to force a new run for the same event, for example after a top up. Outside a workflow event there is nothing stable to derive from, so an empty key becomes a random one and a repeated call is not deduplicated.",
       optional: true,
     },
     fallback: {
       type: "boolean",
       label: "Fallback",
-      description: "Try the next provider of the same job when the first finds nothing. Only works with `job:` IDs.",
+      description: "Try the next provider of the same job when the first finds nothing. Example: `true`. Only works with `job:` IDs.",
       optional: true,
     },
     maxCostUsd: {
@@ -48,8 +48,9 @@ export default {
     wait: {
       type: "integer",
       label: "Wait (Seconds)",
-      description: "How long to wait for the result before returning a run ID. `0` returns at once. Use **Get Run** to read the result later.",
+      description: "How long to wait for the result before returning a run ID. `0` returns at once. Use **Get Run** to read the result later. Never call **Run Operation** again to poll.",
       min: 0,
+      max: 60,
       default: 20,
       optional: true,
     },
@@ -69,17 +70,38 @@ export default {
         maxCostUsd,
       };
     }
+    // One key per logical execution: every retry of this step for the same
+    // event sends the same key, and looot returns the first run without
+    // charging again.
+    const {
+      key: idempotencyKey, source,
+    } = resolveIdempotencyKey({
+      userKey: this.idempotencyKey,
+      context: $.context,
+      request: {
+        endpointId: this.endpointId,
+        input: this.input,
+        fallback,
+      },
+    });
+    $.export("idempotencyKey", idempotencyKey);
+    $.export("idempotencyKeySource", source);
     const response = await this.looot.createRun({
       $,
       data: {
         endpointId: this.endpointId,
         input: this.input,
-        idempotencyKey: this.idempotencyKey || `pipedream-${randomUUID()}`,
+        idempotencyKey,
         wait: this.wait,
         fallback,
       },
     });
-    $.export("$summary", `Started run ${response?.id ?? response?.runId ?? ""} for ${this.endpointId}`.replace("  ", " "));
+    const runId = response?.runId ?? response?.id;
+    $.export("$summary", `${response?.replayed
+      ? "Reused"
+      : "Started"} run${runId
+      ? ` ${runId}`
+      : ""} for ${this.endpointId}`);
     return response;
   },
 };

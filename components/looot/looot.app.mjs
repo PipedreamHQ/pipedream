@@ -12,7 +12,7 @@ export default {
     endpointId: {
       type: "string",
       label: "Endpoint ID",
-      description: "An endpoint ID from **Search Catalog**, or a job written as `job:people.email.find`.",
+      description: "An endpoint ID from **Search Catalog** (`items[].endpointId`), or a job written as `job:people.email.find`.",
     },
     runId: {
       type: "string",
@@ -28,12 +28,12 @@ export default {
       $ = this, path, headers, ...opts
     }) {
       return axios($, {
+        ...opts,
         url: `${this._baseUrl()}${path}`,
         headers: {
           ...headers,
           Authorization: `Bearer ${this.$auth.api_key}`,
         },
-        ...opts,
       });
     },
     searchCatalog(opts = {}) {

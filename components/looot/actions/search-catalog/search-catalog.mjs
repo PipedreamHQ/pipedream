@@ -43,7 +43,7 @@ export default {
     prefer: {
       type: "string",
       label: "Prefer",
-      description: "How to rank results.",
+      description: "How to rank results. Example: `cheapest`.",
       options: [
         "balanced",
         "cheapest",
@@ -72,8 +72,8 @@ export default {
         maxPriceMicros: this.maxPriceMicros,
       },
     });
-    const count = Array.isArray(response?.results)
-      ? response.results.length
+    const count = Array.isArray(response?.items)
+      ? response.items.length
       : Array.isArray(response)
         ? response.length
         : 0;
