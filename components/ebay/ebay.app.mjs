@@ -32,7 +32,7 @@ export default {
       label: "Condition",
       description: "The condition of the inventory item (e.g. `NEW`, `LIKE_NEW`, `USED_EXCELLENT`).",
       options: constants.CONDITION_OPTIONS,
-      default: "NEW",
+      optional: true,
     },
     contentLanguage: {
       type: "string",

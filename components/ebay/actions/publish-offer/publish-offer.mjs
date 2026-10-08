@@ -55,7 +55,6 @@ export default {
         // Fallback gracefully if offer lookup fails
       }
     }
-    targetMarketplaceId = targetMarketplaceId || "EBAY_US";
 
     const response = await this.ebay.publishOffer({
       $,
@@ -63,7 +62,7 @@ export default {
     });
 
     const listingId = response?.listingId;
-    const listingUrl = listingId
+    const listingUrl = listingId && targetMarketplaceId
       ? getListingUrl(listingId, targetMarketplaceId)
       : undefined;
 

@@ -42,6 +42,7 @@ export default {
         ebay,
         "condition",
       ],
+      optional: true,
     },
     conditionDescription: {
       type: "string",
@@ -53,7 +54,7 @@ export default {
       type: "integer",
       label: "Available Quantity",
       description: "The total available quantity of the item (e.g. `10`).",
-      default: 1,
+      optional: true,
     },
     imageUrls: {
       type: "string[]",
@@ -210,14 +211,19 @@ export default {
       }
     }
 
-    let existingItem;
+    let existingItem = null;
     try {
       existingItem = await this.ebay.getInventoryItem({
         $,
         sku,
       });
-    } catch {
-      existingItem = null;
+    } catch (error) {
+      const status = error?.response?.status || error?.status || error?.statusCode;
+      if (status === 404) {
+        existingItem = null;
+      } else {
+        throw error;
+      }
     }
 
     const existingProduct = existingItem?.product || {};
@@ -288,19 +294,31 @@ export default {
       });
     }
 
-    const finalQuantity = quantity !== undefined && quantity !== null && quantity !== ""
-      ? Number(quantity)
-      : existingAvailability?.shipToLocationAvailability?.quantity;
+    let finalQuantity;
+    if (quantity !== undefined && quantity !== null && quantity !== "") {
+      finalQuantity = Number(quantity);
+    } else if (existingAvailability?.shipToLocationAvailability?.quantity !== undefined) {
+      finalQuantity = existingAvailability.shipToLocationAvailability.quantity;
+    } else {
+      finalQuantity = 1;
+    }
 
-    const availability = finalQuantity !== undefined
-      ? {
-        ...existingAvailability,
-        shipToLocationAvailability: {
-          ...(existingAvailability?.shipToLocationAvailability || {}),
-          quantity: finalQuantity,
-        },
-      }
-      : existingAvailability;
+    const availability = {
+      ...existingAvailability,
+      shipToLocationAvailability: {
+        ...(existingAvailability?.shipToLocationAvailability || {}),
+        quantity: finalQuantity,
+      },
+    };
+
+    let finalCondition;
+    if (condition !== undefined && condition !== null && condition !== "") {
+      finalCondition = condition;
+    } else if (existingItem?.condition) {
+      finalCondition = existingItem.condition;
+    } else {
+      finalCondition = "NEW";
+    }
 
     const product = cleanObject({
       ...existingProduct,
@@ -321,7 +339,7 @@ export default {
       availability: Object.keys(availability).length > 0
         ? availability
         : undefined,
-      condition: condition || existingItem?.condition,
+      condition: finalCondition,
       conditionDescription: conditionDescription || existingItem?.conditionDescription,
       product,
       packageWeightAndSize,
