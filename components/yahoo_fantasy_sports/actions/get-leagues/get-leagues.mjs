@@ -23,7 +23,7 @@ export default {
     season: {
       type: "string",
       label: "Season",
-      description: "Season game key, e.g. `414` for the 2023 NFL season. Each Yahoo season is a separate game; leave blank for the current season",
+      description: "Season game key, e.g. `414` for the 2023 NFL season. Each Yahoo season is a separate game — find the key for a past season in the Yahoo Fantasy Sports API docs. Leave blank for the current season",
       optional: true,
     },
   },
