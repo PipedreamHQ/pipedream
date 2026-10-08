@@ -11,11 +11,12 @@ export default {
     // --- SQLi connection props (execute-sql-query) ---
     // SQLi (Incorta's SQL Interface) speaks the raw PostgreSQL wire protocol
     // and uses mixed-mode username/password authentication, separate from
-    // the REST API's bearer token, so these stay action-level props. Host,
-    // port, and database are NOT props: host/port are resolved dynamically
-    // via the REST /configs/sqlConnection endpoint (they're per-cluster and
-    // not guessable — see getSqliConnection()), and database is just the
-    // tenant name, already available from $auth.
+    // the REST API's bearer token, so these stay action-level props. Host
+    // and database are NOT props: host is resolved dynamically via the REST
+    // /configs/sqlConnection endpoint (it's per-cluster and not guessable —
+    // see getSqliConnection()), and database is just the tenant name,
+    // already available from $auth. Port is resolved the same way, but can
+    // be overridden with the optional `port` prop.
     username: {
       type: "string",
       label: "SQLi Username",
@@ -26,6 +27,12 @@ export default {
       label: "SQLi Password",
       description: "Password for SQLi authentication, paired with **SQLi Username**.",
       secret: true,
+    },
+    port: {
+      type: "integer",
+      label: "SQLi Port",
+      description: "Port to connect to for SQLi, e.g. `5812`. Optional — overrides the port returned by Incorta's `/configs/sqlConnection` endpoint.",
+      optional: true,
     },
     // --- REST discovery props (list-tables / list-columns) ---
     schemaName: {
@@ -155,10 +162,17 @@ export default {
         ? response
         : String(response)).trim();
       const separatorIndex = raw.lastIndexOf(":");
-      const host = raw.slice(0, separatorIndex);
-      const port = Number(raw.slice(separatorIndex + 1));
-      const isValidPort = Number.isInteger(port) && port >= 1 && port <= 65535;
-      if (!host || !isValidPort) {
+      const host = separatorIndex === -1
+        ? raw
+        : raw.slice(0, separatorIndex);
+      const parsedPort = separatorIndex === -1
+        ? NaN
+        : Number(raw.slice(separatorIndex + 1));
+      const isValidPort = Number.isInteger(parsedPort) && parsedPort >= 1 && parsedPort <= 65535;
+      // A user-supplied `port` prop takes precedence, so the endpoint's port
+      // (which can come back as `undefined`) is only required without it.
+      const port = this.port ?? parsedPort;
+      if (!host || (this.port == null && !isValidPort)) {
         throw new ConfigurationError(`Incorta returned an incomplete SQLi connection string (\`${raw}\`). SQLi may not be enabled or fully configured for this tenant — check with your Incorta administrator.`);
       }
       return {

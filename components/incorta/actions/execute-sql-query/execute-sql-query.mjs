@@ -33,6 +33,12 @@ export default {
         "password",
       ],
     },
+    port: {
+      propDefinition: [
+        incorta,
+        "port",
+      ],
+    },
     sql: {
       type: "sql",
       auth: {
@@ -50,6 +56,7 @@ export default {
     Object.assign(this.incorta, {
       username: this.username,
       password: this.password,
+      port: this.port,
     });
 
     const args = this.incorta.executeQueryAdapter(this.sql);
