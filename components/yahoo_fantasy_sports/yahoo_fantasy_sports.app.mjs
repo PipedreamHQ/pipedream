@@ -25,6 +25,12 @@ export default {
       description: "Week number, e.g. `5` (defaults to the current week)",
       optional: true,
     },
+    position: {
+      type: "string",
+      label: "Position",
+      description: "Filter by position, e.g. `QB`, `RB`, `WR`. Leave blank for all positions",
+      optional: true,
+    },
   },
   methods: {
     async _makeRequest(config, $ = this) {
@@ -149,12 +155,15 @@ export default {
         : team;
       return teamObj?.matchups ?? [];
     },
-    async getPlayerStats(leagueKey, position, $ = this) {
+    async getPlayerStats(leagueKey, position, start, $ = this) {
       const positionParam = position
         ? `;position=${position}`
         : "";
+      const startParam = start
+        ? `;start=${start}`
+        : "";
       const resp = await this._makeRequest({
-        path: `/league/${leagueKey}/players${positionParam}/stats;type=season`,
+        path: `/league/${leagueKey}/players${positionParam}${startParam}/stats;type=season`,
       }, $);
       const league = this.unwrap(resp.fantasy_content.league);
       const leagueObj = Array.isArray(league)
@@ -162,11 +171,12 @@ export default {
         : league;
       return leagueObj?.players ?? [];
     },
-    async getFreeAgents(leagueKey, { position, sort, count } = {}, $ = this) {
-      let path = `/league/${leagueKey}/players;status=A`;
+    async getFreeAgents(leagueKey, { position, sort, count, start } = {}, $ = this) {
+      let path = `/league/${leagueKey}/players;status=FA`;
       if (position) path += `;position=${position}`;
       if (sort) path += `;sort=${sort}`;
       if (count) path += `;count=${count}`;
+      if (start) path += `;start=${start}`;
       const resp = await this._makeRequest({
         path,
       }, $);
@@ -176,10 +186,10 @@ export default {
         : league;
       return leagueObj?.players ?? [];
     },
-    async getLeagueTransactions(leagueKey, eventTypes) {
+    async getLeagueTransactions(leagueKey, eventTypes, $ = this) {
       const resp = await this._makeRequest({
         path: `/leagues;league_keys=${leagueKey}/transactions;types=${eventTypes.join(",")}`,
-      });
+      }, $);
       const leagues = this.unwrap(resp.fantasy_content.leagues);
       return leagues[0]?.transactions ?? [];
     },
