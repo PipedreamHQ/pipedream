@@ -168,11 +168,14 @@ export default {
       const parsedPort = separatorIndex === -1
         ? NaN
         : Number(raw.slice(separatorIndex + 1));
-      const isValidPort = Number.isInteger(parsedPort) && parsedPort >= 1 && parsedPort <= 65535;
       // A user-supplied `port` prop takes precedence, so the endpoint's port
       // (which can come back as `undefined`) is only required without it.
       const port = this.port ?? parsedPort;
-      if (!host || (this.port == null && !isValidPort)) {
+      const isValidPort = Number.isInteger(port) && port >= 1 && port <= 65535;
+      if (this.port != null && !isValidPort) {
+        throw new ConfigurationError(`Invalid SQLi port \`${this.port}\`. Enter an integer between 1 and 65535.`);
+      }
+      if (!host || !isValidPort) {
         throw new ConfigurationError(`Incorta returned an incomplete SQLi connection string (\`${raw}\`). SQLi may not be enabled or fully configured for this tenant — check with your Incorta administrator.`);
       }
       return {
