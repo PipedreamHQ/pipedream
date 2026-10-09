@@ -38,6 +38,13 @@ const CATALOG_UI_POLICY_ACTION_TABLE = "catalog_ui_policy_action";
 const KNOWLEDGE_BASE_TABLE = "kb_knowledge_base";
 const MAX_LIMIT = 1000;
 
+// The field guidance ServiceNow shows under a catalog variable. Kept only when
+// set: most variables have none, and an empty string per field would undo the
+// trim in `describeCatalogVariables`.
+const DESCRIBED_TEXT_FIELDS = [
+  "help_text",
+];
+
 export default {
   DEFAULT_SEVERITY_OPTIONS,
   INCIDENT_SEVERITY_OPTIONS,
@@ -53,4 +60,5 @@ export default {
   CATALOG_UI_POLICY_ACTION_TABLE,
   KNOWLEDGE_BASE_TABLE,
   MAX_LIMIT,
+  DESCRIBED_TEXT_FIELDS,
 };
