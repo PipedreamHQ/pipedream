@@ -8,48 +8,63 @@ export default {
     customEvents: {
       type: "string[]",
       label: "Custom Events",
-      description: "A custom set of event(s) that the user wants to trigger",
-      async options() {
-        const { data } = await this.listEventTypes();
-        return data;
+      description: "A custom set of event(s) that the user wants to trigger. Use the **List Custom Events Options** action to find available event types.",
+      async options({ prevContext }) {
+        const {
+          data, has_more: hasMore, next_token: nextToken,
+        } = await this.listEventTypes({
+          params: {
+            token: prevContext?.token,
+          },
+        });
+        const options = data?.map(({ event_type: value }) => value) || [];
+        if (!hasMore) {
+          return options;
+        }
+        return {
+          options,
+          context: {
+            token: nextToken,
+          },
+        };
       },
     },
     templateId: {
       type: "string",
       label: "Template ID",
-      description: "Identifier of a template",
-      async options() {
-        const { data } = await this.listTemplates();
-        return data.templates?.map(({
-          template_id: value, name: label,
-        }) => ({
-          value,
-          label,
-        })) || [];
-      },
+      description: "Identifier of a template. Use the **List Template ID Options** action to find available template IDs.",
     },
-    talkingPhotoId: {
+    avatarLookId: {
       type: "string",
-      label: "Talking Photo ID",
-      description: "Identifier of a talking-photo",
-      async options() {
-        const { data } = await this.listTalkingPhotos();
-        return data?.map(({ id }) => id) || [];
-      },
+      label: "Avatar Look ID",
+      description: "Identifier of a photo avatar look. Use the **List Avatar Look ID Options** action to find available avatar look IDs.",
     },
     voiceId: {
       type: "string",
       label: "Voice ID",
-      description: "Identifier of a voice",
-      async options() {
-        const { data } = await this.listVoices();
-        return data.voices?.map(({
-          voice_id: value, name: label,
-        }) => ({
-          value,
-          label,
-        })) || [];
-      },
+      description: "Identifier of a voice. Use the **List Voice ID Options** action to find available voice IDs.",
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Number of results per page (1-100). Defaults to the API default if not set.",
+      min: 1,
+      max: 100,
+      optional: true,
+    },
+    avatarLookLimit: {
+      type: "integer",
+      label: "Limit",
+      description: "Number of results per page (1-50). Defaults to the API default if not set.",
+      min: 1,
+      max: 50,
+      optional: true,
+    },
+    token: {
+      type: "string",
+      label: "Token",
+      description: "Cursor for the next page. Use the `next_token` value from a previous response.",
+      optional: true,
     },
     title: {
       type: "string",
@@ -69,12 +84,36 @@ export default {
     videoId: {
       type: "string",
       label: "Video ID",
-      description: "Identifier of a specific heygen video",
+      description: "Identifier of a specific heygen video. Use the **List Videos** action to find video IDs.",
+    },
+    folderId: {
+      type: "string",
+      label: "Folder ID",
+      description: "Only return videos in this folder. HeyGen has no API to list folders, so use a folder ID copied from the HeyGen app or returned in a video's `folder_id` field from a previous **List Videos** call.",
+      optional: true,
+    },
+    videoFields: {
+      type: "string[]",
+      label: "Fields",
+      description: "Only return these fields for each video, to keep the response small. Valid fields: `id`, `status`, `title`, `created_at`, `completed_at`, `video_url`, `thumbnail_url`, `gif_url`, `captioned_video_url`, `subtitle_url`, `duration`, `folder_id`, `output_language`, `failure_code`, `failure_message`, `video_page_url`. Example: `[\"id\", \"title\", \"status\"]`. Returns all fields if not set.",
+      optional: true,
+    },
+    avatarLookFields: {
+      type: "string[]",
+      label: "Fields",
+      description: "Only return these fields for each avatar look, to keep the response small. Valid fields include `id`, `name`, `avatar_type`, `group_id`, `preview_image_url`, `preview_video_url`, `gender`, `tags`, `default_voice_id`, `status`. Example: `[\"id\", \"name\"]`. Returns all fields if not set.",
+      optional: true,
+    },
+    titleFilter: {
+      type: "string",
+      label: "Title",
+      description: "Only return videos whose title contains this text",
+      optional: true,
     },
   },
   methods: {
-    _getUrl(path, version = constants.VERSION_2_PATH) {
-      return `${constants.BASE_URL}${version}${path}`;
+    _getUrl(path) {
+      return `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
     },
     _headers(headers) {
       return {
@@ -86,51 +125,51 @@ export default {
       const {
         $ = this,
         path,
-        version,
         headers,
         ...otherOpts
       } = opts;
       return axios($, {
-        url: this._getUrl(path, version),
+        url: this._getUrl(path),
         headers: this._headers(headers),
         ...otherOpts,
       });
     },
+    pluckFields(items = [], fields) {
+      if (!fields?.length) {
+        return items;
+      }
+      return items.map((item) => Object.fromEntries(fields.map((field) => [
+        field,
+        item[field],
+      ])));
+    },
     createWebhook(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/webhook/endpoint.add",
-        version: constants.VERSION_1_PATH,
+        path: "/webhooks/endpoints",
         ...args,
       });
     },
-    deleteWebhook(args = {}) {
-      return this._makeRequest({
-        method: "DELETE",
-        path: "/webhook/endpoint.delete",
-        version: constants.VERSION_1_PATH,
-        ...args,
-      });
-    },
-    getTemplate({
-      templateId, ...args
+    deleteWebhook({
+      endpointId, ...args
     }) {
       return this._makeRequest({
-        path: `/template/${templateId}`,
+        method: "DELETE",
+        path: `/webhooks/endpoints/${endpointId}`,
         ...args,
       });
     },
-    getVideo(args = {}) {
+    getVideo({
+      videoId, ...args
+    }) {
       return this._makeRequest({
-        path: "/video_status.get",
-        version: constants.VERSION_1_PATH,
+        path: `/videos/${videoId}`,
         ...args,
       });
     },
     listEventTypes(args = {}) {
       return this._makeRequest({
-        path: "/webhook/webhook.list",
-        version: constants.VERSION_1_PATH,
+        path: "/webhooks/event-types",
         ...args,
       });
     },
@@ -140,32 +179,21 @@ export default {
         ...args,
       });
     },
-    listTalkingPhotos(args = {}) {
+    listAvatarLooks(args = {}) {
       return this._makeRequest({
-        path: "/talking_photo.list",
-        version: constants.VERSION_1_PATH,
+        path: "/avatars/looks",
+        ...args,
+      });
+    },
+    listVideos(args = {}) {
+      return this._makeRequest({
+        path: "/videos",
         ...args,
       });
     },
     listVoices(args = {}) {
       return this._makeRequest({
         path: "/voices",
-        ...args,
-      });
-    },
-    createTalkingPhoto(args = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/video/generate",
-        ...args,
-      });
-    },
-    generateVideoFromTemplate({
-      templateId, ...args
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/template/${templateId}/generate`,
         ...args,
       });
     },
