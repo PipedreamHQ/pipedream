@@ -164,7 +164,7 @@ export default {
     changesPageSize: {
       type: "integer",
       label: "Changes Page Size",
-      description: "Maximum number of changes to fetch per API call (max 1000). Lower values mean more API calls per run.",
+      description: "Maximum number of changes to fetch per API call (max 1000). Lower values mean more API calls per run. Example: `500`",
       min: 1,
       max: 1000,
       default: 1000,
@@ -173,7 +173,7 @@ export default {
     maxEmitsPerRun: {
       type: "integer",
       label: "Max Events Per Run",
-      description: `Stop after about this many events and resume on the next run (max ${MAX_EMITS_PER_RUN}). A single page of changes larger than this is still processed in full.`,
+      description: `Stop after about this many events and resume on the next run (max ${MAX_EMITS_PER_RUN}). A single page of changes larger than this is still processed in full. Example: \`1000\``,
       min: 1,
       max: MAX_EMITS_PER_RUN,
       default: DEFAULT_MAX_EMITS_PER_RUN,

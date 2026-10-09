@@ -158,27 +158,16 @@ export default {
       pageSize: this.changesPageSize,
       fileFields: CHANGE_FILTER_FILE_FIELDS,
       maxEmits: this.maxEmitsPerRun,
+      // Filter before paging so the per-run cap counts only files that can emit
+      changeFilter: ({ file }) => Date.parse(file.createdTime) > lastRunTimestamp
+        && this.shouldProcess(file),
       processPage: async (changedFiles) => {
         console.log(changedFiles.length
-          ? `Processing ${changedFiles.length} changed files`
-          : "No changed files since last run");
+          ? `Processing ${changedFiles.length} new files`
+          : "No new files since last run");
 
         let emitted = 0;
         for (const file of changedFiles) {
-          // Skip folders
-          if (file.mimeType === GOOGLE_DRIVE_FOLDER_MIME_TYPE) {
-            continue;
-          }
-
-          // Check if it's a new file (created after last run)
-          if (Date.parse(file.createdTime) <= lastRunTimestamp) {
-            continue;
-          }
-
-          if (!this.shouldProcess(file)) {
-            console.log(`Skipping file ${file.name || file.id}`);
-            continue;
-          }
           // Full metadata only for files that emit
           const fullFile = await this.googleDrive.getFile(file.id, {
             fields: "*",

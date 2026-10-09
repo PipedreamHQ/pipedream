@@ -201,24 +201,17 @@ export default {
       pageSize: this.changesPageSize,
       fileFields: CHANGE_FILTER_FILE_FIELDS,
       maxEmits: this.maxEmitsPerRun,
+      // Filter before paging so the per-run cap counts only folders that can emit
+      changeFilter: ({ file }) => file.mimeType === GOOGLE_DRIVE_FOLDER_MIME_TYPE
+        && this._getLastModifiedTimeForFile(file.id) !== Date.parse(file.modifiedTime),
       processPage: async (changedFiles) => {
         console.log(changedFiles.length
-          ? `Processing ${changedFiles.length} changed files`
-          : "No changed files since last run");
+          ? `Processing ${changedFiles.length} changed folders`
+          : "No changed folders since last run");
 
         let emitted = 0;
         for (const file of changedFiles) {
-          // Skip if not a folder
-          if (file.mimeType !== GOOGLE_DRIVE_FOLDER_MIME_TYPE) {
-            continue;
-          }
-
-          // Skip if not modified since last check
           const modifiedTime = Date.parse(file.modifiedTime);
-          if (this._getLastModifiedTimeForFile(file.id) === modifiedTime) {
-            continue;
-          }
-
           if (!await this.shouldProcess(file, rootId, parentsCache)) {
             console.log(`Skipping folder ${file.name || file.id}`);
             continue;

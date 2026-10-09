@@ -195,6 +195,8 @@ export default {
       pageSize: this.changesPageSize,
       fileFields: CHANGE_FILTER_FILE_FIELDS,
       maxEmits: this.maxEmitsPerRun,
+      // Filter before paging so the per-run cap counts only files that can emit
+      changeFilter: ({ file }) => this.shouldProcess(file, lastRunTimestamp),
       processPage: async (changedFiles) => {
         console.log(changedFiles.length
           ? `Processing ${changedFiles.length} changed files`
@@ -202,10 +204,6 @@ export default {
 
         let emitted = 0;
         for (const file of changedFiles) {
-          if (!this.shouldProcess(file, lastRunTimestamp)) {
-            console.log(`Skipping file ${file.name || file.id}`);
-            continue;
-          }
           // Full metadata only for files that emit
           const fullFile = await this.googleDrive.getFile(file.id, {
             fields: "*",

@@ -29,7 +29,7 @@ export default {
   key: "google_drive-new-or-modified-files",
   name: "New or Modified Files (Instant)",
   description: "Emit new event when a file in the selected Drive is created, modified or trashed.",
-  version: "1.1.0",
+  version: "2.0.0",
   type: "source",
   dedupe: "unique",
   props: {
@@ -120,9 +120,13 @@ export default {
     },
     // Bulk moves and sharing list old files as changed; skip them unless properties
     // are watched. createdTime keeps new uploads that preserve an old modifiedTime.
+    // Folder matching runs here too, so the per-run cap counts only files that can emit.
     isRelevantChange({
       time, file,
     }) {
+      if (!this.shouldProcess(file)) {
+        return false;
+      }
       if (this.watchForPropertiesChanges || file.trashed || !time) {
         return true;
       }
