@@ -5,7 +5,7 @@ export default {
   key: "google_calendar-update-event-instance",
   name: "Update Event Instance",
   description: "Update a specific instance of a recurring event. Changes apply only to the selected instance. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/update)",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   annotations: {
     destructiveHint: true,
@@ -75,7 +75,7 @@ export default {
     attendees: {
       label: "Attendees",
       type: "string",
-      description: "Enter either an array or a comma separated list of email addresses of attendees",
+      description: "Enter either an array or a comma separated list of email addresses of attendees. Replaces the instance's current attendee list; to add attendees without removing existing ones, use **Add Attendees to Event** instead.",
       optional: true,
     },
     colorId: {
@@ -105,13 +105,19 @@ export default {
     });
 
     const timeZone = await this.getTimeZone(this.timeZone || currentEvent.start.timeZone);
-    const attendees = this.formatAttendees(this.attendees, currentEvent.attendees);
+    const suppliedAttendees = this.formatAttendees(this.attendees);
+    const attendees = suppliedAttendees.length
+      ? suppliedAttendees
+      : currentEvent.attendees;
 
     const response = await this.googleCalendar.updateEvent({
       calendarId: this.calendarId,
       eventId: this.instanceId,
       sendUpdates: this.sendUpdates,
+      // `update` is a full replace, so start from the current instance to keep
+      // every field the caller did not supply (reminders, visibility, etc.)
       requestBody: {
+        ...currentEvent,
         summary: this.summary || currentEvent.summary,
         location: this.location || currentEvent.location,
         description: this.description || currentEvent.description,
