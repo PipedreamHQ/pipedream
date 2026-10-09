@@ -2,17 +2,63 @@ import { ConfigurationError } from "@pipedream/platform";
 import toggl from "../../toggl.app.mjs";
 import {
   getNextCursor,
-  parseDate,
+  parseCursorInput,
+  parseProviderTotals,
+  resolveDateRange,
+  resolveWorkspaceUser,
 } from "../../common/utils.mjs";
 
-const PAGE_SIZE = 50;
 const REQUEST_INTERVAL_MS = 1000;
+const ALL_FIELDS = "all_fields";
+const DEFAULT_FIELDS = [
+  "user_id",
+  "start",
+  "seconds",
+  "client_name",
+  "project_id",
+  "project_name",
+  "billable",
+];
+const NESTED_TIME_ENTRY_FIELDS = new Set([
+  "id",
+  "start",
+  "stop",
+  "seconds",
+  "at",
+]);
+
+const projectFields = (value, fields) => {
+  if (fields.includes(ALL_FIELDS)) return value;
+
+  const projected = {};
+
+  for (const field of fields) {
+    if (!NESTED_TIME_ENTRY_FIELDS.has(field) && Object.hasOwn(value, field)) {
+      projected[field] = value[field];
+    }
+  }
+
+  const nestedFields = fields.filter((field) => NESTED_TIME_ENTRY_FIELDS.has(field));
+
+  if (nestedFields.length && Array.isArray(value.time_entries)) {
+    projected.time_entries = value.time_entries.map((entry) => Object.fromEntries(
+      nestedFields
+        .filter((field) => Object.hasOwn(entry, field))
+        .map((field) => [
+          field,
+          entry[field],
+        ]),
+    ));
+  }
+
+  return projected;
+};
 
 export default {
   key: "toggl-search-detailed-time-entries",
   name: "Search Detailed Time Entries",
-  description: "Search time entries across a Toggl Track workspace. Toggl limits results to entries the connected user is permitted to view, including access granted by workspace, project, or organization roles. Returns `timeEntries`, `returned`, `hasMore`, `nextCursor`, and API quota details. When `hasMore` is true, pass the fields from `nextCursor` into a subsequent run to continue. [See the documentation](https://engineering.toggl.com/docs/track/reports/detailed_reports/)",
-  version: "0.0.1",
+  description: "Search workspace-wide Toggl Track time entries with structured filters and provider-computed totals. Follows Toggl Reports API cursors up to an explicit cap and returns deterministic JSON without model rewriting. Only present the entries as a complete report when `complete` is true; otherwise use **Export Detailed Time Entries**. Results are limited by the connected user's Toggl permissions. [See the documentation](https://engineering.toggl.com/docs/track/reports/detailed_reports/)",
+  version: "1.0.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -28,163 +74,296 @@ export default {
         "workspaceId",
       ],
     },
+    datePreset: {
+      propDefinition: [
+        toggl,
+        "reportDatePreset",
+      ],
+    },
     startDate: {
       propDefinition: [
         toggl,
-        "startDate",
+        "reportStartDate",
       ],
-      description: "Inclusive report start date in `YYYY-MM-DD` format, e.g. `2026-09-01`.",
     },
     endDate: {
       propDefinition: [
         toggl,
-        "endDate",
+        "reportEndDate",
       ],
-      description: "Inclusive report end date in `YYYY-MM-DD` format, e.g. `2026-09-30`. Must be after `startDate`.",
+    },
+    timezone: {
+      propDefinition: [
+        toggl,
+        "reportTimezone",
+      ],
     },
     userIds: {
-      type: "integer[]",
-      label: "User IDs",
-      description: "Return entries for these user IDs, subject to the connected user's Toggl permissions, e.g. `[1234567, 2345678]`. Run **Search Detailed Time Entries** without this filter and read `user_id` from enriched results to find accessible values.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportUserIds",
+      ],
+      description: "Return entries for these user IDs, subject to the connected user's Toggl permissions, e.g. `[1234567]`. Use **List Workspace Users** and its `userId` field to find accessible IDs.",
+    },
+    userName: {
+      propDefinition: [
+        toggl,
+        "reportUserName",
+      ],
+      description: "Optional full or partial name or email, e.g. `Angus`. It must resolve to exactly one accessible workspace user. The resolved ID is combined with User IDs.",
     },
     projectIds: {
-      type: "integer[]",
-      label: "Project IDs",
-      description: "Return entries for these project IDs, e.g. `[123456789]`. Run **Search Detailed Time Entries** without this filter and read `project_id` from enriched results to find accessible values.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportProjectIds",
+      ],
     },
     clientIds: {
-      type: "integer[]",
-      label: "Client IDs",
-      description: "Return entries for these client IDs, e.g. `[12345678]`. Run **Search Detailed Time Entries** without this filter and read `client_id` from enriched results to find accessible values.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportClientIds",
+      ],
     },
     taskIds: {
-      type: "integer[]",
-      label: "Task IDs",
-      description: "Return entries for these task IDs, e.g. `[12345678]`. Run **Search Detailed Time Entries** without this filter and read `task_id` from enriched results to find accessible values.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportTaskIds",
+      ],
     },
     tagIds: {
-      type: "integer[]",
-      label: "Tag IDs",
-      description: "Return entries with these tag IDs, e.g. `[1234567]`. Run **Search Detailed Time Entries** without this filter and read tag IDs from enriched results to find accessible values.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportTagIds",
+      ],
     },
     description: {
-      type: "string",
-      label: "Description",
-      description: "Return entries whose description matches this value, e.g. `weekly planning`.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportDescription",
+      ],
     },
     billable: {
-      type: "boolean",
-      label: "Billable",
-      description: "Filter entries by billable status, e.g. `true` for billable entries. This filter requires a paid Toggl feature.",
+      propDefinition: [
+        toggl,
+        "reportBillable",
+      ],
+    },
+    pageSize: {
+      type: "integer",
+      label: "Page Size",
+      description: "Number of rows requested from Toggl per API call, e.g. `50`.",
+      min: 1,
+      max: 50,
+      default: 50,
+    },
+    maxResults: {
+      type: "integer",
+      label: "Maximum Results",
+      description: "Maximum rows returned across all server-side pages, e.g. `1000`. If reached before Toggl is exhausted, `capHit` and `hasMore` are true and `totalCount` is null.",
+      min: 1,
+      max: 10000,
+      default: 1000,
+    },
+    cursor: {
+      type: "object",
+      label: "Cursor",
+      description: "Optional `nextCursor` object returned by a previous run, e.g. `{\"firstId\": 123, \"firstRowNumber\": 51}`. Header values are preserved unchanged.",
       optional: true,
     },
-    orderBy: {
-      type: "string",
-      label: "Order By",
-      description: "Field used to order the results, e.g. `date`.",
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "Raw Toggl fields to return, e.g. `[\"user_id\", \"seconds\"]`. The slim default omits descriptions. Select All Fields for the complete API rows.",
       options: [
         {
-          label: "Date",
-          value: "date",
+          label: "User ID",
+          value: "user_id",
         },
         {
-          label: "User",
-          value: "user",
+          label: "User Name",
+          value: "username",
         },
         {
-          label: "Duration",
-          value: "duration",
+          label: "User Email",
+          value: "email",
+        },
+        {
+          label: "Time Entry ID",
+          value: "id",
+        },
+        {
+          label: "Start / Date",
+          value: "start",
+        },
+        {
+          label: "Stop",
+          value: "stop",
+        },
+        {
+          label: "Duration in Seconds",
+          value: "seconds",
+        },
+        {
+          label: "Client Name",
+          value: "client_name",
+        },
+        {
+          label: "Project ID",
+          value: "project_id",
+        },
+        {
+          label: "Project Name",
+          value: "project_name",
+        },
+        {
+          label: "Billable",
+          value: "billable",
         },
         {
           label: "Description",
           value: "description",
         },
         {
-          label: "Last Update",
-          value: "last_update",
+          label: "Task ID",
+          value: "task_id",
+        },
+        {
+          label: "Task Name",
+          value: "task_name",
+        },
+        {
+          label: "Tag IDs",
+          value: "tag_ids",
+        },
+        {
+          label: "Tag Names",
+          value: "tag_names",
+        },
+        {
+          label: "Last Updated",
+          value: "at",
+        },
+        {
+          label: "All Fields",
+          value: ALL_FIELDS,
         },
       ],
-      default: "date",
+      default: DEFAULT_FIELDS,
+    },
+    orderBy: {
+      propDefinition: [
+        toggl,
+        "reportOrderBy",
+      ],
+      description: "Field used to order results, for example `date`. Date ordering is recommended for repeatable report pulls.",
     },
     orderDirection: {
-      type: "string",
-      label: "Order Direction",
-      description: "Direction used to order the results, e.g. `DESC`.",
-      options: [
-        {
-          label: "Ascending",
-          value: "ASC",
-        },
-        {
-          label: "Descending",
-          value: "DESC",
-        },
+      propDefinition: [
+        toggl,
+        "reportOrderDirection",
       ],
-      default: "DESC",
-    },
-    enrichResponse: {
-      type: "boolean",
-      label: "Enrich Response",
-      description: "Include the maximum available user, project, client, task, and tag information, e.g. `true`.",
-      default: true,
-    },
-    maxResults: {
-      type: "integer",
-      label: "Maximum Results",
-      description: "Maximum number of entries to return, e.g. `200`. The action retrieves up to 50 entries per Toggl request and follows cursors until this limit is reached.",
-      min: 1,
-      max: 1000,
-      default: 200,
     },
     firstId: {
       type: "integer",
-      label: "First ID",
-      description: "The `nextCursor.firstId` value returned by a previous **Search Detailed Time Entries** run, e.g. `1234567890`. Pass it together with `firstRowNumber` when present.",
+      label: "Legacy First ID",
+      description: "Deprecated. Prefer Cursor. The `nextCursor.firstId` value from an earlier action version, e.g. `1234567890`.",
       min: 0,
       optional: true,
     },
     firstRowNumber: {
       type: "integer",
-      label: "First Row Number",
-      description: "The `nextCursor.firstRowNumber` value returned by a previous **Search Detailed Time Entries** run, e.g. `50`. Pass it with `firstId` when that field is present in the same cursor.",
+      label: "Legacy First Row Number",
+      description: "Deprecated. Prefer Cursor. The `nextCursor.firstRowNumber` value from an earlier action version, e.g. `50`.",
       min: 0,
       optional: true,
     },
   },
   async run({ $ }) {
-    const startTimestamp = parseDate(this.startDate, "Start Date");
-    const endTimestamp = parseDate(this.endDate, "End Date");
+    let profile;
 
-    if (startTimestamp >= endTimestamp) {
-      throw new ConfigurationError("End Date must be after Start Date.");
+    if (this.datePreset) {
+      profile = await this.toggl.getMe({
+        $,
+      });
+
+      if (!profile || typeof profile !== "object") {
+        throw new Error("Toggl returned an invalid user profile response.");
+      }
     }
 
-    if (this.firstId !== undefined && this.firstRowNumber === undefined) {
-      throw new ConfigurationError("First Row Number is required when First ID is provided.");
+    const dateRange = resolveDateRange({
+      startDate: this.startDate,
+      endDate: this.endDate,
+      datePreset: this.datePreset,
+      timezone: this.timezone || profile?.timezone || "UTC",
+      weekStart: profile?.beginning_of_week ?? 1,
+    });
+
+    if (this.cursor && (this.firstId !== undefined || this.firstRowNumber !== undefined)) {
+      throw new ConfigurationError("Use Cursor or the legacy cursor fields, not both.");
     }
 
-    const data = {
-      start_date: this.startDate,
-      end_date: this.endDate,
-      user_ids: this.userIds,
+    const initialCursor = parseCursorInput(this.cursor || (
+      this.firstId !== undefined || this.firstRowNumber !== undefined
+        ? {
+          firstId: this.firstId,
+          firstRowNumber: this.firstRowNumber,
+        }
+        : null
+    ));
+    const userIds = new Set(this.userIds || []);
+    let resolvedUser = null;
+
+    if (this.userName) {
+      const users = await this.toggl.getWorkspaceUsers({
+        workspaceId: this.workspaceId,
+        $,
+      });
+
+      if (!Array.isArray(users)) {
+        throw new Error("Toggl returned an invalid workspace users response.");
+      }
+
+      resolvedUser = resolveWorkspaceUser(users, this.userName);
+      userIds.add(resolvedUser.userId);
+    }
+
+    const fields = this.fields?.length
+      ? this.fields
+      : DEFAULT_FIELDS;
+    const needsEnrichment = fields.includes(ALL_FIELDS) || fields.some((field) => [
+      "username",
+      "email",
+      "client_name",
+      "project_name",
+      "task_name",
+      "tag_names",
+    ].includes(field));
+    const filters = {
+      start_date: dateRange.startDate,
+      end_date: dateRange.endDate,
+      user_ids: userIds.size
+        ? [
+          ...userIds,
+        ]
+        : undefined,
       project_ids: this.projectIds,
       client_ids: this.clientIds,
       task_ids: this.taskIds,
       tag_ids: this.tagIds,
       description: this.description,
       billable: this.billable,
+      rounding: 0,
+      rounding_minutes: 0,
+    };
+    const data = {
+      ...filters,
       order_by: this.orderBy,
       order_dir: this.orderDirection,
-      enrich_response: this.enrichResponse,
+      enrich_response: needsEnrichment,
       grouped: false,
-      first_id: this.firstId,
-      first_row_number: this.firstRowNumber,
+      first_id: initialCursor?.firstId,
+      first_row_number: initialCursor?.firstRowNumber,
     };
     const timeEntries = [];
     const seenCursors = new Set();
@@ -192,22 +371,31 @@ export default {
     let quotaRemaining;
     let quotaResetsIn;
 
-    if (this.firstRowNumber !== undefined) {
-      seenCursors.add(`${this.firstId ?? ""}:${this.firstRowNumber}`);
+    if (initialCursor) {
+      seenCursors.add(`${initialCursor.firstId ?? ""}:${initialCursor.firstRowNumber ?? ""}`);
     }
 
     do {
-      data.page_size = Math.min(PAGE_SIZE, this.maxResults - timeEntries.length);
+      data.page_size = Math.min(this.pageSize, this.maxResults - timeEntries.length);
 
       const response = await this.toggl.searchDetailedTimeEntries({
         workspaceId: this.workspaceId,
         data,
         $,
       });
-      const page = response.data || [];
+      const page = response?.data;
 
-      timeEntries.push(...page);
+      if (!Array.isArray(page)) {
+        throw new Error("Toggl returned an invalid detailed report response.");
+      }
+
       nextCursor = getNextCursor(response.headers);
+
+      if (!page.length && nextCursor) {
+        throw new Error("Toggl returned an empty report page with a continuation cursor.");
+      }
+
+      timeEntries.push(...page.map((entry) => projectFields(entry, fields)));
       quotaRemaining = response.headers?.["x-toggl-quota-remaining"];
       quotaResetsIn = response.headers?.["x-toggl-quota-resets-in"];
 
@@ -216,19 +404,18 @@ export default {
       const cursorKey = `${nextCursor.firstId ?? ""}:${nextCursor.firstRowNumber}`;
 
       if (seenCursors.has(cursorKey)) {
-        throw new Error("Toggl returned a repeated pagination cursor, so pagination was stopped to prevent duplicate results.");
+        throw new Error("Toggl returned a repeated pagination cursor, so the report cannot continue safely.");
       }
 
       seenCursors.add(cursorKey);
 
-      if (!page.length) break;
-
-      if (nextCursor.firstId === undefined) {
+      const apiCursor = parseCursorInput(nextCursor);
+      if (apiCursor.firstId === undefined) {
         delete data.first_id;
       } else {
-        data.first_id = nextCursor.firstId;
+        data.first_id = apiCursor.firstId;
       }
-      data.first_row_number = nextCursor.firstRowNumber;
+      data.first_row_number = apiCursor.firstRowNumber;
 
       if (timeEntries.length < this.maxResults) {
         await new Promise((resolve) => setTimeout(resolve, REQUEST_INTERVAL_MS));
@@ -236,11 +423,47 @@ export default {
     } while (timeEntries.length < this.maxResults);
 
     const hasMore = Boolean(nextCursor);
+    const capHit = hasMore && timeEntries.length >= this.maxResults;
+    const complete = !hasMore && !initialCursor;
+    const totalCount = complete
+      ? timeEntries.length
+      : null;
+    const incompleteReasons = [
+      initialCursor && "initial_cursor",
+      capHit && "result_cap",
+    ].filter(Boolean);
+
+    await new Promise((resolve) => setTimeout(resolve, REQUEST_INTERVAL_MS));
+
+    const totalsResponse = await this.toggl.getDetailedTimeEntryTotals({
+      workspaceId: this.workspaceId,
+      data: filters,
+      $,
+    });
+    const providerTotals = parseProviderTotals(totalsResponse?.data);
     const result = {
-      timeEntries: timeEntries.slice(0, this.maxResults),
-      returned: Math.min(timeEntries.length, this.maxResults),
+      timeEntries,
+      returned: timeEntries.length,
+      returnedCount: timeEntries.length,
+      totalCount,
+      totalCountExact: complete,
+      complete,
+      incompleteReasons,
       hasMore,
+      capHit,
       nextCursor,
+      dateRange,
+      totals: {
+        ...providerTotals,
+        entryCount: complete
+          ? timeEntries.length
+          : null,
+        entryCountExact: complete,
+        scope: "full_filter",
+      },
+      ...resolvedUser && {
+        resolvedUser,
+      },
       ...quotaRemaining !== undefined && {
         quota: {
           remaining: Number(quotaRemaining),
@@ -249,9 +472,11 @@ export default {
       },
     };
 
-    $.export("$summary", `Successfully retrieved ${result.returned} time ${result.returned === 1
+    $.export("$summary", `Successfully retrieved ${result.returnedCount} time ${result.returnedCount === 1
       ? "entry"
-      : "entries"}`);
+      : "entries"}${complete
+      ? " with provider-computed totals"
+      : " (incomplete; use the export action)"}`);
 
     return result;
   },
