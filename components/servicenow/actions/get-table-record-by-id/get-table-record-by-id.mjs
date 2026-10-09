@@ -4,13 +4,14 @@ export default {
   key: "servicenow-get-table-record-by-id",
   name: "Get Table Record by ID",
   description: "Retrieves a single record from a table by its ID. [See the documentation](https://www.servicenow.com/docs/bundle/zurich-api-reference/page/integrate/inbound-rest/concept/c_TableAPI.html#title_table-GET-id)",
-  version: "1.0.7",
+  version: "1.0.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     servicenow,
     table: {
