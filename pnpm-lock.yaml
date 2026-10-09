@@ -12547,6 +12547,12 @@ importers:
 
   components/postbin: {}
 
+  components/postcards:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
+
   components/postgresql:
     dependencies:
       '@pipedream/platform':
