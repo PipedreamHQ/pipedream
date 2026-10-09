@@ -20,6 +20,12 @@ export default {
       label: "Issue",
       description: "The ID of the issue (a UUID, e.g. `7df5e7f9-a357-4539-ae94-4a004fec635f`). Use **Search Issues** to find issues and retrieve their IDs.",
     },
+    parentIssueId: {
+      type: "string",
+      label: "Parent Issue",
+      description: "The UUID of the parent issue (e.g. `7df5e7f9-a357-4539-ae94-4a004fec635f`). When set, the new issue is created as a sub-issue of this issue. Use **Search Issues** to find the parent issue's ID.",
+      optional: true,
+    },
     issueIdentifier: {
       type: "string",
       label: "Issue Identifier",
