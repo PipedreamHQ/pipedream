@@ -63,10 +63,10 @@ export default {
       ],
     },
     parentId: {
-      propDefinition: [
-        linearApp,
-        "parentIssueId",
-      ],
+      type: "string",
+      label: "Parent Issue",
+      description: "The UUID of the parent issue (e.g. `7df5e7f9-a357-4539-ae94-4a004fec635f`). When set, the new issue is created as a sub-issue of this issue. Use **Search Issues** to find the parent issue's ID.",
+      optional: true,
     },
   },
   async run({ $ }) {
