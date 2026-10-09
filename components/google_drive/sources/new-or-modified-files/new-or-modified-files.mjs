@@ -14,6 +14,7 @@ import {
   GOOGLE_DRIVE_NOTIFICATION_ADD,
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
   GOOGLE_DRIVE_NOTIFICATION_UPDATE,
+  MASS_CHANGE_MAX_AGE_MILLISECONDS,
   PDF_EXPORTABLE_MIME_TYPES,
 } from "../../common/constants.mjs";
 import commonDedupeChanges from "../common-dedupe-changes.mjs";
@@ -28,7 +29,7 @@ export default {
   key: "google_drive-new-or-modified-files",
   name: "New or Modified Files (Instant)",
   description: "Emit new event when a file in the selected Drive is created, modified or trashed.",
-  version: "1.0.1",
+  version: "2.0.0",
   type: "source",
   dedupe: "unique",
   props: {
@@ -92,6 +93,7 @@ export default {
       const { files } = await this.googleDrive.listFilesInPage(null, args);
 
       await this.processChanges(files);
+      this.flushFileIntervals();
     },
     ...common.hooks,
   },
@@ -115,6 +117,24 @@ export default {
     },
     getChangesFileFields() {
       return CHANGED_FILE_FIELDS;
+    },
+    // Bulk moves and sharing list old files as changed; skip them unless properties
+    // are watched. createdTime keeps new uploads that preserve an old modifiedTime.
+    // Folder matching runs here too, so the per-run cap counts only files that can emit.
+    isRelevantChange({
+      time, file,
+    }) {
+      if (!this.shouldProcess(file)) {
+        return false;
+      }
+      if (this.watchForPropertiesChanges || file.trashed || !time) {
+        return true;
+      }
+      const changedAt = Date.parse(time);
+      return [
+        file.modifiedTime,
+        file.createdTime,
+      ].some((t) => !t || changedAt - Date.parse(t) <= MASS_CHANGE_MAX_AGE_MILLISECONDS);
     },
     generateMeta({
       id, name, modifiedTime, trashed,
@@ -187,6 +207,7 @@ export default {
       } finally {
         this.recordFileEmits(emittedFileIds);
       }
+      return emittedFileIds.length;
     },
   },
   sampleEmit,

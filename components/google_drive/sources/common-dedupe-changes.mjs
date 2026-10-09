@@ -1,3 +1,5 @@
+import { MAX_FILE_INTERVAL_ENTRIES } from "../common/constants.mjs";
+
 export default {
   props: {
     intervalAlert: {
@@ -18,8 +20,12 @@ You can change or disable this minimum interval using the prop \`Minimum Interva
     },
   },
   methods: {
+    // Read once per run; flushFileIntervals() writes it back once
     _getFileIntervals() {
-      return this.db.get("fileIntervals") ?? {};
+      if (!this._fileIntervals) {
+        this._fileIntervals = this.db.get("fileIntervals") ?? {};
+      }
+      return this._fileIntervals;
     },
     _setFileIntervals(value) {
       this.db.set("fileIntervals", value);
@@ -40,20 +46,26 @@ You can change or disable this minimum interval using the prop \`Minimum Interva
       }
 
       const now = Date.now();
-      const minTimestamp = now - (this.perFileInterval * 1000 * 60);
       const savedData = this._getFileIntervals();
-      Object.entries(savedData).forEach(([
-        key,
-        value,
-      ]) => {
-        if (value < minTimestamp) {
-          delete savedData[key];
-        }
-      });
       fileIds.forEach((id) => {
         savedData[id] = now;
       });
-      this._setFileIntervals(savedData);
+      this._fileIntervalsChanged = true;
+    },
+    flushFileIntervals() {
+      if (this._fileIntervalsChanged) {
+        const minTimestamp = Date.now() - (this.perFileInterval * 1000 * 60);
+        const entries = Object.entries(this._getFileIntervals())
+          .filter((entry) => entry[1] >= minTimestamp)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, MAX_FILE_INTERVAL_ENTRIES);
+        this._setFileIntervals(Object.fromEntries(entries));
+      }
+      this.resetFileIntervals();
+    },
+    resetFileIntervals() {
+      this._fileIntervals = null;
+      this._fileIntervalsChanged = false;
     },
     checkMinimumInterval(files) {
       const filteredFiles = this.filterByMinimumInterval(files);

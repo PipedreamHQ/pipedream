@@ -7,7 +7,7 @@ export default {
   key: "google_drive-new-files-shared-drive",
   name: "New Files (Shared Drive)",
   description: "Emit new event when a new file is added in your shared Google Drive",
-  version: "0.1.17",
+  version: "0.1.18",
   type: "source",
   dedupe: "unique",
   props: {
@@ -69,21 +69,8 @@ export default {
   },
   methods: sourceComponent.methods,
   async run() {
-    const pageToken = this._getPageToken();
-
-    const driveId = this.getDriveId();
-    const changedFilesStream =
-      this.googleDrive.listChanges(pageToken, driveId, this.changesPageSize);
-    for await (const changedFilesPage of changedFilesStream) {
-      const { nextPageToken } = changedFilesPage;
-
-      // Process all the changed files retrieved from the current page
-      await this.processChanges();
-
-      // After successfully processing the changed files, we store the page
-      // token of the next page
-      this._setPageToken(nextPageToken);
-    }
+    // processChanges() queries files by createdTime, so the changes feed isn't walked
+    await this.processChanges();
   },
   sampleEmit,
 };

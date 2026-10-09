@@ -7,11 +7,14 @@ const mimeTypes = Object.keys(mimeDb);
 
 import googleMimeTypes from "./actions/google-mime-types.mjs";
 import {
+  DEFAULT_MAX_EMITS_PER_RUN,
   GOOGLE_DRIVE_FOLDER_MIME_TYPE,
   GOOGLE_DRIVE_GRANTEE_TYPES,
   GOOGLE_DRIVE_UPDATE_TYPE_OPTIONS,
   GOOGLE_DRIVE_UPDATE_TYPES,
   GOOGLE_DRIVE_UPLOAD_TYPE_OPTIONS,
+  MAX_CHANGES_PAGES_PER_RUN,
+  MAX_EMITS_PER_RUN,
   MY_DRIVE_VALUE,
   RATE_LIMIT_ERROR_REASONS,
   RETRYABLE_STATUS_CODES,
@@ -161,10 +164,19 @@ export default {
     changesPageSize: {
       type: "integer",
       label: "Changes Page Size",
-      description: "Maximum number of changes to fetch per API call (1-1000). Lower values reduce memory usage and the risk of execution timeouts or out-of-memory errors on active drives.",
+      description: "Maximum number of changes to fetch per API call (max 1000). Lower values mean more API calls per run. Example: `500`",
       min: 1,
       max: 1000,
-      default: 100,
+      default: 1000,
+      optional: true,
+    },
+    maxEmitsPerRun: {
+      type: "integer",
+      label: "Max Events Per Run",
+      description: `Stop after about this many events and resume on the next run (max ${MAX_EMITS_PER_RUN}). A single page of changes larger than this is still processed in full. Example: \`1000\``,
+      min: 1,
+      max: MAX_EMITS_PER_RUN,
+      default: DEFAULT_MAX_EMITS_PER_RUN,
       optional: true,
     },
     filePath: {
@@ -449,17 +461,25 @@ export default {
      * per page
      * @param {string} [fileFields] - the file fields to return for each change,
      * e.g. `id,name,parents`. Defaults to the API's minimal file fields
+     * @param {object} [options]
+     * @param {boolean} [options.stopOnRateLimit=false] - end the stream instead
+     * of throwing when Google still rate limits after retries
+     * @param {function} [options.changeFilter] - keeps only the changes it
+     * returns `true` for; receives the change, including its `time`
      * @yields
      * @type {ChangesPage}
      */
-    async *listChanges(pageToken, driveId, pageSize = 1000, fileFields) {
+    async *listChanges(pageToken, driveId, pageSize = 1000, fileFields, options = {}) {
+      const {
+        stopOnRateLimit = false, changeFilter,
+      } = options;
       const drive = this.drive();
       let changeRequest = {
         pageToken,
         pageSize,
       };
       if (fileFields) {
-        changeRequest.fields = `nextPageToken,newStartPageToken,changes(file(${fileFields}))`;
+        changeRequest.fields = `nextPageToken,newStartPageToken,changes(time,file(${fileFields}))`;
       }
 
       // As with many of the methods for Google Drive, we must
@@ -475,9 +495,18 @@ export default {
       }
 
       while (true) {
-        const { data } = await this.retryWithExponentialBackoff(
-          () => drive.changes.list(changeRequest),
-        );
+        let data;
+        try {
+          ({ data } = await this.retryWithExponentialBackoff(
+            () => drive.changes.list(changeRequest),
+          ));
+        } catch (error) {
+          if (!stopOnRateLimit || !this.isRateLimitError(error)) {
+            throw error;
+          }
+          console.log(`Rate limited by Google Drive (${error.message}). Stopping; remaining changes resume on the next run.`);
+          return;
+        }
         const {
           changes = [],
           newStartPageToken,
@@ -486,13 +515,19 @@ export default {
 
         // Some changes do not include an associated file object. Return only
         // those that do
-        const changedFiles = changes
-          .map((change) => change.file)
-          .filter((f) => typeof f === "object");
+        const withFiles = changes.filter((change) => typeof change.file === "object");
+        const kept = changeFilter
+          ? withFiles.filter(changeFilter)
+          : withFiles;
+        if (kept.length < withFiles.length) {
+          console.log(`Skipped ${withFiles.length - kept.length} changes filtered by the source`);
+        }
+        const changedFiles = kept.map((change) => change.file);
 
         yield {
           changedFiles,
           nextPageToken: nextPageToken || newStartPageToken,
+          isLastPage: Boolean(newStartPageToken),
         };
 
         if (newStartPageToken) {
@@ -503,6 +538,57 @@ export default {
 
         changeRequest.pageToken = nextPageToken;
       }
+    },
+    /**
+     * Walks the changes feed from `pageToken`, stopping after about `maxEmits`
+     * events or MAX_CHANGES_PAGES_PER_RUN pages so the rest resumes on a later run.
+     *
+     * @param {object} opts
+     * @param {function} opts.processPage - handles one page of changed files and
+     * returns the number of events emitted
+     * @param {function} opts.savePageToken - persists the token of the next page
+     * @param {function} [opts.changeFilter] - see `listChanges`
+     * @returns {boolean} whether the feed was fully drained
+     */
+    async processChangesPages({
+      pageToken,
+      driveId,
+      pageSize,
+      fileFields,
+      maxEmits,
+      processPage,
+      savePageToken,
+      changeFilter,
+    }) {
+      const changedFilesStream = this.listChanges(pageToken, driveId, pageSize, fileFields, {
+        stopOnRateLimit: true,
+        changeFilter,
+      });
+      const cap = maxEmits ?? DEFAULT_MAX_EMITS_PER_RUN;
+      let pages = 0;
+      let emitted = 0;
+      for await (const {
+        changedFiles, nextPageToken, isLastPage,
+      } of changedFilesStream) {
+        // Leave this page for the next run rather than exceed the cap
+        if (emitted && emitted + changedFiles.length > cap) {
+          console.log(`Emitted ${emitted} events; remaining changes resume on the next run.`);
+          return false;
+        }
+
+        emitted += (await processPage(changedFiles)) ?? changedFiles.length;
+        savePageToken(nextPageToken);
+
+        if (isLastPage) {
+          return true;
+        }
+        if (emitted >= cap || ++pages >= MAX_CHANGES_PAGES_PER_RUN) {
+          console.log(`Emitted ${emitted} events; remaining changes resume on the next run.`);
+          return false;
+        }
+      }
+      // The stream ended early on a rate limit
+      return false;
     },
     async getPageToken(driveId) {
       const drive = this.drive();
@@ -1703,7 +1789,11 @@ export default {
       return (await drive.accessproposals.resolve(opts)).data;
     },
     isRetryableError(error, statusCode) {
-      if (RETRYABLE_STATUS_CODES.includes(statusCode)) {
+      return RETRYABLE_STATUS_CODES.includes(statusCode)
+        || this.isRateLimitError(error, statusCode);
+    },
+    isRateLimitError(error, statusCode = error.status || error.response?.status) {
+      if (statusCode === 429) {
         return true;
       }
       const errors = error.errors ?? error.response?.data?.error?.errors ?? [];

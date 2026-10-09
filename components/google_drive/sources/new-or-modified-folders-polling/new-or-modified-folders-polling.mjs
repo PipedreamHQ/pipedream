@@ -4,7 +4,10 @@ import {
   getListFilesOpts,
   isMyDrive,
 } from "../../common/utils.mjs";
-import { GOOGLE_DRIVE_FOLDER_MIME_TYPE } from "../../common/constants.mjs";
+import {
+  CHANGE_FILTER_FILE_FIELDS,
+  GOOGLE_DRIVE_FOLDER_MIME_TYPE,
+} from "../../common/constants.mjs";
 import sampleEmit from "./test-event.mjs";
 import md5 from "md5";
 
@@ -12,7 +15,7 @@ export default {
   key: "google_drive-new-or-modified-folders-polling",
   name: "New or Modified Folders (Polling)",
   description: "Emit new event when a folder is created or modified in the selected Drive",
-  version: "0.0.16",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   props: {
@@ -54,6 +57,12 @@ export default {
       propDefinition: [
         googleDrive,
         "changesPageSize",
+      ],
+    },
+    maxEmitsPerRun: {
+      propDefinition: [
+        googleDrive,
+        "maxEmitsPerRun",
       ],
     },
   },
@@ -115,20 +124,21 @@ export default {
         ...args,
       });
     },
-    async getAllParents(folderId) {
+    async getAllParents(folderId, parentsCache = new Map()) {
       const allParents = [];
       let currentId = folderId;
 
       while (currentId) {
-        const folder = await this.googleDrive.getFile(currentId, {
-          fields: "parents",
-        });
-        const parents = folder.parents;
-
-        if (parents && parents.length > 0) {
-          allParents.push(parents[0]);
+        if (!parentsCache.has(currentId)) {
+          const { parents } = await this.googleDrive.getFile(currentId, {
+            fields: "parents",
+          });
+          parentsCache.set(currentId, parents?.[0]);
         }
-        currentId = parents?.[0];
+        currentId = parentsCache.get(currentId);
+        if (currentId) {
+          allParents.push(currentId);
+        }
       }
 
       return allParents;
@@ -141,7 +151,7 @@ export default {
       );
       return root.id;
     },
-    async shouldProcess(file, rootId) {
+    async shouldProcess(file, rootId, parentsCache) {
       // Skip if not a folder
       if (file.mimeType !== GOOGLE_DRIVE_FOLDER_MIME_TYPE) {
         return false;
@@ -154,7 +164,7 @@ export default {
 
       const allParents = [];
       if (this.includeSubfolders) {
-        allParents.push(...(await this.getAllParents(file.id)));
+        allParents.push(...(await this.getAllParents(file.id, parentsCache)));
       } else if (file.parents) {
         allParents.push(file.parents[0]);
       }
@@ -182,60 +192,48 @@ export default {
   },
   async run() {
     const currentRunTimestamp = Date.now();
-
-    const pageToken = this._getPageToken();
-    const driveId = this.getDriveId();
     const rootId = await this.getRootId();
+    const parentsCache = new Map();
 
-    const changedFilesStream =
-      this.googleDrive.listChanges(pageToken, driveId, this.changesPageSize);
+    const caughtUp = await this.googleDrive.processChangesPages({
+      pageToken: this._getPageToken(),
+      driveId: this.getDriveId(),
+      pageSize: this.changesPageSize,
+      fileFields: CHANGE_FILTER_FILE_FIELDS,
+      maxEmits: this.maxEmitsPerRun,
+      // Filter before paging so the per-run cap counts only folders that can emit
+      changeFilter: ({ file }) => file.mimeType === GOOGLE_DRIVE_FOLDER_MIME_TYPE
+        && this._getLastModifiedTimeForFile(file.id) !== Date.parse(file.modifiedTime),
+      processPage: async (changedFiles) => {
+        console.log(changedFiles.length
+          ? `Processing ${changedFiles.length} changed folders`
+          : "No changed folders since last run");
 
-    for await (const changedFilesPage of changedFilesStream) {
-      const {
-        changedFiles,
-        nextPageToken,
-      } = changedFilesPage;
+        let emitted = 0;
+        for (const file of changedFiles) {
+          const modifiedTime = Date.parse(file.modifiedTime);
+          if (!await this.shouldProcess(file, rootId, parentsCache)) {
+            console.log(`Skipping folder ${file.name || file.id}`);
+            continue;
+          }
 
-      console.log(changedFiles.length
-        ? `Processing ${changedFiles.length} changed files`
-        : "No changed files since last run");
+          // Full metadata only for folders that emit
+          const fullFile = await this.googleDrive.getFile(file.id, {
+            fields: "*",
+          });
+          await this.emitFolder(fullFile);
+          emitted++;
 
-      for (const file of changedFiles) {
-        // Skip if not a folder
-        if (file.mimeType !== GOOGLE_DRIVE_FOLDER_MIME_TYPE) {
-          continue;
+          this._setModifiedTimeForFile(fullFile.id, modifiedTime);
         }
+        return emitted;
+      },
+      savePageToken: (nextPageToken) => this._setPageToken(nextPageToken),
+    });
 
-        // Get full file metadata
-        const fullFile = await this.googleDrive.getFile(file.id, {
-          fields: "*",
-        });
-
-        const modifiedTime = Date.parse(fullFile.modifiedTime);
-        const lastModifiedTimeForFile = this._getLastModifiedTimeForFile(fullFile.id);
-
-        // Skip if not modified since last check
-        if (lastModifiedTimeForFile === modifiedTime) {
-          console.log(`Skipping unmodified folder ${fullFile.name || fullFile.id}`);
-          continue;
-        }
-
-        if (!await this.shouldProcess(fullFile, rootId)) {
-          console.log(`Skipping folder ${fullFile.name || fullFile.id}`);
-          continue;
-        }
-
-        await this.emitFolder(fullFile);
-
-        this._setModifiedTimeForFile(fullFile.id, modifiedTime);
-      }
-
-      // Save the next page token after successfully processing
-      this._setPageToken(nextPageToken);
+    if (caughtUp) {
+      this._setLastRunTimestamp(currentRunTimestamp);
     }
-
-    // Update the last run timestamp after processing all changes
-    this._setLastRunTimestamp(currentRunTimestamp);
   },
   sampleEmit,
 };
