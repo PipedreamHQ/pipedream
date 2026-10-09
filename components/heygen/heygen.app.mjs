@@ -63,7 +63,7 @@ export default {
     token: {
       type: "string",
       label: "Token",
-      description: "Cursor for the next page. Use the `next_token` value from a previous response. Example: `eyJzdGFydF9pZCI6ICI4NDU5MTlhZTEw...`",
+      description: "Cursor for the next page. Use the `next_token` value from the previous response of this same action, with the same filters and limit. Example: `eyJzdGFydF9pZCI6ICI4NDU5MTlhZTEw...`",
       optional: true,
     },
     title: {
