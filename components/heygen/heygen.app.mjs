@@ -47,7 +47,7 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "Number of results per page (1-100). Defaults to the API default if not set.",
+      description: "Number of results per page (1-100). Defaults to the API default if not set. Example: `20`",
       min: 1,
       max: 100,
       optional: true,
@@ -55,7 +55,7 @@ export default {
     avatarLookLimit: {
       type: "integer",
       label: "Limit",
-      description: "Number of results per page (1-50). Defaults to the API default if not set.",
+      description: "Number of results per page (1-50). Defaults to the API default if not set. Example: `20`",
       min: 1,
       max: 50,
       optional: true,
@@ -63,7 +63,7 @@ export default {
     token: {
       type: "string",
       label: "Token",
-      description: "Cursor for the next page. Use the `next_token` value from a previous response.",
+      description: "Cursor for the next page. Use the `next_token` value from a previous response. Example: `eyJzdGFydF9pZCI6ICI4NDU5MTlhZTEw...`",
       optional: true,
     },
     title: {
@@ -107,7 +107,7 @@ export default {
     titleFilter: {
       type: "string",
       label: "Title",
-      description: "Only return videos whose title contains this text",
+      description: "Only return videos whose title contains this text. Example: `Onboarding`",
       optional: true,
     },
   },
@@ -134,15 +134,6 @@ export default {
         ...otherOpts,
       });
     },
-    pluckFields(items = [], fields) {
-      if (!fields?.length) {
-        return items;
-      }
-      return items.map((item) => Object.fromEntries(fields.map((field) => [
-        field,
-        item[field],
-      ])));
-    },
     createWebhook(args = {}) {
       return this._makeRequest({
         method: "POST",
@@ -155,7 +146,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/webhooks/endpoints/${endpointId}`,
+        path: `/webhooks/endpoints/${encodeURIComponent(endpointId)}`,
         ...args,
       });
     },
@@ -163,7 +154,7 @@ export default {
       videoId, ...args
     }) {
       return this._makeRequest({
-        path: `/videos/${videoId}`,
+        path: `/videos/${encodeURIComponent(videoId)}`,
         ...args,
       });
     },

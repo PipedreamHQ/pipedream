@@ -1,4 +1,5 @@
 import heygen from "../../heygen.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "heygen-list-avatar-look-id-options",
@@ -42,7 +43,7 @@ export default {
         token: this.token,
       },
     });
-    const data = this.heygen.pluckFields(response.data, this.avatarLookFields);
+    const data = utils.pluckFields(response.data, this.avatarLookFields);
     $.export("$summary", `Successfully retrieved ${data.length} avatar look${data.length === 1
       ? ""
       : "s"}`);

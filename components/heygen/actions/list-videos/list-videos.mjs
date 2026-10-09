@@ -1,4 +1,5 @@
 import heygen from "../../heygen.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "heygen-list-videos",
@@ -55,7 +56,7 @@ export default {
         token: this.token,
       },
     });
-    const data = this.heygen.pluckFields(response.data, this.videoFields);
+    const data = utils.pluckFields(response.data, this.videoFields);
     $.export("$summary", `Successfully retrieved ${data.length} video${data.length === 1
       ? ""
       : "s"}`);
