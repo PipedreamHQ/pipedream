@@ -9368,6 +9368,12 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/looot:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
+
   components/loop_returns:
     dependencies:
       '@pipedream/platform':
