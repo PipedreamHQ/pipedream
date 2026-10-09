@@ -4,7 +4,7 @@ export default {
   key: "slack_v2-list-files",
   name: "List Files",
   description: "Return a list of files within a team. [See the documentation](https://api.slack.com/methods/files.list)",
-  version: "0.1.17",
+  version: "0.1.18",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
