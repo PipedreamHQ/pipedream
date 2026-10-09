@@ -12,7 +12,6 @@ export default {
     readOnlyHint: true,
   },
   type: "action",
-  ai: "optimized",
   props: {
     servicenow,
     table: {

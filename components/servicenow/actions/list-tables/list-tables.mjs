@@ -6,7 +6,6 @@ export default {
   description: "List all tables in the ServiceNow instance. [See the documentation](https://www.servicenow.com/docs/r/api-reference/rest-apis/c_TableAPI.html)",
   version: "0.0.7",
   type: "action",
-  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
