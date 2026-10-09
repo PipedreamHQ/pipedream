@@ -8,7 +8,7 @@ export default {
     customEvents: {
       type: "string[]",
       label: "Custom Events",
-      description: "A custom set of event(s) that the user wants to trigger. Use the **List Custom Events Options** action to find available event types.",
+      description: "A custom set of event(s) that the user wants to trigger. Use the **List Custom Events Options** action to find available event types. Example: `[\"avatar_video.success\"]`",
       async options({ prevContext }) {
         const {
           data, has_more: hasMore, next_token: nextToken,
@@ -32,17 +32,17 @@ export default {
     templateId: {
       type: "string",
       label: "Template ID",
-      description: "Identifier of a template. Use the **List Template ID Options** action to find available template IDs.",
+      description: "Identifier of a template. Use the **List Template ID Options** action to find available template IDs. Example: `bf5077a5ccfe4ad6838bfc24d6bfe447`",
     },
     avatarLookId: {
       type: "string",
       label: "Avatar Look ID",
-      description: "Identifier of a photo avatar look. Use the **List Avatar Look ID Options** action to find available avatar look IDs.",
+      description: "Identifier of a photo avatar look. Use the **List Avatar Look ID Options** action to find available avatar look IDs. Example: `ee25a2363ef941a1b5b0f7b1172e57d1`",
     },
     voiceId: {
       type: "string",
       label: "Voice ID",
-      description: "Identifier of a voice. Use the **List Voice ID Options** action to find available voice IDs.",
+      description: "Identifier of a voice. Use the **List Voice ID Options** action to find available voice IDs. Example: `049413e41c334753984c294d694afb5c`",
     },
     limit: {
       type: "integer",
@@ -84,7 +84,7 @@ export default {
     videoId: {
       type: "string",
       label: "Video ID",
-      description: "Identifier of a specific heygen video. Use the **List Videos** action to find video IDs.",
+      description: "Identifier of a specific heygen video. Use the **List Videos** action to find video IDs. Example: `276970c8cf104bf0bf8fdfd679ea899d`",
     },
     folderId: {
       type: "string",

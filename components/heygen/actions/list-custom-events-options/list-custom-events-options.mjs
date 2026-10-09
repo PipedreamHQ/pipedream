@@ -4,7 +4,7 @@ export default {
   key: "heygen-list-custom-events-options",
   name: "List Custom Events Options",
   description: "Retrieves a page of available webhook event types, whose `event_type` can be used for Custom Events fields. If `has_more` is true, pass `next_token` as the Token to get the next page. Example: with no Token it returns `{\"data\": [{\"event_type\": \"avatar_video.success\", \"description\": \"Fires when an avatar video finishes\"}], \"has_more\": false, \"next_token\": null}`. [See the documentation](https://developers.heygen.com/reference/list-webhook-event-types)",
-  version: "0.0.2",
+  version: "1.0.0",
   type: "action",
   ai: "optimized",
   annotations: {
