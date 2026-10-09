@@ -15060,9 +15060,6 @@ importers:
       '@slack/web-api':
         specifier: 8.1.1
         version: 8.1.1
-      async-retry:
-        specifier: ^1.3.3
-        version: 1.3.3
       lodash:
         specifier: ^4.18.1
         version: 4.18.1
