@@ -95,6 +95,115 @@ export default {
       label: "End Date",
       description: "The end date in `YYYY-MM-DD` format, e.g. `2026-09-30`.",
     },
+    reportDatePreset: {
+      type: "string",
+      label: "Date Preset",
+      description: "Optional report range resolved using the connected user's Toggl timezone and first day of week, e.g. `last_month`. For all-user reports, Toggl evaluates dates in each time entry creator's profile timezone.",
+      options: [
+        {
+          label: "Last Week",
+          value: "last_week",
+        },
+        {
+          label: "Last Month",
+          value: "last_month",
+        },
+        {
+          label: "This Week",
+          value: "this_week",
+        },
+      ],
+      optional: true,
+    },
+    reportStartDate: {
+      type: "string",
+      label: "Start Date",
+      description: "Inclusive report start date in `YYYY-MM-DD` format, e.g. `2026-09-01`. Required with End Date when Date Preset is not used.",
+      optional: true,
+    },
+    reportEndDate: {
+      type: "string",
+      label: "End Date",
+      description: "Inclusive report end date in `YYYY-MM-DD` format, e.g. `2026-09-30`. It may be the same as Start Date.",
+      optional: true,
+    },
+    reportTimezone: {
+      type: "string",
+      label: "Preset Timezone",
+      description: "Optional IANA timezone used to resolve Date Preset, e.g. `America/Chicago`. Defaults to the connected user's Toggl profile timezone.",
+      optional: true,
+    },
+    reportUserIds: {
+      type: "integer[]",
+      label: "User IDs",
+      description: "Include only these workspace user IDs, e.g. `[1234567]`. Use **List Workspace Users** and its `userId` field to find accessible IDs.",
+      optional: true,
+    },
+    reportUserName: {
+      type: "string",
+      label: "User Name or Email",
+      description: "Optional full or partial name or email, e.g. `Angus`. It must resolve to exactly one accessible workspace user.",
+      optional: true,
+    },
+    reportProjectIds: {
+      type: "integer[]",
+      label: "Project IDs",
+      description: "Include only these project IDs, e.g. `[123456789]`. Find IDs in Toggl Track project settings or the [workspace projects API](https://engineering.toggl.com/docs/track/api/projects/).",
+      optional: true,
+    },
+    reportClientIds: {
+      type: "integer[]",
+      label: "Client IDs",
+      description: "Include only these client IDs, e.g. `[12345678]`. Find IDs in Toggl Track client settings or the [workspace clients API](https://engineering.toggl.com/docs/track/api/clients/).",
+      optional: true,
+    },
+    reportTaskIds: {
+      type: "integer[]",
+      label: "Task IDs",
+      description: "Include only these task IDs, e.g. `[12345678]`. Find IDs in Toggl Track project tasks or the [workspace tasks API](https://engineering.toggl.com/docs/track/api/tasks/).",
+      optional: true,
+    },
+    reportTagIds: {
+      type: "integer[]",
+      label: "Tag IDs",
+      description: "Include only entries with these tag IDs, e.g. `[1234567]`. Find IDs in Toggl Track workspace settings or the [workspace tags API](https://engineering.toggl.com/docs/track/api/tags/).",
+      optional: true,
+    },
+    reportDescription: {
+      type: "string",
+      label: "Description Filter",
+      description: "Include entries whose description matches this value, e.g. `weekly planning`.",
+      optional: true,
+    },
+    reportBillable: {
+      type: "boolean",
+      label: "Billable",
+      description: "Filter entries by billable status, e.g. `true`. This filter requires the corresponding Toggl feature.",
+      optional: true,
+    },
+    reportOrderBy: {
+      type: "string",
+      label: "Order By",
+      description: "Field used to order report rows, e.g. `date`.",
+      options: [
+        "date",
+        "user",
+        "duration",
+        "description",
+        "last_update",
+      ],
+      default: "date",
+    },
+    reportOrderDirection: {
+      type: "string",
+      label: "Order Direction",
+      description: "Direction used to order report rows, e.g. `ASC`.",
+      options: [
+        "ASC",
+        "DESC",
+      ],
+      default: "ASC",
+    },
   },
   methods: {
     _apiToken() {

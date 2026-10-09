@@ -25,113 +25,88 @@ export default {
       ],
     },
     datePreset: {
-      type: "string",
-      label: "Date Preset",
-      description: "Optional date range resolved using the connected user's Toggl timezone and first day of week. For all-user reports, Toggl evaluates dates in each time entry creator's profile timezone.",
-      options: [
-        {
-          label: "Last Week",
-          value: "last_week",
-        },
-        {
-          label: "Last Month",
-          value: "last_month",
-        },
-        {
-          label: "This Week",
-          value: "this_week",
-        },
+      propDefinition: [
+        toggl,
+        "reportDatePreset",
       ],
-      optional: true,
     },
     startDate: {
-      type: "string",
-      label: "Start Date",
-      description: "Inclusive report start date in `YYYY-MM-DD` format. Required with End Date when Date Preset is not used.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportStartDate",
+      ],
     },
     endDate: {
-      type: "string",
-      label: "End Date",
-      description: "Inclusive report end date in `YYYY-MM-DD` format. It may be the same as Start Date.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportEndDate",
+      ],
     },
     timezone: {
-      type: "string",
-      label: "Preset Timezone",
-      description: "Optional IANA timezone used to resolve Date Preset. Defaults to the connected user's Toggl profile timezone.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportTimezone",
+      ],
     },
     userIds: {
-      type: "integer[]",
-      label: "User IDs",
-      description: "Include only these workspace user IDs. Use **List Workspace Users** to find IDs.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportUserIds",
+      ],
     },
     userName: {
-      type: "string",
-      label: "User Name or Email",
-      description: "Optional full or partial name or email. It must resolve to exactly one accessible workspace user.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportUserName",
+      ],
     },
     projectIds: {
-      type: "integer[]",
-      label: "Project IDs",
-      description: "Include only these project IDs.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportProjectIds",
+      ],
     },
     clientIds: {
-      type: "integer[]",
-      label: "Client IDs",
-      description: "Include only these client IDs.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportClientIds",
+      ],
     },
     taskIds: {
-      type: "integer[]",
-      label: "Task IDs",
-      description: "Include only these task IDs.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportTaskIds",
+      ],
     },
     tagIds: {
-      type: "integer[]",
-      label: "Tag IDs",
-      description: "Include only entries with these tag IDs.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportTagIds",
+      ],
     },
     description: {
-      type: "string",
-      label: "Description Filter",
-      description: "Include entries whose description matches this value.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportDescription",
+      ],
     },
     billable: {
-      type: "boolean",
-      label: "Billable",
-      description: "Filter entries by billable status. This filter requires the corresponding Toggl feature.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportBillable",
+      ],
     },
     orderBy: {
-      type: "string",
-      label: "Order By",
-      description: "Field used to order the exported rows.",
-      options: [
-        "date",
-        "user",
-        "duration",
-        "description",
-        "last_update",
+      propDefinition: [
+        toggl,
+        "reportOrderBy",
       ],
-      default: "date",
     },
     orderDirection: {
-      type: "string",
-      label: "Order Direction",
-      description: "Direction used to order the exported rows.",
-      options: [
-        "ASC",
-        "DESC",
+      propDefinition: [
+        toggl,
+        "reportOrderDirection",
       ],
-      default: "ASC",
     },
   },
   async run({ $ }) {

@@ -3,6 +3,7 @@ import toggl from "../../toggl.app.mjs";
 import {
   getNextCursor,
   parseCursorInput,
+  parseProviderTotals,
   resolveDateRange,
   resolveWorkspaceUser,
 } from "../../common/utils.mjs";
@@ -25,36 +26,6 @@ const NESTED_TIME_ENTRY_FIELDS = new Set([
   "seconds",
   "at",
 ]);
-
-const parseProviderTotals = (value) => {
-  if (!value || typeof value !== "object") {
-    throw new Error("Toggl returned an invalid report totals response.");
-  }
-
-  const trackedSeconds = Number(value.seconds);
-
-  if (!Number.isFinite(trackedSeconds)) {
-    throw new Error("Toggl returned an invalid tracked-seconds total.");
-  }
-
-  const rates = Array.isArray(value.rates)
-    ? value.rates
-    : [];
-  const billableSeconds = rates.reduce((sum, rate) => {
-    const seconds = Number(rate?.billable_seconds || 0);
-
-    if (!Number.isFinite(seconds)) {
-      throw new Error("Toggl returned an invalid billable-seconds total.");
-    }
-
-    return sum + seconds;
-  }, 0);
-
-  return {
-    trackedSeconds,
-    billableSeconds,
-  };
-};
 
 const projectFields = (value, fields) => {
   if (fields.includes(ALL_FIELDS)) return value;
@@ -87,7 +58,7 @@ export default {
   key: "toggl-search-detailed-time-entries",
   name: "Search Detailed Time Entries",
   description: "Search workspace-wide Toggl Track time entries with structured filters and provider-computed totals. Follows Toggl Reports API cursors up to an explicit cap and returns deterministic JSON without model rewriting. Only present the entries as a complete report when `complete` is true; otherwise use **Export Detailed Time Entries**. Results are limited by the connected user's Toggl permissions. [See the documentation](https://engineering.toggl.com/docs/track/reports/detailed_reports/)",
-  version: "0.0.2",
+  version: "1.0.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -104,95 +75,83 @@ export default {
       ],
     },
     datePreset: {
-      type: "string",
-      label: "Date Preset",
-      description: "Optional date range resolved using the connected user's Toggl timezone and first day of week. For all-user reports, Toggl still evaluates the dates in each time entry creator's profile timezone.",
-      options: [
-        {
-          label: "Last Week",
-          value: "last_week",
-        },
-        {
-          label: "Last Month",
-          value: "last_month",
-        },
-        {
-          label: "This Week",
-          value: "this_week",
-        },
+      propDefinition: [
+        toggl,
+        "reportDatePreset",
       ],
-      optional: true,
     },
     startDate: {
-      type: "string",
-      label: "Start Date",
-      description: "Inclusive report start date in `YYYY-MM-DD` format. Required with End Date when Date Preset is not used.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportStartDate",
+      ],
     },
     endDate: {
-      type: "string",
-      label: "End Date",
-      description: "Inclusive report end date in `YYYY-MM-DD` format. It may be the same as Start Date.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportEndDate",
+      ],
     },
     timezone: {
-      type: "string",
-      label: "Preset Timezone",
-      description: "Optional IANA timezone used to resolve Date Preset, e.g. `America/Chicago`. Defaults to the connected user's Toggl profile timezone.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportTimezone",
+      ],
     },
     userIds: {
-      type: "integer[]",
-      label: "User IDs",
-      description: "Return entries for these user IDs, subject to the connected user's Toggl permissions. Use **List Workspace Users** to find IDs.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportUserIds",
+      ],
+      description: "Return entries for these user IDs, subject to the connected user's Toggl permissions, e.g. `[1234567]`. Use **List Workspace Users** and its `userId` field to find accessible IDs.",
     },
     userName: {
-      type: "string",
-      label: "User Name or Email",
-      description: "Optional full or partial name or email. It must resolve to exactly one accessible workspace user. The resolved ID is combined with User IDs.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportUserName",
+      ],
+      description: "Optional full or partial name or email, e.g. `Angus`. It must resolve to exactly one accessible workspace user. The resolved ID is combined with User IDs.",
     },
     projectIds: {
-      type: "integer[]",
-      label: "Project IDs",
-      description: "Return entries for these project IDs, e.g. `[123456789]`.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportProjectIds",
+      ],
     },
     clientIds: {
-      type: "integer[]",
-      label: "Client IDs",
-      description: "Return entries for these client IDs, e.g. `[12345678]`.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportClientIds",
+      ],
     },
     taskIds: {
-      type: "integer[]",
-      label: "Task IDs",
-      description: "Return entries for these task IDs, e.g. `[12345678]`.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportTaskIds",
+      ],
     },
     tagIds: {
-      type: "integer[]",
-      label: "Tag IDs",
-      description: "Return entries with these tag IDs, e.g. `[1234567]`.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportTagIds",
+      ],
     },
     description: {
-      type: "string",
-      label: "Description Filter",
-      description: "Return entries whose description matches this value, e.g. `weekly planning`.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportDescription",
+      ],
     },
     billable: {
-      type: "boolean",
-      label: "Billable",
-      description: "Filter entries by billable status. This filter requires the corresponding Toggl feature.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportBillable",
+      ],
     },
     pageSize: {
       type: "integer",
       label: "Page Size",
-      description: "Number of rows requested from Toggl per API call.",
+      description: "Number of rows requested from Toggl per API call, e.g. `50`.",
       min: 1,
       max: 50,
       default: 50,
@@ -200,7 +159,7 @@ export default {
     maxResults: {
       type: "integer",
       label: "Maximum Results",
-      description: "Maximum rows returned across all server-side pages. If reached before Toggl is exhausted, `capHit` and `hasMore` are true and `totalCount` is null.",
+      description: "Maximum rows returned across all server-side pages, e.g. `1000`. If reached before Toggl is exhausted, `capHit` and `hasMore` are true and `totalCount` is null.",
       min: 1,
       max: 10000,
       default: 1000,
@@ -208,13 +167,13 @@ export default {
     cursor: {
       type: "object",
       label: "Cursor",
-      description: "Optional `nextCursor` object returned by a previous run. Header values are preserved unchanged.",
+      description: "Optional `nextCursor` object returned by a previous run, e.g. `{\"firstId\": 123, \"firstRowNumber\": 51}`. Header values are preserved unchanged.",
       optional: true,
     },
     fields: {
       type: "string[]",
       label: "Fields",
-      description: "Raw Toggl fields to return. The slim default omits descriptions. Select All Fields for the complete API rows.",
+      description: "Raw Toggl fields to return, e.g. `[\"user_id\", \"seconds\"]`. The slim default omits descriptions. Select All Fields for the complete API rows.",
       options: [
         {
           label: "User ID",
@@ -292,39 +251,29 @@ export default {
       default: DEFAULT_FIELDS,
     },
     orderBy: {
-      type: "string",
-      label: "Order By",
-      description: "Field used to order results. Date ordering is recommended for repeatable report pulls.",
-      options: [
-        "date",
-        "user",
-        "duration",
-        "description",
-        "last_update",
+      propDefinition: [
+        toggl,
+        "reportOrderBy",
       ],
-      default: "date",
+      description: "Field used to order results, for example `date`. Date ordering is recommended for repeatable report pulls.",
     },
     orderDirection: {
-      type: "string",
-      label: "Order Direction",
-      description: "Direction used to order results.",
-      options: [
-        "ASC",
-        "DESC",
+      propDefinition: [
+        toggl,
+        "reportOrderDirection",
       ],
-      default: "ASC",
     },
     firstId: {
       type: "integer",
       label: "Legacy First ID",
-      description: "Deprecated. Prefer Cursor. The `nextCursor.firstId` value from an earlier action version.",
+      description: "Deprecated. Prefer Cursor. The `nextCursor.firstId` value from an earlier action version, e.g. `1234567890`.",
       min: 0,
       optional: true,
     },
     firstRowNumber: {
       type: "integer",
       label: "Legacy First Row Number",
-      description: "Deprecated. Prefer Cursor. The `nextCursor.firstRowNumber` value from an earlier action version.",
+      description: "Deprecated. Prefer Cursor. The `nextCursor.firstRowNumber` value from an earlier action version, e.g. `50`.",
       min: 0,
       optional: true,
     },

@@ -104,6 +104,36 @@ export const parseCursorInput = (cursor) => {
   };
 };
 
+export const parseProviderTotals = (value) => {
+  if (!value || typeof value !== "object") {
+    throw new Error("Toggl returned an invalid report totals response.");
+  }
+
+  const trackedSeconds = Number(value.seconds);
+
+  if (!Number.isFinite(trackedSeconds)) {
+    throw new Error("Toggl returned an invalid tracked-seconds total.");
+  }
+
+  const rates = Array.isArray(value.rates)
+    ? value.rates
+    : [];
+  const billableSeconds = rates.reduce((sum, rate) => {
+    const seconds = Number(rate?.billable_seconds || 0);
+
+    if (!Number.isFinite(seconds)) {
+      throw new Error("Toggl returned an invalid billable-seconds total.");
+    }
+
+    return sum + seconds;
+  }, 0);
+
+  return {
+    trackedSeconds,
+    billableSeconds,
+  };
+};
+
 const formatDate = (date) => date.toISOString().slice(0, 10);
 
 const addDays = (date, days) => {

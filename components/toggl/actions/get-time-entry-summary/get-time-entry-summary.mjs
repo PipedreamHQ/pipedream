@@ -1,5 +1,6 @@
 import toggl from "../../toggl.app.mjs";
 import {
+  parseProviderTotals,
   resolveDateRange,
   resolveWorkspaceUser,
 } from "../../common/utils.mjs";
@@ -55,7 +56,7 @@ export default {
     grouping: {
       type: "string",
       label: "Group By",
-      description: "Primary grouping for the Toggl summary report.",
+      description: "Primary grouping for the Toggl summary report, e.g. `users`.",
       options: [
         {
           label: "User",
@@ -73,72 +74,58 @@ export default {
       default: "users",
     },
     datePreset: {
-      type: "string",
-      label: "Date Preset",
-      description: "Optional date range resolved using the connected user's Toggl timezone and first day of week. For all-user reports, Toggl still evaluates dates in each time entry creator's profile timezone.",
-      options: [
-        {
-          label: "Last Week",
-          value: "last_week",
-        },
-        {
-          label: "Last Month",
-          value: "last_month",
-        },
-        {
-          label: "This Week",
-          value: "this_week",
-        },
+      propDefinition: [
+        toggl,
+        "reportDatePreset",
       ],
-      optional: true,
     },
     startDate: {
-      type: "string",
-      label: "Start Date",
-      description: "Inclusive report start date in `YYYY-MM-DD` format. Required with End Date when Date Preset is not used.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportStartDate",
+      ],
     },
     endDate: {
-      type: "string",
-      label: "End Date",
-      description: "Inclusive report end date in `YYYY-MM-DD` format. It may be the same as Start Date.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportEndDate",
+      ],
     },
     timezone: {
-      type: "string",
-      label: "Preset Timezone",
-      description: "Optional IANA timezone used to resolve Date Preset. Defaults to the connected user's Toggl profile timezone.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportTimezone",
+      ],
     },
     userIds: {
-      type: "integer[]",
-      label: "User IDs",
-      description: "Include only these workspace user IDs. Use **List Workspace Users** to find IDs.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportUserIds",
+      ],
     },
     userName: {
-      type: "string",
-      label: "User Name or Email",
-      description: "Optional full or partial name or email. It must resolve to exactly one accessible workspace user.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportUserName",
+      ],
     },
     projectIds: {
-      type: "integer[]",
-      label: "Project IDs",
-      description: "Include only these project IDs.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportProjectIds",
+      ],
     },
     clientIds: {
-      type: "integer[]",
-      label: "Client IDs",
-      description: "Include only these client IDs.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportClientIds",
+      ],
     },
     billable: {
-      type: "boolean",
-      label: "Billable",
-      description: "Filter by billable status. This filter requires the corresponding Toggl feature.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportBillable",
+      ],
     },
   },
   async run({ $ }) {
@@ -220,12 +207,8 @@ export default {
     }
 
     const timeEntryIds = collectTimeEntryIds(summaryResponse.data);
-    const rates = Array.isArray(totalsResponse.data.rates)
-      ? totalsResponse.data.rates
-      : [];
     const totals = {
-      trackedSeconds: totalsResponse.data.seconds,
-      billableSeconds: rates.reduce((sum, rate) => sum + (rate.billable_seconds || 0), 0),
+      ...parseProviderTotals(totalsResponse.data),
       entryCount: timeEntryIds.size,
     };
     const result = {
