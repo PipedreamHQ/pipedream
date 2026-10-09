@@ -113,6 +113,41 @@ export default {
         ...options,
       });
     },
+    /**
+     * Make a Toggl API request with a timeout and retries for transient failures.
+     *
+     * @param {string} apiVersion - API version key from the Toggl constants
+     * @param {string} path - API path relative to the selected base URL
+     * @param {Object} options - Axios request options
+     * @param {Object} $ - Pipedream execution context
+     * @param {number} retries - Number of retries after the initial request
+     * @returns {Promise<Object>} The Toggl API response
+     */
+    async _makeReliableRequest(apiVersion, path, options = {}, $ = this, retries = 2) {
+      for (let attempt = 0; ; attempt++) {
+        try {
+          return await this._makeRequest(apiVersion, path, {
+            timeout: 30000,
+            ...options,
+          }, $);
+        } catch (error) {
+          const status = error?.response?.status;
+          const isTransient = !status
+            || status === 408
+            || status === 429
+            || status >= 500;
+
+          if (!isTransient || attempt >= retries) throw error;
+
+          const retryAfter = Number(error?.response?.headers?.["retry-after"]);
+          const delay = Number.isFinite(retryAfter)
+            ? Math.min(retryAfter * 1000, 10000)
+            : 1000 * (2 ** attempt);
+
+          await new Promise((resolve) => setTimeout(resolve, delay));
+        }
+      }
+    },
     createWebhook({
       workspaceId, data,
     }) {
@@ -134,6 +169,34 @@ export default {
     },
     getWorkspaces({ $ }) {
       return this._makeRequest("v9", "me/workspaces", {}, $);
+    },
+    /**
+     * Get the connected Toggl user's profile and preferences.
+     *
+     * @param {Object} opts - The request options
+     * @param {Object} opts.$ - The Pipedream execution context
+     * @returns {Promise<Object>} The connected user's Toggl profile
+     */
+    getMe({ $ } = {}) {
+      return this._makeReliableRequest("v9", "me", {}, $);
+    },
+    /**
+     * List users visible to the connected account in a workspace.
+     *
+     * @param {Object} opts - The request options
+     * @param {number} opts.workspaceId - The Toggl Track workspace ID
+     * @param {boolean} [opts.excludeDeleted=true] - Whether to exclude deleted users
+     * @param {Object} opts.$ - The Pipedream execution context
+     * @returns {Promise<Array>} Workspace users returned by Toggl
+     */
+    getWorkspaceUsers({
+      workspaceId, excludeDeleted = true, $,
+    }) {
+      return this._makeReliableRequest("v9", `workspaces/${workspaceId}/users`, {
+        params: {
+          exclude_deleted: excludeDeleted,
+        },
+      }, $);
     },
     getClients({
       workspaceId, $,
@@ -170,9 +233,89 @@ export default {
     searchDetailedTimeEntries({
       workspaceId, data, $,
     }) {
-      return this._makeRequest(
+      return this._makeReliableRequest(
         "reportsV3",
         `workspace/${workspaceId}/search/time_entries`,
+        {
+          method: "post",
+          data,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          returnFullResponse: true,
+        },
+        $,
+      );
+    },
+    /**
+     * Export a complete detailed time entry report as CSV.
+     *
+     * @param {Object} opts - The request options
+     * @param {number} opts.workspaceId - The Toggl Track workspace ID
+     * @param {Object} opts.data - The detailed report export parameters
+     * @param {Object} opts.$ - The Pipedream execution context
+     * @returns {Promise<Object>} The full API response containing the CSV data
+     */
+    exportDetailedTimeEntriesCsv({
+      workspaceId, data, $,
+    }) {
+      return this._makeReliableRequest(
+        "reportsV3",
+        `workspace/${workspaceId}/search/time_entries.csv`,
+        {
+          method: "post",
+          data,
+          headers: {
+            "Accept": "text/csv",
+            "Content-Type": "application/json",
+          },
+          responseType: "text",
+          returnFullResponse: true,
+        },
+        $,
+      );
+    },
+    /**
+     * Load provider-computed totals for a detailed report query.
+     *
+     * @param {Object} opts - The request options
+     * @param {number} opts.workspaceId - The Toggl Track workspace ID
+     * @param {Object} opts.data - Detailed report filter parameters
+     * @param {Object} opts.$ - The Pipedream execution context
+     * @returns {Promise<Object>} The full API response, including data and headers
+     */
+    getDetailedTimeEntryTotals({
+      workspaceId, data, $,
+    }) {
+      return this._makeReliableRequest(
+        "reportsV3",
+        `workspace/${workspaceId}/search/time_entries/totals`,
+        {
+          method: "post",
+          data,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          returnFullResponse: true,
+        },
+        $,
+      );
+    },
+    /**
+     * Search the Toggl Reports API v3 summary report.
+     *
+     * @param {Object} opts - The request options
+     * @param {number} opts.workspaceId - The Toggl Track workspace ID
+     * @param {Object} opts.data - Summary report parameters
+     * @param {Object} opts.$ - The Pipedream execution context
+     * @returns {Promise<Object>} The full API response, including data and headers
+     */
+    searchSummaryTimeEntries({
+      workspaceId, data, $,
+    }) {
+      return this._makeReliableRequest(
+        "reportsV3",
+        `workspace/${workspaceId}/summary/time_entries`,
         {
           method: "post",
           data,
