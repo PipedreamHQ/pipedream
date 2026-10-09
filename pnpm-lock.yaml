@@ -7658,9 +7658,16 @@ importers:
 
   components/html_css_to_image:
     dependencies:
+      '@html-css-to-image/client':
+        specifier: 0.11.0
+        version: 0.11.0
       '@pipedream/platform':
         specifier: ^1.6.8
         version: 1.6.8
+    devDependencies:
+      typescript:
+        specifier: 5.6.3
+        version: 5.6.3
 
   components/html_to_image:
     dependencies:
@@ -21312,6 +21319,10 @@ packages:
 
   '@hapi/topo@5.1.0':
     resolution: {integrity: sha512-foQZKJig7Ob0BMAYBfcJk8d77QtOe7Wo4ox7ff1lQYoNNAb6jwcY1ncdoy2e9wQZzvNy7ODZCYJkK8kzmcAnAg==}
+
+  '@html-css-to-image/client@0.11.0':
+    resolution: {integrity: sha512-MRBm2+D15GX5a9mBEtA47rPbyCN0VtdPHBkZNxxypx6gFr2c4GeAcDTjSsB9LyB5vtpoloSt4TGWvmiW8F7mQg==}
+    engines: {node: '>=18.0.0'}
 
   '@httptoolkit/websocket-stream@6.0.1':
     resolution: {integrity: sha512-A0NOZI+Glp3Xgcz6Na7i7o09+/+xm2m0UCU8gdtM2nIv6/cjLmhMZMqehSpTlgbx9omtLmV8LVqOskPEyWnmZQ==}
@@ -39877,6 +39888,8 @@ snapshots:
   '@hapi/topo@5.1.0':
     dependencies:
       '@hapi/hoek': 9.3.0
+
+  '@html-css-to-image/client@0.11.0': {}
 
   '@httptoolkit/websocket-stream@6.0.1':
     dependencies:
