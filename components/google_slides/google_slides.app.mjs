@@ -1,7 +1,10 @@
 import { ConfigurationError } from "@pipedream/platform";
 import slides from "@googleapis/slides";
 import googleDrive from "@pipedream/google_drive";
-import { CONTENT_ALIGNMENTS } from "./common/constants.mjs";
+import { v4 as uuid } from "uuid";
+import {
+  CONTENT_ALIGNMENTS, TEXT_PLACEHOLDER_TYPES,
+} from "./common/constants.mjs";
 
 export default {
   ...googleDrive,
@@ -90,7 +93,7 @@ export default {
     layoutId: {
       type: "string",
       label: "Layout ID",
-      description: "The ID of a slide layout",
+      description: "The ID of the layout to base the slide on. Each option is labelled with the layout's name (e.g. `TITLE_AND_BODY`). **If omitted, the slide uses the BLANK layout and has no title or body placeholders to insert text into.**",
       optional: true,
       async options({ presentationId }) {
         const { layouts } = await this.getPresentation(presentationId);
@@ -450,6 +453,82 @@ export default {
         pageObjectId: slideId,
       };
       return (await slides.presentations.pages.get(request)).data;
+    },
+    // Rethrows API errors unchanged so callers keep the HTTP status. A 403 gets
+    // a permissions hint instead, with the original error kept as its `cause`.
+    withPermissionHint(error) {
+      const status = error?.response?.status ?? error?.status;
+      if (status === 403) {
+        const hinted = new ConfigurationError(`${error.message}. Make sure the connected account has edit access to the presentation.`);
+        hinted.cause = error;
+        return hinted;
+      }
+      return error;
+    },
+    async getSlideCreationContext(presentationId) {
+      const {
+        slides = [], layouts = [],
+      } = await this.getPresentation(presentationId,
+        "slides(objectId),layouts(objectId,layoutProperties(name,displayName),pageElements(objectId,shape(placeholder)))");
+      return {
+        slideCount: slides.length,
+        layouts,
+      };
+    },
+    // Accepts a layout's object ID, its name (e.g. `TITLE_AND_BODY`) or its
+    // display name (e.g. `Title and body`).
+    resolveLayout(layouts, layout) {
+      const wanted = String(layout).trim()
+        .toLowerCase();
+      const found = layouts.find(({ objectId }) => objectId.toLowerCase() === wanted)
+        || layouts.find(({ layoutProperties: props = {} }) =>
+          props.name?.toLowerCase() === wanted || props.displayName?.toLowerCase() === wanted);
+      if (!found) {
+        const available = layouts
+          .map(({
+            objectId, layoutProperties: props = {},
+          }) => `${props.name || props.displayName} (${objectId})`)
+          .join(", ");
+        throw new ConfigurationError(`Layout "${layout}" was not found in this presentation. Available layouts: ${available}.`);
+      }
+      return found;
+    },
+    newSlideObjectId() {
+      return `slide_${uuid().replace(/-/g, "")
+        .slice(0, 16)}`;
+    },
+    // Assigns a predictable object ID to each text placeholder on the layout, so
+    // the new slide's placeholders can be returned or filled in the same request.
+    buildPlaceholderMappings(slideObjectId, layout) {
+      const placeholders = (layout.pageElements || [])
+        .map(({ shape }) => shape?.placeholder)
+        .filter((placeholder) => TEXT_PLACEHOLDER_TYPES.includes(placeholder?.type));
+      const seen = new Set();
+      return placeholders
+        .map(({
+          type, index = 0,
+        }) => ({
+          type,
+          index,
+          objectId: `${slideObjectId}_${type.toLowerCase()}_${index}`,
+        }))
+        .filter(({ objectId }) => !seen.has(objectId) && seen.add(objectId));
+    },
+    toPlaceholderIdMappings(placeholders) {
+      return placeholders.map(({
+        type, index, objectId,
+      }) => ({
+        layoutPlaceholder: {
+          type,
+          index,
+        },
+        objectId,
+      }));
+    },
+    validateInsertionIndex(insertionIndex, slideCount) {
+      if (insertionIndex != null && (insertionIndex < 0 || insertionIndex > slideCount)) {
+        throw new ConfigurationError(`Insertion Index ${insertionIndex} is out of range: the presentation has ${slideCount} slide(s), so it must be between 0 and ${slideCount}. Omit it to add the slide at the end.`);
+      }
     },
     async copyPresentation(fileId, name) {
       const drive = this.drive();
