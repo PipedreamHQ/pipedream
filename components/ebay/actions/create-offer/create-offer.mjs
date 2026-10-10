@@ -43,9 +43,8 @@ export default {
     currency: {
       type: "string",
       label: "Currency",
-      description: "The 3-letter ISO currency code (e.g. `USD`, `GBP`, `EUR`).",
+      description: "The 3-letter ISO currency code (e.g. `USD`, `GBP`, `EUR`). Must match the currency accepted by the target marketplace specified in `marketplaceId` (e.g. `USD` for `EBAY_US`, `GBP` for `EBAY_GB`, `EUR` for `EBAY_DE`).",
       options: constants.CURRENCY_OPTIONS,
-      default: "USD",
     },
     availableQuantity: {
       type: "integer",

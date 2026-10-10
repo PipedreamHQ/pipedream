@@ -8,7 +8,7 @@ export default {
     sku: {
       type: "string",
       label: "SKU",
-      description: "The seller-defined Stock Keeping Unit (SKU) identifier for the inventory item (e.g. `SKU-12345` or `SHIRT-BLUE-M`). Must be unique across the seller's inventory.",
+      description: "The seller-defined Stock Keeping Unit (SKU) identifier for the inventory item (e.g. `SKU-12345` or `SHIRT-BLUE-M`). Must be unique across the seller's inventory. Managed via **Create or Replace Inventory Item**.",
     },
     marketplaceId: {
       type: "string",
@@ -20,12 +20,12 @@ export default {
     offerId: {
       type: "string",
       label: "Offer ID",
-      description: "The unique identifier of the eBay offer (e.g. `123456789012`).",
+      description: "The unique identifier of the eBay offer (e.g. `123456789012`). Generated when creating an offer with **Create Unpublished Offer** (the `offerId` response field).",
     },
     categoryId: {
       type: "string",
       label: "Category ID",
-      description: "The numeric ID of the primary eBay category in which the item will be listed (e.g. `9355` for Cell Phones & Smartphones).",
+      description: "The numeric ID of the primary eBay category in which the item will be listed (e.g. `9355` for Cell Phones & Smartphones). Obtain category IDs from eBay Seller Hub or eBay category taxonomy.",
     },
     condition: {
       type: "string",
@@ -64,7 +64,7 @@ export default {
     fulfillmentPolicyId: {
       type: "string",
       label: "Fulfillment Policy ID (Shipping)",
-      description: "The unique identifier of the seller's shipping/fulfillment policy (e.g. `60000000000`).",
+      description: "The unique identifier of the seller's shipping/fulfillment policy (e.g. `60000000000`). Configured in the seller's eBay business policies under Account Settings in eBay Seller Hub.",
       async options({ marketplaceId = "EBAY_US" }) {
         const response = await this.getFulfillmentPolicies({
           params: {
@@ -81,7 +81,7 @@ export default {
     paymentPolicyId: {
       type: "string",
       label: "Payment Policy ID",
-      description: "The unique identifier of the seller's payment policy (e.g. `60000000000`).",
+      description: "The unique identifier of the seller's payment policy (e.g. `60000000000`). Configured in the seller's eBay business policies under Account Settings in eBay Seller Hub.",
       async options({ marketplaceId = "EBAY_US" }) {
         const response = await this.getPaymentPolicies({
           params: {
@@ -98,7 +98,7 @@ export default {
     returnPolicyId: {
       type: "string",
       label: "Return Policy ID",
-      description: "The unique identifier of the seller's return policy (e.g. `60000000000`).",
+      description: "The unique identifier of the seller's return policy (e.g. `60000000000`). Configured in the seller's eBay business policies under Account Settings in eBay Seller Hub.",
       async options({ marketplaceId = "EBAY_US" }) {
         const response = await this.getReturnPolicies({
           params: {

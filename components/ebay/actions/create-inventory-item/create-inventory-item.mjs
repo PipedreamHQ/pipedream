@@ -30,12 +30,14 @@ export default {
     title: {
       type: "string",
       label: "Title",
-      description: "The title of the product (e.g. `Men's Running Shoes - Size 10`).",
+      description: "The title of the product (e.g. `Men's Running Shoes - Size 10`). Required when creating a new inventory item. If omitted for an existing SKU, the current title is preserved.",
+      optional: true,
     },
     description: {
       type: "string",
       label: "Description",
-      description: "The description of the product in plain text or HTML (e.g. `Brand new running shoes with cushioned soles.`).",
+      description: "The description of the product in plain text or HTML (e.g. `Brand new running shoes with cushioned soles.`). Required when creating a new inventory item. If omitted for an existing SKU, the current description is preserved.",
+      optional: true,
     },
     condition: {
       propDefinition: [
@@ -59,7 +61,8 @@ export default {
     imageUrls: {
       type: "string[]",
       label: "Image URLs",
-      description: "List of public image URLs for the product (e.g. `[\"https://example.com/image1.jpg\"]`).",
+      description: "List of public image URLs for the product (e.g. `[\"https://example.com/image1.jpg\"]`). Required when creating a new inventory item. If omitted for an existing SKU, the current image URLs are preserved.",
+      optional: true,
     },
     aspects: {
       type: "object",
@@ -106,9 +109,8 @@ export default {
     weightUnit: {
       type: "string",
       label: "Weight Unit",
-      description: "The unit of measurement for weight.",
+      description: "The unit of measurement for weight (e.g. `POUND`, `KILOGRAM`). If omitted for an existing SKU, the existing unit is preserved.",
       options: constants.WEIGHT_UNIT_OPTIONS,
-      default: "POUND",
       optional: true,
     },
     packageLength: {
@@ -132,15 +134,14 @@ export default {
     dimensionUnit: {
       type: "string",
       label: "Dimension Unit",
-      description: "The unit of measurement for dimensions.",
+      description: "The unit of measurement for dimensions (e.g. `INCH`, `CENTIMETER`). If omitted for an existing SKU, the existing unit is preserved.",
       options: constants.DIMENSION_UNIT_OPTIONS,
-      default: "INCH",
       optional: true,
     },
     packageType: {
       type: "string",
       label: "Package Type",
-      description: "The packaging type used for shipping.",
+      description: "The packaging type used for shipping (e.g. `PACKAGE_THICK_ENVELOPE`, `LETTER`, `LARGE_ENVELOPE`).",
       options: constants.PACKAGE_TYPE_OPTIONS,
       optional: true,
     },
@@ -153,7 +154,8 @@ export default {
   },
   /**
    * Action run handler that creates or updates an eBay inventory item record.
-   * Merges user-provided properties with existing inventory item data to prevent unintentional data loss.
+   * Merges user-provided properties with existing inventory item data to
+   * prevent unintentional data loss.
    *
    * @param {object} ctx - Step execution context.
    * @param {object} ctx.$ - Pipedream step execution object.
@@ -226,6 +228,21 @@ export default {
       }
     }
 
+    if (!existingItem) {
+      if (!title || typeof title !== "string" || !title.trim()) {
+        throw new ConfigurationError("Title is required when creating a new inventory item.");
+      }
+      if (!description || typeof description !== "string" || !description.trim()) {
+        throw new ConfigurationError("Description is required when creating a new inventory item.");
+      }
+      const initialImages = imageUrls
+        ? parseArray(imageUrls)
+        : [];
+      if (initialImages.length === 0) {
+        throw new ConfigurationError("At least one image URL in 'imageUrls' is required when creating a new inventory item.");
+      }
+    }
+
     const existingProduct = existingItem?.product || {};
     const existingAvailability = existingItem?.availability || {};
     const existingPkg = existingItem?.packageWeightAndSize || {};
@@ -241,22 +258,30 @@ export default {
       ...userAspects,
     };
 
-    const parsedImages = imageUrls ? parseArray(imageUrls) : [];
+    const parsedImages = imageUrls
+      ? parseArray(imageUrls)
+      : [];
     const finalImages = parsedImages.length > 0
       ? parsedImages
       : existingProduct.imageUrls;
 
-    const parsedUpc = upc ? parseArray(upc) : [];
+    const parsedUpc = upc
+      ? parseArray(upc)
+      : [];
     const finalUpc = parsedUpc.length > 0
       ? parsedUpc
       : existingProduct.upc;
 
-    const parsedIsbn = isbn ? parseArray(isbn) : [];
+    const parsedIsbn = isbn
+      ? parseArray(isbn)
+      : [];
     const finalIsbn = parsedIsbn.length > 0
       ? parsedIsbn
       : existingProduct.isbn;
 
-    const parsedEan = ean ? parseArray(ean) : [];
+    const parsedEan = ean
+      ? parseArray(ean)
+      : [];
     const finalEan = parsedEan.length > 0
       ? parsedEan
       : existingProduct.ean;
@@ -269,8 +294,6 @@ export default {
         height: Number(packageHeight),
         unit: dimensionUnit || existingPkg.dimensions?.unit || "INCH",
       };
-    } else if (existingPkg.dimensions) {
-      dimensions = existingPkg.dimensions;
     }
 
     let weight;
@@ -279,20 +302,20 @@ export default {
         value: Number(packageWeight),
         unit: weightUnit || existingPkg.weight?.unit || "POUND",
       };
-    } else if (existingPkg.weight) {
-      weight = existingPkg.weight;
     }
 
-    const finalPackageType = packageType || existingPkg.packageType;
-
-    let packageWeightAndSize;
-    if (dimensions || weight || finalPackageType) {
-      packageWeightAndSize = cleanObject({
+    const packageWeightAndSize = cleanObject({
+      ...existingPkg,
+      ...(dimensions && {
         dimensions,
+      }),
+      ...(weight && {
         weight,
-        packageType: finalPackageType,
-      });
-    }
+      }),
+      ...(packageType && {
+        packageType,
+      }),
+    });
 
     let finalQuantity;
     if (quantity !== undefined && quantity !== null && quantity !== "") {

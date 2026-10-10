@@ -35,7 +35,9 @@ export function parseArray(prop) {
   const parsed = parseProp(prop);
   if (Array.isArray(parsed)) {
     return parsed
-      .map((item) => (item !== undefined && item !== null ? String(item).trim() : ""))
+      .map((item) => (item !== undefined && item !== null
+        ? String(item).trim()
+        : ""))
       .filter(Boolean);
   }
   if (typeof parsed === "string") {
@@ -53,7 +55,8 @@ export function parseArray(prop) {
 }
 
 /**
- * Normalizes item aspects into the structure expected by eBay Inventory API ({ [key: string]: string[] }).
+ * Normalizes item aspects into the structure expected by eBay Inventory API
+ * ({ [key: string]: string[] }).
  *
  * @param {object|string} aspects - Aspects key-value pairs or JSON string.
  * @returns {object|undefined} Normalized aspects object or undefined if empty.
