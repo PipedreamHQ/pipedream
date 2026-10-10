@@ -1254,6 +1254,24 @@ const GET_FULFILLMENT = `
   }
 `;
 
+const GET_BULK_OPERATION = `
+  query getBulkOperation($id: ID!) {
+    bulkOperation(id: $id) {
+      id
+      status
+      errorCode
+      createdAt
+      completedAt
+      objectCount
+      rootObjectCount
+      fileSize
+      url
+      partialDataUrl
+      query
+    }
+  }
+`;
+
 export default {
   LIST_ABANDONED_CHECKOUTS,
   LIST_BLOG_ARTICLES,
@@ -1282,4 +1300,5 @@ export default {
   LIST_FULFILLMENT_ORDERS,
   LIST_ORDER_FULFILLMENTS,
   GET_FULFILLMENT,
+  GET_BULK_OPERATION,
 };

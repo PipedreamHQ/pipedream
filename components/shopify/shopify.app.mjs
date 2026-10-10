@@ -636,6 +636,17 @@ export default {
     runBulkMutation(variables) {
       return this._makeGraphQlRequest(mutations.RUN_BULK_MUTATION, variables);
     },
+    runBulkQuery(variables) {
+      return this._makeGraphQlRequest(mutations.RUN_BULK_QUERY, variables);
+    },
+    getBulkOperation(variables) {
+      return this._makeGraphQlRequest(queries.GET_BULK_OPERATION, variables);
+    },
+    runGraphQlQuery({
+      query, variables,
+    }) {
+      return this._makeGraphQlRequest(query, variables);
+    },
     async *paginate({
       resourceFn, resourceKeys = [], variables = {}, max,
     }) {
