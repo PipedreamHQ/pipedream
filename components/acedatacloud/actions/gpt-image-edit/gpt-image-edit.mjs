@@ -26,8 +26,10 @@ export default createSubmissionAction({
       description: "Edit instruction, e.g. `make the mug blue`.",
     },
     image: {
-      type: "string",
-      label: "Image URL",
+      propDefinition: [
+        acedatacloud,
+        "imageUrl",
+      ],
       description: "Public HTTP or HTTPS source image, e.g. `https://example.com/mug.png`.",
     },
   },

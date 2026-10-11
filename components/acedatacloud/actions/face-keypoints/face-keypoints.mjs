@@ -16,8 +16,10 @@ export default {
   props: {
     acedatacloud,
     imageUrl: {
-      type: "string",
-      label: "Image URL",
+      propDefinition: [
+        acedatacloud,
+        "imageUrl",
+      ],
       description: "Public HTTP or HTTPS image, e.g. `https://example.com/portrait.png`.",
     },
     mode: {
