@@ -3,6 +3,7 @@ import { createSubmissionAction, requiredText } from "../../common/utils.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
+  version: "0.0.1",
   key: "acedatacloud-seedance-generate-video",
   name: "Generate Seedance Video",
   description: "Generate a Seedance video and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/seedance-videos)",

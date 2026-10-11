@@ -3,6 +3,7 @@ import { createSubmissionAction, requiredText } from "../../common/utils.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
+  version: "0.0.1",
   key: "acedatacloud-minimax-generate-video",
   name: "Generate MiniMax Video",
   description: "Generate a MiniMax video and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/minimax-videos)",

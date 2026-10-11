@@ -3,6 +3,7 @@ import { createSubmissionAction, requiredHttpUrl, requiredText } from "../../com
 
 export default createSubmissionAction({
   acedatacloud,
+  version: "0.0.1",
   key: "acedatacloud-nano-banana-edit",
   name: "Edit Nano Banana Image",
   description: "Edit a Nano Banana image and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/nanobanana-images)",

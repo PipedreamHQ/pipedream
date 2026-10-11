@@ -3,6 +3,7 @@ import { createSubmissionAction, requiredText } from "../../common/utils.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
+  version: "0.0.1",
   key: "acedatacloud-fish-audio-synthesize",
   name: "Synthesize Fish Audio Speech",
   description: "Synthesize speech with Fish Audio and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/fish-tts)",

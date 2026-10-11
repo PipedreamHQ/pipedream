@@ -3,6 +3,7 @@ import { createSubmissionAction, requiredHttpUrl, requiredText } from "../../com
 
 export default createSubmissionAction({
   acedatacloud,
+  version: "0.0.1",
   key: "acedatacloud-flux-edit-image",
   name: "Edit Flux Image",
   description: "Edit an image with Flux and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/flux-images)",

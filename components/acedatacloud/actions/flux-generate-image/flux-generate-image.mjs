@@ -3,6 +3,7 @@ import { createSubmissionAction, requiredText } from "../../common/utils.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
+  version: "0.0.1",
   key: "acedatacloud-flux-generate-image",
   name: "Generate Flux Image",
   description: "Generate a Flux image and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/flux-images)",

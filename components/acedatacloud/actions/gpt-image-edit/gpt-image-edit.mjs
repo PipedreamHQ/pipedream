@@ -3,6 +3,7 @@ import { createSubmissionAction, requiredHttpUrl, requiredText } from "../../com
 
 export default createSubmissionAction({
   acedatacloud,
+  version: "0.0.1",
   key: "acedatacloud-gpt-image-edit",
   name: "Edit GPT Image",
   description: "Edit an image with GPT Image and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/openai-images-edits)",

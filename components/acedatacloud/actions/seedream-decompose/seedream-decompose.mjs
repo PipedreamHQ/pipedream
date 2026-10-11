@@ -3,6 +3,7 @@ import { createSubmissionAction, requiredHttpUrl } from "../../common/utils.mjs"
 
 export default createSubmissionAction({
   acedatacloud,
+  version: "0.0.1",
   key: "acedatacloud-seedream-decompose",
   name: "Decompose Seedream Image",
   description: "Extract editable layers from an image and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/seedream-images)",

@@ -3,6 +3,7 @@ import { createSubmissionAction, requiredText } from "../../common/utils.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
+  version: "0.0.1",
   key: "acedatacloud-suno-generate-music",
   name: "Generate Suno Music",
   description: "Generate music with Suno and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/suno-audios)",

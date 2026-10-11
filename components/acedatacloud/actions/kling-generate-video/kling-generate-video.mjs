@@ -3,6 +3,7 @@ import { createSubmissionAction, requiredText } from "../../common/utils.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
+  version: "0.0.1",
   key: "acedatacloud-kling-generate-video",
   name: "Generate Kling Video",
   description: "Generate a Kling video and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/kling-videos)",

@@ -3,6 +3,7 @@ import { createSubmissionAction, requiredText } from "../../common/utils.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
+  version: "0.0.1",
   key: "acedatacloud-gpt-image-generate",
   name: "Generate GPT Image",
   description: "Generate an image with GPT Image and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/openai-images-generations)",
