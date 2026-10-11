@@ -363,6 +363,44 @@ test("search and face actions use their synchronous contracts", async () => {
   }
 });
 
+test("Fish Audio voice search returns one page for reference voice selection", async () => {
+  const component = await action("search-fish-audio-voices");
+  const calls = [];
+  const input = context(component, async (request) => {
+    calls.push(request);
+    return {
+      items: [
+        {
+          _id: "8d2c17a9b26d4d83888ea67a1ee565b2",
+        },
+      ],
+      total: 1,
+      has_more: false,
+    };
+  });
+  input.title = "calm narrator";
+  const result = await component.run.call(input, {
+    $: output(),
+  });
+  assert.equal(component.annotations.readOnlyHint, true);
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].method, "GET");
+  assert.equal(calls[0].path, "/fish/model");
+  assert.equal(calls[0].data, undefined);
+  assert.deepEqual(calls[0].params, {
+    page_number: 1,
+    page_size: 10,
+    self: true,
+    title: "calm narrator",
+  });
+  assert.equal(result.items[0]._id, "8d2c17a9b26d4d83888ea67a1ee565b2");
+  input.pageSize = 0;
+  await assert.rejects(component.run.call(input, {
+    $: output(),
+  }), /Page Size/);
+  assert.equal(calls.length, 1);
+});
+
 test("every action key is unique and has a README", async () => {
   const folders = await readdir(actionsRoot, {
     withFileTypes: true,

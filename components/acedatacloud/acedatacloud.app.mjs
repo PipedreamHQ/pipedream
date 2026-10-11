@@ -53,17 +53,19 @@ export default {
   },
   methods: {
     /**
-     * Send a JSON request with the connected account's secret key.
-     * @param {Object} options - Pipedream context, path, and JSON data.
+     * Send an API request with the connected account's secret key.
+     * @param {Object} options - Pipedream context, path, method, and request fields.
      * @returns {Promise<Object>} API response.
      */
     request({
-      $, path, data,
+      $, path, data, method, params,
     }) {
       return axios($, requestOptions({
         apiKey: this.$auth.api_key,
         path,
         data,
+        method,
+        params,
       }));
     },
     /**

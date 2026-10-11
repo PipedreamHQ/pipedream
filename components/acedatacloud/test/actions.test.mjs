@@ -129,6 +129,24 @@ test("shared methods build a single paid submission", async () => {
   assert.equal(config.url, "https://api.acedata.cloud/seedream/images");
   assert.equal(config.headers.Authorization, "Bearer synthetic-key");
   assert.equal(config.maxRedirects, 0);
+
+  const readConfig = requestOptions({
+    apiKey: "synthetic-key",
+    path: "/fish/model",
+    method: "GET",
+    params: {
+      page_number: 1,
+      self: true,
+    },
+  });
+  assert.equal(readConfig.method, "GET");
+  assert.equal(readConfig.url, "https://api.acedata.cloud/fish/model");
+  assert.equal(readConfig.headers.Authorization, "Bearer synthetic-key");
+  assert.deepEqual(readConfig.params, {
+    page_number: 1,
+    self: true,
+  });
+  assert.equal(Object.hasOwn(readConfig, "data"), false);
 });
 
 test("invalid model, size, prompt, and transport errors do not start a fallback job", () => {

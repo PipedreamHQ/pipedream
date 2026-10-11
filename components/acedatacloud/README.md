@@ -1,14 +1,14 @@
 # Overview
 
-AceDataCloud provides image, video, music, speech, search, and face APIs. This component has 23 primary actions across the 17 service families formally submitted for Dify: GPT Image, Suno, Seedance, Fish Audio, Seedream, Happy Horse, Qwen Image, Veo, Google Search, Grok Video, Face Transform, Midjourney, Flux, MiniMax Video, Wan, Kling, and Nano Banana.
+AceDataCloud provides image, video, music, speech, search, and face APIs. This component has 24 actions across the 17 service families formally submitted for Dify: GPT Image, Suno, Seedance, Fish Audio, Seedream, Happy Horse, Qwen Image, Veo, Google Search, Grok Video, Face Transform, Midjourney, Flux, MiniMax Video, Wan, Kling, and Nano Banana.
 
-Generation and synthesis actions send one asynchronous request. A successful response contains `task_id` and `state: submitted`; it does **not** mean finished media exists. Google Search and Face Keypoints return synchronous responses. Paid POST requests are never automatically retried by these actions.
+Generation and synthesis actions send one asynchronous request. A successful response contains `task_id` and `state: submitted`; it does **not** mean finished media exists. Google Search, Face Keypoints, and Fish Audio voice search return synchronous responses. Paid POST requests are never automatically retried by these actions.
 
 ## Actions
 
 - Image: Seedream Generate Image, Edit Image, and layer decomposition; GPT Image generate and edit; Nano Banana generate and edit; Flux generate and edit; Qwen Image generate; Midjourney Imagine.
 - Video: Veo, Seedance, Kling, Wan, Grok, Happy Horse, MiniMax, and Flux generation.
-- Audio: Suno music generation and Fish Audio speech synthesis.
+- Audio: Suno music generation, Fish Audio speech synthesis, and a paginated voice search that supplies reference voice IDs.
 - Synchronous: Google Search and Face Keypoints.
 
 This set covers a primary operation for each Dify-submitted service family. Advanced Dify operations such as Suno persona management and Kling commerce modes are outside the current PR.

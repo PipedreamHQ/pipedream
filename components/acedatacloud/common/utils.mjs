@@ -89,20 +89,25 @@ export const apiError = (error, submitting = false) => {
 };
 
 /**
- * Build the authenticated JSON request without sending it.
- * @param {Object} options - API key, fixed path, and request body.
+ * Build an authenticated request without sending it.
+ * @param {Object} options - API key, fixed path, method, and request parameters.
  * @returns {Object} Options for Pipedream's axios helper.
  */
 export const requestOptions = ({
-  apiKey, path, data,
+  apiKey, path, data, method = "POST", params,
 }) => ({
-  method: "POST",
+  method,
   url: `https://api.acedata.cloud${path}`,
   headers: {
     "Authorization": `Bearer ${apiKey}`,
     "Content-Type": "application/json",
   },
-  data,
+  ...(data !== undefined && {
+    data,
+  }),
+  ...(params && {
+    params,
+  }),
   timeout: 20000,
   maxRedirects: 0,
 });

@@ -23,7 +23,7 @@ export default {
     mode: {
       type: "integer",
       label: "Mode",
-      description: "Face selection: `0` for all faces or `1` for the largest.",
+      description: "Face selection: `0` for all faces or `1` for the largest, e.g. `1`.",
       default: 1,
     },
   },

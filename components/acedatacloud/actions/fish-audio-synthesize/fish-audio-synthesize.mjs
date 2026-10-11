@@ -18,7 +18,7 @@ export default createSubmissionAction({
     referenceId: {
       type: "string",
       label: "Reference Voice ID",
-      description: "Saved voice ID, e.g. `voice-123`.",
+      description: "Use **Search Fish Audio Voices** to get a voice ID (the `items[]._id` field), e.g. `8d2c17a9b26d4d83888ea67a1ee565b2`.",
       optional: true,
     },
   },
