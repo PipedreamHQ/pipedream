@@ -1,5 +1,6 @@
 import acedatacloud from "../../acedatacloud.app.mjs";
-import { createSubmissionAction, requiredText } from "../../common/utils.mjs";
+import { requiredText } from "../../common/utils.mjs";
+import { createSubmissionAction } from "../common/create-submission-action.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
@@ -9,7 +10,13 @@ export default createSubmissionAction({
   description: "Generate a Grok video and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/grok-videos)",
   path: "/grok/videos",
   props: {
-    prompt: { type: "string", label: "Prompt", description: "Video description, e.g. `a paper boat on a pond`." },
+    prompt: {
+      propDefinition: [
+        acedatacloud,
+        "prompt",
+      ],
+      description: "Video description, e.g. `a paper boat on a pond`.",
+    },
     model: { type: "string", label: "Model", description: "Public Grok video model, e.g. `grok-imagine-video-1.5-fast:reverse`.", default: "grok-imagine-video-1.5-fast:reverse" },
   },
   buildData: (step) => ({

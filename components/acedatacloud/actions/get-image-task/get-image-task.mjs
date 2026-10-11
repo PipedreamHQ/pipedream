@@ -16,9 +16,11 @@ export default {
   props: {
     acedatacloud,
     taskId: {
-      type: "string",
-      label: "Task ID",
-      description: "The `task_id` returned by **Generate Image** or **Edit Image**, e.g. `image-task-1`. Reusing it does not submit another generation job.",
+      propDefinition: [
+        acedatacloud,
+        "taskId",
+      ],
+      description: "The `task_id` returned by **Generate Image** or **Edit Image**, e.g. `01234567-89ab-cdef-0123-456789abcdef`. Reusing it does not submit another generation job.",
     },
   },
   async run({ $ }) {

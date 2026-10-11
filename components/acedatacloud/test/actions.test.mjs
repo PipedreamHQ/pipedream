@@ -3,6 +3,7 @@ import test from "node:test";
 import acedatacloud from "../acedatacloud.app.mjs";
 import {
   apiError,
+  normalizeImageInput,
   requestOptions,
   taskState,
   validateImageRequest,
@@ -80,6 +81,17 @@ test("Edit Image submits one URL and validates input before HTTP", async () => {
     editImage.run.call({
       ...context,
       image: "file:///tmp/private.png",
+    }, {
+      $: step(),
+    }),
+    /HTTP or HTTPS/,
+  );
+  assert.equal(calls.length, 1);
+  assert.throws(() => normalizeImageInput("https://#fragment"), /HTTP or HTTPS/);
+  await assert.rejects(
+    editImage.run.call({
+      ...context,
+      image: "https://#fragment",
     }, {
       $: step(),
     }),

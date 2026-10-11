@@ -1,5 +1,6 @@
 import acedatacloud from "../../acedatacloud.app.mjs";
-import { createSubmissionAction, requiredText } from "../../common/utils.mjs";
+import { requiredText } from "../../common/utils.mjs";
+import { createSubmissionAction } from "../common/create-submission-action.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
@@ -9,7 +10,13 @@ export default createSubmissionAction({
   description: "Generate a Happy Horse video and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/happyhorse-videos)",
   path: "/happyhorse/videos",
   props: {
-    prompt: { type: "string", label: "Prompt", description: "Video description, e.g. `a horse crossing a meadow`." },
+    prompt: {
+      propDefinition: [
+        acedatacloud,
+        "prompt",
+      ],
+      description: "Video description, e.g. `a horse crossing a meadow`.",
+    },
     model: { type: "string", label: "Model", description: "Public Happy Horse model, e.g. `happyhorse-1.0-t2v`.", default: "happyhorse-1.0-t2v" },
   },
   buildData: (step) => ({

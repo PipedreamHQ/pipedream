@@ -1,5 +1,6 @@
 import acedatacloud from "../../acedatacloud.app.mjs";
-import { createSubmissionAction, requiredText } from "../../common/utils.mjs";
+import { requiredText } from "../../common/utils.mjs";
+import { createSubmissionAction } from "../common/create-submission-action.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
@@ -10,7 +11,13 @@ export default createSubmissionAction({
   path: "/nano-banana/images",
   props: {
     model: { type: "string", label: "Model", description: "Public Nano Banana model, e.g. `nano-banana-2-lite`.", default: "nano-banana-2-lite" },
-    prompt: { type: "string", label: "Prompt", description: "Image description, e.g. `a paper lantern`." },
+    prompt: {
+      propDefinition: [
+        acedatacloud,
+        "prompt",
+      ],
+      description: "Image description, e.g. `a paper lantern`.",
+    },
     aspectRatio: { type: "string", label: "Aspect Ratio", description: "Aspect ratio, e.g. `1:1`.", default: "1:1" },
     resolution: { type: "string", label: "Resolution", description: "Output resolution, e.g. `1K`.", default: "1K" },
   },

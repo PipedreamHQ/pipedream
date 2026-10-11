@@ -1,5 +1,6 @@
 import acedatacloud from "../../acedatacloud.app.mjs";
-import { createSubmissionAction, requiredHttpUrl, requiredText } from "../../common/utils.mjs";
+import { requiredHttpUrl, requiredText } from "../../common/utils.mjs";
+import { createSubmissionAction } from "../common/create-submission-action.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
@@ -10,7 +11,13 @@ export default createSubmissionAction({
   path: "/openai/images/edits",
   props: {
     model: { type: "string", label: "Model", description: "Public GPT Image model, e.g. `gpt-image-2`.", default: "gpt-image-2" },
-    prompt: { type: "string", label: "Prompt", description: "Edit instruction, e.g. `make the mug blue`." },
+    prompt: {
+      propDefinition: [
+        acedatacloud,
+        "prompt",
+      ],
+      description: "Edit instruction, e.g. `make the mug blue`.",
+    },
     image: { type: "string", label: "Image URL", description: "Public HTTP or HTTPS source image, e.g. `https://example.com/mug.png`." },
   },
   buildData: (step) => ({

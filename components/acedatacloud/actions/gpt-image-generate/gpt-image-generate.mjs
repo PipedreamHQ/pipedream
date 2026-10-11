@@ -1,5 +1,6 @@
 import acedatacloud from "../../acedatacloud.app.mjs";
-import { createSubmissionAction, requiredText } from "../../common/utils.mjs";
+import { requiredText } from "../../common/utils.mjs";
+import { createSubmissionAction } from "../common/create-submission-action.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
@@ -10,7 +11,13 @@ export default createSubmissionAction({
   path: "/openai/images/generations",
   props: {
     model: { type: "string", label: "Model", description: "Public GPT Image model, e.g. `gpt-image-2`.", default: "gpt-image-2" },
-    prompt: { type: "string", label: "Prompt", description: "Image description, e.g. `a red ceramic mug`." },
+    prompt: {
+      propDefinition: [
+        acedatacloud,
+        "prompt",
+      ],
+      description: "Image description, e.g. `a red ceramic mug`.",
+    },
     size: { type: "string", label: "Size", description: "Image size, e.g. `1024x1024`.", optional: true },
   },
   buildData: (step) => ({

@@ -1,5 +1,6 @@
 import acedatacloud from "../../acedatacloud.app.mjs";
-import { createSubmissionAction, requiredHttpUrl, requiredText } from "../../common/utils.mjs";
+import { requiredHttpUrl, requiredText } from "../../common/utils.mjs";
+import { createSubmissionAction } from "../common/create-submission-action.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
@@ -10,8 +11,20 @@ export default createSubmissionAction({
   path: "/flux/images",
   props: {
     model: { type: "string", label: "Model", description: "Public Flux edit model, e.g. `flux-kontext-pro`.", default: "flux-kontext-pro" },
-    prompt: { type: "string", label: "Prompt", description: "Edit instruction, e.g. `add a red umbrella`." },
-    imageUrl: { type: "string", label: "Image URL", description: "Public HTTP or HTTPS source image, e.g. `https://example.com/pavilion.png`." },
+    prompt: {
+      propDefinition: [
+        acedatacloud,
+        "prompt",
+      ],
+      description: "Edit instruction, e.g. `add a red umbrella`.",
+    },
+    imageUrl: {
+      propDefinition: [
+        acedatacloud,
+        "imageUrl",
+      ],
+      description: "Public HTTP or HTTPS source image, e.g. `https://example.com/pavilion.png`.",
+    },
     size: { type: "string", label: "Size", description: "Output aspect ratio, e.g. `1:1`.", default: "1:1" },
   },
   buildData: (step) => ({

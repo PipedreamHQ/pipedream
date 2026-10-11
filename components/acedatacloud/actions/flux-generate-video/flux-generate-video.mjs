@@ -1,5 +1,6 @@
 import acedatacloud from "../../acedatacloud.app.mjs";
-import { createSubmissionAction, requiredText } from "../../common/utils.mjs";
+import { requiredText } from "../../common/utils.mjs";
+import { createSubmissionAction } from "../common/create-submission-action.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
@@ -10,7 +11,13 @@ export default createSubmissionAction({
   path: "/flux/videos",
   props: {
     model: { type: "string", label: "Model", description: "Public Flux video model, e.g. `flux-3`.", default: "flux-3" },
-    prompt: { type: "string", label: "Prompt", description: "Video description, e.g. `a kite above a quiet beach`." },
+    prompt: {
+      propDefinition: [
+        acedatacloud,
+        "prompt",
+      ],
+      description: "Video description, e.g. `a kite above a quiet beach`.",
+    },
   },
   buildData: (step) => ({
     action: "generate",

@@ -1,5 +1,6 @@
 import acedatacloud from "../../acedatacloud.app.mjs";
-import { createSubmissionAction, requiredText } from "../../common/utils.mjs";
+import { requiredText } from "../../common/utils.mjs";
+import { createSubmissionAction } from "../common/create-submission-action.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
@@ -9,7 +10,13 @@ export default createSubmissionAction({
   description: "Generate a Kling video and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/kling-videos)",
   path: "/kling/videos",
   props: {
-    prompt: { type: "string", label: "Prompt", description: "Video description, e.g. `a cyclist on a coastal road`." },
+    prompt: {
+      propDefinition: [
+        acedatacloud,
+        "prompt",
+      ],
+      description: "Video description, e.g. `a cyclist on a coastal road`.",
+    },
     model: { type: "string", label: "Model", description: "Public Kling model, e.g. `kling-v3-turbo`.", default: "kling-v3-turbo" },
   },
   buildData: (step) => ({

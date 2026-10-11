@@ -32,8 +32,10 @@ export default {
       ],
     },
     image: {
-      type: "string",
-      label: "Image URL",
+      propDefinition: [
+        acedatacloud,
+        "imageUrl",
+      ],
       description: "A publicly accessible HTTP or HTTPS URL for the image to edit. E.g. `https://example.com/cube.png`.",
     },
     size: {

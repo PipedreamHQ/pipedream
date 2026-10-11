@@ -26,6 +26,16 @@ export default {
       label: "Prompt",
       description: "Describe the image to generate or the edit to make. E.g. `a blue glass cube on a white table`.",
     },
+    imageUrl: {
+      type: "string",
+      label: "Image URL",
+      description: "Public HTTP or HTTPS image input. E.g. `https://example.com/photo.png`.",
+    },
+    taskId: {
+      type: "string",
+      label: "Task ID",
+      description: "The task_id returned by a submission action. E.g. `01234567-89ab-cdef-0123-456789abcdef`.",
+    },
     size: {
       type: "string",
       label: "Size",

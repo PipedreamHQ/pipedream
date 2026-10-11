@@ -17,10 +17,25 @@ export const normalizeImageInput = (value) => {
     : [
       value,
     ];
-  if (!values.length || values.some((item) => typeof item !== "string" || !/^https?:\/\/\S+$/i.test(item))) {
+  if (!values.length || values.some((item) => !isHttpUrl(item))) {
     throw new Error("Image must contain publicly accessible HTTP or HTTPS URLs.");
   }
   return values;
+};
+
+/**
+ * Check an HTTP URL has an actual hostname before accepting it as media input.
+ * @param {unknown} value - Candidate media URL.
+ * @returns {boolean} Whether the URL can be used as a public media reference.
+ */
+export const isHttpUrl = (value) => {
+  if (typeof value !== "string" || !/^https?:\/\/\S+$/i.test(value)) return false;
+  try {
+    const parsed = new URL(value);
+    return ["http:", "https:"].includes(parsed.protocol) && Boolean(parsed.hostname);
+  } catch {
+    return false;
+  }
 };
 
 export const validateImageRequest = ({
@@ -97,7 +112,7 @@ export const requiredText = (value, label) => {
  */
 export const requiredHttpUrl = (value, label) => {
   const url = requiredText(value, label);
-  if (!/^https?:\/\/\S+$/i.test(url)) {
+  if (!isHttpUrl(url)) {
     throw new Error(`${label} must be an HTTP or HTTPS URL.`);
   }
   return url;
@@ -123,59 +138,3 @@ export const structuredInput = (value, label) => {
   }
   return parsed;
 };
-
-/**
- * Define a single submission action. A failed or ambiguous paid POST is never retried.
- * @param {Object} config - Component metadata and request body builder.
- * @returns {Object} Pipedream action component.
- */
-export const createSubmissionAction = ({
-  acedatacloud,
-  key,
-  name,
-  description,
-  path,
-  props,
-  buildData,
-  version = "0.0.1",
-}) => ({
-  key,
-  name,
-  description,
-  version,
-  type: "action",
-  ai: "optimized",
-  annotations: {
-    destructiveHint: false,
-    openWorldHint: true,
-    readOnlyHint: false,
-  },
-  props: {
-    acedatacloud,
-    ...props,
-  },
-  async run({ $ }) {
-    const data = buildData(this);
-    let response;
-    try {
-      response = await this.acedatacloud.request({
-        $,
-        path,
-        data: {
-          ...data,
-          async: true,
-        },
-      });
-    } catch (error) {
-      throw apiError(error, true);
-    }
-    if (typeof response?.task_id !== "string" || !response.task_id) {
-      throw new Error(`${name} returned no task ID. Check task history before submitting again.`);
-    }
-    $.export("$summary", `Submitted ${name} task ${response.task_id}; processing is pending`);
-    return {
-      ...response,
-      state: "submitted",
-    };
-  },
-});

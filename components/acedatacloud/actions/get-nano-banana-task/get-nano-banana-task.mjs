@@ -15,7 +15,13 @@ export default {
   },
   props: {
     acedatacloud,
-    taskId: { type: "string", label: "Task ID", description: "The task_id returned by a Nano Banana submission action, e.g. `01234567-89ab-cdef-0123-456789abcdef`." },
+    taskId: {
+      propDefinition: [
+        acedatacloud,
+        "taskId",
+      ],
+      description: "The `task_id` returned by **Generate Nano Banana Image** or **Edit Nano Banana Image**, e.g. `01234567-89ab-cdef-0123-456789abcdef`.",
+    },
   },
   async run({ $ }) {
     const taskId = requiredText(this.taskId, "Task ID");

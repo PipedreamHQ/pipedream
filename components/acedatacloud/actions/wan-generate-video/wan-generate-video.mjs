@@ -1,5 +1,6 @@
 import acedatacloud from "../../acedatacloud.app.mjs";
-import { createSubmissionAction, requiredText } from "../../common/utils.mjs";
+import { requiredText } from "../../common/utils.mjs";
+import { createSubmissionAction } from "../common/create-submission-action.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
@@ -9,7 +10,13 @@ export default createSubmissionAction({
   description: "Generate a Wan video and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/wan-videos)",
   path: "/wan/videos",
   props: {
-    prompt: { type: "string", label: "Prompt", description: "Video description, e.g. `clouds crossing a mountain`." },
+    prompt: {
+      propDefinition: [
+        acedatacloud,
+        "prompt",
+      ],
+      description: "Video description, e.g. `clouds crossing a mountain`.",
+    },
     model: { type: "string", label: "Model", description: "Public Wan model, e.g. `wan2.6-t2v`.", default: "wan2.6-t2v" },
   },
   buildData: (step) => ({
