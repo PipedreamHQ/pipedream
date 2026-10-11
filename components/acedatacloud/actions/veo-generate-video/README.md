@@ -1,6 +1,6 @@
 # Generate Veo Video
 
-Submit one asynchronous Veo request using the connected AceDataCloud account. A successful response contains `task_id` and `state: submitted`; it does not contain a finished media result. Save the task ID and inspect the task later. The action does not automatically retry a paid request.
+Submit one asynchronous Veo request using the connected AceDataCloud account. A successful response contains `task_id` and `state: submitted`; it does not contain a finished media result. Save the task ID and use AceDataCloud task history or an approved callback to inspect it. Task lookup is not published in this PR. The action does not automatically retry a paid request.
 
 Use a token with Veo service access or a global token. Check current service pricing before running a paid request. For a timeout, 408, 5xx, or missing task ID, inspect the account's task or usage history before submitting again; a second request may be charged. Never expose the connected API key in prompts or output.
 

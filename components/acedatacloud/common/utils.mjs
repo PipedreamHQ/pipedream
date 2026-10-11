@@ -57,14 +57,6 @@ export const validateImageRequest = ({
   }
 };
 
-export const taskState = (task) => {
-  if (!task || typeof task !== "object" || Array.isArray(task) || !Object.keys(task).length) return "not_found";
-  if (task.response?.success === true) return "completed";
-  if (task.response?.success === false) return "failed";
-  if (task.id && task.response == null) return "pending";
-  return "unknown";
-};
-
 export const apiError = (error, submitting = false) => {
   const status = error?.response?.status || error?.status;
   if (submitting && status >= 400 && status < 500 && status !== 408) return error;

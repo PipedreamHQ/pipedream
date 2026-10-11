@@ -29,22 +29,6 @@ const submissionCases = {
   "minimax-generate-video": { path: "/minimax/videos", body: { model: "MiniMax-H3", content: [{ type: "text", text: prompt }], resolution: "768P", duration: 4, ratio: "16:9", async } },
   "seedream-decompose": { path: "/seedream/images", body: { model: "doubao-seedream-5-0-pro-260628", image: imageUrl, size: "auto", response_format: "url", layer_decomposition: true, async } },
 };
-const taskPaths = {
-  "get-gpt-image-task": "/openai/tasks",
-  "get-nano-banana-task": "/nano-banana/tasks",
-  "get-flux-task": "/flux/tasks",
-  "get-qwen-image-task": "/qwen-image/tasks",
-  "get-fish-audio-task": "/fish/tasks",
-  "get-suno-task": "/suno/tasks",
-  "get-midjourney-task": "/midjourney/tasks",
-  "get-veo-task": "/veo/tasks",
-  "get-grok-task": "/grok/tasks",
-  "get-happyhorse-task": "/happyhorse/tasks",
-  "get-wan-task": "/wan/tasks",
-  "get-kling-task": "/kling/tasks",
-  "get-seedance-task": "/seedance/tasks",
-  "get-minimax-task": "/minimax/tasks",
-};
 
 function output() {
   return { export() {} };
@@ -62,7 +46,6 @@ function context(component, request) {
     image: "https://example.com/input.png",
     imageUrl: "https://example.com/input.png",
     instrumental: true,
-    taskId: "task-123",
     query: "weather",
     type: "search",
     number: 3,
@@ -117,21 +100,6 @@ test("edit actions reject hostless image URLs before a paid request", async () =
     input.imageUrl = "https://#fragment";
     await assert.rejects(component.run.call(input, { $: output() }), /HTTP or HTTPS URL/, slug);
     assert.equal(calls, 0, slug);
-  }
-});
-
-test("new task actions read the exact saved ID and never submit generation", async () => {
-  for (const [slug, path] of Object.entries(taskPaths)) {
-    const component = await action(slug);
-    const calls = [];
-    const result = await component.run.call(context(component, async (input) => {
-      calls.push(input);
-      return { id: "task-123", response: { success: true, data: [{ url: "https://example.com/result" }] } };
-    }), { $: output() });
-    assert.equal(calls.length, 1, slug);
-    assert.equal(calls[0].path, path, slug);
-    assert.deepEqual(calls[0].data, { action: "retrieve", id: "task-123" }, slug);
-    assert.equal(result.state, "completed", slug);
   }
 });
 

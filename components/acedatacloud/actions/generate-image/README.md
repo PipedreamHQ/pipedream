@@ -1,6 +1,6 @@
 # Overview
 
-Submit one Seedream image generation request and return its `task_id` immediately. The action uses `async: true` and does not wait for the image. Run **Get Image Task** later to inspect the result.
+Submit one Seedream image generation request and return its `task_id` immediately. The action uses `async: true` and does not wait for the image. Save the task ID and use approved account task history or a callback to inspect the result; task lookup is withheld from this PR.
 
 # Getting Started
 

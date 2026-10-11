@@ -1,6 +1,6 @@
 # Overview
 
-Submit one Seedream image edit using a publicly accessible HTTP or HTTPS image URL and an edit prompt. The action returns a `task_id` immediately; use **Get Image Task** for the final image.
+Submit one Seedream image edit using a publicly accessible HTTP or HTTPS image URL and an edit prompt. The action returns a `task_id` immediately; save the task ID and use approved account task history or a callback for the final image; task lookup is withheld from this PR.
 
 # Getting Started
 

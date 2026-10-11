@@ -5,12 +5,10 @@ import {
   apiError,
   normalizeImageInput,
   requestOptions,
-  taskState,
   validateImageRequest,
 } from "../common/utils.mjs";
 import generateImage from "../actions/generate-image/generate-image.mjs";
 import editImage from "../actions/edit-image/edit-image.mjs";
-import getImageTask from "../actions/get-image-task/get-image-task.mjs";
 
 const model = "doubao-seedream-5-0-lite-260128";
 
@@ -100,76 +98,7 @@ test("Edit Image submits one URL and validates input before HTTP", async () => {
   assert.equal(calls.length, 1);
 });
 
-test("Get Image Task reads the same ID and preserves the full terminal record", async () => {
-  const calls = [];
-  const record = {
-    id: "image-task-1",
-    response: {
-      success: true,
-      data: [
-        {
-          image_url: "https://example.com/result.png",
-        },
-        {
-          error: {
-            code: "blocked",
-          },
-        },
-      ],
-      usage: {
-        generated_images: 1,
-      },
-      cost: {
-        amount: "0.3",
-        currency: "credits",
-      },
-    },
-  };
-  const context = {
-    acedatacloud: {
-      async getImageTask(args) {
-        calls.push(args);
-        return record;
-      },
-    },
-    taskId: "image-task-1",
-  };
-  const result = await getImageTask.run.call(context, {
-    $: step(),
-  });
-  assert.equal(calls.length, 1);
-  assert.equal(calls[0].taskId, "image-task-1");
-  assert.deepEqual(result.response, record.response);
-  assert.equal(result.state, "completed");
-});
-
-test("task status distinguishes missing, pending, failed, completed, and unknown", () => {
-  assert.equal(taskState({}), "not_found");
-  assert.equal(taskState({
-    id: "one",
-  }), "pending");
-  assert.equal(taskState({
-    id: "one",
-    response: {
-      success: false,
-    },
-  }), "failed");
-  assert.equal(taskState({
-    id: "one",
-    response: {
-      success: true,
-      data: [],
-    },
-  }), "completed");
-  assert.equal(taskState({
-    id: "one",
-    response: {
-      status: "succeeded",
-    },
-  }), "unknown");
-});
-
-test("shared methods build a single paid submission and a separate lookup", async () => {
+test("shared methods build a single paid submission", async () => {
   const calls = [];
   const app = {
     request(args) {
@@ -181,16 +110,10 @@ test("shared methods build a single paid submission and a separate lookup", asyn
     $: step(),
     data: { model, prompt: "cube", size: "2K" },
   });
-  acedatacloud.methods.getImageTask.call(app, {
-    $: step(),
-    taskId: "one",
-  });
-  assert.equal(calls.length, 2);
+  assert.equal(calls.length, 1);
   assert.equal(calls[0].path, "/seedream/images");
   assert.equal(calls[0].data.async, true);
   assert.equal(calls[0].data.response_format, "url");
-  assert.equal(calls[1].path, "/seedream/tasks");
-  assert.deepEqual(calls[1].data, { action: "retrieve", id: "one" });
 
   const config = requestOptions({
     apiKey: "synthetic-key",

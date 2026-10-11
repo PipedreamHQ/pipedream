@@ -31,11 +31,6 @@ export default {
       label: "Image URL",
       description: "Public HTTP or HTTPS image input. E.g. `https://example.com/photo.png`.",
     },
-    taskId: {
-      type: "string",
-      label: "Task ID",
-      description: "The task_id returned by a submission action. E.g. `01234567-89ab-cdef-0123-456789abcdef`.",
-    },
     size: {
       type: "string",
       label: "Size",
@@ -86,23 +81,6 @@ export default {
           ...data,
           response_format: "url",
           async: true,
-        },
-      });
-    },
-    /**
-     * Read a previously submitted task without resubmitting generation.
-     * @param {Object} options - Pipedream context and task ID.
-     * @returns {Promise<Object>} Full task record.
-     */
-    getImageTask({
-      $, taskId,
-    }) {
-      return this.request({
-        $,
-        path: "/seedream/tasks",
-        data: {
-          action: "retrieve",
-          id: taskId,
         },
       });
     },
