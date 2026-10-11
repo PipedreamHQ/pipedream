@@ -1,9 +1,9 @@
 {
   "name": "@pipedream/acedatacloud",
   "version": "0.0.1",
-  "description": "Pipedream AceDataCloud Components",
+  "description": "Pipedream AceDataCloud image, video, audio, search, and face components",
   "main": "acedatacloud.app.mjs",
-  "keywords": ["pipedream", "acedatacloud", "seedream"],
+  "keywords": ["pipedream", "acedatacloud", "image", "video", "audio", "search"],
   "homepage": "https://pipedream.com/apps/acedatacloud",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": { "access": "public" },

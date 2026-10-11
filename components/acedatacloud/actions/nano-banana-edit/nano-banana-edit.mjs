@@ -1,0 +1,22 @@
+import acedatacloud from "../../acedatacloud.app.mjs";
+import { createSubmissionAction, requiredHttpUrl, requiredText } from "../../common/utils.mjs";
+
+export default createSubmissionAction({
+  acedatacloud,
+  key: "acedatacloud-nano-banana-edit",
+  name: "Edit Nano Banana Image",
+  description: "Edit a Nano Banana image and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/nanobanana-images)",
+  path: "/nano-banana/images",
+  props: {
+    model: { type: "string", label: "Model", description: "Public Nano Banana model, e.g. `nano-banana-2-lite`.", default: "nano-banana-2-lite" },
+    prompt: { type: "string", label: "Prompt", description: "Edit instruction, e.g. `change the lantern to blue`." },
+    imageUrl: { type: "string", label: "Image URL", description: "Public HTTP or HTTPS source image, e.g. `https://example.com/lantern.png`." },
+  },
+  buildData: (step) => ({
+    action: "edit",
+    model: requiredText(step.model, "Model"),
+    prompt: requiredText(step.prompt, "Prompt"),
+    image_urls: [requiredHttpUrl(step.imageUrl, "Image URL")],
+    count: 1,
+  }),
+});
