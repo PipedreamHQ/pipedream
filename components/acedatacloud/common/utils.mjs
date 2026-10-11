@@ -11,6 +11,11 @@ export const MODELS = {
   ],
 };
 
+/**
+ * Normalize one or more public image URLs for a Seedream request.
+ * @param {string|string[]} value - Image URL or list of image URLs.
+ * @returns {string[]} Validated image URLs.
+ */
 export const normalizeImageInput = (value) => {
   const values = Array.isArray(value)
     ? value
@@ -32,12 +37,20 @@ export const isHttpUrl = (value) => {
   if (typeof value !== "string" || !/^https?:\/\/\S+$/i.test(value)) return false;
   try {
     const parsed = new URL(value);
-    return ["http:", "https:"].includes(parsed.protocol) && Boolean(parsed.hostname);
+    return [
+      "http:",
+      "https:",
+    ].includes(parsed.protocol) && Boolean(parsed.hostname);
   } catch {
     return false;
   }
 };
 
+/**
+ * Validate model, prompt, size, and reference count before submission.
+ * @param {Object} request - Seedream image request fields.
+ * @returns {void}
+ */
 export const validateImageRequest = ({
   model, prompt, size, images,
 }) => {
@@ -57,6 +70,12 @@ export const validateImageRequest = ({
   }
 };
 
+/**
+ * Preserve definite client errors and warn when a paid submission is ambiguous.
+ * @param {Error} error - Transport or API error.
+ * @param {boolean} [submitting=false] - Whether this was a paid submission.
+ * @returns {Error} Error to surface to the workflow.
+ */
 export const apiError = (error, submitting = false) => {
   const status = error?.response?.status || error?.status;
   if (submitting && status >= 400 && status < 500 && status !== 408) return error;
@@ -69,6 +88,11 @@ export const apiError = (error, submitting = false) => {
   return new Error(`Task lookup failed${suffix}. Retry lookup with the same task ID; do not resubmit the image request.`);
 };
 
+/**
+ * Build the authenticated JSON request without sending it.
+ * @param {Object} options - API key, fixed path, and request body.
+ * @returns {Object} Options for Pipedream's axios helper.
+ */
 export const requestOptions = ({
   apiKey, path, data,
 }) => ({

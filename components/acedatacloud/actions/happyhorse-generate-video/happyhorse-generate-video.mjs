@@ -17,7 +17,12 @@ export default createSubmissionAction({
       ],
       description: "Video description, e.g. `a horse crossing a meadow`.",
     },
-    model: { type: "string", label: "Model", description: "Public Happy Horse model, e.g. `happyhorse-1.0-t2v`.", default: "happyhorse-1.0-t2v" },
+    model: {
+      type: "string",
+      label: "Model",
+      description: "Public Happy Horse model, e.g. `happyhorse-1.0-t2v`.",
+      default: "happyhorse-1.0-t2v",
+    },
   },
   buildData: (step) => ({
     action: "generate",

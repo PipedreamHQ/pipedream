@@ -17,8 +17,18 @@ export default createSubmissionAction({
       ],
       description: "Music description, e.g. `upbeat instrumental jazz with piano`.",
     },
-    model: { type: "string", label: "Model", description: "Public Suno model, e.g. `chirp-v6`.", default: "chirp-v6" },
-    instrumental: { type: "boolean", label: "Instrumental", description: "Generate without vocals, e.g. `true`.", default: false },
+    model: {
+      type: "string",
+      label: "Model",
+      description: "Public Suno model, e.g. `chirp-v6`.",
+      default: "chirp-v6",
+    },
+    instrumental: {
+      type: "boolean",
+      label: "Instrumental",
+      description: "Generate without vocals, e.g. `true`.",
+      default: false,
+    },
   },
   buildData: (step) => ({
     action: "generate",

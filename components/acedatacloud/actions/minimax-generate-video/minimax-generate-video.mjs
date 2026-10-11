@@ -20,7 +20,12 @@ export default createSubmissionAction({
   },
   buildData: (step) => ({
     model: "MiniMax-H3",
-    content: [{ type: "text", text: requiredText(step.prompt, "Prompt") }],
+    content: [
+      {
+        type: "text",
+        text: requiredText(step.prompt, "Prompt"),
+      },
+    ],
     resolution: "768P",
     duration: 4,
     ratio: "16:9",

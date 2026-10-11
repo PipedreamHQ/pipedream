@@ -17,7 +17,12 @@ export default createSubmissionAction({
       ],
       description: "Video description, e.g. `a river at sunrise`.",
     },
-    model: { type: "string", label: "Model", description: "Public Veo model, e.g. `veo31-fast`.", default: "veo31-fast" },
+    model: {
+      type: "string",
+      label: "Model",
+      description: "Public Veo model, e.g. `veo31-fast`.",
+      default: "veo31-fast",
+    },
   },
   buildData: (step) => ({
     action: "text2video",

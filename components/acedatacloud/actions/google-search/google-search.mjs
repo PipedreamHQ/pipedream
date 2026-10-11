@@ -15,10 +15,37 @@ export default {
   },
   props: {
     acedatacloud,
-    query: { type: "string", label: "Query", description: "Search query, e.g. `solar eclipse 2026`." },
-    type: { type: "string", label: "Search Type", description: "Search vertical, e.g. `search` or `news`.", options: ["search", "images", "news", "maps", "places", "videos"], default: "search" },
-    number: { type: "integer", label: "Results", description: "Number of results, e.g. `3`.", default: 3 },
-    page: { type: "integer", label: "Page", description: "Result page, e.g. `1`.", default: 1 },
+    query: {
+      type: "string",
+      label: "Query",
+      description: "Search query, e.g. `solar eclipse 2026`.",
+    },
+    type: {
+      type: "string",
+      label: "Search Type",
+      description: "Search vertical, e.g. `search` or `news`.",
+      options: [
+        "search",
+        "images",
+        "news",
+        "maps",
+        "places",
+        "videos",
+      ],
+      default: "search",
+    },
+    number: {
+      type: "integer",
+      label: "Results",
+      description: "Number of results, e.g. `3`.",
+      default: 3,
+    },
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "Result page, e.g. `1`.",
+      default: 1,
+    },
   },
   async run({ $ }) {
     if (!Number.isInteger(this.number) || this.number < 1 || this.number > 100) {

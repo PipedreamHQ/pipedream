@@ -103,12 +103,18 @@ test("shared methods build a single paid submission", async () => {
   const app = {
     request(args) {
       calls.push(args);
-      return { task_id: "one" };
+      return {
+        task_id: "one",
+      };
     },
   };
   acedatacloud.methods.submitImage.call(app, {
     $: step(),
-    data: { model, prompt: "cube", size: "2K" },
+    data: {
+      model,
+      prompt: "cube",
+      size: "2K",
+    },
   });
   assert.equal(calls.length, 1);
   assert.equal(calls[0].path, "/seedream/images");
@@ -152,10 +158,16 @@ test("invalid model, size, prompt, and transport errors do not start a fallback 
 
 test("submission preserves a definite 4xx API error and warns on ambiguous failure", async () => {
   const rejected = Object.assign(new Error("invalid model"), {
-    response: { status: 400 },
+    response: {
+      status: 400,
+    },
   });
   assert.equal(apiError(rejected, true), rejected);
-  assert.match(apiError({ response: { status: 408 } }, true).message, /may have created a paid task/);
+  assert.match(apiError({
+    response: {
+      status: 408,
+    },
+  }, true).message, /may have created a paid task/);
   assert.match(apiError(new Error("socket closed"), true).message, /may have created a paid task/);
 
   let calls = 0;
@@ -170,10 +182,14 @@ test("submission preserves a definite 4xx API error and warns on ambiguous failu
     prompt: "cube",
     size: "2K",
   };
-  await assert.rejects(generateImage.run.call(context, { $: step() }), (error) => error === rejected);
+  await assert.rejects(generateImage.run.call(context, {
+    $: step(),
+  }), (error) => error === rejected);
   await assert.rejects(editImage.run.call({
     ...context,
     image: "https://example.com/cube.png",
-  }, { $: step() }), (error) => error === rejected);
+  }, {
+    $: step(),
+  }), (error) => error === rejected);
   assert.equal(calls, 2);
 });

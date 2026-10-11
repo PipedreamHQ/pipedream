@@ -17,7 +17,12 @@ export default createSubmissionAction({
       ],
       description: "Video description, e.g. `a paper boat on a pond`.",
     },
-    model: { type: "string", label: "Model", description: "Public Grok video model, e.g. `grok-imagine-video-1.5-fast:reverse`.", default: "grok-imagine-video-1.5-fast:reverse" },
+    model: {
+      type: "string",
+      label: "Model",
+      description: "Public Grok video model, e.g. `grok-imagine-video-1.5-fast:reverse`.",
+      default: "grok-imagine-video-1.5-fast:reverse",
+    },
   },
   buildData: (step) => ({
     model: requiredText(step.model, "Model"),

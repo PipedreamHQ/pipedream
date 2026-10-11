@@ -9,29 +9,227 @@ const prompt = "a small red kite";
 const imageUrl = "https://example.com/input.png";
 const async = true;
 const submissionCases = {
-  "gpt-image-generate": { path: "/openai/images/generations", body: { model: "gpt-image-2", prompt, response_format: "url", async } },
-  "gpt-image-edit": { path: "/openai/images/edits", body: { model: "gpt-image-2", prompt, image: imageUrl, response_format: "url", async } },
-  "nano-banana-generate": { path: "/nano-banana/images", body: { action: "generate", model: "nano-banana-2-lite", prompt, aspect_ratio: "1:1", resolution: "1K", count: 1, async } },
-  "nano-banana-edit": { path: "/nano-banana/images", body: { action: "edit", model: "nano-banana-2-lite", prompt, image_urls: [imageUrl], count: 1, async } },
-  "flux-generate-image": { path: "/flux/images", body: { action: "generate", model: "flux-dev", prompt, size: "1024x1024", count: 1, async } },
-  "flux-edit-image": { path: "/flux/images", body: { action: "edit", model: "flux-kontext-pro", prompt, image_url: imageUrl, size: "1:1", count: 1, async } },
-  "flux-generate-video": { path: "/flux/videos", body: { action: "generate", mode: "t2v", model: "flux-3", prompt, async } },
-  "qwen-image-generate": { path: "/qwen-image/images", body: { model: "qwen-image-3.0", prompt, size: "1024*1024", n: 1, async } },
-  "fish-audio-synthesize": { path: "/fish/tts", body: { text: "Hello world", model: "s2-pro", format: "mp3", async } },
-  "suno-generate-music": { path: "/suno/audios", body: { action: "generate", model: "chirp-v6", prompt, custom: false, instrumental: true, async } },
-  "midjourney-imagine": { path: "/midjourney/imagine", body: { action: "generate", prompt, version: "8.2", mode: "fast", async } },
-  "veo-generate-video": { path: "/veo/videos", body: { action: "text2video", model: "veo31-fast", prompt, aspect_ratio: "16:9", async } },
-  "grok-generate-video": { path: "/grok/videos", body: { model: "grok-imagine-video-1.5-fast:reverse", prompt, resolution: "480p", duration: 6, async } },
-  "happyhorse-generate-video": { path: "/happyhorse/videos", body: { action: "generate", model: "happyhorse-1.0-t2v", prompt, resolution: "720P", duration: 3, ratio: "16:9", async } },
-  "wan-generate-video": { path: "/wan/videos", body: { action: "text2video", model: "wan2.6-t2v", prompt, duration: 5, resolution: "720P", async } },
-  "kling-generate-video": { path: "/kling/videos", body: { action: "text2video", model: "kling-v3-turbo", prompt, mode: "std", duration: 5, aspect_ratio: "16:9", async } },
-  "seedance-generate-video": { path: "/seedance/videos", body: { model: "doubao-seedance-2-0-mini-260615", content: [{ type: "text", text: prompt }], resolution: "480p", ratio: "16:9", generate_audio: false, async } },
-  "minimax-generate-video": { path: "/minimax/videos", body: { model: "MiniMax-H3", content: [{ type: "text", text: prompt }], resolution: "768P", duration: 4, ratio: "16:9", async } },
-  "seedream-decompose": { path: "/seedream/images", body: { model: "doubao-seedream-5-0-pro-260628", image: imageUrl, size: "auto", response_format: "url", layer_decomposition: true, async } },
+  "gpt-image-generate": {
+    path: "/openai/images/generations",
+    body: {
+      model: "gpt-image-2",
+      prompt,
+      response_format: "url",
+      async,
+    },
+  },
+  "gpt-image-edit": {
+    path: "/openai/images/edits",
+    body: {
+      model: "gpt-image-2",
+      prompt,
+      image: imageUrl,
+      response_format: "url",
+      async,
+    },
+  },
+  "nano-banana-generate": {
+    path: "/nano-banana/images",
+    body: {
+      action: "generate",
+      model: "nano-banana-2-lite",
+      prompt,
+      aspect_ratio: "1:1",
+      resolution: "1K",
+      count: 1,
+      async,
+    },
+  },
+  "nano-banana-edit": {
+    path: "/nano-banana/images",
+    body: {
+      action: "edit",
+      model: "nano-banana-2-lite",
+      prompt,
+      image_urls: [
+        imageUrl,
+      ],
+      count: 1,
+      async,
+    },
+  },
+  "flux-generate-image": {
+    path: "/flux/images",
+    body: {
+      action: "generate",
+      model: "flux-dev",
+      prompt,
+      size: "1024x1024",
+      count: 1,
+      async,
+    },
+  },
+  "flux-edit-image": {
+    path: "/flux/images",
+    body: {
+      action: "edit",
+      model: "flux-kontext-pro",
+      prompt,
+      image_url: imageUrl,
+      size: "1:1",
+      count: 1,
+      async,
+    },
+  },
+  "flux-generate-video": {
+    path: "/flux/videos",
+    body: {
+      action: "generate",
+      mode: "t2v",
+      model: "flux-3",
+      prompt,
+      async,
+    },
+  },
+  "qwen-image-generate": {
+    path: "/qwen-image/images",
+    body: {
+      model: "qwen-image-3.0",
+      prompt,
+      size: "1024*1024",
+      n: 1,
+      async,
+    },
+  },
+  "fish-audio-synthesize": {
+    path: "/fish/tts",
+    body: {
+      text: "Hello world",
+      model: "s2-pro",
+      format: "mp3",
+      async,
+    },
+  },
+  "suno-generate-music": {
+    path: "/suno/audios",
+    body: {
+      action: "generate",
+      model: "chirp-v6",
+      prompt,
+      custom: false,
+      instrumental: true,
+      async,
+    },
+  },
+  "midjourney-imagine": {
+    path: "/midjourney/imagine",
+    body: {
+      action: "generate",
+      prompt,
+      version: "8.2",
+      mode: "fast",
+      async,
+    },
+  },
+  "veo-generate-video": {
+    path: "/veo/videos",
+    body: {
+      action: "text2video",
+      model: "veo31-fast",
+      prompt,
+      aspect_ratio: "16:9",
+      async,
+    },
+  },
+  "grok-generate-video": {
+    path: "/grok/videos",
+    body: {
+      model: "grok-imagine-video-1.5-fast:reverse",
+      prompt,
+      resolution: "480p",
+      duration: 6,
+      async,
+    },
+  },
+  "happyhorse-generate-video": {
+    path: "/happyhorse/videos",
+    body: {
+      action: "generate",
+      model: "happyhorse-1.0-t2v",
+      prompt,
+      resolution: "720P",
+      duration: 3,
+      ratio: "16:9",
+      async,
+    },
+  },
+  "wan-generate-video": {
+    path: "/wan/videos",
+    body: {
+      action: "text2video",
+      model: "wan2.6-t2v",
+      prompt,
+      duration: 5,
+      resolution: "720P",
+      async,
+    },
+  },
+  "kling-generate-video": {
+    path: "/kling/videos",
+    body: {
+      action: "text2video",
+      model: "kling-v3-turbo",
+      prompt,
+      mode: "std",
+      duration: 5,
+      aspect_ratio: "16:9",
+      async,
+    },
+  },
+  "seedance-generate-video": {
+    path: "/seedance/videos",
+    body: {
+      model: "doubao-seedance-2-0-mini-260615",
+      content: [
+        {
+          type: "text",
+          text: prompt,
+        },
+      ],
+      resolution: "480p",
+      ratio: "16:9",
+      generate_audio: false,
+      async,
+    },
+  },
+  "minimax-generate-video": {
+    path: "/minimax/videos",
+    body: {
+      model: "MiniMax-H3",
+      content: [
+        {
+          type: "text",
+          text: prompt,
+        },
+      ],
+      resolution: "768P",
+      duration: 4,
+      ratio: "16:9",
+      async,
+    },
+  },
+  "seedream-decompose": {
+    path: "/seedream/images",
+    body: {
+      model: "doubao-seedream-5-0-pro-260628",
+      image: imageUrl,
+      size: "auto",
+      response_format: "url",
+      layer_decomposition: true,
+      async,
+    },
+  },
 };
 
 function output() {
-  return { export() {} };
+  return {
+    export() {},
+  };
 }
 
 async function action(slug) {
@@ -52,22 +250,37 @@ function context(component, request) {
     page: 1,
     mode: 1,
   };
-  for (const [key, prop] of Object.entries(component.props)) {
+  for (const [
+    key,
+    prop,
+  ] of Object.entries(component.props)) {
     if (key !== "acedatacloud" && values[key] === undefined && prop.default !== undefined) {
       values[key] = prop.default;
     }
   }
-  return { ...values, acedatacloud: { request } };
+  return {
+    ...values,
+    acedatacloud: {
+      request,
+    },
+  };
 }
 
 test("all new submissions send one async POST and return only submitted state", async () => {
-  for (const [slug, spec] of Object.entries(submissionCases)) {
+  for (const [
+    slug,
+    spec,
+  ] of Object.entries(submissionCases)) {
     const component = await action(slug);
     const calls = [];
     const result = await component.run.call(context(component, async (input) => {
       calls.push(input);
-      return { task_id: "task-123" };
-    }), { $: output() });
+      return {
+        task_id: "task-123",
+      };
+    }), {
+      $: output(),
+    });
     assert.equal(calls.length, 1, slug);
     assert.equal(calls[0].path, spec.path, slug);
     assert.deepEqual(calls[0].data, spec.body, slug);
@@ -82,35 +295,67 @@ test("ambiguous submission failure does not replay a paid operation", async () =
     let calls = 0;
     await assert.rejects(component.run.call(context(component, async () => {
       calls += 1;
-      throw Object.assign(new Error("upstream unavailable"), { response: { status: 503 } });
-    }), { $: output() }), /may have created a paid task/, slug);
+      throw Object.assign(new Error("upstream unavailable"), {
+        response: {
+          status: 503,
+        },
+      });
+    }), {
+      $: output(),
+    }), /may have created a paid task/, slug);
     assert.equal(calls, 1, slug);
   }
 });
 
 test("edit actions reject hostless image URLs before a paid request", async () => {
-  for (const slug of ["gpt-image-edit", "nano-banana-edit", "flux-edit-image", "seedream-decompose"]) {
+  for (const slug of [
+    "gpt-image-edit",
+    "nano-banana-edit",
+    "flux-edit-image",
+    "seedream-decompose",
+  ]) {
     const component = await action(slug);
     let calls = 0;
     const input = context(component, async () => {
       calls += 1;
-      return { task_id: "task-123" };
+      return {
+        task_id: "task-123",
+      };
     });
     input.image = "https://#fragment";
     input.imageUrl = "https://#fragment";
-    await assert.rejects(component.run.call(input, { $: output() }), /HTTP or HTTPS URL/, slug);
+    await assert.rejects(component.run.call(input, {
+      $: output(),
+    }), /HTTP or HTTPS URL/, slug);
     assert.equal(calls, 0, slug);
   }
 });
 
 test("search and face actions use their synchronous contracts", async () => {
-  for (const [slug, path] of [["google-search", "/serp/google"], ["face-keypoints", "/face/analyze"]]) {
+  for (const [
+    slug,
+    path,
+  ] of [
+      [
+        "google-search",
+        "/serp/google",
+      ],
+      [
+        "face-keypoints",
+        "/face/analyze",
+      ],
+    ]) {
     const component = await action(slug);
     const calls = [];
     const result = await component.run.call(context(component, async (input) => {
       calls.push(input);
-      return { success: true, data: [] };
-    }), { $: output() });
+      return {
+        success: true,
+        data: [],
+      };
+    }), {
+      $: output(),
+    });
     assert.equal(calls.length, 1, slug);
     assert.equal(calls[0].path, path, slug);
     assert.equal(calls[0].data.async, undefined, slug);
@@ -119,7 +364,9 @@ test("search and face actions use their synchronous contracts", async () => {
 });
 
 test("every action key is unique and has a README", async () => {
-  const folders = await readdir(actionsRoot, { withFileTypes: true });
+  const folders = await readdir(actionsRoot, {
+    withFileTypes: true,
+  });
   const keys = new Set();
   for (const folder of folders.filter((entry) => entry.isDirectory())) {
     const slug = folder.name;

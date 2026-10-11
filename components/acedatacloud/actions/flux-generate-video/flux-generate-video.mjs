@@ -10,7 +10,12 @@ export default createSubmissionAction({
   description: "Generate a Flux video and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/flux-videos)",
   path: "/flux/videos",
   props: {
-    model: { type: "string", label: "Model", description: "Public Flux video model, e.g. `flux-3`.", default: "flux-3" },
+    model: {
+      type: "string",
+      label: "Model",
+      description: "Public Flux video model, e.g. `flux-3`.",
+      default: "flux-3",
+    },
     prompt: {
       propDefinition: [
         acedatacloud,

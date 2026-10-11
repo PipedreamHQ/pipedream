@@ -17,7 +17,12 @@ export default createSubmissionAction({
       ],
       description: "Video description, e.g. `clouds crossing a mountain`.",
     },
-    model: { type: "string", label: "Model", description: "Public Wan model, e.g. `wan2.6-t2v`.", default: "wan2.6-t2v" },
+    model: {
+      type: "string",
+      label: "Model",
+      description: "Public Wan model, e.g. `wan2.6-t2v`.",
+      default: "wan2.6-t2v",
+    },
   },
   buildData: (step) => ({
     action: "text2video",

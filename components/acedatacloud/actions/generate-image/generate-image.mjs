@@ -1,5 +1,7 @@
 import acedatacloud from "../../acedatacloud.app.mjs";
-import { apiError, validateImageRequest } from "../../common/utils.mjs";
+import {
+  apiError, validateImageRequest,
+} from "../../common/utils.mjs";
 
 export default {
   key: "acedatacloud-generate-image",

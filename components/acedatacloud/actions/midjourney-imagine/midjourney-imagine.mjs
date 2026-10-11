@@ -17,7 +17,12 @@ export default createSubmissionAction({
       ],
       description: "Image description, e.g. `a misty mountain valley`.",
     },
-    version: { type: "string", label: "Version", description: "Public Midjourney version, e.g. `8.2`.", default: "8.2" },
+    version: {
+      type: "string",
+      label: "Version",
+      description: "Public Midjourney version, e.g. `8.2`.",
+      default: "8.2",
+    },
   },
   buildData: (step) => ({
     action: "generate",

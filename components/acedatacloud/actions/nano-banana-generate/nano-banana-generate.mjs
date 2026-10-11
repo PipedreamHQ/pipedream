@@ -7,10 +7,15 @@ export default createSubmissionAction({
   version: "0.0.1",
   key: "acedatacloud-nano-banana-generate",
   name: "Generate Nano Banana Image",
-  description: "Generate a Nano Banana image and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/nanobanana-images)",
+  description: "Generate a Nano Banana image and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/nano-banana-images)",
   path: "/nano-banana/images",
   props: {
-    model: { type: "string", label: "Model", description: "Public Nano Banana model, e.g. `nano-banana-2-lite`.", default: "nano-banana-2-lite" },
+    model: {
+      type: "string",
+      label: "Model",
+      description: "Public Nano Banana model, e.g. `nano-banana-2-lite`.",
+      default: "nano-banana-2-lite",
+    },
     prompt: {
       propDefinition: [
         acedatacloud,
@@ -18,8 +23,18 @@ export default createSubmissionAction({
       ],
       description: "Image description, e.g. `a paper lantern`.",
     },
-    aspectRatio: { type: "string", label: "Aspect Ratio", description: "Aspect ratio, e.g. `1:1`.", default: "1:1" },
-    resolution: { type: "string", label: "Resolution", description: "Output resolution, e.g. `1K`.", default: "1K" },
+    aspectRatio: {
+      type: "string",
+      label: "Aspect Ratio",
+      description: "Aspect ratio, e.g. `1:1`.",
+      default: "1:1",
+    },
+    resolution: {
+      type: "string",
+      label: "Resolution",
+      description: "Output resolution, e.g. `1K`.",
+      default: "1K",
+    },
   },
   buildData: (step) => ({
     action: "generate",

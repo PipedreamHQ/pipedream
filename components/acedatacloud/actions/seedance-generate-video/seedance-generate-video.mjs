@@ -17,11 +17,21 @@ export default createSubmissionAction({
       ],
       description: "Video description, e.g. `a calm lake at dawn`.",
     },
-    model: { type: "string", label: "Model", description: "Public Seedance model, e.g. `doubao-seedance-2-0-mini-260615`.", default: "doubao-seedance-2-0-mini-260615" },
+    model: {
+      type: "string",
+      label: "Model",
+      description: "Public Seedance model, e.g. `doubao-seedance-2-0-mini-260615`.",
+      default: "doubao-seedance-2-0-mini-260615",
+    },
   },
   buildData: (step) => ({
     model: requiredText(step.model, "Model"),
-    content: [{ type: "text", text: requiredText(step.prompt, "Prompt") }],
+    content: [
+      {
+        type: "text",
+        text: requiredText(step.prompt, "Prompt"),
+      },
+    ],
     resolution: "480p",
     ratio: "16:9",
     generate_audio: false,

@@ -1,5 +1,7 @@
 import acedatacloud from "../../acedatacloud.app.mjs";
-import { requiredHttpUrl, requiredText } from "../../common/utils.mjs";
+import {
+  requiredHttpUrl, requiredText,
+} from "../../common/utils.mjs";
 import { createSubmissionAction } from "../common/create-submission-action.mjs";
 
 export default createSubmissionAction({
@@ -10,7 +12,12 @@ export default createSubmissionAction({
   description: "Edit an image with Flux and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/flux-images)",
   path: "/flux/images",
   props: {
-    model: { type: "string", label: "Model", description: "Public Flux edit model, e.g. `flux-kontext-pro`.", default: "flux-kontext-pro" },
+    model: {
+      type: "string",
+      label: "Model",
+      description: "Public Flux edit model, e.g. `flux-kontext-pro`.",
+      default: "flux-kontext-pro",
+    },
     prompt: {
       propDefinition: [
         acedatacloud,
@@ -25,7 +32,12 @@ export default createSubmissionAction({
       ],
       description: "Public HTTP or HTTPS source image, e.g. `https://example.com/pavilion.png`.",
     },
-    size: { type: "string", label: "Size", description: "Output aspect ratio, e.g. `1:1`.", default: "1:1" },
+    size: {
+      type: "string",
+      label: "Size",
+      description: "Output aspect ratio, e.g. `1:1`.",
+      default: "1:1",
+    },
   },
   buildData: (step) => ({
     action: "edit",

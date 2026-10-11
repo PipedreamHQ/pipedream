@@ -17,7 +17,12 @@ export default createSubmissionAction({
       ],
       description: "Video description, e.g. `a cyclist on a coastal road`.",
     },
-    model: { type: "string", label: "Model", description: "Public Kling model, e.g. `kling-v3-turbo`.", default: "kling-v3-turbo" },
+    model: {
+      type: "string",
+      label: "Model",
+      description: "Public Kling model, e.g. `kling-v3-turbo`.",
+      default: "kling-v3-turbo",
+    },
   },
   buildData: (step) => ({
     action: "text2video",

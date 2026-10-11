@@ -15,11 +15,23 @@ export default {
   },
   props: {
     acedatacloud,
-    imageUrl: { type: "string", label: "Image URL", description: "Public HTTP or HTTPS image, e.g. `https://example.com/portrait.png`." },
-    mode: { type: "integer", label: "Mode", description: "Face selection: `0` for all faces or `1` for the largest.", default: 1 },
+    imageUrl: {
+      type: "string",
+      label: "Image URL",
+      description: "Public HTTP or HTTPS image, e.g. `https://example.com/portrait.png`.",
+    },
+    mode: {
+      type: "integer",
+      label: "Mode",
+      description: "Face selection: `0` for all faces or `1` for the largest.",
+      default: 1,
+    },
   },
   async run({ $ }) {
-    if (![0, 1].includes(this.mode)) {
+    if (![
+      0,
+      1,
+    ].includes(this.mode)) {
       throw new Error("Mode must be 0 or 1.");
     }
     const data = {
