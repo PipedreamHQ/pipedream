@@ -1,10 +1,11 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import {
-  DEFAULT_LOOKBACK_HOURS, HOUR_MS, MAX_LOOKBACK_HOURS,
-} from "../../common/constants.mjs";
 import { parseObject } from "../../common/utils.mjs";
 import etrusted from "../../etrusted.app.mjs";
 import sampleEmit from "./test-event.mjs";
+
+const HOUR_MS = 60 * 60 * 1000;
+const DEFAULT_LOOKBACK_HOURS = 1;
+const MAX_LOOKBACK_HOURS = 72;
 
 export default {
   key: "etrusted-new-review",
