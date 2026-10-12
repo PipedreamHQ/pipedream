@@ -4,7 +4,7 @@ import { SHAPE_TYPES } from "../../common/constants.mjs";
 export default {
   key: "google_slides-create-page-element",
   name: "Create Page Element",
-  description: "Create a shape or text box on a slide. Size and position are in points (1/72 of an inch), measured from the top-left of the slide; a default 16:9 slide is 720 x 405 points, so an element placed outside that area is not visible. To add a title or body text, prefer **Create Slide With Content**, which fills a layout's placeholders instead of positioning boxes by hand. Returns the new element's object ID in `replies[0].createShape.objectId`, for use with **Insert Text**. [See the documentation](https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations/request#CreateShapeRequest)",
+  description: "Create a shape or text box on a slide. Size and position are in points (1/72 of an inch), measured from the top-left of the slide; a default 16:9 slide is 720 x 405 points, so an element placed outside that area is not visible. To add a title or body text, prefer **Create Slide** with `Layout` and the text set, which fills a layout's placeholders instead of positioning boxes by hand. Returns the new element's object ID in `replies[0].createShape.objectId`, for use with **Insert Text**. [See the documentation](https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations/request#CreateShapeRequest)",
   version: "0.0.8",
   annotations: {
     destructiveHint: false,

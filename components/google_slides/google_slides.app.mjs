@@ -92,29 +92,9 @@ export default {
     },
     layoutId: {
       type: "string",
-      label: "Layout ID",
-      description: "The ID of the layout to base the slide on. Each option is labelled with the layout's name (e.g. `TITLE_AND_BODY`). **If omitted, the slide uses the BLANK layout and has no title or body placeholders to insert text into.**",
+      label: "Layout",
+      description: "The layout to base the slide on, given as its name (e.g. `TITLE_AND_BODY`, `TITLE`, `TITLE_AND_TWO_COLUMNS`), its display name (e.g. `Title and body`) or its object ID. Use **Get Presentation** and read `layouts[]` to see the layouts in a deck with a custom template. If omitted, the slide uses the BLANK layout and has no title or body placeholders.",
       optional: true,
-      async options({ presentationId }) {
-        const {
-          layouts = [], masters = [],
-        } = await this.getPresentation(presentationId);
-        // Decks with several masters repeat layout names, so name the master too.
-        const masterNames = new Map(masters.map(({
-          objectId, masterProperties,
-        }) => [
-          objectId,
-          masterProperties?.displayName || objectId,
-        ]));
-        return layouts.map(({
-          objectId, layoutProperties: props = {},
-        }) => ({
-          label: masters.length > 1
-            ? `${props.name} (${masterNames.get(props.masterObjectId) ?? props.masterObjectId})`
-            : props.name,
-          value: objectId,
-        }));
-      },
     },
     slideId: {
       type: "string",
