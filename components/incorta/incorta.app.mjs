@@ -1,4 +1,5 @@
 import pg from "pg";
+import Cursor from "pg-cursor";
 import {
   axios, ConfigurationError, sqlProp, sqlProxy,
 } from "@pipedream/platform";
@@ -290,6 +291,36 @@ export default {
       try {
         const { rows } = await client.query(query);
         return rows;
+      } finally {
+        await this._endClient(client);
+      }
+    },
+    /**
+     * Like `executeQuery()`, but stops reading once more than `maxRows` rows
+     * have arrived, using an extended-protocol cursor, instead of
+     * materializing the whole result. The query text is sent untouched.
+     * Incorta SQLi ignores the row count a cursor asks for and streams in its
+     * own batches (10,000 rows observed), so at most about one batch beyond
+     * `maxRows` is transferred; `truncated` is true when more rows exist.
+     * Returns `{ rows, truncated }`.
+     */
+    async executeQueryWithLimit(query, maxRows) {
+      const client = await this._getClient();
+      try {
+        const cursor = client.query(new Cursor(query.text, query.values));
+        const rows = [];
+        while (rows.length <= maxRows) {
+          const batch = await cursor.read(maxRows + 1 - rows.length);
+          if (!batch.length) {
+            break;
+          }
+          rows.push(...batch);
+        }
+        await cursor.close();
+        return {
+          rows: rows.slice(0, maxRows),
+          truncated: rows.length > maxRows,
+        };
       } finally {
         await this._endClient(client);
       }

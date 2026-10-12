@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@pipedream/platform": "^3.4.0",
-    "pg": "^8.7.1"
+    "pg": "^8.7.1",
+    "pg-cursor": "^2.12.0"
   }
 }

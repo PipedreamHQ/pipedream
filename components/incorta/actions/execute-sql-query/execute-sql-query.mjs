@@ -7,8 +7,9 @@ export default {
     + " Use this for ad hoc reporting or data exploration against Incorta's Business Schema tables and materialized views."
     + " Incorta SQLi is primarily a read/query interface (it is not a general-purpose transactional database) — expect `SELECT` statements with standard ANSI SQL: joins, aggregates, `GROUP BY`, window functions, and CTEs all work."
     + " Use **List Schemas**, **List Tables**, and **List Columns** first if you don't already know the available schema/table/column names."
-    + " Always include a `LIMIT` (and select only the columns you need) for exploratory queries: results are capped at **Max Rows** (default 500), and the response reports `truncated: true` and `totalRows` when rows were dropped, so a truncated result is partial. Narrow the query with `LIMIT`, filters, or aggregates rather than relying on the cap."
-    + " Example: `SELECT region, SUM(amount) AS total_sales FROM sales.sales_fact GROUP BY region ORDER BY total_sales DESC LIMIT 50` returns `{rows: [{region, total_sales}, ...], rowCount, totalRows, truncated: false}`, one row per region."
+    + " Always include a `LIMIT` (and select only the columns you need) for exploratory queries: results are capped at **Max Rows** (default 500), and the response reports `truncated: true` when more rows existed than were returned, so a truncated result is partial (the total row count is not known; run a `COUNT(*)` if you need it). Narrow the query with `LIMIT`, filters, or aggregates rather than relying on the cap."
+    + " **Do not use `OFFSET`**: Incorta SQLi silently ignores it and returns the same rows again, with no error. To read the next page of a large result, use keyset paging instead: `ORDER BY <unique column>` and `WHERE <column> > <last value seen>` with `LIMIT`, e.g. `SELECT * FROM sales.orders WHERE order_id > 1000 ORDER BY order_id LIMIT 100`."
+    + " Example: `SELECT region, SUM(amount) AS total_sales FROM sales.sales_fact GROUP BY region ORDER BY total_sales DESC LIMIT 50` returns `{rows: [{region, total_sales}, ...], rowCount, truncated: false}`, one row per region."
     + " Requires a SQLi Username and Password (mixed-mode authentication, obtained from your Incorta administrator), supplied either as props or saved on the connected Incorta account; props take precedence. The SQLi host/port and tenant database are resolved automatically."
     + " [See the documentation](https://docs.incorta.com/5.1/concepts-sqli/)",
   version: "0.0.1",
@@ -50,7 +51,7 @@ export default {
     maxRows: {
       type: "integer",
       label: "Max Rows",
-      description: "Maximum number of rows to return, e.g. `100`. Rows beyond this are dropped from the output and reported via `truncated` and `totalRows`. This only trims the response; it does not change or limit the query itself, so add a `LIMIT` to the SQL as well.",
+      description: "Maximum number of rows to return, e.g. `100`. The action stops reading once more rows than this have arrived and reports `truncated`. It does not change or limit the query itself, so add a `LIMIT` to the SQL as well.",
       default: 500,
       min: 1,
       optional: true,
@@ -68,14 +69,14 @@ export default {
     });
 
     const args = this.incorta.executeQueryAdapter(this.sql);
-    const data = await this.incorta.executeQuery(args);
-
-    // The query itself is sent untouched; only the rows handed back are capped.
-    const rows = data.slice(0, this.maxRows);
-    const truncated = data.length > rows.length;
+    // The query is sent untouched; reading stops once more than `maxRows`
+    // rows have arrived instead of loading the whole result.
+    const {
+      rows, truncated,
+    } = await this.incorta.executeQueryWithLimit(args, this.maxRows);
 
     $.export("$summary", truncated
-      ? `Returned ${rows.length} of ${data.length} rows (truncated at Max Rows ${this.maxRows}); add a LIMIT or narrower filters to the query`
+      ? `Returned ${rows.length} rows (truncated at Max Rows ${this.maxRows}, more rows exist); add a LIMIT or narrower filters to the query`
       : `Returned ${rows.length} ${rows.length === 1
         ? "row"
         : "rows"}`);
@@ -83,7 +84,6 @@ export default {
     return {
       rows,
       rowCount: rows.length,
-      totalRows: data.length,
       truncated,
     };
   },
