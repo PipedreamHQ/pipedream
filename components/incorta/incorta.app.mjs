@@ -141,6 +141,33 @@ export default {
       }
       return objects;
     },
+    /**
+     * Fetches a single page of tables/views from a schema. The endpoint
+     * honors `offset`/`limit` and reports `total` (the number of objects in
+     * the schema), so callers can page without reading every object.
+     * Returns `{ objects, total }`.
+     */
+    async listSchemaObjectsPage({
+      schemaName, offset = 0, limit = 200, ...opts
+    } = {}) {
+      const response = await this._makeRequest({
+        method: "POST",
+        path: `/schema/${encodeURIComponent(schemaName)}/list`,
+        data: {
+          limit,
+          offset,
+        },
+        ...opts,
+      });
+      const objects = [
+        ...(response.tablesDetails ?? []),
+        ...(response.viewsDetails ?? []),
+      ];
+      return {
+        objects,
+        total: response.total ?? offset + objects.length,
+      };
+    },
     // --- SQLi (Postgres wire protocol) ---
     /**
      * Resolves the SQLi host/port for this tenant via the REST v2

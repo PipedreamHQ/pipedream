@@ -2,6 +2,7 @@ import incorta from "../../incorta.app.mjs";
 import utils from "../../common/utils.mjs";
 
 const SCHEMA_BATCH_SIZE = 5;
+const API_PAGE_SIZE = 200;
 
 export default {
   key: "incorta-list-tables",
@@ -30,30 +31,63 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "Maximum number of tables to return. Omit to return all. Use with **Offset** to page through large tenants.",
+      description: "Maximum number of tables to return, e.g. `10` to return the first 10. Omit to return all. Use with **Offset** to page through large tenants.",
       min: 1,
       optional: true,
     },
     offset: {
       type: "integer",
       label: "Offset",
-      description: "Number of tables to skip before returning results (default 0). To get the next page, pass the `nextOffset` value from the previous response.",
+      description: "Number of tables to skip before returning results (default 0), e.g. `200` to skip the first 200. To get the next page, pass the `nextOffset` value from the previous response.",
       min: 0,
       optional: true,
     },
   },
   async run({ $ }) {
-    // Paging is applied to the combined, ordered list, since the API pages
-    // per schema and has no cross-schema pagination.
-    const paginate = (all) => {
-      const start = this.offset ?? 0;
-      const end = this.limit
-        ? start + this.limit
-        : all.length;
-      const hasMore = end < all.length;
+    const start = this.offset ?? 0;
+    const end = this.limit
+      ? start + this.limit
+      : Infinity;
+
+    const toTables = (schemaName, objects) => objects.map((object) => ({
+      schemaName,
+      tableName: utils.getItemName(object),
+      type: object.type,
+    }));
+
+    // Fetches objects [from, to) of one schema, reading only the API pages
+    // that overlap that range. Also returns the schema's `total`.
+    const fetchRange = async (schemaName, from, to) => {
+      const objects = [];
+      let total = Infinity;
+      let cursor = from;
+      while (cursor < total && cursor < to) {
+        const page = await this.incorta.listSchemaObjectsPage({
+          $,
+          schemaName,
+          offset: cursor,
+          limit: Math.min(API_PAGE_SIZE, to - cursor),
+        });
+        objects.push(...page.objects);
+        total = page.total;
+        if (!page.objects.length) break;
+        cursor += page.objects.length;
+      }
       return {
-        tables: all.slice(start, end),
-        total: all.length,
+        objects,
+        total: total === Infinity
+          ? 0
+          : total,
+      };
+    };
+
+    // `total` is the full count before paging; `end` is where the
+    // requested window stopped (also the next offset when more remain).
+    const buildPage = (tables, total) => {
+      const hasMore = end < total;
+      return {
+        tables,
+        total,
         hasMore,
         ...(hasMore && {
           nextOffset: end,
@@ -65,22 +99,13 @@ export default {
       ? `; returned ${page.tables.length}, more available (nextOffset ${page.nextOffset})`
       : "";
 
-    const fetchObjects = async (schemaName) => {
-      const objects = await this.incorta.listSchemaObjects({
-        $,
-        schemaName,
-      });
-      return objects.map((object) => ({
-        schemaName,
-        tableName: utils.getItemName(object),
-        type: object.type,
-      }));
-    };
-
     // A specific schema was requested: let any error propagate so a typo
     // or permission problem doesn't look like "0 tables".
     if (this.schemaName) {
-      const page = paginate(await fetchObjects(this.schemaName));
+      const {
+        objects, total,
+      } = await fetchRange(this.schemaName, start, end);
+      const page = buildPage(toTables(this.schemaName, objects), total);
       $.export("$summary", `Found ${page.total} ${page.total === 1
         ? "table"
         : "tables"} in schema ${this.schemaName}${summarizePage(page)}`);
@@ -94,26 +119,42 @@ export default {
       $,
     }));
 
-    // Fetch each schema's objects in small concurrent batches rather than
-    // one request at a time (or all at once), since there's no bulk
-    // "objects across schemas" endpoint. Use allSettled so one unreadable
-    // schema doesn't discard the tables that did load.
-    const tables = [];
+    // Runs `task` over `items` in small concurrent batches rather than one
+    // at a time (or all at once). allSettled so one unreadable schema
+    // doesn't discard the results that did load.
+    const settleInBatches = async (items, task) => {
+      const results = [];
+      for (let i = 0; i < items.length; i += SCHEMA_BATCH_SIZE) {
+        const batch = items.slice(i, i + SCHEMA_BATCH_SIZE);
+        results.push(...await Promise.allSettled(batch.map(task)));
+      }
+      return results;
+    };
+
     const errors = [];
-    for (let i = 0; i < schemaNames.length; i += SCHEMA_BATCH_SIZE) {
-      const batch = schemaNames.slice(i, i + SCHEMA_BATCH_SIZE);
-      const results = await Promise.allSettled(batch.map(fetchObjects));
-      results.forEach((result, index) => {
-        if (result.status === "fulfilled") {
-          tables.push(...result.value);
-        } else {
-          errors.push({
-            schemaName: batch[index],
-            error: result.reason?.message ?? String(result.reason),
-          });
-        }
-      });
-    }
+    const recordError = (schemaName, reason) => errors.push({
+      schemaName,
+      error: reason?.message ?? String(reason),
+    });
+
+    // Pass 1: read the first API page of every schema. This gives each
+    // schema's `total` (needed to place the requested window in the combined
+    // list) and, for schemas under one page, already holds all their objects.
+    const firstPages = await settleInBatches(
+      schemaNames,
+      (schemaName) => fetchRange(schemaName, 0, API_PAGE_SIZE),
+    );
+    const schemas = [];
+    firstPages.forEach((result, index) => {
+      if (result.status === "fulfilled") {
+        schemas.push({
+          schemaName: schemaNames[index],
+          ...result.value,
+        });
+      } else {
+        recordError(schemaNames[index], result.reason);
+      }
+    });
 
     // Every schema failed: likely credentials or connectivity rather than a
     // per-schema problem, so surface it as an error.
@@ -121,13 +162,49 @@ export default {
       throw new Error(`Failed to list tables for all ${schemaNames.length} schemas. First error: ${errors[0].error}`);
     }
 
-    const readCount = schemaNames.length - errors.length;
-    const failedNote = errors.length
-      ? `; ${errors.length} ${errors.length === 1
+    // Pass 2: map the window [start, end) onto each schema's local range,
+    // fetching further API pages only where the first page doesn't cover it.
+    let base = 0;
+    const wanted = schemas.map((schema) => {
+      const from = Math.max(start - base, 0);
+      const to = Math.min(end - base, schema.total);
+      base += schema.total;
+      return {
+        ...schema,
+        from,
+        to,
+      };
+    });
+    const total = base;
+    const fetched = await settleInBatches(wanted, async (schema) => {
+      if (schema.from >= schema.to) {
+        return [];
+      }
+      if (schema.to <= schema.objects.length) {
+        return schema.objects.slice(schema.from, schema.to);
+      }
+      const { objects } = await fetchRange(schema.schemaName, schema.from, schema.to);
+      return objects;
+    });
+    const tables = [];
+    fetched.forEach((result, index) => {
+      if (result.status === "fulfilled") {
+        tables.push(...toTables(wanted[index].schemaName, result.value));
+      } else {
+        recordError(wanted[index].schemaName, result.reason);
+      }
+    });
+
+    const readCount = schemaNames.length - new Set(errors.map((e) => e.schemaName)).size;
+    const failedSchemas = [
+      ...new Set(errors.map((e) => e.schemaName)),
+    ];
+    const failedNote = failedSchemas.length
+      ? `; ${failedSchemas.length} ${failedSchemas.length === 1
         ? "schema"
-        : "schemas"} could not be read (${errors.map((e) => e.schemaName).join(", ")}), so this list is incomplete`
+        : "schemas"} could not be read (${failedSchemas.join(", ")}), so this list is incomplete`
       : "";
-    const page = paginate(tables);
+    const page = buildPage(tables, total);
     $.export("$summary", `Found ${page.total} ${page.total === 1
       ? "table"
       : "tables"} across ${readCount} ${readCount === 1
