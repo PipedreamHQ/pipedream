@@ -125,7 +125,7 @@ export default {
       while (offset < total) {
         const response = await this._makeRequest({
           method: "POST",
-          path: `/schema/${schemaName}/list`,
+          path: `/schema/${encodeURIComponent(schemaName)}/list`,
           data: {
             limit,
             offset,

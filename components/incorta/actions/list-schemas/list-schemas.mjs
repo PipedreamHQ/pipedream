@@ -16,10 +16,31 @@ export default {
   },
   props: {
     incorta,
+    schemaType: {
+      type: "string",
+      label: "Schema Type",
+      description: "The type of schema to list. Valid values are `ALL`, `PHYSICAL`, or `BUSINESS`. Defaults to `ALL`.",
+      default: "ALL",
+      options: [
+        {
+          label: "All",
+          value: "ALL",
+        },
+        {
+          label: "Physical",
+          value: "PHYSICAL",
+        },
+        {
+          label: "Business",
+          value: "BUSINESS",
+        },
+      ],
+    },
   },
   async run({ $ }) {
     const schemas = await this.incorta.listSchemas({
       $,
+      schemaType: this.schemaType,
     });
 
     $.export("$summary", `Found ${schemas.length} ${schemas.length === 1
