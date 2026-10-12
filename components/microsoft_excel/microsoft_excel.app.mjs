@@ -1,5 +1,6 @@
 import { Client } from "@microsoft/microsoft-graph-client";
 import "isomorphic-fetch";
+import { ROOT_FOLDER_ID } from "./common/constants.mjs";
 const DEFAULT_LIMIT = 50;
 
 export default {
@@ -13,7 +14,10 @@ export default {
       async options() {
         const folders = await this.listFolderOptions();
         return [
-          "root",
+          {
+            label: "Root",
+            value: ROOT_FOLDER_ID,
+          },
           ...folders,
         ];
       },
@@ -120,7 +124,7 @@ export default {
     listItems({
       folderId, params = {},
     } = {}) {
-      return this.client().api((folderId === "root")
+      return this.client().api((folderId === ROOT_FOLDER_ID)
         ? "/me/drive/root/children"
         : `/me/drive/items/${folderId}/children`)
         .get(params);
@@ -208,63 +212,61 @@ export default {
       ];
       const history = [];
 
-      try {
-        while (stack.length) {
-          const currentBatch = [];
-          while (stack.length && currentBatch.length < batchLimit) {
-            const {
-              folderId,
-              prefix,
-            } = stack.shift();
-            history.push({
-              folderId,
-              prefix,
-            });
-            currentBatch.push({
-              id: folderId || "root",
-              method: "GET",
-              url: folderId
-                ? `/me/drive/items/${folderId}/children?$filter=folder ne null`
-                : "/me/drive/root/children?$filter=folder ne null",
-            });
-          }
-
-          const { responses: batchResponses } =
-            await this.batch({
-              data: {
-                requests: currentBatch,
-              },
-            });
-
-          batchResponses.forEach(({
-            id, status, body,
-          }) => {
-            if (status === 200) {
-              body.value.forEach((item) => {
-                const {
-                  id, name, folder: { childCount }, parentReference: { id: parentId },
-                } = item;
-                const prefix = history.find(({ folderId }) => folderId === parentId)?.prefix || "";
-                const currentLabel = `${prefix}${name}`;
-                options.push({
-                  value: id,
-                  label: currentLabel,
-                });
-
-                if (childCount) {
-                  stack.push({
-                    folderId: id,
-                    prefix: `${currentLabel}/`,
-                  });
-                }
-              });
-            } else {
-              console.error(`Error in batch request ${id}:`, JSON.stringify(body));
-            }
+      while (stack.length) {
+        const currentBatch = [];
+        while (stack.length && currentBatch.length < batchLimit) {
+          const {
+            folderId,
+            prefix,
+          } = stack.shift();
+          history.push({
+            folderId,
+            prefix,
+          });
+          currentBatch.push({
+            id: folderId || ROOT_FOLDER_ID,
+            method: "GET",
+            url: folderId
+              ? `/me/drive/items/${folderId}/children`
+              : "/me/drive/root/children",
           });
         }
-      } catch (error) {
-        console.error("Error listing folders:", error);
+
+        const { responses: batchResponses } =
+          await this.batch({
+            data: {
+              requests: currentBatch,
+            },
+          });
+
+        batchResponses.forEach(({
+          id, status, body,
+        }) => {
+          if (status === 200) {
+            body.value.filter(({ folder }) => folder).forEach((item) => {
+              const {
+                id, name, folder: { childCount }, parentReference: { id: parentId },
+              } = item;
+              const prefix = history.find(({ folderId }) => folderId === parentId)?.prefix || "";
+              const currentLabel = `${prefix}${name}`;
+              options.push({
+                value: id,
+                label: currentLabel,
+              });
+
+              if (childCount) {
+                stack.push({
+                  folderId: id,
+                  prefix: `${currentLabel}/`,
+                });
+              }
+            });
+          } else if (id === ROOT_FOLDER_ID) {
+            throw new Error(`Failed to list folders: ${JSON.stringify(body)}`);
+          } else {
+            console.error(`Error in batch request ${id}:`, JSON.stringify(body));
+          }
+        });
       }
 
       return options;
