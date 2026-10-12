@@ -54,11 +54,11 @@ export default {
     try {
       if (layoutId || insertionIndex != null) {
         const {
-          slideCount, layouts,
+          slideCount, layouts, masterUsage,
         } = await googleSlides.getSlideCreationContext(presentationId);
         googleSlides.validateInsertionIndex(insertionIndex, slideCount);
         if (layoutId) {
-          const layout = googleSlides.resolveLayout(layouts, layoutId);
+          const layout = googleSlides.resolveLayout(layouts, layoutId, masterUsage);
           placeholders = googleSlides.buildPlaceholderMappings(objectId, layout);
           request.slideLayoutReference = {
             layoutId: layout.objectId,

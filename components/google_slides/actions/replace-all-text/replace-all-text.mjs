@@ -51,7 +51,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.googleSlides.replaceAllText(this.presentationId, {
+    const presentationId = this.googleSlides.getPresentationId(this.presentationId);
+    const response = await this.googleSlides.replaceAllText(presentationId, {
       replaceText: this.replaceText,
       pageObjectIds: this.slideIds,
       containsText: {

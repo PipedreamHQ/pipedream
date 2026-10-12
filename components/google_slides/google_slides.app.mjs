@@ -96,10 +96,23 @@ export default {
       description: "The ID of the layout to base the slide on. Each option is labelled with the layout's name (e.g. `TITLE_AND_BODY`). **If omitted, the slide uses the BLANK layout and has no title or body placeholders to insert text into.**",
       optional: true,
       async options({ presentationId }) {
-        const { layouts } = await this.getPresentation(presentationId);
-        return layouts.map((layout) => ({
-          label: layout.layoutProperties.name,
-          value: layout.objectId,
+        const {
+          layouts = [], masters = [],
+        } = await this.getPresentation(presentationId);
+        // Decks with several masters repeat layout names, so name the master too.
+        const masterNames = new Map(masters.map(({
+          objectId, masterProperties,
+        }) => [
+          objectId,
+          masterProperties?.displayName || objectId,
+        ]));
+        return layouts.map(({
+          objectId, layoutProperties: props = {},
+        }) => ({
+          label: masters.length > 1
+            ? `${props.name} (${masterNames.get(props.masterObjectId) ?? props.masterObjectId})`
+            : props.name,
+          value: objectId,
         }));
       },
     },
@@ -454,12 +467,13 @@ export default {
       };
       return (await slides.presentations.pages.get(request)).data;
     },
-    // Rethrows API errors unchanged so callers keep the HTTP status. A 403 gets
-    // a permissions hint instead, with the original error kept as its `cause`.
+    // Rethrows API errors unchanged so callers keep the HTTP status. A 403 or
+    // 404 gets an access hint instead, with the original error kept as its
+    // `cause`; Google returns 404 when the account cannot see the presentation.
     withPermissionHint(error) {
       const status = error?.response?.status ?? error?.status;
-      if (status === 403) {
-        const hinted = new ConfigurationError(`${error.message}. Make sure the connected account has edit access to the presentation.`);
+      if (status === 403 || status === 404) {
+        const hinted = new ConfigurationError(`${error.message}. Make sure the presentation ID is correct and the connected account has edit access to the presentation.`);
         hinted.cause = error;
         return hinted;
       }
@@ -469,20 +483,37 @@ export default {
       const {
         slides = [], layouts = [],
       } = await this.getPresentation(presentationId,
-        "slides(objectId),layouts(objectId,layoutProperties(name,displayName),pageElements(objectId,shape(placeholder)))");
+        "slides(objectId,slideProperties(masterObjectId)),layouts(objectId,layoutProperties(name,displayName,masterObjectId),pageElements(objectId,shape(placeholder)))");
+      // How many slides use each master, to pick between same-named layouts.
+      const masterUsage = new Map();
+      for (const { slideProperties } of slides) {
+        const masterId = slideProperties?.masterObjectId;
+        if (masterId) {
+          masterUsage.set(masterId, (masterUsage.get(masterId) ?? 0) + 1);
+        }
+      }
       return {
         slideCount: slides.length,
         layouts,
+        masterUsage,
       };
     },
-    // Accepts a layout's object ID, its name (e.g. `TITLE_AND_BODY`) or its
-    // display name (e.g. `Title and body`).
-    resolveLayout(layouts, layout) {
-      const wanted = String(layout).trim()
-        .toLowerCase();
-      const found = layouts.find(({ objectId }) => objectId.toLowerCase() === wanted)
-        || layouts.find(({ layoutProperties: props = {} }) =>
-          props.name?.toLowerCase() === wanted || props.displayName?.toLowerCase() === wanted);
+    // Accepts a layout's object ID (case-sensitive), its name (e.g.
+    // `TITLE_AND_BODY`) or its display name (e.g. `Title and body`). When
+    // several masters share a layout name, the one whose master is used by the
+    // most existing slides wins.
+    resolveLayout(layouts, layout, masterUsage = new Map()) {
+      const input = String(layout).trim();
+      const wanted = input.toLowerCase();
+      const byName = layouts.filter(({ layoutProperties: props = {} }) =>
+        props.name?.toLowerCase() === wanted || props.displayName?.toLowerCase() === wanted);
+      const usage = ({ layoutProperties: props = {} }) =>
+        masterUsage.get(props.masterObjectId) ?? 0;
+      const found = layouts.find(({ objectId }) => objectId === input)
+        || byName.reduce((best, candidate) =>
+          (!best || usage(candidate) > usage(best)
+            ? candidate
+            : best), undefined);
       if (!found) {
         const available = layouts
           .map(({
@@ -499,11 +530,15 @@ export default {
     },
     // Assigns a predictable object ID to each text placeholder on the layout, so
     // the new slide's placeholders can be returned or filled in the same request.
+    // `ordinal` is the placeholder's position among those of the same type,
+    // since layouts (e.g. ones imported from PowerPoint) may number indexes
+    // from 1 or leave gaps.
     buildPlaceholderMappings(slideObjectId, layout) {
       const placeholders = (layout.pageElements || [])
         .map(({ shape }) => shape?.placeholder)
         .filter((placeholder) => TEXT_PLACEHOLDER_TYPES.includes(placeholder?.type));
       const seen = new Set();
+      const ordinals = new Map();
       return placeholders
         .map(({
           type, index = 0,
@@ -512,7 +547,16 @@ export default {
           index,
           objectId: `${slideObjectId}_${type.toLowerCase()}_${index}`,
         }))
-        .filter(({ objectId }) => !seen.has(objectId) && seen.add(objectId));
+        .filter(({ objectId }) => !seen.has(objectId) && seen.add(objectId))
+        .sort((a, b) => a.index - b.index)
+        .map((placeholder) => {
+          const ordinal = ordinals.get(placeholder.type) ?? 0;
+          ordinals.set(placeholder.type, ordinal + 1);
+          return {
+            ...placeholder,
+            ordinal,
+          };
+        });
     },
     toPlaceholderIdMappings(placeholders) {
       return placeholders.map(({

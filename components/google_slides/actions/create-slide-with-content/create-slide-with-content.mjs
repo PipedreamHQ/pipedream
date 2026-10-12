@@ -41,13 +41,13 @@ export default {
     body: {
       type: "string",
       label: "Body",
-      description: "Text for the slide's first body placeholder. Separate paragraphs with a newline (e.g. `Revenue up 12%\\nChurn down 3%`).",
+      description: "Text for the slide's first body placeholder. Put each paragraph on its own line; a literal `\\n` is also treated as a line break.",
       optional: true,
     },
     secondBody: {
       type: "string",
       label: "Second Body",
-      description: "Text for the slide's second body placeholder, such as the right-hand column of `TITLE_AND_TWO_COLUMNS` (e.g. `Next steps\\nHire two engineers`).",
+      description: "Text for the slide's second body placeholder, such as the right-hand column of `TITLE_AND_TWO_COLUMNS` (e.g. `Next steps`). Put each paragraph on its own line; a literal `\\n` is also treated as a line break.",
       optional: true,
     },
     insertionIndex: {
@@ -69,6 +69,9 @@ export default {
     } = this;
     const presentationId = googleSlides.getPresentationId(this.presentationId);
 
+    // Callers often send an escaped `\n` instead of a real line break.
+    const toParagraphs = (text) => text?.replace(/\\n/g, "\n");
+
     // Each entry lists the placeholders it may fill, in order of preference.
     const content = [
       {
@@ -77,11 +80,11 @@ export default {
         targets: [
           {
             type: "TITLE",
-            index: 0,
+            ordinal: 0,
           },
           {
             type: "CENTERED_TITLE",
-            index: 0,
+            ordinal: 0,
           },
         ],
       },
@@ -91,27 +94,27 @@ export default {
         targets: [
           {
             type: "SUBTITLE",
-            index: 0,
+            ordinal: 0,
           },
         ],
       },
       {
         label: "Body",
-        text: body,
+        text: toParagraphs(body),
         targets: [
           {
             type: "BODY",
-            index: 0,
+            ordinal: 0,
           },
         ],
       },
       {
         label: "Second Body",
-        text: secondBody,
+        text: toParagraphs(secondBody),
         targets: [
           {
             type: "BODY",
-            index: 1,
+            ordinal: 1,
           },
         ],
       },
@@ -123,11 +126,11 @@ export default {
 
     try {
       const {
-        slideCount, layouts,
+        slideCount, layouts, masterUsage,
       } = await googleSlides.getSlideCreationContext(presentationId);
       googleSlides.validateInsertionIndex(insertionIndex, slideCount);
 
-      const resolvedLayout = googleSlides.resolveLayout(layouts, layout);
+      const resolvedLayout = googleSlides.resolveLayout(layouts, layout, masterUsage);
       const layoutName = resolvedLayout.layoutProperties?.name || resolvedLayout.objectId;
       const slideId = googleSlides.newSlideObjectId();
       const placeholders = googleSlides.buildPlaceholderMappings(slideId, resolvedLayout);
@@ -137,8 +140,8 @@ export default {
       }) => {
         const placeholder = targets
           .map((target) => placeholders.find(({
-            type, index,
-          }) => type === target.type && index === target.index))
+            type, ordinal,
+          }) => type === target.type && ordinal === target.ordinal))
           .find(Boolean);
         if (!placeholder) {
           const available = placeholders.map(({
