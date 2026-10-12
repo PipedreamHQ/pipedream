@@ -787,20 +787,6 @@ export default {
         ...args,
       });
     },
-    getEditIssueMetadata({
-      issueIdOrKey, ...args
-    } = {}) {
-      return this._makeRequest({
-        path: `/issue/${issueIdOrKey}/editmeta`,
-        ...args,
-      });
-    },
-    getCreateIssueMetadata(args = {}) {
-      return this._makeRequest({
-        path: "/issue/createmeta",
-        ...args,
-      });
-    },
     getProjectIssueTypes(args = {}) {
       return this._makeRequest({
         path: "/issuetype/project",

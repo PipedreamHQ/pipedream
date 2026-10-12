@@ -3,7 +3,7 @@ import logSeverity from "../../utils/logSeverity.mjs";
 
 export default {
   name: "Logging - Write Log",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

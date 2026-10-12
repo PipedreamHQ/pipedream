@@ -10,7 +10,7 @@ export default {
   key: "hubspot-new-ticket",
   name: "New Ticket",
   description: "Emit new event for each new ticket created.",
-  version: "0.0.45",
+  version: "0.0.47",
   dedupe: "unique",
   type: "source",
   props: {
@@ -50,9 +50,9 @@ export default {
     isRelevant(ticket, createdAfter) {
       return this.getTs(ticket) > createdAfter;
     },
-    getParams() {
+    getParams(after) {
       const { properties = [] } = this;
-      return {
+      return this.addDateFilter({
         data: {
           limit: DEFAULT_LIMIT,
           sorts: [
@@ -67,7 +67,7 @@ export default {
           ],
         },
         object: "tickets",
-      };
+      }, "createdate", after);
     },
     async processResults(after, params) {
       await this.searchCRM(params, after);

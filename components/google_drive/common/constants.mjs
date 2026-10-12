@@ -245,6 +245,42 @@ const DEFAULT_COMMENT_LIMIT = 100;
 
 const MAX_COMMENT_LIMIT = 500;
 
+/**
+ * Maximum `pageSize` accepted by `files.list` (the API allows 1-1000).
+ * https://developers.google.com/workspace/drive/api/reference/rest/v3/files/list
+ */
+const FILES_MAX_PAGE_SIZE = 1000;
+
+/**
+ * Default number of files **Search Files** returns per run, so an agent that omits
+ * `maxResults` still gets a bounded response instead of enumerating a whole shared drive.
+ */
+const DEFAULT_SEARCH_FILES_LIMIT = 100;
+
+const RETRYABLE_STATUS_CODES = [
+  422,
+  429,
+  500,
+  502,
+  503,
+  504,
+];
+
+const RATE_LIMIT_ERROR_REASONS = [
+  "rateLimitExceeded",
+  "userRateLimitExceeded",
+];
+
+const CHANGED_FILE_FIELDS = "kind,id,name,mimeType,parents,createdTime,modifiedTime,trashed,version,size,md5Checksum,webViewLink,lastModifyingUser";
+
+/** Google Workspace types that `stashFile` can export to PDF. */
+const PDF_EXPORTABLE_MIME_TYPES = [
+  "application/vnd.google-apps.document",
+  "application/vnd.google-apps.spreadsheet",
+  "application/vnd.google-apps.presentation",
+  "application/vnd.google-apps.drawing",
+];
+
 export {
   GOOGLE_DRIVE_NOTIFICATION_SYNC,
   GOOGLE_DRIVE_NOTIFICATION_ADD,
@@ -285,4 +321,12 @@ export {
   COMMENTS_MAX_PAGE_SIZE,
   DEFAULT_COMMENT_LIMIT,
   MAX_COMMENT_LIMIT,
+  // Files
+  FILES_MAX_PAGE_SIZE,
+  DEFAULT_SEARCH_FILES_LIMIT,
+  // Webhooks
+  RETRYABLE_STATUS_CODES,
+  RATE_LIMIT_ERROR_REASONS,
+  CHANGED_FILE_FIELDS,
+  PDF_EXPORTABLE_MIME_TYPES,
 };

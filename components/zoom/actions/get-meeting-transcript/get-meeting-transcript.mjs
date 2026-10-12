@@ -2,12 +2,18 @@ import {
   axios, ConfigurationError,
 } from "@pipedream/platform";
 import zoom from "../../zoom.app.mjs";
+import constants from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "zoom-get-meeting-transcript",
   name: "Get Meeting Transcript",
-  description: "Get the transcript of a past meeting. Fetches the VTT file server-side using your OAuth token and returns speaker-attributed plain text alongside the original authenticated URL. [See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/cloud-recording/get/meetings/{meetingId}/transcript)",
-  version: "0.1.2",
+  description: "Get the transcript of a past meeting."
+    + " A numeric meeting ID is resolved to its most recent ended instance first."
+    + " Returns Zoom's meeting transcript when there is one, otherwise the meeting's cloud recording audio transcript."
+    + " Fetches the VTT file server-side using your OAuth token and returns speaker-attributed plain text, the original authenticated URL, and the transcript `source` (`meeting_transcript` or `cloud_recording`)."
+    + " [See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/meeting-transcript/get/meetings/{meetingId}/transcript)",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -25,11 +31,68 @@ export default {
           type: "previous_meetings",
         }),
       ],
-      description: "The ID of a past meeting to retrieve the transcript for. Only meetings with cloud recording and audio transcription enabled will have transcripts available.",
+      description: "The past meeting to retrieve the transcript for. A numeric meeting ID returns the transcript of its most recent ended instance; to target an earlier occurrence of a recurring meeting, pass that instance's UUID. Only past meetings are listed.",
       optional: false,
     },
   },
   methods: {
+    async getTranscriptSource({
+      step, meetingUuid,
+    }) {
+      const {
+        status, data: transcript,
+      } = await this.zoom.getMeetingTranscript({
+        step,
+        meetingId: meetingUuid,
+        returnFullResponse: true,
+        validateStatus: utils.isSuccessOrNotFound,
+      });
+
+      if (status === 404 && transcript?.code !== constants.ERROR_CODES.TRANSCRIPT_NOT_FOUND) {
+        throw new Error(`Zoom returned 404 (code ${transcript?.code}): ${transcript?.message}`);
+      }
+
+      if (status !== 404 && transcript?.can_download && transcript.download_url) {
+        return {
+          source: "meeting_transcript",
+          url: transcript.download_url,
+        };
+      }
+      const reason = status === 404
+        ? undefined
+        : transcript?.download_restriction_reason;
+
+      const {
+        status: recordingsStatus, data: recordings,
+      } = await this.zoom.getMeetingRecordings({
+        step,
+        meetingId: meetingUuid,
+        returnFullResponse: true,
+        validateStatus: utils.isSuccessOrNotFound,
+      });
+      const transcriptFiles = recordingsStatus === 404
+        ? []
+        : (recordings?.recording_files ?? []).filter(({ file_type: fileType }) =>
+          fileType === constants.RECORDING_FILE_TYPES.TRANSCRIPT);
+
+      const completed = transcriptFiles.find(({ status }) =>
+        status === constants.RECORDING_STATUS_COMPLETED);
+      if (completed?.download_url) {
+        return {
+          source: "cloud_recording",
+          url: completed.download_url,
+        };
+      }
+      if (transcriptFiles.length || reason === constants.TRANSCRIPT_RESTRICTION_REASONS.NOT_READY) {
+        throw new ConfigurationError("Transcript is still being processed. Please try again shortly.");
+      }
+      if (reason && reason !== constants.TRANSCRIPT_RESTRICTION_REASONS.NO_TRANSCRIPT_DATA) {
+        throw new ConfigurationError(`Zoom does not allow this meeting's transcript to be downloaded (reason: ${reason}), and it has no cloud recording audio transcript.`);
+      }
+      throw new ConfigurationError(
+        "No transcript found for this meeting. Zoom has neither a meeting transcript nor a cloud recording audio transcript for it.",
+      );
+    },
     fetchTranscriptContent({
       step, url,
     }) {
@@ -81,44 +144,21 @@ export default {
     },
   },
   async run({ $: step }) {
-    let transcriptResponse;
-    try {
-      transcriptResponse = await this.zoom.getMeetingTranscript({
-        step,
-        meetingId: this.meetingId,
-      });
-    } catch (error) {
-      if (error?.response?.status === 404 || error?.status === 404) {
-        throw new ConfigurationError(
-          "No recording found for this meeting. Ensure cloud recording was enabled before the meeting started.",
-        );
-      }
-      throw error;
-    }
+    const meetingUuid = await this.zoom.resolvePastMeetingUuid({
+      step,
+      meetingId: this.meetingId,
+    });
+    const {
+      source, url: transcriptUrl,
+    } = await this.getTranscriptSource({
+      step,
+      meetingUuid,
+    });
 
-    const transcriptUrl = transcriptResponse?.download_url;
-    if (!transcriptUrl) {
-      throw new ConfigurationError(
-        "No transcript found for this meeting. Ensure audio transcription is enabled in the host's Zoom account settings before the meeting starts.",
-      );
-    }
-
-    let vttContent;
-    try {
-      vttContent = await this.fetchTranscriptContent({
-        step,
-        url: transcriptUrl,
-      });
-    } catch (error) {
-      if (error?.response?.status === 404 || error?.status === 404) {
-        throw new ConfigurationError(
-          transcriptUrl
-            ? "Transcript is still being processed. Please try again shortly."
-            : "Transcript file could not be retrieved. It may have expired or been deleted.",
-        );
-      }
-      throw error;
-    }
+    const vttContent = await this.fetchTranscriptContent({
+      step,
+      url: transcriptUrl,
+    });
 
     const trimmed = vttContent?.trim() ?? "";
     if (!trimmed || trimmed === "WEBVTT") {
@@ -136,6 +176,8 @@ export default {
 
     step.export("$summary", `Retrieved transcript for meeting ${this.meetingId}`);
     return {
+      meeting_uuid: meetingUuid,
+      source,
       transcript_url: transcriptUrl,
       transcript_text: transcriptText,
     };

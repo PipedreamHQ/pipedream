@@ -13,6 +13,8 @@ import {
   GOOGLE_DRIVE_UPDATE_TYPES,
   GOOGLE_DRIVE_UPLOAD_TYPE_OPTIONS,
   MY_DRIVE_VALUE,
+  RATE_LIMIT_ERROR_REASONS,
+  RETRYABLE_STATUS_CODES,
   WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS,
 } from "./common/constants.mjs";
 
@@ -378,6 +380,19 @@ export default {
         };
       },
     },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum number of files to return per call. Example: `25`.",
+      optional: true,
+      min: 1,
+    },
+    pageToken: {
+      type: "string",
+      label: "Page Token",
+      description: "The `nextPageToken` returned by a previous call, to continue from where it stopped. Example: `~!!~AI9FV7Q...`.",
+      optional: true,
+    },
   },
   methods: {
     // Static methods
@@ -432,15 +447,20 @@ export default {
      * returned
      * @param {number} [pageSize=1000] - the maximum number of changes to return
      * per page
+     * @param {string} [fileFields] - the file fields to return for each change,
+     * e.g. `id,name,parents`. Defaults to the API's minimal file fields
      * @yields
      * @type {ChangesPage}
      */
-    async *listChanges(pageToken, driveId, pageSize = 1000) {
+    async *listChanges(pageToken, driveId, pageSize = 1000, fileFields) {
       const drive = this.drive();
       let changeRequest = {
         pageToken,
         pageSize,
       };
+      if (fileFields) {
+        changeRequest.fields = `nextPageToken,newStartPageToken,changes(file(${fileFields}))`;
+      }
 
       // As with many of the methods for Google Drive, we must
       // pass a request of a different shape when we're requesting
@@ -455,7 +475,9 @@ export default {
       }
 
       while (true) {
-        const { data } = await drive.changes.list(changeRequest);
+        const { data } = await this.retryWithExponentialBackoff(
+          () => drive.changes.list(changeRequest),
+        );
         const {
           changes = [],
           newStartPageToken,
@@ -1680,6 +1702,14 @@ export default {
       const drive = this.drive();
       return (await drive.accessproposals.resolve(opts)).data;
     },
+    isRetryableError(error, statusCode) {
+      if (RETRYABLE_STATUS_CODES.includes(statusCode)) {
+        return true;
+      }
+      const errors = error.errors ?? error.response?.data?.error?.errors ?? [];
+      return statusCode === 403
+        && errors.some(({ reason }) => RATE_LIMIT_ERROR_REASONS.includes(reason));
+    },
     retryWithExponentialBackoff(func, maxAttempts = 3, baseDelayS = 2) {
       let attempt = 0;
 
@@ -1687,15 +1717,13 @@ export default {
         try {
           return await func();
         } catch (error) {
-          // retry for error status 422
           const statusCode = error.status || error.response?.status;
-          if (attempt >= maxAttempts || statusCode !== 422) {
+          if (attempt >= maxAttempts || !this.isRetryableError(error, statusCode)) {
             throw error;
           }
 
-          // display error message for 422 status
           const errorMessage = error.message || error.response?.data?.message || error.response?.statusText || "Unknown error";
-          console.log(`Received 422 error: ${errorMessage}. Retrying attempt ${attempt + 1}/${maxAttempts}...`);
+          console.log(`Received ${statusCode} error: ${errorMessage}. Retrying attempt ${attempt + 1}/${maxAttempts}...`);
 
           const delayMs = Math.pow(baseDelayS, attempt) * 1000;
           await new Promise((resolve) => setTimeout(resolve, delayMs));

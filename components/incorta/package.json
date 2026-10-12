@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/incorta",
+  "version": "0.0.1",
+  "description": "Pipedream Incorta Components",
+  "main": "incorta.app.mjs",
+  "keywords": [
+    "pipedream",
+    "incorta"
+  ],
+  "homepage": "https://pipedream.com/apps/incorta",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -44,4 +44,4 @@ You'll need to create an AWS IAM user that you'll link to this source to run Ins
 
 Here's an example of the fully-configured source:
 
-![Setup CloudWatch Logs Insights Query source](https://res.cloudinary.com/pipedreamin/image/upload/v1592866015/docs/Screen_Shot_2020-06-22_at_3.14.32_PM_krlhhb.png)
+![Setup CloudWatch Logs Insights Query source](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/docs/Screen_Shot_2020-06-22_at_3.14.32_PM_krlhhb.png)

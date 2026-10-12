@@ -165,4 +165,22 @@ export default {
       url
     }
   `,
+  initiativeUpdate: `
+    fragment InitiativeUpdate on InitiativeUpdate {
+      id
+      body
+      health
+      initiative {
+        id
+        name
+      }
+      user {
+        id
+      }
+      createdAt
+      updatedAt
+      slugId
+      url
+    }
+  `,
 };

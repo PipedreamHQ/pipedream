@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/less_annoying_crm",
+  "version": "0.0.1",
+  "description": "Pipedream Less Annoying CRM Components",
+  "main": "less_annoying_crm.app.mjs",
+  "keywords": [
+    "pipedream",
+    "less_annoying_crm"
+  ],
+  "homepage": "https://pipedream.com/apps/less_annoying_crm",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
