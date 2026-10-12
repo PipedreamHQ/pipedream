@@ -201,7 +201,6 @@ export default {
       pageSize: this.changesPageSize,
       fileFields: CHANGE_FILTER_FILE_FIELDS,
       maxEmits: this.maxEmitsPerRun,
-      // Filter before paging so the per-run cap counts only folders that can emit
       changeFilter: ({ file }) => file.mimeType === GOOGLE_DRIVE_FOLDER_MIME_TYPE
         && this._getLastModifiedTimeForFile(file.id) !== Date.parse(file.modifiedTime),
       processPage: async (changedFiles) => {
@@ -217,7 +216,6 @@ export default {
             continue;
           }
 
-          // Full metadata only for folders that emit
           const fullFile = await this.googleDrive.getFile(file.id, {
             fields: "*",
           });

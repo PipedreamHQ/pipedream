@@ -69,7 +69,6 @@ export default {
   },
   methods: sourceComponent.methods,
   async run() {
-    // processChanges() queries files by createdTime, so the changes feed isn't walked
     await this.processChanges();
   },
   sampleEmit,

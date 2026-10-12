@@ -37,7 +37,7 @@ export default {
       },
       hidden: true,
     },
-    // No longer used; kept so older deployments that still set it can be saved
+    // Unused; kept so older deployments can still save
     updateTypes: {
       type: "string[]",
       label: "Types of updates",
@@ -116,7 +116,6 @@ export default {
     _setPageToken(pageToken) {
       this.db.set("pageToken", pageToken);
     },
-    // Notification headers of a capped run, so the timer can resume its backlog
     _getBacklogHeaders() {
       return this.db.get("backlogHeaders");
     },
@@ -180,17 +179,10 @@ export default {
     getChangesFileFields() {
       return undefined;
     },
-    /**
-     * Sources can drop changes before processing, e.g. bulk permission updates.
-     * Receives a change from the API, including its `time` and `file`.
-     */
     isRelevantChange() {
       return true;
     },
-    /**
-     * Sources whose processChanges() ignores the changed files return `false`,
-     * so a notification runs processChanges() once instead of once per page.
-     */
+    // false: processChanges() ignores changedFiles, so run it once, not per page
     consumesChangedFiles() {
       return true;
     },
@@ -210,7 +202,7 @@ export default {
     },
     async processChangesFrom(pageToken, headers) {
       this.resetFileIntervals();
-      // A run that throws still keeps its db writes, so flush intervals to match the token
+      // Thrown runs keep db writes, so flush intervals with the token
       try {
         const caughtUp = await this.googleDrive.processChangesPages({
           pageToken,

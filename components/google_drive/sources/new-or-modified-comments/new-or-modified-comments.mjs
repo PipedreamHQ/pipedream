@@ -78,7 +78,6 @@ export default {
       } = data;
       const ts = Date.parse(tsString);
 
-      // Keyed on the comment version so reprocessing a change can't re-emit it
       return {
         id: md5(`${commentId}-${ts}`),
         summary,

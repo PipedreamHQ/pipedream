@@ -156,7 +156,6 @@ export default {
       pageSize: this.changesPageSize,
       fileFields: CHANGE_FILTER_FILE_FIELDS,
       maxEmits: this.maxEmitsPerRun,
-      // Filter before paging so the per-run cap counts only files that can emit
       changeFilter: ({ file }) => Date.parse(file.createdTime) > lastRunTimestamp
         && this.shouldProcess(file),
       processPage: async (changedFiles) => {
@@ -166,7 +165,6 @@ export default {
 
         let emitted = 0;
         for (const file of changedFiles) {
-          // Full metadata only for files that emit
           const fullFile = await this.googleDrive.getFile(file.id, {
             fields: "*",
           });
@@ -178,7 +176,7 @@ export default {
       savePageToken: (nextPageToken) => this._setPageToken(nextPageToken),
     });
 
-    // Files created during a backlog would be skipped if this moved before it drains
+    // Hold until caught up so backlog files aren't skipped
     if (caughtUp) {
       this._setLastRunTimestamp(currentRunTimestamp);
     }

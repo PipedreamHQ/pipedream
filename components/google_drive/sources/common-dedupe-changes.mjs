@@ -20,7 +20,6 @@ You can change or disable this minimum interval using the prop \`Minimum Interva
     },
   },
   methods: {
-    // Read once per run; flushFileIntervals() writes it back once
     _getFileIntervals() {
       if (!this._fileIntervals) {
         this._fileIntervals = this.db.get("fileIntervals") ?? {};

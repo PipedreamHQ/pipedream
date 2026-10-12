@@ -118,9 +118,7 @@ export default {
     getChangesFileFields() {
       return CHANGED_FILE_FIELDS;
     },
-    // Bulk moves and sharing list old files as changed; skip them unless properties
-    // are watched. createdTime keeps new uploads that preserve an old modifiedTime.
-    // Folder matching runs here too, so the per-run cap counts only files that can emit.
+    // Skip bulk moves/sharing of old files; createdTime keeps uploads with an old modifiedTime
     isRelevantChange({
       time, file,
     }) {

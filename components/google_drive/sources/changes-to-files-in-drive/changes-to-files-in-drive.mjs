@@ -134,7 +134,7 @@ export default {
     async processChanges(changedFiles, headers) {
       console.log(`Processing ${changedFiles.length} changed files`);
 
-      // Filter before recording intervals so unwatched files don't grow the map
+      // Filter first so unwatched files aren't recorded
       const relevantFiles = changedFiles.filter((file) => this.isFileRelevant(file));
       const filteredFiles = this.checkMinimumInterval(relevantFiles);
       for (const file of filteredFiles) {

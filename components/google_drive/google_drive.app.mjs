@@ -461,11 +461,8 @@ export default {
      * per page
      * @param {string} [fileFields] - the file fields to return for each change,
      * e.g. `id,name,parents`. Defaults to the API's minimal file fields
-     * @param {object} [options]
-     * @param {boolean} [options.stopOnRateLimit=false] - end the stream instead
-     * of throwing when Google still rate limits after retries
-     * @param {function} [options.changeFilter] - keeps only the changes it
-     * returns `true` for; receives the change, including its `time`
+     * @param {object} [options] - `stopOnRateLimit` ends the stream instead of
+     * throwing; `changeFilter` drops changes before they are yielded
      * @yields
      * @type {ChangesPage}
      */
@@ -539,17 +536,7 @@ export default {
         changeRequest.pageToken = nextPageToken;
       }
     },
-    /**
-     * Walks the changes feed from `pageToken`, stopping after about `maxEmits`
-     * events or MAX_CHANGES_PAGES_PER_RUN pages so the rest resumes on a later run.
-     *
-     * @param {object} opts
-     * @param {function} opts.processPage - handles one page of changed files and
-     * returns the number of events emitted
-     * @param {function} opts.savePageToken - persists the token of the next page
-     * @param {function} [opts.changeFilter] - see `listChanges`
-     * @returns {boolean} whether the feed was fully drained
-     */
+    // Returns true once the feed is drained; stops early at the emit or page cap
     async processChangesPages({
       pageToken,
       driveId,
@@ -570,7 +557,6 @@ export default {
       for await (const {
         changedFiles, nextPageToken, isLastPage,
       } of changedFilesStream) {
-        // Leave this page for the next run rather than exceed the cap
         if (emitted && emitted + changedFiles.length > cap) {
           console.log(`Emitted ${emitted} events; remaining changes resume on the next run.`);
           return false;
@@ -587,7 +573,7 @@ export default {
           return false;
         }
       }
-      // The stream ended early on a rate limit
+      // Rate limited
       return false;
     },
     async getPageToken(driveId) {

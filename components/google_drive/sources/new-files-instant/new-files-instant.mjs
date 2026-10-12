@@ -131,7 +131,6 @@ export default {
         GOOGLE_DRIVE_NOTIFICATION_CHANGE,
       ];
     },
-    // processChanges() queries files by createdTime, not the changed files
     consumesChangedFiles() {
       return false;
     },

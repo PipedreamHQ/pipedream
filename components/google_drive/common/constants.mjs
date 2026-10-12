@@ -122,16 +122,9 @@ const LEGACY_MY_DRIVE_VALUE = "myDrive";
  */
 const WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS = 24 * 60 * 60 * 1000;
 
-/**
- * How often webhook sources' timer runs. Besides renewing the subscription before it
- * expires, the timer resumes a capped backlog when Drive stops sending notifications.
- */
+// The timer also resumes capped backlogs, not just renewals
 const WEBHOOK_TIMER_INTERVAL_SECONDS = 10 * 60;
 
-/**
- * The timer renews a subscription once it is this close to expiring, see
- * https://developers.google.com/drive/api/v3/push#optional-properties
- */
 const WEBHOOK_RENEWAL_WINDOW_MILLISECONDS = 60 * 60 * 1000;
 
 /**
@@ -273,18 +266,14 @@ const RATE_LIMIT_ERROR_REASONS = [
 
 const CHANGED_FILE_FIELDS = "kind,id,name,mimeType,parents,createdTime,modifiedTime,trashed,version,size,md5Checksum,webViewLink,lastModifyingUser";
 
-// Enough to filter changes before fetching full metadata for the ones that emit
 const CHANGE_FILTER_FILE_FIELDS = "id,name,mimeType,parents,createdTime,modifiedTime";
 
-// Bounds one run's work so a backlog resumes across runs instead of failing the whole run
 const MAX_CHANGES_PAGES_PER_RUN = 10;
 const DEFAULT_MAX_EMITS_PER_RUN = 1000;
 const MAX_EMITS_PER_RUN = 5000;
 
-// Upper bound on per-file interval entries kept in db
 const MAX_FILE_INTERVAL_ENTRIES = 2000;
 
-// A change this long after the file's last modification is a bulk move or permission update
 const MASS_CHANGE_MAX_AGE_MILLISECONDS = 60 * 60 * 1000;
 
 /** Google Workspace types that `stashFile` can export to PDF. */
