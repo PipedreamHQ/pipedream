@@ -257,6 +257,30 @@ const FILES_MAX_PAGE_SIZE = 1000;
  */
 const DEFAULT_SEARCH_FILES_LIMIT = 100;
 
+const RETRYABLE_STATUS_CODES = [
+  422,
+  429,
+  500,
+  502,
+  503,
+  504,
+];
+
+const RATE_LIMIT_ERROR_REASONS = [
+  "rateLimitExceeded",
+  "userRateLimitExceeded",
+];
+
+const CHANGED_FILE_FIELDS = "kind,id,name,mimeType,parents,createdTime,modifiedTime,trashed,version,size,md5Checksum,webViewLink,lastModifyingUser";
+
+/** Google Workspace types that `stashFile` can export to PDF. */
+const PDF_EXPORTABLE_MIME_TYPES = [
+  "application/vnd.google-apps.document",
+  "application/vnd.google-apps.spreadsheet",
+  "application/vnd.google-apps.presentation",
+  "application/vnd.google-apps.drawing",
+];
+
 export {
   GOOGLE_DRIVE_NOTIFICATION_SYNC,
   GOOGLE_DRIVE_NOTIFICATION_ADD,
@@ -300,4 +324,9 @@ export {
   // Files
   FILES_MAX_PAGE_SIZE,
   DEFAULT_SEARCH_FILES_LIMIT,
+  // Webhooks
+  RETRYABLE_STATUS_CODES,
+  RATE_LIMIT_ERROR_REASONS,
+  CHANGED_FILE_FIELDS,
+  PDF_EXPORTABLE_MIME_TYPES,
 };

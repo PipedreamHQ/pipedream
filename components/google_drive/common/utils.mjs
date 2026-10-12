@@ -349,6 +349,37 @@ function sanitizeFileName(name) {
   return safe;
 }
 
+/**
+ * Minimal inline worker pool. Runs `worker` over `items` with at most `limit`
+ * calls in flight at any moment and returns the results in input order.
+ *
+ * @param {Array} items the items to process
+ * @param {Number} limit the max number of concurrent `worker` calls
+ * @param {Function} worker async function invoked as `worker(item, index)`
+ * @returns {Promise<Array>} the results, in the same order as `items`
+ */
+async function mapWithConcurrency(items, limit, worker) {
+  const results = new Array(items.length);
+  let cursor = 0;
+
+  const runNext = async () => {
+    while (cursor < items.length) {
+      const index = cursor;
+      cursor += 1;
+      results[index] = await worker(items[index], index);
+    }
+  };
+
+  const runners = [];
+  const poolSize = Math.min(limit, items.length);
+  for (let i = 0; i < poolSize; i++) {
+    runners.push(runNext());
+  }
+  await Promise.allSettled(runners);
+
+  return results;
+}
+
 async function stashFile(item, googleDrive, dir) {
   const fileMetadata = await googleDrive.getFile(item.id, {
     fields: "name,mimeType",
@@ -444,6 +475,7 @@ export {
   getFilePaths,
   getListFilesOpts,
   isMyDrive,
+  mapWithConcurrency,
   MY_DRIVE_VALUE,
   omitEmptyStringValues,
   parseObjectEntries,

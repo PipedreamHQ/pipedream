@@ -12,25 +12,25 @@ In order to connect your workspace Google Chat account to Pipedream, you'll need
 1. Sign in to the [Google Cloud Console](https://cloud.google.com/)
 2. Select an existing project or create a new one
 
-  ![Select an existing project or create a a new one in the Google Cloud Console](https://res.cloudinary.com/pipedreamin/image/upload/v1663268100/docs/components/CleanShot_2022-09-15_at_14.54.34_vajyds.png)
+  ![Select an existing project or create a a new one in the Google Cloud Console](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/docs/components/CleanShot_2022-09-15_at_14.54.34_vajyds.png)
 
 3. Select **APIs & Services**
 4. Click **Enable APIs & Services**
 
-  ![Select "Enable APIs & Services to open a menu to enable the Google Chat API for Pipedream to connect to](https://res.cloudinary.com/pipedreamin/image/upload/v1663268316/docs/components/CleanShot_2022-09-15_at_14.58.06_jshirk.png)
+  ![Select "Enable APIs & Services to open a menu to enable the Google Chat API for Pipedream to connect to](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/docs/components/CleanShot_2022-09-15_at_14.58.06_jshirk.png)
 
 5. Search for and select **Chat API**
 6. Click **Enable**
 
-  ![Search for and select the Google Chat API](https://res.cloudinary.com/dpenc2lit/image/upload/v1704485195/Screenshot_2024-01-05_at_12.04.19_PM_ypy1dz.png)
+  ![Search for and select the Google Chat API](https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2024-01-05_at_12.04.19_PM_ypy1dz.png)
 
 7. Click **OAuth consent screen** on the left side
    
-  ![Click "OAuth consent screen" in the left navigation menu](https://res.cloudinary.com/dpenc2lit/image/upload/v1704750653/Screenshot_2024-01-08_at_1.50.38_PM_ihkhn7.png)
+  ![Click "OAuth consent screen" in the left navigation menu](https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2024-01-08_at_1.50.38_PM_ihkhn7.png)
 
 8. If you only intend to use this application within your organization, select **Internal** (recommended) and click "Create." In this mode, your app is limited to Google Workspace users within your organization. If you select **External**, you will need to go through the process of app verification in order use any sensitive or restricted scopes.
 
-  ![Select "Internal" in the OAuth Consent Screen](https://res.cloudinary.com/dpenc2lit/image/upload/v1704750730/Screenshot_2024-01-08_at_1.52.05_PM_pgxebn.png)
+  ![Select "Internal" in the OAuth Consent Screen](https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2024-01-08_at_1.52.05_PM_pgxebn.png)
 
 9. Fill in the required fields and click **Save and Continue**
 10. Under **Authorized Domains**, add `pipedream.com`
@@ -44,27 +44,27 @@ You will need to generate a set of OAuth credentials to connect your new Google 
 
 1. Navigate to the **Credentials** section on the left side.
     
-    ![Open the Credentials menu in the left hand nav bar](https://res.cloudinary.com/pipedreamin/image/upload/v1663269973/docs/components/CleanShot_2022-09-15_at_15.13.52_yvllxi.png)
+    ![Open the Credentials menu in the left hand nav bar](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/docs/components/CleanShot_2022-09-15_at_15.13.52_yvllxi.png)
 
 2. Click **Create Credentials** at the top and select **“*OAuth client ID**
    
-  ![Click create credentials to start the process](https://res.cloudinary.com/pipedreamin/image/upload/v1663270014/docs/components/CleanShot_2022-09-15_at_15.14.15_hjulis.png)
+  ![Click create credentials to start the process](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/docs/components/CleanShot_2022-09-15_at_15.14.15_hjulis.png)
   
-  ![Select the OAuth Client ID option](https://res.cloudinary.com/pipedreamin/image/upload/v1663270093/docs/components/CleanShot_2022-09-15_at_15.14.39_juqtnm.png)
+  ![Select the OAuth Client ID option](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/docs/components/CleanShot_2022-09-15_at_15.14.39_juqtnm.png)
 
 3. Select **Web application** for **Application type**
 
-  ![Web application is the type of OAuth credential we're generating](https://res.cloudinary.com/pipedreamin/image/upload/v1663270117/docs/components/CleanShot_2022-09-15_at_15.14.56_hlseq6.png)
+  ![Web application is the type of OAuth credential we're generating](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/docs/components/CleanShot_2022-09-15_at_15.14.56_hlseq6.png)
 
 4. Name the app “Pipedream”
 5. Under **Authorized redirect URIs**, click **Add URI** and enter `https://api.pipedream.com/connect/oauth/oa_gBBi5O/callback`
 
-  ![Add the Pipedream URL to the Callback Redirect URL option](https://res.cloudinary.com/dpenc2lit/image/upload/v1704486173/Screenshot_2024-01-05_at_12.22.39_PM_oyvppi.png)
+  ![Add the Pipedream URL to the Callback Redirect URL option](https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2024-01-05_at_12.22.39_PM_oyvppi.png)
 
 6. Click **Create** to create your new OAuth keys
 7. Note the client ID and client Secret, but keep these private and secure
 
-  ![Store the Client ID and Client Secret keys](https://res.cloudinary.com/pipedreamin/image/upload/v1663270250/docs/components/CleanShot_2022-09-15_at_15.16.29_hvxnkx.png)
+  ![Store the Client ID and Client Secret keys](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/docs/components/CleanShot_2022-09-15_at_15.16.29_hvxnkx.png)
 
 ## Configure your Google Chat application
 
@@ -88,7 +88,7 @@ You will need to generate a set of OAuth credentials to connect your new Google 
 
 10. Click **Save**. 
 
-![App Configuration Settings](https://res.cloudinary.com/dpenc2lit/image/upload/v1704751866/Screenshot_2024-01-08_at_2.10.44_PM_z3eoa0.png)
+![App Configuration Settings](https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2024-01-08_at_2.10.44_PM_z3eoa0.png)
 
 ## Connect your Google Chat app Pipedream with your Google Chat app OAuth credentials
 
@@ -99,7 +99,7 @@ At this point, you should have a Google Chat App under your Google Project, and 
 3. Click **Connect**
 4. You will be presented with an OAuth consent screen and should see the scopes that you specified at this step. Click **Allow**.
 
-    ![Click Allow to Continue](https://res.cloudinary.com/dpenc2lit/image/upload/v1704752139/Screenshot_2024-01-08_at_2.15.12_PM_pzk47x.png)
+    ![Click Allow to Continue](https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2024-01-08_at_2.15.12_PM_pzk47x.png)
 
 5. You should now be able to use your Google Chat application that you created on Pipedream!
 
@@ -111,9 +111,9 @@ Google has a [7 day expiration window](https://developers.google.com/identity/pr
 3. Your application will not be available externally unless you share your **client_id** with others, and you will not have to go through the verification process unless you intend to onboard over 100 users.
 4. The publishing status should be set to **In production**, and your account should maintain its connection without an expiration window.
 
-![Publish your application](https://res.cloudinary.com/dpenc2lit/image/upload/v1698166716/Screenshot_2023-10-24_at_9.50.06_AM_lve7wq.png)
+![Publish your application](https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2023-10-24_at_9.50.06_AM_lve7wq.png)
 
-![Confirmation of changes](https://res.cloudinary.com/dpenc2lit/image/upload/v1698166716/Screenshot_2023-10-24_at_9.50.18_AM_mndtyc.png)
+![Confirmation of changes](https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2023-10-24_at_9.50.18_AM_mndtyc.png)
 
 # Example Use Cases
 

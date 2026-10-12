@@ -10,7 +10,7 @@ export default {
   key: "hubspot-new-or-updated-deal",
   name: "New or Updated Deal",
   description: "Emit new event for each new or updated deal in Hubspot",
-  version: "0.0.33",
+  version: "0.0.34",
   dedupe: "unique",
   type: "source",
   props: {
@@ -82,14 +82,17 @@ export default {
     isRelevant(deal, updatedAfter) {
       return this.getTs(deal) > updatedAfter;
     },
-    getParams() {
+    getParams(after) {
       const { properties = [] } = this;
+      const dateProperty = this.newOnly
+        ? "createdate"
+        : "hs_lastmodifieddate";
       const params = {
         data: {
           limit: DEFAULT_LIMIT,
           sorts: [
             {
-              propertyName: "hs_lastmodifieddate",
+              propertyName: dateProperty,
               direction: "DESCENDING",
             },
           ],
@@ -101,7 +104,7 @@ export default {
         object: "deals",
       };
       if (this.pipeline) {
-        params.data.filters = [
+        const filters = [
           {
             propertyName: "pipeline",
             operator: "EQ",
@@ -109,14 +112,19 @@ export default {
           },
         ];
         if (this.stage) {
-          params.data.filters.push({
+          filters.push({
             propertyName: "dealstage",
             operator: "EQ",
             value: this.stage,
           });
         }
+        params.data.filterGroups = [
+          {
+            filters,
+          },
+        ];
       }
-      return params;
+      return this.addDateFilter(params, dateProperty, after);
     },
     async processResults(after, params) {
       await this.searchCRM(params, after);

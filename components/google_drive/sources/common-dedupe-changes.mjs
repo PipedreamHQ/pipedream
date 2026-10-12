@@ -24,29 +24,40 @@ You can change or disable this minimum interval using the prop \`Minimum Interva
     _setFileIntervals(value) {
       this.db.set("fileIntervals", value);
     },
-    checkMinimumInterval(files) {
+    filterByMinimumInterval(files) {
       const interval = this.perFileInterval;
-      if (!interval) return files;
+      if (!interval) {
+        return files;
+      }
+
+      const minTimestamp = Date.now() - (interval * 1000 * 60);
+      const savedData = this._getFileIntervals();
+      return files.filter(({ id }) => !savedData[id] || savedData[id] < minTimestamp);
+    },
+    recordFileEmits(fileIds) {
+      if (!this.perFileInterval || !fileIds.length) {
+        return;
+      }
 
       const now = Date.now();
-      const minTimestamp = now - (interval * 1000 * 60);
-
+      const minTimestamp = now - (this.perFileInterval * 1000 * 60);
       const savedData = this._getFileIntervals();
       Object.entries(savedData).forEach(([
         key,
         value,
       ]) => {
-        if (value < minTimestamp) delete savedData[key];
-      });
-
-      const filteredFiles = files.filter(({ id }) => {
-        const exists = !!savedData[id];
-        if (!exists) {
-          savedData[id] = now;
+        if (value < minTimestamp) {
+          delete savedData[key];
         }
-        return !exists;
+      });
+      fileIds.forEach((id) => {
+        savedData[id] = now;
       });
       this._setFileIntervals(savedData);
+    },
+    checkMinimumInterval(files) {
+      const filteredFiles = this.filterByMinimumInterval(files);
+      this.recordFileEmits(filteredFiles.map(({ id }) => id));
       return filteredFiles;
     },
   },

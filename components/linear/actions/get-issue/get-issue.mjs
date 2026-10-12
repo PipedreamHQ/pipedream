@@ -9,6 +9,7 @@ export default {
   ...getIssue,
   ...utils.getAppProps(getIssue),
   key: "linear-get-issue",
-  description: "Retrieves a Linear issue by its ID. Returns complete issue details including title, description, state, assignee, team, project, labels, and timestamps. Uses OAuth authentication. See Linear docs for additional info [here](https://linear.app/developers/graphql).",
-  version: "0.1.16",
+  description: "Retrieve a single Linear issue by its issue ID or human-readable identifier. Provide exactly one of `issueId` or `issueIdentifier` (e.g. `ENG-42`). Use **Search Issues** to find the issue ID (the `id` field). Returns complete issue details: title, description, state, assignee, team, project, labels, and timestamps. Use the optional `fields` prop to narrow the response to only the keys you need (reduces context for large result sets). Example: `issueIdentifier: \"ENG-42\"` → returns `{id: \"9d1c3f7e-2b48-4c6a-9f1e-5a7b8c9d0e1f\", identifier: \"ENG-42\", title: \"Fix login redirect\", state: {name: \"In Progress\"}}`. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=issue).",
+  version: "0.1.17",
+  ai: "optimized",
 };

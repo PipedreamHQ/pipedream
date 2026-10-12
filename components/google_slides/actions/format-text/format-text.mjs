@@ -9,7 +9,7 @@ export default {
   key: "google_slides-format-text",
   name: "Format Text",
   description: "Apply character formatting (bold, italic, underline, strikethrough, font, size, color, link) to the text of a shape or table cell in a Google Slides presentation. Use **Get Presentation** to find the page element's object ID. [See the documentation](https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations/request#UpdateTextStyleRequest)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
