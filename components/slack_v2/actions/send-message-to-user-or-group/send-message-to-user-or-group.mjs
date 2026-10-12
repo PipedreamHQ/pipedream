@@ -13,7 +13,7 @@ export default {
     + " prefix on direct messages). Use this tool only if a workflow specifically needs the"
     + " user/group-only interface."
     + " [See the documentation](https://api.slack.com/methods/chat.postMessage)",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
