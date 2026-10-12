@@ -1,4 +1,7 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import {
+  DEFAULT_LOOKBACK_HOURS, HOUR_MS, MAX_LOOKBACK_HOURS,
+} from "../../common/constants.mjs";
 import { parseObject } from "../../common/utils.mjs";
 import etrusted from "../../etrusted.app.mjs";
 import sampleEmit from "./test-event.mjs";
@@ -55,15 +58,16 @@ export default {
         etrusted,
         "ignoreStatements",
       ],
+      description: "Filters the list to ignore [statements](https://developers.etrusted.com/docs/glossory#statement) (reviews missing the comment, the star rating, or both). The eTrusted API defaults this to `true`, so statement-only reviews are excluded unless you set it to `false`.",
       optional: true,
     },
     lookbackHours: {
       type: "integer",
       label: "Lookback Window (hours)",
-      description: "How far back past the newest processed review to keep polling, in hours. Reviews can appear in the API minutes after their `submittedAt` timestamp; reviews re-fetched within this window are deduplicated by review id, so late-indexed reviews are still emitted exactly once.",
+      description: "How far back past the newest processed review to keep polling, in hours (0-72, default 1). Reviews can appear in the API minutes after their `submittedAt` timestamp; reviews re-fetched within this window are deduplicated by review id, so late-indexed reviews are still emitted exactly once.",
       min: 0,
-      max: 72,
-      default: 1,
+      max: MAX_LOOKBACK_HOURS,
+      default: DEFAULT_LOOKBACK_HOURS,
       optional: true,
     },
   },
@@ -78,7 +82,7 @@ export default {
       this.db.set("cursor", cursor);
     },
     _getGraceMs() {
-      return (this.lookbackHours ?? 1) * 60 * 60 * 1000;
+      return (this.lookbackHours ?? DEFAULT_LOOKBACK_HOURS) * HOUR_MS;
     },
     _getSeen() {
       return this.db.get("seen") ?? {};
@@ -138,7 +142,8 @@ export default {
         return undefined;
       }
 
-      return new Date(Date.parse(cursor.submittedAt) - this._getGraceMs()).toISOString();
+      // submittedAfter is exclusive, so step back 1ms to keep same-timestamp reviews fetchable.
+      return new Date(Date.parse(cursor.submittedAt) - this._getGraceMs() - 1).toISOString();
     },
     async _getReviews({
       maxResults,
@@ -221,17 +226,12 @@ export default {
 
       const cursor = this._getCursor();
       const seen = this._getSeen();
-      // Sources upgraded from versions without the seen-id map: seed it from
-      // the existing cursor so its already-processed ids are not re-emitted.
-      // The legacy cursor only records ids at the newest timestamp, so a
-      // pre-upgrade review inside the widened lookback window can still be
-      // re-fetched and emitted once. That upgrade replay is best-effort: the
-      // source's "unique" dedupe strategy suppresses it only while the
-      // emitted id is still retained in its bounded cache.
-      if (cursor?.submittedAt && !Object.keys(seen).length && cursor.ids?.length) {
-        const cursorTs = Date.parse(cursor.submittedAt);
+      // Seed from the legacy cursor on first run after upgrade. It only holds ids at the
+      // newest timestamp, so an older pre-upgrade review in the window can replay once.
+      const legacyTs = Date.parse(cursor?.submittedAt);
+      if (!Number.isNaN(legacyTs) && !Object.keys(seen).length && cursor.ids?.length) {
         for (const id of cursor.ids) {
-          seen[id] = cursorTs;
+          seen[id] = legacyTs;
         }
       }
       const newReviews = reviews.filter((review) => this._isNewReview(review, cursor, seen));
@@ -239,17 +239,25 @@ export default {
 
       for (const review of this._sortBySubmittedAt(newReviews)) {
         this._emitReview(review);
+      }
+
+      // Retain every fetched id, not just emitted ones, so a review already treated as
+      // processed cannot resurface as new.
+      for (const review of reviews) {
         if (review.id) {
           seen[review.id] = this._getTs(review);
         }
       }
 
-      // Prune seen ids that can no longer be re-fetched: the polling query is
-      // anchored at (newest submittedAt - lookback window).
+      // Pruned at the maximum lookback, not the configured one, so raising lookbackHours
+      // later cannot re-emit ids that were already processed.
       const anchorTs = Date.parse(nextCursor?.submittedAt ?? cursor?.submittedAt);
       if (!Number.isNaN(anchorTs)) {
-        const cutoff = anchorTs - this._getGraceMs();
-        for (const [id, ts] of Object.entries(seen)) {
+        const cutoff = anchorTs - (MAX_LOOKBACK_HOURS * HOUR_MS);
+        for (const [
+          id,
+          ts,
+        ] of Object.entries(seen)) {
           if (ts < cutoff) {
             delete seen[id];
           }
