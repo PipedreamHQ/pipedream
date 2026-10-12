@@ -58,13 +58,13 @@ export default {
         etrusted,
         "ignoreStatements",
       ],
-      description: "Filters the list to ignore [statements](https://developers.etrusted.com/docs/glossory#statement) (reviews missing the comment, the star rating, or both). The eTrusted API defaults this to `true`, so statement-only reviews are excluded unless you set it to `false`.",
+      description: "Filters the list to ignore [statements](https://developers.etrusted.com/docs/glossory#statement) (reviews missing the comment, the star rating, or both). The eTrusted API defaults this to `true`, so statement-only reviews are excluded unless you set it to `false`. e.g. `false`",
       optional: true,
     },
     lookbackHours: {
       type: "integer",
       label: "Lookback Window (hours)",
-      description: "How far back past the newest processed review to keep polling, in hours (0-72, default 1). Reviews can appear in the API minutes after their `submittedAt` timestamp; reviews re-fetched within this window are deduplicated by review id, so late-indexed reviews are still emitted exactly once.",
+      description: "How far back past the newest processed review to keep polling, in hours (0-72, default `1`). Reviews can appear in the API minutes after their `submittedAt` timestamp; reviews re-fetched within this window are deduplicated by review id, so late-indexed reviews are still emitted exactly once. e.g. `6`",
       min: 0,
       max: MAX_LOOKBACK_HOURS,
       default: DEFAULT_LOOKBACK_HOURS,
@@ -204,6 +204,14 @@ export default {
           ? submittedAt
           : max;
       }, null);
+
+      // The cursor only moves forward: a review that stops matching the filters (moderation,
+      // veto, deletion) must not drag it back and widen later queries into history.
+      const cursorTs = Date.parse(cursor?.submittedAt);
+      if (!Number.isNaN(cursorTs) && Date.parse(newestSubmittedAt) < cursorTs) {
+        return cursor;
+      }
+
       const ids = withSubmittedAt
         .filter((review) => this._getSubmittedAt(review) === newestSubmittedAt)
         .map((review) => review.id);
