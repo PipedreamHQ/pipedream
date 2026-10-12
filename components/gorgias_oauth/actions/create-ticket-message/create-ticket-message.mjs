@@ -5,7 +5,7 @@ export default {
   key: "gorgias_oauth-create-ticket-message",
   name: "Create Ticket Message",
   description: "Create a message for a ticket in the Gorgias system. [See the documentation](https://developers.gorgias.com/reference/create-ticket-message)",
-  version: "0.2.1",
+  version: "0.3.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -70,6 +70,12 @@ export default {
       label: "Message",
       description: "Message of the ticket. Accepts HTML",
     },
+    bodyText: {
+      propDefinition: [
+        gorgiasOauth,
+        "bodyText",
+      ],
+    },
     fromAddress: {
       type: "string",
       label: "From Address (override)",
@@ -116,6 +122,12 @@ export default {
         "sourceType",
       ],
     },
+    integrationId: {
+      propDefinition: [
+        gorgiasOauth,
+        "integrationId",
+      ],
+    },
     subject: {
       propDefinition: [
         gorgiasOauth,
@@ -153,6 +165,7 @@ export default {
     props.toAddress.hidden = isInternalNote;
     props.toName.hidden = isInternalNote;
     props.sourceType.hidden = isInternalNote;
+    props.integrationId.hidden = isInternalNote;
     return {};
   },
   methods: {
@@ -229,6 +242,7 @@ export default {
     const messageData = {
       channel: this.channel,
       body_html: this.message,
+      body_text: this.bodyText,
       via: this.via,
       subject: this.subject,
       from_agent: this.fromAgent,
@@ -270,6 +284,7 @@ export default {
       messageData.receiver = {
         id: toId,
       };
+      messageData.integration_id = this.integrationId;
     }
 
     const response = await this.gorgiasOauth.createMessage({

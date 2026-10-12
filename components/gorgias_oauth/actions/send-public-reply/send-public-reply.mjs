@@ -6,7 +6,7 @@ export default {
   key: "gorgias_oauth-send-public-reply",
   name: "Send Public Reply",
   description: "Post a customer-facing reply to a ticket on behalf of an agent. [See the documentation](https://developers.gorgias.com/reference/create-ticket-message)",
-  version: "0.0.4",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -45,6 +45,12 @@ export default {
       label: "Message",
       description: "Body of the reply. Accepts HTML",
     },
+    bodyText: {
+      propDefinition: [
+        gorgiasOauth,
+        "bodyText",
+      ],
+    },
     channel: {
       propDefinition: [
         gorgiasOauth,
@@ -60,6 +66,12 @@ export default {
         "via",
       ],
       optional: false,
+    },
+    integrationId: {
+      propDefinition: [
+        gorgiasOauth,
+        "integrationId",
+      ],
     },
     subject: {
       propDefinition: [
@@ -149,6 +161,8 @@ export default {
         via: this.via,
         from_agent: true,
         body_html: this.message,
+        body_text: this.bodyText,
+        integration_id: this.integrationId,
         subject: this.subject,
         sent_datetime: this.sentDatetime,
         sender: {

@@ -132,6 +132,41 @@ export default {
       options: constants.sourceTypes,
       optional: true,
     },
+    integrationId: {
+      type: "integer",
+      label: "Integration ID",
+      description: "The integration the message is sent through, such as a chat widget, Instagram account, Facebook page or WhatsApp number. Replies on those channels may not be delivered without it",
+      optional: true,
+      async options({ prevContext }) {
+        const {
+          data: integrations,
+          meta,
+        } = await this.listIntegrations({
+          params: {
+            cursor: prevContext.nextCursor,
+          },
+        });
+        return {
+          options: integrations.map(({
+            id: value, name, type,
+          }) => ({
+            label: type
+              ? `${name} (${type})`
+              : name,
+            value,
+          })),
+          context: {
+            nextCursor: meta.next_cursor,
+          },
+        };
+      },
+    },
+    bodyText: {
+      type: "string",
+      label: "Body Text",
+      description: "Plain-text version of the message",
+      optional: true,
+    },
     externalId: {
       type: "string",
       label: "External ID",
@@ -463,6 +498,12 @@ export default {
     listUsers(opts = {}) {
       return this._makeRequest({
         path: "/users",
+        ...opts,
+      });
+    },
+    listIntegrations(opts = {}) {
+      return this._makeRequest({
+        path: "/integrations",
         ...opts,
       });
     },
