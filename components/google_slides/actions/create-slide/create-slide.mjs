@@ -42,7 +42,7 @@ export default {
     body: {
       type: "string",
       label: "Body",
-      description: "Text for the slide's first body placeholder. Put each paragraph on its own line; a literal `\\n` is also treated as a line break. Requires `Layout`.",
+      description: "Text for the slide's first body placeholder (e.g. `Revenue grew 20% YoY\\nExpansion into 3 new markets`). Put each paragraph on its own line; a literal `\\n` is also treated as a line break. Requires `Layout`.",
       optional: true,
     },
     secondBody: {
