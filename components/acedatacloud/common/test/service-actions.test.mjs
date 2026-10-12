@@ -4,7 +4,7 @@ import { readdir } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 import { join } from "node:path";
 
-const actionsRoot = new URL("../actions/", import.meta.url);
+const actionsRoot = new URL("../../actions/", import.meta.url);
 const prompt = "a small red kite";
 const imageUrl = "https://example.com/input.png";
 const async = true;

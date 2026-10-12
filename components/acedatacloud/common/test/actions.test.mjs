@@ -1,14 +1,14 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import acedatacloud from "../acedatacloud.app.mjs";
+import acedatacloud from "../../acedatacloud.app.mjs";
 import {
   apiError,
   normalizeImageInput,
   requestOptions,
   validateImageRequest,
-} from "../common/utils.mjs";
-import generateImage from "../actions/generate-image/generate-image.mjs";
-import editImage from "../actions/edit-image/edit-image.mjs";
+} from "../utils.mjs";
+import generateImage from "../../actions/generate-image/generate-image.mjs";
+import editImage from "../../actions/edit-image/edit-image.mjs";
 
 const model = "doubao-seedream-5-0-lite-260128";
 

@@ -36,3 +36,7 @@ This PR contributes source actions. Pipedream App registration, upstream review,
 - **HTTP 400/403:** Read the original API error, correct the input or service access, and then decide whether a new request is appropriate.
 - **Authentication failure:** Check that the connected token is an API key with access to this service. Do not put credentials into action props or prompts.
 - **Cost:** Pricing varies by service and model. A submitted task ID is not a billing record.
+
+## Local verification
+
+Run `npm test --prefix components/acedatacloud` from the repository root after installing the component dependencies. The synthetic transport tests live under `common/test/`, which the official component publishing workflow excludes. They do not require a connected account or consume API credits.
