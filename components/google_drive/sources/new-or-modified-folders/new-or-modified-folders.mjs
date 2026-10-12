@@ -62,7 +62,16 @@ export default {
 
       const { files } = await this.googleDrive.listFilesInPage(null, args);
 
-      await this.processChanges(files, null, 5);
+      const changeFilter = await this.getChangeFilter();
+      const folders = [];
+      for (const file of files) {
+        if (folders.length < 5 && await changeFilter({
+          file,
+        })) {
+          folders.push(file);
+        }
+      }
+      await this.processChanges(folders);
     },
     ...common.hooks,
   },
@@ -128,47 +137,32 @@ export default {
         },
       };
     },
-    async processChanges(changedFiles, headers, maxResults) {
-      const folders = changedFiles.filter(
-        (file) => file.mimeType === GOOGLE_DRIVE_FOLDER_MIME_TYPE,
-      );
-      if (!folders.length) {
-        return 0;
-      }
-
-      const targetId = this.folderId
-        || (await this.googleDrive.getFile(this.isMyDrive()
-          ? "root"
-          : this.drive, {
-          fields: "id",
-        })).id;
+    async getChangeFilter() {
+      let targetId = this.folderId;
       const parentsCache = new Map();
-
-      const filteredFiles = [];
-      for (const file of folders) {
+      return async ({ file }) => {
         // The changelog is updated each time a folder is opened. Check the
         // folder's `modifiedTime` to see if the folder has been modified.
-        if (this._getLastModifiedTimeForFile(file.id) == Date.parse(file.modifiedTime)) {
-          continue;
+        if (file.mimeType !== GOOGLE_DRIVE_FOLDER_MIME_TYPE
+          || this._getLastModifiedTimeForFile(file.id) == Date.parse(file.modifiedTime)) {
+          return false;
         }
-
+        if (!targetId) {
+          ({ id: targetId } = await this.googleDrive.getFile(this.isMyDrive()
+            ? "root"
+            : this.drive, {
+            fields: "id",
+          }));
+        }
         const allParents = this.includeSubfolders
           ? await this.getAllParents(file.id, parentsCache)
           : (file.parents ?? []).slice(0, 1);
-        if (allParents.includes(targetId)) {
-          filteredFiles.push(file);
-        }
-      }
-
-      if (maxResults && filteredFiles.length >= maxResults) {
-        filteredFiles.length = maxResults;
-      }
-      if (!filteredFiles.length) {
-        return 0;
-      }
-
+        return allParents.includes(targetId);
+      };
+    },
+    async processChanges(changedFiles, headers) {
       const changes = this.getChanges(headers);
-      for (const { id } of filteredFiles) {
+      for (const { id } of changedFiles) {
         const file = await this.googleDrive.getFile(id);
         const modifiedTime = Date.parse(file.modifiedTime);
 
@@ -182,7 +176,7 @@ export default {
 
         this._setModifiedTimeForFile(file.id, modifiedTime);
       }
-      return filteredFiles.length;
+      return changedFiles.length;
     },
   },
 };

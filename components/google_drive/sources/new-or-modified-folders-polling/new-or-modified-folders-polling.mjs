@@ -201,8 +201,9 @@ export default {
       pageSize: this.changesPageSize,
       fileFields: CHANGE_FILTER_FILE_FIELDS,
       maxEmits: this.maxEmitsPerRun,
-      changeFilter: ({ file }) => file.mimeType === GOOGLE_DRIVE_FOLDER_MIME_TYPE
-        && this._getLastModifiedTimeForFile(file.id) !== Date.parse(file.modifiedTime),
+      changeFilter: async ({ file }) => file.mimeType === GOOGLE_DRIVE_FOLDER_MIME_TYPE
+        && this._getLastModifiedTimeForFile(file.id) !== Date.parse(file.modifiedTime)
+        && await this.shouldProcess(file, rootId, parentsCache),
       processPage: async (changedFiles) => {
         console.log(changedFiles.length
           ? `Processing ${changedFiles.length} changed folders`
@@ -211,11 +212,6 @@ export default {
         let emitted = 0;
         for (const file of changedFiles) {
           const modifiedTime = Date.parse(file.modifiedTime);
-          if (!await this.shouldProcess(file, rootId, parentsCache)) {
-            console.log(`Skipping folder ${file.name || file.id}`);
-            continue;
-          }
-
           const fullFile = await this.googleDrive.getFile(file.id, {
             fields: "*",
           });

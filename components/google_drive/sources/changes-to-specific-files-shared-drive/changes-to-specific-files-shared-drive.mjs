@@ -109,6 +109,9 @@ export default {
     isFileRelevant(file) {
       return this.files.includes(file.id);
     },
+    isRelevantChange({ file }) {
+      return this.isFileRelevant(file);
+    },
     getChanges(headers) {
       if (!headers) {
         return {

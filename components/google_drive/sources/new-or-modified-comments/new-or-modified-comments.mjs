@@ -70,6 +70,9 @@ export default {
         GOOGLE_DRIVE_NOTIFICATION_CHANGE,
       ];
     },
+    isRelevantChange({ file }) {
+      return file.id === this.fileId;
+    },
     generateMeta(data) {
       const {
         id: commentId,

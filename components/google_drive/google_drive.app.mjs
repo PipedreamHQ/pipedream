@@ -513,9 +513,12 @@ export default {
         // Some changes do not include an associated file object. Return only
         // those that do
         const withFiles = changes.filter((change) => typeof change.file === "object");
-        const kept = changeFilter
-          ? withFiles.filter(changeFilter)
-          : withFiles;
+        const kept = [];
+        for (const change of withFiles) {
+          if (!changeFilter || await changeFilter(change)) {
+            kept.push(change);
+          }
+        }
         if (kept.length < withFiles.length) {
           console.log(`Skipped ${withFiles.length - kept.length} changes filtered by the source`);
         }

@@ -182,6 +182,9 @@ export default {
     isRelevantChange() {
       return true;
     },
+    async getChangeFilter() {
+      return (change) => this.isRelevantChange(change);
+    },
     // false: processChanges() ignores changedFiles, so run it once, not per page
     consumesChangedFiles() {
       return true;
@@ -210,7 +213,7 @@ export default {
           pageSize: this.changesPageSize,
           fileFields: this.getChangesFileFields(),
           maxEmits: this.maxEmitsPerRun,
-          changeFilter: (change) => this.isRelevantChange(change),
+          changeFilter: await this.getChangeFilter(),
           processPage: (changedFiles) => this.processChanges(changedFiles, headers),
           savePageToken: (nextPageToken) => this._setPageToken(nextPageToken),
         });
