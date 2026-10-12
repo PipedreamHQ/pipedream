@@ -4,8 +4,9 @@ import createEventCommon from "../common/create-event-common.mjs";
 export default {
   key: "google_calendar-update-event-instance",
   name: "Update Event Instance",
-  description: "Update a specific instance of a recurring event. Changes apply only to the selected instance. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/update)",
+  description: "Update a single occurrence of a recurring event. Changes apply only to that instance and only the fields you supply change; reminders, attendees and all other fields are kept. Use **List Event Instances** to find the instance, or **Update Event** to change the whole series. Returns the updated instance. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/update)",
   version: "0.0.8",
+  ai: "optimized",
   type: "action",
   annotations: {
     destructiveHint: true,
@@ -75,7 +76,7 @@ export default {
     attendees: {
       label: "Attendees",
       type: "string",
-      description: "Enter either an array or a comma separated list of email addresses of attendees. Replaces the instance's current attendee list; to add attendees without removing existing ones, use **Add Attendees to Event** instead.",
+      description: "Enter either an array or a comma separated list of email addresses of attendees, e.g. `alice@example.com,bob@example.com` or `[\"alice@example.com\"]`. Replaces the instance's current attendee list; to add attendees without removing existing ones, use **Add Attendees to Event** instead.",
       optional: true,
     },
     colorId: {
@@ -114,8 +115,7 @@ export default {
       calendarId: this.calendarId,
       eventId: this.instanceId,
       sendUpdates: this.sendUpdates,
-      // `update` is a full replace, so start from the current instance to keep
-      // every field the caller did not supply (reminders, visibility, etc.)
+      // `update` is a full replace; unsupplied fields would be wiped
       requestBody: {
         ...currentEvent,
         summary: this.summary || currentEvent.summary,
