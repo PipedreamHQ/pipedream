@@ -5,8 +5,9 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "google_calendar-update-following-instances",
   name: "Update Following Event Instances",
-  description: "Update all instances of a recurring event following a specific instance. This creates a new recurring event starting from the selected instance. [See the documentation](https://developers.google.com/calendar/api/guides/recurringevents#modifying_all_following_instances)",
-  version: "0.0.8",
+  description: "Update all instances of a recurring event following a specific instance. This trims the original series to end before the selected instance and creates a new recurring event starting from it; fields left empty (including `Show As`) are copied from the original series. [See the documentation](https://developers.google.com/calendar/api/guides/recurringevents#modifying_all_following_instances)",
+  version: "0.1.0",
+  ai: "optimized",
   type: "action",
   annotations: {
     destructiveHint: true,
@@ -114,6 +115,13 @@ export default {
         googleCalendar,
         "colorId",
       ],
+    },
+    transparency: {
+      propDefinition: [
+        googleCalendar,
+        "transparency",
+      ],
+      description: "Whether the event blocks time on the calendar. `opaque` (Busy) blocks time; `transparent` (Free) leaves the time available. Leave empty to keep the original series' setting.",
     },
     timeZone: {
       propDefinition: [
@@ -268,6 +276,7 @@ export default {
           recurrence: newRecurrence,
           attendees,
           colorId: this.colorId || originalEvent.colorId,
+          transparency: this.transparency || originalEvent.transparency,
         },
       });
 

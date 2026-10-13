@@ -4,8 +4,9 @@ import createEventCommon from "../common/create-event-common.mjs";
 export default {
   key: "google_calendar-update-event",
   name: "Update Event",
-  description: "Update an event from Google Calendar. [See the documentation](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Events.html#update)",
-  version: "0.0.18",
+  description: "Update an existing event in Google Calendar. Fields left empty keep their current values. Set `Show As` to mark the event as Free or Busy. To change a single occurrence of a recurring event, use **Update Event Instance**. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/update)",
+  version: "0.1.0",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -32,6 +33,13 @@ export default {
     ...createEventCommon.props({
       isUpdate: true,
     }),
+    transparency: {
+      propDefinition: [
+        googleCalendar,
+        "transparency",
+      ],
+      description: "Whether the event blocks time on the calendar. `opaque` (Busy) blocks time; `transparent` (Free) leaves the time available. Leave empty to keep the event's current setting.",
+    },
     timeZone: {
       propDefinition: [
         googleCalendar,
@@ -82,6 +90,7 @@ export default {
         }),
         recurrence,
         attendees,
+        transparency: this.transparency || currentEvent.transparency,
       },
     });
 

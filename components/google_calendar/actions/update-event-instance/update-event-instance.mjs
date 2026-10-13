@@ -4,8 +4,9 @@ import createEventCommon from "../common/create-event-common.mjs";
 export default {
   key: "google_calendar-update-event-instance",
   name: "Update Event Instance",
-  description: "Update a specific instance of a recurring event. Changes apply only to the selected instance. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/update)",
-  version: "0.0.7",
+  description: "Update a specific instance of a recurring event. Changes apply only to the selected instance; fields left empty keep their current values. Set `Show As` to mark the instance as Free or Busy. Use **List Event Instances** to find the instance ID. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/update)",
+  version: "0.1.0",
+  ai: "optimized",
   type: "action",
   annotations: {
     destructiveHint: true,
@@ -84,6 +85,13 @@ export default {
         "colorId",
       ],
     },
+    transparency: {
+      propDefinition: [
+        googleCalendar,
+        "transparency",
+      ],
+      description: "Whether the event blocks time on the calendar. `opaque` (Busy) blocks time; `transparent` (Free) leaves the time available. Leave empty to keep the event's current setting.",
+    },
     timeZone: {
       propDefinition: [
         googleCalendar,
@@ -125,6 +133,7 @@ export default {
         }),
         attendees,
         colorId: this.colorId || currentEvent.colorId,
+        transparency: this.transparency || currentEvent.transparency,
       },
     });
 
