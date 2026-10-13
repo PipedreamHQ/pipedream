@@ -253,7 +253,7 @@ export default {
     transparency: {
       label: "Show As",
       type: "string",
-      description: "Whether the event blocks time on the calendar. `opaque` (Busy) blocks time and is Google's default; `transparent` (Free) leaves the time available, e.g. for all-day reminders or out-of-office notices that shouldn't block scheduling.",
+      description: "Whether the event blocks time on the calendar: `opaque` (Busy) blocks time; `transparent` (Free) leaves the time available. E.g. `transparent` for an all-day reminder or out-of-office notice that shouldn't block scheduling. If left empty, a new event uses Google's default (`opaque`) and an updated event keeps its current setting.",
       optional: true,
       options: constants.TRANSPARENCY_OPTIONS,
     },

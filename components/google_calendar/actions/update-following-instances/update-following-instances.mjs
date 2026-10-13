@@ -121,7 +121,6 @@ export default {
         googleCalendar,
         "transparency",
       ],
-      description: "Whether the event blocks time on the calendar. `opaque` (Busy) blocks time; `transparent` (Free) leaves the time available. Leave empty to keep the original series' setting.",
     },
     timeZone: {
       propDefinition: [
