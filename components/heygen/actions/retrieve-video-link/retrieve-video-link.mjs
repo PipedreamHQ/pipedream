@@ -3,7 +3,7 @@ import heygen from "../../heygen.app.mjs";
 export default {
   key: "heygen-retrieve-video-link",
   name: "Retrieve Video Link",
-  description: "Fetches a link for a specific heygen video. The link is only available once the video status is `completed`. Works for any video ID, including videos created in the HeyGen web app. If you don't have the video ID, use the **List Videos** action first (note it may not list web-app videos). Example: Video ID `v_123` returns `{\"data\": {\"id\": \"v_123\", \"status\": \"completed\", \"video_url\": \"https://...\"}, \"video_link\": \"https://...\"}`; while the video is still processing, `video_link` is null and `data.status` is `processing`. [See the documentation](https://developers.heygen.com/reference/get-video)",
+  description: "Fetches a link for a specific heygen video. The link is only available once the video status is `completed`. Works for any video ID, including videos created in the HeyGen web app. If you don't have the video ID, use the **List Videos** action first (note it may not list web-app videos). Example: Video ID `v_123` returns `{\"data\": {\"id\": \"v_123\", \"status\": \"completed\", \"video_url\": \"https://...\"}, \"video_link\": \"https://...\"}`; while the video is still processing, `video_link` is null and `data.status` is `processing` (check again later). If generation failed, `data.status` is `failed`, `video_link` is null, and `failure_code` and `failure_message` explain why; the video will never complete, so do not keep polling. [See the documentation](https://developers.heygen.com/reference/get-video)",
   version: "1.0.0",
   annotations: {
     destructiveHint: false,
@@ -26,6 +26,15 @@ export default {
       videoId: this.videoId,
       $,
     });
+    if (data.status === "failed") {
+      $.export("$summary", `Video failed: ${data.failure_message ?? "unknown error"}`);
+      return {
+        data,
+        video_link: null,
+        failure_code: data.failure_code ?? null,
+        failure_message: data.failure_message ?? null,
+      };
+    }
     $.export("$summary", data.video_url
       ? `Successfully fetched video link: ${data.video_url}`
       : `Video is not ready (status: ${data.status})`);

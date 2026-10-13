@@ -9,40 +9,15 @@ export default {
       type: "string[]",
       label: "Custom Events",
       description: "A custom set of event(s) that the user wants to trigger. Use the **List Custom Events Options** action to find available event types. Example: `[\"avatar_video.success\"]`",
-      async options({ prevContext }) {
-        const {
-          data, has_more: hasMore, next_token: nextToken,
-        } = await this.listEventTypes({
-          params: {
-            token: prevContext?.token,
-          },
-        });
-        const options = data?.map(({ event_type: value }) => value) || [];
-        if (!hasMore) {
-          return options;
-        }
-        return {
-          options,
-          context: {
-            token: nextToken,
-          },
-        };
+      async options() {
+        const { data } = await this.listEventTypes();
+        return data?.map(({ event_type: value }) => value) || [];
       },
     },
     templateId: {
       type: "string",
       label: "Template ID",
       description: "Identifier of a template. Use the **List Template ID Options** action to find available template IDs. Example: `bf5077a5ccfe4ad6838bfc24d6bfe447`",
-    },
-    avatarLookId: {
-      type: "string",
-      label: "Avatar Look ID",
-      description: "Identifier of a photo avatar look. Use the **List Avatar Look ID Options** action to find available avatar look IDs. Example: `ee25a2363ef941a1b5b0f7b1172e57d1`",
-    },
-    voiceId: {
-      type: "string",
-      label: "Voice ID",
-      description: "Identifier of a voice. Use the **List Voice ID Options** action to find available voice IDs. Example: `049413e41c334753984c294d694afb5c`",
     },
     limit: {
       type: "integer",
@@ -66,21 +41,6 @@ export default {
       description: "Cursor for the next page. Use the `next_token` value from the previous response of this same action, with the same filters and limit. Example: `eyJzdGFydF9pZCI6ICI4NDU5MTlhZTEw...`",
       optional: true,
     },
-    title: {
-      type: "string",
-      label: "Title",
-      description: "Title of the video",
-    },
-    test: {
-      type: "boolean",
-      label: "Test",
-      description: "Set the test flag to `true` to use test mode. Generation in test mode will not cost your credits and will contain a watermark on your video.",
-    },
-    caption: {
-      type: "boolean",
-      label: "Caption",
-      description: "Set to `true` to create video with captions.",
-    },
     videoId: {
       type: "string",
       label: "Video ID",
@@ -101,7 +61,55 @@ export default {
     avatarLookFields: {
       type: "string[]",
       label: "Fields",
-      description: "Only return these fields for each avatar look, to keep the response small. Valid fields include `id`, `name`, `avatar_type`, `group_id`, `preview_image_url`, `preview_video_url`, `gender`, `tags`, `default_voice_id`, `status`. Example: `[\"id\", \"name\"]`. Returns all fields if not set.",
+      description: "Only return these fields for each avatar look, to keep the response small. Valid fields: `id`, `name`, `avatar_type`, `group_id`, `preview_image_url`, `preview_video_url`, `gender`, `tags`, `default_voice_id`, `status`, `supported_api_engines` (the video generation engines this look works with, e.g. `[\"avatar_v\", \"avatar_iv\", \"avatar_iii\"]`), `image_width` and `image_height` (source image size in pixels, e.g. `1920` x `1080`), and `preferred_orientation` (`landscape` or `portrait`, the orientation this look is best suited to). Example: `[\"id\", \"name\"]`. Returns all fields if not set.",
+      optional: true,
+    },
+    avatarType: {
+      type: "string",
+      label: "Avatar Type",
+      description: "Type of avatar looks to list: `photo_avatar` (photo-based avatars), `digital_twin` (avatars cloned from video footage), or `studio_avatar` (preset studio avatars). Defaults to `photo_avatar`. Example: `photo_avatar`",
+      options: [
+        "photo_avatar",
+        "digital_twin",
+        "studio_avatar",
+      ],
+      default: "photo_avatar",
+      optional: true,
+    },
+    avatarOwnership: {
+      type: "string",
+      label: "Ownership",
+      description: "Filter by ownership: `public` for HeyGen's preset avatars, or `private` for your own. Returns both if not set. Example: `private`",
+      options: [
+        "public",
+        "private",
+      ],
+      optional: true,
+    },
+    voiceType: {
+      type: "string",
+      label: "Voice Type",
+      description: "`public` for the shared voice library, or `private` for your own cloned voices. Defaults to `public` if not set. Example: `private`",
+      options: [
+        "public",
+        "private",
+      ],
+      optional: true,
+    },
+    voiceLanguage: {
+      type: "string",
+      label: "Language",
+      description: "Only return voices in this language, given as its English name. Example: `Spanish`",
+      optional: true,
+    },
+    voiceGender: {
+      type: "string",
+      label: "Gender",
+      description: "Only return voices of this gender. Example: `female`",
+      options: [
+        "male",
+        "female",
+      ],
       optional: true,
     },
     titleFilter: {
