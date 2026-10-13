@@ -109,6 +109,10 @@ export const parseProviderTotals = (value) => {
     throw new Error("Toggl returned an invalid report totals response.");
   }
 
+  if (value.seconds === null) {
+    throw new Error("Toggl returned an invalid tracked-seconds total.");
+  }
+
   const trackedSeconds = Number(value.seconds);
 
   if (!Number.isFinite(trackedSeconds)) {
