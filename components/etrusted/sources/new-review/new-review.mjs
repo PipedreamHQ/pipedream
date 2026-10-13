@@ -11,7 +11,7 @@ export default {
   key: "etrusted-new-review",
   name: "New Review",
   description: "Emit new event when a new review is submitted on an eTrusted channel. [See the documentation](https://developers.etrusted.com/reference/getreviews)",
-  version: "0.1.0",
+  version: "1.0.0",
   type: "source",
   dedupe: "unique",
   props: {
@@ -59,6 +59,8 @@ export default {
         etrusted,
         "ignoreStatements",
       ],
+      description: "Filters the list to ignore [statements](https://developers.etrusted.com/docs/glossory#statement) (reviews missing the comment, the star rating, or both). This source defaults to `false` so rating-only reviews are emitted; set it to `true` to emit only reviews carrying both a star rating and a comment. e.g. `false`",
+      default: false,
       optional: true,
     },
     lookbackHours: {
