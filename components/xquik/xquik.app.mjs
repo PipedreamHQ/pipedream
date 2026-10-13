@@ -111,6 +111,38 @@ export default {
       max: 50,
       optional: true,
     },
+    eventTypes: {
+      type: "string[]",
+      label: "Event Types",
+      description:
+        "Monitor event types that trigger this source. Your Xquik account or keyword monitors must subscribe to the same types.",
+      options: [
+        "tweet.new",
+        "tweet.reply",
+        "tweet.retweet",
+        "tweet.quote",
+        "tweet.media",
+        "tweet.link",
+        "tweet.poll",
+        "tweet.mention",
+        "tweet.hashtag",
+        "tweet.longform",
+        "profile.avatar.changed",
+        "profile.banner.changed",
+        "profile.name.changed",
+        "profile.username.changed",
+        "profile.bio.changed",
+        "profile.location.changed",
+        "profile.url.changed",
+        "profile.verified.changed",
+        "profile.protected.changed",
+        "profile.pinned_tweet.changed",
+        "profile.unavailable.changed",
+      ],
+      default: [
+        "tweet.new",
+      ],
+    },
   },
   methods: {
     /**
@@ -388,6 +420,44 @@ export default {
         data: {
           tweetInput: normalizedTweetInput,
         },
+      });
+    },
+    /**
+     * Register a webhook endpoint for signed monitor event deliveries.
+     *
+     * @param {object} args Webhook arguments.
+     * @param {string} args.url HTTPS endpoint that receives deliveries.
+     * @param {string[]} args.eventTypes Event types to deliver.
+     * @returns {Promise<unknown>} Created webhook with its signing secret.
+     */
+    createWebhook({
+      $, url, eventTypes,
+    }) {
+      return this._makeRequest({
+        $,
+        method: "POST",
+        path: "/webhooks",
+        data: {
+          url,
+          eventTypes,
+        },
+      });
+    },
+    /**
+     * Stop deliveries to a webhook endpoint.
+     *
+     * @param {object} args Webhook arguments.
+     * @param {string} args.webhookId Webhook ID.
+     * @returns {Promise<unknown>} Deletion response.
+     */
+    deleteWebhook({
+      $, webhookId,
+    }) {
+      const encodedWebhookId = this._encodeIdentifier(webhookId, "Webhook ID");
+      return this._makeRequest({
+        $,
+        method: "DELETE",
+        path: `/webhooks/${encodedWebhookId}`,
       });
     },
   },
