@@ -3,7 +3,7 @@ import quilt from "../../quilt.app.mjs";
 export default {
   key: "quilt-assign-task",
   name: "Assign Task",
-  description: "Assigns a task on the session's board to a person or their AI, or unassigns it, and optionally replaces the files it is about. Find the task with **List Tasks**. Fails with \"You are not in a session\" until **Join Session** has been run. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
+  description: "Assigns a task on the session's board to a person or their AI, or unassigns it, and optionally replaces the files it is about. Find the task with **List Tasks**. Needs **Join Session** first; when the agent is in more than one session, set **Session**. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
   version: "0.0.1",
   ai: "optimized",
   annotations: {
@@ -14,6 +14,12 @@ export default {
   type: "action",
   props: {
     quilt,
+    session: {
+      propDefinition: [
+        quilt,
+        "session",
+      ],
+    },
     taskId: {
       propDefinition: [
         quilt,
@@ -47,6 +53,7 @@ export default {
       $,
       name: "quilt_assign_task",
       args: {
+        session: this.session,
         id: this.taskId,
         assignee: this.assignee ?? "",
         to_ai: this.toAi,

@@ -4,7 +4,7 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "quilt-call-tool",
   name: "Call Tool",
-  description: "Calls any of Quilt's agent tools by name as the connected agent and returns its text. Use it for what the other actions don't cover: claiming files and handing them off, the change history (`quilt_history`), listing files (`quilt_list_files`), a partner's AI feed and more. Most tools need **Join Session** first. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
+  description: "Calls any of Quilt's agent tools by name as the connected agent and returns its text. Use it for what the other actions don't cover: claiming files and handing them off, the change history (`quilt_history`), listing files (`quilt_list_files`), a partner's AI feed and more. Most tools need **Join Session** first, and take a `session` argument when the agent is in more than one session (see **Get Session Info**). [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
   version: "0.0.1",
   ai: "optimized",
   annotations: {

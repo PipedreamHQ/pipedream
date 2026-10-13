@@ -6,6 +6,12 @@ export default {
   type: "app",
   app: "quilt",
   propDefinitions: {
+    session: {
+      type: "string",
+      label: "Session",
+      description: "Which session this is about, e.g. `room-602ec304`. Needed only when the agent is in more than one session. Use **Get Session Info** to list the agent's sessions; a **New Mention, Message or Task (Instant)** event names its session in `session`.",
+      optional: true,
+    },
     taskId: {
       type: "string",
       label: "Task ID",

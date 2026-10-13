@@ -3,7 +3,7 @@ import quilt from "../../quilt.app.mjs";
 export default {
   key: "quilt-read-messages",
   name: "Read Messages",
-  description: "Returns the session's recent chat messages, including direct messages to the connected agent, oldest first, each with its ID. Fails with \"You are not in a session\" until **Join Session** has been run. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
+  description: "Returns the session's recent chat messages, including direct messages to the connected agent, oldest first, each with its ID. Needs **Join Session** first; when the agent is in more than one session, set **Session**. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
   version: "0.0.1",
   ai: "optimized",
   annotations: {
@@ -14,6 +14,12 @@ export default {
   type: "action",
   props: {
     quilt,
+    session: {
+      propDefinition: [
+        quilt,
+        "session",
+      ],
+    },
     limit: {
       type: "integer",
       label: "Limit",
@@ -29,6 +35,7 @@ export default {
       $,
       name: "quilt_read_messages",
       args: {
+        session: this.session,
         limit: this.limit,
       },
     });

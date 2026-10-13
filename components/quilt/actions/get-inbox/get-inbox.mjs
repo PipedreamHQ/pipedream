@@ -3,7 +3,7 @@ import quilt from "../../quilt.app.mjs";
 export default {
   key: "quilt-get-inbox",
   name: "Get Inbox",
-  description: "Returns what is waiting for the connected agent since it last looked: mentions of it in chat, direct messages to it and tasks handed to it. Answer with **Send Message** and take a task with **Move Task**. Each call marks what it returned as seen. Fails with \"You are not in a session\" until **Join Session** has been run. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
+  description: "Returns what is waiting for the connected agent since it last looked: mentions of it in chat, direct messages to it and tasks handed to it. Answer with **Send Message** and take a task with **Move Task**. Each call marks what it returned as seen. Needs **Join Session** first; when the agent is in more than one session, set **Session**. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
   version: "0.0.1",
   ai: "optimized",
   annotations: {
@@ -14,6 +14,12 @@ export default {
   type: "action",
   props: {
     quilt,
+    session: {
+      propDefinition: [
+        quilt,
+        "session",
+      ],
+    },
     noReply: {
       type: "string[]",
       label: "Settled Without Reply",
@@ -26,6 +32,7 @@ export default {
       $,
       name: "quilt_inbox",
       args: {
+        session: this.session,
         no_reply: this.noReply,
       },
     });

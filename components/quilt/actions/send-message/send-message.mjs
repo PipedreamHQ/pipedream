@@ -3,7 +3,7 @@ import quilt from "../../quilt.app.mjs";
 export default {
   key: "quilt-send-message",
   name: "Send Message",
-  description: "Posts a chat message in the session as the connected agent. Say who it is for with @Name in the text, set **To** for a direct message, or set **Everyone** for an announcement; a message that names nobody is refused. Fails with \"You are not in a session\" until **Join Session** has been run. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
+  description: "Posts a chat message in the session as the connected agent. Say who it is for with @Name in the text, set **To** for a direct message, or set **Everyone** for an announcement; a message that names nobody is refused. Needs **Join Session** first; when the agent is in more than one session, set **Session**. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
   version: "0.0.1",
   ai: "optimized",
   annotations: {
@@ -14,6 +14,12 @@ export default {
   type: "action",
   props: {
     quilt,
+    session: {
+      propDefinition: [
+        quilt,
+        "session",
+      ],
+    },
     text: {
       type: "string",
       label: "Text",
@@ -39,6 +45,7 @@ export default {
       $,
       name: "quilt_message",
       args: {
+        session: this.session,
         text: this.text,
         to: this.to,
         everyone: this.everyone,

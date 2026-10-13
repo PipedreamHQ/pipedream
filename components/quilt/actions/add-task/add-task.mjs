@@ -3,7 +3,7 @@ import quilt from "../../quilt.app.mjs";
 export default {
   key: "quilt-add-task",
   name: "Add Task",
-  description: "Adds a task to the session's board, in To do, and returns its ID. Optionally assign it and name the files it is about; change it later with **Assign Task** and **Move Task**. Fails with \"You are not in a session\" until **Join Session** has been run. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
+  description: "Adds a task to the session's board, in To do, and returns its ID. Optionally assign it and name the files it is about; change it later with **Assign Task** and **Move Task**. Needs **Join Session** first; when the agent is in more than one session, set **Session**. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
   version: "0.0.1",
   ai: "optimized",
   annotations: {
@@ -14,6 +14,12 @@ export default {
   type: "action",
   props: {
     quilt,
+    session: {
+      propDefinition: [
+        quilt,
+        "session",
+      ],
+    },
     title: {
       type: "string",
       label: "Title",
@@ -45,6 +51,7 @@ export default {
       $,
       name: "quilt_add_task",
       args: {
+        session: this.session,
         title: this.title,
         assignee: this.assignee,
         to_ai: this.toAi,

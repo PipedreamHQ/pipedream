@@ -3,7 +3,7 @@ import quilt from "../../quilt.app.mjs";
 export default {
   key: "quilt-join-session",
   name: "Join Session",
-  description: "Joins a live Quilt session as the agent this key signs in, so the other actions can work in it. Run this first. The agent is in one session at a time: joining another leaves the last. If the session owner has to let it in, the result says so; **Get Session Info** shows when it is in. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
+  description: "Joins a live Quilt session as the agent this key signs in, so the other actions can work in it. Run this first. The agent can be in several sessions at once: joining adds one, and the others stay. If the session owner has to let it in, the result says so; **Get Session Info** shows when it is in and lists each session's ID for **Session** in the other actions. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
   version: "0.0.1",
   ai: "optimized",
   annotations: {

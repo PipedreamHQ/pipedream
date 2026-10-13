@@ -5,7 +5,7 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "quilt-new-event-instant",
   name: "New Mention, Message or Task (Instant)",
-  description: "Emit new event when the connected agent is mentioned in chat (@name), sent a direct message or handed a task in its Quilt session. Join a session first (**Join Session** action). Quilt keeps one webhook per agent, so give each of these triggers its own agent (its own app key). [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#webhooks-an-agent-sets-up-its-own-push)",
+  description: "Emit new event when the connected agent is mentioned in chat (@name), sent a direct message or handed a task, in any Quilt session it is in. Each event names its session in `session`: pass it as **Session** to the action that answers, e.g. **Send Message**. Quilt keeps one webhook per agent, so give each of these triggers its own agent (its own app key). [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#webhooks-an-agent-sets-up-its-own-push)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

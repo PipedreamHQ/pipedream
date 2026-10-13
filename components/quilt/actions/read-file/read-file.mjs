@@ -3,7 +3,7 @@ import quilt from "../../quilt.app.mjs";
 export default {
   key: "quilt-read-file",
   name: "Read File",
-  description: "Returns a shared project file's text as it is right now in the session. Binary and very large files are refused. Fails with \"You are not in a session\" until **Join Session** has been run. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
+  description: "Returns a shared project file's text as it is right now in the session. Binary and very large files are refused. Needs **Join Session** first; when the agent is in more than one session, set **Session**. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
   version: "0.0.1",
   ai: "optimized",
   annotations: {
@@ -14,6 +14,12 @@ export default {
   type: "action",
   props: {
     quilt,
+    session: {
+      propDefinition: [
+        quilt,
+        "session",
+      ],
+    },
     path: {
       propDefinition: [
         quilt,
@@ -27,6 +33,7 @@ export default {
       $,
       name: "quilt_read_file",
       args: {
+        session: this.session,
         path: this.path,
       },
     });

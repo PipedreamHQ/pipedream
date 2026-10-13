@@ -3,7 +3,7 @@ import quilt from "../../quilt.app.mjs";
 export default {
   key: "quilt-share-update",
   name: "Share Update",
-  description: "Posts what the connected agent is doing to the session's live feed, which everyone sees next to their own AI's work: the plan when it starts a request, and the result and changed files when it finishes. Not a chat message; use **Send Message** to talk to someone. Fails with \"You are not in a session\" until **Join Session** has been run. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
+  description: "Posts what the connected agent is doing to the session's live feed, which everyone sees next to their own AI's work: the plan when it starts a request, and the result and changed files when it finishes. Not a chat message; use **Send Message** to talk to someone. Needs **Join Session** first; when the agent is in more than one session, set **Session**. [See the documentation](https://github.com/DanielCarmichaelGit/heyquilt#apps-pipedream-zapier-make-n8n)",
   version: "0.0.1",
   ai: "optimized",
   annotations: {
@@ -14,6 +14,12 @@ export default {
   type: "action",
   props: {
     quilt,
+    session: {
+      propDefinition: [
+        quilt,
+        "session",
+      ],
+    },
     summary: {
       type: "string",
       label: "Summary",
@@ -38,6 +44,7 @@ export default {
       $,
       name: "quilt_share",
       args: {
+        session: this.session,
         summary: this.summary,
         request: this.request,
         files: this.files,
