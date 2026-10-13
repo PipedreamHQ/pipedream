@@ -1,6 +1,8 @@
 import { Client } from "@microsoft/microsoft-graph-client";
 import "isomorphic-fetch";
-import { ROOT_FOLDER_ID } from "./common/constants.mjs";
+import {
+  GRAPH_VERSION_PATH, ROOT_FOLDER_ID,
+} from "./common/constants.mjs";
 const DEFAULT_LIMIT = 50;
 
 export default {
@@ -214,21 +216,28 @@ export default {
 
       while (stack.length) {
         const currentBatch = [];
+        const pending = {};
         while (stack.length && currentBatch.length < batchLimit) {
           const {
             folderId,
             prefix,
+            url,
           } = stack.shift();
           history.push({
             folderId,
             prefix,
           });
+          const id = folderId || ROOT_FOLDER_ID;
+          pending[id] = {
+            folderId,
+            prefix,
+          };
           currentBatch.push({
-            id: folderId || ROOT_FOLDER_ID,
+            id,
             method: "GET",
-            url: folderId
+            url: url || (folderId
               ? `/me/drive/items/${folderId}/children`
-              : "/me/drive/root/children",
+              : "/me/drive/root/children"),
           });
         }
 
@@ -243,6 +252,16 @@ export default {
           id, status, body,
         }) => {
           if (status === 200) {
+            const nextLink = body["@odata.nextLink"];
+            if (nextLink) {
+              const {
+                pathname, search,
+              } = new URL(nextLink);
+              stack.push({
+                ...pending[id],
+                url: `${pathname.replace(GRAPH_VERSION_PATH, "")}${search}`,
+              });
+            }
             body.value.filter(({ folder }) => folder).forEach((item) => {
               const {
                 id, name, folder: { childCount }, parentReference: { id: parentId },

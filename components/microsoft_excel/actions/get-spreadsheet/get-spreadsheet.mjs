@@ -74,15 +74,25 @@ export default {
         headerRow = [],
         ...dataRows
       ] = response.values;
-      const counts = {};
+      const used = new Set(headerRow.map(String));
+      const counts = new Map();
       const headers = headerRow.map((header) => {
-        if (header === "") {
-          return header;
+        const name = String(header);
+        if (name === "") {
+          return name;
         }
-        counts[header] = (counts[header] || 0) + 1;
-        return counts[header] > 1
-          ? `${header}_${counts[header]}`
-          : header;
+        const count = (counts.get(name) || 0) + 1;
+        counts.set(name, count);
+        if (count === 1) {
+          return name;
+        }
+        let suffix = count;
+        while (used.has(`${name}_${suffix}`)) {
+          suffix++;
+        }
+        const key = `${name}_${suffix}`;
+        used.add(key);
+        return key;
       });
       response.headers = headers;
       response.rows = dataRows.map((row) => Object.fromEntries(
