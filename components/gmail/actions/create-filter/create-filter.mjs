@@ -37,7 +37,7 @@ export default {
     subject: {
       type: "string",
       label: "Subject",
-      description: "Match messages whose subject contains this text (case-insensitive).",
+      description: "Match messages whose subject contains this text (case-insensitive), e.g. `invoice`.",
       optional: true,
     },
     query: {
@@ -55,19 +55,19 @@ export default {
     hasAttachment: {
       type: "boolean",
       label: "Has Attachment",
-      description: "If `true`, only match messages that have an attachment.",
+      description: "If `true`, only match messages that have an attachment. `false` has no effect (Gmail ignores it) — to exclude messages with attachments, put `has:attachment` in **Doesn't Have**.",
       optional: true,
     },
     excludeChats: {
       type: "boolean",
       label: "Exclude Chats",
-      description: "If `true`, do not match Google Chat/Hangouts messages.",
+      description: "If `true`, do not match Google Chat/Hangouts messages. `false` has no effect (Gmail ignores it).",
       optional: true,
     },
     size: {
       type: "integer",
       label: "Size (bytes)",
-      description: "Message size in bytes to compare against. Requires **Size Comparison**.",
+      description: "Message size in bytes to compare against, e.g. `10485760` (10 MB). Requires **Size Comparison**.",
       optional: true,
     },
     sizeComparison: {
@@ -103,14 +103,15 @@ export default {
       throw new ConfigurationError("`Size` and `Size Comparison` must be provided together.");
     }
 
+    // Gmail ignores `false` for the boolean criteria, so don't send them.
     const criteria = Object.fromEntries(Object.entries({
       from,
       to,
       subject,
       query,
       negatedQuery,
-      hasAttachment,
-      excludeChats,
+      hasAttachment: hasAttachment || undefined,
+      excludeChats: excludeChats || undefined,
       size,
       sizeComparison,
     }).filter(([
