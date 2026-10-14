@@ -4,8 +4,9 @@ import createEventCommon from "../common/create-event-common.mjs";
 export default {
   key: "google_calendar-update-event-instance",
   name: "Update Event Instance",
-  description: "Update a specific instance of a recurring event. Changes apply only to the selected instance. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/update)",
-  version: "0.0.7",
+  description: "Update a single occurrence of a recurring event. Changes apply only to that instance and only the fields you supply change; reminders, attendees and all other fields are kept. Set `Show As` to mark the instance as Free or Busy. Use **List Event Instances** to find the instance, or **Update Event** to change the whole series. Returns the updated instance. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/update)",
+  version: "0.1.0",
+  ai: "optimized",
   type: "action",
   annotations: {
     destructiveHint: true,
@@ -75,13 +76,19 @@ export default {
     attendees: {
       label: "Attendees",
       type: "string",
-      description: "Enter either an array or a comma separated list of email addresses of attendees",
+      description: "Enter either an array or a comma separated list of email addresses of attendees, e.g. `alice@example.com,bob@example.com` or `[\"alice@example.com\"]`. Replaces the instance's current attendee list; to add attendees without removing existing ones, use **Add Attendees To Event** instead.",
       optional: true,
     },
     colorId: {
       propDefinition: [
         googleCalendar,
         "colorId",
+      ],
+    },
+    transparency: {
+      propDefinition: [
+        googleCalendar,
+        "transparency",
       ],
     },
     timeZone: {
@@ -105,13 +112,18 @@ export default {
     });
 
     const timeZone = await this.getTimeZone(this.timeZone || currentEvent.start.timeZone);
-    const attendees = this.formatAttendees(this.attendees, currentEvent.attendees);
+    const suppliedAttendees = this.formatAttendees(this.attendees);
+    const attendees = suppliedAttendees.length
+      ? suppliedAttendees
+      : currentEvent.attendees;
 
     const response = await this.googleCalendar.updateEvent({
       calendarId: this.calendarId,
       eventId: this.instanceId,
       sendUpdates: this.sendUpdates,
+      // `update` is a full replace; unsupplied fields would be wiped
       requestBody: {
+        ...currentEvent,
         summary: this.summary || currentEvent.summary,
         location: this.location || currentEvent.location,
         description: this.description || currentEvent.description,
@@ -125,6 +137,7 @@ export default {
         }),
         attendees,
         colorId: this.colorId || currentEvent.colorId,
+        transparency: this.transparency || currentEvent.transparency,
       },
     });
 
