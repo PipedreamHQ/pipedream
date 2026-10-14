@@ -2040,7 +2040,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/bluesnap: {}
+  components/bluesnap:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/bokun: {}
 
@@ -5056,7 +5060,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/elastic_security: {}
+  components/elastic_security:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/elasticemail: {}
 
@@ -7967,7 +7975,17 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/incorta: {}
+  components/incorta:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
+      pg:
+        specifier: ^8.7.1
+        version: 8.16.3
+      pg-cursor:
+        specifier: ^2.12.0
+        version: 2.22.1(pg@8.16.3)
 
   components/indiefunnels:
     dependencies:
@@ -9906,8 +9924,6 @@ importers:
   components/mexc: {}
 
   components/mezmo: {}
-
-  components/michelle_test_app: {}
 
   components/microbilt_developer: {}
 
@@ -32202,6 +32218,11 @@ packages:
   pg-connection-string@2.9.1:
     resolution: {integrity: sha512-nkc6NpDcvPVpZXxrreI/FOtX3XemeLl8E0qFr6F2Lrm/I8WOnaWNhIPK2Z7OHpw7gh5XJThi6j6ppgNoaT1w4w==}
 
+  pg-cursor@2.22.1:
+    resolution: {integrity: sha512-X10ldv3wwBONQkOSwgWEbaEITMGLd92V2Zd+xsFPhDt3nhhU3hpAT08SERBChnIFmomczLax6lKXLJrHPPXfxA==}
+    peerDependencies:
+      pg: ^8
+
   pg-format@1.0.4:
     resolution: {integrity: sha512-YyKEF78pEA6wwTAqOUaHIN/rWpfzzIuMh9KdAhc3rSLQ/7zkRFcCgYBAEGatDstLyZw4g0s9SNICmaTGnBVeyw==}
     engines: {node: '>=4.0'}
@@ -54126,6 +54147,10 @@ snapshots:
     optional: true
 
   pg-connection-string@2.9.1: {}
+
+  pg-cursor@2.22.1(pg@8.16.3):
+    dependencies:
+      pg: 8.16.3
 
   pg-format@1.0.4: {}
 
