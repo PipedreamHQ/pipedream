@@ -92,7 +92,7 @@ export default {
     toAddress: {
       type: "string",
       label: "To Address (override)",
-      description: "If set, used as `source.to[0].address`. Otherwise, agent messages on messaging channels (chat, Instagram DM, Messenger, WhatsApp, SMS, Twitter DM) use the address of the customer's latest message on that channel in the ticket (e.g. a chat session id), and everything else uses the To User/Customer's email.",
+      description: "If set, used as `source.to[0].address`. Otherwise, agent messages on messaging channels (chat, Instagram DM, Messenger, WhatsApp, SMS, Twitter DM) use the `source.from.address` of the To Customer's latest message on that channel in the ticket (see **List Ticket Messages**), e.g. `92fc13f6-55b5-4ff3-85c3-dbaaad7366fb` for chat, and everything else uses the To User/Customer's email.",
       optional: true,
     },
     toName: {
@@ -115,7 +115,9 @@ export default {
         gorgiasOauth,
         "via",
       ],
+      description: "How the message is sent from Gorgias. With `help-center`, Gorgias stores the message without sending it",
       optional: false,
+      default: "api",
     },
     sourceType: {
       propDefinition: [
@@ -197,16 +199,6 @@ export default {
       });
       return email;
     },
-    async getCustomerChannelAddress($) {
-      if (!this.fromAgent) {
-        return;
-      }
-      return this.gorgiasOauth.getCustomerChannelAddress({
-        $,
-        ticketId: this.ticketId,
-        channel: this.channel,
-      });
-    },
   },
   async run({ $ }) {
     if ((this.attachmentUrl && !this.attachmentName)
@@ -273,10 +265,17 @@ export default {
 
     // Only add source and receiver for non-internal notes
     if (!isInternalNote) {
-      const toAddress = this.toAddress
-        ?? await this.getCustomerChannelAddress($)
-        ?? await this.getEmail($, toId, "to");
-      if (!toAddress && this.fromAgent && constants.MESSAGING_CHANNELS.includes(this.channel)) {
+      const useChannelAddress = this.fromAgent
+        && constants.messagingChannels.includes(this.channel);
+      const toAddress = this.toAddress ?? (useChannelAddress
+        ? await this.gorgiasOauth.getCustomerChannelAddress({
+          $,
+          ticketId: this.ticketId,
+          channel: this.channel,
+          customerId: toId,
+        })
+        : await this.getEmail($, toId, "to"));
+      if (!toAddress && useChannelAddress) {
         throw new ConfigurationError(`No ${this.channel} address found for the customer on this ticket. Set To Address`);
       }
       messageData.source = {

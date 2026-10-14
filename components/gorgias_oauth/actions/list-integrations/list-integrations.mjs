@@ -17,14 +17,14 @@ export default {
     type: {
       type: "string",
       label: "Type",
-      description: "Only return integrations of this type. `http` integrations are webhooks, not message channels",
+      description: "Only return integrations of this type, e.g. `gorgias_chat`. `http` integrations are webhooks, not message channels",
       options: constants.integrationTypes,
       optional: true,
     },
     limit: {
       type: "integer",
       label: "Limit",
-      description: "Maximum number of integrations to return (1-100)",
+      description: "Maximum number of integrations to return (1-100), e.g. `30`",
       min: 1,
       max: constants.INTEGRATIONS_LIMIT_MAX,
       default: 30,

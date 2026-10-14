@@ -137,6 +137,7 @@ export default {
       label: "Integration ID",
       description: "The integration to send the message through, e.g. `123456`. Run the **List Integrations** action to get the ID. If omitted, Gorgias uses the ticket's integration",
       optional: true,
+      min: 1,
     },
     bodyText: {
       type: "string",
@@ -485,11 +486,8 @@ export default {
       });
     },
     async getCustomerChannelAddress({
-      $, ticketId, channel,
+      $, ticketId, channel, customerId,
     }) {
-      if (!constants.MESSAGING_CHANNELS.includes(channel)) {
-        return;
-      }
       const messages = this.paginate({
         $,
         fn: this.listMessages,
@@ -500,7 +498,12 @@ export default {
         },
       });
       for await (const message of messages) {
-        if (!message.from_agent && message.channel === channel && message.source?.from?.address) {
+        if (
+          !message.from_agent
+          && message.channel === channel
+          && message.sender?.id === customerId
+          && message.source?.from?.address
+        ) {
           return message.source.from.address;
         }
       }

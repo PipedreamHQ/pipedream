@@ -65,7 +65,9 @@ export default {
         gorgiasOauth,
         "via",
       ],
+      description: "How the message is sent from Gorgias. With `help-center`, Gorgias stores the message without sending it",
       optional: false,
+      default: "api",
     },
     integrationId: {
       propDefinition: [
@@ -95,7 +97,7 @@ export default {
     toAddress: {
       type: "string",
       label: "To Address (override)",
-      description: "If set, used as `source.to[0].address`. Otherwise, messaging channels (chat, Instagram DM, Messenger, WhatsApp, SMS, Twitter DM) use the address of the customer's latest message on that channel in the ticket (e.g. a chat session id), and other channels use the To Customer's email.",
+      description: "If set, used as `source.to[0].address`. Otherwise, messaging channels (chat, Instagram DM, Messenger, WhatsApp, SMS, Twitter DM) use the `source.from.address` of the To Customer's latest message on that channel in the ticket (see **List Ticket Messages**), e.g. `92fc13f6-55b5-4ff3-85c3-dbaaad7366fb` for chat, and other channels use the To Customer's email.",
       optional: true,
     },
     toName: {
@@ -147,18 +149,20 @@ export default {
         id: this.fromUser,
       })).email;
 
-    const toAddress = this.toAddress
-      ?? await this.gorgiasOauth.getCustomerChannelAddress({
+    const isMessagingChannel = constants.messagingChannels.includes(this.channel);
+    const toAddress = this.toAddress ?? (isMessagingChannel
+      ? await this.gorgiasOauth.getCustomerChannelAddress({
         $,
         ticketId: this.ticketId,
         channel: this.channel,
+        customerId: this.toCustomer,
       })
-      ?? (await this.gorgiasOauth.retrieveCustomer({
+      : (await this.gorgiasOauth.retrieveCustomer({
         $,
         id: this.toCustomer,
-      })).email;
+      })).email);
 
-    if (!toAddress && constants.MESSAGING_CHANNELS.includes(this.channel)) {
+    if (!toAddress && isMessagingChannel) {
       throw new ConfigurationError(`No ${this.channel} address found for the customer on this ticket. Set To Address`);
     }
 

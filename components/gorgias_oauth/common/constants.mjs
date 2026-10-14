@@ -157,7 +157,7 @@ const integrationTypes = [
 ];
 
 // Channels that deliver to a per-customer channel address instead of an email
-const MESSAGING_CHANNELS = [
+const messagingChannels = [
   "chat",
   "facebook-messenger",
   "instagram-direct-message",
@@ -201,7 +201,7 @@ export default {
   sourceTypes,
   macroIntents,
   integrationTypes,
-  MESSAGING_CHANNELS,
+  messagingChannels,
   MESSAGES_LIMIT_MAX,
   MESSAGES_ORDER_NEWEST_FIRST,
   INTEGRATIONS_LIMIT_MAX,
