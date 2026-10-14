@@ -135,36 +135,13 @@ export default {
     integrationId: {
       type: "integer",
       label: "Integration ID",
-      description: "The integration the message is sent through, such as a chat widget, Instagram account, Facebook page or WhatsApp number. Replies on those channels may not be delivered without it",
+      description: "The integration to send the message through, e.g. `123456`. Run the **List Integrations** action to get the ID. If omitted, Gorgias uses the ticket's integration",
       optional: true,
-      async options({ prevContext }) {
-        const {
-          data: integrations,
-          meta,
-        } = await this.listIntegrations({
-          params: {
-            cursor: prevContext.nextCursor,
-          },
-        });
-        return {
-          options: integrations.map(({
-            id: value, name, type,
-          }) => ({
-            label: type
-              ? `${name} (${type})`
-              : name,
-            value,
-          })),
-          context: {
-            nextCursor: meta.next_cursor,
-          },
-        };
-      },
     },
     bodyText: {
       type: "string",
       label: "Body Text",
-      description: "Plain-text version of the message",
+      description: "Plain-text version of the message, e.g. `Thanks, your order has shipped.`",
       optional: true,
     },
     externalId: {
@@ -506,6 +483,27 @@ export default {
         path: "/integrations",
         ...opts,
       });
+    },
+    async getCustomerChannelAddress({
+      $, ticketId, channel,
+    }) {
+      if (!constants.MESSAGING_CHANNELS.includes(channel)) {
+        return;
+      }
+      const messages = this.paginate({
+        $,
+        fn: this.listMessages,
+        params: {
+          ticket_id: ticketId,
+          order_by: constants.MESSAGES_ORDER_NEWEST_FIRST,
+          limit: constants.MESSAGES_LIMIT_MAX,
+        },
+      });
+      for await (const message of messages) {
+        if (!message.from_agent && message.channel === channel && message.source?.from?.address) {
+          return message.source.from.address;
+        }
+      }
     },
     listTeams(opts = {}) {
       return this._makeRequest({

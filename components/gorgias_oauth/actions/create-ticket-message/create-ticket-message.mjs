@@ -1,5 +1,6 @@
 import gorgiasOauth from "../../gorgias_oauth.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "gorgias_oauth-create-ticket-message",
@@ -91,7 +92,7 @@ export default {
     toAddress: {
       type: "string",
       label: "To Address (override)",
-      description: "If set, used as `source.to[0].address` instead of looking up the To User/Customer's email.",
+      description: "If set, used as `source.to[0].address`. Otherwise, agent messages on messaging channels (chat, Instagram DM, Messenger, WhatsApp, SMS, Twitter DM) use the address of the customer's latest message on that channel in the ticket (e.g. a chat session id), and everything else uses the To User/Customer's email.",
       optional: true,
     },
     toName: {
@@ -196,6 +197,16 @@ export default {
       });
       return email;
     },
+    async getCustomerChannelAddress($) {
+      if (!this.fromAgent) {
+        return;
+      }
+      return this.gorgiasOauth.getCustomerChannelAddress({
+        $,
+        ticketId: this.ticketId,
+        channel: this.channel,
+      });
+    },
   },
   async run({ $ }) {
     if ((this.attachmentUrl && !this.attachmentName)
@@ -262,6 +273,12 @@ export default {
 
     // Only add source and receiver for non-internal notes
     if (!isInternalNote) {
+      const toAddress = this.toAddress
+        ?? await this.getCustomerChannelAddress($)
+        ?? await this.getEmail($, toId, "to");
+      if (!toAddress && this.fromAgent && constants.MESSAGING_CHANNELS.includes(this.channel)) {
+        throw new ConfigurationError(`No ${this.channel} address found for the customer on this ticket. Set To Address`);
+      }
       messageData.source = {
         ...(this.sourceType && {
           type: this.sourceType,
@@ -274,7 +291,7 @@ export default {
         },
         to: [
           {
-            address: this.toAddress ?? await this.getEmail($, toId, "to"),
+            address: toAddress,
             ...(this.toName && {
               name: this.toName,
             }),

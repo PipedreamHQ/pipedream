@@ -95,7 +95,7 @@ export default {
     toAddress: {
       type: "string",
       label: "To Address (override)",
-      description: "If set, used as `source.to[0].address` instead of looking up the To Customer's email.",
+      description: "If set, used as `source.to[0].address`. Otherwise, messaging channels (chat, Instagram DM, Messenger, WhatsApp, SMS, Twitter DM) use the address of the customer's latest message on that channel in the ticket (e.g. a chat session id), and other channels use the To Customer's email.",
       optional: true,
     },
     toName: {
@@ -148,10 +148,19 @@ export default {
       })).email;
 
     const toAddress = this.toAddress
+      ?? await this.gorgiasOauth.getCustomerChannelAddress({
+        $,
+        ticketId: this.ticketId,
+        channel: this.channel,
+      })
       ?? (await this.gorgiasOauth.retrieveCustomer({
         $,
         id: this.toCustomer,
       })).email;
+
+    if (!toAddress && constants.MESSAGING_CHANNELS.includes(this.channel)) {
+      throw new ConfigurationError(`No ${this.channel} address found for the customer on this ticket. Set To Address`);
+    }
 
     const response = await this.gorgiasOauth.createMessage({
       $,
