@@ -76,7 +76,7 @@ export default {
     attendees: {
       label: "Attendees",
       type: "string",
-      description: "Enter either an array or a comma separated list of email addresses of attendees, e.g. `alice@example.com,bob@example.com` or `[\"alice@example.com\"]`. Replaces the instance's current attendee list; to add attendees without removing existing ones, use **Add Attendees to Event** instead.",
+      description: "Enter either an array or a comma separated list of email addresses of attendees, e.g. `alice@example.com,bob@example.com` or `[\"alice@example.com\"]`. Replaces the instance's current attendee list; to add attendees without removing existing ones, use **Add Attendees To Event** instead.",
       optional: true,
     },
     colorId: {
