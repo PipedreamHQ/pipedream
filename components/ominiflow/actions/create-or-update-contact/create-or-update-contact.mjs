@@ -3,26 +3,32 @@ import ominiflow from "../../ominiflow.app.mjs";
 export default {
   key: "ominiflow-create-or-update-contact",
   name: "Create or Update Contact",
-  description: "Create a new contact or update existing contact details in Ominiflow CRM",
+  description: "Create a new contact or update existing contact details in Ominiflow CRM. [See the documentation](https://ominiflow.com/docs)",
   version: "0.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
+  ai: "optimized",
   props: {
     ominiflow,
     phone: {
-      type: "string",
+      propDefinition: [ominiflow, "phone"],
       label: "Contact Phone Number",
-      description: "WhatsApp phone number with country code (e.g. `+919876543210`).",
+      description: "WhatsApp phone number with country code, e.g. `+919876543210`.",
     },
     name: {
       type: "string",
       label: "Full Name",
-      description: "Customer or lead full name.",
+      description: "Customer or lead full name, e.g. `John Doe`.",
       optional: true,
     },
     email: {
       type: "string",
       label: "Email Address",
-      description: "Customer email address.",
+      description: "Customer email address, e.g. `john.doe@example.com`.",
       optional: true,
     },
     groupId: {

@@ -4,10 +4,15 @@ export default {
   type: "app",
   app: "ominiflow",
   propDefinitions: {
+    phone: {
+      type: "string",
+      label: "Recipient Phone Number",
+      description: "The recipient WhatsApp phone number with country code, e.g. `+919876543210` or `15551234567`.",
+    },
     templateName: {
       type: "string",
       label: "Template Name",
-      description: "Select an approved WhatsApp template from your Ominiflow account",
+      description: "Select an approved WhatsApp template, e.g. `order_confirmation`. Use the **List Templates** action to explore available templates.",
       async options() {
         const templates = await this.getTemplates();
         if (!Array.isArray(templates)) {
@@ -22,7 +27,7 @@ export default {
     groupId: {
       type: "string",
       label: "Contact Group",
-      description: "Assign this contact to an Ominiflow group",
+      description: "Assign this contact to an Ominiflow group, e.g. `12` or `VIP Customers`. Use the **List Groups** action to view group IDs.",
       optional: true,
       async options() {
         const groups = await this.getGroups();
@@ -48,25 +53,14 @@ export default {
         "Accept": "application/json",
       };
     },
-    async _makeRequest({ $ = this, path, method = "GET", data = {}, params = {} }) {
+    async _makeRequest({ $ = this, path, method = "GET", data, params }) {
       const url = `${this._baseUrl()}${path.startsWith("/") ? path : `/${path}`}`;
-      const payload = typeof data === "object" && data !== null ? { ...data } : data;
-      const queryParams = typeof params === "object" && params !== null ? { ...params } : params;
-
-      if (this.$auth?.api_key) {
-        if (method.toUpperCase() === "GET") {
-          queryParams.token = queryParams.token || this.$auth.api_key;
-        } else if (typeof payload === "object") {
-          payload.token = payload.token || this.$auth.api_key;
-        }
-      }
-
       return axios($, {
         url,
         method,
         headers: this._headers(),
-        data: payload,
-        params: queryParams,
+        data,
+        params,
       });
     },
     async getAccountInfo($ = this) {

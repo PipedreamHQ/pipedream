@@ -3,20 +3,24 @@ import ominiflow from "../../ominiflow.app.mjs";
 export default {
   key: "ominiflow-send-text-message",
   name: "Send WhatsApp Text Message",
-  description: "Send a direct WhatsApp text message to any phone number via Ominiflow",
+  description: "Send a direct WhatsApp text message to any phone number via Ominiflow. [See the documentation](https://ominiflow.com/docs)",
   version: "0.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
+  ai: "optimized",
   props: {
     ominiflow,
     phone: {
-      type: "string",
-      label: "Recipient Phone Number",
-      description: "The phone number with country code (e.g. `+919876543210` or `919876543210`).",
+      propDefinition: [ominiflow, "phone"],
     },
     message: {
       type: "string",
       label: "Message Text",
-      description: "The text content of the message you want to send.",
+      description: "The text content of the message you want to send, e.g. `Hello! Your order #12345 has been confirmed and is on its way.`.",
     },
   },
   async run({ $ }) {
