@@ -1,5 +1,4 @@
 import { axios } from "@pipedream/platform";
-import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -121,7 +120,7 @@ export default {
   },
   methods: {
     _getUrl(path) {
-      return `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
+      return `https://api.heygen.com/v3${path}`;
     },
     _headers(headers) {
       return {
