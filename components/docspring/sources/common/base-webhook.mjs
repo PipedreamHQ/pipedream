@@ -35,13 +35,13 @@ export default {
         webhook.mode = this.mode;
       }
       const res = await this.docspring.createWebhook({ data: { webhook } });
-      this.db.set("webhookUid", res.uid);
+      this.db.set("webhookId", res.id);
     },
     async deactivate() {
-      const uid = this.db.get("webhookUid");
-      if (uid) {
+      const webhookId = this.db.get("webhookId");
+      if (webhookId) {
         try {
-          await this.docspring.deleteWebhook({ uid });
+          await this.docspring.deleteWebhook({ webhookId });
         } catch (_e) {
           // A 404 (already deleted) is fine — deactivation must always succeed.
         }

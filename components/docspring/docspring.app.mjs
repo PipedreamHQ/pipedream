@@ -159,10 +159,10 @@ export default {
         ...opts,
       });
     },
-    deleteWebhook({ uid, ...opts }) {
+    deleteWebhook({ webhookId, ...opts }) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/webhooks/${uid}`,
+        path: `/webhooks/${webhookId}`,
         ...opts,
       });
     },
