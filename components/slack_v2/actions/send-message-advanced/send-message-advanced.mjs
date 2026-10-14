@@ -15,7 +15,7 @@ export default {
     + " a custom bot username/icon (which require **Send as User** set to `false`, otherwise the"
     + " action raises a configuration error), or message metadata."
     + " See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
