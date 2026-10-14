@@ -123,7 +123,7 @@ export default {
       truncated = true;
     }
 
-    if (size() > budget && served !== "metadata") {
+    if (served === "text" && size() > budget) {
       for (const message of messages) {
         this.stripToMetadata(message);
       }
