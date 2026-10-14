@@ -29,8 +29,10 @@ export default {
       label: "Session ID",
       description: "The session ID is required if the source is set to session. The session must be running, and the profile will be stored once the session terminates.",
       async options() {
-        const sessions = await this.listSessions();
-        return sessions.map(({ session_id: value }) => value);
+        const { data: { items: sessions } } = await this.listSessions();
+        return sessions
+          .filter(({ status }) => status === "running")
+          .map(({ session_id: value }) => value);
       },
     },
     profileName: {
@@ -38,14 +40,14 @@ export default {
       label: "Profile Name",
       description: "The name of the profile to update.",
       async options() {
-        const { data: profiles } = await this.listProfiles();
+        const { data: { items: profiles } } = await this.listProfiles();
         return profiles.map(({ name: value }) => value);
       },
     },
   },
   methods: {
-    getUrl(path) {
-      return `https://api.anchorbrowser.io/api${path}`;
+    getUrl(path, apiVersion = "v1") {
+      return `https://api.anchorbrowser.io/${apiVersion}${path}`;
     },
     getHeaders(headers) {
       return {
@@ -54,11 +56,11 @@ export default {
       };
     },
     _makeRequest({
-      $ = this, path, headers, ...args
+      $ = this, path, headers, apiVersion, ...args
     } = {}) {
       return axios($, {
         ...args,
-        url: this.getUrl(path),
+        url: this.getUrl(path, apiVersion),
         headers: this.getHeaders(headers),
       });
     },
@@ -82,7 +84,7 @@ export default {
     },
     listSessions(args = {}) {
       return this._makeRequest({
-        path: "/sessions/active",
+        path: "/sessions/all/status",
         ...args,
       });
     },
