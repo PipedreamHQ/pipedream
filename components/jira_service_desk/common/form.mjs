@@ -171,6 +171,16 @@ export const validateFormAnswers = ({
         fail(`${name} needs \`${key}\` as a list, like ${type.answer}.`);
       }
     }
+    for (const key of [
+      "date",
+      "time",
+      "text",
+    ]) {
+      const isNumericText = key === "text" && type.numeric && typeof answer.text === "number";
+      if (answer[key] !== undefined && typeof answer[key] !== "string" && !isNumericText) {
+        fail(`${name} needs \`${key}\` as a string, like ${type.answer}.`);
+      }
+    }
     if (answer.date && !isRealDate(answer.date)) {
       fail(`${name} needs \`date\` as a real YYYY-MM-DD date, not \`${answer.date}\`.`);
     }
