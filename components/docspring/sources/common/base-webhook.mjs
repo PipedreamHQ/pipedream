@@ -42,8 +42,12 @@ export default {
       if (webhookId) {
         try {
           await this.docspring.deleteWebhook({ webhookId });
-        } catch (_e) {
-          // A 404 (already deleted) is fine — deactivation must always succeed.
+        } catch (error) {
+          // A 404 means the webhook was already deleted. Any other error (e.g. a
+          // revoked token) leaves it registered, so let deactivation fail.
+          if (error.response?.status !== 404) {
+            throw error;
+          }
         }
       }
     },
