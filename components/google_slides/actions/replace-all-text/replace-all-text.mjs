@@ -3,7 +3,7 @@ import googleSlides from "../../google_slides.app.mjs";
 export default {
   key: "google_slides-replace-all-text",
   name: "Replace All Text",
-  description: "Replace every occurrence of a piece of text across a presentation, or only on the given slides. Useful for filling `{{placeholder}}` tokens in a template deck. The summary and `replies[0].replaceAllText.occurrencesChanged` report how many occurrences were replaced; `0` means nothing matched and the presentation was not changed. [See the documentation](https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations/request#ReplaceAllTextRequest)",
+  description: "Replace every occurrence of a piece of text across a presentation, or only on the given slides. Useful for filling `{{placeholder}}` tokens in a template deck. The summary and `replies[0].replaceAllText.occurrencesChanged` report how many occurrences were replaced; when nothing matched, Google omits `occurrencesChanged` (the reply is `replaceAllText: {}`) and the presentation was not changed. [See the documentation](https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations/request#ReplaceAllTextRequest)",
   version: "0.0.7",
   annotations: {
     destructiveHint: true,

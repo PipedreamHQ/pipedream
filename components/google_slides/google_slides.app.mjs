@@ -453,7 +453,7 @@ export default {
     withPermissionHint(error) {
       const status = error?.response?.status ?? error?.status;
       if (status === 403 || status === 404) {
-        const hinted = new ConfigurationError(`${error.message}. Make sure the presentation ID is correct and the connected account has edit access to the presentation.`);
+        const hinted = new ConfigurationError(`${String(error.message).replace(/\.?$/, ".")} Make sure the presentation ID is correct and the connected account has edit access to the presentation.`);
         hinted.cause = error;
         return hinted;
       }
@@ -461,46 +461,50 @@ export default {
     },
     async getSlideCreationContext(presentationId) {
       const {
-        slides = [], layouts = [],
+        slides = [], masters = [], layouts = [],
       } = await this.getPresentation(presentationId,
-        "slides(objectId,slideProperties(masterObjectId)),layouts(objectId,layoutProperties(name,displayName,masterObjectId),pageElements(objectId,shape(placeholder)))");
-      // How many slides use each master, to pick between same-named layouts.
-      const masterUsage = new Map();
-      for (const { slideProperties } of slides) {
-        const masterId = slideProperties?.masterObjectId;
-        if (masterId) {
-          masterUsage.set(masterId, (masterUsage.get(masterId) ?? 0) + 1);
-        }
-      }
+        "slides(objectId,slideProperties(masterObjectId)),masters(objectId),layouts(objectId,layoutProperties(name,displayName,masterObjectId),pageElements(objectId,shape(placeholder)))");
       return {
         slideCount: slides.length,
+        slideMasterIds: slides.map(({ slideProperties }) => slideProperties?.masterObjectId),
+        masterIds: masters.map(({ objectId }) => objectId),
         layouts,
-        masterUsage,
       };
     },
+    // createSlide only accepts a layout from one master: that of the slide
+    // before the insertion point, the first slide's when inserting at 0, or
+    // the first master when the presentation has no slides. Any other layout
+    // is rejected with a 400.
+    getInsertionMasterId({
+      slideMasterIds, masterIds,
+    }, insertionIndex) {
+      if (!slideMasterIds.length) {
+        return masterIds[0];
+      }
+      const previous = insertionIndex == null
+        ? slideMasterIds.length - 1
+        : Math.max(insertionIndex - 1, 0);
+      return slideMasterIds[previous];
+    },
     // Accepts a layout's object ID (case-sensitive), its name (e.g.
-    // `TITLE_AND_BODY`) or its display name (e.g. `Title and body`). When
-    // several masters share a layout name, the one whose master is used by the
-    // most existing slides wins.
-    resolveLayout(layouts, layout, masterUsage = new Map()) {
+    // `TITLE_AND_BODY`) or its display name (e.g. `Title and body`), matched
+    // only against the layouts of `masterId` when one is given.
+    resolveLayout(layouts, layout, masterId) {
       const input = String(layout).trim();
       const wanted = input.toLowerCase();
-      const byName = layouts.filter(({ layoutProperties: props = {} }) =>
-        props.name?.toLowerCase() === wanted || props.displayName?.toLowerCase() === wanted);
-      const usage = ({ layoutProperties: props = {} }) =>
-        masterUsage.get(props.masterObjectId) ?? 0;
-      const found = layouts.find(({ objectId }) => objectId === input)
-        || byName.reduce((best, candidate) =>
-          (!best || usage(candidate) > usage(best)
-            ? candidate
-            : best), undefined);
+      const candidates = masterId
+        ? layouts.filter(({ layoutProperties: props = {} }) => props.masterObjectId === masterId)
+        : layouts;
+      const found = candidates.find(({ objectId }) => objectId === input)
+        || candidates.find(({ layoutProperties: props = {} }) =>
+          props.name?.toLowerCase() === wanted || props.displayName?.toLowerCase() === wanted);
       if (!found) {
-        const available = layouts
+        const available = candidates
           .map(({
             objectId, layoutProperties: props = {},
           }) => `${props.name || props.displayName} (${objectId})`)
           .join(", ");
-        throw new ConfigurationError(`Layout "${layout}" was not found in this presentation. Available layouts: ${available}.`);
+        throw new ConfigurationError(`Layout "${layout}" is not available at this position. A new slide can only use layouts from the master of the slide before it. Available layouts: ${available || "none"}.`);
       }
       return found;
     },

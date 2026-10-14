@@ -55,6 +55,7 @@ export default {
       type: "integer",
       label: "Insertion Index",
       description: "The zero-based position to insert the slide at (e.g. `0` for the first slide). Must not exceed the current number of slides. If omitted, the slide is added at the end.",
+      min: 0,
       optional: true,
     },
   },
@@ -78,6 +79,7 @@ export default {
       {
         label: "Title",
         text: title,
+        suggestedLayout: "TITLE_AND_BODY",
         targets: [
           {
             type: "TITLE",
@@ -92,6 +94,7 @@ export default {
       {
         label: "Subtitle",
         text: subtitle,
+        suggestedLayout: "TITLE",
         targets: [
           {
             type: "SUBTITLE",
@@ -102,6 +105,7 @@ export default {
       {
         label: "Body",
         text: toParagraphs(body),
+        suggestedLayout: "TITLE_AND_BODY",
         targets: [
           {
             type: "BODY",
@@ -112,6 +116,7 @@ export default {
       {
         label: "Second Body",
         text: toParagraphs(secondBody),
+        suggestedLayout: "TITLE_AND_TWO_COLUMNS",
         targets: [
           {
             type: "BODY",
@@ -136,12 +141,11 @@ export default {
 
     try {
       if (layoutId || insertionIndex != null) {
-        const {
-          slideCount, layouts, masterUsage,
-        } = await googleSlides.getSlideCreationContext(presentationId);
-        googleSlides.validateInsertionIndex(insertionIndex, slideCount);
+        const context = await googleSlides.getSlideCreationContext(presentationId);
+        googleSlides.validateInsertionIndex(insertionIndex, context.slideCount);
         if (layoutId) {
-          const layout = googleSlides.resolveLayout(layouts, layoutId, masterUsage);
+          const masterId = googleSlides.getInsertionMasterId(context, insertionIndex);
+          const layout = googleSlides.resolveLayout(context.layouts, layoutId, masterId);
           layoutName = layout.layoutProperties?.name || layout.objectId;
           placeholders = googleSlides.buildPlaceholderMappings(objectId, layout);
           request.slideLayoutReference = {
@@ -152,7 +156,7 @@ export default {
       }
 
       filled = content.map(({
-        label, text, targets,
+        label, text, targets, suggestedLayout,
       }) => {
         const placeholder = targets
           .map((target) => placeholders.find(({
@@ -163,7 +167,7 @@ export default {
           const available = placeholders.map(({
             type, index,
           }) => `${type} ${index}`).join(", ") || "none";
-          throw new ConfigurationError(`Layout "${layoutName}" has no placeholder for ${label}. Its text placeholders are: ${available}. Choose a layout that has one, such as TITLE_AND_BODY.`);
+          throw new ConfigurationError(`Layout "${layoutName}" has no placeholder for ${label}. Its text placeholders are: ${available}. Choose a layout that has one, such as ${suggestedLayout}.`);
         }
         return {
           objectId: placeholder.objectId,
