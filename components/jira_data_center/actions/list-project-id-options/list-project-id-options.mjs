@@ -4,7 +4,7 @@ export default {
   key: "jira_data_center-list-project-id-options",
   name: "List Project ID Options",
   description: "Retrieves available options for the Project ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
