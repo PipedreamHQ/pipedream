@@ -38,7 +38,7 @@ export default {
     sort: {
       type: "string",
       label: "Sort",
-      description: "Defines the attribute by which items are sorted. Sorting the root folder (`0`) switches to offset-based pagination, so page with **Offset** instead of **Marker**.",
+      description: "Defines the attribute by which items are sorted, e.g. `name`. Sorting the root folder (`0`) switches to offset-based pagination, so page with **Offset** instead of **Marker**.",
       optional: true,
       options: [
         {
@@ -91,7 +91,7 @@ export default {
     offset: {
       type: "integer",
       label: "Offset",
-      description: "The index of the first item to return. Switches to offset-based pagination, which is also used automatically when sorting the root folder (`0`). To get the next page, add **Limit** to the previous offset; stop when it reaches `total_count`. Box notes offset pagination may be unreliable at very high offsets. Cannot be combined with **Marker**.",
+      description: "The index of the first item to return, e.g. `100`. Switches to offset-based pagination, which is also used automatically when sorting the root folder (`0`). To get the next page, add **Limit** to the previous offset; stop when it reaches `total_count`. Box notes offset pagination may be unreliable at very high offsets. Cannot be combined with **Marker**.",
       optional: true,
       min: MIN_OFFSET,
     },
