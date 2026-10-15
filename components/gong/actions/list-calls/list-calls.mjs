@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../gong.app.mjs";
 import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
@@ -8,6 +7,7 @@ export default {
   name: "List Calls",
   description: `List recorded calls in a date range and return an array of call metadata objects. This is the cheap way to discover call IDs before acting on them. It does NOT return summaries, topics, trackers, participants, or CRM data - use **Search Calls** for those, and **Get Call Transcripts** for the spoken content. [See the documentation](${constants.DOCS_URL}#get-/v2/calls)`,
   type: "action",
+  ai: "optimized",
   version: "1.0.0",
   annotations: {
     destructiveHint: false,

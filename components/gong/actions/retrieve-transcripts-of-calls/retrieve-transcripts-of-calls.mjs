@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../gong.app.mjs";
 import constants from "../../common/constants.mjs";
@@ -15,6 +14,7 @@ To find where a word or phrase was said without pulling whole transcripts back, 
 
 Transcripts exist only for calls Gong has processed; a recently uploaded call may return nothing. Results are paginated internally, so one run returns up to **Limit** transcripts. [See the documentation](${constants.DOCS_URL}#post-/v2/calls/transcript)`,
   type: "action",
+  ai: "optimized",
   version: "1.0.0",
   annotations: {
     destructiveHint: false,
@@ -78,12 +78,7 @@ Transcripts exist only for calls Gong has processed; a recently uploaded call ma
     },
   },
   methods: {
-    /**
-     * Builds a `speakerId -> party` index for the given calls. Gong's transcript
-     * payload identifies a speaker only by `speakerId`, which is distinct from
-     * the party's `userId`, so the parties block of /calls/extensive is the only
-     * way to attach a name to what was said.
-     */
+    // Transcript speakerId is not the party userId; only /calls/extensive parties map it to a name
     async getSpeakersByCallId({
       step, callIds,
     }) {
@@ -174,14 +169,11 @@ Transcripts exist only for calls Gong has processed; a recently uploaded call ma
       limit,
     } = this;
 
-    // Gong rejects this combination on /v2/calls/transcript with
-    // "filter.workspaceId: must not provide both callIds and workspaceId".
+    // Gong 400s with "must not provide both callIds and workspaceId"
     if (workspaceId && callIds?.length) {
       throw new ConfigurationError("Must not provide both `Call IDs` and `Workspace ID`");
     }
 
-    // Built explicitly rather than by spreading the rest of `this`, which would
-    // also sweep this component's methods into the request body.
     const filter = {
       fromDateTime,
       toDateTime,

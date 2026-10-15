@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../gong.app.mjs";
 import constants from "../../common/constants.mjs";
@@ -20,6 +19,7 @@ export default {
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     fromDateTime: {
@@ -168,8 +168,6 @@ export default {
       throw new ConfigurationError("`Context Timing` can only be provided when `CRM Context` is `Extended`");
     }
 
-    // Built explicitly rather than by spreading the rest of `this`, so that no
-    // component method can leak into the request body.
     const filter = {
       fromDateTime,
       toDateTime,

@@ -75,10 +75,7 @@ async function streamIterator(stream) {
   return resources;
 }
 
-/**
- * Formats a transcript offset. Gong reports sentence `start`/`end` in
- * milliseconds relative to the start of the call, not as wall-clock times.
- */
+// Gong sentence offsets are ms from call start, not wall-clock
 function millisToTimestamp(millis) {
   const totalSeconds = Number.isFinite(millis)
     ? Math.floor(millis / 1000)
@@ -96,11 +93,6 @@ function millisToTimestamp(millis) {
     .join(":");
 }
 
-/**
- * Turns a `string[]` prop of field names into the `{ field: boolean }` shape
- * Gong's `contentSelector.exposedFields` expects. Every allowed field is
- * emitted so the request body is explicit about what is being excluded.
- */
 function toExposedFields(allowedFields, selectedFields) {
   const selected = new Set(selectedFields || []);
   return Object.fromEntries(allowedFields.map(({ value }) => [

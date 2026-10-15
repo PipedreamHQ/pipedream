@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../gong.app.mjs";
 import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
@@ -8,6 +7,7 @@ export default {
   name: "List Users",
   description: `List the Gong users in your company and return an array of user objects. Gong cannot search users by name or email, so to resolve a rep to their user ID, list users and match the returned \`firstName\`/\`lastName\`/\`emailAddress\` fields yourself; that ID is what **Search Calls** needs for **Primary User IDs**. Pass a single value in **User IDs** to fetch one known user. Gong has no teams endpoint: set **Manager ID** to list that manager's direct reports, filtered here rather than by the API. Returns at most **Limit** users. [See the documentation](${constants.DOCS_URL}#post-/v2/users/extensive)`,
   type: "action",
+  ai: "optimized",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -74,10 +74,7 @@ export default {
       limit,
     } = this;
 
-    // Gong cannot filter by manager, so that filter runs here. Capping the
-    // fetch first and filtering afterwards would silently drop reports that sit
-    // on later pages, so walk the cursor and count only matches, stopping as
-    // soon as `limit` of them are found or Gong runs out of users.
+    // Gong can't filter by manager, so filter while paginating to keep later-page matches
     const stream = app.getResourcesStream({
       resourceFn: (args) => app.listUsersExtensive(args),
       resourceFnArgs: {

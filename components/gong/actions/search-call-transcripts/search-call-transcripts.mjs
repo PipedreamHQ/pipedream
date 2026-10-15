@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../gong.app.mjs";
 import constants from "../../common/constants.mjs";
@@ -15,6 +14,7 @@ export default {
   + "end to end - it scans the same transcripts but returns only the matching lines. Note that it fetches transcripts for every call "
   + `in the window in order to search them, so a narrow date range is much cheaper than a wide one. [See the documentation](${constants.DOCS_URL}#post-/v2/calls/transcript)`,
   type: "action",
+  ai: "optimized",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -159,8 +159,7 @@ export default {
       throw new ConfigurationError("`Keyword` must not be blank");
     }
 
-    // Gong rejects this combination on /v2/calls/transcript with
-    // "filter.workspaceId: must not provide both callIds and workspaceId".
+    // Gong 400s with "must not provide both callIds and workspaceId"
     if (workspaceId && callIds?.length) {
       throw new ConfigurationError("Must not provide both `Call IDs` and `Workspace ID`");
     }

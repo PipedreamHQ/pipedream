@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import {
   axios, ConfigurationError,
 } from "@pipedream/platform";
@@ -208,8 +207,7 @@ export default {
             },
           });
         } catch (error) {
-          // Gong answers a filter that matches nothing with a 404, which is a
-          // normal empty result here rather than a failure.
+          // Gong returns 404 when a filter matches nothing
           if (error?.response?.status === 404) {
             console.log("No more resources");
             return;

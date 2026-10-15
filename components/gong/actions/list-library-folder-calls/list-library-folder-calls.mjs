@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../gong.app.mjs";
 import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
@@ -10,6 +9,7 @@ export default {
   + "The `note` is the comment whoever filed the call left on it, and `snippet` marks the highlighted stretch of "
   + `the call when one was saved. An empty folder returns an empty array. [See the documentation](${constants.DOCS_URL}#get-/v2/library/folder-content)`,
   type: "action",
+  ai: "optimized",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

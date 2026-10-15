@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../gong.app.mjs";
 import LANGS from "../../common/languages.mjs";
@@ -10,6 +9,7 @@ export default {
   name: "Add New Call",
   description: `Upload a call recording. Returns the new call's ID. [See the documentation](${constants.DOCS_URL}#post-/v2/calls)`,
   type: "action",
+  ai: "optimized",
   version: "0.0.7",
   annotations: {
     destructiveHint: false,
@@ -133,10 +133,7 @@ export default {
 
       const parsed = utils.parseArray(parties).map((party) => utils.parse(party));
 
-      // Gong IDs run past 2^53, so an unquoted numeric `userId` is already
-      // corrupted by JSON.parse (4011503062935085673 arrives as ...5600). Left
-      // alone it would never match `primaryUser`, and the fallback below would
-      // silently attribute the call to the customer instead, so reject it.
+      // Gong IDs exceed 2^53, so an unquoted numeric userId is already corrupted by JSON.parse
       const corrupted = parsed.find(({ userId }) =>
         typeof userId === "number" && !Number.isSafeInteger(userId));
 
@@ -144,11 +141,7 @@ export default {
         throw new ConfigurationError(`Party \`${corrupted.name || corrupted.emailAddress || "unnamed"}\` has a numeric \`userId\` too large to represent exactly, so it has already lost precision. Quote it as a string instead, e.g. \`"userId": "${primaryUser}"\`.`);
       }
 
-      // `userId` identifies which party is a Gong user, so it must not be
-      // stamped onto every party: that would mark the customer as the rep. Gong
-      // requires a party for the primary user, so when no party claims it,
-      // attach it to the first party that is not already someone else.
-      // Compared as strings so a safely-numeric id still matches.
+      // Stamping userId on every party would mark the customer as the rep
       const hasPrimaryUser = parsed.some(({ userId }) =>
         userId && String(userId) === String(primaryUser));
 

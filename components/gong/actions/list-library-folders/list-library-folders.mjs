@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../gong.app.mjs";
 import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
@@ -11,6 +10,7 @@ export default {
   + "searching the whole call history. Folders nest: a folder with a `parentFolderId` of `null` is a root folder. "
   + `Private and archived folders are never returned. [See the documentation](${constants.DOCS_URL}#get-/v2/library/folders)`,
   type: "action",
+  ai: "optimized",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -19,8 +19,7 @@ export default {
   },
   props: {
     app,
-    // Gong's reference marks workspaceId optional on this endpoint, but the API
-    // answers 400 "Bad request" when it is omitted, so it is required here.
+    // Spec marks workspaceId optional, but Gong 400s without it
     workspaceId: {
       propDefinition: [
         app,

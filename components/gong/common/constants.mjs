@@ -5,8 +5,6 @@ const FALLBACK_BASE_URL = "https://api.gong.io";
 const LAST_CREATED_AT = "lastCreatedAt";
 const DEFAULT_MAX = 600;
 
-// Gong's public API reference. Anchors are `#<method>-<path>`, e.g.
-// `#post-/v2/calls/extensive`. This host serves the docs for every tenant.
 const DOCS_URL = "https://gong.app.gong.io/settings/api/documentation";
 
 const MIN_LIMIT = 1;
@@ -29,7 +27,6 @@ const CALL_PROVIDER_CODES = [
   "insidesales",
 ];
 
-// `contentSelector.exposedFields.content.*` flags on POST /v2/calls/extensive.
 const CONTENT_FIELDS = [
   {
     label: "Brief - Spotlight call brief (the call summary)",
@@ -69,7 +66,6 @@ const CONTENT_FIELDS = [
   },
 ];
 
-// `contentSelector.exposedFields.interaction.*` on POST /v2/calls/extensive.
 const INTERACTION_FIELDS = [
   {
     label: "Speakers - per-speaker talk time",
@@ -89,7 +85,6 @@ const INTERACTION_FIELDS = [
   },
 ];
 
-// `contentSelector.context` on POST /v2/calls/extensive.
 const CONTEXT_OPTIONS = [
   {
     label: "None - no CRM or external-system data",
@@ -105,7 +100,6 @@ const CONTEXT_OPTIONS = [
   },
 ];
 
-// `contentSelector.contextTiming` on POST /v2/calls/extensive.
 const CONTEXT_TIMING_OPTIONS = [
   "Now",
   "TimeOfCall",
