@@ -14570,6 +14570,9 @@ importers:
 
   components/servicenow_oauth_: {}
 
+  components/servicenow_service_account:
+    specifiers: {}
+
   components/servicetitan: {}
 
   components/serwersms_pl: {}
