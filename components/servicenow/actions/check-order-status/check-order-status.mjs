@@ -52,6 +52,10 @@ export default {
       return response;
     }
 
+    if (!request.sys_id) {
+      throw new Error(`Request ${this.requestNumber} was returned without a sys_id, so its requested items cannot be retrieved.`);
+    }
+
     const requestedItems = await this.servicenow.getRequestedItemsForRequest({
       $,
       requestId: request.sys_id,
