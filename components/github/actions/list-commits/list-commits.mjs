@@ -62,7 +62,7 @@ export default {
         github,
         "maxResults",
       ],
-      description: `The maximum number of commits to return (1-${constants.MAX_RESULTS_MAX}). Defaults to \`${constants.DEFAULT_MAX_RESULTS}\`.`,
+      description: `The maximum number of commits to return (1-${constants.MAX_RESULTS_MAX}), e.g. \`50\`. Defaults to \`${constants.DEFAULT_MAX_RESULTS}\`.`,
       min: 1,
       max: constants.MAX_RESULTS_MAX,
     },

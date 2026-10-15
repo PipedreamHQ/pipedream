@@ -42,7 +42,7 @@ export default {
     type: {
       type: "string",
       label: "Type",
-      description: "Limit results to repositories of the specified type. For user repos, `public`/`private` must not contradict `visibility`.",
+      description: "Limit results to repositories of the specified type, e.g. `member`. For user repos, `public`/`private` must not contradict `visibility`.",
       options: [
         "all",
         "owner",
@@ -79,7 +79,7 @@ export default {
         github,
         "maxResults",
       ],
-      description: `The maximum number of repositories to return (1-${constants.MAX_RESULTS_MAX}). Defaults to \`${constants.DEFAULT_MAX_RESULTS}\`.`,
+      description: `The maximum number of repositories to return (1-${constants.MAX_RESULTS_MAX}), e.g. \`50\`. Defaults to \`${constants.DEFAULT_MAX_RESULTS}\`.`,
       min: 1,
       max: constants.MAX_RESULTS_MAX,
     },
