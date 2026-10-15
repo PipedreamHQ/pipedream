@@ -5,6 +5,7 @@ export default {
   name: "Get Table Record by ID",
   description: "Retrieves a single record from a table by its ID. [See the documentation](https://www.servicenow.com/docs/bundle/zurich-api-reference/page/integrate/inbound-rest/concept/c_TableAPI.html#title_table-GET-id)",
   version: "1.0.9",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

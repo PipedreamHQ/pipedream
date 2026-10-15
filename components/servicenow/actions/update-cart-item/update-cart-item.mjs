@@ -1,8 +1,8 @@
-import { ConfigurationError } from "@pipedream/platform";
 import servicenow from "../../servicenow.app.mjs";
-import { parseObject } from "../../common/utils.mjs";
-
-const SYS_ID_PATTERN = /^[0-9a-f]{32}$/i;
+import {
+  assertSysId,
+  parseObject,
+} from "../../common/utils.mjs";
 
 export default {
   key: "servicenow-update-cart-item",
@@ -21,7 +21,7 @@ export default {
     cartItemId: {
       type: "string",
       label: "Cart Item Sys ID",
-      description: "The 32-character `cart_item_id` returned by **Add Item to Cart** or **Submit Order Guide**.",
+      description: "The 32-character `cart_item_id` returned by **Add Item to Cart** or **Submit Order Guide**. Example: `46a1c7d2e8f94b6c9a0d1e2f3a4b5c6d`.",
     },
     quantity: {
       propDefinition: [
@@ -34,7 +34,7 @@ export default {
         servicenow,
         "variables",
       ],
-      description: "Complete JSON object of variable name-value pairs. For a File Attachment variable, use the attachment `sys_id` returned by **Upload Attachment**.",
+      description: "Complete JSON object of variable name-value pairs. For a File Attachment variable, use the attachment `sys_id` returned by **Upload Attachment**. Example: `{\"evidence\": \"46a1c7d2e8f94b6c9a0d1e2f3a4b5c6d\"}`.",
     },
     requestedFor: {
       propDefinition: [
@@ -44,10 +44,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const cartItemId = String(this.cartItemId ?? "").trim();
-    if (!SYS_ID_PATTERN.test(cartItemId)) {
-      throw new ConfigurationError("Cart Item Sys ID must be a 32-character hexadecimal sys_id.");
-    }
+    const cartItemId = assertSysId(this.cartItemId, "Cart Item Sys ID", {
+      trim: true,
+    });
     const variables = parseObject(this.variables) ?? {};
     const response = await this.servicenow.updateCartItem({
       $,

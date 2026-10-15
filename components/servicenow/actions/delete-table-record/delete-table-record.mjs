@@ -5,6 +5,7 @@ export default {
   name: "Delete Table Record",
   description: "Deletes the specified record from a table. [See the documentation](https://www.servicenow.com/docs/bundle/zurich-api-reference/page/integrate/inbound-rest/concept/c_TableAPI.html#title_table-DELETE)",
   version: "0.0.10",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

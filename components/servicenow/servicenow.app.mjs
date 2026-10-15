@@ -161,7 +161,7 @@ export default {
     itemGuid: {
       type: "string",
       label: "Reserved Item GUID",
-      description: "Optional preallocated 32-character sys_id used to stage attachments before the item is added or submitted. ServiceNow must return the same cart or target record id.",
+      description: "Optional caller-supplied sys_id previously reserved for this ServiceNow operation; this action validates and forwards it as `sysparm_item_guid` but does not generate it. ServiceNow must return the same cart or target record id. Example reserved value: `46a1c7d2e8f94b6c9a0d1e2f3a4b5c6d`.",
       optional: true,
     },
     requestedFor: {

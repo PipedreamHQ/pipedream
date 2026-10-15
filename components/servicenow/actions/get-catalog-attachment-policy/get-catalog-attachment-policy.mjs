@@ -1,7 +1,6 @@
-import { ConfigurationError } from "@pipedream/platform";
 import servicenow from "../../servicenow.app.mjs";
+import { assertSysId } from "../../common/utils.mjs";
 
-const SYS_ID_PATTERN = /^[0-9a-f]{32}$/i;
 const ITEM_TABLES = new Set([
   "sc_cat_item",
   "sc_cat_item_producer",
@@ -238,8 +237,8 @@ export function normalizeAttachmentPolicy({
 export default {
   key: "servicenow-get-catalog-attachment-policy",
   name: "Get Catalog Attachment Policy",
-  description: "Determines whether a ServiceNow catalog item or record producer allows, prohibits, or requires file attachments. Missing metadata is returned as `unknown`, never as prohibited.",
-  version: "0.0.3",
+  description: "Determines whether a ServiceNow catalog item or record producer allows, prohibits, or requires file attachments. Use before **Upload Attachment**. Missing metadata is returned as `unknown`, never as prohibited. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
+  version: "0.0.1",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -258,14 +257,12 @@ export default {
     sysClassName: {
       type: "string",
       label: "System Class Name",
-      description: "Optional concrete catalog table from a prior search result, such as `sc_cat_item_producer`.",
+      description: "Optional concrete catalog table. Use **Search Catalog Items** to find it in the `sys_class_name` response field. Example: `sc_cat_item_producer`.",
       optional: true,
     },
   },
   async run({ $ }) {
-    if (!SYS_ID_PATTERN.test(this.catalogItemSysId)) {
-      throw new ConfigurationError("Catalog Item Sys ID must be a 32-character hexadecimal sys_id.");
-    }
+    assertSysId(this.catalogItemSysId, "Catalog Item Sys ID");
 
     const catalogRead = metadataRead("service_catalog", async () => catalogItem(
       await this.servicenow.getCatalogItem({

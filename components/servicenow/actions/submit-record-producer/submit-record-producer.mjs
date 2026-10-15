@@ -1,8 +1,9 @@
 import { ConfigurationError } from "@pipedream/platform";
 import servicenow from "../../servicenow.app.mjs";
-import { parseObject } from "../../common/utils.mjs";
-
-const SYS_ID_PATTERN = /^[0-9a-f]{32}$/i;
+import {
+  assertSysId,
+  parseObject,
+} from "../../common/utils.mjs";
 
 export default {
   key: "servicenow-submit-record-producer",
@@ -43,14 +44,14 @@ export default {
         servicenow,
         "itemGuid",
       ],
-      description: "Optional preallocated target-record sys_id used to stage required or variable attachments before submitting the producer.",
+      description: "Optional caller-supplied target-record sys_id reserved before staging attachments. This action validates and forwards the value; it does not generate or retrieve it. Example reserved target-record value: `46a1c7d2e8f94b6c9a0d1e2f3a4b5c6d`.",
     },
   },
   async run({ $ }) {
-    const itemGuid = String(this.itemGuid ?? "").trim();
-    if (itemGuid && !SYS_ID_PATTERN.test(itemGuid)) {
-      throw new ConfigurationError("Reserved Item GUID must be a 32-character hexadecimal sys_id.");
-    }
+    const itemGuid = assertSysId(this.itemGuid, "Reserved Item GUID", {
+      optional: true,
+      trim: true,
+    });
     const response = await this.servicenow.submitRecordProducer({
       $,
       catalogItemSysId: this.catalogItemSysId,

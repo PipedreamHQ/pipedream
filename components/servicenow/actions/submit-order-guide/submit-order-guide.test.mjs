@@ -5,8 +5,10 @@ import action from "./submit-order-guide.mjs";
 const GUIDE_ID = "a".repeat(32);
 const ITEM_ID = "b".repeat(32);
 const CART_ITEM_ID = "c".repeat(32);
+const EXISTING_CART_ITEM_ID = "d".repeat(32);
 
 test("returns the cart item identity for each guide child", async () => {
+  let getCartCalls = 0;
   const context = {
     ...action,
     catalogItemSysId: GUIDE_ID,
@@ -24,6 +26,13 @@ test("returns the cart item identity for each guide child", async () => {
         ];
       },
       async getCart() {
+        getCartCalls += 1;
+        if (getCartCalls === 1) {
+          return {
+            cart_id: "default",
+            items: [],
+          };
+        }
         return {
           cart_id: "default",
           none: {
@@ -51,4 +60,92 @@ test("returns the cart item identity for each guide child", async () => {
   assert.equal(response.items[0].cart_item_id, CART_ITEM_ID);
   assert.equal(response.cart_id, "default");
   assert.equal(summaries.length, 1);
+});
+
+test("does not reuse an existing cart item identity", async () => {
+  const context = {
+    ...action,
+    catalogItemSysId: GUIDE_ID,
+    variables: {},
+    servicenow: {
+      async submitOrderGuide() {
+        return [
+          {
+            sys_id: ITEM_ID,
+            quantity: "1",
+            variables: [],
+          },
+        ];
+      },
+      async getCart() {
+        return {
+          cart_id: "default",
+          items: [
+            {
+              cart_item_id: EXISTING_CART_ITEM_ID,
+              catalog_item_id: ITEM_ID,
+            },
+          ],
+        };
+      },
+    },
+  };
+
+  const response = await action.run.call(context, {
+    $: {
+      export() {},
+    },
+  });
+
+  assert.equal(response.items[0].cart_item_id, undefined);
+});
+
+test("preserves fields from an object response", async () => {
+  let getCartCalls = 0;
+  const context = {
+    ...action,
+    catalogItemSysId: GUIDE_ID,
+    variables: {},
+    servicenow: {
+      async submitOrderGuide() {
+        return {
+          request_id: "request-123",
+          items: [
+            {
+              sys_id: ITEM_ID,
+              quantity: "1",
+              variables: [],
+            },
+          ],
+        };
+      },
+      async getCart() {
+        getCartCalls += 1;
+        return getCartCalls === 1
+          ? {
+            cart_id: "default",
+            items: [],
+          }
+          : {
+            cart_id: "default",
+            items: [
+              {
+                cart_item_id: CART_ITEM_ID,
+                catalog_item_id: ITEM_ID,
+              },
+            ],
+          };
+      },
+    },
+  };
+
+  const response = await action.run.call(context, {
+    $: {
+      export() {},
+    },
+  });
+
+  assert.equal(response.request_id, "request-123");
+  assert.equal(response.items[0].cart_item_id, CART_ITEM_ID);
+  assert.equal(response.cart_id, "default");
 });

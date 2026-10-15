@@ -1,6 +1,21 @@
 import { ConfigurationError } from "@pipedream/platform";
 import constants from "./constants.mjs";
 
+const SYS_ID_PATTERN = /^[0-9a-f]{32}$/i;
+
+export function assertSysId(value, label, {
+  optional = false,
+  trim = false,
+} = {}) {
+  const sysId = trim
+    ? String(value ?? "").trim()
+    : value;
+  if ((!optional || sysId) && !SYS_ID_PATTERN.test(sysId)) {
+    throw new ConfigurationError(`${label} must be a 32-character hexadecimal sys_id.`);
+  }
+  return sysId;
+}
+
 export function parseObject(value) {
   if (!value) return undefined;
 
