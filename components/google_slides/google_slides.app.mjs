@@ -495,16 +495,22 @@ export default {
       const candidates = masterId
         ? layouts.filter(({ layoutProperties: props = {} }) => props.masterObjectId === masterId)
         : layouts;
+      const matchesName = ({ layoutProperties: props = {} }) =>
+        props.name?.toLowerCase() === wanted || props.displayName?.toLowerCase() === wanted;
       const found = candidates.find(({ objectId }) => objectId === input)
-        || candidates.find(({ layoutProperties: props = {} }) =>
-          props.name?.toLowerCase() === wanted || props.displayName?.toLowerCase() === wanted);
+        || candidates.find(matchesName);
       if (!found) {
         const available = candidates
           .map(({
             objectId, layoutProperties: props = {},
           }) => `${props.name || props.displayName} (${objectId})`)
           .join(", ");
-        throw new ConfigurationError(`Layout "${layout}" is not available at this position. A new slide can only use layouts from the master of the slide before it. Available layouts: ${available || "none"}.`);
+        // Only blame the position when the layout exists on another master.
+        const existsElsewhere = layouts.some((l) => l.objectId === input || matchesName(l));
+        const reason = existsElsewhere
+          ? "is not available at this position. A new slide can only use layouts from the master of the slide before it (or of the first slide, when inserting at position 0)"
+          : "was not found in this presentation";
+        throw new ConfigurationError(`Layout "${layout}" ${reason}. Available layouts: ${available || "none"}.`);
       }
       return found;
     },
