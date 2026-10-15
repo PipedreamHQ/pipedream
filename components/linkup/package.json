@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/linkup",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Linkup Components",
   "main": "linkup.app.mjs",
   "keywords": [
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "linkup-sdk": "^1.0.3"
+    "linkup-sdk": "^2.7.0"
   }
 }
