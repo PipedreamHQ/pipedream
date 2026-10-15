@@ -171,7 +171,7 @@ Transcripts exist only for calls Gong has processed; a recently uploaded call ma
 
     // Gong 400s with "must not provide both callIds and workspaceId"
     if (workspaceId && callIds?.length) {
-      throw new ConfigurationError("Must not provide both `Call IDs` and `Workspace ID`");
+      throw new ConfigurationError("Must not provide both `Call IDs` and `Workspace ID`. Remove `Workspace ID`: `Call IDs` already identify the calls.");
     }
 
     const filter = {

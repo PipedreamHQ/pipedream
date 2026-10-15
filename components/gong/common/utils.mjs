@@ -101,6 +101,14 @@ function toExposedFields(allowedFields, selectedFields) {
   ]));
 }
 
+function assertKnownValues(label, allowedFields, selectedFields) {
+  const allowed = allowedFields.map(({ value }) => value);
+  const unknown = (selectedFields || []).filter((value) => !allowed.includes(value));
+  if (unknown.length) {
+    throw new ConfigurationError(`Unknown \`${label}\` values: ${unknown.join(", ")}. Allowed values: ${allowed.join(", ")}`);
+  }
+}
+
 function pluralize(count, singular, plural = `${singular}s`) {
   return `${count} ${count === 1
     ? singular
@@ -114,5 +122,6 @@ export default {
   streamIterator,
   millisToTimestamp,
   toExposedFields,
+  assertKnownValues,
   pluralize,
 };

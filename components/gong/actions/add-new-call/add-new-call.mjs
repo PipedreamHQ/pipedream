@@ -7,7 +7,7 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "gong-add-new-call",
   name: "Add New Call",
-  description: `Upload a call recording. Returns the new call's ID. [See the documentation](${constants.DOCS_URL}#post-/v2/calls)`,
+  description: `Create a call record in Gong and return its ID. Set **Download Media URL** so Gong can fetch and process the recording; without it the call stays pending and other Gong actions cannot return it. [See the documentation](${constants.DOCS_URL}#post-/v2/calls)`,
   type: "action",
   ai: "optimized",
   version: "0.0.7",
@@ -99,7 +99,7 @@ export default {
     downloadMediaUrl: {
       type: "string",
       label: "Download Media URL",
-      description: "The URL from which Gong can download the media file. The URL must be unique, the audio or video file must be a maximum of 1.5GB. If you provide this URL, you should not perform the **Add call media** step.",
+      description: "The URL from which Gong can download the media file. The URL must be unique, the audio or video file must be a maximum of 1.5GB.",
       optional: true,
     },
     workspaceId: {
@@ -170,7 +170,7 @@ export default {
         ...data,
         parties: getParties(),
       },
-      summary: (response) => `Successfully added call with request ID \`${response.requestId}\``,
+      summary: (response) => `Successfully added call with ID \`${response.callId}\``,
     });
   },
 };

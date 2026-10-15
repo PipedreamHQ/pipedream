@@ -152,10 +152,13 @@ export default {
     } = this;
 
     if (workspaceId && callIds?.length) {
-      throw new ConfigurationError("Must not provide both `Call IDs` and `Workspace ID`");
+      throw new ConfigurationError("Must not provide both `Call IDs` and `Workspace ID`. Remove `Workspace ID`: `Call IDs` already identify the calls.");
     }
 
     const contentFields = utils.parseArray(content);
+    const interactionFields = utils.parseArray(interaction);
+    utils.assertKnownValues("Content", constants.CONTENT_FIELDS, contentFields);
+    utils.assertKnownValues("Interaction Stats", constants.INTERACTION_FIELDS, interactionFields);
 
     if (contentFields.includes(constants.TRACKER_OCCURRENCES_FIELD)
       && !contentFields.includes(constants.TRACKERS_FIELD)) {
@@ -184,10 +187,7 @@ export default {
       exposedFields: {
         parties: includeParties,
         content: utils.toExposedFields(constants.CONTENT_FIELDS, contentFields),
-        interaction: utils.toExposedFields(
-          constants.INTERACTION_FIELDS,
-          utils.parseArray(interaction),
-        ),
+        interaction: utils.toExposedFields(constants.INTERACTION_FIELDS, interactionFields),
         collaboration: {
           publicComments: includePublicComments,
         },

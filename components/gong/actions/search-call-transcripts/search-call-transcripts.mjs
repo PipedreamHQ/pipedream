@@ -94,7 +94,7 @@ export default {
       }
 
       const escaped = needle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      const pattern = new RegExp(`(?<!\\w)${escaped}(?!\\w)`, "i");
+      const pattern = new RegExp(`(?<![\\p{L}\\p{N}_])${escaped}(?![\\p{L}\\p{N}_])`, "iu");
       return (text) => pattern.test(text);
     },
     async getCallIndex({
@@ -161,7 +161,7 @@ export default {
 
     // Gong 400s with "must not provide both callIds and workspaceId"
     if (workspaceId && callIds?.length) {
-      throw new ConfigurationError("Must not provide both `Call IDs` and `Workspace ID`");
+      throw new ConfigurationError("Must not provide both `Call IDs` and `Workspace ID`. Remove `Workspace ID`: `Call IDs` already identify the calls.");
     }
 
     const callTranscripts = await app.paginate({
@@ -187,23 +187,16 @@ export default {
       return [];
     }
 
-    const callIndex = await this.getCallIndex({
-      step,
-      callIds: callTranscripts.map(({ callId }) => callId),
-    });
-
     const matches = this.buildMatcher({
       keyword,
       wholeWord,
     });
-    const results = [];
+    const hits = [];
 
     search:
     for (const {
       callId, transcript,
     } of callTranscripts) {
-      const call = callIndex[callId];
-
       for (const {
         speakerId, topic, sentences,
       } of transcript || []) {
@@ -212,27 +205,49 @@ export default {
             continue;
           }
 
-          results.push({
+          hits.push({
             callId,
-            callTitle: call?.title,
-            callUrl: call?.url,
-            callStarted: call?.started,
-            speaker: call?.speakers?.[speakerId],
             speakerId,
             topic,
-            startTimestamp: utils.millisToTimestamp(sentence.start),
-            start: sentence.start,
-            text: sentence.text,
+            sentence,
           });
 
-          if (results.length >= limit) {
+          if (hits.length >= limit) {
             break search;
           }
         }
       }
     }
 
-    const matchedCalls = new Set(results.map(({ callId }) => callId)).size;
+    const matchedCallIds = [
+      ...new Set(hits.map(({ callId }) => callId)),
+    ];
+    const callIndex = matchedCallIds.length
+      ? await this.getCallIndex({
+        step,
+        callIds: matchedCallIds,
+      })
+      : {};
+
+    const results = hits.map(({
+      callId, speakerId, topic, sentence,
+    }) => {
+      const call = callIndex[callId];
+      return {
+        callId,
+        callTitle: call?.title,
+        callUrl: call?.url,
+        callStarted: call?.started,
+        speaker: call?.speakers?.[speakerId],
+        speakerId,
+        topic,
+        startTimestamp: utils.millisToTimestamp(sentence.start),
+        start: sentence.start,
+        text: sentence.text,
+      };
+    });
+
+    const matchedCalls = matchedCallIds.length;
     step.export(
       "$summary",
       `Found ${utils.pluralize(results.length, "match", "matches")} for "${keyword}" across ${utils.pluralize(matchedCalls, "call")} (searched ${utils.pluralize(callTranscripts.length, "transcript")})`,

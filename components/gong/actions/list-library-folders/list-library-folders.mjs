@@ -7,7 +7,7 @@ export default {
   name: "List Library Folders",
   description: "List the public folders in the Gong call library and return an array. The library is where teams curate calls into "
   + "collections such as \"Win/Loss\" or \"Onboarding\", so this is the way to find calls a human has already picked out rather than "
-  + "searching the whole call history. Folders nest: a folder with a `parentFolderId` of `null` is a root folder. "
+  + "searching the whole call history. Folders nest: a folder with a `parentFolderId` of `null` is a root folder. Pass a folder's `id` to **List Calls In Library Folder** to get its calls. "
   + `Private and archived folders are never returned. [See the documentation](${constants.DOCS_URL}#get-/v2/library/folders)`,
   type: "action",
   ai: "optimized",
