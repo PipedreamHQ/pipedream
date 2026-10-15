@@ -7,13 +7,14 @@ export default {
   key: "booking_experts-list-rentabletype-availabilities",
   name: "List RentableType Availabilities",
   description: "List availabilities of a RentableType you have access to. [See the documentation](https://developers.bookingexperts.com/reference/channel-rentabletype-availabilities-index)",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     bookingExperts,
     info: {

@@ -4,8 +4,9 @@ export default {
   key: "surecart-retrieve-charge",
   name: "Retrieve Charge",
   description: "Retrieve a single SureCart charge by its ID. Run **List Charges** first to obtain a valid charge ID. [See the documentation](https://developer.surecart.com/api-reference/charges/retrieve)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

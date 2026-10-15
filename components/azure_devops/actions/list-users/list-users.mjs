@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 import { GRAPH_SUBJECT_TYPE_OPTIONS } from "../../common/constants.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "azure_devops-list-users",
   name: "List Users",
   description: "List the users in an organization, optionally narrowed by subject type. Returns each user's display name, principal name, descriptor and origin id. Use this to resolve a person to the identity GUID that the pull request reviewer and creator inputs require. Example: subject type `aad` returns Jamal Hartnett and his descriptor. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/graph/users/list?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

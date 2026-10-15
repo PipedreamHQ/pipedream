@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import arlo from "../../arlo.app.mjs";
 import {
   DEFAULT_LIMIT,
@@ -9,8 +8,9 @@ export default {
   key: "arlo-list-venues",
   name: "List Venues",
   description: "List Arlo venue records. Use the returned `VenueID` values when specifying `VenueDetails` in **Create Event** sessions. Optionally filter by status. Results are paged (see `limit`/`skip`); if the page comes back full, call again with a higher `skip` for more. Use `fields` to shrink the response for large venue lists. Example: call with `status: \"Active\"` to get up to 100 active venues with `VenueID`, `Name`, `Status`. [See the documentation](https://developer.arlo.co/doc/api/2012-02-01/auth/resources/venues#collection-httpget).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

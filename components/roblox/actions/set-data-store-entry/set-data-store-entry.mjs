@@ -5,8 +5,9 @@ export default {
   key: "roblox-set-data-store-entry",
   name: "Set Data Store Entry",
   description: "Create or update the value of a Roblox data store entry. [See the documentation](https://create.roblox.com/docs/cloud/reference/features/storage#Cloud_UpdateDataStoreEntry__Using_Universes_DataStores)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/instantly",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Instantly Components",
   "main": "instantly.app.mjs",
   "keywords": [

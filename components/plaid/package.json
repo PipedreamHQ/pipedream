@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/plaid",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Pipedream plaid Components",
   "main": "plaid.app.mjs",
   "keywords": [

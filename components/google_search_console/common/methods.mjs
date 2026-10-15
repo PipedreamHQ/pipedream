@@ -10,21 +10,6 @@ export default {
     throw err;
   },
 
-  /* ============================================================================================
-    Determines whether an error originated from your own validation code or from the API request.
-    Useful for debugging and crafting more helpful error messages.
-=============================================================================================== */
-
-  // =====================================================================
-  checkWhoThrewError(error) {
-    return {
-      whoThrew: error?.response?.status
-        ? "API response"
-        : "Internal Code",
-      error,
-    };
-  },
-
   /* ==========================================================================================
     Throws if the input is not a string or is a blank string (only whitespace, tabs,
     newlines, etc.).

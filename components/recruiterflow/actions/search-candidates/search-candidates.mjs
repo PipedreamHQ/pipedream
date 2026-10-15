@@ -5,8 +5,9 @@ export default {
   key: "recruiterflow-search-candidates",
   name: "Search Candidates",
   description: "Searches for candidates matching specified criteria in Recruiterflow. Supports both simple searches and advanced filter arrays. [See the documentation](https://recruiterflow.com/swagger.yml)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   props: {
     app,
     conjunction: {

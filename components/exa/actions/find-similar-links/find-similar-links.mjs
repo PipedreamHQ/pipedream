@@ -12,8 +12,9 @@ export default {
   key: "exa-find-similar-links",
   name: "Find Similar Links",
   description: "Find pages similar to a seed URL with optional nested Exa content extraction. **This action is deprecated for new workflows. Prefer Search, optionally after Get Contents on the seed URL, for related-page discovery.** [See the documentation](https://docs.exa.ai/reference/find-similar-links)",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

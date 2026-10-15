@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import azureDevops from "../../azure_devops.app.mjs";
 import { EMPTY_OBJECT_ID } from "../../common/constants.mjs";
@@ -7,8 +6,9 @@ export default {
   key: "azure_devops-create-branch",
   name: "Create Branch",
   description: "Create a branch pointing at an existing commit. Returns the ref update result. Use this to open a working branch before pushing changes and raising a pull request. Example: new branch `feature/login` at commit `a3fecf65a6766ebc6f2e33b66a1520b827c67ef8`. Run the **List Commits** action first to obtain the commit the branch should point at. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/git/refs/update-refs?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

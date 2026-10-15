@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import wrike from "../../wrike.app.mjs";
 import {
   TASK_STATUS_OPTIONS, TASK_IMPORTANCE_OPTIONS,
@@ -9,8 +8,9 @@ export default {
   key: "wrike-update-task",
   name: "Update Task",
   description: "Update any combination of a Wrike task's fields (title, description, status, importance, assignees, dates, custom fields) in a single call via PUT /tasks/{taskId}. Supersedes the former Update Task Custom Fields action. Use **Find Tasks** or **Get Task** to obtain the taskId; use **List Contact ID Options** for assignee IDs and **List Custom Fields Keys Options** for custom field IDs. [See the documentation](https://developers.wrike.com/reference/puttaskssingle)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import bonusly from "../../bonusly.app.mjs";
 
 export default {
   key: "bonusly-list-users-in-location",
   name: "List Users In Location",
   description: "List the users in the authenticated caller's company who belong to a specific location. Use this to enumerate a location's roster - unlike **Search Users**, no search term is required, so it returns everyone based at the location. [See the documentation](https://docs.bonus.ly/reference/listusersinlocation)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

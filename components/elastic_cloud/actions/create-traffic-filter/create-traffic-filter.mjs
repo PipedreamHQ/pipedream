@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import elasticCloud from "../../elastic_cloud.app.mjs";
 import { TRAFFIC_FILTER_TYPES } from "../../common/constants.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "elastic_cloud-create-traffic-filter",
   name: "Create Traffic Filter Ruleset",
   description: "Create a new traffic filter ruleset in Elastic Cloud. The API requires a name, type, region, rules, and include-by-default flag. Note that `type` and `region` cannot be changed after the ruleset is created. [See the documentation](https://www.elastic.co/docs/api/doc/cloud/operation/operation-create-traffic-filter-ruleset)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   props: {
     elasticCloud,
     name: {

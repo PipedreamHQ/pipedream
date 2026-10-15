@@ -1,17 +1,17 @@
-// x-pd-ai: optimized
 import googleMeet from "../../google_meet.app.mjs";
 
 export default {
   key: "google_meet-update-meeting",
   name: "Update Meeting",
   description: "Update a scheduled meeting. Only the fields you provide are changed; the Google Meet link is preserved. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/patch)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     googleMeet,
     calendarId: {

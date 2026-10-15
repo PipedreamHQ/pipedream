@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import wrike from "../../wrike.app.mjs";
 import { parseJson } from "../../common/utils.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "wrike-update-folder",
   name: "Update Folder",
   description: "Update a folder or project's metadata via PUT /folders/{folderId}. Supply the optional 'project' prop to set project attributes (or null to convert a project back to a folder); there is no separate update-project action. Use **List Folder ID Options** to obtain the folderId. [See the documentation](https://developers.wrike.com/reference/putfolderssingle)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

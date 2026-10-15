@@ -4,13 +4,14 @@ export default {
   key: "sendcloud-list-integration-shipments",
   name: "List Integration Shipments",
   description: "List integration shipments. [See the documentation](https://api.sendcloud.dev/docs/sendcloud-public-api/branches/v2/integrations/operations/list-integration-shipments)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     integrationId: {

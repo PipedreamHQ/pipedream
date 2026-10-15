@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 
 export default {
   key: "azure_devops-query-analytics",
   name: "Query Analytics (OData)",
   description: "Run an OData query against the Azure DevOps Analytics service, which holds the historical and aggregated data the work item APIs do not expose. Returns the matching rows plus the `@odata.context` describing them. Use this for trend questions - how many bugs were open each day, how much work each iteration completed - and use **Query Work Items (WIQL)** instead for the current state of individual items. Set **Apply** to aggregate rather than pulling raw rows back. Example: entity set `WorkItems`, filter `State eq 'Closed'`. [See the documentation](https://learn.microsoft.com/en-us/azure/devops/report/analytics/analytics-query-parts?view=azure-devops)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

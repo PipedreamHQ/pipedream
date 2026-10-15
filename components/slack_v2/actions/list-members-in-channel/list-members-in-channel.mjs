@@ -1,17 +1,17 @@
-// x-pd-ai: optimized
 import slack from "../../slack_v2.app.mjs";
 
 export default {
   key: "slack_v2-list-members-in-channel",
   name: "List Members in Channel",
-  description: "Retrieve members of a channel. Accepts a channel ID or NAME (e.g. general or #general) — names are resolved automatically. [See the documentation](https://api.slack.com/methods/conversations.members)",
-  version: "0.1.3",
+  description: "Retrieve members of a channel. Accepts a channel ID (preferred — resolves instantly) or NAME (e.g. general or #general), resolved by scanning up to 5 pages (~5,000 channels) of the workspace's channel list — a name beyond that bound will not be found. [See the documentation](https://api.slack.com/methods/conversations.members)",
+  version: "0.1.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: true,
+    readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     slack,
     conversation: {

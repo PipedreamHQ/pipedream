@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
@@ -10,13 +9,14 @@ export default {
     + " The message is built from segments - a plain string becomes text, and `{ \"type\": \"Mention\", \"username\": \"jsmith\" }` mentions a user."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/quickreference_post_feed_item.htm)",
-  version: "0.1.6",
+  version: "0.1.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     salesforce,
     sobjectType: {

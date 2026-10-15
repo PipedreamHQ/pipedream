@@ -8,8 +8,8 @@ export default {
   key: "hubspot-new-task",
   name: "New Task Created",
   description:
-    "Emit new event for each new task created. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/engagements/tasks#get-%2Fcrm%2Fv3%2Fobjects%2Ftasks)",
-  version: "1.0.26",
+    "Emit new event for each new task created. [See the documentation](https://developers.hubspot.com/docs/api-reference/latest/crm/activities/tasks/search/search-tasks)",
+  version: "1.0.28",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -27,37 +27,45 @@ export default {
     isRelevant(task, createdAfter) {
       return this.getTs(task) > createdAfter;
     },
-    async getParams() {
+    async getParams(after) {
       const { results: allProperties } = await this.hubspot.getProperties({
         objectType: "tasks",
       });
-      const properties = allProperties.map(({ name }) => name);
-
-      const objectTypes = OBJECT_TYPES.map(({ value }) => value);
-      const { results: custom } = await this.hubspot.listSchemas();
-      const customObjects = custom?.map(
-        ({ fullyQualifiedName }) => fullyQualifiedName,
-      );
-      const associations = [
-        ...objectTypes,
-        ...customObjects,
-      ];
-
-      return {
-        params: {
+      return this.addDateFilter({
+        object: "tasks",
+        data: {
           limit: DEFAULT_LIMIT,
-          properties: properties.join(","),
-          associations: associations.join(","),
+          properties: allProperties.map(({ name }) => name),
+          sorts: [
+            {
+              propertyName: "hs_createdate",
+              direction: "DESCENDING",
+            },
+          ],
         },
-      };
+      }, "hs_createdate", after);
+    },
+    async getAssociationTypes() {
+      const { results: custom } = await this.hubspot.listSchemas();
+      return [
+        ...OBJECT_TYPES.map(({ value }) => value),
+        ...(custom?.map(({ fullyQualifiedName }) => fullyQualifiedName) || []),
+      ];
     },
     async processResults(after, params) {
-      const tasks = await this.getPaginatedItems(
-        this.hubspot.listTasks.bind(this),
+      const associationTypes = await this.getAssociationTypes();
+      await this.paginate(
         params,
+        async (opts) => {
+          const page = await this.hubspot.searchCRM(opts);
+          return {
+            ...page,
+            results: await this.withAssociations("tasks", page.results || [], associationTypes),
+          };
+        },
+        "results",
         after,
       );
-      await this.processEvents(tasks, after);
     },
   },
 };

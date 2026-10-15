@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import wealthbox from "../../wealthbox.app.mjs";
 import {
   DEFAULT_LIST_LIMIT,
@@ -12,8 +11,9 @@ export default {
   key: "wealthbox-list-workflow-templates",
   name: "List Workflow Templates",
   description: "Companion list action for the free-form Workflow id prop. Returns available workflow templates via GET /workflow_templates so agents/users can discover valid template ids for **Start Workflow**. Paginates up to the requested Limit. Example: returns template objects each including `id`, `name`, and workflow step configuration. Supply the optional Fields parameter (e.g. `[\"id\",\"name\"]`) to receive a trimmed response. [See the documentation](https://dev.wealthbox.com/#workflow-templates-retrieve-all-workflow-templates-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

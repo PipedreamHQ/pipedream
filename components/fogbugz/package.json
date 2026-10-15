@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/fogbugz",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream FogBugz Components",
   "main": "fogbugz.app.mjs",
   "keywords": [

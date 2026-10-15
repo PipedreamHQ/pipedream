@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import arlo from "../../arlo.app.mjs";
 import {
   DEFAULT_LIMIT,
@@ -9,8 +8,9 @@ export default {
   key: "arlo-list-registrations",
   name: "List Registrations",
   description: "List Arlo registration records with embedded attendee/contact detail, optionally filtered by event. Run **List Events** first to obtain an `eventId`. Results are paged (see `limit`/`skip`); if the page comes back full, call again with a higher `skip` for more. Use `fields` to shrink the response — registration lists can be very large (thousands of records) and each record is verbose. Example: call with `eventId: \"4\"`, `limit: 50` to get up to 50 registrations for event 4 with `RegistrationID`, `Status`, `Contact`. [See the documentation](https://developer.arlo.co/doc/api/2012-02-01/auth/resources/registrations#collection-httpget).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

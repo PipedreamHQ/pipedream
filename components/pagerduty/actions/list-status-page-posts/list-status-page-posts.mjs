@@ -9,8 +9,9 @@ export default {
     + " Set `activeOnly: true` to filter to currently active posts (client-side filter)."
     + " Requires Business+ plan — accounts without this plan will receive empty results or a 402 error."
     + " [See the documentation](https://developer.pagerduty.com/api-reference/a2b54c12938bd-list-posts-for-a-status-page)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

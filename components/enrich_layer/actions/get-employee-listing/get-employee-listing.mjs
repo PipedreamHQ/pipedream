@@ -4,8 +4,9 @@ export default {
   key: "enrich_layer-get-employee-listing",
   name: "Get Employee Listing",
   description: "Get a list of employees of a company. Cost: 3 credits per employee returned. [See the documentation](https://enrichlayer.com/docs/api/v2/company-api/employee-listing).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

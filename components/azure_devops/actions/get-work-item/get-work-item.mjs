@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 
 export default {
   key: "azure_devops-get-work-item",
   name: "Get Work Item",
   description: "Retrieve one work item by id. Returns its fields, and optionally its relations and links via **Expand**. Use this to read the current state of an item before deciding whether to update it. Example: work item `299`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/wit/work-items/get-work-item?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import azure_devops from "../../azure_devops.app.mjs";
 
 export default {
   key: "azure_devops-list-organization-name-options",
   name: "List Organizations",
   description: "List the Azure DevOps organizations the connected account belongs to. Use this first - every other action needs an organization name, and this is the only action that does not. Returns the organization names as plain strings. Example: returns `contoso` and `fabrikam`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/account/accounts/list?view=azure-devops-rest-7.1)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

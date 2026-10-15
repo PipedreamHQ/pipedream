@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import clockify from "../../clockify.app.mjs";
 import utils from "../../common/utils.mjs";
@@ -7,8 +6,9 @@ export default {
   key: "clockify-update-client",
   name: "Update Client",
   description: "Updates an existing client in a Clockify workspace. Set only the fields you want to change — Clockify's update endpoint replaces the whole client, so this action fetches the current record first and merges your changes into it. Use **List Clients** to find the ID of the client to update. [See the documentation](https://docs.clockify.me/#tag/Client/operation/updateClient)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

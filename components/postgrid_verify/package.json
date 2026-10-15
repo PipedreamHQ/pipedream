@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/postgrid_verify",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream PostGrid Verify Components",
   "main": "postgrid_verify.app.mjs",
   "keywords": [

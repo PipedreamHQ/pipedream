@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import {
   CONVERSATIONS_LIST_DEFAULT_PER_PAGE,
   CONVERSATIONS_LIST_MAX_PER_PAGE,
@@ -9,13 +8,14 @@ export default {
   key: "intercom-list-conversations",
   name: "List Conversations",
   description: "Lists conversations in your Intercom workspace, most recently updated first (GET /conversations). Use this to discover a conversation's ID before calling **Reply To Conversation**, **Manage A Conversation**, or **Retrieve Conversation** — there is no other way to look one up. Returns a bounded page of conversations, each including `id`, `state`, `created_at`, and the latest message part. If `pages.next.starting_after` is present in the response, call this action again with that cursor in **Starting After** to retrieve the next page. Pass **Fields** (e.g. `[\"id\", \"state\", \"created_at\"]`) to limit each returned conversation to only those keys. Example: leave all props empty to fetch the 20 most recently updated conversations. [See the documentation](https://developers.intercom.com/docs/references/rest-api/api.intercom.io/conversations/listconversations).",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     intercom,
     maxResults: {

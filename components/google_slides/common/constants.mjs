@@ -251,3 +251,13 @@ export const SPACING_MODES = [
 ];
 
 export const OPACITY_SCALE = 100;
+
+// Placeholder types that hold a slide's text content. Only these are mapped
+// when creating a slide, since they are always copied from the layout to the
+// new slide.
+export const TEXT_PLACEHOLDER_TYPES = [
+  "TITLE",
+  "CENTERED_TITLE",
+  "SUBTITLE",
+  "BODY",
+];

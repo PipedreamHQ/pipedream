@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/elastic_security",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "Pipedream Elastic Security Components",
   "main": "elastic_security.app.mjs",
   "keywords": [
@@ -11,5 +11,8 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
   }
 }

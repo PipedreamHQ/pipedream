@@ -9,8 +9,9 @@ export default {
     + " Optional: `suffix`, `stateProvinceCode`, `attention`, `contactName`."
     + " To update a location after creation, use **Update Return Location** with the returned ID."
     + " [See the documentation](https://platform.returnista.com/reference/rest-api/#post-/account/-accountId/return-location)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

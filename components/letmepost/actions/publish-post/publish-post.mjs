@@ -4,8 +4,9 @@ export default {
   key: "letmepost-publish-post",
   name: "Publish a Post",
   description: "Publish or schedule a post to one or more connected accounts. [See the documentation](https://docs.letmepost.dev/api-reference/posts/publish-or-schedule-a-multi-target-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

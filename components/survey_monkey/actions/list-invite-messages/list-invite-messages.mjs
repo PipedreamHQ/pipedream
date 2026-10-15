@@ -9,13 +9,14 @@ export default {
   key: "survey_monkey-list-invite-messages",
   name: "List Invite Messages",
   description: "Retrieve a collector's invite messages, each with its `id` and `status`. Run this to find a Message ID for **Add Message Recipients**, **Send Invite Message**, or the **Copy From Message** option on **Create Invite Message**. Filter by **Status** `not_sent` to get only the messages that can still be sent. [See the documentation](https://api.surveymonkey.com/v3/docs?javascript#api-endpoints-get-collectors-collector_id-messages)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...base.props,
     collectorId: {

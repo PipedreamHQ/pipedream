@@ -3,7 +3,7 @@ import utils from "../common/utils.mjs";
 
 export default {
   name: "Remove From Watchlist",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -12,6 +12,7 @@ export default {
   key: "trakt-remove-from-watchlist",
   description: "Remove one of more items from watchlist. [See the documentation](https://trakt.docs.apiary.io/#reference/sync/remove-from-watchlist/remove-items-from-watchlist)",
   type: "action",
+  ai: "optimized",
   props: {
     trakt,
     movies: {

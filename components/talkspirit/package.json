@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/talkspirit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream talkSpirit Components",
   "main": "talkspirit.app.mjs",
   "keywords": [

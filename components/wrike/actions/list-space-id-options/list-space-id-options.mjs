@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import wrike from "../../wrike.app.mjs";
 import {
   SPACE_ACCESS_TYPE_OPTIONS, SPACE_FIELD_OPTIONS,
@@ -9,8 +8,9 @@ export default {
   key: "wrike-list-space-id-options",
   name: "List Space ID Options",
   description: "Retrieves available spaces so callers can copy an ID into another action's free-form spaceId or folderId prop. [See the documentation](https://developers.wrike.com/reference/getspacesempty)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

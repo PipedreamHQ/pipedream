@@ -15,8 +15,9 @@ export default {
     + " Use **Search Opportunities** to find the opportunity ID."
     + " Example: call with opportunityId=\"<id>\", panelId=\"<panelId>\" (from **List Opportunity Items** (resource=interviews)), interviewers=\"<userId>\", date=1700000000000, duration=60, performAs=\"<userId>\" → adds an interview to the panel and returns it."
     + " [See the documentation](https://hire.lever.co/developer/documentation#create-an-interview)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

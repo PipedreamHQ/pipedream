@@ -5,13 +5,14 @@ export default {
   key: "codereadr-generate-qr-code",
   name: "Generate QR Code",
   description: "Generates a unique QR code. [See the documentation](https://secure.codereadr.com/apidocs/BarcodeGenerator.md#generate)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     value: {

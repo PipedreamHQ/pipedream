@@ -4,8 +4,9 @@ export default {
   key: "permit_io-remove-role",
   name: "Remove Role",
   description: "Revokes a user's role assignment to instantly offboard them or downgrade their access level. [See the documentation](https://api.permit.io/v2/redoc#tag/Role-Assignments/operation/unassign_role)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: true,

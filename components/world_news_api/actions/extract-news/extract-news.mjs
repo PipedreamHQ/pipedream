@@ -4,13 +4,14 @@ export default {
   name: "Extract News",
   description: "Extract a news article from a website to a well structure JSON object. [See the docs here](https://worldnewsapi.com/docs/#Extract-News). **Calling this endpoint requires 1 point, plus 2 points if analyze is true.**",
   key: "world_news_api-extract-news",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     url: {

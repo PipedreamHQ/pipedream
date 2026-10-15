@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import arlo from "../../arlo.app.mjs";
 
 export default {
   key: "arlo-create-presenter",
   name: "Create Presenter",
   description: "Create a new Arlo contact record to be used as a presenter. FirstName, LastName, and Email are required. Returns the created contact including its ID. Example: call with `firstName: \"Kevin\"`, `lastName: \"Malone\"`, `email: \"kevin.malone@example.com\"` to create a new active contact and get back its `ContactID`. [See the documentation](https://developer.arlo.co/doc/api/2012-02-01/auth/resources/contacts#collection-httppost).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import openphone from "../../openphone.app.mjs";
 
 export default {
   key: "openphone-list-from-options",
   name: "List From Options",
   description: "List your OpenPhone phone numbers as selectable sender options, for use as the `from` value in **Send a Text Message**. Example: call with no inputs → returns a list of `{label, value}` pairs, one per phone number, where `value` is the phone number ID to pass as `from`. [See the documentation](https://www.openphone.com/docs/api-reference/phone-numbers/list-phone-numbers)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

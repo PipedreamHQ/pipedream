@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../box.app.mjs";
 import utils from "../../common/utils.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "box-get-file-metadata",
   name: "Get File Metadata",
   description: "Retrieves metadata for a file (name, size, timestamps, path, and more). Optionally request specific fields. Use **List File Versions** for version history, or **Download File** for content. [See the documentation](https://developer.box.com/reference/get-files-id/).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

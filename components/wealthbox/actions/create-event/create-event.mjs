@@ -1,17 +1,17 @@
-// x-pd-ai: optimized
 import wealthbox from "../../wealthbox.app.mjs";
 
 export default {
   key: "wealthbox-create-event",
   name: "Create Event",
   description: "Create a new calendar event in Wealthbox. Supply a title, start/end timestamps (`YYYY-MM-DD HH:MM AM/PM ±HHMM`), and an optional state. Valid `state` values are `unconfirmed`, `confirmed`, `tentative`, `completed`, and `cancelled`. Example: create an event titled `Q4 Portfolio Review` starting `2026-12-15 10:00 AM -0500` ending `2026-12-15 11:00 AM -0500` with state `confirmed`; returns the event object including `id`, `title`, `starts_at`, `ends_at`, and `state`. [See the documentation](https://dev.wealthbox.com/#events-retrieve-all-events-post)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     wealthbox,
     title: {

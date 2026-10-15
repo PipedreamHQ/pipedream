@@ -4,7 +4,7 @@ export default {
   key: "posthog-get-project-insight",
   name: "Get Project Insight",
   description: "Retrieve a specific insight from a project. [See the documentation](https://posthog.com/docs/api/insights#get-api-projects-project_id-insights-id)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -12,6 +12,7 @@ export default {
     idempotentHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     posthog,
     organizationId: {

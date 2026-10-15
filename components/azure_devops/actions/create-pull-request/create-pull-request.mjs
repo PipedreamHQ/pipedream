@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 
 export default {
   key: "azure_devops-create-pull-request",
   name: "Create Pull Request",
   description: "Open a pull request between two branches. Returns the new pull request's id and url. Use this after pushing a working branch, to start review. Example: source `refs/heads/feature/login` into target `refs/heads/main`, title `Add SSO login`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/git/pull-requests/create?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

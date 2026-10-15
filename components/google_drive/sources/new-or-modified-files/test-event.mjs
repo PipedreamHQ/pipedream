@@ -1,1 +1,30 @@
-export default  JSON.parse("{\n  \"file\": {\n    \"kind\": \"drive#file\",\n    \"copyRequiresWriterPermission\": false,\n    \"writersCanShare\": true,\n    \"viewedByMe\": true,\n    \"mimeType\": \"application/vnd.google-apps.spreadsheet\",\n    \"exportLinks\": {\n      \"application/x-vnd.oasis.opendocument.spreadsheet\": \"https://docs.google.com/spreadsheets/export?id=1LmXTIQ0wqKP7T3-l9r127MaTXn3pVbTmw4&exportFormat=ods\",\n      \"text/tab-separated-values\": \"https://docs.google.com/spreadsheets/export?id=1LmXTIQ0wqKP7T3-l9r127MaTXnViTOo&exportFormat=tsv\",\n      \"application/pdf\": \"https://docs.google.com/spreadsheets/export?id=1LmXTIQ0wqKP7T3-l9r127MaBViTOo&exportFormat=pdf\",\n      \"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet\": \"https://docs.google.com/spreadsheets/export?id=1LmXTIQ0wqKP7T3-l9r127MaTXn3pVbOo&exportFormat=xlsx\",\n      \"text/csv\": \"https://docs.google.com/spreadsheets/export?id=1LmXTIQ0wqKP7T3-l9r127MaTXn3pVbBViTOo&exportFormat=csv\",\n      \"application/zip\": \"https://docs.google.com/spreadsheets/export?id=1LmXTIQ0wqKP7T3-VbTmw4Pt2BViTOo&exportFormat=zip\",\n      \"application/vnd.oasis.opendocument.spreadsheet\": \"https://docs.google.com/spreadsheets/export?id=1LmXTIQ0wqKP7T3-l9r127MaTXn3pVbViTOo&exportFormat=ods\"\n    },\n    \"parents\": [\n      \"0ANs73yKKVA\"\n    ],\n    \"thumbnailLink\": \"https://docs.google.com/feeds/vt?gd=true&id=1LmXTIQ0wqKP7T3-l9r127MaTXn3pVbTmw4&v=12&s=AMedNnoAAAAAZKWjrEqscucFpYCyRCJqnd0wtBiDtXYh&sz=s220\",\n    \"iconLink\": \"https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.google-apps.spreadsheet\",\n    \"shared\": false,\n    \"lastModifyingUser\": {\n      \"displayName\": \"John Doe\",\n      \"kind\": \"drive#user\",\n      \"me\": true,\n      \"permissionId\": \"077423361841532483\",\n      \"emailAddress\": \"john@doe.com\",\n      \"photoLink\": \"https://lh3.googleusercontent.com/a/default-user=s64\"\n    },\n    \"owners\": [\n      {\n        \"displayName\": \"John Doe\",\n        \"kind\": \"drive#user\",\n        \"me\": true,\n        \"permissionId\": \"07742336189483\",\n        \"emailAddress\": \"john@doe.com\",\n        \"photoLink\": \"https://lh3.googleusercontent.com/a/default-user=s64\"\n      }\n    ],\n    \"webViewLink\": \"https://docs.google.com/spreadsheets/d/1LmXTIQ0wqKP7T3-l9r127MaTXn3pVbTmwTOo/edit?usp=drivesdk\",\n    \"size\": \"1024\",\n    \"viewersCanCopyContent\": true,\n    \"permissions\": [\n      {\n        \"id\": \"07742336184153259483\",\n        \"displayName\": \"John Doe\",\n        \"type\": \"user\",\n        \"kind\": \"drive#permission\",\n        \"photoLink\": \"https://lh3.googleusercontent.com/a/default-user=s64\",\n        \"emailAddress\": \"john@doe.com\",\n        \"role\": \"owner\",\n        \"deleted\": false,\n        \"pendingOwner\": false\n      }\n    ],\n    \"hasThumbnail\": true,\n    \"spaces\": [\n      \"drive\"\n    ],\n    \"id\": \"1LmXTIQ0wqKP7T3-l9r127Maw4Pt2BViTOo\",\n    \"name\": \"Pipedream 2213\",\n    \"starred\": false,\n    \"trashed\": false,\n    \"explicitlyTrashed\": false,\n    \"createdTime\": \"2023-02-06T15:13:33.023Z\",\n    \"modifiedTime\": \"2023-06-28T12:52:54.570Z\",\n    \"modifiedByMeTime\": \"2023-06-28T12:52:54.570Z\",\n    \"viewedByMeTime\": \"2023-06-29T06:30:58.441Z\",\n    \"quotaBytesUsed\": \"1024\",\n    \"version\": \"53\",\n    \"ownedByMe\": true,\n    \"isAppAuthorized\": false,\n    \"capabilities\": {\n      \"canChangeViewersCanCopyContent\": true,\n      \"canEdit\": true,\n      \"canCopy\": true,\n      \"canComment\": true,\n      \"canAddChildren\": false,\n      \"canDelete\": true,\n      \"canDownload\": true,\n      \"canListChildren\": false,\n      \"canRemoveChildren\": false,\n      \"canRename\": true,\n      \"canTrash\": true,\n      \"canReadRevisions\": true,\n      \"canChangeCopyRequiresWriterPermission\": true,\n      \"canMoveItemIntoTeamDrive\": true,\n      \"canUntrash\": true,\n      \"canModifyContent\": true,\n      \"canMoveItemOutOfDrive\": true,\n      \"canAddMyDriveParent\": false,\n      \"canRemoveMyDriveParent\": true,\n      \"canMoveItemWithinDrive\": true,\n      \"canShare\": true,\n      \"canMoveChildrenWithinDrive\": false,\n      \"canModifyContentRestriction\": true,\n      \"canChangeSecurityUpdateEnabled\": false,\n      \"canAcceptOwnership\": false,\n      \"canReadLabels\": true,\n      \"canModifyLabels\": true\n    },\n    \"thumbnailVersion\": \"12\",\n    \"modifiedByMe\": true,\n    \"permissionIds\": [\n      \"07742336184153259483\"\n    ],\n    \"linkShareMetadata\": {\n      \"securityUpdateEligible\": false,\n      \"securityUpdateEnabled\": true\n    }\n  }\n}");
+export default {
+  "file": {
+    "kind": "drive#file",
+    "id": "1eWLQU_76tvfXptBGkdnjmPbpwhrOtkYS",
+    "name": "Quarterly Report.csv",
+    "mimeType": "text/csv",
+    "parents": [
+      "1jPHKePO9_B4jDvpBFyAs38Ji_tCDdjxI",
+    ],
+    "createdTime": "2026-09-28T17:51:38.475Z",
+    "modifiedTime": "2026-09-28T18:04:12.918Z",
+    "trashed": false,
+    "version": "4",
+    "size": "2048",
+    "md5Checksum": "5d41402abc4b2a76b9719d911017c592",
+    "webViewLink": "https://drive.google.com/file/d/1eWLQU_76tvfXptBGkdnjmPbpwhrOtkYS/view?usp=drivesdk",
+    "lastModifyingUser": {
+      "kind": "drive#user",
+      "displayName": "John Doe",
+      "me": true,
+      "permissionId": "07742336189483",
+      "emailAddress": "john@doe.com",
+      "photoLink": "https://lh3.googleusercontent.com/a/default-user=s64",
+    },
+  },
+  "change": {
+    "state": "change",
+    "resourceURI": "https://www.googleapis.com/drive/v3/changes?alt=json&pageToken=1794",
+  },
+};

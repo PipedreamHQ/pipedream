@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import bonusly from "../../bonusly.app.mjs";
 
 export default {
   key: "bonusly-list-locations",
   name: "List Locations",
   description: "List the distinct locations configured for users in the authenticated caller's company, with a user count for each. Call this first to discover the exact location names accepted by **List Users In Location**, which matches exactly and returns nothing for a misspelled or differently-cased name. [See the documentation](https://docs.bonus.ly/reference/listlocations)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

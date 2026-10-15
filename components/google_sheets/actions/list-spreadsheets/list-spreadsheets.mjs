@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import googleSheets from "../../google_sheets.app.mjs";
 
 export default {
@@ -13,8 +12,9 @@ export default {
     + " Returns up to `limit` results (default 20); when more"
     + " may exist the summary says so — raise `limit` to fetch"
     + " them. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/list)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

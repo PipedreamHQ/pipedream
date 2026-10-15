@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import user from "../../common/sobjects/user.mjs";
 
@@ -14,13 +13,14 @@ export default {
     + " Use **Get User** or **Find Records** on `User` to check whether the person already has an account."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.1.8",
+  version: "0.1.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   methods: {
     ...common.methods,
   },

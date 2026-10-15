@@ -4,13 +4,14 @@ export default {
   key: "renderio-get-stored-file",
   name: "Get Stored File",
   description: "Retrieve a stored file by ID. [See the documentation](https://renderio.dev/docs/api-reference/files/get-file)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     renderio,
     fileId: {

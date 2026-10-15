@@ -6,8 +6,9 @@ export default {
   key: "roblox-send-user-notification",
   name: "Send User Notification",
   description: "Send an experience notification to a Roblox user. Requires a notification string created in the [Creator Dashboard](https://create.roblox.com/docs/production/promotion/experience-notifications). [See the documentation](https://create.roblox.com/docs/cloud/reference/UserNotification#Cloud_CreateUserNotification)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

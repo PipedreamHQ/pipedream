@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import givebutter from "../../givebutter.app.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "givebutter-update-contact",
   name: "Update Contact",
   description: "Update an existing Givebutter contact, returning the updated contact object. Set only the fields you want to change. Use **List Contacts** first to find the contact ID. Note that Givebutter validates this as a full update — individual contacts require `first_name` and `last_name`, and company contacts require `company_name`, even when those values are not changing — so this action reads the contact first and re-sends its existing name and company values automatically. [See the documentation](https://docs.givebutter.com/api-reference/contacts/update-a-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

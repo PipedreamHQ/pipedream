@@ -3,13 +3,14 @@ import utils from "../../common/utils.mjs";
 
 export default {
   key: "mailmodo-trigger-journey",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   name: "Trigger Journey",
   description: "Adds a new user to the journey. [See the docs here](https://www.mailmodo.com/developers/YXBpOjQ3MzIwNjUx-user-journeys/7de134cb5967c-add-a-new-user-to-the-journey)",
   props: {

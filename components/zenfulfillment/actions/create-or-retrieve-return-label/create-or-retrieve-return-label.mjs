@@ -4,8 +4,9 @@ export default {
   key: "zenfulfillment-create-or-retrieve-return-label",
   name: "Create or Retrieve Return Label",
   description: "Create or retrieve a Return Label for a specific Order. [See the documentation](https://partner.alaiko.com/docs#tag/ReturnLabel/operation/api_partnerreturn-label_post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

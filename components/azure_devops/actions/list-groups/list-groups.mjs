@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 
 export default {
   key: "azure_devops-list-groups",
   name: "List Groups",
   description: "List the groups in an organization, optionally scoped to one project or collection. Returns each group's display name, descriptor and principal name. Use this to find the group to add as a required pull request reviewer. Example: returns `[Fabrikam-Fiber-Git]\\\\Contributors`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/graph/groups/list?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

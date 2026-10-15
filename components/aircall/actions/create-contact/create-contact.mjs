@@ -6,13 +6,14 @@ export default {
   description:
     "Create a contact in Aircall. [See the documentation](https://developer.aircall.io/api-references/#create-a-contact)",
   key: "aircall-create-contact",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     emails: {

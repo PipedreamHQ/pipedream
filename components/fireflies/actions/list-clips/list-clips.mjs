@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import fireflies from "../../fireflies.app.mjs";
 import queries from "../../common/queries.mjs";
 import constants from "../../common/constants.mjs";
@@ -8,13 +7,14 @@ export default {
   key: "fireflies-list-clips",
   name: "List Clips",
   description: "List meeting clips (Fireflies \"bites\"). The API requires at least one filter, so **set at least one of `Meeting ID`, `Mine Only`, or `My Team Only`** — `Mine Only` defaults to `true`, which lists the clips created by the connected account. Use this to look up a clip's `id` for **Find Clip by ID**, or to check which clips already exist for a meeting before creating another with **Create Meeting Clip**. Each result includes the clip's render `status` and, once that status is `ready`, its media URLs in `sources[].src`. [See the documentation](https://docs.fireflies.ai/graphql-api/query/bites)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     fireflies,
     meetingId: {

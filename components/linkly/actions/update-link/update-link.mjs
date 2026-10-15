@@ -4,13 +4,14 @@ export default {
   key: "linkly-update-link",
   name: "Update Link",
   description: "Update an existing short link via `POST /api/v1/link` (with `id`) — change its destination URL, slug, name, or custom domain without breaking the existing short URL. [See the documentation](https://app.linklyhq.com/swaggerui#/Links/createOrUpdateLink).",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     linkly,
     linkId: {

@@ -7,8 +7,9 @@ export default {
     "Returns the current workspace context from Excalidraw Plus, including workspace ID, name, user IDs, and roles."
     + " Use this when the user asks 'who am I', 'what workspace am I in', or needs the workspace ID or user role."
     + " [See the documentation](https://plus.excalidraw.com/docs/api/workspace/workspaces-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

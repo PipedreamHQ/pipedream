@@ -8,8 +8,9 @@ export default {
     + " Each result includes the todo text, completion status, and optional due date."
     + " Use **Get Todo** with the session ID and todo ID for single-item detail."
     + " [See the documentation](https://app.swaggerhub.com/apis-docs/HedyAI/hedy-api/1.5.2#/Todos/get_sessions__sessionId__todos)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

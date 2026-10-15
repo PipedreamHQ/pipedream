@@ -6,7 +6,7 @@ export default {
   name: "New Call",
   description: "Emit new event when a new call is added. [See the documentation](https://gong.app.gong.io/settings/api/documentation#get-/v2/calls)",
   type: "source",
-  version: "0.0.6",
+  version: "0.1.1",
   dedupe: "unique",
   methods: {
     ...common.methods,

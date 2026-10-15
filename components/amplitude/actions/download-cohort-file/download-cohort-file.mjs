@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../amplitude.app.mjs";
 import { COHORT_DOWNLOAD_MAX_MEMBERS } from "../../common/constants.mjs";
 import { parseCohortDownload } from "../../common/utils.mjs";
@@ -7,8 +6,9 @@ export default {
   key: "amplitude-download-cohort-file",
   name: "Download Cohort File",
   description: "Download a completed cohort export's member list (step 3 of 3: request -> status -> download). Call **Request Cohort Download** then **Get Cohort Download Status** first, and only call this once status is `JOB COMPLETED` — calling it earlier will fail. Returns one record per member (`amplitude_id`/`user_id`, plus any requested user properties) — not the cohort's own metadata (name, size, definition); use **List Cohorts** for that. Example: call with `requestId=\"req_456\"` -> returns `{requestId: \"req_456\", memberCount: 4200, returnedCount: 4200, truncated: false, members: [{amplitude_id: \"123456789\", user_id: \"user@example.com\"}, ...]}`. [See the documentation](https://amplitude.com/docs/apis/analytics/behavioral-cohorts#download-cohort).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

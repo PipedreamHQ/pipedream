@@ -5,13 +5,14 @@ export default {
   key: "granola-get-note",
   name: "Get Note",
   description: "Retrieve a single meeting note by ID. Use **List Notes** to find note IDs. [See the documentation](https://docs.granola.ai/api-reference/get-note)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     granola,
     noteId: {

@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import bonusly from "../../bonusly.app.mjs";
 
 export default {
   key: "bonusly-search-users",
   name: "Search Users",
   description: "Search users in the authenticated caller's company by name or email. This is a search, not a full company directory dump - a `Search Term` is required and matches on name or email. To list users without a search term, use **List Users In Department**, **List Users In Location**, or **List Top-Level Users** instead. [See the documentation](https://docs.bonus.ly/reference/searchusers)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

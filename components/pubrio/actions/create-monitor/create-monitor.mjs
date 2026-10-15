@@ -4,13 +4,14 @@ export default {
   key: "pubrio-create-monitor",
   name: "Create Monitor",
   description: "Create a new signal monitor for jobs, news, or advertisements. [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/monitors/create)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     pubrio,
     name: {

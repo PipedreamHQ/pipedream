@@ -1,17 +1,17 @@
-// x-pd-ai: optimized
 import app from "../../search_api.app.mjs";
 
 export default {
   key: "search_api-list-locations",
   name: "List Locations",
   description: "List the Google locations supported for geo-targeting. [See the documentation](https://www.searchapi.io/docs/locations-api)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     q: {

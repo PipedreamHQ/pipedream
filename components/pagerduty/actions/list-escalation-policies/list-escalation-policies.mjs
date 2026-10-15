@@ -8,8 +8,9 @@ export default {
     + " Supports both exact name match (`name`) and substring search (`query`), plus team filtering."
     + " Use policy IDs with **Create Incident**, **Create Service**, and **Update Escalation Policy**."
     + " [See the documentation](https://developer.pagerduty.com/api-reference/51b21014a4f5a-list-escalation-policies)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

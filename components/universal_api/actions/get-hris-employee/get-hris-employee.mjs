@@ -5,8 +5,9 @@ export default {
   name: "Get HRIS Employee",
   description:
     "Retrieve a single HRIS employee by ID from Universal API. Run **List HRIS Employees** first to discover valid employee IDs. [See the documentation](https://docs.universalapi.io/reference/get-employee).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

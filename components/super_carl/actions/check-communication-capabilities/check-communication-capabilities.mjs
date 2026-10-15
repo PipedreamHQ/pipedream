@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import superCarl from "../../super_carl.app.mjs";
 import {
   applyFieldSelection,
@@ -10,13 +9,14 @@ export default {
   key: "super_carl-check-communication-capabilities",
   name: "Check Communication Capabilities",
   description: "Check which Super Carl communication channels are available for a target before sending a message. Returns the list of channels with their `can_send` status, recipient email, and connector user IDs. Each channel entry carries verbose reason/relationship metadata — pass Fields (e.g. `channel`, `can_send`, `reason`) to keep the result small when you only need the essentials. [See the documentation](https://supercarl.ai/docs#endpoints-communications)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     superCarl,
     targetUserId: {

@@ -6,8 +6,9 @@ export default {
   key: "linkupapi-connect-account",
   name: "Connect Account",
   description: "Authenticate a LinkedIn account and obtain a persistent `account_id` to reuse across all other actions. Connect with either a login token or email + password. If a checkpoint/challenge is required, follow up with **Verify Code**. [See the documentation](https://docs.linkupapi.com/api-reference/v2/accounts/login)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

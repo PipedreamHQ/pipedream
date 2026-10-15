@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import openphone from "../../openphone.app.mjs";
 
 export default {
   key: "openphone-get-call",
   name: "Get Call",
   description: "Retrieve a single call by its ID, including its summary and transcript when available. Summary and transcript are fetched from OpenPhone's separate `/summary` and `/transcript` endpoints and merged into the result; they are `null` if OpenPhone has not yet generated them. Use **List Calls** to find call IDs. Example: call with callId=\"AC123abc\" → returns the call record with `summary` and `transcript` fields merged in. [See the documentation](https://www.openphone.com/docs/api-reference/calls/get-a-call-by-id)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

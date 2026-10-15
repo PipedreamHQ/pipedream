@@ -385,6 +385,7 @@ export interface Action<
   description?: string;
   version: string;
   type: "action";
+  ai?: "optimized";
   methods?: Methods & ThisType<PropThis<ActionPropDefinitions> & Methods>;
   props?: ActionPropDefinitions;
   annotations?: {

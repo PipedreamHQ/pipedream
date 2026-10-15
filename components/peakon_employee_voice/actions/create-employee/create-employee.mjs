@@ -13,8 +13,9 @@ export default {
     + "Returns the new employee record including the internal `id`, which can be used with "
     + "**Update Employee** or **Delete Employee**. "
     + "[See the Peakon API documentation](https://developer.peakon.com/reference/post_employees)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

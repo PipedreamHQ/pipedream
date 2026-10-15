@@ -8,8 +8,9 @@ export default {
     + " Use this as the identity anchor — call it first to discover the site name, ID, and timezone before querying other resources."
     + " Also provides location IDs needed by **List Staff**, **Get Classes**, and **Book Appointment**."
     + " [See the documentation](https://developers.mindbodyonline.com/ui/documentation/public-api#/http/api-endpoints/site/get-sites)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

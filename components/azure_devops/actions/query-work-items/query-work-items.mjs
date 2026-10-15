@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 
 export default {
   key: "azure_devops-query-work-items",
   name: "Query Work Items (WIQL)",
   description: "Run a Work Item Query Language (WIQL) query and return the matching work item references. Returns ids and the queried columns, not full field values - pass the ids to the **List Work Items** action to read those. Use this whenever you need to find work by state, type, assignee or date. Example: `SELECT [System.Id] FROM WorkItems WHERE [System.WorkItemType] = 'Bug' AND [System.State] <> 'Closed'`. WIQL has no offset, so narrow the query itself rather than paging when **Limit** results come back. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/wit/wiql/query-by-wiql?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

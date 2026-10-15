@@ -14,13 +14,14 @@ export default {
     + " With `format: full` (default) each message includes decoded `text`/`html` bodies and attachment metadata. Use `format: metadata` to skip bodies and get only headers + labelIds — useful for large threads."
     + " Responses are capped — oversized threads fall back to `metadata`-level detail (or are further truncated from the tail) with a `[truncated]` marker so the caller knows to narrow the request."
     + " [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.threads/get).",
-  version: "0.2.0",
+  version: "0.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     gmail,
     threadId: {

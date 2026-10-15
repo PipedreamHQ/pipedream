@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import whoisfreaks from "../../whoisfreaks.app.mjs";
 
 export default {
@@ -6,13 +5,14 @@ export default {
   name: "Domain Availability Lookup",
   description:
     "Check if a domain name is available for registration. For example you can check whoisfreaks.com. This action supports responses in both JSON and XML format. Always use sug=false to get the response. [See the documentation](https://whoisfreaks.com/documentation/domain-availability-api#lookup)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     whoisfreaks,
     domainName: {

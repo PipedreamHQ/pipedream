@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import buildBlocks from "../common/build-blocks.mjs";
 import common from "../common/send-message.mjs";
 
@@ -7,14 +6,21 @@ export default {
   ...buildBlocks,
   key: "slack_v2-send-block-kit-message",
   name: "Build and Send a Block Kit Message",
-  description: "Configure custom blocks and send to a channel, group, or user. [See the documentation](https://api.slack.com/tools/block-kit-builder).",
-  version: "0.5.8",
+  description:
+    "Configure custom blocks and send to a channel, group, or user."
+    + " For plain-text or standard messages, prefer **Post Message** — it posts as the"
+    + " authenticated user by default (no `Pipedream:` bot prefix on notifications) and accepts"
+    + " Block Kit blocks too. Use this tool when you specifically want the guided Block Kit"
+    + " builder."
+    + " [See the documentation](https://api.slack.com/tools/block-kit-builder).",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     slack: common.props.slack,
     conversation: {

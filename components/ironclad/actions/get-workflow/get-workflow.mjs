@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import ironclad from "../../ironclad.app.mjs";
 
@@ -6,13 +5,14 @@ export default {
   key: "ironclad-get-workflow",
   name: "Get Workflow",
   description: "Retrieves the full Ironclad workflow object, including its schema and current attribute keys and types. Use the returned schema to construct a valid `updates` payload for **Update Workflow Attributes**. Run **Search Workflows** first to find a workflow ID. Example: set `workflowId` to `\"wf_xyz789\"` to retrieve a workflow with fields such as `id`, `title`, `status`, `currentStep`, and `attributes` (a map of attribute key → value). Use the optional `fields` param (e.g. `\"id,title,status\"`) to return only specific top-level keys. [See the documentation](https://developer.ironcladapp.com/reference/retrieve-a-workflow)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ironclad,
     workflowId: {

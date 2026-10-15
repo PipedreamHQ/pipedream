@@ -5,13 +5,14 @@ export default {
   key: "printautopilot-add-pdf-to-queue",
   name: "Add PDF to Print Autopilot Queue",
   description: "Uploads a PDF document to the print-autopilot queue. [See the documentation](https://documenter.getpostman.com/view/1334461/TW6wJonb#53f82327-4f23-416d-b2f0-ce17b8037933)",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     printAutopilot,
     filePath: {

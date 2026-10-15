@@ -5,8 +5,9 @@ export default {
   name: "Get IP Geolocation",
   description:
     "Retrieve geolocation data for an IPv4/IPv6 address or domain name, including location, country metadata, timezone, currency, ASN, security insights and more. [See the documentation](https://ipgeolocation.io/documentation/ip-location-api.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

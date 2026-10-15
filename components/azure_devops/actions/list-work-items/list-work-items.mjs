@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import azureDevops from "../../azure_devops.app.mjs";
 import {
@@ -9,8 +8,9 @@ export default {
   key: "azure_devops-list-work-items",
   name: "List Work Items",
   description: "Retrieve a batch of work items by id in one call, up to 200 at a time. Returns each item's fields. Use this after a query to turn a list of ids into the actual field values. Example: ids `297,298,299`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/wit/work-items/list?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

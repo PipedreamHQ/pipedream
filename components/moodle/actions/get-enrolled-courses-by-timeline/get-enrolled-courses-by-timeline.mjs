@@ -4,8 +4,9 @@ export default {
   key: "moodle-get-enrolled-courses-by-timeline",
   name: "Get Enrolled Courses by Timeline Classification",
   description: "Returns a list of courses the current user is enrolled in, filtered by timeline (future, inprogress, or past). [See the documentation](https://moodledev.io/docs/5.2)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

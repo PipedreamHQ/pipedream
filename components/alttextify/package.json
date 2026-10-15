@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/alttextify",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream AltTextify Components",
   "main": "alttextify.app.mjs",
   "keywords": [

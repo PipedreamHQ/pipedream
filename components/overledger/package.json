@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/overledger",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pipedream Overledger Components",
   "main": "overledger.app.mjs",
   "keywords": [

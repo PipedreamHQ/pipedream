@@ -9,8 +9,9 @@ export default {
     + " Time params use ISO 8601 with explicit UTC offset, e.g. `2026-06-02T15:00:00-07:00`."
     + " Always include the UTC offset — do not assume UTC; using the wrong offset will place the override in the wrong time slot."
     + " [See the documentation](https://developer.pagerduty.com/api-reference/41d0a7c3c3a01-create-one-or-more-overrides)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

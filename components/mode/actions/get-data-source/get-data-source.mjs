@@ -4,8 +4,9 @@ export default {
   key: "mode-get-data-source",
   name: "Get Data Source",
   description: "Retrieve a single data source by its token. [See the documentation](https://mode.com/developer/api-reference/management/data-sources/#getDataSource)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

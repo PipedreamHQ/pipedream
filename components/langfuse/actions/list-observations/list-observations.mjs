@@ -4,8 +4,9 @@ export default {
   key: "langfuse-list-observations",
   name: "List Observations",
   description: "Retrieve a paginated list of observations from Langfuse with optional filters. [See the documentation](https://api.reference.langfuse.com/#tag/observations/GET/api/public/v2/observations).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import bonusly from "../../bonusly.app.mjs";
 
 export default {
   key: "bonusly-list-reward-redemptions",
   name: "List Reward Redemptions",
   description: "Return paginated reward redemption records for the caller's company, with optional filtering by user email, date range, and fulfillment status. This is a company-wide admin report, not just the caller's own redemptions. [See the documentation](https://docs.bonus.ly/reference/adminrewardsredemptionsreport-1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

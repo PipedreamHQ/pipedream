@@ -5,13 +5,14 @@ export default {
   key: "ideal_postcodes-phone-number-validation",
   name: "Phone Number Validation",
   description: "Validates a phone number and returns information about it. [See the documentation](https://docs.ideal-postcodes.co.uk/docs/api/phone-number-validation).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     query: {

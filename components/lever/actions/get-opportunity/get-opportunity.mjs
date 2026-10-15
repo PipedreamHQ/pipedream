@@ -10,8 +10,9 @@ export default {
     + " The opportunity ID comes from search results or from a webhook payload."
     + " Example: call with opportunityId=\"<id>\", expand=[\"applications\",\"stage\"] → returns the full opportunity with the application and stage objects inlined."
     + " [See the documentation](https://hire.lever.co/developer/documentation#retrieve-a-single-opportunity)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

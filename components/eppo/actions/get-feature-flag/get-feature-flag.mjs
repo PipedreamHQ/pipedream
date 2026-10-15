@@ -8,8 +8,9 @@ export default {
     + " Use this tool when the user asks about a specific flag's configuration or assignment logic."
     + " Use **List Feature Flags** first to find the numeric `flagId` — Eppo uses integer IDs, not string keys, for flag lookups."
     + " [See the documentation](https://eppo.cloud/api/docs#/FeatureFlags/getFeatureFlag)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

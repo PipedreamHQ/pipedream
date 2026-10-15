@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../amplitude.app.mjs";
 import {
   FUNNEL_MODES,
@@ -10,8 +9,9 @@ export default {
   key: "amplitude-get-funnel-analysis",
   name: "Get Funnel Analysis",
   description: "Compute conversion rates across an ordered (or unordered/sequential) set of funnel steps over a date range from the Amplitude Dashboard REST API. Provide one event definition per funnel step. Example: call with `events=[\"{\\\"event_type\\\":\\\"Sign Up\\\"}\",\"{\\\"event_type\\\":\\\"Purchase\\\"}\"]`, `startDate=\"20240706\"`, `endDate=\"20240805\"` -> returns `{data: [{stepByStep: [...], cumulative: [...], eventCount: 4200}, ...]}` (one entry per step). [See the documentation](https://amplitude.com/docs/apis/analytics/dashboard-rest#funnel-analysis).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import utils from "../../common/utils.mjs";
 import slack from "../../slack_v2.app.mjs";
 
@@ -12,17 +11,22 @@ export default {
     + " large enough to be truncated. Omit `fields` when you need the complete channel objects."
     + " Use `namePrefix` to filter results to channels whose names start with a given string"
     + " (e.g. `dev-`) without a client-side filter loop."
+    + " By default (`memberOnly: true`) only channels the authenticated user is a member of"
+    + " are returned — on a large workspace this shrinks the result from thousands of channels"
+    + " to the handful that matter, and it is usually what you want when acting on the user's"
+    + " behalf. Set `memberOnly: false` to list every channel in the workspace."
     + " Returns `has_more: true` and `next_cursor` when more channels exist than were"
     + " fetched — when you see that, raise `numPages` (or pass `cursor`) before answering"
     + " any 'how many' or 'list every' question, otherwise your answer is silently incomplete."
     + " [See the documentation](https://api.slack.com/methods/conversations.list)",
-  version: "0.3.1",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     slack,
     channelTypes: {
@@ -43,8 +47,15 @@ export default {
           value: "public_channel,private_channel",
         },
       ],
-      default: "public_channel",
+      default: "public_channel,private_channel",
       optional: true,
+    },
+    memberOnly: {
+      type: "boolean",
+      label: "Member Channels Only",
+      description: "Return only channels the authenticated user is a member of (uses `users.conversations` instead of `conversations.list`). Defaults to `true`: the full channel list can run to thousands of entries, while the user's own channels are usually a small fraction of that. Set to `false` to list every channel in the workspace. `Channel Types`, `Fields`, `Name Prefix`, and pagination all still apply. Example: `true`.",
+      optional: true,
+      default: true,
     },
     fields: {
       type: "string[]",
@@ -98,10 +109,17 @@ export default {
     // count, not the workspace size, on large workspaces.
     const prefix = this.namePrefix?.toLowerCase();
 
+    // users.conversations returns the same shape as conversations.list (channels +
+    // response_metadata.next_cursor) but scoped to the authed user's memberships, so
+    // the pagination / filter / projection logic below is shared between both modes.
+    const listChannels = this.memberOnly
+      ? (args) => this.slack.usersConversations(args)
+      : (args) => this.slack.conversationsList(args);
+
     do {
       const {
         channels, response_metadata: metadata,
-      } = await this.slack.conversationsList(params);
+      } = await listChannels(params);
       const pageChannels = prefix
         ? channels.filter((c) => c.name?.toLowerCase().startsWith(prefix))
         : channels;

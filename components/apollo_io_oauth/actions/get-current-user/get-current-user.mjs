@@ -11,8 +11,9 @@ export default {
     + " **Search Accounts**."
     + " [See the documentation](https://docs.apollo.io/reference"
     + "/get-authenticated-user)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

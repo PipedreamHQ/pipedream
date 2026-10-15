@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import mercury from "../../mercury.app.mjs";
 import {
@@ -12,8 +11,9 @@ export default {
   key: "mercury-list-accounts",
   name: "List Accounts",
   description: "Retrieve a page of Mercury bank accounts for the connected profile (up to **Limit** per call, default 1000; pass the last account's ID as **Start After** to fetch later pages), including current and available balance fields (returned as numbers, not strings). Use this first to discover account IDs (each a UUID) needed by **List Transactions**, **Get Transaction**, and **Send Payment**. Serves the 'check balances across accounts' need since the accounts response already includes balance data. Example: call with no parameters -> returns `{ accounts: [{ id: \"69c8b0ee-8b87-11f1-a9e5-e7cd8f0e3f51\", name: \"Mercury Checking ••1234\", currentBalance: 5000, availableBalance: 4800.55 }] }`. [See the documentation](https://docs.mercury.com/reference/getaccounts)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

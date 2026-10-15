@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import note from "../../common/sobjects/note.mjs";
 import salesforce from "../../salesforce_rest_api.app.mjs";
@@ -25,8 +24,9 @@ export default {
     + " Supplying `Body` replaces the note text outright rather than appending to it."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

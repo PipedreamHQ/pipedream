@@ -1,5 +1,7 @@
-// x-pd-ai: optimized
-import { axios } from "@pipedream/platform";
+import {
+  axios, getFileStreamAndMetadata,
+} from "@pipedream/platform";
+import FormData from "form-data";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -30,6 +32,11 @@ export default {
       type: "string",
       label: "Issue ID or Key",
       description: "The ID or key of the Jira Service Desk request (e.g. `IT-42` or `10001`). Use **List My Requests** to find the `issueKey` of a request (in its `requests` array).",
+    },
+    query: {
+      type: "string",
+      label: "Query",
+      description: "Name or email address to search for, e.g. `Joseph Wilson` or `joseph@example.com`. Matched against `displayName` and `emailAddress`. A full name or full email address gives the tightest result set.",
     },
     maxResults: {
       type: "integer",
@@ -71,7 +78,7 @@ export default {
      * items and whether the API still had more to give when collection stopped.
      */
     async _paginate({
-      $, path, params, maxResults = constants.MAX_RESULTS_DEFAULT,
+      $, path, params, headers, maxResults = constants.MAX_RESULTS_DEFAULT,
     }) {
       const results = [];
       let start = 0;
@@ -81,6 +88,7 @@ export default {
         const response = await this._makeRequest({
           $,
           path,
+          headers,
           params: {
             ...params,
             start,
@@ -169,6 +177,61 @@ export default {
         ...opts,
         method: "POST",
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${requestId}/comment`,
+      });
+    },
+    // Site-wide user search. Returns a bare array, not the `values`/`isLastPage`
+    // envelope `_paginate` expects, so it pages by offset here instead.
+    async searchUsers({
+      $, cloudId, query, maxResults = constants.MAX_RESULTS_DEFAULT,
+    }) {
+      const results = [];
+      let startAt = 0;
+      // One row past the cap separates "cap equals match count" from "more exist".
+      const ceiling = maxResults + 1;
+
+      while (results.length < ceiling) {
+        const limit = Math.min(
+          ceiling - results.length,
+          constants.USER_SEARCH_PAGE_SIZE,
+        );
+        const users = await this._makeRequest({
+          $,
+          path: `/ex/jira/${cloudId}/rest/api/3/user/search`,
+          params: {
+            query,
+            startAt,
+            maxResults: limit,
+          },
+        });
+
+        // Only an empty page ends it: a short page may just be a clamped page.
+        if (!users?.length) {
+          break;
+        }
+
+        results.push(...users);
+        startAt += users.length;
+      }
+
+      return {
+        results: results.slice(0, maxResults),
+        // Reaching Atlassian's offset ceiling is indistinguishable from running out
+        // of matches, so report it as more-to-come rather than claim completeness.
+        hasMore: results.length > maxResults
+          || startAt >= constants.USER_SEARCH_MAX_OFFSET,
+      };
+    },
+    async searchServiceDeskCustomers({
+      $, cloudId, serviceDeskId, query, maxResults,
+    }) {
+      return this._paginate({
+        $,
+        path: `/ex/jira/${cloudId}/rest/servicedeskapi/servicedesk/${serviceDeskId}/customer`,
+        params: {
+          query,
+        },
+        headers: constants.EXPERIMENTAL_API_HEADER,
+        maxResults,
       });
     },
     async getCurrentUser({ $ } = {}) {
@@ -278,6 +341,90 @@ export default {
         $,
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${issueIdOrKey}/attachment/${attachmentId}`,
         responseType: constants.STREAM_RESPONSE_TYPE,
+      });
+    },
+    async uploadTemporaryFile({
+      cloudId, serviceDeskId, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        method: "POST",
+        path: `/ex/jira/${cloudId}/rest/servicedeskapi/servicedesk/${serviceDeskId}/attachTemporaryFile`,
+      });
+    },
+    async attachFilesToRequest({
+      cloudId, issueIdOrKey, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        method: "POST",
+        path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${issueIdOrKey}/attachment`,
+      });
+    },
+    async deleteAttachment({
+      cloudId, attachmentId, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        method: "DELETE",
+        path: `/ex/jira/${cloudId}/rest/api/3/attachment/${attachmentId}`,
+      });
+    },
+    /**
+     * Uploads one or more local/remote files as temporary attachments scoped
+     * to `serviceDeskId`, then attaches them to `issueIdOrKey`. Two-step dance
+     * required by the JSM API: a file can't be attached to a request directly.
+     */
+    async attachFilesToRequestFromSource({
+      $, cloudId, serviceDeskId, issueIdOrKey, files, isPublic,
+    }) {
+      // Uploaded one file at a time (rather than buffering every file into one shared
+      // FormData first) so only the small temporaryAttachmentId is retained across
+      // iterations instead of holding every file's full content in memory at once.
+      const temporaryAttachmentIds = [];
+      for (const file of files) {
+        const {
+          stream, metadata,
+        } = await getFileStreamAndMetadata(file);
+        // Buffered rather than piped as a live stream: attachTemporaryFile consistently
+        // 500'd at the Atlassian edge when the multipart body was a live Readable (verified
+        // against the JSM API directly), even with Content-Length set from a known size.
+        const chunks = [];
+        for await (const chunk of stream) {
+          chunks.push(chunk);
+        }
+        const data = new FormData();
+        data.append("file", Buffer.concat(chunks), {
+          contentType: metadata.contentType,
+          filename: metadata.name,
+        });
+
+        const uploadResponse = await this.uploadTemporaryFile({
+          $,
+          cloudId,
+          serviceDeskId,
+          headers: {
+            "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
+            "Content-Length": data.getLengthSync(),
+            "X-Atlassian-Token": "no-check",
+          },
+          data,
+        });
+        temporaryAttachmentIds.push(
+          ...uploadResponse.temporaryAttachments.map(
+            ({ temporaryAttachmentId }) => temporaryAttachmentId,
+          ),
+        );
+      }
+
+      return this.attachFilesToRequest({
+        $,
+        cloudId,
+        issueIdOrKey,
+        data: {
+          temporaryAttachmentIds,
+          public: isPublic ?? true,
+        },
       });
     },
   },

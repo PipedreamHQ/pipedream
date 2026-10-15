@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/asknicely",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream AskNicely Components",
   "main": "asknicely.app.mjs",
   "keywords": [

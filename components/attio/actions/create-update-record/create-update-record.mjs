@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import attio from "../../attio.app.mjs";
 import constants from "../../common/constants.mjs";
@@ -7,13 +6,14 @@ export default {
   key: "attio-create-update-record",
   name: "Create or Update Record",
   description: "Creates or updates a specific record such as a person or a company. If a record with the same matching attribute already exists, it's updated; otherwise a new record is created. Objects without a unique attribute to match on (e.g. deals) are not available here. Example: Object `companies`, Matching Attribute `domains`, Values `{ \"domains\": [\"acme.com\"], \"name\": \"Acme\" }`. Returns the created or updated record with its id. [See the documentation](https://developers.attio.com/reference/put_v2-objects-object-records)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     attio,
     objectId: {

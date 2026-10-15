@@ -7,8 +7,9 @@ export default {
   key: "crowdstrike_falcon-search-hosts",
   name: "Search Hosts",
   description: "Search CrowdStrike Falcon hosts and return full device records via GET /devices/combined/devices/v1, including `status` (containment status), `reduced_functionality_mode` and other sensor-health fields. Use **Get Host** to retrieve a specific device by ID. [See the documentation](https://developer.crowdstrike.com/api-reference/collections/hosts/#combineddevicesbyfilter).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

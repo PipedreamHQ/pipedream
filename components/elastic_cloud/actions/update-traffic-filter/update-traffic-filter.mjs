@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import elasticCloud from "../../elastic_cloud.app.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "elastic_cloud-update-traffic-filter",
   name: "Update Traffic Filter Ruleset",
   description: "Update an existing traffic filter ruleset in Elastic Cloud. The underlying API replaces the whole ruleset, so this action first reads the current ruleset and merges your changes over it — supply only the fields you want to change. The ruleset's `type` and `region` are immutable after creation and are carried over automatically. Run **List Traffic Filter Rulesets** first to find the ruleset ID. [See the documentation](https://www.elastic.co/docs/api/doc/cloud/operation/operation-update-traffic-filter-ruleset)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   props: {
     elasticCloud,
     rulesetId: {

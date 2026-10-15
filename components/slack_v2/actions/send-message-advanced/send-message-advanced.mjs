@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import common from "../common/send-message.mjs";
 import buildBlocks from "../common/build-blocks.mjs";
@@ -8,14 +7,22 @@ export default {
   ...buildBlocks,
   key: "slack_v2-send-message-advanced",
   name: "Send Message (Advanced)",
-  description: "Customize advanced settings and send a message to a channel, group or user. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.1.8",
+  description:
+    "Customize advanced settings and send a message to a channel, group or user."
+    + " For standard messages and direct messages, prefer **Post Message** — it posts as the"
+    + " authenticated user by default (no `Pipedream:` bot prefix on notifications). Use this"
+    + " tool only when you need the advanced options it adds, such as scheduling (`post_at`),"
+    + " a custom bot username/icon (which require **Send as User** set to `false`, otherwise the"
+    + " action raises a configuration error), or message metadata."
+    + " See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     slack: common.props.slack,
     conversation: {

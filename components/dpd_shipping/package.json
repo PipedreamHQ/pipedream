@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dpd_shipping",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream DPD Shipping Components",
   "main": "dpd_shipping.app.mjs",
   "keywords": [

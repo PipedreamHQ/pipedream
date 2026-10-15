@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import azureDevops from "../../azure_devops.app.mjs";
 import { PULL_REQUEST_UPDATE_STATUS_OPTIONS } from "../../common/constants.mjs";
@@ -8,8 +7,9 @@ export default {
   key: "azure_devops-update-pull-request",
   name: "Update Pull Request",
   description: "Update a pull request - retitle it, edit its description, retarget it, publish a draft, or complete or abandon it. At least one field is required. Returns the updated pull request. Use status `completed` to merge and `abandoned` to close without merging. Example: pull request `12`, status `abandoned`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/git/pull-requests/update?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

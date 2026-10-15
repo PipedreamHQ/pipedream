@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import azureDevops from "../../azure_devops.app.mjs";
 import { COMMENT_THREAD_STATUS_OPTIONS } from "../../common/constants.mjs";
@@ -7,8 +6,9 @@ export default {
   key: "azure_devops-create-pull-request-comment",
   name: "Create Pull Request Comment",
   description: "Start a new comment thread on a pull request, either on the overview or anchored to a line in a file. Returns the new thread with its id. Use this to post automated review findings where the reviewer will see them. Example: pull request `12`, file `/src/index.js` line `42`, comment `This drops the null check`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/git/pull-request-threads/create?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

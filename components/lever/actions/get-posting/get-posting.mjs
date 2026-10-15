@@ -9,8 +9,9 @@ export default {
     + " Use **List Postings** to find posting IDs."
     + " Example: call with postingId=\"<id>\" → returns the posting with its full job description under `content.description`."
     + " [See the documentation](https://hire.lever.co/developer/documentation#retrieve-a-single-posting)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

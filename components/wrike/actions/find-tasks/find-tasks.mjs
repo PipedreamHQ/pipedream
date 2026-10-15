@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import wrike from "../../wrike.app.mjs";
 import {
   TASK_STATUS_OPTIONS, TASK_IMPORTANCE_OPTIONS, DEFAULT_LIMIT, MAX_LIMIT,
@@ -9,8 +8,9 @@ export default {
   key: "wrike-find-tasks",
   name: "Find Tasks",
   description: "Query tasks within a Wrike folder or project via GET /folders/{folderId}/tasks, with optional status, due-date, importance, and assignee filters. Answers questions like 'what's overdue in the Marketing project?'. Use **List Folder ID Options** to obtain a folderId. Use the returned task IDs with **Get Task** or **Update Task**. [See the documentation](https://developers.wrike.com/reference/getfolderssingletasks)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

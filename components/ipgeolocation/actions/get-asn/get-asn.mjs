@@ -5,8 +5,9 @@ export default {
   name: "Get ASN Details",
   description:
     "Retrieve detailed ASN information including peers, upstreams, downstreams, routes, and WHOIS data for an ASN number or IP address. Only available on paid plans. [See the documentation](https://ipgeolocation.io/documentation/asn-api.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

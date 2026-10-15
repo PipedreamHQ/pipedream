@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import event from "../../common/sobjects/event.mjs";
 
@@ -23,13 +22,14 @@ export default {
     + " Use **Find Records** to get the `WhoId` (contact or lead) and `WhatId` (related record) you want to link."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.4.0",
+  version: "0.4.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   methods: {
     ...common.methods,
   },

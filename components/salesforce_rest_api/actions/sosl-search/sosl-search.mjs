@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import salesforce from "../../salesforce_rest_api.app.mjs";
 
 const docsLink = "https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_sosl_examples.htm";
@@ -17,13 +16,14 @@ export default {
     + " SOSL matches indexed text fields, so it finds partial words but will not filter on numeric or date criteria."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.2.14",
+  version: "0.2.15",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     salesforce,
     docsInfo,

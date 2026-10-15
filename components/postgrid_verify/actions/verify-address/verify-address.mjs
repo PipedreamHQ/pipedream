@@ -4,13 +4,14 @@ export default {
   name: "Verify Address",
   description: "Verify, standardize, and correct an address written on a single line. Ensure that you add the ISO 2-letter country code to the end of the line for best results. [See the documentation](https://avdocs.postgrid.com/#1061f2ea-00ee-4977-99da-a54872de28c2).",
   key: "postgrid_verify-verify-address",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     address: {

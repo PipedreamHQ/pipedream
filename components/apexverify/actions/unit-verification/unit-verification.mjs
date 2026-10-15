@@ -10,8 +10,9 @@ export default {
   key: "apexverify-unit-verification",
   name: "ApexVerify - Email/Phone B2B Data Verification",
   description: "Verify a single email address or phone number using ApexVerify. [See the documentation](https://documentation.apexverify.com/api-reference/apex-verify-api/unit)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   props: {
     apexverify,
 

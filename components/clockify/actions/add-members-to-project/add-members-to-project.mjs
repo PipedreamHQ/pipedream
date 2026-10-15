@@ -1,17 +1,17 @@
-// x-pd-ai: optimized
 import clockify from "../../clockify.app.mjs";
 
 export default {
   key: "clockify-add-members-to-project",
   name: "Add Members To Project",
   description: "Adds member(s) to a project in Clockify. [See the documentation](https://docs.clockify.me/#tag/Project/operation/updateMemberships)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     clockify,
     workspaceId: {

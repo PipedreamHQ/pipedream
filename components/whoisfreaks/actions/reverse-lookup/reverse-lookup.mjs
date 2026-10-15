@@ -6,13 +6,14 @@ export default {
   name: "Reverse Lookup",
   description:
     "Retrieve details about a domain by keyword, email, registrant name or company. Must enter one and only one of keyword, email, owner, or company. [See the documentation](https://whoisfreaks.com/documentation/whois-api#reverse-lookup)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     whoisfreaks,
     keyword: {

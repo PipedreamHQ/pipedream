@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import app from "../../ashby_job_postings_api.app.mjs";
 
 export default {
   key: "ashby_job_postings_api-get-job-posting",
   name: "Get Job Posting",
   description: "Retrieves the full details of one published job posting from the Ashby job board configured for the connected account, including its description and, optionally, its compensation breakdown. The public Job Board API has no single-item lookup endpoint, so this fetches the full board listing and returns the one posting whose `jobUrl` exactly matches. Use **List Job Postings** first to find the `jobUrl` of the posting you want. [See the documentation](https://developers.ashbyhq.com/docs/public-job-posting-api)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

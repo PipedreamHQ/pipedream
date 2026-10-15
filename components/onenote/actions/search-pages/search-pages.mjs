@@ -50,8 +50,9 @@ export default {
     + " Use **Get Page Content** to retrieve the body of a specific page after locating it here. Use **Get Page** for page metadata only."
     + " Returns the array of matching pages and a `nextLink` URL for pagination when more results are available."
     + " [See the documentation](https://learn.microsoft.com/en-us/graph/api/onenote-list-pages?view=graph-rest-1.0&tabs=http)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

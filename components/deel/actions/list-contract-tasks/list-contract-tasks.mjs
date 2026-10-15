@@ -9,8 +9,9 @@ export default {
     + " Use task IDs with **Review Contract Task** to approve or decline pending tasks."
     + " Use **List Contracts** to find the contract ID."
     + " [See the documentation](https://developer.deel.com/api/reference/endpoints/tasks/get-contract-tasks)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

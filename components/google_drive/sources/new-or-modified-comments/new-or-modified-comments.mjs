@@ -18,10 +18,8 @@ export default {
   name: "New or Modified Comments (Instant)",
   description:
     "Emit new event when a comment is created or modified in the selected file",
-  version: "1.0.22",
+  version: "1.1.0",
   type: "source",
-  // Dedupe events based on the "x-goog-message-number" header for the target channel:
-  // https://developers.google.com/drive/api/v3/push#making-watch-requests
   dedupe: "unique",
   props: {
     ...common.props,
@@ -72,17 +70,19 @@ export default {
         GOOGLE_DRIVE_NOTIFICATION_CHANGE,
       ];
     },
-    generateMeta(data, headers) {
+    isRelevantChange({ file }) {
+      return file.id === this.fileId;
+    },
+    generateMeta(data) {
       const {
         id: commentId,
         content: summary,
         modifiedTime: tsString,
       } = data;
       const ts = Date.parse(tsString);
-      const eventId = headers && headers["x-goog-message-number"];
 
       return {
-        id: md5(`${commentId}-${eventId || ts}`),
+        id: md5(`${commentId}-${ts}`),
         summary,
         ts,
       };
@@ -109,6 +109,7 @@ export default {
         changedFiles = changedFiles.filter(({ id }) => id === this.fileId);
       }
 
+      let emitted = 0;
       for (const file of changedFiles) {
         const lastCommentTimeForFile = this._getLastCommentTimeForFile(file.id);
         let maxModifiedTime = lastCommentTimeForFile;
@@ -127,13 +128,15 @@ export default {
             comment,
             ...changes,
           };
-          const meta = this.generateMeta(comment, headers);
+          const meta = this.generateMeta(comment);
           this.$emit(eventToEmit, meta);
+          emitted++;
 
           maxModifiedTime = Math.max(maxModifiedTime, commentTime);
           this._updateLastCommentTimeForFile(file.id, maxModifiedTime);
         }
       }
+      return emitted;
     },
   },
 };

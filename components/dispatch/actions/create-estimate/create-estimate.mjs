@@ -4,8 +4,9 @@ export default {
   key: "dispatch-create-estimate",
   name: "Create Estimate",
   description: "Create a delivery estimate to get pricing and timing options before placing an order. [See the documentation](https://api.dispatchit.com/docs/v1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

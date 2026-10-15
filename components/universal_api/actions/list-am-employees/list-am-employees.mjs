@@ -5,8 +5,9 @@ export default {
   name: "List Asset Management Employees",
   description:
     "List employees from the Asset Management (AM) API on Universal API. Returns an array of AM employee objects (paginated internally, up to `maxResults`). This hits a different endpoint than **List HRIS Employees**. [See the documentation](https://docs.universalapi.io/reference/list-employees-1).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

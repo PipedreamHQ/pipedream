@@ -10,8 +10,9 @@ export default {
     + " Pass either `item_id` (single post) or `item_ids` (up to 20 posts)."
     + " Pass the returned `item_id` to **Create or Update Ad** as `tiktok_item_id` to create a Spark Ad."
     + " [See the documentation](https://business-api.tiktok.com/portal/docs/get-info-about-tiktok-posts/v1.3)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -8,13 +8,14 @@ export default {
     + " Call this before **Modify Labels** or **Find Emails** when you need to target a label that the user named rather than an obvious system label — it resolves a name like `Clients/Acme` to its opaque label ID."
     + " User labels are returned first, then system labels."
     + " [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.labels/list).",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     gmail,
   },

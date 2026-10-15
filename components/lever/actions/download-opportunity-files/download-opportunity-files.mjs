@@ -13,8 +13,9 @@ export default {
     + " Each file is saved to the temporary directory; the action exports `file_paths` and returns a `files` array (each with `resource`, `id`, `name`, `file_path`). Documents that fail to download are reported in `errors` rather than aborting the batch."
     + " Example: to get a candidate's CV and any other documents, call with opportunityId=\"<id>\", resources=[\"resumes\",\"files\"] → downloads every résumé and file and exports their paths. Add fileNameContains=\".pdf\" to limit to PDFs."
     + " [See the documentation](https://hire.lever.co/developer/documentation#download-a-resume-file)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

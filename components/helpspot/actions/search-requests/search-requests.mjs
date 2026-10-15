@@ -9,13 +9,14 @@ export default {
   key: "helpspot-search-requests",
   name: "Search Requests",
   description: "Searches for support requests using one or more filter criteria. [See the documentation](https://support.helpspot.com/index.php?pg=kb.page&id=164#private.request.search)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     helpspot,
     sSearch: {

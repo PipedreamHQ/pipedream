@@ -10,8 +10,9 @@ export default {
     + " `startDateTime` format: ISO 8601 `YYYY-MM-DDTHH:MM:SS` (e.g., `2026-07-15T10:00:00`)."
     + " Location IDs are returned by **Get Site Info**."
     + " [See the documentation](https://developers.mindbodyonline.com/ui/documentation/public-api#/http/api-endpoints/appointment/add-appointment)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

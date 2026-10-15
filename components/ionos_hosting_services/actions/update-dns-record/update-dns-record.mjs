@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import ionosHostingServices from "../../ionos_hosting_services.app.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "ionos_hosting_services-update-dns-record",
   name: "Update DNS Record",
   description: "Update an existing DNS record (HTTP PUT on a single record). Only `content`, `ttl`, `prio`, and `disabled` can be changed - the record's `name` and `type` are immutable via this endpoint (delete and recreate to change them). Run **Get DNS Zone** to find the record ID. [See the documentation](https://developer.hosting.ionos.com/docs/dns).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

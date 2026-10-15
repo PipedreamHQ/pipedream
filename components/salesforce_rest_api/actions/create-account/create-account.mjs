@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import common, { getProps } from "../common/base-create-update.mjs";
 import account from "../../common/sobjects/account.mjs";
 
@@ -13,13 +12,14 @@ export default {
     + " For example, `Name` `Acme Corp` creates a minimal account and returns its new record ID."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.4.0",
+  version: "0.4.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   methods: {
     ...common.methods,
   },

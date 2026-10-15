@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import googleMeet from "../../google_meet.app.mjs";
 
 // Page size for the underlying Calendar events.list request. Fetched pages are
@@ -10,13 +9,14 @@ export default {
   key: "google_meet-list-meetings",
   name: "List Meetings",
   description: "List upcoming Google Meet meetings on a calendar. Use this to discover meetings and their IDs. Returns Calendar events that have a Google Meet link, ordered by start time; by default only meetings that have not yet ended are returned. Narrow the window with the optional RFC 3339 time bounds. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     googleMeet,
     calendarId: {

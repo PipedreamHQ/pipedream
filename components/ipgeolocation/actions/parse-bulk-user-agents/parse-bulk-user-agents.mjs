@@ -5,8 +5,9 @@ export default {
   name: "Parse Bulk User Agents",
   description:
     "Extract browser, device, operating system, and engine details from multiple user agent strings in a single request. Maximum 50,000 strings per request. Only available on paid plans. [See the documentation](https://ipgeolocation.io/documentation/user-agent-api.html#parse-bulk-user-agent-strings)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

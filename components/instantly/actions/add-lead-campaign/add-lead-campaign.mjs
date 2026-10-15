@@ -5,13 +5,14 @@ export default {
   key: "instantly-add-lead-campaign",
   name: "Add Leads to Campaign",
   description: "Adds a lead or leads to a campaign for tracking or further actions. [See the documentation](https://developer.instantly.ai/api/v2/lead/moveleads)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     instantly,
     leadIds: {

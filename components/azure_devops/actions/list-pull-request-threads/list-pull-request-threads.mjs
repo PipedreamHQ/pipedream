@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 
 export default {
   key: "azure_devops-list-pull-request-threads",
   name: "List Pull Request Comment Threads",
   description: "List the comment threads on a pull request, including threads anchored to a file and line. Returns each thread's comments, author and status. Use this to read review feedback before replying or completing the pull request. Example: pull request `12`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/git/pull-request-threads/list?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,8 +5,9 @@ export default {
   name: "List Asset Management Orders",
   description:
     "List orders from the Asset Management (AM) API on Universal API. Returns an array of AM order objects. This hits a different endpoint than **List Distributor Orders**. [See the documentation](https://docs.universalapi.io/reference/list-orders)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

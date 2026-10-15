@@ -4,13 +4,14 @@ export default {
   key: "github-list-milestones",
   name: "List Milestones",
   description: "List the milestones in a repository (title, state, due date, and open/closed issue counts). Use this to discover a milestone's title or number before filtering or updating issues. Provide the repository as an `owner/repo` string; if you pass only a repo name, the authenticated user is assumed as the owner. Discover repository names with **List Repositories**. [See the documentation](https://docs.github.com/en/rest/issues/milestones#list-milestones)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     github,
     repoFullname: {

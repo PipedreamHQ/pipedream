@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/vc_deal_flow_signal",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream VC Deal Flow Signal Components",
   "main": "vc_deal_flow_signal.app.mjs",
   "keywords": [

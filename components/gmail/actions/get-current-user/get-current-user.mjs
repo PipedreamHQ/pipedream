@@ -4,8 +4,9 @@ export default {
   key: "gmail-get-current-user",
   name: "Get Current User",
   description: "Returns the authenticated Gmail user's name, email address, and mailbox stats (total messages and threads). Call this first when the user says 'my emails', 'my inbox', or needs identity context. Use the returned `emailAddress` to identify the user's own messages in **Find Emails** results. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users/getProfile).",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,8 +4,9 @@ export default {
   key: "hiver-list-all-inboxes",
   name: "List All Inboxes",
   description: "List all the inboxes in your Hiver account. [See the documentation](https://developer.hiverhq.com/hiver-api/inbox/list-all-the-inboxes)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import bonusly from "../../bonusly.app.mjs";
 
 export default {
   key: "bonusly-give-bonus",
   name: "Give Bonus",
   description: "Send recognition (a bonus) to one or more colleagues on behalf of the authenticated caller. Do not include `@mentions` or the point amount in the `reason` yourself - Bonusly synthesizes those from `recipients` and `amount` automatically. [See the documentation](https://docs.bonus.ly/reference/giverecognition-1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

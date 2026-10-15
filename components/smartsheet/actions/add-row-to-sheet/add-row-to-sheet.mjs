@@ -1,18 +1,19 @@
 import { ConfigurationError } from "@pipedream/platform";
+import { buildCell } from "../../common/utils.mjs";
 import smartsheet from "../../smartsheet.app.mjs";
 
 export default {
   key: "smartsheet-add-row-to-sheet",
   name: "Add Row to Sheet",
   description:
-    "Add one or more rows to a sheet. Accepts column NAMES as keys — resolves to column IDs internally."
-    + " Call **Get Sheet** or **List Columns** first to learn column names."
-    + " Pass rows as a JSON array of objects mapping column names to values:"
-    + " `[{\"Task\": \"Review doc\", \"Status\": \"Open\"}]`."
-    + " For a single row, pass a one-element array."
+    "Add one or more rows to a sheet, addressing cells by column NAME rather than column ID."
+    + " Returns the created rows under `result`, each with its new row ID."
+    + " Call **Get Sheet** or **List Columns** first to learn the column names."
+    + " To change rows that already exist, use **Update Row**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/rows/rows-addtosheet)",
-  version: "1.0.0",
+  version: "1.1.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -21,17 +22,23 @@ export default {
   props: {
     smartsheet,
     sheetId: {
-      type: "string",
-      label: "Sheet ID",
-      description: "The ID of the sheet to add rows to. Use **List Sheets** to find sheet IDs.",
+      propDefinition: [
+        smartsheet,
+        "sheetIdOrUrl",
+      ],
     },
     rows: {
       type: "string",
       label: "Rows",
       description:
-        "JSON array of row objects mapping column names to values."
+        "JSON array of row objects mapping column names to values. For a single row, pass a one-element array."
         + " Example: `[{\"Species\": \"Triceratops\", \"Status\": \"Contained\"}]`."
-        + " Call **Get Sheet** or **List Columns** to discover column names.",
+        + " For a MULTI_PICKLIST column, pass a string or array of strings naming the selected option(s)"
+        + " (a comma/semicolon-separated string also works), e.g. `{\"Status Tags\": [\"Urgent\", \"Review\"]}`."
+        + " For a MULTI_CONTACT_LIST column, pass an email string, an array of email strings, or"
+        + " `{\"email\": \"...\", \"name\": \"...\"}` object(s) — same comma/semicolon-separated string option applies —"
+        + " e.g. `{\"Subscriber\": [{\"email\": \"a@example.com\", \"name\": \"A Example\"}, \"b@example.com\"]}`."
+        + " Column names must match the sheet exactly; call **Get Sheet** or **List Columns** to discover them.",
     },
     toTop: {
       type: "boolean",
@@ -51,7 +58,12 @@ export default {
       throw new ConfigurationError("`Rows` must be a non-empty JSON array.");
     }
 
-    const { byName } = await this.smartsheet.getColumnMap(this.sheetId, {
+    const sheetId = await this.smartsheet.resolveSheetId(this.sheetId, {
+      $,
+    });
+    const {
+      byName, typesById,
+    } = await this.smartsheet.getColumnMap(sheetId, {
       $,
     });
 
@@ -71,10 +83,7 @@ export default {
       ] of entries) {
         const columnId = byName[name.toLowerCase()];
         if (columnId) {
-          cells.push({
-            columnId,
-            value,
-          });
+          cells.push(buildCell(columnId, typesById[columnId], value, name, rowIndex));
         } else {
           unknownColumns.push(name);
         }
@@ -85,18 +94,21 @@ export default {
       const rowObj = {
         cells,
       };
-      if (this.toTop) rowObj.toTop = true;
-      else rowObj.toBottom = true;
+      if (this.toTop) {
+        rowObj.toTop = true;
+      } else {
+        rowObj.toBottom = true;
+      }
       return rowObj;
     });
 
-    const response = await this.smartsheet.addRow(this.sheetId, {
+    const response = await this.smartsheet.addRow(sheetId, {
       $,
       data: apiRows,
     });
 
     const count = response.result?.length || 1;
-    $.export("$summary", `Added ${count} row(s) to sheet ${this.sheetId}`);
+    $.export("$summary", `Added ${count} row(s) to sheet ${sheetId}`);
     return response;
   },
 };

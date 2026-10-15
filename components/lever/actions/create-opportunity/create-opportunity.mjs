@@ -12,8 +12,9 @@ export default {
     + " WARNING: only one posting UID may be specified per request."
     + " Example: to add Jane Doe as a referred candidate on a posting, call with performAs=\"<userId>\", candidateName=\"Jane Doe\", email=\"jane@example.com\", postingId=\"<postingId>\", origin=\"referred\" → returns the created opportunity with its `id`."
     + " [See the documentation](https://hire.lever.co/developer/documentation#create-an-opportunity)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

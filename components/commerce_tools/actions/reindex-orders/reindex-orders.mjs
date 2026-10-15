@@ -4,8 +4,9 @@ export default {
   key: "commerce_tools-reindex-orders",
   name: "Reindex Orders",
   description: "Trigger a (re)build of the Order Search index for the Project. Required before the **Search Orders** action returns results - enabling Order Search with the **Change Order Search Status** action does not build the index on its own. [See the documentation](https://docs.commercetools.com/api/projects/order-search#check-if-order-search-index-exists).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

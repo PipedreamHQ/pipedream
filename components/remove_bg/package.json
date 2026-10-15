@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/remove_bg",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream remove_bg Components",
   "main": "remove_bg.app.mjs",
   "keywords": [

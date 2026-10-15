@@ -5,13 +5,14 @@ export default {
   key: "helper_functions-base64-decode-string",
   name: "Base64 Decode String",
   description: "Accepts a base64-encoded string, returns the decoded data as a UTF-8 string or raw binary",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     helper_functions,
     data: {

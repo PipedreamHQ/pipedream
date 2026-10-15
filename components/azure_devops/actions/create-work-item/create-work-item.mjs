@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 import { PATCH_OP } from "../../common/constants.mjs";
 import {
@@ -9,8 +8,9 @@ export default {
   key: "azure_devops-create-work-item",
   name: "Create Work Item",
   description: "Create a work item of any type - Bug, Task, User Story, Epic. Returns the new work item's id and full field set. Use when turning an alert, form submission or support ticket into tracked work. Example: type `Bug`, title `Checkout returns 500 on empty cart`, assigned to `jamal@fabrikam.com`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/wit/work-items/create?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

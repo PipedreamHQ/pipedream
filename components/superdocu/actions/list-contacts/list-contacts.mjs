@@ -8,8 +8,9 @@ export default {
   key: "superdocu-list-contacts",
   name: "List Contacts",
   description: "List contacts in Superdocu. Returns an array of contact objects, each with a numeric `id` (e.g. `\"56031\"`) — this `id` (not the email) is the value to pass as **contactId** to **List Dossiers**, **Create Dossier**, **Get Dossier**, **Delete Dossier**, and **Invite Contact**. The `email` field is for reference/display only; downstream tools do not accept it. Supports filtering by status, free-text query, tag, and assignee. [See the documentation](https://developers.superdocu.com/api/index.html).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

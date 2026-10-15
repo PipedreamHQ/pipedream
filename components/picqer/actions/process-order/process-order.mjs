@@ -4,13 +4,14 @@ export default {
   key: "picqer-process-order",
   name: "Process Order",
   description: "Finalizes a concept or expected order and creates picklists or backorders automatically. Note: The processing itself will take place in the background after you receive the response. [See the documentation](https://picqer.com/en/api/orders)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     orderId: {

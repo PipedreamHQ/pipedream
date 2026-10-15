@@ -4,8 +4,9 @@ export default {
   key: "enrich_layer-get-job-search",
   name: "Get Job Search",
   description: "List jobs posted by a company on professional networks. Cost: 2 credits per successful request. [See the documentation](https://enrichlayer.com/docs/api/v2/jobs-api/job-search).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

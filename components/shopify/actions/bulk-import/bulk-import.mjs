@@ -8,13 +8,14 @@ export default {
   key: "shopify-bulk-import",
   name: "Run Bulk Mutation",
   description: "Runs a bulk mutation (Shopify's `bulkOperationRunMutation`) by uploading a JSONL file of per-line mutation variables, so a mutation (e.g. product/variant/metafield create or update) runs once per line across thousands of records in a single Admin GraphQL bulk operation instead of one API call per record. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/bulkoperationrunmutation)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     shopify,
     alert: {

@@ -11,13 +11,14 @@ export default {
     + " To draft to yourself, pass `\"me\"` in `to` — the action resolves it to the authenticated user's email address. No pre-call to **Get Current User** required."
     + " Attachments use `file-ref` inputs and require matching `attachmentFilenames[]` entries."
     + " [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.drafts/create).",
-  version: "0.2.2",
+  version: "0.2.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     gmail,
     to: {

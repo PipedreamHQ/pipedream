@@ -4,13 +4,14 @@ export default {
   key: "github-list-branches",
   name: "List Branches",
   description: "List the branches in a repository. Provide the repository as an `owner/repo` string. Optionally filter to only protected (or only unprotected) branches. If you need to discover repository names first, use **List Repositories**. [See the documentation](https://docs.github.com/en/rest/branches/branches#list-branches)",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     github,
     repoFullname: {

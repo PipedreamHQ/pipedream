@@ -4,13 +4,14 @@ export default {
   key: "wordpress_com-create-post",
   name: "Create New Post",
   description: "Creates a new post on a WordPress.com site. [See the documentation](https://developer.wordpress.com/docs/api/1.1/post/sites/%24site/posts/new/)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     wordpress,
     site: {

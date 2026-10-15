@@ -4,7 +4,7 @@ import app from "../../app/clientary.app";
 
 export default defineAction({
   key: "clientary-create-invoice",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,6 +13,7 @@ export default defineAction({
   name: "Create Invoice",
   description: "Creates a new invoice. [See docs here](https://www.clientary.com/api/invoices)",
   type: "action",
+  ai: "optimized",
   props: {
     app,
     date: {

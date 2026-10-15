@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../dappier.app.mjs";
 import { resolveDateRange } from "../../common/utils.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "dappier-get-sponsored-conversations-analytics",
   name: "Get Sponsored Conversations Analytics",
   description: "Retrieve aggregated sponsored-conversation (ad campaign) analytics (GET `/v1/analytics/sponsored-conversations`). Returns a `summary` (impressions, queries, sessions, clicks, conversion rate) plus `daily_breakdown`, `campaign_breakdown`, `prompt_breakdown`, and `click_type_breakdown`. All filters are optional; with no dates it defaults to the last 7 days (UTC). Example: call with no arguments for the last-7-days rollup, or pass `campaignId=cp_...` with `startDate`/`endDate` to scope one campaign to a window. [See the documentation](https://docs.dappier.com/api-reference/endpoint/sponsored-conversations-analytics).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

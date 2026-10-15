@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import wrike from "../../wrike.app.mjs";
 import {
   CUSTOM_FIELD_APPLICABLE_ENTITY_TYPE_OPTIONS,
@@ -12,8 +11,9 @@ export default {
   key: "wrike-list-custom-fields-keys-options",
   name: "List Custom Fields Keys Options",
   description: "Retrieves available custom fields so callers can copy field IDs into free-form customFields props in other actions. [See the documentation](https://developers.wrike.com/reference/getcustomfieldsempty)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

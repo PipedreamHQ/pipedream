@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../google_health.app.mjs";
 import {
@@ -36,8 +35,9 @@ export default {
   key: "google_health-list-data-points",
   name: "List Data Points",
   description: "Read raw data points for any Google Health data type the dedicated tools do not cover — blood oxygen (`oxygen-saturation`), heart rate variability, respiratory rate, VO2 max, body temperature, exercise sessions, sedentary periods, altitude, swim lengths and more; see the `dataType` options for the full list. **Prefer a dedicated tool where one exists**, since those return compact pre-aggregated results while this returns raw records and can be large: **Get Daily Step Count** (steps), **Get Daily Activity Summary** (calories, distance, active minutes, floors), **Get Heart Rate**, **Get Sleep Data**, **Get Body Measurements** (weight, body fat), **Get Nutrition and Hydration Logs** (food, water). Example: dataType=\"oxygen-saturation\", startDate=\"2026-08-24\" → `dataPoints` with each reading's value and timestamp, newest first. Two pages of `pageSize` come back (default 50 → 100 records) and `pageSize` is capped at 500, so **one call returns at most 1000 records**; `truncated: true` means there were more — narrow the date range or raise `pageSize` up to that cap. `food` and `food-measurement-unit` are reference catalogues, not time series — the date range does not apply, the response sets `dateFilterApplied: false`, and you must not describe those results as belonging to a particular day. Not available here: `total-calories`, `floors`, and `calories-in-heart-rate-zone` are aggregate-only (use **Get Daily Activity Summary**); ECG and irregular-rhythm data need OAuth scopes this app does not request. [See the documentation](https://developers.google.com/health/data-types)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

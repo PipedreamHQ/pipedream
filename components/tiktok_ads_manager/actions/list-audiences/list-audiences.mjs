@@ -9,8 +9,9 @@ export default {
     + " Returns both owned and shared audiences — use `is_creator` in the response to check ownership."
     + " Use audience IDs returned here as input to **Update Audience** or **Create Lookalike Audience**."
     + " [See the documentation](https://business-api.tiktok.com/portal/docs/get-all-audiences/v1.3)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

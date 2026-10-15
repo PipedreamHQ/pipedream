@@ -11,7 +11,7 @@ export default {
   key: "google_drive-new-files-instant",
   name: "New Files (Instant)",
   description: "Emit new event when a new file is added in your linked Google Drive",
-  version: "0.2.13",
+  version: "0.3.0",
   type: "source",
   dedupe: "unique",
   props: {
@@ -130,6 +130,9 @@ export default {
         GOOGLE_DRIVE_NOTIFICATION_ADD,
         GOOGLE_DRIVE_NOTIFICATION_CHANGE,
       ];
+    },
+    consumesChangedFiles() {
+      return false;
     },
     async emitFiles(files) {
       for (const file of files) {

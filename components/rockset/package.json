@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/rockset",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream rockset Components",
   "main": "rockset.app.mjs",
   "keywords": [

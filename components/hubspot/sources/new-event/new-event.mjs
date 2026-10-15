@@ -10,7 +10,7 @@ export default {
   key: "hubspot-new-event",
   name: "New Events",
   description: "Emit new event for each new Hubspot event. Note: Only available for Marketing Hub Enterprise, Sales Hub Enterprise, Service Hub Enterprise, or CMS Hub Enterprise accounts",
-  version: "0.0.49",
+  version: "0.0.51",
   dedupe: "unique",
   type: "source",
   props: {
@@ -109,14 +109,25 @@ export default {
       }
 
       // Subsequent runs: emit every event created after the cursor, per ID.
+      let newest = after;
+      let complete = true;
       for (const objectId of this.objectIds) {
-        const params = this.getEventParams(objectId, after);
-        await this.paginate(
-          params,
+        const maxTs = await this.paginatePass(
+          this.getEventParams(objectId, after),
           this.hubspot.getEvents.bind(this),
           "results",
           after,
+          objectId,
         );
+        if (maxTs === null) {
+          complete = false;
+        } else {
+          newest = Math.max(newest, maxTs);
+        }
+      }
+      // Move the cursor only once every ID's pass has completed.
+      if (complete && newest > after) {
+        this._setAfter(newest);
       }
     },
   },

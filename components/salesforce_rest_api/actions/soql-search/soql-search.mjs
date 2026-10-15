@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import { docsInfo } from "../sosl-search/sosl-search.mjs";
 
@@ -12,13 +11,14 @@ export default {
     + " SOQL filters on exact field values; use **Text Search** for keyword search."
     + " "
     + `[See the documentation](${docsLink})`,
-  version: "0.2.15",
+  version: "0.2.16",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     salesforce,
     docsInfo,

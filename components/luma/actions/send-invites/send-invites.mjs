@@ -5,8 +5,9 @@ export default {
   key: "luma-send-invites",
   name: "Send Invites",
   description: "Send email invitations for a Luma event. Guests are invited but not automatically marked as going. Use **Add Guests** when guests should be added with status `Going`. [See the documentation](https://docs.luma.com/reference/post_v1-event-send-invites)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

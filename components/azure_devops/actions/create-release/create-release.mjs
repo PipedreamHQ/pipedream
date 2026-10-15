@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 import { parseObject } from "../../common/utils.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "azure_devops-create-release",
   name: "Create Release",
   description: "Create a classic release from a release definition, optionally as a draft or with specific artifact versions. Returns the new release's id and name. Omit **Artifacts** to take the definition's latest versions. Use this to ship a build through a classic release pipeline. Example: definition `3`, description `Nightly deploy`. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/release/releases/create?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

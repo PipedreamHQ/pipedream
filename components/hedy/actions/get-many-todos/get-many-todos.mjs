@@ -8,8 +8,9 @@ export default {
     + " To get todos for a specific session only, use **Get Todos By Session**."
     + " Use **Get Todo** with a specific todo ID to fetch a single item's full detail."
     + " [See the documentation](https://app.swaggerhub.com/apis-docs/HedyAI/hedy-api/1.5.2#/Todos/get_todos)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

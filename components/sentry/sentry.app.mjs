@@ -27,6 +27,27 @@ export default {
         };
       },
     },
+    projectSlugs: {
+      type: "string[]",
+      label: "Projects",
+      description: "Only consider issue events from these projects, matched by project slug (e.g. `my-backend`). Leave empty to consider every project in the organization.",
+      optional: true,
+      async options(context) {
+        const { organizationSlug } = context;
+        const url = this._organizationProjectsEndpoint(organizationSlug);
+        const {
+          data,
+          next,
+        } = await this._propDefinitionsOptions(url, {}, context);
+        const options = data.map(this._projectObjectToOption);
+        return {
+          options,
+          context: {
+            nextPage: next,
+          },
+        };
+      },
+    },
     projectId: {
       type: "string",
       label: "Project",
@@ -101,6 +122,10 @@ export default {
       const baseUrl = this._apiUrl();
       return `${baseUrl}/organizations/`;
     },
+    _organizationProjectsEndpoint(organizationSlug) {
+      const baseUrl = this._organizationsEndpoint();
+      return `${baseUrl}${organizationSlug}/projects/`;
+    },
     _integrationsEndpoint(integrationSlug) {
       const baseUrl = this._apiUrl();
       const url = `${baseUrl}/sentry-apps`;
@@ -150,6 +175,17 @@ export default {
         name,
         slug,
       } = organization;
+      const label = `${name} (${slug})`;
+      return {
+        label,
+        value: slug,
+      };
+    },
+    _projectObjectToOption(project) {
+      const {
+        name,
+        slug,
+      } = project;
       const label = `${name} (${slug})`;
       return {
         label,

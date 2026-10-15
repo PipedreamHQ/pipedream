@@ -11,8 +11,9 @@ export default {
     + " organizational context."
     + " The user ID and org context may be needed when creating"
     + " dashboards or filtering resources.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: false,

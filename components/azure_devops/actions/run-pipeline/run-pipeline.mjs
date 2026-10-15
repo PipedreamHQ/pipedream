@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import azureDevops from "../../azure_devops.app.mjs";
 import { parseObject } from "../../common/utils.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "azure_devops-run-pipeline",
   name: "Run Pipeline",
   description: "Trigger a run of a YAML pipeline, optionally on a specific branch and with template parameters or variable overrides. Returns the run's id and state; the run itself proceeds asynchronously. Set **Preview Run** to validate instead: Azure DevOps then starts nothing and returns the final expanded YAML document rather than a run. Use this to deploy or test on demand. Example: pipeline `12` on `refs/heads/main`. Run the **List Pipelines** action first to obtain the pipeline id. [See the documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/pipelines/runs/run-pipeline?view=azure-devops-rest-7.1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

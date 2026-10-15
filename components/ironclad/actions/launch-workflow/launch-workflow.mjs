@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import ironclad from "../../ironclad.app.mjs";
 import { LAUNCH_WORKFLOW_DEFAULT_USE_DEFAULT_VALUES } from "../../common/constants.mjs";
 import { parseJsonObject } from "../../common/utils.mjs";
@@ -7,13 +6,14 @@ export default {
   key: "ironclad-launch-workflow",
   name: "Launch Workflow",
   description: "Launches a new workflow in Ironclad. Run **Describe Workspace** to find a template ID, then run **Describe Workflow Template** to discover the field keys, types, and constraints (including conditional fields) needed to build the `attributes` payload. Example: set `templateId` to `\"tmpl_abc123\"` and `attributes` to `{\"counterpartyName\": \"Acme Corp\", \"paperSource\": \"Our paper\", \"startDate\": \"2026-09-01\"}`; returns `{\"id\": \"wf_xyz789\", \"status\": \"review\"}`. [See the documentation](https://developer.ironcladapp.com/reference/launch-a-new-workflow)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ironclad,
     templateId: {
