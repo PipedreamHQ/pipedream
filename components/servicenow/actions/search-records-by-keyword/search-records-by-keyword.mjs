@@ -4,7 +4,8 @@ export default {
   key: "servicenow-search-records-by-keyword",
   name: "Search Records by Keyword",
   description: "Search for records by keyword. [See the documentation](https://www.servicenow.com/docs/bundle/zurich-api-reference/page/integrate/inbound-rest/concept/c_TableAPI.html#title_table-GET)",
-  version: "0.0.7",
+  version: "0.0.8",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

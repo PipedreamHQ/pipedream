@@ -33,6 +33,12 @@ export default {
     },
   },
   async run({ $ }) {
+    const cartBefore = await this.servicenow.getCart({
+      $,
+    });
+    const existingCartItemIds = new Set(
+      catalogCartItems(cartBefore).map(({ cartItemId }) => cartItemId),
+    );
     const response = await this.servicenow.submitOrderGuide({
       $,
       catalogItemSysId: this.catalogItemSysId,
@@ -51,6 +57,9 @@ export default {
     });
     const cartItemsByCatalogId = new Map();
     for (const item of catalogCartItems(cart)) {
+      if (existingCartItemIds.has(item.cartItemId)) {
+        continue;
+      }
       const queue = cartItemsByCatalogId.get(item.catalogItemId) ?? [];
       queue.push(item.cartItemId);
       cartItemsByCatalogId.set(item.catalogItemId, queue);
@@ -70,6 +79,9 @@ export default {
     $.export("$summary", `Successfully submitted order guide ${this.catalogItemSysId} - ${count} item(s)`);
 
     return {
+      ...(response && !Array.isArray(response) && typeof response === "object"
+        ? response
+        : {}),
       items: normalizedItems,
       cart_id: cart?.cart_id ?? cart?.sys_id,
     };

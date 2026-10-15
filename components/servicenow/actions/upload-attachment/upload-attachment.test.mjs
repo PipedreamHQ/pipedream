@@ -125,28 +125,28 @@ for (const [
   overrides,
   error,
 ] of [
-  [
-    "malformed base64",
-    {
-      contentBase64: "not base64!",
-    },
-    /valid base64/,
-  ],
-  [
-    "invalid sys_id",
-    {
-      tableSysId: "not-a-sys-id",
-    },
-    /32-character hexadecimal/,
-  ],
-  [
-    "invalid table name",
-    {
-      tableName: "sc_request?bad=true",
-    },
-    /letters, numbers, and underscores/,
-  ],
-]) {
+    [
+      "malformed base64",
+      {
+        contentBase64: "not base64!",
+      },
+      /valid base64/,
+    ],
+    [
+      "invalid sys_id",
+      {
+        tableSysId: "not-a-sys-id",
+      },
+      /32-character hexadecimal/,
+    ],
+    [
+      "invalid table name",
+      {
+        tableName: "sc_request?bad=true",
+      },
+      /letters, numbers, and underscores/,
+    ],
+  ]) {
   test(`rejects ${label}`, async () => {
     const context = actionContext(overrides);
 

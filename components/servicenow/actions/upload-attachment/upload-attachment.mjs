@@ -1,8 +1,8 @@
 import { ConfigurationError } from "@pipedream/platform";
 import servicenow from "../../servicenow.app.mjs";
+import { assertSysId } from "../../common/utils.mjs";
 
 const MAX_ATTACHMENT_BYTES = 25 * 1024 * 1024;
-const SYS_ID_PATTERN = /^[0-9a-f]{32}$/i;
 const TABLE_NAME_PATTERN = /^[A-Za-z0-9_]+$/;
 const BASE64_PATTERN = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
 
@@ -43,7 +43,7 @@ export default {
     tableSysId: {
       type: "string",
       label: "Table Record Sys ID",
-      description: "The 32-character `sys_id` of the record that will own the attachment.",
+      description: "The 32-character `sys_id` of the record that will own the attachment. Use **Get Table Records** to find it in the `sys_id` response field. Example: `46a1c7d2e8f94b6c9a0d1e2f3a4b5c6d`.",
     },
     fileName: {
       type: "string",
@@ -58,16 +58,14 @@ export default {
     contentBase64: {
       type: "string",
       label: "File Content Base64",
-      description: "The complete file content encoded as base64. The decoded file may be at most 25 MiB.",
+      description: "The complete file content encoded as base64. The decoded file may be at most 25 MiB. Example: `JVBERi0xLjQK`.",
     },
   },
   async run({ $ }) {
     if (!TABLE_NAME_PATTERN.test(this.tableName)) {
       throw new ConfigurationError("Table Name may contain only letters, numbers, and underscores.");
     }
-    if (!SYS_ID_PATTERN.test(this.tableSysId)) {
-      throw new ConfigurationError("Table Record Sys ID must be a 32-character hexadecimal sys_id.");
-    }
+    const tableSysId = assertSysId(this.tableSysId, "Table Record Sys ID");
     if (!this.fileName.trim()) {
       throw new ConfigurationError("File Name must not be empty.");
     }
@@ -79,7 +77,7 @@ export default {
     const response = await this.servicenow.uploadAttachment({
       $,
       tableName: this.tableName,
-      tableSysId: this.tableSysId,
+      tableSysId,
       fileName: this.fileName,
       contentType: this.contentType,
       data: content,

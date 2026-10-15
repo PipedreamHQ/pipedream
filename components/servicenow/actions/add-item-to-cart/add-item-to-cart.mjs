@@ -1,11 +1,10 @@
 import { ConfigurationError } from "@pipedream/platform";
 import servicenow from "../../servicenow.app.mjs";
 import {
+  assertSysId,
   catalogCartItems,
   parseObject,
 } from "../../common/utils.mjs";
-
-const SYS_ID_PATTERN = /^[0-9a-f]{32}$/i;
 
 function enrichedResponse(response, cartItemId) {
   const body = response && typeof response === "object" && !Array.isArray(response)
@@ -68,10 +67,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const itemGuid = String(this.itemGuid ?? "").trim();
-    if (itemGuid && !SYS_ID_PATTERN.test(itemGuid)) {
-      throw new ConfigurationError("Reserved Item GUID must be a 32-character hexadecimal sys_id.");
-    }
+    const itemGuid = assertSysId(this.itemGuid, "Reserved Item GUID", {
+      optional: true,
+      trim: true,
+    });
     const response = await this.servicenow.addItemToCart({
       $,
       catalogItemSysId: this.catalogItemSysId,
