@@ -15,6 +15,35 @@ export function parseObject(value) {
   return value;
 }
 
+function scalar(value) {
+  return value && typeof value === "object"
+    ? value.value ?? value.display_value ?? value.sys_id
+    : value;
+}
+
+export function catalogCartItems(payload) {
+  const found = [];
+  const visit = (node) => {
+    if (Array.isArray(node)) {
+      node.forEach(visit);
+      return;
+    }
+    if (!node || typeof node !== "object") {
+      return;
+    }
+    const cartItemId = scalar(node.cart_item_id ?? node.cartItemId);
+    if (cartItemId) {
+      found.push({
+        cartItemId: String(cartItemId),
+        catalogItemId: String(scalar(node.catalog_item_id ?? node.item_id ?? node.cat_item) ?? ""),
+      });
+    }
+    Object.values(node).forEach(visit);
+  };
+  visit(payload);
+  return found;
+}
+
 export function assertSafeQueryValue(value, label) {
   if (typeof value === "string" && value.includes("^")) {
     throw new ConfigurationError(`\`${label}\` cannot contain the \`^\` character, which is reserved by ServiceNow's encoded-query syntax.`);
@@ -156,9 +185,13 @@ const DESCRIBED_VARIABLE_FIELDS = [
   "name",
   "label",
   "type",
+  "friendly_type",
   "mandatory",
   "value",
   "choices",
+  "attributes",
+  "allowed_extensions",
+  "max_file_size",
 ];
 
 /**
@@ -282,10 +315,19 @@ export function normalizeGuideCheckoutItems(items) {
       throw new ConfigurationError(`${label} is missing sys_id.`);
     }
 
-    return {
+    const normalized = {
       sys_id: sysId,
       sysparm_quantity: assertPositiveQuantity(raw.sysparm_quantity ?? raw.quantity, label),
       variables: normalizeGuideVariables(raw.variables, label),
     };
+    const cartItemId = String(raw.cart_item_id ?? raw.cartItemId ?? "").trim();
+    if (cartItemId) {
+      normalized.cart_item_id = cartItemId;
+    }
+    const itemGuid = String(raw.sysparm_item_guid ?? raw.item_guid ?? "").trim();
+    if (itemGuid) {
+      normalized.sysparm_item_guid = itemGuid;
+    }
+    return normalized;
   });
 }
