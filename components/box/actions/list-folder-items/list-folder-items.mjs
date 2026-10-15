@@ -2,11 +2,14 @@ import { ConfigurationError } from "@pipedream/platform";
 import app from "../../box.app.mjs";
 import utils from "../../common/utils.mjs";
 
+const ROOT_FOLDER_ID = "0";
+const MIN_OFFSET = 0;
+
 export default {
   key: "box-list-folder-items",
   name: "List Folder Items",
-  description: "Lists files, folders, and web links in a Box folder. Use `0` for the root folder. Returns one page of results (default 100, max 1000). To find items by name or metadata across all folders, use **Search Content** instead. [See the documentation](https://developer.box.com/reference/get-folders-id-items/).",
-  version: "0.0.3",
+  description: "Lists files, folders, and web links in a Box folder. Use `0` for the root folder. Returns one page of results (default 100, max 1000), with `next_marker` for paging, or `total_count` and `offset` when **Offset** is set or the root folder is sorted. To find items by name or metadata across all folders, use **Search Content** instead. [See the documentation](https://developer.box.com/reference/get-folders-id-items/).",
+  version: "0.1.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -35,7 +38,7 @@ export default {
     sort: {
       type: "string",
       label: "Sort",
-      description: "Defines the attribute by which items are sorted. Not supported for the root folder (`0`) — Box does not allow sorting root-folder results with marker-based pagination.",
+      description: "Defines the attribute by which items are sorted. Sorting the root folder (`0`) switches to offset-based pagination, so page with **Offset** instead of **Marker**.",
       optional: true,
       options: [
         {
@@ -82,20 +85,35 @@ export default {
     marker: {
       type: "string",
       label: "Marker",
-      description: "The position marker at which to begin returning results. Pass the `next_marker` value returned by a previous run of this action to continue listing beyond the first page, e.g. `JV9IRGZmieiBasejOG9yDCRNgd2ymoZIbjsxbJMjIs3kioVii`.",
+      description: "The position marker at which to begin returning results. Pass the `next_marker` value returned by a previous run of this action to continue listing beyond the first page, e.g. `JV9IRGZmieiBasejOG9yDCRNgd2ymoZIbjsxbJMjIs3kioVii`. Keep the same **Sort** and **Direction** across pages. Cannot be combined with **Offset** or with **Sort** on the root folder (`0`).",
       optional: true,
+    },
+    offset: {
+      type: "integer",
+      label: "Offset",
+      description: "The index of the first item to return. Switches to offset-based pagination, which is also used automatically when sorting the root folder (`0`). To get the next page, add **Limit** to the previous offset; stop when it reaches `total_count`. Box notes offset pagination may be unreliable at very high offsets. Cannot be combined with **Marker**.",
+      optional: true,
+      min: MIN_OFFSET,
     },
   },
   async run({ $ }) {
-    if (this.sort && String(this.folderId) === "0") {
-      throw new ConfigurationError("Box does not support `Sort` on the root folder (`0`). Remove Sort, or choose a non-root folder.");
+    // Box documents sort as unsupported with marker pagination on the root folder
+    const isRootSort = this.sort && String(this.folderId) === ROOT_FOLDER_ID;
+    const useOffset = Number.isInteger(this.offset) || isRootSort;
+    if (useOffset && this.marker) {
+      throw new ConfigurationError("`Marker` cannot be combined with `Offset` or with `Sort` on the root folder (`0`). Remove Marker and page with Offset instead.");
     }
 
     const params = {
       limit: this.limit,
-      usemarker: true,
       fields: utils.getFieldsParam(this.fields),
     };
+
+    if (useOffset) {
+      params.offset = this.offset;
+    } else {
+      params.usemarker = true;
+    }
 
     if (this.sort) {
       params.sort = this.sort;
