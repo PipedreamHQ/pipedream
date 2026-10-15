@@ -38,7 +38,7 @@ export default {
     profileName: {
       type: "string",
       label: "Profile Name",
-      description: "The name of the profile to update.",
+      description: "The name of the profile.",
       async options() {
         const { data: { items: profiles } } = await this.listProfiles();
         return profiles.map(({ name: value }) => value);
@@ -46,8 +46,8 @@ export default {
     },
   },
   methods: {
-    getUrl(path, apiVersion = "v1") {
-      return `https://api.anchorbrowser.io/${apiVersion}${path}`;
+    getUrl(path) {
+      return `https://api.anchorbrowser.io/v1${path}`;
     },
     getHeaders(headers) {
       return {
@@ -56,23 +56,17 @@ export default {
       };
     },
     _makeRequest({
-      $ = this, path, headers, apiVersion, ...args
+      $ = this, path, headers, ...args
     } = {}) {
       return axios($, {
         ...args,
-        url: this.getUrl(path, apiVersion),
+        url: this.getUrl(path),
         headers: this.getHeaders(headers),
       });
     },
     post(args = {}) {
       return this._makeRequest({
         method: "POST",
-        ...args,
-      });
-    },
-    put(args = {}) {
-      return this._makeRequest({
-        method: "PUT",
         ...args,
       });
     },
