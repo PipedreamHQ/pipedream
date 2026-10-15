@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/serpkite",
+  "version": "0.0.1",
+  "description": "Pipedream SerpKite Components",
+  "main": "serpkite.app.mjs",
+  "keywords": [
+    "pipedream",
+    "serpkite"
+  ],
+  "homepage": "https://pipedream.com/apps/serpkite",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  }
+}
