@@ -52,7 +52,7 @@ export default {
       optional: true,
     },
     profileName: {
-      description: "The name of the profile to use for the browser session.",
+      description: "The name of the profile to use for the browser session, e.g. `my-profile`. Use **List Profile Name Options** to retrieve available profile names. Leave empty to start a session without a profile.",
       propDefinition: [
         app,
         "profileName",

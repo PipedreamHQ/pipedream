@@ -14,7 +14,7 @@ export default {
   props: {
     app,
     profileName: {
-      description: "The name of the profile to delete.",
+      description: "The name of the profile to delete, e.g. `my-profile`. Use **List Profile Name Options** to retrieve available profile names.",
       propDefinition: [
         app,
         "profileName",

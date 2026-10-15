@@ -38,7 +38,7 @@ export default {
     profileName: {
       type: "string",
       label: "Profile Name",
-      description: "The name of the profile.",
+      description: "The name of the profile, e.g. `my-profile`. Use **List Profile Name Options** to retrieve available profile names.",
       async options() {
         const { data: { items: profiles } } = await this.listProfiles();
         return profiles.map(({ name: value }) => value);
