@@ -1,5 +1,7 @@
 const SUMMARY_LABEL = "$summary";
 const VERSION_PATH = "/v2";
+const FALLBACK_BASE_URL = "https://api.gong.io";
+
 const LAST_CREATED_AT = "lastCreatedAt";
 const DEFAULT_MAX = 600;
 
@@ -116,6 +118,7 @@ const EXTENDED_CONTEXT = "Extended";
 export default {
   SUMMARY_LABEL,
   VERSION_PATH,
+  FALLBACK_BASE_URL,
   DOCS_URL,
   DEFAULT_MAX,
   MIN_LIMIT,

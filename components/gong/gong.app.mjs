@@ -100,10 +100,8 @@ export default {
       return (msg = "") => step.export(constants.SUMMARY_LABEL, msg);
     },
     getBaseUrl() {
-      const { api_base_url_for_customer: baseUrl } = this.$auth;
-      if (!baseUrl) {
-        throw new ConfigurationError("This Gong account is missing its API base URL. Reconnect the account to refresh its credentials.");
-      }
+      // Gong routes by bearer token, so the generic host works when no per-customer host is set
+      const baseUrl = this.$auth.api_base_url_for_customer || constants.FALLBACK_BASE_URL;
       return `${baseUrl.replace(/\/+$/, "")}${constants.VERSION_PATH}`;
     },
     getUrl(path) {
