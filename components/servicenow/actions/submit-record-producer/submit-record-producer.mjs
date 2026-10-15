@@ -5,7 +5,7 @@ export default {
   key: "servicenow-submit-record-producer",
   name: "Submit Record Producer",
   description: "Submit a ServiceNow record producer to create the target record (e.g. an incident or RITM) from catalog variables. Run **Search Catalog Items** to find the record producer `sys_id` and **Get Catalog Item Variables** to learn which variable names to supply. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -35,6 +35,12 @@ export default {
       description: "Optional UI view used to render the response. Example: `ess`.",
       optional: true,
     },
+    skipMandatoryValidation: {
+      propDefinition: [
+        servicenow,
+        "skipMandatoryValidation",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.servicenow.submitRecordProducer({
@@ -42,6 +48,9 @@ export default {
       catalogItemSysId: this.catalogItemSysId,
       data: {
         variables: parseObject(this.variables),
+        ...(this.skipMandatoryValidation && {
+          sysparm_no_validation: "true",
+        }),
       },
       ...(this.sysparmView && {
         params: {
