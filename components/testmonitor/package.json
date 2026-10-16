@@ -12,7 +12,7 @@
   "dependencies": {
     "@pipedream/platform": "^3.2.5",
     "fs": "^0.0.1-security",
-    "moment": "^2.29.4"
+    "moment": "^2.31.0"
   },
   "publishConfig": {
     "access": "public"
