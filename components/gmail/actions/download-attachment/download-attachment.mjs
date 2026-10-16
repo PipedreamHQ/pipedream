@@ -8,6 +8,7 @@ import chromium from "@sparticuz/chromium";
 import mammoth from "mammoth";
 import mime from "mime";
 import gmail from "../../gmail.app.mjs";
+import { sniffMimeType } from "../../common/mime.mjs";
 
 export default {
   key: "gmail-download-attachment",
@@ -15,7 +16,7 @@ export default {
   description:
     "Download a Gmail message attachment to `/tmp` and return its path + metadata. File Stash syncs the file and exposes a presigned download URL so the caller can retrieve it."
     + " Call **Find Emails** (with `format: \"full\"`) or **Get Thread** first — attachment IDs only appear in full-format message reads; each returned message's `payload.parts[]` enumerates attachments as `{ body.attachmentId, filename, mimeType }`. Pass the enclosing message's `id` as `messageId` and the part's `body.attachmentId` as `attachmentId`."
-    + " Gmail issues a new `attachmentId` for the same part on every read, so the download always uses the `attachmentId` you pass, and the filename and MIME type are resolved separately: by `partId` (stable across reads; recommended), then by a unique `filename` match, then by a unique size match. If none resolve, the file is saved as `attachment-<id>` with an extension detected from its contents."
+    + " Gmail issues a new `attachmentId` for the same part on every read, so the download always uses the `attachmentId` you pass, and the filename and MIME type are resolved separately: by `partId` (stable across reads; recommended), then by a unique filename-and-size match, then by a unique size match. If none resolve, the file is saved as `attachment-<id>` with an extension detected from its contents."
     + " Set `convertToPdf: true` to convert image / HTML / plain-text / DOCX attachments to PDF during download; other MIME types are rejected."
     + " [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages.attachments/get).",
   version: "0.2.0",
@@ -116,30 +117,19 @@ export default {
       }
       if (this.filename) {
         const byName = parts.filter((p) => p.filename === this.filename);
-        if (byName.length === 1) return byName[0];
         const bySize = byName.filter((p) => p.body.size === size);
         if (bySize.length === 1) return bySize[0];
-        // Same-name parts that all share a MIME type still tell us the type
-        const mimeTypes = new Set(byName.map((p) => p.mimeType));
-        if (byName.length && mimeTypes.size === 1) {
+        // Parts matching both name and size can still tell us a shared MIME type.
+        const mimeTypes = new Set(bySize.map((p) => p.mimeType));
+        if (bySize.length > 1 && mimeTypes.size === 1) {
           return {
             filename: this.filename,
-            mimeType: byName[0].mimeType,
+            mimeType: bySize[0].mimeType,
           };
         }
       }
       const bySize = parts.filter((p) => p.body.size === size);
       if (bySize.length === 1) return bySize[0];
-      return undefined;
-    },
-    sniffMimeType(buffer) {
-      const hex = buffer.subarray(0, 12).toString("hex");
-      if (hex.startsWith("25504446")) return "application/pdf";
-      if (hex.startsWith("89504e47")) return "image/png";
-      if (hex.startsWith("ffd8ff")) return "image/jpeg";
-      if (hex.startsWith("47494638")) return "image/gif";
-      if (hex.startsWith("52494646") && hex.slice(16, 24) === "57454250") return "image/webp";
-      if (hex.startsWith("504b0304")) return "application/zip";
       return undefined;
     },
     async htmlToPdf(htmlBuffer) {
@@ -182,7 +172,7 @@ export default {
       sourceMimeType = part?.mimeType;
     }
     if (!sourceMimeType || sourceMimeType === "application/octet-stream") {
-      sourceMimeType = this.sniffMimeType(buffer) ?? sourceMimeType;
+      sourceMimeType = sniffMimeType(buffer) ?? sourceMimeType;
     }
     if (!filename) {
       const extension = sourceMimeType && sourceMimeType !== "application/zip"
