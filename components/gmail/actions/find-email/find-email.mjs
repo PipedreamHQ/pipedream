@@ -14,6 +14,9 @@ const COMPACT_FIELDS = [
   "recipient",
   "date",
   "snippet",
+  // A few hundred chars at most, and the only way to reach an attachment once the
+  // payload is gone, so compaction must not take it.
+  "attachments",
 ];
 const DEFAULT_BODY_CHARS = 2000;
 // Gmail snippets are a fixed ~200-char prefix. At this length the body is longer than
@@ -36,16 +39,17 @@ export default {
     + " Use this tool for every \"find\", \"search\", \"list my\", or \"show me\" email intent."
     + " The `q` parameter accepts the full Gmail search operator set — combine operators freely: `from:alan@ingen.com is:unread newer_than:7d has:attachment subject:\"DNA sequences\"`. Common operators: `from:`, `to:`, `subject:`, `has:attachment`, `filename:pdf`, `is:unread`, `is:starred`, `label:INBOX`, `newer_than:7d`, `older_than:1m`, `after:2025/01/01`, `before:2025/12/31`, `category:primary`."
     + " `labelIds` accepts either raw label IDs (`INBOX`, `STARRED`) or user-visible names (`Clients/Acme`) — names are resolved server-side via **List Labels**."
-    + " Each returned message carries `id`, `threadId`, `labelIds`, the decoded `subject`/`sender`/`recipient`/`date`, and a `snippet`. With `format: \"full\"` the decoded body text and `payload.parts[].body.attachmentId` + `filename` + `mimeType` are also included — feed those into **Download Attachment**, or feed `threadId` into **Get Thread** for the whole conversation."
+    + " Each returned message carries `id`, `threadId`, `labelIds`, the decoded `subject`/`sender`/`recipient`/`date`, and a `snippet`. With `format: \"full\"` the decoded `payload` and an `attachments` list are also included, or feed `threadId` into **Get Thread** for the whole conversation."
+    + " **To download an attachment, request `[\"subject\", \"attachments\"]`**: `attachments` is a derived field listing every attachment as `{ partId, filename, mimeType, size }` (nested parts included), and requesting it fetches full messages for you. Pass the message `id` as `messageId` and the `partId` to **Download Attachment**. Prefer it over `payload`, which on a large HTML email can exceed the response cap and get the whole message dropped."
     + " **Set `fields` on every call** to name just what you need — message records are large, and a wide search returns tens of thousands of characters that crowd out the rest of the task. `id` and `threadId` are always returned."
     + " To BROWSE or COUNT, use `[\"subject\", \"sender\", \"date\"]`. **To READ or SUMMARISE — \"catch me up\", \"what did X say about Y\", \"is there anything I need to reply to\" — use `[\"subject\", \"sender\", \"date\", \"bodyText\"]`.**"
     + " `bodyText` is the decoded plain-text body (HTML converted, MIME scaffolding and attachments stripped), about half the size of the raw `payload`, and requesting it fetches full messages for you."
     + " Notification and marketing mail is mostly tracking links: pass `includeLinks: false` to read it, and keep the default only when you need a URL from the email."
     + " **Never answer a question about what an email SAYS from `snippet`** — it is a fixed ~200-character prefix, so the sentence you need is usually past its end, and nothing in a snippet indicates that it was cut. Where the snippet is all you asked for and content was likely cut, the message carries `snippetTruncated: true`."
-    + " `format` stays `metadata` unless you need the raw MIME tree for **Download Attachment**, in which case pass `format: \"full\"` and request `payload`."
+    + " `format` stays `metadata` unless you need the raw MIME tree, in which case pass `format: \"full\"` and request `payload`."
     + " Responses are capped. Over the cap: if you named `fields`, whole messages are dropped rather than your chosen fields being removed, and the note says how many of how many are shown — narrow `q` and retry. If you named none, messages are compacted instead so counts stay accurate. `bodyText` shrinks toward a floor before anything is dropped, flagging each cut message with `bodyTruncated: true`."
     + " [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/list) and [Gmail search operators](https://support.google.com/mail/answer/7190).",
-  version: "0.4.0",
+  version: "0.5.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -108,7 +112,7 @@ export default {
         + "\n\nChoose by what you are doing:"
         + "\n- **Browsing, counting, \"which emails…\"** → `[\"subject\", \"sender\", \"date\"]`. Add `labelIds` to check read/starred state."
         + "\n- **Reading, summarising, \"catch me up\", \"what did X say\"** → `[\"subject\", \"sender\", \"date\", \"bodyText\"]`. **`bodyText` is a derived field**: the decoded plain-text body, HTML converted, attachments and MIME scaffolding stripped. It is roughly half the size of `payload` and is what you want for any question about what an email SAYS. Requesting it fetches full messages automatically — you do not also need `format: \"full\"`."
-        + "\n- **Downloading an attachment** → `[\"payload\"]` with `format: \"full\"`, then read `payload.parts[].body.attachmentId`."
+        + "\n- **Downloading an attachment** → `[\"subject\", \"attachments\"]`. **`attachments` is a derived field**: `[{ partId, filename, mimeType, size }]` for every attachment, nested parts included. Pass the message `id` and the attachment's `partId` to **Download Attachment**. It stays small on large HTML emails where `payload` would exceed the response cap, and requesting it fetches full messages automatically."
         + "\n\nDo NOT try to answer a content question from `snippet`: it is a fixed ~200-character prefix, so the sentence you need is usually past its end, and a snippet gives no sign that anything was cut. Ask for `bodyText` instead."
         + " Omit `fields` entirely to return the complete message record, exactly as this tool has always done.",
       optional: true,
@@ -160,7 +164,9 @@ export default {
     // payload carrying only headers — no `parts`, no `body.attachmentId` — so a caller
     // that requested `fields: ["payload"]` without also setting `format: "full"` would
     // get a payload-shaped object with none of the attachment data it asked for.
-    const fetchFull = wantsBodyText || wantsPayload;
+    // `attachments` is derived from the full MIME tree, like `bodyText`.
+    const wantsAttachments = Boolean(fields?.includes("attachments"));
+    const fetchFull = wantsBodyText || wantsPayload || wantsAttachments;
     const textOpts = {
       includeLinks: this.includeLinks ?? true,
     };
@@ -197,6 +203,8 @@ export default {
       message.recipient = utils.getHeader(headers, "to");
 
       if (fetchFull) {
+        // Before the payload can be dropped below, so attachments stay reachable.
+        message.attachments = utils.getAttachments(message.payload);
         if (wantsBodyText) {
           fullBodies.set(message.id, utils.getBodyText(message.payload, textOpts));
         }
@@ -268,6 +276,9 @@ export default {
             : ""}`
           + `${dropped
             ? `${dropped} of ${results.length} messages were dropped from the tail — THIS LIST IS INCOMPLETE, ${kept.length} of ${results.length} matches are shown. Narrow \`q\`, lower \`maxResults\`, or request fewer fields, then retry. `
+            : ""}`
+          + `${dropped && wantsPayload
+            ? "To reach a large message's attachments, request `attachments` instead of `payload`. "
             : ""}`,
       }
       : results;

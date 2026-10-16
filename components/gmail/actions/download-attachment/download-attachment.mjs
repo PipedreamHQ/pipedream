@@ -7,17 +7,19 @@ import puppeteer from "puppeteer-core";
 import chromium from "@sparticuz/chromium";
 import mammoth from "mammoth";
 import gmail from "../../gmail.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "gmail-download-attachment",
   name: "Download Attachment",
   description:
     "Download a Gmail message attachment to `/tmp` and return its path + metadata. File Stash syncs the file and exposes a presigned download URL so the caller can retrieve it."
-    + " Call **Find Emails** (with `format: \"full\"`) or **Get Thread** first — attachment IDs only appear in full-format message reads; each returned message's `payload.parts[]` enumerates attachments as `{ body.attachmentId, filename, mimeType }`. Pass the enclosing message's `id` as `messageId` and the part's `body.attachmentId` as `attachmentId`."
-    + " If `filename` is omitted, the action looks up the attachment's filename from the message payload."
+    + " Call **Find Emails** with `fields: [\"subject\", \"attachments\"]`, or **Get Thread**, first: each returned message lists its attachments as `attachments: [{ partId, filename, mimeType, size }]`. Pass the message's `id` as `messageId` and the attachment's `partId` as `partId`. This works for any message size, including large HTML emails whose `payload` is too big to return."
+    + " Alternatively pass `attachmentId` from a message's `payload.parts[].body.attachmentId`. Provide `partId` or `attachmentId`; when both are given, `partId` is used."
+    + " If `filename` is omitted, the action uses the attachment's own filename from the message."
     + " Set `convertToPdf: true` to convert image / HTML / plain-text / DOCX attachments to PDF during download; other MIME types are rejected."
     + " [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages.attachments/get).",
-  version: "0.1.3",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -32,10 +34,17 @@ export default {
       label: "Message ID",
       description: "The `id` of the message containing the attachment. Obtain this from **Find Emails** or **Get Thread**.",
     },
+    partId: {
+      type: "string",
+      label: "Part ID",
+      description: "The attachment's `partId` from the message's `attachments` list, e.g. `1` or `0.2`. Get it from **Find Emails** with `fields: [\"subject\", \"attachments\"]`, or from **Get Thread**. Stable across reads of the message. Required unless `attachmentId` is set.",
+      optional: true,
+    },
     attachmentId: {
       type: "string",
       label: "Attachment ID",
-      description: "The attachment's ID. Find this on a message's `payload.parts[].body.attachmentId` — attachment IDs only appear when **Find Emails** is called with `format: \"full\"`, or when using **Get Thread** (which always returns full payloads).",
+      description: "The attachment's ID from a message's `payload.parts[].body.attachmentId` (returned by **Find Emails** with `format: \"full\"` and `payload` requested, or by **Get Thread**). Not needed when `partId` is set, and prefer `partId`: on large messages the `payload` holding this ID can be dropped to fit the response cap.",
+      optional: true,
     },
     filename: {
       type: "string",
@@ -88,6 +97,15 @@ export default {
         doc.end();
       });
     },
+    findPartByPartId(part, partId) {
+      if (!part) return undefined;
+      if (String(part.partId) === String(partId)) return part;
+      for (const child of part.parts ?? []) {
+        const found = this.findPartByPartId(child, partId);
+        if (found) return found;
+      }
+      return undefined;
+    },
     findPartByAttachmentId(parts, attachmentId) {
       for (const part of parts ?? []) {
         if (part.body?.attachmentId === attachmentId) {
@@ -120,9 +138,32 @@ export default {
     },
   },
   async run({ $ }) {
+    const hasPartId = this.partId != null && String(this.partId).trim() !== "";
+    if (!hasPartId && !this.attachmentId) {
+      throw new ConfigurationError("Provide `partId` (from the message's `attachments` list in **Find Emails** or **Get Thread**) or `attachmentId`.");
+    }
     let filename = this.filename;
     let sourceMimeType;
-    if (!filename || this.convertToPdf) {
+    let attachmentId = this.attachmentId;
+    if (hasPartId) {
+      // The attachment id comes from this read, so the caller never has to carry one.
+      const partId = String(this.partId).trim();
+      const message = await this.gmail.getMessage({
+        id: this.messageId,
+      });
+      const part = this.findPartByPartId(message.payload, partId);
+      if (!part?.body?.attachmentId) {
+        const available = utils.getAttachments(message.payload)
+          .map((attachment) => `${attachment.partId} (${attachment.filename})`)
+          .join(", ");
+        throw new ConfigurationError(`No attachment with partId \`${partId}\` in message ${this.messageId}. ${available
+          ? `Attachments in this message: ${available}.`
+          : "This message has no attachments."}`);
+      }
+      attachmentId = part.body.attachmentId;
+      filename = filename || part.filename;
+      sourceMimeType = part.mimeType;
+    } else if (!filename || this.convertToPdf) {
       const message = await this.gmail.getMessage({
         id: this.messageId,
       });
@@ -138,7 +179,7 @@ export default {
       sourceMimeType = part.mimeType;
     }
     if (!filename) {
-      filename = `attachment-${this.attachmentId.slice(0, 8)}`;
+      filename = `attachment-${attachmentId.slice(0, 8)}`;
     }
     const safeFilename = path.basename(filename);
     if (safeFilename !== filename || safeFilename === "" || safeFilename === "." || safeFilename === "..") {
@@ -148,7 +189,7 @@ export default {
 
     const attachment = await this.gmail.getAttachment({
       messageId: this.messageId,
-      attachmentId: this.attachmentId,
+      attachmentId,
     });
     let buffer = Buffer.from(attachment.data, "base64");
 
