@@ -70,6 +70,23 @@ function parseArray(value) {
   }
 }
 
+function parseJson(value, fieldName) {
+  if (typeof value !== "string") {
+    return value;
+  }
+  try {
+    return JSON.parse(value);
+  } catch {
+    throw new ConfigurationError(`${fieldName}: \`${value}\` is not valid JSON`);
+  }
+}
+
+// Parses a `string[]` prop whose entries are JSON-serialized objects, leaving
+// already-parsed objects untouched.
+function parseJsonArray(values, fieldName) {
+  return values?.map((value) => parseJson(value, fieldName));
+}
+
 export default {
   streamIterator,
   summaryEnd,
@@ -77,4 +94,6 @@ export default {
   isSuccessOrNotFound,
   selectRecordingFile,
   parseArray,
+  parseJson,
+  parseJsonArray,
 };

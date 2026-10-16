@@ -1,12 +1,14 @@
 import mailchimp from "../../mailchimp.app.mjs";
-import { removeNullEntries } from "../../common/utils.mjs";
+import {
+  parseObjectArray, removeNullEntries,
+} from "../../common/utils.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
   key: "mailchimp-create-campaign",
   name: "Create Campaign",
-  description: "Creates a new campaign draft. [See docs here](https://mailchimp.com/developer/marketing/api/campaigns/add-campaign/)",
-  version: "0.2.4",
+  description: "Creates a new campaign draft. [See the documentation](https://mailchimp.com/developer/marketing/api/campaigns/add-campaign/)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -53,8 +55,8 @@ export default {
     },
     segmentConditions: {
       label: "Segment conditions",
-      type: "any",
-      description: "Segment match conditions.",
+      type: "string[]",
+      description: "Array of segment condition objects. Each item must be a JSON string, e.g. `{\"condition_type\":\"TextMerge\",\"field\":\"EMAIL\",\"op\":\"contains\",\"value\":\"@example.com\"}`. [See the documentation](https://mailchimp.com/developer/marketing/docs/alternative-schemas/#segment-condition-schemas).",
       optional: true,
     },
     subjectLine: {
@@ -131,8 +133,8 @@ export default {
     },
     autoFbPost: {
       label: "Auto fb post",
-      type: "any",
-      description: "An array of Facebook page ID to auto-post to.",
+      type: "string[]",
+      description: "An array of Facebook page IDs to auto-post to.",
       optional: true,
     },
     fbComments: {
@@ -231,7 +233,6 @@ export default {
     },
   },
   async run({ $ }) {
-
     const payload = removeNullEntries({
       "type": this.type,
       "recipients": {
@@ -240,7 +241,7 @@ export default {
           "saved_segment_id": this.savedSegmentId,
           "prebuilt_segment_id": this.prebuiltSegmentId,
           "match": this.segmentMatch,
-          "conditions": this.segmentConditions,
+          "conditions": parseObjectArray(this.segmentConditions, "Segment conditions"),
         },
       },
       "settings": {

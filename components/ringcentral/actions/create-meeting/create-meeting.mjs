@@ -4,7 +4,7 @@ export default {
   key: "ringcentral-create-meeting",
   name: "Create Meeting",
   description: "Creates a new meeting. See the API docs [here](https://developers.ringcentral.com/api-reference/Meeting-Management/createMeeting).",
-  version: "0.2.2",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -72,7 +72,14 @@ export default {
       optional: true,
     },
     audioOptions: {
-      type: "any",
+      type: "string[]",
+      label: "Audio Options",
+      description: "How participants can join the meeting audio.",
+      options: [
+        "Phone",
+        "ComputerAudio",
+        "ThirdParty",
+      ],
       optional: true,
     },
     recurrence: {
