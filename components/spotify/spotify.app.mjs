@@ -353,7 +353,7 @@ export default {
     async getUserTracks(args) {
       const { data } = await this._makeRequest({
         url: "/me/tracks",
-        ...args,
+        params: args,
       });
       return data?.items ?? [];
     },
