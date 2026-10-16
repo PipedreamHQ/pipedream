@@ -215,6 +215,35 @@ function getBodyText(payload, opts) {
   return "";
 }
 
+/**
+ * Every named attachment in a full-format payload, nested parts included, as
+ * `{ partId, filename, mimeType, size }`. Kept small on purpose so it survives the
+ * response cap that drops `payload`: `attachmentId` is left out because it runs to
+ * hundreds of chars and Gmail issues a new one on every read, while `partId` is
+ * short and stable, and **Download Attachment** resolves it to a fresh id itself.
+ * Parts without a filename are skipped: Gmail also stores large HTML/text bodies
+ * behind an `attachmentId`, and those are not attachments.
+ */
+function getAttachments(payload) {
+  const attachments = [];
+  const walk = (part) => {
+    if (!part) return;
+    if (part.filename && part.body?.attachmentId) {
+      attachments.push({
+        partId: part.partId,
+        filename: part.filename,
+        mimeType: part.mimeType,
+        size: part.body.size,
+      });
+    }
+    for (const child of part.parts ?? []) {
+      walk(child);
+    }
+  };
+  walk(payload);
+  return attachments;
+}
+
 function capBodies(records, bodyOf, {
   cap, floor, maxChars, measure,
 }) {
@@ -294,6 +323,7 @@ export default {
   getHeader,
   pluckFields,
   getBodyText,
+  getAttachments,
   capBodies,
   fitToBudget,
 };
