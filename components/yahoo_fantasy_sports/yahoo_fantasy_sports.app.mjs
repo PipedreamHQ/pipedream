@@ -14,6 +14,23 @@ export default {
         return this.getLeagueOptions(gameKey);
       },
     },
+    teamKey: {
+      type: "string",
+      label: "Team Key",
+      description: "The team key, e.g. `414.l.12345.t.1`. Use **Get League Standings** to find the team key in the `team_key` field",
+    },
+    week: {
+      type: "string",
+      label: "Week",
+      description: "Week number, e.g. `5` (defaults to the current week)",
+      optional: true,
+    },
+    position: {
+      type: "string",
+      label: "Position",
+      description: "Filter by position, e.g. `QB`, `RB`, `WR`. Leave blank for all positions",
+      optional: true,
+    },
   },
   methods: {
     async _makeRequest(config, $ = this) {
@@ -32,7 +49,6 @@ export default {
       if (o && typeof o === "object" && "count" in o) {
         const ret = [];
         for (let i = 0; i < o.count; i++) {
-          // ignore the k as its the name of the object type
           for (const k in o[i]) {
             ret.push(this.unwrap(o[i][k]));
           }
@@ -40,7 +56,6 @@ export default {
         return ret;
       }
       if (Array.isArray(o)) {
-        // can be array and object mix...
         const ret = {};
         for (const el of o) {
           if (Array.isArray(el)) {
@@ -49,7 +64,7 @@ export default {
                 ret[k] = this.unwrap(subel[k]);
               }
             }
-          } else { // if object
+          } else {
             for (const k in el) {
               ret[k] = this.unwrap(el[k]);
             }
@@ -75,12 +90,108 @@ export default {
       }
       return ret;
     },
-    async getLeagueTransactions(leagueKey, eventTypes) {
+    async getLeagues(gameKey = "nfl", season, $ = this) {
+      const key = season || gameKey;
+      const resp = await this._makeRequest({
+        path: `/users;use_login=1/games;game_keys=${key}/leagues/`,
+      }, $);
+      const users = this.unwrap(resp.fantasy_content.users);
+      return users[0]?.games?.[0]?.leagues ?? [];
+    },
+    async getLeagueStandings(leagueKey, $ = this) {
+      const resp = await this._makeRequest({
+        path: `/league/${leagueKey}/standings`,
+      }, $);
+      const league = this.unwrap(resp.fantasy_content.league);
+      const leagueObj = Array.isArray(league)
+        ? league[0]
+        : league;
+      const standings = leagueObj?.standings;
+      const standingsObj = Array.isArray(standings)
+        ? standings[0]
+        : standings;
+      return standingsObj?.teams ?? [];
+    },
+    async getLeagueSettings(leagueKey, $ = this) {
+      const resp = await this._makeRequest({
+        path: `/league/${leagueKey}/settings`,
+      }, $);
+      const league = this.unwrap(resp.fantasy_content.league);
+      const leagueObj = Array.isArray(league)
+        ? league[0]
+        : league;
+      const settings = leagueObj?.settings;
+      return (Array.isArray(settings)
+        ? settings[0]
+        : settings) ?? {};
+    },
+    async getTeamRoster(teamKey, week, $ = this) {
+      const weekParam = week
+        ? `;week=${week}`
+        : "";
+      const resp = await this._makeRequest({
+        path: `/team/${teamKey}/roster${weekParam}`,
+      }, $);
+      const team = this.unwrap(resp.fantasy_content.team);
+      const teamObj = Array.isArray(team)
+        ? team[0]
+        : team;
+      const roster = teamObj?.roster;
+      const rosterObj = Array.isArray(roster)
+        ? roster[0]
+        : roster;
+      return rosterObj?.players ?? [];
+    },
+    async getTeamMatchups(teamKey, week, $ = this) {
+      const weeksParam = week
+        ? `;weeks=${week}`
+        : "";
+      const resp = await this._makeRequest({
+        path: `/team/${teamKey}/matchups${weeksParam}`,
+      }, $);
+      const team = this.unwrap(resp.fantasy_content.team);
+      const teamObj = Array.isArray(team)
+        ? team[0]
+        : team;
+      return teamObj?.matchups ?? [];
+    },
+    async getPlayerStats(leagueKey, position, start, $ = this) {
+      const positionParam = position
+        ? `;position=${position}`
+        : "";
+      const startParam = start
+        ? `;start=${start}`
+        : "";
+      const resp = await this._makeRequest({
+        path: `/league/${leagueKey}/players${positionParam}${startParam}/stats;type=season`,
+      }, $);
+      const league = this.unwrap(resp.fantasy_content.league);
+      const leagueObj = Array.isArray(league)
+        ? league[0]
+        : league;
+      return leagueObj?.players ?? [];
+    },
+    async getFreeAgents(leagueKey, { position, sort, count, start } = {}, $ = this) {
+      let path = `/league/${leagueKey}/players;status=FA`;
+      if (position) path += `;position=${position}`;
+      if (sort) path += `;sort=${sort}`;
+      if (count) path += `;count=${count}`;
+      if (start) path += `;start=${start}`;
+      const resp = await this._makeRequest({
+        path,
+      }, $);
+      const league = this.unwrap(resp.fantasy_content.league);
+      const leagueObj = Array.isArray(league)
+        ? league[0]
+        : league;
+      return leagueObj?.players ?? [];
+    },
+    async getLeagueTransactions(leagueKey, eventTypes, $ = this) {
       const resp = await this._makeRequest({
         path: `/leagues;league_keys=${leagueKey}/transactions;types=${eventTypes.join(",")}`,
-      });
+      }, $);
       const leagues = this.unwrap(resp.fantasy_content.leagues);
-      return leagues[0].transactions;
+      return leagues[0]?.transactions ?? [];
     },
     transactionSummary(txn) {
       switch (txn.type) {
@@ -89,7 +200,6 @@ export default {
         return `Add: (+) ${this.displayPlayer(p)} -- ${p.transaction_data.destination_team_name}`;
       }
       case "add/drop": {
-        // XXX check always add drop in this order
         const p0 = txn.players[0];
         const p1 = txn.players[1];
         return `Add/Drop: (+) ${this.displayPlayer(p0)} (-) ${this.displayPlayer(p1)} -- ${p0.transaction_data.destination_team_name}`;
@@ -99,9 +209,8 @@ export default {
         return `Drop: (-) ${this.displayPlayer(p)} -- ${p.transaction_data.source_team_name}`;
       }
       case "commish":
-        return "Commish event"; // XXX can't push much else :/
+        return "Commish event";
       case "trade": {
-        // XXX join for team names...
         const a = txn.trader_team_key;
         const b = txn.tradee_team_key;
         const aps = [];
