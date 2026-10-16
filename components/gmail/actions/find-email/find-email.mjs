@@ -1,4 +1,6 @@
-import utils, { MAX_RESPONSE_CHARS } from "../../common/utils.mjs";
+import utils, {
+  MAX_RESPONSE_CHARS, MIN_BODY_CHARS,
+} from "../../common/utils.mjs";
 import gmail from "../../gmail.app.mjs";
 
 const DEFAULT_MAX_RESULTS = 25;
@@ -14,10 +16,6 @@ const COMPACT_FIELDS = [
   "snippet",
 ];
 const DEFAULT_BODY_CHARS = 2000;
-// Bodies shrink toward this floor before whole messages are dropped. Truncation is only
-// acceptable because it announces itself per message (`bodyTruncated`), so the caller can
-// re-fetch the one message it cares about; below this a body is too clipped to reason from.
-const MIN_BODY_CHARS = 400;
 // Gmail snippets are a fixed ~200-char prefix. At this length the body is longer than
 // what was returned, and the caller cannot tell that from the snippet alone.
 const SNIPPET_TRUNCATED_AT = 190;
@@ -42,11 +40,12 @@ export default {
     + " **Set `fields` on every call** to name just what you need — message records are large, and a wide search returns tens of thousands of characters that crowd out the rest of the task. `id` and `threadId` are always returned."
     + " To BROWSE or COUNT, use `[\"subject\", \"sender\", \"date\"]`. **To READ or SUMMARISE — \"catch me up\", \"what did X say about Y\", \"is there anything I need to reply to\" — use `[\"subject\", \"sender\", \"date\", \"bodyText\"]`.**"
     + " `bodyText` is the decoded plain-text body (HTML converted, MIME scaffolding and attachments stripped), about half the size of the raw `payload`, and requesting it fetches full messages for you."
+    + " Notification and marketing mail is mostly tracking links: pass `includeLinks: false` to read it, and keep the default only when you need a URL from the email."
     + " **Never answer a question about what an email SAYS from `snippet`** — it is a fixed ~200-character prefix, so the sentence you need is usually past its end, and nothing in a snippet indicates that it was cut. Where the snippet is all you asked for and content was likely cut, the message carries `snippetTruncated: true`."
     + " `format` stays `metadata` unless you need the raw MIME tree for **Download Attachment**, in which case pass `format: \"full\"` and request `payload`."
     + " Responses are capped. Over the cap: if you named `fields`, whole messages are dropped rather than your chosen fields being removed, and the note says how many of how many are shown — narrow `q` and retry. If you named none, messages are compacted instead so counts stay accurate. `bodyText` shrinks toward a floor before anything is dropped, flagging each cut message with `bodyTruncated: true`."
     + " [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/list) and [Gmail search operators](https://support.google.com/mail/answer/7190).",
-  version: "0.3.2",
+  version: "0.4.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -124,6 +123,16 @@ export default {
       optional: true,
       default: DEFAULT_BODY_CHARS,
     },
+    includeLinks: {
+      type: "boolean",
+      label: "Include Links",
+      description:
+        "Keep link URLs and image URLs in `bodyText` and in the decoded HTML `text` of `payload`. Defaults to `true`."
+        + " Set `false` to read what an email says: links are often most of a newsletter's or notification's text, so their bodies come back several times shorter."
+        + " Keep `true` when you need a URL from the email, such as an unsubscribe, approval, or document link.",
+      optional: true,
+      default: true,
+    },
   },
   async run({ $ }) {
     let labelIds = this.labelIds;
@@ -152,6 +161,9 @@ export default {
     // that requested `fields: ["payload"]` without also setting `format: "full"` would
     // get a payload-shaped object with none of the attachment data it asked for.
     const fetchFull = wantsBodyText || wantsPayload;
+    const textOpts = {
+      includeLinks: this.includeLinks ?? true,
+    };
 
     const { messages = [] } = await this.gmail.listMessages({
       q: this.q,
@@ -185,14 +197,11 @@ export default {
       message.recipient = utils.getHeader(headers, "to");
 
       if (fetchFull) {
-        if (message.payload?.body?.data && !Array.isArray(message.payload.parts)) {
-          message.payload.body.text = utils.decodeBase64Url(message.payload.body.data);
-        }
-        if (Array.isArray(message.payload?.parts)) {
-          utils.attachTextToParts(message.payload.parts);
-        }
         if (wantsBodyText) {
-          fullBodies.set(message.id, utils.getBodyText(message.payload));
+          fullBodies.set(message.id, utils.getBodyText(message.payload, textOpts));
+        }
+        if (wantsPayload) {
+          utils.attachTextToPayload(message.payload, textOpts);
         }
       }
       // Drop the payload unless it was actually asked for — a `bodyText` request that
@@ -229,26 +238,12 @@ export default {
     // recoverable (re-fetch that one message) while a missing message is not.
     let bodyCap = this.bodyChars ?? DEFAULT_BODY_CHARS;
     if (wantsBodyText) {
-      const applyCap = (cap) => {
-        for (const message of results) {
-          const body = fullBodies.get(message.id) ?? "";
-          message.bodyText = body.slice(0, cap);
-          if (body.length > cap) {
-            message.bodyTruncated = true;
-            // Deliberately NOT `bodyChars` — that is the INPUT prop (the cap). This is
-            // the body's true length, so the caller can see how much it is missing.
-            message.bodyTotalChars = body.length;
-          } else {
-            delete message.bodyTruncated;
-            delete message.bodyTotalChars;
-          }
-        }
-      };
-      applyCap(bodyCap);
-      while (JSON.stringify(results).length > MAX_RESPONSE_CHARS && bodyCap > MIN_BODY_CHARS) {
-        bodyCap = Math.max(MIN_BODY_CHARS, Math.floor(bodyCap / 2));
-        applyCap(bodyCap);
-      }
+      bodyCap = utils.capBodies(results, (message) => fullBodies.get(message.id), {
+        cap: bodyCap,
+        floor: MIN_BODY_CHARS,
+        maxChars: MAX_RESPONSE_CHARS,
+        measure: () => JSON.stringify(results).length,
+      });
     }
 
     const {
