@@ -5,7 +5,8 @@ export default {
   key: "servicenow-create-table-record",
   name: "Create Table Record",
   description: "Inserts one record in the specified table. [See the documentation](https://www.servicenow.com/docs/bundle/zurich-api-reference/page/integrate/inbound-rest/concept/c_TableAPI.html#title_table-POST)",
-  version: "1.0.8",
+  version: "1.0.9",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
