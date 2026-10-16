@@ -6,7 +6,7 @@ export default {
   name: "Update Connection",
   description:
     "Update a connection identified by `universalApi` and `serviceId` via the Platform API on Universal API (PATCH; only supplied fields are changed). Run **List Connections** first to find the correct `serviceId`. [See the documentation](https://docs.universalapi.io/reference/update-connection).",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   ai: "optimized",
   annotations: {

@@ -8,8 +8,9 @@ export default {
     + " Set `includeAllEfforts` to `true` to include all segment efforts (slower, larger response — leave false for most reads)."
     + " For sub-resources (comments, kudos, laps), use the dedicated tools: **Get Activity Comments**, **Get Activity Kudoers**, **Get Activity Laps**."
     + " [See the documentation](https://developers.strava.com/docs/reference/#api-Activities-getActivityById)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

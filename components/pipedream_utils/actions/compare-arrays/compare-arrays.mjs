@@ -4,13 +4,14 @@ export default {
   key: "pipedream_utils-compare-arrays",
   name: "Helper Functions - Compare Arrays",
   description: "Get the difference, intersection, union, or symetric difference of two arrays/sets.",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     pipedream_utils,
     array1: {

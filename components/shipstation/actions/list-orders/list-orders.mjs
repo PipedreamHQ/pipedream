@@ -14,13 +14,14 @@ export default {
   key: "shipstation-list-orders",
   name: "List Orders",
   description: "List orders optionally filtered by various criteria. [See the documentation](https://docs.shipstation.com/apis/shipstation-v1/openapi/orders/list_orders)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     shipstation,
     customerName: {

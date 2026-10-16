@@ -6,13 +6,14 @@ export default {
   key: "nutshell-create-contact",
   name: "Create Contact",
   description: "Create a new contact (person) in Nutshell. [See the documentation](https://developers.nutshell.com/reference/376a09558c05d3d4d273459f15a57326)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     nutshell,
     name: {

@@ -7,8 +7,9 @@ export default {
     + " Useful for support and audit workflows to see what emails were sent to the consumer during the return process."
     + " To find a return order ID, use **Get Return Orders** first."
     + " [See the documentation](https://platform.returnista.com/reference/rest-api/#get-/account/-accountId/return-order/-id/emails)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

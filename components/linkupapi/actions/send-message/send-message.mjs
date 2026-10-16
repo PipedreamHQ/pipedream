@@ -2,10 +2,11 @@ import app from "../../linkupapi.app.mjs";
 
 export default {
   type: "action",
+  ai: "optimized",
   key: "linkupapi-send-message",
   name: "Send Message",
   description: "Send a message to a LinkedIn profile. Make sure you are already connected to the recipient. [See the documentation](https://docs.linkupapi.com/api-reference/v2/messages/send)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

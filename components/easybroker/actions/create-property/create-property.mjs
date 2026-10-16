@@ -7,6 +7,7 @@ export default {
   description: "Creates a new property listing in EasyBroker with full details including title, price, location, bedrooms, bathrooms, parking, size, description, amenities, photos, and status. [See the documentation](https://dev.easybroker.com/reference/post_properties)",
   version: "1.0.0",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

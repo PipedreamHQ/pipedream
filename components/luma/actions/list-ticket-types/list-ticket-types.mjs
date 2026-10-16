@@ -5,8 +5,9 @@ export default {
   key: "luma-list-ticket-types",
   name: "List Ticket Types",
   description: "List ticket types for a Luma event. Use this before assigning custom tickets through Luma's guest-management APIs. [See the documentation](https://docs.luma.com/reference/get_v1-event-ticket-types-list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

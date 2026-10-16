@@ -4,8 +4,9 @@ export default {
   key: "daytona-run-code",
   name: "Run Code",
   description: "Execute code in a Daytona sandbox using the appropriate language runtime. Supports Python, TypeScript, and JavaScript. [See the documentation](https://www.daytona.io/docs/en/typescript-sdk/process/#coderun)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

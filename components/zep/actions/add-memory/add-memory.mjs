@@ -5,13 +5,14 @@ export default {
   key: "zep-add-memory",
   name: "Add Memory to Session",
   description: "Adds memory to an existing session in Zep. [See the documentation](https://help.getzep.com/api-reference/memory/add)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     zep,
     sessionId: {

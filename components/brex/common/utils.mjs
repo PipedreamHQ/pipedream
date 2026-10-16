@@ -1,4 +1,25 @@
-const MINOR_UNITS_PER_UNIT = 100;
+const DEFAULT_CURRENCY = "USD";
+const DEFAULT_MINOR_UNIT_DIGITS = 2;
+
+/**
+ * Reports how many decimal places a currency's smallest denomination represents, so `700`
+ * scales to `7.00` in USD but stays `700` in JPY, which has no minor unit.
+ *
+ * @param {string} currency - An ISO 4217 currency code.
+ * @returns {number} The currency's fraction digits, falling back to `2` for codes the
+ * runtime does not recognize, since `Intl` throws on those.
+ */
+function minorUnitDigits(currency) {
+  try {
+    // eslint-disable-next-line no-undef -- Intl is provided by the Node runtime
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency,
+    }).resolvedOptions().maximumFractionDigits;
+  } catch {
+    return DEFAULT_MINOR_UNIT_DIGITS;
+  }
+}
 
 /**
  * Renders a Brex money object as a human-readable amount for use in `$summary`.
@@ -11,7 +32,9 @@ export function formatMoney(money) {
   if (!money) {
     return null;
   }
-  return `${(money.amount / MINOR_UNITS_PER_UNIT).toFixed(2)} ${money.currency ?? "USD"}`;
+  const currency = money.currency ?? DEFAULT_CURRENCY;
+  const digits = minorUnitDigits(currency);
+  return `${(money.amount / (10 ** digits)).toFixed(digits)} ${currency}`;
 }
 
 /**

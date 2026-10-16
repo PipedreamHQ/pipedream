@@ -4,8 +4,9 @@ export default {
   key: "unirateapi-list-country-code-options",
   name: "List Country Code Options",
   description: "Retrieves the valid options for the Country Code field used by **Get VAT Rates**. Returns one entry per supported country as `{ label, value }`, where `value` is the code to pass as Country Code. These follow the EU VAT convention rather than ISO 3166-1 alpha-2 — Greece is `EL` (not `GR`) and the United Kingdom is `UK` (not `GB`) — so call this first rather than assuming an ISO code. [See the documentation](https://unirateapi.com/apidocs).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,13 +4,14 @@ export default {
   key: "bitmex-create-order",
   name: "Create Order",
   description: "Submit a new trading order in your BitMEX account. [See the documentation](https://www.bitmex.com/api/explorer/#!/Order/Order_new)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: false,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     bitmex,
     symbol: {

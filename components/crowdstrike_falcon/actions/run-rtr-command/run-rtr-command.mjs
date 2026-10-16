@@ -9,8 +9,9 @@ export default {
   key: "crowdstrike_falcon-run-rtr-command",
   name: "Run RTR Command",
   description: "Initiate a Real-Time Response (RTR) session on a host and execute a read-only responder command. Calls POST /real-time-response/entities/sessions/v1 to open the session, then POST /real-time-response/entities/command/v1 to run the command; returns the session_id and cloud_request_id. Use **Get RTR Command Status** with the returned cloud_request_id to fetch results. Requires an RTR entitlement. [See the documentation](https://developer.crowdstrike.com/api-reference/collections/real-time-response/#rtr_executecommand).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

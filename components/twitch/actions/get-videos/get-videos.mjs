@@ -5,13 +5,14 @@ export default {
   name: "Get Videos",
   key: "twitch-get-videos",
   description: "Gets video information by video ID, user ID, or game ID. [See the documentation](https://dev.twitch.tv/docs/api/reference/#get-videos)",
-  version: "0.2.0",
+  version: "0.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     id: {

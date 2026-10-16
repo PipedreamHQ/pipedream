@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/metaphor",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Metaphor Components",
   "main": "metaphor.app.mjs",
   "keywords": [

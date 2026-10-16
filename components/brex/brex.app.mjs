@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import commonApp from "./common-app.mjs";
 
 export default {

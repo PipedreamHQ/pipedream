@@ -7,13 +7,14 @@ export default {
   key: "twitch-update-channel",
   description: `Update information for the channel owned by the authenticated user.
   At least one parameter must be provided.`,
-  version: "0.1.5",
+  version: "0.1.6",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     title: {

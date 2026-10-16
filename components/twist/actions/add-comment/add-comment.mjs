@@ -15,6 +15,7 @@ export default {
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     twist: {
       type: "app",

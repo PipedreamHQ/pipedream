@@ -25,11 +25,11 @@ To add a Python code step, open a new workflow and include a step.
 
 1. Select the Python app:
 
-![Python app being chosen in Pipedream's new step selector screen.](https://res.cloudinary.com/pipedreamin/image/upload/v1713462237/marketplace/apps/python/CleanShot_2024-04-18_at_13.43.34_fin0ru.png)
+![Python app being chosen in Pipedream's new step selector screen.](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/python/CleanShot_2024-04-18_at_13.43.34_fin0ru.png)
 
 2. Then select the **Run Python Code** action:
 
-![Selecting the 'Run Python Code' action from the Python app in the Pipedream interface.](https://res.cloudinary.com/pipedreamin/image/upload/v1713462283/marketplace/apps/python/CleanShot_2024-04-18_at_13.44.34_jt15cq.png)
+![Selecting the 'Run Python Code' action from the Python app in the Pipedream interface.](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/python/CleanShot_2024-04-18_at_13.44.34_jt15cq.png)
 
 Now you’re ready to write some code!
 

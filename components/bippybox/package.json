@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/bippybox",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream BippyBox Components",
   "main": "bippybox.app.mjs",
   "keywords": [

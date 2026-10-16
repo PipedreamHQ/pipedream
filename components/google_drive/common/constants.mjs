@@ -122,17 +122,10 @@ const LEGACY_MY_DRIVE_VALUE = "myDrive";
  */
 const WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS = 24 * 60 * 60 * 1000;
 
-/**
- * The default time interval between webhook subscription renewals. Since
- * subscriptions expire after 24 hours at most, we set this time to 95% of this
- * time window by default to make sure the event sources don't miss any events
- * due to an expired subscription not being renewed on time.
- *
- * More information can be found in the API docs:
- * https://developers.google.com/drive/api/v3/push#optional-properties
- */
-const WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS =
-  (WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS * 0.95) / 1000;
+// The timer also resumes capped backlogs, not just renewals
+const WEBHOOK_TIMER_INTERVAL_SECONDS = 10 * 60;
+
+const WEBHOOK_RENEWAL_WINDOW_MILLISECONDS = 60 * 60 * 1000;
 
 /**
  * The maximum number of path segments to include in an option label for a prop whose value is a
@@ -245,6 +238,52 @@ const DEFAULT_COMMENT_LIMIT = 100;
 
 const MAX_COMMENT_LIMIT = 500;
 
+/**
+ * Maximum `pageSize` accepted by `files.list` (the API allows 1-1000).
+ * https://developers.google.com/workspace/drive/api/reference/rest/v3/files/list
+ */
+const FILES_MAX_PAGE_SIZE = 1000;
+
+/**
+ * Default number of files **Search Files** returns per run, so an agent that omits
+ * `maxResults` still gets a bounded response instead of enumerating a whole shared drive.
+ */
+const DEFAULT_SEARCH_FILES_LIMIT = 100;
+
+const RETRYABLE_STATUS_CODES = [
+  422,
+  429,
+  500,
+  502,
+  503,
+  504,
+];
+
+const RATE_LIMIT_ERROR_REASONS = [
+  "rateLimitExceeded",
+  "userRateLimitExceeded",
+];
+
+const CHANGED_FILE_FIELDS = "kind,id,name,mimeType,parents,createdTime,modifiedTime,trashed,version,size,md5Checksum,webViewLink,lastModifyingUser";
+
+const CHANGE_FILTER_FILE_FIELDS = "id,name,mimeType,parents,createdTime,modifiedTime";
+
+const MAX_CHANGES_PAGES_PER_RUN = 10;
+const DEFAULT_MAX_EMITS_PER_RUN = 1000;
+const MAX_EMITS_PER_RUN = 5000;
+
+const MAX_FILE_INTERVAL_ENTRIES = 2000;
+
+const MASS_CHANGE_MAX_AGE_MILLISECONDS = 60 * 60 * 1000;
+
+/** Google Workspace types that `stashFile` can export to PDF. */
+const PDF_EXPORTABLE_MIME_TYPES = [
+  "application/vnd.google-apps.document",
+  "application/vnd.google-apps.spreadsheet",
+  "application/vnd.google-apps.presentation",
+  "application/vnd.google-apps.drawing",
+];
+
 export {
   GOOGLE_DRIVE_NOTIFICATION_SYNC,
   GOOGLE_DRIVE_NOTIFICATION_ADD,
@@ -258,7 +297,8 @@ export {
   MY_DRIVE_VALUE,
   LEGACY_MY_DRIVE_VALUE,
   WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS,
-  WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
+  WEBHOOK_TIMER_INTERVAL_SECONDS,
+  WEBHOOK_RENEWAL_WINDOW_MILLISECONDS,
   MAX_FILE_OPTION_PATH_SEGMENTS,
   PAGINATION_TOKEN_FIELD,
   GOOGLE_DRIVE_MIME_TYPE_PREFIX,
@@ -285,4 +325,18 @@ export {
   COMMENTS_MAX_PAGE_SIZE,
   DEFAULT_COMMENT_LIMIT,
   MAX_COMMENT_LIMIT,
+  // Files
+  FILES_MAX_PAGE_SIZE,
+  DEFAULT_SEARCH_FILES_LIMIT,
+  // Webhooks
+  RETRYABLE_STATUS_CODES,
+  RATE_LIMIT_ERROR_REASONS,
+  CHANGED_FILE_FIELDS,
+  CHANGE_FILTER_FILE_FIELDS,
+  MAX_CHANGES_PAGES_PER_RUN,
+  DEFAULT_MAX_EMITS_PER_RUN,
+  MAX_EMITS_PER_RUN,
+  MAX_FILE_INTERVAL_ENTRIES,
+  MASS_CHANGE_MAX_AGE_MILLISECONDS,
+  PDF_EXPORTABLE_MIME_TYPES,
 };

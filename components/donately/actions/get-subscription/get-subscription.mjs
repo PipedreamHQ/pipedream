@@ -4,8 +4,9 @@ export default {
   key: "donately-get-subscription",
   name: "Get Subscription",
   description: "Get a subscription by ID. [See the documentation](https://developer.donate.ly/api/#subscriptions)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     openWorldHint: true,
     destructiveHint: false,

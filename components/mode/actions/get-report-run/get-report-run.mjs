@@ -4,8 +4,9 @@ export default {
   key: "mode-get-report-run",
   name: "Get Report Run",
   description: "Retrieve a single report run, including its `state` (pending, enqueued, running_notebook, succeeded, failed, cancelled, completed). Use this to poll a run triggered by **Run Report**. [See the documentation](https://mode.com/developer/api-reference/analytics/report-runs/#getReportRun)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

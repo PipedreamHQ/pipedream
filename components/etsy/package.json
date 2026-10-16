@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/etsy",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Etsy Components",
   "main": "etsy.app.mjs",
   "keywords": [

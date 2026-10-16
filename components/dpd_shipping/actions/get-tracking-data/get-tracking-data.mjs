@@ -5,8 +5,9 @@ export default {
   key: "dpd_shipping-get-tracking-data",
   name: "Get Tracking Data",
   description: "Track the current status and history of individual parcels during transit and after delivery. Provide the 14-character parcel label number to look up. [See the documentation](https://integrations.dpd.nl/dpd-shipper/dpd-shipper-webservices-rest-api/parcellifecycle-service-rest-api/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

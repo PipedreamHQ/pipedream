@@ -6,13 +6,14 @@ export default {
   key: "msg91-create-or-update-contact",
   name: "Create or Update Contact in Segmento",
   description: "Add or update contact information in Segmento (MSG91's contact management system). [See the documentation](https://docs.msg91.com/segmento/createupdate-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     phonebook: {

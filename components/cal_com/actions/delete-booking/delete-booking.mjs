@@ -4,13 +4,14 @@ export default {
   key: "cal_com-delete-booking",
   name: "Cancel Booking",
   description: "Cancel an existing booking by its UID. Note: Cal.com v2 replaces the v1 delete endpoint with a cancellation flow; the booking is marked cancelled rather than removed. [See the documentation](https://cal.com/docs/api-reference/v2/bookings/cancel-a-booking)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     calCom,
     bookingId: {

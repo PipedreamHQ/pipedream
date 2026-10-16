@@ -5,7 +5,7 @@ export default {
   key: "gitlab-create-epic",
   name: "Create Epic",
   description: "Creates a new epic. [See the documentation](https://docs.gitlab.com/ee/api/epics.html#new-epic)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,8 +4,9 @@ export default {
   key: "zendesk-create-side-conversation",
   name: "Create Side Conversation",
   description: "Create a side conversation on a Zendesk ticket using email, Zendesk agent, Slack, Microsoft Teams, or child-ticket participants. Requires the Zendesk Collaboration add-on. Use **List Side Conversations** to inspect existing conversations. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/side_conversation/side_conversation/#create-side-conversation)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

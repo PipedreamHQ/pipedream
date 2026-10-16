@@ -4,8 +4,9 @@ export default {
   key: "recruiterflow-move-candidate-to-stage",
   name: "Move Candidate to Stage",
   description: "Moves a candidate to a different stage in the job pipeline. You can specify either stage ID or stage name. [See the documentation](https://recruiterflow.com/swagger.yml)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   props: {
     app,
     candidateId: {

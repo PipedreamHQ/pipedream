@@ -4,8 +4,9 @@ export default {
   key: "newscatcher-create-job",
   name: "Create Job",
   description: "Create a new job in Newscatcher. [See the documentation](https://www.newscatcherapi.com/docs/web-search-api/api-reference/jobs/create-job)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

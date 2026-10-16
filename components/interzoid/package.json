@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/interzoid",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Interzoid Components",
   "main": "interzoid.app.mjs",
   "keywords": [

@@ -8,8 +8,9 @@ export default {
     + " Use this when the user wants to turn a flag on or off in Production, Test, or another environment."
     + " Use **List Feature Flags** or **Get Feature Flag** first to find the numeric `flagId` and to discover valid `environmentId` values from the flag's `environments` array."
     + " [See the documentation](https://eppo.cloud/api/docs#/FeatureFlags/updateEnvironmentStatus)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

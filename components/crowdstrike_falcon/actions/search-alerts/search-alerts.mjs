@@ -7,8 +7,9 @@ export default {
   key: "crowdstrike_falcon-search-alerts",
   name: "Search Alerts",
   description: "Search CrowdStrike Falcon alerts and return their IDs via GET /alerts/queries/alerts/v2. Detections are now delivered through the Alerts API (the legacy /detects/* collection was decommissioned), so filter on the alert product to retrieve endpoint detections. Use **Get Alert** to hydrate the returned IDs into full records. [See the documentation](https://developer.crowdstrike.com/api-reference/collections/alerts/#getqueriesalertsv2).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

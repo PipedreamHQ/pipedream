@@ -8,8 +8,9 @@ export default {
     + " Returns ad IDs, names, status, and creative details."
     + " Use campaign or ad group IDs from **List Campaigns** / **List Ad Groups** to narrow results."
     + " [See the documentation](https://business-api.tiktok.com/portal/docs/get-ads/v1.3)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

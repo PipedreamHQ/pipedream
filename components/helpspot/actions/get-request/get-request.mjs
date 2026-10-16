@@ -4,13 +4,14 @@ export default {
   key: "helpspot-get-request",
   name: "Get Request",
   description: "Retrieves a single support request by ID. [See the documentation](https://support.helpspot.com/index.php?pg=kb.page&id=164#private.request.get)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     helpspot,
     xRequest: {

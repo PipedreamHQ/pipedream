@@ -10,12 +10,13 @@ export default {
     + " This is the single tool for creating any kind of ticket (incident, service request, access request, hardware request, and so on)."
     + " The kind of ticket is decided by `requestTypeId`, not by the wording of the summary, so always pick the request type deliberately."
     + " Use **List Sites** to get `cloudId`, **List Service Desks** to get `serviceDeskId`, and **List Request Types** to choose the `requestTypeId` whose name and description match the user's intent."
-    + " Call **List Request Type Fields** to see which fields that request type requires; pass anything beyond summary and description in `additionalFieldValues`, keyed by Jira field ID."
+    + " Call **List Request Type Fields** to see which fields that request type accepts and requires; pass anything beyond summary and description in `additionalFieldValues`, keyed by Jira field ID."
+    + " Only send the fields that request type lists: some request types hide Summary or Description behind a preset value and reject a create that supplies them, so omit `summary` and `description` when they are not listed."
     + " Worked example: on service desk `1`, request type `4` (\"Onboard new employees\") requires `summary` and also accepts a `duedate`, so call with Summary `Joseph Wilson starts on September 1`, Description `Needs a laptop and an email account`, and Additional Field Values `{ \"duedate\": \"2026-09-01\" }`."
     + " Optionally attach one or more files at creation time via `attachments`; to add, replace, or delete attachments on a request that already exists, use **Manage Request Attachment** instead."
     + " Returns the created request including its `issueKey` and `issueId`. If `attachments` is set, the response also includes either an `attachments` array (on success) or an `attachmentError` string (if the request was created but the attachment step failed) — the request itself is never rolled back because of an attachment failure."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-post)",
-  version: "1.1.0",
+  version: "1.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -48,12 +49,13 @@ export default {
     summary: {
       type: "string",
       label: "Summary",
-      description: "One-line title of the request, e.g. `Laptop won't boot after the latest update`. Required by virtually every request type.",
+      description: "One-line title of the request, e.g. `Laptop won't boot after the latest update`. Required by most request types; omit it when **List Request Type Fields** does not list `summary` for the chosen request type.",
+      optional: true,
     },
     description: {
       type: "string",
       label: "Description",
-      description: "Body of the request, as plain text.",
+      description: "Body of the request, as plain text, e.g. `Needs a laptop and an email account`. Omit it when **List Request Type Fields** does not list `description` for the chosen request type.",
       optional: true,
     },
     additionalFieldValues: {
@@ -69,13 +71,13 @@ export default {
     requestParticipants: {
       type: "string[]",
       label: "Request Participants",
-      description: "Atlassian account IDs to add as participants, e.g. `[\"5b10a2844c20165700ede21g\"]`. Not available to users who only have the Service Desk Customer permission, or if the feature is turned off for customers.",
+      description: "Atlassian account IDs to add as participants, e.g. `[\"5b10a2844c20165700ede21g\"]`. Run **Find Users** to turn each name or email address into an `accountId`; participants are often approvers or managers who are not customers of this desk, which is why this uses the site-wide search rather than **Find Service Desk Customers**. Not available to users who only have the Service Desk Customer permission, or if the feature is turned off for customers.",
       optional: true,
     },
     raiseOnBehalfOf: {
       type: "string",
       label: "Raise On Behalf Of",
-      description: "Atlassian account ID of the customer to raise this request for, e.g. `5b10a2844c20165700ede21g`. Not available to users who only have the Service Desk Customer permission.",
+      description: "Atlassian account ID of the customer to raise this request for, e.g. `5b10a2844c20165700ede21g`. Run **Find Service Desk Customers** with this same Service Desk ID to turn a name or email address into an `accountId`, which also confirms the person is a customer of this desk; fall back to **Find Users** if they are not found there. A desk that restricts who may be one of its customers can reject a reporter who is not, so if creation then fails on the reporter field, retry without this field and name the requester in the description instead. Never guess an ID, and never pass a name or email address here. Not available to users who only have the Service Desk Customer permission.",
       optional: true,
     },
     form: {
@@ -175,8 +177,12 @@ export default {
     );
 
     const requestFieldValues = {
-      [constants.REQUEST_FIELD.SUMMARY]: summary,
-      [constants.REQUEST_FIELD.DESCRIPTION]: description,
+      ...(summary && {
+        [constants.REQUEST_FIELD.SUMMARY]: summary,
+      }),
+      ...(description && {
+        [constants.REQUEST_FIELD.DESCRIPTION]: description,
+      }),
       ...parsedExtraFields,
     };
 

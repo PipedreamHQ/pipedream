@@ -5,13 +5,14 @@ export default {
   key: "remove_bg-remove-background",
   name: "Remove background",
   description: "Remove the background of an image",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     remove_bg: {
       type: "app",

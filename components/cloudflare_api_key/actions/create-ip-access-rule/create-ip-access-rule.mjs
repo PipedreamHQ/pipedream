@@ -5,13 +5,14 @@ export default {
   key: "cloudflare_api_key-create-ip-access-rule",
   name: "Create IP Access Rule",
   description: "Creates a new IP Access Rule for an account. The rule will apply to all zones in the account. [See the documentation](https://developers.cloudflare.com/api/node/resources/firewall/subresources/access_rules/methods/create/)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     cloudflare,
     accountIdentifier: {

@@ -33,6 +33,11 @@ export default {
       label: "Issue ID or Key",
       description: "The ID or key of the Jira Service Desk request (e.g. `IT-42` or `10001`). Use **List My Requests** to find the `issueKey` of a request (in its `requests` array).",
     },
+    query: {
+      type: "string",
+      label: "Query",
+      description: "Name or email address to search for, e.g. `Joseph Wilson` or `joseph@example.com`. Matched against `displayName` and `emailAddress`. A full name or full email address gives the tightest result set.",
+    },
     maxResults: {
       type: "integer",
       label: "Max Results",
@@ -73,7 +78,7 @@ export default {
      * items and whether the API still had more to give when collection stopped.
      */
     async _paginate({
-      $, path, params, maxResults = constants.MAX_RESULTS_DEFAULT,
+      $, path, params, headers, maxResults = constants.MAX_RESULTS_DEFAULT,
     }) {
       const results = [];
       let start = 0;
@@ -83,6 +88,7 @@ export default {
         const response = await this._makeRequest({
           $,
           path,
+          headers,
           params: {
             ...params,
             start,
@@ -171,6 +177,61 @@ export default {
         ...opts,
         method: "POST",
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/request/${requestId}/comment`,
+      });
+    },
+    // Site-wide user search. Returns a bare array, not the `values`/`isLastPage`
+    // envelope `_paginate` expects, so it pages by offset here instead.
+    async searchUsers({
+      $, cloudId, query, maxResults = constants.MAX_RESULTS_DEFAULT,
+    }) {
+      const results = [];
+      let startAt = 0;
+      // One row past the cap separates "cap equals match count" from "more exist".
+      const ceiling = maxResults + 1;
+
+      while (results.length < ceiling) {
+        const limit = Math.min(
+          ceiling - results.length,
+          constants.USER_SEARCH_PAGE_SIZE,
+        );
+        const users = await this._makeRequest({
+          $,
+          path: `/ex/jira/${cloudId}/rest/api/3/user/search`,
+          params: {
+            query,
+            startAt,
+            maxResults: limit,
+          },
+        });
+
+        // Only an empty page ends it: a short page may just be a clamped page.
+        if (!users?.length) {
+          break;
+        }
+
+        results.push(...users);
+        startAt += users.length;
+      }
+
+      return {
+        results: results.slice(0, maxResults),
+        // Reaching Atlassian's offset ceiling is indistinguishable from running out
+        // of matches, so report it as more-to-come rather than claim completeness.
+        hasMore: results.length > maxResults
+          || startAt >= constants.USER_SEARCH_MAX_OFFSET,
+      };
+    },
+    async searchServiceDeskCustomers({
+      $, cloudId, serviceDeskId, query, maxResults,
+    }) {
+      return this._paginate({
+        $,
+        path: `/ex/jira/${cloudId}/rest/servicedeskapi/servicedesk/${serviceDeskId}/customer`,
+        params: {
+          query,
+        },
+        headers: constants.EXPERIMENTAL_API_HEADER,
+        maxResults,
       });
     },
     async getCurrentUser({ $ } = {}) {

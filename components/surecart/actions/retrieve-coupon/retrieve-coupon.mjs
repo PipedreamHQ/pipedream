@@ -4,8 +4,9 @@ export default {
   key: "surecart-retrieve-coupon",
   name: "Retrieve Coupon",
   description: "Retrieve a single coupon by its ID. Run **List Coupons** first to obtain a valid coupon ID. [See the documentation](https://developer.surecart.com/api-reference/coupons/retrieve)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

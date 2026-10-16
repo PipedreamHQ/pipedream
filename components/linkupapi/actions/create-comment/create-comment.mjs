@@ -4,8 +4,9 @@ export default {
   key: "linkupapi-create-comment",
   name: "Create Comment",
   description: "Post a comment on LinkedIn content. [See the documentation](https://docs.linkupapi.com/api-reference/v2/content/comment)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

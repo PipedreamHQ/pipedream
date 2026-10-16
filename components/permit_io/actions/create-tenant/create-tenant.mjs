@@ -5,8 +5,9 @@ export default {
   key: "permit_io-create-tenant",
   name: "Create Tenant",
   description: "Mints a new isolated silo (such as a Customer Account or Organization) to manage multi-tenant permissions. [See the documentation](https://api.permit.io/v2/redoc#tag/Tenants/operation/create_tenant)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

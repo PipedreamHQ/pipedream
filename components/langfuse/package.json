@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/langfuse",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Pipedream Langfuse Components",
   "main": "langfuse.app.mjs",
   "keywords": [

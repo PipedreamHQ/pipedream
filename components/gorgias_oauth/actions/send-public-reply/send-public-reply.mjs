@@ -6,13 +6,14 @@ export default {
   key: "gorgias_oauth-send-public-reply",
   name: "Send Public Reply",
   description: "Post a customer-facing reply to a ticket on behalf of an agent. [See the documentation](https://developers.gorgias.com/reference/create-ticket-message)",
-  version: "0.0.3",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     gorgiasOauth,
     ticketId: {
@@ -44,6 +45,12 @@ export default {
       label: "Message",
       description: "Body of the reply. Accepts HTML",
     },
+    bodyText: {
+      propDefinition: [
+        gorgiasOauth,
+        "bodyText",
+      ],
+    },
     channel: {
       propDefinition: [
         gorgiasOauth,
@@ -58,7 +65,15 @@ export default {
         gorgiasOauth,
         "via",
       ],
+      description: "How the message is sent from Gorgias. With `help-center`, Gorgias stores the message without sending it",
       optional: false,
+      default: "api",
+    },
+    integrationId: {
+      propDefinition: [
+        gorgiasOauth,
+        "integrationId",
+      ],
     },
     subject: {
       propDefinition: [
@@ -82,7 +97,7 @@ export default {
     toAddress: {
       type: "string",
       label: "To Address (override)",
-      description: "If set, used as `source.to[0].address` instead of looking up the To Customer's email.",
+      description: "If set, used as `source.to[0].address`. Otherwise, messaging channels (chat, Instagram DM, Messenger, WhatsApp, SMS, Twitter DM) use the `source.from.address` of the To Customer's latest message on that channel in the ticket (see **List Ticket Messages**), e.g. `92fc13f6-55b5-4ff3-85c3-dbaaad7366fb` for chat, and other channels use the To Customer's email.",
       optional: true,
     },
     toName: {
@@ -134,11 +149,22 @@ export default {
         id: this.fromUser,
       })).email;
 
-    const toAddress = this.toAddress
-      ?? (await this.gorgiasOauth.retrieveCustomer({
+    const isMessagingChannel = constants.messagingChannels.includes(this.channel);
+    const toAddress = this.toAddress ?? (isMessagingChannel
+      ? await this.gorgiasOauth.getCustomerChannelAddress({
+        $,
+        ticketId: this.ticketId,
+        channel: this.channel,
+        customerId: this.toCustomer,
+      })
+      : (await this.gorgiasOauth.retrieveCustomer({
         $,
         id: this.toCustomer,
-      })).email;
+      })).email);
+
+    if (!toAddress && isMessagingChannel) {
+      throw new ConfigurationError(`No ${this.channel} address found for the customer on this ticket. Set To Address`);
+    }
 
     const response = await this.gorgiasOauth.createMessage({
       $,
@@ -148,6 +174,8 @@ export default {
         via: this.via,
         from_agent: true,
         body_html: this.message,
+        body_text: this.bodyText,
+        integration_id: this.integrationId,
         subject: this.subject,
         sent_datetime: this.sentDatetime,
         sender: {

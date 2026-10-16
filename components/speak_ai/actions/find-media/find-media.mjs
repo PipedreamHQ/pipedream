@@ -4,13 +4,14 @@ export default {
   key: "speak_ai-find-media",
   name: "Find Media",
   description: "Look up a single Speak AI media file by its ID and return everything stored against it: transcript, sentiment, keywords, topics and metadata. Use **Get Transcription** instead when only the transcript is needed. [See the documentation](https://docs.speakai.co/api/media/#get-media-insight-media-id).",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     mediaId: {

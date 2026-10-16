@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/blotato",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Blotato Components",
   "main": "blotato.app.mjs",
   "keywords": [

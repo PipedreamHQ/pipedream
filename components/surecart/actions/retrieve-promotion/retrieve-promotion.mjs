@@ -4,8 +4,9 @@ export default {
   key: "surecart-retrieve-promotion",
   name: "Retrieve Promotion",
   description: "Retrieve a single promotion by its ID. Run **List Promotions** first to obtain a valid promotion ID. [See the documentation](https://developer.surecart.com/api-reference/promotions/retrieve)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -6,8 +6,9 @@ export default {
   key: "awardco-recognize-with-recognition-program",
   name: "Recognize With Recognition Program",
   description: "Submit recognition in Awardco, with a recognition program. [See the documentation](https://api.awardco.com/api#tag/recognition/POST/recognize).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

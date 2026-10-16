@@ -4,13 +4,14 @@ export default {
   key: "microsoft_dynamics_365_sales-list-accounts",
   name: "List Accounts",
   description: "List accounts with selected fields (`accountid`, `name`, phone, email, primary contact). [See the documentation](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/query-data-web-api)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     microsoft,
     filter: {

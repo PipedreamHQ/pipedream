@@ -4,8 +4,9 @@ export default {
   key: "corporate_merch-list-private-links",
   name: "List Private Links",
   description: "Retrieve a paginated list of all private links associated with a redeem page. [See the documentation](https://corporatemerch.readme.io/reference/retrieve-a-list-of-private-links)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

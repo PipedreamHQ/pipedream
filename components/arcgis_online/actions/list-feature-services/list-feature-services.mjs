@@ -5,8 +5,9 @@ export default {
   name: "List Feature Services",
   description:
     "List Feature Services accessible to the authenticated user. By default only returns services within the user's organization. [See the documentation](https://developers.arcgis.com/rest/services-reference/enterprise/feature-service/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

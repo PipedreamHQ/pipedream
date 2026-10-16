@@ -4,13 +4,14 @@ export default {
   key: "speak_ai-get-transcription",
   name: "Get Transcription",
   description: "Retrieve just the transcript of a processed Speak AI media file, as an array of speaker-attributed segments. Use **Find Media** instead to get sentiment, keywords and the rest of the analysis. [See the documentation](https://docs.speakai.co/api/media/#get-media-transcript-media-id).",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     folderId: {

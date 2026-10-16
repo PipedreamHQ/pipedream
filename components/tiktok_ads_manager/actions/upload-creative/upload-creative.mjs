@@ -15,8 +15,9 @@ export default {
     + " Supported image formats: JPG, JPEG, PNG. Supported video formats: MP4, MOV, MPEG, AVI."
     + " For images, see [See the documentation](https://business-api.tiktok.com/portal/docs/upload-an-image-reference/v1.3)."
     + " For videos, see [See the documentation](https://business-api.tiktok.com/portal/docs/upload-a-video/v1.3).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

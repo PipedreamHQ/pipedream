@@ -8,8 +8,9 @@ export default {
     + " Returns account details (name, currency, timezone, status) for the given advertiser ID."
     + " Find your advertiser ID in the TikTok Ads Manager URL after `aadvid=`."
     + " [See the documentation](https://business-api.tiktok.com/portal/docs/get-authorized-ad-accounts/v1.3).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

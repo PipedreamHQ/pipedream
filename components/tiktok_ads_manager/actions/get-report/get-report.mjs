@@ -11,8 +11,9 @@ export default {
     + " `dimensions` must include an entity ID dimension for the chosen level (`campaign_id`, `adgroup_id`, or `ad_id`) plus a time dimension (`stat_time_day` or `stat_time_hour`)."
     + " Common metrics: `impressions`, `clicks`, `spend`, `cpc`, `cpm`, `ctr`, `reach`, `conversion`, `cost_per_conversion`."
     + " [See the documentation](https://business-api.tiktok.com/portal/docs/run-a-synchronous-report/v1.3)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

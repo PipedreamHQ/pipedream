@@ -9,8 +9,9 @@ export default {
     + " Use **List Experiments** first to find the numeric `experimentId` — Eppo uses integer IDs for experiment lookups."
     + " Set `allowDeleted` to `true` to include soft-deleted experiments in the response."
     + " [See the documentation](https://eppo.cloud/api/docs#/Experiments/getExperiment)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

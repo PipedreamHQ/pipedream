@@ -4,13 +4,14 @@ export default {
   key: "speak_ai-analyze-text",
   name: "Analyze Text",
   description: "Retrieve the insights Speak AI generated for a text note: sentiment, keywords and named entities. Takes the media ID of a text note that already exists in Speak AI. [See the documentation](https://docs.speakai.co/api/text/#get-text-insight-media-id).",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     folderId: {

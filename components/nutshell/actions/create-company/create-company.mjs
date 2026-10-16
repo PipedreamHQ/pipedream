@@ -6,13 +6,14 @@ export default {
   key: "nutshell-create-company",
   name: "Create Company",
   description: "Create a new company (account) in Nutshell. [See the documentation](https://developers.nutshell.com/reference/0e0199fef8e93c05437d3a33104886d1)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     nutshell,
     name: {

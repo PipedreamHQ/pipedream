@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/crowdstrike_falcon",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream CrowdStrike Falcon Components",
   "main": "crowdstrike_falcon.app.mjs",
   "keywords": [

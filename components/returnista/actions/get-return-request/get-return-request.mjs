@@ -7,8 +7,9 @@ export default {
     + " Return requests contain item-level information: purchase order number, return reason, requested resolution (refund, exchange, etc.)."
     + " To find a return request ID, use **Get Return Requests** first."
     + " [See the documentation](https://platform.returnista.com/reference/rest-api/#get-/account/-accountId-/return-request/-id-)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

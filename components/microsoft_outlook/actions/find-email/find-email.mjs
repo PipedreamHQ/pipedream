@@ -15,8 +15,9 @@ export default {
     + " Set `folderScope` explicitly to override this behavior for either mode."
     + " To search a shared mailbox, set `userId` (the mailbox owner's UPN or ID); add `sharedFolderId` to target a specific folder within it."
     + " [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-messages?view=graph-rest-1.0)",
-  version: "1.1.0",
+  version: "1.1.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

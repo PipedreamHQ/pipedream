@@ -4,13 +4,14 @@ export default {
   key: "bannerify-render-image",
   name: "Render Image",
   description: "Generate an image from a Bannerify template and return a hosted file URL. [See the documentation](https://bannerify.co/docs/api-reference/endpoint/create-stored-image)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     bannerify,
     templateId: {

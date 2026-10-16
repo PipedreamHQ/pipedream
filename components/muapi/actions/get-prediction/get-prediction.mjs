@@ -2,10 +2,11 @@ import muapi from "../../muapi.app.mjs";
 
 export default {
   name: "Get Prediction Result",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "muapi-get-prediction",
   description: "Check the status and retrieve the output of a prediction by its request ID. [See the documentation](https://docs.muapi.ai)",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,
