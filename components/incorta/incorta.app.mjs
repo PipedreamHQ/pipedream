@@ -16,6 +16,11 @@ const {
 
 const POLL_INTERVAL_MS = 500;
 const SQL_QUERY_TIMEOUT_MS = 5 * 60 * 1000;
+// Per Thrift request. Generous because the first request after a quiet period
+// (opening a session) can take close to a minute while Kyuubi initializes.
+const REQUEST_TIMEOUT_MS = 2 * 60 * 1000;
+const CANCEL_TIMEOUT_MS = 10 * 1000;
+const CLEANUP_TIMEOUT_MS = 5 * 1000;
 
 export default {
   type: "app",
@@ -239,12 +244,12 @@ export default {
       // that every driver call is raced against.
       const failure = new Promise((resolve, reject) => client.on("error", reject));
       failure.catch(() => {});
-      const guard = (promise) => Promise.race([
+      const race = (promise) => Promise.race([
         promise,
         failure,
       ]);
       try {
-        await guard(client.connect({
+        await race(client.connect({
           host,
           port,
           options: {
@@ -260,7 +265,20 @@ export default {
           username: `${username}%${this.$auth.tenant}`,
           password: this.$auth.token,
         })));
-        const session = await guard(client.openSession({
+        // Racing a promise doesn't stop the underlying request (a stalled one
+        // would hold the connection open and keep the deadline checks from
+        // running), and closing the client doesn't either: thrift's HTTP
+        // connection has no `end()`. Instead thrift reads its `nodeOptions`
+        // for every request, so a fresh AbortSignal set there before each call
+        // aborts that request at its timeout (surfacing via the 'error' event).
+        const transport = client.connection.getConnection();
+        const guard = (call, timeoutMs = REQUEST_TIMEOUT_MS) => {
+          transport.nodeOptions.signal = AbortSignal.timeout(timeoutMs);
+          return race(call()).catch((err) => {
+            throw this._requestError(err, timeoutMs);
+          });
+        };
+        const session = await guard(() => client.openSession({
           client_protocol: TYPES.TProtocolVersion.HIVE_CLI_SERVICE_PROTOCOL_V10,
         }));
         return {
@@ -274,6 +292,13 @@ export default {
           ? "https"
           : "http"}://${host}:${port}${path}: ${err.message ?? err}. Check that Advanced SQLi is enabled for this tenant, and that the account's username and PAT are valid.`);
       }
+    },
+    /** Turns an aborted (timed-out) Thrift request into a readable error. */
+    _requestError(err, timeoutMs) {
+      if (err?.name === "AbortError" || err?.name === "TimeoutError" || err?.code === "ABORT_ERR") {
+        return new Error(`Incorta Advanced SQLi did not respond within ${Math.round(timeoutMs / 1000)} seconds`);
+      }
+      return err;
     },
     _closeClient(client) {
       try {
@@ -290,7 +315,17 @@ export default {
     async _waitUntilFinished(operation, guard) {
       const deadline = Date.now() + SQL_QUERY_TIMEOUT_MS;
       while (true) {
-        const status = await guard(operation.status(false));
+        // Each status request is aborted at the deadline at the latest, so a
+        // stalled request can't keep the deadline from being enforced.
+        const remaining = deadline - Date.now();
+        if (remaining <= 0) {
+          await guard(() => operation.cancel(), CANCEL_TIMEOUT_MS).catch(() => {});
+          throw new Error(`The query did not finish within ${SQL_QUERY_TIMEOUT_MS / 60000} minutes and was cancelled`);
+        }
+        const status = await guard(
+          () => operation.status(false),
+          Math.min(REQUEST_TIMEOUT_MS, remaining),
+        );
         switch (status.operationState) {
         case TYPES.TOperationState.FINISHED_STATE:
           return;
@@ -300,10 +335,6 @@ export default {
           break;
         default:
           throw new Error(status.errorMessage || "The query failed or was cancelled");
-        }
-        if (Date.now() > deadline) {
-          await operation.cancel().catch(() => {});
-          throw new Error(`The query did not finish within ${SQL_QUERY_TIMEOUT_MS / 60000} minutes and was cancelled`);
         }
         await new Promise((resolve) => setTimeout(resolve, POLL_INTERVAL_MS));
       }
@@ -352,7 +383,7 @@ export default {
         client, session, guard,
       } = await this._openSession();
       try {
-        const operation = await guard(session.executeStatement(query.text, {
+        const operation = await guard(() => session.executeStatement(query.text, {
           runAsync: true,
         }));
         await this._waitUntilFinished(operation, guard);
@@ -361,7 +392,7 @@ export default {
         operation.setMaxRows(Math.min(maxRows + 1, 10000));
         let fetched = 0;
         while (fetched <= maxRows) {
-          await guard(operation.fetch());
+          await guard(() => operation.fetch());
           const batch = operation.getData().at(-1);
           const size = batch
             ? this._rowSetSize(batch)
@@ -373,7 +404,7 @@ export default {
         }
         const all = new HiveUtils(TYPES).getResult(operation)
           .getValue();
-        await operation.close().catch(() => {});
+        await guard(() => operation.close(), CLEANUP_TIMEOUT_MS).catch(() => {});
         return {
           rows: all.slice(0, maxRows),
           truncated: all.length > maxRows,
@@ -381,7 +412,7 @@ export default {
       } catch (err) {
         throw this._cleanSqlError(err);
       } finally {
-        await session.close().catch(() => {});
+        await guard(() => session.close(), CLEANUP_TIMEOUT_MS).catch(() => {});
         this._closeClient(client);
       }
     },
