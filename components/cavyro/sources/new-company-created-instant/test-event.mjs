@@ -1,0 +1,30 @@
+export default {
+  "event": "company.created",
+  "occurred_at": "2026-10-01T09:12:44Z",
+  "workspace_id": 12,
+  "data": {
+    "id": 318,
+    "workspace_id": 12,
+    "name": "Acme d.o.o.",
+    "website": "https://acme.example",
+    "website_domain": "acme.example",
+    "phone": null,
+    "industry": null,
+    "company_size": null,
+    "region": null,
+    "street": null,
+    "city": "Novi Sad",
+    "postal_code": null,
+    "country": "RS",
+    "vat_number": null,
+    "registration_number": null,
+    "description": null,
+    "parent_id": null,
+    "external_id": null,
+    "created_by_id": 7,
+    "created_at": "2026-10-01T09:12:44.512Z",
+    "updated_at": "2026-10-01T09:12:44.512Z"
+  },
+  "changes": {},
+  "meta": {}
+};
