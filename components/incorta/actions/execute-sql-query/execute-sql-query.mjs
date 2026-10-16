@@ -11,7 +11,7 @@ export default {
     + " Example: `SELECT region, SUM(amount) AS total_sales FROM sales.sales_fact GROUP BY region ORDER BY total_sales DESC LIMIT 50` returns `{rows: [{region, total_sales}, ...], rowCount, truncated: false}`, one row per region."
     + " Authenticates with the connected Incorta account's username and personal access token (PAT), so no separate SQL password is needed, and discovers the cluster's Advanced SQLi connection settings automatically from the account's base URL; the tenant must have Advanced SQLi enabled (not available on Azure deployments). The first query after a quiet period can take several seconds while the connection initializes."
     + " [See the documentation](https://docs.incorta.com/latest/references-advanced-sqli)",
-  version: "0.1.0",
+  version: "1.0.0",
   type: "action",
   ai: "optimized",
   annotations: {
