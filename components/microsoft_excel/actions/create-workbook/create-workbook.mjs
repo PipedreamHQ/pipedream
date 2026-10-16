@@ -4,7 +4,7 @@ import { ROOT_FOLDER_ID } from "../../common/constants.mjs";
 export default {
   key: "microsoft_excel-create-workbook",
   name: "Create Workbook",
-  description: "Create a new, blank Excel workbook (`.xlsx` file) in OneDrive. The new workbook starts with a single default worksheet named `Sheet1`, ready for subsequent actions (e.g. Create Worksheet, Add Row). [See the documentation](https://learn.microsoft.com/en-us/graph/api/driveitem-post-children?view=graph-rest-1.0&tabs=http)",
+  description: "Create a new, blank Excel workbook (`.xlsx` file) in OneDrive. The new workbook starts with a single default worksheet named `Sheet1`, ready for subsequent actions (e.g. **Create Worksheet**, **Add Row**). [See the documentation](https://learn.microsoft.com/en-us/graph/api/driveitem-post-children?view=graph-rest-1.0&tabs=http)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -20,7 +20,7 @@ export default {
         "folderId",
       ],
       optional: true,
-      description: "The folder to create the workbook in. Defaults to the root of your OneDrive when omitted.",
+      description: "The folder to create the workbook in. Defaults to the root of your OneDrive when omitted. Use **List Folder ID Options** to find a folder ID (the `value` field). E.g. `01BYE5RZ6QN3ZWBTRWFNG2FOD7ONP4JLHU`",
     },
     name: {
       type: "string",

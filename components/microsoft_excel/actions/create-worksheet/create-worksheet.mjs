@@ -20,7 +20,7 @@ export default {
         "folderId",
       ],
       optional: true,
-      description: "Optional. Only narrows the **Workbook** picker below to one folder — it is NOT needed to add the worksheet. If you already have the workbook's item ID (e.g. from Create Workbook), skip this and pass it directly as **Workbook**.",
+      description: "Optional. Only narrows the **Workbook** list below to one folder — it is NOT needed to add the worksheet. If you already have the workbook's item ID (e.g. from **Create Workbook**), skip this and pass it directly as **Workbook**. Use **List Folder ID Options** to find a folder ID (the `value` field). E.g. `01BYE5RZ6QN3ZWBTRWFNG2FOD7ONP4JLHU`",
     },
     sheetId: {
       propDefinition: [
@@ -31,7 +31,7 @@ export default {
         }),
       ],
       label: "Workbook",
-      description: "The workbook to add the worksheet to — its OneDrive drive-item ID. Accepts an ID you already have (e.g. the `id` returned by Create Workbook); no folder needed.",
+      description: "The workbook to add the worksheet to — its OneDrive drive-item ID. Pass an ID you already have (e.g. the `id` returned by **Create Workbook**); no folder needed. E.g. `01BYE5RZ6QN3ZWBTRWFNG2FOD7ONP4JLHU`",
     },
     name: {
       type: "string",
