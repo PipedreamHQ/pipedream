@@ -126,7 +126,10 @@ export default {
     addWorksheet({
       sheetId, data = {},
     } = {}) {
-      return this.client().api(`/me/drive/items/${sheetId}/workbook/worksheets`)
+      // Use the documented worksheetCollection: add action, matching addTableRow's
+      // `/rows/add` pattern above. (A plain POST to the collection also works, but this
+      // is the canonical endpoint.)
+      return this.client().api(`/me/drive/items/${sheetId}/workbook/worksheets/add`)
         .post(data);
     },
     createHook({ data = {} } = {}) {
