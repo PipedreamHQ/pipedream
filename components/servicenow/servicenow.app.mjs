@@ -14,6 +14,7 @@ const {
   CATALOG_UI_POLICY_ACTION_TABLE,
   KNOWLEDGE_BASE_TABLE,
   MAX_LIMIT,
+  REQUESTED_ITEM_FIELDS,
 } = constants;
 
 export default {
@@ -161,7 +162,7 @@ export default {
     requestedFor: {
       type: "string",
       label: "Requested For",
-      description: "Optional `sys_id` of the user this item is requested for (maps to `sysparm_requested_for`). Run **Find Users** to find it.",
+      description: "Optional `sys_id` of the user this item is requested for (maps to `sysparm_requested_for`). Run **Find Users** to find it. ServiceNow only applies it when the connected user is allowed to request for others (instance properties `glide.sc.req_for.roles` and `glide.sc.req_for.roles.default`); otherwise the item is requested for the connected user.",
       optional: true,
     },
     guideSysId: {
@@ -471,6 +472,80 @@ export default {
         table: SC_REQ_ITEM_TABLE,
         ...args,
       });
+    },
+    // A request's RITMs, with `requested_for` falling back to the request's
+    // own when the RITM has none.
+    async getRequestedItemsForRequest({
+      requestId, ...args
+    }) {
+      const items = await this.getRequestedItems({
+        ...args,
+        params: {
+          sysparm_query: `request=${requestId}^ORDERBYnumber`,
+          sysparm_fields: REQUESTED_ITEM_FIELDS.join(),
+          sysparm_exclude_reference_link: true,
+          sysparm_limit: MAX_LIMIT,
+        },
+      });
+      return (items ?? []).map(({
+        "request.requested_for": requestRequestedFor, ...item
+      }) => ({
+        ...item,
+        requested_for: item.requested_for || requestRequestedFor,
+      }));
+    },
+    // Order endpoints return only the parent request (REQ), but approvals and
+    // stage are tracked on its requested items (RITMs), so those are added as
+    // `requested_items`. The order has already been placed at this point, so a
+    // failed lookup is reported in the result instead of thrown: a thrown error
+    // could lead the caller to order again. Two-step checkout returns no
+    // `request_id` and is passed through unchanged.
+    async withRequestedItems({
+      $, response, requestedFor,
+    }) {
+      const requestId = response?.request_id;
+      if (!requestId) {
+        return response;
+      }
+      let requestedItems;
+      try {
+        requestedItems = await this.getRequestedItemsForRequest({
+          $,
+          requestId,
+        });
+      } catch (error) {
+        return {
+          ...response,
+          requested_items_error: `The order was placed, but its requested items could not be loaded: ${error.message}. Run Get Requested Items with request ${response.request_number ?? requestId} to retrieve them.`,
+        };
+      }
+      const result = {
+        ...response,
+        requested_items: requestedItems,
+      };
+      const mismatched = requestedFor
+        ? requestedItems.filter((item) => item.requested_for && item.requested_for !== requestedFor)
+        : [];
+      if (mismatched.length) {
+        result.requested_for_warning = `Requested For was set to ${requestedFor}, but ServiceNow assigned ${mismatched.map(({
+          number, requested_for: assigned,
+        }) => `${number} to ${assigned}`).join(", ")}. The connected user is probably not allowed to request for others (glide.sc.req_for.roles); check with the ServiceNow admin, or set the item's own requested-for variable if it has one.`;
+      }
+      return result;
+    },
+    // Summary suffix naming the request and its RITMs, e.g.
+    // ` - request REQ0010012 (RITM0010020)`.
+    describeOrder(result) {
+      const requestNumber = result?.request_number ?? result?.number;
+      if (!requestNumber) {
+        return "";
+      }
+      const ritms = (result.requested_items ?? []).map(({ number }) => number);
+      return ` - request ${requestNumber}${ritms.length
+        ? ` (${ritms.join(", ")})`
+        : ""}${result.requested_for_warning
+        ? ". Warning: Requested For was not applied"
+        : ""}`;
     },
     async listConfigurationItems({ ...args }) {
       return this.getTableRecords({
