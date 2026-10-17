@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { ConfigurationError } from "@pipedream/platform";
 
 const normalizeText = (value) => String(value ?? "")
   .trim()
@@ -20,6 +21,35 @@ const stableValue = (value) => {
 export const getQuerySignature = (query) => createHash("sha256")
   .update(JSON.stringify(stableValue(query)))
   .digest("hex");
+
+export const createActivityProgress = () => ({
+  sourceEntryCount: 0,
+  sourceTrackedSeconds: 0,
+  sourceBillableSeconds: 0,
+  matchedEntryCount: 0,
+  matchedTrackedSeconds: 0,
+  matchedBillableSeconds: 0,
+  reportRowCount: 0,
+  blankDescriptionCount: 0,
+});
+
+export const validateActivityProgress = (value) => {
+  const progress = {
+    ...createActivityProgress(),
+    ...value,
+  };
+
+  for (const [
+    key,
+    number,
+  ] of Object.entries(progress)) {
+    if (!Number.isSafeInteger(number) || number < 0) {
+      throw new ConfigurationError(`Continuation contains an invalid ${key} value.`);
+    }
+  }
+
+  return progress;
+};
 
 export const matchesDescription = (description, query, mode = "contains") => {
   if (!query) return true;

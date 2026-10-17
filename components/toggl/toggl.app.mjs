@@ -1,5 +1,8 @@
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
+import { unwrapItems } from "./common/utils.mjs";
+
+const PROJECT_PAGE_SIZE = 200;
 
 export default {
   type: "app",
@@ -59,7 +62,7 @@ export default {
       description: "The project ID",
       type: "integer",
       async options({ workspaceId }) {
-        const projects = await this.getProjects({
+        const projects = await this.getAllProjects({
           workspaceId,
         });
 
@@ -142,7 +145,19 @@ export default {
     reportUserName: {
       type: "string",
       label: "User Name or Email",
-      description: "Optional full or partial name or email, e.g. `Angus`. It must resolve to exactly one accessible workspace user.",
+      description: "Optional full or partial name or email, e.g. `Angus`. Use **List Workspace Users** to find accessible names and emails. It must resolve to exactly one accessible workspace user.",
+      optional: true,
+    },
+    reportProjectName: {
+      type: "string",
+      label: "Project Name",
+      description: "An exact or uniquely matching project name, e.g. `Lexamica`. Use **List Workspace Projects** to find accessible project names.",
+      optional: true,
+    },
+    resourceQuery: {
+      type: "string",
+      label: "Search Query",
+      description: "Optional case-insensitive resource name search, e.g. `Client update`.",
       optional: true,
     },
     reportProjectIds: {
@@ -338,6 +353,37 @@ export default {
       return this._makeReliableRequest("v9", `workspaces/${workspaceId}/projects`, {
         params,
       }, $);
+    },
+    /**
+     * List every project visible to the connected account in a workspace.
+     *
+     * @param {Object} opts - The request options
+     * @param {number} opts.workspaceId - The Toggl Track workspace ID
+     * @param {Object} [opts.params] - Optional query parameters
+     * @param {Object} [opts.$] - The Pipedream execution context
+     * @returns {Promise<Array>} All workspace projects returned by Toggl
+     */
+    async getAllProjects({
+      workspaceId, params, $,
+    }) {
+      const projects = [];
+
+      for (let page = 1; ; page++) {
+        const response = await this.getProjects({
+          workspaceId,
+          params: {
+            ...params,
+            page,
+            per_page: PROJECT_PAGE_SIZE,
+          },
+          $,
+        });
+        const pageProjects = unwrapItems(response, "workspace projects");
+
+        projects.push(...pageProjects);
+
+        if (pageProjects.length < PROJECT_PAGE_SIZE) return projects;
+      }
     },
     /**
      * List tasks for a workspace project.

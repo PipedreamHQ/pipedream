@@ -29,25 +29,28 @@ export default {
     projectId: {
       type: "integer",
       label: "Project ID",
-      description: "The project ID. Use this or Project Name, not both.",
+      description: "The project ID, e.g. `203456789`. Use **List Workspace Projects** to find it (the `projectId` field). Use this or Project Name, not both.",
       optional: true,
     },
     projectName: {
-      type: "string",
-      label: "Project Name",
-      description: "An exact or uniquely matching project name, e.g. `Lexamica`. Use this or Project ID, not both.",
-      optional: true,
+      propDefinition: [
+        toggl,
+        "reportProjectName",
+      ],
+      description: "An exact or uniquely matching project name, e.g. `Lexamica`. Use **List Workspace Projects** to find accessible project names. Use this or Project ID, not both.",
     },
     query: {
-      type: "string",
+      propDefinition: [
+        toggl,
+        "resourceQuery",
+      ],
       label: "Task Name",
-      description: "Optional case-insensitive task name search.",
-      optional: true,
+      description: "Optional case-insensitive task name search, e.g. `Client update`.",
     },
     activeOnly: {
       type: "boolean",
       label: "Active Tasks Only",
-      description: "When enabled, exclude completed or inactive tasks.",
+      description: "When `true`, exclude completed or inactive tasks. Example: `true`.",
       default: false,
     },
   },
@@ -70,7 +73,7 @@ export default {
     let project;
 
     if (this.projectName) {
-      const projectsResponse = await this.toggl.getProjects({
+      const projects = await this.toggl.getAllProjects({
         workspaceId: this.workspaceId,
         params: {
           active: "both",
@@ -78,7 +81,7 @@ export default {
         $,
       });
       project = resolveWorkspaceProject(
-        unwrapItems(projectsResponse, "workspace projects"),
+        projects,
         this.projectName,
       );
     } else {

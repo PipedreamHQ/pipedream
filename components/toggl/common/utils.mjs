@@ -104,6 +104,40 @@ export const parseCursorInput = (cursor) => {
   };
 };
 
+export const parseContinuation = (value) => {
+  if (!value) return null;
+
+  if (typeof value === "string") {
+    try {
+      return JSON.parse(value);
+    } catch {
+      throw new ConfigurationError("Continuation must be the object returned by a previous project activity call.");
+    }
+  }
+
+  if (typeof value !== "object" || Array.isArray(value)) {
+    throw new ConfigurationError("Continuation must be the object returned by a previous project activity call.");
+  }
+
+  return value;
+};
+
+export const sortNumbers = (values, label) => {
+  const numbers = (values || []).map(Number);
+
+  if (numbers.some((value) => !Number.isSafeInteger(value) || value < 1)) {
+    throw new ConfigurationError(`${label} must contain only positive integer IDs.`);
+  }
+
+  return [
+    ...new Set(numbers),
+  ].sort((a, b) => a - b);
+};
+
+export const nonBlankStrings = (values) => (values || [])
+  .map((value) => String(value).trim())
+  .filter(Boolean);
+
 export const parseProviderTotals = (value) => {
   if (!value || typeof value !== "object") {
     throw new Error("Toggl returned an invalid report totals response.");
@@ -240,11 +274,12 @@ export const resolveDateRange = ({
 
 const normalizeSearchValue = (value) => value?.trim().toLowerCase();
 
-const resolveNamedResource = ({
+export const resolveNamedResource = ({
   resources,
   query,
   resourceLabel,
   queryLabel,
+  allowMultipleExact = false,
 }) => {
   const normalizedQuery = normalizeSearchValue(query);
   const candidates = resources.filter((resource) => (
@@ -257,6 +292,8 @@ const resolveNamedResource = ({
   const matches = exactMatches.length
     ? exactMatches
     : candidates;
+
+  if (allowMultipleExact && exactMatches.length) return exactMatches;
 
   if (matches.length === 1) return matches[0];
 

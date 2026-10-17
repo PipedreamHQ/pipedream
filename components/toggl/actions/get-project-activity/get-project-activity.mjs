@@ -4,11 +4,15 @@ import {
   getNextCursor,
   mapProjectTasks,
   mapWorkspaceProjects,
+  nonBlankStrings,
+  parseContinuation,
   parseCursorInput,
   parseProviderTotals,
+  resolveNamedResource,
   resolveDateRange,
   resolveWorkspaceProject,
   resolveWorkspaceUser,
+  sortNumbers,
   unwrapItems,
 } from "../../common/utils.mjs";
 import {
@@ -16,112 +20,12 @@ import {
   flattenDetailedRows,
   getQuerySignature,
   matchesDescription,
+  validateActivityProgress,
 } from "../../common/activity-utils.mjs";
 import { validateDetailedPage } from "../../common/report-utils.mjs";
 
 const PAGE_SIZE = 50;
-
-const parseContinuation = (value) => {
-  if (!value) return null;
-
-  if (typeof value === "string") {
-    try {
-      return JSON.parse(value);
-    } catch {
-      throw new ConfigurationError("Continuation must be the object returned by a previous project activity call.");
-    }
-  }
-
-  if (typeof value !== "object" || Array.isArray(value)) {
-    throw new ConfigurationError("Continuation must be the object returned by a previous project activity call.");
-  }
-
-  return value;
-};
-
-const emptyProgress = () => ({
-  sourceEntryCount: 0,
-  sourceTrackedSeconds: 0,
-  sourceBillableSeconds: 0,
-  matchedEntryCount: 0,
-  matchedTrackedSeconds: 0,
-  matchedBillableSeconds: 0,
-  reportRowCount: 0,
-  blankDescriptionCount: 0,
-});
-
-const validateProgress = (value) => {
-  const progress = {
-    ...emptyProgress(),
-    ...value,
-  };
-
-  for (const [
-    key,
-    number,
-  ] of Object.entries(progress)) {
-    if (!Number.isSafeInteger(number) || number < 0) {
-      throw new ConfigurationError(`Continuation contains an invalid ${key} value.`);
-    }
-  }
-
-  return progress;
-};
-
-const sortNumbers = (values, label) => {
-  const numbers = (values || []).map(Number);
-
-  if (numbers.some((value) => !Number.isSafeInteger(value) || value < 1)) {
-    throw new ConfigurationError(`${label} must contain only positive integer IDs.`);
-  }
-
-  return [
-    ...new Set(numbers),
-  ].sort((a, b) => a - b);
-};
-
-const nonBlankStrings = (values) => (values || [])
-  .map((value) => String(value).trim())
-  .filter(Boolean);
-
-const resolveTaskNames = (tasks, names) => {
-  const resolved = [];
-
-  for (const name of names || []) {
-    const normalizedName = name.trim().toLowerCase();
-    const candidates = tasks.filter((task) => task.name
-      .trim()
-      .toLowerCase()
-      .includes(normalizedName));
-    const exactMatches = candidates.filter((task) => (
-      task.name.trim().toLowerCase() === normalizedName
-    ));
-    const matches = exactMatches.length
-      ? exactMatches
-      : candidates;
-
-    if (!matches.length) {
-      throw new ConfigurationError(`No task in the selected projects matched "${name}".`);
-    }
-
-    if (!exactMatches.length && matches.length > 1) {
-      const choices = matches
-        .slice(0, 10)
-        .map((task) => `${task.name} (${task.id})`)
-        .join(", ");
-      throw new ConfigurationError(`Task Name is ambiguous. Use an exact name or Task ID. Matches: ${choices}`);
-    }
-
-    resolved.push(...matches);
-  }
-
-  return [
-    ...new Map(resolved.map((task) => [
-      task.id,
-      task,
-    ])).values(),
-  ];
-};
+const REQUEST_INTERVAL_MS = 1000;
 
 export default {
   key: "toggl-get-project-activity",
@@ -146,14 +50,17 @@ export default {
     projectIds: {
       type: "integer[]",
       label: "Project IDs",
-      description: "Project IDs to include. Project Names can be used instead or combined with these IDs.",
+      description: "Project IDs to include, e.g. `[203456789]`. Use **List Workspace Projects** to find them (the `projectId` field). Project Names can be used instead or combined with these IDs.",
       optional: true,
     },
     projectNames: {
+      propDefinition: [
+        toggl,
+        "reportProjectName",
+      ],
       type: "string[]",
       label: "Project Names",
-      description: "Exact or uniquely matching project names, e.g. `[\"Lexamica\", \"HelloPrenup\"]`. Names are resolved internally and never guessed when ambiguous.",
-      optional: true,
+      description: "Exact or uniquely matching project names, e.g. `[\"Lexamica\", \"HelloPrenup\"]`. Use **List Workspace Projects** to find accessible project names. Names are resolved internally and never guessed when ambiguous.",
     },
     datePreset: {
       propDefinition: [
@@ -186,10 +93,13 @@ export default {
       ],
     },
     userNames: {
+      propDefinition: [
+        toggl,
+        "reportUserName",
+      ],
       type: "string[]",
       label: "User Names or Emails",
-      description: "Optional user names or emails. Every value must resolve to exactly one accessible workspace user.",
-      optional: true,
+      description: "Optional user names or emails, e.g. `[\"Angus\", \"person@example.com\"]`. Use **List Workspace Users** to find accessible names and emails. Every value must resolve to exactly one accessible workspace user.",
     },
     taskIds: {
       propDefinition: [
@@ -200,19 +110,19 @@ export default {
     taskNames: {
       type: "string[]",
       label: "Task Names",
-      description: "Optional task names resolved within the selected projects. Exact matches with the same name across selected projects are all included.",
+      description: "Optional task names, e.g. `[\"Client update\"]`. Use **List Project Tasks** to find accessible names. Names are resolved within the selected projects; exact matches with the same name across selected projects are all included.",
       optional: true,
     },
     descriptionQuery: {
       type: "string",
       label: "Description Query",
-      description: "Optional deterministic filter applied to the exact time-entry descriptions after all project entries are retrieved.",
+      description: "Optional deterministic filter applied to the exact time-entry descriptions after all project entries are retrieved, e.g. `drafted client update`.",
       optional: true,
     },
     descriptionMatch: {
       type: "string",
       label: "Description Match",
-      description: "How Description Query is matched. Matching is case-insensitive and whitespace-normalized.",
+      description: "How Description Query is matched, e.g. `contains`. Matching is case-insensitive and whitespace-normalized.",
       options: [
         "contains",
         "exact",
@@ -229,7 +139,7 @@ export default {
     responseMode: {
       type: "string",
       label: "Response Mode",
-      description: "Activity Digest mechanically groups identical descriptions for a compact Claude-ready response. Individual Entries returns one normalized record per source entry.",
+      description: "Activity Digest (`activity_digest`) mechanically groups identical descriptions for a compact Claude-ready response. Individual Entries (`individual_entries`) returns one normalized record per source entry. Example: `activity_digest`.",
       options: [
         {
           label: "Activity Digest",
@@ -245,7 +155,7 @@ export default {
     bucketBy: {
       type: "string",
       label: "Historical Bucket",
-      description: "Optionally keep otherwise identical activity groups separate by calendar week or month.",
+      description: "Optionally keep otherwise identical activity groups separate by calendar week or month, e.g. `week`.",
       options: [
         "none",
         "week",
@@ -256,13 +166,13 @@ export default {
     includeEntryIds: {
       type: "boolean",
       label: "Include Evidence Entry IDs",
-      description: "Include source time-entry IDs in activity digest groups for auditing. Leave disabled for the smallest response.",
+      description: "Include source time-entry IDs in activity digest groups for auditing, e.g. `true`. Leave disabled for the smallest response.",
       default: false,
     },
     maxApiRequests: {
       type: "integer",
       label: "Maximum API Pages Per Call",
-      description: "Limits each tool response to control execution time and Claude context size. Each page contains up to 50 report rows. If more data remains, call again with Continuation.",
+      description: "Limits each tool response to control execution time and Claude context size, e.g. `2`. Each page contains up to 50 report rows. If more data remains, call again with Continuation.",
       min: 1,
       max: 10,
       default: 2,
@@ -270,7 +180,7 @@ export default {
     continuation: {
       type: "object",
       label: "Continuation",
-      description: "The exact Continuation object returned by a previous Get Project Activity call. Keep every other filter unchanged.",
+      description: "The exact Continuation object returned by a previous **Get Project Activity** call, e.g. `{\"cursor\":{\"firstRowNumber\":51},\"segmentIndex\":1}`. Keep every other filter unchanged.",
       optional: true,
     },
   },
@@ -294,14 +204,13 @@ export default {
       timezone: this.timezone || profile?.timezone || "UTC",
       weekStart: profile?.beginning_of_week ?? 1,
     });
-    const projectsResponse = await this.toggl.getProjects({
+    const rawProjects = await this.toggl.getAllProjects({
       workspaceId: this.workspaceId,
       params: {
         active: "both",
       },
       $,
     });
-    const rawProjects = unwrapItems(projectsResponse, "workspace projects");
     const allProjects = mapWorkspaceProjects(rawProjects);
     const projectsById = new Map(allProjects.map((project) => [
       project.id,
@@ -384,8 +293,18 @@ export default {
         selectedTasks.set(id, task);
       }
 
-      for (const task of resolveTaskNames(allTasks, requestedTaskNames)) {
-        selectedTasks.set(task.id, task);
+      for (const name of requestedTaskNames) {
+        const matchedTasks = resolveNamedResource({
+          resources: allTasks,
+          query: name,
+          resourceLabel: "task in the selected projects",
+          queryLabel: "Task Name",
+          allowMultipleExact: true,
+        });
+
+        for (const task of matchedTasks) {
+          selectedTasks.set(task.id, task);
+        }
       }
     }
 
@@ -454,7 +373,7 @@ export default {
     }
 
     const initialCursor = parseCursorInput(continuation?.cursor);
-    const progress = validateProgress(continuation?.progress);
+    const progress = validateActivityProgress(continuation?.progress);
     const segmentIndex = Number(continuation?.segmentIndex ?? 0);
 
     if (!Number.isSafeInteger(segmentIndex) || segmentIndex < 0) {
@@ -543,8 +462,11 @@ export default {
 
       if (nextCursor && requestCount < this.maxApiRequests) {
         data.first_row_number = parseCursorInput(nextCursor).firstRowNumber;
+        await new Promise((resolve) => setTimeout(resolve, REQUEST_INTERVAL_MS));
       }
     } while (nextCursor && requestCount < this.maxApiRequests);
+
+    await new Promise((resolve) => setTimeout(resolve, REQUEST_INTERVAL_MS));
 
     const totalsResponse = await this.toggl.getDetailedTimeEntryTotals({
       workspaceId: this.workspaceId,

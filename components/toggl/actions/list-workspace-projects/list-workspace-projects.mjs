@@ -1,8 +1,5 @@
 import toggl from "../../toggl.app.mjs";
-import {
-  filterWorkspaceProjects,
-  unwrapItems,
-} from "../../common/utils.mjs";
+import { filterWorkspaceProjects } from "../../common/utils.mjs";
 
 export default {
   key: "toggl-list-workspace-projects",
@@ -25,15 +22,17 @@ export default {
       ],
     },
     query: {
-      type: "string",
+      propDefinition: [
+        toggl,
+        "resourceQuery",
+      ],
       label: "Project or Client Name",
       description: "Optional case-insensitive project or client name search, e.g. `Lexamica`.",
-      optional: true,
     },
     status: {
       type: "string",
       label: "Project Status",
-      description: "Return active projects, archived projects, or both.",
+      description: "Return `active` projects, `archived` projects, or `both`. Example: `active`.",
       options: [
         "active",
         "archived",
@@ -43,7 +42,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.toggl.getProjects({
+    const response = await this.toggl.getAllProjects({
       workspaceId: this.workspaceId,
       params: {
         active: "both",
@@ -51,7 +50,7 @@ export default {
       $,
     });
     const allProjects = filterWorkspaceProjects(
-      unwrapItems(response, "workspace projects"),
+      response,
       this.query,
     );
     const projects = allProjects.filter((project) => (

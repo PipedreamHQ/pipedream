@@ -6,7 +6,10 @@ import {
   getQuerySignature,
   matchesDescription,
 } from "./activity-utils.mjs";
-import { resolveWorkspaceProject } from "./utils.mjs";
+import {
+  resolveNamedResource,
+  resolveWorkspaceProject,
+} from "./utils.mjs";
 
 test("description matching is deterministic", () => {
   assert.equal(matchesDescription("Drafted client update", "client", "contains"), true);
@@ -115,4 +118,32 @@ test("project resolution rejects ambiguous names instead of guessing", () => {
       client_name: "Second Client",
     },
   ], "Client"), /Project Name is ambiguous/);
+});
+
+test("resource resolution can preserve duplicate exact task names", () => {
+  const matches = resolveNamedResource({
+    resources: [
+      {
+        id: 1,
+        name: "Client update",
+      },
+      {
+        id: 2,
+        name: "Client update",
+      },
+      {
+        id: 3,
+        name: "Client planning",
+      },
+    ],
+    query: "Client update",
+    resourceLabel: "task in the selected projects",
+    queryLabel: "Task Name",
+    allowMultipleExact: true,
+  });
+
+  assert.deepEqual(matches.map((task) => task.id), [
+    1,
+    2,
+  ]);
 });

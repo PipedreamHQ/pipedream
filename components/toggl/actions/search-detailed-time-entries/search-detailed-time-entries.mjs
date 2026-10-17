@@ -59,7 +59,7 @@ export default {
   key: "toggl-search-detailed-time-entries",
   name: "Search Detailed Time Entries",
   description: "Search workspace-wide Toggl Track time entries with structured filters and provider-computed totals. Follows Toggl Reports API cursors up to an explicit cap, validates row continuity and duplicate IDs, and returns deterministic JSON without model rewriting. Only present the entries as a complete report when `complete` is true. For description-rich client updates or historical project analysis, prefer **Get Project Activity**. Results are limited by the connected user's Toggl permissions. [See the documentation](https://engineering.toggl.com/docs/track/reports/detailed_reports/)",
-  version: "1.0.1",
+  version: "2.0.0",
   type: "action",
   ai: "optimized",
   annotations: {

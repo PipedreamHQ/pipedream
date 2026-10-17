@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import togglApp from "../toggl.app.mjs";
 import activityAction from "./get-project-activity/get-project-activity.mjs";
 import summaryAction from "./get-time-entry-summary/get-time-entry-summary.mjs";
 import tasksAction from "./list-project-tasks/list-project-tasks.mjs";
@@ -201,9 +202,11 @@ test("summary action returns compact reconciled groups", async (context) => {
   });
 });
 
-test("project activity resolves a project and returns exact descriptions", async () => {
+test("project activity resolves a project and returns exact descriptions", async (context) => {
+  context.mock.method(globalThis, "setTimeout", (callback) => callback());
+
   const toggl = {
-    async getProjects() {
+    async getAllProjects() {
       return [
         {
           id: 10,
@@ -287,10 +290,12 @@ test("project activity resolves a project and returns exact descriptions", async
   assert.equal(result.totals.trackedSeconds, 3600);
 });
 
-test("project activity continuation preserves progress and filters descriptions locally", async () => {
+test("project activity continuation preserves progress and filters descriptions locally", async (context) => {
+  context.mock.method(globalThis, "setTimeout", (callback) => callback());
+
   const requests = [];
   const toggl = {
-    async getProjects() {
+    async getAllProjects() {
       return [
         {
           id: 10,
@@ -416,11 +421,54 @@ test("project activity continuation preserves progress and filters descriptions 
   }), /integrity check/);
 });
 
+test("workspace project pagination retrieves every page", async () => {
+  const requests = [];
+  const projects = await togglApp.methods.getAllProjects.call({
+    async getProjects({ params }) {
+      requests.push(params);
+
+      return {
+        items: params.page === 1
+          ? Array.from({
+            length: 200,
+          }, (_, index) => ({
+            id: index + 1,
+          }))
+          : [
+            {
+              id: 201,
+            },
+          ],
+      };
+    },
+  }, {
+    workspaceId: 1,
+    params: {
+      active: "both",
+    },
+    $: executionContext(),
+  });
+
+  assert.equal(projects.length, 201);
+  assert.deepEqual(requests, [
+    {
+      active: "both",
+      page: 1,
+      per_page: 200,
+    },
+    {
+      active: "both",
+      page: 2,
+      per_page: 200,
+    },
+  ]);
+});
+
 test("workspace projects and project tasks return compact validated resources", async () => {
   const projects = await projectsAction.run.call({
     ...projectsAction,
     toggl: {
-      async getProjects() {
+      async getAllProjects() {
         return [
           {
             id: 10,
@@ -441,7 +489,7 @@ test("workspace projects and project tasks return compact validated resources", 
   const tasks = await tasksAction.run.call({
     ...tasksAction,
     toggl: {
-      async getProjects() {
+      async getAllProjects() {
         return [
           {
             id: 10,
@@ -492,7 +540,7 @@ test("project tasks reject ambiguous project names and accept an exact project I
     },
   ];
   const toggl = {
-    async getProjects() {
+    async getAllProjects() {
       return projects;
     },
     async getProjectTasks({ projectId }) {

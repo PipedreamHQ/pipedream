@@ -189,14 +189,13 @@ export default {
       });
       groupEntities = unwrapItems(clientsResponse, "workspace clients");
     } else {
-      const projectsResponse = await this.toggl.getProjects({
+      groupEntities = await this.toggl.getAllProjects({
         workspaceId: this.workspaceId,
         params: {
           active: "both",
         },
         $,
       });
-      groupEntities = unwrapItems(projectsResponse, "workspace projects");
     }
 
     if (!Array.isArray(groupEntities)) {
