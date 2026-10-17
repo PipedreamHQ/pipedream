@@ -5,7 +5,7 @@ export default {
   key: "mintlify-chat-with-assistant",
   name: "Chat with Assistant",
   description: "Generates a response message from the assistant for the specified domain. [See the documentation](https://www.mintlify.com/docs/api-reference/assistant/create-assistant-message)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
