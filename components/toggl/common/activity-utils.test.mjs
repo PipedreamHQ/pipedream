@@ -147,3 +147,26 @@ test("resource resolution can preserve duplicate exact task names", () => {
     2,
   ]);
 });
+
+test("resource resolution returns an array for one partial task-name match", () => {
+  const matches = resolveNamedResource({
+    resources: [
+      {
+        id: 1,
+        name: "Client update",
+      },
+      {
+        id: 2,
+        name: "Internal planning",
+      },
+    ],
+    query: "Client",
+    resourceLabel: "task in the selected projects",
+    queryLabel: "Task Name",
+    allowMultipleExact: true,
+  });
+
+  assert.deepEqual(matches.map((task) => task.id), [
+    1,
+  ]);
+});

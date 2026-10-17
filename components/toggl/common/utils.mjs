@@ -295,7 +295,11 @@ export const resolveNamedResource = ({
 
   if (allowMultipleExact && exactMatches.length) return exactMatches;
 
-  if (matches.length === 1) return matches[0];
+  if (matches.length === 1) {
+    return allowMultipleExact
+      ? matches
+      : matches[0];
+  }
 
   if (!matches.length) {
     throw new ConfigurationError(`No accessible ${resourceLabel} matched "${query}".`);
