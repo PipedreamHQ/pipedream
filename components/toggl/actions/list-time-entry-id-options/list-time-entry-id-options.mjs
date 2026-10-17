@@ -4,7 +4,7 @@ export default {
   key: "toggl-list-time-entry-id-options",
   name: "List Time Entry ID Options",
   description: "Retrieves available options for the Time Entry ID field.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

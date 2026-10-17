@@ -240,13 +240,125 @@ export const resolveDateRange = ({
 
 const normalizeSearchValue = (value) => value?.trim().toLowerCase();
 
+const resolveNamedResource = ({
+  resources,
+  query,
+  resourceLabel,
+  queryLabel,
+}) => {
+  const normalizedQuery = normalizeSearchValue(query);
+  const candidates = resources.filter((resource) => (
+    normalizeSearchValue(resource.name)?.includes(normalizedQuery)
+    || normalizeSearchValue(resource.clientName)?.includes(normalizedQuery)
+  ));
+  const exactMatches = candidates.filter((resource) => (
+    normalizeSearchValue(resource.name) === normalizedQuery
+  ));
+  const matches = exactMatches.length
+    ? exactMatches
+    : candidates;
+
+  if (matches.length === 1) return matches[0];
+
+  if (!matches.length) {
+    throw new ConfigurationError(`No accessible ${resourceLabel} matched "${query}".`);
+  }
+
+  const choices = matches
+    .slice(0, 10)
+    .map((resource) => `${resource.name} (${resource.id})${resource.clientName
+      ? ` - ${resource.clientName}`
+      : ""}`)
+    .join(", ");
+  throw new ConfigurationError(`${queryLabel} is ambiguous. Use an exact name or ID. Matches: ${choices}`);
+};
+
+export const unwrapItems = (response, label) => {
+  const items = Array.isArray(response)
+    ? response
+    : response?.items;
+
+  if (!Array.isArray(items)) {
+    throw new Error(`Toggl returned an invalid ${label} response.`);
+  }
+
+  return items;
+};
+
+export const mapWorkspaceProjects = (projects) => projects.map((project) => ({
+  id: Number(project.id),
+  name: project.name ?? "",
+  clientId: project.client_id ?? project.cid ?? null,
+  clientName: project.client_name ?? null,
+  active: project.active !== false,
+}));
+
+export const filterWorkspaceProjects = (projects, query) => {
+  const normalizedQuery = normalizeSearchValue(query);
+  const mapped = mapWorkspaceProjects(projects);
+
+  if (!normalizedQuery) return mapped;
+
+  return mapped.filter((project) => (
+    normalizeSearchValue(project.name)?.includes(normalizedQuery)
+    || normalizeSearchValue(project.clientName)?.includes(normalizedQuery)
+  ));
+};
+
+export const resolveWorkspaceProject = (projects, query) => resolveNamedResource({
+  resources: mapWorkspaceProjects(projects),
+  query,
+  resourceLabel: "workspace project",
+  queryLabel: "Project Name",
+});
+
+export const mapProjectTasks = (tasks) => tasks.map((task) => ({
+  id: Number(task.id),
+  name: task.name ?? "",
+  projectId: Number(task.project_id),
+  active: task.active !== false,
+}));
+
+export const filterProjectTasks = (tasks, query) => {
+  const normalizedQuery = normalizeSearchValue(query);
+  const mapped = mapProjectTasks(tasks);
+
+  if (!normalizedQuery) return mapped;
+
+  return mapped.filter((task) => normalizeSearchValue(task.name)?.includes(normalizedQuery));
+};
+
+export const resolveProjectTask = (tasks, query) => resolveNamedResource({
+  resources: mapProjectTasks(tasks),
+  query,
+  resourceLabel: "project task",
+  queryLabel: "Task Name",
+});
+
 export const filterWorkspaceUsers = (users, query) => {
   const normalizedQuery = normalizeSearchValue(query);
-  const activeUsers = (users || []).map((user) => ({
-    userId: user.id,
-    name: user.fullname ?? user.name ?? "",
-    email: user.email ?? "",
-  }));
+  const activeUsers = (users || []).map((user) => {
+    const isActive = user.is_active ?? user.active;
+    const isAdmin = user.is_admin ?? user.admin ?? user.workspace_admin;
+
+    return {
+      userId: user.id,
+      name: user.fullname ?? user.name ?? "",
+      email: user.email ?? "",
+      ...user.role !== undefined && {
+        role: user.role,
+      },
+      ...isActive !== undefined && {
+        isActive: Boolean(isActive),
+      },
+      ...user.inactive !== undefined && {
+        inactive: Boolean(user.inactive),
+      },
+      ...isAdmin !== undefined && {
+        isAdmin: Boolean(isAdmin),
+      },
+    };
+  });
 
   if (!normalizedQuery) return activeUsers;
 

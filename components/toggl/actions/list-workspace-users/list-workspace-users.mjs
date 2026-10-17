@@ -4,8 +4,8 @@ import { filterWorkspaceUsers } from "../../common/utils.mjs";
 export default {
   key: "toggl-list-workspace-users",
   name: "List Workspace Users",
-  description: "List users visible to the connected Toggl Track account in a workspace. Optionally filter by a full or partial name or email address. Use the returned `userId` as a User IDs value in **Search Detailed Time Entries**, **Get Time Entry Summary**, or **Export Detailed Time Entries**. [See the documentation](https://engineering.toggl.com/docs/track/api/workspaces/)",
-  version: "0.0.1",
+  description: "List users visible to the connected Toggl Track account in a workspace with authoritative returned and unique counts. Optionally filter by a full or partial name or email address. Use the returned `userId` with **Search Detailed Time Entries**, **Get Time Entry Summary**, or **Get Project Activity**. [See the documentation](https://engineering.toggl.com/docs/track/api/workspaces/)",
+  version: "1.0.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -39,11 +39,35 @@ export default {
     }
 
     const users = filterWorkspaceUsers(response, this.query);
+    const userIds = new Set();
 
-    $.export("$summary", `Found ${users.length} workspace ${users.length === 1
+    for (const user of users) {
+      if (!Number.isSafeInteger(user.userId) || user.userId < 1) {
+        throw new Error("Toggl returned a workspace user without a valid user ID.");
+      }
+
+      if (userIds.has(user.userId)) {
+        throw new Error(`Toggl returned duplicate workspace user ID ${user.userId}.`);
+      }
+
+      userIds.add(user.userId);
+    }
+
+    const result = {
+      users,
+      returnedCount: users.length,
+      uniqueUserCount: userIds.size,
+      duplicateCount: 0,
+      complete: true,
+      ...this.query && {
+        query: this.query,
+      },
+    };
+
+    $.export("$summary", `Found ${result.returnedCount} unique workspace ${result.returnedCount === 1
       ? "user"
       : "users"}`);
 
-    return users;
+    return result;
   },
 };

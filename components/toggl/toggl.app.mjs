@@ -307,15 +307,54 @@ export default {
         },
       }, $);
     },
+    /**
+     * List clients visible to the connected account in a workspace.
+     *
+     * @param {Object} opts - The request options
+     * @param {number} opts.workspaceId - The Toggl Track workspace ID
+     * @param {Object} [opts.params] - Optional query parameters
+     * @param {Object} [opts.$] - The Pipedream execution context
+     * @returns {Promise<Array|Object>} Workspace clients returned by Toggl
+     */
     getClients({
-      workspaceId, $,
+      workspaceId, params, $,
     }) {
-      return this._makeRequest("v9", `workspaces/${workspaceId}/clients`, {}, $);
+      return this._makeReliableRequest("v9", `workspaces/${workspaceId}/clients`, {
+        params,
+      }, $);
     },
+    /**
+     * List projects visible to the connected account in a workspace.
+     *
+     * @param {Object} opts - The request options
+     * @param {number} opts.workspaceId - The Toggl Track workspace ID
+     * @param {Object} [opts.params] - Optional query parameters
+     * @param {Object} [opts.$] - The Pipedream execution context
+     * @returns {Promise<Array|Object>} Workspace projects returned by Toggl
+     */
     getProjects({
-      workspaceId, $,
+      workspaceId, params, $,
     }) {
-      return this._makeRequest("v9", `workspaces/${workspaceId}/projects`, {}, $);
+      return this._makeReliableRequest("v9", `workspaces/${workspaceId}/projects`, {
+        params,
+      }, $);
+    },
+    /**
+     * List tasks for a workspace project.
+     *
+     * @param {Object} opts - The request options
+     * @param {number} opts.workspaceId - The Toggl Track workspace ID
+     * @param {number} opts.projectId - The Toggl Track project ID
+     * @param {Object} [opts.params] - Optional query parameters
+     * @param {Object} [opts.$] - The Pipedream execution context
+     * @returns {Promise<Array|Object>} Project tasks returned by Toggl
+     */
+    getProjectTasks({
+      workspaceId, projectId, params, $,
+    }) {
+      return this._makeReliableRequest("v9", `workspaces/${workspaceId}/projects/${projectId}/tasks`, {
+        params,
+      }, $);
     },
     getCurrentTimeEntry({ $ } = {}) {
       return this._makeRequest("v9", "me/time_entries/current", {}, $);
@@ -351,34 +390,6 @@ export default {
           headers: {
             "Content-Type": "application/json",
           },
-          returnFullResponse: true,
-        },
-        $,
-      );
-    },
-    /**
-     * Export a complete detailed time entry report as CSV.
-     *
-     * @param {Object} opts - The request options
-     * @param {number} opts.workspaceId - The Toggl Track workspace ID
-     * @param {Object} opts.data - The detailed report export parameters
-     * @param {Object} opts.$ - The Pipedream execution context
-     * @returns {Promise<Object>} The full API response containing the CSV data
-     */
-    exportDetailedTimeEntriesCsv({
-      workspaceId, data, $,
-    }) {
-      return this._makeReliableRequest(
-        "reportsV3",
-        `workspace/${workspaceId}/search/time_entries.csv`,
-        {
-          method: "post",
-          data,
-          headers: {
-            "Accept": "text/csv",
-            "Content-Type": "application/json",
-          },
-          responseType: "text",
           returnFullResponse: true,
         },
         $,
