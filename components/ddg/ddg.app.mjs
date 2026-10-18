@@ -47,16 +47,29 @@ export default {
         name,
         arguments: args,
       });
-      // structuredContent is always present on this server; content[0].text is the same JSON.
-      if (result?.structuredContent) return result.structuredContent;
-      const text = result?.content?.[0]?.text ?? "{}";
-      try {
-        return JSON.parse(text);
-      } catch (err) {
-        return {
-          text,
-        };
+
+      let payload;
+      if (result?.structuredContent) {
+        payload = result.structuredContent;
+      } else {
+        const text = result?.content?.[0]?.text ?? "{}";
+        try {
+          payload = JSON.parse(text);
+        } catch (err) {
+          payload = {
+            text,
+          };
+        }
       }
+
+      // x402 payment challenges (status 402) are valid payloads, not tool errors.
+      if (result?.isError && payload?.status !== 402) {
+        const message =
+          payload?.error ?? payload?.message ?? payload?.text ?? "Tool call failed";
+        throw new Error(`DDG MCP tool ${name} failed: ${message}`);
+      }
+
+      return payload;
     },
     async searchServices($, {
       need, topK,
