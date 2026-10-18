@@ -4,10 +4,10 @@ import { createSubmissionAction } from "../common/create-submission-action.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
-  version: "0.0.1",
+  version: "0.0.2",
   key: "acedatacloud-happyhorse-generate-video",
-  name: "Generate Happy Horse Video",
-  description: "Generate a Happy Horse video and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/happyhorse-videos)",
+  name: "Generate HappyHorse Video",
+  description: "HappyHorse (Happy Horse) video generation through Ace Data Cloud. Submit once and save the task ID; media is pending. [See the documentation](https://platform.acedata.cloud/documents/happyhorse-videos)",
   path: "/happyhorse/videos",
   props: {
     prompt: {

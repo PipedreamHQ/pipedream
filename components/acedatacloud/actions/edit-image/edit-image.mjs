@@ -7,9 +7,9 @@ import {
 
 export default {
   key: "acedatacloud-edit-image",
-  name: "Edit Image",
+  name: "Edit Seedream Image",
   description: "Submit one Seedream image edit and return its task ID. [See the documentation](https://platform.acedata.cloud/documents/seedream-images)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {

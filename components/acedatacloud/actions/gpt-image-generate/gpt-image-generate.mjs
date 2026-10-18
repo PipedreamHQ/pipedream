@@ -4,10 +4,10 @@ import { createSubmissionAction } from "../common/create-submission-action.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
-  version: "0.0.1",
+  version: "0.0.2",
   key: "acedatacloud-gpt-image-generate",
   name: "Generate GPT Image",
-  description: "Generate an image with GPT Image and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/openai-images-generations)",
+  description: "GPT Image generation through Ace Data Cloud. Submit once and save the task ID; media is pending. [See the documentation](https://platform.acedata.cloud/documents/openai-images-generations)",
   path: "/openai/images/generations",
   props: {
     model: {

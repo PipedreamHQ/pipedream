@@ -4,7 +4,7 @@ import { createSubmissionAction } from "../common/create-submission-action.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
-  version: "0.0.1",
+  version: "0.0.2",
   key: "acedatacloud-wan-generate-video",
   name: "Generate Wan Video",
   description: "Generate a Wan video and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/wan-videos)",

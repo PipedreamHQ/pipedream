@@ -5,7 +5,7 @@ export default {
   key: "acedatacloud-face-keypoints",
   name: "Analyze Face Keypoints",
   description: "Analyze keypoints in an authorized image. [See the documentation](https://platform.acedata.cloud/documents/face-analyze)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {

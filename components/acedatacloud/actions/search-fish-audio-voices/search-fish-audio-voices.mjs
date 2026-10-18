@@ -5,7 +5,7 @@ export default {
   key: "acedatacloud-search-fish-audio-voices",
   name: "Search Fish Audio Voices",
   description: "Search public or saved Fish Audio voices and return a numbered page with voice IDs. Use an `items[]._id` value as the Reference Voice ID in **Synthesize Fish Audio Speech**. [See the documentation](https://platform.acedata.cloud/documents/fish-model-query)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {

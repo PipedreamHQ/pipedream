@@ -5,7 +5,7 @@ export default {
   key: "acedatacloud-google-search",
   name: "Search Google",
   description: "Search Google web, images, news, maps, places, or videos. [See the documentation](https://platform.acedata.cloud/documents/serp-google)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {

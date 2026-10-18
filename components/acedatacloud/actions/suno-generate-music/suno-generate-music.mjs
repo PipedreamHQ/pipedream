@@ -4,10 +4,10 @@ import { createSubmissionAction } from "../common/create-submission-action.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
-  version: "0.0.1",
+  version: "0.0.2",
   key: "acedatacloud-suno-generate-music",
   name: "Generate Suno Music",
-  description: "Generate music with Suno and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/suno-audios)",
+  description: "Suno music generation through Ace Data Cloud. Submit once and save the task ID; media is pending. [See the documentation](https://platform.acedata.cloud/documents/suno-audios)",
   path: "/suno/audios",
   props: {
     prompt: {
