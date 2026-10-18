@@ -18,7 +18,7 @@ export default {
   key: "gorgias_oauth-update-ticket-field-values",
   name: "Update Ticket Field Values",
   description: "Set custom field values on a ticket. The connected account's ticket custom fields are exposed as individual optional props. Each field is written on its own request, so re-running after a failure is safe. [See the documentation](https://developers.gorgias.com/reference/update-ticket-custom-field)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   annotations: {
     destructiveHint: false,
