@@ -165,6 +165,7 @@ Datawaves
 DateTime
 dbBPTj
 dDBkadJPoGFWgMOKlRhYxfdlZlVHSXJcwTl
+DDG
 DDL
 DdQXz
 decrypted
@@ -469,6 +470,7 @@ KOdMYM
 kpxAJl
 ktF
 KVdb
+KYC
 kZUoLk
 kZzRLMKW
 LAHI
@@ -517,6 +519,7 @@ Marketplacer
 Mautic
 mawVvVeVrM
 mBWf
+MCP
 md
 MDN
 mediaType
@@ -601,6 +604,7 @@ Ongage
 OOP
 OoPrtbFk
 OpenAI
+OpenAPI
 OpenCage
 OpenSSH
 OpenWeather
@@ -819,6 +823,7 @@ StackOverflow
 statSync
 Storyblok
 Strava
+Streamable
 Streamlabs
 strictSSL
 stringify
@@ -904,6 +909,7 @@ url
 urlDef
 urlencoded
 USD
+USDC
 userUrl
 UserVoice
 ustTialkqQd
