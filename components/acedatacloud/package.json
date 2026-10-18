@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/acedatacloud",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Ace Data Cloud GPT chat, Suno music, Seedance, HappyHorse, GPT Image and Nano Banana actions for Pipedream Connect and MCP",
   "main": "acedatacloud.app.mjs",
   "keywords": [

@@ -6,7 +6,7 @@ export default {
   key: "acedatacloud-chat-with-gpt-model",
   name: "Chat With GPT Model",
   description: "Send a text prompt to a selected GPT model through Ace Data Cloud and return the completion with usage. [See the documentation](https://platform.acedata.cloud/documents/openai-chat-completions)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {

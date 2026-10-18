@@ -11,7 +11,7 @@ export default {
     chatModel: {
       type: "string",
       label: "Model",
-      description: "Published GPT chat model available through the connected API. E.g. `gpt-4o-mini`. Options are loaded from the current catalog; no model fallback is applied.",
+      description: "Published GPT chat model available through the connected API. E.g. `gpt-4o-mini`. Use **List Chat Models** and its `id` field to inspect the current options. The dropdown uses the same catalog; no model fallback is applied.",
       async options() {
         return chatModelOptions(await this.listChatModels());
       },
