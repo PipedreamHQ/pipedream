@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/getbody",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Pipedream GetBody Components",
   "main": "getbody.app.mjs",
   "keywords": [

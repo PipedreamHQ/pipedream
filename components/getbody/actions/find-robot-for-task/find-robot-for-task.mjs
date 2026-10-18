@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import getbody from "../../getbody.app.mjs";
 
 export default {
@@ -6,6 +7,7 @@ export default {
   description: "Describe a real-world task in plain words and get the robots listed on GetBody that could do it. Nothing is booked: the request is recorded so GetBody can follow up if no robot fits yet. [See the documentation](https://getbody.md/llms.txt)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -39,7 +41,7 @@ export default {
   },
   async run({ $ }) {
     if (this.task.length > 1000) {
-      throw new Error("**Task** must be at most 1000 characters.");
+      throw new ConfigurationError("Task must be at most 1000 characters.");
     }
     const response = await this.getbody.findRobotForTask({
       $,

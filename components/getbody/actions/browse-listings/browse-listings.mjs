@@ -8,6 +8,7 @@ export default {
   description: "List the robots currently offered on GetBody, with public fields only (no owner, exact location or body IDs). [See the documentation](https://getbody.md/llms.txt)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

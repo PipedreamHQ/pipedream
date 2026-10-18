@@ -6,6 +6,7 @@ export default {
   description: "Suggest hourly, daily, weekly and monthly asking rates in USD for a robot you're about to list on GetBody, based on similar listings or on what the robot is worth. Prices are display only: nothing is charged through GetBody. [See the documentation](https://getbody.md/llms.txt)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
