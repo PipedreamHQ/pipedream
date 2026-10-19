@@ -3,6 +3,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 const PAGE_SIZE = 50;
 const DEPLOY_EVENT_LIMIT = 25;
+const OVERLAP_MS = 30 * 60 * 1000;
 
 export default {
   props: {
@@ -35,6 +36,12 @@ export default {
     _setLastTs(lastTs) {
       this.db.set("lastTs", lastTs);
     },
+    _getSeen() {
+      return this.db.get("seen") || {};
+    },
+    _setSeen(seen) {
+      this.db.set("seen", seen);
+    },
     getContentType() {
       throw new Error("getContentType is not implemented");
     },
@@ -66,9 +73,18 @@ export default {
       if (!lastTs && !max) {
         max = DEPLOY_EVENT_LIMIT;
       }
+      // Confluence indexes content asynchronously, so an item can become visible in CQL
+      // after a newer one. Keep reading back `OVERLAP_MS` behind the cursor and skip items
+      // already handled (tracked in `seen`), so late-indexed items are still emitted.
+      const cutoff = lastTs
+        ? lastTs - OVERLAP_MS
+        : 0;
+      const seen = this._getSeen();
       const cql = this.getCql();
       const items = [];
+      const skipped = [];
       let newestTs;
+      let capped = false;
       let start = 0;
       let done = false;
 
@@ -89,21 +105,25 @@ export default {
           if (newestTs === undefined) {
             newestTs = ts;
           }
-          // Strictly older than the cursor: everything after this has been seen.
-          // Items equal to the cursor are re-read (timestamps are second-precision)
-          // and de-duplicated by `dedupe: "unique"` on meta.id.
-          if (ts < lastTs) {
+          // Older than the overlap window: everything after this has been handled.
+          // Once the emit cap is hit, only keep reading far enough to mark the rest of
+          // the window as seen, so it isn't back-filled by the next poll.
+          const floor = capped
+            ? Math.max(cutoff, newestTs - OVERLAP_MS)
+            : cutoff;
+          if (ts < floor) {
             done = true;
             break;
           }
-          if (!this.isRelevant(item)) {
+          if (!this.isRelevant(item) || seen[this.generateMeta(item).id] !== undefined) {
+            continue;
+          }
+          if (max && items.length >= max) {
+            capped = true;
+            skipped.push(item);
             continue;
           }
           items.push(item);
-          if (max && items.length >= max) {
-            done = true;
-            break;
-          }
         }
 
         if (results.length < PAGE_SIZE) {
@@ -112,9 +132,23 @@ export default {
         start += PAGE_SIZE;
       }
 
-      if (newestTs !== undefined && newestTs > lastTs) {
-        this._setLastTs(newestTs);
+      const newCursor = Math.max(lastTs, newestTs ?? 0);
+      if (newCursor > lastTs) {
+        this._setLastTs(newCursor);
       }
+
+      // Remember what was handled (emitted or deliberately skipped by the cap) and drop
+      // entries older than the window, which can never be read again.
+      items.concat(skipped).forEach((item) => {
+        seen[this.generateMeta(item).id] = this.getTs(item);
+      });
+      const keep = newCursor - OVERLAP_MS;
+      Object.keys(seen).forEach((key) => {
+        if (seen[key] < keep) {
+          delete seen[key];
+        }
+      });
+      this._setSeen(seen);
 
       // Emit oldest first.
       items.reverse().forEach((item) => {
