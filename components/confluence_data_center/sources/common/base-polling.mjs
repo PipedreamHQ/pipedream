@@ -132,6 +132,13 @@ export default {
         start += PAGE_SIZE;
       }
 
+      // Emit oldest first.
+      items.reverse().forEach((item) => {
+        this.$emit(item, this.generateMeta(item));
+      });
+
+      // Persist state only after emitting, so a failed emit is retried on the next poll
+      // (dedupe: "unique" drops any items that were already emitted).
       const newCursor = Math.max(lastTs, newestTs ?? 0);
       if (newCursor > lastTs) {
         this._setLastTs(newCursor);
@@ -149,11 +156,6 @@ export default {
         }
       });
       this._setSeen(seen);
-
-      // Emit oldest first.
-      items.reverse().forEach((item) => {
-        this.$emit(item, this.generateMeta(item));
-      });
     },
   },
   async run() {
