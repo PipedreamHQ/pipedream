@@ -22,6 +22,9 @@ const REQUEST_TIMEOUT_MS = 2 * 60 * 1000;
 const CANCEL_TIMEOUT_MS = 10 * 1000;
 const CLEANUP_TIMEOUT_MS = 5 * 1000;
 const REQUEST_TIMEOUT_CODE = "INCORTA_REQUEST_TIMEOUT";
+// Consecutive fetches that return no batch although the server says more rows
+// remain, before giving up (guards against a server that never delivers).
+const MAX_IDLE_FETCHES = 3;
 
 export default {
   type: "app",
@@ -330,8 +333,14 @@ export default {
     async _waitUntilFinished(operation, guard) {
       const deadline = Date.now() + SQL_QUERY_TIMEOUT_MS;
       const expire = async () => {
-        await guard(() => operation.cancel(), CANCEL_TIMEOUT_MS).catch(() => {});
-        throw new Error(`The query did not finish within ${SQL_QUERY_TIMEOUT_MS / 60000} minutes and was cancelled`);
+        const minutes = SQL_QUERY_TIMEOUT_MS / 60000;
+        try {
+          await guard(() => operation.cancel(), CANCEL_TIMEOUT_MS);
+        } catch (err) {
+          // Don't claim a cancellation that wasn't confirmed.
+          throw new Error(`The query did not finish within ${minutes} minutes and could not be confirmed cancelled (${err?.message ?? err}); it may still be running`);
+        }
+        throw new Error(`The query did not finish within ${minutes} minutes and was cancelled`);
       };
       while (true) {
         // Each status request is aborted at the deadline at the latest, so a
@@ -424,24 +433,31 @@ export default {
         // would fetch only 100 rows per request.
         operation.setMaxRows(Math.min(maxRows + 1, 10000));
         let fetched = 0;
+        let idle = 0;
         while (fetched <= maxRows) {
+          const batchesBefore = operation.getData().length;
           await guard(() => operation.fetch());
           // hive-driver only appends a batch when the response has `results`,
-          // so with nothing left `getData().at(-1)` would be the PREVIOUS
-          // batch (counted twice, and endless for `maxRows = Infinity`).
-          // `hasMoreRows()` is false exactly when the latest response had no
-          // rows.
+          // and `hasMoreRows()` can be true without one (it trusts the
+          // server's flag), so count only a batch THIS fetch appended:
+          // `getData().at(-1)` would otherwise be the previous batch, counted
+          // twice.
+          const data = operation.getData();
+          const appended = data.length > batchesBefore;
+          const size = appended
+            ? this._rowSetSize(data.at(-1))
+            : 0;
+          fetched += size;
           if (!operation.hasMoreRows()) {
             break;
           }
-          const batch = operation.getData().at(-1);
-          const size = batch
-            ? this._rowSetSize(batch)
-            : 0;
-          if (!size) {
+          if (size > 0) {
+            idle = 0;
+          } else if (appended || ++idle >= MAX_IDLE_FETCHES) {
+            // An empty batch ends the result; a missing batch with more rows
+            // promised gets a few more tries before we stop.
             break;
           }
-          fetched += size;
         }
         const all = new HiveUtils(TYPES).getResult(operation)
           .getValue();
