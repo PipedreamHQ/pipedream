@@ -19,7 +19,7 @@ export default {
     + " Responses are capped. An oversized thread is served as `text`: each message keeps `subject`, `sender`, `recipient`, `date`, and a decoded plain-text `bodyText` in place of `payload` (attachment metadata is omitted), shortened toward a floor if needed (cut messages carry `bodyTruncated: true` and `bodyTotalChars`). Only if that still does not fit does it fall back to `metadata`, then drop messages from the tail. Every fallback sets `truncated`, `servedFormat`, and a `note`."
     + " Pass `includeLinks: false` to drop link URLs and images from the decoded text, which keeps notification and newsletter threads far smaller."
     + " [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.threads/get).",
-  version: "0.3.0",
+  version: "0.3.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
