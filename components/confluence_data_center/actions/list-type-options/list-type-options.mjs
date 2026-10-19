@@ -4,7 +4,7 @@ export default {
   key: "confluence_data_center-list-type-options",
   name: "List Type Options",
   description: "Retrieves available options for the Type field.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

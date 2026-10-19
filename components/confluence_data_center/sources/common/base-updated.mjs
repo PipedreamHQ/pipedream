@@ -15,9 +15,11 @@ export default {
       return item.version.number > 1;
     },
     generateMeta(item) {
+      const type = this.getContentType();
+      const label = type.charAt(0).toUpperCase() + type.slice(1);
       return {
         id: `${item.id}-${item.version.number}`,
-        summary: `${this.getContentType() === "page" ? "Page" : "Blogpost"} updated: ${item.title}`,
+        summary: `${label} updated: ${item.title}`,
         ts: this.getTs(item),
       };
     },
