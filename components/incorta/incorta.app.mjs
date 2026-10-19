@@ -240,14 +240,25 @@ export default {
       const client = new HiveClient(TCLIService, TYPES);
       // hive-driver re-emits connection failures (HTTP 404, TLS, DNS, ...) as
       // an 'error' event and the pending call never settles; with no listener
-      // Node throws and kills the execution. Turn the event into a rejection
-      // that every driver call is raced against.
-      const failure = new Promise((resolve, reject) => client.on("error", reject));
-      failure.catch(() => {});
-      const race = (promise) => Promise.race([
-        promise,
-        failure,
-      ]);
+      // Node throws and kills the execution. So keep a permanent no-op
+      // listener (an error between calls must never crash the execution) and
+      // race every driver call against its OWN error listener, attached for
+      // just that call. It must be per call: a single shared promise stays
+      // rejected after the first error, which would make later calls (such as
+      // closing the session after a timeout) reject immediately without being
+      // awaited.
+      client.on("error", () => {});
+      const race = (promise) => {
+        let onError;
+        const failed = new Promise((resolve, reject) => {
+          onError = reject;
+        });
+        client.once("error", onError);
+        return Promise.race([
+          promise,
+          failed,
+        ]).finally(() => client.removeListener("error", onError));
+      };
       try {
         await race(client.connect({
           host,
