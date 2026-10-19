@@ -19,7 +19,7 @@ export default {
     + " Gmail issues a new `attachmentId` for the same part on every read, so the download always uses the `attachmentId` you pass, and the filename and MIME type are resolved separately: by `partId` (stable across reads; recommended), then by a unique filename-and-size match, then by a unique size match. If none resolve, the file is saved as `attachment-<id>` with an extension detected from its contents."
     + " Set `convertToPdf: true` to convert image / HTML / plain-text / DOCX attachments to PDF during download; other MIME types are rejected."
     + " [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages.attachments/get).",
-  version: "0.2.0",
+  version: "0.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
