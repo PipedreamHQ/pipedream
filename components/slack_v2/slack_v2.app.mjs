@@ -1,8 +1,6 @@
-// x-pd-ai: optimized
 import { WebClient } from "@slack/web-api";
 import constants from "./common/constants.mjs";
 import get from "lodash/get.js";
-import retry from "async-retry";
 import fs from "fs";
 import { Transform } from "stream";
 import { pipeline } from "stream/promises";
@@ -37,7 +35,7 @@ export default {
     conversation: {
       type: "string",
       label: "Channel",
-      description: "**Prefer a channel ID** (e.g. `C1234567890`) — use **List Channels** to look it up; it resolves instantly. A channel NAME (e.g. `general` or `#general`) is also accepted, but resolving it scans up to 5 conversations.list pages (~5,000 channels), which is slow and, on large workspaces, can be rate-limited or fail with a ConfigurationError if the channel is beyond that bound — pass the ID whenever you have it. Depending on the action, this may also accept a user ID (opens a direct message) or a group DM ID — use **Find User by Email** / **Find User by ID** to resolve a user ID, or **List Group Conversations** for group DM IDs.",
+      description: "**Prefer a channel ID** (e.g. `C1234567890`) — use **List Channels** to look it up; it resolves instantly. A channel NAME (e.g. `general` or `#general`) is also accepted: it is looked up among the channels you are a member of first, then the workspace's public channels. That lookup is slower than an ID and, on large workspaces, can be rate-limited or fail with a ConfigurationError if the channel isn't found within ~5,000 channels — pass the ID whenever you have it. Depending on the action, this may also accept a user ID (opens a direct message) or a group DM ID — use **Find User by Email** / **Find User by ID** to resolve a user ID, or **List Group Conversations** for group DM IDs.",
     },
     channelId: {
       type: "string",
@@ -309,6 +307,9 @@ export default {
     sdk(opts = {}) {
       return new WebClient(this.getToken(opts), {
         rejectRateLimitedCalls: true,
+        retryConfig: {
+          ...constants.WEB_CLIENT_RETRY_CONFIG,
+        },
         slackApiUrl: this.$auth.base_url,
       });
     },
@@ -353,26 +354,25 @@ export default {
       return response;
     },
     async _withRetries(apiCall, throwRateLimitError = false) {
-      const retryOpts = {
-        retries: 3,
-        minTimeout: 30000,
-      };
-      return retry(async (bail) => {
+      let waitedSeconds = 0;
+      for (let attempt = 0; ; attempt++) {
         try {
           return await apiCall();
         } catch (error) {
-          const statusCode = get(error, "code");
-          if (statusCode === "slack_webapi_rate_limited_error") {
-            if (throwRateLimitError) {
-              bail(error);
-            } else {
-              console.log(`Rate limit exceeded. Will retry in ${retryOpts.minTimeout / 1000} seconds`);
-              throw error;
-            }
+          const waitSeconds = Math.max(get(error, "retryAfter") || 0, 1);
+          if (
+            get(error, "code") !== constants.RATE_LIMITED_ERROR_CODE
+            || throwRateLimitError
+            || attempt >= constants.RATE_LIMIT_MAX_RETRIES
+            || waitedSeconds + waitSeconds > constants.RATE_LIMIT_WAIT_BUDGET_SECONDS
+          ) {
+            throw error;
           }
-          bail(error);
+          console.log(`Rate limit exceeded. Will retry in ${waitSeconds} seconds`);
+          await new Promise((resolve) => setTimeout(resolve, waitSeconds * 1000));
+          waitedSeconds += waitSeconds;
         }
-      }, retryOpts);
+      }
     },
     // Resolves user names by scanning `users.list`, capped at
     // MAX_NAME_LOOKUP_PAGES pages per call: some ids may be unresolvable
@@ -623,13 +623,7 @@ export default {
     },
     assistantSearch(args = {}) {
       args.count ||= constants.LIMIT;
-      // Uses apiCall directly since assistant.search.context is not exposed as
-      // a method on WebClient — but it must STILL go through _withRetries. Calling
-      // apiCall bare was the one path in this app that skipped the retry wrapper, and
-      // the client is built with `rejectRateLimitedCalls: true`, so a 429 rejected
-      // instantly instead of backing off. assistant.search.context rate-limits readily
-      // (Slack returns retryAfter: 60), which surfaced to agents as a hard tool error
-      // on 8 of 12 search calls in one eval run.
+      // apiCall bypasses makeRequest, so wrap it explicitly.
       return this._withRetries(() => this.sdk().apiCall("assistant.search.context", {
         ...args,
       }));
@@ -1053,10 +1047,54 @@ export default {
       return ids.join(",");
     },
     /**
+     * Pages through a channel-listing method looking for a channel named `name`.
+     * Capped at MAX_CHANNEL_RESOLVE_PAGES pages: an unmatched name (typo, wrong
+     * workspace) would otherwise force a full scan every time, which on a large
+     * workspace can alone exhaust the method's rate limit.
+     *
+     * @param {Function} list - Listing method, e.g. usersConversations or conversationsList
+     * @param {string} name - Lowercased channel name without a leading `#`
+     * @param {object} args - Extra arguments for `list` (e.g. `types`)
+     * @returns {Promise<{ id: string|null, capped: boolean }>} The matching channel ID
+     * (or null), and whether the scan stopped at the page cap with more pages left
+     */
+    async _findChannelIdByName(list, name, args = {}) {
+      let cursor;
+      let pages = 0;
+      do {
+        // Fail fast on a 429; a wait per page stalls the whole scan.
+        const {
+          channels, response_metadata: { next_cursor: nextCursor },
+        } = await list({
+          ...args,
+          limit: 999,
+          cursor,
+          exclude_archived: true,
+          throwRateLimitError: true,
+        });
+        const match = channels.find((c) => c.name === name);
+        if (match) {
+          return {
+            id: match.id,
+            capped: false,
+          };
+        }
+        cursor = nextCursor;
+      } while (cursor && ++pages < constants.MAX_CHANNEL_RESOLVE_PAGES);
+      return {
+        id: null,
+        capped: Boolean(cursor),
+      };
+    },
+    /**
      * Resolves a channel name (e.g. "general", "#general") to its ID.
      * If the input already looks like an ID (starts with C/D/G/U + 8+ alphanums),
-     * returns it as-is. Fetches up to 999 channels per page (the Slack API max)
-     * to minimize API calls.
+     * returns it as-is.
+     *
+     * Slack has no lookup-by-name endpoint, so a name is matched by listing channels.
+     * The authenticated user's own channels are searched first (users.conversations) —
+     * usually a small fraction of a large workspace, and where the named channel almost
+     * always is — and only then the workspace's public channels (conversations.list).
      *
      * Note: chat.postMessage and chat.update accept channel names directly —
      * use normalizeChannel() instead for those methods.
@@ -1082,33 +1120,31 @@ export default {
         return channel.id;
       }
       const name = input.replace(/^#/, "").toLowerCase();
-      let cursor;
-      let pages = 0;
-      do {
-        // Fail fast on a 429 instead of _withRetries' default backoff (min 30s, up to 3
-        // retries) — that backoff, hit mid-scan, is what turns a channel name lookup into
-        // a multi-minute stall that looks like a hang to callers with their own timeout
-        // budget. Let it (and any other API error — auth, scope, network) propagate with
-        // its original status/code; ConfigurationError below is reserved for the genuine
-        // user-input problem of a name that doesn't resolve to any channel.
-        const {
-          channels, response_metadata: { next_cursor: nextCursor },
-        } = await this.conversationsList({
+
+      // Pass 1: channels the authenticated user is a member of, public and private.
+      const member = await this._findChannelIdByName(
+        (args) => this.usersConversations(args),
+        name,
+        {
           types: "public_channel,private_channel",
-          limit: 999,
-          cursor,
-          exclude_archived: true,
-          throwRateLimitError: true,
-        });
-        const match = channels.find((c) => c.name === name);
-        if (match) return match.id;
-        cursor = nextCursor;
-      // Cap pagination: an unmatched name (typo, wrong workspace) would otherwise force
-      // a full workspace scan every time, which on a large workspace can alone exhaust
-      // conversations.list's rate limit.
-      } while (cursor && ++pages < constants.MAX_CHANNEL_RESOLVE_PAGES);
+        },
+      );
+      if (member.id) return member.id;
+
+      // Pass 2: public channels the user hasn't joined. Private channels are skipped —
+      // conversations.list only returns private channels the caller is a member of,
+      // and pass 1 already covered those.
+      const workspace = await this._findChannelIdByName(
+        (args) => this.conversationsList(args),
+        name,
+        {
+          types: "public_channel",
+        },
+      );
+      if (workspace.id) return workspace.id;
+
       throw new ConfigurationError(
-        `Channel "${input}" not found${pages >= constants.MAX_CHANNEL_RESOLVE_PAGES
+        `Channel "${input}" not found${member.capped || workspace.capped
           ? ` after scanning ${constants.MAX_CHANNEL_RESOLVE_PAGES * 999}+ channels (this workspace may have more)`
           : ""
         }. Provide a valid channel ID instead — use List Channels to look it up.`,

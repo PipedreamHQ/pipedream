@@ -6,9 +6,9 @@ export default {
   key: "xero_accounting_api-xero-create-sales-invoice",
   name: "Create Sales Invoice",
   description: "Creates a new sales invoice. [See the documentation](https://developer.xero.com/documentation/api/invoices#post)",
-  version: "0.3.5",
+  version: "0.3.6",
   annotations: {
-    destructiveHint: false,
+    destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },

@@ -1,4 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
+import constants from "./constants.mjs";
 
 export function parseObject(value) {
   if (!value) return undefined;
@@ -160,11 +161,24 @@ const DESCRIBED_VARIABLE_FIELDS = [
   "choices",
 ];
 
+/**
+ * Trim one catalog variable (and its children) to the fields an agent needs,
+ * and attach an `options` descriptor for choice-based types.
+ * @param {object} variable - A variable from the Service Catalog `/variables` response
+ * @param {object[]} scriptDefaults - Collects described reference variables whose
+ *   default is a `javascript:` script, for the caller to resolve
+ * @returns {object} The described variable
+ */
 function describeVariable(variable, scriptDefaults) {
   const type = Number(variable.type);
   const described = {};
   for (const field of DESCRIBED_VARIABLE_FIELDS) {
     if (variable[field] !== undefined) {
+      described[field] = variable[field];
+    }
+  }
+  for (const field of constants.DESCRIBED_TEXT_FIELDS) {
+    if (typeof variable[field] === "string" && variable[field].trim()) {
       described[field] = variable[field];
     }
   }
@@ -227,10 +241,11 @@ function describeVariable(variable, scriptDefaults) {
  * them in a Table API query, so they are flagged with `qualifier_unresolved`
  * rather than returned as `query`. Only the fields an agent needs to fill the
  * form are kept (`id`, `name`, `label`, `type`, `mandatory`, `value`,
- * `choices`, `children`, `options` and the default flags); form-rendering
- * metadata such as list collector `columns` is dropped. Reference variables
- * whose default is a `javascript:` script are returned in `scriptDefaults`,
- * with the referenced table in `options.table`, for the caller to resolve.
+ * `choices`, `children`, `options`, a non-empty `help_text` and the default
+ * flags); form-rendering metadata such as list collector `columns` is dropped.
+ * Reference variables whose default is a `javascript:` script are returned in
+ * `scriptDefaults`, with the referenced table in `options.table`, for the
+ * caller to resolve.
  */
 export function describeCatalogVariables(variables) {
   const scriptDefaults = [];
