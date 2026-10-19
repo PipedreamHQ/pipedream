@@ -21,6 +21,7 @@ const SQL_QUERY_TIMEOUT_MS = 5 * 60 * 1000;
 const REQUEST_TIMEOUT_MS = 2 * 60 * 1000;
 const CANCEL_TIMEOUT_MS = 10 * 1000;
 const CLEANUP_TIMEOUT_MS = 5 * 1000;
+const REQUEST_TIMEOUT_CODE = "INCORTA_REQUEST_TIMEOUT";
 
 export default {
   type: "app",
@@ -181,8 +182,9 @@ export default {
      * shown on Incorta's Tableau Advanced SQL page). None of it can be
      * derived from the REST base URL: on cloud the HTTP path carries a
      * cluster-specific routing prefix (`gc-<region>-<zone>-<N>/cliservice`)
-     * and without it every request is a 404. Cloud only. SSL is on for
-     * port 443.
+     * and without it every request is a 404. Cloud only, so always TLS: the
+     * PAT is sent as Basic credentials and must never go out in cleartext,
+     * whatever port `cluster_info` reports.
      */
     async _sqlEndpoint() {
       const baseHost = String(this.$auth.base_url ?? "").trim()
@@ -222,7 +224,7 @@ export default {
         port,
         path: `/${String(info.sqlxPath).trim()
           .replace(/^\/+/, "")}`,
-        https: port === 443,
+        https: true,
       };
     },
     /**
@@ -307,7 +309,9 @@ export default {
     /** Turns an aborted (timed-out) Thrift request into a readable error. */
     _requestError(err, timeoutMs) {
       if (err?.name === "AbortError" || err?.name === "TimeoutError" || err?.code === "ABORT_ERR") {
-        return new Error(`Incorta Advanced SQLi did not respond within ${Math.round(timeoutMs / 1000)} seconds`);
+        const timeoutError = new Error(`Incorta Advanced SQLi did not respond within ${Math.round(timeoutMs / 1000)} seconds`);
+        timeoutError.code = REQUEST_TIMEOUT_CODE;
+        return timeoutError;
       }
       return err;
     },
@@ -325,18 +329,32 @@ export default {
      */
     async _waitUntilFinished(operation, guard) {
       const deadline = Date.now() + SQL_QUERY_TIMEOUT_MS;
+      const expire = async () => {
+        await guard(() => operation.cancel(), CANCEL_TIMEOUT_MS).catch(() => {});
+        throw new Error(`The query did not finish within ${SQL_QUERY_TIMEOUT_MS / 60000} minutes and was cancelled`);
+      };
       while (true) {
         // Each status request is aborted at the deadline at the latest, so a
         // stalled request can't keep the deadline from being enforced.
         const remaining = deadline - Date.now();
         if (remaining <= 0) {
-          await guard(() => operation.cancel(), CANCEL_TIMEOUT_MS).catch(() => {});
-          throw new Error(`The query did not finish within ${SQL_QUERY_TIMEOUT_MS / 60000} minutes and was cancelled`);
+          await expire();
         }
-        const status = await guard(
-          () => operation.status(false),
-          Math.min(REQUEST_TIMEOUT_MS, remaining),
-        );
+        let status;
+        try {
+          status = await guard(
+            () => operation.status(false),
+            Math.min(REQUEST_TIMEOUT_MS, remaining),
+          );
+        } catch (err) {
+          // A request capped at the remaining time timing out means the
+          // deadline passed (not that the server is unresponsive), so cancel
+          // and report the deadline. Any other error propagates unchanged.
+          if (err?.code === REQUEST_TIMEOUT_CODE && remaining <= REQUEST_TIMEOUT_MS) {
+            await expire();
+          }
+          throw err;
+        }
         switch (status.operationState) {
         case TYPES.TOperationState.FINISHED_STATE:
           return;
@@ -398,12 +416,24 @@ export default {
           runAsync: true,
         }));
         await this._waitUntilFinished(operation, guard);
-        // Server batches are capped on their side; ask for one row past the
-        // limit so a full batch can't hide truncation.
+        // Rows per fetch request (a batch size, not a limit on the result: the
+        // loop below keeps fetching until `maxRows + 1` rows or no more rows,
+        // so even `maxRows = Infinity` returns everything). Ask for one row
+        // past the limit so a full batch can't hide truncation; the 10,000
+        // cap keeps requests reasonable, and without any value hive-driver
+        // would fetch only 100 rows per request.
         operation.setMaxRows(Math.min(maxRows + 1, 10000));
         let fetched = 0;
         while (fetched <= maxRows) {
           await guard(() => operation.fetch());
+          // hive-driver only appends a batch when the response has `results`,
+          // so with nothing left `getData().at(-1)` would be the PREVIOUS
+          // batch (counted twice, and endless for `maxRows = Infinity`).
+          // `hasMoreRows()` is false exactly when the latest response had no
+          // rows.
+          if (!operation.hasMoreRows()) {
+            break;
+          }
           const batch = operation.getData().at(-1);
           const size = batch
             ? this._rowSetSize(batch)
