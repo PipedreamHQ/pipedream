@@ -4,7 +4,7 @@ export default {
   key: "filepost-list-file-id-options",
   name: "List File ID Options",
   description: "Retrieves available options for the File ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
