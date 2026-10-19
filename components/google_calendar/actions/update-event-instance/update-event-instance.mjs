@@ -5,7 +5,7 @@ export default {
   key: "google_calendar-update-event-instance",
   name: "Update Event Instance",
   description: "Update a single occurrence of a recurring event. Changes apply only to that instance and only the fields you supply change; reminders, attendees and all other fields are kept. Set `Show As` to mark the instance as Free or Busy. Use **List Event Instances** to find the instance, or **Update Event** to change the whole series. Returns the updated instance. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/update)",
-  version: "0.1.0",
+  version: "0.1.1",
   ai: "optimized",
   type: "action",
   annotations: {
@@ -120,7 +120,7 @@ export default {
     const response = await this.googleCalendar.updateEvent({
       calendarId: this.calendarId,
       eventId: this.instanceId,
-      sendUpdates: this.sendUpdates,
+      sendUpdates: this.sendUpdates || undefined,
       // `update` is a full replace; unsupplied fields would be wiped
       requestBody: {
         ...currentEvent,

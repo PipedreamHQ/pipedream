@@ -4,8 +4,8 @@ import { assertSafeQueryValue } from "../../common/utils.mjs";
 export default {
   key: "servicenow-check-order-status",
   name: "Check Order Status",
-  description: "Retrieve the status of a ServiceNow catalog request (REQ) from the `sc_request` table, including request state, approval, and stage. Provide the request number returned by **Checkout Cart**, **Submit Cart Order**, or **Order Catalog Item**. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_TableAPI.html)",
-  version: "0.0.6",
+  description: "Retrieve the status of a ServiceNow catalog request (REQ) from the `sc_request` table, with its requested items (RITMs) under `requested_items` (`number`, `approval`, `stage`, `state`, `requested_for`). Approvals happen on the RITMs: the REQ's own `approval` can read `approved` while a RITM is still waiting, so report approval status from `requested_items[].approval`. Provide the request number returned by **Checkout Cart**, **Submit Cart Order**, **Order Catalog Item**, or **Checkout Order Guide**. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_TableAPI.html)",
+  version: "0.1.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -47,17 +47,34 @@ export default {
     });
 
     const request = response?.[0];
-    let summary;
     if (!request) {
-      summary = `No request found with number ${this.requestNumber}`;
-    } else {
-      const state = request.state ?? request.request_state;
-      summary = state
-        ? `Retrieved status for request ${this.requestNumber}: ${state}`
-        : `Retrieved status for request ${this.requestNumber}`;
+      $.export("$summary", `No request found with number ${this.requestNumber}`);
+      return response;
     }
-    $.export("$summary", summary);
 
-    return response;
+    if (!request.sys_id) {
+      throw new Error(`Request ${this.requestNumber} was returned without a sys_id, so its requested items cannot be retrieved.`);
+    }
+
+    const requestedItems = await this.servicenow.getRequestedItemsForRequest({
+      $,
+      requestId: request.sys_id,
+    });
+    const state = request.state ?? request.request_state;
+    const itemStatus = requestedItems.map(({
+      number, approval, stage,
+    }) => `${number}: approval ${approval || "unknown"}, stage ${stage || "unknown"}`).join("; ");
+    $.export("$summary", `Retrieved status for request ${this.requestNumber}${state
+      ? `: ${state}`
+      : ""}${itemStatus
+      ? ` (${itemStatus})`
+      : ""}`);
+
+    return [
+      {
+        ...request,
+        requested_items: requestedItems,
+      },
+    ];
   },
 };

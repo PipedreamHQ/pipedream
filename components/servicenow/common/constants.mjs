@@ -38,6 +38,21 @@ const CATALOG_UI_POLICY_ACTION_TABLE = "catalog_ui_policy_action";
 const KNOWLEDGE_BASE_TABLE = "kb_knowledge_base";
 const MAX_LIMIT = 1000;
 
+// Requested item (RITM) fields returned after an order. Approvals and stage
+// live on the RITM, not on the parent request (REQ). `request.requested_for`
+// covers instances whose RITMs have no `requested_for` of their own.
+const REQUESTED_ITEM_FIELDS = [
+  "sys_id",
+  "number",
+  "cat_item",
+  "quantity",
+  "state",
+  "approval",
+  "stage",
+  "requested_for",
+  "request.requested_for",
+];
+
 // The field guidance ServiceNow shows under a catalog variable. Kept only when
 // set: most variables have none, and an empty string per field would undo the
 // trim in `describeCatalogVariables`.
@@ -60,5 +75,6 @@ export default {
   CATALOG_UI_POLICY_ACTION_TABLE,
   KNOWLEDGE_BASE_TABLE,
   MAX_LIMIT,
+  REQUESTED_ITEM_FIELDS,
   DESCRIBED_TEXT_FIELDS,
 };
