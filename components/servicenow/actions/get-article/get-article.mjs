@@ -4,7 +4,7 @@ import { knowledgeArticleUrl } from "../../common/utils.mjs";
 export default {
   key: "servicenow-get-article",
   name: "Get Article",
-  description: "Retrieve a single knowledge article, including its entire HTML body (`content`). Run **Search Knowledge Base** first to find an article, then pass its `number` or `sys_id` here. Also returns `url`, a link to the article on the instance that you can share with users. The `attachments` array is only returned when the article record has `display_attachments` enabled. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/knowledge-api.html)",
+  description: "Retrieve a single knowledge article, including its entire HTML body (`content`). Run **Search Knowledge Base** first to find an article, then pass its `number` or `sys_id` here. Also returns `url`, a link to the article on the instance that you can share with users (omitted when the article is not found). The `attachments` array is only returned when the article record has `display_attachments` enabled. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/knowledge-api.html)",
   version: "0.1.0",
   type: "action",
   ai: "optimized",
