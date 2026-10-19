@@ -82,14 +82,14 @@ export default {
       "callback_url": this.callback_url,
     };
 
-    if (this.phrases) {
-      data.phrases = {
-        "custom_vocabularies": [
-          {
-            "phrases": this.phrases,
-          },
-        ],
-      };
+    // Rev.ai takes inline vocabulary as a top-level `custom_vocabularies` list, each
+    // entry holding its own `phrases` array.
+    if (this.phrases?.length) {
+      data.custom_vocabularies = [
+        {
+          phrases: this.phrases,
+        },
+      ];
     }
 
     return await axios($, {

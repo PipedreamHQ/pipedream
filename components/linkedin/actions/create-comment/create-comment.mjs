@@ -43,17 +43,36 @@ export default {
     },
   },
   methods: {
+    // Also accepts the whole array as one JSON string (the pre-1.0 contract), and
+    // flattens an entry holding a JSON array of content entities.
     parseContent(items) {
-      return items?.map((item) => {
-        if (typeof item !== "string") {
-          return item;
+      if (!items) {
+        return undefined;
+      }
+      const entries = (Array.isArray(items)
+        ? items
+        : [
+          items,
+        ])
+        .filter((item) => item !== undefined && item !== null && item !== "")
+        .flatMap((item) => {
+          if (typeof item !== "string") {
+            return item;
+          }
+          try {
+            return JSON.parse(item);
+          } catch (error) {
+            throw new ConfigurationError(`Content: \`${item}\` is not valid JSON`);
+          }
+        });
+      for (const entry of entries) {
+        if (typeof entry !== "object" || entry === null || Array.isArray(entry)) {
+          throw new ConfigurationError(`Content: \`${JSON.stringify(entry)}\` is not a JSON object`);
         }
-        try {
-          return JSON.parse(item);
-        } catch (error) {
-          throw new ConfigurationError(`Content: \`${item}\` is not valid JSON`);
-        }
-      });
+      }
+      return entries.length
+        ? entries
+        : undefined;
     },
   },
   async run({ $ }) {

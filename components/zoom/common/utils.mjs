@@ -82,9 +82,28 @@ function parseJson(value, fieldName) {
 }
 
 // Parses a `string[]` prop whose entries are JSON-serialized objects, leaving
-// already-parsed objects untouched.
+// already-parsed objects untouched. Also accepts the whole array as one JSON string
+// (common from expressions and the pre-1.0 contract), and flattens an entry holding a
+// JSON array, since that mistake is easy to make when copying an example.
 function parseJsonArray(values, fieldName) {
-  return values?.map((value) => parseJson(value, fieldName));
+  if (!values) {
+    return undefined;
+  }
+  const entries = (Array.isArray(values)
+    ? values
+    : [
+      values,
+    ])
+    .filter((entry) => entry !== undefined && entry !== null && entry !== "")
+    .flatMap((entry) => parseJson(entry, fieldName));
+  for (const entry of entries) {
+    if (typeof entry !== "object" || entry === null || Array.isArray(entry)) {
+      throw new ConfigurationError(`${fieldName}: \`${JSON.stringify(entry)}\` is not a JSON object`);
+    }
+  }
+  return entries.length
+    ? entries
+    : undefined;
 }
 
 export default {

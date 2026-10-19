@@ -266,17 +266,35 @@ export default {
     },
   },
   methods: {
+    // Also accepts the whole array as one JSON string (the pre-1.0 contract), and
+    // flattens an entry holding a JSON array despite the prop descriptions asking
+    // for one object per entry.
     parseJsonArray(items, fieldName) {
-      return items?.map((item) => {
-        if (typeof item !== "string") {
-          return item;
+      if (!items) {
+        return undefined;
+      }
+      const entries = (Array.isArray(items)
+        ? items
+        : [
+          items,
+        ])
+        .filter((item) => item !== undefined && item !== null && item !== "")
+        .flatMap((item) => {
+          if (typeof item !== "string") {
+            return item;
+          }
+          try {
+            return JSON.parse(item);
+          } catch (error) {
+            throw new ConfigurationError(`${fieldName}: \`${item}\` is not valid JSON`);
+          }
+        });
+      for (const entry of entries) {
+        if (typeof entry !== "object" || entry === null || Array.isArray(entry)) {
+          throw new ConfigurationError(`${fieldName}: \`${JSON.stringify(entry)}\` is not a JSON object`);
         }
-        try {
-          return JSON.parse(item);
-        } catch (error) {
-          throw new ConfigurationError(`${fieldName}: \`${item}\` is not valid JSON`);
-        }
-      });
+      }
+      return entries;
     },
   },
   async run({ $ }) {

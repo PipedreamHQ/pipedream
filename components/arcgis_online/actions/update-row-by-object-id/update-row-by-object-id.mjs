@@ -1,6 +1,15 @@
 import arcgisOnline from "../../arcgis_online.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
+// Values for these field types are sent verbatim: JSON-parsing them would turn "1.50"
+// into 1.5 and drop digits from long numeric IDs before ArcGIS coerces them back to text.
+const TEXT_FIELD_TYPES = [
+  "esriFieldTypeString",
+  "esriFieldTypeGUID",
+  "esriFieldTypeGlobalID",
+  "esriFieldTypeXML",
+];
+
 export default {
   key: "arcgis_online-update-row-by-object-id",
   name: "Update Row by Object ID",
@@ -63,14 +72,21 @@ export default {
       type: "string",
       label: "New Value",
       description:
-        "New value for the attribute. JSON text is sent as the parsed value, so `42`, `true` and " +
-        "`null` become a number, a boolean and null respectively (use `null` to clear nullable " +
-        "fields); anything else is sent as text. ArcGIS coerces values to the field type.",
+        "New value for the attribute. Use `null` to clear a nullable field. Text fields receive " +
+        "the value exactly as entered; for other field types, JSON text is sent as the parsed " +
+        "value, so `42` and `true` become a number and a boolean. ArcGIS coerces values to the " +
+        "field type.",
     },
   },
   methods: {
-    parseValue(value) {
+    parseValue(value, fieldType) {
       if (typeof value !== "string") {
+        return value;
+      }
+      if (value.trim() === "null") {
+        return null;
+      }
+      if (TEXT_FIELD_TYPES.includes(fieldType)) {
         return value;
       }
       try {
@@ -143,7 +159,7 @@ export default {
       layerId: ctx.layerId,
       attributes: {
         [ctx.objectIdField]: objectIdNum,
-        [fieldName]: this.parseValue(newValue),
+        [fieldName]: this.parseValue(newValue, fieldMeta?.type),
       },
     });
 

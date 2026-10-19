@@ -34,15 +34,26 @@ const toNumber = (fieldName, value) => {
   return number;
 };
 
-const coerceDecimalFields = (data) => Object.fromEntries(Object.entries(data).map(([
-  key,
-  value,
-]) => [
-  key,
-  DECIMAL_FIELDS.includes(key) && value !== undefined && value !== null && value !== ""
-    ? toNumber(key, value)
-    : value,
-]));
+const isBlankDecimalField = (key, value) => DECIMAL_FIELDS.includes(key)
+  && typeof value === "string"
+  && value.trim() === "";
+
+// A blank decimal field means "not set", so it is dropped rather than sent as "", which
+// BigCommerce rejects for these float fields.
+const coerceDecimalFields = (data) => Object.fromEntries(Object.entries(data)
+  .filter(([
+    key,
+    value,
+  ]) => !isBlankDecimalField(key, value))
+  .map(([
+    key,
+    value,
+  ]) => [
+    key,
+    DECIMAL_FIELDS.includes(key) && value !== undefined && value !== null
+      ? toNumber(key, value)
+      : value,
+  ]));
 
 export default {
   props: {
