@@ -19,7 +19,7 @@ export default {
         confluenceDataCenter,
         "spaceKey",
       ],
-      description: "Only emit events for content in this space. Leave blank to watch all spaces.",
+      description: "Only emit events for content in this space, identified by its space key (e.g. `DOCS`). Use **List Space Key Options** to find valid space keys (the `value` field). Leave blank to watch all spaces.",
       optional: true,
     },
   },
