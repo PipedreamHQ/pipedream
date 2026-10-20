@@ -88,7 +88,7 @@ export default {
     sort: {
       type: "string",
       label: "Sort",
-      description: "received_desc (the default), received_asc, added_desc, added_asc, rating_desc, rating_asc, person_asc, length_desc, length_asc, used_desc, used_asc, or relevance (the default when q has words, and only allowed then).",
+      description: "The order of the results, e.g. `received_desc` for the newest received first. `relevance` needs a **Search**.",
       options: [
         "received_desc",
         "received_asc",
