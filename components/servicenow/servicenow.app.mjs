@@ -165,6 +165,12 @@ export default {
       description: "Optional `sys_id` of the user this item is requested for (maps to `sysparm_requested_for`). Run **Find Users** to find it. ServiceNow only applies it when the connected user is allowed to request for others (instance properties `glide.sc.req_for.roles` and `glide.sc.req_for.roles.default`); otherwise the item is requested for the connected user.",
       optional: true,
     },
+    skipMandatoryValidation: {
+      type: "boolean",
+      label: "Skip Mandatory Validation",
+      description: "If true, ServiceNow does not re-check that mandatory variables are filled (maps to `sysparm_no_validation`). The Service Portal sends this on every order because it applies the item's catalog UI policies first: a mandatory variable that a UI policy hides would otherwise fail with `Mandatory Variables are required`. Set it only after applying the UI policies and confirming every visible mandatory variable has a value. Default `false`.",
+      optional: true,
+    },
     guideSysId: {
       type: "string",
       label: "Order Guide Sys ID",
