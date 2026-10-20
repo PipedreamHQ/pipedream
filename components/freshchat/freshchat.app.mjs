@@ -153,7 +153,7 @@ export default {
       userId, ...opts
     }) {
       return this._makeRequest({
-        path: `/users/${userId}`,
+        path: `/users/${encodeURIComponent(userId)}`,
         ...opts,
       });
     },
