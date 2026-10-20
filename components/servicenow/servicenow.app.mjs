@@ -159,6 +159,12 @@ export default {
       description: "JSON object of variable name-value pairs for the item. Run **Get Catalog Item Variables** to discover valid names. Example: `{\"justification\": \"new hire\"}`.",
       optional: true,
     },
+    itemGuid: {
+      type: "string",
+      label: "Reserved Item GUID",
+      description: "Optional caller-supplied sys_id previously reserved for this ServiceNow operation; this action validates and forwards it as `sysparm_item_guid` but does not generate it. ServiceNow must return the same cart or target record id. Example reserved value: `46a1c7d2e8f94b6c9a0d1e2f3a4b5c6d`.",
+      optional: true,
+    },
     requestedFor: {
       type: "string",
       label: "Requested For",
@@ -295,6 +301,28 @@ export default {
         ...args,
       });
     },
+    async getCatalogItem({
+      catalogItemSysId, ...args
+    }) {
+      return this._makeRequest({
+        baseURL: `${this._instanceBaseUrl()}${SERVICE_CATALOG_BASE_PATH}`,
+        url: `/items/${catalogItemSysId}`,
+        ...args,
+      });
+    },
+    async getServicePortalCatalogItem({
+      catalogItemSysId, ...args
+    }) {
+      return this._makeRawRequest({
+        baseURL: `${this._instanceBaseUrl()}/api/now/sp`,
+        url: "/page",
+        params: {
+          id: "sc_cat_item",
+          sys_id: catalogItemSysId,
+        },
+        ...args,
+      });
+    },
     async getCatalogItemVariables({
       catalogItemSysId, ...args
     }) {
@@ -353,6 +381,19 @@ export default {
         method: "delete",
         baseURL: `${this._instanceBaseUrl()}${SERVICE_CATALOG_BASE_PATH}`,
         url: `/cart/${cartItemId}`,
+        ...args,
+      });
+    },
+    async updateCartItem({
+      cartItemId, ...args
+    }) {
+      return this._makeRequest({
+        method: "put",
+        baseURL: `${this._instanceBaseUrl()}${SERVICE_CATALOG_BASE_PATH}`,
+        url: `/cart/${cartItemId}`,
+        headers: {
+          "Content-Type": "application/json",
+        },
         ...args,
       });
     },
@@ -446,6 +487,29 @@ export default {
         headers: {
           Accept: "*/*",
         },
+        ...args,
+      });
+    },
+    async uploadAttachment({
+      tableName,
+      tableSysId,
+      fileName,
+      contentType,
+      data,
+      ...args
+    }) {
+      return this._makeRequest({
+        method: "post",
+        url: "/attachment/file",
+        headers: {
+          "Content-Type": contentType,
+        },
+        params: {
+          table_name: tableName,
+          table_sys_id: tableSysId,
+          file_name: fileName,
+        },
+        data,
         ...args,
       });
     },
