@@ -9,7 +9,7 @@ export default {
     + " The contact must already exist - use **Create Contact** if it does not."
     + " "
     + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_campaignmember.htm)",
-  version: "0.1.9",
+  version: "0.1.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

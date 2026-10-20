@@ -7,7 +7,7 @@ export default {
   name: "New Outbound Message (Instant)",
   key: "salesforce_rest_api-new-outbound-message",
   description: "Emit new event when a new outbound message is received in Salesforce. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_om_outboundmessaging_notifications.htm)",
-  version: "1.0.0",
+  version: "1.0.1",
   dedupe: "unique",
   props: {
     db: "$.service.db",
