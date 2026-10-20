@@ -65,7 +65,7 @@ export default {
     profilePersist: {
       type: "boolean",
       label: "Profile - Persist",
-      description: "Whether the profile should persist after the session ends.",
+      description: "Whether the profile should persist after the session ends. Requires **Profile Name**.",
       optional: true,
     },
     viewportWidth: {
