@@ -6,8 +6,10 @@ import { PassThrough } from "stream";
 import puppeteer from "puppeteer-core";
 import chromium from "@sparticuz/chromium";
 import mammoth from "mammoth";
+import mime from "mime";
 import gmail from "../../gmail.app.mjs";
 import utils from "../../common/utils.mjs";
+import { sniffMimeType } from "../../common/mime.mjs";
 
 export default {
   key: "gmail-download-attachment",
@@ -16,10 +18,11 @@ export default {
     "Download a Gmail message attachment to `/tmp` and return its path + metadata. File Stash syncs the file and exposes a presigned download URL so the caller can retrieve it."
     + " Call **Find Emails** with `fields: [\"subject\", \"attachments\"]`, or **Get Thread**, first: each returned message lists its attachments as `attachments: [{ partId, filename, mimeType, size }]`. Pass the message's `id` as `messageId` and the attachment's `partId` as `partId`. This works for any message size, including large HTML emails whose `payload` is too big to return."
     + " Alternatively pass `attachmentId` from a message's `payload.parts[].body.attachmentId`. Provide `partId` or `attachmentId`; when both are given, `partId` is used."
+    + " When only `attachmentId` is given, Gmail issues a new one for the same part on every read, so the filename and MIME type are resolved separately: by `partId`, then by a unique filename-and-size match, then by a unique size match. If none resolve, the file is saved as `attachment-<id>` with an extension detected from its contents."
     + " If `filename` is omitted, the action uses the attachment's own filename from the message."
     + " Set `convertToPdf: true` to convert image / HTML / plain-text / DOCX attachments to PDF during download; other MIME types are rejected."
     + " [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages.attachments/get).",
-  version: "0.2.0",
+  version: "0.2.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -49,7 +52,7 @@ export default {
     filename: {
       type: "string",
       label: "Filename",
-      description: "Filename to save in `/tmp` (include the extension, e.g. `report.pdf`). If omitted, the action looks up the filename from the message payload.",
+      description: "Filename to save in `/tmp` (include the extension, e.g. `report.pdf`). Pass the part's `filename` when you have it. If omitted, the action resolves it from the message payload (see `partId`).",
       optional: true,
     },
     convertToPdf: {
@@ -106,16 +109,40 @@ export default {
       }
       return undefined;
     },
-    findPartByAttachmentId(parts, attachmentId) {
-      for (const part of parts ?? []) {
-        if (part.body?.attachmentId === attachmentId) {
-          return part;
-        }
-        if (Array.isArray(part.parts)) {
-          const nested = this.findPartByAttachmentId(part.parts, attachmentId);
-          if (nested) return nested;
+    listAttachmentParts(part, acc = []) {
+      if (!part) return acc;
+      if (part.body?.attachmentId) {
+        acc.push(part);
+      }
+      for (const child of part.parts ?? []) {
+        this.listAttachmentParts(child, acc);
+      }
+      return acc;
+    },
+    // Gmail returns a fresh attachmentId on every message read, so the caller's id
+    // can't be compared against a new read. Resolve the part by stable properties instead.
+    resolvePart(parts, size) {
+      const byAttachmentId = parts.find((p) => p.body.attachmentId === this.attachmentId);
+      if (byAttachmentId) return byAttachmentId;
+      if (this.partId) {
+        const byPartId = parts.find((p) => p.partId === this.partId);
+        if (byPartId) return byPartId;
+      }
+      if (this.filename) {
+        const byName = parts.filter((p) => p.filename === this.filename);
+        const bySize = byName.filter((p) => p.body.size === size);
+        if (bySize.length === 1) return bySize[0];
+        // Parts matching both name and size can still tell us a shared MIME type.
+        const mimeTypes = new Set(bySize.map((p) => p.mimeType));
+        if (bySize.length > 1 && mimeTypes.size === 1) {
+          return {
+            filename: this.filename,
+            mimeType: bySize[0].mimeType,
+          };
         }
       }
+      const bySize = parts.filter((p) => p.body.size === size);
+      if (bySize.length === 1) return bySize[0];
       return undefined;
     },
     async htmlToPdf(htmlBuffer) {
@@ -145,6 +172,8 @@ export default {
     let filename = this.filename;
     let sourceMimeType;
     let attachmentId = this.attachmentId;
+    let attachment;
+    let buffer;
     if (hasPartId) {
       // The attachment id comes from this read, so the caller never has to carry one.
       const partId = String(this.partId).trim();
@@ -163,35 +192,45 @@ export default {
       attachmentId = part.body.attachmentId;
       filename = filename || part.filename;
       sourceMimeType = part.mimeType;
-    } else if (!filename || this.convertToPdf) {
-      const message = await this.gmail.getMessage({
-        id: this.messageId,
+      attachment = await this.gmail.getAttachment({
+        messageId: this.messageId,
+        attachmentId,
       });
-      const rootPart = message.payload?.body?.attachmentId === this.attachmentId
-        ? message.payload
-        : undefined;
-      const part = this.findPartByAttachmentId(message.payload?.parts, this.attachmentId)
-        ?? rootPart;
-      if (!part) {
-        throw new ConfigurationError(`Attachment not found for messageId ${this.messageId} attachmentId ${this.attachmentId}. Ensure Find Emails was called with format: "full" so that payload.parts[] is populated.`);
+      buffer = Buffer.from(attachment.data, "base64");
+    } else {
+      // Download with the caller's attachmentId: it is valid even though a
+      // fresh message read would report a different id for the same part.
+      attachment = await this.gmail.getAttachment({
+        messageId: this.messageId,
+        attachmentId,
+      });
+      buffer = Buffer.from(attachment.data, "base64");
+      if (!filename || this.convertToPdf) {
+        const message = await this.gmail.getMessage({
+          id: this.messageId,
+        });
+        const parts = this.listAttachmentParts(message.payload);
+        const part = this.resolvePart(parts, attachment.size ?? buffer.length);
+        filename = filename || part?.filename;
+        sourceMimeType = part?.mimeType;
       }
-      filename = filename || part.filename;
-      sourceMimeType = part.mimeType;
+    }
+    if (!sourceMimeType || sourceMimeType === "application/octet-stream") {
+      sourceMimeType = sniffMimeType(buffer) ?? sourceMimeType;
     }
     if (!filename) {
-      filename = `attachment-${attachmentId.slice(0, 8)}`;
+      const extension = sourceMimeType && sourceMimeType !== "application/zip"
+        ? mime.getExtension(sourceMimeType)
+        : undefined;
+      filename = `attachment-${attachmentId.slice(0, 8)}${extension
+        ? `.${extension}`
+        : ""}`;
     }
     const safeFilename = path.basename(filename);
     if (safeFilename !== filename || safeFilename === "" || safeFilename === "." || safeFilename === "..") {
       throw new ConfigurationError(`Invalid filename "${filename}" — must not contain path separators or traversal segments.`);
     }
     filename = safeFilename;
-
-    const attachment = await this.gmail.getAttachment({
-      messageId: this.messageId,
-      attachmentId,
-    });
-    let buffer = Buffer.from(attachment.data, "base64");
 
     if (this.convertToPdf && sourceMimeType !== "application/pdf") {
       if (sourceMimeType?.startsWith("image/")) {
@@ -206,6 +245,8 @@ export default {
           buffer,
         });
         buffer = await this.htmlToPdf(html);
+      } else if (!sourceMimeType || sourceMimeType === "application/zip") {
+        throw new ConfigurationError(`Could not determine the MIME type of attachment ${this.attachmentId} in message ${this.messageId}. Pass \`partId\` (from \`payload.parts[].partId\`) or \`filename\` so the attachment part can be identified.`);
       } else {
         throw new ConfigurationError(`Cannot convert file type: ${sourceMimeType} to PDF`);
       }
