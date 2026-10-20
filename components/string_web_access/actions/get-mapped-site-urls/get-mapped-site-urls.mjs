@@ -4,12 +4,12 @@ import { TERMINAL_STATUSES } from "../../common/constants.mjs";
 export default {
   key: "string_web_access-get-mapped-site-urls",
   name: "Get Mapped Site URLs",
-  description: "Get the status of a crawl started by **Map Site URLs** and, once it has finished, every URL it discovered. Use it when **Map Site URLs** returned a `jobId` before its crawl finished. While the crawl is still running, the job's status and progress are returned instead. [See the documentation](https://portal.usestring.ai/docs/api-reference/sitemap)",
+  description: "Get the status of a crawl started by **Map Site URLs** and, once it has finished, every URL it discovered. Use it when **Map Site URLs** returned a `jobId` before its crawl finished. While the crawl is still running, the job's status and progress are returned instead. If the crawl's approval was interrupted, it approves the job again so the crawl resumes within the budget set in **Map Site URLs**. [See the documentation](https://portal.usestring.ai/docs/api-reference/sitemap)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: true,
+    readOnlyHint: false,
   },
   type: "action",
   ai: "optimized",
@@ -23,10 +23,16 @@ export default {
     },
   },
   async run({ $ }) {
-    const state = await this.app.getSitemapStatus({
+    let state = await this.app.getSitemapStatus({
       $,
       jobId: this.jobId,
     });
+    if (state.status === "partial_state") {
+      state = await this.app.approveSitemap({
+        $,
+        jobId: this.jobId,
+      });
+    }
     const { status } = state;
 
     if (status === "failed") {

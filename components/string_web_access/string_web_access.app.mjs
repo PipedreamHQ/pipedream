@@ -140,7 +140,9 @@ export default {
       });
     },
     /**
-     * Get a crawl job's status and progress
+     * Get a crawl job's status and progress. An interrupted approval comes
+     * back as a 409 with `status: "partial_state"`, which is returned rather
+     * than thrown so the caller can approve the job again.
      *
      * @param {Object} opts - Options passed to the request
      * @param {String} opts.jobId - The job to poll
@@ -151,6 +153,7 @@ export default {
     }) {
       return this._makeRequest({
         path: `/sitemap/${jobId}`,
+        validateStatus: (status) => (status >= 200 && status < 300) || status === 409,
         ...opts,
       });
     },
