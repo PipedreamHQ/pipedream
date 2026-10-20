@@ -1,0 +1,182 @@
+import app from "../../privatus_analytics.app.mjs";
+import utils from "../../common/utils.mjs";
+
+export default {
+  key: "privatus_analytics-create-export",
+  name: "Create Export",
+  description: "Queues a data export (CSV, JSON, XLSX, NDJSON or a ZIP of dashboard panels). Use the Export Ready source to act when its file is ready. [See the documentation](https://privatusanalytics.com/docs/api)",
+  version: "0.0.1",
+  type: "action",
+  annotations: {
+    "destructiveHint": false,
+    "openWorldHint": false,
+    "readOnlyHint": false,
+  },
+  props: {
+    app,
+    siteId: {
+      propDefinition: [
+        app,
+        "siteId",
+      ],
+    },
+    from: {
+      type: "string",
+      label: "From",
+      description: "The first day to include, as `YYYY-MM-DD`.",
+    },
+    to: {
+      type: "string",
+      label: "To",
+      description: "The last day to include, included, as `YYYY-MM-DD`. At most 400 days after the first (93 days for raw).",
+    },
+    kind: {
+      type: "string",
+      label: "Kind",
+      description: "What to export. aggregated (default) is visit metrics per time bucket and dimension. pageviews, events and raw are one row per hit (pageviews only, custom events only, every hit) and need the Pro plan or above. imported is imported daily stats. dashboard is a ZIP of the overview panels.",
+      options: [
+        "aggregated",
+        "pageviews",
+        "events",
+        "imported",
+        "raw",
+        "dashboard",
+      ],
+      default: "aggregated",
+      optional: true,
+    },
+    fileFormat: {
+      type: "string",
+      label: "File Format",
+      description: "File type, default csv. Allowed per kind: csv, json or xlsx for aggregated, pageviews, events and imported. csv or ndjson for raw. zip for dashboard.",
+      options: [
+        "csv",
+        "json",
+        "xlsx",
+        "ndjson",
+        "zip",
+      ],
+      default: "csv",
+      optional: true,
+    },
+    timezone: {
+      type: "string",
+      label: "Timezone",
+      description: "IANA timezone name used for dates and time buckets, like America/New_York. Default is the site timezone.",
+      optional: true,
+    },
+    grouping: {
+      type: "string",
+      label: "Grouping",
+      description: "Time bucket for aggregated exports (also used by dashboard): hour, day (default), week, month, quarter or year.",
+      options: [
+        "hour",
+        "day",
+        "week",
+        "month",
+        "quarter",
+        "year",
+      ],
+      default: "day",
+      optional: true,
+    },
+    dimensions: {
+      type: "string[]",
+      label: "Dimensions",
+      description: "Up to 6 names to group by. For aggregated: channel, referrer, referrer_url, utm_source, utm_medium, utm_campaign, utm_content, utm_term, ref, hostname, country, language, device, browser, browser_version, os, os_version, screen, entry_page, exit_page or interaction. For imported: total, page, source, country, device, browser or os. Ignored for other kinds.",
+      optional: true,
+    },
+    metrics: {
+      type: "string[]",
+      label: "Metrics",
+      description: "Metric columns for aggregated exports. Empty means all of them.",
+      options: [
+        "visitors",
+        "visits",
+        "pageviews",
+        "bounce_rate",
+        "visit_duration",
+        "views_per_visit",
+        "revenue",
+      ],
+      optional: true,
+    },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "Columns for pageviews, events and raw exports. Empty means all except visit_id, vital_value and selector. props only includes event properties marked safe to export. revenue_minor is in minor currency units. Ignored for other kinds.",
+      options: [
+        "occurred_at",
+        "kind",
+        "name",
+        "visit_id",
+        "hostname",
+        "path",
+        "referrer_host",
+        "referrer_path",
+        "channel",
+        "utm_source",
+        "utm_medium",
+        "utm_campaign",
+        "utm_content",
+        "utm_term",
+        "ref",
+        "paid_click",
+        "country",
+        "language",
+        "device",
+        "browser",
+        "browser_major",
+        "os",
+        "os_major",
+        "screen_bucket",
+        "engaged_ms",
+        "scroll_depth",
+        "revenue_minor",
+        "currency",
+        "vital_value",
+        "selector",
+        "props",
+      ],
+      optional: true,
+    },
+    filters: {
+      propDefinition: [
+        app,
+        "filters",
+      ],
+    },
+    segmentId: {
+      propDefinition: [
+        app,
+        "segmentId",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const workspaceId = await this.app.getWorkspaceId({
+      $,
+    });
+    const response = await this.app.request({
+      $,
+      method: "POST",
+      path: `/workspaces/${workspaceId}/exports.json`,
+      data: utils.compact({
+        site_id: this.siteId,
+        from: utils.toDate(this.from),
+        to: utils.toDate(this.to),
+        kind: this.kind,
+        file_format: this.fileFormat,
+        timezone: this.timezone,
+        grouping: this.grouping,
+        dimensions: utils.toList(this.dimensions),
+        metrics: utils.toList(this.metrics),
+        fields: utils.toList(this.fields),
+        filters: utils.parseJson(this.filters, "Filters"),
+        segment_id: this.segmentId,
+      }),
+    });
+    $.export("$summary", `Successfully queued export ${response.id}`);
+    return response;
+  },
+};
