@@ -4,8 +4,8 @@ import createEventCommon from "../common/create-event-common.mjs";
 export default {
   key: "google_calendar-update-event",
   name: "Update Event",
-  description: "Update an existing event in Google Calendar. Only the fields you supply change; recurrence, reminders, attendees and all other fields are kept. To add guests without replacing the list, use **Add Attendees to Event**; to change a single occurrence of a recurring event, use **Update Event Instance**. Returns the updated event. [See the documentation](https://developers.google.com/workspace/calendar/api/v3/reference/events/update)",
-  version: "0.0.19",
+  description: "Update an existing event in Google Calendar. Only the fields you supply change; recurrence, reminders, attendees and all other fields are kept. Set `Show As` to mark the event as Free or Busy. To add guests without replacing the list, use **Add Attendees To Event**; to change a single occurrence of a recurring event, use **Update Event Instance**. Returns the updated event. [See the documentation](https://developers.google.com/workspace/calendar/api/v3/reference/events/update)",
+  version: "0.1.1",
   ai: "optimized",
   annotations: {
     destructiveHint: true,
@@ -36,8 +36,14 @@ export default {
     attendees: {
       label: "Attendees",
       type: "string",
-      description: "Enter either an array or a comma separated list of email addresses of attendees, e.g. `alice@example.com,bob@example.com` or `[\"alice@example.com\"]`. Replaces the event's current attendee list; to add attendees without removing existing ones, use **Add Attendees to Event** instead.",
+      description: "Enter either an array or a comma separated list of email addresses of attendees, e.g. `alice@example.com,bob@example.com` or `[\"alice@example.com\"]`. Replaces the event's current attendee list; to add attendees without removing existing ones, use **Add Attendees To Event** instead.",
       optional: true,
+    },
+    transparency: {
+      propDefinition: [
+        googleCalendar,
+        "transparency",
+      ],
     },
     timeZone: {
       propDefinition: [
@@ -77,7 +83,7 @@ export default {
     const response = await this.googleCalendar.updateEvent({
       calendarId: this.calendarId,
       eventId: this.eventId,
-      sendUpdates: this.sendUpdates,
+      sendUpdates: this.sendUpdates || undefined,
       // `update` is a full replace; unsupplied fields would be wiped
       requestBody: {
         ...currentEvent,
@@ -94,6 +100,7 @@ export default {
         }),
         recurrence: recurrence || currentEvent.recurrence,
         attendees,
+        transparency: this.transparency || currentEvent.transparency,
       },
     });
 

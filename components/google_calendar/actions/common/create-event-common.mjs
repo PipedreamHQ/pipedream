@@ -80,7 +80,7 @@ export default {
       * Based on the IANA Time Zone DB
       * http://www.iana.org/time-zones
       */
-      if (typeof selectedTimeZone === "string") {
+      if (selectedTimeZone) {
         return selectedTimeZone;
       }
       const { value: timeZone } = await this.googleCalendar.getSettings({

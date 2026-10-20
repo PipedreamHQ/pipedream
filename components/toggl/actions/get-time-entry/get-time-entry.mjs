@@ -2,7 +2,7 @@ import toggl from "../../toggl.app.mjs";
 
 export default {
   name: "Get Time Entry",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
