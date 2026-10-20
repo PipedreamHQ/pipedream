@@ -18,7 +18,7 @@ export default {
         "siteId",
       ],
       optional: true,
-      description: "Only emit events of this site. Leave it empty for every site.",
+      description: "Only emit events of this site, e.g. `pa_7Q2K9XH3AB`. Use **Find Site** to get the site ID. Leave it empty for every site.",
     },
   },
   methods: {

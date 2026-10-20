@@ -7,6 +7,7 @@ export default {
   description: "Adds a person to a testimonial request. In a running request they get the first email at once, in a draft they wait for it to be sent. Request emails need the Business plan and a connected email provider. [See the documentation](https://privatusanalytics.com/docs/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     "destructiveHint": false,
     "openWorldHint": true,
@@ -24,6 +25,9 @@ export default {
       propDefinition: [
         app,
         "testimonialRequestId",
+        (c) => ({
+          siteId: c.siteId,
+        }),
       ],
     },
     email: {

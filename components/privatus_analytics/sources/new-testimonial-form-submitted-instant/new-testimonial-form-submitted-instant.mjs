@@ -6,7 +6,7 @@ export default {
   ...common,
   key: "privatus_analytics-new-testimonial-form-submitted-instant",
   name: "New Testimonial Form Submitted (Instant)",
-  description: "Emit new event when someone completes a testimonial form, whether it became a testimonial or private feedback. Never includes their email address.. [See the documentation](https://privatusanalytics.com/docs/api/webhooks)",
+  description: "Emit new event when someone completes a testimonial form, whether it became a testimonial or private feedback. Never includes their email address. [See the documentation](https://privatusanalytics.com/docs/api/webhooks)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -18,28 +18,25 @@ export default {
         "siteId",
       ],
       optional: true,
-      description: "Only emit events of this site. Leave it empty for every site.",
+      description: "Only emit events of this site, e.g. `pa_7Q2K9XH3AB`. Use **Find Site** to get the site ID. Leave it empty for every site.",
     },
     formId: {
       propDefinition: [
         app,
         "testimonialFormId",
+        (c) => ({
+          siteId: c.siteId,
+        }),
       ],
       optional: true,
-      description: "Only emit submissions of this form. Select a **Site** first. Leave it empty for every form.",
+      description: "Only emit submissions of this form, e.g. `frm_3C8V5ZP2RN`. Set **Site** first. Use **Find Testimonial Forms** to get the form ID. Leave it empty for every form.",
     },
     minRating: {
-      type: "string",
-      label: "Minimum Rating",
-      description: "Only emit ratings of at least this many stars. Leave it empty to emit every one, with or without a rating.",
-      options: [
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
+      propDefinition: [
+        app,
+        "minRating",
       ],
-      optional: true,
+      description: "Only emit ratings of at least this many stars, e.g. `4`. Leave it empty to emit every one, with or without a rating.",
     },
   },
   methods: {

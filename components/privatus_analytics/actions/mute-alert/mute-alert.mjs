@@ -7,9 +7,10 @@ export default {
   description: "Silences the notifications of an alert rule for a number of minutes. It keeps recording incidents. [See the documentation](https://privatusanalytics.com/docs/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     "destructiveHint": false,
-    "openWorldHint": false,
+    "openWorldHint": true,
     "readOnlyHint": false,
   },
   props: {

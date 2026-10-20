@@ -2,22 +2,6 @@ import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 import utils from "./common/utils.mjs";
 
-const siteLabel = (site) => (site.name && site.name !== site.domain
-  ? `${site.name} (${site.domain})`
-  : site.domain);
-
-const withStatus = (item) => `${item.name} (${item.status})`;
-
-const testimonialLabel = (testimonial) => {
-  const who = testimonial.person?.name || "Unknown";
-  const words = String(testimonial.body || testimonial.title || "").replace(/\s+/g, " ")
-    .trim();
-  const short = words.length > 60
-    ? `${words.slice(0, 57)}...`
-    : words;
-  return `${who}: ${short} (${testimonial.status})`;
-};
-
 export default {
   type: "app",
   app: "privatus_analytics",
@@ -25,20 +9,28 @@ export default {
     siteId: {
       type: "string",
       label: "Site",
-      description: "The site. Select one, or enter a site ID such as `pa_7Q2K9XH3AB`.",
+      description: "The site. Use **Find Site** to get the site ID (the `id` field), e.g. `pa_7Q2K9XH3AB`.",
       async options({ page }) {
-        return this.listOptions({
+        return this.listSiteOptions({
           page,
-          path: "/sites.json",
-          workspace: true,
-          label: siteLabel,
+        });
+      },
+    },
+    siteIds: {
+      type: "string[]",
+      label: "Sites",
+      description: "The sites, as a list of site IDs. Use **Find Site** to get the site IDs (the `id` field), e.g. `[\"pa_7Q2K9XH3AB\"]`.",
+      optional: true,
+      async options({ page }) {
+        return this.listSiteOptions({
+          page,
         });
       },
     },
     alertId: {
       type: "string",
       label: "Alert Rule",
-      description: "The alert rule. Select one, or enter an alert rule ID such as `alr_3W7L9QK2VD`.",
+      description: "The alert rule. Use **Find Alert Rules** to get the alert rule ID (the `id` field), e.g. `alr_3W7L9QK2VD`.",
       async options({ page }) {
         return this.listOptions({
           page,
@@ -51,7 +43,7 @@ export default {
     statusPageId: {
       type: "string",
       label: "Status Page",
-      description: "The status page. Select one, or enter a status page ID.",
+      description: "The status page. Use **Find Status Pages** to get the status page ID (the `id` field), e.g. `sp_4N7H2XQ9RT`.",
       async options({ page }) {
         return this.listOptions({
           page,
@@ -64,7 +56,7 @@ export default {
     uptimeCheckId: {
       type: "string",
       label: "Uptime Check",
-      description: "The uptime check. Select a **Site** first, then one of its checks, or enter an ID such as `upc_4M8X2TQ7LB`.",
+      description: "The uptime check of the **Site**. Use **Find Uptime Checks** to get the uptime check ID (the `id` field), e.g. `upc_4M8X2TQ7LB`.",
       async options({
         page, siteId,
       }) {
@@ -72,14 +64,14 @@ export default {
         return this.listOptions({
           page,
           path: `/sites/${utils.segment(siteId)}/uptime.json`,
-          label: withStatus,
+          label: utils.withStatus,
         });
       },
     },
     experimentId: {
       type: "string",
       label: "Experiment",
-      description: "The experiment. Select a **Site** first, then one of its experiments, or enter an ID.",
+      description: "The experiment of the **Site**. Use **Find Experiments** to get the experiment ID (the `id` field), e.g. `exp_8D3K6VQ9ZN`.",
       async options({
         page, siteId,
       }) {
@@ -87,14 +79,14 @@ export default {
         return this.listOptions({
           page,
           path: `/sites/${utils.segment(siteId)}/experiments.json`,
-          label: withStatus,
+          label: utils.withStatus,
         });
       },
     },
     testimonialId: {
       type: "string",
       label: "Testimonial",
-      description: "The testimonial. Select a **Site** first. The list shows the newest ones, so enter an ID such as `tm_4TXN8R2KQ7` for an older one.",
+      description: "The testimonial of the **Site**. Use **Find Testimonials** to get the testimonial ID (the `id` field), e.g. `tm_4TXN8R2KQ7`. The options show only the newest testimonials.",
       async options({
         page, siteId,
       }) {
@@ -105,14 +97,14 @@ export default {
           params: {
             sort: "added_desc",
           },
-          label: testimonialLabel,
+          label: utils.testimonialLabel,
         });
       },
     },
     testimonialRequestId: {
       type: "string",
       label: "Testimonial Request",
-      description: "The testimonial request. Select a **Site** first, then one of its requests, or enter an ID such as `req_6H2N9WK4TD`.",
+      description: "The testimonial request of the **Site**. Use **Find Testimonial Requests** to get the request ID (the `id` field), e.g. `req_5V9C2XM7TL`.",
       async options({
         page, siteId,
       }) {
@@ -120,14 +112,14 @@ export default {
         return this.listOptions({
           page,
           path: `/sites/${utils.segment(siteId)}/testimonials/requests.json`,
-          label: withStatus,
+          label: utils.withStatus,
         });
       },
     },
     testimonialFormId: {
       type: "string",
       label: "Testimonial Form",
-      description: "The testimonial form. Select a **Site** first, or enter a form ID such as `frm_3C8V5ZP2RN`.",
+      description: "The testimonial form of the **Site**. Use **Find Testimonial Forms** to get the form ID (the `id` field), e.g. `frm_3C8V5ZP2RN`.",
       async options({
         page, siteId,
       }) {
@@ -142,7 +134,7 @@ export default {
     testimonialFormIds: {
       type: "string[]",
       label: "Testimonial Forms",
-      description: "Only testimonials that came through these forms. Select a **Site** first.",
+      description: "Only testimonials that came through these forms of the **Site**. Use **Find Testimonial Forms** to get the form IDs (the `id` fields), e.g. `[\"frm_3C8V5ZP2RN\"]`.",
       optional: true,
       async options({
         page, siteId,
@@ -158,7 +150,7 @@ export default {
     testimonialTagIds: {
       type: "string[]",
       label: "Tags",
-      description: "Only testimonials with one of these tags. Select a **Site** first.",
+      description: "Only testimonials with one of these tags of the **Site**. Use **Find Testimonial Tags** to get the tag IDs (the `id` fields), e.g. `[\"tag_6B2N4QW8LD\"]`.",
       optional: true,
       async options({
         page, siteId,
@@ -174,7 +166,7 @@ export default {
     testimonialCollectionIds: {
       type: "string[]",
       label: "Collections",
-      description: "Manual collections to add the testimonial to. Select a **Site** first.",
+      description: "Manual collections of the **Site** to add the testimonial to. Use **Find Testimonial Collections** to get the collection IDs (the `id` fields), e.g. `[\"col_9F4T1KX7MH\"]`.",
       optional: true,
       async options({
         page, siteId,
@@ -190,7 +182,7 @@ export default {
     segmentId: {
       type: "string",
       label: "Segment",
-      description: "A saved segment of the site. Its filters are added to the filters. Select a **Site** first.",
+      description: "A saved segment of the **Site**, whose filters are added to the filters. Use **Find Segments** to get the segment ID (the `id` field), e.g. `seg_6K3D8WM2VP`.",
       optional: true,
       async options({
         page, siteId,
@@ -203,23 +195,86 @@ export default {
         });
       },
     },
+    minRating: {
+      type: "string",
+      label: "Minimum Rating",
+      description: "Only testimonials with at least this many stars, e.g. `4`.",
+      options: [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+      ],
+      optional: true,
+    },
+    chartNoteTitle: {
+      type: "string",
+      label: "Title",
+      description: "Short title shown on the chart, e.g. `Launched the new pricing page`.",
+    },
+    chartNoteDate: {
+      type: "string",
+      label: "Date",
+      description: "The day the note is shown on, as `YYYY-MM-DD` in the time zone of the site, e.g. `2026-10-20`. Defaults to today.",
+      optional: true,
+    },
+    chartNoteEndDate: {
+      type: "string",
+      label: "End Date",
+      description: "For a note that covers several days, the last day, as `YYYY-MM-DD`, e.g. `2026-10-22`.",
+      optional: true,
+    },
+    chartNoteBody: {
+      type: "string",
+      label: "Body",
+      description: "Longer details as plain text, e.g. `Rolled out to all visitors at 14:00 UTC`.",
+      optional: true,
+    },
+    chartNoteUrl: {
+      type: "string",
+      label: "Link",
+      description: "A link such as a pull request or changelog page, e.g. `https://example.com/changelog/2-4-0`.",
+      optional: true,
+    },
+    chartNoteColor: {
+      type: "string",
+      label: "Color",
+      description: "Pin color, e.g. `blue`. Defaults to `neutral` (`blue` for deploy notes).",
+      options: constants.CHART_NOTE_COLORS,
+      optional: true,
+    },
+    chartNoteSource: {
+      type: "string",
+      label: "Source",
+      description: "`manual` (default) for notes written by a person, or `deploy` for release notifications. `system`, `import` and `incident` are reserved for notes the app writes itself.",
+      options: constants.CHART_NOTE_SOURCES,
+      default: "manual",
+      optional: true,
+    },
+    chartNoteVersion: {
+      type: "string",
+      label: "Version",
+      description: "Only used when **Source** is `deploy` and **Title** is empty. A release version or commit, e.g. `v2.4.0`, used to build the default title.",
+      optional: true,
+    },
     period: {
       type: "string",
       label: "Period",
-      description: "The date range, in the time zone of the site. Choose **Custom** and fill in **From** and **To** for other dates.",
+      description: "The date range, in the time zone of the site, e.g. `30d`. Choose `custom` and fill in **From** and **To** for other dates.",
       options: constants.PERIOD_OPTIONS,
       default: "7d",
     },
     from: {
       type: "string",
       label: "From",
-      description: "The first day of a custom period, as `YYYY-MM-DD`.",
+      description: "The first day of a custom period, as `YYYY-MM-DD`, e.g. `2026-10-01`.",
       optional: true,
     },
     to: {
       type: "string",
       label: "To",
-      description: "The last day of a custom period, included, as `YYYY-MM-DD`.",
+      description: "The last day of a custom period, included, as `YYYY-MM-DD`, e.g. `2026-10-31`.",
       optional: true,
     },
     filters: {
@@ -231,7 +286,7 @@ export default {
     maxResults: {
       type: "integer",
       label: "Max Results",
-      description: "The most items to return. Pages of 100 are read until there are enough.",
+      description: "The most items to return, e.g. `50`. Pages of 100 are read until there are enough.",
       default: constants.DEFAULT_MAX_RESULTS,
       min: 1,
       optional: true,
@@ -291,6 +346,42 @@ export default {
       return response ?? null;
     },
     /**
+     * Sends a request to any endpoint of the API. Only a path on the API host is
+     * accepted, so the token is never sent anywhere else.
+     * @param {object} opts
+     * @param {string} [opts.method=GET] - The HTTP method.
+     * @param {string} opts.path - The path, like `/sites/pa_X/goals` (`.json` is added).
+     * @param {object} [opts.query] - Query parameters.
+     * @param {object} [opts.data] - The JSON body, ignored for `GET`.
+     * @returns {Promise<object>} The response body.
+     */
+    sendCustomRequest({
+      $ = this, method = "GET", path, query, data,
+    }) {
+      const [
+        base,
+        existing,
+      ] = utils.apiPath(path).split("?");
+      const extra = query
+        ? utils.queryString(query)
+        : "";
+      const search = [
+        existing,
+        extra,
+      ].filter(Boolean)
+        .join("&");
+      return this._makeRequest({
+        $,
+        method,
+        path: search
+          ? `${base}?${search}`
+          : base,
+        data: method === "GET"
+          ? undefined
+          : data,
+      });
+    },
+    /**
      * The workspace of the connected API token. A token belongs to one
      * workspace and `GET /workspaces.json` lists only that one.
      * @returns {Promise<string>} The workspace ID.
@@ -310,6 +401,19 @@ export default {
       return `/workspaces/${utils.segment(await this.getWorkspaceId({
         $,
       }))}${path}`;
+    },
+    /**
+     * One page of the sites of the workspace as `{ label, value }` options.
+     * @param {object} opts
+     * @param {number} [opts.page=0] - The page, starting at 0, as Pipedream counts it.
+     */
+    listSiteOptions({ page = 0 } = {}) {
+      return this.listOptions({
+        page,
+        path: "/sites.json",
+        workspace: true,
+        label: utils.siteLabel,
+      });
     },
     /**
      * One page of a list as `{ label, value }` options.

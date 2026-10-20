@@ -7,9 +7,10 @@ export default {
   description: "Lists the members of the workspace, or finds one by name or email, with their role. [See the documentation](https://privatusanalytics.com/docs/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     "destructiveHint": false,
-    "openWorldHint": false,
+    "openWorldHint": true,
     "readOnlyHint": true,
   },
   props: {
@@ -43,12 +44,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const workspaceId = await this.app.getWorkspaceId({
-      $,
-    });
     let items = await this.app.paginate({
       $,
-      path: `/workspaces/${workspaceId}/members.json`,
+      path: await this.app.workspacePath({
+        $,
+        path: "/members.json",
+      }),
       params: utils.compact({
         query: this.query,
         role: this.role,

@@ -7,9 +7,10 @@ export default {
   description: "Queues a data export (CSV, JSON, XLSX, NDJSON or a ZIP of dashboard panels). Use the Export Ready source to act when its file is ready. [See the documentation](https://privatusanalytics.com/docs/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     "destructiveHint": false,
-    "openWorldHint": false,
+    "openWorldHint": true,
     "readOnlyHint": false,
   },
   props: {
@@ -150,17 +151,20 @@ export default {
       propDefinition: [
         app,
         "segmentId",
+        (c) => ({
+          siteId: c.siteId,
+        }),
       ],
     },
   },
   async run({ $ }) {
-    const workspaceId = await this.app.getWorkspaceId({
-      $,
-    });
     const response = await this.app.request({
       $,
       method: "POST",
-      path: `/workspaces/${workspaceId}/exports.json`,
+      path: await this.app.workspacePath({
+        $,
+        path: "/exports.json",
+      }),
       data: utils.compact({
         site_id: this.siteId,
         from: utils.toDate(this.from),

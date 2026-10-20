@@ -7,9 +7,10 @@ export default {
   description: "Adds a text testimonial, for example from a review, a support chat or a survey reply. It counts toward the monthly testimonials of the plan. [See the documentation](https://privatusanalytics.com/docs/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     "destructiveHint": false,
-    "openWorldHint": false,
+    "openWorldHint": true,
     "readOnlyHint": false,
   },
   props: {
@@ -130,6 +131,9 @@ export default {
       propDefinition: [
         app,
         "testimonialCollectionIds",
+        (c) => ({
+          siteId: c.siteId,
+        }),
       ],
     },
     properties: {

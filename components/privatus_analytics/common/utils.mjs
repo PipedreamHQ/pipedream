@@ -131,6 +131,29 @@ function apiPath(raw) {
     : withJson;
 }
 
+/** The label of a site in a list of options. */
+function siteLabel(site) {
+  return site.name && site.name !== site.domain
+    ? `${site.name} (${site.domain})`
+    : site.domain;
+}
+
+/** The label of an item that has a status, like an uptime check or an experiment. */
+function withStatus(item) {
+  return `${item.name} (${item.status})`;
+}
+
+/** The label of a testimonial in a list of options: the person and the first words. */
+function testimonialLabel(testimonial) {
+  const who = testimonial.person?.name || "Unknown";
+  const words = String(testimonial.body || testimonial.title || "").replace(/\s+/g, " ")
+    .trim();
+  const short = words.length > 60
+    ? `${words.slice(0, 57)}...`
+    : words;
+  return `${who}: ${short} (${testimonial.status})`;
+}
+
 export default {
   blank,
   compact,
@@ -143,4 +166,7 @@ export default {
   queryString,
   segment,
   apiPath,
+  siteLabel,
+  withStatus,
+  testimonialLabel,
 };

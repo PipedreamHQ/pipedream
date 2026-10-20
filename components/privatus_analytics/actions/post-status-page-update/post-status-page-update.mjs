@@ -7,6 +7,7 @@ export default {
   description: "Publishes an incident update on a status page and, by default, emails the subscribers of the page. [See the documentation](https://privatusanalytics.com/docs/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     "destructiveHint": false,
     "openWorldHint": true,

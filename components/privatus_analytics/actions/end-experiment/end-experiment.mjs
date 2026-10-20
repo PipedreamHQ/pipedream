@@ -4,12 +4,13 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "privatus_analytics-end-experiment",
   name: "End Experiment",
-  description: "Ends an experiment, with or without a winner. [See the documentation](https://privatusanalytics.com/docs/api)",
+  description: "Ends an experiment. This action does not choose a winner. [See the documentation](https://privatusanalytics.com/docs/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     "destructiveHint": false,
-    "openWorldHint": false,
+    "openWorldHint": true,
     "readOnlyHint": false,
   },
   props: {
@@ -24,6 +25,9 @@ export default {
       propDefinition: [
         app,
         "experimentId",
+        (c) => ({
+          siteId: c.siteId,
+        }),
       ],
     },
   },

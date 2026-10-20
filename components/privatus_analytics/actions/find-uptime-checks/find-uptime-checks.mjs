@@ -7,9 +7,10 @@ export default {
   description: "Lists the uptime checks of a site, or finds one by name or URL, with its status and uptime. [See the documentation](https://privatusanalytics.com/docs/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     "destructiveHint": false,
-    "openWorldHint": false,
+    "openWorldHint": true,
     "readOnlyHint": true,
   },
   props: {

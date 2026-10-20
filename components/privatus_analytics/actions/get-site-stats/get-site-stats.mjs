@@ -7,9 +7,10 @@ export default {
   description: "Gets the visitors, visits, pageviews, bounce rate, visit duration and revenue of a site for a period, optionally compared with an earlier one. [See the documentation](https://privatusanalytics.com/docs/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     "destructiveHint": false,
-    "openWorldHint": false,
+    "openWorldHint": true,
     "readOnlyHint": true,
   },
   props: {
@@ -62,6 +63,9 @@ export default {
       propDefinition: [
         app,
         "segmentId",
+        (c) => ({
+          siteId: c.siteId,
+        }),
       ],
     },
     includeImported: {

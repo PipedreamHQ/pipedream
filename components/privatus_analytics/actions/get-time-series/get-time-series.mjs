@@ -7,9 +7,10 @@ export default {
   description: "Gets the visitors, visits and pageviews of a site for each hour, day, week or month of a period, one item for each point. [See the documentation](https://privatusanalytics.com/docs/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     "destructiveHint": false,
-    "openWorldHint": false,
+    "openWorldHint": true,
     "readOnlyHint": true,
   },
   props: {
@@ -66,6 +67,9 @@ export default {
       propDefinition: [
         app,
         "segmentId",
+        (c) => ({
+          siteId: c.siteId,
+        }),
       ],
     },
   },

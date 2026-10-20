@@ -7,9 +7,10 @@ export default {
   description: "Starts an SEO audit of a site now. Use the Site Audit Completed source to act on the result. [See the documentation](https://privatusanalytics.com/docs/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     "destructiveHint": false,
-    "openWorldHint": false,
+    "openWorldHint": true,
     "readOnlyHint": false,
   },
   props: {

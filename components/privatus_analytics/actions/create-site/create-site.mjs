@@ -7,9 +7,10 @@ export default {
   description: "Adds a website to the workspace and returns its tracking snippet. [See the documentation](https://privatusanalytics.com/docs/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     "destructiveHint": false,
-    "openWorldHint": false,
+    "openWorldHint": true,
     "readOnlyHint": false,
   },
   props: {
@@ -39,13 +40,13 @@ export default {
     },
   },
   async run({ $ }) {
-    const workspaceId = await this.app.getWorkspaceId({
-      $,
-    });
     const response = await this.app.request({
       $,
       method: "POST",
-      path: `/workspaces/${workspaceId}/sites.json`,
+      path: await this.app.workspacePath({
+        $,
+        path: "/sites.json",
+      }),
       data: utils.compact({
         domain: utils.normalizeDomain(this.domain),
         name: this.name,

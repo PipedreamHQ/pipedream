@@ -7,9 +7,10 @@ export default {
   description: "Finds a site by its main domain or an extra domain. [See the documentation](https://privatusanalytics.com/docs/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     "destructiveHint": false,
-    "openWorldHint": false,
+    "openWorldHint": true,
     "readOnlyHint": true,
   },
   props: {
@@ -27,12 +28,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const workspaceId = await this.app.getWorkspaceId({
-      $,
-    });
     let items = await this.app.paginate({
       $,
-      path: `/workspaces/${workspaceId}/sites.json`,
+      path: await this.app.workspacePath({
+        $,
+        path: "/sites.json",
+      }),
       params: utils.compact({
         query: utils.normalizeDomain(this.domain),
       }),

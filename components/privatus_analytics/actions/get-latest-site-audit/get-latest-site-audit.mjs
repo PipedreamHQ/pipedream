@@ -7,9 +7,10 @@ export default {
   description: "Gets the latest finished SEO audit of a site: its score, the pages crawled and the issues found and fixed. [See the documentation](https://privatusanalytics.com/docs/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     "destructiveHint": false,
-    "openWorldHint": false,
+    "openWorldHint": true,
     "readOnlyHint": true,
   },
   props: {
@@ -33,8 +34,8 @@ export default {
     });
     const audit = (response || [])[0] || null;
     $.export("$summary", audit
-      ? "`Successfully retrieved the latest site audit`"
-      : "`No finished site audit yet`");
+      ? "Successfully retrieved the latest site audit"
+      : "No finished site audit yet");
     return audit;
   },
 };

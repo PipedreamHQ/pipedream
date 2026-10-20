@@ -7,9 +7,10 @@ export default {
   description: "Finds testimonials of a site by their words, status, rating, tag or form, newest first. [See the documentation](https://privatusanalytics.com/docs/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     "destructiveHint": false,
-    "openWorldHint": false,
+    "openWorldHint": true,
     "readOnlyHint": true,
   },
   props: {
@@ -38,17 +39,10 @@ export default {
       optional: true,
     },
     minRating: {
-      type: "string",
-      label: "Minimum Rating",
-      description: "Only testimonials with at least this many stars.",
-      options: [
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
+      propDefinition: [
+        app,
+        "minRating",
       ],
-      optional: true,
     },
     kind: {
       type: "string[]",
@@ -65,12 +59,18 @@ export default {
       propDefinition: [
         app,
         "testimonialTagIds",
+        (c) => ({
+          siteId: c.siteId,
+        }),
       ],
     },
     formId: {
       propDefinition: [
         app,
         "testimonialFormIds",
+        (c) => ({
+          siteId: c.siteId,
+        }),
       ],
     },
     receivedFrom: {

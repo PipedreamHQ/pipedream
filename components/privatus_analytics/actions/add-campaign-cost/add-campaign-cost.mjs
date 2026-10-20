@@ -7,9 +7,10 @@ export default {
   description: "Records what a campaign cost in a month, for cost per acquisition and return on ad spend (Business plan). [See the documentation](https://privatusanalytics.com/docs/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     "destructiveHint": false,
-    "openWorldHint": false,
+    "openWorldHint": true,
     "readOnlyHint": false,
   },
   props: {

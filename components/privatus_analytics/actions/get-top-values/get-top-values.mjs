@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../privatus_analytics.app.mjs";
 import utils from "../../common/utils.mjs";
 
@@ -7,9 +8,10 @@ export default {
   description: "Gets the top values of one report (pages, referrers, campaigns, countries, devices, events, goals and more) for a period, one item for each row. [See the documentation](https://privatusanalytics.com/docs/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     "destructiveHint": false,
-    "openWorldHint": false,
+    "openWorldHint": true,
     "readOnlyHint": true,
   },
   props: {
@@ -164,10 +166,16 @@ export default {
       propDefinition: [
         app,
         "segmentId",
+        (c) => ({
+          siteId: c.siteId,
+        }),
       ],
     },
   },
   async run({ $ }) {
+    if (this.dimension === "prop" && !String(this.propertyKey ?? "").trim()) {
+      throw new ConfigurationError("**Property Key** is required when **Report** is **Custom Event Property**");
+    }
     const response = await this.app.request({
       $,
       method: "GET",

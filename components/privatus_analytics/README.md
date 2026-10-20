@@ -31,9 +31,9 @@ An emitted event is the data of the event plus `id` (the delivery ID), `event`, 
 
 ## Actions
 
-Create Site, Create Goal, Create Chart Note, Create Workspace Chart Note, Create Campaign Link, Add Campaign Cost, Create Uptime Check, Pause Uptime Check, Resume Uptime Check, Acknowledge Alert, Mute Alert, Post Status Page Update, Create Export, Invite Members, Run Site Audit, Start Experiment, Pause Experiment, End Experiment, Create Testimonial, Update Testimonial, Approve Testimonial, Reject Testimonial, Return Testimonial to Pending, Pin Testimonial, Create Testimonial Person, Ask for Testimonial and Send Custom API Request.
+Create Site, Create Goal, Create Chart Note, Create Workspace Chart Note, Create Campaign Link, Add Campaign Cost, Create Uptime Check, Pause Uptime Check, Resume Uptime Check, Acknowledge Alert, Mute Alert, Post Status Page Update, Create Export, Invite Members, Run Site Audit, Start Experiment, Pause Experiment, End Experiment, Create Testimonial, Update Testimonial, Approve Testimonial, Reject Testimonial, Return Testimonial to Pending, Pin Testimonial, Create Testimonial Person, Ask for Testimonial and Send Custom API Request. Send Custom API Request can change data with `PATCH` and `PUT`, and cannot delete it.
 
-Searches (they return a list): Find Site, Find Goals, Find Uptime Checks, Find Alert Rules, Find Members, Find Experiments, Find Testimonials, Find Testimonial People, Get Site Stats, Get Top Values, Get Time Series, Get Live Visitors, Get Latest Site Audit and Get Testimonial.
+Searches (they return a list): Find Site, Find Goals, Find Uptime Checks, Find Alert Rules, Find Members, Find Experiments, Find Testimonials, Find Testimonial People, Find Status Pages, Find Testimonial Requests, Find Testimonial Forms, Find Testimonial Tags, Find Testimonial Collections, Find Segments, Get Site Stats, Get Top Values, Get Time Series, Get Live Visitors, Get Latest Site Audit and Get Testimonial.
 
 # Troubleshooting
 

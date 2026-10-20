@@ -18,15 +18,18 @@ export default {
         "siteId",
       ],
       optional: true,
-      description: "Only emit events of this site. Leave it empty for every site.",
+      description: "Only emit events of this site, e.g. `pa_7Q2K9XH3AB`. Use **Find Site** to get the site ID. Leave it empty for every site.",
     },
     requestId: {
       propDefinition: [
         app,
         "testimonialRequestId",
+        (c) => ({
+          siteId: c.siteId,
+        }),
       ],
       optional: true,
-      description: "Only emit events of this request. Select a **Site** first. Leave it empty for every request.",
+      description: "Only emit events of this request, e.g. `req_5V9C2XM7TL`. Set **Site** first. Use **Find Testimonial Requests** to get the request ID. Leave it empty for every request.",
     },
   },
   methods: {

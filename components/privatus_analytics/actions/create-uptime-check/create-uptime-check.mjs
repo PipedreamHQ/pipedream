@@ -7,9 +7,10 @@ export default {
   description: "Starts monitoring a URL, a keyword on a page, a TCP port or a DNS name for a site. [See the documentation](https://privatusanalytics.com/docs/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     "destructiveHint": false,
-    "openWorldHint": false,
+    "openWorldHint": true,
     "readOnlyHint": false,
   },
   props: {

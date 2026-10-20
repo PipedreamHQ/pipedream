@@ -7,9 +7,10 @@ export default {
   description: "Lists the alert rules of the workspace, or finds one by name, with its state (ok or triggered). [See the documentation](https://privatusanalytics.com/docs/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     "destructiveHint": false,
-    "openWorldHint": false,
+    "openWorldHint": true,
     "readOnlyHint": true,
   },
   props: {
@@ -64,12 +65,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const workspaceId = await this.app.getWorkspaceId({
-      $,
-    });
     let items = await this.app.paginate({
       $,
-      path: `/workspaces/${workspaceId}/alerts.json`,
+      path: await this.app.workspacePath({
+        $,
+        path: "/alerts.json",
+      }),
       params: utils.compact({
         site_id: this.siteId,
         state: this.state,

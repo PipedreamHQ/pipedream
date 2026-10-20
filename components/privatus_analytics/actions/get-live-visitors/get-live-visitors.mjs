@@ -7,9 +7,10 @@ export default {
   description: "Gets how many visitors are on a site right now (the last 30 minutes) and its latest activity. [See the documentation](https://privatusanalytics.com/docs/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     "destructiveHint": false,
-    "openWorldHint": false,
+    "openWorldHint": true,
     "readOnlyHint": true,
   },
   props: {
@@ -35,7 +36,9 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "Feed entries to return, 1 to 100. Default 50.",
+      description: "How many feed entries to return, from 1 to 100, e.g. `10`.",
+      min: 1,
+      max: 100,
       default: 10,
       optional: true,
     },

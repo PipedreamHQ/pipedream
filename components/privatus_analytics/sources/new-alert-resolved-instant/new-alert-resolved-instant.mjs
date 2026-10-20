@@ -18,7 +18,7 @@ export default {
         "siteId",
       ],
       optional: true,
-      description: "Only emit events of this site. Leave it empty for every site.",
+      description: "Only emit events of this site, e.g. `pa_7Q2K9XH3AB`. Use **Find Site** to get the site ID. Leave it empty for every site.",
     },
     alertId: {
       propDefinition: [
@@ -26,7 +26,7 @@ export default {
         "alertId",
       ],
       optional: true,
-      description: "Only emit events of this alert rule. Leave it empty for every rule.",
+      description: "Only emit events of this alert rule, e.g. `alr_3W7L9QK2VD`. Use **Find Alert Rules** to get the alert rule ID. Leave it empty for every rule.",
     },
   },
   methods: {

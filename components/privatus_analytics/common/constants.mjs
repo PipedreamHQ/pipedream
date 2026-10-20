@@ -79,6 +79,23 @@ const PERIOD_OPTIONS = [
   },
 ];
 
+const CHART_NOTE_COLORS = [
+  "neutral",
+  "brand",
+  "blue",
+  "amber",
+  "red",
+  "violet",
+];
+
+const CHART_NOTE_SOURCES = [
+  "manual",
+  "deploy",
+  "system",
+  "import",
+  "incident",
+];
+
 export default {
   BASE_URL,
   DOCS_URL,
@@ -87,4 +104,6 @@ export default {
   PER_PAGE,
   DEFAULT_MAX_RESULTS,
   PERIOD_OPTIONS,
+  CHART_NOTE_COLORS,
+  CHART_NOTE_SOURCES,
 };

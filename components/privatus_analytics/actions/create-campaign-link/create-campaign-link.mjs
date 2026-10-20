@@ -7,9 +7,10 @@ export default {
   description: "Saves a tagged campaign link (with UTM parameters) in the campaign URL builder and returns the full URL. [See the documentation](https://privatusanalytics.com/docs/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     "destructiveHint": false,
-    "openWorldHint": false,
+    "openWorldHint": true,
     "readOnlyHint": false,
   },
   props: {

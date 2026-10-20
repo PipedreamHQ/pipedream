@@ -1,5 +1,4 @@
 import app from "../../privatus_analytics.app.mjs";
-import utils from "../../common/utils.mjs";
 
 export default {
   key: "privatus_analytics-send-custom-api-request",
@@ -7,9 +6,10 @@ export default {
   description: "Calls any endpoint of the Privatus Analytics API with the connected account, for what the other actions do not cover. Only paths on privatusanalytics.com are accepted. [See the documentation](https://privatusanalytics.com/docs/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
-    destructiveHint: false,
-    openWorldHint: false,
+    destructiveHint: true,
+    openWorldHint: true,
     readOnlyHint: false,
   },
   props: {
@@ -17,7 +17,7 @@ export default {
     method: {
       type: "string",
       label: "HTTP Method",
-      description: "The HTTP method. Nothing here can delete data, so `DELETE` is not offered.",
+      description: "The HTTP method, e.g. `GET`. `DELETE` is not offered. `PATCH` and `PUT` can overwrite existing data.",
       options: [
         "GET",
         "PATCH",
@@ -34,37 +34,23 @@ export default {
     query: {
       type: "object",
       label: "Query Parameters",
-      description: "Query parameters, such as the name `period` with the value `30d`.",
+      description: "Query parameters as an object, e.g. `{\"period\":\"30d\"}`.",
       optional: true,
     },
     body: {
       type: "object",
       label: "Body",
-      description: "The JSON body, for `POST`, `PATCH` and `PUT`.",
+      description: "The JSON body for `POST`, `PATCH` and `PUT`, e.g. `{\"name\":\"Signed up\"}`.",
       optional: true,
     },
   },
   async run({ $ }) {
-    const [
-      base,
-      existing,
-    ] = utils.apiPath(this.path).split("?");
-    const extra = this.query
-      ? utils.queryString(this.query)
-      : "";
-    const search = [
-      existing,
-      extra,
-    ].filter(Boolean).join("&");
-    const response = await this.app._makeRequest({
+    const response = await this.app.sendCustomRequest({
       $,
       method: this.method,
-      path: search
-        ? base + "?" + search
-        : base,
-      data: this.method === "GET"
-        ? undefined
-        : this.body,
+      path: this.path,
+      query: this.query,
+      data: this.body,
     });
     $.export("$summary", "Successfully sent the " + this.method + " request");
     return response;

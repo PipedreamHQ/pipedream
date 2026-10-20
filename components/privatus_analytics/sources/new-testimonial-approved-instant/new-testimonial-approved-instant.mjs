@@ -18,20 +18,14 @@ export default {
         "siteId",
       ],
       optional: true,
-      description: "Only emit events of this site. Leave it empty for every site.",
+      description: "Only emit events of this site, e.g. `pa_7Q2K9XH3AB`. Use **Find Site** to get the site ID. Leave it empty for every site.",
     },
     minRating: {
-      type: "string",
-      label: "Minimum Rating",
-      description: "Only emit ratings of at least this many stars. Leave it empty to emit every one, with or without a rating.",
-      options: [
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
+      propDefinition: [
+        app,
+        "minRating",
       ],
-      optional: true,
+      description: "Only emit ratings of at least this many stars, e.g. `4`. Leave it empty to emit every one, with or without a rating.",
     },
   },
   methods: {

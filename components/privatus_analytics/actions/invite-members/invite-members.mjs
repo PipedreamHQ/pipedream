@@ -7,6 +7,7 @@ export default {
   description: "Invites people to the workspace by email. Each gets an invitation link valid for 14 days. [See the documentation](https://privatusanalytics.com/docs/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     "destructiveHint": false,
     "openWorldHint": true,
@@ -22,7 +23,7 @@ export default {
     role: {
       type: "string",
       label: "Role",
-      description: "Role for the invited people, one of admin, editor, analyst, viewer, billing or custom. Default viewer. Use custom together with custom_role_id. Owner cannot be invited.",
+      description: "The role of the invited people, e.g. `viewer`. The owner role cannot be invited.",
       options: [
         "admin",
         "editor",
@@ -41,20 +42,21 @@ export default {
       optional: true,
     },
     siteIds: {
-      type: "string[]",
-      label: "Sites",
-      description: "The sites they may open, as site IDs like `pa_7Q2K9XH3AB`. Only used when **All Sites** is off.",
-      optional: true,
+      propDefinition: [
+        app,
+        "siteIds",
+      ],
+      description: "The sites they may open, as site IDs, e.g. `[\"pa_7Q2K9XH3AB\"]`. Use **Find Site** to get the site IDs. Only used when **All Sites** is off.",
     },
   },
   async run({ $ }) {
-    const workspaceId = await this.app.getWorkspaceId({
-      $,
-    });
     const response = await this.app.request({
       $,
       method: "POST",
-      path: `/workspaces/${workspaceId}/invitations.json`,
+      path: await this.app.workspacePath({
+        $,
+        path: "/invitations.json",
+      }),
       data: utils.compact({
         emails: utils.toList(this.emails),
         role: this.role,

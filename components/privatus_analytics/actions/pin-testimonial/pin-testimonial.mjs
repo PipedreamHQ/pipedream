@@ -7,9 +7,10 @@ export default {
   description: "Pins a testimonial so it is shown first, or unpins it. [See the documentation](https://privatusanalytics.com/docs/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     "destructiveHint": false,
-    "openWorldHint": false,
+    "openWorldHint": true,
     "readOnlyHint": false,
   },
   props: {
@@ -24,6 +25,9 @@ export default {
       propDefinition: [
         app,
         "testimonialId",
+        (c) => ({
+          siteId: c.siteId,
+        }),
       ],
     },
     pinned: {

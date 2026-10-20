@@ -7,9 +7,10 @@ export default {
   description: "Adds a note (annotation) to the charts of a site, such as a deploy, a campaign launch or an outage. [See the documentation](https://privatusanalytics.com/docs/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     "destructiveHint": false,
-    "openWorldHint": false,
+    "openWorldHint": true,
     "readOnlyHint": false,
   },
   props: {
@@ -21,67 +22,52 @@ export default {
       ],
     },
     title: {
-      type: "string",
-      label: "Title",
-      description: "Short title shown on the chart.",
+      propDefinition: [
+        app,
+        "chartNoteTitle",
+      ],
     },
     date: {
-      type: "string",
-      label: "Date",
-      description: "The day the note is shown on, as `YYYY-MM-DD`. Defaults to today.",
-      optional: true,
+      propDefinition: [
+        app,
+        "chartNoteDate",
+      ],
     },
     endDate: {
-      type: "string",
-      label: "End Date",
-      description: "For a note that covers several days, the last day, as `YYYY-MM-DD`.",
-      optional: true,
+      propDefinition: [
+        app,
+        "chartNoteEndDate",
+      ],
     },
     body: {
-      type: "string",
-      label: "Body",
-      description: "Longer details as plain text.",
-      optional: true,
+      propDefinition: [
+        app,
+        "chartNoteBody",
+      ],
     },
     url: {
-      type: "string",
-      label: "Link",
-      description: "A link such as a pull request or changelog page.",
-      optional: true,
+      propDefinition: [
+        app,
+        "chartNoteUrl",
+      ],
     },
     color: {
-      type: "string",
-      label: "Color",
-      description: "Pin color, one of neutral, brand, blue, amber, red or violet. Defaults to neutral (blue for deploy notes).",
-      options: [
-        "neutral",
-        "brand",
-        "blue",
-        "amber",
-        "red",
-        "violet",
+      propDefinition: [
+        app,
+        "chartNoteColor",
       ],
-      optional: true,
     },
     source: {
-      type: "string",
-      label: "Source",
-      description: "manual (default) for notes written by a person, or deploy for release notifications. system, import and incident are reserved for notes the app writes itself.",
-      options: [
-        "manual",
-        "deploy",
-        "system",
-        "import",
-        "incident",
+      propDefinition: [
+        app,
+        "chartNoteSource",
       ],
-      default: "manual",
-      optional: true,
     },
     version: {
-      type: "string",
-      label: "Version",
-      description: "Only used when source is deploy and title is empty. A release version or commit, used to build the default title.",
-      optional: true,
+      propDefinition: [
+        app,
+        "chartNoteVersion",
+      ],
     },
   },
   async run({ $ }) {
@@ -91,8 +77,7 @@ export default {
       path: `/sites/${utils.segment(this.siteId)}/notes.json`,
       data: utils.compact({
         title: this.title,
-        date: utils.toDate(this.date) ?? new Date().toISOString()
-          .slice(0, 10),
+        date: utils.toDate(this.date),
         end_date: utils.toDate(this.endDate),
         body: this.body,
         url: this.url,
