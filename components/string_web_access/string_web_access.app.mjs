@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { SITEMAP_URLS_PAGE_SIZE } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -12,7 +13,7 @@ export default {
     format: {
       type: "string",
       label: "Format",
-      description: "How the page is returned. Markdown is the best input for an AI step.",
+      description: "How the page is returned: `markdown`, `raw` or `json`, e.g. `markdown`. Markdown is the best input for an AI step.",
       options: [
         {
           label: "Clean, LLM-ready Markdown",
@@ -33,7 +34,7 @@ export default {
     executeJS: {
       type: "boolean",
       label: "Render JavaScript",
-      description: "Render the page in a browser before capturing it. Use when the content comes back empty. Cannot be combined with **Custom Headers**.",
+      description: "Render the page in a browser before capturing it, e.g. `true`. Use when the content comes back empty. Cannot be combined with **Custom Headers**.",
       optional: true,
     },
     countryCode: {
@@ -45,19 +46,19 @@ export default {
     solveCaptcha: {
       type: "boolean",
       label: "Solve Captcha",
-      description: "Attempt to solve a captcha challenge. Set to `false` to fail fast instead.",
+      description: "Attempt to solve a captcha challenge, e.g. `true`. Set to `false` to fail fast instead.",
       optional: true,
     },
     headers: {
       type: "object",
       label: "Custom Headers",
-      description: "Request headers to forward (max 50). Cannot be combined with **Render JavaScript**.",
+      description: "Request headers to forward (max 50), e.g. `{\"Accept-Language\": \"en-US\"}`. Cannot be combined with **Render JavaScript**.",
       optional: true,
     },
     jobId: {
       type: "string",
       label: "Job ID",
-      description: "The ID of a sitemap crawl job (e.g. as returned by the **Map Site URLs** action)",
+      description: "The ID of a sitemap crawl job, a UUID such as `6f1c9f0a-8f3e-4a5d-...`. Use **Map Site URLs** to start a crawl (the `jobId` field).",
     },
   },
   methods: {
@@ -100,7 +101,7 @@ export default {
      * @param {Object} opts.data - The request body, which must carry `query`
      * @returns {Object} `results` plus any surfaces the engine rendered around them
      */
-    search(opts = {}) {
+    searchWeb(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/search",
@@ -168,6 +169,36 @@ export default {
         path: `/sitemap/${jobId}/urls`,
         ...opts,
       });
+    },
+    /**
+     * Page through every URL a finished crawl discovered and return them with
+     * the job's `total`
+     */
+    async getAllSitemapUrls({
+      jobId, ...opts
+    }) {
+      const urls = [];
+      let total = 0;
+      do {
+        const page = await this.getSitemapUrls({
+          jobId,
+          params: {
+            limit: SITEMAP_URLS_PAGE_SIZE,
+            offset: urls.length,
+          },
+          ...opts,
+        });
+        total = page.total;
+        if (!page.urls?.length) {
+          break;
+        }
+        urls.push(...page.urls);
+      } while (urls.length < total);
+      return {
+        jobId,
+        total,
+        urls,
+      };
     },
   },
 };

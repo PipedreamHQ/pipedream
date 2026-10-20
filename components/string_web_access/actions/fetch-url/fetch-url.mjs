@@ -11,6 +11,7 @@ export default {
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     url: {
@@ -28,7 +29,7 @@ export default {
     mainContentOnly: {
       type: "boolean",
       label: "Main Content Only",
-      description: "Drop navigation, headers and footers. Only affects Markdown responses.",
+      description: "Drop navigation, headers and footers, e.g. `true`. Only affects Markdown responses.",
       optional: true,
     },
     executeJS: {

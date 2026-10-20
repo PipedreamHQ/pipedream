@@ -11,6 +11,7 @@ export default {
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     url: {
@@ -18,7 +19,7 @@ export default {
         app,
         "url",
       ],
-      description: "The URL to extract fields from",
+      description: "The URL to extract fields from, e.g. `https://example.com/products/widget`",
     },
     jsonSchema: {
       type: "object",

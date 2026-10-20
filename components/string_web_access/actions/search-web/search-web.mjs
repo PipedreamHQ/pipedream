@@ -11,17 +11,18 @@ export default {
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     query: {
       type: "string",
       label: "Query",
-      description: "What to search for",
+      description: "What to search for, e.g. `best trail running shoes`",
     },
     engine: {
       type: "string",
       label: "Engine",
-      description: "Which search engine to query",
+      description: "Which search engine to query, e.g. `google`",
       options: [
         "google",
         "duckduckgo",
@@ -45,7 +46,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.search({
+    const response = await this.app.searchWeb({
       $,
       data: {
         query: this.query,
