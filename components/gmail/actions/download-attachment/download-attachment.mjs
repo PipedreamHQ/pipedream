@@ -22,7 +22,7 @@ export default {
     + " If `filename` is omitted, the action uses the attachment's own filename from the message."
     + " Set `convertToPdf: true` to convert image / HTML / plain-text / DOCX attachments to PDF during download; other MIME types are rejected."
     + " [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages.attachments/get).",
-  version: "0.2.2",
+  version: "0.3.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -100,15 +100,6 @@ export default {
         doc.end();
       });
     },
-    findPartByPartId(part, partId) {
-      if (!part) return undefined;
-      if (String(part.partId) === String(partId)) return part;
-      for (const child of part.parts ?? []) {
-        const found = this.findPartByPartId(child, partId);
-        if (found) return found;
-      }
-      return undefined;
-    },
     listAttachmentParts(part, acc = []) {
       if (!part) return acc;
       if (part.body?.attachmentId) {
@@ -124,10 +115,6 @@ export default {
     resolvePart(parts, size) {
       const byAttachmentId = parts.find((p) => p.body.attachmentId === this.attachmentId);
       if (byAttachmentId) return byAttachmentId;
-      if (this.partId) {
-        const byPartId = parts.find((p) => p.partId === this.partId);
-        if (byPartId) return byPartId;
-      }
       if (this.filename) {
         const byName = parts.filter((p) => p.filename === this.filename);
         const bySize = byName.filter((p) => p.body.size === size);
@@ -180,8 +167,9 @@ export default {
       const message = await this.gmail.getMessage({
         id: this.messageId,
       });
-      const part = this.findPartByPartId(message.payload, partId);
-      if (!part?.body?.attachmentId) {
+      const part = this.listAttachmentParts(message.payload)
+        .find((p) => String(p.partId) === partId);
+      if (!part) {
         const available = utils.getAttachments(message.payload)
           .map((attachment) => `${attachment.partId} (${attachment.filename})`)
           .join(", ");
@@ -246,7 +234,9 @@ export default {
         });
         buffer = await this.htmlToPdf(html);
       } else if (!sourceMimeType || sourceMimeType === "application/zip") {
-        throw new ConfigurationError(`Could not determine the MIME type of attachment ${this.attachmentId} in message ${this.messageId}. Pass \`partId\` (from \`payload.parts[].partId\`) or \`filename\` so the attachment part can be identified.`);
+        throw new ConfigurationError(`Could not determine the MIME type of attachment ${attachmentId} in message ${this.messageId}. ${hasPartId
+          ? "The part reports no usable MIME type and its contents were not recognised."
+          : "Pass `partId` (from the message's `attachments` list) so the attachment part can be identified."}`);
       } else {
         throw new ConfigurationError(`Cannot convert file type: ${sourceMimeType} to PDF`);
       }
