@@ -1,10 +1,7 @@
 # Overview
 
 The String Web Access API returns any page on the web as clean, LLM-ready Markdown, runs a
-structured web search, and maps a site's URLs. Proxy rotation, anti-bot handling, CAPTCHA solving
-and JavaScript rendering happen server-side, so a workflow step gets the page instead of a block
-screen. Best for pages that rate-limit, geo-gate or refuse automated traffic — the ones where a
-plain HTTP step returns a 403 and your workflow quietly stops.
+structured web search, and maps a site's URLs.
 
 # Example Use Cases
 
@@ -16,7 +13,7 @@ plain HTTP step returns a 403 and your workflow quietly stops.
 **Research agent with live sources**
 
 - Run Search Web on an incoming question, fetch the top results as Markdown, and pass them to
-  OpenAI or Claude in the same workflow. The model reads pages, not block screens.
+  OpenAI or Claude in the same workflow. The model reads the page text, not raw HTML.
 
 **Inbound lead enrichment**
 
@@ -36,8 +33,9 @@ plain HTTP step returns a 403 and your workflow quietly stops.
 **402 Payment Required** — the key is valid but the account balance can't cover the request. Top up
 in the portal.
 
-**A fetch returns a block page** — set **Render JavaScript** to true, or set a **Country Code** to
-route through a proxy in the country the site serves. Failed requests are not billed.
+**A fetch comes back empty or incomplete** — set **Render JavaScript** to true for pages that build
+their content in the browser, or set a **Country Code** for sites that serve different content by
+country. Failed requests are not billed.
 
 **Map Site URLs costs more than expected** — the crawl is quoted before it runs and stops at the
 **Budget (USD)** you set, so lower the budget or the page cap.

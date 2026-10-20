@@ -40,7 +40,7 @@ export default {
     countryCode: {
       type: "string",
       label: "Country Code",
-      description: "[ISO 3166-1 alpha-2](https://portal.usestring.ai/docs/fetch/proxies-and-geolocation) country to route the request through, e.g. `US`",
+      description: "ISO 3166-1 alpha-2 country code, e.g. `US`. The page comes back as it is served in that country.",
       optional: true,
     },
     solveCaptcha: {
