@@ -131,12 +131,8 @@ export default {
             active: recordingActive,
           },
           timeout: {
-            max_duration: timeout === undefined
-              ? undefined
-              : Number(timeout),
-            idle_timeout: idleTimeout === undefined
-              ? undefined
-              : Number(idleTimeout),
+            max_duration: timeout,
+            idle_timeout: idleTimeout,
           },
         },
         browser: {
