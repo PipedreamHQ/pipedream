@@ -9,7 +9,6 @@ import mammoth from "mammoth";
 import mime from "mime";
 import gmail from "../../gmail.app.mjs";
 import utils from "../../common/utils.mjs";
-import { sniffMimeType } from "../../common/mime.mjs";
 
 export default {
   key: "gmail-download-attachment",
@@ -35,7 +34,7 @@ export default {
     messageId: {
       type: "string",
       label: "Message ID",
-      description: "The `id` of the message containing the attachment. Obtain this from **Find Emails** or **Get Thread**.",
+      description: "The `id` of the message containing the attachment, e.g. `19a2b3c4d5e6f789`. Obtain this from **Find Emails** or **Get Thread**.",
     },
     partId: {
       type: "string",
@@ -46,7 +45,7 @@ export default {
     attachmentId: {
       type: "string",
       label: "Attachment ID",
-      description: "The attachment's ID from a message's `payload.parts[].body.attachmentId` (returned by **Find Emails** with `format: \"full\"` and `payload` requested, or by **Get Thread**). Not needed when `partId` is set, and prefer `partId`: on large messages the `payload` holding this ID can be dropped to fit the response cap.",
+      description: "The attachment's ID from a message's `payload.parts[].body.attachmentId`, a long opaque string such as `ANGjdJ8wX0kL...` (returned by **Find Emails** with `format: \"full\"` and `payload` requested, or by **Get Thread**). Not needed when `partId` is set, and prefer `partId`: on large messages the `payload` holding this ID can be dropped to fit the response cap.",
       optional: true,
     },
     filename: {
@@ -167,8 +166,10 @@ export default {
       const message = await this.gmail.getMessage({
         id: this.messageId,
       });
+      // Named parts only, matching the `attachments` list: an unnamed part behind an
+      // attachmentId is a large message body, not an attachment.
       const part = this.listAttachmentParts(message.payload)
-        .find((p) => String(p.partId) === partId);
+        .find((p) => p.filename && String(p.partId) === partId);
       if (!part) {
         const available = utils.getAttachments(message.payload)
           .map((attachment) => `${attachment.partId} (${attachment.filename})`)
@@ -204,7 +205,7 @@ export default {
       }
     }
     if (!sourceMimeType || sourceMimeType === "application/octet-stream") {
-      sourceMimeType = sniffMimeType(buffer) ?? sourceMimeType;
+      sourceMimeType = utils.sniffMimeType(buffer) ?? sourceMimeType;
     }
     if (!filename) {
       const extension = sourceMimeType && sourceMimeType !== "application/zip"
