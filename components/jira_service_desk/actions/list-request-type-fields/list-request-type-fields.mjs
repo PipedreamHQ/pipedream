@@ -9,9 +9,10 @@ export default {
     + " Use **List Sites** for `cloudId`, **List Service Desks** for `serviceDeskId`, and **List Request Types** for `requestTypeId`."
     + " Example: request type `4` (\"Onboard new employees\") on service desk `1` returns a required `summary` plus optional `duedate` (`jiraSchema.type` `date`, so pass `\"2026-09-01\"`), `description`, and `attachment`."
     + " Also returns `canRaiseOnBehalfOf` and `canAddRequestParticipants`, which tell you whether the `raiseOnBehalfOf` and `requestParticipants` arguments of **Create Request** are usable with this account."
+    + " Form questions are not fields and are not listed here; get those from **Get Request Type Form**."
     + " Hidden fields are only visible to service desk administrators."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-servicedesk/#api-rest-servicedeskapi-servicedesk-servicedeskid-requesttype-requesttypeid-field-get)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   ai: "optimized",
   annotations: {

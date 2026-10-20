@@ -1,6 +1,9 @@
 import { ConfigurationError } from "@pipedream/platform";
 import jiraServiceDesk from "../../jira_service_desk.app.mjs";
 import constants from "../../common/constants.mjs";
+import {
+  isPlainObject, parseJson, validateFormAnswers,
+} from "../../common/form.mjs";
 
 export default {
   key: "jira_service_desk-create-request",
@@ -11,12 +14,13 @@ export default {
     + " The kind of ticket is decided by `requestTypeId`, not by the wording of the summary, so always pick the request type deliberately."
     + " Use **List Sites** to get `cloudId`, **List Service Desks** to get `serviceDeskId`, and **List Request Types** to choose the `requestTypeId` whose name and description match the user's intent."
     + " Call **List Request Type Fields** to see which fields that request type accepts and requires; pass anything beyond summary and description in `additionalFieldValues`, keyed by Jira field ID."
+    + " Many request types also carry a form, which **List Request Type Fields** does not show: call **Get Request Type Form** and pass the answers in `form`, otherwise the request is created without its form."
     + " Only send the fields that request type lists: some request types hide Summary or Description behind a preset value and reject a create that supplies them, so omit `summary` and `description` when they are not listed."
     + " Worked example: on service desk `1`, request type `4` (\"Onboard new employees\") requires `summary` and also accepts a `duedate`, so call with Summary `Joseph Wilson starts on September 1`, Description `Needs a laptop and an email account`, and Additional Field Values `{ \"duedate\": \"2026-09-01\" }`."
     + " Optionally attach one or more files at creation time via `attachments`; to add, replace, or delete attachments on a request that already exists, use **Manage Request Attachment** instead."
-    + " Returns the created request including its `issueKey` and `issueId`. If `attachments` is set, the response also includes either an `attachments` array (on success) or an `attachmentError` string (if the request was created but the attachment step failed) — the request itself is never rolled back because of an attachment failure."
+    + " Returns the created request including its `issueKey` and `issueId`. If `attachments` is set, the response also includes either an `attachments` array (on success) or an `attachmentError` string (if the request was created but the attachment step failed); the request itself is never rolled back because of an attachment failure."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-request/#api-rest-servicedeskapi-request-post)",
-  version: "1.2.0",
+  version: "1.3.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -83,7 +87,10 @@ export default {
     form: {
       type: "object",
       label: "Form",
-      description: "Answers to the form attached to the request type, as `{ \"answers\": { \"<questionId>\": { \"text\": \"...\" } } }`. Omit any Jira field from `additionalFieldValues` when it is linked to a form answer here. For answers in ADF, also set `isAdfRequest` to `true`.",
+      description: "Answers to the request type's form, as `{ \"answers\": { \"<questionId>\": <answer> } }`, e.g. `{ \"answers\": { \"1\": { \"text\": \"Figma\" }, \"2\": { \"choices\": [\"2\"] }, \"3\": { \"date\": \"2026-11-01\" } } }`."
+        + " Run **Get Request Type Form** for each question's `questionId`, `answerFormat`, and choice `id`s; answers are checked against the form before the request is created."
+        + " For Attachment questions, list file URLs or `/tmp` paths in `files`, and they are uploaded for you."
+        + " Leave out of `additionalFieldValues` any Jira field that a question is linked to (its `jiraField`). For Paragraph answers in ADF, also set `isAdfRequest` to `true`.",
       optional: true,
     },
     isAdfRequest: {
@@ -186,6 +193,43 @@ export default {
       ...parsedExtraFields,
     };
 
+    const parsedForm = typeof form === "string"
+      ? parseJson(form, "Form")
+      : form;
+    let formAnswers = parsedForm?.answers;
+    if (typeof formAnswers === "string") {
+      formAnswers = parseJson(formAnswers, "Form answers");
+    }
+    const formGiven = parsedForm && !(isPlainObject(parsedForm) && !Object.keys(parsedForm).length);
+    if (formGiven && !isPlainObject(formAnswers)) {
+      throw new ConfigurationError("Form must look like `{ \"answers\": { \"<questionId>\": <answer> } }`.");
+    }
+    if (formAnswers) {
+      const result = await jiraServiceDesk.getRequestTypeFormQuestions({
+        $,
+        cloudId,
+        serviceDeskId,
+        requestTypeId,
+      });
+      if (!result) {
+        throw new ConfigurationError(`Request type ${requestTypeId} has no form, so leave out \`form\`.`);
+      }
+      formAnswers = validateFormAnswers({
+        questions: result.questions,
+        answers: formAnswers,
+      });
+      for (const answer of Object.values(formAnswers)) {
+        if (answer.files?.length) {
+          answer.files = await jiraServiceDesk.uploadTemporaryFilesFromSource({
+            $,
+            cloudId,
+            serviceDeskId,
+            files: answer.files,
+          });
+        }
+      }
+    }
+
     const response = await jiraServiceDesk.createCustomerRequest({
       $,
       cloudId,
@@ -195,7 +239,11 @@ export default {
         requestFieldValues,
         requestParticipants,
         raiseOnBehalfOf,
-        form,
+        ...(formAnswers && {
+          form: {
+            answers: formAnswers,
+          },
+        }),
         isAdfRequest,
         channel,
       },
