@@ -37,6 +37,9 @@ export default {
       type: "string",
       label: "Proxy Configuration - Type",
       description: "The type of proxy configuration to use. Eg. `anchor_proxy`.",
+      options: [
+        "anchor_proxy",
+      ],
       optional: true,
     },
     proxyConfigActive: {
