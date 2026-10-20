@@ -1,11 +1,12 @@
 import github from "../../github.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "github-list-repositories",
   name: "List Repositories",
   description: "List repositories the authenticated user can access, or — when `org` is provided — the repositories of a specific organization. Use this to discover a repo's `owner/repo` name before calling **Get Repository**, **Get Repository Content**, or **List Commits**. To find repos by name, set the `name` substring filter. [See the documentation](https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#list-repositories-for-the-authenticated-user)",
-  version: "1.0.3",
+  version: "1.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -41,7 +42,7 @@ export default {
     type: {
       type: "string",
       label: "Type",
-      description: "Limit results to repositories of the specified type. For user repos, do not combine with `visibility`.",
+      description: "Limit results to repositories of the specified type, e.g. `member`. For user repos, `public`/`private` must not contradict `visibility`.",
       options: [
         "all",
         "owner",
@@ -78,19 +79,28 @@ export default {
         github,
         "maxResults",
       ],
+      description: `The maximum number of repositories to return (1-${constants.MAX_RESULTS_MAX}), e.g. \`50\`. Defaults to \`${constants.DEFAULT_MAX_RESULTS}\`.`,
+      min: 1,
+      max: constants.MAX_RESULTS_MAX,
     },
   },
   async run({ $ }) {
-    if (!this.org && this.type && this.visibility) {
-      throw new ConfigurationError("`type` cannot be used with `visibility`.");
+    if (!this.org && this.type && !constants.USER_REPO_TYPE_PARAMS[this.type]) {
+      throw new ConfigurationError(`Unsupported \`type\` \`${this.type}\`.`);
+    }
+    const {
+      visibility: typeVisibility, affiliation,
+    } = constants.USER_REPO_TYPE_PARAMS[this.type] || {};
+    if (!this.org && typeVisibility && this.visibility && this.visibility !== "all" && typeVisibility !== this.visibility) {
+      throw new ConfigurationError(`\`type\` \`${this.type}\` contradicts \`visibility\` \`${this.visibility}\`.`);
     }
 
     // When a name filter forces a full scan, use the max page size to minimize
     // round-trips; maxResults is applied after filtering. Otherwise size the page
     // to maxResults so a single page usually suffices.
     const perPage = this.name
-      ? 100
-      : Math.min(this.maxResults || 100, 100);
+      ? constants.PER_PAGE_MAX
+      : Math.min(this.maxResults || constants.PER_PAGE_MAX, constants.PER_PAGE_MAX);
     const endpoint = this.org
       ? `GET /orgs/${this.org}/repos`
       : "GET /user/repos";
@@ -102,8 +112,8 @@ export default {
         per_page: perPage,
       }
       : {
-        visibility: this.visibility,
-        type: this.type,
+        visibility: typeVisibility || this.visibility,
+        affiliation,
         sort: this.sort,
         direction: this.direction,
         per_page: perPage,
