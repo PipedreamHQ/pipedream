@@ -1,0 +1,4 @@
+import action from "@pipedream/servicenow/actions/order-catalog-item/order-catalog-item.mjs";
+import { wrapAction } from "../../common/utils.mjs";
+
+export default wrapAction(action);

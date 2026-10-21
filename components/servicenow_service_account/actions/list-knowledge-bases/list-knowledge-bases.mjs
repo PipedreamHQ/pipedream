@@ -1,0 +1,4 @@
+import action from "@pipedream/servicenow/actions/list-knowledge-bases/list-knowledge-bases.mjs";
+import { wrapAction } from "../../common/utils.mjs";
+
+export default wrapAction(action);
