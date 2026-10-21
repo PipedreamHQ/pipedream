@@ -44,8 +44,8 @@ export default {
     },
   },
   methods: {
-    getUrl(path) {
-      return `https://api.anchorbrowser.io/api${path}`;
+    getUrl(path, apiVersion = "api") {
+      return `https://api.anchorbrowser.io/${apiVersion}${path}`;
     },
     getHeaders(headers) {
       return {
@@ -54,11 +54,11 @@ export default {
       };
     },
     _makeRequest({
-      $ = this, path, headers, ...args
+      $ = this, path, headers, apiVersion, ...args
     } = {}) {
       return axios($, {
         ...args,
-        url: this.getUrl(path),
+        url: this.getUrl(path, apiVersion),
         headers: this.getHeaders(headers),
       });
     },
