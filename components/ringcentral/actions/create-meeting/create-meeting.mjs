@@ -74,7 +74,7 @@ export default {
     audioOptions: {
       type: "string[]",
       label: "Audio Options",
-      description: "How participants can join the meeting audio.",
+      description: "How participants can join the meeting audio. Accepts one or more values (e.g. `Phone`, `ComputerAudio`).",
       options: [
         "Phone",
         "ComputerAudio",

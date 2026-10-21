@@ -69,7 +69,7 @@ export default {
       "data": this.parseDocuments(this.data),
     };
 
-    return await axios($, {
+    const response = await axios($, {
       method: "POST",
       url: `https://api.rs2.usw2.rockset.com/v1/orgs/self/ws/${this.workspace}/collections/${this.collection}/docs`,
       headers: {
@@ -77,5 +77,8 @@ export default {
       },
       data,
     });
+
+    $.export("$summary", `Successfully added ${data.data.length} document(s) to collection "${this.collection}"`);
+    return response;
   },
 };

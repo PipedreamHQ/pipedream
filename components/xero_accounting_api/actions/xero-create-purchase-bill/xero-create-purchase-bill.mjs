@@ -117,7 +117,8 @@ export default {
     },
   },
   async run({ $ }) {
-    if ((!this.contactId && !this.contactName) || !this.tenantId || !this.lineItems) {
+    const lineItems = formatLineItems(this.lineItems);
+    if ((!this.contactId && !this.contactName) || !this.tenantId || !lineItems.length) {
       throw new ConfigurationError("Must provide one of **Contact ID** or **Contact Name**, **Tenant ID**, **Type**, and **Line Items** parameters.");
     }
 
@@ -130,7 +131,7 @@ export default {
           ContactID: this.contactId,
           Name: this.contactName,
         },
-        LineItems: formatLineItems(this.lineItems),
+        LineItems: lineItems,
         Date: this.date,
         DueDate: this.dueDate,
         LineAmountTypes: this.lineAmountType,

@@ -134,7 +134,7 @@ export default {
     autoFbPost: {
       label: "Auto fb post",
       type: "string[]",
-      description: "An array of Facebook page IDs to auto-post to.",
+      description: "The Facebook Page IDs to auto-post to, one ID per entry (e.g. `123456789`). You can find a Page's ID in its **About** section on Facebook.",
       optional: true,
     },
     fbComments: {
