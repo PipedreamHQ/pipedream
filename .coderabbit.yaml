@@ -74,9 +74,9 @@ reviews:
           (e.g. flag "(GET /employees/changed)" or "Calls POST /contacts"); it should say what the
           tool does, what it returns, and when to use it — the `[See the documentation]` link is
           still required
-        - Every action and source that is created or modified must declare the top-level property
+        - Every action that is created or modified must declare the top-level property
           `ai: "optimized"` (next to `version`/`type`) — flag its absence. Do not require it on
-          `*.app.mjs` or `common/` files
+          `*.app.mjs`, `sources/**/*.mjs` or `common/` files
         - The `// x-pd-ai: optimized` comment marker is deprecated: flag it when added, and flag it
           when left in a modified file (it should be removed in favor of the `ai` property)
         - When a component accepts a file input, verify:

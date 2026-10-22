@@ -16,6 +16,10 @@ function summaryEnd(count, singular, plural) {
   return `${count} ${noun}`;
 }
 
+function isSuccessOrNotFound(status) {
+  return (status >= 200 && status < 300) || status === 404;
+}
+
 function doubleEncode(value) {
   if ((typeof value === "string") && (value.startsWith("/") || value.includes("//"))) {
     return encodeURIComponent(encodeURIComponent(value));
@@ -70,6 +74,7 @@ export default {
   streamIterator,
   summaryEnd,
   doubleEncode,
+  isSuccessOrNotFound,
   selectRecordingFile,
   parseArray,
 };

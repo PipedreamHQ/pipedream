@@ -140,10 +140,26 @@ export function normalizeSearchMessages(messages) {
   });
 }
 
+/**
+ * Channel search results carry no `id` field, only a `permalink` like
+ * `https://workspace.slack.com/archives/C0123456789`. Extracting it here lets
+ * callers pass the result straight into other channel actions the same way
+ * file/user results already do with `file_id`/`user_id`.
+ *
+ * @param {string} permalink - the channel's permalink
+ * @returns {string|undefined} the channel ID, or undefined if it can't be parsed
+ */
+export function channelIdFromPermalink(permalink) {
+  return typeof permalink === "string"
+    ? permalink.split("/archives/")[1]?.split("/")[0]
+    : undefined;
+}
+
 export default {
   parseFields,
   pickFields,
   projectFields,
   normalizeUserMentions,
   normalizeSearchMessages,
+  channelIdFromPermalink,
 };

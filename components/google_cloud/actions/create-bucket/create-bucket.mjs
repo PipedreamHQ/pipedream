@@ -3,7 +3,7 @@ import storageClasses from "../../utils/storageClasses.mjs";
 
 export default {
   name: "Create Bucket",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

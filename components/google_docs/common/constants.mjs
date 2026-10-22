@@ -126,6 +126,30 @@ export const OCCURRENCES = [
 // Dimension.unit — the only unit the Docs API accepts.
 export const POINTS = "PT";
 
+// FIT_TO_CONTENT is not an API WidthType; it is sent as FIXED_WIDTH values.
+// https://developers.google.com/workspace/docs/api/reference/rest/v1/documents#TableColumnProperties
+export const FIT_TO_CONTENT = "FIT_TO_CONTENT";
+export const FIXED_WIDTH = "FIXED_WIDTH";
+export const EVENLY_DISTRIBUTED = "EVENLY_DISTRIBUTED";
+
+export const COLUMN_WIDTH_TYPES = [
+  FIT_TO_CONTENT,
+  FIXED_WIDTH,
+  EVENLY_DISTRIBUTED,
+];
+
+// Estimated character width in the default 11pt font, plus default cell padding.
+export const APPROX_CHAR_WIDTH = 6;
+export const CELL_PADDING_ALLOWANCE = 10;
+
+// US Letter printable width with 1-inch margins.
+export const DEFAULT_TABLE_TOTAL_WIDTH = 468;
+
+export const MIN_COLUMN_WIDTH = 36;
+
+// The API rejects widths under 5 PT.
+export const API_MIN_COLUMN_WIDTH = 5;
+
 // WeightedFontFamily.weight bounds. The API takes a multiple of 100 in this
 // range, and silently substitutes 400 when the field is omitted.
 export const FONT_WEIGHT_MIN = 100;

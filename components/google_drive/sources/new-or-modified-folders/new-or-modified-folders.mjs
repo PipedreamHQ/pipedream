@@ -9,6 +9,8 @@
 // 2) A timer that runs on regular intervals, renewing the notification channel as needed
 
 import {
+  CHANGE_FILTER_FILE_FIELDS,
+  GOOGLE_DRIVE_FOLDER_MIME_TYPE,
   GOOGLE_DRIVE_NOTIFICATION_ADD,
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
   GOOGLE_DRIVE_NOTIFICATION_UPDATE,
@@ -21,7 +23,7 @@ export default {
   key: "google_drive-new-or-modified-folders",
   name: "New or Modified Folders (Instant)",
   description: "Emit new event when a folder is created or modified in the selected Drive",
-  version: "0.2.16",
+  version: "1.0.0",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
@@ -55,12 +57,21 @@ export default {
 
       const args = this.getListFilesOpts({
         q: `mimeType = "application/vnd.google-apps.folder" and modifiedTime > "${timeString}" and trashed = false`,
-        fields: "files(id, mimeType)",
+        fields: `files(${CHANGE_FILTER_FILE_FIELDS})`,
       });
 
       const { files } = await this.googleDrive.listFilesInPage(null, args);
 
-      await this.processChanges(files, null, 5);
+      const changeFilter = await this.getChangeFilter();
+      const folders = [];
+      for (const file of files) {
+        if (folders.length < 5 && await changeFilter({
+          file,
+        })) {
+          folders.push(file);
+        }
+      }
+      await this.processChanges(folders);
     },
     ...common.hooks,
   },
@@ -79,20 +90,24 @@ export default {
         GOOGLE_DRIVE_NOTIFICATION_UPDATE,
       ];
     },
-    async getAllParents(folderId) {
+    getChangesFileFields() {
+      return CHANGE_FILTER_FILE_FIELDS;
+    },
+    async getAllParents(folderId, parentsCache = new Map()) {
       const allParents = [];
       let currentId = folderId;
 
       while (currentId) {
-        const folder = await this.googleDrive.getFile(currentId, {
-          fields: "parents",
-        });
-        const parents = folder.parents;
-
-        if (parents && parents.length > 0) {
-          allParents.push(parents[0]);
+        if (!parentsCache.has(currentId)) {
+          const { parents } = await this.googleDrive.getFile(currentId, {
+            fields: "parents",
+          });
+          parentsCache.set(currentId, parents?.[0]);
         }
-        currentId = parents?.[0];
+        currentId = parentsCache.get(currentId);
+        if (currentId) {
+          allParents.push(currentId);
+        }
       }
 
       return allParents;
@@ -108,16 +123,13 @@ export default {
         ts,
       };
     },
-    async getChanges(headers) {
+    getChanges(headers) {
       if (!headers) {
         return {
           change: { },
         };
       }
-      const resourceUri = headers["x-goog-resource-uri"];
-      const metadata = await this.googleDrive.getFileMetadata(`${resourceUri}&fields=*`);
       return {
-        ...metadata,
         change: {
           state: headers["x-goog-resource-state"],
           resourceURI: headers["x-goog-resource-uri"],
@@ -125,45 +137,34 @@ export default {
         },
       };
     },
-    async processChanges(changedFiles, headers, maxResults) {
-      const files = changedFiles.filter(
-        // API docs that define Google Drive folders:
-        // https://developers.google.com/drive/api/v3/folder
-        (file) => file.mimeType === "application/vnd.google-apps.folder",
-      );
-
-      const filteredFiles = [];
-      for (const file of files) {
+    async getChangeFilter() {
+      let targetId = this.folderId;
+      const parentsCache = new Map();
+      return async ({ file }) => {
         // The changelog is updated each time a folder is opened. Check the
         // folder's `modifiedTime` to see if the folder has been modified.
-        const fileInfo = await this.googleDrive.getFile(file.id);
-        const root = await this.googleDrive.getFile(this.drive === "My Drive"
-          ? "root"
-          : this.drive);
-
-        const allParents = [];
-        if (this.includeSubfolders) {
-          allParents.push(...(await this.getAllParents(file.id)));
-        } else if (fileInfo.parents) {
-          allParents.push(fileInfo.parents[0]);
+        if (file.mimeType !== GOOGLE_DRIVE_FOLDER_MIME_TYPE
+          || this._getLastModifiedTimeForFile(file.id) == Date.parse(file.modifiedTime)) {
+          return false;
         }
-
-        if (!allParents.includes(this.folderId || root.id)) {
-          continue;
+        if (!targetId) {
+          ({ id: targetId } = await this.googleDrive.getFile(this.isMyDrive()
+            ? "root"
+            : this.drive, {
+            fields: "id",
+          }));
         }
-
-        filteredFiles.push(fileInfo);
-      }
-
-      if (maxResults && filteredFiles.length >= maxResults) {
-        filteredFiles.length = maxResults;
-      }
-      for (const file of filteredFiles) {
-        const lastModifiedTimeForFile = this._getLastModifiedTimeForFile(file.id);
+        const allParents = this.includeSubfolders
+          ? await this.getAllParents(file.id, parentsCache)
+          : (file.parents ?? []).slice(0, 1);
+        return allParents.includes(targetId);
+      };
+    },
+    async processChanges(changedFiles, headers) {
+      const changes = this.getChanges(headers);
+      for (const { id } of changedFiles) {
+        const file = await this.googleDrive.getFile(id);
         const modifiedTime = Date.parse(file.modifiedTime);
-        if (lastModifiedTimeForFile == modifiedTime) continue;
-
-        const changes = await this.getChanges(headers);
 
         const eventToEmit = {
           file,
@@ -175,6 +176,7 @@ export default {
 
         this._setModifiedTimeForFile(file.id, modifiedTime);
       }
+      return changedFiles.length;
     },
   },
 };

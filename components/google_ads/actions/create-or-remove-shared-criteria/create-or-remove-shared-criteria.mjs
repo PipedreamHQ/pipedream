@@ -14,7 +14,7 @@ export default {
   key: "google_ads-create-or-remove-shared-criteria",
   name: "Create or Remove Shared Criteria",
   description: `Creates or removes criteria from a shared set (e.g., negative keywords). [See the documentation](${docLink})`,
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   annotations: {
     destructiveHint: true,

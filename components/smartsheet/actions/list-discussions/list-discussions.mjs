@@ -22,7 +22,7 @@ export default {
     + " Example: `{sheetId: \"1234567890123456\", include: [\"comments\"]}` returns discussions with their full"
     + " comment threads embedded."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/discussions/discussions-list).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {

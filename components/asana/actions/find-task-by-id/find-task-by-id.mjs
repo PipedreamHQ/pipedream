@@ -4,8 +4,9 @@ import common from "../common/common.mjs";
 export default {
   key: "asana-find-task-by-id",
   name: "Find Task by ID",
-  description: "Searches for a task by id. Returns the complete task record for a single task. [See the documentation](https://developers.asana.com/docs/get-a-task)",
-  version: "0.3.0",
+  description: "Retrieves the complete record for a single Asana task by its GID. Use this to fetch full task details (description, assignee, due date, custom fields) after obtaining a task GID from **Search Tasks**. Use `optFields` to request additional fields not returned by default. Example: call with `task_gid: '1202345678901234'`, `optFields: ['due_on','assignee','custom_fields']` → returns the full task record for that GID. [See the documentation](https://developers.asana.com/docs/get-a-task)",
+  version: "1.0.0",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,17 +14,14 @@ export default {
   },
   type: "action",
   props: {
-    ...common.props,
+    asana: common.props.asana,
     task_gid: {
       label: "Task GID",
-      description: "The ID of the task to update.",
+      description: "The ID of the task to retrieve, e.g. `1202345678901234`. Use **Search Tasks** to find available task GIDs.",
       type: "string",
       propDefinition: [
         asana,
         "tasks",
-        (c) => ({
-          project: c.project,
-        }),
       ],
     },
     optFields: {

@@ -15,7 +15,7 @@ export default {
   key: "google_ads-create-or-remove-campaign-criteria",
   name: "Create or Remove Campaign Criteria",
   description: `Creates or removes criteria for a campaign (e.g., keyword targeting, brand lists). [See the documentation](${docLink})`,
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   annotations: {
     destructiveHint: true,

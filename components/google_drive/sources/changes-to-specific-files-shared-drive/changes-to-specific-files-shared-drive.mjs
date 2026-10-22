@@ -29,7 +29,7 @@ export default {
   key: "google_drive-changes-to-specific-files-shared-drive",
   name: "Changes to Specific Files (Shared Drive)",
   description: "Watches for changes to specific files in a shared drive, emitting an event when a change is made to one of those files",
-  version: "0.3.13",
+  version: "0.4.0",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
@@ -74,6 +74,7 @@ export default {
       const { files } = await this.googleDrive.listFilesInPage(null, args);
 
       await this.processChanges(files);
+      this.flushFileIntervals();
     },
     ...common.hooks,
   },
@@ -108,6 +109,9 @@ export default {
     isFileRelevant(file) {
       return this.files.includes(file.id);
     },
+    isRelevantChange({ file }) {
+      return this.isFileRelevant(file);
+    },
     getChanges(headers) {
       if (!headers) {
         return {
@@ -138,14 +142,13 @@ export default {
     async processChanges(changedFiles, headers) {
       console.log(`Processing ${changedFiles.length} changed files`);
 
-      const filteredFiles = this.checkMinimumInterval(changedFiles);
+      // Filter first so unwatched files aren't recorded
+      const relevantFiles = changedFiles.filter((file) => this.isFileRelevant(file));
+      const filteredFiles = this.checkMinimumInterval(relevantFiles);
       for (const file of filteredFiles) {
-        if (!this.isFileRelevant(file)) {
-          console.log(`Skipping event for irrelevant file ${file.id}`);
-          continue;
-        }
         await this.processChange(file, headers);
       }
+      return filteredFiles.length;
     },
   },
   sampleEmit,

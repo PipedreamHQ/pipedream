@@ -6,7 +6,7 @@ export default {
   key: "google_docs-replace-image",
   name: "Replace Image",
   description: "Replace an existing inline image in a Google Doc with a different image, keeping its position and size. The replacement URL must be publicly reachable (Google fetches it server-side) and point to a PNG, JPEG, or GIF. Use **Find Document** to resolve a document's name to its ID, then **Get Document** to list the document's images - each key of the response's `inlineObjects` map is an **Image ID**. Use **Insert Image** instead to add a new image rather than swap one out. Works on multi-tab documents: pass a **Tab ID**, or leave it blank and the tab holding the image is found automatically. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#ReplaceImageRequest)",
-  version: "0.2.0",
+  version: "0.2.1",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

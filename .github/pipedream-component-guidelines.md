@@ -47,7 +47,7 @@ values are **semantically correct**, not whether properties exist.
 
 ### `ai: "optimized"`
 
-Every action and source that is created or modified must declare the top-level property
+Every action that is created or modified must declare the top-level property
 `ai: "optimized"` in its default export, alongside `version` and `type`:
 
 ```javascript
@@ -65,7 +65,7 @@ export default {
 - This must be a real property. The legacy `// x-pd-ai: optimized` comment marker is no
   longer used: do not add it to new files, and when modifying a file that still has it,
   remove the comment and add the property instead.
-- It applies to action and source components only. App files (`*.app.mjs`) and helper
+- It applies to action components only. App files (`*.app.mjs`), sources(`sources/**/*.mjs`), and helper
   modules (`common/*.mjs`, `test-event.mjs`) do not carry it.
 
 ---
