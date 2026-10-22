@@ -235,13 +235,14 @@ function sniffMimeType(buffer) {
  * hundreds of chars and Gmail issues a new one on every read, while `partId` is
  * short and stable, and **Download Attachment** resolves it to a fresh id itself.
  * Parts without a filename are skipped: Gmail also stores large HTML/text bodies
- * behind an `attachmentId`, and those are not attachments.
+ * behind an `attachmentId`, and those are not attachments. A small named part can
+ * carry its content inline in `body.data` instead of behind an `attachmentId`.
  */
 function getAttachments(payload) {
   const attachments = [];
   const walk = (part) => {
     if (!part) return;
-    if (part.filename && part.body?.attachmentId) {
+    if (part.filename && (part.body?.attachmentId || part.body?.data)) {
       attachments.push({
         partId: part.partId,
         filename: part.filename,

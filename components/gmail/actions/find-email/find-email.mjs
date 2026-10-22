@@ -48,7 +48,8 @@ export default {
     + " **Never answer a question about what an email SAYS from `snippet`** — it is a fixed ~200-character prefix, so the sentence you need is usually past its end, and nothing in a snippet indicates that it was cut. Where the snippet is all you asked for and content was likely cut, the message carries `snippetTruncated: true`."
     + " `format` stays `metadata` unless you need the raw MIME tree, in which case pass `format: \"full\"` and request `payload`."
     + " Responses are capped. Over the cap: if you named `fields`, whole messages are dropped rather than your chosen fields being removed, and the note says how many of how many are shown — narrow `q` and retry. If you named none, messages are compacted instead so counts stay accurate. `bodyText` shrinks toward a floor before anything is dropped, flagging each cut message with `bodyTruncated: true`."
-    + " [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/list) and [Gmail search operators](https://support.google.com/mail/answer/7190).",
+    + " For the search syntax, see [Gmail search operators](https://support.google.com/mail/answer/7190)."
+    + " [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/list).",
   version: "0.5.0",
   annotations: {
     destructiveHint: false,

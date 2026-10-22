@@ -101,7 +101,8 @@ export default {
     },
     listAttachmentParts(part, acc = []) {
       if (!part) return acc;
-      if (part.body?.attachmentId) {
+      // A named part may carry its content inline in `body.data`.
+      if (part.body?.attachmentId || (part.filename && part.body?.data)) {
         acc.push(part);
       }
       for (const child of part.parts ?? []) {
@@ -181,11 +182,15 @@ export default {
       attachmentId = part.body.attachmentId;
       filename = filename || part.filename;
       sourceMimeType = part.mimeType;
-      attachment = await this.gmail.getAttachment({
-        messageId: this.messageId,
-        attachmentId,
-      });
-      buffer = Buffer.from(attachment.data, "base64");
+      if (attachmentId) {
+        attachment = await this.gmail.getAttachment({
+          messageId: this.messageId,
+          attachmentId,
+        });
+        buffer = Buffer.from(attachment.data, "base64");
+      } else {
+        buffer = Buffer.from(part.body.data, "base64");
+      }
     } else {
       // Download with the caller's attachmentId: it is valid even though a
       // fresh message read would report a different id for the same part.
@@ -235,7 +240,7 @@ export default {
         });
         buffer = await this.htmlToPdf(html);
       } else if (!sourceMimeType || sourceMimeType === "application/zip") {
-        throw new ConfigurationError(`Could not determine the MIME type of attachment ${attachmentId} in message ${this.messageId}. ${hasPartId
+        throw new ConfigurationError(`Could not determine the MIME type of attachment ${attachmentId ?? this.partId} in message ${this.messageId}. ${hasPartId
           ? "The part reports no usable MIME type and its contents were not recognised."
           : "Pass `partId` (from the message's `attachments` list) so the attachment part can be identified."}`);
       } else {
