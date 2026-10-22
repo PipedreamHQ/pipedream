@@ -39,6 +39,7 @@ test("finds cart item identities in ServiceNow recurring-price groups", () => {
 
 test("reserves and verifies an attachment staging cart item", async () => {
   const addCalls = [];
+  let getCartCalls = 0;
   const context = {
     ...action,
     catalogItemSysId: CATALOG_ITEM_ID,
@@ -56,6 +57,14 @@ test("reserves and verifies an attachment staging cart item", async () => {
         };
       },
       async getCart() {
+        getCartCalls += 1;
+        if (getCartCalls === 1) {
+          return {
+            none: {
+              items: [],
+            },
+          };
+        }
         return {
           none: {
             items: [
@@ -98,6 +107,13 @@ test("returns the actual cart item created when no reserved guid is requested", 
           ],
         };
       },
+      async getCart() {
+        return {
+          none: {
+            items: [],
+          },
+        };
+      },
     },
   };
 
@@ -108,7 +124,57 @@ test("returns the actual cart item created when no reserved guid is requested", 
   assert.equal(response.cart_item_id, actualCartItemId);
 });
 
+test("returns the newly added line when the cart already contains the same catalog item", async () => {
+  const existingCartItemId = "d".repeat(32);
+  const newCartItemId = "e".repeat(32);
+  let getCartCalls = 0;
+  const context = {
+    ...action,
+    catalogItemSysId: CATALOG_ITEM_ID,
+    quantity: 1,
+    variables: {},
+    servicenow: {
+      async addItemToCart() {
+        return {
+          cart_id: "default",
+        };
+      },
+      async getCart() {
+        getCartCalls += 1;
+        return {
+          none: {
+            items: getCartCalls === 1
+              ? [
+                {
+                  cart_item_id: existingCartItemId,
+                  catalog_item_id: CATALOG_ITEM_ID,
+                },
+              ]
+              : [
+                {
+                  cart_item_id: existingCartItemId,
+                  catalog_item_id: CATALOG_ITEM_ID,
+                },
+                {
+                  cart_item_id: newCartItemId,
+                  catalog_item_id: CATALOG_ITEM_ID,
+                },
+              ],
+          },
+        };
+      },
+    },
+  };
+
+  const response = await action.run.call(context, {
+    $: exportProbe(),
+  });
+
+  assert.equal(response.cart_item_id, newCartItemId);
+});
+
 test("fails closed when ServiceNow ignores the reserved item GUID", async () => {
+  let getCartCalls = 0;
   const context = {
     ...action,
     catalogItemSysId: CATALOG_ITEM_ID,
@@ -120,14 +186,17 @@ test("fails closed when ServiceNow ignores the reserved item GUID", async () => 
         return {};
       },
       async getCart() {
+        getCartCalls += 1;
         return {
           none: {
-            items: [
-              {
-                cart_item_id: "c".repeat(32),
-                catalog_item_id: CATALOG_ITEM_ID,
-              },
-            ],
+            items: getCartCalls === 1
+              ? []
+              : [
+                {
+                  cart_item_id: "c".repeat(32),
+                  catalog_item_id: CATALOG_ITEM_ID,
+                },
+              ],
           },
         };
       },

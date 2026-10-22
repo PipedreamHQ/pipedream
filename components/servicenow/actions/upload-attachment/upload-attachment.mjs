@@ -4,11 +4,23 @@ import { assertSysId } from "../../common/utils.mjs";
 
 const MAX_ATTACHMENT_BYTES = 25 * 1024 * 1024;
 const TABLE_NAME_PATTERN = /^[A-Za-z0-9_]+$/;
-const BASE64_PATTERN = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
+const INVALID_BASE64_CHARACTER_PATTERN = /[^A-Za-z0-9+/]/;
 
 export function decodeAttachment(contentBase64) {
   const encoded = contentBase64.trim();
-  if (!encoded || !BASE64_PATTERN.test(encoded)) {
+  const paddingLength = encoded.endsWith("==")
+    ? 2
+    : encoded.endsWith("=")
+      ? 1
+      : 0;
+  const unpadded = paddingLength
+    ? encoded.slice(0, -paddingLength)
+    : encoded;
+  if (
+    !encoded
+    || encoded.length % 4 !== 0
+    || INVALID_BASE64_CHARACTER_PATTERN.test(unpadded)
+  ) {
     throw new ConfigurationError("File Content Base64 must be a non-empty, valid base64 string.");
   }
   const content = Buffer.from(encoded, "base64");

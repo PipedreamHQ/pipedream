@@ -5,6 +5,7 @@ import action, { decodeAttachment } from "./upload-attachment.mjs";
 
 const TABLE_SYS_ID = "a".repeat(32);
 const ATTACHMENT_SYS_ID = "b".repeat(32);
+const MAX_ATTACHMENT_BYTES = 25 * 1024 * 1024;
 
 function actionContext(overrides = {}, { uploadError } = {}) {
   const uploadCalls = [];
@@ -89,6 +90,23 @@ test("decodes base64 without changing bytes", () => {
   ]);
 
   assert.deepEqual(decodeAttachment(content.toString("base64")), content);
+});
+
+test("accepts exactly 25 MiB without changing bytes", () => {
+  const content = Buffer.alloc(MAX_ATTACHMENT_BYTES, 0xAB);
+  const decoded = decodeAttachment(content.toString("base64"));
+
+  assert.equal(decoded.length, MAX_ATTACHMENT_BYTES);
+  assert.ok(decoded.equals(content));
+});
+
+test("rejects decoded content over 25 MiB", () => {
+  const content = Buffer.alloc(MAX_ATTACHMENT_BYTES + 1, 0xAB);
+
+  assert.throws(
+    () => decodeAttachment(content.toString("base64")),
+    /exceeds the 26214400-byte limit/,
+  );
 });
 
 test("uploads raw bytes with record and MIME metadata", async () => {

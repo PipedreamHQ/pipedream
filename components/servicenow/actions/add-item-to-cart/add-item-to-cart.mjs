@@ -71,6 +71,12 @@ export default {
       optional: true,
       trim: true,
     });
+    const cartBefore = await this.servicenow.getCart({
+      $,
+    });
+    const existingCartItemIds = new Set(
+      catalogCartItems(cartBefore).map(({ cartItemId }) => cartItemId),
+    );
     const response = await this.servicenow.addItemToCart({
       $,
       catalogItemSysId: this.catalogItemSysId,
@@ -84,16 +90,16 @@ export default {
       },
     });
 
-    let matching = catalogCartItems(response).filter(
-      (item) => !item.catalogItemId || item.catalogItemId === this.catalogItemSysId,
+    const isNewMatchingItem = (item) => (
+      (!item.catalogItemId || item.catalogItemId === this.catalogItemSysId)
+      && (!existingCartItemIds.has(item.cartItemId) || item.cartItemId === itemGuid)
     );
+    let matching = catalogCartItems(response).filter(isNewMatchingItem);
     if (!matching.length || itemGuid) {
       const cart = await this.servicenow.getCart({
         $,
       });
-      matching = catalogCartItems(cart).filter(
-        (item) => !item.catalogItemId || item.catalogItemId === this.catalogItemSysId,
-      );
+      matching = catalogCartItems(cart).filter(isNewMatchingItem);
     }
     const cartItemId = itemGuid
       ? matching.find((item) => item.cartItemId === itemGuid)?.cartItemId
