@@ -95,7 +95,7 @@ export default {
       label: "Format",
       description:
         "`metadata` (default) — headers + snippet only, much smaller responses. Use this for every \"find\", \"count\", \"which\" query."
-        + " `full` — includes decoded body text and attachment IDs. Use only when you need to read message contents or download an attachment.",
+        + " `full` — includes the decoded `payload` (MIME tree with attachment IDs). Use only when you need the raw MIME tree. To read contents or download an attachment, request `bodyText` or `attachments` in `fields` instead, which fetch full messages for you.",
       options: [
         "metadata",
         "full",
@@ -159,13 +159,17 @@ export default {
     // `bodyText` is derived from the decoded body, which only a full fetch carries, so
     // asking for it upgrades the fetch. The caller shouldn't have to know that.
     const wantsBodyText = Boolean(fields?.includes("bodyText"));
-    const wantsPayload = format === "full" || Boolean(fields?.includes("payload"));
+    // `attachments` is derived from the full MIME tree, like `bodyText`.
+    const wantsAttachments = Boolean(fields?.includes("attachments"));
+    // A caller that names `attachments` without `payload` wants the small list, even
+    // alongside `format: "full"`: forcing the payload back in would get a large
+    // message dropped by the response cap, attachments and all.
+    const wantsPayload = Boolean(fields?.includes("payload"))
+      || (format === "full" && !wantsAttachments);
     // Asking for `payload` has to force a full fetch too. A metadata fetch returns a
     // payload carrying only headers — no `parts`, no `body.attachmentId` — so a caller
     // that requested `fields: ["payload"]` without also setting `format: "full"` would
     // get a payload-shaped object with none of the attachment data it asked for.
-    // `attachments` is derived from the full MIME tree, like `bodyText`.
-    const wantsAttachments = Boolean(fields?.includes("attachments"));
     const fetchFull = wantsBodyText || wantsPayload || wantsAttachments;
     const textOpts = {
       includeLinks: this.includeLinks ?? true,
