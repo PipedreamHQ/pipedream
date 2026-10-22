@@ -180,7 +180,7 @@ export default {
     suggestMode: {
       type: "boolean",
       label: "Suggest Changes",
-      description: "Make the change as a suggestion (Google Docs Suggesting mode) that the document's editors can accept or reject, instead of editing the document directly. The response's `suggestionIds` lists the suggestions the change created or extended - an edit next to an existing suggestion can join it rather than create a new one. Pass the IDs to **Resolve Suggestions**, or use **List Suggestions** to see every open suggestion. Defaults to `false`.",
+      description: "Make the change as a suggestion (Google Docs Suggesting mode) that the document's editors can accept or reject, instead of editing the document directly. The response's `suggestionIds` lists the suggestions the change created or extended - an edit next to an existing suggestion can join it rather than create a new one. Pass the IDs to **Resolve Suggestions**, or use **List Suggestions** to see every open suggestion. While a suggestion is open, the document text this returns shows the suggested and the original text side by side. Set `true` to propose the edit, or leave `false` (default) to edit directly.",
       default: false,
       optional: true,
     },
@@ -287,6 +287,9 @@ export default {
         ? {
           ...result,
           suggestionIds: utils.getSuggestionIds(responses),
+          ...(utils.suggestionThreadsFailed(responses) && {
+            suggestionWarning: "Google applied the change but could not save its suggestion threads, so it may not appear as a suggestion. Check the document, or call **List Suggestions**.",
+          }),
         }
         : result;
     },

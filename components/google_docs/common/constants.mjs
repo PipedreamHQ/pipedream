@@ -175,6 +175,14 @@ export const TAB_METADATA_MASK_DEPTH = 4;
 export const SUGGEST_WRITE_MODE = "SUGGEST";
 export const SUGGESTIONS_INLINE = "SUGGESTIONS_INLINE";
 
+// batchUpdate `commentUpdateState` when a suggest-mode write committed but its
+// suggestion threads did not save.
+export const COMMENT_UPDATES_FAILED = "ALL_FAILED_UNKNOWN_REASON";
+
+// Stands in for suggested-deletion text when locating text, so a search can
+// neither match it nor match across it.
+export const SUGGESTED_DELETION_MASK = "\u0000";
+
 export const SUGGESTION_DECISIONS = [
   "accept",
   "reject",

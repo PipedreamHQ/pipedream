@@ -1,7 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
 import {
-  APPROX_CHAR_WIDTH, CELL_PADDING_ALLOWANCE, DOCUMENT_FIELDS, FIT_TO_CONTENT,
-  MIN_COLUMN_WIDTH, POINTS,
+  APPROX_CHAR_WIDTH, CELL_PADDING_ALLOWANCE, COMMENT_UPDATES_FAILED, DOCUMENT_FIELDS,
+  FIT_TO_CONTENT, MIN_COLUMN_WIDTH, POINTS, SUGGESTED_DELETION_MASK,
 } from "./constants.mjs";
 
 function getTextContentFromDocument(content) {
@@ -61,10 +61,16 @@ function collectTextWithIndices(content) {
   const walk = (elements) => {
     (elements || []).forEach((element) => {
       (element.paragraph?.elements || []).forEach((paragraphElement) => {
-        const run = paragraphElement.textRun?.content;
-        if (!run) {
+        const content = paragraphElement.textRun?.content;
+        if (!content) {
           return;
         }
+        // Text in a pending suggested deletion still occupies indices but is
+        // invisible to the API's own matching (`replaceAllText`), so it is
+        // masked rather than matched.
+        const run = paragraphElement.textRun.suggestedDeletionIds?.length
+          ? SUGGESTED_DELETION_MASK.repeat(content.length)
+          : content;
         const start = paragraphElement.startIndex ?? 0;
         for (let offset = 0; offset < run.length; offset++) {
           indexMap.push(start + offset);
@@ -423,6 +429,11 @@ function getSuggestionIds(responses) {
   ];
 }
 
+function suggestionThreadsFailed(responses) {
+  return responses.some((response) =>
+    response?.data?.commentUpdateState === COMMENT_UPDATES_FAILED);
+}
+
 // Style changes are reported against every run a suggestion covers, with an
 // empty style on runs whose style it does not change (measured).
 function isEmptySuggestedChange(change) {
@@ -496,16 +507,25 @@ function walkSuggestions(node, tabId, range, suggestions) {
     key,
     value,
   ]) => {
-    const match = key.match(/^suggested(\w+?)(Ids|Changes)$/);
+    const match = key.match(/^suggested(\w+?)(Ids?|Changes)$/);
     if (!match) {
       walkSuggestions(value, tabId, here, suggestions);
       return;
     }
     const type = match[1].charAt(0).toLowerCase() + match[1].slice(1);
-    const ids = Array.isArray(value)
-      ? value
-      : Object.keys(value ?? {})
-        .filter((id) => match[2] === "Ids" || !isEmptySuggestedChange(value[id]));
+    // `InlineObject`, `List` and `PositionedObject` carry a single
+    // `suggestedInsertionId` string rather than an array.
+    let ids;
+    if (typeof value === "string") {
+      ids = [
+        value,
+      ];
+    } else if (Array.isArray(value)) {
+      ids = value;
+    } else {
+      ids = Object.keys(value ?? {})
+        .filter((id) => match[2] !== "Changes" || !isEmptySuggestedChange(value[id]));
+    }
     ids.forEach((id) => recordSuggestion(suggestions, id, {
       type,
       tabId,
@@ -551,6 +571,7 @@ function collectSuggestions(tabs) {
 export default {
   styleBuilder,
   getSuggestionIds,
+  suggestionThreadsFailed,
   collectSuggestions,
   collectTextWithIndices,
   findTextRanges,

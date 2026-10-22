@@ -32,7 +32,9 @@ export default {
     const suggestions = await this.googleDocs.listSuggestions(this.documentId, this.tabId);
     $.export("$summary", `Found ${suggestions.length} suggestion${suggestions.length === 1
       ? ""
-      : "s"} in document ${this.documentId}`);
+      : "s"} in ${this.tabId
+      ? `tab ${this.tabId} of `
+      : ""}document ${this.documentId}`);
     return {
       documentId: this.documentId,
       suggestionCount: suggestions.length,
