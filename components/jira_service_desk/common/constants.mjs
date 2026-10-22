@@ -37,7 +37,164 @@ const STREAM_RESPONSE_TYPE = "stream";
 // https://pipedream.com/docs/workflows/limits#disk
 const MAX_ATTACHMENT_SIZE_BYTES = 2 * 1024 * 1024 * 1024;
 
+// The Forms API answers 404 with this code when the request type exists but has no form.
+const NO_FORM_ERROR_CODE = "REQUEST_TYPE_NOT_FOUND";
+
+const FORM_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+const FORM_TIME_PATTERN = /^([01]\d|2[0-3]):[0-5]\d$/;
+const FORM_NUMBER_PATTERN = /^-?\d+(\.\d+)?$/;
+
+const FORM_QUESTION_TYPES = {
+  ts: {
+    name: "Short text",
+    answer: "{ \"text\": \"...\" }",
+    keys: [
+      "text",
+    ],
+  },
+  tl: {
+    name: "Long text",
+    answer: "{ \"text\": \"...\" }",
+    keys: [
+      "text",
+    ],
+  },
+  te: {
+    name: "Email",
+    answer: "{ \"text\": \"name@example.com\" }",
+    keys: [
+      "text",
+    ],
+  },
+  tu: {
+    name: "URL",
+    answer: "{ \"text\": \"https://example.com\" }",
+    keys: [
+      "text",
+    ],
+  },
+  no: {
+    name: "Number",
+    answer: "{ \"text\": \"42\" }",
+    keys: [
+      "text",
+    ],
+    numeric: true,
+  },
+  rt: {
+    name: "Paragraph",
+    answer: "{ \"text\": \"...\" } or, with Is ADF Request, { \"adf\": <ADF document> }",
+    keys: [
+      "text",
+      "adf",
+    ],
+  },
+  pg: {
+    name: "Paragraph (legacy)",
+    answer: "{ \"text\": \"...\" }",
+    keys: [
+      "text",
+    ],
+  },
+  da: {
+    name: "Date",
+    answer: "{ \"date\": \"YYYY-MM-DD\" }",
+    keys: [
+      "date",
+    ],
+  },
+  dt: {
+    name: "Date & time",
+    answer: "{ \"date\": \"YYYY-MM-DD\", \"time\": \"HH:mm\" }",
+    keys: [
+      "date",
+      "time",
+    ],
+  },
+  ti: {
+    name: "Time",
+    answer: "{ \"time\": \"HH:mm\" }",
+    keys: [
+      "time",
+    ],
+  },
+  cd: {
+    name: "Dropdown",
+    answer: "{ \"choices\": [\"<choice id>\"] }, plus \"text\" when the choice is marked other",
+    keys: [
+      "choices",
+      "text",
+    ],
+    maxSelections: 1,
+  },
+  cs: {
+    name: "Radio buttons",
+    answer: "{ \"choices\": [\"<choice id>\"] }, plus \"text\" when the choice is marked other",
+    keys: [
+      "choices",
+      "text",
+    ],
+    maxSelections: 1,
+  },
+  cm: {
+    name: "Checkboxes",
+    answer: "{ \"choices\": [\"<choice id>\", ...] }, plus \"text\" when a choice is marked other",
+    keys: [
+      "choices",
+      "text",
+    ],
+  },
+  cl: {
+    name: "Multiselect dropdown",
+    answer: "{ \"choices\": [\"<choice id>\", ...] }, plus \"text\" when a choice is marked other",
+    keys: [
+      "choices",
+      "text",
+    ],
+  },
+  cc: {
+    name: "Cascading dropdown",
+    answer: "{ \"choices\": [\"<parent choice id>\", \"<child choice id>\"] }",
+    keys: [
+      "choices",
+    ],
+    cascading: true,
+  },
+  us: {
+    name: "Single user",
+    answer: "{ \"users\": [\"<accountId>\"] }",
+    keys: [
+      "users",
+    ],
+    maxSelections: 1,
+  },
+  um: {
+    name: "Multiple users",
+    answer: "{ \"users\": [\"<accountId>\", ...] }",
+    keys: [
+      "users",
+    ],
+  },
+  at: {
+    name: "Attachment",
+    answer: "{ \"files\": [\"<file URL or /tmp path>\", ...] }",
+    keys: [
+      "files",
+    ],
+  },
+  // Atlassian documents no answer format for Assets objects, so these pass through unchecked.
+  ob: {
+    name: "Assets object(s)",
+    answer: "Not documented by Atlassian",
+  },
+};
+
 export default {
+  NO_FORM_ERROR_CODE,
+  FORM_DATE_PATTERN,
+  FORM_TIME_PATTERN,
+  FORM_NUMBER_PATTERN,
+  FORM_QUESTION_TYPES,
   PAGE_SIZE,
   USER_SEARCH_PAGE_SIZE,
   USER_SEARCH_MAX_OFFSET,

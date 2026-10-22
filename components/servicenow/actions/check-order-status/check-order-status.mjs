@@ -5,7 +5,7 @@ export default {
   key: "servicenow-check-order-status",
   name: "Check Order Status",
   description: "Retrieve the status of a ServiceNow catalog request (REQ) from the `sc_request` table, with its requested items (RITMs) under `requested_items` (`number`, `approval`, `stage`, `state`, `requested_for`). Approvals happen on the RITMs: the REQ's own `approval` can read `approved` while a RITM is still waiting, so report approval status from `requested_items[].approval`. Provide the request number returned by **Checkout Cart**, **Submit Cart Order**, **Order Catalog Item**, or **Checkout Order Guide**. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_TableAPI.html)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   ai: "optimized",
   annotations: {

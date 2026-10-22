@@ -120,22 +120,6 @@ export default {
         ...opts,
       });
     },
-    createWebhook(opts = {}) {
-      return this._makeRequest({
-        path: "/webhooks",
-        method: "POST",
-        ...opts,
-      });
-    },
-    deleteWebhook({
-      hookId, ...opts
-    }) {
-      return this._makeRequest({
-        path: `/webhooks/${hookId}`,
-        method: "DELETE",
-        ...opts,
-      });
-    },
     getContentById({
       id, ...opts
     }) {
