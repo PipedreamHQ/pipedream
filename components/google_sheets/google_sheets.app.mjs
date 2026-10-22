@@ -212,14 +212,14 @@ export default {
         auth,
         retryConfig: {
           retry: RETRY_OPTIONS.MAX_RETRIES,
-          // shouldRetrySheetsRequest owns the backoff; these minimize gaxios' own delay
+          // _shouldRetrySheetsRequest owns the backoff; these minimize gaxios' own delay
           retryDelay: 0,
           retryDelayMultiplier: 1,
-          shouldRetry: (error) => this.shouldRetrySheetsRequest(error),
+          shouldRetry: (error) => this._shouldRetrySheetsRequest(error),
         },
       });
     },
-    isSheetsRateLimitError(error, statusCode) {
+    _isSheetsRateLimitError(error, statusCode) {
       if (statusCode === 429) {
         return true;
       }
@@ -232,7 +232,7 @@ export default {
      * methods so a POST (append, batchUpdate) can't be applied twice. Waits with jittered
      * exponential backoff before resolving.
      */
-    async shouldRetrySheetsRequest(error) {
+    async _shouldRetrySheetsRequest(error) {
       if (error.name === "AbortError" || error.code === "AbortError") {
         return false;
       }
@@ -242,7 +242,7 @@ export default {
       }
       const statusCode = error.response?.status;
       const method = (error.config?.method || "GET").toUpperCase();
-      const isRetryable = this.isSheetsRateLimitError(error, statusCode)
+      const isRetryable = this._isSheetsRateLimitError(error, statusCode)
         || (IDEMPOTENT_HTTP_METHODS.includes(method)
           && (!statusCode || RETRYABLE_SERVER_ERROR_CODES.includes(statusCode)));
       if (!isRetryable) {
