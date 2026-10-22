@@ -106,6 +106,10 @@ const HORIZONTAL_ALIGNMENTS = [
   "RIGHT",
 ];
 
+// Renew Drive push channels before their 24h expiry
+// https://developers.google.com/workspace/drive/api/guides/push#optional-properties
+const WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS = 24 * 60 * 60 * 0.95;
+
 // https://developers.google.com/workspace/sheets/api/limits#exponential
 const RETRY_OPTIONS = {
   MAX_RETRIES: 4,
@@ -144,4 +148,5 @@ export {
   IDEMPOTENT_HTTP_METHODS,
   RATE_LIMIT_ERROR_REASONS,
   RETRYABLE_SERVER_ERROR_CODES,
+  WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
 };
