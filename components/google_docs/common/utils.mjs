@@ -407,8 +407,151 @@ function resolveColumnWidths({
   }));
 }
 
+// Created and extended suggestions alike: an edit adjacent to an open
+// suggestion is folded into it and reported only as a summary update.
+function getSuggestionIds(responses) {
+  const ids = responses
+    .flatMap((response) => response?.data?.suggestionResponses ?? [])
+    .flatMap(({
+      createdSuggestionIds = [], updatedSummarySuggestionIds = [],
+    }) => [
+      ...createdSuggestionIds,
+      ...updatedSummarySuggestionIds,
+    ]);
+  return [
+    ...new Set(ids),
+  ];
+}
+
+// Style changes are reported against every run a suggestion covers, with an
+// empty style on runs whose style it does not change (measured).
+function isEmptySuggestedChange(change) {
+  return Object.entries(change ?? {})
+    .filter(([
+      key,
+    ]) => !key.endsWith("SuggestionState"))
+    .every(([
+      , value,
+    ]) => !value || !Object.keys(value).length);
+}
+
+function recordSuggestion(suggestions, suggestionId, {
+  type, tabId, range, text,
+}) {
+  if (!suggestions.has(suggestionId)) {
+    suggestions.set(suggestionId, {
+      suggestionId,
+      ...(tabId && {
+        tabId,
+      }),
+      types: new Set(),
+      inserted: [],
+      deleted: [],
+    });
+  }
+  const suggestion = suggestions.get(suggestionId);
+  suggestion.types.add(type);
+  // One suggestion can cover several places (e.g. every match of a Replace
+  // Text), so contiguous runs are joined and the rest kept apart.
+  if (text) {
+    const segments = type === "insertion"
+      ? suggestion.inserted
+      : suggestion.deleted;
+    const last = segments[segments.length - 1];
+    if (last && range && last.endIndex === range.startIndex) {
+      last.text += text;
+      last.endIndex = range.endIndex;
+    } else {
+      segments.push({
+        text,
+        endIndex: range?.endIndex,
+      });
+    }
+  }
+  if (range) {
+    const {
+      startIndex = range.startIndex, endIndex = range.endIndex,
+    } = suggestion;
+    suggestion.startIndex = Math.min(startIndex, range.startIndex);
+    suggestion.endIndex = Math.max(endIndex, range.endIndex);
+  }
+}
+
+function walkSuggestions(node, tabId, range, suggestions) {
+  if (Array.isArray(node)) {
+    node.forEach((child) => walkSuggestions(child, tabId, range, suggestions));
+    return;
+  }
+  if (!node || typeof node !== "object") {
+    return;
+  }
+  // The API omits a zero `startIndex`, so only `endIndex` marks a ranged node.
+  const here = node.endIndex != null
+    ? {
+      startIndex: node.startIndex ?? 0,
+      endIndex: node.endIndex,
+    }
+    : range;
+  Object.entries(node).forEach(([
+    key,
+    value,
+  ]) => {
+    const match = key.match(/^suggested(\w+?)(Ids|Changes)$/);
+    if (!match) {
+      walkSuggestions(value, tabId, here, suggestions);
+      return;
+    }
+    const type = match[1].charAt(0).toLowerCase() + match[1].slice(1);
+    const ids = Array.isArray(value)
+      ? value
+      : Object.keys(value ?? {})
+        .filter((id) => match[2] === "Ids" || !isEmptySuggestedChange(value[id]));
+    ids.forEach((id) => recordSuggestion(suggestions, id, {
+      type,
+      tabId,
+      range: here,
+      text: (type === "insertion" || type === "deletion")
+        && typeof node.content === "string"
+        && node.content,
+    }));
+  });
+}
+
+// Every open suggestion in the given tabs, keyed by ID. The API has no
+// suggestions endpoint: each one exists only as `suggested*Ids` /
+// `suggested*Changes` fields scattered over the content it touches, so they
+// are gathered by walking the inline view of each tab.
+function collectSuggestions(tabs) {
+  const suggestions = new Map();
+  tabs.forEach((tab) => walkSuggestions(
+    tab.documentTab,
+    tab.tabProperties?.tabId,
+    null,
+    suggestions,
+  ));
+  const texts = (segments) => segments.map(({ text }) => text);
+  return [
+    ...suggestions.values(),
+  ].map(({
+    types, inserted, deleted, ...suggestion
+  }) => ({
+    ...suggestion,
+    types: [
+      ...types,
+    ],
+    ...(inserted.length && {
+      insertedText: texts(inserted),
+    }),
+    ...(deleted.length && {
+      deletedText: texts(deleted),
+    }),
+  }));
+}
+
 export default {
   styleBuilder,
+  getSuggestionIds,
+  collectSuggestions,
   collectTextWithIndices,
   findTextRanges,
   hexToOptionalColor,

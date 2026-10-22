@@ -5,7 +5,7 @@ export default {
   key: "google_docs-apply-bullets",
   name: "Apply Bullets",
   description: "Turn paragraphs into a bulleted or numbered list in a Google Doc. Locate the paragraphs with **Find Text**, or pass an explicit **Start Index** and **End Index**. Every paragraph the range touches becomes a list item. Use **Remove Bullets** to undo. Use **Find Document** to resolve a document's name to its ID. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/request#CreateParagraphBulletsRequest)",
-  version: "0.0.5",
+  version: "0.1.0",
   ai: "optimized",
   annotations: {
     destructiveHint: false,
@@ -65,11 +65,18 @@ export default {
       default: "BULLET_DISC_CIRCLE_SQUARE",
       optional: true,
     },
+    suggestMode: {
+      propDefinition: [
+        googleDocs,
+        "suggestMode",
+      ],
+    },
   },
   async run({ $ }) {
     const {
       googleDocs,
       documentId,
+      suggestMode,
       find,
       occurrence,
       matchCase,
@@ -96,22 +103,24 @@ export default {
       ...ranges,
     ].sort((a, b) => b.startIndex - a.startIndex);
 
-    await googleDocs.batchUpdate(documentId, ordered.map((range) => ({
+    const response = await googleDocs.batchUpdate(documentId, ordered.map((range) => ({
       createParagraphBullets: {
         range,
         bulletPreset,
       },
-    })));
+    })), googleDocs.writeControl(suggestMode));
 
     $.export("$summary", `Applied bullets to ${ranges.length} range${ranges.length === 1
       ? ""
-      : "s"} in document ${documentId}`);
+      : "s"} in document ${documentId}${suggestMode
+      ? " as a suggestion"
+      : ""}`);
 
-    return {
+    return googleDocs.withSuggestionIds({
       documentId,
       rangesUpdated: ranges.length,
       ranges,
       bulletPreset,
-    };
+    }, suggestMode, response);
   },
 };

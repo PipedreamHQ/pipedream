@@ -7,6 +7,8 @@ import {
   DOCUMENT_FIELDS,
   FILES_MAX_PAGE_SIZE,
   OCCURRENCES,
+  SUGGEST_WRITE_MODE,
+  SUGGESTIONS_INLINE,
   TAB_METADATA_MASK_DEPTH,
 } from "./common/constants.mjs";
 
@@ -175,6 +177,13 @@ export default {
       default: "plain",
       optional: true,
     },
+    suggestMode: {
+      type: "boolean",
+      label: "Suggest Changes",
+      description: "Make the change as a suggestion (Google Docs Suggesting mode) that the document's editors can accept or reject, instead of editing the document directly. The response's `suggestionIds` lists the suggestions the change created or extended - an edit next to an existing suggestion can join it rather than create a new one. Pass the IDs to **Resolve Suggestions**, or use **List Suggestions** to see every open suggestion. Defaults to `false`.",
+      default: false,
+      optional: true,
+    },
   },
   methods: {
     ...googleDrive.methods,
@@ -260,9 +269,28 @@ export default {
       if (/invalid tab id/i.test(error?.message ?? "")) {
         throw new ConfigurationError(`Invalid Tab ID for document ${documentId}. Call **List Tabs** to get this document's tab IDs (e.g. \`t.0\`), or omit Tab ID to target the document's first tab.`);
       }
+      const missingSuggestion = (error?.message ?? "").match(/Suggestion with ID (\S+) does not exist/i);
+      if (missingSuggestion) {
+        throw new ConfigurationError(`Suggestion ${missingSuggestion[1]} does not exist in document ${documentId}, so no suggestions were resolved. Call **List Suggestions** to get the document's open suggestion IDs.`);
+      }
       throw error;
     },
-    async _batchUpdate(documentId, requestName, request) {
+    writeControl(suggestMode) {
+      return suggestMode
+        ? {
+          writeMode: SUGGEST_WRITE_MODE,
+        }
+        : undefined;
+    },
+    withSuggestionIds(result, suggestMode, ...responses) {
+      return suggestMode
+        ? {
+          ...result,
+          suggestionIds: utils.getSuggestionIds(responses),
+        }
+        : result;
+    },
+    async _batchUpdate(documentId, requestName, request, writeControl) {
       try {
         return await this.docs().documents.batchUpdate({
           documentId,
@@ -272,6 +300,9 @@ export default {
                 [requestName]: request,
               },
             ],
+            ...(writeControl && {
+              writeControl,
+            }),
           },
         });
       } catch (error) {
@@ -513,6 +544,27 @@ export default {
       ]);
       return data?.replies?.[0]?.addDocumentTab?.tabProperties;
     },
+    async listSuggestions(documentId, tabId) {
+      const { data: document } = await this.docs().documents.get({
+        documentId,
+        includeTabsContent: true,
+        suggestionsViewMode: SUGGESTIONS_INLINE,
+      });
+      const tabs = tabId
+        ? [
+          this._findTab(document, tabId),
+        ]
+        : this._flattenDocumentTabs(document.tabs);
+      return utils.collectSuggestions(tabs);
+    },
+    async resolveSuggestions(documentId, suggestionIds, decision) {
+      const requestName = `${decision}Suggestion`;
+      return this.batchUpdate(documentId, suggestionIds.map((suggestionId) => ({
+        [requestName]: {
+          suggestionId,
+        },
+      })));
+    },
     async createEmptyDoc(title) {
       const { data: createdDoc } = await this.docs().documents.create({
         requestBody: {
@@ -521,19 +573,19 @@ export default {
       });
       return createdDoc;
     },
-    async insertText(documentId, text, atBeginning = false, tabId) {
+    async insertText(documentId, text, atBeginning = false, tabId, writeControl) {
       const request = this._buildRequest(text, atBeginning, tabId);
-      return this._batchUpdate(documentId, "insertText", request);
+      return this._batchUpdate(documentId, "insertText", request, writeControl);
     },
-    async replaceText(documentId, text) {
-      return this._batchUpdate(documentId, "replaceAllText", text);
+    async replaceText(documentId, text, writeControl) {
+      return this._batchUpdate(documentId, "replaceAllText", text, writeControl);
     },
     async appendImage(documentId, image, atBeginning = false) {
       const request = this._buildRequest(image, atBeginning);
       return this._batchUpdate(documentId, "insertInlineImage", request);
     },
-    async replaceImage(documentId, image) {
-      return this._batchUpdate(documentId, "replaceImage", image);
+    async replaceImage(documentId, image, writeControl) {
+      return this._batchUpdate(documentId, "replaceImage", image, writeControl);
     },
     // Which tab holds an inline object. `ReplaceImageRequest` carries `tabId`
     // directly, and without it the API looks in the first tab only — but an
@@ -709,7 +761,7 @@ export default {
     },
     async deleteTable(documentId, {
       startIndex, endIndex, tabId,
-    }) {
+    }, writeControl) {
       return this._batchUpdate(documentId, "deleteContentRange", {
         range: {
           startIndex,
@@ -718,11 +770,12 @@ export default {
             tabId,
           }),
         },
-      });
+      }, writeControl);
     },
     async writeTable(documentId, {
-      rows, position, hasHeaderRow, tabId, fields,
+      rows, position, hasHeaderRow, tabId, fields, suggestMode,
     }) {
+      const writeControl = this.writeControl(suggestMode);
       // Validate before making any request: a bad cell value here should
       // never leave an empty table behind from a partially-applied insert.
       const invalidValue = rows.flat().find((value) => value != null && typeof value === "object");
@@ -745,7 +798,7 @@ export default {
         rows: numRows,
         columns: numColumns,
       }, position, tabId);
-      await this._batchUpdate(documentId, "insertTable", insertRequest);
+      const insertResponse = await this._batchUpdate(documentId, "insertTable", insertRequest, writeControl);
 
       // The insertTable reply carries no location info, so re-fetch the
       // document and select the new table by ordinal position (see
@@ -818,16 +871,21 @@ export default {
         }
       });
 
-      if (requests.length) {
-        await this.batchUpdate(documentId, requests);
-      }
+      const fillResponse = requests.length
+        ? await this.batchUpdate(documentId, requests, writeControl)
+        : null;
 
       // Pass `fields` down so the single read this already performs returns the
       // masked document - a second masked fetch in the action would double it.
-      return this.getWriteResult(documentId, tabId, fields);
+      return this.withSuggestionIds(
+        await this.getWriteResult(documentId, tabId, fields),
+        suggestMode,
+        insertResponse,
+        fillResponse,
+      );
     },
-    async insertPageBreak(documentId, request) {
-      return this._batchUpdate(documentId, "insertPageBreak", request);
+    async insertPageBreak(documentId, request, writeControl) {
+      return this._batchUpdate(documentId, "insertPageBreak", request, writeControl);
     },
     async createDocument(request) {
       const { data } = await this.docs().documents.create({
@@ -866,7 +924,9 @@ export default {
       markdownReplacement,
       matchCase = false,
       tabIds = null,
+      suggestMode = false,
     }) {
+      const writeControl = this.writeControl(suggestMode);
       const {
         text: parsedText,
         formattingRequests: markdownFormatting,
@@ -884,7 +944,11 @@ export default {
       const insertedStartsByTab = new Map();
       if (markdownFormatting.length) {
         const beforeDoc = await this.getDocument(documentId, true);
-        const lengthDelta = replacementText.length - textToReplace.length;
+        // A suggested replacement keeps the old text inline as a suggested
+        // deletion right after the insertion, so nothing is removed (measured).
+        const lengthDelta = suggestMode
+          ? replacementText.length
+          : replacementText.length - textToReplace.length;
         this._flattenDocumentTabs(beforeDoc.tabs)
           .filter(({ tabProperties }) => !tabIds?.length || tabIds.includes(tabProperties?.tabId))
           .forEach((tab) => {
@@ -900,7 +964,7 @@ export default {
           });
       }
 
-      const { data: replaceData } = await this.batchUpdate(documentId, [
+      const replaceResponse = await this.batchUpdate(documentId, [
         {
           replaceAllText: {
             containsText: {
@@ -915,15 +979,15 @@ export default {
               : undefined,
           },
         },
-      ]);
+      ], writeControl);
       const occurrencesChanged =
-        replaceData?.replies?.[0]?.replaceAllText?.occurrencesChanged ?? 0;
+        replaceResponse?.data?.replies?.[0]?.replaceAllText?.occurrencesChanged ?? 0;
 
       if (!occurrencesChanged || !markdownFormatting.length) {
-        return {
+        return this.withSuggestionIds({
           occurrencesChanged,
           formattingRequestsApplied: 0,
-        };
+        }, suggestMode, replaceResponse);
       }
 
       const updatedDoc = await this.getDocument(documentId, true);
@@ -955,16 +1019,20 @@ export default {
         });
       });
 
-      if (formattingRequests.length) {
-        await this.batchUpdate(documentId, formattingRequests, updatedDoc.revisionId && {
+      const formattingWriteControl = (writeControl || updatedDoc.revisionId) && {
+        ...writeControl,
+        ...(updatedDoc.revisionId && {
           requiredRevisionId: updatedDoc.revisionId,
-        });
-      }
+        }),
+      };
+      const formattingResponse = formattingRequests.length
+        ? await this.batchUpdate(documentId, formattingRequests, formattingWriteControl)
+        : null;
 
-      return {
+      return this.withSuggestionIds({
         occurrencesChanged,
         formattingRequestsApplied: formattingRequests.length,
-      };
+      }, suggestMode, replaceResponse, formattingResponse);
     },
   },
 };

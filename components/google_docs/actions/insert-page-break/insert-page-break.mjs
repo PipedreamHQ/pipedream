@@ -6,7 +6,7 @@ export default {
   key: "google_docs-insert-page-break",
   name: "Insert Page Break",
   description: "Insert a page break into a Google Doc at the beginning, end, or a specific character index. Use **Find Document** to resolve a document's name to its ID. In a multi-tab document, set **Tab ID** to choose which tab receives the page break — without it the break goes into the document's first tab; use **List Tabs** to get the IDs. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#InsertPageBreakRequest)",
-  version: "1.2.1",
+  version: "1.3.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -40,6 +40,12 @@ export default {
         "fields",
       ],
     },
+    suggestMode: {
+      propDefinition: [
+        googleDocs,
+        "suggestMode",
+      ],
+    },
   },
   async run({ $ }) {
     if (this.tabId && this.fields) {
@@ -48,11 +54,17 @@ export default {
     await utils.validateFieldMask(this.googleDocs, this.documentId, this.fields);
 
     const request = this.googleDocs._buildRequestForPosition({}, this.position, this.tabId);
-    await this.googleDocs._batchUpdate(this.documentId, "insertPageBreak", request);
+    const response = await this.googleDocs._batchUpdate(this.documentId, "insertPageBreak", request, this.googleDocs.writeControl(this.suggestMode));
     const target = this.tabId
       ? `tab ${this.tabId} of document ${this.documentId}`
       : `document ${this.documentId}`;
-    $.export("$summary", `Inserted page break into ${target}`);
-    return this.googleDocs.getWriteResult(this.documentId, this.tabId, this.fields);
+    $.export("$summary", `Inserted page break into ${target}${this.suggestMode
+      ? " as a suggestion"
+      : ""}`);
+    return this.googleDocs.withSuggestionIds(
+      await this.googleDocs.getWriteResult(this.documentId, this.tabId, this.fields),
+      this.suggestMode,
+      response,
+    );
   },
 };
