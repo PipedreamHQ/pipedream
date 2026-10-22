@@ -33,7 +33,7 @@ export default {
   hooks: {
     async deploy() {
       const head = await this.getHead();
-      this.setLastVersion(head.version);
+      this._setLastVersion(head.version);
       const ids = new Set();
       for await (const {
         row, page,
@@ -48,9 +48,7 @@ export default {
           this.$emit(row, this.generateMeta(row, page));
         }
       }
-      this.db.set("seenIds", [
-        ...ids,
-      ]);
+      this._setSeenIds(ids);
     },
   },
   methods: {
@@ -76,11 +74,11 @@ export default {
   },
   async run() {
     const head = await this.getHead();
-    const last = this.getLastVersion();
+    const last = this._getLastVersion();
     if (last !== undefined && last !== null && head.version <= last) {
       return;
     }
-    const seen = new Set(this.db.get("seenIds") || []);
+    const seen = new Set(this._getSeenIds());
     const ids = new Set();
     for await (const {
       row, page,
@@ -95,9 +93,7 @@ export default {
         this.$emit(row, this.generateMeta(row, page));
       }
     }
-    this.db.set("seenIds", [
-      ...ids,
-    ]);
-    this.setLastVersion(head.version);
+    this._setSeenIds(ids);
+    this._setLastVersion(head.version);
   },
 };

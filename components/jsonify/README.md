@@ -10,7 +10,7 @@ Jsonify keeps datasets from the live web current. A pipeline runs on a schedule,
 
 **Alert when a dataset republishes**
 
-- Trigger on a new dataset version and post the row count and update time to Slack.
+- Trigger on a new dataset version and post the dataset name, version and update time to Slack.
 
 **Enrich records from a maintained table**
 

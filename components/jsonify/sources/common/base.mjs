@@ -18,11 +18,19 @@ export default {
     },
   },
   methods: {
-    getLastVersion() {
+    _getLastVersion() {
       return this.db.get("lastVersion");
     },
-    setLastVersion(version) {
+    _setLastVersion(version) {
       this.db.set("lastVersion", version);
+    },
+    _getSeenIds() {
+      return this.db.get("seenIds") || [];
+    },
+    _setSeenIds(ids) {
+      this.db.set("seenIds", [
+        ...ids,
+      ]);
     },
     async getHead() {
       return this.jsonify.getPage({

@@ -11,7 +11,7 @@ export default {
   hooks: {
     async deploy() {
       const head = await this.getHead();
-      this.setLastVersion(head.version);
+      this._setLastVersion(head.version);
     },
   },
   methods: {
@@ -26,11 +26,11 @@ export default {
   },
   async run() {
     const head = await this.getHead();
-    const last = this.getLastVersion();
+    const last = this._getLastVersion();
     if (last !== undefined && last !== null && head.version <= last) {
       return;
     }
-    this.setLastVersion(head.version);
+    this._setLastVersion(head.version);
     const event = {
       dataset: head.dataset,
       dataset_name: head.dataset_name,
