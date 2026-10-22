@@ -168,6 +168,30 @@ export function buildIdListQuery(field, ids) {
   return `${field}IN${ids.join(",")}`;
 }
 
+export function withSysId(fields) {
+  return fields.includes("sys_id")
+    ? fields
+    : [
+      ...fields,
+      "sys_id",
+    ];
+}
+
+export function attachChildren(parents, {
+  requestedFields, childrenByParent, childKey,
+}) {
+  const keepSysId = requestedFields.includes("sys_id");
+  return parents.map(({
+    sys_id: parentId, ...fields
+  }) => ({
+    ...(keepSysId && {
+      sys_id: parentId,
+    }),
+    ...fields,
+    [childKey]: childrenByParent.get(parentId) ?? [],
+  }));
+}
+
 export function asRows(response) {
   return Array.isArray(response)
     ? response

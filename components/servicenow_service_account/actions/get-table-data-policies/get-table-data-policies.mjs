@@ -1,7 +1,7 @@
 import { assertSafeQueryValue } from "@pipedream/servicenow/common/utils.mjs";
 import servicenow from "../../servicenow_service_account.app.mjs";
 import {
-  asRows, buildIdListQuery, groupByReference,
+  asRows, attachChildren, buildIdListQuery, groupByReference, withSysId,
 } from "../../common/utils.mjs";
 
 const DEFAULT_POLICY_FIELDS = [
@@ -68,14 +68,15 @@ export default {
     const activeFilter = this.includeInactive
       ? ""
       : "^active=true";
+    const requestedFields = this.responseFields?.length
+      ? this.responseFields
+      : DEFAULT_POLICY_FIELDS;
     const policies = asRows(await this.servicenow.getTableRecords({
       $,
       table: "sys_data_policy2",
       params: {
         sysparm_query: `model_table=${this.table}${activeFilter}^ORDERBYsys_id`,
-        sysparm_fields: (this.responseFields?.length
-          ? this.responseFields
-          : DEFAULT_POLICY_FIELDS).join(","),
+        sysparm_fields: withSysId(requestedFields).join(","),
         sysparm_exclude_reference_link: true,
         sysparm_limit: this.limit,
         sysparm_offset: this.offset,
@@ -96,10 +97,11 @@ export default {
       rulesByPolicy = groupByReference(rules, "sys_data_policy");
     }
 
-    const result = policies.map((policy) => ({
-      ...policy,
-      rules: rulesByPolicy.get(policy.sys_id) ?? [],
-    }));
+    const result = attachChildren(policies, {
+      requestedFields,
+      childrenByParent: rulesByPolicy,
+      childKey: "rules",
+    });
     $.export("$summary", `Retrieved ${result.length} data policy(ies) for table ${this.table}`);
 
     return result;
