@@ -1,13 +1,17 @@
 // x-pd-ai: optimized
 import sheets from "@googleapis/sheets";
 import googleDrive from "@pipedream/google_drive";
-import { axios } from "@pipedream/platform";
 import get from "lodash/get.js";
 import isArray from "lodash/isArray.js";
 import isEmpty from "lodash/isEmpty.js";
 import isString from "lodash/isString.js";
 import {
-  INSERT_DATA_OPTION, VALUE_INPUT_OPTION,
+  IDEMPOTENT_HTTP_METHODS,
+  INSERT_DATA_OPTION,
+  RATE_LIMIT_ERROR_REASONS,
+  RETRY_OPTIONS,
+  RETRYABLE_SERVER_ERROR_CODES,
+  VALUE_INPUT_OPTION,
 } from "./common/constants.mjs";
 
 export default {
@@ -206,7 +210,52 @@ export default {
       return sheets.sheets({
         version: "v4",
         auth,
+        retryConfig: {
+          retry: RETRY_OPTIONS.MAX_RETRIES,
+          // shouldRetrySheetsRequest owns the backoff; these minimize gaxios' own delay
+          retryDelay: 0,
+          retryDelayMultiplier: 1,
+          shouldRetry: (error) => this.shouldRetrySheetsRequest(error),
+        },
       });
+    },
+    isSheetsRateLimitError(error, statusCode) {
+      if (statusCode === 429) {
+        return true;
+      }
+      const errors = error.response?.data?.error?.errors || [];
+      return statusCode === 403
+        && errors.some(({ reason }) => RATE_LIMIT_ERROR_REASONS.includes(reason));
+    },
+    /**
+     * Retries rate limits on every request, and server or network errors only on idempotent
+     * methods so a POST (append, batchUpdate) can't be applied twice. Waits with jittered
+     * exponential backoff before resolving.
+     */
+    async shouldRetrySheetsRequest(error) {
+      if (error.name === "AbortError" || error.code === "AbortError") {
+        return false;
+      }
+      const attempt = error.config?.retryConfig?.currentRetryAttempt || 0;
+      if (attempt >= RETRY_OPTIONS.MAX_RETRIES) {
+        return false;
+      }
+      const statusCode = error.response?.status;
+      const method = (error.config?.method || "GET").toUpperCase();
+      const isRetryable = this.isSheetsRateLimitError(error, statusCode)
+        || (IDEMPOTENT_HTTP_METHODS.includes(method)
+          && (!statusCode || RETRYABLE_SERVER_ERROR_CODES.includes(statusCode)));
+      if (!isRetryable) {
+        return false;
+      }
+      const delayMs = Math.min(
+        RETRY_OPTIONS.BASE_DELAY_MS * 2 ** attempt
+          + Math.floor(Math.random() * RETRY_OPTIONS.MAX_JITTER_MS),
+        RETRY_OPTIONS.MAX_DELAY_MS,
+      );
+      console.log(`Google Sheets ${method} failed with ${statusCode || error.code}. Retrying attempt ${attempt + 1}/${RETRY_OPTIONS.MAX_RETRIES} in ${delayMs}ms...`);
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+      return true;
     },
     /**
      * Builds a formula using the Google Sheets [MATCH
@@ -504,29 +553,27 @@ export default {
       return (await sheets.spreadsheets.values.clear(request)).data;
     },
     async addRowsToSheet({
-      $ = this, spreadsheetId, range, rows, params,
+      spreadsheetId, range, rows, params,
     }) {
-      const resp = await axios($, {
-        method: "POST",
-        url: `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURIComponent(`${range}!A:A`)}:append`,
-        headers: {
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
-        validateStatus: () => true,
-        params: {
+      const sheets = this.sheets();
+      try {
+        const { data } = await sheets.spreadsheets.values.append({
+          spreadsheetId,
+          range: `${range}!A:A`,
           valueInputOption: VALUE_INPUT_OPTION.USER_ENTERED,
           insertDataOption: INSERT_DATA_OPTION.INSERT_ROWS,
           ...params,
-        },
-        data: {
-          values: rows,
-        },
-        returnFullResponse: true,
-      });
-      if (resp.status >= 400) {
-        throw new Error(JSON.stringify(resp.data));
+          requestBody: {
+            values: rows,
+          },
+        });
+        return data.updates;
+      } catch (error) {
+        if (!error.response) {
+          throw error;
+        }
+        throw new Error(JSON.stringify(error.response.data));
       }
-      return resp.data.updates;
     },
     /**
    * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/batchUpdate
