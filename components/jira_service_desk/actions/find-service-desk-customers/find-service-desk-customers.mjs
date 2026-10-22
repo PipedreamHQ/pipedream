@@ -19,7 +19,7 @@ export default {
     + " `accountId` is the only field guaranteed present: Atlassian's profile visibility rules hide `emailAddress` on users who have not made it public, so match on `displayName` and never require an email to be returned."
     + " An unknown or inaccessible Service Desk ID fails with a 404 rather than returning an empty list, so an empty list really does mean nobody matched."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-servicedesk/#api-rest-servicedeskapi-servicedesk-servicedeskid-customer-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {
