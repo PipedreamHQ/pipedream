@@ -3,6 +3,7 @@ import { wrapAction } from "../../common/utils.mjs";
 
 export default wrapAction(action, {
   key: "servicenow_service_account-create-table-record",
+  version: "0.0.1",
   note: "The record is created by the integration user: `sys_created_by` is always that account, and person fields you leave empty, such as `opened_by` on task tables, default to it. To attribute the record to a person, set their `sys_id` in the table's person fields in **Record Data**.",
   example: "table `incident` with record data `{\"short_description\": \"VPN is down\", \"urgency\": \"2\", \"caller_id\": \"<user sys_id>\"}` returns the new incident including its `number` and `sys_id`.",
   propDescriptions: {

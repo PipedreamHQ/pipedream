@@ -122,7 +122,7 @@ function withPropDescriptions(props, propDescriptions) {
 }
 
 export function wrapAction(action, {
-  key, description: descriptionOverride, example, note, propDescriptions = {},
+  key, version, description: descriptionOverride, example, note, propDescriptions = {},
 }) {
   const description = withNote(
     withNote(descriptionOverride ?? rewriteDescription(action.description), note),
@@ -131,7 +131,7 @@ export function wrapAction(action, {
   return {
     ...action,
     key,
-    version: "0.0.1",
+    version,
     ai: "optimized",
     description,
     props: withPropDescriptions(

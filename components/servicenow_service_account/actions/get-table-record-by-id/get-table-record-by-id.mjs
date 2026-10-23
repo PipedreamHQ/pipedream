@@ -3,4 +3,5 @@ import { wrapAction } from "../../common/utils.mjs";
 
 export default wrapAction(action, {
   key: "servicenow_service_account-get-table-record-by-id",
+  version: "0.0.1",
 });
