@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/jobspipe",
+  "version": "0.0.1",
+  "description": "Pipedream JobsPipe Components",
+  "main": "jobspipe.app.mjs",
+  "keywords": [
+    "pipedream",
+    "jobspipe",
+    "jobs",
+    "recruiting"
+  ],
+  "homepage": "https://pipedream.com/apps/jobspipe",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  }
+}
