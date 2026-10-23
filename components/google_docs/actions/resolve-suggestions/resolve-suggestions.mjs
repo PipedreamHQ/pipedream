@@ -5,7 +5,7 @@ import { SUGGESTION_DECISIONS } from "../../common/constants.mjs";
 export default {
   key: "google_docs-resolve-suggestions",
   name: "Resolve Suggestions",
-  description: "Accept or reject suggestions (tracked changes made in Suggesting mode) in a Google Doc. Accepting applies a suggestion to the document; rejecting discards it. Get suggestion IDs from **List Suggestions**, or from the `suggestionIds` a write action returns when **Suggest Changes** is on. Use **Find Document** to resolve a document's name to its ID. Returns `{documentId, decision, resolvedSuggestionIds}`. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/request#AcceptSuggestionRequest) ([reject](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/request#RejectSuggestionRequest))",
+  description: "Accept or reject suggestions (tracked changes made in Suggesting mode) in a Google Doc. Accepting applies a suggestion to the document; rejecting discards it. Get suggestion IDs from **List Suggestions**, or from the `suggestionIds` a write action returns when **Suggest Changes** is on. Use **Find Document** to resolve a document's name to its ID. Returns `{documentId, decision, resolvedSuggestionIds}`. Rejecting uses [RejectSuggestionRequest](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/request#RejectSuggestionRequest). [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/request#AcceptSuggestionRequest)",
   version: "0.0.1",
   annotations: {
     destructiveHint: true,

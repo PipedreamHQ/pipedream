@@ -434,8 +434,9 @@ function suggestionThreadsFailed(responses) {
     response?.data?.commentUpdateState === COMMENT_UPDATES_FAILED);
 }
 
-// Style changes are reported against every run a suggestion covers, with an
-// empty style on runs whose style it does not change (measured).
+// Inserted and deleted runs also report an empty style change under their own
+// suggestion ID (measured). That is noise, but an empty change elsewhere can be
+// real: a suggested bullet removal carries only `bulletSuggestionState`.
 function isEmptySuggestedChange(change) {
   return Object.entries(change ?? {})
     .filter(([
@@ -497,6 +498,10 @@ function walkSuggestions(node, tabId, range, suggestions) {
     return;
   }
   // The API omits a zero `startIndex`, so only `endIndex` marks a ranged node.
+  const insertedOrDeleted = new Set([
+    ...(node.suggestedInsertionIds ?? []),
+    ...(node.suggestedDeletionIds ?? []),
+  ]);
   const here = node.endIndex != null
     ? {
       startIndex: node.startIndex ?? 0,
@@ -524,7 +529,9 @@ function walkSuggestions(node, tabId, range, suggestions) {
       ids = value;
     } else {
       ids = Object.keys(value ?? {})
-        .filter((id) => match[2] !== "Changes" || !isEmptySuggestedChange(value[id]));
+        .filter((id) => match[2] !== "Changes"
+          || !insertedOrDeleted.has(id)
+          || !isEmptySuggestedChange(value[id]));
     }
     ids.forEach((id) => recordSuggestion(suggestions, id, {
       type,
