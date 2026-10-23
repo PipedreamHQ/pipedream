@@ -6,7 +6,7 @@ export default {
   key: "google_docs-replace-image",
   name: "Replace Image",
   description: "Replace an existing inline image in a Google Doc with a different image, keeping its position and size. The replacement URL must be publicly reachable (Google fetches it server-side) and point to a PNG, JPEG, or GIF. Use **Find Document** to resolve a document's name to its ID, then **Get Document** to list the document's images - each key of the response's `inlineObjects` map is an **Image ID**. Use **Insert Image** instead to add a new image rather than swap one out. Works on multi-tab documents: pass a **Tab ID**, or leave it blank and the tab holding the image is found automatically. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#ReplaceImageRequest)",
-  version: "0.2.1",
+  version: "0.3.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -53,6 +53,12 @@ export default {
         "fields",
       ],
     },
+    suggestMode: {
+      propDefinition: [
+        googleDocs,
+        "suggestMode",
+      ],
+    },
   },
   async run({ $ }) {
     if (this.tabId && this.fields) {
@@ -74,7 +80,11 @@ export default {
         tabId,
       }),
     };
-    await this.googleDocs.replaceImage(this.docId, image);
+    const response = await this.googleDocs.replaceImage(
+      this.docId,
+      image,
+      this.googleDocs.writeControl(this.suggestMode),
+    );
     // Was missing its `await`, so this returned an unresolved promise. Reading
     // back through `getDocumentWithTabs` keeps `body`/`textContent` where they
     // have always been and adds every tab's text alongside, so a replacement in
@@ -87,8 +97,11 @@ export default {
       `Successfully replaced image in doc with ID: ${this.docId}`
       + (tabId
         ? ` (tab ${tabId})`
+        : "")
+      + (this.suggestMode
+        ? " as a suggestion"
         : ""),
     );
-    return doc;
+    return this.googleDocs.withSuggestionIds(doc, this.suggestMode, response);
   },
 };

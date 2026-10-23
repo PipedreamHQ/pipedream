@@ -168,3 +168,22 @@ export const FONT_WEIGHT_STEP = 100;
 // would cost one more request instead of losing tabs.
 // https://developers.google.com/workspace/docs/api/how-tos/field-masks
 export const TAB_METADATA_MASK_DEPTH = 4;
+
+// WriteControl.writeMode that applies a batchUpdate as suggestions, and the
+// documents.get view that returns those suggestions inline with their IDs.
+// https://developers.google.com/workspace/docs/api/how-tos/suggestions
+export const SUGGEST_WRITE_MODE = "SUGGEST";
+export const SUGGESTIONS_INLINE = "SUGGESTIONS_INLINE";
+
+// batchUpdate `commentUpdateState` when a suggest-mode write committed but its
+// suggestion threads did not save.
+export const COMMENT_UPDATES_FAILED = "ALL_FAILED_UNKNOWN_REASON";
+
+// Stands in for suggested-deletion text when locating text, so a search can
+// neither match it nor match across it.
+export const SUGGESTED_DELETION_MASK = "\u0000";
+
+export const SUGGESTION_DECISIONS = [
+  "accept",
+  "reject",
+];

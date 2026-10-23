@@ -6,7 +6,7 @@ export default {
   key: "google_docs-delete-table",
   name: "Delete Table",
   description: "Remove an entire table, structure and contents, from the document. Use this to clear a table completely, including an empty table left behind after its text was removed. Set **Table Number** to pick which table to remove (1 = first top-level table in the document, in reading order; a table nested inside another table's cell doesn't count separately). Use **Get Document** first if you need to confirm how many tables exist. This also works on a table linked to a Google Sheet, since removal is treated as ordinary content deletion. Use **Find Document** to resolve a document's name to its ID. In a multi-tab document, set **Tab ID** to choose which tab to delete from — without it the first tab's tables are the ones counted and removed; use **List Tabs** to get the IDs. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#DeleteContentRangeRequest)",
-  version: "0.2.1",
+  version: "0.3.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -42,6 +42,12 @@ export default {
         "fields",
       ],
     },
+    suggestMode: {
+      propDefinition: [
+        googleDocs,
+        "suggestMode",
+      ],
+    },
   },
   async run({ $ }) {
     if (this.tabId && this.fields) {
@@ -66,13 +72,19 @@ export default {
     const {
       startIndex, endIndex,
     } = tables[this.tableIndex - 1];
-    await this.googleDocs.deleteTable(this.documentId, {
+    const response = await this.googleDocs.deleteTable(this.documentId, {
       startIndex,
       endIndex,
       tabId: this.tabId,
-    });
+    }, this.googleDocs.writeControl(this.suggestMode));
 
-    $.export("$summary", `Deleted table ${this.tableIndex} of ${tables.length} from ${target}`);
-    return this.googleDocs.getWriteResult(this.documentId, this.tabId, this.fields);
+    $.export("$summary", this.suggestMode
+      ? `Suggested deleting table ${this.tableIndex} of ${tables.length} from ${target}`
+      : `Deleted table ${this.tableIndex} of ${tables.length} from ${target}`);
+    return this.googleDocs.withSuggestionIds(
+      await this.googleDocs.getWriteResult(this.documentId, this.tabId, this.fields),
+      this.suggestMode,
+      response,
+    );
   },
 };
