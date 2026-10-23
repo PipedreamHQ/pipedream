@@ -8,7 +8,7 @@ export default {
   key: "google_ads-upload-call-conversion",
   name: "Upload Call Conversion",
   description: `Uploads an offline conversion attributed to a phone call. [See the documentation](${CALL_DOC_LINK})`,
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -114,7 +114,9 @@ const segments = [
   "device",
   "external_conversion_source",
   "hour",
+  "month",
   "new_versus_returning_customers",
+  "quarter",
   "recommendation_type",
   "sk_ad_network_ad_event_type",
   "sk_ad_network_attribution_credit",
@@ -126,6 +128,8 @@ const segments = [
   "sk_ad_network_source_type",
   "sk_ad_network_user_type",
   "slot",
+  "week",
+  "year",
 ].map((f) => getOption(f, "segments"));
 
 const metrics = [

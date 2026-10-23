@@ -4,7 +4,7 @@ export default {
   key: "google_ads-list-user-lists",
   name: "List User Lists",
   description: "List user lists (audiences) for a customer account, including each list's ID, name, and type. Use this to find a valid Customer List ID for **Add Contact to Customer List by Email** or **Create Customer List** — for Customer Match uploads, only lists where `type` is `CRM_BASED` are supported. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/GoogleAdsService/Search?transport=rest)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
