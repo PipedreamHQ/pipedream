@@ -17,7 +17,7 @@ const DEFAULT_POLICY_FIELDS = [
 export default {
   key: "servicenow_service_account-get-table-data-policies",
   name: "Get Table Data Policies",
-  description: "Retrieve the data policies of a ServiceNow table (for example `incident`) from `sys_data_policy2`, each with its field rules from `sys_data_policy_rule` under `rules`: which fields are mandatory or read-only and under which `conditions`. Unlike UI policies, data policies apply to REST API writes, so a record that breaks one is rejected. Use this before **Create Table Record** or **Update Table Record**. Pair with **Get Table UI Policies** for the form-only rules. Returns up to `limit` rows (default 100); if exactly `limit` rows come back, call again with `offset` raised by `limit` to get the rest. Example: table `incident` returns each active incident data policy with `rules` such as `{\"field\": \"assignment_group\", \"mandatory\": \"true\"}` for a policy that requires an assignment group. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_TableAPI.html)",
+  description: "Retrieve the data policies of a ServiceNow table (for example `incident`) from `sys_data_policy2`, each with its field rules from `sys_data_policy_rule` under `rules`: which fields are mandatory or read-only and under which `conditions`. Unlike UI policies, data policies apply to REST API writes, so a record that breaks one is rejected. Only policies defined directly on the table return, so for an extended table (for example `incident` extends `task`) query the parent table as well. Use this before **Create Table Record** or **Update Table Record**. Pair with **Get Table UI Policies** for the form-only rules. Returns up to `limit` rows (default 100); if exactly `limit` rows come back, call again with `offset` raised by `limit` to get the rest. Example: table `incident` returns each active incident data policy with `rules` such as `{\"field\": \"assignment_group\", \"mandatory\": \"true\"}` for a policy that requires an assignment group. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_TableAPI.html)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
@@ -35,10 +35,10 @@ export default {
       ],
     },
     includeInactive: {
-      type: "boolean",
-      label: "Include Inactive",
-      description: "If true, also return inactive data policies. Defaults to active policies only.",
-      optional: true,
+      propDefinition: [
+        servicenow,
+        "includeInactive",
+      ],
     },
     responseFields: {
       propDefinition: [
@@ -55,11 +55,10 @@ export default {
       default: 100,
     },
     offset: {
-      type: "integer",
-      label: "Offset",
-      description: "Number of rows to skip for pagination (maps to `sysparm_offset`).",
-      min: 0,
-      optional: true,
+      propDefinition: [
+        servicenow,
+        "offset",
+      ],
     },
   },
   async run({ $ }) {

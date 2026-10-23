@@ -1,9 +1,6 @@
 import { assertSafeQueryValue } from "@pipedream/servicenow/common/utils.mjs";
 import app from "../servicenow_service_account.app.mjs";
 
-const SOURCE_KEY_PREFIX = "servicenow-";
-const TARGET_KEY_PREFIX = "servicenow_service_account-";
-
 function repointProps(props) {
   return Object.fromEntries(
     Object.entries(props).map(([
@@ -125,16 +122,18 @@ function withPropDescriptions(props, propDescriptions) {
 }
 
 export function wrapAction(action, {
-  description: descriptionOverride, example, note, propDescriptions = {},
-} = {}) {
-  const description = withNote(descriptionOverride ?? rewriteDescription(action.description), note);
+  key, description: descriptionOverride, example, note, propDescriptions = {},
+}) {
+  const description = withNote(
+    withNote(descriptionOverride ?? rewriteDescription(action.description), note),
+    example && `Example: ${example}`,
+  );
   return {
     ...action,
-    key: action.key.replace(SOURCE_KEY_PREFIX, TARGET_KEY_PREFIX),
+    key,
     version: "0.0.1",
-    description: example
-      ? `${description} Example: ${example}`
-      : description,
+    ai: "optimized",
+    description,
     props: withPropDescriptions(
       withRewrittenDescriptions(repointProps(action.props)),
       propDescriptions,
@@ -153,10 +152,10 @@ export function groupByReference(rows, referenceField) {
   const groups = new Map();
   for (const row of rows) {
     const parentId = referenceId(row[referenceField]);
-    groups.set(parentId, [
-      ...(groups.get(parentId) ?? []),
-      row,
-    ]);
+    if (!groups.has(parentId)) {
+      groups.set(parentId, []);
+    }
+    groups.get(parentId).push(row);
   }
   return groups;
 }

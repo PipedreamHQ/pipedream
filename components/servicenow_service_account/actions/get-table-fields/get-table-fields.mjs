@@ -25,7 +25,7 @@ export default {
     mandatoryOnly: {
       type: "boolean",
       label: "Mandatory Only",
-      description: "If true, only return fields marked mandatory in the schema.",
+      description: "If true, only return fields marked mandatory in the schema. Example: `true`.",
       optional: true,
     },
     limit: {
@@ -36,11 +36,10 @@ export default {
       default: 100,
     },
     offset: {
-      type: "integer",
-      label: "Offset",
-      description: "Number of rows to skip for pagination (maps to `sysparm_offset`).",
-      min: 0,
-      optional: true,
+      propDefinition: [
+        servicenow,
+        "offset",
+      ],
     },
   },
   async run({ $ }) {
