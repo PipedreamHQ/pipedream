@@ -108,6 +108,11 @@ export default {
     "CreatedDate",
   ]),
   DEPLOY_HISTORICAL_LIMIT: 25,
+  // Timer-mode polling pages with a (date, Id) keyset rather than SOQL OFFSET,
+  // which Salesforce rejects above 2000 (NUMBER_OUTSIDE_VALID_RANGE)
+  POLLING_PAGE_SIZE: 200,
+  // Records fetched per timer tick; any backlog beyond this resumes next tick
+  POLLING_MAX_RECORDS: 4000,
   // Salesforce IDs are delivered in an 18 character, case-insensitive form whose
   // last 3 characters are a checksum over the case of the leading 15
   ID_SHORT_LENGTH: 15,
