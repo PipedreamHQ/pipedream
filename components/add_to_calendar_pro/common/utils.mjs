@@ -1,3 +1,7 @@
+export const omitUndefined = (obj) => Object.fromEntries(
+  Object.entries(obj).filter(([, value]) => value !== undefined),
+);
+
 export const parseObject = (obj) => {
   if (!obj) {
     return undefined;
