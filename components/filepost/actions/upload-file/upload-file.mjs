@@ -6,7 +6,7 @@ export default {
   key: "filepost-upload-file",
   name: "Upload File",
   description: "Upload a file from a path in `/tmp` or a public URL, and get back a permanent CDN URL. [See the documentation](https://filepost.dev/docs#upload)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
