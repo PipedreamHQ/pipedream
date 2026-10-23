@@ -1,0 +1,22 @@
+{
+  "name": "@pipedream/ominiflow",
+  "version": "0.0.1",
+  "description": "Pipedream Ominiflow Components",
+  "main": "ominiflow.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ominiflow",
+    "whatsapp",
+    "messaging",
+    "automation",
+    "crm"
+  ],
+  "author": "Ominiflow Team <info@ominiflow.com>",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^0.13.0"
+  }
+}
