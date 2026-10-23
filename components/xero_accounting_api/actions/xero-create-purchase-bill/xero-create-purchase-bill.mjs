@@ -6,7 +6,7 @@ export default {
   key: "xero_accounting_api-xero-create-purchase-bill",
   name: "Create Purchase Bill",
   description: "Creates a new purchase bill.",
-  version: "0.1.4",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -40,8 +40,8 @@ export default {
     },
     lineItems: {
       label: "Line Items",
-      type: "any",
-      description: "See [LineItems](https://developer.xero.com/documentation/api/invoices#LineItemsPOST). The LineItems collection can contain any number of individual LineItem sub-elements. At least * **one** * is required to create a complete Invoice.",
+      type: "string[]",
+      description: "Array of line item objects; at least **one** is required to create a complete invoice. Each item must be a JSON string, e.g. `{\"Description\":\"Consulting\",\"Quantity\":2,\"UnitAmount\":100,\"AccountCode\":\"400\"}`. See [LineItems](https://developer.xero.com/documentation/api/invoices#LineItemsPOST).",
     },
     date: {
       label: "Date",
@@ -117,7 +117,8 @@ export default {
     },
   },
   async run({ $ }) {
-    if ((!this.contactId && !this.contactName) || !this.tenantId || !this.lineItems) {
+    const lineItems = formatLineItems(this.lineItems);
+    if ((!this.contactId && !this.contactName) || !this.tenantId || !lineItems.length) {
       throw new ConfigurationError("Must provide one of **Contact ID** or **Contact Name**, **Tenant ID**, **Type**, and **Line Items** parameters.");
     }
 
@@ -130,7 +131,7 @@ export default {
           ContactID: this.contactId,
           Name: this.contactName,
         },
-        LineItems: formatLineItems(this.lineItems),
+        LineItems: lineItems,
         Date: this.date,
         DueDate: this.dueDate,
         LineAmountTypes: this.lineAmountType,
