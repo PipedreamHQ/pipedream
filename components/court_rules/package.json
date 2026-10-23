@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/court_rules",
+  "version": "0.1.0",
+  "description": "Pipedream Court Rules Components",
+  "main": "court_rules.app.mjs",
+  "keywords": [
+    "pipedream",
+    "court_rules"
+  ],
+  "homepage": "https://pipedream.com/apps/court_rules",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.4.0"
+  }
+}
