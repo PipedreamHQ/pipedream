@@ -12,7 +12,7 @@ export default {
     + " Use the returned table names as the `FROM` target in **Execute SQL Query**, and pass a table name to **List Columns** to see its column definitions."
     + " Use **Limit** and **Offset** to page through large result sets: the response includes `total` (tables matched before paging), `hasMore`, and `nextOffset` (pass it as **Offset** to get the next page). If `hasMore` is true the list is truncated, so keep paging or narrow with **Schema Name**."
     + " Example: calling with Schema Name `pipedream_store` returns `{tables: [{schemaName: \"pipedream_store\", tableName: \"customer\", type: \"table\"}], errors: [], total: 1, hasMore: false}`. When listing across all schemas, schemas that could not be read are reported in `errors` (`{schemaName, error}`) and the list is then incomplete. [See the documentation](https://docs.incorta.com/latest/references-api-list-schema-objects-endpoint-v2)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {
