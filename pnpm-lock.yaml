@@ -6326,6 +6326,12 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/geogridapi:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
+
   components/geokeo:
     dependencies:
       '@pipedream/platform':
