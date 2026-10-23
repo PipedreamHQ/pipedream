@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/adanos",
+  "version": "0.0.1",
+  "description": "Pipedream Adanos Market Sentiment Components",
+  "main": "adanos.app.mjs",
+  "keywords": [
+    "pipedream",
+    "adanos",
+    "market sentiment"
+  ],
+  "homepage": "https://pipedream.com/apps/adanos",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  }
+}
