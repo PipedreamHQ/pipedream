@@ -115,6 +115,23 @@ export default {
       return this.client().api(`/me/drive/items/${sheetId}/workbook/tables/${tableId || tableName}/rows/add`)
         .post(data);
     },
+    createItem({
+      folderId, data = {},
+    } = {}) {
+      return this.client().api((!folderId || folderId === ROOT_FOLDER_ID)
+        ? "/me/drive/root/children"
+        : `/me/drive/items/${folderId}/children`)
+        .post(data);
+    },
+    addWorksheet({
+      sheetId, data = {},
+    } = {}) {
+      // Use the documented worksheetCollection: add action, matching addTableRow's
+      // `/rows/add` pattern above. (A plain POST to the collection also works, but this
+      // is the canonical endpoint.)
+      return this.client().api(`/me/drive/items/${sheetId}/workbook/worksheets/add`)
+        .post(data);
+    },
     createHook({ data = {} } = {}) {
       return this.client().api("/subscriptions")
         .post(data);
