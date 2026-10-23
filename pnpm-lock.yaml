@@ -6562,8 +6562,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       nodemailer:
-        specifier: ^10.0.9
-        version: 10.0.9
+        specifier: ^10.0.10
+        version: 10.0.10
       pdfkit:
         specifier: ^0.17.2
         version: 0.17.2
@@ -8959,8 +8959,7 @@ importers:
         specifier: 4.0.4
         version: 4.0.4
 
-  components/less_annoying_crm:
-    specifiers: {}
+  components/less_annoying_crm: {}
 
   components/lessaccounting: {}
 
@@ -12228,8 +12227,8 @@ importers:
         specifier: ^0.5.47
         version: 0.5.48
       nodemailer:
-        specifier: ^10.0.9
-        version: 10.0.9
+        specifier: ^10.0.10
+        version: 10.0.10
       pluralize:
         specifier: ^8.0.0
         version: 8.0.0
@@ -14567,8 +14566,7 @@ importers:
 
   components/servicenow_oauth_: {}
 
-  components/servicenow_service_account:
-    specifiers: {}
+  components/servicenow_service_account: {}
 
   components/servicetitan: {}
 
@@ -15705,7 +15703,7 @@ importers:
     dependencies:
       stripe:
         specifier: ^18.0.0
-        version: 18.5.0(@types/node@26.6.3)
+        version: 18.5.0(@types/node@26.6.5)
 
   components/stripo:
     dependencies:
@@ -18877,10 +18875,10 @@ importers:
         version: 18.3.26
       vite:
         specifier: ^6.4.3
-        version: 6.4.3(@types/node@26.6.3)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1)
+        version: 6.4.3(@types/node@26.6.5)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1)
       vite-plugin-dts:
         specifier: ^4.3.0
-        version: 4.5.4(@types/node@26.6.3)(rollup@4.62.0)(typescript@5.6.3)(vite@6.4.3(@types/node@26.6.3)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1))
+        version: 4.5.4(@types/node@26.6.5)(rollup@4.62.0)(typescript@5.6.3)(vite@6.4.3(@types/node@26.6.5)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1))
 
   packages/prompts:
     dependencies:
@@ -20491,16 +20489,16 @@ packages:
   '@daytonaio/toolbox-api-client@0.138.0':
     resolution: {integrity: sha512-unM9e7MOQiyDXdY8hCW1uTctYbxpo/TGZ6L71ZXyS/j2Cnz9/ud4VWBLcQP2VzlC+lrBP2YMrhT90zSSvcNfmA==}
 
-  '@definitelytyped/header-parser@0.2.30':
-    resolution: {integrity: sha512-uG0SU+Mr4PYZfkGI7/gywdMFsSUICFl2Q/fT2Tf68de9KUkXxzdgyBQ+3Uq+ok+zlZl/I4A/t1QCQfo69v5mrw==}
+  '@definitelytyped/header-parser@0.2.32':
+    resolution: {integrity: sha512-HBgJ0/YqRLaICRYR/IEBviWA+I2u4qY3YGsNbJgIQkwA/3td7Yb/wGPSQR2OGa1uY7YupcsRMKu9E+XrZbkloQ==}
     engines: {node: '>=20.17.0'}
 
-  '@definitelytyped/typescript-versions@0.1.12':
-    resolution: {integrity: sha512-sbdf3l4MEhnwGCP0ZxkSdOZH4wtiG7J7YEMwd/i34uAw/yeZkPDhFwORPqdTknzAUmcbIg81aPr6sVk7ZDCgcw==}
+  '@definitelytyped/typescript-versions@0.1.14':
+    resolution: {integrity: sha512-gPD0fNnPxzSVP41xgvx7OyjEpoaO95xeC7tr/ijExCpXXXdCwZ6+Mh47V2q6wy++wsuPVr0UBbAFn92q39K37Q==}
     engines: {node: '>=20.17.0'}
 
-  '@definitelytyped/utils@0.1.15':
-    resolution: {integrity: sha512-pTsFCbthyU5FrngiL8loMsZcVQxs9L3RRcM4Dina6QUxW3IlA9sXFi6gmlBkeRveVN7ROUZFCeIU3jBzp2ZHVQ==}
+  '@definitelytyped/utils@0.1.17':
+    resolution: {integrity: sha512-HVwAz8t6YQ4DEMcXAjymkVFnxOn41Tl6PB9kOKch5HBBwaTUx2ruPuREVi/5xB4Ad7NU8AF+QHAZlHBDUzLCQA==}
     engines: {node: '>=20.17.0'}
 
   '@dependents/detective-less@5.0.1':
@@ -21667,8 +21665,8 @@ packages:
   '@napi-rs/wasm-runtime@0.2.12':
     resolution: {integrity: sha512-ZVWUcfwY4E/yPitQJl481FjFo3K22D6qF0DuFH6Y/nbnE11GY5uguDxZMGXPQ8WQ0128MXQD7TnfHyK4oWoIJQ==}
 
-  '@napi-rs/wasm-runtime@1.2.4':
-    resolution: {integrity: sha512-AJxoUD2/15ESHbvpcyjU274nsAPLuOtPHCk0vKJM5pj//Fg/B1FXNWjPnXTT9PymCYYiHo4zPj0ZomXBKhoy7g==}
+  '@napi-rs/wasm-runtime@1.2.5':
+    resolution: {integrity: sha512-HshSvXzmBxNzqejd3k/KemgQ3hdREUYFRRrgxOZ+gPljDIsO2SDZrVZMd4Z/HsxudQbE62OVyVFE8z9BCurfjA==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=23.5.0}
     peerDependencies:
       '@emnapi/core': ^1.7.1 || ^2.0.0-alpha.4
@@ -22179,6 +22177,7 @@ packages:
   '@opentelemetry/propagator-jaeger@1.30.1':
     resolution: {integrity: sha512-Pj/BfnYEKIOImirH76M4hDaBSx6HyZ2CXUqk+Kj02m6BB80c/yo4BdWkn/1gDFfU+YPY+bPR2U0DKBfdxCKwmg==}
     engines: {node: '>=14'}
+    deprecated: Package no longer supported. See https://github.com/open-telemetry/opentelemetry-js/pull/7077
     peerDependencies:
       '@opentelemetry/api': '>=1.0.0 <1.10.0'
 
@@ -22221,18 +22220,21 @@ packages:
   '@opentelemetry/sdk-trace-base@1.30.1':
     resolution: {integrity: sha512-jVPgBbH1gCy2Lb7X0AVQ8XAfgg0pJ4nvl8/IiQA6nxOsPvS+0zMJaFSs2ltXe0J6C8dqjcnpyqINDJmU30+uOg==}
     engines: {node: '>=14'}
+    deprecated: Use @opentelemetry/sdk-trace package
     peerDependencies:
       '@opentelemetry/api': '>=1.0.0 <1.10.0'
 
   '@opentelemetry/sdk-trace-base@2.9.0':
     resolution: {integrity: sha512-cp9zmTl62R8PJrpvFcmc8N2JQU/xfa0S+61q511Nji+QxCfZ8Ifvg7H27G8cANe4crg4RTrWsVvanHiXjSp6ag==}
     engines: {node: ^18.19.0 || >=20.6.0}
+    deprecated: Use @opentelemetry/sdk-trace package
     peerDependencies:
       '@opentelemetry/api': '>=1.3.0 <1.10.0'
 
   '@opentelemetry/sdk-trace-node@1.30.1':
     resolution: {integrity: sha512-cBjYOINt1JxXdpw1e5MlHmFRc5fgj4GW/86vsKFxJCJ8AL4PdVtYH41gWwl4qd4uQjqEL1oJVrXkSy5cnduAnQ==}
     engines: {node: '>=14'}
+    deprecated: Use @opentelemetry/sdk-trace package
     peerDependencies:
       '@opentelemetry/api': '>=1.0.0 <1.10.0'
 
@@ -24990,11 +24992,11 @@ packages:
   '@types/node@22.7.5':
     resolution: {integrity: sha512-jML7s2NAzMWc//QSJ1a3prpk78cOPchGvXJsC3C6R6PSMoooztvRVQEz89gmBTBY1SPMaqo5teB4uNHPdetShQ==}
 
-  '@types/node@25.9.8':
-    resolution: {integrity: sha512-VfMrScDmMhUJQmd5hArdQnFvK0OIeD36uN2Va1FcpYaLB/BgkgM8Ulc50XtYISPMz7APJ30+N0T5EM0jlcdfRw==}
+  '@types/node@25.9.9':
+    resolution: {integrity: sha512-b4e2xxj/yMeT2hNlD6x7zNFiQK2Dlmkb9CQ6v3/1G2RezKN4YS2lcEv8lzGm1mhs4f2lM4yNAMI/zUDBZBBt7w==}
 
-  '@types/node@26.6.3':
-    resolution: {integrity: sha512-dsqMQQoeTLqu9wynDD00q573mNzso3IdQOAfHRJqLCcmCFPoGo9A1bDpUcv/9tnKpErQWv9uKeGfl37EIS02Yg==}
+  '@types/node@26.6.5':
+    resolution: {integrity: sha512-uMzsv9stDdofIZBx4UGh4Z9ZgXnGC9seRDscilBcTHAeOFk67MZg/k9bWVfO+bk4qZmG+l52hRnLwUiH2LnJTg==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -25970,8 +25972,8 @@ packages:
       bare-buffer:
         optional: true
 
-  bare-fs@4.8.2:
-    resolution: {integrity: sha512-+ZI68KHMUvosXfKbg/UOHK0tbCdRnegbvPEdEcZ3Nd6TetieQsJPRXBRXPdLyy8+3VSEbPXtsumTpEtt78xv9w==}
+  bare-fs@4.8.4:
+    resolution: {integrity: sha512-MPC2eyrpbk3A873sK4y6rk+Iv4o2enxTjHZ8zH3HO0mjrpm5XjnguY2XmfidIsDV6vnjpbMBKUAJpV0ISD2SsQ==}
     engines: {bare: '>=1.28.0'}
     peerDependencies:
       bare-buffer: '*'
@@ -26023,8 +26025,8 @@ packages:
   bare-url@2.5.1:
     resolution: {integrity: sha512-cD5ciQuKlx+eumTCfqbfiL+fhQm+dHbVNB/cX4+d+I/nx4JsVop9VoFEPAs5RJ6I84QR6bZIBjpd2kjDOYeWcg==}
 
-  bare-url@2.5.4:
-    resolution: {integrity: sha512-Gxa7UVWBr0/edU1b+TJhn/AZvMQUj9OGspvYsaTYQrAbZA4BOTZGL3LiZxvD+CeMlDH4juwD84+eTAp/bLYW5g==}
+  bare-url@2.5.5:
+    resolution: {integrity: sha512-iM9qJCruvpt2rPaLsrumVDru9pogI7PHziHIa9kTNRFt8C8HuSa+kI9kFezK+NvHEFnnz71rKGZ1EAilq/3V/Q==}
 
   base-64@0.1.0:
     resolution: {integrity: sha512-Y5gU45svrR5tI2Vt/X9GPd3L0HNIKzGu202EjxrXMpuc2V2CiKgemAbUUsqYmZJvPtCXoUKjNZwBJzsNScUbXA==}
@@ -29119,6 +29121,9 @@ packages:
   http-cache-semantics@4.2.0:
     resolution: {integrity: sha512-dTxcvPXqPvXBQpq5dUr6mEMJX4oIEFv6bwom3FDwKRDsuIjjJGANqhBuoAn9c1RQJIdAKav33ED65E2ys+87QQ==}
 
+  http-cache-semantics@4.3.0:
+    resolution: {integrity: sha512-M5t5LlJpS1UHMjvwRQVdFHvPISGeLAxNcrWuJkeGh0KxsqCHZ1O3NXZU/8x7cD0BDcGW8kapxMKTvwlqrNkHkA==}
+
   http-errors@1.8.1:
     resolution: {integrity: sha512-Kpk9Sm7NmI+RHhnj6OIWDI1d6fIoFAtFt9RLaTMRlg/8w49juAStsrBgp0Dp4OdxdVbRIeKhtCUvoi/RuAhO4g==}
     engines: {node: '>= 0.6'}
@@ -31466,8 +31471,8 @@ packages:
     resolution: {integrity: sha512-M6S61LZn1FQMQnZSdFlc4oV+mwDGlPTbLzq/GUaSH4ew40wGTaKPtAaLp5oOhl/C3k0ylGqMIppJsVulwTCePg==}
     engines: {node: '>=18'}
 
-  nodemailer@10.0.9:
-    resolution: {integrity: sha512-BF0qcyplCwp+jMk6HCjFykBz/YhhZSsxrARhOldLwFWH+8kGjQsd2WIMIZhqEuyXRoGFi0ONbDeWDMDoL8MhLw==}
+  nodemailer@10.0.10:
+    resolution: {integrity: sha512-He9XskOFms62SyAKkLu8CcGcYHAo+BSHSsORI8s4PJH8qZgZY4L4lDfvyN0twvmbpyG+eGrxpyBlskj9d9rJ8A==}
     engines: {node: '>=20.0.0'}
 
   nodemailer@7.0.10:
@@ -31956,8 +31961,8 @@ packages:
     resolution: {integrity: sha512-e8vJF4XdVkzqqSHguEMz41mQO1wKwxKm5ENrUJQUu9kLDCtn83cxbyHZcszr4QC5zEA7WffRRC4gsTecC7J9oA==}
     engines: {node: '>=18'}
 
-  p-map@7.0.8:
-    resolution: {integrity: sha512-MitaVsCuCFIvOLLPIU7NnfrZvS9H9h7kwMUkDo+T2pEISaJD48IV9S8iIdXB7PsvvdxyYcsSTTrr90XKsbulNw==}
+  p-map@7.1.1:
+    resolution: {integrity: sha512-6Lh3jQPLthYujSrlw6ccWXBGZTkoTCz27Hd92g79LH/kjAbgoEu0t442cCCNbegPSJsA0lwDX8z0bcKtkpA32g==}
     engines: {node: '>=18'}
 
   p-queue@6.6.2:
@@ -34053,8 +34058,8 @@ packages:
   tar-stream@3.1.7:
     resolution: {integrity: sha512-qJj60CXt7IU1Ffyc3NJMjh6EkuCFej46zUqJ4J7pqYlThyd9bO0XBTmcOIhSzZJVWfsLks0+nle/j538YAW9RQ==}
 
-  tar-stream@3.2.1:
-    resolution: {integrity: sha512-nqsEO8zLZJvrOMdEwkA0QdCLFbetHMn95Zqu4fKwX+hkaTWJPZZOrxx/PwtxoK0MMGQmBQNRW3CPs8IFYQz4cQ==}
+  tar-stream@3.2.2:
+    resolution: {integrity: sha512-+8NeqHRjQWH9nYlwo2gamAMImZCVzI4UoEgDpWorBt9OEfppiZn+uSkskzQKPWIZyji/C8fpWO7u69G0DX0tbg==}
 
   tar@7.5.20:
     resolution: {integrity: sha512-9FcyK4PA6+WbzlTM9WhQm6vB5W7cP7dUiPsv1g7YDwEQnQ1CGpK3MGlKk/ITVWMk05kHZuBhmVhiv8LZoy/PFQ==}
@@ -39047,10 +39052,10 @@ snapshots:
       - debug
       - supports-color
 
-  '@definitelytyped/header-parser@0.2.30':
+  '@definitelytyped/header-parser@0.2.32':
     dependencies:
-      '@definitelytyped/typescript-versions': 0.1.12
-      '@definitelytyped/utils': 0.1.15
+      '@definitelytyped/typescript-versions': 0.1.14
+      '@definitelytyped/utils': 0.1.17
       semver: 7.8.5
     transitivePeerDependencies:
       - bare-abort-controller
@@ -39058,18 +39063,19 @@ snapshots:
       - react-native-b4a
       - supports-color
 
-  '@definitelytyped/typescript-versions@0.1.12': {}
+  '@definitelytyped/typescript-versions@0.1.14': {}
 
-  '@definitelytyped/utils@0.1.15':
+  '@definitelytyped/utils@0.1.17':
     dependencies:
-      '@types/node': 25.9.8
+      '@types/node': 25.9.9
       cachedir: 2.4.0
       charm: 1.0.2
       libnpmpublish: 11.2.1
       minimatch: 10.2.6
       npm-registry-fetch: 19.1.1
+      semver: 7.8.5
       tar: 7.5.22
-      tar-stream: 3.2.1
+      tar-stream: 3.2.2
       which: 6.0.1
     transitivePeerDependencies:
       - bare-abort-controller
@@ -40353,11 +40359,11 @@ snapshots:
       - '@types/node'
     optional: true
 
-  '@microsoft/api-extractor-model@7.32.0(@types/node@26.6.3)':
+  '@microsoft/api-extractor-model@7.32.0(@types/node@26.6.5)':
     dependencies:
       '@microsoft/tsdoc': 0.16.0
       '@microsoft/tsdoc-config': 0.18.0
-      '@rushstack/node-core-library': 5.18.0(@types/node@26.6.3)
+      '@rushstack/node-core-library': 5.18.0(@types/node@26.6.5)
     transitivePeerDependencies:
       - '@types/node'
 
@@ -40381,15 +40387,15 @@ snapshots:
       - '@types/node'
     optional: true
 
-  '@microsoft/api-extractor@7.55.0(@types/node@26.6.3)':
+  '@microsoft/api-extractor@7.55.0(@types/node@26.6.5)':
     dependencies:
-      '@microsoft/api-extractor-model': 7.32.0(@types/node@26.6.3)
+      '@microsoft/api-extractor-model': 7.32.0(@types/node@26.6.5)
       '@microsoft/tsdoc': 0.16.0
       '@microsoft/tsdoc-config': 0.18.0
-      '@rushstack/node-core-library': 5.18.0(@types/node@26.6.3)
+      '@rushstack/node-core-library': 5.18.0(@types/node@26.6.5)
       '@rushstack/rig-package': 0.6.0
-      '@rushstack/terminal': 0.19.3(@types/node@26.6.3)
-      '@rushstack/ts-command-line': 5.1.3(@types/node@26.6.3)
+      '@rushstack/terminal': 0.19.3(@types/node@26.6.5)
+      '@rushstack/ts-command-line': 5.1.3(@types/node@26.6.5)
       diff: 8.0.2
       lodash: 4.17.23
       minimatch: 10.0.3
@@ -40480,7 +40486,7 @@ snapshots:
       '@tybys/wasm-util': 0.10.3
     optional: true
 
-  '@napi-rs/wasm-runtime@1.2.4(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)':
+  '@napi-rs/wasm-runtime@1.2.5(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)':
     dependencies:
       '@emnapi/core': 1.11.2
       '@emnapi/runtime': 1.11.2
@@ -43138,7 +43144,7 @@ snapshots:
 
   '@rolldown/binding-wasm32-wasi@1.0.0-beta.60(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)':
     dependencies:
-      '@napi-rs/wasm-runtime': 1.2.4(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)
+      '@napi-rs/wasm-runtime': 1.2.5(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)
     transitivePeerDependencies:
       - '@emnapi/core'
       - '@emnapi/runtime'
@@ -43336,7 +43342,7 @@ snapshots:
       '@types/node': 20.19.25
     optional: true
 
-  '@rushstack/node-core-library@5.18.0(@types/node@26.6.3)':
+  '@rushstack/node-core-library@5.18.0(@types/node@26.6.5)':
     dependencies:
       ajv: 8.13.0
       ajv-draft-04: 1.0.0(ajv@8.13.0)
@@ -43347,16 +43353,16 @@ snapshots:
       resolve: 1.22.11
       semver: 7.5.4
     optionalDependencies:
-      '@types/node': 26.6.3
+      '@types/node': 26.6.5
 
   '@rushstack/problem-matcher@0.1.1(@types/node@20.19.25)':
     optionalDependencies:
       '@types/node': 20.19.25
     optional: true
 
-  '@rushstack/problem-matcher@0.1.1(@types/node@26.6.3)':
+  '@rushstack/problem-matcher@0.1.1(@types/node@26.6.5)':
     optionalDependencies:
-      '@types/node': 26.6.3
+      '@types/node': 26.6.5
 
   '@rushstack/rig-package@0.6.0':
     dependencies:
@@ -43372,13 +43378,13 @@ snapshots:
       '@types/node': 20.19.25
     optional: true
 
-  '@rushstack/terminal@0.19.3(@types/node@26.6.3)':
+  '@rushstack/terminal@0.19.3(@types/node@26.6.5)':
     dependencies:
-      '@rushstack/node-core-library': 5.18.0(@types/node@26.6.3)
-      '@rushstack/problem-matcher': 0.1.1(@types/node@26.6.3)
+      '@rushstack/node-core-library': 5.18.0(@types/node@26.6.5)
+      '@rushstack/problem-matcher': 0.1.1(@types/node@26.6.5)
       supports-color: 8.1.1
     optionalDependencies:
-      '@types/node': 26.6.3
+      '@types/node': 26.6.5
 
   '@rushstack/ts-command-line@5.1.3(@types/node@20.19.25)':
     dependencies:
@@ -43390,9 +43396,9 @@ snapshots:
       - '@types/node'
     optional: true
 
-  '@rushstack/ts-command-line@5.1.3(@types/node@26.6.3)':
+  '@rushstack/ts-command-line@5.1.3(@types/node@26.6.5)':
     dependencies:
-      '@rushstack/terminal': 0.19.3(@types/node@26.6.3)
+      '@rushstack/terminal': 0.19.3(@types/node@26.6.5)
       '@types/argparse': 1.0.38
       argparse: 1.0.10
       string-argv: 0.3.2
@@ -44827,11 +44833,11 @@ snapshots:
     dependencies:
       undici-types: 6.19.8
 
-  '@types/node@25.9.8':
+  '@types/node@25.9.9':
     dependencies:
       undici-types: 7.24.6
 
-  '@types/node@26.6.3':
+  '@types/node@26.6.5':
     dependencies:
       undici-types: 8.9.0
     optional: true
@@ -45382,7 +45388,7 @@ snapshots:
     dependencies:
       file-type: 18.7.0
       is-stream: 3.0.0
-      tar-stream: 3.2.1
+      tar-stream: 3.2.2
     transitivePeerDependencies:
       - bare-abort-controller
       - bare-buffer
@@ -45752,7 +45758,7 @@ snapshots:
       buffer-crc32: 1.0.0
       readable-stream: 4.7.0
       readdir-glob: 1.1.3
-      tar-stream: 3.2.1
+      tar-stream: 3.2.2
       zip-stream: 6.0.1
     transitivePeerDependencies:
       - bare-abort-controller
@@ -46172,12 +46178,12 @@ snapshots:
       - react-native-b4a
     optional: true
 
-  bare-fs@4.8.2:
+  bare-fs@4.8.4:
     dependencies:
       bare-events: 2.9.2
       bare-path: 3.1.2
       bare-stream: 2.13.4(bare-events@2.9.2)
-      bare-url: 2.5.4
+      bare-url: 2.5.5
       fast-fifo: 1.3.2
     transitivePeerDependencies:
       - bare-abort-controller
@@ -46222,7 +46228,7 @@ snapshots:
       bare-path: 3.1.1
     optional: true
 
-  bare-url@2.5.4:
+  bare-url@2.5.5:
     dependencies:
       bare-path: 3.1.2
 
@@ -46487,7 +46493,7 @@ snapshots:
       minipass-collect: 2.0.1
       minipass-flush: 1.0.7
       minipass-pipeline: 1.2.4
-      p-map: 7.0.8
+      p-map: 7.1.1
       ssri: 13.0.1
 
   cacheable-lookup@5.0.4: {}
@@ -47693,7 +47699,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.6.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.30
+      '@definitelytyped/header-parser': 0.2.32
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -47710,9 +47716,9 @@ snapshots:
 
   dtslint@4.2.1(typescript@5.6.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.30
-      '@definitelytyped/typescript-versions': 0.1.12
-      '@definitelytyped/utils': 0.1.15
+      '@definitelytyped/header-parser': 0.2.32
+      '@definitelytyped/typescript-versions': 0.1.14
+      '@definitelytyped/utils': 0.1.17
       dts-critic: 3.3.11(typescript@5.6.3)
       fs-extra: 6.0.1
       json-stable-stringify: 1.3.0
@@ -50216,6 +50222,8 @@ snapshots:
 
   http-cache-semantics@4.2.0: {}
 
+  http-cache-semantics@4.3.0: {}
+
   http-errors@1.8.1:
     dependencies:
       depd: 1.1.2
@@ -52285,7 +52293,7 @@ snapshots:
       '@npmcli/agent': 4.0.2
       '@npmcli/redact': 4.0.0
       cacache: 20.0.4
-      http-cache-semantics: 4.2.0
+      http-cache-semantics: 4.3.0
       minipass: 7.1.3
       minipass-fetch: 5.0.2
       minipass-flush: 1.0.7
@@ -53370,7 +53378,7 @@ snapshots:
 
   node-telegram-bot-api@1.2.0: {}
 
-  nodemailer@10.0.9: {}
+  nodemailer@10.0.10: {}
 
   nodemailer@7.0.10: {}
 
@@ -53912,7 +53920,7 @@ snapshots:
 
   p-map@7.0.5: {}
 
-  p-map@7.0.8: {}
+  p-map@7.1.1: {}
 
   p-queue@6.6.2:
     dependencies:
@@ -56573,11 +56581,11 @@ snapshots:
 
   strip-outer@2.0.0: {}
 
-  stripe@18.5.0(@types/node@26.6.3):
+  stripe@18.5.0(@types/node@26.6.5):
     dependencies:
       qs: 6.16.0
     optionalDependencies:
-      '@types/node': 26.6.3
+      '@types/node': 26.6.5
 
   strnum@1.1.2: {}
 
@@ -56858,10 +56866,10 @@ snapshots:
       - bare-abort-controller
       - react-native-b4a
 
-  tar-stream@3.2.1:
+  tar-stream@3.2.2:
     dependencies:
       b4a: 1.9.0
-      bare-fs: 4.8.2
+      bare-fs: 4.8.4
       fast-fifo: 1.3.2
       streamx: 2.28.1
     transitivePeerDependencies:
@@ -57957,9 +57965,9 @@ snapshots:
       - debug
       - supports-color
 
-  vite-plugin-dts@4.5.4(@types/node@26.6.3)(rollup@4.62.0)(typescript@5.6.3)(vite@6.4.3(@types/node@26.6.3)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1)):
+  vite-plugin-dts@4.5.4(@types/node@26.6.5)(rollup@4.62.0)(typescript@5.6.3)(vite@6.4.3(@types/node@26.6.5)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1)):
     dependencies:
-      '@microsoft/api-extractor': 7.55.0(@types/node@26.6.3)
+      '@microsoft/api-extractor': 7.55.0(@types/node@26.6.5)
       '@rollup/pluginutils': 5.3.0(rollup@4.62.0)
       '@volar/typescript': 2.4.23
       '@vue/language-core': 2.2.0(typescript@5.6.3)
@@ -57970,13 +57978,13 @@ snapshots:
       magic-string: 0.30.21
       typescript: 5.6.3
     optionalDependencies:
-      vite: 6.4.3(@types/node@26.6.3)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1)
+      vite: 6.4.3(@types/node@26.6.5)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1)
     transitivePeerDependencies:
       - '@types/node'
       - rollup
       - supports-color
 
-  vite@6.4.3(@types/node@26.6.3)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1):
+  vite@6.4.3(@types/node@26.6.5)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1):
     dependencies:
       esbuild: 0.25.12
       fdir: 6.5.0(picomatch@4.0.4)
@@ -57985,7 +57993,7 @@ snapshots:
       rollup: 4.62.0
       tinyglobby: 0.2.17
     optionalDependencies:
-      '@types/node': 26.6.3
+      '@types/node': 26.6.5
       fsevents: 2.3.3
       jiti: 2.6.1
       tsx: 4.20.6
