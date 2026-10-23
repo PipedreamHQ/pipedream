@@ -4,7 +4,7 @@ export default {
   key: "pipedrive-update-task",
   name: "Update Task",
   description: "Updates an existing task (BETA). Run **List Tasks** first to obtain a valid task ID. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Tasks#updateTask)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   ai: "optimized",
   annotations: {
