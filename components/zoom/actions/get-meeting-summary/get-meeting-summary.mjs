@@ -8,7 +8,7 @@ export default {
     + " To find a meeting ID, call **List Meetings** first. A numeric meeting ID is resolved to its most recent ended instance."
     + " Returns the summary title and `summary_content` in Markdown."
     + " [See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/summaries/get/meetings/{meetingId}/meeting_summary)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,

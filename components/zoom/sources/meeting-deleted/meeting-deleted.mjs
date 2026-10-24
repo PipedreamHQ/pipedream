@@ -6,7 +6,7 @@ export default {
   key: "zoom-meeting-deleted",
   name: "Meeting Deleted (Instant)",
   description: "Emit new event each time a meeting is deleted where you're the host",
-  version: "0.1.12",
+  version: "0.1.13",
   type: "source",
   dedupe: "unique",
   props: {
