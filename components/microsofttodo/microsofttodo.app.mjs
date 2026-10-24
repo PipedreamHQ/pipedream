@@ -1,5 +1,7 @@
 import { axios } from "@pipedream/platform";
 
+const OPTION_PAGE_SIZE = 50;
+
 export default {
   type: "app",
   app: "microsofttodo",
@@ -8,33 +10,55 @@ export default {
       type: "string",
       label: "Task",
       description: "Identifier of a task",
-      async options({ taskListId }) {
+      async options({
+        prevContext, taskListId,
+      }) {
         if (!taskListId) {
           return [];
         }
-        const { value } = await this.listTasks({
-          taskListId,
+        const response = await this.getCollectionPage({
+          nextLink: prevContext?.nextLink,
+          path: `/me/todo/lists/${taskListId}/tasks`,
+          params: {
+            $top: OPTION_PAGE_SIZE,
+          },
         });
-        return value?.map(({
-          id: value, title: label,
-        }) => ({
-          value,
-          label,
-        })) || [];
+        return {
+          context: {
+            nextLink: response["@odata.nextLink"],
+          },
+          options: response.value?.map(({
+            id: value, title: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+        };
       },
     },
     taskListId: {
       type: "string",
       label: "Task List",
       description: "Identifier of a task list",
-      async options() {
-        const { value } = await this.listLists();
-        return value?.map(({
-          id: value, displayName: label,
-        }) => ({
-          value,
-          label,
-        })) || [];
+      async options({ prevContext }) {
+        const response = await this.getCollectionPage({
+          nextLink: prevContext?.nextLink,
+          path: "/me/todo/lists",
+          params: {
+            $top: OPTION_PAGE_SIZE,
+          },
+        });
+        return {
+          context: {
+            nextLink: response["@odata.nextLink"],
+          },
+          options: response.value?.map(({
+            id: value, displayName: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+        };
       },
     },
     title: {
@@ -117,6 +141,37 @@ export default {
         ...args,
       });
     },
+    _validateNextLink(nextLink) {
+      const baseUrl = new URL(this._baseUrl());
+      const nextPageUrl = new URL(nextLink);
+      if (nextPageUrl.origin !== baseUrl.origin || !nextPageUrl.pathname.startsWith(`${baseUrl.pathname}/`)) {
+        throw new Error("Microsoft Graph returned an invalid pagination link.");
+      }
+      return nextPageUrl.toString();
+    },
+    /**
+     * Retrieve one page of a Microsoft Graph collection for an async selector.
+     *
+     * @param {object} args - Request arguments.
+     * @param {string} [args.nextLink] - Opaque next-page URL returned by Microsoft Graph.
+     * @param {string} args.path - Initial Microsoft Graph API path.
+     * @returns {Promise<object>} One collection response page.
+     */
+    getCollectionPage({
+      nextLink, params, path, ...args
+    }) {
+      return this._makeRequest({
+        ...args,
+        ...(nextLink
+          ? {
+            url: this._validateNextLink(nextLink),
+          }
+          : {
+            path,
+            params,
+          }),
+      });
+    },
     /**
      * Retrieve every page of a Microsoft Graph collection.
      *
@@ -159,7 +214,7 @@ export default {
 
         response = await this._makeRequest({
           $,
-          url: nextLink,
+          url: this._validateNextLink(nextLink),
         });
       }
 

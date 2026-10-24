@@ -3,7 +3,7 @@ import microsoftTodo from "../../microsofttodo.app.mjs";
 export default {
   key: "microsofttodo-list-task-lists",
   name: "List Task Lists",
-  description: "List task lists in Microsoft To Do, following Microsoft Graph pagination so all matching lists are returned. [See the documentation](https://learn.microsoft.com/en-us/graph/api/todo-list-lists).",
+  description: "List task lists in Microsoft To Do, following Microsoft Graph pagination across all available pages unless the Top input limits the number returned. [See the documentation](https://learn.microsoft.com/en-us/graph/api/todo-list-lists).",
   version: "0.0.2",
   type: "action",
   annotations: {
