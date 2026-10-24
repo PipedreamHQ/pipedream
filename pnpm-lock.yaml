@@ -2040,7 +2040,11 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
-  components/bluesnap: {}
+  components/bluesnap:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/bokun: {}
 
@@ -5056,7 +5060,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/elastic_security: {}
+  components/elastic_security:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/elasticemail: {}
 
@@ -7475,8 +7483,8 @@ importers:
   components/heygen:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.8
-        version: 1.6.8
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/heylibby:
     dependencies:
@@ -7967,7 +7975,14 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/incorta: {}
+  components/incorta:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
+      hive-driver:
+        specifier: 1.0.0
+        version: 1.0.0
 
   components/indiefunnels:
     dependencies:
@@ -9096,8 +9111,8 @@ importers:
         specifier: ^55.1.0
         version: 55.2.1(encoding@0.1.13)
       '@pipedream/linear_app':
-        specifier: ^0.11.1
-        version: 0.11.1(encoding@0.1.13)
+        specifier: ^1.1.0
+        version: 1.1.0(encoding@0.1.13)
       '@pipedream/platform':
         specifier: ^3.3.0
         version: 3.3.0
@@ -9906,8 +9921,6 @@ importers:
   components/mexc: {}
 
   components/mezmo: {}
-
-  components/michelle_test_app: {}
 
   components/microbilt_developer: {}
 
@@ -14554,6 +14567,9 @@ importers:
 
   components/servicenow_oauth_: {}
 
+  components/servicenow_service_account:
+    specifiers: {}
+
   components/servicetitan: {}
 
   components/serwersms_pl: {}
@@ -15063,9 +15079,6 @@ importers:
       '@slack/web-api':
         specifier: 8.1.1
         version: 8.1.1
-      async-retry:
-        specifier: ^1.3.3
-        version: 1.3.3
       lodash:
         specifier: ^4.18.1
         version: 4.18.1
@@ -22393,8 +22406,8 @@ packages:
   '@pipedream/launchdarkly@0.1.1':
     resolution: {integrity: sha512-RqW4cJ0CfCnCy/lCutIJNSlX3IXV3jxoyqxDgAeHx8Q8BUEjEl7T0+1vMLyNXhU+V4Kj38KVURnSKqCE59UVvg==}
 
-  '@pipedream/linear_app@0.11.1':
-    resolution: {integrity: sha512-xeiJ4tYADxEr93c6+MKoXpqX1v9PXSqGgJCGHnqfAZX33LXwLIiyy4pU9O+uh/mYY3x9qxe22tk3zrzK3D/CcQ==}
+  '@pipedream/linear_app@1.1.0':
+    resolution: {integrity: sha512-R2Y5QqxHN8LTJNMYaUZOcx5sslBlUtmF857QlEXcnkFx47nu6hLQBcwtorrv+XhPd0ueRFA5kQ6chyPAZev5fA==}
 
   '@pipedream/linkedin@1.3.0':
     resolution: {integrity: sha512-uBoiCA/zRMJwQzqx0LKdZq3DmeoNjcjCUyzh6aeQWrJzoOL1IF46QjZlI5JtUNmGLQhUUpNisWdhpX5OfKvngQ==}
@@ -25777,6 +25790,9 @@ packages:
     resolution: {integrity: sha512-hsU18Ae8CDTR6Kgu9DYf0EbCr/a5iGL0rytQDobUcdpYOKokk8LEjVphnXkDkgpi0wYVsqrXuP0bZxJaTqdgoA==}
     engines: {node: '>= 0.4'}
 
+  async-limiter@1.0.1:
+    resolution: {integrity: sha512-csOlWGAcRFJaI6m+F2WKdnMKr4HhdhFVBk0H/QbJFMCr+uO2kwohwXQPxw/9OCxp05r5ghVBFSyioixx3gfkNQ==}
+
   async-retry@1.3.3:
     resolution: {integrity: sha512-wfr/jstw9xNi/0teMHrRW7dsz3Lt5ARhYNZ2ewpadnhaIp5mbALhOAP+EAdsC7t4Z6wqsDVv9+W6gm1Dk9mEyw==}
 
@@ -26151,6 +26167,9 @@ packages:
 
   brotli@1.3.3:
     resolution: {integrity: sha512-oTKjJdShmDuGW94SyyaoQvAjf30dZaHnjJ8uAF+u2/vGJkJbJPJAT1gDiOJP5v1Zb6f9KEyW/1HpuaWIXtGHPg==}
+
+  browser-or-node@1.3.0:
+    resolution: {integrity: sha512-0F2z/VSnLbmEeBcUrSuDH5l0HxTXdQQzLjkmBR4cYfvg1zJrKSlmIZFqyFR8oX0NrwPhy3c3HQ6i3OxMbew4Tg==}
 
   browser-request@0.3.3:
     resolution: {integrity: sha512-YyNI4qJJ+piQG6MMEuo7J3Bzaqssufx04zpEKYfSrl/1Op59HWali9zMtBpXnkmqMcOuWJPZvudrm9wISmnCbg==}
@@ -29016,6 +29035,9 @@ packages:
 
   highlight.js@10.7.3:
     resolution: {integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==}
+
+  hive-driver@1.0.0:
+    resolution: {integrity: sha512-shUlHN7PAiVp+7UMT3aryUa5nrtMtb3ht+mF5irHvn2qoRwrN4hwhE8c4Gn62qzdfyXBkGYcyov9rRPw9aoC4Q==}
 
   hmac-drbg@1.0.1:
     resolution: {integrity: sha512-Tti3gMqLdZfhOQY1Mzf/AanLiqh1WTiJgEj26ZuYQ9fbkLomzGchCws4FyrSd4VkpBfiNhaE1On+lOz894jvXg==}
@@ -34108,6 +34130,10 @@ packages:
   thread-stream@3.1.0:
     resolution: {integrity: sha512-OqyPZ9u96VohAyMfJykzmivOrY2wfMSf3C5TtFJVgN+Hm6aj+voFhlK+kZEIv2FBh1X6Xp3DlnCOfEQ3B2J86A==}
 
+  thrift@0.20.0:
+    resolution: {integrity: sha512-oSmJTaoIAGolpupVHFfsWcmdEKX81fcDI6ty0hhezzdgZvp0XyXgMe9+1YusI8Ahy0HK4n8jlNrkPjOPeHZjdQ==}
+    engines: {node: '>= 10.18.0'}
+
   through2@2.0.5:
     resolution: {integrity: sha512-/mrRod8xqpA+IHSLyGCQ2s8SPHiCDEeQJSep1jqLYeEUClOFG2Qsh+4FU6G9VeqpZnGW/Su8LQGc4YKni5rYSQ==}
 
@@ -35243,6 +35269,17 @@ packages:
   writejson@3.0.0:
     resolution: {integrity: sha512-ekMZxrB4zBl0RHBlObSVcU+2Nx7Xe9vZLcgJFe2oHLfgkjl5LueAgilGrgXVKJRs/y/xP3FteyvUP3QurJ058A==}
     engines: {node: '>=10.0.0'}
+
+  ws@5.2.7:
+    resolution: {integrity: sha512-Yp1RXz/2h2qC/Gy7d5mqQcpuCWbXiO6FgYw/jTbSvytZF9wD7fh7od+6WzWR/y9EAnXcJjQZpPkYVmj3T2bj+Q==}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: ^5.0.2
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
 
   ws@7.5.10:
     resolution: {integrity: sha512-+dbF1tHwZpXcbOJdVOkzLDxZP1ailvSxM6ZweXTegylPny803bFhA+vqBYw4s31NSAk4S2Qz+AKXK9a4wkdjcQ==}
@@ -41538,7 +41575,7 @@ snapshots:
       - debug
       - supports-color
 
-  '@pipedream/linear_app@0.11.1(encoding@0.1.13)':
+  '@pipedream/linear_app@1.1.0(encoding@0.1.13)':
     dependencies:
       '@linear/sdk': 55.2.1(encoding@0.1.13)
       '@pipedream/platform': 3.4.0
@@ -45877,6 +45914,8 @@ snapshots:
 
   async-function@1.0.0: {}
 
+  async-limiter@1.0.1: {}
+
   async-retry@1.3.3:
     dependencies:
       retry: 0.13.1
@@ -46346,6 +46385,8 @@ snapshots:
   brotli@1.3.3:
     dependencies:
       base64-js: 1.5.1
+
+  browser-or-node@1.3.0: {}
 
   browser-request@0.3.3: {}
 
@@ -50083,6 +50124,14 @@ snapshots:
 
   highlight.js@10.7.3: {}
 
+  hive-driver@1.0.0:
+    dependencies:
+      node-int64: 0.4.0
+      thrift: 0.20.0
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+
   hmac-drbg@1.0.1:
     dependencies:
       hash.js: 1.1.7
@@ -50824,6 +50873,10 @@ snapshots:
     dependencies:
       node-fetch: 3.3.2
       unfetch: 5.0.0
+
+  isomorphic-ws@4.0.1(ws@5.2.7):
+    dependencies:
+      ws: 5.2.7
 
   isomorphic-ws@4.0.1(ws@8.18.3):
     dependencies:
@@ -56934,6 +56987,17 @@ snapshots:
     dependencies:
       real-require: 0.2.0
 
+  thrift@0.20.0:
+    dependencies:
+      browser-or-node: 1.3.0
+      isomorphic-ws: 4.0.1(ws@5.2.7)
+      node-int64: 0.4.0
+      q: 1.5.1
+      ws: 5.2.7
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+
   through2@2.0.5:
     dependencies:
       readable-stream: 2.3.8
@@ -58187,6 +58251,10 @@ snapshots:
   writejson@3.0.0:
     dependencies:
       try-catch: 3.0.1
+
+  ws@5.2.7:
+    dependencies:
+      async-limiter: 1.0.1
 
   ws@7.5.10: {}
 

@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "michelle_test_app",
+  app: "servicenow_service_account",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data

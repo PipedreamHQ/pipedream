@@ -9,7 +9,7 @@ export default {
           key,
           value,
         ]) => {
-        if (value === undefined || value === null) {
+        if (value === undefined || value === null || (typeof value === "string" && !value.trim())) {
           return reduction;
         }
         return {
