@@ -675,6 +675,31 @@ const RUN_BULK_MUTATION = `
   }
 `;
 
+const RUN_BULK_QUERY = `
+  mutation bulkOperationRunQuery($query: String!, $groupObjects: Boolean = false) {
+    bulkOperationRunQuery(query: $query, groupObjects: $groupObjects) {
+      bulkOperation {
+        id
+        status
+        errorCode
+        createdAt
+        completedAt
+        objectCount
+        rootObjectCount
+        fileSize
+        url
+        partialDataUrl
+        query
+      }
+      userErrors {
+        code
+        field
+        message
+      }
+    }
+  }
+`;
+
 export default {
   CREATE_WEBHOOK,
   DELETE_WEBHOOK,
@@ -713,4 +738,5 @@ export default {
   FULFILLMENT_ORDER_HOLD,
   CREATE_STAGED_UPLOAD,
   RUN_BULK_MUTATION,
+  RUN_BULK_QUERY,
 };
