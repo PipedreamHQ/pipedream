@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/fastaf",
+  "version": "0.1.0",
+  "description": "Pipedream FastAF Components",
+  "main": "fastaf.app.mjs",
+  "keywords": [
+    "pipedream",
+    "fastaf",
+    "scraping",
+    "search"
+  ],
+  "homepage": "https://pipedream.com/apps/fastaf",
+  "author": "FastAF <dev@fastaf.co>",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  }
+}
