@@ -18,7 +18,7 @@ export default {
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: true,
+    readOnlyHint: false,
   },
   props: {
     shopify,
@@ -64,14 +64,24 @@ export default {
       throw new Error(userErrors[0].message);
     }
 
+    const operationId = startedOperation.id;
     let bulkOperation = startedOperation;
     const deadline = Date.now() + this.maxWaitSeconds * 1000;
     while (BULK_OPERATION_PENDING_STATUSES.includes(bulkOperation.status)
       && Date.now() + BULK_OPERATION_POLL_INTERVAL_MS <= deadline) {
       await utils.delay(BULK_OPERATION_POLL_INTERVAL_MS);
-      ({ bulkOperation } = await this.shopify.getBulkOperation({
-        id: bulkOperation.id,
-      }));
+      let polled;
+      try {
+        polled = await this.shopify.getBulkOperation({
+          id: operationId,
+        });
+      } catch (err) {
+        throw new Error(`Bulk operation \`${operationId}\` was started, but checking its status failed: ${err.message}. Use **Get Bulk Operation** with this ID to check its progress instead of starting a new one.`);
+      }
+      if (!polled.bulkOperation) {
+        throw new Error(`Bulk operation \`${operationId}\` not found while polling`);
+      }
+      bulkOperation = polled.bulkOperation;
     }
 
     if (bulkOperation.status === "FAILED") {

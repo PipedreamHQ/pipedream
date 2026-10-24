@@ -636,12 +636,33 @@ export default {
     runBulkMutation(variables) {
       return this._makeGraphQlRequest(mutations.RUN_BULK_MUTATION, variables);
     },
+    /**
+     * Start a bulk query operation.
+     * @param {object} variables
+     * @param {string} variables.query - The Admin GraphQL query to run in bulk
+     * @param {boolean} [variables.groupObjects] - Nest child objects under their parents
+     * @returns {Promise<object>} The `bulkOperationRunQuery` payload with
+     * `bulkOperation` and `userErrors`
+     */
     runBulkQuery(variables) {
       return this._makeGraphQlRequest(mutations.RUN_BULK_QUERY, variables);
     },
+    /**
+     * Retrieve a bulk operation by ID.
+     * @param {object} variables
+     * @param {string} variables.id - The bulk operation GID
+     * @returns {Promise<object>} An object with `bulkOperation`, `null` when not found
+     */
     getBulkOperation(variables) {
       return this._makeGraphQlRequest(queries.GET_BULK_OPERATION, variables);
     },
+    /**
+     * Run an arbitrary Admin GraphQL document.
+     * @param {object} args
+     * @param {string} args.query - The GraphQL document
+     * @param {object} [args.variables] - Values for the document's variables
+     * @returns {Promise<object>} The response `data` object
+     */
     runGraphQlQuery({
       query, variables,
     }) {
