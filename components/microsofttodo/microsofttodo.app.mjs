@@ -108,13 +108,69 @@ export default {
     _makeRequest({
       $ = this,
       path,
+      url,
       ...args
     }) {
       return axios($, {
-        url: `${this._baseUrl()}${path}`,
+        url: url || `${this._baseUrl()}${path}`,
         headers: this._headers(),
         ...args,
       });
+    },
+    /**
+     * Retrieve every page of a Microsoft Graph collection.
+     *
+     * @param {object} args - Request arguments.
+     * @param {string} args.path - Initial Microsoft Graph API path.
+     * @param {number} [args.maxItems] - Maximum total items to return.
+     * @returns {Promise<object>} The first response envelope with all page values combined.
+     */
+    async _getAllPages({
+      $ = this,
+      maxItems,
+      path,
+      ...args
+    }) {
+      const values = [];
+      const seenNextLinks = new Set();
+      let response = await this._makeRequest({
+        $,
+        path,
+        ...args,
+      });
+      const firstResponse = response;
+
+      while (true) {
+        if (!Array.isArray(response?.value)) {
+          throw new Error(`Expected a collection response while retrieving ${path}.`);
+        }
+
+        values.push(...response.value);
+
+        const nextLink = response["@odata.nextLink"];
+        if (!nextLink || (maxItems != null && values.length >= maxItems)) {
+          break;
+        }
+
+        if (seenNextLinks.has(nextLink)) {
+          throw new Error(`Microsoft Graph returned a repeated pagination link while retrieving ${path}.`);
+        }
+        seenNextLinks.add(nextLink);
+
+        response = await this._makeRequest({
+          $,
+          url: nextLink,
+        });
+      }
+
+      const result = {
+        ...firstResponse,
+        value: maxItems == null
+          ? values
+          : values.slice(0, maxItems),
+      };
+      delete result["@odata.nextLink"];
+      return result;
     },
     async createHook(args = {}) {
       const response = await this._makeRequest({
@@ -159,13 +215,13 @@ export default {
     listTasks({
       taskListId, ...args
     }) {
-      return this._makeRequest({
+      return this._getAllPages({
         path: `/me/todo/lists/${taskListId}/tasks`,
         ...args,
       });
     },
     listLists(args = {}) {
-      return this._makeRequest({
+      return this._getAllPages({
         path: "/me/todo/lists",
         ...args,
       });
