@@ -89,7 +89,7 @@ subsequent steps.
 
 - **400:** Check required fields, numeric ranges and incompatible options.
 - **401:** Reconnect with a valid API key.
-- **402:** Check credit balance and any free-request eligibility.
+- **402:** Check credit balance. Free tier: 2 free calls per account (after email verification), sign up at fastaf.co.
 - **403:** Check account activation and verification.
 - **429 / 503:** Wait before another execution; inspect service capacity.
 - **502 / 504:** The target may be unavailable, blocked, empty or too slow.

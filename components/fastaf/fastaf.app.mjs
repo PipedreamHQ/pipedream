@@ -132,7 +132,7 @@ export default {
         const messages = {
           400: "Check the action inputs and supported parameter combinations.",
           401: "Reconnect the FastAF account with a valid API key.",
-          402: "Add FastAF credits or check the account's free-request eligibility.",
+          402: "Add FastAF credits. Free tier: 2 free calls per account (after email verification), sign up at fastaf.co.",
           403: "Check that the FastAF account is active and verified.",
           429: "Rate or concurrency limit reached; wait before another execution.",
           502: "The source returned unavailable, blocked or empty data; try later.",
