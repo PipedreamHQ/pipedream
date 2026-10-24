@@ -45,12 +45,12 @@ export default {
     expectedTitle: {
       type: "string",
       label: "Expected Title",
-      description: "The exact current task title. This is used only to verify that the task ID identifies the intended task; it is never used to find a task.",
+      description: "The exact current `title` value returned by **List Tasks**, e.g. `Buy groceries`. This verifies that the task ID identifies the intended task; it is never used to find a task.",
     },
     expectedLastModifiedDateTime: {
       type: "string",
       label: "Expected Last Modified Date Time",
-      description: "The task's expected `lastModifiedDateTime` value. When provided, the action stops if the task changed after it was reviewed.",
+      description: "The exact `lastModifiedDateTime` value returned by **List Tasks**, e.g. `2026-10-20T14:32:10.1234567Z`. When provided, the action stops if the task changed after it was reviewed.",
       optional: true,
     },
     dueDateTime: {

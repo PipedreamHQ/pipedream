@@ -1,12 +1,6 @@
 import microsoftTodo from "../../microsofttodo.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
-
-const isNotFoundError = (error) => [
-  error?.status,
-  error?.statusCode,
-  error?.response?.status,
-  error?.cause?.status,
-].includes(404);
+import { isNotFoundError } from "../../common/utils.mjs";
 
 export default {
   key: "microsofttodo-delete-task",
@@ -114,10 +108,10 @@ export default {
           };
         }
 
-        throw new ConfigurationError(`The delete outcome for task ${this.taskId} is uncertain because both the delete request and verification read failed. Do not retry automatically; read the exact task ID before requesting another deletion.`);
+        throw new Error(`The delete outcome for task ${this.taskId} is uncertain because both the delete request and verification read failed. Do not retry automatically; read the exact task ID before requesting another deletion. Delete error: ${deleteError.message}. Verification error: ${verificationError.message}`);
       }
 
-      throw new ConfigurationError(`The delete request failed and task ${this.taskId} still exists. It was not retried. Review the task again and obtain fresh confirmation before another delete request. Original error: ${deleteError.message}`);
+      throw new Error(`The delete request failed and task ${this.taskId} still exists. It was not retried. Review the task again and obtain fresh confirmation before another delete request. Original error: ${deleteError.message}`);
     }
 
     try {
@@ -137,9 +131,9 @@ export default {
         };
       }
 
-      throw new ConfigurationError(`Task ${this.taskId} returned a successful delete response, but absence could not be verified. Do not retry automatically; read the exact task ID before requesting another deletion.`);
+      throw new Error(`Task ${this.taskId} returned a successful delete response, but absence could not be verified. Do not retry automatically; read the exact task ID before requesting another deletion.`);
     }
 
-    throw new ConfigurationError(`Task ${this.taskId} still exists after a successful delete response. Do not retry automatically; review the task before requesting another deletion.`);
+    throw new Error(`Task ${this.taskId} still exists after a successful delete response. Do not retry automatically; review the task before requesting another deletion.`);
   },
 };

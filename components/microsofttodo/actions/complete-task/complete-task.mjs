@@ -85,7 +85,7 @@ export default {
           $,
         });
       } catch (verificationError) {
-        throw new ConfigurationError(`The completion outcome for task ${this.taskId} is uncertain because both the update request and verification read failed. Do not retry automatically; read the exact task ID before requesting completion again.`);
+        throw new Error(`The completion outcome for task ${this.taskId} is uncertain because both the update request and verification read failed. Do not retry automatically; read the exact task ID before requesting completion again. Update error: ${updateError.message}. Verification error: ${verificationError.message}`);
       }
 
       if (verificationTask.status === "completed") {
@@ -97,7 +97,7 @@ export default {
         };
       }
 
-      throw new ConfigurationError(`The completion request failed and task ${this.taskId} still has status "${verificationTask.status}". It was not retried. Review the task before another completion request. Original error: ${updateError.message}`);
+      throw new Error(`The completion request failed and task ${this.taskId} still has status "${verificationTask.status}". It was not retried. Review the task before another completion request. Original error: ${updateError.message}`);
     }
 
     const verifiedTask = await this.microsoftTodo.getTask({
@@ -107,7 +107,7 @@ export default {
     });
 
     if (verifiedTask.status !== "completed") {
-      throw new ConfigurationError(`The update response could not be verified: task ${this.taskId} does not report status "completed". Do not retry automatically.`);
+      throw new Error(`The update response could not be verified: task ${this.taskId} does not report status "completed". Do not retry automatically.`);
     }
 
     $.export("$summary", `Successfully completed task ${this.taskId}.`);

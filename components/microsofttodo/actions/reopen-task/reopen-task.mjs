@@ -89,7 +89,7 @@ export default {
           $,
         });
       } catch (verificationError) {
-        throw new ConfigurationError(`The reopen outcome for task ${this.taskId} is uncertain because both the update request and verification read failed. Do not retry automatically; read the exact task ID before requesting reopening again.`);
+        throw new Error(`The reopen outcome for task ${this.taskId} is uncertain because both the update request and verification read failed. Do not retry automatically; read the exact task ID before requesting reopening again. Update error: ${updateError.message}. Verification error: ${verificationError.message}`);
       }
 
       if (verificationTask.status === "notStarted") {
@@ -101,7 +101,7 @@ export default {
         };
       }
 
-      throw new ConfigurationError(`The reopen request failed and task ${this.taskId} still has status "${verificationTask.status}". It was not retried. Review the task before another reopen request. Original error: ${updateError.message}`);
+      throw new Error(`The reopen request failed and task ${this.taskId} still has status "${verificationTask.status}". It was not retried. Review the task before another reopen request. Original error: ${updateError.message}`);
     }
 
     const verifiedTask = await this.microsoftTodo.getTask({
@@ -111,7 +111,7 @@ export default {
     });
 
     if (verifiedTask.status !== "notStarted") {
-      throw new ConfigurationError(`The update response could not be verified: task ${this.taskId} does not report status "notStarted". Do not retry automatically.`);
+      throw new Error(`The update response could not be verified: task ${this.taskId} does not report status "notStarted". Do not retry automatically.`);
     }
 
     $.export("$summary", `Successfully reopened task ${this.taskId}.`);
