@@ -42,6 +42,17 @@ export default {
       label: "Title",
       description: "The title of the task.",
     },
+    expectedTitle: {
+      type: "string",
+      label: "Expected Title",
+      description: "The exact current task title. This is used only to verify that the task ID identifies the intended task; it is never used to find a task.",
+    },
+    expectedLastModifiedDateTime: {
+      type: "string",
+      label: "Expected Last Modified Date Time",
+      description: "The task's expected `lastModifiedDateTime` value. When provided, the action stops if the task changed after it was reviewed.",
+      optional: true,
+    },
     dueDateTime: {
       type: "string",
       label: "Due Date Time",
@@ -181,6 +192,15 @@ export default {
       return this._makeRequest({
         path: `/me/todo/lists/${taskListId}/tasks/${taskId}`,
         method: "PATCH",
+        ...args,
+      });
+    },
+    deleteTask({
+      taskId, taskListId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/me/todo/lists/${taskListId}/tasks/${taskId}`,
+        method: "DELETE",
         ...args,
       });
     },
