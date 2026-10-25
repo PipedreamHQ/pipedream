@@ -122,7 +122,7 @@ export default {
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: true,
+    readOnlyHint: false,
   },
   type: "action",
   ai: "optimized",
@@ -144,7 +144,9 @@ export default {
     calls: {
       type: "string[]",
       label: "Calls",
-      description: `Batch of calculations, up to 1,000. Each entry is a JSON object with \`tool\` and \`arguments\`. When this is set, it is sent to the Actor as \`calls\`. e.g. \`["${CALL_EXAMPLE}"]\`.`,
+      description: `Batch of calculations, up to 1,000. Each entry is a JSON object with \`tool\` and \`arguments\`. When this is set, it is sent to the Actor as \`calls\`. e.g. \`${JSON.stringify([
+        CALL_EXAMPLE,
+      ])}\`.`,
       optional: true,
     },
   },

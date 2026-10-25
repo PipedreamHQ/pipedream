@@ -16,7 +16,7 @@ export default {
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: true,
+    readOnlyHint: false,
   },
   type: "action",
   ai: "optimized",
@@ -92,7 +92,7 @@ export default {
     const rawCharge = this.maxTotalChargeUsd;
     if (rawCharge !== undefined && rawCharge !== null && String(rawCharge).trim() !== "") {
       maxTotalChargeUsd = Number(rawCharge);
-      if (Number.isNaN(maxTotalChargeUsd)) {
+      if (!Number.isFinite(maxTotalChargeUsd)) {
         throw new ConfigurationError("Maximum charge must be a number of US dollars, e.g. `5` or `12.5`.");
       }
     }
