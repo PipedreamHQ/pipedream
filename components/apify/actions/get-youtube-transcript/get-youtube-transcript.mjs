@@ -3,8 +3,8 @@ import apify from "../../apify.app.mjs";
 import {
   buildActorInput,
   formatCount,
-  runSyncGetDatasetItems,
-} from "../../common/run-sync.mjs";
+} from "../../common/utils.mjs";
+import { runSyncGetDatasetItems } from "../../common/run-sync.mjs";
 
 const YOUTUBE_TRANSCRIPT_ACTOR_ID = "vncntlabs~youtube-transcript-scraper";
 

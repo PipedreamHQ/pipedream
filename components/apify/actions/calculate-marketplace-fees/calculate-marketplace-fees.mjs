@@ -1,11 +1,11 @@
 import { ConfigurationError } from "@pipedream/platform";
 import apify from "../../apify.app.mjs";
-import { parseObject } from "../../common/utils.mjs";
 import {
   buildActorInput,
   formatCount,
-  runSyncGetDatasetItems,
-} from "../../common/run-sync.mjs";
+  parseObject,
+} from "../../common/utils.mjs";
+import { runSyncGetDatasetItems } from "../../common/run-sync.mjs";
 
 const MARKETPLACE_FEES_ACTOR_ID = "vncntlabs~shoptrueprofit-fee-mcp";
 
@@ -68,6 +68,8 @@ const COMPARE_EXAMPLE = "{\"price\":29.99,\"shipping_charged\":5,\"item_cost\":9
 
 const CALL_EXAMPLE = "{\"tool\":\"etsy_profit\",\"arguments\":{\"price\":24.99,\"item_cost\":8,\"shipping_label_cost\":4.5}}";
 
+const MAX_CALLS = 1000;
+
 const parseToolArguments = (value) => {
   if (value === undefined || value === null || value === "") {
     return undefined;
@@ -102,6 +104,10 @@ const parseCalls = (value) => {
     } else {
       calls.push(row);
     }
+  }
+
+  if (calls.length > MAX_CALLS) {
+    throw new ConfigurationError(`Calls must contain no more than ${MAX_CALLS} items.`);
   }
 
   for (const call of calls) {
