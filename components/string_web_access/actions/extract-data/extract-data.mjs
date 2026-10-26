@@ -3,7 +3,7 @@ import app from "../../string_web_access.app.mjs";
 export default {
   key: "string_web_access-extract-data",
   name: "Extract Data From URL",
-  description: "Fetch a URL and return only the fields described by a JSON schema. [See the documentation](https://portal.usestring.ai/docs/fetch/structured-extraction)",
+  description: "Fetch a URL and return only the fields described by a JSON schema. If the page doesn't yield the schema's required fields, the page comes back instead, with `extracted: false` and a `reason`. [See the documentation](https://portal.usestring.ai/docs/fetch/structured-extraction)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -57,6 +57,11 @@ export default {
         solveCaptcha: this.solveCaptcha ?? false,
       },
     });
+
+    if (response?.extracted === false) {
+      $.export("$summary", `Could not extract the fields from ${this.url} (${response.reason}); returned the page instead`);
+      return response;
+    }
 
     $.export("$summary", `Successfully extracted fields from ${this.url}`);
     return response;

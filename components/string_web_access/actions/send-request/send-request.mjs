@@ -33,9 +33,9 @@ export default {
       default: "POST",
     },
     body: {
-      type: "object",
+      type: "any",
       label: "Body",
-      description: "The request body, e.g. `{\"name\": \"Jane Doe\", \"plan\": \"pro\"}`. Objects are JSON-stringified before sending.",
+      description: "The request body: an object, sent as JSON, e.g. `{\"name\": \"Jane Doe\", \"plan\": \"pro\"}`, or a string, sent as given, e.g. `name=Jane+Doe&plan=pro` with a matching `Content-Type` in **Custom Headers**.",
     },
     format: {
       propDefinition: [
@@ -49,7 +49,7 @@ export default {
         app,
         "headers",
       ],
-      description: "Request headers to forward, e.g. an `Authorization` header for the destination",
+      description: "Request headers to forward (max 50), e.g. `{\"Authorization\": \"Bearer example-token\"}`",
     },
     solveCaptcha: {
       propDefinition: [

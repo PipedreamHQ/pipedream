@@ -23,7 +23,7 @@ structured web search, and maps a site's URLs.
 # Getting Started
 
 1. Create a free account at [portal.usestring.ai](https://portal.usestring.ai/sign-up). The first
-   5,000 requests are free.
+   5,000 standard requests are free.
 2. Open [Settings](https://portal.usestring.ai/settings) and copy an API key.
 3. In Pipedream, connect the String Web Access account and paste the key. Pipedream sends it as a
    bearer token, so the key never appears in a step's code.
