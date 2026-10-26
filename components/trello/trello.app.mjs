@@ -411,6 +411,7 @@ export default {
         ...args,
         url: this.getUrl(path),
         headers: {
+          ...(args.headers || {}),
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         },
       };
