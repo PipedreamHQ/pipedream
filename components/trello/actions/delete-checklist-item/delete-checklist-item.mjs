@@ -4,7 +4,7 @@ export default {
   key: "trello-delete-checklist-item",
   name: "Delete Checklist Item",
   description: "Deletes a checklist item from a card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-checkitem-idcheckitem-delete).",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
