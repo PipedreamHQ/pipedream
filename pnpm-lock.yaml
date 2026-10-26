@@ -15701,6 +15701,12 @@ importers:
 
   components/strety: {}
 
+  components/string_web_access:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
+
   components/stripe:
     dependencies:
       stripe:
