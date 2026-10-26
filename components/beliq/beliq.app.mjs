@@ -20,14 +20,14 @@ export default {
     standard: {
       type: "string",
       label: "Standard",
-      description: "The e-invoice standard to produce, e.g. `xrechnung` for a German public-sector buyer or `facturx` for a French or German hybrid PDF. The NLCIUS option is Peppol BIS with the Dutch `netherlands-nlcius` profile.",
+      description: "The e-invoice standard to produce, e.g. `xrechnung` for a German public-sector buyer or `facturx` for a French or German hybrid PDF. The NLCIUS option is Peppol BIS with the Dutch `netherlands-nlcius` profile. How deep beliq checks a standard differs by standard: [the rulesets reference](https://docs.beliq.eu/api-reference/rulesets/) lists each format beliq offers with its rule pack, version and badge, and [How verification works](https://docs.beliq.eu/compliance/how-verification-works/) explains each depth. KSeF FA(3) covers ordinary VAT invoices in PLN between Polish parties, at VAT rates 23, 22, 8, 7 and 5; [the Poland reference](https://docs.beliq.eu/format-reference/poland/) states the full scope. beliq does not operate KSeF submission.",
       options: STANDARD_OPTIONS,
       default: "xrechnung",
     },
     output: {
       type: "string",
       label: "Output",
-      description: "The document kind to return, e.g. `xml`. `xml` is a pure e-invoice. `pdf` gives a hybrid PDF/A-3 with the XML embedded on Factur-X and ZUGFeRD; XRechnung and Peppol BIS have no hybrid form, so they return a visualization with no XML inside it and their legal document stays the XML.",
+      description: "The document kind to return, e.g. `xml`. `xml` is a pure e-invoice. `pdf` gives a hybrid PDF/A-3 with the XML embedded on Factur-X and ZUGFeRD. No other standard has a hybrid form, so each returns a visualization with no XML inside it and its legal document stays the XML.",
       options: OUTPUT_OPTIONS,
       default: "xml",
     },
@@ -44,6 +44,8 @@ export default {
       label: "Invoice",
       description: `The invoice as an EN 16931 JSON object. Required: \`number\`, \`issueDate\` (\`YYYY-MM-DD\`), \`currencyCode\`, \`seller\`, \`buyer\`, \`lines\` (at least one), \`totalNetAmount\`, \`totalTaxAmount\`, \`totalGrossAmount\`, and in practice \`taxSummary\` (one entry per VAT category and rate used on the lines). \`seller\` and \`buyer\` each need \`name\` and \`address\` (\`city\`, \`postalCode\`, two-letter \`countryCode\`; \`street\` optional); give \`vatId\` when the party has one. Each line needs \`description\`, \`quantity\`, \`unitCode\` (e.g. \`HUR\` for hours, \`C62\` for pieces; from the [UN/ECE Recommendation 20 list](https://docs.peppol.eu/poacc/billing/3.0/codelist/UNECERec20/)), \`unitPrice\`, \`lineTotal\`, \`vatRate\` and \`vatCategoryCode\` (e.g. \`S\` for standard rate; from the [UNCL 5305 list](https://docs.peppol.eu/poacc/billing/3.0/codelist/UNCL5305/)); each \`taxSummary\` entry needs \`vatCategoryCode\`, \`vatRate\`, \`taxableAmount\` and \`taxAmount\`. XRechnung also needs \`buyerReference\`, taken from the buyer's invoicing instructions and never made up (for a German public-sector buyer it is the receiving authority's Leitweg-ID, e.g. \`991-12345-67\`), a seller contact with all three of \`contactName\`, \`email\` and \`phone\` (BR-DE-2, BR-DE-5 to BR-DE-7), at least one \`paymentMeans\` entry (BR-DE-1), and an electronic address on both parties. Each party can supply it in any of three ways, tried in this order: \`peppol\` with \`schemeId\` (a code from the [Peppol EAS list](https://docs.peppol.eu/poacc/billing/3.0/codelist/eas/), e.g. \`0088\` for a GLN) and \`id\` (e.g. \`{ "schemeId": "0088", "id": "4030000000003" }\`), an \`email\`, or a \`vatId\` plus an \`address.countryCode\` beliq supports. Take a Peppol ID from the party itself or from its entry in the [Peppol Directory](https://directory.peppol.eu/public); if you cannot confirm one, leave \`peppol\` out and rely on \`email\` or \`vatId\` plus country instead of making one up. For a cross-border B2B sale within the EU the category depends on what is sold. A service is usually reverse charge: \`vatCategoryCode\` \`AE\` at \`vatRate\` 0, with an \`exemptionReasonText\` such as \`Reverse charge\` on the \`taxSummary\` entry. Goods shipped to another member state are an intra-community supply instead: \`K\` at 0, with an exemption reason, a \`delivery.date\` and a \`delivery.address.countryCode\` (BR-IC-10 to BR-IC-12). Use \`AE\` only when reverse charge actually applies. Every field: [Invoice object](https://docs.beliq.eu/api-reference/generate/#invoice-object).
 
+FatturaPA, Facturae, e-SLOG and KSeF FA(3) need parties and fields of their own country instead (KSeF FA(3), for one, takes only \`PLN\`); [the generate reference](https://docs.beliq.eu/api-reference/generate/) lists them.
+
 Example, a valid XRechnung between two German companies, one line at 19% standard-rate VAT:
 
 \`\`\`json
@@ -53,7 +55,7 @@ ${JSON.stringify(SAMPLE_INVOICE, null, 2)}
     verify: {
       type: "boolean",
       label: "Validate Result",
-      description: "Validate the generated document before returning it, e.g. `true` (the default). When on, an invoice that breaks a rule of the standard fails with the rule IDs instead of returning a non-compliant document.",
+      description: "Validate the generated document before returning it, e.g. `true` (the default). When on, an invoice that breaks a rule of the standard fails with the rule IDs instead of returning the document, and a returned document comes with the API's verdict and the check depth it states. When off, nothing is checked: `validationResult.verified` is `false`, and `valid` is then `false` because nothing looked, not because the document failed.",
       optional: true,
       default: true,
     },

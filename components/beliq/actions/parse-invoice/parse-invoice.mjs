@@ -5,8 +5,8 @@ import { parseObject } from "../../common/utils.mjs";
 export default {
   key: "beliq-parse-invoice",
   name: "Parse Invoice",
-  description: "Read an XML or PDF e-invoice and return its content as a structured JSON invoice object: number, dates, seller, buyer, lines, VAT breakdown and totals. Use it to move a received invoice into a spreadsheet, database or accounting step. Takes pasted XML or a file, e.g. an uploaded Factur-X PDF or the `path` that **Convert Invoice** returns. Parsing does not check the rules; use **Validate Invoice** for that. Uses one document of quota. [See the documentation](https://docs.beliq.eu/api-reference/parse/)",
-  version: "0.0.1",
+  description: "Read an XML or PDF e-invoice and return its content as a structured JSON invoice object: number, dates, seller, buyer, lines and totals. The object is a subset of the document: `warnings` names what the document holds beyond it, e.g. the VAT breakdown, and any value that could not be read. Use it to move a received invoice into a spreadsheet, database or accounting step. Takes pasted XML or a file, e.g. an uploaded Factur-X PDF or the `path` that **Convert Invoice** returns. Parsing does not check the rules; use **Validate Invoice** for that. Uses one document of quota. [See the documentation](https://docs.beliq.eu/api-reference/parse/)",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {

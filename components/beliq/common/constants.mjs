@@ -9,10 +9,15 @@ import {
 } from "@beliq/sdk";
 import { toOptions } from "./utils.mjs";
 
-// Dropdown value-spaces are sourced straight from the SDK's LIVE_* lists, the
-// publicly-offered subset of the beliq coverage SSOT. Provisional formats the
-// API can technically accept stay out of the UI (LPD-1); reach them through the
-// Advanced (JSON) field. Labels here are cosmetic only.
+// Dropdown value-spaces are sourced straight from the SDK's LIVE_* lists.
+// Generate offers all eight standards POST /v1/generate accepts, the four
+// national XSD ones included; convert offers fewer because the API's own
+// convert enums do. Validate and parse offer the SDK's auto, cii and ubl,
+// which is narrower than the API's own `format` enums: those also carry
+// fatturapa, sdi_messaggio, facturae, eslog and poland_ksef_fa3. The SDK
+// states no reason for the gap; the Advanced (JSON) field reaches those
+// values as `format`. GET /v1/rulesets carries the badge saying how deep each
+// format's check goes. Labels here are cosmetic only.
 const LABELS = {
   "auto": "Auto-detect",
   "cii": "CII",
@@ -21,6 +26,10 @@ const LABELS = {
   "zugferd": "ZUGFeRD",
   "facturx": "Factur-X",
   "peppol-bis": "Peppol BIS",
+  "fatturapa": "FatturaPA (Italy)",
+  "facturae": "Facturae (Spain)",
+  "eslog": "e-SLOG (Slovenia)",
+  "ksef": "KSeF FA(3) (Poland)",
   "basicwl": "BASIC WL",
   "en16931": "EN 16931",
   "extended": "EXTENDED",
