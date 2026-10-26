@@ -401,36 +401,21 @@ export default {
     },
   },
   methods: {
-    getSignerUri() {
-      return this.$auth.oauth_signer_uri;
-    },
-    getToken() {
-      const {
-        oauth_access_token: key,
-        oauth_refresh_token: secret,
-      } = this.$auth;
-      return {
-        key,
-        secret,
-      };
-    },
     getUrl(path) {
       return `https://api.trello.com/1${path}`;
     },
     _makeRequest({
       $ = this, path, ...args
     } = {}) {
-      const signConfig = {
-        token: this.getToken(),
-        oauthSignerUri: this.getSignerUri(),
-      };
-
       const config = {
         ...args,
         url: this.getUrl(path),
+        headers: {
+          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        },
       };
 
-      return axios($, config, signConfig);
+      return axios($, config);
     },
     post(args = {}) {
       return this._makeRequest({
