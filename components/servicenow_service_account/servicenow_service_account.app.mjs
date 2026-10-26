@@ -33,7 +33,7 @@ export default {
     requestedFor: {
       ...propDefinitions.requestedFor,
       label: "Requested For",
-      description: `${propDefinitions.requestedFor.description.split("the connected user").join("the integration user")} If omitted, ServiceNow also requests it for the integration user, not the person you act for.`,
+      description: `${propDefinitions.requestedFor.description.split("the connected user").join("the integration user")} If omitted, ServiceNow also requests it for the integration user, not the person you act for. Example: \`46d44a23a9fe19810012d100cca80666\`.`,
     },
   },
 };
