@@ -3,6 +3,12 @@ import {
   isProfileAllowedForStandard,
   LIVE_GENERATE_PRESETS,
 } from "@beliq/sdk";
+import {
+  checkDepth,
+  FRANCE_CTC_BLOCKING_FINDING_RULE_ID,
+  franceBlockingRuleIds,
+  verdictWord,
+} from "@beliq/sdk/helpers";
 
 /**
  * Coerce an object or JSON-string prop into a non-empty plain object, or
@@ -57,6 +63,37 @@ export function resolveGenerateTarget(value) {
   return {
     standard: value,
   };
+}
+
+function plural(count, word) {
+  return `${count} ${word}${count === 1
+    ? ""
+    : "s"}`;
+}
+
+/**
+ * A one-line step summary for a verdict of the API, in the words of
+ * `@beliq/sdk/helpers`: `label`, then VALID or INVALID with the check depth
+ * the API states (or `check depth not stated`) and the error count. A France
+ * CTC block leads and counts as a failure, because the API reports it beside
+ * `valid` and does not fold it in. The API's own message for the block stays
+ * in the result's `warnings`, so the summary gives the count and points there.
+ * With `verified` false no ruleset ran: no depth and no findings to count.
+ */
+export function verdictSummary(verdict, label) {
+  if (verdict.verified === false) {
+    return `${label}: ${verdictWord(verdict)}`;
+  }
+  const said = `${label}: ${verdictWord(verdict)} (${checkDepth(verdict)}), ${plural(verdict.errors.length, "error")}`;
+  const blocking = franceBlockingRuleIds(verdict).length;
+  if (blocking === 0) {
+    return said;
+  }
+  const explained = verdict.warnings.some((w) => w.ruleId === FRANCE_CTC_BLOCKING_FINDING_RULE_ID);
+  const where = explained
+    ? "warnings"
+    : "franceCtcBlockingRuleIds";
+  return `Failed: ${plural(blocking, "France CTC blocking rule")} (see ${where}). ${said}`;
 }
 
 /** Profiles only apply to the Factur-X / ZUGFeRD hybrid family. */

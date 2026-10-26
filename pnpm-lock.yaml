@@ -1741,8 +1741,8 @@ importers:
   components/beliq:
     dependencies:
       '@beliq/sdk':
-        specifier: ^0.4.0
-        version: 0.4.2
+        specifier: ^0.5.2
+        version: 0.5.2
       '@pipedream/platform':
         specifier: ^3.4.0
         version: 3.4.0
@@ -20301,8 +20301,8 @@ packages:
   '@bcoe/v8-coverage@0.2.3':
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
 
-  '@beliq/sdk@0.4.2':
-    resolution: {integrity: sha512-CXjiX/NonYmU37KrAiSIxBy/gQH0UrFVUH3wmk/N15rBzk/teCyoVN8eDaQDYlGNxV4BcgVYHkqh5De5KRk3tg==}
+  '@beliq/sdk@0.5.2':
+    resolution: {integrity: sha512-kACo355SAZv8eFC+kqQtY1GavNST8SMJQm2GQuydm1byWaxky6eVymv53OyeXFqke0czqSjcjX266k/T1uwRBg==}
     engines: {node: '>=20.15'}
 
   '@borewit/text-codec@0.2.2':
@@ -38709,7 +38709,7 @@ snapshots:
 
   '@bcoe/v8-coverage@0.2.3': {}
 
-  '@beliq/sdk@0.4.2': {}
+  '@beliq/sdk@0.5.2': {}
 
   '@borewit/text-codec@0.2.2': {}
 
