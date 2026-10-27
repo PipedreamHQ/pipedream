@@ -1,4 +1,4 @@
-# Run AI Scraper
+# AI Scraper
 
 Create one task and automatically wait for its answer in a single Pipedream action.
 Choose ChatGPT, Perplexity, Microsoft Copilot, Gemini, Google AI Mode, Google AI
@@ -9,7 +9,7 @@ configured waiting limit.
 ## Setup
 
 1. Connect your Scrapeless account using an API key.
-2. Add **Run AI Scraper** to your workflow and select **AI Engine**.
+2. Add **AI Scraper** to your workflow and select **AI Engine**.
 3. Enter a **Prompt** and **Country**. Configure **Engine Options** if needed.
    Copilot requires a mode such as `search`; Grok requires a mode such as
    `MODEL_MODE_AUTO`. See the engine configurations below.
@@ -59,7 +59,7 @@ If the waiting budget is exhausted, the action returns a local timeout outcome:
 present only if a valid result response was received before stopping. Waiting can
 stop before the exact limit when the next five-second poll, or a rate-limit delay,
 would exceed the remaining budget. The task is not canceled. To continue lookup,
-run **Run AI Scraper** again with **Existing Task ID** set to the returned ID.
+run **AI Scraper** again with **Existing Task ID** set to the returned ID.
 This query-only path does not create another task; creation inputs are ignored.
 The component also exports `task_id` immediately after creation, before waiting.
 

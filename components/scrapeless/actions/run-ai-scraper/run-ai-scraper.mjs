@@ -11,7 +11,7 @@ import {
 
 export default {
   key: "scrapeless-run-ai-scraper",
-  name: "Run AI Scraper",
+  name: "AI Scraper",
   description: "Create one AI Scraper task, wait and query automatically, then return its complete result. Supports eight AI engines. Supply Existing Task ID to query a previous task without creating another; creation inputs are ignored on this path. On timeout, returns task_id for later lookup through this same action. Increase the workflow execution timeout above the wait budget. [See the documentation](https://docs.scrapeless.com/en/docs/ai-scraper/quickstart/task-lifecycle/).",
   version: "0.0.1",
   type: "action",

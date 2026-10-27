@@ -18,7 +18,7 @@ Scrapeless – your go-to platform for powerful, compliant web data extraction. 
 
 ## AI Scraper action
 
-Use [Run AI Scraper](./actions/run-ai-scraper/README.md) to create a task and
+Use [AI Scraper](./actions/run-ai-scraper/README.md) to create a task and
 automatically query it until completion in one action. Select one of eight engines,
 enter a question, and configure the workflow timeout to cover the waiting budget.
 On timeout, provide the returned task ID as Existing Task ID in the same action
