@@ -100,14 +100,15 @@ export function buildAiScraperTransportError(error, { method }) {
 }
 
 /**
- * Wrap platform 3.1.1 debug exports to omit request configuration on HTTP errors.
- * Keep status, headers, and original response data for diagnostics.
+ * Preserve platform runtime context while filtering HTTP diagnostic exports.
+ * Omit request configuration; keep status, headers, and original response data.
  *
  * @param {object} [$] Optional Pipedream step context receiving safe exports.
- * @returns {object} Request context exposing the filtered export callback.
+ * @returns {object} Runtime context and the filtered export callback.
  */
 export function getAiScraperRequestContext($) {
   return {
+    context: $?.context,
     /**
      * Forward response diagnostics without the platform's response.config field.
      *
