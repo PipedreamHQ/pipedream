@@ -36,7 +36,7 @@ export default {
     isGuest: {
       type: "boolean",
       label: "Recipient Is Guest",
-      description: "Set to `true` when the recipient is a guest user in your organization, which Microsoft Graph requires to join with the `guest` role. Leave `false` for members of your organization and for users in other organizations.",
+      description: "Set to `true` when the recipient is a guest user in your organization, which Microsoft Graph requires to join with the `guest` role. Leave `false` for members of your organization. Users in other organizations are not supported.",
       optional: true,
       default: false,
     },
