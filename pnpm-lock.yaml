@@ -6562,8 +6562,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       nodemailer:
-        specifier: ^10.0.9
-        version: 10.0.9
+        specifier: ^10.1.4
+        version: 10.1.4
       pdfkit:
         specifier: ^0.17.2
         version: 0.17.2
@@ -12227,8 +12227,8 @@ importers:
         specifier: ^0.5.47
         version: 0.5.48
       nodemailer:
-        specifier: ^10.0.9
-        version: 10.0.9
+        specifier: ^10.1.4
+        version: 10.1.4
       pluralize:
         specifier: ^8.0.0
         version: 8.0.0
@@ -31478,8 +31478,8 @@ packages:
     resolution: {integrity: sha512-M6S61LZn1FQMQnZSdFlc4oV+mwDGlPTbLzq/GUaSH4ew40wGTaKPtAaLp5oOhl/C3k0ylGqMIppJsVulwTCePg==}
     engines: {node: '>=18'}
 
-  nodemailer@10.0.9:
-    resolution: {integrity: sha512-BF0qcyplCwp+jMk6HCjFykBz/YhhZSsxrARhOldLwFWH+8kGjQsd2WIMIZhqEuyXRoGFi0ONbDeWDMDoL8MhLw==}
+  nodemailer@10.1.4:
+    resolution: {integrity: sha512-EsMnOR2oRv4LGnWvHgcVYkkQ4O2j8KO4WTw6l+PHR4sOXo8SAgIraxtEnGDmotjbhv0hDsu3IuDIFZm8iXwO4A==}
     engines: {node: '>=20.0.0'}
 
   nodemailer@7.0.10:
@@ -53388,7 +53388,7 @@ snapshots:
 
   node-telegram-bot-api@1.2.0: {}
 
-  nodemailer@10.0.9: {}
+  nodemailer@10.1.4: {}
 
   nodemailer@7.0.10: {}
 
