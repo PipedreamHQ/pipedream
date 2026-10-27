@@ -7,7 +7,7 @@ export default {
   key: "linkedin-create-image-post-organization",
   name: "Create Image Post (Organization)",
   description: "Create an image post on LinkedIn. [See the documentation](https://learn.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/images-api?view=li-lms-2023-09&tabs=http#uploading-an-image)",
-  version: "1.0.9",
+  version: "1.0.10",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -91,7 +91,8 @@ export default {
 
     await this.uploadImage(uploadUrl, formData);
 
-    await this.linkedin.createPost({
+    const response = await this.linkedin.createPost({
+      returnFullResponse: true,
       data: {
         author: `urn:li:organization:${this.organizationId}`,
         lifecycleState: "PUBLISHED",
@@ -109,8 +110,15 @@ export default {
       $,
     });
 
-    $.export("$summary", "Successfully posted image.");
+    // LinkedIn returns the new post's URN in the `x-restli-id` response header, not in the body
+    const postId = response?.headers?.["x-restli-id"];
+    $.export("$summary", postId
+      ? `Successfully posted image with ID ${postId}`
+      : "Successfully posted image.");
 
-    // nothing to return
+    return {
+      id: postId,
+      image,
+    };
   },
 };
