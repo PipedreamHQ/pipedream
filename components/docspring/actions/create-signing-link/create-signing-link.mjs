@@ -3,48 +3,43 @@ import docspring from "../../docspring.app.mjs";
 export default {
   key: "docspring-create-signing-link",
   name: "Create Signing Link",
+  description: "Create a new signing link for a signature request, to send or open again after an earlier link expired."
+    + " Returns the token: `signature_request_url` is the link, and `expires_at` is when it stops opening the form."
+    + " A form that opened in time keeps working for 7 more days."
+    + " Use **Create Signature Request** or **Get Submission** to find the signature request's ID."
+    + " [See the documentation](https://docspring.com/docs/api/#tag/signature-requests/post/signature_requests/{signature_request_id}/tokens)",
   version: "0.0.1",
+  type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
-  description:
-    "Generate an authenticated signing link for a data request recipient. [See the documentation](https://docspring.com/docs).",
-  type: "action",
   props: {
     docspring,
-    dataRequestId: {
+    signatureRequestId: {
       propDefinition: [
         docspring,
-        "dataRequestId",
+        "signatureRequestId",
       ],
     },
-    tokenType: {
-      type: "string",
-      label: "Link Type",
-      description: "Email links expire in 30 days; API links expire in 1 hour.",
-      options: [
-        { label: "Email (expires in 30 days)", value: "email" },
-        { label: "API (expires in 1 hour)", value: "api" },
+    signingLinkType: {
+      propDefinition: [
+        docspring,
+        "signingLinkType",
       ],
-      default: "email",
-      optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.docspring.createToken({
+    const token = await this.docspring.createSignatureRequestToken({
       $,
-      dataRequestId: this.dataRequestId,
-      params: { type: this.tokenType || "email" },
+      signatureRequestId: this.signatureRequestId,
+      data: {
+        type: this.signingLinkType || "email",
+      },
     });
-    const token = response.token || response;
-    const result = {
-      id: token.id,
-      signing_url: token.data_request_url,
-      expires_at: token.expires_at,
-    };
-    $.export("$summary", `Created signing link for \`${this.dataRequestId}\``);
-    return result;
+    $.export("$summary", `Created a signing link for signature request ${this.signatureRequestId}, expiring ${token.expires_at}`);
+    return token;
   },
 };
