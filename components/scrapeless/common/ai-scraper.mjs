@@ -1,6 +1,106 @@
 import { ConfigurationError } from "@pipedream/platform";
 import { isPlainObject } from "./utils.mjs";
-import { AI_SCRAPER_ENGINE_SPECS } from "./constants.mjs";
+import {
+  AI_SCRAPER_ENGINE_SPECS, AI_SCRAPER_UULE_NAME_HEADER,
+} from "./constants.mjs";
+
+/**
+ * Reject malformed location text without assuming a fixed geographic hierarchy.
+ * Catalog membership and provider support remain the API's responsibility.
+ *
+ * @param {string} value Google canonical location name supplied by the caller.
+ * @returns {string} Original location text without normalization.
+ * @throws {ConfigurationError} If text contains invalid Unicode or empty levels.
+ */
+export function validateAiScraperLocation(value) {
+  if (typeof value !== "string" || !value.trim() || value !== value.trim()
+    || /[\p{Cc}\p{Cs}\p{Zl}\p{Zp}]/u.test(value)
+    || /^[a-z][a-z\d+.-]*:\/\//i.test(value)
+    || /^[-+]?\d+(?:\.\d+)?\s*,\s*[-+]?\d+(?:\.\d+)?$/.test(value)) {
+    throw new ConfigurationError("Engine Options.location must be a Google canonical location name without surrounding whitespace, control characters, or URL syntax.");
+  }
+  for (const part of value.split(",")) {
+    if (!part.trim()) {
+      throw new ConfigurationError("Engine Options.location must not contain empty comma-separated geographic levels.");
+    }
+  }
+  return value;
+}
+
+/**
+ * Read the name from a known canonical-name UULE envelope, allowing extensions.
+ *
+ * @param {Buffer} bytes Decoded UULE bytes containing a length-delimited name.
+ * @returns {string} Valid UTF-8 location name from the envelope.
+ * @throws {Error} If the header, name length, or UTF-8 text is malformed.
+ */
+function readAiScraperUuleName(bytes) {
+  for (let index = 0; index < AI_SCRAPER_UULE_NAME_HEADER.length; index++) {
+    if (bytes[index] !== AI_SCRAPER_UULE_NAME_HEADER[index]) throw new Error();
+  }
+  let cursor = AI_SCRAPER_UULE_NAME_HEADER.length;
+  let length = 0;
+  let shift = 0;
+  let byte;
+  do {
+    if (cursor >= bytes.length || shift > 49) throw new Error();
+    byte = bytes[cursor++];
+    length += (byte & 127) * (2 ** shift);
+    shift += 7;
+  } while (byte & 128);
+  if (!Number.isSafeInteger(length) || length < 1 || length > bytes.length - cursor) {
+    throw new Error();
+  }
+  const nameBytes = bytes.subarray(cursor, cursor + length);
+  const name = nameBytes.toString("utf8");
+  if (!Buffer.from(name, "utf8").equals(nameBytes)) throw new Error();
+  return validateAiScraperLocation(name);
+}
+
+/**
+ * Check known name and GPS UULE envelopes without rewriting the encoded value.
+ * Percent escaping, Base64url, and optional correct padding are supported.
+ *
+ * @param {string} value Pre-encoded Google UULE value supplied by the caller.
+ * @returns {string} Original validated value, including its original encoding.
+ * @throws {ConfigurationError} If the encoding or known envelope is malformed.
+ */
+export function validateAiScraperUule(value) {
+  try {
+    if (typeof value !== "string" || !value || /\s/.test(value)) throw new Error();
+    const decoded = decodeURIComponent(value);
+    const match = /^([wa])\+([A-Za-z\d+/_-]+={0,2})$/.exec(decoded);
+    if (!match) throw new Error();
+    const payload = match[2];
+    const unpadded = payload.replace(/=+$/, "");
+    if (unpadded.length % 4 === 1 || (payload.includes("=") && payload.length % 4 !== 0)) {
+      throw new Error();
+    }
+    const bytes = Buffer.from(payload, "base64");
+    if (!bytes.length || bytes.toString("base64url") !== unpadded.replace(/\+/g, "-").replace(/\//g, "_")) {
+      throw new Error();
+    }
+    if (match[1] === "w") {
+      readAiScraperUuleName(bytes);
+    } else {
+      const text = bytes.toString("utf8");
+      const coordinates = /\blatlng\s*:?\s*\{([^{}]+)\}/.exec(text)?.[1];
+      const latitude = coordinates?.match(/\blatitude_e7\s*:\s*([-+]?\d+)(?=\s|[,;]|$)/)?.[1];
+      const longitude = coordinates?.match(/\blongitude_e7\s*:\s*([-+]?\d+)(?=\s|[,;]|$)/)?.[1];
+      if (!Buffer.from(text, "utf8").equals(bytes)
+        || /[\p{Cc}\p{Cs}\p{Zl}\p{Zp}]/u.test(text.replace(/[\t\r\n]/g, ""))
+        || !/\brole\s*:\s*\d+(?=\s|[,;]|$)/.test(text)
+        || !/\bproducer\s*:\s*\d+(?=\s|[,;]|$)/.test(text)
+        || latitude === undefined || longitude === undefined
+        || Math.abs(Number(latitude)) > 900000000 || Math.abs(Number(longitude)) > 1800000000) {
+        throw new Error();
+      }
+    }
+    return value;
+  } catch {
+    throw new ConfigurationError("Engine Options.uule must contain a valid pre-encoded Google name (w+) or GPS (a+) UULE value, not a location name or search URL.");
+  }
+}
 
 /**
  * Validate an HTTPS URL without credentials and preserve its exact input text.
@@ -102,6 +202,8 @@ export function buildAiScraperRequest({
     if (input.location !== undefined && input.uule !== undefined) {
       throw new ConfigurationError("Engine Options.location and Engine Options.uule are mutually exclusive.");
     }
+    if (input.location !== undefined) validateAiScraperLocation(input.location);
+    if (input.uule !== undefined) validateAiScraperUule(input.uule);
     if (fields.shopping && input.shopping === undefined) {
       input.shopping = false;
     }

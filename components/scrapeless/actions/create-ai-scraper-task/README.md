@@ -65,8 +65,8 @@ For ChatGPT, an expanded options example is:
 { "web_search": true, "shopping": false, "should_fetch_share_link": false }
 ```
 
-For AI Mode or AI Overview, provide either a canonical location or a nonempty
-pre-encoded `uule` string. They are mutually exclusive:
+For AI Mode or AI Overview, provide either a Google canonical location name or a
+pre-encoded `uule` value. They are mutually exclusive:
 
 ```json
 {
@@ -75,6 +75,28 @@ pre-encoded `uule` string. They are mutually exclusive:
   "should_fetch_share_link": false
 }
 ```
+
+Copy `location` from the **Canonical Name** column in
+[Google's geo-target list](https://developers.google.com/google-ads/api/data/geotargets).
+Names have varying numbers of geographic levels; a country can be a single name.
+The catalog also contains obsolete entries. Local validation rejects surrounding whitespace, control characters,
+invalid Unicode, empty comma-separated levels, URLs, and raw coordinate pairs. It
+does not impose a three-part hierarchy or download the catalog during execution.
+Exact catalog membership and current engine support remain server-side checks.
+
+The component supports the known name-based `w+` and GPS-based `a+` UULE envelopes.
+For example:
+
+```json
+{ "uule": "w+CAIQICIWSmFpcHVyLFJhamFzdGhhbixJbmRpYQ" }
+```
+
+Encoding checks cover the prefix, `Base64` or `Base64url` payload, optional padding,
+and a nonempty name or valid coordinate fields. Percent escaping is checked once.
+The original value is forwarded unchanged. Supply the encoded value itself, not a
+location name, a whole Google URL, or an `uule=` query fragment. The linked vendor
+references do not specify a complete UULE wire schema; these checks cover the
+supported envelopes and do not guarantee provider acceptance or live success.
 
 ## Shopping and cost
 

@@ -6926,6 +6926,15 @@ export const AI_SCRAPER_ENGINE_SPECS = {
   },
 };
 
+// Header of the documented canonical-name UULE envelope, before its name length.
+export const AI_SCRAPER_UULE_NAME_HEADER = [
+  8,
+  2,
+  16,
+  32,
+  34,
+];
+
 export const AI_SCRAPER_ACTORS = Object.entries(AI_SCRAPER_ENGINE_SPECS)
   .map(
     /**
