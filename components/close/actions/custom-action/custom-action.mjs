@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import close from "../../close.app.mjs";
 import utils from "../../common/utils.mjs";
 
@@ -46,13 +47,16 @@ export default {
     requestBody: {
       type: "object",
       label: "Request body",
-      description: "Body of the request",
+      description: "Body of the request (JSON object)",
       optional: true,
     },
   },
   async run({ $ }) {
     this.queryString = this.queryString || "";
     const body = utils.parseObject(this.requestBody);
+    if (this.requestBody && (!body || typeof body !== "object" || Array.isArray(body))) {
+      throw new ConfigurationError("`Request body` must be a JSON object");
+    }
     const requestBody = {};
     for (let key in body) {
       requestBody[key] = utils.parseObject(body[key]);
