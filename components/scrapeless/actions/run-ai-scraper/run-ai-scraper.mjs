@@ -26,7 +26,7 @@ export default {
     taskId: {
       type: "string",
       label: "Existing Task ID",
-      description: "Optional task_id from a previous execution, e.g. `task-example-123`. When supplied, only queries this task; AI Engine, Prompt, Country, AI Mode URL, and Engine Options are ignored. Leave unset to create a new task. Use this field to continue after a waiting timeout without creating a replacement task.",
+      description: "Optional task_id returned by **AI Scraper**, e.g. `task-example-123`. When supplied, only queries this task; AI Engine, Prompt, Country, AI Mode URL, and Engine Options are ignored. Leave unset to create a new task. Use this field to continue after a waiting timeout without creating a replacement task.",
       optional: true,
     },
     actor: {
