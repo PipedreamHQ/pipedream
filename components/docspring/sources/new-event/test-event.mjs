@@ -6,7 +6,7 @@ export default {
     id: "sub_1234567890abcdef01",
     template_id: "tpl_1234567890abcdef01",
     template_type: "pdf",
-    template_version: "1.0.0",
+    template_version: null,
     batch_id: null,
     source: "api",
     state: "processed",
