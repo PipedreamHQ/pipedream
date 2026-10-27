@@ -1,5 +1,6 @@
 import app from "../../pdfgate.app.mjs";
 import { WEBHOOK_SIGNATURE_HEADER } from "../../common/constants.mjs";
+import { verifyWebhookSignature } from "../../common/utils.mjs";
 
 export default {
   props: {
@@ -11,6 +12,18 @@ export default {
     },
   },
   methods: {
+    _getWebhookId() {
+      return this.db.get("webhookId");
+    },
+    _setWebhookId(id) {
+      this.db.set("webhookId", id);
+    },
+    _getWebhookSecret() {
+      return this.db.get("webhookSecret");
+    },
+    _setWebhookSecret(secret) {
+      this.db.set("webhookSecret", secret);
+    },
     getEventType() {
       throw new Error("getEventType() is not implemented for this source");
     },
@@ -41,14 +54,16 @@ export default {
         ? headers[match]
         : undefined;
     },
+    /**
+     * Fail closed: without a stored secret no delivery can be trusted.
+     */
     isValidSignature(event) {
-      const secret = this.db.get("webhookSecret");
+      const secret = this._getWebhookSecret();
       if (!secret) {
-        // Webhook was registered without a secret; nothing to verify against.
-        return true;
+        return false;
       }
       const payload = event.bodyRaw ?? JSON.stringify(event.body ?? {});
-      return this.app.verifyWebhookSignature({
+      return verifyWebhookSignature({
         secret,
         signatureHeader: this.getSignatureHeader(event.headers),
         payload,
@@ -65,23 +80,30 @@ export default {
           ],
         },
       });
-      this.db.set("webhookId", response.id);
-      this.db.set("webhookSecret", response.secret);
+      if (!response?.id || !response?.secret) {
+        throw new Error("PDFGate did not return a webhook id and signing secret; cannot verify deliveries.");
+      }
+      this._setWebhookId(response.id);
+      this._setWebhookSecret(response.secret);
     },
     async deactivate() {
-      const webhookId = this.db.get("webhookId");
-      if (webhookId) {
-        try {
-          await this.app.deleteWebhook({
-            webhookId,
-          });
-        } catch (error) {
-          // Cleanup is best-effort: the webhook may already have been removed.
-          console.log(`PDFGate webhook ${webhookId} deregistration failed: ${error?.message ?? error}`);
-        }
+      const webhookId = this._getWebhookId();
+      if (!webhookId) {
+        return;
       }
-      this.db.set("webhookId", null);
-      this.db.set("webhookSecret", null);
+      try {
+        await this.app.deleteWebhook({
+          webhookId,
+        });
+      } catch (error) {
+        if (error?.response?.status !== 404) {
+          // Keep the stored id so the registration can still be cleaned up later.
+          throw error;
+        }
+        // Already gone on the PDFGate side; treat as deleted.
+      }
+      this._setWebhookId(null);
+      this._setWebhookSecret(null);
     },
   },
   async run(event) {

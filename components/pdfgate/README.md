@@ -34,7 +34,7 @@
 | Send Envelope | Email signing links to an envelope's recipients |
 | Get Envelope | Retrieve an envelope with its documents and recipient statuses |
 
-Actions that return a `fileUrl` accept a **Pre-Signed URL Expiry** (60 to 86400 seconds, default 3600) that controls how long the returned link stays valid.
+Document actions accept a **Pre-Signed URL Expiry** between 60 and 86400 seconds. Set it to receive a temporary `fileUrl` download link in the response and to control how long that link stays valid; when it is left empty no `fileUrl` is returned. Download links require document storage to be enabled in **Settings → Storage**.
 
 ## Triggers
 
@@ -43,12 +43,12 @@ Actions that return a `fileUrl` accept a **Pre-Signed URL Expiry** (60 to 86400 
 | New Envelope Sent | `envelope.sent` – an envelope was sent and signing has begun |
 | New Envelope Completed | `envelope.completed` – every recipient has signed |
 
-Each trigger registers a PDFGate webhook when the source is deployed and removes it when the source is deleted. Deliveries are verified with the HMAC-SHA256 signature PDFGate sends in the `x-pdfgate-signature` header; requests that fail verification are rejected with a `401` and are not emitted.
+Each trigger registers a PDFGate webhook when the source is deployed and attempts to remove it when the source is deleted. Deliveries are verified with the HMAC-SHA256 signature PDFGate sends in the `x-pdfgate-signature` header; requests that fail verification are rejected with a `401` and are not emitted.
 
 # Troubleshooting
 
 - **`401 Unauthorized`**: the API key is missing or invalid. Reconnect the account with a key copied from the PDFGate dashboard and check the `test_` / `live_` prefix matches the environment you expect.
 - **`Unknown field 'jsonResponse'`**: the `Upload File` and `Extract PDF Form Data` endpoints always return JSON and reject that flag. The components already omit it; if you call the API directly from a code step, leave it out for those two endpoints.
-- **Generate PDF times out**: large or slow pages can take a while to render. Reduce **Render Timeout**/**Render Delay**, avoid **Wait For Network Idle** on pages with long-polling requests, or pre-render the content as HTML and pass it in **HTML Content**.
+- **Generate PDF times out**: large or slow pages can take a while to render. Increase **Render Timeout**, keep **Render Delay** small, avoid **Wait For Network Idle** on pages with long-polling requests, or pre-render the content as HTML and pass it in **HTML Content**.
 - **Trigger never fires**: confirm the envelope was actually sent (status `in_progress`) and that the webhook exists in the PDFGate dashboard. Re-deploying the source re-registers the webhook.
 - **Signed document is missing after completion**: enable document storage for at least 1 month in **Settings → Storage**; without storage the signed PDF is not retained for download.

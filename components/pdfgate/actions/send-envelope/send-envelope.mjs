@@ -1,12 +1,13 @@
 import app from "../../pdfgate.app.mjs";
-import { DOCS_URL } from "../../common/constants.mjs";
+import { DOCS_URLS } from "../../common/constants.mjs";
 
 export default {
   key: "pdfgate-send-envelope",
   name: "Send Envelope",
-  description: `Send a signing envelope to its recipients. [See the documentation](${DOCS_URL})`,
+  description: `Email the signing links of a draft envelope to its recipients and start the signing process. Use it after **Create Envelope**; the **New Envelope Sent** trigger fires once the envelope is in progress. [See the documentation](${DOCS_URLS.sendEnvelope})`,
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,6 +1,6 @@
 import app from "../../pdfgate.app.mjs";
 import {
-  DOCS_URL, ENCRYPTION_ALGORITHM_OPTIONS, PROCESS_TIMEOUT_MS,
+  DOCS_URLS, ENCRYPTION_ALGORITHM_OPTIONS, PROCESS_TIMEOUT_MS,
 } from "../../common/constants.mjs";
 import {
   buildCommonFields, omitBlank,
@@ -9,9 +9,10 @@ import {
 export default {
   key: "pdfgate-protect-pdf",
   name: "Protect PDF",
-  description: `Encrypt a PDF and optionally apply permission restrictions. [See the documentation](${DOCS_URL})`,
+  description: `Encrypt a stored PDF with user and owner passwords and optional permission restrictions, saving the result as a new PDFGate document. Use it before distributing sensitive files; the original document is left unchanged. With \`AES256\` a **User Password** also requires an **Owner Password**. [See the documentation](${DOCS_URLS.protectPdf})`,
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -28,46 +29,46 @@ export default {
     algorithm: {
       type: "string",
       label: "Encryption Algorithm",
-      description: "`AES256` is the strongest; `AES128` offers better compatibility with older readers.",
+      description: "Encryption algorithm, e.g. `AES256` (strongest) or `AES128` (better compatibility with older readers).",
       optional: true,
       options: ENCRYPTION_ALGORITHM_OPTIONS,
     },
     userPassword: {
       type: "string",
       label: "User Password",
-      description: "Password required to open the PDF. If empty, the document opens without a password.",
+      description: "Password required to open the PDF, e.g. `s3cret-Passw0rd`. Empty lets anyone open the document.",
       optional: true,
       secret: true,
     },
     ownerPassword: {
       type: "string",
       label: "Owner Password",
-      description: "Password that grants full control (modifying permissions, removing restrictions). Required when **Encryption Algorithm** is `AES256` and a **User Password** is set.",
+      description: "Password that grants full control (changing permissions, removing restrictions), e.g. `0wner-Passw0rd`. Required when **Encryption Algorithm** is `AES256` and a **User Password** is set.",
       optional: true,
       secret: true,
     },
     disableEditing: {
       type: "boolean",
       label: "Disable Editing",
-      description: "If true, prevents form edits and annotation changes.",
+      description: "If `true`, prevents form edits and annotation changes. Example: `true`.",
       optional: true,
     },
     disableCopy: {
       type: "boolean",
       label: "Disable Copy/Extract",
-      description: "If true, blocks copying text or extracting images.",
+      description: "If `true`, blocks copying text and extracting images. Example: `true`.",
       optional: true,
     },
     disablePrint: {
       type: "boolean",
       label: "Disable Printing",
-      description: "If true, the PDF cannot be printed.",
+      description: "If `true`, the PDF cannot be printed. Example: `true`.",
       optional: true,
     },
     encryptMetadata: {
       type: "boolean",
       label: "Encrypt Metadata",
-      description: "If true, the document title/author/keywords are encrypted along with the content.",
+      description: "If `true`, the document title, author and keywords are encrypted along with the content. Example: `false`.",
       optional: true,
     },
     preSignedUrlExpiresIn: {

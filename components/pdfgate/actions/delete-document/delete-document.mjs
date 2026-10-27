@@ -1,12 +1,13 @@
 import app from "../../pdfgate.app.mjs";
-import { DOCS_URL } from "../../common/constants.mjs";
+import { DOCS_URLS } from "../../common/constants.mjs";
 
 export default {
   key: "pdfgate-delete-document",
   name: "Delete Document",
-  description: `Delete a stored PDFGate document by ID. [See the documentation](${DOCS_URL})`,
+  description: `Permanently delete a stored PDFGate document by ID. Use it to remove files you no longer need before their storage period ends; this cannot be undone and later reads of the ID fail. [See the documentation](${DOCS_URLS.deleteDocument})`,
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

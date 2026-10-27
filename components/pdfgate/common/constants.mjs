@@ -1,7 +1,27 @@
 export const PRODUCTION_BASE_URL = "https://api.pdfgate.com";
 export const SANDBOX_BASE_URL = "https://api-sandbox.pdfgate.com";
 
-export const DOCS_URL = "https://pdfgate.com/documentation";
+const DOCS_BASE_URL = "https://pdfgate.com/documentation";
+
+export const DOCS_URL = DOCS_BASE_URL;
+
+// One API reference page per operation, used in component descriptions.
+export const DOCS_URLS = {
+  generatePdf: `${DOCS_BASE_URL}/generate-pdf`,
+  uploadFile: `${DOCS_BASE_URL}/document/upload`,
+  getDocument: `${DOCS_BASE_URL}/document/get-document`,
+  deleteDocument: `${DOCS_BASE_URL}/document/delete-document`,
+  compressPdf: `${DOCS_BASE_URL}/compress-pdf`,
+  flattenPdf: `${DOCS_BASE_URL}/flatten-pdf`,
+  extractFormData: `${DOCS_BASE_URL}/extract-pdf-form-data`,
+  protectPdf: `${DOCS_BASE_URL}/protect-pdf`,
+  watermarkPdf: `${DOCS_BASE_URL}/watermark-pdf`,
+  createEnvelope: `${DOCS_BASE_URL}/envelope/create`,
+  sendEnvelope: `${DOCS_BASE_URL}/envelope/send`,
+  getEnvelope: `${DOCS_BASE_URL}/envelope/get`,
+  webhookEvents: `${DOCS_BASE_URL}/webhook/events`,
+  formFields: `${DOCS_BASE_URL}/pdf-fillable-form-fields`,
+};
 
 export const WEBHOOK_SIGNATURE_HEADER = "x-pdfgate-signature";
 export const WEBHOOK_SIGNATURE_TOLERANCE_SECONDS = 300;

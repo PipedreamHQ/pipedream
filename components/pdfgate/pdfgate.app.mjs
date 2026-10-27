@@ -1,11 +1,7 @@
 import { axios } from "@pipedream/platform";
 import {
-  createHmac, timingSafeEqual,
-} from "node:crypto";
-import {
   PRODUCTION_BASE_URL,
   SANDBOX_BASE_URL,
-  WEBHOOK_SIGNATURE_TOLERANCE_SECONDS,
 } from "./common/constants.mjs";
 
 export default {
@@ -15,17 +11,17 @@ export default {
     documentId: {
       type: "string",
       label: "Document ID",
-      description: "ID of an existing PDFGate document. You can map this from a previous step such as **Generate PDF** or **Upload File**.",
+      description: "ID of an existing PDFGate document, e.g. `6acf40d909b3df0f91f8f00b`. Use **Generate PDF** or **Upload File** and read the `id` field of the response, or use **Get Document** to look one up.",
     },
     envelopeId: {
       type: "string",
       label: "Envelope ID",
-      description: "ID of an existing PDFGate envelope.",
+      description: "ID of an existing PDFGate envelope, e.g. `6ae0390df164e22d4bd5f5da`. Use **Create Envelope** and read the `id` field of the response.",
     },
     preSignedUrlExpiresIn: {
       type: "integer",
       label: "Pre-Signed URL Expiry (seconds)",
-      description: "Number of seconds the returned `fileUrl` remains valid. Allowed range: 60 to 86400 seconds. Defaults to 3600.",
+      description: "Number of seconds the returned `fileUrl` download link stays valid, e.g. `3600`. Allowed range: `60` to `86400`. Set it to receive a `fileUrl` in the response; when omitted no download link is returned. Requires document storage to be enabled in the PDFGate dashboard.",
       optional: true,
       min: 60,
       max: 86400,
@@ -33,7 +29,7 @@ export default {
     metadata: {
       type: "object",
       label: "Metadata",
-      description: "Optional metadata as key-value pairs stored with the document. Example: `{\"customerId\":\"123\",\"invoiceId\":\"INV-001\"}`",
+      description: "Optional key-value pairs stored with the document and returned on later reads, e.g. `{\"customerId\":\"123\",\"invoiceId\":\"INV-001\"}`.",
       optional: true,
     },
   },
@@ -64,6 +60,9 @@ export default {
     },
 
     // ── Auth ──────────────────────────────────────────────────────────────
+    /**
+     * Validate the connected API key.
+     */
     checkAuth(args = {}) {
       return this._makeRequest({
         path: "/auth",
@@ -72,6 +71,9 @@ export default {
     },
 
     // ── Documents ─────────────────────────────────────────────────────────
+    /**
+     * Render a PDF from a URL or HTML. Returns the document object.
+     */
     generatePdf(args = {}) {
       return this._makeRequest({
         method: "POST",
@@ -79,6 +81,9 @@ export default {
         ...args,
       });
     },
+    /**
+     * Store a PDF fetched from a public URL. Returns the document object.
+     */
     uploadFile(args = {}) {
       return this._makeRequest({
         method: "POST",
@@ -86,6 +91,9 @@ export default {
         ...args,
       });
     },
+    /**
+     * Fetch a stored document by id. Pass `params.preSignedUrlExpiresIn` to get a `fileUrl`.
+     */
     getDocument({
       documentId, ...args
     }) {
@@ -94,6 +102,9 @@ export default {
         ...args,
       });
     },
+    /**
+     * Permanently delete a stored document.
+     */
     deleteDocument({
       documentId, ...args
     }) {
@@ -103,6 +114,9 @@ export default {
         ...args,
       });
     },
+    /**
+     * Compress a stored PDF into a new document.
+     */
     compressPdf(args = {}) {
       return this._makeRequest({
         method: "POST",
@@ -110,6 +124,9 @@ export default {
         ...args,
       });
     },
+    /**
+     * Flatten form fields of a stored PDF into a new document.
+     */
     flattenPdf(args = {}) {
       return this._makeRequest({
         method: "POST",
@@ -117,6 +134,9 @@ export default {
         ...args,
       });
     },
+    /**
+     * Read form field values from a stored fillable PDF.
+     */
     extractFormData(args = {}) {
       return this._makeRequest({
         method: "POST",
@@ -124,6 +144,9 @@ export default {
         ...args,
       });
     },
+    /**
+     * Encrypt a stored PDF into a new document.
+     */
     protectPdf(args = {}) {
       return this._makeRequest({
         method: "POST",
@@ -131,6 +154,9 @@ export default {
         ...args,
       });
     },
+    /**
+     * Apply a text watermark to a stored PDF, producing a new document.
+     */
     watermarkPdf(args = {}) {
       return this._makeRequest({
         method: "POST",
@@ -140,6 +166,9 @@ export default {
     },
 
     // ── Envelopes ─────────────────────────────────────────────────────────
+    /**
+     * Create a signing envelope from stored documents.
+     */
     createEnvelope(args = {}) {
       return this._makeRequest({
         method: "POST",
@@ -147,6 +176,9 @@ export default {
         ...args,
       });
     },
+    /**
+     * Email signing links to an envelope's recipients.
+     */
     sendEnvelope({
       envelopeId, ...args
     }) {
@@ -156,6 +188,9 @@ export default {
         ...args,
       });
     },
+    /**
+     * Fetch an envelope with its documents and recipient statuses.
+     */
     getEnvelope({
       envelopeId, ...args
     }) {
@@ -166,6 +201,9 @@ export default {
     },
 
     // ── Webhooks ──────────────────────────────────────────────────────────
+    /**
+     * Register a webhook. Returns `{ id, secret, ... }`; the secret signs deliveries.
+     */
     createWebhook(args = {}) {
       return this._makeRequest({
         method: "POST",
@@ -173,6 +211,9 @@ export default {
         ...args,
       });
     },
+    /**
+     * Remove a webhook registration.
+     */
     deleteWebhook({
       webhookId, ...args
     }) {
@@ -180,46 +221,6 @@ export default {
         method: "DELETE",
         path: `/webhook/${webhookId}`,
         ...args,
-      });
-    },
-    /**
-     * Verify a PDFGate webhook signature header of the form `t=<unix>,v1=<hex>`.
-     * The signed payload is `${t}.${rawBody}` using HMAC-SHA256 with the webhook secret.
-     * Returns true when at least one `v1` signature matches and the timestamp is fresh.
-     */
-    verifyWebhookSignature({
-      secret, signatureHeader, payload, now = Math.floor(Date.now() / 1000),
-    }) {
-      if (!secret || !signatureHeader || payload === undefined || payload === null) {
-        return false;
-      }
-      let timestamp = null;
-      const signatures = [];
-      for (const part of String(signatureHeader).split(",")) {
-        const eqIdx = part.indexOf("=");
-        if (eqIdx === -1) continue;
-        const key = part.slice(0, eqIdx).trim();
-        const value = part.slice(eqIdx + 1).trim();
-        if (key === "t" && value) timestamp = Number(value);
-        if (key === "v1" && value) signatures.push(value);
-      }
-      if (!timestamp || Number.isNaN(timestamp) || signatures.length === 0) {
-        return false;
-      }
-      if (Math.abs(now - timestamp) > WEBHOOK_SIGNATURE_TOLERANCE_SECONDS) {
-        return false;
-      }
-      const expected = createHmac("sha256", secret)
-        .update(`${timestamp}.${payload}`)
-        .digest("hex");
-      const expectedBuf = Buffer.from(expected, "hex");
-      return signatures.some((sig) => {
-        try {
-          const sigBuf = Buffer.from(sig, "hex");
-          return sigBuf.length === expectedBuf.length && timingSafeEqual(sigBuf, expectedBuf);
-        } catch {
-          return false;
-        }
       });
     },
   },

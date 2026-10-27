@@ -1,6 +1,6 @@
 import app from "../../pdfgate.app.mjs";
 import {
-  DOCS_URL, PROCESS_TIMEOUT_MS,
+  DOCS_URLS, PROCESS_TIMEOUT_MS,
 } from "../../common/constants.mjs";
 import {
   buildCommonFields, omitBlank,
@@ -9,9 +9,10 @@ import {
 export default {
   key: "pdfgate-compress-pdf",
   name: "Compress PDF",
-  description: `Compress a PDF to reduce its file size without changing visual content. [See the documentation](${DOCS_URL})`,
+  description: `Reduce the file size of a stored PDF without changing its visual content and save the result as a new PDFGate document. Use it before emailing or archiving large files; the original document is left unchanged. [See the documentation](${DOCS_URLS.compressPdf})`,
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -28,7 +29,7 @@ export default {
     linearize: {
       type: "boolean",
       label: "Linearize",
-      description: "Makes the PDF load faster in the browser by letting pages appear before the whole file finishes downloading.",
+      description: "If `true`, optimises the PDF for fast web viewing so pages appear before the whole file has downloaded. Example: `true`.",
       optional: true,
     },
     preSignedUrlExpiresIn: {
