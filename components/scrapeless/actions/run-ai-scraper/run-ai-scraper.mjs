@@ -3,7 +3,7 @@ import {
   buildAiScraperRequest, validateAiScraperTaskId,
 } from "../../common/ai-scraper.mjs";
 import {
-  assertAiScraperCreateResponse, getAiScraperResultSummary,
+  assertAiScraperCreateResponse, getAiScraperResultSummary, getAiScraperRecoveryTaskId,
 } from "../../common/ai-scraper-response.mjs";
 import {
   pollAiScraperResult, validateAiScraperWaitSeconds,
@@ -83,25 +83,27 @@ export default {
       ? 180
       : this.maxWaitSeconds);
     let taskId;
-    if (this.taskId !== undefined) {
-      taskId = validateAiScraperTaskId(this.taskId);
-    } else {
-      const data = buildAiScraperRequest({
-        actor: this.actor,
-        prompt: this.prompt,
-        country: this.country,
-        aiModeUrl: this.aiModeUrl,
-        engineOptions: this.engineOptions,
-      });
-      const created = await this.scrapeless.createAiScraperTask({
-        $,
-        data,
-      });
-      assertAiScraperCreateResponse(created);
-      taskId = created.task_id;
-    }
-    $.export("task_id", taskId);
+    let taskIdExported = false;
     try {
+      if (this.taskId !== undefined) {
+        taskId = validateAiScraperTaskId(this.taskId);
+      } else {
+        const data = buildAiScraperRequest({
+          actor: this.actor,
+          prompt: this.prompt,
+          country: this.country,
+          aiModeUrl: this.aiModeUrl,
+          engineOptions: this.engineOptions,
+        });
+        const created = await this.scrapeless.createAiScraperTask({
+          $,
+          data,
+        });
+        taskId = getAiScraperRecoveryTaskId(created);
+        assertAiScraperCreateResponse(created);
+      }
+      $.export("task_id", taskId);
+      taskIdExported = true;
       const result = await pollAiScraperResult({
         taskId,
         maxWaitSeconds,
@@ -122,7 +124,11 @@ export default {
         : getAiScraperResultSummary(taskId, result));
       return result;
     } catch (error) {
-      error.task_id = taskId;
+      if (taskId === undefined) taskId = getAiScraperRecoveryTaskId(error?.response?.data);
+      if (taskId !== undefined) {
+        if (!taskIdExported) $.export("task_id", taskId);
+        error.task_id = taskId;
+      }
       throw error;
     }
   },

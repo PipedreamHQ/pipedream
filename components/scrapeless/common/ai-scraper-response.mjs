@@ -20,6 +20,22 @@ const TRANSPORT_CODES = [
 ];
 
 /**
+ * Recover a usable task ID without replacing the original creation error.
+ * Missing or malformed IDs do not establish a recoverable task.
+ *
+ * @param {*} response Creation response or HTTP error response body.
+ * @returns {string|undefined} Validated ID, or undefined when none is usable.
+ */
+export function getAiScraperRecoveryTaskId(response) {
+  if (!isPlainObject(response)) return undefined;
+  try {
+    return validateAiScraperTaskId(response.task_id);
+  } catch {
+    return undefined;
+  }
+}
+
+/**
  * Require a creation response with a usable task ID and no failure status.
  * Missing status is accepted; any supplied status must be recognized.
  *

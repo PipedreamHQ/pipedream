@@ -74,6 +74,9 @@ The component also exports `task_id` immediately after creation, before waiting.
 - Creation is never automatically repeated by this action. If creation times out
   or its response lacks a usable ID, a task may already exist. Do not automatically
   retry the entire action. If an ID is available, query that ID instead.
+  A rejected creation response or POST error body containing a valid `task_id`
+  produces a task ID export and attaches that ID to the rethrown error. An invalid
+  or missing ID is not exported; the original error is preserved.
 - Waiting occupies the current execution and may consume Pipedream compute credits.
   Workflow, Connect, MCP, and caller timeouts still apply. This component cannot
   raise those limits, and it does not guarantee completion within a single call.
