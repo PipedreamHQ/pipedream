@@ -1,10 +1,60 @@
 import { axios } from "@pipedream/platform";
 import { ConfigurationError } from "@pipedream/platform";
+import {
+  buildAiScraperTransportError, getAiScraperRequestContext, sanitizeAiScraperHttpError,
+} from "./common/ai-scraper-response.mjs";
 
 export default {
   type: "app",
   app: "scrapeless",
   methods: {
+    async _makeAiScraperRequest({
+      $, method, path, data,
+    }) {
+      const apiKey = this.$auth?.api_key;
+      if (typeof apiKey !== "string" || !apiKey.trim()) {
+        throw new ConfigurationError("A Scrapeless API key is required.");
+      }
+      try {
+        return await axios(getAiScraperRequestContext($), {
+          method,
+          url: `https://api.scrapeless.com/api/v2/scraper${path}`,
+          headers: {
+            "x-api-token": apiKey,
+            "Content-Type": "application/json",
+          },
+          ...(data !== undefined && {
+            data,
+          }),
+          timeout: 30000,
+          maxRedirects: 0,
+        });
+      } catch (error) {
+        if (error.response) throw sanitizeAiScraperHttpError(error);
+        throw buildAiScraperTransportError(error, {
+          method,
+        });
+      }
+    },
+    createAiScraperTask({
+      $, data,
+    }) {
+      return this._makeAiScraperRequest({
+        $,
+        method: "POST",
+        path: "/request",
+        data,
+      });
+    },
+    getAiScraperResult({
+      $, taskId,
+    }) {
+      return this._makeAiScraperRequest({
+        $,
+        method: "GET",
+        path: `/result/${encodeURIComponent(taskId)}`,
+      });
+    },
     _baseUrl() {
       return "https://api.scrapeless.com/api";
     },

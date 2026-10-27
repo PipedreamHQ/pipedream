@@ -6849,3 +6849,88 @@ export const GOOGLE_TRENDS_PROPERTY_OPTIONS = [
     "label": "YouTube Search",
   },
 ];
+
+export const AI_SCRAPER_ENGINE_SPECS = {
+  "scraper.chatgpt": {
+    label: "ChatGPT",
+    fields: {
+      web_search: "boolean",
+      shopping: "boolean",
+      should_fetch_share_link: "boolean",
+    },
+  },
+  "scraper.perplexity": {
+    label: "Perplexity",
+    fields: {
+      web_search: "boolean",
+      should_fetch_share_link: "boolean",
+    },
+  },
+  "scraper.copilot": {
+    label: "Microsoft Copilot",
+    fields: {
+      mode: [
+        "search",
+        "smart",
+        "chat",
+        "reasoning",
+        "study",
+      ],
+      should_fetch_share_link: "boolean",
+    },
+    required: [
+      "mode",
+    ],
+  },
+  "scraper.gemini": {
+    label: "Gemini",
+    fields: {
+      shopping: "boolean",
+    },
+  },
+  "scraper.aimode": {
+    label: "Google AI Mode",
+    fields: {
+      shopping: "boolean",
+      location: "string",
+      uule: "string",
+      should_fetch_share_link: "boolean",
+    },
+  },
+  "scraper.overview": {
+    label: "Google AI Overview",
+    fields: {
+      shopping: "boolean",
+      location: "string",
+      uule: "string",
+      should_fetch_share_link: "boolean",
+    },
+  },
+  "scraper.grok": {
+    label: "Grok",
+    fields: {
+      mode: [
+        "MODEL_MODE_FAST",
+        "MODEL_MODE_EXPERT",
+        "MODEL_MODE_AUTO",
+      ],
+      should_fetch_share_link: "boolean",
+    },
+    required: [
+      "mode",
+    ],
+  },
+  "scraper.alexa": {
+    label: "Amazon Alexa",
+    fields: {},
+  },
+};
+
+export const AI_SCRAPER_ACTORS = Object.entries(AI_SCRAPER_ENGINE_SPECS)
+  .map(([
+    value,
+    { label },
+  ]) => ({
+    label,
+    value,
+  }));
