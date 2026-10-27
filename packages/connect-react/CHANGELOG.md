@@ -2,6 +2,15 @@
 
 # Changelog
 
+## [3.1.0] - 2026-10-27
+
+### Added
+
+- `initialDynamicProps` on `ComponentForm`, `ComponentFormContainer`, and
+  `FormContextProvider` props to restore a saved dynamic schema and its ID
+  together with configured values. Saved optional fields are enabled without
+  triggering a reload during initialization. Fixes #18625.
+
 ## [3.0.1] - 2026-05-20
 
 ### Added

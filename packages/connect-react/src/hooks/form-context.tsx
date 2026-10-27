@@ -172,12 +172,24 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     setSdkErrors,
   ] = useState<SdkError[]>([]);
 
+  // Restore visibility without treating saved optional reload props as edits.
   const [
     enabledOptionalProps,
     setEnabledOptionalProps,
-  ] = useState<Record<string, boolean>>({});
+  ] = useState<Record<string, boolean>>(() => Object.fromEntries(
+    (formProps.initialDynamicProps?.configurableProps ?? [])
+      .filter((prop) => prop.optional && __configuredProps?.[prop.name as keyof ConfiguredProps<T>] !== undefined)
+      .map((prop) => [
+        prop.name,
+        true,
+      ]),
+  ));
+  const previousComponentKey = useRef(component.key);
   useEffect(() => {
-    setEnabledOptionalProps({});
+    if (previousComponentKey.current !== component.key) {
+      setEnabledOptionalProps({});
+      previousComponentKey.current = component.key;
+    }
   }, [
     component.key,
   ]);
@@ -198,7 +210,9 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const [
     dynamicProps,
     setDynamicProps,
-  ] = useState<DynamicProps<T>>();
+  ] = useState<DynamicProps<T> | undefined>(
+    () => formProps.initialDynamicProps as DynamicProps<T> | undefined,
+  );
   // Use a ref to maintain dynamicProps across renders to prevent oscillation
   const dynamicPropsRef = useRef<DynamicProps<T>>();
   if (dynamicProps) {
