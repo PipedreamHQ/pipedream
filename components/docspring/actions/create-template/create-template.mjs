@@ -200,9 +200,12 @@ export default {
       const pdfInputs = this.filledIn({
         document: "PDF File or URL",
         filename: "File Name",
-        detectFields: "Detect Fields",
         ...FIELD_DETECTION_PROPS,
       });
+      // Detect Fields set to false asks for nothing, so only true counts as a PDF input.
+      if (detectFields) {
+        pdfInputs.push("Detect Fields");
+      }
       if (pdfInputs.length) {
         throw new ConfigurationError(`${pdfInputs.join(", ")} only apply to PDF templates`);
       }

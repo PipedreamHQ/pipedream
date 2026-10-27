@@ -70,6 +70,13 @@ export default {
           include_submission_data: utils.toBoolean(this.includeSubmissionData, "Include Submission Data") ?? true,
         }),
       });
+      if (!webhook.secret) {
+        // Every delivery would be turned away unsigned, so don't leave the webhook behind.
+        await this.docspring.deleteWebhook({
+          webhookId: webhook.id,
+        });
+        throw new Error("DocSpring created the webhook without a signing secret, so its deliveries can't be verified");
+      }
       this._setHookId(webhook.id);
       this._setHookSecret(webhook.secret);
     },
@@ -108,15 +115,15 @@ export default {
     },
     /**
      * Whether a request came from DocSpring: its `X-DocSpring-Signature` matches the raw body
-     * (`event.bodyRaw`) signed with the webhook's secret. A source activated before the secret
-     * was stored has none, so its deliveries aren't checked.
+     * (`event.bodyRaw`) signed with the webhook's secret. Without a stored secret nothing can be
+     * checked, so every request is turned away.
      * @param {object} event - the HTTP request
      * @returns {boolean}
      */
     _isFromDocSpring(event) {
       const secret = this._getHookSecret();
       if (!secret) {
-        return true;
+        return false;
       }
       return utils.verifySignature({
         secret,
@@ -127,7 +134,9 @@ export default {
   },
   async run(event) {
     if (!this._isFromDocSpring(event)) {
-      console.log("Dropped a request whose X-DocSpring-Signature doesn't match the webhook's secret");
+      console.log(this._getHookSecret()
+        ? "Dropped a request whose X-DocSpring-Signature doesn't match the webhook's secret"
+        : "Dropped a request: the source has no webhook secret to check it with. Deactivate and reactivate the source.");
       await this.http.respond({
         status: 401,
         body: "Invalid X-DocSpring-Signature",
