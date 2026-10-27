@@ -1,28 +1,92 @@
-# Create AI Scraper Task
+# Run AI Scraper
 
-Create one asynchronous task using your connected Scrapeless account. The response
-contains `task_id`; it does not mean that the answer has finished generating. Pass
-that ID to **Get AI Scraper Result** and save the completed result promptly.
+Create one task and automatically wait for its answer in a single Pipedream action.
+Choose ChatGPT, Perplexity, Microsoft Copilot, Gemini, Google AI Mode, Google AI
+Overview, Grok, or Amazon Alexa. The action creates one task, queries its existing
+ID every five seconds, and returns when the task succeeds, fails, or reaches the
+configured waiting limit.
 
-## Inputs
+## Setup
 
-- **AI Engine**: choose an actor from the table below.
-- **Prompt** and **Country**: required in prompt mode. For example, use
-  `Explain how solar panels generate electricity.` and `US`. Prompt content is
-  preserved; country codes are trimmed and converted to uppercase. Country
-  availability depends on the engine and your account. See the
-  [supported countries](https://docs.scrapeless.com/en/docs/ai-scraper/help/supported-countries/).
-- **Engine Options**: an optional JSON object containing only the selected
-  engine's supported fields. Use actual JSON boolean values, such as `false`, rather
-  than strings such as `"false"`. Unknown fields and invalid types are rejected
-  before making a request.
-- **AI Mode URL**: an alternative to prompt mode, described below.
-- **Webhook URL**: an optional HTTPS receiver, such as
-  `https://example.com/ai-scraper-callback`. URLs containing credentials are
-  rejected. This action sends `{ "webhook": { "url": "..." } }` to Scrapeless;
-  configure your own receiver to match callbacks by `task_id` and persist results.
-  It does not create a Pipedream webhook trigger. A successful creation response
-  does not confirm callback delivery.
+1. Connect your Scrapeless account using an API key.
+2. Add **Run AI Scraper** to your workflow and select **AI Engine**.
+3. Enter a **Prompt** and **Country**. Configure **Engine Options** if needed.
+   Copilot requires a mode such as `search`; Grok requires a mode such as
+   `MODEL_MODE_AUTO`. See the engine configurations below.
+4. Leave **Max Wait Seconds** at 180, or choose an integer from 1 to 240.
+5. Increase your workflow execution timeout to cover creation, waiting, and any
+   other steps. For the default 180-second wait, a 240-second workflow timeout is
+   a reasonable starting point; allow more for other steps. With a 240-second
+   wait, allow at least 270 seconds plus time for other steps.
+
+For Google AI Mode URL input, supply **AI Mode URL** and omit Prompt, Country, and
+Engine Options. This action does not configure a webhook; it retrieves results
+through the result endpoint.
+
+## Output
+
+A completed response includes the original API status, message, full `task_result`,
+and any other API response fields, with the original creation `task_id` attached:
+
+```json
+{
+  "task_id": "task-example-123",
+  "status": "success",
+  "task_result": {
+    "md_text": "The answer returned by the selected engine."
+  }
+}
+```
+
+The payload above is illustrative; result fields depend on the engine. A terminal
+`failed` task is returned as API data, including its original message. The action
+does not turn a failed task into a successful answer. If the API reports success
+without a result payload, the summary explicitly says that the payload is absent.
+
+If the waiting budget is exhausted, the action returns a local timeout outcome:
+
+```json
+{
+  "task_id": "task-example-123",
+  "status": "timeout",
+  "last_response": {
+    "status": "running"
+  }
+}
+```
+
+`timeout` is a component outcome, not a Scrapeless task status. `last_response` is
+present only if a valid result response was received before stopping. Waiting can
+stop before the exact limit when the next five-second poll, or a rate-limit delay,
+would exceed the remaining budget. The task is not canceled. To continue lookup,
+run **Run AI Scraper** again with **Existing Task ID** set to the returned ID.
+This query-only path does not create another task; creation inputs are ignored.
+The component also exports `task_id` immediately after creation, before waiting.
+
+## Limits and recovery
+
+- The waiting budget starts after task creation. Creation has its own 30-second
+  HTTP timeout. Each result query is limited to the smaller of 30 seconds and the
+  remaining budget.
+- HTTP 429 result queries respect `Retry-After`, with a minimum five-second delay.
+  Other HTTP errors, including expired results (410), and transport errors are
+  propagated. After creation, the error and step export retain the recovery ID.
+- Creation is never automatically repeated by this action. If creation times out
+  or its response lacks a usable ID, a task may already exist. Do not automatically
+  retry the entire action. If an ID is available, query that ID instead.
+- Waiting occupies the current execution and may consume Pipedream compute credits.
+  Workflow, Connect, MCP, and caller timeouts still apply. This component cannot
+  raise those limits, and it does not guarantee completion within a single call.
+- Save completed results promptly: Scrapeless retains completed results for about
+  four minutes. Returning a result does not archive it in external storage.
+
+For an existing task, set **Existing Task ID** (for example, `task-example-123`).
+AI Engine, Prompt, Country, AI Mode URL, and Engine Options are ignored on this
+path. An invalid supplied ID is rejected locally; it never falls back to creation.
+Leave Existing Task ID unset only when intentionally starting a new task.
+
+A timeout remains a timeout until a later lookup actually returns a terminal
+state. Resuming after the provider retention window may return HTTP 410.
 
 ## Engine configurations
 
@@ -115,38 +179,15 @@ whether you later retrieve their results.
 
 Select `scraper.aimode`, supply the complete AI Mode access link as **AI Mode URL**,
 and omit Prompt, Country, and Engine Options (an empty object is also accepted).
-The component sends only `input.url`, preserving the link exactly. A Webhook URL
-may still be supplied at the top level.
+The component sends only `input.url`, preserving the link exactly.
 
 The component requires an HTTPS URL without credentials. This is component input
 validation, not a guarantee that every HTTPS link is a valid AI Mode access link.
 No request is made to the link locally. URL mode does not add `shopping: false` or
 any other input option; its cost behavior needs separate account validation.
 
-## Output and retries
+## References
 
-The complete API response is returned without wrapping it in an extra object.
-A synthetic fixture, not a live API response:
-
-```json
-{ "task_id": "task-example-123" }
-```
-
-A missing or invalid `task_id`, or a conflicting failure status, produces an error
-instead of a successful creation summary.
-
-Each execution issues one POST to `/api/v2/scraper/request`, with a 30-second
-request timeout and no automatic retry or redirect following. This timeout is
-not a task-completion guarantee. A timeout or connection loss can leave a task
-created and billed even though no response was received. Do not automatically
-resubmit after an uncertain creation outcome. Preserve any known task ID and
-investigate first. Also configure the caller's retries: one POST per action
-execution does not guarantee one POST across repeated Connect or MCP executions.
-
-HTTP errors preserve the API status and response body. Request configuration is
-removed from error objects and debug exports. Task inputs can still appear in
-the original API response; treat returned data as private.
-
-For task states, result retention, and webhook fields, see
-[Getting Started](https://docs.scrapeless.com/en/docs/ai-scraper/quickstart/quickstart/)
-and [Task Lifecycle](https://docs.scrapeless.com/en/docs/ai-scraper/quickstart/task-lifecycle/).
+- [Scrapeless AI Scraper task lifecycle](https://docs.scrapeless.com/en/docs/ai-scraper/quickstart/task-lifecycle/)
+- [Scrapeless AI Scraper quickstart](https://docs.scrapeless.com/en/docs/ai-scraper/quickstart/quickstart/)
+- [Pipedream workflow execution limits](https://pipedream.com/docs/workflows/limits#time-per-execution)

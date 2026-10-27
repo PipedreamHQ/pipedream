@@ -16,11 +16,11 @@ Scrapeless – your go-to platform for powerful, compliant web data extraction. 
 1. If you are not a member of Scrapeless, you can sign up for a free account at [Scrapeless](https://app.scrapeless.com/passport/register).
 2. Once registered, you can go to the API Key Management page to generate an API Key in the app settings.
 
-## AI Scraper actions
+## AI Scraper action
 
-Use [Create AI Scraper Task](./actions/create-ai-scraper-task/README.md) to submit
-one task and obtain its `task_id`. Pass that ID to
-[Get AI Scraper Result](./actions/get-ai-scraper-result/README.md) to check its state
-and retrieve the complete result. Save completed results within four minutes.
-The action guides describe engine options, optional webhooks, and creation retry
-limits. Existing scraping and crawler actions retain their current behavior.
+Use [Run AI Scraper](./actions/run-ai-scraper/README.md) to create a task and
+automatically query it until completion in one action. Select one of eight engines,
+enter a question, and configure the workflow timeout to cover the waiting budget.
+On timeout, provide the returned task ID as Existing Task ID in the same action
+to continue querying without creating a new task. Existing scraping and crawler
+actions retain their current behavior.

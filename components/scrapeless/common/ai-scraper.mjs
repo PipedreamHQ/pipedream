@@ -232,7 +232,7 @@ export function validateAiScraperTaskId(taskId) {
     ".",
     "..",
   ].includes(taskId.trim())) {
-    throw new ConfigurationError("Task ID must be a non-empty identifier from Create AI Scraper Task.");
+    throw new ConfigurationError("Task ID must be a non-empty identifier from an AI Scraper response.");
   }
   try {
     encodeURIComponent(taskId.trim());
