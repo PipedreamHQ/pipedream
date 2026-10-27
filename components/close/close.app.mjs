@@ -80,10 +80,11 @@ export default {
     _getUrl(path) {
       return `https://api.close.com/api/v1${path}`;
     },
-    _getHeaders() {
+    _getHeaders(headers) {
       return {
         "accept": "application/json",
         "Content-Type": "application/json",
+        ...headers,
       };
     },
     async _makeRequest({

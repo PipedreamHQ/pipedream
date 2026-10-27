@@ -5,7 +5,7 @@ export default {
   key: "close-custom-action",
   name: "Custom Action",
   description: "Makes an arbitrary call to the Close API. [See the documentation](https://developer.close.com/) for all options.",
-  version: "0.1.3",
+  version: "1.0.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -52,17 +52,20 @@ export default {
   },
   async run({ $ }) {
     this.queryString = this.queryString || "";
+    const body = utils.parseObject(this.requestBody);
     const requestBody = {};
-    for (let key in this.requestBody) {
-      requestBody[key] = utils.parseObject(this.requestBody[key]);
+    for (let key in body) {
+      requestBody[key] = utils.parseObject(body[key]);
     }
     const response = await this.close._makeRequest({
       method: this.requestMethod,
       path: `${this.relativeUrl}${this.queryString}`,
       headers: this.headers,
-      data: this.requestBody,
+      data: this.requestBody
+        ? requestBody
+        : undefined,
     });
     $.export("$summary", "Configured request has been sent.");
-    return response;
+    return response.data;
   },
 };
