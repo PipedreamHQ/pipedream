@@ -24,7 +24,12 @@ export type ComponentFormProps<T extends ConfigurableProps, U = ConfiguredProps<
   component: Component;
   configuredProps?: U; // XXX value?
   disableQueryDisabling?: boolean;
-  // dynamicPropsId?: string // XXX need to load this initially when passed
+  /**
+   * Full dynamic schema and ID previously received from `onUpdateDynamicProps`.
+   * Used only when the form mounts. Change the form's React key when switching
+   * saved configurations, components, or external users.
+   */
+  initialDynamicProps?: DynamicProps;
   propNames?: string[]; // TODO PropNames<T>
   onSubmit?: (ctx: FormContext<T>) => void | Promise<void>; // if passed, we include button
   onUpdateConfiguredProps?: (v: U) => void; // XXX onChange?

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/connect-react",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "description": "Pipedream Connect library for React",
   "files": [
     "dist"
@@ -19,6 +19,7 @@
   },
   "scripts": {
     "build": "vite build",
+    "test": "node --import tsx --import ./test/setup.ts --test test/*.test.tsx",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "prepublishOnly": "pnpm run build",
@@ -39,8 +40,13 @@
   },
   "devDependencies": {
     "@emotion/react": "^11.13.5",
+    "@testing-library/react": "16.3.0",
     "@types/lodash.isequal": "^4.5.8",
     "@types/react": "^18.3.12",
+    "@types/react-dom": "18.3.7",
+    "jsdom": "26.1.0",
+    "tsx": "4.20.6",
+    "typescript": "5.6.3",
     "vite": "^6.4.3",
     "vite-plugin-dts": "^4.3.0"
   },

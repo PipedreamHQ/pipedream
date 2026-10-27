@@ -140,6 +140,8 @@ type ComponentFormProps = {
   userId: string;
   /** Form configured values */
   configuredProps?: Record<string, any>;
+  /** Full saved dynamic schema and ID; used only when the form mounts */
+  initialDynamicProps?: import("@pipedream/sdk").DynamicProps;
   /** Filtering configurable props */
   propNames?: string[];
   /** Shows submit button + callback when clicked */
@@ -158,6 +160,47 @@ type ComponentFormProps = {
   oauthAppConfig?: Record<string, string>;
 };
 ```
+
+### Restoring a saved dynamic form
+
+Save the complete `DynamicProps` object received by `onUpdateDynamicProps`
+alongside the configured values, component identity, and external user. Pass
+that snapshot as `initialDynamicProps` when reopening the form:
+
+```tsx
+const [configuredProps, setConfiguredProps] = useState(saved.configuredProps);
+const [dynamicProps, setDynamicProps] = useState<DynamicProps | undefined>(saved.dynamicProps);
+
+<ComponentFormContainer
+  key={formSessionKey}
+  externalUserId={externalUserId}
+  componentKey={saved.componentKey}
+  configuredProps={configuredProps}
+  initialDynamicProps={saved.dynamicProps}
+  onUpdateConfiguredProps={setConfiguredProps}
+  onUpdateDynamicProps={setDynamicProps}
+/>
+
+// Persist both configuredProps and dynamicProps when saving.
+```
+
+Import `DynamicProps` from `@pipedream/sdk`. The snapshot contains the full
+resolved `configurableProps` array and its `id`, including the identity needed
+to request remote options. An ID alone does not supply the saved schema.
+Initialization does not issue a reload or emit `onUpdateDynamicProps`.
+
+`initialDynamicProps` is an initializer, not a controlled prop: changes after
+mount are ignored, so a parent rerender cannot overwrite a subsequent reload.
+Mount the form after its saved values and snapshot are ready. Change
+`formSessionKey` when replacing the saved configuration, component/revision, or
+external user, and supply their matching values and snapshot together. Keep
+that key stable while editing. The same mount-only contract applies when using
+`ComponentForm` or `FormContextProvider` directly. Changing identity without a
+new key is not a supported way to replace the saved editing session.
+
+The snapshot does not validate the provider's current account state or guarantee
+that a saved dynamic ID remains accepted by the API. Reloads and API errors
+continue to follow the existing form behavior.
 
 ### OAuth App Configuration
 
