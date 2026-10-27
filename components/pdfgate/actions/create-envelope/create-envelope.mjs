@@ -35,9 +35,10 @@ const normalizeDocument = (document, recipientDefaults = {}) => {
   return {
     sourceDocumentId: document.sourceDocumentId,
     name: document.name,
+    // Blank recipient values (null / "") must not override the action-level defaults.
     recipients: recipients.map((recipient) => normalizeRecipient({
       ...recipientDefaults,
-      ...recipient,
+      ...omitBlank(recipient),
     })),
   };
 };
@@ -45,7 +46,7 @@ const normalizeDocument = (document, recipientDefaults = {}) => {
 export default {
   key: "pdfgate-create-envelope",
   name: "Create Envelope",
-  description: `Create a signing envelope from one or more stored PDFGate documents and their recipients. The envelope starts as a draft; use **Send Envelope** to email the signing links, and **Get Envelope** or the **New Envelope Completed** trigger to follow progress. Every document must contain at least one form or signature field. [See the documentation](${DOCS_URLS.createEnvelope})`,
+  description: `Create a signing envelope from one or more stored PDFGate documents and their recipients. The new envelope has status \`created\` and nothing is emailed yet; use **Send Envelope** to email the signing links, and **Get Envelope** or the **New Envelope Completed** trigger to follow progress. Every document must contain at least one form or signature field. [See the documentation](${DOCS_URLS.createEnvelope})`,
   version: "0.0.1",
   type: "action",
   ai: "optimized",

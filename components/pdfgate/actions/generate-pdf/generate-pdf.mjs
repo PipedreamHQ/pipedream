@@ -114,8 +114,9 @@ export default {
     timeout: {
       type: "integer",
       label: "Render Timeout (milliseconds)",
-      description: "Maximum time to wait for the page to render, e.g. `30000`. Increase it for slow pages.",
+      description: "Maximum time in milliseconds to wait for the page to render, e.g. `60000`. Defaults to the maximum of `900000` (15 minutes); set a lower value to fail fast instead of waiting on a stuck page.",
       optional: true,
+      max: 900000,
     },
     javascript: {
       type: "string",
