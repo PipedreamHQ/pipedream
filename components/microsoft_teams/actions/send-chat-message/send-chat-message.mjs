@@ -5,7 +5,7 @@ export default {
   name: "Send Chat Message",
   description: "Send a message to a team's chat. Optionally include inline images via `hostedContents`. [See the docs here](https://learn.microsoft.com/en-us/graph/api/chatmessage-post?view=graph-rest-1.0&tabs=http)",
   type: "action",
-  version: "0.0.13",
+  version: "0.0.14",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

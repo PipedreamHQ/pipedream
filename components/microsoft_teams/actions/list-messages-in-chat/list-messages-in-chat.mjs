@@ -5,7 +5,7 @@ export default {
   name: "List Messages in Chat",
   description: "Get the list of messages in a chat. [See the documentation](https://learn.microsoft.com/en-us/graph/api/chat-list-messages?view=graph-rest-1.0&tabs=http)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
