@@ -6927,10 +6927,18 @@ export const AI_SCRAPER_ENGINE_SPECS = {
 };
 
 export const AI_SCRAPER_ACTORS = Object.entries(AI_SCRAPER_ENGINE_SPECS)
-  .map(([
-    value,
-    { label },
-  ]) => ({
-    label,
-    value,
-  }));
+  .map(
+    /**
+     * Convert an engine specification entry to a static actor option.
+     *
+     * @param {[string, object]} entry Engine ID and its specification.
+     * @returns {{label: string, value: string}} Pipedream actor option.
+     */
+    ([
+      value,
+      { label },
+    ]) => ({
+      label,
+      value,
+    }),
+  );

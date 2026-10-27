@@ -21,9 +21,18 @@ export default {
     taskId: {
       type: "string",
       label: "Task ID",
-      description: "The task_id returned by **Create AI Scraper Task**, for example task-example-123. Query the same ID while pending or running; do not create another task to check progress.",
+      description: "The task_id returned by **Create AI Scraper Task**, e.g. `task-example-123`. Query the same ID while pending or running; do not create another task to check progress.",
     },
   },
+  /**
+   * Query one existing task and export a summary of its reported state.
+   * Return terminal failures as API data without creating a replacement task.
+   *
+   * @param {object} context Pipedream execution context.
+   * @param {object} context.$ Step context used to export the status summary.
+   * @returns {Promise<object>} Unmodified task response, including task_result.
+   * @throws {Error} If the task ID, transport, or response status is invalid.
+   */
   async run({ $ }) {
     const taskId = validateAiScraperTaskId(this.taskId);
     const response = await this.scrapeless.getAiScraperResult({

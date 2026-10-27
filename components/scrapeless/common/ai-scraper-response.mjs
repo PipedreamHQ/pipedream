@@ -19,6 +19,14 @@ const TRANSPORT_CODES = [
   "ERR_CANCELED",
 ];
 
+/**
+ * Require a creation response with a usable task ID and no failure status.
+ * Missing status is accepted; any supplied status must be recognized.
+ *
+ * @param {*} response Unmodified creation response from the API.
+ * @returns {void}
+ * @throws {Error} If the response leaves the creation outcome uncertain.
+ */
 export function assertAiScraperCreateResponse(response) {
   if (isPlainObject(response)) {
     try {
@@ -34,12 +42,27 @@ export function assertAiScraperCreateResponse(response) {
   throw new Error("Unexpected AI Scraper creation response. A task may have been created, but its outcome is unknown. Do not automatically resubmit the request.");
 }
 
+/**
+ * Require an object containing a recognized task status, including failed.
+ *
+ * @param {*} response Unmodified result response from the API.
+ * @returns {void}
+ * @throws {Error} If the response is not an object with a known status.
+ */
 export function assertAiScraperResultResponse(response) {
   if (!isPlainObject(response) || !AI_SCRAPER_STATUSES.includes(response.status)) {
     throw new Error("Unexpected AI Scraper result response: expected a known task status. Keep the task ID for further investigation.");
   }
 }
 
+/**
+ * Describe the reported state without implying an absent result was retrieved.
+ *
+ * @param {string} taskId Validated task identifier for the summary.
+ * @param {object} response API response with a validated status.
+ * @returns {string} State-specific summary and the caller's next step.
+ * @throws {Error} If called with an unsupported status.
+ */
 export function getAiScraperResultSummary(taskId, response) {
   switch (response.status) {
   case "pending":
@@ -57,6 +80,15 @@ export function getAiScraperResultSummary(taskId, response) {
   }
 }
 
+/**
+ * Replace a transport error without copying request configuration or credentials.
+ * Preserve only recognized transport codes and warn against repeating a POST.
+ *
+ * @param {*} error Original transport failure.
+ * @param {object} options Request classification.
+ * @param {string} options.method HTTP method used by the failed request.
+ * @returns {Error} Safe error describing the appropriate recovery boundary.
+ */
 export function buildAiScraperTransportError(error, { method }) {
   const safeError = new Error(method === "POST"
     ? "AI Scraper creation request did not complete. A task may have been created, but its outcome is unknown. Do not automatically resubmit the request."
@@ -67,10 +99,22 @@ export function buildAiScraperTransportError(error, { method }) {
   return safeError;
 }
 
-// Platform 3.1.1 exports response.config before rejecting HTTP errors.
-// Filter it before forwarding the export, while retaining response diagnostics.
+/**
+ * Wrap platform 3.1.1 debug exports to omit request configuration on HTTP errors.
+ * Keep status, headers, and original response data for diagnostics.
+ *
+ * @param {object} [$] Optional Pipedream step context receiving safe exports.
+ * @returns {object} Request context exposing the filtered export callback.
+ */
 export function getAiScraperRequestContext($) {
   return {
+    /**
+     * Forward response diagnostics without the platform's response.config field.
+     *
+     * @param {string} key Platform export name.
+     * @param {object} response HTTP response supplied by the platform client.
+     * @returns {void}
+     */
     export(key, response) {
       if ($?.export) {
         $.export(key, {
@@ -84,6 +128,13 @@ export function getAiScraperRequestContext($) {
   };
 }
 
+/**
+ * Remove request configuration and transport references from an HTTP error.
+ * Mutate the original error while retaining its status and API response body.
+ *
+ * @param {object} error HTTP error with an existing response object.
+ * @returns {object} Same error after removing configuration, request, and cause.
+ */
 export function sanitizeAiScraperHttpError(error) {
   delete error.config;
   delete error.request;

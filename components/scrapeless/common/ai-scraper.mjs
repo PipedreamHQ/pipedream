@@ -2,6 +2,14 @@ import { ConfigurationError } from "@pipedream/platform";
 import { isPlainObject } from "./utils.mjs";
 import { AI_SCRAPER_ENGINE_SPECS } from "./constants.mjs";
 
+/**
+ * Validate an HTTPS URL without credentials and preserve its exact input text.
+ *
+ * @param {*} value Candidate webhook or AI Mode URL.
+ * @param {string} field Input label used in configuration errors.
+ * @returns {string} Original validated URL without normalization.
+ * @throws {ConfigurationError} If the URL is malformed or contains credentials.
+ */
 function validateHttpsUrl(value, field) {
   let parsed;
   try {
@@ -19,6 +27,20 @@ function validateHttpsUrl(value, field) {
   return value;
 }
 
+/**
+ * Build one engine-specific task payload using either prompt or URL mode.
+ * Validate options and disable shopping by default for supported prompt actors.
+ *
+ * @param {object} options Configured action inputs.
+ * @param {string} options.actor Supported AI Scraper actor identifier.
+ * @param {string} [options.prompt] Nonempty prompt; required in prompt mode.
+ * @param {string} [options.country] Two-letter country; required in prompt mode.
+ * @param {string} [options.aiModeUrl] AI Mode link used instead of prompt inputs.
+ * @param {object} [options.engineOptions={}] Options allowed by the chosen actor.
+ * @param {string} [options.webhookUrl] Optional HTTPS callback receiver.
+ * @returns {object} Validated API body containing actor, input, and any webhook.
+ * @throws {ConfigurationError} If an input or option combination is invalid.
+ */
 export function buildAiScraperRequest({
   actor, prompt, country, aiModeUrl, engineOptions = {}, webhookUrl,
 }) {
@@ -96,6 +118,13 @@ export function buildAiScraperRequest({
   };
 }
 
+/**
+ * Validate a task identifier before encoding it as one URL path segment.
+ *
+ * @param {*} taskId Identifier supplied by the caller or creation response.
+ * @returns {string} Trimmed identifier with valid Unicode and no dot segment.
+ * @throws {ConfigurationError} If the identifier is empty or cannot be encoded.
+ */
 export function validateAiScraperTaskId(taskId) {
   if (typeof taskId !== "string" || !taskId.trim() || [
     ".",

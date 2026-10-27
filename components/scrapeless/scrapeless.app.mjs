@@ -8,6 +8,18 @@ export default {
   type: "app",
   app: "scrapeless",
   methods: {
+    /**
+     * Send one authenticated AI Scraper v2 request without retries or redirects.
+     * Strip request configuration from errors and retain API response diagnostics.
+     *
+     * @param {object} options Request options.
+     * @param {object} [options.$] Pipedream step context for diagnostic exports.
+     * @param {string} options.method HTTP request method.
+     * @param {string} options.path Relative AI Scraper endpoint path.
+     * @param {object} [options.data] Creation payload; omitted for result queries.
+     * @returns {Promise<object>} Original JSON response from the API.
+     * @throws {Error} If authentication is missing or the HTTP request fails.
+     */
     async _makeAiScraperRequest({
       $, method, path, data,
     }) {
@@ -36,6 +48,14 @@ export default {
         });
       }
     },
+    /**
+     * Submit one asynchronous task; do not repeat an uncertain creation request.
+     *
+     * @param {object} options Task creation options.
+     * @param {object} [options.$] Pipedream step context for diagnostic exports.
+     * @param {object} options.data Validated actor, input, and optional webhook.
+     * @returns {Promise<object>} Original creation response containing task_id.
+     */
     createAiScraperTask({
       $, data,
     }) {
@@ -46,6 +66,14 @@ export default {
         data,
       });
     },
+    /**
+     * Fetch an existing task once, encoding its identifier as one path segment.
+     *
+     * @param {object} options Result lookup options.
+     * @param {object} [options.$] Pipedream step context for diagnostic exports.
+     * @param {string} options.taskId Validated identifier from task creation.
+     * @returns {Promise<object>} Original task status and any result payload.
+     */
     getAiScraperResult({
       $, taskId,
     }) {

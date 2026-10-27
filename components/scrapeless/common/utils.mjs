@@ -55,6 +55,12 @@ export const log = (...args) => {
   console.log("[Scrapeless] ", ...args);
 };
 
+/**
+ * Recognize plain objects, including objects with a null prototype.
+ *
+ * @param {*} value Candidate object or other JavaScript value.
+ * @returns {boolean} Whether the value has Object.prototype or null as prototype.
+ */
 export const isPlainObject = (value) => {
   if (value === null || typeof value !== "object") return false;
   const prototype = Object.getPrototypeOf(value);
