@@ -3,6 +3,7 @@ import {
 } from "@pipedream/platform";
 import FormData from "form-data";
 import constants from "./common/constants.mjs";
+import { buildFormQuestions } from "./common/form.mjs";
 
 export default {
   type: "app",
@@ -151,6 +152,62 @@ export default {
         path: `/ex/jira/${cloudId}/rest/servicedeskapi/servicedesk/${serviceDeskId}/requesttype/${requestTypeId}/field`,
         params,
       });
+    },
+    async getRequestTypeForm({
+      cloudId, serviceDeskId, requestTypeId, ...opts
+    }) {
+      try {
+        return await this._makeRequest({
+          ...opts,
+          path: `/ex/jira/${cloudId}/forms/servicedesk/${serviceDeskId}/requesttype/${requestTypeId}/form`,
+        });
+      } catch (error) {
+        const errors = error.response?.data?.errors;
+        if (errors?.some(({ code }) => code === constants.NO_FORM_ERROR_CODE)) {
+          return null;
+        }
+        throw error;
+      }
+    },
+    async getRequestTypeFormExternalData({
+      cloudId, serviceDeskId, requestTypeId, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        path: `/ex/jira/${cloudId}/forms/servicedesk/${serviceDeskId}/requesttype/${requestTypeId}/form/externaldata`,
+      });
+    },
+    async getRequestTypeFormQuestions({
+      $, cloudId, serviceDeskId, requestTypeId, params,
+    }) {
+      const form = await this.getRequestTypeForm({
+        $,
+        cloudId,
+        serviceDeskId,
+        requestTypeId,
+        params,
+      });
+      if (!form) {
+        return null;
+      }
+      const needsExternalData = Object.values(form.design.questions ?? {}).some(({
+        jiraField, dcId, choices,
+      }) => (jiraField || dcId) && !choices?.length);
+      const { fields } = needsExternalData
+        ? await this.getRequestTypeFormExternalData({
+          $,
+          cloudId,
+          serviceDeskId,
+          requestTypeId,
+        })
+        : {};
+      return {
+        form,
+        questions: buildFormQuestions({
+          design: form.design,
+          externalFields: fields,
+        }),
+      };
     },
     async getCustomerRequests({
       $, cloudId,
@@ -370,13 +427,8 @@ export default {
         path: `/ex/jira/${cloudId}/rest/api/3/attachment/${attachmentId}`,
       });
     },
-    /**
-     * Uploads one or more local/remote files as temporary attachments scoped
-     * to `serviceDeskId`, then attaches them to `issueIdOrKey`. Two-step dance
-     * required by the JSM API: a file can't be attached to a request directly.
-     */
-    async attachFilesToRequestFromSource({
-      $, cloudId, serviceDeskId, issueIdOrKey, files, isPublic,
+    async uploadTemporaryFilesFromSource({
+      $, cloudId, serviceDeskId, files,
     }) {
       // Uploaded one file at a time (rather than buffering every file into one shared
       // FormData first) so only the small temporaryAttachmentId is retained across
@@ -416,6 +468,22 @@ export default {
           ),
         );
       }
+      return temporaryAttachmentIds;
+    },
+    /**
+     * Uploads one or more local/remote files as temporary attachments scoped
+     * to `serviceDeskId`, then attaches them to `issueIdOrKey`. Two-step dance
+     * required by the JSM API: a file can't be attached to a request directly.
+     */
+    async attachFilesToRequestFromSource({
+      $, cloudId, serviceDeskId, issueIdOrKey, files, isPublic,
+    }) {
+      const temporaryAttachmentIds = await this.uploadTemporaryFilesFromSource({
+        $,
+        cloudId,
+        serviceDeskId,
+        files,
+      });
 
       return this.attachFilesToRequest({
         $,

@@ -21,6 +21,10 @@ export function assertSafeQueryValue(value, label) {
   }
 }
 
+export function knowledgeArticleUrl(instanceBaseUrl, articleSysId) {
+  return `${instanceBaseUrl}${constants.KNOWLEDGE_ARTICLE_VIEW_PATH}?sys_kb_id=${articleSysId}`;
+}
+
 function guideItemLabel(index) {
   return `items[${index}]`;
 }

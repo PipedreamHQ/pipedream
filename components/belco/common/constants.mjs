@@ -48,3 +48,27 @@ export const FROM_TYPE_OPTIONS = [
     value: "contact",
   },
 ];
+
+export const TO_TYPE_OPTIONS = [
+  {
+    label: "Customer",
+    value: "customer",
+  },
+  {
+    label: "Contact",
+    value: "contact",
+  },
+];
+
+// Belco only requires `to` for auto messages, outbound messages and follow-ups.
+// https://developers.belco.io/reference/post_conversations
+export const RECIPIENT_OPTIONAL_TYPES = [
+  "inbound-message",
+  "note",
+];
+
+export const CONTACT_TYPE_OPTIONS = [
+  "contact",
+  "customer",
+  "lead",
+];
