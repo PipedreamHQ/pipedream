@@ -4133,6 +4133,12 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
+  components/ddg:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.4.0
+
   components/dealcloud:
     dependencies:
       '@pipedream/platform':
@@ -8959,8 +8965,7 @@ importers:
         specifier: 4.0.4
         version: 4.0.4
 
-  components/less_annoying_crm:
-    specifiers: {}
+  components/less_annoying_crm: {}
 
   components/lessaccounting: {}
 
@@ -14567,8 +14572,7 @@ importers:
 
   components/servicenow_oauth_: {}
 
-  components/servicenow_service_account:
-    specifiers: {}
+  components/servicenow_service_account: {}
 
   components/servicetitan: {}
 

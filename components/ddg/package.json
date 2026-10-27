@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/ddg",
+  "version": "0.0.1",
+  "description": "Pipedream DDG Agent Services Components",
+  "main": "ddg.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ddg",
+    "x402",
+    "agents",
+    "mcp"
+  ],
+  "homepage": "https://pipedream.com/apps/ddg",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.2.5"
+  }
+}
