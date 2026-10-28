@@ -7984,6 +7984,9 @@ importers:
         specifier: 1.0.0
         version: 1.0.0
 
+  components/incorta_oauth:
+    specifiers: {}
+
   components/indiefunnels:
     dependencies:
       '@pipedream/platform':
