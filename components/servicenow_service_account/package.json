@@ -1,15 +1,20 @@
 {
   "name": "@pipedream/servicenow_service_account",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream ServiceNow Service Account Components",
   "main": "servicenow_service_account.app.mjs",
   "keywords": [
     "pipedream",
+    "servicenow",
     "servicenow_service_account"
   ],
   "homepage": "https://pipedream.com/apps/servicenow_service_account",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1",
+    "@pipedream/servicenow": "^0.15.0"
   }
 }

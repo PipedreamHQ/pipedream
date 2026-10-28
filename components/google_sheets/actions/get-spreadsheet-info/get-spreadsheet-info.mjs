@@ -16,7 +16,7 @@ export default {
     + " Sheets URL:"
     + " `https://docs.google.com/spreadsheets/d/{spreadsheetId}"
     + "/edit`.",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   ai: "optimized",
   annotations: {
