@@ -4,7 +4,7 @@ export default {
   key: "xero_accounting_api-list-contacts",
   name: "List Contacts",
   description: "Lists information from contacts in the given tenant id as per filter parameters.",
-  version: "0.2.2",
+  version: "0.2.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

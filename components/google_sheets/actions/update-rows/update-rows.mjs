@@ -28,7 +28,7 @@ export default {
     + " names."
     + " Only specified columns are updated when using object"
     + " values — unspecified columns are left unchanged.",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   ai: "optimized",
   annotations: {
