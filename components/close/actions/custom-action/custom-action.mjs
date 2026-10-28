@@ -47,27 +47,25 @@ export default {
     requestBody: {
       type: "object",
       label: "Request body",
-      description: "Body of the request (JSON object)",
+      description: "Body of the request (JSON object), e.g. `{\"name\": \"Acme Inc.\"}`",
       optional: true,
     },
   },
   async run({ $ }) {
     this.queryString = this.queryString || "";
-    const body = utils.parseObject(this.requestBody);
-    if (this.requestBody && (!body || typeof body !== "object" || Array.isArray(body))) {
+    const requestBody = typeof this.requestBody === "string"
+      ? utils.parseObject(this.requestBody)
+      : this.requestBody;
+    if (this.requestBody
+      && (!requestBody || typeof requestBody !== "object" || Array.isArray(requestBody))) {
       throw new ConfigurationError("`Request body` must be a JSON object");
     }
-    const requestBody = {};
-    for (let key in body) {
-      requestBody[key] = utils.parseObject(body[key]);
-    }
     const response = await this.close._makeRequest({
+      $,
       method: this.requestMethod,
       path: `${this.relativeUrl}${this.queryString}`,
       headers: this.headers,
-      data: this.requestBody
-        ? requestBody
-        : undefined,
+      data: requestBody || undefined,
     });
     $.export("$summary", "Configured request has been sent.");
     return response.data;
