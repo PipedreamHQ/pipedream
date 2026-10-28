@@ -9,11 +9,6 @@ export default {
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  annotations: {
-    destructiveHint: false,
-    openWorldHint: true,
-    readOnlyHint: false,
-  },
   methods: {
     ...common.methods,
     getObject() {

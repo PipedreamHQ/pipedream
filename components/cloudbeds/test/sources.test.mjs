@@ -59,7 +59,8 @@ for (const source of [
     assert.equal(emissions.length, 1);
     assert.strictEqual(emissions[0].body, body);
     assert.equal(emissions[0].meta.ts, 1789459200431);
-    assert.ok(emissions[0].meta.id.includes(body.reservationId));
+    assert.equal(typeof emissions[0].meta.id, "string");
+    assert.ok(emissions[0].meta.id.length > 0 && emissions[0].meta.id.length <= 64);
     assert.equal(source.dedupe, "unique");
     assert.deepEqual(source.methods.generateMeta(body), emissions[0].meta);
     assert.notEqual(source.methods.generateMeta({
@@ -77,10 +78,27 @@ for (const source of [
   });
 }
 
-test("successive date changes retain distinct event IDs", () => {
-  const body = datesChanged.sampleEmit;
-  assert.notEqual(datesChanged.methods.generateMeta(body).id, datesChanged.methods.generateMeta({
-    ...body,
-    timestamp: body.timestamp + 1,
-  }).id);
-});
+for (const reservationId of [
+  datesChanged.sampleEmit.reservationId,
+  "1234567890".repeat(8),
+]) {
+  test(`date-change IDs are bounded, stable and event-specific for ${reservationId.length}-character reservation IDs`, () => {
+    const body = {
+      ...datesChanged.sampleEmit,
+      reservationId,
+    };
+    const { id } = datesChanged.methods.generateMeta(body);
+    assert.ok(id.length > 0 && id.length <= 64);
+    assert.equal(datesChanged.methods.generateMeta({
+      ...body,
+    }).id, id);
+    assert.notEqual(datesChanged.methods.generateMeta({
+      ...body,
+      reservationId: `${reservationId}1`,
+    }).id, id);
+    assert.notEqual(datesChanged.methods.generateMeta({
+      ...body,
+      timestamp: body.timestamp + 0.000001,
+    }).id, id);
+  });
+}

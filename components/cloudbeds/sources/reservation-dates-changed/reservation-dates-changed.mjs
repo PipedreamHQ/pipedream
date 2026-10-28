@@ -1,3 +1,4 @@
+import { createHash } from "crypto";
 import common from "../common/base-webhook.mjs";
 import sampleEmit from "./test-event.mjs";
 
@@ -9,11 +10,6 @@ export default {
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  annotations: {
-    destructiveHint: false,
-    openWorldHint: true,
-    readOnlyHint: false,
-  },
   methods: {
     ...common.methods,
     getObject() {
@@ -24,7 +20,8 @@ export default {
     },
     generateMeta(body) {
       return {
-        id: `${body.reservationId}-${body.timestamp}`,
+        id: createHash("sha256").update(`${body.reservationId}-${body.timestamp}`)
+          .digest("hex"),
         summary: `Reservation dates changed for ID: ${body.reservationId}`,
         ts: Math.floor(body.timestamp * 1000),
       };
