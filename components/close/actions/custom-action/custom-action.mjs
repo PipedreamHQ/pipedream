@@ -56,7 +56,12 @@ export default {
     const requestBody = typeof this.requestBody === "string"
       ? utils.parseObject(this.requestBody)
       : this.requestBody;
-    if (this.requestBody
+    const isOmitted = [
+      undefined,
+      null,
+      "",
+    ].includes(this.requestBody);
+    if (!isOmitted
       && (!requestBody || typeof requestBody !== "object" || Array.isArray(requestBody))) {
       throw new ConfigurationError("`Request body` must be a JSON object");
     }
