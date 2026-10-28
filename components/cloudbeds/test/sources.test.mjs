@@ -102,3 +102,73 @@ for (const reservationId of [
     }).id, id);
   });
 }
+
+test("date-change IDs distinguish changed dates at the same timestamp", () => {
+  const body = datesChanged.sampleEmit;
+  const { id } = datesChanged.methods.generateMeta(body);
+  for (const change of [
+    {
+      startDate: "2026-10-09",
+    },
+    {
+      endDate: "2026-10-13",
+    },
+    {
+      subReservations: [
+        {
+          ...body.subReservations[0],
+          startDate: "2026-10-09",
+        },
+      ],
+    },
+    {
+      subReservations: [
+        {
+          ...body.subReservations[0],
+          endDate: "2026-10-13",
+        },
+      ],
+    },
+    {
+      subReservations: [
+        {
+          ...body.subReservations[0],
+          id: "31415926-2",
+        },
+      ],
+    },
+  ]) {
+    assert.notEqual(datesChanged.methods.generateMeta({
+      ...body,
+      ...change,
+    }).id, id);
+  }
+});
+
+test("date-change retries retain their ID when sub-reservations are reordered", () => {
+  const body = {
+    ...datesChanged.sampleEmit,
+    subReservations: [
+      {
+        id: "31415926-1",
+        startDate: "2026-10-10",
+        endDate: "2026-10-12",
+      },
+      {
+        id: "31415926-2",
+        startDate: "2026-10-11",
+        endDate: "2026-10-13",
+      },
+    ],
+  };
+  const retry = {
+    ...body,
+    subReservations: body.subReservations.map((reservation) => ({
+      endDate: reservation.endDate,
+      startDate: reservation.startDate,
+      id: reservation.id,
+    })).reverse(),
+  };
+  assert.equal(datesChanged.methods.generateMeta(retry).id,
+    datesChanged.methods.generateMeta(body).id);
+});

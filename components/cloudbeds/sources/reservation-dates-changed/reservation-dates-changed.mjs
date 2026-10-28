@@ -19,8 +19,21 @@ export default {
       return "dates_changed";
     },
     generateMeta(body) {
+      // Ignore sub-reservation and object key order when identifying retries.
+      const subReservations = body.subReservations?.map((reservation) => JSON.stringify([
+        reservation.id,
+        reservation.startDate,
+        reservation.endDate,
+      ])).sort();
+      const identity = JSON.stringify([
+        body.reservationId,
+        body.timestamp,
+        body.startDate,
+        body.endDate,
+        subReservations,
+      ]);
       return {
-        id: createHash("sha256").update(`${body.reservationId}-${body.timestamp}`)
+        id: createHash("sha256").update(identity)
           .digest("hex"),
         summary: `Reservation dates changed for ID: ${body.reservationId}`,
         ts: Math.floor(body.timestamp * 1000),
