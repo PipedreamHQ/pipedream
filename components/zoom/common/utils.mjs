@@ -16,6 +16,10 @@ function summaryEnd(count, singular, plural) {
   return `${count} ${noun}`;
 }
 
+function isSuccessOrNotFound(status) {
+  return (status >= 200 && status < 300) || status === 404;
+}
+
 function doubleEncode(value) {
   if ((typeof value === "string") && (value.startsWith("/") || value.includes("//"))) {
     return encodeURIComponent(encodeURIComponent(value));
@@ -66,10 +70,49 @@ function parseArray(value) {
   }
 }
 
+function parseJson(value, fieldName) {
+  if (typeof value !== "string") {
+    return value;
+  }
+  try {
+    return JSON.parse(value);
+  } catch {
+    throw new ConfigurationError(`${fieldName}: \`${value}\` is not valid JSON`);
+  }
+}
+
+// Parses a `string[]` prop whose entries are JSON-serialized objects, leaving
+// already-parsed objects untouched. Also accepts the whole array as one JSON string
+// (common from expressions and the pre-1.0 contract), and flattens an entry holding a
+// JSON array, since that mistake is easy to make when copying an example.
+function parseJsonArray(values, fieldName) {
+  if (!values) {
+    return undefined;
+  }
+  const entries = (Array.isArray(values)
+    ? values
+    : [
+      values,
+    ])
+    .filter((entry) => entry !== undefined && entry !== null && entry !== "")
+    .flatMap((entry) => parseJson(entry, fieldName));
+  for (const entry of entries) {
+    if (typeof entry !== "object" || entry === null || Array.isArray(entry)) {
+      throw new ConfigurationError(`${fieldName}: \`${JSON.stringify(entry)}\` is not a JSON object`);
+    }
+  }
+  return entries.length
+    ? entries
+    : undefined;
+}
+
 export default {
   streamIterator,
   summaryEnd,
   doubleEncode,
+  isSuccessOrNotFound,
   selectRecordingFile,
   parseArray,
+  parseJson,
+  parseJsonArray,
 };

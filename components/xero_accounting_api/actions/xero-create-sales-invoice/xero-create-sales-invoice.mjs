@@ -6,9 +6,9 @@ export default {
   key: "xero_accounting_api-xero-create-sales-invoice",
   name: "Create Sales Invoice",
   description: "Creates a new sales invoice. [See the documentation](https://developer.xero.com/documentation/api/invoices#post)",
-  version: "0.3.5",
+  version: "0.3.7",
   annotations: {
-    destructiveHint: false,
+    destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -118,7 +118,8 @@ export default {
     },
   },
   async run({ $ }) {
-    if ((!this.contactId && !this.contactName) || !this.tenantId || !this.lineItems) {
+    const lineItems = formatLineItems(this.lineItems);
+    if ((!this.contactId && !this.contactName) || !this.tenantId || !lineItems.length) {
       throw new ConfigurationError("Must provide one of **Contact ID** or **Contact Name**, **Tenant ID**, **Type**, and **Line Items** parameters.");
     }
 
@@ -131,7 +132,7 @@ export default {
           ContactID: this.contactId,
           Name: this.contactName,
         },
-        LineItems: formatLineItems(this.lineItems),
+        LineItems: lineItems,
         Date: this.date,
         DueDate: this.dueDate,
         LineAmountTypes: this.lineAmountType,

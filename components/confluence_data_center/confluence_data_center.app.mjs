@@ -114,25 +114,9 @@ export default {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
         headers: {
-          "Authorization": `Bearer ${this.$auth.personal_access_token}`,
+          "Authorization": `Bearer ${this.$auth.oauth_access_token || this.$auth.personal_access_token}`,
           "X-Atlassian-Token": "no-check",
         },
-        ...opts,
-      });
-    },
-    createWebhook(opts = {}) {
-      return this._makeRequest({
-        path: "/webhooks",
-        method: "POST",
-        ...opts,
-      });
-    },
-    deleteWebhook({
-      hookId, ...opts
-    }) {
-      return this._makeRequest({
-        path: `/webhooks/${hookId}`,
-        method: "DELETE",
         ...opts,
       });
     },

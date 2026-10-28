@@ -3,20 +3,21 @@ import notion from "../../notion.app.mjs";
 export default {
   key: "notion-retrieve-block",
   name: "Retrieve Page Content",
-  description: "Get page content as block objects or markdown. Blocks can be text, lists, media, a page, among others. [See the documentation](https://developers.notion.com/reference/retrieve-a-block)",
-  version: "0.2.8",
+  description: "Get page content as block objects or markdown. Blocks can be text, lists, media, a page, among others. Example: blockId `\"1a2b3c4d-...\"` with Retrieve Children set to `All Children` and Retrieve as Markdown enabled → returns the block with its nested `children` array plus a `markdownContent` string of the page text. [See the documentation](https://developers.notion.com/reference/retrieve-a-block)",
+  version: "0.3.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     notion,
     blockId: {
       propDefinition: [
         notion,
-        "pageId",
+        "blockId",
       ],
     },
     retrieveChildren: {

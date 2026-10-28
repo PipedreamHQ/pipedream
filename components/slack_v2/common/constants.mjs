@@ -4,11 +4,41 @@ const LIMIT = 250;
 // external Slack Connect users) would otherwise force a full directory scan
 // and exhaust the method's rate limit.
 const MAX_NAME_LOOKUP_PAGES = 5;
-// Caps `conversations.list` pagination when resolving a channel NAME to an id
-// (at 999/page, 5 pages covers ~5000 channels). Without a cap, a channel name
-// that doesn't exist (typo, wrong workspace) forces a full workspace scan —
-// on a large workspace that alone can exhaust conversations.list's rate limit.
+// Caps pagination, per listing pass (users.conversations, then conversations.list),
+// when resolving a channel NAME to an id (at 999/page, 5 pages covers ~5000
+// channels). Without a cap, a channel name that doesn't exist (typo, wrong
+// workspace) forces a full workspace scan — on a large workspace that alone can
+// exhaust conversations.list's rate limit.
 const MAX_CHANNEL_RESOLVE_PAGES = 5;
+// Page budget for `assistant.search.context` in the Search action. When several
+// content types are selected, one sparse type (e.g. files) would otherwise keep
+// the loop paging through the other type until the cursor runs out, and this
+// method rate-limits readily. Slack returns at most SEARCH_PAGE_SIZE items per
+// page, so Max Results is capped at what the budget can fill for one type.
+const MAX_SEARCH_PAGES = 5;
+const SEARCH_PAGE_SIZE = 20;
+const MAX_SEARCH_RESULTS = MAX_SEARCH_PAGES * SEARCH_PAGE_SIZE;
+const RATE_LIMITED_ERROR_CODE = "slack_webapi_rate_limited_error";
+// Max total 429 wait; beyond it the error is returned so callers don't time out.
+const RATE_LIMIT_WAIT_BUDGET_SECONDS = 15;
+const RATE_LIMIT_MAX_RETRIES = 3;
+// WebClient's default retries 5xx/network errors for ~30 minutes.
+const WEB_CLIENT_RETRY_CONFIG = {
+  retries: 2,
+  minTimeout: 1000,
+  maxTimeout: 4000,
+};
+// User-token errors on which file reads retry with the bot token.
+const FILES_READ_BOT_FALLBACK_ERRORS = [
+  "missing_scope",
+  "file_not_found",
+  "channel_not_found",
+  "not_in_channel",
+];
+// Pipedream's /tmp limit: https://pipedream.com/docs/workflows/limits#disk
+const MAX_DOWNLOAD_SIZE_BYTES = 2 * 1024 * 1024 * 1024;
+const STREAM_RESPONSE_TYPE = "stream";
+const CANVAS_FILETYPE = "quip";
 
 const CHANNEL_TYPE = {
   PUBLIC: "public_channel",
@@ -51,6 +81,17 @@ export default {
   LIMIT,
   MAX_NAME_LOOKUP_PAGES,
   MAX_CHANNEL_RESOLVE_PAGES,
+  MAX_SEARCH_PAGES,
+  SEARCH_PAGE_SIZE,
+  MAX_SEARCH_RESULTS,
+  RATE_LIMITED_ERROR_CODE,
+  RATE_LIMIT_WAIT_BUDGET_SECONDS,
+  RATE_LIMIT_MAX_RETRIES,
+  WEB_CLIENT_RETRY_CONFIG,
+  FILES_READ_BOT_FALLBACK_ERRORS,
+  MAX_DOWNLOAD_SIZE_BYTES,
+  STREAM_RESPONSE_TYPE,
+  CANVAS_FILETYPE,
   CHANNEL_TYPE,
   CHANNEL_TYPE_OPTIONS,
   BLOCK_TYPES,

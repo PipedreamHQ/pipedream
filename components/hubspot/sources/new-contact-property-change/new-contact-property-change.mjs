@@ -8,7 +8,7 @@ export default {
   name: "New Contact Property Change",
   description:
     "Emit new event when a specified property is provided or updated on a contact. [See the documentation](https://developers.hubspot.com/docs/api/crm/contacts)",
-  version: "0.0.41",
+  version: "0.0.43",
   dedupe: "unique",
   type: "source",
   props: {
@@ -178,22 +178,20 @@ export default {
         );
       }
 
-      const updatedContacts = await this.getPaginatedItems(
+      const {
+        items: updatedContacts, pending,
+      } = await this.getPaginatedItems(
         this.hubspot.searchCRM,
         params,
         after,
       );
-
-      if (!updatedContacts.length) {
-        return;
-      }
 
       const results = await this.processChunks({
         batchRequestFn: this.batchGetContacts,
         chunks: this.getChunks(updatedContacts),
       });
 
-      this.processEvents(results, after);
+      await this.processEvents(results, after, pending);
     },
   },
   sampleEmit,

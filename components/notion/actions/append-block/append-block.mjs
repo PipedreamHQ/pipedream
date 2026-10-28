@@ -14,7 +14,7 @@ export default {
     + " Provide the page ID or URL (use **Search** to resolve a page name into an ID)."
     + " To change a database row's property values instead, use **Update Page**."
     + " [See the documentation](https://developers.notion.com/reference/patch-block-children)",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

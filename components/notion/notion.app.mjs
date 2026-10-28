@@ -1,7 +1,6 @@
 import notion from "@notionhq/client";
 import { ConfigurationError } from "@pipedream/platform";
 import { NotionToMarkdown } from "notion-to-md";
-import NOTION_META from "./common/notion-meta-selection.mjs";
 
 export default {
   type: "app",
@@ -38,22 +37,10 @@ export default {
         return this._buildPaginatedOptions(options, response.next_cursor);
       },
     },
-    pageIdInDataSource: {
+    blockId: {
       type: "string",
-      label: "Page ID",
-      description: "Search for a page from the data source or provide a page ID",
-      useQuery: true,
-      async options({
-        query, prevContext, dataSourceId,
-      }) {
-        this._checkOptionsContext(dataSourceId, "Data Source ID");
-        const response = await this.queryDataSource(dataSourceId, {
-          query,
-          start_cursor: prevContext.nextPageParameters ?? undefined,
-        });
-        const options = this._extractPageTitleOptions(response.results);
-        return this._buildPaginatedOptions(options, response.next_cursor);
-      },
+      label: "Block ID",
+      description: "The ID of the block to act on, e.g. `1a2b3c4d-5e6f-7890-abcd-ef1234567890` (a 32-character UUID, with or without dashes). A Notion page is itself a block, so this can also be a page ID. Use the **Search** action to resolve a page name into an ID, or the **Retrieve Page Content** action to list the child block IDs within a page.",
     },
     propertyId: {
       type: "string",
@@ -86,14 +73,6 @@ export default {
           return [];
         }
       },
-    },
-    metaTypes: {
-      type: "string[]",
-      label: "Meta Types",
-      description: "Select one or more page attributes (such as icon and cover)",
-      options: Object.keys(NOTION_META),
-      optional: true,
-      reloadProps: true,
     },
     propertyTypes: {
       type: "string[]",
@@ -192,16 +171,6 @@ export default {
       label: "Start Cursor (page_id)",
       description: "Leave blank to retrieve the first page of results. Otherwise, the response will be the page of results starting after the provided cursor",
       optional: true,
-    },
-    filter: {
-      type: "string",
-      label: "Page or Data Source",
-      description: "Whether to search for pages or data sources.",
-      optional: true,
-      options: [
-        "page",
-        "data_source",
-      ],
     },
     pageContent: {
       type: "string",

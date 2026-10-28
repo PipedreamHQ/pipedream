@@ -3,8 +3,8 @@ import asana from "../../asana.app.mjs";
 export default {
   key: "asana-list-teams",
   name: "List Teams",
-  description: "Retrieves all teams in a specified Asana workspace. Use this action to discover available teams for creating projects, adding team members, or organizing work by department. Requires a workspace GID, which you can obtain from the **List Workspaces** action. The authenticated user must have access to the workspace; only teams visible to the user are returned. Results are paginated (default 25, max 100 per page); use the returned offset token to fetch additional pages. To include optional fields like description, visibility, or access levels, specify them in Opt Fields. Consider following up with **Create Project** to create a project under a team, or **List Users** to find team members. [See the documentation](https://developers.asana.com/reference/getteamsforworkspace)",
-  version: "1.0.2",
+  description: "Retrieves all teams in a specified Asana workspace. Use this action to discover available team GIDs for creating projects or organizing work by department. Requires a workspace GID from **List Workspaces**. Results are paginated (default 25 per page); pass the returned `next_offset` as `offset` to fetch additional pages. Consider following up with **Create Project** to create a project under a team. Example: call with `workspace: '1200123456789012'` → returns `{data: [{gid: '1203456789012345', name: 'Design'}, ...], next_offset: null}`. [See the documentation](https://developers.asana.com/reference/getteamsforworkspace)",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -21,7 +21,7 @@ export default {
       ],
       type: "string",
       label: "Workspace",
-      description: "The workspace to list teams for. This field uses the workspace GID (e.g. \"120111222333444\").",
+      description: "The workspace to list teams for (a real workspace GID, not the example value below). Use **List Workspaces** to find valid GIDs — do not guess or reuse the example shown here. Format example: \"120111222333444\".",
     },
     optFields: {
       type: "string[]",

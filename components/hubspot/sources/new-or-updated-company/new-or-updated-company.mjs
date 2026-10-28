@@ -10,7 +10,7 @@ export default {
   key: "hubspot-new-or-updated-company",
   name: "New or Updated Company",
   description: "Emit new event for each new or updated company in Hubspot.",
-  version: "0.0.32",
+  version: "0.0.34",
   dedupe: "unique",
   type: "source",
   props: {
@@ -41,7 +41,7 @@ export default {
   methods: {
     ...common.methods,
     getTs(company) {
-      return this.isNew
+      return this.newOnly
         ? Date.parse(company.createdAt)
         : Date.parse(company.updatedAt);
     },
@@ -61,14 +61,17 @@ export default {
     isRelevant(company, updatedAfter) {
       return this.getTs(company) > updatedAfter;
     },
-    getParams() {
+    getParams(after) {
       const { properties = [] } = this;
-      return {
+      const dateProperty = this.newOnly
+        ? "createdate"
+        : "hs_lastmodifieddate";
+      return this.addDateFilter({
         data: {
           limit: DEFAULT_LIMIT,
           sorts: [
             {
-              propertyName: "hs_lastmodifieddate",
+              propertyName: dateProperty,
               direction: "DESCENDING",
             },
           ],
@@ -78,7 +81,7 @@ export default {
           ],
         },
         object: "companies",
-      };
+      }, dateProperty, after);
     },
     async processResults(after, params) {
       await this.searchCRM(params, after);

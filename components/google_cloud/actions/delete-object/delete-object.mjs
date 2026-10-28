@@ -2,7 +2,7 @@ import googleCloud from "../../google_cloud.app.mjs";
 
 export default {
   name: "Delete Object",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
