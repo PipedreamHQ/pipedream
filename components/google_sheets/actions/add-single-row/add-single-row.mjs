@@ -10,7 +10,7 @@ export default {
   key: "google_sheets-add-single-row",
   name: "Add Single Row",
   description: "Add a single row to a Google Sheet. By default the row is appended to the end. To INSERT the row at a specific position instead — pushing the rows at and below that position DOWN without overwriting them — set Row Index (e.g. Row Index 2 inserts directly below a header row). Use this tool (not Update Row or Update Multiple Rows) whenever the goal is to insert a row between existing rows or add a row while keeping every current row: the Update tools overwrite cells in place and do NOT shift rows down. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append)",
-  version: "3.0.1",
+  version: "3.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
