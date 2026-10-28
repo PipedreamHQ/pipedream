@@ -14566,7 +14566,14 @@ importers:
 
   components/servicenow_oauth_: {}
 
-  components/servicenow_service_account: {}
+  components/servicenow_service_account:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.4.0
+      '@pipedream/servicenow':
+        specifier: ^0.15.0
+        version: 0.15.0
 
   components/servicetitan: {}
 
@@ -22481,6 +22488,9 @@ packages:
   '@pipedream/sdk@3.1.0':
     resolution: {integrity: sha512-qRvrPTqldX60mHKaF0hX/HToqvuH30G58YDQ0/wvFWpc0BcMhUy8bxwGvShSoOnqQwBCxVDaMnO4E6RJy20Xaw==}
     engines: {node: '>=18.0.0'}
+
+  '@pipedream/servicenow@0.15.0':
+    resolution: {integrity: sha512-eNeyVZihBeTtbHxU/YQngFoQ9s7Yj+r7LNotyA6u0Je3Lz/1YjyFsbNg8R+K+4BPzBspl1jHlQpc+rC4OkBNig==}
 
   '@pipedream/sftp@0.5.1':
     resolution: {integrity: sha512-bgy/U23KL2jVU0gDoa3HjK51tRRM/7cp6whYChBoNDRAd/pWxhFZzWGTx5/3dnJTviFQVfrD6wtY+IRMZ6Egyg==}
@@ -41828,6 +41838,13 @@ snapshots:
       - supports-color
 
   '@pipedream/sdk@3.1.0': {}
+
+  '@pipedream/servicenow@0.15.0':
+    dependencies:
+      '@pipedream/platform': 3.4.0
+    transitivePeerDependencies:
+      - debug
+      - supports-color
 
   '@pipedream/sftp@0.5.1':
     dependencies:
