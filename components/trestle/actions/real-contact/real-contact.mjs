@@ -3,8 +3,8 @@ import app from "../../trestle.app.mjs";
 export default {
   key: "trestle-real-contact",
   name: "Real Contact",
-  description: "Verifies and grades phone numbers, emails, and addresses. [See the documentation](https://trestle-api.redoc.ly/Current/tag/Real-Contact-API#operation/realContact)",
-  version: "0.0.2",
+  description: "Verifies and grades phone numbers, emails, and addresses. [See the documentation](https://docs.trestleiq.com/api-reference/real-contact-api-v1-1)",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
