@@ -57,7 +57,7 @@ const USER_LIST_CRM_BASED_PROPS = {
     type: "string",
     label: "App ID",
     description:
-      "A string that uniquely identifies a mobile application from which the data was collected. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/CrmBasedUserListInfo) for more details.",
+      "A string that uniquely identifies a mobile application from which the data was collected. Example: `com.example.app`. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/CrmBasedUserListInfo) for more details.",
     optional: true,
   },
 };
@@ -74,7 +74,7 @@ const USER_LIST_RULE_BASED_PROPS = {
     type: "object",
     label: "Flexible Rule Customer List",
     description:
-      "Flexible rule representation of visitors with one or multiple actions. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/FlexibleRuleUserListInfo) on how to build this object. Values will be parsed as JSON where applicable.",
+      "Flexible rule representation of visitors with one or multiple actions. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/FlexibleRuleUserListInfo) on how to build this object. Values will be parsed as JSON where applicable. Example: `{ \"inclusiveRuleOperator\": \"AND\", \"inclusiveOperands\": [...] }`",
     optional: true,
   },
 };
@@ -84,7 +84,7 @@ const USER_LIST_LOGICAL_PROPS = {
     type: "string[]",
     label: "Rules",
     description:
-      "Logical list rules that define this customer list. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/UserListLogicalRuleInfo) on how to build each object. Values will be parsed as JSON where applicable.",
+      "Logical list rules that define this customer list. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/UserListLogicalRuleInfo) on how to build each object. Values will be parsed as JSON where applicable. Example: `{ \"operator\": \"ALL\", \"ruleOperands\": [{ \"userList\": \"customers/1234567890/userLists/111\" }] }`",
   },
 };
 
@@ -92,9 +92,9 @@ const USER_LIST_BASIC_PROPS = {
   conversionActions: {
     type: "string[]",
     label: "Conversion action(s)",
-    description: "One or more [conversion actions](https://developers.google.com/google-ads/api/reference/rpc/v25/ConversionAction) to build the list with.",
+    description: "One or more [conversion actions](https://developers.google.com/google-ads/api/reference/rpc/v25/ConversionAction) to build the list with. Example: `customers/1234567890/conversionActions/222`",
     optional: true,
-    options: async() => {
+    async options() {
       const {
         accountId, customerClientId,
       } = this;
@@ -102,7 +102,7 @@ const USER_LIST_BASIC_PROPS = {
         accountId,
         customerClientId,
       });
-      return response?.map(({
+      return (response ?? []).map(({
         conversionAction: {
           resourceName, name,
         },
@@ -115,9 +115,9 @@ const USER_LIST_BASIC_PROPS = {
   remarketingActions: {
     type: "string[]",
     label: "Remarketing action(s)",
-    description: "One or more [remarketing actions](https://developers.google.com/google-ads/api/reference/rpc/v25/RemarketingAction).",
+    description: "One or more [remarketing actions](https://developers.google.com/google-ads/api/reference/rpc/v25/RemarketingAction). Example: `customers/1234567890/remarketingActions/333`",
     optional: true,
-    options: async() => {
+    async options() {
       const {
         accountId, customerClientId,
       } = this;
@@ -125,7 +125,7 @@ const USER_LIST_BASIC_PROPS = {
         accountId,
         customerClientId,
       });
-      return response?.map(({
+      return (response ?? []).map(({
         remarketingAction: {
           resourceName, name,
         },
@@ -141,8 +141,8 @@ const USER_LIST_LOOKALIKE_PROPS = {
   seedUserListIds: {
     type: "string[]",
     label: "Seed User List(s)",
-    description: "One or more customer lists from which this list is derived.",
-    options: async() => {
+    description: "One or more customer lists from which this list is derived. Use **List User Lists** to find list IDs. Example: `111`",
+    async options() {
       const {
         accountId, customerClientId,
       } = this;
@@ -150,7 +150,7 @@ const USER_LIST_LOOKALIKE_PROPS = {
         accountId,
         customerClientId,
       });
-      return response?.map(({
+      return (response ?? []).map(({
         userList: {
           id, name,
         },
@@ -165,7 +165,6 @@ const USER_LIST_LOOKALIKE_PROPS = {
     label: "Expansion Level",
     description:
       "Expansion level, reflecting the size of the lookalike audience",
-    optional: true,
     options: [
       {
         label:
@@ -188,7 +187,6 @@ const USER_LIST_LOOKALIKE_PROPS = {
     type: "string[]",
     label: "Country Codes",
     description: "Countries targeted by the Lookalike.",
-    optional: true,
     options: countryCodeOptions,
   },
 };
@@ -197,6 +195,7 @@ export const USER_LIST_TYPE_OPTIONS = [
   {
     label: "CRM-based - a list of provided customers",
     value: USER_LIST_TYPES.CRM_BASED,
+    shortLabel: "CRM-based",
     docsLink:
       "https://developers.google.com/google-ads/api/reference/rpc/v25/CrmBasedUserListInfo",
     props: USER_LIST_CRM_BASED_PROPS,
@@ -204,6 +203,7 @@ export const USER_LIST_TYPE_OPTIONS = [
   {
     label: "Rule-Based - a customer list generated by a rule",
     value: USER_LIST_TYPES.RULE_BASED,
+    shortLabel: "Rule-based",
     docsLink:
       "https://developers.google.com/google-ads/api/reference/rpc/v25/RuleBasedUserListInfo",
     props: USER_LIST_RULE_BASED_PROPS,
@@ -211,6 +211,7 @@ export const USER_LIST_TYPE_OPTIONS = [
   {
     label: "Logical - a custom combination of customer lists",
     value: USER_LIST_TYPES.LOGICAL,
+    shortLabel: "Logical",
     docsLink:
       "https://developers.google.com/google-ads/api/reference/rpc/v25/LogicalUserListInfo",
     props: USER_LIST_LOGICAL_PROPS,
@@ -219,6 +220,7 @@ export const USER_LIST_TYPE_OPTIONS = [
     label:
       "Basic - a customer list targeting as a collection of conversions or remarketing actions",
     value: USER_LIST_TYPES.BASIC,
+    shortLabel: "Basic",
     docsLink:
       "https://developers.google.com/google-ads/api/reference/rpc/v25/BasicUserListInfo",
     props: USER_LIST_BASIC_PROPS,
@@ -227,8 +229,27 @@ export const USER_LIST_TYPE_OPTIONS = [
     label:
       "Lookalike - a list composed of customers similar to those of a configurable seed",
     value: USER_LIST_TYPES.LOOKALIKE,
+    shortLabel: "Lookalike",
     docsLink:
       "https://developers.google.com/google-ads/api/reference/rpc/v25/LookalikeUserListInfo",
     props: USER_LIST_LOOKALIKE_PROPS,
   },
 ];
+
+export const USER_LIST_TYPE_PROPS = Object.fromEntries(
+  USER_LIST_TYPE_OPTIONS.flatMap(({
+    shortLabel, props,
+  }) => Object.entries(props).map(([
+    key,
+    prop,
+  ]) => [
+    key,
+    {
+      ...prop,
+      optional: true,
+      description: `${prop.description} (${shortLabel} only${prop.optional
+        ? ""
+        : ", required"})`,
+    },
+  ])),
+);
