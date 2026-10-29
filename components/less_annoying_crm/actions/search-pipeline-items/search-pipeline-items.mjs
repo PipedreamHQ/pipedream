@@ -34,10 +34,11 @@ export default {
       optional: true,
     },
     userIds: {
-      type: "string[]",
-      label: "Owner User IDs",
+      propDefinition: [
+        app,
+        "ownerUserIds",
+      ],
       description: "Only return items whose contact is assigned to these user IDs, e.g. `[\"1240220\"]`. Use **List Users** to find IDs (the `UserId` field).",
-      optional: true,
     },
     advancedFilters: {
       propDefinition: [

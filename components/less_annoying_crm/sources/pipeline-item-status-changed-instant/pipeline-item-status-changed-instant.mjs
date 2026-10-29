@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import common from "../common/pipeline-item.mjs";
 import sampleEmit from "./test-event.mjs";
 
@@ -20,7 +21,11 @@ export default {
     getDedupeId(item) {
       // LastUpdate only has whole-second precision, so two quick changes could
       // collide; NumberOfUpdates increments on every update to the item.
-      return `${item.PipelineItemId}-${item.StatusId}-${item.NumberOfUpdates ?? item.LastUpdate}`;
+      // Hashed because the raw IDs together exceed the 64-character dedupe limit.
+      return crypto
+        .createHash("sha256")
+        .update(`${item.PipelineItemId}-${item.StatusId}-${item.NumberOfUpdates ?? item.LastUpdate}`)
+        .digest("hex");
     },
   },
   sampleEmit,

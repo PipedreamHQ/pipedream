@@ -53,10 +53,10 @@ export default {
       optional: true,
     },
     ownerIds: {
-      type: "string[]",
-      label: "Owner User IDs",
-      description: "Only return records assigned to these user IDs, e.g. `[\"1240220\"]`. Use **List Users** to find IDs (the `UserId` field).",
-      optional: true,
+      propDefinition: [
+        app,
+        "ownerUserIds",
+      ],
     },
     sortBy: {
       type: "string",

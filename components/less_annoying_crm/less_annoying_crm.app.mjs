@@ -106,6 +106,12 @@ export default {
       description: "For a person: the company they work for, e.g. `Acme Inc`. Ignored for companies.",
       optional: true,
     },
+    ownerUserIds: {
+      type: "string[]",
+      label: "Owner User IDs",
+      description: "Only return records assigned to these user IDs, e.g. `[\"1240220\"]`. Use **List Users** to find IDs (the `UserId` field).",
+      optional: true,
+    },
     sortDirection: {
       type: "string",
       label: "Sort Direction",
