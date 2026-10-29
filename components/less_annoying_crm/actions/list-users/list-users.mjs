@@ -5,7 +5,7 @@ export default {
   name: "List Users",
   description: "Returns the current user (the owner of the API key) and all users in the Less Annoying CRM account, with their user IDs and timezones."
     + " Use this first when the user says \"my\" or \"me\" (e.g. \"my contacts\", \"assign to me\") to get their user ID, or to resolve a teammate's name to a user ID for the `assignedTo` parameter of **Create Contact**, **Update Contact**, and **Create Task**."
-    + " Takes no inputs. Example result: `{\"currentUser\": {\"UserId\": 101, \"FirstName\": \"Alex\", \"LastName\": \"Doe\", \"Email\": \"alex@acme.com\", \"Timezone\": \"America/Chicago\"}, \"users\": [{\"UserId\": 101, \"FirstName\": \"Alex\", \"LastName\": \"Doe\"}, {\"UserId\": 102, \"FirstName\": \"Sam\", \"LastName\": \"Lee\"}]}`."
+    + " Takes no inputs. Example result: `{\"currentUser\": {\"UserId\": \"1240220\", \"FirstName\": \"Alex\", \"LastName\": \"Doe\", \"Email\": \"alex@acme.com\", \"Timezone\": \"America/Chicago\"}, \"users\": [{\"UserId\": \"1240220\", \"FirstName\": \"Alex\", \"LastName\": \"Doe\"}, {\"UserId\": \"1240221\", \"FirstName\": \"Sam\", \"LastName\": \"Lee\"}]}`."
     + " [See the documentation](https://account.lessannoyingcrm.com/api_docs/v2/Settings_Functions/Users#Goto-GetUsers)",
   version: "0.0.1",
   type: "action",

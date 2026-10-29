@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../less_annoying_crm.app.mjs";
 
 export default {
@@ -46,7 +47,7 @@ export default {
   },
   async run({ $ }) {
     if (!this.statusId && !this.note) {
-      throw new Error("Provide a status ID and/or a note to update.");
+      throw new ConfigurationError("Provide a status ID and/or a note to update.");
     }
 
     await this.app.editPipelineItem({

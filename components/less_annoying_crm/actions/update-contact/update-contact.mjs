@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../less_annoying_crm.app.mjs";
 import { buildContactDetails } from "../../common/utils.mjs";
 
@@ -151,7 +152,7 @@ export default {
     }
 
     if (Object.keys(parameters).length === 1) {
-      throw new Error("Provide at least one field to update.");
+      throw new ConfigurationError("Provide at least one field to update.");
     }
 
     await this.app.editContact({
