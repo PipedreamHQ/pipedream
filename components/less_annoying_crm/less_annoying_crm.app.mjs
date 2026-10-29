@@ -1,11 +1,266 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "less_annoying_crm",
-  propDefinitions: {},
+  propDefinitions: {
+    contactId: {
+      type: "string",
+      label: "Contact ID",
+      description: "The ID of a contact or company (a ~31 digit string). Use **Search Contacts** to find it by name, email, or phone.",
+    },
+    pipelineId: {
+      type: "string",
+      label: "Pipeline ID",
+      description: "The ID of a pipeline (e.g. the Leads pipeline). Use **List Pipelines** to discover pipeline IDs and their statuses.",
+    },
+    statusId: {
+      type: "string",
+      label: "Status ID",
+      description: "The ID of a status within the pipeline. Use **List Pipelines** to discover valid status IDs for each pipeline.",
+    },
+    assignedTo: {
+      type: "string",
+      label: "Assigned To (User ID)",
+      description: "The ID of the CRM user to assign to. Use **List Users** to find user IDs.",
+      optional: true,
+    },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "Maximum number of results to return per call (default 50, max 10000).",
+      optional: true,
+      min: 1,
+      max: 10000,
+    },
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "Page of results to return, starting at 1. Increment while the response has `hasMoreResults: true`.",
+      optional: true,
+      min: 1,
+    },
+    emails: {
+      type: "string[]",
+      label: "Email Addresses",
+      description: "Email addresses, e.g. `[\"jane@acme.com\"]`. All are saved with the label in `Contact Info Label`.",
+      optional: true,
+    },
+    phones: {
+      type: "string[]",
+      label: "Phone Numbers",
+      description: "Phone numbers, e.g. `[\"555-123-4567\"]`. All are saved with the label in `Contact Info Label`.",
+      optional: true,
+    },
+    websites: {
+      type: "string[]",
+      label: "Websites",
+      description: "Website URLs, e.g. `[\"https://acme.com\"]`.",
+      optional: true,
+    },
+    infoType: {
+      type: "string",
+      label: "Contact Info Label",
+      description: "Label applied to the emails, phones, and address (e.g. `Work`, `Home`, `Other`). Defaults to `Work`.",
+      optional: true,
+    },
+    street: {
+      type: "string",
+      label: "Street",
+      description: "Street address. Street, city, state, zip, and country are saved together as one address.",
+      optional: true,
+    },
+    city: {
+      type: "string",
+      label: "City",
+      description: "City for the address.",
+      optional: true,
+    },
+    state: {
+      type: "string",
+      label: "State",
+      description: "State or region for the address.",
+      optional: true,
+    },
+    zip: {
+      type: "string",
+      label: "Zip",
+      description: "Zip or postal code for the address.",
+      optional: true,
+    },
+    country: {
+      type: "string",
+      label: "Country",
+      description: "Country for the address.",
+      optional: true,
+    },
+    jobTitle: {
+      type: "string",
+      label: "Job Title",
+      description: "Job title. Applies to people only, not companies.",
+      optional: true,
+    },
+    backgroundInfo: {
+      type: "string",
+      label: "Background Info",
+      description: "Free-text background information shown on the record.",
+      optional: true,
+    },
+    birthday: {
+      type: "string",
+      label: "Birthday",
+      description: "Birthday as `YYYY-MM-DD`, or `0000-MM-DD` if the year is unknown. People only.",
+      optional: true,
+    },
+    customFields: {
+      type: "string",
+      label: "Custom Fields",
+      description: "JSON object of account-specific custom field values keyed by field name, e.g. `{\"Lead Source\": \"Referral\"}`. Merged into the request as-is.",
+      optional: true,
+    },
+  },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return "https://api.lessannoyingcrm.com/v2/";
+    },
+    // Every Less Annoying CRM v2 call is a POST to a single endpoint with the
+    // function name and its parameters in the JSON body.
+    _makeRequest({
+      $ = this, fn, parameters = {}, ...opts
+    }) {
+      return axios($, {
+        method: "POST",
+        url: this._baseUrl(),
+        headers: {
+          "Authorization": this.$auth.api_key,
+          "Content-Type": "application/json",
+        },
+        data: {
+          Function: fn,
+          Parameters: parameters,
+        },
+        ...opts,
+      });
+    },
+    getUser(opts = {}) {
+      return this._makeRequest({
+        fn: "GetUser",
+        ...opts,
+      });
+    },
+    getUsers(opts = {}) {
+      return this._makeRequest({
+        fn: "GetUsers",
+        ...opts,
+      });
+    },
+    getPipelines(opts = {}) {
+      return this._makeRequest({
+        fn: "GetPipelines",
+        ...opts,
+      });
+    },
+    getContact(opts = {}) {
+      return this._makeRequest({
+        fn: "GetContact",
+        ...opts,
+      });
+    },
+    getContacts(opts = {}) {
+      return this._makeRequest({
+        fn: "GetContacts",
+        ...opts,
+      });
+    },
+    getContactsById(opts = {}) {
+      return this._makeRequest({
+        fn: "GetContactsById",
+        ...opts,
+      });
+    },
+    createContact(opts = {}) {
+      return this._makeRequest({
+        fn: "CreateContact",
+        ...opts,
+      });
+    },
+    editContact(opts = {}) {
+      return this._makeRequest({
+        fn: "EditContact",
+        ...opts,
+      });
+    },
+    getNotesAttachedToContact(opts = {}) {
+      return this._makeRequest({
+        fn: "GetNotesAttachedToContact",
+        ...opts,
+      });
+    },
+    getTasksAttachedToContact(opts = {}) {
+      return this._makeRequest({
+        fn: "GetTasksAttachedToContact",
+        ...opts,
+      });
+    },
+    getEventsAttachedToContact(opts = {}) {
+      return this._makeRequest({
+        fn: "GetEventsAttachedToContact",
+        ...opts,
+      });
+    },
+    getPipelineItemsAttachedToContact(opts = {}) {
+      return this._makeRequest({
+        fn: "GetPipelineItemsAttachedToContact",
+        ...opts,
+      });
+    },
+    getPipelineItem(opts = {}) {
+      return this._makeRequest({
+        fn: "GetPipelineItem",
+        ...opts,
+      });
+    },
+    getPipelineItems(opts = {}) {
+      return this._makeRequest({
+        fn: "GetPipelineItems",
+        ...opts,
+      });
+    },
+    createPipelineItem(opts = {}) {
+      return this._makeRequest({
+        fn: "CreatePipelineItem",
+        ...opts,
+      });
+    },
+    editPipelineItem(opts = {}) {
+      return this._makeRequest({
+        fn: "EditPipelineItem",
+        ...opts,
+      });
+    },
+    createNote(opts = {}) {
+      return this._makeRequest({
+        fn: "CreateNote",
+        ...opts,
+      });
+    },
+    createTask(opts = {}) {
+      return this._makeRequest({
+        fn: "CreateTask",
+        ...opts,
+      });
+    },
+    createWebhook(opts = {}) {
+      return this._makeRequest({
+        fn: "CreateWebhook",
+        ...opts,
+      });
+    },
+    deleteWebhook(opts = {}) {
+      return this._makeRequest({
+        fn: "DeleteWebhook",
+        ...opts,
+      });
     },
   },
 };
