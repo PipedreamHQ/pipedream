@@ -22,8 +22,8 @@ const REQUEST_TIMEOUT_MS = 2 * 60 * 1000;
 const CANCEL_TIMEOUT_MS = 10 * 1000;
 const CLEANUP_TIMEOUT_MS = 5 * 1000;
 const REQUEST_TIMEOUT_CODE = "INCORTA_REQUEST_TIMEOUT";
-// Consecutive fetches that return no batch although the server says more rows
-// remain, before giving up (guards against a server that never delivers).
+// Consecutive fetches that return no rows although the server says more rows
+// remain, before failing (guards against a server that never delivers).
 const MAX_IDLE_FETCHES = 3;
 // Schemas read concurrently when building the SQL prop's autocomplete schema.
 const SCHEMA_BATCH_SIZE = 5;
@@ -460,10 +460,11 @@ export default {
           }
           if (size > 0) {
             idle = 0;
-          } else if (appended || ++idle >= MAX_IDLE_FETCHES) {
-            // An empty batch ends the result; a missing batch with more rows
-            // promised gets a few more tries before we stop.
-            break;
+          } else if (++idle >= MAX_IDLE_FETCHES) {
+            // An empty or missing batch while the server still reports more
+            // rows gets a few more tries; after that, fail rather than return
+            // a partial result that would look complete (`truncated: false`).
+            throw new Error("Advanced SQLi returned no rows while more rows were reported");
           }
         }
         const all = new HiveUtils(TYPES).getResult(operation)
