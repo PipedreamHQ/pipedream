@@ -3,11 +3,14 @@ import {
   before, mock, test,
 } from "node:test";
 
+class ConfigurationError extends Error {}
+
 const requests = [];
 let apiResponse;
 let apiError;
 mock.module("@pipedream/platform", {
   namedExports: {
+    ConfigurationError,
     axios: async ($, config) => {
       requests.push({
         $,
@@ -19,15 +22,39 @@ mock.module("@pipedream/platform", {
   },
 });
 
+const ACTIONS = [
+  "web-search",
+  "news-search",
+  "image-search",
+  "video-search",
+  "shopping-search",
+  "scholar-search",
+  "patent-search",
+  "autocomplete",
+  "maps-search",
+  "get-place",
+  "fetch-webpage",
+  "extract-pages",
+  "map-site",
+  "answer-question",
+  "ask-chatgpt",
+  "ask-gemini",
+  "ask-copilot",
+  "ask-ai-mode",
+  "ask-brave-ai",
+  "start-crawl",
+  "get-crawl",
+  "start-research",
+  "get-research",
+];
+
 let app;
-let search;
-let news;
-let webpage;
+const actions = {};
 before(async () => {
   ({ default: app } = await import("../serpkite.app.mjs"));
-  ({ default: search } = await import("../actions/web-search/web-search.mjs"));
-  ({ default: news } = await import("../actions/news-search/news-search.mjs"));
-  ({ default: webpage } = await import("../actions/fetch-webpage/fetch-webpage.mjs"));
+  for (const name of ACTIONS) {
+    ({ default: actions[name] } = await import(`../actions/${name}/${name}.mjs`));
+  }
 });
 
 const makeApp = () => ({
@@ -37,44 +64,96 @@ const makeApp = () => ({
   },
 });
 
-test("web and news search use Bearer auth, preserve the full envelope, and forward localization", async () => {
+const run = async (name, props) => {
+  const summaries = [];
+  const $ = {
+    export: (...args) => summaries.push(args),
+  };
+  const result = await actions[name].run.call({
+    app: makeApp(),
+    ...props,
+  }, {
+    $,
+  });
+  return {
+    result,
+    summaries,
+    $,
+    config: requests.at(-1).config,
+  };
+};
+
+test("every action has a unique serpkite key, a semver version and a documentation link", () => {
+  const keys = new Set();
+  for (const name of ACTIONS) {
+    const action = actions[name];
+    assert.equal(action.key, `serpkite-${name}`);
+    assert.match(action.version, /^\d+\.\d+\.\d+$/);
+    assert.match(action.description, /\[See the documentation\]\(https:\/\/serpkite\.com\/docs\/endpoints\/[a-z_]+\)$/);
+    assert.ok(!keys.has(action.key));
+    keys.add(action.key);
+  }
+});
+
+test("search verticals POST a JSON body with Bearer auth and drop unset fields", async () => {
   for (const [
-    action,
+    name,
     endpoint,
   ] of [
       [
-        search,
+        "web-search",
         "search",
       ],
       [
-        news,
+        "news-search",
         "news",
+      ],
+      [
+        "image-search",
+        "images",
+      ],
+      [
+        "video-search",
+        "videos",
+      ],
+      [
+        "shopping-search",
+        "shopping",
+      ],
+      [
+        "scholar-search",
+        "scholar",
+      ],
+      [
+        "patent-search",
+        "patents",
+      ],
+      [
+        "autocomplete",
+        "autocomplete",
+      ],
+      [
+        "maps-search",
+        "maps",
       ],
     ]) {
     apiResponse = {
       results: [
         {
           title: "Example",
-          link: "https://example.com",
         },
       ],
       meta: {
-        credits: 1,
+        credits_used: 1,
       },
     };
-    const summaries = [];
-    const $ = {
-      export: (...args) => summaries.push(args),
-    };
-    const result = await action.run.call({
-      app: makeApp(),
+    const {
+      result, summaries, $, config,
+    } = await run(name, {
       q: "test query",
       country: "gb",
-      language: "en",
-      num: 20,
-      time: "week",
-    }, {
-      $,
+      language: "",
+      includeDomains: [],
     });
     assert.equal(result, apiResponse);
     assert.deepEqual(summaries, [
@@ -83,39 +162,52 @@ test("web and news search use Bearer auth, preserve the full envelope, and forwa
         "Retrieved 1 results",
       ],
     ]);
-    const request = requests.at(-1);
-    assert.equal(request.$, $);
-    assert.equal(request.config.url, `https://api.serpkite.com/v1/${endpoint}`);
-    assert.equal(request.config.method, "GET");
-    assert.equal(request.config.headers.Authorization, "Bearer skt_live_test");
-    assert.deepEqual(request.config.params, {
+    assert.equal(requests.at(-1).$, $);
+    assert.equal(config.url, `https://api.serpkite.com/v1/${endpoint}`);
+    assert.equal(config.method, "POST");
+    assert.equal(config.headers.Authorization, "Bearer skt_live_test");
+    assert.deepEqual(config.data, {
       q: "test query",
       country: "gb",
-      language: "en",
-      num: 20,
-      time: "week",
     });
-    assert.equal(request.config.params.api_key, undefined);
+    assert.equal(config.params, undefined);
   }
 });
 
-test("empty successful results return the envelope and a zero summary", async () => {
+test("web search maps camelCase props to API fields", async () => {
   apiResponse = {
     results: [],
-    meta: {
-      credits: 0,
-    },
   };
-  const summaries = [];
-  const result = await search.run.call({
-    app: makeApp(),
-    q: "test",
-  }, {
-    $: {
-      export: (...args) => summaries.push(args),
-    },
+  const {
+    config, summaries,
+  } = await run("web-search", {
+    q: "q",
+    num: 20,
+    page: 1,
+    time: "week",
+    location: "Austin, Texas, United States",
+    includeDomains: [
+      "example.com",
+    ],
+    excludeDomains: [
+      ".gov",
+    ],
+    includeAnswer: true,
   });
-  assert.equal(result, apiResponse);
+  assert.deepEqual(config.data, {
+    q: "q",
+    location: "Austin, Texas, United States",
+    num: 20,
+    page: 1,
+    time: "week",
+    include_domains: [
+      "example.com",
+    ],
+    exclude_domains: [
+      ".gov",
+    ],
+    include_answer: true,
+  });
   assert.deepEqual(summaries, [
     [
       "$summary",
@@ -124,44 +216,215 @@ test("empty successful results return the envelope and a zero summary", async ()
   ]);
 });
 
-test("webpage POST uses a JSON body and preserves Markdown metadata", async () => {
+test("assistants POST the prompt to their endpoint with a 120 s timeout", async () => {
+  for (const [
+    name,
+    endpoint,
+    label,
+  ] of [
+      [
+        "ask-chatgpt",
+        "chatgpt",
+        "ChatGPT",
+      ],
+      [
+        "ask-gemini",
+        "gemini",
+        "Gemini",
+      ],
+      [
+        "ask-copilot",
+        "copilot",
+        "Copilot Search",
+      ],
+      [
+        "ask-ai-mode",
+        "ai_mode",
+        "Google AI Mode",
+      ],
+      [
+        "ask-brave-ai",
+        "brave_ai",
+        "Brave AI",
+      ],
+    ]) {
+    apiResponse = {
+      text: "An answer",
+      markdown: "An answer",
+      sources: [
+        {
+          link: "https://example.com",
+        },
+      ],
+    };
+    const {
+      result, summaries, config,
+    } = await run(name, {
+      prompt: "best crm",
+      country: "us",
+      track: [
+        "hubspot.com",
+      ],
+    });
+    assert.equal(result, apiResponse);
+    assert.equal(config.url, `https://api.serpkite.com/v1/${endpoint}`);
+    assert.equal(config.method, "POST");
+    assert.equal(config.timeout, 120000);
+    assert.deepEqual(config.data, {
+      prompt: "best crm",
+      country: "us",
+      track: [
+        "hubspot.com",
+      ],
+    });
+    assert.deepEqual(summaries, [
+      [
+        "$summary",
+        `${label} answered with 1 sources`,
+      ],
+    ]);
+  }
+});
+
+test("ChatGPT sends web_search, and an empty answer says it was not billed", async () => {
   apiResponse = {
-    content: "# Example",
-    title: "Example",
-    meta: {
-      credits: 1,
+    text: "",
+    markdown: "",
+    sources: [],
+  };
+  const {
+    config, summaries,
+  } = await run("ask-chatgpt", {
+    prompt: "p",
+    webSearch: false,
+  });
+  assert.deepEqual(config.data, {
+    prompt: "p",
+    web_search: false,
+  });
+  assert.deepEqual(summaries, [
+    [
+      "$summary",
+      "ChatGPT returned no answer (not billed)",
+    ],
+  ]);
+});
+
+test("extract parses the output schema, and invalid JSON fails before a request", async () => {
+  apiResponse = {
+    results: [
+      {},
+    ],
+    failed: [],
+  };
+  const { config } = await run("extract-pages", {
+    urls: [
+      "https://example.com",
+    ],
+    outputSchema: "{\"type\":\"object\"}",
+    maxTokens: 500,
+  });
+  assert.equal(config.url, "https://api.serpkite.com/v1/extract");
+  assert.deepEqual(config.data, {
+    urls: [
+      "https://example.com",
+    ],
+    max_tokens: 500,
+    output_schema: {
+      type: "object",
+    },
+  });
+  const before = requests.length;
+  await assert.rejects(run("extract-pages", {
+    urls: [
+      "https://example.com",
+    ],
+    outputSchema: "{not json",
+  }), ConfigurationError);
+  assert.equal(requests.length, before);
+});
+
+test("get place needs a place id or cid", async () => {
+  const before = requests.length;
+  await assert.rejects(run("get-place", {}), ConfigurationError);
+  assert.equal(requests.length, before);
+  apiResponse = {
+    place: {
+      title: "Cafe",
     },
   };
-  const result = await webpage.run.call({
-    app: makeApp(),
-    url: "https://example.com/a?b=c",
-  }, {
-    $: {
-      export: () => {},
-    },
+  const {
+    config, summaries,
+  } = await run("get-place", {
+    placeId: "ChIJ123",
   });
-  assert.equal(result, apiResponse);
-  const { config } = requests.at(-1);
-  assert.equal(config.url, "https://api.serpkite.com/v1/webpage");
-  assert.equal(config.method, "POST");
   assert.deepEqual(config.data, {
-    url: "https://example.com/a?b=c",
+    place_id: "ChIJ123",
   });
-  assert.equal(config.params, undefined);
+  assert.deepEqual(summaries, [
+    [
+      "$summary",
+      "Retrieved Cafe",
+    ],
+  ]);
+});
+
+test("crawl and research start with POST and are read back with GET", async () => {
+  apiResponse = {
+    id: "task-1",
+    status: "queued",
+  };
+  let { config } = await run("start-crawl", {
+    url: "https://example.com",
+    limit: 5,
+    maxDepth: 1,
+    includePaths: [
+      "^/docs/",
+    ],
+  });
+  assert.equal(config.url, "https://api.serpkite.com/v1/crawl");
+  assert.deepEqual(config.data, {
+    url: "https://example.com",
+    limit: 5,
+    max_depth: 1,
+    include_paths: [
+      "^/docs/",
+    ],
+  });
+  ({ config } = await run("get-crawl", {
+    taskId: "task-1",
+  }));
+  assert.equal(config.method, "GET");
+  assert.equal(config.url, "https://api.serpkite.com/v1/crawl/task-1");
+  ({ config } = await run("start-research", {
+    input: "compare vector databases",
+    effort: "lite",
+  }));
+  assert.equal(config.url, "https://api.serpkite.com/v1/research");
+  assert.deepEqual(config.data, {
+    input: "compare vector databases",
+    effort: "lite",
+  });
+  ({ config } = await run("get-research", {
+    taskId: "task-1",
+  }));
+  assert.equal(config.method, "GET");
+  assert.equal(config.url, "https://api.serpkite.com/v1/research/task-1");
 });
 
 test("upstream errors propagate without exporting a success summary", async () => {
-  for (const action of [
-    search,
-    news,
-    webpage,
+  for (const name of [
+    "web-search",
+    "fetch-webpage",
+    "ask-chatgpt",
   ]) {
     apiError = new Error("HTTP 402 insufficient_credits");
     const summaries = [];
-    await assert.rejects(action.run.call({
+    await assert.rejects(actions[name].run.call({
       app: makeApp(),
       q: "test",
       url: "https://example.com",
+      prompt: "test",
     }, {
       $: {
         export: (...args) => summaries.push(args),

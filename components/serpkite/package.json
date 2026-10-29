@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/serpkite",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream SerpKite Components",
   "main": "serpkite.app.mjs",
   "keywords": [

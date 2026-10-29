@@ -1,0 +1,58 @@
+import app from "../../serpkite.app.mjs";
+
+export default {
+  key: "serpkite-ask-gemini",
+  name: "Ask Gemini",
+  description: "Ask Google Gemini as a logged-out visitor and get its answer with the sources it grounded on. Usually answers in 5-30 s. Set the workflow's **Execution Timeout Limit** (workflow Settings) to at least 120 seconds: HTTP-triggered workflows default to 30 seconds. Failed, refused and empty answers are not billed ([see pricing](https://serpkite.com/pricing)). [See the documentation](https://serpkite.com/docs/endpoints/gemini)",
+  version: "0.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
+  type: "action",
+  ai: "optimized",
+  props: {
+    app,
+    prompt: {
+      propDefinition: [
+        app,
+        "prompt",
+      ],
+    },
+    country: {
+      type: "string",
+      label: "Country",
+      description: "Ask as a visitor in this country, such as `us` or `de`.",
+      optional: true,
+    },
+    language: {
+      propDefinition: [
+        app,
+        "language",
+      ],
+    },
+    track: {
+      propDefinition: [
+        app,
+        "track",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const response = await this.app.askAssistant({
+      $,
+      assistant: "gemini",
+      data: {
+        prompt: this.prompt,
+        country: this.country,
+        language: this.language,
+        track: this.track,
+      },
+    });
+    $.export("$summary", response.text
+      ? `Gemini answered with ${response.sources?.length ?? 0} sources`
+      : "Gemini returned no answer (not billed)");
+    return response;
+  },
+};

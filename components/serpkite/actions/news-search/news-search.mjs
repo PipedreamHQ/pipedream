@@ -3,8 +3,8 @@ import app from "../../serpkite.app.mjs";
 export default {
   key: "serpkite-news-search",
   name: "News Search",
-  description: "Search Google news with SerpKite and return structured results. [See the documentation](https://serpkite.com/docs/endpoints/news)",
-  version: "0.0.1",
+  description: "Search Google News for recent articles. Failed and empty requests are not billed ([see pricing](https://serpkite.com/pricing)). [See the documentation](https://serpkite.com/docs/endpoints/news)",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -32,10 +32,16 @@ export default {
         "language",
       ],
     },
-    num: {
+    location: {
       propDefinition: [
         app,
-        "num",
+        "location",
+      ],
+    },
+    page: {
+      propDefinition: [
+        app,
+        "page",
       ],
     },
     time: {
@@ -44,19 +50,35 @@ export default {
         "time",
       ],
     },
+    includeDomains: {
+      propDefinition: [
+        app,
+        "includeDomains",
+      ],
+    },
+    excludeDomains: {
+      propDefinition: [
+        app,
+        "excludeDomains",
+      ],
+    },
   },
   async run({ $ }) {
-    const response = await this.app.news({
+    const response = await this.app.post({
       $,
-      params: {
+      path: "/news",
+      data: {
         q: this.q,
         country: this.country,
         language: this.language,
-        num: this.num,
+        location: this.location,
+        page: this.page,
         time: this.time,
+        include_domains: this.includeDomains,
+        exclude_domains: this.excludeDomains,
       },
     });
-    $.export("$summary", `Retrieved ${response.results.length} results`);
+    $.export("$summary", `Retrieved ${response.results?.length ?? 0} results`);
     return response;
   },
 };
