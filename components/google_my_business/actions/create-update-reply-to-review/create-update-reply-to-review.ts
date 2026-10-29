@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { defineAction } from "@pipedream/types";
 import app from "../../app/google_my_business.app";
 import { UpdateReplyParams } from "../../common/requestParams";
@@ -8,7 +9,7 @@ export default defineAction({
   key: "google_my_business-create-update-reply-to-review",
   name: "Create or Update Reply to Review",
   description: `Create or update a reply to the specified review. [See the documentation](${DOCS_LINK})`,
-  version: "0.0.6",
+  version: "0.1.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -27,21 +28,12 @@ export default defineAction({
       propDefinition: [
         app,
         "location",
-        ({ account }: { account: string; }) => ({
-          account,
-        }),
       ],
     },
     review: {
       propDefinition: [
         app,
         "review",
-        ({
-          account, location,
-        }: Record<string, string>) => ({
-          account,
-          location,
-        }),
       ],
     },
     comment: {
