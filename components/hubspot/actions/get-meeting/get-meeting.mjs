@@ -20,7 +20,7 @@ export default {
     objectId: {
       ...common.props.objectId,
       label: "Meeting ID",
-      description: "HubSpot's internal ID for the meeting",
+      description: "The HubSpot meeting record ID (the `id` field, e.g. `12345678901`). Find it with **Get Associated Meetings** for the related record and copy the `id` from the matching meeting in the results.",
     },
   },
   methods: {

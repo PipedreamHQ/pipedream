@@ -142,7 +142,7 @@ export default {
     objectId: {
       type: "string",
       label: "Object ID",
-      description: "HubSpot's internal ID for the contact",
+      description: "The HubSpot CRM record ID for the selected object type (the `id` field, e.g. `12345678901`). Find it with **Search CRM Objects** using the same object type and copy the `id` from the matching result.",
       useQuery: true,
       async options({
         objectType, ...opts

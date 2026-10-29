@@ -20,7 +20,7 @@ export default {
     objectId: {
       ...common.props.objectId,
       label: "Company ID",
-      description: "HubSpot's internal ID for the company",
+      description: "The HubSpot company record ID (the `id` field, e.g. `12345678901`). Find it with **Search CRM Objects** using the company object type and copy the `id` from the matching result.",
     },
   },
   methods: {

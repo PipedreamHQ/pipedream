@@ -20,7 +20,7 @@ export default {
     updateIfExists: {
       label: "Update If Exists",
       description:
-        "When selected, if HubSpot returns an error upon creation the resource should be updated.",
+        "Set to `true` to update the existing contact instead of failing when HubSpot rejects creation because the contact already exists (error category `CONFLICT` or `OBJECT_ALREADY_EXISTS`). Other creation errors are not retried as updates and still fail. Example: `true`.",
       type: "boolean",
     },
   },
