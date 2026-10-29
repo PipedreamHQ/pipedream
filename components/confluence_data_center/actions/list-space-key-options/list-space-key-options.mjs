@@ -4,7 +4,7 @@ export default {
   key: "confluence_data_center-list-space-key-options",
   name: "List Space Key Options",
   description: "Retrieves available options for the Space Key field.",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

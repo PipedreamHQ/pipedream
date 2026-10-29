@@ -8,7 +8,7 @@ export default {
     + " Optionally set column headers."
     + " Use **Get Spreadsheet Info** to see existing worksheets"
     + " before creating.",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   ai: "optimized",
   annotations: {
