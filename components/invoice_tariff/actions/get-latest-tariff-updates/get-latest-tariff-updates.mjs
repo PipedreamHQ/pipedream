@@ -26,7 +26,7 @@ export default {
   async run({ $ }) {
     const entries = await invoiceTariff.getTariffRadarFeed($);
     const result = this.limit ? entries.slice(0, this.limit) : entries;
-    $.export("summary", `Fetched ${result.length} tariff update(s)`);
+    $.export("$summary", `Fetched ${result.length} tariff update(s)`);
     return result;
   },
 };

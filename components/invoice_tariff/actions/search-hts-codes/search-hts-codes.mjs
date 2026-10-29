@@ -23,7 +23,7 @@ export default {
   async run({ $ }) {
     const query = this.query.trim();
     const { results } = await invoiceTariff.searchHtsCodes($, query);
-    $.export("summary", results.length
+    $.export("$summary", results.length
       ? `Found ${results.length} HTS code(s) for "${query}"`
       : `No HTS codes found for "${query}"`);
     return results;

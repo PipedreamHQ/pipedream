@@ -10,7 +10,8 @@
   "homepage": "https://pipedream.com/apps/invoice-tariff",
   "author": "InvoiceTariff <invoicetariff@users.noreply.github.com> (https://invoicetariff.com)",
   "dependencies": {
-    "@pipedream/platform": "^3.1.1"
+    "@pipedream/platform": "^3.1.1",
+    "fast-xml-parser": "^5.11.2"
   },
   "publishConfig": {
     "access": "public"
