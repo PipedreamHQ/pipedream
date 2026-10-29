@@ -36,7 +36,7 @@ export default {
     page: {
       type: "integer",
       label: "Page",
-      description: "Page of results to return, starting at 1. Increment while the response has `hasMoreResults: true`.",
+      description: "Page of results to return, starting at 1, e.g. `2`. Increment while the response has `hasMoreResults: true`.",
       optional: true,
       min: 1,
     },
@@ -61,7 +61,7 @@ export default {
     infoType: {
       type: "string",
       label: "Contact Info Label",
-      description: "Label applied to the emails, phones, and address (e.g. `Work`, `Home`, `Other`). Defaults to `Work`.",
+      description: "Label applied to the emails, phones, and address (e.g. `Work`, `Home`, `Other`). Must match a type configured in the CRM. Leave blank to use the account's first type.",
       optional: true,
     },
     street: {
@@ -97,19 +97,53 @@ export default {
     jobTitle: {
       type: "string",
       label: "Job Title",
-      description: "Job title. Applies to people only, not companies.",
+      description: "Job title, e.g. `VP of Sales`. Applies to people only, not companies.",
+      optional: true,
+    },
+    employer: {
+      type: "string",
+      label: "Employer (Company Name)",
+      description: "For a person: the company they work for, e.g. `Acme Inc`. Ignored for companies.",
+      optional: true,
+    },
+    sortDirection: {
+      type: "string",
+      label: "Sort Direction",
+      description: "Sort order, e.g. `Ascending`.",
+      options: [
+        "Ascending",
+        "Descending",
+      ],
+      optional: true,
+    },
+    advancedFilters: {
+      type: "string",
+      label: "Advanced Filters",
+      description: "JSON array of filters, e.g. `[{\"Name\": \"DateCreated\", \"Operation\": \"GreaterThan\", \"Value\": \"2025-01-01\"}]`.",
+      optional: true,
+    },
+    pipelineItemNote: {
+      type: "string",
+      label: "Note",
+      description: "Optional note shown in the pipeline item's history, e.g. `Sent proposal, awaiting signature`.",
+      optional: true,
+    },
+    runStatusAutomation: {
+      type: "boolean",
+      label: "Run Status Automation",
+      description: "Run the automation configured on the pipeline item's status, if any, e.g. `true`. Defaults to false.",
       optional: true,
     },
     backgroundInfo: {
       type: "string",
       label: "Background Info",
-      description: "Free-text background information shown on the record.",
+      description: "Free-text background information shown on the record, e.g. `Met at the 2026 trade show; prefers email over phone.`",
       optional: true,
     },
     birthday: {
       type: "string",
       label: "Birthday",
-      description: "Birthday as `YYYY-MM-DD`, or `0000-MM-DD` if the year is unknown. People only.",
+      description: "Birthday as `YYYY-MM-DD`, e.g. `1985-03-21`, or `0000-MM-DD` (e.g. `0000-03-21`) if the year is unknown. People only.",
       optional: true,
     },
     customFields: {

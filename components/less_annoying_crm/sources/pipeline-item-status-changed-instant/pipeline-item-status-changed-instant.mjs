@@ -18,7 +18,9 @@ export default {
       return "status changed";
     },
     getDedupeId(item) {
-      return `${item.PipelineItemId}-${item.LastUpdate}`;
+      // LastUpdate only has whole-second precision, so two quick changes could
+      // collide; NumberOfUpdates increments on every update to the item.
+      return `${item.PipelineItemId}-${item.StatusId}-${item.NumberOfUpdates ?? item.LastUpdate}`;
     },
   },
   sampleEmit,

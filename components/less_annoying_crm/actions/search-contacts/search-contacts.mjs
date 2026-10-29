@@ -45,7 +45,7 @@ export default {
     recordType: {
       type: "string",
       label: "Record Type",
-      description: "Limit results to people or companies. Omit for both.",
+      description: "Limit results to people or companies, e.g. `Companies`. Omit for both.",
       options: [
         "Contacts",
         "Companies",
@@ -55,13 +55,13 @@ export default {
     ownerIds: {
       type: "string[]",
       label: "Owner User IDs",
-      description: "Only return records assigned to these user IDs. Use **List Users** to find IDs.",
+      description: "Only return records assigned to these user IDs, e.g. `[\"1240220\"]`. Use **List Users** to find IDs (the `UserId` field).",
       optional: true,
     },
     sortBy: {
       type: "string",
       label: "Sort By",
-      description: "Defaults to `Relevance`.",
+      description: "Field to sort results by, e.g. `LastUpdate`. Defaults to `Relevance`.",
       options: [
         "Relevance",
         "FirstName",
@@ -73,20 +73,17 @@ export default {
       optional: true,
     },
     sortDirection: {
-      type: "string",
-      label: "Sort Direction",
-      description: "Defaults to `Descending`.",
-      options: [
-        "Ascending",
-        "Descending",
+      propDefinition: [
+        app,
+        "sortDirection",
       ],
-      optional: true,
+      description: "Sort order, e.g. `Ascending`. Defaults to `Descending`.",
     },
     advancedFilters: {
-      type: "string",
-      label: "Advanced Filters",
-      description: "JSON array of filters. Example: `[{\"Name\": \"DateCreated\", \"Operation\": \"GreaterThan\", \"Value\": \"2025-01-01\"}]`.",
-      optional: true,
+      propDefinition: [
+        app,
+        "advancedFilters",
+      ],
     },
     fields: {
       type: "string[]",

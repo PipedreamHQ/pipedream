@@ -32,21 +32,21 @@ export default {
     name: {
       type: "string",
       label: "Name",
-      description: "New full name of the person, or new company name for a company.",
+      description: "New full name of the person, or new company name for a company, e.g. `Jane Smith` or `Acme Inc`.",
       optional: true,
     },
     employer: {
-      type: "string",
-      label: "Employer (Company Name)",
-      description: "For a person: the company they work for. Ignored for companies.",
-      optional: true,
+      propDefinition: [
+        app,
+        "employer",
+      ],
     },
     assignedTo: {
       propDefinition: [
         app,
         "assignedTo",
       ],
-      description: "User ID to reassign the record to. Use **List Users** to find IDs. Omit to keep the current owner.",
+      description: "User ID to reassign the record to (a numeric string, e.g. `1240220`). Use **List Users** to find IDs (the `UserId` field). Omit to keep the current owner.",
     },
     emails: {
       propDefinition: [
@@ -129,12 +129,14 @@ export default {
   },
   async run({ $ }) {
     const parameters = {
-      ContactId: this.contactId,
       ...buildContactDetails(this),
+      // Last, so `customFields` can't redirect the edit to a different contact.
+      ContactId: this.contactId,
     };
 
-    // A person's name and a company's name live in different fields.
-    if (this.name || this.employer) {
+    // A person's name and a company's name live in different fields, and
+    // companies don't support Job Title or Birthday, so look up the record type.
+    if (this.name || this.employer || this.jobTitle || this.birthday) {
       const existing = await this.app.getContact({
         $,
         parameters: {

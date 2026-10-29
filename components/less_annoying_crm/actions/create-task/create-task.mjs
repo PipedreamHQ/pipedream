@@ -27,7 +27,7 @@ export default {
     dueDate: {
       type: "string",
       label: "Due Date",
-      description: "Date the task is due, as `YYYY-MM-DD`.",
+      description: "Date the task is due, as `YYYY-MM-DD`, e.g. `2026-11-15`.",
       optional: true,
     },
     contactId: {
@@ -35,13 +35,13 @@ export default {
         app,
         "contactId",
       ],
-      description: "Contact or company to attach the task to. Use **Search Contacts** to find the ID.",
+      description: "Contact or company to attach the task to (a long numeric string, e.g. `4135054762542398391286410820683`). Use **Search Contacts** to find the ID.",
       optional: true,
     },
     description: {
       type: "string",
       label: "Description",
-      description: "Extra details for the task. Can be multi-line.",
+      description: "Extra details for the task, e.g. `Send the revised quote and confirm the delivery date`. Can be multi-line.",
       optional: true,
     },
     assignedTo: {
@@ -49,7 +49,7 @@ export default {
         app,
         "assignedTo",
       ],
-      description: "User ID to assign the task to. Use **List Users** to find IDs. Defaults to the API key's owner.",
+      description: "User ID to assign the task to (a numeric string, e.g. `1240220`). Use **List Users** to find IDs. Defaults to the API key's owner.",
     },
   },
   async run({ $ }) {

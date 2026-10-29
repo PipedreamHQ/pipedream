@@ -23,6 +23,12 @@ export default {
     _setHookSecret(secret) {
       this.db.set("hookSecret", secret);
     },
+    _isAwaitingHandshake() {
+      return this.db.get("awaitingHandshake") ?? false;
+    },
+    _setAwaitingHandshake(awaiting) {
+      this.db.set("awaitingHandshake", awaiting);
+    },
     // The docs don't state whether X-Hook-Signature is hex or base64, so accept both.
     _isValidSignature(rawBody, signature) {
       const secret = this._getHookSecret();
@@ -58,6 +64,10 @@ export default {
   },
   hooks: {
     async activate() {
+      // Open the handshake window before registering: the CRM sends X-Hook-Secret
+      // during registration, and it is the only time a new signing key is accepted.
+      this._setHookSecret(null);
+      this._setAwaitingHandshake(true);
       const { WebhookId } = await this.app.createWebhook({
         parameters: {
           EndpointUrl: this.http.endpoint,
@@ -70,6 +80,7 @@ export default {
       this._setWebhookId(WebhookId);
     },
     async deactivate() {
+      this._setAwaitingHandshake(false);
       const webhookId = this._getWebhookId();
       if (webhookId) {
         await this.app.deleteWebhook({
@@ -83,10 +94,12 @@ export default {
   async run({
     body, bodyRaw, headers,
   }) {
-    // Handshake: echo X-Hook-Secret and keep it as the signing key.
+    // Handshake: echo X-Hook-Secret and keep it as the signing key. Only accepted
+    // while registration is in progress, so later requests can't replace the key.
     const hookSecret = headers["x-hook-secret"];
-    if (hookSecret) {
+    if (hookSecret && this._isAwaitingHandshake()) {
       this._setHookSecret(hookSecret);
+      this._setAwaitingHandshake(false);
       return this.http.respond({
         status: 200,
         headers: {
@@ -103,18 +116,25 @@ export default {
       });
     }
 
-    // Acknowledge quickly; any status below 300 counts as delivered.
+    if (body.TriggeringEvent === this.getEventName()) {
+      // Respond only after processing: any status below 300 counts as delivered,
+      // so a failure here must return an error for the CRM to retry the delivery.
+      try {
+        const records = await this.fetchRecords(body);
+        for (const record of records) {
+          this.$emit(record, this.generateMeta(record));
+        }
+      } catch (err) {
+        this.http.respond({
+          status: 500,
+          body: "Failed to process webhook event",
+        });
+        throw err;
+      }
+    }
+
     this.http.respond({
       status: 200,
     });
-
-    if (body.TriggeringEvent !== this.getEventName()) {
-      return;
-    }
-
-    const records = await this.fetchRecords(body);
-    for (const record of records) {
-      this.$emit(record, this.generateMeta(record));
-    }
   },
 };

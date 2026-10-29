@@ -40,7 +40,7 @@ function typed(values, type) {
  */
 export function buildContactDetails(ctx) {
   const {
-    emails, phones, websites, infoType = "Work", street, city, state, zip, country,
+    emails, phones, websites, infoType, street, city, state, zip, country,
     jobTitle, backgroundInfo, birthday, assignedTo, customFields,
   } = ctx;
 

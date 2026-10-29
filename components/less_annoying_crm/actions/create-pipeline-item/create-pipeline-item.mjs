@@ -38,16 +38,16 @@ export default {
       ],
     },
     note: {
-      type: "string",
-      label: "Note",
-      description: "Optional note shown in the pipeline item's history.",
-      optional: true,
+      propDefinition: [
+        app,
+        "pipelineItemNote",
+      ],
     },
     runStatusAutomation: {
-      type: "boolean",
-      label: "Run Status Automation",
-      description: "Run the automation configured on the status, if any. Defaults to false.",
-      optional: true,
+      propDefinition: [
+        app,
+        "runStatusAutomation",
+      ],
     },
   },
   async run({ $ }) {

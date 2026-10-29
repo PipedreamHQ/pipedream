@@ -74,7 +74,7 @@ export default {
     include: {
       type: "string[]",
       label: "Activity Types",
-      description: "Which activity types to retrieve. Defaults to all.",
+      description: "Which activity types to retrieve, e.g. `[\"notes\", \"tasks\"]`. Allowed values are `notes`, `tasks`, `events`, and `pipelineItems`. Defaults to all.",
       options: ACTIVITY_TYPES,
       optional: true,
     },

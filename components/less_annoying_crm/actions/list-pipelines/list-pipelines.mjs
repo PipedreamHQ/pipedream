@@ -21,7 +21,7 @@ export default {
     includeArchived: {
       type: "boolean",
       label: "Include Archived Pipelines",
-      description: "Also return archived pipelines. Defaults to false.",
+      description: "Also return archived pipelines, e.g. `true`. Defaults to `false`.",
       optional: true,
     },
   },

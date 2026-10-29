@@ -22,27 +22,29 @@ export default {
     pipelineItemId: {
       type: "string",
       label: "Pipeline Item ID",
-      description: "The ID of the pipeline item (lead) to update. Use **Search Pipeline Items** to find it.",
+      description: "The ID of the pipeline item (lead) to update (a long numeric string, e.g. `1234567890123456789012345678903`). Use **Search Pipeline Items** to find it (the `PipelineItemId` field).",
     },
     statusId: {
       propDefinition: [
         app,
         "statusId",
       ],
-      description: "ID of the status to move the item to. Must belong to the item's pipeline. Use **List Pipelines** to find it.",
+      description: "ID of the status to move the item to (a long numeric string, e.g. `1234567890123456789012345678905`). Must belong to the item's pipeline. Use **List Pipelines** to find it (the `StatusId` field of each entry in `Statuses`).",
       optional: true,
     },
     note: {
-      type: "string",
-      label: "Note",
-      description: "Optional note shown in the item's history, e.g. the reason for the status change.",
-      optional: true,
+      propDefinition: [
+        app,
+        "pipelineItemNote",
+      ],
+      description: "Optional note shown in the item's history, e.g. the reason for the status change such as `Client approved the quote`.",
     },
     runStatusAutomation: {
-      type: "boolean",
-      label: "Run Status Automation",
-      description: "If the status changes, run the new status's automation. Defaults to false.",
-      optional: true,
+      propDefinition: [
+        app,
+        "runStatusAutomation",
+      ],
+      description: "If the status changes, run the new status's automation, e.g. `true`. Defaults to false.",
     },
   },
   async run({ $ }) {

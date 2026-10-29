@@ -29,7 +29,7 @@ export default {
     note: {
       type: "string",
       label: "Note",
-      description: "Plain-text note content.",
+      description: "Plain-text note content, e.g. `Called Jane about the quote.`",
     },
     dateDisplayedInHistory: {
       type: "string",

@@ -30,25 +30,25 @@ export default {
     statusIds: {
       type: "string[]",
       label: "Status IDs",
-      description: "Only return items in these statuses. Omit to return items in all active statuses. Use **List Pipelines** to find status IDs.",
+      description: "Only return items in these statuses, e.g. `[\"1234567890123456789012345678905\"]`. Omit to return items in all active statuses. Use **List Pipelines** to find status IDs (the `StatusId` field of each entry in `Statuses`).",
       optional: true,
     },
     userIds: {
       type: "string[]",
       label: "Owner User IDs",
-      description: "Only return items whose contact is assigned to these user IDs. Use **List Users** to find IDs.",
+      description: "Only return items whose contact is assigned to these user IDs, e.g. `[\"1240220\"]`. Use **List Users** to find IDs (the `UserId` field).",
       optional: true,
     },
     advancedFilters: {
-      type: "string",
-      label: "Advanced Filters",
-      description: "JSON array of filters, e.g. `[{\"Name\": \"DateCreated\", \"Operation\": \"GreaterThan\", \"Value\": \"2025-01-01\"}]`.",
-      optional: true,
+      propDefinition: [
+        app,
+        "advancedFilters",
+      ],
     },
     sortBy: {
       type: "string",
       label: "Sort By",
-      description: "Defaults to `Status`.",
+      description: "Field to sort items by, e.g. `DateCreated`. Defaults to `Status`.",
       options: [
         "Status",
         "DateCreated",
@@ -57,14 +57,11 @@ export default {
       optional: true,
     },
     sortDirection: {
-      type: "string",
-      label: "Sort Direction",
-      description: "Defaults to `Ascending`.",
-      options: [
-        "Ascending",
-        "Descending",
+      propDefinition: [
+        app,
+        "sortDirection",
       ],
-      optional: true,
+      description: "Sort order, e.g. `Descending`. Defaults to `Ascending`.",
     },
     maxResults: {
       propDefinition: [

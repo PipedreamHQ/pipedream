@@ -25,19 +25,20 @@ export default {
     isCompany: {
       type: "boolean",
       label: "Is Company",
-      description: "True to create a company, false (default) to create a person.",
+      description: "True to create a company, false (default) to create a person, e.g. `true`.",
       optional: true,
     },
     contactName: {
       type: "string",
       label: "Contact Name",
-      description: "Full name of the person, or the company name when `isCompany` is true.",
+      description: "Full name of the person, or the company name when `isCompany` is true, e.g. `Jane Smith` or `Acme Inc`.",
     },
     employer: {
-      type: "string",
-      label: "Employer (Company Name)",
-      description: "For a person: the company they work for. Creates the company if it does not exist. Ignored for companies.",
-      optional: true,
+      propDefinition: [
+        app,
+        "employer",
+      ],
+      description: "For a person: the company they work for, e.g. `Acme Inc`. Creates the company if it does not exist. Ignored for companies.",
     },
     assignedTo: {
       propDefinition: [
