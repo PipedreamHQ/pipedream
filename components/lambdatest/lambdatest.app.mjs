@@ -1,4 +1,7 @@
-import { axios, ConfigurationError } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
+import puppeteer from "puppeteer-core";
 
 export default {
   type: "app",
@@ -147,6 +150,63 @@ export default {
         path: `/sessions/${sessionId}`,
         ...opts,
       });
+    },
+    /**
+     * Opens a URL in a cloud Chrome browser on TestMu AI, runs a callback against the page,
+     * then closes the browser
+     * @param {object} opts - The session options
+     * @param {string} opts.url - The URL to open
+     * @param {string} [opts.buildName] - The dashboard build the session is grouped under
+     * @param {string} [opts.sessionName] - The session name shown on the dashboard
+     * @param {number} [opts.timeout] - The page load timeout, in milliseconds
+     * @param {Function} fn - Called with the Puppeteer page once it has loaded
+     * @returns {Promise<*>} The callback's return value
+     * @throws {ConfigurationError} If TestMu AI rejects the connected account's credentials
+     */
+    async withBrowserCloudPage({
+      url, buildName, sessionName, timeout,
+    }, fn) {
+      const capabilities = {
+        "browserName": "Chrome",
+        "browserVersion": "latest",
+        "LT:Options": {
+          // Same session tags the Browser Cloud SDK (@testmuai/browser-cloud) sets
+          project: "browser-cloud",
+          plugin: "node-js-puppeteer",
+          platform: "Windows 10",
+          build: buildName,
+          name: sessionName,
+          resolution: "1920x1080",
+          user: this.$auth.username,
+          accessKey: this.$auth.access_key,
+        },
+      };
+
+      let browser;
+      try {
+        browser = await puppeteer.connect({
+          browserWSEndpoint: `wss://cdp.lambdatest.com/puppeteer?capabilities=${encodeURIComponent(JSON.stringify(capabilities))}`,
+          defaultViewport: {
+            width: 1920,
+            height: 1080,
+          },
+        });
+      } catch (err) {
+        if (String(err?.message).includes("401")) {
+          throw new ConfigurationError("TestMu AI rejected the credentials (HTTP 401). Check the **Username** and **Access Key** of the connected LambdaTest account.");
+        }
+        throw new Error(`Could not connect to the TestMu AI browser cloud: ${err?.message}`);
+      }
+
+      try {
+        const page = (await browser.pages())[0] ?? await browser.newPage();
+        await page.goto(url, {
+          timeout,
+        });
+        return await fn(page);
+      } finally {
+        await browser.close();
+      }
     },
     /**
      * Iterates through a paginated LambdaTest list endpoint, yielding one record at a time
