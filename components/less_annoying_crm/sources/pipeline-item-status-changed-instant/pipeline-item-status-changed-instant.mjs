@@ -19,12 +19,20 @@ export default {
       return "status changed";
     },
     getDedupeId(item) {
-      // LastUpdate only has whole-second precision, so two quick changes could
-      // collide; NumberOfUpdates increments on every update to the item.
+      // The record fetched after the webhook may already reflect a later change, so
+      // key on the delivery: its MessageId (one payload can list several items) or,
+      // if that is missing, the item's state as the payload reported it.
+      // LastUpdate only has whole-second precision, so prefer NumberOfUpdates.
+      const {
+        messageId, payloadItem,
+      } = this.getEventContext(item);
+      const pick = (field) => payloadItem[field] ?? item[field];
+      const eventKey = messageId
+        ?? `${pick("StatusId")}-${pick("NumberOfUpdates") ?? pick("LastUpdate")}`;
       // Hashed because the raw IDs together exceed the 64-character dedupe limit.
       return crypto
         .createHash("sha256")
-        .update(`${item.PipelineItemId}-${item.StatusId}-${item.NumberOfUpdates ?? item.LastUpdate}`)
+        .update(`${item.PipelineItemId}-${eventKey}`)
         .digest("hex");
     },
   },

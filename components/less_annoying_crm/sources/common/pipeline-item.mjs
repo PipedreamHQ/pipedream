@@ -1,16 +1,36 @@
 import base from "./base.mjs";
 
+// Maps each fetched record to the webhook payload it came from: the payload's
+// MessageId and the item's entry, which reflects the item as of the event rather
+// than whatever it looks like by the time it is fetched.
+const eventContexts = new WeakMap();
+
 export default {
   ...base,
   methods: {
     ...base.methods,
     async fetchRecords(body) {
-      const ids = body.PipelineItems?.map(({ PipelineItemId }) => PipelineItemId) ?? [];
-      return Promise.all(ids.map((PipelineItemId) => this.app.getPipelineItem({
-        parameters: {
-          PipelineItemId,
-        },
-      })));
+      const entries = body.PipelineItems ?? [];
+      return Promise.all(entries.map(async (entry) => {
+        const record = await this.app.getPipelineItem({
+          parameters: {
+            PipelineItemId: entry.PipelineItemId,
+          },
+        });
+        eventContexts.set(record, {
+          messageId: body.MessageId,
+          payloadItem: entry,
+        });
+        return record;
+      }));
+    },
+    /**
+     * The webhook payload's `MessageId` and the item's entry in it, for a fetched record.
+     */
+    getEventContext(record) {
+      return eventContexts.get(record) ?? {
+        payloadItem: {},
+      };
     },
     getDedupeId(item) {
       return item.PipelineItemId;

@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import common from "../common/contact.mjs";
 import sampleEmit from "./test-event.mjs";
 
@@ -18,7 +19,18 @@ export default {
       return "updated";
     },
     getDedupeId(contact) {
-      return `${contact.ContactId}-${contact.LastUpdate}`;
+      // The record fetched after the webhook may already reflect a later update, so
+      // key on the delivery: its MessageId (one payload can list several contacts) or,
+      // if that is missing, the LastUpdate the payload reported for this contact.
+      const {
+        messageId, payloadContact,
+      } = this.getEventContext(contact);
+      const eventKey = messageId ?? payloadContact.LastUpdate ?? contact.LastUpdate;
+      // Hashed because the MessageId alone is 63 characters, and the dedupe limit is 64.
+      return crypto
+        .createHash("sha256")
+        .update(`${contact.ContactId}-${eventKey}`)
+        .digest("hex");
     },
   },
   sampleEmit,
