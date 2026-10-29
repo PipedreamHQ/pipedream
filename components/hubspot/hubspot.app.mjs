@@ -142,7 +142,7 @@ export default {
     objectId: {
       type: "string",
       label: "Object ID",
-      description: "Hubspot's internal ID for the contact",
+      description: "HubSpot's internal ID for the contact",
       useQuery: true,
       async options({
         objectType, ...opts
