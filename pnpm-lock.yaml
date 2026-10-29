@@ -8962,7 +8962,11 @@ importers:
         specifier: 4.0.4
         version: 4.0.4
 
-  components/less_annoying_crm: {}
+  components/less_annoying_crm:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/lessaccounting: {}
 
