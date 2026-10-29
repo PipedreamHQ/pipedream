@@ -1,4 +1,6 @@
 import fs from "fs";
+import path from "path";
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../lambdatest.app.mjs";
 
 export default {
@@ -86,6 +88,15 @@ export default {
       : `https://${this.url}`;
     const timeout = (this.timeout ?? 60) * 1000;
 
+    // Validate the download path before opening a browser session, and keep it inside /tmp
+    let filePath;
+    if (this.task === "screenshot" && this.downloadPath) {
+      filePath = path.posix.resolve("/tmp", this.downloadPath);
+      if (!filePath.startsWith("/tmp/")) {
+        throw new ConfigurationError("**Download Path** must be a file name inside the `/tmp` directory, e.g. `screenshot.png`.");
+      }
+    }
+
     const result = await this.app.withBrowserCloudPage({
       url,
       buildName: this.buildName,
@@ -111,10 +122,7 @@ export default {
           type: "png",
         }));
         output.screenshot = screenshot.toString("base64");
-        if (this.downloadPath) {
-          const filePath = this.downloadPath.startsWith("/tmp")
-            ? this.downloadPath
-            : `/tmp/${this.downloadPath}`;
+        if (filePath) {
           fs.writeFileSync(filePath, screenshot);
           output.filePath = filePath;
         }
