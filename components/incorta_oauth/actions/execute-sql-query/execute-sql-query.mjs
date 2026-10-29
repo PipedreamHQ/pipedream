@@ -4,7 +4,7 @@ export default {
   key: "incorta_oauth-execute-sql-query",
   name: "Execute SQL Query",
   description: "Executes a custom Spark SQL query against an Incorta tenant via the **Advanced SQL Interface** (Advanced SQLi), which exposes the tenant's physical schemas and verified business views as Spark SQL tables."
-    + " Use this for ad hoc reporting or data exploration. It is a read/query interface (not a general-purpose transactional database) — expect `SELECT` statements with Spark SQL syntax: joins, aggregates, `GROUP BY`, window functions, and CTEs all work."
+    + " Use this for ad hoc reporting or data exploration. Queries that resolve workflow references to bound parameters are not supported; inline literal values in the SQL text instead. It is a read/query interface (not a general-purpose transactional database) — expect `SELECT` statements with Spark SQL syntax: joins, aggregates, `GROUP BY`, window functions, and CTEs all work."
     + " Use **List Schemas**, **List Tables**, and **List Columns** first if you don't already know the available schema/table/column names, and reference tables as `schema.table`, e.g. `pipedream_store.customer`."
     + " Always include a `LIMIT` (and select only the columns you need) for exploratory queries: results are capped at **Max Rows** (default 500), and the response reports `truncated: true` when more rows existed than were returned, so a truncated result is partial (the total row count is not known; run a `COUNT(*)` if you need it). Narrow the query with `LIMIT`, filters, or aggregates rather than relying on the cap."
     + " To read the next page of a large result, either use `LIMIT n OFFSET m` with a stable `ORDER BY`, or keyset paging (`ORDER BY <unique column>` and `WHERE <column> > <last value seen>` with `LIMIT`), e.g. `SELECT * FROM sales.orders WHERE order_id > 1000 ORDER BY order_id LIMIT 100`; keyset paging is faster on large tables."
@@ -44,7 +44,7 @@ export default {
     // rows have arrived instead of loading the whole result.
     const {
       rows, truncated,
-    } = await this.incorta.executeQueryWithLimit(args, this.maxRows);
+    } = await this.incorta.executeQueryWithLimit(args, this.maxRows, $);
 
     $.export("$summary", truncated
       ? `Returned ${rows.length} rows (truncated at Max Rows ${this.maxRows}, more rows exist); add a LIMIT or narrower filters to the query`

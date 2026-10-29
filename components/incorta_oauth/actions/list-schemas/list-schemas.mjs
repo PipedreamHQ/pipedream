@@ -19,7 +19,7 @@ export default {
     schemaType: {
       type: "string",
       label: "Schema Type",
-      description: "The type of schema to list. Valid values are `ALL`, `PHYSICAL`, or `BUSINESS`. Defaults to `ALL`.",
+      description: "The type of schema to list. One of `ALL`, `PHYSICAL`, or `BUSINESS`, e.g. `PHYSICAL` to list only physical schemas. Defaults to `ALL`.",
       default: "ALL",
       options: [
         {

@@ -25,6 +25,8 @@ const REQUEST_TIMEOUT_CODE = "INCORTA_REQUEST_TIMEOUT";
 // Consecutive fetches that return no batch although the server says more rows
 // remain, before giving up (guards against a server that never delivers).
 const MAX_IDLE_FETCHES = 3;
+// Schemas read concurrently when building the SQL prop's autocomplete schema.
+const SCHEMA_BATCH_SIZE = 5;
 
 export default {
   type: "app",
@@ -46,9 +48,13 @@ export default {
   methods: {
     ...sqlProxy.methods,
     ...sqlProp.methods,
+    _baseHost() {
+      return String(this.$auth.base_url ?? "").trim()
+        .replace(/^https?:\/\//i, "")
+        .replace(/\/.*$/, "");
+    },
     _baseUrl() {
-      const base = this.$auth.base_url.replace(/^https?:\/\//, "");
-      return `https://${base}/incorta/api/v2/${this.$auth.tenant}`;
+      return `https://${this._baseHost()}/incorta/api/v2/${this.$auth.tenant}`;
     },
     _headers() {
       return {
@@ -86,7 +92,10 @@ export default {
       while (offset < total) {
         const response = await this._makeRequest({
           method: "POST",
-          path: `/schema/list?schemaType=${schemaType}`,
+          path: "/schema/list",
+          params: {
+            schemaType,
+          },
           data: {
             limit,
             offset,
@@ -169,8 +178,8 @@ export default {
      * name, which is the first label of the base URL's host. Returns `info`,
      * which is `{}` for an unknown cluster.
      */
-    async _getClusterInfo(baseHost, cluster) {
-      const response = await axios(this, {
+    async _getClusterInfo(baseHost, cluster, $ = this) {
+      const response = await axios($, {
         url: `https://${baseHost}/incorta/cloudapi/api/v1/cluster_info`,
         params: {
           cluster,
@@ -189,17 +198,15 @@ export default {
      * OAuth access token is sent as Basic credentials and must never go out in cleartext,
      * whatever port `cluster_info` reports.
      */
-    async _sqlEndpoint() {
-      const baseHost = String(this.$auth.base_url ?? "").trim()
-        .replace(/^https?:\/\//i, "")
-        .replace(/\/.*$/, "");
+    async _sqlEndpoint($ = this) {
+      const baseHost = this._baseHost();
       const cluster = baseHost.split(".")[0];
       if (!cluster) {
         throw new ConfigurationError("The connected Incorta account has no base URL, so its Advanced SQLi settings can't be looked up.");
       }
       let info;
       try {
-        info = await this._getClusterInfo(baseHost, cluster);
+        info = await this._getClusterInfo(baseHost, cluster, $);
       } catch (err) {
         throw new ConfigurationError(`Could not retrieve the Advanced SQLi settings for Incorta cluster \`${cluster}\` from ${baseHost}: ${err.message ?? err}`);
       }
@@ -234,14 +241,14 @@ export default {
      * Opens a HiveServer2 session against Advanced SQLi. The username is
      * `<username>%<tenant>` and the password is the account's OAuth access token.
      */
-    async _openSession() {
+    async _openSession($ = this) {
       const username = this.$auth.username;
       if (!username || !this.$auth.oauth_access_token) {
         throw new ConfigurationError("The connected Incorta account needs a username and an OAuth access token to use Advanced SQLi. Reconnect the account.");
       }
       const {
         host, port, path, https,
-      } = await this._sqlEndpoint();
+      } = await this._sqlEndpoint($);
       const client = new HiveClient(TCLIService, TYPES);
       // hive-driver re-emits connection failures (HTTP 404, TLS, DNS, ...) as
       // an 'error' event and the pending call never settles; with no listener
@@ -413,13 +420,13 @@ export default {
      * `maxRows` is transferred; the query text is sent untouched.
      * Returns `{ rows, truncated }`.
      */
-    async executeQueryWithLimit(query, maxRows = Infinity) {
+    async executeQueryWithLimit(query, maxRows = Infinity, $ = this) {
       if (query.values?.length) {
         throw new ConfigurationError("Advanced SQLi does not support bound query parameters; inline the values in the SQL text.");
       }
       const {
         client, session, guard,
-      } = await this._openSession();
+      } = await this._openSession($);
       try {
         const operation = await guard(() => session.executeStatement(query.text, {
           runAsync: true,
@@ -507,11 +514,23 @@ export default {
     async getSchema() {
       const schemas = await this.listSchemas();
       const dbInfo = {};
-      for (const schema of schemas) {
-        const schemaName = utils.getItemName(schema);
-        const objects = await this.listSchemaObjects({
+      // Best effort, like List Tables: read schemas in small concurrent
+      // batches and skip any that can't be read (e.g. no permission), so one
+      // bad schema doesn't drop autocomplete metadata for all the others.
+      const names = utils.namesOf(schemas);
+      const results = [];
+      for (let i = 0; i < names.length; i += SCHEMA_BATCH_SIZE) {
+        const batch = names.slice(i, i + SCHEMA_BATCH_SIZE);
+        results.push(...await Promise.allSettled(batch.map((schemaName) => this.listSchemaObjects({
           schemaName,
-        });
+        }))));
+      }
+      results.forEach((result, index) => {
+        if (result.status !== "fulfilled") {
+          return;
+        }
+        const schemaName = names[index];
+        const objects = result.value;
         for (const object of objects) {
           const tableName = utils.getItemName(object);
           const columns = object.columns ?? object.fields ?? [];
@@ -527,7 +546,7 @@ export default {
             }, {}),
           };
         }
-      }
+      });
       return dbInfo;
     },
   },
