@@ -2,6 +2,11 @@ import streak from "../../streak.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 const docLink = "https://streak.readme.io/reference/update-field-value-for-a-box";
+const JSON_FIELD_TYPES = [
+  "DATE",
+  "CHECKBOX",
+  "TAG",
+];
 
 export default {
   key: "streak-update-box-field-value",
@@ -34,12 +39,12 @@ export default {
     fieldValues: {
       type: "object",
       label: "Field Values",
-      description: "Field keys mapped to their new values. Value format by field type: `TEXT_INPUT` string, `DATE` Unix ms timestamp, `CHECKBOX` boolean, `DROPDOWN` item key, `TAG` array of tag keys. Example: `{\"1001\": \"Acme\", \"1002\": 1735689600000, \"1003\": [\"9003\"]}`",
+      description: "Field keys mapped to their new values. Use **List Pipeline Fields** and pass each field's `key`. Value format by field type: `TEXT_INPUT` string, `DATE` Unix ms timestamp, `CHECKBOX` boolean, `DROPDOWN` item key, `TAG` array of tag keys. Example: `{\"1001\": \"Acme\", \"1002\": 1735689600000, \"1003\": [\"9003\"]}`",
     },
   },
   methods: {
     parseValue(value, fieldType) {
-      if (fieldType === "TEXT_INPUT" || typeof value !== "string") {
+      if (!JSON_FIELD_TYPES.includes(fieldType) || typeof value !== "string") {
         return value;
       }
       try {

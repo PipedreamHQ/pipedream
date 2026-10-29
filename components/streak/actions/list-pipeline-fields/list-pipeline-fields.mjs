@@ -20,6 +20,7 @@ export default {
         streak,
         "pipelineId",
       ],
+      description: "The pipeline to list fields for. Use **List Pipeline Options** to find the pipeline key (`value`). Example: `agxzfm1haWxmb29nYWVyMQsSDE9yZ2FuaXphdGlvbiIKc3RyZWFrLmNvbQwLEghXb3JrZmxvdxiAgICAgICACgw`",
     },
   },
   async run({ $ }) {

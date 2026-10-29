@@ -13,7 +13,7 @@ const USER_LIST_CRM_BASED_PROPS = {
     type: "string",
     label: "Upload Key Type",
     description:
-      "Matching key type of the list. Mixed data types are not allowed on the same list.",
+      "Matching key type of the list. Mixed data types are not allowed on the same list. Example: `CONTACT_INFO`",
     options: [
       {
         label:
@@ -35,7 +35,7 @@ const USER_LIST_CRM_BASED_PROPS = {
     type: "string",
     label: "Data Source Type",
     description:
-      "Data source of the list. Only customers on the allow-list can create third-party sourced CRM lists.",
+      "Data source of the list. Only customers on the allow-list can create third-party sourced CRM lists. Example: `FIRST_PARTY`",
     optional: true,
     default: "FIRST_PARTY",
     options: [
@@ -67,7 +67,7 @@ const USER_LIST_RULE_BASED_PROPS = {
     type: "boolean",
     label: "Request Prepopulation",
     description:
-      "If true, past site visitors or app users who match the list definition will be included in the list. This will only add past users from within the last 30 days, depending on the list's membership duration and the date when the remarketing tag is added.",
+      "If true, past site visitors or app users who match the list definition will be included in the list. This will only add past users from within the last 30 days, depending on the list's membership duration and the date when the remarketing tag is added. Example: `true`",
     optional: true,
   },
   flexibleRuleUserList: {
@@ -84,7 +84,7 @@ const USER_LIST_LOGICAL_PROPS = {
     type: "string[]",
     label: "Rules",
     description:
-      "Logical list rules that define this customer list. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/UserListLogicalRuleInfo) on how to build each object. Values will be parsed as JSON where applicable. Example: `{ \"operator\": \"ALL\", \"ruleOperands\": [{ \"userList\": \"customers/1234567890/userLists/111\" }] }`",
+      "Logical list rules that define this customer list. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/UserListLogicalRuleInfo) on how to build each rule. Each item is one JSON-encoded rule. Example: `{ \"operator\": \"ALL\", \"ruleOperands\": [{ \"userList\": \"customers/1234567890/userLists/111\" }] }`",
   },
 };
 
@@ -164,7 +164,7 @@ const USER_LIST_LOOKALIKE_PROPS = {
     type: "string",
     label: "Expansion Level",
     description:
-      "Expansion level, reflecting the size of the lookalike audience",
+      "Expansion level, reflecting the size of the lookalike audience. Example: `NARROW`",
     options: [
       {
         label:
@@ -186,7 +186,7 @@ const USER_LIST_LOOKALIKE_PROPS = {
   countryCodes: {
     type: "string[]",
     label: "Country Codes",
-    description: "Countries targeted by the Lookalike.",
+    description: "Countries targeted by the Lookalike. Example: `[\"US\"]`",
     options: countryCodeOptions,
   },
 };

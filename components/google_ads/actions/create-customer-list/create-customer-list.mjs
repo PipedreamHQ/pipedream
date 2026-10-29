@@ -46,7 +46,11 @@ export default {
       })),
     },
     ...USER_LIST_TYPE_PROPS,
-    additionalFields: getAdditionalFields(),
+    additionalFields: {
+      ...getAdditionalFields(),
+      label: "Additional Fields",
+      description: "Additional [UserList](https://developers.google.com/google-ads/api/reference/rpc/v25/UserList) fields to set. Values will be parsed as JSON where applicable. Example: `{ \"membershipLifeSpan\": 30 }`",
+    },
   },
   methods: {
     parseFields(obj) {
