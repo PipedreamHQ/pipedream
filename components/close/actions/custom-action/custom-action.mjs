@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import close from "../../close.app.mjs";
 import utils from "../../common/utils.mjs";
 
@@ -5,7 +6,7 @@ export default {
   key: "close-custom-action",
   name: "Custom Action",
   description: "Makes an arbitrary call to the Close API. [See the documentation](https://developer.close.com/) for all options.",
-  version: "0.1.3",
+  version: "1.0.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -46,23 +47,32 @@ export default {
     requestBody: {
       type: "object",
       label: "Request body",
-      description: "Body of the request",
+      description: "Body of the request (JSON object), e.g. `{\"name\": \"Acme Inc.\"}`",
       optional: true,
     },
   },
   async run({ $ }) {
     this.queryString = this.queryString || "";
-    const requestBody = {};
-    for (let key in this.requestBody) {
-      requestBody[key] = utils.parseObject(this.requestBody[key]);
+    const requestBody = typeof this.requestBody === "string"
+      ? utils.parseObject(this.requestBody)
+      : this.requestBody;
+    const isOmitted = [
+      undefined,
+      null,
+      "",
+    ].includes(this.requestBody);
+    if (!isOmitted
+      && (!requestBody || typeof requestBody !== "object" || Array.isArray(requestBody))) {
+      throw new ConfigurationError("`Request body` must be a JSON object");
     }
     const response = await this.close._makeRequest({
+      $,
       method: this.requestMethod,
       path: `${this.relativeUrl}${this.queryString}`,
       headers: this.headers,
-      data: this.requestBody,
+      data: requestBody || undefined,
     });
     $.export("$summary", "Configured request has been sent.");
-    return response;
+    return response.data;
   },
 };
