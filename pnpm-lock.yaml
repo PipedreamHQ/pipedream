@@ -11912,6 +11912,12 @@ importers:
         specifier: ^0.0.1-security
         version: 0.0.1-security
 
+  components/pdfgate:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.2.5
+        version: 3.3.0
+
   components/pdfless:
     dependencies:
       '@pipedream/platform':
