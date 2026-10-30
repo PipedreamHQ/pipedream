@@ -66,6 +66,62 @@ export default {
       min: 1,
       optional: true,
     },
+    projectId: {
+      type: "string",
+      label: "Project ID",
+      description: "The Test Manager project that holds the test run, e.g. `01M4GAVZJWRNA2X22B1NJ313CJ`.",
+      async options({ page }) {
+        const {
+          data = [], pagination,
+        } = await this.listProjects({
+          params: {
+            page: page + 1,
+            per_page: 100,
+          },
+        });
+        // Past the last page the API returns page 1 again, so stop there
+        if (pagination && pagination.current_page !== page + 1) {
+          return [];
+        }
+        return data.map(({
+          project_id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    testRunId: {
+      type: "string",
+      label: "Test Run ID",
+      description: "The Test Manager test run to execute, e.g. `01M5SQTKGBJR4B045RQ9VFYG0F`. It is the ID in the test run's URL.",
+      async options({
+        projectId, page,
+      }) {
+        if (!projectId) {
+          return [];
+        }
+        const {
+          data = [], pagination,
+        } = await this.listTestRuns({
+          projectId,
+          params: {
+            page: page + 1,
+            per_page: 100,
+          },
+        });
+        // Past the last page the API returns page 1 again, so stop there
+        if (pagination && pagination.current_page !== page + 1) {
+          return [];
+        }
+        return data.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
   },
   methods: {
     /**
@@ -74,6 +130,20 @@ export default {
      */
     _baseUrl() {
       return "https://api.lambdatest.com/automation/api/v1";
+    },
+    /**
+     * Returns the base URL of the Test Manager API
+     * @returns {string} The base URL
+     */
+    _testManagerUrl() {
+      return "https://test-manager-api.lambdatest.com/api";
+    },
+    /**
+     * Returns the base URL of the HyperExecute API
+     * @returns {string} The base URL
+     */
+    _hyperExecuteUrl() {
+      return "https://api.hyperexecute.cloud/v2.0";
     },
     /**
      * Builds the HTTP basic auth credentials from the connected account
@@ -86,17 +156,18 @@ export default {
       };
     },
     /**
-     * Makes an authenticated request against the LambdaTest automation API
+     * Makes an authenticated request against a LambdaTest API
      * @param {object} opts - The request options
      * @param {object} [opts.$] - The Pipedream component instance, used for logging
      * @param {string} opts.path - The API path, appended to the base URL
+     * @param {string} [opts.baseUrl] - The API base URL; defaults to the automation API
      * @returns {Promise<object>} The parsed API response
      */
     _makeRequest({
-      $ = this, path, ...opts
+      $ = this, path, baseUrl = this._baseUrl(), ...opts
     } = {}) {
       return axios($, {
-        url: `${this._baseUrl()}${path}`,
+        url: `${baseUrl}${path}`,
         auth: this._auth(),
         ...opts,
       });
@@ -148,6 +219,61 @@ export default {
     }) {
       return this._makeRequest({
         path: `/sessions/${sessionId}`,
+        ...opts,
+      });
+    },
+    /**
+     * Fetches the Test Manager projects of an account
+     * @param {object} [opts] - The request options, including `params` for query parameters
+     * @returns {Promise<object>} An object with a `data` array of projects and `pagination`
+     */
+    listProjects(opts = {}) {
+      return this._makeRequest({
+        baseUrl: this._testManagerUrl(),
+        path: "/v1/projects",
+        ...opts,
+      });
+    },
+    /**
+     * Fetches the test runs of a Test Manager project
+     * @param {object} opts - The request options
+     * @param {string} opts.projectId - The ID of the project
+     * @returns {Promise<object>} An object with a `data` array of test runs and `pagination`
+     */
+    listTestRuns({
+      projectId, ...opts
+    }) {
+      return this._makeRequest({
+        baseUrl: this._testManagerUrl(),
+        path: `/v1/projects/${projectId}/test-runs`,
+        ...opts,
+      });
+    },
+    /**
+     * Starts a Test Manager test run on HyperExecute
+     * @param {object} [opts] - The request options, with the run settings in `data`
+     * @returns {Promise<object>} The `job_id`, `app_job_id`, `test_run_id` and job links
+     */
+    runTestRun(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        baseUrl: this._testManagerUrl(),
+        path: "/atm/v1/hyperexecute",
+        ...opts,
+      });
+    },
+    /**
+     * Fetches the status of a HyperExecute job and its tasks
+     * @param {object} opts - The request options
+     * @param {string} opts.jobId - The ID of the job
+     * @returns {Promise<object>} An object with the job details in `data`
+     */
+    getJob({
+      jobId, ...opts
+    }) {
+      return this._makeRequest({
+        baseUrl: this._hyperExecuteUrl(),
+        path: `/job/${jobId}`,
         ...opts,
       });
     },
