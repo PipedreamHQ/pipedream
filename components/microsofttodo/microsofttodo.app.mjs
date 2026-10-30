@@ -1,5 +1,7 @@
 import { axios } from "@pipedream/platform";
 
+const OPTION_PAGE_SIZE = 50;
+
 export default {
   type: "app",
   app: "microsofttodo",
@@ -8,39 +10,72 @@ export default {
       type: "string",
       label: "Task",
       description: "Identifier of a task",
-      async options({ taskListId }) {
+      async options({
+        prevContext, taskListId,
+      }) {
         if (!taskListId) {
           return [];
         }
-        const { value } = await this.listTasks({
-          taskListId,
+        const response = await this.getCollectionPage({
+          nextLink: prevContext?.nextLink,
+          path: `/me/todo/lists/${taskListId}/tasks`,
+          params: {
+            $top: OPTION_PAGE_SIZE,
+          },
         });
-        return value?.map(({
-          id: value, title: label,
-        }) => ({
-          value,
-          label,
-        })) || [];
+        return {
+          context: {
+            nextLink: response["@odata.nextLink"],
+          },
+          options: response.value?.map(({
+            id: value, title: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+        };
       },
     },
     taskListId: {
       type: "string",
       label: "Task List",
       description: "Identifier of a task list",
-      async options() {
-        const { value } = await this.listLists();
-        return value?.map(({
-          id: value, displayName: label,
-        }) => ({
-          value,
-          label,
-        })) || [];
+      async options({ prevContext }) {
+        const response = await this.getCollectionPage({
+          nextLink: prevContext?.nextLink,
+          path: "/me/todo/lists",
+          params: {
+            $top: OPTION_PAGE_SIZE,
+          },
+        });
+        return {
+          context: {
+            nextLink: response["@odata.nextLink"],
+          },
+          options: response.value?.map(({
+            id: value, displayName: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+        };
       },
     },
     title: {
       type: "string",
       label: "Title",
       description: "The title of the task.",
+    },
+    expectedTitle: {
+      type: "string",
+      label: "Expected Title",
+      description: "The exact current `title` value returned by **List Tasks**, e.g. `Buy groceries`. This verifies that the task ID identifies the intended task; it is never used to find a task.",
+    },
+    expectedLastModifiedDateTime: {
+      type: "string",
+      label: "Expected Last Modified Date Time",
+      description: "The exact `lastModifiedDateTime` value returned by **List Tasks**, e.g. `2026-10-20T14:32:10.1234567Z`. When provided, the action stops if the task changed after it was reviewed.",
+      optional: true,
     },
     dueDateTime: {
       type: "string",
@@ -97,13 +132,100 @@ export default {
     _makeRequest({
       $ = this,
       path,
+      url,
       ...args
     }) {
       return axios($, {
-        url: `${this._baseUrl()}${path}`,
+        url: url || `${this._baseUrl()}${path}`,
         headers: this._headers(),
         ...args,
       });
+    },
+    _validateNextLink(nextLink) {
+      const baseUrl = new URL(this._baseUrl());
+      const nextPageUrl = new URL(nextLink);
+      if (nextPageUrl.origin !== baseUrl.origin || !nextPageUrl.pathname.startsWith(`${baseUrl.pathname}/`)) {
+        throw new Error("Microsoft Graph returned an invalid pagination link.");
+      }
+      return nextPageUrl.toString();
+    },
+    /**
+     * Retrieve one page of a Microsoft Graph collection for an async selector.
+     *
+     * @param {object} args - Request arguments.
+     * @param {string} [args.nextLink] - Opaque next-page URL returned by Microsoft Graph.
+     * @param {string} args.path - Initial Microsoft Graph API path.
+     * @returns {Promise<object>} One collection response page.
+     */
+    getCollectionPage({
+      nextLink, params, path, ...args
+    }) {
+      return this._makeRequest({
+        ...args,
+        ...(nextLink
+          ? {
+            url: this._validateNextLink(nextLink),
+          }
+          : {
+            path,
+            params,
+          }),
+      });
+    },
+    /**
+     * Retrieve every page of a Microsoft Graph collection.
+     *
+     * @param {object} args - Request arguments.
+     * @param {string} args.path - Initial Microsoft Graph API path.
+     * @param {number} [args.maxItems] - Maximum total items to return.
+     * @returns {Promise<object>} The first response envelope with all page values combined.
+     */
+    async _getAllPages({
+      $ = this,
+      maxItems,
+      path,
+      ...args
+    }) {
+      const values = [];
+      const seenNextLinks = new Set();
+      let response = await this._makeRequest({
+        $,
+        path,
+        ...args,
+      });
+      const firstResponse = response;
+
+      while (true) {
+        if (!Array.isArray(response?.value)) {
+          throw new Error(`Expected a collection response while retrieving ${path}.`);
+        }
+
+        values.push(...response.value);
+
+        const nextLink = response["@odata.nextLink"];
+        if (!nextLink || (maxItems != null && values.length >= maxItems)) {
+          break;
+        }
+
+        if (seenNextLinks.has(nextLink)) {
+          throw new Error(`Microsoft Graph returned a repeated pagination link while retrieving ${path}.`);
+        }
+        seenNextLinks.add(nextLink);
+
+        response = await this._makeRequest({
+          $,
+          url: this._validateNextLink(nextLink),
+        });
+      }
+
+      const result = {
+        ...firstResponse,
+        value: maxItems == null
+          ? values
+          : values.slice(0, maxItems),
+      };
+      delete result["@odata.nextLink"];
+      return result;
     },
     async createHook(args = {}) {
       const response = await this._makeRequest({
@@ -148,13 +270,13 @@ export default {
     listTasks({
       taskListId, ...args
     }) {
-      return this._makeRequest({
+      return this._getAllPages({
         path: `/me/todo/lists/${taskListId}/tasks`,
         ...args,
       });
     },
     listLists(args = {}) {
-      return this._makeRequest({
+      return this._getAllPages({
         path: "/me/todo/lists",
         ...args,
       });
@@ -181,6 +303,15 @@ export default {
       return this._makeRequest({
         path: `/me/todo/lists/${taskListId}/tasks/${taskId}`,
         method: "PATCH",
+        ...args,
+      });
+    },
+    deleteTask({
+      taskId, taskListId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/me/todo/lists/${taskListId}/tasks/${taskId}`,
+        method: "DELETE",
         ...args,
       });
     },
