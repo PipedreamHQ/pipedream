@@ -4,7 +4,7 @@ export default {
   key: "pipedrive-get-task",
   name: "Get Task",
   description: "Gets a single task by its ID (BETA). Run **List Tasks** first to obtain a valid task ID. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Tasks#getTask)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   ai: "optimized",
   annotations: {
