@@ -23,7 +23,7 @@ export default {
     filters: {
       type: "object",
       label: "Filters",
-      description: "Exact, case-sensitive matches on column values, combined with AND. Keys are column names, values are the text to match, e.g. `{\"competitor\": \"Acme\", \"currency\": \"USD\"}`. Up to 10 filters.",
+      description: "Exact, case-sensitive matches on column values, combined with AND. Keys are column names, values are the text to match, e.g. `{\"competitor\": \"Acme\", \"currency\": \"USD\"}`. Up to 10 filters. Run **Get Dataset Rows** without filters to see the dataset's column names.",
       optional: true,
     },
     version: {

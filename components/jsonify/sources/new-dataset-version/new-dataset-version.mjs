@@ -26,11 +26,13 @@ export default {
   },
   async run() {
     const head = await this.getHead();
+    if (head.version === undefined || head.version === null) {
+      return;
+    }
     const last = this._getLastVersion();
     if (last !== undefined && last !== null && head.version <= last) {
       return;
     }
-    this._setLastVersion(head.version);
     const event = {
       dataset: head.dataset,
       dataset_name: head.dataset_name,
@@ -40,5 +42,6 @@ export default {
       updated_at: head.updated_at,
     };
     this.$emit(event, this.generateMeta(head));
+    this._setLastVersion(head.version);
   },
 };

@@ -33,7 +33,6 @@ export default {
   hooks: {
     async deploy() {
       const head = await this.getHead();
-      this._setLastVersion(head.version);
       const ids = new Set();
       for await (const {
         row, page,
@@ -49,6 +48,7 @@ export default {
         }
       }
       this._setSeenIds(ids);
+      this._setLastVersion(head.version);
     },
   },
   methods: {
