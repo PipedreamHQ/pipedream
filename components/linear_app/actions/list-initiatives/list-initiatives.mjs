@@ -5,7 +5,7 @@ export default {
   key: "linear_app-list-initiatives",
   name: "List Initiatives",
   description: "List initiatives in Linear, optionally filtered by name or status. Use this to discover valid initiative IDs for creating updates or linking projects. Returns initiative objects with `id`, `name`, `status`, and `targetDate`. Example: `status: \"Active\"` → returns `{nodes: [{id: \"ini_01abc\", name: \"Q4 Platform Upgrade\", status: \"Active\"}], pageInfo: {endCursor: \"...\", hasNextPage: false}}`. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=initiatives)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   ai: "optimized",
   annotations: {
