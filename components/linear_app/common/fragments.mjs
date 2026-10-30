@@ -183,4 +183,52 @@ export default {
       url
     }
   `,
+  document: `
+    fragment Document on Document {
+      id
+      title
+      slugId
+      url
+      content
+      icon
+      color
+      createdAt
+      updatedAt
+      archivedAt
+      documentContentId
+      project {
+        id
+      }
+      initiative {
+        id
+      }
+      creator {
+        id
+      }
+    }
+  `,
+  documentSearchResult: `
+    fragment DocumentSearchResult on DocumentSearchResult {
+      id
+      title
+      slugId
+      url
+      content
+      createdAt
+      updatedAt
+      archivedAt
+      documentContentId
+      project {
+        id
+        name
+      }
+      initiative {
+        id
+        name
+      }
+      creator {
+        id
+      }
+    }
+  `,
 };

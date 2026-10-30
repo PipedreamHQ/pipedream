@@ -147,4 +147,85 @@ export default {
     }
     ${fragments.initiativeUpdate}
   `,
+  getDocument: `
+    query GetDocument($id: String!) {
+      document(id: $id) {
+        ...Document
+      }
+    }
+    ${fragments.document}
+  `,
+  getDocumentForHistory: `
+    query GetDocumentForHistory($id: String!) {
+      document(id: $id) {
+        id
+        documentContentId
+      }
+    }
+  `,
+  searchDocuments: `
+    query SearchDocuments(
+      $term: String!,
+      $teamId: String,
+      $first: Int,
+      $after: String,
+      $includeArchived: Boolean
+    ) {
+      searchDocuments(
+        term: $term,
+        teamId: $teamId,
+        first: $first,
+        after: $after,
+        includeArchived: $includeArchived
+      ) {
+        pageInfo {
+          ...PageInfo
+        }
+        nodes {
+          ...DocumentSearchResult
+        }
+      }
+    }
+    ${fragments.documentSearchResult}
+    ${fragments.pageInfo}
+  `,
+  listDocuments: `
+    query ListDocuments(
+      $filter: DocumentFilter,
+      $first: Int,
+      $after: String,
+      $orderBy: PaginationOrderBy,
+      $includeArchived: Boolean
+    ) {
+      documents(
+        filter: $filter,
+        first: $first,
+        after: $after,
+        orderBy: $orderBy,
+        includeArchived: $includeArchived
+      ) {
+        pageInfo {
+          ...PageInfo
+        }
+        nodes {
+          ...Document
+        }
+      }
+    }
+    ${fragments.document}
+    ${fragments.pageInfo}
+  `,
+  getDocumentContentHistory: `
+    query GetDocumentContentHistory($id: String!) {
+      documentContentHistory(id: $id) {
+        success
+        history {
+          id
+          contentDataSnapshotAt
+          actorIds
+          contentData
+        }
+      }
+    }
+  `,
 };
