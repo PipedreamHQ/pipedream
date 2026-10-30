@@ -38,7 +38,7 @@ export default {
     + " Pass `mimeType` to force a specific format. Shortcuts are resolved to their target automatically."
     + " Folders, Forms, and My Maps cannot be downloaded via this action."
     + " [See the documentation](https://developers.google.com/drive/api/v3/manage-downloads)",
-  version: "0.2.7",
+  version: "0.2.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -86,7 +86,10 @@ export default {
       description: toSingleLineString(`
         The destination file name or path [in the \`/tmp\`
         directory](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory)
-        (e.g., \`/tmp/myFile.csv\`). Defaults to \`/tmp/<file name>\` if omitted.
+        (e.g., \`/tmp/myFile.csv\`). Defaults to \`<file name>\` in the run's
+        file stash directory (under \`/tmp\`) if omitted; a bare file name
+        (e.g., \`myFile.csv\`) is saved there too. The full saved path is
+        returned as \`filePath\`.
         **Note:** if you set this for a Google Workspace file, the extension you
         choose should match the Conversion Format; otherwise the file contents
         may not match the extension.
@@ -250,11 +253,14 @@ export default {
         };
       }
 
+      // Save to STASH_DIR when defined: the platform syncs it as a whole, whereas
+      // other /tmp paths are matched by name and break on names with [ ] * ?
+      const outputDir = process.env.STASH_DIR || "/tmp";
       let filePath;
       if (this.filePath) {
         filePath = this.filePath.includes("tmp/")
           ? this.filePath
-          : `/tmp/${this.filePath}`;
+          : `${outputDir}/${this.filePath}`;
       } else {
         let defaultName = sanitizeFileName(fileMetadata.name);
         if (isWorkspaceDocument) {
@@ -263,7 +269,7 @@ export default {
             defaultName = `${defaultName}.${ext}`;
           }
         }
-        filePath = reserveUniqueFilePath(`/tmp/${defaultName}`, usedFilePaths);
+        filePath = reserveUniqueFilePath(`${outputDir}/${defaultName}`, usedFilePaths);
       }
 
       await pipeline(file, fs.createWriteStream(filePath));
