@@ -821,6 +821,9 @@ export default {
     // --- Envelope decoding (ports client/envelope.go - liberal in what we accept) ----
     _problemMessage(err, status) {
       if (err) {
+        if (err.message) {
+          return err.message;
+        }
         if (err.detail) {
           return err.detail;
         }
@@ -832,6 +835,25 @@ export default {
         }
       }
       return `control plane returned status ${status ?? "(unknown)"}`;
+    },
+    // A control-plane refusal as an Error that keeps the server's code, status and
+    // retryability. NOT_FOUND is decided by the code, never by a bare 404, and a status
+    // that contradicts it (NOT_FOUND on a 403) is not trusted.
+    _controlError(err, status) {
+      const error = new Error(this._problemMessage(err, status));
+      const code = err && typeof err.code === "string"
+        ? err.code.trim().toUpperCase()
+        : undefined;
+      error.code = code;
+      error.status = status;
+      error.retryable = err && typeof err.retryable === "boolean"
+        ? err.retryable
+        : undefined;
+      error.notFound = code === "NOT_FOUND" && (status === undefined || status === 404);
+      if (error.notFound) {
+        error.retryable = false;
+      }
+      return error;
     },
     _recordsFromResult(result) {
       if (result === null || result === undefined) {
@@ -869,7 +891,7 @@ export default {
       // Shape B: an explicit top-level ok flag.
       if (obj && typeof obj === "object" && "ok" in obj) {
         if (obj.ok === false) {
-          throw new Error(this._problemMessage(obj.error, obj.status ?? httpStatus));
+          throw this._controlError(obj.error, obj.status ?? httpStatus);
         }
         return this._recordsFromResult(obj.result);
       }
@@ -884,7 +906,7 @@ export default {
         // Shape A: each row is a per-op envelope object {op,ok,status,result,error,...}.
         if (first && typeof first === "object" && !Array.isArray(first) && "ok" in first) {
           if (first.ok === false) {
-            throw new Error(this._problemMessage(first.error, first.status ?? httpStatus));
+            throw this._controlError(first.error, first.status ?? httpStatus);
           }
           if (first.result !== undefined && first.result !== null) {
             return this._recordsFromResult(first.result);
@@ -1087,16 +1109,53 @@ export default {
         args,
       });
     },
+    // Revoke throws when nothing was revoked, in both ways the plane says it: the
+    // NOT_FOUND refusal of current servers (HTTP 200, the 404 inside the row) and the ok
+    // row with status not_found that older servers answered. That is an answer, not a
+    // fault, so the error says it is not retryable.
     async revokeAgent({
       $ = this, agent,
     }) {
-      return this._agents({
-        $,
-        op: "revoke",
-        args: {
-          agent,
-        },
-      });
+      let records;
+      try {
+        records = await this._agents({
+          $,
+          op: "revoke",
+          args: {
+            agent,
+          },
+        });
+      } catch (err) {
+        if (err?.notFound) {
+          throw this._nothingRevoked(err.message, agent);
+        }
+        throw err;
+      }
+      for (const rec of records ?? []) {
+        const row = rec?.item && typeof rec.item === "object"
+          ? rec.item
+          : rec;
+        const status = String(row?.status ?? rec?.status ?? "").toLowerCase();
+        if (status === "not_found") {
+          throw this._nothingRevoked(row?.message, agent);
+        }
+      }
+      return records;
+    },
+    _nothingRevoked(serverMessage, agent) {
+      let base = typeof serverMessage === "string" && serverMessage.trim()
+        ? serverMessage.trim()
+        : `no agent of yours matches '${agent}'. If you revoked it before, there is nothing left to revoke`;
+      base = base.replace(/[.\s]+$/, "");
+      if (!/nothing was revoked/i.test(base)) {
+        base = `nothing was revoked: ${base}`;
+      }
+      const error = new Error(`${base}. This is not retryable: running the step again gets the same answer. List Agents shows what is left.`);
+      error.code = "NOT_FOUND";
+      error.status = 404;
+      error.retryable = false;
+      error.notFound = true;
+      return error;
     },
 
     // ================================================================================
