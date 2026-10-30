@@ -26,7 +26,7 @@ export default {
     + " The optional `fields` prop narrows results to only the keys you need; defaults to a compact set of 8 fields (id, title, slugId, url, createdAt, updatedAt, project, documentContentId)."
     + " Example: `query: \"quarterly review\"` → returns `[{id: \"...\", title: \"Q3 Review Notes\", url: \"...\", project: {id: \"...\", name: \"Product\"}, documentContentId: \"...\"}]`."
     + " Example (filter): `projectId: \"b75b71a2-...\"` → returns all documents attached to that project."
-    + " [See the documentation](https://linear.app/developers/graphql).",
+    + " [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=searchDocuments).",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
@@ -40,7 +40,7 @@ export default {
     query: {
       type: "string",
       label: "Query",
-      description: "Free-text search term for relevance-ranked document search. When provided, searches across document titles and content. When omitted, lists documents by project/initiative/team filter instead.",
+      description: "Free-text search term for relevance-ranked document search. When provided, searches across document titles and content. When omitted, lists documents by project/initiative/team filter instead. e.g. `quarterly review`",
       optional: true,
     },
     projectId: {
@@ -56,7 +56,7 @@ export default {
         "initiativeId",
       ],
       optional: true,
-      description: "Filter documents by initiative UUID. Applied only on the filter path (when no `query` is provided). Use **List Initiatives** to find valid initiative IDs.",
+      description: "Filter documents by initiative UUID. Applied only on the filter path (when no `query` is provided). Use **List Initiatives** to find valid initiative IDs. e.g. `5f3c9a10-7b2d-4e61-9c84-2a1d6e0b7f43`",
     },
     teamId: {
       propDefinition: [
@@ -64,7 +64,7 @@ export default {
         "teamId",
       ],
       optional: true,
-      description: "Filter documents by team UUID. Applied on both the search path (with `query`) and the filter path. Leave out entirely to search across all teams — do not pass `\"*\"` or an empty string. Use **Get Teams** to find valid team IDs.",
+      description: "Filter documents by team UUID. Applied on both the search path (with `query`) and the filter path. Leave out entirely to search across all teams — do not pass `\"*\"` or an empty string. Use **Get Teams** to find valid team IDs. e.g. `9b2e4f70-1c3a-4d85-a6b9-0e7f2d4c8a15`",
     },
     includeArchived: {
       propDefinition: [
@@ -84,45 +84,32 @@ export default {
         linearApp,
         "limit",
       ],
-      description: "Maximum total number of documents to return. Defaults to 200 when a `query` is provided, 20 when only filters are used.",
+      description: "Maximum total number of documents to return. Defaults to 200 when a `query` is provided, 20 when only filters are used. e.g. `50`",
     },
     fields: {
       type: "string[]",
       label: "Fields",
-      description: "Field names to return for each document. Defaults to a compact set: id, title, slugId, url, createdAt, updatedAt, project, documentContentId. The `content` field is not returned by default — use **Get Document** with the `id` or `slugId` to fetch the full markdown body.",
+      description: "Field names to return for each document. Defaults to a compact set: id, title, slugId, url, createdAt, updatedAt, project, documentContentId. Results never include `content` — use **Get Document** with the `id` or `slugId` to fetch the full markdown body. e.g. `[\"id\", \"title\", \"url\"]`",
       optional: true,
     },
   },
   async run({ $ }) {
-    const docs = [];
-    let hasNextPage;
-    let after;
-
     const maxLimit = this.limit
       || (this.query
         ? constants.DEFAULT_MAX_RECORDS
         : constants.DEFAULT_NO_QUERY_LIMIT);
+    const first = utils.clampFirst(Math.min(constants.DEFAULT_LIMIT, maxLimit));
 
+    let resourcesFn;
+    let resourcesFnArgs;
     if (this.query) {
-      do {
-        if (docs.length >= maxLimit) break;
-        const remainingNeeded = maxLimit - docs.length;
-        const first = utils.clampFirst(Math.min(constants.DEFAULT_LIMIT, remainingNeeded));
-
-        const {
-          nodes, pageInfo,
-        } = await this.linearApp.searchDocuments({
-          term: this.query,
-          teamId: this.teamId || undefined,
-          first,
-          after,
-          includeArchived: this.includeArchived,
-        });
-
-        docs.push(...nodes);
-        after = pageInfo.endCursor;
-        hasNextPage = pageInfo.hasNextPage;
-      } while (hasNextPage && docs.length < maxLimit);
+      resourcesFn = (variables) => this.linearApp.searchDocuments(variables);
+      resourcesFnArgs = {
+        term: this.query,
+        teamId: this.teamId || undefined,
+        first,
+        includeArchived: this.includeArchived,
+      };
     } else {
       const filter = {};
       if (this.projectId) {
@@ -146,29 +133,24 @@ export default {
           },
         };
       }
-
-      do {
-        if (docs.length >= maxLimit) break;
-        const remainingNeeded = maxLimit - docs.length;
-        const first = utils.clampFirst(Math.min(constants.DEFAULT_LIMIT, remainingNeeded));
-
-        const {
-          nodes, pageInfo,
-        } = await this.linearApp.listDocuments({
-          filter: Object.keys(filter).length
-            ? filter
-            : undefined,
-          first,
-          after,
-          orderBy: this.orderBy,
-          includeArchived: this.includeArchived,
-        });
-
-        docs.push(...nodes);
-        after = pageInfo.endCursor;
-        hasNextPage = pageInfo.hasNextPage;
-      } while (hasNextPage && docs.length < maxLimit);
+      resourcesFn = (variables) => this.linearApp.listDocuments(variables);
+      resourcesFnArgs = {
+        filter: Object.keys(filter).length
+          ? filter
+          : undefined,
+        first,
+        orderBy: this.orderBy,
+        includeArchived: this.includeArchived,
+      };
     }
+
+    const stream = this.linearApp.paginateResources({
+      resourcesFn,
+      resourcesFnArgs,
+      useGraphQl: false,
+      max: maxLimit,
+    });
+    const docs = (await utils.streamIterator(stream)).slice(0, maxLimit);
 
     $.export("$summary", `Found ${docs.length} document${docs.length === 1
       ? ""

@@ -207,13 +207,35 @@ export default {
       }
     }
   `,
+  documentListItem: `
+    fragment DocumentListItem on Document {
+      id
+      title
+      slugId
+      url
+      createdAt
+      updatedAt
+      archivedAt
+      documentContentId
+      project {
+        id
+        name
+      }
+      initiative {
+        id
+        name
+      }
+      creator {
+        id
+      }
+    }
+  `,
   documentSearchResult: `
     fragment DocumentSearchResult on DocumentSearchResult {
       id
       title
       slugId
       url
-      content
       createdAt
       updatedAt
       archivedAt

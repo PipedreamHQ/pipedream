@@ -18,7 +18,7 @@ export default {
     + " `contentData` is a serialized TipTap rich-text snapshot — include it in `fields` only when you need to render or diff the raw document structure; for a quick summary, `contentDataSnapshotAt` and `actorIds` are sufficient."
     + " The tool makes two API calls internally: first it resolves the document to its content ID, then it fetches the history."
     + " Example: `documentId: \"10b5bc2940c7\"` → returns `[{id: \"9d3c86fd-...\", contentDataSnapshotAt: \"2025-03-01T14:22:10Z\", actorIds: [\"3fd8c25f-...\"]}]`."
-    + " [See the documentation](https://linear.app/developers/graphql).",
+    + " [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=documentContentHistory).",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
@@ -38,7 +38,7 @@ export default {
     fields: {
       type: "string[]",
       label: "Fields",
-      description: "Field names to return for each history entry. Defaults to a compact set: id, contentDataSnapshotAt, actorIds. Add `contentData` only when you need the full TipTap rich-text snapshot for diffing or rendering — it is a large nested object.",
+      description: "Field names to return for each history entry. Defaults to a compact set: id, contentDataSnapshotAt, actorIds. Add `contentData` only when you need the full TipTap rich-text snapshot for diffing or rendering — it is a large nested object. e.g. `[\"id\", \"contentDataSnapshotAt\", \"contentData\"]`",
       optional: true,
     },
   },

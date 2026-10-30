@@ -208,11 +208,11 @@ export default {
           ...PageInfo
         }
         nodes {
-          ...Document
+          ...DocumentListItem
         }
       }
     }
-    ${fragments.document}
+    ${fragments.documentListItem}
     ${fragments.pageInfo}
   `,
   getDocumentContentHistory: `
