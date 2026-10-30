@@ -9,7 +9,7 @@ export default {
   key: "google_docs-format-text",
   name: "Format Text",
   description: "Apply character formatting (bold, italic, underline, strikethrough, font, size, color, link) to text in a Google Doc. Locate the text with **Find Text**, or pass an explicit **Start Index** and **End Index**. Use **Find Document** to resolve a document's name to its ID. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/request#UpdateTextStyleRequest)",
-  version: "0.0.5",
+  version: "0.1.0",
   ai: "optimized",
   annotations: {
     destructiveHint: false,
@@ -138,11 +138,18 @@ export default {
       description: "Turn the text into a hyperlink pointing at this URL.",
       optional: true,
     },
+    suggestMode: {
+      propDefinition: [
+        googleDocs,
+        "suggestMode",
+      ],
+    },
   },
   async run({ $ }) {
     const {
       googleDocs,
       documentId,
+      suggestMode,
       find,
       occurrence,
       matchCase,
@@ -243,23 +250,25 @@ export default {
       tabId,
     });
 
-    await googleDocs.batchUpdate(documentId, ranges.map((range) => ({
+    const response = await googleDocs.batchUpdate(documentId, ranges.map((range) => ({
       updateTextStyle: {
         range,
         textStyle: builder.style,
         fields: builder.mask,
       },
-    })));
+    })), googleDocs.writeControl(suggestMode));
 
     $.export("$summary", `Formatted ${ranges.length} range${ranges.length === 1
       ? ""
-      : "s"} in document ${documentId}`);
+      : "s"} in document ${documentId}${suggestMode
+      ? " as a suggestion"
+      : ""}`);
 
-    return {
+    return googleDocs.withSuggestionIds({
       documentId,
       rangesUpdated: ranges.length,
       ranges,
       fieldsUpdated: builder.fields,
-    };
+    }, suggestMode, response);
   },
 };

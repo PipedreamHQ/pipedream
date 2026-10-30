@@ -7,7 +7,7 @@ export default {
   key: "google_docs-insert-image",
   name: "Insert Image",
   description: "Insert an inline image into a Google Doc from a publicly reachable image URL. The URL must be publicly accessible (Google fetches it server-side) and point to a PNG, JPEG, or GIF. Set **Width** and/or **Height** to control the display size. Docs preserves the image's aspect ratio, so setting one scales the other, and setting both may adjust one of them to fit (a 272x92 image asked for 150x51 PT comes back 150x50.7). An image already in the document cannot be resized in place - delete it and insert it again at the size you want. Use **Find Document** to resolve a document's name to its ID. In a multi-tab document, set **Tab ID** to choose which tab receives the image - without it the image goes into the document's first tab; use **List Tabs** to get the IDs. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#InsertInlineImageRequest)",
-  version: "0.3.0",
+  version: "0.4.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -60,6 +60,12 @@ export default {
         "fields",
       ],
     },
+    suggestMode: {
+      propDefinition: [
+        googleDocs,
+        "suggestMode",
+      ],
+    },
   },
   async run({ $ }) {
     if (this.tabId && this.fields) {
@@ -87,11 +93,17 @@ export default {
         objectSize,
       }),
     }, this.position, this.tabId);
-    await this.googleDocs._batchUpdate(this.documentId, "insertInlineImage", request);
+    const response = await this.googleDocs._batchUpdate(this.documentId, "insertInlineImage", request, this.googleDocs.writeControl(this.suggestMode));
     const target = this.tabId
       ? `tab ${this.tabId} of document ${this.documentId}`
       : `document ${this.documentId}`;
-    $.export("$summary", `Inserted image into ${target}`);
-    return this.googleDocs.getWriteResult(this.documentId, this.tabId, this.fields);
+    $.export("$summary", `Inserted image into ${target}${this.suggestMode
+      ? " as a suggestion"
+      : ""}`);
+    return this.googleDocs.withSuggestionIds(
+      await this.googleDocs.getWriteResult(this.documentId, this.tabId, this.fields),
+      this.suggestMode,
+      response,
+    );
   },
 };

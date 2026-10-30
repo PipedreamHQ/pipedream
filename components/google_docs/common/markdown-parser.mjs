@@ -442,7 +442,9 @@ function collectAllDocumentText(elements, allText, indexMap, state) {
         element.paragraph.elements.forEach((el) => {
           const docStart = el.startIndex ?? state.currentIndex;
 
-          if (el.textRun && el.textRun.content) {
+          // Pending suggested deletions take up indices but `replaceAllText`
+          // never matches them, so they are skipped like non-text elements.
+          if (el.textRun?.content && !el.textRun.suggestedDeletionIds?.length) {
             const text = el.textRun.content;
             const startOfText = state.allTextIndex;
 
