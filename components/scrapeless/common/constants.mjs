@@ -6849,3 +6849,105 @@ export const GOOGLE_TRENDS_PROPERTY_OPTIONS = [
     "label": "YouTube Search",
   },
 ];
+
+export const AI_SCRAPER_ENGINE_SPECS = {
+  "scraper.chatgpt": {
+    label: "ChatGPT",
+    fields: {
+      web_search: "boolean",
+      shopping: "boolean",
+      should_fetch_share_link: "boolean",
+    },
+  },
+  "scraper.perplexity": {
+    label: "Perplexity",
+    fields: {
+      web_search: "boolean",
+      should_fetch_share_link: "boolean",
+    },
+  },
+  "scraper.copilot": {
+    label: "Microsoft Copilot",
+    fields: {
+      mode: [
+        "search",
+        "smart",
+        "chat",
+        "reasoning",
+        "study",
+      ],
+      should_fetch_share_link: "boolean",
+    },
+    required: [
+      "mode",
+    ],
+  },
+  "scraper.gemini": {
+    label: "Gemini",
+    fields: {
+      shopping: "boolean",
+    },
+  },
+  "scraper.aimode": {
+    label: "Google AI Mode",
+    fields: {
+      shopping: "boolean",
+      location: "string",
+      uule: "string",
+      should_fetch_share_link: "boolean",
+    },
+  },
+  "scraper.overview": {
+    label: "Google AI Overview",
+    fields: {
+      shopping: "boolean",
+      location: "string",
+      uule: "string",
+      should_fetch_share_link: "boolean",
+    },
+  },
+  "scraper.grok": {
+    label: "Grok",
+    fields: {
+      mode: [
+        "MODEL_MODE_FAST",
+        "MODEL_MODE_EXPERT",
+        "MODEL_MODE_AUTO",
+      ],
+      should_fetch_share_link: "boolean",
+    },
+    required: [
+      "mode",
+    ],
+  },
+  "scraper.alexa": {
+    label: "Amazon Alexa",
+    fields: {},
+  },
+};
+
+// Header of the documented canonical-name UULE envelope, before its name length.
+export const AI_SCRAPER_UULE_NAME_HEADER = [
+  8,
+  2,
+  16,
+  32,
+  34,
+];
+
+export const AI_SCRAPER_ACTORS = Object.entries(AI_SCRAPER_ENGINE_SPECS)
+  .map(
+    /**
+     * Convert an engine specification entry to a static actor option.
+     *
+     * @param {[string, object]} entry Engine ID and its specification.
+     * @returns {{label: string, value: string}} Pipedream actor option.
+     */
+    ([
+      value,
+      { label },
+    ]) => ({
+      label,
+      value,
+    }),
+  );
