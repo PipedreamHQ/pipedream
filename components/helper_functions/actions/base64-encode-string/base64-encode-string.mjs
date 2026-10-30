@@ -17,12 +17,12 @@ export default {
     data: {
       label: "Data",
       type: "string",
-      description: "The string to encode.",
+      description: "The string to encode, e.g. `hello`.",
     },
     inputEncoding: {
       type: "string",
       label: "Input Encoding",
-      description: "How to interpret the input string's characters as bytes. Use `utf8` for regular text, or `binary` (latin1) when each character represents a single raw byte.",
+      description: "How to interpret the input string's characters as bytes. Use `utf8` for regular text, or `binary` (latin1) when each character represents a single raw byte. e.g. `utf8`.",
       options: [
         "utf8",
         "binary",
