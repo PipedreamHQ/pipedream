@@ -9,8 +9,8 @@ export default {
   ...common,
   key: "hubspot-new-or-updated-company",
   name: "New or Updated Company",
-  description: "Emit new event for each new or updated company in Hubspot.",
-  version: "0.0.34",
+  description: "Emit new event for each new or updated company in HubSpot.",
+  version: "0.0.35",
   dedupe: "unique",
   type: "source",
   props: {
