@@ -10970,11 +10970,11 @@ importers:
   components/notion_api_key:
     dependencies:
       '@notionhq/client':
-        specifier: 4.0.2
-        version: 4.0.2
+        specifier: ^5.3.0
+        version: 5.4.0
       '@pipedream/notion':
-        specifier: ^1.0.2
-        version: 1.0.6(encoding@0.1.13)
+        specifier: ^3.0.0
+        version: 3.0.0(encoding@0.1.13)
 
   components/nozbe_teams: {}
 
@@ -21944,10 +21944,6 @@ packages:
     resolution: {integrity: sha512-m7zZ5l3RUktayf1lRBV1XMb8HSKsmWTv/LZPqP7UGC1NMzOlc+bbTOPNQ4CP/c1P4cP61VWLb/zBq7a3c0nMaw==}
     engines: {node: '>=12'}
 
-  '@notionhq/client@4.0.2':
-    resolution: {integrity: sha512-4pk3dm4umhjsRI0umCnJ8lCZh0TMiaMdkY0rz6FV4OqVuTsmYFV3pk+YTR5S8792ZY2Rm4lJHlLj05HQVKDuIg==}
-    engines: {node: '>=18'}
-
   '@notionhq/client@5.4.0':
     resolution: {integrity: sha512-SJsprS26S0Wi9CoTQp4vC8/nPpAIo1gMB4H7aJ2E/k0fWnNGIEAg984KwtzK6h9ZGaPcEaryVRSz1VVClJcVUw==}
     engines: {node: '>=18'}
@@ -22437,8 +22433,8 @@ packages:
   '@pipedream/notiff_io@0.1.0':
     resolution: {integrity: sha512-jgt5JJGxI9SM6chDeQpxbaS/NSuUUxhe/PeAXRdZKx28Gp0QCxW7egIImC3pqQ9aMSubaeygRyR0ELhKhmbtPg==}
 
-  '@pipedream/notion@1.0.6':
-    resolution: {integrity: sha512-zfg1ORC+slaXIlLMZoag/mCW2WBJqkhaNVSOkzSFJwV2YYJPL0MDO05SI3RWx82yUZTwyT8LzflJy82PijPJ8g==}
+  '@pipedream/notion@3.0.0':
+    resolution: {integrity: sha512-LkNLSabK0Xc1mcZj3AcR7DlnIvP7xMlQyYAC08tIXYLvbzwCZkbj25/YtXUe7tQYXwgK8zQKQX9oZZ8wYTm0wA==}
 
   '@pipedream/pipedream@0.4.2':
     resolution: {integrity: sha512-BQkSnuXWU8VQvBDVyLrCrs2kGP3vwgyi8t02ONbIF85ZPkuIIhC25QhIMCXL+bWe5eGb3oDQh0PVXwpEi160fQ==}
@@ -40992,8 +40988,6 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@notionhq/client@4.0.2': {}
-
   '@notionhq/client@5.4.0': {}
 
   '@npmcli/agent@4.0.2':
@@ -41665,7 +41659,7 @@ snapshots:
       - debug
       - supports-color
 
-  '@pipedream/notion@1.0.6(encoding@0.1.13)':
+  '@pipedream/notion@3.0.0(encoding@0.1.13)':
     dependencies:
       '@notionhq/client': 5.4.0
       '@pipedream/platform': 3.4.0
