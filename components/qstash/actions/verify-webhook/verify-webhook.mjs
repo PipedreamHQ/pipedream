@@ -3,14 +3,14 @@ import { methods } from "../../common.mjs";
 
 export default {
   name: "Verify Webhook",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   key: "qstash-verify-webhook",
-  description: "Verify an incoming QStash webhook to an endpoint. Only to be used with the **Publish Endpoint** action.",
+  description: "Verify an incoming QStash webhook to an endpoint. Only to be used with the **Publish Endpoint Message** action. [See the documentation](https://upstash.com/docs/qstash/howto/signature)",
   props: {
     qstash,
     event: {
