@@ -4,7 +4,7 @@ export default {
   key: "hubspot-list-file-url-options",
   name: "List File URL Options",
   description: "Retrieves available options for the File URL field.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   annotations: {
     destructiveHint: false,
