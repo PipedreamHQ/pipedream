@@ -4,7 +4,7 @@ export default {
   key: "linear_app-create-comment",
   name: "Create Comment",
   description: "Add a comment to a Linear issue. Use **Search Issues** to find the target issue ID first. Returns the new comment's ID and body. Example: `issueId: \"iss_01abc\"`, `body: \"Fixed in PR #123.\"` → returns `{success: true, comment: {id: \"cmt_xyz\", body: \"Fixed in PR #123.\"}}`. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Mutation?query=comment)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   ai: "optimized",
   annotations: {

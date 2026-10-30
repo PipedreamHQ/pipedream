@@ -4,7 +4,7 @@ export default {
   key: "linear_app-remove-label-from-issue",
   name: "Remove Label from Issue",
   description: "Remove a label from an issue in Linear. The label can be re-added at any time, so this operation is reversible. Use **Search Issues** to find the issue ID, and **List Labels** to find the label ID. Example: `issueId: \"iss_01abc\"`, `labelId: \"lbl_bug123\"` → removes the label and returns `{success: true}`. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Mutation?query=issueremovelabel)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   ai: "optimized",
   annotations: {
