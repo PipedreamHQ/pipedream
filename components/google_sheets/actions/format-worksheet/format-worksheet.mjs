@@ -128,7 +128,7 @@ export default {
     + " freezeRows=1, autoResizeColumns=\"ALL\" → returns the layout changes"
     + " applied plus a link to the worksheet."
     + " [See the documentation](https://developers.google.com/workspace/sheets/api/samples/rowcolumn)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {
