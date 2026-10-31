@@ -11,6 +11,7 @@ export default {
     + " [See the documentation](https://jointextkit.com/docs/messages)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,
@@ -37,7 +38,7 @@ export default {
     category: {
       type: "string",
       label: "Category",
-      description: "What kind of message this is. Defaults to `transactional`. Marketing messages follow stricter quiet-hours and consent rules.",
+      description: "What kind of message this is. One of `transactional`, `marketing`, `otp`, e.g. `transactional`. Defaults to `transactional`. Marketing messages follow stricter quiet-hours and consent rules.",
       options: [
         "transactional",
         "marketing",

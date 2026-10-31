@@ -9,6 +9,7 @@ export default {
     + " [See the documentation](https://jointextkit.com/docs/verify)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,
@@ -33,7 +34,7 @@ export default {
         textkit,
         "from",
       ],
-      description: "Send from one of your numbers in E.164 format (e.g. `+15005550100`) instead of the TextKit pool",
+      description: "Send from one of your numbers in E.164 format (e.g. `+15005550100`) instead of the TextKit pool. Use **List Numbers** to find your numbers (the `phone_number` field).",
     },
     userIp: {
       type: "string",

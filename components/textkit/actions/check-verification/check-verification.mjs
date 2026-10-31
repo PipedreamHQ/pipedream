@@ -8,6 +8,7 @@ export default {
     + " [See the documentation](https://jointextkit.com/docs/verify)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

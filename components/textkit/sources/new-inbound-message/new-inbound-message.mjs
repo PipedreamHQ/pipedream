@@ -21,13 +21,13 @@ export default {
     numbers: {
       type: "string[]",
       label: "Numbers",
-      description: "Only emit texts received on these numbers of yours, in E.164 format (e.g. `+15005550100`). Leave empty for every number.",
+      description: "Only emit texts received on these numbers of yours, in E.164 format (e.g. `+15005550100`). Use **List Numbers** to find your numbers (the `phone_number` field). Leave empty for every number.",
       optional: true,
     },
     ignoreSimulated: {
       type: "boolean",
       label: "Ignore Simulated Messages",
-      description: "Skip inbound messages simulated with a test key (`simulated: true`)",
+      description: "Set to `true` to skip inbound messages simulated with a test key, which TextKit marks with `simulated: true` (e.g. `true`)",
       default: false,
       optional: true,
     },

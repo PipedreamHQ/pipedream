@@ -7,7 +7,7 @@ export default {
     from: {
       type: "string",
       label: "From",
-      description: "One of your TextKit numbers in E.164 format (e.g. `+15005550100`), or a sender pool ID (e.g. `pool_a1B2c3D4`). Optional when your account has exactly one number.",
+      description: "One of your TextKit numbers in E.164 format (e.g. `+15005550100`), or a sender pool ID (e.g. `pool_a1B2c3D4`). Use **List Numbers** to find your numbers (the `phone_number` field) and **List Sender Pools** to find pool IDs (the `id` field). Optional when your account has exactly one number.",
       optional: true,
     },
     phone: {
@@ -43,6 +43,18 @@ export default {
     listMessages(args = {}) {
       return this._makeRequest({
         path: "/messages",
+        ...args,
+      });
+    },
+    listNumbers(args = {}) {
+      return this._makeRequest({
+        path: "/numbers",
+        ...args,
+      });
+    },
+    listSenderPools(args = {}) {
+      return this._makeRequest({
+        path: "/numbers/pools",
         ...args,
       });
     },

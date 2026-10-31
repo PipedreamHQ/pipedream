@@ -9,6 +9,7 @@ export default {
     + " [See the documentation](https://jointextkit.com/docs/messages)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,
@@ -19,7 +20,7 @@ export default {
     direction: {
       type: "string",
       label: "Direction",
-      description: "Only `inbound` (received) or `outbound` (sent) messages. Leave empty for both.",
+      description: "Only `inbound` (received) or `outbound` (sent) messages, e.g. `inbound`. Leave empty for both.",
       options: [
         "inbound",
         "outbound",
@@ -35,7 +36,7 @@ export default {
     status: {
       type: "string",
       label: "Status",
-      description: "Only messages with this status",
+      description: "Only messages with this status. One of `queued`, `sent`, `delivered`, `failed`, `blocked`, `received`, e.g. `delivered`.",
       options: [
         "queued",
         "sent",
