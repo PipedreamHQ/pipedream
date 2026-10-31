@@ -11,7 +11,7 @@ const props = adjustPropDefinitions(others.props, app);
 export default {
   ...others,
   key: "notion_api_key-append-block",
-  version: "0.0.4",
+  version: "0.0.5",
   name,
   description,
   type,
@@ -20,22 +20,10 @@ export default {
     ...props,
   },
   async run(ctx) {
-    const formatChildBlocks = this.formatChildBlocks;
-    // The shared run() only appends the children of each selected block, so a leaf block
-    // (paragraph, image, ...) was silently dropped. Append the block itself unless it's a page.
-    const self = Object.assign(Object.create(this), {
-      formatChildBlocks: (block) => formatChildBlocks.call(this, block.type === "child_page"
-        ? block
-        : {
-          has_children: true,
-          children: [
-            block,
-          ],
-        }),
-    });
-    const response = await others.run.call(self, ctx);
+    // The shared run() returns nothing and only sets a summary when the Markdown yields no blocks.
+    const response = await others.run.call(this, ctx);
     if (!response) {
-      throw new Error("Nothing to append: the selected blocks and content produced no blocks Notion can append (empty pages, uploaded image files and unsupported videos are skipped)");
+      throw new Error("Nothing to append: the content produced no Notion blocks");
     }
     return response;
   },
