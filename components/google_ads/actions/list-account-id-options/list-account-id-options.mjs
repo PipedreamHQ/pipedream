@@ -4,7 +4,7 @@ export default {
   key: "google_ads-list-account-id-options",
   name: "List Account ID Options",
   description: "Retrieves available options for the Account ID field.",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   annotations: {
     destructiveHint: false,

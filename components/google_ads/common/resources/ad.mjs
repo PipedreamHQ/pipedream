@@ -189,8 +189,12 @@ const segments = [
   "keyword.ad_group_criterion",
   "keyword.info.match_type",
   "keyword.info.text",
+  "month",
   "new_versus_returning_customers",
+  "quarter",
   "slot",
+  "week",
+  "year",
 ].map((f) => getOption(f, "segments"));
 
 const metrics = [
