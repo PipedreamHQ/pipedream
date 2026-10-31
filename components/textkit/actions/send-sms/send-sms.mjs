@@ -5,7 +5,7 @@ export default {
   key: "textkit-send-sms",
   name: "Send SMS",
   description: "Send a text message to one phone number."
-    + " Returns the message with its `id` and `status`; a message sent during the recipient's quiet hours comes back as a `scheduled_message` that goes out later."
+    + " Returns the message with its `id` and `status`, or a `scheduled_message` when you set **Scheduled At**. A `marketing` message outside 8:00am-9:00pm for the recipient is refused."
     + " Use **List Messages** to check delivery later."
     + " With a test key (`tk_sk_test_...`) nothing reaches a real phone, and `+15005550006` always ends `delivered`."
     + " [See the documentation](https://jointextkit.com/docs/messages)",

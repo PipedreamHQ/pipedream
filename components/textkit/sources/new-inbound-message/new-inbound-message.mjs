@@ -85,7 +85,7 @@ export default {
     } = event;
     const { secret } = this._getWebhook() ?? {};
     const valid = verifySignature({
-      rawBody: bodyRaw ?? JSON.stringify(body),
+      rawBody: bodyRaw,
       header: headers["textkit-signature"],
       secret,
     });
