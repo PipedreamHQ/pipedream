@@ -4,10 +4,10 @@
 
 # Getting Started
 
-1. Create an API key in the [TextKit console](https://jointextkit.com/console) on the API Keys page. Keys start with `ssms_sk_`.
+1. Create an API key in the [TextKit console](https://jointextkit.com/console) on the API Keys page. Keys start with `tk_sk_`.
 2. Connect your TextKit account in Pipedream and paste the key.
 
-A test key (`ssms_sk_test_...`) runs in the sandbox: nothing reaches a real phone and nothing is billed. Sending to `+15005550006` always ends `delivered`, and the sandbox verification code is `111111`.
+A test key (`tk_sk_test_...`) runs in the sandbox: nothing reaches a real phone and nothing is billed. Sending to `+15005550006` always ends `delivered`, and the sandbox verification code is `111111`.
 
 # Example Use Cases
 

@@ -7,7 +7,7 @@ export default {
   description: "Send a text message to one phone number."
     + " Returns the message with its `id` and `status`; a message sent during the recipient's quiet hours comes back as a `scheduled_message` that goes out later."
     + " Use **List Messages** to check delivery later."
-    + " With a test key (`ssms_sk_test_...`) nothing reaches a real phone, and `+15005550006` always ends `delivered`."
+    + " With a test key (`tk_sk_test_...`) nothing reaches a real phone, and `+15005550006` always ends `delivered`."
     + " [See the documentation](https://jointextkit.com/docs/messages)",
   version: "0.0.1",
   type: "action",
