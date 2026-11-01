@@ -224,7 +224,7 @@ export interface BasePropInterface {
   description?: string;
 }
 
-export type PropOptions = any[] | Array<{ [key: string]: string; }>;
+export type PropOptions = Readonly<any[] | Array<{ [key: string]: string; }>>;
 
 // https://pipedream.com/docs/components/api/#user-input-props
 export interface UserProp extends BasePropInterface {
