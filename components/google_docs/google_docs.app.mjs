@@ -19,7 +19,7 @@ export default {
     fields: {
       type: "string",
       label: "Fields",
-      description: `Optional Google Docs API field mask limiting which document fields are returned, e.g. \`documentId,title,revisionId\` instead of the whole document. Valid top-level fields: ${DOCUMENT_FIELDS.map((field) => `\`${field}\``).join(", ")} - the underscore spelling of each (e.g. \`document_id\`) is accepted too. Nested selections are allowed, e.g. \`body/content\`. There is no \`url\` field, and an invalid mask fails the call before the document is changed. With a **Tab ID**, the mask is read against the document with its tabs: tab content sits under \`tabs\`, narrowed to that tab (e.g. \`tabs\`, or \`tabs(tabProperties,documentTab/body)\` — keep \`tabProperties\` in a nested mask so the tab can be matched), and there is no top-level \`body\`. Leave blank to return the full document - or, with a Tab ID, the whole written tab, which for a long tab can be very large; pass \`documentId,revisionId\` when you only need confirmation.`,
+      description: `Optional Google Docs API field mask limiting which document fields are returned, e.g. \`documentId,title,revisionId\` instead of the whole document. Valid top-level fields: ${DOCUMENT_FIELDS.map((field) => `\`${field}\``).join(", ")} - the underscore spelling of each (e.g. \`document_id\`) is accepted too. Nested selections are allowed, e.g. \`body/content\`. There is no \`url\` field, and an invalid mask fails the call before the document is changed. With a **Tab ID**, the mask is read against the document with its tabs: every content field (\`body\`, \`lists\`, \`inlineObjects\`, headers, footers…) sits under \`tabs\` rather than at the top level, and \`tabs\` is narrowed to that tab — pass \`documentId,revisionId\` for a minimal confirmation, or \`tabs\` for the written tab. Leave blank to return the full document - or, with a Tab ID, the whole written tab, which for a long tab can be very large; pass \`documentId,revisionId\` when you only need confirmation.`,
       optional: true,
     },
     ...googleDrive.propDefinitions,
@@ -504,23 +504,32 @@ export default {
       };
     },
     // A masked read with a Tab ID covers every tab, so keep only the named one
-    // in `tabs` — otherwise a `tabs` mask returns more than the unmasked tab
-    // read it was meant to trim (measured: 47k vs 14k chars). Left as-is when
-    // the mask returned no tabs, or none with their tabProperties to match on.
+    // in `tabs` (without its child tabs) — otherwise a `tabs` mask returns more
+    // than the unmasked tab read it was meant to trim (measured: 47k vs 14k
+    // chars). `tabs` comes back empty when the mask left the tab out (e.g. a
+    // nested tab without `childTabs`), never as some other tab's content.
     narrowToTab(document, tabId) {
       if (!tabId || !Array.isArray(document?.tabs)) {
         return document;
       }
       const tab = this._flattenDocumentTabs(document.tabs)
         .find(({ tabProperties }) => tabProperties?.tabId === tabId);
-      return tab
-        ? {
+      if (!tab) {
+        return {
           ...document,
-          tabs: [
-            tab,
-          ],
-        }
-        : document;
+          tabs: [],
+        };
+      }
+      const onlyTab = {
+        ...tab,
+      };
+      delete onlyTab.childTabs;
+      return {
+        ...document,
+        tabs: [
+          onlyTab,
+        ],
+      };
     },
     // What a tab-targeted write returns. Plain `getDocument` would hand back the
     // FIRST tab's content, which for an edit that landed in another tab reads as
