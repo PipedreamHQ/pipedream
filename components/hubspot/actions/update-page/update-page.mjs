@@ -6,8 +6,8 @@ export default {
   key: "hubspot-update-page",
   name: "Update Page",
   description:
-    "Update a page in Hubspot. [See the documentation](https://developers.hubspot.com/docs/reference/api/cms/pages#patch-%2Fcms%2Fv3%2Fpages%2Fsite-pages%2F%7Bobjectid%7D)",
-  version: "0.0.17",
+    "Update a page in HubSpot. [See the documentation](https://developers.hubspot.com/docs/reference/api/cms/pages#patch-%2Fcms%2Fv3%2Fpages%2Fsite-pages%2F%7Bobjectid%7D)",
+  version: "0.0.18",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
