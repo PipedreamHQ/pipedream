@@ -7,11 +7,11 @@ const {
 export default {
   ...common,
   key: "google_docs-insert-person",
-  name: "Insert Person Chip",
+  name: "Insert Person",
   description: "Insert a person smart chip (an @-mention) for an email address into a Google Doc — a real people chip with a hover card, not plain text. Use it whenever someone should be mentioned or tagged in a doc: owners, assignees, attendees, reviewers. For a Google account the chip shows the person's name; any other valid address shows as an email chip. Mentioning someone does not share the document with them. Place the chip with **Placeholder** (replace text such as `{{owner}}` that you wrote with **Insert Text**) or with **Position**; in a multi-tab document either set **Tab ID** (from **List Tabs**) or use **Placeholder**. Use **Find Document** to resolve a document's name to its ID. Example: after inserting `Owner: {{owner}}`, call with documentId=`1AbC...`, email=`alan.grant@example.com`, placeholder=`{{owner}}` → returns `chipsInserted`, each chip's `tabId` and `index`, and the document `url`. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/request#InsertPersonRequest)",
   version: "0.0.1",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

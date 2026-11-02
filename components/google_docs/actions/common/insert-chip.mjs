@@ -1,16 +1,14 @@
 import { ConfigurationError } from "@pipedream/platform";
 import googleDocs from "../../google_docs.app.mjs";
-import { OCCURRENCES } from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
 
 // Shared by the smart-chip actions (Insert Person, Insert Rich Link, Insert
 // Date). Each action supplies `chipRequest()`, returning the batchUpdate
 // request name and its chip properties; this base decides where the chip goes.
 //
-// Unlike the older insert actions, an omitted Tab ID never falls through to
-// the document's first tab: a positioned chip in a multi-tab document needs an
-// explicit tab, and a placeholder is searched for in every tab. These are new
-// actions, so the stricter rule changes nothing for existing workflows.
+// An omitted Tab ID never falls through to the document's first tab: a
+// positioned chip in a multi-tab document needs an explicit tab, and a
+// placeholder is searched for in every tab.
 export default {
   props: {
     googleDocs,
@@ -27,12 +25,12 @@ export default {
       optional: true,
     },
     occurrence: {
-      type: "string",
-      label: "Occurrence",
+      propDefinition: [
+        googleDocs,
+        "occurrence",
+      ],
       description: "Which matches of **Placeholder** become chips: `all` (default) or `first`.",
-      options: OCCURRENCES,
       default: "all",
-      optional: true,
     },
     position: {
       propDefinition: [
@@ -42,10 +40,11 @@ export default {
       description: "Where to insert the chip when no **Placeholder** is given: `end` to append to the end of the tab (default), `beginning`, or a numeric character index (e.g. `12`) from **Get Document**. The chip joins the paragraph at that point, so to start a new line insert a newline with **Insert Text** first.",
     },
     tabId: {
-      type: "string",
-      label: "Tab ID",
+      propDefinition: [
+        googleDocs,
+        "contentTabId",
+      ],
       description: "For a multi-tab document, the ID of the tab to insert into (e.g. `t.0`); get IDs from **List Tabs**, or use the ID returned by **Create Tab**. Required when the document has more than one tab and the chip is placed by **Position** — the tool will not guess, so a chip never lands in the first tab by accident. With **Placeholder**, omit it to search every tab.",
-      optional: true,
     },
   },
   methods: {
@@ -84,6 +83,9 @@ export default {
       };
     },
     async findPlaceholders() {
+      if (!this.placeholder.trim()) {
+        throw new ConfigurationError("Placeholder must contain visible text, e.g. `{{owner}}` — whitespace alone would match every space in the document.");
+      }
       const document = await this.googleDocs.getDocument(this.documentId, true);
       const tabs = this.tabId
         ? [
@@ -91,18 +93,30 @@ export default {
         ]
         : this.googleDocs._flattenDocumentTabs(document.tabs);
       const ranges = tabs.flatMap((tab) => {
+        const content = tab.documentTab?.body?.content ?? [];
         const {
           text, indexMap,
-        } = utils.collectTextWithIndices(tab.documentTab?.body?.content);
+        } = utils.collectTextWithIndices(content);
+        // A table of contents repeats heading text, so skip matches inside one
+        // and replace only the heading itself.
+        const tocs = content.filter(({ tableOfContents }) => tableOfContents);
         return utils.findTextRanges({
           text,
           indexMap,
           needle: this.placeholder,
           matchCase: true,
-        }).map((range) => ({
-          ...range,
-          tabId: tab.tabProperties?.tabId,
-        }));
+        })
+          // The search skips non-text elements (chips, images), so a match that
+          // straddles one spans more indexes than characters; deleting it would
+          // take the element with it.
+          .filter(({
+            startIndex, endIndex,
+          }) => endIndex - startIndex === this.placeholder.length
+            && !tocs.some((toc) => startIndex >= toc.startIndex && startIndex < toc.endIndex))
+          .map((range) => ({
+            ...range,
+            tabId: tab.tabProperties?.tabId,
+          }));
       });
       if (!ranges.length) {
         const where = this.tabId

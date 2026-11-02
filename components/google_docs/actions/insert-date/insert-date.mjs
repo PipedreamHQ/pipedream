@@ -47,11 +47,11 @@ function zoneOffsetMs(ms, timeZone) {
 export default {
   ...common,
   key: "google_docs-insert-date",
-  name: "Insert Date Chip",
+  name: "Insert Date",
   description: "Insert a date smart chip into a Google Doc — a real date chip readers can click, not typed text. Use it for due dates, meeting dates, deadlines and timelines. Pass a calendar date (`2026-11-14`), or a date and time plus **Time Zone** to show the time as well (`2026-11-14T15:00` with `America/New_York` → `Nov 14, 2026 3:00 PM EST`). Place the chip with **Placeholder** (replace text such as `{{due}}` that you wrote with **Insert Text**) or with **Position**; in a multi-tab document either set **Tab ID** (from **List Tabs**) or use **Placeholder**. Use **Find Document** to resolve a document's name to its ID. Example: call with documentId=`1AbC...`, date=`2026-11-14`, placeholder=`{{due}}` → a chip reading `Nov 14, 2026`; returns `chipsInserted`, each chip's `tabId` and `index`, and the document `url`. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/request#InsertDateRequest)",
   version: "0.0.1",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -119,14 +119,22 @@ export default {
         };
       }
 
-      const timeZone = this.timeZone?.trim();
-      if (!timeZone) {
+      const requestedZone = this.timeZone?.trim();
+      if (!requestedZone) {
         throw new ConfigurationError(`Date "${this.date}" includes a time, so set **Time Zone** (e.g. America/New_York) to say which zone it is in — or pass just the date.`);
       }
+      // Send Google the canonical zone name (`america/new_york` →
+      // `America/New_York`); a bare offset is not a named zone, so reject it.
+      let timeZone;
       try {
-        zoneOffsetMs(Date.now(), timeZone);
+        timeZone = new globalThis.Intl.DateTimeFormat("en-US", {
+          timeZone: requestedZone,
+        }).resolvedOptions().timeZone;
       } catch {
-        throw new ConfigurationError(`Invalid Time Zone "${timeZone}". Use an IANA time zone such as America/New_York, Europe/London or Asia/Tokyo.`);
+        timeZone = null;
+      }
+      if (!timeZone || /^[+-]/.test(timeZone)) {
+        throw new ConfigurationError(`Invalid Time Zone "${requestedZone}". Use an IANA time zone such as America/New_York, Europe/London or Asia/Tokyo.`);
       }
 
       let instant;
@@ -139,6 +147,11 @@ export default {
         const wallClock = Date.UTC(year, month - 1, day, hour, minute, second);
         instant = wallClock - zoneOffsetMs(wallClock, timeZone);
         instant = wallClock - zoneOffsetMs(instant, timeZone);
+        // A time inside a spring-forward gap has no instant: it would come back
+        // an hour off (2:30 in a 2:00→3:00 jump renders as 1:30), so reject it.
+        if (instant + zoneOffsetMs(instant, timeZone) !== wallClock) {
+          throw new ConfigurationError(`Date "${this.date}" doesn't exist in ${timeZone} — the clocks skip that hour for daylight saving. Use a time outside the gap.`);
+        }
       }
       return {
         timestamp: new Date(instant).toISOString(),
