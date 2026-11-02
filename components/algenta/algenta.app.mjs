@@ -48,7 +48,7 @@ export default {
         const isLoopback = [
           "localhost",
           "127.0.0.1",
-          "::1",
+          "[::1]",
         ].includes(parsed.hostname);
         if (parsed.protocol !== "https:" && !(parsed.protocol === "http:" && isLoopback)) {
           throw new Error(
