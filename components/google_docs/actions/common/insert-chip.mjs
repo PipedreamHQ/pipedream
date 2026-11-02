@@ -21,7 +21,7 @@ export default {
     placeholder: {
       type: "string",
       label: "Placeholder",
-      description: "Existing text to replace with the chip, matched exactly (case-sensitive) — typically a placeholder you wrote with **Insert Text**, such as `{{owner}}`, or a name already in the document. Searches every tab unless **Tab ID** is set. When set, **Position** is ignored. This is the reliable way to put a chip mid-sentence: no character index needed.",
+      description: "Existing text to replace with the chip, matched exactly (case-sensitive). Typically a placeholder you wrote with **Insert Text**, such as `{{owner}}`, or a name already in the document. Searches every tab unless **Tab ID** is set. When set, **Position** is ignored. This is the reliable way to put a chip mid-sentence: no character index needed.",
       optional: true,
     },
     occurrence: {
@@ -44,7 +44,7 @@ export default {
         googleDocs,
         "contentTabId",
       ],
-      description: "For a multi-tab document, the ID of the tab to insert into (e.g. `t.0`); get IDs from **List Tabs**, or use the ID returned by **Create Tab**. Required when the document has more than one tab and the chip is placed by **Position** — the tool will not guess, so a chip never lands in the first tab by accident. With **Placeholder**, omit it to search every tab.",
+      description: "For a multi-tab document, the ID of the tab to insert into (e.g. `t.0`); get IDs from **List Tabs**, or use the ID returned by **Create Tab**. Required when the document has more than one tab and the chip is placed by **Position**: the tool will not guess, so a chip never lands in the first tab by accident. With **Placeholder**, omit it to search every tab.",
     },
   },
   methods: {
@@ -56,6 +56,7 @@ export default {
       if (this.placeholder) {
         return this.findPlaceholders();
       }
+      this.googleDocs._resolvePositionIndex(this.position);
       if (this.tabId) {
         return {
           targets: [
@@ -84,7 +85,7 @@ export default {
     },
     async findPlaceholders() {
       if (!this.placeholder.trim()) {
-        throw new ConfigurationError("Placeholder must contain visible text, e.g. `{{owner}}` — whitespace alone would match every space in the document.");
+        throw new ConfigurationError("Placeholder must contain visible text, e.g. `{{owner}}`. Whitespace alone would match every space in the document.");
       }
       const document = await this.googleDocs.getDocument(this.documentId, true);
       const tabs = this.tabId
@@ -122,7 +123,7 @@ export default {
         const where = this.tabId
           ? `tab ${this.tabId} of document`
           : "document";
-        throw new ConfigurationError(`Placeholder "${this.placeholder}" was not found in ${where} ${this.documentId}. It must match the document's text exactly, including case — check it with **Get Document**.`);
+        throw new ConfigurationError(`Placeholder "${this.placeholder}" was not found in ${where} ${this.documentId}. It must match the document's text exactly, including case. Check it with **Get Document**.`);
       }
       return {
         revisionId: document.revisionId,

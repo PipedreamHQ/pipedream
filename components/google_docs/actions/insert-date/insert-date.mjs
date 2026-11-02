@@ -48,7 +48,7 @@ export default {
   ...common,
   key: "google_docs-insert-date",
   name: "Insert Date",
-  description: "Insert a date smart chip into a Google Doc — a real date chip readers can click, not typed text. Use it for due dates, meeting dates, deadlines and timelines. Pass a calendar date (`2026-11-14`), or a date and time plus **Time Zone** to show the time as well (`2026-11-14T15:00` with `America/New_York` → `Nov 14, 2026 3:00 PM EST`). Place the chip with **Placeholder** (replace text such as `{{due}}` that you wrote with **Insert Text**) or with **Position**; in a multi-tab document either set **Tab ID** (from **List Tabs**) or use **Placeholder**. Use **Find Document** to resolve a document's name to its ID. Example: call with documentId=`1AbC...`, date=`2026-11-14`, placeholder=`{{due}}` → a chip reading `Nov 14, 2026`; returns `chipsInserted`, each chip's `tabId` and `index`, and the document `url`. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/request#InsertDateRequest)",
+  description: "Insert a date smart chip into a Google Doc: a real date chip readers can click, not typed text. Use it for due dates, meeting dates, deadlines and timelines. Pass a calendar date (`2026-11-14`), or a date and time plus **Time Zone** to show the time as well (`2026-11-14T15:00` with `America/New_York` -> `Nov 14, 2026 3:00 PM EST`). Place the chip with **Placeholder** (replace text such as `{{due}}` that you wrote with **Insert Text**) or with **Position**; in a multi-tab document either set **Tab ID** (from **List Tabs**) or use **Placeholder**. Use **Find Document** to resolve a document's name to its ID. Example: call with documentId=`1AbC...`, date=`2026-11-14`, placeholder=`{{due}}` -> a chip reading `Nov 14, 2026`; returns `chipsInserted`, each chip's `tabId` and `index`, and the document `url`. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/request#InsertDateRequest)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -63,7 +63,7 @@ export default {
     date: {
       type: "string",
       label: "Date",
-      description: "The date as `YYYY-MM-DD` (e.g. `2026-11-14`), or a date and local time as `YYYY-MM-DDTHH:MM` (e.g. `2026-11-14T15:00`) to show a time too — a time needs **Time Zone**. A trailing `Z` or offset (`2026-11-14T20:00:00Z`) is read as that exact instant and shown in **Time Zone**.",
+      description: "The date as `YYYY-MM-DD` (e.g. `2026-11-14`), or a date and local time as `YYYY-MM-DDTHH:MM` (e.g. `2026-11-14T15:00`) to show a time too. A time needs **Time Zone**. A trailing `Z` or offset (`2026-11-14T20:00:00Z`) is read as that exact instant and shown in **Time Zone**.",
     },
     timeZone: {
       type: "string",
@@ -74,7 +74,7 @@ export default {
     dateFormat: {
       type: "string",
       label: "Date Format",
-      description: "How the chip displays the date: `month_day_year` → `Nov 14, 2026` (default), `month_day` → `Nov 14`, `month_day_full` → `November 14`, `iso` → `2026-11-14`.",
+      description: "How the chip displays the date: `month_day_year` -> `Nov 14, 2026` (default), `month_day` -> `Nov 14`, `month_day_full` -> `November 14`, `iso` -> `2026-11-14`.",
       options: Object.keys(DATE_FORMATS),
       default: "month_day_year",
       optional: true,
@@ -121,9 +121,9 @@ export default {
 
       const requestedZone = this.timeZone?.trim();
       if (!requestedZone) {
-        throw new ConfigurationError(`Date "${this.date}" includes a time, so set **Time Zone** (e.g. America/New_York) to say which zone it is in — or pass just the date.`);
+        throw new ConfigurationError(`Date "${this.date}" includes a time, so set **Time Zone** (e.g. America/New_York) to say which zone it is in, or pass just the date.`);
       }
-      // Send Google the canonical zone name (`america/new_york` →
+      // Send Google the canonical zone name (`america/new_york` ->
       // `America/New_York`); a bare offset is not a named zone, so reject it.
       let timeZone;
       try {
@@ -148,9 +148,9 @@ export default {
         instant = wallClock - zoneOffsetMs(wallClock, timeZone);
         instant = wallClock - zoneOffsetMs(instant, timeZone);
         // A time inside a spring-forward gap has no instant: it would come back
-        // an hour off (2:30 in a 2:00→3:00 jump renders as 1:30), so reject it.
+        // an hour off (2:30 in a 2:00->3:00 jump renders as 1:30), so reject it.
         if (instant + zoneOffsetMs(instant, timeZone) !== wallClock) {
-          throw new ConfigurationError(`Date "${this.date}" doesn't exist in ${timeZone} — the clocks skip that hour for daylight saving. Use a time outside the gap.`);
+          throw new ConfigurationError(`Date "${this.date}" doesn't exist in ${timeZone}: the clocks skip that hour for daylight saving. Use a time outside the gap.`);
         }
       }
       return {
