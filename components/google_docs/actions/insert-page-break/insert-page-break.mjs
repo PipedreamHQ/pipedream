@@ -47,7 +47,7 @@ export default {
     },
   },
   async run({ $ }) {
-    await utils.validateFieldMask(this.googleDocs, this.documentId, this.fields);
+    await utils.validateFieldMask(this.googleDocs, this.documentId, this.fields, this.tabId);
 
     const request = this.googleDocs._buildRequestForPosition({}, this.position, this.tabId);
     const response = await this.googleDocs._batchUpdate(this.documentId, "insertPageBreak", request, this.googleDocs.writeControl(this.suggestMode));

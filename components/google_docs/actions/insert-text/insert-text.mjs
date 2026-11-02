@@ -52,7 +52,7 @@ export default {
     },
   },
   async run({ $ }) {
-    await utils.validateFieldMask(this.googleDocs, this.documentId, this.fields);
+    await utils.validateFieldMask(this.googleDocs, this.documentId, this.fields, this.tabId);
 
     const request = this.googleDocs._buildRequestForPosition({
       text: this.text,

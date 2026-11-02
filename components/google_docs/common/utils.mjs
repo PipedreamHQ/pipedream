@@ -1,7 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
 import {
   APPROX_CHAR_WIDTH, CELL_PADDING_ALLOWANCE, COMMENT_UPDATES_FAILED, DOCUMENT_FIELDS,
-  FIT_TO_CONTENT, MIN_COLUMN_WIDTH, POINTS, SUGGESTED_DELETION_MASK,
+  FIT_TO_CONTENT, MIN_COLUMN_WIDTH, POINTS, SUGGESTED_DELETION_MASK, TAB_CONTENT_LEGACY_FIELDS,
 } from "./constants.mjs";
 
 function getTextContentFromDocument(content) {
@@ -295,6 +295,16 @@ function normalizeFieldName(name) {
 }
 
 const NORMALIZED_DOCUMENT_FIELDS = new Set(DOCUMENT_FIELDS.map(normalizeFieldName));
+const NORMALIZED_TAB_CONTENT_LEGACY_FIELDS = new Set(
+  TAB_CONTENT_LEGACY_FIELDS.map(normalizeFieldName),
+);
+
+// Top-level fields of `fields` that the Docs API refuses alongside tabs content.
+function getTabContentLegacyFields(fields) {
+  return splitFieldMask(fields ?? "")
+    .map((part) => part.split(/[/(.]/)[0].trim())
+    .filter((name) => NORMALIZED_TAB_CONTENT_LEGACY_FIELDS.has(normalizeFieldName(name)));
+}
 
 // Reject an unusable field mask BEFORE the caller mutates the document. Every
 // write action fetches the masked document to build its return value, so an
@@ -302,7 +312,7 @@ const NORMALIZED_DOCUMENT_FIELDS = new Set(DOCUMENT_FIELDS.map(normalizeFieldNam
 // retrying agent would apply the edit twice. Top-level names are checked
 // locally; a nested selection is checked by the Docs API itself with a masked
 // read, since only the API knows the full resource schema.
-async function validateFieldMask(googleDocs, documentId, fields) {
+async function validateFieldMask(googleDocs, documentId, fields, tabId) {
   if (!fields) {
     return;
   }
@@ -310,16 +320,23 @@ async function validateFieldMask(googleDocs, documentId, fields) {
   if (parts.some((part) => !part)) {
     throw new ConfigurationError(`Invalid Fields mask "${fields}": empty selection (check for a leading, trailing, or doubled comma).`);
   }
-  const unknown = parts
-    .map((part) => part.split(/[/(.]/)[0].trim())
+  const roots = parts.map((part) => part.split(/[/(.]/)[0].trim());
+  const unknown = roots
     .filter((name) => !NORMALIZED_DOCUMENT_FIELDS.has(normalizeFieldName(name)));
   if (unknown.length) {
     throw new ConfigurationError(`Unknown Fields selection${unknown.length === 1
       ? ""
       : "s"} ${unknown.map((name) => `"${name}"`).join(", ")}. A field mask may only select top-level fields of the Google Docs document: ${DOCUMENT_FIELDS.join(", ")}.`);
   }
+  const legacy = getTabContentLegacyFields(fields);
+  const selectsTabs = roots.some((name) => normalizeFieldName(name) === "tabs");
+  if (legacy.length && (tabId || selectsTabs)) {
+    throw new ConfigurationError(`With ${tabId
+      ? "a Tab ID"
+      : "`tabs` selected"}, ${legacy.map((name) => `"${name}"`).join(", ")} must be selected under \`tabs/documentTab\` (e.g. \`tabs/documentTab/${legacy[0]}\`), not at the top level.`);
+  }
   if (/[()/.]/.test(fields)) {
-    await googleDocs.getDocument(documentId, false, fields);
+    await googleDocs.getDocument(documentId, Boolean(tabId), fields);
   }
 }
 
@@ -590,6 +607,7 @@ export default {
   adjustPropDefinitions,
   parseRfc3339,
   validateFieldMask,
+  getTabContentLegacyFields,
   selectTableAtIndex,
   resolveColumnWidths,
 };

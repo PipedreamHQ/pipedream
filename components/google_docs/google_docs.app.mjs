@@ -19,7 +19,7 @@ export default {
     fields: {
       type: "string",
       label: "Fields",
-      description: `Optional Google Docs API field mask limiting which document fields are returned, e.g. \`documentId,title,revisionId\` instead of the whole document. Valid top-level fields: ${DOCUMENT_FIELDS.map((field) => `\`${field}\``).join(", ")} - the underscore spelling of each (e.g. \`document_id\`) is accepted too. Nested selections are allowed, e.g. \`body/content\`. There is no \`url\` field, and an invalid mask fails the call before the document is changed. With a **Tab ID**, the mask is read against the document with its tabs: every content field (\`body\`, \`lists\`, \`inlineObjects\`, headers, footers…) sits under \`tabs\` rather than at the top level, and \`tabs\` is narrowed to that tab — pass \`documentId,revisionId\` for a minimal confirmation, or \`tabs\` for the written tab. Leave blank to return the full document - or, with a Tab ID, the whole written tab, which for a long tab can be very large; pass \`documentId,revisionId\` when you only need confirmation.`,
+      description: `Optional Google Docs API field mask limiting which document fields are returned, e.g. \`documentId,title,revisionId\` instead of the whole document. Valid top-level fields: ${DOCUMENT_FIELDS.map((field) => `\`${field}\``).join(", ")} - the underscore spelling of each (e.g. \`document_id\`) is accepted too. Nested selections are allowed, e.g. \`body/content\`. There is no \`url\` field, and an invalid mask fails the call before the document is changed. With a **Tab ID**, the mask is read against the document with its tabs: every content field (\`body\`, \`lists\`, \`inlineObjects\`, headers, footers, ...) sits under \`tabs\` rather than at the top level, and \`tabs\` is narrowed to that tab - pass \`documentId,revisionId\` for a minimal confirmation, or \`tabs\` for the written tab. Leave blank to return the full document - or, with a Tab ID, the whole written tab, which for a long tab can be very large; pass \`documentId,revisionId\` when you only need confirmation.`,
       optional: true,
     },
     ...googleDrive.propDefinitions,
@@ -400,6 +400,11 @@ export default {
       }
       return `tabs(${level})`;
     },
+    // Adds the tab IDs `narrowToTab` matches on, at every nesting level, so a
+    // mask that leaves them out can't make the target tab look empty.
+    _withTabIdFields(fields) {
+      return `${fields},${this._tabMetadataFields(TAB_METADATA_MASK_DEPTH)}`;
+    },
     // Tabs in document order (each parent immediately followed by its children),
     // metadata only. A `getDocument` without `includeTabsContent` omits `tabs`
     // entirely (measured), so this is the only way to learn a document's tab IDs.
@@ -504,10 +509,10 @@ export default {
       };
     },
     // A masked read with a Tab ID covers every tab, so keep only the named one
-    // in `tabs` (without its child tabs) — otherwise a `tabs` mask returns more
+    // in `tabs` (without its child tabs) - otherwise a `tabs` mask returns more
     // than the unmasked tab read it was meant to trim (measured: 47k vs 14k
-    // chars). `tabs` comes back empty when the mask left the tab out (e.g. a
-    // nested tab without `childTabs`), never as some other tab's content.
+    // chars). The mask always carries tab IDs (`_withTabIdFields`), so `tabs`
+    // comes back empty only when the document has no such tab.
     narrowToTab(document, tabId) {
       if (!tabId || !Array.isArray(document?.tabs)) {
         return document;
@@ -539,7 +544,13 @@ export default {
     async getWriteResult(documentId, tabId, fields) {
       if (!tabId || fields) {
         return this.narrowToTab(
-          await this.getDocument(documentId, Boolean(tabId), fields),
+          await this.getDocument(
+            documentId,
+            Boolean(tabId),
+            tabId
+              ? this._withTabIdFields(fields)
+              : fields,
+          ),
           tabId,
         );
       }

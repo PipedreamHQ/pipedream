@@ -33,6 +33,26 @@ const DOCUMENT_FIELDS = [
   "tabs",
 ];
 
+// Top-level fields the Docs API rejects in a field mask once tabs content is
+// requested ("Field mask may not contain legacy text-level Document resource
+// fields while requesting tabs content"); with tabs they sit under
+// `tabs/documentTab`.
+// https://developers.google.com/workspace/docs/api/how-tos/tabs
+const TAB_CONTENT_LEGACY_FIELDS = [
+  "body",
+  "headers",
+  "footers",
+  "footnotes",
+  "documentStyle",
+  "suggestedDocumentStyleChanges",
+  "namedStyles",
+  "suggestedNamedStylesChanges",
+  "inlineObjects",
+  "lists",
+  "positionedObjects",
+  "namedRanges",
+];
+
 const FILES_MAX_PAGE_SIZE = 1000;
 
 const DEFAULT_DOCUMENT_LIMIT = 25;
@@ -43,6 +63,7 @@ export {
   DEFAULT_COMMENT_LIMIT,
   MAX_COMMENT_LIMIT,
   DOCUMENT_FIELDS,
+  TAB_CONTENT_LEGACY_FIELDS,
   FILES_MAX_PAGE_SIZE,
   DEFAULT_DOCUMENT_LIMIT,
   MAX_DOCUMENT_LIMIT,

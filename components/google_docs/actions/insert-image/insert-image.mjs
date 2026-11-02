@@ -67,7 +67,7 @@ export default {
     },
   },
   async run({ $ }) {
-    await utils.validateFieldMask(this.googleDocs, this.documentId, this.fields);
+    await utils.validateFieldMask(this.googleDocs, this.documentId, this.fields, this.tabId);
 
     const objectSize = {
       ...(this.width && {

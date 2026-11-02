@@ -32,7 +32,7 @@ export default {
         googleDocs,
         "fields",
       ],
-      description: "Optional Google Docs API field mask (partial response) that limits which top-level document fields are returned, e.g. `title,documentId,revisionId` for metadata only. When set, only the requested fields are returned and the `textContent` enrichment is skipped, so a body-less response will not error. With a **Tab ID**, the mask is read against the document with its tabs: every content field (`body`, `lists`, `inlineObjects`, …) sits under `tabs` rather than at the top level, and `tabs` is narrowed to that tab — e.g. `tabs` returns just that tab. Leave blank to return the full document with `textContent`. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/get#query-parameters)",
+      description: "Optional Google Docs API field mask (partial response) that limits which top-level document fields are returned, e.g. `title,documentId,revisionId` for metadata only. When set, only the requested fields are returned and the `textContent` enrichment is skipped, so a body-less response will not error. With a **Tab ID**, the mask is read against the document with its tabs: every content field (`body`, `lists`, `inlineObjects`, ...) sits under `tabs` rather than at the top level, and `tabs` is narrowed to that tab - e.g. `tabs` returns just that tab. Leave blank to return the full document with `textContent`. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/get#body.QUERY_PARAMETERS)",
     },
   },
   async run({ $ }) {
@@ -44,12 +44,14 @@ export default {
       const document = await this.googleDocs.getDocument(
         this.documentId,
         Boolean(this.tabId),
-        this.fields,
+        this.tabId
+          ? this.googleDocs._withTabIdFields(this.fields)
+          : this.fields,
       );
       // A read has no side effects, so a Tab ID the returned tabs don't contain
       // is an error here, as it is without a mask.
       const tabs = this.googleDocs._flattenDocumentTabs(document.tabs ?? []);
-      if (this.tabId && tabs.some(({ tabProperties }) => tabProperties?.tabId)
+      if (this.tabId
         && !tabs.some(({ tabProperties }) => tabProperties?.tabId === this.tabId)) {
         throw new ConfigurationError(`No tab with ID "${this.tabId}" found in document ${this.documentId}. Call **List Tabs** to get its tab IDs.`);
       }

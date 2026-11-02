@@ -60,7 +60,7 @@ export default {
     },
   },
   async run({ $ }) {
-    await utils.validateFieldMask(this.googleDocs, this.docId, this.fields);
+    await utils.validateFieldMask(this.googleDocs, this.docId, this.fields, this.tabId);
 
     // `ReplaceImageRequest.tabId` is what makes this work past the first tab.
     // Omitted, the API looks in the first tab only and a caller who picked an
@@ -85,10 +85,21 @@ export default {
     // back through `getDocumentWithTabs` keeps `body`/`textContent` where they
     // have always been and adds every tab's text alongside, so a replacement in
     // a second tab is visible instead of looking like nothing happened.
+    // A legacy top-level mask can't be read with tabs content, so it is only
+    // narrowed to the resolved tab when the mask allows it.
+    const narrowTabId = utils.getTabContentLegacyFields(this.fields).length
+      ? undefined
+      : tabId;
     const doc = this.fields
       ? this.googleDocs.narrowToTab(
-        await this.googleDocs.getDocument(this.docId, Boolean(this.tabId), this.fields),
-        this.tabId,
+        await this.googleDocs.getDocument(
+          this.docId,
+          Boolean(narrowTabId),
+          narrowTabId
+            ? this.googleDocs._withTabIdFields(this.fields)
+            : this.fields,
+        ),
+        narrowTabId,
       )
       : await this.googleDocs.getDocumentWithTabs(this.docId);
     $.export(
