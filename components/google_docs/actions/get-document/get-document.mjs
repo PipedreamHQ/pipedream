@@ -1,11 +1,10 @@
-import { ConfigurationError } from "@pipedream/platform";
 import googleDocs from "../../google_docs.app.mjs";
 
 export default {
   key: "google_docs-get-document",
   name: "Get Document",
   description: "Get the full text content and structure of a Google Doc by its ID. Returns the document body plus a flattened `textContent` field for easy reading. A Google Doc can hold several tabs: `body`/`textContent` are always the **first** tab's content, and every tab is listed in `tabs` (with each tab's own `textContent` when the document has more than one), so a single call shows all of the document's text. Pass a **Tab ID** from that list to get one tab's full structure on its own. Optionally supply a `fields` mask to request a partial (e.g. metadata-only) response and skip the body-text enrichment. Use **Find Document** first to resolve a document's name to its ID. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/get)",
-  version: "1.2.3",
+  version: "1.3.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -32,12 +31,21 @@ export default {
         googleDocs,
         "fields",
       ],
-      description: "Optional Google Docs API field mask (partial response) that limits which top-level document fields are returned, e.g. `title,documentId,revisionId` for metadata only. When set, only the requested fields are returned and the `textContent` enrichment is skipped, so a body-less response will not error. Cannot be combined with **Tab ID**. Leave blank to return the full document with `textContent`. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/get#query-parameters)",
+      description: "Optional Google Docs API field mask (partial response) that limits which top-level document fields are returned, e.g. `title,documentId,revisionId` for metadata only. When set, only the requested fields are returned and the `textContent` enrichment is skipped, so a body-less response will not error. With a **Tab ID**, the mask is read against the document with its tabs and `tabs` is narrowed to that tab (e.g. `tabs`, or `tabs(tabProperties,documentTab/body)` — keep `tabProperties` in a nested mask so the tab can be matched). Leave blank to return the full document with `textContent`. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/get#query-parameters)",
     },
   },
   async run({ $ }) {
-    if (this.tabId && this.fields) {
-      throw new ConfigurationError("Tab ID cannot be combined with a Fields mask, because the mask may exclude the tab data required for filtering. Remove the Fields mask or omit the Tab ID.");
+    // With both, the mask is read against the document with its tabs and
+    // `tabs` is narrowed to the named one, as on the write tools, so
+    // `documentId,revisionId` stays small however large the tab is. Without a
+    // mask, Tab ID returns that tab in full.
+    if (this.fields) {
+      const response = this.googleDocs.narrowToTab(
+        await this.googleDocs.getDocument(this.documentId, Boolean(this.tabId), this.fields),
+        this.tabId,
+      );
+      $.export("$summary", `Retrieved document ${this.documentId}`);
+      return response;
     }
 
     if (this.tabId) {
@@ -46,12 +54,6 @@ export default {
       const tab = await this.googleDocs.getTab(this.documentId, this.tabId);
       $.export("$summary", `Retrieved tab "${this.tabId}" from document ${this.documentId}`);
       return tab;
-    }
-
-    if (this.fields) {
-      const response = await this.googleDocs.getDocument(this.documentId, false, this.fields);
-      $.export("$summary", `Retrieved document ${this.documentId}`);
-      return response;
     }
 
     const response = await this.googleDocs.getDocumentWithTabs(this.documentId);

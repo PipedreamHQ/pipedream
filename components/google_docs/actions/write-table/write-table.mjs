@@ -6,7 +6,7 @@ export default {
   key: "google_docs-write-table",
   name: "Write Table",
   description: "Create a table and fill it with data in a single step. Provide the entire table (all rows and columns, including a header row) at once. Use this instead of inserting cells or text one at a time. The action places every value in the correct cell for you. Pass **Table Data** as a JSON array of arrays, one inner array per row, header row first when **Has Header Row** is set, e.g. `[[\"Name\",\"Role\"],[\"Ada\",\"Engineer\"]]`. Use **Find Document** to resolve a document's name to its ID, or **Insert Table** instead if you only need an empty grid to fill in later. In a multi-tab document, set **Tab ID** to choose which tab receives the table — without it the table goes into the document's first tab; use **List Tabs** to get the IDs. Note: a table written this way is always static — the Google Docs API does not create or preserve a live link to a Google Sheet, even when this replaces a Sheets-linked table. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#InsertTableRequest)",
-  version: "0.3.0",
+  version: "0.4.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -60,9 +60,6 @@ export default {
     },
   },
   async run({ $ }) {
-    if (this.tabId && this.fields) {
-      throw new ConfigurationError("Tab ID cannot be combined with a Fields mask: a mask selects top-level document fields, while a tab response is assembled separately. Remove the Fields mask or omit the Tab ID.");
-    }
     await utils.validateFieldMask(this.googleDocs, this.documentId, this.fields);
 
     let rows;
