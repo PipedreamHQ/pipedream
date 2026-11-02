@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { defineAction } from "@pipedream/types";
 import app from "../../app/google_my_business.app";
 import { ListAccountsParams } from "../../common/requestParams";
@@ -9,7 +10,7 @@ export default defineAction({
   key: "google_my_business-list-accounts",
   name: "List Accounts",
   description: `Lists all accounts accessible to the authenticated user. [See the documentation](${DOCS_LINK})`,
-  version: "0.0.2",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { defineAction } from "@pipedream/types";
 import app from "../../app/google_my_business.app";
 import { ListPostsParams } from "../../common/requestParams";
@@ -9,7 +10,7 @@ export default defineAction({
   key: "google_my_business-list-posts",
   name: "List Posts",
   description: `List local posts associated with a location. [See the documentation](${DOCS_LINK})`,
-  version: "0.0.6",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -28,9 +29,6 @@ export default defineAction({
       propDefinition: [
         app,
         "location",
-        ({ account }: { account: string; }) => ({
-          account,
-        }),
       ],
     },
     maxResults: {

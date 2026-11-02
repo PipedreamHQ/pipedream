@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { defineAction } from "@pipedream/types";
 import app from "../../app/google_my_business.app";
 import { BatchGetReviewsParams } from "../../common/requestParams";
@@ -8,7 +9,7 @@ export default defineAction({
   key: "google_my_business-get-reviews-multiple-locations",
   name: "Get Reviews from Multiple Locations",
   description: `Get reviews from multiple locations at once. [See the documentation](${DOCS_LINK})`,
-  version: "0.0.5",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -27,13 +28,10 @@ export default defineAction({
       propDefinition: [
         app,
         "location",
-        ({ account }: { account: string; }) => ({
-          account,
-        }),
       ],
       type: "string[]",
       label: "Location Names",
-      description: "One or more locations to get reviews from",
+      description: "One or more location IDs or full resource names to get reviews from. Use **List Locations** to find valid location IDs for the account.",
     },
     pageSize: {
       type: "integer",
