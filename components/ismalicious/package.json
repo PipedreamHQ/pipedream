@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/ismalicious",
+  "version": "0.0.1",
+  "description": "Pipedream isMalicious indicator reputation actions",
+  "main": "ismalicious.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ismalicious",
+    "threat-intelligence"
+  ],
+  "homepage": "https://pipedream.com/apps/ismalicious",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  }
+}
