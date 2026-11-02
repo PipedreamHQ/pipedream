@@ -1,12 +1,21 @@
 import arcgisOnline from "../../arcgis_online.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
+// Values for these field types are sent verbatim: JSON-parsing them would turn "1.50"
+// into 1.5 and drop digits from long numeric IDs before ArcGIS coerces them back to text.
+const TEXT_FIELD_TYPES = [
+  "esriFieldTypeString",
+  "esriFieldTypeGUID",
+  "esriFieldTypeGlobalID",
+  "esriFieldTypeXML",
+];
+
 export default {
   key: "arcgis_online-update-row-by-object-id",
   name: "Update Row by Object ID",
   description:
     "Update a single attribute on a feature identified by OBJECTID using the applyEdits operation. Dropdowns filter to editable layers and fields. [See the documentation](https://developers.arcgis.com/rest/services-reference/enterprise/apply-edits-feature-service-layer-.htm)",
-  version: "0.2.1",
+  version: "1.0.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -60,11 +69,31 @@ export default {
         "Editable field to update (system fields like OBJECTID and GlobalID are excluded)",
     },
     newValue: {
-      type: "any",
+      type: "string",
       label: "New Value",
       description:
-        "New value for the attribute. Pass string, number, boolean, or other JSON-serializable " +
-        "primitive. Use null to clear nullable fields. ArcGIS coerces values to field type.",
+        "New value for the attribute. Use `null` to clear a nullable field. Text fields receive " +
+        "the value exactly as entered; for other field types, JSON text is sent as the parsed " +
+        "value, so `42` and `true` become a number and a boolean. ArcGIS coerces values to the " +
+        "field type.",
+    },
+  },
+  methods: {
+    parseValue(value, fieldType) {
+      if (typeof value !== "string") {
+        return value;
+      }
+      if (value.trim() === "null") {
+        return null;
+      }
+      if (TEXT_FIELD_TYPES.includes(fieldType)) {
+        return value;
+      }
+      try {
+        return JSON.parse(value);
+      } catch (error) {
+        return value;
+      }
     },
   },
   async run({ $ }) {
@@ -130,7 +159,7 @@ export default {
       layerId: ctx.layerId,
       attributes: {
         [ctx.objectIdField]: objectIdNum,
-        [fieldName]: newValue,
+        [fieldName]: this.parseValue(newValue, fieldMeta?.type),
       },
     });
 

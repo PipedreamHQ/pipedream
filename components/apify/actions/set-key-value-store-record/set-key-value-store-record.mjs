@@ -5,13 +5,14 @@ export default {
   name: "Set key-value store record",
   description:
         "Create or update a record in a key-value store. Supports strings, numbers, booleans, null, arrays, and objects. Automatically infers content type (JSON vs. plain text). [See the documentation](https://docs.apify.com/api/v2/key-value-store-record-put)",
-  version: "0.2.5",
+  version: "1.0.1",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     apify,
     keyValueStoreId: {
@@ -36,10 +37,10 @@ export default {
       optional: false,
     },
     value: {
-      type: "any",
+      type: "string",
       label: "Value",
       description:
-                "String, number, boolean, null, array, or object. Strings that are valid JSON will be stored as JSON; otherwise as plain text.",
+                "The record value. JSON text (e.g. `{\"a\":1}`, `[1,2]`, `true`, `42`, `null`) is stored as JSON; anything else is stored as plain text.",
       optional: false,
     },
   },

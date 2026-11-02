@@ -6,8 +6,8 @@ export default {
   key: "hubspot-create-email",
   name: "Create Marketing Email",
   description:
-    "Create a marketing email in Hubspot. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/emails/marketing-emails#post-%2Fmarketing%2Fv3%2Femails%2F)",
-  version: "0.0.16",
+    "Create a marketing email in HubSpot. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/emails/marketing-emails#post-%2Fmarketing%2Fv3%2Femails%2F)",
+  version: "0.0.17",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -84,7 +84,7 @@ export default {
     feedbackSurveyId: {
       type: "string",
       label: "Feedback Survey ID",
-      description: "Hubspot's internal ID for the feedback survey. From the Hubspot UI, go to Service -> Feedback Surveys and the ID will be in the URL.",
+      description: "HubSpot's internal ID for the feedback survey. From the HubSpot UI, go to Service -> Feedback Surveys and the ID will be in the URL.",
       optional: true,
     },
     rssData: {

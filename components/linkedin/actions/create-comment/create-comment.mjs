@@ -1,10 +1,11 @@
+import { ConfigurationError } from "@pipedream/platform";
 import linkedin from "../../linkedin.app.mjs";
 
 export default {
   key: "linkedin-create-comment",
   name: "Create Comment",
-  description: "Create a comment on a share or user generated content post. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/network-update-social-actions#create-comment)",
-  version: "0.1.13",
+  description: "Create a comment on a share or user generated content post. [See the documentation](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/network-update-social-actions#create-comment)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -29,9 +30,9 @@ export default {
       description: "Text of the comment. May contain attributes such as links to people and organizations.",
     },
     content: {
-      type: "any",
+      type: "string[]",
       label: "Content",
-      description: "Array of a media content entities.",
+      description: "Array of media content entities, one JSON string per entry, e.g. `{\"entity\":{\"image\":\"urn:li:image:ABC123\"}}`.",
       optional: true,
     },
     parentComment: {
@@ -41,6 +42,39 @@ export default {
       optional: true,
     },
   },
+  methods: {
+    // Also accepts the whole array as one JSON string (the pre-1.0 contract), and
+    // flattens an entry holding a JSON array of content entities.
+    parseContent(items) {
+      if (!items) {
+        return undefined;
+      }
+      const entries = (Array.isArray(items)
+        ? items
+        : [
+          items,
+        ])
+        .filter((item) => item !== undefined && item !== null && item !== "")
+        .flatMap((item) => {
+          if (typeof item !== "string") {
+            return item;
+          }
+          try {
+            return JSON.parse(item);
+          } catch (error) {
+            throw new ConfigurationError(`Content: \`${item}\` is not valid JSON`);
+          }
+        });
+      for (const entry of entries) {
+        if (typeof entry !== "object" || entry === null || Array.isArray(entry)) {
+          throw new ConfigurationError(`Content: \`${JSON.stringify(entry)}\` is not a JSON object`);
+        }
+      }
+      return entries.length
+        ? entries
+        : undefined;
+    },
+  },
   async run({ $ }) {
     const data = {
       object: this.urnToComment,
@@ -48,7 +82,7 @@ export default {
       message: {
         text: this.message,
       },
-      content: this.content,
+      content: this.parseContent(this.content),
       parentComment: this.parentComment,
     };
     const response = await this.linkedin.createComment(encodeURIComponent(this.urnToComment), {

@@ -80,6 +80,43 @@ const formatArrayStrings = (objectArray, ALLOWED_KEYS, fieldName, allowedValues 
   return updatedArray;
 };
 
+/**
+ * Parses a `string[]` prop whose entries are JSON-serialized objects, leaving
+ * already-parsed objects untouched. Also accepts the whole array as one JSON string,
+ * and flattens an entry holding a JSON array (Mailchimp's docs show conditions as an
+ * array, so pasting one as a single entry is common). Use `formatArrayStrings` instead
+ * when the entries also need key/value validation.
+ */
+const parseObjectArray = (items, fieldName) => {
+  if (!items) {
+    return undefined;
+  }
+  const entries = (Array.isArray(items)
+    ? items
+    : [
+      items,
+    ])
+    .filter((item) => item !== undefined && item !== null && item !== "")
+    .flatMap((item) => {
+      if (typeof item !== "string") {
+        return item;
+      }
+      try {
+        return JSON.parse(item);
+      } catch {
+        throw new ConfigurationError(`${fieldName}: \`${item}\` is not valid JSON`);
+      }
+    });
+  for (const entry of entries) {
+    if (typeof entry !== "object" || entry === null || Array.isArray(entry)) {
+      throw new ConfigurationError(`${fieldName}: \`${JSON.stringify(entry)}\` is not a JSON object`);
+    }
+  }
+  return entries.length
+    ? entries
+    : undefined;
+};
+
 const commaSeparateArray = (arr) => arr?.length && arr.join(",");
 
 const md5Hash = (str) => crypto
@@ -88,5 +125,6 @@ const md5Hash = (str) => crypto
   .digest("hex");
 
 export {
-  removeNullEntries, formatArrayStrings, validateObject, commaSeparateArray, md5Hash,
+  removeNullEntries, formatArrayStrings, parseObjectArray, validateObject, commaSeparateArray,
+  md5Hash,
 };

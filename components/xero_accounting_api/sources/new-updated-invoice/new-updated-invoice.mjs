@@ -6,7 +6,7 @@ export default {
   key: "xero_accounting_api-new-updated-invoice",
   name: "New or updated invoice",
   description: "Emit new notifications when you create a new or update existing invoice",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   async run() {
