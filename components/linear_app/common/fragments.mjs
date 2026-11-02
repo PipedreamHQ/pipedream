@@ -211,6 +211,8 @@ export default {
     fragment DocumentListItem on Document {
       id
       title
+      icon
+      color
       slugId
       url
       createdAt
@@ -234,6 +236,8 @@ export default {
     fragment DocumentSearchResult on DocumentSearchResult {
       id
       title
+      icon
+      color
       slugId
       url
       createdAt
