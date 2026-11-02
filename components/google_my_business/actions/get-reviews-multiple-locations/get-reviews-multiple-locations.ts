@@ -3,12 +3,13 @@ import app from "../../app/google_my_business.app";
 import { BatchGetReviewsParams } from "../../common/requestParams";
 
 const DOCS_LINK = "https://developers.google.com/my-business/content/review-data#get_reviews_from_multiple_locations";
+const ORDER_BY_LINK = "https://developers.google.com/my-business/reference/rest/v4/accounts.locations/batchGetReviews";
 
 export default defineAction({
   key: "google_my_business-get-reviews-multiple-locations",
   name: "Get Reviews from Multiple Locations",
   description: `Get reviews from multiple locations at once. [See the documentation](${DOCS_LINK})`,
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -44,16 +45,21 @@ export default defineAction({
       min: 1,
       max: 50,
     },
+    pageToken: {
+      type: "string",
+      label: "Page Token",
+      description: "The `nextPageToken` returned by a previous run of this action, to fetch the next page of reviews",
+      optional: true,
+    },
     orderBy: {
       type: "string",
       label: "Order By",
-      description: "How to order the reviews: by createTime or updateTime, and ascending or descending",
+      description: `How to order the reviews. Defaults to \`updateTime desc\` when left empty. [See the documentation](${ORDER_BY_LINK})`,
       optional: true,
       options: [
-        "createTime desc",
-        "createTime asc",
+        "rating",
+        "rating desc",
         "updateTime desc",
-        "updateTime asc",
       ],
     },
     ignoreRatingOnlyReviews: {
@@ -66,7 +72,7 @@ export default defineAction({
   },
   async run({ $ }) {
     const {
-      account, locationNames, pageSize, orderBy, ignoreRatingOnlyReviews,
+      account, locationNames, pageSize, pageToken, orderBy, ignoreRatingOnlyReviews,
     } = this;
 
     const accountId = this.app.getCleanName(account);
@@ -78,6 +84,7 @@ export default defineAction({
         locationNames: locationNames?.map((locationName: string) =>
           `accounts/${accountId}/locations/${this.app.getCleanName(locationName)}`),
         pageSize,
+        pageToken,
         orderBy,
         ignoreRatingOnlyReviews,
       },
