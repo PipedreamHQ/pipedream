@@ -393,17 +393,30 @@ export default {
     // out `depth` levels deep. Google's field masks have no recursive wildcard, so
     // an unqualified `childTabs` would pull down every descendant's content — which
     // is the whole document, i.e. what the mask exists to avoid.
-    _tabMetadataFields(depth) {
-      let level = "tabProperties";
+    _tabMetadataFields(depth, selections = []) {
+      const own = [
+        "tabProperties",
+        ...selections,
+      ].join(",");
+      let level = own;
       for (let i = 1; i < depth; i++) {
-        level = `tabProperties,childTabs(${level})`;
+        level = `${own},childTabs(${level})`;
       }
       return `tabs(${level})`;
     },
     // Adds the tab IDs `narrowToTab` matches on, at every nesting level, so a
-    // mask that leaves them out can't make the target tab look empty.
+    // mask that leaves them out can't make the target tab look empty. A `tabs`
+    // sub-selection is repeated at each child-tab level too, or a child tab
+    // comes back without the content the mask asked for.
     _withTabIdFields(fields) {
-      return `${fields},${this._tabMetadataFields(TAB_METADATA_MASK_DEPTH)}`;
+      const selections = utils.splitFieldMask(fields)
+        .map((part) => part.trim().match(/^tabs(?:\/(.+)|\((.+)\))$/))
+        .filter(Boolean)
+        .map(([
+          , path,
+          group,
+        ]) => path ?? group);
+      return `${fields},${this._tabMetadataFields(TAB_METADATA_MASK_DEPTH, selections)}`;
     },
     // Tabs in document order (each parent immediately followed by its children),
     // metadata only. A `getDocument` without `includeTabsContent` omits `tabs`

@@ -606,6 +606,7 @@ export default {
   selectInsertedTable,
   adjustPropDefinitions,
   parseRfc3339,
+  splitFieldMask,
   validateFieldMask,
   getTabContentLegacyFields,
   selectTableAtIndex,
