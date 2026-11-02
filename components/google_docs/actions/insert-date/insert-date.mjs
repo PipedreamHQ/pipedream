@@ -17,7 +17,7 @@ const DATE_FORMATS = {
 
 // How far `timeZone`'s wall clock is ahead of UTC at instant `ms`.
 function zoneOffsetMs(ms, timeZone) {
-  const parts = Object.fromEntries(new Intl.DateTimeFormat("en-US", {
+  const parts = Object.fromEntries(new globalThis.Intl.DateTimeFormat("en-US", {
     timeZone,
     hourCycle: "h23",
     year: "numeric",
