@@ -5,7 +5,7 @@ export default {
   key: "trello-get-card-comments",
   name: "Get Card Comments",
   description: "Gets the comments on a card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-actions-get).",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
