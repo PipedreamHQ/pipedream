@@ -169,6 +169,14 @@ export default {
         ...opts,
       });
     },
+    getStorefront({
+      storefrontId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/storefronts/${encodeURIComponent(storefrontId)}`,
+        ...opts,
+      });
+    },
     listProducts(opts = {}) {
       return this._makeRequest({
         path: "/products",

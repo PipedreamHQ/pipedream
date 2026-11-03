@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import common from "../common/polling.mjs";
 import sampleEmit from "./test-event.mjs";
 
@@ -21,12 +22,20 @@ export default {
   methods: {
     ...common.methods,
     // The API has no date filter for subscribers, so this reads every page
-    getRecords() {
-      return this.dpd2.listAll({
+    async getRecords() {
+      const subscribers = await this.dpd2.listAll({
         fn: this.dpd2.listSubscribers,
         storefrontId: this.storefrontId,
         maxPages: Infinity,
       });
+      // The API returns the same 404 for a store with no subscribers and for
+      // one that's gone, so an empty list checks the store is still there
+      if (!subscribers.length && !await this.dpd2.getStorefront({
+        storefrontId: this.storefrontId,
+      })) {
+        throw new ConfigurationError(`DPD store ${this.storefrontId} wasn't found. It may have been deleted. Choose another store.`);
+      }
+      return subscribers;
     },
     generateMeta(subscriber) {
       return {
