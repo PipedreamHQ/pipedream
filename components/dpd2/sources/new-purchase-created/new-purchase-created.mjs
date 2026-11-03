@@ -6,7 +6,7 @@ export default {
   key: "dpd2-new-purchase-created",
   name: "New Purchase Created",
   description: "Emit new event when a purchase is made and paid for. [See the documentation](https://docs.getdpd.com/api/reference/operations/listpurchases/)",
-  version: "0.1.0",
+  version: "1.0.0",
   type: "source",
   dedupe: "unique",
   props: {
@@ -16,7 +16,7 @@ export default {
         common.props.dpd2,
         "storefrontId",
       ],
-      description: "Only purchases from this store. Leave empty for all your stores.",
+      description: "Only purchases from this store, e.g. `14056`. Leave empty for all your stores. Use **List Storefront ID Options** to find store IDs.",
     },
     productId: {
       propDefinition: [
@@ -26,14 +26,14 @@ export default {
           storefrontId: c.storefrontId,
         }),
       ],
-      description: "Only purchases that include this product",
+      description: "Only purchases that include this product, e.g. `22537`. Use **Find Product** to look up a product's ID.",
     },
     customerId: {
       propDefinition: [
         common.props.dpd2,
         "customerId",
       ],
-      description: "Only this customer's purchases",
+      description: "Only this customer's purchases, e.g. `9437584`. Use **Find Customer** or **List Customer ID Options** to find customer IDs.",
     },
   },
   methods: {
@@ -47,7 +47,7 @@ export default {
           product_id: this.productId,
           customer_id: this.customerId,
         },
-        maxPages: 20,
+        maxPages: Infinity,
       });
     },
     generateMeta(purchase) {

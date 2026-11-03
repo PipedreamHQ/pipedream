@@ -6,9 +6,10 @@ export default {
   description: "Find a subscription store's subscriber by their email address, with their subscription's status. [See the documentation](https://docs.getdpd.com/api/reference/operations/listsubscribers/)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
-    openWorldHint: false,
+    openWorldHint: true,
     readOnlyHint: true,
   },
   props: {
@@ -22,7 +23,7 @@ export default {
     email: {
       type: "string",
       label: "Email",
-      description: "The subscriber's email address",
+      description: "The subscriber's email address, e.g. `sam@example.com`. Only exact matches are returned, ignoring case.",
     },
   },
   async run({ $ }) {

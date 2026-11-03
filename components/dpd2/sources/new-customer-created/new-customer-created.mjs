@@ -17,7 +17,7 @@ export default {
         params: {
           date_min: since || this.dpd2.toIsoDate(Date.now() / 1000 - 30 * 86400),
         },
-        maxPages: 20,
+        maxPages: Infinity,
       });
     },
     generateMeta(customer) {

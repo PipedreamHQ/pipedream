@@ -6,6 +6,7 @@ export default {
   description: "Retrieves available options for the Storefront ID field.",
   version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

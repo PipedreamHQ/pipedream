@@ -7,9 +7,10 @@ export default {
   description: "Find a product by its SKU or its name. [See the documentation](https://docs.getdpd.com/api/reference/operations/listproducts/)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
-    openWorldHint: false,
+    openWorldHint: true,
     readOnlyHint: true,
   },
   props: {
@@ -19,18 +20,18 @@ export default {
         dpd2,
         "storefrontId",
       ],
-      description: "Only products in this store. Leave empty to search all your stores.",
+      description: "The ID of the store to search, e.g. `14056`. Leave empty to search all your stores. Use **List Storefront ID Options** to find store IDs.",
     },
     sku: {
       type: "string",
       label: "SKU",
-      description: "The product's SKU, matched exactly",
+      description: "The product's SKU, matched exactly, e.g. `PTS-COOKBOOK`",
       optional: true,
     },
     name: {
       type: "string",
       label: "Name",
-      description: "The product's name, matched ignoring case. Used when **SKU** is empty.",
+      description: "The product's name, matched ignoring case, e.g. `Pass The Steak Cookbook`. Used when **SKU** is empty.",
       optional: true,
     },
   },

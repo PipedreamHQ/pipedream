@@ -6,9 +6,10 @@ export default {
   description: "Find a customer by their email address. [See the documentation](https://docs.getdpd.com/api/reference/operations/listcustomers/)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
-    openWorldHint: false,
+    openWorldHint: true,
     readOnlyHint: true,
   },
   props: {
@@ -16,7 +17,7 @@ export default {
     email: {
       type: "string",
       label: "Email",
-      description: "The customer's email address. Only exact matches are returned.",
+      description: "The customer's email address, e.g. `sam@example.com`. Only exact matches are returned, ignoring case.",
     },
   },
   async run({ $ }) {
@@ -26,7 +27,7 @@ export default {
       params: {
         email: this.email,
       },
-      maxPages: 1,
+      maxPages: Infinity,
     });
     const customers = matches.filter(({ email }) => this.dpd2.sameEmail(email, this.email));
     $.export("$summary", customers.length

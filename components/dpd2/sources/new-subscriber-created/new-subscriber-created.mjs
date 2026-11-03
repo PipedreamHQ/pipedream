@@ -20,10 +20,12 @@ export default {
   },
   methods: {
     ...common.methods,
-    // With no page, the API returns the whole list. It has no date filter.
+    // The API has no date filter for subscribers, so this reads every page
     getRecords() {
-      return this.dpd2.listSubscribers({
+      return this.dpd2.listAll({
+        fn: this.dpd2.listSubscribers,
         storefrontId: this.storefrontId,
+        maxPages: Infinity,
       });
     },
     generateMeta(subscriber) {

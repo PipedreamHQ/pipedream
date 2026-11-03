@@ -7,9 +7,10 @@ export default {
   description: "Find a purchase by its ID, or a buyer's purchases by their email address, newest first. [See the documentation](https://docs.getdpd.com/api/reference/operations/listpurchases/)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
-    openWorldHint: false,
+    openWorldHint: true,
     readOnlyHint: true,
   },
   props: {
@@ -24,7 +25,7 @@ export default {
     buyerEmail: {
       type: "string",
       label: "Buyer's Email",
-      description: "Used when **Purchase ID** is empty. Only exact matches are returned.",
+      description: "The buyer's email address, e.g. `sam@example.com`. Used when **Purchase ID** is empty. Only exact matches are returned, ignoring case.",
       optional: true,
     },
   },
@@ -47,7 +48,7 @@ export default {
         params: {
           customer_email: this.buyerEmail,
         },
-        maxPages: 3,
+        maxPages: Infinity,
       });
       purchases = this.dpd2.newestFirst(matches)
         .filter(({ buyer_email: email }) => this.dpd2.sameEmail(email, this.buyerEmail));

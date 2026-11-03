@@ -12,7 +12,7 @@ export default {
     storefrontId: {
       type: "string",
       label: "Store",
-      description: "One of your DPD stores",
+      description: "The ID of one of your DPD stores, e.g. `14056`. Use **List Storefront ID Options** to find store IDs (the `value` field).",
       optional: true,
       async options({ page = 0 } = {}) {
         // The API returns the whole list at once
@@ -31,7 +31,7 @@ export default {
     subscriptionStorefrontId: {
       type: "string",
       label: "Subscription Store",
-      description: "One of your DPD subscription (membership) stores",
+      description: "The ID of one of your DPD subscription (membership) stores, e.g. `47210`. Use **List Storefront ID Options** to find store IDs (the `value` field).",
       async options({ page = 0 } = {}) {
         // The API returns the whole list at once
         if (page) {
@@ -50,7 +50,7 @@ export default {
     productId: {
       type: "string",
       label: "Product ID",
-      description: "The ID of a product",
+      description: "The ID of a product, e.g. `22537`. Use **Find Product** to look up a product's ID (the `id` field).",
       optional: true,
       async options({
         storefrontId, page = 0,
@@ -75,7 +75,7 @@ export default {
     customerId: {
       type: "string",
       label: "Customer ID",
-      description: "The ID of a customer",
+      description: "The ID of a customer, e.g. `9437584`. Use **Find Customer** or **List Customer ID Options** to find customer IDs.",
       optional: true,
       async options({ page = 0 } = {}) {
         const customers = await this.listCustomers({
@@ -97,7 +97,7 @@ export default {
     purchaseId: {
       type: "string",
       label: "Purchase ID",
-      description: "The ID of a purchase. The list shows the last 90 days' purchases, newest first.",
+      description: "The ID of a purchase, e.g. `18937181`. The list shows the last 90 days' purchases, newest first. For older purchases, use **Find Purchase** with **Buyer's Email** to find the ID (the `id` field).",
       async options({ page = 0 } = {}) {
         // One list of the last 90 days, read in full
         if (page) {

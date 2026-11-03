@@ -16,7 +16,7 @@ export default {
         common.props.dpd2,
         "storefrontId",
       ],
-      description: "Only products in this store. Leave empty for all your stores.",
+      description: "Only products in this store, e.g. `14056`. Leave empty for all your stores. Use **List Storefront ID Options** to find store IDs.",
     },
   },
   methods: {

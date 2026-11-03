@@ -7,6 +7,7 @@ export default {
   description: "Email a buyer their purchase again, optionally to a new email address. Works on active purchases. [See the documentation](https://docs.getdpd.com/api/reference/operations/reactivatepurchase/)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -23,7 +24,7 @@ export default {
     buyerEmail: {
       type: "string",
       label: "New Email Address",
-      description: "Leave empty to send it to the buyer's current address. If you fill it in, the purchase's email address changes to this one first.",
+      description: "A new address to send it to, e.g. `sam@example.com`. Leave empty to send it to the buyer's current address. If you fill it in, the purchase's email address changes to this one first.",
       optional: true,
     },
   },
