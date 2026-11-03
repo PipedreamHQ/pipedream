@@ -4,7 +4,7 @@ export default {
   key: "filepost-delete-file",
   name: "Delete File",
   description: "Delete an uploaded file from FilePost by its ID. [See the documentation](https://filepost.dev/docs#delete-file)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

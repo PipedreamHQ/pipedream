@@ -4,7 +4,7 @@ export default {
   key: "filepost-list-files",
   name: "List Files",
   description: "Retrieve a list of files uploaded to your FilePost account. [See the documentation](https://filepost.dev/docs#list-files)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
