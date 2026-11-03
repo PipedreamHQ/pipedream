@@ -215,6 +215,49 @@ function getBodyText(payload, opts) {
   return "";
 }
 
+// Identifies common attachment types from their leading bytes, for parts whose
+// MIME type is missing or `application/octet-stream`.
+function sniffMimeType(buffer) {
+  const hex = buffer.subarray(0, 12).toString("hex");
+  if (hex.startsWith("25504446")) return "application/pdf";
+  if (hex.startsWith("89504e47")) return "image/png";
+  if (hex.startsWith("ffd8ff")) return "image/jpeg";
+  if (hex.startsWith("47494638")) return "image/gif";
+  if (hex.startsWith("52494646") && hex.slice(16, 24) === "57454250") return "image/webp";
+  if (hex.startsWith("504b0304")) return "application/zip";
+  return undefined;
+}
+
+/**
+ * Every named attachment in a full-format payload, nested parts included, as
+ * `{ partId, filename, mimeType, size }`. Kept small on purpose so it survives the
+ * response cap that drops `payload`: `attachmentId` is left out because it runs to
+ * hundreds of chars and Gmail issues a new one on every read, while `partId` is
+ * short and stable, and **Download Attachment** resolves it to a fresh id itself.
+ * Parts without a filename are skipped: Gmail also stores large HTML/text bodies
+ * behind an `attachmentId`, and those are not attachments. A small named part can
+ * carry its content inline in `body.data` instead of behind an `attachmentId`.
+ */
+function getAttachments(payload) {
+  const attachments = [];
+  const walk = (part) => {
+    if (!part) return;
+    if (part.filename && (part.body?.attachmentId || part.body?.data)) {
+      attachments.push({
+        partId: part.partId,
+        filename: part.filename,
+        mimeType: part.mimeType,
+        size: part.body.size,
+      });
+    }
+    for (const child of part.parts ?? []) {
+      walk(child);
+    }
+  };
+  walk(payload);
+  return attachments;
+}
+
 function capBodies(records, bodyOf, {
   cap, floor, maxChars, measure,
 }) {
@@ -294,6 +337,8 @@ export default {
   getHeader,
   pluckFields,
   getBodyText,
+  getAttachments,
+  sniffMimeType,
   capBodies,
   fitToBudget,
 };
