@@ -50,7 +50,7 @@ export default {
     + " backgroundColor=\"#1155cc\", horizontalAlignment=\"CENTER\" → returns"
     + " the applied attributes plus a link to the worksheet."
     + " [See the documentation](https://developers.google.com/workspace/sheets/api/samples/formatting)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {

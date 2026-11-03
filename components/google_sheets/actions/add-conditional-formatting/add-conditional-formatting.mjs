@@ -155,7 +155,7 @@ export default {
     + " backgroundColor=\"light green\" → returns the rule that was created and"
     + " its index on the sheet."
     + " [See the documentation](https://developers.google.com/workspace/sheets/api/samples/conditional-formatting)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {

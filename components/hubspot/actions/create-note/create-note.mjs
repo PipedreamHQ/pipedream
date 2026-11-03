@@ -12,7 +12,7 @@ export default {
     + "For **only** a contact ID + note body, **Add Note to Contact** is simpler. "
     + "To associate the note with another record, supply `toObjectType`, `toObjectId`, and `associationType` together. "
     + "[See the documentation](https://developers.hubspot.com/docs/api/crm/objects/notes)",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
