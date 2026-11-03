@@ -2,14 +2,22 @@ import { ConfigurationError } from "@pipedream/platform";
 import googleAds from "../google_ads.app.mjs";
 import props from "./props.mjs";
 import {
-  CORE_DATE_SEGMENTS, DATE_RANGE_OPTIONS,
+  CORE_DATE_SEGMENTS, DATE_RANGE_OPTIONS, REPORT_RESOURCE_LOOKUPS,
 } from "./constants.mjs";
-import { checkPrefix } from "./utils.mjs";
+import {
+  buildOrderByClause, checkPrefix,
+} from "./utils.mjs";
 
 export function createReportComponent(resource) {
   const {
     label, value,
   } = resource.resourceOption;
+  const lookup = REPORT_RESOURCE_LOOKUPS[value];
+
+  // Build allow-lists for local pre-flight validation (no HTTP call consumed)
+  const validFields = new Set(resource.fields.map((f) => f.value));
+  const validSegments = new Set(resource.segments.map((s) => s.value));
+  const validMetrics = new Set(resource.metrics.map((m) => m.value));
 
   return {
     props: {
@@ -23,16 +31,9 @@ export function createReportComponent(resource) {
         propDefinition: [
           googleAds,
           "reportResourceFilter",
-          ({
-            accountId, customerClientId,
-          }) => ({
-            accountId,
-            customerClientId,
-            resource: value,
-          }),
         ],
         label: `${label}(s)`,
-        description: `Select the ${label}(s) to generate a report for (or leave blank for all ${label}s)`,
+        description: `Numeric ${label} IDs to filter this report to specific ${label.toLowerCase()}s (e.g. \`["1234567890"]\`). Use **${lookup.action}** and read \`${lookup.idField}\` from each returned item to find valid IDs for this resource. Use the same account as the report. Leave blank for all ${label.toLowerCase()}s.`,
       },
       dateRange: {
         type: "string",
@@ -56,79 +57,76 @@ export function createReportComponent(resource) {
       fields: {
         type: "string[]",
         label: `${label} Fields`,
-        description: `Array of ${label} field names to include in the report, e.g. \`["status"]\`. The \`${value}.\` prefix is added automatically. [See the field reference](https://developers.google.com/google-ads/api/fields/v25/${value})`,
+        description: `Array of ${label} field names to include in the report (e.g. \`["${value}.id", "${value}.name"]\`). Invalid names throw a ConfigurationError before any API call. [See the field reference](https://developers.google.com/google-ads/api/fields/v25/${value})`,
         options: resource.fields,
         optional: true,
       },
       segments: {
         type: "string[]",
         label: "Segments",
-        description: "Array of segment names to break the report down by, e.g. `[\"date\"]`. The `segments.` prefix is added automatically. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/Segments)",
+        description: "Array of segment names to break the report down by (e.g. `[\"segments.date\"]`). Empty by default so date segmentation is opt-in - adding date segments multiplies row counts by the number of days in the range. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/Segments)",
         options: resource.segments,
-        default: [
-          "segments.date",
-        ],
         optional: true,
       },
       metrics: {
         type: "string[]",
         label: "Metrics",
-        description: "Array of metric names to include in the report, e.g. `[\"clicks\"]`. The `metrics.` prefix is added automatically. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/Metrics)",
+        description: "Array of metric names to include in the report (e.g. `[\"metrics.clicks\", \"metrics.impressions\"]`). Invalid names throw a ConfigurationError before any API call. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/Metrics)",
         options: resource.metrics,
         optional: true,
       },
       orderBy: {
-        propDefinition: [
-          googleAds,
-          "reportOrderBy",
-          ({
-            fields, segments, metrics, dateRange,
-          }) => ({
-            fields,
-            segments,
-            metrics,
-            dateRange,
-          }),
-        ],
-      },
-      direction: {
         type: "string",
-        label: "Direction",
-        description: "If **Order By** is specified, this is the direction to order the results by",
+        label: "Order By",
+        description: "Free-form GAQL ORDER BY clause including direction (e.g. `metrics.impressions DESC` or `campaign.name ASC`).",
         optional: true,
-        options: [
-          {
-            label: "Ascending",
-            value: "ASC",
-          },
-          {
-            label: "Descending",
-            value: "DESC",
-          },
-        ],
-        default: "ASC",
       },
       limit: {
         type: "integer",
         label: "Limit",
-        description: "The maximum number of results to return",
+        description: "Maximum number of rows to return (e.g. `100`; min 1, max 1000).",
         optional: true,
+        min: 1,
+        max: 1000,
       },
     },
     methods: {
       buildQuery() {
         const {
-          fields, segments, metrics, limit, orderBy, direction, objectFilter, dateRange,
+          fields, segments, metrics, limit, orderBy, objectFilter, dateRange,
         } = this;
 
-        const filteredSegments = dateRange
-          ? segments
-          : segments?.filter((s) => !CORE_DATE_SEGMENTS.includes(s));
+        const expandedFields = checkPrefix(fields, value);
+        // Expand the prefix before filtering: CORE_DATE_SEGMENTS holds fully-qualified
+        // names (e.g. `segments.date`), so comparing against the raw, possibly-bare
+        // segment input would let an unprefixed "date" slip through unfiltered.
+        const allExpandedSegments = checkPrefix(segments, "segments");
+        const expandedSegments = dateRange
+          ? allExpandedSegments
+          : allExpandedSegments?.filter((s) => !CORE_DATE_SEGMENTS.includes(s));
+        const expandedMetrics = checkPrefix(metrics, "metrics");
+
+        // Validate against resource allow-lists - throws ConfigurationError before any HTTP call
+        for (const f of expandedFields) {
+          if (!validFields.has(f)) {
+            throw new ConfigurationError(`"${f}" is not a valid field for the ${label} resource. See https://developers.google.com/google-ads/api/fields/v25/${value}`);
+          }
+        }
+        for (const s of expandedSegments) {
+          if (!validSegments.has(s)) {
+            throw new ConfigurationError(`"${s}" is not a valid segment for the ${label} resource. See https://developers.google.com/google-ads/api/reference/rpc/v25/Segments`);
+          }
+        }
+        for (const m of expandedMetrics) {
+          if (!validMetrics.has(m)) {
+            throw new ConfigurationError(`"${m}" is not a valid metric for the ${label} resource. See https://developers.google.com/google-ads/api/reference/rpc/v25/Metrics`);
+          }
+        }
 
         const selection = [
-          ...checkPrefix(fields, value),
-          ...checkPrefix(filteredSegments, "segments"),
-          ...checkPrefix(metrics, "metrics"),
+          ...expandedFields,
+          ...expandedSegments,
+          ...expandedMetrics,
         ];
 
         if (!selection.length) {
@@ -137,10 +135,6 @@ export function createReportComponent(resource) {
 
         if (dateRange === "CUSTOM" && (!this.startDate || !this.endDate)) {
           throw new ConfigurationError("Both **Custom Start Date** and **Custom End Date** are required when using a custom date range.");
-        }
-
-        if (!dateRange && orderBy && CORE_DATE_SEGMENTS.includes(orderBy)) {
-          throw new ConfigurationError(`Cannot order by "${orderBy}" without a date range. Either select a **Date Range** or choose a different **Order By** field.`);
         }
 
         let query = `SELECT ${selection.join(", ")} FROM ${value}`;
@@ -153,13 +147,20 @@ export function createReportComponent(resource) {
           const dateClause = dateRange === "CUSTOM"
             ? `BETWEEN '${this.startDate}' AND '${this.endDate}'`
             : `DURING ${dateRange}`;
-          query += ` ${objectFilter
+          query += ` ${objectFilter?.length
             ? "AND"
             : "WHERE"} segments.date ${dateClause}`;
         }
 
-        if (orderBy && direction) {
-          query += ` ORDER BY ${orderBy} ${direction}`;
+        const orderByClause = buildOrderByClause(orderBy, {
+          resource: value,
+          validFields,
+          validSegments,
+          validMetrics,
+          selectedNames: selection,
+        });
+        if (orderByClause) {
+          query += ` ORDER BY ${orderByClause}`;
         }
         if (limit) {
           query += ` LIMIT ${limit}`;
@@ -170,7 +171,7 @@ export function createReportComponent(resource) {
     },
     async run({ $ }) {
       const query = this.buildQuery();
-      const results = (await this.googleAds.createReport({
+      const results = (await this.googleAds.searchStream({
         $,
         accountId: this.accountId,
         customerClientId: this.customerClientId,
