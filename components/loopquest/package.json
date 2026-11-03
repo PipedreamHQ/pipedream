@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/loopquest",
+  "version": "0.0.1",
+  "description": "Pipedream components for LoopQuest — human-in-the-loop review.",
+  "main": "loopquest.app.mjs",
+  "type": "module",
+  "keywords": [
+    "pipedream",
+    "loopquest"
+  ],
+  "homepage": "https://pipedream.com/apps/loopquest",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  }
+}
