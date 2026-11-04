@@ -25,8 +25,6 @@ const REQUEST_TIMEOUT_CODE = "INCORTA_REQUEST_TIMEOUT";
 // Consecutive fetches that return no rows although the server says more rows
 // remain, before failing (guards against a server that never delivers).
 const MAX_IDLE_FETCHES = 3;
-// Schemas read concurrently when building the SQL prop's autocomplete schema.
-const SCHEMA_BATCH_SIZE = 5;
 
 export default {
   type: "app",
@@ -125,20 +123,14 @@ export default {
       let total = Infinity;
       const objects = [];
       while (offset < total) {
-        const response = await this._makeRequest({
-          method: "POST",
-          path: `/schema/${encodeURIComponent(schemaName)}/list`,
-          data: {
-            limit,
-            offset,
-          },
+        const page = await this.listSchemaObjectsPage({
+          schemaName,
+          offset,
+          limit,
           ...opts,
         });
-        objects.push(
-          ...(response.tablesDetails ?? []),
-          ...(response.viewsDetails ?? []),
-        );
-        total = response.total ?? objects.length;
+        objects.push(...page.objects);
+        total = page.total;
         offset += limit;
       }
       return objects;
@@ -519,13 +511,9 @@ export default {
       // batches and skip any that can't be read (e.g. no permission), so one
       // bad schema doesn't drop autocomplete metadata for all the others.
       const names = utils.namesOf(schemas);
-      const results = [];
-      for (let i = 0; i < names.length; i += SCHEMA_BATCH_SIZE) {
-        const batch = names.slice(i, i + SCHEMA_BATCH_SIZE);
-        results.push(...await Promise.allSettled(batch.map((schemaName) => this.listSchemaObjects({
-          schemaName,
-        }))));
-      }
+      const results = await utils.settleInBatches(names, (schemaName) => this.listSchemaObjects({
+        schemaName,
+      }));
       results.forEach((result, index) => {
         if (result.status !== "fulfilled") {
           return;
