@@ -4545,6 +4545,12 @@ importers:
 
   components/docsgenflow: {}
 
+  components/docspring:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
+
   components/docsumo:
     dependencies:
       '@pipedream/platform':
