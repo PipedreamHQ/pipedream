@@ -5,8 +5,8 @@ export default {
   key: "hubspot-create-contact-workflow",
   name: "Create Contact Workflow",
   description:
-    "Create a contact workflow in Hubspot. [See the documentation](https://developers.hubspot.com/docs/reference/api/automation/create-manage-workflows#post-%2Fautomation%2Fv4%2Fflows)",
-  version: "0.0.17",
+    "Create a contact workflow in HubSpot. [See the documentation](https://developers.hubspot.com/docs/reference/api/automation/create-manage-workflows#post-%2Fautomation%2Fv4%2Fflows)",
+  version: "0.0.18",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

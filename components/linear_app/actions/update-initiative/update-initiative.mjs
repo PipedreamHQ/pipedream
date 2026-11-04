@@ -4,7 +4,7 @@ export default {
   key: "linear_app-update-initiative",
   name: "Update Initiative",
   description: "Update an existing initiative in Linear. All fields are optional; only provided fields are updated. Use **List Initiatives** to find the initiative ID. Example: `initiativeId: \"b2c3d4e5-0000-0000-0000-000000000002\"`, `status: \"Completed\"` → returns `{success: true, initiative: {id: \"b2c3d4e5-...\", name: \"Q4 Platform Upgrade\", status: \"Completed\"}}`. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Mutation?query=initiativeupdate)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   ai: "optimized",
   annotations: {
