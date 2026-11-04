@@ -373,7 +373,8 @@ export default {
       const root = await this.listAllBlockChildren(block.id, subpagesOnly);
 
       // Walk the tree one level at a time, with at most `concurrency` requests in
-      // flight, to stay within Notion's average rate limit (3 requests/second).
+      // flight. This bounds fan-out but is not a rate limit: bursts that hit Notion's
+      // limit (average 3 requests/second) are retried in listBlockChildren.
       let level = root;
       while (level.length) {
         const parents = level.filter((child) => child.has_children);
@@ -399,11 +400,32 @@ export default {
       }
       return root;
     },
-    async listBlockChildren(blockId, params) {
-      return this._getNotionClient().blocks.children.list({
-        ...params,
-        block_id: blockId,
-      });
+    _isRateLimited(err) {
+      return err?.status === 429 || err?.code === "rate_limited";
+    },
+    _retryDelayMs(err, attempt) {
+      const headers = err?.headers;
+      const header = typeof headers?.get === "function"
+        ? headers.get("retry-after")
+        : headers?.["retry-after"];
+      const seconds = Number(header);
+      return Number.isFinite(seconds) && seconds > 0
+        ? seconds * 1000
+        : Math.min(1000 * 2 ** attempt, 10000);
+    },
+    async listBlockChildren(blockId, params, maxRetries = 5) {
+      for (let attempt = 0; ; attempt++) {
+        try {
+          return await this._getNotionClient().blocks.children.list({
+            ...params,
+            block_id: blockId,
+          });
+        } catch (err) {
+          // Honor Retry-After on 429s so a burst doesn't abort the whole retrieval
+          if (!this._isRateLimited(err) || attempt >= maxRetries) throw err;
+          await new Promise((resolve) => setTimeout(resolve, this._retryDelayMs(err, attempt)));
+        }
+      }
     },
     async getUsers(opts = {}) {
       return this._getNotionClient().users.list(opts);

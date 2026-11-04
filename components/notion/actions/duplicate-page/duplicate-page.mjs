@@ -74,8 +74,20 @@ export default {
 
     const results = await this.notion.createPage(page);
     const batchSize = MAX_CHILDREN_PER_REQUEST;
-    for (let i = batchSize; i < formattedChildren.length; i += batchSize) {
-      await this.notion.appendBlock(results.id, formattedChildren.slice(i, i + batchSize));
+    try {
+      for (let i = batchSize; i < formattedChildren.length; i += batchSize) {
+        await this.notion.appendBlock(results.id, formattedChildren.slice(i, i + batchSize));
+      }
+    } catch (err) {
+      // Don't leave a partial copy behind (a retry would otherwise create a second page)
+      try {
+        await this.notion.updatePage(results.id, {
+          archived: true,
+        });
+      } catch (cleanupErr) {
+        console.log(`Failed to archive partial copy ${results.id}: ${cleanupErr.message}`);
+      }
+      throw err;
     }
     const pageName = this.notion.extractPageTitle(results);
     $.export("$summary", `Successfully created page "[${pageName}](${results.url})"`);
