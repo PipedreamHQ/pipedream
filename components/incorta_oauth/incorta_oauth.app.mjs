@@ -509,11 +509,16 @@ export default {
       const dbInfo = {};
       // Best effort, like List Tables: read schemas in small concurrent
       // batches and skip any that can't be read (e.g. no permission), so one
-      // bad schema doesn't drop autocomplete metadata for all the others.
+      // bad schema doesn't drop autocomplete metadata for all the others. If
+      // none can be read, surface the error instead of returning empty metadata.
       const names = utils.namesOf(schemas);
       const results = await utils.settleInBatches(names, (schemaName) => this.listSchemaObjects({
         schemaName,
       }));
+      const failed = results.filter((result) => result.status !== "fulfilled");
+      if (names.length && failed.length === names.length) {
+        throw failed[0].reason;
+      }
       results.forEach((result, index) => {
         if (result.status !== "fulfilled") {
           return;
