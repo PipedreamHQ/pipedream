@@ -65,15 +65,15 @@ export default {
 
       const createdAt = ({ created_at: timestamp }) => Number(timestamp);
       const newest = Math.max(lastCreatedAt || 0, ...records.map(createdAt));
+      for (const record of fresh) {
+        this.$emit(record, this.generateMeta(record));
+      }
+
       if (newest) {
         this._setLastCreatedAt(newest);
         this._setSeenIds(records
           .filter((record) => createdAt(record) >= newest - OVERLAP_SECONDS)
           .map(({ id }) => id));
-      }
-
-      for (const record of fresh) {
-        this.$emit(record, this.generateMeta(record));
       }
     },
   },
