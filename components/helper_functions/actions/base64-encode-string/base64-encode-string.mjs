@@ -3,7 +3,7 @@ import helper_functions from "../../helper_functions.app.mjs";
 export default {
   key: "helper_functions-base64-encode-string",
   name: "Base64 Encode String",
-  description: "Accepts a string and returns its base64-encoded representation. The inverse of [Base64 Decode String](https://pipedream.com/apps/helper-functions/actions/base64-decode-string).",
+  description: "Accepts a string and returns its base64-encoded representation. The inverse of **Base64 Decode String**.",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -22,7 +22,7 @@ export default {
     inputEncoding: {
       type: "string",
       label: "Input Encoding",
-      description: "How to interpret the input string's characters as bytes. Use `utf8` for regular text, or `binary` (latin1) when each character represents a single raw byte. e.g. `utf8`.",
+      description: "How to interpret the input string's characters as bytes. Use `utf8` for regular text, or `binary` (latin1) when each character represents a single raw byte (characters above U+00FF are truncated to their low byte). e.g. `utf8`.",
       options: [
         "utf8",
         "binary",
