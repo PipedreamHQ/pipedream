@@ -1,6 +1,6 @@
 # Overview
 
-DPD (getdpd.com) is a hosted cart, checkout and download delivery service for selling ebooks, music, software, subscriptions and other digital products from your own website. With the DPD API you can watch for new purchases, customers, products and subscribers, look each of them up, and email a buyer their purchase again. Connect it to Pipedream to send your sales and members to the other tools you use.
+DPD (Digital Product Delivery, getdpd.com) is a hosted cart, checkout and download delivery service for selling ebooks, music, software, subscriptions and other digital products from your own website. With the DPD API you can watch for new purchases, customers, products and subscribers, look each of them up, and email a buyer their purchase again. Connect it to Pipedream to send your sales and members to the other tools you use.
 
 # Example Use Cases
 
