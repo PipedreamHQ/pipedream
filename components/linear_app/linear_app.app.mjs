@@ -137,6 +137,11 @@ export default {
       optional: true,
       options: constants.HEALTH_OPTIONS,
     },
+    documentId: {
+      type: "string",
+      label: "Document ID",
+      description: "The UUID or slugId of the document. A UUID looks like `a1b2c3d4-0000-0000-0000-000000000001`; a slugId is the short alphanumeric code at the end of the document URL (e.g. `10b5bc2940c7`). Use **Search Documents** to find document IDs.",
+    },
     orderBy: {
       type: "string",
       label: "Order By",
@@ -380,6 +385,51 @@ export default {
     },
     async listInitiatives(variables = {}) {
       return this.client().initiatives(variables);
+    },
+    async getDocument(variables) {
+      const { data: { document } } = await this.post({
+        data: {
+          query: queries.getDocument,
+          variables,
+        },
+      });
+      return document;
+    },
+    async getDocumentForHistory(variables) {
+      const { data: { document } } = await this.post({
+        data: {
+          query: queries.getDocumentForHistory,
+          variables,
+        },
+      });
+      return document;
+    },
+    async searchDocuments(variables) {
+      const { data: { searchDocuments } } = await this.post({
+        data: {
+          query: queries.searchDocuments,
+          variables,
+        },
+      });
+      return searchDocuments;
+    },
+    async listDocuments(variables) {
+      const { data: { documents } } = await this.post({
+        data: {
+          query: queries.listDocuments,
+          variables,
+        },
+      });
+      return documents;
+    },
+    async getDocumentContentHistory(variables) {
+      const { data: { documentContentHistory } } = await this.post({
+        data: {
+          query: queries.getDocumentContentHistory,
+          variables,
+        },
+      });
+      return documentContentHistory;
     },
     async *paginateResources({
       resourcesFn,

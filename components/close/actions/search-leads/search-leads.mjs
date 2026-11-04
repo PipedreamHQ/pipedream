@@ -4,7 +4,7 @@ import utils from "../../common/utils.mjs";
 export default {
   type: "action",
   key: "close-search-leads",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
