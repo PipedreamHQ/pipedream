@@ -353,27 +353,51 @@ export default {
         block_id: blockId,
       });
     },
-    async retrieveBlockChildren(block, subpagesOnly = false) {
+    async listAllBlockChildren(blockId, subpagesOnly = false) {
       const params = {};
       const children = [];
-      if (!block.has_children) return children;
-
       do {
         const {
           results,
           next_cursor: nextCursor,
-        } = await this.listBlockChildren(block.id, params);
+        } = await this.listBlockChildren(blockId, params);
 
         children.push(...(results.filter((child) => !subpagesOnly || child.type === "child_page")));
-        params.next_cursor = nextCursor;
-      } while (params.next_cursor);
+        params.start_cursor = nextCursor;
+      } while (params.start_cursor);
+      return children;
+    },
+    async retrieveBlockChildren(block, subpagesOnly = false, concurrency = 3) {
+      if (!block.has_children) return [];
 
-      (await Promise.all(children.map((child) => this.retrieveBlockChildren(child, subpagesOnly))))
-        .forEach((c, i) => {
-          children[i].children = c;
+      const root = await this.listAllBlockChildren(block.id, subpagesOnly);
+
+      // Walk the tree one level at a time, with at most `concurrency` requests in
+      // flight, to stay within Notion's average rate limit (3 requests/second).
+      let level = root;
+      while (level.length) {
+        const parents = level.filter((child) => child.has_children);
+        level.forEach((child) => {
+          child.children = [];
         });
 
-      return children;
+        const fetched = new Array(parents.length);
+        let next = 0;
+        await Promise.all(Array.from({
+          length: Math.min(concurrency, parents.length),
+        }, async () => {
+          while (next < parents.length) {
+            const i = next++;
+            fetched[i] = await this.listAllBlockChildren(parents[i].id, subpagesOnly);
+          }
+        }));
+
+        parents.forEach((parent, i) => {
+          parent.children = fetched[i];
+        });
+        level = fetched.flat();
+      }
+      return root;
     },
     async listBlockChildren(blockId, params) {
       return this._getNotionClient().blocks.children.list({
