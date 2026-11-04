@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/sell_to_state",
+  "version": "0.1.0",
+  "description": "Pipedream Sell to State Components",
+  "main": "sell_to_state.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sell_to_state"
+  ],
+  "homepage": "https://pipedream.com/apps/sell_to_state",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^3.4.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
