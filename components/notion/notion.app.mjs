@@ -400,8 +400,17 @@ export default {
       }
       return root;
     },
-    _isRateLimited(err) {
-      return err?.status === 429 || err?.code === "rate_limited";
+    _isRetryable(err, idempotent) {
+      // 429 is always safe to retry: Notion rejected the request without processing it.
+      if (err?.status === 429 || err?.code === "rate_limited") return true;
+      // Transient server errors are only retried for reads; a failed write may have
+      // been applied, so retrying it could duplicate blocks.
+      return idempotent && [
+        502,
+        503,
+        504,
+        529,
+      ].includes(err?.status);
     },
     _retryDelayMs(err, attempt) {
       const headers = err?.headers;
@@ -413,19 +422,30 @@ export default {
         ? seconds * 1000
         : Math.min(1000 * 2 ** attempt, 10000);
     },
-    async listBlockChildren(blockId, params, maxRetries = 5) {
+    /**
+     * Runs `fn`, retrying rate-limited (429) responses and, for idempotent calls,
+     * transient server errors. Honors Retry-After, falling back to exponential backoff.
+     */
+    async withRetry(fn, {
+      idempotent = false, maxRetries = 5,
+    } = {}) {
       for (let attempt = 0; ; attempt++) {
         try {
-          return await this._getNotionClient().blocks.children.list({
-            ...params,
-            block_id: blockId,
-          });
+          return await fn();
         } catch (err) {
-          // Honor Retry-After on 429s so a burst doesn't abort the whole retrieval
-          if (!this._isRateLimited(err) || attempt >= maxRetries) throw err;
+          if (!this._isRetryable(err, idempotent) || attempt >= maxRetries) throw err;
           await new Promise((resolve) => setTimeout(resolve, this._retryDelayMs(err, attempt)));
         }
       }
+    },
+    async listBlockChildren(blockId, params, maxRetries = 5) {
+      return this.withRetry(() => this._getNotionClient().blocks.children.list({
+        ...params,
+        block_id: blockId,
+      }), {
+        idempotent: true,
+        maxRetries,
+      });
     },
     async getUsers(opts = {}) {
       return this._getNotionClient().users.list(opts);
