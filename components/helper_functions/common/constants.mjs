@@ -1,0 +1,53 @@
+const SIGN_MODE_OPTIONS = [
+  "rsa",
+  "ecdsa",
+  "hmac",
+];
+const DEFAULT_SIGN_MODE = "rsa";
+
+const SIGN_ALGORITHM_OPTIONS = [
+  "sha256",
+  "sha384",
+  "sha512",
+];
+
+const SIGNATURE_ENCODING_OPTIONS = [
+  "base64",
+  "base64url",
+  "hex",
+];
+const DEFAULT_SIGNATURE_ENCODING = "base64";
+
+const HMAC_KEY_ENCODING_OPTIONS = [
+  "utf8",
+  "hex",
+  "base64",
+  "base64url",
+];
+const DEFAULT_HMAC_KEY_ENCODING = "utf8";
+
+const RSA_PADDING_OPTIONS = [
+  "pkcs1",
+  "pss",
+];
+const DEFAULT_RSA_PADDING = "pkcs1";
+
+const ECDSA_SIGNATURE_FORMAT_OPTIONS = [
+  "der",
+  "ieee-p1363",
+];
+const DEFAULT_ECDSA_SIGNATURE_FORMAT = "der";
+
+export default {
+  SIGN_MODE_OPTIONS,
+  DEFAULT_SIGN_MODE,
+  SIGN_ALGORITHM_OPTIONS,
+  SIGNATURE_ENCODING_OPTIONS,
+  DEFAULT_SIGNATURE_ENCODING,
+  HMAC_KEY_ENCODING_OPTIONS,
+  DEFAULT_HMAC_KEY_ENCODING,
+  RSA_PADDING_OPTIONS,
+  DEFAULT_RSA_PADDING,
+  ECDSA_SIGNATURE_FORMAT_OPTIONS,
+  DEFAULT_ECDSA_SIGNATURE_FORMAT,
+};
