@@ -58,8 +58,9 @@ export default {
     outputFormats: {
       type: "string[]",
       label: "Output Formats",
-      description: "What to make: `pdf`, and `png` for an image of each page (up to 100 pages), e.g. `[\"pdf\", \"png\"]`."
-        + " Leave blank for just the PDF.",
+      description: "What to make: `pdf`; for a Word template, `docx` (its Word document) and `odt` (an OpenDocument file); and `png` for an image of each page of the PDF (up to 100 pages, with the PDF), e.g. `[\"pdf\", \"png\"]`."
+        + " Leave blank for what the template makes: the PDF, or what a Word template is set to make."
+        + " A submission with a PDF password can't make the Word document or OpenDocument file.",
       options: constants.OUTPUT_FORMAT_OPTIONS,
       optional: true,
     },

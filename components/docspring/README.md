@@ -1,13 +1,13 @@
 # Overview
 
-DocSpring fills in PDF templates with your data, generates PDFs from HTML, and collects e-signatures. With these components you can generate PDFs (one at a time or in batches), combine PDFs, send documents out for signature with a signing link for each signer, and manage templates, their fields and folders. The **New Event (Instant)** source starts a workflow when a PDF is ready, a signer completes a signature request, or a template changes.
+DocSpring fills PDF forms, Word documents and HTML templates with your data and collects e-signatures, all with one API. With these components you can generate PDFs (one at a time or in batches), combine PDFs, send documents out for signature, and manage templates, their fields and folders. The **New Event (Instant)** source starts a workflow when a PDF is ready, a signer completes a signature request, or a template changes.
 
 The components use [DocSpring's API v2](https://docspring.com/docs/api/). Self-hosted DocSpring servers need the release that has API v2.
 
 # Example Use Cases
 
 - **Generate a contract from a form**: when someone submits a form, **Generate PDF** fills in your contract template with their answers, and the next step emails the PDF's `files.pdf.download_url` or saves it to cloud storage.
-- **Collect signatures**: **Create Signature Request** creates a submission for one or more signers and returns a signing link for each. Send the links by email or chat, and use **New Event (Instant)** with `submission.processed` to file the signed PDF.
+- **Collect signatures**: **Create Signature Request** creates a submission for one or more signers. DocSpring emails each of them a link to sign, any reminders, and the signed PDF once everyone has signed. Or send the links yourself: the action then returns a signing link for each. Use **New Event (Instant)** with `submission.processed` to file the signed PDF.
 - **Monthly statements in bulk**: on a schedule, **Generate PDFs in a Batch** makes up to 50 PDFs in one request, and **Combine PDFs** merges them into one file.
 - **Templates from your own PDFs**: **Create Template** turns a PDF at a URL (or in `/tmp`) into a template and sets up its fields with AI field detection; **Publish Template Version** publishes changes.
 

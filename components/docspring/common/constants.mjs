@@ -42,10 +42,20 @@ const TEMPLATE_DOCUMENT_FAILURE_STATES = [
   "download_failed",
 ];
 
+// Word documents and OpenDocument files come only from Word templates: the API refuses them
+// for other templates.
 const OUTPUT_FORMAT_OPTIONS = [
   {
     label: "PDF",
     value: "pdf",
+  },
+  {
+    label: "Word document (Word templates)",
+    value: "docx",
+  },
+  {
+    label: "OpenDocument file (Word templates)",
+    value: "odt",
   },
   {
     label: "PNG page images",
@@ -63,7 +73,7 @@ const SOURCE_PDF_TYPES = [
 
 const AUTH_TYPE_OPTIONS = [
   {
-    label: "Email link (you emailed them the link)",
+    label: "Email link (they got the link by email)",
     value: "email_link",
   },
   {
@@ -140,6 +150,14 @@ const EVENT_TYPE_OPTIONS = [
   {
     label: "Signature Request Updated",
     value: "signature_request.updated",
+  },
+  {
+    label: "Signature Request Sent",
+    value: "signature_request.sent",
+  },
+  {
+    label: "Signature Request Email Bounced",
+    value: "signature_request.email_bounced",
   },
   {
     label: "Combined PDF Processed",

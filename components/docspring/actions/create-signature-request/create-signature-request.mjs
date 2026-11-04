@@ -2,13 +2,14 @@ import { ConfigurationError } from "@pipedream/platform";
 import docspring from "../../docspring.app.mjs";
 import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
+import signerEmails from "../../common/signer-emails.mjs";
 
 export default {
   key: "docspring-create-signature-request",
   name: "Create Signature Request",
-  description: "Create a submission that one or more people fill in and sign, and a signing link for each of them."
+  description: "Create a submission that one or more people fill in and sign. DocSpring emails each of them a link to sign (the default), or you get a signing link for each."
     + " The PDF is generated once every signer has signed: use the **New Event (Instant)** trigger with `submission.processed` to get it."
-    + " Returns the submission, with `signing_url` on each of its `signature_requests`, and `first_signature_request_id` and `first_signing_url`."
+    + " Returns the submission with its `signature_requests`, and `first_signature_request_id` and `first_signing_url`; when you send the links, each signature request has its `signing_url`."
     + " Each signer needs the names of the fields they fill in (see **List Template Fields**); each field can be in only one signer's list."
     + " Use **Create Signing Link** to make a new link later."
     + " [See the documentation](https://docspring.com/docs/api/#tag/submissions/post/templates/{template_id}/submissions)",
@@ -45,21 +46,8 @@ export default {
       max: 100,
       reloadProps: true,
     },
-    signingLinkType: {
-      propDefinition: [
-        docspring,
-        "signingLinkType",
-      ],
-      description: "The signing link to make for each signer: `email` links open the form for 7 days, `api` links for 24 hours,"
-        + " and `none` makes no links (use **Create Signing Link** later). e.g. `email`.",
-      options: [
-        ...constants.SIGNING_LINK_TYPE_OPTIONS,
-        {
-          label: "None",
-          value: "none",
-        },
-      ],
-    },
+    sendEmail: signerEmails.sendEmailProp,
+    signingOrder: signerEmails.signingOrderProp,
     data: {
       propDefinition: [
         docspring,
@@ -101,6 +89,27 @@ export default {
       }
     }
     const props = {};
+    if (signerEmails.propsEmailMode(this.sendEmail) === "docspring") {
+      Object.assign(props, signerEmails.emailOptionProps());
+    } else {
+      // DocSpring's emails have their own links: a link here would let a workflow send each
+      // signer a second email, so the link type is only offered when you send the links.
+      props.signingLinkType = {
+        type: "string",
+        label: "Signing Link Type",
+        description: "The signing link to make for each signer: `email` links open the form for 7 days, `api` links for 24 hours,"
+          + " and `none` makes no links (use **Create Signing Link** later). e.g. `email`.",
+        options: [
+          ...constants.SIGNING_LINK_TYPE_OPTIONS,
+          {
+            label: "None",
+            value: "none",
+          },
+        ],
+        default: "email",
+        optional: true,
+      };
+    }
     for (let i = 1; i <= count; i++) {
       props[`signer${i}Name`] = {
         type: "string",
@@ -111,7 +120,7 @@ export default {
       props[`signer${i}Email`] = {
         type: "string",
         label: `Signer ${i} Email`,
-        description: `The email address of signer ${i}, e.g. \`jane@example.com\`.`,
+        description: `The email address of signer ${i}, e.g. \`jane@example.com\`. Required when DocSpring emails the signers.`,
         optional: true,
       };
       props[`signer${i}Fields`] = {
@@ -131,7 +140,9 @@ export default {
       props[`signer${i}AuthType`] = {
         type: "string",
         label: `Signer ${i} Authentication`,
-        description: "How your app authenticated this person before giving them the link, for the audit trail, e.g. `email_link`.",
+        description: "How the person is identified before they see the form, for the audit trail, e.g. `email_link`."
+          + " Choose `email_link` when they get their link by email, from DocSpring or from you: DocSpring's emails always use it."
+          + " The other types are for people you send the link to yourself or who sign in your app.",
         options: constants.AUTH_TYPE_OPTIONS,
         default: "email_link",
         optional: true,
@@ -140,6 +151,15 @@ export default {
         type: "string",
         label: `Signer ${i} Authentication Provider`,
         description: "The service that authenticated them, e.g. `google`. Required when the authentication is `oauth`.",
+        optional: true,
+      };
+      props[`signer${i}SigningStep`] = {
+        type: "integer",
+        label: `Signer ${i} Signing Step`,
+        description: "With **Signing Order** `sequential`: when this person signs, e.g. `2`. Everyone in step 1 signs first, then step 2, and so on,"
+          + " and people in the same step sign in any order. Give every signer a step, or none to have them sign in the order of the signers.",
+        min: 1,
+        max: 100,
         optional: true,
       };
       props[`signer${i}PrefilledValuesEditable`] = {
@@ -177,11 +197,12 @@ export default {
         }
         signatureRequests.push(utils.compact({
           name: this[`signer${i}Name`],
-          email: this[`signer${i}Email`],
+          email: signerEmails.text(this[`signer${i}Email`]),
           role: this[`signer${i}Role`],
           fields,
           auth_type: authType,
           auth_provider: authProvider,
+          signing_step: utils.toInteger(this[`signer${i}SigningStep`], `Signer ${i} Signing Step`),
           prefilled_values_editable: utils.toBoolean(this[`signer${i}PrefilledValuesEditable`], `Signer ${i} Prefilled Values Editable`),
           ignore_unknown_fields: utils.toBoolean(this[`signer${i}IgnoreUnknownFields`], `Signer ${i} Ignore Unknown Fields`),
         }));
@@ -195,6 +216,7 @@ export default {
   },
   async run({ $ }) {
     const signatureRequests = this.buildSignatureRequests();
+    const settings = signerEmails.emailSettings(this);
     const submission = await this.docspring.createSubmission({
       $,
       templateId: this.templateId,
@@ -206,10 +228,13 @@ export default {
         test: utils.toBoolean(this.test, "Test") || undefined,
         metadata: utils.parseObject(this.metadata, "Metadata"),
         signature_requests: signatureRequests,
+        ...settings,
       }),
     });
 
-    const linkType = this.signingLinkType || "email";
+    const linkType = settings.send_email
+      ? "none"
+      : this.signingLinkType || "email";
     const withLinks = [];
     for (const signatureRequest of submission.signature_requests || []) {
       let signingUrl = null;

@@ -23,6 +23,7 @@ export default {
     },
     has_password: false,
     signature_requests: [],
+    signing_order: "parallel",
     actions: [],
     truncated_text: {},
     output_formats: [

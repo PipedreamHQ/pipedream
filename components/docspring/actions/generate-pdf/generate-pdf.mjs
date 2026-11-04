@@ -5,6 +5,7 @@ export default {
   key: "docspring-generate-pdf",
   name: "Generate PDF",
   description: "Fill in a template with your data and generate a PDF. Returns the submission, with the PDF's links in `files.pdf` (`download_url` expires; `permanent_url` doesn't)."
+    + " A Word template can also make its Word document and an OpenDocument file (**Output Formats**), in `files.docx` and `files.odt`."
     + " Use **Find Templates** to find the template, **List Template Fields** for its field names, and **Check Data** to test data without making a PDF."
     + " Invalid data fails with each problem listed. For people who fill in or sign the PDF, use **Create Signature Request** instead."
     + " [See the documentation](https://docspring.com/docs/api/#tag/submissions/post/templates/{template_id}/submissions)",
@@ -59,6 +60,8 @@ export default {
         docspring,
         "password",
       ],
+      description: "A password the PDF needs to be opened with, e.g. `s3cret-pass`. It's never returned."
+        + " A submission with a password can't make a Word document or OpenDocument file.",
     },
     expiresIn: {
       propDefinition: [

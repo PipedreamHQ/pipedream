@@ -6,7 +6,7 @@ export default {
   key: "docspring-add-template-fields",
   name: "Add Template Fields",
   description: "Add fields to a template's draft. Each field is a JSON object of field settings (`name`, `page`, `x`, `y`, `width`, `height`, `type` and others);"
-    + " settings left out have their defaults, and a field named like existing fields shares their settings."
+    + " settings left out have their defaults. A field with the name of one of the template's fields shares its settings (`type`, `required`, `default` and others): leave them out or give the same values, and change them for every field with the name with **Update Template Fields**."
     + " Returns all of the template's fields. Use **List Template Fields** to see existing fields' settings, and **Publish Template Version** to publish the change."
     + " [See the documentation](https://docspring.com/docs/api/#tag/templates/post/templates/{template_id}/fields)",
   version: "0.0.1",

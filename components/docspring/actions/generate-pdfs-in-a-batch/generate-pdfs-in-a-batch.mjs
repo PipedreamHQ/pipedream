@@ -64,8 +64,9 @@ export default {
         docspring,
         "outputFormats",
       ],
-      description: "What to make for each submission that doesn't set its own `output_formats`: `pdf`, and `png` for an image of each page,"
-        + " e.g. `[\"pdf\", \"png\"]`. Leave blank for just the PDF.",
+      description: "What to make for each submission that doesn't set its own `output_formats`: `pdf`; for a Word template, `docx` (its Word document)"
+        + " and `odt` (an OpenDocument file); and `png` for an image of each page of the PDF, e.g. `[\"pdf\", \"png\"]`."
+        + " Leave blank for what each template makes: the PDF, or what a Word template is set to make.",
     },
     wait: {
       propDefinition: [
