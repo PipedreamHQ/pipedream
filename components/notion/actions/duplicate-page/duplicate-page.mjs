@@ -77,10 +77,10 @@ export default {
     try {
       for (let i = batchSize; i < formattedChildren.length; i += batchSize) {
         // retries 429s only; other failures fall through to the cleanup below
-        await this.notion.withRetry(() => this.notion.appendBlock(
+        await this.notion.appendBlockWithRetry(
           results.id,
           formattedChildren.slice(i, i + batchSize),
-        ));
+        );
       }
     } catch (err) {
       // Don't leave a partial copy behind (a retry would otherwise create a second page)

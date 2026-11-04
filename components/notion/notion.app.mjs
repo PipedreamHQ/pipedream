@@ -348,6 +348,9 @@ export default {
         children: blocks,
       });
     },
+    async appendBlockWithRetry(parentId, blocks) {
+      return this._withRetry(() => this.appendBlock(parentId, blocks));
+    },
     async retrieveBlock(blockId) {
       return this._getNotionClient().blocks.retrieve({
         block_id: blockId,
@@ -426,7 +429,7 @@ export default {
      * Runs `fn`, retrying rate-limited (429) responses and, for idempotent calls,
      * transient server errors. Honors Retry-After, falling back to exponential backoff.
      */
-    async withRetry(fn, {
+    async _withRetry(fn, {
       idempotent = false, maxRetries = 5,
     } = {}) {
       for (let attempt = 0; ; attempt++) {
@@ -439,7 +442,7 @@ export default {
       }
     },
     async listBlockChildren(blockId, params, maxRetries = 5) {
-      return this.withRetry(() => this._getNotionClient().blocks.children.list({
+      return this._withRetry(() => this._getNotionClient().blocks.children.list({
         ...params,
         block_id: blockId,
       }), {
