@@ -8,7 +8,7 @@ export default {
   name: "New Project Update Written (Instant)",
   description: "Emit new event when a project update (status report) is created in Linear. Returns update content, author, project details, and health status. Filters by team and optionally by project. See Linear docs for additional info [See the documentation](https://linear.app/developers/webhooks).",
   type: "source",
-  version: "0.0.16",
+  version: "0.0.17",
   dedupe: "unique",
   props: {
     linearApp,
