@@ -1,4 +1,5 @@
 import app from "../../postpulse.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "postpulse-list-chats",
@@ -18,7 +19,11 @@ export default {
       propDefinition: [
         app,
         "accountId",
+        () => ({
+          platforms: constants.CHAT_PLATFORMS,
+        }),
       ],
+      description: "A connected Facebook, Telegram or Pinterest account. Use **List Accounts** to see all accounts and their IDs, e.g. `12345`",
     },
   },
   async run({ $ }) {
