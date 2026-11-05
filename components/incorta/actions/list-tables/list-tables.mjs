@@ -1,18 +1,17 @@
 import incorta from "../../incorta.app.mjs";
 import utils from "../../common/utils.mjs";
 
-const SCHEMA_BATCH_SIZE = 5;
 const API_PAGE_SIZE = 200;
 
 export default {
   key: "incorta-list-tables",
   name: "List Tables",
   description: "Lists the tables and views (\"schema objects\") in an Incorta tenant, via the REST API."
-    + " Provide **Schema Name** to scope the results to one schema (use **List Schemas** to find valid names); omit it to list tables across every schema in the tenant."
+    + " Provide `Schema Name` to scope the results to one schema (use **List Schemas** to find valid names); omit it to list tables across every schema in the tenant."
     + " Use the returned table names as the `FROM` target in **Execute SQL Query**, and pass a table name to **List Columns** to see its column definitions."
-    + " Use **Limit** and **Offset** to page through large result sets: the response includes `total` (tables matched before paging), `hasMore`, and `nextOffset` (pass it as **Offset** to get the next page). If `hasMore` is true the list is truncated, so keep paging or narrow with **Schema Name**."
+    + " Use `Limit` and `Offset` to page through large result sets: the response includes `total` (tables matched before paging), `hasMore`, and `nextOffset` (pass it as `Offset` to get the next page). If `hasMore` is true the list is truncated, so keep paging or narrow with `Schema Name`."
     + " Example: calling with Schema Name `pipedream_store` returns `{tables: [{schemaName: \"pipedream_store\", tableName: \"customer\", type: \"table\"}], errors: [], total: 1, hasMore: false}`. When listing across all schemas, schemas that could not be read are reported in `errors` (`{schemaName, error}`) and the list is then incomplete. [See the documentation](https://docs.incorta.com/latest/references-api-list-schema-objects-endpoint-v2)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -31,7 +30,7 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "Maximum number of tables to return, e.g. `10` to return the first 10. Omit to return all. Use with **Offset** to page through large tenants.",
+      description: "Maximum number of tables to return, e.g. `10` to return the first 10. Omit to return all. Use with `Offset` to page through large tenants.",
       min: 1,
       optional: true,
     },
@@ -119,18 +118,6 @@ export default {
       $,
     }));
 
-    // Runs `task` over `items` in small concurrent batches rather than one
-    // at a time (or all at once). allSettled so one unreadable schema
-    // doesn't discard the results that did load.
-    const settleInBatches = async (items, task) => {
-      const results = [];
-      for (let i = 0; i < items.length; i += SCHEMA_BATCH_SIZE) {
-        const batch = items.slice(i, i + SCHEMA_BATCH_SIZE);
-        results.push(...await Promise.allSettled(batch.map(task)));
-      }
-      return results;
-    };
-
     const errors = [];
     const recordError = (schemaName, reason) => errors.push({
       schemaName,
@@ -140,7 +127,7 @@ export default {
     // Pass 1: read the first API page of every schema. This gives each
     // schema's `total` (needed to place the requested window in the combined
     // list) and, for schemas under one page, already holds all their objects.
-    const firstPages = await settleInBatches(
+    const firstPages = await utils.settleInBatches(
       schemaNames,
       (schemaName) => fetchRange(schemaName, 0, API_PAGE_SIZE),
     );
@@ -176,7 +163,7 @@ export default {
       };
     });
     const total = base;
-    const fetched = await settleInBatches(wanted, async (schema) => {
+    const fetched = await utils.settleInBatches(wanted, async (schema) => {
       if (schema.from >= schema.to) {
         return [];
       }
