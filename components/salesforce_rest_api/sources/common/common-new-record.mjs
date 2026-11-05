@@ -107,8 +107,6 @@ export default {
     },
     async processTimerEvent(eventData) {
       const {
-        paginate,
-        setLatestDateCovered,
         getObjectTypeColumns,
         getNameField,
         generateTimerMeta,
@@ -117,36 +115,30 @@ export default {
 
       const {
         startTimestamp,
+        startId,
         endTimestamp,
       } = eventData;
 
       const fieldName = getNameField();
       const columns = getObjectTypeColumns();
+      const dateFieldName = constants.FIELD_NAME.CREATED_DATE;
 
-      const events = await paginate({
+      // Oldest first, so emitting in order keeps events chronological
+      const events = await this.paginate({
         objectType: this.getObjectType(),
         startTimestamp,
+        startId,
         endTimestamp,
         columns,
+        dateFieldName,
       });
 
-      const [
-        latestEvent,
-      ] = events;
+      this.setPollingCursor(events, dateFieldName);
 
-      let latestDateCovered = new Date(latestEvent?.CreatedDate || endTimestamp);
-      if (isNaN(latestDateCovered.getMilliseconds())) {
-        latestDateCovered = new Date();
-      }
-      latestDateCovered.setSeconds(0);
-      setLatestDateCovered(latestDateCovered.toISOString());
-
-      Array.from(events)
-        .reverse()
-        .forEach((item) => {
-          const meta = generateTimerMeta(item, fieldName);
-          emit(item, meta);
-        });
+      events.forEach((item) => {
+        const meta = generateTimerMeta(item, fieldName);
+        emit(item, meta);
+      });
     },
     async timerActivateHook() {
       const {

@@ -15,11 +15,11 @@ export default {
   description:
     "Fetch an entire Gmail thread (conversation) by thread ID — returns every message in order with headers, decoded body text, and attachment metadata."
     + " Use this after **Find Emails** when the user wants the full conversation rather than a single message. Each result from **Find Emails** includes a `threadId` you can pass here."
-    + " With `format: full` (default) each message includes decoded `text`/`html` bodies and attachment metadata. Use `format: metadata` to skip bodies and get only headers + labelIds — useful for large threads."
-    + " Responses are capped. An oversized thread is served as `text`: each message keeps `subject`, `sender`, `recipient`, `date`, and a decoded plain-text `bodyText` in place of `payload` (attachment metadata is omitted), shortened toward a floor if needed (cut messages carry `bodyTruncated: true` and `bodyTotalChars`). Only if that still does not fit does it fall back to `metadata`, then drop messages from the tail. Every fallback sets `truncated`, `servedFormat`, and a `note`."
+    + " With `format: full` (default) each message includes decoded `text`/`html` bodies and an `attachments` list of `{ partId, filename, mimeType, size }` (nested parts included). To download one, pass the message `id` as `messageId` and the `partId` to **Download Attachment**. Use `format: metadata` to skip bodies and get only headers + labelIds — useful for large threads."
+    + " Responses are capped. An oversized thread is served as `text`: each message keeps `subject`, `sender`, `recipient`, `date`, `attachments`, and a decoded plain-text `bodyText` in place of `payload`, shortened toward a floor if needed (cut messages carry `bodyTruncated: true` and `bodyTotalChars`). Only if that still does not fit does it fall back to `metadata` (headers, labelIds, and `attachments`), then drop messages from the tail. Every fallback sets `truncated`, `servedFormat`, and a `note`."
     + " Pass `includeLinks: false` to drop link URLs and images from the decoded text, which keeps notification and newsletter threads far smaller."
     + " [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.threads/get).",
-  version: "0.3.1",
+  version: "0.4.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -69,9 +69,12 @@ export default {
       }
       if (format === "full") {
         utils.attachTextToPayload(message.payload, textOpts);
+        message.attachments = utils.getAttachments(message.payload);
       }
       return message;
     },
+    // Keeps `attachments`: it is small, and once `payload` is gone it is the only way
+    // to reach an attachment.
     stripToMetadata(message) {
       delete message.payload;
       delete message.bodyText;
@@ -148,8 +151,8 @@ export default {
         ? `, dropped ${droppedFromTail} message${droppedFromTail === 1
           ? ""
           : "s"} from the tail`
-        : ""}. ${served === "text"
-        ? "Attachment metadata is omitted; use **Find Emails** with `fields: [\"payload\"]` to get it. "
+        : ""}. ${requested === "full"
+        ? "Each message still lists its `attachments`; pass a `partId` from it to **Download Attachment**. "
         : ""}${requested === "full" && textOpts.includeLinks
         ? "Pass `includeLinks: false` to fit more of the thread, or read"
         : "Read"} messages individually with **Find Emails**.`;

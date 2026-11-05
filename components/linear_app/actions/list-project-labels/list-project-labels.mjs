@@ -5,7 +5,7 @@ export default {
   key: "linear_app-list-project-labels",
   name: "List Project Labels",
   description: "List available project labels in the Linear workspace. Use this to discover valid label IDs when creating or updating projects. Returns `{nodes, pageInfo}`, where each node includes `id`, `name`, and optional `color`. If `pageInfo.hasNextPage` is `true`, call again with `after` set to `pageInfo.endCursor` to fetch more. Example: returns `{nodes: [{id: \"9a1b2c3d-0000-0000-0000-000000000007\", name: \"Frontend\", color: \"#0ea5e9\"}], pageInfo: {endCursor: \"9a1b2c3d-0000-0000-0000-000000000007\", hasNextPage: false}}`. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=projectLabels).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {
