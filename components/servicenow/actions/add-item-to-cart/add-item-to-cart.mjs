@@ -4,8 +4,8 @@ import { parseObject } from "../../common/utils.mjs";
 export default {
   key: "servicenow-add-item-to-cart",
   name: "Add Item to Cart",
-  description: "Add a ServiceNow catalog item to the current user's cart, or to one of their named carts. Run **Search Catalog Items** to find the item `sys_id` and **Get Catalog Item Variables** to learn which variable names to supply. After adding items, use **View Cart**, then **Checkout Cart** or **Submit Cart Order** to submit. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
-  version: "0.0.9",
+  description: "Add a ServiceNow catalog item to the current user's default cart, or to a named cart when `cartName` is set. Run **Search Catalog Items** to find the item `sys_id` and **Get Catalog Item Variables** to learn which variable names to supply. After adding items to the default cart, use **View Cart**, then **Checkout Cart** or **Submit Cart Order** to submit. Those actions take no cart name, so they cannot view or submit a named cart. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
+  version: "0.1.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -43,7 +43,7 @@ export default {
     cartName: {
       type: "string",
       label: "Cart Name",
-      description: "Add to the user's named cart with this name instead of their default cart. ServiceNow creates the cart if it does not exist. Example: `cart_plan_42`.",
+      description: "Add to the user's named cart with this name instead of their default cart. Example: `cart_plan_42`.",
       optional: true,
     },
   },
