@@ -1,107 +1,62 @@
-import dpd2 from "../../dpd2.app.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import common from "../common/polling.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "dpd2-new-purchase-created",
   name: "New Purchase Created",
-  description: "Emit new event when a purchase is made. [See the documentation](https://getdpd.com/docs/api/purchases.html#list-purchases)",
-  version: "0.0.1",
+  description: "Emit new event when a purchase is made and paid for. [See the documentation](https://docs.getdpd.com/api/reference/operations/listpurchases/)",
+  version: "1.0.0",
   type: "source",
   dedupe: "unique",
   props: {
-    dpd2,
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-    db: "$.service.db",
+    ...common.props,
     storefrontId: {
       propDefinition: [
-        dpd2,
+        common.props.dpd2,
         "storefrontId",
       ],
+      description: "Only purchases from this store, e.g. `14056`. Leave empty for all your stores. Use **List Storefront ID Options** to find store IDs.",
     },
     productId: {
       propDefinition: [
-        dpd2,
+        common.props.dpd2,
         "productId",
         (c) => ({
           storefrontId: c.storefrontId,
         }),
       ],
+      description: "Only purchases that include this product, e.g. `22537`. Use **Find Product** to look up a product's ID.",
     },
     customerId: {
       propDefinition: [
-        dpd2,
+        common.props.dpd2,
         "customerId",
       ],
-    },
-    subscriberId: {
-      propDefinition: [
-        dpd2,
-        "subscriberId",
-        (c) => ({
-          storefrontId: c.storefrontId,
-        }),
-      ],
-    },
-    status: {
-      propDefinition: [
-        dpd2,
-        "status",
-      ],
-    },
-  },
-  hooks: {
-    async deploy() {
-      await this.processEvent(25);
+      description: "Only this customer's purchases, e.g. `9437584`. Use **Find Customer** or **List Customer ID Options** to find customer IDs.",
     },
   },
   methods: {
-    _getLastCreated() {
-      return this.db.get("lastCreated");
-    },
-    _setLastCreated(lastCreated) {
-      this.db.set("lastCreated", lastCreated);
-    },
-    emitEvent(purchase) {
-      const meta = this.generateMeta(purchase);
-      this.$emit(purchase, meta);
+    ...common.methods,
+    getRecords(since) {
+      return this.dpd2.listAll({
+        fn: this.dpd2.listPurchases,
+        params: {
+          date_min: since || this.dpd2.toIsoDate(Date.now() / 1000 - 30 * 86400),
+          storefront_id: this.storefrontId,
+          product_id: this.productId,
+          customer_id: this.customerId,
+        },
+        maxPages: Infinity,
+      });
     },
     generateMeta(purchase) {
       return {
         id: purchase.id,
-        summary: `New Purchase: ${purchase.id}`,
-        ts: purchase.created_at,
+        summary: `New purchase #${purchase.id} from ${purchase.buyer_email}`,
+        ts: Number(purchase.created_at) * 1000,
       };
     },
-    async processEvent(max) {
-      const lastCreated = this._getLastCreated();
-      let purchases = await this.dpd2.listPurchases({
-        params: {
-          date_min: lastCreated,
-          status: this.status,
-          product_id: this.productId,
-          storefrontId: this.storefrontId,
-          customer_id: this.customerId,
-          subscriber_id: this.subscriberId,
-        },
-      });
-      if (!purchases?.length) {
-        return;
-      }
-      this._setLastCreated(purchases[purchases.length - 1].created_at);
-      if (max) {
-        purchases = purchases.slice(max * -1);
-      }
-      purchases.forEach((purchase) => this.emitEvent(purchase));
-    },
-  },
-  async run() {
-    await this.processEvent();
   },
   sampleEmit,
 };
