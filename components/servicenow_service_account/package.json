@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/servicenow_service_account",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream ServiceNow Service Account Components",
   "main": "servicenow_service_account.app.mjs",
   "keywords": [
@@ -15,6 +15,6 @@
   },
   "dependencies": {
     "@pipedream/platform": "^3.1.1",
-    "@pipedream/servicenow": "^0.15.0"
+    "@pipedream/servicenow": "^0.15.1"
   }
 }
