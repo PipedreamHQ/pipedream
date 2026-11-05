@@ -407,6 +407,22 @@ export default {
         ...args,
       });
     },
+    uploadFile(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/upload/messages/multipart",
+        ...args,
+      });
+    },
+    sendTicketMediaMessage({
+      ticketId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/tickets/${ticketId}/messages/media`,
+        ...args,
+      });
+    },
     async getHelpCenters(args = {}) {
       return this._makeRequest({
         path: "/help_center",

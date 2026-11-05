@@ -4,7 +4,7 @@ export default {
   key: "trengo-close-ticket",
   name: "Close Ticket",
   description: "Close a ticket. [See the documentation](https://developers.trengo.com/reference/close-a-ticket)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   annotations: {
     destructiveHint: true,

@@ -4,7 +4,7 @@ export default {
   key: "trengo-remove-label",
   name: "Remove Label",
   description: "Remove a label from a ticket. [See the documentation](https://developers.trengo.com/reference/detach-a-label)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: true,
