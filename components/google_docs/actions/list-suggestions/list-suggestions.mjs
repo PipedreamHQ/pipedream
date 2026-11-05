@@ -4,7 +4,7 @@ export default {
   key: "google_docs-list-suggestions",
   name: "List Suggestions",
   description: "List the open suggestions (tracked changes made in Suggesting mode) in a Google Doc, with each suggestion's ID, what it changes, and where. Use this to review proposed edits, or to get the IDs **Resolve Suggestions** needs to accept or reject them. Use **Find Document** to resolve a document's name to its ID. Returns `{documentId, suggestionCount, suggestions: [{suggestionId, tabId, startIndex, endIndex, types, insertedText, deletedText}]}` in document order. `types` names what the suggestion changes (e.g. `insertion`, `deletion`, `textStyle`, `paragraphStyle`, `bullet`, `tableCellStyle`). `insertedText` / `deletedText` are lists with one entry per place the suggestion adds or removes text, and appear only when it does. `startIndex` / `endIndex` span everything the suggestion touches. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/get)",
-  version: "0.0.2",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
