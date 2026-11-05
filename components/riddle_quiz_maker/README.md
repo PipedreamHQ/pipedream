@@ -17,4 +17,4 @@ With the Riddle API on Pipedream, you can pull responses and leads as they come 
 - Riddle website: `https://www.riddle.com`
 - Riddle API documentation: `https://www.riddle.com/help/api`
 - Riddle MCP documentation: `https://www.riddle.com/help/api/mcp`
-- Riddle MCP server: `https://www.riddle.com/creator/api/v3/mcp` (account linking via CIMD, or the MCP-key variant `https://www.riddle.com/creator/api/v3/mcp/<MCP_KEY>` with a key from your Riddle account's API keys page)
+- Riddle MCP server: `https://www.riddle.com/creator/api/v3/mcp` (account linking via CIMD, or the MCP-key variant `https://www.riddle.com/creator/api/v3/mcp/<MCP_KEY>` where `<MCP_KEY>` must be an MCP key created on your Riddle account's API keys page)
