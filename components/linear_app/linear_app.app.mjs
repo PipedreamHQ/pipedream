@@ -5,6 +5,7 @@ import {
   axios, ConfigurationError,
 } from "@pipedream/platform";
 import queries from "./common/queries.mjs";
+import mutations from "./common/mutations.mjs";
 
 export default {
   type: "app",
@@ -421,6 +422,35 @@ export default {
         },
       });
       return documents;
+    },
+    async createDocument({
+      $, input,
+    }) {
+      const { data: { documentCreate } } = await this.post({
+        $,
+        data: {
+          query: mutations.createDocument,
+          variables: {
+            input,
+          },
+        },
+      });
+      return documentCreate;
+    },
+    async updateDocument({
+      $, documentId, input,
+    }) {
+      const { data: { documentUpdate } } = await this.post({
+        $,
+        data: {
+          query: mutations.updateDocument,
+          variables: {
+            id: documentId,
+            input,
+          },
+        },
+      });
+      return documentUpdate;
     },
     async getDocumentContentHistory(variables) {
       const { data: { documentContentHistory } } = await this.post({
