@@ -5,7 +5,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "postpulse-create-post",
   name: "Create Post",
-  description: "Publish a post now or schedule it for later on one connected account: Instagram, Facebook, YouTube, TikTok, Threads, LinkedIn, Pinterest, X, Bluesky or Telegram. Use **List Accounts** to find account IDs and **Upload Media From URL** to get media paths. [See the documentation](https://post-pulse.com/api-docs#post-scheduling)",
+  description: "Publish a post now or schedule it for later on one connected account: Instagram, Facebook, YouTube, TikTok, Threads, LinkedIn, Pinterest, X, Bluesky or Telegram. Use **List Accounts** to find account IDs, **List Chats** to find the Destination of a Facebook, Telegram or Pinterest account, and **Upload Media From URL** to get media paths. [See the documentation](https://post-pulse.com/api-docs#post-scheduling)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",

@@ -19,7 +19,7 @@ export default {
     chatId: {
       type: "string",
       label: "Destination",
-      description: "Required for Facebook, Telegram and Pinterest accounts: the Facebook Page, the Telegram channel or chat, or the Pinterest board to publish to, e.g. `-1001234567890` for a Telegram channel",
+      description: "Required for Facebook, Telegram and Pinterest accounts: the Facebook Page, the Telegram channel or chat, or the Pinterest board to publish to. Use **List Chats** to find destination IDs (the `id` field), e.g. `-1001234567890` for a Telegram channel",
       optional: true,
       async options({ accountId }) {
         if (!accountId) {
