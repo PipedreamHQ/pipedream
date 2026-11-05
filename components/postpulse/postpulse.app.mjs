@@ -7,7 +7,7 @@ export default {
     accountId: {
       type: "integer",
       label: "Account",
-      description: "The connected social media account. Use **List Accounts** to see all accounts and their IDs.",
+      description: "The connected social media account. Use **List Accounts** to see all accounts and their IDs, e.g. `12345`",
       async options() {
         const accounts = await this.listAccounts();
         return accounts.map((account) => ({
@@ -19,7 +19,7 @@ export default {
     chatId: {
       type: "string",
       label: "Destination",
-      description: "Required for Facebook, Telegram and Pinterest accounts: the Facebook Page, the Telegram channel or chat, or the Pinterest board to publish to",
+      description: "Required for Facebook, Telegram and Pinterest accounts: the Facebook Page, the Telegram channel or chat, or the Pinterest board to publish to, e.g. `-1001234567890` for a Telegram channel",
       optional: true,
       async options({ accountId }) {
         if (!accountId) {

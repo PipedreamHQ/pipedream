@@ -8,6 +8,7 @@ export default {
   description: "Publish a post now or schedule it for later on one connected account: Instagram, Facebook, YouTube, TikTok, Threads, LinkedIn, Pinterest, X, Bluesky or Telegram. Use **List Accounts** to find account IDs and **Upload Media From URL** to get media paths. [See the documentation](https://post-pulse.com/api-docs#post-scheduling)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,
@@ -33,13 +34,13 @@ export default {
     content: {
       type: "string",
       label: "Content",
-      description: "Text of the post",
+      description: "Text of the post, e.g. `Our new product is live today!`",
       optional: true,
     },
     mediaPaths: {
       type: "string[]",
       label: "Media Paths",
-      description: "Media `path` values returned by **Upload Media From URL**",
+      description: "Media `path` values returned by **Upload Media From URL**, e.g. `3f2a9c1e-5b7d-4e8a-9c0f-1a2b3c4d5e6f/8d1e2f3a-4b5c-6d7e-8f9a-0b1c2d3e4f5a.mp4`",
       optional: true,
     },
     scheduledTime: {
@@ -51,21 +52,27 @@ export default {
     publicationType: {
       type: "string",
       label: "Publication Type",
-      description: "Instagram and Facebook only. Defaults to `FEED`",
+      description: "Instagram and Facebook only: `FEED`, `REELS` or `STORY`, e.g. `REELS`. Defaults to `FEED`",
       options: constants.PUBLICATION_TYPES,
       optional: true,
     },
     title: {
       type: "string",
       label: "Title",
-      description: "Title for a YouTube or TikTok video, or a Pinterest Pin",
+      description: "Title for a YouTube or TikTok video, or a Pinterest Pin, e.g. `Spring collection launch`",
       optional: true,
     },
     tiktokPrivacyLevel: {
       type: "string",
       label: "TikTok Privacy Level",
-      description: "TikTok only: who can see the video",
+      description: "TikTok only: who can see the video, e.g. `PUBLIC_TO_EVERYONE`",
       options: constants.TIKTOK_PRIVACY_LEVELS,
+      optional: true,
+    },
+    tiktokMusicUsageConfirmation: {
+      type: "boolean",
+      label: "TikTok Music Usage Confirmation",
+      description: "TikTok only: must be `true` to post. By posting, you agree to [TikTok's Music Usage Confirmation](https://www.tiktok.com/legal/page/global/music-usage-confirmation/en), e.g. `true`",
       optional: true,
     },
   },
@@ -88,12 +95,22 @@ export default {
       } else if (platform === "TIKTOK") {
         settings.title = this.title;
         settings.privacyLevel = this.tiktokPrivacyLevel;
-        settings.hasUsageConfirmation = true;
+        settings.hasUsageConfirmation = this.tiktokMusicUsageConfirmation;
       }
       return settings;
     },
   },
   async run({ $ }) {
+    if (this.scheduledTime) {
+      const scheduledAt = Date.parse(this.scheduledTime);
+      if (Number.isNaN(scheduledAt)) {
+        throw new ConfigurationError(`Scheduled Time must be an ISO 8601 timestamp, e.g. \`2026-12-01T10:00:00Z\`. Got \`${this.scheduledTime}\`.`);
+      }
+      if (scheduledAt <= Date.now()) {
+        throw new ConfigurationError("Scheduled Time is in the past. Leave it empty to publish now.");
+      }
+    }
+
     const accounts = await this.app.listAccounts({
       $,
     });
@@ -103,6 +120,9 @@ export default {
     }
     if (constants.CHAT_PLATFORMS.includes(account.platform) && !this.chatId) {
       throw new ConfigurationError(`Destination is required for ${account.platform} accounts.`);
+    }
+    if (account.platform === "TIKTOK" && this.tiktokMusicUsageConfirmation !== true) {
+      throw new ConfigurationError("Set TikTok Music Usage Confirmation to `true` to post to TikTok.");
     }
 
     const response = await this.app.createPost({

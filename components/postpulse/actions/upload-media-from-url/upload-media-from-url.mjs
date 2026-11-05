@@ -7,6 +7,7 @@ export default {
   description: "Import an image or video from a public URL into PostPulse and wait until it is ready. Returns the media `path` to pass to **Create Post**. [See the documentation](https://post-pulse.com/api-docs#media-upload)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,
@@ -17,7 +18,7 @@ export default {
     url: {
       type: "string",
       label: "Media URL",
-      description: "Public URL of the image or video to import",
+      description: "Public URL of the image or video to import, e.g. `https://example.com/videos/launch.mp4`",
     },
     filenameHint: {
       type: "string",
@@ -48,7 +49,8 @@ export default {
           path: mediaImport.s3Key,
         };
       }
-      if (mediaImport.state === "FAILED_TEMPORARY" || mediaImport.state === "FAILED_PERMANENT") {
+      // FAILED_TEMPORARY is retried by PostPulse, so only FAILED_PERMANENT ends the wait
+      if (mediaImport.state === "FAILED_PERMANENT") {
         throw new Error(`Media import ${importId} failed: ${mediaImport.errorMessage || mediaImport.errorCode || mediaImport.state}`);
       }
     }

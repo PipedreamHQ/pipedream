@@ -6,6 +6,7 @@ export default {
   description: "List the social media accounts connected to PostPulse, with their IDs and platforms. Accounts with `needsReauthorization: true` must be reconnected in PostPulse before posting. [See the documentation](https://post-pulse.com/api-docs#accounts)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,
