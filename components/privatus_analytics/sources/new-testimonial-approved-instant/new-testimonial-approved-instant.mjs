@@ -1,0 +1,45 @@
+import app from "../../privatus_analytics.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
+
+export default {
+  ...common,
+  key: "privatus_analytics-new-testimonial-approved-instant",
+  name: "New Testimonial Approved (Instant)",
+  description: "Emit new event when a testimonial is approved, so it can be shown on walls and widgets. [See the documentation](https://privatusanalytics.com/docs/api/webhooks)",
+  version: "0.0.1",
+  type: "source",
+  dedupe: "unique",
+  props: {
+    ...common.props,
+    siteId: {
+      propDefinition: [
+        app,
+        "siteId",
+      ],
+      optional: true,
+      description: "Only emit events of this site, e.g. `pa_7Q2K9XH3AB`. Use **Find Site** to get the site ID. Leave it empty for every site.",
+    },
+    minRating: {
+      propDefinition: [
+        app,
+        "minRating",
+      ],
+      description: "Only emit ratings of at least this many stars, e.g. `4`. Leave it empty to emit every one, with or without a rating.",
+    },
+  },
+  methods: {
+    ...common.methods,
+    getEvent() {
+      return "testimonial.approved";
+    },
+    getSummary(item) {
+      return `Testimonial approved: ${item.testimonial?.id}`;
+    },
+    isRelevant(item) {
+      return (!this.siteId || (item.site_id || item.check?.site_id) === this.siteId)
+        && (!this.minRating || this.getRating(item) >= Number(this.minRating));
+    },
+  },
+  sampleEmit,
+};

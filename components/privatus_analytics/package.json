@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/privatus_analytics",
+  "version": "0.0.1",
+  "description": "Pipedream Privatus Analytics Components",
+  "main": "privatus_analytics.app.mjs",
+  "keywords": [
+    "pipedream",
+    "privatus_analytics"
+  ],
+  "homepage": "https://pipedream.com/apps/privatus_analytics",
+  "author": "Privatus Analytics <james@privatusanalytics.com> (https://privatusanalytics.com)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.3.1"
+  }
+}
