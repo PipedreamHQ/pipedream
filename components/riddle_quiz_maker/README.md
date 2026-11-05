@@ -1,11 +1,20 @@
 # Overview
 
-Riddle Quiz Maker API lets you tap into a rich seam of interactive content, from quizzes to polls and surveys. By leveraging this API on Pipedream, you can automate interactions with your quizzes, extract responses in real-time, synchronize data across platforms, and trigger actions based on user engagement. Exploiting Pipedream's serverless platform allows you to create workflows that respond swiftly, integrate with numerous apps, and streamline content management—turning audience insights into actionable intelligence.
+[Riddle](https://www.riddle.com) is an interactive content platform for quizzes, personality tests, polls and surveys, forms, predictors, leaderboards, minigames and stories. Build, publish and embed interactive content, then collect and route the results — no code required.
+
+With the Riddle API on Pipedream, you can pull responses and leads as they come in, sync results to your CRM, email and analytics tools, and trigger workflows based on how your audience engages.
 
 # Example Use Cases
 
-- **Content Engagement Trigger for Email Campaigns**: When a user completes a quiz, you could trigger a workflow that adds or updates their information in a Mailchimp audience list, including their quiz results. This allows for personalized follow-up emails, tailored content delivery, or segmenting users based on their preferences.
+- **Personalized Email Follow-ups**: When someone completes a quiz, personality test or form, add or update them in a Mailchimp audience with their results, so you can segment and send tailored follow-ups.
 
-- **Real-time Analytics Dashboard Update**: After a new set of quiz responses is collected, you could automate the transfer of this data to a Google Sheets spreadsheet. From there, it’s possible to visualize this data using tools like Google Data Studio, providing up-to-date analytics to inform marketing strategies or content creation.
+- **Real-time Analytics Dashboard**: Send new poll, survey or quiz responses to Google Sheets and visualize them in Looker Studio for up-to-date engagement analytics.
 
-- **Lead Scoring and CRM Integration**: Use quiz results to score leads and automatically push this information into a CRM like Salesforce. Scoring can be based on the user's answers, indicating their interest level or fit for a product or service, allowing for more efficient lead prioritization and follow-up by the sales team.
+- **Lead Scoring and CRM Integration**: Score leads from form or quiz answers and push them into a CRM like Salesforce, so sales can prioritize follow-up.
+
+# Resources
+
+- Riddle website: `https://www.riddle.com`
+- Riddle API documentation: `https://www.riddle.com/help/api`
+- Riddle MCP documentation: `https://www.riddle.com/help/api/mcp`
+- Riddle MCP server: `https://www.riddle.com/creator/api/v3/mcp` (account linking via CIMD, or the MCP-key variant `https://www.riddle.com/creator/api/v3/mcp/<MCP_KEY>` with a key from your Riddle account's API keys page)
