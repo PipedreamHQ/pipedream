@@ -23,15 +23,16 @@ export default {
   props: {
     linearApp,
     title: {
-      type: "string",
-      label: "Title",
-      description: "The title of the document. Example: `Q3 Hiring Plan`.",
+      propDefinition: [
+        linearApp,
+        "documentTitle",
+      ],
     },
     content: {
-      type: "string",
-      label: "Content",
-      description: "The document body in markdown. Example: `# Goals\\n\\n- Hire two engineers`.",
-      optional: true,
+      propDefinition: [
+        linearApp,
+        "documentContent",
+      ],
     },
     projectId: {
       propDefinition: [
@@ -39,6 +40,7 @@ export default {
         "projectId",
       ],
       description: "The UUID of the project to attach the document to (e.g. `a1b2c3d4-0000-0000-0000-000000000001`). Set exactly one of `projectId`, `initiativeId` or `teamId`. Use **List Projects** to find valid project IDs.",
+      optional: true,
     },
     initiativeId: {
       propDefinition: [
@@ -57,16 +59,16 @@ export default {
       optional: true,
     },
     icon: {
-      type: "string",
-      label: "Icon",
-      description: "The document icon, as an emoji. Example: `📄`.",
-      optional: true,
+      propDefinition: [
+        linearApp,
+        "documentIcon",
+      ],
     },
     color: {
-      type: "string",
-      label: "Color",
-      description: "The color of the icon, as a hex code. Example: `#5e6ad2`.",
-      optional: true,
+      propDefinition: [
+        linearApp,
+        "documentColor",
+      ],
     },
   },
   async run({ $ }) {

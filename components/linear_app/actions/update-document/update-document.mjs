@@ -9,7 +9,7 @@ export default {
     + " Only the fields you provide are changed; set at least one besides `documentId`."
     + " **`content` replaces the whole body.** To append to or edit part of a document, first read the current body with **Get Document**, then send the full combined markdown. Leave `content` unset for a rename so the body is kept."
     + " To move the document, set at most one of `projectId`, `initiativeId` or `teamId`."
-    + " Use **Search Documents** to find the document ID."
+    + " Use **Search Documents** to find the document ID. To create a new document, use **Create Document**."
     + " The response does not echo the body back; use **Get Document** to read it."
     + " Example (rename): `documentId: \"10b5bc2940c7\"`, `title: \"[DRAFT] Q3 Hiring Plan\"` → returns `{success: true, document: {id: \"29a25062-...\", title: \"[DRAFT] Q3 Hiring Plan\", slugId: \"10b5bc2940c7\", url: \"https://linear.app/...\"}}`."
     + " Example (replace body): `documentId: \"10b5bc2940c7\"`, `content: \"# Q3 Hiring Plan\\n\\nUpdated goals...\"`."
@@ -31,16 +31,19 @@ export default {
       ],
     },
     title: {
-      type: "string",
-      label: "Title",
+      propDefinition: [
+        linearApp,
+        "documentTitle",
+      ],
       description: "The new title of the document. Example: `Q3 Hiring Plan (final)`.",
       optional: true,
     },
     content: {
-      type: "string",
-      label: "Content",
-      description: "The new document body in markdown. **Replaces the existing body in full.** To keep existing text, read it first with **Get Document** and send the combined markdown.",
-      optional: true,
+      propDefinition: [
+        linearApp,
+        "documentContent",
+      ],
+      description: "The new document body in markdown. **Replaces the existing body in full.** To keep existing text, read it first with **Get Document** and send the combined markdown. Set to an empty string to clear the body. Example: `# Q3 Hiring Plan\\n\\nUpdated goals...`.",
     },
     projectId: {
       propDefinition: [
@@ -48,6 +51,7 @@ export default {
         "projectId",
       ],
       description: "Move the document to this project (UUID, e.g. `a1b2c3d4-0000-0000-0000-000000000001`). Set at most one of `projectId`, `initiativeId` or `teamId`. Use **List Projects** to find valid project IDs.",
+      optional: true,
     },
     initiativeId: {
       propDefinition: [
@@ -66,16 +70,18 @@ export default {
       optional: true,
     },
     icon: {
-      type: "string",
-      label: "Icon",
+      propDefinition: [
+        linearApp,
+        "documentIcon",
+      ],
       description: "The new document icon, as an emoji. Example: `📄`.",
-      optional: true,
     },
     color: {
-      type: "string",
-      label: "Color",
+      propDefinition: [
+        linearApp,
+        "documentColor",
+      ],
       description: "The new icon color, as a hex code. Example: `#5e6ad2`.",
-      optional: true,
     },
   },
   async run({ $ }) {
@@ -101,8 +107,9 @@ export default {
       icon: this.icon,
       color: this.color,
     }).filter(([
-      , value,
-    ]) => value !== undefined && value !== ""));
+      key,
+      value,
+    ]) => value !== undefined && (value !== "" || key === "content")));
 
     if (Object.keys(input).length === 0) {
       throw new ConfigurationError("Set at least one field to update besides `documentId`.");

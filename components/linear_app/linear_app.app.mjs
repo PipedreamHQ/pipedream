@@ -143,6 +143,29 @@ export default {
       label: "Document ID",
       description: "The UUID or slugId of the document. A UUID looks like `a1b2c3d4-0000-0000-0000-000000000001`; a slugId is the short alphanumeric code at the end of the document URL (e.g. `10b5bc2940c7`). Use **Search Documents** to find document IDs.",
     },
+    documentTitle: {
+      type: "string",
+      label: "Title",
+      description: "The title of the document. Example: `Q3 Hiring Plan`.",
+    },
+    documentContent: {
+      type: "string",
+      label: "Content",
+      description: "The document body in markdown. Example: `# Goals\\n\\n- Hire two engineers`.",
+      optional: true,
+    },
+    documentIcon: {
+      type: "string",
+      label: "Icon",
+      description: "The document icon, as an emoji. Example: `📄`.",
+      optional: true,
+    },
+    documentColor: {
+      type: "string",
+      label: "Color",
+      description: "The color of the document icon, as a hex code. Example: `#5e6ad2`.",
+      optional: true,
+    },
     orderBy: {
       type: "string",
       label: "Order By",
