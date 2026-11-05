@@ -23,14 +23,15 @@ export default {
     webSearch: {
       type: "boolean",
       label: "Web Search",
-      description: "Make ChatGPT search the web (default `true`); `false` lets it decide.",
+      description: "Make ChatGPT search the web, e.g. `false`. Defaults to `true`; `false` lets ChatGPT decide whether to search.",
       optional: true,
     },
     country: {
-      type: "string",
-      label: "Country",
-      description: "Ask as a visitor in this country, such as `us` or `de`: prices, shops and places follow it.",
-      optional: true,
+      propDefinition: [
+        app,
+        "country",
+      ],
+      description: "Ask as a visitor in this country: prices, shops and places follow it, e.g. `us` or `de`.",
     },
     track: {
       propDefinition: [
@@ -40,9 +41,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.askAssistant({
+    const response = await this.app.askChatgpt({
       $,
-      assistant: "chatgpt",
       data: {
         prompt: this.prompt,
         web_search: this.webSearch,

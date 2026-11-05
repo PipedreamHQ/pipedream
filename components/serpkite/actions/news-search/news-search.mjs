@@ -4,7 +4,7 @@ export default {
   key: "serpkite-news-search",
   name: "News Search",
   description: "Search Google News for recent articles. Failed and empty requests are not billed ([see pricing](https://serpkite.com/pricing)). [See the documentation](https://serpkite.com/docs/endpoints/news)",
-  version: "0.0.2",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -64,9 +64,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.post({
+    const response = await this.app.searchNews({
       $,
-      path: "/news",
       data: {
         q: this.q,
         country: this.country,

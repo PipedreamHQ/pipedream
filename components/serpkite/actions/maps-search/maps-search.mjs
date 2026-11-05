@@ -19,6 +19,7 @@ export default {
         app,
         "q",
       ],
+      description: "What to find, optionally with the area, e.g. `coffee shops in Austin`.",
     },
     location: {
       propDefinition: [
@@ -29,7 +30,7 @@ export default {
     ll: {
       type: "string",
       label: "Map Viewport",
-      description: "Search around an exact point, as `@lat,lng,14z`.",
+      description: "Search around an exact point, given as `@latitude,longitude,zoom`, e.g. `@30.2672,-97.7431,14z`. Overrides Location.",
       optional: true,
     },
     country: {
@@ -52,9 +53,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.post({
+    const response = await this.app.searchMaps({
       $,
-      path: "/maps",
       data: {
         q: this.q,
         location: this.location,

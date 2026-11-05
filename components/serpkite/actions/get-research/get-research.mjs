@@ -19,6 +19,7 @@ export default {
         app,
         "taskId",
       ],
+      description: "The research task ID, e.g. `0b9f3c1e-6a2d-4f5b-9c7e-2d4a8b1f6e30`. Use **Start Research** to get it (the `id` field).",
     },
   },
   async run({ $ }) {

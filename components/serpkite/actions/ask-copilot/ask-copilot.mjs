@@ -21,10 +21,11 @@ export default {
       ],
     },
     country: {
-      type: "string",
-      label: "Country",
-      description: "Bing market country, such as `us` or `de`.",
-      optional: true,
+      propDefinition: [
+        app,
+        "country",
+      ],
+      description: "Bing market country, e.g. `us` or `de`.",
     },
     language: {
       propDefinition: [
@@ -40,9 +41,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.askAssistant({
+    const response = await this.app.askCopilot({
       $,
-      assistant: "copilot",
       data: {
         prompt: this.prompt,
         country: this.country,

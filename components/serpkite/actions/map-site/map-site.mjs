@@ -23,22 +23,21 @@ export default {
     search: {
       type: "string",
       label: "Search",
-      description: "Keep only URLs relevant to these words, most relevant first.",
+      description: "Keep only URLs relevant to these words, most relevant first, e.g. `pricing`.",
       optional: true,
     },
     limit: {
       type: "integer",
       label: "Limit",
-      description: "Maximum URLs to return (1-5,000, default 100).",
+      description: "Maximum URLs to return, from 1 to 5,000, e.g. `500`. Defaults to `100`.",
       optional: true,
       min: 1,
       max: 5000,
     },
   },
   async run({ $ }) {
-    const response = await this.app.post({
+    const response = await this.app.mapSite({
       $,
-      path: "/map",
       data: {
         url: this.url,
         search: this.search,

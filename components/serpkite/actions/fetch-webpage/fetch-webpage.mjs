@@ -4,7 +4,7 @@ export default {
   key: "serpkite-fetch-webpage",
   name: "Fetch Webpage",
   description: "Fetch a public HTML page or PDF and return its main content as clean Markdown with metadata. Failed and empty requests are not billed ([see pricing](https://serpkite.com/pricing)). [See the documentation](https://serpkite.com/docs/endpoints/webpage)",
-  version: "0.0.2",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -21,22 +21,22 @@ export default {
       ],
     },
     country: {
-      type: "string",
-      label: "Country",
-      description: "Fetch through this country, such as `de`, for pages that differ by location.",
-      optional: true,
+      propDefinition: [
+        app,
+        "country",
+      ],
+      description: "Fetch the page as seen from this country, for pages that differ by location, e.g. `de`.",
     },
     includeLinks: {
       type: "boolean",
       label: "Include Links",
-      description: "Also return the page's links.",
+      description: "Also return the page's links in `links`, e.g. `true`.",
       optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.app.post({
+    const response = await this.app.fetchWebpage({
       $,
-      path: "/webpage",
       data: {
         url: this.url,
         country: this.country,

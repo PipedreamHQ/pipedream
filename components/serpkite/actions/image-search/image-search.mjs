@@ -52,9 +52,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.post({
+    const response = await this.app.searchImages({
       $,
-      path: "/images",
       data: {
         q: this.q,
         country: this.country,

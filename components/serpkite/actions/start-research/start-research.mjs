@@ -17,12 +17,12 @@ export default {
     input: {
       type: "string",
       label: "Task",
-      description: "The research task or question.",
+      description: "The research task or question, up to 8,000 characters, e.g. `Compare the pricing and free tiers of the top five vector databases`.",
     },
     effort: {
       type: "string",
       label: "Effort",
-      description: "`lite`, `standard` (default) or `deep`: more searches and pages, and a higher price.",
+      description: "`lite`, `standard` or `deep`: deeper research runs more searches and reads more pages, at a higher price, e.g. `lite`. Defaults to `standard`.",
       optional: true,
       options: [
         "lite",
@@ -31,16 +31,16 @@ export default {
       ],
     },
     webhookUrl: {
-      type: "string",
-      label: "Webhook URL",
-      description: "Receives a signed `research.completed` event when the report is ready.",
-      optional: true,
+      propDefinition: [
+        app,
+        "webhookUrl",
+      ],
+      description: "A public HTTPS URL that receives a signed `research.completed` event when the report is ready, e.g. `https://example.com/hooks/serpkite`. Defaults to the account webhook set in the SerpKite dashboard.",
     },
   },
   async run({ $ }) {
-    const response = await this.app.post({
+    const response = await this.app.startResearch({
       $,
-      path: "/research",
       data: {
         input: this.input,
         effort: this.effort,

@@ -21,10 +21,11 @@ export default {
       ],
     },
     country: {
-      type: "string",
-      label: "Country",
-      description: "The country Google answers for, such as `us` or `de`.",
-      optional: true,
+      propDefinition: [
+        app,
+        "country",
+      ],
+      description: "The country Google answers for, e.g. `us` or `de`.",
     },
     language: {
       propDefinition: [
@@ -40,9 +41,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.askAssistant({
+    const response = await this.app.askAiMode({
       $,
-      assistant: "ai_mode",
       data: {
         prompt: this.prompt,
         country: this.country,

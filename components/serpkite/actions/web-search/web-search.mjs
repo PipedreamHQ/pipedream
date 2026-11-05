@@ -4,7 +4,7 @@ export default {
   key: "serpkite-web-search",
   name: "Web Search",
   description: "Search Google and return organic results, the answer box, knowledge graph, People Also Ask and related searches. Failed and empty requests are not billed ([see pricing](https://serpkite.com/pricing)). [See the documentation](https://serpkite.com/docs/endpoints/search)",
-  version: "0.0.2",
+  version: "0.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -71,14 +71,13 @@ export default {
     includeAnswer: {
       type: "boolean",
       label: "Include Answer",
-      description: "Also write a short cited answer over the results (extra credits; free if it fails).",
+      description: "Also write a short cited answer over the results, returned in `answer`, e.g. `true`. Costs extra credits; free if it fails.",
       optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.app.post({
+    const response = await this.app.searchWeb({
       $,
-      path: "/search",
       data: {
         q: this.q,
         country: this.country,

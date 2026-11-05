@@ -4,7 +4,7 @@ import app from "../../serpkite.app.mjs";
 export default {
   key: "serpkite-get-place",
   name: "Get Place Details",
-  description: "Get the full Google Maps listing of one place by its `place_id` (or `cid`) from a Maps Search result: address, coordinates, categories, opening hours, website, phone, rating and photos. Free when no place matches. [See the documentation](https://serpkite.com/docs/endpoints/place)",
+  description: "Get the full Google Maps listing of one place by its `place_id` (or `cid`) from **Maps Search**: address, coordinates, categories, opening hours, website, phone, rating and photos. Free when no place matches. [See the documentation](https://serpkite.com/docs/endpoints/place)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -18,13 +18,13 @@ export default {
     placeId: {
       type: "string",
       label: "Place ID",
-      description: "Google place ID (`ChIJ\u2026`) from a Maps Search result.",
+      description: "Google place ID, e.g. `ChIJLwPMoJm1RIYRetVp1EtGm10`. Use **Maps Search** to find it (the `place_id` field). Set this or CID.",
       optional: true,
     },
     cid: {
       type: "string",
       label: "CID",
-      description: "Decimal customer ID from a Maps Search result, instead of Place ID.",
+      description: "Decimal customer ID, used instead of Place ID, e.g. `6727551237396018298`. Use **Maps Search** to find it (the `cid` field).",
       optional: true,
     },
     country: {
@@ -44,9 +44,8 @@ export default {
     if (!this.placeId && !this.cid) {
       throw new ConfigurationError("Set Place ID or CID.");
     }
-    const response = await this.app.post({
+    const response = await this.app.getPlace({
       $,
-      path: "/place",
       data: {
         place_id: this.placeId,
         cid: this.cid,

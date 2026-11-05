@@ -17,12 +17,12 @@ export default {
     url: {
       type: "string",
       label: "Start URL",
-      description: "The page to start from.",
+      description: "The page to start from, e.g. `https://example.com/docs/`.",
     },
     limit: {
       type: "integer",
       label: "Limit",
-      description: "Maximum pages to read (1-1,000, default 25).",
+      description: "Maximum pages to read, from 1 to 1,000, e.g. `100`. Defaults to `25`. Credits for this many pages are reserved up front.",
       optional: true,
       min: 1,
       max: 1000,
@@ -30,7 +30,7 @@ export default {
     maxDepth: {
       type: "integer",
       label: "Max Depth",
-      description: "Link hops from the start URL (0-10, default 2).",
+      description: "Link hops from the start URL, from 0 (only the start page) to 10, e.g. `3`. Defaults to `2`.",
       optional: true,
       min: 0,
       max: 10,
@@ -38,32 +38,32 @@ export default {
     query: {
       type: "string",
       label: "Query",
-      description: "Read the pages most relevant to these words first.",
+      description: "Read the pages most relevant to these words first, e.g. `authentication`.",
       optional: true,
     },
     includePaths: {
       type: "string[]",
       label: "Include Paths",
-      description: "Regular expressions; follow only URL paths matching one, such as `^/docs/`.",
+      description: "Regular expressions matched against the URL path; follow only paths matching one, e.g. `[\"^/docs/\", \"^/api/\"]`.",
       optional: true,
     },
     excludePaths: {
       type: "string[]",
       label: "Exclude Paths",
-      description: "Regular expressions; never follow URL paths matching one.",
+      description: "Regular expressions matched against the URL path; never follow paths matching one, e.g. `[\"^/blog/\"]`.",
       optional: true,
     },
     webhookUrl: {
-      type: "string",
-      label: "Webhook URL",
-      description: "Receives a signed `crawl.completed` event when the crawl ends.",
-      optional: true,
+      propDefinition: [
+        app,
+        "webhookUrl",
+      ],
+      description: "A public HTTPS URL that receives a signed `crawl.completed` event when the crawl ends, e.g. `https://example.com/hooks/serpkite`. Defaults to the account webhook set in the SerpKite dashboard.",
     },
   },
   async run({ $ }) {
-    const response = await this.app.post({
+    const response = await this.app.startCrawl({
       $,
-      path: "/crawl",
       data: {
         url: this.url,
         limit: this.limit,

@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../serpkite.app.mjs";
 
 export default {
@@ -17,12 +18,12 @@ export default {
     q: {
       type: "string",
       label: "Question",
-      description: "The question to answer.",
+      description: "The question to answer, e.g. `What is the tallest building in Europe?`",
     },
     depth: {
       type: "string",
       label: "Depth",
-      description: "`fast` answers from the results page; `standard` also reads the top pages.",
+      description: "How much to read: `fast` answers from the results page; `standard` also reads the top pages, e.g. `fast`. Defaults to `standard`.",
       optional: true,
       options: [
         "fast",
@@ -32,7 +33,7 @@ export default {
     numSources: {
       type: "integer",
       label: "Number of Sources",
-      description: "Pages to read with `standard` depth (1-5, default 3).",
+      description: "Pages to read, from 1 to 5, e.g. `5`. Defaults to `3`. Only with `standard` depth: leave it empty for `fast`.",
       optional: true,
       min: 1,
       max: 5,
@@ -57,9 +58,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.post({
+    if (this.depth === "fast" && this.numSources) {
+      throw new ConfigurationError("Number of Sources applies to `standard` depth only; leave it empty for `fast`.");
+    }
+    const response = await this.app.answerQuestion({
       $,
-      path: "/answer",
       data: {
         q: this.q,
         depth: this.depth,
@@ -68,9 +71,10 @@ export default {
         language: this.language,
         time: this.time,
       },
-      timeout: 120000,
     });
-    $.export("$summary", `Answered with ${response.citations?.length ?? 0} citations`);
+    $.export("$summary", response.answer
+      ? `Answered with ${response.citations?.length ?? 0} citations`
+      : "No answer returned: the search found nothing to answer from");
     return response;
   },
 };

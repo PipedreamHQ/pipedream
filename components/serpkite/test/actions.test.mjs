@@ -89,6 +89,11 @@ test("every action has a unique serpkite key, a semver version and a documentati
     const action = actions[name];
     assert.equal(action.key, `serpkite-${name}`);
     assert.match(action.version, /^\d+\.\d+\.\d+$/);
+    assert.equal(action.type, "action");
+    assert.equal(action.ai, "optimized");
+    assert.equal(action.annotations.destructiveHint, false);
+    assert.equal(action.annotations.openWorldHint, true);
+    assert.equal(action.annotations.readOnlyHint, !name.startsWith("start-"));
     assert.match(action.description, /\[See the documentation\]\(https:\/\/serpkite\.com\/docs\/endpoints\/[a-z_]+\)$/);
     assert.ok(!keys.has(action.key));
     keys.add(action.key);
@@ -310,7 +315,7 @@ test("ChatGPT sends web_search, and an empty answer says it was not billed", asy
   ]);
 });
 
-test("extract parses the output schema, and invalid JSON fails before a request", async () => {
+test("extract parses the output schema, and a bad schema or URL list fails before a request", async () => {
   apiResponse = {
     results: [
       {},
@@ -335,12 +340,31 @@ test("extract parses the output schema, and invalid JSON fails before a request"
     },
   });
   const before = requests.length;
-  await assert.rejects(run("extract-pages", {
-    urls: [
-      "https://example.com",
-    ],
-    outputSchema: "{not json",
-  }), ConfigurationError);
+  for (const outputSchema of [
+    "{not json",
+    "null",
+    "[]",
+    "42",
+    "\"text\"",
+  ]) {
+    await assert.rejects(run("extract-pages", {
+      urls: [
+        "https://example.com",
+      ],
+      outputSchema,
+    }), ConfigurationError);
+  }
+  for (const urls of [
+    undefined,
+    [],
+    Array.from({
+      length: 21,
+    }, (_, i) => `https://example.com/${i}`),
+  ]) {
+    await assert.rejects(run("extract-pages", {
+      urls,
+    }), ConfigurationError);
+  }
   assert.equal(requests.length, before);
 });
 
@@ -369,6 +393,82 @@ test("get place needs a place id or cid", async () => {
   ]);
 });
 
+test("get place sends cid when no place id is set", async () => {
+  apiResponse = {
+    place: {
+      title: "Cafe",
+    },
+  };
+  const {
+    config, summaries,
+  } = await run("get-place", {
+    cid: "6727551237396018298",
+  });
+  assert.equal(config.url, "https://api.serpkite.com/v1/place");
+  assert.deepEqual(config.data, {
+    cid: "6727551237396018298",
+  });
+  assert.deepEqual(summaries, [
+    [
+      "$summary",
+      "Retrieved Cafe",
+    ],
+  ]);
+});
+
+test("answer question sends depth and sources, and reports a missing answer", async () => {
+  apiResponse = {
+    answer: "Varso Tower [1]",
+    citations: [
+      {
+        index: 1,
+      },
+    ],
+  };
+  let {
+    config, summaries,
+  } = await run("answer-question", {
+    q: "tallest building in Europe",
+    depth: "standard",
+    numSources: 5,
+    time: "",
+  });
+  assert.equal(config.url, "https://api.serpkite.com/v1/answer");
+  assert.equal(config.method, "POST");
+  assert.equal(config.timeout, 120000);
+  assert.deepEqual(config.data, {
+    q: "tallest building in Europe",
+    depth: "standard",
+    num_sources: 5,
+  });
+  assert.deepEqual(summaries, [
+    [
+      "$summary",
+      "Answered with 1 citations",
+    ],
+  ]);
+  apiResponse = {
+    answer: null,
+    citations: [],
+  };
+  ({ summaries } = await run("answer-question", {
+    q: "q",
+  }));
+  assert.deepEqual(summaries, [
+    [
+      "$summary",
+      "No answer returned: the search found nothing to answer from",
+    ],
+  ]);
+  const before = requests.length;
+  await assert.rejects(run("answer-question", {
+    q: "q",
+    depth: "fast",
+    numSources: 3,
+  }), ConfigurationError);
+  assert.equal(requests.length, before);
+});
+
 test("crawl and research start with POST and are read back with GET", async () => {
   apiResponse = {
     id: "task-1",
@@ -383,6 +483,7 @@ test("crawl and research start with POST and are read back with GET", async () =
     ],
   });
   assert.equal(config.url, "https://api.serpkite.com/v1/crawl");
+  assert.equal(config.method, "POST");
   assert.deepEqual(config.data, {
     url: "https://example.com",
     limit: 5,
@@ -401,6 +502,7 @@ test("crawl and research start with POST and are read back with GET", async () =
     effort: "lite",
   }));
   assert.equal(config.url, "https://api.serpkite.com/v1/research");
+  assert.equal(config.method, "POST");
   assert.deepEqual(config.data, {
     input: "compare vector databases",
     effort: "lite",

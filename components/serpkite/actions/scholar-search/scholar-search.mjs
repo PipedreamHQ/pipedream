@@ -40,9 +40,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.post({
+    const response = await this.app.searchScholar({
       $,
-      path: "/scholar",
       data: {
         q: this.q,
         country: this.country,

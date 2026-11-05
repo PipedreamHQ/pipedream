@@ -46,9 +46,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.post({
+    const response = await this.app.searchShopping({
       $,
-      path: "/shopping",
       data: {
         q: this.q,
         country: this.country,

@@ -19,6 +19,7 @@ export default {
         app,
         "q",
       ],
+      description: "The partial query to complete, e.g. `how to make`.",
     },
     country: {
       propDefinition: [
@@ -34,9 +35,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.post({
+    const response = await this.app.getAutocomplete({
       $,
-      path: "/autocomplete",
       data: {
         q: this.q,
         country: this.country,
