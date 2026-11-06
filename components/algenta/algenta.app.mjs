@@ -12,7 +12,7 @@ export default {
     webhookUrl: {
       type: "string",
       label: "Webhook URL",
-      description: "The URL the Algenta engine delivers the execution payload to — must be `https://` for remote hosts (e.g. `https://ops.example.com/hooks/algenta`); `http://` is accepted for loopback (e.g. `http://localhost:9000/hooks`). The execution receipt records the delivery status for this URL.",
+      description: "The HTTPS URL the Algenta engine delivers the execution payload to (e.g. `https://ops.example.com/hooks/algenta`). The execution receipt records the delivery status for this URL.",
     },
     timeoutSeconds: {
       type: "integer",

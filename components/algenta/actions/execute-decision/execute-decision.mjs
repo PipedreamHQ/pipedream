@@ -4,9 +4,10 @@ import algenta from "../../algenta.app.mjs";
 export default {
   key: "algenta-execute-decision",
   name: "Execute Decision",
-  description: "Execute a logged decision through Algenta's governed execution plane and return the execution receipt. The engine enforces the active execution policy (idempotency, confidence, and risk-floor gates) and delivers the decision payload to the provided webhook URL. [See the documentation](https://docs.algenta.ai/sdks/typescript).",
+  description: "Execute a logged decision through Algenta's governed execution plane and return the execution receipt. The engine enforces the active execution policy (idempotency, confidence, and risk-floor gates) and delivers the decision payload to the provided HTTPS webhook URL. [See the documentation](https://docs.algenta.ai/sdks/typescript).",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -45,6 +46,15 @@ export default {
     }
     if (!this.webhookUrl) {
       throw new ConfigurationError("A **Webhook URL** is required.");
+    }
+    let parsedWebhookUrl;
+    try {
+      parsedWebhookUrl = new URL(this.webhookUrl);
+    } catch {
+      throw new ConfigurationError("A valid **HTTPS Webhook URL** is required.");
+    }
+    if (parsedWebhookUrl.protocol !== "https:") {
+      throw new ConfigurationError("An **HTTPS Webhook URL** is required.");
     }
 
     const receipt = await this.algenta.executeDecision(this.decisionId, {

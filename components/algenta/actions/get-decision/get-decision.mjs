@@ -7,6 +7,7 @@ export default {
   description: "Fetch a logged decision record from Algenta, including its execution status, policy snapshot, and audit fields. [See the documentation](https://docs.algenta.ai/http-api).",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
