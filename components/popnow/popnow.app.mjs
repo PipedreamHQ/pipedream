@@ -12,7 +12,7 @@ export default {
     modality: {
       type: "string",
       label: "Modality",
-      description: "Only list models that produce this kind of output.",
+      description: "Only list models that produce this kind of output, e.g. `image`.",
       options: MODALITY_OPTIONS,
       optional: true,
     },
@@ -44,13 +44,13 @@ export default {
     callBackUrl: {
       type: "string",
       label: "Callback URL",
-      description: "A public HTTPS endpoint that receives the final task record when the task finishes. [See the documentation](https://popnow.ai/docs/webhooks)",
+      description: "A public HTTPS endpoint that receives the final task record when the task finishes, e.g. `https://example.com/popnow-webhook`. [See the documentation](https://popnow.ai/docs/webhooks)",
       optional: true,
     },
     taskId: {
       type: "string",
       label: "Task ID",
-      description: "The ID of the task, as returned by the **Create Job** action.",
+      description: "The ID of the task, as returned by the **Create Job** action, e.g. `job_06gty996k7x2bp2nxa1dyea170`.",
       async options({ prevContext }) {
         const {
           items = [], hasMore, nextCursor,
@@ -78,20 +78,20 @@ export default {
     state: {
       type: "string",
       label: "State",
-      description: "Only return tasks in this state.",
+      description: "Only return tasks in this state, e.g. `succeeded`.",
       options: TASK_STATE_OPTIONS,
       optional: true,
     },
     from: {
       type: "string",
       label: "From",
-      description: "Inclusive start date in UTC, formatted as `YYYY-MM-DD`.",
+      description: "Inclusive start date in UTC, formatted as `YYYY-MM-DD`, e.g. `2026-11-01`.",
       optional: true,
     },
     to: {
       type: "string",
       label: "To",
-      description: "Exclusive end date in UTC, formatted as `YYYY-MM-DD`.",
+      description: "Exclusive end date in UTC, formatted as `YYYY-MM-DD`, e.g. `2026-11-08`.",
       optional: true,
     },
   },

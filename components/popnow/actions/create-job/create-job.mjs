@@ -1,4 +1,7 @@
-import { randomUUID } from "crypto";
+import {
+  createHash,
+  randomUUID,
+} from "crypto";
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../popnow.app.mjs";
 import {
@@ -22,6 +25,7 @@ export default {
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     modality: {
@@ -59,7 +63,7 @@ export default {
     idempotencyKey: {
       type: "string",
       label: "Idempotency Key",
-      description: "A unique key that makes retries of this request safe: repeating a request with the same key returns the original task instead of creating a new one. A random key is generated when left empty. [See the documentation](https://popnow.ai/docs/idempotency)",
+      description: "A unique key that makes retries of this request safe: repeating a request with the same key returns the original task instead of creating a new one. When left empty, a key is derived from the workflow event and this request, so an automatic retry of the step reuses it. [See the documentation](https://popnow.ai/docs/idempotency)",
       optional: true,
     },
     waitForCompletion: {
@@ -93,13 +97,31 @@ export default {
     maxPolls() {
       const interval = this.pollIntervalSeconds || DEFAULT_POLL_INTERVAL_SECONDS;
       const timeout = this.timeoutSeconds || DEFAULT_WAIT_TIMEOUT_SECONDS;
-      return Math.max(1, Math.ceil(timeout / interval));
+      return Math.ceil(timeout / interval) + 1;
     },
-    scheduleNextPoll($, taskId) {
-      const interval = this.pollIntervalSeconds || DEFAULT_POLL_INTERVAL_SECONDS;
-      $.flow.rerun(interval * 1000, {
+    scheduleNextPoll($, taskId, deadline) {
+      const interval = (this.pollIntervalSeconds || DEFAULT_POLL_INTERVAL_SECONDS) * 1000;
+      $.flow.rerun(Math.min(interval, deadline - Date.now()), {
         taskId,
+        deadline,
       }, this.maxPolls());
+    },
+    resolveIdempotencyKey($, input) {
+      if (this.idempotencyKey) {
+        return this.idempotencyKey;
+      }
+      // trace_id stays the same across retries of one event, so a lost response cannot start a second paid task.
+      const traceId = $.context?.trace_id;
+      if (!traceId) {
+        return randomUUID();
+      }
+      return createHash("sha256")
+        .update(JSON.stringify([
+          traceId,
+          this.model,
+          input,
+        ]))
+        .digest("hex");
     },
   },
   async run({ $ }) {
@@ -107,7 +129,9 @@ export default {
 
     // Later runs only poll the task created by the first run.
     if (run?.runs > 1 && run.context?.taskId) {
-      const { taskId } = run.context;
+      const {
+        taskId, deadline,
+      } = run.context;
       const task = await this.app.getJob({
         $,
         taskId,
@@ -116,8 +140,9 @@ export default {
         $.export("$summary", `Task ${taskId} finished with state \`${task.state}\``);
         return task;
       }
-      if (run.runs <= this.maxPolls()) {
-        this.scheduleNextPoll($, taskId);
+      if (Date.now() < deadline) {
+        this.scheduleNextPoll($, taskId, deadline);
+        $.export("$summary", `Task ${taskId} is \`${task.state}\`; scheduled another status check`);
         return task;
       }
       $.export("$summary", `Task ${taskId} is still \`${task.state}\` after the timeout. Use Get Job to check it later.`);
@@ -143,7 +168,7 @@ export default {
     const response = await this.app.createJob({
       $,
       headers: {
-        "Idempotency-Key": this.idempotencyKey || randomUUID(),
+        "Idempotency-Key": this.resolveIdempotencyKey($, input),
       },
       data: {
         model: this.model,
@@ -155,7 +180,9 @@ export default {
     });
 
     if (this.waitForCompletion && this.canRerun($) && !isTaskDone(response)) {
-      this.scheduleNextPoll($, response.taskId);
+      const timeout = this.timeoutSeconds || DEFAULT_WAIT_TIMEOUT_SECONDS;
+      this.scheduleNextPoll($, response.taskId, Date.now() + timeout * 1000);
+      $.export("$summary", `Created task ${response.taskId} (\`${response.state}\`); scheduled a status check`);
       return response;
     }
 

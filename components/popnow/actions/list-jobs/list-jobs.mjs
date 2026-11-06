@@ -11,6 +11,7 @@ export default {
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     state: {
@@ -41,7 +42,7 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "The number of tasks to return, from 1 to 100. Defaults to 20.",
+      description: "The number of tasks to return, from 1 to 100, e.g. `50`. Defaults to 20.",
       optional: true,
       min: 1,
       max: 100,
@@ -49,7 +50,7 @@ export default {
     cursor: {
       type: "string",
       label: "Cursor",
-      description: "The `nextCursor` value from a previous page.",
+      description: "Use **List Jobs** to get the `nextCursor` value from a previous page, e.g. `eyJpZCI6MTAwfQ==`.",
       optional: true,
     },
   },
