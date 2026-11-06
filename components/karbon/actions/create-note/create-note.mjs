@@ -92,7 +92,9 @@ export default {
           : undefined,
       },
     });
-    $.export("$summary", `Created note ${note.Id}: ${note.Subject}`);
+    $.export("$summary", note.Id
+      ? `Created note ${note.Id}: ${this.subject}`
+      : `Created note: ${this.subject}`);
     return note;
   },
 };
