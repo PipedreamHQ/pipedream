@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/notion_api_key",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Notion (API Key) Components",
   "main": "notion_api_key.app.mjs",
   "keywords": [
