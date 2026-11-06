@@ -163,6 +163,43 @@ export default {
       }
     }
   `,
+  listDocumentComments: `
+    query ListDocumentComments(
+      $id: String!,
+      $first: Int,
+      $after: String,
+      $orderBy: PaginationOrderBy
+    ) {
+      document(id: $id) {
+        id
+        comments(
+          first: $first,
+          after: $after,
+          orderBy: $orderBy
+        ) {
+          pageInfo {
+            ...PageInfo
+          }
+          nodes {
+            ...DocumentComment
+          }
+        }
+      }
+    }
+    ${fragments.documentComment}
+    ${fragments.pageInfo}
+  `,
+  createDocumentComment: `
+    mutation CreateDocumentComment($input: CommentCreateInput!) {
+      commentCreate(input: $input) {
+        success
+        comment {
+          ...DocumentComment
+        }
+      }
+    }
+    ${fragments.documentComment}
+  `,
   searchDocuments: `
     query SearchDocuments(
       $term: String!,

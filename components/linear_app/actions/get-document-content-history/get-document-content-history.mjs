@@ -19,7 +19,7 @@ export default {
     + " The tool makes two API calls internally: first it resolves the document to its content ID, then it fetches the history."
     + " Example: `documentId: \"10b5bc2940c7\"` → returns `[{id: \"9d3c86fd-...\", contentDataSnapshotAt: \"2025-03-01T14:22:10Z\", actorIds: [\"3fd8c25f-...\"]}]`."
     + " [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=documentContentHistory).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {
