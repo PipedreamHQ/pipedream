@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../bunnycdn.app.mjs";
 
 export default {
@@ -44,6 +45,9 @@ export default {
     },
   },
   async run({ $ }) {
+    if (Boolean(this.dateFrom) !== Boolean(this.dateTo)) {
+      throw new ConfigurationError("Set both **Date From** and **Date To**, or leave both empty.");
+    }
     const statistics = await this.app.getStatistics({
       $,
       params: {

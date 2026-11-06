@@ -18,7 +18,7 @@ export default {
           HasMoreItems: hasMore,
         } = await this.listPullZones({
           params: {
-            page: prevContext?.page,
+            page: prevContext?.page ?? 1,
           },
         });
         return {
@@ -53,7 +53,8 @@ export default {
       });
     },
     /**
-     * Fetch one page of pull zones.
+     * Fetch one page of pull zones. Set `params.page` to 1 or higher: without it the API
+     * returns a plain array instead of a page.
      * @param {object} [args] - Request options, such as `$` and `params`
      * @returns {Promise<object>} A page with `Items`, `CurrentPage` and `HasMoreItems`
      */
@@ -65,8 +66,7 @@ export default {
     },
     /**
      * Fetch pull zones across pages, up to a limit.
-     * The first request leaves `page` unset and later ones build on the page number the
-     * API reports, so this holds whether the API counts pages from 0 or from 1.
+     * Starts at page 1, because the API only returns a page for a page number of 1 or higher.
      * @param {object} opts
      * @param {number} [opts.maxResults=100] - The most pull zones to return
      * @param {object} [opts.params] - Query params sent with each request
@@ -76,7 +76,7 @@ export default {
       maxResults = 100, params, ...args
     }) {
       const pullZones = [];
-      let page;
+      let page = 1;
       let hasMore = true;
       while (hasMore && pullZones.length < maxResults) {
         const {
