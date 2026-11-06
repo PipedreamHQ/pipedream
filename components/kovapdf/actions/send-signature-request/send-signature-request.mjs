@@ -41,8 +41,8 @@ export default {
     expiresInDays: {
       type: "integer",
       label: "Expires In Days",
-      description: "How many days the signer has to sign, from 1 to 60. Leave empty to use the account's usual expiry. Example: `14`",
-      optional: true,
+      description: "How many days the signer has to sign, from 1 to 60. Defaults to 14. Example: `30`",
+      default: 14,
       min: 1,
       max: 60,
     },

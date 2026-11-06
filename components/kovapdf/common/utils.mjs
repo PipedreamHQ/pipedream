@@ -11,6 +11,13 @@ export const MAX_FILE_BYTES = {
   verify: 50 * MB,
 };
 
+/**
+ * Reads a file (URL or /tmp path) and returns it as { name, contentBase64 }.
+ * A file larger than maxBytes is refused before it is read into memory.
+ * @param {string} file A file URL or a path in /tmp
+ * @param {number} [maxBytes] The largest size accepted
+ * @returns {Promise<{name: string, contentBase64: string}>}
+ */
 export async function getFileObject(file, maxBytes) {
   const {
     stream, metadata,
