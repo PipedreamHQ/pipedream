@@ -1,4 +1,7 @@
 import kovapdf from "../../kovapdf.app.mjs";
+import {
+  getFileObject, MAX_FILE_BYTES,
+} from "../../common/utils.mjs";
 
 export default {
   key: "kovapdf-send-signature-request",
@@ -22,42 +25,42 @@ export default {
     title: {
       type: "string",
       label: "Title",
-      description: "The title the signer sees. It is also the email subject.",
+      description: "The title the signer sees. It is also the email subject. Example: `Please sign the Q4 supply contract`",
     },
     signerName: {
       type: "string",
       label: "Signer Name",
-      description: "The name of the person who signs.",
+      description: "The name of the person who signs. Example: `Jane Doe`",
     },
     signerEmail: {
       type: "string",
       label: "Signer Email",
-      description: "The email address of the person who signs.",
+      description: "The email address of the person who signs. Example: `jane@example.com`",
     },
     message: {
       type: "string",
       label: "Message",
-      description: "A short message for the signer.",
+      description: "A short message for the signer. Example: `Please review and sign by Friday.`",
       optional: true,
     },
     page: {
       type: "integer",
       label: "Page",
-      description: "The page of the signature box, starting from 1.",
+      description: "The page of the signature box, starting from 1. Example: `1`",
       default: 1,
       min: 1,
     },
     x: {
       type: "integer",
       label: "X",
-      description: "The distance of the signature box from the left edge of the page, in points (72 points = 1 inch).",
+      description: "The distance of the signature box from the left edge of the page, in points (72 points = 1 inch). Example: `72`",
       default: 72,
       min: 0,
     },
     y: {
       type: "integer",
       label: "Y",
-      description: "The distance of the signature box from the bottom edge of the page, in points (72 points = 1 inch).",
+      description: "The distance of the signature box from the bottom edge of the page, in points (72 points = 1 inch). Example: `72`",
       default: 72,
       min: 0,
     },
@@ -72,7 +75,7 @@ export default {
     const response = await this.kovapdf.createSignatureRequest({
       $,
       data: {
-        file: await this.kovapdf.getFileObject(this.file),
+        file: await getFileObject(this.file, MAX_FILE_BYTES.signRequest),
         spec: {
           title: this.title,
           message: this.message,

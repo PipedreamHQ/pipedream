@@ -1,6 +1,4 @@
-import {
-  axios, getFileStreamAndMetadata,
-} from "@pipedream/platform";
+import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -9,7 +7,7 @@ export default {
     signRequestId: {
       type: "string",
       label: "Signature Request ID",
-      description: "The ID of a signature request. Pick one from the list or use the **List Signature Requests** action to find it.",
+      description: "The ID of a signature request, from the `id` field returned by **List Signature Requests** or **Send Document for Signature**. Example: `3f2b8c1e-7d4a-4f6e-9b21-5c8d0e7a1f34`",
       async options() {
         const { requests } = await this.listSignatureRequests();
         return requests.map((request) => ({
@@ -40,19 +38,6 @@ export default {
         },
         ...opts,
       });
-    },
-    async getFileObject(file) {
-      const {
-        stream, metadata,
-      } = await getFileStreamAndMetadata(file);
-      const chunks = [];
-      for await (const chunk of stream) {
-        chunks.push(chunk);
-      }
-      return {
-        name: metadata.name,
-        contentBase64: Buffer.concat(chunks).toString("base64"),
-      };
     },
     listSignatureRequests(opts = {}) {
       return this._makeRequest({

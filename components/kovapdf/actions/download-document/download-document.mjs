@@ -1,4 +1,5 @@
 import fs from "fs";
+import { randomUUID } from "crypto";
 import kovapdf from "../../kovapdf.app.mjs";
 
 export default {
@@ -45,7 +46,7 @@ export default {
         version: this.version,
       },
     });
-    const filePath = `/tmp/kovapdf-${this.signRequestId}-${this.version}.pdf`;
+    const filePath = `/tmp/kovapdf-${this.signRequestId}-${this.version}-${randomUUID()}.pdf`;
     fs.writeFileSync(filePath, Buffer.from(data));
     $.export("$summary", `Successfully saved the ${this.version} document to ${filePath}`);
     return {

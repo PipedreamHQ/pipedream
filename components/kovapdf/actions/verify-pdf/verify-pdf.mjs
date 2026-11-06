@@ -1,4 +1,7 @@
 import kovapdf from "../../kovapdf.app.mjs";
+import {
+  getFileObject, MAX_FILE_BYTES,
+} from "../../common/utils.mjs";
 
 export default {
   key: "kovapdf-verify-pdf",
@@ -30,7 +33,7 @@ export default {
     const report = await this.kovapdf.verifyPdf({
       $,
       data: {
-        file: await this.kovapdf.getFileObject(this.file),
+        file: await getFileObject(this.file, MAX_FILE_BYTES.verify),
       },
     });
     const count = report.signatures.length;
