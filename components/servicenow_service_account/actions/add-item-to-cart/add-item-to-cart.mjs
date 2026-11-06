@@ -9,11 +9,12 @@ const actionWithCartName = {
     cartName: {
       type: "string",
       label: "Cart Name",
-      description: "Add to the integration user's named cart with this name instead of their default cart. Example: `cart_plan_42`.",
+      description: "Leave empty to use the integration user's default cart. Set it only when the named cart is checked out server-side, for example by a scripted REST API using `sn_sc.CartJS` that runs as the same integration user: **View Cart**, **Checkout Cart** and **Submit Cart Order** cannot view or submit a named cart. Example: `cart_plan_42`.",
       optional: true,
     },
   },
   async run({ $ }) {
+    const cartName = this.cartName?.trim();
     const response = await this.servicenow.addItemToCart({
       $,
       catalogItemSysId: this.catalogItemSysId,
@@ -21,12 +22,14 @@ const actionWithCartName = {
         sysparm_quantity: this.quantity,
         variables: parseObject(this.variables),
         sysparm_requested_for: this.requestedFor,
-        sysparm_cart_name: this.cartName,
+        ...(cartName && {
+          sysparm_cart_name: cartName,
+        }),
       },
     });
 
-    const cart = this.cartName
-      ? `cart ${this.cartName}`
+    const cart = cartName
+      ? `cart ${cartName}`
       : "cart";
     $.export("$summary", `Successfully added catalog item ${this.catalogItemSysId} to ${cart}`);
 
@@ -37,5 +40,5 @@ const actionWithCartName = {
 export default wrapAction(actionWithCartName, {
   key: "servicenow_service_account-add-item-to-cart",
   version: "0.1.0",
-  description: "Add a ServiceNow catalog item to the integration user's default cart, or to a named cart when `cartName` is set. The default cart is one cart shared by every session of this integration user, so concurrent sessions can add, remove, or submit each other's items; a named cart per session keeps them apart. Run **Search Catalog Items** to find the item `sys_id` and **Get Catalog Item Variables** to learn which variable names to supply. After adding items to the default cart, use **View Cart**, then **Checkout Cart** or **Submit Cart Order** to submit. Those actions take no cart name, so they cannot view or submit a named cart. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
+  description: "Add a ServiceNow catalog item to the integration user's cart (one cart shared by every session of this integration user, so concurrent sessions can add, remove, or submit each other's items). Run **Search Catalog Items** to find the item `sys_id` and **Get Catalog Item Variables** to learn which variable names to supply. After adding items, use **View Cart**, then **Checkout Cart** or **Submit Cart Order** to submit. Leave `cartName` empty for that flow: those actions only work on the default cart. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
 });

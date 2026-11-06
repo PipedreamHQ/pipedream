@@ -4,7 +4,7 @@ import { parseObject } from "../../common/utils.mjs";
 export default {
   key: "servicenow-add-item-to-cart",
   name: "Add Item to Cart",
-  description: "Add a ServiceNow catalog item to the current user's default cart, or to a named cart when `cartName` is set. Run **Search Catalog Items** to find the item `sys_id` and **Get Catalog Item Variables** to learn which variable names to supply. After adding items to the default cart, use **View Cart**, then **Checkout Cart** or **Submit Cart Order** to submit. Those actions take no cart name, so they cannot view or submit a named cart. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
+  description: "Add a ServiceNow catalog item to the current user's cart. Run **Search Catalog Items** to find the item `sys_id` and **Get Catalog Item Variables** to learn which variable names to supply. After adding items, use **View Cart**, then **Checkout Cart** or **Submit Cart Order** to submit. Leave `cartName` empty for that flow: those actions only work on the default cart. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
   version: "0.1.0",
   type: "action",
   ai: "optimized",
@@ -43,11 +43,12 @@ export default {
     cartName: {
       type: "string",
       label: "Cart Name",
-      description: "Add to the user's named cart with this name instead of their default cart. Example: `cart_plan_42`.",
+      description: "Leave empty to use the user's default cart. Set it only when the named cart is checked out server-side, for example by a scripted REST API using `sn_sc.CartJS`: **View Cart**, **Checkout Cart** and **Submit Cart Order** cannot view or submit a named cart. Example: `cart_plan_42`.",
       optional: true,
     },
   },
   async run({ $ }) {
+    const cartName = this.cartName?.trim();
     const response = await this.servicenow.addItemToCart({
       $,
       catalogItemSysId: this.catalogItemSysId,
@@ -55,12 +56,14 @@ export default {
         sysparm_quantity: this.quantity,
         variables: parseObject(this.variables),
         sysparm_requested_for: this.requestedFor,
-        sysparm_cart_name: this.cartName,
+        ...(cartName && {
+          sysparm_cart_name: cartName,
+        }),
       },
     });
 
-    const cart = this.cartName
-      ? `cart ${this.cartName}`
+    const cart = cartName
+      ? `cart ${cartName}`
       : "cart";
     $.export("$summary", `Successfully added catalog item ${this.catalogItemSysId} to ${cart}`);
 
