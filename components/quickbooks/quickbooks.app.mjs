@@ -560,6 +560,7 @@ export default {
       $ = this,
       path,
       params,
+      headers,
       ...opts
     }) {
       const requestFn = async () => {
@@ -568,6 +569,7 @@ export default {
           headers: {
             Authorization: `Bearer ${this._accessToken()}`,
             accept: "application/json",
+            ...headers,
           },
           params: {
             ...params,
@@ -597,6 +599,19 @@ export default {
         path: `company/${this._companyId()}/payment`,
         method: "post",
         ...opts,
+      });
+    },
+    uploadAttachable({
+      body, contentType, ...opts
+    }) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/upload`,
+        method: "post",
+        data: body,
+        ...opts,
+        headers: {
+          "Content-Type": contentType,
+        },
       });
     },
     createBill(opts = {}) {
@@ -731,6 +746,14 @@ export default {
     }) {
       return this._makeRequest({
         path: `company/${this._companyId()}/customer/${customerId}`,
+        ...opts,
+      });
+    },
+    getAttachable({
+      attachableId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/attachable/${attachableId}`,
         ...opts,
       });
     },
