@@ -18,13 +18,10 @@ function removeSearchFromUrl(config) {
         return;
     const { url, baseURL, } = config;
     const newUrl = new URL((baseURL !== null && baseURL !== void 0 ? baseURL : "") + url);
-    const queryString = newUrl.search.substr(1);
-    if (queryString) {
-        // https://stackoverflow.com/a/8649003/387413
-        const urlParams = JSON.parse("{\"" + queryString.replace(/&/g, "\",\"").replace(/=/g, "\":\"") + "\"}", function (key, value) {
-            return key === ""
-                ? value
-                : decodeURIComponent(value);
+    if (newUrl.search) {
+        const urlParams = {};
+        newUrl.searchParams.forEach((value, k) => {
+            urlParams[k] = value;
         });
         for (const k in urlParams) {
             if (!config.params)
