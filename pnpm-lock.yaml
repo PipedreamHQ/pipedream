@@ -8503,7 +8503,11 @@ importers:
         specifier: ^0.10.1
         version: 0.10.1
 
-  components/karbon: {}
+  components/karbon:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/kartra: {}
 
