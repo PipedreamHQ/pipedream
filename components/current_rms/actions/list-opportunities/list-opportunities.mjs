@@ -26,8 +26,10 @@ export default {
       description: "Search subject, description, number, member organization name or tags, e.g. `Conference`.",
     },
     filterMode: {
-      type: "string",
-      label: "Filter Mode",
+      propDefinition: [
+        app,
+        "filterMode",
+      ],
       description: "Which opportunities to return, e.g. `orders`. Defaults to active opportunities.",
       options: [
         "live",
@@ -44,7 +46,6 @@ export default {
         "invoiced",
         "not_invoiced",
       ],
-      optional: true,
     },
     maxResults: {
       propDefinition: [

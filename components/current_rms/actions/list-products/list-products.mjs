@@ -23,15 +23,16 @@ export default {
       description: "Search name, product group name or tags, e.g. `Audio`.",
     },
     filterMode: {
-      type: "string",
-      label: "Filter Mode",
+      propDefinition: [
+        app,
+        "filterMode",
+      ],
       description: "Which products to return, e.g. `all`. Defaults to active products.",
       options: [
         "active",
         "inactive",
         "all",
       ],
-      optional: true,
     },
     maxResults: {
       propDefinition: [

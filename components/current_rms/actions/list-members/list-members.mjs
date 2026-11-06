@@ -24,8 +24,10 @@ export default {
       description: "Search name, street, work phone, work email, user email or tags, e.g. `Bralton`.",
     },
     filterMode: {
-      type: "string",
-      label: "Filter Mode",
+      propDefinition: [
+        app,
+        "filterMode",
+      ],
       description: "Which members to return, e.g. `organisation`. Defaults to active members.",
       options: [
         "active",
@@ -39,7 +41,6 @@ export default {
         "with_live_opportunities",
         "bookable",
       ],
-      optional: true,
     },
     maxResults: {
       propDefinition: [

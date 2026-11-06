@@ -13,8 +13,9 @@ export default {
       async options({ page }) {
         const { members } = await this.listMembers({
           params: {
-            page: page + 1,
-            filtermode: "all",
+            "page": page + 1,
+            "filtermode": "all",
+            "q[s][]": "id asc",
           },
         });
         return members.map(({
@@ -32,8 +33,9 @@ export default {
       async options({ page }) {
         const { opportunities } = await this.listOpportunities({
           params: {
-            page: page + 1,
-            filtermode: "all",
+            "page": page + 1,
+            "filtermode": "all",
+            "q[s][]": "id asc",
           },
         });
         return opportunities.map(({
@@ -48,6 +50,12 @@ export default {
       type: "string",
       label: "Search",
       description: "Text to search for, e.g. `Conference`.",
+      optional: true,
+    },
+    filterMode: {
+      type: "string",
+      label: "Filter Mode",
+      description: "Which records to return, e.g. `all`. Defaults to active records.",
       optional: true,
     },
     maxResults: {
