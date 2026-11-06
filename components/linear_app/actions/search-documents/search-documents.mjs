@@ -20,7 +20,6 @@ export default {
     "Search Linear documents by text query, or list them filtered by project, initiative, or team."
     + " When `query` is provided, performs relevance-ranked full-text search across document titles and content (up to 200 results)."
     + " When `query` is omitted, lists documents matching the project/initiative/team filter (up to 20 by default)."
-    + " Without `query`, `teamId` matches only documents attached directly to the team, NOT documents inside the team's projects — to list a team's project documents, pass each `projectId` (from **List Projects**) or add a `query`."
     + " Results do NOT include the document `content` field — call **Get Document** with the returned `id` or `slugId` to fetch the full markdown body."
     + " Use **List Projects** for project IDs, **List Initiatives** for initiative IDs, and **Get Teams** for team IDs."
     + " Leave filter props out of the call entirely to search all accessible documents — do not pass `\"*\"` or empty strings."
@@ -28,7 +27,7 @@ export default {
     + " Example: `query: \"quarterly review\"` → returns `[{id: \"...\", title: \"Q3 Review Notes\", url: \"...\", project: {id: \"...\", name: \"Product\"}, documentContentId: \"...\"}]`."
     + " Example (filter): `projectId: \"b75b71a2-...\"` → returns all documents attached to that project."
     + " [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=searchDocuments).",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -65,7 +64,7 @@ export default {
         "teamId",
       ],
       optional: true,
-      description: "Filter documents by team UUID. With `query`, matches documents in the team's projects. Without `query`, matches only documents attached directly to the team, not documents inside the team's projects (use `projectId` for those). Leave out entirely to search across all teams — do not pass `\"*\"` or an empty string. Use **Get Teams** to find valid team IDs. e.g. `9b2e4f70-1c3a-4d85-a6b9-0e7f2d4c8a15`",
+      description: "Filter documents by team UUID. Applied on both the search path (with `query`) and the filter path. Leave out entirely to search across all teams — do not pass `\"*\"` or an empty string. Use **Get Teams** to find valid team IDs. e.g. `9b2e4f70-1c3a-4d85-a6b9-0e7f2d4c8a15`",
     },
     includeArchived: {
       propDefinition: [
