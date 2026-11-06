@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/songup_ai",
+  "version": "0.1.0",
+  "description": "Pipedream SongUp AI Components",
+  "main": "songup_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "songup_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/songup_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.4.0"
+  }
+}
