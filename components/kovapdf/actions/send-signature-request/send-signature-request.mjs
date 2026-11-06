@@ -52,6 +52,12 @@ export default {
       description: "A short message for the signer. Example: `Please review and sign by Friday.`",
       optional: true,
     },
+    idempotencyKey: {
+      type: "string",
+      label: "Idempotency Key",
+      description: "Optional. Send the same key with the same request to retry safely within 24 hours: you get the first answer back and no second email is sent. Use a new key for each new request. Example: `6f1c2a8e-3d4b-4f7a-9a51-2b8f0c9e7d13`",
+      optional: true,
+    },
     page: {
       type: "integer",
       label: "Page",
@@ -83,6 +89,13 @@ export default {
   async run({ $ }) {
     const response = await this.kovapdf.createSignatureRequest({
       $,
+      ...(this.idempotencyKey
+        ? {
+          headers: {
+            "Idempotency-Key": this.idempotencyKey,
+          },
+        }
+        : {}),
       data: {
         file: await getFileObject(this.file, MAX_FILE_BYTES.signRequest),
         spec: {
