@@ -8,7 +8,7 @@ The Procore API empowers developers to interact with its construction management
 
 After you connect your Procore sandbox account to Pipedream, you may see a `403` error such as `App is not connected to this company` when making company- or project-scoped requests. Procore only allows a third-party app to access a company's data after a company admin has installed the app in that company's account. Requests that aren't scoped to a company, such as `/me` and `/companies`, will work without this step.
 
-To fix this, a Procore sandbox company admin must install the Pipedream app as a custom app using the Pipedream Sandbox installation key below.
+If the error says `App is not connected to this company`, a Procore sandbox company admin must install the Pipedream app as a custom app using the Pipedream Sandbox installation key below. For other `403` errors, check the user's permissions and the project tool settings.
 
 ### Installation Key
 
