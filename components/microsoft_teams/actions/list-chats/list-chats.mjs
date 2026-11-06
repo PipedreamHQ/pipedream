@@ -5,7 +5,7 @@ export default {
   name: "List Chats",
   description: "Lists all chat conversations for the authenticated user. [See the documentation](https://learn.microsoft.com/en-us/graph/api/chat-list)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
