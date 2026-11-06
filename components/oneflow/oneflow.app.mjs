@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { toOptions } from "./common/utils.mjs";
 
 const MAX_PAGE_SIZE = 100;
 
@@ -26,7 +27,7 @@ export default {
             offset: page * MAX_PAGE_SIZE,
           },
         });
-        return this._toOptions(data);
+        return toOptions(data);
       },
     },
     workspaceId: {
@@ -43,13 +44,13 @@ export default {
             offset: page * MAX_PAGE_SIZE,
           },
         });
-        return this._toOptions(data);
+        return toOptions(data);
       },
     },
     templateId: {
       type: "integer",
       label: "Template ID",
-      description: "The ID of the template, e.g. `54321`. Use **List Templates** to find it (the `id` field).",
+      description: "The ID of the template, e.g. `54321`. It must be available in the selected workspace, so use **List Templates** with the same **Workspace ID** to find it (the `id` field).",
       async options({
         page, userEmail, workspaceId,
       }) {
@@ -61,7 +62,7 @@ export default {
             "offset": page * MAX_PAGE_SIZE,
           },
         });
-        return this._toOptions(data);
+        return toOptions(data);
       },
     },
     maxResults: {
@@ -74,14 +75,6 @@ export default {
     },
   },
   methods: {
-    _toOptions(records) {
-      return records.map(({
-        id: value, name: label,
-      }) => ({
-        label,
-        value,
-      }));
-    },
     _makeRequest({
       $ = this, userEmail, headers, ...args
     }) {
