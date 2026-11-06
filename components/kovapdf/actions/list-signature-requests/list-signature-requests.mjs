@@ -6,6 +6,7 @@ export default {
   description: "List your signature requests, newest first, with their ID, title and status. Use an ID with **Get Signature Request** or **Download Document**. [See the documentation](https://www.kovapdf.com/developers/docs)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

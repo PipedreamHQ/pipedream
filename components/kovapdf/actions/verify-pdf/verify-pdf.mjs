@@ -9,6 +9,7 @@ export default {
   description: "Check every digital signature in a PDF: who signed, whether the document changed after signing, the certificate chain and the timestamp. Returns a report with one entry per signature and its verdict. [See the documentation](https://www.kovapdf.com/developers/docs)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

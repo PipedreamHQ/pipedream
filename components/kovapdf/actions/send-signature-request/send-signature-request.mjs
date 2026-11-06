@@ -9,6 +9,7 @@ export default {
   description: "Send a PDF to one person to sign, with one signature box placed on the page you choose. The signer gets an email with a link to sign. Returns the new signature request with its ID, status and signers. Use **Get Signature Request** to follow its progress and **Download Document** to save the signed PDF. [See the documentation](https://www.kovapdf.com/developers/docs)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -36,6 +37,14 @@ export default {
       type: "string",
       label: "Signer Email",
       description: "The email address of the person who signs. Example: `jane@example.com`",
+    },
+    expiresInDays: {
+      type: "integer",
+      label: "Expires In Days",
+      description: "How many days the signer has to sign, from 1 to 60. Leave empty to use the account's usual expiry. Example: `14`",
+      optional: true,
+      min: 1,
+      max: 60,
     },
     message: {
       type: "string",
@@ -80,6 +89,7 @@ export default {
           title: this.title,
           message: this.message,
           sequential: true,
+          expiresInDays: this.expiresInDays,
           signers: [
             {
               name: this.signerName,

@@ -8,6 +8,7 @@ export default {
   description: "Download the PDF of a signature request to the `/tmp` directory and return the saved file path. Choose `final` for the finished document once everyone has signed. [See the documentation](https://www.kovapdf.com/developers/docs)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

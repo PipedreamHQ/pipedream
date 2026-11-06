@@ -6,6 +6,7 @@ export default {
   description: "Get one signature request with its status, signers and audit trail. Use it to check whether everyone has signed before downloading the final PDF with **Download Document**. [See the documentation](https://www.kovapdf.com/developers/docs)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
