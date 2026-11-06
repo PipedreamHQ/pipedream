@@ -101,6 +101,26 @@ export default {
       }
     }
   `,
+  documentComment: `
+    fragment DocumentComment on Comment {
+      id
+      body
+      createdAt
+      updatedAt
+      resolvedAt
+      parent {
+        id
+      }
+      user {
+        id
+        name
+      }
+      resolvingUser {
+        id
+        name
+      }
+    }
+  `,
   project: `
     fragment Project on Project {
       id

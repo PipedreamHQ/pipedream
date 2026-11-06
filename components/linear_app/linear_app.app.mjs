@@ -422,6 +422,24 @@ export default {
       });
       return documents;
     },
+    async listDocumentComments(variables) {
+      const { data: { document } } = await this.post({
+        data: {
+          query: queries.listDocumentComments,
+          variables,
+        },
+      });
+      return document;
+    },
+    async createDocumentComment(variables) {
+      const { data: { commentCreate } } = await this.post({
+        data: {
+          query: queries.createDocumentComment,
+          variables,
+        },
+      });
+      return commentCreate;
+    },
     async getDocumentContentHistory(variables) {
       const { data: { documentContentHistory } } = await this.post({
         data: {
