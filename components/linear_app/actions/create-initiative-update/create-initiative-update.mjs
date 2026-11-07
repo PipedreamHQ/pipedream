@@ -6,7 +6,7 @@ export default {
   description: "Post a status update on a Linear initiative. Use **List Initiatives** first to obtain the initiative ID. Updates appear in the initiative's activity feed and can include a health status. Example: `initiativeId: \"b2c3d4e5-0000-0000-0000-000000000002\"`, `body: \"Two projects completed; on track for Q4.\"`, `health: \"onTrack\"` → returns `{success: true, initiativeUpdate: {id: \"iu_01xyz\"}}`. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Mutation?query=initiativeUpdateCreate).",
   type: "action",
   ai: "optimized",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

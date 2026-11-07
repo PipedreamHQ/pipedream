@@ -106,10 +106,47 @@ const HORIZONTAL_ALIGNMENTS = [
   "RIGHT",
 ];
 
+// Renew Drive push channels before their 24h expiry
+// https://developers.google.com/workspace/drive/api/guides/push#optional-properties
+const WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS = 24 * 60 * 60 * 0.95;
+
+// https://developers.google.com/workspace/sheets/api/limits#exponential
+const RETRY_OPTIONS = {
+  MAX_RETRIES: 4,
+  BASE_DELAY_MS: 1000,
+  MAX_JITTER_MS: 1000,
+  MAX_DELAY_MS: 32000,
+};
+
+const IDEMPOTENT_HTTP_METHODS = [
+  "GET",
+  "HEAD",
+  "PUT",
+  "OPTIONS",
+  "DELETE",
+];
+
+const RATE_LIMIT_ERROR_REASONS = [
+  "rateLimitExceeded",
+  "userRateLimitExceeded",
+];
+
+const RETRYABLE_SERVER_ERROR_CODES = [
+  500,
+  502,
+  503,
+  504,
+];
+
 export {
   VALUE_RENDER_OPTION,
   VALUE_INPUT_OPTION,
   INSERT_DATA_OPTION,
   BORDER_STYLES,
   HORIZONTAL_ALIGNMENTS,
+  RETRY_OPTIONS,
+  IDEMPOTENT_HTTP_METHODS,
+  RATE_LIMIT_ERROR_REASONS,
+  RETRYABLE_SERVER_ERROR_CODES,
+  WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
 };

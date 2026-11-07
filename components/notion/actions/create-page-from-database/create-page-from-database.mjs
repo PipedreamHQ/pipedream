@@ -9,7 +9,7 @@ export default {
   key: "notion-create-page-from-database",
   name: "Create Page from Data Source",
   description: "Create a new page (row) in a Notion data source (database). Provide the parent data source ID and the row's field values as a JSON object keyed by column name. Use the **Search** action (with `filter: data_source`) to resolve a database name into its data source ID, and **Retrieve Database Schema** to learn the exact column names and types before setting values. Optionally add page body content with `Page Content` (Markdown). Example: parentDataSource `\"a1b2c3d4-...\"` with properties `{ \"Name\": \"Q1 Report\", \"Status\": \"In Progress\", \"Tags\": [\"finance\"] }` → creates a new row with those fields and returns the created page object. [See the documentation](https://developers.notion.com/reference/post-page)",
-  version: "3.0.0",
+  version: "3.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
