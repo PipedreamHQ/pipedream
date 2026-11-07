@@ -3,7 +3,7 @@ import whoisfreaks from "../../whoisfreaks.app.mjs";
 export default {
   key: "whoisfreaks-asn-whois-lookup",
   name: "ASN WHOIS Lookup",
-  description: "Retrieve WHOIS details for an Autonomous System Number (ASN), including the AS name, organization, country, allocation status, IPv4 and IPv6 routes, upstream and downstream providers, peers, and abuse and technical contacts. [See the documentation](https://whoisfreaks.com/documentation/asn-whois-api)",
+  description: "Retrieve WHOIS details for an Autonomous System Number (ASN), including the AS name, organization, country, allocation status, IPv4 and IPv6 routes, upstream and downstream providers, peers, and abuse and technical contacts. [See the documentation](https://whoisfreaks.com/documentation/asn-whois-api#asn-lookup)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

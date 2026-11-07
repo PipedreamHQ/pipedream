@@ -1,9 +1,10 @@
 import whoisfreaks from "../../whoisfreaks.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "whoisfreaks-dns-history-lookup",
   name: "DNS History Lookup",
-  description: "Retrieve historical DNS records for a domain to see past IP addresses, nameservers, mail servers and other records, and when they changed. Results are paginated. [See the documentation](https://whoisfreaks.com/documentation/dns-checker-api)",
+  description: "Retrieve historical DNS records for a domain to see past IP addresses, nameservers, mail servers and other records, and when they changed. Results are paginated. [See the documentation](https://whoisfreaks.com/documentation/dns-checker-api#historical-dns-lookup)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -21,21 +22,9 @@ export default {
       ],
     },
     type: {
-      type: "string[]",
-      label: "Record Types",
-      description: "DNS record types to retrieve. Select `all` to return every type.",
-      options: [
-        "all",
-        "A",
-        "AAAA",
-        "MX",
-        "NS",
-        "CNAME",
-        "SOA",
-        "TXT",
-      ],
-      default: [
-        "all",
+      propDefinition: [
+        whoisfreaks,
+        "recordTypes",
       ],
     },
     page: {
@@ -56,7 +45,7 @@ export default {
       $,
       params: {
         domainName: this.domainName,
-        type: this.type.join(","),
+        type: parseObject(this.type).join(","),
         page: this.page || 1,
         format: this.format,
       },

@@ -1,10 +1,11 @@
 import whoisfreaks from "../../whoisfreaks.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "whoisfreaks-dns-lookup",
   name: "DNS Lookup",
-  description: "Retrieve live DNS records (A, AAAA, MX, NS, CNAME, SOA, TXT, SPF) for a single domain, or the PTR record for an IP address. Use this for real-time checks of one domain; use **Bulk DNS Domain Lookup** for up to 100 at once. [See the documentation](https://whoisfreaks.com/documentation/dns-checker-api)",
+  description: "Retrieve live DNS records (A, AAAA, MX, NS, CNAME, SOA, TXT, SPF) for a single domain, or the PTR record for an IP address. Use this for real-time checks of one domain; use **Bulk DNS Domain Lookup** for up to 100 at once. [See the documentation](https://whoisfreaks.com/documentation/dns-checker-api#live-dns-lookup)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -30,22 +31,13 @@ export default {
       optional: true,
     },
     type: {
-      type: "string[]",
-      label: "Record Types",
-      description: "DNS record types to retrieve. Select `all` to return every type.",
-      options: [
-        "all",
-        "A",
-        "AAAA",
-        "MX",
-        "NS",
-        "CNAME",
-        "SOA",
-        "TXT",
-        "SPF",
+      propDefinition: [
+        whoisfreaks,
+        "recordTypes",
       ],
-      default: [
-        "all",
+      options: [
+        ...whoisfreaks.propDefinitions.recordTypes.options,
+        "SPF",
       ],
     },
     format: {
@@ -65,7 +57,7 @@ export default {
       params: {
         domainName: this.domainName,
         ipAddress: this.ipAddress,
-        type: this.type.join(","),
+        type: parseObject(this.type).join(","),
         format: this.format,
       },
     });

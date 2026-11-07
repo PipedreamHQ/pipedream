@@ -28,10 +28,28 @@ export default {
     page: {
       type: "integer",
       label: "Page",
-      description: "Page number of the results to retrieve. Default: `1`",
+      description: "Page number of the results to retrieve, e.g. `2`. Default: `1`",
       default: 1,
       min: 1,
       optional: true,
+    },
+    recordTypes: {
+      type: "string[]",
+      label: "Record Types",
+      description: "DNS record types to retrieve, e.g. `[\"A\", \"AAAA\"]`. Use `all` to return every type.",
+      options: [
+        "all",
+        "A",
+        "AAAA",
+        "MX",
+        "NS",
+        "CNAME",
+        "SOA",
+        "TXT",
+      ],
+      default: [
+        "all",
+      ],
     },
     format: {
       type: "string",

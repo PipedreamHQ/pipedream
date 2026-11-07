@@ -3,7 +3,7 @@ import whoisfreaks from "../../whoisfreaks.app.mjs";
 export default {
   key: "whoisfreaks-reverse-dns-lookup",
   name: "Reverse DNS Lookup",
-  description: "Find domains whose DNS records point to a given value, such as an IP address or CIDR range (A/AAAA), a mail server (MX) or a nameserver (NS). Use this to map shared hosting and infrastructure. Results are paginated. [See the documentation](https://whoisfreaks.com/documentation/dns-checker-api)",
+  description: "Find domains whose DNS records point to a given value, such as an IP address or CIDR range (A/AAAA), a mail server (MX) or a nameserver (NS). Use this to map shared hosting and infrastructure. Results are paginated. [See the documentation](https://whoisfreaks.com/documentation/dns-checker-api#reverse-dns-lookup)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -22,7 +22,7 @@ export default {
     type: {
       type: "string",
       label: "Record Type",
-      description: "The DNS record type to search in",
+      description: "The DNS record type to search in. One of `A`, `AAAA`, `MX`, `NS`, `CNAME`, `TXT`, `SOA`. e.g. `A`.",
       options: [
         "A",
         "AAAA",

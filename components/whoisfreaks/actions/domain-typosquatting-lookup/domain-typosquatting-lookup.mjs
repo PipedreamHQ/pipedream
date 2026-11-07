@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "whoisfreaks-domain-typosquatting-lookup",
   name: "Domain Typosquatting Lookup",
-  description: "Find registered domains that look like typo variants of a brand keyword or wildcard pattern, across 7,800+ TLDs. Each result includes the domain name, registration, expiry and last-seen dates, and drop status. Use this for brand protection and phishing detection. Provide exactly one of keyword or pattern. Results are paginated 100 domains per page. [See the documentation](https://whoisfreaks.com/documentation/domain-typosquats-api)",
+  description: "Find registered domains that look like typo variants of a brand keyword or wildcard pattern, across 7,800+ TLDs. Each result includes the domain name, registration, expiry and last-seen dates, and drop status. Use this for brand protection and phishing detection. Provide exactly one of keyword or pattern. Results are paginated 100 domains per page. [See the documentation](https://whoisfreaks.com/documentation/domain-typosquats-api#domain-typosquats)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -30,7 +30,7 @@ export default {
     pageToken: {
       type: "string",
       label: "Page Token",
-      description: "The `nextPageToken` value from a previous response, to retrieve the next page. Pass the same keyword or pattern as the original request.",
+      description: "The `nextPageToken` value from a previous response of **Domain Typosquatting Lookup**, to retrieve the next page. Pass the same keyword or pattern as the original request. e.g. `a1b2c3...`",
       optional: true,
     },
   },
