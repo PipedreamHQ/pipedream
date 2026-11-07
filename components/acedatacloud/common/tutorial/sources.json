@@ -1,0 +1,29 @@
+{
+  "downloaded_at": "2026-10-18",
+  "images": [
+    {
+      "file": "get-api-key-en.png",
+      "source_url": "https://raw.githubusercontent.com/AceDataCloud/SunoDify/8d3d03570e73324220f111f7fe343da0792a8071/_assets/tutorial/get-api-key-en.png",
+      "official_page_url": "https://github.com/AceDataCloud/SunoDify/blob/8d3d03570e73324220f111f7fe343da0792a8071/README.md",
+      "capture_date": null,
+      "limits": "Real Ace Applications screenshot with redacted credentials; capture date unstated.",
+      "sha256": "b63787f2bd15af82fef9ab61c99e11c454355ac86e91f7f94559386b795069b7"
+    },
+    {
+      "file": "create-api-key-en.png",
+      "source_url": "https://raw.githubusercontent.com/AceDataCloud/SunoDify/8d3d03570e73324220f111f7fe343da0792a8071/_assets/tutorial/create-api-key-en.png",
+      "official_page_url": "https://github.com/AceDataCloud/SunoDify/blob/8d3d03570e73324220f111f7fe343da0792a8071/README.md",
+      "capture_date": null,
+      "limits": "Real Ace API Token creation dialog; redacted; capture date unstated.",
+      "sha256": "977c06780b36ca33f2fb3ba546e2594efe5895400e4cb58d842eb564c3bb09da"
+    },
+    {
+      "file": "pipedream-action-selector.png",
+      "source_url": "https://mintcdn.com/pipedream/Acz4Z1ch6TM7-aI8/images/bd45e785-image.png",
+      "official_page_url": "https://pipedream.com/docs/workflows/quickstart",
+      "capture_date": null,
+      "limits": "Official historical Google Sheets action selector; not an Ace connection or current Connect UI proof.",
+      "sha256": "1a2dcd5001f54ba71f67d6c6137995753c2fd4f8ce71247da747a0820bb90328"
+    }
+  ]
+}
