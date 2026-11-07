@@ -4,7 +4,8 @@ export default {
   name: "BingX Trade New Order",
   key: "bingx-trade-new-order",
   description: "Place a New Order. [See the documentation](https://bingx-api.github.io/docs/#/swapV2/trade-api.html#Trade%20order)",
-  version: "0.1.5",
+  version: "0.1.6",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -50,14 +51,14 @@ export default {
       ],
     },
     takerProfit: {
-      label: "Taker Profit",
-      description: "Support setting take profit while placing an order. Only supports type: TAKE_PROFIT_MARKET/TAKE_PROFIT",
+      label: "Take Profit",
+      description: "JSON string for take profit. Nested `stopPrice` must be a JSON number; `price` must also be a JSON number and is required for `TAKE_PROFIT`. Example: `{\"type\":\"TAKE_PROFIT_MARKET\",\"stopPrice\":65000,\"workingType\":\"MARK_PRICE\"}`.",
       type: "string",
       optional: true,
     },
     stopLoss: {
       label: "Stop Loss",
-      description: "Support setting stop loss while placing an order. Only supports type: STOP_MARKET/STOP",
+      description: "JSON string for stop loss. Nested `stopPrice` must be a JSON number; `price` must also be a JSON number and is required for `STOP`. Example: `{\"type\":\"STOP_MARKET\",\"stopPrice\":60000,\"workingType\":\"MARK_PRICE\"}`.",
       type: "string",
       optional: true,
     },
@@ -79,8 +80,8 @@ export default {
       "quantity": this.bingx.convertToFloat(this.entrustVolume),
       "type": this.tradeType,
       "positionSide": this.action,
-      "takerProfit": this.takerProfit,
-      "stopLoss": this.stopLossPrice,
+      "takeProfit": this.takerProfit,
+      "stopLoss": this.stopLoss,
     };
     this.cleanObject(parameters);
     const returnValue = await this.bingx.createOrder({
