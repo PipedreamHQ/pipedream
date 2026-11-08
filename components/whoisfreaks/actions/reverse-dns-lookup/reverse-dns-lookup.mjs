@@ -69,15 +69,24 @@ export default {
       return response;
     } catch (error) {
       // The reverse DNS endpoint returns 404 when no matching records exist.
-      // Treat that as an empty result rather than a failed action.
-      if (error.response?.status === 404) {
-        $.export("$summary", `No domains found for ${this.value}`);
-        return error.response?.data || {
-          status: false,
-          message: "No records found",
-        };
+      // Treat that as an empty result rather than a failed action — but only
+      // when the 404 carries the API's own JSON payload. A 404 from anything
+      // else (an unavailable route or gateway error page, which is not JSON)
+      // is a real failure, so it is rethrown instead of reported as
+      // "No domains found".
+      const data = error.response?.data;
+      const contentType = error.response?.headers?.["content-type"] ?? "";
+      const isApiPayload =
+        error.response?.status === 404 &&
+        (typeof data === "object" || contentType.includes("application/json"));
+      if (!isApiPayload) {
+        throw error;
       }
-      throw error;
+      $.export("$summary", `No domains found for ${this.value}`);
+      return data || {
+        status: false,
+        message: "No records found",
+      };
     }
   },
 };

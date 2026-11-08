@@ -25,8 +25,10 @@ export default {
       optional: true,
     },
     ipAddress: {
-      type: "string",
-      label: "IP Address",
+      propDefinition: [
+        whoisfreaks,
+        "ip",
+      ],
       description: "An IPv4 or IPv6 address to look up the PTR (reverse DNS) record for (e.g. `8.8.8.8`). Provide this, a domain name, or both.",
       optional: true,
     },
@@ -52,12 +54,15 @@ export default {
       throw new ConfigurationError("Please provide a domain name, an IP address, or both.");
     }
 
+    // parseObject normalises JSON-encoded and comma-separated input, but a
+    // JSON-encoded scalar comes back unchanged, so guard the join.
+    const recordTypes = parseObject(this.type) ?? [];
     const response = await this.whoisfreaks.lookupDns({
       $,
       params: {
         domainName: this.domainName,
         ipAddress: this.ipAddress,
-        type: parseObject(this.type).join(","),
+        type: (Array.isArray(recordTypes) ? recordTypes : [ recordTypes ]).join(","),
         format: this.format,
       },
     });

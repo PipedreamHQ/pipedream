@@ -17,7 +17,7 @@ export default {
     asn: {
       type: "string",
       label: "ASN",
-      description: "The Autonomous System Number to look up, with or without the `AS` prefix (e.g. `AS15169` or `15169`)",
+      description: "The Autonomous System Number to look up, with or without the `AS` prefix (e.g. `AS15169` or `15169`). Use **IP Geolocation Lookup** with an IP address in the target network and read the `as_number` field.",
     },
     format: {
       propDefinition: [

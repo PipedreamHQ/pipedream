@@ -41,11 +41,14 @@ export default {
     },
   },
   async run({ $ }) {
+    // parseObject normalises JSON-encoded and comma-separated input, but a
+    // JSON-encoded scalar comes back unchanged, so guard the join.
+    const recordTypes = parseObject(this.type) ?? [];
     const response = await this.whoisfreaks.lookupDnsHistory({
       $,
       params: {
         domainName: this.domainName,
-        type: parseObject(this.type).join(","),
+        type: (Array.isArray(recordTypes) ? recordTypes : [ recordTypes ]).join(","),
         page: this.page || 1,
         format: this.format,
       },
