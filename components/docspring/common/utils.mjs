@@ -297,6 +297,28 @@ const legacyErrorText = (data) => {
 };
 
 /**
+ * Whether an API error's message already has this detail. API v2 builds most messages from
+ * the first three details ("Invalid request: /name is required; /size must be an integer
+ * (and 2 more)"), so those get no line of their own, unless they add a submission ID (a
+ * batch's).
+ * @param {*} detail - one of the error's details
+ * @param {*} message - the error's message
+ * @returns {boolean}
+ */
+const inMessage = (detail, message) => {
+  if (!isPlainObject(detail) || detail.submission_id || typeof message !== "string") {
+    return false;
+  }
+  if (typeof detail.message !== "string" || !detail.message) {
+    return false;
+  }
+  const where = detail.pointer === ""
+    ? "the request body"
+    : detail.pointer || detail.parameter || "";
+  return message.includes(`${where} ${detail.message}`.trim());
+};
+
+/**
  * The message for a failed DocSpring API request: the error's code and message, one line
  * per detail, the record it's about and the request ID.
  * @param {object} opts
@@ -327,6 +349,9 @@ const formatApiError = ({
     for (const detail of Array.isArray(error.details)
       ? error.details
       : []) {
+      if (inMessage(detail, error.message)) {
+        continue;
+      }
       const where = detail.pointer || detail.parameter;
       const record = detail.submission_id
         ? ` (submission ${detail.submission_id})`

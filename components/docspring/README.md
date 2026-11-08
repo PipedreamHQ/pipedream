@@ -7,7 +7,7 @@ The components use [DocSpring's API v2](https://docspring.com/docs/api/). Self-h
 # Example Use Cases
 
 - **Generate a contract from a form**: when someone submits a form, **Generate PDF** fills in your contract template with their answers, and the next step emails the PDF's `files.pdf.download_url` or saves it to cloud storage.
-- **Collect signatures**: **Create Signature Request** creates a submission for one or more signers. DocSpring emails each of them a link to sign, any reminders, and the signed PDF once everyone has signed. Or send the links yourself: the action then returns a signing link for each. Use **New Event (Instant)** with `submission.processed` to file the signed PDF.
+- **Collect signatures**: **Create Signature Request** creates a submission for one or more signers. DocSpring emails each of them a link to sign, any reminders, and the signed PDF once everyone has signed. Or send the links yourself: the action then returns a signing link for each. Use **New Event (Instant)** with `submission.processed` to file the signed PDF. The email's subject and message can name the signer: type `[[ signer.name ]]`, or `[[ signer.email ]]`, `[[ document.name ]]`, `[[ sender.name ]]` or `[[ account.name ]]`. Use square brackets, because Pipedream reads `{{ }}` as its own expression: the action sends them to DocSpring as `{{ signer.name }}`.
 - **Monthly statements in bulk**: on a schedule, **Generate PDFs in a Batch** makes up to 50 PDFs in one request, and **Combine PDFs** merges them into one file.
 - **Templates from your own PDFs**: **Create Template** turns a PDF at a URL (or in `/tmp`) into a template and sets up its fields with AI field detection; **Publish Template Version** publishes changes.
 

@@ -48,6 +48,26 @@ const signingOrderProp = {
   optional: true,
 };
 
+// DocSpring's variables for the subject and message. Pipedream reads `{{ }}` in a prop as
+// its own expression, so these props take `[[ signer.name ]]` (spaces optional) and send
+// DocSpring `{{ signer.name }}`. Only DocSpring's five variables: other `[[ ]]` text goes
+// as typed.
+const EMAIL_VARIABLES = [
+  "signer.name",
+  "signer.email",
+  "document.name",
+  "sender.name",
+  "account.name",
+];
+const BRACKET_VARIABLE = new RegExp(
+  `\\[\\[\\s*(${EMAIL_VARIABLES.map((v) => v.replace(".", "\\.")).join("|")})\\s*\\]\\]`,
+  "g",
+);
+
+const VARIABLES_HELP = " To add the signer's name or other details, type `[[ signer.name ]]`, `[[ signer.email ]]`,"
+  + " `[[ document.name ]]`, `[[ sender.name ]]` or `[[ account.name ]]`."
+  + " Use square brackets: Pipedream reads `{{ }}` as its own expression.";
+
 /**
  * DocSpring's email options, shown when it emails the signers: the API refuses them when it
  * emails nobody.
@@ -57,14 +77,16 @@ const emailOptionProps = () => ({
   emailSubject: {
     type: "string",
     label: "Email Subject",
-    description: "The subject of the emails that ask people to sign, e.g. `Please sign the lease`."
-      + " Leave blank for \"<your name> sent you <document> to sign\".",
+    description: "The subject of the emails that ask people to sign, e.g. `Please sign the lease, [[ signer.name ]]`."
+      + " Leave blank for `[[ sender.name ]] sent you [[ document.name ]] to sign`."
+      + VARIABLES_HELP,
     optional: true,
   },
   emailMessage: {
     type: "string",
     label: "Message",
-    description: "A message for the signers, shown above the signing button, e.g. `Please sign by Friday.` Links and web addresses are shown as plain text.",
+    description: "A message for the signers, shown above the signing button, e.g. `Please sign by Friday.` Links and web addresses are shown as plain text."
+      + VARIABLES_HELP,
     optional: true,
   },
   cc: {
@@ -120,6 +142,14 @@ const emailOptionProps = () => ({
 const text = (value) => (utils.isBlank(value)
   ? undefined
   : String(value).trim());
+
+/**
+ * A subject or message for DocSpring: trimmed, with `[[ variable ]]` as `{{ variable }}`.
+ * Blank gives `undefined`.
+ * @param {*} value
+ * @returns {string|undefined}
+ */
+const withEmailVariables = (value) => text(value)?.replace(BRACKET_VARIABLE, "{{ $1 }}");
 
 /**
  * `docspring` or `self`. Blank is DocSpring's emails, as in the API.
@@ -180,8 +210,8 @@ const emailSettings = (component) => {
   const maxCount = utils.toInteger(component.reminderMaxCount, "Most Reminders per Person");
   return utils.compact({
     ...settings,
-    email_subject: text(component.emailSubject),
-    email_message: text(component.emailMessage),
+    email_subject: withEmailVariables(component.emailSubject),
+    email_message: withEmailVariables(component.emailMessage),
     cc: addresses(component.cc),
     // The API needs both: one alone gets its 422, which names the other.
     reminders: intervalDays === undefined && maxCount === undefined
@@ -205,4 +235,6 @@ export default {
   propsEmailMode,
   emailSettings,
   text,
+  withEmailVariables,
+  EMAIL_VARIABLES,
 };
