@@ -4,7 +4,7 @@ import googleDrive from "../../google_drive.app.mjs";
 export default {
   key: "google_drive-move-file",
   name: "Move File",
-  description: "Move a file from one folder to another. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/update) for more information",
+  description: "Move a file from its current folder to another folder. If the file's current folder isn't accessible to the user (for example, it was shared from someone else's folder), the file is added to the destination folder instead when Drive allows it; otherwise the action returns an error, and a shortcut or copy should be used. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/update) for more information",
   version: "0.1.31",
   annotations: {
     destructiveHint: true,
