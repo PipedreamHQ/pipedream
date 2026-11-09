@@ -11,8 +11,8 @@ configured waiting limit.
 1. Connect your Scrapeless account using an API key.
 2. Add **AI Scraper** to your workflow and select **AI Engine**.
 3. Enter a **Prompt** and **Country**. Configure **Engine Options** if needed.
-   Copilot requires a mode such as `search`; Grok requires a mode such as
-   `MODEL_MODE_AUTO`. See the engine configurations below.
+   Copilot requires a mode such as `search`; Grok needs no Engine Options.
+   See the engine configurations below.
 4. Leave **Max Wait Seconds** at 180, or choose an integer from 1 to 240.
 5. Increase your workflow execution timeout to cover creation, waiting, and any
    other steps. For the default 180-second wait, a 240-second workflow timeout is
@@ -105,12 +105,16 @@ JSON example. No optional flag is inferred from fields present in a result.
 | [Gemini](https://docs.scrapeless.com/en/docs/ai-scraper/scrapers/gemini/) / `scraper.gemini` | `{}` | `shopping` |
 | [Google AI Mode](https://docs.scrapeless.com/en/docs/ai-scraper/scrapers/google-ai-mode/) / `scraper.aimode` | `{}` | `shopping`, `location`, `uule`, `should_fetch_share_link` |
 | [Google AI Overview](https://docs.scrapeless.com/en/docs/ai-scraper/scrapers/google-ai-overview/) / `scraper.overview` | `{}` | `shopping`, `location`, `uule`, `should_fetch_share_link` |
-| [Grok](https://docs.scrapeless.com/en/docs/ai-scraper/scrapers/grok/) / `scraper.grok` | `{"mode":"MODEL_MODE_AUTO"}` | `mode` (required), `should_fetch_share_link` |
+| [Grok](https://docs.scrapeless.com/en/docs/ai-scraper/scrapers/grok/) / `scraper.grok` | `{}` | `should_fetch_share_link`, `mode` (optional compatibility input) |
 | [Amazon Alexa](https://docs.scrapeless.com/en/docs/ai-scraper/scrapers/alexa/) / `scraper.alexa` | `{}` | None |
 
 Copilot modes: `search`, `smart`, `chat`, `reasoning`, `study`.
-Grok modes: `MODEL_MODE_FAST`, `MODEL_MODE_EXPERT`, `MODEL_MODE_AUTO`.
-The component does not choose a default mode for these engines.
+Grok requires only Prompt and Country, matching its current official request
+example. For compatibility with existing configurations, this component also
+accepts an optional Grok `mode`: `MODEL_MODE_FAST`, `MODEL_MODE_EXPERT`, or
+`MODEL_MODE_AUTO`. These values are not listed in the current Grok reference;
+provider support remains an API check. No Grok mode is added when omitted.
+The component does not choose a default mode for either engine.
 
 Example action inputs, excluding the separately selected Scrapeless connection:
 

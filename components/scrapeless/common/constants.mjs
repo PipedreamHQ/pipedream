@@ -6916,9 +6916,6 @@ export const AI_SCRAPER_ENGINE_SPECS = {
       ],
       should_fetch_share_link: "boolean",
     },
-    required: [
-      "mode",
-    ],
   },
   "scraper.alexa": {
     label: "Amazon Alexa",

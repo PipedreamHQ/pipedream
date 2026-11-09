@@ -12,7 +12,7 @@ export default {
     aiScraperActor: {
       type: "string",
       label: "AI Engine",
-      description: "AI engine to run, e.g. `scraper.chatgpt`. Copilot and Grok require a mode in Engine Options.",
+      description: "AI engine to run, e.g. `scraper.chatgpt`. Copilot requires a mode in Engine Options; Grok does not require Engine Options.",
       options: AI_SCRAPER_ACTORS,
     },
     aiScraperPrompt: {
@@ -36,7 +36,7 @@ export default {
     aiScraperEngineOptions: {
       type: "object",
       label: "Engine Options",
-      description: "Engine-specific JSON object, e.g. `{\"web_search\":true,\"shopping\":false}` for ChatGPT. ChatGPT: {\"web_search\":true,\"shopping\":false,\"should_fetch_share_link\":false}; Perplexity: {\"web_search\":true,\"should_fetch_share_link\":false}; Copilot: {\"mode\":\"search\",\"should_fetch_share_link\":false} (mode required: search, smart, chat, reasoning, study); Gemini: {\"shopping\":false}; AI Mode/Overview: {\"shopping\":false,\"location\":\"New York,New York,United States\",\"should_fetch_share_link\":false} (uule may replace location; use a valid w+ name or a+ GPS encoding); Grok: {\"mode\":\"MODEL_MODE_AUTO\",\"should_fetch_share_link\":false} (mode required: MODEL_MODE_FAST, MODEL_MODE_EXPERT, MODEL_MODE_AUTO); Alexa: {}. Omit in URL mode. Booleans must be JSON booleans. Unknown fields are rejected. Shopping defaults to false in prompt mode for supported engines; enabling it can increase charges.",
+      description: "Engine-specific JSON object, e.g. `{\"web_search\":true,\"shopping\":false}` for ChatGPT. ChatGPT: {\"web_search\":true,\"shopping\":false,\"should_fetch_share_link\":false}; Perplexity: {\"web_search\":true,\"should_fetch_share_link\":false}; Copilot: {\"mode\":\"search\",\"should_fetch_share_link\":false} (mode required: search, smart, chat, reasoning, study); Gemini: {\"shopping\":false}; AI Mode/Overview: {\"shopping\":false,\"location\":\"New York,New York,United States\",\"should_fetch_share_link\":false} (uule may replace location; use a valid w+ name or a+ GPS encoding); Grok: {} or {\"should_fetch_share_link\":false} (optional mode accepted for compatibility: MODEL_MODE_FAST, MODEL_MODE_EXPERT, MODEL_MODE_AUTO; provider support may vary); Alexa: {}. Omit in URL mode. Booleans must be JSON booleans. Unknown fields are rejected. Shopping defaults to false in prompt mode for supported engines; enabling it can increase charges.",
       optional: true,
     },
   },

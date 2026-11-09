@@ -35,7 +35,7 @@ export default {
         "aiScraperActor",
       ],
       optional: true,
-      description: "AI engine to run, e.g. `scraper.chatgpt`. Required when creating a task; ignored with Existing Task ID. Copilot and Grok require a mode in Engine Options.",
+      description: "AI engine to run, e.g. `scraper.chatgpt`. Required when creating a task; ignored with Existing Task ID. Copilot requires a mode in Engine Options; Grok does not require Engine Options.",
     },
     prompt: {
       propDefinition: [
