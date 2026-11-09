@@ -52,8 +52,12 @@ const segments = [
   "device",
   "external_conversion_source",
   "hour",
+  "month",
   "new_versus_returning_customers",
+  "quarter",
   "slot",
+  "week",
+  "year",
 ].map((f) => getOption(f, "segments"));
 
 const metrics = [
