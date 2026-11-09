@@ -48,8 +48,11 @@ export default {
     // Get file to get parents to remove
     const file = await this.googleDrive.getFile(this.fileId);
     // Drive omits `parents` when the user can't see the file's current folder
-    // (typical for shared files), and rejects any attempt to re-parent it.
-    if (!file.parents?.length) {
+    // (typical for shared files). There is nothing to remove then, so the file
+    // can only be added to the destination, and only if Drive says that is
+    // allowed; otherwise it rejects the update (403 cannotAddParent).
+    const hasParents = Boolean(file.parents?.length);
+    if (!hasParents && !(file.capabilities?.canAddMyDriveParent && this.folderId)) {
       throw new ConfigurationError(
         `Cannot move "${file.name}": it isn't in a folder you can access (for example, it was shared with you from someone else's folder), so its current folder can't be replaced. Instead, create a shortcut to the file or make a copy of it in the destination folder.`,
       );
@@ -57,10 +60,14 @@ export default {
     // Update file, removing old parents, adding new parent folder
     const resp = await this.googleDrive.updateFile(this.fileId, {
       fields: "*",
-      removeParents: file.parents.join(","),
+      removeParents: hasParents
+        ? file.parents.join(",")
+        : undefined,
       addParents: this.folderId,
     });
-    $.export("$summary", `Successfully moved the file, "${file.name}"`);
+    $.export("$summary", hasParents
+      ? `Successfully moved the file, "${file.name}"`
+      : `Added the file, "${file.name}", to the destination folder (it had no accessible parent folder to remove)`);
     return resp;
   },
 };
