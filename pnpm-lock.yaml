@@ -7984,7 +7984,14 @@ importers:
         specifier: 1.0.0
         version: 1.0.0
 
-  components/incorta_oauth: {}
+  components/incorta_oauth:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
+      hive-driver:
+        specifier: 1.0.0
+        version: 1.0.0
 
   components/indiefunnels:
     dependencies:
