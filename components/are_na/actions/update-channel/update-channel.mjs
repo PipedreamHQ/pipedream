@@ -1,10 +1,11 @@
-import app from "../../are_na.app.mjs";
+import are_na from "../../are_na.app.mjs";
 
 export default {
   key: "are_na-update-channel",
   name: "Update Channel",
-  description: "Update a Channel with the specified slug. [See the documentation](https://dev.are.na/documentation/channels#Block45048)",
-  version: "0.0.2",
+  description: "Update the title, visibility, description or metadata of an existing channel. Only the fields you provide are changed. Use **List Channel Slug Options** to find the slug; to create a new channel use **Create Channel**. Returns the updated channel object. Example: Channel Slug `brutalist-architecture` with Channel Status `closed` makes that channel visible to everyone while limiting who can add to it. [See the documentation](https://www.are.na/developers/explore/channel/put-channel)",
+  version: "0.1.0",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -12,33 +13,49 @@ export default {
   },
   type: "action",
   props: {
-    app,
+    are_na,
     channelSlug: {
       propDefinition: [
-        app,
+        are_na,
         "channelSlug",
       ],
     },
     channelTitle: {
       propDefinition: [
-        app,
+        are_na,
         "channelTitle",
       ],
+      optional: true,
     },
     channelStatus: {
       propDefinition: [
-        app,
+        are_na,
         "channelStatus",
+      ],
+      optional: true,
+    },
+    channelDescription: {
+      propDefinition: [
+        are_na,
+        "channelDescription",
+      ],
+    },
+    channelMetadata: {
+      propDefinition: [
+        are_na,
+        "channelMetadata",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.app.updateChannel({
+    const response = await this.are_na.updateChannel({
       $,
       slug: this.channelSlug,
-      params: {
+      data: {
         title: this.channelTitle,
-        status: this.channelStatus,
+        visibility: this.channelStatus,
+        description: this.channelDescription,
+        metadata: this.channelMetadata,
       },
     });
     $.export("$summary", `Successfully updated channel with slug: '${this.channelSlug}'`);
