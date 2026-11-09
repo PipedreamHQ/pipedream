@@ -100,13 +100,18 @@ export function normalizeHeaders(value) {
  *
  * @param {*} value - The raw `scheduledAt` prop value.
  * @returns {string|number|undefined} The value to send, or `undefined` when nothing was set.
+ * @throws {ConfigurationError} When the value is a non-finite number (e.g. an expression that
+ * evaluated to `NaN`), which would otherwise be dropped and send the mail immediately.
  */
 export function normalizeScheduledAt(value) {
   if (value == null) return undefined;
   if (typeof value === "number") {
-    return Number.isFinite(value)
-      ? value
-      : undefined;
+    if (!Number.isFinite(value)) {
+      throw new ConfigurationError(
+        `Schedule Send must be a finite time — got ${value}. Use an ISO 8601 timestamp, relative language like \`in 2 hours\`, or a ms-epoch.`,
+      );
+    }
+    return value;
   }
   const s = String(value).trim();
   if (!s) return undefined;

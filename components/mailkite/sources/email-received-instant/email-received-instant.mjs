@@ -89,12 +89,17 @@ export default {
       const incumbent = await this.mailkite.getDomain({
         domainId: this.domainId,
       });
-      this.db.set(
-        "incumbentWebhook",
-        incumbent?.webhookUrl
-          ? { url: incumbent.webhookUrl }
-          : null,
-      );
+      // Only record a *foreign* route as the incumbent. A repeated activate() sees this
+      // source's own endpoint already installed; treating that as the incumbent would later
+      // "restore" a Pipedream endpoint that no longer exists.
+      if (incumbent?.webhookUrl !== this.http.endpoint) {
+        this.db.set(
+          "incumbentWebhook",
+          incumbent?.webhookUrl
+            ? { url: incumbent.webhookUrl }
+            : null,
+        );
+      }
 
       const { webhookUrl, signingSecret } = await this.mailkite.setWebhook({
         domainId: this.domainId,
