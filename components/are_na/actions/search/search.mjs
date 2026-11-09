@@ -1,12 +1,13 @@
 import { ConfigurationError } from "@pipedream/platform";
 import are_na from "../../are_na.app.mjs";
 import constants from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "are_na-search",
   name: "Perform a Search",
   description: "Search across Are.na blocks, channels, users, and groups. Returns `data` (the matching items) and `meta` (pagination: `current_page`, `next_page`, `has_more_pages`, `total_count`). To get more results, call again with `page` set to `meta.next_page`. Only the first 10,000 results can be paged through; narrow with filters. To find a user, group or channel ID for the ID filters, use **List Users**, **List Groups** or **List Channel Slug Options** instead of searching. Pass **Fields** to keep results small. Example: query `*`, type `Image`, ext `pdf`, sort `created_at_desc`, per 10 returns `{ \"data\": [...10 blocks], \"meta\": { \"current_page\": 1, \"next_page\": 2, \"total_count\": 57 } }`. Premium Only: This endpoint requires a Premium subscription. [See the documentation](https://www.are.na/developers/explore/search/search)",
-  version: "0.1.0",
+  version: "1.0.0",
   ai: "optimized",
   annotations: {
     destructiveHint: false,
@@ -92,21 +93,16 @@ export default {
       ],
     },
     page: {
-      type: "integer",
-      label: "Page",
-      description: "Page number to return. Defaults to 1. Use `meta.next_page` from the previous response to get the next page",
-      min: 1,
-      default: 1,
-      optional: true,
+      propDefinition: [
+        are_na,
+        "page",
+      ],
     },
     per: {
-      type: "integer",
-      label: "Per Page",
-      description: "Number of items per page (max 100). Defaults to 24",
-      min: 1,
-      max: 100,
-      default: 24,
-      optional: true,
+      propDefinition: [
+        are_na,
+        "per",
+      ],
     },
   },
   async run({ $ }) {
@@ -139,7 +135,7 @@ export default {
     });
 
     if (response?.data) {
-      response.data = this.are_na.pluckFields(response.data, this.fields);
+      response.data = utils.pluckFields(response.data, this.fields);
     }
 
     const count = response?.data?.length ?? 0;

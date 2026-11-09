@@ -1,4 +1,5 @@
 import are_na from "../../are_na.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "are_na-list-groups",
@@ -15,39 +16,36 @@ export default {
   props: {
     are_na,
     query: {
-      type: "string",
-      label: "Query",
+      propDefinition: [
+        are_na,
+        "listQuery",
+      ],
       description: "Filter groups by name or other content. Defaults to `*` (all groups)",
-      default: "*",
-      optional: true,
     },
     page: {
-      type: "integer",
-      label: "Page",
-      description: "Page number to return. Defaults to 1. Use `meta.next_page` from the previous response to get the next page",
-      min: 1,
-      default: 1,
-      optional: true,
+      propDefinition: [
+        are_na,
+        "page",
+      ],
     },
     fields: {
-      type: "string[]",
-      label: "Fields",
-      description: "Fields to return for each result. Defaults to `id`, `slug` and `name`. Dot paths such as `owner.name` are supported",
+      propDefinition: [
+        are_na,
+        "fields",
+      ],
+      description: "Fields to return for each group. Defaults to `id`, `slug` and `name`. Dot paths such as `owner.name` are supported",
       default: [
         "id",
         "slug",
         "name",
       ],
-      optional: true,
     },
     per: {
-      type: "integer",
-      label: "Per Page",
+      propDefinition: [
+        are_na,
+        "per",
+      ],
       description: "Number of groups per page (max 100). Defaults to 24",
-      min: 1,
-      max: 100,
-      default: 24,
-      optional: true,
     },
   },
   async run({ $ }) {
@@ -61,7 +59,7 @@ export default {
       },
     });
 
-    const options = this.are_na.pluckFields(response?.data, this.fields);
+    const options = utils.pluckFields(response?.data ?? [], this.fields);
 
     $.export("$summary", `Successfully retrieved ${options.length} group${options.length === 1
       ? ""

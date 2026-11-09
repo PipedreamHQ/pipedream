@@ -9,11 +9,13 @@ export default {
       type: "string",
       label: "Channel Slug",
       description: "Slug of the Channel, e.g. `brutalist-architecture`. Use the **List Channel Slug Options** action to find the slug of an existing channel",
-      async options() {
+      async options({ page }) {
         const response = await this.search({
           params: {
             query: "*",
             type: "Channel",
+            page: page + 1,
+            per: 100,
           },
         });
         return (response?.data ?? []).map(({
@@ -49,19 +51,43 @@ export default {
     channelDescription: {
       type: "string",
       label: "Description",
-      description: "The description of the channel",
+      description: "The description of the channel, e.g. `Concrete buildings and brutalist architecture references`",
       optional: true,
     },
     channelMetadata: {
       type: "object",
       label: "Metadata",
-      description: "Arbitrary key-value pairs stored on an entity. Keys are alphanumeric/underscore, max 40 characters. Values are scalars (string, number, boolean). Max 50 keys, 32KB total.",
+      description: "Arbitrary key-value pairs stored on an entity, e.g. `{\"status\": \"reviewed\", \"priority\": 2}`. Keys are alphanumeric/underscore, max 40 characters. Values are scalars (string, number, boolean). Max 50 keys, 32KB total.",
+      optional: true,
+    },
+    listQuery: {
+      type: "string",
+      label: "Query",
+      description: "Filter results by name or other content. Defaults to `*` (everything)",
+      default: "*",
+      optional: true,
+    },
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "Page number to return. Defaults to 1. Use `meta.next_page` from the previous response to get the next page",
+      min: 1,
+      default: 1,
+      optional: true,
+    },
+    per: {
+      type: "integer",
+      label: "Per Page",
+      description: "Number of items per page (max 100). Defaults to 24",
+      min: 1,
+      max: 100,
+      default: 24,
       optional: true,
     },
   },
   methods: {
     _baseUrl() {
-      return "http://api.are.na/v3";
+      return "https://api.are.na/v3";
     },
     async _makeRequest(opts = {}) {
       const {
@@ -83,24 +109,6 @@ export default {
       return this._makeRequest({
         path: "/me",
         args,
-      });
-    },
-    pluckFields(items = [], fields) {
-      if (!fields?.length) return items;
-      return items.map((item) => {
-        const picked = {};
-        for (const path of fields) {
-          const value = path.split(".").reduce((obj, key) => obj?.[key], item);
-          if (value !== undefined) {
-            const keys = path.split(".");
-            let target = picked;
-            keys.slice(0, -1).forEach((key) => {
-              target = target[key] ??= {};
-            });
-            target[keys[keys.length - 1]] = value;
-          }
-        }
-        return picked;
       });
     },
     search(args = {}) {
