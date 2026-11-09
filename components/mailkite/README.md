@@ -5,7 +5,7 @@ clean JSON webhook** and **send email with one API call**, on your own verified 
 
 ## Overview
 
-This app provides two components:
+This app provides three components:
 
 - **New Inbound Email (Instant)** — a source that triggers a workflow the moment an email arrives
   at one of *your* MX-verified MailKite domains. Unlike a generic "new email" trigger tied to a
@@ -17,6 +17,8 @@ This app provides two components:
   `subject`, `html`/`text`, `reply-to`, threading (`in-reply-to`), attachments, extra MIME
   headers, saved or base templates with merge data, per-send open/click tracking, and
   send-later scheduling.
+- **List Templates** — an action that lists the account's saved `tpl_…` templates and MailKite's
+  premade `base_…` catalog, so you can find the `Template ID` that **Send Email** accepts.
 
 ## Example Use Cases
 
@@ -40,10 +42,11 @@ This app provides two components:
    up to **50** of the domain's most recent stored emails, so the workflow has real events to build
    against before the next message arrives.
 5. **To send:** add the *Send Email* action, set the `From` to an address on a verified domain, and
-   provide `html`/`text` or a `Template ID`. To attach a file, add an entry to **Attachments** —
-   an object with `filename` plus either `url` (fetched at send time; preferred for large files)
-   or `content` (base64 bytes). To send later, set **Schedule Send** to an ISO 8601 timestamp,
-   `in 2 hours`, or a ms-epoch.
+   provide `html`/`text` or a `Template ID`. To find a template id, run **List Templates** — it
+   returns the saved `tpl_…` templates and the premade `base_…` catalog. To attach a file, add an
+   entry to **Attachments** — an object with `filename` plus either `url` (fetched at send time;
+   preferred for large files) or `content` (base64 bytes). To send later, set **Schedule Send** to
+   an ISO 8601 timestamp, `in 2 hours`, or a ms-epoch.
 
 ## Troubleshooting
 
@@ -72,6 +75,7 @@ This app provides two components:
 - **Tracking flags doing nothing?** They apply to **HTML** sends only (there is nothing to
   rewrite in a plain-text body). Leaving them unset is not the same as setting them to `false`:
   unset means "use the sending domain's default", `false` forces the flag off for this send.
-- **MailKite retrying deliveries?** If you set **Acknowledgement Mode** to `ack`, the source must
-  return `2xx` with `{"status":"ok"}` — it does this automatically; leave it on `lenient` if your
-  downstream steps are slow.
+- **MailKite retrying deliveries?** If the domain's webhook route is in **ack** mode it must receive
+  `2xx` with `{"status":"ok"}`. Set **Acknowledgement Response** to `ack` and the source returns
+  exactly that; leave it on `lenient` for a plain `2xx` body. The source always answers before it
+  verifies and emits, so a slow downstream step cannot cause a retry.

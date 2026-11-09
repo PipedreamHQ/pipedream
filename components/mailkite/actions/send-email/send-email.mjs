@@ -42,7 +42,7 @@ export function parseAttachments(value) {
     .filter((entry) => entry != null && entry !== "")
     .map((entry, i) => {
       const a = maybeParseJson(entry, `Attachment ${i + 1}`);
-      if (typeof a !== "object" || Array.isArray(a)) {
+      if (a === null || typeof a !== "object" || Array.isArray(a)) {
         throw new ConfigurationError(
           `Attachment ${i + 1} must be an object with a \`filename\` and either \`url\` or \`content\`.`,
         );
@@ -189,6 +189,7 @@ export default {
     "Send an email from a verified MailKite domain — immediately, or at a scheduled time. [See the documentation](https://mailkite.dev/docs?utm_source=pipedream&utm_medium=integration&utm_campaign=components).",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -204,39 +205,49 @@ export default {
     to: {
       type: "string[]",
       label: "To",
-      description: "One or more recipient addresses.",
+      description:
+        "One or more recipient addresses, e.g. `[\"jane@example.com\", \"joe@example.com\"]`.",
     },
     subject: {
       type: "string",
       label: "Subject",
-      description: "Email subject. Required unless you send a `Template ID`.",
+      description:
+        "Email subject, e.g. `Your receipt for order 1042`. Required unless you send a `Template ID`.",
       optional: true,
     },
     html: {
       type: "string",
       label: "HTML Body",
-      description: "HTML content. Provide `HTML Body`, `Text Body`, or a `Template ID`.",
+      description:
+        "HTML content, e.g. `<p>Thanks, Jane — your order shipped.</p>`. Provide `HTML Body`, `Text Body`, or a `Template ID`.",
       optional: true,
     },
     text: {
       type: "string",
       label: "Text Body",
-      description: "Plain-text content.",
+      description:
+        "Plain-text content, e.g. `Thanks, Jane — your order shipped.`.",
       optional: true,
     },
     cc: {
       type: "string[]",
       label: "CC",
+      description:
+        "Carbon-copy recipients, e.g. `[\"manager@example.com\"]`.",
       optional: true,
     },
     bcc: {
       type: "string[]",
       label: "BCC",
+      description:
+        "Blind carbon-copy recipients, hidden from the other recipients, e.g. `[\"audit@example.com\"]`.",
       optional: true,
     },
     replyTo: {
       type: "string",
       label: "Reply-To",
+      description:
+        "Address replies should go to, e.g. `support@yourdomain.com`.",
       optional: true,
     },
     inReplyTo: {
@@ -257,19 +268,21 @@ export default {
       type: "object",
       label: "Extra Headers",
       description:
-        "Extra raw MIME headers, applied after the threading headers so these win. Use for what the structured fields can't express — `List-Unsubscribe`, a dedup key (`X-Entity-Ref-ID`), or a tag header (`X-Tag`).",
+        "Extra raw MIME headers, applied after the threading headers so these win. Use for what the structured fields can't express — `List-Unsubscribe`, a dedup key (`X-Entity-Ref-ID`), or a tag header (`X-Tag`), e.g. `{\"X-Entity-Ref-ID\": \"order-1042\"}`.",
       optional: true,
     },
     templateId: {
       type: "string",
       label: "Template ID",
-      description: "A saved (`tpl_…`) or base (`base_…`) template. When set, `Subject`/`HTML Body`/`Text Body` become optional.",
+      description:
+        "A saved (`tpl_…`) or base (`base_…`) template, e.g. `tpl_4f3c9a` or `base_1a2b3c`. When set, `Subject`/`HTML Body`/`Text Body` become optional. Use **List Templates** to find the template ID (the `id` field).",
       optional: true,
     },
     templateData: {
       type: "object",
       label: "Template Data",
-      description: "Key/value pairs substituted into the template's `{{merge_tags}}`.",
+      description:
+        "Key/value pairs substituted into the template's `{{merge_tags}}`, e.g. `{\"firstname\": \"Jane\", \"orderId\": \"1042\"}`.",
       optional: true,
     },
     scheduledAt: {
@@ -283,14 +296,14 @@ export default {
       type: "boolean",
       label: "Track Opens",
       description:
-        "Open-tracking override for this send. Leave unset to use the sending domain's default. Applies to HTML sends only, and not to scheduled sends.",
+        "Open-tracking override for this send, e.g. `true`. Leave unset to use the sending domain's default. Applies to HTML sends only, and not to scheduled sends.",
       optional: true,
     },
     trackClicks: {
       type: "boolean",
       label: "Track Clicks",
       description:
-        "Click-tracking override for this send: `http(s)` links are rewritten to a signed redirect that records the click, then forwards to the destination. Leave unset to use the sending domain's default. Applies to HTML sends only, and not to scheduled sends.",
+        "Click-tracking override for this send, e.g. `true`: `http(s)` links are rewritten to a signed redirect that records the click, then forwards to the destination. Leave unset to use the sending domain's default. Applies to HTML sends only, and not to scheduled sends.",
       optional: true,
     },
   },

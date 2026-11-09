@@ -8,7 +8,7 @@ export default {
       type: "string",
       label: "Domain",
       description:
-        "A MailKite domain that is **MX-verified** (required to receive inbound email).",
+        "A MailKite domain that is **MX-verified** (required to receive inbound email), e.g. `myapp.ai`.",
       async options() {
         // GET /api/domains returns a bare array of domain rows
         // ({ id, domain, mx_verified, ... }) — see MailKite api/src/index.ts.
@@ -101,7 +101,8 @@ export default {
      *
      * @param {object} opts - Request options.
      * @param {string} opts.domainId - Domain to wire up.
-     * @param {object} opts.data - Body: `{ url, ackMode }` — `ackMode` is `lenient` or `ack`.
+     * @param {object} opts.data - Body: `{ url }` — the published request schema accepts
+     * only `url` (`additionalProperties: false` in `set-webhook-request`).
      * @returns {Promise<object>} `{ domain, webhookUrl, ackMode, routeId, signingSecret }`;
      * `signingSecret` is the HMAC key for `x-mailkite-signature` and is returned here only.
      */
@@ -192,6 +193,33 @@ export default {
         message,
         attachments: attachments ?? [],
       };
+    },
+    /**
+     * List the account's saved email templates — `GET /api/templates`. Rows are light
+     * metadata only (`{ id, name, category, subject, is_base, updated_at }`); the bodies live
+     * in `GET /api/templates/:id`.
+     *
+     * @param {object} [opts={}] - Extra request options (e.g. `$`).
+     * @returns {Promise<object[]>} The account's non-base templates, newest first.
+     */
+    async listTemplates(opts = {}) {
+      return this._request({
+        path: "/api/templates",
+        ...opts,
+      });
+    },
+    /**
+     * List MailKite's premade base templates — `GET /api/templates/base`. These are the
+     * `base_…` ids `sendEmail()` accepts alongside saved `tpl_…` ids.
+     *
+     * @param {object} [opts={}] - Extra request options (e.g. `$`).
+     * @returns {Promise<object[]>} The base template catalog, light metadata only.
+     */
+    async listBaseTemplates(opts = {}) {
+      return this._request({
+        path: "/api/templates/base",
+        ...opts,
+      });
     },
     /**
      * Send an email — `POST /v1/send`.

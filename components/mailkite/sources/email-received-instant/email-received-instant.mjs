@@ -26,15 +26,6 @@ export default {
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  annotations: {
-    // The source itself only reads mail as it arrives, but its lifecycle hooks write the
-    // domain's webhook route (PUT on activate, restore-or-delete on deactivate) — so it is
-    // not read-only. Nothing it does is irreversible: deactivate() puts back the webhook the
-    // domain had before, rather than dropping it.
-    destructiveHint: false,
-    openWorldHint: true,
-    readOnlyHint: false,
-  },
   props: {
     mailkite,
     db: "$.service.db",
@@ -55,14 +46,14 @@ export default {
       description:
         "Signature verification (HMAC-SHA256) is on by default using the secret MailKite issues " +
         "when this source registers its webhook — no setup needed. Set this only to override that " +
-        "secret (e.g. it was rotated in the MailKite dashboard → **Webhooks**).",
+        "secret (e.g. it was rotated in the MailKite dashboard → **Webhooks**), e.g. `whsec_…`.",
       optional: true,
     },
     ackMode: {
       type: "string",
-      label: "Acknowledgement Mode",
+      label: "Acknowledgement Response",
       description:
-        "`lenient` (default) accepts any 2xx response. `ack` requires this source to confirm receipt — MailKite retries until it does.",
+        "How this source answers MailKite. `lenient` (default) returns a plain 2xx body; `ack` returns `{\"status\":\"ok\"}`, the confirmation a domain whose webhook route is in **ack** mode requires, e.g. `ack`.",
       options: [
         "lenient",
         "ack",
@@ -101,7 +92,7 @@ export default {
       this.db.set(
         "incumbentWebhook",
         incumbent?.webhookUrl
-          ? { url: incumbent.webhookUrl, ackMode: incumbent.webhookAckMode ?? "lenient" }
+          ? { url: incumbent.webhookUrl }
           : null,
       );
 
@@ -109,7 +100,6 @@ export default {
         domainId: this.domainId,
         data: {
           url: this.http.endpoint,
-          ackMode: this.ackMode,
         },
       });
       this.db.set("webhookUrl", webhookUrl);
@@ -118,13 +108,43 @@ export default {
       this.db.set("signingSecret", signingSecret);
     },
     async deactivate() {
+      const registeredUrl = this.db.get("webhookUrl");
+      if (!registeredUrl) {
+        // activate() never completed its PUT, so this source does not own the route. Touching
+        // it here could delete another integration's webhook.
+        console.log(
+          "Skipping webhook cleanup: this source never registered a webhook route",
+        );
+        return;
+      }
+
+      // Only clean up a route that still belongs to this source. If someone else took the
+      // domain's catch-all over after us, restoring or deleting would clobber their wiring.
+      let currentUrl;
+      try {
+        const domain = await this.mailkite.getDomain({
+          domainId: this.domainId,
+        });
+        currentUrl = domain?.webhookUrl;
+      } catch (err) {
+        console.log(
+          `Skipping webhook cleanup: could not read the domain's current route — ${err.message}`,
+        );
+        return;
+      }
+      if (currentUrl !== registeredUrl) {
+        console.log(
+          "Skipping webhook cleanup: the domain's webhook route no longer points at this source",
+        );
+        return;
+      }
+
       const incumbent = this.db.get("incumbentWebhook");
-      if (incumbent) {
+      if (incumbent?.url) {
         await this.mailkite.setWebhook({
           domainId: this.domainId,
           data: {
             url: incumbent.url,
-            ackMode: incumbent.ackMode,
           },
         });
       } else {
@@ -193,12 +213,26 @@ export default {
           }
           selected.push(row);
         }
-        // `before` is exclusive, so paging on the last row's timestamp would drop any row
+        // `before` is exclusive, so paging on the last row's own timestamp would drop any row
         // sharing that millisecond; `+ 1` keeps them and `seen` absorbs the re-read overlap.
-        // A page that is entirely overlap means the cursor cannot advance — stop rather than
-        // spin. A short page is the end of the list.
-        if (!fresh || rows.length < BACKFILL_PAGE_SIZE) break;
-        before = rows[rows.length - 1].received_at + 1;
+        // A full page that is entirely overlap means more than one page of mail shares this
+        // exact `received_at`: a `<`-only cursor cannot move within that bucket, so step
+        // strictly below it (`oldest`) to reach older mail rather than stopping here. Rows in
+        // the bucket past this page are unreachable through the API; the log says so. A short
+        // page is the end of the list.
+        if (rows.length < BACKFILL_PAGE_SIZE) break;
+        const oldest = rows[rows.length - 1].received_at;
+        if (!fresh) {
+          const next = oldest;
+          if (next === before) break; // the API ignored the cursor — no progress possible
+          console.log(
+            "Backfill skipped the remainder of a >1-page timestamp bucket at " +
+            `${oldest} — those messages cannot be paged to with a received_at cursor.`,
+          );
+          before = next;
+          continue;
+        }
+        before = oldest + 1;
       }
       if (encrypted) {
         console.log(
@@ -283,21 +317,19 @@ export default {
     // payload and cannot reproduce the exact bytes MailKite signed (key order, whitespace,
     // number formatting), so an HMAC computed over it can never match.
     //
-    // A present-but-invalid signature is still dropped: that is either a spoof or a rotated
-    // secret, and emitting it would be wrong. A *missing* `bodyRaw` is different — it means
-    // this runtime did not hand us the bytes, not that the delivery is untrustworthy, and
-    // dropping there turns a signing detail into "the source never fires". The delivery
-    // already arrived on this source's unguessable Pipedream HTTP endpoint, so emit it and
-    // say so in the logs. (Zapier's hook transport strips the signature header entirely;
-    // this keeps the same failure from being silent here.)
+    // Both failures are dropped: a present-but-invalid signature is a spoof or a rotated
+    // secret; a missing `bodyRaw` means the runtime did not hand us the bytes, so there is
+    // nothing to verify against and emitting would bypass the signature entirely. The request
+    // is acknowledged above either way, so MailKite stops retrying.
     const secret = this.webhookSecret || this.db.get("signingSecret");
     if (secret) {
       if (bodyRaw == null) {
         console.log(
-          "Warning: event.bodyRaw is unavailable, so the x-mailkite-signature could not be " +
-          "verified for this delivery — emitting anyway",
+          "Rejected event: event.bodyRaw is unavailable, so the x-mailkite-signature cannot be verified",
         );
-      } else if (!this.verifySignature(secret, headers["x-mailkite-signature"], bodyRaw)) {
+        return;
+      }
+      if (!this.verifySignature(secret, headers["x-mailkite-signature"], bodyRaw)) {
         console.log("Rejected event: invalid or stale x-mailkite-signature");
         return;
       }
