@@ -8,44 +8,70 @@ export default {
       type: "string",
       label: "Space ID",
       description: "The ID of the space",
-      async options() {
+      async options({ prevContext }) {
         const response = await this.listSpaces({
           params: {
             filter: "spaceType = \"SPACE\"",
+            pageToken: prevContext?.nextPageToken,
           },
         });
-        return response.spaces?.map((space) => ({
-          label: `${space.displayName} (${space.type})`,
-          value: space.name.replace("spaces/", ""),
-        })) || [];
+        return {
+          options: response.spaces?.map((space) => ({
+            label: `${space.displayName} (${space.type})`,
+            value: space.name.replace("spaces/", ""),
+          })) || [],
+          context: {
+            nextPageToken: response.nextPageToken,
+          },
+        };
       },
     },
     messageId: {
       type: "string",
       label: "Message ID",
       description: "The ID of the message",
-      async options({ spaceId }) {
+      async options({
+        spaceId, prevContext,
+      }) {
         const response = await this.listMessages({
           spaceId,
+          params: {
+            pageToken: prevContext?.nextPageToken,
+          },
         });
-        return response.messages?.map((message) => ({
-          label: `${message.text} (${message.createTime})`,
-          value: message.name.split("/").pop(),
-        })) || [];
+        return {
+          options: response.messages?.map((message) => ({
+            label: `${message.text} (${message.createTime})`,
+            value: message.name.split("/").pop(),
+          })) || [],
+          context: {
+            nextPageToken: response.nextPageToken,
+          },
+        };
       },
     },
     memberId: {
       type: "string",
       label: "Member ID",
       description: "The ID of the member",
-      async options({ spaceId }) {
+      async options({
+        spaceId, prevContext,
+      }) {
         const response = await this.listMembers({
           spaceId,
+          params: {
+            pageToken: prevContext?.nextPageToken,
+          },
         });
-        return response.memberships?.map((membership) => ({
-          label: `${membership.member.name} (${membership.role})`,
-          value: membership.name.split("/").pop(),
-        })) || [];
+        return {
+          options: response.memberships?.map((membership) => ({
+            label: `${membership.member.name} (${membership.role})`,
+            value: membership.name.split("/").pop(),
+          })) || [],
+          context: {
+            nextPageToken: response.nextPageToken,
+          },
+        };
       },
     },
   },
