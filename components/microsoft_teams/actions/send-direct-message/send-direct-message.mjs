@@ -36,7 +36,7 @@ export default {
     isGuest: {
       type: "boolean",
       label: "Recipient Is Guest",
-      description: "Set to `true` when the recipient is a guest user in your organization, which Microsoft Graph requires to join with the `guest` role. Leave `false` for members of your organization. Users in other organizations are not supported.",
+      description: "Set to `true` when the recipient is a guest user in your organization, which Microsoft Graph requires to join with the `guest` role. Leave `false` for members of your organization. Identify guests by user ID or their `#EXT#` user principal name, not their email address. Users in other organizations are not supported.",
       optional: true,
       default: false,
     },
@@ -48,7 +48,7 @@ export default {
         "roles": [
           role,
         ],
-        "user@odata.bind": `${constants.GRAPH_USERS_BASE_URL}('${user.replace(/'/g, "''")}')`,
+        "user@odata.bind": `${constants.GRAPH_USERS_BASE_URL}('${encodeURIComponent(user.replace(/'/g, "''"))}')`,
       };
     },
   },
