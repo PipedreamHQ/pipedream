@@ -10,7 +10,7 @@ export default {
     _getNotionClient() {
       return new notion.Client({
         auth: this.$auth.api_secret,
-        notionVersion: "2022-02-22",
+        notionVersion: "2025-09-03",
       });
     },
   },

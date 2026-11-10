@@ -5,7 +5,7 @@ export default {
   key: "linear_app-get-view-issues",
   name: "Get View Issues",
   description: "Retrieve issues filtered by a saved custom view in Linear. Custom views encapsulate pre-configured filters (team, state, assignee, labels, etc.). Use **List Views** to find the view ID. Use the optional `fields` prop to narrow the response to only the keys you need (reduces context for large result sets). Example: `viewId: \"cv1b2c3d4-...\"` → returns `{nodes: [{id: \"iss_01\", identifier: \"ENG-42\", title: \"Fix login\", state: {name: \"In Progress\"}}], pageInfo: {endCursor: \"...\", hasNextPage: false}}`. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=customView)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   ai: "optimized",
   annotations: {
