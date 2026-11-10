@@ -88,9 +88,17 @@ function sortByOrderBy(items, orderby = "lastModifiedDateTime desc") {
   });
 }
 
+/**
+ * True for an HTTP 429 (Too Many Requests) error from Graph.
+ */
+function isThrottleError(err) {
+  return err?.response?.status === 429 || /\b429\b/.test(err?.message ?? "");
+}
+
 export default {
   looksLikeOData,
   buildSearchFilter,
   isSectionLimitError,
+  isThrottleError,
   sortByOrderBy,
 };

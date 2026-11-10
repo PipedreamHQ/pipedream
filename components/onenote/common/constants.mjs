@@ -39,5 +39,17 @@ export const ODATA_FUNCTIONS = [
   "substring(",
 ];
 
-// How many sections the page-search fallback queries in parallel.
-export const SECTION_BATCH_SIZE = 5;
+// How many sections the page-search fallback queries in parallel. OneNote allows
+// five concurrent requests per user, so stay below that.
+export const SECTION_BATCH_SIZE = 3;
+
+// Backoff before each retry of a throttled (429) request during the fallback scan.
+// OneNote sends no Retry-After header, so this is a fixed schedule.
+export const THROTTLE_RETRY_DELAYS_MS = [
+  2000,
+  6000,
+  18000,
+];
+
+// Options returned per page of the Page ID picker.
+export const PAGE_OPTIONS_LIMIT = 100;

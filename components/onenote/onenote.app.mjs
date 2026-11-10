@@ -1,5 +1,7 @@
 import { axios } from "@pipedream/platform";
-import { SECTION_BATCH_SIZE } from "./common/constants.mjs";
+import {
+  PAGE_OPTIONS_LIMIT, SECTION_BATCH_SIZE, THROTTLE_RETRY_DELAYS_MS,
+} from "./common/constants.mjs";
 import utils from "./common/utils.mjs";
 
 export default {
@@ -36,10 +38,11 @@ export default {
       label: "Page ID",
       description: "The page ID, e.g. `1-922e4ff8076f49cc9487e4728297580a!128-d089bdb3-33b1-4eeb-af21-98e7157af301`. Use **Search Pages** to find it (the `id` field of each page).",
       type: "string",
-      async options() {
+      async options({ page = 0 } = {}) {
         const { value: pages } = await this.getPages({
           params: {
-            "$top": 100,
+            "$top": PAGE_OPTIONS_LIMIT,
+            "$skip": page * PAGE_OPTIONS_LIMIT,
           },
         });
         return pages.map((page) => ({
@@ -128,17 +131,37 @@ export default {
     async _getNextLink({
       $, nextLink,
     }) {
-      return this._makeRequest({
+      return this._scanRequest(() => this._makeRequest({
         $,
         path: "",
         url: nextLink,
-      });
+      }));
+    },
+    async _sleep(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    },
+    // OneNote allows about 120 requests/min and 400/hour per user and, on 429, sends
+    // no Retry-After header, so back off on a fixed schedule. If the budget is still
+    // exhausted, fail with a message that points the caller at `sectionId` rather than
+    // silently returning a partial scan.
+    async _scanRequest(request) {
+      for (let attempt = 0; ; attempt++) {
+        try {
+          return await request();
+        } catch (err) {
+          if (!utils.isThrottleError(err)) throw err;
+          if (attempt >= THROTTLE_RETRY_DELAYS_MS.length) {
+            throw new Error("OneNote rate limit reached while scanning every section for pages (OneNote allows about 120 requests per minute and 400 per hour). Set `sectionId` to search a single section instead; use **Search Sections** to find the section ID.");
+          }
+          await this._sleep(THROTTLE_RETRY_DELAYS_MS[attempt]);
+        }
+      }
     },
     async _getAllSections($) {
       const sections = [];
-      let response = await this.getSections({
+      let response = await this._scanRequest(() => this.getSections({
         $,
-      });
+      }));
       sections.push(...(response.value ?? []));
       while (response["@odata.nextLink"]) {
         response = await this._getNextLink({
@@ -153,14 +176,14 @@ export default {
     async _getSectionPagesUpTo({
       $, sectionId, params, limit,
     }) {
-      let response = await this.getSectionPages({
+      let response = await this._scanRequest(() => this.getSectionPages({
         $,
         sectionId,
         params: {
           ...params,
           "$top": Math.min(limit, 100),
         },
-      });
+      }));
       const pages = (response.value ?? []).slice();
       while (response["@odata.nextLink"] && pages.length < limit) {
         response = await this._getNextLink({
