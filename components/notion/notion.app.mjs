@@ -348,37 +348,106 @@ export default {
         children: blocks,
       });
     },
+    async appendBlockWithRetry(parentId, blocks) {
+      return this._withRetry(() => this.appendBlock(parentId, blocks));
+    },
     async retrieveBlock(blockId) {
       return this._getNotionClient().blocks.retrieve({
         block_id: blockId,
       });
     },
-    async retrieveBlockChildren(block, subpagesOnly = false) {
+    async listAllBlockChildren(blockId, subpagesOnly = false) {
       const params = {};
       const children = [];
-      if (!block.has_children) return children;
-
       do {
         const {
           results,
           next_cursor: nextCursor,
-        } = await this.listBlockChildren(block.id, params);
+        } = await this.listBlockChildren(blockId, params);
 
         children.push(...(results.filter((child) => !subpagesOnly || child.type === "child_page")));
-        params.next_cursor = nextCursor;
-      } while (params.next_cursor);
-
-      (await Promise.all(children.map((child) => this.retrieveBlockChildren(child, subpagesOnly))))
-        .forEach((c, i) => {
-          children[i].children = c;
-        });
-
+        params.start_cursor = nextCursor;
+      } while (params.start_cursor);
       return children;
     },
-    async listBlockChildren(blockId, params) {
-      return this._getNotionClient().blocks.children.list({
+    async retrieveBlockChildren(block, subpagesOnly = false, concurrency = 3) {
+      if (!block.has_children) return [];
+
+      const root = await this.listAllBlockChildren(block.id, subpagesOnly);
+
+      // Walk the tree one level at a time, with at most `concurrency` requests in
+      // flight. This bounds fan-out but is not a rate limit: bursts that hit Notion's
+      // limit (average 3 requests/second) are retried in listBlockChildren.
+      let level = root;
+      while (level.length) {
+        const parents = level.filter((child) => child.has_children);
+        level.forEach((child) => {
+          child.children = [];
+        });
+
+        const fetched = new Array(parents.length);
+        let next = 0;
+        await Promise.all(Array.from({
+          length: Math.min(concurrency, parents.length),
+        }, async () => {
+          while (next < parents.length) {
+            const i = next++;
+            fetched[i] = await this.listAllBlockChildren(parents[i].id, subpagesOnly);
+          }
+        }));
+
+        parents.forEach((parent, i) => {
+          parent.children = fetched[i];
+        });
+        level = fetched.flat();
+      }
+      return root;
+    },
+    _isRetryable(err, idempotent) {
+      // 429 is always safe to retry: Notion rejected the request without processing it.
+      if (err?.status === 429 || err?.code === "rate_limited") return true;
+      // Transient server errors are only retried for reads; a failed write may have
+      // been applied, so retrying it could duplicate blocks.
+      return idempotent && [
+        502,
+        503,
+        504,
+        529,
+      ].includes(err?.status);
+    },
+    _retryDelayMs(err, attempt) {
+      const headers = err?.headers;
+      const header = typeof headers?.get === "function"
+        ? headers.get("retry-after")
+        : headers?.["retry-after"];
+      const seconds = Number(header);
+      return Number.isFinite(seconds) && seconds > 0
+        ? seconds * 1000
+        : Math.min(1000 * 2 ** attempt, 10000);
+    },
+    /**
+     * Runs `fn`, retrying rate-limited (429) responses and, for idempotent calls,
+     * transient server errors. Honors Retry-After, falling back to exponential backoff.
+     */
+    async _withRetry(fn, {
+      idempotent = false, maxRetries = 5,
+    } = {}) {
+      for (let attempt = 0; ; attempt++) {
+        try {
+          return await fn();
+        } catch (err) {
+          if (!this._isRetryable(err, idempotent) || attempt >= maxRetries) throw err;
+          await new Promise((resolve) => setTimeout(resolve, this._retryDelayMs(err, attempt)));
+        }
+      }
+    },
+    async listBlockChildren(blockId, params, maxRetries = 5) {
+      return this._withRetry(() => this._getNotionClient().blocks.children.list({
         ...params,
         block_id: blockId,
+      }), {
+        idempotent: true,
+        maxRetries,
       });
     },
     async getUsers(opts = {}) {

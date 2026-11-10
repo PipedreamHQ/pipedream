@@ -5,8 +5,8 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "gorgias_oauth-create-ticket-message",
   name: "Create Ticket Message",
-  description: "Create a message for a ticket in the Gorgias system. [See the documentation](https://developers.gorgias.com/reference/create-ticket-message)",
-  version: "0.3.0",
+  description: "Create a message or internal note on a Gorgias ticket. Use **List Tickets** to find the ticket ID and its customer, and **List Integrations** for the Integration ID. Set From Agent to `true` for a reply from your team (From User + To Customer) or `false` for a customer message (From Customer + To User). Returns the created message. [See the documentation](https://developers.gorgias.com/reference/create-ticket-message)",
+  version: "0.4.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -25,8 +25,7 @@ export default {
     fromAgent: {
       type: "boolean",
       label: "From Agent",
-      description: "Whether the message was sent by your company to a customer, or the opposite",
-      reloadProps: true,
+      description: "Whether the message was sent by your company to a customer, or the opposite. Must be `true` for internal notes. Example: `true`",
     },
     fromUser: {
       propDefinition: [
@@ -34,9 +33,8 @@ export default {
         "userId",
       ],
       label: "From User",
-      description: "User who sent the message",
-      optional: false,
-      hidden: true,
+      description: "User who sent the message. Required when From Agent is `true`. Example: `123456`",
+      optional: true,
     },
     toUser: {
       propDefinition: [
@@ -44,9 +42,8 @@ export default {
         "userId",
       ],
       label: "To User",
-      description: "The user receiving the message",
-      optional: false,
-      hidden: true,
+      description: "The user receiving the message. Required when From Agent is `false`. Example: `123456`",
+      optional: true,
     },
     fromCustomer: {
       propDefinition: [
@@ -54,8 +51,8 @@ export default {
         "customerId",
       ],
       label: "From Customer",
-      description: "The customer who sent the message",
-      hidden: true,
+      description: "The customer who sent the message. Required when From Agent is `false`. Example: `654321`",
+      optional: true,
     },
     toCustomer: {
       propDefinition: [
@@ -63,8 +60,8 @@ export default {
         "customerId",
       ],
       label: "To Customer",
-      description: "The customer receiving the message",
-      hidden: true,
+      description: "The customer receiving the message. Required when From Agent is `true`, except for internal notes. Example: `654321`",
+      optional: true,
     },
     message: {
       type: "string",
@@ -108,7 +105,6 @@ export default {
       ],
       optional: false,
       default: "email",
-      reloadProps: true,
     },
     via: {
       propDefinition: [
@@ -156,20 +152,6 @@ export default {
       description: "When the message was sent. If ommited, the message will be sent by Gorgias. E.g. `2025-01-27T19:38:52.028Z`",
       optional: true,
     },
-  },
-  additionalProps(props) {
-    const isInternalNote = this.channel === "internal-note";
-    props.toUser.hidden = this.fromAgent || isInternalNote;
-    props.fromCustomer.hidden = this.fromAgent || isInternalNote;
-    props.toCustomer.hidden = !this.fromAgent || isInternalNote;
-    props.fromUser.hidden = !this.fromAgent;
-    props.fromAddress.hidden = isInternalNote;
-    props.fromName.hidden = isInternalNote;
-    props.toAddress.hidden = isInternalNote;
-    props.toName.hidden = isInternalNote;
-    props.sourceType.hidden = isInternalNote;
-    props.integrationId.hidden = isInternalNote;
-    return {};
   },
   methods: {
     /**
