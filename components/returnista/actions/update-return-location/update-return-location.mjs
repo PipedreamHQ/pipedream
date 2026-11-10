@@ -10,7 +10,7 @@ export default {
     + " To find the return location ID, use **Get Return Locations**."
     + " Use a two-letter ISO 3166-1 alpha-2 country code for `countryCode` (e.g., `NL`, `DE`, `GB`, `US`)."
     + " [See the documentation](https://platform.returnista.com/reference/rest-api/#patch-/account/-accountId/return-location/-returnLocationId)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -20,19 +20,10 @@ export default {
   },
   props: {
     returnista,
-    accountId: {
-      propDefinition: [
-        returnista,
-        "accountId",
-      ],
-    },
     returnLocationId: {
       propDefinition: [
         returnista,
         "returnLocationId",
-        (c) => ({
-          accountId: c.accountId,
-        }),
       ],
     },
     name: {
@@ -146,7 +137,6 @@ export default {
 
     const response = await this.returnista.updateReturnLocation({
       $,
-      accountId: this.accountId,
       returnLocationId: this.returnLocationId,
       data,
     });
