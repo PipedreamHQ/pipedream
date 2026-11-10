@@ -279,6 +279,15 @@ export default {
         id
         name
       }
+      issue {
+        id
+        identifier
+        title
+      }
+      owner {
+        id
+        name
+      }
     }
   `,
 };
