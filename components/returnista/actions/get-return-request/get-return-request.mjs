@@ -7,7 +7,7 @@ export default {
     + " Return requests contain item-level information: purchase order number, return reason, requested resolution (refund, exchange, etc.)."
     + " To find a return request ID, use **Get Return Requests** first."
     + " [See the documentation](https://platform.returnista.com/reference/rest-api/#get-/account/-accountId-/return-request/-id-)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -17,26 +17,16 @@ export default {
   },
   props: {
     returnista,
-    accountId: {
-      propDefinition: [
-        returnista,
-        "accountId",
-      ],
-    },
     returnRequestId: {
       propDefinition: [
         returnista,
         "returnRequestId",
-        (c) => ({
-          accountId: c.accountId,
-        }),
       ],
     },
   },
   async run({ $ }) {
     const response = await this.returnista.getReturnRequest({
       $,
-      accountId: this.accountId,
       returnRequestId: this.returnRequestId,
     });
     $.export("$summary", `Successfully retrieved return request ${this.returnRequestId}`);

@@ -4,7 +4,7 @@ export default {
   key: "returnista-get-return-orders",
   name: "Get Return Orders",
   description: "Gets a list of return orders for the given account. [See the documentation](https://platform.returnista.com/reference/rest-api/#get-/account/-accountId/return-orders)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,12 +13,6 @@ export default {
   type: "action",
   props: {
     returnista,
-    accountId: {
-      propDefinition: [
-        returnista,
-        "accountId",
-      ],
-    },
     limit: {
       propDefinition: [
         returnista,
@@ -59,7 +53,6 @@ export default {
   async run({ $ }) {
     const { data: response } = await this.returnista.getReturnOrders({
       $,
-      accountId: this.accountId,
       params: {
         limit: this.limit,
         page: this.page,
