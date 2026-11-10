@@ -40,6 +40,7 @@ export default {
     }
 
     const document = await this.linearApp.getDocumentForHistory({
+      $,
       id: this.documentId,
     });
     if (!document?.documentContentId) {

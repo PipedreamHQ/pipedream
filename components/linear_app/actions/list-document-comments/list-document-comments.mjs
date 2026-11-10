@@ -45,6 +45,7 @@ export default {
         linearApp,
         "includeArchived",
       ],
+      description: "Whether to include archived comments in the results (default: `false`). Example: `true`.",
     },
     fields: {
       type: "string[]",

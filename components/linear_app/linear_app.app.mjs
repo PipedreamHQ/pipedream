@@ -419,8 +419,11 @@ export default {
       });
       return document;
     },
-    async getDocumentForHistory(variables) {
+    async getDocumentForHistory({
+      $, ...variables
+    }) {
       const { data: { document } } = await this.post({
+        $,
         data: {
           query: queries.getDocumentForHistory,
           variables,
