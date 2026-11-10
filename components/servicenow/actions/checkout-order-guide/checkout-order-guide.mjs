@@ -7,7 +7,7 @@ import {
 export default {
   key: "servicenow-checkout-order-guide",
   name: "Checkout Order Guide",
-  description: "Checkout a ServiceNow order guide using the items returned by **Submit Order Guide**. Pass those items as-is — this action maps `quantity` to `sysparm_quantity` and array `variables` (including nested `children`) to an object. Fill unanswered mandatory item variables in `items` first, and omit optional blank ones. If the order guide's Two step flag is on, this submits the order and returns the REQ number and `sys_id`, plus a `requested_items` array with each requested item's (RITM) `number`, `approval`, `stage`, `state` and `requested_for`; approvals happen on the RITMs, so read approval status there rather than on the REQ. If the flag is off, items are added to the user's default cart and no REQ is returned — review with **View Cart**, then call **Submit Cart Order**. Use **Check Order Status** after a REQ exists. Set **Skip Mandatory Validation** only after **Get Catalog UI Policies** confirms every empty mandatory variable is hidden by a policy, never as a retry after a `Mandatory Variables are required` error: the request is placed without those values and cannot be undone. Check the UI policies of each item in `items`, not of the order guide. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
+  description: "Checkout a ServiceNow order guide using the items returned by **Submit Order Guide**. Pass those items as-is — this action maps `quantity` to `sysparm_quantity` and array `variables` (including nested `children`) to an object. Fill unanswered mandatory item variables in `items` first, and omit optional blank ones. With **Skip Mandatory Validation** on, empty variables are left out of the request instead of rejected. If the order guide's Two step flag is on, this submits the order and returns the REQ number and `sys_id`, plus a `requested_items` array with each requested item's (RITM) `number`, `approval`, `stage`, `state` and `requested_for`; approvals happen on the RITMs, so read approval status there rather than on the REQ. If the flag is off, items are added to the user's default cart and no REQ is returned — review with **View Cart**, then call **Submit Cart Order**. Use **Check Order Status** after a REQ exists. Set **Skip Mandatory Validation** only after **Get Catalog UI Policies** confirms every empty mandatory variable is hidden by a policy, never as a retry after a `Mandatory Variables are required` error: the request is placed without those values and cannot be undone. Check the UI policies of each item in `items`, not of the order guide. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
   version: "0.2.0",
   type: "action",
   ai: "optimized",
@@ -38,7 +38,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const items = normalizeGuideCheckoutItems(parseObject(this.items));
+    const items = normalizeGuideCheckoutItems(parseObject(this.items), {
+      omitEmptyVariables: this.skipMandatoryValidation === true,
+    });
 
     const response = await this.servicenow.checkoutOrderGuide({
       $,
