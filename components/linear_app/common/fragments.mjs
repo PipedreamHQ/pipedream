@@ -257,4 +257,37 @@ export default {
       }
     }
   `,
+  documentMutationResult: `
+    fragment DocumentMutationResult on Document {
+      id
+      title
+      slugId
+      url
+      icon
+      color
+      createdAt
+      updatedAt
+      project {
+        id
+        name
+      }
+      initiative {
+        id
+        name
+      }
+      team {
+        id
+        name
+      }
+      issue {
+        id
+        identifier
+        title
+      }
+      owner {
+        id
+        name
+      }
+    }
+  `,
 };
