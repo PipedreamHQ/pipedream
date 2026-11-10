@@ -39,7 +39,7 @@ export default {
         linearApp,
         "projectId",
       ],
-      description: "The UUID of the project to attach the document to (e.g. `a1b2c3d4-0000-0000-0000-000000000001`). Set exactly one of `projectId`, `initiativeId` or `teamId`. Use **List Projects** to find valid project IDs.",
+      description: "The UUID or identifier of the project to attach the document to (e.g. `a1b2c3d4-0000-0000-0000-000000000001` or `P-LIN-123`). Set exactly one of `projectId`, `initiativeId` or `teamId`. Use **List Projects** to find valid project IDs.",
       optional: true,
     },
     initiativeId: {
@@ -47,7 +47,7 @@ export default {
         linearApp,
         "initiativeId",
       ],
-      description: "The UUID of the initiative to attach the document to (e.g. `b2c3d4e5-0000-0000-0000-000000000002`). Set exactly one of `projectId`, `initiativeId` or `teamId`. Use **List Initiatives** to find valid initiative IDs.",
+      description: "The UUID or identifier of the initiative to attach the document to (e.g. `b2c3d4e5-0000-0000-0000-000000000002` or `I-12`). Set exactly one of `projectId`, `initiativeId` or `teamId`. Use **List Initiatives** to find valid initiative IDs.",
       optional: true,
     },
     teamId: {
@@ -85,17 +85,21 @@ export default {
       throw new ConfigurationError("Set exactly one of `projectId`, `initiativeId` or `teamId` to choose where the document is attached.");
     }
 
+    const input = Object.fromEntries(Object.entries({
+      title: this.title,
+      content: this.content,
+      projectId: this.projectId,
+      initiativeId: this.initiativeId,
+      teamId: this.teamId,
+      icon: this.icon,
+      color: this.color,
+    }).filter(([
+      , value,
+    ]) => value !== undefined && value !== ""));
+
     const response = await this.linearApp.createDocument({
       $,
-      input: {
-        title: this.title,
-        content: this.content,
-        projectId: this.projectId,
-        initiativeId: this.initiativeId,
-        teamId: this.teamId,
-        icon: this.icon,
-        color: this.color,
-      },
+      input,
     });
 
     $.export("$summary", `Successfully created document "${response.document.title}"`);

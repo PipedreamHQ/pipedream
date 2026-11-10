@@ -157,7 +157,7 @@ export default {
     documentIcon: {
       type: "string",
       label: "Icon",
-      description: "The document icon, as an emoji. Example: `📄`.",
+      description: "The document icon, as an emoji shortcode. Raw emoji such as `📄` are rejected. Example: `:page_facing_up:`.",
       optional: true,
     },
     documentColor: {

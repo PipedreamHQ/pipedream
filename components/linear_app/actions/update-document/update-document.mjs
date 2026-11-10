@@ -43,14 +43,14 @@ export default {
         linearApp,
         "documentContent",
       ],
-      description: "The new document body in markdown. **Replaces the existing body in full.** To keep existing text, read it first with **Get Document** and send the combined markdown. Set to an empty string to clear the body. Example: `# Q3 Hiring Plan\\n\\nUpdated goals...`.",
+      description: "The new document body in markdown. **Replaces the existing body in full.** To keep existing text, read it first with **Get Document** and send the combined markdown. Example: `# Q3 Hiring Plan\\n\\nUpdated goals...`.",
     },
     projectId: {
       propDefinition: [
         linearApp,
         "projectId",
       ],
-      description: "Move the document to this project (UUID, e.g. `a1b2c3d4-0000-0000-0000-000000000001`). Set at most one of `projectId`, `initiativeId` or `teamId`. Use **List Projects** to find valid project IDs.",
+      description: "Move the document to this project (UUID or identifier, e.g. `a1b2c3d4-0000-0000-0000-000000000001` or `P-LIN-123`). Set at most one of `projectId`, `initiativeId` or `teamId`. Use **List Projects** to find valid project IDs.",
       optional: true,
     },
     initiativeId: {
@@ -58,7 +58,7 @@ export default {
         linearApp,
         "initiativeId",
       ],
-      description: "Move the document to this initiative (UUID, e.g. `b2c3d4e5-0000-0000-0000-000000000002`). Set at most one of `projectId`, `initiativeId` or `teamId`. Use **List Initiatives** to find valid initiative IDs.",
+      description: "Move the document to this initiative (UUID or identifier, e.g. `b2c3d4e5-0000-0000-0000-000000000002` or `I-12`). Set at most one of `projectId`, `initiativeId` or `teamId`. Use **List Initiatives** to find valid initiative IDs.",
       optional: true,
     },
     teamId: {
@@ -74,7 +74,7 @@ export default {
         linearApp,
         "documentIcon",
       ],
-      description: "The new document icon, as an emoji. Example: `📄`.",
+      description: "The new document icon, as an emoji shortcode. Raw emoji such as `📄` are rejected. Example: `:page_facing_up:`.",
     },
     color: {
       propDefinition: [
@@ -94,12 +94,10 @@ export default {
       throw new ConfigurationError("Set at most one of `projectId`, `initiativeId` or `teamId` to move the document.");
     }
 
-    if (this.title !== undefined && !this.title.trim()) {
-      throw new ConfigurationError("`title` must not be empty.");
-    }
-
     const input = Object.fromEntries(Object.entries({
-      title: this.title,
+      title: this.title?.trim()
+        ? this.title
+        : undefined,
       content: this.content,
       projectId: this.projectId,
       initiativeId: this.initiativeId,
@@ -107,9 +105,8 @@ export default {
       icon: this.icon,
       color: this.color,
     }).filter(([
-      key,
-      value,
-    ]) => value !== undefined && (value !== "" || key === "content")));
+      , value,
+    ]) => value !== undefined && value !== ""));
 
     if (Object.keys(input).length === 0) {
       throw new ConfigurationError("Set at least one field to update besides `documentId`.");
