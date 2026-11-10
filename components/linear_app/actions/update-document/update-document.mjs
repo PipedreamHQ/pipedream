@@ -124,8 +124,9 @@ export default {
       icon: this.icon,
       color: this.color,
     }).filter(([
-      , value,
-    ]) => value !== undefined && value !== ""));
+      key,
+      value,
+    ]) => value !== undefined && (value !== "" || key === "content")));
 
     if (Object.keys(input).length === 0) {
       throw new ConfigurationError("Set at least one field to update besides `documentId`.");
