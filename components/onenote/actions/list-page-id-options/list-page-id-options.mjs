@@ -3,9 +3,10 @@ import onenote from "../../onenote.app.mjs";
 export default {
   key: "onenote-list-page-id-options",
   name: "List Page ID Options",
-  description: "Retrieves available options for the Page ID field.",
-  version: "0.0.1",
+  description: "Retrieve up to 100 OneNote pages as `{label, value}` options for the Page ID field, where `value` is the page ID. Prefer **Search Pages**, which supports filtering by title and section. [See the documentation](https://learn.microsoft.com/en-us/graph/api/onenote-list-pages?view=graph-rest-1.0&tabs=http)",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

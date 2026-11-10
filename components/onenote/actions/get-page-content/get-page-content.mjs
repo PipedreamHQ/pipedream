@@ -11,11 +11,11 @@ export default {
   name: "Get Page Content",
   description: "Retrieve the body content of a OneNote page as HTML or Markdown."
     + " Use **Get Page** for the page's metadata (title, parent section, URLs, timestamps); use this action when you need the actual page content."
-    + " Use **Search Pages** first to resolve a page name to a `pageId`."
+    + " Use **Search Pages** first to resolve a page name to a `pageId` (pass its `sectionId` if the account has many sections)."
     + " Set `convertToMarkdown` to `true` for cleaner, more compact output (recommended when the consumer is an LLM)."
     + " Set `includeIDs` to `true` if you need element IDs for a later update operation. Note: combining `includeIDs` with `convertToMarkdown` may strip `data-id` attributes during conversion."
     + " [See the documentation](https://learn.microsoft.com/en-us/graph/api/page-get?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   ai: "optimized",
   annotations: {
