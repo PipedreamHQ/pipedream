@@ -4,7 +4,7 @@ export default {
   key: "lusha-list-seniority-options",
   name: "List Contact Seniority Levels Options",
   description: "Retrieves available options for the Contact Seniority Levels field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

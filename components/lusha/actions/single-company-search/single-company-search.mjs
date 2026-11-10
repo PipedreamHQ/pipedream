@@ -4,8 +4,8 @@ import lusha from "../../lusha.app.mjs";
 export default {
   key: "lusha-single-company-search",
   name: "Search Single Company",
-  description: "Search for companies using various filters. [See the documentation](https://docs.lusha.com/apis/index2/company/companycontroller_searchsinglecompany)",
-  version: "0.0.1",
+  description: "Find one specific company by `Company Domain` or `Company Name` and return its firmographic data (size, revenue range, industry, locations and more) in a single call. Billed per successful result. Returns a \"No company found\" summary when Lusha has no match. To search by filters instead, use **Search Companies**. [See the documentation](https://docs.lusha.com/api-reference/search-&-enrich/search-and-enrich-companies)",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -17,13 +17,13 @@ export default {
     domain: {
       type: "string",
       label: "Company Domain",
-      description: "The domain name associated with the company",
+      description: "The domain name associated with the company, e.g. `lusha.com`",
       optional: true,
     },
     company: {
       type: "string",
       label: "Company Name",
-      description: "The name of the company",
+      description: "The name of the company, e.g. `Lusha`",
       optional: true,
     },
   },
@@ -31,19 +31,31 @@ export default {
     if (!this.domain && !this.company) {
       throw new ConfigurationError("You must provide either a **Domain** or **Company** name");
     }
-    const response = await this.lusha.searchSingleCompany({
+    const { results = [] } = await this.lusha.searchAndEnrichCompanies({
       $,
-      params: {
-        domain: this.domain,
-        company: this.company,
+      data: {
+        companies: [
+          {
+            domain: this.domain,
+            name: this.company,
+          },
+        ],
       },
     });
 
-    if (response.errors) {
-      throw new Error(response.errors.message);
-    }
-    $.export("$summary", `Successfully found a company with ID: ${response.data.id}`);
+    const [
+      company,
+    ] = results;
 
-    return response;
+    if (!company || company.error?.code === "NOT_FOUND") {
+      $.export("$summary", "No company found");
+      return company ?? {};
+    }
+    if (company.error) {
+      throw new Error(company.error.message || company.error.code);
+    }
+
+    $.export("$summary", `Successfully found a company with ID: ${company.id}`);
+    return company;
   },
 };

@@ -6,7 +6,7 @@ export default {
   key: "lusha-get-company-recommendations",
   name: "Get Company Recommendations",
   description: "Get company recommendations based on other companies. Use requestId to get more results from a previous search. [See the documentation](https://docs.lusha.com/apis/openapi/company-recommendations/getcompanyrecommendations)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -6,7 +6,7 @@ export default {
   key: "lusha-get-contact-signals",
   name: "Get Contact Signals By IDs",
   description: "Retrieve signals data for a list of contact IDs. This endpoint allows you to get recent activities and signals for up to 100 contacts per request. [See the documentation](https://docs.lusha.com/apis/openapi/signals/getcontactsignalsbyid)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

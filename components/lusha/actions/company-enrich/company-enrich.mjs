@@ -1,10 +1,13 @@
+import { ConfigurationError } from "@pipedream/platform";
+import { MAX_ITEMS_PER_REQUEST } from "../../common/constants.mjs";
+import { parseObject } from "../../common/utils.mjs";
 import lusha from "../../lusha.app.mjs";
 
 export default {
   key: "lusha-company-enrich",
   name: "Enrich Companies",
-  description: "Enriches company information based on provided company IDs. [See the documentation](https://docs.lusha.com/apis/openapi/company-search-and-enrich/enrichprospectingcompanies)",
-  version: "0.0.6",
+  description: "Reveal full company data (firmographics, industry, locations, technologies, funding and more) for companies found with **Search Companies**. Pass up to 100 company IDs from the search results. Billed per successful result. [See the documentation](https://docs.lusha.com/api-reference/enrich/enrich-companies)",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,14 +16,6 @@ export default {
   type: "action",
   props: {
     lusha,
-    requestId: {
-      propDefinition: [
-        lusha,
-        "requestId",
-      ],
-      label: "Company Request ID",
-      description: "The request ID generated from the company search response",
-    },
     companiesIds: {
       propDefinition: [
         lusha,
@@ -29,14 +24,18 @@ export default {
     },
   },
   async run({ $ }) {
+    const ids = parseObject(this.companiesIds);
+    if (!ids?.length || ids.length > MAX_ITEMS_PER_REQUEST) {
+      throw new ConfigurationError(`Provide between 1 and ${MAX_ITEMS_PER_REQUEST} company IDs.`);
+    }
+
     const response = await this.lusha.enrichCompanies({
       $,
       data: {
-        requestId: this.requestId,
-        companiesIds: this.companiesIds,
+        ids,
       },
     });
-    $.export("$summary", `Successfully enriched ${this.companiesIds.length} companies`);
+    $.export("$summary", `Successfully enriched ${response.results?.length ?? 0} company(ies)`);
     return response;
   },
 };

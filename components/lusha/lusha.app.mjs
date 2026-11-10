@@ -1,8 +1,23 @@
 import { axios } from "@pipedream/platform";
 import {
   COMPANY_SIGNALS_OPTIONS,
+  MAX_PAGE,
+  PAGE_SIZE,
   SIGNALS_OPTIONS,
 } from "./common/constants.mjs";
+import {
+  toOption,
+  toRangeOption,
+} from "./common/utils.mjs";
+
+const CODE_OPTION_KEYS = {
+  valueKeys: [
+    "code",
+    "value",
+    "id",
+    "name",
+  ],
+};
 
 export default {
   type: "app",
@@ -33,7 +48,7 @@ export default {
       optional: true,
       async options() {
         const sizes = await this.listSizes();
-        return sizes.map((size) => JSON.stringify(size));
+        return sizes.map(toRangeOption);
       },
     },
     revenues: {
@@ -43,7 +58,7 @@ export default {
       optional: true,
       async options() {
         const revenues = await this.listRevenues();
-        return revenues.map((revenue) => JSON.stringify(revenue));
+        return revenues.map(toRangeOption);
       },
     },
     sicCodes: {
@@ -53,12 +68,7 @@ export default {
       optional: true,
       async options() {
         const sicCodes = await this.listSicCodes();
-        return sicCodes.map(({
-          code: value, label,
-        }) => ({
-          value,
-          label,
-        }));
+        return sicCodes.map((item) => toOption(item, CODE_OPTION_KEYS));
       },
     },
     naicsCodes: {
@@ -68,12 +78,7 @@ export default {
       optional: true,
       async options() {
         const naicsCodes = await this.listNaicsCodes();
-        return naicsCodes.map(({
-          code: value, label,
-        }) => ({
-          value,
-          label,
-        }));
+        return naicsCodes.map((item) => toOption(item, CODE_OPTION_KEYS));
       },
     },
     contactNames: {
@@ -101,12 +106,7 @@ export default {
       optional: true,
       async options() {
         const countries = await this.listCountries();
-        return countries.map(({
-          code: value, name: label,
-        }) => ({
-          value,
-          label,
-        }));
+        return countries.map((item) => toOption(item, CODE_OPTION_KEYS));
       },
     },
     seniority: {
@@ -115,13 +115,8 @@ export default {
       description: "Seniority levels of contacts to search",
       optional: true,
       async options() {
-        const senorities = await this.listSeniorities();
-        return senorities.map(({
-          id: value, name: label,
-        }) => ({
-          value,
-          label,
-        }));
+        const seniorities = await this.listSeniorities();
+        return seniorities.map((item) => toOption(item));
       },
     },
     departments: {
@@ -130,7 +125,8 @@ export default {
       description: "Departments of contacts to search",
       optional: true,
       async options() {
-        return await this.listDepartments();
+        const departments = await this.listDepartments();
+        return departments.map((item) => toOption(item));
       },
     },
     existingDataPoints: {
@@ -139,7 +135,8 @@ export default {
       description: "Existing data points of contacts to filter by",
       optional: true,
       async options() {
-        return await this.listExistingDataPoints();
+        const dataPoints = await this.listExistingDataPoints();
+        return dataPoints.map((item) => toOption(item));
       },
     },
     location: {
@@ -150,7 +147,8 @@ export default {
 **Available Fields:**
 - \`continent\` - The continent name (e.g., "North America")
 - \`country\` - The country name (e.g., "United States")
-- \`country_grouping\` - Country grouping code (e.g., "na" for North America)
+- \`countryGrouping\` - Country grouping code (e.g., "na" for North America)
+- \`countryIso2\` - Two-letter ISO country code (e.g., "US")
 - \`state\` - The state or region name (e.g., "New York")
 - \`city\` - The city name (e.g., "New York")
 
@@ -167,20 +165,15 @@ export default {
 \`\`\``,
       optional: true,
     },
-    requestId: {
-      type: "string",
-      label: "Enrich Contact Request ID",
-      description: "The request ID generated from the contact search response",
-    },
     contactIds: {
       type: "string[]",
       label: "Enrich Contact IDs",
-      description: "Array of contact IDs to enrich",
+      description: "Up to 100 contact IDs to enrich, taken from the `id` field of **Search Contacts** results",
     },
     companyIds: {
       type: "string[]",
       label: "Enrich Company IDs",
-      description: "Array of company IDs to enrich",
+      description: "Up to 100 company IDs to enrich, taken from the `id` field of **Search Companies** results",
     },
     limit: {
       type: "integer",
@@ -225,92 +218,112 @@ export default {
         ...opts,
       });
     },
-    searchSingleContact(opts = {}) {
+    searchAndEnrichContacts(opts = {}) {
       return this._makeRequest({
-        path: "/v2/person",
         ...opts,
+        method: "POST",
+        path: "/v3/contacts/search-and-enrich",
+      });
+    },
+    searchAndEnrichCompanies(opts = {}) {
+      return this._makeRequest({
+        ...opts,
+        method: "POST",
+        path: "/v3/companies/search-and-enrich",
       });
     },
     searchContacts(opts = {}) {
       return this._makeRequest({
+        ...opts,
         method: "POST",
-        path: "/prospecting/contact/search",
-        ...opts,
-      });
-    },
-    searchSingleCompany(opts = {}) {
-      return this._makeRequest({
-        path: "/v2/company",
-        ...opts,
+        path: "/v3/contacts/prospecting",
       });
     },
     searchCompanies(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/prospecting/company/search",
         ...opts,
+        method: "POST",
+        path: "/v3/companies/prospecting",
       });
     },
     enrichContacts(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/prospecting/contact/enrich",
         ...opts,
+        method: "POST",
+        path: "/v3/contacts/enrich",
       });
     },
     enrichCompanies(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/prospecting/company/enrich",
         ...opts,
+        method: "POST",
+        path: "/v3/companies/enrich",
       });
     },
-    listDepartments(opts = {}) {
-      return this._makeRequest({
-        path: "/prospecting/filters/contacts/departments",
+    async listContactFilterValues({
+      filterType, ...opts
+    }) {
+      const { values = [] } = await this._makeRequest({
         ...opts,
+        path: `/v3/contacts/prospecting/filters/${filterType}`,
+      });
+      return values;
+    },
+    async listCompanyFilterValues({
+      filterType, ...opts
+    }) {
+      const { values = [] } = await this._makeRequest({
+        ...opts,
+        path: `/v3/companies/prospecting/filters/${filterType}`,
+      });
+      return values;
+    },
+    listDepartments(opts = {}) {
+      return this.listContactFilterValues({
+        ...opts,
+        filterType: "departments",
       });
     },
     listSeniorities(opts = {}) {
-      return this._makeRequest({
-        path: "/prospecting/filters/contacts/seniority",
+      return this.listContactFilterValues({
         ...opts,
+        filterType: "seniority",
       });
     },
     listExistingDataPoints(opts = {}) {
-      return this._makeRequest({
-        path: "/prospecting/filters/contacts/existing_data_points",
+      return this.listContactFilterValues({
         ...opts,
+        filterType: "existingDataPoints",
       });
     },
     listCountries(opts = {}) {
-      return this._makeRequest({
-        path: "/prospecting/filters/contacts/all_countries",
+      return this.listContactFilterValues({
         ...opts,
+        filterType: "countries",
       });
     },
     listSizes(opts = {}) {
-      return this._makeRequest({
-        path: "/prospecting/filters/companies/sizes",
+      return this.listCompanyFilterValues({
         ...opts,
+        filterType: "sizes",
       });
     },
     listRevenues(opts = {}) {
-      return this._makeRequest({
-        path: "/prospecting/filters/companies/revenues",
+      return this.listCompanyFilterValues({
         ...opts,
+        filterType: "revenues",
       });
     },
     listSicCodes(opts = {}) {
-      return this._makeRequest({
-        path: "/prospecting/filters/companies/sics",
+      return this.listCompanyFilterValues({
         ...opts,
+        filterType: "sics",
       });
     },
     listNaicsCodes(opts = {}) {
-      return this._makeRequest({
-        path: "/prospecting/filters/companies/naics",
+      return this.listCompanyFilterValues({
         ...opts,
+        filterType: "naics",
       });
     },
     getContactSignalsById(opts = {}) {
@@ -364,15 +377,15 @@ export default {
       let page = -1;
 
       do {
-        data.pages = {
+        data.pagination = {
           page: ++page,
-          size: 50,
+          size: PAGE_SIZE,
         };
         const response = await fn({
           data,
           ...opts,
         });
-        const results = response.data || [];
+        const results = response.results || [];
         for (const d of results) {
           yield d;
 
@@ -381,7 +394,7 @@ export default {
           }
         }
 
-        hasMore = results.length;
+        hasMore = results.length === PAGE_SIZE && page < MAX_PAGE;
 
       } while (hasMore);
     },

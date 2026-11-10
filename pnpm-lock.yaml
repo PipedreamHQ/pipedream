@@ -5788,12 +5788,6 @@ importers:
 
   components/fiserv: {}
 
-  components/fitbit:
-    dependencies:
-      '@pipedream/platform':
-        specifier: ^3.1.1
-        version: 3.1.1
-
   components/fivetran: {}
 
   components/fixer_io:
@@ -9189,7 +9183,7 @@ importers:
     dependencies:
       linkup-sdk:
         specifier: ^1.0.3
-        version: 1.2.0(@types/node@20.19.43)(typescript@5.9.3)
+        version: 1.2.0(@types/node@26.6.5)(typescript@5.9.3)
 
   components/linkupapi:
     dependencies:
@@ -10702,7 +10696,7 @@ importers:
         version: 0.5.6
       netlify:
         specifier: ^23.0.0
-        version: 23.11.0(@azure/identity@4.13.1)(@azure/storage-blob@12.29.1)(@types/express@4.17.25)(@types/node@20.19.43)(encoding@0.1.13)(picomatch@4.0.7)(rollup@4.65.1)
+        version: 23.11.0(@azure/identity@4.13.1)(@azure/storage-blob@12.29.1)(@types/express@4.17.25)(@types/node@26.6.5)(encoding@0.1.13)(picomatch@4.0.7)(rollup@4.65.1)
       parse-link-header:
         specifier: ^2.0.0
         version: 2.0.0
@@ -20509,16 +20503,16 @@ packages:
   '@daytonaio/toolbox-api-client@0.138.0':
     resolution: {integrity: sha512-unM9e7MOQiyDXdY8hCW1uTctYbxpo/TGZ6L71ZXyS/j2Cnz9/ud4VWBLcQP2VzlC+lrBP2YMrhT90zSSvcNfmA==}
 
-  '@definitelytyped/header-parser@0.2.32':
-    resolution: {integrity: sha512-HBgJ0/YqRLaICRYR/IEBviWA+I2u4qY3YGsNbJgIQkwA/3td7Yb/wGPSQR2OGa1uY7YupcsRMKu9E+XrZbkloQ==}
+  '@definitelytyped/header-parser@0.2.34':
+    resolution: {integrity: sha512-uTpjNtUSOj4PYJLvF/Ba7BGD+t3E2Jge9JxJNrDBe9YAQUt9UWOU3nctDKj2S8Tn3QIcogsUcoWtHs95bs3ekg==}
     engines: {node: '>=20.17.0'}
 
-  '@definitelytyped/typescript-versions@0.1.14':
-    resolution: {integrity: sha512-gPD0fNnPxzSVP41xgvx7OyjEpoaO95xeC7tr/ijExCpXXXdCwZ6+Mh47V2q6wy++wsuPVr0UBbAFn92q39K37Q==}
+  '@definitelytyped/typescript-versions@0.1.16':
+    resolution: {integrity: sha512-xgLUyZKl6Sv0VO6O1rzCCPYhkBLJKEVXoeoOZx7U2++FoZcgfCvHOcvMWpbkrDzQz9mR97h1wE2cyxcmkeO+Rw==}
     engines: {node: '>=20.17.0'}
 
-  '@definitelytyped/utils@0.1.17':
-    resolution: {integrity: sha512-HVwAz8t6YQ4DEMcXAjymkVFnxOn41Tl6PB9kOKch5HBBwaTUx2ruPuREVi/5xB4Ad7NU8AF+QHAZlHBDUzLCQA==}
+  '@definitelytyped/utils@0.1.19':
+    resolution: {integrity: sha512-IE+gVXw0gNfRrp9v0ZfH726665Lzv9gHAzZFXcncdR+brA/HfKc8Fym02xEI7yk6wv4dwGsPih125jvDCoOuTg==}
     engines: {node: '>=20.17.0'}
 
   '@dependents/detective-less@5.0.1':
@@ -38888,11 +38882,11 @@ snapshots:
       - '@types/node'
       - typescript
 
-  '@commitlint/cli@19.8.1(@types/node@20.19.43)(typescript@5.9.3)':
+  '@commitlint/cli@19.8.1(@types/node@26.6.5)(typescript@5.9.3)':
     dependencies:
       '@commitlint/format': 19.8.1
       '@commitlint/lint': 19.8.1
-      '@commitlint/load': 19.8.1(@types/node@20.19.43)(typescript@5.9.3)
+      '@commitlint/load': 19.8.1(@types/node@26.6.5)(typescript@5.9.3)
       '@commitlint/read': 19.8.1
       '@commitlint/types': 19.8.1
       tinyexec: 1.0.2
@@ -38955,7 +38949,7 @@ snapshots:
       - '@types/node'
       - typescript
 
-  '@commitlint/load@19.8.1(@types/node@20.19.43)(typescript@5.9.3)':
+  '@commitlint/load@19.8.1(@types/node@26.6.5)(typescript@5.9.3)':
     dependencies:
       '@commitlint/config-validator': 19.8.1
       '@commitlint/execute-rule': 19.8.1
@@ -38963,7 +38957,7 @@ snapshots:
       '@commitlint/types': 19.8.1
       chalk: 5.6.2
       cosmiconfig: 9.0.0(typescript@5.9.3)
-      cosmiconfig-typescript-loader: 6.2.0(@types/node@20.19.43)(cosmiconfig@9.0.0(typescript@5.9.3))(typescript@5.9.3)
+      cosmiconfig-typescript-loader: 6.2.0(@types/node@26.6.5)(cosmiconfig@9.0.0(typescript@5.9.3))(typescript@5.9.3)
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
@@ -39093,10 +39087,10 @@ snapshots:
       - debug
       - supports-color
 
-  '@definitelytyped/header-parser@0.2.32':
+  '@definitelytyped/header-parser@0.2.34':
     dependencies:
-      '@definitelytyped/typescript-versions': 0.1.14
-      '@definitelytyped/utils': 0.1.17
+      '@definitelytyped/typescript-versions': 0.1.16
+      '@definitelytyped/utils': 0.1.19
       semver: 7.8.5
     transitivePeerDependencies:
       - bare-abort-controller
@@ -39104,9 +39098,9 @@ snapshots:
       - react-native-b4a
       - supports-color
 
-  '@definitelytyped/typescript-versions@0.1.14': {}
+  '@definitelytyped/typescript-versions@0.1.16': {}
 
-  '@definitelytyped/utils@0.1.17':
+  '@definitelytyped/utils@0.1.19':
     dependencies:
       '@types/node': 25.9.9
       cachedir: 2.4.0
@@ -40008,12 +40002,12 @@ snapshots:
     optionalDependencies:
       '@types/node': 17.0.45
 
-  '@inquirer/external-editor@1.0.3(@types/node@20.19.43)':
+  '@inquirer/external-editor@1.0.3(@types/node@26.6.5)':
     dependencies:
       chardet: 2.1.1
       iconv-lite: 0.7.3
     optionalDependencies:
-      '@types/node': 20.19.43
+      '@types/node': 26.6.5
 
   '@isaacs/balanced-match@4.0.1': {}
 
@@ -40575,7 +40569,7 @@ snapshots:
       yaml: 2.8.1
       yargs: 17.7.3
 
-  '@netlify/build@35.3.1(@opentelemetry/api@1.8.0)(@types/node@20.19.43)(encoding@0.1.13)(picomatch@4.0.7)(rollup@4.65.1)':
+  '@netlify/build@35.3.1(@opentelemetry/api@1.8.0)(@types/node@26.6.5)(encoding@0.1.13)(picomatch@4.0.7)(rollup@4.65.1)':
     dependencies:
       '@bugsnag/js': 8.6.0
       '@netlify/blobs': 10.3.3(supports-color@10.2.2)
@@ -40623,7 +40617,7 @@ snapshots:
       string-width: 7.2.0
       supports-color: 10.2.2
       terminal-link: 4.0.0
-      ts-node: 10.9.2(@types/node@20.19.43)(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@26.6.5)(typescript@5.6.3)
       typescript: 5.6.3
       uuid: 11.1.0
       yaml: 2.8.1
@@ -42462,6 +42456,7 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
+      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2))(rollup@4.65.1)':
     dependencies:
@@ -47248,9 +47243,9 @@ snapshots:
       jiti: 2.6.1
       typescript: 5.6.3
 
-  cosmiconfig-typescript-loader@6.2.0(@types/node@20.19.43)(cosmiconfig@9.0.0(typescript@5.9.3))(typescript@5.9.3):
+  cosmiconfig-typescript-loader@6.2.0(@types/node@26.6.5)(cosmiconfig@9.0.0(typescript@5.9.3))(typescript@5.9.3):
     dependencies:
-      '@types/node': 20.19.43
+      '@types/node': 26.6.5
       cosmiconfig: 9.0.0(typescript@5.9.3)
       jiti: 2.6.1
       typescript: 5.9.3
@@ -47845,7 +47840,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.6.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.32
+      '@definitelytyped/header-parser': 0.2.34
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -47860,7 +47855,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.9.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.32
+      '@definitelytyped/header-parser': 0.2.34
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -47877,9 +47872,9 @@ snapshots:
 
   dtslint@4.2.1(typescript@5.6.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.32
-      '@definitelytyped/typescript-versions': 0.1.14
-      '@definitelytyped/utils': 0.1.17
+      '@definitelytyped/header-parser': 0.2.34
+      '@definitelytyped/typescript-versions': 0.1.16
+      '@definitelytyped/utils': 0.1.19
       dts-critic: 3.3.11(typescript@5.6.3)
       fs-extra: 6.0.1
       json-stable-stringify: 1.3.0
@@ -47896,9 +47891,9 @@ snapshots:
 
   dtslint@4.2.1(typescript@5.9.3):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.32
-      '@definitelytyped/typescript-versions': 0.1.14
-      '@definitelytyped/utils': 0.1.17
+      '@definitelytyped/header-parser': 0.2.34
+      '@definitelytyped/typescript-versions': 0.1.16
+      '@definitelytyped/utils': 0.1.19
       dts-critic: 3.3.11(typescript@5.9.3)
       fs-extra: 6.0.1
       json-stable-stringify: 1.3.0
@@ -50643,12 +50638,12 @@ snapshots:
 
   inline-style-parser@0.2.6: {}
 
-  inquirer-autocomplete-prompt@1.4.0(inquirer@8.2.7(@types/node@20.19.43)):
+  inquirer-autocomplete-prompt@1.4.0(inquirer@8.2.7(@types/node@26.6.5)):
     dependencies:
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       figures: 3.2.0
-      inquirer: 8.2.7(@types/node@20.19.43)
+      inquirer: 8.2.7(@types/node@26.6.5)
       run-async: 2.4.1
       rxjs: 6.6.7
 
@@ -50672,9 +50667,9 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  inquirer@8.2.7(@types/node@20.19.43):
+  inquirer@8.2.7(@types/node@26.6.5):
     dependencies:
-      '@inquirer/external-editor': 1.0.3(@types/node@20.19.43)
+      '@inquirer/external-editor': 1.0.3(@types/node@26.6.5)
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       cli-cursor: 3.1.0
@@ -52060,9 +52055,9 @@ snapshots:
       - supports-color
       - typescript
 
-  linkup-sdk@1.2.0(@types/node@20.19.43)(typescript@5.9.3):
+  linkup-sdk@1.2.0(@types/node@26.6.5)(typescript@5.9.3):
     dependencies:
-      '@commitlint/cli': 19.8.1(@types/node@20.19.43)(typescript@5.9.3)
+      '@commitlint/cli': 19.8.1(@types/node@26.6.5)(typescript@5.9.3)
       '@commitlint/config-conventional': 19.8.1
       axios: 1.21.0(debug@3.2.7)
       semantic-release: 24.2.9(typescript@5.9.3)
@@ -53328,13 +53323,13 @@ snapshots:
 
   netlify-redirector@0.5.0: {}
 
-  netlify@23.11.0(@azure/identity@4.13.1)(@azure/storage-blob@12.29.1)(@types/express@4.17.25)(@types/node@20.19.43)(encoding@0.1.13)(picomatch@4.0.7)(rollup@4.65.1):
+  netlify@23.11.0(@azure/identity@4.13.1)(@azure/storage-blob@12.29.1)(@types/express@4.17.25)(@types/node@26.6.5)(encoding@0.1.13)(picomatch@4.0.7)(rollup@4.65.1):
     dependencies:
       '@fastify/static': 7.0.4
       '@netlify/ai': 0.3.0(@netlify/api@14.0.9)
       '@netlify/api': 14.0.9
       '@netlify/blobs': 10.1.0
-      '@netlify/build': 35.3.1(@opentelemetry/api@1.8.0)(@types/node@20.19.43)(encoding@0.1.13)(picomatch@4.0.7)(rollup@4.65.1)
+      '@netlify/build': 35.3.1(@opentelemetry/api@1.8.0)(@types/node@26.6.5)(encoding@0.1.13)(picomatch@4.0.7)(rollup@4.65.1)
       '@netlify/build-info': 10.0.9
       '@netlify/config': 24.0.8
       '@netlify/dev-utils': 4.3.0
@@ -53385,8 +53380,8 @@ snapshots:
       http-proxy: 1.18.1(debug@4.4.3)
       http-proxy-middleware: 2.0.9(@types/express@4.17.25)(debug@4.4.3)
       https-proxy-agent: 7.0.6
-      inquirer: 8.2.7(@types/node@20.19.43)
-      inquirer-autocomplete-prompt: 1.4.0(inquirer@8.2.7(@types/node@20.19.43))
+      inquirer: 8.2.7(@types/node@26.6.5)
+      inquirer-autocomplete-prompt: 1.4.0(inquirer@8.2.7(@types/node@26.6.5))
       ipx: 3.1.1(@azure/identity@4.13.1)(@azure/storage-blob@12.29.1)(@netlify/blobs@10.1.0)
       is-docker: 3.0.0
       is-stream: 4.0.1
@@ -57434,6 +57429,25 @@ snapshots:
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
       '@types/node': 20.19.43
+      acorn: 8.15.0
+      acorn-walk: 8.3.4
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.6.3
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    optional: true
+
+  ts-node@10.9.2(@types/node@26.6.5)(typescript@5.6.3):
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.12
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 26.6.5
       acorn: 8.15.0
       acorn-walk: 8.3.4
       arg: 4.1.3

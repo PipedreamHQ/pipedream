@@ -6,7 +6,7 @@ export default {
   key: "lusha-get-company-signals",
   name: "Get Company Signals By IDs",
   description: "Retrieve signals data for a list of company IDs. This endpoint allows you to get recent activities and signals for up to 100 companies per request. [See the documentation](https://docs.lusha.com/apis/openapi/signals/getcompanysignalsbyid)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

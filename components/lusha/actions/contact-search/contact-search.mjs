@@ -1,11 +1,12 @@
-import { parseObject } from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
+import { buildContactInclude } from "../../common/utils.mjs";
 import lusha from "../../lusha.app.mjs";
 
 export default {
   key: "lusha-contact-search",
   name: "Search Contacts",
-  description: "Search for contacts using various filters. [See the documentation](https://docs.lusha.com/apis/openapi/contact-search-and-enrich/searchprospectingcontacts)",
-  version: "0.0.5",
+  description: "Search Lusha's contact database with prospecting filters (names, job titles, countries, seniority, departments, locations). Returns contact previews with an `id` for each result; pass those IDs to **Enrich Contacts** to reveal emails and phones. Searching does not reveal contact details. [See the documentation](https://docs.lusha.com/api-reference/prospecting/prospecting-contacts)",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -72,17 +73,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const include = {};
-
-    if (this.names) include.names = parseObject(this.names);
-    if (this.jobTitles) include.jobTitles = parseObject(this.jobTitles);
-    if (this.jobTitlesExactMatch)
-      include.jobTitlesExactMatch = parseObject(this.jobTitlesExactMatch);
-    if (this.countries) include.countries = parseObject(this.countries);
-    if (this.seniority) include.seniority = parseObject(this.seniority);
-    if (this.departments) include.departments = parseObject(this.departments);
-    if (this.existingDataPoints) include.existingDataPoints = parseObject(this.existingDataPoints);
-    if (this.location) include.locations = parseObject(this.location);
+    const include = buildContactInclude(this);
+    if (Object.keys(include).length === 0) {
+      throw new ConfigurationError("Provide at least one contact filter.");
+    }
 
     const response = this.lusha.paginate({
       $,

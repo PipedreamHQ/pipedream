@@ -4,7 +4,7 @@ export default {
   key: "lusha-list-naics-codes-options",
   name: "List Company NAICS Codes Options",
   description: "Retrieves available options for the Company NAICS Codes field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

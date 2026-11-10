@@ -5,7 +5,7 @@ export default {
   key: "lusha-get-signal-options",
   name: "Get Signal Options",
   description: "Retrieve available signal options for a specific entity type (contact or company). This endpoint returns the list of signal types you can filter by when enriching contacts or companies. [See the documentation](https://docs.lusha.com/apis/openapi/signal-filters/getsignaloptions)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
