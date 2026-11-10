@@ -3,14 +3,15 @@ import app from "../../autom.app.mjs";
 export default {
   key: "autom-bing-search",
   name: "Bing Search",
-  description: "Scrape the results from Bing search engine via the Autom.dev service. [See the documentation](https://docs.autom.dev/api-reference/bing/search)",
-  version: "0.0.2",
+  description: "Search Bing and return organic results with their position, title, link and snippet. [See the documentation](https://docs.autom.dev/api-reference/bing/search)",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     query: {
@@ -29,13 +30,12 @@ export default {
   async run({ $ }) {
     const response = await this.app.searchBing({
       $,
-      data: {
+      params: {
         query: this.query,
         page: this.page,
       },
     });
-
-    $.export("$summary", `Successfully retrieved Bing search results for query "${this.query}"`);
+    $.export("$summary", `Found ${response.organic_results?.length ?? 0} results for "${this.query}"`);
     return response;
   },
 };
