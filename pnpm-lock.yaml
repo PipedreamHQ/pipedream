@@ -10983,8 +10983,8 @@ importers:
         specifier: ^5.3.0
         version: 5.4.0
       '@pipedream/notion':
-        specifier: ^3.0.0
-        version: 3.0.0(encoding@0.1.13)
+        specifier: ^3.0.1
+        version: 3.0.1(encoding@0.1.13)
 
   components/nozbe_teams: {}
 
@@ -22443,8 +22443,8 @@ packages:
   '@pipedream/notiff_io@0.1.0':
     resolution: {integrity: sha512-jgt5JJGxI9SM6chDeQpxbaS/NSuUUxhe/PeAXRdZKx28Gp0QCxW7egIImC3pqQ9aMSubaeygRyR0ELhKhmbtPg==}
 
-  '@pipedream/notion@3.0.0':
-    resolution: {integrity: sha512-LkNLSabK0Xc1mcZj3AcR7DlnIvP7xMlQyYAC08tIXYLvbzwCZkbj25/YtXUe7tQYXwgK8zQKQX9oZZ8wYTm0wA==}
+  '@pipedream/notion@3.0.1':
+    resolution: {integrity: sha512-0904h8aHkwXU3l+qrL955tcbo3LtXnHZUiiMh2fNTfT/8TivNv2jyJ2cv8ggkMEV+cQ/akQD4LB63i+FOUYE1g==}
 
   '@pipedream/pipedream@0.4.2':
     resolution: {integrity: sha512-BQkSnuXWU8VQvBDVyLrCrs2kGP3vwgyi8t02ONbIF85ZPkuIIhC25QhIMCXL+bWe5eGb3oDQh0PVXwpEi160fQ==}
@@ -41669,7 +41669,7 @@ snapshots:
       - debug
       - supports-color
 
-  '@pipedream/notion@3.0.0(encoding@0.1.13)':
+  '@pipedream/notion@3.0.1(encoding@0.1.13)':
     dependencies:
       '@notionhq/client': 5.4.0
       '@pipedream/platform': 3.4.0
