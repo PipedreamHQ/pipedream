@@ -7,6 +7,7 @@ import constants from "../../common/constants.mjs";
 
 export default {
   type: "action",
+  ai: "optimized",
   key: "trengo-upload-file",
   version: "0.0.1",
   annotations: {
@@ -15,14 +16,14 @@ export default {
     readOnlyHint: false,
   },
   name: "Upload File",
-  description: "Upload a file to attach to an email ticket reply. Pass the returned `id` to **Send A Ticket Message**'s `Attachment IDs`; unused uploads are removed automatically, so send the message soon after uploading. For WhatsApp, live chat or social channels, use **Send A Ticket Media Message** instead. [See the documentation](https://developers.trengo.com/reference/file-uploads)",
+  description: "Upload a file to attach to an email ticket reply. Returns `{ id, size, name, mime }`; pass `id` to **Send A Ticket Message**'s `Attachment IDs`. Unused uploads are removed automatically, so send the message soon after uploading. For WhatsApp, live chat or social channels, use **Send A Ticket Media Message** instead. Example: `file` = `https://example.com/return-label.pdf` returns `{ \"id\": 423874896, \"size\": 13264, \"name\": \"return-label.pdf\", \"mime\": \"application/pdf\" }`. [See the documentation](https://developers.trengo.com/reference/file-uploads)",
   props: {
     app,
     file: {
-      type: "string",
-      label: "File Path or URL",
-      description: "A file URL or a path to a file in the `/tmp` directory (e.g. `/tmp/label.pdf`) (max 20 MB)",
-      format: "file-ref",
+      propDefinition: [
+        app,
+        "file",
+      ],
     },
     fileName: {
       type: "string",

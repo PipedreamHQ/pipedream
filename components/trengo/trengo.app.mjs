@@ -284,6 +284,12 @@ export default {
         }));
       },
     },
+    file: {
+      type: "string",
+      label: "File Path or URL",
+      description: "A file URL or a path to a file in the `/tmp` directory (e.g. `/tmp/label.pdf`) (max 20 MB)",
+      format: "file-ref",
+    },
     blockId: {
       type: "integer",
       label: "Block ID",

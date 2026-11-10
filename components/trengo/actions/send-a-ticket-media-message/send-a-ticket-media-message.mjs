@@ -7,6 +7,7 @@ import constants from "../../common/constants.mjs";
 
 export default {
   type: "action",
+  ai: "optimized",
   key: "trengo-send-a-ticket-media-message",
   version: "0.0.1",
   annotations: {
@@ -15,7 +16,7 @@ export default {
     readOnlyHint: false,
   },
   name: "Send A Ticket Media Message",
-  description: "Send a file to a ticket on a non-email channel, such as WhatsApp, live chat or social. For email tickets, use **Upload File** and pass the returned ID to **Send A Ticket Message**'s `Attachment IDs`. [See the documentation](https://developers.trengo.com/reference/send-media)",
+  description: "Send a file to a ticket on a non-email channel, such as WhatsApp, live chat or social. Use **List Tickets** to find the ticket ID. Returns an empty response on success. For email tickets, use **Upload File** and pass the returned ID to **Send A Ticket Message**'s `Attachment IDs`. Example: `ticketId` = `991469294`, `file` = `https://example.com/return-label.pdf`, `caption` = `Your return label` posts the file to that conversation. [See the documentation](https://developers.trengo.com/reference/send-media)",
   props: {
     app,
     ticketId: {
@@ -25,15 +26,16 @@ export default {
       ],
     },
     file: {
-      type: "string",
-      label: "File Path or URL",
+      propDefinition: [
+        app,
+        "file",
+      ],
       description: "A file URL or a path to a file in the `/tmp` directory (e.g. `/tmp/label.pdf`). Supported types include images, videos, audio, text, PDF and MS Office files (max 20 MB)",
-      format: "file-ref",
     },
     caption: {
       type: "string",
       label: "Caption",
-      description: "A caption to send with the file. Not shown on live chat or email tickets.",
+      description: "A caption to send with the file, e.g. `Your return label`. Not shown on live chat or email tickets.",
       optional: true,
     },
     syncDir: {
