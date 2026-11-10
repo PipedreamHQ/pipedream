@@ -38,3 +38,6 @@ export const ODATA_FUNCTIONS = [
   "indexof(",
   "substring(",
 ];
+
+// How many sections the page-search fallback queries in parallel.
+export const SECTION_BATCH_SIZE = 5;

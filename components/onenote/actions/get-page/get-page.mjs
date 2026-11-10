@@ -2,7 +2,7 @@ import app from "../../onenote.app.mjs";
 
 export default {
   name: "Get Page",
-  description: "Retrieve the metadata of a single OneNote page (title, created and modified timestamps, parent section and notebook, OneNote client and web links) by page ID. Use **Search Pages** first to find the page ID. Use **Get Page Content** instead when you need the body of the page. [See the documentation](https://learn.microsoft.com/en-us/graph/api/page-get?view=graph-rest-1.0&tabs=http)",
+  description: "Retrieve the metadata of a single OneNote page (title, created and modified timestamps, parent section, OneNote client and web links) by page ID. Use **Search Pages** first to find the page ID. Use **Get Page Content** instead when you need the body of the page. [See the documentation](https://learn.microsoft.com/en-us/graph/api/page-get?view=graph-rest-1.0&tabs=http)",
   key: "onenote-get-page",
   type: "action",
   ai: "optimized",

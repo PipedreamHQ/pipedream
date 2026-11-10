@@ -59,6 +59,7 @@ export default {
     skip: {
       type: "integer",
       label: "Skip",
+      min: 0,
       description: "Number of pages to skip before returning results, for paging through long lists, e.g. `20` to get the second page when `top` is 20. Defaults to 0.",
       optional: true,
     },

@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { SECTION_BATCH_SIZE } from "./common/constants.mjs";
 import utils from "./common/utils.mjs";
 
 export default {
@@ -121,6 +122,18 @@ export default {
         ...args,
       });
     },
+    // `url` overrides the URL built from `path` because `...args` is spread after it
+    // in _makeRequest. That lets an absolute @odata.nextLink go through the normal
+    // auth and error handling. Don't reorder the spread in _makeRequest.
+    async _getNextLink({
+      $, nextLink,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "",
+        url: nextLink,
+      });
+    },
     async _getAllSections($) {
       const sections = [];
       let response = await this.getSections({
@@ -128,21 +141,43 @@ export default {
       });
       sections.push(...(response.value ?? []));
       while (response["@odata.nextLink"]) {
-        response = await this._makeRequest({
+        response = await this._getNextLink({
           $,
-          path: "",
-          url: response["@odata.nextLink"],
+          nextLink: response["@odata.nextLink"],
         });
         sections.push(...(response.value ?? []));
       }
       return sections;
     },
+    // Up to `limit` pages of one section, following continuations (Graph caps $top at 100).
+    async _getSectionPagesUpTo({
+      $, sectionId, params, limit,
+    }) {
+      let response = await this.getSectionPages({
+        $,
+        sectionId,
+        params: {
+          ...params,
+          "$top": Math.min(limit, 100),
+        },
+      });
+      const pages = (response.value ?? []).slice();
+      while (response["@odata.nextLink"] && pages.length < limit) {
+        response = await this._getNextLink({
+          $,
+          nextLink: response["@odata.nextLink"],
+        });
+        pages.push(...(response.value ?? []));
+      }
+      return pages.slice(0, limit);
+    },
     /**
      * Lists pages. With `sectionId`, queries only that section. Otherwise tries the
      * account-wide endpoint and, if Graph rejects it with error 20266 (too many
      * sections), falls back to querying /sections/{id}/pages one section at a time,
-     * as Microsoft recommends. `$top` caps the total pages returned in the fallback;
-     * `$filter` and `$expand` are applied to each section query.
+     * as Microsoft recommends, then merges, orders (default last modified, newest
+     * first) and pages the results itself. `$filter` and `$expand` are applied to
+     * each section query.
      */
     async getPages({
       sectionId, ...args
@@ -165,33 +200,32 @@ export default {
       const {
         $, params = {},
       } = args;
-      // Graph can't skip across sections, so `$skip` is applied here: collect
-      // `skip + top` pages in order, then drop the first `skip`.
+      // Graph can't skip or order across sections, so both happen here. To return the
+      // right global page, take the first `skip + top` pages of every section (in the
+      // requested order), merge them, sort, then slice. `top` defaults to 20 like the
+      // account-wide endpoint.
       const {
-        "$skip": skip = 0, "$top": top, ...sectionParams
+        "$skip": skip = 0, "$top": top = 20, "$orderby": orderby, ...sectionParams
       } = params;
-      const target = top
-        ? top + skip
-        : undefined;
+      const limit = skip + top;
+      if (orderby) sectionParams["$orderby"] = orderby;
       const sections = await this._getAllSections($);
       const pages = [];
-      for (const section of sections) {
-        if (target && pages.length >= target) break;
-        const response = await this.getSectionPages({
-          $,
-          sectionId: section.id,
-          params: {
-            ...sectionParams,
-            "$top": target
-              ? target - pages.length
-              : undefined,
-          },
-        });
-        pages.push(...(response.value ?? []));
+      for (let i = 0; i < sections.length; i += SECTION_BATCH_SIZE) {
+        const batch = await Promise.all(
+          sections.slice(i, i + SECTION_BATCH_SIZE).map((section) =>
+            this._getSectionPagesUpTo({
+              $,
+              sectionId: section.id,
+              params: sectionParams,
+              limit,
+            })),
+        );
+        pages.push(...batch.flat());
       }
       // Paging across sections can't be expressed as one Graph nextLink.
       return {
-        value: pages.slice(skip),
+        value: utils.sortByOrderBy(pages, orderby).slice(skip, limit),
       };
     },
     async getPage({

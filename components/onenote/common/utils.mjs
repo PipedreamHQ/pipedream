@@ -47,8 +47,50 @@ function isSectionLimitError(err) {
   return /\b20266\b/.test(text);
 }
 
+/**
+ * Sorts OneNote items by an OData `$orderby` string (e.g. `title, createdDateTime desc`).
+ * Defaults to last modified, newest first, which is OneNote's default order for pages.
+ * Items missing a field sort first in ascending order.
+ */
+function sortByOrderBy(items, orderby = "lastModifiedDateTime desc") {
+  const keys = orderby
+    .split(",")
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .map((part) => {
+      const [
+        field,
+        direction,
+      ] = part.split(/\s+/);
+      return {
+        field,
+        sign: direction?.toLowerCase() === "desc"
+          ? -1
+          : 1,
+      };
+    });
+  return [
+    ...items,
+  ].sort((a, b) => {
+    for (const {
+      field, sign,
+    } of keys) {
+      const x = a[field];
+      const y = b[field];
+      if (x === y) continue;
+      if (x == null) return -sign;
+      if (y == null) return sign;
+      return x < y
+        ? -sign
+        : sign;
+    }
+    return 0;
+  });
+}
+
 export default {
   looksLikeOData,
   buildSearchFilter,
   isSectionLimitError,
+  sortByOrderBy,
 };
