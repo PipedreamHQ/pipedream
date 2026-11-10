@@ -4,7 +4,7 @@ export default {
   key: "trello-search-members",
   name: "Search Members",
   description: "Search for Trello members. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-search/#api-search-members-get).",
-  version: "0.2.7",
+  version: "0.2.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
