@@ -463,6 +463,7 @@ export default {
         },
       });
       return commentCreate;
+    },
     async createDocument({
       $, input,
     }) {

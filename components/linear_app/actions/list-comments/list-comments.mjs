@@ -5,7 +5,7 @@ export default {
   key: "linear_app-list-comments",
   name: "List Comments",
   description: "List comments in Linear, optionally filtered by issue or body text. Returns comment objects with `id`, `body`, `createdAt`, and author details. Supports pagination via `first`/`after`. Use **Search Issues** to find an issue ID to filter by. To read the comments on a document, use **List Document Comments** instead. Example: `issueId: \"iss_01abc\", body: \"PR #\"` → returns `{nodes: [{id: \"cmt_xyz\", body: \"Fixed in PR #123.\", createdAt: \"2024-01-15T10:00:00Z\"}], pageInfo: {endCursor: \"...\", hasNextPage: false}}`. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=comments)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   ai: "optimized",
   annotations: {
