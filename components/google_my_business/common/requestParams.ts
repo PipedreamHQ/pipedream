@@ -8,6 +8,7 @@ interface PaginatedRequest extends PdAxiosRequest, PaginationParams { }
 interface PaginationParams {
   maxPerPage?: number;
   maxResults?: number;
+  pageToken?: string;
 }
 
 export interface HttpRequestParams extends PdAxiosRequest {
@@ -49,7 +50,13 @@ export interface ListLocationsParams extends PdAxiosRequest {
 }
 
 export interface ListPostsParams extends PaginatedRequest, AccountLocation { }
-export interface ListReviewsParams extends PaginatedRequest, AccountLocation { }
+export interface ListReviewsParams extends PaginatedRequest, AccountLocation {
+  params?: {
+    pageSize?: number;
+    pageToken?: string;
+    orderBy?: string;
+  };
+}
 
 export interface CreatePostParams extends PdAxiosRequest, AccountLocation {
   data: {

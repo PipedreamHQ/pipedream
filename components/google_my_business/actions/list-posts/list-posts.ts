@@ -1,15 +1,20 @@
 import { defineAction } from "@pipedream/types";
 import app from "../../app/google_my_business.app";
 import { ListPostsParams } from "../../common/requestParams";
+import { POSTS_PAGE_SIZE } from "../../common/constants";
 
 const DOCS_LINK = "https://developers.google.com/my-business/reference/rest/v4/accounts.locations.localPosts/list";
-const PAGE_SIZE = 100;
 
 export default defineAction({
   key: "google_my_business-list-posts",
   name: "List Posts",
-  description: `List local posts associated with a location. [See the documentation](${DOCS_LINK})`,
-  version: "0.0.6",
+  description: "List the local posts (updates, events and offers) published on a location."
+    + ` Google returns at most ${POSTS_PAGE_SIZE} posts per page, so this action keeps requesting pages until it has \`Max Posts\` posts or there are none left.`
+    + " Returns an array of posts. When more posts remain, the token for the next page is exported as `nextPageToken`;"
+    + " run the action again with that token in `Page Token` to continue."
+    + " To publish a post, use **Create Post**."
+    + ` [See the documentation](${DOCS_LINK})`,
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -36,29 +41,44 @@ export default defineAction({
     maxResults: {
       type: "integer",
       label: "Max Posts",
-      description: `Max amount of posts to retrieve. Each request can retrieve up to ${PAGE_SIZE} posts.`,
+      description: `The maximum number of posts to return across all pages, e.g. \`500\`. Defaults to \`${POSTS_PAGE_SIZE}\` (one page).`,
       optional: true,
-      default: PAGE_SIZE,
+      default: POSTS_PAGE_SIZE,
       min: 1,
-      max: PAGE_SIZE * 10,
+      max: POSTS_PAGE_SIZE * 10,
+    },
+    pageToken: {
+      propDefinition: [
+        app,
+        "pageToken",
+      ],
     },
   },
   async run({ $ }) {
     const {
-      account, location, maxResults,
+      account, location, maxResults, pageToken,
     } = this;
     const params: ListPostsParams = {
       $,
       account,
       location,
-      maxPerPage: PAGE_SIZE,
-      maxResults,
+      maxResults: maxResults ?? POSTS_PAGE_SIZE,
+      pageToken,
     };
 
-    const response = await this.app.listPosts(params);
+    const {
+      items, nextPageToken,
+    } = await this.app.listAllPosts(params);
 
-    $.export("$summary", "Successfully listed posts");
+    if (nextPageToken) {
+      $.export("nextPageToken", nextPageToken);
+    }
+    $.export("$summary", `Successfully listed ${items.length} post${items.length === 1
+      ? ""
+      : "s"}${nextPageToken
+      ? " (more posts are available, see `nextPageToken`)"
+      : ""}`);
 
-    return response;
+    return items;
   },
 });
