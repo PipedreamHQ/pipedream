@@ -94,13 +94,15 @@ export default {
     for (let i = 0; i < policyIds.length; i += POLICY_LOOKUP_BATCH_SIZE) {
       batches.push(policyIds.slice(i, i + POLICY_LOOKUP_BATCH_SIZE));
     }
-    const actionResponses = await Promise.all(batches.map((batch) => this.servicenow.getCatalogUiPolicyActions({
-      $,
-      params: {
-        sysparm_query: `ui_policyIN${batch.join(",")}`,
-        sysparm_limit: MAX_LIMIT,
-      },
-    })));
+    const actionResponses = await Promise.all(batches.map((batch) => (
+      this.servicenow.getCatalogUiPolicyActions({
+        $,
+        params: {
+          sysparm_query: `ui_policyIN${batch.join(",")}`,
+          sysparm_limit: MAX_LIMIT,
+        },
+      })
+    )));
     const policyById = new Map(policies.map((policy) => [
       policy.sys_id,
       policy,
@@ -109,6 +111,7 @@ export default {
       policyId,
       index,
     ]));
+    const policyOrder = (row) => order.get(referenceId(row.ui_policy)) ?? 0;
     const enriched = actionResponses
       .flatMap((actionResponse) => (Array.isArray(actionResponse)
         ? actionResponse
@@ -117,7 +120,7 @@ export default {
         ...row,
         catalog_ui_policy: policyById.get(referenceId(row.ui_policy)) ?? null,
       }))
-      .sort((a, b) => (order.get(referenceId(a.ui_policy)) ?? 0) - (order.get(referenceId(b.ui_policy)) ?? 0))
+      .sort((a, b) => policyOrder(a) - policyOrder(b))
       .slice(0, this.limit || undefined);
     const fromSets = variableSetIds.length
       ? ` (item and ${variableSetIds.length} variable set(s))`
