@@ -7,6 +7,7 @@ export default {
   description: "Executes a capability command on a SmartThings device, e.g. turn a switch on or set a dimmer level. [See the documentation](https://developer.smartthings.com/docs/api/public#tag/Devices/operation/executeDeviceCommands)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -19,7 +20,7 @@ export default {
         smartthings,
         "locationId",
       ],
-      description: "Filter the device list by location",
+      description: "Only list devices in this location, e.g. `a1b2c3d4-0000-1111-2222-333344445555`. Use **List Locations** to find the ID (the `locationId` field).",
       optional: true,
     },
     deviceId: {
@@ -40,7 +41,7 @@ export default {
     command: {
       type: "string",
       label: "Command",
-      description: "The command to execute, e.g. `on`, `off`, `setLevel`, `setColor`. The available commands depend on the capability.",
+      description: "The command to execute, e.g. `on`, `off`, `setLevel`, `setColor`. The available commands depend on the capability; see the commands listed for it in the [capabilities reference](https://developer.smartthings.com/docs/devices/capabilities/capabilities-reference).",
     },
     arguments: {
       type: "string[]",

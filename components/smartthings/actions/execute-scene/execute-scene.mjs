@@ -6,6 +6,7 @@ export default {
   description: "Executes a SmartThings scene. [See the documentation](https://developer.smartthings.com/docs/api/public#tag/Scenes/operation/executeScene)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -18,7 +19,7 @@ export default {
         smartthings,
         "locationId",
       ],
-      description: "Filter the scene list by location",
+      description: "Only list scenes in this location, e.g. `a1b2c3d4-0000-1111-2222-333344445555`. Use **List Locations** to find the ID (the `locationId` field).",
       optional: true,
     },
     sceneId: {

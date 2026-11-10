@@ -6,6 +6,7 @@ export default {
   description: "Lists the devices available to the connected SmartThings account, optionally filtered by location or capability. [See the documentation](https://developer.smartthings.com/docs/api/public#tag/Devices/operation/getDevices)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -31,7 +32,7 @@ export default {
     maxResults: {
       type: "integer",
       label: "Max Results",
-      description: "The maximum number of devices to return. Leave blank to return all devices.",
+      description: "The maximum number of devices to return, e.g. `50`. Leave blank to return all devices.",
       min: 1,
       optional: true,
     },
@@ -39,6 +40,7 @@ export default {
   async run({ $ }) {
     const devices = [];
     const items = this.smartthings.paginate({
+      $,
       resourceFn: (opts) => this.smartthings.listDevices({
         $,
         ...opts,

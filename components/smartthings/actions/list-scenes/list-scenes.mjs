@@ -6,6 +6,7 @@ export default {
   description: "Lists the scenes available to the connected SmartThings account, optionally filtered by location. [See the documentation](https://developer.smartthings.com/docs/api/public#tag/Scenes/operation/listScenes)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -24,6 +25,7 @@ export default {
   async run({ $ }) {
     const scenes = [];
     const items = this.smartthings.paginate({
+      $,
       resourceFn: (opts) => this.smartthings.listScenes({
         $,
         ...opts,

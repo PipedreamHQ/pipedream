@@ -7,21 +7,24 @@ export default {
     locationId: {
       type: "string",
       label: "Location ID",
-      description: "The ID of a SmartThings location",
-      async options() {
-        const { items } = await this.listLocations();
-        return items?.map(({
-          locationId: value, name: label,
-        }) => ({
-          label,
-          value,
-        })) || [];
+      description: "The ID of a SmartThings location, e.g. `a1b2c3d4-0000-1111-2222-333344445555`. Use **List Locations** to find it (the `locationId` field).",
+      async options({ prevContext }) {
+        return this._getOptionsPage({
+          prevContext,
+          resourceFn: () => this.listLocations(),
+          mapper: ({
+            locationId: value, name: label,
+          }) => ({
+            label,
+            value,
+          }),
+        });
       },
     },
     roomId: {
       type: "string",
       label: "Room ID",
-      description: "The ID of a room within the selected location",
+      description: "The ID of a room within the selected location, e.g. `b2c3d4e5-0000-1111-2222-333344445555`. Use **List Rooms** with the same `locationId` to find it (the `roomId` field).",
       async options({ locationId }) {
         if (!locationId) {
           return [];
@@ -40,40 +43,48 @@ export default {
     deviceId: {
       type: "string",
       label: "Device ID",
-      description: "The ID of a SmartThings device",
+      description: "The ID of a SmartThings device, e.g. `c3d4e5f6-0000-1111-2222-333344445555`. Use **List Devices** to find it (the `deviceId` field).",
       async options({
-        locationId, capability,
+        locationId, capability, prevContext,
       }) {
-        const { items } = await this.listDevices({
-          params: {
-            locationId,
-            capability,
-          },
+        return this._getOptionsPage({
+          prevContext,
+          resourceFn: () => this.listDevices({
+            params: {
+              locationId,
+              capability,
+            },
+          }),
+          mapper: ({
+            deviceId: value, label, name,
+          }) => ({
+            label: label || name,
+            value,
+          }),
         });
-        return items?.map(({
-          deviceId: value, label, name,
-        }) => ({
-          label: label || name,
-          value,
-        })) || [];
       },
     },
     sceneId: {
       type: "string",
       label: "Scene ID",
-      description: "The ID of a SmartThings scene",
-      async options({ locationId }) {
-        const { items } = await this.listScenes({
-          params: {
-            locationId,
-          },
+      description: "The ID of a SmartThings scene, e.g. `d4e5f6a7-0000-1111-2222-333344445555`. Use **List Scenes** to find it (the `sceneId` field).",
+      async options({
+        locationId, prevContext,
+      }) {
+        return this._getOptionsPage({
+          prevContext,
+          resourceFn: () => this.listScenes({
+            params: {
+              locationId,
+            },
+          }),
+          mapper: ({
+            sceneId: value, sceneName: label,
+          }) => ({
+            label,
+            value,
+          }),
         });
-        return items?.map(({
-          sceneId: value, sceneName: label,
-        }) => ({
-          label,
-          value,
-        })) || [];
       },
     },
     capability: {
@@ -84,7 +95,7 @@ export default {
     component: {
       type: "string",
       label: "Component",
-      description: "The device component to target. Most devices only have a `main` component.",
+      description: "The device component to target, e.g. `main`. Most devices only have a `main` component; use **Get Device Status** to see a device's components.",
       default: "main",
       optional: true,
     },
@@ -92,6 +103,28 @@ export default {
   methods: {
     _baseUrl() {
       return "https://api.smartthings.com/v1";
+    },
+    /**
+     * Returns one page of prop options. The next-page URL from
+     * `_links.next.href` is stored in the context so the UI can load more.
+     */
+    async _getOptionsPage({
+      prevContext, resourceFn, mapper,
+    }) {
+      if (prevContext?.next === null) {
+        return [];
+      }
+      const response = prevContext?.next
+        ? await this._makeRequest({
+          url: prevContext.next,
+        })
+        : await resourceFn();
+      return {
+        options: response?.items?.map(mapper) || [],
+        context: {
+          next: response?._links?.next?.href || null,
+        },
+      };
     },
     _makeRequest({
       $ = this,
@@ -189,7 +222,7 @@ export default {
      * following the `_links.next.href` cursor returned by the API.
      */
     async *paginate({
-      resourceFn, params = {}, max,
+      $, resourceFn, params = {}, max,
     }) {
       let count = 0;
       let response = await resourceFn({
@@ -207,6 +240,7 @@ export default {
           return;
         }
         response = await this._makeRequest({
+          $,
           url: next,
         });
       }
