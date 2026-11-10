@@ -6,7 +6,7 @@ export default {
   key: "servicenow_service_account-get-field-choices",
   name: "Get Field Choices",
   description: "Retrieve the choice-list values of a field on a ServiceNow table from `sys_choice` (for example the `state` or `urgency` values of `incident`). Each result has the display `label`, its `language`, and the stored `value` to submit in **Create Table Record** or **Update Table Record**. Multilingual instances return one entry per language for the same `value`. Run **Get Table Fields** first to find the field `element` name. Example: table `incident` and field `urgency` returns entries such as `{\"label\": \"1 - High\", \"value\": \"1\"}`. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_TableAPI.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {
