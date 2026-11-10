@@ -168,14 +168,16 @@ export default {
       $id: String!,
       $first: Int,
       $after: String,
-      $orderBy: PaginationOrderBy
+      $orderBy: PaginationOrderBy,
+      $includeArchived: Boolean
     ) {
       document(id: $id) {
         id
         comments(
           first: $first,
           after: $after,
-          orderBy: $orderBy
+          orderBy: $orderBy,
+          includeArchived: $includeArchived
         ) {
           pageInfo {
             ...PageInfo

@@ -108,6 +108,7 @@ export default {
       createdAt
       updatedAt
       resolvedAt
+      quotedText
       parent {
         id
       }

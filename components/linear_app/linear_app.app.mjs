@@ -446,8 +446,11 @@ export default {
       });
       return documents;
     },
-    async listDocumentComments(variables) {
+    async listDocumentComments({
+      $, ...variables
+    }) {
       const { data: { document } } = await this.post({
+        $,
         data: {
           query: queries.listDocumentComments,
           variables,
@@ -455,8 +458,11 @@ export default {
       });
       return document;
     },
-    async createDocumentComment(variables) {
+    async createDocumentComment({
+      $, ...variables
+    }) {
       const { data: { commentCreate } } = await this.post({
+        $,
         data: {
           query: queries.createDocumentComment,
           variables,

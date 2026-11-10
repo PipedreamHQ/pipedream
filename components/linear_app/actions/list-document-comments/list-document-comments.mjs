@@ -4,7 +4,7 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "linear_app-list-document-comments",
   name: "List Document Comments",
-  description: "List the comments on a Linear document. Use **Search Documents** to find the document ID. For comments on issues use **List Comments** instead. Returns comment objects with `id`, `body`, `createdAt`, `user` (author), `parent` (the comment being replied to, or null), and `resolvedAt` (null if unresolved). Supports pagination via `first`/`after`. Example: `documentId: \"10b5bc2940c7\"`, `first: 10` → returns `{nodes: [{id: \"cmt_xyz\", body: \"Can we tighten the timeline?\", createdAt: \"2024-01-15T10:00:00Z\", parent: null, resolvedAt: null, user: {id: \"usr_1\", name: \"Ada\"}}], pageInfo: {endCursor: \"...\", hasNextPage: false}}`. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Document)",
+  description: "List the comments on a Linear document. Use **Search Documents** to find the document ID. For comments on issues use **List Comments** instead. Returns comment objects with `id`, `body`, `createdAt`, `user` (author), `parent` (the comment being replied to, or null), `resolvedAt` (null if unresolved), and `quotedText` (for inline comments, the document text the comment is anchored to; null otherwise). Supports pagination via `first`/`after`. Example: `documentId: \"10b5bc2940c7\"`, `first: 10` → returns `{nodes: [{id: \"cmt_xyz\", body: \"Can we tighten the timeline?\", createdAt: \"2024-01-15T10:00:00Z\", parent: null, resolvedAt: null, user: {id: \"usr_1\", name: \"Ada\"}}], pageInfo: {endCursor: \"...\", hasNextPage: false}}`. [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Document?query=comments)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
@@ -40,6 +40,12 @@ export default {
         "after",
       ],
     },
+    includeArchived: {
+      propDefinition: [
+        linearApp,
+        "includeArchived",
+      ],
+    },
     fields: {
       type: "string[]",
       label: "Fields",
@@ -49,10 +55,12 @@ export default {
   },
   async run({ $ }) {
     const document = await this.linearApp.listDocumentComments({
+      $,
       id: this.documentId,
       orderBy: this.orderBy,
       first: utils.clampFirst(this.first),
       after: this.after,
+      includeArchived: this.includeArchived,
     });
     if (!document) {
       throw new Error(`Document not found: ${this.documentId}`);
