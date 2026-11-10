@@ -6,7 +6,7 @@ export default {
   key: "servicenow_service_account-get-table-fields",
   name: "Get Table Fields",
   description: "Retrieve the field definitions of a ServiceNow table from `sys_dictionary`: field `element` name, label, type, whether it is `mandatory` or `read_only`, the referenced table for reference fields, and `max_length`. Use this before **Create Table Record** or **Update Table Record** to learn the valid field names and which ones the schema requires. Inherited fields come from the parent table, so query the parent as well when needed. Use **Get Field Choices** for choice-list values. Returns up to `limit` rows (default 100); if exactly `limit` rows come back, call again with `offset` raised by `limit` to get the rest. Example: table `incident` with Mandatory Only returns entries such as `{\"element\": \"short_description\", \"mandatory\": \"true\"}` for each field the schema requires. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_TableAPI.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {
