@@ -13,7 +13,7 @@ export default {
     country: {
       type: "string",
       label: "Country",
-      description: "Two-letter country code used to localize results, e.g. `us` or `gb`.",
+      description: "Two-letter ISO 3166-1 alpha-2 country code used to localize results, e.g. `us` or `gb`.",
       optional: true,
     },
     language: {
@@ -31,7 +31,7 @@ export default {
     num: {
       type: "integer",
       label: "Number of Results",
-      description: "Requested results, from 1 to 100, e.g. `20`. Counts above 10 round up to whole pages and cost more credits ([see pricing](https://serpkite.com/pricing)).",
+      description: "Requested results, from 1 to 100, e.g. `20`. Counts above 10 round up to whole pages and cost more credits ([see pricing](https://serpkite.com/pricing)). Above 10, leave Page empty or set it to `1`.",
       min: 1,
       max: 100,
       optional: true,

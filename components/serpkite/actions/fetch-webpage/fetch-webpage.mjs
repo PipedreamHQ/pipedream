@@ -25,7 +25,7 @@ export default {
         app,
         "country",
       ],
-      description: "Fetch the page as seen from this country, for pages that differ by location, e.g. `de`.",
+      description: "Fetch the page as seen from this country (two-letter ISO 3166-1 alpha-2 code), for pages that differ by location, e.g. `de`.",
     },
     includeLinks: {
       type: "boolean",

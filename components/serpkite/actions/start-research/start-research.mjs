@@ -35,7 +35,7 @@ export default {
         app,
         "webhookUrl",
       ],
-      description: "A public HTTPS URL that receives a signed `research.completed` event when the report is ready, e.g. `https://example.com/hooks/serpkite`. Defaults to the account webhook set in the SerpKite dashboard.",
+      description: "A public HTTPS URL that receives a signed `research.completed` event when the task ends: completed, failed or canceled, so check its `status` (or call **Get Research**) before reading the report, e.g. `https://example.com/hooks/serpkite`. Defaults to the account webhook set in the SerpKite dashboard.",
     },
   },
   async run({ $ }) {

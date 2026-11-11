@@ -53,7 +53,10 @@ export default {
         language: this.language,
       },
     });
-    $.export("$summary", `Retrieved ${response.place?.title ?? "place details"}`);
+    const place = response.results?.[0];
+    $.export("$summary", place
+      ? `Retrieved ${place.title ?? "place details"}`
+      : "No place matched (not billed)");
     return response;
   },
 };

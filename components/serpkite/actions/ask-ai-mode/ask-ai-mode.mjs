@@ -25,7 +25,7 @@ export default {
         app,
         "country",
       ],
-      description: "The country Google answers for, e.g. `us` or `de`.",
+      description: "The country Google answers for, as a two-letter ISO 3166-1 alpha-2 code, e.g. `us` or `de`.",
     },
     language: {
       propDefinition: [

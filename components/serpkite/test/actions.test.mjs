@@ -373,9 +373,11 @@ test("get place needs a place id or cid", async () => {
   await assert.rejects(run("get-place", {}), ConfigurationError);
   assert.equal(requests.length, before);
   apiResponse = {
-    place: {
-      title: "Cafe",
-    },
+    results: [
+      {
+        title: "Cafe",
+      },
+    ],
   };
   const {
     config, summaries,
@@ -395,9 +397,11 @@ test("get place needs a place id or cid", async () => {
 
 test("get place sends cid when no place id is set", async () => {
   apiResponse = {
-    place: {
-      title: "Cafe",
-    },
+    results: [
+      {
+        title: "Cafe",
+      },
+    ],
   };
   const {
     config, summaries,
@@ -414,6 +418,31 @@ test("get place sends cid when no place id is set", async () => {
       "Retrieved Cafe",
     ],
   ]);
+});
+
+test("get place reports when no place matched", async () => {
+  apiResponse = {
+    results: [],
+  };
+  const { summaries } = await run("get-place", {
+    placeId: "ChIJ123",
+  });
+  assert.deepEqual(summaries, [
+    [
+      "$summary",
+      "No place matched (not billed)",
+    ],
+  ]);
+});
+
+test("web search rejects a later page with more than 10 results", async () => {
+  const before = requests.length;
+  await assert.rejects(run("web-search", {
+    q: "q",
+    num: 20,
+    page: 2,
+  }), ConfigurationError);
+  assert.equal(requests.length, before);
 });
 
 test("answer question sends depth and sources, and reports a missing answer", async () => {

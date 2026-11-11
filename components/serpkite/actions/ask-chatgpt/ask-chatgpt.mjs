@@ -31,7 +31,7 @@ export default {
         app,
         "country",
       ],
-      description: "Ask as a visitor in this country: prices, shops and places follow it, e.g. `us` or `de`.",
+      description: "Ask as a visitor in this country, as a two-letter ISO 3166-1 alpha-2 code: prices, shops and places follow it, e.g. `us` or `de`.",
     },
     track: {
       propDefinition: [

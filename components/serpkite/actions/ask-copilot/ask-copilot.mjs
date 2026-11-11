@@ -25,7 +25,7 @@ export default {
         app,
         "country",
       ],
-      description: "Bing market country, e.g. `us` or `de`.",
+      description: "Bing market country, as a two-letter ISO 3166-1 alpha-2 code, e.g. `us` or `de`.",
     },
     language: {
       propDefinition: [

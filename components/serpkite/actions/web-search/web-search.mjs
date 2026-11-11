@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../serpkite.app.mjs";
 
 export default {
@@ -49,6 +50,7 @@ export default {
         app,
         "page",
       ],
+      description: "Result page, from 1 to 10, e.g. `2`. Leave it empty or set it to `1` when Number of Results is above 10.",
     },
     time: {
       propDefinition: [
@@ -76,6 +78,9 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.num > 10 && this.page > 1) {
+      throw new ConfigurationError("Number of Results above 10 fetches the top results in one call, so it needs Page empty or `1`. Lower Number of Results to 10 or less to request a later page.");
+    }
     const response = await this.app.searchWeb({
       $,
       data: {

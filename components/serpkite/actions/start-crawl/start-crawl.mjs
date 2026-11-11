@@ -15,7 +15,10 @@ export default {
   props: {
     app,
     url: {
-      type: "string",
+      propDefinition: [
+        app,
+        "url",
+      ],
       label: "Start URL",
       description: "The page to start from, e.g. `https://example.com/docs/`.",
     },
@@ -58,7 +61,7 @@ export default {
         app,
         "webhookUrl",
       ],
-      description: "A public HTTPS URL that receives a signed `crawl.completed` event when the crawl ends, e.g. `https://example.com/hooks/serpkite`. Defaults to the account webhook set in the SerpKite dashboard.",
+      description: "A public HTTPS URL that receives a signed `crawl.completed` event when the crawl ends: completed, failed or canceled (check its `status`, or call **Get Crawl**), e.g. `https://example.com/hooks/serpkite`. Defaults to the account webhook set in the SerpKite dashboard.",
     },
   },
   async run({ $ }) {
