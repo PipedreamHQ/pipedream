@@ -16,6 +16,12 @@ export default {
     companyenrich,
 
   },
+  /**
+   * Retrieve geographic regions and their country-code mappings.
+   * @param {Object} context - Pipedream action execution context.
+   * @param {Object} context.$ - Execution context used for requests and the result summary.
+   * @returns {Promise<Object>} The complete region lookup response.
+   */
   async run({ $ }) {
     const response = await this.companyenrich.getRegions({
       $,

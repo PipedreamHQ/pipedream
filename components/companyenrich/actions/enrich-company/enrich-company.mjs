@@ -6,7 +6,7 @@ import {
 export default {
   key: "companyenrich-enrich-company",
   name: "Enrich Company",
-  description: "Enrich a company from its domain. Costs 1 credit when returned, plus selected paid expansions. On-demand enrichment can return a pending miss; no automatic retry is made. [See the documentation](https://docs.companyenrich.com/reference/get_v2-companies-enrich)",
+  description: "Enrich a company from its domain. Costs 1 credit when returned, plus selected paid expansions. With **Wait for Enrichment** set to false, an unstored company fails with HTTP 404 without consuming credits. Eligible misses may schedule background enrichment, but this action returns no pending result and does not retry automatically. [See the documentation](https://docs.companyenrich.com/reference/get_v2-companies-enrich)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
@@ -37,6 +37,13 @@ export default {
       ],
     },
   },
+  /**
+   * Enrich the configured domain with optional expansions and wait behavior.
+   * @param {Object} context - Pipedream action execution context.
+   * @param {Object} context.$ - Execution context used for requests and the result summary.
+   * @returns {Promise<Object>} The company record; provider errors, including an unstored
+   * miss, propagate.
+   */
   async run({ $ }) {
     const response = await this.companyenrich.enrichCompany({
       $,

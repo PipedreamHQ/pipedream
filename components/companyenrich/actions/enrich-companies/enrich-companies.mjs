@@ -36,6 +36,12 @@ export default {
       ],
     },
   },
+  /**
+   * Validate the domain batch and request enrichment with the selected expansions.
+   * @param {Object} context - Pipedream action execution context.
+   * @param {Object} context.$ - Execution context used for requests and the result summary.
+   * @returns {Promise<Object>} The batch response, preserving each domain result and its status.
+   */
   async run({ $ }) {
     if (!Array.isArray(this.domains)) {
       throw new ConfigurationError("Provide Company Domains as an array of 1–50 domains.");

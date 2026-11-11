@@ -1,6 +1,6 @@
 # Overview
 
-Enrich a company from its domain. Costs 1 credit when returned, plus selected paid expansions. On-demand enrichment can return a pending miss; no automatic retry is made.
+Enrich a company from its domain. Costs 1 credit when returned, plus selected paid expansions. With **Wait for Enrichment** set to false, an unstored company fails with HTTP 404 without consuming credits. Eligible misses may schedule background enrichment, but this action returns no pending result and does not retry automatically.
 
 # Example Use Cases
 
@@ -9,7 +9,7 @@ Enrich a new CRM account from its website domain before assigning an owner.
 # Getting Started
 
 1. Connect a CompanyEnrich account through the Pipedream app connection. See [connection setup](../../README.md#connection).
-2. Supply the action inputs using the examples in their descriptions. Advanced filters accept JSON objects from the [API reference](https://docs.companyenrich.com/reference/get_v2-companies-enrich).
+2. Provide **Company Domain**, for example `stripe.com`. Optionally select **Company Expansions** and set **Wait for Enrichment**.
 3. Run the action once and use the returned data in the next step. Provider errors are returned as errors, not empty successful results.
 
 See [shared credit and pagination controls](../../README.md#search-and-credit-controls) and the [endpoint documentation](https://docs.companyenrich.com/reference/get_v2-companies-enrich).

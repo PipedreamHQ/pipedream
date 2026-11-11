@@ -67,6 +67,12 @@ export default {
       ],
     },
   },
+  /**
+   * Require at least one company identifier and resolve the best matching company.
+   * @param {Object} context - Pipedream action execution context.
+   * @param {Object} context.$ - Execution context used for requests and the result summary.
+   * @returns {Promise<Object>} The matched company record and requested expansions.
+   */
   async run({ $ }) {
     const identifiers = {
       name: stringValue(this.name, "Company Name", 250),

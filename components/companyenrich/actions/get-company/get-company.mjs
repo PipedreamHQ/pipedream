@@ -30,6 +30,12 @@ export default {
       ],
     },
   },
+  /**
+   * Validate the company ID and retrieve its record with optional expansions.
+   * @param {Object} context - Pipedream action execution context.
+   * @param {Object} context.$ - Execution context used for requests and the result summary.
+   * @returns {Promise<Object>} The company record and requested expansions.
+   */
   async run({ $ }) {
     const response = await this.companyenrich.getCompany({
       $,

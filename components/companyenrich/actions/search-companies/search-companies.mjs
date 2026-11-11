@@ -60,6 +60,13 @@ export default {
       ],
     },
   },
+  /**
+   * Build the company query and collect bounded pages with the requested expansions.
+   * @param {Object} context - Pipedream action execution context.
+   * @param {Object} context.$ - Execution context used for requests and the result summary.
+   * @returns {Promise<Object>} The original page or collected pages, preserving scores and
+   * continuation cursor.
+   */
   async run({ $ }) {
     const response = await this.companyenrich.collectPages({
       $,
@@ -76,7 +83,10 @@ export default {
       response,
     ];
     const count = pages.reduce((total, page) => total + (page.items?.length ?? 0), 0);
-    $.export("$summary", `Retrieved ${count} companies across ${pages.length} page(s)`);
+    const completion = response.partial
+      ? "; partial results returned at the pagination time limit"
+      : "";
+    $.export("$summary", `Retrieved ${count} companies across ${pages.length} page(s)${completion}`);
     return response;
   },
 };

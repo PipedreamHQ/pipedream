@@ -28,12 +28,24 @@ function harness({
   response = {
     items: [],
     nextCursor: "another-paid-page",
-  }, error, responses,
+  }, error, responses, clock, onRequest,
 } = {}) {
   const calls = [];
   const summaries = [];
   const context = vm.createContext({
     URLSearchParams,
+    AbortController,
+    setTimeout: clock?.setTimeout ?? setTimeout,
+    clearTimeout: clock?.clearTimeout ?? clearTimeout,
+    ...(clock
+      ? {
+        Date: class extends Date {
+          static now() {
+            return clock.now;
+          }
+        },
+      }
+      : {}),
   });
   const modules = new Map();
   const platform = new vm.SyntheticModule([
@@ -46,10 +58,17 @@ function harness({
         $,
         config,
       });
+      const index = calls.length - 1;
+      if (onRequest) {
+        await onRequest({
+          $,
+          config,
+          index,
+        });
+      }
       if (error) {
         throw error;
       }
-      const index = calls.length - 1;
       if (responses) {
         assert.ok(index < responses.length, "Unexpected request after scripted responses were exhausted");
       }
@@ -1781,7 +1800,8 @@ for (const fixture of PAGINATED_ROUTES) {
         assert.notEqual(config[queryKey], h.calls[index - 1].config[queryKey]);
       }
     }
-    assert.equal(h.summaries.length, 1);
+    assert.equal(h.summaries.filter(({ name }) => name === "$summary").length, 1);
+    assert.equal(h.summaries.filter(({ name }) => name === "paginationProgress").length, pages.length);
   });
 
   test(`${fixture.slug}: stops at the requested page cap and returns the continuation cursor`, async () => {
@@ -1857,7 +1877,22 @@ for (const fixture of PAGINATED_ROUTES) {
       maxPages: 3,
     }), (actual) => actual === error);
     assert.equal(h.calls.length, 2);
-    assert.equal(h.summaries.length, 0);
+    assert.equal(h.summaries.filter(({ name }) => name === "$summary").length, 0);
+    assert.deepEqual(plain(h.summaries), [
+      {
+        name: "paginationProgress",
+        value: {
+          pages: [
+            {
+              items: [],
+              nextCursor: "second-page",
+            },
+          ],
+          nextCursor: "second-page",
+          completedPages: 1,
+        },
+      },
+    ]);
   });
 }
 
@@ -1915,7 +1950,7 @@ test("pagination is lazy and returning early never fetches the following paid pa
     ],
   });
   const app = await h.appInstance();
-  const iterator = app.paginate({
+  const iterator = app._paginate({
     $: h.$,
     method: "searchCompanies",
     data: {
@@ -2081,4 +2116,458 @@ test("single-page collection preserves the original response identity even with 
     assert.equal(result, response);
     assert.equal(h.calls.length, 1);
   }
+});
+
+// Deterministic wall-clock and timer control: no pagination test waits for a real deadline.
+function paginationClock() {
+  const timers = new Map();
+  const scheduled = [];
+  const cleared = [];
+  let now = 0;
+  let serial = 0;
+  return {
+    get now() {
+      return now;
+    },
+    timers,
+    scheduled,
+    cleared,
+    setTimeout(callback, delay) {
+      const id = ++serial;
+      scheduled.push(delay);
+      timers.set(id, {
+        callback,
+        due: now + delay,
+      });
+      return id;
+    },
+    clearTimeout(id) {
+      cleared.push(id);
+      timers.delete(id);
+    },
+    advance(milliseconds) {
+      now += milliseconds;
+      for (const [
+        id,
+        timer,
+      ] of timers) {
+        if (timer.due <= now) {
+          timers.delete(id);
+          timer.callback();
+        }
+      }
+    },
+  };
+}
+
+for (const fixture of PAGINATED_ROUTES) {
+  test(`${fixture.slug}: exports each completed page before requesting another and shrinks the time budget`, async () => {
+    const clock = paginationClock();
+    const pages = [
+      {
+        items: [
+          {
+            id: "first",
+          },
+        ],
+        nextCursor: "second+/=?",
+        total: 0,
+      },
+      {
+        items: [],
+        nextCursor: "third+/=?",
+        interpretation: {
+          filtered: false,
+        },
+      },
+      {
+        items: [
+          {
+            id: "last",
+          },
+        ],
+        nextCursor: null,
+      },
+    ];
+    const h = harness({
+      clock,
+      responses: pages,
+      onRequest: ({
+        config, index,
+      }) => {
+        const snapshots = h.summaries.filter(({ name }) => name === "paginationProgress");
+        assert.equal(snapshots.length, index, "the prior page must be exported before the next HTTP request");
+        if (index > 0) {
+          assert.deepEqual(plain(snapshots[index - 1].value), {
+            pages: pages.slice(0, index),
+            nextCursor: pages[index - 1].nextCursor,
+            completedPages: index,
+          });
+        }
+        assert.equal(config.timeout, 20000 - index * 3000);
+        assert.ok(config.signal instanceof AbortSignal);
+        assert.equal(config.signal.aborted, false);
+        clock.advance(3000);
+      },
+    });
+    const result = await h.run(fixture.slug, {
+      ...fixture.input,
+      maxPages: 4,
+    });
+    assert.deepEqual(plain(result), {
+      pages,
+      nextCursor: null,
+    });
+    const snapshots = h.summaries.filter(({ name }) => name === "paginationProgress");
+    for (const [
+      index,
+      snapshot,
+    ] of snapshots.entries()) {
+      assert.deepEqual(plain(snapshot.value), {
+        pages: pages.slice(0, index + 1),
+        nextCursor: pages[index].nextCursor,
+        completedPages: index + 1,
+      });
+      assert.notEqual(snapshot.value.pages, result.pages, "progress snapshots must not share the growing result array");
+    }
+    const queryKey = fixture.method === "GET"
+      ? "params"
+      : "data";
+    for (const [
+      index,
+      { config },
+    ] of h.calls.entries()) {
+      assert.deepEqual(plain(config[queryKey]), {
+        ...fixture[queryKey],
+        cursor: index === 0
+          ? fixture[queryKey].cursor
+          : pages[index - 1].nextCursor,
+      });
+      assert.equal(config.signal, h.calls[0].config.signal);
+    }
+    assert.deepEqual(clock.scheduled, [
+      20000,
+    ]);
+    assert.equal(clock.timers.size, 0);
+    assert.equal(clock.cleared.length, 1);
+    clock.advance(100000);
+    assert.equal(h.calls[0].config.signal.aborted, false, "the deadline timer must be cleared after successful collection");
+  });
+
+  test(`${fixture.slug}: a canceled later page returns earlier pages and their continuation without retry`, async () => {
+    const clock = paginationClock();
+    const page = {
+      items: [
+        {
+          id: "paid-result",
+        },
+      ],
+      nextCursor: "resume-second-page+/=",
+      total: 12,
+    };
+    const cancellation = Object.assign(new Error("Pagination request aborted at its deadline"), {
+      code: "ERR_CANCELED",
+    });
+    const h = harness({
+      clock,
+      responses: [
+        page,
+      ],
+      onRequest: ({
+        config, index,
+      }) => {
+        if (index === 0) {
+          clock.advance(5000);
+          return;
+        }
+        assert.equal(config.timeout, 15000);
+        assert.equal(h.summaries[0].name, "paginationProgress");
+        assert.deepEqual(plain(h.summaries[0].value.pages), [
+          page,
+        ]);
+        clock.advance(15000);
+        assert.equal(config.signal.aborted, true);
+        throw cancellation;
+      },
+    });
+    const result = await h.run(fixture.slug, {
+      ...fixture.input,
+      maxPages: 100,
+    });
+    assert.deepEqual(plain(result), {
+      pages: [
+        page,
+      ],
+      nextCursor: page.nextCursor,
+      partial: true,
+      stoppedReason: "time_budget",
+    });
+    assert.equal(h.calls.length, 2, "the interrupted paid page must not be retried automatically");
+    assert.equal(clock.timers.size, 0);
+    assert.equal(clock.cleared.length, 1);
+    const summary = h.summaries.find(({ name }) => name === "$summary");
+    assert.ok(summary);
+    assert.match(summary.value, /partial|time budget|stopped/i);
+    assert.ok(!JSON.stringify({
+      result,
+      exports: h.summaries,
+    }).includes(API_KEY));
+  });
+}
+
+test("pagination stops before a new request when its deadline is reached between pages", async () => {
+  const clock = paginationClock();
+  const page = {
+    items: [],
+    nextCursor: "not-yet-requested",
+  };
+  const h = harness({
+    clock,
+    responses: [
+      page,
+    ],
+  });
+  const app = await h.appInstance();
+  const context = {
+    export(name, value) {
+      h.$.export(name, value);
+      clock.advance(20000);
+    },
+  };
+  const result = await app.collectPages({
+    $: context,
+    method: "searchCompanies",
+    data: {
+      pageSize: 10,
+    },
+    maxPages: 100,
+  });
+  assert.deepEqual(plain(result), {
+    pages: [
+      page,
+    ],
+    nextCursor: page.nextCursor,
+    partial: true,
+    stoppedReason: "time_budget",
+  });
+  assert.equal(h.calls.length, 1);
+  assert.equal(clock.timers.size, 0);
+  assert.equal(clock.cleared.length, 1);
+});
+
+test("a deadline on the first page throws without inventing a successful empty result", async () => {
+  const clock = paginationClock();
+  const cancellation = new Error("First request aborted at the pagination deadline");
+  const h = harness({
+    clock,
+    onRequest: ({ config }) => {
+      clock.advance(20000);
+      assert.equal(config.signal.aborted, true);
+      throw cancellation;
+    },
+  });
+  await assert.rejects(h.run("search-companies", {
+    maxPages: 3,
+  }), (actual) => actual === cancellation);
+  assert.equal(h.calls.length, 1);
+  assert.equal(h.summaries.length, 0);
+  assert.equal(clock.timers.size, 0);
+  assert.equal(clock.cleared.length, 1);
+});
+
+test("an unrelated request cancellation still fails and keeps the last completed progress snapshot", async () => {
+  const clock = paginationClock();
+  const page = {
+    items: [],
+    nextCursor: "second",
+  };
+  const cancellation = Object.assign(new Error("Unrelated canceled request"), {
+    code: "ERR_CANCELED",
+  });
+  const h = harness({
+    clock,
+    responses: [
+      page,
+      cancellation,
+    ],
+  });
+  await assert.rejects(h.run("search-companies", {
+    maxPages: 3,
+  }), (actual) => actual === cancellation);
+  assert.equal(h.calls.length, 2);
+  assert.equal(h.calls[1].config.signal.aborted, false);
+  assert.deepEqual(plain(h.summaries), [
+    {
+      name: "paginationProgress",
+      value: {
+        pages: [
+          page,
+        ],
+        nextCursor: page.nextCursor,
+        completedPages: 1,
+      },
+    },
+  ]);
+  assert.equal(clock.timers.size, 0);
+  assert.equal(clock.cleared.length, 1);
+});
+
+test("single-page requests retain their original timeout and do not create deadline timers or progress exports", async () => {
+  for (const maxPages of [
+    undefined,
+    1,
+  ]) {
+    const clock = paginationClock();
+    const page = {
+      items: [],
+      nextCursor: "another",
+    };
+    const h = harness({
+      clock,
+      response: page,
+    });
+    assert.equal(await h.run("search-companies", {
+      maxPages,
+    }), page);
+    assert.equal(h.calls[0].config.timeout, 60000);
+    assert.equal(h.calls[0].config.signal, undefined);
+    assert.equal(clock.scheduled.length, 0);
+    assert.equal(clock.cleared.length, 0);
+    assert.deepEqual(h.summaries.map(({ name }) => name), [
+      "$summary",
+    ]);
+  }
+});
+
+test("direct pagination with an expired deadline issues no HTTP request", async () => {
+  const clock = paginationClock();
+  const h = harness({
+    clock,
+  });
+  const app = await h.appInstance();
+  const iterator = app._paginate({
+    method: "searchCompanies",
+    data: {},
+    maxPages: 10,
+    deadline: clock.now,
+  });
+  assert.deepEqual(plain(await iterator.next()), {
+    done: true,
+  });
+  assert.equal(h.calls.length, 0);
+  assert.equal(clock.scheduled.length, 0);
+});
+
+test("collection remains usable when the caller has no export function", async () => {
+  for (const context of [
+    undefined,
+    {},
+    {
+      export: null,
+    },
+  ]) {
+    const clock = paginationClock();
+    const page = {
+      items: [],
+      nextCursor: null,
+    };
+    const h = harness({
+      clock,
+      response: page,
+    });
+    const app = await h.appInstance();
+    assert.deepEqual(plain(await app.collectPages({
+      $: context,
+      method: "searchCompanies",
+      data: {},
+      maxPages: 2,
+    })), {
+      pages: [
+        page,
+      ],
+      nextCursor: null,
+    });
+    assert.equal(h.calls.length, 1);
+    assert.equal(clock.timers.size, 0);
+  }
+});
+
+test("an HTTP error arriving at the deadline is not mislabeled as partial timeout success", async () => {
+  const clock = paginationClock();
+  const responseError = Object.assign(new Error("Rate limited at the deadline"), {
+    code: "ERR_BAD_REQUEST",
+    response: {
+      status: 429,
+    },
+  });
+  const h = harness({
+    clock,
+    responses: [
+      {
+        items: [],
+        nextCursor: "second",
+      },
+    ],
+    onRequest: ({ index }) => {
+      if (index > 0) {
+        clock.advance(20000);
+        throw responseError;
+      }
+    },
+  });
+  await assert.rejects(h.run("search-companies", {
+    maxPages: 3,
+  }), (actual) => actual === responseError);
+  assert.equal(h.calls.length, 2);
+  assert.equal(h.summaries.filter(({ name }) => name === "$summary").length, 0);
+  assert.equal(h.summaries.filter(({ name }) => name === "paginationProgress").length, 1);
+  assert.equal(clock.timers.size, 0);
+});
+
+test("pagination clears its timer when configuration fails before the first request", async () => {
+  const clock = paginationClock();
+  const h = harness({
+    clock,
+  });
+  const app = await h.appInstance();
+  await assert.rejects(app.collectPages({
+    method: "getAccount",
+    maxPages: 3,
+  }), ConfigurationError);
+  assert.equal(h.calls.length, 0);
+  assert.equal(clock.timers.size, 0);
+  assert.equal(clock.cleared.length, 1);
+});
+
+test("an unrelated network error at the deadline is not swallowed as a timeout", async () => {
+  const clock = paginationClock();
+  const networkError = Object.assign(new Error("Network connection failed at the deadline"), {
+    code: "ERR_NETWORK",
+  });
+  const h = harness({
+    clock,
+    responses: [
+      {
+        items: [],
+        nextCursor: "second",
+      },
+    ],
+    onRequest: ({
+      config, index,
+    }) => {
+      if (index > 0) {
+        clock.advance(20000);
+        assert.equal(config.signal.aborted, true);
+        throw networkError;
+      }
+    },
+  });
+  await assert.rejects(h.run("search-companies", {
+    maxPages: 3,
+  }), (actual) => actual === networkError);
+  assert.equal(h.calls.length, 2);
+  assert.equal(h.summaries.filter(({ name }) => name === "$summary").length, 0);
+  assert.equal(h.summaries.filter(({ name }) => name === "paginationProgress").length, 1);
+  assert.equal(clock.timers.size, 0);
+  assert.equal(clock.cleared.length, 1);
 });

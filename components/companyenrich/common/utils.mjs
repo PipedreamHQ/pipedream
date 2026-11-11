@@ -7,22 +7,54 @@ import {
 } from "./constants.mjs";
 
 const JSON_PARSER = JSONBigInt({
-  storeAsString: true,
+  alwaysParseAsBig: true,
   protoAction: "ignore",
   constructorAction: "ignore",
 });
 
+/**
+ * Restore ordinary JSON numbers while retaining exact unsafe integers as decimal strings.
+ * BigNumber objects can only originate from numeric tokens; quoted strings stay unchanged.
+ * @param {string} key JSON property name supplied by the parser.
+ * @param {*} value Parsed JSON value, including BigNumber numeric tokens.
+ * @returns {*} JSON-serializable value with decimals kept as numbers.
+ */
+function responseNumber(key, value) {
+  if (value && typeof value === "object" && typeof value.toNumber === "function") {
+    const number = value.toNumber();
+    return value.isInteger() && !Number.isSafeInteger(number)
+      ? value.toFixed()
+      : number;
+  }
+  return value;
+}
+
+/**
+ * Parse response JSON without rounding int64 IDs or stringifying decimal scores and credits.
+ * Exact unsafe integers, including exponent notation, become decimal strings. Decimals
+ * retain normal JavaScript number precision; invalid JSON and non-string inputs pass through.
+ * @param {*} value Raw HTTP response data.
+ * @returns {*} Parsed response or the unchanged input when it is not valid JSON.
+ */
 export function parseResponse(value) {
   if (typeof value !== "string" || !value) {
     return value;
   }
   try {
-    return JSON_PARSER.parse(value);
+    return JSON_PARSER.parse(value, responseNumber);
   } catch {
     return value;
   }
 }
 
+/**
+ * Validate an optional or required bounded string without modifying its contents.
+ * @param {*} value Prop value to validate.
+ * @param {string} label Human-readable prop name used in configuration errors.
+ * @param {number} max Maximum string length.
+ * @param {boolean} required Whether an absent value is an error.
+ * @returns {string|undefined} Validated string, or undefined for absent optional values.
+ */
 export function stringValue(value, label, max = 1024, required = false) {
   if (value === undefined || value === null || value === "") {
     if (required) {
@@ -36,6 +68,15 @@ export function stringValue(value, label, max = 1024, required = false) {
   return value;
 }
 
+/**
+ * Validate an integer within inclusive bounds, preserving zero when allowed.
+ * @param {*} value Prop value to validate.
+ * @param {string} label Human-readable prop name.
+ * @param {number} min Minimum permitted value.
+ * @param {number} max Maximum permitted value.
+ * @param {number} defaultValue Value returned when the prop is absent.
+ * @returns {number|undefined} Validated integer or the supplied default.
+ */
 export function integerValue(value, label, min, max, defaultValue) {
   if (value === undefined || value === null || value === "") {
     return defaultValue;
@@ -46,6 +87,13 @@ export function integerValue(value, label, min, max, defaultValue) {
   return value;
 }
 
+/**
+ * Validate a boolean without treating false as an absent prop.
+ * @param {*} value Prop value to validate.
+ * @param {string} label Human-readable prop name.
+ * @param {boolean} defaultValue Value returned when the prop is absent.
+ * @returns {boolean|undefined} Validated boolean or the supplied default.
+ */
 export function booleanValue(value, label, defaultValue) {
   if (value === undefined || value === null) {
     return defaultValue;
@@ -56,6 +104,15 @@ export function booleanValue(value, label, defaultValue) {
   return value;
 }
 
+/**
+ * Validate an optional bounded array of nonempty strings against an optional allowlist.
+ * @param {*} value Prop value to validate.
+ * @param {string} label Human-readable prop name.
+ * @param {number} min Minimum item count.
+ * @param {number} max Maximum item count.
+ * @param {string[]} allowed Permitted item values, when restricted.
+ * @returns {string[]|undefined} Unmodified array or undefined when absent.
+ */
 export function stringArray(value, label, min, max, allowed) {
   if (value === undefined || value === null) {
     return undefined;
@@ -74,6 +131,12 @@ export function stringArray(value, label, min, max, allowed) {
   return value;
 }
 
+/**
+ * Accept a plain JSON object or parse a JSON object prop, rejecting arrays and scalars.
+ * @param {*} value Object or JSON text to validate.
+ * @param {string} label Human-readable prop name.
+ * @returns {object|undefined} Parsed object or undefined when absent.
+ */
 export function objectValue(value, label) {
   if (value === undefined || value === null || value === "") {
     return undefined;
@@ -96,12 +159,27 @@ export function objectValue(value, label) {
   return parsed;
 }
 
+/**
+ * Reject object keys outside a documented query shape.
+ * @param {object} value Query object to validate.
+ * @param {string[]} allowed Permitted keys.
+ * @param {string} label Human-readable query name.
+ * @returns {void}
+ */
 function checkKeys(value, allowed, label) {
   if (Object.keys(value).some((key) => !allowed.includes(key))) {
     throw new ConfigurationError(`${label} accepts only: ${allowed.join(", ")}.`);
   }
 }
 
+/**
+ * Validate an optional finite number against inclusive bounds.
+ * @param {*} value Query value to validate.
+ * @param {string} label Human-readable field name.
+ * @param {number} min Minimum permitted value.
+ * @param {number} max Maximum permitted value.
+ * @returns {void}
+ */
 function numberValue(value, label, min, max) {
   if (value !== undefined && value !== null
     && (!Number.isFinite(value) || value < min || value > max)) {
@@ -109,6 +187,11 @@ function numberValue(value, label, min, max) {
   }
 }
 
+/**
+ * Build a validated company query while preserving the documented filter operators.
+ * @param {object} options Company filter, semantic query, and lookalike query props.
+ * @returns {object} API query with mutually exclusive semantic and lookalike modes.
+ */
 export function companyQuery({
   companyFilter, semantic, lookalike,
 } = {}) {
@@ -154,6 +237,11 @@ export function companyQuery({
   };
 }
 
+/**
+ * Build a people query with an optional validated nested company query.
+ * @param {object} options Person filter and nested company query props.
+ * @returns {object} API person and company query fields.
+ */
 export function peopleQuery({
   personFilter, companyQuery: companyInput,
 } = {}) {
@@ -176,14 +264,29 @@ export function peopleQuery({
   };
 }
 
+/**
+ * Validate the documented company expansion names.
+ * @param {*} value Requested expansion names.
+ * @returns {string[]|undefined} Validated expansions or undefined when absent.
+ */
 export function companyExpansions(value) {
   return stringArray(value, "Company Expansions", 0, Infinity, COMPANY_EXPANSIONS);
 }
 
+/**
+ * Validate the documented person expansion names.
+ * @param {*} value Requested expansion names.
+ * @returns {string[]|undefined} Validated expansions or undefined when absent.
+ */
 export function personExpansions(value) {
   return stringArray(value, "Person Expansions", 0, Infinity, PERSON_EXPANSIONS);
 }
 
+/**
+ * Require a CompanyEnrich company UUID returned by a lookup or search action.
+ * @param {*} value Company ID prop.
+ * @returns {string} Validated UUID.
+ */
 export function companyId(value) {
   const id = stringValue(value, "Company ID", 36, true);
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) {
@@ -192,6 +295,11 @@ export function companyId(value) {
   return id;
 }
 
+/**
+ * Require a positive int64 person ID as text to avoid JavaScript integer rounding.
+ * @param {*} value Person ID prop.
+ * @returns {string} Validated decimal ID string.
+ */
 export function personId(value) {
   const id = stringValue(value, "Person ID", 19, true);
   if (!/^\d+$/.test(id) || BigInt(id) < 1n || BigInt(id) > 9223372036854775807n) {
@@ -200,6 +308,11 @@ export function personId(value) {
   return id;
 }
 
+/**
+ * Validate a required two-letter country code without changing its case.
+ * @param {*} value Country code prop.
+ * @returns {string} Validated country code.
+ */
 export function countryCode(value) {
   const code = stringValue(value, "Country Code", 2, true);
   if (!/^[a-z]{2}$/i.test(code)) {
@@ -208,6 +321,12 @@ export function countryCode(value) {
   return code;
 }
 
+/**
+ * Allowlist account identity, numeric credits, and documented capability values.
+ * Credentials and all other response fields are omitted from action output.
+ * @param {*} response Parsed account response.
+ * @returns {object} Account metadata safe to expose as a Pipedream action result.
+ */
 export function safeAccount(response) {
   const result = {};
   if (typeof response?.userId === "string") {
@@ -236,6 +355,11 @@ export function safeAccount(response) {
   return result;
 }
 
+/**
+ * Serialize query arrays as repeated keys while preserving false and zero values.
+ * @param {object} params Query parameters, with null and undefined values omitted.
+ * @returns {string} URL-encoded query string.
+ */
 export function serializeParams(params = {}) {
   const result = new URLSearchParams();
   for (const [

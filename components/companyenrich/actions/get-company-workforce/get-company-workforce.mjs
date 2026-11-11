@@ -46,6 +46,12 @@ export default {
       description: "Opaque nextCursor from **Get Company Workforce** or a workforce expansion. Example: `eyJ...`. Keep the same company; omit for the latest 12 months.",
     },
   },
+  /**
+   * Require exactly one company identifier and collect bounded workforce history pages.
+   * @param {Object} context - Pipedream action execution context.
+   * @param {Object} context.$ - Execution context used for requests and the result summary.
+   * @returns {Promise<Object>} The original page or collected pages with their continuation cursor.
+   */
   async run({ $ }) {
     const idValue = this.companyId
       ? companyId(this.companyId)
@@ -64,7 +70,10 @@ export default {
         cursor: stringValue(this.cursor, "Cursor", 1024),
       },
     });
-    $.export("$summary", `Retrieved ${response.pages?.length ?? 1} page(s) of company workforce history`);
+    const completion = response.partial
+      ? "; partial results returned at the pagination time limit"
+      : "";
+    $.export("$summary", `Retrieved ${response.pages?.length ?? 1} page(s) of company workforce history${completion}`);
     return response;
   },
 };

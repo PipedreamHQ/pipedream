@@ -9,7 +9,7 @@ Enrich a batch of up to 50 account domains collected in a previous step.
 # Getting Started
 
 1. Connect a CompanyEnrich account through the Pipedream app connection. See [connection setup](../../README.md#connection).
-2. Supply the action inputs using the examples in their descriptions. Advanced filters accept JSON objects from the [API reference](https://docs.companyenrich.com/reference/post_v2-companies-enrich-batch).
+2. Provide **Company Domains** as an array of 1–50 domains, for example `["stripe.com", "example.com"]`. Optionally select **Company Expansions** and set **Wait for Enrichment**.
 3. Run the action once and use the returned data in the next step. Provider errors are returned as errors, not empty successful results.
 
 See [shared credit and pagination controls](../../README.md#search-and-credit-controls) and the [endpoint documentation](https://docs.companyenrich.com/reference/post_v2-companies-enrich-batch).

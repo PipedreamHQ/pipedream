@@ -9,7 +9,7 @@ Inspect a sample of an account segment before retrieving full company records.
 # Getting Started
 
 1. Connect a CompanyEnrich account through the Pipedream app connection. See [connection setup](../../README.md#connection).
-2. Supply the action inputs using the examples in their descriptions. Advanced filters accept JSON objects from the [API reference](https://docs.companyenrich.com/reference/post_v2-companies-search-preview).
+2. Optionally supply **Company Filter**, **Semantic Query**, or **Lookalike Query** as JSON objects using the [API reference](https://docs.companyenrich.com/reference/post_v2-companies-search-preview). Semantic and lookalike queries cannot be combined. Previews have no pagination or expansion inputs.
 3. Run the action once and use the returned data in the next step. Provider errors are returned as errors, not empty successful results.
 
 Do not include pagination or paid expansions in the query. Preview access depends on the account plan even though it consumes no credits.

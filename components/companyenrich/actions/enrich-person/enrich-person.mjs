@@ -29,6 +29,12 @@ export default {
       ],
     },
   },
+  /**
+   * Resolve a person from a work email with optional profile expansions.
+   * @param {Object} context - Pipedream action execution context.
+   * @param {Object} context.$ - Execution context used for requests and the result summary.
+   * @returns {Promise<Object>} The matched person record with exact large IDs preserved as text.
+   */
   async run({ $ }) {
     const response = await this.companyenrich.enrichPerson({
       $,

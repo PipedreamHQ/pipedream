@@ -28,6 +28,12 @@ export default {
       ],
     },
   },
+  /**
+   * Count people matching person and employer criteria without requesting records.
+   * @param {Object} context - Pipedream action execution context.
+   * @param {Object} context.$ - Execution context used for requests and the result summary.
+   * @returns {Promise<Object>} Accessible count and total before plan limits.
+   */
   async run({ $ }) {
     const response = await this.companyenrich.countPeople({
       $,

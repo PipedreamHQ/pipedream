@@ -6,7 +6,7 @@ import {
 export default {
   key: "companyenrich-search-people",
   name: "Search People",
-  description: "Find professional profiles with person and employer filters. Ordinary search does not return emails; use **Find Work Email (Beta)** when needed. Costs 2 credits per person and a 2-credit minimum for empty results, plus paid education expansion. Fetches up to **Maximum Pages**, preserving each page and its cursor. Defaults to one page. [See the documentation](https://docs.companyenrich.com/reference/post_v2-people-search)",
+  description: "Find professional profiles with person and employer filters. Company queries using `query`, keyword, technology, funding, workforce, `reportedEmployees`, or required-feature filters, or semantic or lookalike queries, match people at only the 1,000 best-matching companies. Ordinary search does not return emails; use **Find Work Email (Beta)** when needed. Costs 2 credits per person and a 2-credit minimum for empty results, plus paid education expansion. Fetches up to **Maximum Pages**, preserving each page and its cursor. Defaults to one page. [See the documentation](https://docs.companyenrich.com/reference/post_v2-people-search)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
@@ -54,6 +54,12 @@ export default {
       ],
     },
   },
+  /**
+   * Build person and employer criteria and collect bounded profile pages.
+   * @param {Object} context - Pipedream action execution context.
+   * @param {Object} context.$ - Execution context used for requests and the result summary.
+   * @returns {Promise<Object>} The original page or collected pages with their continuation cursor.
+   */
   async run({ $ }) {
     const response = await this.companyenrich.collectPages({
       $,
@@ -70,7 +76,10 @@ export default {
       response,
     ];
     const count = pages.reduce((total, page) => total + (page.items?.length ?? 0), 0);
-    $.export("$summary", `Retrieved ${count} people across ${pages.length} page(s)`);
+    const completion = response.partial
+      ? "; partial results returned at the pagination time limit"
+      : "";
+    $.export("$summary", `Retrieved ${count} people across ${pages.length} page(s)${completion}`);
     return response;
   },
 };

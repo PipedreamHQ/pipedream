@@ -24,6 +24,12 @@ export default {
       description: "Prefix or search text for suggestions, e.g. `engineer`. At most 100 characters; an empty string returns no suggestions.",
     },
   },
+  /**
+   * Validate the query and retrieve job-position suggestions for people filters.
+   * @param {Object} context - Pipedream action execution context.
+   * @param {Object} context.$ - Execution context used for requests and the result summary.
+   * @returns {Promise<Object>} The position suggestion response.
+   */
   async run({ $ }) {
     if (typeof this.query !== "string" || this.query.length > 100) {
       throw new ConfigurationError("Query must be a string of at most 100 characters.");

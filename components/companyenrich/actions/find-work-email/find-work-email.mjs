@@ -32,6 +32,12 @@ export default {
       description: "A current or past company domain from the person profile, e.g. `example.com`. If omitted, current-company domains are tried in seniority order. A supplied domain must belong to one of the person\u2019s companies.",
     },
   },
+  /**
+   * Request one work email lookup for a person and optional employer domain.
+   * @param {Object} context - Pipedream action execution context.
+   * @param {Object} context.$ - Execution context used for requests and the result summary.
+   * @returns {Promise<Object>} The email lookup status and result without polling pending requests.
+   */
   async run({ $ }) {
     const response = await this.companyenrich.findWorkEmail({
       $,

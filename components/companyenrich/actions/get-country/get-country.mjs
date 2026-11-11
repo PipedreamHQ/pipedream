@@ -21,6 +21,12 @@ export default {
       "description": "Two-letter country code, e.g. `US`. Use **Search Countries** and read the code field.",
     },
   },
+  /**
+   * Validate the two-letter code and retrieve country metadata.
+   * @param {Object} context - Pipedream action execution context.
+   * @param {Object} context.$ - Execution context used for requests and the result summary.
+   * @returns {Promise<Object>} The country metadata response.
+   */
   async run({ $ }) {
     const response = await this.companyenrich.getCountry({
       $,

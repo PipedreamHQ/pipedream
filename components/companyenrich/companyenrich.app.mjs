@@ -61,7 +61,7 @@ export default {
     maxPages: {
       type: "integer",
       label: "Maximum Pages",
-      description: "Maximum pages to fetch, e.g. `3`. Accepts 1 to 100; defaults to 1. More pages can consume more credits. With 1, returns the original page response. With more than 1, returns `{ pages, nextCursor }`, retaining each complete page in order. Stops early when no next cursor remains.",
+      description: "Maximum pages to fetch, e.g. `3`. Accepts 1 to 100; defaults to 1. More pages can consume more credits. With 1, returns the original page response. With more than 1, returns `{ pages, nextCursor }`, retaining each complete page in order. Stops when no cursor remains or its 20-second local budget is reached. On that deadline it returns completed pages with `partial: true` and `stoppedReason: time_budget`; allow sufficient workflow runtime.",
       default: 1,
       min: 1,
       max: 100,
@@ -100,7 +100,7 @@ export default {
     companyQuery: {
       type: "string",
       label: "Employer Company Query",
-      description: "Company criteria for people search as a JSON object, e.g. `{\"filter\":{\"country\":\"US\",\"categories\":\"saas\"}}`. Accepts `filter`, `semantic`, or `lookalike` as in **Search Companies**. Semantic and lookalike modes cannot be combined. [See the input schema](https://docs.companyenrich.com/reference/post_v2-people-search).",
+      description: "Company criteria for people search as a JSON object, e.g. `{\"filter\":{\"country\":\"US\",\"categories\":\"saas\"}}`. Accepts `filter`, `semantic`, or `lookalike` as in **Search Companies**. Company queries using `query`, keyword, technology, funding, workforce, `reportedEmployees`, or required-feature filters, or semantic or lookalike queries, match people at only the 1,000 best-matching companies. Semantic and lookalike modes cannot be combined. [See the input schema](https://docs.companyenrich.com/reference/post_v2-people-search).",
       optional: true,
     },
     query: {
@@ -133,11 +133,13 @@ export default {
      * @param {Object} [options.data] - POST filters, page size, expansions and starting cursor.
      * @param {Object} [options.params] - Workforce company lookup and starting cursor.
      * @param {number} [options.maxPages=1] - Maximum pages to request, from 1 to 100.
+     * @param {number} [options.deadline=Infinity] - Absolute local deadline in milliseconds.
+     * @param {AbortSignal} [options.signal] - Cancellation signal for in-flight requests.
      * @yields {Object} One complete API response, preserving metadata and record order.
      * @returns {AsyncGenerator<Object>} A bounded sequence of response pages.
      */
-    async *paginate({
-      $, method, data, params, maxPages = 1,
+    async *_paginate({
+      $, method, data, params, maxPages = 1, deadline = Infinity, signal,
     } = {}) {
       const limit = integerValue(maxPages, "Maximum Pages", 1, 100, 1);
       const methods = [
@@ -160,6 +162,10 @@ export default {
       let cursor = original?.cursor;
       const seen = new Set();
       for (let page = 0; page < limit; page++) {
+        const remaining = deadline - Date.now();
+        if (remaining <= 0 || signal?.aborted) {
+          return;
+        }
         if (cursor) {
           if (typeof cursor !== "string" || seen.has(cursor)) {
             throw new Error("The API returned an invalid or repeated pagination cursor; no further pages were requested.");
@@ -168,6 +174,10 @@ export default {
         }
         const response = await this[method]({
           $,
+          signal,
+          timeout: Number.isFinite(remaining)
+            ? Math.min(60000, remaining)
+            : undefined,
           [field]: {
             ...original,
             cursor,
@@ -182,31 +192,83 @@ export default {
     },
     /**
      * Collect a bounded page sequence without discarding per-page metadata.
-     * Single-page mode preserves the original API response shape.
-     * @param {Object} options - Options accepted by paginate.
+     * Single-page mode preserves the original API response shape. Multi-page mode
+     * exports completed-page snapshots and cancels requests after a 20-second budget.
+     * A local deadline returns explicit partial results; other request errors still throw.
+     * Named exports are not a guarantee of persistence after platform termination.
+     * @param {Object} options - Options accepted by _paginate.
      * @param {Object} [options.$] - Pipedream execution context.
      * @param {string} options.method - Supported search or workforce app method.
      * @param {Object} [options.data] - POST filters, page size, expansions and starting cursor.
      * @param {Object} [options.params] - Workforce company lookup and starting cursor.
      * @param {number} [options.maxPages=1] - Maximum pages to request, from 1 to 100.
-     * @returns {Promise<Object>} Original page for limit 1, otherwise { pages, nextCursor }.
+     * @returns {Promise<Object>} Original page for limit 1; otherwise pages and cursor,
+     *   with partial and stoppedReason fields if the local time budget is reached.
      */
     async collectPages(options = {}) {
       const limit = integerValue(options.maxPages, "Maximum Pages", 1, 100, 1);
-      const pages = [];
-      for await (const page of this.paginate({
-        ...options,
-        maxPages: limit,
-      })) {
-        pages.push(page);
+      if (limit === 1) {
+        for await (const page of this._paginate({
+          ...options,
+          maxPages: limit,
+        })) {
+          return page;
+        }
       }
-      return limit === 1
-        ? pages[0]
-        : {
-          pages,
-          nextCursor: pages[pages.length - 1].nextCursor,
-        };
+      const pages = [];
+      const budgetMs = 20000;
+      const deadline = Date.now() + budgetMs;
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), budgetMs);
+      let stoppedForTime = false;
+      try {
+        for await (const page of this._paginate({
+          ...options,
+          maxPages: limit,
+          deadline,
+          signal: controller.signal,
+        })) {
+          pages.push(page);
+          if (typeof options.$?.export === "function") {
+            options.$.export("paginationProgress", {
+              pages: [
+                ...pages,
+              ],
+              nextCursor: page.nextCursor,
+              completedPages: pages.length,
+            });
+          }
+        }
+        stoppedForTime = Boolean(pages[pages.length - 1]?.nextCursor)
+          && pages.length < limit
+          && (controller.signal.aborted || Date.now() >= deadline);
+      } catch (error) {
+        const timedOut = [
+          "ECONNABORTED",
+          "ETIMEDOUT",
+          "ERR_CANCELED",
+        ].includes(error.code);
+        const deadlineReached = controller.signal.aborted || Date.now() >= deadline;
+        if (!pages.length || !timedOut || !deadlineReached || error.response?.status) {
+          throw error;
+        }
+        stoppedForTime = true;
+      } finally {
+        clearTimeout(timer);
+      }
+      if (!pages.length) {
+        throw new Error("Pagination time budget expired before a page completed.");
+      }
+      return {
+        pages,
+        nextCursor: pages[pages.length - 1].nextCursor,
+        ...(stoppedForTime && {
+          partial: true,
+          stoppedReason: "time_budget",
+        }),
+      };
     },
+
     /**
      * Send one authenticated request to the fixed CompanyEnrich API v2 base URL.
      *
@@ -216,10 +278,12 @@ export default {
      * @param {string} options.path - Endpoint path relative to the API v2 base URL.
      * @param {object} [options.params] - Query parameters; arrays use repeated keys.
      * @param {object} [options.data] - JSON request body.
+     * @param {number} [options.timeout=60000] - Request timeout in milliseconds.
+     * @param {AbortSignal} [options.signal] - Optional absolute-deadline cancellation.
      * @returns {Promise<object>} Parsed API response, preserving large integers as strings.
      */
     _makeRequest({
-      $, method, path, params, data,
+      $, method, path, params, data, timeout = 60000, signal,
     }) {
       return axios($ ?? this, {
         baseURL: API_BASE_URL,
@@ -236,7 +300,8 @@ export default {
         ],
         paramsSerializer: serializeParams,
         maxRedirects: 0,
-        timeout: 60000,
+        timeout,
+        signal,
       });
     },
     /**
@@ -343,13 +408,17 @@ export default {
      * @param {number} [options.data.pageSize] - Maximum records for this page, from 1 to 100.
      * @param {string} [options.data.cursor] - Continuation cursor for the same query.
      * @param {string[]} [options.data.expand] - Additional data for each returned record.
+     * @param {number} [options.timeout=60000] - Request timeout in milliseconds.
+     * @param {AbortSignal} [options.signal] - Optional pagination cancellation.
      * @returns {Promise<object>} Ordered companies results with pagination metadata.
      */
     searchCompanies({
-      $, data,
+      $, data, timeout, signal,
     } = {}) {
       return this._makeRequest({
         $,
+        timeout,
+        signal,
         data,
         method: "POST",
         path: "/companies/search",
@@ -410,14 +479,18 @@ export default {
      * @param {string} [options.params.domain] - Company domain; provide exactly one of id or
      *   domain.
      * @param {string} [options.params.cursor] - Continuation cursor for earlier history.
+     * @param {number} [options.timeout=60000] - Request timeout in milliseconds.
+     * @param {AbortSignal} [options.signal] - Optional pagination cancellation.
      * @returns {Promise<object>} Workforce history page with the continuation cursor when
      *   available.
      */
     getCompanyWorkforce({
-      $, params,
+      $, params, timeout, signal,
     } = {}) {
       return this._makeRequest({
         $,
+        timeout,
+        signal,
         params,
         method: "GET",
         path: "/companies/workforce",
@@ -455,13 +528,17 @@ export default {
      * @param {number} [options.data.pageSize] - Maximum records for this page, from 1 to 100.
      * @param {string} [options.data.cursor] - Continuation cursor for the same query.
      * @param {string[]} [options.data.expand] - Additional data for each returned record.
+     * @param {number} [options.timeout=60000] - Request timeout in milliseconds.
+     * @param {AbortSignal} [options.signal] - Optional pagination cancellation.
      * @returns {Promise<object>} Ordered people results with pagination metadata.
      */
     searchPeople({
-      $, data,
+      $, data, timeout, signal,
     } = {}) {
       return this._makeRequest({
         $,
+        timeout,
+        signal,
         data,
         method: "POST",
         path: "/people/search",
@@ -609,13 +686,17 @@ export default {
      * @param {string} [options.data.query] - Case-insensitive name substring.
      * @param {number} [options.data.pageSize] - Maximum records for this page, from 1 to 100.
      * @param {string} [options.data.cursor] - Continuation cursor for the same filters.
+     * @param {number} [options.timeout=60000] - Request timeout in milliseconds.
+     * @param {AbortSignal} [options.signal] - Optional pagination cancellation.
      * @returns {Promise<object>} Matching countries and pagination metadata.
      */
     searchCountries({
-      $, data,
+      $, data, timeout, signal,
     } = {}) {
       return this._makeRequest({
         $,
+        timeout,
+        signal,
         data,
         method: "POST",
         path: "/geo/countries",
@@ -631,13 +712,17 @@ export default {
      * @param {number} [options.data.pageSize] - Maximum records for this page, from 1 to 100.
      * @param {string} [options.data.cursor] - Continuation cursor for the same filters.
      * @param {string[]} [options.data.countryCodes] - Two-letter country codes.
+     * @param {number} [options.timeout=60000] - Request timeout in milliseconds.
+     * @param {AbortSignal} [options.signal] - Optional pagination cancellation.
      * @returns {Promise<object>} Matching states and pagination metadata.
      */
     searchStates({
-      $, data,
+      $, data, timeout, signal,
     } = {}) {
       return this._makeRequest({
         $,
+        timeout,
+        signal,
         data,
         method: "POST",
         path: "/geo/states",
@@ -654,13 +739,17 @@ export default {
      * @param {string} [options.data.cursor] - Continuation cursor for the same filters.
      * @param {string[]} [options.data.countryCodes] - Two-letter country codes.
      * @param {number[]} [options.data.stateIds] - Positive state IDs from Search States.
+     * @param {number} [options.timeout=60000] - Request timeout in milliseconds.
+     * @param {AbortSignal} [options.signal] - Optional pagination cancellation.
      * @returns {Promise<object>} Matching cities and pagination metadata.
      */
     searchCities({
-      $, data,
+      $, data, timeout, signal,
     } = {}) {
       return this._makeRequest({
         $,
+        timeout,
+        signal,
         data,
         method: "POST",
         path: "/geo/cities",

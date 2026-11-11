@@ -16,6 +16,12 @@ export default {
     companyenrich,
 
   },
+  /**
+   * Retrieve account usage and capabilities through the credential-safe app method.
+   * @param {Object} context - Pipedream action execution context.
+   * @param {Object} context.$ - Execution context used for requests and the result summary.
+   * @returns {Promise<Object>} Only the account ID, credits and supported capability fields.
+   */
   async run({ $ }) {
     const response = await this.companyenrich.getAccount({
       $,

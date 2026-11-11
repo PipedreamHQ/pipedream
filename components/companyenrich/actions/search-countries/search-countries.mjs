@@ -34,7 +34,7 @@ export default {
         companyenrich,
         "maxPages",
       ],
-      description: "Maximum geographic pages to fetch, e.g. `3`. Accepts 1 to 100; defaults to 1. These lookups consume no CompanyEnrich credits. With 1, returns the original page; with more than 1, returns `{ pages, nextCursor }`. Stops early when no next cursor remains.",
+      description: "Maximum geographic pages to fetch, e.g. `3`. Accepts 1 to 100; defaults to 1. These lookups consume no CompanyEnrich credits. With 1, returns the original page; with more than 1, returns `{ pages, nextCursor }`. Stops early when no next cursor remains or the 20-second pagination time budget is reached.",
     },
     cursor: {
       propDefinition: [
@@ -44,6 +44,12 @@ export default {
       description: "Opaque nextCursor from **Search Countries**, e.g. `eyJ...`. Keep the same filters; expires after 30 minutes. Omit for the first page.",
     },
   },
+  /**
+   * Validate search and pagination inputs and collect bounded country pages.
+   * @param {Object} context - Pipedream action execution context.
+   * @param {Object} context.$ - Execution context used for requests and the result summary.
+   * @returns {Promise<Object>} The original page or collected pages with their continuation cursor.
+   */
   async run({ $ }) {
     const response = await this.companyenrich.collectPages({
       $,
@@ -59,7 +65,10 @@ export default {
       response,
     ];
     const count = pages.reduce((total, page) => total + (page.items?.length ?? 0), 0);
-    $.export("$summary", `Retrieved ${count} countries across ${pages.length} page(s)`);
+    const completion = response.partial
+      ? "; partial results returned at the pagination time limit"
+      : "";
+    $.export("$summary", `Retrieved ${count} countries across ${pages.length} page(s)${completion}`);
     return response;
   },
 };

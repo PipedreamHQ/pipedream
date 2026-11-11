@@ -16,6 +16,12 @@ export default {
     companyenrich,
 
   },
+  /**
+   * Retrieve the industry taxonomy for use in company search filters.
+   * @param {Object} context - Pipedream action execution context.
+   * @param {Object} context.$ - Execution context used for requests and the result summary.
+   * @returns {Promise<Object>} The industries and their NAICS code prefixes.
+   */
   async run({ $ }) {
     const response = await this.companyenrich.listIndustries({
       $,

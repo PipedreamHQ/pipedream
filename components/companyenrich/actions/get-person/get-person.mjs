@@ -30,6 +30,13 @@ export default {
       ],
     },
   },
+  /**
+   * Validate the person ID without numeric conversion and retrieve the profile.
+   * @param {Object} context - Pipedream action execution context.
+   * @param {Object} context.$ - Execution context used for requests and the result summary.
+   * @returns {Promise<Object>} The person record and requested expansions, preserving large
+   * IDs as text.
+   */
   async run({ $ }) {
     const response = await this.companyenrich.getPerson({
       $,
