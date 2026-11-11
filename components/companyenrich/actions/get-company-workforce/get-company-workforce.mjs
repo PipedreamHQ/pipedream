@@ -7,7 +7,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "companyenrich-get-company-workforce",
   name: "Get Company Workforce",
-  description: "Retrieve one 12-month page of workforce history for a company ID or domain. Costs 5 credits per successful page. Pass nextCursor from this action or a workforce expansion to retrieve an earlier year for the same company. [See the documentation](https://docs.companyenrich.com/reference/get_v2-companies-workforce)",
+  description: "Retrieve 12-month pages of workforce history for a company ID or domain. Defaults to one page; increase **Maximum Pages** for earlier years at 5 credits per successful page. Pass nextCursor from this action or a workforce expansion to retrieve an earlier year for the same company. [See the documentation](https://docs.companyenrich.com/reference/get_v2-companies-workforce)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
@@ -32,6 +32,12 @@ export default {
       ],
       optional: true,
     },
+    maxPages: {
+      propDefinition: [
+        companyenrich,
+        "maxPages",
+      ],
+    },
     cursor: {
       propDefinition: [
         companyenrich,
@@ -48,15 +54,17 @@ export default {
     if (Boolean(idValue) === Boolean(domainValue)) {
       throw new ConfigurationError("Provide exactly one Company ID or Domain.");
     }
-    const response = await this.companyenrich.getCompanyWorkforce({
+    const response = await this.companyenrich.collectPages({
       $,
+      method: "getCompanyWorkforce",
+      maxPages: this.maxPages,
       params: {
         id: idValue,
         domain: domainValue,
         cursor: stringValue(this.cursor, "Cursor", 1024),
       },
     });
-    $.export("$summary", "Retrieved one page of company workforce history");
+    $.export("$summary", `Retrieved ${response.pages?.length ?? 1} page(s) of company workforce history`);
     return response;
   },
 };

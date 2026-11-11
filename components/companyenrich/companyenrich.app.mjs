@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import {
   API_BASE_URL,
   COMPANY_EXPANSIONS,
@@ -7,6 +9,7 @@ import {
 import {
   companyId as validateCompanyId,
   countryCode as validateCountryCode,
+  integerValue,
   parseResponse,
   personId as validatePersonId,
   safeAccount,
@@ -49,8 +52,17 @@ export default {
     pageSize: {
       type: "integer",
       label: "Page Size",
-      description: "Maximum results for this single page, e.g. `10`. Accepts 1 to 100; defaults to 10. Paid searches charge per returned record, and empty searches can still consume credits.",
+      description: "Maximum results per page, e.g. `10`. Accepts 1 to 100; defaults to 10. Paid searches charge per returned record, and empty searches can still consume credits.",
       default: 10,
+      min: 1,
+      max: 100,
+      optional: true,
+    },
+    maxPages: {
+      type: "integer",
+      label: "Maximum Pages",
+      description: "Maximum pages to fetch, e.g. `3`. Accepts 1 to 100; defaults to 1. More pages can consume more credits. With 1, returns the original page response. With more than 1, returns `{ pages, nextCursor }`, retaining each complete page in order. Stops early when no next cursor remains.",
+      default: 1,
       min: 1,
       max: 100,
       optional: true,
@@ -64,31 +76,31 @@ export default {
     companyFilter: {
       type: "string",
       label: "Company Filter",
-      description: "Company filters as a JSON object, e.g. `{\"country\":[\"US\"],\"categories\":\"saas\"}`. Use **List Industries** for `naicsCodes`, **Lookup Technologies** for technology names, and **Search Countries** for country codes. This is the nested filter, without pagination or expansions.",
+      description: "Company filters as a JSON object, e.g. `{\"country\":[\"US\"],\"categories\":\"saas\"}`. Use **List Industries** for `naicsCodes`, **Lookup Technologies** for technology names, and **Search Countries** for country codes. This is the nested filter, without pagination or expansions. [See the input schema](https://docs.companyenrich.com/reference/post_v2-companies-search).",
       optional: true,
     },
     personFilter: {
       type: "string",
       label: "Person Filter",
-      description: "Person filters as a JSON object, e.g. `{\"domain\":[\"stripe.com\"],\"position\":\"engineer\"}`. Use **Lookup Positions** for job titles and **Search Countries** for country codes. This is the nested filter, without pagination or expansions.",
+      description: "Person filters as a JSON object, e.g. `{\"domain\":[\"stripe.com\"],\"position\":\"engineer\"}`. Use **Lookup Positions** for job titles and **Search Countries** for country codes. This is the nested filter, without pagination or expansions. [See the input schema](https://docs.companyenrich.com/reference/post_v2-people-search).",
       optional: true,
     },
     semantic: {
       type: "string",
       label: "Semantic Query",
-      description: "A JSON object, e.g. `{\"query\":\"customer support software\",\"autoFilter\":true}`. Query is required and at most 500 characters; optional `weight` is 0 to 1. Attribute inference defaults to true. Cannot combine with Lookalike Query.",
+      description: "A JSON object, e.g. `{\"query\":\"customer support software\",\"autoFilter\":true}`. Query is required and at most 500 characters; optional `weight` is 0 to 1. Attribute inference defaults to true. Cannot combine with Lookalike Query. [See the input schema](https://docs.companyenrich.com/reference/post_v2-companies-search).",
       optional: true,
     },
     lookalike: {
       type: "string",
       label: "Lookalike Query",
-      description: "A JSON object, e.g. `{\"domains\":[\"stripe.com\"],\"weight\":0.7}`. Supply 1 to 10 seed domains, optional `weight` from -1 to 1 and `minScore` from 0 to 1. Use **Search Companies** to find seed domains. Cannot combine with Semantic Query.",
+      description: "A JSON object, e.g. `{\"domains\":[\"stripe.com\"],\"weight\":0.7}`. Supply 1 to 10 seed domains, optional `weight` from -1 to 1 and `minScore` from 0 to 1. Use **Search Companies** to find seed domains. Cannot combine with Semantic Query. [See the input schema](https://docs.companyenrich.com/reference/post_v2-companies-search).",
       optional: true,
     },
     companyQuery: {
       type: "string",
       label: "Employer Company Query",
-      description: "Company criteria for people search as a JSON object, e.g. `{\"filter\":{\"country\":\"US\",\"categories\":\"saas\"}}`. Accepts `filter`, `semantic`, or `lookalike` as in **Search Companies**. Semantic and lookalike modes cannot be combined.",
+      description: "Company criteria for people search as a JSON object, e.g. `{\"filter\":{\"country\":\"US\",\"categories\":\"saas\"}}`. Accepts `filter`, `semantic`, or `lookalike` as in **Search Companies**. Semantic and lookalike modes cannot be combined. [See the input schema](https://docs.companyenrich.com/reference/post_v2-people-search).",
       optional: true,
     },
     query: {
@@ -112,6 +124,100 @@ export default {
     },
   },
   methods: {
+    /**
+     * Yield complete cursor pages lazily, bounded by the requested page limit.
+     * The next request is made only when the caller advances the generator.
+     * @param {Object} options - Pagination configuration.
+     * @param {Object} [options.$] - Pipedream execution context.
+     * @param {string} options.method - Supported search or workforce app method.
+     * @param {Object} [options.data] - POST filters, page size, expansions and starting cursor.
+     * @param {Object} [options.params] - Workforce company lookup and starting cursor.
+     * @param {number} [options.maxPages=1] - Maximum pages to request, from 1 to 100.
+     * @yields {Object} One complete API response, preserving metadata and record order.
+     * @returns {AsyncGenerator<Object>} A bounded sequence of response pages.
+     */
+    async *paginate({
+      $, method, data, params, maxPages = 1,
+    } = {}) {
+      const limit = integerValue(maxPages, "Maximum Pages", 1, 100, 1);
+      const methods = [
+        "searchCompanies",
+        "searchPeople",
+        "searchCountries",
+        "searchStates",
+        "searchCities",
+        "getCompanyWorkforce",
+      ];
+      if (!methods.includes(method)) {
+        throw new ConfigurationError("Pagination requires a supported search or workforce method.");
+      }
+      const field = method === "getCompanyWorkforce"
+        ? "params"
+        : "data";
+      const original = field === "params"
+        ? params
+        : data;
+      let cursor = original?.cursor;
+      const seen = new Set();
+      for (let page = 0; page < limit; page++) {
+        if (cursor) {
+          if (typeof cursor !== "string" || seen.has(cursor)) {
+            throw new Error("The API returned an invalid or repeated pagination cursor; no further pages were requested.");
+          }
+          seen.add(cursor);
+        }
+        const response = await this[method]({
+          $,
+          [field]: {
+            ...original,
+            cursor,
+          },
+        });
+        yield response;
+        cursor = response.nextCursor;
+        if (!cursor) {
+          return;
+        }
+      }
+    },
+    /**
+     * Collect a bounded page sequence without discarding per-page metadata.
+     * Single-page mode preserves the original API response shape.
+     * @param {Object} options - Options accepted by paginate.
+     * @param {Object} [options.$] - Pipedream execution context.
+     * @param {string} options.method - Supported search or workforce app method.
+     * @param {Object} [options.data] - POST filters, page size, expansions and starting cursor.
+     * @param {Object} [options.params] - Workforce company lookup and starting cursor.
+     * @param {number} [options.maxPages=1] - Maximum pages to request, from 1 to 100.
+     * @returns {Promise<Object>} Original page for limit 1, otherwise { pages, nextCursor }.
+     */
+    async collectPages(options = {}) {
+      const limit = integerValue(options.maxPages, "Maximum Pages", 1, 100, 1);
+      const pages = [];
+      for await (const page of this.paginate({
+        ...options,
+        maxPages: limit,
+      })) {
+        pages.push(page);
+      }
+      return limit === 1
+        ? pages[0]
+        : {
+          pages,
+          nextCursor: pages[pages.length - 1].nextCursor,
+        };
+    },
+    /**
+     * Send one authenticated request to the fixed CompanyEnrich API v2 base URL.
+     *
+     * @param {object} options - Request configuration.
+     * @param {object} [options.$] - Pipedream execution context.
+     * @param {string} options.method - HTTP method for the endpoint.
+     * @param {string} options.path - Endpoint path relative to the API v2 base URL.
+     * @param {object} [options.params] - Query parameters; arrays use repeated keys.
+     * @param {object} [options.data] - JSON request body.
+     * @returns {Promise<object>} Parsed API response, preserving large integers as strings.
+     */
     _makeRequest({
       $, method, path, params, data,
     }) {
@@ -133,6 +239,18 @@ export default {
         timeout: 60000,
       });
     },
+    /**
+     * Enrich one company from its domain, optionally waiting for on-demand enrichment.
+     *
+     * @param {object} [options={}] - Endpoint request options.
+     * @param {object} [options.$] - Pipedream execution context.
+     * @param {object} options.params - Enrichment query parameters.
+     * @param {string} options.params.domain - Company domain to enrich.
+     * @param {string[]} [options.params.expand] - Additional company data to request.
+     * @param {boolean} [options.params.waitForEnrichment=true] - Whether the API waits for
+     *   enrichment.
+     * @returns {Promise<object>} Company profile and requested expansions.
+     */
     enrichCompany({
       $, params,
     } = {}) {
@@ -143,6 +261,16 @@ export default {
         path: "/companies/enrich",
       });
     },
+    /**
+     * Retrieve one company using its CompanyEnrich UUID.
+     *
+     * @param {object} [options={}] - Endpoint request options.
+     * @param {object} [options.$] - Pipedream execution context.
+     * @param {string} options.companyId - CompanyEnrich company UUID.
+     * @param {object} [options.params] - Profile query parameters.
+     * @param {string[]} [options.params.expand] - Additional company data to request.
+     * @returns {Promise<object>} Company profile and requested expansions.
+     */
     getCompany({
       $, companyId, params,
     } = {}) {
@@ -153,6 +281,22 @@ export default {
         path: `/companies/${validateCompanyId(companyId)}`,
       });
     },
+    /**
+     * Resolve a company from its name or social profile identifiers.
+     *
+     * @param {object} [options={}] - Endpoint request options.
+     * @param {object} [options.$] - Pipedream execution context.
+     * @param {object} options.data - Company identifiers and optional expansions.
+     * @param {string} [options.data.name] - Company name to match.
+     * @param {string} [options.data.linkedinUrl] - Company LinkedIn profile URL.
+     * @param {string} [options.data.linkedinId] - Company LinkedIn identifier.
+     * @param {string} [options.data.twitterUrl] - Company Twitter or X profile URL.
+     * @param {string} [options.data.facebookUrl] - Company Facebook profile URL.
+     * @param {string} [options.data.instagramUrl] - Company Instagram profile URL.
+     * @param {string} [options.data.youtubeUrl] - Company YouTube channel URL.
+     * @param {string[]} [options.data.expand] - Additional company data to request.
+     * @returns {Promise<object>} Best matching company profile and requested expansions.
+     */
     enrichCompanyByProperties({
       $, data,
     } = {}) {
@@ -163,6 +307,19 @@ export default {
         path: "/companies/enrich",
       });
     },
+    /**
+     * Enrich up to 50 company domains in one request, preserving per-domain outcomes.
+     *
+     * @param {object} [options={}] - Endpoint request options.
+     * @param {object} [options.$] - Pipedream execution context.
+     * @param {object} options.data - Batch enrichment body.
+     * @param {string[]} options.data.domains - Between 1 and 50 company domains.
+     * @param {string[]} [options.data.expand] - Additional company data to request.
+     * @param {boolean} [options.data.waitForEnrichment=true] - Whether the API waits for
+     *   enrichment.
+     * @returns {Promise<object>} Batch result with found, not-found, invalid-domain or
+     *   pending outcomes.
+     */
     enrichCompanies({
       $, data,
     } = {}) {
@@ -173,6 +330,21 @@ export default {
         path: "/companies/enrich/batch",
       });
     },
+    /**
+     * Search one cursor page of companies without collecting additional pages.
+     *
+     * @param {object} [options={}] - Endpoint request options.
+     * @param {object} [options.$] - Pipedream execution context.
+     * @param {object} options.data - Search criteria body.
+     * @param {object} [options.data.filter] - Structured company filters.
+     * @param {object} [options.data.semantic] - Semantic query; cannot be combined with lookalike.
+     * @param {object} [options.data.lookalike] - Lookalike seed query; cannot be combined
+     *   with semantic.
+     * @param {number} [options.data.pageSize] - Maximum records for this page, from 1 to 100.
+     * @param {string} [options.data.cursor] - Continuation cursor for the same query.
+     * @param {string[]} [options.data.expand] - Additional data for each returned record.
+     * @returns {Promise<object>} Ordered companies results with pagination metadata.
+     */
     searchCompanies({
       $, data,
     } = {}) {
@@ -183,6 +355,18 @@ export default {
         path: "/companies/search",
       });
     },
+    /**
+     * Count matching companies without pagination or expansions.
+     *
+     * @param {object} [options={}] - Endpoint request options.
+     * @param {object} [options.$] - Pipedream execution context.
+     * @param {object} options.data - Search criteria body.
+     * @param {object} [options.data.filter] - Structured company filters.
+     * @param {object} [options.data.semantic] - Semantic query; cannot be combined with lookalike.
+     * @param {object} [options.data.lookalike] - Lookalike seed query; cannot be combined
+     *   with semantic.
+     * @returns {Promise<object>} Accessible count and total before plan limits.
+     */
     countCompanies({
       $, data,
     } = {}) {
@@ -193,6 +377,19 @@ export default {
         path: "/companies/search/count",
       });
     },
+    /**
+     * Preview matching companies without pagination or expansions.
+     *
+     * @param {object} [options={}] - Endpoint request options.
+     * @param {object} [options.$] - Pipedream execution context.
+     * @param {object} options.data - Search criteria body.
+     * @param {object} [options.data.filter] - Structured company filters.
+     * @param {object} [options.data.semantic] - Semantic query; cannot be combined with lookalike.
+     * @param {object} [options.data.lookalike] - Lookalike seed query; cannot be combined
+     *   with semantic.
+     * @returns {Promise<object>} Limited companies summaries available under the account
+     *   capability.
+     */
     previewCompanies({
       $, data,
     } = {}) {
@@ -203,6 +400,19 @@ export default {
         path: "/companies/search/preview",
       });
     },
+    /**
+     * Retrieve one 12-month page of workforce history for exactly one company.
+     *
+     * @param {object} [options={}] - Endpoint request options.
+     * @param {object} [options.$] - Pipedream execution context.
+     * @param {object} options.params - Workforce query parameters.
+     * @param {string} [options.params.id] - Company UUID; provide exactly one of id or domain.
+     * @param {string} [options.params.domain] - Company domain; provide exactly one of id or
+     *   domain.
+     * @param {string} [options.params.cursor] - Continuation cursor for earlier history.
+     * @returns {Promise<object>} Workforce history page with the continuation cursor when
+     *   available.
+     */
     getCompanyWorkforce({
       $, params,
     } = {}) {
@@ -213,6 +423,16 @@ export default {
         path: "/companies/workforce",
       });
     },
+    /**
+     * Find up to 10 company suggestions matching a domain prefix or URL.
+     *
+     * @param {object} [options={}] - Endpoint request options.
+     * @param {object} [options.$] - Pipedream execution context.
+     * @param {object} options.params - Autocomplete query parameters.
+     * @param {string} options.params.query - Domain prefix or URL; empty text returns no
+     *   suggestions.
+     * @returns {Promise<object>} Company suggestions in the items array.
+     */
     autocompleteCompanies({
       $, params,
     } = {}) {
@@ -223,6 +443,20 @@ export default {
         path: "/companies/autocomplete",
       });
     },
+    /**
+     * Search one cursor page of people without collecting additional pages.
+     *
+     * @param {object} [options={}] - Endpoint request options.
+     * @param {object} [options.$] - Pipedream execution context.
+     * @param {object} options.data - Search criteria body.
+     * @param {object} [options.data.filter] - Structured person filters.
+     * @param {object} [options.data.company] - Employer company filter, semantic or
+     *   lookalike query.
+     * @param {number} [options.data.pageSize] - Maximum records for this page, from 1 to 100.
+     * @param {string} [options.data.cursor] - Continuation cursor for the same query.
+     * @param {string[]} [options.data.expand] - Additional data for each returned record.
+     * @returns {Promise<object>} Ordered people results with pagination metadata.
+     */
     searchPeople({
       $, data,
     } = {}) {
@@ -233,6 +467,17 @@ export default {
         path: "/people/search",
       });
     },
+    /**
+     * Count matching people without pagination or expansions.
+     *
+     * @param {object} [options={}] - Endpoint request options.
+     * @param {object} [options.$] - Pipedream execution context.
+     * @param {object} options.data - Search criteria body.
+     * @param {object} [options.data.filter] - Structured person filters.
+     * @param {object} [options.data.company] - Employer company filter, semantic or
+     *   lookalike query.
+     * @returns {Promise<object>} Accessible count and total before plan limits.
+     */
     countPeople({
       $, data,
     } = {}) {
@@ -243,6 +488,17 @@ export default {
         path: "/people/search/count",
       });
     },
+    /**
+     * Preview matching people without pagination or expansions.
+     *
+     * @param {object} [options={}] - Endpoint request options.
+     * @param {object} [options.$] - Pipedream execution context.
+     * @param {object} options.data - Search criteria body.
+     * @param {object} [options.data.filter] - Structured person filters.
+     * @param {object} [options.data.company] - Employer company filter, semantic or
+     *   lookalike query.
+     * @returns {Promise<object>} Limited people summaries available under the account capability.
+     */
     previewPeople({
       $, data,
     } = {}) {
@@ -253,6 +509,16 @@ export default {
         path: "/people/search/preview",
       });
     },
+    /**
+     * Retrieve a professional profile using an exact CompanyEnrich person ID.
+     *
+     * @param {object} [options={}] - Endpoint request options.
+     * @param {object} [options.$] - Pipedream execution context.
+     * @param {string} options.personId - Positive int64 person ID as decimal text.
+     * @param {object} [options.params] - Profile query parameters.
+     * @param {string[]} [options.params.expand] - Additional person data to request.
+     * @returns {Promise<object>} Person profile and requested expansions.
+     */
     getPerson({
       $, personId, params,
     } = {}) {
@@ -263,6 +529,16 @@ export default {
         path: `/people/${validatePersonId(personId)}`,
       });
     },
+    /**
+     * Resolve the best matching professional profile for a known work email.
+     *
+     * @param {object} [options={}] - Endpoint request options.
+     * @param {object} [options.$] - Pipedream execution context.
+     * @param {object} options.data - Email resolution body.
+     * @param {string} options.data.email - Known work email address.
+     * @param {string[]} [options.data.expand] - Additional person data to request.
+     * @returns {Promise<object>} Best matching person profile and requested expansions.
+     */
     enrichPerson({
       $, data,
     } = {}) {
@@ -273,6 +549,16 @@ export default {
         path: "/people/enrich",
       });
     },
+    /**
+     * Request a work email lookup without automatically polling pending results.
+     *
+     * @param {object} [options={}] - Endpoint request options.
+     * @param {object} [options.$] - Pipedream execution context.
+     * @param {string} options.personId - Positive int64 person ID as decimal text.
+     * @param {object} [options.params] - Email lookup query parameters.
+     * @param {string} [options.params.domain] - A company domain from the person profile.
+     * @returns {Promise<object>} Email lookup status and email only when found.
+     */
     findWorkEmail({
       $, personId, params,
     } = {}) {
@@ -283,6 +569,13 @@ export default {
         path: `/people/${validatePersonId(personId)}/email`,
       });
     },
+    /**
+     * Retrieve geographic regions and their country codes.
+     *
+     * @param {object} [options={}] - Endpoint request options.
+     * @param {object} [options.$] - Pipedream execution context.
+     * @returns {Promise<object>} Geographic region reference data.
+     */
     getRegions({ $ } = {}) {
       return this._makeRequest({
         $,
@@ -290,6 +583,14 @@ export default {
         path: "/geo/regions",
       });
     },
+    /**
+     * Retrieve country metadata from a two-letter country code.
+     *
+     * @param {object} [options={}] - Endpoint request options.
+     * @param {object} [options.$] - Pipedream execution context.
+     * @param {string} options.countryCode - Two-letter country code, case-insensitive.
+     * @returns {Promise<object>} Country metadata.
+     */
     getCountry({
       $, countryCode,
     } = {}) {
@@ -299,6 +600,17 @@ export default {
         path: `/geo/countries/${validateCountryCode(countryCode)}`,
       });
     },
+    /**
+     * Search one cursor page of countries by name and optional geographic filters.
+     *
+     * @param {object} [options={}] - Endpoint request options.
+     * @param {object} [options.$] - Pipedream execution context.
+     * @param {object} [options.data] - Geographic search body.
+     * @param {string} [options.data.query] - Case-insensitive name substring.
+     * @param {number} [options.data.pageSize] - Maximum records for this page, from 1 to 100.
+     * @param {string} [options.data.cursor] - Continuation cursor for the same filters.
+     * @returns {Promise<object>} Matching countries and pagination metadata.
+     */
     searchCountries({
       $, data,
     } = {}) {
@@ -309,6 +621,18 @@ export default {
         path: "/geo/countries",
       });
     },
+    /**
+     * Search one cursor page of states by name and optional geographic filters.
+     *
+     * @param {object} [options={}] - Endpoint request options.
+     * @param {object} [options.$] - Pipedream execution context.
+     * @param {object} [options.data] - Geographic search body.
+     * @param {string} [options.data.query] - Case-insensitive name substring.
+     * @param {number} [options.data.pageSize] - Maximum records for this page, from 1 to 100.
+     * @param {string} [options.data.cursor] - Continuation cursor for the same filters.
+     * @param {string[]} [options.data.countryCodes] - Two-letter country codes.
+     * @returns {Promise<object>} Matching states and pagination metadata.
+     */
     searchStates({
       $, data,
     } = {}) {
@@ -319,6 +643,19 @@ export default {
         path: "/geo/states",
       });
     },
+    /**
+     * Search one cursor page of cities by name and optional geographic filters.
+     *
+     * @param {object} [options={}] - Endpoint request options.
+     * @param {object} [options.$] - Pipedream execution context.
+     * @param {object} [options.data] - Geographic search body.
+     * @param {string} [options.data.query] - Case-insensitive name substring.
+     * @param {number} [options.data.pageSize] - Maximum records for this page, from 1 to 100.
+     * @param {string} [options.data.cursor] - Continuation cursor for the same filters.
+     * @param {string[]} [options.data.countryCodes] - Two-letter country codes.
+     * @param {number[]} [options.data.stateIds] - Positive state IDs from Search States.
+     * @returns {Promise<object>} Matching cities and pagination metadata.
+     */
     searchCities({
       $, data,
     } = {}) {
@@ -329,6 +666,13 @@ export default {
         path: "/geo/cities",
       });
     },
+    /**
+     * Retrieve industries and their NAICS code prefixes.
+     *
+     * @param {object} [options={}] - Endpoint request options.
+     * @param {object} [options.$] - Pipedream execution context.
+     * @returns {Promise<object>} Industry reference data in the items array.
+     */
     listIndustries({ $ } = {}) {
       return this._makeRequest({
         $,
@@ -336,6 +680,15 @@ export default {
         path: "/industries",
       });
     },
+    /**
+     * Find up to 10 keywords suggestions for search filters.
+     *
+     * @param {object} [options={}] - Endpoint request options.
+     * @param {object} [options.$] - Pipedream execution context.
+     * @param {object} options.params - Autocomplete query parameters.
+     * @param {string} options.params.query - Search text; empty text returns no suggestions.
+     * @returns {Promise<object>} Reference suggestions in the items array.
+     */
     lookupKeywords({
       $, params,
     } = {}) {
@@ -346,6 +699,15 @@ export default {
         path: "/keywords/autocomplete",
       });
     },
+    /**
+     * Find up to 10 technologies suggestions for search filters.
+     *
+     * @param {object} [options={}] - Endpoint request options.
+     * @param {object} [options.$] - Pipedream execution context.
+     * @param {object} options.params - Autocomplete query parameters.
+     * @param {string} options.params.query - Search text; empty text returns no suggestions.
+     * @returns {Promise<object>} Reference suggestions in the items array.
+     */
     lookupTechnologies({
       $, params,
     } = {}) {
@@ -356,6 +718,15 @@ export default {
         path: "/technologies/autocomplete",
       });
     },
+    /**
+     * Find up to 10 positions suggestions for search filters.
+     *
+     * @param {object} [options={}] - Endpoint request options.
+     * @param {object} [options.$] - Pipedream execution context.
+     * @param {object} options.params - Autocomplete query parameters.
+     * @param {string} options.params.query - Search text; empty text returns no suggestions.
+     * @returns {Promise<object>} Reference suggestions in the items array.
+     */
     lookupPositions({
       $, params,
     } = {}) {
@@ -366,6 +737,13 @@ export default {
         path: "/positions/autocomplete",
       });
     },
+    /**
+     * Retrieve account information while omitting credentials and unrecognized fields.
+     *
+     * @param {object} [options={}] - Endpoint request options.
+     * @param {object} [options.$] - Pipedream execution context.
+     * @returns {Promise<object>} Account ID, credit usage and documented capabilities only.
+     */
     async getAccount({ $ } = {}) {
       const response = await this._makeRequest({
         $,

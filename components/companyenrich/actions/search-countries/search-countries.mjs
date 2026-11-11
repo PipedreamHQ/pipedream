@@ -6,7 +6,7 @@ import {
 export default {
   key: "companyenrich-search-countries",
   name: "Search Countries",
-  description: "Search countries by a case-insensitive name substring. Returns one cursor page without consuming credits. Use returned codes or IDs in search filters. [See the documentation](https://docs.companyenrich.com/reference/post_v2-geo-countries)",
+  description: "Search countries by a case-insensitive name substring. Fetches up to **Maximum Pages** without consuming credits; defaults to one page. Use returned codes or IDs in search filters. [See the documentation](https://docs.companyenrich.com/reference/post_v2-geo-countries)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
@@ -29,6 +29,13 @@ export default {
         "pageSize",
       ],
     },
+    maxPages: {
+      propDefinition: [
+        companyenrich,
+        "maxPages",
+      ],
+      description: "Maximum geographic pages to fetch, e.g. `3`. Accepts 1 to 100; defaults to 1. These lookups consume no CompanyEnrich credits. With 1, returns the original page; with more than 1, returns `{ pages, nextCursor }`. Stops early when no next cursor remains.",
+    },
     cursor: {
       propDefinition: [
         companyenrich,
@@ -38,15 +45,21 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.companyenrich.searchCountries({
+    const response = await this.companyenrich.collectPages({
       $,
+      method: "searchCountries",
+      maxPages: this.maxPages,
       data: {
         query: stringValue(this.query, "Query", 100),
         pageSize: integerValue(this.pageSize, "Page Size", 1, 100, 10),
         cursor: stringValue(this.cursor, "Cursor", 2048),
       },
     });
-    $.export("$summary", `Retrieved ${response.items?.length ?? 0} countries in one page`);
+    const pages = response.pages ?? [
+      response,
+    ];
+    const count = pages.reduce((total, page) => total + (page.items?.length ?? 0), 0);
+    $.export("$summary", `Retrieved ${count} countries across ${pages.length} page(s)`);
     return response;
   },
 };

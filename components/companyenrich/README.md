@@ -1,6 +1,8 @@
-# CompanyEnrich
+# Overview
 
 CompanyEnrich provides company and people data through APIs. These Pipedream actions support company enrichment, account discovery, lookalike search, workforce research and professional profile lookup using API v2. They are intended for Pipedream Connect and MCP as well as supported action steps.
+
+# Getting Started
 
 ## Connection
 
@@ -24,7 +26,7 @@ For registration, use app slug `companyenrich` with a secret `api_key` field and
 | [Search People](actions/search-people/README.md) | Find professional profiles with person and employer filters. |
 | [Count People](actions/count-people/README.md) | Count matching people without consuming credits. |
 | [Preview People](actions/preview-people/README.md) | Preview up to 10 person summaries without consuming credits. |
-| [Get Company Workforce](actions/get-company-workforce/README.md) | Retrieve one 12-month page of workforce history for a company ID or domain. |
+| [Get Company Workforce](actions/get-company-workforce/README.md) | Retrieve 12-month pages of workforce history for a company ID or domain. |
 | [Get Person](actions/get-person/README.md) | Retrieve a professional profile by its ID from **Search People**. |
 | [Enrich Person by Email](actions/enrich-person/README.md) | Find the best matching person for a known work email. |
 | [Find Work Email (Beta)](actions/find-work-email/README.md) | Resolve a work email for a person from **Search People**. |
@@ -44,7 +46,9 @@ For registration, use app slug `companyenrich` with a secret `api_key` field and
 
 Company search supports ordinary filters, semantic search or lookalike seeds. Semantic and lookalike queries cannot be combined. People search supports person filters and a nested company query. Advanced filter inputs accept JSON objects using the current [company](https://docs.companyenrich.com/reference/post_v2-companies-search) and [people](https://docs.companyenrich.com/reference/post_v2-people-search) schemas. Scalar, array and supported inclusion/exclusion filter values pass through unchanged.
 
-Search and geography actions return one page, with a default of 10 and a maximum of 100 results. Use the returned `nextCursor` with the same query to continue; cursors expire after 30 minutes. Workforce returns one year per call. No action automatically collects more pages, polls a pending result or retries a failed request. Pipedream-level workflow retries or repeated agent calls can still issue additional billable requests.
+Search and geography actions use a default page size of 10 and a maximum of 100 records. Workforce returns one year per call. **Maximum Pages** defaults to `1`, which preserves the original single-page API response. Set it to `2`–`100` to follow cursors automatically, stopping at the chosen limit or the end of results. This mode returns `{ pages, nextCursor }`: every page retains its complete response, record order, search scores and workforce history window metadata. More pages can consume more credits.
+
+Use the final `nextCursor` with the same inputs to resume; cursors expire after 30 minutes. Pagination uses a bounded async generator without requesting pages ahead of processing. No action polls pending results or retries failures. A failed later page fails the action, so rerunning the action can charge again for earlier successful pages. Pipedream-level retries and repeated agent calls can also issue additional billable requests.
 
 Counts and previews omit pagination and expansions. Count responses preserve both `count` (accessible under the plan) and `total` (before plan limits). Previews consume no credits but require the relevant plan capability. **Get Account** reports available capabilities and credit usage without returning credentials.
 
@@ -58,6 +62,10 @@ Rebuild enrichment and discovery steps using CompanyEnrich inputs and outputs. P
 
 These actions do not replace provider-specific business or prospect event subscriptions. No compatible CompanyEnrich webhook contract is documented in the current v2 reference. Bulk jobs, saved-list exports and other legacy routes are also outside the current v2 contract; they are not silently mixed into this app.
 
+# Troubleshooting
+
+For authentication failures, check the connected API key. For credit or capability errors, use **Get Account** and consult the endpoint requirements. If a cursor expires, restart without it; preserve the same filters and expansions when resuming a valid cursor.
+
 ## Development and validation
 
 Run `npm test --prefix components/companyenrich` from the repository root for offline request-contract tests. The tests use synthetic records and mocked transport; they do not make provider calls or establish live account access, billing or hosted authentication behavior.
@@ -65,3 +73,5 @@ Run `npm test --prefix components/companyenrich` from the repository root for of
 After Pipedream registers the app, publish an action privately in a Connect development environment and execute it with a connected test account using the [official action quickstart](https://pipedream.com/docs/components/contributing/actions-quickstart). Complete a hosted smoke test before requesting registry publication. This contribution has not performed that hosted test.
 
 Endpoint coverage was checked against the [public API index](https://docs.companyenrich.com/llms.txt) on 11 November 2026: all 25 documented v2 operations have named actions. The email lookup is explicitly beta; no broader availability or reliability claim is made.
+
+The app uses `@pipedream/platform` Axios to retain Pipedream execution context and `json-bigint` to preserve large person IDs. The published CompanyEnrich JavaScript SDK version 1.0.1 parses response JSON using standard `JSON.parse`, which can round 64-bit IDs. Direct API access avoids that loss and does not add SDK retries. See the [SDK transport implementation](https://github.com/CompanyEnrich/companyenrich-js-sdk/blob/68c166b6608f7b0bcdb768810b181166d263dbcf/src/core/http.ts).

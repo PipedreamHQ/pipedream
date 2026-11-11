@@ -6,7 +6,7 @@ import {
 export default {
   key: "companyenrich-search-companies",
   name: "Search Companies",
-  description: "Search companies using structured filters, a semantic query, or lookalike seeds. Standard, semantic and lookalike searches cost 1, 2 and 5 credits per company respectively; an empty result costs one base result, plus expansions when returned. Returns one page, preserving order and nextCursor; no automatic pagination. [See the documentation](https://docs.companyenrich.com/reference/post_v2-companies-search)",
+  description: "Search companies using structured filters, a semantic query, or lookalike seeds. Standard, semantic and lookalike searches cost 1, 2 and 5 credits per company respectively; an empty result costs one base result, plus expansions when returned. Fetches up to **Maximum Pages**, preserving each page and its cursor. Defaults to one page. [See the documentation](https://docs.companyenrich.com/reference/post_v2-companies-search)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
@@ -41,6 +41,12 @@ export default {
         "pageSize",
       ],
     },
+    maxPages: {
+      propDefinition: [
+        companyenrich,
+        "maxPages",
+      ],
+    },
     cursor: {
       propDefinition: [
         companyenrich,
@@ -55,8 +61,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.companyenrich.searchCompanies({
+    const response = await this.companyenrich.collectPages({
       $,
+      method: "searchCompanies",
+      maxPages: this.maxPages,
       data: {
         ...companyQuery(this),
         pageSize: integerValue(this.pageSize, "Page Size", 1, 100, 10),
@@ -64,7 +72,11 @@ export default {
         expand: companyExpansions(this.companyExpand),
       },
     });
-    $.export("$summary", `Retrieved ${response.items?.length ?? 0} companies in one page`);
+    const pages = response.pages ?? [
+      response,
+    ];
+    const count = pages.reduce((total, page) => total + (page.items?.length ?? 0), 0);
+    $.export("$summary", `Retrieved ${count} companies across ${pages.length} page(s)`);
     return response;
   },
 };

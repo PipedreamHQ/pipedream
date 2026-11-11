@@ -28,7 +28,7 @@ function harness({
   response = {
     items: [],
     nextCursor: "another-paid-page",
-  }, error,
+  }, error, responses,
 } = {}) {
   const calls = [];
   const summaries = [];
@@ -49,9 +49,19 @@ function harness({
       if (error) {
         throw error;
       }
+      const index = calls.length - 1;
+      if (responses) {
+        assert.ok(index < responses.length, "Unexpected request after scripted responses were exhausted");
+      }
+      const result = responses
+        ? responses[index]
+        : response;
+      if (result instanceof Error) {
+        throw result;
+      }
       return (config.transformResponse ?? []).reduce(
         (value, transform) => transform(value),
-        response,
+        result,
       );
     });
   }, {
@@ -696,6 +706,7 @@ for (const slug of [
       ],
       page: 2,
       size: 10,
+      maxPages: 100,
     });
     assert.deepEqual(plain(h.calls[0].config.data), {});
     assert.equal(h.calls.length, 1);
@@ -703,6 +714,7 @@ for (const slug of [
     for (const field of [
       "pageSize",
       "cursor",
+      "maxPages",
       "companyExpand",
       "personExpand",
     ]) {
@@ -1667,6 +1679,405 @@ test("non-JSON or malformed provider response text remains available to error ha
       response,
     });
     const result = await h.run("search-companies");
+    assert.equal(result, response);
+    assert.equal(h.calls.length, 1);
+  }
+});
+
+const PAGINATED_ROUTES = ROUTES.filter(({ slug }) => [
+  "search-companies",
+  "search-people",
+  "search-countries",
+  "search-states",
+  "search-cities",
+  "get-company-workforce",
+].includes(slug));
+
+for (const fixture of PAGINATED_ROUTES) {
+  test(`${fixture.slug}: follows opaque cursors with unchanged filters and preserves complete pages`, async () => {
+    const pages = [
+      {
+        items: [
+          {
+            id: "first",
+            score: 0,
+          },
+        ],
+        nextCursor: "page-two+/= ?",
+        interpretation: {
+          filter: {
+            country: "US",
+          },
+          query: "billing software",
+        },
+        window: {
+          from: "2025-01-01",
+          to: "2025-12-31",
+        },
+        total: 20,
+      },
+      {
+        items: [],
+        nextCursor: "page-three+/= ?",
+        interpretation: {
+          query: "keep even empty page metadata",
+        },
+        window: {
+          from: "2024-01-01",
+          to: "2024-12-31",
+        },
+        total: 0,
+      },
+      {
+        items: [
+          {
+            id: "last",
+            score: 0.42,
+          },
+        ],
+        nextCursor: null,
+        window: {
+          from: "2023-01-01",
+          to: "2023-12-31",
+        },
+      },
+    ];
+    const h = harness({
+      responses: pages,
+    });
+    const result = await h.run(fixture.slug, {
+      ...fixture.input,
+      maxPages: 4,
+    });
+    assert.deepEqual(plain(result), {
+      pages,
+      nextCursor: null,
+    });
+    assert.equal(h.calls.length, 3, "an empty page with a cursor must not end traversal");
+    const queryKey = fixture.method === "GET"
+      ? "params"
+      : "data";
+    const initialQuery = fixture[queryKey];
+    for (const [
+      index,
+      {
+        $, config,
+      },
+    ] of h.calls.entries()) {
+      assert.equal($, h.$);
+      assert.equal(config.method, fixture.method);
+      assert.equal(config.url, fixture.path);
+      assert.deepEqual(plain(config[queryKey]), {
+        ...initialQuery,
+        cursor: index === 0
+          ? initialQuery.cursor
+          : pages[index - 1].nextCursor,
+      });
+      assert.equal(config[queryKey === "params"
+        ? "data"
+        : "params"], undefined);
+      assert.ok(!("maxPages" in config[queryKey]), "local cost cap must not reach the provider");
+      if (index > 0) {
+        assert.notEqual(config[queryKey], h.calls[index - 1].config[queryKey]);
+      }
+    }
+    assert.equal(h.summaries.length, 1);
+  });
+
+  test(`${fixture.slug}: stops at the requested page cap and returns the continuation cursor`, async () => {
+    const pages = [
+      {
+        items: [],
+        nextCursor: "second-page",
+      },
+      {
+        items: [],
+        nextCursor: "third-page-must-not-be-fetched",
+      },
+    ];
+    const h = harness({
+      responses: pages,
+    });
+    const result = await h.run(fixture.slug, {
+      ...fixture.input,
+      maxPages: 2,
+    });
+    assert.deepEqual(plain(result), {
+      pages,
+      nextCursor: "third-page-must-not-be-fetched",
+    });
+    assert.equal(h.calls.length, 2);
+  });
+
+  test(`${fixture.slug}: declares an optional one-page default and rejects invalid page caps before HTTP`, async () => {
+    const h = harness();
+    const action = await h.action(fixture.slug);
+    const prop = action.props.maxPages;
+    assert.ok(prop, "cursor-based actions must expose a page limit");
+    const definition = prop.propDefinition
+      ? prop.propDefinition[0].propDefinitions[prop.propDefinition[1]]
+      : prop;
+    assert.equal(definition.type, "integer");
+    assert.equal(definition.optional, true);
+    assert.equal(definition.default, 1);
+    for (const maxPages of [
+      0,
+      -1,
+      101,
+      1.5,
+      "2",
+      false,
+    ]) {
+      await assert.rejects(h.run(fixture.slug, {
+        ...fixture.input,
+        maxPages,
+      }), ConfigurationError);
+    }
+    assert.equal(h.calls.length, 0);
+    assert.equal(h.summaries.length, 0);
+  });
+
+  test(`${fixture.slug}: a later API failure propagates without retry or a success summary`, async () => {
+    const error = Object.assign(new Error("Second page was rate limited"), {
+      response: {
+        status: 429,
+      },
+    });
+    const h = harness({
+      responses: [
+        {
+          items: [],
+          nextCursor: "second-page",
+        },
+        error,
+      ],
+    });
+    await assert.rejects(h.run(fixture.slug, {
+      ...fixture.input,
+      maxPages: 3,
+    }), (actual) => actual === error);
+    assert.equal(h.calls.length, 2);
+    assert.equal(h.summaries.length, 0);
+  });
+}
+
+for (const nextCursor of [
+  undefined,
+  null,
+  "",
+]) {
+  test(`pagination terminates when the continuation cursor is ${String(nextCursor)}`, async () => {
+    const page = {
+      items: [
+        {
+          id: "only-result",
+        },
+      ],
+      ...(nextCursor === undefined
+        ? {}
+        : {
+          nextCursor,
+        }),
+    };
+    const h = harness({
+      responses: [
+        page,
+      ],
+    });
+    const app = await h.appInstance();
+    const result = await app.collectPages({
+      $: h.$,
+      method: "searchCompanies",
+      data: {
+        pageSize: 10,
+      },
+      maxPages: 100,
+    });
+    assert.deepEqual(plain(result.pages), [
+      page,
+    ]);
+    assert.equal(result.nextCursor, nextCursor);
+    assert.equal(h.calls.length, 1);
+  });
+}
+
+test("pagination is lazy and returning early never fetches the following paid page", async () => {
+  const page = {
+    items: [],
+    nextCursor: "must-not-be-fetched",
+    interpretation: {
+      query: "keep metadata",
+    },
+  };
+  const h = harness({
+    responses: [
+      page,
+    ],
+  });
+  const app = await h.appInstance();
+  const iterator = app.paginate({
+    $: h.$,
+    method: "searchCompanies",
+    data: {
+      pageSize: 1,
+    },
+    maxPages: 100,
+  });
+  assert.equal(h.calls.length, 0);
+  const first = await iterator.next();
+  assert.equal(first.done, false);
+  assert.equal(first.value, page);
+  assert.equal(h.calls.length, 1);
+  await iterator.return();
+  assert.equal(h.calls.length, 1);
+  assert.equal((await iterator.next()).done, true);
+  assert.equal(h.calls.length, 1);
+});
+
+for (const cursors of [
+  [
+    "start",
+  ],
+  [
+    "second",
+    "start",
+  ],
+  [
+    "second",
+    "second",
+  ],
+]) {
+  test(`pagination rejects the cursor cycle ${cursors.join(" -> ")} before issuing a duplicate request`, async () => {
+    const h = harness({
+      responses: cursors.map((nextCursor) => ({
+        items: [],
+        nextCursor,
+      })),
+    });
+    const app = await h.appInstance();
+    await assert.rejects(app.collectPages({
+      $: h.$,
+      method: "searchCompanies",
+      data: {
+        cursor: "start",
+        pageSize: 10,
+      },
+      maxPages: 10,
+    }), /cursor/i);
+    assert.equal(h.calls.length, cursors.length);
+    assert.equal(new Set(h.calls.map(({ config }) => config.data.cursor)).size, h.calls.length);
+  });
+}
+
+for (const [
+  method,
+  queryKey,
+  query,
+] of [
+    [
+      "searchCompanies",
+      "data",
+      {
+        cursor: "initial",
+        filter: {
+          b2b: false,
+        },
+        semantic: {
+          query: "billing",
+          weight: 0,
+          autoFilter: false,
+        },
+        pageSize: 10,
+      },
+    ],
+    [
+      "getCompanyWorkforce",
+      "params",
+      {
+        domain: "example.com",
+        cursor: "initial",
+      },
+    ],
+  ]) {
+  test(`${method}: pagination leaves caller input unchanged and allocates independent page queries`, async () => {
+    const original = plain(query);
+    Object.freeze(query);
+    const h = harness({
+      responses: [
+        {
+          items: [],
+          nextCursor: "next",
+        },
+        {
+          items: [],
+          nextCursor: null,
+        },
+      ],
+    });
+    const app = await h.appInstance();
+    await app.collectPages({
+      $: h.$,
+      method,
+      [queryKey]: query,
+      maxPages: 2,
+    });
+    assert.deepEqual(query, original);
+    assert.notEqual(h.calls[0].config[queryKey], query);
+    assert.notEqual(h.calls[1].config[queryKey], query);
+    assert.notEqual(h.calls[0].config[queryKey], h.calls[1].config[queryKey]);
+    assert.equal(h.calls[0].config[queryKey].cursor, "initial");
+    assert.equal(h.calls[1].config[queryKey].cursor, "next");
+  });
+}
+
+test("pagination only accepts cursor-based endpoint methods", async () => {
+  for (const method of [
+    "countCompanies",
+    "previewCompanies",
+    "enrichCompany",
+    "findWorkEmail",
+    "_makeRequest",
+    "constructor",
+    "unknown",
+  ]) {
+    const h = harness();
+    const app = await h.appInstance();
+    await assert.rejects(app.collectPages({
+      $: h.$,
+      method,
+      data: {},
+      maxPages: 2,
+    }), ConfigurationError);
+    assert.equal(h.calls.length, 0);
+  }
+});
+
+test("single-page collection preserves the original response identity even with a continuation cursor", async () => {
+  const response = {
+    items: [],
+    nextCursor: "next",
+    interpretation: {
+      filter: {},
+    },
+  };
+  for (const maxPages of [
+    undefined,
+    1,
+  ]) {
+    const h = harness({
+      responses: [
+        response,
+      ],
+    });
+    const app = await h.appInstance();
+    const result = await app.collectPages({
+      $: h.$,
+      method: "searchCompanies",
+      data: {
+        pageSize: 1,
+      },
+      maxPages,
+    });
     assert.equal(result, response);
     assert.equal(h.calls.length, 1);
   }

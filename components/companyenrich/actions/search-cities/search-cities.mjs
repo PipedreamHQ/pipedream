@@ -7,7 +7,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "companyenrich-search-cities",
   name: "Search Cities",
-  description: "Search cities by a case-insensitive name substring. Returns one cursor page without consuming credits. Use returned codes or IDs in search filters. [See the documentation](https://docs.companyenrich.com/reference/post_v2-geo-cities)",
+  description: "Search cities by a case-insensitive name substring. Fetches up to **Maximum Pages** without consuming credits; defaults to one page. Use returned codes or IDs in search filters. [See the documentation](https://docs.companyenrich.com/reference/post_v2-geo-cities)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
@@ -42,6 +42,13 @@ export default {
         "pageSize",
       ],
     },
+    maxPages: {
+      propDefinition: [
+        companyenrich,
+        "maxPages",
+      ],
+      description: "Maximum geographic pages to fetch, e.g. `3`. Accepts 1 to 100; defaults to 1. These lookups consume no CompanyEnrich credits. With 1, returns the original page; with more than 1, returns `{ pages, nextCursor }`. Stops early when no next cursor remains.",
+    },
     cursor: {
       propDefinition: [
         companyenrich,
@@ -57,8 +64,10 @@ export default {
       }
       return Number(id);
     });
-    const response = await this.companyenrich.searchCities({
+    const response = await this.companyenrich.collectPages({
       $,
+      method: "searchCities",
+      maxPages: this.maxPages,
       data: {
         query: stringValue(this.query, "Query", 100),
         pageSize: integerValue(this.pageSize, "Page Size", 1, 100, 10),
@@ -67,7 +76,11 @@ export default {
         stateIds,
       },
     });
-    $.export("$summary", `Retrieved ${response.items?.length ?? 0} cities in one page`);
+    const pages = response.pages ?? [
+      response,
+    ];
+    const count = pages.reduce((total, page) => total + (page.items?.length ?? 0), 0);
+    $.export("$summary", `Retrieved ${count} cities across ${pages.length} page(s)`);
     return response;
   },
 };

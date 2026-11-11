@@ -6,7 +6,7 @@ import {
 export default {
   key: "companyenrich-search-people",
   name: "Search People",
-  description: "Find professional profiles with person and employer filters. Ordinary search does not return emails; use **Find Work Email (Beta)** when needed. Costs 2 credits per person and a 2-credit minimum for empty results, plus paid education expansion. Returns one page, preserving order and nextCursor; no automatic pagination. [See the documentation](https://docs.companyenrich.com/reference/post_v2-people-search)",
+  description: "Find professional profiles with person and employer filters. Ordinary search does not return emails; use **Find Work Email (Beta)** when needed. Costs 2 credits per person and a 2-credit minimum for empty results, plus paid education expansion. Fetches up to **Maximum Pages**, preserving each page and its cursor. Defaults to one page. [See the documentation](https://docs.companyenrich.com/reference/post_v2-people-search)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
@@ -35,6 +35,12 @@ export default {
         "pageSize",
       ],
     },
+    maxPages: {
+      propDefinition: [
+        companyenrich,
+        "maxPages",
+      ],
+    },
     cursor: {
       propDefinition: [
         companyenrich,
@@ -49,8 +55,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.companyenrich.searchPeople({
+    const response = await this.companyenrich.collectPages({
       $,
+      method: "searchPeople",
+      maxPages: this.maxPages,
       data: {
         ...peopleQuery(this),
         pageSize: integerValue(this.pageSize, "Page Size", 1, 100, 10),
@@ -58,7 +66,11 @@ export default {
         expand: personExpansions(this.personExpand),
       },
     });
-    $.export("$summary", `Retrieved ${response.items?.length ?? 0} people in one page`);
+    const pages = response.pages ?? [
+      response,
+    ];
+    const count = pages.reduce((total, page) => total + (page.items?.length ?? 0), 0);
+    $.export("$summary", `Retrieved ${count} people across ${pages.length} page(s)`);
     return response;
   },
 };
