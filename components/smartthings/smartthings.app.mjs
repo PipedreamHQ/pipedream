@@ -225,6 +225,7 @@ export default {
       $, resourceFn, params = {}, max,
     }) {
       let count = 0;
+      let previousNext;
       let response = await resourceFn({
         params,
       });
@@ -239,6 +240,10 @@ export default {
         if (!next) {
           return;
         }
+        if (next === previousNext) {
+          throw new Error("SmartThings pagination cursor did not advance");
+        }
+        previousNext = next;
         response = await this._makeRequest({
           $,
           url: next,
