@@ -49,7 +49,7 @@ export default {
     jobId: {
       type: "string",
       label: "Job ID",
-      description: "The ID of the job",
+      description: "The ID of the job, e.g. `c677ccf7-8876-4f48-bb6f-566fe0ca0a4a`. Use the `data.id` returned by **Create Job** or **Create Merge Files To PDF Job**.",
       async options({ page }) {
         const { data } = await this.listJobs({
           params: {

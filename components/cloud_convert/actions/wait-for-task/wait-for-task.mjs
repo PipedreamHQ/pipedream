@@ -12,10 +12,11 @@ export default {
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     taskId: {
-      description: "The ID of the task to wait for",
+      description: "The ID of the task to wait for, e.g. `5a1b2c3d-4e5f-4a6b-8c7d-9e0f1a2b3c4d`. Use **Get Job** and read `data.tasks[].id`, or use the `data.id` returned by **Create Import URL Task**.",
       propDefinition: [
         app,
         "taskId",
