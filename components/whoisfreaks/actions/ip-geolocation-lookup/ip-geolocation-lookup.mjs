@@ -5,7 +5,7 @@ export default {
   name: "IP Geolocation Lookup",
   description:
     "Retrieve geolocation details (country, city, region, ASN, ISP, coordinates) for a single IP address. Supports both IPv4 and IPv6 addresses. Use this action to enrich events with location data, perform fraud detection, or geo-target users. [See the documentation](https://whoisfreaks.com/documentation/ip-geolocation-api#geo-lookup)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

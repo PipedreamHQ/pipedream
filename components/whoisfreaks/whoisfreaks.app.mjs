@@ -25,6 +25,14 @@ export default {
       label: "IP Address",
       description: "The IP address to look up. Must be a valid IPv4 (e.g. `8.8.8.8`) or IPv6 (e.g. `2001:4860:4860::8888`) address.",
     },
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "Page number of the results to retrieve. Default: `1`",
+      default: 1,
+      min: 1,
+      optional: true,
+    },
     format: {
       type: "string",
       label: "Format",
@@ -113,6 +121,42 @@ export default {
     lookupIpReputation(opts = {}) {
       return this._makeRequest({
         path: "/v1.0/security",
+        ...opts,
+      });
+    },
+    lookupWhoisHistory(opts = {}) {
+      return this._makeRequest({
+        path: "/v2.0/whois/history",
+        ...opts,
+      });
+    },
+    lookupAsnWhois(opts = {}) {
+      return this._makeRequest({
+        path: "/v2.0/asn-whois",
+        ...opts,
+      });
+    },
+    lookupDns(opts = {}) {
+      return this._makeRequest({
+        path: "/v2.0/dns/live",
+        ...opts,
+      });
+    },
+    lookupDnsHistory(opts = {}) {
+      return this._makeRequest({
+        path: "/v2.0/dns/historical",
+        ...opts,
+      });
+    },
+    lookupReverseDns(opts = {}) {
+      return this._makeRequest({
+        path: "/v2.1/dns/reverse",
+        ...opts,
+      });
+    },
+    lookupDomainTyposquatting(opts = {}) {
+      return this._makeRequest({
+        path: "/v3.0/domain/typos",
         ...opts,
       });
     },
