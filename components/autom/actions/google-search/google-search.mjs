@@ -4,7 +4,7 @@ export default {
   key: "autom-google-search",
   name: "Google Search",
   description: "Search Google and return the full results page: organic results with their position, title, link and snippet, the knowledge graph, related searches and pagination. Use **Google Search Light** when only the organic results are needed. [See the documentation](https://docs.autom.dev/api-reference/google/search)",
-  version: "0.0.3",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
