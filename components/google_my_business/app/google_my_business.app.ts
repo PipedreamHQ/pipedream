@@ -191,7 +191,14 @@ export default defineApp({
         firstPage ??= response;
         const resources = (response?.[resourceName] ?? []) as T[];
         items.push(...resources);
+        const sentToken = nextPageToken;
         nextPageToken = response?.nextPageToken as string | undefined;
+
+        // Guard against a token that doesn't advance, which would re-request
+        // the same page and collect duplicates until `maxResults` is reached
+        if (nextPageToken && nextPageToken === sentToken) {
+          throw new Error(`Pagination did not advance: Google returned the same \`nextPageToken\` that was sent (${resourceName})`);
+        }
 
         // Guard against an empty page that still carries a token
         if (!resources.length) break;
