@@ -2,11 +2,12 @@ import { ConfigurationError } from "@pipedream/platform";
 import googleCalendar from "../../google_calendar.app.mjs";
 import createEventCommon from "../common/create-event-common.mjs";
 import constants from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "google_calendar-update-following-instances",
   name: "Update Following Event Instances",
-  description: "Split a recurring event you organize so all occurrences from a selected one onward get your changes. This deletes the selected occurrence, ends the original series before it, and creates a new series starting from it that you organize, inviting the original guests (or `Attendees`, if set). Fields left empty (including `Show As`), plus the meeting link, reminders, visibility, guest permissions and guest responses, are copied from the original series. Fails without making changes if you don't organize the event: to change your own color or `Show As`, use **Update Event** for the whole series or **Update Event Instance** for one occurrence; to accept or decline, use **Respond to Event**. Returns the deleted occurrence, the trimmed series, the new event and the invited guests. [See the documentation](https://developers.google.com/calendar/api/guides/recurringevents#modifying_all_following_instances)",
+  description: "Split a recurring event you organize so all occurrences from a selected one onward get your changes. This deletes the selected occurrence, ends the original series before it, and creates a new series starting from it that you organize, inviting the original guests (or `Attendees`, if set). Fields left empty (including `Show As`), plus the meeting link, reminders, visibility and guest permissions, are copied from the original series; guest responses are carried over where Google allows, so some guests may need to respond again. Fails without making changes if you don't organize the event: to change your own color or `Show As`, use **Update Event** for the whole series or **Update Event Instance** for one occurrence; to accept or decline, use **Respond to Event**. Returns the deleted occurrence, the trimmed series, the new event and the invited guests. [See the documentation](https://developers.google.com/calendar/api/guides/recurringevents#modifying_all_following_instances)",
   version: "0.2.0",
   ai: "optimized",
   type: "action",
@@ -205,7 +206,7 @@ export default {
       return carried;
     },
     validateDateInput(label, value) {
-      if (value && isNaN(Date.parse(value))) {
+      if (value && !utils.isValidDateInput(value)) {
         throw new ConfigurationError(`\`${label}\` must be \`yyyy-mm-dd\` or an RFC3339 date-time, got \`${value}\``);
       }
     },
@@ -281,6 +282,10 @@ export default {
       eventId: this.instanceId,
     });
 
+    if (targetInstance.recurringEventId !== this.recurringEventId) {
+      throw new Error(`No changes made: occurrence \`${this.instanceId}\` doesn't belong to recurring event \`${this.recurringEventId}\`. Use **List Event Instances** to find an occurrence of this series.`);
+    }
+
     // Prepare and validate as much as possible before the irreversible delete
     const instanceStartDate = targetInstance.start.dateTime || targetInstance.start.date;
     const untilDate = this.calculateUntilDate(instanceStartDate);
@@ -301,6 +306,9 @@ export default {
     } else {
       // Carry over only the occurrences the original COUNT had left
       const originalCount = this.getRecurrenceCount(originalEvent.recurrence);
+      if (originalCount && originalEvent.recurrence.some((rule) => rule.startsWith("RDATE"))) {
+        throw new Error("No changes made: this series combines a fixed occurrence count with extra dates (RDATE), so the remaining count can't be worked out reliably. Set `New Repeat Frequency` to define the new series' recurrence explicitly.");
+      }
       const remainingCount = originalCount
         ? originalCount - await this.countInstancesBefore(targetInstance)
         : 0;
@@ -407,7 +415,7 @@ export default {
           eventId: this.instanceId,
           sendUpdates: this.sendUpdates || undefined,
           requestBody: {
-            status: "confirmed",
+            status: targetInstance.status || "confirmed",
           },
         });
       } catch (_restoreError) {
