@@ -28,7 +28,7 @@ export default {
     language: {
       type: "string",
       label: "Language",
-      description: "Two-letter language code of the results, e.g. `en`.",
+      description: "Two- or three-letter language code of the results, optionally followed by a region code, e.g. `en` or `en-gb`.",
       optional: true,
     },
     location: {
