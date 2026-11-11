@@ -27,7 +27,7 @@ export default {
     + " Example: `query: \"quarterly review\"` → returns `[{id: \"...\", title: \"Q3 Review Notes\", url: \"...\", project: {id: \"...\", name: \"Product\"}, documentContentId: \"...\"}]`."
     + " Example (filter): `projectId: \"b75b71a2-...\"` → returns all documents attached to that project."
     + " [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=searchDocuments).",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   ai: "optimized",
   annotations: {
