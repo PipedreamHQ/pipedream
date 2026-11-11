@@ -1,0 +1,40 @@
+import companyenrich from "../../companyenrich.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
+
+export default {
+  key: "companyenrich-lookup-keywords",
+  name: "Lookup Keywords",
+  description: "Find up to 10 keywords suggestions for search filters. Does not consume credits. Empty query returns an empty list. [See the documentation](https://docs.companyenrich.com/reference/get_v2-keywords-autocomplete)",
+  version: "0.0.1",
+  type: "action",
+  ai: "optimized",
+  annotations: {
+    readOnlyHint: true,
+    destructiveHint: false,
+    openWorldHint: true,
+  },
+  props: {
+    companyenrich,
+    query: {
+      propDefinition: [
+        companyenrich,
+        "query",
+      ],
+      optional: false,
+      description: "Prefix or search text for suggestions, e.g. `cloud`. At most 100 characters; an empty string returns no suggestions.",
+    },
+  },
+  async run({ $ }) {
+    if (typeof this.query !== "string" || this.query.length > 100) {
+      throw new ConfigurationError("Query must be a string of at most 100 characters.");
+    }
+    const response = await this.companyenrich.lookupKeywords({
+      $,
+      params: {
+        query: this.query,
+      },
+    });
+    $.export("$summary", `Retrieved ${response.items?.length ?? 0} suggestions`);
+    return response;
+  },
+};

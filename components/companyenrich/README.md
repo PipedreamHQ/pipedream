@@ -1,0 +1,67 @@
+# CompanyEnrich
+
+CompanyEnrich provides company and people data through APIs. These Pipedream actions support company enrichment, account discovery, lookalike search, workforce research and professional profile lookup using API v2. They are intended for Pipedream Connect and MCP as well as supported action steps.
+
+## Connection
+
+Connect your CompanyEnrich account using an API key from the [CompanyEnrich dashboard](https://app.companyenrich.com/). Enter the key without the `Bearer` prefix. The connection supplies credentials; actions do not accept keys as ordinary inputs.
+
+The native Pipedream app registration is requested in [issue #22385](https://github.com/PipedreamHQ/pipedream/issues/22385). Source components alone do not register the connected app. Hosted execution remains pending that registration and a connected test account.
+
+For registration, use app slug `companyenrich` with a secret `api_key` field and bearer authentication to `https://api.companyenrich.com`. Validate with `GET /v2/me`, which consumes no credits. Return only the account ID, credit usage and capabilities from that response; do not expose a credential returned by the service.
+
+## Actions
+
+| Action | Purpose |
+| --- | --- |
+| [Enrich Company](actions/enrich-company/README.md) | Enrich a company from its domain. |
+| [Get Company](actions/get-company/README.md) | Retrieve a company by its ID from **Search Companies** or **Autocomplete Companies**. |
+| [Enrich Company by Properties](actions/enrich-company-by-properties/README.md) | Resolve a company from its name or social identifiers. |
+| [Enrich Companies in Batch](actions/enrich-companies/README.md) | Enrich 1–50 domains in one request. |
+| [Search Companies](actions/search-companies/README.md) | Search companies using structured filters, a semantic query, or lookalike seeds. |
+| [Count Companies](actions/count-companies/README.md) | Count matching companies without consuming credits. |
+| [Preview Companies](actions/preview-companies/README.md) | Preview up to 25 company summaries without consuming credits. |
+| [Search People](actions/search-people/README.md) | Find professional profiles with person and employer filters. |
+| [Count People](actions/count-people/README.md) | Count matching people without consuming credits. |
+| [Preview People](actions/preview-people/README.md) | Preview up to 10 person summaries without consuming credits. |
+| [Get Company Workforce](actions/get-company-workforce/README.md) | Retrieve one 12-month page of workforce history for a company ID or domain. |
+| [Get Person](actions/get-person/README.md) | Retrieve a professional profile by its ID from **Search People**. |
+| [Enrich Person by Email](actions/enrich-person/README.md) | Find the best matching person for a known work email. |
+| [Find Work Email (Beta)](actions/find-work-email/README.md) | Resolve a work email for a person from **Search People**. |
+| [Autocomplete Companies](actions/autocomplete-companies/README.md) | Find up to 10 companies by a domain prefix. |
+| [Lookup Keywords](actions/lookup-keywords/README.md) | Find up to 10 keywords suggestions for search filters. |
+| [Lookup Technologies](actions/lookup-technologies/README.md) | Find up to 10 technologies suggestions for search filters. |
+| [Lookup Positions](actions/lookup-positions/README.md) | Find up to 10 positions suggestions for search filters. |
+| [Get Regions](actions/get-regions/README.md) | List geographic regions and their country codes for company and people filters. |
+| [Get Country](actions/get-country/README.md) | Retrieve country metadata using a two-letter code from **Search Countries**. |
+| [Search Countries](actions/search-countries/README.md) | Search countries by a case-insensitive name substring. |
+| [Search States](actions/search-states/README.md) | Search states by a case-insensitive name substring. |
+| [Search Cities](actions/search-cities/README.md) | Search cities by a case-insensitive name substring. |
+| [List Industries](actions/list-industries/README.md) | List industries and their NAICS code prefixes. |
+| [Get Account](actions/get-account/README.md) | Read your account credit usage and capabilities without consuming credits. |
+
+## Search and credit controls
+
+Company search supports ordinary filters, semantic search or lookalike seeds. Semantic and lookalike queries cannot be combined. People search supports person filters and a nested company query. Advanced filter inputs accept JSON objects using the current [company](https://docs.companyenrich.com/reference/post_v2-companies-search) and [people](https://docs.companyenrich.com/reference/post_v2-people-search) schemas. Scalar, array and supported inclusion/exclusion filter values pass through unchanged.
+
+Search and geography actions return one page, with a default of 10 and a maximum of 100 results. Use the returned `nextCursor` with the same query to continue; cursors expire after 30 minutes. Workforce returns one year per call. No action automatically collects more pages, polls a pending result or retries a failed request. Pipedream-level workflow retries or repeated agent calls can still issue additional billable requests.
+
+Counts and previews omit pagination and expansions. Count responses preserve both `count` (accessible under the plan) and `total` (before plan limits). Previews consume no credits but require the relevant plan capability. **Get Account** reports available capabilities and credit usage without returning credentials.
+
+Paid expansions are optional. Company financial data, keywords, NAICS codes and technologies each add 1 credit per returned company; workforce adds 5. People education adds 1 credit per returned person. Search charges and empty-result minimums depend on the selected operation. Consult each action and the [credit guide](https://docs.companyenrich.com/docs/credits) before running large workloads.
+
+**Find Work Email (Beta)** preserves `found`, `not-found`, `unavailable` and `pending` outcomes. It does not promise an email or poll automatically. People search itself does not return email addresses.
+
+## Replacing another provider
+
+Rebuild enrichment and discovery steps using CompanyEnrich inputs and outputs. Provider IDs and response fields are different: obtain CompanyEnrich IDs from its own search, lookup or enrichment actions, then update downstream mappings. Validate sample matches before updating CRM records.
+
+These actions do not replace provider-specific business or prospect event subscriptions. No compatible CompanyEnrich webhook contract is documented in the current v2 reference. Bulk jobs, saved-list exports and other legacy routes are also outside the current v2 contract; they are not silently mixed into this app.
+
+## Development and validation
+
+Run `npm test --prefix components/companyenrich` from the repository root for offline request-contract tests. The tests use synthetic records and mocked transport; they do not make provider calls or establish live account access, billing or hosted authentication behavior.
+
+After Pipedream registers the app, publish an action privately in a Connect development environment and execute it with a connected test account using the [official action quickstart](https://pipedream.com/docs/components/contributing/actions-quickstart). Complete a hosted smoke test before requesting registry publication. This contribution has not performed that hosted test.
+
+Endpoint coverage was checked against the [public API index](https://docs.companyenrich.com/llms.txt) on 11 November 2026: all 25 documented v2 operations have named actions. The email lookup is explicitly beta; no broader availability or reliability claim is made.
