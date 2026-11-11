@@ -225,7 +225,7 @@ export default {
       $, resourceFn, params = {}, max,
     }) {
       let count = 0;
-      let previousNext;
+      const seenNext = new Set();
       let response = await resourceFn({
         params,
       });
@@ -240,10 +240,10 @@ export default {
         if (!next) {
           return;
         }
-        if (next === previousNext) {
-          throw new Error("SmartThings pagination cursor did not advance");
+        if (seenNext.has(next)) {
+          throw new Error("SmartThings pagination cursor repeated a page it already returned");
         }
-        previousNext = next;
+        seenNext.add(next);
         response = await this._makeRequest({
           $,
           url: next,
