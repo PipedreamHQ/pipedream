@@ -1,4 +1,5 @@
 const BASE_URL = "https://api.cloudconvert.com";
+const SYNC_BASE_URL = "https://sync.api.cloudconvert.com";
 const VERSION_PATH = "/v2";
 const LAST_CREATED_AT = "lastCreatedAt";
 const DEFAULT_MAX = 600;
@@ -25,6 +26,7 @@ const TASK_OPERATION = {
 
 export default {
   BASE_URL,
+  SYNC_BASE_URL,
   VERSION_PATH,
   DEFAULT_MAX,
   LAST_CREATED_AT,
