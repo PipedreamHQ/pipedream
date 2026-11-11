@@ -12,7 +12,7 @@ export default {
     + " The optional `fields` prop narrows the response to only the keys you need."
     + " Example: `documentId: \"10b5bc2940c7\"` → returns `{id: \"29a25062-...\", title: \"Q3 Hiring Plan\", content: \"# Q3 Hiring Plan\\n\\nWe are looking for...\", url: \"https://linear.app/.../document/q3-hiring-plan-10b5bc2940c7\"}`."
     + " [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Query?query=document).",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   ai: "optimized",
   annotations: {
