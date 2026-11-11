@@ -1,41 +1,35 @@
-import airtable from "../airtable_oauth.app.mjs";
 import {
-  makeFieldProps, makeRecord,
+  getTableFields,
+  makeRecord,
+  normalizeRecord,
+  parseRecord,
+  validateWritableFields,
 } from "./utils.mjs";
-import { ConfigurationError } from "@pipedream/platform";
+
+/**
+ * Builds the record to send to Airtable. Prefers the `record` prop, falling
+ * back to the `field_*` props that workflows configured against earlier
+ * versions of these actions still carry.
+ */
+const resolveRecord = async (ctx) => {
+  const record = ctx.record
+    ? parseRecord(ctx.record)
+    : makeRecord(ctx);
+
+  ctx.airtable.validateRecord(record);
+
+  const fields = await getTableFields(ctx);
+  validateWritableFields(record, fields);
+  return normalizeRecord(record, fields);
+};
 
 export default {
-  additionalProps: async (ctx) => {
-    const baseId = ctx.baseId?.value ?? ctx.baseId;
-    const tableId = ctx.tableId?.value ?? ctx.tableId;
-    try {
-      const { tables } = await ctx.airtable.listTables({
-        baseId,
-      });
-      const tableSchema = tables.find(({ id }) => id === tableId);
-      return makeFieldProps(tableSchema);
-    } catch (err) {
-      const hasManualTableInput = !ctx.tableId?.label;
-      // If manual input and .table throws error, return a record prop
-      // otherwise, throw ConfigurationError
-      if (hasManualTableInput) {
-        return {
-          // Use record propDefinition directly to workaround lack of support
-          // for propDefinition in additionalProps
-          record: airtable.propDefinitions.record,
-          customExpressionInfo: airtable.propDefinitions.customExpressionInfo,
-        };
-      }
-      throw new ConfigurationError("Could not find a table for the specified base ID and table ID. Please adjust the action configuration to continue.");
-    }
-  },
   createRecord: async (ctx, $) => {
-    const baseId = ctx.baseId?.value ?? ctx.baseId;
-    const tableId = ctx.tableId?.value ?? ctx.tableId;
+    const {
+      baseId, tableId,
+    } = ctx;
 
-    const record = ctx.record ?? await makeRecord(ctx);
-
-    ctx.airtable.validateRecord(record);
+    const record = await resolveRecord(ctx);
 
     let response;
     try {
@@ -52,16 +46,17 @@ export default {
       ctx.airtable.throwFormattedError(err);
     }
 
-    $.export("$summary", `Added 1 record to ${ctx.baseId?.label || baseId}: [${ctx.tableId?.label || tableId}](https://airtable.com/${baseId}/${tableId})`);
+    $.export("$summary", `Added 1 record to ${baseId}: [${tableId}](https://airtable.com/${baseId}/${tableId})`);
     return response;
   },
   updateRecord: async (ctx, $) => {
-    const baseId = ctx.baseId?.value ?? ctx.baseId;
-    const tableId = ctx.tableId?.value ?? ctx.tableId;
+    const {
+      baseId, tableId,
+    } = ctx;
     const recordId = ctx.recordId;
 
     ctx.airtable.validateRecordID(recordId);
-    const record = ctx.record ?? await makeRecord(ctx);
+    const record = await resolveRecord(ctx);
 
     let response;
     try {
@@ -79,12 +74,13 @@ export default {
       ctx.airtable.throwFormattedError(err);
     }
 
-    $.export("$summary", `Updated record "${recordId}" in ${ctx.baseId?.label || baseId}: [${ctx.tableId?.label || tableId}](https://airtable.com/${baseId}/${tableId})`);
+    $.export("$summary", `Updated record "${recordId}" in ${baseId}: [${tableId}](https://airtable.com/${baseId}/${tableId})`);
     return response;
   },
   getRecord: async (ctx, $) => {
-    const baseId = ctx.baseId?.value ?? ctx.baseId;
-    const tableId = ctx.tableId?.value ?? ctx.tableId;
+    const {
+      baseId, tableId,
+    } = ctx;
     const recordId = ctx.recordId;
 
     ctx.airtable.validateRecordID(recordId);
@@ -99,7 +95,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Fetched record "${recordId}" from ${ctx.baseId?.label || baseId}: [${ctx.tableId?.label || tableId}](https://airtable.com/${baseId}/${tableId})`);
+    $.export("$summary", `Fetched record "${recordId}" from ${baseId}: [${tableId}](https://airtable.com/${baseId}/${tableId})`);
     return response;
   },
 };

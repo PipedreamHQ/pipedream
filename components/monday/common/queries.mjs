@@ -80,8 +80,8 @@ export default {
     }
   `,
   listWorkspaces: `
-    query { 
-      workspaces {
+    query listWorkspaces ($page: Int = 1, $limit: Int = 25) {
+      workspaces (page: $page, limit: $limit) {
         id
         name
       }
@@ -133,12 +133,17 @@ export default {
     }
   `,
   listItemsNextPage: `
-    query listItems ($cursor: String!) {
-      next_items_page (cursor: $cursor) {
+    query listItems ($cursor: String!, $limit: Int = 25) {
+      next_items_page (cursor: $cursor, limit: $limit) {
         cursor
         items {
           id
           name
+          column_values {
+            id
+            value
+            text
+          }
         }
       }
     }
@@ -154,6 +159,31 @@ export default {
         ) {
           id
           body
+        }
+      }
+    }
+  `,
+  listUpdates: `
+    query listUpdates (
+      $boardId: ID!,
+      $limit: Int = 25,
+      $page: Int = 1
+    ) {
+      boards (ids: [$boardId]) {
+        updates (
+          limit: $limit,
+          page: $page
+        ) {
+          id
+          item_id
+          body
+          text_body
+          created_at
+          updated_at
+          creator {
+            id
+            name
+          }
         }
       }
     }

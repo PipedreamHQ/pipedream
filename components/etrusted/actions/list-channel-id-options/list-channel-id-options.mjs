@@ -4,7 +4,7 @@ export default {
   key: "etrusted-list-channel-id-options",
   name: "List Channel ID Options",
   description: "Retrieves available options for the Channel ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

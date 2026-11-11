@@ -4,8 +4,9 @@ export default {
   key: "paystack-deactivate-authorization",
   name: "Deactivate Authorization",
   description: "Deactivate an authorization when the card needs to be forgotten. [See the documentation](https://paystack.com/docs/api/customer/#deactivate-authorization)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -15,8 +15,9 @@ export default {
     + " enroll contacts already active in other sequences."
     + " [See the documentation](https://docs.apollo.io/reference"
     + "/add-contacts-to-sequence)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

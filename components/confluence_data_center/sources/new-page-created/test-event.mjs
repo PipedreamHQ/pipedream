@@ -1,8 +1,38 @@
 export default {
-  "timestamp": 1768241233603,
-  "event": "page_created",
-  "userKey": "ff8081819ba46873019ba46aefbb0000",
-  "page": {
-    "id": 1015810
+  "id": "1015810",
+  "type": "page",
+  "status": "current",
+  "title": "Isla Nublar Dinosaur Inventory",
+  "space": {
+    "id": 98305,
+    "key": "DOCS",
+    "name": "Documentation",
+    "type": "global"
+  },
+  "history": {
+    "latest": true,
+    "createdBy": {
+      "type": "known",
+      "username": "jdoe",
+      "userKey": "ff8081819ba46873019ba46aefbb0000",
+      "displayName": "Jane Doe"
+    },
+    "createdDate": "2026-01-12T10:07:13.603-08:00"
+  },
+  "version": {
+    "by": {
+      "type": "known",
+      "username": "jdoe",
+      "userKey": "ff8081819ba46873019ba46aefbb0000",
+      "displayName": "Jane Doe"
+    },
+    "when": "2026-01-12T10:07:13.603-08:00",
+    "number": 1,
+    "minorEdit": false,
+    "hidden": false
+  },
+  "_links": {
+    "webui": "/spaces/DOCS/pages/1015810",
+    "self": "https://confluence.example.com/rest/api/content/1015810"
   }
-}
+};

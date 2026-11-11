@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../box.app.mjs";
 import { getFileUploadBody } from "../../common/common-file-upload.mjs";
 
@@ -6,13 +5,14 @@ export default {
   name: "Upload File Version",
   description: "Uploads a new version of an existing Box file (max 50MB), replacing its current content; prior versions are kept in version history on premium accounts. Optionally rename the file at the same time. Use **List File Versions** to review version history afterward. [See the documentation](https://developer.box.com/reference/post-files-id-content/).",
   key: "box-upload-file-version",
-  version: "0.1.8",
+  version: "0.1.9",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     folderId: {

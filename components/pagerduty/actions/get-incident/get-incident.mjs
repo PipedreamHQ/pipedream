@@ -7,8 +7,9 @@ export default {
     "Get full details for a single incident by ID, including its current status, urgency, assignments, and `html_url`."
     + " Use **List Incidents** to find the incident ID."
     + " [See the documentation](https://developer.pagerduty.com/api-reference/005299ed43553-get-an-incident)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

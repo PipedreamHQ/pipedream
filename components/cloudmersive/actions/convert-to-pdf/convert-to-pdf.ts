@@ -13,13 +13,14 @@ export default defineAction({
   name: "Convert to PDF",
   description: `Convert Office Word Documents (docx) to PDF [See the documentation](${DOCS.convertToPDF})`,
   key: "cloudmersive-convert-to-pdf",
-  version: "1.0.2",
+  version: "1.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     cloudmersive,
     file: {

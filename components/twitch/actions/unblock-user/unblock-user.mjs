@@ -6,13 +6,14 @@ export default {
   name: "Unblock User",
   key: "twitch-unblock-user",
   description: "Unblocks the specified user. [See the documentation](https://dev.twitch.tv/docs/api/reference/#unblock-user)",
-  version: "0.2.0",
+  version: "0.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     user: {

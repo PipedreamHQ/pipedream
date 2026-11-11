@@ -3,8 +3,8 @@ import app from "../../anchor_browser.app.mjs";
 export default {
   key: "anchor_browser-start-browser",
   name: "Start Browser",
-  description: "Allocates a new browser session for the user, with optional configurations for ad-blocking, captcha solving, proxy usage, and idle timeout. [See the documentation](https://docs.anchorbrowser.io/api-reference/browser-sessions/start-browser).",
-  version: "0.0.2",
+  description: "Allocates a new browser session for the user, with optional configurations for ad-blocking, captcha solving, proxy usage, and idle timeout. [See the documentation](https://docs.anchorbrowser.io/api-reference/browser-sessions/start-browser-session).",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -36,7 +36,10 @@ export default {
     proxyConfigType: {
       type: "string",
       label: "Proxy Configuration - Type",
-      description: "The type of proxy configuration to use. Eg. `anchor_residential`.",
+      description: "The type of proxy configuration to use. Eg. `anchor_proxy`.",
+      options: [
+        "anchor_proxy",
+      ],
       optional: true,
     },
     proxyConfigActive: {
@@ -52,16 +55,18 @@ export default {
       optional: true,
     },
     profileName: {
-      description: "The name of the profile to use for the browser session.",
+      description: "The name of the profile to use for the browser session, e.g. `my-profile`. Use **List Profile Name Options** to retrieve available profile names. Leave empty to start a session without a profile.",
       propDefinition: [
         app,
         "profileName",
       ],
+      optional: true,
     },
     profilePersist: {
       type: "boolean",
       label: "Profile - Persist",
-      description: "Whether the profile should persist after the session ends.",
+      description: "Whether the profile should persist after the session ends. Requires **Profile Name**.",
+      optional: true,
     },
     viewportWidth: {
       type: "integer",
@@ -74,15 +79,15 @@ export default {
       description: "The height of the viewport",
     },
     timeout: {
-      type: "string",
+      type: "integer",
       label: "Timeout",
-      description: "Maximum amount of time (in minutes) for the browser to run, before terminating. Defaults to `-1`, which disables the global timeout mechanism.",
+      description: "Maximum amount of time (in minutes) for the browser to run before terminating. Defaults to `20`. Set to `-1` to disable this limit.",
       optional: true,
     },
     idleTimeout: {
-      type: "string",
+      type: "integer",
       label: "Idle Timeout",
-      description: "The amount of time (in minutes) the session waits for new connections after all others are closed before stopping. Defaults to `1`. Setting it to `-1` let the browser session continue forever [**CAUTION** - Keep track of long living sessions and manually kill them].",
+      description: "The amount of time (in minutes) the session waits for new connections after all others are closed before stopping. Defaults to `5`. Set to `-1` to disable this limit.",
       optional: true,
     },
   },
@@ -115,31 +120,45 @@ export default {
     const response = await startBrowserSession({
       $,
       data: {
-        adblock_config: {
-          active: adblockConfigActive,
-          popup_blocking_active: adblockConfigPopupBlockingActive,
+        session: {
+          ...((proxyConfigType !== undefined || proxyConfigActive !== undefined) && {
+            proxy: {
+              type: proxyConfigType,
+              active: proxyConfigActive ?? false,
+            },
+          }),
+          recording: {
+            active: recordingActive,
+          },
+          timeout: {
+            max_duration: timeout,
+            idle_timeout: idleTimeout,
+          },
         },
-        captcha_config: {
-          active: captchaConfigActive,
+        browser: {
+          adblock: {
+            active: adblockConfigActive,
+          },
+          popup_blocker: {
+            active: adblockConfigPopupBlockingActive,
+          },
+          captcha_solver: {
+            active: captchaConfigActive,
+          },
+          headless: {
+            active: headless,
+          },
+          ...(profileName && {
+            profile: {
+              name: profileName,
+              persist: profilePersist,
+            },
+          }),
+          viewport: {
+            width: viewportWidth,
+            height: viewportHeight,
+          },
         },
-        headless,
-        proxy_config: {
-          type: proxyConfigType,
-          active: proxyConfigActive,
-        },
-        recording: {
-          active: recordingActive,
-        },
-        profile: {
-          name: profileName,
-          persist: profilePersist,
-        },
-        viewport: {
-          width: viewportWidth,
-          height: viewportHeight,
-        },
-        timeout,
-        idle_timeout: idleTimeout,
       },
     });
 

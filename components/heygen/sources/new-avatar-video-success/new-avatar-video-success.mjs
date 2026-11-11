@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "heygen-new-avatar-video-success",
   name: "New Avatar Video Success (Instant)",
-  description: "Emit new event when a new avatar video has been successfully generated. [See the documentation](https://docs.heygen.com/reference/add-a-webhook-endpoint)",
-  version: "0.0.1",
+  description: "Emit new event when a new avatar video has been successfully generated. [See the documentation](https://developers.heygen.com/reference/create-webhook-endpoint)",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

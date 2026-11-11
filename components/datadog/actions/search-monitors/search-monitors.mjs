@@ -15,8 +15,9 @@ export default {
     + " ID, name, type, query, status, and tags."
     + " [See the docs](https://docs.datadoghq.com/api/"
     + "latest/monitors/#get-all-monitor-details)",
-  version: "1.0.1",
+  version: "1.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

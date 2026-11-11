@@ -1,9 +1,9 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import visualping from "../../app/visualping.app.mjs";
+import visualping from "../../visualping.app.mjs";
 
 export default {
   name: "New Job Created",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "visualping-new-job-created",
   description: "Emit new event for each new job created.",
   type: "source",

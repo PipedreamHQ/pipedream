@@ -3,13 +3,14 @@ export default {
   name: "Private Reply",
   description: "Create a private reply for a review, on behalf of the shop. Private replies are not shown on the widgets, but can be emailed to the reviewers. [See the documentation](https://judge.me/api/docs#tag/Private-Replies)",
   key: "judge_me-private-reply",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     reviewId: {

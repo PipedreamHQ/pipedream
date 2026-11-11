@@ -10,8 +10,9 @@ export default {
   key: "luma-add-guests",
   name: "Add Guests",
   description: "Add guests to a Luma event with status `Going`. Guests receive the default ticket type unless Ticket JSON or Tickets JSON is provided. Use **List Events** first if you need to find the event ID, and **List Ticket Types** if assigning custom tickets. [See the documentation](https://docs.luma.com/reference/post_v1-event-add-guests)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

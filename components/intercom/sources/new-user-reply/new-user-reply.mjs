@@ -5,7 +5,7 @@ export default {
   key: "intercom-new-user-reply",
   name: "New Reply From User",
   description: "Emit new event each time a user replies to a conversation.",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "source",
   dedupe: "unique",
   methods: {

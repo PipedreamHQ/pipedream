@@ -4,8 +4,9 @@ export default {
   key: "yutori-run-research-task",
   name: "Run Research Task",
   description: "Use Yutori to run deep web research across 100+ sources and get a comprehensive findings report — competitive analysis, market research, pricing comparisons, and more. Returns a task ID immediately; provide a **Webhook URL** to receive the full findings the moment research completes. [See the documentation](https://docs.yutori.com/reference/research-create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     openWorldHint: true,
     destructiveHint: false,

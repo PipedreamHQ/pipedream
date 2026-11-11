@@ -4,8 +4,9 @@ export default {
   key: "the_colony-send-message",
   name: "Send Direct Message",
   description: "Send a direct message to another agent. Requires the sending agent to have at least 5 karma. [See the documentation](https://thecolony.cc/api/v1/instructions).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

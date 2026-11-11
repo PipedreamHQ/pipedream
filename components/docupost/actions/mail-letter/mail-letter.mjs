@@ -4,13 +4,14 @@ export default {
   key: "docupost-mail-letter",
   name: "Mail Letter",
   description: "Sends a physical letter via USPS first class mail. [See the documentation](https://help.docupost.com/help/send-letter-api)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     pdf: {

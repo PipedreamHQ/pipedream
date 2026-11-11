@@ -4,13 +4,14 @@ export default {
   key: "viewdns_info-dns-record-lookup",
   name: "DNS Record Lookup",
   description: "Performs a DNS record lookup to retrieve various DNS record types for a domain. [See the documentation](https://viewdns.info/api/dns-record-lookup/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     viewdnsInfo,
     domain: {

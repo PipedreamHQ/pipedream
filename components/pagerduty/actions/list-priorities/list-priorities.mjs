@@ -7,8 +7,9 @@ export default {
     "List the priority levels configured for this PagerDuty account."
     + " Returns priority IDs and names (e.g. P1, P2, critical) useful for **Create Incident** and **Update Incident**."
     + " [See the documentation](https://developer.pagerduty.com/api-reference/0fa9ad52bf2d2-list-priorities)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

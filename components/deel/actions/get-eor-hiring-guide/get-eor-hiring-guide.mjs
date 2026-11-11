@@ -10,8 +10,9 @@ export default {
     + " restrictions apply (e.g., minimum salary, mandatory benefits, work visa rules)."
     + " `country_code` must be an ISO 3166-1 alpha-2 code (e.g., `DE` for Germany, `GB` for UK, `US` for United States)."
     + " [See the documentation](https://developer.deel.com/api/reference/endpoints/eor-hiring/get-eor-hiring-guide-by-country)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -11,8 +11,9 @@ export default {
     + " BirthDate format: ISO datetime string `YYYY-MM-DDTHH:MM:SS` (e.g., `1990-05-15T00:00:00`)."
     + " Use **Search Clients** to find an existing client's ID before updating."
     + " [See the documentation](https://developers.mindbodyonline.com/ui/documentation/public-api#/http/api-endpoints/client/update-client)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

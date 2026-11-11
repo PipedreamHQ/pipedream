@@ -5,7 +5,7 @@ import {
   HttpRequestParams, ListPostsParams, PaginatedRequestParams, UpdateReplyParams, GetReviewParams, BatchGetReviewsParams,
 } from "../common/requestParams";
 import {
-  Account, LocalPost, Location, Review,
+  Account, ListReviewsResponse, LocalPost, Location, Review,
 } from "../common/responseSchemas";
 
 export default defineApp({
@@ -191,7 +191,7 @@ export default defineApp({
     },
     listReviews({
       account, location, ...args
-    }: Record<string, string> & { args: object }): Promise<unknown> {
+    }: Record<string, string> & { args: object }): Promise<ListReviewsResponse> {
       return this._httpRequest({
         url: `https://mybusiness.googleapis.com/v4/accounts/${this.getCleanName(account)}/locations/${this.getCleanName(location)}/reviews`,
         ...args,

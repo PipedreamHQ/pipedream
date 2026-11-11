@@ -8,15 +8,15 @@ To get started, first [log in to the AWS console](https://signin.aws.amazon.com/
 
 Once you've logged in, navigate to the Identity and Access Management (IAM) service. Then click the **Users** section:
 
-![Open the users management area in the AWS IAM service](https://res.cloudinary.com/pipedreamin/image/upload/v1715097590/marketplace/apps/aws/CleanShot_2024-05-07_at_11.59.24_mgqvr5.png)
+![Open the users management area in the AWS IAM service](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/aws/CleanShot_2024-05-07_at_11.59.24_mgqvr5.png)
 
 From within the users management section, create a new user by clicking **Create User** in the top right:
 
-![Creating a new user from within the AWS IAM console](https://res.cloudinary.com/pipedreamin/image/upload/v1715097847/marketplace/apps/aws/CleanShot_2024-05-07_at_12.03.52_rm4kae.png)
+![Creating a new user from within the AWS IAM console](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/aws/CleanShot_2024-05-07_at_12.03.52_rm4kae.png)
 
 On the next page, you'll be prompted to name the user. We recommend naming the user `pipedream` so you can easily remember which service this user is tied to:
 
-![Naming the new IAM user](https://res.cloudinary.com/pipedreamin/image/upload/v1715097913/marketplace/apps/aws/CleanShot_2024-05-07_at_12.04.30_acgthh.png)
+![Naming the new IAM user](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/aws/CleanShot_2024-05-07_at_12.04.30_acgthh.png)
 
 Next, you'll be prompted to define this user's *permissions*. You have three options:
 1. Attach the user to a group - the new user will inherit the group's permission policies.
@@ -25,7 +25,7 @@ Next, you'll be prompted to define this user's *permissions*. You have three opt
 
 If you're unfamiliar with defining permissions in AWS, consider using a pre-made permission policy. For example, if you need Pipedream to integrate with S3, you can choose the `S3FullAccessPolicy` by searching for "s3" in the search bar:
 
-![Searching for s3 in the permissions search bar within IAM to attach the S3FullAccessPolicy directly to the pipedream user](https://res.cloudinary.com/pipedreamin/image/upload/v1715098770/marketplace/apps/aws/CleanShot_2024-05-07_at_12.19.01_zwgldj.png)
+![Searching for s3 in the permissions search bar within IAM to attach the S3FullAccessPolicy directly to the pipedream user](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/aws/CleanShot_2024-05-07_at_12.19.01_zwgldj.png)
 
 Alternatively, you can craft specific policies within IAM that only grant specific access to specific AWS resources to this new `pipedream` user.
 

@@ -4,13 +4,14 @@ export default {
   key: "octopush_sms-send-new-sms",
   name: "Send New SMS",
   description: "Sends a new SMS using Octopush SMS. [See the documentation](https://dev.octopush.com/en/sms-gateway-api-documentation/send-sms/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     octopush,
     text: {

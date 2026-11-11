@@ -5,13 +5,14 @@ export default {
   key: "agify-get-age-from-names",
   name: "Get Age From Names (Batch)",
   description: "Estimate the age of up to 10 names in a single batch request. [See the documentation](https://agify.io/documentation#batch-usage)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     names: {

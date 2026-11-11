@@ -9,8 +9,9 @@ export default {
     + " `statsType` `FILTERED` removes wash trades for cleaner signal; `UNFILTERED` includes all activity."
     + " Use **Get Networks** to resolve the numeric `networkId` if needed."
     + " [See the documentation](https://docs.codex.io/api-reference/queries/getdetailedpairstats)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

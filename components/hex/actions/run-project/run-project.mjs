@@ -5,13 +5,14 @@ export default {
   key: "hex-run-project",
   name: "Run Project",
   description: "Trigger a run of the latest published version of a project. [See the documentation](https://learn.hex.tech/docs/api/api-reference#operation/RunProject)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     hex,
     projectId: {

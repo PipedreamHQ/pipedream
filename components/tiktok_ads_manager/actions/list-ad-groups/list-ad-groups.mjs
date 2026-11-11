@@ -8,8 +8,9 @@ export default {
     + " Returns ad group IDs, names, status, budget, schedule, and targeting."
     + " Use campaign IDs from **List Campaigns** to filter. Use ad group IDs returned here as input to **List Ads** or **Create or Update Ad**."
     + " [See the documentation](https://business-api.tiktok.com/portal/docs/get-ad-groups/v1.3)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

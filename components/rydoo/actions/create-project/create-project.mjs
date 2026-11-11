@@ -4,8 +4,9 @@ export default {
   key: "rydoo-create-project",
   name: "Create Project",
   description: "Sets up a new company project for expense allocation. [See the documentation](https://developers.rydoo.com/reference/v2projectsaddproject)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

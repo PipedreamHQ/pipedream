@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "heygen-new-avatar-video-failure",
   name: "New Avatar Video Failure (Instant)",
-  description: "Emit new event when a Heygen video fails during processing. [See the documentation](https://docs.heygen.com/reference/add-a-webhook-endpoint)",
-  version: "0.0.1",
+  description: "Emit new event when a Heygen video fails during processing. [See the documentation](https://developers.heygen.com/reference/create-webhook-endpoint)",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

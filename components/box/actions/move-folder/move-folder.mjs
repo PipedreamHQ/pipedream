@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../box.app.mjs";
 import utils from "../../common/utils.mjs";
 
@@ -6,8 +5,9 @@ export default {
   key: "box-move-folder",
   name: "Move Folder",
   description: "Moves a folder to a new parent folder. Optionally rename the folder while moving. Provide the source folder ID and destination parent folder ID (`0` for root). Cannot move a folder into itself or one of its descendants. When renaming, the new name must be 1-255 characters, use only Unicode Basic Multilingual Plane (BMP) characters, and cannot contain non-printable characters, `/` or `\\`, leading or trailing spaces, or be `.` or `..`. Use **Create Folder** to create a destination first if needed. [See folder name restrictions](https://support.box.com/hc/en-us/articles/360044196773-Troubleshooting-Uploads-to-Box). [See the documentation](https://developer.box.com/reference/put-folders-id/).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

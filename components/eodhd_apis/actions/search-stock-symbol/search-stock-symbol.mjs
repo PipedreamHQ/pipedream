@@ -4,7 +4,7 @@ import eodhdApis from "../../eodhd_apis.app.mjs";
 export default {
   key: "eodhd_apis-search-stock-symbol",
   name: "Search Stock Symbol",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -12,6 +12,7 @@ export default {
   },
   description: "Find stock symbols using company names or partial symbols. [See the docs here](https://eodhistoricaldata.com/financial-apis/search-api-for-stocks-etfs-mutual-funds-and-indices/)",
   type: "action",
+  ai: "optimized",
   props: {
     eodhdApis,
     query: {

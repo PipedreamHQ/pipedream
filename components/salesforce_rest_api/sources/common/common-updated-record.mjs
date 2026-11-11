@@ -13,20 +13,27 @@ export default {
       this.setNameField(nameField);
 
       if (!this.skipFirstRun) {
-        const { recentItems } = await this.salesforce.listSObjectTypeIds(objectType);
-        const ids = recentItems.map((item) => item.Id);
+        try {
+          const { records } = await this.query({
+            query: `SELECT Id FROM ${objectType} ORDER BY ${constants.FIELD_NAME.LAST_MODIFIED_DATE} DESC LIMIT ${constants.DEPLOY_HISTORICAL_LIMIT}`,
+          });
+          const ids = records.map((r) => r.Id);
 
-        for (const id of ids.slice(-25)) {
-          const object = await this.salesforce.getSObject(objectType, id);
+          for (const id of ids.slice(-constants.DEPLOY_HISTORICAL_LIMIT).reverse()) {
+            const object = await this.salesforce.getSObject(objectType, id);
 
-          const event = {
-            body: {
-              "New": object,
-              "UserId": id,
-            },
-          };
-          const meta = this.generateWebhookMeta(event);
-          this.$emit(event.body, meta);
+            const event = {
+              body: {
+                "New": object,
+                "UserId": id,
+              },
+            };
+            const meta = this.generateWebhookMeta(event);
+            this.$emit(event.body, meta);
+          }
+        } catch (err) {
+          console.log("Error seeding historical records during deploy:", err);
+          console.log("The source will still be created and will emit updated records going forward.");
         }
       }
     },
@@ -229,49 +236,40 @@ export default {
       const {
         getNameField,
         getObjectTypeColumns,
-        paginate,
-        setLatestDateCovered,
         generateTimerMeta,
         $emit: emit,
       } = this;
 
       const {
         startTimestamp,
+        startId,
         endTimestamp,
       } = eventData;
 
       const fieldName = getNameField();
       const columns = getObjectTypeColumns();
       const objectType = this.getObjectType();
+      const dateFieldName = constants.FIELD_NAME.LAST_MODIFIED_DATE;
 
-      const events = await paginate({
+      // Oldest first, so emitting in order keeps events chronological
+      const events = await this.paginate({
         objectType,
         startTimestamp,
+        startId,
         endTimestamp,
         columns,
-        dateFieldName: constants.FIELD_NAME.LAST_MODIFIED_DATE,
+        dateFieldName,
       });
 
-      const [
-        latestEvent,
-      ] = events;
-
-      let latestDateCovered = new Date(latestEvent?.LastModifiedDate || endTimestamp);
-      if (isNaN(latestDateCovered.getMilliseconds())) {
-        latestDateCovered = new Date();
-      }
-      latestDateCovered.setSeconds(0);
-      setLatestDateCovered(latestDateCovered.toISOString());
+      this.setPollingCursor(events, dateFieldName);
 
       const { fields } = this;
 
       if (!fields?.length) {
-        Array.from(events)
-          .reverse()
-          .forEach((item) => {
-            const meta = generateTimerMeta(item, fieldName);
-            emit(item, meta);
-          });
+        events.forEach((item) => {
+          const meta = generateTimerMeta(item, fieldName);
+          emit(item, meta);
+        });
         return;
       }
 
@@ -285,12 +283,10 @@ export default {
 
       if (recordsWithFieldChanges === null) {
         console.log("Emitting all updated records due to field history unavailability");
-        Array.from(events)
-          .reverse()
-          .forEach((item) => {
-            const meta = generateTimerMeta(item, fieldName);
-            emit(item, meta);
-          });
+        events.forEach((item) => {
+          const meta = generateTimerMeta(item, fieldName);
+          emit(item, meta);
+        });
         return;
       }
 
@@ -298,12 +294,10 @@ export default {
 
       console.log(`Filtered ${events.length} updated records to ${filteredEvents.length} with watched field changes`);
 
-      Array.from(filteredEvents)
-        .reverse()
-        .forEach((item) => {
-          const meta = generateTimerMeta(item, fieldName);
-          emit(item, meta);
-        });
+      filteredEvents.forEach((item) => {
+        const meta = generateTimerMeta(item, fieldName);
+        emit(item, meta);
+      });
     },
     async timerActivateHook() {
       const {

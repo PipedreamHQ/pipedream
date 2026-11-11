@@ -3,14 +3,15 @@ import bamboohr from "../../bamboohr.app.mjs";
 export default {
   key: "bamboohr-add-application-comment",
   name: "Add Application Comment",
-  description: "Add a comment to an application. [See the documentation](https://documentation.bamboohr.com/reference/post-application-comment-1)",
-  version: "0.0.2",
+  description: "Add a comment to an application. [See the documentation](https://documentation.bamboohr.com/reference/create-application-comment)",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     bamboohr,
     applicationId: {

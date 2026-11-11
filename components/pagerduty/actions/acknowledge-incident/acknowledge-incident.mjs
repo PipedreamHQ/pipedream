@@ -6,7 +6,8 @@ export default {
   name: "Acknowledge Incident",
   description: "**Deprecated** — use **Update Incident** instead. Acknowledge an incident. [See the documentation](https://developer.pagerduty.com/api-reference/8a0e1aa2ec666-update-an-incident)",
   type: "action",
-  version: "0.0.4",
+  ai: "optimized",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

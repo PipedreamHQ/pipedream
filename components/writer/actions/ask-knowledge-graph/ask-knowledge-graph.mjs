@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../writer.app.mjs";
 
 export default {
@@ -10,8 +9,9 @@ export default {
     + "Example: call with `graphIds=[\"a1b2...\"]` and `question=\"What are the park hours?\"` -> returns `{ question, answer, sources, references }`. "
     + "If a graph has no relevant content it returns a graceful 'no relevant information' answer rather than an error. "
     + "[See the documentation](https://dev.writer.com/api-reference/kg-api/question)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -2,11 +2,11 @@
 
 Slack messages can contain interactive elements like buttons, dropdowns, radio buttons, and more. This source subscribes to interactive events, like when a button is clicked in a message.
 
-![Example of a Slack button](https://res.cloudinary.com/pipedreamin/image/upload/v1668443788/docs/components/CleanShot_2022-11-10_at_10.17.172x_dxdz1o.png)
+![Example of a Slack button](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/docs/components/CleanShot_2022-11-10_at_10.17.172x_dxdz1o.png)
 
 Then this source will be triggered when you or another Slack user in your workspace clicks a button, selects an option or fills out a form.
 
-![Example feed of interaction events coming from Slack](https://res.cloudinary.com/pipedreamin/image/upload/v1668443818/docs/components/CleanShot_2022-11-10_at_10.19.152x_eyiims.png)
+![Example feed of interaction events coming from Slack](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/docs/components/CleanShot_2022-11-10_at_10.19.152x_eyiims.png)
 
 With this trigger, you can build workflows that perform some work with other APIs or services, and then reply back to the original message.
 
@@ -24,7 +24,7 @@ If you have already sent a message containing an element, skip to **************
 
 The easiest way is to send yourself a message using the ****************************Slack - Send Message Using Block Kit**************************** action:
 
-![Selecting the Send Slack Message with Block Kit](https://res.cloudinary.com/pipedreamin/image/upload/v1668443844/docs/components/CleanShot_2022-11-10_at_10.25.522x_vxiooo.png)
+![Selecting the Send Slack Message with Block Kit](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/docs/components/CleanShot_2022-11-10_at_10.25.522x_vxiooo.png)
 
 Then select a **************Channel************** you’d like to send the message to, and use the **************[Block Kit Builder](https://app.slack.com/block-kit-builder/)************** to build a message, or just copy the example button blocks below:
 
@@ -50,7 +50,7 @@ Then select a **************Channel************** you’d like to send the messa
 
 Your ******************Slack - Send Message Using Block Kit****************** should look like this:
 
-![Setting up the block kit message with a button block](https://res.cloudinary.com/pipedreamin/image/upload/v1668443887/docs/components/CleanShot_2022-11-10_at_10.29.552x_kvfznm.png)
+![Setting up the block kit message with a button block](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/docs/components/CleanShot_2022-11-10_at_10.29.552x_kvfznm.png)
 
 ## Configuring the source
 

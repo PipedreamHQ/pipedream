@@ -4,13 +4,14 @@ export default {
   key: "talkspirit-create-post-comment",
   name: "Create Post Comment",
   description: "Creates a new post or adds a comment to an existing thread in Talkspirit using Incoming Webhooks. [See the documentation](https://talkspirit.github.io/docs/incoming-webhooks/)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     talkspirit,
     title: {

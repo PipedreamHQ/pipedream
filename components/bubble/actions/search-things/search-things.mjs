@@ -5,8 +5,9 @@ export default {
   key: "bubble-search-things",
   name: "Search Things",
   description: "Searches for things (records) in your Bubble app's database with optional filtering, sorting, and pagination. [See the documentation](https://manual.bubble.io/core-resources/api/the-bubble-api/the-data-api/data-api-requests#get-a-list-of-things)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

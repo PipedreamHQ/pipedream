@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-list-ticket-field-id-options",
   name: "List Ticket Field ID Options",
   description: "Retrieves available options for the Ticket Field ID field.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -9,8 +9,9 @@ export default {
     + "Use **List Employees** to find the employee's `id` first. "
     + "Returns a confirmation when deletion succeeds. "
     + "[See the Peakon API documentation](https://developer.peakon.com/reference/delete_employees-employeeid)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

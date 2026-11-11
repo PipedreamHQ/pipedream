@@ -4,7 +4,7 @@ export default {
   key: "confluence_data_center-get-pages",
   name: "Get Pages",
   description: "Retrieve a list of pages in Confluence Data Center. [See the documentation](https://developer.atlassian.com/server/confluence/rest/v1022/api-group-content-resource/#api-rest-api-content-get)",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,

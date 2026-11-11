@@ -1,17 +1,19 @@
 import gorgiasOauth from "../../gorgias_oauth.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "gorgias_oauth-create-ticket-message",
   name: "Create Ticket Message",
-  description: "Create a message for a ticket in the Gorgias system. [See the documentation](https://developers.gorgias.com/reference/create-ticket-message)",
-  version: "0.2.0",
+  description: "Create a message or internal note on a Gorgias ticket. Use **List Tickets** to find the ticket ID and its customer, and **List Integrations** for the Integration ID. Set From Agent to `true` for a reply from your team (From User + To Customer) or `false` for a customer message (From Customer + To User). Returns the created message. [See the documentation](https://developers.gorgias.com/reference/create-ticket-message)",
+  version: "0.4.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     gorgiasOauth,
     ticketId: {
@@ -24,8 +26,7 @@ export default {
     fromAgent: {
       type: "boolean",
       label: "From Agent",
-      description: "Whether the message was sent by your company to a customer, or the opposite",
-      reloadProps: true,
+      description: "Whether the message was sent by your company to a customer, or the opposite. Must be `true` for internal notes. Example: `true`",
     },
     fromUser: {
       propDefinition: [
@@ -33,9 +34,8 @@ export default {
         "userId",
       ],
       label: "From User",
-      description: "User who sent the message",
-      optional: false,
-      hidden: true,
+      description: "User who sent the message. Required when From Agent is `true`. Example: `123456`",
+      optional: true,
     },
     toUser: {
       propDefinition: [
@@ -43,9 +43,8 @@ export default {
         "userId",
       ],
       label: "To User",
-      description: "The user receiving the message",
-      optional: false,
-      hidden: true,
+      description: "The user receiving the message. Required when From Agent is `false`. Example: `123456`",
+      optional: true,
     },
     fromCustomer: {
       propDefinition: [
@@ -53,8 +52,8 @@ export default {
         "customerId",
       ],
       label: "From Customer",
-      description: "The customer who sent the message",
-      hidden: true,
+      description: "The customer who sent the message. Required when From Agent is `false`. Example: `654321`",
+      optional: true,
     },
     toCustomer: {
       propDefinition: [
@@ -62,13 +61,19 @@ export default {
         "customerId",
       ],
       label: "To Customer",
-      description: "The customer receiving the message",
-      hidden: true,
+      description: "The customer receiving the message. Required when From Agent is `true`, except for internal notes. Example: `654321`",
+      optional: true,
     },
     message: {
       type: "string",
       label: "Message",
       description: "Message of the ticket. Accepts HTML",
+    },
+    bodyText: {
+      propDefinition: [
+        gorgiasOauth,
+        "bodyText",
+      ],
     },
     fromAddress: {
       type: "string",
@@ -85,7 +90,7 @@ export default {
     toAddress: {
       type: "string",
       label: "To Address (override)",
-      description: "If set, used as `source.to[0].address` instead of looking up the To User/Customer's email.",
+      description: "If set, used as `source.to[0].address`. Otherwise, agent messages on messaging channels (chat, Instagram DM, Messenger, WhatsApp, SMS, Twitter DM) use the `source.from.address` of the To Customer's latest message on that channel in the ticket (see **List Ticket Messages**), e.g. `92fc13f6-55b5-4ff3-85c3-dbaaad7366fb` for chat, and everything else uses the To User/Customer's email.",
       optional: true,
     },
     toName: {
@@ -101,19 +106,26 @@ export default {
       ],
       optional: false,
       default: "email",
-      reloadProps: true,
     },
     via: {
       propDefinition: [
         gorgiasOauth,
         "via",
       ],
+      description: "How the message is sent from Gorgias. With `help-center`, Gorgias stores the message without sending it",
       optional: false,
+      default: "api",
     },
     sourceType: {
       propDefinition: [
         gorgiasOauth,
         "sourceType",
+      ],
+    },
+    integrationId: {
+      propDefinition: [
+        gorgiasOauth,
+        "integrationId",
       ],
     },
     subject: {
@@ -141,19 +153,6 @@ export default {
       description: "When the message was sent. If ommited, the message will be sent by Gorgias. E.g. `2025-01-27T19:38:52.028Z`",
       optional: true,
     },
-  },
-  additionalProps(props) {
-    const isInternalNote = this.channel === "internal-note";
-    props.toUser.hidden = this.fromAgent || isInternalNote;
-    props.fromCustomer.hidden = this.fromAgent || isInternalNote;
-    props.toCustomer.hidden = !this.fromAgent || isInternalNote;
-    props.fromUser.hidden = !this.fromAgent;
-    props.fromAddress.hidden = isInternalNote;
-    props.fromName.hidden = isInternalNote;
-    props.toAddress.hidden = isInternalNote;
-    props.toName.hidden = isInternalNote;
-    props.sourceType.hidden = isInternalNote;
-    return {};
   },
   methods: {
     /**
@@ -229,6 +228,7 @@ export default {
     const messageData = {
       channel: this.channel,
       body_html: this.message,
+      body_text: this.bodyText,
       via: this.via,
       subject: this.subject,
       from_agent: this.fromAgent,
@@ -248,6 +248,19 @@ export default {
 
     // Only add source and receiver for non-internal notes
     if (!isInternalNote) {
+      const useChannelAddress = this.fromAgent
+        && constants.messagingChannels.includes(this.channel);
+      const toAddress = this.toAddress ?? (useChannelAddress
+        ? await this.gorgiasOauth.getCustomerChannelAddress({
+          $,
+          ticketId: this.ticketId,
+          channel: this.channel,
+          customerId: toId,
+        })
+        : await this.getEmail($, toId, "to"));
+      if (!toAddress && useChannelAddress) {
+        throw new ConfigurationError(`No ${this.channel} address found for the customer on this ticket. Set To Address`);
+      }
       messageData.source = {
         ...(this.sourceType && {
           type: this.sourceType,
@@ -260,7 +273,7 @@ export default {
         },
         to: [
           {
-            address: this.toAddress ?? await this.getEmail($, toId, "to"),
+            address: toAddress,
             ...(this.toName && {
               name: this.toName,
             }),
@@ -270,6 +283,7 @@ export default {
       messageData.receiver = {
         id: toId,
       };
+      messageData.integration_id = this.integrationId;
     }
 
     const response = await this.gorgiasOauth.createMessage({

@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import common from "../common/base.mjs";
 import props from "../common/props.mjs";
@@ -8,13 +7,14 @@ export default {
   key: "google_contacts-create-contact",
   name: "Create Contact",
   description: "Creates a contact. Provide at least one of the optional fields (name, email, phone, etc.). [See the documentation](https://developers.google.com/people/api/rest/v1/people/createContact)",
-  version: "0.1.5",
+  version: "0.1.6",
   annotations: {
     "destructiveHint": false,
     "openWorldHint": true,
     "readOnlyHint": false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     ...props,

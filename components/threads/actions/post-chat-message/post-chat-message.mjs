@@ -4,13 +4,14 @@ export default {
   key: "threads-post-chat-message",
   name: "Post a Chat Message",
   description: "Post a message to a chat. First, make sure you add your Bot user to the chat. [See the Documentation](https://github.com/ThreadsHQ/api-documentation#post-chat-message)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     threads,
     chatID: {

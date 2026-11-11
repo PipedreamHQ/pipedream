@@ -4,13 +4,14 @@ export default {
   key: "bitmex-list-trades",
   name: "List Trades",
   description: "Retrieve a list of executed trades from your BitMEX account. [See the documentation](https://www.bitmex.com/api/explorer/#!/Execution/Execution_getTradeHistory)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: false,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     bitmex,
     filter: {

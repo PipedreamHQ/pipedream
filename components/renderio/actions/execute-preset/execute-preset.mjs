@@ -8,13 +8,14 @@ export default {
   key: "renderio-execute-preset",
   name: "Execute Preset",
   description: "Execute a RenderIO preset with input files. [See the documentation](https://renderio.dev/docs/api-reference/presets/execute-preset)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     renderio,
     presetId: {

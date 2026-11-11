@@ -5,7 +5,7 @@ export default {
   key: "gitlab-list-groups",
   name: "List Groups",
   description: "List all groups. [See the documentation](https://docs.gitlab.com/api/groups/#list-groups)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

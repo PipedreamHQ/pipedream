@@ -72,6 +72,21 @@ const PRIORITY_OPTIONS = [
   },
 ];
 
+const HEALTH_OPTIONS = [
+  {
+    label: "On Track",
+    value: "onTrack",
+  },
+  {
+    label: "At Risk",
+    value: "atRisk",
+  },
+  {
+    label: "Off Track",
+    value: "offTrack",
+  },
+];
+
 export default {
   WEBHOOK_ID,
   LINEAR_DELIVERY_HEADER,
@@ -85,4 +100,5 @@ export default {
   ORDER_BY_OPTIONS,
   FIELD,
   PRIORITY_OPTIONS,
+  HEALTH_OPTIONS,
 };

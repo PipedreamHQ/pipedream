@@ -6,13 +6,14 @@ export default {
   key: "lusha-search-contact-signals",
   name: "Search Contact Signals",
   description: "Search for contact signals using identifiers like LinkedIn URL, email, or name + company. This endpoint combines search and signal enrichment in a single request. [See the documentation](https://docs.lusha.com/apis/openapi/signals/searchcontactsignals)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     lusha,
     info: {

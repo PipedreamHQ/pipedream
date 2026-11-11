@@ -10,8 +10,9 @@ export default {
     + " Set Secret to true to make the note visible only to admins and super admins."
     + " Example: call with opportunityId=\"<id>\", note=\"Strong communicator; advancing to onsite.\", performAs=\"<userId>\" → adds the note and returns it."
     + " [See the documentation](https://hire.lever.co/developer/documentation#create-a-note)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

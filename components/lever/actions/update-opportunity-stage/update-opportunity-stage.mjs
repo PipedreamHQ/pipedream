@@ -10,8 +10,9 @@ export default {
     + " Every stage change is logged in Lever's audit trail under the Perform As user."
     + " Example: call with opportunityId=\"<id>\", stageId=\"<stageId>\", performAs=\"<userId>\" → moves the candidate to that stage and returns the updated opportunity."
     + " [See the documentation](https://hire.lever.co/developer/documentation#update-stage-on-an-opportunity)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

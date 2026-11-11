@@ -4,8 +4,9 @@ export default {
   key: "daytona-get-preview-link",
   name: "Get Preview Link",
   description: "Get a preview URL for a service running on a specific port in a Daytona sandbox. Useful for accessing web servers, APIs, or other HTTP services running inside the sandbox. [See the documentation](https://www.daytona.io/docs/en/typescript-sdk/sandbox/#getpreviewlink)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -6,20 +6,21 @@ export default {
   key: "hubspot-get-deal",
   name: "Get Deal",
   description:
-    "Gets a deal. [See the documentation](https://developers.hubspot.com/docs/api/crm/deals#endpoint?spec=GET-/crm/v3/objects/deals/{dealId})",
-  version: "0.0.34",
+    "Get a single deal from HubSpot by its id, with a default set of deal properties. Add **Additional properties to retrieve** to include more (use **Get Properties** for `deals`). Example: Object ID `123`, Additional properties `[\"amount\", \"dealstage\"]`. Returns the deal record. [See the documentation](https://developers.hubspot.com/docs/api/crm/deals#endpoint?spec=GET-/crm/v3/objects/deals/{dealId})",
+  version: "0.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     objectId: {
       ...common.props.objectId,
       label: "Deal ID",
-      description: "Hubspot's internal ID for the deal",
+      description: "The HubSpot deal record ID (the `id` field, e.g. `12345678901`). Find it with **Search CRM Objects** using the deal object type and copy the `id` from the matching result.",
     },
   },
   methods: {

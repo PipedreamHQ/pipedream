@@ -23,6 +23,13 @@ export interface LocalPost extends EntityWithCreateTime {
   summary: string;
 }
 
+export interface ListReviewsResponse {
+  reviews?: Review[];
+  averageRating?: number;
+  totalReviewCount?: number;
+  nextPageToken?: string;
+}
+
 export interface BatchGetReviewsResponse {
   locationReviews: {
     review: Review

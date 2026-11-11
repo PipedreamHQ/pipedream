@@ -15,8 +15,9 @@ export default {
     + " `5`=Principal/Staff, `6`=Director, `7`=Head of Dept, `8`=VP, `9`=SVP, `34`=Not applicable."
     + " `scope_of_work` must be at least 100 characters long."
     + " [See the documentation](https://developer.deel.com/api/reference/endpoints/eor-contract/create-eor-contract)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

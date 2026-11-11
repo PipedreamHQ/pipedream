@@ -1,4 +1,4 @@
-const API_VERSION = "2025-01";
+const API_VERSION = "2026-07";
 
 const DEFAULT_LIMIT = 20;
 const MAX_LIMIT = 250;
@@ -156,6 +156,95 @@ const ORDER_CREATE_INVENTORY_BEHAVIORS = [
   "DECREMENT_OBEYING_POLICY",
 ];
 
+const COLLECTION_CONDITION_TEXT_RELATIONS = [
+  "EQUALS",
+  "NOT_EQUALS",
+  "CONTAINS",
+  "DOES_NOT_CONTAIN",
+  "STARTS_WITH",
+  "ENDS_WITH",
+];
+const COLLECTION_CONDITION_AMOUNT_RELATIONS = [
+  "EQUALS",
+  "NOT_EQUALS",
+  "GREATER_THAN",
+  "LESS_THAN",
+];
+// Maps each smart-collection condition type to its CollectionSourceInclusionConditionInput
+// key, the relation enum values it accepts, and how its value is shaped:
+//   list   -> { relation, values: [String], matchType }
+//   status -> { relation, values: [ProductStatus], matchType }
+//   money  -> { relation, value: { amount, currencyCode } }
+//   int    -> { relation, value: Int }
+//   weight -> { relation, value: { value: Float, unit } }
+const COLLECTION_CONDITION_TYPES = {
+  productTag: {
+    label: "Product Tag",
+    relations: [
+      "TAGGED_WITH",
+      "NOT_TAGGED_WITH",
+    ],
+    value: "list",
+  },
+  productTitle: {
+    label: "Product Title",
+    relations: COLLECTION_CONDITION_TEXT_RELATIONS,
+    value: "list",
+  },
+  productType: {
+    label: "Product Type",
+    relations: COLLECTION_CONDITION_TEXT_RELATIONS,
+    value: "list",
+  },
+  productVendor: {
+    label: "Product Vendor",
+    relations: COLLECTION_CONDITION_TEXT_RELATIONS,
+    value: "list",
+  },
+  variantTitle: {
+    label: "Variant Title",
+    relations: COLLECTION_CONDITION_TEXT_RELATIONS,
+    value: "list",
+  },
+  productStatus: {
+    label: "Product Status",
+    relations: [
+      "EQUALS",
+      "NOT_EQUALS",
+    ],
+    value: "status",
+  },
+  variantPrice: {
+    label: "Variant Price",
+    relations: COLLECTION_CONDITION_AMOUNT_RELATIONS,
+    value: "money",
+  },
+  variantCompareAtPrice: {
+    label: "Variant Compare At Price",
+    relations: COLLECTION_CONDITION_AMOUNT_RELATIONS,
+    value: "money",
+  },
+  variantInventory: {
+    label: "Variant Inventory Quantity",
+    relations: [
+      "EQUALS",
+      "GREATER_THAN",
+      "LESS_THAN",
+    ],
+    value: "int",
+  },
+  variantWeight: {
+    label: "Variant Weight",
+    relations: COLLECTION_CONDITION_AMOUNT_RELATIONS,
+    value: "weight",
+  },
+};
+const PRODUCT_STATUSES = [
+  "ACTIVE",
+  "ARCHIVED",
+  "DRAFT",
+];
+
 export {
   API_VERSION,
   DEFAULT_LIMIT,
@@ -169,4 +258,6 @@ export {
   ORDER_CANCEL_REASONS,
   FULFILLMENT_HOLD_REASONS,
   ORDER_CREATE_INVENTORY_BEHAVIORS,
+  COLLECTION_CONDITION_TYPES,
+  PRODUCT_STATUSES,
 };

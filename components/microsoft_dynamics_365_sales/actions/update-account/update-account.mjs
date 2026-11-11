@@ -29,13 +29,14 @@ export default {
   key: "microsoft_dynamics_365_sales-update-account",
   name: "Update Account",
   description: "Update an existing account; only the fields you supply are sent. See the [account entity reference](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/reference/account) for the full list of updatable fields. [See the documentation](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/update-delete-entities-using-web-api)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     microsoft,
     accountId: {

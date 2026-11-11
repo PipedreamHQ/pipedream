@@ -3,14 +3,15 @@ import openphone from "../../openphone.app.mjs";
 export default {
   key: "openphone-send-message",
   name: "Send a Text Message",
-  description: "Send a text message from your OpenPhone number to a recipient. [See the documentation](https://www.openphone.com/docs/api-reference/messages/send-a-text-message)",
-  version: "0.0.4",
+  description: "Send a text message from one of your OpenPhone numbers to a recipient. Use **List Phone Numbers** (or **List From Options**) to find a valid `from` value. Example: call with from=\"PN123abc\", to=\"+15551234567\", content=\"Hi, following up on your request.\" → sends the message and returns the created message record. [See the documentation](https://www.openphone.com/docs/api-reference/messages/send-a-text-message)",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     openphone,
     from: {

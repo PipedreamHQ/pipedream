@@ -5,17 +5,17 @@ export default {
     firstName: {
       type: "string",
       label: "First Name",
-      description: "User first name",
+      description: "The user's first name, e.g. `Jane`.",
     },
     lastName: {
       type: "string",
       label: "Last Name",
-      description: "User last name",
+      description: "The user's last name, e.g. `Doe`.",
     },
     email: {
       type: "string",
       label: "Email",
-      description: "User email",
+      description: "The work email address the invitation is sent to, e.g. `jane@acme.com`. Must be unique within the Brex account.",
     },
   },
   async run ({ $ }) {

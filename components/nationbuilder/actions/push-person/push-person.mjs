@@ -4,7 +4,7 @@ import nationbuilder from "../../nationbuilder.app.mjs";
 export default {
   key: "nationbuilder-push-person",
   name: "Push Person",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -12,6 +12,7 @@ export default {
   },
   description: "This endpoint attempts to match the input person resource to a person already in the nation. If a match is found, the matched person is updated and a 200 status code is returned. If a match is not found, a new person is created and a 201 status code is returned. Matches are found by including one of the following IDs in the request: `civicrm_id`,  `county_file_id`,  `dw_id`,  `external_id`,  `email`,  `facebook_username`,  `ngp_id`,  `salesforce_id`,  `twitter_login`, `van_id`. [See the documentation](https://nationbuilder.com/people_api)",
   type: "action",
+  ai: "optimized",
   props: {
     nationbuilder,
     civicrmId: {

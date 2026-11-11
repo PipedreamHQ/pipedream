@@ -1,3 +1,4 @@
+// x-pd-ai: optimized
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 
@@ -8,94 +9,30 @@ export default {
     userId: {
       type: "string",
       label: "User ID",
-      description: "The ID of the user",
-      async options({ prevContext }) {
-        return this.getPropOptions({
-          prevContext,
-          resourceFn: this.listUsers,
-          mapper: ({
-            id: value, first_name: firstName, last_name: lastName,
-          }) => ({
-            value,
-            label: (`${firstName} ${lastName}`).trim(),
-          }),
-        });
-      },
+      description: "The ID of a user — a Ramp UUID, e.g. `bcc1e4ca-d38a-4cc9-98fc-e6c2066ad0ae`. Run the **List Users** action to find valid IDs.",
     },
     spendProgramId: {
       type: "string",
       label: "Spend Program ID",
-      description: "The ID of the spend program",
+      description: "The ID of a spend program — a Ramp UUID, e.g. `e9d30f12-c73a-463b-bc5f-b200396359d2`. Run the **List Spend Programs** action to find valid IDs.",
       optional: true,
-      async options({ prevContext }) {
-        return this.getPropOptions({
-          prevContext,
-          resourceFn: this.listSpendPrograms,
-          mapper: ({
-            id: value, display_name: label,
-          }) => ({
-            value,
-            label,
-          }),
-        });
-      },
     },
     departmentId: {
       type: "string",
       label: "Department ID",
-      description: "Unique identifier of the employee's department",
+      description: "Unique identifier of a department — a Ramp UUID, e.g. `fffe6c22-698f-4dc5-b2b1-b35f86947d90` (not a department name). Run the **List Departments** action to find valid IDs.",
       optional: true,
-      async options({ prevContext }) {
-        return this.getPropOptions({
-          prevContext,
-          resourceFn: this.listDepartments,
-          mapper: ({
-            id: value, name: label,
-          }) => ({
-            value,
-            label,
-          }),
-        });
-      },
     },
     locationId: {
       type: "string",
       label: "Location ID",
-      description: "Unique identifier of the employee's location",
+      description: "Unique identifier of a location — a Ramp UUID, e.g. `961c6f01-5719-4f4c-8fef-4096a031f32a` (not a location name). Run the **List Locations** action to find valid IDs.",
       optional: true,
-      async options({ prevContext }) {
-        return this.getPropOptions({
-          prevContext,
-          resourceFn: this.listLocations,
-          mapper: ({
-            id: value, name: label,
-          }) => ({
-            value,
-            label,
-          }),
-        });
-      },
     },
     transactionId: {
       type: "string",
       label: "Transaction ID",
-      description: "The ID of a transaction",
-      async options({ prevContext }) {
-        return this.getPropOptions({
-          prevContext,
-          resourceFn: this.listTransactions,
-          mapper: ({
-            id: value,
-            merchant_name: merchantName,
-            amount,
-            currency_code: currencyCode,
-            user_transaction_time: userTransactionTime,
-          }) => ({
-            value,
-            label: `${merchantName} - ${amount} ${currencyCode} - ${userTransactionTime}`,
-          }),
-        });
-      },
+      description: "The ID of a transaction — a Ramp UUID, e.g. `c74326d3-a6b3-4a88-9a0c-4b61850784cd`. Run the **List Transactions** action to find valid IDs.",
     },
     allowedCategories: {
       type: "integer[]",
@@ -117,19 +54,37 @@ export default {
       description: "The employee's role",
       options: constants.ROLES,
     },
-    transactionState: {
-      type: "string",
-      label: "State",
-      description: "Filter transactions by the current state",
-      optional: true,
-      options: constants.TRANSACTION_STATE_OPTIONS,
-    },
     transferStatus: {
       type: "string",
       label: "Status",
       description: "Filter transfers by the current status",
       optional: true,
       options: constants.TRANSFER_STATUSES,
+    },
+    pageSize: {
+      type: "integer",
+      label: "Page Size",
+      description: "Number of results per page, between 2 and 100 (default 20).",
+      min: 2,
+      max: 100,
+      optional: true,
+    },
+    start: {
+      type: "string",
+      label: "Start (Pagination Cursor)",
+      description: "Pagination cursor for the next page. Take the `start` query-parameter value from the previous response's `page.next` URL and pass it here.",
+      optional: true,
+    },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "Optional list of fields to include per record in addition to the compact default. Leave empty for the compact summary.",
+      optional: true,
+    },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The name of the resource.",
     },
   },
   methods: {
@@ -157,28 +112,6 @@ export default {
       } catch (e) {
         throw new Error(JSON.parse(e.message).error_v2.message);
       }
-    },
-    async getPropOptions({
-      prevContext,
-      resourceFn,
-      mapper,
-    }) {
-      const args = prevContext?.next
-        ? {
-          url: prevContext.next,
-        }
-        : {};
-
-      const {
-        data, page,
-      } = await resourceFn(args);
-
-      return {
-        options: data.map(mapper),
-        context: {
-          next: page.next,
-        },
-      };
     },
     listUsers(opts = {}) {
       return this._makeRequest({
@@ -233,6 +166,81 @@ export default {
     uploadReceipt(opts = {}) {
       return this._makeRequest({
         path: "/receipts",
+        method: "POST",
+        ...opts,
+      });
+    },
+    getUser({
+      userId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/users/${userId}`,
+        ...opts,
+      });
+    },
+    updateUser({
+      userId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/users/${userId}`,
+        method: "PATCH",
+        ...opts,
+      });
+    },
+    getTransaction({
+      transactionId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/transactions/${transactionId}`,
+        ...opts,
+      });
+    },
+    // Spend limits are served by Ramp's documented Funds API (/developer/v1/funds);
+    // "limit" is the product-facing name for a fund. See
+    // https://docs.ramp.com/developer-api/v1/api/funds
+    listLimits(opts = {}) {
+      return this._makeRequest({
+        path: "/funds",
+        ...opts,
+      });
+    },
+    getLimit({
+      limitId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/funds/${limitId}`,
+        ...opts,
+      });
+    },
+    updateLimit({
+      limitId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/funds/${limitId}`,
+        method: "PATCH",
+        ...opts,
+      });
+    },
+    terminateLimit({
+      limitId, ...opts
+    }) {
+      // Terminate is a synchronous DELETE on the fund; it takes effect immediately.
+      return this._makeRequest({
+        path: `/funds/${limitId}`,
+        method: "DELETE",
+        ...opts,
+      });
+    },
+    createDepartment(opts = {}) {
+      return this._makeRequest({
+        path: "/departments",
+        method: "POST",
+        ...opts,
+      });
+    },
+    createLocation(opts = {}) {
+      return this._makeRequest({
+        path: "/locations",
         method: "POST",
         ...opts,
       });

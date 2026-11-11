@@ -8,8 +8,9 @@ export default {
     + " Returns payslip IDs, pay periods, gross/net amounts, and download links."
     + " Use **Get Contract** to find the worker ID from a contract's worker details."
     + " [See the documentation](https://developer.deel.com/api/reference/endpoints/eor-payslips/get-worker-payslips)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

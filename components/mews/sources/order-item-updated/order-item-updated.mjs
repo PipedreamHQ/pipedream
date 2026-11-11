@@ -5,7 +5,7 @@ export default {
   name: "Order Item Updated",
   description: "Emit new order items as they are updated (polling). [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/orderitems#get-all-order-items)",
   key: "mews-order-item-updated",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

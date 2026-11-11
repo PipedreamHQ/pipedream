@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/azure_openai_service",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Azure OpenAI Service Components",
   "main": "azure_openai_service.app.mjs",
   "keywords": [

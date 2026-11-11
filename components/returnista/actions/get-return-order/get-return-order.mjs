@@ -8,8 +8,9 @@ export default {
     + " To find a return order ID, use **Get Return Orders** first."
     + " To view the email communications for a return order, use **Get Return Order Emails**."
     + " [See the documentation](https://platform.returnista.com/reference/rest-api/#get-/account/-accountId/return-order/-id)",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -17,26 +18,16 @@ export default {
   },
   props: {
     returnista,
-    accountId: {
-      propDefinition: [
-        returnista,
-        "accountId",
-      ],
-    },
     returnOrderId: {
       propDefinition: [
         returnista,
         "returnOrderId",
-        (c) => ({
-          accountId: c.accountId,
-        }),
       ],
     },
   },
   async run({ $ }) {
     const response = await this.returnista.getReturnOrder({
       $,
-      accountId: this.accountId,
       returnOrderId: this.returnOrderId,
     });
     $.export("$summary", `Successfully retrieved return order ${this.returnOrderId}`);

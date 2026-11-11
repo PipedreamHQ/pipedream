@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/digital_ocean",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Digital Ocean Components",
   "main": "digital_ocean.app.mjs",
   "keywords": [

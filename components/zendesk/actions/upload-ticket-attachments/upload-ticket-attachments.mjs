@@ -6,7 +6,8 @@ export default {
   description:
     "Upload one or more files as ticket attachments via the Zendesk Uploads API. Returns upload tokens that can be used when creating or updating tickets. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/tickets/ticket-attachments/#upload-files).",
   type: "action",
-  version: "0.0.5",
+  ai: "optimized",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

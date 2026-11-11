@@ -5,8 +5,9 @@ export default {
   name: "List MDM VPP Tokens",
   description:
     "List VPP (Volume Purchase Program) tokens from the MDM API on Universal API. Returns an array; use the returned IDs with **Get MDM VPP Token**. [See the documentation](https://docs.universalapi.io/reference/list-vpp-tokens).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

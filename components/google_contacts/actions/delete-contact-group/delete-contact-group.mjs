@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import common from "../common/base.mjs";
 
 export default {
@@ -7,13 +6,14 @@ export default {
   name: "Delete Contact Group",
   description:
     "Deletes an existing contact group. [See the documentation](https://developers.google.com/people/api/rest/v1/contactGroups/delete)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     "destructiveHint": true,
     "openWorldHint": true,
     "readOnlyHint": false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     resourceName: {

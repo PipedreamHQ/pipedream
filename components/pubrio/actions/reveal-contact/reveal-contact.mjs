@@ -4,13 +4,14 @@ export default {
   key: "pubrio-reveal-contact",
   name: "Reveal Contact",
   description: "Reveal email or phone number for a person (uses credits). [See the documentation](https://docs.pubrio.com/en/api-reference/endpoint/redeem/people)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     pubrio,
     peopleSearchId: {

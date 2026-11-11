@@ -4,13 +4,14 @@ export default {
   key: "orca_scan-find-row",
   name: "Find Row",
   description: "Locates a row record based on a given barcode. If no barcode is provided, return all rows. [See the documentation](https://orcascan.com/guides/add-barcode-tracking-to-your-system-using-a-rest-api-f09a21c3#rows-1)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     orca_scan,
     sheetId: {

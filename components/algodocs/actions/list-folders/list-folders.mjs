@@ -5,8 +5,9 @@ export default {
   name: "List Folders",
   description:
     "Lists all folders in the authenticated AlgoDocs account (GET /v1/folders). Each folder includes at least `id` and `name`. Use this to discover a valid `folderId` before running **Upload File**. [See the documentation](https://api.algodocs.com/).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

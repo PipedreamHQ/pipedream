@@ -1,13 +1,21 @@
+import { ConfigurationError } from "@pipedream/platform";
 import slack from "../../slack_v2.app.mjs";
 
 export default {
   props: {
     slack,
     as_user: {
-      propDefinition: [
-        slack,
-        "as_user",
-      ],
+      type: "boolean",
+      label: "Send as User",
+      // No hard default: an omitted value is resolved per-destination in
+      // resolveAsUser() (DMs post as the authenticated user, channels as the
+      // bot). A static default would make "omitted" indistinguishable from an
+      // explicit choice in run().
+      description: "Post as the authenticated user (`true`) rather than as the app's bot (`false`)."
+        + " When omitted, **direct messages default to the authenticated user** so the Slack"
+        + " notification is not prefixed with the `Pipedream:` bot name, while **channel messages"
+        + " default to the bot**. Set explicitly to override.",
+      optional: true,
     },
     addToChannel: {
       propDefinition: [
@@ -30,40 +38,23 @@ export default {
       label: "Include link to Pipedream",
       description: "Defaults to `true`, includes a link to Pipedream at the end of your Slack message.",
     },
-    customizeBotSettings: {
-      type: "boolean",
-      label: "Customize Bot Settings",
-      description: "Customize the username and/or icon of the Bot",
-      optional: true,
-      reloadProps: true,
-    },
     username: {
       propDefinition: [
         slack,
         "username",
       ],
-      hidden: true,
     },
     icon_emoji: {
       propDefinition: [
         slack,
         "icon_emoji",
       ],
-      hidden: true,
     },
     icon_url: {
       propDefinition: [
         slack,
         "icon_url",
       ],
-      hidden: true,
-    },
-    replyToThread: {
-      type: "boolean",
-      label: "Reply to Thread",
-      description: "Reply to an existing thread",
-      optional: true,
-      reloadProps: true,
     },
     thread_ts: {
       propDefinition: [
@@ -72,77 +63,37 @@ export default {
       ],
       description: "Provide another message's `ts` value to make this message a reply (e.g., if triggering on new Slack messages, enter `{{event.ts}}`). Avoid using a reply's `ts` value; use its parent instead. e.g. `1403051575.000407`.",
       optional: true,
-      hidden: true,
     },
     thread_broadcast: {
       propDefinition: [
         slack,
         "thread_broadcast",
       ],
-      hidden: true,
-    },
-    addMessageMetadata: {
-      type: "boolean",
-      label: "Add Message Metadata",
-      description: "Set the metadata event type and payload",
-      optional: true,
-      reloadProps: true,
     },
     metadata_event_type: {
       propDefinition: [
         slack,
         "metadata_event_type",
       ],
-      hidden: true,
     },
     metadata_event_payload: {
       propDefinition: [
         slack,
         "metadata_event_payload",
       ],
-      hidden: true,
-    },
-    configureUnfurlSettings: {
-      type: "boolean",
-      label: "Configure Unfurl Settings",
-      description: "Configure settings for unfurling links and media",
-      optional: true,
-      reloadProps: true,
     },
     unfurl_links: {
       propDefinition: [
         slack,
         "unfurl_links",
       ],
-      hidden: true,
     },
     unfurl_media: {
       propDefinition: [
         slack,
         "unfurl_media",
       ],
-      hidden: true,
     },
-  },
-  async additionalProps(props) {
-    if (this.conversation && this.replyToThread) {
-      props.thread_ts.hidden = false;
-      props.thread_broadcast.hidden = false;
-    }
-    if (this.customizeBotSettings) {
-      props.username.hidden = false;
-      props.icon_emoji.hidden = false;
-      props.icon_url.hidden = false;
-    }
-    if (this.addMessageMetadata) {
-      props.metadata_event_type.hidden = false;
-      props.metadata_event_payload.hidden = false;
-    }
-    if (this.configureUnfurlSettings) {
-      props.unfurl_links.hidden = false;
-      props.unfurl_media.hidden = false;
-    }
-    return {};
   },
   methods: {
     _makeSentViaPipedreamBlock() {
@@ -187,9 +138,101 @@ export default {
     getChannelId() {
       return this.conversation ?? this.reply_channel;
     },
+    async isDirectMessageTarget(destination) {
+      if (!destination) return false;
+      const value = String(destination)
+        .trim()
+        .replace(/^@/, "");
+      // Slack ids are uppercase, so match case-sensitively (a lowercased all-alnum
+      // channel name must not read as an id). User ids (U…/W…) and open IM ids (D…)
+      // address a direct message; a public/private channel id (C…) and a channel
+      // name do not.
+      if (/^[UWD][A-Z0-9]{6,}$/.test(value)) return true;
+      if (/^C[A-Z0-9]{6,}$/.test(value)) return false;
+      // A `G…` id is ambiguous: a legacy private group (a channel) OR a
+      // multi-person DM (mpim), which IS a direct message. Resolve the type so a
+      // group DM also defaults to the authenticated user (prefix-free) rather than
+      // the bot. Fall back to bot-default (channel) if it can't be classified.
+      if (/^G[A-Z0-9]{6,}$/.test(value)) {
+        try {
+          const { channel } = await this.slack.conversationsInfo({
+            channel: value,
+          });
+          return Boolean(channel?.is_im || channel?.is_mpim);
+        } catch {
+          return false;
+        }
+      }
+      // Anything else (a channel name) is a channel.
+      return false;
+    },
+    async resolveAsUser(destination) {
+      // An explicit choice always wins.
+      if (this.as_user !== undefined) {
+        return this.as_user;
+      }
+      // A custom bot identity is an implicit request to post as the bot, so honor
+      // it (post as the bot with that identity) instead of defaulting a DM to the
+      // authenticated user and then erroring in assertBotIdentityCompatible. This
+      // preserves a pre-existing "DM as the bot with a custom username/icon" config.
+      if (this.username || this.icon_emoji || this.icon_url) {
+        return false;
+      }
+      // Otherwise default per destination: DMs (including group DMs) post as the
+      // authenticated user (prefix-free), channels post as the bot.
+      return this.isDirectMessageTarget(destination);
+    },
+    async resolveDmChannelId(destination, asUser) {
+      // Posting a DM to a bare user id: when posting as the authenticated user,
+      // open the IM with the USER token and target the returned channel id.
+      // chat.scheduleMessage doesn't resolve a raw user id, and chat.postMessage's
+      // implicit user-id → IM resolution is deprecated — so open explicitly and
+      // send to the D… channel. When posting as the bot (as_user: false), leave the
+      // destination untouched: chat.postMessage opens the bot's own DM with the
+      // user, preserving the existing behavior.
+      const normalized = String(destination)
+        .trim()
+        .replace(/^@/, "");
+      if (asUser && /^[UW][A-Z0-9]{6,}$/.test(normalized)) {
+        const { channel } = await this.slack.openConversation({
+          users: normalized,
+          as_user: asUser,
+        });
+        return channel.id;
+      }
+      return destination;
+    },
+    assertBotIdentityCompatible(asUser) {
+      // Slack only applies a custom username/icon when posting as the bot (as_user: false).
+      // When posting as the authenticated user these settings are silently dropped, so surface
+      // the conflict as a ConfigurationError instead of quietly ignoring the configuration.
+      const identityProps = {
+        username: "Bot Username",
+        icon_emoji: "Icon (emoji)",
+        icon_url: "Icon (URL)",
+      };
+      const setProps = Object.keys(identityProps)
+        .filter((prop) => this[prop] !== undefined && this[prop] !== "");
+      if (asUser && setProps.length) {
+        const labels = setProps.map((prop) => identityProps[prop]).join(", ");
+        throw new ConfigurationError(
+          `Slack ignores custom bot identity (${labels}) when posting as the authenticated user. `
+          + `Set **Send as User** to \`false\` to post as the bot with your custom ${setProps.length > 1
+            ? "settings"
+            : "setting"}, or clear ${setProps.length > 1
+            ? "them"
+            : "it"} to post as the authenticated user.`,
+        );
+      }
+    },
   },
   async run({ $ }) {
-    const channelId = await this.getChannelId();
+    const destination = await this.getChannelId();
+    const asUser = await this.resolveAsUser(destination);
+    this.assertBotIdentityCompatible(asUser);
+    // For a user-id DM sent as the authenticated user, open the IM and target the
+    // returned channel id (applies to both postMessage and scheduleMessage below).
+    const channelId = await this.resolveDmChannelId(destination, asUser);
 
     if (this.addToChannel) {
       await this.slack.maybeAddAppToChannels([
@@ -220,7 +263,7 @@ export default {
         try {
           metadataEventPayload = JSON.parse(this.metadata_event_payload);
         } catch (error) {
-          throw new Error(`Invalid JSON in metadata_event_payload: ${error.message}`);
+          throw new ConfigurationError(`Invalid JSON in metadata_event_payload: ${error.message}`);
         }
       }
 
@@ -237,7 +280,7 @@ export default {
       unfurl_links: this.unfurl_links,
       unfurl_media: this.unfurl_media,
       parse: this.parse,
-      as_user: this.as_user,
+      as_user: asUser,
       username: this.username,
       icon_emoji: this.icon_emoji,
       icon_url: this.icon_url,
@@ -251,7 +294,9 @@ export default {
 
     if (this.post_at) {
       obj.post_at = Math.floor(new Date(this.post_at).getTime() / 1000);
-      return await this.slack.scheduleMessage(obj);
+      const result = await this.slack.scheduleMessage(obj);
+      $.export("$summary", `Message scheduled for ${this.post_at}`);
+      return result;
     }
     const resp = await this.slack.postChatMessage(obj);
     const { channel } = await this.slack.conversationsInfo({

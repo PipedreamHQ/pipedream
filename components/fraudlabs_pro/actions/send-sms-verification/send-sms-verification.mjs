@@ -4,13 +4,14 @@ export default {
   name: "Send SMS Verification",
   description: "Send an SMS with verification code and a custom message for authentication purpose. NOTE: Make sure you have enough SMS credits to send any verification SMS. [See the documentation](https://www.fraudlabspro.com/developer/api/send-sms-verification)",
   key: "fraudlabs_pro-send-sms-verification",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     fraudlabsProApp,
     tel: {

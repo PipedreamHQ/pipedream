@@ -8,8 +8,9 @@ export default {
     + " Event orchestration routes incoming events to the right responders based on conditions."
     + " Use **List Services** to discover service IDs."
     + " [See the documentation](https://developer.pagerduty.com/api-reference/179537b835e2d-get-the-service-orchestration-for-a-service)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

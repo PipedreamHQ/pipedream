@@ -4,8 +4,9 @@ export default {
   key: "superdocu-create-dossier",
   name: "Create Dossier",
   description: "Create a dossier by assigning a workflow to an existing Superdocu contact (the API calls this a `contact workflow`). Run **List Contacts** (or **Create Contact**) first to obtain a contactId, and **List Templates** to obtain a workflowId. Returns the created dossier with its `id` and initial `status`. The API returns 422 if the workflow is disabled, or 409 if a non-repeatable workflow is already assigned. [See the documentation](https://developers.superdocu.com/api/index.html).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

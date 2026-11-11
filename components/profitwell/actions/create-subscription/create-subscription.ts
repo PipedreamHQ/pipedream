@@ -9,13 +9,14 @@ export default defineAction({
   description:
     "Create a subscription [See docs here](https://profitwellapiv2.docs.apiary.io/#/reference/manually-added-customers/creating-subscriptions/create-a-subscription)",
   key: "profitwell-create-subscription",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     profitwell,
     userId: {

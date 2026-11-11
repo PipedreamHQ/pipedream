@@ -4,13 +4,14 @@ export default {
   key: "ideal_postcodes-find-place",
   name: "Find Place",
   description: "Query for geographical places across countries. Each query will return a list of place suggestions, which consists of a place name, descriptive name, and id. [See the documentation](https://docs.ideal-postcodes.co.uk/docs/api/find-place)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     query: {

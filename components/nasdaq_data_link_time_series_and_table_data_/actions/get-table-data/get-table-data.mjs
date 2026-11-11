@@ -5,13 +5,14 @@ export default {
   key: "nasdaq_data_link_time_series_and_table_data_-get-table-data",
   name: "Get Table Data",
   description: "Retrieves data from a specific Nasdaq Data Link table with automatic pagination. Supports filtering by columns and rows. [See the documentation](https://docs.data.nasdaq.com/docs/tables-1)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     publisher: {

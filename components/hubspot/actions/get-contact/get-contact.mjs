@@ -6,20 +6,21 @@ export default {
   key: "hubspot-get-contact",
   name: "Get Contact",
   description:
-    "Gets a contact. [See the documentation](https://developers.hubspot.com/docs/api/crm/contacts#endpoint?spec=GET-/crm/v3/objects/contacts/{contactId})",
-  version: "0.0.34",
+    "Get a single contact from HubSpot by its id, with a default set of contact properties. Add **Additional properties to retrieve** to include more (use **Get Properties** for `contacts`). Look up the id with **Search CRM** by email if you only have an address. Example: Object ID `123`, Additional properties `[\"jobtitle\"]`. Returns the contact record. [See the documentation](https://developers.hubspot.com/docs/api/crm/contacts#endpoint?spec=GET-/crm/v3/objects/contacts/{contactId})",
+  version: "0.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     objectId: {
       ...common.props.objectId,
       label: "Contact ID",
-      description: "Hubspot's internal ID for the contact",
+      description: "The HubSpot contact record ID (the `id` field, e.g. `12345678901`). Find it with **Search CRM Objects** using the contact object type and copy the `id` from the matching result.",
     },
   },
   methods: {

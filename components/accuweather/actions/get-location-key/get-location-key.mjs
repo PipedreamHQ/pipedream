@@ -4,13 +4,14 @@ export default {
   key: "accuweather-get-location-key",
   name: "Get Location Key",
   description: "Search for a location and retrieve its unique location key required for weather API calls. [See the documentation](https://developer.accuweather.com/accuweather-locations-api/apis/get/locations/v1/search)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     accuweather,
     locationQuery: {

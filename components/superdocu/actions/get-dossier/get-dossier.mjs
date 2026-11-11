@@ -4,8 +4,9 @@ export default {
   key: "superdocu-get-dossier",
   name: "Get Dossier",
   description: "Retrieve the full detail of a single dossier (the API calls this a `contact workflow`), including its states. Run **List Contacts** first to obtain a contactId, then **List Dossiers** for that contact to obtain a contactWorkflowId. [See the documentation](https://developers.superdocu.com/api/index.html).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

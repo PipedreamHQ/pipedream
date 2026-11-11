@@ -4,8 +4,9 @@ export default {
   key: "connectwise_psa-list-reports",
   name: "List Reports",
   description: "Retrieves a list of available reports. [See the documentation](https://developer.connectwise.com/Products/ConnectWise_PSA/REST#/Reports/getSystemReports)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

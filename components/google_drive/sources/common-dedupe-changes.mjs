@@ -1,3 +1,5 @@
+import { MAX_FILE_INTERVAL_ENTRIES } from "../common/constants.mjs";
+
 export default {
   props: {
     intervalAlert: {
@@ -19,34 +21,54 @@ You can change or disable this minimum interval using the prop \`Minimum Interva
   },
   methods: {
     _getFileIntervals() {
-      return this.db.get("fileIntervals") ?? {};
+      if (!this._fileIntervals) {
+        this._fileIntervals = this.db.get("fileIntervals") ?? {};
+      }
+      return this._fileIntervals;
     },
     _setFileIntervals(value) {
       this.db.set("fileIntervals", value);
     },
-    checkMinimumInterval(files) {
+    filterByMinimumInterval(files) {
       const interval = this.perFileInterval;
-      if (!interval) return files;
+      if (!interval) {
+        return files;
+      }
+
+      const minTimestamp = Date.now() - (interval * 1000 * 60);
+      const savedData = this._getFileIntervals();
+      return files.filter(({ id }) => !savedData[id] || savedData[id] < minTimestamp);
+    },
+    recordFileEmits(fileIds) {
+      if (!this.perFileInterval || !fileIds.length) {
+        return;
+      }
 
       const now = Date.now();
-      const minTimestamp = now - (interval * 1000 * 60);
-
       const savedData = this._getFileIntervals();
-      Object.entries(savedData).forEach(([
-        key,
-        value,
-      ]) => {
-        if (value < minTimestamp) delete savedData[key];
+      fileIds.forEach((id) => {
+        savedData[id] = now;
       });
-
-      const filteredFiles = files.filter(({ id }) => {
-        const exists = !!savedData[id];
-        if (!exists) {
-          savedData[id] = now;
-        }
-        return !exists;
-      });
-      this._setFileIntervals(savedData);
+      this._fileIntervalsChanged = true;
+    },
+    flushFileIntervals() {
+      if (this._fileIntervalsChanged) {
+        const minTimestamp = Date.now() - (this.perFileInterval * 1000 * 60);
+        const entries = Object.entries(this._getFileIntervals())
+          .filter((entry) => entry[1] >= minTimestamp)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, MAX_FILE_INTERVAL_ENTRIES);
+        this._setFileIntervals(Object.fromEntries(entries));
+      }
+      this.resetFileIntervals();
+    },
+    resetFileIntervals() {
+      this._fileIntervals = null;
+      this._fileIntervalsChanged = false;
+    },
+    checkMinimumInterval(files) {
+      const filteredFiles = this.filterByMinimumInterval(files);
+      this.recordFileEmits(filteredFiles.map(({ id }) => id));
       return filteredFiles;
     },
   },

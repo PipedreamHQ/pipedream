@@ -4,13 +4,14 @@ export default {
   key: "seven-make-tts-call",
   name: "Make TTS Call",
   description: "Make a text-to-speech call via Seven. [See the documentation](https://docs.seven.io/en/rest-api/endpoints/voice#send-voice-call)",
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     seven,
     to: {

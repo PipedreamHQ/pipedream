@@ -5,13 +5,14 @@ export default {
   key: "alttextify-submit-image",
   name: "Submit Image to Alttextify",
   description: "Upload or submit an image to Alttextify for alt text generation. [See the documentation](https://apidoc.alttextify.net/#api-Image-UploadRawImage)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     alttextify,
     alert: {

@@ -10,8 +10,9 @@ export default {
     + " `identity_type` and `identity_id` are required in v1.3; use `CUSTOMIZED_USER` for non-Spark Ads."
     + " For create, see [documentation](https://business-api.tiktok.com/portal/docs/create-ads/v1.3)."
     + " For update, see [documentation](https://business-api.tiktok.com/portal/docs/update-ads/v1.3).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -4,7 +4,7 @@ export default {
   name: "Fetch Products",
   description: "Retrieve products using Mews Connector API. [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/products#get-all-products)",
   key: "mews-fetch-products",
-  version: "0.0.3",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -56,6 +56,12 @@ export default {
       description: "Whether or not to include default products for the service, i.e. products which are standard includes and not true extras. For example, the night's stay would be the default product for a room reservation. These may be useful for accounting purposes but should not be displayed to customers for selection. If Product IDs are provided, Include Default defaults to true, otherwise it defaults to false.",
       optional: true,
     },
+    maxResults: {
+      propDefinition: [
+        app,
+        "maxResults",
+      ],
+    },
   },
   async run({ $ }) {
     const {
@@ -66,6 +72,7 @@ export default {
       enterpriseIds,
       productIds,
       includeDefault,
+      maxResults,
     } = this;
 
     const items = await app.paginate({
@@ -86,6 +93,7 @@ export default {
         },
       },
       resultKey: "Products",
+      maxResults,
     });
 
     $.export("$summary", `Successfully fetched ${items.length} product${items.length !== 1

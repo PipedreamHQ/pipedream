@@ -1,4 +1,3 @@
-// vandelay-test-dr
 import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
@@ -9,9 +8,12 @@ export default {
     + " Use when the user references an object type you're not sure about, or to discover custom objects."
     + " Custom objects end in `__c`."
     + " Standard CRM objects: Account, Contact, Lead, Opportunity, Case, Task, Event, Campaign, User."
-    + " Use **Describe Object** to get field details for a specific object type.",
-  version: "0.0.1",
+    + " Use **Describe Object** to get field details for a specific object type."
+    + " "
+    + "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_describeGlobal.htm)",
+  version: "0.0.4",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

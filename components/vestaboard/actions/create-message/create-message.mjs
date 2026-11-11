@@ -5,13 +5,14 @@ export default {
   key: "vestaboard-create-message",
   name: "Create Message",
   description: "Creates a new message for a subscription. [See the docs](https://swagger.vestaboard.com/docs/vestaboard/b3A6MTYwMTA4OTc-post-v2-0-subscriptions-with-id-message)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     vestaboard,
     subscriptionId: {

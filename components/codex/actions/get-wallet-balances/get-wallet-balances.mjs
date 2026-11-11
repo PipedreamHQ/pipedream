@@ -8,8 +8,9 @@ export default {
     + " Use this to inspect what tokens a wallet holds."
     + " Use **Get Networks** to resolve the numeric `networkId` if needed (e.g., 1 = Ethereum, 137 = Polygon)."
     + " [See the documentation](https://docs.codex.io/reference/balances)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

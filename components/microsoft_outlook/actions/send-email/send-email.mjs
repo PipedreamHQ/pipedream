@@ -14,8 +14,9 @@ export default {
     + " Example (draft): `send-email(recipients=[\"boss@example.com\"], subject=\"Weekly report\", content=\"...\", isDraft=true)`"
     + " Use **Find Email** to locate a message `id` before replying."
     + " [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-sendmail)",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

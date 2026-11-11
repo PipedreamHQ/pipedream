@@ -10,13 +10,14 @@ export default defineAction({
   name: "Create Run",
   description: `Create a run [See docs here](${DOCS.createRun})`,
   key: "practitest-create-run",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     practitest,
     projectId: {

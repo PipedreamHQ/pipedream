@@ -4,7 +4,7 @@ export default {
   name: "Add Reservation Product",
   description: "Add a product to a reservation. [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/reservations#add-reservation-product)",
   key: "mews-add-reservation-product",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

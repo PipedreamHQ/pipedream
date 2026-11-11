@@ -3,13 +3,13 @@ import app from "../../unirateapi.app.mjs";
 export default {
   key: "unirateapi-convert-currency",
   name: "Convert Currency",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
-  description: "Convert an amount from one currency to another at the latest rate. [See the documentation](https://unirateapi.com/docs).",
+  description: "Convert an amount from one currency to another at the latest rate. [See the documentation](https://unirateapi.com/apidocs).",
   type: "action",
   props: {
     app,

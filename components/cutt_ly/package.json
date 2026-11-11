@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/cutt_ly",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Cutt.ly Components",
   "main": "cutt_ly.app.mjs",
   "keywords": [

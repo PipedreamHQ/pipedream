@@ -11,8 +11,9 @@ export default {
     + " Archiving is reversible — candidates can be unarchived in the Lever UI."
     + " Example: call with opportunityId=\"<id>\", reasonId=\"<reasonId>\", performAs=\"<userId>\" → archives the candidate (reversible in the Lever UI) and returns the updated opportunity."
     + " [See the documentation](https://hire.lever.co/developer/documentation#update-opportunity-archived-state)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

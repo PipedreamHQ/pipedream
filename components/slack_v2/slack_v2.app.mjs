@@ -1,8 +1,12 @@
 import { WebClient } from "@slack/web-api";
 import constants from "./common/constants.mjs";
 import get from "lodash/get.js";
-import retry from "async-retry";
-import { ConfigurationError } from "@pipedream/platform";
+import fs from "fs";
+import { Transform } from "stream";
+import { pipeline } from "stream/promises";
+import {
+  ConfigurationError, axios,
+} from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -11,305 +15,37 @@ export default {
     user: {
       type: "string",
       label: "User",
-      description: "Select a user, or search by name or email",
-      useQuery: true,
-      async options({
-        prevContext, channelId, query,
-      }) {
-        let nameQuery = query
-          ?.trim()
-          .toLowerCase()
-          .replace(/^@/, "");
-        if (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(nameQuery ?? "")) {
-          try {
-            const { user } = await this.lookupUserByEmail({
-              email: nameQuery,
-              throwRateLimitError: true,
-            });
-            return {
-              options: [
-                {
-                  label: user.profile?.real_name || user.name,
-                  value: user.id,
-                },
-              ],
-            };
-          } catch {
-            // Token may lack `users:read.email`, or no member has this email.
-            // Fall back to matching names below with the email's local part.
-            nameQuery = nameQuery.split("@")[0].replace(/[._-]+/g, " ");
-          }
-        }
-        let channelMembers;
-        if (channelId) {
-          const { members } = await this.listChannelMembers({
-            channel: channelId,
-            throwRateLimitError: true,
-          });
-          channelMembers = new Set(members);
-        }
-        const options = [];
-        let cursor = prevContext?.cursor;
-        let pages = 0;
-        do {
-          const {
-            members,
-            response_metadata: { next_cursor: nextCursor },
-          } = await this.usersList({
-            limit: constants.LIMIT,
-            cursor,
-            throwRateLimitError: true,
-          });
-          for (const member of members) {
-            const isSelectable = !member.deleted
-              && !member.is_bot
-              && member.id !== "USLACKBOT"
-              && (!channelMembers || channelMembers.has(member.id));
-            if (isSelectable) {
-              const names = [
-                member.profile?.real_name,
-                member.profile?.display_name,
-                member.name,
-              ];
-              if (!nameQuery || names.some((name) => name?.toLowerCase().includes(nameQuery))) {
-                options.push({
-                  label: names.find(Boolean) ?? member.id,
-                  value: member.id,
-                });
-              }
-            }
-          }
-          cursor = nextCursor;
-        } while (cursor
-          && options.length < constants.LIMIT
-          && ++pages < constants.MAX_NAME_LOOKUP_PAGES);
-        return {
-          options,
-          context: {
-            cursor,
-          },
-        };
-      },
+      description: "The user's ID (e.g. `U1234567890`). Use **Find User by Email** to resolve an ID from an email address, or **List Users** to browse all users.",
     },
     group: {
       type: "string",
       label: "Group",
-      description: "Select a group",
-      async options({ prevContext }) {
-        let { cursor } = prevContext;
-        const types = [
-          "mpim",
-        ];
-        const resp = await this.availableConversations(types.join(), cursor, true);
-        return {
-          options: resp.conversations.map((c) => {
-            return {
-              label: c.purpose.value,
-              value: c.id,
-            };
-          }),
-          context: {
-            cursor: resp.cursor,
-          },
-        };
-      },
+      description: "The ID of a multi-person direct message (group DM) conversation (e.g. `G1234567890`). Use **List Group Conversations** to find valid IDs.",
     },
     userGroup: {
       type: "string",
       label: "User Group",
-      description: "The encoded ID of the User Group.",
-      async options() {
-        const { usergroups } = await this.usergroupsList({
-          throwRateLimitError: true,
-        });
-        return usergroups.map((c) => ({
-          label: c.name,
-          value: c.id,
-        }));
-      },
+      description: "The encoded ID of the User Group (e.g. `S1234567890`). Use **List User Group Options** to find valid IDs.",
     },
     reminder: {
       type: "string",
       label: "Reminder",
-      description: "Select a reminder",
-      async options() {
-        const { reminders } = await this.remindersList({
-          throwRateLimitError: true,
-        });
-        return reminders.map((c) => ({
-          label: c.text,
-          value: c.id,
-        }));
-      },
+      description: "The encoded ID of the reminder (e.g. `Rm1234567890`). Use **List Reminder Options** to find valid IDs.",
     },
     conversation: {
       type: "string",
       label: "Channel",
-      description: "Select a public or private channel, or a user or group",
-      async options({
-        prevContext, types,
-      }) {
-        let { cursor } = prevContext;
-        if (prevContext?.types) {
-          types = prevContext.types;
-        }
-        if (types == null) {
-          const { response_metadata: { scopes } } = await this.authTest({
-            throwRateLimitError: true,
-          });
-          types = [
-            "public_channel",
-          ];
-          if (scopes.includes("groups:read")) {
-            types.push("private_channel");
-          }
-          if (scopes.includes("mpim:read")) {
-            types.push("mpim");
-          }
-          if (scopes.includes("im:read")) {
-            types.push("im");
-          }
-        }
-        const conversationsResp = await this.availableConversations(types.join(), cursor, true);
-        let conversations, userIds, userNames, realNames;
-        if (types.includes("im")) {
-          conversations = conversationsResp.conversations;
-          userIds = conversations.map(({ user }) => user).filter(Boolean);
-        } else {
-          conversations = conversationsResp.conversations.filter((c) => !c.is_im);
-        }
-        if (types.includes("mpim")) {
-          userNames = [
-            ...new Set(conversations.filter((c) => c.is_mpim).map((c) => c.purpose.value)
-              .map((v) => v.match(/@[\w.-]+/g) || [])
-              .flat()
-              .map((u) => u.slice(1))),
-          ];
-        }
-        if ((userIds?.length > 0) || (userNames?.length > 0)) {
-          // Look up real names for userIds and userNames at the same time to
-          // minimize number of API calls.
-          realNames = await this.realNameLookup(userIds, userNames);
-        }
-
-        return {
-          options: conversations.map((c) => {
-            if (c.is_im) {
-              return {
-                label: `Direct messaging with: ${realNames?.[c.user] ?? c.user}`,
-                value: c.id,
-              };
-            } else if (c.is_mpim) {
-              const usernames = c.purpose.value.match(/@[\w.-]+/g) || [];
-              const realnames = usernames.map((u) => realNames?.[u.slice(1)] || u);
-              return {
-                label: realnames.length
-                  ? `Group messaging with: ${realnames.join(", ")}`
-                  : c.purpose.value,
-                value: c.id,
-              };
-            } else {
-              return {
-                label: `${c.is_private
-                  ? "Private"
-                  : "Public"} channel: ${c.name}`,
-                value: c.id,
-              };
-            }
-          }),
-          context: {
-            types,
-            cursor: conversationsResp.cursor,
-          },
-        };
-      },
+      description: "**Prefer a channel ID** (e.g. `C1234567890`) — use **List Channels** to look it up; it resolves instantly. A channel NAME (e.g. `general` or `#general`) is also accepted: it is looked up among the channels you are a member of first, then the workspace's public channels. That lookup is slower than an ID and, on large workspaces, can be rate-limited or fail with a ConfigurationError if the channel isn't found within ~5,000 channels — pass the ID whenever you have it. Depending on the action, this may also accept a user ID (opens a direct message) or a group DM ID — use **Find User by Email** / **Find User by ID** to resolve a user ID, or **List Group Conversations** for group DM IDs.",
     },
     channelId: {
       type: "string",
       label: "Channel ID",
-      description: "Select the channel's id.",
-      async options({
-        prevContext,
-        types = Object.values(constants.CHANNEL_TYPE),
-        channelsFilter = (channel) => channel,
-        excludeArchived = true,
-      }) {
-        const {
-          channels,
-          response_metadata: { next_cursor: cursor },
-        } = await this.conversationsList({
-          types: types.join(),
-          cursor: prevContext.cursor,
-          limit: constants.LIMIT,
-          exclude_archived: excludeArchived,
-          throwRateLimitError: true,
-        });
-
-        let userNames;
-        if (types.includes("im")) {
-          const userIds = channels.filter(({ is_im }) => is_im).map(({ user }) => user);
-          userNames = await this.userNameLookup(userIds);
-        }
-
-        const options = channels
-          .filter(channelsFilter)
-          .map((c) => {
-            if (c.is_im) {
-              const userName = userNames?.[c.user];
-              return {
-                label: `Direct messaging with: ${userName
-                  ? `@${userName}`
-                  : c.user}`,
-                value: c.id,
-              };
-            } else if (c.is_mpim) {
-              return {
-                label: c.purpose.value,
-                value: c.id,
-              };
-            } else {
-              return {
-                label: `${c.is_private
-                  ? "Private"
-                  : "Public"} channel: ${c.name}`,
-                value: c.id,
-              };
-            }
-          });
-
-        return {
-          options,
-          context: {
-            cursor,
-          },
-        };
-      },
+      description: "The channel's ID (e.g. `C1234567890`). Use **List Channels** to find valid IDs.",
     },
     team: {
       type: "string",
       label: "Team",
-      description: "Select a team.",
-      async options({ prevContext }) {
-        const {
-          teams,
-          response_metadata: { next_cursor: cursor },
-        } = await this.authTeamsList({
-          cursor: prevContext.cursor,
-          limit: constants.LIMIT,
-          throwRateLimitError: true,
-        });
-
-        return {
-          options: teams.map((team) => ({
-            label: team.name,
-            value: team.id,
-          })),
-
-          context: {
-            cursor,
-          },
-        };
-      },
+      description: "The encoded team ID (e.g. `T1234567890`). Only required when the connected token spans multiple teams (Enterprise Grid); omit otherwise. Use **List Teams** to find valid IDs.",
     },
     messageTs: {
       type: "string",
@@ -319,43 +55,27 @@ export default {
     text: {
       type: "string",
       label: "Text",
-      description: "Text of the message to send (see Slack's [formatting docs](https://api.slack.com/reference/surfaces/formatting)). This field is usually necessary, unless you're providing only attachments instead.",
+      description: "Text of the message to send (see Slack's [formatting docs](https://api.slack.com/reference/surfaces/formatting)). This field is usually necessary, unless you're providing only attachments instead. To mention a user, use `<@U123>` with their user ID. Do NOT append a display name after a pipe: Slack renders `<@U123|Name>` as literal text, not a mention.",
     },
     topic: {
       type: "string",
       label: "Topic",
-      description: "Text of the new channel topic.",
+      description: "The new topic text to display in the channel header (e.g. `Q3 roadmap discussion`). Slack truncates topics longer than 250 characters.",
     },
     purpose: {
       type: "string",
       label: "Purpose",
-      description: "Text of the new channel purpose.",
+      description: "The new purpose/description text for the channel, shown in the channel details panel (e.g. `Channel for engineering incident coordination`). Limited to 250 characters by Slack.",
     },
     query: {
       type: "string",
       label: "Query",
-      description: "Search query.",
+      description: "The search query. Supports Slack search modifiers, e.g. `from:@user`, `in:#channel`, `before:2025-01-01`, `has:link`. Combine terms and modifiers as needed, e.g. `budget in:#finance from:@jane`.",
     },
     file: {
       type: "string",
       label: "File ID",
-      description: "Specify a file by providing its ID.",
-      async options({
-        channel, page,
-      }) {
-        const { files } = await this.listFiles({
-          channel,
-          page: page + 1,
-          count: constants.LIMIT,
-          throwRateLimitError: true,
-        });
-        return files?.map(({
-          id: value, name: label,
-        }) => ({
-          value,
-          label,
-        })) || [];
-      },
+      description: "The file's ID (e.g. `F1234567890`). Use **List Files** to find valid IDs.",
     },
     attachments: {
       type: "string",
@@ -406,7 +126,7 @@ export default {
     username: {
       type: "string",
       label: "Bot Username",
-      description: "Optionally customize your bot's user name (default is `Pipedream`). Must be used in conjunction with `Send as User` set to false, otherwise ignored.",
+      description: "Optionally customize your bot's user name (e.g. `Vandelay Industries`; default is `Pipedream`). Applies only when the message is posted as the bot — i.e. the effective `Send as User` is `false`, which is the default for channel messages. When the effective `Send as User` is `true` (e.g. a direct message, which defaults to the authenticated user), this prop is invalid and the action raises a configuration error rather than silently ignoring it; set `Send as User` to `false` to post as the bot with a custom identity (e.g. to send a DM as the bot named `Vandelay Industries`).",
       optional: true,
     },
     blocks: {
@@ -418,13 +138,8 @@ export default {
     icon_emoji: {
       type: "string",
       label: "Icon (emoji)",
-      description: "Optionally provide an emoji to use as the icon for this message. E.g., `:fire:` Overrides `icon_url`.  Must be used in conjunction with `Send as User` set to `false`, otherwise ignored.",
+      description: "Optionally provide an emoji to use as the icon for this message, wrapped in colons (e.g. `:fire:`). Overrides `icon_url`. Applies only when the message is posted as the bot — i.e. the effective `Send as User` is `false`, which is the default for channel messages. When the effective `Send as User` is `true` (e.g. a direct message, which defaults to the authenticated user), this prop is invalid and the action raises a configuration error rather than silently ignoring it; set `Send as User` to `false` to post as the bot with a custom icon (e.g. to send a DM as the bot with a `:fire:` icon). Use **List Icon (emoji) Options** to look up valid emoji names for this workspace, including custom emoji.",
       optional: true,
-      async options() {
-        return await this.getCustomEmojis({
-          throwRateLimitError: true,
-        });
-      },
     },
     content: {
       label: "File Path or URL",
@@ -435,7 +150,7 @@ export default {
     link_names: {
       type: "boolean",
       label: "Link Names",
-      description: "Find and link channel names and usernames.",
+      description: "If `true`, automatically converts plain-text `@name` and `#channel` mentions in `text` into linked Slack mentions. If `false` (default), mentions are left as plain text and won't notify or link. Has no effect when using `blocks`.",
       optional: true,
     },
     thread_broadcast: {
@@ -454,7 +169,7 @@ export default {
     icon_url: {
       type: "string",
       label: "Icon (image URL)",
-      description: "Optionally provide an image URL to use as the icon for this message. Must be used in conjunction with `Send as User` set to `false`, otherwise ignored.",
+      description: "Optionally provide an image URL to use as the icon for this message (e.g. `https://example.com/avatar.png`). Applies only when the message is posted as the bot — i.e. the effective `Send as User` is `false`, which is the default for channel messages. When the effective `Send as User` is `true` (e.g. a direct message, which defaults to the authenticated user), this prop is invalid and the action raises a configuration error rather than silently ignoring it; set `Send as User` to `false` to post as the bot with a custom icon (e.g. to send a DM as the bot with the icon `https://example.com/avatar.png`).",
       optional: true,
     },
     initial_comment: {
@@ -517,6 +232,12 @@ export default {
       label: "Number of Pages",
       description: "The number of pages to retrieve. Default: 1",
       default: 1,
+      optional: true,
+    },
+    cursor: {
+      type: "string",
+      label: "Cursor",
+      description: "Resume from a previous call's `next_cursor` to fetch the following page.",
       optional: true,
     },
     addToChannel: {
@@ -586,6 +307,9 @@ export default {
     sdk(opts = {}) {
       return new WebClient(this.getToken(opts), {
         rejectRateLimitedCalls: true,
+        retryConfig: {
+          ...constants.WEB_CLIENT_RETRY_CONFIG,
+        },
         slackApiUrl: this.$auth.base_url,
       });
     },
@@ -630,54 +354,25 @@ export default {
       return response;
     },
     async _withRetries(apiCall, throwRateLimitError = false) {
-      const retryOpts = {
-        retries: 3,
-        minTimeout: 30000,
-      };
-      return retry(async (bail) => {
+      let waitedSeconds = 0;
+      for (let attempt = 0; ; attempt++) {
         try {
           return await apiCall();
         } catch (error) {
-          const statusCode = get(error, "code");
-          if (statusCode === "slack_webapi_rate_limited_error") {
-            if (throwRateLimitError) {
-              bail(`Rate limit exceeded. ${error}`);
-            } else {
-              console.log(`Rate limit exceeded. Will retry in ${retryOpts.minTimeout / 1000} seconds`);
-              throw error;
-            }
+          const waitSeconds = Math.max(get(error, "retryAfter") || 0, 1);
+          if (
+            get(error, "code") !== constants.RATE_LIMITED_ERROR_CODE
+            || throwRateLimitError
+            || attempt >= constants.RATE_LIMIT_MAX_RETRIES
+            || waitedSeconds + waitSeconds > constants.RATE_LIMIT_WAIT_BUDGET_SECONDS
+          ) {
+            throw error;
           }
-          bail(`${error}`);
+          console.log(`Rate limit exceeded. Will retry in ${waitSeconds} seconds`);
+          await new Promise((resolve) => setTimeout(resolve, waitSeconds * 1000));
+          waitedSeconds += waitSeconds;
         }
-      }, retryOpts);
-    },
-    /**
-     * Returns a list of channel-like conversations in a workspace. The
-     * "channels" returned depend on what the calling token has access to and
-     * the directives placed in the types parameter.
-     *
-     * @param {string} [types] - a comma-separated list of channel types to get.
-     * Any combination of: `public_channel`, `private_channel`, `mpim`, `im`
-     * @param {string} [cursor] - a cursor returned by the previous API call,
-     * used to paginate through collections of data
-     * @returns an object containing a list of conversations and the cursor for the next
-     * page of conversations
-     */
-    async availableConversations(types, cursor, throwRateLimitError = false) {
-      const {
-        channels: conversations,
-        response_metadata: { next_cursor: nextCursor },
-      } = await this.usersConversations({
-        types,
-        cursor,
-        limit: constants.LIMIT,
-        exclude_archived: true,
-        throwRateLimitError,
-      });
-      return {
-        cursor: nextCursor,
-        conversations,
-      };
+      }
     },
     // Resolves user names by scanning `users.list`, capped at
     // MAX_NAME_LOOKUP_PAGES pages per call: some ids may be unresolvable
@@ -709,44 +404,6 @@ export default {
         && ++pages < constants.MAX_NAME_LOOKUP_PAGES
         && Object.keys(userNames).length < ids.length);
       return userNames;
-    },
-    // Resolves real names by scanning `users.list`, capped at
-    // MAX_NAME_LOOKUP_PAGES pages per call: some ids/usernames may be
-    // unresolvable (e.g. external Slack Connect users, or stale usernames in
-    // mpim purpose text), so callers must handle missing entries in the
-    // result.
-    async realNameLookup(ids = [], usernames = [], throwRateLimitError = true, args = {}) {
-      const idSet = new Set(ids);
-      const usernameSet = new Set(usernames);
-      let cursor;
-      let pages = 0;
-      const realNames = {};
-      const targetCount = ids.length + usernames.length;
-      do {
-        const {
-          members: users,
-          response_metadata: { next_cursor: nextCursor },
-        } = await this.usersList({
-          limit: constants.LIMIT,
-          cursor,
-          throwRateLimitError,
-          ...args,
-        });
-
-        for (const user of users) {
-          if (idSet.has(user.id)) {
-            realNames[user.id] = user.profile.real_name;
-          }
-          if (usernameSet.has(user.name)) {
-            realNames[user.name] = user.profile.real_name;
-          }
-        }
-
-        cursor = nextCursor;
-      } while (cursor
-        && ++pages < constants.MAX_NAME_LOOKUP_PAGES
-        && Object.keys(realNames).length < targetCount);
-      return realNames;
     },
     async maybeAddAppToChannels(channelIds = []) {
       if (!this.getBotToken()) {
@@ -966,13 +623,7 @@ export default {
     },
     assistantSearch(args = {}) {
       args.count ||= constants.LIMIT;
-      // Uses apiCall directly since assistant.search.context is not exposed as
-      // a method on WebClient — but it must STILL go through _withRetries. Calling
-      // apiCall bare was the one path in this app that skipped the retry wrapper, and
-      // the client is built with `rejectRateLimitedCalls: true`, so a 429 rejected
-      // instantly instead of backing off. assistant.search.context rate-limits readily
-      // (Slack returns retryAfter: 60), which surfaced to agents as a hard tool error
-      // on 8 of 12 search calls in one eval run.
+      // apiCall bypasses makeRequest, so wrap it explicitly.
       return this._withRetries(() => this.sdk().apiCall("assistant.search.context", {
         ...args,
       }));
@@ -1030,15 +681,49 @@ export default {
         ...args,
       });
     },
-    listFiles(args = {}) {
+    async listFiles(args = {}) {
       args.count ||= constants.LIMIT;
-      return this.makeRequest({
+      const {
+        response, asBot,
+      } = await this.makeFilesReadRequest({
         method: "files.list",
-        // Use bot token, if available, since the required `files:read` scope
-        // is only requested for bot tokens in the Pipedream app.
-        asBot: true,
         ...args,
       });
+      // files.list returns no files, not an error, for channels the user can't see
+      if (asBot
+        || !args.channel
+        || args.page > 1
+        || response.files?.length
+        || await this._userCanSeeChannel(args.channel)) {
+        return response;
+      }
+      const notVisibleError = new ConfigurationError(`Channel "${args.channel}" was not found, or neither the connected user nor the bot is a member of it.`);
+      if (!this.getBotToken()) {
+        throw notVisibleError;
+      }
+      return this.makeRequest({
+        method: "files.list",
+        ...args,
+        asBot: true,
+      }).catch((error) => {
+        if (constants.FILES_READ_BOT_FALLBACK_ERRORS.some((code) => `${error}`.includes(code))) {
+          throw notVisibleError;
+        }
+        throw error;
+      });
+    },
+    async _userCanSeeChannel(channel) {
+      try {
+        await this.conversationsInfo({
+          channel,
+        });
+        return true;
+      } catch (error) {
+        if (error?.data?.error === "channel_not_found") {
+          return false;
+        }
+        throw error;
+      }
     },
     listGroupMembers(args = {}) {
       args.limit ||= constants.LIMIT;
@@ -1047,14 +732,98 @@ export default {
         ...args,
       });
     },
-    getFileInfo(args = {}) {
-      return this.makeRequest({
+    async getFileInfo(args = {}) {
+      const { response } = await this.makeFilesReadRequest({
         method: "files.info",
-        // Use bot token, if available, since the required `files:read` scope
-        // is only requested for bot tokens in the Pipedream app.
-        asBot: true,
         ...args,
       });
+      return response;
+    },
+    // User token first, so files in private channels the bot hasn't joined resolve
+    async makeFilesReadRequest(args = {}) {
+      let userError;
+      try {
+        const response = await this.makeRequest({
+          ...args,
+          asBot: false,
+        });
+        return {
+          response,
+          asBot: false,
+        };
+      } catch (error) {
+        if (!this.getBotToken()
+          || !constants.FILES_READ_BOT_FALLBACK_ERRORS.includes(error?.data?.error)) {
+          throw error;
+        }
+        userError = error;
+      }
+      try {
+        const response = await this.makeRequest({
+          ...args,
+          asBot: true,
+        });
+        return {
+          response,
+          asBot: true,
+        };
+      } catch (error) {
+        throw userError.data.error === "missing_scope"
+          ? error
+          : userError;
+      }
+    },
+    _makeDownloadRequest({
+      $, url, asBot,
+    }) {
+      return axios($, {
+        url,
+        headers: {
+          Authorization: `Bearer ${this.getToken({
+            asBot,
+          })}`,
+        },
+        responseType: constants.STREAM_RESPONSE_TYPE,
+        // Slack redirects unauthorized downloads to its sign-in page
+        maxRedirects: 0,
+      }).catch((error) => {
+        const status = error?.response?.status;
+        if (status >= 300 && status < 400) {
+          throw new Error(`Slack redirected the download to its sign-in page (HTTP ${status}): the connected account's ${asBot
+            ? "bot"
+            : "user"} token can't access this file's content.`);
+        }
+        throw error;
+      });
+    },
+    async downloadFileContent({
+      $, url, asBot, filepath,
+    }) {
+      const contentStream = await this._makeDownloadRequest({
+        $,
+        url,
+        asBot,
+      });
+      let bytesWritten = 0;
+      const enforceSizeLimit = new Transform({
+        transform(chunk, encoding, callback) {
+          bytesWritten += chunk.length;
+          if (bytesWritten > constants.MAX_DOWNLOAD_SIZE_BYTES) {
+            callback(new Error(`File exceeds the ${constants.MAX_DOWNLOAD_SIZE_BYTES}-byte (2GB) /tmp disk limit for this execution.`));
+            return;
+          }
+          callback(null, chunk);
+        },
+      });
+      try {
+        await pipeline(contentStream, enforceSizeLimit, fs.createWriteStream(filepath));
+      } catch (error) {
+        await fs.promises.rm(filepath, {
+          force: true,
+        }).catch(() => {});
+        throw error;
+      }
+      return bytesWritten;
     },
     getUserProfile(args = {}) {
       return this.makeRequest({
@@ -1110,6 +879,12 @@ export default {
         ...args,
       });
     },
+    openConversation(args = {}) {
+      return this.makeRequest({
+        method: "conversations.open",
+        ...args,
+      });
+    },
     inviteToConversation(args = {}) {
       return this.makeRequest({
         method: "conversations.invite",
@@ -1119,6 +894,12 @@ export default {
     kickUserFromConversation(args = {}) {
       return this.makeRequest({
         method: "conversations.kick",
+        ...args,
+      });
+    },
+    leaveConversation(args = {}) {
+      return this.makeRequest({
+        method: "conversations.leave",
         ...args,
       });
     },
@@ -1266,10 +1047,54 @@ export default {
       return ids.join(",");
     },
     /**
+     * Pages through a channel-listing method looking for a channel named `name`.
+     * Capped at MAX_CHANNEL_RESOLVE_PAGES pages: an unmatched name (typo, wrong
+     * workspace) would otherwise force a full scan every time, which on a large
+     * workspace can alone exhaust the method's rate limit.
+     *
+     * @param {Function} list - Listing method, e.g. usersConversations or conversationsList
+     * @param {string} name - Lowercased channel name without a leading `#`
+     * @param {object} args - Extra arguments for `list` (e.g. `types`)
+     * @returns {Promise<{ id: string|null, capped: boolean }>} The matching channel ID
+     * (or null), and whether the scan stopped at the page cap with more pages left
+     */
+    async _findChannelIdByName(list, name, args = {}) {
+      let cursor;
+      let pages = 0;
+      do {
+        // Fail fast on a 429; a wait per page stalls the whole scan.
+        const {
+          channels, response_metadata: { next_cursor: nextCursor },
+        } = await list({
+          ...args,
+          limit: 999,
+          cursor,
+          exclude_archived: true,
+          throwRateLimitError: true,
+        });
+        const match = channels.find((c) => c.name === name);
+        if (match) {
+          return {
+            id: match.id,
+            capped: false,
+          };
+        }
+        cursor = nextCursor;
+      } while (cursor && ++pages < constants.MAX_CHANNEL_RESOLVE_PAGES);
+      return {
+        id: null,
+        capped: Boolean(cursor),
+      };
+    },
+    /**
      * Resolves a channel name (e.g. "general", "#general") to its ID.
      * If the input already looks like an ID (starts with C/D/G/U + 8+ alphanums),
-     * returns it as-is. Fetches up to 999 channels per page (the Slack API max)
-     * to minimize API calls.
+     * returns it as-is.
+     *
+     * Slack has no lookup-by-name endpoint, so a name is matched by listing channels.
+     * The authenticated user's own channels are searched first (users.conversations) —
+     * usually a small fraction of a large workspace, and where the named channel almost
+     * always is — and only then the workspace's public channels (conversations.list).
      *
      * Note: chat.postMessage and chat.update accept channel names directly —
      * use normalizeChannel() instead for those methods.
@@ -1278,23 +1103,52 @@ export default {
      * @returns {Promise<string>} The resolved channel ID
      */
     async resolveChannelId(input) {
-      if (/^[CDGU][A-Z0-9]{8,}$/i.test(input)) return input;
-      const name = input.replace(/^#/, "").toLowerCase();
-      let cursor;
-      do {
-        const {
-          channels, response_metadata: { next_cursor: nextCursor },
-        } = await this.conversationsList({
-          types: "public_channel,private_channel",
-          limit: 999,
-          cursor,
-          exclude_archived: true,
+      // Slack ids are UPPERCASE-only (e.g. `C0123ABCD`, `U0123ABCD`). Match case-sensitively:
+      // channel names are lowercased by Slack, so a `/i` match would misclassify an all-alnum
+      // name like `welcomeaboard` or `developers` (no hyphen, 9+ chars) as an id.
+      // Channel, private-group, and DM ids are already conversation ids — pass through.
+      if (/^[CDG][A-Z0-9]{8,}$/.test(input)) return input;
+      // A user id is NOT a conversation id — conversations.* answers `channel_not_found`
+      // for it. Open (idempotently) the DM with that user and use the returned IM channel.
+      // This is the read-side counterpart to chat.postMessage accepting a user id: an agent
+      // asked to read "my DMs" resolves its own user id and passes it here, and history,
+      // thread replies, and reactions now accept it the way posting already does.
+      if (/^[UW][A-Z0-9]{8,}$/.test(input)) {
+        const { channel } = await this.openConversation({
+          users: input,
         });
-        const match = channels.find((c) => c.name === name);
-        if (match) return match.id;
-        cursor = nextCursor;
-      } while (cursor);
-      throw new Error(`Channel "${input}" not found. Provide a valid channel ID or name.`);
+        return channel.id;
+      }
+      const name = input.replace(/^#/, "").toLowerCase();
+
+      // Pass 1: channels the authenticated user is a member of, public and private.
+      const member = await this._findChannelIdByName(
+        (args) => this.usersConversations(args),
+        name,
+        {
+          types: "public_channel,private_channel",
+        },
+      );
+      if (member.id) return member.id;
+
+      // Pass 2: public channels the user hasn't joined. Private channels are skipped —
+      // conversations.list only returns private channels the caller is a member of,
+      // and pass 1 already covered those.
+      const workspace = await this._findChannelIdByName(
+        (args) => this.conversationsList(args),
+        name,
+        {
+          types: "public_channel",
+        },
+      );
+      if (workspace.id) return workspace.id;
+
+      throw new ConfigurationError(
+        `Channel "${input}" not found${member.capped || workspace.capped
+          ? ` after scanning ${constants.MAX_CHANNEL_RESOLVE_PAGES * 999}+ channels (this workspace may have more)`
+          : ""
+        }. Provide a valid channel ID instead — use List Channels to look it up.`,
+      );
     },
   },
 };

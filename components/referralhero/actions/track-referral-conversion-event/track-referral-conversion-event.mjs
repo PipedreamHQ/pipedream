@@ -4,13 +4,14 @@ export default {
   key: "referralhero-track-referral-conversion-event",
   name: "Track Referral Conversion Event",
   description: "Track a referral conversion event. Use when your Campaign Goal is set to track two or three conversion events. [See the documentation](https://support.referralhero.com/integrate/rest-api/endpoints-reference#track-referral-conversion-event)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     referralhero,
     listId: {

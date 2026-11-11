@@ -5,9 +5,9 @@ export default {
   name: "Update Ticket Comment",
   description: "Updates an existing comment on a ticket. [See the documentation](https://desk.zoho.com/DeskAPIDocument#TicketsComments_Updateticketcomment)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
-    destructiveHint: false,
+    destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },

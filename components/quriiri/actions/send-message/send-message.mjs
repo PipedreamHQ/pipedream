@@ -9,13 +9,14 @@ export default {
   key: "quriiri-send-message",
   name: "Send Message",
   description: "Sends an SMS message using the Quriiri API. [See the documentation](https://docs.quriiri.fi/docs/quriiri/send-sms/operations/create-a)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     quriiri,
     sender: {

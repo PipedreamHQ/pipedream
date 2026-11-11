@@ -18,7 +18,7 @@ To connect your WooCommerce store to Pipedream, create a REST API key.
 
 Open the **WooCommerce** plugin in your WordPress admin dashboard and select the Advanced tab. Navigate to the **REST API** section and click **Create an API key**.
 
-![Creating an API key for WooCommerce from within your WordPress admin dashboard](https://res.cloudinary.com/pipedreamin/image/upload/v1715009382/marketplace/apps/woocommerce/CleanShot_2024-05-06_at_11.25.25_2x_tf9j1w.png)
+![Creating an API key for WooCommerce from within your WordPress admin dashboard](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/woocommerce/CleanShot_2024-05-06_at_11.25.25_2x_tf9j1w.png)
 
 We recommend naming this API key "Pipedream" to easily remember its purpose. Select a user account that this API key should be tied to, ideally one with at least store manager access.
 
@@ -28,7 +28,7 @@ Next, choose the level of permission you’d like Pipedream workflows to have. Y
 - **Write** - your Pipedream workflows can update or insert data like orders and products, but cannot read them.
 - **Read/Write** - your Pipedream workflows can both read and write data on your WooCommerce store.
 
-![Choose the user, name and the permissions level for your WooCommerce API key](https://res.cloudinary.com/pipedreamin/image/upload/v1715009382/marketplace/apps/woocommerce/CleanShot_2024-05-06_at_11.26.05_2x_rfyt9k.png)
+![Choose the user, name and the permissions level for your WooCommerce API key](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/woocommerce/CleanShot_2024-05-06_at_11.26.05_2x_rfyt9k.png)
 
 After generating the API key, you’ll receive a **Consumer Key** and **Consumer Secret**. Copy these values into Pipedream under the respective **Key** and **Secret** fields.
 
@@ -42,7 +42,7 @@ Double-check your store’s home URL under the **Settings area in WordPress.**
 
 ### Check your Permalink structure
 
-![Make sure your WordPress store has the Post Name URL structure for Pipedream to be able to connect to it correctly.](https://res.cloudinary.com/pipedreamin/image/upload/v1715010321/marketplace/apps/woocommerce/CleanShot_2024-05-06_at_11.42.43_2x_qe3qu8.png)
+![Make sure your WordPress store has the Post Name URL structure for Pipedream to be able to connect to it correctly.](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/woocommerce/CleanShot_2024-05-06_at_11.42.43_2x_qe3qu8.png)
 
 To enable Pipedream's access to your WooCommerce store’s REST API, ensure your WordPress site’s Permalink Structure is set to `Post name`. Open the **Settings** area in WordPress, navigate to the **Permalink** section, verify that the **Permalink** setting is set to `Post name`, and click **Save** to apply the change.
 

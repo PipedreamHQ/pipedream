@@ -9,13 +9,14 @@ export default {
   key: "browser_use-create-browser-session",
   name: "Create Browser Session",
   description: "Create a standalone Browser Use browser session for direct browser control through CDP. Browser sessions are billed by runtime and can run up to 4 hours. [See the documentation](https://docs.browser-use.com/cloud/api-v3/browsers/create-browser-session)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     browserUse,
     profileId: {

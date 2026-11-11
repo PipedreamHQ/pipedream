@@ -4,13 +4,14 @@ export default {
   key: "renderio-get-preset",
   name: "Get Preset",
   description: "Retrieve a preset by ID. [See the documentation](https://renderio.dev/docs/api-reference/presets/get-preset)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     renderio,
     presetId: {

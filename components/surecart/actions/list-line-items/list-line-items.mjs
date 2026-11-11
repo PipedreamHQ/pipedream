@@ -4,8 +4,9 @@ export default {
   key: "surecart-list-line-items",
   name: "List Line Items",
   description: "Retrieves a paginated list of line items from SureCart. Use to inspect items added to checkouts, audit configurations, or filter by checkout or line item IDs; to find valid checkout IDs, use **List Checkouts**; returns up to 100 items per page and supports pagination parameters. [See the documentation](https://developer.surecart.com/api-reference/line-items/list)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

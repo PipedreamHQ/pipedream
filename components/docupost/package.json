@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/docupost",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream DocuPost Components",
   "main": "docupost.app.mjs",
   "keywords": [

@@ -4,8 +4,9 @@ export default {
   key: "dreamdata-send-batch",
   name: "Send Batch",
   description: "Submit a raw batch of Dreamdata analytics events (`identify`, `track`, `page`, `group`, `alias`) to Dreamdata's ingestion API. Use this when you need full control over event shape. [See the documentation](https://developer.dreamdata.io/server-side/nodejs-sdk/).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

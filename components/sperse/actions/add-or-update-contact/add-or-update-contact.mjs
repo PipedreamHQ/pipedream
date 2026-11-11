@@ -5,8 +5,9 @@ export default {
   key: "sperse-add-or-update-contact",
   name: "Add or Update Contact",
   description: "Creates or updates a contact. [See the documentation](https://app.sperse.com/app/api/swagger)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

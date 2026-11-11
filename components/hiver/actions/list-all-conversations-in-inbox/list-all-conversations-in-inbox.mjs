@@ -4,8 +4,9 @@ export default {
   key: "hiver-list-all-conversations-in-inbox",
   name: "List All Conversations In Inbox",
   description: "Get all conversations in a Hiver inbox. [See the documentation](https://developer.hiverhq.com/hiver-api/conversations/get-conversations-in-the-inbox)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,13 +5,14 @@ export default {
   key: "launchdarkly-list-projects",
   name: "List Projects",
   description: "List all projects. [See the documentation](https://launchdarkly.com/docs/api/projects/get-projects).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     filter: {

@@ -14,7 +14,10 @@ export default {
   props: {
     whoisfreaks,
     ip: {
-      propDefinition: [whoisfreaks, "ip"],
+      propDefinition: [
+        whoisfreaks,
+        "ip",
+      ],
     },
     format: {
       propDefinition: [

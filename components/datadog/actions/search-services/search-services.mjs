@@ -14,8 +14,9 @@ export default {
     + " [See the docs](https://docs.datadoghq.com/api/"
     + "latest/service-definition/"
     + "#get-all-service-definitions)",
-  version: "1.0.1",
+  version: "1.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

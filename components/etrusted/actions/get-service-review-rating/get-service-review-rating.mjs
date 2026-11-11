@@ -4,7 +4,7 @@ export default {
   key: "etrusted-get-service-review-rating",
   name: "Get Service Review Rating",
   description: "Retrieves aggregate ratings for service reviews by channel ID. [See the documentation](https://developers.etrusted.com/reference/get-channel-service-reviews-aggregate-rating)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

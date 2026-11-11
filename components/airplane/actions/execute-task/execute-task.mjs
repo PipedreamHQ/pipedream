@@ -5,13 +5,14 @@ export default {
   key: "airplane-execute-task",
   name: "Execute Task",
   description: "Execute a task with a set of parameter values and receive a run ID to track the task's execution. [See the documentation](https://docs.airplane.dev/reference/api#tasks-execute)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     airplane,
     id: {

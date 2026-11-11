@@ -4,13 +4,14 @@ export default {
   key: "returnista-create-return-location",
   name: "Create Return Location",
   description: "Creates a new return location (warehouse or depot address) for an account."
-    + " Required: `accountId`, `name`, `companyName`, `phoneNumber`, `street`, `houseNumber`, `city`, `postalCode`,"
+    + " Required: `name`, `companyName`, `phoneNumber`, `street`, `houseNumber`, `city`, `postalCode`,"
     + " `countryCode` (ISO 3166-1 alpha-2, e.g. `NL`, `DE`, `GB`, `US`)."
     + " Optional: `suffix`, `stateProvinceCode`, `attention`, `contactName`."
     + " To update a location after creation, use **Update Return Location** with the returned ID."
     + " [See the documentation](https://platform.returnista.com/reference/rest-api/#post-/account/-accountId/return-location)",
-  version: "1.0.0",
+  version: "1.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -18,12 +19,6 @@ export default {
   },
   props: {
     returnista,
-    accountId: {
-      propDefinition: [
-        returnista,
-        "accountId",
-      ],
-    },
     name: {
       propDefinition: [
         returnista,
@@ -104,7 +99,6 @@ export default {
   async run({ $ }) {
     const response = await this.returnista.createReturnLocation({
       $,
-      accountId: this.accountId,
       data: {
         name: this.name,
         returnAddress: {

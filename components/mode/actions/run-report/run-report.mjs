@@ -4,8 +4,9 @@ export default {
   key: "mode-run-report",
   name: "Run Report",
   description: "Trigger a new run of a report. Returns a run object whose `token` can be passed to **Get Report Run** to poll the run state. [See the documentation](https://mode.com/developer/api-reference/analytics/report-runs/#runReport)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

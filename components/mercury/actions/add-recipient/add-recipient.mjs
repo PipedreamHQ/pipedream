@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import mercury from "../../mercury.app.mjs";
 import {
@@ -10,8 +9,9 @@ export default {
   key: "mercury-add-recipient",
   name: "Add Recipient",
   description: "Create a new Mercury payment recipient. Provide **Recipient Name** and **Emails** for a basic contact. To attach bank details, set **Payment Method** and the matching fields: `ach` needs Account Number, Routing Number, Electronic Account Type, and the address fields; `domesticWire` needs Account Number, Routing Number, and the address fields; `check` needs only the address fields. All numeric-looking values (account number, routing number, postal code) are sent to Mercury as strings (individual string props, so leading zeros are preserved). Example: `recipientName=\"Art Vandelay\"`, `emails=[\"art@vandelayindustries.com\"]`, `paymentMethod=\"ach\"`, `accountNumber=\"123456789\"`, `routingNumber=\"021000021\"`, `electronicAccountType=\"businessChecking\"`, `addressLine1=\"100 Federal Street\"`, `city=\"Boston\"`, `region=\"MA\"`, `postalCode=\"02101\"`, `country=\"US\"` -> returns the created recipient `{ id: \"b56db170-927b-11f1-a805-27c2879b4c72\", name: \"Art Vandelay\", ... }` (the `id` is a UUID, not a prefixed string). [See the documentation](https://docs.mercury.com/reference/createrecipient)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

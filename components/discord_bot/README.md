@@ -45,7 +45,7 @@ The first time this source runs, it fetches up to the last 100 messages sent to 
 
 By default, this event source is configured to emit an event for every new message in the channel. For example, if 5 messages are sent to the channel in one minute, the source will emit 5 events, one for each message. You can set the source to batch the events the source collects and emit them as a single event by setting the **Emit messages as a single event** parameter to `true`.
 
-<img alt="Emit messages as a single event" src="https://res.cloudinary.com/pipedreamin/image/upload/v1663079842/docs/components/CleanShot_2022-09-13_at_10.36.58_airn9p.gif" />
+<img alt="Emit messages as a single event" src="https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/docs/components/CleanShot_2022-09-13_at_10.36.58_airn9p.gif" />
 
 In this example, the source would emit a single event: an array of 5 messages.
 
@@ -69,7 +69,7 @@ You can request for this approval in the **Discord Developer Portal**.
 
 Make sure your bot has the required privileges:
 
-![Example of bot privileges](https://res.cloudinary.com/pipedreamin/image/upload/v1671660179/au5lekhader3nzaljmao.png)
+![Example of bot privileges](bot_priviledges.png)
 
 If you have issues with this integration, please join our public Slack and ask for help.
 

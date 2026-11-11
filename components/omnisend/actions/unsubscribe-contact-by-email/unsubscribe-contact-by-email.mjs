@@ -5,13 +5,14 @@ export default {
   key: "omnisend-unsubscribe-contact-by-email",
   name: "Unsubscribe Contact by Email",
   description: "Unsubscribe an existing Omnisend contact from the email channel by their full email address. This action does not create new contacts. [See the documentation](https://api-docs.omnisend.com/v3/docs/how-to-sync-contacts)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     omnisend,
     email: {

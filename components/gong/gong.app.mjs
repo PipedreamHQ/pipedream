@@ -81,6 +81,15 @@ export default {
         }));
       },
     },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: `Maximum number of results to return. Min ${constants.MIN_LIMIT}, max ${constants.MAX_LIMIT}.`,
+      min: constants.MIN_LIMIT,
+      max: constants.MAX_LIMIT,
+      default: constants.DEFAULT_LIMIT,
+      optional: true,
+    },
   },
   methods: {
     exportSummary(step) {
@@ -90,7 +99,9 @@ export default {
       return (msg = "") => step.export(constants.SUMMARY_LABEL, msg);
     },
     getBaseUrl() {
-      return `${constants.BASE_URL}${constants.VERSION_PATH}`;
+      // Gong routes by bearer token, so the generic host works when no per-customer host is set
+      const baseUrl = this.$auth.api_base_url_for_customer || constants.FALLBACK_BASE_URL;
+      return `${baseUrl.replace(/\/+$/, "")}${constants.VERSION_PATH}`;
     },
     getUrl(path) {
       return `${this.getBaseUrl()}${path}`;
@@ -132,6 +143,12 @@ export default {
         ...args,
       });
     },
+    listUsersExtensive(args = {}) {
+      return this.post({
+        path: "/users/extensive",
+        ...args,
+      });
+    },
     listWorkspaces(args = {}) {
       return this.makeRequest({
         path: "/workspaces",
@@ -141,6 +158,30 @@ export default {
     listCalls(args = {}) {
       return this.makeRequest({
         path: "/calls",
+        ...args,
+      });
+    },
+    listCallsExtensive(args = {}) {
+      return this.post({
+        path: "/calls/extensive",
+        ...args,
+      });
+    },
+    listCallTranscripts(args = {}) {
+      return this.post({
+        path: "/calls/transcript",
+        ...args,
+      });
+    },
+    listLibraryFolders(args = {}) {
+      return this.makeRequest({
+        path: "/library/folders",
+        ...args,
+      });
+    },
+    listLibraryFolderContent(args = {}) {
+      return this.makeRequest({
+        path: "/library/folder-content",
         ...args,
       });
     },
@@ -166,7 +207,8 @@ export default {
             },
           });
         } catch (error) {
-          if (error.response.status === 404) {
+          // Gong returns 404 when a filter matches nothing
+          if (error?.response?.status === 404) {
             console.log("No more resources");
             return;
           }

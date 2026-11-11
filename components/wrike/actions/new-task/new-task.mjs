@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import wrike from "../../wrike.app.mjs";
 import {
   TASK_STATUS_OPTIONS, TASK_IMPORTANCE_OPTIONS,
@@ -9,13 +8,14 @@ export default {
   key: "wrike-new-task",
   name: "New Task",
   description: "Create a Wrike task under a specified folder ID. [See the documentation](https://developers.wrike.com/api/v4/tasks/#create-task)",
-  version: "0.3.3",
+  version: "0.3.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     wrike,
     folderId: {

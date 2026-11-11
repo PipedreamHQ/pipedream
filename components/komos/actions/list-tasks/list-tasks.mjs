@@ -4,8 +4,9 @@ export default {
   key: "komos-list-tasks",
   name: "List Tasks",
   description: "Return a paginated list of Komos tasks, with optional filtering by name or status. [See the documentation](https://docs.komos.ai/api-reference/tasks/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

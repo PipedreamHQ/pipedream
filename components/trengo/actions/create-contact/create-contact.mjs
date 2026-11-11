@@ -2,8 +2,9 @@ import app from "../../trengo.app.mjs";
 
 export default {
   type: "action",
+  ai: "optimized",
   key: "trengo-create-contact",
-  version: "0.0.13",
+  version: "0.0.14",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

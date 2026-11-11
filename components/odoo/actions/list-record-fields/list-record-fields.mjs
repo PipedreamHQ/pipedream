@@ -12,13 +12,14 @@ export default {
   name: "List Record Fields",
   description:
     "List record fields for a given Odoo model. Use this to discover available fields and select specific attributes (like `string`, `type`, and `help`). Gotchas: this action calls Odoo’s `fields_get` endpoint, so returned fields depend on your Odoo access rights. [See the documentation](https://www.odoo.com/documentation/18.0/developer/reference/external_api.html#list-record-fields)",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     odoo,
     modelName: {

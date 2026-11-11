@@ -20,9 +20,7 @@ export default {
       const id = this._getHookId();
       if (id) {
         await this.heygen.deleteWebhook({
-          params: {
-            endpoint_id: id,
-          },
+          endpointId: id,
         });
       }
     },

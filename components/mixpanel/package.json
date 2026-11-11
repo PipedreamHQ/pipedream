@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mixpanel",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Pipedream mixpanel Components",
   "main": "mixpanel.app.mjs",
   "keywords": [
@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.1"
+    "@pipedream/platform": "^3.1.1",
+    "mixpanel": "^0.23.0"
   }
 }

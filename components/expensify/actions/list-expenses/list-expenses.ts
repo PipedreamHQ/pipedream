@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { defineAction } from "@pipedream/types";
 import expensify from "../../app/expensify.app";
 import { EXPENSE_LIST_FTL_TEMPLATE } from "../../common/constants";
@@ -7,8 +6,9 @@ export default defineAction({
   key: "expensify-list-expenses",
   name: "List Expenses",
   description: "List individual expenses (transactions) for an employee within a date range, returning a structured JSON array (each with amount, currency, merchant, created date, category, receiptURL, reportID). NOT a file. Implemented via the Report Exporter with an embedded Freemarker JSON template that flattens transactionList, read in memory. Use **List Policies** to discover valid IDs for the optional policyId filter. To read all expenses on one specific report, use **Get Report** instead. [See the documentation](https://integrations.expensify.com/Integration-Server/doc/#report-exporter)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

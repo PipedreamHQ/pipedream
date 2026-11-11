@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/workflowy",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream WorkFlowy Components",
   "main": "workflowy.app.mjs",
   "keywords": [

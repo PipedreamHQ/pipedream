@@ -28,8 +28,10 @@ export default {
         page, playlistId,
       }) {
         const items = await this.getPlaylistItems({
-          limit: PAGE_SIZE,
-          offset: PAGE_SIZE * page,
+          params: {
+            limit: PAGE_SIZE,
+            offset: PAGE_SIZE * page,
+          },
           playlistId: playlistId.value ?? playlistId,
         });
 
@@ -48,8 +50,10 @@ export default {
       withLabel: true,
       async options({ page }) {
         const items = await this.getUserTracks({
-          limit: PAGE_SIZE,
-          offset: PAGE_SIZE * page,
+          params: {
+            limit: PAGE_SIZE,
+            offset: PAGE_SIZE * page,
+          },
         });
 
         return {
@@ -90,8 +94,10 @@ export default {
       description: "Select an existing playlist or pass a custom expression to reference a specific [`playlist_id`](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) (for example, `3cEYpjA9oz9GiPac4AsH4n`).",
       async options({ page }) {
         const playlists = await this.getPlaylists({
-          limit: PAGE_SIZE,
-          offset: PAGE_SIZE * page,
+          params: {
+            limit: PAGE_SIZE,
+            offset: PAGE_SIZE * page,
+          },
         });
         return {
           options: playlists.map((playlist) => ({
@@ -108,8 +114,10 @@ export default {
       withLabel: true,
       async options({ page }) {
         const categories = await this.getCategories({
-          limit: PAGE_SIZE,
-          offset: PAGE_SIZE * page,
+          params: {
+            limit: PAGE_SIZE,
+            offset: PAGE_SIZE * page,
+          },
         });
         return {
           options: categories.map((category) => ({
@@ -217,13 +225,19 @@ export default {
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
-    async _paginate(resourceFn, params = {}) {
+    async _paginate(resourceFn, args = {}) {
       let data = [];
-      params.limit = PAGE_SIZE;
-      params.offset = 0;
+      const params = {
+        ...args.params,
+        limit: PAGE_SIZE,
+        offset: 0,
+      };
 
       do {
-        const items = await resourceFn(params);
+        const items = await resourceFn({
+          ...args,
+          params,
+        });
         data = [
           ...data,
           ...items,

@@ -2,7 +2,7 @@ import app from "../../trackingtime.app.mjs";
 
 export default {
   name: "Start Tracking Time",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -11,6 +11,7 @@ export default {
   key: "trackingtime-start-tracking-time",
   description: "Start tracking time of a task. [See the documentation](https://api.trackingtime.co/doc/time_tracking.html#sync:~:text=Sync%20tracking%20event-,Start%20Tracking%20Time,-Starts%20a%20timer)",
   type: "action",
+  ai: "optimized",
   props: {
     app,
     taskId: {

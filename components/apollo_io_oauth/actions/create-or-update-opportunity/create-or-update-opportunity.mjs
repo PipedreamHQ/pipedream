@@ -17,8 +17,9 @@ export default {
     + " Use **Get Current User** to find owner IDs."
     + " [See the documentation](https://docs.apollo.io/reference"
     + "/create-opportunity)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

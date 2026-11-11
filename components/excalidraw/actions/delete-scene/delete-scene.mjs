@@ -7,8 +7,9 @@ export default {
     "Permanently deletes an Excalidraw scene and all its drawing content. This action cannot be undone."
     + " Use **List Scenes** to find the scene ID before calling this tool."
     + " [See the documentation](https://plus.excalidraw.com/docs/api/scenes/sceneId-delete)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

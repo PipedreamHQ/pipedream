@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../box.app.mjs";
 
 const MENTION_REGEX = /@\[\d+:[^\]]+\]/;
@@ -7,8 +6,9 @@ export default {
   key: "box-add-comment",
   name: "Add Comment",
   description: "Adds a comment to a Box file. To mention a user, include `@[user_id:name]` in the message and Box will notify them by email. Use **Get Comments** to read existing comments on a file. [See the documentation](https://developer.box.com/reference/post-comments/).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

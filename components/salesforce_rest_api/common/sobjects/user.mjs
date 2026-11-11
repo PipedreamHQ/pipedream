@@ -1,4 +1,3 @@
-import salesforce from "../../salesforce_rest_api.app.mjs";
 import {
   EMAIL_ENCODING_OPTIONS,
   GEOCODE_ACCURACY_OPTIONS,
@@ -80,17 +79,10 @@ export default {
       options: LOCALE_OPTIONS,
     },
     ProfileId: {
-      propDefinition: [
-        salesforce,
-        "recordId",
-        () => ({
-          objType: "Profile",
-          nameField: "Name",
-        }),
-      ],
+      type: "string",
       label: "Profile ID",
       description:
-        "ID of the user's Profile. Use this value to cache metadata based on profile.",
+        "ID of the user's Profile (Salesforce's 15- or 18-character record ID, e.g. `00eXX000001SvR2`). Use **SOQL Query** to find the Profile ID.",
     },
     TimeZoneSidKey: {
       type: "string",

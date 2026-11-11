@@ -6,7 +6,7 @@ export default {
   key: "returnista-get-draft-return-orders",
   name: "Get Draft Return Orders",
   description: "Gets a list of draft return orders for the given account. [See the documentation](https://platform.returnista.com/reference/rest-api/#get-/account/-accountId-/draft-return-orders)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -15,12 +15,6 @@ export default {
   type: "action",
   props: {
     returnista,
-    accountId: {
-      propDefinition: [
-        returnista,
-        "accountId",
-      ],
-    },
     limit: {
       propDefinition: [
         returnista,
@@ -61,7 +55,6 @@ export default {
   async run({ $ }) {
     const { data: response } = await this.returnista.getDraftReturnOrders({
       $,
-      accountId: this.accountId,
       params: {
         limit: this.limit,
         page: this.page,

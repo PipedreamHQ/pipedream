@@ -4,8 +4,9 @@ export default {
   key: "zendesk-reply-to-side-conversation",
   name: "Reply to Side Conversation",
   description: "Reply to an existing Zendesk side conversation. Zendesk requires recipients on every reply, so pass the participants the reply should go to. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/side_conversation/side_conversation/#reply-to-side-conversation)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

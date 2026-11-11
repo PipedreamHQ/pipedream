@@ -4,7 +4,7 @@ export default {
   key: "coda-list-pages",
   name: "List Pages",
   description: "List all pages in a document. [See docs](https://coda.io/developers/apis/v1#tag/Pages/operation/listPages)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

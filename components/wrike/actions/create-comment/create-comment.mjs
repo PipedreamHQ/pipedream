@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import wrike from "../../wrike.app.mjs";
 
 export default {
   key: "wrike-create-comment",
   name: "Create Comment",
   description: "Post a comment on a Wrike task via POST /tasks/{taskId}/comments. Use **Find Tasks** or **Get Task** to obtain the taskId. [See the documentation](https://developers.wrike.com/reference/posttaskssinglecomments)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

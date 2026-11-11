@@ -6,7 +6,7 @@ export default {
   key: "ironclad-new-workflow-event-instant",
   name: "New Workflow Event (Instant)",
   description: "Emit new event when a new workflow event is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

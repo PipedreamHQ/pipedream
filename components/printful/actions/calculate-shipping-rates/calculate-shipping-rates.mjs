@@ -6,13 +6,14 @@ export default {
   key: "printful-calculate-shipping-rates",
   name: "Calculate Shipping Rates",
   description: "Fetches available shipping rates for a given destination. [See the documentation](https://developers.printful.com/docs/#tag/Shipping-Rate-API/operation/calculateShippingRates)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     printful,
     storeId: {

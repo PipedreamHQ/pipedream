@@ -2,8 +2,9 @@ import app from "../../noticeable.app.mjs";
 
 export default {
   type: "action",
+  ai: "optimized",
   key: "noticeable-create-publication",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

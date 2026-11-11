@@ -4,7 +4,7 @@ export default {
   key: "jira_data_center-list-worklog-ids-actions",
   name: "List Worklog IDs Actions",
   description: "Retrieves available options for the Worklog IDs field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

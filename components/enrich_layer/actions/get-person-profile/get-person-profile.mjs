@@ -4,8 +4,9 @@ export default {
   key: "enrich_layer-get-person-profile",
   name: "Get Person Profile",
   description: "Get structured data of a Person Profile from a professional network URL. Cost: 1 credit per successful request. [See the documentation](https://enrichlayer.com/docs/api/v2/people-api/person-profile).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,7 +5,7 @@ export default {
   key: "freshdesk-update-agent",
   name: "Update Agent",
   description: "Update an agent in Freshdesk. [See the documentation](https://developers.freshdesk.com/api/#update_agent)",
-  version: "0.0.9",
+  version: "0.0.10",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

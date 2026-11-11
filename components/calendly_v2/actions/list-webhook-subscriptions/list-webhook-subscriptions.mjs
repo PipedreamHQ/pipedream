@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import calendly from "../../calendly_v2.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
@@ -6,13 +5,14 @@ export default {
   key: "calendly_v2-list-webhook-subscriptions",
   name: "List Webhook Subscriptions",
   description: "Get a list of Webhook Subscriptions for an Organization or User via `GET /webhook_subscriptions`. Requires `organizationUri` when `scope` is `organization`, or `userUri` when `scope` is `user`. Run **List Organization Memberships** first to obtain an organization or user URI. Example: call with `scope` set to `organization` and `organizationUri` set to `https://api.calendly.com/organizations/AAAAAAAAAAAAAAAA` to return that organization's webhook subscriptions. [See the documentation](https://calendly.stoplight.io/docs/api-docs/faac832d7c57d-list-webhook-subscriptions)",
-  version: "0.1.7",
+  version: "0.1.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     calendly,
     scope: {

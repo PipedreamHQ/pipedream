@@ -10,8 +10,9 @@ export default {
     + " Set `includeExperiments` to `true` to include associated experiments in the response (requires `limit` ≤ 10)."
     + " Supports pagination via `limit` and `offset`."
     + " [See the documentation](https://eppo.cloud/api/docs#/Metrics/getMetrics)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

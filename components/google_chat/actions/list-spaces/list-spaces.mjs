@@ -5,13 +5,14 @@ export default {
   key: "google_chat-list-spaces",
   name: "List Spaces",
   description: "Lists spaces the caller is a member of. Group chats and DMs aren't listed until the first message is sent. [See the documentation](https://developers.google.com/chat/api/reference/rest/v1/spaces/list)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     pageSize: {

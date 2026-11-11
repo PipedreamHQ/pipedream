@@ -4,13 +4,14 @@ export default {
   key: "zendesk-get-dynamic-content-item",
   name: "Get Dynamic Content Item",
   description: "Retrieves a dynamic content item. Note: Dynamic content is available only on the Professional plan and above. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/ticket-management/dynamic_content/#show-item).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     zendesk,
     itemId: {

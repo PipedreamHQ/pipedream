@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/customer_io",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "description": "Pipedream Customer.io Components",
   "main": "customer_io.app.mjs",
   "keywords": [

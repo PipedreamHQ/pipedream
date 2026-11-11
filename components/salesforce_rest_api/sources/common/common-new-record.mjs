@@ -1,6 +1,7 @@
 import startCase from "lodash/startCase.js";
 import { v4 as uuidv4 } from "uuid";
 import common from "../common/common.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
@@ -12,17 +13,24 @@ export default {
       this.setNameField(nameField);
 
       // emit historical events
-      const { recentItems } = await this.salesforce.listSObjectTypeIds(objectType);
-      const ids = recentItems.map((item) => item.Id);
-      for (const id of ids.slice(-25)) {
-        const object = await this.salesforce.getSObject(objectType, id);
-        const event = {
-          body: {
-            "New": object,
-            "UserId": id,
-          },
-        };
-        this.processWebhookEvent(event);
+      try {
+        const { records } = await this.query({
+          query: `SELECT Id FROM ${objectType} ORDER BY ${constants.FIELD_NAME.CREATED_DATE} DESC LIMIT ${constants.DEPLOY_HISTORICAL_LIMIT}`,
+        });
+        const ids = records.map((r) => r.Id);
+        for (const id of ids.slice(-constants.DEPLOY_HISTORICAL_LIMIT).reverse()) {
+          const object = await this.salesforce.getSObject(objectType, id);
+          const event = {
+            body: {
+              "New": object,
+              "UserId": id,
+            },
+          };
+          this.processWebhookEvent(event);
+        }
+      } catch (err) {
+        console.log("Error seeding historical records during deploy:", err);
+        console.log("The source will still be created and will emit new records going forward.");
       }
     },
     async activate() {
@@ -99,8 +107,6 @@ export default {
     },
     async processTimerEvent(eventData) {
       const {
-        paginate,
-        setLatestDateCovered,
         getObjectTypeColumns,
         getNameField,
         generateTimerMeta,
@@ -109,36 +115,30 @@ export default {
 
       const {
         startTimestamp,
+        startId,
         endTimestamp,
       } = eventData;
 
       const fieldName = getNameField();
       const columns = getObjectTypeColumns();
+      const dateFieldName = constants.FIELD_NAME.CREATED_DATE;
 
-      const events = await paginate({
+      // Oldest first, so emitting in order keeps events chronological
+      const events = await this.paginate({
         objectType: this.getObjectType(),
         startTimestamp,
+        startId,
         endTimestamp,
         columns,
+        dateFieldName,
       });
 
-      const [
-        latestEvent,
-      ] = events;
+      this.setPollingCursor(events, dateFieldName);
 
-      let latestDateCovered = new Date(latestEvent?.CreatedDate || endTimestamp);
-      if (isNaN(latestDateCovered.getMilliseconds())) {
-        latestDateCovered = new Date();
-      }
-      latestDateCovered.setSeconds(0);
-      setLatestDateCovered(latestDateCovered.toISOString());
-
-      Array.from(events)
-        .reverse()
-        .forEach((item) => {
-          const meta = generateTimerMeta(item, fieldName);
-          emit(item, meta);
-        });
+      events.forEach((item) => {
+        const meta = generateTimerMeta(item, fieldName);
+        emit(item, meta);
+      });
     },
     async timerActivateHook() {
       const {

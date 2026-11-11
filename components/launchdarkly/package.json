@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/launchdarkly",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream LaunchDarkly Components",
   "main": "launchdarkly.app.mjs",
   "keywords": [

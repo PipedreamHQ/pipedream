@@ -80,7 +80,7 @@ export default {
       * Based on the IANA Time Zone DB
       * http://www.iana.org/time-zones
       */
-      if (typeof selectedTimeZone === "string") {
+      if (selectedTimeZone) {
         return selectedTimeZone;
       }
       const { value: timeZone } = await this.googleCalendar.getSettings({
@@ -90,7 +90,25 @@ export default {
     },
     parseEmails(input) {
       if (typeof input === "string") {
-        return input.split(",")
+        const trimmed = input.trim();
+        // Accept a JSON-stringified array too (e.g. '["a@x.com","b@y.com"]'),
+        // which LLM callers commonly emit for a string-typed "array or CSV" prop.
+        // Without this, JSON.stringify output is comma-split into malformed tokens
+        // like `["a@x.com"` that the API rejects as "Invalid attendee email".
+        if (trimmed.startsWith("[")) {
+          try {
+            const parsed = JSON.parse(trimmed);
+            if (Array.isArray(parsed)) {
+              return parsed
+                .filter((e) => typeof e === "string")
+                .map((e) => e.trim())
+                .filter(Boolean);
+            }
+          } catch {
+            // Not valid JSON — fall through to comma-splitting.
+          }
+        }
+        return trimmed.split(",")
           .map((e) => e.trim())
           .filter(Boolean);
       }

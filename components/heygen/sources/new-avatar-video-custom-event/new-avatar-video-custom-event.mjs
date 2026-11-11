@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "heygen-new-avatar-video-custom-event",
   name: "New Avatar Video Custom Event (Instant)",
-  description: "Emit new event when a specific avatar video event occurs. The user can define a custom set of event(s) to trigger. [See the documentation](https://docs.heygen.com/reference/add-a-webhook-endpoint)",
-  version: "0.0.1",
+  description: "Emit new event when a specific avatar video event occurs. The user can define a custom set of event(s) to trigger. [See the documentation](https://developers.heygen.com/reference/create-webhook-endpoint)",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/docugenerate",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream DocuGenerate Components",
   "main": "docugenerate.app.mjs",
   "keywords": [

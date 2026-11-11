@@ -13,8 +13,9 @@ export default {
   key: "float-create-project",
   name: "Create Project",
   description: "Create a new project. [See the documentation](https://developer.float.com/tutorial_managing_your_projects.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

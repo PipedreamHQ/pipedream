@@ -11,8 +11,9 @@ export default {
     + " This creates a single point-in-time entry, not a full distributed trace with parent/child spans."
     + " Setting `exceptionType`/`exceptionMessage` marks the entry as an exception (`is_exception = true` when later queried)."
     + " After recording, use **Run SQL Query** to confirm what was written (e.g. `SELECT * FROM records WHERE message LIKE '%...%' ORDER BY start_timestamp DESC LIMIT 1`). [See the documentation](https://pydantic.dev/docs/logfire/reference/sql/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

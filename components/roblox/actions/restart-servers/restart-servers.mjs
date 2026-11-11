@@ -5,8 +5,9 @@ export default {
   key: "roblox-restart-servers",
   name: "Restart Servers",
   description: "Restart all running servers of a Roblox universe, typically to deploy a new place version without disrupting active players. [See the documentation](https://create.roblox.com/docs/cloud/reference/Universe#Cloud_RestartUniverseServers)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

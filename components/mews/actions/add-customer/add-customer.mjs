@@ -6,7 +6,7 @@ export default {
   name: "Add Customer",
   description: "Adds a new customer to the system. [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/customers#add-customer)",
   key: "mews-add-customer",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

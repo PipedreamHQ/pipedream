@@ -7,8 +7,9 @@ export default {
     + " To clear the custom AI context, pass an empty string or `null` for `topicContext`."
     + " Use **Get Many Topics** to find the topic ID."
     + " [See the documentation](https://app.swaggerhub.com/apis-docs/HedyAI/hedy-api/1.5.2#/Topics/patch_topics__topicId_)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

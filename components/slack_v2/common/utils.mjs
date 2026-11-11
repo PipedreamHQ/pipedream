@@ -1,5 +1,6 @@
 /**
- * Shared helpers for the `fields` projection offered by the list/history actions.
+ * Shared helpers for the `fields` projection offered by the list/history actions, and for
+ * normalizing the user-mention encoding that `assistant.search.context` returns.
  *
  * Three actions (Get Channel History, Get Thread Replies, List Channels) let the caller
  * name the properties they want back. Both halves of that feature — normalizing the prop
@@ -62,8 +63,103 @@ export function projectFields(records, value) {
     : records;
 }
 
+/**
+ * A user mention as Slack encodes it in message text.
+ * `[UW]` because Enterprise Grid mints both prefixes and they coexist in one message:
+ * `W`-prefixed ids are the older grid format, `U`-prefixed the current one.
+ */
+const USER_MENTION = /<@([UW][A-Z0-9]{8,})(?:\|([^>]*))?>/g;
+
+/**
+ * Slack does not render the pipe form on the write path: `chat.postMessage` prints it
+ * as literal text, so the reader sees a raw `<@U123|Display Name>` where a mention belonged.
+ *
+ * Normalizing on the read side means every read tool hands the agent the one encoding
+ * that is safe to echo back.
+ *
+ * The display name is not discarded: the names travel alongside the text as a compact
+ * `{id, name}` list instead of inline.
+ *
+ * @param {string} text - message text as Slack returned it
+ * @returns {{text: string, mentions: {id: string, name: string}[]}} normalized text, plus
+ *   one entry per distinct mentioned user that carried a display name
+ */
+export function normalizeUserMentions(text) {
+  if (typeof text !== "string" || !text.includes("<@")) {
+    return {
+      text,
+      mentions: [],
+    };
+  }
+
+  const named = new Map();
+
+  const normalized = text.replace(USER_MENTION, (match, id, label) => {
+    const name = label?.trim();
+    if (name && !named.has(id)) {
+      named.set(id, name);
+    }
+    return `<@${id}>`;
+  });
+
+  return {
+    text: normalized,
+    mentions: [
+      ...named,
+    ].map(([
+      id,
+      name,
+    ]) => ({
+      id,
+      name,
+    })),
+  };
+}
+
+/**
+ * @param {object[]} messages - search result messages
+ * @returns {object[]} messages with normalized `content`, plus `mentions` where present
+ */
+export function normalizeSearchMessages(messages) {
+  return messages.map((message) => {
+    if (typeof message?.content !== "string") {
+      return message;
+    }
+    const {
+      text, mentions,
+    } = normalizeUserMentions(message.content);
+    return {
+      ...message,
+      content: text,
+      ...(mentions.length
+        ? {
+          mentions,
+        }
+        : {}),
+    };
+  });
+}
+
+/**
+ * Channel search results carry no `id` field, only a `permalink` like
+ * `https://workspace.slack.com/archives/C0123456789`. Extracting it here lets
+ * callers pass the result straight into other channel actions the same way
+ * file/user results already do with `file_id`/`user_id`.
+ *
+ * @param {string} permalink - the channel's permalink
+ * @returns {string|undefined} the channel ID, or undefined if it can't be parsed
+ */
+export function channelIdFromPermalink(permalink) {
+  return typeof permalink === "string"
+    ? permalink.split("/archives/")[1]?.split("/")[0]
+    : undefined;
+}
+
 export default {
   parseFields,
   pickFields,
   projectFields,
+  normalizeUserMentions,
+  normalizeSearchMessages,
+  channelIdFromPermalink,
 };

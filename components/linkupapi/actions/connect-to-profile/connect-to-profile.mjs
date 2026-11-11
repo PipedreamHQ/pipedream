@@ -3,10 +3,11 @@ import app from "../../linkupapi.app.mjs";
 
 export default {
   type: "action",
+  ai: "optimized",
   key: "linkupapi-connect-to-profile",
   name: "Connect To Profile",
   description: "Send a connection invitation to a LinkedIn profile. [See the documentation](https://docs.linkupapi.com/api-reference/v2/network/invite)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

@@ -4,8 +4,9 @@ export default {
   key: "permit_io-create-relationship-tuple",
   name: "Create Relationship Tuple",
   description: "Defines a granular relationship between two resources, enabling advanced Relationship-Based Access Control (ReBAC). [See the documentation](https://api.permit.io/v2/redoc#tag/Relationship-tuples/operation/create_relationship_tuple)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

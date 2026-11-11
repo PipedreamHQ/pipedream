@@ -4,8 +4,9 @@ export default {
   key: "virtualsms-list-services",
   name: "List Services",
   description: "List all supported services (700+) with their service codes, categories, and base prices. Use the returned `service_id` (or `code`) when calling **Rent Number**. [See the documentation](https://virtualsms.io/docs/api-reference/introduction)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

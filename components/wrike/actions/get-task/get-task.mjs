@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import wrike from "../../wrike.app.mjs";
 import { MAX_LIMIT } from "../../common/constants.mjs";
@@ -7,8 +6,9 @@ export default {
   key: "wrike-get-task",
   name: "Get Task",
   description: "Retrieve the full details of one or more Wrike tasks (title, status, importance, dates, responsibles, custom fields) via GET /tasks/{taskIds}. Use this when you already know a task ID and need its complete record. Use **Find Tasks** to discover task IDs within a folder first. Provide the taskId as returned by **Find Tasks**. [See the documentation](https://developers.wrike.com/reference/gettasksmulti)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

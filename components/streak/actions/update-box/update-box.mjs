@@ -6,13 +6,14 @@ export default {
   key: "streak-update-box",
   name: "Update Box",
   description: `Update the properties for a box. To update field values use **Update Box Field Value**. [See the docs](${docLink})`,
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     streak,
     pipelineId: {

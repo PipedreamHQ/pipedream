@@ -149,6 +149,14 @@ export default {
         ...opts,
       });
     },
+    getUser({
+      userId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/users/${encodeURIComponent(userId)}`,
+        ...opts,
+      });
+    },
     listConversations({
       userId, ...opts
     }) {

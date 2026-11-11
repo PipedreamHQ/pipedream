@@ -1,19 +1,26 @@
 import common from "../common/send-message.mjs";
-import constants from "../../common/constants.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   ...common,
   key: "slack_v2-send-message-to-user-or-group",
   name: "Send Message to User or Group",
-  description: "Send a message to a user or group. [See the documentation](https://api.slack.com/methods/chat.postMessage)",
-  version: "0.1.5",
+  description:
+    "Send a message to a user or group."
+    + " Legacy variant — prefer **Post Message** for new integrations: it covers users,"
+    + " groups, and channels from a single tool and also supports threaded replies and"
+    + " unfurl settings. Both post as the authenticated user by default (no `Pipedream:` bot"
+    + " prefix on direct messages). Use this tool only if a workflow specifically needs the"
+    + " user/group-only interface."
+    + " [See the documentation](https://api.slack.com/methods/chat.postMessage)",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     slack: common.props.slack,
     users: {
@@ -23,20 +30,15 @@ export default {
       ],
       type: "string[]",
       label: "Users",
-      description: "Select the user(s) to message",
+      description: "The user ID(s) to message (e.g. `U1234567890`). Use **Find User by Email** / **Find User by ID** to resolve an ID.",
       optional: true,
     },
     conversation: {
       propDefinition: [
         common.props.slack,
         "conversation",
-        () => ({
-          types: [
-            constants.CHANNEL_TYPE.MPIM,
-          ],
-        }),
       ],
-      description: "Select the group to message",
+      description: "The group DM conversation ID to message (e.g. `G1234567890`). Use **List Group Conversations** to find valid IDs.",
       optional: true,
     },
     text: {
@@ -71,8 +73,14 @@ export default {
   methods: {
     ...common.methods,
     openConversation(args = {}) {
+      // Open the IM with the SAME token the message will post with. With
+      // `as_user: false` the post goes out on the bot token, so the IM must be
+      // opened on the bot token too — otherwise we open the *user's* IM and then
+      // fail to post to it as the bot (`channel_not_found`). `as_user` is always
+      // defined here (defaults to `true`), so it matches the effective identity.
       return this.slack.makeRequest({
         method: "conversations.open",
+        as_user: this.as_user,
         ...args,
       });
     },

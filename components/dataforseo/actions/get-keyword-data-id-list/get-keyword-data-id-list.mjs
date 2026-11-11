@@ -5,13 +5,14 @@ export default {
   key: "dataforseo-get-keyword-data-id-list",
   name: "Get Keyword Data ID List",
   description: "Retrieve the list of IDs and metadata of the completed Keywords Data tasks during the specified period. [See the documentation](https://docs.dataforseo.com/v3/keywords_data/id_list/?bash)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     dataforseo,
     dateTimeFrom: {

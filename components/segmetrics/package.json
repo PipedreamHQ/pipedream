@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/segmetrics",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream SegMetrics Components",
   "main": "segmetrics.app.mjs",
   "keywords": [

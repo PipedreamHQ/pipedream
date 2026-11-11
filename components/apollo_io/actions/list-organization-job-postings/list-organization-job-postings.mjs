@@ -6,7 +6,8 @@ export default {
   name: "List Organization Job Postings",
   description: "List the open job postings for a specific Apollo organization. Use **Search For Organizations** to find a valid organization ID. [See the documentation](https://docs.apollo.io/reference/organization-jobs-postings)",
   type: "action",
-  version: "0.0.1",
+  ai: "optimized",
+  version: "0.0.2",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

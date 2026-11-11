@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/polygon",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "Pipedream polygon Components",
   "main": "polygon.app.mjs",
   "keywords": [

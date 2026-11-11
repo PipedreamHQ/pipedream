@@ -64,6 +64,34 @@ export default {
       options: constants.GL_OPTS,
       optional: true,
     },
+    jobsGl: {
+      type: "string",
+      label: "Search Country",
+      description: "The default parameter `us` defines the country of the search. Google Jobs supports a narrower set of countries than the other Google engines. [See the documentation](https://www.searchapi.io/docs/parameters/google-jobs/gl)",
+      options: constants.GOOGLE_JOBS_GL_OPTS,
+      optional: true,
+    },
+    location: {
+      type: "string",
+      label: "Location",
+      description: "The canonical location of the search, e.g. `New York,New York,United States`. Use **List Locations** to look up a supported location and pass its `canonical_name` here. If multiple locations match, the most popular one is selected.",
+      optional: true,
+    },
+    locationsLimit: {
+      type: "integer",
+      label: "Limit",
+      description: `The maximum number of locations to return (${constants.LOCATIONS_LIMIT_MIN}-${constants.LOCATIONS_LIMIT_MAX}).`,
+      optional: true,
+      min: constants.LOCATIONS_LIMIT_MIN,
+      max: constants.LOCATIONS_LIMIT_MAX,
+      default: constants.LOCATIONS_LIMIT_DEFAULT,
+    },
+    nextPageToken: {
+      type: "string",
+      label: "Next Page Token",
+      description: "Token used to retrieve the next page of results. It is returned as `pagination.next_page_token` in the response of a previous search when more results are available.",
+      optional: true,
+    },
     domain: {
       type: "string",
       label: "Domain",
@@ -119,6 +147,15 @@ export default {
           ...args.params,
           api_key: this._apiKey(),
         },
+      });
+    },
+    listLocations({
+      $, params,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "/locations",
+        params,
       });
     },
     search({

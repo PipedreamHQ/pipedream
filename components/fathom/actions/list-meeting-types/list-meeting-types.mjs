@@ -1,12 +1,12 @@
-// x-pd-ai: optimized
 import fathom from "../../fathom.app.mjs";
 
 export default {
   key: "fathom-list-meeting-types",
   name: "List Meeting Types",
   description: "List the meeting types configured for the account (e.g. `Quarterly Business Review`), including whether each is currently `active` or `inactive`. Use this to discover valid meeting type names before filtering meetings by type. [See the documentation](https://developers.fathom.ai/api-reference/meetings/list-meeting-types)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

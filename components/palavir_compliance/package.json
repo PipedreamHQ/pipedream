@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/palavir_compliance",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Palavir Compliance Components",
   "main": "palavir_compliance.app.mjs",
   "keywords": [

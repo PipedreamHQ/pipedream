@@ -1,89 +1,120 @@
+// x-pd-ai: optimized
 import { axios } from "@pipedream/platform";
 import { v4 as uuidv4 } from "uuid";
+import options from "./common/options.mjs";
+
+const MAX_LIMIT_PER_PAGE = 100;
+const DEFAULT_MAX_RESULTS = 100;
+const MAX_PAGES = 20;
 
 export default {
   propDefinitions: {
     postedAtStart: {
       type: "string",
       label: "Posted At Start",
-      description: "Shows only transactions with a posted_at_date on or after this date-time. This parameter is the date-time notation as defined by [RFC 3339, section 5.6](https://tools.ietf.org/html/rfc3339#section-5.6). Example: `2022-12-12T23:59:59.999`",
+      description: "Return only transactions posted on or after this date-time, in [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6) notation, e.g. `2022-12-12T23:59:59.999Z`. Brex can post transactions with a lag, so when polling repeatedly, overlap this with your previous window by a day or more and de-duplicate results by transaction `id` rather than advancing it to the exact end of the last poll.",
       optional: true,
     },
     max: {
       type: "integer",
       label: "Max",
-      description: "The maximum amount of registered that will be fetched. Defaults to `500`.",
+      description: "The maximum number of records to fetch. Defaults to `100`.",
       optional: true,
     },
     location: {
       type: "string",
       label: "Location",
-      description: "User location",
+      description: "The office location to assign the user to, as a location ID, e.g. `loc_clu9ah28r000008l3d4b1g5xy`. Use **List Locations** to find a location ID by name. Omit to leave the user unassigned.",
       optional: true,
-      async options({ prevContext }) {
-        const LIMIT = 100;
-        const res = await this.getLocations(prevContext.cursor, LIMIT);
-        return {
-          options: res.data.items?.map((item) => ({
-            label: item.name,
-            value: item.id,
-          })),
-          context: {
-            cursor: res.data.next_cursor,
-          },
-        };
-      },
     },
     department: {
       type: "string",
-      label: "Departments",
-      description: "User Department",
+      label: "Department",
+      description: "The department to assign the user to, as a department ID, e.g. `dep_clu9ah28r000008l3d4b1g5xy`. Use **List Departments** to find a department ID by name. Omit to leave the user unassigned.",
       optional: true,
-      async options({ prevContext }) {
-        const LIMIT = 100;
-        const res = await this.getDepartments(prevContext.cursor, LIMIT);
-        return {
-          options: res.data.items?.map((item) => ({
-            label: item.name,
-            value: item.id,
-          })),
-          context: {
-            cursor: res.data.next_cursor,
-          },
-        };
-      },
     },
     user: {
       type: "string",
       label: "User",
-      description: "User",
+      description: "A Brex user, as a user ID, e.g. `cuuser_ckze72soa117f01pkmf1wcpl3`. Use **List Users** to find a user ID by email address.",
       optional: true,
-      async options({ prevContext }) {
-        const LIMIT = 100;
-        const res = await this.getUsers(prevContext.cursor, LIMIT);
-        return {
-          options: res.data.items?.map((item) => ({
-            label: `${item.first_name} ${item.last_name} <${item.email}>`,
-            value: item.id,
-          })),
-          context: {
-            cursor: res.data.next_cursor,
-          },
-        };
-      },
     },
     cashAccount: {
       type: "string",
-      label: "Cash Account",
-      description: "Cash Account",
+      label: "Cash Account ID",
+      description: "The unique ID of the cash account. Use **List Cash Accounts** to find an account ID by name, or to identify the primary account.",
       optional: true,
-      async options() {
-        const res = await this.getCashAccounts();
-        return res.data.items?.map((item) => ({
-          label: item.name,
-          value: item.id,
-        }));
-      },
+    },
+    cardId: {
+      type: "string",
+      label: "Card ID",
+      description: "The unique ID of the card. Use **List Cards** to find a card ID by cardholder, name, or last four digits.",
+    },
+    cardStatus: {
+      type: "string",
+      label: "Status",
+      description: "Only return cards with this status. Brex has no server-side status filter, so results are filtered after being fetched.",
+      options: options.cardStatus,
+      optional: true,
+    },
+    cardActionReason: {
+      type: "string",
+      label: "Reason",
+      description: "Why the card is being changed. Brex requires a reason and records it against the card.",
+      options: options.cardActionReason,
+      default: "OTHER",
+    },
+    cardActionDescription: {
+      type: "string",
+      label: "Description",
+      description: "An optional free-text note stored alongside the reason.",
+      optional: true,
+    },
+    spendDuration: {
+      type: "string",
+      label: "Spend Duration",
+      description: "How often the spend limit refreshes: `MONTHLY`, `QUARTERLY`, or `YEARLY` to refresh on that cadence, or `ONE_TIME` for a limit that never refreshes.",
+      options: options.spendDuration,
+      optional: true,
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "Return only the user with this exact email address, e.g. `jane@acme.com`. Brex supports a single email at a time, not a list.",
+      optional: true,
+    },
+    userIds: {
+      type: "string[]",
+      label: "Users",
+      description: "Return only records belonging to these users. Use **List Users** to find a user ID by email address.",
+      optional: true,
+    },
+    merchantQuery: {
+      type: "string",
+      label: "Merchant",
+      description: "Case-insensitive substring match on the merchant descriptor, e.g. `amazon` matches `AMAZON WEB SERVICES`. Brex has no server-side merchant filter, so this is applied after fetching.",
+      optional: true,
+    },
+    minAmount: {
+      type: "integer",
+      label: "Min Amount",
+      description: "Only return records of at least this amount, in the currency's smallest denomination — `700` is $7.00 in USD. Applied after fetching, like Merchant.",
+      optional: true,
+    },
+    maxAmount: {
+      type: "integer",
+      label: "Max Amount",
+      description: "Only return records of at most this amount, in the currency's smallest denomination — `700` is $7.00 in USD. Applied after fetching, like Merchant.",
+      optional: true,
+    },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum number of records to return, from `1` to `2000`. Defaults to `100`.",
+      optional: true,
+      min: 1,
+      // The paginator stops after MAX_PAGES, so a larger value could never be satisfied.
+      max: MAX_LIMIT_PER_PAGE * MAX_PAGES,
     },
   },
   methods: {
@@ -97,11 +128,34 @@ export default {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
+    /**
+     * Serializes query params, emitting array values as repeated keys with the key left
+     * exactly as written. Brex spells its repeatable params differently per endpoint
+     * (`expand[]`, `user_id[]`, `user_ids`), and axios' default would append a second
+     * `[]` to keys that already carry one.
+     *
+     * @param {Object} params - The query parameters to serialize.
+     * @returns {string} The URL-encoded query string.
+     */
+    _paramsSerializer(params) {
+      return Object.entries(params)
+        .filter(([
+          , value,
+        ]) => value !== undefined && value !== null)
+        .flatMap(([
+          key,
+          value,
+        ]) => (Array.isArray(value)
+          ? value.map((item) => `${encodeURIComponent(key)}=${encodeURIComponent(item)}`)
+          : `${encodeURIComponent(key)}=${encodeURIComponent(value)}`))
+        .join("&");
+    },
     _getAxiosParams(opts = {}) {
       const res = {
         ...opts,
         url: this._getBaseUrl() + opts.path,
         headers: this._getHeaders(),
+        paramsSerializer: this._paramsSerializer,
       };
       return res;
     },
@@ -138,45 +192,230 @@ export default {
 
       return items;
     },
-    async getLocations(cursor, limit) {
-      return axios(this, this._getAxiosParams({
-        method: "GET",
-        path: "/v2/locations",
-        params: {
-          cursor,
-          limit,
-        },
-        returnFullResponse: true,
-      }));
+    async _request({
+      $ = this, ...opts
+    }) {
+      return axios($, this._getAxiosParams(opts));
     },
-    async getDepartments(cursor, limit) {
-      return axios(this, this._getAxiosParams({
-        method: "GET",
-        path: "/v2/departments",
-        params: {
-          cursor,
-          limit,
-        },
-        returnFullResponse: true,
-      }));
+    /**
+     * Walks a cursor-paginated Brex list endpoint, optionally applying a predicate that
+     * the API cannot express server-side.
+     *
+     * @returns {Promise<{items: object[], scanned: number, truncated: boolean}>} `scanned`
+     * counts every record fetched and `truncated` is true when records remain unread, so
+     * callers can distinguish "no matches" from "stopped looking".
+     */
+    async _paginateItems({
+      $, path, params, max = DEFAULT_MAX_RESULTS, filter,
+    }) {
+      const items = [];
+      let cursor;
+      let pages = 0;
+      let scanned = 0;
+      let unreadInPage = false;
+
+      do {
+        const res = await this._request({
+          $,
+          method: "GET",
+          path,
+          params: {
+            ...params,
+            cursor,
+            // A predicate needs full pages to scan, since matches may be sparse.
+            limit: filter
+              ? MAX_LIMIT_PER_PAGE
+              : Math.min(MAX_LIMIT_PER_PAGE, max),
+          },
+        });
+
+        const page = res.items ?? [];
+        scanned += page.length;
+
+        for (let i = 0; i < page.length; i++) {
+          if (filter && !filter(page[i])) {
+            continue;
+          }
+          items.push(page[i]);
+          if (items.length >= max) {
+            unreadInPage = i < page.length - 1;
+            break;
+          }
+        }
+
+        cursor = res.next_cursor;
+        pages++;
+      } while (cursor && items.length < max && pages < MAX_PAGES);
+
+      return {
+        items,
+        scanned,
+        truncated: Boolean(cursor) || unreadInPage,
+      };
     },
-    async getUsers(cursor, limit) {
-      return axios(this, this._getAxiosParams({
+    async getCard({
+      $, cardId,
+    }) {
+      return this._request({
+        $,
         method: "GET",
+        path: `/v2/cards/${encodeURIComponent(cardId)}`,
+      });
+    },
+    async listCardsPaginated({
+      $, params, max, filter,
+    }) {
+      return this._paginateItems({
+        $,
+        path: "/v2/cards",
+        params,
+        max,
+        filter,
+      });
+    },
+    async lockCard({
+      $, cardId, data,
+    }) {
+      return this._request({
+        $,
+        method: "POST",
+        path: `/v2/cards/${encodeURIComponent(cardId)}/lock`,
+        data,
+      });
+    },
+    async unlockCard({
+      $, cardId,
+    }) {
+      return this._request({
+        $,
+        method: "POST",
+        path: `/v2/cards/${encodeURIComponent(cardId)}/unlock`,
+      });
+    },
+    async terminateCard({
+      $, cardId, data,
+    }) {
+      return this._request({
+        $,
+        method: "POST",
+        path: `/v2/cards/${encodeURIComponent(cardId)}/terminate`,
+        data,
+      });
+    },
+    async updateCard({
+      $, cardId, data,
+    }) {
+      return this._request({
+        $,
+        method: "PUT",
+        path: `/v2/cards/${encodeURIComponent(cardId)}`,
+        data,
+      });
+    },
+    async getUser({
+      $, userId,
+    }) {
+      return this._request({
+        $,
+        method: "GET",
+        path: `/v2/users/${encodeURIComponent(userId)}`,
+      });
+    },
+    async getUserLimit({
+      $, userId,
+    }) {
+      return this._request({
+        $,
+        method: "GET",
+        path: `/v2/users/${encodeURIComponent(userId)}/limit`,
+      });
+    },
+    async listUsersPaginated({
+      $, params, max, filter,
+    }) {
+      return this._paginateItems({
+        $,
         path: "/v2/users",
-        params: {
-          cursor,
-          limit,
-        },
-        returnFullResponse: true,
-      }));
+        params,
+        max,
+        filter,
+      });
     },
-    async getCashAccounts() {
-      return axios(this, this._getAxiosParams({
+    async getExpense({
+      $, expenseId, params,
+    }) {
+      return this._request({
+        $,
         method: "GET",
+        path: `/v1/expenses/${encodeURIComponent(expenseId)}`,
+        params,
+      });
+    },
+    async listExpensesPaginated({
+      $, params, max, filter,
+    }) {
+      return this._paginateItems({
+        $,
+        path: "/v1/expenses",
+        params,
+        max,
+        filter,
+      });
+    },
+    async listCardTransactionsPaginated({
+      $, params, max, filter,
+    }) {
+      return this._paginateItems({
+        $,
+        path: "/v2/transactions/card/primary",
+        params,
+        max,
+        filter,
+      });
+    },
+    async listCashAccountsPaginated({
+      $, params, max, filter,
+    }) {
+      return this._paginateItems({
+        $,
         path: "/v2/accounts/cash",
-        returnFullResponse: true,
-      }));
+        params,
+        max,
+        filter,
+      });
+    },
+    async listCardAccountsPaginated({
+      $, params, max, filter,
+    }) {
+      return this._paginateItems({
+        $,
+        path: "/v2/accounts/card",
+        params,
+        max,
+        filter,
+      });
+    },
+    async listLocationsPaginated({
+      $, params, max, filter,
+    }) {
+      return this._paginateItems({
+        $,
+        path: "/v2/locations",
+        params,
+        max,
+        filter,
+      });
+    },
+    async listDepartmentsPaginated({
+      $, params, max, filter,
+    }) {
+      return this._paginateItems({
+        $,
+        path: "/v2/departments",
+        params,
+        max,
+        filter,
+      });
     },
   },
 };

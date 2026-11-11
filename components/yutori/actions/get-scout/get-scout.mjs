@@ -4,8 +4,9 @@ export default {
   key: "yutori-get-scout",
   name: "Get Scout",
   description: "Fetch the details and current status of a specific Yutori Scout by its ID. Returns the scout's configuration, status (active, paused, completed), and metadata. [See the documentation](https://docs.yutori.com/reference/scout-get-detail)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     openWorldHint: true,
     destructiveHint: false,

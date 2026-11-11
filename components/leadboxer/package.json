@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/leadboxer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream LeadBoxer Components",
   "main": "leadboxer.app.mjs",
   "keywords": [

@@ -4,9 +4,10 @@ import { parseObject } from "../../common/utils.mjs";
 export default {
   key: "servicenow-order-catalog-item",
   name: "Order Catalog Item",
-  description: "Place a one-step Order Now request for a single ServiceNow catalog item, bypassing the cart. Run **Search Catalog Items** to find the item `sys_id` and **Get Catalog Item Variables** to learn which variable names to supply. Use **Check Order Status** afterward to track the resulting request. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
-  version: "0.0.2",
+  description: "Place a one-step Order Now request for a single ServiceNow catalog item, bypassing the cart. Run **Search Catalog Items** to find the item `sys_id` and **Get Catalog Item Variables** to learn which variable names to supply. Use **Check Order Status** afterward to track the resulting request. Returns the request (REQ) plus a `requested_items` array with each requested item's (RITM) `number`, `approval`, `stage`, `state` and `requested_for`; approvals happen on the RITMs, so read approval status there rather than on the REQ. If `Requested For` was set but ServiceNow assigned the items to someone else, the result includes a `requested_for_warning`. Set **Skip Mandatory Validation** only after **Get Catalog UI Policies** confirms every empty mandatory variable is hidden by a policy, never as a retry after a `Mandatory Variables are required` error: the request is placed without those values and cannot be undone. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
+  version: "0.2.0",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,
@@ -39,6 +40,12 @@ export default {
         "requestedFor",
       ],
     },
+    skipMandatoryValidation: {
+      propDefinition: [
+        servicenow,
+        "skipMandatoryValidation",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.servicenow.orderNow({
@@ -48,15 +55,19 @@ export default {
         sysparm_quantity: this.quantity,
         variables: parseObject(this.variables),
         sysparm_requested_for: this.requestedFor,
+        ...(this.skipMandatoryValidation && {
+          sysparm_no_validation: "true",
+        }),
       },
     });
 
-    const requestNumber = response?.request_number ?? response?.number ?? response?.request_id;
-    const summary = requestNumber
-      ? `Successfully ordered catalog item ${this.catalogItemSysId} - request ${requestNumber}`
-      : `Successfully ordered catalog item ${this.catalogItemSysId}`;
-    $.export("$summary", summary);
+    const result = await this.servicenow.withRequestedItems({
+      $,
+      response,
+      requestedFor: this.requestedFor,
+    });
+    $.export("$summary", `Successfully ordered catalog item ${this.catalogItemSysId}${this.servicenow.describeOrder(result)}`);
 
-    return response;
+    return result;
   },
 };

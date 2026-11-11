@@ -5,8 +5,9 @@ export default {
   name: "Get Bulk IP Geolocation",
   description:
     "Retrieve geolocation data for multiple IPv4/IPv6 addresses or domain names in a single request. Maximum 50,000 IPs per request. Only available on paid plans. [See the documentation](https://ipgeolocation.io/documentation/ip-location-api.html#bulk-ip-geolocation-lookup-api)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

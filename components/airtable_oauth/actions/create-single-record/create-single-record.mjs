@@ -5,20 +5,29 @@ import common from "../common/common.mjs";
 export default {
   key: "airtable_oauth-create-single-record",
   name: "Create Single Record",
-  description: "Adds a record to a table.",
-  version: "0.0.15",
+  description: "Create a new record in a table. Provide field values in `record`, e.g. `{ \"Name\": \"Acme\", \"Stage\": \"Won\" }`. Use **List Tables** first to look up the table's field names and types. [See the documentation](https://airtable.com/developers/web/api/create-records)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
-    // eslint-disable-next-line pipedream/props-label,pipedream/props-description
-    tableId: {
-      ...common.props.tableId,
-      reloadProps: true,
+    record: {
+      propDefinition: [
+        airtable,
+        "record",
+      ],
+      optional: true,
+    },
+    customExpressionInfo: {
+      propDefinition: [
+        airtable,
+        "customExpressionInfo",
+      ],
     },
     typecast: {
       propDefinition: [
@@ -32,9 +41,6 @@ export default {
         "returnFieldsByFieldId",
       ],
     },
-  },
-  async additionalProps() {
-    return commonActions.additionalProps(this);
   },
   async run({ $ }) {
     return commonActions.createRecord(this, $);

@@ -5,13 +5,14 @@ export default {
   key: "docusign-create-recipient-view",
   name: "Create Recipient View",
   description: "Create an embedded signing URL for a selected envelope recipient. The recipient must have been created with a `clientUserId`. [See the documentation](https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopeviews/createrecipient/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     docusign,
     account: {

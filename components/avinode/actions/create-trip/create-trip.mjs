@@ -5,8 +5,9 @@ export default {
   name: "Create Trip",
   description:
     "Create a trip in Avinode. [See the documentation](https://developer.avinodegroup.com/reference/createtrip)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

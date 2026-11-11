@@ -9,8 +9,9 @@ export default {
     + " Requires the client's numeric ID - use **Search Clients** first to look up the ID by name or email."
     + " IMPORTANT: the API defaults `startDate` to today and `endDate` to end of today, so for true lifetime spend you MUST set `startDate` to an early date (e.g. `2000-01-01`) and page through all results via `offset`."
     + " [See the documentation](https://developers.mindbodyonline.com/ui/documentation/public-api#/http/api-endpoints/client/get-client-purchases)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

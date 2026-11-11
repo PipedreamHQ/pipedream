@@ -90,7 +90,7 @@ export default {
     ignoreStatements: {
       type: "boolean",
       label: "Ignore Statements",
-      description: "Filters the list to ignore [statements](https://developers.etrusted.com/docs/glossory#statement).",
+      description: "Filters the list to ignore [statements](https://developers.etrusted.com/docs/glossory#statement) (reviews missing the comment, the star rating, or both). The eTrusted API defaults this to `true`, so statement-only reviews are excluded unless you set it to `false`. e.g. `false`",
     },
     query: {
       type: "string",

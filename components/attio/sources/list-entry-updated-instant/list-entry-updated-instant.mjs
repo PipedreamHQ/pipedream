@@ -6,7 +6,7 @@ export default {
   key: "attio-list-entry-updated-instant",
   name: "New List Entry Updated (Instant)",
   description: "Emit new event when an existing list entry is updated (i.e. when a list attribute is changed for a specific list entry, e.g. when setting \"Owner\")",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {

@@ -4,7 +4,7 @@ export default {
   key: "etrusted-create-veto-for-review",
   name: "Create A Veto For A Review",
   description: "Creates a veto for a specific review. [See the documentation](https://developers.etrusted.com/reference/createveto)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

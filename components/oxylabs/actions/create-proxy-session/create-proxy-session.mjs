@@ -5,13 +5,14 @@ export default {
   key: "oxylabs-create-proxy-session",
   name: "Create Proxy Session",
   description: "Establish a proxy session using the Residential Proxy endpoint. [See the documentation](https://developers.oxylabs.io/proxies/residential-proxies/session-control#establishing-session)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     oxylabs,
     username: {

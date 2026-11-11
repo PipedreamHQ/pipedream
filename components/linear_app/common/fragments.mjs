@@ -101,6 +101,27 @@ export default {
       }
     }
   `,
+  documentComment: `
+    fragment DocumentComment on Comment {
+      id
+      body
+      createdAt
+      updatedAt
+      resolvedAt
+      quotedText
+      parent {
+        id
+      }
+      user {
+        id
+        name
+      }
+      resolvingUser {
+        id
+        name
+      }
+    }
+  `,
   project: `
     fragment Project on Project {
       id
@@ -163,6 +184,131 @@ export default {
       slugId
       infoSnapshot
       url
+    }
+  `,
+  initiativeUpdate: `
+    fragment InitiativeUpdate on InitiativeUpdate {
+      id
+      body
+      health
+      initiative {
+        id
+        name
+      }
+      user {
+        id
+      }
+      createdAt
+      updatedAt
+      slugId
+      url
+    }
+  `,
+  document: `
+    fragment Document on Document {
+      id
+      title
+      slugId
+      url
+      content
+      icon
+      color
+      createdAt
+      updatedAt
+      archivedAt
+      documentContentId
+      project {
+        id
+      }
+      initiative {
+        id
+      }
+      creator {
+        id
+      }
+    }
+  `,
+  documentListItem: `
+    fragment DocumentListItem on Document {
+      id
+      title
+      icon
+      color
+      slugId
+      url
+      createdAt
+      updatedAt
+      archivedAt
+      documentContentId
+      project {
+        id
+        name
+      }
+      initiative {
+        id
+        name
+      }
+      creator {
+        id
+      }
+    }
+  `,
+  documentSearchResult: `
+    fragment DocumentSearchResult on DocumentSearchResult {
+      id
+      title
+      icon
+      color
+      slugId
+      url
+      createdAt
+      updatedAt
+      archivedAt
+      documentContentId
+      project {
+        id
+        name
+      }
+      initiative {
+        id
+        name
+      }
+      creator {
+        id
+      }
+    }
+  `,
+  documentMutationResult: `
+    fragment DocumentMutationResult on Document {
+      id
+      title
+      slugId
+      url
+      icon
+      color
+      createdAt
+      updatedAt
+      project {
+        id
+        name
+      }
+      initiative {
+        id
+        name
+      }
+      team {
+        id
+        name
+      }
+      issue {
+        id
+        identifier
+        title
+      }
+      owner {
+        id
+        name
+      }
     }
   `,
 };

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pdf_co",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream PDF.co Components",
   "main": "pdf_co.app.mjs",
   "keywords": [

@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-list-agent-id-options",
   name: "List Agent Options",
   description: "Retrieves available options for the Agent field.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

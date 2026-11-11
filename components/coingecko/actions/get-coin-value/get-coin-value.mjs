@@ -5,8 +5,9 @@ export default {
   key: "coingecko-get-coin-value",
   name: "Get Coin Value",
   description: "Get the current price of one or more cryptocurrencies in any supported currencies. [See the documentation](https://docs.coingecko.com/v3.0.1/reference/simple-price)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

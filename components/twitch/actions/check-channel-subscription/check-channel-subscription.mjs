@@ -5,13 +5,14 @@ export default {
   name: "Check Channel Subscription",
   key: "twitch-check-channel-subscription",
   description: "Checks if you are subscribed to the specified broadcaster's channel. [See the documentation](https://dev.twitch.tv/docs/api/reference/#check-user-subscription)",
-  version: "0.2.0",
+  version: "0.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     user: {

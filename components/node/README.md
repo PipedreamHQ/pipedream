@@ -12,11 +12,11 @@ To add a Node.js code step, open a new workflow and include a step.
 
 1. Select the **Node** app:
 
-![Node.js app being chosen in Pipedream's new step selector screen.](https://res.cloudinary.com/pipedreamin/image/upload/v1713366571/marketplace/apps/node.js/CleanShot_2024-04-17_at_11.07.40_nrfq20.png)
+![Node.js app being chosen in Pipedream's new step selector screen.](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/node.js/CleanShot_2024-04-17_at_11.07.40_nrfq20.png)
 
 2. Then select the **Run Node Code** action:
 
-![Selecting the 'Run Node Code' action from the Node app in the Pipedream interface.”](https://res.cloudinary.com/pipedreamin/image/upload/v1713366838/marketplace/apps/node.js/CleanShot_2024-04-17_at_11.12.26_rtj2qi.png)
+![Selecting the 'Run Node Code' action from the Node app in the Pipedream interface.”](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/node.js/CleanShot_2024-04-17_at_11.12.26_rtj2qi.png)
 
 Now you’re ready to write some code!
 
@@ -75,7 +75,7 @@ Generate Pipedream compatible Node.js code within your workflow with human langu
 
 To get started, open a Node.js step and select the **Edit with AI** button.
 
-![Initiating an AI code generation session from a Node.js code step in the Pipedream workflow editor.](https://res.cloudinary.com/pipedreamin/image/upload/v1713367770/marketplace/apps/node.js/CleanShot_2024-04-17_at_11.28.34_ld1ymo.png)
+![Initiating an AI code generation session from a Node.js code step in the Pipedream workflow editor.](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/node.js/CleanShot_2024-04-17_at_11.28.34_ld1ymo.png)
 
 Then, enter your prompt to generate code. Selecting a specific app generates the necessary integration code for API requests.
 

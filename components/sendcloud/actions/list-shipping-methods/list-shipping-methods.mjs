@@ -4,13 +4,14 @@ export default {
   key: "sendcloud-list-shipping-methods",
   name: "List Shipping Methods",
   description: "List shipping methods. [See the documentation](https://api.sendcloud.dev/docs/sendcloud-public-api/branches/v2/shipping-methods/operations/list-shipping-methods)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     country: {

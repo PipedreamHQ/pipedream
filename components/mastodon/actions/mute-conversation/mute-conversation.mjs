@@ -4,13 +4,14 @@ export default {
   key: "mastodon-mute-conversation",
   name: "Mute Conversation",
   description: "Do not receive notifications for the thread that this status is part of. Must be a thread in which you are a participant. [See the docs here](https://docs.joinmastodon.org/methods/statuses/#mute)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     mastodon,
     statusId: {

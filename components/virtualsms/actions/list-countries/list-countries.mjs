@@ -4,8 +4,9 @@ export default {
   key: "virtualsms-list-countries",
   name: "List Countries",
   description: "List all supported countries with current stock indicators (`available_phones`, `total_phones`). Use the returned `country_id` (ISO-3166-1 alpha-2) when calling **Rent Number**. [See the documentation](https://virtualsms.io/docs/api-reference/introduction)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

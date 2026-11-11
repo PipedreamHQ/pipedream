@@ -13,8 +13,9 @@ export default {
     + " `clientTeamId` and `clientLegalEntityId` are required — ask the user to provide these from"
     + " their Deel organization settings."
     + " [See the documentation](https://developer.deel.com/api/reference/endpoints/contracts/create-ic-contract)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

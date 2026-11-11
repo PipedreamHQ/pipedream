@@ -7,8 +7,9 @@ export default {
   name: "Upload File",
   description:
     "Uploads a local file to an AlgoDocs folder for processing by a specific extractor via multipart/form-data (POST /v1/document/upload_local/{extractorId}/{folderId}). Returns the created document record including its `id` and upload metadata. Run **List Extractors** to find a valid extractor ID and **List Folders** to find a valid folder ID before calling this action. The returned document `id` is the value to configure in **New Extracted Data**. [See the documentation](https://api.algodocs.com/).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: false,
     destructiveHint: false,

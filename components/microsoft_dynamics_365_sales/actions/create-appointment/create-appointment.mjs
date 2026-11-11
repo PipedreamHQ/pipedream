@@ -8,13 +8,14 @@ export default {
   key: "microsoft_dynamics_365_sales-create-appointment",
   name: "Create Appointment",
   description: "Create a new appointment linked to an account with a required attendee (system user). Use **List Appointment Categories** for valid category values. [See the documentation](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/create-entity-web-api) and the [appointment entity reference](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/reference/appointment)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     microsoft,
     subject: {

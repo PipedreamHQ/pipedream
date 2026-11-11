@@ -6,13 +6,14 @@ export default {
   key: "helper_functions-get-current-time-in-specific-timezone",
   name: "Get Current Time in Timezone",
   description: "Returns the current time, tied to this workflow invocation, in the target timezone",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     helper_functions,
     timezone: {

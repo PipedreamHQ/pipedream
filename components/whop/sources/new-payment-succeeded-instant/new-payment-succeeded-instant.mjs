@@ -6,7 +6,7 @@ export default {
   key: "whop-new-payment-succeeded-instant",
   name: "New Payment Succeeded (Instant)",
   description: "Emit new event when your company receives a successful payment. [See the documentation](https://dev.whop.com/api-reference/v2/webhooks/create-a-webhook)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

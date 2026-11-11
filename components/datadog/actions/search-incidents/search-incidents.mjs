@@ -14,8 +14,9 @@ export default {
     + " and **Search Services** for ownership info."
     + " [See the docs](https://docs.datadoghq.com/api/"
     + "latest/incidents/#get-a-list-of-incidents)",
-  version: "1.0.1",
+  version: "1.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

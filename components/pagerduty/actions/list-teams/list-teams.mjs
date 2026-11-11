@@ -7,8 +7,9 @@ export default {
     "List teams in the PagerDuty account, optionally filtered by name."
     + " Returns team IDs and names useful for filtering incidents, users, and services."
     + " [See the documentation](https://developer.pagerduty.com/api-reference/b3A6Mjc0ODIyMw-list-teams)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

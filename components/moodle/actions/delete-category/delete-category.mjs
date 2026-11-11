@@ -4,8 +4,9 @@ export default {
   key: "moodle-delete-category",
   name: "Delete a Category",
   description: "Deletes a course category in Moodle. Setting recursive to true will remove all courses and subcategories inside this category. [See the documentation](https://moodledev.io/docs/5.2)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

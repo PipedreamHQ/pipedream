@@ -25,8 +25,9 @@ export default {
   key: "letmepost-list-posts",
   name: "List Posts",
   description: "List posts from the post log. [See the documentation](https://docs.letmepost.dev/api-reference/posts/list-posts-post-log)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

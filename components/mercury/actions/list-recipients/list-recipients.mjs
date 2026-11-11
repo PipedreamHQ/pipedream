@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import { ConfigurationError } from "@pipedream/platform";
 import mercury from "../../mercury.app.mjs";
 import {
@@ -12,8 +11,9 @@ export default {
   key: "mercury-list-recipients",
   name: "List Recipients",
   description: "List a page of payment recipients configured on the connected Mercury profile (up to **Limit** per call, default 1000; pass the last recipient's ID as **Start After** to fetch later pages). Use this to discover recipient IDs needed by **Send Payment**. Recipient IDs are UUIDs, not prefixed strings. Example: call with no parameters -> returns `{ recipients: [{ id: \"b56db170-927b-11f1-a805-27c2879b4c72\", name: \"Acme Corp\", emails: [\"billing@acme.com\"] }] }`. [See the documentation](https://docs.mercury.com/reference/getrecipients)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

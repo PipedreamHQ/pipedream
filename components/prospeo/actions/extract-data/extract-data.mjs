@@ -3,7 +3,7 @@ import prospeo from "../../prospeo.app.mjs";
 
 export default {
   name: "Extract Data",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -12,6 +12,7 @@ export default {
   key: "prospeo-extract-data",
   description: "Extract data from any LinkedIn profile in real-time, as well as all the data from the company page, and also find a valid verified email from the lead. [See the documentation](https://prospeo.io/api/social-url-enrichment)",
   type: "action",
+  ai: "optimized",
   props: {
     prospeo,
     linkedinUrl: {

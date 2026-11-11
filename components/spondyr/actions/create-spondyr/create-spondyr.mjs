@@ -3,7 +3,7 @@ import spondyr from "../../spondyr.app.mjs";
 export default {
   key: "spondyr-create-spondyr",
   name: "Create Spondyr",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -11,6 +11,7 @@ export default {
   },
   description: "Generate and optionally deliver correspondence. [See the docs here](https://client.spondyr.io/#/Public/Public/Documentation?Section=send-api)",
   type: "action",
+  ai: "optimized",
   props: {
     spondyr,
     transactionType: {

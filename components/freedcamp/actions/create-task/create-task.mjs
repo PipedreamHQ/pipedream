@@ -5,8 +5,9 @@ export default {
   key: "freedcamp-create-task",
   name: "Create Task",
   description: "Creates a new task in a Freedcamp project. [See the documentation](https://freedcamp.com/help_/tutorials/wiki/wiki_public/view/DFaab#post_fcu_8)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

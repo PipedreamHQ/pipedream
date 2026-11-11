@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/donately",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Pipedream donately Components",
   "main": "donately.app.mjs",
   "keywords": [

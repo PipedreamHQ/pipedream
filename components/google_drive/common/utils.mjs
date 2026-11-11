@@ -62,15 +62,14 @@ function getListFilesOpts(drive, baseOpts = {}) {
 
   if (drive && !isMyDrive(drive)) {
     return {
-      // Google's `files.list` API requires `includeItemsFromAllDrives: true`
-      // whenever `driveId` is set or `corpora` is `drive`/`allDrives`.
-      // Placed before the spread so callers (e.g. list-files's
-      // `limitToMyDrive` toggle) can still override.
-      includeItemsFromAllDrives: true,
       ...rest,
       corpora: "drive",
       driveId: getDriveId(drive),
       supportsAllDrives: true,
+      // Google's `files.list` API requires `includeItemsFromAllDrives: true`
+      // whenever `driveId` is set or `corpora` is `drive`/`allDrives`.
+      // Placed AFTER the spread so callers cannot downgrade this required value.
+      includeItemsFromAllDrives: true,
     };
   }
 
@@ -81,12 +80,15 @@ function getListFilesOpts(drive, baseOpts = {}) {
     };
   }
 
-  // No specific drive selected — search across all drives by default.
+  // No specific drive selected - search across all drives by default.
   return {
-    includeItemsFromAllDrives: true,
     ...rest,
     corpora: "allDrives",
     supportsAllDrives: true,
+    // Google's `files.list` API requires `includeItemsFromAllDrives: true`
+    // when `corpora` is `allDrives`. Placed AFTER the spread so callers
+    // cannot downgrade this required value.
+    includeItemsFromAllDrives: true,
   };
 }
 
@@ -297,6 +299,87 @@ function parseObjectEntries(value = {}) {
   );
 }
 
+/**
+ * Reserves a unique path among a set of paths already used in the current run,
+ * appending a numeric suffix (before the extension, if any) when `candidatePath`
+ * collides with one already reserved. Useful when generating file paths from
+ * user-controlled or duplicate-prone names (e.g. two Drive files sharing a
+ * name), so they don't silently overwrite one another on disk.
+ *
+ * @param {String} candidatePath the path to reserve
+ * @param {Set<String>} usedPaths paths already reserved in the current run;
+ * mutated in place to add whichever path is returned
+ * @returns `candidatePath` unchanged if it hasn't been used yet, otherwise a
+ * variant with a `" (n)"` suffix inserted before the extension
+ */
+function reserveUniqueFilePath(candidatePath, usedPaths) {
+  if (!usedPaths.has(candidatePath)) {
+    usedPaths.add(candidatePath);
+    return candidatePath;
+  }
+  const lastDot = candidatePath.lastIndexOf(".");
+  const lastSlash = candidatePath.lastIndexOf("/");
+  const hasExt = lastDot > lastSlash;
+  const base = hasExt
+    ? candidatePath.slice(0, lastDot)
+    : candidatePath;
+  const ext = hasExt
+    ? candidatePath.slice(lastDot)
+    : "";
+  let suffix = 2;
+  let uniquePath;
+  do {
+    uniquePath = `${base} (${suffix})${ext}`;
+    suffix += 1;
+  } while (usedPaths.has(uniquePath));
+  usedPaths.add(uniquePath);
+  return uniquePath;
+}
+
+// Drive allows "/" and arbitrary length in names; neither is valid in a single path segment.
+function sanitizeFileName(name) {
+  const safe = Buffer.from(name.replace(/[/\\\0]/g, "_"))
+    .subarray(0, 200)
+    .toString()
+    // Drop a multi-byte character split by the byte cut.
+    .replace(/�+$/, "");
+  if (!safe || safe === "." || safe === "..") {
+    return "_";
+  }
+  return safe;
+}
+
+/**
+ * Minimal inline worker pool. Runs `worker` over `items` with at most `limit`
+ * calls in flight at any moment and returns the results in input order.
+ *
+ * @param {Array} items the items to process
+ * @param {Number} limit the max number of concurrent `worker` calls
+ * @param {Function} worker async function invoked as `worker(item, index)`
+ * @returns {Promise<Array>} the results, in the same order as `items`
+ */
+async function mapWithConcurrency(items, limit, worker) {
+  const results = new Array(items.length);
+  let cursor = 0;
+
+  const runNext = async () => {
+    while (cursor < items.length) {
+      const index = cursor;
+      cursor += 1;
+      results[index] = await worker(items[index], index);
+    }
+  };
+
+  const runners = [];
+  const poolSize = Math.min(limit, items.length);
+  for (let i = 0; i < poolSize; i++) {
+    runners.push(runNext());
+  }
+  await Promise.allSettled(runners);
+
+  return results;
+}
+
 async function stashFile(item, googleDrive, dir) {
   const fileMetadata = await googleDrive.getFile(item.id, {
     fields: "name,mimeType",
@@ -338,6 +421,53 @@ async function stashFile(item, googleDrive, dir) {
   };
 }
 
+/**
+ * RFC 3339 date (`2026-01-31`) or date-time (`2026-01-31T00:00:00Z`). A
+ * date-time must carry a `Z` or numeric offset, as RFC 3339 requires: without
+ * one, `Date.parse` silently reads it in the runner's local timezone.
+ *
+ * The time fields spell out their RFC 3339 ranges rather than using `\d{2}`,
+ * because `Date.parse` accepts the ISO 8601 end-of-day hour `24` and rolls it
+ * into the next day (`...T24:00:00Z` becomes the 1st of the next month).
+ */
+const RFC_3339_REGEX =
+  /^(\d{4})-(\d{2})-(\d{2})(?:[Tt]([01]\d|2[0-3]):([0-5]\d):([0-5]\d)(?:\.\d+)?(?:[Zz]|[+-]([01]\d|2[0-3]):[0-5]\d))?$/;
+
+/**
+ * Validate an RFC 3339 timestamp and normalize it to a UTC ISO string.
+ *
+ * `Date.parse` alone is too permissive to use as the gate: it accepts
+ * locale-ambiguous input like `01/02/2026` and bare years like `2026`, and it
+ * rolls impossible dates over (`2026-02-31` becomes March 3) rather than
+ * rejecting them. Either would silently filter from the wrong instant.
+ *
+ * @param {String} value the user-supplied timestamp
+ * @param {String} label the prop label, used in the error message
+ * @returns {String} the timestamp normalized to a UTC ISO string
+ */
+function parseRfc3339(value, label) {
+  const match = RFC_3339_REGEX.exec(String(value).trim());
+  if (!match) {
+    throw new ConfigurationError(`Invalid ${label} "${value}". Use an RFC 3339 timestamp, e.g. "2026-01-31T00:00:00Z" or "2026-01-31".`);
+  }
+  const [
+    , year,
+    month,
+    day,
+  ] = match.map(Number);
+  // The shape is right, but `2026-02-31` still parses, so confirm the calendar
+  // date round-trips unchanged before trusting it.
+  const utc = new Date(Date.UTC(year, month - 1, day));
+  const parsed = Date.parse(match[0]);
+  if (utc.getUTCFullYear() !== year
+    || utc.getUTCMonth() !== month - 1
+    || utc.getUTCDate() !== day
+    || Number.isNaN(parsed)) {
+    throw new ConfigurationError(`Invalid ${label} "${value}". That is not a real date or time.`);
+  }
+  return new Date(parsed).toISOString();
+}
+
 export {
   buildFilePaths,
   byteToMB,
@@ -345,9 +475,13 @@ export {
   getFilePaths,
   getListFilesOpts,
   isMyDrive,
+  mapWithConcurrency,
   MY_DRIVE_VALUE,
   omitEmptyStringValues,
   parseObjectEntries,
+  parseRfc3339,
+  reserveUniqueFilePath,
+  sanitizeFileName,
   stashFile,
   streamToBuffer,
   toSingleLineString,

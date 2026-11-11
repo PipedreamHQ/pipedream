@@ -14,8 +14,9 @@ export default {
     + " `type` must be one of: `MULTIPLIER_PERCENTAGE` (e.g., 150 = 1.5x pay),"
     + " `PER_HOUR_FLAT_RATE` (fixed hourly amount), `PER_UNIT_FLAT_RATE` (fixed per-unit amount)."
     + " [See the documentation](https://developer.deel.com/api/reference/endpoints/time-tracking/create-time-tracking-shift-rate)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -10,8 +10,9 @@ export default {
     + " Use **List Escalation Policies** to find the policy ID."
     + " Each escalation rule targets one or more users or schedules: provide `targets` as an array of objects with `id` and `type` (`user_reference` or `schedule_reference`)."
     + " [See the documentation](https://developer.pagerduty.com/api-reference/f9b1e15e70a0c-update-an-escalation-policy)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

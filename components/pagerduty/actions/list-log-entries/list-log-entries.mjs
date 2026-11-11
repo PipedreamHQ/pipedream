@@ -11,8 +11,9 @@ export default {
     + " Time params use ISO 8601 with explicit UTC offset, e.g. `2026-06-02T15:00:00-07:00`."
     + " Set `isOverview: true` to get only the most recent action per incident."
     + " [See the documentation](https://developer.pagerduty.com/api-reference/c661e065403b5-list-log-entries)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

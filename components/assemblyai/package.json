@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/assemblyai",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Pipedream AssemblyAI Components",
   "main": "assemblyai.app.mjs",
   "keywords": [

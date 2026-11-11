@@ -5,7 +5,7 @@ import constantContact from "../../constant_contact.app.mjs";
 export default {
   key: "constant_contact-create-or-update-contact",
   name: "Create Or Update Contact",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,6 +13,7 @@ export default {
   },
   description: "Create a new contact or update an existing one based on their email address. This method is appropriate when a contact has given explicit permission to receive emails. [See the documentation](https://developer.constantcontact.com/api_reference/index.html#tag/Contacts/operation/createOrUpdateContact)",
   type: "action",
+  ai: "optimized",
   props: {
     constantContact,
     emailAddress: {

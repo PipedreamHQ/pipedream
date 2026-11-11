@@ -4,13 +4,14 @@ export default {
   key: "picqer-cancel-order",
   name: "Cancel Order",
   description: "Removes orders with 'concept' or 'expected' status only. [See the documentation](https://picqer.com/en/api/orders)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     orderId: {

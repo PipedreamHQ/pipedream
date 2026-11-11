@@ -1,4 +1,6 @@
-import { getFileStream } from "@pipedream/platform";
+import {
+  ConfigurationError, getFileStream,
+} from "@pipedream/platform";
 
 const parseJson = (input, maxDepth = 100) => {
   const seen = new WeakSet();
@@ -64,6 +66,17 @@ function parseArray (input, maxDepth = 100) {
   return input;
 }
 
+function parseArrayProp(label, input) {
+  if (!input) {
+    return undefined;
+  }
+  const parsed = parseArray(input);
+  if (!Array.isArray(parsed)) {
+    throw new ConfigurationError(`**${label}** must be an array when provided`);
+  }
+  return parsed;
+}
+
 async function fromStreamToBase64(stream) {
   const chunks = [];
   for await (const chunk of stream) {
@@ -81,6 +94,7 @@ async function fromFilePathToBase64(filePath) {
 export default {
   parseJson,
   parseArray,
+  parseArrayProp,
   fromStreamToBase64,
   fromFilePathToBase64,
 };

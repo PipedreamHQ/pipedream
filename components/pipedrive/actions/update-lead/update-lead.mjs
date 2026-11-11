@@ -5,13 +5,14 @@ export default {
   key: "pipedrive-update-lead",
   name: "Update Lead",
   description: "Updates a lead in Pipedrive. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Leads#updateLead)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     pipedriveApp,
     leadId: {

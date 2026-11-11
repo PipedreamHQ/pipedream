@@ -4,7 +4,7 @@ export default {
   key: "etrusted-save-review-reply",
   name: "Save A Review Reply",
   description: "Reply to a review. [See the documentation](https://developers.etrusted.com/reference/savereviewreply)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

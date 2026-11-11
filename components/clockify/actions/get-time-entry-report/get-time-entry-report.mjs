@@ -4,8 +4,9 @@ export default {
   name: "Get Time Entry Report",
   description: "Get a time entry report. [See the documentation](https://docs.clockify.me/#tag/Time-Entry-Report/operation/generateDetailedReport)",
   key: "clockify-get-time-entry-report",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

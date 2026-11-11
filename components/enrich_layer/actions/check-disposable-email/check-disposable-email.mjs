@@ -4,8 +4,9 @@ export default {
   key: "enrich_layer-check-disposable-email",
   name: "Check Disposable Email",
   description: "Check if an email address belongs to a disposable email service. Cost: 0 credits. [See the documentation](https://enrichlayer.com/docs/api/v2/contact-api/disposable-email-address-check).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

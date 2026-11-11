@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/octopush_sms",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Octopush SMS Components",
   "main": "octopush_sms.app.mjs",
   "keywords": [

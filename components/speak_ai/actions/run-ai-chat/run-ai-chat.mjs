@@ -6,13 +6,14 @@ export default {
   key: "speak_ai-run-ai-chat",
   name: "Run AI Chat",
   description: "Ask a question about Speak AI media and get the answer back. Scope the question to specific media files, to a whole folder, or to both. Answers are only as good as the prompt, so be specific about the output wanted. Media must finish analyzing first. [See the documentation](https://docs.speakai.co/api/ai-chat/#post-prompt).",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     prompt: {

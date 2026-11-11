@@ -1,4 +1,3 @@
-// x-pd-ai: optimized
 import app from "../../writer.app.mjs";
 import { parseFloatProp } from "../../common/utils.mjs";
 
@@ -11,13 +10,14 @@ export default {
     + "For questions grounded in your team's own documents, use **Ask Knowledge Graph** instead. "
     + "Example: to draft a welcome message, call with `messages=[{ \"role\": \"user\", \"content\": \"Draft a 2-sentence welcome message for new visitors.\" }]` and `model=\"palmyra-x5\"` -> returns an OpenAI-shaped response whose `choices[0].message.content` holds the generated text. "
     + "[See the documentation](https://dev.writer.com/api-reference/completion-api/chat-completion)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     messages: {

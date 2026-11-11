@@ -12,8 +12,9 @@ export default {
     + " `fulfillment_items` must include at least one item with a valid SKU; `price_set` quantities must sum to the item quantity."
     + " Address fields `first_name`/`last_name` or `company` are conditionally required (at least one set must be present)."
     + " [See the documentation](https://api.everstox.com/api/v1/ui/#/Fulfillment-updates/district_core.api.shops.fulfillments.fulfillments.Fulfillments.create_fulfillment_update_request)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

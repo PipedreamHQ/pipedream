@@ -15,8 +15,9 @@ export default {
     + " Audience size must remain ≥ 1,000 after the operation."
     + " Use **List Audiences** to find the `audience_id`."
     + " [See the documentation](https://business-api.tiktok.com/portal/docs/update-an-audience/v1.3)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

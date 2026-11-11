@@ -5,8 +5,9 @@ export default {
   key: "rendex-create-render-link",
   name: "Create Render Link",
   description: "Mint a signed, hosted render URL for a page or HTML — ideal for `og:image` tags. The returned URL serves the rendered image/PDF directly. [See the documentation](https://rendex.dev/docs/api-reference#post-render-link).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

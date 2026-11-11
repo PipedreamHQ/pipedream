@@ -3,9 +3,12 @@ import spotify from "../../spotify.app.mjs";
 export default {
   key: "spotify-list-playlist-id-options",
   name: "List Playlist ID Options",
-  description: "Retrieves available options for the Playlist ID field.",
-  version: "0.0.3",
+  description: "List playlists owned or followed by the current user, as `{ label, value }` options where `value` is the playlist ID (e.g. `3cEYpjA9oz9GiPac4AsH4n`)."
+    + " Results are paginated 50 per page; `page` is zero-based, so call with `0`, then `1`, and so on until fewer than 50 options (or none) are returned."
+    + " [See the documentation](https://developer.spotify.com/documentation/web-api/reference/get-a-list-of-current-users-playlists)",
+  version: "0.0.4",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,18 +19,19 @@ export default {
     page: {
       type: "integer",
       label: "Page",
-      description: "The page of results to retrieve.",
+      description: "Zero-based page of results to retrieve (50 options per page). `0` returns the first page.",
       min: 0,
       default: 0,
     },
   },
   async run({ $ }) {
-    const options = await spotify.propDefinitions.playlistId.options.call(this.spotify, {
+    const response = await spotify.propDefinitions.playlistId.options.call(this.spotify, {
       page: this.page,
     });
-    $.export("$summary", `Successfully retrieved ${options.length} option${options.length === 1
+    const { length } = response.options;
+    $.export("$summary", `Successfully retrieved ${length} option${length === 1
       ? ""
       : "s"}`);
-    return options;
+    return response;
   },
 };

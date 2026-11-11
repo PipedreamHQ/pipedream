@@ -1,4 +1,3 @@
-// vandelay-test-dr
 import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
@@ -9,9 +8,12 @@ export default {
     + " **Must be called before any query that uses first-person language ('my', 'I', 'me').**"
     + " The `userId` can be used as an `OwnerId` filter in SOQL queries (e.g. `WHERE OwnerId = '{userId}'`)."
     + " The `instanceUrl` is needed to construct clickable links to Salesforce records:"
-    + " `{instanceUrl}/lightning/r/{objectType}/{recordId}/view`.",
-  version: "0.0.1",
+    + " `{instanceUrl}/lightning/r/{objectType}/{recordId}/view`."
+    + " "
+    + "[See the documentation](https://help.salesforce.com/s/articleView?id=sf.remoteaccess_using_userinfo_endpoint.htm&type=5)",
+  version: "0.0.4",
   type: "action",
+  ai: "optimized",
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,

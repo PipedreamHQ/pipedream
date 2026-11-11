@@ -8,8 +8,9 @@ export default {
     + " Set `action` to `accept` to approve the return (this triggers shipment label creation) or `reject` to decline it."
     + " Use **Get Return Orders** with `filter: \"status:draft\"` to find draft order IDs."
     + " [See the documentation](https://platform.returnista.com/reference/rest-api/#put-/account/-accountId/draft-return-order/-id/accept)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -17,12 +18,6 @@ export default {
   },
   props: {
     returnista,
-    accountId: {
-      propDefinition: [
-        returnista,
-        "accountId",
-      ],
-    },
     draftReturnOrderId: {
       propDefinition: [
         returnista,
@@ -42,7 +37,6 @@ export default {
   async run({ $ }) {
     const response = await this.returnista.processDraftReturnOrder({
       $,
-      accountId: this.accountId,
       draftReturnOrderId: this.draftReturnOrderId,
       action: this.action,
     });

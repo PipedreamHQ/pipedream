@@ -11,13 +11,14 @@ export default {
   key: "docusign-create-envelope-from-file",
   name: "Create Envelope From File",
   description: "Create and optionally send a single-document DocuSign envelope from a file path or URL. This action places a SignHere tab by anchor text, such as `/sn1/`, in the uploaded document. Set Client User ID when you need embedded signing, then use **Create Recipient View** with the same value. [See the documentation](https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create/)",
-  version: "0.0.3",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     docusign,
     account: {

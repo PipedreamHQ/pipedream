@@ -6,13 +6,14 @@ export default {
   key: "zoho_bookings-reschedule-appointment",
   name: "Reschedule Appointment",
   description: "Reschedule an appointment to a different time or to a different staff. [See the documentation](https://www.zoho.com/bookings/help/api/v1/reschedule-appointment.html)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     bookingId: {

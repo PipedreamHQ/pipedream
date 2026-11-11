@@ -12,8 +12,9 @@ export default {
     + " dashboard model."
     + " Use **List Folders** to discover folder UIDs for"
     + " filtering.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

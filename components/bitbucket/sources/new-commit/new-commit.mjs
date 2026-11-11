@@ -8,7 +8,7 @@ export default {
   name: "New Commit (Instant)",
   key: "bitbucket-new-commit",
   description: "Emit new event when a new commit is pushed to a branch. [See docs here](https://developer.atlassian.com/cloud/bitbucket/rest/api-group-repositories/#api-repositories-workspace-repo-slug-hooks-post)",
-  version: "0.0.5",
+  version: "0.0.6",
   props: {
     ...common.props,
     repositoryId: {
