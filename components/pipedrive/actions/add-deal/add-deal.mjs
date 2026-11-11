@@ -5,14 +5,20 @@ import { parseObject } from "../../common/utils.mjs";
 export default {
   key: "pipedrive-add-deal",
   name: "Add Deal",
-  description: "Adds a new deal. See the Pipedrive API docs for Deals [here](https://developers.pipedrive.com/docs/api/v1/Deals#addDeal)",
-  version: "0.1.26",
+  description: "Creates a new deal in Pipedrive. Only `Title` is required; everything else is optional."
+    + " To link the deal, pass a person ID from **Search persons** / **List Persons**, an organization ID from **List Organizations**, and an owner ID from **List User ID Options**."
+    + " To place it in a specific pipeline stage, pass a `Stage ID` from **List Stages** (use **List Pipelines** first to find the pipeline); if omitted, the deal goes to the first stage of the default pipeline."
+    + " Example: `Title` `Northgate Logistics - Annual Renewal 2026`, `Value` `5000`, `Currency` `USD`, `Person ID` `42`, `Stage ID` `3`."
+    + " Custom fields are keyed by their 40-character field hash, not their display name. Setting `Note` adds a note to the new deal after it is created."
+    + " Use **Update Deal** to change it later. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Deals#addDeal)",
+  version: "0.1.27",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     pipedriveApp,
     title: {
@@ -44,6 +50,7 @@ export default {
         pipedriveApp,
         "pipelineId",
       ],
+      description: "The ID of the pipeline to add the deal to, e.g. `1`. Use **List Pipelines** to find it (the `id` field). If `Stage ID` is also set, the stage must belong to this pipeline.",
       optional: true,
     },
     stageId: {
