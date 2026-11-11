@@ -3,9 +3,10 @@ import app from "../../keenable.app.mjs";
 export default {
   key: "keenable-search",
   name: "Search",
-  description: "Search the web with Keenable and get ranked results with title, URL, snippet and dates. [See the documentation](https://docs.keenable.ai)",
+  description: "Search the web with Keenable and get ranked results with title, URL, snippet and dates. [See the documentation](https://docs.keenable.ai/api-reference/search)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -22,7 +23,7 @@ export default {
     mode: {
       type: "string",
       label: "Mode",
-      description: "`pro` (default) returns higher-quality results. `realtime` is the fastest mode, for latency-sensitive workflows.",
+      description: "`pro` (default) returns higher-quality results. `realtime` is the fastest mode, for latency-sensitive workflows. Example: `realtime`",
       options: [
         "pro",
         "realtime",
@@ -32,7 +33,7 @@ export default {
     maxResults: {
       type: "integer",
       label: "Max Results",
-      description: "Maximum number of results to return (1-50). Defaults to 10.",
+      description: "Maximum number of results to return (1-50). Defaults to 10. Example: `5`",
       min: 1,
       max: 50,
       optional: true,
@@ -46,32 +47,32 @@ export default {
     excludeDomains: {
       type: "string[]",
       label: "Exclude Domains",
-      description: "Never return results from these hosts. Each entry also covers its subdomains, e.g. `yahoo.com`",
+      description: "Never return results from these hosts. Each entry also covers its subdomains. Example: `[\"yahoo.com\", \"pinterest.com\"]`",
       optional: true,
     },
     publishedAfter: {
       type: "string",
       label: "Published After",
-      description: "Only return pages published after this date (`YYYY-MM-DD`, ISO 8601, or relative like `7d`)",
+      description: "Only return pages published after this date (`YYYY-MM-DD`, ISO 8601, or relative). Example: `2026-01-01` or `7d`",
       optional: true,
     },
     publishedBefore: {
       type: "string",
       label: "Published Before",
-      description: "Only return pages published before this date (`YYYY-MM-DD` or ISO 8601)",
+      description: "Only return pages published before this date (`YYYY-MM-DD` or ISO 8601). Example: `2026-06-30`",
       optional: true,
     },
     snippetMaxLength: {
       type: "integer",
       label: "Snippet Max Length",
-      description: "Maximum length, in characters, of the snippet returned per result (180-10000)",
+      description: "Maximum length, in characters, of the snippet returned per result (180-10000). Example: `500`",
       min: 180,
       max: 10000,
       optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.app.search({
+    const response = await this.app.searchWeb({
       $,
       data: {
         query: this.query,

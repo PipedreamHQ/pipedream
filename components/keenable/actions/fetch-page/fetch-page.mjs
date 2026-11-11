@@ -3,9 +3,10 @@ import app from "../../keenable.app.mjs";
 export default {
   key: "keenable-fetch-page",
   name: "Fetch Page",
-  description: "Fetch a web page and get its content as clean Markdown, with title, author and publish date. [See the documentation](https://docs.keenable.ai)",
+  description: "Fetch a web page and get its content as clean Markdown, with title, author and publish date. [See the documentation](https://docs.keenable.ai/api-reference/fetch)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -22,14 +23,14 @@ export default {
     maxChars: {
       type: "integer",
       label: "Max Characters",
-      description: "Maximum number of characters of content to return. Defaults to 50000.",
+      description: "Maximum number of characters of content to return. Defaults to 50000. Example: `10000`",
       min: 1,
       optional: true,
     },
     live: {
       type: "boolean",
       label: "Live",
-      description: "Fetch the live page instead of the indexed copy. Defaults to `false`.",
+      description: "Set to `true` to fetch the live page from the source instead of the indexed copy, e.g. for a page that changes often. Defaults to `false`. Example: `true`",
       optional: true,
     },
     prompt: {

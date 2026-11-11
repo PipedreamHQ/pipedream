@@ -7,7 +7,7 @@ export default {
     query: {
       type: "string",
       label: "Query",
-      description: "The search query",
+      description: "The search query. Example: `JavaScript testing frameworks`",
     },
     url: {
       type: "string",
@@ -33,7 +33,7 @@ export default {
         ...opts,
       });
     },
-    search(opts = {}) {
+    searchWeb(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/search",
