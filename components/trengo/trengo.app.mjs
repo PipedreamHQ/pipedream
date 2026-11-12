@@ -284,6 +284,12 @@ export default {
         }));
       },
     },
+    file: {
+      type: "string",
+      label: "File Path or URL",
+      description: "A file URL or a path to a file in the `/tmp` directory (e.g. `/tmp/label.pdf`) (max 20 MB)",
+      format: "file-ref",
+    },
     blockId: {
       type: "integer",
       label: "Block ID",
@@ -404,6 +410,22 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: `/tickets/${ticketId}/messages`,
+        ...args,
+      });
+    },
+    uploadFile(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/upload/messages/multipart",
+        ...args,
+      });
+    },
+    sendTicketMediaMessage({
+      ticketId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/tickets/${ticketId}/messages/media`,
         ...args,
       });
     },
