@@ -5,7 +5,7 @@ export default {
   key: "are_na-list-channel-slug-options",
   name: "List Channel Slug Options",
   description: "Lists channels that can be used for the Channel Slug field of other actions (each with `id`, `slug` and `title` by default; pass **Fields** for more). Returns `options` and `meta` (pagination: `current_page`, `next_page`, `has_more_pages`, `total_count`). To get more channels, call again with `page` set to `meta.next_page`. Premium Only: uses the Are.na search endpoint, which requires a Premium subscription. Example: query `*` returns `{ \"options\": [{ \"id\": 12345, \"slug\": \"brutalist-architecture\", \"title\": \"Brutalist Architecture\" }], \"meta\": { \"next_page\": 2, \"total_count\": 40 } }`. [See the documentation](https://www.are.na/developers/explore/search/search)",
-  version: "0.1.0",
+  version: "1.0.0",
   ai: "optimized",
   type: "action",
   annotations: {

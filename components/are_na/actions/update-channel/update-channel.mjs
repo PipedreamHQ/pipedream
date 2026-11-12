@@ -4,7 +4,7 @@ export default {
   key: "are_na-update-channel",
   name: "Update Channel",
   description: "Update the title, visibility, description or metadata of an existing channel. Only the fields you provide are changed, and Metadata is merged with the existing metadata. Use **List Channel Slug Options** to find the slug (Premium only; if you already know the slug, pass it directly); to create a new channel use **Create Channel**. Returns the updated channel object. Example: Channel Slug `brutalist-architecture` with Channel Status `closed` makes that channel visible to everyone while limiting who can add to it. [See the documentation](https://www.are.na/developers/explore/channel/put-channel)",
-  version: "0.1.0",
+  version: "1.0.0",
   ai: "optimized",
   annotations: {
     destructiveHint: false,
