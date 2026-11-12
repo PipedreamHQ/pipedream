@@ -4,7 +4,7 @@ export default {
   key: "linkedin-list-campaign-id-options",
   name: "List Campaign Id Options",
   description: "Retrieves available options for the Campaign Id field.",
-  version: "0.0.4",
+  version: "1.0.0",
   type: "action",
   annotations: {
     destructiveHint: false,
