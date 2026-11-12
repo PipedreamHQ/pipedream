@@ -5,7 +5,7 @@ export default {
   name: "List Channel Messages",
   description: "Lists messages in a Microsoft Teams channel. [See the documentation](https://learn.microsoft.com/en-us/graph/api/channel-list-messages)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
