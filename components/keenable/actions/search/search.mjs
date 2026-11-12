@@ -53,13 +53,13 @@ export default {
     publishedAfter: {
       type: "string",
       label: "Published After",
-      description: "Only return pages published after this date (`YYYY-MM-DD`, ISO 8601, or relative). Example: `2026-01-01` or `7d`",
+      description: "Only return pages published on or after this point (inclusive). A `YYYY-MM-DD` date covers that whole day in UTC; ISO 8601 timestamps and relative deltas are also accepted. Example: `2026-01-01` or `7d`",
       optional: true,
     },
     publishedBefore: {
       type: "string",
       label: "Published Before",
-      description: "Only return pages published before this date (`YYYY-MM-DD` or ISO 8601). Example: `2026-06-30`",
+      description: "Only return pages published on or before this point (inclusive). A `YYYY-MM-DD` date covers that whole day in UTC; ISO 8601 timestamps are also accepted. Example: `2026-06-30`",
       optional: true,
     },
     snippetMaxLength: {
