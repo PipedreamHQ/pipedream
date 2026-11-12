@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/nevtan_sign",
+  "version": "0.0.1",
+  "description": "Pipedream NevTan Sign Components",
+  "main": "nevtan_sign.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nevtan_sign"
+  ],
+  "homepage": "https://pipedream.com/apps/nevtan_sign",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}
