@@ -14,7 +14,7 @@ export default {
     + " Example (rename): `documentId: \"10b5bc2940c7\"`, `title: \"[DRAFT] Q3 Hiring Plan\"` → returns `{success: true, document: {id: \"29a25062-...\", title: \"[DRAFT] Q3 Hiring Plan\", slugId: \"10b5bc2940c7\", url: \"https://linear.app/...\"}}`."
     + " Example (replace body): `documentId: \"10b5bc2940c7\"`, `content: \"# Q3 Hiring Plan\\n\\nUpdated goals...\"`."
     + " [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Mutation?query=documentUpdate)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   ai: "optimized",
   annotations: {
