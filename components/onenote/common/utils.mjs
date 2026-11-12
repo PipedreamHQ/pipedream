@@ -3,7 +3,8 @@ import {
 } from "./constants.mjs";
 
 /**
- * Returns true if `filter` contains at least one OData operator or function.
+ * Returns true if `filter` contains at least one OData comparison operator or
+ * function call. Logical words alone ("and", "or", "not") are not enough.
  */
 function looksLikeOData(filter) {
   const lower = ` ${filter.toLowerCase()} `;

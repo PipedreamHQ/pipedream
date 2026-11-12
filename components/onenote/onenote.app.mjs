@@ -36,18 +36,29 @@ export default {
     },
     pageId: {
       label: "Page ID",
-      description: "The page ID, e.g. `1-922e4ff8076f49cc9487e4728297580a!128-d089bdb3-33b1-4eeb-af21-98e7157af301`. Use **Search Pages** to find it (the `id` field of each page).",
+      description: "The page ID, e.g. `1-922e4ff8076f49cc9487e4728297580a!128-d089bdb3-33b1-4eeb-af21-98e7157af301`. Use **Search Pages** to find it (the `id` field of each page). On accounts with many sections only the 100 most recently modified pages are listed here, so use **Search Pages** for the rest.",
       type: "string",
       async options({ page = 0 } = {}) {
-        const { value: pages } = await this.getPages({
-          params: {
-            "$top": PAGE_OPTIONS_LIMIT,
-            "$skip": page * PAGE_OPTIONS_LIMIT,
-          },
-        });
-        return pages.map((page) => ({
-          label: page.title,
-          value: page.id,
+        // On accounts with many sections (Graph error 20266) every page of options
+        // would need a full scan of all sections, which burns OneNote's 400
+        // requests/hour budget. Scan once for the first page; later pages stay empty
+        // and the description sends callers to Search Pages instead.
+        let pages;
+        try {
+          ({ value: pages } = await this.getPages({
+            allowFallback: page === 0,
+            params: {
+              "$top": PAGE_OPTIONS_LIMIT,
+              "$skip": page * PAGE_OPTIONS_LIMIT,
+            },
+          }));
+        } catch (err) {
+          if (page > 0 && utils.isSectionLimitError(err)) return [];
+          throw err;
+        }
+        return pages.map((item) => ({
+          label: item.title,
+          value: item.id,
         }));
       },
     },
@@ -200,10 +211,11 @@ export default {
      * sections), falls back to querying /sections/{id}/pages one section at a time,
      * as Microsoft recommends, then merges, orders (default last modified, newest
      * first) and pages the results itself. `$filter` and `$expand` are applied to
-     * each section query.
+     * each section query. Pass `allowFallback: false` to surface the 20266 error
+     * instead of scanning.
      */
     async getPages({
-      sectionId, ...args
+      sectionId, allowFallback = true, ...args
     } = {}) {
       if (sectionId) {
         return this.getSectionPages({
@@ -217,7 +229,7 @@ export default {
           ...args,
         });
       } catch (err) {
-        if (!utils.isSectionLimitError(err)) throw err;
+        if (!allowFallback || !utils.isSectionLimitError(err)) throw err;
       }
 
       const {

@@ -13,8 +13,9 @@ export const EXPAND_SECTION_OPTIONS = [
   "parentSectionGroup",
 ];
 
-// OData $filter requires at least one comparison operator or filter function.
-// Free-text like "dinner" or "title:dinner" has neither and will 400 at Graph.
+// A real OData $filter always has a comparison operator or a filter function.
+// Logical words (and / or / not) are deliberately NOT listed: free text such as
+// "salt and pepper" contains them but would still 400 at Graph.
 export const ODATA_OPERATORS = [
   " eq ",
   " ne ",
@@ -22,9 +23,6 @@ export const ODATA_OPERATORS = [
   " ge ",
   " lt ",
   " le ",
-  " and ",
-  " or ",
-  " not ",
   " has ",
 ];
 
