@@ -6,6 +6,7 @@ export default {
   description: "Delete a kosa8 Cloud sandbox. [See the documentation](https://docs.kosa8.com/guides/cloud-openapi/)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

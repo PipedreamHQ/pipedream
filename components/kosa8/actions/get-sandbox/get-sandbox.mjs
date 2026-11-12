@@ -6,6 +6,7 @@ export default {
   description: "Get a kosa8 Cloud sandbox, including its state and cost so far. [See the documentation](https://docs.kosa8.com/guides/cloud-openapi/)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

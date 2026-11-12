@@ -6,6 +6,7 @@ export default {
   description: "List the templates your kosa8 Cloud organization can create sandboxes from. [See the documentation](https://docs.kosa8.com/guides/cloud-openapi/)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

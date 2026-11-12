@@ -6,6 +6,7 @@ export default {
   description: "List the sandboxes in your kosa8 Cloud organization. [See the documentation](https://docs.kosa8.com/guides/cloud-openapi/)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,7 +17,7 @@ export default {
     includeDeleted: {
       type: "boolean",
       label: "Include Deleted",
-      description: "Also return deleted sandboxes",
+      description: "Whether to include deleted sandboxes, e.g. `true`. Omit or set to `false` to exclude them.",
       optional: true,
     },
   },

@@ -6,6 +6,7 @@ export default {
   description: "Restore a sleeping kosa8 Cloud sandbox now. [See the documentation](https://docs.kosa8.com/guides/cloud-openapi/)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

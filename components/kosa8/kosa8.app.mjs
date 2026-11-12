@@ -7,7 +7,7 @@ export default {
     sandboxId: {
       type: "string",
       label: "Sandbox ID",
-      description: "The ID of a sandbox (`sbx_…`)",
+      description: "The ID of the sandbox, e.g. `sbx_a1b2c3d4`. Use **List Sandboxes** to find it (the `sandboxes[].id` field).",
       async options() {
         const { sandboxes = [] } = await this.listSandboxes();
         return sandboxes.map((sandbox) => ({
@@ -19,7 +19,7 @@ export default {
     template: {
       type: "string",
       label: "Template",
-      description: "The template to create the sandbox from. Leave empty to use your organization's default template.",
+      description: "The key of the template to create the sandbox from, e.g. `base`. Use **List Templates** to find valid keys (the `templates[].key` field). Leave empty to use your organization's default template.",
       optional: true,
       async options() {
         const { templates = [] } = await this.listTemplates();

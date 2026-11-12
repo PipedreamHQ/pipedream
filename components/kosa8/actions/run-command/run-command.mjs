@@ -6,6 +6,7 @@ export default {
   description: "Run a shell command in a kosa8 Cloud sandbox and return its exit code, stdout and stderr. A sleeping sandbox wakes first. [See the documentation](https://docs.kosa8.com/guides/cloud-openapi/)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -22,12 +23,12 @@ export default {
     command: {
       type: "string",
       label: "Command",
-      description: "The shell command to run, passed to `sh -c`. E.g. `python3 -c 'print(1 + 1)'`",
+      description: "The shell command to run, passed to `sh -c`. e.g. `python3 -c 'print(1 + 1)'`",
     },
     env: {
       type: "object",
       label: "Environment Variables",
-      description: "Environment variables for the command, as name/value pairs",
+      description: "Environment variables for the command, as a JSON object of name/value pairs (not an array of `NAME=value` strings), e.g. `{\"MODE\":\"test\",\"DEBUG\":\"1\"}`",
       optional: true,
     },
   },
