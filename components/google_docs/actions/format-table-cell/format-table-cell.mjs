@@ -9,7 +9,7 @@ export default {
   key: "google_docs-format-table-cell",
   name: "Format Table Cell",
   description: "Set the background, borders, padding, or vertical alignment of table cells in a Google Doc. Identify the table with **Find Table Text**, **Table Index**, or leave both blank when the document has only one table. Styles every cell unless **Row Index** and **Column Index** name a starting cell. Use **Find Document** to resolve a document's name to its ID. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/request#UpdateTableCellStyleRequest)",
-  version: "0.0.5",
+  version: "0.1.0",
   ai: "optimized",
   annotations: {
     destructiveHint: false,
@@ -151,11 +151,18 @@ export default {
       options: CONTENT_ALIGNMENTS,
       optional: true,
     },
+    suggestMode: {
+      propDefinition: [
+        googleDocs,
+        "suggestMode",
+      ],
+    },
   },
   async run({ $ }) {
     const {
       googleDocs,
       documentId,
+      suggestMode,
       find,
       matchCase,
       tableIndex,
@@ -253,7 +260,7 @@ export default {
         },
       };
 
-    await googleDocs.batchUpdate(documentId, [
+    const response = await googleDocs.batchUpdate(documentId, [
       {
         updateTableCellStyle: {
           ...target,
@@ -261,18 +268,20 @@ export default {
           fields: builder.mask,
         },
       },
-    ]);
+    ], googleDocs.writeControl(suggestMode));
 
     const scope = target.tableRange
       ? `${rowSpan ?? 1}x${columnSpan ?? 1} block from row ${rowIndex}, column ${columnIndex}`
       : "every cell";
-    $.export("$summary", `Formatted ${scope} of the table at index ${tableStartLocation.index} in document ${documentId}`);
+    $.export("$summary", `Formatted ${scope} of the table at index ${tableStartLocation.index} in document ${documentId}${suggestMode
+      ? " as a suggestion"
+      : ""}`);
 
-    return {
+    return googleDocs.withSuggestionIds({
       documentId,
       tableStartLocation,
       fieldsUpdated: builder.fields,
       ...target,
-    };
+    }, suggestMode, response);
   },
 };
