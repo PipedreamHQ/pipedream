@@ -10,7 +10,7 @@ export default defineSource({
   key: "google_my_business-new-post-created",
   name: "New Post Created",
   description: `Emit new event for each new local post on a location [See the documentation](${DOCS_LINK})`,
-  version: "0.0.8",
+  version: "0.0.9",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -25,7 +25,7 @@ export default defineSource({
         location,
       };
 
-      return this.app.listPosts(params, false);
+      return this.app.listPosts(params);
     },
     getSummary({ summary }: LocalPost) {
       return `New Post${summary

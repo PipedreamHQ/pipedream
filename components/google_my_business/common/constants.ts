@@ -47,3 +47,28 @@ export const MEDIA_FORMAT_OPTIONS = [
     value: "VIDEO",
   },
 ];
+
+// https://developers.google.com/my-business/reference/rest/v4/accounts.locations.reviews/list
+// https://developers.google.com/my-business/reference/rest/v4/accounts.locations/batchGetReviews
+// Ascending `updateTime` and any `createTime` ordering are rejected with HTTP 400.
+export const REVIEW_ORDER_BY_OPTIONS = [
+  {
+    label: "Most recently updated first (default)",
+    value: "updateTime desc",
+  },
+  {
+    label: "Lowest rating first",
+    value: "rating",
+  },
+  {
+    label: "Highest rating first",
+    value: "rating desc",
+  },
+];
+
+// Max `pageSize` accepted by reviews.list and batchGetReviews
+export const REVIEWS_PAGE_SIZE = 50;
+
+// Max `pageSize` accepted by localPosts.list
+// https://developers.google.com/my-business/reference/rest/v4/accounts.locations.localPosts/list
+export const POSTS_PAGE_SIZE = 100;
