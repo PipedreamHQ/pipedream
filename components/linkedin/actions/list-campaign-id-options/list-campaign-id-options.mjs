@@ -18,7 +18,7 @@ export default {
         linkedin,
         "adAccountId",
       ],
-      description: "The ad account whose campaigns to list. Use **List Ad Account Id Options** to find ids.",
+      description: "The numeric id of the ad account whose campaigns to list, e.g. `123456789` (not the `urn:li:sponsoredAccount:…` URN). Use **List Ad Account Id Options** to find ids.",
     },
     page: {
       type: "integer",
