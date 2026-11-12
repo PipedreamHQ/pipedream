@@ -4,7 +4,7 @@ export default {
   key: "linkedin-list-campaign-id-options",
   name: "List Campaign Id Options",
   description: "Retrieves available options for the Campaign Id field.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -13,6 +13,13 @@ export default {
   },
   props: {
     linkedin,
+    adAccountId: {
+      propDefinition: [
+        linkedin,
+        "adAccountId",
+      ],
+      description: "The ad account whose campaigns to list. Use **List Ad Account Id Options** to find ids.",
+    },
     page: {
       type: "integer",
       label: "Page",
@@ -24,6 +31,7 @@ export default {
   async run({ $ }) {
     const options = await linkedin.propDefinitions.campaignId.options.call(this.linkedin, {
       page: this.page,
+      adAccountId: this.adAccountId,
     });
     $.export("$summary", `Successfully retrieved ${options.length} option${options.length === 1
       ? ""
