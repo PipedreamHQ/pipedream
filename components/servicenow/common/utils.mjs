@@ -51,13 +51,20 @@ function assertVariableValue(name, value, label) {
   return variableName;
 }
 
-function collectGuideVariables(entries, variables, label) {
+function isEmptyValue(value) {
+  return value === null || value === undefined || value === "";
+}
+
+function collectGuideVariables(entries, variables, label, omitEmpty) {
   for (const entry of entries) {
     if (!entry || typeof entry !== "object" || Array.isArray(entry)) {
       throw new ConfigurationError(`${label} has a variable entry that is not an object.`);
     }
     if (Array.isArray(entry.children) && entry.children.length) {
-      collectGuideVariables(entry.children, variables, label);
+      collectGuideVariables(entry.children, variables, label, omitEmpty);
+      continue;
+    }
+    if (omitEmpty && isEmptyValue(entry.value)) {
       continue;
     }
     const variableName = assertVariableValue(
@@ -71,13 +78,13 @@ function collectGuideVariables(entries, variables, label) {
   }
 }
 
-function normalizeGuideVariables(variablesRaw, label) {
+function normalizeGuideVariables(variablesRaw, label, omitEmpty) {
   const variables = {};
   if (variablesRaw == null) {
     return variables;
   }
   if (Array.isArray(variablesRaw)) {
-    collectGuideVariables(variablesRaw, variables, label);
+    collectGuideVariables(variablesRaw, variables, label, omitEmpty);
     return variables;
   }
   if (typeof variablesRaw === "object") {
@@ -85,6 +92,9 @@ function normalizeGuideVariables(variablesRaw, label) {
       key,
       value,
     ] of Object.entries(variablesRaw)) {
+      if (omitEmpty && isEmptyValue(value)) {
+        continue;
+      }
       const variableName = assertVariableValue(key, value, label);
       variables[variableName] = value;
     }
@@ -268,9 +278,11 @@ export function describeCatalogVariables(variables) {
  * (containers nest further fields under `children`); checkout expects
  * `sysparm_quantity` and a flat variables object.
  * Throws on an empty `sys_id`, a quantity that is not greater than 0, or a
- * named variable with a missing or empty value.
+ * named variable with a missing or empty value. With `omitEmptyVariables`
+ * (Skip Mandatory Validation), empty variables are left out instead, so a
+ * mandatory variable hidden by a UI policy can stay unanswered.
  */
-export function normalizeGuideCheckoutItems(items) {
+export function normalizeGuideCheckoutItems(items, { omitEmptyVariables = false } = {}) {
   if (!Array.isArray(items) || !items.length) {
     throw new ConfigurationError("Items must be a non-empty JSON array from Submit Order Guide, not a JSON object.");
   }
@@ -289,7 +301,7 @@ export function normalizeGuideCheckoutItems(items) {
     return {
       sys_id: sysId,
       sysparm_quantity: assertPositiveQuantity(raw.sysparm_quantity ?? raw.quantity, label),
-      variables: normalizeGuideVariables(raw.variables, label),
+      variables: normalizeGuideVariables(raw.variables, label, omitEmptyVariables),
     };
   });
 }

@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import { COUNTRY_CODE_OPTIONS } from "./common/constants.mjs";
 
 export default {
@@ -9,11 +11,6 @@ export default {
       type: "string",
       label: "Consumer ID",
       description: "The unique identifier of the consumer in Returnista. To find a consumer ID, use **Get Return Orders** or **Get Return Order** — the consumer ID is included directly in the response.",
-    },
-    accountId: {
-      type: "string",
-      label: "Account ID",
-      description: "The unique identifier of your Returnista account. Find this in the Returnista dashboard under account settings.",
     },
     limit: {
       type: "integer",
@@ -69,10 +66,8 @@ export default {
       type: "string",
       label: "Return Order ID",
       description: "The ID of the return order. Use **Get Return Orders** to find IDs.",
-      async options({ accountId }) {
-        const { data } = await this.getReturnOrders({
-          accountId,
-        });
+      async options() {
+        const { data } = await this.getReturnOrders();
         return data.map(({ id }) => ({
           label: `Return Order ID: ${id}`,
           value: id,
@@ -164,10 +159,8 @@ export default {
       type: "string",
       label: "Return Location ID",
       description: "The ID of the return location. Use **Get Return Locations** to find IDs.",
-      async options({ accountId }) {
-        const { data: returnLocations = [] } = await this.getReturnLocations({
-          accountId,
-        });
+      async options() {
+        const { data: returnLocations = [] } = await this.getReturnLocations();
         return returnLocations.map(({
           id, name,
         }) => ({
@@ -180,10 +173,8 @@ export default {
       type: "string",
       label: "Return Request ID",
       description: "The ID of the return request. Use **Get Return Requests** to find IDs.",
-      async options({ accountId }) {
-        const { data: returnRequests = [] } = await this.getReturnRequests({
-          accountId,
-        });
+      async options() {
+        const { data: returnRequests = [] } = await this.getReturnRequests();
         return returnRequests.map(({
           id, purchaseOrderNumber, returnReasonComment,
         }) => ({
@@ -247,6 +238,13 @@ export default {
     _baseUrl() {
       return "https://core.returnista.com/api/v0";
     },
+    _getAccountId() {
+      const accountId = this.$auth.account_id;
+      if (!accountId) {
+        throw new ConfigurationError("Account ID is missing. Reconnect your Returnista account and provide the Account ID when connecting.");
+      }
+      return accountId;
+    },
     _headers() {
       return {
         "Authorization": `Bearer ${this.$auth.api_key}`,
@@ -280,69 +278,61 @@ export default {
         ...opts,
       });
     },
-    getDraftReturnOrders({
-      accountId, ...opts
-    }) {
+    getDraftReturnOrders(opts = {}) {
       return this._makeRequest({
-        path: `/account/${accountId}/draft-return-orders`,
+        path: `/account/${this._getAccountId()}/draft-return-orders`,
         ...opts,
       });
     },
-    getReturnOrders({
-      accountId, ...opts
-    }) {
+    getReturnOrders(opts = {}) {
       return this._makeRequest({
-        path: `/account/${accountId}/return-orders`,
+        path: `/account/${this._getAccountId()}/return-orders`,
         ...opts,
       });
     },
     getReturnOrderEmails({
-      accountId, returnOrderId, ...opts
+      returnOrderId, ...opts
     }) {
       return this._makeRequest({
-        path: `/account/${accountId}/return-order/${returnOrderId}/emails`,
+        path: `/account/${this._getAccountId()}/return-order/${returnOrderId}/emails`,
         ...opts,
       });
     },
     resendConfirmationEmail({
-      accountId, returnOrderId, ...opts
+      returnOrderId, ...opts
     }) {
       return this._makeRequest({
-        path: `/account/${accountId}/return-order/${returnOrderId}/resend-confirmation-email`,
+        path: `/account/${this._getAccountId()}/return-order/${returnOrderId}/resend-confirmation-email`,
         ...opts,
       });
     },
     getReturnOrder({
-      accountId, returnOrderId, ...opts
+      returnOrderId, ...opts
     }) {
       return this._makeRequest({
-        path: `/account/${accountId}/return-order/${returnOrderId}`,
+        path: `/account/${this._getAccountId()}/return-order/${returnOrderId}`,
         ...opts,
       });
     },
-    getReturnLocations({
-      accountId, ...opts
-    }) {
+    getReturnLocations(opts = {}) {
       return this._makeRequest({
-        path: `/account/${accountId}/return-locations`,
+        path: `/account/${this._getAccountId()}/return-locations`,
         ...opts,
       });
     },
-    createReturnLocation({
-      accountId, ...opts
-    }) {
+    createReturnLocation(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/account/${accountId}/return-location`,
+        path: `/account/${this._getAccountId()}/return-location`,
         ...opts,
       });
     },
     updateReturnLocation({
-      accountId, returnLocationId, ...opts
+      returnLocationId, ...opts
     }) {
       return this._makeRequest({
         method: "PATCH",
-        path: `/account/${accountId}/return-location/${returnLocationId}`,
+        path: `/account/${this._getAccountId()}/return-location/${returnLocationId}`,
         ...opts,
       });
     },
@@ -358,46 +348,40 @@ export default {
         ...opts,
       });
     },
-    getReturnRequests({
-      accountId, ...opts
-    }) {
+    getReturnRequests(opts = {}) {
       return this._makeRequest({
-        path: `/account/${accountId}/return-requests`,
+        path: `/account/${this._getAccountId()}/return-requests`,
         ...opts,
       });
     },
     getReturnRequest({
-      accountId, returnRequestId, ...opts
+      returnRequestId, ...opts
     }) {
       return this._makeRequest({
-        path: `/account/${accountId}/return-request/${returnRequestId}`,
+        path: `/account/${this._getAccountId()}/return-request/${returnRequestId}`,
         ...opts,
       });
     },
     processDraftReturnOrder({
-      accountId, draftReturnOrderId, action, ...opts
+      draftReturnOrderId, action, ...opts
     }) {
       return this._makeRequest({
         method: "PUT",
-        path: `/account/${accountId}/draft-return-order/${draftReturnOrderId}/${action}`,
+        path: `/account/${this._getAccountId()}/draft-return-order/${draftReturnOrderId}/${action}`,
         ...opts,
       });
     },
-    createWebhook({
-      accountId, ...opts
-    }) {
+    createWebhook(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/account/${accountId}/webhook-subscription`,
+        path: `/account/${this._getAccountId()}/webhook-subscription`,
         ...opts,
       });
     },
-    deleteWebhook({
-      accountId, webhookId,
-    }) {
+    deleteWebhook({ webhookId }) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/account/${accountId}/webhook-subscription/${webhookId}`,
+        path: `/account/${this._getAccountId()}/webhook-subscription/${webhookId}`,
       });
     },
   },
