@@ -1,11 +1,10 @@
 import googleCalendar from "../../google_calendar.app.mjs";
 import createEventCommon from "../common/create-event-common.mjs";
-import constants from "../../common/constants.mjs";
 
 export default {
   key: "google_calendar-update-event",
   name: "Update Event",
-  description: "Update an existing event in Google Calendar. Only the fields you supply change; recurrence, reminders, attendees and all other fields are kept. Set `Show As` to mark the event as Free or Busy, or `Color ID` to recolor it; for a recurring event this changes the whole series. When only `Color ID` and/or `Show As` are supplied, just your own copy changes (via [patch](https://developers.google.com/workspace/calendar/api/v3/reference/events/patch)) and no notifications are sent, so this also works on meetings you don't organize. To add guests without replacing the list, use **Add Attendees To Event**; to change a single occurrence of a recurring event, use **Update Event Instance**. Returns the updated event. [See the documentation](https://developers.google.com/workspace/calendar/api/v3/reference/events/update)",
+  description: "Update an existing event in Google Calendar. Only the fields you supply change; recurrence, reminders, attendees and all other fields are kept. Set `Show As` to mark the event as Free or Busy, or `Color ID` to recolor it; for a recurring event this changes the whole series. When only `Color ID` and/or `Show As` are supplied, just your own copy changes and no notifications are sent, so this also works on meetings you don't organize. To add guests without replacing the list, use **Add Attendees To Event**; to change a single occurrence of a recurring event, use **Update Event Instance**. Returns the updated event. [See the documentation](https://developers.google.com/workspace/calendar/api/v3/reference/events/update)",
   version: "0.2.0",
   ai: "optimized",
   annotations: {
@@ -67,40 +66,10 @@ export default {
       description: "Configure whether to send notifications about the event, e.g. `all`. Ignored when only `Color ID` and/or `Show As` are supplied: those change only your copy and never notify guests.",
     },
   },
-  methods: {
-    ...createEventCommon.methods,
-    hasSharedFieldInput() {
-      return [
-        this.summary,
-        this.eventStartDate,
-        this.eventEndDate,
-        this.location,
-        this.description,
-        this.parseEmails(this.attendees).length,
-        this.repeatFrequency,
-        this.repeatInterval,
-        this.repeatTimes,
-        this.repeatUntil,
-        this.repeatSpecificDays?.length,
-        this.timeZone,
-      ].some(Boolean);
-    },
-  },
+  methods: createEventCommon.methods,
   async run({ $ }) {
-    if ((this.colorId || this.transparency) && !this.hasSharedFieldInput()) {
-      const response = await this.googleCalendar.patchEvent({
-        calendarId: this.calendarId,
-        eventId: this.eventId,
-        sendUpdates: constants.SEND_UPDATES_NONE,
-        requestBody: {
-          ...(this.colorId && {
-            colorId: this.colorId,
-          }),
-          ...(this.transparency && {
-            transparency: this.transparency,
-          }),
-        },
-      });
+    if (this.isPersonalFieldsOnlyUpdate()) {
+      const response = await this.patchPersonalFields(this.eventId);
 
       $.export("$summary", `Successfully updated your copy of event: "${response.id}"`);
 

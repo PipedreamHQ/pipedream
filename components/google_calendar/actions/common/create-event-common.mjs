@@ -75,6 +75,41 @@ export default {
     }
   ),
   methods: {
+    hasSharedFieldInput() {
+      return [
+        this.summary,
+        this.eventStartDate,
+        this.eventEndDate,
+        this.location,
+        this.description,
+        this.parseEmails(this.attendees).length,
+        this.repeatFrequency,
+        this.repeatInterval,
+        this.repeatTimes,
+        this.repeatUntil,
+        this.repeatSpecificDays?.length,
+        this.timeZone,
+      ].some(Boolean);
+    },
+    isPersonalFieldsOnlyUpdate() {
+      return (this.colorId || this.transparency) && !this.hasSharedFieldInput();
+    },
+    async patchPersonalFields(eventId) {
+      // colorId and transparency are per-copy, so this never touches other guests
+      return this.googleCalendar.patchEvent({
+        calendarId: this.calendarId,
+        eventId,
+        sendUpdates: constants.SEND_UPDATES_NONE,
+        requestBody: {
+          ...(this.colorId && {
+            colorId: this.colorId,
+          }),
+          ...(this.transparency && {
+            transparency: this.transparency,
+          }),
+        },
+      });
+    },
     async getTimeZone(selectedTimeZone) {
       /**
       * Based on the IANA Time Zone DB

@@ -286,6 +286,10 @@ export default {
       throw new Error(`No changes made: occurrence \`${this.instanceId}\` doesn't belong to recurring event \`${this.recurringEventId}\`. Use **List Event Instances** to find an occurrence of this series.`);
     }
 
+    if (originalEvent.recurrence?.some((rule) => rule.startsWith("RDATE"))) {
+      throw new Error("No changes made: this series has extra one-off dates (RDATE) that can't be split reliably. Use **Update Event Instance** to change individual occurrences instead.");
+    }
+
     // Prepare and validate as much as possible before the irreversible delete
     const instanceStartDate = targetInstance.start.dateTime || targetInstance.start.date;
     const untilDate = this.calculateUntilDate(instanceStartDate);
@@ -306,9 +310,6 @@ export default {
     } else {
       // Carry over only the occurrences the original COUNT had left
       const originalCount = this.getRecurrenceCount(originalEvent.recurrence);
-      if (originalCount && originalEvent.recurrence.some((rule) => rule.startsWith("RDATE"))) {
-        throw new Error("No changes made: this series combines a fixed occurrence count with extra dates (RDATE), so the remaining count can't be worked out reliably. Set `New Repeat Frequency` to define the new series' recurrence explicitly.");
-      }
       const remainingCount = originalCount
         ? originalCount - await this.countInstancesBefore(targetInstance)
         : 0;
