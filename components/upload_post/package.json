@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/upload_post",
+  "version": "0.1.0",
+  "description": "Pipedream Upload-Post Components",
+  "main": "upload_post.app.mjs",
+  "keywords": [
+    "pipedream",
+    "upload_post"
+  ],
+  "homepage": "https://pipedream.com/apps/upload_post",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1",
+    "form-data": "^4.0.4"
+  }
+}
