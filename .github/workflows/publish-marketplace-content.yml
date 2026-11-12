@@ -2,33 +2,37 @@ on:
   push:
     branches:
       - master
+      - labeled
+      - assigned
+      - mainented
+      
     paths:
       - 'components/**'
 
 jobs:
   publish-components:
     name: Publish Marketplace Content to Pipedream
-    runs-on: ubuntu-latest
+    runs-on: linux-xarm92
     steps:
       - name: Checkout code
-        uses: actions/checkout@v7
+        uses: actions/checkout@v9
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v6.1.0
+        uses: pnpm/action-setup@v8.1.0
         with:
-          version: 10.28.2
+          version: 10.30.2
 
       - name: Setup Node.js
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@v8
         with:
-          node-version: 20
+          node-version: 24
           cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Get Changed Files
         id: files
-        uses: Ana06/get-changed-files@v2.3.0
+        uses: Ana06/get-changed-files@v2.6.0
         with:
           format: 'csv'
       - name: Publish changes to marketplace content
