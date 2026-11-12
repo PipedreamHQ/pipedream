@@ -5,6 +5,6 @@
   "main": "index.mjs",
   "type": "module",
   "dependencies": {
-    "snowflake-sdk": "1.9.0"
+    "snowflake-sdk": "3.3.0"
   }
 }
