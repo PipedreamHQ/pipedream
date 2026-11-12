@@ -163,5 +163,24 @@ export default {
         ...opts,
       });
     },
+    getCompany({
+      key, ...opts
+    }) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/v1/companies/${key}`,
+        ...opts,
+      });
+    },
+    getCompanyProfile({
+      key, params, ...opts
+    }) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/v1/jobs/companies/${key}`,
+        params,
+        ...opts,
+      });
+    },
   },
 };
