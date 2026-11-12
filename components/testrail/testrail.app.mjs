@@ -96,11 +96,11 @@ export default {
     },
     /**
      * Fetches a TestRail list, following `offset` pages (250 per page) until `limit` items are
-     * collected or the list ends. `key` is the collection key of the response (`cases`, `runs`...).
+     * collected or the list ends. `collection` is the response key (`cases`, `runs`...).
      * Older instances return a bare array; that is handled too.
      */
     async paginate({
-      endpoint, params = {}, key, limit = PAGE_SIZE,
+      endpoint, params = {}, collection, limit = PAGE_SIZE,
     }) {
       const items = [];
       let truncated = false;
@@ -117,7 +117,7 @@ export default {
         });
         const batch = Array.isArray(page)
           ? page
-          : page[key] || [];
+          : page[collection] || [];
         items.push(...batch);
         const hasNext = Array.isArray(page)
           ? batch.length === pageSize
@@ -152,7 +152,7 @@ export default {
       }
       const { items } = await this.paginate({
         endpoint: `get_suites/${projectId}`,
-        key: "suites",
+        collection: "suites",
       });
       return items.map(({ id }) => id);
     },

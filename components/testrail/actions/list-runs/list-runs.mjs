@@ -84,7 +84,7 @@ export default {
           : Number(this.isCompleted),
         created_after: utils.toUnixSeconds(this.createdAfter),
       },
-      key: "runs",
+      collection: "runs",
       limit: Math.min(this.limit || 20, 250),
     });
     const fields = this.fields?.length

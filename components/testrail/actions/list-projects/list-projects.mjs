@@ -34,7 +34,7 @@ export default {
           ? undefined
           : Number(this.isCompleted),
       },
-      key: "projects",
+      collection: "projects",
       limit: 1000,
     });
     const projects = items.map(({

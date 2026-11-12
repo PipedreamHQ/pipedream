@@ -120,7 +120,7 @@ export default {
       }),
       suites: async () => (await this.app.paginate({
         endpoint: `get_suites/${this.projectId}`,
-        key: "suites",
+        collection: "suites",
       })).items.map(({
         id, name, description, is_completed,
       }) => ({

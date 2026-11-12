@@ -43,7 +43,7 @@ export default {
         params: {
           suite_id: suiteId,
         },
-        key: "sections",
+        collection: "sections",
         limit: 1000,
       }),
     );

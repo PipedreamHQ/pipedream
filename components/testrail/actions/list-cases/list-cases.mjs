@@ -112,7 +112,7 @@ export default {
           type_id: utils.csv(this.typeIds),
           updated_after: utils.toUnixSeconds(this.updatedAfter),
         },
-        key: "cases",
+        collection: "cases",
         limit: MAX_LIMIT,
       }),
     );

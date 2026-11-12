@@ -69,7 +69,7 @@ export default {
       params: {
         status_id: utils.csv(statusIds),
       },
-      key: "results",
+      collection: "results",
       limit: Math.min(this.limit || 10, 250),
     });
     const fields = this.fields?.length
