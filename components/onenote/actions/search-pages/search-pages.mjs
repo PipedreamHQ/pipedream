@@ -1,56 +1,17 @@
 import { ConfigurationError } from "@pipedream/platform";
 import { EXPAND_PAGE_OPTIONS } from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
 import app from "../../onenote.app.mjs";
-
-// OData $filter requires at least one comparison operator or filter function.
-// Free-text like "dinner" or "title:dinner" has neither and will 400 at Graph.
-const ODATA_OPERATORS = [
-  " eq ",
-  " ne ",
-  " gt ",
-  " ge ",
-  " lt ",
-  " le ",
-  " and ",
-  " or ",
-  " not ",
-  " has ",
-];
-
-const ODATA_FUNCTIONS = [
-  "startswith(",
-  "endswith(",
-  "contains(",
-  "tolower(",
-  "toupper(",
-  "length(",
-  "indexof(",
-  "substring(",
-];
-
-function looksLikeOData(filter) {
-  const lower = ` ${filter.toLowerCase()} `;
-  if (ODATA_OPERATORS.some((op) => lower.includes(op))) return true;
-  if (ODATA_FUNCTIONS.some((fn) => lower.includes(fn))) return true;
-  return false;
-}
-
-// Escape single quotes for safe embedding in OData string literals.
-function escapeOData(str) {
-  return str.replace(/'/g, "''");
-}
 
 export default {
   key: "onenote-search-pages",
   name: "Search Pages",
-  description: "Search and list OneNote pages. Supports free-text title search, OData filtering, expansion of related resources, and pagination."
-    + " Use `search` for natural-language queries against page titles (e.g., `weekly notes`, `feeding schedule`). Translated server-side to a case-insensitive `contains` filter on the page title."
-    + " Use `filter` for structured OData queries (e.g., `createdDateTime gt 2026-01-01T00:00:00Z`). `search` and `filter` can be combined and are joined with `and`."
-    + " Limitation: Microsoft Graph does not support searching OneNote page **body content** via this endpoint. To match on content, retrieve a candidate set by title and then call **Get Page Content** for each."
-    + " Use **Get Page Content** to retrieve the body of a specific page after locating it here. Use **Get Page** for page metadata only."
-    + " Returns the array of matching pages and a `nextLink` URL for pagination when more results are available."
+  description: "Search and list OneNote pages by title, creation date or other metadata. Use `search` for a case-insensitive title match (e.g., `weekly notes`, `feeding schedule`) and `filter` for structured OData queries (e.g., `createdDateTime gt 2026-01-01T00:00:00Z`); they are combined with `and`."
+    + " Limitation: Microsoft Graph cannot search page **body content** here. To match on content, find candidates by title, then call **Get Page Content** on each. Use **Get Page** for a single page's metadata."
+    + " Set `sectionId` to list or search the pages of one section (find it with **Search Sections**); on accounts with many sections this is the reliable path, because without it the action must query each section in turn."
+    + " Returns `{pages, nextLink}`; each page has its `id`, `title`, timestamps and links. A request returns at most `top` pages (default 20, max 100). If you get exactly that many, more may exist: call again with `skip` set to the number of pages already received. Example: `top` 20 then `skip` 20 returns pages 21-40."
     + " [See the documentation](https://learn.microsoft.com/en-us/graph/api/onenote-list-pages?view=graph-rest-1.0&tabs=http)",
-  version: "1.0.1",
+  version: "1.1.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -60,6 +21,14 @@ export default {
   },
   props: {
     app,
+    sectionId: {
+      propDefinition: [
+        app,
+        "sectionId",
+      ],
+      description: "Optional. Only list pages in this section, e.g. `1-a745a153-ea3f-4b6e-8f16-9163bfe64932` (use **Search Sections** to find the section ID in its `id` field). Recommended for accounts with many sections: Microsoft Graph rejects account-wide page queries there (error 20266), and this action then falls back to querying every section one at a time, which is slower. When set, use `skip` to page through the results.",
+      optional: true,
+    },
     search: {
       propDefinition: [
         app,
@@ -84,12 +53,19 @@ export default {
     top: {
       type: "integer",
       label: "Top",
-      description: "Number of pages to return (max 100). Defaults to the Graph API's standard page size when omitted.",
+      description: "Number of pages to return, e.g. `20` (max 100). Defaults to 20 when omitted.",
+      optional: true,
+    },
+    skip: {
+      type: "integer",
+      label: "Skip",
+      min: 0,
+      description: "Number of pages to skip before returning results, for paging through long lists, e.g. `20` to get the second page when `top` is 20. Defaults to 0.",
       optional: true,
     },
   },
   async run({ $ }) {
-    if (this.filter && !looksLikeOData(this.filter)) {
+    if (this.filter && !utils.looksLikeOData(this.filter)) {
       throw new ConfigurationError(
         `The Filter field expects OData $filter syntax, but received "${this.filter}".`
         + " For natural-language queries, use the **Search** field instead"
@@ -101,23 +77,20 @@ export default {
     }
 
     // Translate `search` to a title contains filter, then combine with user filter.
-    const filterParts = [];
-    if (this.search) {
-      filterParts.push(`contains(tolower(title), '${escapeOData(this.search.toLowerCase())}')`);
-    }
-    if (this.filter) {
-      filterParts.push(`(${this.filter})`);
-    }
-    const combinedFilter = filterParts.length
-      ? filterParts.join(" and ")
-      : undefined;
+    const combinedFilter = utils.buildSearchFilter({
+      search: this.search,
+      filter: this.filter,
+      property: "title",
+    });
 
     const response = await this.app.getPages({
       $,
+      sectionId: this.sectionId,
       params: {
         "$filter": combinedFilter,
         "$expand": this.expand,
         "$top": this.top,
+        "$skip": this.skip,
       },
     });
 
