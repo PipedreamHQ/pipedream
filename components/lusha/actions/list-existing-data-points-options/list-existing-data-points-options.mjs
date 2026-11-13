@@ -4,7 +4,7 @@ export default {
   key: "lusha-list-existing-data-points-options",
   name: "List Existing Data Points Options",
   description: "Retrieves available options for the Existing Data Points field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

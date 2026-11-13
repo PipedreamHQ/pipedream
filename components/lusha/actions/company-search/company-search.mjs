@@ -1,11 +1,12 @@
-import { parseObject } from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
+import { buildCompanyInclude } from "../../common/utils.mjs";
 import lusha from "../../lusha.app.mjs";
 
 export default {
   key: "lusha-company-search",
   name: "Search Companies",
-  description: "Search for companies using various filters. [See the documentation](https://docs.lusha.com/apis/openapi/company-search-and-enrich/searchprospectingcompanies)",
-  version: "0.0.5",
+  description: "Search Lusha's company database with prospecting filters (names, domains, locations, sizes, revenues, SIC and NAICS codes). Returns company previews with an `id` for each result; pass those IDs to **Enrich Companies** to reveal full company data. [See the documentation](https://docs.lusha.com/api-reference/prospecting/prospecting-companies)",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -56,72 +57,23 @@ export default {
         "naicsCodes",
       ],
     },
+    limit: {
+      propDefinition: [
+        lusha,
+        "limit",
+      ],
+    },
   },
   async run({ $ }) {
-    const {
-      lusha,
-      names,
-      domains,
-      locations,
-      sizes,
-      revenues,
-      sicCodes,
-      naicsCodes,
-    } = this;
-
-    const include = {
-      ...(names
-        ? {
-          names: parseObject(names),
-        }
-        : undefined
-      ),
-      ...(domains
-        ? {
-          domains: parseObject(domains),
-        }
-        : undefined
-      ),
-      ...(locations
-        ? {
-          locations: parseObject(locations).map((country) => ({
-            country,
-          })),
-        }
-        : undefined
-      ),
-      ...(sizes
-        ? {
-          sizes: parseObject(sizes),
-        }
-        : undefined
-      ),
-      ...(revenues
-        ? {
-          revenues: parseObject(revenues),
-        }
-        : undefined
-      ),
-      ...(sicCodes
-        ? {
-          sicCodes: parseObject(sicCodes),
-        }
-        : undefined
-      ),
-      ...(naicsCodes
-        ? {
-          naicsCodes: parseObject(naicsCodes),
-        }
-        : undefined
-      ),
-    };
-
+    const include = buildCompanyInclude(this);
     if (Object.keys(include).length === 0) {
-      throw new Error("At least one company filter must be provided");
+      throw new ConfigurationError("Provide at least one company filter.");
     }
 
-    const response = await lusha.searchCompanies({
+    const response = this.lusha.paginate({
       $,
+      maxResults: this.limit,
+      fn: this.lusha.searchCompanies,
       data: {
         filters: {
           companies: {
@@ -131,8 +83,12 @@ export default {
       },
     });
 
-    $.export("$summary", "Successfully searched for companies");
+    const companies = [];
+    for await (const item of response) {
+      companies.push(item);
+    }
 
-    return response;
+    $.export("$summary", `Found ${companies.length} companies`);
+    return companies;
   },
 };

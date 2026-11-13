@@ -6,7 +6,7 @@ export default {
   key: "lusha-search-company-signals",
   name: "Search Company Signals",
   description: "Search for company signals using identifiers like domain name or company name. This endpoint combines search and signal enrichment in a single request. [See the documentation](https://docs.lusha.com/apis/openapi/signals/searchcompanysignals)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,12 +1,11 @@
 import { ConfigurationError } from "@pipedream/platform";
-import { FILTER_BY_OPTIONS } from "../../common/constants.mjs";
 import lusha from "../../lusha.app.mjs";
 
 export default {
   key: "lusha-single-contact-search",
   name: "Search Single Contact",
-  description: "Search for a single contact using various filters. [See the documentation](https://docs.lusha.com/apis/index2/person/personcontroller_searchsinglecontact)",
-  version: "0.0.1",
+  description: "Find one specific person and reveal their contact data in a single call. Identify the person by `Email`, `LinkedIn URL`, or `First Name` + `Last Name` together with `Company Name` or `Company Domain`. Use `Reveal Emails` / `Reveal Phones` to choose what to unlock; each revealed field is billed. Returns the matched contact, or a \"No contact found\" summary when Lusha has no match. [See the documentation](https://docs.lusha.com/api-reference/search-&-enrich/search-and-enrich-contacts)",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -18,25 +17,25 @@ export default {
     firstName: {
       type: "string",
       label: "First Name",
-      description: "First name of the person",
+      description: "First name of the person. Use together with `Last Name` and a company name or domain.",
       optional: true,
     },
     lastName: {
       type: "string",
       label: "Last Name",
-      description: "Last name of the person",
+      description: "Last name of the person. Use together with `First Name` and a company name or domain.",
       optional: true,
     },
     companyName: {
       type: "string",
       label: "Company Name",
-      description: "The name of the company the person works at",
+      description: "The name of the company the person works at, e.g. `Lusha`",
       optional: true,
     },
     companyDomain: {
       type: "string",
       label: "Company Domain",
-      description: "The domain name of the company",
+      description: "The domain name of the company, e.g. `lusha.com`",
       optional: true,
     },
     email: {
@@ -48,21 +47,8 @@ export default {
     linkedinUrl: {
       type: "string",
       label: "LinkedIn URL",
-      description: "The LinkedIn URL of the person",
+      description: "The LinkedIn profile URL of the person, e.g. `https://www.linkedin.com/in/username`",
       optional: true,
-    },
-    refreshJobInfo: {
-      type: "boolean",
-      label: "Refresh Job Info",
-      description: "Set to true to refresh and update the job details for the person. This ensures that outdated job information is replaced with the most recent data",
-      optional: true,
-    },
-    filterBy: {
-      type: "string",
-      label: "Filter By",
-      description: "Filters results based on specific contact details. By default, results will include contacts with at least one contact detail",
-      optional: true,
-      options: FILTER_BY_OPTIONS,
     },
     revealEmails: {
       type: "boolean",
@@ -78,39 +64,47 @@ export default {
     },
   },
   async run({ $ }) {
-    try {
-      const response = await this.lusha.searchSingleContact({
-        $,
-        params: {
-          firstName: this.firstName,
-          lastName: this.lastName,
-          companyName: this.companyName,
-          companyDomain: this.companyDomain,
-          email: this.email,
-          linkedinUrl: this.linkedinUrl,
-          refreshJobInfo: this.refreshJobInfo,
-          filterBy: this.filterBy,
-          revealEmails: this.revealEmails,
-          revealPhones: this.revealPhones,
-        },
-      });
-      let summary = "";
-      if (response.contact?.error?.name) {
-
-        if (response.contact.error.name !== "EMPTY_DATA") {
-          throw new Error(response.contact.error.message || response.contact.error.name);
-        }
-        summary = "No contact found";
-      }
-
-      if (response.contact.data?.personId) {
-        summary = `Successfully found a contact with ID: ${response.contact.data.personId}`;
-      }
-      $.export("$summary", summary);
-
-      return response.contact.data;
-    } catch ({ response }) {
-      throw new ConfigurationError(response?.data?.message);
+    const hasName = this.firstName && this.lastName && (this.companyName || this.companyDomain);
+    if (!this.email && !this.linkedinUrl && !hasName) {
+      throw new ConfigurationError("Provide an `Email`, a `LinkedIn URL`, or `First Name` and `Last Name` with a `Company Name` or `Company Domain`.");
     }
+
+    const reveal = [];
+    if (this.revealEmails) reveal.push("emails");
+    if (this.revealPhones) reveal.push("phones");
+
+    const { results = [] } = await this.lusha.searchAndEnrichContacts({
+      $,
+      data: {
+        contacts: [
+          {
+            firstName: this.firstName,
+            lastName: this.lastName,
+            companyName: this.companyName,
+            companyDomain: this.companyDomain,
+            email: this.email,
+            linkedinUrl: this.linkedinUrl,
+          },
+        ],
+        reveal: reveal.length
+          ? reveal
+          : undefined,
+      },
+    });
+
+    const [
+      contact,
+    ] = results;
+
+    if (!contact || contact.error?.code === "NOT_FOUND") {
+      $.export("$summary", "No contact found");
+      return contact ?? {};
+    }
+    if (contact.error) {
+      throw new Error(contact.error.message || contact.error.code);
+    }
+
+    $.export("$summary", `Successfully found a contact with ID: ${contact.id}`);
+    return contact;
   },
 };

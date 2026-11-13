@@ -1,11 +1,16 @@
-import { parseObject } from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
+import {
+  MAX_PAGE,
+  PAGE_SIZE,
+} from "../../common/constants.mjs";
+import { buildCompanyInclude } from "../../common/utils.mjs";
 import lusha from "../../lusha.app.mjs";
 
 export default {
   key: "lusha-search-and-enrich-companies",
   name: "Search and Enrich Companies",
-  description: "Search for companies and enrich them. [See the documentation](https://docs.lusha.com/apis/openapi/company-search-and-enrich)",
-  version: "0.0.4",
+  description: "Search Lusha's company database with prospecting filters, then enrich every match to reveal full company data, up to `Limit` companies. Enrichment is billed per successful result, so set `Limit` to cap credit usage. To preview matches without enriching, use **Search Companies** instead. [See the documentation](https://docs.lusha.com/api-reference/prospecting/prospecting-companies)",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -64,83 +69,24 @@ export default {
     },
   },
   async run({ $ }) {
-    const {
-      lusha,
-      names,
-      domains,
-      locations,
-      sizes,
-      revenues,
-      sicCodes,
-      naicsCodes,
-    } = this;
-
-    const include = {
-      ...(names
-        ? {
-          names: parseObject(names),
-        }
-        : undefined
-      ),
-      ...(domains
-        ? {
-          domains: parseObject(domains),
-        }
-        : undefined
-      ),
-      ...(locations
-        ? {
-          locations: parseObject(locations).map((country) => ({
-            country,
-          })),
-        }
-        : undefined
-      ),
-      ...(sizes
-        ? {
-          sizes: parseObject(sizes),
-        }
-        : undefined
-      ),
-      ...(revenues
-        ? {
-          revenues: parseObject(revenues),
-        }
-        : undefined
-      ),
-      ...(sicCodes
-        ? {
-          sicCodes: parseObject(sicCodes),
-        }
-        : undefined
-      ),
-      ...(naicsCodes
-        ? {
-          naicsCodes: parseObject(naicsCodes),
-        }
-        : undefined
-      ),
-    };
-
+    const include = buildCompanyInclude(this);
     if (Object.keys(include).length === 0) {
-      throw new Error("At least one company filter must be provided");
+      throw new ConfigurationError("Provide at least one company filter.");
     }
 
     const companies = [];
-    let hasMore, count = 0, page = 0;
+    let page = 0;
+    let hasMore;
 
     do {
-      const {
-        requestId, data = [],
-      } = await lusha.searchCompanies({
+      const remaining = this.limit - companies.length;
+      const { results = [] } = await this.lusha.searchCompanies({
         $,
-        params: {
-          pages: {
-            page,
-            size: 50,
-          },
-        },
         data: {
+          pagination: {
+            page,
+            size: PAGE_SIZE,
+          },
           filters: {
             companies: {
               include,
@@ -148,26 +94,25 @@ export default {
           },
         },
       });
-      hasMore = data.length;
-      const companiesIds = [];
 
-      for (const d of data) {
-        companiesIds.push(d.id);
-        if (++count >= this.limit) {
-          hasMore = false;
-          break;
-        }
+      const ids = results
+        .slice(0, remaining)
+        .map(({ id }) => id)
+        .filter(Boolean);
+
+      if (ids.length) {
+        const { results: enriched = [] } = await this.lusha.enrichCompanies({
+          $,
+          data: {
+            ids,
+          },
+        });
+        companies.push(...enriched);
       }
 
-      const enrichedCompanies = await this.lusha.enrichCompanies({
-        $,
-        data: {
-          requestId,
-          companiesIds,
-        },
-      });
-
-      companies.push(...enrichedCompanies.companies);
+      hasMore = results.length === PAGE_SIZE
+        && companies.length < this.limit
+        && page < MAX_PAGE;
       page++;
     } while (hasMore);
 

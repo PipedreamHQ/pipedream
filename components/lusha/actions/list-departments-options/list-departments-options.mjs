@@ -4,7 +4,7 @@ export default {
   key: "lusha-list-departments-options",
   name: "List Contact Departments Options",
   description: "Retrieves available options for the Contact Departments field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,
