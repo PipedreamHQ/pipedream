@@ -6,7 +6,7 @@ export default {
   key: "linkedin_ads-create-report",
   name: "Create A Report",
   description: "Queries the Analytics Finder to get analytics for the specified entity i.e company, account, campaign. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/ads-reporting/ads-reporting#analytics-finder)",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -18,7 +18,7 @@ export default {
     infoAlert: {
       type: "alert",
       alertType: "info",
-      content: "Please provide at least one facet to get analytics if needed. Eg. **Accounts**.",
+      content: "Please provide at least one facet to get analytics if needed. Eg. **Accounts**. If no facet is provided, the selected **Ad Account Id** is used as the **Accounts** facet.",
     },
     ...common.props,
     adAccountId: {
@@ -97,6 +97,20 @@ export default {
       dateRangeEnd,
       ...arrayProps
     } = this;
+
+    const facets = [
+      "shares",
+      "campaigns",
+      "creatives",
+      "campaignGroups",
+      "accounts",
+    ];
+    const hasFacet = facets.some((key) => arrayProps[key]?.length);
+    if (!hasFacet && adAccountId) {
+      arrayProps.accounts = [
+        app.getSponsoredAccountUrn(adAccountId),
+      ];
+    }
 
     const response = await createReport({
       $,

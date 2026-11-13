@@ -265,6 +265,13 @@ export default {
         content,
       });
     },
+    async createChat({ content }) {
+      return this.makeRequest({
+        method: "post",
+        path: "/chats",
+        content,
+      });
+    },
     async sendChatMessage({
       chatId,
       content,
