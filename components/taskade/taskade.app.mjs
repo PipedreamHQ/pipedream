@@ -44,7 +44,8 @@ export default {
       type: "string",
       label: "Project ID",
       description: "The ID of a project, e.g. `a1b2c3d4e5f6g7h8`."
-        + " Use **List Projects** to find it (the `id` field).",
+        + " The options list only the projects that you opened in Taskade."
+        + " Use **List Projects** to find any project in a folder (the `id` field).",
       async options({ page }) {
         const { items } = await this.listProjects({
           params: {
@@ -272,6 +273,8 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: `/projects/${projectId}/tasks/${taskId}/complete`,
+        // The API rejects an empty body with a JSON content type.
+        data: {},
         ...opts,
       });
     },
@@ -281,6 +284,8 @@ export default {
       return this._makeRequest({
         method: "DELETE",
         path: `/projects/${projectId}/tasks/${taskId}`,
+        // The API rejects an empty body with a JSON content type.
+        data: {},
         ...opts,
       });
     },
