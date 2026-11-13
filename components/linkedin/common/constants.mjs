@@ -1,6 +1,6 @@
 const VERSION_PATH = "rest";
 const BASE_URL = "https://api.linkedin.com/";
-const VERSION_HEADER = "202606";
+const VERSION_HEADER = "202610";
 const RESTLI_PROTOCOL_VERSION = "2.0.0";
 
 const VISIBILITIES = [
