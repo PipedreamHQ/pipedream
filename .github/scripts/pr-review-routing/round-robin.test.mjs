@@ -75,3 +75,10 @@ test("changesRequestedBy uses each reviewer's latest decisive review", () => {
     review("carol", "CHANGES_REQUESTED", "2026-01-03T00:00:00Z"),
   ]), "carol");
 });
+
+test("changesRequestedBy ignores reviews from deleted accounts", () => {
+  assert.equal(changesRequestedBy([
+    { user: null, state: "CHANGES_REQUESTED", submitted_at: "2026-01-02T00:00:00Z" },
+    review("bob", "CHANGES_REQUESTED", "2026-01-01T00:00:00Z"),
+  ]), "bob");
+});

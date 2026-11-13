@@ -81,7 +81,14 @@ export function createNotifier(env = process.env) {
       "x-pd-environment": env.PD_ENVIRONMENT || "production",
     };
 
-    const { ret } = await post(url, body, headers);
+    const { ret, error, os = [] } = await post(url, body, headers);
+
+    // A failed action can still come back as HTTP 200, with the error in the body or logs.
+    const failure = error ?? os.find((entry) => entry.k === "error")?.err;
+
+    if (failure) {
+      throw new Error(`Pipedream ${id} failed: ${JSON.stringify(failure)}`);
+    }
 
     return ret;
   }

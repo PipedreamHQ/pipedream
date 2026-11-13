@@ -38,8 +38,17 @@ function toPr(raw, owner, repo) {
   };
 }
 
+// Titles come from anyone who can open a PR, so escape Slack control characters
+// (otherwise a title like "x > <!channel>" breaks out of the link and pings everyone).
+function escapeSlack(text) {
+  return text
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
 function prLink(pr) {
-  return `<${pr.url}|#${pr.number} ${pr.title}>`;
+  return `<${pr.url}|#${pr.number} ${escapeSlack(pr.title)}>`;
 }
 
 async function markReady({ gh, notifier }, pr, reviewer, isRereview) {
@@ -158,6 +167,12 @@ async function handleReview(ctx, payload) {
 
   if (!reviewer) {
     console.log("No outstanding CHANGES_REQUESTED review, skipping.");
+    return;
+  }
+
+  // The author has already re-requested this reviewer, so the card should stay Ready.
+  if (raw.requested_reviewers.some((user) => user.login === reviewer)) {
+    console.log(`${reviewer} has already been re-requested, skipping.`);
     return;
   }
 

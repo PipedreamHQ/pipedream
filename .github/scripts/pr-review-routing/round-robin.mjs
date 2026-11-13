@@ -37,7 +37,8 @@ export function changesRequestedBy(reviews) {
   const latestByUser = new Map();
 
   for (const review of reviews) {
-    if (DECISIVE_STATES.has(review.state)) {
+    // GitHub returns `user: null` for reviews by deleted accounts.
+    if (review.user && DECISIVE_STATES.has(review.state)) {
       latestByUser.set(review.user.login, review);
     }
   }

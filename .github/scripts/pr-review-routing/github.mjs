@@ -41,12 +41,26 @@ export function createGitHub(token) {
 
   const pullPath = ({ owner, repo, number }) => `/repos/${owner}/${repo}/pulls/${number}`;
 
+  async function listReviews(pr) {
+    const perPage = 100;
+    const reviews = [];
+
+    for (let page = 1; ; page++) {
+      const batch = await rest("GET", `${pullPath(pr)}/reviews?per_page=${perPage}&page=${page}`);
+      reviews.push(...batch);
+
+      if (batch.length < perPage) {
+        return reviews;
+      }
+    }
+  }
+
   return {
     graphql,
 
     getPull: (pr) => rest("GET", pullPath(pr)),
 
-    listReviews: (pr) => rest("GET", `${pullPath(pr)}/reviews?per_page=100`),
+    listReviews,
 
     requestReviewer: (pr, login) => rest("POST", `${pullPath(pr)}/requested_reviewers`, {
       reviewers: [login],
