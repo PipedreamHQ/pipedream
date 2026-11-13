@@ -4,7 +4,7 @@ export default {
   key: "asana-list-task-templates",
   name: "List Task Templates",
   description: "Returns task templates in an Asana project, up to 100 by default (increase `maxResults` for more) — not guaranteed to include every template in a project with many. Use this to discover task template GIDs before calling **Create Task from Template** (the `taskTemplate` prop). Example: call with `project: '1204567890123456'` → returns templates like `[{gid: '1205678901234567', name: 'Bug Report Template'}]`. [See the documentation](https://developers.asana.com/reference/gettasktemplates)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {

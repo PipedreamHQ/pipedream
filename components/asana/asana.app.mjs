@@ -4,6 +4,9 @@ import { axios } from "@pipedream/platform";
 // auto-populating dropdowns via async `options()`. Their propDefinitions are
 // suffixed `Async` and kept separate from the static, MCP-safe ones actions use.
 const DEFAULT_LIMIT = 25;
+// Longest `Retry-After` (seconds) we'll wait out before retrying a 429. Three
+// waits of this length stay well inside the 60s tool timeout.
+const MAX_RETRY_AFTER_SECONDS = 10;
 
 export default {
   type: "app",
@@ -312,7 +315,7 @@ export default {
      *
      * @returns {string} The request result data.
      */
-    _makeRequest({
+    async _makeRequest({
       path, $ = this, ...opts
     }) {
       const config = {
@@ -320,7 +323,30 @@ export default {
         headers: this._headers(),
         ...opts,
       };
-      return axios($, config);
+      // Asana rate-limits per user and answers 429 with a `Retry-After` (seconds).
+      // Wait exactly that long and retry a few times instead of failing the whole
+      // action. Never retry before it elapses: that fails again and can use up more
+      // quota. If it's longer than we can wait within the tool timeout, surface the
+      // 429 right away rather than retrying early.
+      const maxRetries = 3;
+      for (let attempt = 0; ; attempt++) {
+        try {
+          return await axios($, config);
+        } catch (err) {
+          if (err?.response?.status !== 429 || attempt >= maxRetries) {
+            throw err;
+          }
+          const retryAfter = Number(err.response.headers?.["retry-after"]);
+          const hasRetryAfter = Number.isFinite(retryAfter) && retryAfter >= 0;
+          if (hasRetryAfter && retryAfter > MAX_RETRY_AFTER_SECONDS) {
+            throw err;
+          }
+          const delayMs = hasRetryAfter
+            ? retryAfter * 1000
+            : (2 ** attempt) * 1000 + Math.floor(Math.random() * 500);
+          await new Promise((resolve) => setTimeout(resolve, delayMs));
+        }
+      }
     },
     /**
      * Create a webhook
@@ -419,6 +445,22 @@ export default {
     getProjects(opts = {}) {
       return this._makeRequest({
         path: "projects",
+        ...opts,
+      });
+    },
+    /**
+     * Search a workspace with Asana's typeahead (one request, not paginated).
+     * Matches the start of words, case-insensitively, and returns the top results.
+     *
+     * @param {string} workspaceId - The workspace GID.
+     *
+     * @returns {object} Typeahead results in `data`.
+     */
+    getTypeahead({
+      workspaceId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `workspaces/${workspaceId}/typeahead`,
         ...opts,
       });
     },

@@ -4,7 +4,7 @@ export default {
   key: "asana-list-users",
   name: "List Users",
   description: "Retrieves all users in a specified Asana workspace. Use this to get user GIDs for assignee or owner fields in **Create Task** or **Update Task**. Requires a workspace GID from **List Workspaces**. Results are paginated; pass the returned `next_offset` as `offset` to fetch additional pages. Example: call with `workspace: '1200123456789012'`, `optFields: ['name','email']` → returns `{data: [{gid: '1198765432109876', name: 'Jane Doe', email: 'jane@acme.com'}, ...]}`. [See the documentation](https://developers.asana.com/reference/getusersforworkspace)",
-  version: "1.0.3",
+  version: "1.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

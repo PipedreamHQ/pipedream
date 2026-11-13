@@ -4,7 +4,7 @@ export default {
   key: "asana-search-user-projects",
   name: "Get list of user projects",
   description: "Returns all projects in an Asana workspace where the specified user is a member. Omit `user` (or pass `\"me\"`) for the authenticated user's own projects — don't guess a GID from **List Users** when the request is about \"my\" projects. Results are workspace-wide and not scoped to any portfolio; archived projects may be included. If you need portfolio-scoped results, use **List Portfolios** and **List Portfolio Items** instead. Example: call with `workspace: '1200123456789012'` (no `user`) → returns `[{gid: '1204567890123456', name: 'Website Redesign'}, ...]` for projects the authenticated user is a member of. [See the documentation](https://developers.asana.com/docs/get-multiple-projects)",
-  version: "0.7.0",
+  version: "0.7.1",
   ai: "optimized",
   annotations: {
     destructiveHint: false,
