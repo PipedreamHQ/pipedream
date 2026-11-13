@@ -5,7 +5,7 @@ export default {
   key: "asana-update-task",
   name: "Update Task",
   description: "Updates one or more fields on an existing Asana task (name, assignee, due date, completion status, notes, custom fields, etc.). All fields are optional — supply only the ones you want to change; unchanged fields retain their current values. Use **Find Task by ID** or **Search Tasks** to obtain the task GID first. Returns the updated task record. Example: call with `task_gid: '1202345678901234'`, `completed: true` → marks the task complete and returns the updated record. [See the documentation](https://developers.asana.com/docs/update-a-task)",
-  version: "0.4.9",
+  version: "0.4.10",
   ai: "optimized",
   annotations: {
     destructiveHint: false,

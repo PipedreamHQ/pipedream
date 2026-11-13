@@ -312,7 +312,7 @@ export default {
      *
      * @returns {string} The request result data.
      */
-    _makeRequest({
+    async _makeRequest({
       path, $ = this, ...opts
     }) {
       const config = {
@@ -320,7 +320,23 @@ export default {
         headers: this._headers(),
         ...opts,
       };
-      return axios($, config);
+      // Asana rate-limits per user and answers 429 with a `Retry-After` (seconds).
+      // Retry a few times with that delay instead of failing the whole action.
+      const maxRetries = 3;
+      for (let attempt = 0; ; attempt++) {
+        try {
+          return await axios($, config);
+        } catch (err) {
+          if (err?.response?.status !== 429 || attempt >= maxRetries) {
+            throw err;
+          }
+          const retryAfter = Number(err.response.headers?.["retry-after"]);
+          const delayMs = Number.isFinite(retryAfter) && retryAfter >= 0
+            ? Math.min(retryAfter, 10) * 1000
+            : (2 ** attempt) * 1000 + Math.floor(Math.random() * 500);
+          await new Promise((resolve) => setTimeout(resolve, delayMs));
+        }
+      }
     },
     /**
      * Create a webhook

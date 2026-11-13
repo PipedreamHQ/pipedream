@@ -5,7 +5,7 @@ export default {
   key: "asana-create-task",
   name: "Create Task",
   description: "Creates a new task in Asana. Use this to add a standalone task to a workspace or project. For subtasks, use **Create Subtask** instead; for template-based tasks, use **Create Task from Template**. Returns the new task record including its `gid`. Example: call with `taskName: 'Review Q3 report'`, `workspace: '1200123456789012'`, `due_on: '2026-10-01'` → returns `{gid: '1202345678901234', name: 'Review Q3 report', resource_type: 'task'}`. [See the documentation](https://developers.asana.com/docs/create-a-task)",
-  version: "1.0.0",
+  version: "1.0.1",
   ai: "optimized",
   annotations: {
     destructiveHint: false,

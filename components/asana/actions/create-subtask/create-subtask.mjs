@@ -5,7 +5,7 @@ export default {
   key: "asana-create-subtask",
   name: "Create Subtask",
   description: "Creates a new subtask nested under an existing parent task. Use this when the work is a sub-item of another task; for top-level tasks use **Create Task**. The parent task GID is required. Returns the new subtask record including its `gid`. Example: call with `task_gid: '1202345678901234'`, `subtaskName: 'Write first draft'`, `due_on: '2026-10-05'` → returns `{gid: '1207890123456789', name: 'Write first draft', resource_type: 'task'}`. [See the documentation](https://developers.asana.com/docs/create-a-subtask)",
-  version: "1.0.0",
+  version: "1.0.1",
   ai: "optimized",
   annotations: {
     destructiveHint: false,
