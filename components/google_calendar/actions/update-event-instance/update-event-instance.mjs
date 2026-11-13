@@ -4,8 +4,8 @@ import createEventCommon from "../common/create-event-common.mjs";
 export default {
   key: "google_calendar-update-event-instance",
   name: "Update Event Instance",
-  description: "Update a single occurrence of a recurring event. Changes apply only to that instance and only the fields you supply change; reminders, attendees and all other fields are kept. Set `Show As` to mark the instance as Free or Busy. Use **List Event Instances** to find the instance, or **Update Event** to change the whole series. Returns the updated instance. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/update)",
-  version: "0.1.1",
+  description: "Update a single occurrence of a recurring event. Changes apply only to that instance and only the fields you supply change; reminders, attendees and all other fields are kept. Set `Show As` to mark the instance as Free or Busy, or `Color ID` to recolor it. When only `Color ID` and/or `Show As` are supplied, just your own copy changes and no notifications are sent, so this also works on meetings you don't organize. Use **List Event Instances** to find the instance, or **Update Event** to change the whole series. Returns the updated instance. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/update)",
+  version: "0.2.0",
   ai: "optimized",
   type: "action",
   annotations: {
@@ -84,6 +84,7 @@ export default {
         googleCalendar,
         "colorId",
       ],
+      description: "The color of this instance on your calendar only, e.g. `5`. Use **List Color ID Options** and pass an option's `value`.",
     },
     transparency: {
       propDefinition: [
@@ -102,10 +103,19 @@ export default {
         googleCalendar,
         "sendUpdates",
       ],
+      description: "Configure whether to send notifications about the event, e.g. `all`. Ignored when only `Color ID` and/or `Show As` are supplied: those change only your copy and never notify guests.",
     },
   },
   methods: createEventCommon.methods,
   async run({ $ }) {
+    if (this.isPersonalFieldsOnlyUpdate()) {
+      const response = await this.patchPersonalFields(this.instanceId);
+
+      $.export("$summary", `Successfully updated your copy of event instance \`${response.id}\``);
+
+      return response;
+    }
+
     const currentEvent = await this.googleCalendar.getEvent({
       calendarId: this.calendarId,
       eventId: this.instanceId,

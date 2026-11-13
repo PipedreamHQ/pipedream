@@ -1,4 +1,21 @@
+const DATE_INPUT_REGEX = /^(\d{4})-(\d{2})-(\d{2})(?:T([01]\d|2[0-3]):[0-5]\d:[0-5]\d(?:\.\d+)?(?:Z|[+-](?:[01]\d|2[0-3]):[0-5]\d)?)?$/;
+
 export default {
+  isValidDateInput(value) {
+    const match = DATE_INPUT_REGEX.exec(value);
+    if (!match) {
+      return false;
+    }
+    const [
+      , year,
+      month,
+      day,
+    ] = match.map(Number);
+    const date = new Date(Date.UTC(year, month - 1, day));
+    return date.getUTCFullYear() === year
+      && date.getUTCMonth() === month - 1
+      && date.getUTCDate() === day;
+  },
   filterEmptyValues(obj) {
     if (!obj) {
       return obj;
