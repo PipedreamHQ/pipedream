@@ -4,7 +4,7 @@ export default {
   key: "snowflake-list-warehouses-options",
   name: "List Warehouse Name Options",
   description: "Retrieves available options for the Warehouse Name field.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,
