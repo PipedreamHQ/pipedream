@@ -8521,6 +8521,12 @@ importers:
 
   components/keen_io: {}
 
+  components/keenable:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
+
   components/kenjo:
     dependencies:
       '@pipedream/platform':
