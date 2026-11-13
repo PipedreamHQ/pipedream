@@ -30,7 +30,7 @@ export default {
     cursor: {
       type: "string",
       label: "Cursor",
-      description: "Pagination cursor from a previous response's `next_cursor` — returns the next page of feed records",
+      description: "Pagination cursor (a record offset, e.g. `50`) supplied by the `next_cursor` field of a previous **Search Work Feed** result — returns the next page of feed records",
       optional: true,
     },
   },
