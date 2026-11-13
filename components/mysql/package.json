@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@pipedream/platform": "^2.0.2",
-    "mysql2": "^3.9.2",
+    "mysql2": "^3.23.1",
     "uuid": "^8.3.2"
   }
 }
