@@ -1,0 +1,29 @@
+name: PR Review Routing (capture review)
+
+# pull_request_review has no _target variant, so fork PRs get no secrets here.
+# This job only records the PR number; "PR Review Routing (apply review)" picks it
+# up via workflow_run, re-reads the review state from the API, and does the work.
+on:
+  pull_request_review:
+    types: [submitted]
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    name: Capture review
+    if: github.event.review.state == 'changes_requested'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Write payload
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          echo "{\"number\": ${PR_NUMBER}}" > review-event.json
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: review-event
+          path: review-event.json
+          retention-days: 1
