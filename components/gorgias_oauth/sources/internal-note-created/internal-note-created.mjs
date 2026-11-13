@@ -7,7 +7,7 @@ export default {
   key: "gorgias_oauth-internal-note-created",
   name: "New Internal Note",
   description: "Emit new event when an internal note is created on a ticket. [See the documentation](https://developers.gorgias.com/reference/the-event-object)",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "source",
   props: {
     ...base.props,
@@ -44,7 +44,7 @@ export default {
      * @returns {boolean} Whether the message is relevant
      */
     isRelevant(message) {
-      return message.source.type === "internal-note"
+      return message.source?.type === "internal-note"
         && (!this.ticketId || message.ticket_id === this.ticketId)
         && (!this.sender || message.sender?.email === this.sender);
     },
@@ -53,7 +53,11 @@ export default {
      * @param {object} event - The incoming event
      */
     async processEvent(event) {
-      const { message } = event;
+      const message = event?.message;
+      if (!message?.id) {
+        console.log("Skipping webhook delivery without a message");
+        return;
+      }
       if (this.isRelevant(message)) {
         this.emitEvent(message);
       }

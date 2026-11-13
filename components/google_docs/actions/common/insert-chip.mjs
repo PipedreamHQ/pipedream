@@ -46,6 +46,12 @@ export default {
       ],
       description: "For a multi-tab document, the ID of the tab to insert into (e.g. `t.0`); get IDs from **List Tabs**, or use the ID returned by **Create Tab**. Required when the document has more than one tab and the chip is placed by **Position**: the tool will not guess, so a chip never lands in the first tab by accident. With **Placeholder**, omit it to search every tab.",
     },
+    suggestMode: {
+      propDefinition: [
+        googleDocs,
+        "suggestMode",
+      ],
+    },
   },
   methods: {
     // Where the chips go: one `{ tabId, startIndex, endIndex }` range per
@@ -197,12 +203,16 @@ export default {
           },
         ];
       }
+      // A suggested deletion keeps the placeholder text, so each earlier chip
+      // in the tab pushes the next one forward by one index instead.
       const shiftByTab = {};
       return targets.map(({
         tabId, startIndex, endIndex,
       }) => {
         const shift = shiftByTab[tabId] ?? 0;
-        shiftByTab[tabId] = shift + (endIndex - startIndex - 1);
+        shiftByTab[tabId] = shift + (this.suggestMode
+          ? -1
+          : endIndex - startIndex - 1);
         return {
           tabId,
           index: startIndex - shift,
@@ -220,18 +230,25 @@ export default {
       // `targetRevisionId` has Google rebase the placeholder edits onto any
       // change made since the read, so a collaborator typing above the
       // placeholder can't shift the chip onto the wrong text (measured).
-      const { data } = await this.googleDocs.batchUpdate(
+      const writeControl = {
+        ...(revisionId && {
+          targetRevisionId: revisionId,
+        }),
+        ...this.googleDocs.writeControl(this.suggestMode),
+      };
+      const response = await this.googleDocs.batchUpdate(
         this.documentId,
         this.buildChipRequests(targets, requestName, properties),
-        revisionId && {
-          targetRevisionId: revisionId,
-        },
+        Object.keys(writeControl).length
+          ? writeControl
+          : undefined,
       );
+      const { data } = response;
       const chips = this.describeChips(targets);
       const tabIds = [
         ...new Set(chips.map(({ tabId }) => tabId).filter(Boolean)),
       ];
-      return {
+      return this.googleDocs.withSuggestionIds({
         documentId: this.documentId,
         url: `https://docs.google.com/document/d/${this.documentId}/edit${tabIds.length === 1
           ? `?tab=${tabIds[0]}`
@@ -239,7 +256,7 @@ export default {
         revisionId: data?.writeControl?.requiredRevisionId,
         chipsInserted: chips.length,
         chips,
-      };
+      }, this.suggestMode, response);
     },
   },
 };

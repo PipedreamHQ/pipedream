@@ -9123,8 +9123,8 @@ importers:
         specifier: ^55.1.0
         version: 55.2.1(encoding@0.1.13)
       '@pipedream/linear_app':
-        specifier: ^1.1.0
-        version: 1.1.0(encoding@0.1.13)
+        specifier: ^1.2.0
+        version: 1.2.0(encoding@0.1.13)
       '@pipedream/platform':
         specifier: ^3.3.0
         version: 3.3.0
@@ -10983,8 +10983,8 @@ importers:
         specifier: ^5.3.0
         version: 5.4.0
       '@pipedream/notion':
-        specifier: ^3.0.0
-        version: 3.0.0(encoding@0.1.13)
+        specifier: ^3.0.1
+        version: 3.0.1(encoding@0.1.13)
 
   components/nozbe_teams: {}
 
@@ -14585,8 +14585,8 @@ importers:
         specifier: ^3.1.1
         version: 3.4.0
       '@pipedream/servicenow':
-        specifier: ^0.15.0
-        version: 0.15.0
+        specifier: ^0.17.0
+        version: 0.17.0
 
   components/servicetitan: {}
 
@@ -22428,8 +22428,8 @@ packages:
   '@pipedream/launchdarkly@0.1.1':
     resolution: {integrity: sha512-RqW4cJ0CfCnCy/lCutIJNSlX3IXV3jxoyqxDgAeHx8Q8BUEjEl7T0+1vMLyNXhU+V4Kj38KVURnSKqCE59UVvg==}
 
-  '@pipedream/linear_app@1.1.0':
-    resolution: {integrity: sha512-R2Y5QqxHN8LTJNMYaUZOcx5sslBlUtmF857QlEXcnkFx47nu6hLQBcwtorrv+XhPd0ueRFA5kQ6chyPAZev5fA==}
+  '@pipedream/linear_app@1.2.0':
+    resolution: {integrity: sha512-YCnxyYJPhnH3QUE31WMznwh0QZd9dNymT6w0wLoysgrmZ2SkvNkJmXA45dt8lAHu+Sr3gPpIsEUnp5oKngkLNA==}
 
   '@pipedream/linkedin@1.3.0':
     resolution: {integrity: sha512-uBoiCA/zRMJwQzqx0LKdZq3DmeoNjcjCUyzh6aeQWrJzoOL1IF46QjZlI5JtUNmGLQhUUpNisWdhpX5OfKvngQ==}
@@ -22443,8 +22443,8 @@ packages:
   '@pipedream/notiff_io@0.1.0':
     resolution: {integrity: sha512-jgt5JJGxI9SM6chDeQpxbaS/NSuUUxhe/PeAXRdZKx28Gp0QCxW7egIImC3pqQ9aMSubaeygRyR0ELhKhmbtPg==}
 
-  '@pipedream/notion@3.0.0':
-    resolution: {integrity: sha512-LkNLSabK0Xc1mcZj3AcR7DlnIvP7xMlQyYAC08tIXYLvbzwCZkbj25/YtXUe7tQYXwgK8zQKQX9oZZ8wYTm0wA==}
+  '@pipedream/notion@3.0.1':
+    resolution: {integrity: sha512-0904h8aHkwXU3l+qrL955tcbo3LtXnHZUiiMh2fNTfT/8TivNv2jyJ2cv8ggkMEV+cQ/akQD4LB63i+FOUYE1g==}
 
   '@pipedream/pipedream@0.4.2':
     resolution: {integrity: sha512-BQkSnuXWU8VQvBDVyLrCrs2kGP3vwgyi8t02ONbIF85ZPkuIIhC25QhIMCXL+bWe5eGb3oDQh0PVXwpEi160fQ==}
@@ -22498,8 +22498,8 @@ packages:
     resolution: {integrity: sha512-qRvrPTqldX60mHKaF0hX/HToqvuH30G58YDQ0/wvFWpc0BcMhUy8bxwGvShSoOnqQwBCxVDaMnO4E6RJy20Xaw==}
     engines: {node: '>=18.0.0'}
 
-  '@pipedream/servicenow@0.15.0':
-    resolution: {integrity: sha512-eNeyVZihBeTtbHxU/YQngFoQ9s7Yj+r7LNotyA6u0Je3Lz/1YjyFsbNg8R+K+4BPzBspl1jHlQpc+rC4OkBNig==}
+  '@pipedream/servicenow@0.17.0':
+    resolution: {integrity: sha512-mGggeBDcWYptBKFsVhAFSXA6p2/4mEPefcvlY0KyVvX4qykgkthA1ULXiW+Z3fIPF4+DOwGzdVRs3yF/zEp9mQ==}
 
   '@pipedream/sftp@0.5.1':
     resolution: {integrity: sha512-bgy/U23KL2jVU0gDoa3HjK51tRRM/7cp6whYChBoNDRAd/pWxhFZzWGTx5/3dnJTviFQVfrD6wtY+IRMZ6Egyg==}
@@ -41620,7 +41620,7 @@ snapshots:
       - debug
       - supports-color
 
-  '@pipedream/linear_app@1.1.0(encoding@0.1.13)':
+  '@pipedream/linear_app@1.2.0(encoding@0.1.13)':
     dependencies:
       '@linear/sdk': 55.2.1(encoding@0.1.13)
       '@pipedream/platform': 3.4.0
@@ -41669,7 +41669,7 @@ snapshots:
       - debug
       - supports-color
 
-  '@pipedream/notion@3.0.0(encoding@0.1.13)':
+  '@pipedream/notion@3.0.1(encoding@0.1.13)':
     dependencies:
       '@notionhq/client': 5.4.0
       '@pipedream/platform': 3.4.0
@@ -41846,7 +41846,7 @@ snapshots:
 
   '@pipedream/sdk@3.1.0': {}
 
-  '@pipedream/servicenow@0.15.0':
+  '@pipedream/servicenow@0.17.0':
     dependencies:
       '@pipedream/platform': 3.4.0
     transitivePeerDependencies:
