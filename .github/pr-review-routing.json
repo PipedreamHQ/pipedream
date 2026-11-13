@@ -1,0 +1,16 @@
+{
+  "board": {
+    "org": "PipedreamHQ",
+    "projectNumber": 11,
+    "statusField": "Status",
+    "statuses": {
+      "ready": "Ready for PR Review",
+      "changes": "Changes Required"
+    }
+  },
+  "reviewers": [
+    "Priyadharshan-Pdm",
+    "ashwins01"
+  ],
+  "slackChannel": "C0CGY150E4F"
+}

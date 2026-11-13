@@ -1,0 +1,52 @@
+name: PR Review Routing
+
+# pull_request_target runs this file from the BASE branch with secrets, so it also
+# works for fork PRs. It must never check out or execute PR code: the checkout
+# below is the base branch, and the script only makes API calls.
+on:
+  pull_request_target:
+    types: [opened, reopened, ready_for_review, review_requested]
+    branches:
+      - master
+  # TEMP: lets this workflow run on its own PR before it exists on master. Remove before merging.
+  pull_request:
+    types: [opened, reopened, ready_for_review, review_requested]
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-review-routing-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  route:
+    name: Route reviewer
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout: .github
+          persist-credentials: false
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 20
+
+      - name: Route
+        run: node .github/scripts/pr-review-routing/index.mjs
+        env:
+          MODE: pr
+          GH_TOKEN: ${{ secrets.REVIEW_ROUTING_TOKEN }}
+          DRY_RUN: ${{ vars.DRY_RUN }}
+          REVIEWER_EMAILS: ${{ vars.REVIEWER_EMAILS }}
+          PD_CLIENT_ID: ${{ secrets.PD_CLIENT_ID }}
+          PD_CLIENT_SECRET: ${{ secrets.PD_CLIENT_SECRET }}
+          PD_PROJECT_ID: ${{ vars.PD_PROJECT_ID }}
+          PD_ENVIRONMENT: ${{ vars.PD_ENVIRONMENT }}
+          PD_EXTERNAL_USER_ID: ${{ vars.PD_EXTERNAL_USER_ID }}
+          PD_SLACK_ACCOUNT_ID: ${{ vars.PD_SLACK_ACCOUNT_ID }}
+          PD_GMAIL_ACCOUNT_ID: ${{ vars.PD_GMAIL_ACCOUNT_ID }}
