@@ -3,7 +3,7 @@ import asana from "../../asana.app.mjs";
 export default {
   type: "action",
   key: "asana-search-projects",
-  version: "0.3.5",
+  version: "0.4.0",
   ai: "optimized",
   annotations: {
     destructiveHint: false,
@@ -16,7 +16,7 @@ export default {
     asana,
     name: {
       label: "Name",
-      description: "The name to filter projects on (client-side substring match), e.g. `Website Redesign`.",
+      description: "The name to search for, e.g. `Website Redesign`. Case-insensitive; matches the start of words in the project name (`web` finds `Website Redesign`), not text from the middle of a word (`site` won't). If nothing is found, retry with a different word from the name. Returns up to 100 matches per workspace. Omit to list all projects.",
       type: "string",
       optional: true,
     },
@@ -59,8 +59,13 @@ export default {
       ]
       : [];
     if (this.name && optFields.length && !optFields.includes("name")) {
-      // the name filter below needs project.name present in the response
+      // keep the name in the response so results stay recognizable
       optFields.push("name");
+    }
+    if (this.name && this.archived !== undefined && optFields.length
+      && !optFields.includes("archived")) {
+      // typeahead has no archived filter, so it's applied below from this field
+      optFields.push("archived");
     }
 
     // Asana's GET /projects now rejects requests with no workspace/team scope
@@ -98,6 +103,42 @@ export default {
         break;
       }
 
+      if (this.name) {
+        // One typeahead request per workspace instead of paging every project.
+        // Typeahead is case-insensitive and matches word prefixes.
+        const typeaheadFields = new Set(optFields);
+        if (optFields.length === 0 && this.archived !== undefined) {
+          typeaheadFields.add("name");
+          typeaheadFields.add("archived");
+        }
+        const { data } = await this.asana.getTypeahead({
+          workspaceId: workspace,
+          params: {
+            resource_type: "project",
+            query: this.name,
+            count: 100,
+            opt_fields: typeaheadFields.size
+              ? [
+                ...typeaheadFields,
+              ].join(",")
+              : undefined,
+          },
+          $,
+        });
+        for (const project of data ?? []) {
+          if (this.archived !== undefined && project.archived !== this.archived) continue;
+          results.push({
+            ...project,
+            workspace: project.workspace ?? {
+              gid: workspace,
+              resource_type: "workspace",
+            },
+          });
+          if (++count >= this.maxResults) break;
+        }
+        continue;
+      }
+
       let hasMore;
       const params = {
         workspace,
@@ -122,7 +163,6 @@ export default {
         if (!data?.length) break;
 
         for (const project of data) {
-          if (this.name && !project.name?.includes(this.name)) continue;
           // The workspace fan-out above already knows which workspace this project
           // came from — attach it so callers chaining into another action (e.g.
           // Create Task) don't have to guess or re-query for it.

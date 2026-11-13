@@ -439,6 +439,22 @@ export default {
       });
     },
     /**
+     * Search a workspace with Asana's typeahead (one request, not paginated).
+     * Matches the start of words, case-insensitively, and returns the top results.
+     *
+     * @param {string} workspaceId - The workspace GID.
+     *
+     * @returns {object} Typeahead results in `data`.
+     */
+    getTypeahead({
+      workspaceId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `workspaces/${workspaceId}/typeahead`,
+        ...opts,
+      });
+    },
+    /**
      * Get an Asana Portfolio.
      *
      * @param {string} portfolioId - The portfolio GID.
