@@ -11,7 +11,7 @@ const props = adjustPropDefinitions(others.props, app);
 export default {
   ...others,
   key: "notion_api_key-retrieve-block",
-  version: "0.0.4",
+  version: "0.0.5",
   name,
   description,
   type,

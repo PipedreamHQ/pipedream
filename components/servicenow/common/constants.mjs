@@ -36,6 +36,7 @@ const QUESTION_CHOICE_TABLE = "question_choice";
 const INCIDENT_TABLE = "incident";
 const CATALOG_UI_POLICY_TABLE = "catalog_ui_policy";
 const CATALOG_UI_POLICY_ACTION_TABLE = "catalog_ui_policy_action";
+const IO_SET_ITEM_TABLE = "io_set_item";
 const KNOWLEDGE_BASE_TABLE = "kb_knowledge_base";
 const MAX_LIMIT = 1000;
 
@@ -75,6 +76,7 @@ export default {
   INCIDENT_TABLE,
   CATALOG_UI_POLICY_TABLE,
   CATALOG_UI_POLICY_ACTION_TABLE,
+  IO_SET_ITEM_TABLE,
   KNOWLEDGE_BASE_TABLE,
   MAX_LIMIT,
   REQUESTED_ITEM_FIELDS,

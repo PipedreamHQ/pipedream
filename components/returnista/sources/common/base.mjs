@@ -5,12 +5,6 @@ export default {
     returnista,
     db: "$.service.db",
     http: "$.interface.http",
-    accountId: {
-      propDefinition: [
-        returnista,
-        "accountId",
-      ],
-    },
     description: {
       type: "string",
       label: "Description",
@@ -20,7 +14,6 @@ export default {
   hooks: {
     async activate() {
       const { id } = await this.returnista.createWebhook({
-        accountId: this.accountId,
         data: {
           url: this.http.endpoint,
           eventName: this.getEvent(),
@@ -34,7 +27,6 @@ export default {
       if (!hookId) return;
 
       await this.returnista.deleteWebhook({
-        accountId: this.accountId,
         webhookId: hookId,
       });
     },
