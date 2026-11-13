@@ -6,7 +6,7 @@ export default {
   key: "taskade-new-task-created",
   name: "New Task Created",
   description: "Emit new event when a new task is created in Taskade",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

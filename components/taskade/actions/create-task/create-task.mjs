@@ -3,14 +3,18 @@ import taskade from "../../taskade.app.mjs";
 export default {
   key: "taskade-create-task",
   name: "Create Task",
-  description: "Creates a new task in Taskade. [See the documentation](https://developers.taskade.com/docs/api/tasks/create)",
-  version: "0.0.2",
+  description: "Creates a new task in a Taskade project."
+    + " Use **List Projects** to find the project ID."
+    + " To add a date after you create the task, use **Set Task Due Date** with the returned task ID."
+    + " [See the documentation](https://docs.taskade.com/developers/comprehensive-api-guide/tasks/create-task)",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     taskade,
     projectId: {
@@ -20,32 +24,35 @@ export default {
       ],
     },
     content: {
-      type: "string",
-      label: "Content",
-      description: "Content of the task",
+      propDefinition: [
+        taskade,
+        "content",
+      ],
     },
     contentType: {
-      type: "string",
-      label: "Content Type",
-      description: "The type of content",
-      options: [
-        "text/markdown",
-        "text/plain",
+      propDefinition: [
+        taskade,
+        "contentType",
       ],
     },
     placement: {
       type: "string",
       label: "Placement",
-      description: "Placement of the task",
+      description: "Where to add the task in the project."
+        + " One of `afterbegin` (top of the project), `beforeend` (bottom of the project). e.g. `beforeend`.",
       options: [
         "afterbegin",
         "beforeend",
       ],
     },
     assignees: {
-      type: "string[]",
-      label: "Assignees",
-      description: "An array of user handles to assign to the task",
+      propDefinition: [
+        taskade,
+        "assignees",
+        (c) => ({
+          projectId: c.projectId,
+        }),
+      ],
       optional: true,
     },
   },
