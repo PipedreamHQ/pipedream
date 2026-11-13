@@ -1,0 +1,22 @@
+{
+  "name": "@pipedream/companyenrich",
+  "version": "0.0.1",
+  "description": "Pipedream CompanyEnrich API v2 Components",
+  "main": "companyenrich.app.mjs",
+  "keywords": [
+    "pipedream",
+    "companyenrich"
+  ],
+  "homepage": "https://pipedream.com/apps/companyenrich",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "scripts": {
+    "test": "node --experimental-vm-modules --test common/test/*.test.mjs"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1",
+    "json-bigint": "^1.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

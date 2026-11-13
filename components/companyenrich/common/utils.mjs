@@ -1,0 +1,381 @@
+import { ConfigurationError } from "@pipedream/platform";
+import JSONBigInt from "json-bigint";
+import {
+  ACCOUNT_CAPABILITY_FIELDS,
+  COMPANY_EXPANSIONS,
+  PERSON_EXPANSIONS,
+} from "./constants.mjs";
+
+const JSON_PARSER = JSONBigInt({
+  alwaysParseAsBig: true,
+  protoAction: "ignore",
+  constructorAction: "ignore",
+});
+
+/**
+ * Restore ordinary JSON numbers while retaining exact unsafe integers as decimal strings.
+ * BigNumber objects can only originate from numeric tokens; quoted strings stay unchanged.
+ * @param {string} key JSON property name supplied by the parser.
+ * @param {*} value Parsed JSON value, including BigNumber numeric tokens.
+ * @returns {*} JSON-serializable value with decimals kept as numbers.
+ */
+function responseNumber(key, value) {
+  if (value && typeof value === "object" && typeof value.toNumber === "function") {
+    const number = value.toNumber();
+    return value.isInteger() && !Number.isSafeInteger(number)
+      ? value.toFixed()
+      : number;
+  }
+  return value;
+}
+
+/**
+ * Parse response JSON without rounding int64 IDs or stringifying decimal scores and credits.
+ * Exact unsafe integers, including exponent notation, become decimal strings. Decimals
+ * retain normal JavaScript number precision; invalid JSON and non-string inputs pass through.
+ * @param {*} value Raw HTTP response data.
+ * @returns {*} Parsed response or the unchanged input when it is not valid JSON.
+ */
+export function parseResponse(value) {
+  if (typeof value !== "string" || !value) {
+    return value;
+  }
+  try {
+    return JSON_PARSER.parse(value, responseNumber);
+  } catch {
+    return value;
+  }
+}
+
+/**
+ * Validate an optional or required bounded string without modifying its contents.
+ * @param {*} value Prop value to validate.
+ * @param {string} label Human-readable prop name used in configuration errors.
+ * @param {number} max Maximum string length.
+ * @param {boolean} required Whether an absent value is an error.
+ * @returns {string|undefined} Validated string, or undefined for absent optional values.
+ */
+export function stringValue(value, label, max = 1024, required = false) {
+  if (value === undefined || value === null || value === "") {
+    if (required) {
+      throw new ConfigurationError(`${label} is required.`);
+    }
+    return undefined;
+  }
+  if (typeof value !== "string" || !value.trim() || value.length > max) {
+    throw new ConfigurationError(`${label} must be a nonempty string of at most ${max} characters.`);
+  }
+  return value;
+}
+
+/**
+ * Validate an integer within inclusive bounds, preserving zero when allowed.
+ * @param {*} value Prop value to validate.
+ * @param {string} label Human-readable prop name.
+ * @param {number} min Minimum permitted value.
+ * @param {number} max Maximum permitted value.
+ * @param {number} defaultValue Value returned when the prop is absent.
+ * @returns {number|undefined} Validated integer or the supplied default.
+ */
+export function integerValue(value, label, min, max, defaultValue) {
+  if (value === undefined || value === null || value === "") {
+    return defaultValue;
+  }
+  if (!Number.isInteger(value) || value < min || value > max) {
+    throw new ConfigurationError(`${label} must be an integer between ${min} and ${max}.`);
+  }
+  return value;
+}
+
+/**
+ * Validate a boolean without treating false as an absent prop.
+ * @param {*} value Prop value to validate.
+ * @param {string} label Human-readable prop name.
+ * @param {boolean} defaultValue Value returned when the prop is absent.
+ * @returns {boolean|undefined} Validated boolean or the supplied default.
+ */
+export function booleanValue(value, label, defaultValue) {
+  if (value === undefined || value === null) {
+    return defaultValue;
+  }
+  if (typeof value !== "boolean") {
+    throw new ConfigurationError(`${label} must be a boolean.`);
+  }
+  return value;
+}
+
+/**
+ * Validate an optional bounded array of nonempty strings against an optional allowlist.
+ * @param {*} value Prop value to validate.
+ * @param {string} label Human-readable prop name.
+ * @param {number} min Minimum item count.
+ * @param {number} max Maximum item count.
+ * @param {string[]} allowed Permitted item values, when restricted.
+ * @returns {string[]|undefined} Unmodified array or undefined when absent.
+ */
+export function stringArray(value, label, min, max, allowed) {
+  if (value === undefined || value === null) {
+    return undefined;
+  }
+  if (!Array.isArray(value) || value.length < min || value.length > max) {
+    throw new ConfigurationError(`${label} must be an array containing ${min} to ${max} strings.`);
+  }
+  for (const item of value) {
+    if (typeof item !== "string" || !item.trim()) {
+      throw new ConfigurationError(`${label} must contain only nonempty strings.`);
+    }
+    if (allowed && !allowed.includes(item)) {
+      throw new ConfigurationError(`${label} must use only: ${allowed.join(", ")}.`);
+    }
+  }
+  return value;
+}
+
+/**
+ * Accept a plain JSON object or parse a JSON object prop, rejecting arrays and scalars.
+ * @param {*} value Object or JSON text to validate.
+ * @param {string} label Human-readable prop name.
+ * @returns {object|undefined} Parsed object or undefined when absent.
+ */
+export function objectValue(value, label) {
+  if (value === undefined || value === null || value === "") {
+    return undefined;
+  }
+  let parsed = value;
+  if (typeof value === "string") {
+    try {
+      parsed = JSON.parse(value);
+    } catch {
+      throw new ConfigurationError(`${label} must be a valid JSON object.`);
+    }
+  }
+  if (!parsed || Array.isArray(parsed) || typeof parsed !== "object"
+    || ![
+      Object.prototype,
+      null,
+    ].includes(Object.getPrototypeOf(parsed))) {
+    throw new ConfigurationError(`${label} must be a JSON object, not an array or scalar.`);
+  }
+  return parsed;
+}
+
+/**
+ * Reject object keys outside a documented query shape.
+ * @param {object} value Query object to validate.
+ * @param {string[]} allowed Permitted keys.
+ * @param {string} label Human-readable query name.
+ * @returns {void}
+ */
+function checkKeys(value, allowed, label) {
+  if (Object.keys(value).some((key) => !allowed.includes(key))) {
+    throw new ConfigurationError(`${label} accepts only: ${allowed.join(", ")}.`);
+  }
+}
+
+/**
+ * Validate an optional finite number against inclusive bounds.
+ * @param {*} value Query value to validate.
+ * @param {string} label Human-readable field name.
+ * @param {number} min Minimum permitted value.
+ * @param {number} max Maximum permitted value.
+ * @returns {void}
+ */
+function numberValue(value, label, min, max) {
+  if (value !== undefined && value !== null
+    && (!Number.isFinite(value) || value < min || value > max)) {
+    throw new ConfigurationError(`${label} must be a number between ${min} and ${max}.`);
+  }
+}
+
+/**
+ * Build a validated company query while preserving the documented filter operators.
+ * @param {object} options Company filter, semantic query, and lookalike query props.
+ * @returns {object} API query with mutually exclusive semantic and lookalike modes.
+ */
+export function companyQuery({
+  companyFilter, semantic, lookalike,
+} = {}) {
+  const filter = objectValue(companyFilter, "Company Filter");
+  const semanticQuery = objectValue(semantic, "Semantic Query");
+  const lookalikeQuery = objectValue(lookalike, "Lookalike Query");
+  if (semanticQuery && lookalikeQuery) {
+    throw new ConfigurationError("Semantic Query and Lookalike Query cannot be combined.");
+  }
+  if (semanticQuery) {
+    checkKeys(semanticQuery, [
+      "query",
+      "weight",
+      "autoFilter",
+    ], "Semantic Query");
+    stringValue(semanticQuery.query, "Semantic Query query", 500, true);
+    numberValue(semanticQuery.weight, "Semantic Query weight", 0, 1);
+    if (semanticQuery.autoFilter !== undefined && semanticQuery.autoFilter !== null
+      && typeof semanticQuery.autoFilter !== "boolean") {
+      throw new ConfigurationError("Semantic Query autoFilter must be a boolean.");
+    }
+  }
+  if (lookalikeQuery) {
+    checkKeys(lookalikeQuery, [
+      "domains",
+      "weight",
+      "minScore",
+    ], "Lookalike Query");
+    if (!Array.isArray(lookalikeQuery.domains)) {
+      throw new ConfigurationError("Lookalike Query requires a domains array.");
+    }
+    stringArray(lookalikeQuery.domains, "Lookalike Query domains", 1, 10);
+    for (const domain of lookalikeQuery.domains) {
+      stringValue(domain, "Lookalike Query domain", 1024, true);
+    }
+    numberValue(lookalikeQuery.weight, "Lookalike Query weight", -1, 1);
+    numberValue(lookalikeQuery.minScore, "Lookalike Query minScore", 0, 1);
+  }
+  return {
+    filter,
+    semantic: semanticQuery,
+    lookalike: lookalikeQuery,
+  };
+}
+
+/**
+ * Build a people query with an optional validated nested company query.
+ * @param {object} options Person filter and nested company query props.
+ * @returns {object} API person and company query fields.
+ */
+export function peopleQuery({
+  personFilter, companyQuery: companyInput,
+} = {}) {
+  const filter = objectValue(personFilter, "Person Filter");
+  const company = objectValue(companyInput, "Company Query");
+  if (company) {
+    checkKeys(company, [
+      "filter",
+      "semantic",
+      "lookalike",
+    ], "Company Query");
+  }
+  return {
+    filter,
+    company: company && companyQuery({
+      companyFilter: company.filter,
+      semantic: company.semantic,
+      lookalike: company.lookalike,
+    }),
+  };
+}
+
+/**
+ * Validate the documented company expansion names.
+ * @param {*} value Requested expansion names.
+ * @returns {string[]|undefined} Validated expansions or undefined when absent.
+ */
+export function companyExpansions(value) {
+  return stringArray(value, "Company Expansions", 0, Infinity, COMPANY_EXPANSIONS);
+}
+
+/**
+ * Validate the documented person expansion names.
+ * @param {*} value Requested expansion names.
+ * @returns {string[]|undefined} Validated expansions or undefined when absent.
+ */
+export function personExpansions(value) {
+  return stringArray(value, "Person Expansions", 0, Infinity, PERSON_EXPANSIONS);
+}
+
+/**
+ * Require a CompanyEnrich company UUID returned by a lookup or search action.
+ * @param {*} value Company ID prop.
+ * @returns {string} Validated UUID.
+ */
+export function companyId(value) {
+  const id = stringValue(value, "Company ID", 36, true);
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) {
+    throw new ConfigurationError("Company ID must be a UUID returned by Search Companies or Enrich Company.");
+  }
+  return id;
+}
+
+/**
+ * Require a positive int64 person ID as text to avoid JavaScript integer rounding.
+ * @param {*} value Person ID prop.
+ * @returns {string} Validated decimal ID string.
+ */
+export function personId(value) {
+  const id = stringValue(value, "Person ID", 19, true);
+  if (!/^\d+$/.test(id) || BigInt(id) < 1n || BigInt(id) > 9223372036854775807n) {
+    throw new ConfigurationError("Person ID must be a positive int64 decimal string returned by Search People.");
+  }
+  return id;
+}
+
+/**
+ * Validate a required two-letter country code without changing its case.
+ * @param {*} value Country code prop.
+ * @returns {string} Validated country code.
+ */
+export function countryCode(value) {
+  const code = stringValue(value, "Country Code", 2, true);
+  if (!/^[a-z]{2}$/i.test(code)) {
+    throw new ConfigurationError("Country Code must contain two letters, e.g. US.");
+  }
+  return code;
+}
+
+/**
+ * Allowlist account identity, numeric credits, and documented capability values.
+ * Credentials and all other response fields are omitted from action output.
+ * @param {*} response Parsed account response.
+ * @returns {object} Account metadata safe to expose as a Pipedream action result.
+ */
+export function safeAccount(response) {
+  const result = {};
+  if (typeof response?.userId === "string") {
+    result.userId = response.userId;
+  }
+  if (response?.credits && typeof response.credits === "object") {
+    result.credits = {};
+    for (const field of [
+      "used",
+      "total",
+    ]) {
+      if (Number.isFinite(response.credits[field])) {
+        result.credits[field] = response.credits[field];
+      }
+    }
+  }
+  if (response?.capabilities && typeof response.capabilities === "object") {
+    result.capabilities = {};
+    for (const field of ACCOUNT_CAPABILITY_FIELDS) {
+      const value = response.capabilities[field];
+      if (typeof value === "boolean" || Number.isFinite(value)) {
+        result.capabilities[field] = value;
+      }
+    }
+  }
+  return result;
+}
+
+/**
+ * Serialize query arrays as repeated keys while preserving false and zero values.
+ * @param {object} params Query parameters, with null and undefined values omitted.
+ * @returns {string} URL-encoded query string.
+ */
+export function serializeParams(params = {}) {
+  const result = new URLSearchParams();
+  for (const [
+    key,
+    value,
+  ] of Object.entries(params)) {
+    const values = Array.isArray(value)
+      ? value
+      : [
+        value,
+      ];
+    for (const item of values) {
+      if (item !== undefined && item !== null) {
+        result.append(key, String(item));
+      }
+    }
+  }
+  return result.toString();
+}
