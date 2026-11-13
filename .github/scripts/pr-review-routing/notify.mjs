@@ -100,9 +100,13 @@ export function createNotifier(env = process.env) {
       return `@${login}`;
     }
 
+    // A missing Slack user (users_not_found) must not block the message and email.
     const result = await runAction("slack_v2-find-user-by-email", {
       slack,
       email,
+    }).catch((err) => {
+      console.warn(`Slack lookup failed for ${login}, falling back to @${login}: ${err.message}`);
+      return null;
     });
 
     return result?.user ? `<@${result.user.id}>` : `@${login}`;
