@@ -4,6 +4,9 @@ import { axios } from "@pipedream/platform";
 // auto-populating dropdowns via async `options()`. Their propDefinitions are
 // suffixed `Async` and kept separate from the static, MCP-safe ones actions use.
 const DEFAULT_LIMIT = 25;
+// Longest `Retry-After` (seconds) we'll wait out before retrying a 429. Three
+// waits of this length stay well inside the 60s tool timeout.
+const MAX_RETRY_AFTER_SECONDS = 10;
 
 export default {
   type: "app",
@@ -321,7 +324,10 @@ export default {
         ...opts,
       };
       // Asana rate-limits per user and answers 429 with a `Retry-After` (seconds).
-      // Retry a few times with that delay instead of failing the whole action.
+      // Wait exactly that long and retry a few times instead of failing the whole
+      // action. Never retry before it elapses: that fails again and can use up more
+      // quota. If it's longer than we can wait within the tool timeout, surface the
+      // 429 right away rather than retrying early.
       const maxRetries = 3;
       for (let attempt = 0; ; attempt++) {
         try {
@@ -331,8 +337,12 @@ export default {
             throw err;
           }
           const retryAfter = Number(err.response.headers?.["retry-after"]);
-          const delayMs = Number.isFinite(retryAfter) && retryAfter >= 0
-            ? Math.min(retryAfter, 10) * 1000
+          const hasRetryAfter = Number.isFinite(retryAfter) && retryAfter >= 0;
+          if (hasRetryAfter && retryAfter > MAX_RETRY_AFTER_SECONDS) {
+            throw err;
+          }
+          const delayMs = hasRetryAfter
+            ? retryAfter * 1000
             : (2 ** attempt) * 1000 + Math.floor(Math.random() * 500);
           await new Promise((resolve) => setTimeout(resolve, delayMs));
         }
