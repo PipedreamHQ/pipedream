@@ -3,7 +3,7 @@ import asana from "../../asana.app.mjs";
 export default {
   type: "action",
   key: "asana-search-projects",
-  version: "0.4.0",
+  version: "1.0.0",
   ai: "optimized",
   annotations: {
     destructiveHint: false,
@@ -125,8 +125,28 @@ export default {
           },
           $,
         });
-        for (const project of data ?? []) {
-          if (this.archived !== undefined && project.archived !== this.archived) continue;
+        for (let project of data ?? []) {
+          if (this.archived !== undefined) {
+            if (project.archived === undefined) {
+              // Typeahead is documented to return only `name`. It currently includes
+              // the requested fields, but if a hit comes back without `archived`,
+              // fetch that one project instead of silently dropping it.
+              const { data: full } = await this.asana.getProject({
+                projectId: project.gid,
+                params: {
+                  opt_fields: [
+                    ...typeaheadFields,
+                  ].join(","),
+                },
+                $,
+              });
+              project = {
+                ...project,
+                ...full,
+              };
+            }
+            if (project.archived !== this.archived) continue;
+          }
           results.push({
             ...project,
             workspace: project.workspace ?? {
