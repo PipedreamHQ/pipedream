@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/live_tennis_api",
+  "version": "0.1.0",
+  "description": "Pipedream Live Tennis API Components",
+  "main": "live_tennis_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "live_tennis_api"
+  ],
+  "homepage": "https://pipedream.com/apps/live-tennis-api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.4.0"
+  }
+}
