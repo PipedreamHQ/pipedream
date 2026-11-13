@@ -1,0 +1,16 @@
+export default {
+  "id": "6f1c2a9e-3b7d-4c1e-9a52-8d0f4e6b1a23",
+  "title": "Happy Birthday Sara",
+  "status": "completed",
+  "audio_url": "https://pub-7e77fd3cab594f41a87065e66fe60fbb.r2.dev/songs/6f1c2a9e-3b7d-4c1e-9a52-8d0f4e6b1a23.mp3",
+  "song_url": "https://www.songupai.com/song/6f1c2a9e-3b7d-4c1e-9a52-8d0f4e6b1a23",
+  "language": "English",
+  "music_type": "Full Vocal Song",
+  "style": "Pop",
+  "lyrics": null,
+  "duration_seconds": 128,
+  "catalog_match": false,
+  "error": null,
+  "created_at": "2026-10-06T10:00:00.000Z",
+  "completed_at": "2026-10-06T10:01:05.000Z",
+};
