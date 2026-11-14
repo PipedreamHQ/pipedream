@@ -59,6 +59,26 @@ export function isBoolean(value) {
   return value === "true" || value === "false";
 }
 
+// The answer for the undecided items of a call whose ServiceNow read failed, instead of failing
+// the call: `unreadable` when a permission rule refused it (403), `check_failed` for any other
+// HTTP error, timeout, or network error. A 401 means the connection itself is broken, so it is
+// rethrown, as is anything that is not a request error (a bug).
+export function readFailure(error) {
+  const status = error?.response?.status;
+  if (!error?.isAxiosError || status === 401) {
+    throw error;
+  }
+  console.log(`A ServiceNow read failed: ${status
+    ? `HTTP ${status}`
+    : error.code ?? "no response"}`);
+  return {
+    allowed: null,
+    reason: status === 403
+      ? "unreadable"
+      : "check_failed",
+  };
+}
+
 export async function readAll(app, $, table, query, fields) {
   const rows = [];
   for (let offset = 0; ; offset += PAGE_SIZE) {
@@ -93,7 +113,8 @@ export async function readByIds(app, $, table, field, ids, fields) {
 }
 
 // The named system properties' values; a row the integration user cannot read is left out, so the
-// caller applies ServiceNow's default for it.
+// caller applies ServiceNow's default for it. Only a 403 counts as hidden: any other failure
+// rejects, for the caller's `readFailure`.
 export async function readProperties(app, $, names) {
   try {
     const rows = asRows(await app.getTableRecords({
@@ -109,7 +130,10 @@ export async function readProperties(app, $, names) {
       row.value,
     ]));
   } catch (error) {
-    console.log(`System properties unreadable (HTTP ${error?.response?.status ?? "error"}); using ServiceNow's defaults`);
+    if (error?.response?.status !== 403) {
+      throw error;
+    }
+    console.log("System properties unreadable (HTTP 403); using ServiceNow's defaults");
     return new Map();
   }
 }
