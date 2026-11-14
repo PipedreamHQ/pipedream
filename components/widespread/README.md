@@ -8,4 +8,4 @@
 - **Search Work Feed** — unified cross-forge funded-work feed (filter by forge, min USD)
 - **List Runners** — sealed execution environments
 
-Full agent surface: MCP endpoint `https://widespread-bridge.widespread.workers.dev/mcp` (12 tools) · [API docs](https://widespread-bridge.widespread.workers.dev/openapi.json).
+Full agent surface: MCP endpoint `https://widespread.fyi/mcp` (12 tools) · [API docs](https://widespread.fyi/openapi.json).
