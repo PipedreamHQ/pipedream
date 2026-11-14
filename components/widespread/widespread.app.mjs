@@ -1,6 +1,6 @@
 import { axios } from "@pipedream/platform";
 
-const BASE = "https://widespread-bridge.widespread.workers.dev";
+const BASE = "https://widespread.fyi";
 
 export default {
   type: "app",
