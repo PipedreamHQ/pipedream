@@ -1,0 +1,11 @@
+{
+  "name": "@pipedream/widespread",
+  "version": "0.0.1",
+  "description": "Widespread verified-work protocol — discover escrowed work markets and bounties",
+  "main": "widespread.app.mjs",
+  "type": "module",
+  "license": "MIT",
+  "homepage": "https://widespread.fyi",
+  "publishConfig": { "access": "public" },
+  "dependencies": { "@pipedream/platform": "^3.0.0" }
+}
