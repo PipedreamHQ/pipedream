@@ -1,11 +1,13 @@
 # Overview
 
-Piloterr API allows you to integrate and automate various aspects of project management and team collaboration. Within Pipedream's serverless platform, you can leverage this API to create custom workflows, connecting Piloterr's capabilities with other apps to streamline operations, trigger actions based on project updates, and synchronize data across different tools.
+The Piloterr API is a web scraping API with ready-made endpoints for search engines, marketplaces and company data, with proxies and anti-bot handling included. In Pipedream, you can fetch or render web pages, detect the technologies a website runs, search Google, Amazon and eBay, and enrich companies with their LinkedIn and Crunchbase profiles, then pass the structured JSON to any other app in your workflow.
 
 # Example Use Cases
 
-- **Automate Task Creation from Emails**: Create a workflow that listens for incoming emails on a designated address. Use this to automatically generate tasks in Piloterr, ensuring that requests sent via email are promptly converted into actionable items within your project management system.
+- **Monitor Marketplace Prices**: Run a scheduled workflow that searches Amazon and eBay for your products and your competitors' products, logs the prices to Google Sheets, and posts significant changes to Slack.
 
-- **Sync Project Updates to Slack**: Set up a workflow that triggers whenever there's an update in Piloterr, such as task completion or status changes. Use this trigger to send notifications to a Slack channel, keeping your team informed about project progress in real-time.
+- **Enrich New Accounts**: When a new company is added to your CRM, look up its LinkedIn and Crunchbase profiles by website domain and write its industry, size, headquarters and investors back to the record.
 
-- **Aggregate Time Tracking Data**: Design a workflow that periodically retrieves time tracking data from Piloterr. Connect this data with a reporting app like Google Sheets or Data Studio to analyze productivity trends and optimize team performance.
+- **Track Search Rankings**: Search Google every week for your target keywords, record the position of your domain and of the domains ranking above it, and send the report by email.
+
+- **Qualify Leads by Tech Stack**: Detect the technologies running on each prospect's website and keep the companies that use a given CMS or analytics tool in a lead list.
