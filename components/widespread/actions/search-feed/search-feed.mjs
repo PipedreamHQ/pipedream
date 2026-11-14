@@ -3,7 +3,7 @@ import widespread from "../../widespread.app.mjs";
 export default {
   key: "widespread-search-feed",
   name: "Search Work Feed",
-  description: "Search the unified cross-forge funded-work feed (GitHub, GitLab, Forgejo, NEAR, bounty platforms). Filter by forge or minimum reward in USD. [See docs](https://widespread-bridge.widespread.workers.dev/llms.txt)",
+  description: "Search the unified cross-forge funded-work feed (GitHub, GitLab, Forgejo, NEAR, bounty platforms). Filter by forge or minimum reward in USD. [See the documentation](https://widespread.fyi/llms.txt)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
