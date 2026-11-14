@@ -3,7 +3,7 @@ import widespread from "../../widespread.app.mjs";
 export default {
   key: "widespread-list-runners",
   name: "List Runners",
-  description: "List sealed client-side execution environments available for running Widespread bounty work safely. [See docs](https://widespread-bridge.widespread.workers.dev/llms.txt)",
+  description: "List sealed client-side execution environments available for running Widespread bounty work safely. [See the documentation](https://widespread.fyi/llms.txt)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
