@@ -63,6 +63,27 @@ const parseObject = (value, label) => {
 };
 
 /**
+ * The submission's data: Data (an object prop, whose typed values are text) merged with
+ * Data (JSON), which can hold lists, objects, numbers and booleans. A key in both takes
+ * Data (JSON)'s value.
+ * Blank gives `undefined`.
+ * @param {*} data
+ * @param {*} dataJson
+ * @returns {object|undefined}
+ */
+const submissionData = (data, dataJson) => {
+  const fromData = parseObject(data, "Data");
+  const fromJson = parseObject(dataJson, "Data (JSON)");
+  if (!fromData && !fromJson) {
+    return undefined;
+  }
+  return {
+    ...fromData,
+    ...fromJson,
+  };
+};
+
+/**
  * Reads a list of objects: a JSON array as a string, or an array whose items are objects,
  * JSON objects as strings, or JSON arrays of objects (spread into the list). Blank gives
  * `undefined`.
@@ -266,13 +287,15 @@ const pollingTimeoutMessage = (error) => {
     key,
   ] = Object.keys(RECORD_KINDS).filter((k) => error[k]);
   if (!key) {
-    return "The PDF wasn't ready in time.";
+    return "It wasn't ready in time.";
   }
   const kind = RECORD_KINDS[key];
   if (key === "template_id") {
     return `The template's PDF wasn't processed in time. Get it later with ${kind.getAction} (${error[key]}).`;
   }
-  return `The PDF wasn't ready in time. Get it later with ${kind.getAction} (${error[key]}), or use the ${kind.event} trigger.`;
+  // A submission makes a Word document or an OpenDocument file too, so name the record, not the PDF
+  const noun = kind.noun[0].toLowerCase() + kind.noun.slice(1);
+  return `The ${noun} wasn't ready in time. Get it later with ${kind.getAction} (${error[key]}), or use the ${kind.event} trigger.`;
 };
 
 const legacyErrorText = (data) => {
@@ -639,6 +662,7 @@ export default {
   parseJson,
   parseObject,
   parseObjectArray,
+  submissionData,
   parseStringArray,
   toBoolean,
   toInteger,

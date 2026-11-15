@@ -21,7 +21,7 @@ export default {
   description: "Create a template from a PDF (a public URL or a file in `/tmp`) or from HTML and SCSS."
     + " For a PDF, **Detect Fields** sets up its fields with AI, as DocSpring's \"Automatically detect fields\" upload option does."
     + " Returns the template; `ready` says whether it can generate PDFs yet, and `document.state` how its PDF is processing."
-    + " Use **Generate PDF** with its `id` next, or **Replace Template PDF** to change its PDF later."
+    + " Use **Create Submission** with its `id` next, or **Replace Template PDF** to change its PDF later."
     + " [See the documentation](https://docspring.com/docs/api/#tag/templates/post/templates)",
   version: "0.0.1",
   type: "action",

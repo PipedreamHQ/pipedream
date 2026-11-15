@@ -5,7 +5,7 @@ export default {
   key: "docspring-publish-template-version",
   name: "Publish Template Version",
   description: "Publish the template's draft as a new version, so new PDFs use it by default. Returns the version, with its number."
-    + " Use **Generate PDF** with **Template Version** to use another version."
+    + " Use **Create Submission** with **Template Version** to use another version."
     + " [See the documentation](https://docspring.com/docs/api/#tag/templates/post/templates/{template_id}/publish_version)",
   version: "0.0.1",
   type: "action",

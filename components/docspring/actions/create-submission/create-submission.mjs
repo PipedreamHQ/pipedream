@@ -2,11 +2,11 @@ import docspring from "../../docspring.app.mjs";
 import utils from "../../common/utils.mjs";
 
 export default {
-  key: "docspring-generate-pdf",
-  name: "Generate PDF",
-  description: "Fill in a template with your data and generate a PDF. Returns the submission, with the PDF's links in `files.pdf` (`download_url` expires; `permanent_url` doesn't)."
+  key: "docspring-create-submission",
+  name: "Create Submission",
+  description: "Fill in a template with your data and make a submission: a PDF, or a Word template's Word document or OpenDocument file. Returns the submission, with the PDF's links in `files.pdf` (`download_url` expires; `permanent_url` doesn't)."
     + " A Word template can also make its Word document and an OpenDocument file (**Output Formats**), in `files.docx` and `files.odt`."
-    + " Use **Find Templates** to find the template, **List Template Fields** for its field names, and **Check Data** to test data without making a PDF."
+    + " Use **Find Templates** to find the template, **List Template Fields** for its field names, and **Check Data** to test data without making anything."
     + " Invalid data fails with each problem listed. For people who fill in or sign the PDF, use **Create Signature Request** instead."
     + " [See the documentation](https://docspring.com/docs/api/#tag/submissions/post/templates/{template_id}/submissions)",
   version: "0.0.1",
@@ -35,6 +35,12 @@ export default {
       propDefinition: [
         docspring,
         "data",
+      ],
+    },
+    dataJson: {
+      propDefinition: [
+        docspring,
+        "dataJson",
       ],
     },
     test: {
@@ -86,10 +92,13 @@ export default {
         docspring,
         "wait",
       ],
+      label: "Wait for the Submission",
+      description: "`true` (the default) waits until the submission is ready and returns it in its final state."
+        + " `false` returns at once with a pending submission: get it later with **Get Submission** or the **New Event (Instant)** trigger. e.g. `true`.",
     },
   },
   async run({ $ }) {
-    const wait = utils.toBoolean(this.wait, "Wait for the PDF") ?? true;
+    const wait = utils.toBoolean(this.wait, "Wait for the Submission") ?? true;
     const submission = await this.docspring.createSubmission({
       $,
       templateId: this.templateId,
@@ -99,7 +108,7 @@ export default {
         wait,
       }),
       data: utils.compact({
-        data: utils.parseObject(this.data, "Data") || {},
+        data: utils.submissionData(this.data, this.dataJson) || {},
         test: utils.toBoolean(this.test, "Test") || undefined,
         metadata: utils.parseObject(this.metadata, "Metadata"),
         output_formats: utils.parseStringArray(this.outputFormats),
@@ -114,7 +123,7 @@ export default {
       throw new Error(failure);
     }
     $.export("$summary", wait
-      ? `Generated PDF for submission ${submission.id} (${submission.state})`
+      ? `Created submission ${submission.id} (${submission.state})`
       : `Created submission ${submission.id} (${submission.state})`);
     return submission;
   },

@@ -6,7 +6,7 @@ export default {
   key: "docspring-check-data",
   name: "Check Data",
   description: "Check data against a template without making a PDF or saving anything. Returns `valid`, and when it's `false`, an `error` that lists each problem in `details`."
-    + " Use it before **Generate PDF** or **Create Signature Request**; it checks signers, and whether DocSpring emails them, in the same way."
+    + " Use it before **Create Submission** or **Create Signature Request**; it checks signers, and whether DocSpring emails them, in the same way."
     + " [See the documentation](https://docspring.com/docs/api/#tag/submissions/post/templates/{template_id}/submissions/validate)",
   version: "0.0.1",
   type: "action",
@@ -34,6 +34,12 @@ export default {
       propDefinition: [
         docspring,
         "data",
+      ],
+    },
+    dataJson: {
+      propDefinition: [
+        docspring,
+        "dataJson",
       ],
     },
     test: {
@@ -96,7 +102,7 @@ export default {
         version: this.templateVersion,
       }),
       data: utils.compact({
-        data: utils.parseObject(this.data, "Data") || {},
+        data: utils.submissionData(this.data, this.dataJson) || {},
         test: utils.toBoolean(this.test, "Test") || undefined,
         signature_requests: signatureRequests,
         ...settings,

@@ -7,7 +7,7 @@ export default {
   name: "Combine PDFs",
   description: "Merge PDFs into one combined PDF, in order: submissions' PDFs, other combined PDFs, templates' PDFs, custom files and PDFs at URLs."
     + " Returns the combined PDF, with its links in `files.pdf`."
-    + " Use **Find Submissions** or **Generate PDF** for submission IDs and **Find Templates** for template IDs."
+    + " Use **Find Submissions** or **Create Submission** for submission IDs and **Find Templates** for template IDs."
     + " [See the documentation](https://docspring.com/docs/api/#tag/combined-pdfs/post/combined_pdfs)",
   version: "0.0.1",
   type: "action",

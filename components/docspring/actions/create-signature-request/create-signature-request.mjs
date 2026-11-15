@@ -55,7 +55,14 @@ export default {
       ],
       description: "Values for the template's fields that you already have, by field name, e.g. `{\"landlord_name\": \"Jane Doe\"}`."
         + " Dates are `YYYY-MM-DD`. Don't send values for signature or initials fields: only the signers sign."
-        + " A field in a signer's list that has a value here needs that signer's **Prefilled Values Editable**.",
+        + " A field in a signer's list that has a value here needs that signer's **Prefilled Values Editable**."
+        + " Each value you type here is sent as text: send lists and other values that aren't text in **Data (JSON)**.",
+    },
+    dataJson: {
+      propDefinition: [
+        docspring,
+        "dataJson",
+      ],
     },
     test: {
       propDefinition: [
@@ -224,7 +231,7 @@ export default {
         version: this.templateVersion,
       }),
       data: utils.compact({
-        data: utils.parseObject(this.data, "Data"),
+        data: utils.submissionData(this.data, this.dataJson),
         test: utils.toBoolean(this.test, "Test") || undefined,
         metadata: utils.parseObject(this.metadata, "Metadata"),
         signature_requests: signatureRequests,

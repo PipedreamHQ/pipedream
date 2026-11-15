@@ -37,7 +37,16 @@ export default {
       type: "object",
       label: "Data",
       description: "The values of the template's fields, by field name, e.g. `{\"first_name\": \"Jane\", \"start_date\": \"2026-01-31\"}`."
-        + " Dates are `YYYY-MM-DD`. Use **List Template Fields** to see the template's field names.",
+        + " Dates are `YYYY-MM-DD`. Use **List Template Fields** to see the template's field names."
+        + " Each value you type here is sent as text: send lists, such as a table's rows, and other values that aren't text in **Data (JSON)**.",
+      optional: true,
+    },
+    dataJson: {
+      type: "string",
+      label: "Data (JSON)",
+      description: "Field values as one JSON object, for values that aren't text: lists (a table's rows), objects, numbers and `true` or `false`,"
+        + " e.g. `{\"line_items\": [{\"description\": \"Widget\", \"quantity\": 2}]}`."
+        + " It's merged with **Data**, and a field in both takes this one's value.",
       optional: true,
     },
     test: {
@@ -106,13 +115,13 @@ export default {
       type: "string",
       label: "Submission ID",
       description: "The ID of the submission, e.g. `sub_1234567890abcdef01`."
-        + " Use **Find Submissions** to find it, or take the `id` from **Generate PDF**.",
+        + " Use **Find Submissions** to find it, or take the `id` from **Create Submission**.",
     },
     submissionBatchId: {
       type: "string",
       label: "Submission Batch ID",
       description: "The ID of the batch, e.g. `sbb_1234567890abcdef01`."
-        + " Take it from the `id` that **Generate PDFs in a Batch** returns.",
+        + " Take it from the `id` that **Create Submission Batch** returns.",
     },
     combinedPdfId: {
       type: "string",
@@ -419,7 +428,7 @@ export default {
       });
     },
     /**
-     * Creates a submission. Generate PDF uses the sync host (`sync: true`); a submission
+     * Creates a submission. Create Submission uses the sync host (`sync: true`); a submission
      * with signature requests uses the standard host.
      * @param {object} opts
      * @param {string} opts.templateId

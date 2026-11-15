@@ -5,7 +5,7 @@ export default {
   key: "docspring-list-template-fields",
   name: "List Template Fields",
   description: "List a template's fields with all their settings: `id`, `name` (the key of its value in submission data), `type`, `page`, position, `required` and conditional logic."
-    + " Use the names for **Generate PDF** data and **Create Signature Request** signers, and the IDs for **Update Template Fields** and **Remove Template Fields**."
+    + " Use the names for **Create Submission** data and **Create Signature Request** signers, and the IDs for **Update Template Fields** and **Remove Template Fields**."
     + " [See the documentation](https://docspring.com/docs/api/#tag/templates/get/templates/{template_id}/fields)",
   version: "0.0.1",
   type: "action",

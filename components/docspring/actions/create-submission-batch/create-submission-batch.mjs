@@ -3,10 +3,10 @@ import docspring from "../../docspring.app.mjs";
 import utils from "../../common/utils.mjs";
 
 export default {
-  key: "docspring-generate-pdfs-in-a-batch",
-  name: "Generate PDFs in a Batch",
-  description: "Generate up to 50 PDFs in one request, from one template or several. Returns the batch with each of its `submissions`, and their PDF links in `files.pdf`."
-    + " Each submission takes the inputs of **Generate PDF** as JSON (`data`, `metadata`, `field_overrides`, `test`, `editable`, `password`, `output_formats`, `expires_in`),"
+  key: "docspring-create-submission-batch",
+  name: "Create Submission Batch",
+  description: "Create up to 50 submissions in one request, from one template or several. Returns the batch with each of its `submissions`, and their files in `files` (the PDF's links in `files.pdf`)."
+    + " Each submission takes the inputs of **Create Submission** as JSON (`data`, `metadata`, `field_overrides`, `test`, `editable`, `password`, `output_formats`, `expires_in`),"
     + " plus `template_id` and `template_version` to use another template than the batch's."
     + " Use **Get Submission Batch** to check on a batch later."
     + " [See the documentation](https://docspring.com/docs/api/#tag/submissions/post/submissions/batches)",
@@ -73,7 +73,8 @@ export default {
         docspring,
         "wait",
       ],
-      description: "`true` (the default) waits until every PDF in the batch is ready. `false` returns at once with a pending batch:"
+      label: "Wait for the Submissions",
+      description: "`true` (the default) waits until every submission in the batch is ready. `false` returns at once with a pending batch:"
         + " get it later with **Get Submission Batch** or the **New Event (Instant)** trigger. e.g. `true`.",
     },
   },
@@ -82,7 +83,7 @@ export default {
     if (!submissions) {
       throw new ConfigurationError("Add at least one submission, e.g. `{\"data\": {\"first_name\": \"Jane\"}}`");
     }
-    const wait = utils.toBoolean(this.wait, "Wait for the PDF") ?? true;
+    const wait = utils.toBoolean(this.wait, "Wait for the Submissions") ?? true;
     const batch = await this.docspring.createSubmissionBatch({
       $,
       params: {
@@ -101,7 +102,7 @@ export default {
     if (failure) {
       throw new Error(failure);
     }
-    $.export("$summary", `Generated batch ${batch.id} with ${batch.total_count} submission(s) (${batch.state})`);
+    $.export("$summary", `Created batch ${batch.id} with ${batch.total_count} submission(s) (${batch.state})`);
     return batch;
   },
 };

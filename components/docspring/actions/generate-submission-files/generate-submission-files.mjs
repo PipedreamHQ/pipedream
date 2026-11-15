@@ -7,7 +7,7 @@ export default {
   name: "Generate Submission Files",
   description: "Make more files for a processed submission: `png`, an image of each page of its PDF (up to 100 pages),"
     + " or, for a Word template's submission, `pdf`, `docx` (its Word document) or `odt` (an OpenDocument file)."
-    + " Returns the submission, with the new files in `files`. Use **Generate PDF** with **Output Formats** to make them with the submission instead."
+    + " Returns the submission, with the new files in `files`. Use **Create Submission** with **Output Formats** to make them with the submission instead."
     + " [See the documentation](https://docspring.com/docs/api/#tag/submissions/post/submissions/{submission_id}/generate_files)",
   version: "0.0.1",
   type: "action",
