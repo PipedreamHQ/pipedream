@@ -11,7 +11,6 @@ export default {
   key: "toggl-get-current-time-entry",
   description: "Get the time entry that is running now. [See docs here]https://developers.track.toggl.com/docs/api/time_entries#get-get-current-time-entry)",
   type: "action",
-  ai: "optimized",
   props: {
     toggl,
   },

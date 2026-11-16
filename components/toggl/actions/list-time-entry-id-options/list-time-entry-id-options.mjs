@@ -6,7 +6,6 @@ export default {
   description: "Retrieves available options for the Time Entry ID field.",
   version: "0.0.3",
   type: "action",
-  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
