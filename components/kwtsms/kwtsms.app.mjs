@@ -22,7 +22,7 @@ export default {
     message: {
       type: "string",
       label: "Message",
-      description: "The content of the SMS message. English and Arabic are detected automatically. Use `\n` for new lines. No HTML or emoji.",
+      description: "The content of the SMS message. English and Arabic are detected automatically. Use `\n` for new lines. No HTML or emoji. e.g. `Your order is ready.`",
     },
   },
   methods: {

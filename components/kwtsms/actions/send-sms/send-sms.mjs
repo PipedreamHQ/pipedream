@@ -4,7 +4,8 @@ export default {
   key: "kwtsms-send-sms",
   name: "Send SMS",
   description: "Sends an SMS to a specified number. [See the documentation](https://www.kwtsms.com/api-documentation.html)",
-  version: "0.0.4",
+  version: "1.0.0",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,6 +5,7 @@ export default {
   name: "List Sender ID Options",
   description: "Retrieves available options for the Sender ID field.",
   version: "0.0.2",
+  ai: "optimized",
   type: "action",
   annotations: {
     destructiveHint: false,
