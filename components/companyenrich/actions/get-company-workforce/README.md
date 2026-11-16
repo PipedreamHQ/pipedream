@@ -22,6 +22,6 @@ See [shared credit and pagination controls](../../README.md#search-and-credit-co
 
 A 401 response means the connected API key needs checking. For credit or capability errors, use **Get Account** to inspect the account and review the endpoint requirements. The action returns provider errors without automatically retrying.
 
-If a cursor expires, begin again without a cursor. Keep all filters and expansions unchanged when continuing. A repeated cursor stops pagination before another request can repeat that page. If a later page fails, the action fails; rerunning it can charge again for earlier successful pages.
+If a cursor expires, begin again without a cursor. Keep the same **Company ID** or **Company Domain** when continuing. A repeated cursor stops pagination before another request can repeat that page. If a later page fails, the action fails; rerunning it can charge again for earlier successful pages.
 
 Multi-page mode exports `paginationProgress` after each completed page, including the pages and continuation cursor. This snapshot can help inspect a failed run, but it is not a durable checkpoint and may be unavailable after a hard workflow timeout. Allow enough workflow execution time, including time used by earlier steps. For recovery across runs, process one page at a time and save the page and cursor to durable storage before continuing.
