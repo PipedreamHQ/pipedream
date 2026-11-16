@@ -1,7 +1,7 @@
 import { axios, ConfigurationError } from "@pipedream/platform";
 
 function itemId(value) {
-  if (typeof value !== "string" || !/^[a-zA-Z0-9-]{8,96}$/.test(value)) {
+  if (typeof value !== "string" || !/^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(value)) {
     throw new ConfigurationError("Enter a valid ClipReel project or job ID.");
   }
   return value;
@@ -14,17 +14,23 @@ export default {
     projectId: {
       type: "string",
       label: "Project ID",
-      description: "The ID of a ClipReel project that already has imported footage.",
+      description: "The ID of a ClipReel project with footage, for example 9d81c1ef-cdb3-4fd0-8c92-4e5cda588152.",
     },
     prompt: {
       type: "string",
       label: "Edit Prompt",
-      description: "Describe the changes to draft, such as shortening the intro or adding captions.",
+      description: "Describe the changes to draft, for example “Cut the first five seconds and add captions.”",
     },
     jobId: {
       type: "string",
       label: "Job ID",
-      description: "The ID returned by the ClipReel edit or render request.",
+      description: "The ID returned by an edit or render request, for example 963244db-f624-4a3a-9412-0086a7c4331c.",
+    },
+    idempotencyKey: {
+      type: "string",
+      label: "Idempotency Key",
+      description: "Reuse this key for retries of the same edit, for example launch-cut-v1. Use a new key for each distinct draft.",
+      optional: true,
     },
   },
   methods: {
@@ -53,21 +59,31 @@ export default {
         402: "This operation requires an eligible ClipReel plan.",
         403: "Check the token scopes and account plan.",
         404: "The project or job was not found in the connected account.",
+        409: "The idempotency key is already in use for a different edit.",
         429: "ClipReel’s rate or usage limit was reached.",
       };
       throw new Error("ClipReel HTTP " + response.status + ". " + (details[response.status] || "Request failed."));
     },
-    draftVideoEdit({ $, projectId, prompt }) {
+    /** Submit one edit proposal job and return its ID for a later status check. */
+    draftVideoEdit({ $, projectId, prompt, idempotencyKey }) {
       if (typeof prompt !== "string" || !prompt.trim() || prompt.length > 2000) {
         throw new ConfigurationError("Enter an edit prompt of 1 to 2,000 characters.");
+      }
+      const data = { projectId: itemId(projectId), prompt: prompt.trim() };
+      if (idempotencyKey) {
+        if (typeof idempotencyKey !== "string" || !/^[a-zA-Z0-9._:-]{1,110}$/.test(idempotencyKey)) {
+          throw new ConfigurationError("Use 1 to 110 letters, numbers, periods, underscores, colons, or hyphens in the key.");
+        }
+        data.idempotencyKey = idempotencyKey;
       }
       return this._request({
         $,
         method: "POST",
         path: "/tools/edit_by_prompt",
-        data: { projectId: itemId(projectId), prompt: prompt.trim() },
+        data,
       });
     },
+    /** Read the status of a single edit or render job in the connected account. */
     readVideoJob({ $, jobId }) {
       return this._request({ $, path: "/jobs/" + itemId(jobId) });
     },

@@ -6,4 +6,6 @@ Create a scoped token at [Connect an agent](https://www.clipreel.com/agents/conn
 
 Pass the returned job ID into **Read Video Job** after a delay. Inspect the proposal’s review link in ClipReel. Drafting uses the connected account’s editing allowance. Job outputs can include private, short-lived URLs, so keep the workflow and its run history private.
 
+If an automated workflow can retry the draft action, give each intended edit a stable **Idempotency Key** and reuse it on retries.
+
 [ClipReel API guide](https://www.clipreel.com/agents/automate-video-editing-with-ai-agents)

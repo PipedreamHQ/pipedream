@@ -6,6 +6,7 @@ export default {
   description: "Get the status and result of a ClipReel edit or render job. [Documentation](https://www.clipreel.com/agents/automate-video-editing-with-ai-agents)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
   props: {
     clipreel,
