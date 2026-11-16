@@ -2,7 +2,7 @@
 import puppeteer from "puppeteer-core";
 import chromium from "@sparticuz/chromium";
 
-// @sparticuz/chromium no longer exports a default viewport; this is the one it used to provide.
+// Viewport for new pages: a 1920x1080 landscape desktop.
 const DEFAULT_VIEWPORT = {
   deviceScaleFactor: 1,
   hasTouch: false,
