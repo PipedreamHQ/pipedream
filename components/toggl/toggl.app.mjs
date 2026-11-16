@@ -56,7 +56,7 @@ export default {
     },
     projectId: {
       label: "Project ID",
-      description: "The project ID",
+      description: "The Toggl Track project ID, e.g. `123456789`. Use **List Workspace Projects** to find it. The project must belong to the selected workspace.",
       type: "integer",
       async options({ workspaceId }) {
         const projects = await this.getProjects({
@@ -316,6 +316,41 @@ export default {
       workspaceId, $,
     }) {
       return this._makeRequest("v9", `workspaces/${workspaceId}/projects`, {}, $);
+    },
+    /**
+     * List one page of a workspace's projects, with Toggl's own filters.
+     *
+     * @param {Object} opts - The request options
+     * @param {number} opts.workspaceId - The Toggl Track workspace ID
+     * @param {Object} [opts.params] - Query params such as `active`, `name`, `page`, `per_page`
+     * @param {Object} opts.$ - The Pipedream execution context
+     * @returns {Promise<Array|null>} The projects on that page (Toggl returns null when empty)
+     */
+    listWorkspaceProjects({
+      workspaceId, params, $,
+    }) {
+      return this._makeReliableRequest("v9", `workspaces/${workspaceId}/projects`, {
+        params,
+      }, $);
+    },
+    /**
+     * List the tasks of one project.
+     *
+     * @param {Object} opts - The request options
+     * @param {number} opts.workspaceId - The Toggl Track workspace ID
+     * @param {number} opts.projectId - The Toggl Track project ID
+     * @param {Object} opts.$ - The Pipedream execution context
+     * @returns {Promise<Array|null>} The project's tasks (Toggl returns null when there are none)
+     */
+    listProjectTasks({
+      workspaceId, projectId, $,
+    }) {
+      return this._makeReliableRequest(
+        "v9",
+        `workspaces/${workspaceId}/projects/${projectId}/tasks`,
+        {},
+        $,
+      );
     },
     getCurrentTimeEntry({ $ } = {}) {
       return this._makeRequest("v9", "me/time_entries/current", {}, $);
