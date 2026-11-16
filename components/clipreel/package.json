@@ -1,0 +1,12 @@
+{
+  "name": "@pipedream/clipreel",
+  "version": "0.0.1",
+  "description": "Draft ClipReel edits and check video jobs from Pipedream.",
+  "main": "clipreel.app.mjs",
+  "license": "MIT",
+  "homepage": "https://www.clipreel.com/",
+  "keywords": ["pipedream", "clipreel", "video-editing"],
+  "dependencies": { "@pipedream/platform": "^3.1.1" },
+  "publishConfig": { "access": "public" },
+  "files": ["actions", "clipreel.app.mjs", "README.md"]
+}
