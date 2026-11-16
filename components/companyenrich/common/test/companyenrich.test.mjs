@@ -2418,6 +2418,71 @@ for (const fixture of PAGINATED_ROUTES) {
       exports: h.summaries,
     }).includes(API_KEY));
   });
+
+  // The adapter only models a socket: the later request stays pending until the app's
+  // deadline aborts the signal forwarded through the platform helper, then fails with that
+  // signal's own abort reason. The cancellation error the app handles comes from the
+  // helper's HTTP client. Without an abort the request never settles and the test times out.
+  test(`${fixture.slug}: the platform helper cancels a pending later page at the deadline and returns completed pages`, {
+    timeout: 5000,
+  }, async () => {
+    const clock = paginationClock();
+    const page = {
+      items: [
+        {
+          id: "paid-result",
+        },
+      ],
+      nextCursor: "resume-second-page+/=",
+      total: 12,
+    };
+    const pending = [];
+    const h = harness({
+      clock,
+      adapter: (config) => {
+        if (h.calls.length === 1) {
+          clock.advance(5000);
+          return Promise.resolve({
+            data: JSON.stringify(page),
+            status: 200,
+            statusText: "OK",
+            headers: {},
+            config,
+          });
+        }
+        return new Promise((resolve, reject) => {
+          config.signal.addEventListener("abort", () => reject(config.signal.reason), {
+            once: true,
+          });
+          pending.push(config);
+          setImmediate(() => clock.advance(15000));
+        });
+      },
+    });
+    const result = await h.run(fixture.slug, {
+      ...fixture.input,
+      maxPages: 100,
+    });
+    assert.deepEqual(plain(result), {
+      pages: [
+        page,
+      ],
+      nextCursor: page.nextCursor,
+      partial: true,
+      stoppedReason: "time_budget",
+    });
+    assert.equal(h.calls.length, 2, "the interrupted paid page must not be retried automatically");
+    assert.equal(pending.length, 1);
+    assert.equal(pending[0].timeout, 15000);
+    assert.equal(pending[0].signal.aborted, true);
+    assert.equal(clock.timers.size, 0);
+    assert.equal(clock.cleared.length, 1);
+    assert.deepEqual(h.summaries.map(({ name }) => name), [
+      "paginationProgress",
+      "$summary",
+    ]);
+    assert.match(h.summaries[1].value, /partial/i);
+  });
 }
 
 test("pagination stops before a new request when its deadline is reached between pages", async () => {
