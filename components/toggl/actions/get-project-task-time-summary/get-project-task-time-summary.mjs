@@ -77,6 +77,10 @@ export default {
           ],
           grouping: "projects",
           sub_grouping: "tasks",
+          // Report tracked time as-is, not the user's rounding preference (as the
+          // app's other report actions do).
+          rounding: 0,
+          rounding_minutes: 0,
         },
         $,
       }),
