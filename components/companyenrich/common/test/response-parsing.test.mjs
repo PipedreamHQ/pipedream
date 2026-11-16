@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
   parseResponse,
+  responseObject,
   safeAccount,
 } from "../utils.mjs";
 
@@ -194,6 +195,35 @@ test("malformed or non-finite JSON responses remain unchanged", () => {
   ]) {
     assert.equal(parseResponse(raw), raw);
   }
+});
+
+test("successful response validation accepts only JSON objects and never echoes the body", () => {
+  for (const value of [
+    {},
+    {
+      items: [],
+    },
+    parseResponse("{\"count\":9223372036854775807}"),
+  ]) {
+    assert.equal(responseObject(value), value);
+  }
+  const received = {
+    "not JSON synthetic-body-marker": "text",
+    "{\"id\":9223372036854775807,}": "text",
+    "\"0.30000000000000004\"": "text",
+    "": "text",
+    "[]": "array",
+    "null": "null",
+    "42": "number",
+    "true": "boolean",
+  };
+  for (const raw of Object.keys(received)) {
+    assert.throws(() => responseObject(parseResponse(raw)), (error) => {
+      assert.equal(error.message, `CompanyEnrich returned a successful status, but the response body was not a JSON object (received ${received[raw]}). No result was reported.`);
+      return true;
+    });
+  }
+  assert.throws(() => responseObject(undefined), /\(received undefined\)/);
 });
 
 test("non-string response data passes through without coercion", () => {

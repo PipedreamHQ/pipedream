@@ -12,6 +12,7 @@ import {
   integerValue,
   parseResponse,
   personId as validatePersonId,
+  responseObject,
   safeAccount,
   serializeParams,
 } from "./common/utils.mjs";
@@ -281,11 +282,13 @@ export default {
      * @param {number} [options.timeout=60000] - Request timeout in milliseconds.
      * @param {AbortSignal} [options.signal] - Optional absolute-deadline cancellation.
      * @returns {Promise<object>} Parsed API response, preserving large integers as strings.
+     * @throws {Error} When a successful response body is not a JSON object. Error responses
+     *   are rejected by the HTTP client first and keep the provider's response text.
      */
-    _makeRequest({
+    async _makeRequest({
       $, method, path, params, data, timeout = 60000, signal,
     }) {
-      return axios($ ?? this, {
+      const response = await axios($ ?? this, {
         baseURL: API_BASE_URL,
         url: path,
         method,
@@ -303,6 +306,7 @@ export default {
         timeout,
         signal,
       });
+      return responseObject(response);
     },
     /**
      * Enrich one company from its domain, optionally waiting for on-demand enrichment.

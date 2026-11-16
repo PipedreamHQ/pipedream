@@ -8,6 +8,7 @@ import {
 import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 import vm from "node:vm";
+import { axios as platformAxios } from "@pipedream/platform";
 import JSONBigInt from "json-bigint";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
@@ -24,11 +25,13 @@ const plain = (value) => value === undefined
 
 // Only the transport is replaced. Relative imports use the shipped source, and the VM
 // has no fetch, process, require, or dynamic import hook capable of reaching a network.
+// With `adapter`, requests run through the actual platform helper and its HTTP client;
+// the synthetic adapter then stands in for the socket, so no request leaves the process.
 function harness({
   response = {
     items: [],
     nextCursor: "another-paid-page",
-  }, error, responses, clock, onRequest,
+  }, error, responses, clock, onRequest, adapter,
 } = {}) {
   const calls = [];
   const summaries = [];
@@ -64,6 +67,12 @@ function harness({
           $,
           config,
           index,
+        });
+      }
+      if (adapter) {
+        return platformAxios($, {
+          ...config,
+          adapter,
         });
       }
       if (error) {
@@ -1689,18 +1698,114 @@ test("response parser ignores prototype keys and keeps ordinary nested fields", 
   assert.equal({}.polluted, undefined);
 });
 
-test("non-JSON or malformed provider response text remains available to error handling", async () => {
-  for (const response of [
-    "upstream temporarily unavailable",
-    "{\"invalid\":",
-  ]) {
-    const h = harness({
-      response,
-    });
-    const result = await h.run("search-companies");
-    assert.equal(result, response);
-    assert.equal(h.calls.length, 1);
-  }
+// Successful bodies that stay text after parsing, or that parse to anything other than
+// the JSON object documented for every API v2 operation.
+const MALFORMED_SUCCESS_BODIES = [
+  "not JSON",
+  "upstream temporarily unavailable",
+  "{\"invalid\":",
+  "",
+  "null",
+  "[]",
+  "42",
+  "\"text\"",
+];
+const MALFORMED_SUCCESS_ERROR = /successful status, but the response body was not a JSON object/;
+
+for (const fixture of ROUTES) {
+  test(`${fixture.slug}: a malformed successful response body fails without a success summary`, async () => {
+    for (const response of MALFORMED_SUCCESS_BODIES) {
+      const h = harness({
+        response,
+      });
+      await assert.rejects(h.run(fixture.slug, fixture.input), (actual) => {
+        assert.match(actual.message, MALFORMED_SUCCESS_ERROR);
+        return true;
+      });
+      assert.equal(h.calls.length, 1, "a malformed body must not be retried");
+      assert.equal(h.summaries.length, 0);
+    }
+  });
+}
+
+test("a malformed later page fails without a success summary and keeps the completed progress snapshot", async () => {
+  const page = {
+    items: [
+      {
+        id: "paid-result",
+      },
+    ],
+    nextCursor: "second",
+  };
+  const h = harness({
+    responses: [
+      page,
+      "not JSON",
+    ],
+  });
+  await assert.rejects(h.run("search-companies", {
+    maxPages: 3,
+  }), (actual) => {
+    assert.match(actual.message, MALFORMED_SUCCESS_ERROR);
+    return true;
+  });
+  assert.equal(h.calls.length, 2);
+  assert.deepEqual(plain(h.summaries), [
+    {
+      name: "paginationProgress",
+      value: {
+        pages: [
+          page,
+        ],
+        nextCursor: page.nextCursor,
+        completedPages: 1,
+      },
+    },
+  ]);
+});
+
+test("the platform helper rejects a malformed successful body but keeps the text of an error response", async () => {
+  const text = "upstream temporarily unavailable: synthetic-body-marker";
+  const success = harness({
+    adapter: async (config) => ({
+      data: text,
+      status: 200,
+      statusText: "OK",
+      headers: {},
+      config,
+    }),
+  });
+  await assert.rejects(success.run("search-companies"), (actual) => {
+    assert.match(actual.message, MALFORMED_SUCCESS_ERROR);
+    assert.ok(!actual.message.includes("synthetic-body-marker"), "the body is not echoed");
+    return true;
+  });
+  assert.equal(success.calls.length, 1);
+  assert.equal(success.summaries.length, 0);
+
+  // The HTTP client applies the same response parser before rejecting an error status.
+  const failure = harness({
+    adapter: async (config) => {
+      throw Object.assign(new Error("Request failed with status code 503"), {
+        response: {
+          data: text,
+          status: 503,
+          statusText: "Service Unavailable",
+          headers: {},
+          config,
+        },
+      });
+    },
+  });
+  await assert.rejects(failure.run("search-companies"), (actual) => {
+    assert.equal(actual.response.status, 503);
+    assert.equal(actual.response.data, text);
+    assert.doesNotMatch(actual.message, MALFORMED_SUCCESS_ERROR);
+    return true;
+  });
+  assert.equal(failure.calls.length, 1);
+  // Some platform versions add their own debug export for an error response.
+  assert.equal(failure.summaries.filter(({ name }) => name === "$summary").length, 0);
 });
 
 const PAGINATED_ROUTES = ROUTES.filter(({ slug }) => [

@@ -48,6 +48,27 @@ export function parseResponse(value) {
 }
 
 /**
+ * Require the JSON object documented for every successful API v2 response.
+ * parseResponse leaves unparseable text unchanged so error responses keep the provider's
+ * message; this check stops such a body from being reported as a completed request when it
+ * arrives with a successful status. The body is not echoed in the error message.
+ * @param {*} value Parsed body of a successful response.
+ * @returns {object} The unchanged response object.
+ * @throws {Error} When the body is text, empty, a scalar, null or an array.
+ */
+export function responseObject(value) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    const type = Object.prototype.toString.call(value).slice(8, -1)
+      .toLowerCase();
+    const received = type === "string"
+      ? "text"
+      : type;
+    throw new Error(`CompanyEnrich returned a successful status, but the response body was not a JSON object (received ${received}). No result was reported.`);
+  }
+  return value;
+}
+
+/**
  * Validate an optional or required bounded string without modifying its contents.
  * @param {*} value Prop value to validate.
  * @param {string} label Human-readable prop name used in configuration errors.
