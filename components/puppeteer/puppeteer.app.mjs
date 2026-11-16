@@ -2,7 +2,10 @@
 import puppeteer from "puppeteer-core";
 import chromium from "@sparticuz/chromium";
 
-// Viewport for new pages: a 1920x1080 landscape desktop.
+// Viewport for new pages: a 1920x1080 landscape desktop. @sparticuz/chromium
+// originally provided this as its default viewport; keeping it means existing
+// usage (screenshot sizes, responsive page layouts) doesn't change. Pass
+// `defaultViewport` in launch() options to override it.
 const DEFAULT_VIEWPORT = {
   deviceScaleFactor: 1,
   hasTouch: false,
