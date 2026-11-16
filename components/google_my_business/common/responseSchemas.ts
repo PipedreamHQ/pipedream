@@ -31,7 +31,15 @@ export interface ListReviewsResponse {
 }
 
 export interface BatchGetReviewsResponse {
-  locationReviews: {
+  locationReviews?: {
+    name?: string;
     review: Review
   }[];
+  nextPageToken?: string;
+}
+
+export interface PaginatedResult<T> {
+  items: T[];
+  nextPageToken?: string;
+  firstPage?: Record<string, unknown>;
 }
