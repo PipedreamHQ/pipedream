@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -27,11 +29,11 @@ export default {
       description: "The Toggl Track workspace ID, e.g. `1234567`. Use **List Workspace ID Options** to find accessible workspace IDs.",
       type: "integer",
       async options({ page }) {
-        const workspaces = await this.getWorkspaces({
-          params: {
-            page: page + 1,
-          },
-        });
+        // /me/workspaces returns every workspace in one response; it isn't paginated.
+        if (page > 0) {
+          return [];
+        }
+        const workspaces = await this.getWorkspaces({});
 
         return workspaces.map((workspace) => ({
           label: workspace.name,
@@ -207,20 +209,46 @@ export default {
   },
   methods: {
     _apiToken() {
-      return this.$auth.api_token;
+      // A token pasted with surrounding whitespace is rejected as a wrong password.
+      return this.$auth.api_token?.trim();
     },
     _apiUrl(apiVersion) {
       return constants.API_BASE_URL_VERSIONS[apiVersion];
     },
-    _makeRequest(apiVersion, path, options = {}, $ = this) {
-      return axios($, {
-        url: `${this._apiUrl(apiVersion)}/${path}`,
-        auth: {
-          username: this._apiToken(),
-          password: "api_token",
-        },
-        ...options,
-      });
+    async _makeRequest(apiVersion, path, options = {}, $ = this) {
+      try {
+        return await axios($, {
+          url: `${this._apiUrl(apiVersion)}/${path}`,
+          auth: {
+            username: this._apiToken(),
+            password: "api_token",
+          },
+          ...options,
+        });
+      } catch (error) {
+        throw this._authError(error) ?? error;
+      }
+    },
+    /**
+     * A clear error when Toggl rejects the API token itself, or null for any other error.
+     * Toggl answers a bad token with 403 "Incorrect username and/or password"; other 403s
+     * (e.g. no access to a workspace) pass through unchanged. The original response is
+     * kept, so status-based handling (such as retry decisions) still sees the 403.
+     *
+     * @param {Error} error - The error thrown by the request
+     * @returns {ConfigurationError|null} The clearer error, or null
+     */
+    _authError(error) {
+      const status = error?.response?.status;
+      const body = typeof error?.response?.data === "string"
+        ? error.response.data
+        : "";
+      if (status !== 401 && !(status === 403 && /incorrect username and\/or password/i.test(body))) {
+        return null;
+      }
+      const authError = new ConfigurationError(`Toggl rejected the API token (HTTP ${status}). Reconnect the Toggl account with the API Token shown at https://track.toggl.com/profile.`);
+      authError.response = error.response;
+      return authError;
     },
     /**
      * Make a Toggl API request with a timeout and retries for transient failures.
