@@ -4,7 +4,7 @@ export default {
   key: "kwtsms-list-sender-id-options",
   name: "List Sender ID Options",
   description: "Retrieves available options for the Sender ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -3,8 +3,8 @@ import app from "../../kwtsms.app.mjs";
 export default {
   key: "kwtsms-send-sms",
   name: "Send SMS",
-  description: "Sends an SMS to a specified number. [See the documentation](https://www.kwtsms.com/doc/KwtSMS.com_API_Documentation_v37.pdf)",
-  version: "0.0.3",
+  description: "Sends an SMS to a specified number. [See the documentation](https://www.kwtsms.com/api-documentation.html)",
+  version: "0.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -25,12 +25,6 @@ export default {
         "mobile",
       ],
     },
-    lang: {
-      propDefinition: [
-        app,
-        "lang",
-      ],
-    },
     message: {
       propDefinition: [
         app,
@@ -40,7 +34,7 @@ export default {
     test: {
       type: "boolean",
       label: "Test",
-      description: "If set to `true`, the SMS will be sent to handsets, but will be inserted to the queue and can be deleted to recover the credits.",
+      description: "If set to `true`, the message is queued but never delivered. Its credits are deducted and returned when you delete it from the Sending Queue.",
       optional: true,
     },
   },
@@ -63,7 +57,6 @@ export default {
       booleanToNumber,
       sender,
       mobile,
-      lang,
       message,
       test,
     } = this;
@@ -73,9 +66,8 @@ export default {
       data: {
         sender,
         mobile,
-        lang,
         message,
-        test: booleanToNumber(test),
+        test: String(booleanToNumber(test)),
       },
     });
 
