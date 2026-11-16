@@ -515,6 +515,28 @@ test("articleVerdict follows ServiceNow's read order", () => {
   assert.equal(decide({
     lists: contributor,
   }).reason, "can_contribute");
+  // ServiceNow returns hasRole(roles) as soon as the read criteria pass, without trying the
+  // contributor check, and that check reads no roles. So a contributor who lacks the article's
+  // role is refused when Can Read matches and let in when it doesn't, as ServiceNow does.
+  assert.equal(decide({
+    article: {
+      roles: "itil",
+    },
+    lists: {
+      canRead: [
+        yes.sys_id,
+      ],
+      canContribute: [
+        yes.sys_id,
+      ],
+    },
+  }).reason, "article_roles");
+  assert.equal(decide({
+    article: {
+      roles: "itil",
+    },
+    lists: contributor,
+  }).reason, "can_contribute");
   assert.equal(decide({
     lists: contributor,
     over: {
@@ -586,7 +608,8 @@ test("articleVerdict follows ServiceNow's read order", () => {
 // A stubbed ServiceNow app: `tables` holds rows (a row with `hidden: true` counts in
 // X-Total-Count but is not returned, as with a read ACL); `fail` maps a table to an HTTP status,
 // or "net" for a connection error.
-function stubApp(tables, fail = {}) {
+// `count(all, offset)` is the X-Total-Count header each page carries.
+function stubApp(tables, fail = {}, count = (all) => String(all.length)) {
   const calls = [];
   const error = (status) => Object.assign(new Error(`HTTP ${status}`), status === "net"
     ? {
@@ -633,7 +656,7 @@ function stubApp(tables, fail = {}) {
           result: all.slice(offset, offset + params.sysparm_limit).filter((row) => !row.hidden),
         },
         headers: {
-          "x-total-count": String(all.length),
+          "x-total-count": count(all, offset),
         },
       };
     },
@@ -890,6 +913,57 @@ test("paging follows X-Total-Count past a short page", async () => {
     sc_cat_item_user_criteria_mtom: links,
   })), items);
   assert.equal(readable.reason, "available_for");
+});
+
+test("a missing or changing X-Total-Count leaves the read incomplete", async () => {
+  // A denial link in the second window, and an ACL-hidden row in the first: a read that takes the
+  // short first page as the last one misses the denial and grants.
+  const links = (hiddenFirst) => Array.from({
+    length: 1001,
+  }, (_, i) => ({
+    sys_id: String(i).padStart(32, "0"),
+    sc_cat_item: id("1"),
+    // Not Available For: only the last link's criterion matches the person, which denies.
+    user_criteria: i === 1000
+      ? yes.sys_id
+      : no.sys_id,
+    hidden: hiddenFirst && i === 0,
+  }));
+  const items = itemRows("1");
+  const tables = (hiddenFirst) => catalogTables(items, {
+    sc_cat_item_user_criteria_no_mtom: links(hiddenFirst),
+  });
+  const cases = [
+    [
+      true,
+      () => undefined,
+    ],
+    [
+      true,
+      () => "",
+    ],
+    [
+      true,
+      () => "many",
+    ],
+    // The total moves between pages, so rows may have shifted past a window.
+    [
+      false,
+      (all, offset) => String(offset
+        ? all.length - 1
+        : all.length),
+    ],
+  ];
+  for (const [
+    hiddenFirst,
+    count,
+  ] of cases) {
+    const [
+      row,
+    ] = await ask(stubApp(tables(hiddenFirst), {}, count), items);
+    assert.equal(row.can_request, null);
+    assert.equal(row.reason, "unreadable");
+  }
 });
 
 const KB = id("b");

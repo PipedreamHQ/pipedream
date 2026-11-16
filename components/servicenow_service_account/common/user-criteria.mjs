@@ -80,9 +80,12 @@ export function readFailure(error) {
 
 // Every row of the query. ServiceNow applies `sysparm_limit` before read ACLs, so a short page does
 // not mean the last one: paging stops only once `X-Total-Count` (all matching rows) is covered.
-// `complete` is false when fewer rows came back than that total, so an ACL hid some.
+// `complete` is false when fewer rows came back than that total, so an ACL hid some. It is also
+// false when the count is missing or invalid, or changes between pages: rows may have been
+// skipped, so nothing proves the read whole.
 export async function readAll(app, $, table, query, fields) {
   const rows = [];
+  let firstTotal;
   for (let offset = 0; ; offset += PAGE_SIZE) {
     const response = await app._makeRawRequest({
       $,
@@ -98,10 +101,15 @@ export async function readAll(app, $, table, query, fields) {
     });
     const page = asRows(response?.data?.result);
     rows.push(...page);
-    const total = Number(response?.headers?.["x-total-count"]) || 0;
-    if (page.length < PAGE_SIZE && offset + PAGE_SIZE >= total) {
+    const header = response?.headers?.["x-total-count"];
+    const total = header === undefined || header === ""
+      ? NaN
+      : Number(header);
+    firstTotal ??= total;
+    const counted = Number.isInteger(total) && total >= 0 && total === firstTotal;
+    if (page.length < PAGE_SIZE && (!counted || offset + PAGE_SIZE >= total)) {
       return Object.assign(rows, {
-        complete: rows.length >= total,
+        complete: counted && rows.length >= total,
       });
     }
   }
