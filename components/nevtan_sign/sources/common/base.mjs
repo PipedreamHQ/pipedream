@@ -1,13 +1,16 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import nevtanSign from "../../nevtan_sign.app.mjs";
 import constants from "../../common/constants.mjs";
+import {
+  buildEventId, getEnvelopeId,
+} from "../../common/utils.mjs";
 
 /**
  * Shared polling logic for every NevTan Sign source.
  *
  * NevTan Sign allows a single webhook URL per workspace, so sources never
  * register a webhook (doing so would overwrite the user's own). Instead each
- * run fetches `GET /envelopes`, compares every envelope's status with the
+ * run fetches the envelope list, compares every envelope's status with the
  * status stored on the previous run, and emits the ones the source cares about.
  *
  * The full `{ envelopeId: status }` map is stored (not just the last 100 IDs
@@ -56,13 +59,20 @@ export default {
     getTimestamp(envelope) {
       return Date.parse(envelope.updated_at || envelope.created_at) || Date.now();
     },
-    getDedupeId(envelope) {
-      const id = this.nevtanSign.getEnvelopeId(envelope);
-      return `${id}-${envelope.status}-${this.getTimestamp(envelope)}`;
+    /**
+     * The parts that identify one event. They are joined (and hashed if the
+     * result would exceed Pipedream's 64-character dedupe limit) into the event ID.
+     */
+    getEventIdParts(envelope) {
+      return [
+        getEnvelopeId(envelope),
+        envelope.status,
+        this.getTimestamp(envelope),
+      ];
     },
     generateMeta(envelope) {
       return {
-        id: this.getDedupeId(envelope),
+        id: buildEventId(...this.getEventIdParts(envelope)),
         summary: this.getSummary(envelope),
         ts: this.getTimestamp(envelope),
       };
@@ -78,7 +88,7 @@ export default {
       let toEmit = [];
 
       for (const envelope of envelopes) {
-        const id = this.nevtanSign.getEnvelopeId(envelope);
+        const id = getEnvelopeId(envelope);
         if (!id) {
           continue;
         }

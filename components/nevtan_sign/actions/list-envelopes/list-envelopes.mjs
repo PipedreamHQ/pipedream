@@ -4,9 +4,12 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "nevtan_sign-list-envelopes",
   name: "List Envelopes",
-  description: "List the envelopes in a workspace, newest first, optionally filtered by status. Each envelope includes its participants and their signing status.",
+  description: "List the envelopes in a workspace, newest first, optionally filtered by status."
+    + " Each envelope includes its `_id`, title, status and participants with their signing status. Use this to find an envelope ID for **Void Envelope** or to check whether an envelope has been completed."
+    + " [See the documentation](https://sign.nevtan.com/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -23,17 +26,16 @@ export default {
     statuses: {
       type: "integer[]",
       label: "Statuses",
-      description: "Only return envelopes with one of these statuses. Leave blank to return all envelopes.",
+      description: "Only return envelopes with one of these statuses: `1` Draft, `2` Sent, `3` In Progress, `4` Completed, `5` Declined / Voided, `6` On Hold. Example: `[2, 4]`. Leave blank to return all envelopes.",
       options: constants.ENVELOPE_STATUS_OPTIONS,
       optional: true,
     },
     maxResults: {
-      type: "integer",
-      label: "Max Results",
-      description: "The maximum number of envelopes to return",
-      optional: true,
-      default: 100,
-      min: 1,
+      propDefinition: [
+        nevtanSign,
+        "maxResults",
+      ],
+      description: "The maximum number of envelopes to return. Example: `25`. Defaults to `100`.",
     },
   },
   async run({ $ }) {
