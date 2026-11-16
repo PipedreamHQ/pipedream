@@ -36,7 +36,7 @@ const collectTimeEntryIds = (value, ids = new Set()) => {
 export default {
   key: "toggl-get-time-entry-summary",
   name: "Get Time Entry Summary",
-  description: "Return Toggl-computed summary report groups and totals by user, client, or project. Results are limited by the connected user's Toggl permissions. [See the documentation](https://engineering.toggl.com/docs/track/reports/summary_reports/)",
+  description: "Return Toggl-computed summary report groups and totals by user, client, or project. For time per task on one project, use **Get Project Task Time Summary**. Results are limited by the connected user's Toggl permissions. [See the documentation](https://engineering.toggl.com/docs/track/reports/summary_reports/)",
   version: "0.0.2",
   type: "action",
   ai: "optimized",

@@ -1,23 +1,13 @@
 import toggl from "../../toggl.app.mjs";
+import constants from "../../common/constants.mjs";
 
-const ALL_FIELDS = "all_fields";
-const DEFAULT_FIELDS = [
-  "name",
-  "client_id",
-  "active",
-  "billable",
-  "color",
-  "start_date",
-  "end_date",
-  "created_at",
-];
 const PAGE_SIZE = 200;
 const MAX_PAGES = 5;
 
 export default {
   key: "toggl-list-workspace-projects",
   name: "List Workspace Projects",
-  description: "List the projects in a Toggl Track workspace, optionally filtered by active status or a name fragment. Use it to find a project ID before calling **List Project Tasks** or **Get Project Activity**, or to answer \"what projects do we have\". To find a workspace ID, use **List Workspace ID Options**; this action does not return time entries or tracked hours (use **Get Project Activity** for those). Returns at most 1000 projects, each with `id` plus the selected fields (default: name, client_id, active, billable, color, start_date, end_date, created_at). Example: workspaceId=1234567, name=\"Website\", active=\"true\" → matching projects with id, name, client_id, active, billable. [See the documentation](https://engineering.toggl.com/docs/api/projects/#get-workspaceprojects)",
+  description: "List the projects in a Toggl Track workspace, optionally filtered by active status or a name fragment. Use it to find a project ID before calling **List Project Tasks** or **Get Project Task Time Summary**, or to answer \"what projects do we have\". To find a workspace ID, use **List Workspace ID Options**; this action does not return time entries or tracked hours (use **Get Time Entry Summary** or **Search Detailed Time Entries** with a project filter for those). Returns at most 1000 projects, each with `id` plus the selected fields (default: name, client_id, active, billable, color, start_date, end_date, created_at). Example: workspaceId=1234567, name=\"Website\", active=\"true\" → matching projects with id, name, client_id, active, billable. [See the documentation](https://engineering.toggl.com/docs/api/projects/#get-workspaceprojects)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
@@ -31,7 +21,7 @@ export default {
     workspaceId: {
       propDefinition: [
         toggl,
-        "workspaceId",
+        "workspaceIdStatic",
       ],
     },
     active: {
@@ -55,63 +45,14 @@ export default {
       type: "string[]",
       label: "Fields",
       description: "Project fields to return besides `id`, e.g. `[\"name\", \"client_id\"]`. Defaults to name, client_id, active, billable, color, start_date, end_date and created_at. Select All Fields for the complete rows.",
-      options: [
-        {
-          label: "Name",
-          value: "name",
-        },
-        {
-          label: "Client ID",
-          value: "client_id",
-        },
-        {
-          label: "Active",
-          value: "active",
-        },
-        {
-          label: "Billable",
-          value: "billable",
-        },
-        {
-          label: "Color",
-          value: "color",
-        },
-        {
-          label: "Start Date",
-          value: "start_date",
-        },
-        {
-          label: "End Date",
-          value: "end_date",
-        },
-        {
-          label: "Created At",
-          value: "created_at",
-        },
-        {
-          label: "Estimated Hours",
-          value: "estimated_hours",
-        },
-        {
-          label: "Private",
-          value: "is_private",
-        },
-        {
-          label: "Rate",
-          value: "rate",
-        },
-        {
-          label: "All Fields",
-          value: ALL_FIELDS,
-        },
-      ],
-      default: DEFAULT_FIELDS,
+      options: constants.PROJECT_FIELD_OPTIONS,
+      default: constants.DEFAULT_PROJECT_FIELDS,
     },
   },
   async run({ $ }) {
     const fields = this.fields?.length
       ? this.fields
-      : DEFAULT_FIELDS;
+      : constants.DEFAULT_PROJECT_FIELDS;
     const projects = [];
     let hasMore = false;
 
@@ -138,7 +79,7 @@ export default {
       if (page === MAX_PAGES) hasMore = true;
     }
 
-    const results = fields.includes(ALL_FIELDS)
+    const results = fields.includes(constants.ALL_FIELDS)
       ? projects
       : projects.map((project) => Object.fromEntries([
         "id",

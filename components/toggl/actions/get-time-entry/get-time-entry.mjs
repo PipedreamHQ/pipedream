@@ -11,6 +11,7 @@ export default {
   key: "toggl-get-time-entry",
   description: "Get details about a specific time entry. [See docs here](https://developers.track.toggl.com/docs/api/time_entries)",
   type: "action",
+  ai: "optimized",
   props: {
     toggl,
     timeEntryId: {

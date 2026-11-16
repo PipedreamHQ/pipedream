@@ -39,6 +39,16 @@ export default {
         }));
       },
     },
+    workspaceIdStatic: {
+      label: "Workspace ID",
+      description: "The Toggl Track workspace ID, e.g. `1234567`. Use **List Workspace ID Options** to find it (the `value` field).",
+      type: "integer",
+    },
+    projectIdStatic: {
+      label: "Project ID",
+      description: "The Toggl Track project ID, e.g. `123456789`. Use **List Workspace Projects** to find it (the `id` field). The project must belong to the given workspace.",
+      type: "integer",
+    },
     clientId: {
       label: "Client ID",
       description: "The client ID",

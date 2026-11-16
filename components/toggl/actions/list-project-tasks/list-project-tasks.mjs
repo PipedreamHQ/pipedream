@@ -3,7 +3,7 @@ import toggl from "../../toggl.app.mjs";
 export default {
   key: "toggl-list-project-tasks",
   name: "List Project Tasks",
-  description: "List the tasks under one Toggl Track project, with each task's estimated and tracked seconds. Use it when a user asks what tasks a project has or how much time each task has used. Use **List Workspace Projects** first to get the project ID; there is no workspace-wide task listing, and this action does not return time entries (use **Get Project Activity** for those). Returns an array of tasks with id, name, project_id, workspace_id, active, estimated_seconds and tracked_seconds, empty when the project has none. Example: workspaceId=1234567, projectId=123456789, active=true → the project's active tasks with their estimated and tracked seconds. [See the documentation](https://engineering.toggl.com/docs/api/tasks/#get-tasks)",
+  description: "List the tasks under one Toggl Track project, with each task's estimated seconds and all-time tracked seconds. Use it when a user asks what tasks a project has. Use **List Workspace Projects** first to get the project ID; there is no workspace-wide task listing, and this action does not return time entries (use **Get Project Task Time Summary** for time per task over a date range). Returns an array of tasks with id, name, project_id, workspace_id, active, estimated_seconds and tracked_seconds, empty when the project has none. Example: workspaceId=1234567, projectId=123456789, active=true → the project's active tasks with their estimated and tracked seconds. [See the documentation](https://engineering.toggl.com/docs/api/tasks/#get-tasks)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
@@ -17,16 +17,13 @@ export default {
     workspaceId: {
       propDefinition: [
         toggl,
-        "workspaceId",
+        "workspaceIdStatic",
       ],
     },
     projectId: {
       propDefinition: [
         toggl,
-        "projectId",
-        ({ workspaceId }) => ({
-          workspaceId,
-        }),
+        "projectIdStatic",
       ],
     },
     active: {
