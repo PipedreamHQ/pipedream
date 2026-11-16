@@ -4,7 +4,7 @@ export default {
   key: "linkedin_ads-list-accounts-options",
   name: "List Accounts Options",
   description: "Retrieves available options for the Accounts field.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

@@ -7,6 +7,8 @@ import {
   DOCUMENT_FIELDS,
   FILES_MAX_PAGE_SIZE,
   OCCURRENCES,
+  SUGGEST_WRITE_MODE,
+  SUGGESTIONS_INLINE,
   TAB_METADATA_MASK_DEPTH,
 } from "./common/constants.mjs";
 
@@ -17,7 +19,7 @@ export default {
     fields: {
       type: "string",
       label: "Fields",
-      description: `Optional Google Docs API field mask limiting which document fields are returned, e.g. \`documentId,title,revisionId\` instead of the whole document. Valid top-level fields: ${DOCUMENT_FIELDS.map((field) => `\`${field}\``).join(", ")} - the underscore spelling of each (e.g. \`document_id\`) is accepted too. Nested selections are allowed, e.g. \`body/content\`. There is no \`url\` field, and an invalid mask fails the call before the document is changed. Cannot be combined with **Tab ID**. Leave blank to return the full document.`,
+      description: `Optional Google Docs API field mask limiting which document fields are returned, e.g. \`documentId,title,revisionId\` instead of the whole document. Valid top-level fields: ${DOCUMENT_FIELDS.map((field) => `\`${field}\``).join(", ")} - the underscore spelling of each (e.g. \`document_id\`) is accepted too. Nested selections are allowed, e.g. \`body/content\`. There is no \`url\` field, and an invalid mask fails the call before the document is changed. With a **Tab ID**, the mask is read against the document with its tabs: every content field (\`body\`, \`lists\`, \`inlineObjects\`, headers, footers, ...) sits under \`tabs\` rather than at the top level, and \`tabs\` is narrowed to that tab - pass \`documentId,revisionId\` for a minimal confirmation, or \`tabs\` for the written tab. Leave blank to return the full document - or, with a Tab ID, the whole written tab, which for a long tab can be very large; pass \`documentId,revisionId\` when you only need confirmation.`,
       optional: true,
     },
     ...googleDrive.propDefinitions,
@@ -175,6 +177,13 @@ export default {
       default: "plain",
       optional: true,
     },
+    suggestMode: {
+      type: "boolean",
+      label: "Suggest Changes",
+      description: "Make the change as a suggestion (Google Docs Suggesting mode) that the document's editors can accept or reject, instead of editing the document directly. The response's `suggestionIds` lists the suggestions the change created or extended - an edit next to an existing suggestion can join it rather than create a new one. Pass the IDs to **Resolve Suggestions**, or use **List Suggestions** to see every open suggestion. While a suggestion is open, the document text this returns shows the suggested and the original text side by side. Set `true` to propose the edit, or leave `false` (default) to edit directly.",
+      default: false,
+      optional: true,
+    },
   },
   methods: {
     ...googleDrive.methods,
@@ -260,9 +269,31 @@ export default {
       if (/invalid tab id/i.test(error?.message ?? "")) {
         throw new ConfigurationError(`Invalid Tab ID for document ${documentId}. Call **List Tabs** to get this document's tab IDs (e.g. \`t.0\`), or omit Tab ID to target the document's first tab.`);
       }
+      const missingSuggestion = (error?.message ?? "").match(/Suggestion with ID (\S+) does not exist/i);
+      if (missingSuggestion) {
+        throw new ConfigurationError(`Suggestion ${missingSuggestion[1]} does not exist in document ${documentId}, so no suggestions were resolved. Call **List Suggestions** to get the document's open suggestion IDs.`);
+      }
       throw error;
     },
-    async _batchUpdate(documentId, requestName, request) {
+    writeControl(suggestMode) {
+      return suggestMode
+        ? {
+          writeMode: SUGGEST_WRITE_MODE,
+        }
+        : undefined;
+    },
+    withSuggestionIds(result, suggestMode, ...responses) {
+      return suggestMode
+        ? {
+          ...result,
+          suggestionIds: utils.getSuggestionIds(responses),
+          ...(utils.suggestionThreadsFailed(responses) && {
+            suggestionWarning: "Google applied the change but could not save its suggestion threads, so it may not appear as a suggestion. Check the document, or call **List Suggestions**.",
+          }),
+        }
+        : result;
+    },
+    async _batchUpdate(documentId, requestName, request, writeControl) {
       try {
         return await this.docs().documents.batchUpdate({
           documentId,
@@ -272,6 +303,9 @@ export default {
                 [requestName]: request,
               },
             ],
+            ...(writeControl && {
+              writeControl,
+            }),
           },
         });
       } catch (error) {
@@ -359,12 +393,30 @@ export default {
     // out `depth` levels deep. Google's field masks have no recursive wildcard, so
     // an unqualified `childTabs` would pull down every descendant's content — which
     // is the whole document, i.e. what the mask exists to avoid.
-    _tabMetadataFields(depth) {
-      let level = "tabProperties";
+    _tabMetadataFields(depth, selections = []) {
+      const own = [
+        "tabProperties",
+        ...selections,
+      ].join(",");
+      let level = own;
       for (let i = 1; i < depth; i++) {
-        level = `tabProperties,childTabs(${level})`;
+        level = `${own},childTabs(${level})`;
       }
       return `tabs(${level})`;
+    },
+    // Adds the tab IDs `narrowToTab` matches on, at every nesting level, so a
+    // mask that leaves them out can't make the target tab look empty. A `tabs`
+    // sub-selection is repeated at each child-tab level too, or a child tab
+    // comes back without the content the mask asked for.
+    _withTabIdFields(fields) {
+      const selections = utils.splitFieldMask(fields)
+        .map((part) => part.trim().match(/^tabs(?:\/(.+)|\((.+)\))$/))
+        .filter(Boolean)
+        .map(([
+          , path,
+          group,
+        ]) => path ?? group);
+      return `${fields},${this._tabMetadataFields(TAB_METADATA_MASK_DEPTH, selections)}`;
     },
     // Tabs in document order (each parent immediately followed by its children),
     // metadata only. A `getDocument` without `includeTabsContent` omits `tabs`
@@ -469,12 +521,51 @@ export default {
         revisionId: document.revisionId,
       };
     },
+    // A masked read with a Tab ID covers every tab, so keep only the named one
+    // in `tabs` (without its child tabs) - otherwise a `tabs` mask returns more
+    // than the unmasked tab read it was meant to trim (measured: 47k vs 14k
+    // chars). The mask always carries tab IDs (`_withTabIdFields`), so `tabs`
+    // comes back empty only when the document has no such tab.
+    narrowToTab(document, tabId) {
+      if (!tabId || !Array.isArray(document?.tabs)) {
+        return document;
+      }
+      const tab = this._flattenDocumentTabs(document.tabs)
+        .find(({ tabProperties }) => tabProperties?.tabId === tabId);
+      if (!tab) {
+        return {
+          ...document,
+          tabs: [],
+        };
+      }
+      const onlyTab = {
+        ...tab,
+      };
+      delete onlyTab.childTabs;
+      return {
+        ...document,
+        tabs: [
+          onlyTab,
+        ],
+      };
+    },
     // What a tab-targeted write returns. Plain `getDocument` would hand back the
     // FIRST tab's content, which for an edit that landed in another tab reads as
     // if nothing had happened, so return the tab that was actually written.
+    // A Fields mask wins over that: it is read against the document with its
+    // tabs, so `documentId,revisionId` stays tiny however large the tab is.
     async getWriteResult(documentId, tabId, fields) {
-      if (!tabId) {
-        return this.getDocument(documentId, false, fields);
+      if (!tabId || fields) {
+        return this.narrowToTab(
+          await this.getDocument(
+            documentId,
+            Boolean(tabId),
+            tabId
+              ? this._withTabIdFields(fields)
+              : fields,
+          ),
+          tabId,
+        );
       }
       const document = await this.getDocument(documentId, true);
       const tab = this._findTab(document, tabId);
@@ -513,6 +604,27 @@ export default {
       ]);
       return data?.replies?.[0]?.addDocumentTab?.tabProperties;
     },
+    async listSuggestions(documentId, tabId) {
+      const { data: document } = await this.docs().documents.get({
+        documentId,
+        includeTabsContent: true,
+        suggestionsViewMode: SUGGESTIONS_INLINE,
+      });
+      const tabs = tabId
+        ? [
+          this._findTab(document, tabId),
+        ]
+        : this._flattenDocumentTabs(document.tabs);
+      return utils.collectSuggestions(tabs);
+    },
+    async resolveSuggestions(documentId, suggestionIds, decision) {
+      const requestName = `${decision}Suggestion`;
+      return this.batchUpdate(documentId, suggestionIds.map((suggestionId) => ({
+        [requestName]: {
+          suggestionId,
+        },
+      })));
+    },
     async createEmptyDoc(title) {
       const { data: createdDoc } = await this.docs().documents.create({
         requestBody: {
@@ -521,19 +633,19 @@ export default {
       });
       return createdDoc;
     },
-    async insertText(documentId, text, atBeginning = false, tabId) {
+    async insertText(documentId, text, atBeginning = false, tabId, writeControl) {
       const request = this._buildRequest(text, atBeginning, tabId);
-      return this._batchUpdate(documentId, "insertText", request);
+      return this._batchUpdate(documentId, "insertText", request, writeControl);
     },
-    async replaceText(documentId, text) {
-      return this._batchUpdate(documentId, "replaceAllText", text);
+    async replaceText(documentId, text, writeControl) {
+      return this._batchUpdate(documentId, "replaceAllText", text, writeControl);
     },
     async appendImage(documentId, image, atBeginning = false) {
       const request = this._buildRequest(image, atBeginning);
       return this._batchUpdate(documentId, "insertInlineImage", request);
     },
-    async replaceImage(documentId, image) {
-      return this._batchUpdate(documentId, "replaceImage", image);
+    async replaceImage(documentId, image, writeControl) {
+      return this._batchUpdate(documentId, "replaceImage", image, writeControl);
     },
     // Which tab holds an inline object. `ReplaceImageRequest` carries `tabId`
     // directly, and without it the API looks in the first tab only — but an
@@ -709,7 +821,7 @@ export default {
     },
     async deleteTable(documentId, {
       startIndex, endIndex, tabId,
-    }) {
+    }, writeControl) {
       return this._batchUpdate(documentId, "deleteContentRange", {
         range: {
           startIndex,
@@ -718,11 +830,12 @@ export default {
             tabId,
           }),
         },
-      });
+      }, writeControl);
     },
     async writeTable(documentId, {
-      rows, position, hasHeaderRow, tabId, fields,
+      rows, position, hasHeaderRow, tabId, fields, suggestMode,
     }) {
+      const writeControl = this.writeControl(suggestMode);
       // Validate before making any request: a bad cell value here should
       // never leave an empty table behind from a partially-applied insert.
       const invalidValue = rows.flat().find((value) => value != null && typeof value === "object");
@@ -745,7 +858,7 @@ export default {
         rows: numRows,
         columns: numColumns,
       }, position, tabId);
-      await this._batchUpdate(documentId, "insertTable", insertRequest);
+      const insertResponse = await this._batchUpdate(documentId, "insertTable", insertRequest, writeControl);
 
       // The insertTable reply carries no location info, so re-fetch the
       // document and select the new table by ordinal position (see
@@ -818,16 +931,21 @@ export default {
         }
       });
 
-      if (requests.length) {
-        await this.batchUpdate(documentId, requests);
-      }
+      const fillResponse = requests.length
+        ? await this.batchUpdate(documentId, requests, writeControl)
+        : null;
 
       // Pass `fields` down so the single read this already performs returns the
       // masked document - a second masked fetch in the action would double it.
-      return this.getWriteResult(documentId, tabId, fields);
+      return this.withSuggestionIds(
+        await this.getWriteResult(documentId, tabId, fields),
+        suggestMode,
+        insertResponse,
+        fillResponse,
+      );
     },
-    async insertPageBreak(documentId, request) {
-      return this._batchUpdate(documentId, "insertPageBreak", request);
+    async insertPageBreak(documentId, request, writeControl) {
+      return this._batchUpdate(documentId, "insertPageBreak", request, writeControl);
     },
     async createDocument(request) {
       const { data } = await this.docs().documents.create({
@@ -866,7 +984,9 @@ export default {
       markdownReplacement,
       matchCase = false,
       tabIds = null,
+      suggestMode = false,
     }) {
+      const writeControl = this.writeControl(suggestMode);
       const {
         text: parsedText,
         formattingRequests: markdownFormatting,
@@ -884,7 +1004,11 @@ export default {
       const insertedStartsByTab = new Map();
       if (markdownFormatting.length) {
         const beforeDoc = await this.getDocument(documentId, true);
-        const lengthDelta = replacementText.length - textToReplace.length;
+        // A suggested replacement keeps the old text inline as a suggested
+        // deletion right after the insertion, so nothing is removed (measured).
+        const lengthDelta = suggestMode
+          ? replacementText.length
+          : replacementText.length - textToReplace.length;
         this._flattenDocumentTabs(beforeDoc.tabs)
           .filter(({ tabProperties }) => !tabIds?.length || tabIds.includes(tabProperties?.tabId))
           .forEach((tab) => {
@@ -900,7 +1024,7 @@ export default {
           });
       }
 
-      const { data: replaceData } = await this.batchUpdate(documentId, [
+      const replaceResponse = await this.batchUpdate(documentId, [
         {
           replaceAllText: {
             containsText: {
@@ -915,15 +1039,15 @@ export default {
               : undefined,
           },
         },
-      ]);
+      ], writeControl);
       const occurrencesChanged =
-        replaceData?.replies?.[0]?.replaceAllText?.occurrencesChanged ?? 0;
+        replaceResponse?.data?.replies?.[0]?.replaceAllText?.occurrencesChanged ?? 0;
 
       if (!occurrencesChanged || !markdownFormatting.length) {
-        return {
+        return this.withSuggestionIds({
           occurrencesChanged,
           formattingRequestsApplied: 0,
-        };
+        }, suggestMode, replaceResponse);
       }
 
       const updatedDoc = await this.getDocument(documentId, true);
@@ -955,16 +1079,20 @@ export default {
         });
       });
 
-      if (formattingRequests.length) {
-        await this.batchUpdate(documentId, formattingRequests, updatedDoc.revisionId && {
+      const formattingWriteControl = (writeControl || updatedDoc.revisionId) && {
+        ...writeControl,
+        ...(updatedDoc.revisionId && {
           requiredRevisionId: updatedDoc.revisionId,
-        });
-      }
+        }),
+      };
+      const formattingResponse = formattingRequests.length
+        ? await this.batchUpdate(documentId, formattingRequests, formattingWriteControl)
+        : null;
 
-      return {
+      return this.withSuggestionIds({
         occurrencesChanged,
         formattingRequestsApplied: formattingRequests.length,
-      };
+      }, suggestMode, replaceResponse, formattingResponse);
     },
   },
 };
