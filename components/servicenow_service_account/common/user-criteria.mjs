@@ -23,7 +23,6 @@ const CRITERIA_FIELDS = [
   "active",
   "advanced",
   "match_all",
-  "script",
   ...CONDITION_FIELDS,
 ];
 
@@ -79,12 +78,15 @@ export function readFailure(error) {
   };
 }
 
+// Every row of the query. ServiceNow applies `sysparm_limit` before read ACLs, so a short page does
+// not mean the last one: paging stops only once `X-Total-Count` (all matching rows) is covered.
+// `complete` is false when fewer rows came back than that total, so an ACL hid some.
 export async function readAll(app, $, table, query, fields) {
   const rows = [];
   for (let offset = 0; ; offset += PAGE_SIZE) {
-    const page = asRows(await app.getTableRecords({
+    const response = await app._makeRawRequest({
       $,
-      table,
+      url: `/table/${table}`,
       params: {
         sysparm_query: `${query}^ORDERBYsys_id`,
         sysparm_fields: fields.join(","),
@@ -92,24 +94,28 @@ export async function readAll(app, $, table, query, fields) {
         sysparm_limit: PAGE_SIZE,
         sysparm_offset: offset,
       },
-    }));
+      returnFullResponse: true,
+    });
+    const page = asRows(response?.data?.result);
     rows.push(...page);
-    if (page.length < PAGE_SIZE) {
-      return rows;
+    const total = Number(response?.headers?.["x-total-count"]) || 0;
+    if (page.length < PAGE_SIZE && offset + PAGE_SIZE >= total) {
+      return Object.assign(rows, {
+        complete: rows.length >= total,
+      });
     }
   }
 }
 
 export async function readByIds(app, $, table, field, ids, fields) {
-  if (!ids.length) {
-    return [];
-  }
   const batches = [];
   for (let i = 0; i < ids.length; i += ID_BATCH_SIZE) {
     batches.push(ids.slice(i, i + ID_BATCH_SIZE));
   }
   const rows = await Promise.all(batches.map((batch) => readAll(app, $, table, `${field}IN${batch.join(",")}`, fields)));
-  return rows.flat();
+  return Object.assign(rows.flat(), {
+    complete: rows.every((batch) => batch.complete),
+  });
 }
 
 // The named system properties' values; a row the integration user cannot read is left out, so the
@@ -138,7 +144,8 @@ export async function readProperties(app, $, names) {
   }
 }
 
-// The person's record, role names, and the sys_ids each criteria field is matched against.
+// The person's record, role names, and the sys_ids each criteria field is matched against; a
+// field the integration user cannot read is `null` (unknown), not an empty set.
 export async function readPerson(app, $, userSysId) {
   const [
     users,
@@ -166,16 +173,24 @@ export async function readPerson(app, $, userSysId) {
   const [
     user,
   ] = users;
-  const one = (field) => new Set(splitIds(user?.[field]));
+  const one = (field) => user?.[field] === undefined
+    ? null
+    : new Set(splitIds(user[field]));
+  // Memberships are unknown when an ACL hid a row or the reference of one.
+  const memberships = (rows, field) => rows.complete
+    && rows.every((row) => referenceId(row[field]))
+    ? new Set(rows.map((row) => referenceId(row[field])))
+    : null;
   return {
     user,
+    hidden: !users.complete,
     roleNames: new Set(roles.map((row) => row["role.name"]).filter(Boolean)),
     facts: {
       user: new Set([
         userSysId,
       ]),
-      group: new Set(groups.map((row) => referenceId(row.group)).filter(Boolean)),
-      role: new Set(roles.map((row) => referenceId(row.role)).filter(Boolean)),
+      group: memberships(groups, "group"),
+      role: memberships(roles, "role"),
       company: one("company"),
       department: one("department"),
       location: one("location"),
@@ -186,10 +201,15 @@ export async function readPerson(app, $, userSysId) {
 // Why nobody may act as this person, or `null` when the record is usable.
 export function personRefusal(person) {
   if (!person.user) {
-    return {
-      allowed: false,
-      reason: "user_not_found",
-    };
+    return person.hidden
+      ? {
+        allowed: null,
+        reason: "unreadable",
+      }
+      : {
+        allowed: false,
+        reason: "user_not_found",
+      };
   }
   if (![
     person.user.active,
@@ -226,18 +246,23 @@ export async function readCriteria(app, $, ids) {
 }
 
 // `{ parent sys_id: [criterion sys_id] }` from a link table, and the parents whose links the
-// integration user could not fully read. A row whose parent is hidden could belong to any of them.
+// integration user could not fully read. A hidden row, or a row whose parent is hidden, could
+// belong to any of them.
 export async function readLinks(app, $, table, parentField, parentIds) {
   const byParent = new Map(parentIds.map((id) => [
     id,
     [],
   ]));
   const unreadable = new Set();
-  for (const row of await readByIds(app, $, table, parentField, parentIds, [
+  const rows = await readByIds(app, $, table, parentField, parentIds, [
     "sys_id",
     parentField,
     "user_criteria",
-  ])) {
+  ]);
+  if (!rows.complete) {
+    parentIds.forEach((id) => unreadable.add(id));
+  }
+  for (const row of rows) {
     const parentId = referenceId(row[parentField]);
     const criterionId = referenceId(row.user_criteria);
     if (!parentId) {
@@ -260,13 +285,11 @@ export async function readLinks(app, $, table, parentField, parentIds) {
 }
 
 // One criterion for this person: `value` is `true`, `false`, or `null` when it cannot be decided
-// here (`why` says which), and `skip` marks an inactive criterion, which ServiceNow ignores.
+// here (`why` says which), and `skip` marks an inactive criterion, which ServiceNow ignores. A
+// condition field hidden from the integration user, on the criterion or the person, is unknown,
+// never empty.
 export function criterionMatches(criterion, facts) {
-  if (!criterion || ![
-    criterion.active,
-    criterion.advanced,
-    criterion.match_all,
-  ].every(isBoolean)) {
+  if (!criterion || !isBoolean(criterion.active)) {
     return {
       value: null,
       why: "unreadable",
@@ -277,6 +300,17 @@ export function criterionMatches(criterion, facts) {
       skip: true,
     };
   }
+  if (![
+    criterion.advanced,
+    criterion.match_all,
+  ].every(isBoolean) || CONDITION_FIELDS.some((field) => criterion[field] === undefined)) {
+    return {
+      value: null,
+      why: "unreadable",
+    };
+  }
+  // A populated field matches when the person has any one of its values; `null` when the
+  // person's value is hidden.
   const fields = CONDITION_FIELDS
     .map((field) => [
       field,
@@ -288,48 +322,50 @@ export function criterionMatches(criterion, facts) {
     .map(([
       field,
       ids,
-    ]) => ({
-      any: ids.some((id) => facts[field].has(id)),
-      all: ids.every((id) => facts[field].has(id)),
-    }));
-  // The script is one more condition beside the fields; ServiceNow ignores it unless advanced.
+    ]) => facts[field] && ids.some((id) => facts[field].has(id)));
+  // The script is one more condition beside the fields; ServiceNow ignores it unless advanced. It
+  // runs in the caller's session, the integration user's here, so it is never decided.
   const scripted = criterion.advanced === "true";
-  const undecided = {
-    value: null,
-    why: scripted
-      ? "script"
-      : "ambiguous",
-    script: scripted
-      ? String(criterion.script ?? "")
-      : "",
-  };
   if (!fields.length && !scripted) {
+    // ServiceNow's user criteria guide: a criterion with no conditions matches no users.
     return {
-      value: true,
+      value: false,
     };
   }
+  const script = {
+    value: null,
+    why: "script",
+  };
+  const unknown = {
+    value: null,
+    why: "unreadable",
+  };
   if (criterion.match_all === "true") {
-    // Whether every value of a multi-value field must match is unproven: both readings must agree.
-    const anyReading = fields.every((field) => field.any);
-    const allReading = fields.every((field) => field.all);
-    if (!anyReading && !allReading) {
+    // Every populated field must match, and the script too.
+    if (fields.includes(false)) {
       return {
         value: false,
       };
     }
-    return anyReading !== allReading || scripted
-      ? undecided
+    if (scripted) {
+      return script;
+    }
+    return fields.includes(null)
+      ? unknown
       : {
         value: true,
       };
   }
-  if (fields.some((field) => field.any)) {
+  if (fields.includes(true)) {
     return {
       value: true,
     };
   }
-  return scripted
-    ? undecided
+  if (scripted) {
+    return script;
+  }
+  return fields.includes(null)
+    ? unknown
     : {
       value: false,
     };

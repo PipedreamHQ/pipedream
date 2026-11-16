@@ -1,4 +1,3 @@
-import constants from "@pipedream/servicenow/common/constants.mjs";
 import servicenow from "../../servicenow_service_account.app.mjs";
 import {
   anyIs,
@@ -17,26 +16,13 @@ import {
 } from "../../common/user-criteria.mjs";
 
 const MAX_ITEMS = 50;
-const DELEGATION_CONCURRENCY = 10;
 const USE_USER_CRITERIA = "glide.sc.use_user_criteria";
 const OVERRIDE_ROLES = "glide.sc.entitlement.override";
-// ServiceNow runs a criteria script in the caller's session, so these APIs see the integration
-// user, not the person being checked. Only scripts that use the `user_id` variable instead can
-// be left to ServiceNow.
-// ponytail: text match only; a script include that reads the session user internally still passes.
-const SESSION_USER_API = /\bgs\s*\.\s*(getUser\w*|hasRole\w*|getSession\w*|isMemberOf|isLoggedIn)\b|\bGlideSession\b/;
-const USER_ID_VARIABLE = /\buser_id\b/;
-// Block comments and whole-line `//` comments, which the base system's script template uses to
-// warn against session-user APIs. A `//` after code is kept: it may sit inside a string.
-const COMMENTS = /\/\*[\s\S]*?\*\/|^[ \t]*\/\/.*$/gm;
-const DEFAULT_OVERRIDE_ROLES = [
-  "admin",
-];
 
 export default {
   key: "servicenow_service_account-check-catalog-item-access",
   name: "Check Catalog Item Access",
-  description: "Check which catalog items a given ServiceNow user may request, by evaluating each item's Available For and Not Available For user criteria for that user. **Search Catalog Items** and **Get Catalog Item Variables** run as the integration user, so they return items the person you act for may not be allowed to see or order: run this with that person's `sys_id` from **Find Users** (never the `sys_id` from **Get Current User**) and the item `sys_id`s before showing, describing, or ordering any of them, and keep only items whose `can_request` is `true`. Each result has the item `sys_id`, `can_request`, and a `reason`: `open_to_all`, `available_for`, or `entitlement_override` when it is `true`; `not_available_for`, `not_in_available_for`, `item_inactive`, `item_not_found` (or hidden from the integration user), `user_not_found` (or hidden), `user_inactive`, or `user_locked_out` when it is `false`; `scripted_criteria` when ServiceNow's own check (`CatItem.isDelegationAllowed`) decided it for that person on a Restricted item: a scripted criterion that uses `user_id`, or a match-all criterion with a multi-value field. `can_request` is `null` when the answer cannot be determined for that person, with reason `unresolved_script` (a scripted criterion that does not use `user_id` or that reads the session user, or, on an item whose Access Type is not Restricted, any scripted or multi-value match-all criterion), `unreadable` (the integration user cannot read a table, a criterion, a field of the item, link, or user, or the `glide.sc.use_user_criteria` property), `legacy_entitlements` (the instance does not use user criteria), or `check_failed` (ServiceNow returned an error or could not be reached): treat a `null` item as not available and do not offer it. The integration user must be able to read every row of the tables below: a row it cannot read looks the same as no row. Criteria are read from `user_criteria`, `sc_cat_item_user_criteria_mtom`, and `sc_cat_item_user_criteria_no_mtom`, and the person's roles, groups, company, department, and location from `sys_user`, `sys_user_has_role`, and `sys_user_grmember`; on a Restricted item, scripted criteria that use only the `user_id` variable are evaluated by ServiceNow (`CatItem.isDelegationAllowed`). Example: user `62826bf03710200044e0bfc8bcbe5df1` and items `[\"060f3afa3731300054b6a3549dbe5d3e\"]` return `[{\"sys_id\": \"060f3afa3731300054b6a3549dbe5d3e\", \"can_request\": true, \"reason\": \"available_for\"}]`. [See the documentation](https://www.servicenow.com/docs/r/zurich/servicenow-platform/service-catalog/t_AppUserCritItemsCat.html)",
+  description: "Check which catalog items a given ServiceNow user may request, by evaluating each item's Available For and Not Available For user criteria for that user. **Search Catalog Items** and **Get Catalog Item Variables** run as the integration user, so they return items the person you act for may not be allowed to see or order: run this with that person's `sys_id` from **Find Users** (never the `sys_id` from **Get Current User**) and the item `sys_id`s before showing, describing, or ordering any of them, and keep only items whose `can_request` is `true`. Each result has the item `sys_id`, `can_request`, and a `reason`: `open_to_all`, `available_for`, or `entitlement_override` when it is `true`; `not_available_for`, `not_in_available_for`, `item_inactive`, `item_not_found` (or hidden from the integration user), `user_not_found` (or hidden), `user_inactive`, or `user_locked_out` when it is `false`. `can_request` is `null` when the answer cannot be determined for that person, with reason `unresolved_script` (a scripted criterion: ServiceNow runs it in the caller's session, so it cannot be evaluated for another person), `unreadable` (the integration user cannot read a table, a criterion, a field of the item, link, user, or criterion, or the `glide.sc.use_user_criteria` property), `legacy_entitlements` (the instance does not use user criteria), or `check_failed` (ServiceNow returned an error or could not be reached): treat a `null` item as not available and do not offer it. When the `glide.sc.entitlement.override` property is hidden, nobody gets `entitlement_override`. The integration user must be able to read every row of the tables below: a row it cannot read looks the same as no row. Criteria are read from `user_criteria`, `sc_cat_item_user_criteria_mtom`, and `sc_cat_item_user_criteria_no_mtom`, and the person's roles, groups, company, department, and location from `sys_user`, `sys_user_has_role`, and `sys_user_grmember`. Example: user `62826bf03710200044e0bfc8bcbe5df1` and items `[\"060f3afa3731300054b6a3549dbe5d3e\"]` return `[{\"sys_id\": \"060f3afa3731300054b6a3549dbe5d3e\", \"can_request\": true, \"reason\": \"available_for\"}]`. [See the documentation](https://www.servicenow.com/docs/r/zurich/servicenow-platform/service-catalog/t_AppUserCritItemsCat.html)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
@@ -110,57 +96,18 @@ export default {
           ? []
           : available),
       ].filter((result) => result.value === null);
-      if (!undecided.length) {
-        return {
-          can_request: true,
-          reason: available.length
-            ? "available_for"
-            : "open_to_all",
-        };
-      }
-      // ServiceNow's own check is right only on a Restricted item (a delegated one answers true for
-      // everyone; a blank or hidden Access Type is not known to be Restricted) and only for scripts
-      // that name the person through `user_id`.
-      const code = (script) => script.replace(COMMENTS, "");
-      const delegable = item.access_type === "restricted" && undecided.every(({
-        why, script,
-      }) => why === "ambiguous"
-        || (why === "script" && USER_ID_VARIABLE.test(code(script)) && !SESSION_USER_API.test(code(script))));
-      return {
-        can_request: null,
-        reason: item.access_type === undefined
-          ? "unreadable"
-          : undecidedReason(undecided),
-        delegable,
-      };
-    },
-    async askServiceNow($, itemSysId, userSysId) {
-      try {
-        // ServiceNow's "Check requested for delegation on item" operation returns
-        // `{ result: new sn_sc.CatItem(item).isDelegationAllowed(user) }`, which the REST API
-        // wraps in its own `result`: `{"result": {"result": false}}`. `_makeRequest` removes the
-        // outer one.
-        const response = await this.servicenow._makeRequest({
-          $,
-          baseURL: `${this.servicenow._instanceBaseUrl()}${constants.SERVICE_CATALOG_BASE_PATH}`,
-          url: `/items/${itemSysId}/delegation/${userSysId}`,
-        });
-        return typeof response?.result === "boolean"
-          ? {
-            can_request: response.result,
-            reason: "scripted_criteria",
-          }
-          : {
-            can_request: null,
-            reason: "check_failed",
-          };
-      } catch (error) {
-        console.log(`Access check for item ${itemSysId} failed: HTTP ${error?.response?.status ?? "error"}`);
+      if (undecided.length) {
         return {
           can_request: null,
-          reason: "check_failed",
+          reason: undecidedReason(undecided),
         };
       }
+      return {
+        can_request: true,
+        reason: available.length
+          ? "available_for"
+          : "open_to_all",
+      };
     },
     // Each item's answer for the person; rejects when a read fails.
     async itemAnswers($, userSysId, itemIds, answer) {
@@ -180,7 +127,6 @@ export default {
         readByIds(app, $, "sc_cat_item", "sys_id", itemIds, [
           "sys_id",
           "active",
-          "access_type",
         ]),
         readLinks(app, $, "sc_cat_item_user_criteria_mtom", "sc_cat_item", itemIds),
         readLinks(app, $, "sc_cat_item_user_criteria_no_mtom", "sc_cat_item", itemIds),
@@ -202,14 +148,17 @@ export default {
       if (refused) {
         return answer(refused);
       }
-      // A hidden override list falls back to the base system's, which grants the fewest people.
-      const overrideRoles = properties.has(OVERRIDE_ROLES)
-        ? splitIds(properties.get(OVERRIDE_ROLES))
-        : DEFAULT_OVERRIDE_ROLES;
+      // A hidden override list grants nobody the override, so the criteria decide for everyone.
+      const overrideRoles = splitIds(properties.get(OVERRIDE_ROLES));
       const itemsById = new Map(items.map((row) => [
         row.sys_id,
         row,
       ]));
+      const linksOf = (sysId) => ({
+        available: available.byParent.get(sysId),
+        notAvailable: notAvailable.byParent.get(sysId),
+        unreadable: available.unreadable.has(sysId) || notAvailable.unreadable.has(sysId),
+      });
       let criteriaById;
       try {
         criteriaById = await readCriteria(app, $, [
@@ -218,11 +167,15 @@ export default {
         ].flat());
       } catch (error) {
         const failed = readFailure(error);
-        // Answers that need no criteria stand; every other item gets the failure.
+        // Items without criteria are still decided; every item with criteria gets the failure.
         return itemIds.map((sysId) => {
+          const links = linksOf(sysId);
           const settled = this.itemVerdict(itemsById.get(sysId), {
-            unreadable: true,
-          }, null, person, overrideRoles);
+            available: [],
+            notAvailable: [],
+            unreadable: links.unreadable || links.available.length > 0
+              || links.notAvailable.length > 0,
+          }, new Map(), person, overrideRoles);
           return {
             sys_id: sysId,
             ...(settled.can_request === null
@@ -234,28 +187,12 @@ export default {
           };
         });
       }
-      const result = itemIds.map((sysId) => ({
+      return itemIds.map((sysId) => ({
         sys_id: sysId,
         ...this.itemVerdict(
-          itemsById.get(sysId),
-          {
-            available: available.byParent.get(sysId),
-            notAvailable: notAvailable.byParent.get(sysId),
-            unreadable: available.unreadable.has(sysId) || notAvailable.unreadable.has(sysId),
-          },
-          criteriaById,
-          person,
-          overrideRoles,
+          itemsById.get(sysId), linksOf(sysId), criteriaById, person, overrideRoles,
         ),
       }));
-      const delegable = result.filter((row) => row.delegable);
-      for (let i = 0; i < delegable.length; i += DELEGATION_CONCURRENCY) {
-        await Promise.all(delegable.slice(i, i + DELEGATION_CONCURRENCY).map(async (row) => {
-          Object.assign(row, await this.askServiceNow($, row.sys_id, userSysId));
-        }));
-      }
-      result.forEach((row) => delete row.delegable);
-      return result;
     },
   },
   async run({ $ }) {

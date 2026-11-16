@@ -19,17 +19,22 @@ import {
 const MAX_ARTICLES = 50;
 const BLOCK_WITHOUT_CRITERIA = "glide.knowman.block_access_with_no_user_criteria";
 const APPLY_READ_CRITERIA = "glide.knowman.apply_article_read_criteria";
-// Roles that read every article of an active knowledge base, before any user criteria.
+const ROLE_BASED_SECURITY = "glide.knowman.search.apply_role_based_security";
+// Roles that read every article of an active, global knowledge base, before any user criteria.
 const ADMIN_ROLES = [
   "admin",
   "knowledge_admin",
 ];
-const HOUR = 60 * 60 * 1000;
+// Article states a reader may see.
+const READABLE_STATES = [
+  "published",
+  "outdated",
+];
 
 export default {
   key: "servicenow_service_account-check-knowledge-article-access",
   name: "Check Knowledge Article Access",
-  description: "Check which knowledge articles a given ServiceNow user may read, by evaluating the user criteria of each article's knowledge base (Can Read, Cannot Read, Can Contribute, and Cannot Contribute) and of the article itself. **Search Knowledge Base** and **Get Article** run as the integration user, so they return articles the person you act for may not be allowed to read: run this with that person's `sys_id` from **Find Users** (never the `sys_id` from **Get Current User**) and the article `sys_id`s before quoting, summarizing, or linking any of them, and use only articles whose `can_read` is `true`. Each result has the article `sys_id`, its `knowledge_base`, `can_read`, and a `reason`: `can_read`, `can_contribute`, `knowledge_base_manager`, `open_to_all`, or `admin` (the person holds `admin` or `knowledge_admin`) when it is `true`; `cannot_read`, `not_in_can_read`, `no_read_criteria` (the knowledge base has no Can Read criteria and the instance blocks access then), `article_cannot_read`, `article_not_in_can_read`, `article_roles`, `article_not_published`, `article_expired` (it has no Valid to date, or that date has passed; dates are compared at UTC+14, so this can come a day early), `article_not_found`, `knowledge_base_inactive`, `knowledge_base_not_found`, `user_not_found`, `user_inactive`, or `user_locked_out` when it is `false`. `can_read` is `null` when the answer cannot be determined for that person, with reason `unresolved_script` (a scripted criterion, which ServiceNow runs in the integration user's session, or a match-all criterion with a multi-value field), `unreadable` (the integration user cannot read a table, a criterion, or a field of the article, knowledge base, link, or user), or `check_failed` (ServiceNow returned an error or could not be reached): treat a `null` article as not readable. The integration user must be able to read every row of the tables below: a row it cannot read looks the same as no row, and a hidden article, knowledge base, or user comes back `article_not_found`, `knowledge_base_not_found`, or `user_not_found`. Criteria are read from `user_criteria`, `kb_uc_can_read_mtom`, `kb_uc_cannot_read_mtom`, `kb_uc_can_contribute_mtom`, `kb_uc_cannot_contribute_mtom`, and the article's own Can Read and Cannot Read lists, with the `glide.knowman.block_access_with_no_user_criteria` and `glide.knowman.apply_article_read_criteria` properties (read as `true` when hidden); the person's roles, groups, company, department, and location from `sys_user`, `sys_user_has_role`, and `sys_user_grmember`. Example: user `62826bf03710200044e0bfc8bcbe5df1` and articles `[\"0b48fd75474321009db4b5b08b9a71c2\"]` return `[{\"sys_id\": \"0b48fd75474321009db4b5b08b9a71c2\", \"knowledge_base\": \"a7e8a78bff0221009b20ffffffffff17\", \"can_read\": true, \"reason\": \"can_read\"}]`. [See the documentation](https://www.servicenow.com/docs/r/zurich/servicenow-platform/knowledge-management/user-access-knowledge.html)",
+  description: "Check which knowledge articles a given ServiceNow user may read, following ServiceNow's own article read check: knowledge admins, the knowledge base owner, and its managers read without criteria; anyone else needs the read criteria of the knowledge base (Can Read and Cannot Read) and of the article to allow it, plus the article's roles, or must be able to contribute to the knowledge base (Can Contribute and Cannot Contribute). **Search Knowledge Base** and **Get Article** run as the integration user, so they return articles the person you act for may not be allowed to read: run this with that person's `sys_id` from **Find Users** (never the `sys_id` from **Get Current User**) and the article `sys_id`s before quoting, summarizing, or linking any of them, and use only articles whose `can_read` is `true`. Each result has the article `sys_id`, its `knowledge_base`, `can_read`, and a `reason`: `can_read`, `can_contribute`, `knowledge_base_manager` (the owner or a manager), `open_to_all`, or `admin` (the person holds `admin` or `knowledge_admin`, and the knowledge base is not in a scoped application) when it is `true`; `cannot_read`, `not_in_can_read`, `no_read_criteria` (the knowledge base has no Can Read criteria and the instance blocks access then), `article_cannot_read`, `article_not_in_can_read`, `article_roles` (the person holds none of the article's roles), `article_not_published` (neither published nor outdated, or inactive), `article_expired` (it has no Valid to date, or that date is before today's date in UTC, as ServiceNow's article page checks it), `article_not_found`, `knowledge_base_inactive`, `knowledge_base_not_found`, `user_not_found`, `user_inactive`, or `user_locked_out` when it is `false`. `can_read` is `null` when the answer cannot be determined for that person, with reason `unresolved_script` (a scripted criterion, which ServiceNow runs in the integration user's session), `unreadable` (the integration user cannot read a table, a criterion, or a field of the article, knowledge base, link, user, or criterion), or `check_failed` (ServiceNow returned an error or could not be reached): treat a `null` article as not readable. The integration user must be able to read every row of the tables below: a row it cannot read looks the same as no row, and a hidden article, knowledge base, or user comes back `article_not_found`, `knowledge_base_not_found`, or `user_not_found`. Criteria are read from `user_criteria`, `kb_uc_can_read_mtom`, `kb_uc_cannot_read_mtom`, `kb_uc_can_contribute_mtom`, `kb_uc_cannot_contribute_mtom`, and the article's own Can Read and Cannot Read lists, with the `glide.knowman.block_access_with_no_user_criteria`, `glide.knowman.apply_article_read_criteria`, and `glide.knowman.search.apply_role_based_security` properties (each read as `true` when hidden or missing); an empty Can Contribute list grants nobody. The person's roles, groups, company, department, and location come from `sys_user`, `sys_user_has_role`, and `sys_user_grmember`. Example: user `62826bf03710200044e0bfc8bcbe5df1` and articles `[\"0b48fd75474321009db4b5b08b9a71c2\"]` return `[{\"sys_id\": \"0b48fd75474321009db4b5b08b9a71c2\", \"knowledge_base\": \"a7e8a78bff0221009b20ffffffffff17\", \"can_read\": true, \"reason\": \"can_read\"}]`. [See the documentation](https://www.servicenow.com/docs/r/zurich/servicenow-platform/knowledge-management/user-access-knowledge.html)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
@@ -53,7 +58,7 @@ export default {
   },
   methods: {
     // The answer the article's own record and the person settle before any knowledge base is read,
-    // or `null` when its knowledge base decides.
+    // or `null` when its knowledge base decides. `today` is the date in UTC, `YYYY-MM-DD`.
     articleGate(article, refused, today) {
       if (!article) {
         return {
@@ -63,6 +68,7 @@ export default {
       }
       if (!article.workflow_state || !isBoolean(article.active) || [
         "valid_to",
+        "kb_knowledge_base",
         "can_read_user_criteria",
         "cannot_read_user_criteria",
         "roles",
@@ -72,14 +78,14 @@ export default {
           reason: "unreadable",
         };
       }
-      if (article.workflow_state !== "published" || article.active === "false") {
+      if (!READABLE_STATES.includes(article.workflow_state) || article.active === "false") {
         return {
           allowed: false,
           reason: "article_not_published",
         };
       }
-      // ServiceNow shows readers only articles whose Valid to is today or later; a blank one counts
-      // as expired.
+      // ServiceNow's article page (KBViewModel.isArticleExpired) treats a blank Valid to, or one
+      // before today's UTC date, as expired.
       if (!article.valid_to || article.valid_to < today) {
         return {
           allowed: false,
@@ -88,8 +94,109 @@ export default {
       }
       return refused;
     },
-    // Whether the person may read the knowledge base's articles, before any article-level rule.
-    knowledgeBaseVerdict(base, lists, criteriaById, person, settings, isAdmin) {
+    // The knowledge base's and the article's read criteria together: `true` only when both allow.
+    readCriteriaVerdict(article, lists, criteriaById, person, settings) {
+      const decide = (ids) => evaluateList(ids, criteriaById, person.facts);
+      const cannotRead = decide(lists.cannotRead);
+      const articleCannotRead = decide(splitIds(article.cannot_read_user_criteria));
+      if (anyIs(cannotRead, true)) {
+        return {
+          allowed: false,
+          reason: "cannot_read",
+        };
+      }
+      if (anyIs(articleCannotRead, true)) {
+        return {
+          allowed: false,
+          reason: "article_cannot_read",
+        };
+      }
+      const listVerdict = (results, granted, denied) => {
+        if (anyIs(results, true)) {
+          return {
+            allowed: true,
+            reason: granted,
+          };
+        }
+        return results.every((result) => result.value === false)
+          ? {
+            allowed: false,
+            reason: denied,
+          }
+          : {
+            allowed: null,
+            reason: undecidedReason(results),
+          };
+      };
+      const canRead = decide(lists.canRead);
+      const baseRead = canRead.length
+        ? listVerdict(canRead, "can_read", "not_in_can_read")
+        : {
+          allowed: !settings.blockWithoutCriteria,
+          reason: settings.blockWithoutCriteria
+            ? "no_read_criteria"
+            : "open_to_all",
+        };
+      const articleCanRead = decide(splitIds(article.can_read_user_criteria));
+      const articleRead = articleCanRead.length
+        ? listVerdict(articleCanRead, baseRead.reason, "article_not_in_can_read")
+        : baseRead;
+      const exclusions = [
+        ...cannotRead,
+        ...articleCannotRead,
+      ];
+      return [
+        baseRead,
+        articleRead,
+      ].find((verdict) => verdict.allowed === false)
+        ?? (anyIs(exclusions, null)
+          ? {
+            allowed: null,
+            reason: undecidedReason(exclusions),
+          }
+          : null)
+        ?? [
+          baseRead,
+          articleRead,
+        ].find((verdict) => verdict.allowed === null)
+        ?? baseRead;
+    },
+    // Whether the knowledge base's contribute criteria let the person contribute, and so read.
+    // ponytail: an empty Can Contribute list grants nobody; ServiceNow's own default for it is in
+    // its native knowledge helper, so it is not modeled here.
+    contributeVerdict(lists, criteriaById, person) {
+      const cannot = evaluateList(lists.cannotContribute, criteriaById, person.facts);
+      if (anyIs(cannot, true)) {
+        return {
+          allowed: false,
+        };
+      }
+      const can = evaluateList(lists.canContribute, criteriaById, person.facts);
+      if (anyIs(can, true) && !anyIs(cannot, null)) {
+        return {
+          allowed: true,
+          reason: "can_contribute",
+        };
+      }
+      const undecided = [
+        ...can,
+        ...(anyIs(can, true)
+          ? cannot
+          : []),
+      ].filter((result) => result.value === null);
+      return undecided.length
+        ? {
+          allowed: null,
+          reason: undecidedReason(undecided),
+        }
+        : {
+          allowed: false,
+        };
+    },
+    // Whether the person may read the article, in the order of ServiceNow's KBKnowledge.canRead:
+    // admins, the owner, and managers; then the read criteria with the article's roles; then
+    // contributors, unless `glide.knowman.apply_article_read_criteria` is true.
+    articleVerdict(article, base, lists, criteriaById, person, settings) {
       if (!base) {
         return {
           allowed: false,
@@ -108,23 +215,14 @@ export default {
           reason: "knowledge_base_inactive",
         };
       }
-      if (isAdmin) {
+      // A knowledge base in a scoped application can restrict even admins, so the bypass applies
+      // only to a global one; a hidden application gets none.
+      const scope = base.application;
+      if (ADMIN_ROLES.some((role) => person.roleNames.has(role))
+        && (scope === "" || scope === "global")) {
         return {
           allowed: true,
           reason: "admin",
-        };
-      }
-      const cannotRead = evaluateList(lists.cannotRead, criteriaById, person.facts);
-      if (anyIs(cannotRead, true)) {
-        return {
-          allowed: false,
-          reason: "cannot_read",
-        };
-      }
-      if (anyIs(cannotRead, null)) {
-        return {
-          allowed: null,
-          reason: undecidedReason(cannotRead),
         };
       }
       const userSysId = [
@@ -136,91 +234,39 @@ export default {
           reason: "knowledge_base_manager",
         };
       }
-      const canRead = evaluateList(lists.canRead, criteriaById, person.facts);
-      if (anyIs(canRead, true)) {
-        return {
-          allowed: true,
-          reason: "can_read",
-        };
+      const read = this.readCriteriaVerdict(article, lists, criteriaById, person, settings);
+      const roles = splitIds(article.roles);
+      const rolesAllow = !settings.applyRoles || !roles.length || person.roleNames.has("admin")
+        || roles.some((role) => person.roleNames.has(role));
+      if (read.allowed === true) {
+        return rolesAllow
+          ? read
+          : {
+            allowed: false,
+            reason: "article_roles",
+          };
       }
-      // Contributors can read too, unless the instance applies the read criteria to them or
-      // Cannot Contribute excludes them.
-      const cannotContribute = evaluateList(lists.cannotContribute, criteriaById, person.facts);
-      const canContribute = settings.applyReadCriteria || anyIs(cannotContribute, true)
-        ? []
-        : evaluateList(lists.canContribute, criteriaById, person.facts);
-      if (anyIs(canContribute, true) && !anyIs(cannotContribute, null)) {
-        return {
-          allowed: true,
-          reason: "can_contribute",
-        };
-      }
-      const contributeMayGrant = canContribute.some((result) => result.value !== false);
-      const undecided = [
-        ...canRead,
-        ...canContribute,
-        ...(contributeMayGrant
-          ? cannotContribute
-          : []),
-      ].filter((result) => result.value === null);
-      if (undecided.length) {
-        return {
-          allowed: null,
-          reason: undecidedReason(undecided),
-        };
-      }
-      if (canRead.length) {
-        return {
-          allowed: false,
-          reason: "not_in_can_read",
-        };
-      }
-      return settings.blockWithoutCriteria
+      const contribute = settings.applyReadCriteria
         ? {
           allowed: false,
-          reason: "no_read_criteria",
         }
-        : {
-          allowed: true,
-          reason: "open_to_all",
-        };
-    },
-    // The article's own Can Read and Cannot Read lists and roles, once its base allows it.
-    articleVerdict(article, criteriaById, person) {
-      const decide = (field) => evaluateList(splitIds(article[field]), criteriaById, person.facts);
-      const cannotRead = decide("cannot_read_user_criteria");
-      if (anyIs(cannotRead, true)) {
-        return {
-          allowed: false,
-          reason: "article_cannot_read",
-        };
+        : this.contributeVerdict(lists, criteriaById, person);
+      if (read.allowed === false) {
+        return contribute.allowed === false
+          ? read
+          : contribute;
       }
-      const canRead = decide("can_read_user_criteria");
-      if (canRead.length && canRead.every((result) => result.value === false)) {
-        return {
-          allowed: false,
-          reason: "article_not_in_can_read",
-        };
+      // The read criteria are undecided: answer only when both of their outcomes agree.
+      if (rolesAllow && contribute.allowed === true) {
+        return contribute;
       }
-      const roles = splitIds(article.roles);
-      if (roles.length && !roles.some((role) => person.roleNames.has(role))) {
+      if (!rolesAllow && contribute.allowed === false) {
         return {
           allowed: false,
           reason: "article_roles",
         };
       }
-      const undecided = [
-        ...cannotRead,
-        ...(anyIs(canRead, true)
-          ? []
-          : canRead),
-      ].filter((result) => result.value === null);
-      return undecided.length
-        ? {
-          allowed: null,
-          reason: undecidedReason(undecided),
-        }
-        : null;
+      return read;
     },
     // `{ articlesById, verdicts }`, where `verdicts` maps each article sys_id to its verdict for
     // the person; rejects when a read of the person or the articles fails.
@@ -234,6 +280,7 @@ export default {
         readProperties(app, $, [
           BLOCK_WITHOUT_CRITERIA,
           APPLY_READ_CRITERIA,
+          ROLE_BASED_SECURITY,
         ]),
         readPerson(app, $, userSysId),
         readByIds(app, $, "kb_knowledge", "sys_id", articleIds, [
@@ -251,11 +298,7 @@ export default {
         row.sys_id,
         row,
       ]));
-      // Today where the date is furthest ahead (UTC+14), so an article is never read past its
-      // Valid to in the instance's time zone.
-      // ponytail: refuses an article up to a day early west of UTC+14; read the time zone if that
-      // matters.
-      const today = new Date(Date.now() + 14 * HOUR).toISOString()
+      const today = new Date().toISOString()
         .slice(0, 10);
       const refused = personRefusal(person);
       const verdicts = new Map(articleIds.map((sysId) => [
@@ -294,6 +337,7 @@ export default {
         readByIds(app, $, "kb_knowledge_base", "sys_id", baseIds, [
           "sys_id",
           "active",
+          "application",
           "owner",
           "kb_managers",
         ]),
@@ -320,14 +364,18 @@ export default {
           ...splitIds(row.cannot_read_user_criteria),
         ]),
       ]);
-      // Each property is read the restrictive way when the integration user cannot read it.
+      // Each property is read the restrictive way when it is hidden or missing.
       const settings = {
-        // ServiceNow blocks a knowledge base without Can Read criteria unless this is false.
+        // ServiceNow blocks a knowledge base without Can Read criteria when this is true.
         blockWithoutCriteria: properties.get(BLOCK_WITHOUT_CRITERIA) !== "false",
         // When true, contributing grants no read access of its own.
         applyReadCriteria: properties.get(APPLY_READ_CRITERIA) !== "false",
+        // When true, an article with roles is read only by holders of one of them.
+        applyRoles: [
+          undefined,
+          "true",
+        ].includes(properties.get(ROLE_BASED_SECURITY)),
       };
-      const isAdmin = ADMIN_ROLES.some((role) => person.roleNames.has(role));
       const decided = new Map();
       for (const article of pending) {
         const baseId = referenceId(article.kb_knowledge_base);
@@ -343,12 +391,9 @@ export default {
             cannotContribute,
           ].some(({ unreadable }) => unreadable.has(baseId)),
         };
-        const base = this.knowledgeBaseVerdict(
-          basesById.get(baseId), lists, criteriaById, person, settings, isAdmin,
-        );
-        decided.set(article.sys_id, base.allowed !== true || base.reason === "admin"
-          ? base
-          : this.articleVerdict(article, criteriaById, person) ?? base);
+        decided.set(article.sys_id, this.articleVerdict(
+          article, basesById.get(baseId), lists, criteriaById, person, settings,
+        ));
       }
       return decided;
     },
