@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/testrail",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream TestRail Components",
   "main": "testrail.app.mjs",
   "keywords": [
@@ -9,6 +9,9 @@
   ],
   "homepage": "https://pipedream.com/apps/testrail",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "axios": "^1.15.2"
+  },
   "publishConfig": {
     "access": "public"
   }
