@@ -33,12 +33,19 @@ export default {
       description: "Pagination cursor (a record offset, e.g. `50`) supplied by the `next_cursor` field of a previous **Search Work Feed** result — returns the next page of feed records",
       optional: true,
     },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Maximum number of feed records to return per page (e.g. `25`, max 500)",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const feed = await this.widespread.searchFeed($, {
       forge: this.forge,
       min_usd: this.minUsd,
       cursor: this.cursor,
+      limit: this.limit,
     });
     $.export("$summary", `Matched ${feed?.total ?? feed?.records?.length ?? 0} feed records`);
     return feed;
