@@ -39,6 +39,6 @@ const actionWithCartName = {
 
 export default wrapAction(actionWithCartName, {
   key: "servicenow_service_account-add-item-to-cart",
-  version: "0.1.0",
+  version: "0.1.1",
   description: "Add a ServiceNow catalog item to the integration user's cart (one cart shared by every session of this integration user, so concurrent sessions can add, remove, or submit each other's items). Run **Search Catalog Items** to find the item `sys_id` and **Get Catalog Item Variables** to learn which variable names to supply. After adding items, use **View Cart**, then **Checkout Cart** or **Submit Cart Order** to submit. Leave `cartName` empty for that flow: those actions only work on the default cart. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_ServiceCatalogAPI.html)",
 });

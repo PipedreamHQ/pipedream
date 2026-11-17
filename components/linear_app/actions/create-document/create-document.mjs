@@ -12,7 +12,7 @@ export default {
     + " `content` is markdown. The response does not echo the body back; use **Get Document** to read it."
     + " Example: `title: \"Dust Storm Shelter Spec\"`, `content: \"# Overview\\n\\nShelter requirements...\"`, `projectId: \"a1b2c3d4-0000-0000-0000-000000000001\"` → returns `{success: true, document: {id: \"29a25062-...\", title: \"Dust Storm Shelter Spec\", slugId: \"10b5bc2940c7\", url: \"https://linear.app/.../document/dust-storm-shelter-spec-10b5bc2940c7\", project: {id: \"a1b2c3d4-...\", name: \"Mars Colony\"}}}`."
     + " [See the documentation](https://studio.apollographql.com/public/Linear-API/variant/current/schema/reference/objects/Mutation?query=documentCreate)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {

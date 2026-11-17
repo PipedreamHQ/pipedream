@@ -7,7 +7,7 @@ export default {
   key: "gorgias_oauth-ticket-message-created",
   name: "New Ticket Message",
   description: "Emit new event when a ticket message is created. [See the documentation](https://developers.gorgias.com/reference/the-event-object)",
-  version: "0.1.15",
+  version: "0.1.16",
   type: "source",
   props: {
     ...base.props,
@@ -57,12 +57,16 @@ export default {
     isRelevant(message) {
       return (!this.channel || message.channel === this.channel)
         && (!this.ticketId || message.ticket_id === this.ticketId)
-        && (!this.sourceType || message.source.type === this.sourceType)
-        && (!this.sender || message.sender.email === this.sender)
-        && (!this.receiver || message.receiver.email === this.receiver);
+        && (!this.sourceType || message.source?.type === this.sourceType)
+        && (!this.sender || message.sender?.email === this.sender)
+        && (!this.receiver || message.receiver?.email === this.receiver);
     },
     async processEvent(event) {
-      const { message } = event;
+      const message = event?.message;
+      if (!message?.id) {
+        console.log("Skipping webhook delivery without a message");
+        return;
+      }
       if (this.isRelevant(message)) {
         this.emitEvent(message);
       }

@@ -4,7 +4,7 @@ export default {
   key: "microsoft_teams-get-chat-message",
   name: "Get Chat Message",
   description: "Get a specific message from a chat. [See the documentation](https://learn.microsoft.com/en-us/graph/api/chatmessage-get?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

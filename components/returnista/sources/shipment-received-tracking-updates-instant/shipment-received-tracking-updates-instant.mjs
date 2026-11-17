@@ -6,7 +6,7 @@ export default {
   key: "returnista-shipment-received-tracking-updates-instant",
   name: "New Shipment Received Tracking Updates (Instant)",
   description: "Emit new event when a shipment receives tracking updates. [See the documentation](https://platform.returnista.com/reference/rest-api/#post-/account/-accountId/webhook-subscription)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {
