@@ -23,8 +23,10 @@ export default {
   props: {
     googleForms,
     formId: {
-      type: "string",
-      label: "Form ID",
+      propDefinition: [
+        googleForms,
+        "formId",
+      ],
       description: "The ID of the form to add the question to, e.g. `1FAIpQLSdExampleFormId`. It is the `formId` returned by **Create Form** or **Get Form**.",
     },
     title: {

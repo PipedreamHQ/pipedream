@@ -5,7 +5,7 @@ export default {
   name: "Delete Form Item",
   description: "Permanently deletes one item (question, image, video, or page break) from a Google Form by its item ID."
     + " Use it when the user asks to delete, remove, or drop a question from a form."
-    + " Deletion cannot be undone through the API, so if the request is ambiguous, confirm which item is meant first."
+    + " Deletion cannot be undone through the API: before calling this, ask the user to confirm, and always do so for bulk requests such as \"delete every question\" (name the items and wait for a yes). Call it only after the user has confirmed."
     + " To find an item's ID, use **Get Form** and read `items[].itemId`."
     + " The tool looks up the item's current position itself, so earlier deletions never shift which item is removed."
     + " Returns the deleted item's `itemId`, `title`, and former `index`."
@@ -22,8 +22,10 @@ export default {
   props: {
     googleForms,
     formId: {
-      type: "string",
-      label: "Form ID",
+      propDefinition: [
+        googleForms,
+        "formId",
+      ],
       description: "The ID of the form to delete the item from, e.g. `1FAIpQLSdExampleFormId`. It is the `formId` returned by **Create Form** or **Get Form**.",
     },
     itemId: {
