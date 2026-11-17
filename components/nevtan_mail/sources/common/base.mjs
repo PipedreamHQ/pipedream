@@ -1,4 +1,3 @@
-import { ConfigurationError } from "@pipedream/platform";
 import crypto from "crypto";
 import app from "../../nevtan_mail.app.mjs";
 import constants from "../../common/constants.mjs";
@@ -34,10 +33,10 @@ export default {
       this.db.set("secret", secret);
     },
     getEvent() {
-      throw new ConfigurationError("getEvent is not implemented");
+      throw new Error("getEvent is not implemented");
     },
     generateMeta() {
-      throw new ConfigurationError("generateMeta is not implemented");
+      throw new Error("generateMeta is not implemented");
     },
     expectedSignature(secret, timestamp, bodyRaw) {
       return crypto
@@ -101,7 +100,15 @@ export default {
   async run(event) {
     const secret = this._getSecret();
     if (secret) {
-      this.verifySignature(event, secret);
+      try {
+        this.verifySignature(event, secret);
+      } catch (error) {
+        this.http.respond({
+          status: 401,
+          body: error.message,
+        });
+        return;
+      }
     }
 
     this.http.respond({

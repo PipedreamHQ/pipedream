@@ -3,9 +3,10 @@ import app from "../../nevtan_mail.app.mjs";
 export default {
   key: "nevtan_mail-reply-to-email",
   name: "Reply to Email",
-  description: "Reply to an existing email in your NevTan Mail mailbox.",
+  description: "Reply to an existing email in your NevTan Mail mailbox. The reply is sent immediately. Use **List Emails** or **Find Emails** to get the email ID, or **Create Draft** to save without sending. [See the documentation](https://mail.nevtan.com/integrations)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -28,7 +29,7 @@ export default {
     replyAll: {
       type: "boolean",
       label: "Reply All",
-      description: "Set to `true` to reply to every recipient of the original email.",
+      description: "Set to `true` to reply to the sender and all To/CC recipients; `false` replies to the sender only. e.g. `false`",
       optional: true,
       default: false,
     },

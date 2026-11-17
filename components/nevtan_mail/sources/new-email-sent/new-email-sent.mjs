@@ -6,7 +6,7 @@ export default {
   ...common,
   key: "nevtan_mail-new-email-sent",
   name: "New Email Sent",
-  description: "Emit new event when an email is sent from your NevTan Mail mailbox.",
+  description: "Emit new event when an email is sent from your NevTan Mail mailbox. The event does not confirm delivery: it also fires when the send bounced. [See the documentation](https://mail.nevtan.com/integrations)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

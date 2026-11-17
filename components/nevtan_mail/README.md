@@ -46,6 +46,8 @@ comparison, rejecting anything unsigned, altered, or signed more than five minut
 blank, verification is skipped and the Pipedream trigger URL is the only thing protecting the
 source — treat that URL as a credential.
 
+A delivery that fails verification is answered with `401` and is not emitted.
+
 ## Actions
 
 | Action | Endpoint | Notes |
@@ -63,8 +65,7 @@ source — treat that URL as a credential.
 **Rejected requests can arrive as HTTP 200.** NevTan Mail rewrites `400` responses to `200` for
 every path outside its billing endpoints, so a validation failure looks like a success at the
 status-code level and carries an error body instead. Every method in this app inspects the
-response body and raises a `ConfigurationError` when it finds one, rather than trusting the
-status.
+response body and raises an error when it finds one, rather than trusting the status.
 
 **Drafts are not threaded.** The underlying service supports replying in-thread, but the public
 API accepts no original-message id, so a draft created through `POST /drafts` is a standalone

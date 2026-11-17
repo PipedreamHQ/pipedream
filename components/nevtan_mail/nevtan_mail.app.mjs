@@ -1,6 +1,4 @@
-import {
-  axios, ConfigurationError,
-} from "@pipedream/platform";
+import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -10,7 +8,7 @@ export default {
     emailId: {
       type: "string",
       label: "Email",
-      description: "The email to act on. Pick one from the list or set a NevTan Mail email ID.",
+      description: "The email to act on. Pick one from the list, or set the `id` returned by **List Emails** or **Find Emails**. e.g. `45060`",
       async options({ page }) {
         if (page > 0) {
           return [];
@@ -34,14 +32,14 @@ export default {
     folder: {
       type: "string",
       label: "Folder",
-      description: "Which folder to read from.",
+      description: "Which folder to read from. e.g. `inbox`",
       options: constants.FOLDERS,
       default: "inbox",
     },
     limit: {
       type: "integer",
       label: "Limit",
-      description: `Maximum number of emails to return (1–${constants.MAX_LIMIT}).`,
+      description: `Maximum number of emails to return (1–${constants.MAX_LIMIT}). e.g. \`25\``,
       optional: true,
       default: constants.DEFAULT_LIMIT,
       min: 1,
@@ -50,42 +48,42 @@ export default {
     to: {
       type: "string[]",
       label: "To",
-      description: "One or more recipient email addresses.",
+      description: "One or more recipient email addresses. e.g. `[\"jane@example.com\", \"joe@example.com\"]`",
     },
     cc: {
       type: "string[]",
       label: "CC",
-      description: "One or more CC email addresses.",
+      description: "One or more CC email addresses. e.g. `[\"billing@example.com\"]`",
       optional: true,
     },
     bcc: {
       type: "string[]",
       label: "BCC",
-      description: "One or more BCC email addresses.",
+      description: "One or more BCC email addresses. e.g. `[\"archive@example.com\"]`",
       optional: true,
     },
     subject: {
       type: "string",
       label: "Subject",
-      description: "The email subject.",
+      description: "The email subject. e.g. `Invoice 88 — PO number query`",
     },
     body: {
       type: "string",
       label: "Body",
       description:
-        "The message body. Plain text is escaped and line breaks become `<br>` unless **Is HTML** is set.",
+        "The message body. Plain text is escaped and line breaks become `<br>` unless **Is HTML** is set. e.g. `<p>Thanks for your message.</p>`",
     },
     isHtml: {
       type: "boolean",
       label: "Is HTML",
       description:
-        "Set to `true` to send **Body** as HTML. Left unset, NevTan Mail detects HTML from the content.",
+        "Set to `true` to send **Body** as HTML, e.g. `true` for `<p>Hello</p>`. Left unset, NevTan Mail detects HTML from the content.",
       optional: true,
     },
     domain: {
       type: "string",
       label: "Domain",
-      description: "A verified domain in your workspace. Defaults to the workspace's primary domain.",
+      description: "A verified domain in your workspace. Defaults to the workspace's primary domain. e.g. `example.com`",
       optional: true,
       async options() {
         const mailboxes = await this.listMailboxes();
@@ -117,11 +115,11 @@ export default {
         return response;
       }
       if (typeof response.error === "string") {
-        throw new ConfigurationError(`NevTan Mail rejected the request: ${response.error}`);
+        throw new Error(`NevTan Mail rejected the request: ${response.error}`);
       }
       if (response.status === "ERROR") {
         const reason = response.message || "no reason given";
-        throw new ConfigurationError(`NevTan Mail rejected the request: ${reason}`);
+        throw new Error(`NevTan Mail rejected the request: ${reason}`);
       }
       return response;
     },
@@ -157,7 +155,7 @@ export default {
       emailId, ...opts
     }) {
       return this._makeRequest({
-        path: `/emails/${emailId}`,
+        path: `/emails/${encodeURIComponent(emailId)}`,
         ...opts,
       });
     },
@@ -173,7 +171,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/emails/${emailId}/reply`,
+        path: `/emails/${encodeURIComponent(emailId)}/reply`,
         ...opts,
       });
     },
