@@ -5,7 +5,7 @@ export default {
   key: "toggl-list-workspace-users",
   name: "List Workspace Users",
   description: "List users visible to the connected Toggl Track account in a workspace. Optionally filter by a full or partial name or email address. Use the returned `userId` as a User IDs value in **Search Detailed Time Entries**, **Get Time Entry Summary**, or **Export Detailed Time Entries**. [See the documentation](https://engineering.toggl.com/docs/track/api/workspaces/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {

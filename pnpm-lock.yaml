@@ -16599,8 +16599,6 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/toneden: {}
-
   components/tookan:
     dependencies:
       '@pipedream/platform':
@@ -17422,8 +17420,6 @@ importers:
       '@pipedream/platform':
         specifier: ^2.0.2
         version: 2.0.2
-
-  components/vibe_prospecting: {}
 
   components/vida:
     dependencies:
@@ -42499,6 +42495,7 @@ snapshots:
     transitivePeerDependencies:
       - rolldown
       - rollup
+      - supports-color
 
   '@putout/operator-parens@2.0.0(rolldown@1.0.0-beta.60(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2))(rollup@4.65.1)':
     dependencies:
