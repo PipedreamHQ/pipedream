@@ -208,7 +208,8 @@ export async function readPerson(app, $, userSysId) {
   };
 }
 
-// Why nobody may act as this person, or `null` when the record is usable.
+// Why nobody may act as this person, or `null` when the record is usable. `locked_out` is
+// admin-only on default ACLs, so a hidden one is decided on `active` alone.
 export function personRefusal(person) {
   if (!person.user) {
     return person.hidden
@@ -221,10 +222,7 @@ export function personRefusal(person) {
         reason: "user_not_found",
       };
   }
-  if (![
-    person.user.active,
-    person.user.locked_out,
-  ].every(isBoolean)) {
+  if (!isBoolean(person.user.active)) {
     return {
       allowed: null,
       reason: "unreadable",
