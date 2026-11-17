@@ -83,7 +83,7 @@ export default {
     domain: {
       type: "string",
       label: "Domain",
-      description: "A verified domain in your workspace. Defaults to the workspace's primary domain. e.g. `example.com`",
+      description: "A verified domain in your workspace. The list is built from domains that already have a mailbox, so for the first mailbox on a newly verified domain, type the domain instead — **Admin → Domains** in NevTan Mail lists every domain with its verification status. Defaults to the workspace's primary domain. e.g. `example.com`",
       optional: true,
       async options() {
         const mailboxes = await this.listMailboxes();
