@@ -19,7 +19,7 @@ try {
     if (!response.ok) throw new Error("Search request failed");
     return response.json();
   }, apiKey);
-  const response = await action.run.call({ desearch: app, query: "bittensor", num: 3 }, {
+  const response = await action.run.call({ desearch: app, query: "bittensor" }, {
     $: { export() {} },
   });
   console.log(JSON.stringify({ count: response.data.length, firstTitle: response.data[0]?.title ?? null }));

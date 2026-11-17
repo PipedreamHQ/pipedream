@@ -3,7 +3,7 @@ import desearch from "../../desearch.app.mjs";
 export default {
   key: "desearch-web-search",
   name: "Web Search",
-  description: "Search the web with Desearch and return results containing titles, links, and snippets.",
+  description: "Search the web with Desearch and return results containing titles, links, and snippets. [See the documentation](https://www.desearch.ai/docs/api-reference/get-web)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
@@ -17,15 +17,7 @@ export default {
     query: {
       type: "string",
       label: "Query",
-      description: "The web search query, for example `bittensor`.",
-    },
-    num: {
-      type: "integer",
-      label: "Number of Results",
-      description: "The requested number of search results, for example `10`.",
-      min: 1,
-      default: 10,
-      optional: true,
+      description: "The web search query, e.g. `bittensor`.",
     },
   },
   async run({ $ }) {
@@ -33,7 +25,6 @@ export default {
       $,
       params: {
         query: this.query,
-        num: this.num,
       },
     });
     $.export("$summary", `Retrieved ${response.data.length} search results`);
