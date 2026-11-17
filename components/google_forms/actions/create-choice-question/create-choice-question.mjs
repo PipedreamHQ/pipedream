@@ -30,9 +30,10 @@ export default {
       description: "The ID of the form to add the question to, e.g. `1FAIpQLSdExampleFormId`. It is the `formId` returned by **Create Form** or **Get Form**.",
     },
     title: {
-      type: "string",
-      label: "Title",
-      description: "The question text shown to responders, e.g. `Preferred meeting day`.",
+      propDefinition: [
+        googleForms,
+        "questionTitle",
+      ],
     },
     type: {
       type: "string",
@@ -50,8 +51,10 @@ export default {
       description: "The answer choices, in display order, e.g. `[\"Monday\", \"Wednesday\", \"Friday\"]`. Provide at least one.",
     },
     description: {
-      type: "string",
-      label: "Description",
+      propDefinition: [
+        googleForms,
+        "questionDescription",
+      ],
       description: "Optional helper text shown under the question, e.g. `Pick the day that suits you best`.",
       optional: true,
     },
@@ -74,8 +77,10 @@ export default {
       optional: true,
     },
     index: {
-      type: "integer",
-      label: "Index",
+      propDefinition: [
+        googleForms,
+        "questionIndex",
+      ],
       description: "0-based position to insert the question at, e.g. `0` for the top of the form. Must be between 0 and the current number of items. When omitted the question is appended to the end.",
       optional: true,
       min: 0,
