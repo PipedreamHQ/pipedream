@@ -6,7 +6,7 @@ import test from "node:test";
 import catalog from "../actions/check-catalog-item-access/check-catalog-item-access.mjs";
 import knowledge from "../actions/check-knowledge-article-access/check-knowledge-article-access.mjs";
 import {
-  criterionMatches, personRefusal,
+  criterionMatches, personRefusal, readAll,
 } from "./user-criteria.mjs";
 
 const id = (c) => c.repeat(32);
@@ -946,6 +946,15 @@ test("a missing or changing X-Total-Count leaves the read incomplete", async () 
       true,
       () => "many",
     ],
+    // Not decimal integers, though Number() reads both as 0.
+    [
+      true,
+      () => "0x0",
+    ],
+    [
+      true,
+      () => "-0",
+    ],
     // The total moves between pages, so rows may have shifted past a window.
     [
       false,
@@ -964,6 +973,67 @@ test("a missing or changing X-Total-Count leaves the read incomplete", async () 
     assert.equal(row.can_request, null);
     assert.equal(row.reason, "unreadable");
   }
+});
+
+test("a count that changes on a middle page keeps the whole read incomplete", async () => {
+  // Three windows. A row inserted after the first page and deleted before the last shifts the
+  // middle window, so one row is read twice and another is skipped, yet the last count matches the
+  // first one.
+  const rows = (from, length) => Array.from({
+    length,
+  }, (_, i) => ({
+    sys_id: String(from + i).padStart(32, "0"),
+  }));
+  const pages = {
+    0: [
+      rows(0, 1000),
+      "2001",
+    ],
+    1000: [
+      rows(999, 1000),
+      "2002",
+    ],
+    2000: [
+      rows(2000, 1),
+      "2001",
+    ],
+  };
+  const app = {
+    async _makeRawRequest({ params }) {
+      const [
+        result,
+        count,
+      ] = pages[params.sysparm_offset];
+      return {
+        data: {
+          result,
+        },
+        headers: {
+          "x-total-count": count,
+        },
+      };
+    },
+  };
+  const read = await readAll(app, {}, "sc_cat_item_user_criteria_no_mtom", "sc_cat_item=x", [
+    "sys_id",
+  ]);
+  assert.equal(read.length, 2001);
+  assert.equal(read.complete, false);
+  const empty = await readAll({
+    async _makeRawRequest() {
+      return {
+        data: {
+          result: [],
+        },
+        headers: {
+          "x-total-count": "0",
+        },
+      };
+    },
+  }, {}, "sc_cat_item_user_criteria_no_mtom", "sc_cat_item=x", [
+    "sys_id",
+  ]);
+  assert.equal(empty.complete, true);
 });
 
 const KB = id("b");

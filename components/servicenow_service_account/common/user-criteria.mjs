@@ -86,6 +86,7 @@ export function readFailure(error) {
 export async function readAll(app, $, table, query, fields) {
   const rows = [];
   let firstTotal;
+  let counted = true;
   for (let offset = 0; ; offset += PAGE_SIZE) {
     const response = await app._makeRawRequest({
       $,
@@ -101,12 +102,13 @@ export async function readAll(app, $, table, query, fields) {
     });
     const page = asRows(response?.data?.result);
     rows.push(...page);
-    const header = response?.headers?.["x-total-count"];
-    const total = header === undefined || header === ""
-      ? NaN
-      : Number(header);
+    const header = String(response?.headers?.["x-total-count"] ?? "");
+    const total = /^\d+$/.test(header)
+      ? Number(header)
+      : NaN;
     firstTotal ??= total;
-    const counted = Number.isInteger(total) && total >= 0 && total === firstTotal;
+    // One bad or changed count makes the whole read incomplete, even if a later page agrees again.
+    counted &&= Number.isSafeInteger(total) && total === firstTotal;
     if (page.length < PAGE_SIZE && (!counted || offset + PAGE_SIZE >= total)) {
       return Object.assign(rows, {
         complete: counted && rows.length >= total,
