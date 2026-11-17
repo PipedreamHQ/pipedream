@@ -6,7 +6,7 @@ export default {
   key: "mailchimp-new-segment-tag-subscriber",
   name: "New Segment Tag Subscriber",
   description: "Emit new event when a subscriber is added to a segment or tags within an audience list.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {
