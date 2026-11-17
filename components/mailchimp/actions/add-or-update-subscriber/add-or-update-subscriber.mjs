@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import mailchimp from "../../mailchimp.app.mjs";
 import {
   md5Hash, removeNullEntries,
@@ -137,6 +138,10 @@ export default {
     },
   },
   async run({ $ }) {
+    const isSet = (value) => value !== undefined && value !== null && value !== "";
+    if (isSet(this.marketingPermissionsEnabled) && !this.marketingPermissionId) {
+      throw new ConfigurationError("**Marketing permission ID** is required when **Marketing permissions enabled** is set.");
+    }
 
     const payload = removeNullEntries({
       listId: this.listId,
@@ -150,13 +155,7 @@ export default {
         interests: this.interests,
         language: this.language,
         vip: this.vip,
-        // Mailchimp rejects empty location / marketing_permissions entries
-        location: this.latitude || this.longitude
-          ? {
-            latitude: this.latitude && Number(this.latitude),
-            longitude: this.longitude && Number(this.longitude),
-          }
-          : undefined,
+        // Mailchimp rejects empty marketing_permissions entries
         marketing_permissions: this.marketingPermissionId
           ? [
             {
@@ -174,6 +173,14 @@ export default {
         skip_merge_validation: this.skipMergeValidation,
       },
     });
+    // Added after cleanup: removeNullEntries drops numeric 0, which is a valid coordinate
+    const location = {};
+    if (isSet(this.latitude)) location.latitude = Number(this.latitude);
+    if (isSet(this.longitude)) location.longitude = Number(this.longitude);
+    if (Object.keys(location).length) {
+      payload.data.location = location;
+    }
+
     const response = await this.mailchimp.addOrUpdateListMember($, payload);
     response && $.export("$summary", "Successful");
     return response;

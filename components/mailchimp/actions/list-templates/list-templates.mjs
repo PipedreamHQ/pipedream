@@ -46,13 +46,11 @@ export default {
       options: constants.SORT_DIRECTIONS,
     },
     count: {
-      type: "integer",
-      label: "Count",
-      description: "The number of templates to return, e.g. `25`. Maximum is 1000.",
-      optional: true,
-      default: 10,
-      min: 1,
-      max: 1000,
+      propDefinition: [
+        mailchimp,
+        "count",
+      ],
+      description: "The number of templates to return, e.g. `25`.",
     },
     offset: {
       type: "integer",
