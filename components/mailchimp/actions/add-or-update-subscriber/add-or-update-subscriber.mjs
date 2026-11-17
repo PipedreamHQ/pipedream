@@ -1,12 +1,14 @@
 import mailchimp from "../../mailchimp.app.mjs";
-import { removeNullEntries } from "../../common/utils.mjs";
+import {
+  md5Hash, removeNullEntries,
+} from "../../common/utils.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
   key: "mailchimp-add-or-update-subscriber",
   name: "Add or Update Subscriber",
   description: "Adds a new subscriber to an audience or updates existing subscriber. [See docs here](https://mailchimp.com/developer/marketing/api/list-members/add-or-update-list-member/)",
-  version: "0.2.6",
+  version: "0.2.7",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -25,13 +27,10 @@ export default {
       description: "The unique ID of the list",
     },
     subscriberHash: {
-      propDefinition: [
-        mailchimp,
-        "subscriberHash",
-        (c) => ({
-          listId: c.listId,
-        }),
-      ],
+      type: "string",
+      label: "Subscriber hash",
+      description: "The MD5 hash of the lowercase version of the list member's email address. Leave empty to have it calculated from **Email address**.",
+      optional: true,
     },
     emailAddress: {
       label: "Email address",
@@ -141,7 +140,7 @@ export default {
 
     const payload = removeNullEntries({
       listId: this.listId,
-      subscriberHash: this.subscriberHash,
+      subscriberHash: this.subscriberHash || md5Hash(this.emailAddress.toLowerCase()),
       data: {
         email_address: this.emailAddress,
         status_if_new: this.statusIfNew,
@@ -151,16 +150,21 @@ export default {
         interests: this.interests,
         language: this.language,
         vip: this.vip,
-        location: {
-          latitude: this.latitude && Number(this.latitude),
-          longitude: this.longitude && Number(this.longitude),
-        },
-        marketing_permissions: [
-          {
-            marketing_permission_id: this.marketingPermissionId,
-            enabled: this.marketingPermissionsEnabled,
-          },
-        ],
+        // Mailchimp rejects empty location / marketing_permissions entries
+        location: this.latitude && this.longitude
+          ? {
+            latitude: Number(this.latitude),
+            longitude: Number(this.longitude),
+          }
+          : undefined,
+        marketing_permissions: this.marketingPermissionId
+          ? [
+            {
+              marketing_permission_id: this.marketingPermissionId,
+              enabled: this.marketingPermissionsEnabled,
+            },
+          ]
+          : undefined,
         ip_signup: this.ipSignup,
         timestamp_signup: this.timestampSignup,
         ip_opt: this.ipOpt,
