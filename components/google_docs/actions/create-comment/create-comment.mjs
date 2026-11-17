@@ -20,6 +20,7 @@ export default {
         googleDocs,
         "documentId",
       ],
+      description: "The ID of the Google Doc, e.g. `1AbC...`. This is the long string in the document's URL: `https://docs.google.com/document/d/{DOCUMENT_ID}/edit`. Use **Find Document** to resolve a document's name to its ID.",
     },
     content: {
       type: "string",
@@ -38,27 +39,28 @@ export default {
         googleDocs,
         "occurrence",
       ],
-      description: "Which matches of **Find Text** get a comment: `first` (default) or `all`. `all` creates one separate comment thread per match.",
+      description: "Which matches of **Find Text** get a comment: `first` (default) or `all`, e.g. `first`. `all` creates one separate comment thread per match.",
     },
     matchCase: {
       propDefinition: [
         googleDocs,
         "matchCase",
       ],
+      description: "Case sensitive search (`true`) or not (`false`), e.g. `true`. Defaults to `false`.",
     },
     startIndex: {
       propDefinition: [
         googleDocs,
         "startIndex",
       ],
-      description: "Character index where the comment's anchor starts, inclusive. Use with **End Index** instead of **Find Text**. Indices come from **Get Document** and shift after every edit, so prefer **Find Text**.",
+      description: "Character index where the comment's anchor starts, inclusive, e.g. `42`. Use with **End Index** instead of **Find Text**. Indices come from **Get Document** and shift after every edit, so prefer **Find Text**.",
     },
     endIndex: {
       propDefinition: [
         googleDocs,
         "endIndex",
       ],
-      description: "Character index where the comment's anchor ends, exclusive. Must be greater than **Start Index**.",
+      description: "Character index where the comment's anchor ends, exclusive, e.g. `52`. Must be greater than **Start Index**.",
     },
     tabId: {
       propDefinition: [
