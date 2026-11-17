@@ -387,6 +387,15 @@ export default {
         ...args,
       });
     },
+    async checkDelegatedItemAccess({
+      catalogItemSysId, userSysId, ...args
+    }) {
+      return this._makeRequest({
+        baseURL: `${this._instanceBaseUrl()}${SERVICE_CATALOG_BASE_PATH}`,
+        url: `/items/${catalogItemSysId}/delegation/${userSysId}`,
+        ...args,
+      });
+    },
     async submitRecordProducer({
       catalogItemSysId, ...args
     }) {
