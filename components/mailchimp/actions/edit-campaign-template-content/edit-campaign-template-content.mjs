@@ -34,19 +34,19 @@ export default {
     archiveContent: {
       type: "string",
       label: "Archive content",
-      description: "The base64-encoded representation of the archive file. Use together with **Archive type**.",
+      description: "The base64-encoded representation of the archive file, e.g. `UEsDBBQAAAAIAAAAIQ...`. Use together with **Archive type**.",
       optional: true,
     },
     templateSections: {
       type: "object",
       label: "Template sections",
-      description: "Content for the sections of the template. Each key should be the unique mc:edit area name from the template.",
+      description: "Content for the sections of the template. Each key should be the unique mc:edit area name from the template, e.g. `{\"body\": \"<p>Hello</p>\"}`.",
       optional: true,
     },
     templateId: {
       type: "string",
       label: "Template ID",
-      description: "The ID of the template to use. Required when **Template sections** is set.",
+      description: "The numeric ID of the template to use, e.g. `12345`. Use the **List Templates** tool and take the `id` of the template in `templates`. Required when **Template sections** is set.",
       optional: true,
     },
     plainText: {
@@ -58,7 +58,7 @@ export default {
     html: {
       type: "string",
       label: "HTML",
-      description: "The raw HTML for the campaign.",
+      description: "The raw HTML for the campaign, e.g. `<html><body><p>Hello</p></body></html>`.",
       optional: true,
     },
     url: {
@@ -84,9 +84,13 @@ export default {
     if (this.archiveType && !this.archiveContent) {
       throw new ConfigurationError("**Archive content** is required when **Archive type** is set.");
     }
-    const templateId = this.templateId && Number(this.templateId);
-    if (this.templateId && Number.isNaN(templateId)) {
-      throw new ConfigurationError("**Template ID** must be a number.");
+    const rawTemplateId = this.templateId?.toString().trim();
+    const templateId = rawTemplateId
+      ? Number(rawTemplateId)
+      : undefined;
+    // `this.templateId` is checked (not `templateId`) so a blank value like " " is rejected too
+    if (this.templateId && (!Number.isInteger(templateId) || templateId <= 0)) {
+      throw new ConfigurationError("**Template ID** must be a positive whole number.");
     }
 
     const payload = removeNullEntries({

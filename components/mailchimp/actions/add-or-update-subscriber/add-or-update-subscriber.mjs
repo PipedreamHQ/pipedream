@@ -29,7 +29,7 @@ export default {
     subscriberHash: {
       type: "string",
       label: "Subscriber hash",
-      description: "The MD5 hash of the lowercase version of the list member's email address. Leave empty to have it calculated from **Email address**.",
+      description: "The MD5 hash of the lowercase version of the list member's email address, e.g. `55502f40dc8b7c769880b10874abc9d0`. Leave empty to have it calculated from **Email address**.",
       optional: true,
     },
     emailAddress: {
@@ -151,10 +151,10 @@ export default {
         language: this.language,
         vip: this.vip,
         // Mailchimp rejects empty location / marketing_permissions entries
-        location: this.latitude && this.longitude
+        location: this.latitude || this.longitude
           ? {
-            latitude: Number(this.latitude),
-            longitude: Number(this.longitude),
+            latitude: this.latitude && Number(this.latitude),
+            longitude: this.longitude && Number(this.longitude),
           }
           : undefined,
         marketing_permissions: this.marketingPermissionId
