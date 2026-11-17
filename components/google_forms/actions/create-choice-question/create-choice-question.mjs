@@ -6,7 +6,7 @@ export default {
   description: "Adds one multiple-choice (radio), checkbox, or dropdown question to a Google Form."
     + " Use it when the user asks for a question where responders pick from a fixed list of answers."
     + " To add a short-answer or paragraph question, use **Create Text Question** instead."
-    + " When `index` is omitted the question is appended to the end of the form (the form is fetched to count its items)."
+    + " When `index` is omitted the question is appended to the end of the form (the form is fetched to count its items; if someone else edits the form in between, the call fails instead of inserting mid-form, so call it again)."
     + " `includeOther` works only with `RADIO` or `CHECKBOX`; the tool throws an error for `DROP_DOWN`."
     + " Each call adds exactly one question; call it again to add more."
     + " Returns the new question's `itemId`, `questionId`, `index`, `title`, `type`, `options` (the choice values), and `required`."
@@ -37,7 +37,7 @@ export default {
     type: {
       type: "string",
       label: "Type",
-      description: "How responders choose: `RADIO` (pick one), `CHECKBOX` (pick several), or `DROP_DOWN` (pick one from a dropdown).",
+      description: "How responders choose, e.g. `RADIO`: `RADIO` (pick one), `CHECKBOX` (pick several), or `DROP_DOWN` (pick one from a dropdown).",
       options: [
         "RADIO",
         "CHECKBOX",
@@ -90,12 +90,17 @@ export default {
     }
 
     let index = this.index;
+    let writeControl;
     if (index === undefined || index === null) {
       const form = await this.googleForms.getForm({
         $,
         formId: this.formId,
       });
       index = form.items?.length ?? 0;
+      // The end position is only valid for the revision it was counted on.
+      writeControl = {
+        requiredRevisionId: form.revisionId,
+      };
     }
 
     const choices = this.options.map((value) => ({
@@ -107,36 +112,45 @@ export default {
       });
     }
 
-    const response = await this.googleForms.updateForm({
-      $,
-      formId: this.formId,
-      data: {
-        includeFormInResponse: false,
-        requests: [
-          {
-            createItem: {
-              item: {
-                title: this.title,
-                description: this.description,
-                questionItem: {
-                  question: {
-                    required: this.required ?? false,
-                    choiceQuestion: {
-                      type: this.type,
-                      options: choices,
-                      shuffle: this.shuffle ?? false,
+    let response;
+    try {
+      response = await this.googleForms.updateForm({
+        $,
+        formId: this.formId,
+        data: {
+          includeFormInResponse: false,
+          writeControl,
+          requests: [
+            {
+              createItem: {
+                item: {
+                  title: this.title,
+                  description: this.description,
+                  questionItem: {
+                    question: {
+                      required: this.required ?? false,
+                      choiceQuestion: {
+                        type: this.type,
+                        options: choices,
+                        shuffle: this.shuffle ?? false,
+                      },
                     },
                   },
                 },
-              },
-              location: {
-                index,
+                location: {
+                  index,
+                },
               },
             },
-          },
-        ],
-      },
-    });
+          ],
+        },
+      });
+    } catch (err) {
+      if (writeControl && /revision/i.test(JSON.stringify(err?.response?.data ?? err?.message ?? ""))) {
+        throw new Error("The form changed while the question was being appended, so nothing was added. Call this tool again to append to the updated form.");
+      }
+      throw err;
+    }
 
     const created = response?.replies?.[0]?.createItem ?? {};
     $.export("$summary", `Added ${this.type} question "${this.title}" at position ${index}`);

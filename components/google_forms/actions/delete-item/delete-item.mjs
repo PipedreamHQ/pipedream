@@ -7,7 +7,7 @@ export default {
     + " Use it when the user asks to delete, remove, or drop a question from a form."
     + " Deletion cannot be undone through the API: before calling this, ask the user to confirm, and always do so for bulk requests such as \"delete every question\" (name the items and wait for a yes). Call it only after the user has confirmed."
     + " To find an item's ID, use **Get Form** and read `items[].itemId`."
-    + " The tool looks up the item's current position itself, so earlier deletions never shift which item is removed."
+    + " The tool looks up the item's current position itself, so earlier deletions never shift which item is removed; if someone else edits the form in between, the call fails without deleting anything, so call it again."
     + " Returns the deleted item's `itemId`, `title`, and former `index`."
     + " Example: formId=`1FAIpQLSdExampleFormId`, itemId=`3f9a21c0` → returns itemId `3f9a21c0`, its title, and the position it held."
     + " [See the documentation](https://developers.google.com/forms/api/reference/rest/v1/forms/batchUpdate#deleteitemrequest)",
@@ -46,22 +46,34 @@ export default {
     }
     const title = items[index].title;
 
-    await this.googleForms.updateForm({
-      $,
-      formId: this.formId,
-      data: {
-        includeFormInResponse: false,
-        requests: [
-          {
-            deleteItem: {
-              location: {
-                index,
+    try {
+      await this.googleForms.updateForm({
+        $,
+        formId: this.formId,
+        data: {
+          includeFormInResponse: false,
+          // The API deletes by position: pin the revision the index was read from,
+          // so a concurrent edit fails the call instead of deleting another item.
+          writeControl: {
+            requiredRevisionId: form.revisionId,
+          },
+          requests: [
+            {
+              deleteItem: {
+                location: {
+                  index,
+                },
               },
             },
-          },
-        ],
-      },
-    });
+          ],
+        },
+      });
+    } catch (err) {
+      if (/revision/i.test(JSON.stringify(err?.response?.data ?? err?.message ?? ""))) {
+        throw new Error(`Form ${this.formId} changed while item ${this.itemId} was being deleted, so nothing was deleted. Call this tool again.`);
+      }
+      throw err;
+    }
 
     $.export("$summary", `Deleted item ${this.itemId}${title
       ? ` ("${title}")`
