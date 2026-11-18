@@ -6,7 +6,7 @@ export default {
   ...common,
   key: "nevtan_mail-new-email-received",
   name: "New Email Received",
-  description: "Emit new event when an email arrives in your NevTan Mail mailbox. The event carries the sender, subject and full body. Spam and filtered mail do not emit. [See the documentation](https://mail.nevtan.com/integrations)",
+  description: "Emit new event when an email arrives in your NevTan Mail mailbox. The event carries the sender, subject and full body. Spam and filtered mail do not emit. [See the documentation](https://mail.nevtan.com/docs/webhooks)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

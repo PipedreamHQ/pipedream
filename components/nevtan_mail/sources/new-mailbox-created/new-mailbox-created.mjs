@@ -7,7 +7,7 @@ export default {
   key: "nevtan_mail-new-mailbox-created",
   name: "New Mailbox Created",
   description:
-    "Emit new event when a mailbox is created in your workspace. Requires an admin API key. [See the documentation](https://mail.nevtan.com/integrations)",
+    "Emit new event when a mailbox is created in your workspace. Requires an admin API key. [See the documentation](https://mail.nevtan.com/docs/webhooks)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

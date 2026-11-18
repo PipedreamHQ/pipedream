@@ -3,7 +3,7 @@ import app from "../../nevtan_mail.app.mjs";
 export default {
   key: "nevtan_mail-get-email",
   name: "Get Email",
-  description: "Retrieve a single email from your NevTan Mail mailbox, including its full body. Use **List Emails** or **Find Emails** to get the email ID. [See the documentation](https://mail.nevtan.com/integrations)",
+  description: "Retrieve a single email from your NevTan Mail mailbox, including its full body. Use **List Emails** or **Find Emails** to get the email ID. [See the documentation](https://mail.nevtan.com/docs/mail-api)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",

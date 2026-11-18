@@ -3,7 +3,7 @@ import app from "../../nevtan_mail.app.mjs";
 export default {
   key: "nevtan_mail-create-mailbox",
   name: "Create Mailbox",
-  description: "Create a mailbox on one of your verified domains. Requires an admin API key. [See the documentation](https://mail.nevtan.com/integrations)",
+  description: "Create a mailbox on one of your verified domains. Requires an admin API key. [See the documentation](https://mail.nevtan.com/docs/mail-api)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",

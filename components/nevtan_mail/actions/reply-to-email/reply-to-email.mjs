@@ -3,7 +3,7 @@ import app from "../../nevtan_mail.app.mjs";
 export default {
   key: "nevtan_mail-reply-to-email",
   name: "Reply to Email",
-  description: "Reply to an existing email in your NevTan Mail mailbox. The reply is sent immediately. Use **List Emails** or **Find Emails** to get the email ID, or **Create Draft** to save without sending. [See the documentation](https://mail.nevtan.com/integrations)",
+  description: "Reply to an existing email in your NevTan Mail mailbox. The reply is sent immediately. Use **List Emails** or **Find Emails** to get the email ID, or **Create Draft** to save without sending. [See the documentation](https://mail.nevtan.com/docs/mail-api)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
