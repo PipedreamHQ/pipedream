@@ -3,7 +3,7 @@ import app from "../../nevtan_mail.app.mjs";
 export default {
   key: "nevtan_mail-list-emails",
   name: "List Emails",
-  description: "Retrieve the newest emails from a folder in your NevTan Mail mailbox. Returns at most 50 emails, newest first. Use **Get Email** to fetch a full body. [See the documentation](https://mail.nevtan.com/docs/mail-api)",
+  description: "Retrieve the newest emails from a folder in your NevTan Mail mailbox. Returns at most 50 emails, newest first. Use **Get Email** to fetch an email body, which is truncated beyond 100,000 characters. [See the documentation](https://mail.nevtan.com/docs/mail-api)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",

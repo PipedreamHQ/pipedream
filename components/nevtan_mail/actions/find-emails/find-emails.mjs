@@ -3,7 +3,7 @@ import app from "../../nevtan_mail.app.mjs";
 export default {
   key: "nevtan_mail-find-emails",
   name: "Find Emails",
-  description: "Search your NevTan Mail mailbox and return the matching emails. Use **Get Email** to fetch the full body of a returned ID. [See the documentation](https://mail.nevtan.com/docs/mail-api)",
+  description: "Search your NevTan Mail mailbox and return the matching emails. Use **Get Email** to fetch the body of a returned ID, which is truncated beyond 100,000 characters. [See the documentation](https://mail.nevtan.com/docs/mail-api)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
