@@ -3,7 +3,7 @@ import piloterr from "../../piloterr.app.mjs";
 export default {
   key: "piloterr-ebay-search",
   name: "eBay Search",
-  description: "Search eBay listings by keyword and return their price, condition, buying format, shipping and seller. Use **Get eBay Listing** with a returned `item_id` for the full listing. [See the documentation](https://docs.piloterr.com/v2/api-reference/ebay/search)",
+  description: "Search eBay listings by keyword and return their price, condition, buying format, shipping and seller. Use **Get eBay Listing** with a returned `url` for the full listing: the URL keeps the listing's eBay site, while a bare `item_id` is loaded on www.ebay.com. [See the documentation](https://docs.piloterr.com/v2/api-reference/ebay/search)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,

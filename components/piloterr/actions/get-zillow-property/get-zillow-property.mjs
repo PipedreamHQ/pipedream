@@ -17,7 +17,7 @@ export default {
     url: {
       type: "string",
       label: "Listing URL",
-      description: "The full Zillow homedetails URL, e.g. `https://www.zillow.com/homedetails/20-Kyle-Ct-Staten-Island-NY-10312/32361983_zpid/`.",
+      description: "The full Zillow homedetails URL, e.g. `https://www.zillow.com/homedetails/20-Kyle-Ct-Staten-Island-NY-10312/32361983_zpid/`. Use **Zillow Search** to find it (the `detail_url` field).",
     },
   },
   async run({ $ }) {

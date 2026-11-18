@@ -16,8 +16,8 @@ export default {
     piloterr,
     item: {
       type: "string",
-      label: "Item ID Or URL",
-      description: "The eBay item ID or listing URL, e.g. `257758922911`. Use **eBay Search** to find it (the `item_id` field).",
+      label: "Listing URL Or Item ID",
+      description: "The eBay listing URL or item ID, e.g. `https://www.ebay.de/itm/257758922911`. Use **eBay Search** to find it and pass its `url` field: a bare item ID is loaded on www.ebay.com, which drops the listing's eBay site.",
     },
   },
   async run({ $ }) {

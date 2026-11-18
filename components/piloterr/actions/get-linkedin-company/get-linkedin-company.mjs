@@ -22,15 +22,17 @@ export default {
       optional: true,
     },
     domain: {
-      type: "string",
-      label: "Website Domain",
-      description: "The company's website domain, used when the LinkedIn page is unknown, e.g. `ferrari.com`.",
+      propDefinition: [
+        piloterr,
+        "domain",
+      ],
+      description: "The company's website domain, used when the LinkedIn page is unknown, e.g. `ferrari.com`. Leave empty when `company` is set: the two are mutually exclusive.",
       optional: true,
     },
   },
   async run({ $ }) {
-    if (!this.company && !this.domain) {
-      throw new ConfigurationError("Provide either the LinkedIn company page or its website domain.");
+    if (!this.company === !this.domain) {
+      throw new ConfigurationError("Provide exactly one of the LinkedIn company page or its website domain, not both.");
     }
     const response = await this.piloterr.getLinkedinCompany({
       $,

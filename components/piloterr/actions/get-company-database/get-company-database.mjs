@@ -15,9 +15,11 @@ export default {
   props: {
     piloterr,
     domainName: {
-      type: "string",
+      propDefinition: [
+        piloterr,
+        "domain",
+      ],
       label: "Domain Name",
-      description: "The website domain of the company, e.g. `piloterr.com`.",
     },
   },
   async run({ $ }) {

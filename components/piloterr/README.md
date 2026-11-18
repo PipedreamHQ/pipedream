@@ -1,6 +1,6 @@
 # Overview
 
-The Piloterr API is a web scraping API with ready-made endpoints for search engines, marketplaces and company data, with proxies and anti-bot handling included. In Pipedream, you can fetch or render web pages, detect the technologies a website runs, search Google, Amazon and eBay, and enrich companies with their LinkedIn and Crunchbase profiles, then pass the structured JSON to any other app in your workflow.
+The Piloterr API is a web scraping API with ready-made endpoints for search engines, marketplaces and company data, with proxies and anti-bot handling included. In Pipedream, you can fetch or render web pages, detect the technologies a website runs, search Google, Amazon, eBay and Zillow, and enrich companies with their LinkedIn and Crunchbase profiles, then pass the structured JSON to any other app in your workflow.
 
 # Example Use Cases
 

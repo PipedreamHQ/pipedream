@@ -11,6 +11,11 @@ export default {
       min: 1,
       optional: true,
     },
+    domain: {
+      type: "string",
+      label: "Website Domain",
+      description: "The company's website domain, e.g. `piloterr.com`.",
+    },
   },
   methods: {
     _baseUrl() {
@@ -90,6 +95,12 @@ export default {
     getCrunchbaseCompany(opts = {}) {
       return this._makeRequest({
         path: "/crunchbase/company/info",
+        ...opts,
+      });
+    },
+    searchZillow(opts = {}) {
+      return this._makeRequest({
+        path: "/zillow/search",
         ...opts,
       });
     },
