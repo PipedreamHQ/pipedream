@@ -5,7 +5,7 @@ export default {
   key: "asana-create-task-comment",
   name: "Create Task Comment",
   description: "Adds a comment (story) to an existing Asana task. Use this to post a text update or pinned note visible to task followers. Provide either `text` (plain text) or `html_text` (HTML-formatted), but not both. Returns the new story record including its `gid` and `type`. Example: call with `task_gid: '1202345678901234'`, `text: 'Approved — ready to ship!'` → returns `{gid: '1209012345678901', type: 'comment', text: 'Approved — ready to ship!'}`. [See the documentation](https://developers.asana.com/docs/create-a-story-on-a-task)",
-  version: "1.0.0",
+  version: "1.0.1",
   ai: "optimized",
   annotations: {
     destructiveHint: false,
