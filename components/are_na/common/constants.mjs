@@ -5,7 +5,6 @@ export default {
     "private",
   ],
   SEARCH_TYPES: [
-    "All",
     "Block",
     "Text",
     "Image",

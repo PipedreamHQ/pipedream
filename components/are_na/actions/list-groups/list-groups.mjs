@@ -4,7 +4,7 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "are_na-list-groups",
   name: "List Groups",
-  description: "Lists Are.na groups (including their IDs) that can be used for the Group ID field of other actions. Returns `options` (the matching groups, each with `id`, `slug` and `name` by default; pass **Fields** for more) and `meta` (pagination: `current_page`, `next_page`, `has_more_pages`, `total_count`). To get more groups, call again with `page` set to `meta.next_page`. Premium Only: uses the Are.na search endpoint, which requires a Premium subscription. Example: query `*` with per 10 returns the first 10 groups, e.g. `{ \"options\": [{ \"id\": 456, \"slug\": \"example\", \"name\": \"Example\" }], \"meta\": { \"next_page\": 2, \"total_count\": 87 } }`. [See the documentation](https://www.are.na/developers/explore/search/search)",
+  description: "Lists the Are.na groups the authenticated user owns or belongs to (including their IDs), for use in the Group ID field of other actions. Returns `options` (each group with `id`, `slug` and `name` by default; pass **Fields** for more) and `meta` (pagination: `current_page`, `next_page`, `has_more_pages`, `total_count`). To get more groups, call again with `page` set to `meta.next_page`. Only lists the user's own groups; it cannot find other groups by name. Example: per 10 returns up to 10 groups, e.g. `{ \"options\": [{ \"id\": 456, \"slug\": \"example\", \"name\": \"Example\" }], \"meta\": { \"next_page\": 2, \"total_count\": 12 } }`. [See the documentation](https://www.are.na/developers/explore/user/get-user-groups)",
   version: "0.0.1",
   ai: "optimized",
   type: "action",
@@ -15,13 +15,6 @@ export default {
   },
   props: {
     are_na,
-    query: {
-      propDefinition: [
-        are_na,
-        "listQuery",
-      ],
-      description: "Filter groups by name or other content. Defaults to `*` (all groups)",
-    },
     page: {
       propDefinition: [
         are_na,
@@ -49,14 +42,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.are_na.search({
+    const response = await this.are_na.listOwnGroups({
       $,
-      params: {
-        query: this.query || "*",
-        type: "Group",
-        page: this.page,
-        per: this.per,
-      },
+      page: this.page,
+      per: this.per,
     });
 
     const options = utils.pluckFields(response?.data ?? [], this.fields);

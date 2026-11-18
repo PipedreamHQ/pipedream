@@ -10,13 +10,9 @@ export default {
       label: "Channel Slug",
       description: "Slug of the Channel, e.g. `brutalist-architecture`. Use the **List Channel Slug Options** action to find the slug of an existing channel",
       async options({ page }) {
-        const response = await this.search({
-          params: {
-            query: "*",
-            type: "Channel",
-            page: page + 1,
-            per: 100,
-          },
+        const response = await this.listOwnChannels({
+          page: page + 1,
+          per: 100,
         });
         return (response?.data ?? []).map(({
           slug, title,
@@ -108,7 +104,7 @@ export default {
     getAuthenticatedUser(args = {}) {
       return this._makeRequest({
         path: "/me",
-        args,
+        ...args,
       });
     },
     search(args = {}) {
@@ -142,10 +138,52 @@ export default {
         ...args,
       });
     },
-    async getChannels(args = {}) {
+    getUserContents({
+      userId, ...args
+    }) {
       return this._makeRequest({
-        path: "/search/channels",
+        path: `/users/${userId}/contents`,
         ...args,
+      });
+    },
+    /**
+     * Lists the groups the authenticated user owns or belongs to.
+     */
+    async listOwnGroups({
+      $, page, per,
+    } = {}) {
+      const me = await this.getAuthenticatedUser({
+        $,
+      });
+      return this._makeRequest({
+        $,
+        path: `/users/${me.id}/groups`,
+        params: {
+          sort: "name_asc",
+          page,
+          per,
+        },
+      });
+    },
+    /**
+     * Lists the authenticated user's own channels. Uses the user contents
+     * endpoint rather than /search, which is Premium-only.
+     */
+    async listOwnChannels({
+      $, page, per,
+    } = {}) {
+      const me = await this.getAuthenticatedUser({
+        $,
+      });
+      return this.getUserContents({
+        $,
+        userId: me.id,
+        params: {
+          type: "Channel",
+          sort: "updated_at_desc",
+          page,
+          per,
+        },
       });
     },
   },

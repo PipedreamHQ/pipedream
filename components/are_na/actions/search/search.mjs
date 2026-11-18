@@ -1,4 +1,3 @@
-import { ConfigurationError } from "@pipedream/platform";
 import are_na from "../../are_na.app.mjs";
 import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
@@ -26,7 +25,7 @@ export default {
     type: {
       type: "string[]",
       label: "Type",
-      description: "Filter results by content type. Block subtypes: `Text`, `Image`, `Link`, `Attachment`, `Embed`. Aggregate types: `Block` (all block types), `Channel`, `User`, `Group`. `All` returns everything (default)",
+      description: "Filter results by content type. Block subtypes: `Text`, `Image`, `Link`, `Attachment`, `Embed`. Aggregate types: `Block` (all block types), `Channel`, `User`, `Group`. Leave empty to return everything",
       options: constants.SEARCH_TYPES,
       optional: true,
     },
@@ -106,20 +105,16 @@ export default {
     },
   },
   async run({ $ }) {
-    let metadata = this.metadata;
-    if (typeof metadata === "string") {
-      try {
-        metadata = JSON.parse(metadata);
-      } catch {
-        throw new ConfigurationError("Metadata Filter must be a valid JSON object");
-      }
-    }
+    const metadata = utils.parseJsonObject(this.metadata, "Metadata Filter");
+    const types = (this.type ?? []).filter((type) => type !== "All");
 
     const response = await this.are_na.search({
       $,
       params: {
         query: this.query,
-        type: this.type?.join(","),
+        type: types.length
+          ? types.join(",")
+          : undefined,
         scope: this.scope,
         user_id: this.userId,
         group_id: this.groupId,
