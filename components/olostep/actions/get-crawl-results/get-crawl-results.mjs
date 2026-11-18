@@ -3,7 +3,7 @@ import olostep from "../../olostep.app.mjs";
 export default {
   key: "olostep-get-crawl-results",
   name: "Get Crawl Results",
-  description: "Get the status of a crawl and its crawled pages, optionally with each page's Markdown content. [See the documentation](https://docs.olostep.com/api-reference/crawls/pages)",
+  description: "Get the status of a crawl started with **Start Crawl** and its crawled pages, optionally with each page's Markdown content. While `status` is `in_progress`, call it again later; pages already crawled are returned meanwhile. Use the returned `cursor` to get the next pages. [See the documentation](https://docs.olostep.com/api-reference/crawls/pages)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -11,12 +11,13 @@ export default {
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     olostep,
     crawlId: {
       type: "string",
       label: "Crawl ID",
-      description: "The `id` returned by the **Start Crawl** action",
+      description: "The ID of the crawl, from the `id` field of **Start Crawl**, e.g. `crawl_96363fn88y`",
     },
     includeContent: {
       propDefinition: [
@@ -29,12 +30,14 @@ export default {
         olostep,
         "limit",
       ],
+      default: 10,
     },
     cursor: {
       propDefinition: [
         olostep,
         "cursor",
       ],
+      description: "The `cursor` field from a previous **Get Crawl Results** response for the same crawl, to get the next pages, e.g. `10`",
     },
   },
   async run({ $ }) {

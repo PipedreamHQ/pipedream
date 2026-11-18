@@ -3,7 +3,7 @@ import olostep from "../../olostep.app.mjs";
 export default {
   key: "olostep-start-crawl",
   name: "Start Crawl",
-  description: "Start crawling a website from a URL. The crawl runs in the background; use **Get Crawl Results** with the returned `id` to get the pages. [See the documentation](https://docs.olostep.com/api-reference/crawls/create)",
+  description: "Start crawling a website from a URL, following its links. The crawl runs in the background and returns an `id`; pass it to **Get Crawl Results** to get the status and the crawled pages. Use **Map Website** instead if you only need the list of URLs. [See the documentation](https://docs.olostep.com/api-reference/crawls/create)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -11,6 +11,7 @@ export default {
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     olostep,
     startUrl: {
@@ -24,13 +25,13 @@ export default {
     maxPages: {
       type: "integer",
       label: "Max Pages",
-      description: "Maximum number of pages to crawl",
+      description: "Maximum number of pages to crawl, e.g. `50`",
       min: 1,
     },
     maxDepth: {
       type: "integer",
       label: "Max Depth",
-      description: "Maximum link depth from the start URL",
+      description: "Maximum number of links to follow from the start URL, e.g. `2`",
       optional: true,
     },
     includeUrls: {
@@ -50,7 +51,7 @@ export default {
         olostep,
         "includeSubdomain",
       ],
-      description: "Include subdomains of the website. Defaults to `false`.",
+      description: "Whether to include subdomains of the website, e.g. `true` to include them. Defaults to `false`.",
     },
     searchQuery: {
       propDefinition: [

@@ -1,9 +1,10 @@
 import olostep from "../../olostep.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "olostep-answer-question",
   name: "Answer Question",
-  description: "Answer a question or complete a research task from the live web, with source URLs. [See the documentation](https://docs.olostep.com/api-reference/answers/create)",
+  description: "Answer a question or complete a research task from the live web, and return the answer with its source URLs. Use it when you need an answer rather than a list of pages; use **Search Web** to get the pages instead. [See the documentation](https://docs.olostep.com/api-reference/answers/create)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -11,6 +12,7 @@ export default {
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     olostep,
     task: {
@@ -21,24 +23,16 @@ export default {
     jsonFormat: {
       type: "string",
       label: "JSON Format",
-      description: "The shape of the answer you want: a JSON object with empty values, e.g. `{\"company\": \"\", \"founded_year\": \"\"}`, or a plain description of the data",
+      description: "The shape of the answer: a JSON object with empty values, e.g. `{\"company\": \"\", \"founded_year\": \"\"}`, or a plain description of the data, e.g. `the company's founding year`",
       optional: true,
     },
   },
   async run({ $ }) {
-    let jsonFormat = this.jsonFormat;
-    if (typeof jsonFormat === "string") {
-      try {
-        jsonFormat = JSON.parse(jsonFormat);
-      } catch {
-        // A plain-text description is also accepted.
-      }
-    }
-    const response = await this.olostep.answer({
+    const response = await this.olostep.answerQuestion({
       $,
       data: {
         task: this.task,
-        json_format: jsonFormat,
+        json_format: parseObject(this.jsonFormat),
       },
     });
     $.export("$summary", "Successfully answered the task");

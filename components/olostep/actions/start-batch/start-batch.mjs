@@ -3,7 +3,7 @@ import olostep from "../../olostep.app.mjs";
 export default {
   key: "olostep-start-batch",
   name: "Start Batch",
-  description: "Start scraping a list of URLs in one batch. The batch runs in the background; use **Get Batch Results** with the returned `id` to get the pages. [See the documentation](https://docs.olostep.com/api-reference/batches/create)",
+  description: "Start scraping a list of URLs in one batch. The batch runs in the background and returns an `id`; pass it to **Get Batch Results** to get the status and the scraped pages. Use **Scrape URL** instead for a single page. [See the documentation](https://docs.olostep.com/api-reference/batches/create)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
@@ -11,12 +11,13 @@ export default {
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     olostep,
     urls: {
       type: "string[]",
       label: "URLs",
-      description: "The URLs to scrape, including `https://`",
+      description: "The URLs to scrape, including the protocol, e.g. `[\"https://example.com/a\", \"https://example.com/b\"]`",
     },
     country: {
       propDefinition: [

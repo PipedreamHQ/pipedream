@@ -7,24 +7,24 @@ export default {
     url: {
       type: "string",
       label: "URL",
-      description: "The URL to scrape, including `https://`, e.g. `https://docs.olostep.com`",
+      description: "The URL to scrape, including the protocol, e.g. `https://docs.olostep.com`",
     },
     includeUrls: {
       type: "string[]",
       label: "Include URLs",
-      description: "URL path patterns to include, in glob syntax, e.g. `/blog/**`",
+      description: "URL path patterns to include, in glob syntax, e.g. `[\"/blog/**\"]`",
       optional: true,
     },
     excludeUrls: {
       type: "string[]",
       label: "Exclude URLs",
-      description: "URL path patterns to exclude, in glob syntax, e.g. `/careers/**`. Excluded URLs take precedence over included URLs.",
+      description: "URL path patterns to exclude, in glob syntax, e.g. `[\"/careers/**\"]`. Excluded URLs take precedence over included URLs.",
       optional: true,
     },
     includeSubdomain: {
       type: "boolean",
       label: "Include Subdomains",
-      description: "Include subdomains of the website",
+      description: "Whether to include subdomains of the website, e.g. `true` to also include `blog.example.com` when the URL is `https://example.com`",
       optional: true,
     },
     searchQuery: {
@@ -36,13 +36,13 @@ export default {
     topN: {
       type: "integer",
       label: "Top N",
-      description: "Keep only the N most relevant URLs for the **Search Query**",
+      description: "Keep only the N URLs most relevant to **Search Query**, e.g. `10`. Only applies when **Search Query** is set.",
       optional: true,
     },
     country: {
       type: "string",
       label: "Country",
-      description: "Country to load the page from. [See the documentation](https://docs.olostep.com/api-reference/scrapes/create)",
+      description: "Country to load the pages from, as a two-letter code, e.g. `US`. [See the documentation](https://docs.olostep.com/api-reference/scrapes/create) for supported values.",
       optional: true,
       options: [
         {
@@ -94,28 +94,27 @@ export default {
     webhook: {
       type: "string",
       label: "Webhook URL",
-      description: "Public `https://` URL that receives a POST request when the job completes",
+      description: "Public URL that receives a POST request when the job completes, e.g. `https://example.com/webhooks/olostep`",
       optional: true,
     },
     includeContent: {
       type: "boolean",
       label: "Include Content",
-      description: "Also fetch the Markdown content of each page. Each page is one extra request, so keep **Limit** small.",
+      description: "Whether to also return each page's Markdown content, e.g. `true`. Each page is fetched separately, so keep **Limit** small.",
       optional: true,
       default: true,
     },
     limit: {
       type: "integer",
       label: "Limit",
-      description: "Maximum number of pages to return",
+      description: "Maximum number of pages to return, e.g. `10`",
       optional: true,
-      default: 10,
       min: 1,
     },
     cursor: {
       type: "string",
       label: "Cursor",
-      description: "The `cursor` returned by a previous call, to get the next page of results",
+      description: "The `cursor` field from the previous **Map Website**, **Get Crawl Results** or **Get Batch Results** response for the same website, crawl or batch, to get the next page of results, e.g. `10`",
       optional: true,
     },
   },
@@ -138,28 +137,28 @@ export default {
         ...opts,
       });
     },
-    scrape(opts = {}) {
+    scrapeUrl(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/scrapes",
         ...opts,
       });
     },
-    search(opts = {}) {
+    searchWeb(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/searches",
         ...opts,
       });
     },
-    answer(opts = {}) {
+    answerQuestion(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/answers",
         ...opts,
       });
     },
-    map(opts = {}) {
+    mapWebsite(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/maps",
@@ -212,7 +211,7 @@ export default {
         ...opts,
       });
     },
-    retrieve(opts = {}) {
+    retrieveContent(opts = {}) {
       return this._makeRequest({
         path: "/retrieve",
         ...opts,
@@ -221,7 +220,7 @@ export default {
     async addMarkdown($, items) {
       for (const item of items) {
         if (!item.retrieve_id) continue;
-        const content = await this.retrieve({
+        const content = await this.retrieveContent({
           $,
           params: {
             retrieve_id: item.retrieve_id,
