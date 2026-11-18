@@ -31,17 +31,20 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.company === !this.domain) {
+    // A blank input counts as absent everywhere: guard, request and summary.
+    const company = this.company?.trim() || undefined;
+    const domain = this.domain?.trim() || undefined;
+    if (!company === !domain) {
       throw new ConfigurationError("Provide exactly one of the LinkedIn company page or its website domain, not both.");
     }
     const response = await this.piloterr.getLinkedinCompany({
       $,
       params: {
-        query: this.company,
-        domain: this.domain,
+        query: company,
+        domain,
       },
     });
-    $.export("$summary", `Retrieved the LinkedIn profile of ${response.company_name ?? this.company ?? this.domain}`);
+    $.export("$summary", `Retrieved the LinkedIn profile of ${response.company_name || company || domain}`);
     return response;
   },
 };

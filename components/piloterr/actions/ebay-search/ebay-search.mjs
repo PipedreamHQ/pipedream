@@ -24,6 +24,7 @@ export default {
         piloterr,
         "page",
       ],
+      description: "Page of results to return, starting at 1, e.g. `2`. A keyword search defaults to page `1`. With a search URL, an empty value keeps the page already in the URL (`_pgn`) and a value here replaces it.",
     },
   },
   async run({ $ }) {
