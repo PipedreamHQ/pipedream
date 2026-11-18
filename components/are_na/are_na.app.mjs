@@ -9,18 +9,6 @@ export default {
       type: "string",
       label: "Channel Slug",
       description: "Slug of the Channel, e.g. `brutalist-architecture`. Use the **List Channel Slug Options** action to find the slug of an existing channel",
-      async options({ page }) {
-        const response = await this.listOwnChannels({
-          page: page + 1,
-          per: 100,
-        });
-        return (response?.data ?? []).map(({
-          slug, title,
-        }) => ({
-          value: slug,
-          label: title,
-        }));
-      },
     },
     channelTitle: {
       type: "string",
