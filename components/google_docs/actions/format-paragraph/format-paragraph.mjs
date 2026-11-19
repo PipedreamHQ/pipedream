@@ -9,7 +9,7 @@ export default {
   key: "google_docs-format-paragraph",
   name: "Format Paragraph",
   description: "Apply paragraph formatting (heading style, alignment, line spacing, indentation) in a Google Doc. Locate the paragraph with **Find Text**, or pass an explicit **Start Index** and **End Index**. Google Docs applies paragraph styles to whole paragraphs, so every paragraph the range touches is restyled, not just the matched text. Use **Find Document** to resolve a document's name to its ID. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/request#UpdateParagraphStyleRequest)",
-  version: "0.0.5",
+  version: "0.1.0",
   ai: "optimized",
   annotations: {
     destructiveHint: false,
@@ -135,11 +135,18 @@ export default {
       max: 500,
       optional: true,
     },
+    suggestMode: {
+      propDefinition: [
+        googleDocs,
+        "suggestMode",
+      ],
+    },
   },
   async run({ $ }) {
     const {
       googleDocs,
       documentId,
+      suggestMode,
       find,
       occurrence,
       matchCase,
@@ -184,23 +191,25 @@ export default {
       tabId,
     });
 
-    await googleDocs.batchUpdate(documentId, ranges.map((range) => ({
+    const response = await googleDocs.batchUpdate(documentId, ranges.map((range) => ({
       updateParagraphStyle: {
         range,
         paragraphStyle: builder.style,
         fields: builder.mask,
       },
-    })));
+    })), googleDocs.writeControl(suggestMode));
 
     $.export("$summary", `Formatted ${ranges.length} paragraph range${ranges.length === 1
       ? ""
-      : "s"} in document ${documentId}`);
+      : "s"} in document ${documentId}${suggestMode
+      ? " as a suggestion"
+      : ""}`);
 
-    return {
+    return googleDocs.withSuggestionIds({
       documentId,
       rangesUpdated: ranges.length,
       ranges,
       fieldsUpdated: builder.fields,
-    };
+    }, suggestMode, response);
   },
 };
