@@ -28,7 +28,7 @@ export default {
     reveal: {
       type: "string[]",
       label: "Reveal",
-      description: "Which data to reveal. Leave empty to reveal both emails and phones.",
+      description: "Which data to reveal, e.g. `[\"emails\"]`. Leave empty to reveal both emails and phones.",
       options: CONTACT_REVEAL_OPTIONS,
       optional: true,
     },

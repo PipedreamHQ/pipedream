@@ -168,18 +168,19 @@ export default {
     contactIds: {
       type: "string[]",
       label: "Enrich Contact IDs",
-      description: "Up to 100 contact IDs to enrich, taken from the `id` field of **Search Contacts** results",
+      description: "Up to 100 contact IDs to enrich, taken from the `id` field of **Search Contacts** results, e.g. `[\"4389064654\"]`",
     },
     companyIds: {
       type: "string[]",
       label: "Enrich Company IDs",
-      description: "Up to 100 company IDs to enrich, taken from the `id` field of **Search Companies** results",
+      description: "Up to 100 company IDs to enrich, taken from the `id` field of **Search Companies** results, e.g. `[\"16303253\"]`",
     },
     limit: {
       type: "integer",
       label: "Limit",
       description: "The maximum number of results to return. **This feature is used to avoid timeouts due to very long returns.**",
       default: 50,
+      min: 1,
     },
     signals: {
       type: "string[]",

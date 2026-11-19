@@ -17,13 +17,13 @@ export default {
     firstName: {
       type: "string",
       label: "First Name",
-      description: "First name of the person. Use together with `Last Name` and a company name or domain.",
+      description: "First name of the person, e.g. `Jane`. Use together with `Last Name` and a company name or domain.",
       optional: true,
     },
     lastName: {
       type: "string",
       label: "Last Name",
-      description: "Last name of the person. Use together with `First Name` and a company name or domain.",
+      description: "Last name of the person, e.g. `Doe`. Use together with `First Name` and a company name or domain.",
       optional: true,
     },
     companyName: {

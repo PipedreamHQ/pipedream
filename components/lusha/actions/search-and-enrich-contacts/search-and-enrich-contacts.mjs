@@ -81,6 +81,9 @@ export default {
     if (Object.keys(include).length === 0) {
       throw new ConfigurationError("Provide at least one contact filter.");
     }
+    if (!Number.isInteger(this.limit) || this.limit < 1) {
+      throw new ConfigurationError("`Limit` must be a positive integer.");
+    }
 
     const contacts = [];
     let page = 0;
