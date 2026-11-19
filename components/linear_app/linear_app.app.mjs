@@ -263,11 +263,33 @@ export default {
     async deleteWebhook(id) {
       return this.client().deleteWebhook(id);
     },
-    async createIssue(input) {
-      return this.client().createIssue(input);
+    async createIssue({
+      $, input,
+    }) {
+      const { data: { issueCreate } } = await this.post({
+        $,
+        data: {
+          query: mutations.createIssue,
+          variables: {
+            input,
+          },
+        },
+      });
+      return issueCreate;
     },
-    async createComment(input) {
-      return this.client().createComment(input);
+    async createComment({
+      $, input,
+    }) {
+      const { data: { commentCreate } } = await this.post({
+        $,
+        data: {
+          query: mutations.createComment,
+          variables: {
+            input,
+          },
+        },
+      });
+      return commentCreate;
     },
     async createInitiative(input) {
       return this.client().createInitiative(input);
@@ -281,13 +303,35 @@ export default {
     async updateInitiative(initiativeId, input) {
       return this.client().updateInitiative(initiativeId, input);
     },
-    async removeLabelFromIssue(issueId, labelId) {
-      return this.client().issueRemoveLabel(issueId, labelId);
+    async removeLabelFromIssue({
+      $, issueId, labelId,
+    }) {
+      const { data: { issueRemoveLabel } } = await this.post({
+        $,
+        data: {
+          query: mutations.removeLabelFromIssue,
+          variables: {
+            id: issueId,
+            labelId,
+          },
+        },
+      });
+      return issueRemoveLabel;
     },
     async updateIssue({
-      issueId, input,
+      $, issueId, input,
     }) {
-      return this.client().updateIssue(issueId, input);
+      const { data: { issueUpdate } } = await this.post({
+        $,
+        data: {
+          query: mutations.updateIssue,
+          variables: {
+            id: issueId,
+            input,
+          },
+        },
+      });
+      return issueUpdate;
     },
     async listIssues(variables) {
       const { data: { issues } } = await this.post({
