@@ -7,7 +7,7 @@ export default {
   key: "linkedin-create-image-post-user",
   name: "Create Image Post (User)",
   description: "Create an image post on LinkedIn. [See the documentation](https://learn.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/images-api?view=li-lms-2023-09&tabs=http#uploading-an-image)",
-  version: "1.1.1",
+  version: "1.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -43,12 +43,12 @@ export default {
   },
   methods: {
     initializeUpload({
-      data, ...args
+      memberId, data, ...args
     }) {
       data = {
         ...data,
         initializeUploadRequest: {
-          owner: `urn:li:person:${this.linkedin.$auth.oauth_uid}`,
+          owner: `urn:li:person:${memberId}`,
         },
       };
       return this.linkedin._makeRequest({
@@ -71,11 +71,16 @@ export default {
     },
   },
   async run({ $ }) {
+    const { id } = await this.linkedin.getCurrentMemberProfile({
+      $,
+    });
+
     const {
       value: {
         uploadUrl, image,
       },
     } = await this.initializeUpload({
+      memberId: id,
       $,
     });
 
@@ -90,10 +95,6 @@ export default {
     });
 
     await this.uploadImage(uploadUrl, formData);
-
-    const { id } = await this.linkedin.getCurrentMemberProfile({
-      $,
-    });
 
     const response = await this.linkedin.createPost({
       returnFullResponse: true,
