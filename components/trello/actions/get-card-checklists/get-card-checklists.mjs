@@ -5,7 +5,7 @@ export default {
   key: "trello-get-card-checklists",
   name: "Get Card Checklists",
   description: "Gets the checklists on a card, including checklist items. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-checklists-get).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

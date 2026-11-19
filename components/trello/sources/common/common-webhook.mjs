@@ -1,4 +1,3 @@
-import { createHmac } from "crypto";
 import common from "./common.mjs";
 
 export default {
@@ -43,21 +42,6 @@ export default {
     },
     _setHookId(hookId) {
       this.db.set("hookId", hookId);
-    },
-    getBase64Digest(data) {
-      const { secret } = this.app.getToken();
-      return createHmac("sha1", secret)
-        .update(data)
-        .digest("base64");
-    },
-    // Do not remove the async keyword from this function
-    async isValidSignature({
-      body, bodyRaw, headers,
-    }) {
-      const data = bodyRaw + body.webhook?.callbackURL;
-      const doubleHash = this.getBase64Digest(data);
-      const headerHash = headers["x-trello-webhook"];
-      return doubleHash === headerHash;
     },
     createHook(args = {}) {
       return this.app.post({
@@ -116,10 +100,8 @@ export default {
       return;
     }
 
-    if (!this.isValidSignature(event)) {
-      console.log("The event failed the verification. Skipping...");
-      return;
-    }
+    // Verifying the signature with oauth2 authentication requires exposing the client secret.
+    // We are not doing that, so we are skipping the verification.
 
     const { action } = event.body;
 
