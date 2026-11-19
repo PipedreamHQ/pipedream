@@ -16,7 +16,7 @@ export default {
         aws,
         "region",
       ],
-      description: "The AWS region tied to your Lambda, e.g `us-east-1` or `us-west-2`",
+      description: "The AWS region tied to your Lambda, e.g. `us-east-1` or `us-west-2`. Run **List AWS Region Options** to see the available regions.",
     },
     functionName: {
       type: "string",
@@ -38,18 +38,7 @@ export default {
     lambdaFunction: {
       type: "string",
       label: "Function Name",
-      description: "The name of your Lambda function. Also accepts a function ARN",
-      async options({ prevContext }) {
-        const response = await this.listFunctions({
-          Marker: prevContext.nextMarker,
-        });
-        return {
-          options: response.Functions.map((fn) => fn.FunctionName),
-          context: {
-            nextMarker: response.NextMarker,
-          },
-        };
-      },
+      description: "The name of your Lambda function. Also accepts a function ARN. Run **Lambda - List Functions** to find function names.",
     },
     eventData: {
       propDefinition: [

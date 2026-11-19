@@ -13,23 +13,12 @@ export default {
         aws,
         "region",
       ],
-      description: "Region tied to your EventBridge event bus, e.g. `us-east-1` or `us-west-2`",
+      description: "Region tied to your EventBridge event bus, e.g. `us-east-1` or `us-west-2`. Run **List AWS Region Options** to see the available regions.",
     },
     eventBusName: {
       type: "string",
       label: "Event Bus Name",
-      description: "The name of the EventBridge event bus",
-      async options({ prevContext }) {
-        const response = await this.eventBridgeListEventBuses({
-          NextToken: prevContext.nextToken,
-        });
-        return {
-          options: response.EventBuses.map((eventBus) => eventBus.Name),
-          context: {
-            nextToken: response.NextToken,
-          },
-        };
-      },
+      description: "The name of the EventBridge event bus, e.g. `default`. Run **EventBridge - List Event Buses** to find event bus names.",
     },
   },
   methods: {

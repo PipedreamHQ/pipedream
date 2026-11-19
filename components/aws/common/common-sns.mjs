@@ -18,12 +18,12 @@ export default {
         aws,
         "region",
       ],
-      description: "Region tied to your SNS Topic, e.g. `us-east-1` or `us-west-2`",
+      description: "Region tied to your SNS Topic, e.g. `us-east-1` or `us-west-2`. Run **List AWS Region Options** to see the available regions.",
     },
     topic: {
       type: "string",
       label: "SNS Topic",
-      description: "The ARN of the SNS Topic",
+      description: "The ARN of the SNS Topic. Run **SNS - List Topics** to find topic ARNs.",
       async options({ prevContext }) {
         const response = await this.snsListTopics({
           NextToken: prevContext.nextToken,

@@ -7,7 +7,7 @@ export default {
   key: "aws-s3-generate-presigned-url",
   name: "S3 - Generate Presigned URL",
   description: "Creates a presigned URL to download from a bucket. [See the documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example_s3_Scenario_PresignedUrl_section.html)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -20,16 +20,18 @@ export default {
     bucket: common.props.bucket,
     key: {
       ...common.props.key,
-      description: "The name of the S3 key with extension you'd like to download",
+      description: "The key of the object to create a download URL for, e.g. `reports/2025/summary.pdf`. Run **S3 - List Objects** to find keys.",
     },
   },
   async run({ $ }) {
-    const client = this._clientS3();
+    // A presigned URL is bound to the bucket's region, which isn't discovered
+    // by redirect (no request is sent), so look it up when `region` is empty.
+    const client = await this._getS3Client(this.bucket);
     const command = new GetObjectCommand({
       Bucket: this.bucket,
       Key: this.key,
     });
-    const response = getSignedUrl(client, command, {
+    const response = await getSignedUrl(client, command, {
       expiresIn: 3600,
     });
     $.export("$summary", "Successfully generated presigned URL");

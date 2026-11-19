@@ -1448,7 +1448,7 @@ importers:
         specifier: ^3.840.0
         version: 3.931.0(aws-crt@1.27.5)
       '@aws-sdk/client-s3':
-        specifier: ^3.66.0
+        specifier: ^3.931.0
         version: 3.931.0(aws-crt@1.27.5)
       '@aws-sdk/client-ses':
         specifier: ^3.58.0

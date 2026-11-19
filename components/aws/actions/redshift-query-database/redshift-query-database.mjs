@@ -2,15 +2,29 @@ import app from "../../aws.app.mjs";
 import {
   parseJson,
   parseArray,
+  toSingleLineString,
 } from "../../common/utils.mjs";
+
+const MAX_ROWS = 1000;
 
 export default {
   key: "aws-redshift-query-database",
   name: "Redshift - Query Database",
-  description: "Run a SELECT query on a database. [See the documentation](https://docs.aws.amazon.com/redshift/latest/APIReference/API_ExecuteStatement.html)",
+  description: toSingleLineString(`
+    Runs a read-only \`SELECT\` on a Redshift Serverless database and returns the matching rows. The query is built from \`from\`, \`columns\`, \`where\`, \`orderBy\` and \`limit\`.
+    Use it to read data, or to preview which rows **Redshift - Update Rows** or **Redshift - Delete Rows** would change by reusing the same \`where\`.
+    Find the table for \`from\` with **Redshift - List Tables**; run **Redshift - List Workgroups**, **Redshift - List Databases** and **Redshift - List Schemas** first.
+    Rows come back in \`Records\` (one array per row, each value typed like \`{ "stringValue": "open" }\` or \`{ "longValue": 1 }\`), and \`ColumnMetadata\` names the columns.
+    It returns at most \`limit\` rows (default 10) and never more than ${MAX_ROWS} in one call. Check \`truncated\` first: when it is \`true\`, more rows exist than were returned, whether \`limit\` or the cap cut the result; \`TotalNumRows\` is the number of rows returned.
+    There is no cursor, so read the next rows by ordering on a unique column and filtering past the last value, e.g. \`orderBy\` \`id\` with \`where\` \`id > :lastId\` and \`sqlParameters\` \`{ "lastId": 100 }\`.
+    The call waits for Redshift to finish, so it takes at least a few seconds.
+    Example: \`from\` \`public.orders\`, \`columns\` \`["id", "status"]\`, \`where\` \`status = :status\`, \`sqlParameters\` \`{ "status": "open" }\`, \`limit\` 2 returns
+    \`{ "TotalNumRows": 2, "truncated": false, "ColumnMetadata": [{ "name": "id" }, { "name": "status" }], "Records": [[{ "longValue": 1 }, { "stringValue": "open" }], [{ "longValue": 4 }, { "stringValue": "open" }]] }\`.
+    [See the documentation](https://docs.aws.amazon.com/redshift/latest/APIReference/API_ExecuteStatement.html)
+  `),
   type: "action",
   ai: "optimized",
-  version: "0.0.4",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -55,7 +69,7 @@ export default {
     columns: {
       type: "string[]",
       label: "SELECT Columns Clause",
-      description: "List of columns to retrieve.",
+      description: "The columns to retrieve, e.g. `[\"id\", \"status\"]`. Leave empty to select every column (`*`).",
       optional: true,
     },
     from: {
@@ -78,7 +92,7 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "Maximum number of rows to return.",
+      description: `The maximum number of rows to return. Defaults to 10, and at most ${MAX_ROWS} rows come back in one call even if this is higher. Check \`truncated\` in the result.`,
       optional: true,
       default: 10,
     },
@@ -117,12 +131,17 @@ export default {
     if (orderBy) {
       sql += ` ORDER BY ${orderBy}`;
     }
+    // Ask for one row more than will be returned: if it comes back, the query's own
+    // LIMIT (or the row cap) cut the result, which Redshift never reports itself
+    const wanted = Math.min(Number(limit) || MAX_ROWS, MAX_ROWS);
     if (limit) {
       sql += " LIMIT :limit";
     }
     const parameters = Object.entries({
       ...parseJson(sqlParameters),
-      limit,
+      ...(limit && {
+        limit: Number(limit) + 1,
+      }),
     })
       .map(([
         name,
@@ -138,8 +157,20 @@ export default {
       database,
       sql,
       parameters,
+      allPages: true,
+      maxRows: wanted + 1,
     });
-    $.export("$summary", `Successfully found \`${response.TotalNumRows}\` row(s).`);
-    return response;
+    const records = response.Records ?? [];
+    const truncated = records.length > wanted;
+    const rows = records.slice(0, wanted);
+    $.export("$summary", truncated
+      ? `Returned ${rows.length} row(s); more exist (raise limit up to ${MAX_ROWS}, or narrow the query)`
+      : `Successfully found \`${rows.length}\` row(s).`);
+    return {
+      ...response,
+      truncated,
+      TotalNumRows: rows.length,
+      Records: rows,
+    };
   },
 };

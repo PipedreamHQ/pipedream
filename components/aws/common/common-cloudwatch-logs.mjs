@@ -20,7 +20,7 @@ export default {
     logGroupName: {
       type: "string",
       label: "CloudWatch Log Groups",
-      description: "The name of the log group",
+      description: "The name of the log group. Run **CloudWatch Logs - List Log Groups** to find log group names.",
       async options({ prevContext }) {
         const {
           logGroups,
@@ -43,26 +43,7 @@ export default {
     logStreamName: {
       type: "string",
       label: "CloudWatch Log Streams",
-      description: "The name of the log stream for the chosen log group",
-      async options({ prevContext }) {
-        const {
-          logStreams,
-          nextToken,
-        } = await this.describeLogStreams({
-          logGroupName: this.logGroupName,
-          nextToken: prevContext.nextToken,
-        });
-        const options = logStreams.map((group) => ({
-          label: group.logStreamName,
-          value: group.logStreamName,
-        }));
-        return {
-          options,
-          context: {
-            nextToken,
-          },
-        };
-      },
+      description: "The name of the log stream for the chosen log group. Run **CloudWatch Logs - List Log Streams** to find log stream names.",
     },
   },
   methods: {

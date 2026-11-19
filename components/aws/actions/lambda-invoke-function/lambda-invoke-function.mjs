@@ -9,7 +9,7 @@ export default {
     Invoke a Lambda function using the AWS API.
     [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-lambda/index.html)
   `),
-  version: "0.2.3",
+  version: "0.2.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

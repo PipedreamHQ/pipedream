@@ -27,21 +27,7 @@ export default {
     tableName: {
       type: "string",
       label: "Table Name",
-      description: "The name of the table",
-      async options({ prevContext }) {
-        const {
-          TableNames,
-          LastEvaluatedTableName,
-        } = await this.listTables({
-          ExclusiveStartTableName: prevContext.lastEvaluatedTableName,
-        });
-        return {
-          options: TableNames,
-          context: {
-            lastEvaluatedTableName: LastEvaluatedTableName,
-          },
-        };
-      },
+      description: "The name of the table. Run **DynamoDB - List Tables** to find table names.",
     },
     keyPrimaryAttributeName: {
       type: "string",
@@ -105,6 +91,8 @@ export default {
       label: "Expression Attribute Names",
       description: toSingleLineString(`
         One or more substitution tokens for attribute names in an expression.
+        Required for any attribute whose name is a DynamoDB reserved word (e.g. \`status\`, \`name\`, \`total\`, \`data\`, \`timestamp\`):
+        write \`#s\` in the expression and map it here.
         Example:
         \`
         {
@@ -141,6 +129,8 @@ export default {
       label: "Key Condition Expression",
       description: toSingleLineString(`
         The condition that specifies the key values for items to be retrieved by the Query action.
+        Write attribute names that are DynamoDB reserved words (e.g. \`status\`, \`name\`, \`total\`, \`data\`) as a placeholder like \`#s\`
+        and define it in \`expressionAttributeNames\`, e.g. \`#s = :status\` with \`{ "#s": "status" }\`.
         Example:
         \`
         partitionKeyName = :partitionkeyval AND sortKeyName = :sortkeyval
@@ -155,6 +145,8 @@ export default {
         A string that identifies one or more attributes to retrieve from the specified table or index.
         If no attribute names are specified, then all attributes will be returned.
         If any of the requested attributes are not found, they will not appear in the result.
+        Write attribute names that are DynamoDB reserved words (e.g. \`status\`, \`name\`, \`total\`, \`data\`) as a placeholder like \`#s\`
+        and define it in \`expressionAttributeNames\`.
       `),
       optional: true,
     },
@@ -173,7 +165,9 @@ export default {
       type: "string",
       label: "Filter Expression",
       description: toSingleLineString(`
-        A string expression that determines which items should be returned.
+        A string expression that determines which items should be returned, e.g. \`#t > :min\`.
+        Write attribute names that are DynamoDB reserved words (e.g. \`status\`, \`name\`, \`total\`, \`data\`) as a placeholder like \`#t\`
+        and define it in \`expressionAttributeNames\`, e.g. \`{ "#t": "total" }\`.
         [See the docs](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.html#Query.FilterExpression)
       `),
       optional: true,
@@ -181,11 +175,106 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "The maximum number of items to evaluate (not necessarily the number of matching items)",
+      description: "The maximum number of items DynamoDB reads per request (the page size), before any filter expression is applied. It does not cap the total returned: use `Max Items` for that. When omitted, DynamoDB reads up to 1 MB per request.",
+      optional: true,
+    },
+    maxItems: {
+      type: "integer",
+      label: "Max Items",
+      description: `The maximum number of items to return in total, e.g. \`100\`. When omitted, every matching item is returned (a single call stops after ${constants.dynamodb.MAX_REQUESTS} requests). Set it when you only need a sample or the table may be large, so the result stays small. When more items are available, the result has \`truncated\` set to \`true\` and a \`nextContinuationKey\` to pass as \`Continuation Key\` to read the next page. With a filter expression the result can hold a few more items than this.`,
+      optional: true,
+      min: 1,
+    },
+    continuationKey: {
+      type: "string",
+      label: "Continuation Key",
+      description: "The `nextContinuationKey` from the previous result, as JSON, e.g. `{\"id\": {\"S\": \"123\"}}`. Leave empty to start from the beginning.",
+      optional: true,
+    },
+    indexName: {
+      type: "string",
+      label: "Index Name",
+      description: "The name of a local or global secondary index to query instead of the table itself. The key condition then applies to that index's keys. Leave empty to query the table.",
+      optional: true,
+    },
+    nextToken: {
+      type: "string",
+      label: "Next Token",
+      description: "The `nextToken` from the previous result of a `SELECT` statement. Leave empty to start from the beginning.",
       optional: true,
     },
   },
   methods: {
+    /**
+     * Reads pages from a Scan, Query or ExecuteStatement call until `maxItems`
+     * items are collected (no limit when it is omitted), the data runs out, or
+     * `MAX_REQUESTS` requests have been made.
+     *
+     * Without a filter, pages are sized so one never returns more than the items
+     * still needed, which keeps the returned continuation key exact: reading from
+     * it resumes right after the last returned item, with nothing skipped. With a
+     * filter (`filtered`), DynamoDB's `Limit` counts items read rather than
+     * matches, so pages are never sized below `FILTER_PAGE_FLOOR`; the last page
+     * can then hold a few more than `maxItems`, and the key is still exact.
+     *
+     * @returns {Promise<object>} `{ items, scannedCount, nextKey, requests, metadata }`;
+     * `nextKey` is set whenever data may remain, including when the request cap
+     * stopped the read early
+     */
+    async readPages({
+      fn, params, maxItems = Infinity, pageSize, filtered = false, startKey, startKeyAttr, nextKeyAttr,
+    }) {
+      const items = [];
+      let scannedCount = 0;
+      let requests = 0;
+      let key = startKey;
+      let metadata;
+      do {
+        const remaining = maxItems - items.length;
+        const needed = filtered
+          ? Math.max(remaining, constants.dynamodb.FILTER_PAGE_FLOOR)
+          : remaining;
+        const limit = Math.min(pageSize ?? needed, needed);
+        const response = await fn.call(this, {
+          ...params,
+          ...(Number.isFinite(limit) && {
+            Limit: limit,
+          }),
+          ...(key && {
+            [startKeyAttr]: key,
+          }),
+        });
+        requests++;
+        items.push(...(response.Items ?? []));
+        scannedCount += response.ScannedCount ?? 0;
+        key = response[nextKeyAttr];
+        metadata = response.$metadata;
+      } while (key && items.length < maxItems && requests < constants.dynamodb.MAX_REQUESTS);
+      return {
+        items,
+        scannedCount,
+        nextKey: key,
+        requests,
+        metadata,
+      };
+    },
+    /**
+     * Builds the result of a paged read, with the "is there more" fields first
+     * so they are seen before a long list of items.
+     */
+    formatPages({
+      items, scannedCount, nextKey, metadata,
+    }) {
+      return {
+        truncated: Boolean(nextKey),
+        nextContinuationKey: nextKey ?? null,
+        Count: items.length,
+        ScannedCount: scannedCount,
+        Items: items,
+        // kept from the previous output (the last request's) for workflows that read it
+        $metadata: metadata,
+      };
+    },
     _clientDynamodb() {
       return this.aws.getAWSClient(DynamoDBClient, this.region);
     },
