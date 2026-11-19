@@ -4,7 +4,7 @@ export default {
   key: "filepost-get-file",
   name: "Get File",
   description: "Retrieve details of a specific file by its ID. [See the documentation](https://filepost.dev/docs#get-file)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
