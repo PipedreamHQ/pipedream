@@ -3,9 +3,10 @@ import lusha from "../../lusha.app.mjs";
 export default {
   key: "lusha-list-countries-options",
   name: "List Contact Countries Options",
-  description: "Retrieves available options for the Contact Countries field.",
+  description: "List the country codes Lusha accepts in the `Contact Countries` filter of **Search Contacts** and **Search and Enrich Contacts**. Pass an option's `value` (e.g. `US`). Does not use credits. [See the documentation](https://docs.lusha.com/api-reference/prospecting/prospecting-contacts)",
   version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -15,7 +16,9 @@ export default {
     lusha,
   },
   async run({ $ }) {
-    const options = await lusha.propDefinitions.countries.options.call(this.lusha);
+    const options = await this.lusha.listCountryOptions({
+      $,
+    });
     $.export("$summary", `Successfully retrieved ${options.length} option${options.length === 1
       ? ""
       : "s"}`);

@@ -1,11 +1,12 @@
 import { axios } from "@pipedream/platform";
 import {
   COMPANY_SIGNALS_OPTIONS,
+  MAX_JOB_WAIT_MS,
   MAX_PAGE,
-  PAGE_SIZE,
   SIGNALS_OPTIONS,
 } from "./common/constants.mjs";
 import {
+  getPageSize,
   toOption,
   toRangeOption,
 } from "./common/utils.mjs";
@@ -44,42 +45,26 @@ export default {
     sizes: {
       type: "string[]",
       label: "Company Sizes",
-      description: "Size ranges of companies to search",
+      description: "Company size ranges to search, each a JSON range object, e.g. `{\"min\": 51, \"max\": 200}`. Use **List Company Sizes Options** to get the valid ranges and pass an option `value` as is.",
       optional: true,
-      async options() {
-        const sizes = await this.listSizes();
-        return sizes.map(toRangeOption);
-      },
     },
     revenues: {
       type: "string[]",
       label: "Company Revenues",
-      description: "Revenue ranges of companies to search",
+      description: "Company revenue ranges to search, each a JSON range object, e.g. `{\"min\": 1000000, \"max\": 10000000}`. Use **List Company Revenues Options** to get the valid ranges and pass an option `value` as is.",
       optional: true,
-      async options() {
-        const revenues = await this.listRevenues();
-        return revenues.map(toRangeOption);
-      },
     },
     sicCodes: {
       type: "string[]",
       label: "Company SIC Codes",
-      description: "SIC codes of companies to search",
+      description: "SIC industry codes of companies to search, e.g. `7372`. Use **List Company SIC Codes Options** to find valid codes.",
       optional: true,
-      async options() {
-        const sicCodes = await this.listSicCodes();
-        return sicCodes.map((item) => toOption(item, CODE_OPTION_KEYS));
-      },
     },
     naicsCodes: {
       type: "string[]",
       label: "Company NAICS Codes",
-      description: "NAICS codes of companies to search",
+      description: "NAICS industry codes of companies to search, e.g. `541511`. Use **List Company NAICS Codes Options** to find valid codes.",
       optional: true,
-      async options() {
-        const naicsCodes = await this.listNaicsCodes();
-        return naicsCodes.map((item) => toOption(item, CODE_OPTION_KEYS));
-      },
     },
     contactNames: {
       type: "string[]",
@@ -102,42 +87,26 @@ export default {
     countries: {
       type: "string[]",
       label: "Contact Countries",
-      description: "Country codes of contacts to search",
+      description: "Two-letter country codes of contacts to search, e.g. `US`. Use **List Contact Countries Options** to find valid codes.",
       optional: true,
-      async options() {
-        const countries = await this.listCountries();
-        return countries.map((item) => toOption(item, CODE_OPTION_KEYS));
-      },
     },
     seniority: {
       type: "integer[]",
       label: "Contact Seniority Levels",
-      description: "Seniority levels of contacts to search",
+      description: "Seniority level IDs of contacts to search, e.g. `4`. Use **List Contact Seniority Levels Options** to map seniority names to IDs.",
       optional: true,
-      async options() {
-        const seniorities = await this.listSeniorities();
-        return seniorities.map((item) => toOption(item));
-      },
     },
     departments: {
       type: "string[]",
       label: "Contact Departments",
-      description: "Departments of contacts to search",
+      description: "Departments of contacts to search, e.g. `Sales`. Use **List Contact Departments Options** to find valid values.",
       optional: true,
-      async options() {
-        const departments = await this.listDepartments();
-        return departments.map((item) => toOption(item));
-      },
     },
     existingDataPoints: {
       type: "string[]",
       label: "Existing Data Points",
-      description: "Existing data points of contacts to filter by",
+      description: "Only return contacts that have these data points available, e.g. `work_email`. Use **List Existing Data Points Options** to find valid values.",
       optional: true,
-      async options() {
-        const dataPoints = await this.listExistingDataPoints();
-        return dataPoints.map((item) => toOption(item));
-      },
     },
     location: {
       type: "string[]",
@@ -261,6 +230,36 @@ export default {
         path: "/v3/companies/enrich",
       });
     },
+    getContactsEnrichJob({
+      jobId, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        path: `/v3/contacts/jobs/${jobId}`,
+      });
+    },
+    // Polls a Data Waterfall job returned by Enrich Contacts and returns the contacts it completed.
+    // Stops on `expired`/`failed` (or after MAX_JOB_WAIT_MS) and returns [], so callers keep the
+    // results the enrich call already returned.
+    async waitForContactsEnrichJob({
+      $, job,
+    }) {
+      if (!job?.id) return [];
+      const deadline = Date.now() + MAX_JOB_WAIT_MS;
+      let retryAfter = job.retryAfter;
+      while (Date.now() < deadline) {
+        const waitMs = Math.min(Math.max(Number(retryAfter) || 1, 1) * 1000, deadline - Date.now());
+        await new Promise((resolve) => setTimeout(resolve, waitMs));
+        const result = await this.getContactsEnrichJob({
+          $,
+          jobId: job.id,
+        });
+        if (result.status === "complete") return result.contacts || [];
+        if (result.status !== "processing") return [];
+        retryAfter = result.retryAfter;
+      }
+      return [];
+    },
     async listContactFilterValues({
       filterType, ...opts
     }) {
@@ -327,6 +326,39 @@ export default {
         filterType: "naics",
       });
     },
+    // Option lists for the prospecting filters, returned by the List * Options actions.
+    async listSizeOptions(opts = {}) {
+      const sizes = await this.listSizes(opts);
+      return sizes.map(toRangeOption);
+    },
+    async listRevenueOptions(opts = {}) {
+      const revenues = await this.listRevenues(opts);
+      return revenues.map(toRangeOption);
+    },
+    async listSicCodeOptions(opts = {}) {
+      const sicCodes = await this.listSicCodes(opts);
+      return sicCodes.map((item) => toOption(item, CODE_OPTION_KEYS));
+    },
+    async listNaicsCodeOptions(opts = {}) {
+      const naicsCodes = await this.listNaicsCodes(opts);
+      return naicsCodes.map((item) => toOption(item, CODE_OPTION_KEYS));
+    },
+    async listCountryOptions(opts = {}) {
+      const countries = await this.listCountries(opts);
+      return countries.map((item) => toOption(item, CODE_OPTION_KEYS));
+    },
+    async listSeniorityOptions(opts = {}) {
+      const seniorities = await this.listSeniorities(opts);
+      return seniorities.map((item) => toOption(item));
+    },
+    async listDepartmentOptions(opts = {}) {
+      const departments = await this.listDepartments(opts);
+      return departments.map((item) => toOption(item));
+    },
+    async listExistingDataPointOptions(opts = {}) {
+      const dataPoints = await this.listExistingDataPoints(opts);
+      return dataPoints.map((item) => toOption(item));
+    },
     getContactSignalsById(opts = {}) {
       return this._makeRequest({
         method: "POST",
@@ -376,11 +408,12 @@ export default {
       let hasMore = false;
       let count = 0;
       let page = -1;
+      const size = getPageSize(maxResults);
 
       do {
         data.pagination = {
           page: ++page,
-          size: PAGE_SIZE,
+          size,
         };
         const response = await fn({
           data,
@@ -395,7 +428,7 @@ export default {
           }
         }
 
-        hasMore = results.length === PAGE_SIZE && page < MAX_PAGE;
+        hasMore = results.length === size && page < MAX_PAGE;
 
       } while (hasMore);
     },

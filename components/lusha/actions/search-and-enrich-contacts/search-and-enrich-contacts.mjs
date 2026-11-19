@@ -1,9 +1,9 @@
 import { ConfigurationError } from "@pipedream/platform";
+import { MAX_PAGE } from "../../common/constants.mjs";
 import {
-  MAX_PAGE,
-  PAGE_SIZE,
-} from "../../common/constants.mjs";
-import { buildContactInclude } from "../../common/utils.mjs";
+  buildContactInclude,
+  getPageSize,
+} from "../../common/utils.mjs";
 import lusha from "../../lusha.app.mjs";
 
 export default {
@@ -14,9 +14,10 @@ export default {
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: true,
+    readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     lusha,
     names: {
@@ -86,6 +87,7 @@ export default {
     }
 
     const contacts = [];
+    const pageSize = getPageSize(this.limit);
     let page = 0;
     let hasMore;
 
@@ -96,7 +98,7 @@ export default {
         data: {
           pagination: {
             page,
-            size: PAGE_SIZE,
+            size: pageSize,
           },
           filters: {
             contacts: {
@@ -112,16 +114,31 @@ export default {
         .filter(Boolean);
 
       if (ids.length) {
-        const { results: enriched = [] } = await this.lusha.enrichContacts({
+        const {
+          results: enriched = [], job,
+        } = await this.lusha.enrichContacts({
           $,
           data: {
             ids,
           },
         });
-        contacts.push(...enriched);
+        // With Data Waterfall enabled, part of the data arrives later through an async job.
+        const completed = await this.lusha.waitForContactsEnrichJob({
+          $,
+          job,
+        });
+        // Job contacts are complete: they replace the partial result with the same `id`.
+        const merged = new Map(enriched.map((contact) => [
+          contact.id,
+          contact,
+        ]));
+        for (const contact of completed) {
+          merged.set(contact.id, contact);
+        }
+        contacts.push(...merged.values());
       }
 
-      hasMore = results.length === PAGE_SIZE
+      hasMore = results.length === pageSize
         && contacts.length < this.limit
         && page < MAX_PAGE;
       page++;

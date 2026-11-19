@@ -1,9 +1,9 @@
 import { ConfigurationError } from "@pipedream/platform";
+import { MAX_PAGE } from "../../common/constants.mjs";
 import {
-  MAX_PAGE,
-  PAGE_SIZE,
-} from "../../common/constants.mjs";
-import { buildCompanyInclude } from "../../common/utils.mjs";
+  buildCompanyInclude,
+  getPageSize,
+} from "../../common/utils.mjs";
 import lusha from "../../lusha.app.mjs";
 
 export default {
@@ -14,9 +14,10 @@ export default {
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: true,
+    readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     lusha,
     names: {
@@ -78,6 +79,7 @@ export default {
     }
 
     const companies = [];
+    const pageSize = getPageSize(this.limit);
     let page = 0;
     let hasMore;
 
@@ -88,7 +90,7 @@ export default {
         data: {
           pagination: {
             page,
-            size: PAGE_SIZE,
+            size: pageSize,
           },
           filters: {
             companies: {
@@ -113,7 +115,7 @@ export default {
         companies.push(...enriched);
       }
 
-      hasMore = results.length === PAGE_SIZE
+      hasMore = results.length === pageSize
         && companies.length < this.limit
         && page < MAX_PAGE;
       page++;

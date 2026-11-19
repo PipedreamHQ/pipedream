@@ -3,7 +3,7 @@ import {
   CONTACT_REVEAL_OPTIONS,
   MAX_ITEMS_PER_REQUEST,
 } from "../../common/constants.mjs";
-import { parseObject } from "../../common/utils.mjs";
+import { parseStringList } from "../../common/utils.mjs";
 import lusha from "../../lusha.app.mjs";
 
 export default {
@@ -17,6 +17,7 @@ export default {
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     lusha,
     contactIds: {
@@ -34,7 +35,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const ids = parseObject(this.contactIds);
+    const ids = parseStringList(this.contactIds);
     if (!ids?.length || ids.length > MAX_ITEMS_PER_REQUEST) {
       throw new ConfigurationError(`Provide between 1 and ${MAX_ITEMS_PER_REQUEST} contact IDs.`);
     }

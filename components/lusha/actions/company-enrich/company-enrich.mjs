@@ -1,6 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
 import { MAX_ITEMS_PER_REQUEST } from "../../common/constants.mjs";
-import { parseObject } from "../../common/utils.mjs";
+import { parseStringList } from "../../common/utils.mjs";
 import lusha from "../../lusha.app.mjs";
 
 export default {
@@ -14,6 +14,7 @@ export default {
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     lusha,
     companiesIds: {
@@ -24,7 +25,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const ids = parseObject(this.companiesIds);
+    const ids = parseStringList(this.companiesIds);
     if (!ids?.length || ids.length > MAX_ITEMS_PER_REQUEST) {
       throw new ConfigurationError(`Provide between 1 and ${MAX_ITEMS_PER_REQUEST} company IDs.`);
     }
