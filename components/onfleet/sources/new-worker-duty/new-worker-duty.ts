@@ -6,7 +6,7 @@ export default {
   key: "onfleet-new-worker-duty",
   name: "New Worker Duty (Instant)",
   description: "Emit new event when a worker status is changed.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   type: "source",
   methods: {
