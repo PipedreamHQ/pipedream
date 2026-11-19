@@ -4,6 +4,7 @@ import {
   MAX_JOB_WAIT_MS,
   MAX_PAGE,
   SIGNALS_OPTIONS,
+  V3_COMPANY_SIGNAL_TYPES,
 } from "./common/constants.mjs";
 import {
   getPageSize,
@@ -162,6 +163,12 @@ export default {
       label: "Company Signals",
       description: "Types of company signals to retrieve",
       options: COMPANY_SIGNALS_OPTIONS,
+    },
+    companySignalTypes: {
+      type: "string[]",
+      label: "Company Signal Types",
+      description: "Types of company signals to retrieve, e.g. `[\"surgeInHiring\", \"riskNews\"]`. `allSignals` covers every type except the four intent types (`newIntentTopic`, `intentScoreIncrease`, `intentScoreDecrease`, `intentTopicRemoved`), which must be selected explicitly.",
+      options: V3_COMPANY_SIGNAL_TYPES,
     },
     startDate: {
       type: "string",
@@ -361,45 +368,53 @@ export default {
     },
     getContactSignalsById(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/api/signals/contacts",
         ...opts,
+        method: "POST",
+        path: "/v3/contacts/signals",
       });
     },
+    getCompanySignalsById(opts = {}) {
+      return this._makeRequest({
+        ...opts,
+        method: "POST",
+        path: "/v3/companies/signals",
+      });
+    },
+    // V3 has no identifier-based signals search, so these stay on the legacy endpoints.
     searchContactSignals(opts = {}) {
       return this._makeRequest({
+        ...opts,
         method: "POST",
         path: "/api/signals/contacts/search",
-        ...opts,
       });
     },
     searchCompanySignals(opts = {}) {
       return this._makeRequest({
+        ...opts,
         method: "POST",
         path: "/api/signals/companies/search",
-        ...opts,
       });
     },
     getContactRecommendations(opts = {}) {
       return this._makeRequest({
+        ...opts,
         method: "POST",
         path: "/api/recommendations/contacts",
-        ...opts,
       });
     },
     getCompanyRecommendations(opts = {}) {
       return this._makeRequest({
+        ...opts,
         method: "POST",
         path: "/api/recommendations/companies",
-        ...opts,
       });
     },
     getSignalOptions({
       objectType, ...opts
     }) {
       return this._makeRequest({
-        path: `/api/signals/filters/${objectType}`,
         ...opts,
+        path: `/api/signals/filters/${objectType}`,
       });
     },
     async *paginate({

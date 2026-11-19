@@ -1,16 +1,15 @@
-import { ConfigurationError } from "@pipedream/platform";
 import { parseObject } from "../../common/utils.mjs";
 import lusha from "../../lusha.app.mjs";
 
 export default {
   key: "lusha-search-company-signals",
   name: "Search Company Signals",
-  description: "Search for company signals using identifiers like domain name or company name. This endpoint combines search and signal enrichment in a single request. [See the documentation](https://docs.lusha.com/apis/openapi/signals/searchcompanysignals)",
+  description: "Search for company signals using identifiers like domain name or company name. This endpoint combines search and signal enrichment in a single request. [See the documentation](https://docs.lusha.com/tutorials/signals)",
   version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: true,
+    readOnlyHint: false,
   },
   type: "action",
   ai: "optimized",
@@ -35,7 +34,7 @@ export default {
     companies: {
       type: "string[]",
       label: "Companies",
-      description: "List of company objects to search for. Example: [{ \"id\": \"123321\", \"domain\": \"lusha.com\", \"name\": \"Lusha\" }]. [See the documentation](https://docs.lusha.com/apis/openapi/signals/searchcompanysignals) for more information.",
+      description: "List of company objects to search for. Example: [{ \"id\": \"123321\", \"domain\": \"lusha.com\", \"name\": \"Lusha\" }]. [See the documentation](https://docs.lusha.com/tutorials/signals) for more information.",
     },
     signals: {
       propDefinition: [
@@ -51,20 +50,18 @@ export default {
     },
   },
   async run({ $ }) {
-    try {
-      const response = await this.lusha.searchCompanySignals({
-        $,
-        params: {
-          companies: parseObject(this.companies),
-          signals: this.signals,
-          startDate: this.startDate,
-        },
-      });
-      $.export("$summary", `Successfully searched for ${Object.keys(response.companies).length} company signals`);
-
-      return response;
-    } catch ({ response }) {
-      throw new ConfigurationError(response?.data?.message);
-    }
+    const response = await this.lusha.searchCompanySignals({
+      $,
+      data: {
+        companies: parseObject(this.companies),
+        signals: this.signals,
+        startDate: this.startDate,
+      },
+    });
+    const count = Object.keys(response.companies ?? {}).length;
+    $.export("$summary", `Retrieved signals for ${count} compan${count === 1
+      ? "y"
+      : "ies"}`);
+    return response;
   },
 };

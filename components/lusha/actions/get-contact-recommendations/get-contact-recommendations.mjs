@@ -1,11 +1,10 @@
-import { ConfigurationError } from "@pipedream/platform";
 import { parseObject } from "../../common/utils.mjs";
 import lusha from "../../lusha.app.mjs";
 
 export default {
   key: "lusha-get-contact-recommendations",
   name: "Get Contact Recommendations",
-  description: "Fetch recommended contacts by supplying the contact's IDs, enabling Lusha to return similar profiles aligned by job title, seniority, and company context. Use requestId to get more results from a previous search. [See the documentation](https://docs.lusha.com/apis/openapi/contact-recommendations/getcontactrecommendations)",
+  description: "Fetch recommended contacts by supplying the contact's IDs, enabling Lusha to return similar profiles aligned by job title, seniority, and company context. Use requestId to get more results from a previous search. [See the documentation](https://docs.lusha.com/tutorials/recommendations)",
   version: "0.0.3",
   annotations: {
     destructiveHint: false,
@@ -25,12 +24,12 @@ export default {
     contacts: {
       type: "string[]",
       label: "Contacts",
-      description: "List of contact objects to retrieve recommendations for. Example: [{ \"personId\": \"123321\", \"companyId\": \"456789\" }]. [See the documentation](https://docs.lusha.com/apis/openapi/contact-recommendations/getcontactrecommendations) for more information.",
+      description: "List of contact objects to retrieve recommendations for. Example: [{ \"personId\": \"123321\", \"companyId\": \"456789\" }]. [See the documentation](https://docs.lusha.com/tutorials/recommendations) for more information.",
     },
     exclude: {
       type: "string[]",
       label: "Exclude",
-      description: "List of contact objects to exclude from the recommendations. Example: [{ \"personId\": \"123321\", \"companyId\": \"456789\" }]. [See the documentation](https://docs.lusha.com/apis/openapi/contact-recommendations/getcontactrecommendations) for more information.",
+      description: "List of contact objects to exclude from the recommendations. Example: [{ \"personId\": \"123321\", \"companyId\": \"456789\" }]. [See the documentation](https://docs.lusha.com/tutorials/recommendations) for more information.",
     },
     limit: {
       type: "integer",
@@ -42,21 +41,20 @@ export default {
     },
   },
   async run({ $ }) {
-    try {
-      const response = await this.lusha.getContactRecommendations({
-        $,
-        params: {
-          contacts: parseObject(this.contacts),
-          exclude: parseObject(this.exclude),
-          limit: this.limit,
-          requestId: this.requestId,
-        },
-      });
-      $.export("$summary", `Successfully retrieved ${response.count} contact recommendations`);
-
-      return response;
-    } catch ({ response }) {
-      throw new ConfigurationError(response?.data?.message);
-    }
+    const response = await this.lusha.getContactRecommendations({
+      $,
+      data: {
+        contacts: parseObject(this.contacts),
+        exclude: parseObject(this.exclude),
+        limit: this.limit,
+        requestId: this.requestId,
+      },
+    });
+    $.export("$summary", response.count === undefined
+      ? "Retrieved contact recommendations"
+      : `Retrieved ${response.count} contact recommendation${response.count === 1
+        ? ""
+        : "s"}`);
+    return response;
   },
 };
