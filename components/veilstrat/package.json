@@ -1,0 +1,25 @@
+{
+  "name": "@pipedream/veilstrat",
+  "version": "0.0.1",
+  "description": "VeilStrat company research components for Pipedream",
+  "main": "veilstrat.app.mjs",
+  "keywords": [
+    "pipedream",
+    "veilstrat"
+  ],
+  "homepage": "https://www.veilstrat.com/",
+  "author": "VeilStrat <support@veilstrat.com>",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  },
+  "files": [
+    "actions",
+    "common/validation.mjs",
+    "veilstrat.app.mjs",
+    "README.md"
+  ]
+}
