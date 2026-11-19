@@ -222,7 +222,14 @@ export default {
      * stopped the read early
      */
     async readPages({
-      fn, params, maxItems = Infinity, pageSize, filtered = false, startKey, startKeyAttr, nextKeyAttr,
+      fn,
+      params,
+      maxItems = Infinity,
+      pageSize,
+      filtered = false,
+      startKey,
+      startKeyAttr,
+      nextKeyAttr,
     }) {
       const items = [];
       let scannedCount = 0;

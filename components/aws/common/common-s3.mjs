@@ -104,9 +104,10 @@ export default {
         region = err?.$response?.headers?.["x-amz-bucket-region"];
         if (!region) {
           try {
-            const { LocationConstraint: location } = await client.send(new GetBucketLocationCommand({
+            const command = new GetBucketLocationCommand({
               Bucket: bucket,
-            }));
+            });
+            const { LocationConstraint: location } = await client.send(command);
             // S3 reports us-east-1 as an empty value and eu-west-1 as `EU`
             region = location === "EU"
               ? "eu-west-1"

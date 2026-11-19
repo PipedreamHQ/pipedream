@@ -109,7 +109,9 @@ export default {
       const target = filePath
         ? path.resolve(stashDir, filePath)
         : path.join(stashDir, keyToRelativePath(key) || "_");
-      const { dir, name, ext } = path.parse(target);
+      const {
+        dir, name, ext,
+      } = path.parse(target);
       let candidate = target;
       for (let n = 2; usedPaths.has(candidate); n++) {
         candidate = path.join(dir, `${name} (${n})${ext}`);

@@ -272,7 +272,9 @@ export default {
         // Redshift returns a large result a page at a time. Follow the pages up to
         // `maxRows` and say so when rows were left out, so a partial result is
         // never mistaken for the whole table.
-        const records = [...(getStatementResultResponse.Records ?? [])];
+        const records = [
+          ...(getStatementResultResponse.Records ?? []),
+        ];
         let nextToken = getStatementResultResponse.NextToken;
         while (nextToken && records.length < maxRows) {
           const page = await client.send(

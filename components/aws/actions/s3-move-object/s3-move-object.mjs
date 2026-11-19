@@ -3,6 +3,7 @@ import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   ...copyObject,
+  type: "action",
   key: "aws-s3-move-object",
   name: "S3 - Move Object",
   description: toSingleLineString(`
