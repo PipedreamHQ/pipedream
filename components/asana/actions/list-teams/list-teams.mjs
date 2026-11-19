@@ -4,7 +4,7 @@ export default {
   key: "asana-list-teams",
   name: "List Teams",
   description: "Retrieves all teams in a specified Asana workspace. Use this action to discover available team GIDs for creating projects or organizing work by department. Requires a workspace GID from **List Workspaces**. Results are paginated (default 25 per page); pass the returned `next_offset` as `offset` to fetch additional pages. Consider following up with **Create Project** to create a project under a team. Example: call with `workspace: '1200123456789012'` → returns `{data: [{gid: '1203456789012345', name: 'Design'}, ...], next_offset: null}`. [See the documentation](https://developers.asana.com/reference/getteamsforworkspace)",
-  version: "1.0.3",
+  version: "1.0.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

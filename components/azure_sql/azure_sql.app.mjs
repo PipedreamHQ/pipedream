@@ -1,4 +1,4 @@
-import sql from "mssql";
+import sql from "mssql@7.3.5";
 import {
   sqlProxy,
   sqlProp,
