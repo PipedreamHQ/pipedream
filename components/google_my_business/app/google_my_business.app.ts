@@ -2,11 +2,16 @@ import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
   CreatePostParams,
-  HttpRequestParams, ListPostsParams, PaginatedRequestParams, UpdateReplyParams, GetReviewParams, BatchGetReviewsParams,
+  HttpRequestParams, ListPostsParams, ListReviewsParams, PaginatedRequestParams,
+  UpdateReplyParams, GetReviewParams, BatchGetReviewsParams,
 } from "../common/requestParams";
 import {
-  Account, ListReviewsResponse, LocalPost, Location, Review,
+  Account, BatchGetReviewsResponse, ListReviewsResponse, LocalPost, Location,
+  PaginatedResult, Review,
 } from "../common/responseSchemas";
+import {
+  POSTS_PAGE_SIZE, REVIEWS_PAGE_SIZE, REVIEW_ORDER_BY_OPTIONS,
+} from "../common/constants";
 
 export default defineApp({
   type: "app",
@@ -121,6 +126,19 @@ export default defineApp({
         };
       },
     },
+    reviewOrderBy: {
+      type: "string",
+      label: "Order By",
+      description: "How to sort the reviews. Defaults to `updateTime desc` (most recently updated first). Google only accepts `updateTime desc`, `rating` (lowest first) and `rating desc` (highest first). Sorting by `createTime` or by ascending `updateTime` isn't supported.",
+      optional: true,
+      options: REVIEW_ORDER_BY_OPTIONS,
+    },
+    pageToken: {
+      type: "string",
+      label: "Page Token",
+      description: "The `nextPageToken` returned by a previous run of this action, to continue from where it stopped. Leave empty to start from the first page. Keep the other settings (such as `Order By`) the same as the run that produced the token.",
+      optional: true,
+    },
   },
   methods: {
     getCleanName(name: string) {
@@ -142,38 +160,55 @@ export default defineApp({
         headers: this._getHeaders(),
       });
     },
-    async _paginatedRequest({
+    // Follows `nextPageToken` until `maxResults` items are collected or the
+    // last page is reached. Returns the token for the next unread page (if any)
+    // so callers can resume, plus the first raw page for top-level fields such
+    // as `averageRating` that aren't repeated per item.
+    async _paginatedRequest<T>({
       maxResults = 100,
       maxPerPage = 100,
+      pageToken,
       params,
       resourceName,
       ...args
-    }: PaginatedRequestParams): Promise<object[]> {
-      const result = [];
-      let pageToken: string;
-      let resultCount = 0;
+    }: PaginatedRequestParams): Promise<PaginatedResult<T>> {
+      const items: T[] = [];
+      let nextPageToken: string | undefined = pageToken || undefined;
+      let firstPage: Record<string, unknown> | undefined;
 
       do {
-        const pageSize = Math.min(maxResults - resultCount, maxPerPage);
+        const pageSize = Math.min(maxResults - items.length, maxPerPage);
 
-        const {
-          [resourceName]: resources,
-          nextPageToken,
-        } = await this._httpRequest({
+        const response = await this._httpRequest({
+          ...args,
           params: {
             ...params,
             pageSize,
-            pageToken,
+            pageToken: nextPageToken,
           },
-          ...args,
-        });
+        }) as Record<string, unknown>;
 
-        if (resources) result.push(...resources);
-        pageToken = nextPageToken;
-        resultCount += pageSize;
-      } while (pageToken && resultCount < maxResults);
+        firstPage ??= response;
+        const resources = (response?.[resourceName] ?? []) as T[];
+        items.push(...resources);
+        const sentToken = nextPageToken;
+        nextPageToken = response?.nextPageToken as string | undefined;
 
-      return result;
+        // Guard against a token that doesn't advance, which would re-request
+        // the same page and collect duplicates until `maxResults` is reached
+        if (nextPageToken && nextPageToken === sentToken) {
+          throw new Error(`Pagination did not advance: Google returned the same \`nextPageToken\` that was sent (${resourceName})`);
+        }
+
+        // Guard against an empty page that still carries a token
+        if (!resources.length) break;
+      } while (nextPageToken && items.length < maxResults);
+
+      return {
+        items,
+        nextPageToken,
+        firstPage,
+      };
     },
     listAccounts(args: object = {}): Promise<unknown> {
       return this._httpRequest({
@@ -189,31 +224,63 @@ export default defineApp({
         ...args,
       });
     },
+    _reviewsUrl(account: string, location: string) {
+      return `https://mybusiness.googleapis.com/v4/accounts/${this.getCleanName(account)}/locations/${this.getCleanName(location)}/reviews`;
+    },
+    _postsUrl(account: string, location: string) {
+      return `https://mybusiness.googleapis.com/v4/accounts/${this.getCleanName(account)}/locations/${this.getCleanName(location)}/localPosts`;
+    },
+    // Single page of reviews
     listReviews({
       account, location, ...args
-    }: Record<string, string> & { args: object }): Promise<ListReviewsResponse> {
+    }: ListReviewsParams): Promise<ListReviewsResponse> {
       return this._httpRequest({
-        url: `https://mybusiness.googleapis.com/v4/accounts/${this.getCleanName(account)}/locations/${this.getCleanName(location)}/reviews`,
+        url: this._reviewsUrl(account, location),
         ...args,
       });
     },
+    // Reviews across as many pages as needed to reach `maxResults`
+    async listAllReviews({
+      account, location, ...args
+    }: ListReviewsParams): Promise<ListReviewsResponse> {
+      const {
+        items, nextPageToken, firstPage,
+      }: PaginatedResult<Review> = await this._paginatedRequest({
+        resourceName: "reviews",
+        url: this._reviewsUrl(account, location),
+        maxPerPage: REVIEWS_PAGE_SIZE,
+        ...args,
+      });
+      return {
+        reviews: items,
+        averageRating: firstPage?.averageRating as number | undefined,
+        totalReviewCount: firstPage?.totalReviewCount as number | undefined,
+        nextPageToken,
+      };
+    },
+    // Single page of posts
     async listPosts({
       account, location, ...args
-    }: ListPostsParams, paginate = true): Promise<LocalPost[]> {
-      const url = `https://mybusiness.googleapis.com/v4/accounts/${this.getCleanName(account)}/locations/${this.getCleanName(location)}/localPosts`;
-      if (paginate) {
-        return this._paginatedRequest({
-          resourceName: "localPosts",
-          url,
-          ...args,
-        });
-      } else {
-        const response: { localPosts?: LocalPost[]; } = await this._httpRequest({
-          url,
-          pageSize: 100,
-        });
-        return response?.localPosts ?? [];
-      }
+    }: ListPostsParams): Promise<LocalPost[]> {
+      const response: { localPosts?: LocalPost[]; } = await this._httpRequest({
+        url: this._postsUrl(account, location),
+        ...args,
+        params: {
+          pageSize: POSTS_PAGE_SIZE,
+        },
+      });
+      return response?.localPosts ?? [];
+    },
+    // Posts across as many pages as needed to reach `maxResults`
+    async listAllPosts({
+      account, location, ...args
+    }: ListPostsParams): Promise<PaginatedResult<LocalPost>> {
+      return this._paginatedRequest({
+        resourceName: "localPosts",
+        url: this._postsUrl(account, location),
+        maxPerPage: POSTS_PAGE_SIZE,
+        ...args,
+      });
     },
     async createPost({
       account, location, ...args
@@ -243,7 +310,7 @@ export default defineApp({
     },
     async batchGetReviews({
       account, data, ...args
-    }: BatchGetReviewsParams): Promise<object> {
+    }: BatchGetReviewsParams): Promise<BatchGetReviewsResponse> {
       const accountId = this.getCleanName(account);
       return this._httpRequest({
         method: "POST",
