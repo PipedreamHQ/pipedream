@@ -6,7 +6,7 @@ export default {
   key: "lusha-contact-search",
   name: "Search Contacts",
   description: "Search Lusha's contact database with prospecting filters (names, job titles, countries, seniority, departments, locations). Returns contact previews with an `id` for each result; pass those IDs to **Enrich Contacts** to reveal emails and phones. Searching does not reveal contact details. [See the documentation](https://docs.lusha.com/api-reference/prospecting/prospecting-contacts)",
-  version: "0.1.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

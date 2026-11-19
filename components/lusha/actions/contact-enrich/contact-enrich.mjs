@@ -10,7 +10,7 @@ export default {
   key: "lusha-contact-enrich",
   name: "Enrich Contacts",
   description: "Reveal full contact data (emails and phones) for contacts found with **Search Contacts**. Pass up to 100 contact IDs from the search results. Each revealed field is billed per contact. If Data Waterfall is enabled on your Lusha account, the response can include a `job` object: the results returned are what is already known, and the remaining data is delivered asynchronously. [See the documentation](https://docs.lusha.com/api-reference/enrich/enrich-contacts)",
-  version: "0.1.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

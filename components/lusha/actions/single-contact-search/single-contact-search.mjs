@@ -5,7 +5,7 @@ export default {
   key: "lusha-single-contact-search",
   name: "Search Single Contact",
   description: "Find one specific person and reveal their contact data in a single call. Identify the person by `Email`, `LinkedIn URL`, or `First Name` + `Last Name` together with `Company Name` or `Company Domain`. Use `Reveal Emails` / `Reveal Phones` to choose what to unlock; each revealed field is billed. Returns the matched contact, or a \"No contact found\" summary when Lusha has no match. [See the documentation](https://docs.lusha.com/api-reference/search-&-enrich/search-and-enrich-contacts)",
-  version: "0.1.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

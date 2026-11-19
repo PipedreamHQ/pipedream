@@ -10,7 +10,7 @@ export default {
   key: "lusha-search-and-enrich-contacts",
   name: "Search and Enrich Contacts",
   description: "Search Lusha's contact database with prospecting filters, then enrich every match to reveal emails and phones, up to `Limit` contacts. Each revealed field is billed per contact, so set `Limit` to cap credit usage. To preview matches without spending reveal credits, use **Search Contacts** instead. [See the documentation](https://docs.lusha.com/api-reference/prospecting/prospecting-contacts)",
-  version: "0.1.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

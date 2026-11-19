@@ -6,7 +6,7 @@ export default {
   key: "lusha-company-search",
   name: "Search Companies",
   description: "Search Lusha's company database with prospecting filters (names, domains, locations, sizes, revenues, SIC and NAICS codes). Returns company previews with an `id` for each result; pass those IDs to **Enrich Companies** to reveal full company data. [See the documentation](https://docs.lusha.com/api-reference/prospecting/prospecting-companies)",
-  version: "0.1.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

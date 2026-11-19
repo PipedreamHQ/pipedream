@@ -10,7 +10,7 @@ export default {
   key: "lusha-search-and-enrich-companies",
   name: "Search and Enrich Companies",
   description: "Search Lusha's company database with prospecting filters, then enrich every match to reveal full company data, up to `Limit` companies. Enrichment is billed per successful result, so set `Limit` to cap credit usage. To preview matches without enriching, use **Search Companies** instead. [See the documentation](https://docs.lusha.com/api-reference/prospecting/prospecting-companies)",
-  version: "0.1.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

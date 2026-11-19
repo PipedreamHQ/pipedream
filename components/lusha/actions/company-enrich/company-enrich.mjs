@@ -7,7 +7,7 @@ export default {
   key: "lusha-company-enrich",
   name: "Enrich Companies",
   description: "Reveal full company data (firmographics, industry, locations, technologies, funding and more) for companies found with **Search Companies**. Pass up to 100 company IDs from the search results. Billed per successful result. [See the documentation](https://docs.lusha.com/api-reference/enrich/enrich-companies)",
-  version: "0.1.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

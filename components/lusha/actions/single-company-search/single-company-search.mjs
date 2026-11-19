@@ -5,7 +5,7 @@ export default {
   key: "lusha-single-company-search",
   name: "Search Single Company",
   description: "Find one specific company by `Company Domain` or `Company Name` and return its firmographic data (size, revenue range, industry, locations and more) in a single call. Billed per successful result. Returns a \"No company found\" summary when Lusha has no match. To search by filters instead, use **Search Companies**. [See the documentation](https://docs.lusha.com/api-reference/search-&-enrich/search-and-enrich-companies)",
-  version: "0.1.0",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
