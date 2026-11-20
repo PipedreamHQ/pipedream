@@ -7,7 +7,7 @@ export default {
   key: "snowflake-new-schema",
   name: "New Schema",
   description: "Emit new event when a schema is created",
-  version: "0.1.5",
+  version: "0.1.6",
   methods: {
     ...common.methods,
     alwaysRunInSingleProcessMode() {

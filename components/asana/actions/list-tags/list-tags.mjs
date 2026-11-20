@@ -4,7 +4,7 @@ export default {
   key: "asana-list-tags",
   name: "List Tags",
   description: "Returns tags in an Asana workspace, up to 100 by default (increase `maxResults` for more) — not guaranteed to include every tag in a large workspace. Use this to discover tag GIDs before applying tags to tasks with **Create Task** or **Create Subtask** (the `tags` prop). Example: call with `workspace: '1200123456789012'` → returns tags like `[{gid: '1202345678901234', name: 'urgent'}]`. [See the documentation](https://developers.asana.com/reference/gettags)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {

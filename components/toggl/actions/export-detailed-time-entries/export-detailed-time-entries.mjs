@@ -8,7 +8,7 @@ export default {
   key: "toggl-export-detailed-time-entries",
   name: "Export Detailed Time Entries",
   description: "Export a complete Toggl Track detailed report as CSV in one request. Use this for monthly or other large reports that may exceed the execution time of paginated JSON searches. The CSV contains only records visible to the connected user. CSV export may require a paid Toggl Track plan. [See the documentation](https://engineering.toggl.com/docs/track/reports/detailed_reports/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {

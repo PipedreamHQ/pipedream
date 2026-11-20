@@ -5,7 +5,7 @@ export default {
   key: "asana-find-task-by-id",
   name: "Find Task by ID",
   description: "Retrieves the complete record for a single Asana task by its GID. Use this to fetch full task details (description, assignee, due date, custom fields) after obtaining a task GID from **Search Tasks**. Use `optFields` to request additional fields not returned by default. Example: call with `task_gid: '1202345678901234'`, `optFields: ['due_on','assignee','custom_fields']` → returns the full task record for that GID. [See the documentation](https://developers.asana.com/docs/get-a-task)",
-  version: "1.0.0",
+  version: "1.0.1",
   ai: "optimized",
   annotations: {
     destructiveHint: false,
