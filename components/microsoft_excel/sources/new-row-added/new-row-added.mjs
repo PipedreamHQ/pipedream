@@ -14,19 +14,13 @@ export default {
       return `rowCount:${this.driveId || "me"}:${this.sheetId}:${this.worksheet}`;
     },
     _getRowCount() {
-      const rowCount = this.db.get(this._rowCountKey());
-      if (rowCount !== undefined && rowCount !== null) {
-        return rowCount;
-      }
-      // Pre-upgrade baseline (one key for every file); only the default drive inherits it
-      return this.driveId
-        ? rowCount
-        : this.db.get("rowCount");
+      return this.db.get(this._rowCountKey());
     },
     _setRowCount(value) {
       this.db.set(this._rowCountKey(), value);
+      // The pre-upgrade baseline has no workbook or worksheet, so it is retired, not reused
       const legacyRowCount = this.db.get("rowCount");
-      if (!this.driveId && legacyRowCount !== undefined && legacyRowCount !== null) {
+      if (legacyRowCount !== undefined && legacyRowCount !== null) {
         this.db.set("rowCount", null);
       }
     },
